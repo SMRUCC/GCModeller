@@ -27,3 +27,11 @@ const keyIndex as function(keyValues) {
   })
   ;
 }
+
+#' Does the given string is null or its string value represent null?
+#' 
+#' @param str a string value to test
+#' 
+const isNullString as function(str) {
+  is.null(str) || (str in ["", "null", "NULL"]);
+}

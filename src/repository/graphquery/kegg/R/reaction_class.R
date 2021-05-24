@@ -19,16 +19,20 @@ const kegg_reactionclass as function(url) {
     |> which(r -> r == $"C\d+_C\d+")
     ;
 
-  repository::reaction_class(
-    id         = id,
-    definition = info,
-    reactions  = reactionId[reactionId == $"R\d+"],
-    enzyme     = EC_idlist[EC_idlist  == $"\d[.].+"],
-    pathways   = pathwayList(pathways),
-    KO         = pathwayList(KO),
-    transforms = compoundTransformPair(transforms),
-    rmodules   = pathwayList(rmodules)
-  );
+  if (isNullString(id)) {
+    NULL;
+  } else {
+    repository::reaction_class(
+      id         = id,
+      definition = info,
+      reactions  = reactionId[reactionId == $"R\d+"],
+      enzyme     = EC_idlist[EC_idlist  == $"\d[.].+"],
+      pathways   = pathwayList(pathways),
+      KO         = pathwayList(KO),
+      transforms = compoundTransformPair(transforms),
+      rmodules   = pathwayList(rmodules)
+    );
+  }
 }
 
 const compoundTransformPair as function(transforms) {

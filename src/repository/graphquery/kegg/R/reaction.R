@@ -4,7 +4,6 @@ imports "repository" from "kegg_kit";
 #' 
 #' @param url the resource url on remote server or local file path for debug
 #' 
-#' 
 const kegg_reaction as function(url) {
   # parse the page text
   const keyValues = keyIndex(http_query(url, raw = FALSE));
@@ -30,18 +29,21 @@ const kegg_reaction as function(url) {
   print(pathwayList(KO));
   print(pathwayList(classes));
 
-  repository::reaction(
-    id             = id,
-    name           = commonNames,
-    definition     = info,
-    equation       = equation,
-    comment        = comments,
-    reaction_class = pathwayList(classes),
-    enzyme         = enzyme[enzyme  == $"\d[.].+"],
-    pathways       = pathwayList(pathways),
-    modules        = pathwayList(modules),
-    KO             = pathwayList(KO),
-    links          = DBLinks(xref)
-  )
-  ;
+  if (isNullString(id)) {
+    NULL;
+  } else {
+    repository::reaction(
+      id             = id,
+      name           = commonNames,
+      definition     = info,
+      equation       = equation,
+      comment        = comments,
+      reaction_class = pathwayList(classes),
+      enzyme         = enzyme[enzyme  == $"\d[.].+"],
+      pathways       = pathwayList(pathways),
+      modules        = pathwayList(modules),
+      KO             = pathwayList(KO),
+      links          = DBLinks(xref)
+    );
+  }
 }

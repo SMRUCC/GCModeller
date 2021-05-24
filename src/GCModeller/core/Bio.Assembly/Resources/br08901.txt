@@ -1,5 +1,5 @@
 +C	Map number
-#<h2><a href="/kegg/kegg2.html"><img src="/Fig/bget/kegg3.gif" align="middle" border=0></a>&nbsp; KEGG Pathway Maps</h2>
+#<h2><a href="/kegg/brite.html"><img src="/Fig/bget/kegg3.gif" align="middle" border=0></a>&nbsp; KEGG Pathway Maps</h2>
 !
 A<b>Metabolism</b>
 B  Global and overview maps
@@ -98,6 +98,7 @@ C    00601  Glycosphingolipid biosynthesis - lacto and neolacto series
 C    00603  Glycosphingolipid biosynthesis - globo and isoglobo series
 C    00604  Glycosphingolipid biosynthesis - ganglio series
 C    00540  Lipopolysaccharide biosynthesis
+C    00542  O-Antigen repeat unit biosynthesis
 C    00541  O-Antigen nucleotide sugar biosynthesis
 C    00550  Peptidoglycan biosynthesis
 C    00511  Other glycan degradation
@@ -321,6 +322,7 @@ B  Immune system
 C    04640  Hematopoietic cell lineage
 C    04610  Complement and coagulation cascades
 C    04611  Platelet activation
+C    04613  Neutrophil extracellular trap formation
 C    04620  Toll-like receptor signaling pathway
 C    04624  Toll and Imd signaling pathway
 C    04621  NOD-like receptor signaling pathway
@@ -447,6 +449,38 @@ C    05213  Endometrial cancer
 C    05224  Breast cancer
 C    05222  Small cell lung cancer
 C    05223  Non-small cell lung cancer
+B  Infectious disease: viral
+C    05166  Human T-cell leukemia virus 1 infection
+C    05170  Human immunodeficiency virus 1 infection
+C    05161  Hepatitis B
+C    05160  Hepatitis C
+C    05171  Coronavirus disease - COVID-19
+C    05164  Influenza A
+C    05162  Measles
+C    05168  Herpes simplex virus 1 infection
+C    05163  Human cytomegalovirus infection
+C    05167  Kaposi sarcoma-associated herpesvirus infection
+C    05169  Epstein-Barr virus infection
+C    05165  Human papillomavirus infection
+B  Infectious disease: bacterial
+C    05110  Vibrio cholerae infection
+C    05120  Epithelial cell signaling in Helicobacter pylori infection
+C    05130  Pathogenic Escherichia coli infection
+C    05132  Salmonella infection
+C    05131  Shigellosis
+C    05135  Yersinia infection
+C    05133  Pertussis
+C    05134  Legionellosis
+C    05150  Staphylococcus aureus infection
+C    05152  Tuberculosis
+C    05100  Bacterial invasion of epithelial cells
+B  Infectious disease: parasitic
+C    05146  Amoebiasis
+C    05144  Malaria
+C    05145  Toxoplasmosis
+C    05140  Leishmaniasis
+C    05142  Chagas disease
+C    05143  African trypanosomiasis
 B  Immune disease
 C    05310  Asthma
 C    05322  Systemic lupus erythematosus
@@ -471,10 +505,12 @@ C    05032  Morphine addiction
 C    05033  Nicotine addiction
 C    05034  Alcoholism
 B  Cardiovascular disease
+C    05417  Lipid and atherosclerosis
 C    05418  Fluid shear stress and atherosclerosis
 C    05410  Hypertrophic cardiomyopathy
 C    05412  Arrhythmogenic right ventricular cardiomyopathy
 C    05414  Dilated cardiomyopathy
+C    05415  Diabetic cardiomyopathy
 C    05416  Viral myocarditis
 B  Endocrine and metabolic disease
 C    04930  Type II diabetes mellitus
@@ -484,38 +520,6 @@ C    04932  Non-alcoholic fatty liver disease
 C    04931  Insulin resistance
 C    04933  AGE-RAGE signaling pathway in diabetic complications
 C    04934  Cushing syndrome
-B  Infectious disease: bacterial
-C    05110  Vibrio cholerae infection
-C    05120  Epithelial cell signaling in Helicobacter pylori infection
-C    05130  Pathogenic Escherichia coli infection
-C    05132  Salmonella infection
-C    05131  Shigellosis
-C    05135  Yersinia infection
-C    05133  Pertussis
-C    05134  Legionellosis
-C    05150  Staphylococcus aureus infection
-C    05152  Tuberculosis
-C    05100  Bacterial invasion of epithelial cells
-B  Infectious disease: viral
-C    05166  Human T-cell leukemia virus 1 infection
-C    05170  Human immunodeficiency virus 1 infection
-C    05161  Hepatitis B
-C    05160  Hepatitis C
-C    05171  Coronavirus disease - COVID-19
-C    05164  Influenza A
-C    05162  Measles
-C    05168  Herpes simplex virus 1 infection
-C    05163  Human cytomegalovirus infection
-C    05167  Kaposi sarcoma-associated herpesvirus infection
-C    05169  Epstein-Barr virus infection
-C    05165  Human papillomavirus infection
-B  Infectious disease: parasitic
-C    05146  Amoebiasis
-C    05144  Malaria
-C    05145  Toxoplasmosis
-C    05140  Leishmaniasis
-C    05142  Chagas disease
-C    05143  African trypanosomiasis
 B  Drug resistance: antimicrobial
 C    01501  beta-Lactam resistance
 C    01502  Vancomycin resistance
@@ -615,6 +619,5 @@ C    07114  Naphthalene family
 C    07117  Benzodiazepine family
 !
 #<hr>
-#<b>[ <a href="/kegg/brite.html">BRITE</a> | <a href="/kegg/kegg2.html">KEGG2</a> | <a href="/kegg/">KEGG</a> ]</b><br>
-#Last updated: November 21, 2020
-#<br><br><a href="/kegg-bin/get_htext?jp08901.keg">&raquo; Japanese version</a>
+#Last updated: April 21, 2021
+#<br><br><a href="/brite/jp08901">&raquo; Japanese version</a>

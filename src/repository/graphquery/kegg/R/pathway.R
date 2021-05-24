@@ -7,6 +7,9 @@ imports "repository" from "kegg_kit";
 const kegg_pathway as function(url) {
   # parse the page text
   const keyValues = keyIndex(http_query(url, raw = FALSE));
+  const getDocument = function(keyName) {
+    Html::parse(keyValues[[ keyName ]]);
+  }
 
   const id         = graphquery::query(document = Html::parse(keyValues$"Entry"),       graphquery = get_graph("graphquery/fields/simpleText.graphquery"));
   const commonName = graphquery::query(document = Html::parse(keyValues$"Name"),        graphquery = get_graph("graphquery/fields/text.graphquery"));
@@ -34,20 +37,24 @@ const kegg_pathway as function(url) {
   print(pathwayList(genes));
   print(pathwayList(disease));
 
-  repository::pathway(
-    id          = id,
-    name        = commonName,
-    modules     = pathwayList(modules),
-    description = info,
-    DBLinks     = DBLinks(xref),
-    KO_pathway  = KO_pathway,
-    references  = references,
-    compounds   = pathwayList(compounds),
-    drugs       = pathwayList(drugs),
-    organism    = parseKeggCode(organism),
-    genes       = pathwayList(genes),
-    disease     = pathwayList(disease)
-  );
+  if (isNullString(id)) {
+    NULL;
+  } else {
+    repository::pathway(
+      id          = id,
+      name        = commonName,
+      modules     = pathwayList(modules),
+      description = info,
+      DBLinks     = DBLinks(xref),
+      KO_pathway  = KO_pathway,
+      references  = references,
+      compounds   = pathwayList(compounds),
+      drugs       = pathwayList(drugs),
+      organism    = parseKeggCode(organism),
+      genes       = pathwayList(genes),
+      disease     = pathwayList(disease)
+    );
+  }
 }
 
 #' Parse organism kegg code
@@ -55,15 +62,19 @@ const kegg_pathway as function(url) {
 #' @return this function returns a list with ``code`` and ``name``.
 #' 
 const parseKeggCode as function(name) {
-  let kegg_code = $"\[.+:[a-z]{3,}\]"(name);
+  if (name == "") {
+    list();
+  } else {
+    let kegg_code = $"\[.+:[a-z]{3,}\]"(name);
 
-  kegg_code = substr(kegg_code, 2, nchar(kegg_code) - 1);
-  kegg_code = strsplit(kegg_code, ":")[2];
+    kegg_code = substr(kegg_code, 2, nchar(kegg_code) - 1);
+    kegg_code = strsplit(kegg_code, ":")[2];
 
-  list(
-    code = kegg_code,
-    name = name
-  );
+    list(
+      code = kegg_code,
+      name = name
+    );
+  }
 }
 
 #' Create a literature dataframe
@@ -80,8 +91,8 @@ const literature as function(reference, authors, title, journal) {
 
   data.frame(
     reference = sapply(reference, getText),
-    authors   = sapply(authors, getText),
-    title     = sapply(title, getText),
-    journal   = sapply(journal, getText)
+    authors   = sapply(authors,   getText),
+    title     = sapply(title,     getText),
+    journal   = sapply(journal,   getText)
   );
 }
