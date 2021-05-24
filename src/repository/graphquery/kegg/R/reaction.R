@@ -4,7 +4,6 @@ imports "repository" from "kegg_kit";
 #' 
 #' @param url the resource url on remote server or local file path for debug
 #' 
-#' 
 const kegg_reaction as function(url) {
   # parse the page text
   const keyValues = keyIndex(http_query(url, raw = FALSE));

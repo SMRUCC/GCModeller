@@ -1,9 +1,13 @@
 imports "brite" from "kegg_kit";
 
+#' get brite category data for KEGG pathway
+#' 
 const pathway_category as function() {
     brite::parse("br08901");
 }
 
+#' Create resource file path
+#' 
 const enumeratePath as function(brite, prefix, maxChars = 64) {
     const class    = brite[, "class"];
     const category = brite[, "category"]
