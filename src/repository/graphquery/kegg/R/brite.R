@@ -4,7 +4,7 @@ const pathway_category as function() {
     brite::parse("br08901");
 }
 
-const enumeratePath as function(brite, prefix$, maxChars = 64) {
+const enumeratePath as function(brite, prefix, maxChars = 64) {
     const class    = brite[, "class"];
     const category = brite[, "category"]
         |> sapply(function(str) {
@@ -14,6 +14,7 @@ const enumeratePath as function(brite, prefix$, maxChars = 64) {
                 str;
             }
         })
+        |> gsub(":", ",")
         ;
     const subcategory = brite[, "subcategory"];
     const order       = brite[, "order"];
