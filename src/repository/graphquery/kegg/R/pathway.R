@@ -37,7 +37,7 @@ const kegg_pathway as function(url) {
   print(pathwayList(genes));
   print(pathwayList(disease));
 
-  if (id == "") {
+  if (isNullString(id)) {
     NULL;
   } else {
     repository::pathway(
