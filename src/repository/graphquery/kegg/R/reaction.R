@@ -29,7 +29,7 @@ const kegg_reaction as function(url) {
   print(pathwayList(KO));
   print(pathwayList(classes));
 
-  if (id == "") {
+  if (isNullString(id)) {
     NULL;
   } else {
     repository::reaction(

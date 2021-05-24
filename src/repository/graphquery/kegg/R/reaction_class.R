@@ -19,7 +19,7 @@ const kegg_reactionclass as function(url) {
     |> which(r -> r == $"C\d+_C\d+")
     ;
 
-  if (id == "") {
+  if (isNullString(id)) {
     NULL;
   } else {
     repository::reaction_class(

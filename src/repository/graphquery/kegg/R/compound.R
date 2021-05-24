@@ -28,7 +28,7 @@ const kegg_compound as function(url) {
   print(pathwayList(pathways));
   print(pathwayList(modules));
 
-  if (id == "") {
+  if (isNullString(id)) {
     NULL;
   } else {
     # create data model
