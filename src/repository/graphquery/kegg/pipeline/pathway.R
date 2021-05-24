@@ -24,7 +24,7 @@ str(maps);
 for(i in 1:nrow(maps)) {
     const map = kegg_pathway(url = sprintf(url, id[i]));
 
-    if (!is.null(map)) {
+    if ((map != "") && (!is.null(map))) {
 
         map
         |> xml
