@@ -132,6 +132,7 @@
   <ItemGroup>
     <Compile Include="GSEABackground.vb" />
     <Compile Include="GSEA.vb" />
+    <Compile Include="KOBAS.vb" />
     <Compile Include="Profiles.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
