@@ -46,7 +46,9 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 Imports REnv = SMRUCC.Rsharp.Runtime.Internal
 
 ''' <summary>
@@ -54,6 +56,18 @@ Imports REnv = SMRUCC.Rsharp.Runtime.Internal
 ''' </summary>
 <Package("brite")>
 Module britekit
+
+    Sub New()
+        Call Internal.Object.Converts.makeDataframe.addHandler(GetType(htext), AddressOf getHtextTable)
+    End Sub
+
+    Private Function getHtextTable(x As Object, args As list, env As Environment) As rdataframe
+        Return BriteTable(
+            htext:=x,
+            entryId_pattern:=args.getValue("entryId_pattern", env, "[a-z]+\d+"),
+            env:=env
+        )
+    End Function
 
     ''' <summary>
     ''' Convert the kegg brite htext tree to plant table
