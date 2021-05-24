@@ -62,11 +62,21 @@ Module britekit
     End Sub
 
     Private Function getHtextTable(x As Object, args As list, env As Environment) As rdataframe
-        Return BriteTable(
+        Dim rows As EntityObject() = BriteTable(
             htext:=x,
             entryId_pattern:=args.getValue("entryId_pattern", env, "[a-z]+\d+"),
             env:=env
         )
+        Dim table As New rdataframe With {.columns = New Dictionary(Of String, Array)}
+
+        table.columns("class") = rows.Vector("class")
+        table.columns("category") = rows.Vector("category")
+        table.columns("subcategory") = rows.Vector("subcategory")
+        table.columns("order") = rows.Vector("order")
+        table.columns("entry") = rows.Vector("entry")
+        table.columns("name") = rows.Vector("name")
+
+        Return table
     End Function
 
     ''' <summary>
