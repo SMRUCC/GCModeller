@@ -5,13 +5,16 @@ const Tcode     = ?"--tcode" || "map";
 
 options(http.cache_dir = cache_dir);
 
-const maps    = as.data.frame(pathway_category());
-const url     = (if (Tcode == "map") {
-                    "https://www.kegg.jp/entry/ko%s";
-                } else {
-                    gsub("https://www.genome.jp/entry/pathway+%c%s", "%c", Tcode);
-                });
+# create resource url based on the organism Tcode exists or not
+const url  = (
+    if (Tcode == "map") {
+        "https://www.kegg.jp/entry/ko%s";
+    } else {
+        gsub("https://www.genome.jp/entry/pathway+%c%s", "%c", Tcode);
+    }
+);
 const img     = "https://www.kegg.jp/kegg/pathway/ko/ko%s.png";
+const maps    = as.data.frame(pathway_category());
 const repoDir = enumeratePath(maps, Tcode);
 const id      = maps[, "entry"];
 
