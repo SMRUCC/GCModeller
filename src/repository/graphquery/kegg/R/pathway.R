@@ -55,15 +55,19 @@ const kegg_pathway as function(url) {
 #' @return this function returns a list with ``code`` and ``name``.
 #' 
 const parseKeggCode as function(name) {
-  let kegg_code = $"\[.+:[a-z]{3,}\]"(name);
+  if (name == "") {
+    list();
+  } else {
+    let kegg_code = $"\[.+:[a-z]{3,}\]"(name);
 
-  kegg_code = substr(kegg_code, 2, nchar(kegg_code) - 1);
-  kegg_code = strsplit(kegg_code, ":")[2];
+    kegg_code = substr(kegg_code, 2, nchar(kegg_code) - 1);
+    kegg_code = strsplit(kegg_code, ":")[2];
 
-  list(
-    code = kegg_code,
-    name = name
-  );
+    list(
+      code = kegg_code,
+      name = name
+    );
+  }
 }
 
 #' Create a literature dataframe
