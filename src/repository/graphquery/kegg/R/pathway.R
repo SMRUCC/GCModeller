@@ -91,8 +91,8 @@ const literature as function(reference, authors, title, journal) {
 
   data.frame(
     reference = sapply(reference, getText),
-    authors   = sapply(authors, getText),
-    title     = sapply(title, getText),
-    journal   = sapply(journal, getText)
+    authors   = sapply(authors,   getText),
+    title     = sapply(title,     getText),
+    journal   = sapply(journal,   getText)
   );
 }
