@@ -29,7 +29,7 @@ const http_query as function(url, raw = TRUE, graphquery = get_graph("graphquery
 #' @param interval the time interval in seconds for sleep after 
 #'                 request data from the remote server.
 #' 
-const getHtml as function(url, interval = 6) {
+const getHtml as function(url, interval = 3) {
   const http.cache_dir as string = getOption("http.cache_dir") || stop("You should set of the 'http.cache_dir' option at first!");
 
   const cacheKey as string   = md5(url);
