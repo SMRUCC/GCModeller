@@ -51,6 +51,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Analysis.HTS.GSEA
 Imports SMRUCC.genomics.Annotation.Ptf
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.Rsharp.Runtime
@@ -300,15 +301,22 @@ Public Module GSEABackground
     ''' <returns></returns>
     <ExportAPI("KO.background")>
     <RApiReturn(GetType(Background))>
-    Public Function CreateKOBackground(<RRawVectorArgument>
-                                       genes As Object,
-                                       maps As MapRepository,
+    Public Function CreateKOBackground(<RRawVectorArgument> genes As Object,
+                                       <RRawVectorArgument> maps As Object,
                                        Optional size% = -1,
                                        Optional genomeName$ = "unknown",
                                        Optional id_map As list = Nothing,
                                        Optional env As Environment = Nothing) As Object
         Dim geneId, KO As String
-        Dim kegg As GetClusterTerms = GSEATools.KEGGClusters(maps.AsEnumerable)
+        Dim kegg As GetClusterTerms
+
+        If TypeOf maps Is MapRepository Then
+            kegg = GSEATools.KEGGClusters(DirectCast(maps, MapRepository).Maps)
+        ElseIf TypeOf maps Is htext Then
+            kegg = GSEATools.KEGGClusters(DirectCast(maps, htext))
+        Else
+            Return Message.InCompatibleType(GetType(htext), maps.GetType, env)
+        End If
 
         If Not id_map Is Nothing Then
             With DirectCast(id_map, list)

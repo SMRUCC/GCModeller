@@ -127,28 +127,6 @@ Public Module [Imports]
                End Function
     End Function
 
-    <Extension>
-    Public Function KEGGClusters(maps As IEnumerable(Of Map)) As GetClusterTerms
-        Dim mapsList = maps.ToDictionary(Function(m) m.ID)
-        Dim clusters = mapsList.Values.KEGGMapRelation
-
-        Return Function(id)
-                   If clusters.ContainsKey(id) Then
-                       Return Iterator Function() As IEnumerable(Of NamedValue(Of String))
-                                  For Each mapID As String In clusters(id)
-                                      Yield New NamedValue(Of String) With {
-                                          .Name = mapID,
-                                          .Value = mapsList(mapID).Name,
-                                          .Description = mapsList(mapID).URL
-                                      }
-                                  Next
-                              End Function().ToArray
-                   Else
-                       Return {}
-                   End If
-               End Function
-    End Function
-
     ''' <summary>
     ''' 一个Go term就是一个cluster
     ''' </summary>
