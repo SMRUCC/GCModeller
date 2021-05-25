@@ -48,16 +48,18 @@ Public Module CreateKEGGClusters
     ''' <returns></returns>
     <Extension>
     Public Function KEGGClusters(maps As htext) As GetClusterTerms
-        Dim terms = maps.Deflate("K\d+") _
+        Dim table = maps.Deflate("K\d+").ToArray
+        Dim terms As Dictionary(Of String, NamedValue(Of String)()) = table _
             .GroupBy(Function(a) a.kegg_id) _
             .ToDictionary(Function(a) a.Key,
                           Function(group)
                               Return group _
                                   .Select(Function(a)
-                                              Return New NamedValue(Of String) With {
-                                                  .Name = a.category,
-                                                  .Value = a.category,
-                                                  .Description = a.category
+                                              Dim ref = a.subcategory.GetTagValue
+                                              Dim name As New NamedValue(Of String) With {
+                                                  .Name = "map" & ref.Name,
+                                                  .Value = ref.Value,
+                                                  .Description = ref.Description
                                               }
                                           End Function) _
                                   .ToArray
