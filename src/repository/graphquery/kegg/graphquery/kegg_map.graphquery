@@ -1,0 +1,15 @@
+
+map css("area") [{
+	
+	id          attr("id")
+	shape       attr("shape")
+	coords      attr("coords")
+	data_coords attr("data-coords")
+	class       attr("class")
+	href        attr("href")
+	title       attr("title")
+	entry       attr("data-entry")
+	refid       attr("data-refid")
+	module      attr("data-module")
+	
+}]
