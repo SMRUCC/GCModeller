@@ -403,6 +403,11 @@ Public Module kegg_repository
             .rModules = rmodules.GetNameValues
         }
     End Function
+
+    <ExportAPI("keggMap")>
+    Public Function keggMap() As Map
+
+    End Function
 End Module
 
 Public Enum OrganismTypes
