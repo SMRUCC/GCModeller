@@ -60,12 +60,12 @@ Public Class TitleWriter : Inherits IndexAbstract
         Dim path As New Value(Of String)
         Dim file As FileStream
 
-        Call (path = $"{DATA}/headers/{db}/{uid}.txt").ParentPath.MkDIR
+        Call (path = $"{DATA}/headers/{db}/{uid}.txt").ParentPath.MakeDir
 
         file = IO.File.OpenWrite(path)
         __titles = New BinaryDataWriter(file, Encodings.ASCII)
 
-        Call (path = $"{DATA}/headers/index/{db}/{uid}.index").ParentPath.MkDIR
+        Call (path = $"{DATA}/headers/index/{db}/{uid}.index").ParentPath.MakeDir
 
         file = IO.File.OpenWrite(path)
         __index = New BinaryDataWriter(file, Encodings.ASCII)

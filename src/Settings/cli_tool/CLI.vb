@@ -131,27 +131,27 @@ Imports MySql = Oracle.LinuxCompatibility.MySQL.MySqli
         End Using
     End Function
 
-    <ExportAPI("/set.mysql")>
-    <Description("Setting up the mysql connection parameters")>
-    <Usage("/set.mysql /test")>
-    <ArgumentAttribute("/test", True, CLITypes.Boolean,
-              AcceptTypes:={GetType(Boolean)},
-              Description:="If this boolean argument is set, then the program will testing for the mysqli connection before write the configuration file. If the connection test failure, then the configuration file will not be updated!")>
-    <Group(CLI.Config_CLI)>
-    Public Function SetMySQL(args As CommandLine) As Integer
-        Using Settings = Global.GCModeller.Configuration.Settings.Session.ProfileData
-            Call MySqliHelper.RunConfig(
-                Sub(uri)
-                    MySQLExtensions.MySQL = uri
-                End Sub)
+    '<ExportAPI("/set.mysql")>
+    '<Description("Setting up the mysql connection parameters")>
+    '<Usage("/set.mysql /test")>
+    '<ArgumentAttribute("/test", True, CLITypes.Boolean,
+    '          AcceptTypes:={GetType(Boolean)},
+    '          Description:="If this boolean argument is set, then the program will testing for the mysqli connection before write the configuration file. If the connection test failure, then the configuration file will not be updated!")>
+    '<Group(CLI.Config_CLI)>
+    'Public Function SetMySQL(args As CommandLine) As Integer
+    '    Using Settings = Global.GCModeller.Configuration.Settings.Session.ProfileData
+    '        Call MySqliHelper.RunConfig(
+    '            Sub(uri)
+    '                MySQLExtensions.MySQL = uri
+    '            End Sub)
 
-            If args.IsTrue("/test") Then
-                Dim mysqli As MySql = MySQLExtensions.GetMySQLClient(, DBName:=Nothing)
-            End If
+    '        If args.IsTrue("/test") Then
+    '            Dim mysqli As MySql = MySQLExtensions.GetMySQLClient(, DBName:=Nothing)
+    '        End If
 
-            Return 0
-        End Using
-    End Function
+    '        Return 0
+    '    End Using
+    'End Function
 
     Const GCModellerApps$ = NameOf(GCModellerApps)
 

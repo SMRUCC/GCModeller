@@ -1,41 +1,41 @@
 ﻿#Region "Microsoft.VisualBasic::75799a1f02e6f12a8914d5a1a1254ec4, kegg_kit\britekit.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module britekit
-    ' 
-    '     Function: BriteTable, KOgeneNames, ParseBriteJson, ParseBriteTree
-    ' 
-    ' /********************************************************************************/
+' Module britekit
+' 
+'     Function: BriteTable, KOgeneNames, ParseBriteJson, ParseBriteTree
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -46,13 +46,38 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Internal.Object
+Imports SMRUCC.Rsharp.Runtime.Interop
+Imports rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 Imports REnv = SMRUCC.Rsharp.Runtime.Internal
 
 ''' <summary>
 ''' Toolkit for process the kegg brite text file
 ''' </summary>
-<Package("kegg.brite")>
+<Package("brite")>
 Module britekit
+
+    Sub New()
+        Call Internal.Object.Converts.makeDataframe.addHandler(GetType(htext), AddressOf getHtextTable)
+    End Sub
+
+    Private Function getHtextTable(x As Object, args As list, env As Environment) As rdataframe
+        Dim rows As EntityObject() = BriteTable(
+            htext:=x,
+            entryId_pattern:=args.getValue("entryId_pattern", env, "[a-z]+\d+"),
+            env:=env
+        )
+        Dim table As New rdataframe With {.columns = New Dictionary(Of String, Array)}
+
+        table.columns("class") = rows.Vector("class")
+        table.columns("category") = rows.Vector("category")
+        table.columns("subcategory") = rows.Vector("subcategory")
+        table.columns("order") = rows.Vector("order")
+        table.columns("entry") = rows.Vector("entry")
+        table.columns("name") = rows.Vector("name")
+
+        Return table
+    End Function
 
     ''' <summary>
     ''' Convert the kegg brite htext tree to plant table
@@ -102,7 +127,8 @@ Module britekit
     ''' The file text content, brite id or its file path
     ''' </param>
     ''' <returns></returns>
-    <ExportAPI("brite.parse")>
+    <ExportAPI("parse")>
+    <RApiReturn(GetType(htext))>
     Public Function ParseBriteTree(file$, Optional env As Environment = Nothing) As Object
         If file.IsPattern("[a-z]+\d+", RegexICSng) Then
             Select Case file.ToLower
@@ -120,6 +146,8 @@ Module britekit
                      CompoundBrite.cpd_br08021
 
                     Return htext.GetInternalResource(file)
+                Case NameOf(htext.ko00001) : Return htext.ko00001
+                Case NameOf(htext.br08901) : Return htext.br08901
                 Case Else
                     Return REnv.debug.stop({$"Invalid brite id: {file}", $"brite id: {file}"}, env)
             End Select

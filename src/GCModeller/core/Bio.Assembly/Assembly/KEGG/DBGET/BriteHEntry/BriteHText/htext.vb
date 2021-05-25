@@ -182,6 +182,10 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             Return StreamParser(My.Resources.br08204)
         End Function
 
+        Public Shared Function br08901() As htext
+            Return StreamParser(My.Resources.br08901)
+        End Function
+
         Private Shared Function getResourceCache() As ResourcesSatellite
             Static satellite As New ResourcesSatellite(GetType(LICENSE))
             Return satellite

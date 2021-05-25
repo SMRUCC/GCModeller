@@ -1,49 +1,49 @@
 ﻿#Region "Microsoft.VisualBasic::a82112a8b9efcab1e9040f43fd9ea33f, visualize\ChromosomeMap\Configuration\Config.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class Config
-    ' 
-    '         Properties: AddLegend, AspectRatio, DefaultRNAColor, DeletionMutation, FLAG_HEIGHT
-    '                     FlagLength, FunctionAlignment, FunctionAnnotationFont, GeneObjectHeight, IntegrationMutant
-    '                     LegendFont, LineHeight, LineLength, LocusTagFont, Margin
-    '                     NoneCogColor, Resolution, ribosomalRNAColor, SavedFormat, SecondaryRuleFont
-    '                     tRNAColor
-    ' 
-    '         Function: [DefaultValue], CssFontParser, GetDrawingColor, GetDrawingSize, GetSavedImageFormat
-    '                   GetTextAlignment, (+2 Overloads) Save, ToConfigurationModel, ToString, TypeOfAlignment
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class Config
+' 
+'         Properties: AddLegend, AspectRatio, DefaultRNAColor, DeletionMutation, FLAG_HEIGHT
+'                     FlagLength, FunctionAlignment, FunctionAnnotationFont, GeneObjectHeight, IntegrationMutant
+'                     LegendFont, LineHeight, LineLength, LocusTagFont, Margin
+'                     NoneCogColor, Resolution, ribosomalRNAColor, SavedFormat, SecondaryRuleFont
+'                     tRNAColor
+' 
+'         Function: [DefaultValue], CssFontParser, GetDrawingColor, GetDrawingSize, GetSavedImageFormat
+'                   GetTextAlignment, (+2 Overloads) Save, ToConfigurationModel, ToString, TypeOfAlignment
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -54,11 +54,10 @@ Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language.Default
-Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
+Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Text
 Imports Oracle.Java.IO.Properties
-Imports SMRUCC.genomics.Visualize.ChromosomeMap.Configuration.DataReader
 Imports SMRUCC.genomics.Visualize.ChromosomeMap.DrawingModels
 
 Namespace Configuration
@@ -196,7 +195,7 @@ Namespace Configuration
 
         Public Property AddLegend As String
 
-        Public Shared Function [DefaultValue]() As [Default](Of  Config)
+        Public Shared Function [DefaultValue]() As [Default](Of Config)
             Return New Config With {
                 .Resolution = "18000,10000",
                 .AspectRatio = "16:9",

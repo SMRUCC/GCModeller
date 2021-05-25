@@ -303,10 +303,6 @@
       <Project>{74b33a15-1d34-4d11-81a1-2538c45b7a80}</Project>
       <Name>DataMySQL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\mysqli\LibMySQL\LibMySQL.vbproj">
-      <Project>{2C34A044-1BDE-44E8-A86E-E9971C87DA21}</Project>
-      <Name>LibMySQL</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame.Extensions\DataFramework.Extensions.vbproj">
       <Project>{344bf0cf-107f-45d2-9074-9865d8f86506}</Project>
       <Name>DataFramework.Extensions</Name>

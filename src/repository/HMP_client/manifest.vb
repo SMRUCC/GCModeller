@@ -43,7 +43,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.ComponentModel.Ranges
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Unit
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Text
 Imports ThinkVB.FileSystem.OSS

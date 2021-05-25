@@ -1,45 +1,45 @@
 ﻿#Region "Microsoft.VisualBasic::658badc1519cec5bda4783eaca17ae05, models\Networks\KEGG\PathwayMaps\Styles\PlainStyle.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class PlainStyle
-    ' 
-    '         Properties: edgeDashType
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: drawNode, getFontSize, getHullPolygonGroups, getLabelColor
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class PlainStyle
+' 
+'         Properties: edgeDashType
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: drawNode, getFontSize, getHullPolygonGroups, getLabelColor
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -83,15 +83,15 @@ Namespace PathwayMaps.RenderStyles
                 Dim v = convexHullCategoryStyle.TryGetValue(catV)
 
                 If Not u.StringEmpty AndAlso u = v Then
-                    edge.data.color = New SolidBrush(u.TranslateColor)
+                    edge.data.style = New Pen(u.TranslateColor)
                 ElseIf Not u.StringEmpty AndAlso Not v.StringEmpty Then
-                    edge.data.color = New SolidBrush({u.TranslateColor, v.TranslateColor}.Average)
+                    edge.data.style = New Pen({u.TranslateColor, v.TranslateColor}.Average)
                 ElseIf Not u.StringEmpty Then
-                    edge.data.color = New SolidBrush(u.TranslateColor)
+                    edge.data.style = New Pen(u.TranslateColor)
                 ElseIf Not v.StringEmpty Then
-                    edge.data.color = New SolidBrush(v.TranslateColor)
+                    edge.data.style = New Pen(v.TranslateColor)
                 Else
-                    edge.data.color = Brushes.Black
+                    edge.data.style = Pens.Black
                 End If
             Next
 

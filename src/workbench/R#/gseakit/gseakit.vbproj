@@ -132,6 +132,7 @@
   <ItemGroup>
     <Compile Include="GSEABackground.vb" />
     <Compile Include="GSEA.vb" />
+    <Compile Include="KOBAS.vb" />
     <Compile Include="Profiles.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -148,6 +149,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Utils\MapBackground.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">

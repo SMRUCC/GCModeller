@@ -54,8 +54,8 @@ Public Class IndexWriter : Inherits IndexAbstract
     Sub New(EXPORT$, db$, index$)
         MyBase.New(index)
 
-        Call $"{EXPORT}/index/{db}".MkDIR
-        Call $"{EXPORT}/{db}".MkDIR
+        Call $"{EXPORT}/index/{db}".MakeDir
+        Call $"{EXPORT}/{db}".MakeDir
 
         Me.seqDB = New BinaryDataWriter(File.OpenWrite($"{EXPORT}/{db}/{gi}.nt"))
         Me.index = New BinaryDataWriter(File.OpenWrite($"{EXPORT}/index/{db}/{gi}.index"))

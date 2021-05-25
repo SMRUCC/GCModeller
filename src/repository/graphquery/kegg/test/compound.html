@@ -1,0 +1,533 @@
+
+<!doctype html>
+<html><head>
+<title>KEGG COMPOUND: C00002</title>
+<link type="text/css" rel="stylesheet" href="/css/gn2.css?1621683344">
+<link type="text/css" rel="stylesheet" href="/css/bget.css?1621683344">
+<link rel="stylesheet" href="/css/bget.css?1621683344" type="text/css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" type="text/css" href="/css/bgetm.css?1621683344" media="only screen and (max-width: 768px)">
+<style>.kcfd{display:none;}</style>
+<script>
+<!--
+var getElementsByClassName = document.getElementsByClassName ?
+  function (cl){
+    return document.getElementsByClassName(cl);
+  } :
+  function (cl){
+    var elms = [];
+    var objs = document.getElementsByTagName('*');
+    for(var i=0;i<objs.length;i++){
+      var obj = objs[i];
+      if(obj.className == cl){
+        elms.push(obj);
+      }
+    }
+    return elms;
+  };
+function toggleField(clk,cl,show,hide){
+  var objs = getElementsByClassName(cl);
+  for(var i=0;i<objs.length;i++){
+    var obj = objs[i];
+    if(!obj.style.display||obj.style.display == 'none'){
+      obj.style.display = 'block';
+      clk.innerHTML = '&nbsp;&laquo; '+hide;
+    }
+    else{
+      obj.style.display = 'none';
+      clk.innerHTML = '&nbsp;&raquo; '+show;
+    }
+  }
+}
+function toggleData(bobj,e){
+  var id = bobj.id.replace(/[^0-9]/g,'');
+  var dt = document.getElementById('kcfd'+id);
+  e.preventDefault();
+  if(!dt.style.display||dt.style.display == 'none'){
+    document.getElementById('kcfb'+id).innerHTML = 'Hide';
+    dt.style.display = 'block';
+  }
+  else{
+    document.getElementById('kcfb'+id).innerHTML = 'Show';
+    dt.style.display = 'none';
+  }
+}
+function btn(bobj,img) {
+  bobj.src = "/Fig/bget/button_" + img + ".gif";
+}
+function btn_e(e) {
+  e = e || event;
+  var obj = e.target;
+  var img = e.target.src;
+  var img_base = img.replace(/\\/g,'/').replace(/(b|bd|bh)\.gif$/,'');
+  if(e.type == 'mousedown'||e.type == 'touchstart'){
+    obj.src = img_base +'bd.gif';
+  }
+  else if(e.type == 'mouseover'){
+    obj.src = img_base +'bh.gif';
+  }
+  else if(e.type == 'mouseup'||e.type == 'touchend'){
+    obj.src = img_base +'b.gif';
+  }
+  else if(e.type == 'mouseout'){
+    obj.src = img_base +'b.gif';
+  }
+}
+function init(){
+  for(var i=1;i<=1;i++){
+    if(document.getElementById('kcfb'+i)){
+      document.getElementById('kcfb'+i).onclick = function(e){toggleData(this,e);};
+    }
+  }
+}
+function Link_XtrctSeq2(form) {
+    var dna_from;
+    var dna_to;
+    var dna_len;
+    var plus_up   = Number(form.XtrctSeq_UP.value) ;
+    var plus_down = Number(form.XtrctSeq_DOWN.value);
+    var vector    = Number(form.VECTOR.value);
+    var org       = form.ORG.value;
+    var chr       = form.CHR.value;
+    var kid       = form.KEGGID.value;
+    var url;
+
+    if (plus_up == 0 && plus_down == 0) {
+  url = "/entry/-f+-n+n+" + kid;
+    }
+    else {
+  if (vector == 1) {
+      dna_from  = Number(form.FROM.value)  - plus_up;
+      dna_to    = Number(form.TO.value) + plus_down;
+  } else {
+      dna_from  = Number(form.FROM.value)  - plus_down;
+      dna_to    = Number(form.TO.value) + plus_up;
+  }
+
+  url = "https://www.genome.jp/dbget-bin/cut_sequence_genes.pl?FROM=" + dna_from + "&TO=" + dna_to +"&VECTOR=" + vector + "&ORG=" + org;
+  if (chr) url += "&CHR=" + chr;
+    }
+    //window.open( url, "_self" );
+    location.href = url;
+}
+function go_taxonomy(form,params){
+  for(var key in params){
+    if(form[key]){
+      form.setAttribute(key,params[key]);
+    }
+    else{
+      var obj = document.createElement('input');
+      obj.setAttribute('type','hidden');
+      obj.setAttribute('name',key);
+      obj.setAttribute('value',params[key]);
+      form.appendChild(obj);
+    }
+  }
+  form.submit();
+}
+window.onload=function(){window.focus();init();};
+//--->
+</script>
+
+</head>
+<body>
+<div>
+
+<table border=0 cellpadding=0 cellspacing=0><tr><td>
+<table border=0 cellpadding=0 cellspacing=0 width="650"><tr><td width=70><a href="/kegg/kegg2.html"><img align="middle" alt="KEGG" border=0 src="/Fig/bget/kegg2.gif"></a></td><td>&nbsp;&nbsp;&nbsp;</td><td><a name="compound:C00002"></a><font class="title2">COMPOUND: C00002</font></td><td align="right" valign="bottom"><button class="btn" onclick="javascript:void(window.open(&#39;/kegg/document/help_bget_compound.html&#39;,&#39;KEGG_Help&#39;,&#39;toolbar=no,location=no,directories=no,width=720,height=640,resizable=yes,scrollbars=yes&#39;));return false;">Help</button></td></tr></table><form method="post" action="/entry/" enctype="application/x-www-form-urlencoded" name="form1"><table border=0 cellpadding=1 cellspacing=0 width="650">
+<tr>
+<td class="fr2">
+<table border=0 cellpadding=2 cellspacing=0 width="650" style="border-bottom:#000 1px solid">
+
+<tr><th class="th20" align="left" valign="middle" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Entry</nobr></th>
+<td class="td20" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><table border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td align="left"><code><nobr>C00002&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Compound&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+</nobr></code></td><td align="right"><br></td></tr></table></td></tr>
+
+
+<tr><th class="th21" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Name</nobr></th>
+<td class="td21" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden"><div style="width:555px;overflow-x:auto;overflow-y:hidden">ATP;<br>
+Adenosine 5'-triphosphate<br>
+</div></div></td></tr>
+
+
+<tr><th class="th20" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Formula</nobr></th>
+<td class="td20" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">C10H16N5O13P3<br>
+</div></td></tr>
+
+
+<tr><th class="th21" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Exact mass</nobr></th>
+<td class="td21" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">506.9957<br>
+</div></td></tr>
+
+
+<tr><th class="th20" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Mol weight</nobr></th>
+<td class="td20" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">507.181<br>
+</div></td></tr>
+
+
+<tr><th class="th21" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Structure</nobr></th>
+<td class="td21" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><a href="/Fig/compound/C00002.gif"><img name="img0" src="/Fig/compound/C00002.gif" style="max-width:600px" border=0></a><br>
+<button class="btn" onclick="location.href='/entry/-f+m+C00002';return false;">Mol file</button><button class="btn" onclick="location.href='/entry/-f+k+C00002';return false;">KCF file</button><button class="btn" onclick="location.href='https://www.genome.jp/tools-bin/strsearch_view?ENTRY=C00002&amp;PROGRAM=simcomp&amp;DATABASE=compound';return false;">DB search</button></td></tr>
+
+
+<tr><th class="th20" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Remark</nobr></th>
+<td class="td20" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr>Same as:&nbsp;</nobr></td><td><a href="/entry/D08646">D08646</a></td></tr></table></td></tr>
+
+
+<tr><th class="th21" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Reaction</nobr></th>
+<td class="td21" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden"><a href="/entry/R00002">R00002</a> <a href="/entry/R00076">R00076</a> <a href="/entry/R00085">R00085</a> <a href="/entry/R00086">R00086</a> <a href="/entry/R00087">R00087</a> <a href="/entry/R00088">R00088</a> <a href="/entry/R00089">R00089</a> <a href="/entry/R00104">R00104</a> <br>
+<a href="/entry/R00105">R00105</a> <a href="/entry/R00124">R00124</a> <a href="/entry/R00126">R00126</a> <a href="/entry/R00127">R00127</a> <a href="/entry/R00128">R00128</a> <a href="/entry/R00129">R00129</a> <a href="/entry/R00130">R00130</a> <a href="/entry/R00137">R00137</a> <br>
+<a href="/entry/R00139">R00139</a> <a href="/entry/R00140">R00140</a> <a href="/entry/R00141">R00141</a> <a href="/entry/R00149">R00149</a> <a href="/entry/R00150">R00150</a> <a href="/entry/R00156">R00156</a> <a href="/entry/R00158">R00158</a> <a href="/entry/R00161">R00161</a> <br>
+<a href="/entry/R00162">R00162</a> <a href="/entry/R00174">R00174</a> <a href="/entry/R00177">R00177</a> <a href="/entry/R00184">R00184</a> <a href="/entry/R00185">R00185</a> <a href="/entry/R00189">R00189</a> <a href="/entry/R00199">R00199</a> <a href="/entry/R00200">R00200</a> <br>
+<a href="/entry/R00206">R00206</a> <a href="/entry/R00229">R00229</a> <a href="/entry/R00235">R00235</a> <a href="/entry/R00239">R00239</a> <a href="/entry/R00251">R00251</a> <a href="/entry/R00253">R00253</a> <a href="/entry/R00257">R00257</a> <a href="/entry/R00283">R00283</a> <br>
+<a href="/entry/R00299">R00299</a> <a href="/entry/R00315">R00315</a> <a href="/entry/R00316">R00316</a> <a href="/entry/R00330">R00330</a> <a href="/entry/R00331">R00331</a> <a href="/entry/R00332">R00332</a> <a href="/entry/R00334">R00334</a> <a href="/entry/R00341">R00341</a> <br>
+<a href="/entry/R00344">R00344</a> <a href="/entry/R00352">R00352</a> <a href="/entry/R00381">R00381</a> <a href="/entry/R00389">R00389</a> <a href="/entry/R00390">R00390</a> <a href="/entry/R00405">R00405</a> <a href="/entry/R00429">R00429</a> <a href="/entry/R00435">R00435</a> <br>
+<a href="/entry/R00436">R00436</a> <a href="/entry/R00480">R00480</a> <a href="/entry/R00482">R00482</a> <a href="/entry/R00483">R00483</a> <a href="/entry/R00497">R00497</a> <a href="/entry/R00509">R00509</a> <a href="/entry/R00512">R00512</a> <a href="/entry/R00513">R00513</a> <br>
+<a href="/entry/R00518">R00518</a> <a href="/entry/R00529">R00529</a> <a href="/entry/R00549">R00549</a> <a href="/entry/R00554">R00554</a> <a href="/entry/R00570">R00570</a> <a href="/entry/R00571">R00571</a> <a href="/entry/R00573">R00573</a> <a href="/entry/R00575">R00575</a> <br>
+<a href="/entry/R00578">R00578</a> <a href="/entry/R00616">R00616</a> <a href="/entry/R00617">R00617</a> <a href="/entry/R00619">R00619</a> <a href="/entry/R00686">R00686</a> <a href="/entry/R00722">R00722</a> <a href="/entry/R00735">R00735</a> <a href="/entry/R00742">R00742</a> <br>
+<style>.r1{display:none;}</style><div class="r1"><a href="/entry/R00756">R00756</a> <a href="/entry/R00760">R00760</a> <a href="/entry/R00774">R00774</a> <a href="/entry/R00847">R00847</a> <a href="/entry/R00866">R00866</a> <a href="/entry/R00867">R00867</a> <a href="/entry/R00894">R00894</a> <a href="/entry/R00910">R00910</a> <br>
+<a href="/entry/R00912">R00912</a> <a href="/entry/R00920">R00920</a> <a href="/entry/R00925">R00925</a> <a href="/entry/R00942">R00942</a> <a href="/entry/R00943">R00943</a> <a href="/entry/R00948">R00948</a> <a href="/entry/R00949">R00949</a> <a href="/entry/R00964">R00964</a> <br>
+<a href="/entry/R00982">R00982</a> <a href="/entry/R01011">R01011</a> <a href="/entry/R01021">R01021</a> <a href="/entry/R01049">R01049</a> <a href="/entry/R01050">R01050</a> <a href="/entry/R01051">R01051</a> <a href="/entry/R01053">R01053</a> <a href="/entry/R01059">R01059</a> <br>
+<a href="/entry/R01071">R01071</a> <a href="/entry/R01074">R01074</a> <a href="/entry/R01075">R01075</a> <a href="/entry/R01092">R01092</a> <a href="/entry/R01121">R01121</a> <a href="/entry/R01131">R01131</a> <a href="/entry/R01137">R01137</a> <a href="/entry/R01150">R01150</a> <br>
+<a href="/entry/R01164">R01164</a> <a href="/entry/R01176">R01176</a> <a href="/entry/R01201">R01201</a> <a href="/entry/R01228">R01228</a> <a href="/entry/R01230">R01230</a> <a href="/entry/R01231">R01231</a> <a href="/entry/R01256">R01256</a> <a href="/entry/R01280">R01280</a> <br>
+<a href="/entry/R01300">R01300</a> <a href="/entry/R01322">R01322</a> <a href="/entry/R01326">R01326</a> <a href="/entry/R01353">R01353</a> <a href="/entry/R01354">R01354</a> <a href="/entry/R01357">R01357</a> <a href="/entry/R01395">R01395</a> <a href="/entry/R01406">R01406</a> <br>
+<a href="/entry/R01407">R01407</a> <a href="/entry/R01417">R01417</a> <a href="/entry/R01422">R01422</a> <a href="/entry/R01441">R01441</a> <a href="/entry/R01468">R01468</a> <a href="/entry/R01476">R01476</a> <a href="/entry/R01490">R01490</a> <a href="/entry/R01492">R01492</a> <br>
+<a href="/entry/R01495">R01495</a> <a href="/entry/R01504">R01504</a> <a href="/entry/R01512">R01512</a> <a href="/entry/R01514">R01514</a> <a href="/entry/R01523">R01523</a> <a href="/entry/R01526">R01526</a> <a href="/entry/R01541">R01541</a> <a href="/entry/R01547">R01547</a> <br>
+<a href="/entry/R01558">R01558</a> <a href="/entry/R01567">R01567</a> <a href="/entry/R01573">R01573</a> <a href="/entry/R01585">R01585</a> <a href="/entry/R01598">R01598</a> <a href="/entry/R01600">R01600</a> <a href="/entry/R01616">R01616</a> <a href="/entry/R01618">R01618</a> <br>
+<a href="/entry/R01639">R01639</a> <a href="/entry/R01654">R01654</a> <a href="/entry/R01665">R01665</a> <a href="/entry/R01666">R01666</a> <a href="/entry/R01688">R01688</a> <a href="/entry/R01723">R01723</a> <a href="/entry/R01724">R01724</a> <a href="/entry/R01737">R01737</a> <br>
+<a href="/entry/R01754">R01754</a> <a href="/entry/R01771">R01771</a> <a href="/entry/R01786">R01786</a> <a href="/entry/R01843">R01843</a> <a href="/entry/R01844">R01844</a> <a href="/entry/R01857">R01857</a> <a href="/entry/R01859">R01859</a> <a href="/entry/R01881">R01881</a> <br>
+<a href="/entry/R01888">R01888</a> <a href="/entry/R01901">R01901</a> <a href="/entry/R01902">R01902</a> <a href="/entry/R01909">R01909</a> <a href="/entry/R01917">R01917</a> <a href="/entry/R01926">R01926</a> <a href="/entry/R01943">R01943</a> <a href="/entry/R01954">R01954</a> <br>
+<a href="/entry/R01961">R01961</a> <a href="/entry/R01967">R01967</a> <a href="/entry/R01980">R01980</a> <a href="/entry/R01991">R01991</a> <a href="/entry/R02014">R02014</a> <a href="/entry/R02071">R02071</a> <a href="/entry/R02089">R02089</a> <a href="/entry/R02090">R02090</a> <br>
+<a href="/entry/R02093">R02093</a> <a href="/entry/R02094">R02094</a> <a href="/entry/R02098">R02098</a> <a href="/entry/R02099">R02099</a> <a href="/entry/R02134">R02134</a> <a href="/entry/R02136">R02136</a> <a href="/entry/R02184">R02184</a> <a href="/entry/R02194">R02194</a> <br>
+<a href="/entry/R02221">R02221</a> <a href="/entry/R02225">R02225</a> <a href="/entry/R02226">R02226</a> <a href="/entry/R02227">R02227</a> <a href="/entry/R02237">R02237</a> <a href="/entry/R02238">R02238</a> <a href="/entry/R02240">R02240</a> <a href="/entry/R02245">R02245</a> <br>
+<a href="/entry/R02255">R02255</a> <a href="/entry/R02301">R02301</a> <a href="/entry/R02303">R02303</a> <a href="/entry/R02324">R02324</a> <a href="/entry/R02326">R02326</a> <a href="/entry/R02331">R02331</a> <a href="/entry/R02402">R02402</a> <a href="/entry/R02404">R02404</a> <br>
+<a href="/entry/R02412">R02412</a> <a href="/entry/R02430">R02430</a> <a href="/entry/R02439">R02439</a> <a href="/entry/R02451">R02451</a> <a href="/entry/R02473">R02473</a> <a href="/entry/R02493">R02493</a> <a href="/entry/R02539">R02539</a> <a href="/entry/R02575">R02575</a> <br>
+<a href="/entry/R02584">R02584</a> <a href="/entry/R02625">R02625</a> <a href="/entry/R02626">R02626</a> <a href="/entry/R02649">R02649</a> <a href="/entry/R02650">R02650</a> <a href="/entry/R02658">R02658</a> <a href="/entry/R02664">R02664</a> <a href="/entry/R02699">R02699</a> <br>
+<a href="/entry/R02705">R02705</a> <a href="/entry/R02711">R02711</a> <a href="/entry/R02718">R02718</a> <a href="/entry/R02732">R02732</a> <a href="/entry/R02741">R02741</a> <a href="/entry/R02750">R02750</a> <a href="/entry/R02757">R02757</a> <a href="/entry/R02758">R02758</a> <br>
+<a href="/entry/R02783">R02783</a> <a href="/entry/R02786">R02786</a> <a href="/entry/R02788">R02788</a> <a href="/entry/R02794">R02794</a> <a href="/entry/R02848">R02848</a> <a href="/entry/R02865">R02865</a> <a href="/entry/R02884">R02884</a> <a href="/entry/R02903">R02903</a> <br>
+<a href="/entry/R02918">R02918</a> <a href="/entry/R02927">R02927</a> <a href="/entry/R02929">R02929</a> <a href="/entry/R02971">R02971</a> <a href="/entry/R02976">R02976</a> <a href="/entry/R02980">R02980</a> <a href="/entry/R02986">R02986</a> <a href="/entry/R03005">R03005</a> <br>
+<a href="/entry/R03014">R03014</a> <a href="/entry/R03018">R03018</a> <a href="/entry/R03035">R03035</a> <a href="/entry/R03038">R03038</a> <a href="/entry/R03095">R03095</a> <a href="/entry/R03098">R03098</a> <a href="/entry/R03150">R03150</a> <a href="/entry/R03157">R03157</a> <br>
+<a href="/entry/R03161">R03161</a> <a href="/entry/R03182">R03182</a> <a href="/entry/R03187">R03187</a> <a href="/entry/R03193">R03193</a> <a href="/entry/R03209">R03209</a> <a href="/entry/R03236">R03236</a> <a href="/entry/R03241">R03241</a> <a href="/entry/R03245">R03245</a> <br>
+<a href="/entry/R03258">R03258</a> <a href="/entry/R03272">R03272</a> <a href="/entry/R03274">R03274</a> <a href="/entry/R03286">R03286</a> <a href="/entry/R03298">R03298</a> <a href="/entry/R03315">R03315</a> <a href="/entry/R03347">R03347</a> <a href="/entry/R03361">R03361</a> <br>
+<a href="/entry/R03362">R03362</a> <a href="/entry/R03383">R03383</a> <a href="/entry/R03384">R03384</a> <a href="/entry/R03387">R03387</a> <a href="/entry/R03395">R03395</a> <a href="/entry/R03428">R03428</a> <a href="/entry/R03429">R03429</a> <a href="/entry/R03433">R03433</a> <br>
+<a href="/entry/R03449">R03449</a> <a href="/entry/R03469">R03469</a> <a href="/entry/R03471">R03471</a> <a href="/entry/R03473">R03473</a> <a href="/entry/R03478">R03478</a> <a href="/entry/R03479">R03479</a> <a href="/entry/R03494">R03494</a> <a href="/entry/R03503">R03503</a> <br>
+<a href="/entry/R03516">R03516</a> <a href="/entry/R03530">R03530</a> <a href="/entry/R03576">R03576</a> <a href="/entry/R03595">R03595</a> <a href="/entry/R03607">R03607</a> <a href="/entry/R03613">R03613</a> <a href="/entry/R03631">R03631</a> <a href="/entry/R03632">R03632</a> <br>
+<a href="/entry/R03646">R03646</a> <a href="/entry/R03647">R03647</a> <a href="/entry/R03648">R03648</a> <a href="/entry/R03650">R03650</a> <a href="/entry/R03651">R03651</a> <a href="/entry/R03652">R03652</a> <a href="/entry/R03654">R03654</a> <a href="/entry/R03655">R03655</a> <br>
+<a href="/entry/R03656">R03656</a> <a href="/entry/R03657">R03657</a> <a href="/entry/R03658">R03658</a> <a href="/entry/R03659">R03659</a> <a href="/entry/R03660">R03660</a> <a href="/entry/R03661">R03661</a> <a href="/entry/R03662">R03662</a> <a href="/entry/R03663">R03663</a> <br>
+<a href="/entry/R03664">R03664</a> <a href="/entry/R03665">R03665</a> <a href="/entry/R03691">R03691</a> <a href="/entry/R03744">R03744</a> <a href="/entry/R03754">R03754</a> <a href="/entry/R03766">R03766</a> <a href="/entry/R03770">R03770</a> <a href="/entry/R03780">R03780</a> <br>
+<a href="/entry/R03785">R03785</a> <a href="/entry/R03819">R03819</a> <a href="/entry/R03822">R03822</a> <a href="/entry/R03840">R03840</a> <a href="/entry/R03876">R03876</a> <a href="/entry/R03877">R03877</a> <a href="/entry/R03905">R03905</a> <a href="/entry/R03920">R03920</a> <br>
+<a href="/entry/R03932">R03932</a> <a href="/entry/R03939">R03939</a> <a href="/entry/R03944">R03944</a> <a href="/entry/R04002">R04002</a> <a href="/entry/R04023">R04023</a> <a href="/entry/R04030">R04030</a> <a href="/entry/R04036">R04036</a> <a href="/entry/R04068">R04068</a> <br>
+<a href="/entry/R04126">R04126</a> <a href="/entry/R04138">R04138</a> <a href="/entry/R04143">R04143</a> <a href="/entry/R04144">R04144</a> <a href="/entry/R04157">R04157</a> <a href="/entry/R04208">R04208</a> <a href="/entry/R04212">R04212</a> <a href="/entry/R04230">R04230</a> <br>
+<a href="/entry/R04235">R04235</a> <a href="/entry/R04241">R04241</a> <a href="/entry/R04267">R04267</a> <a href="/entry/R04274">R04274</a> <a href="/entry/R04275">R04275</a> <a href="/entry/R04358">R04358</a> <a href="/entry/R04369">R04369</a> <a href="/entry/R04385">R04385</a> <br>
+<a href="/entry/R04388">R04388</a> <a href="/entry/R04391">R04391</a> <a href="/entry/R04401">R04401</a> <a href="/entry/R04403">R04403</a> <a href="/entry/R04448">R04448</a> <a href="/entry/R04449">R04449</a> <a href="/entry/R04463">R04463</a> <a href="/entry/R04504">R04504</a> <br>
+<a href="/entry/R04507">R04507</a> <a href="/entry/R04509">R04509</a> <a href="/entry/R04545">R04545</a> <a href="/entry/R04555">R04555</a> <a href="/entry/R04562">R04562</a> <a href="/entry/R04563">R04563</a> <a href="/entry/R04573">R04573</a> <a href="/entry/R04580">R04580</a> <br>
+<a href="/entry/R04582">R04582</a> <a href="/entry/R04589">R04589</a> <a href="/entry/R04591">R04591</a> <a href="/entry/R04604">R04604</a> <a href="/entry/R04617">R04617</a> <a href="/entry/R04657">R04657</a> <a href="/entry/R04730">R04730</a> <a href="/entry/R04771">R04771</a> <br>
+<a href="/entry/R04773">R04773</a> <a href="/entry/R04779">R04779</a> <a href="/entry/R04870">R04870</a> <a href="/entry/R04928">R04928</a> <a href="/entry/R04929">R04929</a> <a href="/entry/R05030">R05030</a> <a href="/entry/R05185">R05185</a> <a href="/entry/R05186">R05186</a> <br>
+<a href="/entry/R05193">R05193</a> <a href="/entry/R05197">R05197</a> <a href="/entry/R05202">R05202</a> <a href="/entry/R05220">R05220</a> <a href="/entry/R05221">R05221</a> <a href="/entry/R05224">R05224</a> <a href="/entry/R05225">R05225</a> <a href="/entry/R05227">R05227</a> <br>
+<a href="/entry/R05451">R05451</a> <a href="/entry/R05452">R05452</a> <a href="/entry/R05453">R05453</a> <a href="/entry/R05467">R05467</a> <a href="/entry/R05496">R05496</a> <a href="/entry/R05537">R05537</a> <a href="/entry/R05577">R05577</a> <a href="/entry/R05578">R05578</a> <br>
+<a href="/entry/R05620">R05620</a> <a href="/entry/R05625">R05625</a> <a href="/entry/R05626">R05626</a> <a href="/entry/R05634">R05634</a> <a href="/entry/R05644">R05644</a> <a href="/entry/R05646">R05646</a> <a href="/entry/R05661">R05661</a> <a href="/entry/R05668">R05668</a> <br>
+<a href="/entry/R05735">R05735</a> <a href="/entry/R05744">R05744</a> <a href="/entry/R05795">R05795</a> <a href="/entry/R05799">R05799</a> <a href="/entry/R05800">R05800</a> <a href="/entry/R05801">R05801</a> <a href="/entry/R05802">R05802</a> <a href="/entry/R05803">R05803</a> <br>
+<a href="/entry/R05806">R05806</a> <a href="/entry/R05815">R05815</a> <a href="/entry/R06176">R06176</a> <a href="/entry/R06282">R06282</a> <a href="/entry/R06367">R06367</a> <a href="/entry/R06368">R06368</a> <a href="/entry/R06396">R06396</a> <a href="/entry/R06409">R06409</a> <br>
+<a href="/entry/R06410">R06410</a> <a href="/entry/R06515">R06515</a> <a href="/entry/R06529">R06529</a> <a href="/entry/R06531">R06531</a> <a href="/entry/R06583">R06583</a> <a href="/entry/R06588">R06588</a> <a href="/entry/R06731">R06731</a> <a href="/entry/R06746">R06746</a> <br>
+<a href="/entry/R06751">R06751</a> <a href="/entry/R06777">R06777</a> <a href="/entry/R06778">R06778</a> <a href="/entry/R06836">R06836</a> <a href="/entry/R06944">R06944</a> <a href="/entry/R06974">R06974</a> <a href="/entry/R06975">R06975</a> <a href="/entry/R06976">R06976</a> <br>
+<a href="/entry/R07127">R07127</a> <a href="/entry/R07268">R07268</a> <a href="/entry/R07279">R07279</a> <a href="/entry/R07302">R07302</a> <a href="/entry/R07325">R07325</a> <a href="/entry/R07404">R07404</a> <a href="/entry/R07414">R07414</a> <a href="/entry/R07416">R07416</a> <br>
+<a href="/entry/R07459">R07459</a> <a href="/entry/R07640">R07640</a> <a href="/entry/R07641">R07641</a> <a href="/entry/R07642">R07642</a> <a href="/entry/R07643">R07643</a> <a href="/entry/R07644">R07644</a> <a href="/entry/R07646">R07646</a> <a href="/entry/R07770">R07770</a> <br>
+<a href="/entry/R07828">R07828</a> <a href="/entry/R07887">R07887</a> <a href="/entry/R08051">R08051</a> <a href="/entry/R08088">R08088</a> <a href="/entry/R08117">R08117</a> <a href="/entry/R08124">R08124</a> <a href="/entry/R08154">R08154</a> <a href="/entry/R08201">R08201</a> <br>
+<a href="/entry/R08217">R08217</a> <a href="/entry/R08218">R08218</a> <a href="/entry/R08223">R08223</a> <a href="/entry/R08232">R08232</a> <a href="/entry/R08233">R08233</a> <a href="/entry/R08241">R08241</a> <a href="/entry/R08242">R08242</a> <a href="/entry/R08244">R08244</a> <br>
+<a href="/entry/R08323">R08323</a> <a href="/entry/R08352">R08352</a> <a href="/entry/R08353">R08353</a> <a href="/entry/R08354">R08354</a> <a href="/entry/R08355">R08355</a> <a href="/entry/R08480">R08480</a> <a href="/entry/R08572">R08572</a> <a href="/entry/R08576">R08576</a> <br>
+<a href="/entry/R08578">R08578</a> <a href="/entry/R08700">R08700</a> <a href="/entry/R08733">R08733</a> <a href="/entry/R08738">R08738</a> <a href="/entry/R08743">R08743</a> <a href="/entry/R08844">R08844</a> <a href="/entry/R08855">R08855</a> <a href="/entry/R08872">R08872</a> <br>
+<a href="/entry/R08905">R08905</a> <a href="/entry/R08906">R08906</a> <a href="/entry/R08924">R08924</a> <a href="/entry/R08962">R08962</a> <a href="/entry/R08964">R08964</a> <a href="/entry/R08967">R08967</a> <a href="/entry/R08968">R08968</a> <a href="/entry/R09047">R09047</a> <br>
+<a href="/entry/R09053">R09053</a> <a href="/entry/R09060">R09060</a> <a href="/entry/R09087">R09087</a> <a href="/entry/R09195">R09195</a> <a href="/entry/R09279">R09279</a> <a href="/entry/R09286">R09286</a> <a href="/entry/R09378">R09378</a> <a href="/entry/R09379">R09379</a> <br>
+<a href="/entry/R09382">R09382</a> <a href="/entry/R09386">R09386</a> <a href="/entry/R09401">R09401</a> <a href="/entry/R09475">R09475</a> <a href="/entry/R09588">R09588</a> <a href="/entry/R09589">R09589</a> <a href="/entry/R09590">R09590</a> <a href="/entry/R09591">R09591</a> <br>
+<a href="/entry/R09592">R09592</a> <a href="/entry/R09593">R09593</a> <a href="/entry/R09594">R09594</a> <a href="/entry/R09595">R09595</a> <a href="/entry/R09596">R09596</a> <a href="/entry/R09597">R09597</a> <a href="/entry/R09598">R09598</a> <a href="/entry/R09599">R09599</a> <br>
+<a href="/entry/R09640">R09640</a> <a href="/entry/R09675">R09675</a> <a href="/entry/R09726">R09726</a> <a href="/entry/R09729">R09729</a> <a href="/entry/R09767">R09767</a> <a href="/entry/R09770">R09770</a> <a href="/entry/R09775">R09775</a> <a href="/entry/R09776">R09776</a> <br>
+<a href="/entry/R09879">R09879</a> <a href="/entry/R09880">R09880</a> <a href="/entry/R09945">R09945</a> <a href="/entry/R09946">R09946</a> <a href="/entry/R09978">R09978</a> <a href="/entry/R10003">R10003</a> <a href="/entry/R10011">R10011</a> <a href="/entry/R10065">R10065</a> <br>
+<a href="/entry/R10090">R10090</a> <a href="/entry/R10091">R10091</a> <a href="/entry/R10093">R10093</a> <a href="/entry/R10185">R10185</a> <a href="/entry/R10288">R10288</a> <a href="/entry/R10342">R10342</a> <a href="/entry/R10453">R10453</a> <a href="/entry/R10462">R10462</a> <br>
+<a href="/entry/R10463">R10463</a> <a href="/entry/R10470">R10470</a> <a href="/entry/R10495">R10495</a> <a href="/entry/R10496">R10496</a> <a href="/entry/R10531">R10531</a> <a href="/entry/R10541">R10541</a> <a href="/entry/R10548">R10548</a> <a href="/entry/R10556">R10556</a> <br>
+<a href="/entry/R10561">R10561</a> <a href="/entry/R10657">R10657</a> <a href="/entry/R10661">R10661</a> <a href="/entry/R10677">R10677</a> <a href="/entry/R10678">R10678</a> <a href="/entry/R10679">R10679</a> <a href="/entry/R10693">R10693</a> <a href="/entry/R10758">R10758</a> <br>
+<a href="/entry/R10767">R10767</a> <a href="/entry/R10768">R10768</a> <a href="/entry/R10769">R10769</a> <a href="/entry/R10770">R10770</a> <a href="/entry/R10771">R10771</a> <a href="/entry/R10772">R10772</a> <a href="/entry/R10779">R10779</a> <a href="/entry/R10780">R10780</a> <br>
+<a href="/entry/R10820">R10820</a> <a href="/entry/R10821">R10821</a> <a href="/entry/R10880">R10880</a> <a href="/entry/R10892">R10892</a> <a href="/entry/R10901">R10901</a> <a href="/entry/R10902">R10902</a> <a href="/entry/R10909">R10909</a> <a href="/entry/R10910">R10910</a> <br>
+<a href="/entry/R10929">R10929</a> <a href="/entry/R10930">R10930</a> <a href="/entry/R10940">R10940</a> <a href="/entry/R10941">R10941</a> <a href="/entry/R10942">R10942</a> <a href="/entry/R10943">R10943</a> <a href="/entry/R10944">R10944</a> <a href="/entry/R10948">R10948</a> <br>
+<a href="/entry/R10951">R10951</a> <a href="/entry/R10953">R10953</a> <a href="/entry/R10970">R10970</a> <a href="/entry/R10993">R10993</a> <a href="/entry/R10994">R10994</a> <a href="/entry/R11024">R11024</a> <a href="/entry/R11039">R11039</a> <a href="/entry/R11064">R11064</a> <br>
+<a href="/entry/R11084">R11084</a> <a href="/entry/R11085">R11085</a> <a href="/entry/R11090">R11090</a> <a href="/entry/R11143">R11143</a> <a href="/entry/R11183">R11183</a> <a href="/entry/R11184">R11184</a> <a href="/entry/R11185">R11185</a> <a href="/entry/R11207">R11207</a> <br>
+<a href="/entry/R11234">R11234</a> <a href="/entry/R11279">R11279</a> <a href="/entry/R11367">R11367</a> <a href="/entry/R11370">R11370</a> <a href="/entry/R11392">R11392</a> <a href="/entry/R11400">R11400</a> <a href="/entry/R11406">R11406</a> <a href="/entry/R11460">R11460</a> <br>
+<a href="/entry/R11461">R11461</a> <a href="/entry/R11515">R11515</a> <a href="/entry/R11531">R11531</a> <a href="/entry/R11536">R11536</a> <a href="/entry/R11537">R11537</a> <a href="/entry/R11538">R11538</a> <a href="/entry/R11553">R11553</a> <a href="/entry/R11554">R11554</a> <br>
+<a href="/entry/R11608">R11608</a> <a href="/entry/R11627">R11627</a> <a href="/entry/R11628">R11628</a> <a href="/entry/R11629">R11629</a> <a href="/entry/R11632">R11632</a> <a href="/entry/R11634">R11634</a> <a href="/entry/R11662">R11662</a> <a href="/entry/R11673">R11673</a> <br>
+<a href="/entry/R11679">R11679</a> <a href="/entry/R11706">R11706</a> <a href="/entry/R11707">R11707</a> <a href="/entry/R11723">R11723</a> <a href="/entry/R11775">R11775</a> <a href="/entry/R11784">R11784</a> <a href="/entry/R11803">R11803</a> <a href="/entry/R11872">R11872</a> <br>
+<a href="/entry/R11891">R11891</a> <a href="/entry/R11892">R11892</a> <a href="/entry/R11894">R11894</a> <a href="/entry/R11895">R11895</a> <a href="/entry/R11922">R11922</a> <a href="/entry/R11924">R11924</a> <a href="/entry/R11926">R11926</a> <a href="/entry/R11933">R11933</a> <br>
+<a href="/entry/R11941">R11941</a> <a href="/entry/R11950">R11950</a> <a href="/entry/R11964">R11964</a> <a href="/entry/R12056">R12056</a> <a href="/entry/R12059">R12059</a> <a href="/entry/R12062">R12062</a> <a href="/entry/R12063">R12063</a> <a href="/entry/R12066">R12066</a> <br>
+<a href="/entry/R12084">R12084</a> <a href="/entry/R12099">R12099</a> <a href="/entry/R12148">R12148</a> <a href="/entry/R12183">R12183</a> <a href="/entry/R12184">R12184</a> <a href="/entry/R12235">R12235</a> <a href="/entry/R12245">R12245</a> <a href="/entry/R12246">R12246</a> <br>
+<a href="/entry/R12271">R12271</a> <a href="/entry/R12272">R12272</a> <a href="/entry/R12293">R12293</a> <a href="/entry/R12300">R12300</a> <a href="/entry/R12308">R12308</a> <a href="/entry/R12311">R12311</a> <a href="/entry/R12312">R12312</a> <a href="/entry/R12330">R12330</a> <br>
+<a href="/entry/R12344">R12344</a> <a href="/entry/R12352">R12352</a> <a href="/entry/R12353">R12353</a> <a href="/entry/R12354">R12354</a> <a href="/entry/R12393">R12393</a> <a href="/entry/R12395">R12395</a> <a href="/entry/R12396">R12396</a> <a href="/entry/R12398">R12398</a> <br>
+<a href="/entry/R12417">R12417</a> <a href="/entry/R12419">R12419</a> <a href="/entry/R12429">R12429</a> <a href="/entry/R12433">R12433</a> <a href="/entry/R12434">R12434</a> <a href="/entry/R12449">R12449</a> <a href="/entry/R12485">R12485</a> <a href="/entry/R12494">R12494</a> <br>
+<a href="/entry/R12495">R12495</a> <a href="/entry/R12530">R12530</a> <a href="/entry/R12572">R12572</a> <a href="/entry/R12573">R12573</a> <a href="/entry/R12575">R12575</a> <a href="/entry/R12576">R12576</a> <a href="/entry/R12590">R12590</a> <a href="/entry/R12596">R12596</a> <br>
+<a href="/entry/R12598">R12598</a> <a href="/entry/R12599">R12599</a> <a href="/entry/R12616">R12616</a> <a href="/entry/R12640">R12640</a> <a href="/entry/R12642">R12642</a> <a href="/entry/R12695">R12695</a> <a href="/entry/R12721">R12721</a> <a href="/entry/R12723">R12723</a> <br>
+<a href="/entry/R12725">R12725</a> <a href="/entry/R12727">R12727</a> <a href="/entry/R12728">R12728</a> <a href="/entry/R12730">R12730</a> <a href="/entry/R12746">R12746</a><br>
+</div><a href="javascript:void(0)" onclick="javascript:toggleField(this,&quot;r1&quot;,&quot;show all&quot;,&quot;hide&quot;)">&nbsp;&raquo; show all</a><br>
+</div></td></tr>
+
+
+<tr><th class="th20" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Pathway</nobr></th>
+<td class="td20" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/pathway/map00190+C00002">map00190</a>&nbsp;&nbsp;</nobr></td><td>Oxidative phosphorylation</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/pathway/map00195+C00002">map00195</a>&nbsp;&nbsp;</nobr></td><td>Photosynthesis</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/pathway/map00230+C00002">map00230</a>&nbsp;&nbsp;</nobr></td><td>Purine metabolism</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/pathway/map00908+C00002">map00908</a>&nbsp;&nbsp;</nobr></td><td>Zeatin biosynthesis</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/pathway/map00998+C00002">map00998</a>&nbsp;&nbsp;</nobr></td><td>Biosynthesis of various secondary metabolites - part 2</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/pathway/map01100+C00002">map01100</a>&nbsp;&nbsp;</nobr></td><td>Metabolic pathways</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/pathway/map01110+C00002">map01110</a>&nbsp;&nbsp;</nobr></td><td>Biosynthesis of secondary metabolites</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/pathway/map01240+C00002">map01240</a>&nbsp;&nbsp;</nobr></td><td>Biosynthesis of cofactors</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/pathway/map03070+C00002">map03070</a>&nbsp;&nbsp;</nobr></td><td>Bacterial secretion system</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/pathway/map04020+C00002">map04020</a>&nbsp;&nbsp;</nobr></td><td>Calcium signaling pathway</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/pathway/map04066+C00002">map04066</a>&nbsp;&nbsp;</nobr></td><td>HIF-1 signaling pathway</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/pathway/map04080+C00002">map04080</a>&nbsp;&nbsp;</nobr></td><td>Neuroactive ligand-receptor interaction</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/pathway/map04142+C00002">map04142</a>&nbsp;&nbsp;</nobr></td><td>Lysosome</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/pathway/map04217+C00002">map04217</a>&nbsp;&nbsp;</nobr></td><td>Necroptosis</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/pathway/map04611+C00002">map04611</a>&nbsp;&nbsp;</nobr></td><td>Platelet activation</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/pathway/map04621+C00002">map04621</a>&nbsp;&nbsp;</nobr></td><td>NOD-like receptor signaling pathway</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/pathway/map04714+C00002">map04714</a>&nbsp;&nbsp;</nobr></td><td>Thermogenesis</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/pathway/map04721+C00002">map04721</a>&nbsp;&nbsp;</nobr></td><td>Synaptic vesicle cycle</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/pathway/map04742+C00002">map04742</a>&nbsp;&nbsp;</nobr></td><td>Taste transduction</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/pathway/map04750+C00002">map04750</a>&nbsp;&nbsp;</nobr></td><td>Inflammatory mediator regulation of TRP channels</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/pathway/map04911+C00002">map04911</a>&nbsp;&nbsp;</nobr></td><td>Insulin secretion</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/pathway/map04917+C00002">map04917</a>&nbsp;&nbsp;</nobr></td><td>Prolactin signaling pathway</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/pathway/map04924+C00002">map04924</a>&nbsp;&nbsp;</nobr></td><td>Renin secretion</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/pathway/map04930+C00002">map04930</a>&nbsp;&nbsp;</nobr></td><td>Type II diabetes mellitus</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/pathway/map05012+C00002">map05012</a>&nbsp;&nbsp;</nobr></td><td>Parkinson disease</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/pathway/map05022+C00002">map05022</a>&nbsp;&nbsp;</nobr></td><td>Pathways of neurodegeneration - multiple diseases</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/pathway/map05133+C00002">map05133</a>&nbsp;&nbsp;</nobr></td><td>Pertussis</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/pathway/map05410+C00002">map05410</a>&nbsp;&nbsp;</nobr></td><td>Hypertrophic cardiomyopathy</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/pathway/map05415+C00002">map05415</a>&nbsp;&nbsp;</nobr></td><td>Diabetic cardiomyopathy</td></tr></table></td></tr>
+
+
+<tr><th class="th21" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Module</nobr></th>
+<td class="td21" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/module/M00049+C00002">M00049</a>&nbsp;&nbsp;</nobr></td><td>Adenine ribonucleotide biosynthesis, IMP =&gt; ADP,ATP</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/module/M00889+C00002">M00889</a>&nbsp;&nbsp;</nobr></td><td>Puromycin biosynthesis, ATP =&gt; puromycin</td></tr></table></td></tr>
+
+
+<tr><th class="th20" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Enzyme</nobr></th>
+<td class="td20" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden"><a href="/entry/1.1.98.6">1.1.98.6</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/1.2.1.30">1.2.1.30</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/1.2.1.95">1.2.1.95</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/1.2.1.101">1.2.1.101</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/1.3.7.7">1.3.7.7</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/1.3.7.8">1.3.7.8</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/1.3.7.14">1.3.7.14</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/1.3.7.15">1.3.7.15</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/1.13.12.7">1.13.12.7</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/1.17.4.2">1.17.4.2</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/1.18.6.1">1.18.6.1</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/1.18.6.2">1.18.6.2</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/1.19.6.1">1.19.6.1</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.-.-.-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.3.3.8">2.3.3.8</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.4.2.17">2.4.2.17</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/2.4.2.52">2.4.2.52</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.5.1.6">2.5.1.6</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.5.1.17">2.5.1.17</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.5.1.112">2.5.1.112</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/2.7.1.1">2.7.1.1</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.2">2.7.1.2</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.3">2.7.1.3</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.4">2.7.1.4</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/2.7.1.5">2.7.1.5</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.6">2.7.1.6</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.7">2.7.1.7</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.8">2.7.1.8</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/2.7.1.10">2.7.1.10</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.11">2.7.1.11</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.12">2.7.1.12</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.13">2.7.1.13</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/2.7.1.14">2.7.1.14</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.15">2.7.1.15</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.16">2.7.1.16</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.17">2.7.1.17</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/2.7.1.18">2.7.1.18</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.19">2.7.1.19</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.20">2.7.1.20</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.21">2.7.1.21</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<style>.e1{display:none;}</style><div class="e1"><a href="/entry/2.7.1.22">2.7.1.22</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.23">2.7.1.23</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.24">2.7.1.24</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.25">2.7.1.25</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/2.7.1.26">2.7.1.26</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.27">2.7.1.27</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.28">2.7.1.28</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.29">2.7.1.29</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/2.7.1.30">2.7.1.30</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.31">2.7.1.31</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.32">2.7.1.32</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.33">2.7.1.33</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/2.7.1.34">2.7.1.34</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.35">2.7.1.35</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.36">2.7.1.36</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.39">2.7.1.39</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/2.7.1.40">2.7.1.40</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.43">2.7.1.43</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.44">2.7.1.44</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.45">2.7.1.45</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/2.7.1.46">2.7.1.46</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.47">2.7.1.47</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.48">2.7.1.48</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.49">2.7.1.49</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/2.7.1.50">2.7.1.50</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.51">2.7.1.51</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.52">2.7.1.52</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.53">2.7.1.53</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/2.7.1.54">2.7.1.54</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.55">2.7.1.55</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.56">2.7.1.56</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.58">2.7.1.58</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/2.7.1.59">2.7.1.59</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.60">2.7.1.60</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.64">2.7.1.64</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.65">2.7.1.65</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/2.7.1.66">2.7.1.66</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.67">2.7.1.67</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.68">2.7.1.68</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.71">2.7.1.71</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/2.7.1.72">2.7.1.72</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.73">2.7.1.73</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.74">2.7.1.74</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.76">2.7.1.76</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/2.7.1.78">2.7.1.78</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.82">2.7.1.82</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.83">2.7.1.83</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.84">2.7.1.84</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/2.7.1.85">2.7.1.85</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.86">2.7.1.86</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.87">2.7.1.87</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.88">2.7.1.88</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/2.7.1.89">2.7.1.89</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.91">2.7.1.91</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.92">2.7.1.92</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.93">2.7.1.93</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/2.7.1.94">2.7.1.94</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.95">2.7.1.95</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.100">2.7.1.100</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.101">2.7.1.101</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/2.7.1.102">2.7.1.102</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.103">2.7.1.103</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.105">2.7.1.105</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.107">2.7.1.107</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/2.7.1.113">2.7.1.113</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.119">2.7.1.119</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.122">2.7.1.122</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.127">2.7.1.127</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/2.7.1.130">2.7.1.130</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.134">2.7.1.134</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.136">2.7.1.136</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.137">2.7.1.137</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/2.7.1.138">2.7.1.138</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.140">2.7.1.140</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.144">2.7.1.144</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.145">2.7.1.145</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/2.7.1.148">2.7.1.148</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.149">2.7.1.149</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.150">2.7.1.150</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.151">2.7.1.151</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/2.7.1.153">2.7.1.153</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.154">2.7.1.154</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.156">2.7.1.156</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.157">2.7.1.157</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/2.7.1.158">2.7.1.158</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.159">2.7.1.159</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.162">2.7.1.162</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.163">2.7.1.163</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/2.7.1.164">2.7.1.164</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.165">2.7.1.165</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.166">2.7.1.166</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.167">2.7.1.167</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/2.7.1.168">2.7.1.168</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.169">2.7.1.169</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.170">2.7.1.170</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.173">2.7.1.173</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/2.7.1.175">2.7.1.175</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.176">2.7.1.176</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.177">2.7.1.177</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.178">2.7.1.178</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/2.7.1.179">2.7.1.179</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.181">2.7.1.181</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.183">2.7.1.183</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.184">2.7.1.184</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/2.7.1.185">2.7.1.185</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.186">2.7.1.186</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.187">2.7.1.187</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.188">2.7.1.188</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/2.7.1.189">2.7.1.189</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.209">2.7.1.209</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.210">2.7.1.210</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.213">2.7.1.213</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/2.7.1.214">2.7.1.214</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.215">2.7.1.215</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.217">2.7.1.217</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.218">2.7.1.218</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/2.7.1.219">2.7.1.219</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.220">2.7.1.220</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.221">2.7.1.221</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.222">2.7.1.222</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/2.7.1.223">2.7.1.223</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.224">2.7.1.224</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.225">2.7.1.225</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.229">2.7.1.229</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/2.7.1.230">2.7.1.230</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.231">2.7.1.231</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.1.232">2.7.1.232</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.7.1.-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/2.7.2.1">2.7.2.1</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.2.2">2.7.2.2</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.2.3">2.7.2.3</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.2.4">2.7.2.4</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/2.7.2.6">2.7.2.6</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.2.7">2.7.2.7</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.2.8">2.7.2.8</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.2.11">2.7.2.11</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/2.7.2.14">2.7.2.14</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.2.15">2.7.2.15</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.2.16">2.7.2.16</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.2.17">2.7.2.17</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+2.7.2.-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.3.1">2.7.3.1</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.3.2">2.7.3.2</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.3.3">2.7.3.3</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/2.7.3.4">2.7.3.4</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.3.5">2.7.3.5</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.3.6">2.7.3.6</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.3.7">2.7.3.7</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/2.7.3.8">2.7.3.8</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.3.10">2.7.3.10</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.3.13">2.7.3.13</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.4.1">2.7.4.1</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/2.7.4.2">2.7.4.2</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.4.3">2.7.4.3</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.4.4">2.7.4.4</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.4.6">2.7.4.6</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/2.7.4.7">2.7.4.7</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.4.8">2.7.4.8</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.4.9">2.7.4.9</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.4.11">2.7.4.11</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/2.7.4.12">2.7.4.12</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.4.13">2.7.4.13</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.4.14">2.7.4.14</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.4.15">2.7.4.15</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/2.7.4.16">2.7.4.16</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.4.18">2.7.4.18</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.4.19">2.7.4.19</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.4.21">2.7.4.21</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/2.7.4.22">2.7.4.22</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.4.23">2.7.4.23</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.4.24">2.7.4.24</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.4.25">2.7.4.25</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/2.7.4.26">2.7.4.26</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.4.31">2.7.4.31</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.7.4.-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.6.1">2.7.6.1</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/2.7.6.2">2.7.6.2</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.6.3">2.7.6.3</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.6.4">2.7.6.4</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.6.5">2.7.6.5</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/2.7.7.1">2.7.7.1</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.7.2">2.7.7.2</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.7.3">2.7.7.3</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.7.4">2.7.7.4</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/2.7.7.6">2.7.7.6</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.7.18">2.7.7.18</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.7.19">2.7.7.19</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.7.27">2.7.7.27</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/2.7.7.42">2.7.7.42</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.7.46">2.7.7.46</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.7.47">2.7.7.47</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.7.48">2.7.7.48</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/2.7.7.53">2.7.7.53</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.7.58">2.7.7.58</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.7.70">2.7.7.70</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.7.72">2.7.7.72</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/2.7.7.73">2.7.7.73</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.7.75">2.7.7.75</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.7.80">2.7.7.80</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.7.84">2.7.7.84</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/2.7.7.85">2.7.7.85</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.7.86">2.7.7.86</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.7.87">2.7.7.87</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.7.96">2.7.7.96</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/2.7.7.97">2.7.7.97</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.7.100">2.7.7.100</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.8.37">2.7.8.37</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.9.1">2.7.9.1</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/2.7.9.2">2.7.9.2</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.9.3">2.7.9.3</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.9.6">2.7.9.6</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.7.9.-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/2.7.10.1">2.7.10.1</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.10.2">2.7.10.2</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.11.1">2.7.11.1</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.11.2">2.7.11.2</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/2.7.11.3">2.7.11.3</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.11.4">2.7.11.4</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.11.5">2.7.11.5</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.11.6">2.7.11.6</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/2.7.11.7">2.7.11.7</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.11.8">2.7.11.8</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.11.9">2.7.11.9</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.11.10">2.7.11.10</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/2.7.11.11">2.7.11.11</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.11.12">2.7.11.12</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.11.13">2.7.11.13</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.11.14">2.7.11.14</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/2.7.11.15">2.7.11.15</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.11.17">2.7.11.17</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.11.18">2.7.11.18</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.11.19">2.7.11.19</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/2.7.11.21">2.7.11.21</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.11.22">2.7.11.22</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.11.23">2.7.11.23</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.11.24">2.7.11.24</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/2.7.11.25">2.7.11.25</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.11.26">2.7.11.26</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.11.27">2.7.11.27</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.11.28">2.7.11.28</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/2.7.11.29">2.7.11.29</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.11.30">2.7.11.30</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.11.31">2.7.11.31</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.12.1">2.7.12.1</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/2.7.12.2">2.7.12.2</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.13.1">2.7.13.1</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.13.2">2.7.13.2</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/2.7.14.1">2.7.14.1</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/2.8.1.13">2.8.1.13</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/3.5.2.9">3.5.2.9</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/3.5.2.14">3.5.2.14</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/3.5.4.17">3.5.4.17</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/3.5.4.18">3.5.4.18</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/3.6.1.5">3.6.1.5</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/3.6.1.8">3.6.1.8</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/3.6.1.9">3.6.1.9</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/3.6.1.14">3.6.1.14</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/3.6.1.15">3.6.1.15</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/3.6.1.17">3.6.1.17</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/3.6.1.61">3.6.1.61</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+3.6.1.-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/4.1.1.33">4.1.1.33</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/4.1.1.49">4.1.1.49</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/4.1.1.99">4.1.1.99</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/4.2.1.93">4.2.1.93</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/4.4.1.37">4.4.1.37</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/4.6.1.1">4.6.1.1</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/5.1.1.11">5.1.1.11</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/5.1.1.23">5.1.1.23</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.1.1.1">6.1.1.1</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.1.1.2">6.1.1.2</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.1.1.3">6.1.1.3</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/6.1.1.4">6.1.1.4</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.1.1.5">6.1.1.5</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.1.1.6">6.1.1.6</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.1.1.7">6.1.1.7</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/6.1.1.9">6.1.1.9</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.1.1.10">6.1.1.10</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.1.1.11">6.1.1.11</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.1.1.12">6.1.1.12</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/6.1.1.13">6.1.1.13</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.1.1.14">6.1.1.14</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.1.1.15">6.1.1.15</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.1.1.16">6.1.1.16</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/6.1.1.17">6.1.1.17</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.1.1.18">6.1.1.18</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.1.1.19">6.1.1.19</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.1.1.20">6.1.1.20</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/6.1.1.21">6.1.1.21</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.1.1.22">6.1.1.22</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.1.1.23">6.1.1.23</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.1.1.24">6.1.1.24</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/6.1.1.26">6.1.1.26</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.1.1.27">6.1.1.27</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.1.2.1">6.1.2.1</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.1.2.2">6.1.2.2</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/6.1.3.1">6.1.3.1</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.2.1.1">6.2.1.1</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.2.1.2">6.2.1.2</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.2.1.3">6.2.1.3</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/6.2.1.5">6.2.1.5</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.2.1.6">6.2.1.6</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.2.1.7">6.2.1.7</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.2.1.8">6.2.1.8</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/6.2.1.9">6.2.1.9</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.2.1.11">6.2.1.11</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.2.1.12">6.2.1.12</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.2.1.13">6.2.1.13</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/6.2.1.14">6.2.1.14</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.2.1.15">6.2.1.15</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.2.1.16">6.2.1.16</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.2.1.17">6.2.1.17</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/6.2.1.18">6.2.1.18</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.2.1.19">6.2.1.19</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.2.1.20">6.2.1.20</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.2.1.22">6.2.1.22</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/6.2.1.23">6.2.1.23</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.2.1.24">6.2.1.24</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.2.1.25">6.2.1.25</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.2.1.26">6.2.1.26</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/6.2.1.27">6.2.1.27</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.2.1.28">6.2.1.28</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.2.1.30">6.2.1.30</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.2.1.31">6.2.1.31</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/6.2.1.32">6.2.1.32</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.2.1.33">6.2.1.33</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.2.1.34">6.2.1.34</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.2.1.35">6.2.1.35</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/6.2.1.36">6.2.1.36</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.2.1.37">6.2.1.37</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.2.1.38">6.2.1.38</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.2.1.39">6.2.1.39</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/6.2.1.40">6.2.1.40</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.2.1.41">6.2.1.41</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.2.1.42">6.2.1.42</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.2.1.43">6.2.1.43</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/6.2.1.44">6.2.1.44</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.2.1.46">6.2.1.46</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.2.1.47">6.2.1.47</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.2.1.48">6.2.1.48</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/6.2.1.50">6.2.1.50</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.2.1.51">6.2.1.51</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.2.1.52">6.2.1.52</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.2.1.53">6.2.1.53</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/6.2.1.56">6.2.1.56</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.2.1.57">6.2.1.57</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.2.1.58">6.2.1.58</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.2.1.60">6.2.1.60</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/6.2.1.62">6.2.1.62</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.2.1.63">6.2.1.63</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.2.1.65">6.2.1.65</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.2.1.66">6.2.1.66</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/6.2.1.67">6.2.1.67</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.2.1.68">6.2.1.68</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6.2.1.-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.1.1">6.3.1.1</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/6.3.1.2">6.3.1.2</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.1.4">6.3.1.4</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.1.5">6.3.1.5</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.1.6">6.3.1.6</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/6.3.1.7">6.3.1.7</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.1.8">6.3.1.8</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.1.9">6.3.1.9</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.1.10">6.3.1.10</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/6.3.1.11">6.3.1.11</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.1.12">6.3.1.12</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.1.13">6.3.1.13</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.1.14">6.3.1.14</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/6.3.1.15">6.3.1.15</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.1.17">6.3.1.17</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.1.18">6.3.1.18</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.1.19">6.3.1.19</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/6.3.1.20">6.3.1.20</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.1.21">6.3.1.21</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.2.1">6.3.2.1</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.2.2">6.3.2.2</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/6.3.2.3">6.3.2.3</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.2.4">6.3.2.4</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.2.6">6.3.2.6</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.2.7">6.3.2.7</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/6.3.2.8">6.3.2.8</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.2.9">6.3.2.9</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.2.10">6.3.2.10</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.2.11">6.3.2.11</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/6.3.2.12">6.3.2.12</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.2.13">6.3.2.13</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.2.14">6.3.2.14</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.2.16">6.3.2.16</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/6.3.2.17">6.3.2.17</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.2.18">6.3.2.18</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.2.20">6.3.2.20</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.2.23">6.3.2.23</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/6.3.2.24">6.3.2.24</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.2.25">6.3.2.25</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.2.26">6.3.2.26</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.2.29">6.3.2.29</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/6.3.2.30">6.3.2.30</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.2.32">6.3.2.32</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.2.33">6.3.2.33</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.2.35">6.3.2.35</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/6.3.2.36">6.3.2.36</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.2.37">6.3.2.37</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.2.38">6.3.2.38</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.2.39">6.3.2.39</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/6.3.2.40">6.3.2.40</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.2.41">6.3.2.41</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.2.42">6.3.2.42</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.2.43">6.3.2.43</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/6.3.2.44">6.3.2.44</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.2.45">6.3.2.45</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.2.46">6.3.2.46</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.2.47">6.3.2.47</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/6.3.2.48">6.3.2.48</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.2.49">6.3.2.49</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.2.50">6.3.2.50</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.2.51">6.3.2.51</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/6.3.2.52">6.3.2.52</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.2.53">6.3.2.53</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.2.54">6.3.2.54</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.2.55">6.3.2.55</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/6.3.2.56">6.3.2.56</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.2.57">6.3.2.57</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.2.58">6.3.2.58</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.2.59">6.3.2.59</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+6.3.2.-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.3.1">6.3.3.1</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.3.2">6.3.3.2</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.3.3">6.3.3.3</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/6.3.3.4">6.3.3.4</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.3.5">6.3.3.5</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.3.6">6.3.3.6</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.3.7">6.3.3.7</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/6.3.4.2">6.3.4.2</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.4.3">6.3.4.3</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.4.5">6.3.4.5</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.4.6">6.3.4.6</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/6.3.4.7">6.3.4.7</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.4.8">6.3.4.8</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.4.9">6.3.4.9</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.4.10">6.3.4.10</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/6.3.4.11">6.3.4.11</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.4.12">6.3.4.12</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.4.13">6.3.4.13</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.4.14">6.3.4.14</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/6.3.4.15">6.3.4.15</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.4.16">6.3.4.16</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.4.17">6.3.4.17</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.4.18">6.3.4.18</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/6.3.4.19">6.3.4.19</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.4.20">6.3.4.20</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.4.21">6.3.4.21</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.4.22">6.3.4.22</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/6.3.4.23">6.3.4.23</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.4.24">6.3.4.24</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.5.1">6.3.5.1</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.5.2">6.3.5.2</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/6.3.5.3">6.3.5.3</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.5.4">6.3.5.4</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.5.5">6.3.5.5</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.5.6">6.3.5.6</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/6.3.5.7">6.3.5.7</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.5.9">6.3.5.9</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.5.10">6.3.5.10</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.5.11">6.3.5.11</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/6.3.5.12">6.3.5.12</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.3.5.13">6.3.5.13</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6.3.5.-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.4.1.1">6.4.1.1</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/6.4.1.2">6.4.1.2</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.4.1.3">6.4.1.3</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.4.1.4">6.4.1.4</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.4.1.5">6.4.1.5</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/6.4.1.6">6.4.1.6</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.4.1.7">6.4.1.7</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.4.1.8">6.4.1.8</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.4.1.9">6.4.1.9</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/6.5.1.1">6.5.1.1</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.5.1.3">6.5.1.3</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.5.1.4">6.5.1.4</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.5.1.6">6.5.1.6</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/6.5.1.7">6.5.1.7</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.5.1.9">6.5.1.9</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.6.1.1">6.6.1.1</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/entry/6.6.1.2">6.6.1.2</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<a href="/entry/7.3.2.6">7.3.2.6</a><br>
+</div><a href="javascript:void(0)" onclick="javascript:toggleField(this,&quot;e1&quot;,&quot;show all&quot;,&quot;hide&quot;)">&nbsp;&raquo; show all</a><br>
+</div></td></tr>
+
+
+<tr><th class="th21" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Brite</nobr></th>
+<td class="td21" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden"><nobr>Compounds with biological roles [BR:<a href="/brite/br08001+C00002+D08646">br08001</a>]<br>
+&nbsp;Nucleic acids<br>
+&nbsp;&nbsp;Nucleotides<br>
+&nbsp;&nbsp;&nbsp;Ribonucleotides<br>
+&nbsp;&nbsp;&nbsp;&nbsp;C00002&nbsp;&nbsp;ATP<br>
+&nbsp;Vitamins and cofactors<br>
+&nbsp;&nbsp;Cofactors<br>
+&nbsp;&nbsp;&nbsp;Coenzymes<br>
+&nbsp;&nbsp;&nbsp;&nbsp;C00002&nbsp;&nbsp;ATP<br>
+Glycosides [BR:<a href="/brite/br08021+C00002+D08646">br08021</a>]<br>
+&nbsp;N-glycosides<br>
+&nbsp;&nbsp;C00002&nbsp;&nbsp;ATP<br>
+Anatomical Therapeutic Chemical (ATC) classification [BR:<a href="/brite/br08303+C00002+D08646">br08303</a>]<br>
+&nbsp;C CARDIOVASCULAR SYSTEM<br>
+&nbsp;&nbsp;C01 CARDIAC THERAPY<br>
+&nbsp;&nbsp;&nbsp;C01E OTHER CARDIAC PREPARATIONS<br>
+&nbsp;&nbsp;&nbsp;&nbsp;C01EB Other cardiac preparations<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;C01EB10 Adenosine<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;D08646&nbsp;&nbsp;Triphosadenine (DCF)<br>
+Risk category of Japanese OTC drugs [BR:<a href="/brite/br08312+C00002+D08646">br08312</a>]<br>
+&nbsp;Second-class OTC drugs<br>
+&nbsp;&nbsp;Inorganic and organic chemicals<br>
+&nbsp;&nbsp;&nbsp;Adenosinetriphosphoric acid<br>
+&nbsp;&nbsp;&nbsp;&nbsp;D08646&nbsp;&nbsp;Triphosadenine (DCF)<br>
+Target-based classification of drugs [BR:<a href="/brite/br08310+C00002+D08646">br08310</a>]<br>
+&nbsp;G Protein-coupled receptors<br>
+&nbsp;&nbsp;Rhodopsin family<br>
+&nbsp;&nbsp;&nbsp;Adenosine<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ADORA<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;D08646&nbsp;&nbsp;Triphosadenine (DCF)<br>
+</nobr></div><button class="btn" onclick="location.href='/kegg-bin/search_brite?option=-a&amp;search_string=C00002';return false;">BRITE hierarchy</button></td></tr>
+
+
+<tr><th class="th20" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Other DBs</nobr></th>
+<td class="td20" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr>CAS:&nbsp;</nobr></td><td>56-65-5</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr>PubChem:&nbsp;</nobr></td><td><a href="https://pubchem.ncbi.nlm.nih.gov/summary/summary.cgi?sid=3304">3304</a></td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr>ChEBI:&nbsp;</nobr></td><td><a href="https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:15422">15422</a></td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr>ChEMBL:&nbsp;</nobr></td><td><a href="https://www.ebi.ac.uk/chembldb/compound/inspect/CHEMBL14249">CHEMBL14249</a></td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr>KNApSAcK:&nbsp;</nobr></td><td><a href="http://kanaya.naist.jp/knapsack_jsp/information.jsp?sname=C_ID&word=C00001491">C00001491</a></td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr>PDB-CCD:&nbsp;</nobr></td><td><a href="https://www.ebi.ac.uk/pdbe-srv/pdbechem/chemicalCompound/show/ATP">ATP</a>[<a href="https://pdbj.org/mine/summary/ATP">PDBj</a>] </td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr>3DMET:&nbsp;</nobr></td><td><a href="http://www.3dmet.dna.affrc.go.jp/cgi/show_data.php?acc=B01125">B01125</a></td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr>NIKKAJI:&nbsp;</nobr></td><td><a href="https://jglobal.jst.go.jp/en/redirect?Nikkaji_No=J10.680A">J10.680A</a></td></tr></table></td></tr>
+
+
+<tr><th class="th21" align="left" valign="middle" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>LinkDB</nobr></th>
+<td class="td21" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><button class="btn" onclick="location.href='https://www.genome.jp/dbget-bin/get_linkdb?compound+C00002';return false;">All DBs</button></td></tr>
+
+
+<tr><th class="th20" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>KCF data</nobr></th>
+<td class="td20" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><button class="btn" id="kcfb1">Show</button><div class="kcfd" id="kcfd1"><br>ATOM&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;31<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;N4y N&nbsp;&nbsp;&nbsp;&nbsp;29.4250&nbsp;&nbsp;-14.6015<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;&nbsp;C8y C&nbsp;&nbsp;&nbsp;&nbsp;30.4825&nbsp;&nbsp;-15.3378<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3&nbsp;&nbsp;&nbsp;C1y C&nbsp;&nbsp;&nbsp;&nbsp;28.1393&nbsp;&nbsp;-15.0165<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4&nbsp;&nbsp;&nbsp;C8x C&nbsp;&nbsp;&nbsp;&nbsp;29.9040&nbsp;&nbsp;-13.2050<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5&nbsp;&nbsp;&nbsp;C8y C&nbsp;&nbsp;&nbsp;&nbsp;31.7155&nbsp;&nbsp;-14.4321<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6&nbsp;&nbsp;&nbsp;N5x N&nbsp;&nbsp;&nbsp;&nbsp;30.6227&nbsp;&nbsp;-16.7578<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;7&nbsp;&nbsp;&nbsp;O2x O&nbsp;&nbsp;&nbsp;&nbsp;26.9999&nbsp;&nbsp;-14.1633<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;8&nbsp;&nbsp;&nbsp;C1y C&nbsp;&nbsp;&nbsp;&nbsp;27.7071&nbsp;&nbsp;-16.2669<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;9&nbsp;&nbsp;&nbsp;N5x N&nbsp;&nbsp;&nbsp;&nbsp;31.3532&nbsp;&nbsp;-13.2108<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;10&nbsp;&nbsp;C8y C&nbsp;&nbsp;&nbsp;&nbsp;32.9718&nbsp;&nbsp;-14.9814<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;11&nbsp;&nbsp;C8x C&nbsp;&nbsp;&nbsp;&nbsp;31.9434&nbsp;&nbsp;-17.3478<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;12&nbsp;&nbsp;C1y C&nbsp;&nbsp;&nbsp;&nbsp;25.8897&nbsp;&nbsp;-14.9580<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;13&nbsp;&nbsp;C1y C&nbsp;&nbsp;&nbsp;&nbsp;26.3221&nbsp;&nbsp;-16.2669<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;14&nbsp;&nbsp;O1a O&nbsp;&nbsp;&nbsp;&nbsp;28.5133&nbsp;&nbsp;-17.4063<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;15&nbsp;&nbsp;N5x N&nbsp;&nbsp;&nbsp;&nbsp;33.1353&nbsp;&nbsp;-16.4655<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;16&nbsp;&nbsp;N1a N&nbsp;&nbsp;&nbsp;&nbsp;34.0819&nbsp;&nbsp;-14.1575<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;17&nbsp;&nbsp;C1b C&nbsp;&nbsp;&nbsp;&nbsp;24.5691&nbsp;&nbsp;-14.5315<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;18&nbsp;&nbsp;O1a O&nbsp;&nbsp;&nbsp;&nbsp;25.8780&nbsp;&nbsp;-17.5874<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;19&nbsp;&nbsp;O2b O&nbsp;&nbsp;&nbsp;&nbsp;23.5349&nbsp;&nbsp;-15.4664<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;20&nbsp;&nbsp;P1b P&nbsp;&nbsp;&nbsp;&nbsp;22.1325&nbsp;&nbsp;-15.4664<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;21&nbsp;&nbsp;O2c O&nbsp;&nbsp;&nbsp;&nbsp;20.7361&nbsp;&nbsp;-15.4664<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;22&nbsp;&nbsp;O1c O&nbsp;&nbsp;&nbsp;&nbsp;22.1268&nbsp;&nbsp;-16.8629<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;23&nbsp;&nbsp;O1c O&nbsp;&nbsp;&nbsp;&nbsp;22.1268&nbsp;&nbsp;-14.0698<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;24&nbsp;&nbsp;P1b P&nbsp;&nbsp;&nbsp;&nbsp;19.3394&nbsp;&nbsp;-15.4605<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;25&nbsp;&nbsp;O2c O&nbsp;&nbsp;&nbsp;&nbsp;17.9430&nbsp;&nbsp;-15.4605<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;26&nbsp;&nbsp;O1c O&nbsp;&nbsp;&nbsp;&nbsp;19.3337&nbsp;&nbsp;-16.8571<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;27&nbsp;&nbsp;O1c O&nbsp;&nbsp;&nbsp;&nbsp;19.3337&nbsp;&nbsp;-14.0581<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;28&nbsp;&nbsp;P1b P&nbsp;&nbsp;&nbsp;&nbsp;16.5406&nbsp;&nbsp;-15.4547<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;29&nbsp;&nbsp;O1c O&nbsp;&nbsp;&nbsp;&nbsp;16.5348&nbsp;&nbsp;-16.8512<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;30&nbsp;&nbsp;O1c O&nbsp;&nbsp;&nbsp;&nbsp;15.1441&nbsp;&nbsp;-15.4430<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;31&nbsp;&nbsp;O1c O&nbsp;&nbsp;&nbsp;&nbsp;16.5348&nbsp;&nbsp;-14.0523<br>
+BOND&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;33<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;2 1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3&nbsp;&nbsp;&nbsp;1 1 #Up<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;4 1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;&nbsp;5 2<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;&nbsp;6 1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3&nbsp;&nbsp;&nbsp;7 1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3&nbsp;&nbsp;&nbsp;8 1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4&nbsp;&nbsp;&nbsp;9 2<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;9&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5&nbsp;&nbsp;10 1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;10&nbsp;&nbsp;&nbsp;&nbsp;6&nbsp;&nbsp;11 2<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;11&nbsp;&nbsp;&nbsp;&nbsp;7&nbsp;&nbsp;12 1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;12&nbsp;&nbsp;&nbsp;&nbsp;8&nbsp;&nbsp;13 1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;13&nbsp;&nbsp;&nbsp;&nbsp;8&nbsp;&nbsp;14 1 #Down<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;14&nbsp;&nbsp;&nbsp;10&nbsp;&nbsp;15 2<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;15&nbsp;&nbsp;&nbsp;10&nbsp;&nbsp;16 1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;16&nbsp;&nbsp;&nbsp;12&nbsp;&nbsp;17 1 #Up<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;17&nbsp;&nbsp;&nbsp;13&nbsp;&nbsp;18 1 #Down<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;18&nbsp;&nbsp;&nbsp;17&nbsp;&nbsp;19 1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;19&nbsp;&nbsp;&nbsp;19&nbsp;&nbsp;20 1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;20&nbsp;&nbsp;&nbsp;20&nbsp;&nbsp;21 1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;21&nbsp;&nbsp;&nbsp;20&nbsp;&nbsp;22 1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;22&nbsp;&nbsp;&nbsp;20&nbsp;&nbsp;23 2<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;23&nbsp;&nbsp;&nbsp;21&nbsp;&nbsp;24 1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;24&nbsp;&nbsp;&nbsp;24&nbsp;&nbsp;25 1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;25&nbsp;&nbsp;&nbsp;24&nbsp;&nbsp;26 1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;26&nbsp;&nbsp;&nbsp;24&nbsp;&nbsp;27 2<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;27&nbsp;&nbsp;&nbsp;25&nbsp;&nbsp;28 1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;28&nbsp;&nbsp;&nbsp;28&nbsp;&nbsp;29 1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;29&nbsp;&nbsp;&nbsp;28&nbsp;&nbsp;30 1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;30&nbsp;&nbsp;&nbsp;28&nbsp;&nbsp;31 2<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;31&nbsp;&nbsp;&nbsp;&nbsp;5&nbsp;&nbsp;&nbsp;9 1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;32&nbsp;&nbsp;&nbsp;11&nbsp;&nbsp;15 1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;33&nbsp;&nbsp;&nbsp;12&nbsp;&nbsp;13 1<br>
+</div></td></tr>
+
+</table></td></tr></table>
+<br><span style="font-size:12px"><a href="/entry/cpd_ja:C00002">&raquo; Japanese version</a></span><br><br></form></td></tr></table>
+
+
+<a href="/dbget/">DBGET</a> integrated database retrieval system</div>
+
+</body>
+</html>

@@ -1,7 +1,8 @@
-﻿Imports Microsoft.VisualBasic.CommandLine
+﻿Imports Microsoft.VisualBasic.ApplicationServices
+Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.MIME.Markup.MarkDown
+Imports Microsoft.VisualBasic.MIME.text.markdown
 Imports WkHtmlToPdf
 Imports WkHtmlToPdf.Arguments
 
@@ -13,7 +14,7 @@ Module CLI
         Dim src$ = args <= "/src"
         Dim pdf$ = args("/pdf") Or $"{src.TrimDIR}.pdf"
         Dim render As New MarkdownHTML()
-        Dim tmp As String = App.GetAppSysTempFile
+        Dim tmp As String = TempFileSystem.GetAppSysTempFile
 
         Call src.FileCopy(tmp & "/")
 

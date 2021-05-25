@@ -138,7 +138,7 @@ Partial Module CLI
             .replicons _
             .Where(Function(chr) Not chr.isPlasmid) _
             .Select(Function(chr)
-                        Return chr.genes.AsEnumerable
+                        Return chr.GetGeneList
                     End Function) _
             .IteratesALL _
             .Select(Function(gene) gene.locus_tag) _

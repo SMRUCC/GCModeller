@@ -1,4 +1,52 @@
-﻿Imports System.IO
+﻿#Region "Microsoft.VisualBasic::cb3f1f3f58e3ef0f67e1555b8a563043, Data\word2vec\VectorModel.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class VectorModel
+    ' 
+    '         Properties: topNSize, vectorSize, wordMap
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
+    '         Function: analogy, getWordVector, loadFromFile, (+2 Overloads) similar
+    ' 
+    '         Sub: saveModel
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports System.IO
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports stdNum = System.Math
 
@@ -155,7 +203,7 @@ Namespace NlpVec
             Dim result As SortedSet(Of WordScore) = New SortedSet(Of WordScore)()
 
             For i = 0 To resultSize - 1
-                result.Add(New WordScore(Me, "^_^", -Single.MaxValue))
+                result.Add(New WordScore("^_^", -Single.MaxValue))
             Next
 
             Dim minDist = -Single.MaxValue
@@ -169,7 +217,7 @@ Namespace NlpVec
                 Next
 
                 If dist > minDist Then
-                    result.Add(New WordScore(Me, entry.Key, dist))
+                    result.Add(New WordScore(entry.Key, dist))
                     minDist = result.PollLast().score
                 End If
             Next
@@ -187,7 +235,7 @@ Namespace NlpVec
             Dim result As SortedSet(Of WordScore) = New SortedSet(Of WordScore)()
 
             For i = 0 To resultSize - 1
-                result.Add(New WordScore(Me, "^_^", -Single.MaxValue))
+                result.Add(New WordScore("^_^", -Single.MaxValue))
             Next
 
             Dim minDist = -Single.MaxValue
@@ -201,7 +249,7 @@ Namespace NlpVec
                 Next
 
                 If dist > minDist Then
-                    result.Add(New WordScore(Me, entry.Key, dist))
+                    result.Add(New WordScore(entry.Key, dist))
                     minDist = result.PollLast().score
                 End If
             Next
@@ -236,7 +284,7 @@ Namespace NlpVec
             Dim result As SortedSet(Of WordScore) = New SortedSet(Of WordScore)()
 
             For i = 0 To resultSize - 1
-                result.Add(New WordScore(Me, "^_^", -Single.MaxValue))
+                result.Add(New WordScore("^_^", -Single.MaxValue))
             Next
 
             Dim name As String
@@ -257,7 +305,7 @@ Namespace NlpVec
                 Next
 
                 If dist > minDist Then
-                    result.Add(New WordScore(Me, entry.Key, dist))
+                    result.Add(New WordScore(entry.Key, dist))
                     minDist = result.PollLast().score
                 End If
             Next
@@ -271,3 +319,4 @@ Namespace NlpVec
 
     End Class
 End Namespace
+

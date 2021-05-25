@@ -1,44 +1,44 @@
 ﻿#Region "Microsoft.VisualBasic::869509b680677dc38c71e16391721446, CLI_tools\eggHTS\CLI\2. DEP.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: DEPs_heatmapKmeans, DEPsCloudPlot, DEPStatics, DEPsUnion, DEPUniprotIDlist
-    '               DEPUniprotIDs2, edgeRDesigner, iTraqInvert, logFCHistogram, logFCVolcano
-    '               MergeDEPs, PairedSampleDesigner, TakeDEPsValues, TtestDesigner, TtestDesignerLFQ
-    '               Union, unionDATA, VennData
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: DEPs_heatmapKmeans, DEPsCloudPlot, DEPStatics, DEPsUnion, DEPUniprotIDlist
+'               DEPUniprotIDs2, edgeRDesigner, iTraqInvert, logFCHistogram, logFCVolcano
+'               MergeDEPs, PairedSampleDesigner, TakeDEPsValues, TtestDesigner, TtestDesignerLFQ
+'               Union, unionDATA, VennData
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -63,15 +63,13 @@ Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Scripting.MathExpression
-Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
+Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.HTS.Proteomics
 Imports SMRUCC.genomics.Analysis.KEGG
 Imports SMRUCC.genomics.Analysis.Microarray
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
-Imports SMRUCC.genomics.Data.Repository.kb_UniProtKB
-Imports SMRUCC.genomics.Data.Repository.kb_UniProtKB.UniprotKBEngine
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 Imports SMRUCC.genomics.Visualize
 Imports ColorDesigner = Microsoft.VisualBasic.Imaging.Drawing2D.Colors.Designer
@@ -682,15 +680,15 @@ Partial Module CLI
         End If
 
         If args.IsTrue("/KO.class") Then
-            Dim groupInfo As SampleInfo() = (args <= "/sampleInfo").LoadCsv(Of SampleInfo)
-            Dim KOinfo As Dictionary(Of String, String) = matrix _
-                .Keys _
-                .GetKOTable(MySQLExtensions.GetMySQLClient(DBName:=UniprotKBEngine.DbName))
-            Dim colors As Color() = ColorDesigner.GetColors("scibasic.category31()")
+            'Dim groupInfo As SampleInfo() = (args <= "/sampleInfo").LoadCsv(Of SampleInfo)
+            'Dim KOinfo As Dictionary(Of String, String) = matrix _
+            '    .Keys _
+            '    .GetKOTable(MySQLExtensions.GetMySQLClient(DBName:=UniprotKBEngine.DbName))
+            'Dim colors As Color() = ColorDesigner.GetColors("scibasic.category31()")
 
-            Call DEPsKOHeatmap _
-                .Plot(matrix, groupInfo.SampleGroupInfo, groupInfo.SampleGroupColor(colors), KOInfo:=KOinfo, schema:=schema) _
-                .Save(out & "/plot.png")
+            'Call DEPsKOHeatmap _
+            '    .Plot(matrix, groupInfo.SampleGroupInfo, groupInfo.SampleGroupColor(colors), KOInfo:=KOinfo, schema:=schema) _
+            '    .Save(out & "/plot.png")
         Else
             ' 绘制普通的热图
             Call Heatmap.Plot(

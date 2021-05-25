@@ -50,6 +50,7 @@ Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports REnv = SMRUCC.Rsharp.Runtime
 
 ''' <summary>
 ''' The Universal Protein Resource (UniProt)
@@ -187,5 +188,31 @@ Module uniprot
 
             Return Nothing
         End If
+    End Function
+
+    ''' <summary>
+    ''' id unify mapping
+    ''' </summary>
+    ''' <param name="uniprot"></param>
+    ''' <param name="id"></param>
+    ''' <param name="target">the database name for map to</param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("id_unify")>
+    Public Function IdUnify(<RRawVectorArgument> uniprot As Object,
+                            <RRawVectorArgument> id As Object,
+                            Optional target As String = Nothing,
+                            Optional env As Environment = Nothing) As Object
+
+        Dim uniprotData As pipeline = pipeline.TryCreatePipeline(Of entry)(uniprot, env)
+
+        If uniprotData.isError Then
+            Return uniprotData
+        End If
+
+        Dim rawIdList As String() = REnv.asVector(Of String)(id)
+        Dim mapId As Func(Of String, String) = GetIDs.IdMapping(uniprotData.populates(Of entry)(env), target)
+
+        Return rawIdList.Select(mapId).ToArray
     End Function
 End Module

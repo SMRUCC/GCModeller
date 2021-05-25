@@ -1,7 +1,56 @@
-﻿Imports System.IO
+﻿#Region "Microsoft.VisualBasic::532a6c9fb2523d8c016a5fe27edfd2d4, Data\word2vec\Word2Vec.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class Word2Vec
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
+    '         Function: outputVector
+    ' 
+    '         Sub: buildVocabulary, cbowGram, computeExp, readTokens, saveModel
+    '              skipGram, training
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports System.IO
+Imports System.Text
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.NLP.Word2Vec.utils
+Imports Microsoft.VisualBasic.Text
 Imports stdNum = System.Math
 
 Namespace NlpVec
@@ -98,7 +147,7 @@ Namespace NlpVec
                     End If
 
                     tempCorpus = TempFileSystem.GetAppSysTempFile(".txt", App.PID, "tempCorpus")
-                    tempCorpusWriter = New StreamWriter(tempCorpus)
+                    tempCorpusWriter = New StreamWriter(tempCorpus.Open, Encoding.UTF8)
                 End If
 
                 tempCorpusWriter.Write(tokenizer.ToString(" "))
@@ -150,7 +199,7 @@ Namespace NlpVec
             Dim trainBlockSize = 500 '语料中句子个数
             Dim trainer As New Trainer(Me, corpus)
 
-            For Each li As String In tempCorpus.LineIterators
+            For Each li As String In tempCorpus.LineIterators(Encodings.UTF8)
                 'Dim corpusQueue As BlockingQueue(Of LinkedList(Of String)) = New ArrayBlockingQueue(Of LinkedList(Of String))(numOfThread)
                 'Dim futures As LinkedList(Of Future) = New LinkedList(Of Future)() '每个线程的返回结果，用于等待线程
 
@@ -400,3 +449,4 @@ Namespace NlpVec
         End Function
     End Class
 End Namespace
+

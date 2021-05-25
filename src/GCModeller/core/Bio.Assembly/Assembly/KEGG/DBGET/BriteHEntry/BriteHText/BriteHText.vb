@@ -106,7 +106,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                 If String.IsNullOrEmpty(entry) Then
                     Dim tokens As String = classLabel.Split.First
 
-                    If r.Match(tokens, "[a-z]\d{5}", RegexOptions.IgnoreCase).Success Then
+                    If r.Match(tokens, "[a-z]\d{3,}", RegexOptions.IgnoreCase).Success Then
                         entry = tokens
                     ElseIf tokens.IsPattern("\d+") Then
                         entry = tokens

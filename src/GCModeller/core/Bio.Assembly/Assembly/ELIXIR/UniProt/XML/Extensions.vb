@@ -1,44 +1,44 @@
 ﻿#Region "Microsoft.VisualBasic::e43e5bca44d7b1f149869d65890636ac, core\Bio.Assembly\Assembly\ELIXIR\UniProt\XML\Extensions.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module Extensions
-    ' 
-    '         Function: ECNumberList, EnumerateAllIDs, GetDomainData, GO, KO
-    '                   NCBITaxonomyId, ORF, OrganismScientificName, proteinFullName, ProteinSequence
-    '                   SubCellularLocations, Summary, Term2Gene
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module Extensions
+' 
+'         Function: ECNumberList, EnumerateAllIDs, GetDomainData, GO, KO
+'                   NCBITaxonomyId, ORF, OrganismScientificName, proteinFullName, ProteinSequence
+'                   SubCellularLocations, Summary, Term2Gene
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -73,7 +73,7 @@ Namespace Assembly.Uniprot.XML
         ''' Get KO number of this protein
         ''' </summary>
         ''' <param name="protein"></param>
-        ''' <returns></returns>
+        ''' <returns>returns nothing if not found</returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function KO(protein As entry) As dbReference
@@ -91,6 +91,11 @@ Namespace Assembly.Uniprot.XML
             Return protein.xrefs.TryGetValue("GO", [default]:=Nothing)
         End Function
 
+        ''' <summary>
+        ''' includes uniprot accession id and db entry in other database
+        ''' </summary>
+        ''' <param name="entry"></param>
+        ''' <returns></returns>
         <Extension>
         Public Iterator Function EnumerateAllIDs(entry As entry) As IEnumerable(Of (Database$, xrefID$))
             For Each accession As String In entry.accessions.SafeQuery
@@ -98,6 +103,12 @@ Namespace Assembly.Uniprot.XML
             Next
 
             Yield ("geneName", entry.name)
+
+            If Not entry.gene Is Nothing Then
+                For Each id As String In entry.gene.ORF.SafeQuery
+                    Yield ("gene", id)
+                Next
+            End If
 
             For Each reference As dbReference In entry.dbReferences.SafeQuery
                 Yield (reference.type, reference.id)
