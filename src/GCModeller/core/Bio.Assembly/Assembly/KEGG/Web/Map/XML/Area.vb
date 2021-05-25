@@ -57,6 +57,8 @@ Namespace Assembly.KEGG.WebServices
 
     <XmlType("area")> Public Class Area
 
+        <XmlAttribute> Public Property data_id As String
+
         ''' <summary>
         ''' + rect
         ''' + poly
@@ -70,6 +72,7 @@ Namespace Assembly.KEGG.WebServices
         ''' <returns></returns>
         <XmlAttribute> Public Property coords As String
         <XmlAttribute> Public Property data_coords As String
+        <XmlAttribute> Public Property [class] As String
         <XmlAttribute> Public Property href As String
         <XmlAttribute> Public Property entry As String
         <XmlAttribute> Public Property refid As String
