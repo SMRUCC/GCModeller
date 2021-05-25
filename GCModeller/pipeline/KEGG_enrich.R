@@ -3,17 +3,27 @@ imports ["background", "GSEA", "profiles"] from "gseakit";
 imports "visualPlot" from "visualkit";
 imports "brite" from "kegg_kit";
 
+# title: KEGG enrichment
+# 
+# authors: xieguigang
+# description: KEGG enrichment commandline tool
+
 [@info "a id list in plain text format, each line in the text file is the gene id"]
-const testId_input as string = ?"--id"  || stop("a id list must be provided!");
-const outputdir as string    = ?"--out" || dirname(testId_input);
+const testId_input as string   = ?"--id"      || stop("a id list must be provided!");
+[@info "the xml file path of the uniprot database file."]
+const uniprot_xml as string    = ?"--uniprot" || stop("A uniprot database file is required for run id mapping!");
+const kegg_onthology as string = ?"--kegg"    || stop("A kegg ontology brite text file is required for create gene id to KO id mapping!");
+[@info "the directory path of the result outputs."]
+const outputdir as string      = ?"--out"     || dirname(testId_input);
 
 # map gene id to uniprot id
-const toUniprot = [`${dirname(@script)}/uniprot-taxonomy__Escherichia+coli+(strain+K12)+[83333]_-filtered---.xml`]
+const toUniprot = uniprot_xml
 |> open.uniprot 
 |> id_unify(target = "gene:b\d+", id = readLines(testId_input))
 ;
 
-const kegg_background = [`${dirname(@script)}/eco00001.keg`]
+# create kegg background
+const kegg_background = [kegg_onthology]
 |> brite::parse
 |> KO.background(
 	maps   = brite::parse("ko00001"), 
