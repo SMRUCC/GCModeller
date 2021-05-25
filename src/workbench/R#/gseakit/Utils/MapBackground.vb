@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Annotation.Ptf
@@ -63,47 +64,55 @@ Module MapBackground
                TypeOf genes Is ProteinAnnotation() OrElse
               (TypeOf genes Is pipeline AndAlso DirectCast(genes, pipeline).elementType Like GetType(ProteinAnnotation)) Then
 
-            Dim prot As ProteinAnnotation()
+            Return fromPtfAnnotation(genes, env)
 
-            If TypeOf genes Is PtfFile Then
-                prot = DirectCast(genes, PtfFile).proteins
-            ElseIf TypeOf genes Is pipeline Then
-                prot = DirectCast(genes, pipeline).populates(Of ProteinAnnotation)(env).ToArray
-            Else
-                prot = DirectCast(genes, ProteinAnnotation())
-            End If
-
-            Return prot.Where(Function(p) p.has("ko")) _
-                .Select(Function(protein)
-                            Return protein.attributes("ko") _
-                                .Select(Function(koid)
-                                            Return New NamedValue(Of String) With {
-                                                .Name = protein.geneId,
-                                                .Value = koid,
-                                                .Description = protein.description
-                                            }
-                                        End Function)
-                        End Function) _
-                .IteratesALL _
-                .ToArray
         ElseIf TypeOf genes Is pipeline AndAlso DirectCast(genes, pipeline).elementType Like GetType(entry) Then
-            Dim entrylist As entry() = DirectCast(genes, pipeline).populates(Of entry)(env).ToArray
-            Dim maps As NamedValue(Of String)() = entrylist _
-                .Where(Function(i)
-                           Return Not i.KO Is Nothing
-                       End Function) _
-                .Select(Function(i)
-                            Return New NamedValue(Of String) With {
-                                .Name = i.accessions(Scan0),
-                                .Value = i.KO.id,
-                                .Description = i.name
-                            }
-                        End Function) _
+            Return DirectCast(genes, pipeline) _
+                .populates(Of entry)(env) _
+                .fromUniprot _
                 .ToArray
-
-            Return maps
         Else
             Return Internal.debug.stop(New InvalidProgramException(genes.GetType.FullName), env)
         End If
+    End Function
+
+    Private Function fromPtfAnnotation(genes As Object, env As Environment) As NamedValue(Of String)()
+        Dim prot As ProteinAnnotation()
+
+        If TypeOf genes Is PtfFile Then
+            prot = DirectCast(genes, PtfFile).proteins
+        ElseIf TypeOf genes Is pipeline Then
+            prot = DirectCast(genes, pipeline).populates(Of ProteinAnnotation)(env).ToArray
+        Else
+            prot = DirectCast(genes, ProteinAnnotation())
+        End If
+
+        Return prot.Where(Function(p) p.has("ko")) _
+            .Select(Function(protein)
+                        Return protein.attributes("ko") _
+                            .Select(Function(koid)
+                                        Return New NamedValue(Of String) With {
+                                            .Name = protein.geneId,
+                                            .Value = koid,
+                                            .Description = protein.description
+                                        }
+                                    End Function)
+                    End Function) _
+            .IteratesALL _
+            .ToArray
+    End Function
+
+    <Extension>
+    Private Iterator Function fromUniprot(entrylist As IEnumerable(Of entry)) As IEnumerable(Of NamedValue(Of String))
+        For Each i As entry In From item As entry
+                               In entrylist
+                               Where Not item.KO Is Nothing
+
+            Yield New NamedValue(Of String) With {
+                .Name = i.accessions(Scan0),
+                .Value = i.KO.id,
+                .Description = i.name
+            }
+        Next
     End Function
 End Module

@@ -61,6 +61,8 @@ Public Module CreateKEGGClusters
                                                   .Value = ref.Value,
                                                   .Description = ref.Description
                                               }
+
+                                              Return name
                                           End Function) _
                                   .ToArray
                           End Function)
