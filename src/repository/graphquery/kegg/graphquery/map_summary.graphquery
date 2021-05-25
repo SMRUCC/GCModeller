@@ -1,0 +1,12 @@
+description {
+	
+	name css("title") 
+	   | text() 
+	   | replace("KEGG PATHWAY:", "") 
+	   | trim()
+	   
+	img  css(".image-block", 0) 
+	   | css("img", 0) 
+	   | attr("src")
+	
+}
