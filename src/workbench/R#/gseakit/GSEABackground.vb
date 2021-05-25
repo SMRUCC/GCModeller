@@ -1,43 +1,43 @@
 ﻿#Region "Microsoft.VisualBasic::550966e0de0660df6f6d8b6b4be4a2cf, gseakit\GSEABackground.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module GSEABackground
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: assembleBackground, ClusterIntersections, CreateCluster, CreateKOBackground, KOMaps
-    '               KOTable, PrintBackground, ReadBackground, WriteBackground
-    ' 
-    ' /********************************************************************************/
+' Module GSEABackground
+' 
+'     Constructor: (+1 Overloads) Sub New
+'     Function: assembleBackground, ClusterIntersections, CreateCluster, CreateKOBackground, KOMaps
+'               KOTable, PrintBackground, ReadBackground, WriteBackground
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -52,6 +52,7 @@ Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Analysis.HTS.GSEA
 Imports SMRUCC.genomics.Annotation.Ptf
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
@@ -123,6 +124,14 @@ Public Module GSEABackground
             .ToArray
     End Function
 
+    ''' <summary>
+    ''' try to map any terms to KO
+    ''' </summary>
+    ''' <param name="genes"></param>
+    ''' <param name="geneId$"></param>
+    ''' <param name="KO$"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     Public Function KOMaps(genes As Object, geneId$, KO$, env As Environment) As Object
         If TypeOf genes Is list Then
             If KO.StringEmpty OrElse geneId.StringEmpty Then
@@ -192,6 +201,22 @@ Public Module GSEABackground
                         End Function) _
                 .IteratesALL _
                 .ToArray
+        ElseIf TypeOf genes Is pipeline AndAlso DirectCast(genes, pipeline).elementType Like GetType(entry) Then
+            Dim entrylist As entry() = DirectCast(genes, pipeline).populates(Of entry)(env).ToArray
+            Dim maps As NamedValue(Of String)() = entrylist _
+                .Where(Function(i)
+                           Return Not i.KO Is Nothing
+                       End Function) _
+                .Select(Function(i)
+                            Return New NamedValue(Of String) With {
+                                .Name = i.accessions(Scan0),
+                                .Value = i.KO.id,
+                                .Description = i.name
+                            }
+                        End Function) _
+                .ToArray
+
+            Return maps
         Else
             Return Internal.debug.stop(New InvalidProgramException(genes.GetType.FullName), env)
         End If

@@ -149,5 +149,19 @@ Namespace Assembly.Uniprot.XML
             Return parser(LCase(type)).GetID
         End Function
 
+        <Extension>
+        Public Function IdMapping(entryList As IEnumerable(Of entry)) As Func(Of String, String)
+            Dim index As New Dictionary(Of String, String)
+
+            For Each entry As entry In entryList
+                Dim unifyId As String = entry.accessions(Scan0)
+
+                For Each id As String In entry.EnumerateAllIDs.Select(Function(i) i.xrefID)
+                    index(id) = unifyId
+                Next
+            Next
+
+            Return Function(anyId) index.TryGetValue(anyId, [default]:=anyId)
+        End Function
     End Module
 End Namespace
