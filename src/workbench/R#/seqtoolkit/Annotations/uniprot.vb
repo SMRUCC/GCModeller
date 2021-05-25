@@ -190,8 +190,20 @@ Module uniprot
         End If
     End Function
 
+    ''' <summary>
+    ''' id unify mapping
+    ''' </summary>
+    ''' <param name="uniprot"></param>
+    ''' <param name="id"></param>
+    ''' <param name="target">the database name for map to</param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("id_unify")>
-    Public Function IdUnify(<RRawVectorArgument> uniprot As Object, <RRawVectorArgument> id As Object, Optional env As Environment = Nothing) As Object
+    Public Function IdUnify(<RRawVectorArgument> uniprot As Object,
+                            <RRawVectorArgument> id As Object,
+                            Optional target As String = Nothing,
+                            Optional env As Environment = Nothing) As Object
+
         Dim uniprotData As pipeline = pipeline.TryCreatePipeline(Of entry)(uniprot, env)
 
         If uniprotData.isError Then
@@ -199,7 +211,7 @@ Module uniprot
         End If
 
         Dim rawIdList As String() = REnv.asVector(Of String)(id)
-        Dim mapId As Func(Of String, String) = GetIDs.IdMapping(uniprotData.populates(Of entry)(env))
+        Dim mapId As Func(Of String, String) = GetIDs.IdMapping(uniprotData.populates(Of entry)(env), target)
 
         Return rawIdList.Select(mapId).ToArray
     End Function

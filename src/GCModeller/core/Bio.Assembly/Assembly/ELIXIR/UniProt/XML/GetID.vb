@@ -1,52 +1,52 @@
 ﻿#Region "Microsoft.VisualBasic::25d409a4e79e66c7574483ae9a17ebc8, core\Bio.Assembly\Assembly\ELIXIR\UniProt\XML\GetID.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module GetIDs
-    ' 
-    ' 
-    '         Enum IDTypes
-    ' 
-    '             Accession, EMBL, KEGG, LocusTag, ORF
-    '             RefSeq
-    ' 
-    ' 
-    ' 
-    '  
-    ' 
-    '     Function: EnumerateParsers, (+2 Overloads) GetID, ParseType
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module GetIDs
+' 
+' 
+'         Enum IDTypes
+' 
+'             Accession, EMBL, KEGG, LocusTag, ORF
+'             RefSeq
+' 
+' 
+' 
+'  
+' 
+'     Function: EnumerateParsers, (+2 Overloads) GetID, ParseType
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -150,16 +150,53 @@ Namespace Assembly.Uniprot.XML
         End Function
 
         <Extension>
-        Public Function IdMapping(entryList As IEnumerable(Of entry)) As Func(Of String, String)
+        Public Function IdMapping(entryList As IEnumerable(Of entry), Optional target As String = Nothing) As Func(Of String, String)
             Dim index As New Dictionary(Of String, String)
 
-            For Each entry As entry In entryList
-                Dim unifyId As String = entry.accessions(Scan0)
+            If target.StringEmpty Then
+                ' map any to uniprot id
+                For Each entry As entry In entryList
+                    Dim unifyId As String = entry.accessions(Scan0)
 
-                For Each id As String In entry.EnumerateAllIDs.Select(Function(i) i.xrefID)
-                    index(id) = unifyId
+                    For Each id As String In entry.EnumerateAllIDs.Select(Function(i) i.xrefID)
+                        index(id) = unifyId
+                    Next
                 Next
-            Next
+            Else
+                Dim pattern As String = Nothing
+
+                If target.IndexOf(":"c) > -1 Then
+                    With target.GetTagValue(":", trim:=True)
+                        target = .Name
+                        pattern = .Value
+                    End With
+                End If
+
+                ' map any to target database
+                For Each entry As entry In entryList
+                    Dim unifyId As String
+                    Dim allEntry = entry.EnumerateAllIDs.ToArray
+
+                    If Not pattern Is Nothing Then
+                        unifyId = allEntry _
+                            .Where(Function(ref) ref.Database = target) _
+                            .Where(Function(ref) ref.xrefID.IsPattern(pattern)) _
+                            .FirstOrDefault _
+                            .xrefID
+                    Else
+                        unifyId = allEntry _
+                            .Where(Function(ref) ref.Database = target) _
+                            .DefaultFirst _
+                            .xrefID
+                    End If
+
+                    If Not unifyId.StringEmpty Then
+                        For Each id As String In allEntry.Select(Function(i) i.xrefID)
+                            index(id) = unifyId
+                        Next
+                    End If
+                Next
+            End If
 
             Return Function(anyId) index.TryGetValue(anyId, [default]:=anyId)
         End Function

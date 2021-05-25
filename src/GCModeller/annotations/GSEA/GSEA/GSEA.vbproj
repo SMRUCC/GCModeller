@@ -287,11 +287,12 @@
   <ItemGroup>
     <Compile Include="KnowledgeBase\Background.vb" />
     <Compile Include="KnowledgeBase\GenericBackground.vb" />
+    <Compile Include="KnowledgeBase\Imports\CreateKEGGClusters.vb" />
     <Compile Include="KOBAS\Formats\CLS.vb" />
     <Compile Include="KOBAS\Formats\Gct.vb" />
     <Compile Include="KOBAS\Formats\Gmt.vb" />
     <Compile Include="KnowledgeBase\IDConvertor.vb" />
-    <Compile Include="KnowledgeBase\Imports.vb" />
+    <Compile Include="KnowledgeBase\Imports\Imports.vb" />
     <Compile Include="EnrichmentResult.vb" />
     <Compile Include="KnowledgeBase\Cluster.vb" />
     <Compile Include="Enrichment.vb" />

@@ -283,6 +283,7 @@ Module visualPlot
                                              <RRawVectorArgument>
                                              Optional colors As Object = "#E41A1C,#377EB8,#4DAF4A,#984EA3,#FF7F00,#CECE00",
                                              Optional dpi As Integer = 300,
+                                             Optional format$ = "F2",
                                              Optional env As Environment = Nothing) As Object
         Return profiles.ProfilesPlot(
             title:=title,
@@ -290,7 +291,7 @@ Module visualPlot
             tick:=tick,
             axisTitle:=axis_title,
             labelRightAlignment:=False,
-            valueFormat:="F0",
+            valueFormat:=format,
             colorSchema:=colors,
             dpi:=dpi
         )

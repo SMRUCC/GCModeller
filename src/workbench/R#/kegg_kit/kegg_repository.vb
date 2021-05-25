@@ -62,14 +62,13 @@ Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Organism
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
-Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Model.Network.KEGG.ReactionNetwork
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
-Imports REnv = SMRUCC.Rsharp.Runtime.Internal
 Imports any = Microsoft.VisualBasic.Scripting
+Imports REnv = SMRUCC.Rsharp.Runtime.Internal
 
 ''' <summary>
 ''' 
@@ -402,6 +401,37 @@ Public Module kegg_repository
                         End Function) _
                 .ToArray,
             .rModules = rmodules.GetNameValues
+        }
+    End Function
+
+    <ExportAPI("shapeAreas")>
+    Public Function shapeAreas(data As dataframe) As Area()
+        Return data.forEachRow({"id", "shape", "coords", "data_coords", "class", "href", "title", "entry", "refid", "module"}) _
+            .Select(Function(i)
+                        Return New Area With {
+                            .data_id = any.ToString(i(Scan0)),
+                            .shape = any.ToString(i(1)),
+                            .coords = any.ToString(i(2)),
+                            .data_coords = any.ToString(i(3)),
+                            .[class] = any.ToString(i(4)),
+                            .href = any.ToString(i(5)),
+                            .title = any.ToString(i(6)),
+                            .entry = any.ToString(i(7)),
+                            .refid = any.ToString(i(8)),
+                            .moduleId = any.ToString(i(9))
+                        }
+                    End Function) _
+            .ToArray
+    End Function
+
+    <ExportAPI("keggMap")>
+    Public Function keggMap(id As String, name As String, img As String, url As String, area As Area()) As Map
+        Return New Map With {
+            .id = id,
+            .Name = name,
+            .PathwayImage = img,
+            .shapes = area,
+            .URL = url
         }
     End Function
 End Module

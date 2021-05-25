@@ -51,6 +51,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Analysis.HTS.GSEA
 Imports SMRUCC.genomics.Annotation.Ptf
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.Rsharp.Runtime
@@ -60,6 +61,7 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 Imports GSEATools = SMRUCC.genomics.Analysis.HTS.GSEA
 Imports Rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 Imports REnv = SMRUCC.Rsharp.Runtime.Internal.ConsolePrinter
+Imports any = Microsoft.VisualBasic.Scripting
 
 <Package("background", Category:=APICategories.ResearchTools)>
 Public Module GSEABackground
@@ -122,104 +124,6 @@ Public Module GSEABackground
                         }
                     End Function) _
             .ToArray
-    End Function
-
-    ''' <summary>
-    ''' try to map any terms to KO
-    ''' </summary>
-    ''' <param name="genes"></param>
-    ''' <param name="geneId$"></param>
-    ''' <param name="KO$"></param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
-    Public Function KOMaps(genes As Object, geneId$, KO$, env As Environment) As Object
-        If TypeOf genes Is list Then
-            If KO.StringEmpty OrElse geneId.StringEmpty Then
-                Return DirectCast(genes, list).slots _
-                    .Select(Function(t)
-                                Return New NamedValue(Of String) With {
-                                    .Name = t.Key,
-                                    .Value = Scripting.ToString([single](t.Value))
-                                }
-                            End Function) _
-                    .ToArray
-            Else
-                Return DirectCast(genes, list).slots.Values _
-                    .Select(Function(map)
-                                Dim id As String = DirectCast(map, list).getValue(Of String)(geneId, env)
-                                Dim koId As String = DirectCast(map, list).getValue(Of String)(KO, env)
-
-                                Return New NamedValue(Of String)(id, koId)
-                            End Function) _
-                    .ToArray
-            End If
-        ElseIf TypeOf genes Is Rdataframe Then
-            Dim idVec As String() = DirectCast(genes, Rdataframe).columns(geneId)
-            Dim koVec As String() = DirectCast(genes, Rdataframe).columns(KO)
-
-            Return idVec _
-                .Select(Function(id, i)
-                            Return New NamedValue(Of String) With {
-                                .Name = id,
-                                .Value = koVec(i)
-                            }
-                        End Function) _
-                .ToArray
-        ElseIf TypeOf genes Is EntityObject() Then
-            Return DirectCast(genes, EntityObject()) _
-                .Select(Function(row)
-                            Return New NamedValue(Of String) With {
-                                .Name = row(geneId),
-                                .Value = row(KO)
-                            }
-                        End Function) _
-                .ToArray
-        ElseIf TypeOf genes Is PtfFile OrElse
-               TypeOf genes Is ProteinAnnotation() OrElse
-              (TypeOf genes Is pipeline AndAlso DirectCast(genes, pipeline).elementType Like GetType(ProteinAnnotation)) Then
-
-            Dim prot As ProteinAnnotation()
-
-            If TypeOf genes Is PtfFile Then
-                prot = DirectCast(genes, PtfFile).proteins
-            ElseIf TypeOf genes Is pipeline Then
-                prot = DirectCast(genes, pipeline).populates(Of ProteinAnnotation)(env).ToArray
-            Else
-                prot = DirectCast(genes, ProteinAnnotation())
-            End If
-
-            Return prot.Where(Function(p) p.has("ko")) _
-                .Select(Function(protein)
-                            Return protein.attributes("ko") _
-                                .Select(Function(koid)
-                                            Return New NamedValue(Of String) With {
-                                                .Name = protein.geneId,
-                                                .Value = koid,
-                                                .Description = protein.description
-                                            }
-                                        End Function)
-                        End Function) _
-                .IteratesALL _
-                .ToArray
-        ElseIf TypeOf genes Is pipeline AndAlso DirectCast(genes, pipeline).elementType Like GetType(entry) Then
-            Dim entrylist As entry() = DirectCast(genes, pipeline).populates(Of entry)(env).ToArray
-            Dim maps As NamedValue(Of String)() = entrylist _
-                .Where(Function(i)
-                           Return Not i.KO Is Nothing
-                       End Function) _
-                .Select(Function(i)
-                            Return New NamedValue(Of String) With {
-                                .Name = i.accessions(Scan0),
-                                .Value = i.KO.id,
-                                .Description = i.name
-                            }
-                        End Function) _
-                .ToArray
-
-            Return maps
-        Else
-            Return Internal.debug.stop(New InvalidProgramException(genes.GetType.FullName), env)
-        End If
     End Function
 
     ''' <summary>
@@ -300,21 +204,33 @@ Public Module GSEABackground
     ''' <returns></returns>
     <ExportAPI("KO.background")>
     <RApiReturn(GetType(Background))>
-    Public Function CreateKOBackground(<RRawVectorArgument>
-                                       genes As Object,
-                                       maps As MapRepository,
+    Public Function CreateKOBackground(<RRawVectorArgument> genes As Object,
+                                       <RRawVectorArgument> maps As Object,
                                        Optional size% = -1,
                                        Optional genomeName$ = "unknown",
-                                       Optional id_map As list = Nothing,
+                                       Optional id_map As Object = Nothing,
                                        Optional env As Environment = Nothing) As Object
         Dim geneId, KO As String
-        Dim kegg As GetClusterTerms = GSEATools.KEGGClusters(maps.AsEnumerable)
+        Dim kegg As GetClusterTerms
+
+        If TypeOf maps Is MapRepository Then
+            kegg = GSEATools.KEGGClusters(DirectCast(maps, MapRepository).Maps)
+        ElseIf TypeOf maps Is htext Then
+            kegg = GSEATools.KEGGClusters(DirectCast(maps, htext))
+        Else
+            Return Message.InCompatibleType(GetType(htext), maps.GetType, env)
+        End If
 
         If Not id_map Is Nothing Then
-            With DirectCast(id_map, list)
-                geneId = .slots.Keys.First
-                KO = Scripting.ToString([single](.slots(geneId)))
-            End With
+            If TypeOf id_map Is list Then
+                With DirectCast(id_map, list)
+                    geneId = .slots.Keys.First
+                    KO = any.ToString([single](.slots(geneId)))
+                End With
+            Else
+                geneId = any.ToString(id_map)
+                KO = Nothing
+            End If
         Else
             KO = Nothing
             geneId = Nothing
@@ -322,7 +238,7 @@ Public Module GSEABackground
 
         ' [geneID -> KO] mapping
         Dim mapping As NamedValue(Of String)()
-        Dim mapsResult = KOMaps(genes, geneId, KO, env)
+        Dim mapsResult = MapBackground.KOMaps(genes, geneId, KO, env)
 
         If TypeOf mapsResult Is Message Then
             Return mapsResult
@@ -334,18 +250,7 @@ Public Module GSEABackground
             db:=mapping _
                 .Where(Function(gene) Not gene.Value.StringEmpty) _
                 .ToArray,
-            createGene:=Function(gene, terms)
-                            Return New BackgroundGene With {
-                                .accessionID = gene.Name,
-                                .[alias] = {gene.Name, gene.Value},
-                                .locus_tag = New NamedValue With {
-                                    .name = gene.Name,
-                                    .text = gene.Value
-                                },
-                                .name = gene.Name,
-                                .term_id = terms
-                            }
-                        End Function,
+            createGene:=AddressOf createGene,
             getTerms:=Function(gene)
                           Return {gene.Value}
                       End Function,
@@ -355,5 +260,18 @@ Public Module GSEABackground
         model.size = size
 
         Return model
+    End Function
+
+    Private Function createGene(gene As NamedValue(Of String), terms As String()) As BackgroundGene
+        Return New BackgroundGene With {
+            .accessionID = gene.Name,
+            .[alias] = {gene.Name, gene.Value},
+            .locus_tag = New NamedValue With {
+                .name = gene.Name,
+                .text = gene.Value
+            },
+            .name = gene.Name,
+            .term_id = terms
+        }
     End Function
 End Module
