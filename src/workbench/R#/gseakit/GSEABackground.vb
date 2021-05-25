@@ -208,7 +208,7 @@ Public Module GSEABackground
                                        <RRawVectorArgument> maps As Object,
                                        Optional size% = -1,
                                        Optional genomeName$ = "unknown",
-                                       Optional id_map As list = Nothing,
+                                       Optional id_map As Object = Nothing,
                                        Optional env As Environment = Nothing) As Object
         Dim geneId, KO As String
         Dim kegg As GetClusterTerms
@@ -222,10 +222,15 @@ Public Module GSEABackground
         End If
 
         If Not id_map Is Nothing Then
-            With DirectCast(id_map, list)
-                geneId = .slots.Keys.First
-                KO = any.ToString([single](.slots(geneId)))
-            End With
+            If TypeOf id_map Is list Then
+                With DirectCast(id_map, list)
+                    geneId = .slots.Keys.First
+                    KO = any.ToString([single](.slots(geneId)))
+                End With
+            Else
+                geneId = any.ToString(id_map)
+                KO = Nothing
+            End If
         Else
             KO = Nothing
             geneId = Nothing
@@ -233,7 +238,7 @@ Public Module GSEABackground
 
         ' [geneID -> KO] mapping
         Dim mapping As NamedValue(Of String)()
-        Dim mapsResult = KOMaps(genes, geneId, KO, env)
+        Dim mapsResult = MapBackground.KOMaps(genes, geneId, KO, env)
 
         If TypeOf mapsResult Is Message Then
             Return mapsResult

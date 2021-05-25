@@ -2,9 +2,12 @@
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Annotation.Ptf
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports Rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 
@@ -14,10 +17,12 @@ Module MapBackground
     ''' try to map any terms to KO
     ''' </summary>
     ''' <param name="genes"></param>
-    ''' <param name="geneId$"></param>
+    ''' <param name="geneId">the field name or regexp pattern for read gene id</param>
     ''' <param name="KO$"></param>
     ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' [geneId -> KO]
+    ''' </returns>
     Public Function KOMaps(genes As Object, geneId$, KO$, env As Environment) As Object
         If TypeOf genes Is list Then
             If KO.StringEmpty OrElse geneId.StringEmpty Then
@@ -71,9 +76,29 @@ Module MapBackground
                 .populates(Of entry)(env) _
                 .fromUniprot _
                 .ToArray
+        ElseIf TypeOf genes Is htext Then
+            Return DirectCast(genes, htext).fromOrganismSpecificHtext(pattern:=geneId)
         Else
-            Return Internal.debug.stop(New InvalidProgramException(genes.GetType.FullName), env)
+            Return Message.InCompatibleType(GetType(htext), genes.GetType, env)
         End If
+    End Function
+
+    <Extension>
+    Private Function fromOrganismSpecificHtext(genes As htext, pattern$) As NamedValue(Of String)()
+        Dim geneItems = genes.Deflate(pattern).ToArray
+        Dim maps As NamedValue(Of String)() = geneItems _
+            .Select(Function(i)
+                        Dim KO As String = i.entry.Value.Split(ASCII.TAB)(1).Split.First
+
+                        Return New NamedValue(Of String) With {
+                            .Name = i.kegg_id,
+                            .Value = KO,
+                            .Description = i.entry.Value
+                        }
+                    End Function) _
+            .ToArray
+
+        Return maps
     End Function
 
     Private Function fromPtfAnnotation(genes As Object, env As Environment) As NamedValue(Of String)()
