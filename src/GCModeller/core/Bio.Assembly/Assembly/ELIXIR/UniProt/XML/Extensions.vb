@@ -91,6 +91,11 @@ Namespace Assembly.Uniprot.XML
             Return protein.xrefs.TryGetValue("GO", [default]:=Nothing)
         End Function
 
+        ''' <summary>
+        ''' includes uniprot accession id and db entry in other database
+        ''' </summary>
+        ''' <param name="entry"></param>
+        ''' <returns></returns>
         <Extension>
         Public Iterator Function EnumerateAllIDs(entry As entry) As IEnumerable(Of (Database$, xrefID$))
             For Each accession As String In entry.accessions.SafeQuery
