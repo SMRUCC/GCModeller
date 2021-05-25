@@ -1,5 +1,7 @@
+# query of the kegg map for the data visualization
+# of the pathway enrichment result
 
-map css("area") [{
+map css("area", "*") [{
 	
 	id          attr("id")
 	shape       attr("shape")
