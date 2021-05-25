@@ -5,13 +5,14 @@ imports "brite" from "kegg_kit";
 
 # title: KEGG enrichment
 #
-# authors: xieguigang
+# author: xieguigang
 # description: KEGG enrichment commandline tool
 
 [@info "a id list in plain text format, each line in the text file is the gene id"]
 const testId_input as string   = ?"--id"      || stop("a id list must be provided!");
 [@info "the xml file path of the uniprot database file."]
 const uniprot_xml as string    = ?"--uniprot" || stop("A uniprot database file is required for run id mapping!");
+[@info "A kegg ontology brite text file is required for create gene id to KO id mapping!"]
 const kegg_onthology as string = ?"--kegg"    || stop("A kegg ontology brite text file is required for create gene id to KO id mapping!");
 [@info "the directory path of the result outputs."]
 const outputdir as string      = ?"--out"     || dirname(testId_input);
