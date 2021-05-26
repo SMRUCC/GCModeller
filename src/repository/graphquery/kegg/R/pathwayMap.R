@@ -32,7 +32,7 @@ const area_table as function(list) {
     const table = as.data.frame(tableList);
 
     print("view of the shape areas data:");
-    print(table);
+    str(table);
    
     table;
 }
