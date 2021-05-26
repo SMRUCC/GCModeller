@@ -47,11 +47,23 @@ const http_query as function(url, raw = TRUE, graphquery = get_graph("graphquery
   ;
 }
 
-#' Request 
+#' Request image from remote server or local cache
 #' 
+#' @param url image url
 #' 
 const getImage as function(url, interval = 3) {
-
+  readImage(
+    http_get(
+    url = url, 
+    streamTo = function(url, cache_file) {
+        # request from remote server
+        # if the cache is not hit,
+        # and then write it to the cache repository
+      wget(url, cache_file);
+    }, 
+    interval = 3, 
+    filetype = "png")
+  );
 }
 
 #' Http get html or from cache
