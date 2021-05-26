@@ -10,4 +10,5 @@ description {
 	   | css("img", 0) 
 	   | attr("src")
 	
+	description css("#description") | text() | trim()
 }
