@@ -3,7 +3,7 @@ imports "repository" from "kegg_kit";
 #' query data to gcmodeller object model
 #'
 #' @param url the resource url on remote server or local file path for debug
-#' 
+#'
 const kegg_compound as function(url) {
   # parse the page text
   const keyValues = keyIndex(http_query(url, raw = FALSE));
@@ -15,9 +15,9 @@ const kegg_compound as function(url) {
   const modules     = graphquery::query(document = Html::parse(keyValues$"Module"),     graphquery = get_graph("graphquery/fields/pathway_item.graphquery"));
   const reactionId  = graphquery::query(document = Html::parse(keyValues$"Reaction"),   graphquery = get_graph("graphquery/fields/reactionLink.graphquery"));
   const commonNames = graphquery::query(document = Html::parse(keyValues$"Name"),       graphquery = get_graph("graphquery/fields/commonNames.graphquery"))
-    :> strsplit("\r|\n")
-    :> trim("; ")
-    ;
+  |> strsplit("\r|\n")
+  |> trim("; ")
+  ;
   const id          = graphquery::query(document = Html::parse(keyValues$"Entry"),      graphquery = get_graph("graphquery/fields/simpleText.graphquery"));
   const formula     = graphquery::query(document = Html::parse(keyValues$"Formula"),    graphquery = get_graph("graphquery/fields/text.graphquery"));
   const exactMass   = graphquery::query(document = Html::parse(keyValues$"Exact mass"), graphquery = get_graph("graphquery/fields/text.graphquery"));

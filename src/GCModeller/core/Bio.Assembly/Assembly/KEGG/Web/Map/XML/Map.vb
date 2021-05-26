@@ -77,6 +77,9 @@ Namespace Assembly.KEGG.WebServices
         Public Property Name As String
         Public Property URL As String
 
+        <XmlElement>
+        Public Property description As String
+
         ''' <summary>
         ''' 节点的位置，在这里面包含有代谢物(小圆圈)以及基因(方块)的位置定义
         ''' </summary>

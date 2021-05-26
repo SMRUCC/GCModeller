@@ -3,7 +3,7 @@ imports "graphquery" from "webKit";
 #' get graphquery from internal resource file
 #'
 #' @param ref the relative file name of the internal graphquery file
-#' 
+#'
 const get_graph as function(ref) {
   const resource as string = system.file(ref, package = "kegg_graphquery");
 
@@ -29,9 +29,9 @@ const keyIndex as function(keyValues) {
 }
 
 #' Does the given string is null or its string value represent null?
-#' 
+#'
 #' @param str a string value to test
-#' 
+#'
 const isNullString as function(str) {
   is.null(str) || (str in ["", "null", "NULL"]);
 }

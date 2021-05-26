@@ -425,13 +425,20 @@ Public Module kegg_repository
     End Function
 
     <ExportAPI("keggMap")>
-    Public Function keggMap(id As String, name As String, img As String, url As String, area As Area()) As Map
+    Public Function keggMap(id As String,
+                            name As String,
+                            description As String,
+                            img As String,
+                            url As String,
+                            area As Area()) As Map
+
         Return New Map With {
             .id = id,
             .Name = name,
             .PathwayImage = img,
             .shapes = area,
-            .URL = url
+            .URL = url,
+            .description = description
         }
     End Function
 End Module
