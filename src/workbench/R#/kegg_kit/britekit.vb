@@ -39,6 +39,8 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Linq
@@ -151,6 +153,17 @@ Module britekit
                 Case Else
                     Return REnv.debug.stop({$"Invalid brite id: {file}", $"brite id: {file}"}, env)
             End Select
+        ElseIf file.StartsWith("KO:") Then
+            Dim Tcode As String = file.GetTagValue(":").Value
+            Dim fileTmp As String = TempFileSystem.TempDir & $"/KO/{Tcode}.kegg"
+
+            If Not fileTmp.FileLength > 100 Then
+                Call ($"https://www.kegg.jp/kegg-bin/download_htext?htext={Tcode}00001&format=htext&filedir=") _
+                    .GET _
+                    .SaveTo(fileTmp)
+            End If
+
+            Return htext.StreamParser(res:=fileTmp)
         Else
             Return htext.StreamParser(res:=file)
         End If
@@ -189,5 +202,74 @@ Module britekit
         Next
 
         Return names
+    End Function
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="htext"></param>
+    ''' <param name="geneId"></param>
+    ''' <param name="level">
+    ''' class|category|subcategory
+    ''' </param>
+    ''' <returns></returns>
+    <ExportAPI("briteMaps")>
+    Public Function briteMaps(htext As htext, geneId As String(), Optional level$ = "class") As String()
+        Dim prefix As String = geneId.getIdPrefix
+        Dim table = htext.Deflate($"{prefix}\d+") _
+            .GroupBy(Function(gene) gene.entry.Key) _
+            .ToDictionary(Function(gene) gene.Key,
+                          Function(gene)
+                              Select Case level
+                                  Case "class"
+                                      Return gene.First.class
+                                  Case "category"
+                                      Return gene.First.category
+                                  Case "subcategory"
+                                      Return gene.First.subcategory
+                                  Case Else
+                                      Return "n/a"
+                              End Select
+                          End Function)
+
+        Return geneId _
+            .Select(Function(id)
+                        Return table.TryGetValue(id, [default]:="n/a")
+                    End Function) _
+            .ToArray
+    End Function
+
+    <Extension>
+    Private Function getIdPrefix(names As String()) As String
+        Dim minName As String = names.MinLengthString
+        Dim index As Integer
+        Dim uniqchars As Char()
+
+        For i As Integer = 0 To minName.Length - 1
+            index = i
+            uniqchars = names _
+                .Select(Function(str) str(index)) _
+                .Distinct _
+                .ToArray
+
+            If uniqchars.Length > 1 Then
+                Exit For
+            End If
+        Next
+
+        Dim prefix As String
+
+        If index = 0 Then
+            prefix = names _
+                .Select(Function(str) str(index)) _
+                .GroupBy(Function(c) c) _
+                .OrderByDescending(Function(c) c.Count) _
+                .First _
+                .Key
+        Else
+            prefix = names(Scan0).Substring(0, index)
+        End If
+
+        Return prefix
     End Function
 End Module
