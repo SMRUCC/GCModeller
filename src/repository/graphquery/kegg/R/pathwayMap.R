@@ -1,3 +1,5 @@
+imports "repository" from "kegg_kit";
+
 const kegg_map as function(url) {    
     const info  = http_query(url, raw = FALSE, graphquery = get_graph("graphquery/map_summary.graphquery"));
     const areas = http_query(url, 
