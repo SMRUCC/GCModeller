@@ -1,10 +1,10 @@
 imports "repository" from "kegg_kit";
 
-const kegg_map as function(url) {    
+const kegg_map as function(url) {
     const info  = http_query(url, raw = FALSE, graphquery = get_graph("graphquery/map_summary.graphquery"));
-    const areas = http_query(url, 
-        raw        = FALSE, 
-        graphquery = get_graph("graphquery/kegg_map.graphquery")
+    const areas = http_query(url,
+                             raw        = FALSE,
+                             graphquery = get_graph("graphquery/kegg_map.graphquery")
     )
     |> area_table
     |> shapeAreas
@@ -14,8 +14,8 @@ const kegg_map as function(url) {
         id   = info$id,
         name = info$name,
         img  = `https://www.kegg.jp/${info$img}`
-            |> getImage
-            |> base64(chunkSize = 128),
+        |> getImage
+        |> base64(chunkSize = 128),
         url  = url,
         area = areas
     );
@@ -33,6 +33,6 @@ const area_table as function(list) {
 
     print("view of the shape areas data:");
     str(table);
-   
+
     table;
 }

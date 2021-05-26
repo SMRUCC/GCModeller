@@ -1,18 +1,18 @@
 imports "repository" from "kegg_kit";
 
 #' Query of kegg reaction data
-#' 
+#'
 #' @param url the resource url on remote server or local file path for debug
-#' 
+#'
 const kegg_reaction as function(url) {
   # parse the page text
   const keyValues = keyIndex(http_query(url, raw = FALSE));
 
   const id          = graphquery::query(document = Html::parse(keyValues$"Entry"),       graphquery = get_graph("graphquery/fields/simpleText.graphquery"));
   const commonNames = graphquery::query(document = Html::parse(keyValues$"Name"),        graphquery = get_graph("graphquery/fields/commonNames.graphquery"))
-    :> strsplit("\r|\n")
-    :> trim("; ")
-    ;
+  |> strsplit("\r|\n")
+  |> trim("; ")
+  ;
   const info     = graphquery::query(document = Html::parse(keyValues$"Definition"),     graphquery = get_graph("graphquery/fields/text.graphquery"));
   const equation = graphquery::query(document = Html::parse(keyValues$"Equation"),       graphquery = get_graph("graphquery/fields/text.graphquery"));
   const comments = graphquery::query(document = Html::parse(keyValues$"Comment"),        graphquery = get_graph("graphquery/fields/text.graphquery"));
