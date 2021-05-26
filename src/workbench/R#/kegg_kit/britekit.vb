@@ -47,6 +47,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
@@ -234,7 +235,7 @@ Module britekit
 
         Return geneId _
             .Select(Function(id)
-                        Return table.TryGetValue(id, [default]:="n/a")
+                        Return table.TryGetValue(HeaderFormats.TrimAccessionVersion(id), [default]:="n/a")
                     End Function) _
             .ToArray
     End Function
