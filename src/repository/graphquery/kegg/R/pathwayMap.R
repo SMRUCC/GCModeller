@@ -11,13 +11,14 @@ const kegg_map as function(url) {
     ;
 
     repository::keggMap(
-        id   = info$id,
-        name = info$name,
-        img  = `https://www.kegg.jp/${info$img}`
+        id          = info$id,
+        name        = info$name,
+        img         = `https://www.kegg.jp/${info$img}`
         |> getImage
         |> base64(chunkSize = 128),
-        url  = url,
-        area = areas
+        url         = url,
+        area        = areas,
+        description = info$description
     );
 }
 
