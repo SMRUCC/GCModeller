@@ -310,7 +310,7 @@
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\mime\text%25html\MIME-htmls.vbproj">
       <Project>{2DD4BE80-DDC3-4767-94A7-10F1C3395716}</Project>
-      <Name>mime-htmls</Name>
+      <Name>MIME-htmls</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\vs_solutions\dev\ApplicationServices\ApplicationServices.vbproj">
       <Project>{afc6d861-8063-4549-8dce-746206e852b4}</Project>
