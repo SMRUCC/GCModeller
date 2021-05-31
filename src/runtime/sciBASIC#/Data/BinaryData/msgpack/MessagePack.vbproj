@@ -144,7 +144,7 @@
     <DocumentationFile>Microsoft.VisualBasic.Data.IO.MessagePack.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'BioDeep_database|x64'">
-    <OutputPath>bin\x64\BioDeep_database\</OutputPath>
+    <OutputPath>..\..\..\..\..\..\..\biodeep\biodeepdb_v3\biodeepdb_v3\assembly\</OutputPath>
     <Optimize>true</Optimize>
     <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
     <PlatformTarget>x64</PlatformTarget>
