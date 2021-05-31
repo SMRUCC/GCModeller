@@ -238,7 +238,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'MetaCardio|x64'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x64\MetaCardio\</OutputPath>
+    <OutputPath>..\..\..\..\..\biodeep\bionovogene_health\metacardio\assembly\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
     <DocumentationFile>WkHtmlToPdf.CLI.InteropService.xml</DocumentationFile>
