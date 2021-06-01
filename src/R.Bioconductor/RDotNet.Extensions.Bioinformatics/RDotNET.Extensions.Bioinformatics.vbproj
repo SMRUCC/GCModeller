@@ -419,9 +419,9 @@
       <Project>{ab6e71b0-1be2-4418-ab4b-91d5554cf5a1}</Project>
       <Name>RDotNET.Extensions.VisualBasic</Name>
     </ProjectReference>
-    <ProjectReference Include="..\RDotNET\RDotNet.vbproj">
+    <ProjectReference Include="..\RDotNET\RDotNET.vbproj">
       <Project>{57d5ea2b-f718-4fd8-9504-b4c0293fa4b9}</Project>
-      <Name>RDotNet</Name>
+      <Name>RDotNET</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
