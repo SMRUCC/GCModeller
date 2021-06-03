@@ -69,7 +69,7 @@ Namespace Document
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property TagName As String
+        Public Property TagName As String Implements IXmlDocumentTree.nodeName
 
         ''' <summary>
         ''' 标签的属性列表
@@ -369,8 +369,9 @@ Namespace Document
         Public Function getElementsByTagName(tagname As String) As HtmlElement()
             Static api As MethodInfo = GetType(HtmlElement).GetMethod(NameOf(getElementsByTagName))
 
+            ' 20210603 html文档之中的标签名称应该是大小写无关的么？
             Return tagIndex _
-                .TryGetValue(tagname) _
+                .TryGetValue(Strings.LCase(tagname)) _
                 .JoinIterates(Query(api, tagname)) _
                 .Distinct _
                 .ToArray
