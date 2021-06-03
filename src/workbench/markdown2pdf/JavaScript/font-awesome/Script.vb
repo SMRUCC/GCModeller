@@ -42,7 +42,7 @@
 Imports System.ComponentModel
 Imports System.Text
 Imports Microsoft.VisualBasic.ApplicationServices.Emit.CodeDOM_VBC
-Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS.Parser
+Imports Microsoft.VisualBasic.MIME.Html.Language.CSS
 
 Public Module VBScript
 

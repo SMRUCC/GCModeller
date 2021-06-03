@@ -131,7 +131,7 @@ Module pdf
         }
 
         If footer.StringEmpty Then
-            content.footer = New Decoration With {.right = "[page] / [toPage]"}
+            content.footer = New Decoration With {.center = "[page] / [toPage]"}
         ElseIf footer.ExtensionSuffix("html") Then
             content.footer = New Decoration With {.html = footer}
         Else
