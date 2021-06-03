@@ -72,6 +72,35 @@ Public Class CSSSelector : Inherits Parser
         End If
     End Function
 
+    ''' <summary>
+    ''' ### 4.1. Selector Lists
+    ''' 
+    ''' https://www.w3.org/TR/selectors/#grouping
+    ''' 
+    ''' A comma-separated list of selectors represents the union of all elements 
+    ''' selected by each of the individual selectors in the selector list. (A 
+    ''' comma is U+002C.) For example, in CSS when several selectors share the 
+    ''' same declarations, they may be grouped into a comma-separated list. White 
+    ''' space may appear before and/or after the comma.
+    ''' 
+    ''' CSS example: In this example, we condense three rules with identical 
+    ''' declarations into one. Thus,
+    ''' 
+    ''' ```css
+    ''' h1 { font-family sans-serif }
+    ''' h2 { font-family: sans-serif }
+    ''' h3 { font-family: sans-serif }
+    ''' ```
+    ''' 
+    ''' Is equivalent to:
+    '''
+    ''' ```css
+    ''' h1, h2, h3 { font-family sans-serif }
+    ''' ```
+    ''' </summary>
+    ''' <param name="document"></param>
+    ''' <param name="selector"></param>
+    ''' <returns></returns>
     Private Function selectByList(document As InnerPlantText, selector As Selector) As InnerPlantText
         Dim any As String() = selector.query.StringSplit("\s*,\s*")
         Dim list As New List(Of InnerPlantText)
