@@ -24,11 +24,11 @@ bitmap(file = `${dirname(@script)}/patterns.png`) {
 		sampleinfo;
 	})
 	|> relative
-	|> expression.cmeans_pattern(dim = [3, 3], fuzzification = 5, threshold = 0.001)
+	|> expression.cmeans_pattern(dim = [4, 3], fuzzification = 3, threshold = 0.005)
 	;
 
 	print("view patterns result:");
 	print(patterns);
 
-	plot(patterns, size = [6000, 4500], colorSet = "Jet");
+	plot(patterns, size = [9000, 6000], colorSet = "Jet");
 }
