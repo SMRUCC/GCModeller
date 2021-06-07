@@ -1,15 +1,19 @@
 imports "visualPlot" from "visualkit";
 imports ["geneExpression", "sampleInfo"] from "phenotype_kit";
 
-const expr0 = "github://SMRUCC/GCModeller/master/src/workbench/R%23/demo/HTS/all_counts.csv";
+const expr0 = "github://SMRUCC/GCModeller/master/src/workbench/R%23/demo/HTS/all_counts.csv"
+|> read.csv(row_names = 1)
+;
 
 bitmap(file = `${dirname(@script)}/patterns.png`) {
 	const patterns = expr0
-	|> read.csv(row_names = 1)
 	|> load.expr(rm_ZERO = TRUE)
 	|> average(sampleinfo = {
 		const sampleinfo = colnames(expr0)
-		|> guess.sample_groups(raw_list = FALSE)
+		|> guess.sample_groups(
+			raw_list = FALSE, 
+			maxDepth = TRUE
+		)
 		;
 
 		print("we have all sample labels:");
@@ -25,11 +29,6 @@ bitmap(file = `${dirname(@script)}/patterns.png`) {
 
 	print("view patterns result:");
 	print(patterns);
-
-	patterns
-	:> cmeans_matrix
-	:> write.csv(file = "./patterns.csv")
-	;
 
 	plot(patterns, size = [6000, 4500], colorSet = "Jet");
 }
