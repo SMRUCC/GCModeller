@@ -263,7 +263,7 @@
       <Name>MIME-htmls</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\modules\ExperimentDesigner\ExperimentDesigner.vbproj">
-      <Project>{FCE39D85-B8C5-490C-B330-79FF3A5BFA27}</Project>
+      <Project>{fce39d85-b8c5-490c-b330-79ff3a5bfa27}</Project>
       <Name>ExperimentDesigner</Name>
     </ProjectReference>
   </ItemGroup>

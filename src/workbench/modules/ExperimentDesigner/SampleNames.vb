@@ -84,18 +84,26 @@ Public Module SampleNames
         ' iBAQ-AAA-2
         ' iBAQ-BBB-1
         ' iBAQ-BBB-25
-        Dim largeGroups = nameMatrix.GroupBy(Function(cs) cs.Take(colIndex + 1).CharString).ToArray
+        Dim largeGroups As IGrouping(Of String, Char())() = nameMatrix _
+            .GroupBy(Function(cs)
+                         Return cs.Take(colIndex + 1).CharString
+                     End Function) _
+            .ToArray
 
-        For Each group In largeGroups
+        For Each group As IGrouping(Of String, Char()) In largeGroups
             Dim j As Integer
 
             nameMatrix = group.ToArray
-            maxLen% = Aggregate name As Char() In nameMatrix Into Max(name.Length)
+            maxLen% = Aggregate name As Char()
+                      In nameMatrix
+                      Into Max(name.Length)
 
             For i As Integer = colIndex To maxLen - 1
                 j = i
                 col = nameMatrix _
-                    .Select(Function(name) name.ElementAtOrNull(j)) _
+                    .Select(Function(name)
+                                Return name.ElementAtOrNull(j)
+                            End Function) _
                     .ToArray
 
                 If col.Distinct.Count > 1 Then
