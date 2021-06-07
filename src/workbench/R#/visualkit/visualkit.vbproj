@@ -131,6 +131,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="chromosome_map.vb" />
+    <Compile Include="zzz.vb" />
     <Compile Include="visualPlot.vb" />
     <Compile Include="synteny_visual.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />

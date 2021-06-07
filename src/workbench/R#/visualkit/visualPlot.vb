@@ -84,6 +84,10 @@ Imports REnv = SMRUCC.Rsharp.Runtime
 <Package("visualPlot", Category:=APICategories.ResearchTools, Publisher:="xie.guigang@gcmodeller.org")>
 Module visualPlot
 
+    Sub Main()
+        Call Internal.generic.add("plot", GetType(ExpressionPattern), AddressOf Plot)
+    End Sub
+
     <ExportAPI("classchange.plot")>
     Public Function ClassChangePlot(<RRawVectorArgument> genes As Object,
                                     <RRawVectorArgument> Optional size As Object = "3000,2400",
@@ -327,6 +331,33 @@ Module visualPlot
                                   Return CObj(New vector(matrix.sampleID, a.value, env))
                               End Function)
         }
+    End Function
+
+    Private Function Plot(matrix As ExpressionPattern, args As list, env As Environment) As Object
+        Dim type As String = args.getValue(Of String)("type", env, "patterns")
+        Dim size As String = InteropArgumentHelper.getSize(args!size, "2400,2700")
+        Dim padding As String = InteropArgumentHelper.getPadding(args!padding, g.DefaultLargerPadding)
+        Dim bg As String = InteropArgumentHelper.getColor(args!bg, "white")
+        Dim colorSet As String = InteropArgumentHelper.getColorSet(args!colorSet, "PiYG:c8")
+        Dim levels As Integer = args.getValue(Of Integer)("levels", env, 25)
+        Dim clusterLabelStyle As String = InteropArgumentHelper.getFontCSS(args("cluster_labels.cex"), CSSFont.PlotSubTitle)
+        Dim legendTitleStyle As String = InteropArgumentHelper.getFontCSS("legend_title.cex", CSSFont.Win7Small)
+        Dim legendTickStyle As String = InteropArgumentHelper.getFontCSS("legend_tick.cex", CSSFont.Win7Small)
+        Dim axisTickCSS As String = InteropArgumentHelper.getFontCSS("axis_tick.cex", CSSFont.Win10Normal)
+        Dim axisLabelCSS As String = InteropArgumentHelper.getFontCSS("axis_label.cex", CSSFont.Win7Small)
+
+        Return matrix.DrawMatrix(
+            size:=size,
+            padding:=padding,
+            bg:=bg,
+            colorSet:=colorSet,
+            levels:=levels,
+            clusterLabelStyle:=clusterLabelStyle,
+            legendTickStyle:=legendTickStyle,
+            legendTitleStyle:=legendTitleStyle,
+            axisLabelCSS:=axisLabelCSS,
+            axisTickCSS:=axisTickCSS
+        )
     End Function
 
     ''' <summary>

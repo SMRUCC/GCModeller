@@ -106,7 +106,7 @@ Public Module SampleNames
             Dim groupName As String = nameMatrix _
                 .Select(Function(cs) cs.Take(j).CharString) _
                 .First _
-                .Trim(" "c, "-"c, "_"c, "~"c, "+"c)
+                .Trim(" "c, "-"c, "_"c, "~"c, "+"c, "."c)
 
             Yield New NamedCollection(Of String) With {
                 .name = groupName,
