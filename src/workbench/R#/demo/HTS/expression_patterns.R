@@ -3,7 +3,7 @@ imports ["geneExpression", "sampleInfo"] from "phenotype_kit";
 
 setwd(!script$dir);
 
-let expr0 = read.csv("msms_Intensity.csv", row_names = 1);
+let expr0 = read.csv("http://www.biodeep.cn/demo/metabolome.csv", row_names = 1);
 
 expr0[, "mz"] = NULL;
 expr0[, "rt"] = NULL;
