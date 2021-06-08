@@ -1,6 +1,8 @@
 imports "visualPlot" from "visualkit";
 imports ["geneExpression", "sampleInfo"] from "phenotype_kit";
 
+print(expression.cmeans_pattern);
+
 bitmap(file = `${dirname(@script)}/patterns.png`) {
 	const patterns = "github://SMRUCC/GCModeller/master/src/workbench/R%23/demo/HTS/counts.csv"
 	|> read.csv(row_names = 1)
@@ -12,7 +14,7 @@ bitmap(file = `${dirname(@script)}/patterns.png`) {
 	))
 	|> relative
 	|> expression.cmeans_pattern(
-		dim           = [4, 4], 
+		dim           = [5, 5], 
 		fuzzification = 2, 
 		threshold     = 0.005
 	)
@@ -23,7 +25,7 @@ bitmap(file = `${dirname(@script)}/patterns.png`) {
 
 	plot(patterns,
 		size           = [9000, 6000], 
-		colorSet       = "Jet", 
+		colorSet       = "BuPu:c8", 
 		axis_label.cex = "font-style: normal; font-size: 14; font-family: Microsoft YaHei;"
 	);
 }
