@@ -2,7 +2,7 @@ imports "visualPlot" from "visualkit";
 imports ["geneExpression", "sampleInfo"] from "phenotype_kit";
 
 bitmap(file = `${dirname(@script)}/patterns.png`) {
-	const patterns = "github://SMRUCC/GCModeller/master/src/workbench/R%23/demo/HTS/all_counts.csv"
+	const patterns = "github://SMRUCC/GCModeller/master/src/workbench/R%23/demo/HTS/counts.csv"
 	|> read.csv(row_names = 1)
 	|> load.expr(rm_ZERO = TRUE)
 	|> average(sampleinfo = sampleInfo(
