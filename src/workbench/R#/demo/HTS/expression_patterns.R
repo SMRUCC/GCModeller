@@ -1,12 +1,9 @@
 imports "visualPlot" from "visualkit";
 imports ["geneExpression", "sampleInfo"] from "phenotype_kit";
 
-const expr0 = "github://SMRUCC/GCModeller/master/src/workbench/R%23/demo/HTS/all_counts.csv"
-|> read.csv(row_names = 1)
-;
-
 bitmap(file = `${dirname(@script)}/patterns.png`) {
-	const patterns = expr0
+	const patterns = "github://SMRUCC/GCModeller/master/src/workbench/R%23/demo/HTS/all_counts.csv"
+	|> read.csv(row_names = 1)
 	|> load.expr(rm_ZERO = TRUE)
 	|> average(sampleinfo = sampleInfo(
 		ID          = ["s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9", "s10", "s11", "s12"],
@@ -14,7 +11,11 @@ bitmap(file = `${dirname(@script)}/patterns.png`) {
 		sample_info = ["s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9", "s10", "s11", "s12"]
 	))
 	|> relative
-	|> expression.cmeans_pattern(dim = [4, 3], fuzzification = 3, threshold = 0.005)
+	|> expression.cmeans_pattern(
+		dim           = [4, 3], 
+		fuzzification = 3, 
+		threshold     = 0.005
+	)
 	;
 
 	print("view patterns result:");
