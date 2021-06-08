@@ -82,7 +82,8 @@ Namespace ExpressionPattern
                                    Optional legendTickStyle As String = CSSFont.Win7Small,
                                    Optional axisTickCSS$ = CSSFont.Win10Normal,
                                    Optional axisLabelCSS$ = CSSFont.Win7Small,
-                                   Optional driver As Drivers = Drivers.Default) As GraphicsData
+                                   Optional driver As Drivers = Drivers.Default,
+                                   Optional ppi As Integer = 300) As GraphicsData
 
             Dim theme As New Theme With {
                 .background = bg,
@@ -98,7 +99,7 @@ Namespace ExpressionPattern
                 .clusterLabelStyle = clusterLabelStyle,
                 .legendTitleStyle = legendTitleStyle,
                 .legendTickStyle = legendTickStyle
-            }.Plot(size, driver:=driver)
+            }.Plot(size, driver:=driver, ppi:=ppi)
         End Function
     End Module
 End Namespace
