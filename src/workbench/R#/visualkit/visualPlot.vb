@@ -140,7 +140,19 @@ Module visualPlot
             )
     End Function
 
-    <ExportAPI("volcano.plot")>
+    ''' <summary>
+    ''' volcano plot of the different expression result
+    ''' </summary>
+    ''' <param name="genes"></param>
+    ''' <param name="size"></param>
+    ''' <param name="padding"></param>
+    ''' <param name="bg"></param>
+    ''' <param name="colors"></param>
+    ''' <param name="pvalue"></param>
+    ''' <param name="level"></param>
+    ''' <param name="title$"></param>
+    ''' <returns></returns>
+    <ExportAPI("volcano")>
     Public Function VolcanoPlot(genes As DEP_iTraq(),
                                 <RRawVectorArgument> Optional size As Object = "2400,2700",
                                 <RRawVectorArgument> Optional padding As Object = g.DefaultUltraLargePadding,
