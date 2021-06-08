@@ -101,10 +101,13 @@ Module DEGSample
     ''' <returns></returns>
     <ExportAPI("guess.sample_groups")>
     <RApiReturn(GetType(list), GetType(SampleInfo))>
-    Public Function guessSampleGroups(sample_names As Array, Optional raw_list As Boolean = True) As Object
+    Public Function guessSampleGroups(sample_names As Array,
+                                      Optional maxDepth As Boolean = False,
+                                      Optional raw_list As Boolean = True) As Object
+
         Return REnv.asVector(Of String)(sample_names) _
             .AsObjectEnumerator(Of String) _
-            .GuessPossibleGroups _
+            .GuessPossibleGroups(maxDepth) _
             .ToDictionary(Function(group) group.name,
                           Function(group)
                               Return CObj(group.ToArray)

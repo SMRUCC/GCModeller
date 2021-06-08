@@ -1,37 +1,34 @@
-imports "visualkit.plots" from "visualkit";
+imports "visualPlot" from "visualkit";
 imports ["geneExpression", "sampleInfo"] from "phenotype_kit";
 
-setwd(!script$dir);
-
-let expr0 = read.csv("msms_Intensity.csv", row_names = 1);
-
-expr0[, "mz"] = NULL;
-expr0[, "rt"] = NULL;
-
-print("we have all sample labels:");
-print(colnames(expr0));
-
-let sampleinfo = guess.sample_groups(colnames(expr0), raw_list = FALSE);
-
-print("a possible sample groups that parsed from the given sample labels:");
-print(sampleinfo);
-
-let patterns = expr0
-:> load.expr
-:> average(sampleinfo)
-:> relative
-:> expression.cmeans_pattern(dim = [3, 3], fuzzification = 5, threshold = 0.001)
+const expr0 = "github://SMRUCC/GCModeller/master/src/workbench/R%23/demo/HTS/all_counts.csv"
+|> read.csv(row_names = 1)
 ;
 
-print("view patterns result:");
-print(patterns);
+bitmap(file = `${dirname(@script)}/patterns.png`) {
+	const patterns = expr0
+	|> load.expr(rm_ZERO = TRUE)
+	|> average(sampleinfo = {
+		const sampleinfo = colnames(expr0)
+		|> guess.sample_groups(
+			raw_list = FALSE, 
+			maxDepth = TRUE
+		)
+		;
 
-patterns
-:> plot.expression_patterns(size = [6000, 4500], colorSet = "Jet")
-:> save.graphics(file = "./patterns.png")
-;
+		print("we have all sample labels:");
+		print(colnames(expr0));
+		print("a possible sample groups that parsed from the given sample labels:");
+		print(sampleinfo);
+		
+		sampleinfo;
+	})
+	|> relative
+	|> expression.cmeans_pattern(dim = [4, 3], fuzzification = 3, threshold = 0.005)
+	;
 
-patterns
-:> cmeans_matrix
-:> write.csv(file = "./patterns.csv")
-;
+	print("view patterns result:");
+	print(patterns);
+
+	plot(patterns, size = [9000, 6000], colorSet = "Jet");
+}
