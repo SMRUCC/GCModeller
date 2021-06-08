@@ -8,21 +8,11 @@ const expr0 = "github://SMRUCC/GCModeller/master/src/workbench/R%23/demo/HTS/all
 bitmap(file = `${dirname(@script)}/patterns.png`) {
 	const patterns = expr0
 	|> load.expr(rm_ZERO = TRUE)
-	|> average(sampleinfo = {
-		const sampleinfo = colnames(expr0)
-		|> guess.sample_groups(
-			raw_list = FALSE, 
-			maxDepth = TRUE
-		)
-		;
-
-		print("we have all sample labels:");
-		print(colnames(expr0));
-		print("a possible sample groups that parsed from the given sample labels:");
-		print(sampleinfo);
-		
-		sampleinfo;
-	})
+	|> average(sampleinfo = sampleInfo(
+		ID          = ["s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9", "s10", "s11", "s12"],
+		sample_name = ["s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9", "s10", "s11", "s12"],
+		sample_info = ["s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9", "s10", "s11", "s12"]
+	))
 	|> relative
 	|> expression.cmeans_pattern(dim = [4, 3], fuzzification = 3, threshold = 0.005)
 	;
