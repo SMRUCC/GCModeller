@@ -12,8 +12,8 @@ bitmap(file = `${dirname(@script)}/patterns.png`) {
 	))
 	|> relative
 	|> expression.cmeans_pattern(
-		dim           = [4, 3], 
-		fuzzification = 3, 
+		dim           = [4, 4], 
+		fuzzification = 2, 
 		threshold     = 0.005
 	)
 	;
@@ -21,5 +21,9 @@ bitmap(file = `${dirname(@script)}/patterns.png`) {
 	print("view patterns result:");
 	print(patterns);
 
-	plot(patterns, size = [9000, 6000], colorSet = "Jet");
+	plot(patterns,
+		size           = [9000, 6000], 
+		colorSet       = "Jet", 
+		axis_label.cex = "font-style: normal; font-size: 14; font-family: Microsoft YaHei;"
+	);
 }
