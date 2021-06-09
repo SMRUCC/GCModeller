@@ -53,7 +53,7 @@ Public Module SampleNames
     ''' <param name="allSampleNames"></param>
     ''' <returns></returns>
     <Extension>
-    Public Iterator Function GuessPossibleGroups(allSampleNames As IEnumerable(Of String)) As IEnumerable(Of NamedCollection(Of String))
+    Public Iterator Function GuessPossibleGroups(allSampleNames As IEnumerable(Of String), Optional maxDepth As Boolean = False) As IEnumerable(Of NamedCollection(Of String))
         Dim nameMatrix As Char()() = allSampleNames.Select(Function(name) name.ToArray).ToArray
         Dim maxLen% = Aggregate name As Char() In nameMatrix Into Max(name.Length)
         Dim col As Char()
@@ -71,9 +71,24 @@ Public Module SampleNames
             '      |
             ' iBAQ-AA-1
             ' iBAQ-BB-2
-            If col.Distinct.Count > 1 Then
-                ' group label at here
-                Exit For
+
+            If maxDepth Then
+                If Not nameMatrix _
+                    .GroupBy(Function(cs)
+                                 Return cs.Take(colIndex + 1).CharString
+                             End Function) _
+                    .All(Function(c)
+                             Return c.Count > 1
+                         End Function) Then
+
+                    colIndex -= 1
+                    Exit For
+                End If
+            Else
+                If col.Distinct.Count > 1 Then
+                    ' group label at here
+                    Exit For
+                End If
             End If
         Next
 
@@ -84,18 +99,26 @@ Public Module SampleNames
         ' iBAQ-AAA-2
         ' iBAQ-BBB-1
         ' iBAQ-BBB-25
-        Dim largeGroups = nameMatrix.GroupBy(Function(cs) cs.Take(colIndex + 1).CharString).ToArray
+        Dim largeGroups As IGrouping(Of String, Char())() = nameMatrix _
+            .GroupBy(Function(cs)
+                         Return cs.Take(colIndex + 1).CharString
+                     End Function) _
+            .ToArray
 
-        For Each group In largeGroups
+        For Each group As IGrouping(Of String, Char()) In largeGroups
             Dim j As Integer
 
             nameMatrix = group.ToArray
-            maxLen% = Aggregate name As Char() In nameMatrix Into Max(name.Length)
+            maxLen% = Aggregate name As Char()
+                      In nameMatrix
+                      Into Max(name.Length)
 
             For i As Integer = colIndex To maxLen - 1
                 j = i
                 col = nameMatrix _
-                    .Select(Function(name) name.ElementAtOrNull(j)) _
+                    .Select(Function(name)
+                                Return name.ElementAtOrNull(j)
+                            End Function) _
                     .ToArray
 
                 If col.Distinct.Count > 1 Then
@@ -106,7 +129,7 @@ Public Module SampleNames
             Dim groupName As String = nameMatrix _
                 .Select(Function(cs) cs.Take(j).CharString) _
                 .First _
-                .Trim(" "c, "-"c, "_"c, "~"c, "+"c)
+                .Trim(" "c, "-"c, "_"c, "~"c, "+"c, "."c)
 
             Yield New NamedCollection(Of String) With {
                 .name = groupName,

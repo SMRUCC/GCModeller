@@ -84,6 +84,10 @@ Imports REnv = SMRUCC.Rsharp.Runtime
 <Package("visualPlot", Category:=APICategories.ResearchTools, Publisher:="xie.guigang@gcmodeller.org")>
 Module visualPlot
 
+    Sub Main()
+        Call Internal.generic.add("plot", GetType(ExpressionPattern), AddressOf Plot)
+    End Sub
+
     <ExportAPI("classchange.plot")>
     Public Function ClassChangePlot(<RRawVectorArgument> genes As Object,
                                     <RRawVectorArgument> Optional size As Object = "3000,2400",
@@ -136,7 +140,19 @@ Module visualPlot
             )
     End Function
 
-    <ExportAPI("volcano.plot")>
+    ''' <summary>
+    ''' volcano plot of the different expression result
+    ''' </summary>
+    ''' <param name="genes"></param>
+    ''' <param name="size"></param>
+    ''' <param name="padding"></param>
+    ''' <param name="bg"></param>
+    ''' <param name="colors"></param>
+    ''' <param name="pvalue"></param>
+    ''' <param name="level"></param>
+    ''' <param name="title$"></param>
+    ''' <returns></returns>
+    <ExportAPI("volcano")>
     Public Function VolcanoPlot(genes As DEP_iTraq(),
                                 <RRawVectorArgument> Optional size As Object = "2400,2700",
                                 <RRawVectorArgument> Optional padding As Object = g.DefaultUltraLargePadding,
@@ -329,6 +345,33 @@ Module visualPlot
         }
     End Function
 
+    Private Function Plot(matrix As ExpressionPattern, args As list, env As Environment) As Object
+        Dim type As String = args.getValue(Of String)("type", env, "patterns")
+        Dim size As String = InteropArgumentHelper.getSize(args!size, "2400,2700")
+        Dim padding As String = InteropArgumentHelper.getPadding(args!padding, g.DefaultLargerPadding)
+        Dim bg As String = InteropArgumentHelper.getColor(args!bg, "white")
+        Dim colorSet As String = InteropArgumentHelper.getColorSet(args!colorSet, "PiYG:c8")
+        Dim levels As Integer = args.getValue(Of Integer)("levels", env, 25)
+        Dim clusterLabelStyle As String = InteropArgumentHelper.getFontCSS(args("cluster_labels.cex"), CSSFont.PlotSubTitle)
+        Dim legendTitleStyle As String = InteropArgumentHelper.getFontCSS("legend_title.cex", CSSFont.Win7Small)
+        Dim legendTickStyle As String = InteropArgumentHelper.getFontCSS("legend_tick.cex", CSSFont.Win7Small)
+        Dim axisTickCSS As String = InteropArgumentHelper.getFontCSS("axis_tick.cex", CSSFont.Win10Normal)
+        Dim axisLabelCSS As String = InteropArgumentHelper.getFontCSS("axis_label.cex", CSSFont.Win7Normal)
+
+        Return matrix.DrawMatrix(
+            size:=size,
+            padding:=padding,
+            bg:=bg,
+            colorSet:=colorSet,
+            levels:=levels,
+            clusterLabelStyle:=clusterLabelStyle,
+            legendTickStyle:=legendTickStyle,
+            legendTitleStyle:=legendTitleStyle,
+            axisLabelCSS:=axisLabelCSS,
+            axisTickCSS:=axisTickCSS
+        )
+    End Function
+
     ''' <summary>
     ''' Visualize of the gene expression patterns across different sample groups. 
     ''' </summary>
@@ -351,7 +394,7 @@ Module visualPlot
                                            Optional legendTitleStyle As String = CSSFont.Win7Small,
                                            Optional legendTickStyle As String = CSSFont.Win7Small,
                                            Optional axisTickCSS$ = CSSFont.Win10Normal,
-                                           Optional axisLabelCSS$ = CSSFont.Win7Small,
+                                           Optional axisLabelCSS$ = CSSFont.Win7Normal,
                                            Optional driver As Drivers = Drivers.Default) As Object
 
         Return matrix.DrawMatrix(
