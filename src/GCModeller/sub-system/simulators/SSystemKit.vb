@@ -54,9 +54,18 @@ Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports REnv = SMRUCC.Rsharp.Runtime
 
+''' <summary>
+''' S-system toolkit
+''' </summary>
 <Package("S.system")>
 Module SSystemKit
 
+    ''' <summary>
+    ''' create a new empty model for run S-system simulation
+    ''' </summary>
+    ''' <param name="title$"></param>
+    ''' <param name="description$"></param>
+    ''' <returns></returns>
     <ExportAPI("S.script")>
     Public Function script(Optional title$ = "unnamed model", Optional description$ = "") As Model
         Return New Model With {
@@ -65,6 +74,12 @@ Module SSystemKit
         }
     End Function
 
+    ''' <summary>
+    ''' create a new S-system dynamics kernel module
+    ''' </summary>
+    ''' <param name="snapshot"></param>
+    ''' <param name="model"></param>
+    ''' <returns></returns>
     <ExportAPI("kernel")>
     Public Function createKernel(snapshot As DataSnapshot, Optional model As Model = Nothing) As Kernel
         If model Is Nothing Then
@@ -81,6 +96,13 @@ Module SSystemKit
         Return kernel
     End Function
 
+    ''' <summary>
+    ''' config the symbol environment for S-system kernel
+    ''' </summary>
+    ''' <param name="kernel"></param>
+    ''' <param name="symbols"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("environment")>
     Public Function ConfigEnvironment(kernel As Kernel, <RListObjectArgument> symbols As Object, Optional env As Environment = Nothing) As Kernel
         Dim data As list = If(TypeOf symbols Is list, DirectCast(symbols, list), base.Rlist(symbols, env))
@@ -110,6 +132,13 @@ Module SSystemKit
         Return kernel
     End Function
 
+    ''' <summary>
+    ''' load S-system into the dynamics simulators kernel module
+    ''' </summary>
+    ''' <param name="kernel"></param>
+    ''' <param name="ssystem"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("s.system")>
     Public Function ConfigSSystem(kernel As Kernel, ssystem As DeclareLambdaFunction(), Optional env As Environment = Nothing) As Kernel
         Dim equations As New List(Of NamedValue(Of String))
@@ -133,6 +162,13 @@ Module SSystemKit
         Return kernel
     End Function
 
+    ''' <summary>
+    ''' run simulator
+    ''' </summary>
+    ''' <param name="kernel"></param>
+    ''' <param name="ticks"></param>
+    ''' <param name="resolution"></param>
+    ''' <returns></returns>
     <ExportAPI("run")>
     Public Function RunKernel(kernel As Kernel, Optional ticks As Integer = 100, Optional resolution As Double = 0.1) As Kernel
         kernel.finalTime = ticks
@@ -147,6 +183,12 @@ Module SSystemKit
         Return kernel
     End Function
 
+    ''' <summary>
+    ''' create a symbol data snapshot device for write data into file
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <param name="symbols"></param>
+    ''' <returns></returns>
     <ExportAPI("snapshot")>
     Public Function GetSnapshotsDriver(Optional file As String = Nothing, Optional symbols As String() = Nothing) As DataSnapshot
         If file.StringEmpty Then

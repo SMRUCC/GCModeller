@@ -142,7 +142,7 @@ Namespace ExpressionPattern
                         Xlabel:=xlabel,
                         Ylabel:=ylabel,
                         tickFontStyle:=theme.axisTickCSS,
-                        labelFontStyle:=theme.axisLabelCSS,
+                        axisLabelCSS:=theme.axisLabelCSS,
                         showLegend:=False
                     )
                     Call g.ColorMapLegend(
