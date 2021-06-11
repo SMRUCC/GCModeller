@@ -1,31 +1,34 @@
 require(charts);
 
-result_table <- read.csv(result_table);
-
-str(result_table);
-
-let time as double <- result_table[, "#time"] :> as.numeric;
-let lines = [];
-let colorSet = list(x1 = "blue", x2 = "red", x3 = "green", x4 = "gray");
-
-for(name in names(symbols)) {
-	let y <- result_table[, name] :> as.numeric;
-	let line <- serial(time, y, name, colorSet[[name]]);
-	
-	lines <- lines << line;
-	
-	print(line);
-}
-
-plot(lines, 
-	line         = TRUE, 
-	padding      = "padding: 200px 150px 250px 250px;", 
-	x.lab        = "#time", 
-	y.lab        = "intensity",
-	legendBgFill = "white",
-	title        = "Atkinson system",
-	y.format     = "G2",
-	interplot    = "B_Spline"
+const colorSet = list(
+	x1 = "blue", 
+	x2 = "red", 
+	x3 = "green", 
+	x4 = "gray"
 )
-:> save.graphics(file = "./atkinson.png")
 ;
+
+bitmap(file = `${dirname(@script)}/atkinson.png`) {
+	const result_table   <- read.csv(`${dirname(@script)}/atkinson.csv`, check_names = FALSE);
+	const time as double <- result_table[, "#time"] 
+	:> as.numeric
+	;
+
+	str(result_table);
+
+	names(colorSet)
+	|> sapply(function(name) {
+		time |> serial(as.numeric(result_table[, name]), name, colorSet[[name]]);
+	})
+	|> as.vector
+	|> plot(
+		line         = TRUE, 
+		padding      = "padding: 200px 150px 250px 250px;", 
+		x.lab        = "#time", 
+		y.lab        = "intensity",
+		legendBgFill = "white",
+		title        = "Atkinson system",
+		y.format     = "G2",
+		interplot    = "B_Spline"
+	);
+}
