@@ -17,7 +17,7 @@ Namespace Core
         ReadOnly silent As Boolean = False
 
         Public Sub New(app As AppHandler, port As Integer, Optional threads As Integer = -1, Optional silent As Boolean = False)
-            MyBase.New(port, threads)
+            MyBase.New(port, threads, silent:=silent)
 
             ' handle http request
             Me.app = app

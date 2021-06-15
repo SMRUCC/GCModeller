@@ -78,8 +78,8 @@ Namespace Core
         Public socket As TcpClient
         Public srv As HttpServer
 
-        Friend ReadOnly _inputStream As Stream
-        Friend ReadOnly _silent As Boolean = False
+        Dim _inputStream As Stream
+        Dim _silent As Boolean = False
 
         Public outputStream As StreamWriter
 
