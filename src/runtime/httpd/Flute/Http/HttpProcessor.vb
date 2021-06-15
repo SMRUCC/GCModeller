@@ -82,6 +82,13 @@ Namespace Core
 
         Public outputStream As StreamWriter
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' http方法名是大写的
+        ''' </remarks>
         Public Property http_method As String
 
         ''' <summary>

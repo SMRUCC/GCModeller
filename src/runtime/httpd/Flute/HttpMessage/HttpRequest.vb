@@ -72,6 +72,9 @@ Namespace Core.Message
         ''' GET/POST/PUT/DELETE....
         ''' </summary>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' http方法名是大写的
+        ''' </remarks>
         Public ReadOnly Property HTTPMethod As String
         Public ReadOnly Property URL As URL
         ''' <summary>

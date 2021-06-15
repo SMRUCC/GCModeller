@@ -10,11 +10,15 @@ Namespace Core
 
         Public Delegate Sub AppHandler(request As HttpRequest, response As HttpResponse)
 
+        ''' <summary>
+        ''' handle http request
+        ''' </summary>
         ReadOnly app As AppHandler
 
         Public Sub New(app As AppHandler, port As Integer, Optional threads As Integer = -1)
             MyBase.New(port, threads)
 
+            ' handle http request
             Me.app = app
         End Sub
 
