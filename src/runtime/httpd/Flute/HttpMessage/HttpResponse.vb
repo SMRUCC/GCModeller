@@ -70,15 +70,15 @@ Namespace Core.Message
         Friend ReadOnly response As StreamWriter
         Friend ReadOnly writeFailed As HttpError
 
+        Dim __writeHTML As Boolean = False
+        Dim __writeData As Boolean = False
+
         Public Property AccessControlAllowOrigin As String
 
         Sub New(rep As StreamWriter, [error] As HttpError)
             response = rep
             writeFailed = [error]
         End Sub
-
-        Dim __writeHTML As Boolean = False
-        Dim __writeData As Boolean = False
 
         ''' <summary>
         ''' 在这里只需要将错误消息放进来就行了，页面使用自定义的模板
@@ -105,12 +105,13 @@ Namespace Core.Message
             If Not __writeHTML AndAlso Not __writeData Then
                 __writeHTML = writeSuccess()
             End If
+
             Call response.WriteLine(html)
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub WriteHTML(html As StringBuilder)
-            WriteHTML(html.ToString)
+            Call WriteHTML(html.ToString)
         End Sub
 
         Private Function writeSuccess() As Boolean
