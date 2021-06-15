@@ -25,15 +25,15 @@ Namespace Core
         End Sub
 
         Public Overrides Sub handleGETRequest(p As HttpProcessor)
-            Call app(New HttpRequest(p), New HttpResponse(p.outputStream, Nothing))
+            Call app(New HttpRequest(p), New HttpResponse(p.outputStream, AddressOf p.writeFailure))
         End Sub
 
         Public Overrides Sub handlePOSTRequest(p As HttpProcessor, inputData As String)
-            Call app(New HttpPOSTRequest(p, inputData), New HttpResponse(p.outputStream, Nothing))
+            Call app(New HttpPOSTRequest(p, inputData), New HttpResponse(p.outputStream, AddressOf p.writeFailure))
         End Sub
 
         Public Overrides Sub handleOtherMethod(p As HttpProcessor)
-            Call app(New HttpRequest(p), New HttpResponse(p.outputStream, Nothing))
+            Call app(New HttpRequest(p), New HttpResponse(p.outputStream, AddressOf p.writeFailure))
         End Sub
 
         Protected Overrides Function getHttpProcessor(client As TcpClient, bufferSize As Integer) As HttpProcessor
