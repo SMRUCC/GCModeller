@@ -78,7 +78,8 @@ Namespace Core
         Public socket As TcpClient
         Public srv As HttpServer
 
-        Dim _inputStream As Stream
+        Friend ReadOnly _inputStream As Stream
+        Friend ReadOnly _silent As Boolean = False
 
         Public outputStream As StreamWriter
 
@@ -116,13 +117,6 @@ Namespace Core
         ''' <remarks></remarks>
         ReadOnly MAX_POST_SIZE% = 128 * 1024 * 1024
 
-        Public Sub New(socket As TcpClient, srv As HttpServer, MAX_POST_SIZE%)
-            Me.socket = socket
-            Me.srv = srv
-            Me.MAX_POST_SIZE = MAX_POST_SIZE
-            Me.MAX_POST_SIZE = -1
-        End Sub
-
         ''' <summary>
         ''' If current request url is indicates the HTTP root:  index.html
         ''' </summary>
@@ -133,6 +127,14 @@ Namespace Core
                 Return String.Equals("/", http_url)
             End Get
         End Property
+
+        Public Sub New(socket As TcpClient, srv As HttpServer, MAX_POST_SIZE%, Optional silent As Boolean = False)
+            Me.socket = socket
+            Me.srv = srv
+            Me.MAX_POST_SIZE = MAX_POST_SIZE
+            Me.MAX_POST_SIZE = -1
+            Me._silent = silent
+        End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub WriteData(data As Byte())
@@ -286,7 +288,7 @@ Namespace Core
                 http_url = tokens(1)
                 http_protocol_versionstring = tokens(2)
 
-                Call $"starting: {request}".__INFO_ECHO
+                Call $"starting: {request}".__INFO_ECHO(_silent)
             End If
 
             Return True
@@ -296,11 +298,11 @@ Namespace Core
             Dim line As String = "", s As New Value(Of String)
             Dim separator As Integer
 
-            Call NameOf(readHeaders).__DEBUG_ECHO
+            Call NameOf(readHeaders).__DEBUG_ECHO(mute:=_silent)
 
             While (s = streamReadLine(_inputStream)) IsNot Nothing
                 If s.Value.StringEmpty Then
-                    Call "got headers".__DEBUG_ECHO
+                    Call "got headers".__DEBUG_ECHO(mute:=_silent)
                     Return
                 Else
                     line = s.Value
@@ -320,7 +322,7 @@ Namespace Core
                 End While
 
                 Dim value As String = line.Substring(pos, line.Length - pos)
-                Call $"header: {name}:{value}".__DEBUG_ECHO
+                Call $"header: {name}:{value}".__DEBUG_ECHO(mute:=_silent)
                 httpHeaders(name) = value
             End While
         End Sub

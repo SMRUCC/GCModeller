@@ -14,12 +14,14 @@ Namespace Core
         ''' handle http request
         ''' </summary>
         ReadOnly app As AppHandler
+        ReadOnly silent As Boolean = False
 
-        Public Sub New(app As AppHandler, port As Integer, Optional threads As Integer = -1)
+        Public Sub New(app As AppHandler, port As Integer, Optional threads As Integer = -1, Optional silent As Boolean = False)
             MyBase.New(port, threads)
 
             ' handle http request
             Me.app = app
+            Me.silent = silent
         End Sub
 
         Public Overrides Sub handleGETRequest(p As HttpProcessor)
@@ -35,7 +37,7 @@ Namespace Core
         End Sub
 
         Protected Overrides Function getHttpProcessor(client As TcpClient, bufferSize As Integer) As HttpProcessor
-            Return New HttpProcessor(client, Me, MAX_POST_SIZE:=bufferSize * 4)
+            Return New HttpProcessor(client, Me, MAX_POST_SIZE:=bufferSize * 4, silent:=silent)
         End Function
     End Class
 End Namespace
