@@ -294,13 +294,19 @@ Namespace Core.Message
         ''' </summary>
         ''' <param name="value">The string to write to the stream. If value is null, nothing is written.</param>
         Public Overrides Sub Write(value As String)
-            __writeData = True
+            Dim bytes As Byte() = Encoding.UTF8.GetBytes(value)
+
+            If Not __writeData Then
+                __writeData = True
+                Call WriteHttp(New Content With {.length = bytes.Length, .type = MIME.Html})
+            End If
+
             Call response.Write(value)
         End Sub
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Sub WriteLine(s As String)
-            __writeData = True
-            Call response.WriteLine(s)
+            Call Write(value:=s & vbCrLf)
         End Sub
 
         ' Exceptions:

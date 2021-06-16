@@ -52,6 +52,7 @@
 Imports System.IO
 Imports System.Net.Sockets
 Imports System.Runtime.CompilerServices
+Imports System.Text
 Imports System.Threading
 Imports Flute.Http.Core.Message
 Imports Microsoft.VisualBasic.ApplicationServices
@@ -80,6 +81,7 @@ Namespace Core
 
         Dim _inputStream As Stream
         Dim _silent As Boolean = False
+        Dim _raw As New StringBuilder
 
         Public outputStream As StreamWriter
 
@@ -91,6 +93,16 @@ Namespace Core
         ''' http方法名是大写的
         ''' </remarks>
         Public Property http_method As String
+
+        ''' <summary>
+        ''' returns the raw http request header
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property raw As String
+            Get
+                Return _raw.ToString
+            End Get
+        End Property
 
         ''' <summary>
         ''' File location or GET/POST request arguments
@@ -155,6 +167,11 @@ Namespace Core
             Return New HttpResponse(outputStream, AddressOf writeFailure)
         End Function
 
+        ''' <summary>
+        ''' each stream line is end with ``cr + lf``. 
+        ''' </summary>
+        ''' <param name="inputStream"></param>
+        ''' <returns></returns>
         Private Function streamReadLine(inputStream As Stream) As String
             Dim nextChar As Integer
             Dim chrbuf As New List(Of Char)
@@ -172,7 +189,9 @@ Namespace Core
 
                 If nextChar = -1 Then
                     Call Thread.Sleep(1)
+
                     n += 1
+
                     If n > 1024 Then
                         Exit While
                     Else
@@ -198,7 +217,7 @@ Namespace Core
             }
 
             Try
-                Call doProcessInvoker()
+                Call processHttpRequest()
             Catch e As Exception
                 Call e.PrintException
                 writeFailure(HTTP_RFC.RFC_INTERNAL_SERVER_ERROR, e.ToString)
@@ -231,7 +250,7 @@ Namespace Core
         ''' <summary>
         ''' 在这个方法之中完成对一次http请求的解析到相对应的API处理的完整过程，当这个方法执行完毕之后就会关闭socket断开与浏览器的连接了
         ''' </summary>
-        Private Sub doProcessInvoker()
+        Private Sub processHttpRequest()
             ' 解析http请求
             If Not parseRequest() Then
                 ' 没有解析到请求的头部，则不会再做进一步的处理了，直接退出断开连接
@@ -243,9 +262,9 @@ Namespace Core
             End If
 
             ' 调用相对应的API进行请求的处理
-            If http_method.Equals("GET", StringComparison.OrdinalIgnoreCase) Then
+            If http_method = "GET" Then
                 handleGETRequest()
-            ElseIf http_method.Equals("POST", StringComparison.OrdinalIgnoreCase) Then
+            ElseIf http_method = "POST" Then
                 HandlePOSTRequest()
             Else
                 Call srv.handleOtherMethod(Me)
@@ -288,6 +307,7 @@ Namespace Core
                 http_url = tokens(1)
                 http_protocol_versionstring = tokens(2)
 
+                Call _raw.AppendLine(request)
                 Call $"starting: {request}".__INFO_ECHO(_silent)
             End If
 
@@ -322,7 +342,10 @@ Namespace Core
                 End While
 
                 Dim value As String = line.Substring(pos, line.Length - pos)
+
+                Call _raw.AppendLine(s.Value)
                 Call $"header: {name}:{value}".__DEBUG_ECHO(mute:=_silent)
+
                 httpHeaders(name) = value
             End While
         End Sub
@@ -384,7 +407,7 @@ Namespace Core
                         If to_read = 0 Then
                             Exit While
                         Else
-                            Return (900, "client disconnected during post")
+                            Return (900, "remote client disconnected during read post data")
                         End If
                     End If
 

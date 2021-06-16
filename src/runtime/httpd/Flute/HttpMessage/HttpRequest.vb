@@ -89,6 +89,7 @@ Namespace Core.Message
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property Remote As String
+        Public ReadOnly Property HttpRequest As HttpProcessor
 
         ''' <summary>
         ''' If current request url is indicates the HTTP root:  index.html
@@ -118,6 +119,7 @@ Namespace Core.Message
             version = request.http_protocol_versionstring
             HttpHeaders = request.httpHeaders
             Remote = request.socket.Client.RemoteEndPoint.ToString.Split(":"c).First
+            HttpRequest = request
         End Sub
 
         Sub New()
