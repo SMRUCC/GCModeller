@@ -147,6 +147,10 @@ Namespace Core.Message
             ).JoinBy("; ")
         End Sub
 
+        Public Sub WriteHttp(contentType As String, contentLength As Integer)
+            Call WriteHttp(New Content With {.type = contentType, .length = contentLength})
+        End Sub
+
         ''' <summary>
         ''' write http headers
         ''' </summary>
