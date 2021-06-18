@@ -58,6 +58,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
+Imports any = Microsoft.VisualBasic.Scripting
 
 Namespace API
 
@@ -1059,6 +1060,10 @@ Namespace API
             Else
                 Return c(list, recursive:=False)
             End If
+        End Function
+
+        Public Function c(x As Array) As String
+            Return c(x.AsObjectEnumerator.Select(AddressOf any.ToString).ToArray, stringVector:=True)
         End Function
 
         ''' <summary>

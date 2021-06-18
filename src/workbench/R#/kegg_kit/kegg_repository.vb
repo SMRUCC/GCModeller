@@ -388,10 +388,20 @@ Public Module kegg_repository
         Return New ReactionClass With {
             .entryId = id,
             .definition = definition,
-            .enzymes = enzyme.Select(Function(ecid) New NamedValue With {.name = ecid}).ToArray,
+            .enzymes = enzyme _
+                .SafeQuery _
+                .Select(Function(ecid)
+                            Return New NamedValue With {.name = ecid}
+                        End Function) _
+                .ToArray,
             .orthology = KO.GetNameValues,
             .pathways = pathways.GetNameValues,
-            .reactions = reactions.Select(Function(rid) New NamedValue With {.name = rid}).ToArray,
+            .reactions = reactions _
+                .SafeQuery _
+                .Select(Function(rid)
+                            Return New NamedValue With {.name = rid}
+                        End Function) _
+                .ToArray,
             .reactantPairs = transforms.forEachRow({"from", "to"}) _
                 .Select(Function(t)
                             Return New ReactionCompoundTransform With {

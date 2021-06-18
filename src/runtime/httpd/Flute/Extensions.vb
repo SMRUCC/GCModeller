@@ -45,6 +45,7 @@ Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Flute.Http.AppEngine
 Imports Flute.Http.Core.Message
+Imports Microsoft.VisualBasic.Linq
 #If NET_35 Then
 Imports Microsoft.VisualBasic.Language
 #End If
@@ -79,8 +80,15 @@ Imports Microsoft.VisualBasic.Net.Protocols.ContentTypes
                 Call out.Write(buffer, 0, read)
             Loop
 #Else
-            Call out.WriteHeader(MIMEtype, reader.Length)
-            Call reader.CopyTo(destination:=out.response.BaseStream)
+            Call New Content With {
+                .type = MIMEtype,
+                .length = reader.Length,
+                .attachment = path.FileName
+            }.DoCall(AddressOf out.WriteHttp)
+
+            Call reader.CopyTo(
+                destination:=out.response.BaseStream
+            )
 #End If
         End Using
     End Sub

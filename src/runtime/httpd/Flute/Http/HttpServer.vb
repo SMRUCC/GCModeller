@@ -73,6 +73,7 @@ Namespace Core
         ''' </summary>
         Protected Friend ReadOnly _threadPool As Threads.ThreadPool
         Protected Friend ReadOnly _httpListener As TcpListener
+        Protected Friend ReadOnly _silent As Boolean = False
 
         ''' <summary>
         ''' The network data port of this internal http server listen.
@@ -96,7 +97,7 @@ Namespace Core
         ''' 
         ''' </summary>
         ''' <param name="port">The network data port of this internal http server listen.</param>
-        Public Sub New(port%, Optional threads% = -1)
+        Public Sub New(port%, Optional threads% = -1, Optional silent As Boolean = False)
             Static defaultThreads As [Default](Of Integer) = (LQuerySchedule.Recommended_NUM_THREADS * 8).AsDefault(Function(n) CInt(n) <= 0)
 
             Me._localPort = port
@@ -104,8 +105,9 @@ Namespace Core
             Me._threadPool = New Threads.ThreadPool(threads Or defaultThreads)
             Me._BufferSize = Val(App.GetVariable("httpserver.buffer_size"))
             Me._BufferSize = If(BufferSize <= 0, 4096, BufferSize)
+            Me._silent = silent
 
-            Call $"Web server threads_pool_size={_threadPool.NumOfThreads}, buffer_size={BufferSize}bytes".__INFO_ECHO
+            Call $"Web server threads_pool_size={_threadPool.NumOfThreads}, buffer_size={BufferSize}bytes".__INFO_ECHO(silent)
         End Sub
 
         ''' <summary>
@@ -141,7 +143,7 @@ Namespace Core
 
                 Return 500
             Finally
-                Call $"Http Server Start listen at {_httpListener.LocalEndpoint.ToString}".__INFO_ECHO
+                Call $"Http Server Start listen at {_httpListener.LocalEndpoint.ToString}".__INFO_ECHO(silent:=_silent)
             End Try
 
             While Is_active
@@ -169,7 +171,7 @@ Namespace Core
                 Dim s As TcpClient = _httpListener.AcceptTcpClient
                 Dim processor As HttpProcessor = getHttpProcessor(s, BufferSize)
 
-                Call $"Process client from {s.Client.RemoteEndPoint.ToString}".__DEBUG_ECHO
+                Call $"Process client from {s.Client.RemoteEndPoint.ToString}".__DEBUG_ECHO(mute:=_silent)
                 Call Time(AddressOf processor.Process)
             Catch ex As Exception
                 Call App.LogException(ex)

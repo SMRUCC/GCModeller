@@ -72,11 +72,11 @@ Public Module ArgumentList
         ElseIf f Like GetType(IEnumerable(Of Boolean)) Then
             Return New NamedValue(Of String) With {.Name = f.Name, .Value = base.c(DirectCast(f.Value, IEnumerable(Of Boolean)).ToArray)}
         ElseIf f Like GetType(IEnumerable(Of Double)) Then
-            Return New NamedValue(Of String) With {.Name = f.Name, .Value = base.c(DirectCast(f.Value, IEnumerable(Of Double)).ToArray)}
+            Return New NamedValue(Of String) With {.Name = f.Name, .Value = base.c(Of Double)(DirectCast(f.Value, IEnumerable(Of Double)).ToArray)}
         ElseIf f Like GetType(IEnumerable(Of Integer)) Then
-            Return New NamedValue(Of String) With {.Name = f.Name, .Value = base.c(DirectCast(f.Value, IEnumerable(Of Integer)).ToArray)}
+            Return New NamedValue(Of String) With {.Name = f.Name, .Value = base.c(Of Integer)(DirectCast(f.Value, IEnumerable(Of Integer)).ToArray)}
         ElseIf f Like GetType(IEnumerable(Of Long)) Then
-            Return New NamedValue(Of String) With {.Name = f.Name, .Value = base.c(DirectCast(f.Value, IEnumerable(Of Long)).ToArray)}
+            Return New NamedValue(Of String) With {.Name = f.Name, .Value = base.c(Of Long)(DirectCast(f.Value, IEnumerable(Of Long)).ToArray)}
         Else
             Return New NamedValue(Of String) With {.Name = f.Name, .Value = Scripting.ToString(f.Value, "NULL")}
         End If

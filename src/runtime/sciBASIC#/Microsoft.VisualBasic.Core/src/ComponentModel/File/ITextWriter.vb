@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::24299c3c5b866b1c6b6acc4654f25bac, Data\word2vec\utils\HuffmanTree.vb"
+﻿#Region "Microsoft.VisualBasic::c0b636574e2ea60742b329b13e62b244, Microsoft.VisualBasic.Core\src\ComponentModel\File\ITextWriter.vb"
 
     ' Author:
     ' 
@@ -31,50 +31,26 @@
 
     ' Summaries:
 
-    '     Class HuffmanTree
+    '     Class ITextWriter
     ' 
-    '         Function: getPath
     ' 
-    '         Sub: make
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-Namespace utils
+Imports System.IO
+
+Namespace ComponentModel
 
     ''' <summary>
-    ''' Created by fangy on 13-12-17.
-    ''' 哈夫曼树
+    ''' <see cref="TextWriter"/>
     ''' </summary>
-    Public Class HuffmanTree
+    Public MustInherit Class ITextWriter
 
-        '    private TreeSet<HuffmanNode> tree = new TreeSet<HuffmanNode>();
+        Public MustOverride Sub Write(text As String)
+        Public MustOverride Sub WriteLine(text As String)
 
-        Public Shared Sub make(Of T1 As HuffmanNode)(nodes As ICollection(Of T1))
-            Dim tree As New SortedSet(Of HuffmanNode)(nodes)
-
-            While tree.Count > 1
-                Dim left As HuffmanNode = tree.PollFirst()
-                Dim right As HuffmanNode = tree.PollFirst()
-                Dim parent = left.merge(right)
-                tree.Add(parent)
-            End While
-        End Sub
-
-        Public Shared Function getPath(leafNode As HuffmanNode) As IList(Of HuffmanNode)
-            Dim nodes As New List(Of HuffmanNode)()
-            Dim hn = leafNode
-
-            While hn IsNot Nothing
-                nodes.Add(hn)
-                hn = hn.parent
-            End While
-
-            nodes.Reverse()
-
-            Return nodes
-        End Function
     End Class
 End Namespace

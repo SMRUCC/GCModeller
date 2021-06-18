@@ -177,11 +177,19 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             Return StreamParser(My.Resources.br08201)
         End Function
 
+        ''' <summary>
+        ''' reaction class
+        ''' </summary>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function br08204() As htext
             Return StreamParser(My.Resources.br08204)
         End Function
 
+        ''' <summary>
+        ''' KEGG pathway maps
+        ''' </summary>
+        ''' <returns></returns>
         Public Shared Function br08901() As htext
             Return StreamParser(My.Resources.br08901)
         End Function
