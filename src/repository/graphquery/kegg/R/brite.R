@@ -69,16 +69,20 @@ const enumeratePath as function(brite, prefix = "", maxChars = 64) {
 #'     on windows system.
 #' 
 const trimLongName as function(longNames as string, maxChars = 64) {
-  longNames
-  |> sapply(function(str) {
-    if (nchar(str) > maxChars) {
-      `${substr(str, 1, maxChars)}~`;
-    } else {
-      str;
-    }
-  })
-  |> gsub(":", ",")
-  ;
+  if (all(is.null(longNames))) {
+    NULL;
+  } else {
+    longNames
+    |> sapply(function(str) {
+      if (nchar(str) > maxChars) {
+        `${substr(str, 1, maxChars)}~`;
+      } else {
+        str;
+      }
+    })
+    |> gsub(":", ",")
+    ;
+  }
 }
 
 #' get reaction class category data 
