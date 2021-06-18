@@ -3,36 +3,20 @@ require(kegg_graphquery);
 options(http.cache_dir = ?"--cache" || `${dirname(@script)}/.cache/`);
 
 const all_category = as.data.frame(reactionclass_category());
+const repoDir = enumeratePath(all_category);
+const id      = all_category[, "entry"];
+const url     = "https://www.kegg.jp/dbget-bin/www_bget?rc:%s";
 
-print(all_category);
+print("get all kegg reaction class category maps:");
+str(all_category);
 
-stop(1);
+for(i in 1:nrow(all_category)) {
+    const class = kegg_reactionclass(url = sprintf(url, id[i]));
 
-const url = (
-    if (Tcode == "map") {
-        "https://www.kegg.jp/entry/ko%s";
-    } else {
-        gsub("https://www.genome.jp/entry/pathway+%c%s", "%c", Tcode);
-    }
-);
-const img     = "https://www.kegg.jp/kegg/pathway/ko/ko%s.png";
-const maps    = as.data.frame(pathway_category());
-const repoDir = enumeratePath(maps, Tcode);
-const id      = maps[, "entry"];
-
-print("get all kegg pathway maps:");
-str(maps);
-
-for(i in 1:nrow(maps)) {
-    const map = kegg_pathway(url = sprintf(url, id[i]));
-
-    if ((map != "") && (!is.null(map))) {
-
-        map
+    if ((class != "") && (!is.null(class))) {
+        class
         |> xml
         |> writeLines(con = `${repoDir(i)}.XML`)
         ;
-
-        # wget(sprintf(img, id[i]), `${repoDir(i)}.png`);
     }     
 }

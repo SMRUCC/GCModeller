@@ -7,8 +7,11 @@ const pathway_category as function() {
 }
 
 #' Create resource file path
+#' 
+#' @param brite a dataframe object that created from the ``brite::parse``
+#'    function.
 #'
-const enumeratePath as function(brite, prefix, maxChars = 64) {
+const enumeratePath as function(brite, prefix = "", maxChars = 64) {
   const class    = brite[, "class"];
   const category = brite[, "category"]
   |> sapply(function(str) {
