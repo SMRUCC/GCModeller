@@ -18,18 +18,17 @@ const enumeratePath as function(brite, prefix = "", maxChars = 64) {
   const order        = brite[, "order"];
   const id as string = brite[, "entry"];
 
+  print("get all kegg class category maps:");
+  str(brite);
+
   print("class data:");
   str(class);
-
   print("category data:");
   str(category);
-
   print("sub_category data:");
   str(subcategory);
-
   print("order data:");
   str(order);
-
   print("entry id data:");
   str(id);
 
