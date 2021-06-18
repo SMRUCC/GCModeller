@@ -63,6 +63,11 @@ const enumeratePath as function(brite, prefix = "", maxChars = 64) {
   }
 }
 
+#' try to make the long name shorter
+#' 
+#' @details the name in long length will caused the filesystem errors
+#'     on windows system.
+#' 
 const trimLongName as function(longNames as string, maxChars = 64) {
   longNames
   |> sapply(function(str) {
@@ -80,4 +85,10 @@ const trimLongName as function(longNames as string, maxChars = 64) {
 #' 
 const reactionclass_category as function() {
   brite::parse("br08204");
+}
+
+#' get reaction category data
+#' 
+const reaction_category as function() {
+  brite::parse("br08201");
 }
