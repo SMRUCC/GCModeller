@@ -18,6 +18,21 @@ const enumeratePath as function(brite, prefix = "", maxChars = 64) {
   const order        = brite[, "order"];
   const id as string = brite[, "entry"];
 
+  print("class data:");
+  str(class);
+
+  print("category data:");
+  str(category);
+
+  print("sub_category data:");
+  str(subcategory);
+
+  print("order data:");
+  str(order);
+
+  print("entry id data:");
+  str(id);
+
   if (all( is.null(subcategory))) {
     return(function(i) {
       `${class[i]}/${category[i]}/${prefix}${id[i]}`;
