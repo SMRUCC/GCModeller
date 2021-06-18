@@ -52,15 +52,21 @@ const enumeratePath as function(brite, prefix = "", maxChars = 64) {
   print("entry id data:");
   str(id);
 
-  if (all( is.null(subcategory))) {
+  if (is.null(subcategory) || all(is.null(subcategory))) {
     return(function(i) {
       `${class[i]}/${category[i]}/${prefix}${id[i]}`;
     });
-  } else {
+  } 
+  
+  if (is.null(order) || all(is.null(order))) {
     return(function(i) {
-      `${class[i]}/${category[i]}/${subcategory[i]}/${order[i]}/${prefix}${id[i]}`;
+      `${class[i]}/${category[i]}/${subcategory[i]}/${prefix}${id[i]}`;
     });
   }
+
+  return(function(i) {
+    `${class[i]}/${category[i]}/${subcategory[i]}/${order[i]}/${prefix}${id[i]}`;
+  });
 }
 
 #' try to make the long name shorter
