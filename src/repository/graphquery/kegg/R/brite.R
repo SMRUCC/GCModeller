@@ -13,7 +13,16 @@ const pathway_category as function() {
 #' 
 const compound_brites as function() {
   list(
-    "" = brite::parse("br08901")
+    "Compounds with biological roles"          = brite::parse("br08001"),
+    "Lipids"                                   = brite::parse("br08002"),
+    "Phytochemical compounds"                  = brite::parse("br08003"),
+    "Bioactive peptides"                       = brite::parse("br08005"),
+    "Endocrine disrupting compounds"           = brite::parse("br08006"),
+    "Pesticides"                               = brite::parse("br08007"),
+    "Carcinogens"                              = brite::parse("br08008"),
+    "Natural toxins"                           = brite::parse("br08009"),
+    "Target-based classification of compounds" = brite::parse("br08010"),
+    "Glycosides"                               = brite::parse("br08021")
   );
 }
 

@@ -2,17 +2,17 @@ require(kegg_graphquery);
 
 options(http.cache_dir = ?"--cache" || `${dirname(@script)}/.cache/`);
 
-# create resource url based on the organism Tcode exists or not
-const url     = "https://www.kegg.jp/dbget-bin/www_bget?cpd:%s";
-const runQuery as function(name, brite) {
-    const class   = as.data.frame(pathway_category());
-    const repoDir = enumeratePath(maps, Tcode);
-    const id      = maps[, "entry"];
+const category_all  = compound_brites();
+const url as string = "https://www.kegg.jp/dbget-bin/www_bget?cpd:%s";
+const runQuery as function(name) {
+    const class   = as.data.frame(category_all[[name]]);
+    const repoDir = enumeratePath(class);
+    const id      = class[, "entry"];
 
-    print("get all kegg pathway maps:");
-    str(maps);
+    print("get all kegg compound class:");
+    str(class);
 
-    for(i in 1:nrow(maps)) {
+    for(i in 1:nrow(class)) {
         const keg_compound = kegg_compound(url = sprintf(url, id[i]));
 
         if ((keg_compound != "") && (!is.null(keg_compound))) {
@@ -25,4 +25,8 @@ const runQuery as function(name, brite) {
     }
 }
 
-
+for(name in names(category_all)) {
+    name 
+    |> runQuery
+    ;
+}
