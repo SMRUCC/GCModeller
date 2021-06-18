@@ -6,6 +6,17 @@ const pathway_category as function() {
   brite::parse("br08901");
 }
 
+#' brite list of kegg compounds
+#' 
+#' @details this function returns a list of 
+#'    brite data of the kegg compounds
+#' 
+const compound_brites as function() {
+  list(
+    "" = brite::parse("br08901")
+  );
+}
+
 #' Create resource file path
 #' 
 #' @param brite a dataframe object that created from the ``brite::parse``
