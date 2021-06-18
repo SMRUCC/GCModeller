@@ -11,12 +11,15 @@ print("get all kegg reaction class category maps:");
 str(all_category);
 
 for(i in 1:nrow(all_category)) {
-    const class = kegg_reactionclass(url = sprintf(url, id[i]));
+    const class   = kegg_reactionclass(url = sprintf(url, id[i]));
+    const xmlfile = `${repoDir(i)}.XML`;
 
     if ((class != "") && (!is.null(class))) {
         class
         |> xml
-        |> writeLines(con = `${repoDir(i)}.XML`)
+        |> writeLines(con = xmlfile)
         ;
-    }     
+    } else {
+        print(`invalid query result of '${xmlfile}'`);
+    }
 }

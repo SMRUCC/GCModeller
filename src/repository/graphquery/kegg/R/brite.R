@@ -28,11 +28,13 @@ const enumeratePath as function(brite, prefix = "", maxChars = 64) {
   const id          = brite[, "entry"];
 
   if (all( is.null(subcategory))) {
-    function(i) {
+    return(function(i) {
       `${class[i]}/${category[i]}/${prefix}${id[i]}`;
-    }
+    });
   } else {
-    stop("not yet implemented!");
+    return(function(i) {
+      `${class[i]}/${category[i]}/${subcategory[i]}/${order[i]}/${prefix}${id[i]}`;
+    });
   }
 }
 
