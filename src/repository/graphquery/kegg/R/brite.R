@@ -12,20 +12,11 @@ const pathway_category as function() {
 #'    function.
 #'
 const enumeratePath as function(brite, prefix = "", maxChars = 64) {
-  const class    = brite[, "class"];
-  const category = brite[, "category"]
-  |> sapply(function(str) {
-    if (nchar(str) > maxChars) {
-      `${substr(str, 1, maxChars)}~`;
-    } else {
-      str;
-    }
-  })
-  |> gsub(":", ",")
-  ;
-  const subcategory = brite[, "subcategory"];
-  const order       = brite[, "order"];
-  const id          = brite[, "entry"];
+  const class        = brite[, "class"];
+  const category     = brite[, "category"]    |> trimLongName(maxChars);
+  const subcategory  = brite[, "subcategory"] |> trimLongName(maxChars);
+  const order        = brite[, "order"];
+  const id as string = brite[, "entry"];
 
   if (all( is.null(subcategory))) {
     return(function(i) {
@@ -36,6 +27,19 @@ const enumeratePath as function(brite, prefix = "", maxChars = 64) {
       `${class[i]}/${category[i]}/${subcategory[i]}/${order[i]}/${prefix}${id[i]}`;
     });
   }
+}
+
+const trimLongName as function(longNames as string, maxChars = 64) {
+  longNames
+  |> sapply(function(str) {
+    if (nchar(str) > maxChars) {
+      `${substr(str, 1, maxChars)}~`;
+    } else {
+      str;
+    }
+  })
+  |> gsub(":", ",")
+  ;
 }
 
 #' get reaction class category data 
