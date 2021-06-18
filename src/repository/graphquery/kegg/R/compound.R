@@ -36,7 +36,7 @@ const kegg_compound as function(url) {
       entry     = id,
       name      = commonNames[commonNames != ""],
       reaction  = reactionId[reactionId == $"R\d+"],
-      enzyme    = EC_idlist[EC_idlist  == $"\d[.].+"],
+      enzyme    = EC_idlist[EC_idlist   == $"\d[.].+"],
       formula   = formula,
       exactMass = exactMass,
       remarks   = remarks,

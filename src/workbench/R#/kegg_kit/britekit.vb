@@ -135,7 +135,9 @@ Module britekit
     Public Function ParseBriteTree(file$, Optional env As Environment = Nothing) As Object
         If file.IsPattern("[a-z]+\d+", RegexICSng) Then
             Select Case file.ToLower
+                ' enzymatic reactions
                 Case NameOf(htext.br08201) : Return htext.br08201
+                ' reaction class
                 Case NameOf(htext.br08204) : Return htext.br08204
                 Case CompoundBrite.cpd_br08001,
                      CompoundBrite.cpd_br08002,
@@ -150,6 +152,7 @@ Module britekit
 
                     Return htext.GetInternalResource(file)
                 Case NameOf(htext.ko00001) : Return htext.ko00001
+                ' kegg pathway maps
                 Case NameOf(htext.br08901) : Return htext.br08901
                 Case Else
                     Return REnv.debug.stop({$"Invalid brite id: {file}", $"brite id: {file}"}, env)
