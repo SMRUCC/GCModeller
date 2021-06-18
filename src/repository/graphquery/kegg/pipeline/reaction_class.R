@@ -2,7 +2,12 @@ require(kegg_graphquery);
 
 options(http.cache_dir = ?"--cache" || `${dirname(@script)}/.cache/`);
 
-# create resource url based on the organism Tcode exists or not
+const all_category = as.data.frame(reactionclass_category());
+
+print(all_category);
+
+stop(1);
+
 const url = (
     if (Tcode == "map") {
         "https://www.kegg.jp/entry/ko%s";

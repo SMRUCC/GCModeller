@@ -32,3 +32,9 @@ const enumeratePath as function(brite, prefix, maxChars = 64) {
     stop("not yet implemented!");
   }
 }
+
+#' get reaction class category data 
+#' 
+const reactionclass_category as function() {
+  brite::parse("br08204");
+}
