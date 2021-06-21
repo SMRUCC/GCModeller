@@ -14,6 +14,9 @@ const url = (
     }
 );
 
+print("Tcode for query kegg maps:");
+print(Tcode);
+
 const maps    = as.data.frame(pathway_category());
 const repoDir = enumeratePath(maps, Tcode);
 const id      = maps[, "entry"];
