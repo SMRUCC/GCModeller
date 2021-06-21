@@ -42,6 +42,9 @@ const enumeratePath as function(brite, prefix = "", maxChars = 64) {
   print(dim(brite));
   print(head(brite));
 
+  print("id prefix:");
+  print(prefix);
+
   print("class data:");
   str(class);
   print("category data:");

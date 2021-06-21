@@ -18,7 +18,7 @@ print("Tcode for query kegg maps:");
 print(Tcode);
 
 const maps    = as.data.frame(pathway_category());
-const repoDir = enumeratePath(maps, Tcode);
+const repoDir = enumeratePath(maps, prefix = Tcode);
 const id      = maps[, "entry"];
 
 print("get all kegg pathway maps:");
