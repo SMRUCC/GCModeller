@@ -39,7 +39,8 @@ const enumeratePath as function(brite, prefix = "", maxChars = 64) {
   const id as string = brite[, "entry"];
 
   print("get all kegg class category maps:");
-  str(brite);
+  print(dim(brite));
+  print(head(brite));
 
   print("class data:");
   str(class);
@@ -52,18 +53,21 @@ const enumeratePath as function(brite, prefix = "", maxChars = 64) {
   print("entry id data:");
   str(id);
 
-  if (is.null(subcategory) || all(is.null(subcategory))) {
+  if (is.null(subcategory) || all(is.null(subcategory)) || subcategory == "") {
+    print("path enumerate by class/category.");
     return(function(i) {
       `${class[i]}/${category[i]}/${prefix}${id[i]}`;
     });
   } 
   
-  if (is.null(order) || all(is.null(order))) {
+  if (is.null(order) || all(is.null(order)) || order == "") {
+    print("path enumerate by class/category/subcategory.");
     return(function(i) {
       `${class[i]}/${category[i]}/${subcategory[i]}/${prefix}${id[i]}`;
     });
   }
 
+  print("path enumerate by class/category/subcategory/order.");
   return(function(i) {
     `${class[i]}/${category[i]}/${subcategory[i]}/${order[i]}/${prefix}${id[i]}`;
   });
