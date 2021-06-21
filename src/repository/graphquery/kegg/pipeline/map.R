@@ -34,6 +34,10 @@ for(i in 1:nrow(maps)) {
         |> writeLines(con = `${repoDir(i)}.XML`)
         ;
 
-        # wget(sprintf(img, id[i]), `${repoDir(i)}.png`);
+        bitmap(file = `${repoDir(i)}.png`) {
+            `https://www.kegg.jp/kegg/pathway/map/map${id[i]}.png`
+            |> getImage
+            ;
+        }
     }     
 }
