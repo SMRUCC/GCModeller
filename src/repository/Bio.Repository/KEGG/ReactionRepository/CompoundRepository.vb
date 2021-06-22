@@ -76,6 +76,13 @@ Public Class CompoundRepository : Inherits XmlDataModel
 
     Dim compoundTable As Dictionary(Of String, CompoundIndex)
 
+    Sub New()
+    End Sub
+
+    Sub New(compounds As IEnumerable(Of Compound))
+        compoundTable = BuildIndexTable(compounds)
+    End Sub
+
     ''' <summary>
     ''' Get kegg compounds common names
     ''' </summary>
@@ -150,9 +157,15 @@ Public Class CompoundRepository : Inherits XmlDataModel
     End Function
 
     Public Shared Function ScanModels(directory$, Optional ignoreGlycan As Boolean = True) As CompoundRepository
+        Return New CompoundRepository With {
+            .compoundTable = BuildIndexTable(compounds:=ScanRepository(directory, ignoreGlycan))
+        }
+    End Function
+
+    Public Shared Function BuildIndexTable(compounds As IEnumerable(Of Compound)) As Dictionary(Of String, CompoundIndex)
         Dim table As New Dictionary(Of String, CompoundIndex)
 
-        For Each compound As Compound In ScanRepository(directory, ignoreGlycan)
+        For Each compound As Compound In compounds
             If Not table.ContainsKey(compound.entry) Then
                 Dim index As New CompoundIndex With {
                     .Entity = compound,
@@ -168,9 +181,7 @@ Public Class CompoundRepository : Inherits XmlDataModel
             End If
         Next
 
-        Return New CompoundRepository With {
-            .compoundTable = table
-        }
+        Return table
     End Function
 End Class
 

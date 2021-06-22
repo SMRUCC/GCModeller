@@ -50,6 +50,7 @@
 
 #End Region
 
+Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal
 Imports Microsoft.VisualBasic.CommandLine.Reflection
@@ -63,6 +64,7 @@ Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Organism
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Data
+Imports SMRUCC.genomics.Data.KEGG.Metabolism
 Imports SMRUCC.genomics.Model.Network.KEGG.ReactionNetwork
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
@@ -91,7 +93,13 @@ Public Module kegg_repository
     ''' <returns></returns>
     <ExportAPI("load.compounds")>
     Public Function LoadCompoundRepo(repository As String) As CompoundRepository
-        Return CompoundRepository.ScanModels(repository, ignoreGlycan:=False)
+        If repository.ExtensionSuffix("msgpack") Then
+            Using file As Stream = repository.Open(FileMode.Open, doClear:=False, [readOnly]:=True)
+                Return New CompoundRepository(KEGGCompoundPack.ReadKeggDb(file))
+            End Using
+        Else
+            Return CompoundRepository.ScanModels(repository, ignoreGlycan:=False)
+        End If
     End Function
 
     ''' <summary>
@@ -120,6 +128,10 @@ Public Module kegg_repository
     Public Function loadMapRepository(repository As String, Optional rawMaps As Boolean = True) As Object
         If rawMaps Then
             Return MapRepository.GetMapsAuto(repository).ToArray
+        ElseIf repository.ExtensionSuffix("msgpack") Then
+            Using file As Stream = repository.Open(FileMode.Open, doClear:=False, [readOnly]:=True)
+                Return KEGGMapPack.ReadKeggDb(file)
+            End Using
         Else
             Return MapRepository.BuildRepository(repository)
         End If
@@ -171,6 +183,7 @@ Public Module kegg_repository
     End Function
 
     <ExportAPI("reaction_class.table")>
+    <RApiReturn(GetType(ReactionClassTable))>
     Public Function loadReactionClassTable(<RRawVectorArgument> repo As Object, Optional env As Environment = Nothing) As Object
         If repo Is Nothing Then
             Return Nothing
@@ -181,6 +194,10 @@ Public Module kegg_repository
                 Return ReactionClassTable.ScanRepository(repo:=resource).ToArray
             ElseIf resource.ExtensionSuffix("csv") Then
                 Return resource.LoadCsv(Of ReactionClassTable).ToArray
+            ElseIf resource.ExtensionSuffix("msgpack") Then
+                Using file As Stream = resource.Open(FileMode.Open, doClear:=False, [readOnly]:=True)
+                    Return ReactionClassPack.ReadKeggDb(file).DoCall(AddressOf ReactionClassTable.ScanRepository).ToArray
+                End Using
             Else
                 Return REnv.debug.stop({
                     "invalid resource handle for load kegg reaction table!",
