@@ -537,6 +537,7 @@
     <Compile Include="Indexing\NamesFactory.vb" />
     <Compile Include="KEGG\Extensions.vb" />
     <Compile Include="KEGG\KEGGOrthology\OrganismModel.vb" />
+    <Compile Include="KEGG\MessagePack\KEGGMapPack.vb" />
     <Compile Include="KEGG\MessagePack\ReactionClassPack.vb" />
     <Compile Include="KEGG\MessagePack\KEGGCompoundPack.vb" />
     <Compile Include="KEGG\ReactionRepository\ReactionClassifier.vb" />
