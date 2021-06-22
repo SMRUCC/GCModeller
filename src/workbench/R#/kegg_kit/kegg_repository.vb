@@ -180,12 +180,18 @@ Public Module kegg_repository
     <ExportAPI("load.maps")>
     <RApiReturn(GetType(Map), GetType(MapRepository))>
     Public Function loadMapRepository(repository As String, Optional rawMaps As Boolean = True) As Object
+        If repository.ExtensionSuffix("msgpack") Then
+            Using file As Stream = repository.Open(FileMode.Open, doClear:=False, [readOnly]:=True)
+                If rawMaps Then
+                    Return KEGGMapPack.ReadKeggDb(file)
+                Else
+                    Return KEGGMapPack.ReadKeggDb(file).DoCall(AddressOf MapRepository.BuildRepository)
+                End If
+            End Using
+        End If
+
         If rawMaps Then
             Return MapRepository.GetMapsAuto(repository).ToArray
-        ElseIf repository.ExtensionSuffix("msgpack") Then
-            Using file As Stream = repository.Open(FileMode.Open, doClear:=False, [readOnly]:=True)
-                Return KEGGMapPack.ReadKeggDb(file)
-            End Using
         Else
             Return MapRepository.BuildRepository(repository)
         End If
