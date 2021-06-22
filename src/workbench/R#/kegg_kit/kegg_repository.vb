@@ -81,13 +81,26 @@ Public Module kegg_repository
 
     Sub New()
         Call REnv.ConsolePrinter.AttachConsoleFormatter(Of ReactionTable())(AddressOf showTable)
+        Call REnv.Object.Converts.makeDataframe.addHandler(GetType(Map()), AddressOf showMapTable)
     End Sub
 
     Private Function showTable(table As ReactionTable()) As String
         Return table.Take(6).ToCsvDoc.AsMatrix.Print()
     End Function
 
-    <ExportAPI("")>
+    Private Function showMapTable(table As Map(), args As list, env As Environment) As dataframe
+        Dim mapTable As New dataframe With {.columns = New Dictionary(Of String, Array)}
+
+        mapTable.columns(NameOf(Map.id)) = table.Select(Function(t) t.id).ToArray
+        mapTable.columns(NameOf(Map.Name)) = table.Select(Function(t) t.Name.TrimNewLine).ToArray
+        mapTable.columns(NameOf(Map.URL)) = table.Select(Function(t) t.URL).ToArray
+        mapTable.columns(NameOf(Map.description)) = table.Select(Function(t) t.description.TrimNewLine).ToArray
+        mapTable.columns(NameOf(Map.shapes)) = table.Select(Function(t) t.shapes.TryCount).ToArray
+
+        Return mapTable
+    End Function
+
+    <ExportAPI("write.msgpack")>
     <RApiReturn(GetType(Boolean))>
     Public Function writeMessagePack(<RRawVectorArgument> data As Object, file As Object, Optional env As Environment = Nothing) As Object
         Dim stream As Stream
