@@ -10,6 +10,8 @@ const kegg_map as function(url) {
     |> shapeAreas
     ;
 
+    str(info);
+
     repository::keggMap(
         id          = info$id,
         name        = info$name,

@@ -1,5 +1,7 @@
 description {
 	
+	id css("input[name='mapno']") | attr("value")
+
 	name css("title") 
 	   | text() 
 	   | replace("KEGG PATHWAY:", "") 
