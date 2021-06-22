@@ -67,6 +67,7 @@ Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Data.KEGG.Metabolism
 Imports SMRUCC.genomics.Model.Network.KEGG.ReactionNetwork
 Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports any = Microsoft.VisualBasic.Scripting
@@ -84,6 +85,46 @@ Public Module kegg_repository
 
     Private Function showTable(table As ReactionTable()) As String
         Return table.Take(6).ToCsvDoc.AsMatrix.Print()
+    End Function
+
+    <ExportAPI("")>
+    <RApiReturn(GetType(Boolean))>
+    Public Function writeMessagePack(<RRawVectorArgument> data As Object, file As Object, Optional env As Environment = Nothing) As Object
+        Dim stream As Stream
+
+        If file Is Nothing Then
+            Return Internal.debug.stop("the required file resource can not be nothing!", env)
+        ElseIf TypeOf file Is Stream Then
+            stream = file
+        ElseIf TypeOf file Is String Then
+            stream = DirectCast(file, String).Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False)
+        Else
+            Return Message.InCompatibleType(GetType(Stream), file.GetType, env)
+        End If
+
+        Dim reader As pipeline
+
+        reader = pipeline.TryCreatePipeline(Of Map)(data, env, suppress:=True)
+
+        If Not reader.isError Then
+            Return KEGGMapPack.WriteKeggDb(reader.populates(Of Map)(env), stream)
+        Else
+            reader = pipeline.TryCreatePipeline(Of ReactionClass)(data, env, suppress:=True)
+        End If
+
+        If Not reader.isError Then
+            Return ReactionClassPack.WriteKeggDb(reader.populates(Of ReactionClass)(env), stream)
+        Else
+            reader = pipeline.TryCreatePipeline(Of Compound)(data, env, suppress:=True)
+        End If
+
+        If Not reader.isError Then
+            Return KEGGCompoundPack.WriteKeggDb(reader.populates(Of Compound)(env), stream)
+        Else
+
+        End If
+
+        Return reader.getError
     End Function
 
     ''' <summary>

@@ -59,6 +59,7 @@ Namespace KEGG.Metabolism
         Public Shared Function WriteKeggDb(cpds As IEnumerable(Of Compound), file As Stream) As Boolean
             Try
                 Call MsgPackSerializer.SerializeObject(cpds.ToArray, file)
+                Call file.Flush()
             Catch ex As Exception
                 Call App.LogException(ex)
                 Return False

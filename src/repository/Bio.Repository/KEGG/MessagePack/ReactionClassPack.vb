@@ -45,6 +45,7 @@ Namespace KEGG.Metabolism
         Public Shared Function WriteKeggDb(reactions As IEnumerable(Of ReactionClass), file As Stream) As Boolean
             Try
                 Call MsgPackSerializer.SerializeObject(reactions.ToArray, file)
+                Call file.Flush()
             Catch ex As Exception
                 Call App.LogException(ex)
                 Return False

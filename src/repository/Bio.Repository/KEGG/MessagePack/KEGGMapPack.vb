@@ -49,6 +49,7 @@ Namespace KEGG.Metabolism
         Public Shared Function WriteKeggDb(maps As IEnumerable(Of Map), file As Stream) As Boolean
             Try
                 Call MsgPackSerializer.SerializeObject(maps.ToArray, file)
+                Call file.Flush()
             Catch ex As Exception
                 Call App.LogException(ex)
                 Return False
