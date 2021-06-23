@@ -1,42 +1,42 @@
 ﻿#Region "Microsoft.VisualBasic::41b2f679bf172c4cdd7df627fd8353ad, core\Bio.Assembly\Assembly\KEGG\Web\Map\URLEncoder.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module URLEncoder
-    ' 
-    '         Function: KEGGURLEncode, URLParser, VisualizePathwayMap
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module URLEncoder
+' 
+'         Function: KEGGURLEncode, URLParser, VisualizePathwayMap
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -44,6 +44,7 @@ Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Net.Http
 
 Namespace Assembly.KEGG.WebServices
 
@@ -62,12 +63,18 @@ Namespace Assembly.KEGG.WebServices
     ''' </remarks>
     Public Module URLEncoder
 
+        Public Function URLParser(urlStr$) As NamedCollection(Of NamedValue(Of String))
+            Dim url As URL = URL.Parse(urlStr)
+
+
+        End Function
+
         ''' <summary>
         ''' ``{id -> color}``
         ''' </summary>
         ''' <param name="url$"></param>
         ''' <returns></returns>
-        Public Function URLParser(url$) As NamedCollection(Of NamedValue(Of String))
+        Private Function URLParser1(url$) As NamedCollection(Of NamedValue(Of String))
             Dim args$ = url.Split("?"c).LastOrDefault
             Dim t = args.Split("/"c)
             Dim pathwayID$ = t.First
@@ -81,9 +88,9 @@ Namespace Assembly.KEGG.WebServices
                 .ToArray
 
             Return New NamedCollection(Of NamedValue(Of String)) With {
-                .Name = pathwayID,
-                .Value = genes,
-                .Description = url
+                .name = pathwayID,
+                .value = genes,
+                .description = url
             }
         End Function
 
@@ -92,8 +99,9 @@ Namespace Assembly.KEGG.WebServices
         ''' </summary>
         ''' <param name="profiles"></param>
         ''' <returns></returns>
-        <Extension> Public Function KEGGURLEncode(profiles As NamedCollection(Of NamedValue(Of String))) As String
-            Dim url$ = PathwayMapping.KEGG_show_pathway & profiles.Name
+        <Extension>
+        Public Function KEGGURLEncode(profiles As NamedCollection(Of NamedValue(Of String))) As String
+            Dim url$ = PathwayMapping.KEGG_show_pathway & profiles.name
             Dim genes$ = profiles _
                 .Select(Function(gene) $"{gene.Name}%09{gene.Value}") _
                 .JoinBy("/")
@@ -108,7 +116,8 @@ Namespace Assembly.KEGG.WebServices
         ''' <param name="profiles"></param>
         ''' <param name="save$"></param>
         ''' <returns></returns>
-        <Extension> Public Function VisualizePathwayMap(profiles As NamedCollection(Of NamedValue(Of String)), save$) As Image
+        <Extension>
+        Public Function VisualizePathwayMap(profiles As NamedCollection(Of NamedValue(Of String)), save$) As Image
             Dim url$ = profiles.KEGGURLEncode
             Call PathwayMapping.ShowEnrichmentPathway(url, save)
             Return save.LoadImage
