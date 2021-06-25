@@ -58,6 +58,12 @@ Namespace Xdr
             End Set
         End Property
 
+        Public ReadOnly Property EndOfStream As Boolean Implements IByteReader.EndOfStream
+            Get
+                Return data.EndOfStream
+            End Get
+        End Property
+
         Sub New(data As BinaryDataReader)
             Me.data = data
         End Sub
