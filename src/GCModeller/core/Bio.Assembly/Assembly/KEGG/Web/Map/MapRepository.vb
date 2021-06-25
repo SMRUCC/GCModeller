@@ -63,7 +63,8 @@ Namespace Assembly.KEGG.WebServices
         Implements IRepositoryRead(Of String, MapIndex)
         Implements Enumeration(Of Map)
 
-        <XmlElement("maps")> Public Property Maps As MapIndex()
+        <XmlElement("maps")>
+        Public Property Maps As MapIndex()
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return table.Values.ToArray
@@ -72,6 +73,12 @@ Namespace Assembly.KEGG.WebServices
             Set(value As MapIndex())
                 table = value.ToDictionary(Function(map) map.id)
             End Set
+        End Property
+
+        Public ReadOnly Property Item(id As String) As Map
+            Get
+                Return GetByKey(id)
+            End Get
         End Property
 
         ''' <summary>

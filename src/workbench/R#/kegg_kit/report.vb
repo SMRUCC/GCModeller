@@ -108,7 +108,9 @@ Module report
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("keggMap.highlights")>
-    Public Function renderMapHighlights(map As Map, <RRawVectorArgument> highlights As Object, Optional text_color As String = "white", Optional env As Environment = Nothing) As Object
+    Public Function renderMapHighlights(map As Map, <RRawVectorArgument> highlights As Object,
+                                        Optional text_color As String = "white",
+                                        Optional env As Environment = Nothing) As Object
         Dim highlightObjs = getHighlightObjects(highlights, env)
 
         If highlightObjs Like GetType(Message) Then
@@ -159,7 +161,10 @@ Module report
     ''' <returns></returns>
     ''' 
     <ExportAPI("keggMap.reportHtml")>
-    Public Function showReportHtml(map As Map, <RRawVectorArgument> highlights As Object, Optional text_color As String = "white", Optional env As Environment = Nothing) As Object
+    Public Function showReportHtml(map As Map, <RRawVectorArgument> highlights As Object,
+                                   Optional text_color As String = "white",
+                                   Optional env As Environment = Nothing) As Object
+
         Dim highlightObjs = getHighlightObjects(highlights, env)
 
         If highlightObjs Like GetType(Message) Then
@@ -201,6 +206,14 @@ Module report
                 .value = highlightObjs.TryCast(Of NamedValue(Of String)())
             }.KEGGURLEncode
         End If
+    End Function
+
+    <ExportAPI("parseKeggUrl")>
+    Public Function parseUrl(url As String) As list
+        Dim data = URLEncoder.URLParser(url)
+        Dim result As New list
+
+        Return result
     End Function
 
 End Module
