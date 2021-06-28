@@ -52,6 +52,7 @@ Imports Microsoft.VisualBasic.DataMining.ComponentModel
 Imports Microsoft.VisualBasic.Emit.Marshal
 Imports Microsoft.VisualBasic.Language.Python
 Imports Microsoft.VisualBasic.Math
+Imports i32 = Microsoft.VisualBasic.Language.i32
 Imports stdNum = System.Math
 
 ''' <summary>
@@ -89,7 +90,7 @@ Public NotInheritable Class Umap : Inherits IDataEmbedding
     Private _graph As SparseMatrix = Nothing
     Private _x As Double()() = Nothing
     Private _isInitialized As Boolean = False
-    Private _rpForest As Tree.FlatTree() = New Tree.FlatTree(-1) {}
+    Private _rpForest As New List(Of Tree.FlatTree)
 
     ''' <summary>
     ''' Projected embedding
@@ -261,22 +262,34 @@ Public NotInheritable Class Umap : Inherits IDataEmbedding
 
         Dim leafSize = stdNum.Max(10, knn.parameters.k)
         Dim forestProgressReporter = Umap.ScaleProgressReporter(progressReporter, 0.1F, 0.4F)
+        Dim i As i32 = Scan0
 
-        _rpForest = Enumerable.Range(0, nTrees) _
-            .[Select](Function(i)
-                          forestProgressReporter(CSng(i) / nTrees)
-                          Return Tree.FlattenTree(Tree.MakeTree(x, leafSize, i, _random), leafSize)
-                      End Function) _
-            .ToArray()
+        For Each node As Tree.FlatTree In Enumerable.Range(0, nTrees) _
+            .AsParallel _
+            .Select(Function(n)
+                        ' x is readonly in make tree
+                        ' progress can be parallel
+                        Return Tree.FlattenTree(Tree.MakeTree(x, leafSize, n, _random), leafSize)
+                    End Function)
 
-        Dim leafArray = Tree.MakeLeafArray(_rpForest)
+            Call forestProgressReporter(CSng(++i) / nTrees)
+            Call _rpForest.Add(node)
+        Next
+
+        Dim leafArray As Integer()() = Tree.MakeLeafArray(_rpForest)
+        Dim nnDescendProgressReporter = Umap.ScaleProgressReporter(progressReporter, 0.5F, 1)
 
         Call progressReporter(0.45F)
 
-        Dim nnDescendProgressReporter = Umap.ScaleProgressReporter(progressReporter, 0.5F, 1)
-
         ' Handle python3 rounding down from 0.5 discrpancy
-        Return metricNNDescent.MakeNNDescent(x, leafArray, knn.parameters.k, nIters, startingIteration:=Sub(i, max) nnDescendProgressReporter(CSng(i) / max))
+        Return metricNNDescent.MakeNNDescent(
+            data:=x,
+            leafArray:=leafArray,
+            nNeighbors:=knn.parameters.k,
+            nIters:=nIters,
+            startingIteration:=Sub(n, max)
+                                   nnDescendProgressReporter(CSng(n) / max)
+                               End Sub)
     End Function
 
     ''' <summary>

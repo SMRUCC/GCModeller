@@ -219,12 +219,11 @@ Namespace Tree
         ''' a set of potential nearest neighbors.Given enough trees the set of all such leaves gives a good likelihood of getting a good set of nearest neighbors in composite. Since such
         ''' a random projection forest is inexpensive to compute, this can be a useful means of seeding other nearest neighbor algorithms.
         ''' </summary>
-        Public Function MakeLeafArray(forest As FlatTree()) As Integer()()
-            If forest.Length > 0 Then
+        Public Function MakeLeafArray(forest As List(Of FlatTree)) As Integer()()
+            If forest.Count > 0 Then
                 Dim output = New List(Of Integer())()
 
                 For Each tree In forest
-
                     For Each entry In tree.Indices
                         output.Add(entry)
                     Next
