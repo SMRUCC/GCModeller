@@ -143,7 +143,7 @@ Friend Class NNDescent : Implements NNDescentFn
             End If
         Next
 
-        Return Heaps.DeHeapSort(currentGraph)
+        Return Heaps.DeHeapSort(currentGraph, startingIteration)
     End Function
 
     Private Function NNDescentLoop(currentGraph As Heap, nVertices As Integer, maxCandidates As Integer, candidateNeighbors As Heap, rho As Double, data As Double()()) As Double
