@@ -320,6 +320,17 @@ Namespace Math
         End Function
 
         ''' <summary>
+        ''' 将一维的数据按照一定的偏移量分组输出
+        ''' </summary>
+        ''' <param name="numbers"></param>
+        ''' <returns></returns>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function GroupBy(numbers As IEnumerable(Of Double), tolerance As GenericLambda(Of Double).IEquals) As IEnumerable(Of NamedCollection(Of Double))
+            Return numbers.GroupBy(Self(Of Double), tolerance)
+        End Function
+
+        ''' <summary>
         ''' 按照相邻的两个数值是否在offset区间内来进行简单的分组操作
         ''' </summary>
         ''' <typeparam name="TagObject"></typeparam>
