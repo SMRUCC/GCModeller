@@ -69,7 +69,7 @@ Friend Class NNDescent : Implements NNDescentFn
         Me.random = random
     End Sub
 
-    Private Function rpTreeInit(leafArray As Integer()(), data As Double()(), currentGraph As Heap) As Heap
+    Private Function rpTreeInit(leafArray As Integer()(), data As Double()(), currentGraph As Heap, startingIteration As Action(Of Integer, Integer, String)) As Heap
         Dim d As Double
 
         For n As Integer = 0 To leafArray.Length - 1
@@ -89,6 +89,8 @@ Friend Class NNDescent : Implements NNDescentFn
                     Call Heaps.HeapPush(currentGraph, leafArray(n)(j), d, leafArray(n)(i), 1)
                 Next
             Next
+
+            Call startingIteration?.Invoke(n, leafArray.Length, $"rpTreeInit {n}/{leafArray.Length}")
         Next
 
         Return currentGraph
@@ -119,11 +121,11 @@ Friend Class NNDescent : Implements NNDescentFn
                 Call Heaps.HeapPush(currentGraph, indices(j), d, i, 1)
             Next
 
-            Call startingIteration?.Invoke(i, nVertices, $"{i}/{nVertices}")
+            Call startingIteration?.Invoke(i, nVertices, $"Heaps.HeapPush {i}/{nVertices}")
         Next
 
         If rpTreeInit Then
-            currentGraph = Me.rpTreeInit(leafArray, data, currentGraph)
+            currentGraph = Me.rpTreeInit(leafArray, data, currentGraph, startingIteration)
         End If
 
         Dim candidateNeighbors As Heap
