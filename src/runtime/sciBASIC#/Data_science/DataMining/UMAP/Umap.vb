@@ -90,7 +90,7 @@ Public NotInheritable Class Umap : Inherits IDataEmbedding
     Private _graph As SparseMatrix = Nothing
     Private _x As Double()() = Nothing
     Private _isInitialized As Boolean = False
-    Private _rpForest As New List(Of Tree.FlatTree)
+    Private _rpForest As Tree.FlatTree()
 
     ''' <summary>
     ''' Projected embedding
@@ -264,16 +264,18 @@ Public NotInheritable Class Umap : Inherits IDataEmbedding
         Dim forestProgressReporter = Umap.ScaleProgressReporter(progressReporter, 0.1F, 0.4F)
         Dim i As i32 = Scan0
 
-        For Each node As Tree.FlatTree In Enumerable.Range(0, nTrees) _
+        _rpForest = New Tree.FlatTree(nTrees - 1) {}
+
+        For Each node As (i%, Tree.FlatTree) In Enumerable.Range(0, nTrees) _
             .AsParallel _
             .Select(Function(n)
                         ' x is readonly in make tree
                         ' progress can be parallel
-                        Return Tree.FlattenTree(Tree.MakeTree(x, leafSize, n, _random), leafSize)
+                        Return (n, Tree.FlattenTree(Tree.MakeTree(x, leafSize, n, _random), leafSize))
                     End Function)
 
-            Call forestProgressReporter(CSng(++i) / nTrees)
-            Call _rpForest.Add(node)
+            _rpForest(node.i) = node.Item2
+            forestProgressReporter(CSng(++i) / nTrees)
         Next
 
         Dim leafArray As Integer()() = Tree.MakeLeafArray(_rpForest)
