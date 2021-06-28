@@ -55,7 +55,7 @@ Public Interface NNDescentFn
                        Optional delta As Double = 0.001F,
                        Optional rho As Double = 0.5F,
                        Optional rpTreeInit As Boolean = True,
-                       Optional startingIteration As Action(Of Integer, Integer) = Nothing) As (Integer()(), Double()())
+                       Optional startingIteration As Action(Of Integer, Integer, String) = Nothing) As (Integer()(), Double()())
 
 End Interface
 
@@ -103,13 +103,13 @@ Friend Class NNDescent : Implements NNDescentFn
                                   Optional delta As Double = 0.001F,
                                   Optional rho As Double = 0.5F,
                                   Optional rpTreeInit As Boolean = True,
-                                  Optional startingIteration As Action(Of Integer, Integer) = Nothing) As (Integer()(), Double()()) Implements NNDescentFn.NNDescent
+                                  Optional startingIteration As Action(Of Integer, Integer, String) = Nothing) As (Integer()(), Double()()) Implements NNDescentFn.NNDescent
 
         Dim nVertices As Integer = data.Length
-        Dim currentGraph As Heap = Heaps.MakeHeap(data.Length, nNeighbors)
+        Dim currentGraph As Heap = Heaps.MakeHeap(nVertices, nNeighbors)
         Dim d As Double
 
-        For i As Integer = 0 To data.Length - 1
+        For i As Integer = 0 To nVertices - 1
             Dim indices As Integer() = Utils.RejectionSample(nNeighbors, data.Length, random)
 
             For j As Integer = 0 To indices.Length - 1
@@ -118,6 +118,8 @@ Friend Class NNDescent : Implements NNDescentFn
                 Call Heaps.HeapPush(currentGraph, i, d, indices(j), 1)
                 Call Heaps.HeapPush(currentGraph, indices(j), d, i, 1)
             Next
+
+            Call startingIteration?.Invoke(i, nVertices, $"{i}/{nVertices}")
         Next
 
         If rpTreeInit Then
@@ -129,9 +131,9 @@ Friend Class NNDescent : Implements NNDescentFn
         Dim dataSize As Integer = data.Length
 
         For n As Integer = 0 To nIters - 1
-            Call startingIteration?.Invoke(n, nIters)
-
+            startingIteration?.Invoke(n, nIters, $"{n}/{nIters}")
             candidateNeighbors = Heaps.BuildCandidates(currentGraph, nVertices, nNeighbors, maxCandidates, random)
+
             c = NNDescentLoop(currentGraph, nVertices, maxCandidates, candidateNeighbors, rho, data)
 
             If c <= delta * nNeighbors * dataSize Then
