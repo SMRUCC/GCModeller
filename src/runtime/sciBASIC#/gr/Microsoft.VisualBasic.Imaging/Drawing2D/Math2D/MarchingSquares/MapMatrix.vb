@@ -1,48 +1,49 @@
 ﻿#Region "Microsoft.VisualBasic::6090615ec98e193210749f6d98b4e511, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Math2D\MarchingSquares\MapMatrix.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class MapMatrix
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: GetMatrixInterpolation, InitData
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class MapMatrix
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: GetMatrixInterpolation, InitData
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Drawing
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Math.Quantile
 Imports stdNum = System.Math
 
 Namespace Drawing2D.Math2D.MarchingSquares
@@ -86,6 +87,13 @@ Namespace Drawing2D.Math2D.MarchingSquares
             grid_w = gridSize.Width
             grid_h = gridSize.Height
         End Sub
+
+        Public Function GetLevelQuantile() As QuantileEstimationGK
+            Dim data As Double() = dots.Select(Function(t) t.Z).ToArray
+            Dim q As QuantileEstimationGK = data.GKQuantile
+
+            Return q
+        End Function
 
         ''' <summary>
         ''' 返回一个稠密状态的结果矩阵
