@@ -42,7 +42,10 @@
 #End Region
 
 Imports System.Drawing
+Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Quantile
 Imports stdNum = System.Math
 
@@ -57,42 +60,49 @@ Namespace Drawing2D.Math2D.MarchingSquares
         ''' 插值后得到的稠密矩阵数据
         ''' </summary>
         Friend data As Double(,)
-        Friend x_num% = 100
-        Friend y_num% = 100
-
-#Region "the input parameters"
-        Friend grid_w#
-        Friend grid_h#
-        Friend w#, h#
-#End Region
-
         ''' <summary>
         ''' 实际的测量结果数据，一般为一个稀疏矩阵
         ''' </summary>
         ReadOnly dots() As MeasureData
 
-        Friend min#
-        Friend max#
+        Public ReadOnly Property dimension As Size
+            Get
+                Dim w As Integer = Aggregate p In dots Into Max(p.X)
+                Dim h As Integer = Aggregate p In dots Into Max(p.Y)
+
+                Return New Size(w, h)
+            End Get
+        End Property
 
         ''' <summary>
         ''' 
         ''' </summary>
         ''' <param name="raw">现实世界中的原始测量结果数据</param>
-        ''' <param name="size">画布的大小</param>
-        ''' <param name="gridSize">网格的大小</param>
-        Sub New(raw As IEnumerable(Of MeasureData), size As SizeF, gridSize As SizeF)
+        Sub New(raw As IEnumerable(Of MeasureData))
             dots = raw.ToArray
-            w = size.Width
-            h = size.Height
-            grid_w = gridSize.Width
-            grid_h = gridSize.Height
+            InitData()
         End Sub
 
         Public Function GetLevelQuantile() As QuantileEstimationGK
-            Dim data As Double() = dots.Select(Function(t) t.Z).ToArray
+            Dim data As Double() = Me.data.RowIterator.IteratesALL.ToArray
             Dim q As QuantileEstimationGK = data.GKQuantile
 
             Return q
+        End Function
+
+        Public Function GetPercentages() As Double()
+            Dim data As Double() = Me.data _
+                .RowIterator _
+                .IteratesALL _
+                .ToArray
+            Dim range As DoubleRange = data
+            Dim percentage As DoubleRange = {0, 1}
+
+            Return {0.05, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.95, 0.975} _
+                .Select(Function(p)
+                            Return percentage.ScaleMapping(p, range)
+                        End Function) _
+                .ToArray
         End Function
 
         ''' <summary>
@@ -101,24 +111,19 @@ Namespace Drawing2D.Math2D.MarchingSquares
         ''' <returns>
         ''' 以行扫描的方式返回结果
         ''' </returns>
-        Public Iterator Function GetMatrixInterpolation() As IEnumerable(Of IntMeasureData())
+        Public Iterator Function GetMatrixInterpolation() As IEnumerable(Of Double())
             Dim x, y As Double
-            Dim dx As Double = grid_w
-            Dim dy As Double = grid_h
-            Dim scan As New List(Of IntMeasureData)
+            Dim dims As Size = dimension
+            Dim scan As New List(Of Double)
 
-            For i As Integer = 0 To x_num - 1
-                For j As Integer = 0 To y_num - 1
-                    scan += New IntMeasureData With {
-                        .X = x,
-                        .Y = y,
-                        .Z = data(i, j)
-                    }
-                    y += dy
+            For i As Integer = 0 To dims.Width - 1
+                For j As Integer = 0 To dims.Height - 1
+                    scan += data(i, j)
+                    y += 1
                 Next
 
                 y = 0
-                x = x + dx
+                x = x + 1
 
                 Yield scan.PopAll
             Next
@@ -128,53 +133,53 @@ Namespace Drawing2D.Math2D.MarchingSquares
         ''' 数据插值
         ''' </summary>
         Friend Function InitData() As MapMatrix
-            Dim measure_data = New IntMeasureData(dots.Length - 1) {}
-            Dim d As Double
+            Dim dims = dimension
+            Dim x_num = dims.Width
+            Dim y_num = dims.Height
 
-            x_num = CInt(w / grid_w)
-            y_num = CInt(h / grid_h)
             data = New Double(x_num - 1, y_num - 1) {}
 
-            For i = dots.Length - 1 To 0 Step -1
-                measure_data(i) = New IntMeasureData(dots(i), x_num, y_num)
-            Next
-
-            min = Single.MaxValue
-            max = Single.MinValue
-
             For i As Integer = 0 To x_num - 1
-                For j As Integer = 0 To y_num - 1
-                    Dim value As Single = 0
-                    Dim find = False
-
-                    For Each imd As IntMeasureData In measure_data
-                        If i = imd.X AndAlso j = imd.Y Then
-                            value = imd.Z
-                            find = True
-                            Exit For
-                        End If
-                    Next
-
-                    If Not find Then
-                        Dim lD As Double = 0
-                        Dim DV As Double = 0
-
-                        For Each imd As IntMeasureData In measure_data
-                            d = 1.0 / ((imd.X - i) * (imd.X - i) + (imd.Y - j) * (imd.Y - j))
-                            lD += d
-                            DV += imd.Z * d
-                        Next
-
-                        value = CSng(DV / lD)
-                    End If
-
-                    data(i, j) = value
-                    min = stdNum.Min(min, value)
-                    max = stdNum.Max(max, value)
+                For Each j In getYScan(i, y_num)
+                    data(i, j) = j.value
                 Next
             Next
 
             Return Me
+        End Function
+
+        Private Function getYScan(i As Integer, y_num As Integer) As IEnumerable(Of SeqValue(Of Double))
+            Return y_num.Sequence _
+                .AsParallel _
+                .Select(Function(j)
+                            Dim value As Single = 0
+                            Dim find As Boolean = False
+                            Dim d As Double
+
+                            For Each imd As MeasureData In dots
+                                If i = imd.X AndAlso j = imd.Y Then
+                                    value = imd.Z
+                                    find = True
+                                    Exit For
+                                End If
+                            Next
+
+                            If Not find Then
+                                Dim lD As Double = 0
+                                Dim DV As Double = 0
+
+                                For Each imd As MeasureData In dots
+                                    d = 1.0 / ((imd.X - i) * (imd.X - i) + (imd.Y - j) * (imd.Y - j))
+                                    lD += d
+                                    DV += imd.Z * d
+                                Next
+
+                                value = CSng(DV / lD)
+                            End If
+
+                            Return New SeqValue(Of Double)(j, value)
+                        End Function) _
+                .OrderBy(Function(j) j.i)
         End Function
     End Class
 End Namespace

@@ -51,17 +51,17 @@ Namespace Drawing2D.Math2D.MarchingSquares
         ''' <summary>
         ''' 坐标X
         ''' </summary>
-        Public Property X As Single
+        Public X As Integer
 
         ''' <summary>
         ''' 坐标Y
         ''' </summary>
-        Public Property Y As Single
+        Public Y As Integer
 
         ''' <summary>
         ''' 高度
         ''' </summary>
-        Public Property Z As Double
+        Public Z As Double
 
         ''' <summary>
         ''' 初始化测量数据
@@ -69,7 +69,7 @@ Namespace Drawing2D.Math2D.MarchingSquares
         ''' <param name="x">坐标x</param>
         ''' <param name="y">坐标y</param>
         ''' <param name="z">高度</param>
-        Public Sub New(x As Single, y As Single, z As Double)
+        Public Sub New(x As Integer, y As Integer, z As Double)
             Me.X = x
             Me.Y = y
             Me.Z = z
