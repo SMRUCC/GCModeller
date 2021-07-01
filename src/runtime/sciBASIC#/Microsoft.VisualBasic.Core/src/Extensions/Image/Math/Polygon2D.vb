@@ -48,6 +48,7 @@ Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Linq
 Imports stdNum = System.Math
+Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
 Namespace Imaging.Math2D
 
@@ -60,7 +61,13 @@ Namespace Imaging.Math2D
         Public ReadOnly Property xpoints As Double() = New Double(3) {}
         Public ReadOnly Property ypoints As Double() = New Double(3) {}
 
+        ''' <summary>
+        ''' [left, top]
+        ''' </summary>
         Protected Friend bounds1 As Vector2D = Nothing
+        ''' <summary>
+        ''' [right, bottom]
+        ''' </summary>
         Protected Friend bounds2 As Vector2D = Nothing
 
         Default Public Property Item(index As Integer) As PointF
@@ -126,6 +133,25 @@ Namespace Imaging.Math2D
         End Sub
 
         ''' <summary>
+        ''' get a random point that inside current polygon
+        ''' </summary>
+        ''' <returns></returns>
+        Public Function GetRandomPoint(nSampleing As Integer) As PointF
+            Dim x, y As Double
+
+            For i As Integer = 1 To nSampleing
+                x = randf.NextDouble(bounds1.x, bounds2.x)
+                y = randf.NextDouble(bounds1.y, bounds2.y)
+
+                If inside(x, y) Then
+                    Return New PointF(x, y)
+                End If
+            Next
+
+            Return New PointF(x, y)
+        End Function
+
+        ''' <summary>
         ''' measure the [top,left] and [bottom, right] as rectangle bound
         ''' </summary>
         ''' <param name="x"></param>
@@ -154,6 +180,14 @@ Namespace Imaging.Math2D
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Friend Overridable Function boundingInside(x As Double, y As Double) As Boolean
             Return (x >= Me.bounds1.x) AndAlso (x <= Me.bounds2.x) AndAlso (y >= Me.bounds1.y) AndAlso (y <= Me.bounds2.y)
+        End Function
+
+        Public Function inside(par2D As PointF) As Boolean
+            If Not boundingInside(par2D.X, par2D.Y) Then
+                Return False
+            Else
+                Return checkInside(par2D.X, par2D.Y)
+            End If
         End Function
 
         ''' <summary>
