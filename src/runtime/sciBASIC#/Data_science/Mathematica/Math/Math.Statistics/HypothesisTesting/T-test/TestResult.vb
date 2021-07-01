@@ -71,12 +71,9 @@ Namespace Hypothesis
         ''' </summary>
         ''' <returns></returns>
         Public Property TestValue As Double
-        ''' <summary>
-        ''' the alternative hypothesis.
-        ''' </summary>
-        ''' <returns></returns>
-        Public Property alternative As Hypothesis
-        Public Property alpha As Double
+
+        Public Property opt As Topt
+
         ''' <summary>
         ''' Sample mean
         ''' </summary>
@@ -100,7 +97,7 @@ Namespace Hypothesis
         ''' </summary>
         ''' <returns></returns>
         Public Function Valid() As Boolean
-            Return Pvalue >= alpha
+            Return Pvalue >= opt.alpha
         End Function
 
         Public Overrides Function ToString() As String
@@ -111,36 +108,12 @@ Namespace Hypothesis
 
 data:  {x.GetJson}
 t = {TestValue}, df = {DegreeFreedom}, p-value = {Pvalue}
-alternative hypothesis: {Valid.ToString.ToUpper} mean is not equal to 0
-{(1 - alpha) * 100} percent confidence interval:
+alternative hypothesis: {Valid.ToString.ToUpper} mean is not equal to {opt.mu}
+{(1 - opt.alpha) * 100} percent confidence interval:
  {ci95.Min}  {ci95.Max}
 sample estimates:
    mean of x 
 {Mean} "
-        End Function
-    End Class
-
-    Public Class TwoSampleResult : Inherits TtestResult
-
-        Public Property MeanX As Double
-        Public Property MeanY As Double
-
-        Public Property y As Double()
-
-        Public Overrides Function ToString() As String
-            Dim ci95 = Me.ci95
-
-            Return $"
-	Welch Two Sample t-test
-
-data:  {x.GetJson} and {y.GetJson}
-t = {TestValue}, df = {DegreeFreedom}, p-value <= {Pvalue}
-alternative hypothesis: {Valid.ToString.ToUpper} difference in means is not equal to {MeanX}
-{(1 - alpha) * 100} percent confidence interval:
- {ci95(0)} {ci95(1)}
-sample estimates:
-mean of x mean of y 
- {MeanX}  {MeanY}"
         End Function
     End Class
 End Namespace

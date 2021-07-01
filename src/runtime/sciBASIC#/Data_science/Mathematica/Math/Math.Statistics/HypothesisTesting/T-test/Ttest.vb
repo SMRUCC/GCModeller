@@ -67,15 +67,19 @@ Namespace Hypothesis
                              Optional alpha# = 0.05) As TtestResult
 
             Dim sample As New BasicProductMoments(x)
+            Dim opt As New Topt With {
+                .alpha = alpha,
+                .mu = mu,
+                .alternative = alternative
+            }
 
             Return New TtestResult With {
-                .alpha = alpha,
                 .DegreeFreedom = sample.SampleSize - 1,
                 .StdErr = stdNum.Sqrt(sample.Variance / sample.SampleSize),
                 .TestValue = (sample.Mean - mu) / .StdErr,
                 .Pvalue = Pvalue(.TestValue, .DegreeFreedom, alternative),
                 .Mean = sample.Mean,
-                .alternative = alternative,
+                .opt = opt,
                 .x = sample.ToArray
             }
         End Function
@@ -123,15 +127,19 @@ Namespace Hypothesis
             End If
 
             Dim pvalue# = t.Pvalue(testVal, df, alternative)
+            Dim opt As New Topt With {
+                .alpha = alpha,
+                .alternative = alternative,
+                .mu = mu
+            }
 
             Return New TwoSampleResult With {
-                .alpha = alpha,
                 .DegreeFreedom = df,
                 .Mean = left.Mean - right.Mean,
                 .StdErr = stdErr,
                 .TestValue = testVal,
                 .Pvalue = pvalue,
-                .alternative = alternative,
+                .opt = opt,
                 .MeanX = left.Mean,
                 .MeanY = right.Mean,
                 .x = va,

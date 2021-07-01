@@ -45,6 +45,9 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 Module Program
 
     Sub Main()
+        Call oneSample()
+
+
         Dim a#() = {115, 108, 108, 119, 105, 101, 120, 115, 104, 100.9}
         Dim b#() = {185, 169, 173, 173, 188, 186, 175, 174, 179, 180}
 
@@ -55,10 +58,14 @@ Module Program
 
         Dim x#() = {0, 1, 1, 1}
 
+        ' ttest([0,1,1,1], {mu: 1}).valid() // true
         With t.Test(x, mu:=1)
             Call $"alternative hypothesis: { .Valid}".__DEBUG_ECHO
             Call .GetJson(True).__DEBUG_ECHO
         End With
+
+        ' ttest([0,1,1,1], [1,2,2,2], {mu: -1}).valid() // true
+        Call Console.Write(t.Test({0, 1, 1, 1}, {1, 2, 2, 2}, mu:=-1).ToString)
 
         a = {6846523.253, 6840877.665, 5806323.704}
         b = {3056565.388, 1831431.105, 2933659.497}
@@ -66,7 +73,54 @@ Module Program
         Call t.Test(a, b).GetJson(indent:=True).__DEBUG_ECHO
         Call t.Test(a, b, varEqual:=False).GetJson(indent:=True).__DEBUG_ECHO
 
+        Pause()
+    End Sub
+
+    Sub oneSample()
+        With t.Test({1, 2, 2, 2, 4}, mu:=2, alpha:=0.05, alternative:=Hypothesis.TwoSided)
+            '    valid: true,
+            '    freedom: 4,
+
+            '    pValue: 0.703999999999999737099187768763,
+            '    testValue: 0.408248290463863405808098150374,
+
+            '    confidence: [
+            '      0.839825238683489017077477001294,
+            '      3.560174761316511560238495803787
+            '    ]
+            Call Console.WriteLine(.ToString)
+        End With
+
+        With t.Test({1, 2, 2, 2, 4}, mu:=2, alpha:=0.05, alternative:=Hypothesis.Less)
+            '    valid: true,
+            '    freedom: 4,
+
+            '    pValue: 0.648000000000000131450406115619,
+            '    testValue: 0.408248290463863405808098150374,
+
+            '    confidence: [
+            '      -Infinity,
+            '      3.244387367258481980059059424093
+            '    ]
+
+            Call Console.WriteLine(.ToString)
+        End With
+
+        With t.Test({1, 2, 2, 2, 4}, mu:=2, alpha:=0.05, alternative:=Hypothesis.Greater)
+            '    valid: true,
+            '    freedom: 4,
+
+            '    pValue: 0.351999999999999868549593884381,
+            '    testValue: 0.408248290463863405808098150374,
+
+            '    confidence: [
+            '      1.155612632741518375212308455957,
+            '      Infinity
+            '    ]
+            Call Console.WriteLine(.ToString)
+        End With
 
         Pause()
     End Sub
+
 End Module
