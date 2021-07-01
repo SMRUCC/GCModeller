@@ -44,6 +44,9 @@
 
 #End Region
 
+Imports System.Drawing
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Linq
 Imports stdNum = System.Math
 
 Namespace Imaging.Math2D
@@ -51,14 +54,24 @@ Namespace Imaging.Math2D
     ''' <summary>
     ''' polygon object in 2D plain
     ''' </summary>
-    Public Class Polygon2D
+    Public Class Polygon2D : Implements Enumeration(Of PointF)
 
-        Public ReadOnly Property npoints As Integer = 0
+        Public ReadOnly Property length As Integer = 0
         Public ReadOnly Property xpoints As Double() = New Double(3) {}
         Public ReadOnly Property ypoints As Double() = New Double(3) {}
 
         Protected Friend bounds1 As Vector2D = Nothing
         Protected Friend bounds2 As Vector2D = Nothing
+
+        Default Public Property Item(index As Integer) As PointF
+            Get
+                Return New PointF(xpoints(index), ypoints(index))
+            End Get
+            Set(value As PointF)
+                xpoints(index) = value.X
+                ypoints(index) = value.Y
+            End Set
+        End Property
 
         Sub New()
         End Sub
@@ -68,14 +81,42 @@ Namespace Imaging.Math2D
                 Throw New InvalidProgramException($"the point size of x should be equals to y!")
             End If
 
-            Me.npoints = x.Length
-            Me.xpoints = New Double(npoints - 1) {}
-            Me.ypoints = New Double(npoints - 1) {}
+            Me.length = x.Length
+            Me.xpoints = New Double(length - 1) {}
+            Me.ypoints = New Double(length - 1) {}
 
-            Array.Copy(x, 0, Me.xpoints, 0, npoints)
-            Array.Copy(y, 0, Me.ypoints, 0, npoints)
+            Array.Copy(x, 0, Me.xpoints, 0, length)
+            Array.Copy(y, 0, Me.ypoints, 0, length)
 
-            Call calculateBounds(x, y, npoints)
+            Call calculateBounds(x, y, length)
+        End Sub
+
+        Public Sub New(points As PointF())
+            Call Me.New(
+                x:=points.Select(Function(p) CDbl(p.X)).ToArray,
+                y:=points.Select(Function(p) CDbl(p.Y)).ToArray
+            )
+        End Sub
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Sub New(rect As Rectangle)
+            Call Me.New(
+                x:={rect.Left, rect.Right, rect.Right, rect.Left},
+                y:={rect.Top, rect.Top, rect.Bottom, rect.Bottom}
+            )
+        End Sub
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="rect">
+        ''' 四个顶点是具有前后顺序的，按照顺序构建出一个四方形
+        ''' </param>
+        Sub New(rect As RectangleF)
+            Call Me.New(
+                x:={rect.Left, rect.Right, rect.Right, rect.Left},
+                y:={rect.Top, rect.Top, rect.Bottom, rect.Bottom}
+            )
         End Sub
 
         Friend Overridable Sub calculateBounds(x As Double(), y As Double(), n As Integer)
@@ -114,12 +155,12 @@ Namespace Imaging.Math2D
                 Dim d1 As Double = 0.0
                 Dim j As Integer = 0
 
-                While (j < Me.npoints) AndAlso (Me.ypoints(j) = y)
+                While (j < Me.length) AndAlso (Me.ypoints(j) = y)
                     j += 1
                 End While
 
-                For k As Integer = 0 To Me.npoints - 1
-                    Dim m As Integer = (j + 1) Mod Me.npoints
+                For k As Integer = 0 To Me.length - 1
+                    Dim m As Integer = (j + 1) Mod Me.length
                     Dim d2 As Double = Me.xpoints(m) - Me.xpoints(j)
                     Dim d3 As Double = Me.ypoints(m) - Me.ypoints(j)
 
@@ -164,27 +205,44 @@ Namespace Imaging.Math2D
             Dim Ys As Double() = ypoints
             Dim area As Double
 
-            'Check if the coordinates of the last points are equal to the coordinates of the first point.
-            'In other words, check if the polygon is closed and then apply the shoelace algorithm.
+            ' Check if the coordinates of the last points are equal to the coordinates of the first point.
+            ' In other words, check if the polygon is closed and then apply the shoelace algorithm.
             If Xs(Xs.Length - 1) = Xs(0) And Ys(Ys.Length - 1) = Ys(0) Then
-                'Polygon is closed (last point = first point).
+                ' Polygon is closed (last point = first point).
                 For i = 0 To Xs.Length - 2
                     area = area + (Xs(i + 1) + Xs(i)) * (Ys(i + 1) - Ys(i))
                 Next
             Else
-                'The polygon is not considered closed.
+                ' The polygon is not considered closed.
                 For i = 0 To Xs.Length - 2
                     area = area + (Xs(i + 1) + Xs(i)) * (Ys(i + 1) - Ys(i))
                 Next
 
-                'Use the coordinates of the first point to "close" the polygon.
+                ' Use the coordinates of the first point to "close" the polygon.
                 area = area + (Xs(0) + Xs(Xs.Length - 1)) * (Ys(0) - Ys(Ys.Length - 1))
             End If
 
-            'Finally, calculate the polygon area.
+            ' Finally, calculate the polygon area.
             area = stdNum.Abs(area / 2)
 
             Return area
         End Function
+
+        Public Iterator Function GenericEnumerator() As IEnumerator(Of PointF) Implements Enumeration(Of PointF).GenericEnumerator
+            For i As Integer = 0 To length - 1
+                Yield New PointF(xpoints(i), ypoints(i))
+            Next
+        End Function
+
+        Public Iterator Function GetEnumerator() As IEnumerator Implements Enumeration(Of PointF).GetEnumerator
+            Yield GenericEnumerator()
+        End Function
+
+        Public Shared Widening Operator CType(points As PointF()) As Polygon2D
+            Dim x As Double() = points.Select(Function(p) CDbl(p.X)).ToArray
+            Dim y As Double() = points.Select(Function(p) CDbl(p.Y)).ToArray
+
+            Return New Polygon2D(x, y)
+        End Operator
     End Class
 End Namespace
