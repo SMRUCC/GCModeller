@@ -91,6 +91,8 @@ Namespace Imaging.Math2D
             Call calculateBounds(x, y, length)
         End Sub
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <DebuggerStepThrough>
         Public Sub New(points As PointF())
             Call Me.New(
                 x:=points.Select(Function(p) CDbl(p.X)).ToArray,
@@ -99,6 +101,7 @@ Namespace Imaging.Math2D
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <DebuggerStepThrough>
         Sub New(rect As Rectangle)
             Call Me.New(
                 x:={rect.Left, rect.Right, rect.Right, rect.Left},
@@ -112,6 +115,9 @@ Namespace Imaging.Math2D
         ''' <param name="rect">
         ''' 四个顶点是具有前后顺序的，按照顺序构建出一个四方形
         ''' </param>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <DebuggerStepThrough>
         Sub New(rect As RectangleF)
             Call Me.New(
                 x:={rect.Left, rect.Right, rect.Right, rect.Left},
@@ -119,6 +125,12 @@ Namespace Imaging.Math2D
             )
         End Sub
 
+        ''' <summary>
+        ''' measure the [top,left] and [bottom, right] as rectangle bound
+        ''' </summary>
+        ''' <param name="x"></param>
+        ''' <param name="y"></param>
+        ''' <param name="n"></param>
         Friend Overridable Sub calculateBounds(x As Double(), y As Double(), n As Integer)
             Dim d1 As Double = Double.MaxValue
             Dim d2 As Double = Double.MaxValue
@@ -129,6 +141,7 @@ Namespace Imaging.Math2D
                 Dim d5 As Double = x(i)
                 d1 = stdNum.Min(d1, d5)
                 d3 = stdNum.Max(d3, d5)
+
                 Dim d6 As Double = y(i)
                 d2 = stdNum.Min(d2, d6)
                 d4 = stdNum.Max(d4, d6)
@@ -138,60 +151,74 @@ Namespace Imaging.Math2D
             Me.bounds2 = New Vector2D(d3, d4)
         End Sub
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Friend Overridable Function boundingInside(x As Double, y As Double) As Boolean
             Return (x >= Me.bounds1.x) AndAlso (x <= Me.bounds2.x) AndAlso (y >= Me.bounds1.y) AndAlso (y <= Me.bounds2.y)
         End Function
 
-        Public Overridable Function inside(paramVector2D As Vector2D) As Boolean
-            Return inside(paramVector2D.x, paramVector2D.y)
+        ''' <summary>
+        ''' check data point is inside current polygon?
+        ''' </summary>
+        ''' <param name="par2D"></param>
+        ''' <returns></returns>
+        Public Overridable Function inside(par2D As Vector2D) As Boolean
+            If Not boundingInside(par2D.x, par2D.y) Then
+                Return False
+            Else
+                Return checkInside(par2D.x, par2D.y)
+            End If
+        End Function
+
+        Private Function checkInside(x As Double, y As Double) As Boolean
+            Dim i As Integer = 0
+            Dim d1 As Double = 0.0
+            Dim j As Integer = 0
+
+            While (j < Me.length) AndAlso (Me.ypoints(j) = y)
+                j += 1
+            End While
+
+            For k As Integer = 0 To Me.length - 1
+                Dim m As Integer = (j + 1) Mod Me.length
+                Dim d2 As Double = Me.xpoints(m) - Me.xpoints(j)
+                Dim d3 As Double = Me.ypoints(m) - Me.ypoints(j)
+
+                If d3 <> 0.0 Then
+                    Dim d4 As Double = x - Me.xpoints(j)
+                    Dim d5 As Double = y - Me.ypoints(j)
+
+                    If (Me.ypoints(m) = y) AndAlso (Me.xpoints(m) >= x) Then
+                        d1 = Me.ypoints(j)
+                    End If
+
+                    If (Me.ypoints(j) = y) AndAlso (Me.xpoints(j) >= x) Then
+                        If (If(d1 > y, 1, 0)) <> (If(Me.ypoints(m) > y, 1, 0)) Then
+                            i -= 1
+                        End If
+                    End If
+
+                    Dim f As Single = CSng(d5) / CSng(d3)
+
+                    If (f >= 0.0) AndAlso (f <= 1.0) AndAlso (f * d2 >= d4) Then
+                        i += 1
+                    End If
+                End If
+
+                j = m
+            Next
+
+            Return i Mod 2 <> 0
         End Function
 
         ''' <summary>
         ''' @deprecated
         ''' </summary>
         Public Overridable Function inside(x As Double, y As Double) As Boolean
-            If boundingInside(x, y) Then
-                Dim i As Integer = 0
-                Dim d1 As Double = 0.0
-                Dim j As Integer = 0
-
-                While (j < Me.length) AndAlso (Me.ypoints(j) = y)
-                    j += 1
-                End While
-
-                For k As Integer = 0 To Me.length - 1
-                    Dim m As Integer = (j + 1) Mod Me.length
-                    Dim d2 As Double = Me.xpoints(m) - Me.xpoints(j)
-                    Dim d3 As Double = Me.ypoints(m) - Me.ypoints(j)
-
-                    If d3 <> 0.0 Then
-                        Dim d4 As Double = x - Me.xpoints(j)
-                        Dim d5 As Double = y - Me.ypoints(j)
-
-                        If (Me.ypoints(m) = y) AndAlso (Me.xpoints(m) >= x) Then
-                            d1 = Me.ypoints(j)
-                        End If
-
-                        If (Me.ypoints(j) = y) AndAlso (Me.xpoints(j) >= x) Then
-                            If (If(d1 > y, 1, 0)) <> (If(Me.ypoints(m) > y, 1, 0)) Then
-                                i -= 1
-                            End If
-                        End If
-
-                        Dim f As Single = CSng(d5) / CSng(d3)
-
-                        If (f >= 0.0) AndAlso (f <= 1.0) AndAlso (f * d2 >= d4) Then
-                            i += 1
-                        End If
-                    End If
-
-                    j = m
-                Next
-
-                Return i Mod 2 <> 0
+            If Not boundingInside(x, y) Then
+                Return False
+            Else
+                Return checkInside(x, y)
             End If
-
-            Return False
         End Function
 
         ''' <summary>
