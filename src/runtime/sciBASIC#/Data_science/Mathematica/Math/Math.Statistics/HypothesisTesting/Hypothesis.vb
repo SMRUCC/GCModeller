@@ -50,14 +50,14 @@ Namespace Hypothesis
         ''' <summary>
         ''' ``mu > mu0``
         ''' </summary>
-        Greater
+        Greater = 1
         ''' <summary>
         ''' ``mu &lt; mu0``
         ''' </summary>
-        Less
+        Less = -1
         ''' <summary>
-        ''' ``mu &lt;> mu0``
+        ''' not equals ``mu &lt;> mu0``
         ''' </summary>
-        TwoSided
+        TwoSided = 0
     End Enum
 End Namespace

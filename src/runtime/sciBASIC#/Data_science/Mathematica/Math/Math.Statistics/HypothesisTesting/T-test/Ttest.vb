@@ -103,15 +103,16 @@ Namespace Hypothesis
             Dim va#() = a.ToArray, vb = b.ToArray
             Dim left As New BasicProductMoments(a)
             Dim right As New BasicProductMoments(b)
-            Dim v#
+            ' degree of freedom
+            Dim df#
 
             If varEqual Then
-                v = left.SampleSize + right.SampleSize - 2
+                df = left.SampleSize + right.SampleSize - 2
             Else
-                v = welch2df(va.Variance, vb.Variance, left.SampleSize, right.SampleSize)
+                df = welch2df(va.Variance, vb.Variance, left.SampleSize, right.SampleSize)
             End If
 
-            Dim commonVariance# = ((left.SampleSize - 1) * va.Variance + (right.SampleSize - 1) * vb.Variance) / v
+            Dim commonVariance# = ((left.SampleSize - 1) * va.Variance + (right.SampleSize - 1) * vb.Variance) / df
             Dim testVal#
             Dim stdErr# = stdNum.Sqrt(commonVariance * (1 / left.SampleSize + 1 / right.SampleSize))
 
@@ -121,11 +122,11 @@ Namespace Hypothesis
                 testVal = welch2t(left.Mean, right.Mean, va.Variance, vb.Variance, left.SampleSize, right.SampleSize)
             End If
 
-            Dim pvalue# = t.Pvalue(testVal, v, alternative)
+            Dim pvalue# = t.Pvalue(testVal, df, alternative)
 
             Return New TwoSampleResult With {
                 .alpha = alpha,
-                .DegreeFreedom = v,
+                .DegreeFreedom = df,
                 .Mean = left.Mean - right.Mean,
                 .StdErr = stdErr,
                 .TestValue = testVal,
