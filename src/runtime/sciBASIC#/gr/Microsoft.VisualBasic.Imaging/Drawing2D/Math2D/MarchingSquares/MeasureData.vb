@@ -46,7 +46,7 @@ Namespace Drawing2D.Math2D.MarchingSquares
     ''' <summary>
     ''' 测量数据
     ''' </summary>
-    Public Structure MeasureData
+    Public Class MeasureData
 
         ''' <summary>
         ''' 坐标X
@@ -63,6 +63,9 @@ Namespace Drawing2D.Math2D.MarchingSquares
         ''' </summary>
         Public Property Z As Double
 
+        Sub New()
+        End Sub
+
         ''' <summary>
         ''' 初始化测量数据
         ''' </summary>
@@ -78,5 +81,5 @@ Namespace Drawing2D.Math2D.MarchingSquares
         Public Overrides Function ToString() As String
             Return $"[{X}, {Y}] {Z}"
         End Function
-    End Structure
+    End Class
 End Namespace
