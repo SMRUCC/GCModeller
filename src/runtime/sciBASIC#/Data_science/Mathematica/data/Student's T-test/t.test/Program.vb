@@ -46,6 +46,7 @@ Module Program
 
     Sub Main()
         Call oneSample()
+        Call twoSample()
 
 
         Dim a#() = {115, 108, 108, 119, 105, 101, 120, 115, 104, 100.9}
@@ -75,6 +76,133 @@ Module Program
 
         Pause()
     End Sub
+
+    Sub twoSample()
+        With t.Test({1, 2, 2, 2, 4}, {0, 3, 3, 3, 2}, mu:=1, varEqual:=True, alpha:=0.05, alternative:=Hypothesis.TwoSided)
+            'valid: true,
+            '    freedom: 8,
+
+            '    pValue: 0.225571973816597132200811870462,
+            '    testValue: -1.313064328597225660644198796945,
+
+            '    confidence: [
+            '      -1.756200427489884585696700014523,
+            '      1.756200427489884585696700014523
+            '    ]
+
+            Call Console.WriteLine(.ToString)
+        End With
+
+        With t.Test({1, 2, 2, 2, 4}, {0, 3, 3, 3, 2}, mu:=1, varEqual:=True, alpha:=0.05, alternative:=Hypothesis.Less)
+            'valid: true,
+            '    freedom: 8,
+
+            '    pValue: 0.112785986908298566100405935231,
+            '    testValue: -1.313064328597225660644198796945,
+
+            '    confidence: [
+            '      -Infinity,
+            '      1.416189593328981199960026060580
+            '    ]
+
+            Call Console.WriteLine(.ToString)
+        End With
+
+        With t.Test({1, 2, 2, 2, 4}, {0, 3, 3, 3, 2}, mu:=1, varEqual:=True, alpha:=0.05, alternative:=Hypothesis.Greater)
+            'valid: true,
+            '    freedom: 8,
+
+            '    pValue: 0.887214013091701447777381872584,
+            '    testValue: -1.313064328597225660644198796945,
+
+            '    confidence: [
+            '      -1.416189593328981199960026060580,
+            '      Infinity
+            '    ]
+
+            Call Console.WriteLine(.ToString)
+        End With
+
+        Pause()
+    End Sub
+
+    '    > t.test(c(1,2,2,2,4), mu=2, alpha = 0.05, alternative = "two.sided")
+
+    '	One Sample t-test
+
+    'data:  c(1, 2, 2, 2, 4)
+    't = 0.40825, df = 4, p-value = 0.704
+    'alternative hypothesis :  true mean Is Not equal to 2
+    '95 percent confidence interval:
+    ' 0.8398252 3.5601748
+    'sample estimates : 
+    'mean of x 
+    '      2.2 
+
+    '> t.test(c(1,2,2,2,4), mu=2, alpha = 0.05, alternative = "less")
+
+    '	One Sample t-test
+
+    'data:  c(1, 2, 2, 2, 4)
+    't = 0.40825, df = 4, p-value = 0.648
+    'alternative hypothesis :  true mean Is less than 2
+    '95 percent confidence interval:
+    '     -Inf 3.244387
+    'sample estimates : 
+    'mean of x 
+    '      2.2 
+
+    '> t.test(c(1,2,2,2,4), mu=2, alpha = 0.05, alternative = "greater")
+
+    '	One Sample t-test
+
+    'data:  c(1, 2, 2, 2, 4)
+    't = 0.40825, df = 4, p-value = 0.352
+    'alternative hypothesis :  true mean Is greater than 2
+    '95 percent confidence interval:
+    ' 1.155613      Inf
+    'sample estimates : 
+    'mean of x 
+    '      2.2 
+
+    '> t.test(c(1, 2, 2, 2, 4),c(0, 3, 3, 3, 2), mu = 1, var.equal = TRUE, alpha = 0.05, alternative = "two.sided")
+
+    '	Two Sample t-test
+
+    'data:  c(1, 2, 2, 2, 4) And c(0, 3, 3, 3, 2)
+    't = -1.3131, df = 8, p-value = 0.2256
+    'alternative hypothesis :  true difference in means Is Not equal to 1
+    '95 percent confidence interval:
+    ' -1.7562  1.7562
+    'sample estimates : 
+    'mean of x mean of y 
+    '      2.2       2.2 
+
+    '> t.test(c(1, 2, 2, 2, 4),c(0, 3, 3, 3, 2), mu = 1, var.equal = TRUE, alpha = 0.05, alternative = "less")
+
+    '	Two Sample t-test
+
+    'data:  c(1, 2, 2, 2, 4) And c(0, 3, 3, 3, 2)
+    't = -1.3131, df = 8, p-value = 0.1128
+    'alternative hypothesis :  true difference in means Is less than 1
+    '95 percent confidence interval:
+    '    -Inf 1.41619
+    'sample estimates : 
+    'mean of x mean of y 
+    '      2.2       2.2 
+
+    '> t.test(c(1, 2, 2, 2, 4),c(0, 3, 3, 3, 2), mu = 1, var.equal = TRUE, alpha = 0.05, alternative = "greater")
+
+    '	Two Sample t-test
+
+    'data:  c(1, 2, 2, 2, 4) And c(0, 3, 3, 3, 2)
+    't = -1.3131, df = 8, p-value = 0.8872
+    'alternative hypothesis :  true difference in means Is greater than 1
+    '95 percent confidence interval:
+    ' -1.41619      Inf
+    'sample estimates : 
+    'mean of x mean of y 
+    '      2.2       2.2 
 
     Sub oneSample()
         With t.Test({1, 2, 2, 2, 4}, mu:=2, alpha:=0.05, alternative:=Hypothesis.TwoSided)
@@ -120,7 +248,7 @@ Module Program
             Call Console.WriteLine(.ToString)
         End With
 
-        Pause()
+        ' Pause()
     End Sub
 
 End Module

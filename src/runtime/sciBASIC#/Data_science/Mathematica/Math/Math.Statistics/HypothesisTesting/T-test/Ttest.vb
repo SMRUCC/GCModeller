@@ -72,13 +72,22 @@ Namespace Hypothesis
                 .mu = mu,
                 .alternative = alternative
             }
+            Dim pvalueAlter As Hypothesis = alternative
+
+            If alternative <> Hypothesis.TwoSided Then
+                If alternative = Hypothesis.Less Then
+                    pvalueAlter = Hypothesis.Greater
+                Else
+                    pvalueAlter = Hypothesis.Less
+                End If
+            End If
 
             Return New TtestResult With {
                 .DegreeFreedom = sample.SampleSize - 1,
                 .SD = stdNum.Sqrt(sample.Variance),
                 .StdErr = stdNum.Sqrt(.SD ^ 2 / sample.SampleSize),
                 .TestValue = (sample.Mean - mu) / .StdErr,
-                .Pvalue = Pvalue(.TestValue, .DegreeFreedom, alternative),
+                .Pvalue = Pvalue(.TestValue, .DegreeFreedom, pvalueAlter),
                 .Mean = sample.Mean,
                 .opt = opt,
                 .x = sample.ToArray
@@ -136,7 +145,7 @@ Namespace Hypothesis
 
             Return New TwoSampleResult With {
                 .DegreeFreedom = df,
-                .Mean = left.Mean - right.Mean,
+                .Mean = mu,
                 .StdErr = stdErr,
                 .SD = stdErr,
                 .TestValue = testVal,
@@ -166,16 +175,19 @@ Namespace Hypothesis
         End Function
 
         ''' <summary>
-        ''' 
+        ''' two sample p-value
         ''' </summary>
         ''' <param name="t#">The t test value</param>
         ''' <param name="v">v is the degrees of freedom</param>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' 请注意，双样本检测与单样本检测的pvalue在less和greater是反过来的
+        ''' </remarks>
         Public Function Pvalue(t#, v#, Optional hyp As Hypothesis = Hypothesis.TwoSided) As Double
             Select Case hyp
-                Case Hypothesis.Greater
-                    Return 1 - Tcdf(t, v)
                 Case Hypothesis.Less
+                    Return 1 - Tcdf(t, v)
+                Case Hypothesis.Greater
                     Return Tcdf(t, v)
                 Case Else
                     Return 2 * (1 - Tcdf(stdNum.Abs(t), v))

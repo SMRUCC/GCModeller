@@ -17,7 +17,7 @@ Namespace Hypothesis
 
 data:  {x.GetJson} and {y.GetJson}
 t = {TestValue}, df = {DegreeFreedom}, p-value <= {Pvalue}
-alternative hypothesis: {Valid.ToString.ToUpper} difference in means is not equal to {MeanX}
+alternative hypothesis: {Valid.ToString.ToUpper} difference in means is {opt.alternative.Description} {Mean}
 {(1 - opt.alpha) * 100} percent confidence interval:
  {ci95(0)} {ci95(1)}
 sample estimates:
