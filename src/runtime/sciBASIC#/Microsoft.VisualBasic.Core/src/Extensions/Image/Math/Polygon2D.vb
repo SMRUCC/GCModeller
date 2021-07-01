@@ -138,6 +138,7 @@ Namespace Imaging.Math2D
         ''' <returns></returns>
         Public Function GetRandomPoint(nSampleing As Integer) As PointF
             Dim x, y As Double
+            Dim seed As PointF
 
             For i As Integer = 1 To nSampleing
                 x = randf.NextDouble(bounds1.x, bounds2.x)

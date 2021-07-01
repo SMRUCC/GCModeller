@@ -215,6 +215,7 @@
     <Compile Include="DataFrameRow.vb" />
     <Compile Include="Matrix.vb" />
     <Compile Include="Document.vb" />
+    <Compile Include="Reader.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
