@@ -136,18 +136,10 @@ Namespace Imaging.Math2D
         ''' get a random point that inside current polygon
         ''' </summary>
         ''' <returns></returns>
-        Public Function GetRandomPoint(nSampleing As Integer) As PointF
-            Dim x, y As Double
-            Dim seed As PointF
-
-            For i As Integer = 1 To nSampleing
-                x = randf.NextDouble(bounds1.x, bounds2.x)
-                y = randf.NextDouble(bounds1.y, bounds2.y)
-
-                If inside(x, y) Then
-                    Return New PointF(x, y)
-                End If
-            Next
+        Public Function GetRandomPoint() As PointF
+            Dim i As Integer = randf.NextInteger(length)
+            Dim x As Double = xpoints(i)
+            Dim y As Double = ypoints(i)
 
             Return New PointF(x, y)
         End Function
