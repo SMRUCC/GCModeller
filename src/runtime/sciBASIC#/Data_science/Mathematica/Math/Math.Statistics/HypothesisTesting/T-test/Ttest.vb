@@ -75,7 +75,8 @@ Namespace Hypothesis
 
             Return New TtestResult With {
                 .DegreeFreedom = sample.SampleSize - 1,
-                .StdErr = stdNum.Sqrt(sample.Variance / sample.SampleSize),
+                .SD = stdNum.Sqrt(sample.Variance),
+                .StdErr = stdNum.Sqrt(.SD ^ 2 / sample.SampleSize),
                 .TestValue = (sample.Mean - mu) / .StdErr,
                 .Pvalue = Pvalue(.TestValue, .DegreeFreedom, alternative),
                 .Mean = sample.Mean,
@@ -137,6 +138,7 @@ Namespace Hypothesis
                 .DegreeFreedom = df,
                 .Mean = left.Mean - right.Mean,
                 .StdErr = stdErr,
+                .SD = stdErr,
                 .TestValue = testVal,
                 .Pvalue = pvalue,
                 .opt = opt,

@@ -81,29 +81,30 @@ Namespace Hypothesis
         ''' <returns></returns>
         Public Property Mean As Double
         Public Property StdErr As Double
+        Public Property SD As Double
 
         Public Property x As Double()
 
         Public ReadOnly Property ci95 As Double()
             Get
-                ' Dim interval = Math.Statistics.CI95(Mean, StdErr, x.Length)
-                ' Dim ci = {interval.Min, interval.Max}
+                Dim interval = Math.Statistics.CI95(Mean, SD, x.Length)
+                Dim ci = {interval.Min, interval.Max}
 
-                ' Return ci
-                Dim pm As Double
-                Dim dist As New StudenttDistribution(DegreeFreedom)
+                Return ci
+                'Dim pm As Double
+                'Dim dist As New StudenttDistribution(DegreeFreedom)
 
-                Select Case opt.alternative
-                    Case Hypothesis.Greater     ' mu > mu[0]
-                        pm = stdNum.Abs(dist.inv(opt.alpha)) * StdErr
-                        Return {Mean - pm, Double.PositiveInfinity}
-                    Case Hypothesis.Less  ' mu < mu[0]
-                        pm = stdNum.Abs(dist.inv(opt.alpha)) * StdErr
-                        Return {Double.NegativeInfinity, Mean + pm}
-                    Case Else ' mu != mu[0]
-                        pm = stdNum.Abs(dist.inv(opt.alpha / 2)) * StdErr
-                        Return {Mean - pm, Mean + pm}
-                End Select
+                'Select Case opt.alternative
+                '    Case Hypothesis.Greater     ' mu > mu[0]
+                '        pm = stdNum.Abs(dist.inv(opt.alpha)) * StdErr
+                '        Return {Mean - pm, Double.PositiveInfinity}
+                '    Case Hypothesis.Less  ' mu < mu[0]
+                '        pm = stdNum.Abs(dist.inv(opt.alpha)) * StdErr
+                '        Return {Double.NegativeInfinity, Mean + pm}
+                '    Case Else ' mu != mu[0]
+                '        pm = stdNum.Abs(dist.inv(opt.alpha / 2)) * StdErr
+                '        Return {Mean - pm, Mean + pm}
+                'End Select
             End Get
         End Property
 
@@ -123,7 +124,7 @@ Namespace Hypothesis
 
 data:  {x.GetJson}
 t = {TestValue}, df = {DegreeFreedom}, p-value = {Pvalue}
-alternative hypothesis: {Valid.ToString.ToUpper} mean is not equal to {opt.mu}
+alternative hypothesis: {Valid.ToString.ToUpper} mean is {opt.alternative.Description} {opt.mu}
 {(1 - opt.alpha) * 100} percent confidence interval:
  {ci95.Min}  {ci95.Max}
 sample estimates:
