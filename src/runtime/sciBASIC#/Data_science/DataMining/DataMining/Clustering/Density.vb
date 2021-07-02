@@ -15,7 +15,7 @@ Namespace Clustering
         ''' <param name="dataset"></param>
         ''' <param name="k"></param>
         ''' <returns></returns>
-        Public Shared Iterator Function GetDensity(dataset As IEnumerable(Of ClusterEntity), k As Integer) As IEnumerable(Of NamedValue(Of Double))
+        Public Shared Iterator Function GetDensity(dataset As IEnumerable(Of ClusterEntity), Optional k As Integer = 6) As IEnumerable(Of NamedValue(Of Double))
             Dim raw = dataset.ToArray
 
             For Each row As ClusterEntity In raw
