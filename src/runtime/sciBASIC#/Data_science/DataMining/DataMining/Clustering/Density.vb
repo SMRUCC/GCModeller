@@ -14,7 +14,9 @@ Namespace Clustering
         ''' </summary>
         ''' <param name="dataset"></param>
         ''' <param name="k"></param>
-        ''' <returns></returns>
+        ''' <returns>
+        ''' the larger of the result value, the higher density value it is
+        ''' </returns>
         Public Shared Iterator Function GetDensity(dataset As IEnumerable(Of ClusterEntity), Optional k As Integer = 6) As IEnumerable(Of NamedValue(Of Double))
             Dim raw = dataset.ToArray
 
