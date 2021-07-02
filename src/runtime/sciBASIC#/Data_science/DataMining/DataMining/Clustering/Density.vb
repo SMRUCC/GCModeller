@@ -1,6 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.DataMining.KMeans
-Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Clustering
 
@@ -34,7 +33,9 @@ Namespace Clustering
                 Yield New NamedValue(Of Double) With {
                     .Name = row.uid,
                     .Value = 1 / mean,
-                    .Description = nearest.GetJson
+                    .Description = nearest _
+                        .Select(Function(di) di.ToString("F2")) _
+                        .JoinBy("; ")
                 }
             Next
         End Function
