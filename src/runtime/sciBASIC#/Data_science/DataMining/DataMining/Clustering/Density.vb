@@ -21,6 +21,7 @@ Namespace Clustering
 
             For Each row As ClusterEntity In raw
                 Dim d As Double() = raw _
+                    .Where(Function(di) Not di Is row) _
                     .AsParallel _
                     .Select(Function(r)
                                 Return KMeans.EuclideanDistance(r.entityVector, row.entityVector)
