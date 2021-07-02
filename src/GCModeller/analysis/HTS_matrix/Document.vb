@@ -92,7 +92,7 @@ Public Module Document
 
     <Extension>
     Public Function SaveMatrix(mat As Matrix, file As String, Optional idcolName As String = "geneID") As Boolean
-        Using table As StreamWriter = file.OpenWriter
+        Using table As StreamWriter = file.OpenWriter(Encodings.UTF8WithoutBOM)
             Dim line As String = {idcolName}.Join(mat.sampleID).JoinBy(",")
 
             Call table.WriteLine(line)
