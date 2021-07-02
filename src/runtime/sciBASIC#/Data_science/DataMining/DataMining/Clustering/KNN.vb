@@ -1,5 +1,6 @@
 ﻿Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.DataMining.KMeans
+Imports Microsoft.VisualBasic.Linq
 Imports Parallels = System.Threading.Tasks.Parallel
 
 Namespace Clustering
@@ -18,6 +19,34 @@ Namespace Clustering
         Sub New(trainingSet As IEnumerable(Of ClusterEntity), clusterNames As Dictionary(Of Integer, String))
             Me.trainingSet = trainingSet.ToArray
             Me.clusterNames = clusterNames
+        End Sub
+
+        Sub New(trainingSet As IEnumerable(Of EntityClusterModel))
+            Dim raw = trainingSet.ToArray
+            Dim allNames As String() = raw _
+                .Select(Function(d) d.Properties.Keys) _
+                .IteratesALL _
+                .Distinct _
+                .ToArray
+
+            Me.trainingSet = raw.Select(Function(r) r.ToModel(allNames)).ToArray
+            Me.clusterNames = raw.Select(Function(i) i.Cluster) _
+                .Distinct _
+                .SeqIterator _
+                .ToDictionary(Function(i) i + 1,
+                              Function(i)
+                                  Return i.value
+                              End Function)
+
+            Dim clusterIndex As Dictionary(Of String, Integer) = clusterNames _
+                .ToDictionary(Function(d) d.Value,
+                              Function(d)
+                                  Return d.Key
+                              End Function)
+
+            For i As Integer = 0 To Me.trainingSet.Length - 1
+                Me.trainingSet(i).cluster = clusterIndex(raw(i).Cluster)
+            Next
         End Sub
 
         Public Iterator Function Classify(testSet As NamedCollection(Of Double)(), K As Integer) As IEnumerable(Of NamedCollection(Of NamedValue(Of Integer)))
