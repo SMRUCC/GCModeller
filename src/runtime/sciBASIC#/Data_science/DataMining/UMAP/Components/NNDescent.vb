@@ -133,7 +133,7 @@ Friend Class NNDescent : Implements NNDescentFn
         Dim dataSize As Integer = data.Length
 
         For n As Integer = 0 To nIters - 1
-            startingIteration?.Invoke(n, nIters, $"{n}/{nIters}")
+            startingIteration?.Invoke(n, nIters, $"NNDescentLoop {n}/{nIters}")
             candidateNeighbors = Heaps.BuildCandidates(currentGraph, nVertices, nNeighbors, maxCandidates, random)
 
             c = NNDescentLoop(currentGraph, nVertices, maxCandidates, candidateNeighbors, rho, data)

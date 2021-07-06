@@ -62,7 +62,7 @@ Friend Module Heaps
         Return heap
     End Function
 
-    Private Function MakeArrays(fillValue As Double, nPoints As Integer, size As Integer)
+    Private Function MakeArrays(fillValue As Double, nPoints As Integer, size As Integer) As Double()()
         Return Utils.Empty(nPoints).Select(Function(any) Utils.Filled(size, fillValue)).ToArray()
     End Function
 
@@ -73,11 +73,16 @@ Friend Module Heaps
     Public Function HeapPush(heap As Heap, row As Integer, weight As Double, index As Integer, flag As Integer) As Integer
         Dim indices = heap(0)(row)
         Dim weights = heap(1)(row)
-        If weight >= weights(0) Then Return 0
+
+        If weight >= weights(0) Then
+            Return 0
+        End If
 
         ' Break if we already have this element.
         For i = 0 To indices.Length - 1
-            If index = indices(i) Then Return 0
+            If index = indices(i) Then
+                Return 0
+            End If
         Next
 
         Return Heaps.UncheckedHeapPush(heap, row, weight, index, flag)
@@ -91,7 +96,10 @@ Friend Module Heaps
         Dim indices = heap(0)(row)
         Dim weights = heap(1)(row)
         Dim isNew = heap(2)(row)
-        If weight >= weights(0) Then Return 0
+
+        If weight >= weights(0) Then
+            Return 0
+        End If
 
         ' Insert val at position zero
         weights(0) = weight
@@ -141,6 +149,7 @@ Friend Module Heaps
         weights(i) = weight
         indices(i) = index
         isNew(i) = flag
+
         Return 1
     End Function
 
@@ -150,15 +159,19 @@ Friend Module Heaps
     Public Function BuildCandidates(currentGraph As Heap, nVertices As Integer, nNeighbors As Integer, maxCandidates As Integer, random As IProvideRandomValues) As Heap
         Dim candidateNeighbors = Heaps.MakeHeap(nVertices, maxCandidates)
 
-        For i = 0 To nVertices - 1
+        For i As Integer = 0 To nVertices - 1
+            For j As Integer = 0 To nNeighbors - 1
+                If currentGraph(0)(i)(j) < 0 Then
+                    Continue For
+                End If
 
-            For j = 0 To nNeighbors - 1
-                If currentGraph(0)(i)(j) < 0 Then Continue For
                 Dim idx = CInt(currentGraph(0)(i)(j)) ' TOOD: Should Heap be int values instead of float?
                 Dim isn = CInt(currentGraph(2)(i)(j)) ' TOOD: Should Heap be int values instead of float?
                 Dim d = random.NextFloat()
+
                 Heaps.HeapPush(candidateNeighbors, i, d, idx, isn)
                 Heaps.HeapPush(candidateNeighbors, idx, d, i, isn)
+
                 currentGraph(2)(i)(j) = 0
             Next
         Next
