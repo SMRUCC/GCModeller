@@ -120,6 +120,8 @@ Friend Class NNDescent : Implements NNDescentFn
         Dim jj As i32 = 0
         Dim dd As Integer = nVertices / 10
 
+        Call startingIteration?.Invoke(0, 1, "start sample rejection loop...")
+
         For i As Integer = 0 To nVertices - 1
             Dim indices As Integer() = Utils.RejectionSample(nNeighbors, data.Length, random)
 

@@ -132,8 +132,8 @@ Module visualPlot
             .ClassChangePlot(
                 size:=InteropArgumentHelper.getSize(size),
                 padding:=InteropArgumentHelper.getPadding(padding),
-                bg:=InteropArgumentHelper.getColor(bg, [default]:="white"),
-                colorSet:=InteropArgumentHelper.getColorSet(colorSet),
+                bg:=RColorPalette.getColor(bg, [default]:="white"),
+                colorSet:=RColorPalette.getColorSet(colorSet),
                 radius:=$"{radiusRange.TryCast(Of DoubleRange).Min},{radiusRange.TryCast(Of DoubleRange).Max}",
                 xlab:=xlab,
                 orderByClass:=orderByClass.ToString
@@ -349,8 +349,8 @@ Module visualPlot
         Dim type As String = args.getValue(Of String)("type", env, "patterns")
         Dim size As String = InteropArgumentHelper.getSize(args!size, "2400,2700")
         Dim padding As String = InteropArgumentHelper.getPadding(args!padding, g.DefaultLargerPadding)
-        Dim bg As String = InteropArgumentHelper.getColor(args!bg, "white")
-        Dim colorSet As String = InteropArgumentHelper.getColorSet(args!colorSet, "PiYG:c8")
+        Dim bg As String = RColorPalette.getColor(args!bg, "white")
+        Dim colorSet As String = RColorPalette.getColorSet(args!colorSet, "PiYG:c8")
         Dim levels As Integer = args.getValue(Of Integer)("levels", env, 25)
         Dim clusterLabelStyle As String = InteropArgumentHelper.getFontCSS(args("cluster_labels.cex"), CSSFont.PlotSubTitle)
         Dim legendTitleStyle As String = InteropArgumentHelper.getFontCSS("legend_title.cex", CSSFont.Win7Small)
@@ -400,7 +400,7 @@ Module visualPlot
         Return matrix.DrawMatrix(
             size:=InteropArgumentHelper.getSize(size),
             padding:=InteropArgumentHelper.getPadding(padding),
-            bg:=InteropArgumentHelper.getColor(bg, "white"),
+            bg:=RColorPalette.getColor(bg, "white"),
             colorSet:=colorSet,
             levels:=levels,
             clusterLabelStyle:=clusterLabelStyle,
