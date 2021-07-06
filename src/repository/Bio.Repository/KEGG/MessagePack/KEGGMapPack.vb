@@ -46,6 +46,15 @@ Namespace KEGG.Metabolism
             Return MsgPackSerializer.Deserialize(Of Map())(file)
         End Function
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="maps"></param>
+        ''' <param name="file"></param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' data will be auto flush to <paramref name="file"/>.
+        ''' </remarks>
         Public Shared Function WriteKeggDb(maps As IEnumerable(Of Map), file As Stream) As Boolean
             Try
                 Call MsgPackSerializer.SerializeObject(maps.ToArray, file)

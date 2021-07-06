@@ -124,6 +124,12 @@ Public Module kegg_repository
 
         Dim reader As pipeline
 
+        If TypeOf data Is CompoundRepository Then
+            Return KEGGCompoundPack.WriteKeggDb(DirectCast(data, CompoundRepository).AsEnumerable, stream)
+        ElseIf TypeOf data Is MapRepository Then
+            Return KEGGMapPack.WriteKeggDb(DirectCast(data, MapRepository).AsEnumerable, stream)
+        End If
+
         reader = pipeline.TryCreatePipeline(Of Map)(data, env, suppress:=True)
 
         If Not reader.isError Then

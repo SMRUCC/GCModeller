@@ -56,12 +56,14 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Data.KEGG.Metabolism.RepositoryExtensions
 
 Public Class CompoundRepository : Inherits XmlDataModel
     Implements IRepositoryRead(Of String, CompoundIndex)
+    Implements Enumeration(Of Compound)
 
     Public Property Compounds As CompoundIndex()
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -182,6 +184,16 @@ Public Class CompoundRepository : Inherits XmlDataModel
         Next
 
         Return table
+    End Function
+
+    Public Iterator Function GenericEnumerator() As IEnumerator(Of Compound) Implements Enumeration(Of Compound).GenericEnumerator
+        Yield GetEnumerator()
+    End Function
+
+    Public Iterator Function GetEnumerator() As IEnumerator Implements Enumeration(Of Compound).GetEnumerator
+        For Each index In compoundTable.Values
+            Yield index.Entity
+        Next
     End Function
 End Class
 
