@@ -72,7 +72,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         Public Property rModules As NamedValue()
 
         ''' <summary>
-        ''' 
+        ''' scan a directory for load <see cref="ReactionClass"/> data stream from this repository folder.
         ''' </summary>
         ''' <param name="repository">a directory which contains reaction class xml model files</param>
         ''' <param name="loadsAll">load all models files or distinct(ignores duplicated in different class category)</param>

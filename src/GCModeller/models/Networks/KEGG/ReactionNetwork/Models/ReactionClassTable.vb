@@ -142,6 +142,11 @@ Namespace ReactionNetwork
             Next
         End Function
 
+        ''' <summary>
+        ''' read a foder of <see cref="ReactionClass"/>, and then convert to <see cref="ReactionClassTable"/>
+        ''' </summary>
+        ''' <param name="repo"></param>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function ScanRepository(repo As String) As IEnumerable(Of ReactionClassTable)
             Return ScanRepository(ReactionClass.ScanRepository(repo, loadsAll:=False))
