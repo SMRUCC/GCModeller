@@ -154,10 +154,15 @@ Friend Module Heaps
     End Function
 
     ''' <summary>
-    ''' Build a heap of candidate neighbors for nearest neighbor descent. For each vertex the candidate neighbors are any current neighbors, and any vertices that have the vertex as one of their nearest neighbors.
+    ''' Build a heap of candidate neighbors for nearest neighbor descent. 
+    ''' For each vertex the candidate neighbors are any current neighbors, 
+    ''' and any vertices that have the vertex as one of their nearest 
+    ''' neighbors.
     ''' </summary>
     Public Function BuildCandidates(currentGraph As Heap, nVertices As Integer, nNeighbors As Integer, maxCandidates As Integer, random As IProvideRandomValues) As Heap
         Dim candidateNeighbors = Heaps.MakeHeap(nVertices, maxCandidates)
+
+        Call Console.WriteLine("Build candidates...")
 
         For i As Integer = 0 To nVertices - 1
             For j As Integer = 0 To nNeighbors - 1
