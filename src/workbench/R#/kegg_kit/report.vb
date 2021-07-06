@@ -139,7 +139,7 @@ Module report
         ElseIf TypeOf highlights Is list Then
             Return DirectCast(highlights, list).slots _
                 .Select(Function(tuple)
-                            Dim colorVal As String = InteropArgumentHelper.getColor(tuple.Value)
+                            Dim colorVal As String = RColorPalette.getColor(tuple.Value)
 
                             Return New NamedValue(Of String) With {
                                 .Name = tuple.Key,
