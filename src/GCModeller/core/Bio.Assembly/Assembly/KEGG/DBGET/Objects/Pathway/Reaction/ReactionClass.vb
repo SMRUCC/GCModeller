@@ -63,6 +63,11 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         <XmlAttribute>
         Public Property entryId As String
         Public Property definition As String
+
+        ''' <summary>
+        ''' ``CXXXXX -> CYYYYY`` 
+        ''' </summary>
+        ''' <returns></returns>
         Public Property reactantPairs As ReactionCompoundTransform()
         Public Property reactions As NamedValue()
         Public Property enzymes As NamedValue()
@@ -72,7 +77,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         Public Property rModules As NamedValue()
 
         ''' <summary>
-        ''' 
+        ''' scan a directory for load <see cref="ReactionClass"/> data stream from this repository folder.
         ''' </summary>
         ''' <param name="repository">a directory which contains reaction class xml model files</param>
         ''' <param name="loadsAll">load all models files or distinct(ignores duplicated in different class category)</param>

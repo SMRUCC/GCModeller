@@ -100,6 +100,13 @@ Public Module kegg_repository
         Return mapTable
     End Function
 
+    ''' <summary>
+    ''' a generic method for write kegg data stream as messagepack 
+    ''' </summary>
+    ''' <param name="data"></param>
+    ''' <param name="file"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("write.msgpack")>
     <RApiReturn(GetType(Boolean))>
     Public Function writeMessagePack(<RRawVectorArgument> data As Object, file As Object, Optional env As Environment = Nothing) As Object
@@ -242,12 +249,112 @@ Public Module kegg_repository
         End If
     End Function
 
+    ''' <summary>
+    ''' get a vector of kegg compound id from the kegg reaction_class data repository
+    ''' </summary>
+    ''' <param name="repo"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    ''' 
+    <ExportAPI("compoundsId")>
+    Public Function getCompoundsId(<RRawVectorArgument> repo As Object, Optional env As Environment = Nothing) As Object
+        Dim dataRepo As pipeline = pipeline.TryCreatePipeline(Of ReactionClass)(repo, env, suppress:=True)
+
+        If Not dataRepo.isError Then
+            Return dataRepo _
+                .populates(Of ReactionClass)(env) _
+                .Select(Function(r)
+                            Return r.reactantPairs
+                        End Function) _
+                .IteratesALL _
+                .Select(Iterator Function(t) As IEnumerable(Of String)
+                            Yield t.from
+                            Yield t.to
+                        End Function) _
+                .IteratesALL _
+                .Distinct _
+                .ToArray
+        End If
+
+        dataRepo = pipeline.TryCreatePipeline(Of ReactionClassTable)(repo, env)
+
+        If Not dataRepo.isError Then
+            Return dataRepo _
+                .populates(Of ReactionClassTable)(env) _
+                .Select(Iterator Function(r) As IEnumerable(Of String)
+                            Yield r.from
+                            Yield r.to
+                        End Function) _
+                .IteratesALL _
+                .Distinct _
+                .ToArray
+        End If
+
+        Return dataRepo.getError
+    End Function
+
+    ''' <summary>
+    ''' load stream of the reaction_class data model from kegg data repository.
+    ''' </summary>
+    ''' <param name="repo"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("reaction_class.repo")>
+    <RApiReturn(GetType(ReactionClass))>
+    Public Function loadReactionClassRaw(<RRawVectorArgument> repo As Object, Optional env As Environment = Nothing) As Object
+        If repo Is Nothing Then
+            Return Internal.debug.stop("the required repository source can not be nothing!", env)
+        ElseIf TypeOf repo Is vector Then
+            repo = DirectCast(repo, vector).data
+        End If
+
+        If TypeOf repo Is String OrElse TypeOf repo Is String() Then
+            Dim repoStr As String() = RVectorExtensions.asVector(Of String)(repo)
+
+            If repoStr.Length = 0 Then
+                Return Internal.debug.stop("the required repository source can not be empty!", env)
+            ElseIf repoStr.Length = 1 Then
+                Dim con As String = repoStr(Scan0)
+
+                If con.ExtensionSuffix("msgpack") Then
+                    Using buffer As Stream = con.Open(FileMode.Open, doClear:=False, [readOnly]:=True)
+                        Return ReactionClassPack.ReadKeggDb(buffer)
+                    End Using
+                ElseIf con.DirectoryExists Then
+                    Return ReactionClass _
+                        .ScanRepository(con, loadsAll:=False) _
+                        .DoCall(AddressOf pipeline.CreateFromPopulator)
+                Else
+                    Return Internal.debug.stop(New NotImplementedException, env)
+                End If
+            ElseIf repoStr.All(Function(path) path.ExtensionSuffix("xml")) Then
+                Return repoStr _
+                    .Select(AddressOf LoadXml(Of ReactionClass)) _
+                    .DoCall(AddressOf pipeline.CreateFromPopulator)
+            Else
+                Return Internal.debug.stop(New NotImplementedException, env)
+            End If
+        Else
+            Return Message.InCompatibleType(GetType(String), repo.GetType, env)
+        End If
+    End Function
+
+    ''' <summary>
+    ''' load reaction class data from a repository data source.
+    ''' </summary>
+    ''' <param name="repo"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("reaction_class.table")>
     <RApiReturn(GetType(ReactionClassTable))>
     Public Function loadReactionClassTable(<RRawVectorArgument> repo As Object, Optional env As Environment = Nothing) As Object
         If repo Is Nothing Then
             Return Nothing
-        ElseIf TypeOf repo Is String OrElse TypeOf repo Is String() Then
+        ElseIf TypeOf repo Is vector Then
+            repo = DirectCast(repo, vector).data
+        End If
+
+        If TypeOf repo Is String OrElse TypeOf repo Is String() Then
             Dim resource As String = DirectCast(RVectorExtensions.asVector(Of String)(repo), String())(Scan0)
 
             If resource.DirectoryExists Then
@@ -453,6 +560,18 @@ Public Module kegg_repository
         }
     End Function
 
+    ''' <summary>
+    ''' create a new data model of kegg reaction_class
+    ''' </summary>
+    ''' <param name="id"></param>
+    ''' <param name="definition"></param>
+    ''' <param name="reactions"></param>
+    ''' <param name="enzyme"></param>
+    ''' <param name="pathways"></param>
+    ''' <param name="KO"></param>
+    ''' <param name="transforms"></param>
+    ''' <param name="rmodules"></param>
+    ''' <returns></returns>
     <ExportAPI("reaction_class")>
     Public Function reaction_class(id As String, definition As String,
                                    reactions As String(),
