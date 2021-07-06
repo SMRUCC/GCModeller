@@ -100,6 +100,13 @@ Public Module kegg_repository
         Return mapTable
     End Function
 
+    ''' <summary>
+    ''' a generic method for write kegg data stream as messagepack 
+    ''' </summary>
+    ''' <param name="data"></param>
+    ''' <param name="file"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("write.msgpack")>
     <RApiReturn(GetType(Boolean))>
     Public Function writeMessagePack(<RRawVectorArgument> data As Object, file As Object, Optional env As Environment = Nothing) As Object
@@ -240,6 +247,50 @@ Public Module kegg_repository
         Else
             Return REnv.debug.stop(New InvalidConstraintException(repo.GetType.FullName), env)
         End If
+    End Function
+
+    ''' <summary>
+    ''' get a vector of kegg compound id from the kegg reaction_class data repository
+    ''' </summary>
+    ''' <param name="repo"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    ''' 
+    <ExportAPI("compoundsId")>
+    Public Function getCompoundsId(<RRawVectorArgument> repo As Object, Optional env As Environment = Nothing) As Object
+        Dim dataRepo As pipeline = pipeline.TryCreatePipeline(Of ReactionClass)(repo, env, suppress:=True)
+
+        If Not dataRepo.isError Then
+            Return dataRepo _
+                .populates(Of ReactionClass)(env) _
+                .Select(Function(r)
+                            Return r.reactantPairs
+                        End Function) _
+                .IteratesALL _
+                .Select(Iterator Function(t) As IEnumerable(Of String)
+                            Yield t.from
+                            Yield t.to
+                        End Function) _
+                .IteratesALL _
+                .Distinct _
+                .ToArray
+        End If
+
+        dataRepo = pipeline.TryCreatePipeline(Of ReactionClassTable)(repo, env)
+
+        If Not dataRepo.isError Then
+            Return dataRepo _
+                .populates(Of ReactionClassTable)(env) _
+                .Select(Iterator Function(r) As IEnumerable(Of String)
+                            Yield r.from
+                            Yield r.to
+                        End Function) _
+                .IteratesALL _
+                .Distinct _
+                .ToArray
+        End If
+
+        Return dataRepo.getError
     End Function
 
     ''' <summary>

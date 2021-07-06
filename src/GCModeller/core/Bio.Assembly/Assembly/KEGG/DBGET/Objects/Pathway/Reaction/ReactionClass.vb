@@ -63,6 +63,11 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         <XmlAttribute>
         Public Property entryId As String
         Public Property definition As String
+
+        ''' <summary>
+        ''' ``CXXXXX -> CYYYYY`` 
+        ''' </summary>
+        ''' <returns></returns>
         Public Property reactantPairs As ReactionCompoundTransform()
         Public Property reactions As NamedValue()
         Public Property enzymes As NamedValue()
