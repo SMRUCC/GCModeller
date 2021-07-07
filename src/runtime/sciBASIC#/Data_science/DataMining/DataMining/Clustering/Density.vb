@@ -29,7 +29,13 @@ Namespace Clustering
                     .OrderBy(Function(di) di) _
                     .ToArray
                 Dim nearest As Double() = d.Take(k).ToArray
-                Dim mean As Double = nearest.Average
+                Dim mean As Double
+
+                If nearest.Length = 0 Then
+                    mean = 10000
+                Else
+                    mean = nearest.Average
+                End If
 
                 Yield New NamedValue(Of Double) With {
                     .Name = row.uid,
