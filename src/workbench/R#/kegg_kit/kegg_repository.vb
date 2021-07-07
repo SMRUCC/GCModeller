@@ -125,7 +125,11 @@ Public Module kegg_repository
         Dim reader As pipeline
 
         If TypeOf data Is CompoundRepository Then
-            Return KEGGCompoundPack.WriteKeggDb(DirectCast(data, CompoundRepository).AsEnumerable, stream)
+            Return DirectCast(data, CompoundRepository).Compounds _
+                .Select(Function(c) c.Entity) _
+                .DoCall(Function(ls)
+                            Return KEGGCompoundPack.WriteKeggDb(ls, stream)
+                        End Function)
         ElseIf TypeOf data Is MapRepository Then
             Return KEGGMapPack.WriteKeggDb(DirectCast(data, MapRepository).AsEnumerable, stream)
         End If
