@@ -214,7 +214,15 @@ Namespace Plots
                     polygon.Add(pt1)
 
                     If fillPie Then
-                        pt1 = New PointF(pt1.X - r, pt1.Y - r)
+                        Select Case line.shape
+                            Case LegendStyles.Circle
+                                pt1 = New PointF(pt1.X - r, pt1.Y - r)
+                            Case LegendStyles.Square
+                                pt1 = New PointF(pt1.X, pt1.Y - d)
+                            Case Else
+                                ' do nothing
+                        End Select
+
                         g.DrawLegendShape(pt1, shapeSize, line.shape, getPointBrush(pt))
                     End If
 
