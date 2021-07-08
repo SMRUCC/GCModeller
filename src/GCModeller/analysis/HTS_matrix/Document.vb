@@ -98,7 +98,7 @@ Public Module Document
             Call table.WriteLine(line)
 
             For Each gene As DataFrameRow In mat.expression
-                line = {gene.geneID} _
+                line = New String() {$"""{gene.geneID}"""} _
                     .Join(gene.experiments.Select(Function(d) d.ToString)) _
                     .JoinBy(",")
 
