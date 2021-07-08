@@ -6,6 +6,26 @@ Namespace Math.Correlations
 
     Public Module DistanceMethods
 
+        Public Function MinkowskiDistance(X As Double(), Y As Double(), q As Double) As Double
+            Dim dq As Double
+
+            For i As Integer = 0 To X.Length - 1
+                dq += (X(i) - Y(i)) ^ q
+            Next
+
+            Return dq ^ (1 / q)
+        End Function
+
+        Public Function Mahalanobis(X As Double(), Y As Double(), W As Double(), q As Double) As Double
+            Dim dq As Double
+
+            For i As Integer = 0 To X.Length - 1
+                dq += W(i) * (X(i) - Y(i)) ^ q
+            Next
+
+            Return dq ^ (1 / q)
+        End Function
+
         ''' <summary>
         ''' 多位坐标的欧几里得距离，与坐标点0进行比较
         ''' </summary>
@@ -88,19 +108,13 @@ Namespace Math.Correlations
         ''' <param name="X">An array with the values of an object or datapoint</param>
         ''' <param name="Y">An array with the values of an object or datapoint</param>
         ''' <returns>Returns the Manhattan Distance Measure Between Points X and Points Y</returns>
+        ''' <remarks>
+        ''' Manhattan 距离：是Minkowski, q=1时的特例
+        ''' </remarks>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function ManhattanDistance(X#(), Y#()) As Double
-            If X.Length <> Y.Length Then
-                Throw New ArgumentException($"len(X):={X.Length}, len(y):={Y.Length}", New ArgumentException(DimNotAgree))
-            End If
-
-            Dim count As Integer = X.Length
-            Dim sum As Double = 0.0
-
-            For i As Integer = 0 To count - 1
-                sum += stdNum.Abs(X(i) - Y(i))
-            Next
-
-            Return sum
+            Return MinkowskiDistance(X, Y, 1)
         End Function
 
 #If NET_48 = 1 Or netcore5 = 1 Then
