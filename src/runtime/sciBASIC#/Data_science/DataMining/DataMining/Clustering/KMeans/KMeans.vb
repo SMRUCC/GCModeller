@@ -58,59 +58,6 @@ Namespace KMeans
     Public Module KMeansAlgorithm
 
         ''' <summary>
-        ''' Calculates the Euclidean Distance Measure between two data points
-        ''' </summary>
-        ''' <param name="X">An array with the values of an object or datapoint</param>
-        ''' <param name="Y">An array with the values of an object or datapoint</param>
-        ''' <returns>Returns the Euclidean Distance Measure Between Points X and Points Y</returns>
-        ''' 
-        <Extension>
-        Public Function EuclideanDistance(X As Double(), Y As Double()) As Double
-            Dim count As Integer = 0
-            Dim sum As Double = 0.0
-
-            If X.Length <> Y.Length Then
-                Throw New ArgumentException(DimNotAgree)
-            Else
-                count = X.Length
-            End If
-
-            For i As Integer = 0 To count - 1
-                sum = sum + stdNum.Pow(stdNum.Abs(X(i) - Y(i)), 2)
-            Next
-
-            Dim distance As Double = stdNum.Sqrt(sum)
-            Return distance
-        End Function
-
-        Const DimNotAgree As String = "The number of elements in X must match the number of elements in Y!"
-
-        ''' <summary>
-        ''' Calculates the Manhattan Distance Measure between two data points
-        ''' </summary>
-        ''' <param name="X">An array with the values of an object or datapoint</param>
-        ''' <param name="Y">An array with the values of an object or datapoint</param>
-        ''' <returns>Returns the Manhattan Distance Measure Between Points X and Points Y</returns>
-        Public Function ManhattanDistance(X#(), Y#()) As Double
-            Dim count As Integer = 0
-            Dim sum As Double = 0.0
-
-            If X.Length <> Y.Length Then
-                Dim ex As New ArgumentException(DimNotAgree)
-                ex = New ArgumentException($"len(X):={X.Length}, len(y):={Y.Length}", ex)
-                Throw ex
-            Else
-                count = X.Length
-            End If
-
-            For i As Integer = 0 To count - 1
-                sum = sum + stdNum.Abs(X(i) - Y(i))
-            Next
-
-            Return sum
-        End Function
-
-        ''' <summary>
         ''' Calculates The Mean Of A Cluster OR The Cluster Center
         ''' 
         ''' ```vbnet
