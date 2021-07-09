@@ -1,5 +1,6 @@
 ﻿Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.DataMining.KMeans
+Imports Microsoft.VisualBasic.Math.Correlations
 
 Namespace Clustering
 
@@ -24,7 +25,7 @@ Namespace Clustering
                     .Where(Function(di) Not di Is row) _
                     .AsParallel _
                     .Select(Function(r)
-                                Return KMeans.EuclideanDistance(r.entityVector, row.entityVector)
+                                Return DistanceMethods.EuclideanDistance(r.entityVector, row.entityVector)
                             End Function) _
                     .OrderBy(Function(di) di) _
                     .ToArray
