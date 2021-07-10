@@ -80,7 +80,7 @@ Public Class SampleInfo : Inherits SampleGroup
     ''' legend的形状
     ''' </summary>
     ''' <returns></returns>
-    Public Property shapetype As String
+    Public Property shape As String
 
 End Class
 

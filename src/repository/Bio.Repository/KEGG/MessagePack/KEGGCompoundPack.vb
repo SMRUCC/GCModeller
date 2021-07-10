@@ -52,10 +52,25 @@ Namespace KEGG.Metabolism
             Call MsgPackSerializer.DefaultContext.RegisterSerializer(New KEGGCompoundPack)
         End Sub
 
+        Public Shared Function ReadKeggDb(file As String) As Compound()
+            Using buffer As Stream = file.Open(FileMode.Open, doClear:=False, [readOnly]:=True)
+                Return ReadKeggDb(buffer)
+            End Using
+        End Function
+
         Public Shared Function ReadKeggDb(file As Stream) As Compound()
             Return MsgPackSerializer.Deserialize(Of Compound())(file)
         End Function
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="cpds"></param>
+        ''' <param name="file"></param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' data will be auto flush to <paramref name="file"/>.
+        ''' </remarks>
         Public Shared Function WriteKeggDb(cpds As IEnumerable(Of Compound), file As Stream) As Boolean
             Try
                 Call MsgPackSerializer.SerializeObject(cpds.ToArray, file)

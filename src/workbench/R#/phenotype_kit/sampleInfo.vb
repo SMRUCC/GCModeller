@@ -82,7 +82,7 @@ Module DEGSample
         data.columns(NameOf(SampleInfo.injectionOrder)) = samples.Select(Function(a) a.injectionOrder).ToArray
         data.columns(NameOf(SampleInfo.batch)) = samples.Select(Function(a) a.batch).ToArray
         data.columns(NameOf(SampleInfo.color)) = samples.Select(Function(a) a.color).ToArray
-        data.columns(NameOf(SampleInfo.shapetype)) = samples.Select(Function(a) a.shapetype).ToArray
+        data.columns(NameOf(SampleInfo.shape)) = samples.Select(Function(a) a.shape).ToArray
         data.rownames = samples.Select(Function(a) a.ID).ToArray
 
         Return data

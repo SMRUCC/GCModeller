@@ -38,6 +38,12 @@ Namespace KEGG.Metabolism
             Call MsgPackSerializer.DefaultContext.RegisterSerializer(New ReactionClassPack)
         End Sub
 
+        Public Shared Function ReadKeggDb(file As String) As ReactionClass()
+            Using buffer As Stream = file.Open(FileMode.Open, doClear:=False, [readOnly]:=True)
+                Return ReadKeggDb(buffer)
+            End Using
+        End Function
+
         Public Shared Function ReadKeggDb(file As Stream) As ReactionClass()
             Return MsgPackSerializer.Deserialize(Of ReactionClass())(file)
         End Function
