@@ -114,6 +114,16 @@ Namespace ComponentModel.Ranges.Model
             End If
         End Sub
 
+        Sub New(data As Integer())
+            If data.Length = 0 Then
+                Min = Double.NaN
+                Max = Double.NaN
+            Else
+                Min = data.Min
+                Max = data.Max
+            End If
+        End Sub
+
         ''' <summary>
         ''' 从一个任意的实数向量之中构建出一个实数区间范围
         ''' </summary>
