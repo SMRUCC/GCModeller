@@ -15,6 +15,27 @@ Namespace CollectionSet
             End Get
         End Property
 
+        Public Function GetSetSize() As NamedValue(Of Integer)()
+            Dim allLabels = groups.Select(Function(i) i.data).IteratesALL.GroupBy(Function([set]) [set].name).ToArray
+            Dim counts = allLabels _
+                .Select(Function(d)
+                            Dim name As String = d.Key
+                            Dim num As Integer = d _
+                                .Select(Function([set]) [set].value) _
+                                .IteratesALL _
+                                .Distinct _
+                                .Count
+
+                            Return New NamedValue(Of Integer) With {
+                                .Name = name,
+                                .Value = num
+                            }
+                        End Function) _
+                .ToArray
+
+            Return counts
+        End Function
+
         ''' <summary>
         ''' get the labels of all collection set like ``a vs b``, etc
         ''' </summary>
