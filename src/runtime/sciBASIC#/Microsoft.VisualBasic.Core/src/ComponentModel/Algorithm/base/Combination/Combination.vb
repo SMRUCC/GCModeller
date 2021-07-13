@@ -116,11 +116,15 @@ Namespace ComponentModel.Algorithm.base
 
         <Extension>
         Public Iterator Function AllCombinations(Of T)(source As T()) As IEnumerable(Of T())
-            For Each tag As T In source
-                For Each combine In source.Skip(1).ToArray.AllCombinations
-                    Yield {tag}.JoinIterates(combine).ToArray
+            If source.Length = 1 Then
+                Yield {source(Scan0)}
+            Else
+                For Each tag As T In source
+                    For Each combine In source.Skip(1).ToArray.AllCombinations
+                        Yield {tag}.JoinIterates(combine).ToArray
+                    Next
                 Next
-            Next
+            End If
         End Function
 
         <Extension>

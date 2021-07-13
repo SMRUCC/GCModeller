@@ -122,6 +122,18 @@ Namespace ComponentModel.Ranges.Model
             Call Me.New(data:=vector.ToArray)
         End Sub
 
+        Sub New(vector As IEnumerable(Of Integer))
+            With vector.ToArray
+                If .Length = 0 Then
+                    Min = Double.NaN
+                    Max = Double.NaN
+                Else
+                    Min = .Min
+                    Max = .Max
+                End If
+            End With
+        End Sub
+
         Sub New(range As IntRange)
             Call Me.New(range.Min, range.Max)
         End Sub

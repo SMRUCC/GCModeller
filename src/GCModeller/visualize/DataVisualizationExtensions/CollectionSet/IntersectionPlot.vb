@@ -2,11 +2,14 @@
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
+Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports stdNum = System.Math
 
@@ -32,8 +35,8 @@ Namespace CollectionSet
             Dim maxLabelSize As SizeF = g.MeasureString(collectionSetLabels.MaxLengthString, labelFont)
             Dim totalHeight As Double = collectionSetLabels.Length * (maxLabelSize.Height * 1.125)
             Dim topBarPlot As New Rectangle(plotRect.Left, plotRect.Top, plotRect.Width, plotRect.Height - totalHeight)
-            Dim bottomIntersection As New Rectangle(plotRect.Left, plotRect.Bottom - totalHeight, plotRect.Width, totalHeight)
-            Dim leftSetSizeBar As New Rectangle(0, bottomIntersection.Top, plotRect.Left, totalHeight)
+            Dim bottomIntersection As New Rectangle(plotRect.Left, plotRect.Bottom - totalHeight + 50, plotRect.Width, totalHeight)
+            Dim leftSetSizeBar As New Rectangle(canvas.Padding.Left / 20, bottomIntersection.Top, plotRect.Left, totalHeight)
             Dim topbarLayout As New Rectangle(bottomIntersection.Left, plotRect.Top, bottomIntersection.Width, plotRect.Height - bottomIntersection.Height)
             Dim barData As New List(Of NamedValue(Of Integer))
             Dim boxWidth As Double = -1
@@ -51,10 +54,10 @@ Namespace CollectionSet
             Return collectionSetLabels _
                 .AllCombinations _
                 .GroupBy(Function(combine)
-                             Return combine.OrderBy(Function(str) str).JoinBy("---")
+                             Return combine.Distinct.OrderBy(Function(str) str).JoinBy("---")
                          End Function) _
                 .Select(Function(group)
-                            Return group.First
+                            Return group.First.Distinct.ToArray
                         End Function) _
                 .ToArray
         End Function
@@ -69,8 +72,8 @@ Namespace CollectionSet
             boxWidth = widthPerGroup / dotsPerGroup
 
             Dim boxHeight As Double = layout.Height / collectionSetLabels.Length
-            Dim pointSize As Double = stdNum.Min(boxWidth, boxHeight) / 2
-            Dim gray As New SolidBrush(Color.Gray)
+            Dim pointSize As Double = stdNum.Min(boxWidth, boxHeight) / 3
+            Dim gray As New SolidBrush(Color.LightGray)
             Dim linkStroke As Pen = Stroke.TryParse(theme.lineStroke)
             Dim x As Double = layout.Left + pointSize
 
@@ -104,6 +107,7 @@ Namespace CollectionSet
                     Next
 
                     x += boxWidth
+                    y = layout.Top + pointSize
                 Next
 
                 ' draw for each combine group
@@ -131,6 +135,7 @@ Namespace CollectionSet
                                 End If
                             Else
                                 ' none
+                                Call g.FillCircles(gray, {New Point(x, y)}, pointSize)
                             End If
 
                             y += boxHeight
@@ -170,8 +175,9 @@ Namespace CollectionSet
 
             ' label is center alignment?
             For Each label As String In collectionSetLabels
+                Dim labelSize As SizeF = g.MeasureString(label, labelFont)
                 Dim labelPos As New PointF With {
-                    .X = layout.Right - (maxLabelSize.Width - g.MeasureString(label, labelFont).Width) / 2,
+                    .X = layout.Right - maxLabelSize.Width + (maxLabelSize.Width - labelSize.Width) / 2,
                     .Y = y
                 }
                 Dim bar As New Rectangle With {
@@ -188,6 +194,18 @@ Namespace CollectionSet
 
                 y += maxLabelSize.Height
             Next
+
+            ' draw axis
+            Dim a As New PointF
+            Dim b As New PointF
+            Dim pen As Pen = Stroke.TryParse(theme.axisStroke)
+            Dim Xscale As New DataScaler With {
+                .AxisTicks = (New DoubleRange(setSize.Values).CreateAxisTicks.AsVector, Nothing),
+                .region = layout,
+                .X = scale
+            }
+
+            Call g.DrawX(pen, "Set Size", Xscale, XAxisLayoutStyles.Bottom, 0, Nothing, theme.axisLabelCSS, CSSFont.TryParse(theme.axisTickCSS), reverse:=True)
         End Sub
 
         Private Sub drawTopBarPlot(g As IGraphics, barData As List(Of NamedValue(Of Integer)), boxWidth As Double, layout As Rectangle)
@@ -195,14 +213,15 @@ Namespace CollectionSet
             Dim x As Double = layout.Left
             Dim labelFont As Font = CSSFont.TryParse(theme.tagCSS)
             Dim dh As Double = g.MeasureString("0", labelFont).Height
+            Dim offset As Double = boxWidth * 0.1
 
             For Each bar In barData
                 Dim barHeight As Double = scaleY(bar.Value)
                 Dim y As Double = layout.Bottom - barHeight
                 Dim barRect As New Rectangle With {
-                    .X = x,
+                    .X = x + offset,
                     .Y = y,
-                    .Width = boxWidth,
+                    .Width = boxWidth * 0.8,
                     .Height = barHeight
                 }
 
