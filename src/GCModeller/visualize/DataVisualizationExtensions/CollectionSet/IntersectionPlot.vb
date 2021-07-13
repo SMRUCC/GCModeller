@@ -34,10 +34,13 @@ Namespace CollectionSet
             Dim topBarPlot As New Rectangle(plotRect.Left, plotRect.Top, plotRect.Width, plotRect.Height - totalHeight)
             Dim bottomIntersection As New Rectangle(plotRect.Left, plotRect.Bottom - totalHeight, plotRect.Width, totalHeight)
             Dim leftSetSizeBar As New Rectangle(0, bottomIntersection.Top, plotRect.Left, totalHeight)
+            Dim topbarLayout As New Rectangle(bottomIntersection.Left, plotRect.Top, bottomIntersection.Width, plotRect.Height - bottomIntersection.Height)
             Dim barData As New List(Of NamedValue(Of Integer))
+            Dim boxWidth As Double = -1
 
-            Call drawBottomIntersctionVisualize(g, collectionSetLabels, barData, layout:=bottomIntersection)
+            Call drawBottomIntersctionVisualize(g, collectionSetLabels, barData, boxWidth:=boxWidth, layout:=bottomIntersection)
             Call drawLeftBarSet(g, labelFont, collectionSetLabels, layout:=leftSetSizeBar)
+            Call drawTopBarPlot(g, barData, boxWidth:=boxWidth, layout:=topbarLayout)
         End Sub
 
         ''' <summary>
@@ -56,13 +59,15 @@ Namespace CollectionSet
                 .ToArray
         End Function
 
-        Private Sub drawBottomIntersctionVisualize(g As IGraphics, collectionSetLabels As String(), barData As List(Of NamedValue(Of Integer)), layout As Rectangle)
+        Private Sub drawBottomIntersctionVisualize(g As IGraphics, collectionSetLabels As String(), barData As List(Of NamedValue(Of Integer)), ByRef boxWidth As Double, layout As Rectangle)
             Dim dh As Double = layout.Height / collectionSetLabels.Length
             Dim allCompares = getCombinations(collectionSetLabels).ToArray
             ' unique + combinations
             Dim dotsPerGroup As Integer = collectionSetLabels.Length + allCompares.Length
             Dim widthPerGroup As Double = layout.Width / collections.size
-            Dim boxWidth As Double = widthPerGroup / dotsPerGroup
+
+            boxWidth = widthPerGroup / dotsPerGroup
+
             Dim boxHeight As Double = layout.Height / collectionSetLabels.Length
             Dim pointSize As Double = stdNum.Min(boxWidth, boxHeight) / 2
             Dim gray As New SolidBrush(Color.Gray)
@@ -74,6 +79,7 @@ Namespace CollectionSet
                 Dim labelIndex As Index(Of String) = collectionSetLabels
                 Dim y As Double = layout.Top + pointSize
                 Dim color As New SolidBrush(factor.color)
+                Dim htmlColor As String = factor.color.ToHtmlColor
 
                 ' single & unique
                 For Each label As String In collectionSetLabels
@@ -82,7 +88,8 @@ Namespace CollectionSet
 
                     Call New NamedValue(Of Integer) With {
                         .Name = label,
-                        .Value = unique
+                        .Value = unique,
+                        .Description = htmlColor
                     }.DoCall(AddressOf barData.Add)
 
                     For Each label2 As String In collectionSetLabels
@@ -141,7 +148,8 @@ Namespace CollectionSet
 
                     Call New NamedValue(Of Integer) With {
                         .Name = combine.JoinBy("--"),
-                        .Value = intersect.Length
+                        .Value = intersect.Length,
+                        .Description = htmlColor
                     }.DoCall(AddressOf barData.Add)
 
                     x += boxWidth
@@ -182,8 +190,27 @@ Namespace CollectionSet
             Next
         End Sub
 
-        Private Sub drawTopBarPlot()
+        Private Sub drawTopBarPlot(g As IGraphics, barData As List(Of NamedValue(Of Integer)), boxWidth As Double, layout As Rectangle)
+            Dim scaleY = d3js.scale.linear.domain(barData.Select(Function(d) CDbl(d.Value))).range(New Double() {0, layout.Height})
+            Dim x As Double = layout.Left
+            Dim labelFont As Font = CSSFont.TryParse(theme.tagCSS)
+            Dim dh As Double = g.MeasureString("0", labelFont).Height
 
+            For Each bar In barData
+                Dim barHeight As Double = scaleY(bar.Value)
+                Dim y As Double = layout.Bottom - barHeight
+                Dim barRect As New Rectangle With {
+                    .X = x,
+                    .Y = y,
+                    .Width = boxWidth,
+                    .Height = barHeight
+                }
+
+                Call g.FillRectangle(bar.Description.GetBrush, barRect)
+                Call g.DrawString(bar.Value, labelFont, Brushes.Black, New PointF(x, y - dh))
+
+                x += boxWidth
+            Next
         End Sub
     End Class
 End Namespace
