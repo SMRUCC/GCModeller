@@ -9,7 +9,6 @@ Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports stdNum = System.Math
 
@@ -21,6 +20,7 @@ Namespace CollectionSet
     Public Class IntersectionPlot : Inherits Plot
 
         ReadOnly collections As IntersectionData
+        ReadOnly setSizeLabel As String = "Set Size"
 
         Public Sub New(data As IntersectionData, theme As Theme)
             MyBase.New(theme)
@@ -172,14 +172,17 @@ Namespace CollectionSet
             Dim maxLabelSize As SizeF = g.MeasureString(collectionSetLabels.MaxLengthString, labelFont)
             Dim y As Double = layout.Top
             Dim scale = d3js.scale.linear.domain(setSize.Select(Function(i) CDbl(i.Value))).range(New Double() {0, layout.Width - maxLabelSize.Width})
+            Dim labelSize As SizeF
+            Dim labelPos As New PointF
 
             ' label is center alignment?
             For Each label As String In collectionSetLabels
-                Dim labelSize As SizeF = g.MeasureString(label, labelFont)
-                Dim labelPos As New PointF With {
+                labelSize = g.MeasureString(label, labelFont)
+                labelPos = New PointF With {
                     .X = layout.Right - maxLabelSize.Width + (maxLabelSize.Width - labelSize.Width) / 2,
                     .Y = y
                 }
+
                 Dim bar As New Rectangle With {
                     .Width = scale(setSize(label)),
                     .X = layout.Right - maxLabelSize.Width - .Width,
@@ -195,17 +198,31 @@ Namespace CollectionSet
                 y += maxLabelSize.Height
             Next
 
-            ' draw axis
-            Dim a As New PointF
-            Dim b As New PointF
-            Dim pen As Pen = Stroke.TryParse(theme.axisStroke)
-            Dim Xscale As New DataScaler With {
-                .AxisTicks = (New DoubleRange(setSize.Values).CreateAxisTicks.AsVector, Nothing),
-                .region = layout,
-                .X = scale
-            }
+            y += 5
 
-            Call g.DrawX(pen, "Set Size", Xscale, XAxisLayoutStyles.Bottom, 0, Nothing, theme.axisLabelCSS, CSSFont.TryParse(theme.axisTickCSS), reverse:=True)
+            ' draw axis
+            Dim a As New PointF(layout.Right - maxLabelSize.Width, y)
+            Dim b As New PointF(layout.Left, y)
+            Dim pen As Pen = Stroke.TryParse(theme.axisStroke)
+            Dim width As Double = stdNum.Abs(a.X - b.X)
+
+            g.DrawLine(pen, a, b)
+
+            For Each tick As Double In New DoubleRange(setSize.Values).CreateAxisTicks
+                Dim tickX As Double = layout.Left - scale(tick)
+                Dim label As String = tick.ToString("F2")
+
+                labelSize = g.MeasureString(label, labelFont)
+                labelPos = New PointF(tickX, y)
+
+                g.DrawString(label, labelFont, Brushes.Black, labelPos)
+            Next
+
+            labelFont = CSSFont.TryParse(theme.axisLabelCSS)
+            labelSize = g.MeasureString(setSizeLabel, labelFont)
+            labelPos = New PointF(b.X + (width - labelSize.Width) / 2, y + 10)
+
+            g.DrawString("Set Size", labelFont, Brushes.Black, labelPos)
         End Sub
 
         Private Sub drawTopBarPlot(g As IGraphics, barData As List(Of NamedValue(Of Integer)), boxWidth As Double, layout As Rectangle)
