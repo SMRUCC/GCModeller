@@ -52,7 +52,7 @@ Namespace CollectionSet
 
     Public Class FactorGroup
 
-        Public Property factors As String
+        Public Property factor As String
         Public Property data As NamedCollection(Of String)()
         Public Property color As Color
 
