@@ -9,6 +9,12 @@ Namespace CollectionSet
 
         Public Property groups As FactorGroup()
 
+        Public ReadOnly Property size As Integer
+            Get
+                Return groups.Length
+            End Get
+        End Property
+
         ''' <summary>
         ''' get the labels of all collection set like ``a vs b``, etc
         ''' </summary>
@@ -73,9 +79,12 @@ Namespace CollectionSet
                 .IteratesALL _
                 .Distinct
 
-                Dim count As Integer = allIndex.Where(Function(i) id Like i.Value).Count
+                Dim countN As Integer = Aggregate i As NamedValue(Of Index(Of String))
+                                        In allIndex
+                                        Where id Like i.Value
+                                        Into Count
 
-                If count > 1 Then
+                If countN = collections.Length Then
                     Yield id
                 End If
             Next
