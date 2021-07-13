@@ -35,6 +35,16 @@ Namespace CollectionSet
         End Sub
 
         Private Sub drawBottomIntersctionVisualize(g As IGraphics, collectionSetLabels As String(), barData As List(Of NamedValue(Of Integer)), layout As Rectangle)
+            Dim dh As Double = layout.Height / collectionSetLabels.Length
+
+            For Each factor As FactorGroup In collections.groups
+                ' single & unique
+                For Each label As String In collectionSetLabels
+                    ' get all data only appears in current collection
+                    Dim unique As Integer
+                Next
+            Next
+
 
         End Sub
 
