@@ -171,7 +171,7 @@ Namespace CollectionSet
             Dim setSize = collections.GetSetSize.ToDictionary(Function(d) d.Name, Function(d) d.Value)
             Dim maxLabelSize As SizeF = g.MeasureString(collectionSetLabels.MaxLengthString, labelFont)
             Dim y As Double = layout.Top
-            Dim scale = d3js.scale.linear.domain(setSize.Select(Function(i) CDbl(i.Value))).range(New Double() {0, layout.Width - maxLabelSize.Width})
+            Dim scale = d3js.scale.linear.domain(0.0.Join(setSize.Select(Function(i) CDbl(i.Value)))).range(New Double() {0, layout.Width - maxLabelSize.Width})
             Dim labelSize As SizeF
             Dim labelPos As New PointF
 
@@ -186,14 +186,14 @@ Namespace CollectionSet
                 Dim bar As New Rectangle With {
                     .Width = scale(setSize(label)),
                     .X = layout.Right - maxLabelSize.Width - .Width,
-                    .Y = y,
-                    .Height = maxLabelSize.Height
+                    .Y = y + maxLabelSize.Height * 0.1,
+                    .Height = maxLabelSize.Height * 0.8
                 }
 
                 ' draw label
                 Call g.DrawString(label, labelFont, Brushes.Black, labelPos)
                 ' draw bar plot
-                Call g.FillRectangle(Brushes.Black, bar)
+                Call g.FillRectangle(Brushes.Gray, bar)
 
                 y += maxLabelSize.Height
             Next
@@ -206,31 +206,47 @@ Namespace CollectionSet
             Dim pen As Pen = Stroke.TryParse(theme.axisStroke)
             Dim width As Double = stdNum.Abs(a.X - b.X)
 
+            labelFont = CSSFont.TryParse(theme.axisTickCSS)
+
             g.DrawLine(pen, a, b)
 
-            For Each tick As Double In New DoubleRange(setSize.Values).CreateAxisTicks
-                Dim tickX As Double = layout.Left - scale(tick)
-                Dim label As String = tick.ToString("F2")
+            For Each tick As Double In New DoubleRange(0.Join(setSize.Values)).CreateAxisTicks
+                Dim tickX As Double = a.X - scale(tick)
+                Dim label As String = tick.ToString(theme.axisTickFormat)
 
                 labelSize = g.MeasureString(label, labelFont)
-                labelPos = New PointF(tickX, y)
+                labelPos = New PointF(tickX - labelSize.Width / 2, y)
+
+                If labelPos.X < 10 Then
+                    Continue For
+                End If
 
                 g.DrawString(label, labelFont, Brushes.Black, labelPos)
             Next
 
+            Dim dTick = labelSize.Height * 1.125
+
             labelFont = CSSFont.TryParse(theme.axisLabelCSS)
             labelSize = g.MeasureString(setSizeLabel, labelFont)
-            labelPos = New PointF(b.X + (width - labelSize.Width) / 2, y + 10)
+            labelPos = New PointF(b.X + (width - labelSize.Width) / 2, y + dTick)
 
             g.DrawString("Set Size", labelFont, Brushes.Black, labelPos)
         End Sub
 
         Private Sub drawTopBarPlot(g As IGraphics, barData As List(Of NamedValue(Of Integer)), boxWidth As Double, layout As Rectangle)
-            Dim scaleY = d3js.scale.linear.domain(barData.Select(Function(d) CDbl(d.Value))).range(New Double() {0, layout.Height})
+            Dim yTick = barData.Select(Function(d) CDbl(d.Value)).JoinIterates({0.0}).CreateAxisTicks
+            Dim scaleY = d3js.scale.linear.domain(yTick).range(New Double() {0, layout.Height})
             Dim x As Double = layout.Left
             Dim labelFont As Font = CSSFont.TryParse(theme.tagCSS)
-            Dim dh As Double = g.MeasureString("0", labelFont).Height
             Dim offset As Double = boxWidth * 0.1
+            Dim pen As Pen = Stroke.TryParse(theme.axisStroke)
+            Dim yscale As New YScaler(False) With {
+                .region = layout,
+                .Y = scaleY
+            }
+
+            ' draw axis
+            Call g.DrawY(pen, "Intersection Size", yscale, 0, yTick, YAxisLayoutStyles.Left, Nothing, theme.axisLabelCSS, CSSFont.TryParse(theme.axisTickCSS), htmlLabel:=False)
 
             For Each bar In barData
                 Dim barHeight As Double = scaleY(bar.Value)
@@ -241,9 +257,10 @@ Namespace CollectionSet
                     .Width = boxWidth * 0.8,
                     .Height = barHeight
                 }
+                Dim labelSize As SizeF = g.MeasureString(bar.Value, labelFont)
 
                 Call g.FillRectangle(bar.Description.GetBrush, barRect)
-                Call g.DrawString(bar.Value, labelFont, Brushes.Black, New PointF(x, y - dh))
+                Call g.DrawString(bar.Value, labelFont, Brushes.Black, New PointF(x + (barRect.Width - labelSize.Width) / 2, y - labelSize.Height))
 
                 x += boxWidth
             Next
