@@ -42,7 +42,7 @@ Namespace CollectionSet
             Dim boxWidth As Double = -1
 
             Call drawBottomIntersctionVisualize(g, collectionSetLabels, barData, boxWidth:=boxWidth, layout:=bottomIntersection)
-            Call drawLeftBarSet(g, labelFont, collectionSetLabels, layout:=leftSetSizeBar)
+            Call drawLeftBarSet(g, labelFont, collectionSetLabels, layout:=New Rectangle(leftSetSizeBar.X, leftSetSizeBar.Y, leftSetSizeBar.Width - boxWidth * 1.125, leftSetSizeBar.Height))
             Call drawTopBarPlot(g, barData, boxWidth:=boxWidth, layout:=topbarLayout)
         End Sub
 
@@ -258,7 +258,7 @@ Namespace CollectionSet
             }
 
             ' draw axis
-            Call g.DrawY(pen, "Intersection Size", yscale, 0, yTick, YAxisLayoutStyles.Left, Nothing, theme.axisLabelCSS, CSSFont.TryParse(theme.axisTickCSS), htmlLabel:=False)
+            Call g.DrawY(pen, "Intersection Size", yscale, 0, yTick, YAxisLayoutStyles.Left, New Point(0, -boxWidth), theme.axisLabelCSS, CSSFont.TryParse(theme.axisTickCSS), htmlLabel:=False)
 
             For Each bar In barData
                 Dim barHeight As Double = scaleY(bar.Value)
