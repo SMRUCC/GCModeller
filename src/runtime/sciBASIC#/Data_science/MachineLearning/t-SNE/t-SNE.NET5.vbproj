@@ -13,7 +13,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <DefineConstants>netcore5=1</DefineConstants>
-    <DocumentationFile>t-SNE.NET5.xml</DocumentationFile>
+    <DocumentationFile>Microsoft.VisualBasic.MachineLearning.t-SNE.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -21,23 +21,23 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <DefineConstants>netcore5=1</DefineConstants>
-    <DocumentationFile>t-SNE.NET5.xml</DocumentationFile>
+    <DocumentationFile>Microsoft.VisualBasic.MachineLearning.t-SNE.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>t-SNE.NET5.xml</DocumentationFile>
+    <DocumentationFile>Microsoft.VisualBasic.MachineLearning.t-SNE.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|AnyCPU'">
-    <DocumentationFile>t-SNE.NET5.xml</DocumentationFile>
+    <DocumentationFile>Microsoft.VisualBasic.MachineLearning.t-SNE.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <DocumentationFile>t-SNE.NET5.xml</DocumentationFile>
+    <DocumentationFile>Microsoft.VisualBasic.MachineLearning.t-SNE.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|x64'">
-    <DocumentationFile>t-SNE.NET5.xml</DocumentationFile>
+    <DocumentationFile>Microsoft.VisualBasic.MachineLearning.t-SNE.xml</DocumentationFile>
     <OutputPath>D:\GCModeller\src\R-sharp\App\</OutputPath>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
     <Optimize>false</Optimize>
