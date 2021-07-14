@@ -559,6 +559,8 @@ Namespace Drawing2D.Colors
                     .Alpha(alpha) _
                     .Replicate(n) _
                     .ToArray
+            ElseIf source.Length <= n Then
+                Return source.Take(n).ToArray
             End If
 
             Dim x As New CubicSplineVector(source.Select(Function(c) CSng(c.R)))
