@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <RootNamespace>Microsoft.VisualBasic.DataMining.HiddenMarkovChain</RootNamespace>
@@ -64,6 +64,7 @@
     <DefineDebug>false</DefineDebug>
     <DefineConstants>netcore5=1</DefineConstants>
     <DefineTrace>true</DefineTrace>
+    <OutputPath>D:\GCModeller\src\R-sharp\App\</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
