@@ -110,9 +110,21 @@ Namespace CollectionSet
                     y = layout.Top + pointSize
                 Next
 
+                Dim intersectList = allCompares _
+                    .Select(Function(combine)
+                                Dim intersect As String() = factor _
+                                    .GetIntersection(combine) _
+                                    .ToArray
+
+                                Return (index:=combine.Indexing, intersect)
+                            End Function) _
+                    .Where(Function(d) d.intersect.Length > 0) _
+                    .OrderBy(Function(d) d.intersect.Length) _
+                    .ToArray
+
                 ' draw for each combine group
-                For Each combine As String() In allCompares
-                    Dim intersect As String() = factor.GetIntersection(combine).ToArray
+                For Each combine In intersectList
+                    Dim intersect As String() = combine.intersect
 
                     y = layout.Top + pointSize
 
@@ -120,7 +132,7 @@ Namespace CollectionSet
                         ' line between the dots
                         Dim ymin As Double = 999999
                         Dim ymax As Double = -99999
-                        Dim combineIndex As Index(Of String) = combine
+                        Dim combineIndex As Index(Of String) = combine.index
 
                         For Each tag In collectionSetLabels
                             If tag Like combineIndex Then
@@ -152,7 +164,7 @@ Namespace CollectionSet
                     End If
 
                     Call New NamedValue(Of Integer) With {
-                        .Name = combine.JoinBy("--"),
+                        .Name = combine.index.Objects.JoinBy("--"),
                         .Value = intersect.Length,
                         .Description = htmlColor
                     }.DoCall(AddressOf barData.Add)
