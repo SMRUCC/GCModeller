@@ -379,6 +379,7 @@
     <Compile Include="CatalogProfiling\COGCatalogProfiling.vb" />
     <Compile Include="CategoryImpactBox\Impact.vb" />
     <Compile Include="CategoryImpactBox\ImpactBoxPlot.vb" />
+    <Compile Include="CollectionSet\FactorGroup.vb" />
     <Compile Include="CollectionSet\IntersectionData.vb" />
     <Compile Include="CollectionSet\IntersectionPlot.vb" />
     <Compile Include="ColorProfiles.vb" />
