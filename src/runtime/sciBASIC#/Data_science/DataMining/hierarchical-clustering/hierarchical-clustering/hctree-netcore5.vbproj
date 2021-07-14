@@ -86,9 +86,9 @@
     <ProjectReference Include="..\..\..\..\Microsoft.VisualBasic.Core\src\Core.vbproj" />
     <ProjectReference Include="..\..\..\..\mime\text%html\html_netcore5.vbproj" />
     <ProjectReference Include="..\..\..\Mathematica\Math\DataFrame\dataframeUtils-netcore5.vbproj" />
-    <ProjectReference Include="..\..\..\Mathematica\Math\Math\math-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\Mathematica\Math\Math\Math.NET5.vbproj" />
     <ProjectReference Include="..\..\..\Visualization\Plots\plots-netcore5.vbproj" />
-    <ProjectReference Include="..\..\DataMining\datamining-netcore5.vbproj" />
+    <ProjectReference Include="..\..\DataMining\DataMining.NET5.vbproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -90,7 +90,7 @@
     <ProjectReference Include="..\..\Mathematica\Math\DataFittings\linear-netcore5.vbproj" />
     <ProjectReference Include="..\..\Mathematica\Math\DataFrame\dataframeUtils-netcore5.vbproj" />
     <ProjectReference Include="..\..\Mathematica\Math\Math.Statistics\stats-netcore5.vbproj" />
-    <ProjectReference Include="..\..\Mathematica\Math\Math\math-netcore5.vbproj" />
+    <ProjectReference Include="..\..\Mathematica\Math\Math\Math.NET5.vbproj" />
     <ProjectReference Include="..\..\Mathematica\Math\ODE\odes-netcore5.vbproj" />
     <ProjectReference Include="..\Plots\plots-netcore5.vbproj" />
   </ItemGroup>
