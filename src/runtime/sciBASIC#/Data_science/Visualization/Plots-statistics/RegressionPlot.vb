@@ -118,7 +118,8 @@ Public Module RegressionPlot
                          Optional factorFormat$ = "G4",
                          Optional showErrorBand As Boolean = True,
                          Optional labelerIterations% = 1000,
-                         Optional gridFill$ = NameOf(Color.LightGray)) As GraphicsData
+                         Optional gridFill$ = NameOf(Color.LightGray),
+                         Optional showYFitPoints As Boolean = True) As GraphicsData
 
         Dim xTicks#() = fit.X.AsEnumerable _
             .Range(scale:=1.125) _
@@ -199,27 +200,29 @@ Public Module RegressionPlot
                     Call g.DrawLine(regressionPen, A, B)
                 End If
 
-                ' 绘制蓝色的fit计算点
-                For Each point As TestPoint In fit.ErrorTest
-                    Dim pt As New PointF With {
-                        .X = point.X,
-                        .Y = point.Yfit
-                    }
+                If showYFitPoints Then
+                    ' 绘制蓝色的fit计算点
+                    For Each point As TestPoint In fit.ErrorTest
+                        Dim pt As New PointF With {
+                            .X = point.X,
+                            .Y = point.Yfit
+                        }
 
-                    pt = scaler.Translate(pt)
+                        pt = scaler.Translate(pt)
 
-                    g.DrawCircle(
-                        centra:=pt,
-                        r:=pointSize,
-                        color:=errorFitPointBrush
-                    )
-                    g.DrawCircle(
-                        centra:=pt,
-                        r:=pointSize,
-                        color:=predictedPointBorder,
-                        fill:=False
-                    )
-                Next
+                        g.DrawCircle(
+                            centra:=pt,
+                            r:=pointSize,
+                            color:=errorFitPointBrush
+                        )
+                        g.DrawCircle(
+                            centra:=pt,
+                            r:=pointSize,
+                            color:=predictedPointBorder,
+                            fill:=False
+                        )
+                    Next
+                End If
 
                 If showErrorBand Then
                     Dim dx = xTicks(1) - xTicks(0)
