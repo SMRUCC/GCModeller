@@ -559,7 +559,7 @@ Namespace Drawing2D.Colors
                     .Alpha(alpha) _
                     .Replicate(n) _
                     .ToArray
-            ElseIf source.Length <= n Then
+            ElseIf n <= source.Length Then
                 Return source.Take(n).ToArray
             End If
 
