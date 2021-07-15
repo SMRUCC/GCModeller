@@ -208,10 +208,36 @@ Module report
         End If
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="url"></param>
+    ''' <param name="compound">the default color string for kegg compounds</param>
+    ''' <param name="gene">the default color string for KO/gene</param>
+    ''' <param name="reaction">the default color string for kegg reactions</param>
+    ''' <returns></returns>
     <ExportAPI("parseKeggUrl")>
-    Public Function parseUrl(url As String) As list
+    Public Function parseUrl(url As String, Optional compound$ = "blue", Optional gene$ = "red", Optional reaction$ = "green") As list
         Dim data = URLEncoder.URLParser(url)
-        Dim result As New list
+        Dim result As New list With {
+            .slots = New Dictionary(Of String, Object) From {
+                {"map", data.name},
+                {"objects", Nothing}
+            }
+        }
+        Dim kegg_objects As New Dictionary(Of String, Object)
+
+        For Each item As NamedValue(Of String) In data
+            Select Case item.Value
+                Case "Compound" : kegg_objects(item.Name) = compound
+                Case "KO" : kegg_objects(item.Name) = gene
+                Case "Reaction" : kegg_objects(item.Name) = reaction
+                Case Else
+                    kegg_objects(item.Name) = item.Value
+            End Select
+        Next
+
+        result.slots("objects") = kegg_objects.ToArray
 
         Return result
     End Function
