@@ -111,6 +111,7 @@ Namespace ExpressionPattern
                 .ToArray
             Dim legendTitleFont As Font = CSSFont.TryParse(legendTitleStyle)
             Dim legendTickFont As Font = CSSFont.TryParse(legendTickStyle)
+            Dim tickFormat As String
 
             For Each row As Matrix() In matrix.GetPartitionMatrix
                 x = canvas.PlotRegion.Left + iw / 5
@@ -133,6 +134,12 @@ Namespace ExpressionPattern
                                  End Function) _
                         .ToArray
 
+                    If scatterData.Select(Function(l) l.pts.Select(Function(a) a.pt.Y).Max).Max > 3000 Then
+                        tickFormat = "G2"
+                    Else
+                        tickFormat = "F2"
+                    End If
+
                     Call g.DrawString($"Cluster #{Integer.Parse(col.tag) + 1}", clusterTagFont, Brushes.Black, tagPos)
 
                     Call Scatter.Plot(
@@ -143,7 +150,8 @@ Namespace ExpressionPattern
                         Ylabel:=ylabel,
                         tickFontStyle:=theme.axisTickCSS,
                         axisLabelCSS:=theme.axisLabelCSS,
-                        showLegend:=False
+                        showLegend:=False,
+                        YtickFormat:=tickFormat
                     )
                     Call g.ColorMapLegend(
                         layout:=legendLayout,

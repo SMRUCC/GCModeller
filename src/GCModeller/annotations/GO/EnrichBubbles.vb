@@ -42,24 +42,21 @@
 #End Region
 
 Imports System.Drawing
-Imports System.Drawing.Drawing2D
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
-Imports Microsoft.VisualBasic.ComponentModel.Ranges
-Imports Microsoft.VisualBasic.Data.ChartPlots
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Legend
+Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.Scripting.MathExpression
 Imports Microsoft.VisualBasic.MIME.Html.CSS
-Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
+Imports SMRUCC.genomics.Visualize.CatalogProfiling
+Imports stdNum = System.Math
 
 Public Module EnrichBubbles
 
@@ -90,17 +87,23 @@ Public Module EnrichBubbles
                                Optional pvalue# = 0.01,
                                Optional legendFont$ = CSSFont.PlotSmallTitle,
                                Optional geneIDFont$ = CSSFont.Win10Normal,
-                               Optional R$ = "log(x)",
+                               Optional radius$ = "10,50",
                                Optional displays% = 10,
                                Optional titleFontCSS$ = CSSFont.Win7Large,
                                Optional title$ = "GO enrichment",
                                Optional bubbleBorder As Boolean = True,
-                               Optional correlatedPvalue As Boolean = True) As GraphicsData
+                               Optional correlatedPvalue As Boolean = True,
+                               Optional ppi As Integer = 300) As GraphicsData
 
         Dim enrichResult = data.EnrichResult(GO_terms)
         Dim unenrich As Color = unenrichColor.TranslateColor
         Dim math As New ExpressionEngine
-        Dim calcR = Function(x#) math.SetSymbol("x", x#).Evaluate(R)
+        Dim termsData As Dictionary(Of String, BubbleTerm()) = data _
+            .EnrichResult(GO_terms) _
+            .ToDictionary(Function(cat) cat.Key,
+                          Function(cat)
+                              Return cat.Value.BubbleModel(correlatedPvalue).ToArray
+                          End Function)
 
         With New Dictionary(Of String, Color())
 
@@ -108,30 +111,22 @@ Public Module EnrichBubbles
             !molecular_function = Designer.GetColors("Blues:c9", alpha:=225)
             !biological_process = Designer.GetColors("Greens:c9", alpha:=225)
 
-            Return g.GraphicsPlots(
-                size.SizeParser, padding,
-                bg,
-                Sub(ByRef g, region)
-                    Call g.plotInternal(
-                        region, enrichResult, unenrich,
-                        .ByRef, pvalue,
-                        legendFont,
-                        r:=calcR,
-                        displays:=displays,
-                        showBubbleBorder:=bubbleBorder,
-                        padding:=padding,
-                        correlatedPvalue:=correlatedPvalue
-                    )
+            Dim theme As New Theme With {
+                .padding = padding,
+                .background = bg
+            }
+            Dim bubble As New CatalogBubblePlot(
+                data:=termsData,
+                enrichColors:= .ByRef,
+                showBubbleBorder:=bubbleBorder,
+                displays:=displays,
+                pvalue:=-stdNum.Log10(pvalue),
+                unenrich:=unenrichColor.TranslateColor,
+                theme:=theme,
+                bubbleSize:=radius.Split(","c).Select(AddressOf Val).ToArray
+            )
 
-                    Dim titleFont As Font = CSSFont.TryParse(titleFontCSS).GDIObject
-                    Dim fsize As SizeF = g.MeasureString(title, titleFont)
-                    Dim tloc As New PointF(
-                        (region.Size.Width - fsize.Width) / 2,
-                        (region.Padding.Top - fsize.Height) / 2)
-
-                    Call g.DrawString(title, titleFont, Brushes.Black, tloc)
-                End Sub,
-                dpi:="300,300")
+            Return bubble.Plot(size, ppi:=ppi)
         End With
     End Function
 
@@ -159,184 +154,15 @@ Public Module EnrichBubbles
         Return out
     End Function
 
-    ''' <summary>
-    ''' 
-    ''' </summary>
-    ''' <param name="g"></param>
-    ''' <param name="region"></param>
-    ''' <param name="result"></param>
-    ''' <param name="unenrich"></param>
-    ''' <param name="enrichColors"></param>
-    ''' <param name="pvalue#"></param>
-    ''' <param name="legendFontStyle$"></param>
-    ''' <param name="r">点的半径大小的计算公式</param>
     <Extension>
-    Private Sub plotInternal(g As IGraphics,
-                             region As GraphicsRegion,
-                             result As Dictionary(Of String, EnrichmentTerm()),
-                             unenrich As Color,
-                             enrichColors As Dictionary(Of String, Color()),
-                             pvalue#,
-                             legendFontStyle$,
-                             r As Func(Of Double, Double),
-                             displays%,
-                             showBubbleBorder As Boolean,
-                             padding$,
-                             correlatedPvalue As Boolean)
-
-        Dim serials As SerialData() = result _
-            .Keys _
-            .Select(Function(category)
-                        ' 这些都是经过筛选的，pvalue阈值符合条件的，
-                        ' 剩下的pvalue阈值不符合条件的都被当作为同一个serials
-                        Dim color As Color() = enrichColors(category) _
-                            .Skip(20) _
-                            .Alpha(250) _
-                            .ToArray
-                        Dim terms = result(category).AsList
-                        Dim serial = terms.createModel(category, color, pvalue, r, displays, correlatedPvalue)
-
-                        Return serial
-                    End Function) _
-            .Join(result.Values _
-                .IteratesALL _
-                .unenrichSerial(
-                    pvalue:=pvalue,
-                    color:=unenrich,
-                    r:=r,
-                    correlatedPvalue:=correlatedPvalue
-                )) _
-            .ToArray
-        Dim bubbleBorder As Stroke = Nothing
-
-        If showBubbleBorder Then
-            bubbleBorder = New Stroke With {
-                .dash = DashStyle.Solid,
-                .fill = "lightgray",
-                .width = 1.5
-            }
-        End If
-
-        Dim plot As GraphicsData = Bubble.Plot(
-            serials,
-            padding:=padding,
-            size:=$"{region.Size.Width},{region.Size.Height}",
-            legend:=False,
-            xlabel:="richFactor=(n/background)",
-            ylabel:="-log10(p.value)",
-            bubbleBorder:=bubbleBorder,
-            strokeColorAsMainColor:=True,
-            axisLabelFontCSS:=CSSFont.Win10NormalLarge,
-            positiveRangeY:=True
-        )
-
-        Call g.DrawImageUnscaled(plot, New Point)
-
-        Dim legends As LegendObject() = serials _
-            .Select(Function(s)
-                        Return New LegendObject With {
-                            .color = s.color.RGBExpression,
-                            .fontstyle = legendFontStyle,
-                            .style = LegendStyles.Circle,
-                            .title = s.title
-                        }
-                    End Function) _
-            .ToArray
-        Dim legendFont As Font = CSSFont.TryParse(legendFontStyle)
-        Dim maxWidth As Single = legends _
-            .Select(Function(l)
-                        Return g.MeasureString(l.title, legendFont).Width
-                    End Function) _
-            .Max
-        Dim ltopLeft As New Point With {
-            .X = plot.Width - maxWidth * 1.2,
-            .Y = region.PlotRegion.Top + (region.PlotRegion.Height - (g.MeasureString("0", legendFont).Height + 10) * 3) / 2
-        }
-
-        Call g.DrawLegends(
-            ltopLeft,
-            legends,
-            gSize:="60,35",
-            regionBorder:=New Stroke With {
-                .fill = "Black",
-                .dash = DashStyle.Solid,
-                .width = 2
-            })
-    End Sub
-
-    <Extension>
-    Private Function unenrichSerial(catalog As IEnumerable(Of EnrichmentTerm), pvalue#, color As Color, r As Func(Of Double, Double), correlatedPvalue As Boolean) As SerialData
-        Dim unenrichs = catalog.Where(Function(term) If(correlatedPvalue, term.CorrectedPvalue, term.Pvalue) > pvalue)
-        Dim points = unenrichs _
-            .Select(Function(gene)
-                        Return New PointData With {
-                            .value = r(gene.number) + 1,
-                            .pt = New PointF(x:=gene.number / gene.Backgrounds, y:=gene.P)
-                        }
-                    End Function) _
-            .ToArray
-
-        Return New SerialData With {
-            .color = color,
-            .title = "Unenrich terms",
-            .pts = points
-        }
-    End Function
-
-    ''' <summary>
-    ''' 返回来的是经过cutoff的数据
-    ''' </summary>
-    ''' <param name="catalog"></param>
-    ''' <param name="ns$"></param>
-    ''' <param name="color"></param>
-    ''' <param name="pvalue#"></param>
-    ''' <returns></returns>
-    <Extension>
-    Private Function createModel(catalog As List(Of EnrichmentTerm), ns$, color As Color(), pvalue#, r As Func(Of Double, Double), displays%, correlatedPvalue As Boolean) As SerialData
-        Dim pv = catalog.Select(Function(gene) If(correlatedPvalue, gene.CorrectedPvalue, gene.Pvalue)).AsVector
-        Dim enrichResults = catalog(which.IsTrue(pv <= pvalue))
-        Dim colorIndex%() = enrichResults _
-            .Select(Function(gene) gene.P(correctedPvalue:=False)) _
-            .RangeTransform($"0,{color.Length - 1}") _
-            .Select(Function(i) CInt(i)) _
-            .ToArray
-        Dim pt As PointData = Nothing
-        Dim s As New SerialData With {
-            .color = color.Last,
-            .title = ns,
-            .pts = enrichResults _
-                .SeqIterator _
-                .Select(Function(obj)
-                            Dim gene As EnrichmentTerm = obj
-                            Dim i As Integer = colorIndex(obj)
-                            Dim c As Color = color(i)
-
-                            Return New PointData With {
-                                .value = r(gene.number) + 1,
-                                .pt = New PointF(x:=gene.number / gene.Backgrounds, y:=gene.P),
-                                .tag = gene.Term,
-                                .color = c.ARGBExpression
-                            }
-                        End Function) _
-                .OrderByDescending(Function(bubble)
-                                       ' 按照y也就是pvalue倒序排序
-                                       Return bubble.pt.Y
-                                   End Function) _
-                .ToArray
-        }
-
-        ' 只显示前displays个term的标签字符串，
-        ' 其余的term的标签字符串都设置为空值， 就不会被显示出来了
-        For i As Integer = displays To s.pts.Length - 1
-            pt = s.pts(i)
-            s.pts(i) = New PointData With {
-                .pt = pt.pt,
-                .tag = Nothing,
-                .value = pt.value,
-                .color = pt.color
+    Public Iterator Function BubbleModel(terms As IEnumerable(Of EnrichmentTerm), correlatedPvalue As Boolean) As IEnumerable(Of BubbleTerm)
+        For Each gene As EnrichmentTerm In terms
+            Yield New BubbleTerm With {
+                .data = gene.number,
+                .Factor = gene.number / gene.Backgrounds,
+                .PValue = gene.P(correlatedPvalue),
+                .termId = gene.Term
             }
         Next
-
-        Return s
     End Function
 End Module

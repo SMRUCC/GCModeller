@@ -52,3 +52,9 @@ Public Enum LabelTypes
     ALL
     DEG
 End Enum
+
+Public Enum DEGSet
+    ALL
+    Up
+    Down
+End Enum

@@ -48,7 +48,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.Data.visualize.Network
-Imports Microsoft.VisualBasic.Math
+Imports Microsoft.VisualBasic.Math.Correlations
 
 Namespace Tables
 

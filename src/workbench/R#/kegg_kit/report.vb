@@ -1,46 +1,47 @@
 ﻿#Region "Microsoft.VisualBasic::ec9e5dcf46f7fb2018da1e60f26458dd, kegg_kit\report.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module report
-    ' 
-    '     Function: checkIntersection, getHighlightObjects, loadMap, MapRender, renderMapHighlights
-    '               showReportHtml, singleColor, url
-    ' 
-    ' /********************************************************************************/
+' Module report
+' 
+'     Function: checkIntersection, getHighlightObjects, loadMap, MapRender, renderMapHighlights
+'               showReportHtml, singleColor, url
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.IO
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
@@ -51,6 +52,7 @@ Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports any = Microsoft.VisualBasic.Scripting
 
 ''' <summary>
 ''' the kegg pathway map report helper tool
@@ -120,6 +122,18 @@ Module report
         End If
     End Function
 
+    <Extension>
+    Private Function fromTable(table As IDictionary) As NamedValue(Of String)()
+        Return (From key As Object
+                In table.Keys.AsQueryable
+                Let value As Object = table(key)
+                Let colorVal As String = RColorPalette.getColor(value)
+                Select New NamedValue(Of String) With {
+                    .Name = any.ToString(key),
+                    .Value = colorVal
+                }).ToArray
+    End Function
+
     Private Function getHighlightObjects(highlights As Object, env As Environment) As [Variant](Of Message, NamedValue(Of String)())
         If TypeOf highlights Is vector Then
             highlights = DirectCast(highlights, vector).data
@@ -137,16 +151,21 @@ Module report
                         End Function) _
                 .ToArray
         ElseIf TypeOf highlights Is list Then
-            Return DirectCast(highlights, list).slots _
-                .Select(Function(tuple)
-                            Dim colorVal As String = RColorPalette.getColor(tuple.Value)
-
+            Return DirectCast(highlights, list).slots.fromTable
+        ElseIf TypeOf highlights Is Dictionary(Of String, String) Then
+            Return DirectCast(highlights, Dictionary(Of String, String)).fromTable
+        ElseIf TypeOf highlights Is Dictionary(Of String, Object) Then
+            Return DirectCast(highlights, Dictionary(Of String, Object)).fromTable
+        ElseIf TypeOf highlights Is KeyValuePair(Of String, Object)() Then
+            Return DirectCast(highlights, KeyValuePair(Of String, Object)()) _
+                .Select(Function(t)
                             Return New NamedValue(Of String) With {
-                                .Name = tuple.Key,
-                                .Value = colorVal
+                                .Name = t.Key,
+                                .Value = RColorPalette.getColor(t.Value)
                             }
                         End Function) _
                 .ToArray
+
         ElseIf TypeOf highlights Is String() OrElse TypeOf highlights Is String Then
             Return URLEncoder.URLParser(getFirst(highlights)).value
         Else
@@ -208,10 +227,36 @@ Module report
         End If
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="url"></param>
+    ''' <param name="compound">the default color string for kegg compounds</param>
+    ''' <param name="gene">the default color string for KO/gene</param>
+    ''' <param name="reaction">the default color string for kegg reactions</param>
+    ''' <returns></returns>
     <ExportAPI("parseKeggUrl")>
-    Public Function parseUrl(url As String) As list
+    Public Function parseUrl(url As String, Optional compound$ = "blue", Optional gene$ = "red", Optional reaction$ = "green") As list
         Dim data = URLEncoder.URLParser(url)
-        Dim result As New list
+        Dim result As New list With {
+            .slots = New Dictionary(Of String, Object) From {
+                {"map", data.name},
+                {"objects", Nothing}
+            }
+        }
+        Dim kegg_objects As New Dictionary(Of String, Object)
+
+        For Each item As NamedValue(Of String) In data
+            Select Case item.Value
+                Case "Compound" : kegg_objects(item.Name) = compound
+                Case "KO" : kegg_objects(item.Name) = gene
+                Case "Reaction" : kegg_objects(item.Name) = reaction
+                Case Else
+                    kegg_objects(item.Name) = item.Value
+            End Select
+        Next
+
+        result.slots("objects") = kegg_objects.ToArray
 
         Return result
     End Function
