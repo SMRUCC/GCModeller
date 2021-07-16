@@ -2,6 +2,7 @@
 Imports System.Drawing.Drawing2D
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Ranges
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Data.ChartPlots
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
@@ -67,11 +68,20 @@ Namespace CatalogProfiling
         Private Function GetColorIndex(ByRef catalog As List(Of BubbleTerm), colors As Color()) As Integer()
             Dim pv = catalog.Select(Function(gene) gene.PValue).AsVector
             Dim enrichResults = catalog(which.IsTrue(pv > pvalue))
-            Dim colorIndex%() = enrichResults _
+            Dim colorIndex%()
+            Dim dataRange As DoubleRange = enrichResults _
                 .Select(Function(gene) gene.PValue) _
-                .RangeTransform({0, colors.Length - 1}) _
-                .Select(Function(i) CInt(i)) _
-                .ToArray
+                .Range
+            Dim indexRange As DoubleRange = {0, colors.Length - 1}
+
+            If dataRange.Length = 0 Then
+                colorIndex = enrichResults.Select(Function(any) colors.Length - 1).ToArray
+            Else
+                colorIndex = enrichResults _
+                    .Select(Function(t) dataRange.ScaleMapping(t.PValue, indexRange)) _
+                    .Select(Function(i) CInt(i)) _
+                    .ToArray
+            End If
 
             catalog = enrichResults
 
