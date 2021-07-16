@@ -87,7 +87,7 @@ Public Module EnrichBubbles
                                Optional pvalue# = 0.01,
                                Optional legendFont$ = CSSFont.PlotSmallTitle,
                                Optional geneIDFont$ = CSSFont.Win10Normal,
-                               Optional R$ = "log(x)",
+                               Optional radius$ = "10,50",
                                Optional displays% = 10,
                                Optional titleFontCSS$ = CSSFont.Win7Large,
                                Optional title$ = "GO enrichment",
@@ -98,12 +98,11 @@ Public Module EnrichBubbles
         Dim enrichResult = data.EnrichResult(GO_terms)
         Dim unenrich As Color = unenrichColor.TranslateColor
         Dim math As New ExpressionEngine
-        Dim calcR = Function(x#) math.SetSymbol("x", x#).Evaluate(R)
         Dim termsData As Dictionary(Of String, BubbleTerm()) = data _
             .EnrichResult(GO_terms) _
             .ToDictionary(Function(cat) cat.Key,
                           Function(cat)
-                              Return cat.Value.BubbleModel(correlatedPvalue, calcR).ToArray
+                              Return cat.Value.BubbleModel(correlatedPvalue).ToArray
                           End Function)
 
         With New Dictionary(Of String, Color())
@@ -123,7 +122,8 @@ Public Module EnrichBubbles
                 displays:=displays,
                 pvalue:=-stdNum.Log10(pvalue),
                 unenrich:=unenrichColor.TranslateColor,
-                theme:=theme
+                theme:=theme,
+                bubbleSize:=radius.Split(","c).Select(AddressOf Val).ToArray
             )
 
             Return bubble.Plot(size, ppi:=ppi)
@@ -155,10 +155,10 @@ Public Module EnrichBubbles
     End Function
 
     <Extension>
-    Public Iterator Function BubbleModel(terms As IEnumerable(Of EnrichmentTerm), correlatedPvalue As Boolean, r As Func(Of Double, Double)) As IEnumerable(Of BubbleTerm)
+    Public Iterator Function BubbleModel(terms As IEnumerable(Of EnrichmentTerm), correlatedPvalue As Boolean) As IEnumerable(Of BubbleTerm)
         For Each gene As EnrichmentTerm In terms
             Yield New BubbleTerm With {
-                .data = r(gene.number) + 1,
+                .data = gene.number,
                 .Factor = gene.number / gene.Backgrounds,
                 .PValue = gene.P(correlatedPvalue),
                 .termId = gene.Term

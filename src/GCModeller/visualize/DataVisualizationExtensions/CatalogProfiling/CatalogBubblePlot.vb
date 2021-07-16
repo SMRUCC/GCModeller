@@ -1,7 +1,6 @@
 ﻿Imports System.Drawing
 Imports System.Drawing.Drawing2D
 Imports Microsoft.VisualBasic.ComponentModel.Collection
-Imports Microsoft.VisualBasic.ComponentModel.Ranges
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Data.ChartPlots
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
@@ -14,6 +13,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports stdNum = System.Math
 
 Namespace CatalogProfiling
 
@@ -46,6 +46,7 @@ Namespace CatalogProfiling
         ReadOnly displays As Integer = 0
         ReadOnly pvalue As Double
         ReadOnly unenrich As Color
+        ReadOnly bubbleResize As DoubleRange
 
         Public Sub New(data As Dictionary(Of String, BubbleTerm()),
                        enrichColors As Dictionary(Of String, Color()),
@@ -53,6 +54,7 @@ Namespace CatalogProfiling
                        displays As Integer,
                        pvalue As Double,
                        unenrich As Color,
+                       bubbleSize As DoubleRange,
                        theme As Theme)
 
             MyBase.New(theme)
@@ -63,6 +65,10 @@ Namespace CatalogProfiling
             Me.unenrich = unenrich
             Me.displays = displays
             Me.pvalue = pvalue
+            Me.bubbleResize = bubbleSize
+
+            xlabel = "richFactor=(n/background)"
+            ylabel = "-log10(p.value)"
         End Sub
 
         Private Function GetColorIndex(ByRef catalog As List(Of BubbleTerm), colors As Color()) As Integer()
@@ -88,7 +94,7 @@ Namespace CatalogProfiling
             Return colorIndex
         End Function
 
-        Private Iterator Function GetCatalogSerialData() As IEnumerable(Of SerialData)
+        Private Iterator Function GetCatalogSerialData(allValues As DoubleRange) As IEnumerable(Of SerialData)
             For Each category As String In data.Keys
                 ' 这些都是经过筛选的，pvalue阈值符合条件的，
                 ' 剩下的pvalue阈值不符合条件的都被当作为同一个serials
@@ -107,7 +113,7 @@ Namespace CatalogProfiling
                             Dim c As Color = color(i)
 
                             Return New PointData With {
-                                .value = gene.data,
+                                .value = allValues.ScaleMapping(gene.data, bubbleResize),
                                 .pt = New PointF(x:=gene.Factor, y:=gene.PValue),
                                 .tag = gene.termId,
                                 .color = c.ARGBExpression
@@ -135,15 +141,15 @@ Namespace CatalogProfiling
                 Yield serial
             Next
 
-            Yield unenrichSerial(catalog:=data.Values.IteratesALL)
+            Yield unenrichSerial(catalog:=data.Values.IteratesALL, allValues)
         End Function
 
-        Private Function unenrichSerial(catalog As IEnumerable(Of BubbleTerm)) As SerialData
+        Private Function unenrichSerial(catalog As IEnumerable(Of BubbleTerm), allValues As DoubleRange) As SerialData
             Dim unenrichs = catalog.Where(Function(term) term.PValue <= pvalue).ToArray
             Dim points = unenrichs _
             .Select(Function(gene)
                         Return New PointData With {
-                            .value = gene.data,
+                            .value = allValues.ScaleMapping(gene.data, bubbleResize),
                             .pt = New PointF(x:=gene.Factor, y:=gene.PValue)
                         }
                     End Function) _
@@ -157,7 +163,8 @@ Namespace CatalogProfiling
         End Function
 
         Protected Overrides Sub PlotInternal(ByRef g As IGraphics, region As GraphicsRegion)
-            Dim serials As SerialData() = GetCatalogSerialData().ToArray
+            Dim allValues = data.Values.IteratesALL.Select(Function(gene) gene.data).Range
+            Dim serials As SerialData() = GetCatalogSerialData(allValues).ToArray
             Dim bubbleBorder As Stroke = Nothing
 
             If showBubbleBorder Then
@@ -173,8 +180,8 @@ Namespace CatalogProfiling
                 padding:=theme.padding,
                 size:=$"{region.Size.Width},{region.Size.Height}",
                 legend:=False,
-                xlabel:="richFactor=(n/background)",
-                ylabel:="-log10(p.value)",
+                xlabel:=xlabel,
+                ylabel:=ylabel,
                 bubbleBorder:=bubbleBorder,
                 strokeColorAsMainColor:=True,
                 axisLabelFontCSS:=CSSFont.Win10NormalLarge,
@@ -196,6 +203,7 @@ Namespace CatalogProfiling
 
         Private Sub DrawBubbleLegends(g As IGraphics, serials As SerialData(), region As GraphicsRegion)
             Dim legendFontStyle As String = theme.legendLabelCSS
+            Dim plot As Rectangle = region.PlotRegion
             Dim legends As LegendObject() = serials _
             .Select(Function(s)
                         Return New LegendObject With {
@@ -207,20 +215,22 @@ Namespace CatalogProfiling
                     End Function) _
             .ToArray
             Dim legendFont As Font = CSSFont.TryParse(legendFontStyle)
+            Dim cSize As SizeF = g.MeasureString("0", legendFont)
+            Dim legendSize As New SizeF(stdNum.Max(cSize.Width, cSize.Height), stdNum.Max(cSize.Width, cSize.Height))
             Dim maxWidth As Single = legends _
             .Select(Function(l)
                         Return g.MeasureString(l.title, legendFont).Width
                     End Function) _
             .Max
             Dim ltopLeft As New Point With {
-            .X = Plot.Width - maxWidth * 1.2,
-            .Y = region.PlotRegion.Top + (region.PlotRegion.Height - (g.MeasureString("0", legendFont).Height + 10) * 3) / 2
+            .X = plot.Right + legendSize.Width * 1.25,
+            .Y = region.PlotRegion.Top + (region.PlotRegion.Height - (cSize.Height + 10) * 3) / 2
         }
 
             Call g.DrawLegends(
             ltopLeft,
             legends,
-            gSize:="60,35",
+            gSize:=$"{legendSize.Width},{legendSize.Height}",
             regionBorder:=New Stroke With {
                 .fill = "Black",
                 .dash = DashStyle.Solid,
