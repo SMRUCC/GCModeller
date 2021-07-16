@@ -64,7 +64,7 @@ Namespace CatalogProfiling
             Me.pvalue = pvalue
         End Sub
 
-        Private Function GetColorIndex(catalog As List(Of BubbleTerm), colors As Color()) As Integer()
+        Private Function GetColorIndex(ByRef catalog As List(Of BubbleTerm), colors As Color()) As Integer()
             Dim pv = catalog.Select(Function(gene) gene.PValue).AsVector
             Dim enrichResults = catalog(which.IsTrue(pv > pvalue))
             Dim colorIndex%() = enrichResults _
@@ -73,6 +73,8 @@ Namespace CatalogProfiling
                 .Select(Function(i) CInt(i)) _
                 .ToArray
 
+            catalog = enrichResults
+
             Return colorIndex
         End Function
 
@@ -80,17 +82,14 @@ Namespace CatalogProfiling
             For Each category As String In data.Keys
                 ' 这些都是经过筛选的，pvalue阈值符合条件的，
                 ' 剩下的pvalue阈值不符合条件的都被当作为同一个serials
-                Dim color As Color() = enrichColors(category) _
-                    .Skip(20) _
-                    .Alpha(250) _
-                    .ToArray
+                Dim color As Color() = enrichColors(category).Alpha(250).ToArray
                 Dim terms = data(category).AsList
                 Dim pt As PointData = Nothing
-                Dim colorIndex As Integer() = GetColorIndex(data(category).AsList, color)
+                Dim colorIndex As Integer() = GetColorIndex(terms, color)
                 Dim serial As New SerialData With {
             .color = color.Last,
             .title = category,
-            .pts = data(category) _
+            .pts = terms _
                 .SeqIterator _
                 .Select(Function(obj)
                             Dim gene As BubbleTerm = obj
