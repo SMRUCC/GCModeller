@@ -228,6 +228,7 @@ Public Class Bubble : Inherits Plot
 
                 If r.IsNaNImaginary Then
                     Call $"invalid radius value of {pt}".Warning
+                    Continue For
                 End If
 
                 With pt.color
