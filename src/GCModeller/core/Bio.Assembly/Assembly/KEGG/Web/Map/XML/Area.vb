@@ -114,7 +114,7 @@ Namespace Assembly.KEGG.WebServices
         ''' <returns></returns>
         Public ReadOnly Property Type As String
             Get
-                If InStr(href, "/dbget-bin/www_bget") = 1 Then
+                If InStr(href, "/dbget-bin/www_bget") + InStr(href, "/entry") > 0 Then
                     With IDVector
                         If .First.IsPattern("[CDG]\d+") OrElse .First.IsPattern("DG\d+") Then
                             ' compound, drug, glycan
@@ -131,7 +131,7 @@ Namespace Assembly.KEGG.WebServices
                             Return "unknown"
                         End If
                     End With
-                ElseIf InStr(href, "/kegg-bin/show_pathway") = 1 Then
+                ElseIf InStr(href, "/kegg-bin/show_pathway") + InStr(href, "/pathway/") > 0 Then
                     Return NameOf(BriteHEntry.Pathway)
                 ElseIf InStr(href, "search_htext?htext=") > 0 Then
                     ' 查看这张pathway的分类信息
@@ -148,7 +148,11 @@ Namespace Assembly.KEGG.WebServices
         Public ReadOnly Property IDVector As String()
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Return href.Split("?"c).Last.Split("+"c)
+                Return Strings.Replace(href, "/entry/", "") _
+                    .Replace("/pathway/", "") _
+                    .Split("?"c) _
+                    .Last _
+                    .Split("+"c)
             End Get
         End Property
 
