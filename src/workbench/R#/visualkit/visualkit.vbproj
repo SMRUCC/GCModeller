@@ -212,7 +212,7 @@
       <Name>Bio.Assembly</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\GCModeller\data\GO_gene-ontology\GeneOntology\GO_OWL.vbproj">
-      <Project>{755078C9-F421-4ED0-A64B-161A69E86BCB}</Project>
+      <Project>{755078c9-f421-4ed0-a64b-161a69e86bcb}</Project>
       <Name>GO_OWL</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\GCModeller\visualize\ChromosomeMap\ChromosomeMap.vbproj">
