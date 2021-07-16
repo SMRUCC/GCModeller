@@ -1,0 +1,10 @@
+Package: MSI
+Type: Package
+Title: MSI analysis plugin for mzkit_win32 platform.
+Version: 1.1.0-beta
+Author: xieguigang
+Maintainer: xieguigang <gg.xie@bionovogene.com>
+Description: MS-imaging raw data processing, and data visualization.
+License: BioNovoGene
+Encoding: UTF-8
+LazyData: true
