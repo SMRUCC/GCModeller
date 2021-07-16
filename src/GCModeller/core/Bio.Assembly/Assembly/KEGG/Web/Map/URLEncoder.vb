@@ -63,16 +63,75 @@ Namespace Assembly.KEGG.WebServices
     ''' </remarks>
     Public Module URLEncoder
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="urlStr">
+        ''' + http://www.genome.jp/kegg-bin/show_pathway?{pathway_ID}/{geneID}%09{color}/{geneID}%09{color}/{geneID}%09{color}
+        ''' + http://www.kegg.jp/pathway/mmu04140+C00035+C00044
+        ''' + http://www.kegg.jp/pathway/map01230/C00037/red/C00049/blue
+        ''' </param>
+        ''' <returns></returns>
         Public Function URLParser(urlStr$) As NamedCollection(Of NamedValue(Of String))
             Dim url As URL = URL.Parse(urlStr)
 
+            If url.path.StartsWith("pathway/") Then
+                Dim data = url.path.GetTagValue("/").Value
 
+                If data.Contains("/") Then
+                    Return URLParser2(data)
+                Else
+                    Return URLParser3(data)
+                End If
+            ElseIf url.path.StartsWith("kegg-bin/show_pathway") Then
+                Return URLParser1(urlStr)
+            Else
+                Throw New InvalidExpressionException(urlStr)
+            End If
+        End Function
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="url">mmu04140+C00035+C00044</param>
+        ''' <returns></returns>
+        Private Function URLParser3(url As String) As NamedCollection(Of NamedValue(Of String))
+            Dim data = url.Split("+"c)
+            Dim components As New List(Of NamedValue(Of String))
+
+            For Each token As String In data.Skip(1)
+                If token.IsPattern("[CGD]\d+") Then
+                    components.Add(New NamedValue(Of String)(token, "Compound"))
+                ElseIf token.IsPattern("K\d+") Then
+                    components.Add(New NamedValue(Of String)(token, "KO"))
+                ElseIf token.IsPattern("R\d+") Then
+                    components.Add(New NamedValue(Of String)(token, "Reaction"))
+                Else
+                    Throw New NotImplementedException(token)
+                End If
+            Next
+
+            Return New NamedCollection(Of NamedValue(Of String)) With {
+                .name = data(Scan0),
+                .value = components.ToArray
+            }
+        End Function
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="url">http://www.kegg.jp/pathway/map01230/C00037/red/C00049/blue</param>
+        ''' <returns></returns>
+        Private Function URLParser2(url As String) As NamedCollection(Of NamedValue(Of String))
+            Throw New NotImplementedException(url)
         End Function
 
         ''' <summary>
         ''' ``{id -> color}``
         ''' </summary>
-        ''' <param name="url$"></param>
+        ''' <param name="url">
+        ''' http://www.genome.jp/kegg-bin/show_pathway?{pathway_ID}/{geneID}%09{color}/{geneID}%09{color}/{geneID}%09{color}
+        ''' </param>
         ''' <returns></returns>
         Private Function URLParser1(url$) As NamedCollection(Of NamedValue(Of String))
             Dim args$ = url.Split("?"c).LastOrDefault

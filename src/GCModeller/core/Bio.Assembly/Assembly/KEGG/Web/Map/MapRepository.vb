@@ -75,7 +75,7 @@ Namespace Assembly.KEGG.WebServices
             End Set
         End Property
 
-        Public ReadOnly Property Item(id As String) As Map
+        Default Public ReadOnly Property Item(id As String) As Map
             Get
                 Return GetByKey(id)
             End Get
@@ -111,12 +111,12 @@ Namespace Assembly.KEGG.WebServices
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Exists(key As String) As Boolean Implements IRepositoryRead(Of String, MapIndex).Exists
-            Return table.ContainsKey(key)
+            Return table.ContainsKey(key.Match("\d+"))
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetByKey(key As String) As MapIndex Implements IRepositoryRead(Of String, MapIndex).GetByKey
-            Return table(key)
+            Return table(key.Match("\d+"))
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -136,17 +136,17 @@ Namespace Assembly.KEGG.WebServices
         ''' <returns></returns>
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Shared Function BuildRepository(directory As String) As MapRepository
+        Public Shared Function BuildRepository(directory As String, Optional silent As Boolean = True) As MapRepository
             Return New MapRepository With {
                 .Maps = directory _
                     .DoCall(AddressOf ScanMaps) _
-                    .Select(AddressOf CreateIndex) _
+                    .Select(Function(map) CreateIndex(map, silent)) _
                     .ToArray
             }
         End Function
 
-        Public Shared Function BuildRepository(data As IEnumerable(Of Map)) As MapRepository
-            Return New MapRepository(From map As Map In data Select CreateIndex(map))
+        Public Shared Function BuildRepository(data As IEnumerable(Of Map), Optional silent As Boolean = True) As MapRepository
+            Return New MapRepository(From map As Map In data Select CreateIndex(map, silent))
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -155,8 +155,10 @@ Namespace Assembly.KEGG.WebServices
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Private Shared Function CreateIndex(map As Map) As MapIndex
-            Call map.Name.__DEBUG_ECHO
+        Private Shared Function CreateIndex(map As Map, silent As Boolean) As MapIndex
+            If Not silent Then
+                Call map.Name.__DEBUG_ECHO
+            End If
 
             Return New MapIndex With {
                 .id = map.id,

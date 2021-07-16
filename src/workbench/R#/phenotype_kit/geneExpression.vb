@@ -1,46 +1,46 @@
 ﻿#Region "Microsoft.VisualBasic::4c7d342da9e54ca75c2177ae8a6bfa5e, phenotype_kit\geneExpression.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module geneExpression
-    ' 
-    '     Function: average, castGenericRows, CMeans3D, CmeansPattern, createDEGModels
-    '               DEGclass, depDataTable, expDataTable, geneId, GetCmeansPattern
-    '               loadExpression, loadFromDataFrame, loadFromGenericDataSet, relative, Ttest
-    '               uniqueGeneId
-    ' 
-    '     Sub: Main
-    ' 
-    ' /********************************************************************************/
+' Module geneExpression
+' 
+'     Function: average, castGenericRows, CMeans3D, CmeansPattern, createDEGModels
+'               DEGclass, depDataTable, expDataTable, geneId, GetCmeansPattern
+'               loadExpression, loadFromDataFrame, loadFromGenericDataSet, relative, Ttest
+'               uniqueGeneId
+' 
+'     Sub: Main
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -146,6 +146,26 @@ Module geneExpression
         Else
             Return Message.InCompatibleType(GetType(Rdataframe), file.GetType, env)
         End If
+    End Function
+
+    <ExportAPI("filter")>
+    Public Function filter(HTS As Matrix, geneId As String(), Optional exclude As Boolean = False) As Matrix
+        Dim filterIndex As Index(Of String) = geneId
+        Dim newMatrix As New Matrix With {
+            .tag = HTS.tag,
+            .sampleID = HTS.sampleID,
+            .expression = HTS.expression _
+                .Where(Function(gene)
+                           If exclude Then
+                               Return Not gene.geneID Like filterIndex
+                           Else
+                               Return gene.geneID Like filterIndex
+                           End If
+                       End Function) _
+                .ToArray
+        }
+
+        Return newMatrix
     End Function
 
     <Extension>

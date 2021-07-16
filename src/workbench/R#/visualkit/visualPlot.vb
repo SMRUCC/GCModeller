@@ -265,14 +265,14 @@ Module visualPlot
                                     Optional size$ = "2000,1600",
                                     Optional pvalue# = 0.05,
                                     Optional topN% = 10,
-                                    Optional R$ = "log(x,1.5)") As Object
+                                    Optional R$ = "10,50") As Object
 
         Dim terms As Dictionary(Of Term) = goDb.AsEnumerable.ToDictionary
 
         Return profiles.BubblePlot(
             GO_terms:=terms,
             pvalue:=pvalue,
-            R:=R,
+            radius:=R,
             size:=size,
             displays:=topN
         )

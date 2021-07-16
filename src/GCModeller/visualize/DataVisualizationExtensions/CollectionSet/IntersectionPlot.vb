@@ -42,7 +42,7 @@ Namespace CollectionSet
             Dim boxWidth As Double = -1
 
             Call drawBottomIntersctionVisualize(g, collectionSetLabels, barData, boxWidth:=boxWidth, layout:=bottomIntersection)
-            Call drawLeftBarSet(g, labelFont, collectionSetLabels, layout:=New Rectangle(leftSetSizeBar.X, leftSetSizeBar.Y, leftSetSizeBar.Width - boxWidth * 1.125, leftSetSizeBar.Height))
+            Call drawLeftBarSet(g, labelFont, collectionSetLabels, layout:=New Rectangle(leftSetSizeBar.X, leftSetSizeBar.Y, leftSetSizeBar.Width - boxWidth * 5, leftSetSizeBar.Height))
             Call drawTopBarPlot(g, barData, boxWidth:=boxWidth, layout:=topbarLayout)
         End Sub
 

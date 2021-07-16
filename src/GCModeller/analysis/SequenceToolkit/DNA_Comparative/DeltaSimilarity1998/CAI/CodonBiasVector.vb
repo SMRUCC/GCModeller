@@ -41,7 +41,7 @@
 #End Region
 
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.Math
+Imports Microsoft.VisualBasic.Math.Correlations
 
 Namespace DeltaSimilarity1998.CAI
 
