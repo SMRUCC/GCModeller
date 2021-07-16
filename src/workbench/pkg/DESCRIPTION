@@ -1,10 +1,10 @@
-Package: MSI
+Package: GCModeller
 Type: Package
-Title: MSI analysis plugin for mzkit_win32 platform.
+Title: GCModeller
 Version: 1.1.0-beta
 Author: xieguigang
-Maintainer: xieguigang <gg.xie@bionovogene.com>
-Description: MS-imaging raw data processing, and data visualization.
-License: BioNovoGene
+Maintainer: xieguigang <xie.guigang@gcmodeller.org>
+Description: GCModeller R# package for bioinformatics data analsysis.
+License: GPL3
 Encoding: UTF-8
 LazyData: true
