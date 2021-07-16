@@ -1,6 +1,7 @@
 ﻿Imports System.Drawing
 Imports System.Drawing.Drawing2D
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.Ranges
 Imports Microsoft.VisualBasic.Data.ChartPlots
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
@@ -8,9 +9,10 @@ Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Legend
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.MIME.Html.CSS
-Imports SMRUCC.genomics.ComponentModel.Annotation
 
 Namespace CatalogProfiling
 
@@ -40,10 +42,16 @@ Namespace CatalogProfiling
         ReadOnly showBubbleBorder As Boolean
         ReadOnly data As Dictionary(Of String, BubbleTerm())
         ReadOnly enrichColors As Dictionary(Of String, Color())
+        ReadOnly displays As Integer = 0
+        ReadOnly pvalue As Double
+        ReadOnly unenrich As Color
 
         Public Sub New(data As Dictionary(Of String, BubbleTerm()),
                        enrichColors As Dictionary(Of String, Color()),
                        showBubbleBorder As Boolean,
+                       displays As Integer,
+                       pvalue As Double,
+                       unenrich As Color,
                        theme As Theme)
 
             MyBase.New(theme)
@@ -51,49 +59,89 @@ Namespace CatalogProfiling
             Me.data = data
             Me.showBubbleBorder = showBubbleBorder
             Me.enrichColors = enrichColors
+            Me.unenrich = unenrich
+            Me.displays = displays
+            Me.pvalue = pvalue
         End Sub
 
-        Private Iterator Function GetCatalogSerialData() As IEnumerable(Of SerialData)
-            Return data _
-            .Keys _
-            .Select(Function(category)
-                        ' 这些都是经过筛选的，pvalue阈值符合条件的，
-                        ' 剩下的pvalue阈值不符合条件的都被当作为同一个serials
-                        Dim color As Color() = enrichColors(category) _
-                            .Skip(20) _
-                            .Alpha(250) _
-                            .ToArray
-                        Dim terms = result(category).AsList
-                        Dim serial = terms.createModel(category, color, pvalue, r, displays, correlatedPvalue)
+        Private Function GetColorIndex(catalog As List(Of BubbleTerm), colors As Color()) As Integer()
+            Dim pv = catalog.Select(Function(gene) gene.PValue).AsVector
+            Dim enrichResults = catalog(which.IsTrue(pv > pvalue))
+            Dim colorIndex%() = enrichResults _
+                .Select(Function(gene) gene.PValue) _
+                .RangeTransform({0, colors.Length - 1}) _
+                .Select(Function(i) CInt(i)) _
+                .ToArray
 
-                        Return serial
-                    End Function) _
-            .Join() _
-            .ToArray
-
-            Yield data.Values _
-                .IteratesALL _
-                .unenrichSerial(
-                    pvalue:=pvalue,
-                    color:=unenrich,
-                    r:=r,
-                    correlatedPvalue:=correlatedPvalue
-                )
+            Return colorIndex
         End Function
 
-        Private Function unenrichSerial(catalog As IEnumerable(Of BubbleTerm), pvalue#, color As Color, r As Func(Of Double, Double)) As SerialData
-            Dim unenrichs = catalog.Where(Function(term) term.PValue > pvalue).ToArray
+        Private Iterator Function GetCatalogSerialData() As IEnumerable(Of SerialData)
+            For Each category As String In data.Keys
+                ' 这些都是经过筛选的，pvalue阈值符合条件的，
+                ' 剩下的pvalue阈值不符合条件的都被当作为同一个serials
+                Dim color As Color() = enrichColors(category) _
+                    .Skip(20) _
+                    .Alpha(250) _
+                    .ToArray
+                Dim terms = data(category).AsList
+                Dim pt As PointData = Nothing
+                Dim colorIndex As Integer() = GetColorIndex(data(category).AsList, color)
+                Dim serial As New SerialData With {
+            .color = color.Last,
+            .title = category,
+            .pts = data(category) _
+                .SeqIterator _
+                .Select(Function(obj)
+                            Dim gene As BubbleTerm = obj
+                            Dim i As Integer = colorIndex(obj)
+                            Dim c As Color = color(i)
+
+                            Return New PointData With {
+                                .value = gene.data,
+                                .pt = New PointF(x:=gene.Factor, y:=gene.PValue),
+                                .tag = gene.termId,
+                                .color = c.ARGBExpression
+                            }
+                        End Function) _
+                .OrderByDescending(Function(bubble)
+                                       ' 按照y也就是pvalue倒序排序
+                                       Return bubble.pt.Y
+                                   End Function) _
+                .ToArray
+        }
+
+                ' 只显示前displays个term的标签字符串，
+                ' 其余的term的标签字符串都设置为空值， 就不会被显示出来了
+                For i As Integer = displays To serial.pts.Length - 1
+                    pt = serial.pts(i)
+                    serial.pts(i) = New PointData With {
+                .pt = pt.pt,
+                .tag = Nothing,
+                .value = pt.value,
+                .color = pt.color
+            }
+                Next
+
+                Yield serial
+            Next
+
+            Yield unenrichSerial(catalog:=data.Values.IteratesALL)
+        End Function
+
+        Private Function unenrichSerial(catalog As IEnumerable(Of BubbleTerm)) As SerialData
+            Dim unenrichs = catalog.Where(Function(term) term.PValue <= pvalue).ToArray
             Dim points = unenrichs _
             .Select(Function(gene)
                         Return New PointData With {
-                            .value = r(gene.number) + 1,
-                            .pt = New PointF(x:=gene.number / gene.Backgrounds, y:=gene.P)
+                            .value = gene.data,
+                            .pt = New PointF(x:=gene.Factor, y:=gene.PValue)
                         }
                     End Function) _
             .ToArray
 
             Return New SerialData With {
-            .color = color,
+            .color = unenrich,
             .title = "Unenrich terms",
             .pts = points
         }

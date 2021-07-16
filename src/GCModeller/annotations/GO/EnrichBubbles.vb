@@ -63,6 +63,7 @@ Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
 Imports SMRUCC.genomics.Visualize.CatalogProfiling
+Imports stdNum = System.Math
 
 Public Module EnrichBubbles
 
@@ -105,6 +106,12 @@ Public Module EnrichBubbles
         Dim unenrich As Color = unenrichColor.TranslateColor
         Dim math As New ExpressionEngine
         Dim calcR = Function(x#) math.SetSymbol("x", x#).Evaluate(R)
+        Dim termsData As Dictionary(Of String, BubbleTerm()) = data _
+            .EnrichResult(GO_terms) _
+            .ToDictionary(Function(cat) cat.Key,
+                          Function(cat)
+                              Return cat.Value.BubbleModel(correlatedPvalue, calcR).ToArray
+                          End Function)
 
         With New Dictionary(Of String, Color())
 
@@ -116,7 +123,15 @@ Public Module EnrichBubbles
                 .padding = padding,
                 .background = bg
             }
-            Dim bubble As New CatalogBubblePlot()
+            Dim bubble As New CatalogBubblePlot(
+                data:=termsData,
+                enrichColors:= .ByRef,
+                showBubbleBorder:=bubbleBorder,
+                displays:=displays,
+                pvalue:=-stdNum.Log10(pvalue),
+                unenrich:=unenrichColor.TranslateColor,
+                theme:=theme
+            )
 
             Return bubble.Plot(size, ppi:=ppi)
         End With
@@ -147,71 +162,14 @@ Public Module EnrichBubbles
     End Function
 
     <Extension>
-    Public Iterator Function BubbleModel(terms As IEnumerable(Of EnrichmentTerm), r As Func(Of Double, Double)) As IEnumerable(Of BubbleTerm)
+    Public Iterator Function BubbleModel(terms As IEnumerable(Of EnrichmentTerm), correlatedPvalue As Boolean, r As Func(Of Double, Double)) As IEnumerable(Of BubbleTerm)
         For Each gene As EnrichmentTerm In terms
             Yield New BubbleTerm With {
                 .data = r(gene.number) + 1,
                 .Factor = gene.number / gene.Backgrounds,
-                .PValue = gene.P,
+                .PValue = gene.P(correlatedPvalue),
                 .termId = gene.Term
             }
         Next
-    End Function
-
-    ''' <summary>
-    ''' 返回来的是经过cutoff的数据
-    ''' </summary>
-    ''' <param name="catalog"></param>
-    ''' <param name="ns$"></param>
-    ''' <param name="color"></param>
-    ''' <param name="pvalue#"></param>
-    ''' <returns></returns>
-    <Extension>
-    Private Function createModel(catalog As List(Of EnrichmentTerm), ns$, color As Color(), pvalue#, r As Func(Of Double, Double), displays%, correlatedPvalue As Boolean) As SerialData
-        Dim pv = catalog.Select(Function(gene) If(correlatedPvalue, gene.CorrectedPvalue, gene.Pvalue)).AsVector
-        Dim enrichResults = catalog(which.IsTrue(pv <= pvalue))
-        Dim colorIndex%() = enrichResults _
-            .Select(Function(gene) gene.P(correctedPvalue:=False)) _
-            .RangeTransform($"0,{color.Length - 1}") _
-            .Select(Function(i) CInt(i)) _
-            .ToArray
-        Dim pt As PointData = Nothing
-        Dim s As New SerialData With {
-            .color = color.Last,
-            .title = ns,
-            .pts = enrichResults _
-                .SeqIterator _
-                .Select(Function(obj)
-                            Dim gene As EnrichmentTerm = obj
-                            Dim i As Integer = colorIndex(obj)
-                            Dim c As Color = color(i)
-
-                            Return New PointData With {
-                                .value = r(gene.number) + 1,
-                                .pt = New PointF(x:=gene.number / gene.Backgrounds, y:=gene.P),
-                                .tag = gene.Term,
-                                .color = c.ARGBExpression
-                            }
-                        End Function) _
-                .OrderByDescending(Function(bubble)
-                                       ' 按照y也就是pvalue倒序排序
-                                       Return bubble.pt.Y
-                                   End Function) _
-                .ToArray
-        }
-
-        ' 只显示前displays个term的标签字符串，
-        ' 其余的term的标签字符串都设置为空值， 就不会被显示出来了
-        For i As Integer = displays To s.pts.Length - 1
-            pt = s.pts(i)
-            s.pts(i) = New PointData With {
-                .pt = pt.pt,
-                .tag = Nothing,
-                .value = pt.value,
-                .color = pt.color
-            }
-        Next
-
-        Return s
     End Function
 End Module
