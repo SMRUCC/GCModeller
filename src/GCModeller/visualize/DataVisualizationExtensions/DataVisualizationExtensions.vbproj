@@ -375,6 +375,7 @@
     <Compile Include="Abstract\Ideg.vb" />
     <Compile Include="Abstract\MapModelCommon.vb" />
     <Compile Include="CatalogProfiling\CatalogProfiling.vb" />
+    <Compile Include="CatalogProfiling\CatalogBubblePlot.vb" />
     <Compile Include="CatalogProfiling\ColorProfileManager.vb" />
     <Compile Include="CatalogProfiling\COGCatalogProfiling.vb" />
     <Compile Include="CategoryImpactBox\Impact.vb" />
