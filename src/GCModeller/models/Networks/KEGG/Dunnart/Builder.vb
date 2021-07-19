@@ -57,6 +57,15 @@ Namespace Dunnart
     <HideModuleName>
     Public Module Extensions
 
+        ''' <summary>
+        ''' convert the <see cref="NetworkGraph"/> object to Dunnart graph
+        ''' </summary>
+        ''' <param name="network"></param>
+        ''' <param name="colorSet"></param>
+        ''' <param name="groupKey"></param>
+        ''' <param name="fillOpacity"></param>
+        ''' <param name="lighten"></param>
+        ''' <returns></returns>
         <Extension>
         Public Function FromNetwork(network As NetworkGraph,
                                     Optional colorSet As String = "Paired:c12",

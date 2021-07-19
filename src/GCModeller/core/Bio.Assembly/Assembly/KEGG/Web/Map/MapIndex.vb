@@ -86,6 +86,14 @@ Namespace Assembly.KEGG.WebServices
         <XmlIgnore> Public ReadOnly Property KOIndex As Index(Of String)
         <XmlIgnore> Public ReadOnly Property compoundIndex As Index(Of String)
 
+        Public Function hasAny(id As String) As Boolean
+            Return id Like index
+        End Function
+
+        Public Function FilterAll(idlist As IEnumerable(Of String)) As Boolean
+            Return idlist.All(Function(id) id Like index)
+        End Function
+
         Public Overrides Function ToString() As String
             Return ID
         End Function
