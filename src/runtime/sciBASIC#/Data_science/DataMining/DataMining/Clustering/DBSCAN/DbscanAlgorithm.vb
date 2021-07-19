@@ -1,51 +1,52 @@
 ﻿#Region "Microsoft.VisualBasic::bf1eb00ddc581674928d35393cd1e3e8, Data_science\DataMining\DataMining\Clustering\DBSCAN\DbscanAlgorithm.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class DbscanAlgorithm
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: ComputeClusterDBSCAN, RegionQuery
-    ' 
-    '         Sub: ExpandCluster
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class DbscanAlgorithm
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'         Function: ComputeClusterDBSCAN, RegionQuery
+' 
+'         Sub: ExpandCluster
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.DataMining.Clustering
 
 Namespace DBSCAN
 
@@ -89,8 +90,17 @@ Namespace DBSCAN
                                              Optional filterNoise As Boolean = True) As NamedCollection(Of T)()
 
             Dim allPointsDbscan As DbscanPoint(Of T)() = allPoints _
-                .Select(Function(x) New DbscanPoint(Of T)(x)) _
+                .Select(Function(x, i)
+                            Return New DbscanPoint(Of T)(x) With {
+                                .ID = (i + 1).ToHexString
+                            }
+                        End Function) _
                 .ToArray()
+            Dim metric As Func(Of DbscanPoint(Of T), DbscanPoint(Of T), Double) =
+                Function(a, b)
+                    Return _metricFunc(a.ClusterPoint, b.ClusterPoint)
+                End Function
+            Dim densityList As Dictionary(Of String, Double) = Density.GetDensity(Of DbscanPoint(Of T))(allPointsDbscan, metric, k:=minPts).ToDictionary(Function(i) i.Name, Function(i) i.Value)
             Dim clusterId As Integer = 0
             Dim seeds As New List(Of Integer)
 
