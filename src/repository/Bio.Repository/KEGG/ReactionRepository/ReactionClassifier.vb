@@ -51,7 +51,14 @@ Public Class ReactionClassifier
 
     Dim classes As ReactionClass()
     Dim reactionIndex As Dictionary(Of String, ReactionClass())
+    ''' <summary>
+    ''' [cid1_cid2 => ReactionClass[]]
+    ''' </summary>
     Dim compoundTransformIndex As New Dictionary(Of String, ReactionClass())
+    ''' <summary>
+    ''' [cid => ReactionClass[]]
+    ''' </summary>
+    Dim compoundIndex As New Dictionary(Of String, ReactionClass())
 
     Public ReadOnly Property Count As Integer
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -60,6 +67,11 @@ Public Class ReactionClassifier
         End Get
     End Property
 
+    ''' <summary>
+    ''' check target kegg reaction id is exists in current reaction_class repository or not?
+    ''' </summary>
+    ''' <param name="reactionId"></param>
+    ''' <returns></returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function haveClassification(reactionId As String) As Boolean
         Return reactionIndex.ContainsKey(reactionId)
@@ -99,6 +111,11 @@ Public Class ReactionClassifier
                 End If
             Next
         Next
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Function QueryByCompoundId(cid As String) As ReactionClass()
+        Return compoundIndex.TryGetValue(cid, [default]:={})
     End Function
 
     Private Function buildTupleIndex() As ReactionClassifier
@@ -142,6 +159,30 @@ Public Class ReactionClassifier
                                           End Function) _
                                   .ToArray
                           End Function)
+        compoundIndex = classes _
+            .Select(Function(cls)
+                        Return cls.reactantPairs _
+                            .Select(Iterator Function(t) As IEnumerable(Of String)
+                                        Yield t.from
+                                        Yield t.to
+                                    End Function) _
+                            .IteratesALL _
+                            .Distinct _
+                            .Select(Function(cid) (cid, cls))
+                    End Function) _
+            .IteratesALL _
+            .GroupBy(Function(t) t.cid) _
+            .ToDictionary(Function(t) t.Key,
+                          Function(list)
+                              Return list _
+                                  .Select(Function(a) a.cls) _
+                                  .GroupBy(Function(t) t.entryId) _
+                                  .Select(Function(d)
+                                              Return d.First
+                                          End Function) _
+                                  .ToArray
+                          End Function)
+
         Return Me
     End Function
 

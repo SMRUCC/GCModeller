@@ -311,10 +311,11 @@ Module geneExpression
                                   <RRawVectorArgument>
                                   Optional [dim] As Object = "3,3",
                                   Optional fuzzification# = 2,
-                                  Optional threshold# = 0.001) As ExpressionPattern
+                                  Optional threshold# = 0.001,
+                                  Optional env As Environment = Nothing) As ExpressionPattern
 
         Return InteropArgumentHelper _
-            .getSize([dim], "3,3") _
+            .getSize([dim], env, "3,3") _
             .Split(","c) _
             .Select(AddressOf Integer.Parse) _
             .DoCall(Function(dimension)

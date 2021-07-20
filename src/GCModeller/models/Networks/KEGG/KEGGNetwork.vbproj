@@ -268,6 +268,8 @@
     <Compile Include="Dunnart\Builder.vb" />
     <Compile Include="Dunnart\Components.vb" />
     <Compile Include="IgnoreList.vb" />
+    <Compile Include="SimpleBuilder.vb" />
+    <Compile Include="PathwayMaps\MaxGraphAsignment.vb" />
     <Compile Include="ReactionNetwork\Builder\BuilderBase.vb" />
     <Compile Include="ReactionNetwork\Builder\EdgeFilter.vb" />
     <Compile Include="ReactionNetwork\Builder\ReactionClassNetwork.vb" />

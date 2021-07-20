@@ -99,10 +99,15 @@ Namespace Assembly.KEGG.WebServices
             Me.Maps = maps.ToArray
         End Sub
 
+        ''' <summary>
+        ''' query all pathway maps which is contains any <paramref name="entity"/> id list.
+        ''' </summary>
+        ''' <param name="entity"></param>
+        ''' <returns></returns>
         Public Iterator Function QueryMapsByMembers(entity As IEnumerable(Of String)) As IEnumerable(Of MapIndex)
             For Each key As String In entity
                 For Each map As MapIndex In table.Values
-                    If map.index.IndexOf(key) > -1 Then
+                    If map.hasAny(key) Then
                         Yield map
                     End If
                 Next

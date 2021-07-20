@@ -47,9 +47,9 @@ Module IgnoreList
         Return {
             "C00001", ' H2O
             "C00007", ' O2
-            "C00011",  ' CO2
+            "C00011", ' CO2
             "C00014", ' NH3+
-            "C00080" ' H+
+            "C00080"  ' H+
         }
     End Function
 End Module

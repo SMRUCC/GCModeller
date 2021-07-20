@@ -69,7 +69,7 @@ Module multiOmics
             xlab:=xlab,
             ylab:=ylab,
             pointSize:=ptSize,
-            size:=InteropArgumentHelper.getSize(size, "3000,3000"),
+            size:=InteropArgumentHelper.getSize(size, env, "3000,3000"),
             padding:=InteropArgumentHelper.getPadding(padding, "padding: 200px 250px 200px 100px;")
         )
     End Function
