@@ -64,6 +64,8 @@ Namespace DBSCAN
         ReadOnly _metricFunc As Func(Of T, T, Double)
         ReadOnly _full As Boolean
 
+        Dim maxStackSize As Integer
+
         ''' <summary>
         ''' Takes metric function to compute distances between dataset items T
         ''' </summary>
@@ -109,6 +111,8 @@ Namespace DBSCAN
             Dim clusterId As Integer = 0
             Dim seeds As New List(Of Integer)
 
+            maxStackSize = allPoints.Length
+
             If densityCut > 0 Then
                 Dim allDensity = Density _
                     .GetDensity(Of DbscanPoint(Of T))(allPointsDbscan, metric, k:=minPts) _
@@ -124,6 +128,9 @@ Namespace DBSCAN
                                   Function(i)
                                       Return i.Value
                                   End Function)
+
+                Call Console.WriteLine($"Density cutoff for dbscan is: {densityCut}!")
+                Call Console.WriteLine($"There are {orderDensity.Where(Function(d) d < densityCut).Count}/{densityList.Count} lower than this threshold value.")
             End If
 
             For i As Integer = 0 To allPointsDbscan.Length - 1
@@ -148,7 +155,7 @@ Namespace DBSCAN
                     clusterId += 1
                     ' point to be in a cluster
                     p.ClusterId = clusterId
-                    ExpandCluster(allPointsDbscan, neighborPts, clusterId, epsilon, minPts, densityCut, densityList)
+                    ExpandCluster(allPointsDbscan, neighborPts, clusterId, epsilon, minPts, densityCut, densityList, 0)
                     seeds.Add(i)
                 End If
             Next
@@ -193,12 +200,17 @@ Namespace DBSCAN
                                   epsilon As Double,
                                   minPts As Integer,
                                   densityCut As Double,
-                                  densityList As Dictionary(Of String, Double))
+                                  densityList As Dictionary(Of String, Double),
+                                  stackDepth As Integer)
 
             Dim neighborPts2 As DbscanPoint(Of T)() = Nothing
 
-            For Each pn As DbscanPoint(Of T) In neighborPts.Where(Function(p) Not p.IsVisited)
-                If _full OrElse Not pn.IsVisited Then
+            Do While neighborPts.Length > 0
+                Dim pn As DbscanPoint(Of T) = (From p As DbscanPoint(Of T) In neighborPts Where Not p.IsVisited).FirstOrDefault
+
+                If pn Is Nothing Then
+                    Exit Do
+                ElseIf _full OrElse Not pn.IsVisited Then
                     pn.IsVisited = True
                     neighborPts2 = RegionQuery(allPoints, pn.ClusterPoint, epsilon)
 
@@ -209,14 +221,16 @@ Namespace DBSCAN
                             .Union(neighborPts2) _
                             .ToArray()
 
-                        Call ExpandCluster(allPoints, neighborPts2, clusterId, epsilon, minPts, densityCut, densityList)
+                        If stackDepth < maxStackSize Then
+                            Call ExpandCluster(allPoints, neighborPts2, clusterId, epsilon, minPts, densityCut, densityList, stackDepth + 1)
+                        End If
                     End If
                 End If
 
                 If pn.ClusterId = ClusterIDs.Unclassified Then
                     pn.ClusterId = clusterId
                 End If
-            Next
+            Loop
         End Sub
 
         ''' <summary>
