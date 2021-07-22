@@ -786,7 +786,7 @@ Namespace LinearAlgebra
         End Operator
 
         ''' <summary>
-        ''' x &lt= n
+        ''' x &lt;= n
         ''' </summary>
         ''' <param name="x"></param>
         ''' <param name="n"></param>
