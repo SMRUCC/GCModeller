@@ -109,15 +109,24 @@ Namespace PeakFinding
                     Dim i As Integer = which(angles.Select(Function(a) stdNum.Abs(a.x - t) <= dt)).First
 
                     If i > 0 Then
-                        region = New SeqValue(Of Vector2D()) With {
-                            .value = {angles(i - 1), region.value(Scan0), angles(i + 1)},
-                            .i = region.i
-                        }
+                        If i < angles.Length - 1 Then
+                            region = New SeqValue(Of Vector2D()) With {
+                                .value = {angles(i - 1), region.value(Scan0), angles(i + 1)},
+                                .i = region.i
+                            }
+                        Else
+                            region = New SeqValue(Of Vector2D()) With {
+                                .value = {angles(i - 1), region.value(Scan0)},
+                                .i = region.i
+                            }
+                        End If
                     Else
-                        region = New SeqValue(Of Vector2D()) With {
-                            .value = {region.value(Scan0), angles(i + 1)},
-                            .i = region.i
-                        }
+                        If i < angles.Length - 1 Then
+                            region = New SeqValue(Of Vector2D()) With {
+                                .value = {region.value(Scan0), angles(i + 1)},
+                                .i = region.i
+                            }
+                        End If
                     End If
                 ElseIf region.value.Length = 2 Then
                     ' Dim t1 As Single = region.value(Scan0).x
