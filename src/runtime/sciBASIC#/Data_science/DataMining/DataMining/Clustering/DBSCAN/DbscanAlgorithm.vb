@@ -131,6 +131,8 @@ Namespace DBSCAN
 
                 Call Console.WriteLine($"Density cutoff for dbscan is: {densityCut}!")
                 Call Console.WriteLine($"There are {orderDensity.Where(Function(d) d < densityCut).Count}/{densityList.Count} lower than this threshold value.")
+            Else
+                Call Console.WriteLine("No density cutoff of your sample data.")
             End If
 
             For i As Integer = 0 To allPointsDbscan.Length - 1
