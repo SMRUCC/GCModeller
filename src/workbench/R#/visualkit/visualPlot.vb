@@ -130,7 +130,7 @@ Module visualPlot
 
         Return DirectCast(genes, DEGModel()) _
             .ClassChangePlot(
-                size:=InteropArgumentHelper.getSize(size),
+                size:=InteropArgumentHelper.getSize(size, env),
                 padding:=InteropArgumentHelper.getPadding(padding),
                 bg:=RColorPalette.getColor(bg, [default]:="white"),
                 colorSet:=RColorPalette.getColorSet(colorSet),
@@ -303,7 +303,7 @@ Module visualPlot
                                              Optional env As Environment = Nothing) As Object
         Return profiles.ProfilesPlot(
             title:=title,
-            size:=InteropArgumentHelper.getSize(size),
+            size:=InteropArgumentHelper.getSize(size, env),
             tick:=tick,
             axisTitle:=axis_title,
             labelRightAlignment:=False,
@@ -347,7 +347,7 @@ Module visualPlot
 
     Private Function Plot(matrix As ExpressionPattern, args As list, env As Environment) As Object
         Dim type As String = args.getValue(Of String)("type", env, "patterns")
-        Dim size As String = InteropArgumentHelper.getSize(args!size, "2400,2700")
+        Dim size As String = InteropArgumentHelper.getSize(args!size, env, "2400,2700")
         Dim padding As String = InteropArgumentHelper.getPadding(args!padding, g.DefaultLargerPadding)
         Dim bg As String = RColorPalette.getColor(args!bg, "white")
         Dim colorSet As String = RColorPalette.getColorSet(args!colorSet, "PiYG:c8")
@@ -395,10 +395,11 @@ Module visualPlot
                                            Optional legendTickStyle As String = CSSFont.Win7Small,
                                            Optional axisTickCSS$ = CSSFont.Win10Normal,
                                            Optional axisLabelCSS$ = CSSFont.Win7Normal,
-                                           Optional driver As Drivers = Drivers.Default) As Object
+                                           Optional driver As Drivers = Drivers.Default,
+                                           Optional env As Environment = Nothing) As Object
 
         Return matrix.DrawMatrix(
-            size:=InteropArgumentHelper.getSize(size),
+            size:=InteropArgumentHelper.getSize(size, env),
             padding:=InteropArgumentHelper.getPadding(padding),
             bg:=RColorPalette.getColor(bg, "white"),
             colorSet:=colorSet,
@@ -485,7 +486,7 @@ Module visualPlot
 
         Dim camera As New Camera With {
             .fov = 500000,
-            .screen = InteropArgumentHelper.getSize(size).SizeParser,
+            .screen = InteropArgumentHelper.getSize(size, env).SizeParser,
             .viewDistance = viewDistance,
             .angleX = DirectCast(viewAngle, Double())(0),
             .angleY = DirectCast(viewAngle, Double())(1),
@@ -515,7 +516,7 @@ Module visualPlot
                 camera:=camera,
                 bg:=bg,
                 padding:=InteropArgumentHelper.getPadding(padding),
-                size:=InteropArgumentHelper.getSize(size),
+                size:=InteropArgumentHelper.getSize(size, env),
                 schema:=colorSet,
                 arrowFactor:=arrowFactor,
                 labelsQuantile:=qDisplay,
