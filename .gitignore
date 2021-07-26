@@ -268,3 +268,5 @@ src/workbench/R#/demo/cngb/bacterials.csv
 *.exe
 src/repository/graphquery/kegg_graphquery_0.1.0.zip
 src/workbench/GCModeller_1.1.0-beta.zip
+src/repository/Bio.Repository/.vs/Bio.Repository/DesignTimeBuild/.dtbcache.v2
+src/repository/Bio.Repository/.vs/repository/DesignTimeBuild/.dtbcache.v2
