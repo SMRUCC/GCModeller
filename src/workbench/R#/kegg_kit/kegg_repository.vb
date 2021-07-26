@@ -260,7 +260,7 @@ Public Module kegg_repository
     End Function
 
     ''' <summary>
-    ''' get a vector of kegg compound id from the kegg reaction_class data repository
+    ''' get a vector of kegg compound id from the kegg reaction_class/pathway maps data repository
     ''' </summary>
     ''' <param name="repo"></param>
     ''' <param name="env"></param>
@@ -297,6 +297,24 @@ Public Module kegg_repository
                         End Function) _
                 .IteratesALL _
                 .Distinct _
+                .ToArray
+        End If
+
+        dataRepo = pipeline.TryCreatePipeline(Of Map)(repo, env)
+
+        If Not dataRepo.isError Then
+            Return dataRepo _
+                .populates(Of Map)(env) _
+                .Select(Function(map)
+                            Return map.shapes _
+                                .Select(Function(poly) poly.IDVector) _
+                                .IteratesALL
+                        End Function) _
+                .IteratesALL _
+                .Distinct _
+                .Where(Function(id)
+                           Return id.IsPattern("C\d+")
+                       End Function) _
                 .ToArray
         End If
 
