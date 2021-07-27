@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>SMRUCC.genomics.GCModeller.Workbench.KEGGReport</RootNamespace>
+    <TargetFramework>net5.0</TargetFramework>
+    <AssemblyName>SMRUCC.genomics.GCModeller.Workbench.keggReport</AssemblyName>
+  </PropertyGroup>
+
+</Project>
