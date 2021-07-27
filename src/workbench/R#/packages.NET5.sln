@@ -9043,8 +9043,8 @@ Global
 		{D278BC20-62AB-45A4-9B00-9A68E222D3B5}.Rsharp_app_release|Any CPU.Build.0 = Release|Any CPU
 		{D278BC20-62AB-45A4-9B00-9A68E222D3B5}.Rsharp_app_release|ARM32.ActiveCfg = Release|Any CPU
 		{D278BC20-62AB-45A4-9B00-9A68E222D3B5}.Rsharp_app_release|ARM32.Build.0 = Release|Any CPU
-		{D278BC20-62AB-45A4-9B00-9A68E222D3B5}.Rsharp_app_release|x64.ActiveCfg = Release|Any CPU
-		{D278BC20-62AB-45A4-9B00-9A68E222D3B5}.Rsharp_app_release|x64.Build.0 = Release|Any CPU
+		{D278BC20-62AB-45A4-9B00-9A68E222D3B5}.Rsharp_app_release|x64.ActiveCfg = Rsharp_app_release|x64
+		{D278BC20-62AB-45A4-9B00-9A68E222D3B5}.Rsharp_app_release|x64.Build.0 = Rsharp_app_release|x64
 		{D278BC20-62AB-45A4-9B00-9A68E222D3B5}.Rsharp_app_release|x86.ActiveCfg = Release|Any CPU
 		{D278BC20-62AB-45A4-9B00-9A68E222D3B5}.Rsharp_app_release|x86.Build.0 = Release|Any CPU
 		{D278BC20-62AB-45A4-9B00-9A68E222D3B5}.Surveillance-of-infectious-diseases|Any CPU.ActiveCfg = Debug|Any CPU
@@ -9235,8 +9235,8 @@ Global
 		{E930ED0B-CA55-4054-9225-2CBAF166E455}.Rsharp_app_release|Any CPU.Build.0 = Release|Any CPU
 		{E930ED0B-CA55-4054-9225-2CBAF166E455}.Rsharp_app_release|ARM32.ActiveCfg = Release|Any CPU
 		{E930ED0B-CA55-4054-9225-2CBAF166E455}.Rsharp_app_release|ARM32.Build.0 = Release|Any CPU
-		{E930ED0B-CA55-4054-9225-2CBAF166E455}.Rsharp_app_release|x64.ActiveCfg = Release|Any CPU
-		{E930ED0B-CA55-4054-9225-2CBAF166E455}.Rsharp_app_release|x64.Build.0 = Release|Any CPU
+		{E930ED0B-CA55-4054-9225-2CBAF166E455}.Rsharp_app_release|x64.ActiveCfg = Rsharp_app_release|x64
+		{E930ED0B-CA55-4054-9225-2CBAF166E455}.Rsharp_app_release|x64.Build.0 = Rsharp_app_release|x64
 		{E930ED0B-CA55-4054-9225-2CBAF166E455}.Rsharp_app_release|x86.ActiveCfg = Release|Any CPU
 		{E930ED0B-CA55-4054-9225-2CBAF166E455}.Rsharp_app_release|x86.Build.0 = Release|Any CPU
 		{E930ED0B-CA55-4054-9225-2CBAF166E455}.Surveillance-of-infectious-diseases|Any CPU.ActiveCfg = Debug|Any CPU
@@ -9427,8 +9427,8 @@ Global
 		{E1CBC537-C0AD-475B-83D3-1F09F59D58C8}.Rsharp_app_release|Any CPU.Build.0 = Release|Any CPU
 		{E1CBC537-C0AD-475B-83D3-1F09F59D58C8}.Rsharp_app_release|ARM32.ActiveCfg = Release|Any CPU
 		{E1CBC537-C0AD-475B-83D3-1F09F59D58C8}.Rsharp_app_release|ARM32.Build.0 = Release|Any CPU
-		{E1CBC537-C0AD-475B-83D3-1F09F59D58C8}.Rsharp_app_release|x64.ActiveCfg = Release|Any CPU
-		{E1CBC537-C0AD-475B-83D3-1F09F59D58C8}.Rsharp_app_release|x64.Build.0 = Release|Any CPU
+		{E1CBC537-C0AD-475B-83D3-1F09F59D58C8}.Rsharp_app_release|x64.ActiveCfg = Rsharp_app_release|x64
+		{E1CBC537-C0AD-475B-83D3-1F09F59D58C8}.Rsharp_app_release|x64.Build.0 = Rsharp_app_release|x64
 		{E1CBC537-C0AD-475B-83D3-1F09F59D58C8}.Rsharp_app_release|x86.ActiveCfg = Release|Any CPU
 		{E1CBC537-C0AD-475B-83D3-1F09F59D58C8}.Rsharp_app_release|x86.Build.0 = Release|Any CPU
 		{E1CBC537-C0AD-475B-83D3-1F09F59D58C8}.Surveillance-of-infectious-diseases|Any CPU.ActiveCfg = Debug|Any CPU
