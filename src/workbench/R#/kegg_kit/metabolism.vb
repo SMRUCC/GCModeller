@@ -85,6 +85,7 @@ Module metabolism
             .ToArray
     End Function
 
+#If netcore5 = 0 Then
     <ExportAPI("compound.origins")>
     Public Function CreateCompoundOriginModel(repo As String, Optional compoundNames As Dictionary(Of String, String) = Nothing) As OrganismCompounds
         If compoundNames Is Nothing Then
@@ -93,6 +94,7 @@ Module metabolism
             Return OrganismCompounds.LoadData(repo, compoundNames)
         End If
     End Function
+#End If
 
     ''' <summary>
     ''' Removes invalid kegg compound id
