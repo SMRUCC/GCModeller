@@ -7,7 +7,7 @@ Imports System.Runtime.InteropServices
 ' associated with an assembly.
 
 ' Review the values of the assembly attributes
-
+#if netcore5=0 then 
 <Assembly: AssemblyTitle("PLAS SSystem Core")>
 <Assembly: AssemblyDescription("PLAS SSystem Core")>
 <Assembly: AssemblyCompany("GPL3")>
@@ -33,3 +33,4 @@ Imports System.Runtime.InteropServices
 
 <Assembly: AssemblyVersion("3.456.*")>
 <Assembly: AssemblyFileVersion("1.34.*")>
+#end if
