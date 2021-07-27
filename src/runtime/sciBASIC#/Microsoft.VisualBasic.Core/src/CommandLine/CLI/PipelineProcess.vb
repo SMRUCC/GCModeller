@@ -146,6 +146,15 @@ Namespace CommandLine
             Return p.ExitCode
         End Function
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="app"></param>
+        ''' <param name="args"></param>
+        ''' <param name="it">
+        ''' docker run -it XXX
+        ''' </param>
+        ''' <returns></returns>
         Public Function CreatePipeline(app As String, args As String, Optional it As Boolean = True) As Process
             Dim p As New Process
             p.StartInfo = New ProcessStartInfo
