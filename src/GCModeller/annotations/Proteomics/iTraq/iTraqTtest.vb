@@ -1,41 +1,41 @@
 ﻿#Region "Microsoft.VisualBasic::b3657a75bad37e5f398b147f34c8480c, annotations\Proteomics\iTraq\iTraqTtest.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module iTraqTtest
-    ' 
-    '     Function: createResult, log2Test, (+2 Overloads) logFCtest
-    ' 
-    ' /********************************************************************************/
+' Module iTraqTtest
+' 
+'     Function: createResult, log2Test, (+2 Overloads) logFCtest
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -92,7 +92,7 @@ Public Module iTraqTtest
                               Optional includesZERO As Boolean = False,
                               Optional pairInfo As IEnumerable(Of SampleTuple) = Nothing) As DEP_iTraq()
 
-        Dim ZERO$ = base.rep(0, times:=data.First.Properties.Count)
+        Dim ZERO As Double() = Repeats(0.0, times:=data.First.Properties.Count)
         Dim result As New List(Of DEP_iTraq)
         Dim NA As [Default](Of Double) = 1.0# _
             .AsDefault(Function(x)
@@ -147,10 +147,7 @@ Public Module iTraqTtest
 
                 value.FCavg = v.Average
                 value.log2FC = Math.Log(value.FCavg, 2)
-                value.pvalue = stats.Ttest(
-                    x:=base.c(Vector.Log(v, 2)),
-                    y:=ZERO,
-                    varEqual:=True).pvalue
+                value.pvalue = t.Test(a:=Vector.Log(v, 2), b:=ZERO, varEqual:=True).Pvalue
             End If
 
             result += value

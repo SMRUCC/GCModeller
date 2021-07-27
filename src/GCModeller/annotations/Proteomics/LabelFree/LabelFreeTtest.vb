@@ -1,49 +1,49 @@
 ﻿#Region "Microsoft.VisualBasic::cfcf7b946aec0d280428f76fcba1a11c, annotations\Proteomics\LabelFree\LabelFreeTtest.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module LabelFreeTtest
-    ' 
-    '     Function: logFCtest, significantA, ttest
-    ' 
-    ' /********************************************************************************/
+' Module LabelFreeTtest
+' 
+'     Function: logFCtest, significantA, ttest
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports Microsoft.VisualBasic.Math.Statistics.Hypothesis
 Imports Microsoft.VisualBasic.Scripting.Runtime
-Imports RDotNET.Extensions.VisualBasic.API
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 
 ''' <summary>
@@ -72,8 +72,8 @@ Public Module LabelFreeTtest
                               Optional fdrThreshold# = 0.05,
                               Optional significantA As Boolean = False) As DEP_iTraq()
 
-        Dim experiment$() = sampleInfo.TakeGroup(analysis.Treatment).SampleNames
-        Dim controls$() = sampleInfo.TakeGroup(analysis.Controls).SampleNames
+        Dim experiment$() = sampleInfo.TakeGroup(analysis.treatment).SampleNames
+        Dim controls$() = sampleInfo.TakeGroup(analysis.controls).SampleNames
         Dim allSamples$() = experiment.AsList + controls
 
         ' calc the different expression proteins
@@ -108,7 +108,7 @@ Public Module LabelFreeTtest
         For Each protein As DataSet In data
             Dim foldChange# = protein(experiment).Average / protein(controls).Average
             Dim log2FC# = Math.Log(foldChange, newBase:=2)
-            Dim t As TtestResult = stats.Ttest(
+            Dim tResult = t.Test(
                 protein(experiment),
                 protein(controls),
                 varEqual:=True
@@ -118,7 +118,7 @@ Public Module LabelFreeTtest
                 .ID = protein.ID,
                 .FCavg = foldChange,
                 .log2FC = log2FC,
-                .pvalue = t.pvalue,
+                .pvalue = tResult.Pvalue,
                 .Properties = protein _
                     .SubSet(allSamples) _
                     .Properties _

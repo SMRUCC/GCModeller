@@ -49,6 +49,7 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D.Shapes
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Math
+Imports Microsoft.VisualBasic.Math.Statistics.Hypothesis
 Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports RDotNet.Extensions.VisualBasic.API
 
@@ -69,7 +70,7 @@ Public Module RSDPdensity
         Dim points As PointF() = data _
             .Select(Function(x)
                         Dim sample#() = x.Properties.Values.ToArray
-                        Dim pvalue# = stats.Ttest(sample, ZERO, varEqual:=True).pvalue
+                        Dim pvalue# = t.Test(sample, ZERO, varEqual:=True).Pvalue
                         Dim P# = -Math.Log10(pvalue)
                         Return New PointF(sample.RSD, P)
                     End Function) _
