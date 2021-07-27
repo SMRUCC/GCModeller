@@ -4,6 +4,8 @@
     <RootNamespace>SMRUCC.genomics.GCModeller.Workbench.KEGGReport</RootNamespace>
     <TargetFramework>net5.0</TargetFramework>
     <AssemblyName>SMRUCC.genomics.GCModeller.Workbench.keggReport</AssemblyName>
+    <Platforms>AnyCPU;x64</Platforms>
+    <Configurations>Debug;Release;Rsharp_app_release</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
