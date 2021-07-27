@@ -4,9 +4,16 @@
     <RootNamespace>kegg_kit</RootNamespace>
     <TargetFramework>net5.0</TargetFramework>
     <AssemblyName>kegg_kit</AssemblyName>
+    <Platforms>AnyCPU;x64</Platforms>
+    <Configurations>Debug;Release;Rsharp_app_release</Configurations>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>kegg_kit.xml</DocumentationFile>
+    <DefineConstants>netcore5=1</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <DocumentationFile>kegg_kit.xml</DocumentationFile>
     <DefineConstants>netcore5=1</DefineConstants>
   </PropertyGroup>
@@ -15,9 +22,23 @@
     <DocumentationFile>kegg_kit.xml</DocumentationFile>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|AnyCPU'">
+    <DocumentationFile>kegg_kit.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <DocumentationFile>kegg_kit.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|x64'">
+    <DocumentationFile>kegg_kit.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
+    <ProjectReference Include="..\..\..\GCModeller\core\Bio.Annotation\annotation.NET5.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\R-sharp\R#\Rsharp-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\repository\Bio.Repository\repository.NET5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
   </ItemGroup>
 

@@ -4,6 +4,8 @@
     <RootNamespace>simulators</RootNamespace>
     <TargetFramework>net5.0</TargetFramework>
     <AssemblyName>simulators</AssemblyName>
+    <Platforms>AnyCPU;x64</Platforms>
+    <Configurations>Debug;Release;Rsharp_app_release</Configurations>
   </PropertyGroup>
 
   <ItemGroup>

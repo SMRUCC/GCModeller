@@ -4,6 +4,8 @@
     <RootNamespace>phenotype_kit</RootNamespace>
     <TargetFramework>net5.0</TargetFramework>
     <AssemblyName>phenotype_kit</AssemblyName>
+    <Platforms>AnyCPU;x64</Platforms>
+    <Configurations>Debug;Release;Rsharp_app_release</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
