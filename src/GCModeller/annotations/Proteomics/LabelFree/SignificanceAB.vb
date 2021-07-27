@@ -93,6 +93,7 @@ Public Module SignificanceAB
     ''' <param name="ratio"></param>
     ''' <returns></returns>
     Public Function SignificanceA(ratio As Vector) As Vector
+#If netcore5 = 0 Then
         Dim quantile#()
 
         ratio = ratio.Log(base:=2)
@@ -123,6 +124,9 @@ Public Module SignificanceAB
             .AsVector
 
         Return p
+#Else
+        Throw New NotImplementedException
+#End If
     End Function
 
     ''' <summary>

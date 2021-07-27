@@ -39,6 +39,10 @@
 
 #End Region
 
+#If netcore5 = 1 Then
+Imports System.Data
+#End If
+
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel

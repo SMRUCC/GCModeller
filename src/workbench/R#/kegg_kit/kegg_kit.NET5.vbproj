@@ -41,6 +41,7 @@
     <ProjectReference Include="..\..\..\R-sharp\R#\Rsharp-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\repository\Bio.Repository\repository.NET5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+    <ProjectReference Include="..\..\modules\keggReport\keggReport.NET5.vbproj" />
   </ItemGroup>
 
 </Project>

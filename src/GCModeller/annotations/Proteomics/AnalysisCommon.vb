@@ -131,7 +131,7 @@ Public Module AnalysisCommon
     ''' <returns></returns>
     <Extension>
     Public Function ApplyDEPFilter(proteins As IEnumerable(Of DEP_iTraq), level#, pvalue#, FDR_threshold#) As DEP_iTraq()
-
+#If netcore5 = 0 Then
         ' enable vector programming language feature
         With proteins.Shadows
 
@@ -176,5 +176,8 @@ Public Module AnalysisCommon
 
             Return .ByRef
         End With
+#Else
+        Throw New NotImplementedException
+#End If
     End Function
 End Module
