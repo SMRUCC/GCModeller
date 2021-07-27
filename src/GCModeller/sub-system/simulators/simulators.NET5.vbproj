@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>simulators</RootNamespace>
+    <TargetFramework>net5.0</TargetFramework>
+    <AssemblyName>simulators</AssemblyName>
+  </PropertyGroup>
+
+</Project>

@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>phenotype_kit</RootNamespace>
+    <TargetFramework>net5.0</TargetFramework>
+    <AssemblyName>phenotype_kit</AssemblyName>
+  </PropertyGroup>
+
+</Project>

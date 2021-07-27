@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>seqtoolkit</RootNamespace>
+    <TargetFramework>net5.0</TargetFramework>
+    <AssemblyName>seqtoolkit</AssemblyName>
+  </PropertyGroup>
+
+</Project>
