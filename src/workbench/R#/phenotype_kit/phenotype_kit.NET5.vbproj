@@ -10,6 +10,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\GCModeller\analysis\HTS_matrix\HTS_matrix-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\annotations\GSEA\PFSNet\PFSNet\PFSNet.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\annotations\GSEA\PFSNet\PFSNet_visual\PFSNet_visual.NET5.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\R-sharp\R#\Rsharp-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\Math.NET5.vbproj" />
