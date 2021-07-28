@@ -12,8 +12,9 @@ options(http.cache_dir = ?"--cache" || `${dirname(@script)}/.cache/`);
 for(let cid in load.maps(map_repo) |> compoundsId) {
     const keg_compound = kegg_compound(url = sprintf(url_templ, cid));
     const saveXML      = `${saveDir}/${cid}.XML`;
+	const isNull       = is.null(keg_compound);
 
-    if ((keg_compound != "") && (!is.null(keg_compound))) {
+    if (!isNull) {
         keg_compound
         |> xml
         |> writeLines(con = saveXML)
