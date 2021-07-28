@@ -112,7 +112,7 @@ Namespace DBSCAN
             Dim clusterId As Integer = 0
             Dim seeds As New List(Of Integer)
 
-            maxStackSize = stdNum.Min(allPoints.Length / 2, 4096)
+            maxStackSize = stdNum.Min(allPoints.Length / 2, 1024)
 
             If densityCut > 0 Then
                 Dim allDensity = Density _
@@ -135,6 +135,8 @@ Namespace DBSCAN
             Else
                 Call Console.WriteLine("No density cutoff of your sample data.")
             End If
+
+            Call Console.WriteLine($"max stack size for expands cluster is {maxStackSize}")
 
             For i As Integer = 0 To allPointsDbscan.Length - 1
                 Dim p As DbscanPoint(Of T) = allPointsDbscan(i)
