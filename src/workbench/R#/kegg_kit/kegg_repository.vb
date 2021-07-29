@@ -167,9 +167,9 @@ Public Module kegg_repository
     ''' <param name="repository"></param>
     ''' <returns></returns>
     <ExportAPI("load.compounds")>
-    Public Function LoadCompoundRepo(repository As String) As CompoundRepository
-        If repository.ExtensionSuffix("msgpack") Then
-            Using file As Stream = repository.Open(FileMode.Open, doClear:=False, [readOnly]:=True)
+    Public Function LoadCompoundRepo(repository As String()) As CompoundRepository
+        If repository.Length = 1 AndAlso repository(Scan0).ExtensionSuffix("msgpack") Then
+            Using file As Stream = repository(Scan0).Open(FileMode.Open, doClear:=False, [readOnly]:=True)
                 Return New CompoundRepository(KEGGCompoundPack.ReadKeggDb(file))
             End Using
         Else
