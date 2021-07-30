@@ -82,7 +82,10 @@ Namespace Drawing2D.Math2D.MarchingSquares
         ''' <param name="raw">现实世界中的原始测量结果数据</param>
         Sub New(raw As IEnumerable(Of MeasureData))
             dots = raw.ToArray
-            InitData()
+
+            ' raw sparse point interpolate
+            ' into dense matrix
+            Call interpolateData()
         End Sub
 
         Public Function GetLevelQuantile() As QuantileEstimationGK
@@ -143,7 +146,7 @@ Namespace Drawing2D.Math2D.MarchingSquares
         ''' <summary>
         ''' 数据插值
         ''' </summary>
-        Friend Function InitData() As MapMatrix
+        Friend Function interpolateData() As MapMatrix
             Dim dims As Size = dimension
             Dim x_num = dims.Width
             Dim y_num = dims.Height
@@ -163,12 +166,12 @@ Namespace Drawing2D.Math2D.MarchingSquares
             Return y_num.Sequence _
                 .AsParallel _
                 .Select(Function(j)
-                            Return interpolate(j)
+                            Return interpolate(i, j)
                         End Function) _
                 .OrderBy(Function(j) j.i)
         End Function
 
-        Private Function interpolate(j As Integer) As SeqValue(Of Double)
+        Private Function interpolate(i As Integer, j As Integer) As SeqValue(Of Double)
             Dim value As Single = 0
             Dim find As Boolean = False
             Dim d As Double
