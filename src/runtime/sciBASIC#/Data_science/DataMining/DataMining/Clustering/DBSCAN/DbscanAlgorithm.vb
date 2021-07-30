@@ -141,7 +141,7 @@ Namespace DBSCAN
             For i As Integer = 0 To allPointsDbscan.Length - 1
                 Dim p As DbscanPoint(Of T) = allPointsDbscan(i)
 
-                If p.IsVisited Then
+                If p.IsVisited OrElse p.ClusterId = ClusterIDs.Unclassified OrElse p.ClusterId = ClusterIDs.Noise Then
                     Continue For
                 Else
                     p.IsVisited = True
@@ -160,8 +160,9 @@ Namespace DBSCAN
                     clusterId += 1
                     ' point to be in a cluster
                     p.ClusterId = clusterId
-                    ExpandCluster(allPointsDbscan, neighborPts, clusterId, epsilon, minPts, densityCut, densityList, 0)
-                    seeds.Add(i)
+
+                    Call ExpandCluster(allPointsDbscan, neighborPts, clusterId, epsilon, minPts, densityCut, densityList, 0)
+                    Call seeds.Add(i)
                 End If
             Next
 
