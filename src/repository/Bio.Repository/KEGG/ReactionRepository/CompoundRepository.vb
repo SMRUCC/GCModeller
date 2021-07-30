@@ -1,50 +1,50 @@
 ﻿#Region "Microsoft.VisualBasic::674f98c7aadc75be30bf82c2dd21e26a, core\Bio.Repository\KEGG\ReactionRepository\CompoundRepository.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Class CompoundRepository
-    ' 
-    '     Properties: Compounds
-    ' 
-    '     Function: Exists, GetAll, GetByKey, GetNames, GetWhere
-    '               ScanModels, ScanRepository
-    ' 
-    ' Class CompoundIndex
-    ' 
-    '     Properties: DbTerms, Entity, ID, Index
-    ' 
-    '     Function: ToString
-    ' 
-    ' /********************************************************************************/
+' Class CompoundRepository
+' 
+'     Properties: Compounds
+' 
+'     Function: Exists, GetAll, GetByKey, GetNames, GetWhere
+'               ScanModels, ScanRepository
+' 
+' Class CompoundIndex
+' 
+'     Properties: DbTerms, Entity, ID, Index
+' 
+'     Function: ToString
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -124,44 +124,54 @@ Public Class CompoundRepository : Inherits XmlDataModel
         Return New Dictionary(Of String, CompoundIndex)(compoundTable)
     End Function
 
-    Public Shared Iterator Function ScanRepository(directory$, Optional ignoreGlycan As Boolean = True) As IEnumerable(Of Compound)
+    Public Shared Function ScanRepository(directory$, Optional ignoreGlycan As Boolean = True) As IEnumerable(Of Compound)
+        Return ScanRepository({directory}, ignoreGlycan)
+    End Function
+
+    Private Shared Iterator Function ScanRepository(directories$(), ignoreGlycan As Boolean) As IEnumerable(Of Compound)
         Dim compound As Compound
         Dim loaded As New Index(Of String)
 
-        If directory.StringEmpty OrElse Not directory.DirectoryExists Then
-            Call "Repository config invalid...".Warning
-            Return
-        Else
-            Call "Loading compounds data repository...".__DEBUG_ECHO
-        End If
+        For Each directory As String In directories
+            If directory.StringEmpty OrElse Not directory.DirectoryExists Then
+                Call $"Repository {directory} invalid...".Warning
+                Return
+            Else
+                Call $"Loading compounds data repository: {directory}...".__DEBUG_ECHO
+            End If
 
-        ' have some case sensitive problem on Linux platform
-        For Each xml As String In ls - l - r - {"*.Xml", "*.xml"} <= directory
-            If xml.BaseName.First = "G"c Then
-                If ignoreGlycan Then
+            ' have some case sensitive problem on Linux platform
+            For Each xml As String In ls - l - r - {"*.Xml", "*.xml", "*.XML"} <= directory
+                If xml.BaseName.First = "G"c Then
+                    If ignoreGlycan Then
+                        Continue For
+                    Else
+                        compound = xml.LoadXml(Of Glycan)?.ToCompound
+                    End If
+                Else
+                    compound = xml.LoadXml(Of Compound)()
+                End If
+
+                If compound Is Nothing OrElse compound.entry.StringEmpty Then
+                    Continue For
+                ElseIf compound.entry Like loaded Then
                     Continue For
                 Else
-                    compound = xml.LoadXml(Of Glycan)?.ToCompound
+                    loaded.Add(compound.entry)
+                    Yield compound
                 End If
-            Else
-                compound = xml.LoadXml(Of Compound)()
-            End If
-
-            If compound Is Nothing OrElse compound.entry.StringEmpty Then
-                Continue For
-            ElseIf compound.entry Like loaded Then
-                Continue For
-            Else
-                loaded.Add(compound.entry)
-                Yield compound
-            End If
+            Next
         Next
     End Function
 
-    Public Shared Function ScanModels(directory$, Optional ignoreGlycan As Boolean = True) As CompoundRepository
+    Public Shared Function ScanModels(directories$(), Optional ignoreGlycan As Boolean = True) As CompoundRepository
         Return New CompoundRepository With {
-            .compoundTable = BuildIndexTable(compounds:=ScanRepository(directory, ignoreGlycan))
+            .compoundTable = BuildIndexTable(compounds:=ScanRepository(directories, ignoreGlycan))
         }
+    End Function
+
+    Public Shared Function ScanModels(directory$, Optional ignoreGlycan As Boolean = True) As CompoundRepository
+        Return ScanModels({directory}, ignoreGlycan)
     End Function
 
     Public Shared Function BuildIndexTable(compounds As IEnumerable(Of Compound)) As Dictionary(Of String, CompoundIndex)

@@ -224,7 +224,7 @@ Namespace CollectionSet
 
             For Each tick As Double In New DoubleRange(0.Join(setSize.Values)).CreateAxisTicks
                 Dim tickX As Double = a.X - scale(tick)
-                Dim label As String = tick.ToString(theme.axisTickFormat)
+                Dim label As String = tick.ToString(theme.XaxisTickFormat)
 
                 labelSize = g.MeasureString(label, labelFont)
                 labelPos = New PointF(tickX - labelSize.Width / 2, y)

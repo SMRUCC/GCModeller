@@ -1,4 +1,5 @@
 require(JSON);
+require(GCModeller);
 
 let .onLoad as function() {
   print("Graphquery Toolkit for KEGG database.");
