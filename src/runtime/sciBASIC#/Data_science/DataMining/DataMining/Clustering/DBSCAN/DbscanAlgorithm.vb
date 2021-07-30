@@ -141,7 +141,7 @@ Namespace DBSCAN
             For i As Integer = 0 To allPointsDbscan.Length - 1
                 Dim p As DbscanPoint(Of T) = allPointsDbscan(i)
 
-                If p.IsVisited OrElse p.ClusterId = ClusterIDs.Unclassified OrElse p.ClusterId = ClusterIDs.Noise Then
+                If p.IsVisited AndAlso Not (p.ClusterId = ClusterIDs.Unclassified OrElse p.ClusterId = ClusterIDs.Noise) Then
                     Continue For
                 Else
                     p.IsVisited = True
@@ -239,6 +239,8 @@ Namespace DBSCAN
             Loop
         End Sub
 
+        ReadOnly queryCache As New Dictionary(Of T, DbscanPoint(Of T)())
+
         ''' <summary>
         ''' Checks and searchs neighbor points for given point
         ''' </summary>
@@ -249,10 +251,14 @@ Namespace DBSCAN
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Private Function RegionQuery(allPoints As DbscanPoint(Of T)(), point As T, epsilon As Double) As DbscanPoint(Of T)()
-            Return allPoints _
-                .AsParallel _
-                .Where(Function(x) _metricFunc(point, x.ClusterPoint) <= epsilon) _
-                .ToArray()
+            If Not queryCache.ContainsKey(point) Then
+                queryCache(point) = allPoints _
+                    .AsParallel _
+                    .Where(Function(x) _metricFunc(point, x.ClusterPoint) <= epsilon) _
+                    .ToArray()
+            End If
+
+            Return queryCache(point)
         End Function
     End Class
 End Namespace
