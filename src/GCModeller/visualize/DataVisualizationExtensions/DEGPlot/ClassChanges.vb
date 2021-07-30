@@ -113,7 +113,7 @@ Public Class ClassChanges : Inherits Plot
             x = xscale(tick)
             a = New PointF(x, plotregion.Bottom)
             b = New PointF(x, plotregion.Bottom + tickPadding)
-            labelText = tick.ToString(theme.axisTickFormat)
+            labelText = tick.ToString(theme.XaxisTickFormat)
             labelSize = g.MeasureString(labelText, labelFont)
             x = x - labelSize.Width / 2
             y = plotregion.Bottom + tickPadding
