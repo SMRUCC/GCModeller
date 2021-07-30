@@ -181,6 +181,10 @@ Namespace Quantile
             Dim rankMin As Integer = 0
             Dim desired As Integer = CInt(Fix(quantile * count))
 
+            If sample.Count = 0 Then
+                Return 0
+            End If
+
             For i As Integer = 1 To sample.Count - 1
                 Dim prev As X = sample(i - 1)
                 Dim cur As X = sample(i)
