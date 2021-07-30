@@ -206,7 +206,7 @@ Public Module Scatter
 
         Dim theme As New Theme With {
             .drawLegend = showLegend,
-            .axisTickFormat = XtickFormat,
+            .XaxisTickFormat = XtickFormat,
             .drawGrid = showGrid,
             .gridFill = gridFill,
             .background = bg,
@@ -219,7 +219,8 @@ Public Module Scatter
             .legendBoxStroke = legendRegionBorder?.ToString,
             .axisTickCSS = tickFontStyle,
             .legendLabelCSS = legendFontCSS,
-            .legendSplitSize = legendSplit
+            .legendSplitSize = legendSplit,
+            .YaxisTickFormat = YtickFormat
         }
         Dim plot As Plot
 

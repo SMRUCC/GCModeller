@@ -194,8 +194,8 @@ Namespace Plots
                     gridX:=theme.gridStrokeX,
                     gridY:=theme.gridStrokeY,
                     gridFill:=theme.gridFill,
-                    XtickFormat:=theme.axisTickFormat,
-                    YtickFormat:=theme.axisTickFormat,
+                    XtickFormat:=theme.XaxisTickFormat,
+                    YtickFormat:=theme.YaxisTickFormat,
                     axisStroke:=theme.axisStroke
                 )
             End If
