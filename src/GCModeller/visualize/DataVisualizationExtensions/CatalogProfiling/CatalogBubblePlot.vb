@@ -103,39 +103,39 @@ Namespace CatalogProfiling
                 Dim pt As PointData = Nothing
                 Dim colorIndex As Integer() = GetColorIndex(terms, color)
                 Dim serial As New SerialData With {
-            .color = color.Last,
-            .title = category,
-            .pts = terms _
-                .SeqIterator _
-                .Select(Function(obj)
-                            Dim gene As BubbleTerm = obj
-                            Dim i As Integer = colorIndex(obj)
-                            Dim c As Color = color(i)
+                    .color = color.Last,
+                    .title = category,
+                    .pts = terms _
+                        .SeqIterator _
+                        .Select(Function(obj)
+                                    Dim gene As BubbleTerm = obj
+                                    Dim i As Integer = colorIndex(obj)
+                                    Dim c As Color = color(i)
 
-                            Return New PointData With {
-                                .value = allValues.ScaleMapping(gene.data, bubbleResize),
-                                .pt = New PointF(x:=gene.Factor, y:=gene.PValue),
-                                .tag = gene.termId,
-                                .color = c.ARGBExpression
-                            }
-                        End Function) _
-                .OrderByDescending(Function(bubble)
-                                       ' 按照y也就是pvalue倒序排序
-                                       Return bubble.pt.Y
-                                   End Function) _
-                .ToArray
-        }
+                                    Return New PointData With {
+                                        .value = allValues.ScaleMapping(gene.data, bubbleResize),
+                                        .pt = New PointF(x:=gene.Factor, y:=gene.PValue),
+                                        .tag = gene.termId,
+                                        .color = c.ARGBExpression
+                                    }
+                                End Function) _
+                        .OrderByDescending(Function(bubble)
+                                               ' 按照y也就是pvalue倒序排序
+                                               Return bubble.pt.Y
+                                           End Function) _
+                        .ToArray
+                }
 
                 ' 只显示前displays个term的标签字符串，
                 ' 其余的term的标签字符串都设置为空值， 就不会被显示出来了
                 For i As Integer = displays To serial.pts.Length - 1
                     pt = serial.pts(i)
                     serial.pts(i) = New PointData With {
-                .pt = pt.pt,
-                .tag = Nothing,
-                .value = pt.value,
-                .color = pt.color
-            }
+                        .pt = pt.pt,
+                        .tag = Nothing,
+                        .value = pt.value,
+                        .color = pt.color
+                    }
                 Next
 
                 Yield serial
@@ -145,34 +145,39 @@ Namespace CatalogProfiling
         End Function
 
         Private Function unenrichSerial(catalog As IEnumerable(Of BubbleTerm), allValues As DoubleRange) As SerialData
-            Dim unenrichs = catalog.Where(Function(term) term.PValue <= pvalue).ToArray
-            Dim points = unenrichs _
-            .Select(Function(gene)
-                        Return New PointData With {
-                            .value = allValues.ScaleMapping(gene.data, bubbleResize),
-                            .pt = New PointF(x:=gene.Factor, y:=gene.PValue)
-                        }
-                    End Function) _
-            .ToArray
+            Dim unenrichs As BubbleTerm() = catalog _
+                .Where(Function(term) term.PValue <= pvalue) _
+                .ToArray
+            Dim points As PointData() = unenrichs _
+                .Select(Function(gene)
+                            Return New PointData With {
+                                .value = allValues.ScaleMapping(gene.data, bubbleResize),
+                                .pt = New PointF(x:=gene.Factor, y:=gene.PValue)
+                            }
+                        End Function) _
+                .ToArray
 
             Return New SerialData With {
-            .color = unenrich,
-            .title = "Unenrich terms",
-            .pts = points
-        }
+                .color = unenrich,
+                .title = "Unenrich terms",
+                .pts = points
+            }
         End Function
 
         Protected Overrides Sub PlotInternal(ByRef g As IGraphics, region As GraphicsRegion)
-            Dim allValues = data.Values.IteratesALL.Select(Function(gene) gene.data).Range
+            Dim allValues As DoubleRange = data.Values _
+                .IteratesALL _
+                .Select(Function(gene) gene.data) _
+                .Range
             Dim serials As SerialData() = GetCatalogSerialData(allValues).ToArray
             Dim bubbleBorder As Stroke = Nothing
 
             If showBubbleBorder Then
                 bubbleBorder = New Stroke With {
-                .dash = DashStyle.Solid,
-                .fill = "lightgray",
-                .width = 1.5
-            }
+                    .dash = DashStyle.Solid,
+                    .fill = "lightgray",
+                    .width = 1.5
+                }
             End If
 
             Dim plot As GraphicsData = Bubble.Plot(
