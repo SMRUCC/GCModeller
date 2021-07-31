@@ -192,13 +192,13 @@ Namespace CollectionSet
                 labelSize = g.MeasureString(label, labelFont)
                 labelPos = New PointF With {
                     .X = layout.Right - maxLabelSize.Width + (maxLabelSize.Width - labelSize.Width) / 2,
-                    .Y = y
+                    .y = y
                 }
 
                 Dim bar As New Rectangle With {
-                    .Width = scale(setSize(label)),
+                    .width = scale(setSize(label)),
                     .X = layout.Right - maxLabelSize.Width - .Width,
-                    .Y = y + maxLabelSize.Height * 0.1,
+                    .y = y + maxLabelSize.Height * 0.1,
                     .Height = maxLabelSize.Height * 0.8
                 }
 
@@ -246,7 +246,7 @@ Namespace CollectionSet
         End Sub
 
         Private Sub drawTopBarPlot(g As IGraphics, barData As List(Of NamedValue(Of Integer)), boxWidth As Double, layout As Rectangle)
-            Dim yTick = barData.Select(Function(d) CDbl(d.Value)).JoinIterates({0.0}).CreateAxisTicks
+            Dim yTick = barData.Select(Function(d) CDbl(d.Value)).JoinIterates({0.0, 1.0}).CreateAxisTick
             Dim scaleY = d3js.scale.linear.domain(yTick).range(New Double() {0, layout.Height})
             Dim x As Double = layout.Left
             Dim labelFont As Font = CSSFont.TryParse(theme.tagCSS)
@@ -264,8 +264,8 @@ Namespace CollectionSet
                 Dim barHeight As Double = scaleY(bar.Value)
                 Dim y As Double = layout.Bottom - barHeight
                 Dim barRect As New Rectangle With {
-                    .X = x + offset,
-                    .Y = y,
+                    .x = x + offset,
+                    .y = y,
                     .Width = boxWidth * 0.8,
                     .Height = barHeight
                 }
