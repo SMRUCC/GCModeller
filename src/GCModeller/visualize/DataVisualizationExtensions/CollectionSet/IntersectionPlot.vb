@@ -246,7 +246,7 @@ Namespace CollectionSet
         End Sub
 
         Private Sub drawTopBarPlot(g As IGraphics, barData As List(Of NamedValue(Of Integer)), boxWidth As Double, layout As Rectangle)
-            Dim yTick = barData.Select(Function(d) CDbl(d.Value)).JoinIterates({0.0}).CreateAxisTicks
+            Dim yTick = barData.Select(Function(d) CDbl(d.Value)).JoinIterates({0.0, 1.0}).CreateAxisTicks
             Dim scaleY = d3js.scale.linear.domain(yTick).range(New Double() {0, layout.Height})
             Dim x As Double = layout.Left
             Dim labelFont As Font = CSSFont.TryParse(theme.tagCSS)
