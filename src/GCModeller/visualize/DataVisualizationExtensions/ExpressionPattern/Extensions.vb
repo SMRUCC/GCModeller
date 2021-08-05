@@ -76,6 +76,7 @@ Namespace ExpressionPattern
                                    Optional xlab$ = "time groups",
                                    Optional ylab$ = "expression quantification",
                                    Optional colorSet$ = "YlGnBu:c8",
+                                   Optional prefix$ = "Pattern",
                                    Optional levels% = 50,
                                    Optional clusterLabelStyle As String = CSSFont.PlotSubTitle,
                                    Optional legendTitleStyle As String = CSSFont.Win7Small,
@@ -98,7 +99,8 @@ Namespace ExpressionPattern
                 .ylabel = ylab,
                 .clusterLabelStyle = clusterLabelStyle,
                 .legendTitleStyle = legendTitleStyle,
-                .legendTickStyle = legendTickStyle
+                .legendTickStyle = legendTickStyle,
+                .Prefix = prefix
             }.Plot(size, driver:=driver, ppi:=ppi)
         End Function
     End Module

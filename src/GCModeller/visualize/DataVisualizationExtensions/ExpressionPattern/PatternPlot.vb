@@ -75,6 +75,7 @@ Namespace ExpressionPattern
         Public Property clusterLabelStyle As String = CSSFont.PlotSubTitle
         Public Property legendTitleStyle As String = CSSFont.Win7Small
         Public Property legendTickStyle As String = CSSFont.Win7Small
+        Public Property Prefix As String = "Pattern"
 
         Public Sub New(matrix As ExpressionPattern, theme As Theme, colorSet$, levels%)
             MyBase.New(theme)
@@ -140,7 +141,7 @@ Namespace ExpressionPattern
                         tickFormat = "F2"
                     End If
 
-                    Call g.DrawString($"Cluster #{Integer.Parse(col.tag) + 1}", clusterTagFont, Brushes.Black, tagPos)
+                    Call g.DrawString($"{Prefix} #{Integer.Parse(col.tag) + 1}", clusterTagFont, Brushes.Black, tagPos)
 
                     Call Scatter.Plot(
                         c:=scatterData,
