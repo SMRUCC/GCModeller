@@ -30,7 +30,7 @@ Namespace CollectionSet
 
         Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
             Dim plotRect As Rectangle = canvas.PlotRegion
-            Dim labelFont As Font = CSSFont.TryParse(theme.axisLabelCSS)
+            Dim labelFont As Font = CSSFont.TryParse(theme.axisLabelCSS).GDIObject(g.Dpi)
             Dim collectionSetLabels As String() = collections.GetAllCollectionTags
             Dim maxLabelSize As SizeF = g.MeasureString(collectionSetLabels.MaxLengthString, labelFont)
             Dim totalHeight As Double = collectionSetLabels.Length * (maxLabelSize.Height * 1.125)
@@ -218,7 +218,7 @@ Namespace CollectionSet
             Dim pen As Pen = Stroke.TryParse(theme.axisStroke)
             Dim width As Double = stdNum.Abs(a.X - b.X)
 
-            labelFont = CSSFont.TryParse(theme.axisTickCSS)
+            labelFont = CSSFont.TryParse(theme.axisTickCSS).GDIObject(g.Dpi)
 
             g.DrawLine(pen, a, b)
 
@@ -238,7 +238,7 @@ Namespace CollectionSet
 
             Dim dTick = labelSize.Height * 1.125
 
-            labelFont = CSSFont.TryParse(theme.axisLabelCSS)
+            labelFont = CSSFont.TryParse(theme.axisLabelCSS).GDIObject(g.Dpi)
             labelSize = g.MeasureString(setSizeLabel, labelFont)
             labelPos = New PointF(b.X + (width - labelSize.Width) / 2, y + dTick)
 
@@ -249,7 +249,7 @@ Namespace CollectionSet
             Dim yTick = barData.Select(Function(d) CDbl(d.Value)).JoinIterates({0.0, 1.0}).CreateAxisTicks
             Dim scaleY = d3js.scale.linear.domain(yTick).range(New Double() {0, layout.Height})
             Dim x As Double = layout.Left
-            Dim labelFont As Font = CSSFont.TryParse(theme.tagCSS)
+            Dim labelFont As Font = CSSFont.TryParse(theme.tagCSS).GDIObject(g.Dpi)
             Dim offset As Double = boxWidth * 0.1
             Dim pen As Pen = Stroke.TryParse(theme.axisStroke)
             Dim yscale As New YScaler(False) With {
@@ -258,7 +258,7 @@ Namespace CollectionSet
             }
 
             ' draw axis
-            Call g.DrawY(pen, "Intersection Size", yscale, 0, yTick, YAxisLayoutStyles.Left, New Point(0, -boxWidth), theme.axisLabelCSS, CSSFont.TryParse(theme.axisTickCSS), htmlLabel:=False)
+            Call g.DrawY(pen, "Intersection Size", yscale, 0, yTick, YAxisLayoutStyles.Left, New Point(0, -boxWidth), theme.axisLabelCSS, CSSFont.TryParse(theme.axisTickCSS).GDIObject(g.Dpi), htmlLabel:=False)
 
             For Each bar In barData
                 Dim barHeight As Double = scaleY(bar.Value)

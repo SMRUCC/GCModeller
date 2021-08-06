@@ -116,7 +116,8 @@ Public Module FunctionalNetwork
                                   Optional groupLowerBounds% = 3,
                                   Optional quantile# = 0.5,
                                   Optional delimiter$ = FunctionalNetwork.Delimiter,
-                                  Optional polygonStroke$ = Stroke.AxisGridStroke) As Image
+                                  Optional polygonStroke$ = Stroke.AxisGridStroke,
+                                  Optional ppi As Integer = 100) As Image
 
         Dim graph As NetworkGraph = model _
             .CreateGraph(
@@ -251,7 +252,7 @@ Public Module FunctionalNetwork
 
         ' 在图片的左下角加入代谢途径的名称
         Using g As Graphics2D = image.CreateCanvas2D(directAccess:=True)
-            Dim font As Font = CSSFont.TryParse(KEGGNameFont).GDIObject
+            Dim font As Font = CSSFont.TryParse(KEGGNameFont).GDIObject(ppi)
             Dim dy = 5
             Dim X = margin
             Dim Y = g.Height - (font.Height + dy) * KEGGColors.Count - margin

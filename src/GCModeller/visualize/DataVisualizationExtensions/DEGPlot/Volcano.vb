@@ -195,7 +195,8 @@ Public Module Volcano
                                        Optional ticksFontStyle$ = CSSFont.Win7LargerBold,
                                        Optional axisLayout As YAxisLayoutStyles = YAxisLayoutStyles.ZERO,
                                        Optional displayCount As Boolean = True,
-                                       Optional labelP As Double = -1) As GraphicsData
+                                       Optional labelP As Double = -1,
+                                       Optional ppi As Integer = 100) As GraphicsData
 
         Dim DEG_matrix As DEGModel() = genes _
             .CreateModel(translate Or P, labelP) _
@@ -222,9 +223,9 @@ Public Module Volcano
                           Function(br)
                               Return DirectCast(New SolidBrush(br.Value), Brush)
                           End Function)
-        Dim labelFont As Font = CSSFont.TryParse(labelFontStyle)
-        Dim titleFont As Font = CSSFont.TryParse(titleFontStyle)
-        Dim ticksFont As Font = CSSFont.TryParse(ticksFontStyle)
+        Dim labelFont As Font = CSSFont.TryParse(labelFontStyle).GDIObject(ppi)
+        Dim titleFont As Font = CSSFont.TryParse(titleFontStyle).GDIObject(ppi)
+        Dim ticksFont As Font = CSSFont.TryParse(ticksFontStyle).GDIObject(ppi)
         Dim thresholdPen As Pen = Stroke.TryParse(thresholdStroke).GDIObject
         Dim point As PointF
         Dim px!, py!
