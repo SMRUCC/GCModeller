@@ -91,7 +91,7 @@ Namespace Graphic.Legend
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function MeasureTitle(g As IGraphics) As SizeF
-            Return g.MeasureString(title, GetFont)
+            Return g.MeasureString(title, GetFont(g.Dpi))
         End Function
 
         Public Overrides Function ToString() As String

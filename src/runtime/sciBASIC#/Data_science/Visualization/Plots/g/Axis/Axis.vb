@@ -436,8 +436,8 @@ Namespace Graphic.Axis
         ''' <param name="fcolor">Brush color or texture.</param>
         ''' <returns></returns>
         <Extension>
-        Public Function DrawLabel(label$, css$, Optional fcolor$ = "black", Optional size$ = "1440,900") As Image
-            Dim font As Font = CSSFont.TryParse(css, [default]:=New Font(FontFace.MicrosoftYaHei, 12)).GDIObject
+        Public Function DrawLabel(label$, css$, Optional fcolor$ = "black", Optional size$ = "1440,900", Optional ppi As Integer = 100) As Image
+            Dim font As Font = CSSFont.TryParse(css, [default]:=New Font(FontFace.MicrosoftYaHei, 12)).GDIObject(ppi)
             Return label.DrawLabel(font, fcolor, size)
         End Function
 

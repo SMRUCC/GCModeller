@@ -216,7 +216,7 @@ Namespace Heatmap
 
             Return doPlot(
                 plotInternal, array,
-                rowLabelFont, CSSFont.TryParse(colLabelFontStyle).GDIObject, logTransform, drawScaleMethod, drawLabels, drawDendrograms, drawClass, dlayout,
+                rowLabelFont, CSSFont.TryParse(colLabelFontStyle).GDIObject(ppi), logTransform, drawScaleMethod, drawLabels, drawDendrograms, drawClass, dlayout,
                 reverseClrSeq, customColors.GetBrushes, mapLevels, mapName,
                 size.SizeParser, margin, bg,
                 legendTitle, legendFont, Nothing,

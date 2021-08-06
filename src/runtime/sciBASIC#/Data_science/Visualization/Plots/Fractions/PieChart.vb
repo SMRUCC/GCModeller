@@ -126,7 +126,7 @@ Namespace Fractions
                     Dim gSize = region.PlotRegion.Size
                     Dim r# = stdNum.Min(gSize.Width, gSize.Height - shadowDistance) / 2 ' 最大的半径值
                     Dim topLeft As New Point(margin.Left, margin.Top)
-                    Dim valueLabelFont As Font = CSSFont.TryParse(valueLabelStyle)
+                    Dim valueLabelFont As Font = CSSFont.TryParse(valueLabelStyle).GDIObject(g.Dpi)
                     Dim layoutRect As Rectangle
 
                     If minRadius <= 0 OrElse CDbl(minRadius) >= r Then  ' 半径固定不变的样式

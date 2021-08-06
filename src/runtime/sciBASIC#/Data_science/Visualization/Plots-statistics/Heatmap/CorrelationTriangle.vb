@@ -119,9 +119,9 @@ Namespace Heatmap
             ' legend位于整个图片的右上角
             Call Legends.ColorMapLegend(
                 g, llayout, colors, AxisScalling.CreateAxisTicks(data:={-1, 1}),
-                titleFont:=CSSFont.TryParse(theme.legendTitleCSS),
+                titleFont:=CSSFont.TryParse(theme.legendTitleCSS).GDIObject(g.Dpi),
                 title:=legendTitle,
-                tickFont:=CSSFont.TryParse(theme.legendLabelCSS),
+                tickFont:=CSSFont.TryParse(theme.legendLabelCSS).GDIObject(g.Dpi),
                 tickAxisStroke:=Stroke.TryParse(Stroke.StrongHighlightStroke)
             )
 
