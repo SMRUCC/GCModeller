@@ -559,7 +559,7 @@ Namespace Graphic.Axis
 
                     Call g.DrawImageUnscaled(labelImage, point)
                 Else
-                    Dim font As Font = CSSFont.TryParse(labelFont).GDIObject
+                    Dim font As Font = CSSFont.TryParse(labelFont).GDIObject(g.Dpi)
                     Dim fSize As SizeF = g.MeasureString(label, font)
                     Dim y1 As Double = scaler.region.Bottom + tickFont.Height + d * 5
                     Dim y2 As Double = scaler.region.Bottom + ((g.Size.Height - scaler.region.Bottom) - fSize.Height) / 2

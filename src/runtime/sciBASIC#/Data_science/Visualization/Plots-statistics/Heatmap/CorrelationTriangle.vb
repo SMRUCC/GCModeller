@@ -227,12 +227,12 @@ Namespace Heatmap
                                               Optional valuelabelFontCSS$ = CSSFont.PlotLabelNormal,
                                               Optional variantSize As Boolean = True,
                                               Optional gridCSS$ = "stroke: lightgray; stroke-width: 1px; stroke-dash: solid;",
-                                              Optional driver As Drivers = Drivers.Default) As GraphicsData
+                                              Optional driver As Drivers = Drivers.Default,
+                                              Optional ppi As Integer = 100) As GraphicsData
 
-
-            Dim valuelabelFont As Font = CSSFont.TryParse(valuelabelFontCSS)
+            Dim valuelabelFont As Font = CSSFont.TryParse(valuelabelFontCSS).GDIObject(ppi)
             Dim gridBrush As Pen = Stroke.TryParse(gridCSS).GDIObject
-            Dim rowLabelFont As Font = CSSFont.TryParse(rowLabelFontStyle).GDIObject
+            Dim rowLabelFont As Font = CSSFont.TryParse(rowLabelFontStyle).GDIObject(ppi)
             Dim keys$() = data.keys
             Dim colors As SolidBrush() = Designer.GetColors(mapName, mapLevels).Reverse.GetBrushes
             Dim cor As New CorrelationData(data, range)

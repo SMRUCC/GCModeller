@@ -79,8 +79,8 @@ Namespace Graphic.Legend
         ''' <see cref="fontstyle"/> to <see cref="Font"/>
         ''' </summary>
         ''' <returns></returns>
-        Public Function GetFont() As Font
-            Return CSSFont.TryParse(fontstyle).GDIObject
+        Public Function GetFont(ppi As Integer) As Font
+            Return CSSFont.TryParse(fontstyle).GDIObject(ppi)
         End Function
 
         ''' <summary>

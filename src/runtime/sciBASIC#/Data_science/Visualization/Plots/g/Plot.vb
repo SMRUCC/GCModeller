@@ -141,7 +141,7 @@ Namespace Graphic
 
             If theme.legendLayout Is Nothing Then
                 Dim maxLen = legends.Select(Function(l) l.title).MaxLengthString
-                Dim lFont As Font = CSSFont.TryParse(legends.First.fontstyle).GDIObject
+                Dim lFont As Font = CSSFont.TryParse(legends.First.fontstyle).GDIObject(g.Dpi)
 
                 maxWidth! = g.MeasureString(maxLen, lFont).Width
 

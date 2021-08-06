@@ -145,8 +145,8 @@ Public Class Bubble : Inherits Plot
     Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
         Dim mapper As Mapper
         Dim rangeData As New Scaling(data, False)
-        Dim tagLabelFont As Font = CSSFont.TryParse(theme.tagCSS).GDIObject
-        Dim titleFont As Font = CSSFont.TryParse(theme.mainCSS)
+        Dim tagLabelFont As Font = CSSFont.TryParse(theme.tagCSS).GDIObject(g.Dpi)
+        Dim titleFont As Font = CSSFont.TryParse(theme.mainCSS).GDIObject(g.Dpi)
 
         If xAxis.StringEmpty Then
             ' 任意一个位空值就会使用普通的axis数据计算方法
