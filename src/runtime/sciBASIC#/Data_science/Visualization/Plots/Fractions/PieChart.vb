@@ -104,10 +104,11 @@ Namespace Fractions
                              Optional reorder% = 0,
                              Optional legendUnitSize$ = "60,50",
                              Optional shadowDistance# = 80,
-                             Optional shadowAngle# = 35) As GraphicsData
+                             Optional shadowAngle# = 35,
+                             Optional ppi As Integer = 100) As GraphicsData
 
             Dim margin As Padding = padding
-            Dim font As Font = CSSFont.TryParse(legendFont)
+            Dim font As Font = CSSFont.TryParse(legendFont).GDIObject(ppi)
 
 #Const DEBUG = 0
             If reorder <> 0 Then

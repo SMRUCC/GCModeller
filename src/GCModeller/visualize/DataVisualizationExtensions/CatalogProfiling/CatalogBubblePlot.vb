@@ -219,7 +219,7 @@ Namespace CatalogProfiling
                         }
                     End Function) _
             .ToArray
-            Dim legendFont As Font = CSSFont.TryParse(legendFontStyle)
+            Dim legendFont As Font = CSSFont.TryParse(legendFontStyle).GDIObject(g.Dpi)
             Dim cSize As SizeF = g.MeasureString("0", legendFont)
             Dim legendSize As New SizeF(stdNum.Max(cSize.Width, cSize.Height), stdNum.Max(cSize.Width, cSize.Height))
             Dim maxWidth As Single = legends _

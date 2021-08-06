@@ -126,7 +126,7 @@ Namespace Graphic
         Protected MustOverride Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
 
         Protected Sub DrawLegends(g As IGraphics, legends As LegendObject(), showBorder As Boolean, canvas As GraphicsRegion)
-            Dim legendLabelFont As Font = CSSFont.TryParse(theme.legendLabelCSS)
+            Dim legendLabelFont As Font = CSSFont.TryParse(theme.legendLabelCSS).GDIObject(g.Dpi)
             Dim lsize As SizeF = g.MeasureString("A", legendLabelFont)
             Dim legendParts As LegendObject()() = Nothing
             Dim maxWidth!
@@ -185,7 +185,7 @@ Namespace Graphic
 
         Protected Sub DrawMainTitle(g As IGraphics, plotRegion As Rectangle)
             If Not main.StringEmpty Then
-                Dim fontOfTitle As Font = CSSFont.TryParse(theme.mainCSS)
+                Dim fontOfTitle As Font = CSSFont.TryParse(theme.mainCSS).GDIObject(g.Dpi)
                 Dim titleSize As SizeF = g.MeasureString(main, fontOfTitle)
                 Dim position As New PointF With {
                     .X = plotRegion.X + (plotRegion.Width - titleSize.Width) / 2,

@@ -294,7 +294,7 @@ Public Class Bubble : Inherits Plot
     End Sub
 
     Private Sub drawLegend(g As IGraphics, canvas As GraphicsRegion)
-        Dim legendLabelFont As Font = CSSFont.TryParse(theme.axisLabelCSS)
+        Dim legendLabelFont As Font = CSSFont.TryParse(theme.axisLabelCSS).GDIObject(g.Dpi)
         Dim maxSize! = data _
             .Select(Function(s) s.title) _
             .Select(Function(str) g.MeasureString(str, legendLabelFont).Width) _

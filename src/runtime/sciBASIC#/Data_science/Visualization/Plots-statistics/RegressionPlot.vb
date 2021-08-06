@@ -296,7 +296,7 @@ Public Module RegressionPlot
                 Call g.printEquation(fit, rect, linearDetailsFontCSS, legendLabelFontCSS, factorFormat, Not predictedX Is Nothing)
 
                 If Not title.StringEmpty Then
-                    Dim titleFont As Font = CSSFont.TryParse(titleFontCss)
+                    Dim titleFont As Font = CSSFont.TryParse(titleFontCss).GDIObject(g.Dpi)
                     Dim titleSize = g.MeasureString(title, titleFont)
                     Dim top = (rect.Top - titleSize.Height) / 2
                     Dim left = rect.Left + (rect.Width - titleSize.Width) / 2
