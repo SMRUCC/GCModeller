@@ -26,7 +26,13 @@ Public Module CommunityGraph
             matrix.Add(row(keys:=propertyNames))
         Next
 
-        Dim graph As NetworkGraph = CreatePhenoGraph(New NumericMatrix(matrix.ToArray), k)
+        Dim dataMat As New NumericMatrix(matrix.ToArray)
+        Dim graph As NetworkGraph = CreatePhenoGraph(dataMat, k)
+
+        For Each v As Node In graph.vertex
+            v.label = data(v.ID).ID
+        Next
+
         Return graph
     End Function
 
