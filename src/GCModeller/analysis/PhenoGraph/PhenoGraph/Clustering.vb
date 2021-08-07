@@ -17,5 +17,8 @@ Public Module Clustering
         message("Run Rphenograph starts:", "\n",
         "  -Input data of ", nrow(data), " rows and ", ncol(data), " columns", "\n",
         "  -k is set to ", k)
+
+        cat("  Finding nearest neighbors...")
+
     End Function
 End Module
