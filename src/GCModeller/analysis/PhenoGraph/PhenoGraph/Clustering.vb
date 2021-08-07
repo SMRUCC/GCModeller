@@ -1,8 +1,10 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.GraphTheory.Analysis
+Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.DataMining.UMAP.KNN
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
 Imports Microsoft.VisualBasic.Math.Scripting.Rscript
@@ -49,22 +51,22 @@ Public Module Clustering
         cat("  Finding nearest neighbors...")
 
         ' t1 <- system.time(neighborMatrix <- find_neighbors(data, k=k+1)[,-1])
-        Dim t1 As Double = App.ElapsedMilliseconds
+        Dim t1 As Value(Of Double) = App.ElapsedMilliseconds
         Dim neighborMatrix = KNearestNeighbour.FindNeighbors(data, k:=k + 1).knnIndices
-        cat("DONE ~", App.ElapsedMilliseconds - t1, "s\n", " Compute jaccard coefficient between nearest-neighbor sets...")
+        cat("DONE ~", t1 = App.ElapsedMilliseconds - CDbl(t1), "s\n", " Compute jaccard coefficient between nearest-neighbor sets...")
         ' t2 <- system.time(links <- jaccard_coeff(neighborMatrix))
-        Dim t2 As Double = App.ElapsedMilliseconds
+        Dim t2 As Value(Of Double) = App.ElapsedMilliseconds
         Dim links As GeneralMatrix = jaccard_coeff(neighborMatrix)
-        cat("DONE ~", App.ElapsedMilliseconds - t2, "s\n", " Build undirected graph from the weighted links...")
+        cat("DONE ~", t2 = App.ElapsedMilliseconds - CDbl(t2), "s\n", " Build undirected graph from the weighted links...")
 
         ' take rows
         ' colnames(relations)<- c("from","to","weight")
         links = links(links(0, byRow:=False) > 0)
 
-        Dim t3 = App.ElapsedMilliseconds
+        Dim t3 As Value(Of Double) = App.ElapsedMilliseconds
         Dim g = DirectCast(links, NumericMatrix).AsGraph()
-        cat("DONE ~", App.ElapsedMilliseconds - t3, "s\n", " Run louvain clustering on the graph ...")
-        Dim t4 = App.ElapsedMilliseconds
+        cat("DONE ~", t3 = App.ElapsedMilliseconds - CDbl(t3), "s\n", " Run louvain clustering on the graph ...")
+        Dim t4 As Value(Of Double) = App.ElapsedMilliseconds
 
         ' Other community detection algorithms: 
         '    cluster_walktrap, cluster_spinglass, 
@@ -78,9 +80,9 @@ Public Module Clustering
             .g = g
         }
 
-        cat("DONE ~", App.ElapsedMilliseconds - t4, "s\n")
+        cat("DONE ~", t4 = App.ElapsedMilliseconds - CDbl(t4), "s\n")
 
-        message("Run Rphenograph DONE, totally takes ", Sum(C(t1, t2, t3, t4)), "s.")
+        message("Run Rphenograph DONE, totally takes ", {CDbl(t1), CDbl(t2), CDbl(t3), CDbl(t4)}.Sum / 1000, "s.")
         cat("  Return a community class\n  -Modularity value:", community.modularity, "\n")
         cat("  -Number of clusters:", community.membership.Distinct.Count)
 
