@@ -1,5 +1,6 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.GraphTheory.Analysis
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.DataMining.UMAP.KNN
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
@@ -69,7 +70,13 @@ Public Module Clustering
         '    cluster_walktrap, cluster_spinglass, 
         '    cluster_leading_eigen, cluster_edge_betweenness, 
         '    cluster_fast_greedy, cluster_label_prop  
-        Dim community As New Communities With {.community = cluster_louvain(g), .g = g}
+        Dim community As New Communities With {
+            .community = Louvain.Builder _
+                .Load(g) _
+                .SolveClusters _
+                .GetCommunity,
+            .g = g
+        }
 
         cat("DONE ~", App.ElapsedMilliseconds - t4, "s\n")
 

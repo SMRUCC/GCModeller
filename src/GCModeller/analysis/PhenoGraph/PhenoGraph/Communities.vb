@@ -3,7 +3,7 @@
 Public Class Communities
 
     Public Property g As NetworkGraph
-    Public Property community
+    Public Property community As String()
 
     Public Function modularity() As Double
 
