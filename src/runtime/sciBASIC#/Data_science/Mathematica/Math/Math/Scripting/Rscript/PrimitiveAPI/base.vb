@@ -48,19 +48,16 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Language.Vectorization
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
-Imports Microsoft.VisualBasic.Math.SyntaxAPI.Vectors
 Imports Microsoft.VisualBasic.Scripting
 Imports Microsoft.VisualBasic.Scripting.MetaData
 
-Namespace SyntaxAPI
+Namespace Scripting.Rscript
 
     ''' <summary>
     ''' R function bridge to VisualBasic
     ''' </summary>
     ''' <remarks></remarks>
-    '''
-    <Package("RBase.PrimitiveAPI")>
-    Public Module PrimitiveAPI
+    Public Module base
 
         ''' <summary>
         ''' Does a Formal Argument have a Value?

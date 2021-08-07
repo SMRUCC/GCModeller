@@ -1,4 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
+Imports Microsoft.VisualBasic.Math.Scripting.Rscript
 
 Public Module Clustering
 
