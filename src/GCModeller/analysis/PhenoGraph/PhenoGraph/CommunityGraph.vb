@@ -58,6 +58,12 @@ Public Module CommunityGraph
         ' t1 <- system.time(neighborMatrix <- find_neighbors(data, k=k+1)[,-1])
         Dim t1 As Value(Of Double) = App.ElapsedMilliseconds
         Dim neighborMatrix = KNearestNeighbour.FindNeighbors(data, k:=k + 1).knnIndices
+        neighborMatrix = neighborMatrix _
+            .Select(Function(r)
+                        Return r.Skip(1).ToArray
+                    End Function) _
+            .ToArray
+
         cat("DONE ~", t1 = App.ElapsedMilliseconds - CDbl(t1), "s\n", " Compute jaccard coefficient between nearest-neighbor sets...")
         ' t2 <- system.time(links <- jaccard_coeff(neighborMatrix))
         Dim t2 As Value(Of Double) = App.ElapsedMilliseconds
