@@ -61,15 +61,7 @@ Public Module CommunityGraph
         Dim t1 As Value(Of Double) = App.ElapsedMilliseconds
         Dim neighborMatrix = ApproximateNearNeighbor _
             .FindNeighbors(data, k:=k + 1) _
-            .Select(Function(row)
-                        If row.size = k + 1 Then
-                            Return row.indices
-                        Else
-                            Return row.indices _
-                                .JoinIterates((-1).Repeats(k + 1 - row.size)) _
-                                .ToArray
-                        End If
-                    End Function) _
+            .Select(Function(row) row.indices) _
             .ToArray
 
         cat("DONE ~", t1 = App.ElapsedMilliseconds - CDbl(t1), "s\n", " Compute jaccard coefficient between nearest-neighbor sets...")
