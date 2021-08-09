@@ -53,6 +53,23 @@ Imports stdNum = System.Math
 
 Namespace KdTree
 
+    ''' <summary>
+    ''' KDTree is a class supporting KD-tree insertion, deletion, equality search,
+    ''' range search, and nearest neighbor(s) using double-precision floating-point
+    ''' keys. Splitting dimension is chosen naively, by depth modulo K. Semantics are
+    ''' as follows:
+    ''' 
+    ''' + Two different keys containing identical numbers should retrieve the same
+    ''' value from a given KD-tree. Therefore keys are cloned when a node is
+    ''' inserted. 
+    ''' + As with Hashtables, values inserted into a KD-tree are <I>not</I> cloned.
+    ''' Modifying a value between insertion and retrieval will therefore modify the
+    ''' value stored in the tree.
+    ''' 
+    ''' @author Simon Levy, Bjoern Heckel
+    ''' @version %I%, %G%
+    ''' @since JDK1.2
+    ''' </summary>
     Public Class KdTree(Of T As New)
 
         Dim dimensions As String()
@@ -258,6 +275,18 @@ Namespace KdTree
             Return min
         End Function
 
+        ''' <summary>
+        ''' Find KD-tree node whose key is identical to key. Uses algorithm
+        ''' translated from 352.srch.c of Gonnet &amp; Baeza-Yates.
+        ''' </summary>
+        ''' <param name="point">
+        ''' key for KD-tree node
+        ''' </param>
+        ''' <param name="maxDistance"></param>
+        ''' <param name="maxNodes">
+        ''' k
+        ''' </param>
+        ''' <returns></returns>
         Public Iterator Function nearest(point As T, maxNodes As Integer, Optional maxDistance As Double? = Nothing) As IEnumerable(Of KdNodeHeapItem(Of T))
             Dim bestNodes As New BinaryHeap(Of KdNodeHeapItem(Of T))(Function(e) -e.distance)
 

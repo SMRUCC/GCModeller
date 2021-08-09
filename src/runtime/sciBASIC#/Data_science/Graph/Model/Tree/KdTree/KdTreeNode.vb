@@ -45,6 +45,10 @@
 
 Namespace KdTree
 
+    ''' <summary>
+    ''' K-D Tree node class
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
     Public Class KdTreeNode(Of T)
 
         Public Property obj As T
