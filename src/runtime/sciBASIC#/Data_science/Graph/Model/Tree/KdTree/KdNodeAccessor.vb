@@ -65,5 +65,11 @@ Namespace KdTree
         Public MustOverride Sub setByDimensin(x As T, dimName As String, value As Double)
         Public MustOverride Function nodeIs(a As T, b As T) As Boolean
 
+        ''' <summary>
+        ''' create a new instance of target object
+        ''' </summary>
+        ''' <returns></returns>
+        Public MustOverride Function activate() As T
+
     End Class
 End Namespace

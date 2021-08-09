@@ -57,6 +57,10 @@ Namespace KdTree
             End Get
         End Property
 
+        Public Overrides Function ToString() As String
+            Return $"[{index}] {vector.Take(6).JoinBy(", ")}..."
+        End Function
+
     End Structure
 
     Friend Class VectorAccessor : Inherits KdNodeAccessor(Of TagVector)
@@ -101,6 +105,10 @@ Namespace KdTree
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function nodeIs(a As TagVector, b As TagVector) As Boolean
             Return a.index = b.index
+        End Function
+
+        Public Overrides Function activate() As TagVector
+            Return New TagVector With {.vector = 0.0.Repeats(times:=dims.Count).ToArray, .index = -1}
         End Function
     End Class
 End Namespace

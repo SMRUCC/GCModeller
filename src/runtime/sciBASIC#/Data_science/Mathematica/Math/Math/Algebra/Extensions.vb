@@ -102,7 +102,7 @@ Namespace LinearAlgebra
 
             For i As Integer = 0 To nrow - 1
                 For j As Integer = 0 To ncol - 1
-                    Dim k = idx(i)(j) - 1
+                    Dim k As Integer = idx(i)(j) - 1
                     Dim nodei As Integer() = idx(i)
                     Dim nodej As Integer() = idx(j)
                     Dim u As Integer = nodei.Intersect(nodej).Count

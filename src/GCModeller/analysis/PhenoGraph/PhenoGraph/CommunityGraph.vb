@@ -60,14 +60,8 @@ Public Module CommunityGraph
         Dim t1 As Value(Of Double) = App.ElapsedMilliseconds
         Dim neighborMatrix = ApproximateNearNeighbor _
             .FindNeighbors(data, k:=k + 1) _
-            .Select(Function(row) row.indices) _
-            .ToArray
-
-        ' the nearest node is the node itself
-        ' skip of it self
-        neighborMatrix = neighborMatrix _
-            .Select(Function(r)
-                        Return r.Skip(1).ToArray
+            .Select(Function(row)
+                        Return row.indices
                     End Function) _
             .ToArray
 

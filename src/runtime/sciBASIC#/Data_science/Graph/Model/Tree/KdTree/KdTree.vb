@@ -73,7 +73,6 @@ Namespace KdTree
     Public Class KdTree(Of T As New)
 
         Dim dimensions As String()
-        Dim points As T()
         Dim access As KdNodeAccessor(Of T)
         Dim root As KdTreeNode(Of T)
 
@@ -90,7 +89,6 @@ Namespace KdTree
         End Property
 
         Sub New(points As T(), metric As KdNodeAccessor(Of T))
-            Me.points = points
             Me.access = metric
             Me.dimensions = metric.GetDimensions
             Me.root = buildTree(points, Scan0, Nothing)
@@ -314,10 +312,10 @@ Namespace KdTree
         Private Sub nearestSearch(point As T, node As KdTreeNode(Of T), bestNodes As BinaryHeap(Of KdNodeHeapItem(Of T)), maxNodes%)
             Dim bestChild As KdTreeNode(Of T)
             Dim dimension = dimensions(node.dimension),
-          ownDistance = access.metric(point, node.obj),
-          linearPoint = New T,
-          linearDistance As Double,
-          otherChild As KdTreeNode(Of T)
+               ownDistance = access.metric(point, node.obj),
+               linearPoint = access.activate,
+               linearDistance As Double,
+               otherChild As KdTreeNode(Of T)
 
             For i As Integer = 0 To dimensions.Length - 1
                 If i = node.dimension Then
