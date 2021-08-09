@@ -20,7 +20,7 @@ Imports Microsoft.VisualBasic.Math.Scripting.Rscript
 ''' </summary>
 Public Module CommunityGraph
 
-    Public Function CreatePhenoGraph(data As DataSet(), Optional k As Integer = 30) As NetworkGraph
+    Public Function CreatePhenoGraph(data As DataSet(), Optional k As Integer = 30, Optional cutoff As Double = 0) As NetworkGraph
         Dim propertyNames As String() = data.PropertyNames
         Dim matrix As New List(Of Double())
 
@@ -44,7 +44,7 @@ Public Module CommunityGraph
     ''' <param name="data"></param>
     ''' <param name="k"></param>
     ''' <returns></returns>
-    Public Function CreatePhenoGraph(data As GeneralMatrix, Optional k As Integer = 30, Optional cutoff As Double = 0.2) As NetworkGraph
+    Public Function CreatePhenoGraph(data As GeneralMatrix, Optional k As Integer = 30, Optional cutoff As Double = 0) As NetworkGraph
         If k < 1 Then
             Throw New ArgumentException("k must be a positive integer!")
         ElseIf k > data.RowDimension - 2 Then
@@ -81,7 +81,7 @@ Public Module CommunityGraph
         ' take rows
         ' colnames(relations)<- c("from","to","weight")
         ' which its coefficient should be greater than ZERO
-        links = links(links(2, byRow:=False) >= cutoff)
+        links = links(links(2, byRow:=False) > cutoff)
 
         Dim t3 As Value(Of Double) = App.ElapsedMilliseconds
         Dim g = DirectCast(links, NumericMatrix).AsGraph()

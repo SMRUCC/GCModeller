@@ -10,6 +10,6 @@ bitmap(file = `Rphenograph.png`) {
 	const x = sapply(ID, px -> px[1]);
     const y = sapply(ID, px -> px[2]);
 	
-	plot(x,y, class = clusters, # shape = "Square", 
-	colorSet = "Set1:c8", grid.fill = "white", point_size = 13, reverse = TRUE);
+	plot(x,y, class = clusters, shape = "Square", 
+	colorSet = "Set1:c8", grid.fill = "white", point_size = 25, reverse = TRUE);
 }
