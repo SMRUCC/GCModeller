@@ -68,7 +68,7 @@ Namespace ComponentModel.Collection
             End Get
         End Property
 
-        Default Public ReadOnly Property Item(i As Integer) As T
+        Default Public Property Item(i As Integer) As T
             Get
                 If i >= content.Count Then
                     Return Nothing
@@ -76,6 +76,9 @@ Namespace ComponentModel.Collection
                     Return content(i)
                 End If
             End Get
+            Set(value As T)
+                content(i) = value
+            End Set
         End Property
 
         Public ReadOnly Property peek As T
