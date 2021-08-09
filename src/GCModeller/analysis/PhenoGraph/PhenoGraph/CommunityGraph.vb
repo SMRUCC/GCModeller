@@ -32,7 +32,7 @@ Public Module CommunityGraph
         Dim graph As NetworkGraph = CreatePhenoGraph(dataMat, k)
 
         For Each v As Node In graph.vertex
-            v.label = data(v.ID).ID
+            v.label = data(Integer.Parse(v.label)).ID
         Next
 
         Return graph
