@@ -309,55 +309,66 @@ Namespace KdTree
             Next
         End Function
 
-        Private Sub nearestSearch(point As T, node As KdTreeNode(Of T), bestNodes As BinaryHeap(Of KdNodeHeapItem(Of T)), maxNodes%)
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="point">
+        ''' the user query target point
+        ''' </param>
+        ''' <param name="parentNode">
+        ''' the parent node for search
+        ''' </param>
+        ''' <param name="bestNodes"></param>
+        ''' <param name="maxNodes"></param>
+        Private Sub nearestSearch(point As T, parentNode As KdTreeNode(Of T), bestNodes As BinaryHeap(Of KdNodeHeapItem(Of T)), maxNodes%)
             Dim bestChild As KdTreeNode(Of T)
-            Dim dimension = dimensions(node.dimension),
-               ownDistance = access.metric(point, node.obj),
+            Dim dimension = dimensions(parentNode.dimension),
+               ownDistance = access.metric(point, parentNode.obj),
                linearPoint = access.activate,
                linearDistance As Double,
                otherChild As KdTreeNode(Of T)
 
             For i As Integer = 0 To dimensions.Length - 1
-                If i = node.dimension Then
+                If i <> parentNode.dimension Then
                     access(linearPoint, dimensions(i)) = access.getByDimension(point, dimensions(i))
                 Else
-                    access(linearPoint, dimensions(i)) = access.getByDimension(node.obj, dimensions(i))
+                    access(linearPoint, dimensions(i)) = access.getByDimension(parentNode.obj, dimensions(i))
                 End If
             Next
 
-            linearDistance = access.metric(linearPoint, node.obj)
+            linearDistance = access.metric(linearPoint, parentNode.obj)
 
-            If node.right Is Nothing AndAlso node.left Is Nothing Then
+            If parentNode.right Is Nothing AndAlso parentNode.left Is Nothing Then
                 If bestNodes.size < maxNodes OrElse ownDistance < bestNodes.peek().distance Then
-                    saveNode(bestNodes, node, ownDistance, maxNodes)
+                    saveNode(bestNodes, parentNode, ownDistance, maxNodes)
                 End If
 
                 Return
             End If
 
-            If node.right Is Nothing Then
-                bestChild = node.left
-            ElseIf node.left Is Nothing Then
-                bestChild = node.right
+            If parentNode.right Is Nothing Then
+                bestChild = parentNode.left
+            ElseIf parentNode.left Is Nothing Then
+                bestChild = parentNode.right
             Else
-                If access.getByDimension(point, dimension) < access.getByDimension(node.obj, dimension) Then
-                    bestChild = node.left
+                If access.getByDimension(point, dimension) < access.getByDimension(parentNode.obj, dimension) Then
+                    bestChild = parentNode.left
                 Else
-                    bestChild = node.right
+                    bestChild = parentNode.right
                 End If
             End If
 
             Call nearestSearch(point, bestChild, bestNodes, maxNodes)
 
             If bestNodes.size() < maxNodes OrElse ownDistance < bestNodes.peek.distance Then
-                saveNode(bestNodes, node, ownDistance, maxNodes)
+                saveNode(bestNodes, parentNode, ownDistance, maxNodes)
             End If
 
             If bestNodes.size < maxNodes OrElse stdNum.Abs(linearDistance) < bestNodes.peek.distance Then
-                If bestChild Is node.left Then
-                    otherChild = node.right
+                If bestChild Is parentNode.left Then
+                    otherChild = parentNode.right
                 Else
-                    otherChild = node.left
+                    otherChild = parentNode.left
                 End If
 
                 If Not otherChild Is Nothing Then
