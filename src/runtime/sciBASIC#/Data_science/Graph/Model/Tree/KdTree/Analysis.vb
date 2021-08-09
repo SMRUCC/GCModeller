@@ -33,7 +33,7 @@ Namespace KdTree
                     .nearest(row, maxNodes:=k) _
                     .OrderBy(Function(i) i.distance) _
                     .ToArray
-                Dim index As Integer() = nn2.Select(Function(xi) xi.node.obj.index).ToArray
+                Dim index As Integer() = nn2.Select(Function(xi) xi.node.data.index).ToArray
                 Dim weights As Double() = nn2.Select(Function(xi) xi.distance).ToArray
 
                 Yield (index.Length, index, weights)
