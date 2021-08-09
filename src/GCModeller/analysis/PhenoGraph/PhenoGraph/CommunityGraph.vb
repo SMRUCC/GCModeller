@@ -1,5 +1,6 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.GraphTheory.KdTree
 Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.DataMining.UMAP.KNN
@@ -57,7 +58,13 @@ Public Module CommunityGraph
 
         ' t1 <- system.time(neighborMatrix <- find_neighbors(data, k=k+1)[,-1])
         Dim t1 As Value(Of Double) = App.ElapsedMilliseconds
-        Dim neighborMatrix = KNearestNeighbour.FindNeighbors(data, k:=k + 1).knnIndices
+        Dim neighborMatrix = ApproximateNearNeighbor _
+            .FindNeighbors(data, k:=k + 1) _
+            .Select(Function(row) row.indices) _
+            .ToArray
+
+        ' the nearest node is the node itself
+        ' skip of it self
         neighborMatrix = neighborMatrix _
             .Select(Function(r)
                         Return r.Skip(1).ToArray

@@ -31,7 +31,7 @@ Namespace KdTree
             For Each row As TagVector In allData
                 Dim nn2 = tree _
                     .nearest(row, maxNodes:=k) _
-                    .OrderBy(Function(i) i.node.obj.index) _
+                    .OrderBy(Function(i) i.distance) _
                     .ToArray
                 Dim index As Integer() = nn2.Select(Function(xi) xi.node.obj.index).ToArray
                 Dim weights As Double() = nn2.Select(Function(xi) xi.distance).ToArray
