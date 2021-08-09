@@ -83,6 +83,12 @@ Namespace KdTree
             End Get
         End Property
 
+        Public ReadOnly Property dimSize As Integer
+            Get
+                Return dimensions.Length
+            End Get
+        End Property
+
         Sub New(points As T(), metric As KdNodeAccessor(Of T))
             Me.points = points
             Me.access = metric

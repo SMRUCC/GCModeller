@@ -54,6 +54,12 @@ Namespace KdTree
         End Property
 
         Public MustOverride Function GetDimensions() As String()
+        ''' <summary>
+        ''' measuring of the node distance
+        ''' </summary>
+        ''' <param name="a"></param>
+        ''' <param name="b"></param>
+        ''' <returns></returns>
         Public MustOverride Function metric(a As T, b As T) As Double
         Public MustOverride Function getByDimension(x As T, dimName As String) As Double
         Public MustOverride Sub setByDimensin(x As T, dimName As String, value As Double)
