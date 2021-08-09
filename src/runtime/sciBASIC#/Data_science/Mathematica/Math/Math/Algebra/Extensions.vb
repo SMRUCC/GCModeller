@@ -102,15 +102,23 @@ Namespace LinearAlgebra
 
             For i As Integer = 0 To nrow - 1
                 For j As Integer = 0 To ncol - 1
-                    Dim k As Integer = idx(i)(j) - 1
+                    Dim k As Integer = idx(i)(j)
+
+                    If k < 0 Then
+                        Continue For
+                    End If
+
                     Dim nodei As Integer() = idx(i)
                     Dim nodej As Integer() = idx(j)
-                    Dim u As Integer = nodei.Intersect(nodej).Count
+                    Dim u As Integer = nodei _
+                        .Where(Function(d) d > 0) _
+                        .Intersect(nodej.Where(Function(d) d > 0)) _
+                        .Count
 
                     If u > 0 Then
                         ' symmetrize the graph
-                        weights(r, 0) = i + 1
-                        weights(r, 1) = k + 1
+                        weights(r, 0) = i
+                        weights(r, 1) = k
                         weights(r, 2) = u / (2.0 * ncol - u) / 2
                         r += 1
                     End If

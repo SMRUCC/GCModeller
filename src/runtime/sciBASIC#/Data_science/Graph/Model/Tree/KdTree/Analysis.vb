@@ -13,7 +13,7 @@ Namespace KdTree
     ''' </summary>
     Public Module ApproximateNearNeighbor
 
-        Public Function FindNeighbors(data As GeneralMatrix, Optional k As Integer = 30) As IEnumerable(Of (indices As Integer(), weights As Double()))
+        Public Function FindNeighbors(data As GeneralMatrix, Optional k As Integer = 30) As IEnumerable(Of (size As Integer, indices As Integer(), weights As Double()))
             Return data _
                 .RowVectors _
                 .SeqIterator _
@@ -24,7 +24,7 @@ Namespace KdTree
         End Function
 
         <Extension>
-        Public Iterator Function FindNeighbors(data As IEnumerable(Of TagVector), Optional k As Integer = 30) As IEnumerable(Of (indices As Integer(), weights As Double()))
+        Public Iterator Function FindNeighbors(data As IEnumerable(Of TagVector), Optional k As Integer = 30) As IEnumerable(Of (size As Integer, indices As Integer(), weights As Double()))
             Dim allData As TagVector() = data.ToArray
             Dim tree As New KdTree(Of TagVector)(allData, RowMetric(ncols:=allData(Scan0).size))
 
@@ -36,7 +36,7 @@ Namespace KdTree
                 Dim index As Integer() = nn2.Select(Function(xi) xi.node.obj.index).ToArray
                 Dim weights As Double() = nn2.Select(Function(xi) xi.distance).ToArray
 
-                Yield (index, weights)
+                Yield (index.Length, index, weights)
             Next
         End Function
 

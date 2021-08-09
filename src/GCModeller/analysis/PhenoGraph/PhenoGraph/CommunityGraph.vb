@@ -5,6 +5,7 @@ Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.DataMining.UMAP.KNN
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
 Imports Microsoft.VisualBasic.Math.Scripting.Rscript
@@ -61,7 +62,13 @@ Public Module CommunityGraph
         Dim neighborMatrix = ApproximateNearNeighbor _
             .FindNeighbors(data, k:=k + 1) _
             .Select(Function(row)
-                        Return row.indices
+                        If row.size = k + 1 Then
+                            Return row.indices
+                        Else
+                            Return row.indices _
+                                .JoinIterates((-1).Repeats(k + 1 - row.size)) _
+                                .ToArray
+                        End If
                     End Function) _
             .ToArray
 
@@ -73,7 +80,7 @@ Public Module CommunityGraph
 
         ' take rows
         ' colnames(relations)<- c("from","to","weight")
-        links = links(links(0, byRow:=False) > 0)
+        links = links(links(2, byRow:=False) > 0)
 
         Dim t3 As Value(Of Double) = App.ElapsedMilliseconds
         Dim g = DirectCast(links, NumericMatrix).AsGraph()
