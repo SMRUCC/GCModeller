@@ -47,6 +47,7 @@
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
 
 Namespace LinearAlgebra
@@ -109,10 +110,12 @@ Namespace LinearAlgebra
                     End If
 
                     Dim nodei As Integer() = idx(i)
-                    Dim nodej As Integer() = idx(j)
+                    Dim nodej As Integer() = idx(k)
                     Dim u As Integer = nodei _
                         .Where(Function(d) d > 0) _
-                        .Intersect(nodej.Where(Function(d) d > 0)) _
+                        .JoinIterates(nodej.Where(Function(d) d > 0)) _
+                        .GroupBy(Function(d) d) _
+                        .Where(Function(d) d.Count > 1) _
                         .Count
 
                     If u > 0 Then

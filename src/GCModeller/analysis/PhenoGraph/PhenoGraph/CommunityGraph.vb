@@ -44,7 +44,7 @@ Public Module CommunityGraph
     ''' <param name="data"></param>
     ''' <param name="k"></param>
     ''' <returns></returns>
-    Public Function CreatePhenoGraph(data As GeneralMatrix, Optional k As Integer = 30) As NetworkGraph
+    Public Function CreatePhenoGraph(data As GeneralMatrix, Optional k As Integer = 30, Optional cutoff As Double = 0.2) As NetworkGraph
         If k < 1 Then
             Throw New ArgumentException("k must be a positive integer!")
         ElseIf k > data.RowDimension - 2 Then
@@ -80,7 +80,8 @@ Public Module CommunityGraph
 
         ' take rows
         ' colnames(relations)<- c("from","to","weight")
-        links = links(links(2, byRow:=False) > 0)
+        ' which its coefficient should be greater than ZERO
+        links = links(links(2, byRow:=False) >= cutoff)
 
         Dim t3 As Value(Of Double) = App.ElapsedMilliseconds
         Dim g = DirectCast(links, NumericMatrix).AsGraph()
@@ -117,6 +118,8 @@ Public Module CommunityGraph
         Dim [to] As String
         Dim weight As Double
 
+        VBDebugger.Mute = True
+
         For Each row As Vector In links.RowVectors
             from = row(0)
             [to] = row(1)
@@ -135,6 +138,8 @@ Public Module CommunityGraph
                 weight:=weight
             )
         Next
+
+        VBDebugger.Mute = False
 
         Return g
     End Function
