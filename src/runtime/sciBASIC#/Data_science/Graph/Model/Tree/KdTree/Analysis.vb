@@ -1,17 +1,17 @@
-﻿Imports Microsoft.VisualBasic.Linq
+﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math.Correlations.DistanceMethods
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
-Imports Microsoft.VisualBasic.Math.Correlations.DistanceMethods
-Imports System.Runtime.CompilerServices
 
 Namespace KdTree
 
     ''' <summary>
     ''' K Nearest Neighbour Search
     ''' 
-    ''' 
+    ''' Uses a kd-tree to find the p number of near neighbours for each point in an input/output dataset.
     ''' </summary>
-    Public Module ANN
+    Public Module ApproximateNearNeighbor
 
         Public Function FindNeighbors(data As GeneralMatrix, Optional k As Integer = 30) As IEnumerable(Of (indices As Integer(), weights As Double()))
             Return data _
