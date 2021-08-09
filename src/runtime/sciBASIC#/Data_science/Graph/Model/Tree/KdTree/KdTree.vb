@@ -104,7 +104,7 @@ Namespace KdTree
             ElseIf points.Length = 1 Then
                 Return New KdTreeNode(Of T)(points(Scan0), [dim], parent)
             Else
-                Call points.Sort(Function(a, b) access(a, dimensions([dim])) - access(b, dimensions([dim])))
+                Call points.Sort(Function(a, b) access(b, dimensions([dim])) - access(a, dimensions([dim])))
             End If
 
             median = stdNum.Floor(points.Length / 2)
@@ -329,7 +329,7 @@ Namespace KdTree
                otherChild As KdTreeNode(Of T)
 
             For i As Integer = 0 To dimensions.Length - 1
-                If i <> parentNode.dimension Then
+                If i = parentNode.dimension Then
                     access(linearPoint, dimensions(i)) = access.getByDimension(point, dimensions(i))
                 Else
                     access(linearPoint, dimensions(i)) = access.getByDimension(parentNode.obj, dimensions(i))
@@ -339,7 +339,7 @@ Namespace KdTree
             linearDistance = access.metric(linearPoint, parentNode.obj)
 
             If parentNode.right Is Nothing AndAlso parentNode.left Is Nothing Then
-                If bestNodes.size < maxNodes OrElse ownDistance < bestNodes.peek().distance Then
+                If bestNodes.size < maxNodes AndAlso ownDistance < bestNodes.peek()?.distance Then
                     saveNode(bestNodes, parentNode, ownDistance, maxNodes)
                 End If
 
@@ -360,11 +360,11 @@ Namespace KdTree
 
             Call nearestSearch(point, bestChild, bestNodes, maxNodes)
 
-            If bestNodes.size() < maxNodes OrElse ownDistance < bestNodes.peek.distance Then
+            If bestNodes.size() < maxNodes AndAlso ownDistance < bestNodes.peek?.distance Then
                 saveNode(bestNodes, parentNode, ownDistance, maxNodes)
             End If
 
-            If bestNodes.size < maxNodes OrElse stdNum.Abs(linearDistance) < bestNodes.peek.distance Then
+            If bestNodes.size < maxNodes AndAlso stdNum.Abs(linearDistance) < bestNodes.peek?.distance Then
                 If bestChild Is parentNode.left Then
                     otherChild = parentNode.right
                 Else

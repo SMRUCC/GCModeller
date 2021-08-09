@@ -80,7 +80,11 @@ Namespace ComponentModel.Collection
 
         Public ReadOnly Property peek As T
             Get
-                Return content(Scan0)
+                If content.Count > 0 Then
+                    Return content(Scan0)
+                Else
+                    Return Nothing
+                End If
             End Get
         End Property
 
