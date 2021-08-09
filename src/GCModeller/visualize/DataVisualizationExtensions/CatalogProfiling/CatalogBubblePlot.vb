@@ -196,7 +196,7 @@ Namespace CatalogProfiling
             Call g.DrawImageUnscaled(plot, New Point)
             Call DrawBubbleLegends(g, serials, region)
 
-            Dim titleFont As Font = CSSFont.TryParse(theme.mainCSS).GDIObject
+            Dim titleFont As Font = CSSFont.TryParse(theme.mainCSS).GDIObject(g.Dpi)
             Dim fsize As SizeF = g.MeasureString(main, titleFont)
             Dim tloc As New PointF With {
                 .X = (region.Size.Width - fsize.Width) / 2,
@@ -219,7 +219,7 @@ Namespace CatalogProfiling
                         }
                     End Function) _
             .ToArray
-            Dim legendFont As Font = CSSFont.TryParse(legendFontStyle)
+            Dim legendFont As Font = CSSFont.TryParse(legendFontStyle).GDIObject(g.Dpi)
             Dim cSize As SizeF = g.MeasureString("0", legendFont)
             Dim legendSize As New SizeF(stdNum.Max(cSize.Width, cSize.Height), stdNum.Max(cSize.Width, cSize.Height))
             Dim maxWidth As Single = legends _

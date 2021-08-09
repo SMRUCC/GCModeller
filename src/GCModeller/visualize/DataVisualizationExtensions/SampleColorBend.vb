@@ -96,7 +96,7 @@ Public Module SampleColorBend
                     Optional labelFontCSS$ = CSSFont.PlotSmallTitle）
 
         Dim boxSize As Single
-        Dim labelFont As Font = CSSFont.TryParse(labelFontCSS).GDIObject
+        Dim labelFont As Font = CSSFont.TryParse(labelFontCSS).GDIObject(g.Dpi)
 
         If horizontal Then
             boxSize = layout.Width / geneExpression.Length

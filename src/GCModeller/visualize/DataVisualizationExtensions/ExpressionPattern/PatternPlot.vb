@@ -75,6 +75,7 @@ Namespace ExpressionPattern
         Public Property clusterLabelStyle As String = CSSFont.PlotSubTitle
         Public Property legendTitleStyle As String = CSSFont.Win7Small
         Public Property legendTickStyle As String = CSSFont.Win7Small
+        Public Property Prefix As String = "Pattern"
 
         Public Sub New(matrix As ExpressionPattern, theme As Theme, colorSet$, levels%)
             MyBase.New(theme)
@@ -102,15 +103,15 @@ Namespace ExpressionPattern
             Dim y! = canvas.PlotRegion.Top + ih / 2
             Dim padding As String
             Dim clusterTagId As Integer
-            Dim clusterTagFont As Font = CSSFont.TryParse(clusterLabelStyle)
+            Dim clusterTagFont As Font = CSSFont.TryParse(clusterLabelStyle).GDIObject(g.Dpi)
             Dim tagPos As PointF
             Dim levels As New Value(Of DoubleRange)
             Dim legendLayout As Rectangle
             Dim designer As SolidBrush() = colors _
                 .Select(Function(c) New SolidBrush(c)) _
                 .ToArray
-            Dim legendTitleFont As Font = CSSFont.TryParse(legendTitleStyle)
-            Dim legendTickFont As Font = CSSFont.TryParse(legendTickStyle)
+            Dim legendTitleFont As Font = CSSFont.TryParse(legendTitleStyle).GDIObject(g.Dpi)
+            Dim legendTickFont As Font = CSSFont.TryParse(legendTickStyle).GDIObject(g.Dpi)
             Dim tickFormat As String
 
             For Each row As Matrix() In matrix.GetPartitionMatrix
@@ -140,7 +141,7 @@ Namespace ExpressionPattern
                         tickFormat = "F2"
                     End If
 
-                    Call g.DrawString($"Cluster #{Integer.Parse(col.tag) + 1}", clusterTagFont, Brushes.Black, tagPos)
+                    Call g.DrawString($"{Prefix} #{Integer.Parse(col.tag) + 1}", clusterTagFont, Brushes.Black, tagPos)
 
                     Call Scatter.Plot(
                         c:=scatterData,

@@ -357,6 +357,7 @@ Module visualPlot
         Dim legendTickStyle As String = InteropArgumentHelper.getFontCSS("legend_tick.cex", CSSFont.Win7Small)
         Dim axisTickCSS As String = InteropArgumentHelper.getFontCSS("axis_tick.cex", CSSFont.Win10Normal)
         Dim axisLabelCSS As String = InteropArgumentHelper.getFontCSS("axis_label.cex", CSSFont.Win7Normal)
+        Dim ppi As Integer = args.getValue("ppi", env, 300)
 
         Return matrix.DrawMatrix(
             size:=size,
@@ -368,7 +369,8 @@ Module visualPlot
             legendTickStyle:=legendTickStyle,
             legendTitleStyle:=legendTitleStyle,
             axisLabelCSS:=axisLabelCSS,
-            axisTickCSS:=axisTickCSS
+            axisTickCSS:=axisTickCSS,
+            ppi:=ppi
         )
     End Function
 
@@ -396,6 +398,7 @@ Module visualPlot
                                            Optional axisTickCSS$ = CSSFont.Win10Normal,
                                            Optional axisLabelCSS$ = CSSFont.Win7Normal,
                                            Optional driver As Drivers = Drivers.Default,
+                                           Optional ppi As Integer = 300,
                                            Optional env As Environment = Nothing) As Object
 
         Return matrix.DrawMatrix(
@@ -409,7 +412,8 @@ Module visualPlot
             legendTitleStyle:=legendTitleStyle,
             axisLabelCSS:=axisLabelCSS,
             axisTickCSS:=axisTickCSS,
-            driver:=driver
+            driver:=driver,
+            ppi:=ppi
         )
     End Function
 

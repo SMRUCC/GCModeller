@@ -72,7 +72,6 @@ Public Module EnrichBubbles
     ''' <param name="pvalue">pvalue阈值</param>
     ''' <param name="legendFont">legend的字体CSS</param>
     ''' <param name="geneIDFont">term标签的显示字体CSS</param>
-    ''' <param name="R$">term的半径大小的计算表达式</param>
     ''' <param name="displays">每一个GO的命名空间分类之下的显示标签label的term的数量，默认为每个命名空间显示10个term的标签</param>
     ''' <param name="titleFontCSS">标题字体的CSS字体</param>
     ''' <param name="title">Plot绘图的标题</param>
