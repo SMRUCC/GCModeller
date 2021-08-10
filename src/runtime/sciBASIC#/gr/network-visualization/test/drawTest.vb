@@ -48,6 +48,7 @@ Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Cytoscape
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts
+Imports Microsoft.VisualBasic.Math.Correlations
 Imports Microsoft.VisualBasic.Imaging.LayoutModel
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
@@ -73,14 +74,61 @@ Module drawTest
 
     Sub drawKDTreeTest()
         Dim size As New Size(3600, 2700)
-        Dim points As Point2D() = 1000.SeqRandom.Select(Function(i) New Point2D(randf.NextInteger(size.Width), randf.NextInteger(size.Height))).ToArray
-        Dim tree As New KdTree(Of Point2D)(points, New PointAccess)
+        ' Dim points As Point2D() = 1000.SeqRandom.Select(Function(i) New Point2D(randf.NextInteger(size.Width), randf.NextInteger(size.Height))).ToArray
+        Dim points As FDGVector3() = {
+             New FDGVector3(0, 0, 0),
+             New FDGVector3(10, 10, 10),
+             New FDGVector3(0, 9, 8),
+             New FDGVector3(1, 9, 12),
+             New FDGVector3(100, 100, 100),
+             New FDGVector3(200, 200, 200)
+        }
 
-        Call DrawKDTree.Plot(tree, {New NamedValue(Of PointF)("1", points.Random, "red")}, k:=20).Save("./test.png")
+
+        Dim tree As New KdTree(Of FDGVector3)(points, New PointAccess3)
+
+        Dim results = tree.nearest(New FDGVector3(-128, 0, 10), 3).ToArray
+
+        ' Call DrawKDTree.Plot(tree, {New NamedValue(Of PointF)("1", points.Random, "red")}, k:=20).Save("./test.png")
 
         Pause()
     End Sub
 End Module
+
+Public Class PointAccess3 : Inherits KdNodeAccessor(Of FDGVector3)
+
+    Public Overrides Sub setByDimensin(x As FDGVector3, dimName As String, value As Double)
+        Select Case dimName.ToLower
+            Case "x" : x.x = value
+            Case "y" : x.y = value
+            Case "z" : x.z = value
+        End Select
+    End Sub
+
+    Public Overrides Function GetDimensions() As String()
+        Return {"x", "y", "z"}
+    End Function
+
+    Public Overrides Function metric(a As FDGVector3, b As FDGVector3) As Double
+        Return {a.x, a.y, a.z}.EuclideanDistance({b.x, b.y, b.z})
+    End Function
+
+    Public Overrides Function getByDimension(x As FDGVector3, dimName As String) As Double
+        Select Case dimName.ToLower
+            Case "x" : Return x.x
+            Case "y" : Return x.y
+            Case "z" : Return x.z
+        End Select
+    End Function
+
+    Public Overrides Function nodeIs(a As FDGVector3, b As FDGVector3) As Boolean
+        Return a Is b
+    End Function
+
+    Public Overrides Function activate() As FDGVector3
+        Return New FDGVector3
+    End Function
+End Class
 
 Public Class PointAccess : Inherits KdNodeAccessor(Of Point2D)
 

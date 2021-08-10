@@ -122,27 +122,28 @@ Namespace KdTree
         End Function
 
         Private Function buildTree(points As T(), depth As Integer, parent As KdTreeNode(Of T)) As KdTreeNode(Of T)
-            Dim [dim] = depth Mod dimensions.Length
+            Dim axis = depth Mod dimensions.Length
             Dim median As Integer
             Dim node As KdTreeNode(Of T)
 
             If points.Length = 0 Then
                 Return Nothing
             ElseIf points.Length = 1 Then
-                Return New KdTreeNode(Of T)(points(Scan0), [dim], parent)
+                Return New KdTreeNode(Of T)(points(Scan0), axis, parent)
             Else
                 ' sort by the axis dimensions
                 points.Sort(Function(a, b)
-                                Return access(a, dimensions([dim])) - access(b, dimensions([dim]))
+                                Return access(a, dimensions(axis)) - access(b, dimensions(axis))
                             End Function)
+
                 _counts += 1
+                median = stdNum.Floor(points.Length / 2)
             End If
 
             Dim left = points.slice(0, median).ToArray
             Dim right = points.slice(median + 1).ToArray
 
-            median = stdNum.Floor(points.Length / 2)
-            node = New KdTreeNode(Of T)(points(median), [dim], parent)
+            node = New KdTreeNode(Of T)(points(median), axis, parent)
             node.left = buildTree(left, depth + 1, node)
             node.right = buildTree(right, depth + 1, node)
 
@@ -366,22 +367,21 @@ Namespace KdTree
             Dim dimension As Integer = depth Mod dimensions.Length
             Dim axis As String = dimensions(dimension)
             Dim distance = access.metric(point.data, node.data)
-            Dim index As Integer
+            Dim i As Integer
 
             If result = 0 Then
                 result.Add(New KdNodeHeapItem(Of T)(node, distance))
             End If
 
-            For i As Integer = 0 To result.Count - 1
+            For i = 0 To result.Count - 1
                 If distance < result(i).distance Then
-                    index = i
                     Exit For
                 End If
             Next
 
             ' splice in our result
-            If index >= 0 AndAlso index <= maxNodes Then
-                result.Insert(index, New KdNodeHeapItem(Of T)(node, distance))
+            If i >= 0 AndAlso i <= maxNodes Then
+                result.Insert(i, New KdNodeHeapItem(Of T)(node, distance))
             End If
 
             ' get rid of any extra results
