@@ -1,55 +1,60 @@
 ﻿#Region "Microsoft.VisualBasic::ee92784f50716526655e60a4fee5e812, gr\network-visualization\test\drawTest.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module drawTest
-    ' 
-    '     Function: DrawTest
-    ' 
-    '     Sub: Main
-    ' 
-    ' /********************************************************************************/
+' Module drawTest
+' 
+'     Function: DrawTest
+' 
+'     Sub: Main
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.Drawing
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Data.GraphTheory.KdTree
 Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Cytoscape
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts
+Imports Microsoft.VisualBasic.Imaging.LayoutModel
+Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
 Module drawTest
 
     Sub Main()
-
+        Call drawKDTreeTest()
         'Call DrawTest()
         'Call Pause()
 
@@ -65,4 +70,49 @@ Module drawTest
         Dim graph = net.CreateGraph
         Call graph.DrawImage("2000,2000").Save("./test.png")
     End Function
+
+    Sub drawKDTreeTest()
+        Dim size As New Size(3600, 2700)
+        Dim points As Point2D() = 1000.SeqRandom.Select(Function(i) New Point2D(randf.NextInteger(size.Width), randf.NextInteger(size.Height))).ToArray
+        Dim tree As New KdTree(Of Point2D)(points, New PointAccess)
+
+        Call DrawKDTree.Plot(tree, {New NamedValue(Of PointF)("1", points.Random, "red")}, k:=20).Save("./test.png")
+
+        Pause()
+    End Sub
 End Module
+
+Public Class PointAccess : Inherits KdNodeAccessor(Of Point2D)
+
+    Public Overrides Sub setByDimensin(x As Point2D, dimName As String, value As Double)
+        If dimName.TextEquals("x") Then
+            x.X = value
+        Else
+            x.Y = value
+        End If
+    End Sub
+
+    Public Overrides Function GetDimensions() As String()
+        Return {"x", "y"}
+    End Function
+
+    Public Overrides Function metric(a As Point2D, b As Point2D) As Double
+        Return a.DistanceTo(b)
+    End Function
+
+    Public Overrides Function getByDimension(x As Point2D, dimName As String) As Double
+        If dimName.TextEquals("x") Then
+            Return x.X
+        Else
+            Return x.Y
+        End If
+    End Function
+
+    Public Overrides Function nodeIs(a As Point2D, b As Point2D) As Boolean
+        Return a Is b
+    End Function
+
+    Public Overrides Function activate() As Point2D
+        Return New Point2D
+    End Function
+End Class

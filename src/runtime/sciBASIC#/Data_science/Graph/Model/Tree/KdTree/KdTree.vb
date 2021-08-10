@@ -80,6 +80,7 @@ Namespace KdTree
         Dim dimensions As String()
         Dim access As KdNodeAccessor(Of T)
         Dim root As KdTreeNode(Of T)
+        Dim m_points As New List(Of T)
 
         Public ReadOnly Property balanceFactor() As Double
             Get
@@ -103,11 +104,22 @@ Namespace KdTree
         ''' <returns></returns>
         Public ReadOnly Property counts As Integer
 
+        Public ReadOnly Property rootNode As KdTreeNode(Of T)
+            Get
+                Return root
+            End Get
+        End Property
+
         Sub New(points As T(), metric As KdNodeAccessor(Of T))
             Me.access = metric
             Me.dimensions = metric.GetDimensions
             Me.root = buildTree(points, Scan0, Nothing)
+            Me.m_points.AddRange(points)
         End Sub
+
+        Public Function GetPoints() As IEnumerable(Of T)
+            Return m_points.AsEnumerable
+        End Function
 
         Private Function buildTree(points As T(), depth As Integer, parent As KdTreeNode(Of T)) As KdTreeNode(Of T)
             Dim [dim] = depth Mod dimensions.Length
