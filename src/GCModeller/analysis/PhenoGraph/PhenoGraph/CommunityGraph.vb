@@ -1,9 +1,11 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.GraphTheory.KdTree
 Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.DataMining.UMAP.KNN
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
 Imports Microsoft.VisualBasic.Math.Scripting.Rscript
@@ -18,7 +20,7 @@ Imports Microsoft.VisualBasic.Math.Scripting.Rscript
 ''' </summary>
 Public Module CommunityGraph
 
-    Public Function CreatePhenoGraph(data As DataSet(), Optional k As Integer = 30) As NetworkGraph
+    Public Function CreatePhenoGraph(data As DataSet(), Optional k As Integer = 30, Optional cutoff As Double = 0) As NetworkGraph
         Dim propertyNames As String() = data.PropertyNames
         Dim matrix As New List(Of Double())
 
@@ -30,7 +32,7 @@ Public Module CommunityGraph
         Dim graph As NetworkGraph = CreatePhenoGraph(dataMat, k)
 
         For Each v As Node In graph.vertex
-            v.label = data(v.ID).ID
+            v.label = data(Integer.Parse(v.label)).ID
         Next
 
         Return graph
@@ -42,7 +44,7 @@ Public Module CommunityGraph
     ''' <param name="data"></param>
     ''' <param name="k"></param>
     ''' <returns></returns>
-    Public Function CreatePhenoGraph(data As GeneralMatrix, Optional k As Integer = 30) As NetworkGraph
+    Public Function CreatePhenoGraph(data As GeneralMatrix, Optional k As Integer = 30, Optional cutoff As Double = 0) As NetworkGraph
         If k < 1 Then
             Throw New ArgumentException("k must be a positive integer!")
         ElseIf k > data.RowDimension - 2 Then
@@ -57,11 +59,9 @@ Public Module CommunityGraph
 
         ' t1 <- system.time(neighborMatrix <- find_neighbors(data, k=k+1)[,-1])
         Dim t1 As Value(Of Double) = App.ElapsedMilliseconds
-        Dim neighborMatrix = KNearestNeighbour.FindNeighbors(data, k:=k + 1).knnIndices
-        neighborMatrix = neighborMatrix _
-            .Select(Function(r)
-                        Return r.Skip(1).ToArray
-                    End Function) _
+        Dim neighborMatrix = ApproximateNearNeighbor _
+            .FindNeighbors(data, k:=k + 1) _
+            .Select(Function(row) row.indices) _
             .ToArray
 
         cat("DONE ~", t1 = App.ElapsedMilliseconds - CDbl(t1), "s\n", " Compute jaccard coefficient between nearest-neighbor sets...")
@@ -72,7 +72,8 @@ Public Module CommunityGraph
 
         ' take rows
         ' colnames(relations)<- c("from","to","weight")
-        links = links(links(0, byRow:=False) > 0)
+        ' which its coefficient should be greater than ZERO
+        links = links(links(2, byRow:=False) > cutoff)
 
         Dim t3 As Value(Of Double) = App.ElapsedMilliseconds
         Dim g = DirectCast(links, NumericMatrix).AsGraph()
@@ -109,6 +110,8 @@ Public Module CommunityGraph
         Dim [to] As String
         Dim weight As Double
 
+        VBDebugger.Mute = True
+
         For Each row As Vector In links.RowVectors
             from = row(0)
             [to] = row(1)
@@ -127,6 +130,8 @@ Public Module CommunityGraph
                 weight:=weight
             )
         Next
+
+        VBDebugger.Mute = False
 
         Return g
     End Function
