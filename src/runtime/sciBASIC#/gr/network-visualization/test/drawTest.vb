@@ -59,11 +59,11 @@ Module drawTest
         'Call DrawTest()
         'Call Pause()
 
-        Dim graph = CytoscapeTableLoader.CytoscapeExportAsGraph("C:\Users\xieguigang\Source\Repos\sciBASIC\gr\Datavisualization.Network\net_test\xcb-main-Edges.csv", "C:\Users\xieguigang\Source\Repos\sciBASIC\gr\Datavisualization.Network\net_test\xcb-main-Nodes.csv")
-        Call graph.doForceLayout(iterations:=100, showProgress:=True)
-        Call graph.Tabular.Save("./")
-        Call graph.DrawImage("2000,2000").Save("./test.png")
-        Call vbnet.Save(graph.Tabular, "./network.vbnet")
+        'Dim graph = CytoscapeTableLoader.CytoscapeExportAsGraph("C:\Users\xieguigang\Source\Repos\sciBASIC\gr\Datavisualization.Network\net_test\xcb-main-Edges.csv", "C:\Users\xieguigang\Source\Repos\sciBASIC\gr\Datavisualization.Network\net_test\xcb-main-Nodes.csv")
+        'Call graph.doForceLayout(iterations:=100, showProgress:=True)
+        'Call graph.Tabular.Save("./")
+        'Call graph.DrawImage("2000,2000").Save("./test.png")
+        'Call vbnet.Save(graph.Tabular, "./network.vbnet")
     End Sub
 
     Private Function DrawTest()
@@ -90,9 +90,20 @@ Module drawTest
         Dim results = tree.nearest(New FDGVector3(-128, 0, 10), 3).ToArray
 
         Dim tree2 As New KdTree(Of Point2D)(points2, New PointAccess)
-        Call DrawKDTree.Plot(tree2, {New NamedValue(Of PointF)("1", points2.Random, "red")}, k:=20).Save("./test.png")
+        Dim query = {
+            New NamedValue(Of PointF)("1", points2.Random, "#009EFB"),
+            New NamedValue(Of PointF)("1", points2.Random, "#55CE63"),
+            New NamedValue(Of PointF)("1", points2.Random, "#F62D51"),
+            New NamedValue(Of PointF)("1", points2.Random, "#FFBC37"),
+            New NamedValue(Of PointF)("1", points2.Random, "#7460EE"),
+            New NamedValue(Of PointF)("1", points2.Random, "#52E5DD"),
+            New NamedValue(Of PointF)("1", points2.Random, "#984ea3"),
+            New NamedValue(Of PointF)("1", points2.Random, "#ffff00")
+        }
 
-        Pause()
+        Call DrawKDTree.Plot(tree2, query, k:=30, size:="1600,900", padding:="padding: 20px 20px 20px 20px;").Save("./test.png")
+
+        ' Pause()
     End Sub
 End Module
 
