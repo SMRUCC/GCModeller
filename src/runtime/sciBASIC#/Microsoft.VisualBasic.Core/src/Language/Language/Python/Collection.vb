@@ -57,6 +57,9 @@ Namespace Language.Python
         ''' </param>
         ''' <param name="[step]"></param>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' 20210810 test success by kdtree
+        ''' </remarks>
         <Extension>
         Public Iterator Function slice(Of T)([set] As IEnumerable(Of T),
                                              Optional start% = 0,

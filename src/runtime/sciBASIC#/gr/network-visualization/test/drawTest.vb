@@ -74,7 +74,7 @@ Module drawTest
 
     Sub drawKDTreeTest()
         Dim size As New Size(3600, 2700)
-        ' Dim points As Point2D() = 1000.SeqRandom.Select(Function(i) New Point2D(randf.NextInteger(size.Width), randf.NextInteger(size.Height))).ToArray
+        Dim points2 As Point2D() = 1000.SeqRandom.Select(Function(i) New Point2D(randf.NextInteger(size.Width), randf.NextInteger(size.Height))).ToArray
         Dim points As FDGVector3() = {
              New FDGVector3(0, 0, 0),
              New FDGVector3(10, 10, 10),
@@ -89,7 +89,8 @@ Module drawTest
 
         Dim results = tree.nearest(New FDGVector3(-128, 0, 10), 3).ToArray
 
-        ' Call DrawKDTree.Plot(tree, {New NamedValue(Of PointF)("1", points.Random, "red")}, k:=20).Save("./test.png")
+        Dim tree2 As New KdTree(Of Point2D)(points2, New PointAccess)
+        Call DrawKDTree.Plot(tree2, {New NamedValue(Of PointF)("1", points2.Random, "red")}, k:=20).Save("./test.png")
 
         Pause()
     End Sub
