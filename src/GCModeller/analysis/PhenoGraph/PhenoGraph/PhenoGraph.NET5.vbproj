@@ -7,6 +7,7 @@
     <Platforms>AnyCPU;x64</Platforms>
     <AssemblyName>SMRUCC.genomics.Analysis.Microarray.PhenoGraph</AssemblyName>
     <StartupObject />
+    <Configurations>Debug;Release;Rsharp_app_release</Configurations>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -20,6 +21,10 @@
     <DocumentationFile>SMRUCC.genomics.Analysis.Microarray.PhenoGraph.xml</DocumentationFile>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|AnyCPU'">
+    <DocumentationFile>SMRUCC.genomics.Analysis.Microarray.PhenoGraph.xml</DocumentationFile>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <DocumentationFile>SMRUCC.genomics.Analysis.Microarray.PhenoGraph.xml</DocumentationFile>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
@@ -29,6 +34,14 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <DocumentationFile>SMRUCC.genomics.Analysis.Microarray.PhenoGraph.xml</DocumentationFile>
+    <Optimize>false</Optimize>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineConstants>netcore5=1</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|x64'">
     <DocumentationFile>SMRUCC.genomics.Analysis.Microarray.PhenoGraph.xml</DocumentationFile>
     <Optimize>false</Optimize>
     <DebugSymbols>true</DebugSymbols>
