@@ -44,6 +44,7 @@ Imports System.Drawing.Drawing2D
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
@@ -131,7 +132,7 @@ Public Module FunctionalNetwork
             node.data.size = {Val(node.data(NamesOf.REFLECTION_ID_MAPPING_DEGREE))}
         Next
 
-        Call graph.ScaleRadius(range:=radius)
+        Call graph.ScaleRadius(range:=DoubleRange.TryParse(radius))
 
         If layouts.IsNullOrEmpty Then
             Dim defaultFile$ = App.InputFile.ParentPath & "/" & SpringForce.Parameters.DefaultFileName
