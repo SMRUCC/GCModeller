@@ -17,7 +17,7 @@ for(i in 1:nrow(all_category)) {
     print("reaction class item:");
     print(category);
 
-    if ((class != "") && (!is.null(class))) {
+    if (!is.null(class)) {
         class
         |> xml
         |> writeLines(con = `${category}.XML`)

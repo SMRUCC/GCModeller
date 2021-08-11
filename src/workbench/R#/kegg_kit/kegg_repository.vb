@@ -263,6 +263,29 @@ Public Module kegg_repository
         End If
     End Function
 
+    <ExportAPI("reactionsId")>
+    Public Function getReactionsId(<RRawVectorArgument> repo As Object, Optional env As Environment = Nothing)
+        Dim dataRepo = pipeline.TryCreatePipeline(Of Map)(repo, env)
+
+        If Not dataRepo.isError Then
+            Return dataRepo _
+                .populates(Of Map)(env) _
+                .Select(Function(map)
+                            Return map.shapes _
+                                .Select(Function(poly) poly.IDVector) _
+                                .IteratesALL
+                        End Function) _
+                .IteratesALL _
+                .Distinct _
+                .Where(Function(id)
+                           Return id.IsPattern("R\d+")
+                       End Function) _
+                .ToArray
+        End If
+
+        Return dataRepo.getError
+    End Function
+
     ''' <summary>
     ''' get a vector of kegg compound id from the kegg reaction_class/pathway maps data repository
     ''' </summary>
