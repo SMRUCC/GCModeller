@@ -40,6 +40,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver
@@ -95,7 +96,7 @@ Public Module DEGPlot
 
         Return New ClassChanges(
             deg:=deg,
-            radius:=radius,
+            radius:=DoubleRange.TryParse(radius),
             theme:=theme,
             orderByClass:=orderByClass
         ) With {.xlabel = xlab}.Plot(size, ppi:=dpi)

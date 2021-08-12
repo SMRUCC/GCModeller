@@ -118,7 +118,7 @@ Public Module PathwayMapNetwork
 
         Dim ranks As Vector = edges _
             .Select(Function(x) x.value) _
-            .RangeTransform("0,100") _
+            .RangeTransform({0, 100}) _
             .AsVector
 
         edges = edges(Which.IsTrue(ranks >= 3))

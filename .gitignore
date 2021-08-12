@@ -271,3 +271,6 @@ src/workbench/GCModeller_1.1.0-beta.zip
 src/repository/Bio.Repository/.vs/Bio.Repository/DesignTimeBuild/.dtbcache.v2
 src/repository/Bio.Repository/.vs/repository/DesignTimeBuild/.dtbcache.v2
 *.v2
+src/GCModeller/analysis/PhenoGraph/Rphenograph_0.99.1.tar.gz
+src/GCModeller/analysis/PhenoGraph/Rphenograph/src/jaccard_coeff.o
+src/GCModeller/analysis/PhenoGraph/Rphenograph/src/RcppExports.o
