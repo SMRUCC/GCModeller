@@ -52,10 +52,11 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Namespace LinearAlgebra.LinearProgramming
 
     ''' <summary>
-    ''' Linear programming solver from: 
-    ''' 
-    ''' https://github.com/gthole/lpp
+    ''' solve continuous-space linear programming problems by the simplex method.
     ''' </summary>
+    ''' <remarks>
+    ''' java source: https://github.com/gthole/lpp
+    ''' </remarks>
     Public Class LPP
 
         Friend ReadOnly objectiveFunctionType As OptimizationType
@@ -69,6 +70,7 @@ Namespace LinearAlgebra.LinearProgramming
         Friend ReadOnly constraintCoefficients() As List(Of Double)
         Friend ReadOnly constraintTypes() As String
         Friend ReadOnly constraintRightHandSides() As Double
+
         Friend objectiveFunctionValue As Double
 
         Public Shared Property PIVOT_ITERATION_LIMIT As Integer = 1000
