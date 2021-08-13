@@ -79,6 +79,10 @@ Public NotInheritable Class Umap : Inherits IDataEmbedding
     ReadOnly _progressReporter As RunSlavePipeline.SetProgressEventHandler
     ReadOnly _optimizationState As OptimizationState
     ReadOnly _customMapCutoff As Double?
+
+    ''' <summary>
+    ''' run knn search via kd-tree as mectric engine?
+    ''' </summary>
     ReadOnly _kdTreeKNNEngine As Boolean = False
 
     Friend ReadOnly KNNArguments As KNNArguments
@@ -127,6 +131,7 @@ Public NotInheritable Class Umap : Inherits IDataEmbedding
                    Optional bandwidth As Double = 1,
                    Optional customNumberOfEpochs As Integer? = Nothing,
                    Optional customMapCutoff As Double? = Nothing,
+                   Optional kdTreeKNNEngine As Boolean = False,
                    Optional progressReporter As RunSlavePipeline.SetProgressEventHandler = Nothing)
 
         If customNumberOfEpochs IsNot Nothing AndAlso customNumberOfEpochs <= 0 Then
@@ -135,6 +140,7 @@ Public NotInheritable Class Umap : Inherits IDataEmbedding
             KNNArguments = New KNNArguments(numberOfNeighbors, localConnectivity, KnnIter, bandwidth)
         End If
 
+        _kdTreeKNNEngine = kdTreeKNNEngine
         _customMapCutoff = customMapCutoff
         _distanceFn = If(distance, AddressOf DistanceFunctions.Cosine)
         _random = If(random, DefaultRandomGenerator.Instance)
