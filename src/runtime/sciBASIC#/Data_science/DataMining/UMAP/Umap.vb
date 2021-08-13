@@ -50,6 +50,7 @@
 Imports Microsoft.VisualBasic.CommandLine.InteropService.Pipeline
 Imports Microsoft.VisualBasic.DataMining.ComponentModel
 Imports Microsoft.VisualBasic.DataMining.UMAP.KNN
+Imports Microsoft.VisualBasic.DataMining.UMAP.KNN.KDTreeMethod
 Imports Microsoft.VisualBasic.Emit.Marshal
 Imports Microsoft.VisualBasic.Language.Python
 Imports Microsoft.VisualBasic.Math
@@ -177,8 +178,14 @@ Public NotInheritable Class Umap : Inherits IDataEmbedding
         Dim initializeFitProgressReporter As RunSlavePipeline.SetProgressEventHandler = GetProgress()
 
         _x = x
-        ' This part of the process very roughly accounts for 1/3 of the work
-        _knn = New KNearestNeighbour(KNNArguments.k, _distanceFn, _random).NearestNeighbors(x, ScaleProgressReporter(initializeFitProgressReporter, 0, 0.3F))
+
+        If _kdTreeKNNEngine Then
+            _knn = KDTreeMetric.GetKNN(x, k:=KNNArguments.k)
+        Else
+            ' This part of the process very roughly accounts for 1/3 of the work
+            _knn = New KNearestNeighbour(KNNArguments.k, _distanceFn, _random).NearestNeighbors(x, ScaleProgressReporter(initializeFitProgressReporter, 0, 0.3F))
+        End If
+
         ' This part of the process very roughly accounts for 2/3 of the work (the reamining work is in the Step calls)
         _graph = Me.FuzzySimplicialSet(
             x:=x,
