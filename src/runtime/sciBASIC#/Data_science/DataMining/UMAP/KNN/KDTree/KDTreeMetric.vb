@@ -1,4 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.Data.GraphTheory.KdTree
+Imports Microsoft.VisualBasic.Linq
 
 Namespace KNN.KDTreeMethod
 
@@ -15,7 +16,13 @@ Namespace KNN.KDTreeMethod
                 .ToArray
             Dim tree As New KdTree(Of KDPoint)(vectors, New KDAccessor(dims:=vectors(Scan0).size))
             Dim knnSearch = vectors _
-                .Select(Function(p) tree.nearest(p, k).ToArray) _
+                .SeqIterator _
+                .AsParallel _
+                .Select(Function(p)
+                            Return (p.i, tree.nearest(p.value, k).ToArray)
+                        End Function) _
+                .OrderBy(Function(p) p.i) _
+                .Select(Function(i) i.ToArray) _
                 .ToArray
             Dim index As Integer()() = knnSearch _
                 .Select(Function(r)
