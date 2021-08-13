@@ -1,32 +1,52 @@
 ﻿
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.GraphTheory.KdTree
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math.Correlations.DistanceMethods
 
 Namespace KNN.KDTreeMethod
 
     Public Class KDAccessor : Inherits KdNodeAccessor(Of KDPoint)
 
-        Public Overrides Sub setByDimensin(x As KDPoint, dimName As String, value As Double)
-            Throw New NotImplementedException()
+        ReadOnly indexMaps As Dictionary(Of String, Integer)
+
+        Sub New(dims As Integer)
+            indexMaps = dims _
+                .Sequence _
+                .ToDictionary(Function(i) i.ToString,
+                              Function(i)
+                                  Return i
+                              End Function)
         End Sub
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Overrides Sub setByDimensin(x As KDPoint, dimName As String, value As Double)
+            x.vector(indexMaps(dimName)) = value
+        End Sub
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function GetDimensions() As String()
-            Throw New NotImplementedException()
+            Return indexMaps.Keys.ToArray
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function metric(a As KDPoint, b As KDPoint) As Double
-            Throw New NotImplementedException()
+            Return a.vector.EuclideanDistance(b.vector)
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function getByDimension(x As KDPoint, dimName As String) As Double
-            Throw New NotImplementedException()
+            Return x.vector(indexMaps(dimName))
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function nodeIs(a As KDPoint, b As KDPoint) As Boolean
-            Throw New NotImplementedException()
+            Return a Is b
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function activate() As KDPoint
-            Throw New NotImplementedException()
+            Return New KDPoint
         End Function
     End Class
 End Namespace

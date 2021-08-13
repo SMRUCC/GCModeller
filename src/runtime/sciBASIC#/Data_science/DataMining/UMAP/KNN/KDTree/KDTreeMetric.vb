@@ -13,7 +13,7 @@ Namespace KNN.KDTreeMethod
                             }
                         End Function) _
                 .ToArray
-            Dim tree As New KdTree(Of KDPoint)(vectors, New KDAccessor)
+            Dim tree As New KdTree(Of KDPoint)(vectors, New KDAccessor(dims:=vectors(Scan0).size))
             Dim knnSearch = vectors _
                 .Select(Function(p) tree.nearest(p, k).ToArray) _
                 .ToArray
