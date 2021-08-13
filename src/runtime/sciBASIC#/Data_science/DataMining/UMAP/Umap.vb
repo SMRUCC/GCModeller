@@ -47,7 +47,6 @@
 
 #End Region
 
-Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.InteropService.Pipeline
 Imports Microsoft.VisualBasic.DataMining.ComponentModel
 Imports Microsoft.VisualBasic.DataMining.UMAP.KNN
@@ -79,6 +78,7 @@ Public NotInheritable Class Umap : Inherits IDataEmbedding
     ReadOnly _progressReporter As RunSlavePipeline.SetProgressEventHandler
     ReadOnly _optimizationState As OptimizationState
     ReadOnly _customMapCutoff As Double?
+    ReadOnly _kdTreeKNNEngine As Boolean = False
 
     Friend ReadOnly KNNArguments As KNNArguments
 
@@ -97,7 +97,6 @@ Public NotInheritable Class Umap : Inherits IDataEmbedding
     ''' Projected embedding
     ''' </summary>
     Dim _embedding As Double()
-    Dim _rpForest As Tree.FlatTree()
 
     Public Overrides ReadOnly Property dimension As Integer
         Get
@@ -179,7 +178,7 @@ Public NotInheritable Class Umap : Inherits IDataEmbedding
 
         _x = x
         ' This part of the process very roughly accounts for 1/3 of the work
-        _knn = New KNearestNeighbour(KNNArguments.k, _distanceFn, _random).NearestNeighbors(x, ScaleProgressReporter(initializeFitProgressReporter, 0, 0.3F), _rpForest)
+        _knn = New KNearestNeighbour(KNNArguments.k, _distanceFn, _random).NearestNeighbors(x, ScaleProgressReporter(initializeFitProgressReporter, 0, 0.3F))
         ' This part of the process very roughly accounts for 2/3 of the work (the reamining work is in the Step calls)
         _graph = Me.FuzzySimplicialSet(
             x:=x,
