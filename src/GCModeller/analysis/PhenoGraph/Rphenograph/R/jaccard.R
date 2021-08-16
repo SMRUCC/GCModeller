@@ -10,8 +10,8 @@ jaccard_coeff <- function(idx, n_threads = 8) {
     registerDoParallel(cl);
 
     print(sprintf("run parallel for %s lines of index data evaluate jaccard coeff...", nrow));
-    print(head(idx));
-    
+    print(str(head(idx)));
+
     idx     = as.data.frame(idx);
     idxRows = lapply(1:nrow, function(i) {
         as.vector(unlist(idx[i,, drop = TRUE]));
