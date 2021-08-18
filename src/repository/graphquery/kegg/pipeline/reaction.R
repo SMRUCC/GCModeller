@@ -11,10 +11,11 @@ const id      = all_category[, "entry"];
 const url     = "https://www.kegg.jp/dbget-bin/www_bget?rn:%s";
 
 for(i in 1:nrow(all_category)) {
-	if (!file.exists(`${category}.XML`)) {
-		const class    = kegg_reaction(url = sprintf(url, id[i]));
-		const category = repoDir(i);
+	const category = repoDir(i);
 
+	if (!file.exists(`${category}.XML`)) {
+		const class = kegg_reaction(url = sprintf(url, id[i]));
+	
 		print("reaction class item:");
 		print(category);
 
