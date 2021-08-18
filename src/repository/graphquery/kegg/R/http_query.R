@@ -52,18 +52,23 @@ const http_query as function(url, raw = TRUE, graphquery = get_graph("graphquery
 #' @param url image url
 #'
 const getImage as function(url, interval = 3) {
-  readImage(
-    http_get(
-      url = url,
-      streamTo = function(url, cache_file) {
-        # request from remote server
-        # if the cache is not hit,
-        # and then write it to the cache repository
-        wget(url, cache_file);
-      },
-      interval = 3,
-      filetype = "png")
-  );
+  if (file.exists(url)) {
+    # proxy handle local filesystem 
+    readImage(url);
+  } else {
+    readImage(
+      http_get(
+        url = url,
+        streamTo = function(url, cache_file) {
+          # request from remote server
+          # if the cache is not hit,
+          # and then write it to the cache repository
+          wget(url, cache_file);
+        },
+        interval = 3,
+        filetype = "png")
+    );
+  }
 }
 
 #' Http get html or from cache
@@ -73,19 +78,24 @@ const getImage as function(url, interval = 3) {
 #'                 request data from the remote server.
 #'
 const getHtml as function(url, interval = 3) {
-  # finally read data from cache
-  readText(http_get(
-    url = url,
-    streamTo = function(url, cache_file) {
-      writeLines(con = cache_file) {
-        # request from remote server
-        # if the cache is not hit,
-        # and then write it to the cache repository
-        content(requests.get(url));
-      }
-    },
-    interval = 3,
-    filetype = "html")
-  )
-  ;
+  if (file.exists(url)) {
+    # proxy handle local filesystem 
+    readText(url);
+  } else {
+    # finally read data from cache
+    readText(http_get(
+      url = url,
+      streamTo = function(url, cache_file) {
+        writeLines(con = cache_file) {
+          # request from remote server
+          # if the cache is not hit,
+          # and then write it to the cache repository
+          content(requests.get(url));
+        }
+      },
+      interval = 3,
+      filetype = "html")
+    )
+    ;
+  }
 }
