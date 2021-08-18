@@ -34,6 +34,10 @@ Namespace KEGG.Metabolism
             }
         End Function
 
+        ''' <summary>
+        ''' <see cref="NamedValue"/>
+        ''' </summary>
+        ''' <returns></returns>
         Friend Shared Function entryObj() As Dictionary(Of String, NilImplication)
             Return New Dictionary(Of String, NilImplication) From {
                 {NameOf(NamedValue.name), NilImplication.MemberDefault},
@@ -41,7 +45,11 @@ Namespace KEGG.Metabolism
             }
         End Function
 
-        Protected Function dblinkObj() As Dictionary(Of String, NilImplication)
+        ''' <summary>
+        ''' <see cref="DBLink"/>
+        ''' </summary>
+        ''' <returns></returns>
+        Protected Friend Shared Function dblinkObj() As Dictionary(Of String, NilImplication)
             Return New Dictionary(Of String, NilImplication) From {
                 {NameOf(DBLink.DBName), NilImplication.MemberDefault},
                 {NameOf(DBLink.Entry), NilImplication.MemberDefault}
