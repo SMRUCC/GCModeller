@@ -11,18 +11,20 @@ const id      = all_category[, "entry"];
 const url     = "https://www.kegg.jp/dbget-bin/www_bget?rn:%s";
 
 for(i in 1:nrow(all_category)) {
-    const class    = kegg_reaction(url = sprintf(url, id[i]));
-    const category = repoDir(i);
+	if (!file.exists(`${category}.XML`)) {
+		const class    = kegg_reaction(url = sprintf(url, id[i]));
+		const category = repoDir(i);
 
-    print("reaction class item:");
-    print(category);
+		print("reaction class item:");
+		print(category);
 
-    if (!is.null(class)) {
-        class
-        |> xml
-        |> writeLines(con = `${category}.XML`)
-        ;
-    } else {
-        print(`invalid query result of '${category}'`);
-    }
+		if (!is.null(class)) {
+			class
+			|> xml
+			|> writeLines(con = `${category}.XML`)
+			;
+		} else {
+			print(`invalid query result of '${category}'`);
+		}
+	}    
 }
