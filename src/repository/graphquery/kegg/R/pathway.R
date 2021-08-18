@@ -4,7 +4,7 @@ imports "repository" from "kegg_kit";
 #'
 #' @param url the resource url on remote server or local file path for debug
 #'
-const kegg_pathway as function(url) {
+const kegg_pathway as function(url, debug = FALSE) {
   # parse the page text
   const keyValues = keyIndex(http_query(url, raw = FALSE));
   const getDocument = function(keyName) {
@@ -29,13 +29,15 @@ const kegg_pathway as function(url) {
     journal   = keyValues$Journal
   );
 
-  print(pathwayList(modules));
-  print(DBLinks(xref));
-  print(references);
-  print(pathwayList(compounds));
-  print(pathwayList(drugs));
-  print(pathwayList(genes));
-  print(pathwayList(disease));
+  if (debug) {
+    print(pathwayList(modules));
+    print(DBLinks(xref));
+    print(references);
+    print(pathwayList(compounds));
+    print(pathwayList(drugs));
+    print(pathwayList(genes));
+    print(pathwayList(disease));
+  }
 
   if (isNullString(id)) {
     NULL;
