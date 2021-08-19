@@ -60,6 +60,7 @@ Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 Imports Rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 Imports REnv = SMRUCC.Rsharp.Runtime
 Imports Vec = Microsoft.VisualBasic.Math.LinearAlgebra.Vector

@@ -47,7 +47,6 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.My
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.PFSNet
 Imports SMRUCC.genomics.Analysis.PFSNet.DataStructure
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
@@ -56,6 +55,7 @@ Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 
 <Package("PFSNet", Category:=APICategories.ResearchTools)>
 Module PFSNetAnalysis
