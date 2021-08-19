@@ -196,7 +196,8 @@ Public Class Bubble : Inherits Plot
             labelFont:=theme.axisLabelCSS,
             htmlLabel:=False,
             ylayout:=theme.yAxisLayout,
-            gridFill:=theme.gridFill
+            gridFill:=theme.gridFill,
+            XtickFormat:=If(mapper.xAxis.Max > 0.01, "F2", "G2")
         )
 
         Dim bubblePen As Pen = Nothing
