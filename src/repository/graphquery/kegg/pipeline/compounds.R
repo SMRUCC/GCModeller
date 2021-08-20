@@ -13,15 +13,21 @@ const runQuery as function(name) {
     str(class);
 
     for(i in 1:nrow(class)) {
-        const keg_compound = kegg_compound(url = sprintf(url, id[i]));
+		const filepath as string = `${name}/${repoDir(i)}.XML`;
+		
+		if (file.exists(filepath)) {
+			cat(".");
+		} else {
+			const keg_compound = kegg_compound(url = sprintf(url, id[i]));
 
-        if ((keg_compound != "") && (!is.null(keg_compound))) {
+			if ((keg_compound != "") && (!is.null(keg_compound))) {
 
-            keg_compound
-            |> xml
-            |> writeLines(con = `${name}/${repoDir(i)}.XML`)
-            ;
-        }
+				keg_compound
+				|> xml
+				|> writeLines(con = filepath)
+				;
+			}
+		}
     }
 }
 
