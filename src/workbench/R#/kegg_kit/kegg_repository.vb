@@ -155,6 +155,12 @@ Public Module kegg_repository
         If Not reader.isError Then
             Return KEGGCompoundPack.WriteKeggDb(reader.populates(Of Compound)(env), stream)
         Else
+            reader = pipeline.TryCreatePipeline(Of Pathway)(data, env, suppress:=True)
+        End If
+
+        If Not reader.isError Then
+            Return KEGGPathwayPack.WriteKeggDb(reader.populates(Of Pathway)(env), stream)
+        Else
 
         End If
 
@@ -224,13 +230,24 @@ Public Module kegg_repository
     ''' <param name="repository"></param>
     ''' <returns></returns>
     <ExportAPI("load.pathways")>
-    Public Function LoadPathways(repository As String) As PathwayMap()
-        Dim maps = ls - l - r - "*.Xml" <= repository
-        Dim pathwayMaps As PathwayMap() = maps _
-            .Select(AddressOf LoadXml(Of PathwayMap)) _
-            .ToArray
+    <RApiReturn(GetType(PathwayMap), GetType(Pathway))>
+    Public Function LoadPathways(repository As String,
+                                 Optional referenceMap As Boolean = True,
+                                 Optional env As Environment = Nothing) As Object
+        If referenceMap Then
+            Dim maps = ls - l - r - "*.Xml" <= repository
+            Dim pathwayMaps As PathwayMap() = maps _
+                .Select(AddressOf LoadXml(Of PathwayMap)) _
+                .ToArray
 
-        Return pathwayMaps
+            Return pathwayMaps
+        Else
+            If repository.ExtensionSuffix("msgpack", "messagepack") Then
+                Return KEGGPathwayPack.ReadKeggDb(repository)
+            Else
+                Return Internal.debug.stop(New NotImplementedException, env)
+            End If
+        End If
     End Function
 
     ''' <summary>

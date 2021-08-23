@@ -81,11 +81,15 @@ Namespace CatalogProfiling
             Dim indexRange As DoubleRange = {0, colors.Length - 1}
 
             If dataRange.Length = 0 Then
-                colorIndex = enrichResults.Select(Function(any) colors.Length - 1).ToArray
+                colorIndex = enrichResults _
+                    .Select(Function(any) colors.Length - 1) _
+                    .ToArray
             Else
                 colorIndex = enrichResults _
                     .Select(Function(t) dataRange.ScaleMapping(t.PValue, indexRange)) _
-                    .Select(Function(i) CInt(i)) _
+                    .Select(Function(i)
+                                Return CInt(i)
+                            End Function) _
                     .ToArray
             End If
 
@@ -210,37 +214,38 @@ Namespace CatalogProfiling
             Dim legendFontStyle As String = theme.legendLabelCSS
             Dim plot As Rectangle = region.PlotRegion
             Dim legends As LegendObject() = serials _
-            .Select(Function(s)
-                        Return New LegendObject With {
-                            .color = s.color.RGBExpression,
-                            .fontstyle = legendFontStyle,
-                            .style = LegendStyles.Circle,
-                            .title = s.title
-                        }
-                    End Function) _
-            .ToArray
+                .Select(Function(s)
+                            Return New LegendObject With {
+                                .color = s.color.RGBExpression,
+                                .fontstyle = legendFontStyle,
+                                .style = LegendStyles.Circle,
+                                .title = s.title
+                            }
+                        End Function) _
+                .ToArray
             Dim legendFont As Font = CSSFont.TryParse(legendFontStyle).GDIObject(g.Dpi)
             Dim cSize As SizeF = g.MeasureString("0", legendFont)
             Dim legendSize As New SizeF(stdNum.Max(cSize.Width, cSize.Height), stdNum.Max(cSize.Width, cSize.Height))
             Dim maxWidth As Single = legends _
-            .Select(Function(l)
-                        Return g.MeasureString(l.title, legendFont).Width
-                    End Function) _
-            .Max
+                .Select(Function(l)
+                            Return g.MeasureString(l.title, legendFont).Width
+                        End Function) _
+                .Max
             Dim ltopLeft As New Point With {
-            .X = plot.Right + legendSize.Width * 1.25,
-            .Y = region.PlotRegion.Top + (region.PlotRegion.Height - (cSize.Height + 10) * 3) / 2
-        }
+                .X = plot.Right + legendSize.Width * 1.25,
+                .Y = region.PlotRegion.Top + (region.PlotRegion.Height - (cSize.Height + 10) * 3) / 2
+            }
 
             Call g.DrawLegends(
-            ltopLeft,
-            legends,
-            gSize:=$"{legendSize.Width},{legendSize.Height}",
-            regionBorder:=New Stroke With {
-                .fill = "Black",
-                .dash = DashStyle.Solid,
-                .width = 2
-            })
+                ltopLeft,
+                legends,
+                gSize:=$"{legendSize.Width},{legendSize.Height}",
+                regionBorder:=New Stroke With {
+                    .fill = "Black",
+                    .dash = DashStyle.Solid,
+                    .width = 2
+                }
+            )
         End Sub
     End Class
 End Namespace

@@ -21,10 +21,12 @@ Namespace CollectionSet
 
         ReadOnly collections As IntersectionData
         ReadOnly setSizeLabel As String = "Set Size"
+        ReadOnly setSizeBarColor As String = "gray"
 
-        Public Sub New(data As IntersectionData, theme As Theme)
+        Public Sub New(data As IntersectionData, setSizeBarColor As String, theme As Theme)
             MyBase.New(theme)
 
+            Me.setSizeBarColor = setSizeBarColor
             Me.collections = data
         End Sub
 
@@ -186,6 +188,7 @@ Namespace CollectionSet
             Dim scale = d3js.scale.linear.domain(0.0.Join(setSize.Select(Function(i) CDbl(i.Value)))).range(New Double() {0, layout.Width - maxLabelSize.Width})
             Dim labelSize As SizeF
             Dim labelPos As New PointF
+            Dim setSizeColor As Brush = Me.setSizeBarColor.GetBrush
 
             ' label is center alignment?
             For Each label As String In collectionSetLabels
@@ -205,7 +208,7 @@ Namespace CollectionSet
                 ' draw label
                 Call g.DrawString(label, labelFont, Brushes.Black, labelPos)
                 ' draw bar plot
-                Call g.FillRectangle(Brushes.Gray, bar)
+                Call g.FillRectangle(setSizeColor, bar)
 
                 y += maxLabelSize.Height
             Next
