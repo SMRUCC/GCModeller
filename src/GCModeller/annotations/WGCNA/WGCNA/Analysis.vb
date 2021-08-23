@@ -56,9 +56,9 @@ Public Module Analysis
         Dim betaSeq As Double() = seq(1, 10, by:=1).JoinIterates(seq(11, 30, by:=2)).ToArray
         Dim betaList As BetaTest() = BetaTest.BetaTable(cor, betaSeq, adjacency).ToArray
         Dim beta As BetaTest = betaList(BetaTest.Best(betaList))
-        Dim network As GeneralMatrix = cor.WeightedCorrelation(beta.Power, pvalue:=False).Adjacency(adjacency)
+        Dim network As NumericMatrix = cor.WeightedCorrelation(beta.Power, pvalue:=False).Adjacency(adjacency)
         Dim K As New Vector(network.RowApply(AddressOf WeightedNetwork.sumK))
-        Dim tomMat As GeneralMatrix = TOM.Matrix(network, K)
+        Dim tomMat As NumericMatrix = TOM.Matrix(network, K)
         Dim dist As New DistanceMatrix(samples.expression.Keys, 1 - tomMat)
         Dim alg As ClusteringAlgorithm = New DefaultClusteringAlgorithm With {.debug = True}
         Dim matrix As Double()() = dist.PopulateRows _

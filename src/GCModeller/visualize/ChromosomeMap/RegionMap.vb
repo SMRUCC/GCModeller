@@ -72,13 +72,14 @@ Public Module RegionMap
                          Optional referenceLineStroke$ = "stroke: black; stroke-width: 8px; stroke-dash: solid;",
                          Optional drawLocusTag As Boolean = False,
                          Optional drawShapeStroke As Boolean = False,
-                         Optional legendFontCSS$ = CSSFont.Win7Large) As GraphicsData
+                         Optional legendFontCSS$ = CSSFont.Win7Large,
+                         Optional dpi As Integer = 100) As GraphicsData
 
         Dim startLength% = 0
         Dim preRight#
         Dim level%
-        Dim locusTagFont As Font = CSSFont.TryParse(locusTagFontCSS)
-        Dim legendFont As Font = CSSFont.TryParse(legendFontCSS)
+        Dim locusTagFont As Font = CSSFont.TryParse(locusTagFontCSS).GDIObject(dpi)
+        Dim legendFont As Font = CSSFont.TryParse(legendFontCSS).GDIObject(dpi)
         Dim plotInternal =
             Sub(ByRef g As IGraphics, region As GraphicsRegion)
                 Dim width = region.Width

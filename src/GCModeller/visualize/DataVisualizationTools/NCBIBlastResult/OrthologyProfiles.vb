@@ -238,9 +238,10 @@ Namespace NCBIBlastResult
                              Optional axisTicksFontCSS$ = CSSFont.Win7LittleLarge,
                              Optional tick# = -1,
                              Optional tickHeight% = 10,
-                             Optional tickStroke$ = Stroke.AxisStroke) As GraphicsData
+                             Optional tickStroke$ = Stroke.AxisStroke,
+                             Optional dpi As Integer = 100) As GraphicsData
 
-            Dim labelFont As Font = CSSFont.TryParse(labelFontCSS)
+            Dim labelFont As Font = CSSFont.TryParse(labelFontCSS).GDIObject(dpi)
             Dim profiles As OrthologyProfile() = profileData _
                 .OrderByDescending(Function(p) p.Total) _
                 .ToArray
@@ -249,10 +250,10 @@ Namespace NCBIBlastResult
                 .Select(Function(orth) orth.Category) _
                 .MaxLengthString
             Dim boxStroke As Pen = Stroke.TryParse(boxBorderStrokeCSS)
-            Dim titleFont As Font = CSSFont.TryParse(titleFontCSS)
-            Dim axisLabelFont As Font = CSSFont.TryParse(axisLabelFontCSS)
+            Dim titleFont As Font = CSSFont.TryParse(titleFontCSS).GDIObject(dpi)
+            Dim axisLabelFont As Font = CSSFont.TryParse(axisLabelFontCSS).GDIObject(dpi)
             Dim ticks#() = CatalogProfiling.GetTicks(maxCount, tick)
-            Dim tickFont As Font = CSSFont.TryParse(axisTicksFontCSS)
+            Dim tickFont As Font = CSSFont.TryParse(axisTicksFontCSS).GDIObject(dpi)
             Dim tickPen As Pen = Stroke.TryParse(tickStroke)
 
             ' 将最大的统计数量设置为axis的最大值，可以让图表更加美观

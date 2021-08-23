@@ -94,7 +94,8 @@ Namespace NCBIBlastResult
                                       Optional selectList$() = Nothing,
                                       Optional removeList$() = Nothing,
                                       Optional tagFontCSS$ = CSSFont.UbuntuBold,
-                                      Optional title$ = "Orthologs BBH Matrix") As Image
+                                      Optional title$ = "Orthologs BBH Matrix",
+                                      Optional dpi As Integer = 100) As Image
 
             If custom_orders.IsNullOrEmpty Then
                 bh.hits = LinqAPI.Exec(Of HitCollection) <=
@@ -127,7 +128,7 @@ Namespace NCBIBlastResult
                 Call list.Add(bh.hits(i))
             Next
 
-            Dim TagFont As Font = CSSFont.TryParse(tagFontCSS).GDIObject
+            Dim TagFont As Font = CSSFont.TryParse(tagFontCSS).GDIObject(dpi)
             Dim table = CreateAlphabetTagSerials(bh.hits.First.hits.Select(Function(h) h.tag).ToArray)
             Dim maxIdLength = (From hits As HitCollection
                                In list
