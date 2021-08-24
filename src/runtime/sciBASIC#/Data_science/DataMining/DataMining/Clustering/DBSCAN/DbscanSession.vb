@@ -1,5 +1,6 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.DataMining.Clustering
+Imports Microsoft.VisualBasic.Linq
 Imports stdNum = System.Math
 
 Namespace DBSCAN
@@ -80,6 +81,59 @@ Namespace DBSCAN
 
             Return Me
         End Function
+
+        Private Function CheckNeighborPts(pn As DbscanPoint(Of T)) As DbscanPoint(Of T)()
+            If dbscan._full OrElse Not pn.IsVisited Then
+                Dim neighborPts2 = RegionQuerySingle(pn.ClusterPoint).ToArray
+
+                SyncLock pn
+                    pn.IsVisited = True
+                    pn.ClusterId = If(isNoise(pn.ID), ClusterIDs.Noise, pn.ClusterId)
+                End SyncLock
+
+                If neighborPts2.Length >= minPts Then
+                    Return neighborPts2
+                Else
+                    Return {}
+                End If
+            Else
+                Return {}
+            End If
+        End Function
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="neighborPts">other points in same region with point parameter</param>
+        ''' <param name="clusterId">given clusterId</param>
+        Public Sub ExpandClusterParallel(neighborPts As DbscanPoint(Of T)(), clusterId As Integer, stackDepth As Integer)
+            Dim queryNeighborPts = From pn As DbscanPoint(Of T)
+                                   In neighborPts.AsParallel
+                                   Where Not pn.IsVisited
+                                   Select CheckNeighborPts(pn)
+            Dim neighborPts2 As DbscanPoint(Of T)() = queryNeighborPts _
+                .IteratesALL _
+                .Distinct _
+                .ToArray
+
+            For Each pn As DbscanPoint(Of T) In neighborPts
+                pn.IsVisited = True
+
+                If pn.ClusterId = ClusterIDs.Unclassified OrElse pn.ClusterId = ClusterIDs.Noise Then
+                    pn.ClusterId = clusterId
+                End If
+            Next
+
+            If (stackDepth + 1) < maxStackSize Then
+                For Each pn As DbscanPoint(Of T) In neighborPts2
+                    If pn.IsVisited Then
+                        Continue For
+                    Else
+                        Call ExpandClusterParallel(neighborPts2, clusterId, stackDepth + 1)
+                    End If
+                Next
+            End If
+        End Sub
 
         ''' <summary>
         ''' 

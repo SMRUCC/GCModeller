@@ -162,7 +162,7 @@ Namespace DBSCAN
                     p.ClusterId = clusterId
 
                     Call seeds.Add(i)
-                    Call session.ExpandCluster(neighborPts, clusterId, stackDepth:=0)
+                    Call session.ExpandClusterParallel(neighborPts, clusterId, stackDepth:=0)
                 End If
             Next
 
