@@ -22,10 +22,12 @@ Namespace CollectionSet
         ReadOnly collections As IntersectionData
         ReadOnly setSizeLabel As String = "Set Size"
         ReadOnly setSizeBarColor As String = "gray"
+        ReadOnly desc As Boolean = False
 
-        Public Sub New(data As IntersectionData, setSizeBarColor As String, theme As Theme)
+        Public Sub New(data As IntersectionData, desc As Boolean, setSizeBarColor As String, theme As Theme)
             MyBase.New(theme)
 
+            Me.desc = desc
             Me.setSizeBarColor = setSizeBarColor
             Me.collections = data
         End Sub
@@ -121,7 +123,7 @@ Namespace CollectionSet
                                 Return (index:=combine.Indexing, intersect)
                             End Function) _
                     .Where(Function(d) d.intersect.Length > 0) _
-                    .OrderBy(Function(d) d.intersect.Length) _
+                    .Sort(Function(d) d.intersect.Length, desc) _
                     .ToArray
 
                 ' draw for each combine group
