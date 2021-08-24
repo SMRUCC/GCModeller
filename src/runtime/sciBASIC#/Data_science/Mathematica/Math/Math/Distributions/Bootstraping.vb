@@ -106,6 +106,10 @@ Namespace Distributions
                                  Else
                                      Dim i As Integer
 
+                                     If index.Count = 0 Then
+                                         Return
+                                     End If
+
                                      ' 无放回的抽样
                                      For k As Integer = 0 To N - 1
                                          i = seeds.Next(index.Count)
@@ -113,6 +117,10 @@ Namespace Distributions
                                          index.Remove(item:=i)
 
                                          Yield array(i)
+
+                                         If index.Count = 0 Then
+                                             Return
+                                         End If
                                      Next
                                  End If
                              End Function
