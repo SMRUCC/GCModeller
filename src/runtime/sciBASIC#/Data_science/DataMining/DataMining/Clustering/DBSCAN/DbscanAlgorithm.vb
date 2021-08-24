@@ -137,9 +137,17 @@ Namespace DBSCAN
         Private Function IteratesAllPoints(session As DbscanSession(Of T)) As Integer()
             Dim clusterId As Integer = 0
             Dim seeds As New List(Of Integer)
+            Dim j As i32 = 0
+            Dim size As Integer = session.allPoints.Length
+            Dim d As Integer = size / 20
 
-            For i As Integer = 0 To session.allPoints.Length - 1
+            For i As Integer = 0 To size - 1
                 Dim p As DbscanPoint(Of T) = session.allPoints(i)
+
+                If ++j = d Then
+                    j = 0
+                    Call Console.WriteLine($" [{i}/{size}] query {p.ID}...{CInt(100 * i / size)}%")
+                End If
 
                 If p.IsVisited AndAlso Not (p.ClusterId = ClusterIDs.Unclassified OrElse p.ClusterId = ClusterIDs.Noise) Then
                     Continue For
