@@ -9,7 +9,7 @@ Namespace DBSCAN
     Public Module Extensions
 
         <Extension>
-        Public Iterator Function RunClustering(data As IEnumerable(Of EntityClusterModel), eps As Double, minPts As Integer) As IEnumerable(Of EntityClusterModel)
+        Public Iterator Function RunDbscanCluster(data As IEnumerable(Of EntityClusterModel), eps As Double, minPts As Integer) As IEnumerable(Of EntityClusterModel)
             With data.ToArray
                 Dim metrix As New Metric(.Select(Function(v) v.Properties.Keys).IteratesALL)
                 Dim dbscan As New DbscanAlgorithm(Of EntityClusterModel)(AddressOf metrix.DistanceTo)
