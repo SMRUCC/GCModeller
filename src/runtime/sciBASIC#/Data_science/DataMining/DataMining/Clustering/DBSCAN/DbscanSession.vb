@@ -10,12 +10,12 @@ Namespace DBSCAN
         ''' <summary>
         ''' Dataset
         ''' </summary>
-        ReadOnly allPoints As DbscanPoint(Of T)()
+        Friend ReadOnly allPoints As DbscanPoint(Of T)()
         ''' <summary>
         ''' radius of center point
         ''' </summary>
         ReadOnly epsilon As Double
-        ReadOnly minPts As Integer
+        Friend ReadOnly minPts As Integer
         ReadOnly densityCut As Double = -1
         ReadOnly maxStackSize As Integer
 
@@ -116,6 +116,18 @@ Namespace DBSCAN
                 End If
             Loop
         End Sub
+
+        ''' <summary>
+        ''' Checks and searchs neighbor points for given point
+        ''' </summary>
+        ''' <param name="point">centered point to be searched neighbors</param>
+        ''' <returns>result neighbors</returns>
+        ''' 
+        Private Function RegionQuerySingle(point As T) As IEnumerable(Of DbscanPoint(Of T))
+            Return From x As DbscanPoint(Of T)
+                   In allPoints
+                   Where dbscan._metricFunc(point, x.ClusterPoint) <= epsilon
+        End Function
 
         ReadOnly queryCache As New Dictionary(Of T, DbscanPoint(Of T)())
 

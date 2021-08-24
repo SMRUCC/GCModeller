@@ -101,12 +101,45 @@ Namespace DBSCAN
                             }
                         End Function) _
                 .ToArray()
+            Dim session As DbscanSession(Of T) = New DbscanSession(Of T)(
+                dbscan:=Me,
+                allPoints:=allPointsDbscan,
+                epsilon:=epsilon,
+                minPts:=minPts
+            ).LoadDensityVector(densityCut)
+
+            is_seed = IteratesAllPoints(session)
+
+            With allPointsDbscan _
+                .Where(Function(x)
+                           If Not filterNoise Then
+                               Return True
+                           Else
+                               Return x.ClusterId > 0
+                           End If
+                       End Function) _
+                .GroupBy(Function(x)
+                             Return x.ClusterId
+                         End Function)
+
+                Return .Select(Function(x)
+                                   Return New NamedCollection(Of T) With {
+                                       .name = x.Key,
+                                       .value = x _
+                                           .Select(Function(y) y.ClusterPoint) _
+                                           .ToArray()
+                                   }
+                               End Function) _
+                       .ToArray
+            End With
+        End Function
+
+        Private Function IteratesAllPoints(session As DbscanSession(Of T)) As Integer()
             Dim clusterId As Integer = 0
             Dim seeds As New List(Of Integer)
-            Dim session As DbscanSession(Of T) = New DbscanSession(Of T)(Me, allPointsDbscan, epsilon, minPts).LoadDensityVector(densityCut)
 
-            For i As Integer = 0 To allPointsDbscan.Length - 1
-                Dim p As DbscanPoint(Of T) = allPointsDbscan(i)
+            For i As Integer = 0 To session.allPoints.Length - 1
+                Dim p As DbscanPoint(Of T) = session.allPoints(i)
 
                 If p.IsVisited AndAlso Not (p.ClusterId = ClusterIDs.Unclassified OrElse p.ClusterId = ClusterIDs.Noise) Then
                     Continue For
@@ -121,42 +154,19 @@ Namespace DBSCAN
 
                 Dim neighborPts As DbscanPoint(Of T)() = session.RegionQuery(p.ClusterPoint)
 
-                If neighborPts.Length < minPts Then
+                If neighborPts.Length < session.minPts Then
                     p.ClusterId = ClusterIDs.Noise
                 Else
                     clusterId += 1
                     ' point to be in a cluster
                     p.ClusterId = clusterId
 
-                    Call session.ExpandCluster(neighborPts, clusterId, 0)
                     Call seeds.Add(i)
+                    Call session.ExpandCluster(neighborPts, clusterId, stackDepth:=0)
                 End If
             Next
 
-            With allPointsDbscan _
-                .Where(Function(x)
-                           If Not filterNoise Then
-                               Return True
-                           Else
-                               Return x.ClusterId > 0
-                           End If
-                       End Function) _
-                .GroupBy(Function(x)
-                             Return x.ClusterId
-                         End Function)
-
-                is_seed = seeds.ToArray
-
-                Return .Select(Function(x)
-                                   Return New NamedCollection(Of T) With {
-                                       .name = x.Key,
-                                       .value = x _
-                                           .Select(Function(y) y.ClusterPoint) _
-                                           .ToArray()
-                                   }
-                               End Function) _
-                       .ToArray
-            End With
+            Return seeds
         End Function
     End Class
 End Namespace
