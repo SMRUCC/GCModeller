@@ -194,20 +194,35 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             Return StreamParser(My.Resources.br08901)
         End Function
 
+#If netcore5 = 0 Then
         Private Shared Function getResourceCache() As ResourcesSatellite
             Static satellite As New ResourcesSatellite(GetType(LICENSE))
             Return satellite
+        End Function
+#End If
+
+        Private Shared Function GetInternalResourceText(resourceName As String) As String
+            Return My.Resources.ResourceManager.GetString(resourceName)
         End Function
 
         Public Shared Function GetInternalResource(resourceName As String) As htext
             Dim resource$ = Nothing
 
             If resourceName.IsPattern(Patterns.Identifer, RegexICSng) Then
+#If netcore5 = 0 Then
                 resource = getResourceCache.GetString(resourceName)
+#Else
+                resource = GetInternalResourceText(resourceName)
+#End If
+
             ElseIf resourceName.IsURLPattern Then
                 With resourceName.Split("?"c).Last.Match("[0-9a-zA-Z_]+\.keg")
                     If Not .StringEmpty Then
+#If netcore5 = 0 Then
                         resource = getResourceCache.GetString(.Replace(".keg", ""))
+#Else
+                        Throw New NotImplementedException
+#End If
                     End If
                 End With
 

@@ -206,4 +206,34 @@
   <data name="br08204" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\KEGG\Reactions\br08204.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
+  <data name="br08001" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\KEGG\Compounds\br08001.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="br08002" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\KEGG\Compounds\br08002.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="br08003" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\KEGG\Compounds\br08003.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="br08005" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\KEGG\Compounds\br08005.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="br08006" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\KEGG\Compounds\br08006.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="br08007" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\KEGG\Compounds\br08007.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="br08008" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\KEGG\Compounds\br08008.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="br08009" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\KEGG\Compounds\br08009.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="br08010" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\KEGG\Compounds\br08010.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="br08021" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\KEGG\Compounds\br08021.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
 </root>
