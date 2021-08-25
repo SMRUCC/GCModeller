@@ -44,10 +44,11 @@ Namespace CollectionSet
             Dim topbarLayout As New Rectangle(bottomIntersection.Left, plotRect.Top, bottomIntersection.Width, plotRect.Height - bottomIntersection.Height)
             Dim barData As New List(Of NamedValue(Of Integer))
             Dim boxWidth As Double = -1
+            Dim boxHeight As Double = -1
 
-            Call drawBottomIntersctionVisualize(g, collectionSetLabels, barData, boxWidth:=boxWidth, layout:=bottomIntersection)
+            Call drawBottomIntersctionVisualize(g, collectionSetLabels, barData, boxWidth:=boxWidth, boxHeight:=boxHeight, layout:=bottomIntersection)
             Call drawLeftBarSet(g, labelFont, collectionSetLabels, layout:=New Rectangle(leftSetSizeBar.X, leftSetSizeBar.Y, leftSetSizeBar.Width - boxWidth * 5, leftSetSizeBar.Height))
-            Call drawTopBarPlot(g, barData, boxWidth:=boxWidth, layout:=topbarLayout)
+            Call drawTopBarPlot(g, barData, boxWidth:=boxWidth, layout:=topbarLayout, boxHeight:=boxHeight)
         End Sub
 
         ''' <summary>
@@ -66,7 +67,7 @@ Namespace CollectionSet
                 .ToArray
         End Function
 
-        Private Sub drawBottomIntersctionVisualize(g As IGraphics, collectionSetLabels As String(), barData As List(Of NamedValue(Of Integer)), ByRef boxWidth As Double, layout As Rectangle)
+        Private Sub drawBottomIntersctionVisualize(g As IGraphics, collectionSetLabels As String(), barData As List(Of NamedValue(Of Integer)), ByRef boxWidth As Double, ByRef boxHeight As Double, layout As Rectangle)
             Dim dh As Double = layout.Height / collectionSetLabels.Length
             Dim allCompares = getCombinations(collectionSetLabels).ToArray
             ' unique + combinations
@@ -74,8 +75,8 @@ Namespace CollectionSet
             Dim widthPerGroup As Double = layout.Width / collections.size
 
             boxWidth = widthPerGroup / dotsPerGroup
+            boxHeight = layout.Height / collectionSetLabels.Length
 
-            Dim boxHeight As Double = layout.Height / collectionSetLabels.Length
             Dim pointSize As Double = stdNum.Min(boxWidth, boxHeight) / 3
             Dim gray As New SolidBrush(Color.LightGray)
             Dim linkStroke As Pen = Stroke.TryParse(theme.lineStroke)
@@ -231,7 +232,11 @@ Namespace CollectionSet
 
             g.DrawLine(pen, a, b)
 
-            For Each tick As Double In New DoubleRange(0.Join(setSize.Values)).CreateAxisTicks
+            For Each tick As Double In New DoubleRange(0.Join(setSize.Values)).CreateAxisTicks(ticks:=3, decimalDigits:=0)
+                If stdNum.Abs(tick) < 0.01 Then
+                    tick = 0
+                End If
+
                 Dim tickX As Double = a.X - scale(tick)
                 Dim label As String = tick.ToString(theme.XaxisTickFormat)
 
@@ -254,7 +259,7 @@ Namespace CollectionSet
             g.DrawString("Set Size", labelFont, Brushes.Black, labelPos)
         End Sub
 
-        Private Sub drawTopBarPlot(g As IGraphics, barData As List(Of NamedValue(Of Integer)), boxWidth As Double, layout As Rectangle)
+        Private Sub drawTopBarPlot(g As IGraphics, barData As List(Of NamedValue(Of Integer)), boxWidth As Double, boxHeight As Double, layout As Rectangle)
             Dim yTick = barData.Select(Function(d) CDbl(d.Value)).JoinIterates({0.0, 1.0}).CreateAxisTicks
             Dim scaleY = d3js.scale.linear.domain(yTick).range(New Double() {0, layout.Height})
             Dim x As Double = layout.Left
@@ -267,7 +272,12 @@ Namespace CollectionSet
             }
 
             ' draw axis
-            Call g.DrawY(pen, "Intersection Size", yscale, 0, yTick, YAxisLayoutStyles.Left, New Point(0, -boxWidth), theme.axisLabelCSS, CSSFont.TryParse(theme.axisTickCSS).GDIObject(g.Dpi), htmlLabel:=False)
+            Call g.DrawY(pen, "Intersection Size", yscale, 0, yTick, YAxisLayoutStyles.Left,
+                         New Point(0, -boxHeight),
+                         theme.axisLabelCSS,
+                         CSSFont.TryParse(theme.axisTickCSS).GDIObject(g.Dpi),
+                         htmlLabel:=False
+            )
 
             For Each bar In barData
                 Dim barHeight As Double = scaleY(bar.Value)
