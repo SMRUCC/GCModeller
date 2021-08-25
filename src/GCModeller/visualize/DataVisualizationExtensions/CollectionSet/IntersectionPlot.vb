@@ -88,33 +88,33 @@ Namespace CollectionSet
                 Dim color As New SolidBrush(factor.color)
                 Dim htmlColor As String = factor.color.ToHtmlColor
 
-                ' single & unique
-                For Each label As String In collectionSetLabels
-                    ' get all data only appears in current collection
-                    Dim unique As Integer = allData(label).Length
+                '' single & unique
+                'For Each label As String In collectionSetLabels
+                '    ' get all data only appears in current collection
+                '    Dim unique As Integer = allData(label).Length
 
-                    Call New NamedValue(Of Integer) With {
-                        .Name = label,
-                        .Value = unique,
-                        .Description = htmlColor
-                    }.DoCall(AddressOf barData.Add)
+                '    Call New NamedValue(Of Integer) With {
+                '        .Name = label,
+                '        .Value = unique,
+                '        .Description = htmlColor
+                '    }.DoCall(AddressOf barData.Add)
 
-                    For Each label2 As String In collectionSetLabels
-                        If label <> label2 OrElse unique = 0 Then
-                            ' gray dot
-                            Call g.FillCircles(gray, {New Point(x, y)}, pointSize)
-                        Else
-                            Call g.FillCircles(color, {New Point(x, y)}, pointSize)
-                        End If
+                '    For Each label2 As String In collectionSetLabels
+                '        If label <> label2 OrElse unique = 0 Then
+                '            ' gray dot
+                '            Call g.FillCircles(gray, {New Point(x, y)}, pointSize)
+                '        Else
+                '            Call g.FillCircles(color, {New Point(x, y)}, pointSize)
+                '        End If
 
-                        y += boxHeight
-                    Next
+                '        y += boxHeight
+                '    Next
 
-                    x += boxWidth
-                    y = layout.Top + pointSize
-                Next
+                '    x += boxWidth
+                '    y = layout.Top + pointSize
+                'Next
 
-                Dim intersectList = allCompares _
+                Dim intersectList As (index As Index(Of String), intersect As String())() = allCompares _
                     .Select(Function(combine)
                                 Dim intersect As String() = factor _
                                     .GetIntersection(combine) _
@@ -123,6 +123,10 @@ Namespace CollectionSet
                                 Return (index:=combine.Indexing, intersect)
                             End Function) _
                     .Where(Function(d) d.intersect.Length > 0) _
+                    .JoinIterates(collectionSetLabels.Select(Function(lbl)
+                                                                 Dim unique As String() = factor.GetUniqueId(lbl)
+                                                                 Return ({lbl}.Indexing, unique)
+                                                             End Function)) _
                     .Sort(Function(d) d.intersect.Length, desc) _
                     .ToArray
 
