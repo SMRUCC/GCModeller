@@ -11,3 +11,6 @@
 [submodule "src/runtime/IronR"]
 	path = src/runtime/IronR
 	url = https://github.com/xieguigang/IronR.git
+[submodule "src/runtime/ggplot"]
+	path = src/runtime/ggplot
+	url = https://github.com/rsharp-lang/ggplot.git
