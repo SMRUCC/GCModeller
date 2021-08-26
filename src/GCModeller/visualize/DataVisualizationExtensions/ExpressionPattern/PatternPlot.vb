@@ -152,7 +152,8 @@ Namespace ExpressionPattern
                         tickFontStyle:=theme.axisTickCSS,
                         axisLabelCSS:=theme.axisLabelCSS,
                         showLegend:=False,
-                        YtickFormat:=tickFormat
+                        YtickFormat:=tickFormat,
+                        xAxisLabelRotate:=45
                     )
                     Call g.ColorMapLegend(
                         layout:=legendLayout,
