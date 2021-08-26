@@ -276,7 +276,8 @@ Namespace CollectionSet
                          New Point(0, -boxHeight),
                          theme.axisLabelCSS,
                          CSSFont.TryParse(theme.axisTickCSS).GDIObject(g.Dpi),
-                         htmlLabel:=False
+                         htmlLabel:=False,
+                         tickFormat:="F0"
             )
 
             For Each bar In barData
