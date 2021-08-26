@@ -83,6 +83,7 @@ Namespace ExpressionPattern
                                    Optional legendTickStyle As String = CSSFont.Win7Small,
                                    Optional axisTickCSS$ = CSSFont.Win10Normal,
                                    Optional axisLabelCSS$ = CSSFont.Win7Small,
+                                   Optional xAxisLabelRotate As Double = 0,
                                    Optional driver As Drivers = Drivers.Default,
                                    Optional ppi As Integer = 300) As GraphicsData
 
@@ -90,7 +91,8 @@ Namespace ExpressionPattern
                 .background = bg,
                 .padding = padding,
                 .axisTickCSS = axisTickCSS,
-                .axisLabelCSS = axisLabelCSS
+                .axisLabelCSS = axisLabelCSS,
+                .xAxisRotate = xAxisLabelRotate
             }
 
             Return New PatternPlot(matrix, theme, colorSet, levels) With {
