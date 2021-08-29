@@ -424,7 +424,7 @@ Module Fasta
             With DirectCast(loci, NucleotideLocation)
                 left = .Min
                 right = .Max
-                getAttrs = Function(fa) {fa.Headers.JoinBy("|") & " " & .tag}
+                getAttrs = Function(fa) {fa.Headers.JoinBy("|") & " " & .tagStr}
 
                 If doNtAutoReverse AndAlso .Strand = Strands.Reverse Then
                     reverse = True

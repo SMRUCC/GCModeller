@@ -44,6 +44,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.LinearProgramming
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Process
 
 Public Class LinearProgrammingEngine
 
@@ -67,7 +68,7 @@ Public Class LinearProgrammingEngine
     ''' <remarks>
     ''' 可以将这个函数在继承类之中进行重写，就可以添加诸如调控信息之类的额外的模型信息了
     ''' </remarks>
-    Public Overridable Function CreateMatrix(model As CellularModule, targets$()) As Matrix
+    Public Overridable Function CreateMatrix(model As CellularModule, Optional targets$() = Nothing) As Matrix
         Dim allCompounds$() = model.Phenotype.fluxes _
             .Select(Function(r) r.AllCompounds) _
             .IteratesALL _
@@ -83,6 +84,12 @@ Public Class LinearProgrammingEngine
                     End Function) _
             .ToArray
 
+        If targets.IsNullOrEmpty Then
+            targets = model.Phenotype.fluxes _
+                .Select(Function(r) r.ID) _
+                .ToArray
+        End If
+
         Return New Matrix With {
             .Matrix = matrix,
             .Compounds = allCompounds,
@@ -96,14 +103,15 @@ Public Class LinearProgrammingEngine
         }
     End Function
 
-    Public Function Run(matrix As Matrix) As LPPSolution
+    Public Function Run(fbaMat As Matrix) As LPPSolution
         Dim engine As New LPP(
-            OptimizationType.MAX,
-            matrix.Flux.Keys.ToArray,
-            matrix.GetTargetCoefficients,
-            matrix.GetMatrix,
-            "=".Replicate(matrix.NumOfCompounds).ToArray,
-            0.0.Replicate(matrix.NumOfCompounds).ToArray
+            OptimizationType.MAX.Description,
+            fbaMat.Flux.Keys.ToArray,
+            fbaMat.GetTargetCoefficients,
+            fbaMat.Matrix,
+            "=".Replicate(fbaMat.NumOfCompounds).ToArray,
+            0.0.Replicate(fbaMat.NumOfCompounds).ToArray,
+            0
         )
 
         Return engine.solve(showProgress:=True)

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <RootNamespace>phenotype_kit</RootNamespace>
@@ -31,7 +31,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|x64'">
     <DocumentationFile>phenotype_kit.xml</DocumentationFile>
     <DefineConstants>netcore5=1</DefineConstants>
-    <OutputPath>D:\GCModeller\src\workbench\pkg\assembly\</OutputPath>
+    <OutputPath>../../pkg/assembly/</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
