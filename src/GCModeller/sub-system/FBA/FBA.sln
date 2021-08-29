@@ -1,11 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2010
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31612.314
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "FBA_DP", "FBA_DP\FBA_DP.vbproj", "{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}"
-EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "47-dotnet_Microsoft.VisualBasic", "..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\47-dotnet_Microsoft.VisualBasic.vbproj"", "{FECCE1FD-E1D4-49E3-A668-60BB5E7AED99}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "47-dotnet_Microsoft.VisualBasic", "..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\47-dotnet_Microsoft.VisualBasic.vbproj", "{FECCE1FD-E1D4-49E3-A668-60BB5E7AED99}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "FBA.Core", "FBA.Core\FBA.Core.vbproj", "{1EFB046B-49E0-4828-BEBE-733309A96B6D}"
 EndProject
@@ -14,12 +12,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "runtime", "runtime", "{1B5D135D-E7BA-464E-ACA2-A177AF2B9168}"
 EndProject
 Global
-	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		..\..\analysis\Motifs\VirtualFootprint\VirtualFootprints.SharedCommon\VirtualFootprints.SharedCommon.projitems*{e6979c9a-76bc-4562-a31f-f0dc7f2abfa2}*SharedItemsImports = 4
-		FBA_Doc\FBA_Doc.projitems*{e6979c9a-76bc-4562-a31f-f0dc7f2abfa2}*SharedItemsImports = 4
-		..\..\..\Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{e6979c9a-76bc-4562-a31f-f0dc7f2abfa2}*SharedItemsImports = 4
-		..\..\..\Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{e6979c9a-76bc-4562-a31f-f0dc7f2abfa2}*SharedItemsImports = 4
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Biodeep_UNIX_x64|Any CPU = Biodeep_UNIX_x64|Any CPU
 		Biodeep_UNIX_x64|x64 = Biodeep_UNIX_x64|x64
@@ -65,90 +57,6 @@ Global
 		Yilia-Release_x64|x86 = Yilia-Release_x64|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.Biodeep_UNIX_x64|Any CPU.ActiveCfg = GCModeller(Release_X64)|Any CPU
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.Biodeep_UNIX_x64|Any CPU.Build.0 = GCModeller(Release_X64)|Any CPU
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.Biodeep_UNIX_x64|x64.ActiveCfg = GCModeller(Release_X64)|x64
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.Biodeep_UNIX_x64|x64.Build.0 = GCModeller(Release_X64)|x64
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.Biodeep_UNIX_x64|x86.ActiveCfg = GCModeller(Release_X64)|x86
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.Biodeep_UNIX_x64|x86.Build.0 = GCModeller(Release_X64)|x86
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.Biodeep|Any CPU.ActiveCfg = GCModeller(Release_X64)|Any CPU
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.Biodeep|Any CPU.Build.0 = GCModeller(Release_X64)|Any CPU
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.Biodeep|x64.ActiveCfg = GCModeller(Release_X64)|x64
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.Biodeep|x64.Build.0 = GCModeller(Release_X64)|x64
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.Biodeep|x86.ActiveCfg = GCModeller(Release_X64)|x86
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.Biodeep|x86.Build.0 = GCModeller(Release_X64)|x86
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.Debug|x64.ActiveCfg = Debug|x64
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.Debug|x64.Build.0 = Debug|x64
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.Debug|x86.ActiveCfg = Debug|x86
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.Debug|x86.Build.0 = Debug|x86
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.DEMO|Any CPU.ActiveCfg = Debug|Any CPU
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.DEMO|Any CPU.Build.0 = Debug|Any CPU
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.DEMO|x64.ActiveCfg = Debug|x64
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.DEMO|x64.Build.0 = Debug|x64
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.DEMO|x86.ActiveCfg = Debug|x86
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.DEMO|x86.Build.0 = Debug|x86
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.docs|Any CPU.ActiveCfg = docs|Any CPU
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.docs|Any CPU.Build.0 = docs|Any CPU
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.docs|x64.ActiveCfg = docs|x64
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.docs|x64.Build.0 = docs|x64
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.docs|x86.ActiveCfg = docs|x86
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.docs|x86.Build.0 = docs|x86
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.GCModeller(Release_X64)|Any CPU.ActiveCfg = GCModeller(Release_X64)|Any CPU
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.GCModeller(Release_X64)|Any CPU.Build.0 = GCModeller(Release_X64)|Any CPU
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.GCModeller(Release_X64)|x64.ActiveCfg = GCModeller(Release_X64)|x64
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.GCModeller(Release_X64)|x64.Build.0 = GCModeller(Release_X64)|x64
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.GCModeller(Release_X64)|x86.ActiveCfg = GCModeller(Release_X64)|x86
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.GCModeller(Release_X64)|x86.Build.0 = GCModeller(Release_X64)|x86
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.GCModeller(UNIX-Release_X64)|Any CPU.ActiveCfg = GCModeller(UNIX-Release_X64)|Any CPU
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.GCModeller(UNIX-Release_X64)|Any CPU.Build.0 = GCModeller(UNIX-Release_X64)|Any CPU
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.GCModeller(UNIX-Release_X64)|x64.ActiveCfg = GCModeller(UNIX-Release_X64)|x64
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.GCModeller(UNIX-Release_X64)|x64.Build.0 = GCModeller(UNIX-Release_X64)|x64
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.GCModeller(UNIX-Release_X64)|x86.ActiveCfg = GCModeller(UNIX-Release_X64)|x86
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.GCModeller(UNIX-Release_X64)|x86.Build.0 = GCModeller(UNIX-Release_X64)|x86
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.installer_x64|Any CPU.ActiveCfg = GCModeller(Release_X64)|Any CPU
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.installer_x64|Any CPU.Build.0 = GCModeller(Release_X64)|Any CPU
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.installer_x64|x64.ActiveCfg = GCModeller(Release_X64)|x64
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.installer_x64|x64.Build.0 = GCModeller(Release_X64)|x64
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.installer_x64|x86.ActiveCfg = GCModeller(Release_X64)|x86
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.installer_x64|x86.Build.0 = GCModeller(Release_X64)|x86
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.mysqli_X64_release|Any CPU.ActiveCfg = GCModeller(Release_X64)|Any CPU
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.mysqli_X64_release|Any CPU.Build.0 = GCModeller(Release_X64)|Any CPU
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.mysqli_X64_release|x64.ActiveCfg = GCModeller(Release_X64)|x64
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.mysqli_X64_release|x64.Build.0 = GCModeller(Release_X64)|x64
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.mysqli_X64_release|x86.ActiveCfg = GCModeller(Release_X64)|x86
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.mysqli_X64_release|x86.Build.0 = GCModeller(Release_X64)|x86
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.Publish|Any CPU.ActiveCfg = Publish|Any CPU
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.Publish|Any CPU.Build.0 = Publish|Any CPU
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.Publish|x64.ActiveCfg = Publish|x64
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.Publish|x64.Build.0 = Publish|x64
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.Publish|x86.ActiveCfg = Publish|x86
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.Publish|x86.Build.0 = Publish|x86
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.Release|x64.ActiveCfg = Release|x64
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.Release|x64.Build.0 = Release|x64
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.Release|x86.ActiveCfg = Release|x86
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.Release|x86.Build.0 = Release|x86
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.sciBASIC.NET-test-release|Any CPU.ActiveCfg = GCModeller(Release_X64)|Any CPU
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.sciBASIC.NET-test-release|Any CPU.Build.0 = GCModeller(Release_X64)|Any CPU
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.sciBASIC.NET-test-release|x64.ActiveCfg = GCModeller(Release_X64)|x64
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.sciBASIC.NET-test-release|x64.Build.0 = GCModeller(Release_X64)|x64
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.sciBASIC.NET-test-release|x86.ActiveCfg = GCModeller(Release_X64)|x86
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.sciBASIC.NET-test-release|x86.Build.0 = GCModeller(Release_X64)|x86
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.Surveillance-of-infectious-diseases|Any CPU.ActiveCfg = GCModeller(Release_X64)|Any CPU
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.Surveillance-of-infectious-diseases|Any CPU.Build.0 = GCModeller(Release_X64)|Any CPU
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.Surveillance-of-infectious-diseases|x64.ActiveCfg = GCModeller(Release_X64)|x64
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.Surveillance-of-infectious-diseases|x64.Build.0 = GCModeller(Release_X64)|x64
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.Surveillance-of-infectious-diseases|x86.ActiveCfg = GCModeller(Release_X64)|x86
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.Surveillance-of-infectious-diseases|x86.Build.0 = GCModeller(Release_X64)|x86
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.Yilia-Release_x64|Any CPU.ActiveCfg = Release|Any CPU
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.Yilia-Release_x64|Any CPU.Build.0 = Release|Any CPU
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.Yilia-Release_x64|x64.ActiveCfg = Release|x64
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.Yilia-Release_x64|x64.Build.0 = Release|x64
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.Yilia-Release_x64|x86.ActiveCfg = Release|x86
-		{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}.Yilia-Release_x64|x86.Build.0 = Release|x86
 		{FECCE1FD-E1D4-49E3-A668-60BB5E7AED99}.Biodeep_UNIX_x64|Any CPU.ActiveCfg = Biodeep_UNIX_x64|Any CPU
 		{FECCE1FD-E1D4-49E3-A668-60BB5E7AED99}.Biodeep_UNIX_x64|Any CPU.Build.0 = Biodeep_UNIX_x64|Any CPU
 		{FECCE1FD-E1D4-49E3-A668-60BB5E7AED99}.Biodeep_UNIX_x64|x64.ActiveCfg = Biodeep_UNIX_x64|x64
