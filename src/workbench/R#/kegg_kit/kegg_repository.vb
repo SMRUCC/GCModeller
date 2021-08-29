@@ -76,6 +76,7 @@ Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports any = Microsoft.VisualBasic.Scripting
 Imports REnv = SMRUCC.Rsharp.Runtime.Internal
+Imports Rs = SMRUCC.Rsharp.Runtime
 
 ''' <summary>
 ''' 
@@ -189,8 +190,22 @@ Public Module kegg_repository
     ''' <param name="repository"></param>
     ''' <returns></returns>
     <ExportAPI("load.reactions")>
-    Public Function LoadReactionRepo(repository As String) As ReactionRepository
-        Return ReactionRepository.LoadAuto(repository)
+    <RApiReturn(GetType(ReactionRepository), GetType(Reaction))>
+    Public Function LoadReactionRepo(<RRawVectorArgument> repository As Object, Optional env As Environment = Nothing) As Object
+        If TypeOf repository Is String Then
+            Dim handle As String = DirectCast(repository, String)
+
+            If handle.DirectoryExists Then
+                Return ReactionRepository.LoadAuto(handle)
+            Else
+                Return handle.LoadXml(Of Reaction)
+            End If
+        Else
+            Return Rs.asVector(Of String)(repository) _
+                .AsObjectEnumerator(Of String)() _
+                .Select(AddressOf LoadXml(Of Reaction)) _
+                .ToArray
+        End If
     End Function
 
     ''' <summary>
