@@ -68,7 +68,7 @@ Public Class LinearProgrammingEngine
     ''' <remarks>
     ''' 可以将这个函数在继承类之中进行重写，就可以添加诸如调控信息之类的额外的模型信息了
     ''' </remarks>
-    Public Overridable Function CreateMatrix(model As CellularModule, targets$()) As Matrix
+    Public Overridable Function CreateMatrix(model As CellularModule, Optional targets$() = Nothing) As Matrix
         Dim allCompounds$() = model.Phenotype.fluxes _
             .Select(Function(r) r.AllCompounds) _
             .IteratesALL _
@@ -83,6 +83,12 @@ Public Class LinearProgrammingEngine
                             .ToArray
                     End Function) _
             .ToArray
+
+        If targets.IsNullOrEmpty Then
+            targets = model.Phenotype.fluxes _
+                .Select(Function(r) r.ID) _
+                .ToArray
+        End If
 
         Return New Matrix With {
             .Matrix = matrix,
