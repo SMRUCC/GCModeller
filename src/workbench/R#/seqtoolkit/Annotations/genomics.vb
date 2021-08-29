@@ -113,11 +113,11 @@ Module genomics
         If isRelativeOffset Then
             If loci.Strand = Strands.Forward Then
                 loci = New NucleotideLocation(loci.left - length, loci.left, Strands.Forward) With {
-                    .tag = loci.ToString & $"|offset=-{length}"
+                    .tagStr = loci.ToString & $"|offset=-{length}"
                 }
             Else
                 loci = New NucleotideLocation(loci.right, loci.right + length, Strands.Reverse) With {
-                    .tag = loci.ToString & $"|offset=+{length}"
+                    .tagStr = loci.ToString & $"|offset=+{length}"
                 }
             End If
         Else
