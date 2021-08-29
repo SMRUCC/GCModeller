@@ -49,6 +49,7 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports Matrix = SMRUCC.genomics.Analysis.FBA.Core.Matrix
 
 ''' <summary>
 ''' Flux Balance Analysis

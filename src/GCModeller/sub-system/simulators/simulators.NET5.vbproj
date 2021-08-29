@@ -37,7 +37,7 @@
     <DefineDebug>false</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <DefineConstants>netcore5=1</DefineConstants>
-    <OutputPath>D:\GCModeller\src\workbench\pkg\assembly\</OutputPath>
+    <OutputPath>../../../workbench/pkg/assembly\</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
