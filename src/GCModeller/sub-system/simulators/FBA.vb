@@ -40,6 +40,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.LinearProgramming
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.FBA.Core
@@ -85,8 +86,19 @@ Module FBA
     ''' <param name="model"></param>
     ''' <returns></returns>
     <ExportAPI("lpsolve")>
-    Public Function lpsolve(model As Matrix) As LPPSolution
-        Return New LinearProgrammingEngine().Run(model)
+    Public Function lpsolve(model As Matrix) As Object
+        Dim lpp As LPPSolution = New LinearProgrammingEngine().Run(model)
+        Dim result As New list
+        Dim solution As New Dictionary(Of String, Double)
+
+        For Each val As SeqValue(Of Double) In lpp.GetSolution(model.Targets).SeqIterator
+            Call solution.Add(model.Targets(val.i), val.value)
+        Next
+
+        Call result.add("objective", lpp.ObjectiveFunctionValue)
+        Call result.add("flux", solution)
+
+        Return result
     End Function
 
 End Module
