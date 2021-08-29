@@ -103,7 +103,7 @@ Namespace ComponentModel.EquaionModel
         Protected leftTable As Dictionary(Of String, T())
         Protected rightTable As Dictionary(Of String, T())
 
-        Public Property Id As String Implements INamedValue.Key
+        Public Overridable Property Id As String Implements INamedValue.Key
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Private Shared Function getDictionary(value As T()) As Dictionary(Of String, T())

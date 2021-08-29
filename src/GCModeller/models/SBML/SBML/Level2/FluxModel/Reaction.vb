@@ -67,7 +67,10 @@ Namespace Level2.Elements
         Implements IReadOnlyId
 
         <XmlIgnore()> Public Handle As Integer
-        <Escaped> <XmlAttribute()> Public Property id As String Implements FLuxBalanceModel.I_ReactionModel(Of speciesReference).Key, IReadOnlyId.Identity
+
+        <Escaped> <XmlAttribute()>
+        Public Overrides Property id As String Implements FLuxBalanceModel.I_ReactionModel(Of speciesReference).Key, IReadOnlyId.Identity
+
         ''' <summary>
         ''' Name property is the UniqueId in the MetaCyc database.(reactions.dat)
         ''' </summary>
