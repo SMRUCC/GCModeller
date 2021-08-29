@@ -1,55 +1,56 @@
 ﻿#Region "Microsoft.VisualBasic::a14dfe15155b6a0a9a380811d8fc89ad, core\Bio.Assembly\ComponentModel\Equations\Equation.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class Equation
-    ' 
-    '         Properties: Products, Reactants, reversible
-    ' 
-    '         Function: (+2 Overloads) Consume, Equals, GetCoEfficient, getDictionary, GetMetabolites
-    '                   (+2 Overloads) Produce, ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class Equation
+' 
+'         Properties: Products, Reactants, reversible
+' 
+'         Function: (+2 Overloads) Consume, Equals, GetCoEfficient, getDictionary, GetMetabolites
+'                   (+2 Overloads) Produce, ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Linq
 
 Namespace ComponentModel.EquaionModel
 
-    Public MustInherit Class Equation(Of T As ICompoundSpecies) : Implements IEquation(Of T)
+    Public MustInherit Class Equation(Of T As ICompoundSpecies) : Implements IEquation(Of T), INamedValue
 
 #Region "SBML接口"
 
@@ -101,6 +102,8 @@ Namespace ComponentModel.EquaionModel
 
         Protected leftTable As Dictionary(Of String, T())
         Protected rightTable As Dictionary(Of String, T())
+
+        Public Property Id As String Implements INamedValue.Key
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Private Shared Function getDictionary(value As T()) As Dictionary(Of String, T())

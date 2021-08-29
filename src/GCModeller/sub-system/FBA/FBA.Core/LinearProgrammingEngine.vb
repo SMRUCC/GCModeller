@@ -97,14 +97,15 @@ Public Class LinearProgrammingEngine
         }
     End Function
 
-    Public Function Run(matrix As Matrix) As LPPSolution
+    Public Function Run(fbaMat As Matrix) As LPPSolution
         Dim engine As New LPP(
-            OptimizationType.MAX,
-            matrix.Flux.Keys.ToArray,
-            matrix.GetTargetCoefficients,
-            matrix.GetMatrix,
-            "=".Replicate(matrix.NumOfCompounds).ToArray,
-            0.0.Replicate(matrix.NumOfCompounds).ToArray
+            OptimizationType.MAX.Description,
+            fbaMat.Flux.Keys.ToArray,
+            fbaMat.GetTargetCoefficients,
+            fbaMat.Matrix,
+            "=".Replicate(fbaMat.NumOfCompounds).ToArray,
+            0.0.Replicate(fbaMat.NumOfCompounds).ToArray,
+            0
         )
 
         Return engine.solve(showProgress:=True)
