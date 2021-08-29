@@ -37,12 +37,15 @@
     <DefineDebug>false</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <DefineConstants>netcore5=1</DefineConstants>
+    <OutputPath>D:\GCModeller\src\workbench\pkg\assembly\</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\R-sharp\R#\Rsharp-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
     <ProjectReference Include="..\..\core\Bio.Assembly\biocore-netcore5.vbproj" />
+    <ProjectReference Include="..\..\engine\Model\Model.Core.NET5.vbproj" />
+    <ProjectReference Include="..\FBA\FBA.Core\FBA.Core.NET5.vbproj" />
   </ItemGroup>
 
 </Project>
