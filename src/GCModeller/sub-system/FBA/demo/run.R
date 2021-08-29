@@ -15,7 +15,7 @@ const reactionId = unique(objId[objId == $"R\d+"]);
 print("reaction id list in this map model:");
 print(reactionId);
 
-const graph = `E:\biodeep\biodeepdb_v3\KEGG\br08201\mapLinks\${reactionId}.XML`
+const graph = (`E:/biodeep/biodeepdb_v3/KEGG/br08201/mapLinks/${reactionId}.XML`)
 |> repository::load.reactions
 |> FBA::matrix
 ;
