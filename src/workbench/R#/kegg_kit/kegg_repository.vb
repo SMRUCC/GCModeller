@@ -215,6 +215,8 @@ Public Module kegg_repository
                     Return KEGGMapPack.ReadKeggDb(file).DoCall(AddressOf MapRepository.BuildRepository)
                 End If
             End Using
+        ElseIf repository.ExtensionSuffix("xml") Then
+            Return repository.LoadXml(Of Map)
         End If
 
         If rawMaps Then
