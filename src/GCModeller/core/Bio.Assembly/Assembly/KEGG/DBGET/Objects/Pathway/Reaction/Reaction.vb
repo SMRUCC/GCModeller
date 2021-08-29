@@ -143,12 +143,14 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' <returns></returns>
         Public ReadOnly Property ReactionModel As DefaultTypes.Equation
             Get
+                Dim rxnStr As String = r.Replace(Equation, polymers, "", RegexICSng)
+
                 Try
-                    Return EquationBuilder.CreateObject(Of
-                        DefaultTypes.CompoundSpecieReference,
-                        DefaultTypes.Equation)(r.Replace(Equation, polymers, "", RegexICSng))
+                    Dim eq = EquationBuilder.CreateObject(Of DefaultTypes.CompoundSpecieReference, DefaultTypes.Equation)(rxnStr)
+                    eq.Id = ID
+                    Return eq
                 Catch ex As Exception
-                    ex = New Exception(Me.GetJson, ex)
+                    ex = New Exception(rxnStr, ex)
                     Throw ex
                 End Try
             End Get
