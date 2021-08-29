@@ -67,7 +67,7 @@ Public Class [Property]
     Public Property DBLinks As String()
 
     Sub New()
-        authors = New List(Of String) From {My.Computer.Name}
+        authors = New List(Of String) From {Environment.MachineName}
         compiled = Now.ToString
         Emails = New List(Of String)
         guid = System.Guid.NewGuid.ToString

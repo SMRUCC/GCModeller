@@ -45,6 +45,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
+Imports Microsoft.VisualBasic.ApplicationServices.Development
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
@@ -62,7 +63,7 @@ Public MustInherit Class Compiler(Of TModel As ModelBaseType)
 
     Public Overridable ReadOnly Property Version As Version
         Get
-            Return My.Application.Info.Version
+            Return Version.Parse(MyClass.GetType.Assembly.FromAssembly.AssemblyVersion)
         End Get
     End Property
 
