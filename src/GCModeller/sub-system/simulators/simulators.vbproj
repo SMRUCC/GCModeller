@@ -199,13 +199,45 @@
       <Project>{E3367B88-5D0C-495A-8273-331656D4B5AA}</Project>
       <Name>math-core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\ODESolver.Extensions\ODESolver.Extensions.vbproj">
+      <Project>{731d9af0-0ac1-451a-8d57-d997d0c03d1d}</Project>
+      <Name>ODESolver.Extensions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\ODE\ODEsSolver.vbproj">
+      <Project>{14e0b048-3a0d-4fd6-aa79-9b815d6f1b30}</Project>
+      <Name>ODEsSolver</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\47-dotnet_Microsoft.VisualBasic.vbproj">
       <Project>{FECCE1FD-E1D4-49E3-A668-60BB5E7AED99}</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\mime\application%25rdf+xml\application.rdf_xml.vbproj">
+      <Project>{20912ff3-ce68-497c-854d-21e372f11d7c}</Project>
+      <Name>application.rdf_xml</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\mime\application%25xml\application_xml.vbproj">
+      <Project>{25af39f4-76af-411f-ac19-0dd1e128d801}</Project>
+      <Name>application_xml</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
+      <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
+      <Name>Bio.Assembly</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\engine\CompilerServices\CompilerServices.vbproj">
       <Project>{34A63CB4-BB7E-4563-8E0F-682FF10E7D0E}</Project>
       <Name>CompilerServices</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\engine\Model\Model.vbproj">
+      <Project>{7bb5e78b-37bb-43df-baf4-4ecd4b5748d6}</Project>
+      <Name>Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\models\SBML\SBML\SBML.vbproj">
+      <Project>{169ae739-df7c-4dda-ad0b-d7ba447825eb}</Project>
+      <Name>SBML</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FBA\FBA.Core\FBA.Core.vbproj">
+      <Project>{1efb046b-49e0-4828-bebe-733309a96b6d}</Project>
+      <Name>FBA.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\PLAS.NET\SSystem\SSystem.vbproj">
       <Project>{07B67F96-A341-454B-986E-2DC2276C88BB}</Project>

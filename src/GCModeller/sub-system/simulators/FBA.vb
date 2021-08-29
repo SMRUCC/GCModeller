@@ -41,7 +41,10 @@
 
 Imports Microsoft.VisualBasic.Scripting.MetaData
 
-<Package("FBA.system")>
+''' <summary>
+''' Flux Balance Analysis
+''' </summary>
+<Package("FBA")>
 Module FBA
 
 End Module
