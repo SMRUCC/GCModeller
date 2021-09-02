@@ -57,6 +57,9 @@ Namespace ComponentModel
     ''' The object counter
     ''' </summary>
     Public Class Counter : Inherits i32
+        Implements IComparable
+        Implements IComparable(Of Integer)
+        Implements IComparable(Of Counter)
 
         ''' <summary>
         ''' Create a new integer counter start from ZERO.(新建一个计数器)
@@ -80,6 +83,14 @@ Namespace ComponentModel
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Hit() As Integer
             Return ++Me
+        End Function
+
+        Public Overloads Function CompareTo(other As Counter) As Integer Implements IComparable(Of Counter).CompareTo
+            If other Is Nothing Then
+                Return 1
+            Else
+                Return Value.CompareTo(other.Value)
+            End If
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
