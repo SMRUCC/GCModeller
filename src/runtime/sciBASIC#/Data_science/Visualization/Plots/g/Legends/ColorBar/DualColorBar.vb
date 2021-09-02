@@ -49,7 +49,7 @@ Namespace Graphic.Legend
 
             x = layout.Right + 10
             y = layout.Top
-            dy = layout.Height / ticks.Length
+            dy = layout.Height / (ticks.Length + 1)
             d = canvas.MeasureString("0", tickFont).Height / 2
 
             For Each tick As Double In ticks.Reverse
