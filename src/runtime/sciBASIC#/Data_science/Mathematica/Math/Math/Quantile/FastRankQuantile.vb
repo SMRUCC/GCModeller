@@ -55,6 +55,10 @@ Namespace Quantile
             Me.min = data.First
         End Sub
 
+        Sub New(data As IEnumerable(Of Integer))
+            Call Me.New(data.Select(Function(i) CDbl(i)))
+        End Sub
+
         ''' <summary>
         ''' 
         ''' </summary>
