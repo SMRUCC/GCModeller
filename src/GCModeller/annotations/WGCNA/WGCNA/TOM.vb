@@ -61,8 +61,8 @@ Public Module TOM
     ''' </summary>
     ''' <param name="A"></param>
     ''' <returns></returns>
-    Public Function Intermediate(A As GeneralMatrix) As GeneralMatrix
-        Dim Iu As New GeneralMatrix(A.RowDimension, A.ColumnDimension)
+    Public Function Intermediate(A As NumericMatrix) As GeneralMatrix
+        Dim Iu As New NumericMatrix(A.RowDimension, A.ColumnDimension)
         Dim x As Double()() = Iu.Array
         Dim m As Integer = A.RowDimension
         Dim n As Integer = A.ColumnDimension
@@ -81,7 +81,7 @@ Public Module TOM
 
     Public Function Matrix(A As GeneralMatrix, K As Vector) As GeneralMatrix
         Dim Imat As GeneralMatrix = Intermediate(A)
-        Dim W As New GeneralMatrix(A.RowDimension, A.ColumnDimension)
+        Dim W As New NumericMatrix(A.RowDimension, A.ColumnDimension)
         Dim wmat As Double()() = W.Array
 
         For i As Integer = 0 To wmat.Length - 1

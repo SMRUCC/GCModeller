@@ -1038,7 +1038,6 @@
     <Compile Include="Assembly\MetaCyc\Schemas\EquationEquals.vb" />
     <Compile Include="Assembly\MetaCyc\Schemas\Mappings\CompoundsMapping.vb" />
     <Compile Include="Assembly\Expasy\NomenclatureDB\NomenclatureDB.vb" />
-    <Compile Include="Assembly\KEGG\DBGET\Objects\Equation.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\SSDB\OrthologREST.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\Compound.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\Reaction\Reaction.vb" />

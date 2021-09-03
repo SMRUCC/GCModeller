@@ -184,7 +184,7 @@ Namespace ComponentModel.Loci
                 .left = pos(0),
                 .right = pos(1),
                 .Strand = s,
-                .tag = loci
+                .tagStr = loci
             }
 
             Return nuclLoci

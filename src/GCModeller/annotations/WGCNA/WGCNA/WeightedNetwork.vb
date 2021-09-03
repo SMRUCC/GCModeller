@@ -50,8 +50,8 @@ Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
 Public Module WeightedNetwork
 
     <Extension>
-    Friend Function Adjacency(cor As GeneralMatrix, threshold As Double) As GeneralMatrix
-        Dim adj As GeneralMatrix = cor.Copy
+    Friend Function Adjacency(cor As NumericMatrix, threshold As Double) As GeneralMatrix
+        Dim adj As NumericMatrix = cor.Copy
         Dim X As Double()() = adj.Array
 
         For i As Integer = 0 To X.Length - 1
@@ -84,11 +84,11 @@ Public Module WeightedNetwork
     '''    can be used to define a p-value based node significance measure
     ''' </remarks>
     <Extension>
-    Public Function WeightedCorrelation(cor As CorrelationMatrix, betaPow As Double, Optional pvalue As Boolean = False) As GeneralMatrix
+    Public Function WeightedCorrelation(cor As CorrelationMatrix, betaPow As Double, Optional pvalue As Boolean = False) As NumericMatrix
         ' The default method defines the coexpression
         ' Similarity sij as the absolute value of the correlation
         ' coefficient between the profiles of nodes i And j
-        Dim S As GeneralMatrix = If(pvalue, -(cor.GetPvalueMatrix.Log(newBase:=10)), CType(cor, GeneralMatrix)).Abs
+        Dim S As NumericMatrix = If(pvalue, -(DirectCast(cor.GetPvalueMatrix, NumericMatrix).Log(newBase:=10)), CType(cor, NumericMatrix)).Abs
         Dim A As GeneralMatrix = S ^ betaPow
 
         Return A
@@ -109,7 +109,7 @@ Public Module WeightedNetwork
     ''' 连接度ki表示第 i 个基因和其他基因的α值加和
     ''' </remarks>
     Public Function Connectivity(cor As CorrelationMatrix, betaPow As Double, adjacency As Double, Optional pvalue As Boolean = False) As Vector
-        Dim A As GeneralMatrix = cor.WeightedCorrelation(betaPow, pvalue).Adjacency(adjacency)
+        Dim A As NumericMatrix = cor.WeightedCorrelation(betaPow, pvalue).Adjacency(adjacency)
         Dim K As New Vector(A.RowApply(AddressOf sumK))
 
         Return K

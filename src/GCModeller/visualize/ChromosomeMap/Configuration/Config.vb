@@ -221,8 +221,8 @@ Namespace Configuration
 
         ' 下面的这些函数都是进行反射操作之中自定义的数据类型加载的所必须要用到的函数
 
-        Public Shared Function CssFontParser(css$) As Font
-            Return CSSFont.TryParse(css)
+        Public Shared Function CssFontParser(css$, dpi As Integer) As Font
+            Return CSSFont.TryParse(css).GDIObject(dpi)
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

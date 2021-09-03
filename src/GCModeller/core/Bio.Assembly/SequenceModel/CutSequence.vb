@@ -162,7 +162,7 @@ Namespace SequenceModel
             Dim site As SimpleSegment = seq.CutSequenceLinear(site:=loci)
 
             site.Strand = If(loci.Strand = Strands.Forward, "+", "-")
-            site.ID = loci.tag Or loci.NCBIstyle.AsDefault
+            site.ID = loci.tagStr Or loci.NCBIstyle.AsDefault
 
             If loci.Strand = Strands.Forward Then
                 Return site

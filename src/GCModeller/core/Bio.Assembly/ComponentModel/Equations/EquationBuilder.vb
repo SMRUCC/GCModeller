@@ -55,7 +55,7 @@ Namespace ComponentModel.EquaionModel
         ''' <summary>
         ''' 可逆的代谢反应过程的箭头
         ''' </summary>
-        Public Const EQUATION_DIRECTIONS_REVERSIBLE As String = " <=> "
+        Public Const EQUATION_DIRECTIONS_REVERSIBLE As String = "<=>"
         ''' <summary>
         ''' 不可逆的代谢反应过程的箭头
         ''' </summary>

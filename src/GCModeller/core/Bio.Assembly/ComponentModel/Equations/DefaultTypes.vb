@@ -104,9 +104,9 @@ Namespace ComponentModel.EquaionModel.DefaultTypes
         End Sub
 
         Sub New(left As IEnumerable(Of ICompoundSpecies), right As IEnumerable(Of ICompoundSpecies), canReverse As Boolean)
-            Reactants = left.Select(Function(x) New CompoundSpecieReference(x))
-            Products = right.Select(Function(x) New CompoundSpecieReference(x))
-            Reversible = canReverse
+            Reactants = left.Select(Function(x) New CompoundSpecieReference(x)).ToArray
+            Products = right.Select(Function(x) New CompoundSpecieReference(x)).ToArray
+            reversible = canReverse
         End Sub
 
         Sub New(left As IEnumerable(Of ICompoundSpecies), right As IEnumerable(Of ICompoundSpecies),

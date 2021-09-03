@@ -32,9 +32,22 @@ Namespace CollectionSet
                 Yield New NamedCollection(Of String) With {
                     .name = [set].name,
                     .value = excepts,
-                    .Description = $"{excepts.Length} unique id between all collection set"
+                    .description = $"{excepts.Length} unique id between all collection set"
                 }
             Next
+        End Function
+
+        Public Function GetUniqueId(name As String) As String()
+            Dim target As NamedCollection(Of String) = data.Where(Function(t) t.name = name).FirstOrDefault
+
+            If target.IsEmpty Then
+                Return {}
+            End If
+
+            Dim others = data.Where(Function(t) t.name <> name).Select(Function(t) t.value).IteratesALL.Distinct.Indexing
+            Dim unique = target.Where(Function(id) Not id Like others).ToArray
+
+            Return unique
         End Function
 
         Public Iterator Function GetIntersection(collections As String()) As IEnumerable(Of String)
