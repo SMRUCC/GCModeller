@@ -35,8 +35,8 @@ Module Program
     ''' <summary>
     ''' Predicts leaf index of each tree.
     ''' </summary>
-    ''' <paramname="predictor"> Predictor </param>
-    ''' <paramname="data"> test data </param>
+    ''' <param name="predictor"> Predictor </param>
+    ''' <param name="data"> test data </param>
     Friend Sub predictLeafIndex(ByVal predictor As Predictor, ByVal data As IList(Of KeyValuePair(Of Integer, FVec)))
         Dim count = 0
 
@@ -55,7 +55,7 @@ Module Program
 
         For Each line As String In "E:\GCModeller\src\runtime\sciBASIC#\Data_science\MachineLearning\xgboost\test\resources\data\agaricus.txt.0.test".ReadAllLines
             Dim values = line.Split(" "c)
-            Dim map As IDictionary(Of Integer?, Single?) = New Dictionary(Of Integer?, Single?)()
+            Dim map As New Dictionary(Of Integer, Single)()
 
             For i = 1 To values.Length - 1
                 Dim pair = values(i).Split(":"c)
