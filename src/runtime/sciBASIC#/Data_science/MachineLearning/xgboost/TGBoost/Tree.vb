@@ -40,7 +40,7 @@ Namespace train
                        lambda As Double,
                        gamma As Double,
                        num_thread As Integer,
-                       cat_features_cols As List(Of Integer))
+                       cat_features_cols As IEnumerable(Of Integer))
 
             Me.min_sample_split = min_sample_split
             Me.min_child_weight = min_child_weight
@@ -49,7 +49,7 @@ Namespace train
             Me.rowsample = rowsample
             Me.lambda = lambda
             Me.gamma = gamma
-            Me.cat_features_cols = cat_features_cols
+            Me.cat_features_cols = cat_features_cols.AsList
 
             If num_thread = -1 Then
                 Me.num_thread = App.CPUCoreNumbers
@@ -196,47 +196,55 @@ Namespace train
             End Sub
 
             Public Overrides Sub run()
-                Dim nodes As HashSet(Of TreeNode) = New HashSet(Of TreeNode)()
+                Dim nodes As New HashSet(Of TreeNode)()
+                Dim colkey As String = col.ToString
 
                 For interval As Integer = 0 To attribute_list.cutting_inds(CInt(col)).Length - 1
                     'update the corresponding treenode's cat_feature_col_value_GH
                     Dim inds As Integer() = attribute_list.cutting_inds(col)(interval)
-                    Dim cat_value = CInt(attribute_list.cutting_thresholds(col)(interval))
+                    Dim cat_value As String = CStr(attribute_list.cutting_thresholds(col)(interval))
 
-                    For Each ind In inds
-                        Dim treenode As TreeNode = class_list.corresponding_tree_node(ind)
+                    For Each ind As Integer In inds
+                        Dim treeNode As TreeNode = class_list.corresponding_tree_node(ind)
 
-                        If treenode.is_leaf Then
-                            Continue For
-                        End If
+                        SyncLock treeNode
+                            If treeNode.is_leaf Then
+                                Continue For
+                            End If
 
-                        If Not nodes.Contains(treenode) Then
-                            nodes.Add(treenode)
-                            treenode.cat_feature_col_value_GH(col) = New Dictionary(Of Integer, Double())
-                        End If
+                            If Not nodes.Contains(treeNode) Then
+                                nodes.Add(treeNode)
+                                treeNode.cat_feature_col_value_GH(key:=colkey) = New Dictionary(Of String, Double())
+                            End If
 
-                        If treenode.cat_feature_col_value_GH.GetValueOrNull(CInt(col)).ContainsKey(cat_value) Then
-                            treenode.cat_feature_col_value_GH.GetValueOrNull(CInt(col))(cat_value)(0) += class_list.grad(ind)
-                            treenode.cat_feature_col_value_GH.GetValueOrNull(CInt(col))(cat_value)(1) += class_list.hess(ind)
-                        Else
-                            treenode.cat_feature_col_value_GH.GetValueOrNull(CInt(col)).put(cat_value, New Double() {class_list.grad(ind), class_list.hess(ind)})
-                        End If
+                            Dim colVal = treeNode.cat_feature_col_value_GH.ComputeIfAbsent(colkey, Function() New Dictionary(Of String, Double()))
+
+                            If colVal.ContainsKey(cat_value) Then
+                                colVal(key:=cat_value)(0) += class_list.grad(ind)
+                                colVal(key:=cat_value)(1) += class_list.hess(ind)
+                            Else
+                                colVal.put(cat_value, New Double() {class_list.grad(ind), class_list.hess(ind)})
+                            End If
+                        End SyncLock
                     Next
                 Next
 
                 For Each node As TreeNode In nodes
-                    Dim catvalue_GdivH As Double()() = MAT(Of Double)(node.cat_feature_col_value_GH.GetValueOrNull(col).Count, 4)
+                    Dim catvalue_GdivH As Double()() = MAT(Of Double)(node.cat_feature_col_value_GH.GetValueOrNull(colkey).Count, 4)
                     Dim i = 0
+                    Dim catkey As String
 
-                    For Each catvalue As Integer In node.cat_feature_col_value_GH.GetValueOrNull(col).Keys
+                    For Each catvalue As Integer In node.cat_feature_col_value_GH.GetValueOrNull(colkey).Keys
+                        catkey = catvalue.ToString
                         catvalue_GdivH(i)(0) = catvalue
-                        catvalue_GdivH(i)(1) = node.cat_feature_col_value_GH.GetValueOrNull(col)(catvalue)(0)
-                        catvalue_GdivH(i)(2) = node.cat_feature_col_value_GH.GetValueOrNull(col)(catvalue)(1)
+                        catvalue_GdivH(i)(1) = node.cat_feature_col_value_GH.GetValueOrNull(colkey)(catkey)(0)
+                        catvalue_GdivH(i)(2) = node.cat_feature_col_value_GH.GetValueOrNull(colkey)(catkey)(1)
                         catvalue_GdivH(i)(3) = catvalue_GdivH(i)(1) / catvalue_GdivH(i)(2)
                         i += 1
                     Next
 
-                    Array.Sort(catvalue_GdivH, New Tree.ProcessEachCategoricalFeature.ComparatorAnonymousInnerClass)
+                    Call Array.Sort(catvalue_GdivH, New ComparatorAnonymousInnerClass)
+
                     Dim G_total As Double = node.Grad
                     Dim H_total As Double = node.Hess
                     Dim G_nan As Double = node.Grad_missing(col)
