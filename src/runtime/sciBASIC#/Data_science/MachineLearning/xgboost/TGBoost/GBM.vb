@@ -4,6 +4,41 @@ Imports Microsoft.VisualBasic.Language.Java
 Imports Microsoft.VisualBasic.My
 
 Namespace train
+
+    ''' <summary>
+    ''' Tiny implement of Gradient Boosting tree
+    ''' 
+    ''' It is a Tiny implement of Gradient Boosting tree, based on 
+    ''' XGBoost's scoring function and SLIQ's efficient tree building 
+    ''' algorithm. TGBoost build the tree in a level-wise way as in 
+    ''' SLIQ (by constructing Attribute list and Class list). 
+    ''' Currently, TGBoost support parallel learning on single machine, 
+    ''' the speed and memory consumption are comparable to XGBoost.
+    '''
+    ''' TGBoost supports most features As other library:
+    '''
+    ''' + Built-in loss , Square error loss for regression task, Logistic loss for classification task
+    ''' + Early stopping, evaluate On validation Set And conduct early stopping
+    ''' + Feature importance, output the feature importance after training
+    ''' + Regularization , lambda, gamma
+    ''' + Randomness, subsample，colsample
+    ''' + Weighted loss Function , assign weight To Each sample
+    '''
+    ''' Another two features are novel:
+    '''
+    ''' + Handle missing value, XGBoost learn a direction For those 
+    '''   With missing value, the direction Is left Or right. TGBoost 
+    '''   take a different approach: it enumerate missing value go To 
+    '''   left child, right child And missing value child, Then 
+    '''   choose the best one. So TGBoost use Ternary Tree.
+    ''' + Handle categorical feature, TGBoost order the categorical 
+    '''   feature by their statistic (Gradient_sum / Hessian_sum) On 
+    '''   Each tree node, Then conduct split finding As numeric 
+    '''   feature.
+    ''' </summary>
+    ''' <remarks>
+    ''' https://github.com/wepe/tgboost
+    ''' </remarks>
     Public Class GBM
 
         Private num_boost_round As Integer
@@ -17,7 +52,8 @@ Namespace train
         Private min_child_weight As Double
         Private scale_pos_weight As Double
         Private eval_metric As String
-        Private Shared logger As LogFile = FrameworkInternal.getLogger("InfoLogging")
+
+        Shared ReadOnly logger As LogFile = FrameworkInternal.getLogger("InfoLogging")
 
         Public Overridable ReadOnly Property first_round_pred As Double
         Public Overridable ReadOnly Property eta As Double
@@ -35,21 +71,21 @@ Namespace train
         End Sub
 
         Public Overridable Sub fit(file_training As String, file_validation As String, categorical_features As IEnumerable(Of String),
-                                   early_stopping_rounds As Integer,
-                                   maximize As Boolean,
-                                   eval_metric As String,
-                                   loss As String,
-                                   eta As Double,
-                                   num_boost_round As Integer,
-                                   max_depth As Integer,
-                                   scale_pos_weight As Double,
-                                   rowsample As Double,
-                                   colsample As Double,
-                                   min_child_weight As Double,
-                                   min_sample_split As Integer,
-                                   lambda As Double,
-                                   gamma As Double,
-                                   num_thread As Integer)
+                                   Optional early_stopping_rounds As Integer = 10,
+                                   Optional maximize As Boolean = True,
+                                   Optional eval_metric As String = "auc",
+                                   Optional loss As String = "logloss",
+                                   Optional eta As Double = 0.3,
+                                   Optional num_boost_round As Integer = 20,
+                                   Optional max_depth As Integer = 7,
+                                   Optional scale_pos_weight As Double = 1,
+                                   Optional rowsample As Double = 0.8,
+                                   Optional colsample As Double = 0.8,
+                                   Optional min_child_weight As Double = 1,
+                                   Optional min_sample_split As Integer = 5,
+                                   Optional lambda As Double = 1,
+                                   Optional gamma As Double = 0,
+                                   Optional num_thread As Integer = -1)
             _eta = eta
             Me.num_boost_round = num_boost_round
             Me.max_depth = max_depth
