@@ -1,6 +1,8 @@
-﻿Namespace LinearAlgebra.LinearProgramming
+﻿Imports Microsoft.VisualBasic.ComponentModel
 
-    Public Class LPPModel
+Namespace LinearAlgebra.LinearProgramming
+
+    Public Class LPPModel : Inherits XmlDataModel
 
         Public Property objectiveFunctionType As String
         Public Property variableNames As String()

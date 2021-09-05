@@ -105,7 +105,15 @@ Namespace LinearAlgebra.LinearProgramming
         End Sub
 
         Sub New(lppModel As LPPModel)
-            Call Me.New()
+            Call Me.New(
+                objectiveFunctionType:=lppModel.objectiveFunctionType,
+                variableNames:=lppModel.variableNames,
+                objectiveFunctionCoefficients:=lppModel.objectiveFunctionCoefficients,
+                constraintCoefficients:=lppModel.constraintCoefficients,
+                constraintTypes:=lppModel.constraintTypes,
+                constraintRightHandSides:=lppModel.constraintRightHandSides,
+                objectiveFunctionValue:=lppModel.objectiveFunctionValue
+            )
         End Sub
 
         ''' <summary>

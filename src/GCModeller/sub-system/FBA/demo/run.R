@@ -20,6 +20,12 @@ const graph = (`E:/biodeep/biodeepdb_v3/KEGG/br08201/mapLinks/${reactionId}.XML`
 |> FBA::matrix
 ;
 
+graph
+|> FBA::lppModel
+|> xml
+|> writeLines(con = `${@dir}/map00220_lpp.XML`)
+;
+
 const solution = graph |> FBA::lpsolve;
 
 str(solution);
