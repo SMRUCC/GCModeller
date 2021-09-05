@@ -51,7 +51,9 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.Statistics.Hypothesis
 Imports Microsoft.VisualBasic.MIME.Html.CSS
+#If netcore5 = 0 Then
 Imports RDotNet.Extensions.VisualBasic.API
+#End If
 
 ''' <summary>
 ''' iTraq质谱实验结果的质量检验分析

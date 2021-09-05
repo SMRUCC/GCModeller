@@ -48,8 +48,10 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.Statistics.Hypothesis
 Imports Microsoft.VisualBasic.Scripting.Runtime
+#If netcore5 = 0 Then
 Imports RDotNET
 Imports RDotNET.Extensions.VisualBasic.API
+#End If
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 Imports DataFrameRow = SMRUCC.genomics.Analysis.HTS.DataFrame.DataFrameRow
 

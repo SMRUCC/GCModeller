@@ -44,8 +44,10 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Distributions
 Imports Microsoft.VisualBasic.Math.Distributions.BinBox
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
+#If netcore5 = 0 Then
 Imports RDotNET.Extensions.VisualBasic
 Imports RDotNET.Extensions.VisualBasic.API
+#End If
 
 ''' <summary>
 ''' 当T检验无法正常工作的时候，使用这个模块进行P值的计算

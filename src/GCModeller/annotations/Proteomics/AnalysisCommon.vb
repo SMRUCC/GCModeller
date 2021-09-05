@@ -47,10 +47,12 @@ Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.Statistics.Hypothesis
 Imports Microsoft.VisualBasic.Scripting.Runtime
+Imports Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
+#If netcore5 = 0 Then
 Imports RDotNET
 Imports RDotNET.Extensions.VisualBasic.API
-Imports Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 Imports RServer = RDotNET.Extensions.VisualBasic.RSystem
+#End If
 
 Public Module AnalysisCommon
 
