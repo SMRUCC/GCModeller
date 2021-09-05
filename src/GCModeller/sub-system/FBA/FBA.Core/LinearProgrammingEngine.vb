@@ -103,15 +103,17 @@ Public Class LinearProgrammingEngine
         }
     End Function
 
-    Public Shared Function ToLppModel(fbaMat As Matrix) As LPPModel
-        Return New LPPModel(fbaMat.Matrix) With {
+    Public Shared Function ToLppModel(fbaMat As Matrix, name As String, Optional description As String = "n/a") As LPPModel
+        Dim types As String() = "=".Replicate(fbaMat.NumOfCompounds).ToArray
+        Dim constraints As Double() = 0.0.Replicate(fbaMat.NumOfCompounds).ToArray
+
+        Return New LPPModel(fbaMat.Matrix, types, constraints) With {
             .objectiveFunctionType = OptimizationType.MAX.Description,
-            .variableNames = fbaMat.Flux.Keys.ToArray,
-            .objectiveFunctionCoefficients = fbaMat.GetTargetCoefficients,
-            .constraintTypes = "=".Replicate(fbaMat.NumOfCompounds).ToArray,
-            .constraintRightHandSides = 0.0.Replicate(fbaMat.NumOfCompounds).ToArray,
             .objectiveFunctionValue = 0
-        }
+        }.ConfigSymbols(
+            names:=fbaMat.Flux.Keys.ToArray,
+            value:=fbaMat.GetTargetCoefficients
+        ).ConfigModelName(name, description)
     End Function
 
     Public Function Run(fbaMat As Matrix) As LPPSolution

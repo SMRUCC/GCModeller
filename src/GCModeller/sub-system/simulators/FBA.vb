@@ -82,8 +82,8 @@ Module FBA
     End Function
 
     <ExportAPI("lppModel")>
-    Public Function GetLppModel(model As Matrix) As LPPModel
-        Return LinearProgrammingEngine.ToLppModel(model)
+    Public Function GetLppModel(model As Matrix, Optional name As String = "Flux Balance Analysis LppModel") As LPPModel
+        Return LinearProgrammingEngine.ToLppModel(model, name)
     End Function
 
     ''' <summary>

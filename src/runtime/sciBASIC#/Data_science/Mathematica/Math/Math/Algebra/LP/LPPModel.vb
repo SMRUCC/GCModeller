@@ -2,6 +2,7 @@
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Net.Http
+Imports Microsoft.VisualBasic.Text.Xml.Models
 
 Namespace LinearAlgebra.LinearProgramming
 
@@ -39,7 +40,7 @@ Namespace LinearAlgebra.LinearProgramming
         ''' the model name
         ''' </summary>
         ''' <returns></returns>
-        Public Property name As String
+        Public Property name As NamedValue
 
         Public ReadOnly Property objectiveFunctionCoefficients As Double()
             Get
@@ -107,6 +108,15 @@ Namespace LinearAlgebra.LinearProgramming
                             }
                         End Function) _
                 .ToArray
+
+            Return Me
+        End Function
+
+        Public Function ConfigModelName(name As String, description As String) As LPPModel
+            Me.name = New NamedValue With {
+                .name = name,
+                .text = description
+            }
 
             Return Me
         End Function
