@@ -107,7 +107,7 @@ Public Class LinearProgrammingEngine
         Dim types As String() = "=".Replicate(fbaMat.NumOfCompounds).ToArray
         Dim constraints As Double() = 0.0.Replicate(fbaMat.NumOfCompounds).ToArray
 
-        Return New LPPModel(fbaMat.Matrix, types, constraints) With {
+        Return New LPPModel(fbaMat.Matrix, types, constraints, fbaMat.Compounds) With {
             .objectiveFunctionType = OptimizationType.MAX.Description,
             .objectiveFunctionValue = 0
         }.ConfigSymbols(

@@ -144,7 +144,9 @@ Namespace ComponentModel.EquaionModel
         ''' <param name="ID"></param>
         ''' <returns></returns>
         Public Overridable Function GetCoEfficient(ID As String) As Double
-            ID = ID.ToLower
+            If Not (leftTable.ContainsKey(ID) OrElse rightTable.ContainsKey(ID)) Then
+                ID = ID.ToLower
+            End If
 
             If leftTable.ContainsKey(ID) Then
                 Return -1 * leftTable(ID).Select(Function(x) x.StoiChiometry).Sum
