@@ -81,6 +81,11 @@ Module FBA
         End If
     End Function
 
+    <ExportAPI("lppModel")>
+    Public Function GetLppModel(model As Matrix) As LPPModel
+        Return LinearProgrammingEngine.ToLppModel(model)
+    End Function
+
     ''' <summary>
     ''' Solve a FBA matrix model
     ''' </summary>

@@ -104,6 +104,10 @@ Namespace LinearAlgebra.LinearProgramming
             Call Me.New(opt.Description, variableNames, objectiveFunctionCoefficients, constraintCoefficients.ToVectorList, constraintTypes, constraintRightHandSides, objectiveFunctionValue)
         End Sub
 
+        Sub New(lppModel As LPPModel)
+            Call Me.New()
+        End Sub
+
         ''' <summary>
         ''' 
         ''' </summary>
