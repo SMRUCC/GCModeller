@@ -111,9 +111,11 @@ Namespace Assembly.NCBI.GenBank.GBFF
 
             Dim Sw As Stopwatch = Stopwatch.StartNew
             Dim gb As New File
+
+#If netcore5 = 0 Then
             Dim ReadThread As Action(Of File, String()) = AddressOf __readOrigin
             Dim ReadThreadResult As IAsyncResult = ReadThread.BeginInvoke(gb, innerBufs, Nothing, Nothing)
-
+#End If
             gb.Comment = Internal_readBlock(KeyWord.GBK_FIELD_KEY_COMMENT, innerBufs)
             gb.Features = Internal_readBlock(KeyWord.GBK_FIELD_KEY_FEATURES, innerBufs).Skip(1).ToArray.FeaturesListParser
             gb.Accession = ACCESSION.CreateObject(Internal_readBlock(KeyWord.GBK_FIELD_KEY_ACCESSION, innerBufs), defaultAccession)
@@ -137,11 +139,16 @@ Namespace Assembly.NCBI.GenBank.GBFF
             gb.DbLinks.gb = gb
 
             Call gb.Features.LinkEntry()
-            Call ReadThread.EndInvoke(ReadThreadResult)
 
+#If netcore5 = 0 Then
+            Call ReadThread.EndInvoke(ReadThreadResult)
+#Else
+            Call __readOrigin(gb, innerBufs)
+#End If
             ' 由于使用线程进行读取的，所以不能保证在赋值的时候是否初始化基因组序列完成
             gb.Origin.gb = gb
-            innerBufs = Nothing
+
+            Erase innerBufs
 
             Return gb
         End Function
