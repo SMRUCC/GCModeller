@@ -122,6 +122,7 @@ Module uniprot
     <ExportAPI("protein.seqs")>
     Public Function getProteinSeq(<RRawVectorArgument> uniprot As Object,
                                   Optional extractAll As Boolean = False,
+                                  Optional KOseq As Boolean = False,
                                   Optional env As Environment = Nothing) As pipeline
 
         Dim source = getUniprotData(uniprot, env)

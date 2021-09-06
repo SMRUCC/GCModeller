@@ -202,6 +202,11 @@ Module Fasta
         End If
     End Function
 
+    <ExportAPI("open.fasta")>
+    Public Function openFasta(file As String, Optional env As Environment = Nothing)
+        Return StreamIterator.SeqSource(file).DoCall(AddressOf pipeline.CreateFromPopulator)
+    End Function
+
     ''' <summary>
     ''' write a fasta sequence or a collection of fasta sequence object
     ''' </summary>
@@ -218,7 +223,19 @@ Module Fasta
                                Optional encoding As Encodings = Encodings.ASCII,
                                Optional env As Environment = Nothing) As Boolean
 
-        Return New FastaFile(GetFastaSeq(seq, env)).Save(lineBreak, file, encoding)
+        If TypeOf seq Is pipeline Then
+            Using buffer As New StreamWriter(file.Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False))
+                For Each fa As FastaSeq In DirectCast(seq, pipeline).populates(Of FastaSeq)(env)
+                    Call buffer.WriteLine(fa.GenerateDocument(lineBreak))
+                Next
+
+                Call buffer.Flush()
+            End Using
+
+            Return True
+        Else
+            Return New FastaFile(GetFastaSeq(seq, env)).Save(lineBreak, file, encoding)
+        End If
     End Function
 
     ''' <summary>
