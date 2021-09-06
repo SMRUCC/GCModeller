@@ -8,6 +8,8 @@
     <Configurations>Debug;Release;Rsharp_app_release</Configurations>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageProjectUrl>https://gcmodeller.org</PackageProjectUrl>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -33,7 +35,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|x64'">
     <DocumentationFile>seqtoolkit.xml</DocumentationFile>
     <DefineConstants>netcore5=1</DefineConstants>
-    <OutputPath>D:\GCModeller\src\workbench\pkg\assembly\</OutputPath>
+    <OutputPath>../../pkg/assembly/</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -53,5 +55,14 @@
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
     <ProjectReference Include="..\..\modules\SeqFeature\SeqFeature\SeqFeature.NET5.vbproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+  <Import Project="..\Rscript_shared\Rscript_shared.projitems" Label="Shared" />
 
 </Project>

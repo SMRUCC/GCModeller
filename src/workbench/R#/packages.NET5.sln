@@ -191,14 +191,18 @@ Project("{778DAE3C-4631-46EA-AA77-85C1314464D9}") = "NeedlemanWunsch.NET5", "..\
 EndProject
 Project("{778DAE3C-4631-46EA-AA77-85C1314464D9}") = "gwANI.NET5", "..\..\GCModeller\analysis\SequenceToolkit\gwANI\gwANI.NET5.vbproj", "{55949F60-9232-47B1-BA59-CFCEAF2250C0}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Rscript_shared", "Rscript_shared\Rscript_shared.shproj", "{28A18D47-5F41-43CD-A0A7-C8DD9E731BD3}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		..\..\R-sharp\Library\R_graphic.interop\R_graphic.interop.projitems*{193ee8cb-3597-49db-86b9-f03b9cb2cfe2}*SharedItemsImports = 5
+		Rscript_shared\Rscript_shared.projitems*{28a18d47-5f41-43cd-a0a7-c8dd9e731bd3}*SharedItemsImports = 13
 		..\..\R-sharp\Library\R_graphic.interop\R_graphic.interop.projitems*{42ab5b8d-6be1-4c81-820e-2cb83e252589}*SharedItemsImports = 5
 		..\..\R-sharp\studio\Rstudio.common\Rstudio.common.projitems*{4e4e76b9-eee7-4257-98be-413bf9c8504b}*SharedItemsImports = 5
 		..\..\R-sharp\Library\R_graphic.interop\R_graphic.interop.projitems*{53af2b13-ccd5-4f73-94d5-612191e785a9}*SharedItemsImports = 13
 		..\..\R-sharp\Library\R_graphic.interop\R_graphic.interop.projitems*{5e88c198-db8f-4cd1-8312-2e962e52d1c7}*SharedItemsImports = 5
 		..\..\R-sharp\Library\JsonHelper\JsonHelper.projitems*{b2ae1422-d7da-4053-a386-eb2ea9326d68}*SharedItemsImports = 13
+		Rscript_shared\Rscript_shared.projitems*{e2d629cc-31b1-4bd6-97fa-e3714537d3a6}*SharedItemsImports = 5
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		BioDeep_database|Any CPU = BioDeep_database|Any CPU
@@ -14982,6 +14986,7 @@ Global
 		{842CE3DE-2582-4E28-9D90-75750DA19131} = {D63A19F3-3729-465E-BADA-5DE55732D915}
 		{9BED0810-9AB4-4D15-8F50-3B9BD02F9AE0} = {D63A19F3-3729-465E-BADA-5DE55732D915}
 		{55949F60-9232-47B1-BA59-CFCEAF2250C0} = {D63A19F3-3729-465E-BADA-5DE55732D915}
+		{28A18D47-5F41-43CD-A0A7-C8DD9E731BD3} = {024D5DD9-1F8E-4638-9B03-926832A83487}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {87EEAB3F-776C-4AB4-8038-6CEC3B9F0A12}
