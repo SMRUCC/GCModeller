@@ -33,6 +33,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|x64'">
     <DocumentationFile>seqtoolkit.xml</DocumentationFile>
     <DefineConstants>netcore5=1</DefineConstants>
+    <OutputPath>D:\GCModeller\src\workbench\pkg\assembly\</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
