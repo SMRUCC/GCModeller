@@ -65,7 +65,7 @@ Imports REnv = SMRUCC.Rsharp.Runtime
 ''' <summary>
 ''' NCBI genbank assembly file I/O toolkit
 ''' </summary>
-<Package("annotation.genbank_kit", Category:=APICategories.UtilityTools, Publisher:="xie.guigang@gcmodeller.org")>
+<Package("GenBank", Category:=APICategories.UtilityTools, Publisher:="xie.guigang@gcmodeller.org")>
 Module genbankKit
 
     ''' <summary>
