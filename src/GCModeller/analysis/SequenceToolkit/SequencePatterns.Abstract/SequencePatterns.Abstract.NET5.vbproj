@@ -1,9 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <RootNamespace>SMRUCC.genomics.GCModeller.Workbench.SeqFeature</RootNamespace>
+    <RootNamespace>SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Abstract</RootNamespace>
     <TargetFramework>net5.0</TargetFramework>
-    <AssemblyName>SMRUCC.genomics.GCModeller.Workbench.SeqFeature</AssemblyName>
+    <AssemblyName>SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Abstract</AssemblyName>
     <Platforms>AnyCPU;x64</Platforms>
     <Configurations>Debug;Release;Rsharp_app_release</Configurations>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>

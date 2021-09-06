@@ -1,9 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <RootNamespace>SMRUCC.genomics.GCModeller.Workbench.SeqFeature</RootNamespace>
+    <RootNamespace>SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns</RootNamespace>
     <TargetFramework>net5.0</TargetFramework>
-    <AssemblyName>SMRUCC.genomics.GCModeller.Workbench.SeqFeature</AssemblyName>
+    <AssemblyName>SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns</AssemblyName>
     <Platforms>AnyCPU;x64</Platforms>
     <Configurations>Debug;Release;Rsharp_app_release</Configurations>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
@@ -12,33 +12,41 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>SMRUCC.genomics.GCModeller.Workbench.SeqFeature.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>SMRUCC.genomics.GCModeller.Workbench.SeqFeature.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|AnyCPU'">
-    <DocumentationFile>SMRUCC.genomics.GCModeller.Workbench.SeqFeature.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <DocumentationFile>SMRUCC.genomics.GCModeller.Workbench.SeqFeature.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <DocumentationFile>SMRUCC.genomics.GCModeller.Workbench.SeqFeature.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|x64'">
-    <DocumentationFile>SMRUCC.genomics.GCModeller.Workbench.SeqFeature.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.xml</DocumentationFile>
     <DefineConstants>netcore5=1</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Test\**" />
+    <EmbeddedResource Remove="Test\**" />
+    <None Remove="Test\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\..\..\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data\DataFrame\dataframework-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+    <ProjectReference Include="..\SequencePatterns.Abstract\SequencePatterns.Abstract.NET5.vbproj" />
   </ItemGroup>
 
   <ItemGroup>
