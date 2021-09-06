@@ -243,7 +243,12 @@ Namespace Assembly.NCBI.GenBank
                          In gb.Features
                          Where String.Equals(feature.KeyName, "CDS")
                          Select feature.__protShort(onlyLocusTag)
-            Dim Fasta As New FastaFile(LQuery)
+            Dim unique As IEnumerable(Of FastaSeq) = LQuery _
+                .GroupBy(Function(seq) seq.Headers(Scan0)) _
+                .OrderBy(Function(seq) seq.Key) _
+                .Select(Function(seq) seq.First)
+            Dim Fasta As New FastaFile(unique)
+
             Return Fasta
         End Function
 
@@ -253,6 +258,9 @@ Namespace Assembly.NCBI.GenBank
         ''' <param name="feature"></param>
         ''' <param name="onlyLocusTag"></param>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' > locus_id info
+        ''' </remarks>
         <Extension> Private Function __protShort(feature As gbffFeature, onlyLocusTag As Boolean) As FastaSeq
             Dim product As String = feature.Query("product")
             If product Is Nothing Then
