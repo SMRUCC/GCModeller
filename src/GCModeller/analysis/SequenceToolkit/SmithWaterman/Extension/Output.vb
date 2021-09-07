@@ -138,7 +138,10 @@ Public Class Output
             .DP = dp,
             .HSP = hspList _
                 .Select(Function(h)
-                            Return SequenceTools.HSP.CreateFrom(h, AddressOf sw.symbol.ToChar)
+                            Dim hsp = SequenceTools.HSP.CreateFrom(h, AddressOf sw.symbol.ToChar)
+                            hsp.QueryLength = query.Length
+                            hsp.SubjectLength = subject.Length
+                            Return hsp
                         End Function) _
                 .ToArray,
             .Query = query,
