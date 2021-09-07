@@ -1,46 +1,46 @@
 ﻿#Region "Microsoft.VisualBasic::2323e37fedc3edb949d1650ac68913eb, seqtoolkit\Fasta.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module Fasta
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    ' 
-    '     Function: CutSequenceLinear, fasta, GetFastaSeq, MSA, readFasta
-    '               readSeq, SequenceAssembler, Tofasta, Translates, viewAssembles
-    '               viewFasta, viewMSA, writeFasta
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Module Fasta
+' 
+'     Constructor: (+1 Overloads) Sub New
+' 
+'     Function: CutSequenceLinear, fasta, GetFastaSeq, MSA, readFasta
+'               readSeq, SequenceAssembler, Tofasta, Translates, viewAssembles
+'               viewFasta, viewMSA, writeFasta
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -220,13 +220,18 @@ Module Fasta
     <ExportAPI("write.fasta")>
     Public Function writeFasta(<RRawVectorArgument> seq As Object, file$,
                                Optional lineBreak% = -1,
+                               Optional delimiter As String = " ",
                                Optional encoding As Encodings = Encodings.ASCII,
                                Optional env As Environment = Nothing) As Boolean
 
         If TypeOf seq Is pipeline Then
             Using buffer As New StreamWriter(file.Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False))
                 For Each fa As FastaSeq In DirectCast(seq, pipeline).populates(Of FastaSeq)(env)
-                    Call buffer.WriteLine(fa.GenerateDocument(lineBreak))
+                    Call buffer.WriteLine(fa.GenerateDocument(
+                        lineBreak:=lineBreak,
+                        [overrides]:=False,
+                        delimiter:=delimiter
+                    ))
                 Next
 
                 Call buffer.Flush()

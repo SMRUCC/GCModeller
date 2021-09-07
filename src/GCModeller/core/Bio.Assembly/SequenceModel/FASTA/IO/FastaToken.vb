@@ -403,13 +403,17 @@ AAGCGAACAAATGTTCTATA"
         ''' <returns></returns>
         ''' <remarks></remarks>
         ''' <param name="lineBreak">大于0的数值会换行，小于或者等于0的数值不会换行</param>
-        Public Function GenerateDocument(lineBreak As Integer, Optional [overrides] As Boolean = True, Optional removeCR As Boolean = True) As String
+        Public Function GenerateDocument(lineBreak As Integer,
+                                         Optional [overrides] As Boolean = True,
+                                         Optional removeCR As Boolean = True,
+                                         Optional delimiter As String = DefaultHeaderDelimiter) As String
+
             Dim sb As New StringBuilder(">", 10 * 1024)
 
             If [overrides] Then
                 Call sb.Append(Me.ToString)
             Else
-                Call sb.Append(String.Join(DefaultHeaderDelimiter, Headers))
+                Call sb.Append(String.Join(delimiter, Headers))
             End If
 
             Call sb.AppendLine()
