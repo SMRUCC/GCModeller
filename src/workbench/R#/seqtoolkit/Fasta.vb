@@ -164,6 +164,15 @@ Module Fasta
         End Select
     End Function
 
+    <ExportAPI("size")>
+    Public Function sizeof(fa As FastaSeq) As Integer
+        If fa Is Nothing Then
+            Return 0
+        Else
+            Return fa.Length
+        End If
+    End Function
+
     ''' <summary>
     ''' Read a single fasta sequence file
     ''' </summary>
