@@ -161,23 +161,28 @@ Namespace CatalogProfiling
                         End Function) _
                 .IteratesALL _
                 .ToArray
-            Dim mapper As New Scaling(mapperValues, horizontal:=True)
             Dim plotInternal =
                 Sub(ByRef g As IGraphics, region As GraphicsRegion)
-                    Call g.internalPlotImpl(
-                       region, profile, title,
-                       colors,
-                       titleFontStyle, catalogFontStyle, classFontStyle, valueFontStyle,
-                       New Mapper(mapper, ignoreAxis:=True),
-                       tickFontStyle, tick,
-                       axisTitle,
-                       gray:=gray,
-                       labelAlignmentRight:=labelRightAlignment,
-                       valueFormat:=valueFormat,
-                       disableLabelColor:=disableLabelColor,
-                       labelTrimLength:=labelTrimLength,
-                       dpi:=dpi
-                    )
+                    If mapperValues.IsNullOrEmpty Then
+                        ' just do nothing?
+                    Else
+                        Dim mapper As New Scaling(mapperValues, horizontal:=True)
+
+                        Call g.internalPlotImpl(
+                           region, profile, title,
+                           colors,
+                           titleFontStyle, catalogFontStyle, classFontStyle, valueFontStyle,
+                           New Mapper(mapper, ignoreAxis:=True),
+                           tickFontStyle, tick,
+                           axisTitle,
+                           gray:=gray,
+                           labelAlignmentRight:=labelRightAlignment,
+                           valueFormat:=valueFormat,
+                           disableLabelColor:=disableLabelColor,
+                           labelTrimLength:=labelTrimLength,
+                           dpi:=dpi
+                        )
+                    End If
                 End Sub
 
             Call $"Run catalog profile bar plot with size={size}, dpi={dpi}".__DEBUG_ECHO
