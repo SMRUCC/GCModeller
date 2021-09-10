@@ -3,7 +3,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 
 <Package("blast+")>
-Module blastPlus
+Module blastPlusInterop
 
     <ExportAPI("makeblastdb")>
     Public Function makeblastdb([in] As String, dbtype As String, Optional env As Environment = Nothing)
