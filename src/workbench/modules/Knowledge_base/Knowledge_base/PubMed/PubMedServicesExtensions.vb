@@ -80,26 +80,26 @@ Namespace PubMed
         '    FileName=&
         '    ContentType=xml
 
-        ''' <summary>
-        ''' Example
-        ''' 
-        ''' ```
-        ''' https://www.ncbi.nlm.nih.gov/pubmed/?term=22007635&amp;report=xml
-        ''' ```
-        ''' </summary>
-        ''' <param name="term"></param>
-        ''' <returns></returns>
-        Public Function GetArticleInfo(term As String) As PubmedArticle
-            Dim url$ = $"https://www.ncbi.nlm.nih.gov/pubmed/?term={term}&report=xml"
-            Dim html$ = url.GET(headers:=tool_info)
-            Dim xml$ = html _
-                .GetBetween("<pre>", "</pre>") _
-                .Replace("&lt;", "<") _
-                .Replace("&gt;", ">")
-            Dim info As PubmedArticle = xml.CreateObjectFromXmlFragment(Of PubmedArticle)
+        '''' <summary>
+        '''' Example
+        '''' 
+        '''' ```
+        '''' https://www.ncbi.nlm.nih.gov/pubmed/?term=22007635&amp;report=xml
+        '''' ```
+        '''' </summary>
+        '''' <param name="term"></param>
+        '''' <returns></returns>
+        'Public Function GetArticleInfo(term As String) As PubmedArticle
+        '    Dim url$ = $"https://www.ncbi.nlm.nih.gov/pubmed/?term={term}&report=xml"
+        '    Dim html$ = url.GET(headers:=tool_info)
+        '    Dim xml$ = html _
+        '        .GetBetween("<pre>", "</pre>") _
+        '        .Replace("&lt;", "<") _
+        '        .Replace("&gt;", ">")
+        '    Dim info As PubmedArticle = xml.CreateObjectFromXmlFragment(Of PubmedArticle)
 
-            Return info
-        End Function
+        '    Return info
+        'End Function
 
         Const eSearch$ = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi"
 
@@ -123,6 +123,13 @@ Namespace PubMed
                     Yield id
                 Next
             Loop
+        End Function
+
+        Public Function QueryPubmedRaw(term$, Optional page As Integer = 1, Optional size As Integer = 200) As String
+            Dim url As String = $"https://pubmed.ncbi.nlm.nih.gov/?term={term.UrlEncode}&page={page}&format=pubmed&size={size}"
+            Dim text As String = url.GET(headers:=tool_info)
+
+            Return text
         End Function
     End Module
 End Namespace

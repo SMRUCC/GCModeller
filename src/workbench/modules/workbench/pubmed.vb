@@ -8,13 +8,7 @@ Imports SMRUCC.genomics.GCModeller.Workbench.Knowledge_base.PubMed
 Module pubmedTools
 
     <ExportAPI("query")>
-    Public Function QueryKeyword(keyword As String, Optional pageSize As Integer = 2000) As String()
-        Return PubMed.QueryPubmed(term:=keyword, pageSize:=pageSize).ToArray
+    Public Function QueryKeyword(keyword As String, Optional page As Integer = 1, Optional size As Integer = 2000) As String
+        Return PubMed.QueryPubmedRaw(term:=keyword, page:=page, size:=size)
     End Function
-
-    <ExportAPI("article")>
-    Public Function PubmedArticle(id As String) As PubmedArticle
-        Return PubMed.GetArticleInfo(term:=id)
-    End Function
-
 End Module
