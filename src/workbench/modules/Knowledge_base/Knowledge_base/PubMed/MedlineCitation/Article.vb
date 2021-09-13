@@ -221,6 +221,13 @@ Namespace PubMed
         Public Property AbstractText As AbstractText()
         Public Property CopyrightInformation As String
 
+        Sub New()
+        End Sub
+
+        Sub New(text As String)
+            AbstractText = {New AbstractText With {.Text = text}}
+        End Sub
+
         Public Overrides Function ToString() As String
             Return AbstractText _
                 .SafeQuery _
