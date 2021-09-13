@@ -11,4 +11,9 @@ Module pubmedTools
     Public Function QueryKeyword(keyword As String, Optional page As Integer = 1, Optional size As Integer = 2000) As String
         Return PubMed.QueryPubmedRaw(term:=keyword, page:=page, size:=size)
     End Function
+
+    <ExportAPI("article")>
+    Public Function Parse(text As String) As PubmedArticle
+
+    End Function
 End Module

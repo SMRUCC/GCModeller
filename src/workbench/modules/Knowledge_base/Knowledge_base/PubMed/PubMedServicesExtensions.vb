@@ -126,7 +126,7 @@ Namespace PubMed
         End Function
 
         Public Function QueryPubmedRaw(term$, Optional page As Integer = 1, Optional size As Integer = 200) As String
-            Dim url As String = $"https://pubmed.ncbi.nlm.nih.gov/?term={term.UrlEncode}&page={page}&format=pubmed&size={size}"
+            Dim url As String = $"https://pubmed.ncbi.nlm.nih.gov/?term={term.UrlEncode}&page={page}&format=pubmed&size={size}&sort=pubdate"
             Dim text As String = url.GET(headers:=tool_info)
 
             Return text
