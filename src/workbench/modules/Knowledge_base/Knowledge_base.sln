@@ -1,19 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27004.2006
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31512.422
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Knowledge_base", "Knowledge_base\Knowledge_base.vbproj", "{93E00CB0-0E25-44CB-9D66-C18D3190A413}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "47-dotnet_Microsoft.VisualBasic", "..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\47-dotnet_Microsoft.VisualBasic.vbproj"", "{FECCE1FD-E1D4-49E3-A668-60BB5E7AED99}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "47-dotnet_Microsoft.VisualBasic", "..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\47-dotnet_Microsoft.VisualBasic.vbproj", "{FECCE1FD-E1D4-49E3-A668-60BB5E7AED99}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "test", "test\test.vbproj", "{299BC67C-AF08-43EA-89D4-17624B1DA081}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Microsoft.VisualBasic.Webservices.Bing", "..\..\runtime\sciBASIC#\www\Microsoft.VisualBasic.Webservices.Bing\Microsoft.VisualBasic.Webservices.Bing.vbproj", "{4CC91A21-9BDA-45C3-A412-711711BCCDD8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "runtime", "runtime", "{58246625-4F88-469D-8B5F-17B1D8C41ADF}"
-EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "kb", "..\..\GCModeller\CLI_tools\kb\kb.vbproj", "{07AFD909-057E-43F0-9CF0-D7364909A248}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nlp", "nlp", "{2BDAEC01-5280-46AC-9364-330084EB8F06}"
 EndProject
@@ -355,78 +353,6 @@ Global
 		{4CC91A21-9BDA-45C3-A412-711711BCCDD8}.Surveillance-of-infectious-diseases|x64.Build.0 = installer_x64|x64
 		{4CC91A21-9BDA-45C3-A412-711711BCCDD8}.Surveillance-of-infectious-diseases|x86.ActiveCfg = installer_x64|x86
 		{4CC91A21-9BDA-45C3-A412-711711BCCDD8}.Surveillance-of-infectious-diseases|x86.Build.0 = installer_x64|x86
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.Biodeep|Any CPU.ActiveCfg = Release|Any CPU
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.Biodeep|Any CPU.Build.0 = Release|Any CPU
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.Biodeep|x64.ActiveCfg = Release|Any CPU
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.Biodeep|x64.Build.0 = Release|Any CPU
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.Biodeep|x86.ActiveCfg = Release|Any CPU
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.Biodeep|x86.Build.0 = Release|Any CPU
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.Debug|x64.ActiveCfg = Debug|x64
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.Debug|x64.Build.0 = Debug|x64
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.Debug|x86.Build.0 = Debug|Any CPU
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.DEMO|Any CPU.ActiveCfg = Debug|Any CPU
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.DEMO|Any CPU.Build.0 = Debug|Any CPU
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.DEMO|x64.ActiveCfg = Debug|Any CPU
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.DEMO|x64.Build.0 = Debug|Any CPU
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.DEMO|x86.ActiveCfg = Debug|Any CPU
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.DEMO|x86.Build.0 = Debug|Any CPU
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.docs|Any CPU.ActiveCfg = Debug|Any CPU
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.docs|Any CPU.Build.0 = Debug|Any CPU
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.docs|x64.ActiveCfg = Debug|Any CPU
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.docs|x64.Build.0 = Debug|Any CPU
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.docs|x86.ActiveCfg = Debug|Any CPU
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.docs|x86.Build.0 = Debug|Any CPU
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.GCModeller(Release_X64)|Any CPU.ActiveCfg = GCModeller(Release_X64)|Any CPU
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.GCModeller(Release_X64)|Any CPU.Build.0 = GCModeller(Release_X64)|Any CPU
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.GCModeller(Release_X64)|x64.ActiveCfg = GCModeller(Release_X64)|x64
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.GCModeller(Release_X64)|x64.Build.0 = GCModeller(Release_X64)|x64
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.GCModeller(Release_X64)|x86.ActiveCfg = Release|Any CPU
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.GCModeller(Release_X64)|x86.Build.0 = Release|Any CPU
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.installer_x64|Any CPU.ActiveCfg = Release|Any CPU
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.installer_x64|Any CPU.Build.0 = Release|Any CPU
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.installer_x64|x64.ActiveCfg = Release|Any CPU
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.installer_x64|x64.Build.0 = Release|Any CPU
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.installer_x64|x86.ActiveCfg = Release|Any CPU
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.installer_x64|x86.Build.0 = Release|Any CPU
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.mysqli_X64_release|Any CPU.ActiveCfg = Release|Any CPU
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.mysqli_X64_release|Any CPU.Build.0 = Release|Any CPU
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.mysqli_X64_release|x64.ActiveCfg = Release|Any CPU
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.mysqli_X64_release|x64.Build.0 = Release|Any CPU
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.mysqli_X64_release|x86.ActiveCfg = Release|Any CPU
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.mysqli_X64_release|x86.Build.0 = Release|Any CPU
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.Publish|Any CPU.ActiveCfg = Release|Any CPU
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.Publish|Any CPU.Build.0 = Release|Any CPU
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.Publish|x64.ActiveCfg = Release|Any CPU
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.Publish|x64.Build.0 = Release|Any CPU
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.Publish|x86.ActiveCfg = Release|Any CPU
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.Publish|x86.Build.0 = Release|Any CPU
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.Release|Any CPU.Build.0 = Release|Any CPU
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.Release|x64.ActiveCfg = Release|Any CPU
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.Release|x64.Build.0 = Release|Any CPU
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.Release|x86.ActiveCfg = Release|Any CPU
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.Release|x86.Build.0 = Release|Any CPU
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.Release2|Any CPU.ActiveCfg = Release|Any CPU
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.Release2|Any CPU.Build.0 = Release|Any CPU
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.Release2|x64.ActiveCfg = Release|Any CPU
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.Release2|x64.Build.0 = Release|Any CPU
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.Release2|x86.ActiveCfg = Release|Any CPU
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.Release2|x86.Build.0 = Release|Any CPU
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.sciBASIC.NET-test-release|Any CPU.ActiveCfg = Release|Any CPU
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.sciBASIC.NET-test-release|Any CPU.Build.0 = Release|Any CPU
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.sciBASIC.NET-test-release|x64.ActiveCfg = Release|Any CPU
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.sciBASIC.NET-test-release|x64.Build.0 = Release|Any CPU
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.sciBASIC.NET-test-release|x86.ActiveCfg = Release|Any CPU
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.sciBASIC.NET-test-release|x86.Build.0 = Release|Any CPU
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.Surveillance-of-infectious-diseases|Any CPU.ActiveCfg = Release|Any CPU
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.Surveillance-of-infectious-diseases|Any CPU.Build.0 = Release|Any CPU
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.Surveillance-of-infectious-diseases|x64.ActiveCfg = Release|Any CPU
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.Surveillance-of-infectious-diseases|x64.Build.0 = Release|Any CPU
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.Surveillance-of-infectious-diseases|x86.ActiveCfg = Release|Any CPU
-		{07AFD909-057E-43F0-9CF0-D7364909A248}.Surveillance-of-infectious-diseases|x86.Build.0 = Release|Any CPU
 		{203BC68F-A0CD-443A-AB62-4AF4110F752F}.Biodeep|Any CPU.ActiveCfg = Biodeep|Any CPU
 		{203BC68F-A0CD-443A-AB62-4AF4110F752F}.Biodeep|Any CPU.Build.0 = Biodeep|Any CPU
 		{203BC68F-A0CD-443A-AB62-4AF4110F752F}.Biodeep|x64.ActiveCfg = Biodeep|x64
