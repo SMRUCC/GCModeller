@@ -62,8 +62,8 @@ Namespace LocalBLAST.Application.BBH
 
         <Extension>
         Private Function hashSet(source As IEnumerable(Of BestHit),
-                                identities As Double,
-                                coverage As Double) As Dictionary(Of String, Dictionary(Of String, BestHit))
+                                 identities As Double,
+                                 coverage As Double) As Dictionary(Of String, Dictionary(Of String, BestHit))
 
             Dim hash = (From x As BestHit
                         In source
@@ -71,12 +71,16 @@ Namespace LocalBLAST.Application.BBH
                         Select x
                         Group x By x.QueryName Into Group) _
                              .ToDictionary(Function(x) x.QueryName,
-                                           Function(x) (From hit As BestHit
-                                                        In x.Group
-                                                        Select hit
-                                                        Group hit By hit.HitName Into Group) _
+                                           Function(x)
+                                               Return (From hit As BestHit
+                                                       In x.Group
+                                                       Select hit
+                                                       Group hit By hit.HitName Into Group) _
                                                              .ToDictionary(Function(xx) xx.HitName,
-                                                                           Function(xx) xx.Group.First))
+                                                                           Function(xx)
+                                                                               Return xx.Group.First
+                                                                           End Function)
+                                           End Function)
             Return hash
         End Function
 
@@ -140,12 +144,14 @@ Namespace LocalBLAST.Application.BBH
                     In result
                     Select x
                     Group x By x.QueryName Into Group) _
-                         .Select(Function(x) If(x.Group.Count = 1,
+                         .Select(Function(x)
+                                     Return If(x.Group.Count = 1,
                          x.Group.ToArray,
                          (From o As BiDirectionalBesthit
                           In x.Group
                           Where Not String.IsNullOrEmpty(o.HitName)
-                          Select o).ToArray)).ToVector
+                          Select o).ToArray)
+                                 End Function).ToVector
         End Function
 
         ''' <summary>
@@ -153,7 +159,8 @@ Namespace LocalBLAST.Application.BBH
         ''' </summary>
         ''' <param name="hits">假设这里面的hits都是通过了cutoff了的数据</param>
         ''' <returns></returns>
-        <Extension> Public Function TopHit(hits As IEnumerable(Of BestHit)) As BestHit
+        <Extension>
+        Public Function TopHit(hits As IEnumerable(Of BestHit)) As BestHit
             Dim LQuery = LinqAPI.DefaultFirst(Of BestHit) _
  _
                 () <= From x As BestHit
@@ -310,7 +317,9 @@ Namespace LocalBLAST.Application.BBH
                     Select x
                     Group x By x.QueryName Into Group) _
                          .ToDictionary(Function(x) x.QueryName,
-                                       Function(x) x.Group.TopHit)
+                                       Function(x)
+                                           Return x.Group.TopHit
+                                       End Function)
         End Function
 
         <Extension>
