@@ -42,6 +42,8 @@ Namespace LocalBLAST.Application.BBH
                         .description = query.description,
                         .level = Levels.NA
                     }
+
+                    Continue For
                 End If
 
                 Dim hits = rfilter(query.HitName)
