@@ -107,6 +107,12 @@ Module workflows
         End If
     End Function
 
+    ''' <summary>
+    ''' export results of fastq reads mapping to genome sequence. 
+    ''' </summary>
+    ''' <param name="query"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("blastn.maphit")>
     Public Function parseBlastnMaps(query As pipeline, Optional env As Environment = Nothing) As pipeline
         If query Is Nothing Then
@@ -120,6 +126,16 @@ Module workflows
             .DoCall(AddressOf pipeline.CreateFromPopulator)
     End Function
 
+    ''' <summary>
+    ''' Export single side besthit
+    ''' </summary>
+    ''' <param name="query"></param>
+    ''' <param name="idetities"></param>
+    ''' <param name="coverage"></param>
+    ''' <param name="topBest"></param>
+    ''' <param name="keepsRawName"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("blasthit.sbh")>
     <Extension>
     Public Function ExportSBHHits(query As pipeline,
@@ -193,7 +209,11 @@ Module workflows
                     .DoCall(AddressOf pipeline.CreateFromPopulator)
 
             Case BBHAlgorithm.BHR
+                Throw New NotImplementedException
             Case BBHAlgorithm.TaxonomySupports
+                Throw New NotImplementedException
+            Case BBHAlgorithm.HybridBHR
+
             Case Else
                 Return REnv.Internal.debug.stop("invalid algorithm supports!", env)
         End Select
