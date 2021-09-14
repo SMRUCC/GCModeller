@@ -213,7 +213,9 @@ Module workflows
             Case BBHAlgorithm.TaxonomySupports
                 Throw New NotImplementedException
             Case BBHAlgorithm.HybridBHR
-
+                Return FastMatch _
+                    .BinaryMatch(forward.populates(Of BestHit)(env), reverse.populates(Of BestHit)(env)) _
+                    .DoCall(AddressOf pipeline.CreateFromPopulator)
             Case Else
                 Return REnv.Internal.debug.stop("invalid algorithm supports!", env)
         End Select
