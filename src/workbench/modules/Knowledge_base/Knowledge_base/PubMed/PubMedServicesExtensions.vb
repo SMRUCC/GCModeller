@@ -1,45 +1,47 @@
 ﻿#Region "Microsoft.VisualBasic::633176936f5cca61b8fa7dfdca9e8f3f, Knowledge_base\Knowledge_base\PubMed\PubMedServicesExtensions.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module PubMedServicesExtensions
-    ' 
-    '         Function: GetArticleInfo, QueryPubmed
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module PubMedServicesExtensions
+' 
+'         Function: GetArticleInfo, QueryPubmed
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 Imports i32 = Microsoft.VisualBasic.Language.i32
 
@@ -80,25 +82,108 @@ Namespace PubMed
         '    FileName=&
         '    ContentType=xml
 
-        ''' <summary>
-        ''' Example
-        ''' 
-        ''' ```
-        ''' https://www.ncbi.nlm.nih.gov/pubmed/?term=22007635&amp;report=xml
-        ''' ```
-        ''' </summary>
-        ''' <param name="term"></param>
-        ''' <returns></returns>
-        Public Function GetArticleInfo(term As String) As PubmedArticle
-            Dim url$ = $"https://www.ncbi.nlm.nih.gov/pubmed/?term={term}&report=xml"
-            Dim html$ = url.GET(headers:=tool_info)
-            Dim xml$ = html _
-                .GetBetween("<pre>", "</pre>") _
-                .Replace("&lt;", "<") _
-                .Replace("&gt;", ">")
-            Dim info As PubmedArticle = xml.CreateObjectFromXmlFragment(Of PubmedArticle)
+        '''' <summary>
+        '''' Example
+        '''' 
+        '''' ```
+        '''' https://www.ncbi.nlm.nih.gov/pubmed/?term=22007635&amp;report=xml
+        '''' ```
+        '''' </summary>
+        '''' <param name="term"></param>
+        '''' <returns></returns>
+        'Public Function GetArticleInfo(term As String) As PubmedArticle
+        '    Dim url$ = $"https://www.ncbi.nlm.nih.gov/pubmed/?term={term}&report=xml"
+        '    Dim html$ = url.GET(headers:=tool_info)
+        '    Dim xml$ = html _
+        '        .GetBetween("<pre>", "</pre>") _
+        '        .Replace("&lt;", "<") _
+        '        .Replace("&gt;", ">")
+        '    Dim info As PubmedArticle = xml.CreateObjectFromXmlFragment(Of PubmedArticle)
 
-            Return info
+        '    Return info
+        'End Function
+
+        <Extension>
+        Public Iterator Function ParseArticles(text As String) As IEnumerable(Of PubmedArticle)
+            For Each block As String() In text _
+                .LineTokens _
+                .Split(Function(line) Strings.Trim(line).Length = 0, includes:=False)
+
+                Yield GetArticleInfo(block)
+            Next
+        End Function
+
+        Private Function GetArticleInfo(lines As String()) As PubmedArticle
+            Dim article As New PubmedArticle With {
+                .MedlineCitation = New MedlineCitation With {.Article = New Article},
+                .PubmedData = New PubmedData
+            }
+
+            For Each meta As NamedValue(Of String) In lines.MetaLines
+                Select Case meta.Name
+                    Case "PMID" : article.MedlineCitation.PMID = New PMID With {.ID = meta.Value, .Version = "n/a"}
+                    Case "OWN"
+                    Case "STAT"
+                        article.MedlineCitation.Status = meta.Value
+                        article.PubmedData.PublicationStatus = meta.Value
+                    Case "LR"
+                    Case "IS"
+                    Case "VI"
+                    Case "IP"
+                    Case "DP"
+                    Case "TI" : article.MedlineCitation.Article.ArticleTitle = meta.Value
+                    Case "PG"
+                    Case "LID" : article.setDoi(meta.Value)
+                    Case "AB" : article.MedlineCitation.Article.Abstract = New Abstract(meta.Value)
+                    Case "CI" : article.MedlineCitation.Article.Abstract.CopyrightInformation = meta.Value
+                    Case ""
+                End Select
+            Next
+
+            Return article
+        End Function
+
+        <Extension>
+        Private Sub setDoi(article As PubmedArticle, data As String)
+            If data.IndexOf("[doi]") > -1 Then
+                If article.MedlineCitation.Article.ELocationID.IsNullOrEmpty Then
+                    article.MedlineCitation.Article.ELocationID = {}
+                End If
+
+                Dim ref As New ELocationID With {
+                    .EIdType = "DOI",
+                    .Value = data.Replace("[doi]", "").Trim
+                }
+
+                Call article _
+                    .MedlineCitation _
+                    .Article _
+                    .ELocationID _
+                    .Add(ref)
+            End If
+        End Sub
+
+        <Extension>
+        Private Iterator Function MetaLines(lines As String()) As IEnumerable(Of NamedValue(Of String))
+            Dim buf As String = Nothing
+            Dim bufName As String = Nothing
+            Dim tmp As NamedValue(Of String)
+
+            For Each line As String In lines
+                If line.IndexOf("- ") > -1 Then
+                    If Not bufName.StringEmpty Then
+                        Yield New NamedValue(Of String)(bufName, buf)
+                    End If
+
+                    tmp = line.GetTagValue("- ", trim:=True)
+                    buf = tmp.Value
+                    bufName = tmp.Name
+                Else
+                    buf = Strings.Trim(buf & " " & line.Trim)
+                End If
+            Next
+
+            Yield New NamedValue(Of String)(bufName, buf)
         End Function
 
         Const eSearch$ = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi"
@@ -123,6 +208,13 @@ Namespace PubMed
                     Yield id
                 Next
             Loop
+        End Function
+
+        Public Function QueryPubmedRaw(term$, Optional page As Integer = 1, Optional size As Integer = 200) As String
+            Dim url As String = $"https://pubmed.ncbi.nlm.nih.gov/?term={term.UrlEncode}&page={page}&format=pubmed&size={size}&sort=pubdate"
+            Dim text As String = url.GET(headers:=tool_info)
+
+            Return text
         End Function
     End Module
 End Namespace
