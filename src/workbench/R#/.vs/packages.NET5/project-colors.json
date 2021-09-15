@@ -1,0 +1,36 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "ae9626dd-95bb-436d-8816-11a0ac7672c8": {
+      "ProjectGuid": "ae9626dd-95bb-436d-8816-11a0ac7672c8",
+      "DisplayName": "localblast.NET5",
+      "ColorIndex": 0
+    },
+    "e2d629cc-31b1-4bd6-97fa-e3714537d3a6": {
+      "ProjectGuid": "e2d629cc-31b1-4bd6-97fa-e3714537d3a6",
+      "DisplayName": "seqtoolkit.NET5",
+      "ColorIndex": 1
+    },
+    "4e4e76b9-eee7-4257-98be-413bf9c8504b": {
+      "ProjectGuid": "4e4e76b9-eee7-4257-98be-413bf9c8504b",
+      "DisplayName": "R-cmd.NET5",
+      "ColorIndex": 2
+    },
+    "5e88c198-db8f-4cd1-8312-2e962e52d1c7": {
+      "ProjectGuid": "5e88c198-db8f-4cd1-8312-2e962e52d1c7",
+      "DisplayName": "visualkit.NET5",
+      "ColorIndex": 3
+    },
+    "193ee8cb-3597-49db-86b9-f03b9cb2cfe2": {
+      "ProjectGuid": "193ee8cb-3597-49db-86b9-f03b9cb2cfe2",
+      "DisplayName": "kegg_kit.NET5",
+      "ColorIndex": 4
+    },
+    "dbf7724b-ab1c-4632-a822-0ba07ab9116b": {
+      "ProjectGuid": "dbf7724b-ab1c-4632-a822-0ba07ab9116b",
+      "DisplayName": "biocore-netcore5",
+      "ColorIndex": 5
+    }
+  },
+  "NextColorIndex": 6
+}
