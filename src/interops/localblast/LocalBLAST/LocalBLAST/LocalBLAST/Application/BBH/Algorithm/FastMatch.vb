@@ -8,7 +8,7 @@ Namespace LocalBLAST.Application.BBH
         <Extension>
         Public Iterator Function BinaryMatch(forward As IEnumerable(Of BestHit), reverse As IEnumerable(Of BestHit),
                                              Optional score As Double = 60,
-                                             Optional BHR As Double = 0.95) As IEnumerable(Of BiDirectionalBesthit)
+                                             Optional BHR As Double = 0.8) As IEnumerable(Of BiDirectionalBesthit)
 
             Dim rfilter = reverse _
                 .Where(Function(r)
@@ -24,11 +24,6 @@ Namespace LocalBLAST.Application.BBH
                               End Function)
 
             For Each query As BestHit In forward _
-                .Where(Function(q)
-                           Return q.score >= score AndAlso
-                               q.SBHScore >= BHR AndAlso
-                               Not q.SBHScore.IsNaNImaginary
-                       End Function) _
                 .GroupBy(Function(q) q.QueryName) _
                 .Select(Function(q)
                             Return q.OrderByDescending(Function(d) d.SBHScore).First
