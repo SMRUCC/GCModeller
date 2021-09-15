@@ -99,6 +99,16 @@ Namespace ComponentModel.Annotation
             }
         End Function
 
+        Public Function Take(topN As Integer) As CatalogProfile
+            Return New CatalogProfile With {
+                .information = New Dictionary(Of String, String)(information),
+                .profile = profile _
+                    .OrderByDescending(Function(a) a.Value) _
+                    .Take(topN) _
+                    .ToDictionary
+            }
+        End Function
+
         Public Overrides Function ToString() As String
             Return profile.Keys.GetJson
         End Function

@@ -223,7 +223,7 @@ Module visualPlot
     ''' <returns></returns>
     <ExportAPI("kegg.category_profile")>
     <RApiReturn(GetType(CatalogProfiles))>
-    Public Function KEGGCategoryProfile(profiles As Object, Optional top% = 10, Optional env As Environment = Nothing) As Object
+    Public Function KEGGCategoryProfile(profiles As Object, Optional top% = 10, Optional sort As Boolean = True, Optional env As Environment = Nothing) As Object
         Dim profile As CatalogProfiles
 
         If TypeOf profiles Is Dictionary(Of String, Integer) Then
@@ -234,7 +234,7 @@ Module visualPlot
                               End Function) _
                 .DoKeggProfiles(top)
         ElseIf TypeOf profiles Is Dictionary(Of String, NamedValue(Of Double)()) Then
-            profile = New CatalogProfiles(DirectCast(profiles, Dictionary(Of String, NamedValue(Of Double)())))
+            profile = New CatalogProfiles(DirectCast(profiles, Dictionary(Of String, NamedValue(Of Double)()))).Take(top)
         ElseIf TypeOf profiles Is Dictionary(Of String, Double) Then
             profile = DirectCast(profiles, Dictionary(Of String, Double)).DoKeggProfiles(top)
         ElseIf TypeOf profiles Is list Then

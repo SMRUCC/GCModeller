@@ -111,6 +111,16 @@ Namespace ComponentModel.Annotation
             }
         End Function
 
+        Public Function Take(topN As Integer) As CatalogProfiles
+            Return New CatalogProfiles With {
+                .catalogs = catalogs _
+                    .ToDictionary(Function(a) a.Key,
+                                  Function(a)
+                                      Return a.Value.Take(topN)
+                                  End Function)
+            }
+        End Function
+
         Public Function delete(name As String) As CatalogProfiles
             Call catalogs.Remove(name)
             Return Me
