@@ -54,7 +54,7 @@ Namespace Drawing2D.Math2D.MarchingSquares
     Public Class GeneralPath
 
         Friend ReadOnly polygons As New List(Of PointF())
-        Private ReadOnly temp As New List(Of PointF)
+        Friend ReadOnly temp As New List(Of PointF)
 
         Public ReadOnly Property level As Double
         Public Property dimension As Size
@@ -125,8 +125,17 @@ Namespace Drawing2D.Math2D.MarchingSquares
             Next
         End Sub
 
+        ''' <summary>
+        ''' clear current temp data
+        ''' </summary>
+        Public Sub Discard()
+            Call temp.Clear()
+        End Sub
+
         Friend Sub ClosePath()
-            polygons.Add(temp.PopAll)
+            If temp > 0 Then
+                Call polygons.Add(temp.PopAll)
+            End If
         End Sub
     End Class
 End Namespace

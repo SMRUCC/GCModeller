@@ -1,7 +1,10 @@
-﻿Imports System.Runtime.CompilerServices
+﻿Imports System.Drawing
+Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math.Distributions
 Imports bool = System.Boolean
 Imports i8 = System.SByte
 Imports stdNum = System.Math
@@ -193,7 +196,7 @@ Namespace Drawing2D.Math2D.MarchingSquares
             Return paths
         End Function
 
-        Private Function getRn(neighbors As i8(), outline As bool, o As Integer()) As i8
+        Private Function getRn(neighbors As usize(), outline As bool, o As Integer()) As i8
             If outline Then
                 If neighbors(o(7)) > 0 AndAlso neighbors(o(0)) > 0 Then
                     Return 1
@@ -215,6 +218,15 @@ Namespace Drawing2D.Math2D.MarchingSquares
             End If
         End Function
 
+        <Extension>
+        Private Function rem_euclid(a As i8, b As Integer) As Integer
+            If a > 0 Then
+                Return a Mod b
+            Else
+                Return b + a
+            End If
+        End Function
+
         Private Sub trace(outline As bool, cursor_x As usize, cursor_y As usize,
                           o As Integer(),
                           rot As i8,
@@ -224,12 +236,16 @@ Namespace Drawing2D.Math2D.MarchingSquares
                           contours As Integer()(),
                           paths As GeneralPath)
 
+            Dim nsize As Integer = contours.Length * contours(Scan0).Length * 2
             Dim tracer_x = cursor_x
             Dim tracer_y = cursor_y
             Dim vertices_nbr As Int32 = 1
-            paths.MoveTo(tracer_x + vertex(o(0)).Item1, tracer_y + vertex(o(0)).Item2)
-            Dim neighbors As i8()
+            Dim neighbors As usize()
             Dim rn As i8
+            Dim i As i32 = 0
+            Dim checked As bool = False
+
+            Call paths.MoveTo(tracer_x + vertex(o(0)).Item1, tracer_y + vertex(o(0)).Item2)
 
             Do
                 neighbors = {
@@ -257,7 +273,7 @@ Namespace Drawing2D.Math2D.MarchingSquares
                         tracer_x = tracer_x + MN(o(viv.Item1)).Item1
                         tracer_y = tracer_y + MN(o(viv.Item1)).Item2
                         ' Rotate 90 degrees, counterclockwise For the outlines (rot = 2) Or clockwise For the holes (rot = -2)
-                        o.RotateRight(rot Mod 8) ' 
+                        o.RotateRight(rot.rem_euclid(8)) ' 
                         vertices_nbr += 1
                         If o(0) = 0 OrElse o(0) = 4 Then
                             paths.LineTo(tracer_x + vertex(o(0)).Item1, tracer_y)
@@ -270,7 +286,7 @@ Namespace Drawing2D.Math2D.MarchingSquares
                         tracer_y = tracer_y + MN(o(0)).Item2
                     Case 3
                         contours(tracer_y)(tracer_x) += value(o(0))
-                        o.RotateLeft(rot Mod 8) ' Rotate 90 degrees, clockwise For the outlines (rot = 2) Or counterclockwise For the holes (rot = -2)
+                        o.RotateLeft(rot.rem_euclid(8)) ' Rotate 90 degrees, clockwise For the outlines (rot = 2) Or counterclockwise For the holes (rot = -2)
                         contours(tracer_y)(tracer_x) += value(o(0))
                         vertices_nbr += 1
                         If o(0) = 0 OrElse o(0) = 4 Then
@@ -278,7 +294,7 @@ Namespace Drawing2D.Math2D.MarchingSquares
                         Else
                             paths.LineTo(tracer_x, tracer_y + vertex(o(0)).Item2)
                         End If
-                        o.RotateRight(rot Mod 8)
+                        o.RotateRight(rot.rem_euclid(8))
                         tracer_x = tracer_x + MN(o(viv.Item2)).Item1
                         tracer_y = tracer_y + MN(o(viv.Item2)).Item2
                         vertices_nbr += 1
@@ -289,7 +305,7 @@ Namespace Drawing2D.Math2D.MarchingSquares
                         End If
                     Case Else
                         contours(tracer_y)(tracer_x) += value(o(0))
-                        o.RotateLeft(rot Mod 8)
+                        o.RotateLeft(rot.rem_euclid(8))
                         vertices_nbr += 1
                         If o(0) = 0 OrElse o(0) = 4 Then
                             paths.LineTo(tracer_x + vertex(o(0)).Item1, tracer_y)
@@ -301,14 +317,38 @@ Namespace Drawing2D.Math2D.MarchingSquares
                 If tracer_x = cursor_x AndAlso tracer_y = cursor_y AndAlso vertices_nbr > 2 Then
                     Exit Do
                 End If
+                If (Not checked) AndAlso ++i > 50 Then
+                    ' make bugs fixed of deal loop
+                    Dim first As PointF() = paths.temp.Samples(5, 1, replace:=False).First
+                    Dim per = paths.temp _
+                        .AsParallel _
+                        .Where(Function(p)
+                                   Return first.Any(Function(t) p.X = t.X AndAlso p.Y = t.Y)
+                               End Function) _
+                        .Count
+
+                    checked = True
+
+                    If per / paths.temp.Count >= 0.9 Then
+                        Call paths.Discard()
+                        Return
+                    End If
+                End If
+                If paths.temp > nsize Then
+                    Exit Do
+                End If
             Loop
+
+            i = 0
+            checked = False
 
             Do
                 contours(tracer_y)(tracer_x) += value(o(0))
+
                 If o(0) = viv.Item3 Then
                     Exit Do
                 End If
-                o.RotateLeft(rot Mod 8)
+                o.RotateLeft(rot.rem_euclid(8))
                 vertices_nbr += 1
                 If o(0) = 0 OrElse o(0) = 4 Then
                     paths.LineTo(tracer_x + (vertex(o(0)).Item1), tracer_y)
@@ -316,6 +356,26 @@ Namespace Drawing2D.Math2D.MarchingSquares
                     paths.LineTo(tracer_x, tracer_y + (vertex(o(0)).Item2))
                 End If
 
+                If (Not checked) AndAlso ++i > 50 Then
+                    ' make bugs fixed of deal loop
+                    Dim first As PointF() = paths.temp.Samples(5, 1, replace:=False).First
+                    Dim per = paths.temp _
+                        .AsParallel _
+                        .Where(Function(p)
+                                   Return first.Any(Function(t) p.X = t.X AndAlso p.Y = t.Y)
+                               End Function) _
+                        .Count
+
+                    checked = True
+
+                    If per / paths.temp.Count >= 0.9 Then
+                        Call paths.Discard()
+                        Return
+                    End If
+                End If
+                If paths.temp > nsize Then
+                    Exit Do
+                End If
             Loop
 
             Call paths.ClosePath()
