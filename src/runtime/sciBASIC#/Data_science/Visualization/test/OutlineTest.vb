@@ -33,8 +33,8 @@ Public Module OutlineTest
         ' raw scatter
         Call app.Plot.Save("D:\GCModeller\src\runtime\sciBASIC#\Data_science\Visualization\data\contour_outlines\region_9.raw.png")
 
-        Dim outline = ContourLayer.GetOutline(x, y)
-        Dim contour As New ContourPlot({outline}, New Theme)
+        Dim outline = ContourLayer.GetOutline(x, y, fillSize:=5)
+        Dim contour As New ContourPlot({outline}, New Theme With {.padding = "padding: 200px 800px 200px 200px;"})
 
         Call contour.Plot.Save("D:\GCModeller\src\runtime\sciBASIC#\Data_science\Visualization\data\contour_outlines\region_9.outline.png")
 
