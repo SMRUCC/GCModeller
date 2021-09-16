@@ -77,13 +77,8 @@ Namespace Drawing2D.Math2D.MarchingSquares
         ''' </summary>
         ''' <param name="x"></param>
         ''' <param name="y"></param>
-        ''' <param name="threshold">[0, 100]</param>
-        ''' <param name="epsilon"></param>
         ''' <returns></returns>
-        Public Shared Function GetOutline(x As Double(), y As Double(),
-                                          Optional threshold As Double = 85,
-                                          Optional epsilon As Double = 0.00001) As GeneralPath
-
+        Public Shared Function GetOutline(x As Double(), y As Double()) As GeneralPath
             Dim sample As MeasureData() = x.Select(Function(xi, i) New MeasureData(xi, y(i), 100)).ToArray
             Dim topleft As New MeasureData(0, 0, 0)
             Dim topright As New MeasureData(x.Max, y.Max, 0)
@@ -92,7 +87,7 @@ Namespace Drawing2D.Math2D.MarchingSquares
             Dim allRegions = sample _
                 .JoinIterates({topleft, topright, bottomleft, bottomright}) _
                 .DoCall(Function(poly)
-                            Dim matrix As New MapMatrix(poly)
+                            Dim matrix As New MapMatrix(poly, interpolateFill:=False)
                             Dim path As GeneralPath = ContourTracing.GetOutine(matrix, closepaths:=True)
 
                             Return path
