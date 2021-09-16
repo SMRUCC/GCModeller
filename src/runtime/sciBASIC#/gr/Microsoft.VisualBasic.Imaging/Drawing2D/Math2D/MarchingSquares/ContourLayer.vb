@@ -75,7 +75,7 @@ Namespace Drawing2D.Math2D.MarchingSquares
         Private Shared Iterator Function FillDots(x As Double(), y As Double(), fillSize As Integer) As IEnumerable(Of MeasureData)
             If fillSize <= 1 Then
                 For i As Integer = 0 To x.Length - 1
-                    Yield New MeasureData(x(i), y(i))
+                    Yield New MeasureData(x(i), y(i), 1)
                 Next
             Else
                 Dim d As Integer = fillSize / 2
@@ -83,7 +83,7 @@ Namespace Drawing2D.Math2D.MarchingSquares
                 For i As Integer = 0 To x.Length - 1
                     For z As Integer = -d To d
                         If x(i) + z >= 0 AndAlso y(i) + z >= 0 Then
-                            Yield New MeasureData(x(i) + z, y(i) + z)
+                            Yield New MeasureData(x(i) + z, y(i) + z, 1)
                         End If
                     Next
                 Next
@@ -106,7 +106,7 @@ Namespace Drawing2D.Math2D.MarchingSquares
                 .JoinIterates({topleft, topright, bottomleft, bottomright}) _
                 .DoCall(Function(poly)
                             Dim matrix As New MapMatrix(poly, interpolateFill:=False)
-                            Dim path As GeneralPath = ContourTracing.GetOutine(matrix, closepaths:=True)
+                            Dim path As GeneralPath = ContourTracing.GetOutine(matrix)
 
                             Return path
                         End Function)

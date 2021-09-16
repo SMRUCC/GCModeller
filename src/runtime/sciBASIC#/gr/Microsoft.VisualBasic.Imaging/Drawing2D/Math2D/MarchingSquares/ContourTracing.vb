@@ -124,7 +124,7 @@ Namespace Drawing2D.Math2D.MarchingSquares
         ' /// println!("{:?}", bits);
         ' /// ```
 
-        Public Function GetOutine(map As MapMatrix, closepaths As Boolean) As GeneralPath
+        Public Function GetOutine(map As MapMatrix) As GeneralPath
             Dim bitList As New List(Of SByte())
 
             For Each row In map.GetMatrixInterpolation
@@ -134,7 +134,7 @@ Namespace Drawing2D.Math2D.MarchingSquares
                     .DoCall(AddressOf bitList.Add)
             Next
 
-            Dim path As GeneralPath = bitList.MatrixTranspose.ToArray.bits_to_paths(closepaths)
+            Dim path As GeneralPath = bitList.MatrixTranspose.ToArray.bits_to_paths
             Return path
         End Function
 
@@ -144,11 +144,10 @@ Namespace Drawing2D.Math2D.MarchingSquares
         ''' <param name="bits">
         ''' 在这里使用字节表示像素的情况：0表示空白，1表示有像素
         ''' </param>
-        ''' <param name="closepaths"></param>
         ''' <returns></returns>
         ''' 
         <Extension>
-        Public Function bits_to_paths(bits As SByte()(), closepaths As Boolean) As GeneralPath
+        Public Function bits_to_paths(bits As SByte()()) As GeneralPath
             Dim rows = bits.Length
             Dim cols = bits(Scan0).Length
             ' Add a border of 1 bit to prevent out-of-bounds error
@@ -169,9 +168,9 @@ Namespace Drawing2D.Math2D.MarchingSquares
                 hl = 1
                 For cursor_x As Integer = 1 To cols
                     If ol = hl AndAlso contours(cursor_y)(cursor_x) = 1 Then
-                        trace(True, cursor_x, cursor_y, {2, 3, 4, 5, 6, 7, 0, 1}, 2, (7, 1, 0), O_VERTEX, O_VALUE, contours, paths, closepaths)
+                        trace(True, cursor_x, cursor_y, {2, 3, 4, 5, 6, 7, 0, 1}, 2, (7, 1, 0), O_VERTEX, O_VALUE, contours, paths)
                     ElseIf ol > hl AndAlso contours(cursor_y)(cursor_x) = -1 Then
-                        trace(False, cursor_x, cursor_y, {4, 5, 6, 7, 0, 1, 2, 3}, -2, (1, 7, 6), H_VERTEX, H_VALUE, contours, paths, closepaths)
+                        trace(False, cursor_x, cursor_y, {4, 5, 6, 7, 0, 1, 2, 3}, -2, (1, 7, 6), H_VERTEX, H_VALUE, contours, paths)
                     End If
 
                     Select Case stdNum.Abs(contours(cursor_y)(cursor_x))
@@ -223,8 +222,7 @@ Namespace Drawing2D.Math2D.MarchingSquares
                           vertex As (i8, i8)(),
                           value As i8(),
                           contours As Integer()(),
-                          paths As GeneralPath,
-                          closepaths As bool)
+                          paths As GeneralPath)
 
             Dim tracer_x = cursor_x
             Dim tracer_y = cursor_y
@@ -320,10 +318,7 @@ Namespace Drawing2D.Math2D.MarchingSquares
 
             Loop
 
-            If closepaths Then
-                paths.ClosePath()
-            End If
+            Call paths.ClosePath()
         End Sub
-
     End Module
 End Namespace

@@ -66,6 +66,15 @@ Namespace Drawing2D.Math2D.MarchingSquares
         ''' </summary>
         ReadOnly dots() As MeasureData
 
+        Public ReadOnly Property size As Integer
+            Get
+                Dim dims = dimension
+                Dim l = dims.Width * dims.Height
+
+                Return l
+            End Get
+        End Property
+
         Public ReadOnly Property dimension As Size
             Get
                 Dim w As Integer = Aggregate p In dots Into Max(p.X)
