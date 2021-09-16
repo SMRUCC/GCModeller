@@ -1,4 +1,5 @@
-﻿Imports System.Text
+﻿Imports System.Runtime.CompilerServices
+Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Linq
 Imports bool = System.Boolean
@@ -133,7 +134,7 @@ Namespace Drawing2D.Math2D.MarchingSquares
                     .DoCall(AddressOf bitList.Add)
             Next
 
-            Dim path As GeneralPath = bits_to_paths(bitList.ToArray, closepaths)
+            Dim path As GeneralPath = bitList.MatrixTranspose.ToArray.bits_to_paths(closepaths)
             Return path
         End Function
 
@@ -145,6 +146,8 @@ Namespace Drawing2D.Math2D.MarchingSquares
         ''' </param>
         ''' <param name="closepaths"></param>
         ''' <returns></returns>
+        ''' 
+        <Extension>
         Public Function bits_to_paths(bits As SByte()(), closepaths As Boolean) As GeneralPath
             Dim rows = bits.Length
             Dim cols = bits(Scan0).Length
