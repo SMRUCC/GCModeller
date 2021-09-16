@@ -162,7 +162,11 @@ Public Module kegg_repository
         If Not reader.isError Then
             Return KEGGPathwayPack.WriteKeggDb(reader.populates(Of Pathway)(env), stream)
         Else
+            reader = pipeline.TryCreatePipeline(Of Reaction)(data, env, suppress:=True)
+        End If
 
+        If Not reader.isError Then
+            Return KEGGReactionPack.WriteKeggDb(reader.populates(Of Reaction)(env), stream)
         End If
 
         Return reader.getError
