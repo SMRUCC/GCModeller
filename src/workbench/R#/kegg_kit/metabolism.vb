@@ -60,7 +60,7 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 ''' <summary>
 ''' The kegg metabolism model toolkit
 ''' </summary>
-<Package("kegg.metabolism", Category:=APICategories.ResearchTools)>
+<Package("metabolism", Category:=APICategories.ResearchTools)>
 Module metabolism
 
     Sub New()
