@@ -65,99 +65,22 @@ Public Module VectorExtensions
 
     <Extension>
     Public Sub RotateLeft(Of T)(ByRef ArrayToRotate As T(), ByVal iPlacesToRotate As Integer)
-        Dim objNewArray As T()
-        Dim iOldArrayPos, iNewArrayPos As Integer
-        Dim iArrayLength As Integer
+        Dim kdd = ArrayToRotate.Take(iPlacesToRotate).ToArray
+        Dim ddk = ArrayToRotate.Skip(iPlacesToRotate).ToArray
 
-        ' Check that the number of places to rotate is greater than zero - running the function with a value
-        ' of places to rotate whiich is less than zero would cause problems, possibly causing the function to crash
-        If iPlacesToRotate < 0 Then Throw New ArgumentOutOfRangeException("Values for 'Places to Rotate' must be greater than zero.")
-
-        ' get the length of the array to rotate, we'll be using it a few times so will
-        ' load it into a local variable at the start of the function
-        iArrayLength = ArrayToRotate.Length
-
-        ' Array will be initialised from 0 to ArrayLength -1
-        ' so it will contain ArrayLength elements
-        ReDim objNewArray(iArrayLength - 1)
-
-        ' This will remove any extra complete rotations through the array
-        ' The mod operator returns trhe remainder of an integer divide operation
-        iPlacesToRotate = iPlacesToRotate Mod iArrayLength
-
-        ' Initialise the array position indexes
-        iOldArrayPos = iPlacesToRotate
-        iNewArrayPos = objNewArray.Length - 1
-
-        ' Copy objects from one array to the next
-        ' First start at iPlacesToRotate into the old array
-        ' and copy to the start of the new array.
-        While iOldArrayPos < iArrayLength
-            objNewArray(iNewArrayPos) = ArrayToRotate(iOldArrayPos)
-
-            iOldArrayPos += 1
-            iNewArrayPos -= 1
-        End While
-
-        iOldArrayPos = ArrayToRotate.Length - 1
-        iNewArrayPos = 0
-
-        ' Copy from the start of the old array into the end of the
-        ' new array
-        While iOldArrayPos < iPlacesToRotate
-            objNewArray(iNewArrayPos) = ArrayToRotate(iOldArrayPos)
-
-            iOldArrayPos -= 1
-            iNewArrayPos += 1
-        End While
+        Array.ConstrainedCopy(kdd, Scan0, ArrayToRotate, ArrayToRotate.Length - kdd.Length, kdd.Length)
+        Array.ConstrainedCopy(ddk, Scan0, ArrayToRotate, Scan0, ddk.Length)
     End Sub
 
     <Extension>
     Public Sub RotateRight(Of T)(ByRef ArrayToRotate As T(), ByVal iPlacesToRotate As Integer)
-        Dim objNewArray As T()
-        Dim iOldArrayPos, iNewArrayPos As Integer
-        Dim iArrayLength As Integer
+        ArrayToRotate = ArrayToRotate.Reverse.ToArray
 
-        ' Check that the number of places to rotate is greater than zero - running the function with a value
-        ' of places to rotate whiich is less than zero would cause problems, possibly causing the function to crash
-        If iPlacesToRotate < 0 Then Throw New ArgumentOutOfRangeException("Values for 'Places to Rotate' must be greater than zero.")
+        Dim ddk = ArrayToRotate.Take(iPlacesToRotate).Reverse.ToArray
+        Dim kdd = ArrayToRotate.Skip(iPlacesToRotate).Reverse.ToArray
 
-        ' get the length of the array to rotate, we'll be using it a few times so will
-        ' load it into a local variable at the start of the function
-        iArrayLength = ArrayToRotate.Length
-
-        ' Array will be initialised from 0 to ArrayLength -1
-        ' so it will contain ArrayLength elements
-        ReDim objNewArray(iArrayLength - 1)
-
-        ' This will remove any extra complete rotations through the array
-        ' The mod operator returns trhe remainder of an integer divide operation
-        iPlacesToRotate = iPlacesToRotate Mod iArrayLength
-
-        ' Initialise the array position indexes
-        iOldArrayPos = iPlacesToRotate
-        iNewArrayPos = 0
-
-        ' Copy objects from one array to the next
-        ' First start at iPlacesToRotate into the old array
-        ' and copy to the start of the new array.
-        While iOldArrayPos < iArrayLength
-            objNewArray(iNewArrayPos) = ArrayToRotate(iOldArrayPos)
-
-            iOldArrayPos += 1
-            iNewArrayPos += 1
-        End While
-
-        iOldArrayPos = 0
-
-        ' Copy from the start of the old array into the end of the
-        ' new array
-        While iOldArrayPos < iPlacesToRotate
-            objNewArray(iNewArrayPos) = ArrayToRotate(iOldArrayPos)
-
-            iOldArrayPos += 1
-            iNewArrayPos += 1
-        End While
+        Array.ConstrainedCopy(ddk, Scan0, ArrayToRotate, Scan0, iPlacesToRotate)
+        Array.ConstrainedCopy(kdd, Scan0, ArrayToRotate, iPlacesToRotate, ArrayToRotate.Length - iPlacesToRotate)
     End Sub
 
     ''' <summary>
