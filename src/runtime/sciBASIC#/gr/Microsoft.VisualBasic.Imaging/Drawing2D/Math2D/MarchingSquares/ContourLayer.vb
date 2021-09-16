@@ -72,9 +72,17 @@ Namespace Drawing2D.Math2D.MarchingSquares
             Next
         End Function
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="x"></param>
+        ''' <param name="y"></param>
+        ''' <param name="threshold">[0, 100]</param>
+        ''' <param name="epsilon"></param>
+        ''' <returns></returns>
         Public Shared Function GetOutline(x As Double(), y As Double(),
-                                          Optional threshold As Double = 0.85,
-                                          Optional epsilon As Double = 0.00001) As GeneralPath()
+                                          Optional threshold As Double = 85,
+                                          Optional epsilon As Double = 0.00001) As GeneralPath
 
             Dim sample As MeasureData() = x.Select(Function(xi, i) New MeasureData(xi, y(i), 100)).ToArray
             Dim topleft As New MeasureData(0, 0, 0)
@@ -87,7 +95,17 @@ Namespace Drawing2D.Math2D.MarchingSquares
                 .Where(Function(d) d.level >= threshold) _
                 .OrderByDescending(Function(poly) poly.level) _
                 .ToArray
+            Dim polygonRegion As New GeneralPath(1) With {
+                .dimension = New Size(x.Max, y.Max)
+            }
 
+            For Each layer As GeneralPath In allRegions
+                For Each polygon In layer.polygons
+                    Call polygonRegion.AddPolygon(polygon)
+                Next
+            Next
+
+            Return polygonRegion
         End Function
     End Class
 

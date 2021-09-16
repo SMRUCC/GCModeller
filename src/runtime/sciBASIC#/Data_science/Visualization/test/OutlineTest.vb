@@ -1,5 +1,6 @@
 ﻿Imports System.Drawing
 Imports Microsoft.VisualBasic.Data.ChartPlots
+Imports Microsoft.VisualBasic.Data.ChartPlots.Contour
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Legend
 Imports Microsoft.VisualBasic.Data.ChartPlots.Plots
@@ -32,8 +33,10 @@ Public Module OutlineTest
         ' raw scatter
         Call app.Plot.Save("D:\GCModeller\src\runtime\sciBASIC#\Data_science\Visualization\data\contour_outlines\region_9.raw.png")
 
-        Dim outline = ContourLayer.GetOutline(x, y).ToArray
+        Dim outline = ContourLayer.GetOutline(x, y)
+        Dim contour As New ContourPlot({outline}, New Theme)
 
+        Call contour.Plot.Save("D:\GCModeller\src\runtime\sciBASIC#\Data_science\Visualization\data\contour_outlines\region_9.outline.png")
 
         Pause()
 
