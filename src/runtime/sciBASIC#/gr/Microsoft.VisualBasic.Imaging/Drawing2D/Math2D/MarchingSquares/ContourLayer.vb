@@ -91,7 +91,7 @@ Namespace Drawing2D.Math2D.MarchingSquares
         End Function
 
         ''' <summary>
-        ''' 
+        ''' Do contour tracing for measure outline
         ''' </summary>
         ''' <param name="x"></param>
         ''' <param name="y"></param>
