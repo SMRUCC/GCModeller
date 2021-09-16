@@ -137,6 +137,8 @@ Public Module kegg_repository
                         End Function)
         ElseIf TypeOf data Is MapRepository Then
             Return KEGGMapPack.WriteKeggDb(DirectCast(data, MapRepository).AsEnumerable, stream)
+        ElseIf TypeOf data Is ReactionRepository Then
+            Return KEGGReactionPack.WriteKeggDb(DirectCast(data, ReactionRepository).metabolicNetwork, stream)
         End If
 
         reader = pipeline.TryCreatePipeline(Of Map)(data, env, suppress:=True)
