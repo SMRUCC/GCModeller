@@ -49,7 +49,6 @@ Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Quantile
-Imports stdNum = System.Math
 
 Namespace Drawing2D.Math2D.MarchingSquares
 

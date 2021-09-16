@@ -1,5 +1,6 @@
 ﻿Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.Linq
 Imports bool = System.Boolean
 Imports i8 = System.SByte
 Imports stdNum = System.Math
@@ -121,6 +122,19 @@ Namespace Drawing2D.Math2D.MarchingSquares
         ' /// println!("{}", bits_to_paths(bits.to_vec(), true));
         ' /// println!("{:?}", bits);
         ' /// ```
+
+        Public Function GetOutine(map As MapMatrix, closepaths As Boolean) As String
+            Dim bitList As New List(Of SByte())
+
+            For Each row In map.GetMatrixInterpolation
+                Call row _
+                    .Select(Function(d) CSByte(If(d > 0, 1, 0))) _
+                    .DoCall(AddressOf bitList.Add)
+            Next
+
+            Dim path As String = bits_to_paths(bitList.ToArray, closepaths)
+            Return path
+        End Function
 
         ''' <summary>
         ''' 
