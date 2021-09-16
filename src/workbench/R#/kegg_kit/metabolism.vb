@@ -160,7 +160,7 @@ Module metabolism
     End Function
 
     <ExportAPI("pickNetwork")>
-    Public Function PickNetwork(<RRawVectorArgument> terms As Object, reactions As ReactionRepository, Optional env As Environment = Nothing) As Object
+    Public Function PickNetwork(reactions As ReactionRepository, <RRawVectorArgument> terms As Object, Optional env As Environment = Nothing) As Object
         Dim KoIdlist As String()
         Dim stream As pipeline = pipeline.TryCreatePipeline(Of String)(terms, env, suppress:=True)
 
