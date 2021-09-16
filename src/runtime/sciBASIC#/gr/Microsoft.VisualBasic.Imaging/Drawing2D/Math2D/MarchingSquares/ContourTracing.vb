@@ -123,7 +123,7 @@ Namespace Drawing2D.Math2D.MarchingSquares
         ' /// println!("{:?}", bits);
         ' /// ```
 
-        Public Function GetOutine(map As MapMatrix, closepaths As Boolean) As String
+        Public Function GetOutine(map As MapMatrix, closepaths As Boolean) As GeneralPath
             Dim bitList As New List(Of SByte())
 
             For Each row In map.GetMatrixInterpolation
@@ -133,7 +133,7 @@ Namespace Drawing2D.Math2D.MarchingSquares
                     .DoCall(AddressOf bitList.Add)
             Next
 
-            Dim path As String = bits_to_paths(bitList.ToArray, closepaths)
+            Dim path As GeneralPath = bits_to_paths(bitList.ToArray, closepaths)
             Return path
         End Function
 
@@ -145,7 +145,7 @@ Namespace Drawing2D.Math2D.MarchingSquares
         ''' </param>
         ''' <param name="closepaths"></param>
         ''' <returns></returns>
-        Public Function bits_to_paths(bits As SByte()(), closepaths As Boolean) As String
+        Public Function bits_to_paths(bits As SByte()(), closepaths As Boolean) As GeneralPath
             Dim rows = bits.Length
             Dim cols = bits(Scan0).Length
             ' Add a border of 1 bit to prevent out-of-bounds error
@@ -157,7 +157,7 @@ Namespace Drawing2D.Math2D.MarchingSquares
                 Next
             Next
 
-            Dim paths As New StringBuilder
+            Dim paths As New GeneralPath(0)
             Dim ol As Integer
             Dim hl As Integer
 
@@ -188,7 +188,7 @@ Namespace Drawing2D.Math2D.MarchingSquares
                 Next
             Next
 
-            Return paths.ToString
+            Return paths
         End Function
 
         Private Function getRn(neighbors As i8(), outline As bool, o As Integer()) As i8
@@ -220,13 +220,13 @@ Namespace Drawing2D.Math2D.MarchingSquares
                           vertex As (i8, i8)(),
                           value As i8(),
                           contours As Integer()(),
-                          paths As StringBuilder,
+                          paths As GeneralPath,
                           closepaths As bool)
 
             Dim tracer_x = cursor_x
             Dim tracer_y = cursor_y
             Dim vertices_nbr As Int32 = 1
-            paths.Append(String.Format("M{0} {1}", tracer_x + vertex(o(0)).Item1, tracer_y + vertex(o(0)).Item2))
+            paths.MoveTo(tracer_x + vertex(o(0)).Item1, tracer_y + vertex(o(0)).Item2)
             Dim neighbors As i8()
             Dim rn As i8
 
@@ -259,9 +259,9 @@ Namespace Drawing2D.Math2D.MarchingSquares
                         o.RotateRight(rot Mod 8) ' 
                         vertices_nbr += 1
                         If o(0) = 0 OrElse o(0) = 4 Then
-                            paths.Append(String.Format("H{0}", tracer_x + vertex(o(0)).Item1))
+                            paths.LineTo(tracer_x + vertex(o(0)).Item1, tracer_y)
                         Else
-                            paths.Append(String.Format("V{0}", tracer_y + vertex(o(0)).Item2))
+                            paths.LineTo(tracer_x, tracer_y + vertex(o(0)).Item2)
                         End If
                     Case 2
                         contours(tracer_y)(tracer_x) += value(o(0))
@@ -273,27 +273,27 @@ Namespace Drawing2D.Math2D.MarchingSquares
                         contours(tracer_y)(tracer_x) += value(o(0))
                         vertices_nbr += 1
                         If o(0) = 0 OrElse o(0) = 4 Then
-                            paths.Append(String.Format("H{0}", tracer_x + vertex(o(0)).Item1))
+                            paths.LineTo(tracer_x + vertex(o(0)).Item1, tracer_y)
                         Else
-                            paths.Append(String.Format("V{0}", tracer_y + vertex(o(0)).Item2))
+                            paths.LineTo(tracer_x, tracer_y + vertex(o(0)).Item2)
                         End If
                         o.RotateRight(rot Mod 8)
                         tracer_x = tracer_x + MN(o(viv.Item2)).Item1
                         tracer_y = tracer_y + MN(o(viv.Item2)).Item2
                         vertices_nbr += 1
                         If o(0) = 0 OrElse o(0) = 4 Then
-                            paths.Append(String.Format("H{0}", tracer_x + vertex(o(0)).Item1))
+                            paths.LineTo(tracer_x + vertex(o(0)).Item1, tracer_y)
                         Else
-                            paths.Append(String.Format("V{0}", tracer_y + vertex(o(0)).Item2))
+                            paths.LineTo(tracer_x, tracer_y + vertex(o(0)).Item2)
                         End If
                     Case Else
                         contours(tracer_y)(tracer_x) += value(o(0))
                         o.RotateLeft(rot Mod 8)
                         vertices_nbr += 1
                         If o(0) = 0 OrElse o(0) = 4 Then
-                            paths.Append(String.Format("H{0}", tracer_x + vertex(o(0)).Item1))
+                            paths.LineTo(tracer_x + vertex(o(0)).Item1, tracer_y)
                         Else
-                            paths.Append(String.Format("V{0}", tracer_y + vertex(o(0)).Item2))
+                            paths.LineTo(tracer_x, tracer_y + vertex(o(0)).Item2)
                         End If
                 End Select
 
@@ -310,15 +310,15 @@ Namespace Drawing2D.Math2D.MarchingSquares
                 o.RotateLeft(rot Mod 8)
                 vertices_nbr += 1
                 If o(0) = 0 OrElse o(0) = 4 Then
-                    paths.Append(String.Format("H{0}", tracer_x + (vertex(o(0)).Item1)))
+                    paths.LineTo(tracer_x + (vertex(o(0)).Item1), tracer_y)
                 Else
-                    paths.Append(String.Format("V{0}", tracer_y + (vertex(o(0)).Item2)))
+                    paths.LineTo(tracer_x, tracer_y + (vertex(o(0)).Item2))
                 End If
 
             Loop
 
             If closepaths Then
-                paths.Append("Z")
+                paths.ClosePath()
             End If
         End Sub
 

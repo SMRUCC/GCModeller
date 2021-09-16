@@ -93,12 +93,12 @@ Namespace Drawing2D.Math2D.MarchingSquares
                 .JoinIterates({topleft, topright, bottomleft, bottomright}) _
                 .DoCall(Function(poly)
                             Dim matrix As New MapMatrix(poly)
-                            Dim path As String = ContourTracing.GetOutine(matrix, closepaths:=True)
+                            Dim path As GeneralPath = ContourTracing.GetOutine(matrix, closepaths:=True)
 
                             Return path
                         End Function)
 
-            Return Nothing
+            Return allRegions
         End Function
     End Class
 
