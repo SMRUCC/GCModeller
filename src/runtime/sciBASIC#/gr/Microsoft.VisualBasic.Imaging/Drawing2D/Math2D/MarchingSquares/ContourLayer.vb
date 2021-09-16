@@ -91,23 +91,14 @@ Namespace Drawing2D.Math2D.MarchingSquares
             Dim bottomright As New MeasureData(x.Max, 0, 0)
             Dim allRegions = sample _
                 .JoinIterates({topleft, topright, bottomleft, bottomright}) _
-                .DoCall(Function(poly) GetContours(poly, epsilon)) _
-                .Where(Function(d) d.level >= threshold) _
-                .OrderByDescending(Function(poly) poly.level) _
-                .ToArray
-            'Dim polygonRegion As New GeneralPath(1) With {
-            '    .dimension = New Size(x.Max, y.Max)
-            '}
+                .DoCall(Function(poly)
+                            Dim matrix As New MapMatrix(poly)
+                            Dim path As String = ContourTracing.GetOutine(matrix, closepaths:=True)
 
-            'For Each layer As GeneralPath In allRegions
-            '    For Each polygon In layer.polygons
-            '        Call polygonRegion.AddPolygon(polygon)
-            '    Next
-            'Next
+                            Return path
+                        End Function)
 
-            'Return polygonRegion
-
-            Return allRegions.First
+            Return Nothing
         End Function
     End Class
 
