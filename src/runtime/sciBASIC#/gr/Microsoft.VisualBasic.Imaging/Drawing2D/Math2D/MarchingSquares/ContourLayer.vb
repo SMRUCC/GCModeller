@@ -95,17 +95,19 @@ Namespace Drawing2D.Math2D.MarchingSquares
                 .Where(Function(d) d.level >= threshold) _
                 .OrderByDescending(Function(poly) poly.level) _
                 .ToArray
-            Dim polygonRegion As New GeneralPath(1) With {
-                .dimension = New Size(x.Max, y.Max)
-            }
+            'Dim polygonRegion As New GeneralPath(1) With {
+            '    .dimension = New Size(x.Max, y.Max)
+            '}
 
-            For Each layer As GeneralPath In allRegions
-                For Each polygon In layer.polygons
-                    Call polygonRegion.AddPolygon(polygon)
-                Next
-            Next
+            'For Each layer As GeneralPath In allRegions
+            '    For Each polygon In layer.polygons
+            '        Call polygonRegion.AddPolygon(polygon)
+            '    Next
+            'Next
 
-            Return polygonRegion
+            'Return polygonRegion
+
+            Return allRegions.First
         End Function
     End Class
 
