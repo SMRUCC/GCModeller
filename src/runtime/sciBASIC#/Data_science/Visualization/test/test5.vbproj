@@ -80,8 +80,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="ChartingBase.Test\**" />
 	  <Compile Remove="Testing\**" />
+	  <EmbeddedResource Remove="ChartingBase.Test\**" />
 	  <EmbeddedResource Remove="Testing\**" />
+	  <None Remove="ChartingBase.Test\**" />
 	  <None Remove="Testing\**" />
 	  <None Include="..\..\..\LICENSE">
 	    <Pack>True</Pack>
