@@ -197,7 +197,11 @@ Public Module kegg_repository
     ''' <returns></returns>
     <ExportAPI("load.reactions")>
     <RApiReturn(GetType(ReactionRepository), GetType(Reaction))>
-    Public Function LoadReactionRepo(<RRawVectorArgument> repository As Object, Optional env As Environment = Nothing) As Object
+    Public Function LoadReactionRepo(<RRawVectorArgument>
+                                     repository As Object,
+                                     Optional raw As Boolean = True,
+                                     Optional env As Environment = Nothing) As Object
+
         Dim resource As String() = Rs.asVector(Of String)(repository)
 
         If resource.Length = 1 Then
@@ -206,7 +210,11 @@ Public Module kegg_repository
             If handle.DirectoryExists Then
                 Return ReactionRepository.LoadAuto(handle)
             ElseIf handle.ExtensionSuffix("msgpack") Then
-                Return KEGGReactionPack.ReadKeggDb(handle)
+                If raw Then
+                    Return KEGGReactionPack.ReadKeggDb(handle)
+                Else
+                    Return ReactionRepository.LoadFromList(KEGGReactionPack.ReadKeggDb(handle))
+                End If
             Else
                 Return handle.LoadXml(Of Reaction)
             End If

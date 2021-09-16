@@ -272,6 +272,17 @@ Public Class ReactionRepository : Inherits XmlDataModel
         End If
     End Function
 
+    Public Shared Function LoadFromList(models As IEnumerable(Of Reaction)) As ReactionRepository
+        Return New ReactionRepository With {
+            .table = models _
+                .GroupBy(Function(r) r.ID) _
+                .ToDictionary(Function(r) r.Key,
+                              Function(r)
+                                  Return r.First
+                              End Function)
+        }
+    End Function
+
     Public Shared Function ScanModel(directory As String) As ReactionRepository
         Dim list As New Dictionary(Of String, Reaction)
         Dim busy As New SwayBar
