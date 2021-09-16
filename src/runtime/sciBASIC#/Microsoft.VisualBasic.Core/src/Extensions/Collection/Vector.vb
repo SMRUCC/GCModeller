@@ -1,46 +1,46 @@
 ﻿#Region "Microsoft.VisualBasic::ea2b342ba1a25fb2bac17b41df465885, Microsoft.VisualBasic.Core\src\Extensions\Collection\Vector.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module VectorExtensions
-    ' 
-    '     Function: (+2 Overloads) After, All, Append, Coalesce, (+3 Overloads) Delete
-    '               (+2 Overloads) Fill, GetRange, IndexOf, Last, LoadAsNumericVector
-    '               MappingData, Midv, PadLeft, RepeatCalls, Replicate
-    '               SetValue, (+3 Overloads) Sort, Split, VectorShadows
-    ' 
-    '     Sub: (+4 Overloads) Add, InsertAt, (+2 Overloads) Memset
-    ' 
-    ' /********************************************************************************/
+' Module VectorExtensions
+' 
+'     Function: (+2 Overloads) After, All, Append, Coalesce, (+3 Overloads) Delete
+'               (+2 Overloads) Fill, GetRange, IndexOf, Last, LoadAsNumericVector
+'               MappingData, Midv, PadLeft, RepeatCalls, Replicate
+'               SetValue, (+3 Overloads) Sort, Split, VectorShadows
+' 
+'     Sub: (+4 Overloads) Add, InsertAt, (+2 Overloads) Memset
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -50,7 +50,6 @@ Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Language.Vectorization
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
@@ -63,6 +62,103 @@ Imports Microsoft.VisualBasic.My.JavaScript.Linq
 ''' 
 <HideModuleName>
 Public Module VectorExtensions
+
+    <Extension>
+    Public Sub RotateLeft(Of T)(ByRef ArrayToRotate As T(), ByVal iPlacesToRotate As Integer)
+        Dim objNewArray As T()
+        Dim iOldArrayPos, iNewArrayPos As Integer
+        Dim iArrayLength As Integer
+
+        ' Check that the number of places to rotate is greater than zero - running the function with a value
+        ' of places to rotate whiich is less than zero would cause problems, possibly causing the function to crash
+        If iPlacesToRotate < 0 Then Throw New ArgumentOutOfRangeException("Values for 'Places to Rotate' must be greater than zero.")
+
+        ' get the length of the array to rotate, we'll be using it a few times so will
+        ' load it into a local variable at the start of the function
+        iArrayLength = ArrayToRotate.Length
+
+        ' Array will be initialised from 0 to ArrayLength -1
+        ' so it will contain ArrayLength elements
+        ReDim objNewArray(iArrayLength - 1)
+
+        ' This will remove any extra complete rotations through the array
+        ' The mod operator returns trhe remainder of an integer divide operation
+        iPlacesToRotate = iPlacesToRotate Mod iArrayLength
+
+        ' Initialise the array position indexes
+        iOldArrayPos = iPlacesToRotate
+        iNewArrayPos = objNewArray.Length - 1
+
+        ' Copy objects from one array to the next
+        ' First start at iPlacesToRotate into the old array
+        ' and copy to the start of the new array.
+        While iOldArrayPos < iArrayLength
+            objNewArray(iNewArrayPos) = ArrayToRotate(iOldArrayPos)
+
+            iOldArrayPos += 1
+            iNewArrayPos -= 1
+        End While
+
+        iOldArrayPos = ArrayToRotate.Length - 1
+        iNewArrayPos = 0
+
+        ' Copy from the start of the old array into the end of the
+        ' new array
+        While iOldArrayPos < iPlacesToRotate
+            objNewArray(iNewArrayPos) = ArrayToRotate(iOldArrayPos)
+
+            iOldArrayPos -= 1
+            iNewArrayPos += 1
+        End While
+    End Sub
+
+    <Extension>
+    Public Sub RotateRight(Of T)(ByRef ArrayToRotate As T(), ByVal iPlacesToRotate As Integer)
+        Dim objNewArray As T()
+        Dim iOldArrayPos, iNewArrayPos As Integer
+        Dim iArrayLength As Integer
+
+        ' Check that the number of places to rotate is greater than zero - running the function with a value
+        ' of places to rotate whiich is less than zero would cause problems, possibly causing the function to crash
+        If iPlacesToRotate < 0 Then Throw New ArgumentOutOfRangeException("Values for 'Places to Rotate' must be greater than zero.")
+
+        ' get the length of the array to rotate, we'll be using it a few times so will
+        ' load it into a local variable at the start of the function
+        iArrayLength = ArrayToRotate.Length
+
+        ' Array will be initialised from 0 to ArrayLength -1
+        ' so it will contain ArrayLength elements
+        ReDim objNewArray(iArrayLength - 1)
+
+        ' This will remove any extra complete rotations through the array
+        ' The mod operator returns trhe remainder of an integer divide operation
+        iPlacesToRotate = iPlacesToRotate Mod iArrayLength
+
+        ' Initialise the array position indexes
+        iOldArrayPos = iPlacesToRotate
+        iNewArrayPos = 0
+
+        ' Copy objects from one array to the next
+        ' First start at iPlacesToRotate into the old array
+        ' and copy to the start of the new array.
+        While iOldArrayPos < iArrayLength
+            objNewArray(iNewArrayPos) = ArrayToRotate(iOldArrayPos)
+
+            iOldArrayPos += 1
+            iNewArrayPos += 1
+        End While
+
+        iOldArrayPos = 0
+
+        ' Copy from the start of the old array into the end of the
+        ' new array
+        While iOldArrayPos < iPlacesToRotate
+            objNewArray(iNewArrayPos) = ArrayToRotate(iOldArrayPos)
+
+            iOldArrayPos += 1
+            iNewArrayPos += 1
+        End While
+    End Sub
 
     ''' <summary>
     ''' Does all boolean test result is TRUE?
