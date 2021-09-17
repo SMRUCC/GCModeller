@@ -19,7 +19,9 @@ Public Module KEGGMatrix
         Dim matrix As Double()() = allCompounds _
             .Select(Function(id)
                         Return graph _
-                            .Select(Function(r) r.GetCoEfficient(id)) _
+                            .Select(Function(r)
+                                        Return r.GetCoEfficient(id, directional:=True)
+                                    End Function) _
                             .ToArray
                     End Function) _
             .ToArray

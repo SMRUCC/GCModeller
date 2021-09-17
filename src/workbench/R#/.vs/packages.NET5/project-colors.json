@@ -30,7 +30,27 @@
       "ProjectGuid": "dbf7724b-ab1c-4632-a822-0ba07ab9116b",
       "DisplayName": "biocore-netcore5",
       "ColorIndex": 5
+    },
+    "4eb20a5a-2521-4ae1-b6f6-91bd5200e7c9": {
+      "ProjectGuid": "4eb20a5a-2521-4ae1-b6f6-91bd5200e7c9",
+      "DisplayName": "repository.NET5",
+      "ColorIndex": 6
+    },
+    "43f0eaba-7f5c-4cbb-8cd4-bbb812b561cb": {
+      "ProjectGuid": "43f0eaba-7f5c-4cbb-8cd4-bbb812b561cb",
+      "DisplayName": "Core",
+      "ColorIndex": 7
+    },
+    "b4b7d9a1-a9a9-46b4-a9ae-7cd64e5704c3": {
+      "ProjectGuid": "b4b7d9a1-a9a9-46b4-a9ae-7cd64e5704c3",
+      "DisplayName": "simulators.NET5",
+      "ColorIndex": 8
+    },
+    "55da89c0-938c-4415-8091-b7d756fd2ad0": {
+      "ProjectGuid": "55da89c0-938c-4415-8091-b7d756fd2ad0",
+      "DisplayName": "FBA.Core.NET5",
+      "ColorIndex": 9
     }
   },
-  "NextColorIndex": 6
+  "NextColorIndex": 10
 }
