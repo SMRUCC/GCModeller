@@ -137,6 +137,8 @@ Public Module kegg_repository
                         End Function)
         ElseIf TypeOf data Is MapRepository Then
             Return KEGGMapPack.WriteKeggDb(DirectCast(data, MapRepository).AsEnumerable, stream)
+        ElseIf TypeOf data Is ReactionRepository Then
+            Return KEGGReactionPack.WriteKeggDb(DirectCast(data, ReactionRepository).metabolicNetwork, stream)
         End If
 
         reader = pipeline.TryCreatePipeline(Of Map)(data, env, suppress:=True)
@@ -162,7 +164,11 @@ Public Module kegg_repository
         If Not reader.isError Then
             Return KEGGPathwayPack.WriteKeggDb(reader.populates(Of Pathway)(env), stream)
         Else
+            reader = pipeline.TryCreatePipeline(Of Reaction)(data, env, suppress:=True)
+        End If
 
+        If Not reader.isError Then
+            Return KEGGReactionPack.WriteKeggDb(reader.populates(Of Reaction)(env), stream)
         End If
 
         Return reader.getError
@@ -191,18 +197,29 @@ Public Module kegg_repository
     ''' <returns></returns>
     <ExportAPI("load.reactions")>
     <RApiReturn(GetType(ReactionRepository), GetType(Reaction))>
-    Public Function LoadReactionRepo(<RRawVectorArgument> repository As Object, Optional env As Environment = Nothing) As Object
-        If TypeOf repository Is String Then
-            Dim handle As String = DirectCast(repository, String)
+    Public Function LoadReactionRepo(<RRawVectorArgument>
+                                     repository As Object,
+                                     Optional raw As Boolean = True,
+                                     Optional env As Environment = Nothing) As Object
+
+        Dim resource As String() = Rs.asVector(Of String)(repository)
+
+        If resource.Length = 1 Then
+            Dim handle As String = resource(Scan0)
 
             If handle.DirectoryExists Then
                 Return ReactionRepository.LoadAuto(handle)
+            ElseIf handle.ExtensionSuffix("msgpack") Then
+                If raw Then
+                    Return KEGGReactionPack.ReadKeggDb(handle)
+                Else
+                    Return ReactionRepository.LoadFromList(KEGGReactionPack.ReadKeggDb(handle))
+                End If
             Else
                 Return handle.LoadXml(Of Reaction)
             End If
         Else
-            Return Rs.asVector(Of String)(repository) _
-                .AsObjectEnumerator(Of String)() _
+            Return resource _
                 .Select(AddressOf LoadXml(Of Reaction)) _
                 .ToArray
         End If

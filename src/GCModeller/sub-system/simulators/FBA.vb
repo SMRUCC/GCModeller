@@ -57,6 +57,27 @@ Imports Matrix = SMRUCC.genomics.Analysis.FBA.Core.Matrix
 <Package("FBA")>
 Module FBA
 
+    Sub New()
+        Call Internal.Object.Converts.makeDataframe.addHandler(GetType(Matrix), AddressOf MatrixTable)
+    End Sub
+
+    Private Function MatrixTable(mat As Matrix, args As list, env As Environment) As dataframe
+        Dim matrix As New Dictionary(Of String, Array)
+        Dim rId = mat.Flux.Keys.ToArray
+        Dim tMat As Double()() = mat.Matrix.MatrixTranspose.ToArray
+
+        For i As Integer = 0 To rId.Length - 1
+            matrix(rId(i)) = tMat(i)
+        Next
+
+        Dim data As New dataframe With {
+            .columns = matrix,
+            .rownames = mat.Compounds
+        }
+
+        Return data
+    End Function
+
     ''' <summary>
     ''' create FBA model matrix
     ''' </summary>

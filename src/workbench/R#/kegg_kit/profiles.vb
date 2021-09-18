@@ -53,7 +53,7 @@ Imports SMRUCC.genomics.Visualize.CatalogProfiling
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Interop
 
-<Package("kegg.profiles")>
+<Package("profiles")>
 Module profiles
 
     <ExportAPI("compounds.pathway.index")>
@@ -89,6 +89,12 @@ Module profiles
                           End Function)
     End Function
 
+    ''' <summary>
+    ''' create KEGG map prfiles via a given KO id list.
+    ''' </summary>
+    ''' <param name="KO">a character vector of KO id list.</param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("KO.map.profiles")>
     <RApiReturn(GetType(Dictionary(Of String, Double)))>
     Public Function KOpathwayProfiles(<RRawVectorArgument> KO As Object, Optional env As Environment = Nothing) As Object

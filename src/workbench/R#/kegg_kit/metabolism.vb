@@ -1,42 +1,42 @@
 ﻿#Region "Microsoft.VisualBasic::29e14a16be3dbeb7912883447357a73c, kegg_kit\metabolism.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module metabolism
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: CreateCompoundOriginModel, filterInvalidCompoundIds, GetAllCompounds, KEGGReconstruction, loadReactionCacheIndex
-    ' 
-    ' /********************************************************************************/
+' Module metabolism
+' 
+'     Constructor: (+1 Overloads) Sub New
+'     Function: CreateCompoundOriginModel, filterInvalidCompoundIds, GetAllCompounds, KEGGReconstruction, loadReactionCacheIndex
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -51,6 +51,7 @@ Imports SMRUCC.genomics.Annotation.Ptf
 Imports SMRUCC.genomics.Assembly.KEGG
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Data
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports SMRUCC.genomics.Model.Network.KEGG.ReactionNetwork
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
@@ -59,7 +60,7 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 ''' <summary>
 ''' The kegg metabolism model toolkit
 ''' </summary>
-<Package("kegg.metabolism", Category:=APICategories.ResearchTools)>
+<Package("metabolism", Category:=APICategories.ResearchTools)>
 Module metabolism
 
     Sub New()
@@ -156,5 +157,25 @@ Module metabolism
                         Return pathway.AssignCompounds(rxnIndex)
                     End Function) _
             .DoCall(AddressOf pipeline.CreateFromPopulator)
+    End Function
+
+    <ExportAPI("pickNetwork")>
+    Public Function PickNetwork(reactions As ReactionRepository, <RRawVectorArgument> terms As Object, Optional env As Environment = Nothing) As Object
+        Dim KoIdlist As String()
+        Dim stream As pipeline = pipeline.TryCreatePipeline(Of String)(terms, env, suppress:=True)
+
+        If stream.isError Then
+            stream = pipeline.TryCreatePipeline(Of BiDirectionalBesthit)(terms, env)
+
+            If stream.isError Then
+                Return stream.getError
+            Else
+                KoIdlist = stream.populates(Of BiDirectionalBesthit)(env).Select(Function(hit) hit.term).Distinct.ToArray
+            End If
+        Else
+            KoIdlist = stream.populates(Of String)(env).ToArray
+        End If
+
+        Return reactions.GetByKOMatch(KoIdlist).ToArray
     End Function
 End Module

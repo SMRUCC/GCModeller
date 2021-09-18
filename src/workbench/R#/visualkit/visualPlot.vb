@@ -86,6 +86,7 @@ Module visualPlot
 
     Sub Main()
         Call Internal.generic.add("plot", GetType(ExpressionPattern), AddressOf Plot)
+        Call Internal.generic.add("plot", GetType(CatalogProfiles), AddressOf CategoryProfilePlots)
     End Sub
 
     <ExportAPI("classchange.plot")>
@@ -222,7 +223,7 @@ Module visualPlot
     ''' <returns></returns>
     <ExportAPI("kegg.category_profile")>
     <RApiReturn(GetType(CatalogProfiles))>
-    Public Function KEGGCategoryProfile(profiles As Object, Optional top% = 10, Optional env As Environment = Nothing) As Object
+    Public Function KEGGCategoryProfile(profiles As Object, Optional top% = 10, Optional sort As Boolean = True, Optional env As Environment = Nothing) As Object
         Dim profile As CatalogProfiles
 
         If TypeOf profiles Is Dictionary(Of String, Integer) Then
@@ -233,7 +234,7 @@ Module visualPlot
                               End Function) _
                 .DoKeggProfiles(top)
         ElseIf TypeOf profiles Is Dictionary(Of String, NamedValue(Of Double)()) Then
-            profile = New CatalogProfiles(DirectCast(profiles, Dictionary(Of String, NamedValue(Of Double)())))
+            profile = New CatalogProfiles(DirectCast(profiles, Dictionary(Of String, NamedValue(Of Double)()))).Take(top)
         ElseIf TypeOf profiles Is Dictionary(Of String, Double) Then
             profile = DirectCast(profiles, Dictionary(Of String, Double)).DoKeggProfiles(top)
         ElseIf TypeOf profiles Is list Then
@@ -275,6 +276,19 @@ Module visualPlot
             radius:=R,
             size:=size,
             displays:=topN
+        )
+    End Function
+
+    Public Function CategoryProfilePlots(profiles As CatalogProfiles, args As list, env As Environment) As Object
+        Return profiles.ProfilesPlot(
+            title:=args.getValue("title", env, "Catalog Profiling"),
+            size:=InteropArgumentHelper.getSize(args!size, env, "2300,2000"),
+            tick:=args.getValue("tick", env, -1.0),
+            axisTitle:=args.getValue("axis.title", env, "Number Of Terms"),
+            labelRightAlignment:=False,
+            valueFormat:=args.getValue("format", env, "F2"),
+            colorSchema:=args.getValue("colors", env, "#E41A1C,#377EB8,#4DAF4A,#984EA3,#FF7F00,#CECE00"),
+            dpi:=args.getValue("dpi", env, 300)
         )
     End Function
 
