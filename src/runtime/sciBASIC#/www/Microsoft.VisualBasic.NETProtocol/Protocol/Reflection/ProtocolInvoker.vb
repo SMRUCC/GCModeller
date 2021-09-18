@@ -61,11 +61,21 @@ Namespace Protocols.Reflection
         End Sub
 
         Public Function InvokeProtocol0(request As RequestStream, remoteDevice As System.Net.IPEndPoint) As BufferPipe
-            Return method.Invoke(obj, Nothing)
+            Try
+                Return method.Invoke(obj, Nothing)
+            Catch ex As Exception
+                Call App.LogException(New Exception(method.FullName, ex))
+                Return New DataPipe(NetResponse.RFC_UNKNOWN_ERROR(ex.ToString))
+            End Try
         End Function
 
         Public Function InvokeProtocol1(request As RequestStream, remoteDevice As System.Net.IPEndPoint) As BufferPipe
-            Return method.Invoke(obj, {request})
+            Try
+                Return method.Invoke(obj, {request})
+            Catch ex As Exception
+                Call App.LogException(New Exception(method.FullName, ex))
+                Return New DataPipe(NetResponse.RFC_UNKNOWN_ERROR(ex.ToString))
+            End Try
         End Function
 
         Public Function InvokeProtocol2(request As RequestStream, remoteDevice As System.Net.IPEndPoint) As BufferPipe
