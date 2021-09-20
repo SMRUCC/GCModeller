@@ -31,6 +31,8 @@ Public Module CommunityGraph
     ''' it is not a good idea to set any coeff cutoff value?
     ''' </param>
     ''' <returns></returns>
+    ''' 
+    <Extension>
     Public Function CreatePhenoGraph(data As DataSet(), Optional k As Integer = 60, Optional cutoff As Double = 0) As NetworkGraph
         Dim propertyNames As String() = data.PropertyNames
         Dim matrix As New List(Of Double())
