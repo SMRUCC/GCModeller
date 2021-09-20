@@ -6,11 +6,13 @@ Imports SMRUCC.genomics.Analysis.Microarray.PhenoGraph
 
 Module Program
 
+    Const demoDir As String = "E:\GCModeller\src\GCModeller\analysis\PhenoGraph\demo"
+
     Sub Main()
-        Dim data As DataSet() = DataSet.LoadDataSet("D:\GCModeller\src\GCModeller\analysis\PhenoGraph\demo\HR2MSI mouse urinary bladder S096_top3.csv").ToArray
+        Dim data As DataSet() = DataSet.LoadDataSet($"{demoDir}\HR2MSI mouse urinary bladder S096_top3.csv").ToArray
         Dim graph As NetworkGraph = CommunityGraph.CreatePhenoGraph(data, k:=30, cutoff:=0.5)
 
-        Call graph.Tabular.Save("D:\GCModeller\src\GCModeller\analysis\PhenoGraph\demo\HR2MSI mouse urinary bladder S096_graph/")
+        Call graph.Tabular.Save($"{demoDir}\HR2MSI mouse urinary bladder S096_graph/")
 
         Pause()
     End Sub
