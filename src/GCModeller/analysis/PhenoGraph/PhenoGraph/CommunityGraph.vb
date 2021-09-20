@@ -20,6 +20,15 @@ Imports Microsoft.VisualBasic.Math.Scripting.Rscript
 ''' </summary>
 Public Module CommunityGraph
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="data"></param>
+    ''' <param name="k"></param>
+    ''' <param name="cutoff">
+    ''' it is not a good idea to set any coeff cutoff value?
+    ''' </param>
+    ''' <returns></returns>
     Public Function CreatePhenoGraph(data As DataSet(), Optional k As Integer = 30, Optional cutoff As Double = 0) As NetworkGraph
         Dim propertyNames As String() = data.PropertyNames
         Dim matrix As New List(Of Double())

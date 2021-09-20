@@ -10,7 +10,7 @@ Module Program
 
     Sub Main()
         Dim data As DataSet() = DataSet.LoadDataSet($"{demoDir}\HR2MSI mouse urinary bladder S096_top3.csv").ToArray
-        Dim graph As NetworkGraph = CommunityGraph.CreatePhenoGraph(data, k:=30, cutoff:=0.5)
+        Dim graph As NetworkGraph = CommunityGraph.CreatePhenoGraph(data, k:=120, cutoff:=0)
 
         Call graph.Tabular.Save($"{demoDir}\HR2MSI mouse urinary bladder S096_graph/")
 
