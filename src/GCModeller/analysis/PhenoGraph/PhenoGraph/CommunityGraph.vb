@@ -1,4 +1,5 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.GraphTheory.KdTree
 Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis
@@ -28,7 +29,7 @@ Public Module CommunityGraph
         Next
 
         Dim dataMat As New NumericMatrix(matrix.ToArray)
-        Dim graph As NetworkGraph = CreatePhenoGraph(dataMat, k)
+        Dim graph As NetworkGraph = CreatePhenoGraph(dataMat, k, cutoff:=cutoff)
 
         For Each v As Node In graph.vertex
             v.label = data(Integer.Parse(v.label)).ID
@@ -63,20 +64,21 @@ Public Module CommunityGraph
             .Select(Function(row) row.indices) _
             .ToArray
 
-        cat("DONE ~", t1 = App.ElapsedMilliseconds - CDbl(t1), "s\n", " Compute jaccard coefficient between nearest-neighbor sets...")
+        cat("DONE ~", (t1 = App.ElapsedMilliseconds - CDbl(t1)) / 1000, "s\n", " Compute jaccard coefficient between nearest-neighbor sets...")
         ' t2 <- system.time(links <- jaccard_coeff(neighborMatrix))
         Dim t2 As Value(Of Double) = App.ElapsedMilliseconds
         Dim links As GeneralMatrix = jaccard_coeff(neighborMatrix)
-        cat("DONE ~", t2 = App.ElapsedMilliseconds - CDbl(t2), "s\n", " Build undirected graph from the weighted links...")
+        cat("DONE ~", (t2 = App.ElapsedMilliseconds - CDbl(t2)) / 1000, "s\n", " Build undirected graph from the weighted links...")
 
         ' take rows
         ' colnames(relations)<- c("from","to","weight")
         ' which its coefficient should be greater than ZERO
+        cutoff = New DoubleRange(0, 1).ScaleMapping(cutoff, links.ColumnVector(2).Range)
         links = links(links(2, byRow:=False) > cutoff)
 
         Dim t3 As Value(Of Double) = App.ElapsedMilliseconds
         Dim g = DirectCast(links, NumericMatrix).AsGraph()
-        cat("DONE ~", t3 = App.ElapsedMilliseconds - CDbl(t3), "s\n", " Run louvain clustering on the graph ...")
+        cat("DONE ~", (t3 = App.ElapsedMilliseconds - CDbl(t3)) / 1000, "s\n", " Run louvain clustering on the graph ...")
         Dim t4 As Value(Of Double) = App.ElapsedMilliseconds
 
         ' Other community detection algorithms: 
@@ -85,7 +87,7 @@ Public Module CommunityGraph
         '    cluster_fast_greedy, cluster_label_prop  
         Dim community As NetworkGraph = Communities.Analysis(g)
 
-        cat("DONE ~", t4 = App.ElapsedMilliseconds - CDbl(t4), "s\n")
+        cat("DONE ~", (t4 = App.ElapsedMilliseconds - CDbl(t4)) / 1000, "s\n")
 
         message("Run Rphenograph DONE, totally takes ", {CDbl(t1), CDbl(t2), CDbl(t3), CDbl(t4)}.Sum / 1000, "s.")
         cat("  Return a community class\n  -Modularity value:", Communities.Modularity(community), "\n")

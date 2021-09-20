@@ -6,7 +6,7 @@ Imports SMRUCC.genomics.Analysis.Microarray.PhenoGraph
 
 Module Program
 
-    Const demoDir As String = "E:\GCModeller\src\GCModeller\analysis\PhenoGraph\demo"
+    Const demoDir As String = "D:\GCModeller\src\GCModeller\analysis\PhenoGraph\demo"
 
     Sub Main()
         Dim data As DataSet() = DataSet.LoadDataSet($"{demoDir}\HR2MSI mouse urinary bladder S096_top3.csv").ToArray
