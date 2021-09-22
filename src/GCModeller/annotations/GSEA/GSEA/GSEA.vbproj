@@ -285,7 +285,6 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="KnowledgeBase\Background.vb" />
     <Compile Include="KnowledgeBase\GenericBackground.vb" />
     <Compile Include="KnowledgeBase\Imports\CreateKEGGClusters.vb" />
     <Compile Include="KOBAS\Formats\CLS.vb" />
@@ -293,9 +292,6 @@
     <Compile Include="KOBAS\Formats\Gmt.vb" />
     <Compile Include="KnowledgeBase\IDConvertor.vb" />
     <Compile Include="KnowledgeBase\Imports\Imports.vb" />
-    <Compile Include="EnrichmentResult.vb" />
-    <Compile Include="KnowledgeBase\Cluster.vb" />
-    <Compile Include="Enrichment.vb" />
     <Compile Include="KOBAS\phenotype.vb" />
     <Compile Include="KOBAS\GSEA.vb" />
     <Compile Include="Extensions.vb" />
@@ -362,6 +358,10 @@
     <ProjectReference Include="..\..\..\foundation\OBO_Foundry\OBO_Foundry.vbproj">
       <Project>{327a0323-5469-45c1-b95b-4a0336cf27c2}</Project>
       <Name>OBO_Foundry</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FisherCore\FisherCore.vbproj">
+      <Project>{62cc1cc2-7e2b-47ba-a745-37c36bd84955}</Project>
+      <Name>FisherCore</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

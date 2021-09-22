@@ -64,6 +64,10 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enrichment.vb" />
+    <Compile Include="EnrichmentResult.vb" />
+    <Compile Include="KnowledgeBase\Background.vb" />
+    <Compile Include="KnowledgeBase\Cluster.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
