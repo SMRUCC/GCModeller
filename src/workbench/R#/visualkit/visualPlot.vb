@@ -251,6 +251,15 @@ Module visualPlot
         Return profile
     End Function
 
+    <ExportAPI("erase")>
+    Public Function delete(profiles As CatalogProfiles, catalogs As String()) As CatalogProfiles
+        For Each catName As String In catalogs
+            Call profiles.delete(catName)
+        Next
+
+        Return profiles
+    End Function
+
     ''' <summary>
     ''' plot of the Go enrichment in bubble plot style
     ''' </summary>
