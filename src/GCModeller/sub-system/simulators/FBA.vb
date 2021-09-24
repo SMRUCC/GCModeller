@@ -53,6 +53,7 @@ Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports Matrix = SMRUCC.genomics.Analysis.FBA.Core.Matrix
+Imports REnv = SMRUCC.Rsharp.Runtime
 
 ''' <summary>
 ''' Flux Balance Analysis
@@ -154,8 +155,26 @@ Module FBA
     End Function
 
     <ExportAPI("objective")>
-    Public Function SetObjective(matrix As Matrix, target As String()) As Matrix
-        matrix.Targets = target
+    Public Function SetObjective(matrix As Matrix, target As Object, Optional env As Environment = Nothing) As Matrix
+        If TypeOf target Is list Then
+            Dim upper As list = DirectCast(target, list)
+            Dim value As Double()
+
+            matrix.Targets = upper.slots.Keys.ToArray
+
+            For Each rId As String In upper.slots.Keys.Where(Function(id) matrix.Flux.ContainsKey(id))
+                value = REnv.asVector(Of Double)(upper.slots(rId))
+
+                If value.Length = 1 Then
+                    matrix.Flux(rId).Max = value(0)
+                Else
+                    matrix.Flux(rId) = New DoubleRange(value)
+                End If
+            Next
+        Else
+            matrix.Targets = REnv.asVector(Of String)(target)
+        End If
+
         Return matrix
     End Function
 
