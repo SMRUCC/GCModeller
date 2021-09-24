@@ -275,3 +275,5 @@ src/GCModeller/analysis/PhenoGraph/Rphenograph_0.99.1.tar.gz
 src/GCModeller/analysis/PhenoGraph/Rphenograph/src/jaccard_coeff.o
 src/GCModeller/analysis/PhenoGraph/Rphenograph/src/RcppExports.o
 src/GCModeller/analysis/PhenoGraph/Rphenograph.zip
+*.v1
+*.bin
