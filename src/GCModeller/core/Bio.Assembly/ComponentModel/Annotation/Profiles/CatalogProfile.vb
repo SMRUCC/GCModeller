@@ -55,6 +55,12 @@ Namespace ComponentModel.Annotation
         Public Property profile As New Dictionary(Of String, Double)
         Public Property information As New Dictionary(Of String, String)
 
+        Public ReadOnly Property isEmpty As Boolean
+            Get
+                Return profile.Count = 0
+            End Get
+        End Property
+
         Sub New()
         End Sub
 

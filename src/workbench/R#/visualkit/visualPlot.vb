@@ -244,6 +244,8 @@ Module visualPlot
                                   Return CDbl(REnv.asVector(Of Double)(a.Value).GetValue(Scan0))
                               End Function) _
                 .DoKeggProfiles(top)
+        ElseIf TypeOf profiles Is CatalogProfiles Then
+            profile = DirectCast(profiles, CatalogProfiles).Take(top)
         Else
             Return Internal.debug.stop("invalid data type for plot kegg category profile plot!", env)
         End If
