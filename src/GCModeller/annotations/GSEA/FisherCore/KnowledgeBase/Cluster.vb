@@ -54,7 +54,6 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.Xml.Models
-Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 
 ''' <summary>
 ''' 主要是KEGG代谢途径，也可以是其他的具有生物学意义的聚类结果
@@ -120,24 +119,4 @@ Public Class Cluster : Inherits ListOf(Of BackgroundGene)
     Protected Overrides Function getCollection() As IEnumerable(Of BackgroundGene)
         Return members
     End Function
-End Class
-
-<XmlType("gene")>
-Public Class BackgroundGene : Inherits Synonym
-
-    ''' <summary>
-    ''' The gene name
-    ''' </summary>
-    ''' <returns></returns>
-    <XmlAttribute>
-    Public Property name As String
-
-    <XmlElement>
-    Public Property term_id As String()
-    Public Property locus_tag As NamedValue
-
-    Public Overrides Function ToString() As String
-        Return $"{MyBase.ToString}  [{locus_tag.text}]"
-    End Function
-
 End Class
