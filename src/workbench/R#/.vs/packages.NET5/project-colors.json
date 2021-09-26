@@ -50,7 +50,22 @@
       "ProjectGuid": "55da89c0-938c-4415-8091-b7d756fd2ad0",
       "DisplayName": "FBA.Core.NET5",
       "ColorIndex": 9
+    },
+    "fb1cbf3e-51dd-42ca-8080-7a4d9d500520": {
+      "ProjectGuid": "fb1cbf3e-51dd-42ca-8080-7a4d9d500520",
+      "DisplayName": "Rsharp-netcore5",
+      "ColorIndex": 10
+    },
+    "b66e702f-0a36-47df-9014-1544d109c88c": {
+      "ProjectGuid": "b66e702f-0a36-47df-9014-1544d109c88c",
+      "DisplayName": "base-netcore5",
+      "ColorIndex": 11
+    },
+    "7a5e0eb8-f726-4c01-8c8b-912eca77f079": {
+      "ProjectGuid": "7a5e0eb8-f726-4c01-8c8b-912eca77f079",
+      "DisplayName": "dataframework-netcore5",
+      "ColorIndex": 12
     }
   },
-  "NextColorIndex": 10
+  "NextColorIndex": 13
 }

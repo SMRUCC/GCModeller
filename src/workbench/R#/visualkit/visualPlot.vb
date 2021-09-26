@@ -244,11 +244,22 @@ Module visualPlot
                                   Return CDbl(REnv.asVector(Of Double)(a.Value).GetValue(Scan0))
                               End Function) _
                 .DoKeggProfiles(top)
+        ElseIf TypeOf profiles Is CatalogProfiles Then
+            profile = DirectCast(profiles, CatalogProfiles).Take(top)
         Else
             Return Internal.debug.stop("invalid data type for plot kegg category profile plot!", env)
         End If
 
         Return profile
+    End Function
+
+    <ExportAPI("erase")>
+    Public Function delete(profiles As CatalogProfiles, catalogs As String()) As CatalogProfiles
+        For Each catName As String In catalogs
+            Call profiles.delete(catName)
+        Next
+
+        Return profiles
     End Function
 
     ''' <summary>

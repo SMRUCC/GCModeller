@@ -61,6 +61,9 @@ Public Class Matrix
     ''' </summary>
     ''' <returns></returns>
     Public Property Flux As Dictionary(Of String, DoubleRange)
+
+    Public Property Gaps As String()
+
     ''' <summary>
     ''' 目标函数之中的计算目标，为Reaction <see cref="Flux"/>编号之中的一部分
     ''' </summary>
