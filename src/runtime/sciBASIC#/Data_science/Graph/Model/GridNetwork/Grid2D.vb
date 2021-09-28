@@ -20,6 +20,14 @@ Public Class Grid(Of T)
                           End Function)
     End Sub
 
+    Public Iterator Function EnumerateData() As IEnumerable(Of T)
+        For Each row In matrix2D
+            For Each col In row.Value
+                Yield col.Value.data
+            Next
+        Next
+    End Function
+
     Public Function GetData(x As Integer, y As Integer) As T
         Dim xkey = CLng(x), ykey = CLng(y)
 
