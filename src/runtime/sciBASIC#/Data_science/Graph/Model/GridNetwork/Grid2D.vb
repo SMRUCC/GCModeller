@@ -28,15 +28,17 @@ Public Class Grid(Of T)
         Next
     End Function
 
-    Public Function GetData(x As Integer, y As Integer) As T
+    Public Function GetData(x As Integer, y As Integer, Optional ByRef hit As Boolean = False) As T
         Dim xkey = CLng(x), ykey = CLng(y)
 
         If Not matrix2D.ContainsKey(xkey) Then
+            hit = False
             Return Nothing
-        End If
-
-        If Not matrix2D(xkey).ContainsKey(ykey) Then
+        ElseIf Not matrix2D(xkey).ContainsKey(ykey) Then
+            hit = False
             Return Nothing
+        Else
+            hit = True
         End If
 
         Return matrix2D(xkey)(ykey).data
@@ -47,12 +49,15 @@ Public Class Grid(Of T)
     End Function
 
     Public Iterator Function Query(x As Integer, y As Integer, gridSize As Size) As IEnumerable(Of T)
-        Dim q As New Value(Of T)
+        Dim q As T
+        Dim hit As Boolean = False
 
         For i As Integer = x - gridSize.Width To x + gridSize.Width
             For j As Integer = y - gridSize.Height To y + gridSize.Height
-                If Not q = GetData(i, j) Is Nothing Then
-                    Yield CType(q, T)
+                q = GetData(i, j, hit)
+
+                If hit Then
+                    Yield q
                 End If
             Next
         Next

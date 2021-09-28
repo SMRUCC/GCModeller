@@ -24,7 +24,7 @@ Public Module Density2D
 
         Dim grid2 As Grid(Of T) = Grid(Of T).Create(data, getX, getY)
         Dim q As T()
-        Dim A As Double = gridSize.Width * gridSize.Height
+        Dim A As Double = (gridSize.Width * 2) * (gridSize.Height * 2)
         Dim d As Double
 
         For Each x As T In grid2.EnumerateData
