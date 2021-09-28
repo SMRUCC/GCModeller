@@ -7,10 +7,20 @@ Imports Microsoft.VisualBasic.Data.GraphTheory
 Public Module Density2D
 
     <Extension>
-    Public Iterator Function Density(Of T As INamedValue)(data As IEnumerable(Of T),
-                                                          getX As Func(Of T, Integer),
-                                                          getY As Func(Of T, Integer),
-                                                          gridSize As Size) As IEnumerable(Of NamedValue(Of Double))
+    Public Function Density(Of T As INamedValue)(data As IEnumerable(Of T),
+                                                 getX As Func(Of T, Integer),
+                                                 getY As Func(Of T, Integer),
+                                                 gridSize As Size) As IEnumerable(Of NamedValue(Of Double))
+
+        Return data.Density(Function(d) d.Key, getX, getY, gridSize)
+    End Function
+
+    <Extension>
+    Public Iterator Function Density(Of T)(data As IEnumerable(Of T),
+                                           getName As Func(Of T, String),
+                                           getX As Func(Of T, Integer),
+                                           getY As Func(Of T, Integer),
+                                           gridSize As Size) As IEnumerable(Of NamedValue(Of Double))
 
         Dim grid2 As Grid(Of T) = Grid(Of T).Create(data, getX, getY)
         Dim q As T()
@@ -21,7 +31,7 @@ Public Module Density2D
             q = grid2.Query(getX(x), getY(x), gridSize).ToArray
             d = q.Length / A
 
-            Yield New NamedValue(Of Double)(x.Key, d)
+            Yield New NamedValue(Of Double)(getName(x), d)
         Next
     End Function
 End Module
