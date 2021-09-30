@@ -1,7 +1,10 @@
 ﻿Imports System.Drawing
-Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 
+''' <summary>
+''' a generic grid graph for fast query of the 2D geometry data
+''' </summary>
+''' <typeparam name="T"></typeparam>
 Public Class Grid(Of T)
 
     ReadOnly matrix2D As Dictionary(Of Long, Dictionary(Of Long, GridCell(Of T)))
@@ -20,6 +23,10 @@ Public Class Grid(Of T)
                           End Function)
     End Sub
 
+    ''' <summary>
+    ''' populate all of the cell data in current grid graph
+    ''' </summary>
+    ''' <returns></returns>
     Public Iterator Function EnumerateData() As IEnumerable(Of T)
         For Each row In matrix2D
             For Each col In row.Value
@@ -28,6 +35,15 @@ Public Class Grid(Of T)
         Next
     End Function
 
+    ''' <summary>
+    ''' get target cell data via a given pixel point
+    ''' </summary>
+    ''' <param name="x"></param>
+    ''' <param name="y"></param>
+    ''' <param name="hit"></param>
+    ''' <returns>
+    ''' nothing will be returns if there is no data on the given ``[x,y]`` pixel point.
+    ''' </returns>
     Public Function GetData(x As Integer, y As Integer, Optional ByRef hit As Boolean = False) As T
         Dim xkey = CLng(x), ykey = CLng(y)
 
@@ -44,6 +60,14 @@ Public Class Grid(Of T)
         Return matrix2D(xkey)(ykey).data
     End Function
 
+    ''' <summary>
+    ''' get a range of nearby cell data via a given pixel point data 
+    ''' and query size of the cell block rectangle.
+    ''' </summary>
+    ''' <param name="x"></param>
+    ''' <param name="y"></param>
+    ''' <param name="gridSize"></param>
+    ''' <returns></returns>
     Public Function Query(x As Integer, y As Integer, gridSize As Integer) As IEnumerable(Of T)
         Return Query(x, y, New Size(gridSize, gridSize))
     End Function
