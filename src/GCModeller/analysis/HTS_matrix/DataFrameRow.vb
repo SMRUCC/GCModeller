@@ -60,6 +60,12 @@ Public Class DataFrameRow : Implements INamedValue
     ''' <remarks></remarks>
     Public Property experiments As Double()
 
+    Default Public ReadOnly Property Value(i As Integer) As Double
+        Get
+            Return _experiments(i)
+        End Get
+    End Property
+
     ''' <summary>
     ''' Gets the sample counts of current gene expression data.(获取基因表达数据样本数目)
     ''' </summary>
