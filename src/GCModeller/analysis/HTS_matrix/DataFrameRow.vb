@@ -1,47 +1,48 @@
 ﻿#Region "Microsoft.VisualBasic::19f9a285a58525ca5f9b108bb3a22f33, analysis\HTS_matrix\DataFrameRow.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Class DataFrameRow
-    ' 
-    '     Properties: experiments, geneID, samples
-    ' 
-    '     Function: ToDataSet, ToString
-    ' 
-    ' /********************************************************************************/
+' Class DataFrameRow
+' 
+'     Properties: experiments, geneID, samples
+' 
+'     Function: ToDataSet, ToString
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.Math.LinearAlgebra
 
 ''' <summary>
 ''' The gene expression data samples file.(基因的表达数据样本)
@@ -58,6 +59,12 @@ Public Class DataFrameRow : Implements INamedValue
     ''' <returns></returns>
     ''' <remarks></remarks>
     Public Property experiments As Double()
+
+    Default Public ReadOnly Property Value(i As Integer) As Double
+        Get
+            Return _experiments(i)
+        End Get
+    End Property
 
     ''' <summary>
     ''' Gets the sample counts of current gene expression data.(获取基因表达数据样本数目)
@@ -89,6 +96,10 @@ Public Class DataFrameRow : Implements INamedValue
         Next
 
         Return table
+    End Function
+
+    Public Function CreateVector() As Vector
+        Return experiments.AsVector
     End Function
 
     Public Overrides Function ToString() As String
