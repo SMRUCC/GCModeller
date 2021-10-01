@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f4e63d69124e7eeb5f0beef28d435023, seqtoolkit\Blast.vb"
+﻿#Region "Microsoft.VisualBasic::858db9d2b8e7be531750d9db23d90e1f, R#\seqtoolkit\Blast.vb"
 
     ' Author:
     ' 
@@ -34,7 +34,7 @@
     ' Module Blast
     ' 
     '     Constructor: (+1 Overloads) Sub New
-    '     Function: doAlign, gwANIMultipleAlignment, ParseBlosumMatrix, RunGlobalNeedlemanWunsch
+    '     Function: doAlign, gwANIMultipleAlignment, HSP_hits, ParseBlosumMatrix, RunGlobalNeedlemanWunsch
     ' 
     ' /********************************************************************************/
 

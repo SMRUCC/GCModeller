@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9ea2ff109a4278657de7f3040b409f19, seqtoolkit\patterns.vb"
+﻿#Region "Microsoft.VisualBasic::212f2f5ae3522fd320b63faeedcf8ad8, R#\seqtoolkit\patterns.vb"
 
     ' Author:
     ' 

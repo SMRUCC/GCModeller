@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::902cdf731bfdf58295c33ab815a5b25a, markdown2pdf\ReportBuilder\HTML\HTMLReport.vb"
+﻿#Region "Microsoft.VisualBasic::3241a149aaeacee92d1d3abc42ece7e7, markdown2pdf\ReportBuilder\HTML\HTMLReport.vb"
 
     ' Author:
     ' 
@@ -37,9 +37,9 @@
     ' 
     '         Constructor: (+1 Overloads) Sub New
     ' 
-    '         Function: (+2 Overloads) Replace, ToString
+    '         Function: CopyTemplate, (+2 Overloads) Replace, ToString
     ' 
-    '         Sub: CopyTemplate, (+2 Overloads) Dispose, Save
+    '         Sub: (+2 Overloads) Dispose, Save
     ' 
     ' 
     ' /********************************************************************************/

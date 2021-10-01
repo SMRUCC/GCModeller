@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3a19024428fae4c3a22082a667609de5, TRNtoolkit\WGCNA.vb"
+﻿#Region "Microsoft.VisualBasic::8b21d77b637ccd27f9c13293e61123aa, R#\TRNtoolkit\WGCNA.vb"
 
     ' Author:
     ' 
@@ -112,4 +112,3 @@ Module WGCNA
         Return g
     End Function
 End Module
-

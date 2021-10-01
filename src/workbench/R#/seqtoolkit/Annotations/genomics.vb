@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5576e617451aff23ebe6ce34488f6598, seqtoolkit\Annotations\genomics.vb"
+﻿#Region "Microsoft.VisualBasic::8b63df3d91354e905f18cd39363b4c74, R#\seqtoolkit\Annotations\genomics.vb"
 
     ' Author:
     ' 

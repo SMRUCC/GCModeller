@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::569ac4ffdce4dd9eeb10e30324df8697, seqtoolkit\Annotations\workflows.vb"
+﻿#Region "Microsoft.VisualBasic::70432bc564747dd6a463cd19693f5b65, R#\seqtoolkit\Annotations\workflows.vb"
 
     ' Author:
     ' 
@@ -37,22 +37,6 @@
     '               openBlastReader, openWriter, parseBlastnMaps
     ' 
     '     Sub: writeStreamHelper
-    ' 
-    ' Enum TableTypes
-    ' 
-    '     BBH, Mapping, SBH
-    ' 
-    '  
-    ' 
-    ' 
-    ' 
-    ' Enum BBHAlgorithm
-    ' 
-    '     BHR, Naive, TaxonomySupports
-    ' 
-    '  
-    ' 
-    ' 
     ' 
     ' /********************************************************************************/
 

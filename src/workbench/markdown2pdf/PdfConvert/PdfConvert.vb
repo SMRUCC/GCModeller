@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d6f568b5b291b948f3a655f5b105b570, markdown2pdf\PdfConvert\PdfConvert.vb"
+﻿#Region "Microsoft.VisualBasic::bf9076b79c4d06c5ee09c41c0f498fd7, markdown2pdf\PdfConvert\PdfConvert.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     ' Module PdfConvert
     ' 
-    '     Function: BuildArguments, createPageArguments, (+2 Overloads) getRepeatParameters
+    '     Function: BuildArguments, CheckContentSource, createPageArguments, (+2 Overloads) getRepeatParameters, localFileExists
     ' 
     '     Sub: (+4 Overloads) ConvertHtmlToPdf, PdfConvertFailure, RunProcess
     ' 
@@ -341,4 +341,3 @@ Wkhtmltopdf output:
         Return check
     End Function
 End Module
-

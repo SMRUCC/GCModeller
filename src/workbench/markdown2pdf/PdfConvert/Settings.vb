@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3561cd98c99efb2f233449d17bfbf9c8, markdown2pdf\PdfConvert\Settings.vb"
+﻿#Region "Microsoft.VisualBasic::7bda2f707079993e2ea8959075b2a43a, markdown2pdf\PdfConvert\Settings.vb"
 
     ' Author:
     ' 
@@ -46,4 +46,3 @@
 ' The SettingsSaving event is raised before the setting values are saved.
 Partial Friend NotInheritable Class Settings
 End Class
-

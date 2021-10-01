@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::29357e7fccdadc2f3c3e1cdb79d65a9f, phenotype_kit\zzz.vb"
+﻿#Region "Microsoft.VisualBasic::a02eb4d1497e4acdd05456980275d8c3, R#\phenotype_kit\zzz.vb"
 
     ' Author:
     ' 
@@ -45,4 +45,3 @@ Public Class zzz
         Call geneExpression.Main()
     End Sub
 End Class
-
