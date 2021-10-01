@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2d2ade33835b1ad8557149c6b779a04c, cli_tool\CLI.vb"
+﻿#Region "Microsoft.VisualBasic::473108c4ba62e277b2c359da504f1904, cli_tool\CLI.vb"
 
     ' Author:
     ' 
@@ -34,7 +34,7 @@
     ' Module CLI
     ' 
     '     Constructor: (+1 Overloads) Sub New
-    '     Function: [Set], CLIDevelopment, SetMySQL, ViewVar
+    '     Function: [Set], CLIDevelopment, ViewVar
     ' 
     ' /********************************************************************************/
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a4f310c20990b2a080d0e3abaeb1d5bf, Shared\Settings.Configuration\Config\Programs\GCC.vb"
+﻿#Region "Microsoft.VisualBasic::d9fc9678b9eb842049f05f3ea4a99aea, Shared\Settings.Configuration\Config\Programs\GCC.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a45e75a0cc000e8b875b3efe5b7bc1bc, Shared\Settings.FileSystem\Regprecise\Directories.vb"
+﻿#Region "Microsoft.VisualBasic::7f73c063c343f73ca27815d4b7402f6f, Shared\Settings.FileSystem\Regprecise\Directories.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::947430ef2e315e4f33f5d01cf9e3ba12, pipeline\Program.vb"
+﻿#Region "Microsoft.VisualBasic::f9b5df0ded0c618c54bfd67ac9af789b, pipeline\Program.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     ' Module Program
     ' 
-    '     Function: Dispose, Main, Register
+    '     Function: [Stop], Dispose, Main, Register, Start
     ' 
     ' /********************************************************************************/
 
@@ -99,4 +99,3 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
         Return 0
     End Function
 End Module
-

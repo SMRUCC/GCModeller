@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ff91201d890f13ea466752cbf011901b, Shared\InternalApps_CLI\Apps.vb"
+﻿#Region "Microsoft.VisualBasic::b99e312bda83487c55fa684f6ddf8c8d, Shared\InternalApps_CLI\Apps.vb"
 
     ' Author:
     ' 
