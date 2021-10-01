@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fbec1f9db755209aa3db54a69b5238ae, models\GPML\PathVisio\Xml\Network.vb"
+﻿#Region "Microsoft.VisualBasic::17d9200c68c99fb0d6873c1859173e72, models\GPML\PathVisio\Xml\Network.vb"
 
     ' Author:
     ' 
@@ -56,7 +56,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports System.Xml.Serialization
 

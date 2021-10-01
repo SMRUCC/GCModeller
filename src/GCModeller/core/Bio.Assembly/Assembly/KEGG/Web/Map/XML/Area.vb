@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fd1317dbea89ac8d4061ecd6a00295b6, core\Bio.Assembly\Assembly\KEGG\Web\Map\XML\Area.vb"
+﻿#Region "Microsoft.VisualBasic::4dc3d972c9f572ae835f8b45e7b9a541, core\Bio.Assembly\Assembly\KEGG\Web\Map\XML\Area.vb"
 
     ' Author:
     ' 
@@ -33,8 +33,9 @@
 
     '     Class Area
     ' 
-    '         Properties: coords, href, IDVector, Names, Rectangle
-    '                     shape, title, Type
+    '         Properties: [class], coords, data_coords, data_id, entry
+    '                     href, IDVector, moduleId, Names, Rectangle
+    '                     refid, shape, title, Type
     ' 
     '         Function: Parse, ToString
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5f4d51256030a8b91cbc9b7ff5656b97, engine\Model\Models\Vector\ProteinComposition.vb"
+﻿#Region "Microsoft.VisualBasic::51a9d20a61b4d80112c1b6e7dcc3821c, engine\Model\Cellular\Vector\ProteinComposition.vb"
 
     ' Author:
     ' 

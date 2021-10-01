@@ -1,69 +1,58 @@
-﻿#Region "Microsoft.VisualBasic::947cddeac9f05154438af68d367aa6a8, engine\IO\GCMarkupLanguage\v2\Xml\Genome.vb"
+﻿#Region "Microsoft.VisualBasic::774d40e0820fbe112a5a84fcaf12bfdc, engine\IO\GCMarkupLanguage\v2\Xml\Genome\Genome.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class Genome
-' 
-'         Properties: regulations, replicons
-' 
-'         Function: GetAllGeneLocusTags
-' 
-'     Class replicon
-' 
-'         Properties: genes, genomeName, isPlasmid, RNAs
-' 
-'         Function: ToString
-' 
-'     Class gene
-' 
-'         Properties: amino_acid, left, locus_tag, nucleotide_base, product
-'                     protein_id, right, strand
-' 
-'     Class RNA
-' 
-'         Properties: gene, type, val
-' 
-'     Class transcription
-' 
-'         Properties: biological_process, centralDogma, effector, mode, motif
-'                     regulator, target
-' 
-'     Class Motif
-' 
-'         Properties: distance, family, left, right, sequence
-'                     strand
-' 
-' 
-' /********************************************************************************/
+    '     Class Genome
+    ' 
+    '         Properties: regulations, replicons
+    ' 
+    '         Function: GetAllGeneLocusTags
+    ' 
+    '     Class RNA
+    ' 
+    '         Properties: gene, type, val
+    ' 
+    '     Class transcription
+    ' 
+    '         Properties: biological_process, centralDogma, effector, mode, motif
+    '                     regulator, target
+    ' 
+    '     Class Motif
+    ' 
+    '         Properties: distance, family, left, right, sequence
+    '                     strand
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

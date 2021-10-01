@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7dddaee961e62a6abb2d71f67a62f216, models\Networks\KEGG\ReactionNetwork\Models\ReactionClassTable.vb"
+﻿#Region "Microsoft.VisualBasic::a062a2ffa811fc3d44b5bc6696097442, models\Networks\KEGG\ReactionNetwork\Models\ReactionClassTable.vb"
 
     ' Author:
     ' 

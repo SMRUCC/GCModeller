@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6b2a6322e7d060667675039ca9341792, analysis\Motifs\VirtualFootprint\RegPreciseScan.vb"
+﻿#Region "Microsoft.VisualBasic::122488a7278145d336c07a6dff423890, analysis\Motifs\VirtualFootprint\RegPreciseScan.vb"
 
     ' Author:
     ' 
@@ -112,4 +112,3 @@ Public Class RegPreciseScan
         Return load
     End Function
 End Class
-

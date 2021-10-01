@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5a8e9de727c31479fbc4136c8361d178, core\Bio.Assembly\Assembly\KEGG\Web\Map\XML\Map.vb"
+﻿#Region "Microsoft.VisualBasic::59dd70b9b96bddb6ff71c28ee99462f8, core\Bio.Assembly\Assembly\KEGG\Web\Map\XML\Map.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,8 @@
 
     '     Class Map
     ' 
-    '         Properties: id, Name, PathwayImage, shapes, URL
+    '         Properties: description, id, Name, PathwayImage, shapes
+    '                     URL
     ' 
     '         Function: GenericEnumerator, GetEnumerator, GetImage, GetMembers, ParseFromUrl
     '                   ToString

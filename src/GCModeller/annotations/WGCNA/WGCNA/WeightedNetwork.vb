@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::82454d178f5d802e6ca3c1162e3a18c0, annotations\WGCNA\WGCNA\WeightedNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::0fcaf954b98770a41bffbfedd126eaf7, annotations\WGCNA\WGCNA\WeightedNetwork.vb"
 
     ' Author:
     ' 

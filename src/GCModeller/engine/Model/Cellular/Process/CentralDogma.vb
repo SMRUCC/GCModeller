@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::00199bfa6e5ee1b04779c6349f329995, engine\Model\Models\CentralDogma.vb"
+﻿#Region "Microsoft.VisualBasic::16d7fca837755ac48292e9697e84acd5, engine\Model\Cellular\Process\CentralDogma.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,12 @@
 
     ' Summaries:
 
-    ' Structure CentralDogma
+    '     Structure CentralDogma
     ' 
-    '     Properties: geneID, IsRNAGene, RNAName
+    '         Properties: geneID, IsRNAGene, RNAName
     ' 
-    '     Function: ToString
+    '         Function: ToString
+    ' 
     ' 
     ' /********************************************************************************/
 

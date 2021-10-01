@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3371246b7d0c1a519c60338a893a7a21, engine\Model\Models\Regulation.vb"
+﻿#Region "Microsoft.VisualBasic::476c08a1297fa0dc010e61f3c75fb724, engine\Model\Cellular\Process\Regulation.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,10 @@
 
     ' Summaries:
 
-    ' Structure Regulation
+    '     Structure Regulation
     ' 
-    '     Function: ToString
+    '         Function: ToString
+    ' 
     ' 
     ' /********************************************************************************/
 

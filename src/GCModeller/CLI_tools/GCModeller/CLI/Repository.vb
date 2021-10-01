@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6021ecb5238c698252dcd8657cdab0db, CLI_tools\GCModeller\CLI\Repository.vb"
+﻿#Region "Microsoft.VisualBasic::2f37fc8ff720ec6a18497d05dc9a4f9d, CLI_tools\GCModeller\CLI\Repository.vb"
 
     ' Author:
     ' 
@@ -33,8 +33,8 @@
 
     ' Module CLI
     ' 
-    '     Function: CopyFiles, Install_NCBI_nt, InstallCDD, InstallCOGs, InstallGenbank
-    '               MatchHits, ntRepositoryExports, NtScaner, UniqueTitle
+    '     Function: CopyFiles, InstallCDD, InstallCOGs, InstallGenbank, MatchHits
+    '               ntRepositoryExports, NtScaner, UniqueTitle
     ' 
     ' /********************************************************************************/
 

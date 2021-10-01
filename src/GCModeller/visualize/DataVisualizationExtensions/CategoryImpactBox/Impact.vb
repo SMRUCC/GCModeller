@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bb65c09c520623a91ebb2a8b5b3c4949, visualize\DataVisualizationExtensions\CategoryImpactBox\Impact.vb"
+﻿#Region "Microsoft.VisualBasic::d2091a73852dad2ecf932e43efb19249, visualize\DataVisualizationExtensions\CategoryImpactBox\Impact.vb"
 
     ' Author:
     ' 
@@ -74,4 +74,3 @@ Public Class Impact
     End Function
 
 End Class
-

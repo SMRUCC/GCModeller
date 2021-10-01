@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9fa7da6fdb0e5528bca2c039bd5031a0, annotations\GSEA\GSEA\EnrichmentResult.vb"
+﻿#Region "Microsoft.VisualBasic::9fa7da6fdb0e5528bca2c039bd5031a0, annotations\GSEA\FisherCore\EnrichmentResult.vb"
 
     ' Author:
     ' 

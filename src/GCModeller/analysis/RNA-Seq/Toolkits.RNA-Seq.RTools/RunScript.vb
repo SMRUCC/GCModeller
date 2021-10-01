@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4df8e43e5c941306183b9b78d289a6b6, analysis\RNA-Seq\Toolkits.RNA-Seq.RTools\RunScript.vb"
+﻿#Region "Microsoft.VisualBasic::ad5f706f4cae9dca148d8da97802be82, analysis\RNA-Seq\Toolkits.RNA-Seq.RTools\RunScript.vb"
 
     ' Author:
     ' 
@@ -105,4 +105,3 @@ Public Module RunScript
         End If
     End Function
 End Module
-

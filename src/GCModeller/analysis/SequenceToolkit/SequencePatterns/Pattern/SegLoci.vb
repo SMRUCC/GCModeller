@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5665a9c1a81488669de6a419007ea50c, analysis\SequenceToolkit\SequencePatterns\Pattern\SegLoci.vb"
+﻿#Region "Microsoft.VisualBasic::92bbef691903e4b86954c9e2fc43f36e, analysis\SequenceToolkit\SequencePatterns\Pattern\SegLoci.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::655c44c17fc7b0a8f236e813fff12515, engine\Dynamics\Engine\VCell\Loader\Definition\NucleicAcid.vb"
+﻿#Region "Microsoft.VisualBasic::06cd3b6e829fd0ce64b159bfae34ac25, engine\BootstrapLoader\Definition\NucleicAcid.vb"
 
     ' Author:
     ' 

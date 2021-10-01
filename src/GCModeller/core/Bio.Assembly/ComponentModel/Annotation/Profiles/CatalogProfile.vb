@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8ba7c50ba81bb791395bea82257f949c, core\Bio.Assembly\ComponentModel\Annotation\Profiles\CatalogProfile.vb"
+﻿#Region "Microsoft.VisualBasic::5377f2ffff4da30543f7fa5a6aea58ab, core\Bio.Assembly\ComponentModel\Annotation\Profiles\CatalogProfile.vb"
 
     ' Author:
     ' 
@@ -33,10 +33,11 @@
 
     '     Class CatalogProfile
     ' 
-    '         Properties: information, profile
+    '         Properties: information, isEmpty, profile
     ' 
     '         Constructor: (+4 Overloads) Sub New
-    '         Function: (+2 Overloads) Add, GenericEnumerator, GetEnumerator, OrderByValues, ToString
+    '         Function: (+2 Overloads) Add, GenericEnumerator, GetEnumerator, OrderByValues, Take
+    '                   ToString
     ' 
     ' 
     ' /********************************************************************************/

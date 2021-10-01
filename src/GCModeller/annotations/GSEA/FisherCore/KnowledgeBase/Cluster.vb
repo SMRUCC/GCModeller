@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5862e7cc8e4180fdf8c059ab32f969e1, annotations\GSEA\GSEA\KnowledgeBase\Cluster.vb"
+﻿#Region "Microsoft.VisualBasic::355f866df3ef990a8172ef908e940619, annotations\GSEA\FisherCore\KnowledgeBase\Cluster.vb"
 
     ' Author:
     ' 
@@ -36,12 +36,6 @@
     '     Properties: description, ID, members, names
     ' 
     '     Function: getCollection, getSize, Intersect, ToString
-    ' 
-    ' Class BackgroundGene
-    ' 
-    '     Properties: locus_tag, name, term_id
-    ' 
-    '     Function: ToString
     ' 
     ' /********************************************************************************/
 

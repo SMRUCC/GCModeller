@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::df1d996197f53bca9853b8042e19f10b, analysis\RNA-Seq\Toolkits.RNA-Seq\Correlations\MatrixDatabase\Correlation2.vb"
+﻿#Region "Microsoft.VisualBasic::0dfa01292f9a0ce212c56d0f0614e6d6, analysis\RNA-Seq\Toolkits.RNA-Seq\Correlations\MatrixDatabase\Correlation2.vb"
 
     ' Author:
     ' 
@@ -185,4 +185,3 @@
 '        Throw New NotImplementedException
 '    End Function
 'End Class
-

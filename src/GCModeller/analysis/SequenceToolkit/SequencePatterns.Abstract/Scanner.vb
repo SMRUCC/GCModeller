@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8c8d67377e972fbadc04566e9b558065, analysis\SequenceToolkit\SequencePatterns.Abstract\Scanner.vb"
+﻿#Region "Microsoft.VisualBasic::e05a0813974e9a0894c81e74d997169e, analysis\SequenceToolkit\SequencePatterns.Abstract\Scanner.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4f395e234ac7adc8550a4b44658e82b0, core\Bio.Assembly\ComponentModel\Locus\Nucleotide\NucleotideLocation.vb"
+﻿#Region "Microsoft.VisualBasic::d4467b57b649ce143495262712243e8c, core\Bio.Assembly\ComponentModel\Locus\Nucleotide\NucleotideLocation.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Class NucleotideLocation
     ' 
-    '         Properties: Ends, IsValid, Start, Strand, tag
+    '         Properties: Ends, IsValid, Start, Strand, tagStr
     ' 
     '         Constructor: (+12 Overloads) Sub New
     '         Function: Copy, (+3 Overloads) CreateObject, Equals, GetDownStream, GetRelationship

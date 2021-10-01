@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ab36b7ff95087fddeb2eb707506bb4bf, visualize\DataVisualizationExtensions\CategoryImpactBox\ImpactBoxPlot.vb"
+﻿#Region "Microsoft.VisualBasic::a23bdd20f98864b1c10d5a631f9222e4, visualize\DataVisualizationExtensions\CategoryImpactBox\ImpactBoxPlot.vb"
 
     ' Author:
     ' 
@@ -59,4 +59,3 @@ Public Class ImpactBoxPlot : Inherits Plot
         Throw New NotImplementedException()
     End Sub
 End Class
-
