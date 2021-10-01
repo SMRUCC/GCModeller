@@ -33,6 +33,8 @@
 
     ' Class version
     ' 
+    '     Properties: pdb_date, pfam_version, release_date, release_version, sifts_date
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

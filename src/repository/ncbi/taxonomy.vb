@@ -33,6 +33,8 @@
 
     ' Class taxonomy
     ' 
+    '     Properties: childs, name, parent, rank, taxid
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

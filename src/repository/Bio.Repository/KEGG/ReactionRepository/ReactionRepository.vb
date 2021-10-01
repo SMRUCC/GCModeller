@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ec1815853c043c67d01eb28de0385eda, core\Bio.Repository\KEGG\ReactionRepository\ReactionRepository.vb"
+﻿#Region "Microsoft.VisualBasic::55cc7e3d1c003ae217ee1220ae88f95c, Bio.Repository\KEGG\ReactionRepository\ReactionRepository.vb"
 
     ' Author:
     ' 
@@ -37,8 +37,8 @@
     ' 
     '     Constructor: (+1 Overloads) Sub New
     '     Function: Enzymetic, Exists, GetAll, GetByKey, GetByKOMatch
-    '               GetCompoundIndex, GetKoIndex, GetWhere, LoadAuto, NonEnzymetic
-    '               ScanModel, (+2 Overloads) Subset
+    '               GetCompoundIndex, GetKoIndex, GetWhere, LoadAuto, LoadFromList
+    '               NonEnzymetic, ScanModel, (+2 Overloads) Subset
     ' 
     ' /********************************************************************************/
 

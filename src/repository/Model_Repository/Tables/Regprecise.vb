@@ -33,7 +33,8 @@
 
     ' Class Regprecise
     ' 
-    '     Properties: COG
+    '     Properties: COG, Family, GUID, Regulog, SpeciesCode
+    '                 Tfbs
     ' 
     '     Function: CreateObject, DBPath, GetPath
     ' 

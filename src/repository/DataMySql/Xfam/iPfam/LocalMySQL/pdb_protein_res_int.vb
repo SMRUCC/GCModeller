@@ -33,6 +33,9 @@
 
     ' Class pdb_protein_res_int
     ' 
+    '     Properties: auto_reg_int, auto_res_int, bond, pdb_id, residue_A
+    '                 residue_B
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

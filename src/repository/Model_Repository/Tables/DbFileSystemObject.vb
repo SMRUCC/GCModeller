@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bff5af867b34b6ec931863b1bed5cbc2, Model_Repository\Tables\DbFileSystemObject.vb"
+﻿#Region "Microsoft.VisualBasic::515f37be680dfe9f8a884759b1eeac0a, Model_Repository\Tables\DbFileSystemObject.vb"
 
     ' Author:
     ' 
@@ -32,6 +32,8 @@
     ' Summaries:
 
     ' Class DbFileSystemObject
+    ' 
+    '     Properties: Definition, LocusID, MD5Hash
     ' 
     '     Function: ToString, VerifyData
     '     Interface DescriptionData

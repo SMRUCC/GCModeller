@@ -33,6 +33,8 @@
 
     ' Class pdb_protein_region_lig_int
     ' 
+    '     Properties: auto_ligand, auto_reg_lig_int, pdb_id, quality_control, region_id
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

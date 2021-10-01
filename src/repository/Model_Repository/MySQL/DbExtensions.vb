@@ -33,7 +33,7 @@
 
     '     Module DbExtensions
     ' 
-    '         Function: GetCorrelateScore
+    '         Function: GetConnectedNode, (+2 Overloads) GetCorrelateScore
     ' 
     ' 
     ' /********************************************************************************/

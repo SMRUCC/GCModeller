@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5ea4e8b48f8c3d6c93a6d8e174d23fe7, nt\QueryEngine.vb"
+﻿#Region "Microsoft.VisualBasic::ab55298995f722751bc20bad9eb80db9, nt\QueryEngine.vb"
 
     ' Author:
     ' 
@@ -33,9 +33,11 @@
 
     ' Class QueryEngine
     ' 
+    '     Constructor: (+1 Overloads) Sub New
+    ' 
     '     Function: ScanSeqDatabase, Search
     ' 
-    '     Sub: __scan, (+2 Overloads) New, ScanDatabase
+    '     Sub: __scan, ScanDatabase
     ' 
     ' /********************************************************************************/
 

@@ -33,6 +33,8 @@
 
     ' Class connectivity
     ' 
+    '     Properties: atom1_name, atom2_name, ligand_id
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

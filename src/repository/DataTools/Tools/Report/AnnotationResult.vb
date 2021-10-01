@@ -33,6 +33,8 @@
 
     '     Class GenomeAnnotations
     ' 
+    '         Properties: GenomeTitle, Proteins
+    ' 
     '         Function: __createRecord, CompileResult, SaveHtml, SaveRTF, ToString
     ' 
     ' 

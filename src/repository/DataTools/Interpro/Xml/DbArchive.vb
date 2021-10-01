@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c66b3c66480d9406e65fa67358db2c3c, DataTools\Interpro\Xml\DbArchive.vb"
+﻿#Region "Microsoft.VisualBasic::0749efa4d373e17b938e423f45bcd172, DataTools\Interpro\Xml\DbArchive.vb"
 
     ' Author:
     ' 
@@ -33,46 +33,58 @@
 
     '     Class DbArchive
     ' 
-    '         Properties: release
+    '         Properties: interpro, release
     ' 
     '         Function: Save
     ' 
     '     Class DbInfo
     ' 
+    '         Properties: dbname, entry_count, file_date, version
+    ' 
     '         Function: ToString
     ' 
     '     Class Publication
     ' 
-    '         Properties: author_list, db_xref, journal, location, title
-    '                     year
+    '         Properties: author_list, db_xref, id, journal, location
+    '                     title, year
     ' 
     '         Function: ToString
     ' 
     '     Class Location
     ' 
+    '         Properties: issue, pages, volume
+    ' 
     '         Function: ToString
     ' 
     '     Class DbXref
+    ' 
+    '         Properties: db, dbkey, name, protein_count
     ' 
     '         Function: ToString
     ' 
     '     Class RelRef
     ' 
+    '         Properties: ipr_ref
+    ' 
     '         Function: ToString
     ' 
     '     Class TaxonData
+    ' 
+    '         Properties: name, proteins_count
     ' 
     '         Function: ToString
     ' 
     '     Class Interpro
     ' 
-    '         Properties: abstract, contains, external_doc_list, found_in, member_list
-    '                     name, parent_list, pub_list, sec_list, structure_db_links
-    '                     taxonomy_distribution
+    '         Properties: abstract, contains, external_doc_list, found_in, id
+    '                     member_list, name, parent_list, protein_count, pub_list
+    '                     sec_list, short_name, structure_db_links, taxonomy_distribution, type
     ' 
     '         Function: ToString
     ' 
     '     Class SecAcc
+    ' 
+    '         Properties: acc
     ' 
     '         Function: ToString
     ' 

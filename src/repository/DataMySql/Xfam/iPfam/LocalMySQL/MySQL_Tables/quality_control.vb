@@ -33,6 +33,8 @@
 
     ' Class quality_control
     ' 
+    '     Properties: comment, method, quality_control, score
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

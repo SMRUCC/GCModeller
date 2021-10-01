@@ -33,6 +33,8 @@
 
     ' Class gi2taxid
     ' 
+    '     Properties: gi, taxid
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

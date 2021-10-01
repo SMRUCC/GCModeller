@@ -33,6 +33,8 @@
 
     ' Class ligand_db_reference
     ' 
+    '     Properties: db_link, db_name, ligand_id
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

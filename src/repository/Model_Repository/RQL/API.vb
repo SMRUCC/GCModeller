@@ -35,11 +35,10 @@
     ' 
     '     Properties: RepositoryEngine
     ' 
+    '     Constructor: (+1 Overloads) Sub New
     '     Function: CreateGenbankEntryDump, CreateUser, DBInit, GetSecurityTableInfo, ImportsGBK
     '               (+2 Overloads) QueryGBKByDefinition, (+2 Overloads) QueryGBKByLocusID, SetRepositoryRoot, SQLImports, SQLQuery
     '               UpdateGenbankTableSchema
-    ' 
-    '     Sub: New
     ' 
     ' /********************************************************************************/
 

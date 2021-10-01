@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9acfc0151dba7859efb83abd2356aa7b, core\Bio.Repository\KEGG\ReactionRepository\ReactionClassifier.vb"
+﻿#Region "Microsoft.VisualBasic::ccdf963103baca66e6d96236a1cc962b, Bio.Repository\KEGG\ReactionRepository\ReactionClassifier.vb"
 
     ' Author:
     ' 
@@ -36,7 +36,7 @@
     '     Properties: Count
     ' 
     '     Function: buildIndex, buildTupleIndex, FromRepository, (+2 Overloads) GetReactantTransform, (+2 Overloads) haveClassification
-    '               IsNullOrEmpty
+    '               IsNullOrEmpty, QueryByCompoundId
     ' 
     ' /********************************************************************************/
 

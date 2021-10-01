@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6b241b36e30e201b525084cd35e701e5, Model_Repository\SQLEngine\MySQLIndex.vb"
+﻿#Region "Microsoft.VisualBasic::97ef91540fee0075284419c5936090d5, Model_Repository\SQLEngine\MySQLIndex.vb"
 
     ' Author:
     ' 
@@ -34,10 +34,6 @@
     '     Class SQLEngine
     ' 
     '         Sub: (+2 Overloads) Dispose
-    ' 
-    '     Class MySQLIndex
-    ' 
-    ' 
     ' 
     ' 
     ' /********************************************************************************/
