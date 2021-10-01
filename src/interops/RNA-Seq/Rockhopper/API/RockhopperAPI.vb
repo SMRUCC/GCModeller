@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5e93834497b3a0253ae1aa5f833c8091, RNA-Seq\Rockhopper\API\RockhopperAPI.vb"
+﻿#Region "Microsoft.VisualBasic::19fe48c2762d99521821375a4042ca99, RNA-Seq\Rockhopper\API\RockhopperAPI.vb"
 
     ' Author:
     ' 

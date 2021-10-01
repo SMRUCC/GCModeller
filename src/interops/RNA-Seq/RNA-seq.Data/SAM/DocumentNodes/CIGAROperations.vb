@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0c40a7ef6bebc69f27e50c0880357816, RNA-Seq\RNA-seq.Data\SAM\DocumentNodes\CIGAROperations.vb"
+﻿#Region "Microsoft.VisualBasic::fb8f1612ebe6dafc7e96c15697163f08, RNA-Seq\RNA-seq.Data\SAM\DocumentNodes\CIGAROperations.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e9c1e302c6cf31076d4e3c860843073d, meme_suite\MEME.DocParser\ModuleMotif.vb"
+﻿#Region "Microsoft.VisualBasic::1cd9d3851f344eec8c8ab10f03675050, meme_suite\MEME.DocParser\ModuleMotif.vb"
 
     ' Author:
     ' 

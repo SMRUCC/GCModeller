@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bc30dd77322c0a929122e7b2a0e048f1, RNA-Seq\Assembler\CLI\GeneMark.vb"
+﻿#Region "Microsoft.VisualBasic::9c458b861faa904270596d5cc5e2cb4a, RNA-Seq\Assembler\CLI\GeneMark.vb"
 
     ' Author:
     ' 

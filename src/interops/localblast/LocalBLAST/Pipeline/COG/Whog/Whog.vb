@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::eae865044e4565b57819cfd5b859a6f6, LocalBLAST\Pipeline\COG\Whog\Whog.vb"
+﻿#Region "Microsoft.VisualBasic::eae865044e4565b57819cfd5b859a6f6, localblast\LocalBLAST\Pipeline\COG\Whog\Whog.vb"
 
     ' Author:
     ' 

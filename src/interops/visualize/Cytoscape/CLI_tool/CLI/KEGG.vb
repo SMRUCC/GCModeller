@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a40708ce5009f5364261c4379fc5e5be, visualize\Cytoscape\CLI_tool\CLI\KEGG.vb"
+﻿#Region "Microsoft.VisualBasic::3bb6a36d4b7c90c506047480d0306f37, visualize\Cytoscape\CLI_tool\CLI\KEGG.vb"
 
     ' Author:
     ' 
@@ -34,8 +34,8 @@
     ' Module CLI
     ' 
     '     Function: __classNetwork, __mergeCommon, __pathwayNetwork, __typeNetwork, BuildKOLinks
-    '               KEGGPathwayMapNetwork, KEGGReferenceMapModel, ModsNET, ModuleRegulations, ReactionNET
-    '               RenamesKEGGNode, RenderReferenceMapNetwork, WriteKEGGCompoundsSummary, WriteReactionTable
+    '               KEGGPathwayMapNetwork, KEGGReferenceMapModel, ModsNET, ModuleRegulations, NodeInformationTable
+    '               ReactionNET, RenamesKEGGNode, RenderReferenceMapNetwork, WriteKEGGCompoundsSummary, WriteReactionTable
     ' 
     ' /********************************************************************************/
 

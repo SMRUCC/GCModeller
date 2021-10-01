@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::500599f1097a6a45ffdcf970ec62a4ef, RNA-Seq\RNA-seq.Data\FastQ\FastQ.vb"
+﻿#Region "Microsoft.VisualBasic::c19937e6cfdb5aa27267f5a35356c75a, RNA-Seq\RNA-seq.Data\FastQ\FastQ.vb"
 
     ' Author:
     ' 

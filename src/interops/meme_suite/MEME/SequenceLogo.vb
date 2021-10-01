@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9e607ea3509e5348a6cdef4083b80c5f, meme_suite\MEME\SequenceLogo.vb"
+﻿#Region "Microsoft.VisualBasic::d5f3aa2d8804740a64018df64b51550a, meme_suite\MEME\SequenceLogo.vb"
 
     ' Author:
     ' 

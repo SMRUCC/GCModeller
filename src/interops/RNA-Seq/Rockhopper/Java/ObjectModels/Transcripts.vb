@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2f0772f043fbee6d3396453ccba4ef10, RNA-Seq\Rockhopper\Java\ObjectModels\Transcripts.vb"
+﻿#Region "Microsoft.VisualBasic::a3adad305cf31cd2e217c6348cbd240c, RNA-Seq\Rockhopper\Java\ObjectModels\Transcripts.vb"
 
     ' Author:
     ' 

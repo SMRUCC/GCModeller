@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9a25390d55bcdc08ec2dcca31708be7c, RNA-Seq\Rockhopper\API\DeNovolTranscript.vb"
+﻿#Region "Microsoft.VisualBasic::c338a598c453c01706be0d2e0f3f20b3, RNA-Seq\Rockhopper\API\DeNovolTranscript.vb"
 
     ' Author:
     ' 

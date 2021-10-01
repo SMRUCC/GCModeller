@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::236523d7c19104e1a708868ea98f7a14, RNA-Seq\Assembler\CLI\BlastnMappings.vb"
+﻿#Region "Microsoft.VisualBasic::055e76b9d990952a9a1bae9a193d30c6, RNA-Seq\Assembler\CLI\BlastnMappings.vb"
 
     ' Author:
     ' 

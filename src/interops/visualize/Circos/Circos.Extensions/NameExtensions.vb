@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::29a849681dffcc9342535de7b11d1e05, visualize\Circos\Circos.Extensions\NameExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::c06e0830e9ccafd64097fbf580bf6a7f, visualize\Circos\Circos.Extensions\NameExtensions.vb"
 
     ' Author:
     ' 

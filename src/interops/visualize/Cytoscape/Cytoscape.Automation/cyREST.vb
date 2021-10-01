@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::71fd451fa8cdc951f445ab29a42b5ec7, visualize\Cytoscape\Cytoscape.Automation\cyREST.vb"
+﻿#Region "Microsoft.VisualBasic::801c9d908bdb6b116e4a2012aa300e97, visualize\Cytoscape\Cytoscape.Automation\cyREST.vb"
 
     ' Author:
     ' 
@@ -118,4 +118,3 @@ End Class
 Public Class view
     Public Property data As Dictionary(Of String, String)
 End Class
-

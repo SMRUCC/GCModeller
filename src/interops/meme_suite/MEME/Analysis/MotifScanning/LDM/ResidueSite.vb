@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7cf56a577c1b055fbb2b98eed9e5ae57, meme_suite\MEME\Analysis\MotifScanning\LDM\ResidueSite.vb"
+﻿#Region "Microsoft.VisualBasic::81e445361ebabd98d9984632bc7af5f6, meme_suite\MEME\Analysis\MotifScanning\LDM\ResidueSite.vb"
 
     ' Author:
     ' 

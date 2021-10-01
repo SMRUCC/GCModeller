@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::db152db291a0c7cc51cab6748db2cfd9, RNA-Seq\RNA-seq.Data\Soap\SOAP.vb"
+﻿#Region "Microsoft.VisualBasic::26490ae94a83eeb1e261f8271a72a8d4, RNA-Seq\RNA-seq.Data\Soap\SOAP.vb"
 
     ' Author:
     ' 

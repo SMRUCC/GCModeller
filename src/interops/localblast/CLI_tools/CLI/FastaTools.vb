@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f5536940579b87fae854777565d1b7b9, CLI_tools\CLI\FastaTools.vb"
+﻿#Region "Microsoft.VisualBasic::7eef05cf9a0afd39c5f2ad51bbd3c500, localblast\CLI_tools\CLI\FastaTools.vb"
 
     ' Author:
     ' 
