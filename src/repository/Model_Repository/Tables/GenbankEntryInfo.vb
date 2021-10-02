@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::448044621165563abd462e7582e00060, Model_Repository\Tables\GenbankEntryInfo.vb"
+﻿#Region "Microsoft.VisualBasic::581c693f1f7b212a370f86c4e88be30d, Model_Repository\Tables\GenbankEntryInfo.vb"
 
     ' Author:
     ' 
@@ -32,6 +32,8 @@
     ' Summaries:
 
     '     Class GenbankEntryInfo
+    ' 
+    '         Properties: GI, plasmid, Species
     ' 
     '         Function: GetPath, InternalUpdateInfo, ToString
     ' 

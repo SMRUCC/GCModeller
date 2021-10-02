@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f1e5c0dafa5b59374bb09be5f3c58f16, Shared\Settings.Configuration\Config\Programs\SMART.vb"
+﻿#Region "Microsoft.VisualBasic::6e622edf2500d696d2b80dcf977add70, Shared\Settings.Configuration\Config\Programs\SMART.vb"
 
     ' Author:
     ' 

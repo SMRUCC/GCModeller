@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a84b56ed98f9ac487d695f4c01ff5c44, Microsoft.VisualBasic.Core\src\Extensions\Image\Bitmap\Utils.vb"
+﻿#Region "Microsoft.VisualBasic::64ffbe2b0f4342416ec525f31523837f, Microsoft.VisualBasic.Core\src\Extensions\Image\Bitmap\Utils.vb"
 
     ' Author:
     ' 
@@ -87,6 +87,12 @@ Namespace Imaging.BitmapImage
             Return source.Clone(rect, source.PixelFormat)
         End Function
 
+        ''' <summary>
+        ''' resize image to a new pixel size
+        ''' </summary>
+        ''' <param name="Image"></param>
+        ''' <param name="newSize"></param>
+        ''' <returns></returns>
         <ExportAPI("Image.Resize")>
         <Extension>
         Public Function Resize(Image As Image, newSize As Size) As Image

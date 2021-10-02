@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b595e9612d5b2d899cb8a552f4adda4f, visualize\Circos\CLI\Module1.vb"
+﻿#Region "Microsoft.VisualBasic::0aef20fe82ae3094879083824d3c983b, visualize\Circos\CLI\Module1.vb"
 
     ' Author:
     ' 
@@ -989,4 +989,3 @@
 
 '    End Sub
 'End Module
-

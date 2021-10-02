@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d7b2305536f04796c7f0d99ae5cafd91, analysis\SequenceToolkit\MotifScanner\MotifMatch.vb"
+﻿#Region "Microsoft.VisualBasic::e1ca2df93610b80e1860ada694e60baa, analysis\SequenceToolkit\MotifScanner\MotifMatch.vb"
 
     ' Author:
     ' 
@@ -53,4 +53,3 @@ Public Class MotifMatch
     Public Property seeds As String()
 
 End Class
-

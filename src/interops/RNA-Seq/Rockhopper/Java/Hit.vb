@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::97902dfa441412720a8aea77ad52c26b, RNA-Seq\Rockhopper\Java\Hit.vb"
+﻿#Region "Microsoft.VisualBasic::78393e99db733d07f62ceec6ea5d46c4, RNA-Seq\Rockhopper\Java\Hit.vb"
 
     ' Author:
     ' 

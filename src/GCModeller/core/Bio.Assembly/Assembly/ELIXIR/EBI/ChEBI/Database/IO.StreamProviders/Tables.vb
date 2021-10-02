@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9b1b0c7447a017484c1017b032b3a44d, core\Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\Database\IO.StreamProviders\Tables.vb"
+﻿#Region "Microsoft.VisualBasic::76ed38aa781610d639e29c70669165e8, core\Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\Database\IO.StreamProviders\Tables.vb"
 
     ' Author:
     ' 
@@ -41,7 +41,7 @@
     ' 
     '         Properties: CHEMICAL_DATA
     ' 
-    '         Function: ChemicalModel, ppm, ToString
+    '         Function: ChemicalModel, ppm, PpmToMassDelta, ToString
     ' 
     '     Class Names
     ' 

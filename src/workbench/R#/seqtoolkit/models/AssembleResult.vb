@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::877f443bd2d80bac8f9eb1f0242925ca, seqtoolkit\models\AssembleResult.vb"
+﻿#Region "Microsoft.VisualBasic::c3b25d7d88975400053022e3b35d5256, R#\seqtoolkit\models\AssembleResult.vb"
 
     ' Author:
     ' 
@@ -52,4 +52,3 @@ Public Class AssembleResult
         Return alignments(Scan0)
     End Function
 End Class
-

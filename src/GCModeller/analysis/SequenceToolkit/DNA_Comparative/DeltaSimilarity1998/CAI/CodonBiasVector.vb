@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c937ad36ac0775fbf21e574c59698dca, analysis\SequenceToolkit\DNA_Comparative\DeltaSimilarity1998\CAI\CodonBiasVector.vb"
+﻿#Region "Microsoft.VisualBasic::01ca0ad96f5d604a11bf9ae65a7796e4, analysis\SequenceToolkit\DNA_Comparative\DeltaSimilarity1998\CAI\CodonBiasVector.vb"
 
     ' Author:
     ' 

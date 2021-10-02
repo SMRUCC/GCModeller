@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c948af2bd3fbcdb96d4f2e2b836f0e31, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\ReactionClass.vb"
+﻿#Region "Microsoft.VisualBasic::281b621fa918f4c201751a3aebee8761, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Reaction\ReactionClass.vb"
 
     ' Author:
     ' 
@@ -34,15 +34,9 @@
     '     Class ReactionClass
     ' 
     '         Properties: category, definition, entryId, enzymes, orthology
-    '                     pathways, reactantPairs, reactions
+    '                     pathways, reactantPairs, reactions, rModules
     ' 
     '         Function: ScanRepository
-    ' 
-    '     Class ReactionCompoundTransform
-    ' 
-    '         Properties: [to], from
-    ' 
-    '         Function: ToString
     ' 
     ' 
     ' /********************************************************************************/

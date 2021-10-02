@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cbf528bcab554ae7c39b3028b394f323, markdown2pdf\PdfConvert\Arguments\Options\Decoration.vb"
+﻿#Region "Microsoft.VisualBasic::34268b72ed8ff4225b337fee64b9089d, markdown2pdf\PdfConvert\Arguments\Options\Decoration.vb"
 
     ' Author:
     ' 
@@ -192,4 +192,3 @@ Namespace Arguments
 
     End Class
 End Namespace
-

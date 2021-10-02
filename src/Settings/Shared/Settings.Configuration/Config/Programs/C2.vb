@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e60a7c2c54fd3a93440d2d47b18bc119, Shared\Settings.Configuration\Config\Programs\C2.vb"
+﻿#Region "Microsoft.VisualBasic::53cdcae30bfc951454f0acbe3ed32946, Shared\Settings.Configuration\Config\Programs\C2.vb"
 
     ' Author:
     ' 

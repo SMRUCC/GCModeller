@@ -1,50 +1,50 @@
-﻿#Region "Microsoft.VisualBasic::5ab2c2ac74bbad28926fdff3c720645a, Shared\Settings.Configuration\Config\File.vb"
+﻿#Region "Microsoft.VisualBasic::86898a3502f0c270eec449202a05e6c7, Shared\Settings.Configuration\Config\File.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class File
-' 
-'         Properties: BlastBin, BlastDb, C2, COG2003_2014, DefaultXmlFile
-'                     Dev2, FilePath, Gcc, GCHOST, Java
-'                     Mothur, MPAlignment, MySQL, Perl, Phylip
-'                     Python, R_HOME, RepositoryRoot, Rockhopper, RSS
-'                     ShoalShell, SMART, STAMP
-' 
-'         Function: GetMplParam, IProfile_Save, (+2 Overloads) Save
-' 
-'         Sub: (+2 Overloads) Dispose, Save
-' 
-' 
-' /********************************************************************************/
+    '     Class File
+    ' 
+    '         Properties: BlastBin, BlastDb, C2, COG2003_2014, DefaultXmlFile
+    '                     Dev2, FilePath, Gcc, GCHOST, Java
+    '                     MimeType, Mothur, MPAlignment, MySQL, Perl
+    '                     Phylip, Python, R_HOME, RepositoryRoot, Rockhopper
+    '                     RSS, ShoalShell, SMART, STAMP
+    ' 
+    '         Function: GetMplParam, IProfile_Save, (+2 Overloads) Save
+    ' 
+    '         Sub: (+2 Overloads) Dispose, Save
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

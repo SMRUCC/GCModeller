@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2cad5da027789e826ecfded4462cc4b2, visualize\Circos\Circos\ConfFiles\Nodes\HighLight.vb"
+﻿#Region "Microsoft.VisualBasic::8fc0d970260a8a538fb3be6fca0828ce, visualize\Circos\Circos\ConfFiles\Nodes\HighLight.vb"
 
     ' Author:
     ' 

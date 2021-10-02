@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cc17ca281a30c72a90a410dd1f3dde1c, engine\Dynamics\Engine\VCell\Loader\Definition\AminoAcid.vb"
+﻿#Region "Microsoft.VisualBasic::5e620a6ab8533d5b8cd537866b8dc419, engine\BootstrapLoader\Definition\AminoAcid.vb"
 
     ' Author:
     ' 

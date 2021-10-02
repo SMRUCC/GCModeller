@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d077eef7ba19009a0d45fb3e6d9d6969, nt\Index\Title.vb"
+﻿#Region "Microsoft.VisualBasic::1b9edbe2445d3e4daf75f870eef52124, nt\Index\Title.vb"
 
     ' Author:
     ' 
@@ -33,9 +33,11 @@
 
     ' Class TitleWriter
     ' 
+    '     Constructor: (+1 Overloads) Sub New
+    ' 
     '     Function: Write
     ' 
-    '     Sub: Dispose, New
+    '     Sub: Dispose
     ' 
     ' /********************************************************************************/
 

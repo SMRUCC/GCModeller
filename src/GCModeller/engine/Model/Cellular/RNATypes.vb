@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4596a84a3e3cd504af177e2f2c7ac139, engine\Model\Models\RNATypes.vb"
+﻿#Region "Microsoft.VisualBasic::5997444a6301f38b36fd7d7fac24d1c9, engine\Model\Cellular\RNATypes.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,12 @@
 
     ' Summaries:
 
-    ' Enum RNATypes
+    '     Enum RNATypes
     ' 
-    '     micsRNA, ribosomalRNA, tRNA
+    '         micsRNA, ribosomalRNA, tRNA
     ' 
     '  
+    ' 
     ' 
     ' 
     ' 

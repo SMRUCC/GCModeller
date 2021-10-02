@@ -33,6 +33,8 @@
 
     ' Class ligand_synonym
     ' 
+    '     Properties: alt_name, ligand_id
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

@@ -33,6 +33,8 @@
 
     ' Class protein_family_has_citation
     ' 
+    '     Properties: auto_prot_fam, order_added, pmid
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

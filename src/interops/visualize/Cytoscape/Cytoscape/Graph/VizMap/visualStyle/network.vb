@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::54007aaedc211c297b73bfe1609bcd1c, visualize\Cytoscape\Cytoscape\Graph\VizMap\visualStyle\network.vb"
+﻿#Region "Microsoft.VisualBasic::61046dc3189af3d36cbf8d174cb3d3cb, visualize\Cytoscape\Cytoscape\Graph\VizMap\visualStyle\network.vb"
 
     ' Author:
     ' 

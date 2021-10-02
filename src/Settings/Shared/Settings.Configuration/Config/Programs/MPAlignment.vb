@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b3cc17826edd1cf77378986957e73b8e, Shared\Settings.Configuration\Config\Programs\MPAlignment.vb"
+﻿#Region "Microsoft.VisualBasic::e6ec5dabd60855ca1c761eecdde3f743, Shared\Settings.Configuration\Config\Programs\MPAlignment.vb"
 
     ' Author:
     ' 
@@ -34,7 +34,7 @@
     '     Class MPAlignment
     ' 
     '         Properties: Coverage, Evalue, FamilyAccept, FilePath, Identities
-    '                     Offset, ParserThreads, ParserTimeOut
+    '                     MimeType, Offset, ParserThreads, ParserTimeOut
     ' 
     '         Constructor: (+1 Overloads) Sub New
     '         Function: GetValue, Save, ToString

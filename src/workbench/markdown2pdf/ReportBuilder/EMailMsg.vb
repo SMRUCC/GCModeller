@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1b4fe351de07fbcbcff2fedb1e0d62c6, markdown2pdf\ReportBuilder\EMailMsg.vb"
+﻿#Region "Microsoft.VisualBasic::67552911f65ee2c416346ab5aa13513b, markdown2pdf\ReportBuilder\EMailMsg.vb"
 
     ' Author:
     ' 

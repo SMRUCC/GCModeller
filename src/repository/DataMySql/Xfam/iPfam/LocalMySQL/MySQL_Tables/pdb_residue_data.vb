@@ -33,6 +33,10 @@
 
     ' Class pdb_residue_data
     ' 
+    '     Properties: chain, dssp_code, observed, pdb_id, pdb_insert_code
+    '                 pdb_res, pdb_seq_number, serial, uniprot_acc, uniprot_res
+    '                 uniprot_seq_number
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

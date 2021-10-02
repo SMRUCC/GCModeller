@@ -33,6 +33,8 @@
 
     ' Class nt
     ' 
+    '     Properties: db, description, gi, taxid, uid
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

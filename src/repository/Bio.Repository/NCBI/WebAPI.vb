@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::67d459e7494a47f36719ab90ecb55093, core\Bio.Repository\NCBI\WebAPI.vb"
+﻿#Region "Microsoft.VisualBasic::39ec07b95489cb2ef4d62dd0c12cc01b, Bio.Repository\NCBI\WebAPI.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     ' Module DownloaderWebAPI
     ' 
-    '     Function: DownloadGBK
+    '     Sub: DownloadGBK
     '     Structure __genbankDownloadHelper
     ' 
     '         Function: Download

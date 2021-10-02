@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e2ecd35a4b0a0d4c0a42a3ee2762c8fd, meme_suite\MEME\Analysis\MotifScanning\LDM\AnnotationModel.vb"
+﻿#Region "Microsoft.VisualBasic::4836441808d3f953ee6d64e45cde60cc, meme_suite\MEME\Analysis\MotifScanning\LDM\AnnotationModel.vb"
 
     ' Author:
     ' 

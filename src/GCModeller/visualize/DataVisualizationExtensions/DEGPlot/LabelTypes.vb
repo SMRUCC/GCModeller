@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::03c2b796b1d8a2fab399b90146a61188, visualize\DataVisualizationExtensions\DEGPlot\LabelTypes.vb"
+﻿#Region "Microsoft.VisualBasic::cc0cd9ac53f86d0488f5e5dfc173ecae, visualize\DataVisualizationExtensions\DEGPlot\LabelTypes.vb"
 
     ' Author:
     ' 
@@ -34,6 +34,14 @@
     ' Enum LabelTypes
     ' 
     '     ALL, Custom, DEG, None
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    ' Enum DEGSet
+    ' 
+    '     ALL, Down, Up
     ' 
     '  
     ' 

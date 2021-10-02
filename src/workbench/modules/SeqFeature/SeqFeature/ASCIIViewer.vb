@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e2feed3370103389946e1147555a061d, SeqFeature\SeqFeature\ASCIIViewer.vb"
+﻿#Region "Microsoft.VisualBasic::3ca4ec493bdfb4a0d1b62d91da242d32, modules\SeqFeature\SeqFeature\ASCIIViewer.vb"
 
     ' Author:
     ' 

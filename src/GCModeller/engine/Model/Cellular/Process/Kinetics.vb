@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::731dc6e0c117b73b97c03af901a59efa, engine\Model\Models\Kinetics.vb"
+﻿#Region "Microsoft.VisualBasic::38bd72bf139ce2ae31370d7b677d92fe, engine\Model\Cellular\Process\Kinetics.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,10 @@
 
     ' Summaries:
 
-    ' Structure Kinetics
+    '     Structure Kinetics
     ' 
-    '     Function: CompileLambda, ExpressionModel, ToString
+    '         Function: CompileLambda, ExpressionModel, ToString
+    ' 
     ' 
     ' /********************************************************************************/
 

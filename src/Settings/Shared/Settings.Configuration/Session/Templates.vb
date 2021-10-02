@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e4f34756afab3659ecc01c0f800e45b4, Shared\Settings.Configuration\Session\Templates.vb"
+﻿#Region "Microsoft.VisualBasic::4965ba47858e254c43fd7cd81d372879, Shared\Settings.Configuration\Session\Templates.vb"
 
     ' Author:
     ' 

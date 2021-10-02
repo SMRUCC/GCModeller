@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::19ab5f553d786e5f1b293936206e4524, visualize\Circos\Circos\Karyotype\Adapters\ChromosomeGenerator.vb"
+﻿#Region "Microsoft.VisualBasic::80e5493df320fc967df2352c886b12c1, visualize\Circos\Circos\Karyotype\Adapters\ChromosomeGenerator.vb"
 
     ' Author:
     ' 

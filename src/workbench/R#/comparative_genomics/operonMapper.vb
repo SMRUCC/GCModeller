@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2cd30ce51aaa69fb4c30e1a5c9737eca, comparative_genomics\operonMapper.vb"
+﻿#Region "Microsoft.VisualBasic::625d5d9a1709d8e6d2925003907da628, R#\comparative_genomics\operonMapper.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,6 @@
 
 #End Region
 
-
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -76,4 +75,3 @@ Module operonMapper
         Return OperonRow.LoadInternalResource.ToArray
     End Function
 End Module
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::41bde5a9b3acb2b1a5571226fad8fec0, LocalBLAST\Web\MetaAPI.vb"
+﻿#Region "Microsoft.VisualBasic::41bde5a9b3acb2b1a5571226fad8fec0, localblast\LocalBLAST\Web\MetaAPI.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c99d971722cdda4116d94c14e3113f7b, cytoscape_toolkit\dunnart.vb"
+﻿#Region "Microsoft.VisualBasic::1512b83291e272ab27800986dee42ac6, R#\cytoscape_toolkit\dunnart.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
@@ -88,4 +87,3 @@ Module dunnart
         Return template.OptmizeGraph(optmize_iterations, lower_degrees, lower_adjcents)
     End Function
 End Module
-

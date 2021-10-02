@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aa4d38540208d2e4b05d44dacfa23dbb, engine\Model\Models\Metabolism.vb"
+﻿#Region "Microsoft.VisualBasic::64b546a5886a8d38d2ca3d39de85f7b0, engine\Model\Cellular\Process\Metabolism.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,12 @@
 
     ' Summaries:
 
-    ' Class Reaction
+    '     Class Reaction
     ' 
-    '     Properties: AllCompounds, ID, is_enzymatic
+    '         Properties: AllCompounds, ID, is_enzymatic
     ' 
-    '     Function: converts, GetCoefficient, GetEquationString, ToString
+    '         Function: converts, GetCoefficient, GetEquationString, ToString
+    ' 
     ' 
     ' /********************************************************************************/
 

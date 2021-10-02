@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::717af485971df8def5e191ebbb866a58, meme_suite\MEME\Analysis\FootprintTrace\Operons.vb"
+﻿#Region "Microsoft.VisualBasic::02f13a80f2b51cee46e164c73588ad71, meme_suite\MEME\Analysis\FootprintTrace\Operons.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Module OperonFootprints
     ' 
-    '         Function: __copy, __expands, AssignDOOR, ExpandDOOR
+    '         Function: AssignDOOR
     ' 
     ' 
     ' /********************************************************************************/

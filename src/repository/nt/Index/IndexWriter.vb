@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d06fff5034d25bd2267563bd8f61cebf, nt\Index\IndexWriter.vb"
+﻿#Region "Microsoft.VisualBasic::b0bd861c8177a60d98db09347ac58bfc, nt\Index\IndexWriter.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,8 @@
 
     ' Class IndexWriter
     ' 
-    '     Sub: Dispose, New, Write
+    '     Constructor: (+1 Overloads) Sub New
+    '     Sub: Dispose, Write
     ' 
     ' /********************************************************************************/
 

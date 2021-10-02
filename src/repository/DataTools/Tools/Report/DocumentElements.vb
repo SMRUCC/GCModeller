@@ -33,12 +33,14 @@
 
     '     Class ProteinAnnotationResult
     ' 
-    '         Properties: AnnotationSource, Headers, Orthologs, Paralogs, PossibleFunction
-    '                     Title
+    '         Properties: AnnotationSource, COG, Headers, Orthologs, Paralogs
+    '                     PossibleFunction, Protein, ProteinSequence, Title
     ' 
     '         Function: ToString
     ' 
     '     Class AnnotationSource
+    ' 
+    '         Properties: Evalue, Hit, Identities, OrganismSpecies
     ' 
     '         Function: ToString
     ' 

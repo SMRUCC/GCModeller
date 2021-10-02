@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c7406887eab39110664c17d86bd0934e, RNA-Seq\Rockhopper\API\TSSsCategory.vb"
+﻿#Region "Microsoft.VisualBasic::c2cdff0a52082964ff3f4d7e36146da7, RNA-Seq\Rockhopper\API\TSSsCategory.vb"
 
     ' Author:
     ' 

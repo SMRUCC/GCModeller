@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9c7d653bd37740994a70b84678bd4f13, RNA-Seq\Rockhopper\Java\Operations\Assembler.vb"
+﻿#Region "Microsoft.VisualBasic::58692078a13dd94a887213e13ecf30b6, RNA-Seq\Rockhopper\Java\Operations\Assembler.vb"
 
     ' Author:
     ' 

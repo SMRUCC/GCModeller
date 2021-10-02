@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e59957f88a7856ff8b32100158daa1fa, phenotype_kit\magnitude.vb"
+﻿#Region "Microsoft.VisualBasic::9094e5cee511831daa90325d92d93503, R#\phenotype_kit\magnitude.vb"
 
     ' Author:
     ' 
@@ -67,4 +67,3 @@ Module magnitude
 
     End Function
 End Module
-

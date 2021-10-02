@@ -33,6 +33,8 @@
 
     ' Class ligand_image
     ' 
+    '     Properties: ligand_id, size_120, size_270, size_400, size_600
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

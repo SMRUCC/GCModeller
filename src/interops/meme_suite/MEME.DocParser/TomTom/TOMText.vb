@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f11f82c15a6f333d2d9f33d6384cd08d, meme_suite\MEME.DocParser\TomTom\TOMText.vb"
+﻿#Region "Microsoft.VisualBasic::998d4ef20c6e0923db866190e286380b, meme_suite\MEME.DocParser\TomTom\TOMText.vb"
 
     ' Author:
     ' 

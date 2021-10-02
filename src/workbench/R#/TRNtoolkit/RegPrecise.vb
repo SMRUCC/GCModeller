@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c678c27f6f795a4e21230a70ddf4af32, TRNtoolkit\RegPrecise.vb"
+﻿#Region "Microsoft.VisualBasic::24145e259bc76c0b30638a545581413d, R#\TRNtoolkit\RegPrecise.vb"
 
     ' Author:
     ' 
@@ -39,7 +39,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
@@ -182,4 +181,3 @@ Public Module RegPrecise
         Return file.LoadCsv(Of RegpreciseBBH)
     End Function
 End Module
-

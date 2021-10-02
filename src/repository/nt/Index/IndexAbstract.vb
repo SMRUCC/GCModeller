@@ -35,9 +35,11 @@
     ' 
     '     Properties: gi
     ' 
+    '     Constructor: (+1 Overloads) Sub New
+    ' 
     '     Function: ToString
     ' 
-    '     Sub: (+2 Overloads) Dispose, New
+    '     Sub: (+2 Overloads) Dispose
     ' 
     ' /********************************************************************************/
 

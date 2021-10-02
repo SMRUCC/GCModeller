@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5ca93e9d19d489b0e547440b521db30b, meme_suite\MEME\Analysis\FootprintTrace\ModuleRegulon.vb"
+﻿#Region "Microsoft.VisualBasic::7df0ac3c60e2b28326b9ba31ba2e92ab, meme_suite\MEME\Analysis\FootprintTrace\ModuleRegulon.vb"
 
     ' Author:
     ' 

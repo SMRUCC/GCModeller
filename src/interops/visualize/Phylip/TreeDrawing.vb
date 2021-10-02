@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::38d557e5a5d68092531acffb4ecca358, visualize\Phylip\TreeDrawing.vb"
+﻿#Region "Microsoft.VisualBasic::34d4f4789ae651a5314b2ae8d5a77547, visualize\Phylip\TreeDrawing.vb"
 
     ' Author:
     ' 

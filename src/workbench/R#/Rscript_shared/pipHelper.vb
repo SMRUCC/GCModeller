@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9a48b1c780547a1d050c2b3587553c2a, Rscript_shared\pipHelper.vb"
+﻿#Region "Microsoft.VisualBasic::97d91a19bfcd7de7ac1ddcb75afb9e22, R#\Rscript_shared\pipHelper.vb"
 
     ' Author:
     ' 
@@ -64,4 +64,3 @@ Module pipHelper
         End If
     End Function
 End Module
-

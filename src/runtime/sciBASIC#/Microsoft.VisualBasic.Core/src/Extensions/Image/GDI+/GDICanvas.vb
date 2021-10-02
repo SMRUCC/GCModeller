@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b7897fa2309e0d0c0ddb0828f75a9518, Microsoft.VisualBasic.Core\src\Extensions\Image\GDI+\GDICanvas.vb"
+﻿#Region "Microsoft.VisualBasic::754f61ed11503b5c5a69ec2d5728e7da, Microsoft.VisualBasic.Core\src\Extensions\Image\GDI+\GDICanvas.vb"
 
     ' Author:
     ' 
@@ -1419,7 +1419,7 @@ Namespace Imaging
         End Sub
 
         ''' <summary>
-        ''' Draws the specified System.Drawing.Image at the specified location and with the
+        ''' Draws the specified <see cref="Image"/> at the specified location and with the
         ''' specified size.
         ''' </summary>
         ''' <param name="image">System.Drawing.Image to draw.</param>

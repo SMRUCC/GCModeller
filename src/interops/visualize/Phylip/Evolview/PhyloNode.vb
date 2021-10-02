@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b85eb0843becc73c5e1670fbad4b78e1, visualize\Phylip\Evolview\PhyloNode.vb"
+﻿#Region "Microsoft.VisualBasic::915f96fab2583b025186972bba28f068, visualize\Phylip\Evolview\PhyloNode.vb"
 
     ' Author:
     ' 

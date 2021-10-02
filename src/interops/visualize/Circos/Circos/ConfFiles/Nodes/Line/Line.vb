@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ca0e49ceafad5e228edea5e8b9f31858, visualize\Circos\Circos\ConfFiles\Nodes\Line\Line.vb"
+﻿#Region "Microsoft.VisualBasic::4c4395fbd784c442aac0924165ac4423, visualize\Circos\Circos\ConfFiles\Nodes\Line\Line.vb"
 
     ' Author:
     ' 

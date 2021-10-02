@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d07c5c117712c55157624cc983e76550, typescript\Linq.ts\TsBuild\TsBuild\Syntax\TypeScriptDefinition\TypeScriptSymbols.vb"
+﻿#Region "Microsoft.VisualBasic::5c4f977e967a1293ace59949d929a73c, typescript\Linq.ts\TsBuild\TsBuild\Syntax\TypeScriptDefinition\TypeScriptSymbols.vb"
 
     ' Author:
     ' 
@@ -54,4 +54,3 @@ Module TypeScriptSymbols
     }
 
 End Module
-

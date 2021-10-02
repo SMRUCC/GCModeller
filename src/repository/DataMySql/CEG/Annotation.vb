@@ -33,7 +33,7 @@
 
     '     Class Annotation
     ' 
-    '         Properties: Description
+    '         Properties: Description, GeneName, GId
     ' 
     '         Function: LoadDocument, ToString
     ' 

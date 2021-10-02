@@ -1,44 +1,44 @@
-﻿#Region "Microsoft.VisualBasic::f2802d5a4956d22869a3d24f384150e9, markdown2pdf\PdfConvert\Environment.vb"
+﻿#Region "Microsoft.VisualBasic::1405d12ad29a17f0a11ce67f71420f07, markdown2pdf\PdfConvert\Environment.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-' Module InternalEnvironment
-' 
-'     Properties: Environment
-' 
-'     Constructor: (+1 Overloads) Sub New
-'     Function: GetWkhtmlToPdfExeLocation
-' 
-' /********************************************************************************/
+    ' Module InternalEnvironment
+    ' 
+    '     Properties: Environment
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
+    '     Function: GetWkhtmlToPdfExeLocation, lazyGetEnvironment
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -100,4 +100,3 @@ Module InternalEnvironment
         Throw New FileNotFoundException("Progream ""wkhtmltopdf"" is not installed!")
     End Function
 End Module
-

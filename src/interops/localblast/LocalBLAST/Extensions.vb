@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::27ab9da46d7d1f3321108b1b524861b0, LocalBLAST\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::9e418e9c7ab3ef11b1b3bc7d1fe01ea6, localblast\LocalBLAST\Extensions.vb"
 
     ' Author:
     ' 
@@ -63,4 +63,3 @@ Module Extensions
         End If
     End Function
 End Module
-
