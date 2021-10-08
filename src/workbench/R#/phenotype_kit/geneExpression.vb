@@ -130,20 +130,21 @@ Module geneExpression
     Public Function loadExpression(file As Object,
                                    Optional exclude_samples As String() = Nothing,
                                    Optional rm_ZERO As Boolean = False,
+                                   Optional makeNames As Boolean = False,
                                    Optional env As Environment = Nothing) As Object
 
         Dim ignores As Index(Of String) = If(exclude_samples, {})
 
         If TypeOf file Is String Then
-            Return Matrix.LoadData(DirectCast(file, String), ignores, rm_ZERO).uniqueGeneId
+            Return Matrix.LoadData(DirectCast(file, String), ignores, rm_ZERO).uniqueGeneId(makeNames)
         ElseIf TypeOf file Is Rdataframe Then
             Return DirectCast(file, Rdataframe) _
                 .loadFromDataFrame(rm_ZERO, ignores) _
-                .uniqueGeneId
+                .uniqueGeneId(makeNames)
         ElseIf REnv.isVector(Of DataSet)(file) Then
             Return DirectCast(REnv.asVector(Of DataSet)(file), DataSet()) _
                 .loadFromGenericDataSet(rm_ZERO, ignores) _
-                .uniqueGeneId
+                .uniqueGeneId(makeNames)
         Else
             Return Message.InCompatibleType(GetType(Rdataframe), file.GetType, env)
         End If
@@ -231,9 +232,9 @@ Module geneExpression
     End Function
 
     <Extension>
-    Private Function uniqueGeneId(m As Matrix) As Matrix
+    Private Function uniqueGeneId(m As Matrix, makeNames As Boolean) As Matrix
         Dim geneId As String() = m.expression.Select(Function(gene) gene.geneID).ToArray
-        Dim unique As String() = geneId.makeNames(unique:=True)
+        Dim unique As String() = If(makeNames, geneId.makeNames(unique:=True), geneId.uniqueNames)
 
         For i As Integer = 0 To unique.Length - 1
             m(i).geneID = unique(i)
