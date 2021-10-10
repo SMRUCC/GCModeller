@@ -205,7 +205,7 @@ Public Module TextDoc
     ''' <param name="path"></param>
     ''' <returns>不存在的文件会返回空集合</returns>
     <Extension>
-    Public Iterator Function IterateAllLines(path$, Optional encoding As Encoding = Nothing) As IEnumerable(Of String)
+    Public Iterator Function IterateAllLines(path$, encoding As Encoding) As IEnumerable(Of String)
         If path.IsURLPattern Then
             For Each line As String In path.GET.LineTokens
                 Yield line
