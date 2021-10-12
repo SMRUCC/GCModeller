@@ -1,46 +1,46 @@
 ﻿#Region "Microsoft.VisualBasic::b93c641f7120aa92d07981fb60f780e5, R#\phenotype_kit\geneExpression.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module geneExpression
-    ' 
-    '     Function: average, castGenericRows, CMeans3D, CmeansPattern, createDEGModels
-    '               DEGclass, depDataTable, expDataTable, filter, geneId
-    '               GetCmeansPattern, loadExpression, loadFromDataFrame, loadFromGenericDataSet, relative
-    '               Ttest, uniqueGeneId
-    ' 
-    '     Sub: Main
-    ' 
-    ' /********************************************************************************/
+' Module geneExpression
+' 
+'     Function: average, castGenericRows, CMeans3D, CmeansPattern, createDEGModels
+'               DEGclass, depDataTable, expDataTable, filter, geneId
+'               GetCmeansPattern, loadExpression, loadFromDataFrame, loadFromGenericDataSet, relative
+'               Ttest, uniqueGeneId
+' 
+'     Sub: Main
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -130,20 +130,21 @@ Module geneExpression
     Public Function loadExpression(file As Object,
                                    Optional exclude_samples As String() = Nothing,
                                    Optional rm_ZERO As Boolean = False,
+                                   Optional makeNames As Boolean = False,
                                    Optional env As Environment = Nothing) As Object
 
         Dim ignores As Index(Of String) = If(exclude_samples, {})
 
         If TypeOf file Is String Then
-            Return Matrix.LoadData(DirectCast(file, String), ignores, rm_ZERO).uniqueGeneId
+            Return Matrix.LoadData(DirectCast(file, String), ignores, rm_ZERO).uniqueGeneId(makeNames)
         ElseIf TypeOf file Is Rdataframe Then
             Return DirectCast(file, Rdataframe) _
                 .loadFromDataFrame(rm_ZERO, ignores) _
-                .uniqueGeneId
+                .uniqueGeneId(makeNames)
         ElseIf REnv.isVector(Of DataSet)(file) Then
             Return DirectCast(REnv.asVector(Of DataSet)(file), DataSet()) _
                 .loadFromGenericDataSet(rm_ZERO, ignores) _
-                .uniqueGeneId
+                .uniqueGeneId(makeNames)
         Else
             Return Message.InCompatibleType(GetType(Rdataframe), file.GetType, env)
         End If
@@ -231,9 +232,9 @@ Module geneExpression
     End Function
 
     <Extension>
-    Private Function uniqueGeneId(m As Matrix) As Matrix
+    Private Function uniqueGeneId(m As Matrix, makeNames As Boolean) As Matrix
         Dim geneId As String() = m.expression.Select(Function(gene) gene.geneID).ToArray
-        Dim unique As String() = geneId.makeNames(unique:=True)
+        Dim unique As String() = If(makeNames, geneId.makeNames(unique:=True), geneId.uniqueNames)
 
         For i As Integer = 0 To unique.Length - 1
             m(i).geneID = unique(i)
