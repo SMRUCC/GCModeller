@@ -170,12 +170,13 @@ Public NotInheritable Class Umap : Inherits IDataEmbedding
     End Function
 
     Public Function GetGraph() As SparseMatrix
-        Return New SparseMatrix(
-            rows:=_optimizationState.Head,
-            cols:=_optimizationState.Tail,
-            values:=_optimizationState.EpochOfNextSample,
-            dims:=_graph.Dims
-        )
+        'Return New SparseMatrix(
+        '    rows:=_optimizationState.Head,
+        '    cols:=_optimizationState.Tail,
+        '    values:=_optimizationState.EpochOfNextSample,
+        '    dims:=_graph.Dims
+        ')
+        Return _graph
     End Function
 
     ''' <summary>
