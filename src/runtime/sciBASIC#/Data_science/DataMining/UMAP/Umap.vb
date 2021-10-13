@@ -77,6 +77,14 @@ Public NotInheritable Class Umap : Inherits IDataEmbedding
     Friend ReadOnly _random As IProvideRandomValues
     ReadOnly _customNumberOfEpochs As Integer?
     ReadOnly _progressReporter As RunSlavePipeline.SetProgressEventHandler
+
+    ''' <summary>
+    ''' graph data:
+    ''' 
+    ''' + head  source index
+    ''' + tail  target index
+    ''' + value edge weight
+    ''' </summary>
     ReadOnly _optimizationState As OptimizationState
     ReadOnly _customMapCutoff As Double?
 
@@ -162,7 +170,12 @@ Public NotInheritable Class Umap : Inherits IDataEmbedding
     End Function
 
     Public Function GetGraph() As SparseMatrix
-        Return _graph
+        Return New SparseMatrix(
+            rows:=_optimizationState.Head,
+            cols:=_optimizationState.Tail,
+            values:=_optimizationState.EpochOfNextSample,
+            dims:=_graph.Dims
+        )
     End Function
 
     ''' <summary>
