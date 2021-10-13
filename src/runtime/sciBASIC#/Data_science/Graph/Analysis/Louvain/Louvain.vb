@@ -358,7 +358,7 @@ Namespace Analysis.Louvain
                 enum_time = 0       ' 枚举次数，到n时代表所有点已经遍历过且无移动的点
                 point = 0           ' 循环指针
                 update_flag = False ' 是否发生过更新的标记
-                maxLoop = node_weight.Length * 10
+                maxLoop = node_weight.Length * 50
 
                 Do
                     Dim i As Integer = order(point)
