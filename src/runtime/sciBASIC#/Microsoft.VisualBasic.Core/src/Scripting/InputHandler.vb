@@ -366,7 +366,11 @@ Namespace Scripting
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function ToString(obj As Object, Optional null$ = "", Optional originToStringAsNothing As Boolean = False) As String
-            Return CStrSafe(obj, null, originToStringAsNothing)
+            If TypeOf obj Is String Then
+                Return DirectCast(obj, String)
+            Else
+                Return CStrSafe(obj, null, originToStringAsNothing)
+            End If
         End Function
 
         ''' <summary>

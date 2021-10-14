@@ -1,44 +1,44 @@
 ﻿#Region "Microsoft.VisualBasic::75fc5657c1f918f6d3789ebc41e3c954, Microsoft.VisualBasic.Core\src\Extensions\Doc\Text.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module TextDoc
-    ' 
-    '     Function: ForEachChar, IsTextFile, IterateAllLines, LineIterators, LoadTextDoc
-    '               OpenWriter, ReadAllLines, ReadAllText, ReadFirstLine, SaveHTML
-    '               SaveJson, (+4 Overloads) SaveTo, SaveTSV, SaveWithHTMLEncoding, SolveStream
-    '               TsvHeaders
-    ' 
-    ' /********************************************************************************/
+' Module TextDoc
+' 
+'     Function: ForEachChar, IsTextFile, IterateAllLines, LineIterators, LoadTextDoc
+'               OpenWriter, ReadAllLines, ReadAllText, ReadFirstLine, SaveHTML
+'               SaveJson, (+4 Overloads) SaveTo, SaveTSV, SaveWithHTMLEncoding, SolveStream
+'               TsvHeaders
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -194,7 +194,18 @@ Public Module TextDoc
     ''' <param name="path"></param>
     ''' <returns>不存在的文件会返回空集合</returns>
     <Extension>
-    Public Iterator Function IterateAllLines(path$, Optional encoding As Encodings = Encodings.Default) As IEnumerable(Of String)
+    Public Function IterateAllLines(path$, Optional encoding As Encodings = Encodings.Default) As IEnumerable(Of String)
+        Return path.IterateAllLines(encoding.CodePage)
+    End Function
+
+    ''' <summary>
+    ''' Reading a super large size text file through stream method.
+    ''' (通过具有缓存的流对象读取文本数据，使用迭代器来读取文件之中的所有的行，大文件推荐使用这个方法进行读取操作)
+    ''' </summary>
+    ''' <param name="path"></param>
+    ''' <returns>不存在的文件会返回空集合</returns>
+    <Extension>
+    Public Iterator Function IterateAllLines(path$, encoding As Encoding) As IEnumerable(Of String)
         If path.IsURLPattern Then
             For Each line As String In path.GET.LineTokens
                 Yield line
@@ -209,9 +220,8 @@ Public Module TextDoc
             Return
         End If
 
-        Using fs As New FileStream(path, FileMode.Open, access:=FileAccess.Read, share:=FileShare.Read)
-            Using reader As New StreamReader(fs, encoding.CodePage)
-
+        Using fs As Stream = path.Open(FileMode.Open, doClear:=False, [readOnly]:=True)
+            Using reader As New StreamReader(fs, encoding Or DefaultEncoding)
                 Do While Not reader.EndOfStream
                     Yield reader.ReadLine
                 Loop
@@ -328,7 +338,7 @@ Public Module TextDoc
     <Extension>
     Public Function ReadAllLines(path$, Optional Encoding As Encoding = Nothing) As String()
         If path.FileExists Then
-            Return File.ReadAllLines(path, encoding:=Encoding Or DefaultEncoding)
+            Return path.IterateAllLines(encoding:=Encoding).ToArray
         Else
             Return New String() {}
         End If
