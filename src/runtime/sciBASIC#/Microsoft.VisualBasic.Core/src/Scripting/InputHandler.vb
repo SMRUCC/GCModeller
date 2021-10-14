@@ -1,48 +1,48 @@
 ﻿#Region "Microsoft.VisualBasic::5d8f3b9091882af7d91726c6bbbfddfa, Microsoft.VisualBasic.Core\src\Scripting\InputHandler.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module InputHandler
-    ' 
-    '         Properties: [String], CasterString, Types
-    ' 
-    '         Function: [DirectCast], (+3 Overloads) [GetType], (+2 Overloads) CastArray, Convertible, (+2 Overloads) CTypeDynamic
-    '                   DefaultTextParser, GetString, IsPrimitive, ParseDateTime, StringParser
-    '                   (+2 Overloads) ToString
-    ' 
-    '         Sub: CapabilityPromise
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module InputHandler
+' 
+'         Properties: [String], CasterString, Types
+' 
+'         Function: [DirectCast], (+3 Overloads) [GetType], (+2 Overloads) CastArray, Convertible, (+2 Overloads) CTypeDynamic
+'                   DefaultTextParser, GetString, IsPrimitive, ParseDateTime, StringParser
+'                   (+2 Overloads) ToString
+' 
+'         Sub: CapabilityPromise
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -142,6 +142,8 @@ Namespace Scripting
         Public Function CTypeDynamic(expression$, target As Type) As Object
             If expression.StringEmpty Then
                 Return Nothing
+            ElseIf target Is GetType(String) Then
+                Return expression
             End If
             If _CasterString.ContainsKey(target) Then
                 Dim caster As LoadObject = _CasterString(target)
