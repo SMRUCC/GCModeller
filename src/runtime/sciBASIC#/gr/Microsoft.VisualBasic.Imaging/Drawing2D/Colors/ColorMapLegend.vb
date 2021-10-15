@@ -15,6 +15,12 @@ Namespace Drawing2D.Colors
         Public Property format As String = "F2"
         Public Property legendOffsetLeft As Single = -99999
 
+        Sub New(palette As String, Optional mapLevels As Integer = 30)
+            designer = GetColors(palette, mapLevels) _
+                .Select(Function(c) New SolidBrush(c)) _
+                .ToArray
+        End Sub
+
         Public Sub Draw(ByRef g As IGraphics, layout As Rectangle)
             Call g.ColorMapLegend(
                 layout:=layout,
