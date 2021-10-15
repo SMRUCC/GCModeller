@@ -14,6 +14,7 @@ Namespace Drawing2D.Colors
         Public Property ruleOffset As Single = 10
         Public Property format As String = "F2"
         Public Property legendOffsetLeft As Single = -99999
+        Public Property noblank As Boolean = True
 
         Sub New(palette As String, Optional mapLevels As Integer = 30)
             designer = GetColors(palette, mapLevels) _
@@ -33,7 +34,8 @@ Namespace Drawing2D.Colors
                 unmapColor:=unmapColor,
                 ruleOffset:=ruleOffset,
                 format:=format,
-                legendOffsetLeft:=legendOffsetLeft
+                legendOffsetLeft:=legendOffsetLeft,
+                noLeftBlank:=noblank
             )
         End Sub
     End Class
