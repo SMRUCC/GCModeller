@@ -202,7 +202,7 @@ Namespace PubMed
             Next
 
             Do While start < query.Count
-                query = ($"{eSearch}?db=pubmed&term={term.UrlEncode}&retmax={pageSize}&retstart={start = start + pageSize}") _
+                query = ($"{eSearch}?db=pubmed&term={term.UrlEncode}&retmax={pageSize}&retstart={start = CInt(start + pageSize)}") _
                     .GET(headers:=tool_info) _
                     .LoadFromXml(Of eSearchResult)
 
