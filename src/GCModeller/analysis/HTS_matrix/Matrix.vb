@@ -72,6 +72,16 @@ Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow)
     ''' <returns></returns>
     Public Property expression As DataFrameRow()
 
+    ''' <summary>
+    ''' the row numbers of the expression matrix(number of genes)
+    ''' </summary>
+    ''' <returns></returns>
+    Public ReadOnly Property size As Integer
+        Get
+            Return expression.Length
+        End Get
+    End Property
+
     Default Public ReadOnly Property gene(i As Integer) As DataFrameRow
         Get
             Return expression(i)
