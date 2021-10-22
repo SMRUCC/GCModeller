@@ -52,3 +52,6 @@ CALL :sync_git %ggplot%
 
 cd %root%
 CALL sync_multiplegit.cmd
+
+pause
+exit 0
