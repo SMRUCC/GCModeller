@@ -6,6 +6,7 @@ SET base=%CD%/../
 SET REnv=%base%/src/R-sharp
 SET Darwinism=%base%/src/runtime/Darwinism
 SET ggplot=%base%/src/runtime/ggplot
+SET Rnotebook=%base%/src/runtime/Rnotebook
 SET jump=run
 
 goto :%jump%
@@ -49,6 +50,10 @@ CALL :sync_git %Darwinism%
 SET jump=ggplot
 CALL :sync_git %ggplot%
 :ggplot
+
+SET jump=Rnotebook
+CALL :sync_git %Rnotebook%
+:Rnotebook
 
 cd %root%
 CALL sync_multiplegit.cmd
