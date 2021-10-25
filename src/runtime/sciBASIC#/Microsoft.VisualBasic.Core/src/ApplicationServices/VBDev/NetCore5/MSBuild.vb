@@ -26,7 +26,7 @@ Namespace ApplicationServices.Development.NetCore5
         End Property
 
         Private Shared Function getVersion() As Version
-            Dim verStr As String = MSBuild.dotnetShell("msbuild --version") _
+            Dim verStr As String = MSBuild.dotnetShell("msbuild --version", False) _
                     .DoCall(AddressOf Strings.Trim) _
                     .LineTokens _
                     .LastOrDefault
@@ -44,13 +44,13 @@ Namespace ApplicationServices.Development.NetCore5
         ''' </summary>
         ''' <param name="arguments"></param>
         ''' <returns></returns>
-        Private Shared Function dotnetShell(arguments As String) As String
+        Private Shared Function dotnetShell(arguments As String, split As Boolean) As String
             Return arguments _
                 .LineTokens _
                 .Select(AddressOf Strings.Trim) _
                 .JoinBy(" ") _
                 .DoCall(Function(argv)
-                            Return PipelineProcess.Call("dotnet", argv)
+                            Return PipelineProcess.Call("dotnet", argv, debug:=split)
                         End Function)
         End Function
 
@@ -68,7 +68,7 @@ Namespace ApplicationServices.Development.NetCore5
                 -verbosity:minimal
             "
 
-            Return dotnetShell(arguments)
+            Return dotnetShell(arguments, True)
         End Function
 
     End Class
