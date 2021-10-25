@@ -45,11 +45,30 @@ Namespace ApplicationServices.Development.NetCore5
         ''' <param name="arguments"></param>
         ''' <returns></returns>
         Private Shared Function dotnetShell(arguments As String) As String
-            Return PipelineProcess.Call("dotnet", arguments)
+            Return arguments _
+                .LineTokens _
+                .Select(AddressOf Strings.Trim) _
+                .JoinBy(" ") _
+                .DoCall(Function(argv)
+                            Return PipelineProcess.Call("dotnet", argv)
+                        End Function)
         End Function
 
-        Public Shared Function BuildVsSolution(sln As String, Optional rebuild As Boolean = True) As String
+        Public Shared Function BuildVsSolution(sln As String,
+                                               Optional vsConfig As String = "Release|x64",
+                                               Optional rebuild As Boolean = True) As String
 
+            Dim configTokens As String() = vsConfig.Split("|"c)
+            Dim arguments As String = $"msbuild 
+                ""{sln}"" 
+                {If(rebuild, "-t:Rebuild", "")} 
+                /p:Configuration=""{configTokens(0)}"" 
+                /p:Platform=""{configTokens(1)}"" 
+                -detailedSummary:True 
+                -verbosity:minimal
+            "
+
+            Return dotnetShell(arguments)
         End Function
 
     End Class
