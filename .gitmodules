@@ -15,7 +15,7 @@
 	path = src/runtime/ggplot
 	url = https://github.com/rsharp-lang/ggplot.git
 [submodule "src/runtime/Rnotebook"]
-	path = src/runtime/Rnotebook
+	path = src/runtime/R/Rnotebook
 	url = https://github.com/rsharp-lang/Rnb.git
 [submodule "src/runtime/R/Rmsgpack"]
 	path = src/runtime/R/Rmsgpack
