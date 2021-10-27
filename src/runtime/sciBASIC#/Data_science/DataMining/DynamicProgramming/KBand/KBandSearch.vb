@@ -19,7 +19,7 @@ Public Class KBandSearch
     ''' <param name="seq1$"></param>
     ''' <param name="seq2$"></param>
     ''' <returns></returns>
-    Public Function calculateEditDistance(seq1$, seq2$) As Integer
+    Public Function CalculateEditDistance(seq1$, seq2$) As Integer
         Dim l1 = seq1.Length
         Dim l2 = seq2.Length
         Dim direction%

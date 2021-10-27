@@ -166,7 +166,7 @@ Public Class CenterStar
                 Continue For
             End If
 
-            kband.calculateEditDistance(centerString, sequence(i))
+            kband.CalculateEditDistance(centerString, sequence(i))
             multipleAlign(i) = globalAlign(1)
 
             If (globalAlign(0).Length > centerString2.Length) Then
@@ -232,7 +232,7 @@ Public Class CenterStar
 
         For i As Integer = 0 To n - 1
             For j As Integer = 0 To n - 1
-                editDist += kband.calculateEditDistance(sequence(i), sequence(j))
+                editDist += kband.CalculateEditDistance(sequence(i), sequence(j))
             Next
 
             If (editDist < minEditDist) Then
