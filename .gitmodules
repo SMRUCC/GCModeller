@@ -17,3 +17,6 @@
 [submodule "src/runtime/Rnotebook"]
 	path = src/runtime/Rnotebook
 	url = https://github.com/rsharp-lang/Rnb.git
+[submodule "src/runtime/R/Rmsgpack"]
+	path = src/runtime/R/Rmsgpack
+	url = https://github.com/rsharp-lang/Rmsgpack.git
