@@ -211,6 +211,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\DataMining\DynamicProgramming\DynamicProgramming.vbproj">
+      <Project>{A903B744-C08D-4869-BC35-3DD25E36AA16}</Project>
+      <Name>DynamicProgramming</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\47-dotnet_Microsoft.VisualBasic.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
