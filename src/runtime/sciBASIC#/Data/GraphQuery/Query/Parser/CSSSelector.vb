@@ -204,7 +204,7 @@ Public Structure Selector
     End Sub
 
     Public Function ParseIndex() As Integer?
-        If n.StringEmpty Then
+        If n.StringEmpty OrElse n = "*" Then
             Return Nothing
         Else
             Return Integer.Parse(n)
