@@ -288,25 +288,28 @@ Namespace Assembly.KEGG.WebServices
                     Continue For
                 End If
 
-                Dim brush As Brush = id.Value _
+                Dim rectBrush As Brush = id.Value _
                     .TranslateColor _
-                    .Alpha(200) _
+                    .Alpha(100) _
                     .DoCall(Function(c)
                                 Return New SolidBrush(c)
                             End Function)
+                Dim brush As Brush = id.Value.GetBrush
 
                 With shapes(id.Name)
                     Dim name As String = .Name
                     Dim strSize = g.MeasureString(name, font)
 
                     For Each shape As Area In .Value
-                        Dim rect As RectangleF = shape.Rectangle _
-                            .Scale(scale) _
-                            .Scale(scaleCircle)
-
                         If shape.shape = "rect" Then
-                            Call g.FillRectangle(brush, rect)
+                            Dim rect As RectangleF = shape.Rectangle
+
+                            Call g.FillRectangle(rectBrush, rect)
                         Else
+                            Dim rect As RectangleF = shape.Rectangle _
+                                .Scale(scale) _
+                                .Scale(scaleCircle)
+
                             Call g.FillPie(brush, rect, 0, 360)
                             ' Call g.DrawCircle(rect.Centre, rect.Width, Pens.Black, fill:=False)
                         End If
