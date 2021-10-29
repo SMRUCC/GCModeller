@@ -69,6 +69,7 @@ Namespace Assembly.KEGG.WebServices
         ''' </summary>
         ''' <param name="urlStr">
         ''' + http://www.genome.jp/kegg-bin/show_pathway?{pathway_ID}/{geneID}%09{color}/{geneID}%09{color}/{geneID}%09{color}
+        ''' + https://www.kegg.jp/pathway/map00121+C00695%09blue+C01921%09blue+C05466%09blue+C07880%09blue
         ''' + http://www.kegg.jp/pathway/mmu04140+C00035+C00044
         ''' + http://www.kegg.jp/pathway/map01230/C00037/red/C00049/blue
         ''' </param>
@@ -81,6 +82,8 @@ Namespace Assembly.KEGG.WebServices
 
                 If data.Contains("/") Then
                     Return URLParser2(data)
+                ElseIf data.Contains("%09") Then
+                    Return URLParser4(data)
                 Else
                     Return URLParser3(data)
                 End If
@@ -89,6 +92,23 @@ Namespace Assembly.KEGG.WebServices
             Else
                 Throw New InvalidExpressionException(urlStr)
             End If
+        End Function
+
+        Private Function URLParser4(url As String) As NamedCollection(Of NamedValue(Of String))
+            Dim data = url.Split("+"c)
+            Dim components As NamedValue(Of String)() = data _
+                .Skip(1) _
+                .Select(Function(gene)
+                            With Strings.Split(gene, "%09")
+                                Return New NamedValue(Of String)(.First, .Last)
+                            End With
+                        End Function) _
+                .ToArray
+
+            Return New NamedCollection(Of NamedValue(Of String)) With {
+                .name = data(Scan0),
+                .value = components.ToArray
+            }
         End Function
 
         ''' <summary>

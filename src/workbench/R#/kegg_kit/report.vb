@@ -1,42 +1,42 @@
 ﻿#Region "Microsoft.VisualBasic::14e52d99b1741eb7de562d090d370c45, R#\kegg_kit\report.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module report
-    ' 
-    '     Function: checkIntersection, fromTable, getHighlightObjects, loadMap, MapRender
-    '               parseUrl, renderMapHighlights, showReportHtml, singleColor, url
-    ' 
-    ' /********************************************************************************/
+' Module report
+' 
+'     Function: checkIntersection, fromTable, getHighlightObjects, loadMap, MapRender
+'               parseUrl, renderMapHighlights, showReportHtml, singleColor, url
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -46,6 +46,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.GCModeller.Workbench.KEGGReport
 Imports SMRUCC.Rsharp.Runtime
@@ -53,6 +54,7 @@ Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports any = Microsoft.VisualBasic.Scripting
+Imports REnv = SMRUCC.Rsharp.Runtime
 
 ''' <summary>
 ''' the kegg pathway map report helper tool
@@ -167,7 +169,7 @@ Module report
                 .ToArray
 
         ElseIf TypeOf highlights Is String() OrElse TypeOf highlights Is String Then
-            Return URLEncoder.URLParser(getFirst(highlights)).value
+            Return URLEncoder.URLParser(renv.GetFirst(highlights)).value
         Else
             Return Internal.debug.stop(New InvalidCastException(highlights.GetType.FullName), env)
         End If
@@ -252,7 +254,7 @@ Module report
                 Case "KO" : kegg_objects(item.Name) = gene
                 Case "Reaction" : kegg_objects(item.Name) = reaction
                 Case Else
-                    kegg_objects(item.Name) = item.Value
+                    kegg_objects(item.Name) = item.Value.TrimEnd("#"c, " "c, ASCII.TAB, "/"c)
             End Select
         Next
 
