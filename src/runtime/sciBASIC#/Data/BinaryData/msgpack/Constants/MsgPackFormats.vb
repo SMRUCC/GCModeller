@@ -42,6 +42,15 @@
 
 Namespace Constants
 
+    ''' <summary>
+    ''' 枚举所有的基础类型常量
+    ''' </summary>
+    ''' <remarks>
+    ''' 20211029
+    ''' 
+    ''' 因为有些常量的值会出现重复，所以使用Enum枚举类型来表示会
+    ''' 产生符号冲突。在这里就只用普通的常量值来表示了
+    ''' </remarks>
     Public NotInheritable Class MsgPackFormats
 
         Public Const NIL As Byte = &HC0
