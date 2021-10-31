@@ -19,4 +19,7 @@
 	url = https://github.com/rsharp-lang/Rnb.git
 [submodule "src/runtime/R/Rmsgpack"]
 	path = src/runtime/R/Rmsgpack
-	url = https://github.com/rsharp-lang/Rmsgpack.git
+	url = https://gitee.com/xieguigang/Rmsgpack.git
+[submodule "src/runtime/R/Rnotebook"]
+	path = src/runtime/R/Rnotebook
+	url = https://gitee.com/xieguigang/Rnb.git
