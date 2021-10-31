@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::70910d9686946b4cf5565ad8209ac01e, R#\seqtoolkit\models\Enums.vb"
+﻿#Region "Microsoft.VisualBasic::42698506b0f6fd5081f8fd3954d68955, R#\seqtoolkit\models\Enums.vb"
 
     ' Author:
     ' 
@@ -51,7 +51,6 @@
 
 #End Region
 
-
 Imports System.ComponentModel
 
 Public Enum TableTypes
@@ -70,4 +69,3 @@ Public Enum BBHAlgorithm
     HybridBHR
     TaxonomySupports
 End Enum
-

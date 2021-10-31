@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f324533f5880fde184e537465d9672e9, markdown2pdf\ReportBuilder\Interpolation\Interpolation.vb"
+﻿#Region "Microsoft.VisualBasic::ddddfa5186ae52117c86c3a0c97a9521, markdown2pdf\ReportBuilder\Interpolation\Interpolation.vb"
 
     ' Author:
     ' 
@@ -67,4 +67,3 @@ Module Interpolation
         Return template.ToString
     End Function
 End Module
-

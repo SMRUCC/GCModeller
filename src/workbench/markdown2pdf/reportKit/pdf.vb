@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::de96a9b0831cc1094b98243a49a42632, markdown2pdf\reportKit\pdf.vb"
+﻿#Region "Microsoft.VisualBasic::294fc426422789d6f79802fccd606487, markdown2pdf\reportKit\pdf.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices
@@ -208,4 +207,3 @@ Module pdf
         Return Nothing
     End Function
 End Module
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2ae102b4424035b80c4bf41fe9577a35, R#\gseakit\KOBAS.vb"
+﻿#Region "Microsoft.VisualBasic::a37887ac502fcbdd0b14f79580030709, R#\gseakit\KOBAS.vb"
 
     ' Author:
     ' 
@@ -56,4 +56,3 @@ Module KOBAS
             .ToArray
     End Function
 End Module
-

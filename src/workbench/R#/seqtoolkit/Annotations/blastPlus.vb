@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9db4f866f153c0f88086010eeca2b9d6, R#\seqtoolkit\Annotations\blastPlus.vb"
+﻿#Region "Microsoft.VisualBasic::d61c2b1621510aa35d164a5f87acac4b, R#\seqtoolkit\Annotations\blastPlus.vb"
 
     ' Author:
     ' 
@@ -39,7 +39,6 @@
 
 #End Region
 
-
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 
@@ -67,4 +66,3 @@ Module blastPlusInterop
     End Function
 
 End Module
-

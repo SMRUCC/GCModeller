@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::46a282cc5ea4294003ccdf69a3feb23b, modules\workbench\pubmed.vb"
+﻿#Region "Microsoft.VisualBasic::2fccbf0bbf08557b7643b8af13693cbc, modules\workbench\pubmed.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,6 @@
 
 #End Region
 
-
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.GCModeller.Workbench.Knowledge_base
@@ -69,4 +68,3 @@ Module pubmedTools
         Return PubMed.ParseArticles(text).ToArray
     End Function
 End Module
-

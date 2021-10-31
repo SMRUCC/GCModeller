@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6fa8c25bb359a61fd2ded571e89ac757, R#\kegg_kit\activatorUtils.vb"
+﻿#Region "Microsoft.VisualBasic::37387d0469715d11487b4c3e50479686, R#\kegg_kit\activatorUtils.vb"
 
     ' Author:
     ' 
@@ -101,4 +101,3 @@ Module activatorUtils
             .ToArray
     End Function
 End Module
-

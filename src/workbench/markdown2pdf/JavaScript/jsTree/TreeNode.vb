@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0d14e3596072e2d655768e00e36cddd4, markdown2pdf\JavaScript\jsTree\TreeNode.vb"
+﻿#Region "Microsoft.VisualBasic::07fb8e24b363d797f363e769f7fa66e0, markdown2pdf\JavaScript\jsTree\TreeNode.vb"
 
     ' Author:
     ' 
@@ -46,4 +46,3 @@ Public Class TreeNode
     Public Property children As TreeNode()
 
 End Class
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1d9274940132269320542701031ad1bf, markdown2pdf\reportKit\html.vb"
+﻿#Region "Microsoft.VisualBasic::aa2037c010be3151c703068db7b5b27a, markdown2pdf\reportKit\html.vb"
 
     ' Author:
     ' 
@@ -39,7 +39,6 @@
 
 #End Region
 
-
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.MIME.text.markdown
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -69,4 +68,3 @@ Public Module html
         Return render.Transform(markdown)
     End Function
 End Module
-

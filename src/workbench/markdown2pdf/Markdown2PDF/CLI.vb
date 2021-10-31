@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0dc0430bfb0c2a1b017b9363a1b3a89c, markdown2pdf\Markdown2PDF\CLI.vb"
+﻿#Region "Microsoft.VisualBasic::756883679373fb9606a2d2ad577fa4a6, markdown2pdf\Markdown2PDF\CLI.vb"
 
     ' Author:
     ' 
@@ -91,4 +91,3 @@ Module CLI
         Return 0
     End Function
 End Module
-

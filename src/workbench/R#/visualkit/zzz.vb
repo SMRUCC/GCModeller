@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::baee1db562a82ada37ba1e1363911b03, R#\visualkit\zzz.vb"
+﻿#Region "Microsoft.VisualBasic::e4e840308810de2776ff250f500f26da, R#\visualkit\zzz.vb"
 
     ' Author:
     ' 
@@ -46,4 +46,3 @@ Public Class zzz
     End Sub
 
 End Class
-
