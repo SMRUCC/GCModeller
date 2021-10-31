@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bb722f694b19b10c7193ebf494fd2a2d, DataMySql\kb_UniProtKB\MySQL\organism_code.vb"
+﻿#Region "Microsoft.VisualBasic::a9fb6abec08c38db48a77518e3a853b5, DataMySql\kb_UniProtKB\MySQL\organism_code.vb"
 
     ' Author:
     ' 
@@ -240,4 +240,3 @@ End Class
 
 
 End Namespace
-

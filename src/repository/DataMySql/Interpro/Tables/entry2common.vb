@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4db99af40b6aed978c29076e011bd1dd, DataMySql\Interpro\Tables\entry2common.vb"
+﻿#Region "Microsoft.VisualBasic::c1e72174ae12276909da674909d49904, DataMySql\Interpro\Tables\entry2common.vb"
 
     ' Author:
     ' 
@@ -203,4 +203,3 @@ End Class
 
 
 End Namespace
-

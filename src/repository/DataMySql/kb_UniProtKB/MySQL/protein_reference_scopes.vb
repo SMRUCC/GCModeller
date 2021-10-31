@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c335b2b030edc87524e210291f10017a, DataMySql\kb_UniProtKB\MySQL\protein_reference_scopes.vb"
+﻿#Region "Microsoft.VisualBasic::9ec1e249d9cda4d49b8f6d11aa0407a7, DataMySql\kb_UniProtKB\MySQL\protein_reference_scopes.vb"
 
     ' Author:
     ' 
@@ -207,4 +207,3 @@ End Class
 
 
 End Namespace
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b987b035e906954d8fcb1ec241332793, DataMySql\kb_UniProtKB\MySQL\protein_feature_regions.vb"
+﻿#Region "Microsoft.VisualBasic::3565358effa4bc12c8555b7f0a4a62fd, DataMySql\kb_UniProtKB\MySQL\protein_feature_regions.vb"
 
     ' Author:
     ' 
@@ -215,4 +215,3 @@ End Class
 
 
 End Namespace
-

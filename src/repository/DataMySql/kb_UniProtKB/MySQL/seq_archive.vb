@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d99021c881cc348f1c6312125adacb27, DataMySql\kb_UniProtKB\MySQL\seq_archive.vb"
+﻿#Region "Microsoft.VisualBasic::857f8c12d8083f542ffd438c991d1a35, DataMySql\kb_UniProtKB\MySQL\seq_archive.vb"
 
     ' Author:
     ' 
@@ -288,4 +288,3 @@ End Class
 
 
 End Namespace
-

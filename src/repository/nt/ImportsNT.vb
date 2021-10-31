@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dc990f4be42666b784f44c14cef2ce8d, nt\ImportsNT.vb"
+﻿#Region "Microsoft.VisualBasic::58a695417be07ae91200bca43e095061, nt\ImportsNT.vb"
 
     ' Author:
     ' 
@@ -170,4 +170,3 @@
 '        Return nt.db.ToLower & "-" & gi
 '    End Function
 'End Module
-

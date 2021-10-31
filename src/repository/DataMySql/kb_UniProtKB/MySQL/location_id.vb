@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7d9adac07e9036296ead1ce85de1d009, DataMySql\kb_UniProtKB\MySQL\location_id.vb"
+﻿#Region "Microsoft.VisualBasic::c8192655b3baf0a4964a5b76295a981e, DataMySql\kb_UniProtKB\MySQL\location_id.vb"
 
     ' Author:
     ' 
@@ -196,4 +196,3 @@ End Class
 
 
 End Namespace
-

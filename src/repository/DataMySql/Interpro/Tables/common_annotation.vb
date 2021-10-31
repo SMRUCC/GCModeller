@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2ca3f58374437c2e4ded4d8717e374a7, DataMySql\Interpro\Tables\common_annotation.vb"
+﻿#Region "Microsoft.VisualBasic::c4a824dae5cacb0b5fba3c12d042a14b, DataMySql\Interpro\Tables\common_annotation.vb"
 
     ' Author:
     ' 
@@ -200,4 +200,3 @@ End Class
 
 
 End Namespace
-

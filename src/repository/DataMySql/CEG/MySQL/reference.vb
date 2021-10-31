@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7a0f5d6677f7e333c0feb2beb95eab6f, DataMySql\CEG\MySQL\reference.vb"
+﻿#Region "Microsoft.VisualBasic::1727ced0747e6514b8e9871a6fcda265, DataMySql\CEG\MySQL\reference.vb"
 
     ' Author:
     ' 
@@ -210,4 +210,3 @@ End Class
 
 
 End Namespace
-

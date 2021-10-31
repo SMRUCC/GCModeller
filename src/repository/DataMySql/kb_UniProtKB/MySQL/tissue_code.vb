@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::40a39e2a4987adbf7cdb2a3f1aa9df58, DataMySql\kb_UniProtKB\MySQL\tissue_code.vb"
+﻿#Region "Microsoft.VisualBasic::0971bb095f2aec862ddc31eded7da39a, DataMySql\kb_UniProtKB\MySQL\tissue_code.vb"
 
     ' Author:
     ' 
@@ -209,4 +209,3 @@ End Class
 
 
 End Namespace
-

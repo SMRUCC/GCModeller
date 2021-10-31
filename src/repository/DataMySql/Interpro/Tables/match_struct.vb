@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a645ad1a745139ddbaf1af5f61bbc69d, DataMySql\Interpro\Tables\match_struct.vb"
+﻿#Region "Microsoft.VisualBasic::210c0991fc782a025591551c3818d8cd, DataMySql\Interpro\Tables\match_struct.vb"
 
     ' Author:
     ' 
@@ -207,4 +207,3 @@ End Class
 
 
 End Namespace
-

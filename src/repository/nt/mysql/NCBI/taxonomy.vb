@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3681bdc1dec01aa6962b68869b1230fc, nt\mysql\NCBI\taxonomy.vb"
+﻿#Region "Microsoft.VisualBasic::fcb08063230002fd5a21cb54819adde6, nt\mysql\NCBI\taxonomy.vb"
 
     ' Author:
     ' 
@@ -214,4 +214,3 @@ End Class
 
 
 End Namespace
-

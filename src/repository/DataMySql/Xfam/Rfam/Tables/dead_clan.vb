@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::53fd95cb9283a8ba20b1178da8260d13, DataMySql\Xfam\Rfam\Tables\dead_clan.vb"
+﻿#Region "Microsoft.VisualBasic::bba4c6210f57c27664fe0baee01bfe6e, DataMySql\Xfam\Rfam\Tables\dead_clan.vb"
 
     ' Author:
     ' 
@@ -209,4 +209,3 @@ End Class
 
 
 End Namespace
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1b30b7fe8d4a4b722c82bc9f5e724a6b, DataMySql\Interpro\Tables\cv_relation.vb"
+﻿#Region "Microsoft.VisualBasic::9ce01cb428a633240f3f041271f1b1d9, DataMySql\Interpro\Tables\cv_relation.vb"
 
     ' Author:
     ' 
@@ -205,4 +205,3 @@ End Class
 
 
 End Namespace
-

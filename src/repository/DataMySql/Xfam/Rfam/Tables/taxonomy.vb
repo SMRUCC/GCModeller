@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a804dd2ebc8c33a5b86404474e1b23e0, DataMySql\Xfam\Rfam\Tables\taxonomy.vb"
+﻿#Region "Microsoft.VisualBasic::144b18945b90a150f6941a2e07d7c4a6, DataMySql\Xfam\Rfam\Tables\taxonomy.vb"
 
     ' Author:
     ' 
@@ -205,4 +205,3 @@ End Class
 
 
 End Namespace
-

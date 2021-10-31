@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::635d485d39525b36e14ba6689f436509, DataMySql\Xfam\Rfam\Tables\motif.vb"
+﻿#Region "Microsoft.VisualBasic::4315b63f88631f0f5928187a0bc5533b, DataMySql\Xfam\Rfam\Tables\motif.vb"
 
     ' Author:
     ' 
@@ -273,4 +273,3 @@ End Class
 
 
 End Namespace
-

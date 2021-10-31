@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f8f97f80c60e63770ea977f83549be2b, DataMySql\Interpro\Tables\journal.vb"
+﻿#Region "Microsoft.VisualBasic::ce3656d54b93d2f11272a6ebf5a121e0, DataMySql\Interpro\Tables\journal.vb"
 
     ' Author:
     ' 
@@ -203,4 +203,3 @@ End Class
 
 
 End Namespace
-

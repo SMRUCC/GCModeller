@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d33002c028e92590bd281ada62aa0beb, DataMySql\kb_UniProtKB\MySQL\xref.vb"
+﻿#Region "Microsoft.VisualBasic::c531c5bb34b1e6b5af3f196b04ff7efd, DataMySql\kb_UniProtKB\MySQL\xref.vb"
 
     ' Author:
     ' 
@@ -228,4 +228,3 @@ End Class
 
 
 End Namespace
-

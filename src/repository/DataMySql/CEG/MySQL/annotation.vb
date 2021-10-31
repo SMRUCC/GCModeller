@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e225a0c67dc648f999e3b27ba8ffc066, DataMySql\CEG\MySQL\annotation.vb"
+﻿#Region "Microsoft.VisualBasic::62b448c5ee59d3f8f98d781026e8fab5, DataMySql\CEG\MySQL\annotation.vb"
 
     ' Author:
     ' 
@@ -195,4 +195,3 @@ End Class
 
 
 End Namespace
-

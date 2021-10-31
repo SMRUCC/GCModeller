@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6ca46b91ec0f89d50a6a5a44251eb014, DataMySql\Xfam\Rfam\Tables\version.vb"
+﻿#Region "Microsoft.VisualBasic::b6fea2342f55a67e2f931a30e0e94d41, DataMySql\Xfam\Rfam\Tables\version.vb"
 
     ' Author:
     ' 
@@ -200,4 +200,3 @@ End Class
 
 
 End Namespace
-

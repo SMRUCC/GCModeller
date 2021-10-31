@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::62889ce1079caaf5de80430d0dbf581b, DataMySql\kb_UniProtKB\UniprotKBEngine.vb"
+﻿#Region "Microsoft.VisualBasic::54be289d33b6e645c57fd9efb847a2c0, DataMySql\kb_UniProtKB\UniprotKBEngine.vb"
 
     ' Author:
     ' 
@@ -192,4 +192,3 @@ Namespace kb_UniProtKB
         '        End Function
     End Module
 End Namespace
-

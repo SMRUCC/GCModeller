@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bd346dbc38d6b0710bd10c62399cd68f, DataMySql\kb_UniProtKB\MySQL\research_jobs.vb"
+﻿#Region "Microsoft.VisualBasic::ba87739afe650f65f8d00e3a6017dfcf, DataMySql\kb_UniProtKB\MySQL\research_jobs.vb"
 
     ' Author:
     ' 
@@ -200,4 +200,3 @@ End Class
 
 
 End Namespace
-

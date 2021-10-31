@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6e70cabe24d4ec6960f270dfb2728f0e, DataMySql\kb_UniProtKB\MySQL\feature_site_variation.vb"
+﻿#Region "Microsoft.VisualBasic::2e9c075b3462c83d1ae46be45f58f419, DataMySql\kb_UniProtKB\MySQL\feature_site_variation.vb"
 
     ' Author:
     ' 
@@ -210,4 +210,3 @@ End Class
 
 
 End Namespace
-

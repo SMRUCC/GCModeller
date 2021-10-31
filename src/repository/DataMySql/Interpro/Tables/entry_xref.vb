@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::44f778cff853d66c3689a340971324a2, DataMySql\Interpro\Tables\entry_xref.vb"
+﻿#Region "Microsoft.VisualBasic::b7c92af103ad9385b98393e903372344, DataMySql\Interpro\Tables\entry_xref.vb"
 
     ' Author:
     ' 
@@ -206,4 +206,3 @@ End Class
 
 
 End Namespace
-

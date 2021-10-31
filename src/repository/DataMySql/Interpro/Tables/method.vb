@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7639dcf946efa0714fb2c22cb65ae97f, DataMySql\Interpro\Tables\method.vb"
+﻿#Region "Microsoft.VisualBasic::835378c1289fac3b930f393c976336dc, DataMySql\Interpro\Tables\method.vb"
 
     ' Author:
     ' 
@@ -211,4 +211,3 @@ End Class
 
 
 End Namespace
-

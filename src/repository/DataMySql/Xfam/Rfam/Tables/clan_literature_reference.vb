@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::890cda1cab87eb92e03a41865b4527bc, DataMySql\Xfam\Rfam\Tables\clan_literature_reference.vb"
+﻿#Region "Microsoft.VisualBasic::8440386bb790a943500b8f091bc8443e, DataMySql\Xfam\Rfam\Tables\clan_literature_reference.vb"
 
     ' Author:
     ' 
@@ -202,4 +202,3 @@ End Class
 
 
 End Namespace
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9304422e5bbeada7c0dfff5ab34e2fc3, DataMySql\Interpro\Tables\pdb_pub_additional.vb"
+﻿#Region "Microsoft.VisualBasic::ebb713c72381e8b57336bd3c17343511, DataMySql\Interpro\Tables\pdb_pub_additional.vb"
 
     ' Author:
     ' 
@@ -200,4 +200,3 @@ End Class
 
 
 End Namespace
-

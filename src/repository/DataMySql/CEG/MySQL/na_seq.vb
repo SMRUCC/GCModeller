@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::52dcd1193bad72cb5d2990de9944e2d5, DataMySql\CEG\MySQL\na_seq.vb"
+﻿#Region "Microsoft.VisualBasic::5b2738f70eb517853d44b124ac642c78, DataMySql\CEG\MySQL\na_seq.vb"
 
     ' Author:
     ' 
@@ -195,4 +195,3 @@ End Class
 
 
 End Namespace
-

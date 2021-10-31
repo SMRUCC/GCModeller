@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b721ebc8913670be11929c236235c768, DataMySql\Interpro\Tables\example_auto.vb"
+﻿#Region "Microsoft.VisualBasic::e1e3b8d8489a35220b5f2ffc83df6ae8, DataMySql\Interpro\Tables\example_auto.vb"
 
     ' Author:
     ' 
@@ -192,4 +192,3 @@ End Class
 
 
 End Namespace
-

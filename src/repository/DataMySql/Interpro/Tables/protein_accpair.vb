@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::787cd624b259e91502c8339fdd4931d4, DataMySql\Interpro\Tables\protein_accpair.vb"
+﻿#Region "Microsoft.VisualBasic::ac28a3c356d94ed2888af4c6b4148b6d, DataMySql\Interpro\Tables\protein_accpair.vb"
 
     ' Author:
     ' 
@@ -196,4 +196,3 @@ End Class
 
 
 End Namespace
-

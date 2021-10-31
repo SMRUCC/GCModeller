@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fd708626fd424501d46d0018a70150ea, Bio.Repository\KEGG\MessagePack\KEGGPathwayPack.vb"
+﻿#Region "Microsoft.VisualBasic::4835e13704d4b872964bbba3b075af3c, Bio.Repository\KEGG\MessagePack\KEGGPathwayPack.vb"
 
     ' Author:
     ' 
@@ -41,7 +41,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports Microsoft.VisualBasic.Data.IO.MessagePack
 Imports System.IO

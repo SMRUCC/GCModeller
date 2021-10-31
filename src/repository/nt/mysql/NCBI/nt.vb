@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::58539142f4042a8c2f0d9cdf771627fb, nt\mysql\NCBI\nt.vb"
+﻿#Region "Microsoft.VisualBasic::cd1463f2b210b67605d2a716a7f02316, nt\mysql\NCBI\nt.vb"
 
     ' Author:
     ' 
@@ -212,4 +212,3 @@ End Class
 
 
 End Namespace
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::67d47af14fe59c6308587af81b4ce056, DataMySql\Xfam\Rfam\Tables\family_literature_reference.vb"
+﻿#Region "Microsoft.VisualBasic::b4ece777b82646c2aa3122da60d1832f, DataMySql\Xfam\Rfam\Tables\family_literature_reference.vb"
 
     ' Author:
     ' 
@@ -202,4 +202,3 @@ End Class
 
 
 End Namespace
-

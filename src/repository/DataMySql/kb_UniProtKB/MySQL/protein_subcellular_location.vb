@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::640261197e954de123c366f295c569e3, DataMySql\kb_UniProtKB\MySQL\protein_subcellular_location.vb"
+﻿#Region "Microsoft.VisualBasic::bc321931259ad390733825be2e1c298a, DataMySql\kb_UniProtKB\MySQL\protein_subcellular_location.vb"
 
     ' Author:
     ' 
@@ -213,4 +213,3 @@ End Class
 
 
 End Namespace
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c7f72cf2d0015e6aea038e189b12306a, nt\mysql\NCBI\rank_names.vb"
+﻿#Region "Microsoft.VisualBasic::902f6889c84d6c9434b2b4b7e3953c65, nt\mysql\NCBI\rank_names.vb"
 
     ' Author:
     ' 
@@ -194,4 +194,3 @@ End Class
 
 
 End Namespace
-

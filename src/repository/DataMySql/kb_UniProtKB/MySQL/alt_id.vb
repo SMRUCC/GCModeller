@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5bdca7d1cb23bb4d38817478d0265ab0, DataMySql\kb_UniProtKB\MySQL\alt_id.vb"
+﻿#Region "Microsoft.VisualBasic::e960803d28cbbe48b08b1e5a015296d0, DataMySql\kb_UniProtKB\MySQL\alt_id.vb"
 
     ' Author:
     ' 
@@ -213,4 +213,3 @@ End Class
 
 
 End Namespace
-

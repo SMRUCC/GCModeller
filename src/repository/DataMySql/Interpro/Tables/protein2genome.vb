@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9e157b0bced5c3c0e852c34f4244da52, DataMySql\Interpro\Tables\protein2genome.vb"
+﻿#Region "Microsoft.VisualBasic::814d084f0c212ac06413e425267711cf, DataMySql\Interpro\Tables\protein2genome.vb"
 
     ' Author:
     ' 
@@ -194,4 +194,3 @@ End Class
 
 
 End Namespace
-

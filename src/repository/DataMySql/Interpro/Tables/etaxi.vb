@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a28390d5daad901e3e7c7f0a8dfbdcc9, DataMySql\Interpro\Tables\etaxi.vb"
+﻿#Region "Microsoft.VisualBasic::646400f8dc1c64159d781a1857855d13, DataMySql\Interpro\Tables\etaxi.vb"
 
     ' Author:
     ' 
@@ -217,4 +217,3 @@ End Class
 
 
 End Namespace
-

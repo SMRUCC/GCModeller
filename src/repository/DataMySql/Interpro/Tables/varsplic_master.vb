@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fd5639c1e080ba67b0cc49cba741d15b, DataMySql\Interpro\Tables\varsplic_master.vb"
+﻿#Region "Microsoft.VisualBasic::2b1a56e1956fccc953cb1c62d8c415e0, DataMySql\Interpro\Tables\varsplic_master.vb"
 
     ' Author:
     ' 
@@ -198,4 +198,3 @@ End Class
 
 
 End Namespace
-

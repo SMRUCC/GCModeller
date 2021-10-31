@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::47816160f2b4080ffeeb25e8e6f0cc8a, DataMySql\Interpro\Tables\mv_method2protein.vb"
+﻿#Region "Microsoft.VisualBasic::a35d53fbaa6f7d53e71dfd8493150a3d, DataMySql\Interpro\Tables\mv_method2protein.vb"
 
     ' Author:
     ' 
@@ -203,4 +203,3 @@ End Class
 
 
 End Namespace
-

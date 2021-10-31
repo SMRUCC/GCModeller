@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8e2d7a37315ccb9396f61faf7da67eab, DataMySql\Interpro\Tables\text_index_entry.vb"
+﻿#Region "Microsoft.VisualBasic::8c56c4ffde57b40a915d620a87c0fad0, DataMySql\Interpro\Tables\text_index_entry.vb"
 
     ' Author:
     ' 
@@ -195,4 +195,3 @@ End Class
 
 
 End Namespace
-

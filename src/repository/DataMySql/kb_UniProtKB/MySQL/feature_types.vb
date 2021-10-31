@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::76458fb34e467e7302de9b204f2d8864, DataMySql\kb_UniProtKB\MySQL\feature_types.vb"
+﻿#Region "Microsoft.VisualBasic::e5737c0c4d6c3705478835c7e114ea84, DataMySql\kb_UniProtKB\MySQL\feature_types.vb"
 
     ' Author:
     ' 
@@ -196,4 +196,3 @@ End Class
 
 
 End Namespace
-

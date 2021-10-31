@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::770b5f038138b18bdcd897e1fcb48c9d, DataMySql\Interpro\Tables\uniprot_taxonomy.vb"
+﻿#Region "Microsoft.VisualBasic::a2cd732de86f8d8b67fca5e50d0a3a2a, DataMySql\Interpro\Tables\uniprot_taxonomy.vb"
 
     ' Author:
     ' 
@@ -198,4 +198,3 @@ End Class
 
 
 End Namespace
-

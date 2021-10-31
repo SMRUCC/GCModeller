@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bf6c5800485fc803812edf0809dbafb7, DataMySql\kb_UniProtKB\MySQL\hashcode_scopes.vb"
+﻿#Region "Microsoft.VisualBasic::568de995f9a833875c33126c4cc591c8, DataMySql\kb_UniProtKB\MySQL\hashcode_scopes.vb"
 
     ' Author:
     ' 
@@ -196,4 +196,3 @@ End Class
 
 
 End Namespace
-

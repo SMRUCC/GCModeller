@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fb5edcbfa5167c9e4e001321afdad3de, DataMySql\kb_UniProtKB\MySQL\literature.vb"
+﻿#Region "Microsoft.VisualBasic::b8359a4e88f418abe3357dd3d465fdd3, DataMySql\kb_UniProtKB\MySQL\literature.vb"
 
     ' Author:
     ' 
@@ -222,4 +222,3 @@ End Class
 
 
 End Namespace
-

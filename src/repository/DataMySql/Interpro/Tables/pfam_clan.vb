@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d13c51ae0e079e020841bd3ab5be51d6, DataMySql\Interpro\Tables\pfam_clan.vb"
+﻿#Region "Microsoft.VisualBasic::5f50a6241873cefb17218ffdc7b231f2, DataMySql\Interpro\Tables\pfam_clan.vb"
 
     ' Author:
     ' 
@@ -192,4 +192,3 @@ End Class
 
 
 End Namespace
-

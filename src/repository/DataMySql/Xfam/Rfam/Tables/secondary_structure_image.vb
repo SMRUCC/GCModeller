@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7569f8cef5d8624dd36920d3a6adff49, DataMySql\Xfam\Rfam\Tables\secondary_structure_image.vb"
+﻿#Region "Microsoft.VisualBasic::51f28d5f7dfa117b6965b5ae7c615a4c, DataMySql\Xfam\Rfam\Tables\secondary_structure_image.vb"
 
     ' Author:
     ' 
@@ -199,4 +199,3 @@ End Class
 
 
 End Namespace
-

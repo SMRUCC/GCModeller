@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1f59ddcb5b17ac3b753dc1aab65f64e2, DataMySql\kb_UniProtKB\MySQL\gene_info.vb"
+﻿#Region "Microsoft.VisualBasic::1d87fc429a6a089f6408d4e7395d2bc3, DataMySql\kb_UniProtKB\MySQL\gene_info.vb"
 
     ' Author:
     ' 
@@ -210,4 +210,3 @@ End Class
 
 
 End Namespace
-

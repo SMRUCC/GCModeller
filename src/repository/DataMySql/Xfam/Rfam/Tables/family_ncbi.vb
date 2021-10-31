@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cd3110f31f8123557a5c20a59bf15e53, DataMySql\Xfam\Rfam\Tables\family_ncbi.vb"
+﻿#Region "Microsoft.VisualBasic::f4feb7533eeb2779a0e4aafc4a03f3ce, DataMySql\Xfam\Rfam\Tables\family_ncbi.vb"
 
     ' Author:
     ' 
@@ -205,4 +205,3 @@ End Class
 
 
 End Namespace
-

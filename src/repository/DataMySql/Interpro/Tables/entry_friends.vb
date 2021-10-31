@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::eb17ab434ee5d12c2b989f0b77091a2b, DataMySql\Interpro\Tables\entry_friends.vb"
+﻿#Region "Microsoft.VisualBasic::af60706934a3ecd3545bf60f7ef51c25, DataMySql\Interpro\Tables\entry_friends.vb"
 
     ' Author:
     ' 
@@ -216,4 +216,3 @@ End Class
 
 
 End Namespace
-

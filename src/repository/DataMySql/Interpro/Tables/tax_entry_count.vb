@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a2afebc6167fe568df11d71e5ca7e04b, DataMySql\Interpro\Tables\tax_entry_count.vb"
+﻿#Region "Microsoft.VisualBasic::75a742abfba721b3e8ae530532302de1, DataMySql\Interpro\Tables\tax_entry_count.vb"
 
     ' Author:
     ' 
@@ -195,4 +195,3 @@ End Class
 
 
 End Namespace
-

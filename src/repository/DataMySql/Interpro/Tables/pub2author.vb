@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::12eca2beb0b3ee001dba70d7e371d369, DataMySql\Interpro\Tables\pub2author.vb"
+﻿#Region "Microsoft.VisualBasic::894a3f65b93c9ddbfc68aa7e8d0cda26, DataMySql\Interpro\Tables\pub2author.vb"
 
     ' Author:
     ' 
@@ -203,4 +203,3 @@ End Class
 
 
 End Namespace
-

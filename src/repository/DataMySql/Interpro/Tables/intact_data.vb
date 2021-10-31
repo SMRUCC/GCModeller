@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f6e29498a2980cfea441704d7edab6dc, DataMySql\Interpro\Tables\intact_data.vb"
+﻿#Region "Microsoft.VisualBasic::3a6fafff8aa28d93cf6097603fd7ea3c, DataMySql\Interpro\Tables\intact_data.vb"
 
     ' Author:
     ' 
@@ -215,4 +215,3 @@ End Class
 
 
 End Namespace
-

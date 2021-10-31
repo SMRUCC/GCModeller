@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b7ad89378525437ae1072b0b1cf196f7, DataMySql\Interpro\Tables\cv_entry_type.vb"
+﻿#Region "Microsoft.VisualBasic::b0faea0b353a53123b14630cfdd906ad, DataMySql\Interpro\Tables\cv_entry_type.vb"
 
     ' Author:
     ' 
@@ -199,4 +199,3 @@ End Class
 
 
 End Namespace
-
