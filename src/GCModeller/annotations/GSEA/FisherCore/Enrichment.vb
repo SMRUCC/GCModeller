@@ -55,13 +55,15 @@ Imports F = Microsoft.VisualBasic.Math.Statistics.Hypothesis.FishersExact.Fisher
 Public Module Enrichment
 
     ''' <summary>
-    ''' 
+    ''' 基于Fisher精确检验的基因列表富集计算分析
     ''' </summary>
     ''' <param name="genome"></param>
     ''' <param name="list">需要进行富集计算分析的目标基因列表</param>
     ''' <param name="outputAll">将会忽略掉所有没有交集的结果</param>
     ''' <param name="showProgress"></param>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' 返回来的结果没有进行FDR计算
+    ''' </returns>
     <Extension>
     Public Iterator Function Enrichment(genome As Background,
                                         list As IEnumerable(Of String),
