@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::422690217cce1d89d1dc6b8fb1806b68, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Reaction\ReactionCompoundTransform.vb"
+﻿#Region "Microsoft.VisualBasic::0ca9f556eb12a11c9d8736924dded225, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Reaction\ReactionCompoundTransform.vb"
 
     ' Author:
     ' 
@@ -41,7 +41,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports System.Xml.Serialization
 

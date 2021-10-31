@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7264482f1fe6bc7cc89421b3f3f3403e, models\Networks\KEGG\SimpleBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::6760f72e8961361015d0db7e48d377d0, models\Networks\KEGG\SimpleBuilder.vb"
 
     ' Author:
     ' 
@@ -105,4 +105,3 @@ Public Module SimpleBuilder
         Return g
     End Function
 End Module
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6fd2d962dea8b85cc7623d581d42aa1a, core\Bio.Assembly\Assembly\KEGG\Web\Map\URLEncoder.vb"
+﻿#Region "Microsoft.VisualBasic::f9e58f2d24c10379e1e7ced4a7205868, core\Bio.Assembly\Assembly\KEGG\Web\Map\URLEncoder.vb"
 
     ' Author:
     ' 
@@ -34,7 +34,7 @@
     '     Module URLEncoder
     ' 
     '         Function: KEGGURLEncode, URLParser, URLParser1, URLParser2, URLParser3
-    '                   VisualizePathwayMap
+    '                   URLParser4, VisualizePathwayMap
     ' 
     ' 
     ' /********************************************************************************/

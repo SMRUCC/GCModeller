@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7e1a4c5ca43c81de8c116f290bdfda7e, annotations\GSEA\GSEA\KnowledgeBase\Imports\CreateKEGGClusters.vb"
+﻿#Region "Microsoft.VisualBasic::0ac55d2b014ec1eca55e799ab84526dc, annotations\GSEA\GSEA\KnowledgeBase\Imports\CreateKEGGClusters.vb"
 
     ' Author:
     ' 
@@ -133,4 +133,3 @@ Public Module CreateKEGGClusters
                End Function
     End Function
 End Module
-

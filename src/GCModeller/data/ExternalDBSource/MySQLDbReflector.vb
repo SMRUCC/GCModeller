@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8e9967be407901ccf98ae2c3b343f351, data\ExternalDBSource\MySQLDbReflector.vb"
+﻿#Region "Microsoft.VisualBasic::956d8d74ec712a92f9aefeedb2109529, data\ExternalDBSource\MySQLDbReflector.vb"
 
     ' Author:
     ' 
@@ -94,4 +94,3 @@
 '        Return String.Format("{0}::{1}", Me.GetType.Name, DbReflector.ToString)
 '    End Function
 'End Class
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::584da417f0de220c2fe13c218e8c71d2, engine\Model\Cellular\Molecule\TranscriptsUnit.vb"
+﻿#Region "Microsoft.VisualBasic::c3935d9e83c574d10cade65a657605d5, engine\Model\Cellular\Molecule\TranscriptsUnit.vb"
 
     ' Author:
     ' 
@@ -39,7 +39,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Process
 

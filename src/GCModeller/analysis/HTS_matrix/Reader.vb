@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c36196e715c37d6abb86869817063ab7, analysis\HTS_matrix\Reader.vb"
+﻿#Region "Microsoft.VisualBasic::2c743a2800dd765963fa769ed9112c1a, analysis\HTS_matrix\Reader.vb"
 
     ' Author:
     ' 
@@ -93,4 +93,3 @@ Module Reader
         Next
     End Function
 End Module
-

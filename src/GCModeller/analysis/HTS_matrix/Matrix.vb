@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c68e4bcf60153a0ffa7d10a5514da74f, analysis\HTS_matrix\Matrix.vb"
+﻿#Region "Microsoft.VisualBasic::e6ee266ed35f5f49ffe7b97dad6eeeee, analysis\HTS_matrix\Matrix.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     ' Class Matrix
     ' 
-    '     Properties: expression, sampleID, tag
+    '     Properties: expression, sampleID, size, tag
     ' 
     '     Function: GenericEnumerator, GetEnumerator, LoadData, MatrixAverage, Project
     '               TakeSamples, ToString, TrimZeros

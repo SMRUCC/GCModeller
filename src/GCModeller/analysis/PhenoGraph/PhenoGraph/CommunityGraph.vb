@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ff40fb03d044eefb6272e8591175885f, analysis\PhenoGraph\PhenoGraph\CommunityGraph.vb"
+﻿#Region "Microsoft.VisualBasic::c32248ffcda705ad851a8f98fb42d8c2, analysis\PhenoGraph\PhenoGraph\CommunityGraph.vb"
 
     ' Author:
     ' 
@@ -191,4 +191,3 @@ Public Module CommunityGraph
         Return g
     End Function
 End Module
-

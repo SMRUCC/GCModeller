@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d36eb2b7fdb0b13af1ee0fc95edd7ebf, annotations\GSEA\FisherCore\KnowledgeBase\BackgroundGene.vb"
+﻿#Region "Microsoft.VisualBasic::7df5a8dcf879f284d482cc281558a1e1, annotations\GSEA\FisherCore\KnowledgeBase\BackgroundGene.vb"
 
     ' Author:
     ' 
@@ -64,4 +64,3 @@ Public Class BackgroundGene : Inherits Synonym
     End Function
 
 End Class
-
