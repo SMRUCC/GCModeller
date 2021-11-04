@@ -79,11 +79,41 @@ Namespace Math.Information
         End Function
 
         ''' <summary>
-        ''' 直接从一个概率向量之中计算出香农信息熵
-        ''' </summary>
-        ''' <param name="probs">Sum of this probability vector must equals to 1</param>
-        ''' <returns></returns>
+        ''' Calculate entropy value.
         ''' 
+        ''' (直接从一个概率向量之中计算出香农信息熵)
+        ''' </summary>
+        ''' <param name="probs">Sum of this probability vector must equals to 1, Histogram array.</param>
+        ''' <returns></returns>
+        ''' <remarks><para>The input array is treated as histogram, i.e. its
+        ''' indexes are treated as values of stochastic function, but
+        ''' array values are treated as "probabilities" (total amount of
+        ''' hits).</para>
+        ''' 
+        ''' <para>Sample usage:</para>
+        ''' <code>
+        ''' // create histogram array with 2 values of equal probabilities
+        ''' int[] histogram1 = new int[2] { 3, 3 };
+        ''' // calculate entropy
+        ''' double entropy1 = Statistics.Entropy( histogram1 );
+        ''' // output it (1.000)
+        ''' Console.WriteLine( "entropy1 = " + entropy1.ToString( "F3" ) );
+        ''' 
+        ''' // create histogram array with 4 values of equal probabilities
+        ''' int[] histogram2 = new int[4] { 1, 1, 1, 1 };
+        ''' // calculate entropy
+        ''' double entropy2 = Statistics.Entropy( histogram2 );
+        ''' // output it (2.000)
+        ''' Console.WriteLine( "entropy2 = " + entropy2.ToString( "F3" ) );
+        ''' 
+        ''' // create histogram array with 4 values of different probabilities
+        ''' int[] histogram3 = new int[4] { 1, 2, 3, 4 };
+        ''' // calculate entropy
+        ''' double entropy3 = Statistics.Entropy( histogram3 );
+        ''' // output it (1.846)
+        ''' Console.WriteLine( "entropy3 = " + entropy3.ToString( "F3" ) );
+        ''' </code>
+        ''' </remarks>
         <Extension>
         Public Function ShannonEntropy(probs As IEnumerable(Of Double)) As Double
             Dim entropy# = Aggregate prob As Double
@@ -94,6 +124,21 @@ Namespace Math.Information
             ' 和的负数，注意在这里最后的结果还需要乘以-1
             ' 有一个负号
             Return -entropy
+        End Function
+
+        ''' <summary>
+        ''' 基尼系数的选择的标准就是每个子节点达到最高的纯度，即落在子节点中的所有观察都属于同一个分类，
+        ''' 此时基尼系数最小，纯度最高，不确定度最小。
+        ''' 
+        ''' 基尼指数越大，说明不确定性就越大；基尼系数越小，不确定性越小，数据分割越彻底，越干净。
+        ''' </summary>
+        ''' <param name="p"></param>
+        ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function Gini(p As IEnumerable(Of Double)) As Double
+            Return 1 - (Aggregate pk As Double In p Into Sum(pk ^ 2))
         End Function
     End Module
 End Namespace
