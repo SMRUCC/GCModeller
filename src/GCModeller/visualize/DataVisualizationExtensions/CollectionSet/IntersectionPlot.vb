@@ -320,8 +320,8 @@ Namespace CollectionSet
             ' draw axis
             Call g.DrawY(pen, "Intersection Size", yscale, 0, yTick, YAxisLayoutStyles.Left,
                          New Point(0, -boxHeight),
-                         theme.axisLabelCSS,
-                         CSSFont.TryParse(theme.axisTickCSS).GDIObject(g.Dpi),
+                         theme.axisLabelCSS, Brushes.Black,
+                         CSSFont.TryParse(theme.axisTickCSS).GDIObject(g.Dpi), Brushes.Black,
                          htmlLabel:=False,
                          tickFormat:="F0"
             )
