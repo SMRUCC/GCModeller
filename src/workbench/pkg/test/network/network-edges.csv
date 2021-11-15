@@ -1,1 +1,5 @@
-﻿fromNode,toNode,value,interaction_type,selfLoop
+﻿fromNode,toNode,value,interaction_type,selfLoop,label,guid
+C00114,glpQ,4,,False,,[2]C00114 -> [21]glpQ
+glpQ,C00670,4,,False,,[21]glpQ -> [6]C00670
+SMOX,C00750,8,,False,,[22]SMOX -> [7]C00750
+C00315,SMOX,8,,False,,[4]C00315 -> [22]SMOX
