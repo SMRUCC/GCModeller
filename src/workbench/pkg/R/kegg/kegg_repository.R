@@ -8,12 +8,30 @@ const kegg_compounds as function() {
     }
 }
 
-const kegg_maps as function() {
-
+#' Load internal kegg map repository
+#' 
+#' @param rawMaps this parameter value determine the data type of 
+#'    the return value from this function. ``TRUE`` value
+#'    of this parameter will returns a vector of map data object
+#'    or a indexed map repository object if set the parameter value
+#'    to value ``FALSE``.
+#' 
+const kegg_maps as function(rawMaps = TRUE) {
+    using file as .readZipStream(
+        zipfile = system.file("data/kegg/KEGG_maps.zip", package = "GCModeller")
+    ) {
+        repository::load.maps(file, rawMaps = rawMaps);
+    }
 }
 
+#' Load internal kegg reaction repository
+#' 
 const kegg_reactions as function() {
-
+    using file as .readZipStream(
+        zipfile = system.file("data/kegg/reactions.zip", package = "GCModeller")
+    ) {
+        repository::load.reactions(file, rawMaps = rawMaps);
+    }
 }
 
 #' Read zip stream data

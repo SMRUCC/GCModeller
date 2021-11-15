@@ -218,26 +218,32 @@ Public Module kegg_repository
                                      Optional raw As Boolean = True,
                                      Optional env As Environment = Nothing) As Object
 
-        Dim resource As String() = Rs.asVector(Of String)(repository)
+        If TypeOf repository Is Stream Then
+            Using file As Stream = DirectCast(repository, Stream)
+                Return KEGGReactionPack.ReadKeggDb(file)
+            End Using
+        Else
+            Dim resource As String() = Rs.asVector(Of String)(repository)
 
-        If resource.Length = 1 Then
-            Dim handle As String = resource(Scan0)
+            If resource.Length = 1 Then
+                Dim handle As String = resource(Scan0)
 
-            If handle.DirectoryExists Then
-                Return ReactionRepository.LoadAuto(handle)
-            ElseIf handle.ExtensionSuffix("msgpack") Then
-                If raw Then
-                    Return KEGGReactionPack.ReadKeggDb(handle)
+                If handle.DirectoryExists Then
+                    Return ReactionRepository.LoadAuto(handle)
+                ElseIf handle.ExtensionSuffix("msgpack") Then
+                    If raw Then
+                        Return KEGGReactionPack.ReadKeggDb(handle)
+                    Else
+                        Return ReactionRepository.LoadFromList(KEGGReactionPack.ReadKeggDb(handle))
+                    End If
                 Else
-                    Return ReactionRepository.LoadFromList(KEGGReactionPack.ReadKeggDb(handle))
+                    Return handle.LoadXml(Of Reaction)
                 End If
             Else
-                Return handle.LoadXml(Of Reaction)
+                Return resource _
+                    .Select(AddressOf LoadXml(Of Reaction)) _
+                    .ToArray
             End If
-        Else
-            Return resource _
-                .Select(AddressOf LoadXml(Of Reaction)) _
-                .ToArray
         End If
     End Function
 
@@ -254,23 +260,35 @@ Public Module kegg_repository
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <ExportAPI("load.maps")>
     <RApiReturn(GetType(Map), GetType(MapRepository))>
-    Public Function loadMapRepository(repository As String, Optional rawMaps As Boolean = True) As Object
-        If repository.ExtensionSuffix("msgpack") Then
-            Using file As Stream = repository.Open(FileMode.Open, doClear:=False, [readOnly]:=True)
+    Public Function loadMapRepository(repository As Object, Optional rawMaps As Boolean = True) As Object
+        If TypeOf repository Is Stream Then
+            Using file As Stream = DirectCast(repository, Stream)
                 If rawMaps Then
                     Return KEGGMapPack.ReadKeggDb(file)
                 Else
                     Return KEGGMapPack.ReadKeggDb(file).DoCall(AddressOf MapRepository.BuildRepository)
                 End If
             End Using
-        ElseIf repository.ExtensionSuffix("xml") Then
-            Return repository.LoadXml(Of Map)
-        End If
-
-        If rawMaps Then
-            Return MapRepository.GetMapsAuto(repository).ToArray
         Else
-            Return MapRepository.BuildRepository(repository)
+            Dim fileHandle As String = any.ToString(repository)
+
+            If fileHandle.ExtensionSuffix("msgpack") Then
+                Using file As Stream = fileHandle.Open(FileMode.Open, doClear:=False, [readOnly]:=True)
+                    If rawMaps Then
+                        Return KEGGMapPack.ReadKeggDb(file)
+                    Else
+                        Return KEGGMapPack.ReadKeggDb(file).DoCall(AddressOf MapRepository.BuildRepository)
+                    End If
+                End Using
+            ElseIf fileHandle.ExtensionSuffix("xml") Then
+                Return fileHandle.LoadXml(Of Map)
+            End If
+
+            If rawMaps Then
+                Return MapRepository.GetMapsAuto(fileHandle).ToArray
+            Else
+                Return MapRepository.BuildRepository(fileHandle)
+            End If
         End If
     End Function
 
