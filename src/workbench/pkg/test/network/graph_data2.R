@@ -9,8 +9,14 @@ const enrichments = ["U:\项目以外内容\2021\研发\KYYF0006-空间代谢组
 |> lapply(function(file) {    
     print(file);
 
-    pack = rbind(pack, read.csv(file));
-    pack;
+    data = read.csv(file);
+
+    if (nrow(data) == 0 || ncol(data) < 2) {
+        NULL;
+    } else {
+        pack = rbind(pack, data);
+        pack;
+    }
 })
 ;
 
