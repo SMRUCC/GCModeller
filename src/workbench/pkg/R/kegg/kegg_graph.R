@@ -1,6 +1,6 @@
-require(igraph);
-
 imports "repository" from "kegg_kit";
+
+require(igraph);
 
 #' Create kegg compound network
 #' 
