@@ -1,51 +1,51 @@
 ﻿#Region "Microsoft.VisualBasic::cb5dbc6ff836aebcdf1c6de2c00ad96c, Bio.Repository\KEGG\ReactionRepository\CompoundRepository.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Class CompoundRepository
-    ' 
-    '     Properties: Compounds
-    ' 
-    '     Constructor: (+2 Overloads) Sub New
-    '     Function: BuildIndexTable, Exists, GenericEnumerator, GetAll, GetByKey
-    '               GetEnumerator, GetNames, GetWhere, (+2 Overloads) ScanModels, (+2 Overloads) ScanRepository
-    ' 
-    ' Class CompoundIndex
-    ' 
-    '     Properties: DbTerms, Entity, ID, Index
-    ' 
-    '     Function: ToString
-    ' 
-    ' /********************************************************************************/
+' Class CompoundRepository
+' 
+'     Properties: Compounds
+' 
+'     Constructor: (+2 Overloads) Sub New
+'     Function: BuildIndexTable, Exists, GenericEnumerator, GetAll, GetByKey
+'               GetEnumerator, GetNames, GetWhere, (+2 Overloads) ScanModels, (+2 Overloads) ScanRepository
+' 
+' Class CompoundIndex
+' 
+'     Properties: DbTerms, Entity, ID, Index
+' 
+'     Function: ToString
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -106,6 +106,11 @@ Public Class CompoundRepository : Inherits XmlDataModel
         Return compoundTable.ContainsKey(key)
     End Function
 
+    ''' <summary>
+    ''' returns nothing if the given key is not exists in the repository data.
+    ''' </summary>
+    ''' <param name="key"></param>
+    ''' <returns></returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function GetByKey(key As String) As CompoundIndex Implements IRepositoryRead(Of String, CompoundIndex).GetByKey
         If compoundTable.ContainsKey(key) Then
@@ -238,4 +243,12 @@ Public Class CompoundIndex
     Public Overrides Function ToString() As String
         Return ID
     End Function
+
+    Public Shared Narrowing Operator CType(index As CompoundIndex) As Compound
+        If index Is Nothing Then
+            Return Nothing
+        Else
+            Return index.Entity
+        End If
+    End Operator
 End Class
