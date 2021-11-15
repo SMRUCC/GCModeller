@@ -1,7 +1,11 @@
 imports "annotation.workflow" from "GCModeller::seqtoolkit";
 
-#' Export SBH hits of blastp output
+[@info "the blastp output in text file format."]
+[@type "text"]
+const rawinput as string = ?"--blast_output" || stop("no blast output raw data file provided!");
 
+#' Export SBH hits of blastp output
+#' 
 const exportHits as function(outputText) {
 	const output_table as string = `${dirname(outputText)}/${basename(outputText)}.sbhits.csv`;
 
@@ -13,4 +17,4 @@ const exportHits as function(outputText) {
 	}
 }
 
-exportHits(?"--blast_output" || stop("no blast output raw data file provided!"));
+exportHits(outputText = rawinput);
