@@ -8,4 +8,4 @@ const g = GCModeller::CompoundNetwork(data);
 
 print(g);
 
-save.network(g, file = "./");
+save.network(g, file = @dir);
