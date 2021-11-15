@@ -12,7 +12,7 @@ Module network
     <ExportAPI("fromCompounds")>
     Public Function fromCompoundId(compoundsId As String(), graph As Reaction(), Optional compounds As CompoundRepository = Nothing) As NetworkGraph
         ' BuildModel(br08901 As IEnumerable(Of ReactionTable), compounds As IEnumerable(Of NamedValue(Of String)),
-        Dim template As ReactionTable() = ReactionTable.Load(graph)
+        Dim template As ReactionTable() = ReactionTable.Load(graph).ToArray
         Dim cid As NamedValue(Of String)()
 
         If compounds Is Nothing Then

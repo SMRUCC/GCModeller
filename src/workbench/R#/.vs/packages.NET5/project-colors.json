@@ -70,7 +70,17 @@
       "ProjectGuid": "c93df930-0861-48fc-9ded-2717d0706f8d",
       "DisplayName": "datavisual-netcore5",
       "ColorIndex": 13
+    },
+    "d278bc20-62ab-45a4-9b00-9a68e222d3b5": {
+      "ProjectGuid": "d278bc20-62ab-45a4-9b00-9a68e222d3b5",
+      "DisplayName": "KEGGNetwork.NET5",
+      "ColorIndex": 14
+    },
+    "9a3484d8-5af8-430a-b4da-59510f646b09": {
+      "ProjectGuid": "9a3484d8-5af8-430a-b4da-59510f646b09",
+      "DisplayName": "network_graph-netcore5",
+      "ColorIndex": 15
     }
   },
-  "NextColorIndex": 14
+  "NextColorIndex": 0
 }
