@@ -1,5 +1,7 @@
 require(igraph);
 
+imports "repository" from "kegg_kit";
+
 #' Create kegg compound network
 #' 
 #' @param compoundsId a ``dataframe`` object that contains the kegg compound 
