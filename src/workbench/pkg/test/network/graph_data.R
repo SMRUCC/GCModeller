@@ -33,3 +33,5 @@ const info = data.frame(
 );
 
 print(info);
+
+write.csv(info, file = `${@dir}/cid.csv`, row.names = FALSE);
