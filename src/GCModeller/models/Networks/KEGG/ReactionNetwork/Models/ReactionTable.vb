@@ -145,6 +145,13 @@ Namespace ReactionNetwork
             Next
         End Function
 
+        Public Shared Function Load(repo As IEnumerable(Of Reaction)) As IEnumerable(Of ReactionTable)
+            Dim KOnames As Dictionary(Of String, BriteHText) = DefaultKOTable()
+            Dim table = repo.Select(Function(r) creates(r, KOnames))
+
+            Return table
+        End Function
+
         Public Shared Function Load(repo As ReactionRepository) As IEnumerable(Of ReactionTable)
             Dim KOnames As Dictionary(Of String, BriteHText) = DefaultKOTable()
             Dim table = repo.metabolicNetwork.Select(Function(r) creates(r, KOnames))
