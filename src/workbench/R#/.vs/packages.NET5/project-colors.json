@@ -65,7 +65,12 @@
       "ProjectGuid": "7a5e0eb8-f726-4c01-8c8b-912eca77f079",
       "DisplayName": "dataframework-netcore5",
       "ColorIndex": 12
+    },
+    "c93df930-0861-48fc-9ded-2717d0706f8d": {
+      "ProjectGuid": "c93df930-0861-48fc-9ded-2717d0706f8d",
+      "DisplayName": "datavisual-netcore5",
+      "ColorIndex": 13
     }
   },
-  "NextColorIndex": 13
+  "NextColorIndex": 14
 }
