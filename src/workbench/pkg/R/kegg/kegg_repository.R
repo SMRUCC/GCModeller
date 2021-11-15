@@ -30,7 +30,7 @@ const kegg_reactions as function() {
     using file as .readZipStream(
         zipfile = system.file("data/kegg/reactions.zip", package = "GCModeller")
     ) {
-        repository::load.reactions(file, rawMaps = rawMaps);
+        repository::load.reactions(file);
     }
 }
 
