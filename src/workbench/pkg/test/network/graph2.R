@@ -2,6 +2,7 @@ require(GCModeller);
 require(igraph);
 
 imports "igraph.layouts" from "igraph";
+imports "igraph.render" from "igraph";
 
 const data = read.csv(file = `${@dir}/all_enriched.csv`);
 
@@ -59,6 +60,10 @@ g = g |> layout.force_directed;
 print(g);
 
 save.network(g, file = @dir);
+
+bitmap(file = `${@dir}/enriched.png`) {
+    render(g);
+}
 
 # for(i in 1:length(IF)) {
 #     const cidList = strsplit(compounds[i], "[+,;]|\s+");
