@@ -1,55 +1,55 @@
-﻿#Region "Microsoft.VisualBasic::d3f66d73d2cddd81fcd833e50f359b41, www\Microsoft.VisualBasic.NETProtocol\Persistent\Socket\TcpClient.vb"
+﻿#Region "Microsoft.VisualBasic::b9d1d6e75ce6f2e87f7805f516701162, www\Microsoft.VisualBasic.NETProtocol\Persistent\Socket\TcpClient.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class PersistentClient
-' 
-'         Properties: MessageHandler, MyLocalPort, MyServerHashCode, RemoteServerShutdown
-' 
-'         Constructor: (+3 Overloads) Sub New
-' 
-'         Function: readDataBuffer, Run, ToString
-' 
-'         Sub: __receive, __send, BeginConnect, ConnectCallback, (+2 Overloads) Dispose
-'              Receive, ReceiveCallback, requestHandle, WaitForConnected, WaitForHash
-'              waitReceive
-'         Class StateObject
-' 
-' 
-' 
-' 
-' 
-' 
-' /********************************************************************************/
+    '     Class PersistentClient
+    ' 
+    '         Properties: MessageHandler, MyLocalPort, MyServerHashCode, RemoteServerShutdown
+    ' 
+    '         Constructor: (+3 Overloads) Sub New
+    ' 
+    '         Function: readDataBuffer, Run, ToString
+    ' 
+    '         Sub: __receive, __send, BeginConnect, ConnectCallback, (+2 Overloads) Dispose
+    '              Receive, ReceiveCallback, requestHandle, WaitForConnected, WaitForHash
+    '              waitReceive
+    '         Class StateObject
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -58,8 +58,7 @@ Imports System.Net.Sockets
 Imports System.Reflection
 Imports System.Text
 Imports System.Threading
-Imports System.Windows.Forms
-Imports Microsoft.VisualBasic.ApplicationServices.Debugging.ExceptionExtensions
+Imports Microsoft.VisualBasic.ApplicationServices.Debugging
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Net.Tcp.Persistent.Application.Protocols
@@ -149,7 +148,7 @@ Namespace Tcp.Persistent.Socket
         ''' 远程主机强制关闭连接之后触发这个动作
         ''' </summary>
         ''' <returns></returns>
-        Public Property RemoteServerShutdown As MethodInvoker
+        Public Property RemoteServerShutdown As Action
         ''' <summary>
         ''' 将从服务器来的推送消息的处理过程赋值在这个属性之中
         ''' </summary>

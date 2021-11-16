@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ec43559a61d146911da2f21eeca79b89, CLI_tools\S.M.A.R.T\ShellScriptAPI.vb"
+﻿#Region "Microsoft.VisualBasic::7a65a4653bccc55bf4dc46acda617646, CLI_tools\S.M.A.R.T\ShellScriptAPI.vb"
 
     ' Author:
     ' 
@@ -40,17 +40,15 @@
 
 #End Region
 
-Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports SMRUCC.genomics.Assembly.NCBI
 Imports SMRUCC.genomics.Assembly.NCBI.CDD
 Imports SMRUCC.genomics.Data.Xfam
 Imports SMRUCC.genomics.Data.Xfam.Pfam.PfamString
-Imports SMRUCC.genomics.Interops.NCBI.Extensions
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
+Imports SMRUCC.genomics.Interops.NCBI.ParallelTask
 Imports SMRUCC.genomics.ProteinModel
 
 <Package("SMART", Cites:="Letunic, I., et al. (2006). ""SMART 5: domains in the context of genomes And networks."" Nucleic Acids Res 34(Database issue): D257-260.

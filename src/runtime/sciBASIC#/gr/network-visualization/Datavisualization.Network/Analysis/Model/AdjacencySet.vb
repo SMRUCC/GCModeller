@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a334e2143e764ddea96443fe5d9eba0e, gr\network-visualization\Datavisualization.Network\Analysis\Model\AdjacencySet.vb"
+﻿#Region "Microsoft.VisualBasic::46fae650107202e800050df3d9ad88f3, gr\network-visualization\Datavisualization.Network\Analysis\Model\AdjacencySet.vb"
 
     ' Author:
     ' 
@@ -35,7 +35,7 @@
     ' 
     '         Properties: Count, U
     ' 
-    '         Function: Clone, (+2 Overloads) EnumerateAllEdges, ToString
+    '         Function: Clone, (+2 Overloads) EnumerateAllEdges, hasNeighbor, ToString
     ' 
     '         Sub: Add, Remove
     ' 
@@ -48,6 +48,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph.Abstract
 Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Serialization.JSON
@@ -76,6 +77,10 @@ Namespace Analysis.Model
                 Return adjacentNodes.Count
             End Get
         End Property
+
+        Public Function hasNeighbor(i As Node) As Boolean
+            Return EnumerateAllEdges.Any(Function(link) link.source = i.label OrElse link.target = i.label)
+        End Function
 
         Public Sub Add(edge As Edge)
             If Not adjacentNodes.ContainsKey(edge.target) Then

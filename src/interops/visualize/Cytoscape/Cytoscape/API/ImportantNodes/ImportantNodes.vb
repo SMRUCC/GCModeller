@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4e81591fa596dc0953e217f1b1a4e1f6, visualize\Cytoscape\Cytoscape\API\ImportantNodes\ImportantNodes.vb"
+﻿#Region "Microsoft.VisualBasic::b67e287e7d13ae5fe21ee53579fa5377, visualize\Cytoscape\Cytoscape\API\ImportantNodes\ImportantNodes.vb"
 
     ' Author:
     ' 

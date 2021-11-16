@@ -1,0 +1,19 @@
+# generic graphquery for query kegg data
+# this query script will parse html to
+# a key-value pairs data list
+
+kegg css("form") | css("table", 0) | css("table", 0) | css("tr") [{
+
+    # some content key may be missing in the table
+    # so we parse the table content at here at first
+    # and then create kegg data model based on the 
+    # exists keys
+    key     css("th") 
+          | text() 
+          | trim() 
+          | replace("(\s|\r|\n|\t)+", " ")
+
+    # html content raw text
+    content css("td") | html()
+
+}]

@@ -8,6 +8,8 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
+#if netcore5=0 then 
+
 <Assembly: AssemblyTitle("Flute http web server")>
 <Assembly: AssemblyDescription("Flute http web server")>
 <Assembly: AssemblyCompany("https://biocad.cloud")>
@@ -33,3 +35,4 @@ Imports System.Runtime.InteropServices
 
 <Assembly: AssemblyVersion("1.0.0.0")>
 <Assembly: AssemblyFileVersion("1.0.0.0")>
+#end if

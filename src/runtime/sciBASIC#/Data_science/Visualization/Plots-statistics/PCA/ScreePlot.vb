@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fcb0b92f2c3e2cf470a7314771ba35eb, Data_science\Visualization\Plots-statistics\PCA\ScreePlot.vb"
+﻿#Region "Microsoft.VisualBasic::e9f4f1258992702d689b293512d3ae19, Data_science\Visualization\Plots-statistics\PCA\ScreePlot.vb"
 
     ' Author:
     ' 
@@ -42,14 +42,13 @@
 
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
-Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
+Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports PCA_analysis = Microsoft.VisualBasic.Math.LinearAlgebra.Prcomp.PCA
 
@@ -90,8 +89,10 @@ Namespace PCA
                         .Y = Yscaler,
                         .region = rect
                     }
+                    Dim labelColor As Brush = CSSFont.TryParse(labelFontStyle).color.GetBrush
+                    Dim tickColor As Brush = CSSFont.TryParse(tickFontStyle).color.GetBrush
 
-                    Call g.DrawY(Stroke.TryParse(axisStrokeCSS), "Variances", scaler, -1, Y, YAxisLayoutStyles.Left, Nothing, labelFontStyle, CSSFont.TryParse(tickFontStyle), htmlLabel:=False, tickFormat:="F2")
+                    Call g.DrawY(Stroke.TryParse(axisStrokeCSS), "Variances", scaler, -1, Y, YAxisLayoutStyles.Left, Nothing, labelFontStyle, labelColor, CSSFont.TryParse(tickFontStyle).GDIObject(g.Dpi), tickColor, htmlLabel:=False, tickFormat:="F2")
                 End Sub
 
             Return g.GraphicsPlots(

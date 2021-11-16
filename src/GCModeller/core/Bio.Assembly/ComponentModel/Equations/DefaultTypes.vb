@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::67a2aa91307c785b3195450360c7d802, core\Bio.Assembly\ComponentModel\Equations\DefaultTypes.vb"
+﻿#Region "Microsoft.VisualBasic::58ef026876bb06c0f479eb138deab390, core\Bio.Assembly\ComponentModel\Equations\DefaultTypes.vb"
 
     ' Author:
     ' 
@@ -41,7 +41,7 @@
     '     Class Equation
     ' 
     '         Constructor: (+3 Overloads) Sub New
-    '         Function: __equals, TryParse
+    '         Function: __equals, GetCoEfficient, TryParse
     ' 
     ' 
     ' /********************************************************************************/
@@ -104,9 +104,9 @@ Namespace ComponentModel.EquaionModel.DefaultTypes
         End Sub
 
         Sub New(left As IEnumerable(Of ICompoundSpecies), right As IEnumerable(Of ICompoundSpecies), canReverse As Boolean)
-            Reactants = left.Select(Function(x) New CompoundSpecieReference(x))
-            Products = right.Select(Function(x) New CompoundSpecieReference(x))
-            Reversible = canReverse
+            Reactants = left.Select(Function(x) New CompoundSpecieReference(x)).ToArray
+            Products = right.Select(Function(x) New CompoundSpecieReference(x)).ToArray
+            reversible = canReverse
         End Sub
 
         Sub New(left As IEnumerable(Of ICompoundSpecies), right As IEnumerable(Of ICompoundSpecies),
@@ -129,8 +129,18 @@ Namespace ComponentModel.EquaionModel.DefaultTypes
                             }
                         End Function) _
                 .ToArray
-            Reversible = canReverse
+            reversible = canReverse
         End Sub
+
+        Public Overloads Function GetCoEfficient(id As String, Optional directional As Boolean = False) As Double
+            Dim factor As Double = MyBase.GetCoEfficient(id)
+
+            If reversible AndAlso directional Then
+                Return factor / 2
+            Else
+                Return factor
+            End If
+        End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function TryParse(expression As String) As Equation

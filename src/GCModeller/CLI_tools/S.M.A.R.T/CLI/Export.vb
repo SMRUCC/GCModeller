@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3b2d00c9290665175a0acc75a4e5eacc, CLI_tools\S.M.A.R.T\CLI\Export.vb"
+﻿#Region "Microsoft.VisualBasic::638b2576b47eff935064642a0f0240f2, CLI_tools\S.M.A.R.T\CLI\Export.vb"
 
     ' Author:
     ' 
@@ -55,9 +55,9 @@ Partial Module CLI
     ''' <returns></returns>
     ''' <remarks></remarks>
     <ExportAPI("export", Info:="", Usage:="export -keyword <keyword_list> [-m <any/all>] -o <export_file> [-d <db_name> -casesense <T/F>]", Example:="")>
-    <Argument("-d", False,
+    <ArgumentAttribute("-d", False,
         Description:="This switch value can be both a domain database name or a fasta file path.")>
-    <Argument("-keyword",
+    <ArgumentAttribute("-keyword",
         Description:="The keyword list will be use for the sequence record search, each keyword should seperated by comma character.")>
     Public Function Export(args As CommandLine) As Integer
         Dim Db As String = args("-d")

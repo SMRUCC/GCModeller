@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::efb8b9945a0f58686201d166b8f0bb3a, Knowledge_base\Knowledge_base\NLP\NLPExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::efb8b9945a0f58686201d166b8f0bb3a, modules\Knowledge_base\Knowledge_base\NLP\NLPExtensions.vb"
 
     ' Author:
     ' 

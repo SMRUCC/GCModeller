@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f6f3b81020b822e4bb7937cdebf98548, DataMySql\kb_UniProtKB\MySqlImports.vb"
+﻿#Region "Microsoft.VisualBasic::1c1a4ea5f3792ac7fdbf28542d714f89, DataMySql\kb_UniProtKB\MySqlImports.vb"
 
     ' Author:
     ' 

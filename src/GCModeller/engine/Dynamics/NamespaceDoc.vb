@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1cf1ab94cf1463626bf1f930d66e4e4f, engine\Dynamics\NamespaceDoc.vb"
+﻿#Region "Microsoft.VisualBasic::fede5c27f3f9505a91ef86e02e40aacb, engine\Dynamics\NamespaceDoc.vb"
 
     ' Author:
     ' 
@@ -38,6 +38,10 @@
     ' /********************************************************************************/
 
 #End Region
+
+Imports System.Runtime.CompilerServices
+
+<Assembly: InternalsVisibleTo("SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader")>
 
 ''' <summary>
 ''' 生命反应容器模拟器

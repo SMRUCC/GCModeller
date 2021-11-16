@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::27223c6b83db9f81495dcf8929b2facd, markdown2pdf\PdfConvert\Arguments\Options\Global.vb"
+﻿#Region "Microsoft.VisualBasic::21ece383bb312605e290cf65c1194fc9, markdown2pdf\PdfConvert\Arguments\Options\Global.vb"
 
     ' Author:
     ' 
@@ -33,9 +33,10 @@
 
     '     Class GlobalOptions
     ' 
-    '         Properties: cookiejar, copies, dpi, grayscale, imagedpi
-    '                     imagequality, lowquality, marginbottom, marginleft, marginright
-    '                     margintop, nocollate, nopdfcompression, orientation, title
+    '         Properties: cookiejar, copies, dpi, enablelocalfileaccess, grayscale
+    '                     imagedpi, imagequality, lowquality, marginbottom, marginleft
+    '                     marginright, margintop, nocollate, nopdfcompression, orientation
+    '                     title
     ' 
     '     Enum Orientations
     ' 
@@ -113,6 +114,9 @@ Namespace Arguments
         <Argv("--lowquality", CLITypes.Boolean)>
         Public Property lowquality As Boolean = False
 
+        <Argv("--enable-local-file-access", CLITypes.Boolean)>
+        Public Property enablelocalfileaccess As Boolean = True
+
         ''' <summary>
         ''' Set the page bottom margin
         ''' </summary>
@@ -162,6 +166,7 @@ Namespace Arguments
         ''' <returns></returns>
         <Argv("--title", CLITypes.String)>
         Public Property title As String
+
     End Class
 
     Public Enum Orientations

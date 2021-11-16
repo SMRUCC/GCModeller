@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9833499dfe86910fddf3ac784fd49967, gr\Microsoft.VisualBasic.Imaging\Drivers\Models\WmfData.vb"
+﻿#Region "Microsoft.VisualBasic::fa83d214381edf125e10e2958e3df58b, gr\Microsoft.VisualBasic.Imaging\Drivers\Models\WmfData.vb"
 
     ' Author:
     ' 
@@ -45,7 +45,8 @@
 
 Imports System.Drawing
 Imports System.IO
-Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
+Imports Microsoft.VisualBasic.ApplicationServices
+Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.Net.Http
 
 Namespace Driver
@@ -98,7 +99,7 @@ Namespace Driver
         End Function
 
         Friend Shared Function wmfTmp() As String
-            Return App.GetAppSysTempFile(".wmf", App.PID, RandomASCIIString(10, skipSymbols:=True))
+            Return TempFileSystem.GetAppSysTempFile(".wmf", App.PID, RandomASCIIString(10, skipSymbols:=True))
         End Function
     End Class
 End Namespace

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9ed7d54a89eb6ff58231f47fb375a0ff, Shared\Settings.Configuration\Config\Programs\IDE.vb"
+﻿#Region "Microsoft.VisualBasic::ba054ac5ee54b966bc51950449599ca6, Shared\Settings.Configuration\Config\Programs\IDE.vb"
 
     ' Author:
     ' 

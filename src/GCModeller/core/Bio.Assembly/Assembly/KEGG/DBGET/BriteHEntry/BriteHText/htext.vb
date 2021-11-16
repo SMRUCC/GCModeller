@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ff7c3c2479ed921fa7d425fba9c9e5e2, core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\BriteHText\htext.vb"
+﻿#Region "Microsoft.VisualBasic::5d50e64f5fde0aa14f7aa325517150af, core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\BriteHText\htext.vb"
 
     ' Author:
     ' 
@@ -35,8 +35,8 @@
     ' 
     '         Properties: Descript, Hierarchical, MaxDepth, Schema, Title
     ' 
-    '         Function: br08201, br08204, GetEntryDictionary, GetInternalResource, getResourceCache
-    '                   ko00001, StreamParser, ToString
+    '         Function: br08201, br08204, br08901, GetEntryDictionary, GetInternalResource
+    '                   GetInternalResourceText, getResourceCache, ko00001, StreamParser, ToString
     ' 
     ' 
     ' /********************************************************************************/
@@ -177,25 +177,52 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             Return StreamParser(My.Resources.br08201)
         End Function
 
+        ''' <summary>
+        ''' reaction class
+        ''' </summary>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function br08204() As htext
             Return StreamParser(My.Resources.br08204)
         End Function
 
+        ''' <summary>
+        ''' KEGG pathway maps
+        ''' </summary>
+        ''' <returns></returns>
+        Public Shared Function br08901() As htext
+            Return StreamParser(My.Resources.br08901)
+        End Function
+
+#If netcore5 = 0 Then
         Private Shared Function getResourceCache() As ResourcesSatellite
             Static satellite As New ResourcesSatellite(GetType(LICENSE))
             Return satellite
+        End Function
+#End If
+
+        Private Shared Function GetInternalResourceText(resourceName As String) As String
+            Return My.Resources.ResourceManager.GetString(resourceName)
         End Function
 
         Public Shared Function GetInternalResource(resourceName As String) As htext
             Dim resource$ = Nothing
 
             If resourceName.IsPattern(Patterns.Identifer, RegexICSng) Then
+#If netcore5 = 0 Then
                 resource = getResourceCache.GetString(resourceName)
+#Else
+                resource = GetInternalResourceText(resourceName)
+#End If
+
             ElseIf resourceName.IsURLPattern Then
                 With resourceName.Split("?"c).Last.Match("[0-9a-zA-Z_]+\.keg")
                     If Not .StringEmpty Then
+#If netcore5 = 0 Then
                         resource = getResourceCache.GetString(.Replace(".keg", ""))
+#Else
+                        Throw New NotImplementedException
+#End If
                     End If
                 End With
 

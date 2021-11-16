@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::78232cc60eb0c5bc9e4e57b660ba0516, Data_science\Mathematica\Math\Math\Spline\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::77611a0edb6226754cb43329f630e336, Data_science\Mathematica\Math\Math\Spline\Extensions.vb"
 
     ' Author:
     ' 
@@ -41,7 +41,7 @@
     ' 
     '     Module Extensions
     ' 
-    '         Function: CubicSpline, ParseSplineValue
+    '         Function: CubicSpline, ParseSplineValue, Range
     ' 
     ' 
     ' /********************************************************************************/
@@ -97,6 +97,57 @@ Namespace Interpolation
                     Return Splines.None
                 End If
             End With
+        End Function
+
+        ''' <summary>
+        ''' Computes the range of a strided array.
+        ''' </summary>
+        ''' <param name="N">number of indexed elements</param>
+        ''' <param name="x">input array</param>
+        ''' <param name="stride">stride length</param>
+        ''' <returns></returns>
+        Public Function Range(N As Integer, x As Double(), stride As Integer) As Double
+            Dim max As Double
+            Dim min As Double
+            Dim ix As Integer
+            Dim v As Double
+
+            If N <= 0 Then
+                Return Double.NaN
+            End If
+
+            If N = 1 OrElse stride = 0 Then
+                If x(0).IsNaNImaginary Then
+                    Return Double.NaN
+                End If
+                Return 0.0
+            End If
+
+            If stride < 0 Then
+                ix = (1 - N) * stride
+            Else
+                ix = 0
+            End If
+
+            min = x(ix)
+            max = min
+
+            For i As Integer = 1 To N - 1
+                ix += stride
+                v = x(ix)
+
+                If v.IsNaNImaginary Then
+                    Return v
+                End If
+
+                If v < min Then
+                    min = v
+                ElseIf v > max Then
+                    max = v
+                End If
+            Next
+
+            Return max - min
         End Function
     End Module
 End Namespace

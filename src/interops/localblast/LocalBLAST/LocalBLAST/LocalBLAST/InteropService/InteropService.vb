@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1159b0636124b127722ed4eedfe59eaf, localblast\LocalBLAST\LocalBLAST\LocalBLAST\InteropService\InteropService.vb"
+﻿#Region "Microsoft.VisualBasic::da2bd9811b2777e90b096dc1f4a284dd, localblast\LocalBLAST\LocalBLAST\LocalBLAST\InteropService\InteropService.vb"
 
     ' Author:
     ' 
@@ -61,6 +61,10 @@
     ' /********************************************************************************/
 
 #End Region
+
+#If netcore5 = 1 Then
+Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Diagnostics
+#End If
 
 Imports Microsoft.VisualBasic.CommandLine
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput

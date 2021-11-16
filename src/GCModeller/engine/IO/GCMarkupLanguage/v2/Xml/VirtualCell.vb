@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6df80b12886e97ae6071450e5ca06e20, engine\IO\GCMarkupLanguage\v2\Xml\VirtualCell.vb"
+﻿#Region "Microsoft.VisualBasic::a038330148ba04fbd22ba121587f1723, engine\IO\GCMarkupLanguage\v2\Xml\VirtualCell.vb"
 
     ' Author:
     ' 
@@ -112,9 +112,9 @@ Namespace v2
             Call sb.AppendLine()
             Call sb.AppendLine("genomes:")
 
-            For Each replicon In model.genome.replicons
+            For Each replicon As replicon In model.genome.replicons
                 type = If(replicon.isPlasmid, "plasmid", "chromosome")
-                sb.AppendLine($" [{replicon.genomeName}, {type}] {replicon.genes.size} genes")
+                sb.AppendLine($" [{replicon.genomeName}, {type}] {replicon.GetGeneNumbers} genes")
             Next
 
             Call sb.AppendLine()

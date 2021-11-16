@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::81feb4d0cb32391838a98c3124844bfb, CLI_tools\S.M.A.R.T\CLI\CLI.vb"
+﻿#Region "Microsoft.VisualBasic::88ad24fb695dee04dfaca86d6a47c57e, CLI_tools\S.M.A.R.T\CLI\CLI.vb"
 
     ' Author:
     ' 
@@ -284,7 +284,7 @@ Public Module CLI
     ''' <remarks></remarks>
     <ExportAPI("-build_cache",
                Usage:="-build_cache -i <fsa_file> [-o <export_file> -db <cdd_db_name> -cdd <cdd_db_path> -grep_script <script>]")>
-    <Argument("-cdd", True,
+    <ArgumentAttribute("-cdd", True,
                    Description:="The cdd database directory, if this switch value is null then system will using the default position in the profile file.")>
     Public Function BuildCache(args As CommandLine) As Integer
         Dim LocalBLAST = NCBI.Extensions.LocalBLAST.InteropService.CreateInstance(

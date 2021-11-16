@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6e717fe561570d423a8226ca12580618, localblast\LocalBLAST\LocalBLAST\BlastOutput\BLASTOutput.vb"
+﻿#Region "Microsoft.VisualBasic::758a7b10992d8c29e635cabd0a5082b0, localblast\LocalBLAST\LocalBLAST\BlastOutput\BLASTOutput.vb"
 
     ' Author:
     ' 
@@ -42,7 +42,12 @@
 
 #End Region
 
+#If netcore5 = 0 Then
 Imports System.Web.Script.Serialization
+#Else
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+#End If
+
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Scripting
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.Views

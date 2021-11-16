@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b20d146fd0c8ab9b886d43673607cf34, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Math2D\Math2DHelper.vb"
+﻿#Region "Microsoft.VisualBasic::3f2df978fd4e2aa146b89d988d33225a, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Math2D\Math2DHelper.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Module Math2DHelper
     ' 
-    '         Function: Rotate
+    '         Function: FillPolygon, Rotate
     ' 
     ' 
     ' /********************************************************************************/
@@ -42,6 +42,7 @@
 
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
+Imports stdnum = System.Math
 
 Namespace Drawing2D.Math2D
 
@@ -56,6 +57,35 @@ Namespace Drawing2D.Math2D
         <Extension>
         Public Function Rotate(polygon As IEnumerable(Of PointF), angle#) As PointF()
             Throw New NotImplementedException
+        End Function
+
+        <Extension>
+        Public Iterator Function FillPolygon(polygon As IEnumerable(Of PointF)) As IEnumerable(Of PointF)
+            ' run line scans
+            For Each line In polygon.GroupBy(Function(d) d.Y)
+                If line.Count = 1 Then
+                    Yield line.First
+                    Continue For
+                End If
+
+                Dim orderX = line.OrderBy(Function(d) d.X).Select(Function(d) d.X).ToArray
+                Dim background As Boolean = False
+                Dim endX As Integer = orderX.Max
+
+                For Each xi In orderX
+                    Yield New PointF(xi, line.Key)
+                Next
+
+                For xi As Integer = orderX.Min + 1 To endX
+                    Dim xiii As Integer = xi
+
+                    If orderX.Any(Function(xii) stdnum.Abs(xiii - xii) <= 0.05) Then
+                        background = Not background
+                    ElseIf Not background Then
+                        Yield New PointF(xi, line.Key)
+                    End If
+                Next
+            Next
         End Function
     End Module
 End Namespace

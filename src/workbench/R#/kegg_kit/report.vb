@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4c32f881257e4e0f00e44e24c4491a91, kegg_kit\report.vb"
+﻿#Region "Microsoft.VisualBasic::f7e3af6240ffbe78842dd06826f766f1, R#\kegg_kit\report.vb"
 
     ' Author:
     ' 
@@ -33,24 +33,28 @@
 
     ' Module report
     ' 
-    '     Function: checkIntersection, getHighlightObjects, loadMap, MapRender, renderMapHighlights
-    '               showReportHtml, singleColor, url
+    '     Function: checkIntersection, fromTable, getHighlightObjects, loadMap, MapRender
+    '               parseUrl, renderMapHighlights, showReportHtml, singleColor, url
     ' 
     ' /********************************************************************************/
 
 #End Region
 
 Imports System.IO
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.GCModeller.Workbench.KEGGReport
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports any = Microsoft.VisualBasic.Scripting
+Imports REnv = SMRUCC.Rsharp.Runtime
 
 ''' <summary>
 ''' the kegg pathway map report helper tool
@@ -108,7 +112,9 @@ Module report
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("keggMap.highlights")>
-    Public Function renderMapHighlights(map As Map, <RRawVectorArgument> highlights As Object, Optional text_color As String = "white", Optional env As Environment = Nothing) As Object
+    Public Function renderMapHighlights(map As Map, <RRawVectorArgument> highlights As Object,
+                                        Optional text_color As String = "white",
+                                        Optional env As Environment = Nothing) As Object
         Dim highlightObjs = getHighlightObjects(highlights, env)
 
         If highlightObjs Like GetType(Message) Then
@@ -116,6 +122,18 @@ Module report
         Else
             Return LocalRender.Rendering(map, highlightObjs.TryCast(Of NamedValue(Of String)()), textColor:=text_color)
         End If
+    End Function
+
+    <Extension>
+    Private Function fromTable(table As IDictionary) As NamedValue(Of String)()
+        Return (From key As Object
+                In table.Keys.AsQueryable
+                Let value As Object = table(key)
+                Let colorVal As String = RColorPalette.getColor(value)
+                Select New NamedValue(Of String) With {
+                    .Name = any.ToString(key),
+                    .Value = colorVal
+                }).ToArray
     End Function
 
     Private Function getHighlightObjects(highlights As Object, env As Environment) As [Variant](Of Message, NamedValue(Of String)())
@@ -135,18 +153,23 @@ Module report
                         End Function) _
                 .ToArray
         ElseIf TypeOf highlights Is list Then
-            Return DirectCast(highlights, list).slots _
-                .Select(Function(tuple)
-                            Dim colorVal As String = InteropArgumentHelper.getColor(tuple.Value)
-
+            Return DirectCast(highlights, list).slots.fromTable
+        ElseIf TypeOf highlights Is Dictionary(Of String, String) Then
+            Return DirectCast(highlights, Dictionary(Of String, String)).fromTable
+        ElseIf TypeOf highlights Is Dictionary(Of String, Object) Then
+            Return DirectCast(highlights, Dictionary(Of String, Object)).fromTable
+        ElseIf TypeOf highlights Is KeyValuePair(Of String, Object)() Then
+            Return DirectCast(highlights, KeyValuePair(Of String, Object)()) _
+                .Select(Function(t)
                             Return New NamedValue(Of String) With {
-                                .Name = tuple.Key,
-                                .Value = colorVal
+                                .Name = t.Key,
+                                .Value = RColorPalette.getColor(t.Value)
                             }
                         End Function) _
                 .ToArray
+
         ElseIf TypeOf highlights Is String() OrElse TypeOf highlights Is String Then
-            Return URLEncoder.URLParser(getFirst(highlights)).value
+            Return URLEncoder.URLParser(renv.GetFirst(highlights)).value
         Else
             Return Internal.debug.stop(New InvalidCastException(highlights.GetType.FullName), env)
         End If
@@ -159,7 +182,10 @@ Module report
     ''' <returns></returns>
     ''' 
     <ExportAPI("keggMap.reportHtml")>
-    Public Function showReportHtml(map As Map, <RRawVectorArgument> highlights As Object, Optional text_color As String = "white", Optional env As Environment = Nothing) As Object
+    Public Function showReportHtml(map As Map, <RRawVectorArgument> highlights As Object,
+                                   Optional text_color As String = "white",
+                                   Optional env As Environment = Nothing) As Object
+
         Dim highlightObjs = getHighlightObjects(highlights, env)
 
         If highlightObjs Like GetType(Message) Then
@@ -201,6 +227,40 @@ Module report
                 .value = highlightObjs.TryCast(Of NamedValue(Of String)())
             }.KEGGURLEncode
         End If
+    End Function
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="url"></param>
+    ''' <param name="compound">the default color string for kegg compounds</param>
+    ''' <param name="gene">the default color string for KO/gene</param>
+    ''' <param name="reaction">the default color string for kegg reactions</param>
+    ''' <returns></returns>
+    <ExportAPI("parseKeggUrl")>
+    Public Function parseUrl(url As String, Optional compound$ = "blue", Optional gene$ = "red", Optional reaction$ = "green") As list
+        Dim data = URLEncoder.URLParser(url)
+        Dim result As New list With {
+            .slots = New Dictionary(Of String, Object) From {
+                {"map", data.name},
+                {"objects", Nothing}
+            }
+        }
+        Dim kegg_objects As New Dictionary(Of String, Object)
+
+        For Each item As NamedValue(Of String) In data
+            Select Case item.Value
+                Case "Compound" : kegg_objects(item.Name) = compound
+                Case "KO" : kegg_objects(item.Name) = gene
+                Case "Reaction" : kegg_objects(item.Name) = reaction
+                Case Else
+                    kegg_objects(item.Name) = item.Value.TrimEnd("#"c, " "c, ASCII.TAB, "/"c)
+            End Select
+        Next
+
+        result.slots("objects") = kegg_objects.ToArray
+
+        Return result
     End Function
 
 End Module

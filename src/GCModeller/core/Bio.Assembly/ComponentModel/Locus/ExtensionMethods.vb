@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::60602b7e5f842b34e0c457018b22ef8d, core\Bio.Assembly\ComponentModel\Locus\ExtensionMethods.vb"
+﻿#Region "Microsoft.VisualBasic::8ad779fb38713ae0f7e8cb4e53be8ad5, core\Bio.Assembly\ComponentModel\Locus\ExtensionMethods.vb"
 
     ' Author:
     ' 
@@ -45,6 +45,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Math
+Imports Microsoft.VisualBasic.My.JavaScript
 Imports SMRUCC.genomics.ComponentModel.Loci.Location
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports stdNum = System.Math
@@ -146,7 +147,7 @@ Namespace ComponentModel.Loci
 
         ''' <summary>
         ''' 这个方法在Pfam蛋白质结构域分析的时候非常有用，
-        ''' 请注意，这个方法仅仅会延伸片段的第一个对象，和第一个位点对象合并的位点都会出现在<see cref="Location.Extension"/>属性之中
+        ''' 请注意，这个方法仅仅会延伸片段的第一个对象，和第一个位点对象合并的位点都会出现在<see cref="Location.Tag"/>属性之中
         ''' </summary>
         ''' <param name="source">必须是已经按照<see cref="Left"></see>进行从小到大排序操作的数据</param>
         ''' <returns></returns>
@@ -177,9 +178,9 @@ Namespace ComponentModel.Loci
                 current = raw(Scan0)
                 raw.RemoveAt(Scan0)
 
-                If current.Extension Is Nothing Then
+                If current.Tag Is Nothing Then
                     ' 需要在离开前初始化，否则上一层调用函数会因为空引用出错
-                    current.Extension = New ExtendedProps
+                    current.Tag = New JavaScriptObject
                 End If
                 If raw.Count = 0 Then
                     Exit Do
@@ -190,10 +191,7 @@ Namespace ComponentModel.Loci
                         current.right = (+n).right
                     End If
 
-                    current.Extension.DynamicHashTable(
-                        current.Extension.DynamicHashTable _
-                        .Properties _
-                        .Count) = +n
+                    current.Tag(current.Tag.length) = +n
 
                     Call raw.RemoveAt(Scan0)
 

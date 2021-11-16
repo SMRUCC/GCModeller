@@ -1,4 +1,74 @@
-﻿''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+﻿#Region "Microsoft.VisualBasic::a05ff6f213d52dedc8de9b485497edc1, mime\application%pdf\PdfFileWriter\QREncoder\QREncoder.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Enum ErrorCorrection
+    ' 
+    '     H, L, M, Q
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    ' Enum EncodingMode
+    ' 
+    '     [Byte], AlphaNumeric, Append, FNC1First, FNC1Second
+    '     Kanji, Numeric, Terminator, Unknown10, Unknown11
+    '     Unknown12, Unknown13, Unknown14, Unknown15, Unknown6
+    '     Unknown7
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    ' Class QREncoder
+    ' 
+    '     Properties: ErrorCorrection, ModuleSize, QRCodeDimension, QRCodeImageDimension, QRCodeMatrix
+    '                 QRCodeVersion, QuietZone
+    ' 
+    '     Function: ConvertQRCodeMatrixToPixels, DataLengthBits, EvaluationCondition1, EvaluationCondition2, EvaluationCondition3
+    '               EvaluationCondition4, TestHorizontalDarkLight, TestVerticalDarkLight
+    ' 
+    '     Sub: AddFormatInformation, ApplyMask, ApplyMask0, ApplyMask1, ApplyMask2
+    '          ApplyMask3, ApplyMask4, ApplyMask5, ApplyMask6, ApplyMask7
+    '          BuildBaseMatrix, CalculateErrorCorrection, (+4 Overloads) Encode, EncodeData, Initialization
+    '          InterleaveBlocks, LoadMatrixWithData, PolynominalDivision, SaveBitsToCodewordsArray, SelectBastMask
+    '          SetDataCodewordsLength
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 '
 '	QR Code Encoder Library
 '
@@ -342,7 +412,7 @@ Public Class QREncoder
     ''' Encode one data segment into QRCode boolean matrix
     ''' </summary>
     ''' <param name="SingleDataSeg">Data segment byte array</param>
-    ''' <returns>QR Code boolean matrix</returns>
+    ''' <remarks>QR Code boolean matrix</remarks>
     Public Sub Encode(ByVal SingleDataSeg As Byte())
         ' test data segments array
         If SingleDataSeg Is Nothing OrElse SingleDataSeg.Length = 0 Then Throw New ArgumentNullException("Single data segment argument is null or empty")
@@ -356,7 +426,7 @@ Public Class QREncoder
     ''' Encode data segments array into QRCode boolean matrix
     ''' </summary>
     ''' <param name="DataSegArray">Data array of byte arrays</param>
-    ''' <returns>QR Code boolean matrix</returns>
+    ''' <remarks>QR Code boolean matrix</remarks>
     Public Sub Encode(ByVal DataSegArray As Byte()())
         ' test data segments array
         If DataSegArray Is Nothing OrElse DataSegArray.Length = 0 Then Throw New ArgumentNullException("Data segments argument is null or empty")
@@ -1515,4 +1585,3 @@ Public Class QREncoder
         Return
     End Sub
 End Class
-

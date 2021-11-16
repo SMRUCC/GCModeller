@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d9fbd2ea18dae063f2197e11d77734ac, engine\Dynamics\Core\Flux\Boundary.vb"
+﻿#Region "Microsoft.VisualBasic::8814c4f37e5aeb1a5da7931fe4930c21, engine\Dynamics\Core\Flux\Boundary.vb"
 
     ' Author:
     ' 
@@ -35,6 +35,7 @@
     ' 
     '         Properties: forward, reverse
     ' 
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: ToString
     ' 
     ' 
@@ -53,6 +54,14 @@ Namespace Core
         ''' </summary>
         ''' <returns></returns>
         Public Property reverse As Double
+
+        Sub New()
+        End Sub
+
+        Sub New(forward As Double, reverse As Double)
+            Me.forward = forward
+            Me.reverse = reverse
+        End Sub
 
         Public Overrides Function ToString() As String
             Return $"[reactant <- {reverse} | {forward} -> product]"

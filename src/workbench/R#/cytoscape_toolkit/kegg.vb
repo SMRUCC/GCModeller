@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9d4ea548118bd5cfc2e91a50de064910, cytoscape_toolkit\kegg.vb"
+﻿#Region "Microsoft.VisualBasic::a7d70797982cab15880a55bd28de9d90, R#\cytoscape_toolkit\kegg.vb"
 
     ' Author:
     ' 
@@ -69,7 +69,10 @@ Module kegg
     Public Function compoundNetwork(reactions As ReactionTable(), compounds$(),
                                     Optional enzymes As Dictionary(Of String, String()) = Nothing,
                                     Optional filterByEnzymes As Boolean = False,
-                                    Optional extended As Boolean = False) As NetworkGraph
+                                    Optional extended As Boolean = False,
+                                    Optional strictReactionNetwork As Boolean = False,
+                                    Optional enzymeBridged As Boolean = True,
+                                    Optional random_layout As Boolean = True) As NetworkGraph
         Return compounds _
             .Select(Function(cpd)
                         Return New NamedValue(Of String)(cpd, cpd)
@@ -79,7 +82,10 @@ Module kegg
                             compounds:=list,
                             enzymes:=enzymes,
                             filterByEnzymes:=filterByEnzymes,
-                            extended:=extended
+                            extended:=extended,
+                            strictReactionNetwork:=strictReactionNetwork,
+                            enzymeBridged:=enzymeBridged,
+                            randomLayout:=random_layout
                         )
                     End Function)
     End Function

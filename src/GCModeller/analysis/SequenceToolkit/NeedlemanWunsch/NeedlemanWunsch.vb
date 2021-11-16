@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d9abe85a4e609902ed7122757f5627a3, analysis\SequenceToolkit\NeedlemanWunsch\NeedlemanWunsch.vb"
+﻿#Region "Microsoft.VisualBasic::95e587188059ac00810023b84d503dfb, analysis\SequenceToolkit\NeedlemanWunsch\NeedlemanWunsch.vb"
 
     ' Author:
     ' 
@@ -34,22 +34,32 @@
     ' Class NeedlemanWunsch
     ' 
     '     Constructor: (+1 Overloads) Sub New
-    '     Function: defaultScoreMatrix
+    '     Function: defaultScoreMatrix, symbolProvider
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports Microsoft.VisualBasic.DataMining.DynamicProgramming
 Imports Microsoft.VisualBasic.DataMining.DynamicProgramming.NeedlemanWunsch
 
 Public Class NeedlemanWunsch : Inherits NeedlemanWunsch(Of Char)
 
     Sub New(query As String, subject As String)
-        Call MyBase.New(defaultScoreMatrix, "-"c, Function(x) x)
+        Call MyBase.New(defaultScoreMatrix, symbolProvider)
 
         Me.Sequence1 = query.ToCharArray
         Me.Sequence2 = subject.ToCharArray
     End Sub
+
+    Private Shared Function symbolProvider() As GenericSymbol(Of Char)
+        Return New GenericSymbol(Of Char)(
+            equals:=Function(a, b) a = b,
+            similarity:=Function(a, b) If(a = b, 1, 0),
+            toChar:=Function(a) a,
+            empty:=Function() "-"c
+        )
+    End Function
 
     Private Shared Function defaultScoreMatrix() As ScoreMatrix(Of Char)
         Return New ScoreMatrix(Of Char)(Function(a, b) a = b)

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::08757385b6daafae4f53f4c78165db86, Data\DataFrame\DATA\HTMLWriter.vb"
+﻿#Region "Microsoft.VisualBasic::edbc2d2717cc0ca706384b61d805b147, Data\DataFrame\DATA\HTMLWriter.vb"
 
     ' Author:
     ' 
@@ -54,7 +54,9 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 
 Namespace DATA
 
-    <Package("Csv.HTML.Writer")>
+    ''' <summary>
+    ''' file generator for mshtml
+    ''' </summary>
     Public Module HTMLWriter
 
         ''' <summary>
@@ -78,9 +80,10 @@ Namespace DATA
             Optional width$ = "",
             Optional removes$() = Nothing,
             Optional title$ = "",
-            Optional altClassName$ = Nothing) As String
+            Optional altClassName$ = Nothing,
+            Optional numFormat$ = "G5") As String
 
-            Return source.ToCsvDoc(False).html(
+            Return source.ToCsvDoc(False, numFormat:=numFormat).html(
                 [class]:=className,
                 id:=tableID,
                 width:=width,

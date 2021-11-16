@@ -1,0 +1,65 @@
+﻿fromNode,toNode,value,interaction_type,selfLoop,label,guid
+Valine,Lysine,0.602546579706523,,False,Valine->Lysine,0
+Leucine,Glutamine,0.611454391842046,,False,Leucine->Glutamine,1
+Hexadecanoic acid,Heptadecanoic acid,0.859986847571303,,False,Hexadecanoic acid->Heptadecanoic acid,10
+Hexadecanoic acid,Octadecanoic acid,0.881950899622157,,False,Hexadecanoic acid->Octadecanoic acid,11
+Hexadecanoic acid,Nonadecanoic acid,0.780888502036729,,False,Hexadecanoic acid->Nonadecanoic acid,12
+Hexadecanoic acid,Eicosanoic acid,0.808202889262679,,False,Hexadecanoic acid->Eicosanoic acid,13
+Hexadecanoic acid,Docosanol,0.777663639375674,,False,Hexadecanoic acid->Docosanol,14
+Hexadecanoic acid,Docosanoic acid,0.697717513677686,,False,Hexadecanoic acid->Docosanoic acid,15
+Heptadecanoic acid,Hexadecanoic acid,0.859986847571303,,False,Heptadecanoic acid->Hexadecanoic acid,16
+Heptadecanoic acid,9-(Z)-Octadecenoic acid,0.725052719015219,,False,Heptadecanoic acid->9-(Z)-Octadecenoic acid,17
+Heptadecanoic acid,Octadecanoic acid,0.952428255232892,,False,Heptadecanoic acid->Octadecanoic acid,18
+Heptadecanoic acid,Nonadecanoic acid,0.841075708429199,,False,Heptadecanoic acid->Nonadecanoic acid,19
+Fumaric acid,Aspartic acid,0.61257795309,,False,Fumaric acid->Aspartic acid,2
+Heptadecanoic acid,Eicosanoic acid,0.958486685611311,,False,Heptadecanoic acid->Eicosanoic acid,20
+Heptadecanoic acid,Docosanol,0.942499977286638,,False,Heptadecanoic acid->Docosanol,21
+Heptadecanoic acid,Docosanoic acid,0.867218027588992,,False,Heptadecanoic acid->Docosanoic acid,22
+9-(Z)-Octadecenoic acid,Heptadecanoic acid,0.725052719015219,,False,9-(Z)-Octadecenoic acid->Heptadecanoic acid,23
+9-(Z)-Octadecenoic acid,Octadecanoic acid,0.713874020658794,,False,9-(Z)-Octadecenoic acid->Octadecanoic acid,24
+9-(Z)-Octadecenoic acid,Nonadecanoic acid,0.712600833500902,,False,9-(Z)-Octadecenoic acid->Nonadecanoic acid,25
+9-(Z)-Octadecenoic acid,Eicosanoic acid,0.762525778517686,,False,9-(Z)-Octadecenoic acid->Eicosanoic acid,26
+9-(Z)-Octadecenoic acid,Docosanol,0.70006286416629,,False,9-(Z)-Octadecenoic acid->Docosanol,27
+Octadecanoic acid,Hexadecanoic acid,0.881950899622157,,False,Octadecanoic acid->Hexadecanoic acid,28
+Octadecanoic acid,Heptadecanoic acid,0.952428255232892,,False,Octadecanoic acid->Heptadecanoic acid,29
+Aspartic acid,Fumaric acid,0.61257795309,,False,Aspartic acid->Fumaric acid,3
+Octadecanoic acid,9-(Z)-Octadecenoic acid,0.713874020658794,,False,Octadecanoic acid->9-(Z)-Octadecenoic acid,30
+Octadecanoic acid,Nonadecanoic acid,0.856844682920712,,False,Octadecanoic acid->Nonadecanoic acid,31
+Octadecanoic acid,Eicosanoic acid,0.97224466062488,,False,Octadecanoic acid->Eicosanoic acid,32
+Octadecanoic acid,Docosanol,0.953654282623807,,False,Octadecanoic acid->Docosanol,33
+Octadecanoic acid,Docosanoic acid,0.854684207400768,,False,Octadecanoic acid->Docosanoic acid,34
+Nonadecanoic acid,Hexadecanoic acid,0.780888502036729,,False,Nonadecanoic acid->Hexadecanoic acid,35
+Nonadecanoic acid,Heptadecanoic acid,0.841075708429199,,False,Nonadecanoic acid->Heptadecanoic acid,36
+Nonadecanoic acid,9-(Z)-Octadecenoic acid,0.712600833500902,,False,Nonadecanoic acid->9-(Z)-Octadecenoic acid,37
+Nonadecanoic acid,Octadecanoic acid,0.856844682920712,,False,Nonadecanoic acid->Octadecanoic acid,38
+Nonadecanoic acid,Eicosanoic acid,0.861193210230719,,False,Nonadecanoic acid->Eicosanoic acid,39
+Glutamine,Leucine,0.611454391842046,,False,Glutamine->Leucine,4
+Nonadecanoic acid,Docosanol,0.838082563469569,,False,Nonadecanoic acid->Docosanol,40
+Nonadecanoic acid,Docosanoic acid,0.708807011681722,,False,Nonadecanoic acid->Docosanoic acid,41
+Eicosanoic acid,Hexadecanoic acid,0.808202889262679,,False,Eicosanoic acid->Hexadecanoic acid,42
+Eicosanoic acid,Heptadecanoic acid,0.958486685611311,,False,Eicosanoic acid->Heptadecanoic acid,43
+Eicosanoic acid,9-(Z)-Octadecenoic acid,0.762525778517686,,False,Eicosanoic acid->9-(Z)-Octadecenoic acid,44
+Eicosanoic acid,Octadecanoic acid,0.97224466062488,,False,Eicosanoic acid->Octadecanoic acid,45
+Eicosanoic acid,Nonadecanoic acid,0.861193210230719,,False,Eicosanoic acid->Nonadecanoic acid,46
+Eicosanoic acid,Docosanol,0.982038818645724,,False,Eicosanoic acid->Docosanol,47
+Eicosanoic acid,Docosanoic acid,0.904972548311781,,False,Eicosanoic acid->Docosanoic acid,48
+Docosanol,Hexadecanoic acid,0.777663639375674,,False,Docosanol->Hexadecanoic acid,49
+Glutamine,Lysine,0.671492178065997,,False,Glutamine->Lysine,5
+Docosanol,Heptadecanoic acid,0.942499977286638,,False,Docosanol->Heptadecanoic acid,50
+Docosanol,9-(Z)-Octadecenoic acid,0.70006286416629,,False,Docosanol->9-(Z)-Octadecenoic acid,51
+Docosanol,Octadecanoic acid,0.953654282623807,,False,Docosanol->Octadecanoic acid,52
+Docosanol,Nonadecanoic acid,0.838082563469569,,False,Docosanol->Nonadecanoic acid,53
+Docosanol,Eicosanoic acid,0.982038818645724,,False,Docosanol->Eicosanoic acid,54
+Docosanol,Docosanoic acid,0.944951623102493,,False,Docosanol->Docosanoic acid,55
+Docosanoic acid,Hexadecanoic acid,0.697717513677686,,False,Docosanoic acid->Hexadecanoic acid,56
+Docosanoic acid,Heptadecanoic acid,0.867218027588992,,False,Docosanoic acid->Heptadecanoic acid,57
+Docosanoic acid,Octadecanoic acid,0.854684207400768,,False,Docosanoic acid->Octadecanoic acid,58
+Docosanoic acid,Nonadecanoic acid,0.708807011681722,,False,Docosanoic acid->Nonadecanoic acid,59
+Glucose,Galactose,0.992187815666037,,False,Glucose->Galactose,6
+Docosanoic acid,Eicosanoic acid,0.904972548311781,,False,Docosanoic acid->Eicosanoic acid,60
+Docosanoic acid,Docosanol,0.944951623102493,,False,Docosanoic acid->Docosanol,61
+Docosanoic acid,Tetracosanoic acid,0.703737574237892,,False,Docosanoic acid->Tetracosanoic acid,62
+Tetracosanoic acid,Docosanoic acid,0.703737574237892,,False,Tetracosanoic acid->Docosanoic acid,63
+Lysine,Valine,0.602546579706523,,False,Lysine->Valine,7
+Lysine,Glutamine,0.671492178065997,,False,Lysine->Glutamine,8
+Galactose,Glucose,0.992187815666037,,False,Galactose->Glucose,9

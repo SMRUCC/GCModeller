@@ -33,6 +33,8 @@
 
     ' Class citation
     ' 
+    '     Properties: author, journal, pmid, title
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

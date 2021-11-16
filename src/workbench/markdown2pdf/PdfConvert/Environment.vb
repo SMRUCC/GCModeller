@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f2802d5a4956d22869a3d24f384150e9, markdown2pdf\PdfConvert\Environment.vb"
+﻿#Region "Microsoft.VisualBasic::1405d12ad29a17f0a11ce67f71420f07, markdown2pdf\PdfConvert\Environment.vb"
 
     ' Author:
     ' 
@@ -36,7 +36,7 @@
     '     Properties: Environment
     ' 
     '     Constructor: (+1 Overloads) Sub New
-    '     Function: GetWkhtmlToPdfExeLocation
+    '     Function: GetWkhtmlToPdfExeLocation, lazyGetEnvironment
     ' 
     ' /********************************************************************************/
 
@@ -55,18 +55,26 @@ Module InternalEnvironment
     Public Const wkhtmltopdf$ = "wkhtmltopdf.exe"
     Public Const wkhtmltopdfInstall$ = "wkhtmltopdf\wkhtmltopdf.exe"
 
-    Sub New()
-        Dim isDebugMode As Boolean = False
 #If DEBUG Then
-        isDebugMode = True
+    Const isDebugMode As Boolean = True
+#Else
+    Const isDebugMode As Boolean = False
 #End If
-        Environment = New PdfConvertEnvironment With {
+
+    Sub New()
+        Environment = New [Default](Of PdfConvertEnvironment) With {
+            .lazy = New Lazy(Of PdfConvertEnvironment)(AddressOf lazyGetEnvironment)
+        }
+    End Sub
+
+    Private Function lazyGetEnvironment() As PdfConvertEnvironment
+        Return New PdfConvertEnvironment With {
             .TempFolderPath = Path.GetTempPath(),
             .WkHtmlToPdfPath = GetWkhtmlToPdfExeLocation(),
             .Timeout = 60000,
             .Debug = isDebugMode
         }
-    End Sub
+    End Function
 
     Private Function GetWkhtmlToPdfExeLocation() As String
         Dim customPath As String = ConfigurationManager.AppSettings("wkhtmltopdf:path")
@@ -92,4 +100,3 @@ Module InternalEnvironment
         Throw New FileNotFoundException("Progream ""wkhtmltopdf"" is not installed!")
     End Function
 End Module
-

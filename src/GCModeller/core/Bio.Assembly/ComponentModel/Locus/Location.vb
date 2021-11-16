@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b8c54193aa57660c11bc95520fa05f0d, core\Bio.Assembly\ComponentModel\Locus\Location.vb"
+﻿#Region "Microsoft.VisualBasic::1292f43efeb4bc407e595fc921bedee8, core\Bio.Assembly\ComponentModel\Locus\Location.vb"
 
     ' Author:
     ' 
@@ -33,8 +33,8 @@
 
     '     Class Location
     ' 
-    '         Properties: Center, Extension, FragmentSize, IsNormalized, left
-    '                     right
+    '         Properties: Center, FragmentSize, IsNormalized, left, right
+    '                     Tag
     ' 
     '         Constructor: (+4 Overloads) Sub New
     '         Function: Clone, CreateObject, Equals, GetOverlapSize, Inside
@@ -49,8 +49,8 @@
 Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
+Imports Microsoft.VisualBasic.My.JavaScript
 Imports SMRUCC.genomics.ComponentModel.Loci.Abstract
 Imports stdNum = System.Math
 
@@ -70,8 +70,6 @@ Namespace ComponentModel.Loci
         Implements IRange(Of Integer)
         Implements ILocationComponent
         Implements IKeyValuePairObject(Of Integer, Integer)
-
-        Public Property Extension As ExtendedProps
 
         ''' <summary>
         ''' <see cref="Location"/>: Gets or set the left start value of the segment on the target sequence.(目标片段的左端起始区域，与链的方向无关)
@@ -102,6 +100,8 @@ Namespace ComponentModel.Loci
                 MyBase.Max = value
             End Set
         End Property
+
+        Public Property Tag As JavaScriptObject
 
         Sub New()
         End Sub

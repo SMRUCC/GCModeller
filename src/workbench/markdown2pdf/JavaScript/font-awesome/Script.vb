@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5d153e66b949f643248d3e5ab41ff99a, markdown2pdf\JavaScript\font-awesome\Script.vb"
+﻿#Region "Microsoft.VisualBasic::8111cffc9e4a222a3cb602d2eb9aba48, markdown2pdf\JavaScript\font-awesome\Script.vb"
 
     ' Author:
     ' 
@@ -41,8 +41,8 @@
 
 Imports System.ComponentModel
 Imports System.Text
-Imports Microsoft.VisualBasic.Emit.CodeDOM_VBC
-Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS.Parser
+Imports Microsoft.VisualBasic.ApplicationServices.Emit.CodeDOM_VBC
+Imports Microsoft.VisualBasic.MIME.Html.Language.CSS
 
 Public Module VBScript
 

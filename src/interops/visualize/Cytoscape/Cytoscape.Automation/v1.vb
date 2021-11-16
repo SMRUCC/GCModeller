@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a9c1fa2f20d5665529a89990f4281339, visualize\Cytoscape\Cytoscape.Automation\v1.vb"
+﻿#Region "Microsoft.VisualBasic::1c333923955f5ff0420c6ec23369bbaa, visualize\Cytoscape\Cytoscape.Automation\v1.vb"
 
     ' Author:
     ' 
@@ -138,4 +138,3 @@ Public Class v1 : Inherits cyREST
         Return json.LoadJSON(Of Cyjs)
     End Function
 End Class
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7115678656b7de20fab9560c3cb277eb, mime\application%json\Serializer\ObjectSerializer\ObjectSerializer.vb"
+﻿#Region "Microsoft.VisualBasic::7cce882909080160e24a03f21516df67, mime\application%json\Serializer\ObjectSerializer\ObjectSerializer.vb"
 
     ' Author:
     ' 
@@ -41,7 +41,9 @@
 
 Imports System.Reflection
 Imports System.Runtime.CompilerServices
+#If netcore5 = 0 Then
 Imports System.Web.Script.Serialization
+#End If
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.DataFramework
 Imports Microsoft.VisualBasic.Language
@@ -123,7 +125,14 @@ Public Module ObjectSerializer
         For Each memberKey As Object In obj.Keys
             key = Scripting.ToString(memberKey)
             value = obj.Item(memberKey)
-            json.Add(key, valueSchema.GetJsonElement(value, opt))
+
+            If value Is Nothing Then
+                Call json.Add(key, New JsonValue())
+            ElseIf valueSchema Is GetType(Object) Then
+                Call json.Add(key, value.GetType.GetJsonElement(value, opt))
+            Else
+                Call json.Add(key, valueSchema.GetJsonElement(value, opt))
+            End If
         Next
 
         Return json

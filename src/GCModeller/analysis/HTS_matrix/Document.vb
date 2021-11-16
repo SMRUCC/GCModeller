@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::69f3ee92e6e3d0f7fbd4599508d82452, analysis\HTS_matrix\Document.vb"
+﻿#Region "Microsoft.VisualBasic::0743e2db27b2b6ae69cc67311c898d1d, analysis\HTS_matrix\Document.vb"
 
     ' Author:
     ' 
@@ -33,14 +33,18 @@
 
     ' Module Document
     ' 
-    '     Function: LoadMatrixDocument
+    '     Function: LoadMatrixDocument, SaveMatrix
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports System.IO
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Text
+Imports r = System.Text.RegularExpressions.Regex
 
 Public Module Document
 
@@ -74,32 +78,35 @@ Public Module Document
 
         Dim matrix As DataFrameRow() = text _
             .Skip(1) _
-            .Select(Function(line)
-                        Dim tokens = line.Split(ASCII.TAB, ","c)
-                        Dim data As Double() = tokens _
-                            .Skip(1) _
-                            .Select(AddressOf Val) _
-                            .ToArray
-
-                        If Not excludes Is Nothing Then
-                            data = takeIndex _
-                                .Select(Function(i) data(i)) _
-                                .ToArray
-                        End If
-
-                        Return New DataFrameRow With {
-                            .experiments = data,
-                            .geneID = tokens(Scan0).Trim(""""c, " "c)
-                        }
-                    End Function) _
+            .loadGeneMatrix(excludes, takeIndex) _
             .ToArray
 
         Return New Matrix With {
             .expression = matrix,
             .sampleID = takeIndex _
                 .Select(Function(i) sampleIds(i)) _
-                .ToArray
+                .ToArray,
+            .tag = file.FileName
         }
     End Function
-End Module
 
+    <Extension>
+    Public Function SaveMatrix(mat As Matrix, file As String, Optional idcolName As String = "geneID") As Boolean
+        Using table As StreamWriter = file.OpenWriter(Encodings.UTF8WithoutBOM)
+            Dim line As String = {idcolName}.Join(mat.sampleID).JoinBy(",")
+
+            Call table.WriteLine(line)
+
+            For Each gene As DataFrameRow In mat.expression
+                line = New String() {$"""{gene.geneID}"""} _
+                    .Join(gene.experiments.Select(Function(d) d.ToString)) _
+                    .JoinBy(",")
+
+                Call table.WriteLine(line)
+            Next
+        End Using
+
+        Return 0
+    End Function
+
+End Module

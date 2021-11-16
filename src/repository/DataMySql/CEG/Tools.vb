@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::253ebfe694456e9f053fd9795e39002f, DataMySql\CEG\Tools.vb"
+﻿#Region "Microsoft.VisualBasic::2827949f13f47c112f61c11d749dffb3, DataMySql\CEG\Tools.vb"
 
     ' Author:
     ' 

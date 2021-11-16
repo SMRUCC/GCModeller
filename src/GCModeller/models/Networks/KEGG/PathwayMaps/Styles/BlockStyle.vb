@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6df8262589ac6978a4c436cfdbce3ba1, models\Networks\KEGG\PathwayMaps\Styles\BlockStyle.vb"
+﻿#Region "Microsoft.VisualBasic::7b805fddad35842d7a4f76a797053495, models\Networks\KEGG\PathwayMaps\Styles\BlockStyle.vb"
 
     ' Author:
     ' 
@@ -50,7 +50,7 @@ Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Shapes
-Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
+Imports Microsoft.VisualBasic.MIME.Html.CSS
 
 Namespace PathwayMaps.RenderStyles
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::793cc52ee0d002ce43edb455570d501b, engine\IO\Raw\vcXML\Writer.vb"
+﻿#Region "Microsoft.VisualBasic::6126577901a40c0a5f927b9f3221d57a, engine\IO\Raw\vcXML\Writer.vb"
 
     ' Author:
     ' 
@@ -55,7 +55,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Text.Xml.Models
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine.Definitions
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Definitions
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.IO.vcXML.XML
 Imports XmlOffset = SMRUCC.genomics.GCModeller.ModellingEngine.IO.vcXML.XML.offset
 

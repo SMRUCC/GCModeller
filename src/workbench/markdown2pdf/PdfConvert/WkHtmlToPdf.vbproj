@@ -26,6 +26,8 @@
     <Prefer32Bit>false</Prefer32Bit>
     <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
     <DocumentationFile>WkHtmlToPdf.CLI.InteropService.xml</DocumentationFile>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -94,7 +96,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x64\Debug\</OutputPath>
+    <OutputPath>..\..\..\..\GCModeller\bin\</OutputPath>
     <DefineConstants>DEBUG,TRACE</DefineConstants>
     <DocumentationFile>WkHtmlToPdf.CLI.InteropService.xml</DocumentationFile>
     <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
@@ -205,7 +207,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28UNIX-Release_X64%29|x64'">
-    <OutputPath>bin\x64\GCModeller%28UNIX-Release_X64%29\</OutputPath>
+    <OutputPath>..\..\..\..\GCModeller\bin\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <DocumentationFile>WkHtmlToPdf.CLI.InteropService.xml</DocumentationFile>
     <Optimize>true</Optimize>
@@ -213,6 +215,100 @@
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x64</PlatformTarget>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'MetaCardio|x86'">
+    <OutputPath>bin\x86\MetaCardio\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>WkHtmlToPdf.CLI.InteropService.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'MetaCardio|AnyCPU'">
+    <OutputPath>bin\MetaCardio\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>WkHtmlToPdf.CLI.InteropService.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'MetaCardio|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\..\..\..\..\biodeep\bionovogene_health\metacardio\assembly\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DocumentationFile>WkHtmlToPdf.CLI.InteropService.xml</DocumentationFile>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'mzkit|x86'">
+    <OutputPath>bin\x86\mzkit\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>WkHtmlToPdf.CLI.InteropService.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'mzkit|AnyCPU'">
+    <OutputPath>bin\mzkit\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>WkHtmlToPdf.CLI.InteropService.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'mzkit|x64'">
+    <OutputPath>bin\x64\mzkit\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>WkHtmlToPdf.CLI.InteropService.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Rsharp_app_release|x86'">
+    <OutputPath>bin\x86\Rsharp_app_release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>WkHtmlToPdf.CLI.InteropService.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Rsharp_app_release|AnyCPU'">
+    <OutputPath>bin\Rsharp_app_release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>WkHtmlToPdf.CLI.InteropService.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Rsharp_app_release|x64'">
+    <OutputPath>bin\x64\Rsharp_app_release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>WkHtmlToPdf.CLI.InteropService.xml</DocumentationFile>
+    <Optimize>false</Optimize>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DebugSymbols>true</DebugSymbols>
+    <DefineTrace>true</DefineTrace>
   </PropertyGroup>
   <ItemGroup>
     <Import Include="Microsoft.VisualBasic" />
@@ -263,13 +359,13 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\47-dotnet_Microsoft.VisualBasic.vbproj">
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\47-dotnet_Microsoft.VisualBasic.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\mime\text%25html\mime-htmls.vbproj">
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\mime\text%25html\MIME-htmls.vbproj">
       <Project>{2dd4be80-ddc3-4767-94a7-10f1c3395716}</Project>
-      <Name>mime-htmls</Name>
+      <Name>MIME-htmls</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

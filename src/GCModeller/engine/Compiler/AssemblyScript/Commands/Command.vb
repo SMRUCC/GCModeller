@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::03c02a21094cd93c6f91a6f3cd02f56c, engine\Compiler\AssemblyScript\Commands\Command.vb"
+﻿#Region "Microsoft.VisualBasic::90a91f847c4b439dadabc23507725edf, engine\Compiler\AssemblyScript\Commands\Command.vb"
 
     ' Author:
     ' 
@@ -34,6 +34,8 @@
     '     Class Command
     ' 
     '         Properties: commandName
+    ' 
+    '         Function: stripValueString
     ' 
     ' 
     ' /********************************************************************************/

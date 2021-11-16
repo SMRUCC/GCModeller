@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2cd9987b81191a20509b586b1eb63974, Data_science\Mathematica\Math\DataFittings\Linear\DoubleLinear.vb"
+﻿#Region "Microsoft.VisualBasic::cbb536d9f835d795193fda151e6b80ca, Data_science\Mathematica\Math\DataFittings\Linear\DoubleLinear.vb"
 
     ' Author:
     ' 
@@ -58,7 +58,7 @@ Public Module DoubleLinear
     <Extension>
     Public Function GetInputPoints(bestfit As IFitted) As PointF()
         Return bestfit.ErrorTest _
-            .Select(Function(p) New PointF(p.X, p.Y)) _
+            .Select(Function(p) New PointF(DirectCast(p, TestPoint).X, p.Y)) _
             .ToArray
     End Function
 
@@ -119,6 +119,9 @@ Public Module DoubleLinear
             .ToArray _
             .doFilterInternal(removed, removesZeroY)
 
+        If pointVec.Length = 0 Then
+            Return Nothing
+        End If
         If max < 0 Then
             ' auto
             max = pointVec.Length / 2 - 1

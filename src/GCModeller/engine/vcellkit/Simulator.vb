@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f4b3d360480d27be316814d00d00774d, engine\vcellkit\Simulator.vb"
+﻿#Region "Microsoft.VisualBasic::970b425dc9b20431bfbcf18481c1eb66, engine\vcellkit\Simulator.vb"
 
     ' Author:
     ' 
@@ -62,10 +62,11 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Definitions
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Engine
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine.Definitions
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
 Imports SMRUCC.Rsharp.Runtime.Internal.ConsolePrinter
 
 Public Enum ModuleSystemLevels
@@ -77,7 +78,7 @@ End Enum
 ''' <summary>
 ''' 
 ''' </summary>
-<Package("vcellkit.simulator", Category:=APICategories.ResearchTools)>
+<Package("simulator", Category:=APICategories.ResearchTools)>
 Public Module Simulator
 
     Sub New()

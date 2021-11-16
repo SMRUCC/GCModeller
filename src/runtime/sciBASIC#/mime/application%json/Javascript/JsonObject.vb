@@ -1,45 +1,47 @@
-﻿#Region "Microsoft.VisualBasic::b73a666b3d517071d7b59a6b761b9b9e, mime\application%json\Javascript\JsonObject.vb"
+﻿#Region "Microsoft.VisualBasic::b42e318a14b082684f220ddf4cd297ac, mime\application%json\Javascript\JsonObject.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class JsonObject
-' 
-'         Function: ContainsElement, ContainsKey, CreateObject, GetEnumerator, IEnumerable_GetEnumerator
-'                   Remove, ToString
-' 
-'         Sub: (+2 Overloads) Add, WriteBuffer
-' 
-' 
-' /********************************************************************************/
+    '     Class JsonObject
+    ' 
+    '         Properties: isArray
+    ' 
+    '         Function: ContainsElement, ContainsKey, (+2 Overloads) CreateObject, GetEnumerator, IEnumerable_GetEnumerator
+    '                   Remove, Score, ToJsonArray, ToString
+    ' 
+    '         Sub: (+2 Overloads) Add, (+2 Overloads) Dispose, WriteBuffer
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -86,6 +88,12 @@ Namespace Javascript
         End Property
 #End Region
 
+        Public ReadOnly Property isArray As Boolean
+            Get
+                Return array.Keys.All(Function(i) i.IsPattern("\d+"))
+            End Get
+        End Property
+
         Public Sub Add(key As String, element As JsonElement)
             Call array.Add(key, element)
         End Sub
@@ -126,13 +134,34 @@ Namespace Javascript
             Return hits
         End Function
 
+        Public Function ToJsonArray() As JsonArray
+            Dim list As New JsonArray
+
+            For Each item As JsonElement In array.Values
+                Call list.Add(item)
+            Next
+
+            Return list
+        End Function
+
         ''' <summary>
         ''' 反序列化为目标类型的对象实例
         ''' </summary>
         ''' <typeparam name="T"></typeparam>
         ''' <returns></returns>
-        Public Function CreateObject(Of T As Class)() As T
-            Return Me.createObject(parent:=Nothing, schema:=GetType(T))
+        Public Function CreateObject(Of T)() As T
+            Return CreateObject(type:=GetType(T))
+        End Function
+
+        Public Function CreateObject(type As Type) As Object
+            If type.IsArray AndAlso Me.isArray Then
+                Dim itemType As Type = type.GetElementType
+                Dim graph As ObjectSchema = ObjectSchema.GetSchema(itemType)
+
+                Return ToJsonArray.createArray(graph, itemType)
+            Else
+                Return Me.createObject(parent:=Nothing, schema:=type)
+            End If
         End Function
 
         Public Overrides Function ToString() As String

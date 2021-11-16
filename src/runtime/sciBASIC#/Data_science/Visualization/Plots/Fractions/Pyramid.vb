@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d16db7c2cb2692277cbeb2e85ad93083, Data_science\Visualization\Plots\Fractions\Pyramid.vb"
+﻿#Region "Microsoft.VisualBasic::a9d1c622d3793b1e51fe219b77fcfd47, Data_science\Visualization\Plots\Fractions\Pyramid.vb"
 
     ' Author:
     ' 
@@ -42,14 +42,13 @@
 
 Imports System.Drawing
 Imports System.Drawing.Drawing2D
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Legend
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.g
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
+Imports Microsoft.VisualBasic.MIME.Html.CSS
 
 Namespace Fractions
 
@@ -122,10 +121,10 @@ Namespace Fractions
                 Dim maxL = data.Select(Function(x) gr.MeasureString(x.Name, font).Width).Max
                 left = size.Width - (margin.Horizontal) - maxL
                 Dim top = margin.Top
-                Dim legends As New List(Of Legend)
+                Dim legends As New List(Of LegendObject)
 
                 For Each x As FractionData In data
-                    legends += New Legend With {
+                    legends += New LegendObject With {
                        .color = x.Color.RGBExpression,
                        .style = LegendStyles.Rectangle,
                        .title = x.Name,

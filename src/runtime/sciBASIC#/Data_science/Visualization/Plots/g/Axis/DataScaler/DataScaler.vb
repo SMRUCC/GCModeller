@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0bb9cc9bddbe082216ff46b4f2d34f71, Data_science\Visualization\Plots\g\Axis\DataScaler\DataScaler.vb"
+﻿#Region "Microsoft.VisualBasic::887ce05baca4d4bf5ee6cbe037ef216f, Data_science\Visualization\Plots\g\Axis\DataScaler\DataScaler.vb"
 
     ' Author:
     ' 
@@ -33,10 +33,11 @@
 
     '     Class DataScaler
     ' 
-    '         Properties: AxisTicks, X
+    '         Properties: AxisTicks, X, xmax, xmin, ymax
+    '                     ymin
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: (+2 Overloads) Translate, TranslateX
+    '         Function: (+3 Overloads) Translate, TranslateWidth, TranslateX
     ' 
     '     Module DataScalerExtensions
     ' 
@@ -52,6 +53,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.d3js.scale
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports stdNum = System.Math
 
 Namespace Graphic.Axis
 
@@ -67,6 +69,30 @@ Namespace Graphic.Axis
         Public Property X As Scaler
         Public Property AxisTicks As (X As Vector, Y As Vector)
 
+        Public ReadOnly Property xmin As Double
+            Get
+                Return AxisTicks.X.Min
+            End Get
+        End Property
+
+        Public ReadOnly Property xmax As Double
+            Get
+                Return AxisTicks.X.Max
+            End Get
+        End Property
+
+        Public ReadOnly Property ymin As Double
+            Get
+                Return AxisTicks.Y.Min
+            End Get
+        End Property
+
+        Public ReadOnly Property ymax As Double
+            Get
+                Return AxisTicks.Y.Max
+            End Get
+        End Property
+
         ''' <summary>
         ''' 
         ''' </summary>
@@ -75,6 +101,12 @@ Namespace Graphic.Axis
             Call MyBase.New(reversed:=rev)
         End Sub
 
+        ''' <summary>
+        ''' translate the realworld data into the view model world point 2D 
+        ''' </summary>
+        ''' <param name="x#"></param>
+        ''' <param name="y#"></param>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Translate(x#, y#) As PointF
             Return New PointF With {
@@ -104,6 +136,13 @@ Namespace Graphic.Axis
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function TranslateX(x#) As Double
             Return Me.X(x)
+        End Function
+
+        Public Function TranslateWidth(x1 As Double, x2 As Double) As Double
+            x1 = TranslateX(x1)
+            x2 = TranslateX(x2)
+
+            Return stdNum.Max(x1, x2) - stdNum.Min(x1, x2)
         End Function
     End Class
 

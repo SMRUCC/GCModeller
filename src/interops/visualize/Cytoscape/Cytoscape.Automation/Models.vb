@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::76fe58e03bf8c700eb4bff66c548b43e, visualize\Cytoscape\Cytoscape.Automation\Models.vb"
+﻿#Region "Microsoft.VisualBasic::9248e75cea2d4b6092057d18dba0c8fd, visualize\Cytoscape\Cytoscape.Automation\Models.vb"
 
     ' Author:
     ' 
@@ -50,7 +50,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 ' [{"source":"http://localhost:8887/tmp0000b/upload.json","networkSUID":[445]}]"
 

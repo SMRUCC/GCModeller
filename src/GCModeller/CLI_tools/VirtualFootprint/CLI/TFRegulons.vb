@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::295442187ad31452e38361bf883f13ca, CLI_tools\VirtualFootprint\CLI\TFRegulons.vb"
+﻿#Region "Microsoft.VisualBasic::1eadaeaca03bdec26e814911e56703f6, CLI_tools\VirtualFootprint\CLI\TFRegulons.vb"
 
     ' Author:
     ' 
@@ -51,6 +51,7 @@ Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Parallel.Linq
 Imports Microsoft.VisualBasic.Text
+Imports Parallel.ThreadTask
 Imports SMRUCC.genomics
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
@@ -111,7 +112,7 @@ Partial Module CLI
 
         Dim CLIs As String() = genomes.Select(task).ToArray
 
-        Return App.SelfFolks(CLIs, LQuerySchedule.CPU_NUMBER) ' 使用Linq线程模块配置计算的并发数
+        Return BatchTasks.SelfFolks(CLIs, LQuerySchedule.CPU_NUMBER) ' 使用Linq线程模块配置计算的并发数
     End Function
 
     ''' <summary>
@@ -121,9 +122,9 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/TF.Density",
                Usage:="/TF.Density /TF <TF-list.txt> /PTT <genome.PTT> [/ranges 5000 /out <out.csv> /cis /un-strand /batch]")>
-    <Argument("/TF", False,
+    <ArgumentAttribute("/TF", False,
                    Description:="A plant text file with the TF locus_tag list.")>
-    <Argument("/batch", True,
+    <ArgumentAttribute("/batch", True,
                    Description:="This function is works in batch mode.")>
     <Group(CLIGrouping.TFRegulonTools)>
     Public Function TFDensity(args As CommandLine) As Integer
@@ -197,8 +198,8 @@ Partial Module CLI
                      Group x By x.ID Into Group) _
                           .Select(Function(x) (From site As SimpleSegment
                                                 In x.Group
-                                                Select site
-                                                Order By site.SequenceData.Length Descending).First)
+                                               Select site
+                                               Order By site.SequenceData.Length Descending).First)
 
             Call locis.SaveTo(base & ".Csv")
             Call New FastaFile(
@@ -254,8 +255,8 @@ Partial Module CLI
                          Group x By x.ID.Split(":"c).First Into Group) _
                               .Select(Function(x) (From site As SimpleSegment
                                                     In x.Group
-                                                    Select site
-                                                    Order By site.SequenceData.Length Descending).First)
+                                                   Select site
+                                                   Order By site.SequenceData.Length Descending).First)
             Call New FastaFile(
               sitesLoci.Select(Function(x) New FastaSeq({x.ID}, x.SequenceData))) _
              .Save(path, Encodings.ASCII)
@@ -322,7 +323,7 @@ Partial Module CLI
         Next
 
         totalLen = list _
-            .Select(Function(x) {x.Location.Left, x.Location.Right}) _
+            .Select(Function(x) {x.Location.left, x.Location.right}) _
             .IteratesALL _
             .Max
 

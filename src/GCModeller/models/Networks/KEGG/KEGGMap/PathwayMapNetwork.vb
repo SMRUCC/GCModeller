@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::567919c83c4004bbfa133e92b2f8b858, models\Networks\KEGG\KEGGMap\PathwayMapNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::2a33acef2a089ba5728ea2ae75ab2bc7, models\Networks\KEGG\KEGGMap\PathwayMapNetwork.vb"
 
     ' Author:
     ' 
@@ -118,7 +118,7 @@ Public Module PathwayMapNetwork
 
         Dim ranks As Vector = edges _
             .Select(Function(x) x.value) _
-            .RangeTransform("0,100") _
+            .RangeTransform({0, 100}) _
             .AsVector
 
         edges = edges(Which.IsTrue(ranks >= 3))

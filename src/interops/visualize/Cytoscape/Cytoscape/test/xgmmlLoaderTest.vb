@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8a72e30bf9f33b5ae9191b752f52e930, visualize\Cytoscape\Cytoscape\test\xgmmlLoaderTest.vb"
+﻿#Region "Microsoft.VisualBasic::cc2ab67ee01dd58f835385711a1b69cf, visualize\Cytoscape\Cytoscape\test\xgmmlLoaderTest.vb"
 
     ' Author:
     ' 
@@ -63,4 +63,3 @@ Module xgmmlLoaderTest
         Pause()
     End Sub
 End Module
-

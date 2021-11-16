@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::089fe273f6778b5abdefa893908dff1b, analysis\SequenceToolkit\SmithWaterman\SmithWaterman.vb"
+﻿#Region "Microsoft.VisualBasic::1d0f914ec94ec82600397ec0ddfd18f7, analysis\SequenceToolkit\SmithWaterman\SmithWaterman.vb"
 
     ' Author:
     ' 
@@ -34,7 +34,7 @@
     ' Class SmithWaterman
     ' 
     '     Constructor: (+2 Overloads) Sub New
-    '     Function: Align, GetOutput
+    '     Function: Align, GetOutput, SymbolProvider
     ' 
     ' /********************************************************************************/
 
@@ -42,6 +42,7 @@
 
 Imports System.Linq
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.DataMining.DynamicProgramming
 Imports Microsoft.VisualBasic.DataMining.DynamicProgramming.SmithWaterman
 Imports Microsoft.VisualBasic.Language.Default
 Imports SMRUCC.genomics.SequenceModel
@@ -58,7 +59,7 @@ Public Class SmithWaterman : Inherits GSW(Of Char)
     ''' <summary>
     ''' 蛋白比对的矩阵
     ''' </summary>
-    Shared ReadOnly blosum62 As [Default](Of  Blosum) = Blosum.FromInnerBlosum62
+    Shared ReadOnly blosum62 As [Default](Of Blosum) = Blosum.FromInnerBlosum62
 
     ''' <summary>
     '''
@@ -69,12 +70,21 @@ Public Class SmithWaterman : Inherits GSW(Of Char)
     ''' If the matrix parameter is null, then the default build in blosum62 matrix will be used.
     ''' </param>
     Sub New(query$, subject$, Optional blosum As Blosum = Nothing)
-        Call MyBase.New(query.ToArray, subject.ToArray, AddressOf (blosum Or blosum62).GetDistance, Function(x) x)
+        Call MyBase.New(query.ToArray, subject.ToArray, SymbolProvider(blosum))
     End Sub
 
     Sub New(query As ISequenceModel, subject As ISequenceModel, Optional blosum As Blosum = Nothing)
-        Call MyBase.New(query.SequenceData.ToArray, subject.SequenceData.ToArray, AddressOf (blosum Or blosum62).GetDistance, Function(x) x)
+        Call MyBase.New(query.SequenceData.ToArray, subject.SequenceData.ToArray, SymbolProvider(blosum))
     End Sub
+
+    Private Shared Function SymbolProvider(blosum As Blosum) As GenericSymbol(Of Char)
+        Return New GenericSymbol(Of Char)(
+            equals:=Function(x, y) x = y,
+            similarity:=AddressOf (blosum Or blosum62).GetDistance,
+            toChar:=Function(x) x,
+            empty:=Function() "-"c
+        )
+    End Function
 
     ''' <summary>
     '''
@@ -84,7 +94,7 @@ Public Class SmithWaterman : Inherits GSW(Of Char)
     ''' 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function GetOutput(cutoff As Double, minW As Integer) As Output
-        Return Output.CreateObject(Me, Function(x) x, cutoff, minW)
+        Return Output.CreateObject(Me, cutoff, minW)
     End Function
 
     ''' <summary>
@@ -95,7 +105,6 @@ Public Class SmithWaterman : Inherits GSW(Of Char)
     ''' <param name="blosum"></param>
     ''' <returns></returns>
     Public Shared Function Align(query As FastaSeq, subject As FastaSeq, Optional blosum As Blosum = Nothing) As SmithWaterman
-        Dim sw As New SmithWaterman(query.SequenceData, subject.SequenceData, blosum)
-        Return sw
+        Return New SmithWaterman(query.SequenceData, subject.SequenceData, blosum).BuildMatrix
     End Function
 End Class

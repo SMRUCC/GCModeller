@@ -1,4 +1,80 @@
-﻿''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+﻿#Region "Microsoft.VisualBasic::3b83986850b1680dd1cfca24c8386ea9, mime\application%pdf\PdfFileWriter\PDF\PdfFont.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Enum PdfFontFlags
+    ' 
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    ' Class KerningAdjust
+    ' 
+    '     Properties: Adjust, Text
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
+    ' 
+    ' Class PdfFont
+    ' 
+    '     Properties: PdfLeading
+    ' 
+    '     Constructor: (+2 Overloads) Sub New
+    ' 
+    '     Function: Ascent, AscentPlusLeading, CapHeight, CharBoundingBox, CharCodeFontDescriptor
+    '               CharCodeFontWidthArray, (+2 Overloads) CharWidth, CompareTo, CreatePdfFont, Descent
+    '               DescentPlusLeading, FontDescriptorCommon, FontDesignToPdfUnits, FontDesignToUserUnits, GetCharInfo
+    '               GlyphIndexFontDescriptor, GlyphIndexToUnicode, GlyphIndexWidthArray, LineSpacing, StemV
+    '               StrikeoutPosition, StrikeoutWidth, SubscriptPosition, SubscriptSize, SuperscriptPosition
+    '               SuperscriptSize, TextBoundingBox, TextFitToWidth, TextKerning, TextKerningWidth
+    '               TextWidth, UnderlinePosition, UnderlineWidth
+    ' 
+    '     Sub: CharCodeToPdfFile, CreateGlyphIndexFont, Dispose, GlyphIndexToPdfFile, WriteObjectToPdfFile
+    ' 
+    ' Class UnicodeRange
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
+    '     Function: CompareTo
+    ' 
+    ' Class GlyphWidth
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
+    '     Function: CompareTo
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 '
 '	PdfFileWriter
 '	PDF File Write C# Class Library.
@@ -32,11 +108,9 @@ Imports System.Runtime.InteropServices
 Imports System.Linq
 Imports stdNum = System.Math
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 ''' <summary>
 ''' PDF font descriptor flags enumeration
 ''' </summary>
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 Public Enum PdfFontFlags
     ''' <summary>
     ''' None
@@ -89,7 +163,6 @@ Public Enum PdfFontFlags
     ForceBold = 1 << 18
 End Enum
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 ''' <summary>
 ''' Kerning adjustment class
 ''' </summary>
@@ -98,7 +171,6 @@ End Enum
 ''' The adjustment is for a font height of one point.
 ''' Mainly used for font kerning.
 ''' </remarks>
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 Public Class KerningAdjust
     ''' <summary>
     ''' Gets or sets Text
@@ -125,7 +197,6 @@ Public Class KerningAdjust
     End Sub
 End Class
 
-'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 ''' <summary>
 ''' PDF font class
 ''' </summary>
@@ -137,7 +208,6 @@ End Class
 ''' <a href="http://www.codeproject.com/Articles/570682/PDF-File-Writer-Csharp-Class-Library-Version#FontResources">For example of defining font resources see 3.2. Font Resources</a>
 ''' </para>
 ''' </remarks>
-'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 Public Class PdfFont
     Inherits PdfObject
     Implements IDisposable, IComparable(Of PdfFont)
@@ -181,7 +251,6 @@ Public Class PdfFont
     Friend DesignFontWeight As Integer
     Friend DesignHeight As Integer
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
     ''' <summary>
     ''' PDF Font resource constructor
     ''' </summary>
@@ -192,8 +261,6 @@ Public Class PdfFont
     ''' <returns>PdfFont resource</returns>
     ''' <remarks>The returned result is either a new PdfFont or an
     ''' existing one with the same properties.</remarks>
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
     Public Shared Function CreatePdfFont(ByVal Document As PdfDocument, ByVal FontFamilyName As String, ByVal FontStyle As FontStyle, ByVal Optional EmbeddedFont As Boolean = True) As PdfFont     ' PDF document main object
         ' font family name
         ' font style (Regular, Bold, Italic or Bold | Italic
@@ -400,24 +467,20 @@ Public Class PdfFont
         Return FontDesignToUserUnits(FontSize, PdfLineSpacing)
     End Function
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
     ''' <summary>
     ''' Font ascent in user units
     ''' </summary>
     ''' <param name="FontSize">Font size</param>
     ''' <returns>Font ascent</returns>
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
     Public Function Ascent(ByVal FontSize As Double) As Double
         Return FontDesignToUserUnits(FontSize, PdfAscent)
     End Function
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
     ''' <summary>
     ''' Font ascent in user units
     ''' </summary>
     ''' <param name="FontSize">Font size</param>
     ''' <returns>Font ascent plus half of internal leading.</returns>
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
     Public Function AscentPlusLeading(ByVal FontSize As Double) As Double
         Return FontDesignToUserUnits(FontSize, PdfAscent + (PdfLeading + 1) / 2)
     End Function
@@ -1440,4 +1503,3 @@ Friend Class GlyphWidth
         Return GlyphIndex - Other.GlyphIndex
     End Function
 End Class
-

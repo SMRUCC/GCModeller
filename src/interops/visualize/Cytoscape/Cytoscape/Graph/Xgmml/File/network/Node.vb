@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c1e193b93cd74b6da503cbbb9f00189a, visualize\Cytoscape\Cytoscape\Graph\Xgmml\File\network\Node.vb"
+﻿#Region "Microsoft.VisualBasic::253e2a08a1926c5785296d147810c3f3, visualize\Cytoscape\Cytoscape\Graph\Xgmml\File\network\Node.vb"
 
     ' Author:
     ' 

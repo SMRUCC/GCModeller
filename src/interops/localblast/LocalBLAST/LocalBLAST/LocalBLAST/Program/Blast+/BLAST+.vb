@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a273902ec33542c7e6e61bc358808983, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Program\Blast+\BLAST+.vb"
+﻿#Region "Microsoft.VisualBasic::151392de126b7c63e48e19590cf5a9a7, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Program\Blast+\BLAST+.vb"
 
     ' Author:
     ' 
@@ -198,7 +198,7 @@ Namespace LocalBLAST.Programs
         ''' <remarks></remarks>
         Public Overrides ReadOnly Property Version As String
             Get
-                Dim Process As IORedirect = New IORedirect(Me._blastnAssembly, "-version", displayStdOut:=False)
+                Dim Process As IORedirect = New IORedirect(Me._blastnAssembly, "-version", hide:=False)
                 Call Process.Start(True)
                 Dim str As String = Regex.Split(Process.StandardOutput, "Package:\s+", RegexOptions.IgnoreCase).Last.Trim
                 Return str

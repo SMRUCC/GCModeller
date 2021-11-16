@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::48777c24a6deb3e8cca41de48515647e, markdown2pdf\ReportBuilder\HTML\BuilderHelpers.vb"
+﻿#Region "Microsoft.VisualBasic::afb499698576063d84fd1cb87b878bc3, markdown2pdf\ReportBuilder\HTML\BuilderHelpers.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Module BuilderHelpers
     ' 
-    '         Function: Hide, Show
+    '         Function: Hide, ResolveLocalFileLinks, Show
     ' 
     ' 
     ' /********************************************************************************/
@@ -41,6 +41,9 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports System.Text
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Net.Http
 
 Namespace HTML
 
@@ -67,6 +70,39 @@ Namespace HTML
             Call report.Replace(sectionEnd, "-->")
 
             Return report
+        End Function
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="html"></param>
+        ''' <param name="relativeTo">working as wwwroot</param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function ResolveLocalFileLinks(html As String, relativeTo As String, Optional asDataUri As Boolean = False) As String
+            Dim links As String() = html _
+                .Matches("\s((src)|(href))\s*[=]\s*[""'].+?[""']") _
+                .Distinct _
+                .ToArray
+            Dim sb As New StringBuilder(html)
+            Dim target As NamedValue(Of String)
+            Dim resolved As String
+
+            For Each link As String In links
+                target = link.GetTagValue("=", trim:=" ""'" & vbTab)
+
+                If target.Value.FirstOrDefault = "/"c Then
+                    resolved = relativeTo & target.Value
+
+                    If asDataUri Then
+                        resolved = New DataURI(resolved).ToString
+                    End If
+
+                    sb.Replace(link, $" {target.Name}=""{resolved}""")
+                End If
+            Next
+
+            Return sb.ToString
         End Function
     End Module
 End Namespace

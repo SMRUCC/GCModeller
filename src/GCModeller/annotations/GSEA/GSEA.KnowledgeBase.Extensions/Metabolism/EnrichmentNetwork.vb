@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c4840edd80d66ca307e8c3392cff2dab, annotations\GSEA\GSEA.KnowledgeBase.Extensions\Metabolism\EnrichmentNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::310e9901e55bd5ee81673623af435fef, annotations\GSEA\GSEA.KnowledgeBase.Extensions\Metabolism\EnrichmentNetwork.vb"
 
     ' Author:
     ' 
@@ -45,4 +45,3 @@
 Public Class EnrichmentNetwork
 
 End Class
-

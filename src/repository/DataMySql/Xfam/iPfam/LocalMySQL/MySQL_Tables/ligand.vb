@@ -33,6 +33,9 @@
 
     ' Class ligand
     ' 
+    '     Properties: atom_end, atom_start, auto_ligand, chain, ligand_id
+    '                 pdb_id, residue
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ad11af0a671992cbf250f10f28950f31, CLI_tools\NCBI_tools\CLI\CLI.vb"
+﻿#Region "Microsoft.VisualBasic::b7a695423ece5b80db6c11921c33c9b8, CLI_tools\NCBI_tools\CLI\CLI.vb"
 
     ' Author:
     ' 
@@ -88,6 +88,7 @@ Imports Microsoft.VisualBasic.Scripting
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
+Imports Parallel.ThreadTask
 Imports SMRUCC.genomics.Assembly.NCBI
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -575,7 +576,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
     <Usage("/accid2taxid.Match /in <nt.parts.fasta/list.txt> /acc2taxid <acc2taxid.dmp/DIR> [/gb_priority /append.src /accid_grep <default=-> /out <acc2taxid_match.txt>]")>
     <Description("Creates the subset of the ultra-large accession to ncbi taxonomy id database.")>
     <Group(CLIGrouping.TaxonomyTools)>
-    <Argument("/accid_grep", True, CLITypes.String, PipelineTypes.undefined, AcceptTypes:={GetType(String)},
+    <ArgumentAttribute("/accid_grep", True, CLITypes.String, PipelineTypes.undefined, AcceptTypes:={GetType(String)},
               Description:="When the fasta title or the text line in the list is not an NCBI accession id, 
               then you needs this script for accession id grep operation.")>
     Public Function accidMatch(args As CommandLine) As Integer
@@ -665,7 +666,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
         Dim tasks$() =
             (ls - l - r - wildcards("*.fasta") <= [in]).Select(CLI).ToArray
 
-        Return App.SelfFolks(tasks, LQuerySchedule.AutoConfig(n))
+        Return BatchTasks.SelfFolks(tasks, LQuerySchedule.AutoConfig(n))
     End Function
 #End Region
 
@@ -680,13 +681,13 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
     ''' 
     <ExportAPI("/assign.fasta.taxonomy")>
     <Usage("/assign.fasta.taxonomy /in <database.fasta> /accession2taxid <accession2taxid.txt> /taxonomy <names.dmp/nodes.dmp> [/accid_grep <default=-> /append <data.csv> /summary.tsv /out <out.directory>]")>
-    <Argument("/accession2taxid", False, CLITypes.File, PipelineTypes.undefined, AcceptTypes:={GetType(String())},
+    <ArgumentAttribute("/accession2taxid", False, CLITypes.File, PipelineTypes.undefined, AcceptTypes:={GetType(String())},
               Description:="This mapping data file is usually a subset of the accession2taxid file, and comes from the ``/accid2taxid.Match`` command.")>
-    <Argument("/append", True, CLITypes.File, PipelineTypes.undefined, AcceptTypes:={GetType(EntityObject)},
+    <ArgumentAttribute("/append", True, CLITypes.File, PipelineTypes.undefined, AcceptTypes:={GetType(EntityObject)},
               Description:="If this parameter was presented, then additional data will append to the fasta title and the csv summary file. 
               This file should have a column named ``ID`` correspond to the ``accession_id``, 
               or a column named ``Species`` correspond to the ``species`` from NCBI taxonomy.")>
-    <Argument("/summary.tsv", True, CLITypes.Boolean, Description:="The output summary table file saved in tsv format.")>
+    <ArgumentAttribute("/summary.tsv", True, CLITypes.Boolean, Description:="The output summary table file saved in tsv format.")>
     Public Function AssignFastaTaxonomy(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim acc2taxid = Accession2Taxid.ReadFile(args <= "/accession2taxid").ToDictionary.FlatTable

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::78f969eaf23c6a84efb43aa907dadf4c, DataTools\Tools\AnnotationTool.vb"
+﻿#Region "Microsoft.VisualBasic::a01207b37da7da1ed46a985c449b7f0f, DataTools\Tools\AnnotationTool.vb"
 
     ' Author:
     ' 
@@ -33,9 +33,8 @@
 
     ' Class AnnotationTool
     ' 
+    '     Constructor: (+1 Overloads) Sub New
     '     Function: CreateAnnotationSourceMeta, InternalGetAnnotationSourceMeta, InvokeAnnotation, InvokeAnnotation_p
-    ' 
-    '     Sub: New
     '     Class MetaSource
     ' 
     '         Properties: AnnotationSource, OrganismSpecies

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::43a43935e77c937996b2b351e7d3a8dd, CLI_tools\eggHTS\CLI\Enrichment\DAVID.vb"
+﻿#Region "Microsoft.VisualBasic::ca413d32614b6dedf54e73f02559efac, CLI_tools\eggHTS\CLI\Enrichment\DAVID.vb"
 
     ' Author:
     ' 
@@ -76,7 +76,7 @@ Partial Module CLI
 
     <ExportAPI("/KEGG.enrichment.DAVID")>
     <Usage("/KEGG.enrichment.DAVID /in <david.csv> [/tsv /custom <ko00001.keg> /colors <default=Set1:c6> /size <default=1200,1000> /p.value <default=0.05> /tick 1 /out <out.png>]")>
-    <Argument("/colors", True, CLITypes.String, PipelineTypes.undefined,
+    <ArgumentAttribute("/colors", True, CLITypes.String, PipelineTypes.undefined,
               AcceptTypes:={GetType(String), GetType(String())},
               Description:="Change the default color profiles of the categories plots. Value can be a color profile name term or color name list that join by delimiter comma symbol:
               
@@ -119,7 +119,7 @@ Partial Module CLI
 
     <ExportAPI("/GO.enrichment.DAVID")>
     <Usage("/GO.enrichment.DAVID /in <DAVID.csv> [/tsv /go <go.obo> /colors <default=Set1:c6> /size <default=1200,1000> /tick 1 /p.value <0.05> /out <out.png>]")>
-    <Argument("/colors", True, CLITypes.String, PipelineTypes.undefined,
+    <ArgumentAttribute("/colors", True, CLITypes.String, PipelineTypes.undefined,
               AcceptTypes:={GetType(String), GetType(String())},
               Description:="Change the default color profiles of the categories plots. Value can be a color profile name term or color name list that join by delimiter comma symbol:
               

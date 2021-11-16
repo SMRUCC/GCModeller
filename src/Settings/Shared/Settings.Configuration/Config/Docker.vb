@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8b307cfb52db8d1332ce3c48adca6898, Shared\Settings.Configuration\Config\Docker.vb"
+﻿#Region "Microsoft.VisualBasic::209ea0c2e499e867f23ea71155d0982f, Shared\Settings.Configuration\Config\Docker.vb"
 
     ' Author:
     ' 

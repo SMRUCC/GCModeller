@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4648f6cbfd94309eb5e33af8c846fa62, CLI_tools\RegPrecise\CLI\Installer.vb"
+﻿#Region "Microsoft.VisualBasic::70f57ac99e7958965c051d6bdaa7d219, CLI_tools\RegPrecise\CLI\Installer.vb"
 
     ' Author:
     ' 
@@ -108,7 +108,7 @@ Partial Module CLI
     <ExportAPI("/Export.Regulators",
                Info:="Exports all of the fasta sequence of the TF regulator from the download RegPrecsie FASTA database.",
                Usage:="/Export.Regulators /imports <regprecise.downloads.DIR> /Fasta <regprecise.fasta> [/locus-out /out <out.fasta>]")>
-    <Argument("/locus-out", True,
+    <ArgumentAttribute("/locus-out", True,
                    Description:="Does the program saves a copy of the TF locus_tag list at the mean time of the TF fasta sequence export.")>
     Public Function ExportRegulators(args As CommandLine) As Integer
         Dim xmls As IEnumerable(Of String) = ls - l - r - wildcards("*.xml") << args + "/imports"

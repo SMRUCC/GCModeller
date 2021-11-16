@@ -19,3 +19,5 @@ node_modules
 /R#/demo/kegg/KEGG_maps.zip
 R#/demo/cytoscape/automation/result.cys
 R#/demo/cngb/bacterials.csv
+
+pkg/assembly

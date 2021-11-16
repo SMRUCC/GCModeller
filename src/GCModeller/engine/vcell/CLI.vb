@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::964888a2686e3d5e60c5a3b39ca00589, engine\vcell\CLI.vb"
+﻿#Region "Microsoft.VisualBasic::50a2d983f95099e7b4451920cc972f11, engine\vcell\CLI.vb"
 
     ' Author:
     ' 
@@ -48,14 +48,14 @@ Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.csv.IO.Linq
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Definitions
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Engine
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.ModelLoader
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine.Definitions
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine.ModelLoader
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.IO
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
 Imports vcellkit
 
 <CLI> Module CLI
@@ -74,13 +74,10 @@ Imports vcellkit
     <ExportAPI("/run")>
     <Usage("/run /model <model.gcmarkup> [/deletes <genelist> /time <default=100> /json /out <raw/result_directory>]")>
     <Description("Run GCModeller VirtualCell.")>
-    <Argument("/deletes", True, CLITypes.String,
+    <ArgumentAttribute("/deletes", True, CLITypes.String,
               AcceptTypes:={GetType(String())},
               Description:="The ``locus_tag`` id list that will removes from the genome, 
               use the comma symbol as delimiter. Or a txt file path for the gene id list.")>
-    <Argument("/csv", True, CLITypes.Boolean,
-              AcceptTypes:={GetType(Boolean)},
-              Description:="The output data format is csv table files.")>
     Public Function Run(args As CommandLine) As Integer
         Dim in$ = args <= "/model"
         Dim deletes As String() = args("/deletes").getDeletionList

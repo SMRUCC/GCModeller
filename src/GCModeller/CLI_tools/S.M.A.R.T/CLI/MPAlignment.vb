@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::53f5fbb94f9e299f007f9f4fdc2d9e44, CLI_tools\S.M.A.R.T\CLI\MPAlignment.vb"
+﻿#Region "Microsoft.VisualBasic::60a7e6ca11f226bd3a3c6a6040a55698, CLI_tools\S.M.A.R.T\CLI\MPAlignment.vb"
 
     ' Author:
     ' 
@@ -192,8 +192,8 @@ Partial Module CLI
     End Function
 
     <ExportAPI("--SelfAlign", Usage:="--SelfAlign /query <pfam-string.csv> /subject <subject.csv> /aln <mpalignment.csv> [/lstID <lstID.txt> /mp <0.65> /id <id>]")>
-    <Argument("/lstID", True, Description:="If this parameter is not empty, then the /aln parameter will be disable")>
-    <Argument("/id", True,
+    <ArgumentAttribute("/lstID", True, Description:="If this parameter is not empty, then the /aln parameter will be disable")>
+    <ArgumentAttribute("/id", True,
                           Description:="If this parameter is not null, then the record of this query or hits will be used to subset the alignment set.")>
     Public Function SelfAlign(args As CommandLine) As Integer
         Dim id As String = args("/id")

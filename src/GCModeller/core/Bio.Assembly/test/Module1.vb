@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::28bf8ab0c3cf7ac590993f110bca7dc9, core\Bio.Assembly\test\Module1.vb"
+﻿#Region "Microsoft.VisualBasic::28bf8ab0c3cf7ac590993f110bca7dc9, core\Bio.Assembly\Test\Module1.vb"
 
     ' Author:
     ' 

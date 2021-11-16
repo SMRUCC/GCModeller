@@ -46,7 +46,6 @@
 Imports System.Reflection
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Win32
 Imports SMRUCC.WebCloud.HTTPInternal.AppEngine.APIMethods
 Imports SMRUCC.WebCloud.HTTPInternal.Core
 
@@ -183,7 +182,7 @@ Namespace AppEngine
                 Dim msg As String = $"Could not found application entry point from {type.FullName}"
 
                 Call msg.__DEBUG_ECHO
-                Call ServicesLogs.WriteEntry(msg, MethodBase.GetCurrentMethod, EventLogEntryType.FailureAudit)
+                ' Call ServicesLogs.WriteEntry(msg, MethodBase.GetCurrentMethod, EventLogEntryType.FailureAudit)
                 Return Nothing
             End If
 

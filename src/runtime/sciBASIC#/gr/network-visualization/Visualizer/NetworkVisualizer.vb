@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::783de79d969a5486311c04117419425e, gr\network-visualization\Visualizer\NetworkVisualizer.vb"
+﻿#Region "Microsoft.VisualBasic::8a399df7d32d7c80e7f262e63b085943, gr\network-visualization\Visualizer\NetworkVisualizer.vb"
 
     ' Author:
     ' 
@@ -73,10 +73,9 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D.Text
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Imaging.Math2D
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.MIME.Markup.HTML
-Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
+Imports Microsoft.VisualBasic.MIME.Html
+Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports stdNum = System.Math
@@ -185,7 +184,8 @@ Public Module NetworkVisualizer
                               Optional convexHullScale! = 1.0125,
                               Optional convexHullCurveDegree As Single = 2,
                               Optional fillConvexHullPolygon As Boolean = True,
-                              Optional driver As Drivers = Drivers.Default) As GraphicsData
+                              Optional driver As Drivers = Drivers.Default,
+                              Optional ppi As Integer = 100) As GraphicsData
 
         Call GetType(NetworkVisualizer).Assembly _
             .FromAssembly _
@@ -234,7 +234,7 @@ Public Module NetworkVisualizer
                 .family = FontFace.MicrosoftYaHei,
                 .size = 12,
                 .style = FontStyle.Regular
-            }).GDIObject
+            }).GDIObject(ppi)
 
         Call "Initialize variables, done!".__INFO_ECHO
 
@@ -556,7 +556,7 @@ Public Module NetworkVisualizer
                      End Function) _
             .ToArray
         Dim colors As LoopArray(Of Color) = Designer.GetColors(hullPolygonGroups.Description Or "set1:c8".AsDefault)
-        Dim convexHullLabelFont As Font = CSSFont.TryParse(convexHullLabelFontCSS$)
+        Dim convexHullLabelFont As Font = CSSFont.TryParse(convexHullLabelFontCSS$).GDIObject(g.Dpi)
         Dim singleGroupKey As String = Nothing
 
         If hullPolygonGroups.Value.StringEmpty Then
@@ -671,10 +671,12 @@ Public Module NetworkVisualizer
             Dim w! = linkWidth(edge)
             Dim lineColor As Pen
 
-            If edge.data.color Is Nothing Then
+            If edge.data.style Is Nothing Then
                 lineColor = New Pen(defaultEdgeColor, w)
             Else
-                lineColor = New Pen(edge.data.color, w)
+                lineColor = New Pen(edge.data.style.Color, w) With {
+                    .DashStyle = edge.data.style.DashStyle
+                }
             End If
 
             With edge.data!interaction_type

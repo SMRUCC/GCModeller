@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5ea68b1fea99a9a11a54af19657eff93, ExperimentDesigner\Templates\AnalysisDesigner.vb"
+﻿#Region "Microsoft.VisualBasic::5ea68b1fea99a9a11a54af19657eff93, modules\ExperimentDesigner\Templates\AnalysisDesigner.vb"
 
     ' Author:
     ' 

@@ -1,51 +1,51 @@
 ﻿#Region "Microsoft.VisualBasic::67c08e37a636e1d4fd22702d8b2f3e3a, WebCloud\SMRUCC.HTTPInternal\Core\HttpProcessor.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class HttpProcessor
-    ' 
-    '         Properties: _404Page, http_method, http_protocol_versionstring, http_url, httpHeaders
-    '                     IsWWWRoot, Out
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: __streamReadLine, parseRequest, ToString, writeTemp
-    ' 
-    '         Sub: __processInvoker, __writeFailure, __writeSuccess, (+2 Overloads) Dispose, handleGETRequest
-    '              HandlePOSTRequest, Process, readHeaders, WriteData, writeFailure
-    '              WriteLine, (+2 Overloads) writeSuccess
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class HttpProcessor
+' 
+'         Properties: _404Page, http_method, http_protocol_versionstring, http_url, httpHeaders
+'                     IsWWWRoot, Out
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'         Function: __streamReadLine, parseRequest, ToString, writeTemp
+' 
+'         Sub: __processInvoker, __writeFailure, __writeSuccess, (+2 Overloads) Dispose, handleGETRequest
+'              HandlePOSTRequest, Process, readHeaders, WriteData, writeFailure
+'              WriteLine, (+2 Overloads) writeSuccess
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -53,11 +53,12 @@ Imports System.IO
 Imports System.Net.Sockets
 Imports System.Runtime.CompilerServices
 Imports System.Threading
+Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
-Imports Microsoft.VisualBasic.Net.Http
-Imports sys = System.Math
+Imports stdNum = System.Math
 
 ' offered to the public domain for any use with no restriction
 ' and also with no warranty of any kind, please enjoy. - David Jeske. 
@@ -340,7 +341,7 @@ Namespace Core
             ' Call Console.WriteLine("get post data start")
 
             Dim content_len As Integer = 0
-            Dim handle$ = App.GetAppSysTempFile(, sessionID:=App.PID)
+            Dim handle$ = TempFileSystem.GetAppSysTempFile(, sessionID:=App.PID)
 
             If Me.httpHeaders.ContainsKey(ContentLength) Then
                 content_len = writeTemp(handle)
@@ -369,7 +370,7 @@ Namespace Core
                     ' Console.WriteLine("starting Read, to_read={0}", to_read)
                     ' Console.WriteLine("read finished, numread={0}", numread)
 
-                    If (numread = _inputStream.Read(buf, 0, sys.Min(BUF_SIZE, to_read))) = 0 Then
+                    If (numread = _inputStream.Read(buf, 0, stdNum.Min(BUF_SIZE, to_read))) = 0 Then
                         If to_read = 0 Then
                             Exit While
                         Else

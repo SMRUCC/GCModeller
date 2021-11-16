@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::29ee22440d8886b479070d2246b76c6f, CLI_tools\KEGG\CLI\CLI.vb"
+﻿#Region "Microsoft.VisualBasic::492b4d5354a3fff440469765af9395ad, CLI_tools\KEGG\CLI\CLI.vb"
 
     ' Author:
     ' 
@@ -149,7 +149,9 @@ Susumu Goto", Year:=2000, Volume:=28, Issue:="1",
                   Description:="KEGG web services API tools.")>
 <CLI> Module CLI
 
-    <ExportAPI("/blastn", Usage:="/blastn /query <query.fasta> [/out <outDIR>]", Info:="Blastn analysis of your DNA sequence on KEGG server for the functional analysis.")>
+    <ExportAPI("/blastn")>
+    <Usage("/blastn /query <query.fasta> [/out <outDIR>]")>
+    <Description("Blastn analysis of your DNA sequence on KEGG server for the functional analysis.")>
     Public Function Blastn(args As CommandLine) As Integer
         Dim queryFile As String = args("/query")
         Dim out As String = args.GetValue("/out", queryFile.TrimSuffix)
@@ -164,10 +166,9 @@ Susumu Goto", Year:=2000, Volume:=28, Issue:="1",
         Return 0
     End Function
 
-    <ExportAPI("/Download.Ortholog",
-               Info:="Downloads the KEGG gene ortholog annotation data from the web server.",
-               Usage:="/Download.Ortholog -i <gene_list_file.txt/gbk> -export <exportedDIR> [/gbk /sp <KEGG.sp>]",
-               Example:="")>
+    <ExportAPI("/Download.Ortholog")>
+    <Description("Downloads the KEGG gene ortholog annotation data from the web server.")>
+    <Usage("/Download.Ortholog -i <gene_list_file.txt/gbk> -export <exportedDIR> [/gbk /sp <KEGG.sp>]")>
     Public Function DownloadOrthologs(args As CommandLine) As Integer
         Dim GBK As Boolean = args.GetBoolean("/gbk")
         Dim GeneList As String()
@@ -265,7 +266,7 @@ Susumu Goto", Year:=2000, Volume:=28, Issue:="1",
     ''' <returns></returns>
     ''' <remarks></remarks>
     <ExportAPI("-Table.Create", Usage:="-table.create -i <input_dir> -o <out_csv>")>
-    <Argument("-i", Description:="This parameter specific the source directory input of the download data.")>
+    <ArgumentAttribute("-i", Description:="This parameter specific the source directory input of the download data.")>
     Public Function CreateTABLE(argvs As CommandLine) As Integer
         Dim Inputs As String() = FileIO.FileSystem.GetFiles(argvs("-i"), FileIO.SearchOption.SearchTopLevelOnly, "*.csv").ToArray
         Dim GeneData = (From path As String
@@ -540,7 +541,7 @@ Susumu Goto", Year:=2000, Volume:=28, Issue:="1",
     <ExportAPI("/Download.Fasta")>
     <Usage("/Download.Fasta /query <querySource.txt> [/out <outDIR> /source <existsDIR>]")>
     <Description("Download fasta sequence from KEGG database web api.")>
-    <Argument("/query", False, CLITypes.File, PipelineTypes.std_in,
+    <ArgumentAttribute("/query", False, CLITypes.File, PipelineTypes.std_in,
               AcceptTypes:={GetType(QuerySource)},
               Description:="This file should contains the locus_tag id list for download sequence.")>
     Public Function DownloadSequence(args As CommandLine) As Integer

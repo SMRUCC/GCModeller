@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9c35d5276f524f4d7b612a4adb605d66, RNA-Seq\Rockhopper\API\TranscriptView.vb"
+﻿#Region "Microsoft.VisualBasic::d91fd06830c06eb1b6ab15392350d16b, RNA-Seq\Rockhopper\API\TranscriptView.vb"
 
     ' Author:
     ' 

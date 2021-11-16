@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b6bd1230cc143397396275a97baa8f6a, RNA-Seq\Assembler\.NET Bio\Assembler.vb"
+﻿#Region "Microsoft.VisualBasic::df05c674fca3480428adbe356e17b55a, RNA-Seq\Assembler\.NET Bio\Assembler.vb"
 
     ' Author:
     ' 

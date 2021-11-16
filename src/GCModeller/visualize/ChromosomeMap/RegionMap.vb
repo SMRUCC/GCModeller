@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4d22dda5cd16a18c311b28aef22e08e1, visualize\ChromosomeMap\RegionMap.vb"
+﻿#Region "Microsoft.VisualBasic::0c61a18c2d5047625d82d7fc4cb416bc, visualize\ChromosomeMap\RegionMap.vb"
 
     ' Author:
     ' 
@@ -43,7 +43,7 @@ Imports System.Drawing
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver
-Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
+Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports SMRUCC.genomics.Visualize.ChromosomeMap.DrawingModels
 
@@ -72,13 +72,14 @@ Public Module RegionMap
                          Optional referenceLineStroke$ = "stroke: black; stroke-width: 8px; stroke-dash: solid;",
                          Optional drawLocusTag As Boolean = False,
                          Optional drawShapeStroke As Boolean = False,
-                         Optional legendFontCSS$ = CSSFont.Win7Large) As GraphicsData
+                         Optional legendFontCSS$ = CSSFont.Win7Large,
+                         Optional dpi As Integer = 100) As GraphicsData
 
         Dim startLength% = 0
         Dim preRight#
         Dim level%
-        Dim locusTagFont As Font = CSSFont.TryParse(locusTagFontCSS)
-        Dim legendFont As Font = CSSFont.TryParse(legendFontCSS)
+        Dim locusTagFont As Font = CSSFont.TryParse(locusTagFontCSS).GDIObject(dpi)
+        Dim legendFont As Font = CSSFont.TryParse(legendFontCSS).GDIObject(dpi)
         Dim plotInternal =
             Sub(ByRef g As IGraphics, region As GraphicsRegion)
                 Dim width = region.Width

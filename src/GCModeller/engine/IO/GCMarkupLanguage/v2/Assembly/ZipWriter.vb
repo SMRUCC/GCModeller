@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::438990b7b232d3250614d4aa24625913, engine\IO\GCMarkupLanguage\v2\Assembly\ZipWriter.vb"
+﻿#Region "Microsoft.VisualBasic::13b2e044f1db9b0357dc1caa4cd7d97f, engine\IO\GCMarkupLanguage\v2\Assembly\ZipWriter.vb"
 
     ' Author:
     ' 
@@ -44,6 +44,7 @@
 
 Imports System.IO.Compression
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.ApplicationServices.Zip
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
@@ -53,7 +54,7 @@ Namespace v2
     Module ZipWriter
 
         Public Function WriteZip(vcell As VirtualCell, zip As String) As Boolean
-            Dim folderTmp As String = App.GetAppSysTempFile("", App.PID, RandomASCIIString(8, skipSymbols:=True))
+            Dim folderTmp As String = TempFileSystem.GetAppSysTempFile("", App.PID, RandomASCIIString(8, skipSymbols:=True))
 
             Call vcell.taxonomy.GetJson.SaveTo($"{folderTmp}/{NameOf(VirtualCell.taxonomy)}.json")
             Call vcell.properties.GetJson.SaveTo($"{folderTmp}/{NameOf(VirtualCell.properties)}.json")

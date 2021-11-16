@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e27b9426ac5b7fa8079c1545a27fb4b4, CLI_tools\RNA-seq\CLI\gast.vb"
+﻿#Region "Microsoft.VisualBasic::082cca600b4de2f795cb140d72910f3d, CLI_tools\RNA-seq\CLI\gast.vb"
 
     ' Author:
     ' 
@@ -56,8 +56,8 @@ Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Parallel.Linq
-Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
+Imports Parallel.ThreadTask
 Imports SMRUCC.genomics.Analysis.Metagenome
 Imports SMRUCC.genomics.Analysis.Metagenome.gast
 Imports SMRUCC.genomics.Metagenomics
@@ -98,7 +98,7 @@ Partial Module CLI
             Call arg.__DEBUG_ECHO
         Next
 
-        Return App.SelfFolks(CLI, LQuerySchedule.Recommended_NUM_THREADS)
+        Return BatchTasks.SelfFolks(CLI, LQuerySchedule.Recommended_NUM_THREADS)
     End Function
 
     Const Interval As String = "NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN"
@@ -190,7 +190,7 @@ Partial Module CLI
                 For Each OTU As NamedValue(Of String()) In OTUs
                     table += New OTUData With {
                         .OTU = OTU.Name,
-                        .Data = New Dictionary(Of String, String) From {
+                        .data = New Dictionary(Of String, String) From {
                             {"cluster", OTU.Value.JoinBy("; ")}
                         }
                     }

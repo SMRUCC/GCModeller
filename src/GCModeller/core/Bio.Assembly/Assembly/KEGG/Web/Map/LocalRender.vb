@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9fd268d5bcb14655eefedaea27176bb4, core\Bio.Assembly\Assembly\KEGG\Web\Map\LocalRender.vb"
+﻿#Region "Microsoft.VisualBasic::7397222dd74162558d71c602f4602d17, core\Bio.Assembly\Assembly\KEGG\Web\Map\LocalRender.vb"
 
     ' Author:
     ' 
@@ -288,6 +288,12 @@ Namespace Assembly.KEGG.WebServices
                     Continue For
                 End If
 
+                Dim rectBrush As Brush = id.Value _
+                    .TranslateColor _
+                    .Alpha(100) _
+                    .DoCall(Function(c)
+                                Return New SolidBrush(c)
+                            End Function)
                 Dim brush As Brush = id.Value.GetBrush
 
                 With shapes(id.Name)
@@ -295,12 +301,18 @@ Namespace Assembly.KEGG.WebServices
                     Dim strSize = g.MeasureString(name, font)
 
                     For Each shape As Area In .Value
-                        Dim rect As RectangleF = shape.Rectangle _
-                            .Scale(scale) _
-                            .Scale(scaleCircle)
+                        If shape.shape = "rect" Then
+                            Dim rect As RectangleF = shape.Rectangle
 
-                        g.FillPie(brush, rect, 0, 360)
-                        ' g.DrawCircle(rect.Centre, rect.Width, Pens.Black, fill:=False)
+                            Call g.FillRectangle(rectBrush, rect)
+                        Else
+                            Dim rect As RectangleF = shape.Rectangle _
+                                .Scale(scale) _
+                                .Scale(scaleCircle)
+
+                            Call g.FillPie(brush, rect, 0, 360)
+                            ' Call g.DrawCircle(rect.Centre, rect.Width, Pens.Black, fill:=False)
+                        End If
                     Next
                 End With
             Next

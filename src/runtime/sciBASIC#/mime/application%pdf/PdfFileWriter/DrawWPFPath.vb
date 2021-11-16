@@ -1,4 +1,76 @@
-﻿''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+﻿#Region "Microsoft.VisualBasic::17fe975436a0c33229024a3f96b26c7c, mime\application%pdf\PdfFileWriter\DrawWPFPath.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Enum YAxisDirection
+    ' 
+    '     Down, Up
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    ' Enum FillRule
+    ' 
+    '     EvenOdd, NonZero
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    ' Class DrawWPFPath
+    ' 
+    '     Properties: BlendMode, BrushOpacity, DashArray, DashPhase, FillRule
+    '                 LineCap, LineJoin, MiterLimit, PathBBoxHeight, PathBBoxWidth
+    '                 PathBBoxX, PathBBoxY, PathYAxis, PenOpacity, PenWidth
+    ' 
+    '     Constructor: (+2 Overloads) Sub New
+    ' 
+    '     Function: PathToDrawing, SizeToDrawing
+    ' 
+    '     Sub: BuildPath, Draw, ResetBrush, ResetPen, SetAspectRatio
+    '          (+7 Overloads) SetBrush, (+2 Overloads) SetPen, SetPenWidth, SetTransformation, UseCurrectBrush
+    '          UseCurrectPen
+    '     Class UseCurrent
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 '
 '	PdfFileWriter
 '	PDF File Write C# Class Library.
@@ -79,19 +151,23 @@ Public Class DrawWPFPath
     ''' <summary>
     ''' Input path bounding box y axis direction (default is down)
     ''' </summary>
+    Dim _PathYAxis As YAxisDirection
     ''' <summary>
     ''' Input path bounding box left position
     ''' </summary>
+    Dim _PathBBoxX As Double
     ''' <summary>
     ''' Input path bounding box top (y axis down) or bottom (y axis up) position
     ''' </summary>
+    Dim _PathBBoxY As Double
     ''' <summary>
     ''' Input path bounding box width
     ''' </summary>
+    Dim _PathBBoxWidth As Double
     ''' <summary>
     ''' Input path bounding box height
     ''' </summary>
-    Private _PathYAxis As YAxisDirection, _PathBBoxX As Double, _PathBBoxY As Double, _PathBBoxWidth As Double, _PathBBoxHeight As Double
+    Dim _PathBBoxHeight As Double
     ''' <summary>
     ''' Fill rule
     ''' </summary>
@@ -725,4 +801,3 @@ Public Class DrawWPFPath
         Return New SizeD(stdNum.Abs(ScaleX) * PathSize.Width, stdNum.Abs(ScaleY) * PathSize.Height)
     End Function
 End Class
-

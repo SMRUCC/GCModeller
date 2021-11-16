@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9e87f7f606ac1743ccde678b05434435, analysis\RNA-Seq\Toolkits.RNA-Seq\Correlations\MatrixAPI.vb"
+﻿#Region "Microsoft.VisualBasic::162bb935270ed3ad2f2b575d3c787d40, analysis\RNA-Seq\Toolkits.RNA-Seq\Correlations\MatrixAPI.vb"
 
     ' Author:
     ' 
@@ -271,7 +271,7 @@ Public Module MatrixAPI
             Call ChunkBuffer.AddRange(Line.data)
         Next
         Dim avg = ChunkBuffer.Average
-        Dim std = ChunkBuffer.StdError
+        Dim std = ChunkBuffer.SD
 
         Call FileIO.FileSystem.WriteAllText("./debug.log", String.Format("Average:= {0};   StdError:= {1};" & vbCrLf, avg, std), append:=True)
 

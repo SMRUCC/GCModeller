@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0af73256bed2c212a8a132af1a013e40, Data_science\Mathematica\Math\Math\Scripting\ParameterCompute.vb"
+﻿#Region "Microsoft.VisualBasic::d5121dbd8630bbdc719f8e610ad9b8ce, Data_science\Mathematica\Math\Math\Scripting\ParameterCompute.vb"
 
     ' Author:
     ' 
@@ -102,13 +102,13 @@ Namespace Scripting
             ' 在这里已经计算出表达式的值了，下面只需要将值赋值回原始的参数变量就好了
             Dim values As Dictionary(Of String, Double) = expressions.Evaluate(caller, strings)
             Dim unaryExpression As NewArrayExpression = DirectCast(array.Body, NewArrayExpression)
-            Dim arrayData As UnaryExpression() = unaryExpression _
+            Dim arrayData As Expressions.UnaryExpression() = unaryExpression _
                 .Expressions _
-                .Select(Function(e) DirectCast(e, UnaryExpression)) _
+                .Select(Function(e) DirectCast(e, Expressions.UnaryExpression)) _
                 .ToArray
             Dim getValue As Func(Of String, String) = values.GetValue()
 
-            For Each expr As UnaryExpression In arrayData
+            For Each expr As Expressions.UnaryExpression In arrayData
                 Dim member = DirectCast(expr.Operand, MemberExpression)
                 Dim constantExpression As ConstantExpression = DirectCast(member.Expression, ConstantExpression)
                 Dim name As String = member.Member.Name.Replace("$VB$Local_", "")

@@ -1,41 +1,41 @@
-﻿#Region "Microsoft.VisualBasic::c493b7de171cbbf6398bac1e6b5b99fe, mime\application%json\Serializer\Deserializer.vb"
+﻿#Region "Microsoft.VisualBasic::fc18ec63d6f7159a0e7a591ebcb90eb7, mime\application%json\Serializer\Deserializer.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-' Module Deserializer
-' 
-'     Function: createArray, createObject, CreateObject, createVariant
-' 
-' /********************************************************************************/
+    ' Module Deserializer
+    ' 
+    '     Function: activate, createArray, createObject, (+2 Overloads) CreateObject, createVariant
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -44,6 +44,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.MIME.application.json.Javascript
 Imports Microsoft.VisualBasic.Scripting.Runtime
+Imports any = Microsoft.VisualBasic.Scripting
 
 Public Module Deserializer
 
@@ -98,7 +99,7 @@ Public Module Deserializer
     End Function
 
     <Extension>
-    Private Function createArray(json As JsonArray, parent As ObjectSchema, elementType As Type) As Object
+    Friend Function createArray(json As JsonArray, parent As ObjectSchema, elementType As Type) As Object
         Dim array As Array = Array.CreateInstance(elementType, json.Length)
         Dim obj As Object
         Dim element As JsonElement
@@ -158,15 +159,21 @@ Public Module Deserializer
         Dim addMethod As MethodInfo = graph.addMethod
         Dim writers As IReadOnlyDictionary(Of String, PropertyInfo) = graph.writers
         Dim writer As PropertyInfo
+        Dim innerVal As Object
 
         For Each [property] As NamedValue(Of JsonElement) In json
             If writers.ContainsKey([property].Name) Then
                 writer = writers([property].Name)
-                writer.SetValue(obj, [property].Value.CreateObject(parent:=graph, writer.PropertyType))
+
+                If writer.CanWrite Then
+                    innerVal = [property].Value.CreateObject(parent:=graph, writer.PropertyType)
+                    writer.SetValue(obj, innerVal)
+                End If
             ElseIf graph.isTable AndAlso Not addMethod Is Nothing Then
+                innerVal = [property].Value.CreateObject(parent:=graph, graph.valueType)
                 inputs = {
-                    Scripting.CTypeDynamic([property].Name, graph.keyType),
-                    [property].Value.CreateObject(parent:=graph, graph.valueType)
+                    any.CTypeDynamic([property].Name, graph.keyType),
+                    innerVal
                 }
                 addMethod.Invoke(obj, inputs)
             Else

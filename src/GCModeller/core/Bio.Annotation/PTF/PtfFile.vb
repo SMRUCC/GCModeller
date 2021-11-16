@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::25cb5317c135bab6cc37b92fe76d0f05, core\Bio.Annotation\PTF\PtfFile.vb"
+﻿#Region "Microsoft.VisualBasic::3c0f574e40fbcdfa202a5debff83c5f0, core\Bio.Annotation\PTF\PtfFile.vb"
 
     ' Author:
     ' 
@@ -35,7 +35,7 @@
     ' 
     '         Properties: attributes, proteins
     ' 
-    '         Function: GenericEnumerator, GetEnumerator, Load, ReadAnnotations, (+2 Overloads) Save
+    '         Function: GenericEnumerator, GetEnumerator, (+2 Overloads) Load, ReadAnnotations, (+2 Overloads) Save
     '                   (+2 Overloads) ToString
     ' 
     '         Sub: WriteStream
@@ -67,7 +67,7 @@ Namespace Ptf
         ' # time: ...
         ' # ...
 
-        Public Property attributes As Dictionary(Of String, String)
+        Public Property attributes As Dictionary(Of String, String())
         Public Property proteins As ProteinAnnotation()
 
         Public Overrides Function ToString() As String
@@ -81,7 +81,16 @@ Namespace Ptf
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function Load(file As String) As PtfFile
-            Return Document.ParseDocument(file)
+            Using reader As StreamReader = file.OpenReader
+                Return Document.ParseDocument(reader)
+            End Using
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function Load(file As Stream) As PtfFile
+            Using reader As New StreamReader(file)
+                Return Document.ParseDocument(reader)
+            End Using
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -89,10 +98,12 @@ Namespace Ptf
             Return Document.IterateAnnotations(file)
         End Function
 
-        Public Shared Sub WriteStream(annotation As IEnumerable(Of ProteinAnnotation), file As TextWriter, Optional attributes As Dictionary(Of String, String) = Nothing)
+        Public Shared Sub WriteStream(annotation As IEnumerable(Of ProteinAnnotation), file As TextWriter, Optional attributes As Dictionary(Of String, String()) = Nothing)
             If Not attributes Is Nothing Then
                 For Each key As String In attributes.Keys
-                    Call file.WriteLine($"# {key}: {attributes(key)}")
+                    For Each strVal As String In attributes(key)
+                        Call file.WriteLine($"# {key}: {strVal}")
+                    Next
                 Next
 
                 Call file.WriteLine()

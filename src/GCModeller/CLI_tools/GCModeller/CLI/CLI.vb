@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9655b08dbaeb6f66b965c6aabd613c37, CLI_tools\GCModeller\CLI\CLI.vb"
+﻿#Region "Microsoft.VisualBasic::2adceee91e65dae572eb96ccdb821088, CLI_tools\GCModeller\CLI\CLI.vb"
 
     ' Author:
     ' 
@@ -229,7 +229,7 @@ Public Module CLI
                Info:="Tools that works on the text files merge operation. This tool is usually used for merge of the fasta files into a larger fasta file.",
                Usage:="/Merge.Files /in <in.DIR> [/trim /ext <*.txt> /encoding <ascii> /out <out.txt>]")>
     <Group(CLIGrouping.GCModellerAppTools)>
-    <Argument("/encoding", True, CLITypes.String,
+    <ArgumentAttribute("/encoding", True, CLITypes.String,
               AcceptTypes:={GetType(Encodings)},
               Description:="Specific the output text file encoding value, default is ASCII encoding. Fasta file merge must be ASCII encoding output")>
     Public Function FileMerges(args As CommandLine) As Integer

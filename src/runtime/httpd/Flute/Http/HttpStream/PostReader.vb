@@ -1,48 +1,48 @@
 ﻿#Region "Microsoft.VisualBasic::ae883b54063cf84ffc537fe9861fd14c, WebCloud\SMRUCC.HTTPInternal\Core\HttpRequest\POSTReader\PostReader.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class PostReader
-    ' 
-    '         Properties: ContentEncoding, ContentType, Files, Form, InputStream
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: GetParameter, GetSubStream
-    ' 
-    '         Sub: loadjQueryPOST, loadMultiPart, LoadMultiPart
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class PostReader
+' 
+'         Properties: ContentEncoding, ContentType, Files, Form, InputStream
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'         Function: GetParameter, GetSubStream
+' 
+'         Sub: loadjQueryPOST, loadMultiPart, LoadMultiPart
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -154,28 +154,26 @@ Namespace Core.HttpStream
                     }
 
                     _Objects = json.LoadJSON(Of Dictionary(Of String, Object))(knownTypes:=knows)
+                ElseIf ContentType = "application/x-www-form-urlencoded" Then
+                    ' probably is a jquery post
+                    Dim byts As Byte() = inputStream _
+                        .PopulateBlocks _
+                        .IteratesALL _
+                        .ToArray
+                    Dim s As String = ContentEncoding.GetString(byts)
+
+                    _Form = s.PostUrlDataParser(toLower:=False)
                 Else
-                    If inputStream.Length >= 2048 Then
-                        ' 是一个单独的文件
-                        Dim [sub] As New HttpPostedFile(
-                            fileName,
-                            ContentType,
-                            inputStream,
-                            Scan0,
-                            inputStream.Length
-                        )
+                    ' 是一个单独的文件
+                    Dim [sub] As New HttpPostedFile(
+                        fileName,
+                        ContentType,
+                        inputStream,
+                        Scan0,
+                        inputStream.Length
+                    )
 
-                        files("file") = New List(Of HttpPostedFile) From {[sub]}
-                    Else
-                        ' probably is a jquery post
-                        Dim byts As Byte() = inputStream _
-                            .PopulateBlocks _
-                            .IteratesALL _
-                            .ToArray
-                        Dim s As String = ContentEncoding.GetString(byts)
-
-                        _Form = s.PostUrlDataParser
-                    End If
+                    files("file") = New List(Of HttpPostedFile) From {[sub]}
                 End If
             End Using
         End Sub

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e57d9b5f14b87029f27013fdde42e8eb, data\RegulonDatabase\Regprecise\RegpreciseBBHAPI.vb"
+﻿#Region "Microsoft.VisualBasic::571e85eec965520f54d5a10987d00757, data\RegulonDatabase\Regprecise\RegpreciseBBHAPI.vb"
 
     ' Author:
     ' 
@@ -189,7 +189,7 @@ Namespace Regprecise
                       Select New RegpreciseMPBBH With {
                           .HitName = bbhReg.HitName,
                           .QueryName = bbhReg.QueryName,
-                          .RegpreciseTfbsIds = ids
+                          .Tfbs = ids
                       }
 
             Return LQuery
@@ -265,16 +265,16 @@ Namespace Regprecise
             End If
 
             If Not RegpreciseRegulator Is Nothing Then
-                MatchedItem.RegprecisePhenotypeAssociation = RegpreciseRegulator.biological_process.JoinBy("; ")
-                MatchedItem.Effectors = If(String.IsNullOrEmpty(RegpreciseRegulator.effector), Nothing, Strings.Split(RegpreciseRegulator.effector, "; "))
+                MatchedItem.pathway = RegpreciseRegulator.biological_process.JoinBy("; ")
+                MatchedItem.effectors = If(String.IsNullOrEmpty(RegpreciseRegulator.effector), Nothing, Strings.Split(RegpreciseRegulator.effector, "; "))
                 MatchedItem.Family = RegpreciseRegulator.family
-                MatchedItem.RegpreciseTfbsIds = (From site In RegpreciseRegulator.regulatorySites Select String.Join(":", site.locus_tag, site.position)).ToArray
-                MatchedItem.RegulationEffects = RegpreciseRegulator.regulationMode
+                MatchedItem.Tfbs = (From site In RegpreciseRegulator.regulatorySites Select String.Join(":", site.locus_tag, site.position)).ToArray
+                MatchedItem.regulationMode = RegpreciseRegulator.regulationMode
             Else
                 Dim FastaRegulatorRecord = GetFastaRecord(RegulatorId)
                 If Not FastaRegulatorRecord Is Nothing Then
                     MatchedItem.Family = FastaRegulatorRecord.Family
-                    MatchedItem.RegpreciseTfbsIds = FastaRegulatorRecord.Sites
+                    MatchedItem.Tfbs = FastaRegulatorRecord.Sites
                 End If
             End If
 
@@ -326,8 +326,8 @@ Namespace Regprecise
 
         Private Function __applyProperty(RegpreciseTF As Regprecise.Regulator, MatchedItem As RegpreciseMPBBH) As RegpreciseMPBBH
             If RegpreciseTF IsNot Nothing Then
-                MatchedItem.RegprecisePhenotypeAssociation = RegpreciseTF.biological_process.JoinBy("; ")
-                MatchedItem.Effectors = Strings.Split(RegpreciseTF.effector, "; ")
+                MatchedItem.pathway = RegpreciseTF.biological_process.JoinBy("; ")
+                MatchedItem.effectors = Strings.Split(RegpreciseTF.effector, "; ")
                 MatchedItem.Family = RegpreciseTF.family
             End If
 

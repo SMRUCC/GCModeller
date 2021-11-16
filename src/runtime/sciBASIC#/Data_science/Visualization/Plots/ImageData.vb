@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a5edf9acba440d4bd079aada56b8ee60, Data_science\Visualization\Plots\ImageData.vb"
+﻿#Region "Microsoft.VisualBasic::44df1138dae7e0401ed8b4b74deddf2a, Data_science\Visualization\Plots\ImageData.vb"
 
     ' Author:
     ' 
@@ -85,12 +85,12 @@ Public Module ImageDataExtensions
     <Extension>
     Public Function Image2DMap(img As Image, Optional steps% = 1) As GraphicsData
         Dim color = img.PointZProvider
-        Dim xrange As DoubleRange = $"0 -> {img.Width}"
-        Dim yrange As DoubleRange = $"0 -> {img.Height}"
+        Dim xrange As DoubleRange = DoubleRange.TryParse($"0 -> {img.Width}")
+        Dim yrange As DoubleRange = DoubleRange.TryParse($"0 -> {img.Height}")
 
-        Return Contour.Plot(
+        Return Contour.HeatMap.Plot(
             color, xrange, yrange,
-            xsteps:=steps, ysteps:=steps, unit:=1, scale:=3,
+            xsteps:=steps, ysteps:=steps, unit:=1,
             colorMap:="Jet",
             legendTitle:="GrayScale Heatmap")
     End Function
@@ -98,8 +98,8 @@ Public Module ImageDataExtensions
     <Extension>
     Public Function Image3DMap(img As Image, camera As Camera, Optional steps% = 1) As GraphicsData
         Dim Z = img.SurfaceProvider
-        Dim xrange As DoubleRange = $"0 -> {img.Width}"
-        Dim yrange As DoubleRange = $"0 -> {img.Height}"
+        Dim xrange As DoubleRange = DoubleRange.TryParse($"0 -> {img.Width}")
+        Dim yrange As DoubleRange = DoubleRange.TryParse($"0 -> {img.Height}")
 
         Return Plot3D.ScatterHeatmap.Plot(
             Z, xrange, yrange,

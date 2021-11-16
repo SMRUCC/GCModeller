@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ebe47214ce59e2037fffe1277f1ba2b4, CLI_tools\Map\CLI\CLI.vb"
+﻿#Region "Microsoft.VisualBasic::512e9ce179a38e3c5e9b1083befd81e8, CLI_tools\Map\CLI\CLI.vb"
 
     ' Author:
     ' 
@@ -72,7 +72,7 @@ Imports SMRUCC.genomics.Visualize.Extensions
     <ExportAPI("--Draw.ChromosomeMap",
                Info:="Drawing the chromosomes map from the PTT object as the basically genome information source.",
                Usage:="--Draw.ChromosomeMap /ptt <genome.ptt> [/conf <config.inf> /out <dir.export> /COG <cog.csv>]")>
-    <Argument("/COG", True, CLITypes.File,
+    <ArgumentAttribute("/COG", True, CLITypes.File,
               AcceptTypes:={GetType(MyvaCOG)},
               Description:="The gene object color definition, you can using this parameter to overrides the cog definition in the PTT file.")>
     Public Function DrawingChrMap(args As CommandLine) As Integer

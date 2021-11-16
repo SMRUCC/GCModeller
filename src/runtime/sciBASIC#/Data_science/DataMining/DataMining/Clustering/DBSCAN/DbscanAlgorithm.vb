@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bf1eb00ddc581674928d35393cd1e3e8, Data_science\DataMining\DataMining\Clustering\DBSCAN\DbscanAlgorithm.vb"
+﻿#Region "Microsoft.VisualBasic::e42b09b4627d054b75ba6e7b4da14f00, Data_science\DataMining\DataMining\Clustering\DBSCAN\DbscanAlgorithm.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,15 @@
     '     Class DbscanAlgorithm
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: ComputeClusterDBSCAN, RegionQuery
-    ' 
-    '         Sub: ExpandCluster
+    '         Function: ComputeClusterDBSCAN, IteratesAllPoints
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Language
 
 Namespace DBSCAN
 
@@ -60,15 +57,16 @@ Namespace DBSCAN
     ''' </remarks>
     Public Class DbscanAlgorithm(Of T)
 
-        ReadOnly _metricFunc As Func(Of T, T, Double)
-        ReadOnly _full As Boolean
+        Friend ReadOnly _metricFunc As Func(Of T, T, Double)
+        Friend ReadOnly _full As Boolean
 
         ''' <summary>
         ''' Takes metric function to compute distances between dataset items T
         ''' </summary>
         ''' <param name="metricFunc"></param>
         ''' <param name="full">
-        ''' A logical option for indicates that evaluate all neighbor points or not for test and create cluster members
+        ''' A logical option for indicates that evaluate all neighbor points 
+        ''' or not for test and create cluster members
         ''' </param>
         Public Sub New(metricFunc As Func(Of T, T, Double), Optional full As Boolean = True)
             _metricFunc = metricFunc
@@ -81,105 +79,99 @@ Namespace DBSCAN
         ''' <param name="allPoints">Dataset</param>
         ''' <param name="epsilon">Desired region ball radius</param>
         ''' <param name="minPts">Minimum number of points to be in a region</param>
+        ''' <param name="densityCut">
+        ''' value in range of ``[0,1]``. a percentage location for create threshold of the density values
+        ''' </param>
         ''' <returns>sets of clusters, renew the parameter</returns>
+        ''' 
         Public Function ComputeClusterDBSCAN(allPoints As T(),
                                              epsilon As Double,
                                              minPts As Integer,
-                                             Optional ByRef isseed As Integer() = Nothing) As NamedCollection(Of T)()
+                                             Optional ByRef is_seed As Integer() = Nothing,
+                                             Optional filterNoise As Boolean = True,
+                                             Optional densityCut As Double = -1) As NamedCollection(Of T)()
 
             Dim allPointsDbscan As DbscanPoint(Of T)() = allPoints _
-                .Select(Function(x) New DbscanPoint(Of T)(x)) _
+                .Select(Function(x, i)
+                            Return New DbscanPoint(Of T)(x) With {
+                                .ID = (i + 1).ToHexString
+                            }
+                        End Function) _
                 .ToArray()
-            Dim clusterId As Integer = 0
-            Dim seeds As New List(Of Integer)
+            Dim session As DbscanSession(Of T) = New DbscanSession(Of T)(
+                dbscan:=Me,
+                allPoints:=allPointsDbscan,
+                epsilon:=epsilon,
+                minPts:=minPts
+            ).LoadDensityVector(densityCut)
 
-            For i As Integer = 0 To allPointsDbscan.Length - 1
-                Dim p As DbscanPoint(Of T) = allPointsDbscan(i)
-
-                If p.IsVisited Then
-                    Continue For
-                Else
-                    p.IsVisited = True
-                End If
-
-                Dim neighborPts As DbscanPoint(Of T)() = RegionQuery(allPointsDbscan, p.ClusterPoint, epsilon)
-
-                If neighborPts.Length < minPts Then
-                    p.ClusterId = ClusterIDs.Noise
-                Else
-                    clusterId += 1
-                    ExpandCluster(allPointsDbscan, p, neighborPts, clusterId, epsilon, minPts)
-                    seeds.Add(i)
-                End If
-            Next
+            is_seed = IteratesAllPoints(session)
 
             With allPointsDbscan _
-                .Where(Function(x) x.ClusterId > 0) _
-                .GroupBy(Function(x) x.ClusterId)
-
-                isseed = seeds.ToArray
+                .Where(Function(x)
+                           If Not filterNoise Then
+                               Return True
+                           Else
+                               Return x.ClusterId > 0
+                           End If
+                       End Function) _
+                .GroupBy(Function(x)
+                             Return x.ClusterId
+                         End Function)
 
                 Return .Select(Function(x)
                                    Return New NamedCollection(Of T) With {
                                        .name = x.Key,
-                                       .value = x.[Select](Function(y) y.ClusterPoint).ToArray()
+                                       .value = x _
+                                           .Select(Function(y) y.ClusterPoint) _
+                                           .ToArray()
                                    }
                                End Function) _
                        .ToArray
             End With
         End Function
 
-        ''' <summary>
-        ''' 
-        ''' </summary>
-        ''' <param name="allPoints">Dataset</param>
-        ''' <param name="point">point to be in a cluster</param>
-        ''' <param name="neighborPts">other points in same region with point parameter</param>
-        ''' <param name="clusterId">given clusterId</param>
-        ''' <param name="epsilon">Desired region ball range</param>
-        ''' <param name="minPts">Minimum number of points to be in a region</param>
-        Private Sub ExpandCluster(allPoints As DbscanPoint(Of T)(),
-                                  point As DbscanPoint(Of T),
-                                  neighborPts As DbscanPoint(Of T)(),
-                                  clusterId As Integer,
-                                  epsilon As Double,
-                                  minPts As Integer)
+        Private Function IteratesAllPoints(session As DbscanSession(Of T)) As Integer()
+            Dim clusterId As Integer = 0
+            Dim seeds As New List(Of Integer)
+            Dim j As i32 = 0
+            Dim size As Integer = session.allPoints.Length
+            Dim d As Integer = size / 20
 
-            Dim neighborPts2 As DbscanPoint(Of T)() = Nothing
+            For i As Integer = 0 To size - 1
+                Dim p As DbscanPoint(Of T) = session.allPoints(i)
 
-            point.ClusterId = clusterId
-
-            For i As Integer = 0 To neighborPts.Length - 1
-                Dim pn As DbscanPoint(Of T) = neighborPts(i)
-
-                If _full OrElse Not pn.IsVisited Then
-                    pn.IsVisited = True
-                    neighborPts2 = RegionQuery(allPoints, pn.ClusterPoint, epsilon)
-
-                    If neighborPts2.Length >= minPts Then
-                        neighborPts = neighborPts.Union(neighborPts2).ToArray()
-                    End If
+                If ++j = d Then
+                    j = 0
+                    Call Console.WriteLine($" [{i}/{size}] query {p.ID}...{CInt(100 * i / size)}%")
                 End If
 
-                If pn.ClusterId = ClusterIDs.Unclassified Then
-                    pn.ClusterId = clusterId
+                If p.IsVisited AndAlso Not (p.ClusterId = ClusterIDs.Unclassified OrElse p.ClusterId = ClusterIDs.Noise) Then
+                    Continue For
+                Else
+                    p.IsVisited = True
+                End If
+
+                If session.isNoise(p.ID) Then
+                    p.ClusterId = ClusterIDs.Noise
+                    Continue For
+                End If
+
+                Dim neighborPts As DbscanPoint(Of T)() = session.RegionQuery(p.ClusterPoint)
+
+                If neighborPts.Length < session.minPts Then
+                    p.ClusterId = ClusterIDs.Noise
+                Else
+                    clusterId += 1
+                    ' point to be in a cluster
+                    p.ClusterId = clusterId
+
+                    Call seeds.Add(i)
+                    Call session.ExpandClusterParallel(neighborPts, clusterId, stackDepth:=0)
                 End If
             Next
-        End Sub
 
-        ''' <summary>
-        ''' Checks and searchs neighbor points for given point
-        ''' </summary>
-        ''' <param name="allPoints">Dataset</param>
-        ''' <param name="point">centered point to be searched neighbors</param>
-        ''' <param name="epsilon">radius of center point</param>
-        ''' <returns>result neighbors</returns>
-        ''' 
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Private Function RegionQuery(allPoints As DbscanPoint(Of T)(), point As T, epsilon As Double) As DbscanPoint(Of T)()
-            Return allPoints _
-                .Where(Function(x) _metricFunc(point, x.ClusterPoint) <= epsilon) _
-                .ToArray()
+            Return seeds
         End Function
     End Class
 End Namespace

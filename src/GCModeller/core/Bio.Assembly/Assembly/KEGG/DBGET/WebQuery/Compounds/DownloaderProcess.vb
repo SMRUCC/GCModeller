@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8e3f9a0c913717ce566d3ef5eff06414, core\Bio.Assembly\Assembly\KEGG\DBGET\WebQuery\Compounds\DownloaderProcess.vb"
+﻿#Region "Microsoft.VisualBasic::3854a48e8a51923f058bc9a04c142e84, core\Bio.Assembly\Assembly\KEGG\DBGET\WebQuery\Compounds\DownloaderProcess.vb"
 
     ' Author:
     ' 
@@ -42,6 +42,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
@@ -132,7 +133,7 @@ Namespace Assembly.KEGG.DBGET.WebQuery.Compounds
                     Dim KCF$ = xmlFile.ChangeSuffix("txt")
                     Dim gif = xmlFile.ChangeSuffix("gif")
 
-                    With App.GetAppSysTempFile(".txt", App.PID)
+                    With TempFileSystem.GetAppSysTempFile(".txt", App.PID)
                         If KCF.FileExists Then
                             compound.KCF = KCF.ReadAllText
                         Else
@@ -146,7 +147,7 @@ Namespace Assembly.KEGG.DBGET.WebQuery.Compounds
 
                     ' gif分子二维结构图是以base64
                     ' 字符串的形式写在XML文件之中的
-                    With App.GetAppSysTempFile(".gif", App.PID)
+                    With TempFileSystem.GetAppSysTempFile(".gif", App.PID)
                         Dim base64$
 
                         If gif.FileExists Then

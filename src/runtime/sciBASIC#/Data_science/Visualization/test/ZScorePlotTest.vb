@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6b36d46c43ed2266bf6d1b09ab593d97, Data_science\Visualization\test\ZScorePlotTest.vb"
+﻿#Region "Microsoft.VisualBasic::f65139c3675057aebf2bade890f8619c, Data_science\Visualization\test\ZScorePlotTest.vb"
 
     ' Author:
     ' 
@@ -45,7 +45,7 @@ Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
-Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
+Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 
@@ -72,7 +72,7 @@ Module ZScorePlotTest
 
             ' data.shapes!Case = LegendStyles.Triangle
 
-            Call ZScoresPlot.Plot(data).Save(csv.ParentPath & "/16S-KO-level3-Z-scores.png")
+            Call ZScoresPlots.Plot(data).Save(csv.ParentPath & "/16S-KO-level3-Z-scores.png")
         End With
 
     End Sub
@@ -95,7 +95,7 @@ Module ZScorePlotTest
             Dim csv$ = "D:\smartnucl_integrative\biodeepDB\smartnucl_integrative\build_tools\CVD_kb\duke\4.union\analysis\sampleUnion_matrix.csv"
             Dim data = ZScores.Load(csv, .ByRef, ColorBrewer.QualitativeSchemes.Paired12)
 
-            Call ZScoresPlot.Plot(data).Save(csv.ParentPath & "/duck_sampling.png")
+            Call ZScoresPlots.Plot(data).Save(csv.ParentPath & "/duck_sampling.png")
         End With
 
         Pause()

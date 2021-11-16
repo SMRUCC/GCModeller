@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a95a37d7cfc650b25102f55fe1ff5503, visualize\SyntenyVisual\ComparativeGenomics\MultipleAlignment\ComparativeAlignment.vb"
+﻿#Region "Microsoft.VisualBasic::6c60147894c43fd8d9695866753a753d, visualize\SyntenyVisual\ComparativeGenomics\MultipleAlignment\ComparativeAlignment.vb"
 
     ' Author:
     ' 
@@ -59,8 +59,8 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.ComponentModel.Annotation
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
+Imports SMRUCC.genomics.Interops.NCBI.ParallelTask
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports SMRUCC.genomics.Visualize
@@ -151,14 +151,16 @@ Namespace ComparativeAlignment
         <DataFrameColumn("font.size")> Dim FontSize As Integer = 20
 
         ''' <summary>
-        ''' 绘制对比对图
+        ''' If the parameter color_overrides is not null then all of the gene 
+        ''' color will overrides the cog color as the parameter specific 
+        ''' color.
+        ''' (绘制对比对图)
         ''' </summary>
         ''' <param name="model"></param>
         ''' <param name="defaultColor"></param>
         ''' <param name="type2Arrow"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <ExportAPI("invoke.drawing", Info:="If the parameter color_overrides is not null then all of the gene color will overrides the cog color as the parameter specific color.")>
         Public Function InvokeDrawing(Model As DrawingModel,
                                       Optional DefaultColor As Color = Nothing,
                                       Optional Type2Arrow As Boolean = True,
@@ -280,7 +282,9 @@ Namespace ComparativeAlignment
         End Function
 
         ''' <summary>
-        ''' 
+        ''' source is for the bbh besthit output directory, query  is the query genome id or query fasta filename, 
+        ''' ppt is a directory which stores the ptt file of the bbh genomes, query_nt is using for the gcshew 
+        ''' calculation visualize.
         ''' </summary>
         ''' <param name="source">bbh结果的文件夹</param>
         ''' <param name="query">query的编号</param>
@@ -288,7 +292,6 @@ Namespace ComparativeAlignment
         ''' <returns></returns>
         ''' <remarks></remarks>
         ''' 
-        <ExportAPI("build.model", Info:="source is for the bbh besthit output directory, query  is the query genome id or query fasta filename, ppt is a directory which stores the ptt file of the bbh genomes, query_nt is using for the gcshew calculation visualize.")>
         Public Function BuildMultipleAlignmentModel(Source As String,
                                                 Query As String,
                                                 PTT As String,
@@ -298,7 +301,7 @@ Namespace ComparativeAlignment
 
             Dim bbhFiles = (From item In (From path In Source.LoadSourceEntryList({"*.csv"}).AsParallel
                                           Select ID = path.Key, pathValue = path.Value,
-                               logEntry = BatchParallel.LogNameParser(path.Value),
+                               logEntry = VennDataBuilder.LogNameParser(path.Value),
                                BBH = path.Value.LoadCsv(Of BestHit)(False)).ToArray
                             Select item).ToArray
             If FileIO.FileSystem.FileExists(Query) Then
@@ -544,14 +547,14 @@ POSITIONNING:
         End Function
 
         ''' <summary>
-        ''' 数据框之中的每一行数据都表示同源基因，列表示为基因组 
+        ''' Build the comparative drawing model from the ncbi ptt source.
+        ''' (数据框之中的每一行数据都表示同源基因，列表示为基因组) 
         ''' </summary>
         ''' <param name="DF">生成GeneLink数据</param>
         ''' <param name="ColumnList">假若本参数值为空，则默认取出所有的数据</param>
         ''' <param name="PttSource">请注意，这个值的顺序是与数据框之中的列是一一对应的</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <ExportAPI("Model.Build", Info:="Build the comparative drawing model from the ncbi ptt source.")>
         Public Function BuildModel(DF As IO.DataFrame,
                                <Parameter("List.Paths.Ptt", "The source file list of the ptt data of the target drawing genomes.")> PttSource As IEnumerable(Of String),
                                <Parameter("List.ID", "The column id headers in the data frame csv data file.")> Optional ColumnList As IEnumerable(Of String) = Nothing,

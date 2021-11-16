@@ -77,13 +77,15 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28Release_X64%29|x64'">
     <DefineTrace>true</DefineTrace>
-    <OutputPath>..\..\..\..\GCModeller\bin\Library\</OutputPath>
+    <OutputPath>..\..\..\..\GCModeller\bin\</OutputPath>
     <DocumentationFile>gseakit.xml</DocumentationFile>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
-    <DebugType>pdbonly</DebugType>
+    <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28UNIX-Release_X64%29|AnyCPU'">
     <DefineTrace>true</DefineTrace>
@@ -107,6 +109,27 @@
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Rsharp_app_release|AnyCPU'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Rsharp_app_release\</OutputPath>
+    <DocumentationFile>gseakit.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Rsharp_app_release|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>..\..\pkg\assembly\</OutputPath>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DocumentationFile>gseakit.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -128,9 +151,10 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EnrichmentTableFormat.vb" />
     <Compile Include="GSEABackground.vb" />
     <Compile Include="GSEA.vb" />
+    <Compile Include="KOBAS.vb" />
+    <Compile Include="Profiles.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -146,6 +170,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Utils\MapBackground.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
@@ -171,6 +196,10 @@
       <Project>{64384E97-D1C6-410C-BFF7-43392D994050}</Project>
       <Name>Microarray</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\GCModeller\annotations\GO\GO.vbproj">
+      <Project>{a5b7aeb8-1a10-4b69-abae-051b5023e2f3}</Project>
+      <Name>GO</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\GCModeller\annotations\GSEA\GSEA.KnowledgeBase.Extensions\GSEA.KnowledgeBase.Extensions.vbproj">
       <Project>{77da02ce-97fc-44e2-9df7-a36cf3f1e741}</Project>
       <Name>GSEA.KnowledgeBase.Extensions</Name>
@@ -178,6 +207,14 @@
     <ProjectReference Include="..\..\..\GCModeller\annotations\GSEA\GSEA\GSEA.vbproj">
       <Project>{db374d72-08f4-4b27-8168-b90785f71bdc}</Project>
       <Name>GSEA</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\GCModeller\annotations\KEGG\KEGG.vbproj">
+      <Project>{282e1290-3475-4a7f-b232-608132ff561d}</Project>
+      <Name>KEGG</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\GCModeller\core\Bio.Annotation\Bio.Annotation.vbproj">
+      <Project>{e5ad6940-d449-471d-9539-65b4e457e6e3}</Project>
+      <Name>Bio.Annotation</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\GCModeller\core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
@@ -215,7 +252,7 @@
       <Project>{78CB32E6-2904-41E7-ACCA-F1E2757BFA8E}</Project>
       <Name>Network.IO.Extensions</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\47-dotnet_Microsoft.VisualBasic.vbproj">
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\47-dotnet_Microsoft.VisualBasic.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
     </ProjectReference>

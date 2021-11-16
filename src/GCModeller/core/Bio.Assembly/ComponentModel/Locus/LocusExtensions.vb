@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f6602be7c6903ea090857f86dee0bcd5, core\Bio.Assembly\ComponentModel\Locus\LocusExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::caabd6dc3cf11d963f5c87ad23402985, core\Bio.Assembly\ComponentModel\Locus\LocusExtensions.vb"
 
     ' Author:
     ' 
@@ -184,7 +184,7 @@ Namespace ComponentModel.Loci
                 .left = pos(0),
                 .right = pos(1),
                 .Strand = s,
-                .tag = loci
+                .tagStr = loci
             }
 
             Return nuclLoci

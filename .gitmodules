@@ -8,3 +8,21 @@
 [submodule "src/runtime/Darwinism"]
 	path = src/runtime/Darwinism
 	url = https://github.com/xieguigang/Darwinism.git
+[submodule "src/runtime/IronR"]
+	path = src/runtime/IronR
+	url = https://github.com/xieguigang/IronR.git
+[submodule "src/runtime/ggplot"]
+	path = src/runtime/ggplot
+	url = https://github.com/rsharp-lang/ggplot.git
+[submodule "src/runtime/Rnotebook"]
+	path = src/runtime/R/Rnotebook
+	url = https://github.com/rsharp-lang/Rnb.git
+[submodule "src/runtime/R/Rmsgpack"]
+	path = src/runtime/R/Rmsgpack
+	url = https://gitee.com/xieguigang/Rmsgpack.git
+[submodule "src/runtime/R/Rnotebook"]
+	path = src/runtime/R/Rnotebook
+	url = https://gitee.com/xieguigang/Rnb.git
+[submodule "src/runtime/R/Bing"]
+	path = src/runtime/R/Bing
+	url = https://github.com/rsharp-lang/bing.git

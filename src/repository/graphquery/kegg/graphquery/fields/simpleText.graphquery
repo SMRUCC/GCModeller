@@ -1,0 +1,6 @@
+# entry
+# formula
+# exact mass
+# etc
+
+id text() | split(" ", 0)

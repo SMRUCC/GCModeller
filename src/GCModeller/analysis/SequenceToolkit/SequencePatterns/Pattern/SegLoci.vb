@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5665a9c1a81488669de6a419007ea50c, analysis\SequenceToolkit\SequencePatterns\Pattern\SegLoci.vb"
+﻿#Region "Microsoft.VisualBasic::92bbef691903e4b86954c9e2fc43f36e, analysis\SequenceToolkit\SequencePatterns\Pattern\SegLoci.vb"
 
     ' Author:
     ' 
@@ -85,7 +85,11 @@ Namespace Pattern
                 .Sequence = SegmentValue.Value,
                 .Length = SegmentValue.Length
             }
-            Segment.Left = InStr(Start:=startLeft, String1:=WholeSeq, String2:=Segment.Sequence, Compare:=CompareMethod.Text)
+#If netcore5 = 0 Then
+            Segment.Left = Strings.InStr(Start:=startLeft, String1:=WholeSeq, String2:=Segment.Sequence, Compare:=CompareMethod.Text)
+#Else
+            Segment.Left = Strings.InStr(StartPos:=startLeft, String1:=WholeSeq, String2:=Segment.Sequence, Compare:=CompareMethod.Text)
+#End If
             Segment.Right = Segment.Left + Segment.Length - 1
             startLeft = Segment.Left + 1
 

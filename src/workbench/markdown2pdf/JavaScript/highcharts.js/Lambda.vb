@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5e8253c1ae20f8a9706a07ac45fd87ad, markdown2pdf\JavaScript\highcharts.js\Lambda.vb"
+﻿#Region "Microsoft.VisualBasic::3b1f5d9783c0e93ba59731f35f4ca85b, markdown2pdf\JavaScript\highcharts.js\Lambda.vb"
 
     ' Author:
     ' 

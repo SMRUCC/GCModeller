@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8eb01ceb13ff17f5412b27c671718204, data\uniref\Annotations\Annotations.vb"
+﻿#Region "Microsoft.VisualBasic::9cc2a654f11bd54ef2287769481e0a5f, data\uniref\Annotations\Annotations.vb"
 
     ' Author:
     ' 
@@ -42,4 +42,3 @@
 Module Annotations
 
 End Module
-

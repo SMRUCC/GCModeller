@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e932e7632410c08c1e4809d7e38863fe, gr\3DEngineTest\3DEngineTest\Landscape_model\Form1.vb"
+﻿#Region "Microsoft.VisualBasic::317a9685350d4b7b9b7c120cb99ddc52, gr\3DEngineTest\3DEngineTest\Landscape_model\Form1.vb"
 
     ' Author:
     ' 
@@ -39,6 +39,7 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.Data.ChartPlots.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 
 Public Class Form1

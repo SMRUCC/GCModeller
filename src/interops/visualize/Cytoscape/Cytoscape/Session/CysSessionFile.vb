@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::913bc5eacd5d36b1710e20c12f0d8ea5, visualize\Cytoscape\Cytoscape\Session\CysSessionFile.vb"
+﻿#Region "Microsoft.VisualBasic::ef35222007936f86799a4ae2ec6b4f11, visualize\Cytoscape\Cytoscape\Session\CysSessionFile.vb"
 
     ' Author:
     ' 
@@ -43,6 +43,7 @@
 #End Region
 
 Imports System.Drawing
+Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.ApplicationServices.Zip
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
@@ -50,7 +51,6 @@ Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.application.xml
-Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML.File
 
 Namespace Session
 
@@ -249,7 +249,7 @@ Namespace Session
         End Function
 
         Public Shared Function Open(cys As String) As CysSessionFile
-            Dim temp As String = App.GetAppSysTempFile(".zip", App.PID, "cytoscape_")
+            Dim temp As String = TempFileSystem.GetAppSysTempFile(".zip", App.PID, "cytoscape_")
 
             Call UnZip.ImprovedExtractToDirectory(cys, temp, Overwrite.Always, extractToFlat:=False)
 

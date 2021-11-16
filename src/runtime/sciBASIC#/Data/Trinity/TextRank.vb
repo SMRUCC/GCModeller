@@ -1,50 +1,54 @@
-﻿#Region "Microsoft.VisualBasic::f37dc30ab984f9e9c77c6c9cc8f87819, Data\Trinity\TextRank.vb"
+﻿#Region "Microsoft.VisualBasic::be9ecd4b50c4c63428cea914469d45f6, Data\Trinity\TextRank.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module TextRank
-    ' 
-    '     Function: Removes, Sentences, Similarity, StripMessy, TextGraph
-    '               TextRankGraph, Words
-    ' 
-    ' /********************************************************************************/
+' Module TextRank
+' 
+'     Function: Removes, Sentences, Similarity, StripMessy, TextGraph
+'               TextRankGraph, Words
+' 
+'     Sub: TextRankGraph
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.GraphTheory
 Imports Microsoft.VisualBasic.Data.GraphTheory.Analysis.PageRank
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Text
@@ -81,6 +85,22 @@ Public Module TextRank
             .Select(AddressOf Trim) _
             .Where(Function(s) Not s.StringEmpty) _
             .ToArray
+    End Function
+
+    Public Function IsEmpty(str As String) As Boolean
+        If Strings.Trim(str).StringEmpty Then
+            Return True
+        End If
+
+        Static symbols As Index(Of Char) = ASCII.Symbols _
+            .JoinIterates({" "c, ASCII.TAB, ASCII.CR, ASCII.LF}) _
+            .Indexing
+
+        If str.All(Function(c) c Like symbols) Then
+            Return True
+        Else
+            Return False
+        End If
     End Function
 
     <Extension> Public Function StripMessy(text$) As String
@@ -129,35 +149,63 @@ Public Module TextRank
         stopwords = stopwords Or StopWords.DefaultStopWords
 
         For Each text As String In source
-
             ' 假设每一句话之中的单词之间的顺序就是网络连接的方向
             Dim blocks = text _
                 .ToLower _
                 .Words _
                 .Removes(stopwords) _
-                .SlideWindows(win_size) _
                 .ToArray
 
-            For Each textBlock As SlideWindow(Of String) In blocks
-
-                For Each word As String In textBlock
-                    If Not g.ExistVertex(word) Then
-                        Call g.AddVertex(word)
-                    End If
-                Next
-
-                For Each combine As (a$, b$) In textBlock.FullCombination
-                    Dim edge As VertexEdge = g.CreateEdge(combine.a, combine.b)
-
-                    If Not g.ExistEdge(edge) Then
-                        Call g.AddEdge(combine.a, combine.b)
-                    End If
-                Next
-            Next
+            Call g.TextRankGraph(blocks, win_size)
         Next
 
         Return New GraphMatrix(g)
     End Function
+
+    <Extension>
+    Public Sub TextRankGraph(g As Graph, text As String(), Optional win_size% = 2, Optional directed As Boolean = True)
+        Dim blocks As SlideWindow(Of String)() = text.SlideWindows(win_size).ToArray
+
+        For Each textBlock As SlideWindow(Of String) In blocks
+            For Each word As String In textBlock
+                If Not g.ExistVertex(word) Then
+                    Call g.AddVertex(word)
+                End If
+            Next
+
+            If directed Then
+                For i As Integer = 0 To textBlock.Length - 1
+                    For j As Integer = i To textBlock.Length - 1
+                        ' direction is i -> j
+                        ' so i should always less than j
+                        If i < j Then
+                            Dim a = textBlock(i)
+                            Dim b = textBlock(j)
+                            Dim edge As VertexEdge = g.FindEdge(a, b)
+
+                            If edge Is Nothing Then
+                                Call g.AddEdge(a, b)
+                            Else
+                                edge.weight += 1
+                            End If
+                        End If
+                    Next
+                Next
+            Else
+                For Each combine As (a$, b$) In textBlock.FullCombination
+                    If combine.a <> combine.b Then
+                        Dim edge As VertexEdge = g.FindEdge(combine.a, combine.b)
+
+                        If edge Is Nothing Then
+                            Call g.AddEdge(combine.a, combine.b)
+                        Else
+                            edge.weight += 1
+                        End If
+                    End If
+                Next
+            End If
+        Next
+    End Sub
 
     ''' <summary>
     ''' Using for generate article's <see cref="NLPExtensions.Abstract(WeightedPRGraph, Integer, Double)"/>

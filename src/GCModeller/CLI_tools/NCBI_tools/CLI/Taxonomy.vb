@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3fe1440d1816393343f4257ad72b23c8, CLI_tools\NCBI_tools\CLI\Taxonomy.vb"
+﻿#Region "Microsoft.VisualBasic::5ce4c4caae6e69f65b38c6d7751fe555, CLI_tools\NCBI_tools\CLI\Taxonomy.vb"
 
     ' Author:
     ' 
@@ -68,6 +68,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Parallel.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
+Imports Parallel.ThreadTask
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
 Imports SMRUCC.genomics.Metagenomics
@@ -93,10 +94,10 @@ Partial Module CLI
 
     <ExportAPI("/Search.Taxonomy",
                Usage:="/Search.Taxonomy /in <list.txt/expression.csv> /ncbi_taxonomy <taxnonmy:name/nodes.dmp> [/top 10 /expression /cut 0.65 /out <out.csv>]")>
-    <Argument("/expression", True,
+    <ArgumentAttribute("/expression", True,
               Description:="Search the taxonomy text by using query expression? If this set true, then the input should be a expression csv file.")>
-    <Argument("/cut", True, Description:="This parameter will be disabled when ``/expression`` is presents.")>
-    <Argument("/in", False, AcceptTypes:={GetType(String()), GetType(QueryArgument)})>
+    <ArgumentAttribute("/cut", True, Description:="This parameter will be disabled when ``/expression`` is presents.")>
+    <ArgumentAttribute("/in", False, AcceptTypes:={GetType(String()), GetType(QueryArgument)})>
     <Group(CLIGrouping.TaxonomyTools)>
     Public Function SearchTaxonomy(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
@@ -261,7 +262,7 @@ Partial Module CLI
         Dim n As Integer = args.GetValue("/num_threads", -1)
         Dim tasks$() = (ls - l - r - wildcards("*.fasta") <= [in]).Select(CLI).ToArray
 
-        Return App.SelfFolks(tasks, LQuerySchedule.AutoConfig(n))
+        Return BatchTasks.SelfFolks(tasks, LQuerySchedule.AutoConfig(n))
     End Function
 
     <ExportAPI("/OTU.associated",
@@ -398,7 +399,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/MapHits.list", Usage:="/MapHits.list /in <in.csv> [/out <out.txt>]")>
-    <Argument("/in", AcceptTypes:={GetType(MapHits), GetType(MapHit)})>
+    <ArgumentAttribute("/in", AcceptTypes:={GetType(MapHits), GetType(MapHit)})>
     Public Function GetMapHitsList(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim data = [in].LoadCsv(Of MapHits)

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f409f3796bf9d710efddaab92eba523f, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\PathwayMap\PathwayMap.vb"
+﻿#Region "Microsoft.VisualBasic::5fbe103ead75139ca060868e95820f4d, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\PathwayMap\PathwayMap.vb"
 
     ' Author:
     ' 
@@ -39,7 +39,7 @@
     ' 
     '         Constructor: (+1 Overloads) Sub New
     '         Function: (+2 Overloads) Download, DownloadAll, DownloadPathwayMap, GetCompounds, GetMapImage
-    '                   GetPathwayGenes
+    '                   GetPathwayGenes, ToPathway
     ' 
     ' 
     ' /********************************************************************************/
@@ -143,6 +143,14 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 Dim base64$ = String.Join("", lines)
                 Return Base64Codec.GetImage(base64)
             End If
+        End Function
+
+        Public Function ToPathway() As Pathway
+            Return New Pathway With {
+                .compound = KEGGCompound,
+                .name = name,
+                .EntryId = EntryId
+            }
         End Function
 
         Public Shared Function Download(entry As BriteHEntry.Pathway, Optional cache$ = "./", Optional offline As Boolean = False) As PathwayMap

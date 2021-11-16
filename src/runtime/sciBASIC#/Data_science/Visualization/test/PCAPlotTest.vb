@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::153dc519bb3c2bc7b4d406924ded6ee9, Data_science\Visualization\test\PCAPlotTest.vb"
+﻿#Region "Microsoft.VisualBasic::40e047c363d763a4e27819f95aa545c4, Data_science\Visualization\test\PCAPlotTest.vb"
 
     ' Author:
     ' 
@@ -42,12 +42,12 @@
 #End Region
 
 Imports Microsoft.VisualBasic.Data.ChartPlots.Statistics.PCA
-Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
-Imports Microsoft.VisualBasic.Math.Matrix
-Imports csv = Microsoft.VisualBasic.Data.csv.IO.File
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
+Imports Microsoft.VisualBasic.Math.LinearAlgebra.Prcomp
+Imports csvFile = Microsoft.VisualBasic.Data.csv.IO.File
 
 Module PCAPlotTest
 
@@ -55,7 +55,7 @@ Module PCAPlotTest
         Call decathlon2Test()
 
 
-        Dim data As GeneralMatrix = csv.Load("D:\GCModeller\src\runtime\sciBASIC#\Data_science\algorithms\PCA\flower.csv").AsMatrix
+        Dim data As GeneralMatrix = csvFile.Load("D:\GCModeller\src\runtime\sciBASIC#\Data_science\algorithms\PCA\flower.csv").AsMatrix
 
         Call PCAPlot.PC2(data, 8).AsGDIImage.SaveAs("D:\GCModeller\src\runtime\sciBASIC#\Data_science\algorithms\PCA\flower.PCA2.png")
     End Sub

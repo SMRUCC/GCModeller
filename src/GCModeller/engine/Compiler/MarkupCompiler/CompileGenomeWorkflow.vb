@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::580bff9b7609abf0ae49c54ad1a08697, engine\Compiler\MarkupCompiler\CompileGenomeWorkflow.vb"
+﻿#Region "Microsoft.VisualBasic::3294753a17623f2781070ae38d27cdd6, engine\Compiler\MarkupCompiler\CompileGenomeWorkflow.vb"
 
     ' Author:
     ' 
@@ -42,9 +42,11 @@
 #End Region
 
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Process
 
 Namespace MarkupCompiler
 
@@ -66,7 +68,18 @@ Namespace MarkupCompiler
             For Each genome In genomes
                 replicon = New replicon With {
                     .genomeName = genome.Value.Locus.AccessionID,
-                    .genes = genePopulator.getGenes(genome.Value).ToArray,
+                    .operons = genePopulator _
+                        .getGenes(genome.Value) _
+                        .Select(Function(gene)
+                                    ' no transcript unit information
+                                    Return New TranscriptUnit With {
+                                        .id = gene.locus_tag,
+                                        .genes = New XmlList(Of gene) With {
+                                            .items = {gene}
+                                        }
+                                    }
+                                End Function) _
+                        .ToArray,
                     .RNAs = getRNAs(.genomeName).ToArray,
                     .isPlasmid = genome.Value.isPlasmid
                 }

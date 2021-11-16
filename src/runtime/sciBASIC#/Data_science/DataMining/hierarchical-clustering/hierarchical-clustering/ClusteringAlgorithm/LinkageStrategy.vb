@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::26d34881265a9011c2271b70bc919f8d, Data_science\DataMining\hierarchical-clustering\hierarchical-clustering\ClusteringAlgorithm\LinkageStrategy.vb"
+﻿#Region "Microsoft.VisualBasic::51a750ad09a00f3993ed48adf39f47b5, Data_science\DataMining\hierarchical-clustering\hierarchical-clustering\ClusteringAlgorithm\LinkageStrategy.vb"
 
     ' Author:
     ' 
@@ -79,8 +79,7 @@ Public Interface LinkageStrategy
     Function CalculateDistance(distances As ICollection(Of Distance)) As Distance
 End Interface
 
-Public Class SingleLinkageStrategy
-    Implements LinkageStrategy
+Public Class SingleLinkageStrategy : Implements LinkageStrategy
 
     Public Function CalculateDistance(distances As ICollection(Of Distance)) As Distance Implements LinkageStrategy.CalculateDistance
         Dim min As Double = Double.NaN
@@ -94,8 +93,7 @@ Public Class SingleLinkageStrategy
 End Class
 
 
-Public Class WeightedLinkageStrategy
-    Implements LinkageStrategy
+Public Class WeightedLinkageStrategy : Implements LinkageStrategy
 
     Public Function CalculateDistance(distances As ICollection(Of Distance)) As Distance Implements LinkageStrategy.CalculateDistance
         Dim sum As Double = 0
@@ -110,8 +108,7 @@ Public Class WeightedLinkageStrategy
     End Function
 End Class
 
-Public Class CompleteLinkageStrategy
-    Implements LinkageStrategy
+Public Class CompleteLinkageStrategy : Implements LinkageStrategy
 
     Public Function CalculateDistance(distances As ICollection(Of Distance)) As Distance Implements LinkageStrategy.CalculateDistance
         Dim max As Double = Double.NaN
@@ -124,8 +121,7 @@ Public Class CompleteLinkageStrategy
     End Function
 End Class
 
-Public Class AverageLinkageStrategy
-    Implements LinkageStrategy
+Public Class AverageLinkageStrategy : Implements LinkageStrategy
 
     Public Function CalculateDistance(distances As ICollection(Of Distance)) As Distance Implements LinkageStrategy.CalculateDistance
         Dim sum As Double = 0

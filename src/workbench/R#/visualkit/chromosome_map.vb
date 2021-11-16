@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0054a88431943125a134866b83714ee7, visualkit\chromosome_map.vb"
+﻿#Region "Microsoft.VisualBasic::ad3e5f6c5443021e2d345f86741853a1, R#\visualkit\chromosome_map.vb"
 
     ' Author:
     ' 
@@ -35,9 +35,12 @@
     ' 
     '     Function: config, draw
     ' 
+    ' 
     ' /********************************************************************************/
 
 #End Region
+
+#If netcore5 = 0 Then
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -90,3 +93,5 @@ Public Module chromosome_map
         Throw New NotImplementedException
     End Function
 End Module
+
+#End If

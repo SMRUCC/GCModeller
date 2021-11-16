@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2773b173717f69fcf9589ea72cd5ce47, RNA-Seq\RNA-seq.Data\Contig.vb"
+﻿#Region "Microsoft.VisualBasic::0431f76fd59429038369498d47dbbacf, RNA-Seq\RNA-seq.Data\Contig.vb"
 
     ' Author:
     ' 

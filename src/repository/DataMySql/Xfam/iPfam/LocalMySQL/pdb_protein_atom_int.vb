@@ -33,6 +33,8 @@
 
     ' Class pdb_protein_atom_int
     ' 
+    '     Properties: atom_a, atom_b, auto_res_int, pdb_id
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

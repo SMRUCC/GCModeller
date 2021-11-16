@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ff6500c0029f2e4a3ce14e8e8624f090, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\Abstract\Abstract.vb"
+﻿#Region "Microsoft.VisualBasic::4674e9c3dc7a01652339fe6d3c67719f, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\Abstract\Abstract.vb"
 
     ' Author:
     ' 
@@ -41,6 +41,12 @@
     ' /********************************************************************************/
 
 #End Region
+
+#If netcore5 = 0 Then
+Imports System.Web.Script.Serialization
+#Else
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+#End If
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.Map(Of String, String)

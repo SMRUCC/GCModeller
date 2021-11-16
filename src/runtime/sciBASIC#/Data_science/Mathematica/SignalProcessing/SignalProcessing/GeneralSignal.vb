@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f460ef00f6af410b7f4ddd0afd9e9e99, Data_science\Mathematica\SignalProcessing\SignalProcessing\GeneralSignal.vb"
+﻿#Region "Microsoft.VisualBasic::9c9b8a659c88d7d40ec26d46f5221950, Data_science\Mathematica\SignalProcessing\SignalProcessing\GeneralSignal.vb"
 
     ' Author:
     ' 
@@ -88,8 +88,8 @@ Public Class GeneralSignal : Implements INamedValue
     ''' <returns></returns>
     Default Public ReadOnly Property GetByRange(min#, max#) As GeneralSignal
         Get
-            Dim i As Integer = Which(Measures.Select(Function(a) a >= min)).FirstOrDefault
-            Dim j As Integer = Which(Measures.Select(Function(a) a >= max)).FirstOrDefault
+            Dim i As Integer = which(Measures.Select(Function(a) a >= min)).FirstOrDefault
+            Dim j As Integer = which(Measures.Select(Function(a) a >= max)).FirstOrDefault
 
             If i = 0 AndAlso j = 0 Then
                 i = 0

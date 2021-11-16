@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::24735b23972bc26e36b783cb5813a72e, analysis\SequenceToolkit\SequencePatterns.Abstract\Patterns\PatternParser.vb"
+﻿#Region "Microsoft.VisualBasic::1e28c153b9b5ec6e9790abf15ee49ae7, analysis\SequenceToolkit\SequencePatterns.Abstract\Patterns\PatternParser.vb"
 
     ' Author:
     ' 
@@ -40,6 +40,9 @@
 
 #End Region
 
+#If netcore5 = 1 Then
+Imports System.Data
+#End If
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic
@@ -110,7 +113,7 @@ Namespace Motif.Patterns
                         .RepeatRanges = ranges
                     }
                 ElseIf t.name = Patterns.Tokens.QualifyingMatches Then
-                    residues += New Residue($"[{t.Text}]") With {
+                    residues += New Residue($"[{t.text}]") With {
                         .RepeatRanges = ranges
                     }
                 End If

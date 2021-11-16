@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5bc3f023f576c9cd127e04cf37b3cee2, localblast\LocalBLAST\Web\Alignment\HitTableParser.vb"
+﻿#Region "Microsoft.VisualBasic::7b7d1b360d013f82f9063cdbb44ddd86, localblast\LocalBLAST\Web\Alignment\HitTableParser.vb"
 
     ' Author:
     ' 
@@ -39,6 +39,10 @@
     ' /********************************************************************************/
 
 #End Region
+
+#If netcore5 = 1 Then
+Imports System.Data
+#End If
 
 Imports System.IO
 Imports System.Runtime.CompilerServices

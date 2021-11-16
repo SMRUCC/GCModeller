@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::50054e3f8271d89e793aed52de2412e7, core\Bio.Assembly\ComponentModel\DBLinkBuilder\DBLink.vb"
+﻿#Region "Microsoft.VisualBasic::783da44114f1b02ff1dec4852c589a40, core\Bio.Assembly\ComponentModel\DBLinkBuilder\DBLink.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Class DBLink
     ' 
-    '         Properties: DBName, Entry
+    '         Properties: DBName, Entry, link
     ' 
     '         Constructor: (+2 Overloads) Sub New
     '         Function: CreateObject, FromTagValue, GetFormatValue, (+3 Overloads) ToString
@@ -66,8 +66,10 @@ Namespace ComponentModel.DBLinkBuilder
         ''' Entity uid in the target database
         ''' </summary>
         ''' <returns></returns>
-        <XmlText>
+        <XmlAttribute>
         Public Property Entry As String Implements IKeyValuePairObject(Of String, String).Value, IDBLink.EntryId
+
+        <XmlText> Public Property link As String
 
         Sub New()
         End Sub

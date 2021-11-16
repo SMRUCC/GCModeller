@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fd5a2fa7cec333924bc31b130c61e04b, core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\KOCatalog.vb"
+﻿#Region "Microsoft.VisualBasic::9a619abf020f878102ea0ef7b973d641, core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\KOCatalog.vb"
 
     ' Author:
     ' 
@@ -47,7 +47,7 @@ Imports SMRUCC.genomics.ComponentModel.Annotation
 
 Namespace Assembly.KEGG.DBGET.BriteHEntry
 
-    Public Class KOCatalog : Inherits CatalogProfiling
+    Public Class KOCatalog : Inherits CatalogList
 
         Public Property [Class] As String
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::896b60751d313aa16cebf40887f160f5, analysis\Microarray\Enrichment\KOBAS\KOBAS.vb"
+﻿#Region "Microsoft.VisualBasic::3ffaf73afc97daf4dc203aa6181161fe, analysis\Microarray\Enrichment\KOBAS\KOBAS.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Module KOBAS
     ' 
-    '         Function: GenelistEnrichment, (+2 Overloads) P
+    '         Function: GenelistEnrichment, (+2 Overloads) P, SplitTable
     ' 
     '         Sub: SplitData
     ' 
@@ -44,6 +44,8 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
+Imports Microsoft.VisualBasic.ApplicationServices
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data
 Imports Microsoft.VisualBasic.Data.csv
 
@@ -69,7 +71,7 @@ Namespace KOBAS
 
             Dim html$ = "http://kobas.cbi.pku.edu.cn/run_kobas.php".POST(args, Referer:="http://kobas.cbi.pku.edu.cn/anno_iden.php")
             Dim link As String = Regex.Match(html, "javascript:window.location.href='./download_file.php?type=run_kobas&userid=.+?'", RegexICSng).Value
-            Dim tmp = App.GetAppSysTempFile
+            Dim tmp = TempFileSystem.GetAppSysTempFile
 
             link = "http://kobas.cbi.pku.edu.cn/" & link.GetStackValue("'", "'").Trim("."c, "/"c)
             link.DownloadFile(tmp)
@@ -79,6 +81,20 @@ Namespace KOBAS
         End Function
 
         Public Sub SplitData(path$, Optional EXPORT$ = Nothing)
+            If EXPORT.StringEmpty Then
+                EXPORT = path.TrimSuffix
+            End If
+
+            For Each d In SplitTable(path)
+                Dim outName$ = path.BaseName & "-" & d.name.NormalizePathString(False)
+                Dim file$ = EXPORT & $"/{outName}.csv"
+
+                Call d.ToArray.SaveTo(file)
+            Next
+        End Sub
+
+        <Extension>
+        Public Iterator Function SplitTable(path As String) As IEnumerable(Of NamedCollection(Of EnrichmentTerm))
             Dim lines$() = path _
                 .ReadAllLines _
                 .Where(Function(s) Not s.StringEmpty AndAlso Not Regex.Match(s, "[-]+").Value = s) _
@@ -87,18 +103,17 @@ Namespace KOBAS
             Dim terms = csv _
                 .ImportsTsv(Of EnrichmentTerm)(lines) _
                 .GroupBy(Function(t) t.Database) _
-                .Where(Function(g) Not g.Key.TextEquals("Database"))
+                .Where(Function(g)
+                           Return Not g.Key.TextEquals("Database")
+                       End Function)
 
-            If EXPORT.StringEmpty Then
-                EXPORT = path.TrimSuffix
-            End If
-
-            For Each d In terms
-                Dim outName$ = path.BaseName & "-" & d.Key.NormalizePathString(False)
-                Dim file$ = EXPORT & $"/{outName}.csv"
-                Call d.ToArray.SaveTo(file)
+            For Each part In terms
+                Yield New NamedCollection(Of EnrichmentTerm) With {
+                    .name = part.Key,
+                    .value = part.ToArray
+                }
             Next
-        End Sub
+        End Function
 
         ''' <summary>
         ''' ``-<see cref="Math.Log10(Double)"/>(<see cref="EnrichmentTerm.Pvalue"/>)``

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::db3954ea30ad6e562dfd7bb42edcde56, data\GO_gene-ontology\obographs\obographs\EnrichmentVisualize.vb"
+﻿#Region "Microsoft.VisualBasic::760f45e1c7ab6fa54642b889d7c70ce5, data\GO_gene-ontology\obographs\obographs\EnrichmentVisualize.vb"
 
     ' Author:
     ' 
@@ -68,4 +68,3 @@ Public Module EnrichmentVisualize
         )
     End Function
 End Module
-

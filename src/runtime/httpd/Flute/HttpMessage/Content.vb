@@ -49,6 +49,9 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Core.Message
 
+    ''' <summary>
+    ''' for data content response, includes content type and content length
+    ''' </summary>
     Public Structure Content
 
         Public Property length As Integer
@@ -70,6 +73,7 @@ Namespace Core.Message
             End If
             If Not String.IsNullOrEmpty(attachment) Then
                 Call outputStream.WriteLine($"Content-Disposition: attachment;filename=""{attachment}""")
+                Call outputStream.WriteLine("Accept-Ranges: bytes")
             End If
         End Sub
     End Structure

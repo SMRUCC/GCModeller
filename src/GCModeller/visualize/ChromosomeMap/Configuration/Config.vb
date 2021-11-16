@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a82112a8b9efcab1e9040f43fd9ea33f, visualize\ChromosomeMap\Configuration\Config.vb"
+﻿#Region "Microsoft.VisualBasic::452460015960038ed3b2d2158a3058ff, visualize\ChromosomeMap\Configuration\Config.vb"
 
     ' Author:
     ' 
@@ -54,11 +54,10 @@ Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language.Default
-Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
+Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Text
 Imports Oracle.Java.IO.Properties
-Imports SMRUCC.genomics.Visualize.ChromosomeMap.Configuration.DataReader
 Imports SMRUCC.genomics.Visualize.ChromosomeMap.DrawingModels
 
 Namespace Configuration
@@ -196,7 +195,7 @@ Namespace Configuration
 
         Public Property AddLegend As String
 
-        Public Shared Function [DefaultValue]() As [Default](Of  Config)
+        Public Shared Function [DefaultValue]() As [Default](Of Config)
             Return New Config With {
                 .Resolution = "18000,10000",
                 .AspectRatio = "16:9",
@@ -222,8 +221,8 @@ Namespace Configuration
 
         ' 下面的这些函数都是进行反射操作之中自定义的数据类型加载的所必须要用到的函数
 
-        Public Shared Function CssFontParser(css$) As Font
-            Return CSSFont.TryParse(css)
+        Public Shared Function CssFontParser(css$, dpi As Integer) As Font
+            Return CSSFont.TryParse(css).GDIObject(dpi)
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

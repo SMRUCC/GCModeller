@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b3b145c5abfdc36000e1f9cd624f435e, engine\vcellkit\Analysis.vb"
+﻿#Region "Microsoft.VisualBasic::1c7a03e1de04b0dcc6b190f3f7380b8c, engine\vcellkit\Analysis.vb"
 
     ' Author:
     ' 
@@ -46,15 +46,15 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Engine
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Interop
 
 ''' <summary>
 ''' GCModeller virtual cell analysis toolkit.
 ''' </summary>
-<Package("vcellkit.analysis")>
+<Package("analysis")>
 Public Module Analysis
 
     ''' <summary>

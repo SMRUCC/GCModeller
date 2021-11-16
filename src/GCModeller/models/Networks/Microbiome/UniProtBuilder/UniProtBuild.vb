@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::297c419a798a5bbb763ec4ab733b6f11, models\Networks\Microbiome\UniProtBuilder\UniProtBuild.vb"
+﻿#Region "Microsoft.VisualBasic::78ecb4a82cbf204120787d9e783b88b6, models\Networks\Microbiome\UniProtBuilder\UniProtBuild.vb"
 
     ' Author:
     ' 
@@ -41,6 +41,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
+Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
@@ -69,7 +70,7 @@ Public Module UniProtBuild
                           Function(term)
                               Return term.Value _
                                   .First _
-                                  .Description _
+                                  .description _
                                   .GetTagValue(";", trim:=True)
                           End Function)
     End Function
@@ -78,7 +79,7 @@ Public Module UniProtBuild
     Public Function ScanUniProt(UniProtXml As IEnumerable(Of entry), export$, Optional all As Boolean = True, Optional ByRef cache As CacheGenerator = Nothing) As TaxonomyRepository
         ' 因为在这里是处理一个非常大的UniProt注释数据库，所以需要首先做一次扫描
         ' 将需要提取的信息先放到缓存之中
-        Dim tmp$ = App.GetAppSysTempFile(".cache", App.PID, "metaprofiler_")
+        Dim tmp$ = TempFileSystem.GetAppSysTempFile(".cache", App.PID, "metaprofiler_")
         Dim model As TaxonomyRepository
 
         cache = New CacheGenerator(tmp).ScanInternal(UniProtXml)

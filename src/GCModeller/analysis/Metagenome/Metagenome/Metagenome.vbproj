@@ -373,11 +373,7 @@
       <Project>{9f515beb-a2ca-4b96-b1d9-f4798736054d}</Project>
       <Name>RNA-seq.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\Darwinism\Centos\Centos.vbproj">
-      <Project>{04f7d21b-53e8-4107-a5e0-d28e3f70efde}</Project>
-      <Name>Centos</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\Darwinism\Docker\Docker.vbproj">
+    <ProjectReference Include="..\..\..\..\runtime\Darwinism\CloudKit\Docker\Docker.vbproj">
       <Project>{b028826a-e615-4f26-b192-b9b0a997696a}</Project>
       <Name>Docker</Name>
     </ProjectReference>
@@ -401,7 +397,7 @@
       <Project>{e3367b88-5d0c-495a-8273-331656d4b5aa}</Project>
       <Name>math-core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\47-dotnet_Microsoft.VisualBasic.vbproj">
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\47-dotnet_Microsoft.VisualBasic.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
     </ProjectReference>

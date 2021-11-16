@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0842b37aea8595c7331f1932da3e0a44, Data_science\Graph\Model\Abstract\General.vb"
+﻿#Region "Microsoft.VisualBasic::b25baf2be827517ea1b242c9274627a5, Data_science\Graph\Model\Abstract\General.vb"
 
     ' Author:
     ' 
@@ -37,7 +37,7 @@
     ' 
     ' Class Graph
     ' 
-    ' 
+    '     Function: FindEdge
     ' 
     ' /********************************************************************************/
 
@@ -49,8 +49,8 @@ Imports TV = Microsoft.VisualBasic.Data.GraphTheory.Vertex
 Public Class VertexEdge : Inherits Edge(Of TV)
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Shared Function EdgeKey(U%, V%) As String
-        Return $"{U}-{V}"
+    Public Shared Function EdgeKey(U As TV, V As TV) As String
+        Return $"[{U.ID}]{U.label} -> [{V.ID}]{V.label}"
     End Function
 End Class
 
@@ -60,5 +60,19 @@ End Class
 ''' that Is, it has no multiple edges And no self-loops.
 ''' </summary>
 Public Class Graph : Inherits Graph(Of TV, VertexEdge, Graph)
+
+    Public Function FindEdge(u As String, v As String) As VertexEdge
+        If Not (vertices.ContainsKey(u) OrElse vertices.ContainsKey(v)) Then
+            Return Nothing
+        Else
+            Dim key As String = VertexEdge.EdgeKey(vertices(u), vertices(v))
+
+            If edges.ContainsKey(key) Then
+                Return edges(key)
+            Else
+                Return Nothing
+            End If
+        End If
+    End Function
 
 End Class

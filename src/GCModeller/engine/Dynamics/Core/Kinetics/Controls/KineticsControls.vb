@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::255558a4db374924cd43a12d261532db, engine\Dynamics\Core\Kinetics\Controls\KineticsControls.vb"
+﻿#Region "Microsoft.VisualBasic::9b84d328e67ae76fd1212892c70327b1, engine\Dynamics\Core\Kinetics\Controls\KineticsControls.vb"
 
     ' Author:
     ' 
@@ -43,8 +43,14 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.Math.Scripting.MathExpression
+Imports Microsoft.VisualBasic.Math.Scripting.MathExpression.Impl
+
 Namespace Core
 
+    ''' <summary>
+    ''' 主要是应用于酶促动力学反应过程的计算
+    ''' </summary>
     Public Class KineticsControls : Inherits Controls
 
         ''' <summary>
@@ -66,20 +72,20 @@ Namespace Core
             End Get
         End Property
 
-        ReadOnly lambda As Func(Of Func(Of String, Double), Double)
+        ReadOnly lambda As DynamicInvoke
         ReadOnly getMass As Func(Of String, Double)
-        ReadOnly raw As Model.Kinetics
+        ReadOnly raw As Expression
 
-        Sub New(env As Vessel, lambda As Model.Kinetics)
-            Me.lambda = lambda.CompileLambda
-            Me.raw = lambda
+        Sub New(env As Vessel, lambda As DynamicInvoke, raw As Expression)
+            Me.lambda = lambda
+            Me.raw = raw
             Me.getMass = Function(id)
                              Return env.m_massIndex(id).Value
                          End Function
         End Sub
 
         Public Overrides Function ToString() As String
-            Return raw.formula.ToString
+            Return raw.ToString
         End Function
     End Class
 End Namespace

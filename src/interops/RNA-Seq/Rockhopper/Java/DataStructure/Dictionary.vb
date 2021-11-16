@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6abfc4c8905c195c8b3eed3d754d8f33, RNA-Seq\Rockhopper\Java\DataStructure\Dictionary.vb"
+﻿#Region "Microsoft.VisualBasic::17a7bce7e836b2daa1b813720ff1becc, RNA-Seq\Rockhopper\Java\DataStructure\Dictionary.vb"
 
     ' Author:
     ' 

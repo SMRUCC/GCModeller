@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f7dc2082dc65034802ccf8cb7e88f3ee, visualize\SyntenyVisual\ComparativeGenomics\DrawingDevice.vb"
+﻿#Region "Microsoft.VisualBasic::39e130aff3e41648fde1a7f1806a9b08, visualize\SyntenyVisual\ComparativeGenomics\DrawingDevice.vb"
 
     ' Author:
     ' 
@@ -52,7 +52,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
+Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.Scripting.Runtime
 
 Namespace ComparativeGenomics

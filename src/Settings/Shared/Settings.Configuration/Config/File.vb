@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5ab2c2ac74bbad28926fdff3c720645a, Shared\Settings.Configuration\Config\File.vb"
+﻿#Region "Microsoft.VisualBasic::86898a3502f0c270eec449202a05e6c7, Shared\Settings.Configuration\Config\File.vb"
 
     ' Author:
     ' 
@@ -35,9 +35,9 @@
     ' 
     '         Properties: BlastBin, BlastDb, C2, COG2003_2014, DefaultXmlFile
     '                     Dev2, FilePath, Gcc, GCHOST, Java
-    '                     Mothur, MPAlignment, MySQL, Perl, Phylip
-    '                     Python, R_HOME, RepositoryRoot, Rockhopper, RSS
-    '                     ShoalShell, SMART, STAMP
+    '                     MimeType, Mothur, MPAlignment, MySQL, Perl
+    '                     Phylip, Python, R_HOME, RepositoryRoot, Rockhopper
+    '                     RSS, ShoalShell, SMART, STAMP
     ' 
     '         Function: GetMplParam, IProfile_Save, (+2 Overloads) Save
     ' 
@@ -58,7 +58,7 @@ Imports Microsoft.VisualBasic.Text
 
 Namespace Settings
 
-    <XmlRoot("Settings.File", Namespace:="http://code.google.com/p/genome-in-code/gcmodeller/settings.file/")>
+    <XmlRoot("Settings.File", Namespace:="https://settings.gcmodeller.org/file/")>
     Public Class File
         Implements IDisposable
         Implements IProfile
@@ -129,7 +129,7 @@ Visit http://GCModeller.org/ for more information.
                 _repositoryRoot = value
 
                 Try
-                    Call _repositoryRoot.MkDIR
+                    Call _repositoryRoot.MakeDir
                     Call ReadMe.Trim.SaveTo(_repositoryRoot & "/readme.txt")
                 Finally
                     ' 当使用并行化拓展的时候，可能会出现文件被占用的情况而

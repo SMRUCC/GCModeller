@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ba13542eb90ba30e1254d13637648466, RNA-Seq\Rockhopper\Java\Math_lib\NegativeBinomial.vb"
+﻿#Region "Microsoft.VisualBasic::b2910988583b9c6094f74ed069d8466b, RNA-Seq\Rockhopper\Java\Math_lib\NegativeBinomial.vb"
 
     ' Author:
     ' 

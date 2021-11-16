@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::11fd88786f7c60da830c3538c20b314e, seqtoolkit\Fasta.vb"
+﻿#Region "Microsoft.VisualBasic::77a488daa8099cfa7dee55ffa8942895, R#\seqtoolkit\Fasta.vb"
 
     ' Author:
     ' 
@@ -35,15 +35,10 @@
     ' 
     '     Constructor: (+1 Overloads) Sub New
     ' 
-    '     Function: CutSequenceLinear, fasta, GetFastaSeq, MSA, readFasta
-    '               readSeq, SequenceAssembler, Tofasta, Translates, viewAssembles
-    '               viewFasta, viewMSA, writeFasta
+    '     Function: CutSequenceLinear, fasta, GetFastaSeq, MSA, openFasta
+    '               readFasta, readSeq, SequenceAssembler, sizeof, Tofasta
+    '               Translates, viewAssembles, viewFasta, viewMSA, writeFasta
     ' 
-    ' 
-    ' Class AssembleResult
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: GetAssembledSequence
     ' 
     ' /********************************************************************************/
 
@@ -169,6 +164,15 @@ Module Fasta
         End Select
     End Function
 
+    <ExportAPI("size")>
+    Public Function sizeof(fa As FastaSeq) As Integer
+        If fa Is Nothing Then
+            Return 0
+        Else
+            Return fa.Length
+        End If
+    End Function
+
     ''' <summary>
     ''' Read a single fasta sequence file
     ''' </summary>
@@ -196,8 +200,20 @@ Module Fasta
     ''' <param name="file"></param>
     ''' <returns></returns>
     <ExportAPI("read.fasta")>
-    Public Function readFasta(file As String) As FastaFile
-        Return FastaFile.Read(file)
+    <RApiReturn(GetType(FastaSeq))>
+    Public Function readFasta(file As String, Optional lazyStream As Boolean = False) As Object
+        If lazyStream Then
+            Return StreamIterator _
+                .SeqSource(handle:=file) _
+                .DoCall(AddressOf pipeline.CreateFromPopulator)
+        Else
+            Return FastaFile.Read(file).ToArray
+        End If
+    End Function
+
+    <ExportAPI("open.fasta")>
+    Public Function openFasta(file As String, Optional env As Environment = Nothing)
+        Return StreamIterator.SeqSource(file).DoCall(AddressOf pipeline.CreateFromPopulator)
     End Function
 
     ''' <summary>
@@ -213,10 +229,27 @@ Module Fasta
     <ExportAPI("write.fasta")>
     Public Function writeFasta(<RRawVectorArgument> seq As Object, file$,
                                Optional lineBreak% = -1,
+                               Optional delimiter As String = " ",
                                Optional encoding As Encodings = Encodings.ASCII,
                                Optional env As Environment = Nothing) As Boolean
 
-        Return New FastaFile(GetFastaSeq(seq, env)).Save(lineBreak, file, encoding)
+        If TypeOf seq Is pipeline Then
+            Using buffer As New StreamWriter(file.Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False))
+                For Each fa As FastaSeq In DirectCast(seq, pipeline).populates(Of FastaSeq)(env)
+                    Call buffer.WriteLine(fa.GenerateDocument(
+                        lineBreak:=lineBreak,
+                        [overrides]:=False,
+                        delimiter:=delimiter
+                    ))
+                Next
+
+                Call buffer.Flush()
+            End Using
+
+            Return True
+        Else
+            Return New FastaFile(GetFastaSeq(seq, env)).Save(lineBreak, file, encoding)
+        End If
     End Function
 
     ''' <summary>
@@ -422,7 +455,7 @@ Module Fasta
             With DirectCast(loci, NucleotideLocation)
                 left = .Min
                 right = .Max
-                getAttrs = Function(fa) {fa.Headers.JoinBy("|") & " " & .tag}
+                getAttrs = Function(fa) {fa.Headers.JoinBy("|") & " " & .tagStr}
 
                 If doNtAutoReverse AndAlso .Strand = Strands.Reverse Then
                     reverse = True
@@ -475,16 +508,3 @@ Module Fasta
         End If
     End Function
 End Module
-
-Public Class AssembleResult
-
-    Friend alignments As String()
-
-    Sub New(result As String())
-        alignments = result
-    End Sub
-
-    Public Function GetAssembledSequence() As String
-        Return alignments(Scan0)
-    End Function
-End Class

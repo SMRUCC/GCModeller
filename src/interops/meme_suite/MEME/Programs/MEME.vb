@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::126d205e222ce22571de1c04b2cb85de, meme_suite\MEME\Programs\MEME.vb"
+﻿#Region "Microsoft.VisualBasic::94163e0344d3a5488fad90c71a6e2064, meme_suite\MEME\Programs\MEME.vb"
 
     ' Author:
     ' 

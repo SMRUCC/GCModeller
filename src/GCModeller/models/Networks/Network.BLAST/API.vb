@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2088deba272c8c8d98d6ea396bbe37a3, models\Networks\Network.BLAST\API.vb"
+﻿#Region "Microsoft.VisualBasic::5126f6bd18e431bc20b01cd27385e39c, models\Networks\Network.BLAST\API.vb"
 
     ' Author:
     ' 
@@ -59,6 +59,7 @@ Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Interops.NCBI.Extensions
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
+Imports SMRUCC.genomics.Interops.NCBI.ParallelTask
 
 ''' <summary>
 ''' 这个多用于宏基因组的研究
@@ -158,12 +159,14 @@ Public Module API
                                         locusDict As Dictionary(Of String, String))
 
         Dim hitEdges As LDM.Hit() = hits.Where(Function(x) Not x.isEmpty).Select(
-            Function(x) New LDM.Hit With {
+            Function(x)
+                Return New LDM.Hit With {
                 .genomePairId = $"{locusDict.TryGetValue(x.queryName)}_vs__{locusDict.TryGetValue(x.hitName)}",
                 .query = x.queryName,
                 .subject = x.hitName,
                 .weight = x.identities
-        })
+        }
+            End Function).ToArray
 
         If Not hitEdges.IsNullOrEmpty Then
             ' 生成蛋白质的节点模型
@@ -184,7 +187,7 @@ Public Module API
                             .Genome = locusDict.TryGetValue(x.hitName),
                             .LocusId = x.hitName
                        }
-                        End Function)
+                        End Function).ToArray
             outHits = hitEdges
         Else
             outProt = New LDM.Protein() {}
@@ -198,7 +201,7 @@ Public Module API
                                      locusDict As Dictionary(Of String, String)) As LDM.BLAST
         Dim source = (From file As String
                       In FileIO.FileSystem.GetFiles(inDIR, FileIO.SearchOption.SearchTopLevelOnly, "*.csv").AsParallel
-                      Let entry = LocalBLAST.Application.BatchParallel.LogNameParser(file)
+                      Let entry = VennDataBuilder.LogNameParser(file)
                       Where entry.IsPairMatch
                       Select entry,
                           bbh = entry.FilePath.LoadCsv(Of BiDirectionalBesthit)).ToArray

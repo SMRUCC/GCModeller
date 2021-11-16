@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ec718faab42374dc5f7df7aae8259f71, analysis\RNA-Seq\Toolkits.RNA-Seq\Correlations\MatrixDatabase\CorrsDbAPI.vb"
+﻿#Region "Microsoft.VisualBasic::7922790d17059ec4bcb0220778cb1edb, analysis\RNA-Seq\Toolkits.RNA-Seq\Correlations\MatrixDatabase\CorrsDbAPI.vb"
 
     ' Author:
     ' 
@@ -36,7 +36,7 @@
     ' 
     ' Module CorrsDbAPI
     ' 
-    '     Function: FastImports, IsTrue, IsTrueFunc
+    '     Function: IsTrue, IsTrueFunc
     '     Class __isTRUE
     ' 
     '         Function: IsTrue
@@ -51,9 +51,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports SMRUCC.genomics.Analysis.RNA_Seq.WGCNA
 
 ''' <summary>
 ''' PCC/sPCC
@@ -93,23 +91,5 @@ Public Module CorrsDbAPI
         Dim pcc As Double = corr.GetPcc(g1, g2)
         Dim spcc As Double = corr.GetSPcc(g1, g2)
         Return Math.Abs(pcc) >= cut OrElse Math.Abs(spcc) >= cut
-    End Function
-
-    <ExportAPI("WGCNA.Fast.Imports")>
-    Public Function FastImports(Path As String) As WGCNAWeight
-        If Not Path.FileExists Then
-            Call VBDebugger.Warning($"{Path.ToFileURL} is not exists on the file system!")
-            Return New WGCNAWeight
-        End If
-
-        Dim Lines As String() = IO.File.ReadAllLines(Path)
-        Dim Tokens = Lines.Skip(1).Select(Function(line) Strings.Split(line, vbTab)).ToArray
-        Dim weights As WGCNA.Weight() =
-            Tokens.Select(
-                Function(line) New Weight With {
-                    .FromNode = line(Scan0),
-                    .ToNode = line(1),
-                    .Weight = Val(line(2))}).ToArray
-        Return New WGCNAWeight With {.PairItems = weights}
     End Function
 End Module

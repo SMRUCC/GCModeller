@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fe79ea1b6f5fd8bb87b00579d677ae0c, Knowledge_base\Knowledge_base\PubMed\PubmedArticle.vb"
+﻿#Region "Microsoft.VisualBasic::fe79ea1b6f5fd8bb87b00579d677ae0c, modules\Knowledge_base\Knowledge_base\PubMed\PubmedArticle.vb"
 
     ' Author:
     ' 

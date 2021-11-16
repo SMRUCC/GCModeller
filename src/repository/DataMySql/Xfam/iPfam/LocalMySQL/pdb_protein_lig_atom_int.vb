@@ -33,6 +33,8 @@
 
     ' Class pdb_protein_lig_atom_int
     ' 
+    '     Properties: auto_res_lig_int, lig_atom, pdb_id, res_atom
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

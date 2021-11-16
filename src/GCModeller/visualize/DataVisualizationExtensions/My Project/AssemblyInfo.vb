@@ -7,9 +7,9 @@ Imports System.Runtime.InteropServices
 ' associated with an assembly.
 
 ' Review the values of the assembly attributes
-
-<Assembly: AssemblyTitle("GCModeller base module for bioinformatics  DataVisualization")>
-<Assembly: AssemblyDescription("GCModeller base module for bioinformatics  DataVisualization")>
+#If netcore5 = 0 Then
+<Assembly: AssemblyTitle("GCModeller base module for bioinformatics Data Visualization")>
+<Assembly: AssemblyDescription("GCModeller base module for bioinformatics Data Visualization")>
 <Assembly: AssemblyCompany("SMRUCC")>
 <Assembly: AssemblyProduct("DataVisualization")>
 <Assembly: AssemblyCopyright("Copyright © xie.guigang@gcmodeller.org 2019")>
@@ -33,3 +33,4 @@ Imports System.Runtime.InteropServices
 
 <Assembly: AssemblyVersion("1.0.0.0")> 
 <Assembly: AssemblyFileVersion("1.0.0.0")> 
+#end if

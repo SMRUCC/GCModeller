@@ -47,7 +47,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
-    <OutputPath>bin\x64\Debug\</OutputPath>
+    <OutputPath>..\..\..\..\..\..\GCModeller\bin\</OutputPath>
     <DocumentationFile>SMRUCC.genomics.Analysis.PFSNet.Visual.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>full</DebugType>
@@ -99,7 +99,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28Release_X64%29|x64'">
     <DebugSymbols>true</DebugSymbols>
     <DefineTrace>true</DefineTrace>
-    <OutputPath>bin\x64\GCModeller%28Release_X64%29\</OutputPath>
+    <OutputPath>..\..\..\..\..\..\GCModeller\bin\</OutputPath>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
     <DocumentationFile>SMRUCC.genomics.Analysis.PFSNet.Visual.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
@@ -200,13 +200,13 @@
       <Project>{45b726ac-d3b8-476d-89ea-1ff7243a4fa5}</Project>
       <Name>Visualizer</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\47-dotnet_Microsoft.VisualBasic.vbproj">
+    <ProjectReference Include="..\..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\47-dotnet_Microsoft.VisualBasic.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\runtime\sciBASIC#\mime\text%25html\mime-htmls.vbproj">
+    <ProjectReference Include="..\..\..\..\..\runtime\sciBASIC#\mime\text%25html\MIME-htmls.vbproj">
       <Project>{2dd4be80-ddc3-4767-94a7-10f1c3395716}</Project>
-      <Name>mime-htmls</Name>
+      <Name>MIME-htmls</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{C699D311-9923-4C19-BF70-5048D0E2CF5D}</Project>

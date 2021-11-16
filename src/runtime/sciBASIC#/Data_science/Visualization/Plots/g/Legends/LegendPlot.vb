@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6194adb691f50591af0b08ab104b6ad8, Data_science\Visualization\Plots\g\Legends\LegendPlot.vb"
+﻿#Region "Microsoft.VisualBasic::400dfdb43c1c8fd55f6eba1ecb0455fa, Data_science\Visualization\Plots\g\Legends\LegendPlot.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Module LegendPlotExtensions
     ' 
-    '         Function: DrawLegend, GetStyle, LegendStyls, MaxLegendSize
+    '         Function: DrawLegend, LegendStyls, MaxLegendSize, ParseLegendStyle
     ' 
     '         Sub: DrawLegends, DrawLegendShape
     ' 
@@ -49,7 +49,7 @@ Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Shapes
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
-Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
+Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports stdNum = System.Math
 
@@ -70,7 +70,9 @@ Namespace Graphic.Legend
         ''' <param name="str$"></param>
         ''' <param name="defaultStyle"></param>
         ''' <returns></returns>
-        Public Function GetStyle(str$, Optional defaultStyle As LegendStyles = LegendStyles.Circle) As LegendStyles
+        ''' 
+        <Extension>
+        Public Function ParseLegendStyle(str$, Optional defaultStyle As LegendStyles = LegendStyles.Circle) As LegendStyles
             With LCase(str)
                 If legendExpressions.ContainsKey(.ByRef) Then
                     Return legendExpressions(.ByRef)
@@ -90,7 +92,7 @@ Namespace Graphic.Legend
             Return expr _
                 .Split(","c) _
                 .Select(AddressOf Trim) _
-                .Select(AddressOf GetStyle) _
+                .Select(AddressOf ParseLegendStyle) _
                 .ToArray
         End Function
 
@@ -106,7 +108,7 @@ Namespace Graphic.Legend
         ''' <param name="radius%"></param>
         <Extension>
         Public Sub DrawLegendShape(g As IGraphics,
-                                   pos As Point,
+                                   pos As PointF,
                                    gSize As SizeF,
                                    style As LegendStyles,
                                    color As Brush,
@@ -251,14 +253,15 @@ Namespace Graphic.Legend
         ''' <returns></returns>
         <Extension>
         Public Function DrawLegend(ByRef g As IGraphics,
-                                   pos As Point,
+                                   pos As PointF,
                                    canvas As SizeF,
-                                   l As Legend,
+                                   l As LegendObject,
                                    Optional border As Stroke = Nothing,
                                    Optional radius% = 5,
-                                   Optional titleBrush As Brush = Nothing, Optional lineWidth! = -1) As SizeF
+                                   Optional titleBrush As Brush = Nothing,
+                                   Optional lineWidth! = -1) As SizeF
 
-            Dim font As Font = l.GetFont
+            Dim font As Font = l.GetFont(g.Dpi)
             Dim fSize As SizeF = g.MeasureString(l.title, font)
             Dim labelPosition As New PointF With {
                 .X = pos.X + canvas.Width + 5,
@@ -312,8 +315,8 @@ Namespace Graphic.Legend
         ''' <param name="radius">这个是用于圆角矩形的图例图形的绘制参数</param>
         <Extension>
         Public Sub DrawLegends(ByRef g As IGraphics,
-                               topLeft As Point,
-                               legends As IEnumerable(Of Legend),
+                               topLeft As PointF,
+                               legends As IEnumerable(Of LegendObject),
                                Optional gSize$ = "120,45",
                                Optional fillBg$ = Nothing,
                                Optional d% = 10,
@@ -323,19 +326,19 @@ Namespace Graphic.Legend
                                Optional radius% = 5,
                                Optional titleBrush As Brush = Nothing)
 
-            Dim ZERO As Point = topLeft
+            Dim ZERO As PointF = topLeft
             Dim size As SizeF
-            Dim legendList As Legend() = legends.ToArray
+            Dim legendList As LegendObject() = legends.ToArray
             Dim graphicSize As SizeF = gSize.FloatSizeParser
 
             If Not regionBorder Is Nothing Then
                 Dim maxTitleSize As SizeF = legendList.MaxLegendSize(g)
-                Dim rect As Rectangle
+                Dim rect As RectangleF
 
                 With graphicSize
 
                     Dim width! = .Width + .Height * 1.25 + maxTitleSize.Width
-                    Dim height! = (stdNum.Max(.Height, maxTitleSize.Height) + d + 1) * legendList.Length
+                    Dim height! = (stdNum.Max(.Height, maxTitleSize.Height) + d + 1.25) * legendList.Length
                     Dim background As Brush = Nothing
 
                     If Not fillBg.StringEmpty Then
@@ -348,7 +351,7 @@ Namespace Graphic.Legend
                     If roundRectRegion Then
                         Call RoundRect.Draw(g, ZERO, size, 15, background, regionBorder)
                     Else
-                        rect = New Rectangle(ZERO, size.ToSize)
+                        rect = New RectangleF(ZERO, size)
 
                         If Not background Is Nothing Then
                             Call g.FillRectangle(background, rect)
@@ -362,7 +365,7 @@ Namespace Graphic.Legend
                 End With
             End If
 
-            For Each l As Legend In legendList
+            For Each l As LegendObject In legendList
                 size = g.DrawLegend(topLeft, graphicSize, l, shapeBorder, radius, titleBrush)
                 topLeft = New Point With {
                     .X = topLeft.X,
@@ -378,11 +381,11 @@ Namespace Graphic.Legend
         ''' <param name="g"></param>
         ''' <returns></returns>
         <Extension>
-        Public Function MaxLegendSize(legends As IEnumerable(Of Legend), g As IGraphics) As SizeF
+        Public Function MaxLegendSize(legends As IEnumerable(Of LegendObject), g As IGraphics) As SizeF
             Dim maxW! = Single.MinValue, maxH! = Single.MinValue
 
-            For Each l As Legend In legends
-                Dim font As Font = CSSFont.TryParse(l.fontstyle)
+            For Each l As LegendObject In legends
+                Dim font As Font = CSSFont.TryParse(l.fontstyle).GDIObject(g.Dpi)
                 Dim size As SizeF = g.MeasureString(l.title, font)
 
                 If maxW < size.Width Then

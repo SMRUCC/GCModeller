@@ -33,6 +33,8 @@
 
     ' Class rank_names
     ' 
+    '     Properties: id, name
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

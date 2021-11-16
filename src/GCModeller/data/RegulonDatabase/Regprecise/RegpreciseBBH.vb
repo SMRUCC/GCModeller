@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ce8d407858065d0185387aabcce9b3f3, data\RegulonDatabase\Regprecise\RegpreciseBBH.vb"
+﻿#Region "Microsoft.VisualBasic::a37f99368cb0e3e84ce4b69ac73568a6, data\RegulonDatabase\Regprecise\RegpreciseBBH.vb"
 
     ' Author:
     ' 
@@ -33,8 +33,10 @@
 
     '     Class RegpreciseBBH
     ' 
-    '         Properties: Effectors, Family, HitName, QueryName, RegprecisePhenotypeAssociation
-    '                     RegpreciseTfbsIds, RegulationEffects
+    '         Properties: effectors, family, geneName, HitName, pathway
+    '                     QueryName, regulationMode, Tfbs
+    ' 
+    '         Function: (+2 Overloads) JoinTable
     ' 
     '     Class RegpreciseMPBBH
     ' 
@@ -54,8 +56,10 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 
 Namespace Regprecise
 
+    ''' <summary>
+    ''' RegPrecise regulator matched by blastp sbh/bbh mapping
+    ''' </summary>
     Public Class RegpreciseBBH : Inherits BiDirectionalBesthit
-
         Implements INamedValue
         Implements IRegulatorMatched
 
@@ -65,7 +69,7 @@ Namespace Regprecise
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <Column("LocusId")> Public Overrides Property QueryName As String Implements INamedValue.Key,
+        <Column("locus_id")> Public Overrides Property QueryName As String Implements INamedValue.Key,
             IRegulatorMatched.locusId
             Get
                 Return MyBase.QueryName
@@ -90,14 +94,100 @@ Namespace Regprecise
             End Set
         End Property
 
-        <Column("Family.Regprecise")> Public Property Family As String Implements IRegulatorMatched.Family
+        Public Property geneName As String
 
-        Public Property RegulationEffects As String
-        Public Property RegprecisePhenotypeAssociation As String
+        Public Property family As String Implements IRegulatorMatched.Family
 
-        <Collection("Possible.Effectors")> Public Property Effectors As String()
-        <Collection("Possible.Regprecise_TfbsId")> Public Property RegpreciseTfbsIds As String()
+        Public Property regulationMode As String
+        Public Property pathway As String
+
+        Public Property effectors As String()
+        ''' <summary>
+        ''' a list of known TFBS id that regulated by this regulator in regprecise database
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Tfbs As String()
+
+        Public Shared Iterator Function JoinTable(sbh As IEnumerable(Of BestHit), regulators As IEnumerable(Of RegulatorTable)) As IEnumerable(Of RegpreciseBBH)
+            Dim TF As Dictionary(Of String, RegulatorTable) = regulators _
+                .GroupBy(Function(r) r.locus_tag) _
+                .ToDictionary(Function(r) r.Key,
+                              Function(g)
+                                  Return g.First
+                              End Function)
+
+            For Each hit As BestHit In sbh
+                If hit.HitName = HITS_NOT_FOUND Then
+                    Continue For
+                End If
+
+                Dim reg As RegulatorTable = TF.TryGetValue(hit.HitName.Split(":"c).Last)
+
+                If reg Is Nothing Then
+                    Call $"no regulator information was found for '{hit.HitName}'".Warning
+                    Continue For
+                End If
+
+                Yield New RegpreciseBBH With {
+                    .description = hit.description,
+                    .HitName = hit.HitName,
+                    .effectors = reg.effector,
+                    .family = reg.family,
+                    .forward = hit.score,
+                    .length = hit.query_length.ToString,
+                    .level = Levels.SBH,
+                    .pathway = reg.pathway,
+                    .positive = hit.positive,
+                    .QueryName = hit.QueryName,
+                    .regulationMode = reg.regulationMode,
+                    .reverse = .forward,
+                    .term = reg.regulog,
+                    .geneName = reg.geneName
+                }
+            Next
+        End Function
+
+        Public Shared Iterator Function JoinTable(bbh As IEnumerable(Of BiDirectionalBesthit), regulators As IEnumerable(Of RegulatorTable)) As IEnumerable(Of RegpreciseBBH)
+            Dim TF As Dictionary(Of String, RegulatorTable) = regulators _
+                .GroupBy(Function(r) r.locus_tag) _
+                .ToDictionary(Function(r) r.Key,
+                              Function(g)
+                                  Return g.First
+                              End Function)
+
+            For Each hit As BiDirectionalBesthit In bbh
+                If hit.HitName = HITS_NOT_FOUND Then
+                    Continue For
+                End If
+
+                Dim reg As RegulatorTable = TF.TryGetValue(hit.HitName.Split(":"c).Last)
+
+                If reg Is Nothing Then
+                    Call $"no regulator information was found for '{hit.HitName}'".Warning
+                    Continue For
+                End If
+
+                Yield New RegpreciseBBH With {
+                    .description = hit.description,
+                    .HitName = hit.HitName,
+                    .effectors = reg.effector,
+                    .family = reg.family,
+                    .forward = hit.forward,
+                    .length = hit.length,
+                    .level = hit.level,
+                    .pathway = reg.pathway,
+                    .positive = hit.positive,
+                    .QueryName = hit.QueryName,
+                    .regulationMode = reg.regulationMode,
+                    .reverse = hit.reverse,
+                    .term = reg.regulog,
+                    .geneName = reg.geneName
+                }
+            Next
+        End Function
+
     End Class
+
     ''' <summary>
     ''' Bidirectional best hit regulator with the regprecise database.(调控因子与Regprecise数据库的双向最佳比对结果)
     ''' </summary>

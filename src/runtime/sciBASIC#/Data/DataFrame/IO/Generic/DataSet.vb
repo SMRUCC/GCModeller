@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a7c0e148ee88dd8b7dd40ddb3f543a37, Data\DataFrame\IO\Generic\DataSet.vb"
+﻿#Region "Microsoft.VisualBasic::4aa5177528dd39799f4a409120c29815, Data\DataFrame\IO\Generic\DataSet.vb"
 
     ' Author:
     ' 
@@ -36,19 +36,23 @@
     '         Properties: ID, MyHashCode, Vector
     ' 
     '         Constructor: (+2 Overloads) Sub New
-    '         Function: Append, Copy, (+2 Overloads) LoadDataSet, SubSet, ToString
+    '         Function: Append, Copy, (+2 Overloads) LoadDataSet, LoadMatrix, SubSet
+    '                   ToString
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
+Imports Microsoft.VisualBasic.Text
 
 Namespace IO
 
@@ -217,6 +221,41 @@ Namespace IO
                     encoding:=encoding
                 )
             End If
+        End Function
+
+        ''' <summary>
+        ''' 加载一个矩阵数据：单元格全是数字类型，但是缺少第一列ID数据
+        ''' </summary>
+        ''' <param name="path"></param>
+        ''' <param name="isTsv"></param>
+        ''' <param name="encoding"></param>
+        ''' <returns></returns>
+        Public Shared Iterator Function LoadMatrix(path As String, Optional isTsv As Boolean = False, Optional encoding As Encoding = Nothing) As IEnumerable(Of DataSet)
+            Using reader As New StreamReader(path.Open(FileMode.Open, doClear:=False, [readOnly]:=True), encoding)
+                Dim line As Value(Of String) = reader.ReadLine
+                Dim deli As Char = If(isTsv, ASCII.TAB, ","c)
+                Dim headers As String() = Tokenizer.CharsParser(line, deli).ToArray
+                Dim vector As Double()
+                Dim data As Dictionary(Of String, Double)
+                Dim i As i32 = 1
+
+                Do While Not line = reader.ReadLine Is Nothing
+                    vector = Tokenizer _
+                        .CharsParser(line, deli) _
+                        .Select(AddressOf Val) _
+                        .ToArray
+                    data = New Dictionary(Of String, Double)
+
+                    For j As Integer = 0 To headers.Length - 1
+                        data(headers(j)) = vector(j)
+                    Next
+
+                    Yield New DataSet With {
+                        .ID = ++i,
+                        .Properties = data
+                    }
+                Loop
+            End Using
         End Function
     End Class
 End Namespace

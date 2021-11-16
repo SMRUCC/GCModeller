@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0d0b45cd9100ac1d013aca96d10cfa74, analysis\SequenceToolkit\SequenceLogo\SequenceLogo\DrawingDevice.vb"
+﻿#Region "Microsoft.VisualBasic::3ede8d60aed5c8bc7b45fa277f817418, analysis\SequenceToolkit\SequenceLogo\SequenceLogo\DrawingDevice.vb"
 
     ' Author:
     ' 
@@ -50,7 +50,7 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
+Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
 Imports SMRUCC.genomics.SequenceModel.FASTA

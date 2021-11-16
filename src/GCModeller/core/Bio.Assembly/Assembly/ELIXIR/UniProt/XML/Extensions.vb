@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e43e5bca44d7b1f149869d65890636ac, core\Bio.Assembly\Assembly\ELIXIR\UniProt\XML\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::9f4cbae296c4e5594b9943a6e99ebda3, core\Bio.Assembly\Assembly\ELIXIR\UniProt\XML\Extensions.vb"
 
     ' Author:
     ' 
@@ -73,7 +73,7 @@ Namespace Assembly.Uniprot.XML
         ''' Get KO number of this protein
         ''' </summary>
         ''' <param name="protein"></param>
-        ''' <returns></returns>
+        ''' <returns>returns nothing if not found</returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function KO(protein As entry) As dbReference
@@ -91,6 +91,11 @@ Namespace Assembly.Uniprot.XML
             Return protein.xrefs.TryGetValue("GO", [default]:=Nothing)
         End Function
 
+        ''' <summary>
+        ''' includes uniprot accession id and db entry in other database
+        ''' </summary>
+        ''' <param name="entry"></param>
+        ''' <returns></returns>
         <Extension>
         Public Iterator Function EnumerateAllIDs(entry As entry) As IEnumerable(Of (Database$, xrefID$))
             For Each accession As String In entry.accessions.SafeQuery
@@ -98,6 +103,12 @@ Namespace Assembly.Uniprot.XML
             Next
 
             Yield ("geneName", entry.name)
+
+            If Not entry.gene Is Nothing Then
+                For Each id As String In entry.gene.ORF.SafeQuery
+                    Yield ("gene", id)
+                Next
+            End If
 
             For Each reference As dbReference In entry.dbReferences.SafeQuery
                 Yield (reference.type, reference.id)

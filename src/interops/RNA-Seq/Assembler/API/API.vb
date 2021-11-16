@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a5bc9a194ed354ccec12d614774a40c0, RNA-Seq\Assembler\API\API.vb"
+﻿#Region "Microsoft.VisualBasic::8fb995c6d3b2c673caeb568b7c7e3dbe, RNA-Seq\Assembler\API\API.vb"
 
     ' Author:
     ' 

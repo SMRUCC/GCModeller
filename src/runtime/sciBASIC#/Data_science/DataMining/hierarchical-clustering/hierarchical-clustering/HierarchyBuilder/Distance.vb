@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::825f095ad3ae278aefed597d9fbe229a, Data_science\DataMining\hierarchical-clustering\hierarchical-clustering\HierarchyBuilder\Distance.vb"
+﻿#Region "Microsoft.VisualBasic::c1b6405d1db6978c951801af46f93b40, Data_science\DataMining\hierarchical-clustering\hierarchical-clustering\HierarchyBuilder\Distance.vb"
 
     ' Author:
     ' 
@@ -43,8 +43,6 @@
 
 #End Region
 
-Imports System
-
 '
 '*****************************************************************************
 ' Copyright 2015 Lars Behnke
@@ -65,8 +63,7 @@ Imports System
 
 Namespace Hierarchy
 
-    Public Class Distance
-        Implements IComparable(Of Distance), ICloneable
+    Public Class Distance : Implements IComparable(Of Distance), ICloneable
 
         Public Property Distance As Double
         Public Property Weight As Double

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6c2ab6b3e892f94cd2f84726b9ad1abf, mime\application%json\Javascript\JsonElement.vb"
+﻿#Region "Microsoft.VisualBasic::2c2a9046b1db4922fce76570dd40864c, mime\application%json\Javascript\JsonElement.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Class JsonElement
     ' 
-    '         Function: [As], ToString
+    '         Function: [As], ParseJSON, ToString
     ' 
     ' 
     ' /********************************************************************************/
@@ -61,6 +61,11 @@ Namespace Javascript
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function [As](Of T As JsonElement)() As T
             Return DirectCast(Me, T)
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function ParseJSON(jsonStr As String) As JsonElement
+            Return New JsonParser().OpenJSON(jsonStr)
         End Function
     End Class
 End Namespace

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d9e2af2d922e125f7dff9922da281324, mime\application%vnd.openxmlformats-officedocument.spreadsheetml.sheet\Excel\IO.vb"
+﻿#Region "Microsoft.VisualBasic::5cda075ddc9b842feeb12b3c35cfcba4, mime\application%vnd.openxmlformats-officedocument.spreadsheetml.sheet\Excel\IO.vb"
 
     ' Author:
     ' 
@@ -41,8 +41,10 @@
 
 #End Region
 
+Imports System.IO
 Imports System.IO.Compression
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.ApplicationServices.Zip
 Imports Microsoft.VisualBasic.MIME.Office.Excel.Model.Directory
 Imports Microsoft.VisualBasic.Net.Http
@@ -58,6 +60,12 @@ Public Module IO
     '  +------- <docProps>
     '  +------- <xl>
     '  +------- [Content_Types].xml
+
+    ''' <summary>
+    ''' a helper function for unzip of the xlsx data file. 
+    ''' </summary>
+    ''' <param name="xlsx">the file uri of the target xlsx data file</param>
+    ''' <param name="ROOT">a temp directory for unzip file</param>
     Private Sub UnZipHandler(xlsx$, ROOT$)
         Dim success As Boolean = False
         Dim exception As Exception = Nothing
@@ -67,7 +75,23 @@ Public Module IO
             success = False
 
             Try
-                If DataURI.IsWellFormedUriString(xlsx) Then
+                If xlsx.IsURLPattern Then
+                    Using buffer As New MemoryStream, file As Stream = xlsx.GetRequestRaw
+                        Dim rootDir As String = Nothing
+
+                        Call file.CopyTo(buffer)
+                        Call buffer.Flush()
+                        Call buffer.Seek(Scan0, SeekOrigin.Begin)
+
+                        Call buffer.IsSourceFolderZip(folder:=rootDir, reset:=True)
+                        Call buffer.ImprovedExtractToDirectory(
+                            destinationDirectoryName:=ROOT,
+                            overwriteMethod:=Overwrite.Always,
+                            extractToFlat:=False,
+                            rootDir:=rootDir
+                        )
+                    End Using
+                ElseIf DataURI.IsWellFormedUriString(xlsx) Then
                     UnZip.ImprovedExtractToDirectory(DataURI.URIParser(xlsx), destinationDirectoryName:=ROOT, Overwrite.Always)
                 Else
                     UnZip.ImprovedExtractToDirectory(xlsx, ROOT, Overwrite.Always)
@@ -94,9 +118,9 @@ Public Module IO
     ''' <param name="xlsx"></param>
     ''' <returns></returns>
     Public Function CreateReader(xlsx As String) As File
-        Dim ROOT$ = App.GetAppSysTempFile(
+        Dim ROOT$ = TempFileSystem.GetAppSysTempFile(
             ext:=RandomASCIIString(6, skipSymbols:=True),
-            sessionID:=App.PID,
+            sessionID:=App.PID.ToHexString,
             prefix:="excel_xlsx_"
         )
 

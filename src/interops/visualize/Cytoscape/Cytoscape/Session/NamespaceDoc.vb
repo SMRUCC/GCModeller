@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3640e0c5bdcd03fffebc27ccd0a9b737, visualize\Cytoscape\Cytoscape\Session\NamespaceDoc.vb"
+﻿#Region "Microsoft.VisualBasic::c868a0a0462490e3ae3b913545b196ec, visualize\Cytoscape\Cytoscape\Session\NamespaceDoc.vb"
 
     ' Author:
     ' 
@@ -39,7 +39,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Namespace Session
 

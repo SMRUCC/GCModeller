@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9a62dc17ec4eccb916807665f2895934, core\Bio.Annotation\PTF\Document\PtfParser.vb"
+﻿#Region "Microsoft.VisualBasic::252ff3ecb8dd9fb2cff5f8c198dd4ac4, core\Bio.Annotation\PTF\Document\PtfParser.vb"
 
     ' Author:
     ' 
@@ -55,22 +55,24 @@ Namespace Ptf.Document
         ''' </summary>
         ''' <param name="file"></param>
         ''' <returns></returns>
-        Public Function ParseDocument(file As String) As PtfFile
-            Dim lines As String() = file.IterateAllLines.ToArray
+        Public Function ParseDocument(file As StreamReader) As PtfFile
+            Dim lines As String() = file.ReadToEnd.LineTokens
             Dim headers As String() = lines.TakeWhile(Function(a) a.StartsWith("#")).ToArray
-            Dim attributes As Dictionary(Of String, String) = headers _
+            Dim attributes As Dictionary(Of String, String()) = headers _
                 .Select(Function(line)
                             Return line.Trim("#"c, " "c).GetTagValue("=")
                         End Function) _
-                .ToDictionary(Function(a) a.Name,
+                .GroupBy(Function(a) a.Name) _
+                .ToDictionary(Function(a) a.Key,
                               Function(a)
-                                  Return a.Value
+                                  Return a.Select(Function(p) p.Value).ToArray
                               End Function)
 
             Return New PtfFile With {
                 .attributes = attributes,
                 .proteins = lines _
                     .Skip(headers.Length) _
+                    .Where(Function(line) Not line.StringEmpty) _
                     .Select(AddressOf ParseAnnotation) _
                     .ToArray
             }
@@ -96,7 +98,7 @@ Namespace Ptf.Document
 
         Public Function ParseAnnotation(line As String) As ProteinAnnotation
             Dim tokens As String() = line.Split(ASCII.TAB)
-            Dim attrs As Dictionary(Of String, String()) = tokens(2) _
+            Dim attrs As Dictionary(Of String, String()) = tokens(4) _
                 .StringSplit(";\s+") _
                 .Select(Function(t) t.GetTagValue(":", trim:=True)) _
                 .ToDictionary(Function(a) a.Name,
@@ -106,7 +108,9 @@ Namespace Ptf.Document
 
             Return New ProteinAnnotation With {
                 .geneId = tokens(Scan0),
-                .description = tokens(1),
+                .locus_id = tokens(1),
+                .geneName = tokens(2),
+                .description = tokens(3),
                 .attributes = attrs
             }
         End Function

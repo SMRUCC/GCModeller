@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a6705b6641058252f845d407bb9ed033, data\WebServices\Service References\NCBI\Reference.vb"
+﻿#Region "Microsoft.VisualBasic::38203f8d14d5503b838f6271e7fad95e, data\WebServices\Service References\NCBI\Reference.vb"
 
     ' Author:
     ' 
@@ -3172,4 +3172,3 @@ Namespace NCBI
         End Function
     End Class
 End Namespace
-

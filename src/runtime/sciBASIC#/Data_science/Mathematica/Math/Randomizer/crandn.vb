@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4c95d3182c8f409ca84bef4e1e353636, Data_science\Mathematica\Math\Randomizer\crandn.vb"
+﻿#Region "Microsoft.VisualBasic::512944ef23ab5129c65b2a7039ec4bcf, Data_science\Mathematica\Math\Randomizer\crandn.vb"
 
     ' Author:
     ' 
@@ -40,6 +40,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
 Imports MAT = Microsoft.VisualBasic.Math.LinearAlgebra.Matrix.GeneralMatrix
 Imports stdNum = System.Math
 
@@ -177,7 +178,7 @@ Public Module crandn
             gauss(m) = tmp1 * stdNum.Cos(2 * stdNum.PI * u(m + 1))
         End If
 
-        Dim goal As New MAT(m, n)
+        Dim goal As New NumericMatrix(m, n)
 
         For i As Integer = 0 To m - 1
             For j As Integer = 0 To n - 1
@@ -238,7 +239,7 @@ Public Module crandn
     ''' <param name="seed">种子</param>
     ''' <returns></returns>
     Public Function rand(m As Integer, n As Integer, seed As Integer) As MAT
-        Dim goal As New MAT(m, n)
+        Dim goal As New NumericMatrix(m, n)
         Dim x0 As Long = seed
         Dim x1 As Long
 

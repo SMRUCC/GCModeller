@@ -1,48 +1,48 @@
-﻿#Region "Microsoft.VisualBasic::cf33860d5093beffd546ea66a20e3299, visualize\DataVisualizationExtensions\ExpressionPattern\PatternPlot.vb"
+﻿#Region "Microsoft.VisualBasic::ba7b282e27a4b8ea0243c19158e8de3e, visualize\DataVisualizationExtensions\ExpressionPattern\PatternPlot.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class PatternPlot
-' 
-'         Properties: matrix
-' 
-'         Constructor: (+1 Overloads) Sub New
-' 
-'         Function: createLines
-' 
-'         Sub: PlotInternal
-' 
-' 
-' /********************************************************************************/
+    '     Class PatternPlot
+    ' 
+    '         Properties: clusterLabelStyle, legendTickStyle, legendTitleStyle, matrix, Prefix
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
+    '         Function: createLines
+    ' 
+    '         Sub: PlotInternal
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -59,7 +59,7 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
+Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports DashStyle = System.Drawing.Drawing2D.DashStyle
 
@@ -75,6 +75,7 @@ Namespace ExpressionPattern
         Public Property clusterLabelStyle As String = CSSFont.PlotSubTitle
         Public Property legendTitleStyle As String = CSSFont.Win7Small
         Public Property legendTickStyle As String = CSSFont.Win7Small
+        Public Property Prefix As String = "Pattern"
 
         Public Sub New(matrix As ExpressionPattern, theme As Theme, colorSet$, levels%)
             MyBase.New(theme)
@@ -102,15 +103,16 @@ Namespace ExpressionPattern
             Dim y! = canvas.PlotRegion.Top + ih / 2
             Dim padding As String
             Dim clusterTagId As Integer
-            Dim clusterTagFont As Font = CSSFont.TryParse(clusterLabelStyle)
+            Dim clusterTagFont As Font = CSSFont.TryParse(clusterLabelStyle).GDIObject(g.Dpi)
             Dim tagPos As PointF
             Dim levels As New Value(Of DoubleRange)
             Dim legendLayout As Rectangle
             Dim designer As SolidBrush() = colors _
                 .Select(Function(c) New SolidBrush(c)) _
                 .ToArray
-            Dim legendTitleFont As Font = CSSFont.TryParse(legendTitleStyle)
-            Dim legendTickFont As Font = CSSFont.TryParse(legendTickStyle)
+            Dim legendTitleFont As Font = CSSFont.TryParse(legendTitleStyle).GDIObject(g.Dpi)
+            Dim legendTickFont As Font = CSSFont.TryParse(legendTickStyle).GDIObject(g.Dpi)
+            Dim tickFormat As String
 
             For Each row As Matrix() In matrix.GetPartitionMatrix
                 x = canvas.PlotRegion.Left + iw / 5
@@ -133,7 +135,13 @@ Namespace ExpressionPattern
                                  End Function) _
                         .ToArray
 
-                    Call g.DrawString($"Cluster #{Integer.Parse(col.tag) + 1}", clusterTagFont, Brushes.Black, tagPos)
+                    If scatterData.Select(Function(l) l.pts.Select(Function(a) a.pt.Y).Max).Max > 3000 Then
+                        tickFormat = "G2"
+                    Else
+                        tickFormat = "F2"
+                    End If
+
+                    Call g.DrawString($"{Prefix} #{Integer.Parse(col.tag) + 1}", clusterTagFont, Brushes.Black, tagPos)
 
                     Call Scatter.Plot(
                         c:=scatterData,
@@ -142,8 +150,10 @@ Namespace ExpressionPattern
                         Xlabel:=xlabel,
                         Ylabel:=ylabel,
                         tickFontStyle:=theme.axisTickCSS,
-                        labelFontStyle:=theme.axisLabelCSS,
-                        showLegend:=False
+                        axisLabelCSS:=theme.axisLabelCSS,
+                        showLegend:=False,
+                        YtickFormat:=tickFormat,
+                        xAxisLabelRotate:=theme.xAxisRotate
                     )
                     Call g.ColorMapLegend(
                         layout:=legendLayout,

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::427186fce00ee2d0725f2d9443c097ba, RNA-Seq\Rockhopper\Java\DeNovoTranscript.vb"
+﻿#Region "Microsoft.VisualBasic::59a523e70a461cf59e0fe52e317f1e21, RNA-Seq\Rockhopper\Java\DeNovoTranscript.vb"
 
     ' Author:
     ' 

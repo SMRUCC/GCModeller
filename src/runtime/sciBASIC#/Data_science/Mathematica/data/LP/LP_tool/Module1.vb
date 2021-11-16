@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b1fd2c65eadb4f84b53cba4be6929ccc, Data_science\Mathematica\data\LP\LP_tool\Module1.vb"
+﻿#Region "Microsoft.VisualBasic::3273250dc7b9cdb2547c1c51e529530d, Data_science\Mathematica\data\LP\LP_tool\Module1.vb"
 
     ' Author:
     ' 
@@ -39,7 +39,7 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Math.Algebra.LinearProgramming
+Imports Microsoft.VisualBasic.Math.LinearAlgebra.LinearProgramming
 
 Module Module1
 

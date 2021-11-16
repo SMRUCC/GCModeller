@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2133faaa756490572c7f0f0f1dbf1e5b, analysis\SequenceToolkit\SequenceTools\CLI\NTProps.vb"
+﻿#Region "Microsoft.VisualBasic::47c011a868ffa9a07e51f8f25c8cf478, analysis\SequenceToolkit\SequenceTools\CLI\NTProps.vb"
 
     ' Author:
     ' 
@@ -49,10 +49,10 @@ Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO.Linq
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
-Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Parallel
 Imports Microsoft.VisualBasic.Parallel.Linq
 Imports Microsoft.VisualBasic.Text
+Imports Parallel.ThreadTask
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
@@ -72,13 +72,13 @@ Partial Module Utilities
     ''' <returns></returns>
     <ExportAPI("/SimpleSegment.AutoBuild",
                Usage:="/SimpleSegment.AutoBuild /in <locis.csv> [/out <out.csv>]")>
-    <Argument("/in", False,
+    <ArgumentAttribute("/in", False,
               AcceptTypes:={
                 GetType(ImperfectPalindrome),
                 GetType(ReverseRepeats),
                 GetType(Repeats),
                 GetType(PalindromeLoci)})>
-    <Argument("/out", True, AcceptTypes:={GetType(SimpleSegment)}, Out:=True)>
+    <ArgumentAttribute("/out", True, AcceptTypes:={GetType(SimpleSegment)}, Out:=True)>
     <Group(CLIGrouping.NTPropertyTools)>
     Public Function ConvertsAuto(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
@@ -90,8 +90,8 @@ Partial Module Utilities
 
     <ExportAPI("/SimpleSegment.Mirrors",
                Usage:="/SimpleSegment.Mirrors /in <in.csv> [/out <out.csv>]")>
-    <Argument("/in", False, AcceptTypes:={GetType(PalindromeLoci)})>
-    <Argument("/out", True, AcceptTypes:={GetType(SimpleSegment)}, Out:=True)>
+    <ArgumentAttribute("/in", False, AcceptTypes:={GetType(PalindromeLoci)})>
+    <ArgumentAttribute("/out", True, AcceptTypes:={GetType(SimpleSegment)}, Out:=True)>
     <Group(CLIGrouping.NTPropertyTools)>
     Public Function ConvertMirrors(args As CommandLine) As Integer
         Dim [in] As String = args - "/in"
@@ -109,7 +109,7 @@ Partial Module Utilities
     ''' <returns></returns>
     <ExportAPI("/Mirrors.Group",
                Usage:="/Mirrors.Group /in <mirrors.Csv> [/batch /fuzzy <-1> /out <out.DIR>]")>
-    <Argument("/fuzzy", True,
+    <ArgumentAttribute("/fuzzy", True,
                    Description:="-1 means group sequence by string equals compared, and value of 0-1 means using string fuzzy compare.")>
     <Group(CLIGrouping.NTPropertyTools)>
     Public Function MirrorGroups(args As CommandLine) As Integer
@@ -174,7 +174,7 @@ Partial Module Utilities
             CLI += task(file)
         Next
 
-        Return App.SelfFolks(CLI, LQuerySchedule.AutoConfig(num_threads))
+        Return BatchTasks.SelfFolks(CLI, LQuerySchedule.AutoConfig(num_threads))
     End Function
 
     <ExportAPI("/SimpleSegment.Mirrors.Batch",
@@ -203,7 +203,7 @@ Partial Module Utilities
     <ExportAPI("/Mirrors.Context.Batch",
                Info:="This function will convert the mirror data to the simple segment object data",
                Usage:="/Mirrors.Context.Batch /in <mirrors.csv.DIR> /PTT <genome.ptt.DIR> [/trans /strand <+/-> /out <out.csv> /stranded /dist <500bp> /num_threads -1]")>
-    <Argument("/trans", True,
+    <ArgumentAttribute("/trans", True,
                    Description:="Enable this option will using genome_size minus loci location for the location correction, only works in reversed strand.")>
     <Group(CLIGrouping.NTPropertyTools)>
     Public Function MirrorContextBatch(args As CommandLine) As Integer
@@ -239,7 +239,8 @@ Partial Module Utilities
         Next
 
         Dim n As Integer = args.GetValue("/num_threads", -1)
-        Return App.SelfFolks(CLI, LQuerySchedule.AutoConfig(n))
+
+        Return BatchTasks.SelfFolks(CLI, LQuerySchedule.AutoConfig(n))
     End Function
 
     ''' <summary>
@@ -250,7 +251,7 @@ Partial Module Utilities
     <ExportAPI("/Mirrors.Context",
                Info:="This function will convert the mirror data to the simple segment object data",
                Usage:="/Mirrors.Context /in <mirrors.csv> /PTT <genome.ptt> [/trans /strand <+/-> /out <out.csv> /stranded /dist <500bp>]")>
-    <Argument("/trans", True,
+    <ArgumentAttribute("/trans", True,
                    Description:="Enable this option will using genome_size minus loci location for the location correction, only works in reversed strand.")>
     <Group(CLIGrouping.NTPropertyTools)>
     Public Function MirrorContext(args As CommandLine) As Integer
@@ -279,8 +280,8 @@ Partial Module Utilities
         Dim gsize As Integer = context.Size
         Dim task As Func(Of PalindromeLoci, KeyValuePair(Of PalindromeLoci, Relationship(Of GeneBrief)())) =
            Function(x)
-               Dim left As Integer = x.MappingLocation.Left
-               Dim right As Integer = x.MappingLocation.Right
+               Dim left As Integer = x.MappingLocation.left
+               Dim right As Integer = x.MappingLocation.right
 
                If trans Then
                    left = gsize - left

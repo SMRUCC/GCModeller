@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::817e442e790132a9f85faa446a00962a, engine\Dynamics\test\unitTest.vb"
+﻿#Region "Microsoft.VisualBasic::1bf271210841318b1adcc7438a0d2172, engine\Dynamics\test\unitTest.vb"
 
     ' Author:
     ' 
@@ -61,7 +61,7 @@ Module unitTest
         ' a <=> b
 
         Dim exp = "(Vmax * S) / (Km + S)"
-        Dim model As New Model.Kinetics With {
+        Dim model As New Kinetics With {
             .formula = ScriptEngine.ParseExpression(exp),
             .parameters = {"Vmax", "S", "Km"},
             .paramVals = {10, "a", 2},
@@ -78,11 +78,11 @@ Module unitTest
             .reverse = New AdditiveControls With {.baseline = 0, .activation = {New Variable(b, 1)}, .inhibition = {New Variable(a, 2)}}
         }
 
-        machine = machine.load({a, b}).load({reaction}).Initialize(10000)
+        machine = machine.load({a, b}).load({reaction}).Initialize
 
         Dim snapshots As New List(Of DataSet)
         Dim flux As New List(Of DataSet)
-        Dim dynamics = machine.ContainerIterator(100)
+        Dim dynamics = machine.ContainerIterator(100, 10000)
         Dim cache As New FluxAggregater(machine)
 
         For i As Integer = 0 To 10000
@@ -118,13 +118,11 @@ Module unitTest
             .reverse = New AdditiveControls With {.baseline = 0, .activation = {New Variable(b, 1)}, .inhibition = {New Variable(a, 2)}}
         }
 
-        Dim machine As Vessel = New Vessel().load({a, b}).load({reaction})
-
-        machine.Initialize(10000)
+        Dim machine As Vessel = New Vessel().load({a, b}).load({reaction}).Initialize
 
         Dim snapshots As New List(Of DataSet)
         Dim flux As New List(Of DataSet)
-        Dim dynamics = machine.ContainerIterator(100)
+        Dim dynamics = machine.ContainerIterator(100, 10000)
         Dim cache As New FluxAggregater(machine)
 
         For i As Integer = 0 To 10000
@@ -181,13 +179,11 @@ Module unitTest
             .reverse = New AdditiveControls With {.baseline = 0.05, .activation = {New Variable(a, 1)}}
         }
 
-        Dim machine As Vessel = New Vessel().load({reaction, reaction2, reaction3, reaction4}).load({a, b, c})
-
-        machine.Initialize(10000)
+        Dim machine As Vessel = New Vessel().load({reaction, reaction2, reaction3, reaction4}).load({a, b, c}).Initialize
 
         Dim snapshots As New List(Of DataSet)
         Dim flux As New List(Of DataSet)
-        Dim dynamics = machine.ContainerIterator(100)
+        Dim dynamics = machine.ContainerIterator(100, 10000)
         Dim cache As New FluxAggregater(machine)
 
         For i As Integer = 0 To 2500

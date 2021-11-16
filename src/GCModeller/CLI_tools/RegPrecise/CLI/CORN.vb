@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1d65ec9c7ded1c62a9a4f75dcb84c58a, CLI_tools\RegPrecise\CLI\CORN.vb"
+﻿#Region "Microsoft.VisualBasic::67dc2ff5febd4a1e9fced24636cb369a, CLI_tools\RegPrecise\CLI\CORN.vb"
 
     ' Author:
     ' 
@@ -53,6 +53,7 @@ Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Parallel.Linq
 Imports Microsoft.VisualBasic.Text
+Imports Parallel.ThreadTask
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
 Imports SMRUCC.genomics.Data.Regprecise
 
@@ -147,10 +148,10 @@ Partial Module CLI
 
     <ExportAPI("/CORN.Batch",
                Usage:="/CORN.Batch /sites <motiflogs.gff.sites.Csv.DIR> /regulons <regprecise.regulons.csv.DIR> [/name <name> /out <outDIR> /num_threads <-1> /null-regprecise]")>
-    <Argument("/name", True, AcceptTypes:={GetType(String)},
+    <ArgumentAttribute("/name", True, AcceptTypes:={GetType(String)},
                    Description:="")>
-    <Argument("/sites", False, AcceptTypes:={GetType(MotifLog)})>
-    <Argument("/regulons", False, AcceptTypes:={GetType(RegPreciseOperon)})>
+    <ArgumentAttribute("/sites", False, AcceptTypes:={GetType(MotifLog)})>
+    <ArgumentAttribute("/regulons", False, AcceptTypes:={GetType(RegPreciseOperon)})>
     Public Function CORNBatch(args As CommandLine) As Integer
         Dim sitesDIR As String = args("/sites")
         Dim regulonsDIR As String = args("/regulons")
@@ -203,7 +204,7 @@ Partial Module CLI
             Next
         End If
 
-        Return App.SelfFolks(CLI, n)
+        Return BatchTasks.SelfFolks(CLI, n)
     End Function
 
     ''' <summary>
@@ -213,15 +214,15 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/CORN.thread",
                Usage:="/CORN.thread /hit <regulons.Csv> /hit-sites <motiflogs.csv> /sites <query.motiflogs.csv> /ref <query.regulons.Csv> [/null-regprecise /out <out.csv>]")>
-    <Argument("/null-regprecise",
+    <ArgumentAttribute("/null-regprecise",
                    True,
                    AcceptTypes:={GetType(Boolean)},
                    Description:="Does the motif log data have the RegPrecise database value? If this parameter is presented that which it means the site data have no RegPrecise data.")>
-    <Argument("/hit", False, AcceptTypes:={GetType(RegPreciseOperon)})>
-    <Argument("/hit-sites", False, AcceptTypes:={GetType(MotifLog)})>
-    <Argument("/sites", False, AcceptTypes:={GetType(MotifLog)})>
-    <Argument("/ref", False, AcceptTypes:={GetType(RegPreciseOperon)})>
-    <Argument("/out", True, AcceptTypes:={GetType(MotifLog)})>
+    <ArgumentAttribute("/hit", False, AcceptTypes:={GetType(RegPreciseOperon)})>
+    <ArgumentAttribute("/hit-sites", False, AcceptTypes:={GetType(MotifLog)})>
+    <ArgumentAttribute("/sites", False, AcceptTypes:={GetType(MotifLog)})>
+    <ArgumentAttribute("/ref", False, AcceptTypes:={GetType(RegPreciseOperon)})>
+    <ArgumentAttribute("/out", True, AcceptTypes:={GetType(MotifLog)})>
     Public Function CORNSingleThread(args As CommandLine) As Integer
         Dim hit As String = args("/hit")
         Dim sites As String = args("/sites")

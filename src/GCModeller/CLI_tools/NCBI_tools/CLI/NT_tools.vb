@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::45ce3cdb2bdc551c2fabd758ced2d8eb, CLI_tools\NCBI_tools\CLI\NT_tools.vb"
+﻿#Region "Microsoft.VisualBasic::ff355c0c2e1744251eb4775f8e6b909e, CLI_tools\NCBI_tools\CLI\NT_tools.vb"
 
     ' Author:
     ' 
@@ -155,7 +155,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/nt.matches.name", Usage:="/nt.matches.name /in <nt.fasta> /list <names.csv> [/out <out.fasta>]")>
-    <Argument("/list", AcceptTypes:={GetType(WordTokens)})>
+    <ArgumentAttribute("/list", AcceptTypes:={GetType(WordTokens)})>
     <Group(CLIGrouping.NTTools)>
     Public Function NtNameMatches(args As CommandLine) As Integer
         Dim [in] As String = args("/in")

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::18e97c5824faa49fdc011db24139628d, Data_science\Visualization\Plots\Fractions\RadarChart.vb"
+﻿#Region "Microsoft.VisualBasic::86c3798794d16153fed93a164beffd05, Data_science\Visualization\Plots\Fractions\RadarChart.vb"
 
     ' Author:
     ' 
@@ -58,7 +58,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.Interpolation
-Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
+Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports stdNum = System.Math
 
@@ -158,7 +158,8 @@ Namespace Fractions
                              Optional labelFontCSS$ = CSSFont.Win7VeryVeryLarge,
                              Optional axisStrokeStyle$ = Stroke.WhiteLineStroke,
                              Optional spline As Boolean = True,
-                             Optional textWrap As Integer = 16) As GraphicsData
+                             Optional textWrap As Integer = 16,
+                             Optional ppi As Integer = 100) As GraphicsData
 
             Dim serialColors As Color() = Designer.GetColors(serialColorSchema) _
                                                   .Select(Function(c) c.Alpha(colorAlpha)) _
@@ -173,7 +174,7 @@ Namespace Fractions
                                        .ToArray
             Dim dDegree# = 360 / directions.Length
             Dim axisPen As Pen = Stroke.TryParse(axisStrokeStyle).GDIObject
-            Dim labelFont As Font = CSSFont.TryParse(labelFontCSS).GDIObject
+            Dim labelFont As Font = CSSFont.TryParse(labelFontCSS).GDIObject(ppi)
             Dim regionFillColor As New SolidBrush(regionFill.TranslateColor)
 
             If axisRange Is Nothing Then

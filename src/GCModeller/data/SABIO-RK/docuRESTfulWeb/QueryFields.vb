@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b96bc2408d554e3788d389986b910919, data\SABIO-RK\docuRESTfulWeb\QueryFields.vb"
+﻿#Region "Microsoft.VisualBasic::357db2e3ebbdc92fbbbd0dfcb72bb3c6, data\SABIO-RK\docuRESTfulWeb\QueryFields.vb"
 
     ' Author:
     ' 
@@ -136,4 +136,3 @@ Public Enum QueryFields
     MetaNetXReactionID
     UniprotOmimID
 End Enum
-

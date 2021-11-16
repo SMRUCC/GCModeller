@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f6af40669a531d4efa15206c7e8a160a, CLI_tools\metaProfiler\CLI\Difference.vb"
+﻿#Region "Microsoft.VisualBasic::9269e3cf6b5aa38b1ee52326849e658b, CLI_tools\metaProfiler\CLI\Difference.vb"
 
     ' Author:
     ' 
@@ -55,7 +55,7 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
-Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
+Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports RDotNET.Extensions.VisualBasic.API
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 
@@ -63,11 +63,11 @@ Partial Module CLI
 
     <ExportAPI("/significant.difference")>
     <Usage("/significant.difference /in <data.csv> /groups <sampleInfo.csv> [/out <out.csv.DIR>]")>
-    <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
+    <ArgumentAttribute("/in", False, CLITypes.File, PipelineTypes.std_in,
               AcceptTypes:={GetType(DataSet)},
               Extensions:="*.csv",
               Description:="A matrix file that contains the sample data.")>
-    <Argument("/groups", False, CLITypes.File,
+    <ArgumentAttribute("/groups", False, CLITypes.File,
               AcceptTypes:={GetType(SampleInfo)},
               Extensions:="*.csv",
               Description:="Grouping info of the samples.")>
@@ -81,12 +81,12 @@ Partial Module CLI
             .EnsureGroupPaired(allSamples:=data.PropertyNames)
 
         For Each ga As NamedCollection(Of SampleInfo) In sampleGroups
-            Dim labels1$() = ga.Value.Keys
+            Dim labels1$() = ga.value.Keys
 
-            For Each gb In sampleGroups.Where(Function(g) g.Name <> ga.Name)
-                Dim labels2$() = gb.Value.Keys
+            For Each gb In sampleGroups.Where(Function(g) g.name <> ga.name)
+                Dim labels2$() = gb.value.Keys
                 Dim result As New List(Of DataSet)
-                Dim path$ = $"{out}/{ga.Name.NormalizePathString}-{gb.Name.NormalizePathString}.csv"
+                Dim path$ = $"{out}/{ga.name.NormalizePathString}-{gb.name.NormalizePathString}.csv"
 
                 For Each x As DataSet In data
                     Dim va#() = x(labels1)
@@ -122,10 +122,10 @@ Partial Module CLI
         Dim sampleGroups = group _
             .LoadCsv(Of SampleInfo) _
             .EnsureGroupPaired(allSamples:=data.PropertyNames) _
-            .ToDictionary(Function(g) g.Name,
+            .ToDictionary(Function(g) g.name,
                           Function(samples)
                               Return samples _
-                                  .Value _
+                                  .value _
                                   .Keys _
                                   .ToArray
                           End Function)
@@ -166,10 +166,10 @@ Partial Module CLI
         Dim sampleGroups =
             sampleInfo _
             .EnsureGroupPaired(allSamples:=data.PropertyNames) _
-            .ToDictionary(Function(g) g.Name,
+            .ToDictionary(Function(g) g.name,
                           Function(samples)
                               Return samples _
-                                  .Value _
+                                  .value _
                                   .Keys _
                                   .ToArray
                           End Function)
@@ -214,9 +214,9 @@ Partial Module CLI
 
     <ExportAPI("/Relative_abundance.barplot")>
     <Usage("/Relative_abundance.barplot /in <dataset.csv> [/group <sample_group.csv> /desc /asc /take <-1> /size <3000,2700> /column.n <default=9> /interval <10px> /out <out.png>]")>
-    <Argument("/desc", True, CLITypes.Boolean, Description:="")>
-    <Argument("/asc", True, CLITypes.Boolean, Description:="")>
-    <Argument("/take", True, CLITypes.Integer,
+    <ArgumentAttribute("/desc", True, CLITypes.Boolean, Description:="")>
+    <ArgumentAttribute("/asc", True, CLITypes.Boolean, Description:="")>
+    <ArgumentAttribute("/take", True, CLITypes.Integer,
               AcceptTypes:={GetType(Integer)},
               Description:="")>
     Public Function Relative_abundance_barplot(args As CommandLine) As Integer

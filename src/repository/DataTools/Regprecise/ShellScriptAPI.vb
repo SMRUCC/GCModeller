@@ -33,9 +33,11 @@
 
     '     Module RegpreciseShellScriptAPI
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: __assignRegulations, BuildPWM, CompileAnnotations, ParalogsFromSelfOverview
     ' 
-    '         Sub: BuildPWM, New
+    '         Sub: BuildPWM
     ' 
     ' 
     ' /********************************************************************************/

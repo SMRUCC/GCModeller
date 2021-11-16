@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2df0c4644e088d562de648277b3f42e8, Data_science\Visualization\Plots\Scatter\Bubble.vb"
+﻿#Region "Microsoft.VisualBasic::d7770430db48a09ecb65c6ef101731bc, Data_science\Visualization\Plots\Scatter\Bubble.vb"
 
     ' Author:
     ' 
@@ -55,7 +55,7 @@ Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
+Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports stdNum = System.Math
 
 ''' <summary>
@@ -110,7 +110,8 @@ Public Class Bubble : Inherits Plot
                                           Optional positiveRangeY As Boolean = False,
                                           Optional legendTitleFontCSS$ = CSSFont.PlotSubTitle,
                                           Optional legendAnchor As PointF = Nothing,
-                                          Optional ylayout As YAxisLayoutStyles = YAxisLayoutStyles.Left) As GraphicsData
+                                          Optional ylayout As YAxisLayoutStyles = YAxisLayoutStyles.Left,
+                                          Optional gridFill$ = "rgb(250,250,250)") As GraphicsData
 
         Dim theme As New Theme With {
             .background = bg,
@@ -123,7 +124,8 @@ Public Class Bubble : Inherits Plot
             .drawLegend = legend,
             .legendLayout = New Absolute(legendAnchor),
             .legendBoxStroke = legendBorder?.ToString,
-            .axisLabelCSS = axisLabelFontCSS
+            .axisLabelCSS = axisLabelFontCSS,
+            .gridFill = gridFill
         }
 
         Return New Bubble(theme) With {
@@ -143,8 +145,8 @@ Public Class Bubble : Inherits Plot
     Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
         Dim mapper As Mapper
         Dim rangeData As New Scaling(data, False)
-        Dim tagLabelFont As Font = CSSFont.TryParse(theme.tagCSS).GDIObject
-        Dim titleFont As Font = CSSFont.TryParse(theme.mainCSS)
+        Dim tagLabelFont As Font = CSSFont.TryParse(theme.tagCSS).GDIObject(g.Dpi)
+        Dim titleFont As Font = CSSFont.TryParse(theme.mainCSS).GDIObject(g.Dpi)
 
         If xAxis.StringEmpty Then
             ' 任意一个位空值就会使用普通的axis数据计算方法
@@ -161,8 +163,8 @@ Public Class Bubble : Inherits Plot
 
         Dim scale As Func(Of Double, Double) = New Func(Of Double, Double)(Function(r) r) Or usingLogRadius.When(usingLogScaleRadius)
         Dim x, y As d3js.scale.LinearScale
-        Dim xTicks = mapper.xAxis.CreateAxisTicks(ticks:=5)
-        Dim yTicks = mapper.yAxis.CreateAxisTicks
+        Dim xTicks = mapper.xAxis.CreateAxisTicks(ticks:=5, decimalDigits:=If(mapper.xAxis.Max > 0.01, 2, -1))
+        Dim yTicks = mapper.yAxis.CreateAxisTicks(, decimalDigits:=If(mapper.xAxis.Max > 0.01, 2, -1))
         Dim labels As New List(Of Label)
         Dim anchors As New List(Of Anchor)
         Dim labelSize As SizeF
@@ -193,7 +195,9 @@ Public Class Bubble : Inherits Plot
             ylabel:=ylabel,
             labelFont:=theme.axisLabelCSS,
             htmlLabel:=False,
-            ylayout:=theme.yAxisLayout
+            ylayout:=theme.yAxisLayout,
+            gridFill:=theme.gridFill,
+            XtickFormat:=If(mapper.xAxis.Max > 0.01, "F2", "G2")
         )
 
         Dim bubblePen As Pen = Nothing
@@ -218,10 +222,15 @@ Public Class Bubble : Inherits Plot
                 b = New SolidBrush(s.color)
             End If
 
-            For Each pt As PointData In s
+            For Each pt As PointData In s.pts
                 Dim r As Double = getRadius(pt)
                 Dim p As New Point(CInt(pt.pt.X - r), CInt(pt.pt.Y - r))
                 Dim rect As New Rectangle(p, New Size(r * 2, r * 2))
+
+                If r.IsNaNImaginary Then
+                    Call $"invalid radius value of {pt}".Warning
+                    Continue For
+                End If
 
                 With pt.color
                     If .StringEmpty Then
@@ -286,7 +295,7 @@ Public Class Bubble : Inherits Plot
     End Sub
 
     Private Sub drawLegend(g As IGraphics, canvas As GraphicsRegion)
-        Dim legendLabelFont As Font = CSSFont.TryParse(theme.axisLabelCSS)
+        Dim legendLabelFont As Font = CSSFont.TryParse(theme.axisLabelCSS).GDIObject(g.Dpi)
         Dim maxSize! = data _
             .Select(Function(s) s.title) _
             .Select(Function(str) g.MeasureString(str, legendLabelFont).Width) _
@@ -318,7 +327,7 @@ Public Class Bubble : Inherits Plot
             topLeft = New Point With {.X = px, .Y = py}
         End If
 
-        Dim legends = LinqAPI.Exec(Of Legend) <=
+        Dim legends = LinqAPI.Exec(Of LegendObject) <=
  _
             From serial As SerialData
             In data
@@ -326,7 +335,7 @@ Public Class Bubble : Inherits Plot
                 strokeColorAsMainColor,
                 Stroke.TryParse(serial.pts(serial.pts.Length \ 2).stroke).fill,
                 serial.color.RGBExpression)
-            Select New Legend With {
+            Select New LegendObject With {
                 .color = color,
                 .fontstyle = theme.axisLabelCSS,
                 .style = LegendStyles.Circle,

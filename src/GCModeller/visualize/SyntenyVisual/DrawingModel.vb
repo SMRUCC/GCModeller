@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b33c505d509fd1578d93bb906f8ac40b, visualize\SyntenyVisual\DrawingModel.vb"
+﻿#Region "Microsoft.VisualBasic::6e4d1a6ea9db92bae5ae042046be965c, visualize\SyntenyVisual\DrawingModel.vb"
 
     ' Author:
     ' 
@@ -52,7 +52,7 @@ Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Text
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
+Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 ''' <summary>

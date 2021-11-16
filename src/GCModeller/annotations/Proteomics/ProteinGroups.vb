@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4fbae2abd413f1a5fd88391215eeb043, annotations\Proteomics\ProteinGroups.vb"
+﻿#Region "Microsoft.VisualBasic::4727c6b3abf21e494b5f58819582a77c, annotations\Proteomics\ProteinGroups.vb"
 
     ' Author:
     ' 
@@ -34,10 +34,9 @@
     ' Module ProteinGroups
     ' 
     '     Function: __applyInternal, ExportAnnotations, (+5 Overloads) GenerateAnnotations, GetKOlist, GetProteinIds
-    '               LoadSample, Term2Locus
+    '               LoadSample
     ' 
-    '     Sub: __apply, (+2 Overloads) ApplyAnnotations, ApplyDEPsAnnotations, ExportColorDEGs, ExportKOList
-    '          GetProteinDefs
+    '     Sub: GetProteinDefs
     ' 
     ' /********************************************************************************/
 
@@ -46,20 +45,18 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports Microsoft.VisualBasic.Text
-Imports SMRUCC.genomics.Analysis.KEGG
+Imports SMRUCC.genomics.Annotation
+Imports SMRUCC.genomics.Annotation.Ptf
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Assembly.Uniprot.Web
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
-Imports protein = Microsoft.VisualBasic.Data.csv.IO.EntityObject
-Imports uniprotProteomics = SMRUCC.genomics.Assembly.Uniprot.XML.UniProtXML
 Imports csv = Microsoft.VisualBasic.Data.csv.IO.File
+Imports uniprotProteomics = SMRUCC.genomics.Assembly.Uniprot.XML.UniProtXML
 Imports Xlsx = Microsoft.VisualBasic.MIME.Office.Excel.File
 
 ''' <summary>
@@ -99,7 +96,7 @@ Public Module ProteinGroups
                                         uniprotXML$,
                                         Optional iTraq As Boolean = False,
                                         Optional accID As Boolean = False,
-                                        Optional mappings As Dictionary(Of String, String()) = Nothing) As IEnumerable(Of (protein, String()))
+                                        Optional mappings As Dictionary(Of String, String()) = Nothing) As IEnumerable(Of (AnnotationTable, String()))
         Dim list$() = ID.ToArray
         Dim prefix$
 
@@ -133,7 +130,7 @@ Public Module ProteinGroups
                                         uniprotXML$,
                                         Optional prefix$ = "",
                                         Optional deli As Char = ";"c,
-                                        Optional scientifcName$ = Nothing) As IEnumerable(Of (protein, String()))
+                                        Optional scientifcName$ = Nothing) As IEnumerable(Of (AnnotationTable, String()))
 
         Dim mappings As Dictionary(Of String, String()) = Retrieve_IDmapping.MappingReader(idMapping)
         Return ID.GenerateAnnotations(mappings, uniprotXML, prefix, deli, scientifcName)
@@ -147,7 +144,7 @@ Public Module ProteinGroups
                                                  Optional deli As Char = ";"c,
                                                  Optional scientifcName$ = Nothing,
                                                  Optional iTraq As Boolean = False,
-                                                 Optional accID As Boolean = False) As IEnumerable(Of (protein, String()))
+                                                 Optional accID As Boolean = False) As IEnumerable(Of (AnnotationTable, String()))
 
         If uniprotXML.FileLength > 1024 * 1024 * 1024L Then
             ' ultra large size mode
@@ -167,10 +164,11 @@ Public Module ProteinGroups
                     End If
 
                     Yield list.__applyInternal(
-                        New Dictionary(Of String, String),
+                        New AnnotationTable,
                         mappings, uniprot, prefix, geneID,
                         scientifcName,
-                        iTraq)
+                        iTraq
+                    )
                 End If
             Next
         Else
@@ -190,10 +188,11 @@ Public Module ProteinGroups
                 End If
 
                 Yield list.__applyInternal(
-                    New Dictionary(Of String, String),
+                    New AnnotationTable,
                     mappings, uniprot, prefix, geneID,
                     scientifcName,
-                    iTraq)
+                    iTraq
+                )
             Next
         End If
     End Function
@@ -204,7 +203,7 @@ Public Module ProteinGroups
                                                  Optional prefix$ = "",
                                                  Optional scientifcName$ = Nothing,
                                                  Optional iTraq As Boolean = False,
-                                                 Optional accID As Boolean = False) As IEnumerable(Of (protein, String()))
+                                                 Optional accID As Boolean = False) As IEnumerable(Of (AnnotationTable, String()))
         Dim geneID$
 
         For Each Idtags As SeqValue(Of Perseus) In proteinGroups.SeqIterator
@@ -222,10 +221,11 @@ Public Module ProteinGroups
             End If
 
             Yield list.__applyInternal(
-                New Dictionary(Of String, String),
+                New AnnotationTable,
                 mappings, uniprot, prefix, i,
                 scientifcName,
-                iTraq)
+                iTraq
+            )
         Next
     End Function
 
@@ -243,13 +243,12 @@ Public Module ProteinGroups
                                                Optional deli As Char = ";"c,
                                                Optional scientifcName$ = Nothing,
                                                Optional iTraq As Boolean = False,
-                                               Optional accID As Boolean = False) As IEnumerable(Of (protein, String()))
+                                               Optional accID As Boolean = False) As IEnumerable(Of (AnnotationTable, String()))
 
         Dim uniprot As Dictionary(Of Uniprot.XML.entry) = uniprotProteomics.LoadDictionary(uniprotXML)
         Dim ID As IEnumerable(Of String) = uniprot.Keys
         Dim geneID$
-        Dim mappings As Dictionary(Of String, String()) = ID _
-            .ToDictionary(Function(s) s, Function(s) {s})
+        Dim mappings As Dictionary(Of String, String()) = ID.ToDictionary(Function(s) s, Function(s) {s})
 
         For Each Idtags As SeqValue(Of String) In ID.SeqIterator
             Dim list$() = (+Idtags).Split(deli)
@@ -262,7 +261,7 @@ Public Module ProteinGroups
             End If
 
             Yield list.__applyInternal(
-                New Dictionary(Of String, String),
+                New AnnotationTable,
                 mappings, uniprot, prefix, geneID,
                 scientifcName,
                 iTraq
@@ -282,12 +281,12 @@ Public Module ProteinGroups
     ''' <returns></returns>
     <Extension>
     Private Function __applyInternal(source As String(),
-                                     annotations As Dictionary(Of String, String),
+                                     annotations As AnnotationTable,
                                      mappings As Dictionary(Of String, String()),
                                      uniprot As Dictionary(Of Uniprot.XML.entry),
                                      prefix$, geneID$,
                                      scientifcName$,
-                                     iTraq As Boolean) As (protein As protein, mapsId As String())
+                                     iTraq As Boolean) As (protein As AnnotationTable, mapsId As String())
 
         Dim maps = source _
             .Select(Function(s) UCase(s)) _
@@ -361,8 +360,8 @@ Public Module ProteinGroups
             .FirstOrDefault ' 会首先使用基因名，当没有基因名才会使用基因号
         Dim getKeyValue = Function(key$)
                               Return uniprots _
-                                .Where(Function(x) x.Xrefs.ContainsKey(key)) _
-                                .Select(Function(x) x.Xrefs(key)) _
+                                .Where(Function(x) x.xrefs.ContainsKey(key)) _
+                                .Select(Function(x) x.xrefs(key)) _
                                 .Unlist _
                                 .Select(Function(x) x.id) _
                                 .Distinct _
@@ -386,29 +385,22 @@ Public Module ProteinGroups
             .JoinBy("; ")
         Dim pfamString = uniprots _
             .Select(Function(u)
-                        Dim pfam$ = u.features _
-                            .SafeQuery _
-                            .Where(Function(f) f.type = "domain") _
-                            .Select(Function(d)
-                                        Return $"{d.description}({d.location.begin.position}|{d.location.end.position})"
-                                    End Function) _
-                            .JoinBy("+")
-                        Return (ID:=u.accessions.JoinBy("|"), s:=pfam)
+                        Return (ID:=u.accessions.JoinBy("|"), s:=AnnotationReader.Pfam(u).JoinBy("+"))
                     End Function) _
             .Where(Function(s) Not s.s.StringEmpty) _
             .Select(Function(u) $"{u.ID}:{u.s}") _
             .JoinBy("; ")
 
-        Call annotations.Add("geneName", geneNames)
-        Call annotations.Add("ORF", ORF)
-        Call annotations.Add("Entrez", Entrez.JoinBy("; "))
-        Call annotations.Add("fullName", names.JoinBy("; "))
-        Call annotations.Add("uniprot", mapsID.JoinBy("; "))
-        Call annotations.Add("GO", GO.JoinBy("; "))
-        Call annotations.Add("EC", EC.JoinBy("; "))
-        Call annotations.Add("KO", KO.JoinBy("; "))
-        Call annotations.Add("pfam", pfamString)
-        Call annotations.Add("organism", orgNames)
+        annotations.geneName = geneNames
+        annotations.ORF = ORF
+        annotations.Entrez = Entrez
+        annotations.fullName = names
+        annotations.uniprot = mapsID
+        annotations.GO = GO
+        annotations.EC = EC
+        annotations.KO = KO
+        annotations.pfam = pfamString
+        annotations.organism = orgNames
 
         'getKeyValue = Function(key)
         '                  Return uniprots _
@@ -433,35 +425,32 @@ Public Module ProteinGroups
         End If
 
         If iTraq Then
-            geneID = annotations("uniprot")
+            annotations.ID = annotations.uniprot.JoinBy("; ")
         End If
 
-        Return (New protein With {
-            .ID = geneID,
-            .Properties = annotations
-        }, mapsID)
+        Return (annotations, mapsID)
     End Function
 
     <Extension>
-    Public Iterator Function GenerateAnnotations(genes As IEnumerable(Of protein),
+    Public Iterator Function GenerateAnnotations(genes As IEnumerable(Of AnnotationTable),
                                                  mappings As Dictionary(Of String, String()),
                                                  uniprot As Dictionary(Of Uniprot.XML.entry),
                                                  fields$(),
-                                                 Optional [where] As Func(Of protein, Boolean) = Nothing,
+                                                 Optional [where] As Func(Of AnnotationTable, Boolean) = Nothing,
                                                  Optional prefix$ = "",
                                                  Optional deli As Char = ";"c,
                                                  Optional geneList As List(Of String) = Nothing,
                                                  Optional scientifcName$ = Nothing,
-                                                 Optional iTraq As Boolean = False) As IEnumerable(Of protein)
+                                                 Optional iTraq As Boolean = False) As IEnumerable(Of AnnotationTable)
         If where Is Nothing Then
             where = Function(prot) True
         End If
 
-        For Each gene As SeqValue(Of protein) In genes.SeqIterator
+        For Each gene As SeqValue(Of AnnotationTable) In genes.SeqIterator
             Dim list$() = (+gene).ID.Split(deli)
             Dim i As Integer = gene.i + 1
-            Dim annotations As New Dictionary(Of String, String)
-            Dim g As protein = (+gene)
+            Dim annotations As New AnnotationTable
+            Dim g As AnnotationTable = (+gene)
 
             If False = where(+gene) Then
                 Continue For
@@ -485,107 +474,20 @@ Public Module ProteinGroups
         Next
     End Function
 
-    ''' <summary>
-    ''' 不筛选出DEGs，直接导出注释数据
-    ''' </summary>
-    ''' <param name="files"></param>
-    ''' <param name="idMapping$"></param>
-    ''' <param name="uniprotXML$"></param>
-    ''' <param name="idlistField$"></param>
-    ''' <param name="prefix$"></param>
-    ''' <param name="deli"></param>
     <Extension>
-    Public Sub ApplyAnnotations(files As IEnumerable(Of String),
-                                idMapping$, uniprotXML$, idlistField$,
-                                Optional prefix$ = "",
-                                Optional deli As Char = ";"c,
-                                Optional ByRef geneList$() = Nothing)
-        Call files.__apply(False, idMapping, uniprotXML, idlistField, prefix, deli, geneList)
-    End Sub
-
-    <Extension>
-    Private Sub __apply(files As IEnumerable(Of String),
-                        DEGsMode As Boolean,
-                        idMapping$,
-                        uniprotXML$,
-                        idlistField$,
-                        prefix$,
-                        deli As Char,
-                        ByRef geneList$())
-
-        Dim mappings As Dictionary(Of String, String()) = Retrieve_IDmapping.MappingReader(idMapping)
-        Dim uniprot As Dictionary(Of Uniprot.XML.entry) = SMRUCC.genomics.Assembly.Uniprot.XML.UniProtXML.LoadDictionary(uniprotXML)
-        Dim edgeRfields$() = {"logFC", "logCPM", "F", "PValue"}
-        Dim suffix$ = If(DEGsMode, "-DEGs-annotations.csv", "-proteins-annotations.csv")
-        Dim __where As Func(Of protein, Boolean)
-        Dim diffCut = Math.Log(1.5, 2)  ' 蛋白质只需要1.5倍，mRNA才需要2倍
-
-        If DEGsMode Then
-            __where = Function(gene) Math.Abs(gene("logFC").ParseNumeric) >= diffCut
-        Else
-            __where = Nothing
-        End If
-
-        Dim list As New List(Of String)
-        Dim outList As New List(Of String)
-
-        For Each file As String In files
-            Dim proteins = protein.LoadDataSet(file, uidMap:=idlistField)
-            Dim DEPs = proteins.GenerateAnnotations(
-                mappings, uniprot, edgeRfields,
-                where:=__where,
-                prefix:=prefix,
-                deli:=deli,
-                geneList:=list).ToArray
-            Dim out$ = file.ParentPath & "/" & file.ParentDirName & "-" & file.BaseName & suffix
-
-            Call DEPs.SaveDataSet(out,, "geneID")
-            Call list.SaveTo(out.TrimSuffix & "-uniprot.txt")
-            Call outList.AddRange(list)
-            Call list.Clear()
-        Next
-
-        geneList = list.Distinct.ToArray
-    End Sub
-
-    ''' <summary>
-    ''' 处理蛋白组数据的函数
-    ''' </summary>
-    ''' <param name="files">edgeR DEGs结果</param>
-    ''' <param name="idMapping$"></param>
-    ''' <param name="uniprotXML$"></param>
-    ''' <param name="idlistField$">读取质谱结果的标号域的标签列表</param>
-    ''' <param name="prefix$"></param>
-    ''' <param name="deli"></param>
-    <Extension>
-    Public Sub ApplyDEPsAnnotations(files As IEnumerable(Of String),
-                                    idMapping$, uniprotXML$, idlistField$,
-                                    Optional prefix$ = "",
-                                    Optional deli As Char = ";"c,
-                                    Optional ByRef geneList$() = Nothing)
-
-        Call files.__apply(True, idMapping, uniprotXML, idlistField, prefix, deli, geneList)
-    End Sub
-
-    ''' <summary>
-    ''' <see cref="protein.LoadDataSet"/>的快捷方式
-    ''' </summary>
-    ''' <param name="path$"></param>
-    ''' <returns></returns>
-    <Extension>
-    Public Function LoadSample(path$, Optional geneIDField$ = Nothing, Optional sheetName$ = "Sheet1") As protein()
+    Public Function LoadSample(path$, Optional geneIDField$ = Nothing, Optional sheetName$ = "Sheet1") As EntityObject()
         Select Case path.ExtensionSuffix.ToLower
             Case "csv"
 
-                Return protein _
+                Return EntityObject _
                     .LoadDataSet(path, uidMap:=geneIDField) _
                     .ToArray
 
             Case "xlsx"
 
                 Dim csv As csv = Xlsx.Open(path).GetTable(sheetName)
-                Dim out As protein() = protein _
-                    .LoadDataSet(Of protein)(stream:=csv) _
+                Dim out As EntityObject() = EntityObject _
+                    .LoadDataSet(Of EntityObject)(stream:=csv) _
                     .ToArray
 
                 Return out
@@ -597,10 +499,10 @@ Public Module ProteinGroups
     End Function
 
     <Extension>
-    Public Function GetKOlist(proteins As IEnumerable(Of protein), Optional KO$ = "KO") As String()
+    Public Function GetKOlist(proteins As IEnumerable(Of AnnotationTable)) As String()
         Dim list As String() = proteins _
-            .Where(Function(x) x.HasProperty(KO)) _
-            .Select(Function(x) x(KO).Split(";"c)) _
+            .Where(Function(x) Not x.KO.IsNullOrEmpty) _
+            .Select(Function(x) x.KO) _
             .Unlist _
             .Select(AddressOf Trim) _
             .Distinct _
@@ -610,97 +512,4 @@ Public Module ProteinGroups
             .ToArray
         Return list
     End Function
-
-    Public Sub ExportKOList(DIR$, Optional KO$ = "KO")
-        For Each file As String In ls - l - r - "*.csv" <= DIR
-            Call file.LoadSample _
-                .GetKOlist(KO) _
-                .SaveTo(file.TrimSuffix & "-KO.txt")
-        Next
-    End Sub
-
-    Public Sub ExportColorDEGs(DIR$, Optional KO$ = "KO")
-        For Each file As String In ls - l - r - "*.csv" <= DIR
-            Call file.LoadSample _
-                .DEGsPathwayMap() _
-                .SaveTo(file.TrimSuffix & "-DEGs-KO.txt")
-        Next
-    End Sub
-
-    <Extension>
-    Public Function Term2Locus(proteins As IEnumerable(Of protein), field$, Optional deli$ = Nothing, Optional oneTag As Boolean = False) As NamedValue(Of String)()
-        proteins = proteins.Where(Function(x) Not x(field).StringEmpty)
-
-        If deli Is Nothing Then
-            Return proteins _
-                .Select(Function(x) New NamedValue(Of String)(x(field), x.ID)) _
-                .ToArray
-        Else
-            Dim out As New List(Of NamedValue(Of String))
-
-            For Each prot As protein In proteins
-                Dim tags$() = Strings.Split(prot(field), deli) _
-                    .Select(AddressOf Trim) _
-                    .ToArray
-
-                For Each tag$ In tags
-                    out += New NamedValue(Of String) With {
-                        .Name = tag,
-                        .Value = prot.ID
-                    }
-
-                    If oneTag Then
-                        Exit For
-                    End If
-                Next
-            Next
-
-            Return out
-        End If
-    End Function
-
-    ''' <summary>
-    ''' 
-    ''' </summary>
-    ''' <param name="files"></param>
-    ''' <param name="geneID$">基因ID所在的列名</param>
-    ''' <param name="annotation"></param>
-    ''' 
-    <Extension>
-    Public Sub ApplyAnnotations(files As IEnumerable(Of String), geneID$, fields$(), getAnnotations$(), annotation As Dictionary(Of protein))
-        For Each file As String In files
-            Dim genes = file.LoadSample(geneID)
-            Dim ALL As New List(Of protein)
-            Dim DEPs As New List(Of protein)
-
-            For Each gene As protein In genes
-                Dim annotations As New Dictionary(Of String, String)
-
-                For Each field In fields
-                    annotations.Add(field, gene(field))
-                Next
-
-                With annotation(gene.ID)
-                    For Each k As String In getAnnotations
-                        Call annotations.Add(k, .ItemValue(k))
-                    Next
-                End With
-
-                ALL += New protein With {
-                    .ID = gene.ID,
-                    .Properties = annotations
-                }
-
-                Dim logFC = Math.Abs(gene("logFC").ParseNumeric)
-                ' Dim Pvalue As Double = gene("PValue").ParseNumeric
-
-                If logFC >= Math.Log(1.5, 2) Then 'AndAlso Pvalue <= 0.05 Then
-                    DEPs += ALL.Last
-                End If
-            Next
-
-            Call ALL.SaveDataSet(file.ParentPath & "/" & file.ParentDirName & "-" & file.BaseName & "-proteins-annotations.csv",, "geneID")
-            Call DEPs.SaveDataSet(file.ParentPath & "/" & file.ParentDirName & "-" & file.BaseName & "-DEPs-annotations.csv",, "geneID")
-        Next
-    End Sub
 End Module

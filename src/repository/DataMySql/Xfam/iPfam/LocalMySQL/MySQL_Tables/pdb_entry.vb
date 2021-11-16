@@ -33,6 +33,9 @@
 
     ' Class pdb_entry
     ' 
+    '     Properties: [date], author, expt_method, header, pdb_file
+    '                 pdb_id, resolution, sifts_file, title
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

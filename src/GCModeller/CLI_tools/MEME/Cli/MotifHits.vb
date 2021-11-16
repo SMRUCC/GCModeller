@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6f58c89a4b562bc32a93c73a3c8cdf4c, CLI_tools\MEME\Cli\MotifHits.vb"
+﻿#Region "Microsoft.VisualBasic::e2c8cf93b0946484a547a8735c60597d, CLI_tools\MEME\Cli\MotifHits.vb"
 
     ' Author:
     ' 
@@ -36,7 +36,7 @@
     '     Function: __buildRegulates, __siteToFootprint, (+2 Overloads) __siteToRegulation, Expand, HitContext
     '               HitsRegulation, MotifInfo, MotifInfoBatch, MotifMatch, MotifMatch2
     '               SiteHitsToFootprints, SiteMASTScan, SiteMASTScanBatch, SiteRegexCommon, SiteRegexScan
-    '               (+2 Overloads) ToFootprints
+    '               ToFootprints
     ' 
     ' /********************************************************************************/
 
@@ -54,6 +54,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Parallel.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Parallel.ThreadTask
 Imports SMRUCC.genomics
 Imports SMRUCC.genomics.Analysis.RNA_Seq
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
@@ -106,13 +107,13 @@ Partial Module CLI
                                  mapped).ToDictionary(Function(x) x.x.Value.Uid,
                                                       Function(x) x.mapped.Select(Function(xx) xx.hit_name).Distinct.ToArray)
         Dim sourceLDM = AnnotationModel.LoadMEMEOUT(args("/source"))
-        Dim correlations As ICorrelations = Correlation2.LoadAuto(Correlates)
-        Dim results = (From hit As MotifHit In hitsData.AsParallel
-                       Where sourceLDM.ContainsKey(hit.Query) AndAlso
-                           LDM.ContainsKey(hit.Subject)
-                       Let query = sourceLDM(hit.Query), subject = LDM(hit.Subject)
-                       Select __buildRegulates(query, subject, PTT, correlations, mapsRegulates)).IteratesALL.TrimNull
-        Return results.SaveTo(out).CLICode
+        ' Dim correlations As ICorrelations = Correlation2.LoadAuto(Correlates)
+        'Dim results = (From hit As MotifHit In hitsData.AsParallel
+        '               Where sourceLDM.ContainsKey(hit.Query) AndAlso
+        '                   LDM.ContainsKey(hit.Subject)
+        '               Let query = sourceLDM(hit.Query), subject = LDM(hit.Subject)
+        '               Select __buildRegulates(query, subject, PTT, correlations, mapsRegulates)).IteratesALL.TrimNull
+        ' Return results.SaveTo(out).CLICode
     End Function
 
     ''' <summary>
@@ -279,20 +280,20 @@ Partial Module CLI
         Return result.SaveAsXml(out).CLICode
     End Function
 
-    Public Iterator Function ToFootprints(footprints As FootprintTrace,
-                                          coors As Correlation2,
-                                          DOOR As DOOR,
-                                          maps As IEnumerable(Of bbhMappings)) As IEnumerable(Of PredictedRegulationFootprint)
-        Dim source As IEnumerable(Of PredictedRegulationFootprint) = footprints.ToFootprints(DOOR, maps)
+    'Public Iterator Function ToFootprints(footprints As FootprintTrace,
+    '                                      coors As Correlation2,
+    '                                      DOOR As DOOR,
+    '                                      maps As IEnumerable(Of bbhMappings)) As IEnumerable(Of PredictedRegulationFootprint)
+    '    Dim source As IEnumerable(Of PredictedRegulationFootprint) = footprints.ToFootprints(DOOR, maps)
 
-        For Each x As PredictedRegulationFootprint In source
-            x.Pcc = coors.GetPcc(x.ORF, x.Regulator)
-            x.sPcc = coors.GetSPcc(x.ORF, x.Regulator)
-            x.WGCNA = coors.GetWGCNAWeight(x.ORF, x.Regulator)
+    '    For Each x As PredictedRegulationFootprint In source
+    '        x.Pcc = coors.GetPcc(x.ORF, x.Regulator)
+    '        x.sPcc = coors.GetSPcc(x.ORF, x.Regulator)
+    '        x.WGCNA = coors.GetWGCNAWeight(x.ORF, x.Regulator)
 
-            Yield x
-        Next
-    End Function
+    '        Yield x
+    '    Next
+    'End Function
 
     ''' <summary>
     ''' 3
@@ -302,7 +303,7 @@ Partial Module CLI
     <ExportAPI("/Footprints",
                Info:="3 - Generates the regulation footprints.",
                Usage:="/Footprints /footprints <footprints.xml> /coor <name/DIR> /DOOR <genome.opr> /maps <bbhMappings.Csv> [/out <out.csv> /cuts <0.65> /extract]")>
-    <Argument("/extract", True,
+    <ArgumentAttribute("/extract", True,
                    Description:="Extract the DOOR operon when the regulated gene is the first gene of the operon.")>
     Public Function ToFootprints(args As CommandLine) As Integer
         Dim footprintXml As String = args("/footprints")
@@ -312,31 +313,31 @@ Partial Module CLI
         Dim cut As Double = Math.Abs(args.GetValue("/cuts", 0.65))
         Dim out As String = args.GetValue("/out", footprintXml.TrimSuffix & "-" & DOOR.BaseName & $"{cut}.Csv")
         Dim oprDOOR As DOOR = DOOR_API.Load(DOOR)
-        Dim coors As Correlation2 = Correlation2.LoadAuto(coor)
-        Dim source = ToFootprints(footprintXml.LoadXml(Of FootprintTrace),
-                                  coors,
-                                  oprDOOR,
-                                  maps.LoadCsv(Of bbhMappings))
+        ' Dim coors As Correlation2 = Correlation2.LoadAuto(coor)
+        'Dim source = ToFootprints(footprintXml.LoadXml(Of FootprintTrace),
+        '                          coors,
+        '                          oprDOOR,
+        '                          maps.LoadCsv(Of bbhMappings))
         Dim tag As String = footprintXml.BaseName
-        Dim Cuts = (From x As PredictedRegulationFootprint In source
-                    Where Math.Abs(x.Pcc) >= cut OrElse
-                        Math.Abs(x.sPcc) >= cut
-                    Select x).ToArray
+        'Dim Cuts = (From x As PredictedRegulationFootprint In source
+        '            Where Math.Abs(x.Pcc) >= cut OrElse
+        '                Math.Abs(x.sPcc) >= cut
+        '            Select x).ToArray
 
-        For Each x As PredictedRegulationFootprint In Cuts
-            x.tag = tag
-        Next
+        'For Each x As PredictedRegulationFootprint In Cuts
+        '    x.tag = tag
+        'Next
 
         If args.GetBoolean("/extract") Then
-            Return Cuts.ExpandDOOR(oprDOOR, coors, cut).SaveTo(out).CLICode
+            ' Return Cuts.ExpandDOOR(oprDOOR, coors, cut).SaveTo(out).CLICode
         Else
-            Return Cuts.SaveTo(out).CLICode
+            ' Return Cuts.SaveTo(out).CLICode
         End If
     End Function
 
     <ExportAPI("/Site.MAST_Scan", Info:="[MAST.Xml] -> [SimpleSegment]",
                Usage:="/Site.MAST_Scan /mast <mast.xml/DIR> [/batch /out <out.csv>]")>
-    <Argument("/batch", True,
+    <ArgumentAttribute("/batch", True,
                    Description:="If this parameter presented in the CLI, then the parameter /mast will be used as a DIR.")>
     Public Function SiteMASTScan(args As CommandLine) As Integer
         Dim batch As Boolean = args.GetBoolean("/batch")
@@ -379,7 +380,7 @@ Partial Module CLI
 
         num = LQuerySchedule.AutoConfig(num)
 
-        Return App.SelfFolks(CLI, parallel:=num)
+        Return BatchTasks.SelfFolks(CLI, parallel:=num)
     End Function
 
     ''' <summary>
@@ -431,8 +432,8 @@ Partial Module CLI
     <ExportAPI("/Motif.Info.Batch",
                Info:="[SimpleSegment] -> [MotifLog]",
                Usage:="/Motif.Info.Batch /in <sites.csv.inDIR> /gffs <gff.DIR> [/motifs <regulogs.motiflogs.MEME.DIR> /num_threads -1 /atg-dist 350 /out <out.DIR>]")>
-    <Argument("/motifs", False, Description:="Regulogs.Xml source directory")>
-    <Argument("/num_threads", True,
+    <ArgumentAttribute("/motifs", False, Description:="Regulogs.Xml source directory")>
+    <ArgumentAttribute("/num_threads", True,
                    Description:="Default Is -1, means auto config of the threads number.")>
     Public Function MotifInfoBatch(args As CommandLine) As Integer
         Dim inDIR As String = args("/in")
@@ -454,15 +455,15 @@ Partial Module CLI
             n = LQuerySchedule.CPU_NUMBER
         End If
 
-        Return App.SelfFolks(CLI, n)
+        Return BatchTasks.SelfFolks(CLI, n)
     End Function
 
     <ExportAPI("/Motif.Info",
                Info:="Assign the phenotype information And genomic context Info for the motif sites. [SimpleSegment] -> [MotifLog]",
                Usage:="/Motif.Info /loci <loci.csv> [/motifs <motifs.DIR> /gff <genome.gff> /atg-dist 250 /out <out.csv>]")>
-    <Argument("/loci", False,
+    <ArgumentAttribute("/loci", False,
                    Description:="The motif site info data set, type Is simple segment.")>
-    <Argument("/motifs", False,
+    <ArgumentAttribute("/motifs", False,
                    Description:="A directory which contains the motifsitelog data in the xml file format. Regulogs.Xml source directory")>
     Public Function MotifInfo(args As CommandLine) As Integer
         Dim loci As String = args("/loci")

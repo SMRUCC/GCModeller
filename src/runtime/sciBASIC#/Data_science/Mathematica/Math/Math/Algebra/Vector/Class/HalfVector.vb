@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c75cdf78a632b6f3b9f8e5fbdae80586, Data_science\Mathematica\Math\Math\Algebra\Vector\Class\HalfVector.vb"
+﻿#Region "Microsoft.VisualBasic::21e597e0e1508e892c6dcf61d74efea0, Data_science\Mathematica\Math\Math\Algebra\Vector\Class\HalfVector.vb"
 
     ' Author:
     ' 
@@ -46,7 +46,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Math.Numerics
-Imports Microsoft.VisualBasic.Math.SyntaxAPI.Vectors
+Imports Microsoft.VisualBasic.Math.Scripting.Rscript
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace LinearAlgebra

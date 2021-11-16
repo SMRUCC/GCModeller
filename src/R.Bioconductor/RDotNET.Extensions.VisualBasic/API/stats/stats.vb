@@ -110,7 +110,7 @@ Namespace API
                                  Optional narm As Boolean = False,
                                  Optional names As Boolean = True,
                                  Optional type% = 7) As String
-            Return quantile(c(x), c(probs Or quartile), narm, names, type)
+            Return quantile(c(x), c(Of Double)(probs Or quartile), narm, names, type)
         End Function
 
         ''' <summary>
@@ -408,8 +408,8 @@ Namespace API
                               Optional varEqual As Boolean = False,
                               Optional conf_level# = 0.95) As TtestResult
 
-            Dim a = base.c(x)
-            Dim b = base.c(y)
+            Dim a = base.c(Of Double)(x)
+            Dim b = base.c(Of Double)(y)
 
             Try
                 Return Ttest(a, b, alternative, mu, paired, varEqual, conf_level)

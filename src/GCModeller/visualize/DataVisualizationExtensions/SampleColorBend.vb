@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8f62dd71e79f3dea30d705106840ab3d, visualize\DataVisualizationExtensions\SampleColorBend.vb"
+﻿#Region "Microsoft.VisualBasic::2c53db8d9639661f89f7c7e8d5d2e76e, visualize\DataVisualizationExtensions\SampleColorBend.vb"
 
     ' Author:
     ' 
@@ -48,7 +48,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Text
-Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
+Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 
 Public Module SampleColorBend
@@ -96,7 +96,7 @@ Public Module SampleColorBend
                     Optional labelFontCSS$ = CSSFont.PlotSmallTitle）
 
         Dim boxSize As Single
-        Dim labelFont As Font = CSSFont.TryParse(labelFontCSS).GDIObject
+        Dim labelFont As Font = CSSFont.TryParse(labelFontCSS).GDIObject(g.Dpi)
 
         If horizontal Then
             boxSize = layout.Width / geneExpression.Length
@@ -127,4 +127,3 @@ Public Module SampleColorBend
         Next
     End Sub
 End Module
-

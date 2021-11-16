@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::74295104d9bc0b68efa8e65c3ecde59b, Data_science\Mathematica\Math\Math\Algebra\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::a072db6d70d3da02781d6e325da596dd, Data_science\Mathematica\Math\Math\Algebra\Extensions.vb"
 
     ' Author:
     ' 
@@ -36,7 +36,7 @@
     ' 
     '     Module HelperExtensions
     ' 
-    '         Function: PrimitiveLinearEquation, Tangent
+    '         Function: jaccard_coeff, PrimitiveLinearEquation, Tangent
     ' 
     ' 
     ' 
@@ -47,6 +47,8 @@
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
 
 Namespace LinearAlgebra
 
@@ -80,6 +82,41 @@ Namespace LinearAlgebra
         <Extension>
         Public Function Tangent(slideWindows As SlideWindow(Of PointF)) As fx
             Return PrimitiveLinearEquation(slideWindows.First, slideWindows.Last)
+        End Function
+
+        ''' <summary>
+        ''' Compute jaccard coefficient between nearest-neighbor sets
+        ''' 
+        ''' Weights of both i->j and j->i are recorded if they have intersection. In this case
+        ''' w(i->j) should be equal to w(j->i). In some case i->j has weights while j&lt;-i has no
+        ''' intersections, only w(i->j) Is recorded. This Is determinded in code `if(u>0)`. 
+        ''' In this way, the undirected graph Is symmetrized by halfing the weight 
+        ''' in code `weights(r, 2) = u/(2.0*ncol - u)/2`.
+        ''' </summary>
+        ''' <param name="idx"></param>
+        ''' <returns></returns>
+        Public Function jaccard_coeff(idx As Integer()()) As GeneralMatrix
+            Dim nrow As Integer = idx.Length
+            Dim weights As New List(Of Double())
+
+            For i As Integer = 0 To nrow - 1
+                For Each k As Integer In idx(i)
+                    If k < 0 Then
+                        Continue For
+                    End If
+
+                    Dim nodei As Integer() = idx(i)
+                    Dim nodej As Integer() = idx(k)
+                    Dim u As Integer = nodei.Intersect(nodej).Count
+
+                    If u > 0 Then
+                        ' symmetrize the graph
+                        weights.Add({i, k, u / (2.0 * nodei.Length - u) / 2})
+                    End If
+                Next
+            Next
+
+            Return New NumericMatrix(weights.ToArray)
         End Function
     End Module
 End Namespace

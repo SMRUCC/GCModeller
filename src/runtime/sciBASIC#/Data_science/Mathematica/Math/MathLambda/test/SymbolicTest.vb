@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2ac4552b4ec569317ba762e37f0560ef, Data_science\Mathematica\Math\MathLambda\test\SymbolicTest.vb"
+﻿#Region "Microsoft.VisualBasic::e498b2e5d8f26283d46709dbdc85a999, Data_science\Mathematica\Math\MathLambda\test\SymbolicTest.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     ' Module SymbolicTest
     ' 
-    '     Sub: Main
+    '     Sub: expands, Main
     ' 
     ' /********************************************************************************/
 
@@ -42,10 +42,15 @@
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Lambda
 Imports Microsoft.VisualBasic.Math.Scripting
+Imports Microsoft.VisualBasic.Math.Scripting.MathExpression
+Imports Microsoft.VisualBasic.MIME.application.xml.MathML
 
 Module SymbolicTest
 
     Sub Main()
+
+        Call expands()
+
         Dim symbols = ScriptEngine.ParseExpression("(5+5) * (2*x + x / 5 + x ^ 3)")
         Dim result = symbols.DoCall(AddressOf Symbolic.Simplify)
 
@@ -55,6 +60,30 @@ Module SymbolicTest
 
         Console.WriteLine($"{symbols} = {symbols.Evaluate(ScriptEngine.Expression)}")
         Console.WriteLine($"{result} = {result.Evaluate(ScriptEngine.Expression)}")
+
+        Pause()
+    End Sub
+
+    Sub expands()
+        Dim expr1 = ScriptEngine.ParseExpression($"(a+b)^3")
+        Dim result1 = expr1.Expands
+
+        expr1 = ScriptEngine.ParseExpression($"(a+b+c)^3")
+        result1 = expr1.Expands
+
+        ScriptEngine.SetVariable("a", 1)
+        ScriptEngine.SetVariable("b", 2)
+        ScriptEngine.SetVariable("c", 3)
+
+        Call Console.WriteLine(expr1.Evaluate(ScriptEngine.Expression))
+        Call Console.WriteLine(result1.Evaluate(ScriptEngine.Expression))
+
+        For i As Integer = 0 To 4
+            Dim expr = ScriptEngine.ParseExpression($"(a+b)^{i}")
+            Dim result = expr.Expands
+
+            Console.WriteLine($"{expr} -> {result}")
+        Next
 
         Pause()
     End Sub

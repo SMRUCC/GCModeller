@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ce14af473b9da332efe0a2856075104c, DataTools\Interpro\Xml\ToolsAPI.vb"
+﻿#Region "Microsoft.VisualBasic::13e3490ac283cf4b6116517f5a7d2b72, DataTools\Interpro\Xml\ToolsAPI.vb"
 
     ' Author:
     ' 
@@ -33,9 +33,8 @@
 
     '     Module ToolsAPI
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: __trim, __trimSegment, BuildFamilies, LoadDb
-    ' 
-    '         Sub: New
     ' 
     ' 
     ' /********************************************************************************/

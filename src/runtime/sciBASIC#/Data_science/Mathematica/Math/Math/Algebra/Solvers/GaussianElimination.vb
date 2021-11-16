@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2f5b22514016970efb2508e5291518b7, Data_science\Mathematica\Math\Math\Algebra\Solvers\GaussianElimination.vb"
+﻿#Region "Microsoft.VisualBasic::16aa6f45a382891531175005b3eddcee, Data_science\Mathematica\Math\Math\Algebra\Solvers\GaussianElimination.vb"
 
     ' Author:
     ' 
@@ -56,7 +56,7 @@ Namespace LinearAlgebra.Solvers
         Public Function Solve(A As GeneralMatrix, b As Vector) As Vector
             Dim n As Integer = b.Dim
             Dim TMP As Double
-            Dim Ab As New GeneralMatrix(n, n + 1)
+            Dim Ab As New NumericMatrix(n, n + 1)
 
             For i As Integer = 0 To n - 1
                 For j As Integer = 0 To n - 1

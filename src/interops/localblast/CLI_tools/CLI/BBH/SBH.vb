@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b320c0cf945b79f43b0d66f8b46510d7, localblast\CLI_tools\CLI\BBH\SBH.vb"
+﻿#Region "Microsoft.VisualBasic::7605d92fabd6557e64355ff7730ff9f7, localblast\CLI_tools\CLI\BBH\SBH.vb"
 
     ' Author:
     ' 
@@ -58,7 +58,7 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.Tasks.BBHLogs
+Imports SMRUCC.genomics.Interops.NCBI.ParallelTask.Tasks.BBHLogs
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Partial Module CLI
@@ -172,13 +172,13 @@ Partial Module CLI
     <ExportAPI("/SBH.Export.Large")>
     <Description("Using this command for export the sbh result of your blastp raw data.")>
     <Usage("/SBH.Export.Large /in <blastp_out.txt/directory> [/top.best /trim-kegg /s.pattern <default=-> /q.pattern <default=-> /keeps_raw.queryName /identities 0.15 /coverage 0.5 /split /out <sbh.csv>]")>
-    <Argument("/trim-KEGG", True, CLITypes.Boolean,
+    <ArgumentAttribute("/trim-KEGG", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
               Description:="If the fasta sequence source is comes from the KEGG database, and you want to removes the kegg species brief code for the locus_tag, then enable this option.")>
-    <Argument("/out", True, CLITypes.File,
+    <ArgumentAttribute("/out", True, CLITypes.File,
               AcceptTypes:={GetType(String)},
               Description:="The sbh result output csv file location.")>
-    <Argument("/in", False, CLITypes.File,
+    <ArgumentAttribute("/in", False, CLITypes.File,
               AcceptTypes:={GetType(String)},
               Description:="The blastp raw result input file path.")>
     <Group(CLIGrouping.BBHTools)>

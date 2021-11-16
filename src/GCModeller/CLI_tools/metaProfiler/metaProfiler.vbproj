@@ -265,15 +265,15 @@
       <Project>{ab6e71b0-1be2-4418-ab4b-91d5554cf5a1}</Project>
       <Name>RDotNET.Extensions.VisualBasic</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\R.Bioconductor\RDotNET\RDotNet.vbproj">
-      <Project>{21c35138-455b-4833-9756-b2629f972a22}</Project>
-      <Name>RDotNet</Name>
+    <ProjectReference Include="..\..\..\repository\Bio.Repository\Bio.Repository.vbproj">
+      <Project>{216acc2d-c7a5-4c27-9dc9-bdfa4dbb6a37}</Project>
+      <Name>Bio.Repository</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\repository\HMP_client\HMP_client.vbproj">
       <Project>{fc8eb830-58b8-4ab1-b8f7-6001b21cb0d5}</Project>
       <Name>HMP_client</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\Darwinism\ossutil\ossutil.vbproj">
+    <ProjectReference Include="..\..\..\runtime\Darwinism\CloudKit\ossutil\ossutil.vbproj">
       <Project>{adeafbbd-06c0-4e53-b985-1ae8978f54aa}</Project>
       <Name>ossutil</Name>
     </ProjectReference>
@@ -325,7 +325,7 @@
       <Project>{78cb32e6-2904-41e7-acca-f1e2757bfa8e}</Project>
       <Name>Network.IO.Extensions</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\47-dotnet_Microsoft.VisualBasic.vbproj">
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\47-dotnet_Microsoft.VisualBasic.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
     </ProjectReference>
@@ -360,10 +360,6 @@
     <ProjectReference Include="..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\core\Bio.Repository\Bio.Repository.vbproj">
-      <Project>{216ACC2D-C7A5-4C27-9DC9-BDFA4DBB6A37}</Project>
-      <Name>Bio.Repository</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\models\BIOM\BIOM\BIOM.vbproj">
       <Project>{ee17be25-17e3-48f5-bef2-a7d540ae09e1}</Project>

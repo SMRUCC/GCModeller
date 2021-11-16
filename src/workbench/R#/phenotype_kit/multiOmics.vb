@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3a3a2d77ef9f487903b0a840fd5fdd1d, phenotype_kit\multiOmics.vb"
+﻿#Region "Microsoft.VisualBasic::af5845dc5473a3e5f209db3d4ea75a20, R#\phenotype_kit\multiOmics.vb"
 
     ' Author:
     ' 
@@ -69,7 +69,7 @@ Module multiOmics
             xlab:=xlab,
             ylab:=ylab,
             pointSize:=ptSize,
-            size:=InteropArgumentHelper.getSize(size, "3000,3000"),
+            size:=InteropArgumentHelper.getSize(size, env, "3000,3000"),
             padding:=InteropArgumentHelper.getPadding(padding, "padding: 200px 250px 200px 100px;")
         )
     End Function

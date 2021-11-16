@@ -1,0 +1,124 @@
++E	RModule
+#<h2><a href="/kegg/kegg2.html"><img src="/Fig/bget/kegg3.gif" align="middle" border=0></a>&nbsp; KEGG Reaction Modules</h2>
+!
+A<b>Reaction modules</b>
+B
+B  <b>Carboxylic acid metabolism</b>
+C    2-Oxocarboxylic acid chain extension
+D      RM001  2-Oxocarboxylic acid chain extension by tricarboxylic acid pathway
+E        M00010  Citrate cycle, first carbon oxidation, oxaloacetate => 2-oxoglutarate
+E        M00433  Lysine biosynthesis, 2-oxoglutarate => 2-oxoadipate
+E        M00608  2-Oxocarboxylic acid chain extension, 2-oxoglutarate => 2-oxoadipate => 2-oxopimelate => 2-oxosuberate
+E        M00535  Isoleucine biosynthesis, pyruvate => 2-oxobutanoate
+E        M00432  Leucine biosynthesis, 2-oxoisovalerate => 2-oxoisocaproate
+C    2-Oxocarboxylic acid chain modification
+D      RM002  Carboxyl to amino conversion using protective N-acetyl group (basic amino acid synthesis)
+E        M00028  Ornithine biosynthesis, glutamate => ornithine
+E        M00763  Ornithine biosynthesis, mediated by LysW, glutamate => ornithine
+E        M00031  Lysine biosynthesis, mediated by LysW, 2-aminoadipate => lysine
+D      RM032  Carboxyl to amino conversion without using protective group
+E        M00033  Ectoine biosynthesis, aspartate => ectoine
+D      RM033  Branched-chain addition (branched-chain amino acid synthesis)
+E        M00019  Valine/isoleucine biosynthesis, pyruvate => valine / 2-oxobutanoate => isoleucine
+D      RM030  Glucosinolate synthesis
+E        M00370  Glucosinolate biosynthesis, tryptophan => glucobrassicin
+D      RM901  Reductive amination of 2-oxocarboxylic acid (aminotransferase reaction)
+D      RM903  Oxidative decarboxylation of 2-oxoacid to form its CoA derivative
+C    Fatty acid synthesis and degradation
+D      RM018  Beta oxidation in acyl-CoA degradation
+E        M00087  beta-Oxidation
+E        M00861  beta-Oxidation, peroxisome, VLCFA
+E        M00862  beta-Oxidation, peroxisome, tri/dihydroxycholestanoyl-CoA => choloyl/chenodeoxycholoyl-CoA
+D      RM020  Fatty acid synthesis using acetyl-CoA (reversal of RM018)
+E        M00085  Fatty acid biosynthesis, elongation, mitochondria
+E        M00415  Fatty acid biosynthesis, elongation, endoplasmic reticulum
+D      RM021  Fatty acid synthesis using malonyl-CoA
+E        M00082  Fatty acid biosynthesis, initiation
+E        M00083  Fatty acid biosynthesis, elongation
+C    Acyl-CoA metabolism
+D      RM019  Acyl-CoA conversion via dicarboxylate semialdehyde
+E        M00013  Malonate semialdehyde pathway, propanoyl-CoA => Acetyl-CoA
+E        M00375  Hydroxypropionate-hydroxybutylate cycle
+E        M00376  3-Hydroxypropionate bi-cycle
+B
+B  <b>Aromatics degradation</b>
+C    Methyl to carboxyl conversion on aromatic ring
+D      RM003  Methyl to carboxyl conversion on aromatic ring
+E        M00538  Toluene degradation, toluene => benzoate
+E        M00537  Xylene degradation, xylene => methylbenzoate
+E        M00419  Cymene degradation, p-cymene => p-cumate
+D      RM015  Methyl to carboxyl conversion on aromatic ring, anaerobic
+E        M00418  Toluene degradation, anaerobic, toluene => benzoyl-CoA
+C    Dihydroxylation of aromatic ring
+D      RM004  Dihydroxylation of aromatic ring, type 1 (dioxygenase and dehydrogenase reactions)
+E        M00547  Benzene/toluene degradation, benzene => catechol / toluene => 3-methylcatechol
+D      RM005  Dihydroxylation of aromatic ring, type 1a (dioxygenase and decarboxylating dehydrogenase reactions)
+E        M00551  Benzoate degradation, benzoate => catechol
+D      RM902  Dihydroxylation of aromatic ring, type 1b (single dioxygenase reaction)
+D      RM006  Dihydroxylation of aromatic ring, type 2 (two monooxygenase reactions)
+E        M00548  Benzene degradation, benzene => catechol
+D      RM007  Dihydroxylation of aromatic ring, type 3 (dealkylation and monooxygenase reactions)
+C    Cleavage of aromatic ring
+D      RM008  Ortho-cleavage of dihydroxylated aromatic ring
+E        M00568  Catechol ortho-cleavage, catechol => 3-oxoadipate
+D      RM009  Meta-cleavage of dihydroxylated aromatic ring
+E        M00569  Catechol meta-cleavage, catechol => acetyl-CoA / 4-methylcatechol => propanoyl-CoA
+E        M00545  Trans-cinnamate degradation, trans-cinnamate => acetyl-CoA
+D      RM013  Ortho-cleavage of halogenated aromatic ring
+D      RM016  Ring cleavage via beta oxidation, anaerobic
+E        M00540  Benzoate degradation, cyclohexanecarboxylic acid =>pimeloyl-CoA
+D      RM017  Ring cleavage via Baeyer-Villiger oxidation
+C    Dihydroxylation and cleavage of aromatic ring
+D      RM010  Dihydroxylation and meta-cleavage of aromatic ring, type 1
+E        M00539  Cumate degradation, p-cumate => 2-oxopent-4-enoate + 2-methylpropanoate
+E        M00545  Trans-cinnamate degradation, trans-cinnamate => 2-oxopent-4-enoate + fumarate
+E        M00543  Biphenyl degradation, biphenyl => 2-oxopent-4-enoate + benzoate
+D      RM011  Dihydroxylation and meta-cleavage of aromatic ring, type 1b
+E        M00544  Carbazole degradation, carbazole => 2-oxopent-4-enoate + anthranilate
+D      RM012  Dihydroxylation and meta-cleavage of aromatic ring, type 3a
+E        M00533  Homoprotocatechuate degradation, homoprotocatechuate => 2-oxohept-3-enedioate
+D      RM014  Ring removal from polycyclic aromatic ring
+E        M00534  Naphthalene degradation, naphthalene => salicylate
+B
+B  <b>Other</b>
+C    Amino acid metabolism
+D      RM025  Conversion of amino acid moiety to carboxyl group (biogenic amine metabolism)
+C    Nucleotide metabolism
+D      RM024  Pyrimidine degradation
+C    Sugar metabolism
+D      RM022  Nucleotide sugar biosynthesis, type 1
+D      RM023  Nucleotide sugar biosynthesis, type 2
+D      RM034  Sugar degradation to aldehyde and pyruvate
+E        M00008  Entner-Doudoroff pathway, glucose-6P => glyceraldehyde-3P + pyruvate
+C    Aromatics metabolism
+D      RM027  Hydroxylation and methylation motif
+D      RM026  Hydroxylation and decarboxylation motif
+D      RM028  Flavonoid synthesis
+D      RM029  Pterocarpan synthesis
+D      RM031  Oxime to acetate conversion
+C    Polyketide biosynthesis
+D      RM035  Transamination and N,N-dimethylation in polyketide biosynthesis
+E        M00796  dTDP-D-mycaminose biosynthesis
+E        M00797  dTDP-D-desosamine biosynthesis
+E        M00802  dTDP-D-forosamine biosynthesis
+E        M00803  dTDP-D-angolosamine biosynthesis
+E        M00800  dTDP-L-megosamine biosynthesis
+E        M00780  Tetracycline/oxytetracycline biosynthesis, pretetramide => tetracycline/oxytetracycline
+E        M00823  Chlortetracycline biosynthesis, pretetramide => chlortetracycline
+D      RM036  Epimerization and reduction in deoxysugar biosynthesis
+E        M00793  dTDP-L-rhamnose biosynthesis
+E        M00801  dTDP-L-olivose biosynthesis
+E        M00794  dTDP-6-deoxy-D-allose biosynthesis
+E        M00800  dTDP-L-megosamine biosynthesis
+E        M00798  dTDP-L-mycarose biosynthesis
+D      RM037  Deoxygenation (transamination and deamination) in deoxysugar biosynthesis
+E        M00797  dTDP-D-desosamine biosynthesis
+D      RM038  Deoxygenation (dehydration and reduction) in deoxysugar biosynthesis
+E        M00798  dTDP-L-mycarose biosynthesis
+E        M00799  dTDP-L-oleandrose biosynthesis
+E        M00801  dTDP-L-olivose biosynthesis
+E        M00802  dTDP-D-forosamine biosynthesis
+!
+#<hr>
+#<b>[ <a href="/kegg/reaction/rmodule.html">RMODULE</a> | <a href="/kegg/brite.html">BRITE</a> | <a href="/kegg/pathway.html">PATHWAY</a> | <a href="/kegg/kegg2.html">KEGG2</a> | <a href="/kegg/">KEGG</a> ]</b><br>
+#Last updated: September 3, 2019

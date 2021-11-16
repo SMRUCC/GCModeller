@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a7481e8b7b6c9d6dad1955c8457de331, RNA-Seq\BOW\BOW\Tabix.vb"
+﻿#Region "Microsoft.VisualBasic::d264c4610ab90c4e0769a97cede3a948, RNA-Seq\BOW\BOW\Tabix.vb"
 
     ' Author:
     ' 

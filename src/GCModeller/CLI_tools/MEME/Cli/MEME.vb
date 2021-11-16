@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::363b8769b06e740463cf2388a6d6b795, CLI_tools\MEME\Cli\MEME.vb"
+﻿#Region "Microsoft.VisualBasic::01b284a971dc3dd89b0eba4caae3060f, CLI_tools\MEME\Cli\MEME.vb"
 
     ' Author:
     ' 
@@ -76,18 +76,20 @@ Partial Module CLI
         Dim correlation As String = args("/correlation")
         Dim DOOR As String = args("/DOOR")
         Dim out As String = args.GetValue("/out", inSites.TrimSuffix & ".VirtualFootprints.Csv")
-        Dim mastSites = inSites.LoadCsv(Of MastSites)
-        Dim result = RegpreciseSummary.SiteToRegulation(mastSites, correlation, DOOR)
+        Dim mastSites As IEnumerable(Of MastSites) = inSites.LoadCsv(Of MastSites)
+        Dim result = mastSites.Select(Function(site) RegpreciseSummary.SiteToRegulation(site, correlation, DOOR)).ToArray
         Dim cut As Double = args.GetValue("/cut", 0.65)
+
         result = (From x In result Where Math.Abs(x.Pcc) >= cut OrElse Math.Abs(x.sPcc) >= cut Select x).ToArray
+
         Return result.SaveTo(out).CLICode
     End Function
 
     <ExportAPI("/MEME.Batch")>
     <Description("Batch meme task by using tmod toolbox.")>
     <Usage("/MEME.Batch /in <inDIR> [/out <outDIR> /evalue <1> /nmotifs <30> /mod <zoops> /maxw <100>]")>
-    <Argument("/in", False, Description:="A directory path which contains the fasta sequence for the meme motifs analysis.")>
-    <Argument("/out", True, Description:="A directory path which outputs the meme.txt data to that directory.")>
+    <ArgumentAttribute("/in", False, Description:="A directory path which contains the fasta sequence for the meme motifs analysis.")>
+    <ArgumentAttribute("/out", True, Description:="A directory path which outputs the meme.txt data to that directory.")>
     Public Function MEMEBatch(args As CommandLine) As Integer
         Dim inDIR As String = args("/in")
         Dim out As String = args.GetValue("/out", inDIR & ".MEME_OUT/")
@@ -182,7 +184,7 @@ Partial Module CLI
 
     <ExportAPI("--site.Match",
                Usage:="--site.Match /meme <meme.text> /mast <mast.xml> /out <out.csv> [/ptt <genome.ptt> /len <150,200,250,300,350,400,450,500>]")>
-    <Argument("/len", True,
+    <ArgumentAttribute("/len", True,
                    Description:="If not specific this parameter, then the function will trying to parsing the length value from the meme text automatically.")>
     Public Function SiteMatch(args As CommandLine) As Integer
         Dim Motifs As Motif() =

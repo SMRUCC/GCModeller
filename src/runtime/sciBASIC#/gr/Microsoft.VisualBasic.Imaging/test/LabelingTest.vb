@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1c392ee9d9aa70e9ded8e9dadf71ec54, gr\Microsoft.VisualBasic.Imaging\test\LabelingTest.vb"
+﻿#Region "Microsoft.VisualBasic::1e198295c9d16c03622f8b2993eb4f71, gr\Microsoft.VisualBasic.Imaging\test\LabelingTest.vb"
 
     ' Author:
     ' 
@@ -45,7 +45,7 @@ Imports Microsoft.VisualBasic.Imaging.d3js
 Imports Microsoft.VisualBasic.Imaging.d3js.Layout
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
+Imports Microsoft.VisualBasic.MIME.Html.CSS
 
 Module LabelingTest
 
@@ -53,7 +53,7 @@ Module LabelingTest
         Using g As Graphics2D = New Size(1024, 1024).CreateGDIDevice(filled:=Color.White)
             Dim labelFont As Font = CSSFont _
                 .TryParse(CSSFont.PlotLabelNormal) _
-                .GDIObject
+                .GDIObject(300)
             Dim rand As New Random
             Dim labels As Label() = g.Label(130.SeqRandom.Select(Function(i) rand.NextDouble.ToString("F4"))).ToArray
             Dim anchors = labels _

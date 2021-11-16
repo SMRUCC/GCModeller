@@ -1,25 +1,45 @@
-﻿Imports System.Net.Sockets
+﻿Imports System.Runtime.CompilerServices
 Imports Flute.Http.Core
+Imports Flute.Http.Core.Message
 
-Public Class HttpDriver : Inherits HttpServer
+Public Class HttpDriver
 
-    Public Sub New(port As Integer, Optional threads As Integer = -1)
-        MyBase.New(port, threads)
+    Dim responseHeader As New Dictionary(Of String, String)
+    Dim methods As New Dictionary(Of String, HttpSocket.AppHandler)
+    Dim silent As Boolean
+
+    Sub New(Optional silent As Boolean = True)
+        Me.silent = silent
     End Sub
 
-    Public Overrides Sub handleGETRequest(p As HttpProcessor)
-        Throw New NotImplementedException()
+    Public Sub HttpMethod(method As String, handler As HttpSocket.AppHandler)
+        methods(method.ToUpper) = handler
     End Sub
 
-    Public Overrides Sub handlePOSTRequest(p As HttpProcessor, inputData As String)
-        Throw New NotImplementedException()
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Sub AddResponseHeader(header As String, value As String)
+        Call responseHeader.Add(header, value)
     End Sub
 
-    Public Overrides Sub handleOtherMethod(p As HttpProcessor)
-        Throw New NotImplementedException()
-    End Sub
-
-    Protected Overrides Function getHttpProcessor(client As TcpClient, bufferSize As Integer) As HttpProcessor
-        Return New HttpProcessor(client, Me, bufferSize)
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Function GetSocket(port As Integer) As HttpSocket
+        Return New HttpSocket(
+            app:=AddressOf AppHandler,
+            port:=port,
+            silent:=silent
+        )
     End Function
+
+    Public Sub AppHandler(request As HttpRequest, response As HttpResponse)
+        For Each header In responseHeader
+            response.AddCustomHttpHeader(header.Key, header.Value)
+        Next
+
+        If methods.ContainsKey(request.HTTPMethod) Then
+            Call methods(request.HTTPMethod)(request, response)
+        Else
+            Call response.WriteError(501, "501 Not Implemented")
+        End If
+    End Sub
+
 End Class

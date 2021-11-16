@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c90f90c4700f2d556f4928d97df1676d, gseakit\GSEA.vb"
+﻿#Region "Microsoft.VisualBasic::3c8da615370f8eab799f27f2d6910ea4, R#\gseakit\GSEA.vb"
 
     ' Author:
     ' 
@@ -73,11 +73,6 @@ Imports REnv = SMRUCC.Rsharp.Runtime
 <Package("GSEA", Category:=APICategories.ResearchTools)>
 Module GSEA
 
-    ' 进行GSEA分析需要获取得到一系列的基因簇来进行分析
-    ' 基因簇的来源可以是
-    ' 1. 差异表达分析结果：总差异列表，上调列表，下调列表
-    ' 2. cmeans或者kmeans聚类结果得到的基因簇
-
     ''' <summary>
     ''' read the enrichment result table
     ''' </summary>
@@ -95,8 +90,13 @@ Module GSEA
     ''' <param name="geneSet">a given geneset id list</param>
     ''' <returns></returns>
     <ExportAPI("enrichment")>
-    Public Function Enrichment(background As Background, geneSet$(), Optional showProgress As Boolean = True) As EnrichmentResult()
-        Return background.Enrichment(geneSet, False, showProgress:=showProgress).ToArray
+    Public Function Enrichment(background As Background, geneSet$(), Optional outputAll As Boolean = True, Optional showProgress As Boolean = True) As EnrichmentResult()
+        Return background.Enrichment(
+            list:=geneSet,
+            outputAll:=outputAll,
+            showProgress:=showProgress
+        ).OrderBy(Function(a) a.pvalue) _
+         .ToArray
     End Function
 
     ''' <summary>
@@ -154,9 +154,9 @@ Module GSEA
         Dim verbose As Boolean = env.globalEnvironment.options.verbose
 
         If REnv.isVector(Of EnrichmentResult)(enrichment) Then
-            If format = "GCModeller" Then
+            If format = EnrichmentTableFormat.GCModeller Then
                 Return DirectCast(enrichment, EnrichmentResult()).SaveTo(file, silent:=Not verbose)
-            ElseIf format = "KOBAS" Then
+            ElseIf format = EnrichmentTableFormat.KOBAS Then
                 Return KOBASFormat(enrichment).SaveTo(file, silent:=Not verbose)
             Else
                 Return Internal.debug.stop(New NotImplementedException(format), env)
@@ -222,3 +222,8 @@ Module GSEA
         Return image
     End Function
 End Module
+
+Public Enum EnrichmentTableFormat
+    GCModeller
+    KOBAS
+End Enum

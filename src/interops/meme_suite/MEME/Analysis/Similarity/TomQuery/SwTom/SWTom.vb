@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::29b64cac4368bf245876485048aa8427, meme_suite\MEME\Analysis\Similarity\TomQuery\SwTom\SWTom.vb"
+﻿#Region "Microsoft.VisualBasic::aa9c74f39294e95cac58ed677267efce, meme_suite\MEME\Analysis\Similarity\TomQuery\SwTom\SWTom.vb"
 
     ' Author:
     ' 
@@ -34,6 +34,7 @@
     '     Class SWAlignment
     ' 
     '         Constructor: (+1 Overloads) Sub New
+    '         Function: symbolProvider
     ' 
     '     Module SWTom
     ' 
@@ -54,6 +55,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming.Levenshtein
+Imports Microsoft.VisualBasic.DataMining.DynamicProgramming
 Imports Microsoft.VisualBasic.DataMining.DynamicProgramming.SmithWaterman
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -73,8 +75,17 @@ Namespace Analysis.Similarity.TOMQuery
         Sub New(query As MotifScans.AnnotationModel,
                 subject As MotifScans.AnnotationModel,
                 equals As ISimilarity(Of MotifScans.ResidueSite))
-            Call MyBase.New(query.PWM, subject.PWM, equals, AddressOf TomTOm.ToChar)
+            Call MyBase.New(query.PWM, subject.PWM, symbolProvider(equals))
         End Sub
+
+        Private Shared Function symbolProvider(equals As ISimilarity(Of MotifScans.ResidueSite)) As GenericSymbol(Of MotifScans.ResidueSite)
+            Return New GenericSymbol(Of MotifScans.ResidueSite)(
+                equals:=Function(x, y) equals(x, y) >= 0.85,
+                similarity:=Function(x, y) equals(x, y),
+                toChar:=AddressOf TomTOm.ToChar,
+                empty:=Function() Nothing
+            )
+        End Function
     End Class
 
     <Package("TOMQuery.Smith-Waterman", Category:=APICategories.ResearchTools)>
@@ -141,7 +152,7 @@ Namespace Analysis.Similarity.TOMQuery
                                 method As ISimilarity(Of MotifScans.ResidueSite),
                                 params As Parameters) As Output
             Dim sw As New SWAlignment(query, subject, method)
-            Dim out As SequenceTools.Output = SequenceTools.Output.CreateObject(sw, AddressOf TomTOm.ToChar, params.SWThreshold, params.MinW)
+            Dim out As SequenceTools.Output = SequenceTools.Output.CreateObject(sw, params.SWThreshold, params.MinW)
             Dim output As New Output With {
                 .Query = query,
                 .Subject = subject,

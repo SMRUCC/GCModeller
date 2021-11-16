@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::699c368de4c791f98580a38eae99f87e, engine\IO\GCMarkupLanguage\v2\ModelExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::db8e09eceb7746c4bc6f4b3d6a32e392, engine\IO\GCMarkupLanguage\v2\ModelExtensions.vb"
 
     ' Author:
     ' 
@@ -48,7 +48,10 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Scripting
 Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
-Imports FluxModel = SMRUCC.genomics.GCModeller.ModellingEngine.Model.Reaction
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Molecule
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Process
+Imports FluxModel = SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Process.Reaction
 
 Namespace v2
 
@@ -68,7 +71,7 @@ Namespace v2
                     .OrderByDescending(Function(gene) gene.RNA.Value) _
                     .ToArray,
                 .ProteinMatrix = model.genome.replicons _
-                    .Select(Function(rep) rep.genes.AsEnumerable) _
+                    .Select(Function(rep) rep.GetGeneList) _
                     .IteratesALL _
                     .Where(Function(gene) Not gene.amino_acid Is Nothing) _
                     .Select(Function(gene)
@@ -76,7 +79,7 @@ Namespace v2
                             End Function) _
                     .ToArray,
                 .RNAMatrix = model.genome.replicons _
-                    .Select(Function(rep) rep.genes.AsEnumerable) _
+                    .Select(Function(rep) rep.GetGeneList) _
                     .IteratesALL _
                     .Select(Function(rna)
                                 Return rna.nucleotide_base.DoCall(AddressOf RNAFromVector)
@@ -116,7 +119,7 @@ Namespace v2
                                       }
                                   End Function)
 
-                For Each gene As gene In replicon.genes.AsEnumerable
+                For Each gene As gene In replicon.GetGeneList
                     If rnaTable.ContainsKey(gene.locus_tag) Then
                         RNA = rnaTable(gene.locus_tag)
                         proteinId = Nothing
@@ -150,7 +153,7 @@ Namespace v2
                 .ToArray
             Dim proteins = model.genome.replicons _
                 .Select(Function(genome)
-                            Return genome.genes.AsEnumerable
+                            Return genome.GetGeneList
                         End Function) _
                 .IteratesALL _
                 .Where(Function(gene) Not gene.amino_acid Is Nothing) _
@@ -253,7 +256,7 @@ Namespace v2
                     .products = equation.Products _
                         .Select(Function(c) c.AsFactor) _
                         .ToArray,
-                    .enzyme = KO.Keys.Distinct.ToArray,
+                    .Enzyme = KO.Keys.Distinct.ToArray,
                     .bounds = bounds,
                     .kinetics = kinetics.FirstOrDefault
                 }

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b0f62a09d0699a2f94c0d1c3d84b26ac, Data\DataFrame\StorageProvider\Reflection\StorageProviders\TypeSchemaProvider.vb"
+﻿#Region "Microsoft.VisualBasic::3dbd96d1345fd2dcf11d051e2312b222, Data\DataFrame\StorageProvider\Reflection\StorageProviders\TypeSchemaProvider.vb"
 
     ' Author:
     ' 
@@ -134,21 +134,29 @@ Namespace StorageProvider.Reflection
                     [Property],
                     [alias]:=attr.Name,
                     forcePrimitive:=False,
-                    ColumnMaps:=attr)
-
+                    ColumnMaps:=attr
+                )
             End If
 
+#If netcore5 = 0 Then
             ' 请注意，由于这个属性之间有继承关系，这一最基本的类型会放在最后以防止出现重复
-
-            attrs = [Property].GetCustomAttributes(
-                attributeType:=GetType(System.Data.Linq.Mapping.ColumnAttribute),
-                inherit:=True)
+            attrs = [Property].GetCustomAttributes(attributeType:=GetType(System.Data.Linq.Mapping.ColumnAttribute), inherit:=True)
 
             If Not attrs.IsNullOrEmpty Then
                 ' 也可能是别名属性
                 Dim attr = DirectCast(attrs(Scan0), System.Data.Linq.Mapping.ColumnAttribute)
                 Return __generateMask([Property], [alias]:=attr.Name, forcePrimitive:=forcePrimitive)
             End If
+#Else
+            ' 请注意，由于这个属性之间有继承关系，这一最基本的类型会放在最后以防止出现重复
+            attrs = [Property].GetCustomAttributes(attributeType:=GetType(SchemaMaps.ColumnAttribute), inherit:=True)
+
+            If Not attrs.IsNullOrEmpty Then
+                ' 也可能是别名属性
+                Dim attr = DirectCast(attrs(Scan0), SchemaMaps.ColumnAttribute)
+                Return __generateMask([Property], [alias]:=attr.Name, forcePrimitive:=forcePrimitive)
+            End If
+#End If
 
             If Not Explicit Then
                 Return __generateMask([Property], "", forcePrimitive)
@@ -173,39 +181,28 @@ Namespace StorageProvider.Reflection
             ' 直接返回结果的情况：
             ' 1. 列类型为基本类型
             ' 2. 类属性定义之中定义了自定义解析器
-            If Scripting.IsPrimitive([Property].PropertyType) OrElse
-                ((Not ColumnMaps Is Nothing) AndAlso (Not ColumnMaps.CustomParser Is Nothing)) Then
-
-                Dim column As ColumnAttribute = If(
-                    ColumnMaps Is Nothing,
-                    New ColumnAttribute(_getName),
-                    ColumnMaps)  ' 属性值的类型是简单类型，则其标记的类型只能是普通列
-                Return ComponentModels.Column _
-                    .CreateObject(column, [Property])
-
+            If Scripting.IsPrimitive([Property].PropertyType) OrElse ((Not ColumnMaps Is Nothing) AndAlso (Not ColumnMaps.CustomParser Is Nothing)) Then
+                ' 属性值的类型是简单类型，则其标记的类型只能是普通列
+                Dim column As ColumnAttribute = If(ColumnMaps, New ColumnAttribute(_getName))
+                Return ComponentModels.Column.CreateObject(column, [Property])
             End If
 
             Dim valueType As New Value(Of Type)
             Dim elType As New Value(Of Type)
 
             If Not (valueType = GetMetaAttribute([Property].PropertyType)) Is Nothing Then
-
-                Return New ComponentModels.MetaAttribute(              ' 是字典类型
-                    New MetaAttribute(valueType.Value), [Property])
-
+                ' 是字典类型
+                Return New ComponentModels.MetaAttribute(New MetaAttribute(valueType.Value), [Property])
             ElseIf Not (elType = (GetThisElement([Property].PropertyType, forcePrimitive)) Is Nothing OrElse
                         elType.Value.Equals(GetType(Void))) Then
-
-                Return ComponentModels.CollectionColumn.CreateObject(    ' 是集合类型
-                    New CollectionAttribute(_getName), [Property], elType.Value)
-
-            ElseIf IsKeyValuePair([Property]) Then   ' 是键值对
-
+                ' 是集合类型
+                Return ComponentModels.CollectionColumn.CreateObject(New CollectionAttribute(_getName), [Property], elType.Value)
+            ElseIf IsKeyValuePair([Property]) Then
+                ' 是键值对
                 Return ComponentModels.KeyValuePair.CreateObject(_getName, [Property])
-
-            ElseIf IsEnum([Property]) Then   ' 是枚举类型
+            ElseIf IsEnum([Property]) Then
+                ' 是枚举类型
                 Return ComponentModels.Enum.CreateObject(_getName, [Property])
-
             End If
 
             Return Nothing

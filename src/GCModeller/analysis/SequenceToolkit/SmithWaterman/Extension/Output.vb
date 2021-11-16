@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::38c74bf0885e21300aff45dd7e8f3eea, analysis\SequenceToolkit\SmithWaterman\Extension\Output.vb"
+﻿#Region "Microsoft.VisualBasic::375b22ce2d48d638584afdeb4e348313, analysis\SequenceToolkit\SmithWaterman\Extension\Output.vb"
 
     ' Author:
     ' 
@@ -113,29 +113,37 @@ Public Class Output
     ''' </summary>
     ''' <typeparam name="T"></typeparam>
     ''' <param name="sw"></param>
-    ''' <param name="toChar"></param>
     ''' <param name="threshold">0% - 100%</param>
     ''' <returns></returns>
-    Public Shared Function CreateObject(Of T)(sw As GSW(Of T), toChar As ToChar(Of T), threshold As Double, minW As Integer) As Output
-        Dim best As HSP = Nothing
-        Dim hsp = SequenceTools.HSP.CreateHSP(sw, toChar, best, cutoff:=threshold * sw.AlignmentScore)
+    Public Shared Function CreateObject(Of T)(sw As GSW(Of T), threshold As Double, minW As Integer) As Output
+        Dim hspList = sw.CreateHSP(cutoff:=threshold * sw.AlignmentScore).ToArray
         Dim direction = sw.prevCells.Select(Function(x) New ArrayRow(x)).ToArray
+        Dim toChar As Func(Of T, Char) = AddressOf sw.symbol.ToChar
         Dim dp = sw.GetDPMAT.Select(Function(x) New ArrayRow(x)).ToArray
         Dim query = sw.query.Select(Function(x) toChar(x)).CharString
         Dim subject = sw.subject.Select(Function(x) toChar(x)).CharString
-
         Dim m2Len As Integer = Math.Min(query.Length, subject.Length)
+        Dim best As HSP = SequenceTools.HSP.CreateFrom(hspList.GetBestAlignment, toChar)
+
         If m2Len < minW Then
             Call $"Min width {minW} is too large than query/subject, using min(query,subject):={m2Len} instead....".__DEBUG_ECHO
             minW = m2Len
         End If
-        hsp = (From x In hsp Where x.LengthHit >= minW AndAlso x.LengthQuery >= minW Select x).ToArray
+
+        hspList = (From x In hspList Where x.LengthHit >= minW AndAlso x.LengthQuery >= minW Select x).ToArray
 
         Return New Output With {
             .Traceback = sw.GetTraceback,
             .Directions = direction,
             .DP = dp,
-            .HSP = hsp,
+            .HSP = hspList _
+                .Select(Function(h)
+                            Dim hsp = SequenceTools.HSP.CreateFrom(h, AddressOf sw.symbol.ToChar)
+                            hsp.QueryLength = query.Length
+                            hsp.SubjectLength = subject.Length
+                            Return hsp
+                        End Function) _
+                .ToArray,
             .Query = query,
             .Subject = subject,
             .Best = best

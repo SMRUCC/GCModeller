@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5d49365fcfd68502be3be02f8be90cac, RNA-Seq\RNA-seq.Data\SAM\DocumentNodes\SAMHeader.vb"
+﻿#Region "Microsoft.VisualBasic::df37d3e36fcccb1522773c220115c5aa, RNA-Seq\RNA-seq.Data\SAM\DocumentNodes\SAMHeader.vb"
 
     ' Author:
     ' 

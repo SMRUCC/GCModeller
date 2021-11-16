@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::206764fc01716928b50ac62069e78914, Data_science\Mathematica\Math\Math\Distributions\Bootstraping.vb"
+﻿#Region "Microsoft.VisualBasic::0d7069136e052e36d6eb6af4302f2f54, Data_science\Mathematica\Math\Math\Distributions\Bootstraping.vb"
 
     ' Author:
     ' 
@@ -34,7 +34,7 @@
     '     Module Bootstraping
     ' 
     '         Function: Distributes, Hist, Sample, (+2 Overloads) Samples, Sampling
-    '                   TabulateMode
+    '                   TabulateBin, TabulateMode
     ' 
     ' 
     ' /********************************************************************************/
@@ -42,6 +42,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.ComponentModel.TagData
 Imports Microsoft.VisualBasic.Language
@@ -83,17 +84,45 @@ Namespace Distributions
         ''' </summary>
         ''' <typeparam name="T"></typeparam>
         ''' <param name="source">总体样本</param>
-        ''' <param name="N">每一个样本的大小</param>
-        ''' <param name="bags">采样的次数</param>
+        ''' <param name="N">每一个样本的大小，即在每一个袋子中有多少个样本元素</param>
+        ''' <param name="bags">采样的次数，这个函数返回多少个袋子集合？</param>
+        ''' <param name="replace">
+        ''' 是否为有放回的进行抽样？默认是有放回的。设置这个参数为False表示不重复的采样，即抽取过后的元素将不会再出现在后面的采样结果之中
+        ''' </param>
         ''' <returns></returns>
         <Extension>
-        Public Iterator Function Samples(Of T)(source As IEnumerable(Of T), N As Integer, Optional bags As Integer = 100) As IEnumerable(Of SeqValue(Of T()))
+        Public Iterator Function Samples(Of T)(source As IEnumerable(Of T), N As Integer,
+                                               Optional bags As Integer = 100,
+                                               Optional replace As Boolean = True) As IEnumerable(Of SeqValue(Of T()))
+
             Dim array As T() = source.ToArray
+            Dim index As New List(Of Integer)(array.Sequence)
             Dim sampleBags = Iterator Function() As IEnumerable(Of T)
-                                 For k As Integer = 0 To N - 1
-                                     ' 在这里是有放回的随机采样
-                                     Yield array(seeds.Next(array.Length))
-                                 Next
+                                 If replace Then
+                                     For k As Integer = 0 To N - 1
+                                         ' 在这里是有放回的随机采样
+                                         Yield array(seeds.Next(array.Length))
+                                     Next
+                                 Else
+                                     Dim i As Integer
+
+                                     If index.Count = 0 Then
+                                         Return
+                                     End If
+
+                                     ' 无放回的抽样
+                                     For k As Integer = 0 To N - 1
+                                         i = seeds.Next(index.Count)
+                                         i = index(i)
+                                         index.Remove(item:=i)
+
+                                         Yield array(i)
+
+                                         If index.Count = 0 Then
+                                             Return
+                                         End If
+                                     Next
+                                 End If
                              End Function
 
             For i As Integer = 0 To bags
@@ -200,41 +229,56 @@ Namespace Distributions
         End Function
 
         <Extension>
-        Public Function TabulateMode(data As IEnumerable(Of Double)) As Double
+        Public Function TabulateMode(data As IEnumerable(Of Double), Optional topBin As Boolean = False, Optional bags As Integer = 5) As Double
+            Dim resample As Double() = data.TabulateBin(topBin, bags)
+
+            If resample.Length = 0 Then
+                Return Double.NaN
+            Else
+                Return resample.Average
+            End If
+        End Function
+
+        <Extension>
+        Public Function TabulateBin(data As IEnumerable(Of Double), Optional topBin As Boolean = False, Optional bags As Integer = 5) As Double()
             With data.ToArray
                 If .Length = 0 Then
-                    Return 0
+                    Return {}
                 ElseIf .All(AddressOf IsNaNImaginary) Then
-                    Return Double.NaN
+                    Return {}
                 ElseIf .Min = .Max Then
                     ' all equals to each other, no needs for calculation
-                    Return .Max
+                    Return .ByRef
                 End If
 
-                Dim steps As Double = New DoubleRange(.Min, .Max).Length / 5
+                Dim steps As Double = New DoubleRange(.Min, .Max).Length / bags
 
                 If steps < 0.000001 Then
-                    Return .Average
+                    Return .ByRef
                 End If
 
                 Dim hist = .Hist([step]:=steps).ToArray
-                Dim maxN = Which.Max(hist.Select(Function(bin) bin.Count))
+                Dim maxN = which.Max(hist.Select(Function(bin) bin.Count))
                 Dim resample As Double()
 
-                If maxN = 0 Then
-                    resample = hist(Scan0).Raw.AsList + hist(1).Raw
-                ElseIf maxN = hist.Length - 1 Then
-                    resample =
-                        hist(hist.Length - 1).Raw.AsList +
-                        hist(hist.Length - 2).Raw
+                If topBin Then
+                    resample = hist(maxN).Raw
                 Else
-                    resample =
-                        hist(maxN - 1).Raw.AsList +
-                        hist(maxN).Raw +
-                        hist(maxN + 1).Raw
+                    If maxN = 0 Then
+                        resample = hist(Scan0).Raw.AsList + hist(1).Raw
+                    ElseIf maxN = hist.Length - 1 Then
+                        resample =
+                            hist(hist.Length - 1).Raw.AsList +
+                            hist(hist.Length - 2).Raw
+                    Else
+                        resample =
+                            hist(maxN - 1).Raw.AsList +
+                            hist(maxN).Raw +
+                            hist(maxN + 1).Raw
+                    End If
                 End If
 
-                Return resample.Average
+                Return resample
             End With
         End Function
     End Module

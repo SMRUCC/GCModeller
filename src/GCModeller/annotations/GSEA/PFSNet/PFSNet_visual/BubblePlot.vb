@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::622f0d82ff6814666886a50f9a90a80f, annotations\GSEA\PFSNet\PFSNet_visual\BubblePlot.vb"
+﻿#Region "Microsoft.VisualBasic::295a7b9f15514df2e9ac7c7a8f67c219, annotations\GSEA\PFSNet\PFSNet_visual\BubblePlot.vb"
 
     ' Author:
     ' 
@@ -50,8 +50,7 @@ Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
-Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
-Imports Microsoft.VisualBasic.Scripting.Runtime
+Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports SMRUCC.genomics.Analysis.PFSNet.DataStructure
 Imports stdNum = System.Math
 
@@ -148,4 +147,3 @@ Public Module BubblePlot
         Next
     End Function
 End Module
-

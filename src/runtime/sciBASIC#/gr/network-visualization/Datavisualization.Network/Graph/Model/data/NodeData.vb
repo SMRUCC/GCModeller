@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fc790f43aa192916e5a698943f7a98af, gr\network-visualization\Datavisualization.Network\Graph\Model\data\NodeData.vb"
+﻿#Region "Microsoft.VisualBasic::166002e7e1b1f5a6d92a72828b9c4014, gr\network-visualization\Datavisualization.Network\Graph\Model\data\NodeData.vb"
 
     ' Author:
     ' 
@@ -44,11 +44,15 @@
 
 #End Region
 
-Imports System.Drawing
+#If netcore5 = 0 Then
 Imports System.Web.Script.Serialization
+#Else
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+#End If
+
+Imports System.Drawing
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Serialization
 
 Namespace Graph
 
@@ -95,7 +99,6 @@ Namespace Graph
         <ScriptIgnore>
         Public Property color As Brush
 
-        <DumpNode>
         Public Property weights As Double()
 
         ''' <summary>
@@ -104,7 +107,6 @@ Namespace Graph
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <DumpNode>
         Public Property neighbours As Integer()
 
         Public Property betweennessCentrality As Double
@@ -131,7 +133,7 @@ Namespace Graph
             Me.weights = copy.weights.SafeQuery.ToArray
         End Sub
 
-        Public Function Clone() As NodeData
+        Public Overridable Function Clone() As NodeData
             Return New NodeData With {
                 .label = label,
                 .betweennessCentrality = betweennessCentrality,

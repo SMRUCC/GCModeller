@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4dea4af6a5a5d8555a093cb2561629fc, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Text\FontMetrics.vb"
+﻿#Region "Microsoft.VisualBasic::193901df2c0e8e33fa0fe0d58976efed, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Text\FontMetrics.vb"
 
     ' Author:
     ' 
@@ -50,8 +50,8 @@
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Imaging.SVG
-Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
+Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports stdNum = System.Math
 
 Namespace Drawing2D.Text
 
@@ -77,7 +77,7 @@ Namespace Drawing2D.Text
         End Sub
 
         Sub New(font As CSSFont, g As Graphics)
-            Me.New(font.GDIObject, g)
+            Me.New(font.GDIObject(stdNum.Max(g.DpiX, g.DpiY)), g)
         End Sub
 
         ''' <summary>

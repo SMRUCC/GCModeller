@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::41bdc3cab0d018410b847ceb812d0cca, analysis\RNA-Seq\Toolkits.RNA-Seq\Correlations\MatrixSerialization.vb"
+﻿#Region "Microsoft.VisualBasic::e7a49f8f2d3c0474a22f26d51bf05611, analysis\RNA-Seq\Toolkits.RNA-Seq\Correlations\MatrixSerialization.vb"
 
     ' Author:
     ' 
@@ -182,4 +182,3 @@
 '        Return sampleValue
 '    End Function
 'End Module
-

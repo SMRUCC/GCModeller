@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a66c7badf9ebf93f5a590f187695feb0, seqtoolkit\Annotations\workflows.vb"
+﻿#Region "Microsoft.VisualBasic::70432bc564747dd6a463cd19693f5b65, R#\seqtoolkit\Annotations\workflows.vb"
 
     ' Author:
     ' 
@@ -38,22 +38,6 @@
     ' 
     '     Sub: writeStreamHelper
     ' 
-    ' Enum TableTypes
-    ' 
-    '     BBH, Mapping, SBH
-    ' 
-    '  
-    ' 
-    ' 
-    ' 
-    ' Enum BBHAlgorithm
-    ' 
-    '     BHR, Naive, TaxonomySupports
-    ' 
-    '  
-    ' 
-    ' 
-    ' 
     ' /********************************************************************************/
 
 #End Region
@@ -89,7 +73,11 @@ Module workflows
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("read.blast")>
-    Public Function openBlastReader(file As String, Optional type As String = "nucl", Optional fastMode As Boolean = True, Optional env As Environment = Nothing) As pipeline
+    Public Function openBlastReader(file As String,
+                                    Optional type As String = "nucl",
+                                    Optional fastMode As Boolean = True,
+                                    Optional env As Environment = Nothing) As pipeline
+
         If Not file.FileExists(True) Then
             Return REnv.Internal.debug.stop($"invalid data source: '{file.ToFileURL}'!", env)
         End If
@@ -103,6 +91,12 @@ Module workflows
         End If
     End Function
 
+    ''' <summary>
+    ''' export results of fastq reads mapping to genome sequence. 
+    ''' </summary>
+    ''' <param name="query"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("blastn.maphit")>
     Public Function parseBlastnMaps(query As pipeline, Optional env As Environment = Nothing) As pipeline
         If query Is Nothing Then
@@ -116,6 +110,16 @@ Module workflows
             .DoCall(AddressOf pipeline.CreateFromPopulator)
     End Function
 
+    ''' <summary>
+    ''' Export single side besthit
+    ''' </summary>
+    ''' <param name="query"></param>
+    ''' <param name="idetities"></param>
+    ''' <param name="coverage"></param>
+    ''' <param name="topBest"></param>
+    ''' <param name="keepsRawName"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("blasthit.sbh")>
     <Extension>
     Public Function ExportSBHHits(query As pipeline,
@@ -153,7 +157,10 @@ Module workflows
     End Function
 
     <ExportAPI("blasthit.bbh")>
-    Public Function ExportBBHHits(forward As pipeline, reverse As pipeline, Optional algorithm As BBHAlgorithm = BBHAlgorithm.Naive, Optional env As Environment = Nothing) As pipeline
+    Public Function ExportBBHHits(forward As pipeline, reverse As pipeline,
+                                  Optional algorithm As BBHAlgorithm = BBHAlgorithm.Naive,
+                                  Optional env As Environment = Nothing) As pipeline
+
         If forward Is Nothing Then
             Return REnv.Internal.debug.stop("No forward alignment data!", env)
         ElseIf reverse Is Nothing Then
@@ -177,9 +184,22 @@ Module workflows
 
         Select Case algorithm
             Case BBHAlgorithm.Naive
-                Return pipeline.CreateFromPopulator(BBHParser.GetBBHTop(forward.populates(Of BestHit)(env), reverse.populates(Of BestHit)(env)))
+
+                Return BBHParser _
+                    .GetBBHTop(
+                        qvs:=forward.populates(Of BestHit)(env),
+                        svq:=reverse.populates(Of BestHit)(env)
+                    ) _
+                    .DoCall(AddressOf pipeline.CreateFromPopulator)
+
             Case BBHAlgorithm.BHR
+                Throw New NotImplementedException
             Case BBHAlgorithm.TaxonomySupports
+                Throw New NotImplementedException
+            Case BBHAlgorithm.HybridBHR
+                Return FastMatch _
+                    .BinaryMatch(forward.populates(Of BestHit)(env), reverse.populates(Of BestHit)(env)) _
+                    .DoCall(AddressOf pipeline.CreateFromPopulator)
             Case Else
                 Return REnv.Internal.debug.stop("invalid algorithm supports!", env)
         End Select
@@ -233,7 +253,7 @@ Module workflows
     End Function
 
     <ExportAPI("stream.flush")>
-    Public Function flush(stream As Object, data As pipeline, Optional env As Environment = Nothing) As Object
+    Public Function flush(data As pipeline, stream As Object, Optional env As Environment = Nothing) As Object
         If stream Is Nothing Then
             Return Internal.debug.stop("No output stream device!", env)
         ElseIf data Is Nothing Then
@@ -271,7 +291,11 @@ Module workflows
     End Sub
 
     <ExportAPI("besthit.filter")>
-    Public Function FilterBesthitStream(besthits As pipeline, Optional evalue# = 0.00001, Optional delNohits As Boolean = True, Optional env As Environment = Nothing) As pipeline
+    Public Function FilterBesthitStream(besthits As pipeline,
+                                        Optional evalue# = 0.00001,
+                                        Optional delNohits As Boolean = True,
+                                        Optional pickTop As Boolean = False,
+                                        Optional env As Environment = Nothing) As pipeline
         If besthits Is Nothing Then
             Return REnv.Internal.debug.stop("The input stream data is nothing!", env)
         ElseIf Not besthits.elementType Like GetType(BestHit) Then
@@ -286,11 +310,22 @@ Module workflows
                     Return hit.evalue <= evalue
                 End If
             End Function
-
-        Return besthits _
+        Dim stream As IEnumerable(Of BestHit) = besthits _
             .populates(Of BestHit)(env) _
-            .Where(filter) _
-            .DoCall(AddressOf pipeline.CreateFromPopulator)
+            .Where(filter)
+
+        If pickTop Then
+            Return stream _
+                .GroupBy(Function(hit) hit.QueryName) _
+                .Select(Function(group)
+                            Return group _
+                                .OrderByDescending(Function(hit) hit.score) _
+                                .First
+                        End Function) _
+                .DoCall(AddressOf pipeline.CreateFromPopulator)
+        Else
+            Return pipeline.CreateFromPopulator(stream)
+        End If
     End Function
 
     ''' <summary>
@@ -340,18 +375,3 @@ Module workflows
         End Select
     End Function
 End Module
-
-Public Enum TableTypes
-    SBH
-    BBH
-    ''' <summary>
-    ''' blastn mapping of the short reads
-    ''' </summary>
-    Mapping
-End Enum
-
-Public Enum BBHAlgorithm
-    Naive
-    BHR
-    TaxonomySupports
-End Enum

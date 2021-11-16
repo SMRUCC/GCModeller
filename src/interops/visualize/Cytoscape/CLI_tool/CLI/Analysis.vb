@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::06e730c99ebbcde875e673764cfe0b3f, visualize\Cytoscape\CLI_tool\CLI\Analysis.vb"
+﻿#Region "Microsoft.VisualBasic::43105dec5c7c2a3fdfd431bb4f4dc53b, visualize\Cytoscape\CLI_tool\CLI\Analysis.vb"
 
     ' Author:
     ' 
@@ -47,13 +47,13 @@ Imports Microsoft.VisualBasic.Data.ChartPlots.Fractions
 Imports Microsoft.VisualBasic.Data.ChartPlots.Statistics.Heatmap
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
-Imports Microsoft.VisualBasic.Data.visualize
 Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Math.Correlations
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.DataFrame
-Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
+Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.Visualize.CatalogProfiling
 Imports NetGraph = Microsoft.VisualBasic.Data.visualize.Network.FileStream.NetworkTables
 
@@ -106,11 +106,11 @@ Partial Module CLI
 
         ' 需要转换一次csv再转换回来，从而才能进行排序和填充零，进行相似度矩阵运算
         Dim csv = objects.ToCsvDoc(False, metaBlank:="0")
-        Dim matrix = csv.AsDataSource(Of DataSet).MatrixBuilder(AddressOf Correlations.GetPearson, isDistance:=False)
+        Dim matrix = csv.AsDataSource(Of DataSet).Correlation
 
         Call objects.SaveTo(out & "/links.csv")
         Call matrix.PopulateRowObjects(Of DataSet).SaveTo(out & "/matrix.csv")
-        Call CorrelationHeatmap _
+        Call CorrelationTriangle _
             .Plot(matrix, size:=size, mapName:=colors) _
             .Save(out & "/heatmap.png")
 
@@ -166,10 +166,12 @@ Partial Module CLI
                                           End Function) _
                                   .ToArray
                           End Function) _
+            .DoCall(Function(table) New CatalogProfiles(table)) _
             .ProfilesPlot(size:="2400,1900",
                           title:="Network Connection Degrees",
                           axisTitle:="Node Degrees",
-                          tick:=tick) _
+                          tick:=tick
+            ) _
             .Save(out & "/degrees.png")
 
         data = network _

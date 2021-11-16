@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0ddb4c90624334d339addf73d5926d1f, CLI_tools\GCModeller\CLI\localblast.vb"
+﻿#Region "Microsoft.VisualBasic::545e7a596462372ac5e7a87ba6e81943, CLI_tools\GCModeller\CLI\localblast.vb"
 
     ' Author:
     ' 
@@ -124,7 +124,7 @@ Partial Module CLI
 
     <ExportAPI("/Map.Hits.Taxonomy",
                Usage:="/Map.Hits.Taxonomy /in <query.csv> /mapping <blastnMapping.csv/DIR> /tax <taxonomy.DIR:name/nodes> [/out <out.csv>]")>
-    <Argument("/mapping", True,
+    <ArgumentAttribute("/mapping", True,
               AcceptTypes:={GetType(BlastnMapping)},
               Description:="Data frame should have a ``taxid`` field.")>
     <Group(CLIGrouping.LocalblastTools)>

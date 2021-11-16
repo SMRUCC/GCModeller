@@ -1,42 +1,46 @@
-﻿#Region "Microsoft.VisualBasic::a07661e38be11be09ef8a5a9b3f7ec42, phenotype_kit\geneExpression.vb"
+﻿#Region "Microsoft.VisualBasic::b4b681effba1805a72bab6be9fab1319, R#\phenotype_kit\geneExpression.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-' Module geneExpression
-' 
-'     Constructor: (+1 Overloads) Sub New
-'     Function: average, loadExpression, relative
-' 
-' /********************************************************************************/
+    ' Module geneExpression
+    ' 
+    '     Function: average, castGenericRows, CMeans3D, CmeansPattern, createDEGModels
+    '               DEGclass, depDataTable, expDataTable, filter, geneId
+    '               GetCmeansPattern, loadExpression, loadFromDataFrame, loadFromGenericDataSet, relative
+    '               Ttest, uniqueGeneId
+    ' 
+    '     Sub: Main
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -54,7 +58,9 @@ Imports SMRUCC.genomics.Visualize
 Imports SMRUCC.genomics.Visualize.ExpressionPattern
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
+Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 Imports Rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 Imports REnv = SMRUCC.Rsharp.Runtime
 Imports Vec = Microsoft.VisualBasic.Math.LinearAlgebra.Vector
@@ -65,9 +71,53 @@ Imports Vec = Microsoft.VisualBasic.Math.LinearAlgebra.Vector
 <Package("geneExpression")>
 Module geneExpression
 
-    Sub New()
+    Friend Sub Main()
         REnv.Internal.ConsolePrinter.AttachConsoleFormatter(Of ExpressionPattern)(Function(a) DirectCast(a, ExpressionPattern).ToSummaryText)
+        REnv.Internal.Object.Converts.makeDataframe.addHandler(GetType(DEP_iTraq()), AddressOf depDataTable)
+        REnv.Internal.Object.Converts.makeDataframe.addHandler(GetType(Matrix), AddressOf expDataTable)
+        REnv.Internal.ConsolePrinter.AttachConsoleFormatter(Of DEGModel)(Function(a) a.ToString)
     End Sub
+
+    Private Function expDataTable(exp As Matrix, args As list, env As Environment) As Rdataframe
+        Dim table As New Rdataframe With {.columns = New Dictionary(Of String, Array)}
+
+        For i As Integer = 0 To exp.sampleID.Length - 1
+#Disable Warning
+            table.columns(exp.sampleID(i)) = exp.expression _
+                .Select(Function(gene)
+                            Return gene.experiments(i)
+                        End Function) _
+                .ToArray
+#Enable Warning
+        Next
+
+        table.rownames = exp.expression _
+            .Select(Function(gene) gene.geneID) _
+            .ToArray
+
+        Return table
+    End Function
+
+    Private Function depDataTable(dep As DEP_iTraq(), args As list, env As Environment) As Rdataframe
+        Dim table As New Rdataframe With {
+            .rownames = dep.Keys,
+            .columns = New Dictionary(Of String, Array)
+        }
+
+        table.columns("FC.avg") = dep.Select(Function(p) p.FCavg).ToArray
+        table.columns(NameOf(DEP_iTraq.log2FC)) = dep.Select(Function(p) p.log2FC).ToArray
+        table.columns("p.value") = dep.Select(Function(p) p.pvalue).ToArray
+        table.columns(NameOf(DEP_iTraq.FDR)) = dep.Select(Function(p) p.FDR).ToArray
+        table.columns("is.DEP") = dep.Select(Function(p) p.isDEP).ToArray
+
+        For Each sampleName As String In dep.PropertyNames
+            table.columns(sampleName) = dep _
+                .Select(Function(p) p(sampleName)) _
+                .ToArray
+        Next
+
+        Return table
+    End Function
 
     ''' <summary>
     ''' load an expressin matrix data
@@ -77,33 +127,142 @@ Module geneExpression
     ''' <returns></returns>
     <ExportAPI("load.expr")>
     <RApiReturn(GetType(Matrix))>
-    Public Function loadExpression(file As Object, Optional exclude_samples As String() = Nothing, Optional env As Environment = Nothing) As Object
+    Public Function loadExpression(file As Object,
+                                   Optional exclude_samples As String() = Nothing,
+                                   Optional rm_ZERO As Boolean = False,
+                                   Optional makeNames As Boolean = False,
+                                   Optional env As Environment = Nothing) As Object
+
         Dim ignores As Index(Of String) = If(exclude_samples, {})
 
         If TypeOf file Is String Then
-            Return Matrix.LoadData(DirectCast(file, String), ignores)
+            Return Matrix.LoadData(DirectCast(file, String), ignores, rm_ZERO).uniqueGeneId(makeNames)
         ElseIf TypeOf file Is Rdataframe Then
-            Dim table As Rdataframe = DirectCast(file, Rdataframe)
-            Dim sampleNames As String() = table.columns.Keys.Where(Function(c) Not c Like ignores).ToArray
-            Dim genes As DataFrameRow() = table _
-                .forEachRow(colKeys:=sampleNames) _
-                .Select(Function(v)
-                            Return New DataFrameRow With {
-                                .geneID = v.name,
-                                .experiments = v.value _
-                                    .Select(Function(obj) CDbl(obj)) _
-                                    .ToArray
-                            }
-                        End Function) _
-                .ToArray
-
-            Return New Matrix With {
-                .expression = genes,
-                .sampleID = sampleNames
-            }
+            Return DirectCast(file, Rdataframe) _
+                .loadFromDataFrame(rm_ZERO, ignores) _
+                .uniqueGeneId(makeNames)
+        ElseIf REnv.isVector(Of DataSet)(file) Then
+            Return DirectCast(REnv.asVector(Of DataSet)(file), DataSet()) _
+                .loadFromGenericDataSet(rm_ZERO, ignores) _
+                .uniqueGeneId(makeNames)
         Else
             Return Message.InCompatibleType(GetType(Rdataframe), file.GetType, env)
         End If
+    End Function
+
+    <ExportAPI("filter")>
+    Public Function filter(HTS As Matrix, geneId As String(), Optional exclude As Boolean = False) As Matrix
+        Dim filterIndex As Index(Of String) = geneId
+        Dim newMatrix As New Matrix With {
+            .tag = HTS.tag,
+            .sampleID = HTS.sampleID,
+            .expression = HTS.expression _
+                .Where(Function(gene)
+                           If exclude Then
+                               Return Not gene.geneID Like filterIndex
+                           Else
+                               Return gene.geneID Like filterIndex
+                           End If
+                       End Function) _
+                .ToArray
+        }
+
+        Return newMatrix
+    End Function
+
+    <Extension>
+    Private Function loadFromDataFrame(table As Rdataframe, rm_ZERO As Boolean, ignores As Index(Of String)) As Matrix
+        Dim sampleNames As String() = table.columns.Keys.Where(Function(c) Not c Like ignores).ToArray
+        Dim genes As DataFrameRow() = table _
+            .forEachRow(colKeys:=sampleNames) _
+            .Select(Function(v)
+                        Return New DataFrameRow With {
+                            .geneID = v.name,
+                            .experiments = v.value _
+                                .Select(Function(obj) CDbl(obj)) _
+                                .ToArray
+                        }
+                    End Function) _
+            .ToArray
+
+        If rm_ZERO Then
+            genes = genes _
+                .Where(Function(gene) Not gene.experiments.All(Function(x) x = 0.0)) _
+                .ToArray
+        End If
+
+        Return New Matrix With {
+            .expression = genes,
+            .sampleID = sampleNames
+        }
+    End Function
+
+    <Extension>
+    Private Function loadFromGenericDataSet(rows As DataSet(), rm_ZERO As Boolean, ignores As Index(Of String)) As Matrix
+        Dim matrix As New Matrix With {
+            .sampleID = rows _
+                .PropertyNames _
+                .Where(Function(name) Not name Like ignores) _
+                .ToArray
+        }
+        Dim genes As DataFrameRow() = New DataFrameRow(rows.Length - 1) {}
+
+        For i As Integer = 0 To genes.Length - 1
+#Disable Warning
+            genes(i) = New DataFrameRow With {
+                .geneID = rows(i).ID,
+                .experiments = matrix.sampleID _
+                    .Select(Function(name) rows(i)(name)) _
+                    .ToArray
+            }
+#Enable Warning
+        Next
+
+        If rm_ZERO Then
+            genes = genes _
+                .Where(Function(gene)
+                           Return Not gene.experiments.All(Function(x) x = 0.0)
+                       End Function) _
+                .ToArray
+        End If
+
+        matrix.expression = genes
+
+        Return matrix
+    End Function
+
+    <Extension>
+    Private Function uniqueGeneId(m As Matrix, makeNames As Boolean) As Matrix
+        Dim geneId As String() = m.expression.Select(Function(gene) gene.geneID).ToArray
+        Dim unique As String() = If(makeNames, geneId.makeNames(unique:=True), geneId.uniqueNames)
+
+        For i As Integer = 0 To unique.Length - 1
+            m(i).geneID = unique(i)
+        Next
+
+        Return m
+    End Function
+
+    <ExportAPI("as.generic")>
+    Public Function castGenericRows(matrix As Matrix) As DataSet()
+        Dim sampleNames As String() = matrix.sampleID
+        Dim geneNodes As DataSet() = matrix.expression _
+            .AsParallel _
+            .Select(Function(gene)
+                        Dim vector As New Dictionary(Of String, Double)
+
+                        For i As Integer = 0 To sampleNames.Length - 1
+                            Call vector.Add(sampleNames(i), gene.experiments(i))
+                        Next
+
+                        Return New DataSet With {
+                            .ID = gene.geneID,
+                            .Properties = vector
+                        }
+                    End Function) _
+            .ToArray
+
+        Return geneNodes
     End Function
 
     ''' <summary>
@@ -154,10 +313,11 @@ Module geneExpression
                                   <RRawVectorArgument>
                                   Optional [dim] As Object = "3,3",
                                   Optional fuzzification# = 2,
-                                  Optional threshold# = 0.001) As ExpressionPattern
+                                  Optional threshold# = 0.001,
+                                  Optional env As Environment = Nothing) As ExpressionPattern
 
         Return InteropArgumentHelper _
-            .getSize([dim], "3,3") _
+            .getSize([dim], env, "3,3") _
             .Split(","c) _
             .Select(AddressOf Integer.Parse) _
             .DoCall(Function(dimension)
@@ -230,6 +390,67 @@ Module geneExpression
                 treatment:=sampleinfo.TakeGroup(treatment).SampleIDs,
                 control:=sampleinfo.TakeGroup(control).SampleIDs
             ) _
-            .ApplyDEPFilter(level, pvalue, FDR)
+            .DepFilter2(level, pvalue, FDR)
+    End Function
+
+    ''' <summary>
+    ''' get gene Id list
+    ''' </summary>
+    ''' <param name="dep"></param>
+    ''' <returns></returns>
+    <ExportAPI("geneId")>
+    Public Function geneId(dep As DEP_iTraq()) As String()
+        Return dep.Select(Function(a) a.ID).ToArray
+    End Function
+
+    <ExportAPI("as.deg")>
+    <RApiReturn(GetType(DEGModel))>
+    Public Function createDEGModels(<RRawVectorArgument> x As Object,
+                                    Optional logFC As String = "logFC",
+                                    Optional pvalue As String = "pvalue",
+                                    Optional label As String = "id",
+                                    Optional env As Environment = Nothing) As Object
+
+        If TypeOf x Is Rdataframe Then
+            Dim table As Rdataframe = DirectCast(x, Rdataframe)
+            Dim foldchanges As Double() = REnv.asVector(Of Double)(table(logFC))
+            Dim pvalues As Double() = REnv.asVector(Of Double)(table(pvalue))
+            Dim labels As String() = REnv.asVector(Of String)(table(label))
+
+            Return foldchanges _
+                .Select(Function(fc, i)
+                            Return New DEGModel With {
+                                .label = labels(i),
+                                .logFC = foldchanges(i),
+                                .pvalue = pvalues(i)
+                            }
+                        End Function) _
+                .ToArray
+        Else
+            Return Message.InCompatibleType(GetType(Rdataframe), x.GetType, env)
+        End If
+    End Function
+
+    <ExportAPI("deg.class")>
+    Public Function DEGclass(deg As DEGModel(), <RRawVectorArgument> classLabel As Object) As DEGModel()
+        Dim classList As String() = REnv.asVector(Of String)(classLabel)
+        Dim getClass As Func(Of Integer, String)
+
+        If classList.Length = 1 Then
+            getClass = Function() classList(Scan0)
+        Else
+            getClass = Function(i) classList(i)
+        End If
+
+        Return deg _
+            .Select(Function(d, i)
+                        Return New DEGModel With {
+                            .[class] = getClass(i),
+                            .label = d.label,
+                            .logFC = d.logFC,
+                            .pvalue = d.pvalue
+                        }
+                    End Function) _
+            .ToArray
     End Function
 End Module

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::82d9eb7c427e5c2094dfe5d347b6665d, Data_science\Visualization\Plots-statistics\Heatmap\Internal.vb"
+﻿#Region "Microsoft.VisualBasic::22de4c90ad4e7282c1e325855f34d753, Data_science\Visualization\Plots-statistics\Heatmap\Internal.vb"
 
     ' Author:
     ' 
@@ -48,9 +48,9 @@ Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
+Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.DataMining.HierarchicalClustering
-Imports Microsoft.VisualBasic.DataMining.HierarchicalClustering.DendrogramVisualize
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
@@ -60,7 +60,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.Scripting
-Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
+Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports stdNum = System.Math
 
@@ -233,17 +233,7 @@ Namespace Heatmap
 
             Dim configDendrogramCanvas =
                 Function(cluster As Cluster, [class] As Dictionary(Of String, String))
-                    Return New DendrogramPanel With {
-                        .LineColor = Color.Black,
-                        .ScaleValueDecimals = 0,
-                        .ScaleValueInterval = 1,
-                        .Model = cluster,
-                        .ShowScale = False,
-                        .ShowDistanceValues = False,
-                        .ShowLeafLabel = False,
-                        .LinkDotRadius = 0,
-                        .ClassTable = [class]
-                    }
+                    Return New DendrogramPanelV2(cluster, New Theme)
                 End Function
             Dim DATArange As DoubleRange = array _
                 .Select(Function(x) x.Properties.Values) _
@@ -280,9 +270,9 @@ Namespace Heatmap
                     Else
                         ' legend位于整个图片的右上角
                         Call Legends.ColorMapLegend(g, llayout, colors, ticks,
-                                                    CSSFont.TryParse(CSSFont.Win7LargerNormal),
+                                                    CSSFont.TryParse(CSSFont.Win7LargerNormal).GDIObject(g.Dpi),
                                                     legendTitle,
-                                                    CSSFont.TryParse(CSSFont.Win7Normal),
+                                                    CSSFont.TryParse(CSSFont.Win7Normal).GDIObject(g.Dpi),
                                                     Stroke.TryParse(Stroke.StrongHighlightStroke))
                     End If
 

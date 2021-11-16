@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ecfdfefd929abcd1c996d2b02d90e24a, RNA-Seq\RNA-seq.Data\FastQ\OptimizationDataQuality.vb"
+﻿#Region "Microsoft.VisualBasic::b1e529762aafbe3f08302726d33765ab, RNA-Seq\RNA-seq.Data\FastQ\OptimizationDataQuality.vb"
 
     ' Author:
     ' 

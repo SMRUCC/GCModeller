@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bcba883a2b0b35079918f5057e881117, Data_science\Mathematica\Math\Math\Algebra\PCA\PCA.vb"
+﻿#Region "Microsoft.VisualBasic::cf8ab69c86c516ff9e9251f8762f68fe, Data_science\Mathematica\Math\Math\Algebra\PCA\PCA.vb"
 
     ' Author:
     ' 
@@ -164,7 +164,7 @@ Namespace LinearAlgebra.Prcomp
 
         Sub New(vectors As IEnumerable(Of Vector), Optional center As Boolean = True, Optional scale As Boolean = False)
             Dim matrix = adjust(vectors.ToArray, center, scale)
-            Dim svd = New GeneralMatrix(matrix).SVD()
+            Dim svd = New NumericMatrix(matrix).SVD()
 
             Me.center = center
             Me.scale = scale
@@ -198,7 +198,7 @@ Namespace LinearAlgebra.Prcomp
             'End If
 
             Dim U As GeneralMatrix = Me.Loadings(nPC.Sequence)
-            Dim X As New GeneralMatrix(data)
+            Dim X As New NumericMatrix(data)
             Dim P As Vector() = (X * U) _
                 .RowVectors _
                 .ToArray
@@ -225,7 +225,7 @@ Namespace LinearAlgebra.Prcomp
                     .ToArray
 
                 means = columns.Select(Function(c) c.Average).AsVector
-                stdevs = columns.Select(Function(c) c.StdError).AsVector
+                stdevs = columns.Select(Function(c) c.SD).AsVector
                 dataset = dataset _
                     .Select(Function(r)
                                 ' 在这里每一行数据减去每一列的平均值

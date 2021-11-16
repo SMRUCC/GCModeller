@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::998cee018f50f42d12e6c57ed4ae49ed, engine\IO\Raw\GCModellerRaw\Writer.vb"
+﻿#Region "Microsoft.VisualBasic::5fd55ff4e75540dc0a568d4557ce4cc2, engine\IO\Raw\GCModellerRaw\Writer.vb"
 
     ' Author:
     ' 
@@ -53,8 +53,8 @@ Imports Microsoft.VisualBasic.Data.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine.ModelLoader
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.ModelLoader
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
 
 Namespace Raw
 

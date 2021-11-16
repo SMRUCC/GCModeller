@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5fe15d22d3295dfb2b1b329f15dbb52b, analysis\SequenceToolkit\SequencePatterns.Abstract\Patterns\Ranges.vb"
+﻿#Region "Microsoft.VisualBasic::fa510a263189c706d79236ee5359172f, analysis\SequenceToolkit\SequencePatterns.Abstract\Patterns\Ranges.vb"
 
     ' Author:
     ' 
@@ -43,6 +43,9 @@
 
 #End Region
 
+#If netcore5 = 1 Then
+Imports System.Data
+#End If
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Scripting.TokenIcer
 Imports Microsoft.VisualBasic.Serialization.JSON

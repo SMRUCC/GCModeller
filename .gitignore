@@ -5,6 +5,8 @@
 tools/Installer/bootLoader/Resources/
 COVID-19/
 
+src/runtime/R-sharp/App
+
 src/biodeep/
 
 *.pydevproject
@@ -260,3 +262,19 @@ src/GCModeller/annotations/GSEA/PFSNet/PFSNet_1.0.0.1.tar.gz
 GCModeller/Microsoft.VisualBasic.dll
 src/workbench/R#/demo/cytoscape/automation/result.cys
 src/workbench/R#/demo/cngb/bacterials.csv
+*.db-wal
+*.db-shm
+*.dll
+*.exe
+src/repository/graphquery/kegg_graphquery_0.1.0.zip
+src/workbench/GCModeller_1.1.0-beta.zip
+src/repository/Bio.Repository/.vs/Bio.Repository/DesignTimeBuild/.dtbcache.v2
+src/repository/Bio.Repository/.vs/repository/DesignTimeBuild/.dtbcache.v2
+*.v2
+src/GCModeller/analysis/PhenoGraph/Rphenograph_0.99.1.tar.gz
+src/GCModeller/analysis/PhenoGraph/Rphenograph/src/jaccard_coeff.o
+src/GCModeller/analysis/PhenoGraph/Rphenograph/src/RcppExports.o
+src/GCModeller/analysis/PhenoGraph/Rphenograph.zip
+*.v1
+*.bin
+src/runtime/Rnotebook_1.0.0.1254.tar.gz

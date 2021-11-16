@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7fbc47f6ce3491332c15a9ae0aa48c0c, CLI_tools\ProteinInteraction\CLI\Interactions.vb"
+﻿#Region "Microsoft.VisualBasic::c92aeee67e075f1ebda82d66deeb2557, CLI_tools\ProteinInteraction\CLI\Interactions.vb"
 
     ' Author:
     ' 
@@ -48,6 +48,7 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming.Levenshtein
@@ -140,7 +141,7 @@ Partial Module CLI
         Dim n As Integer = CInt(category.Signature.Length / 2) - 1
         Dim source = (From x In category.Signature Select New FASTA.FastaSeq(x)).AsList
         Call source.Add(seq.Repeats(n))
-        Dim tmp = App.GetAppSysTempFile(".fasta")
+        Dim tmp = TempFileSystem.GetAppSysTempFile(".fasta")
         Call New FASTA.FastaFile(source).Save(tmp)
         Dim aln = clustal.MultipleAlignment(tmp)
         Dim SRChains As SRChain() = SR.FromAlign(aln, block)

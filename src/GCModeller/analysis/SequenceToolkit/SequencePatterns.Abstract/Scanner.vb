@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8c8d67377e972fbadc04566e9b558065, analysis\SequenceToolkit\SequencePatterns.Abstract\Scanner.vb"
+﻿#Region "Microsoft.VisualBasic::e05a0813974e9a0894c81e74d997169e, analysis\SequenceToolkit\SequencePatterns.Abstract\Scanner.vb"
 
     ' Author:
     ' 
@@ -93,8 +93,11 @@ Namespace Motif
 
             Do While True
                 ' 这里需要进行迭代查找，即在上一个位置之后查找，否则会出现无限的重复查找
-                pI32 = InStr(Start:=pI32, String1:=seq, String2:=loci)
-
+#If netcore5 = 1 Then
+                pI32 = Strings.InStr(StartPos:=pI32, String1:=seq, String2:=loci)
+#Else
+                pI32 = Strings.InStr(Start:=pI32, String1:=seq, String2:=loci)
+#End If
                 If pI32 > 0 Then
                     Yield pI32
                 Else

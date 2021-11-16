@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c336caa9cff31104b7d44a5c8571b3ca, engine\Dynamics.Debugger\Summary.vb"
+﻿#Region "Microsoft.VisualBasic::07b2b4644db9d8aa4faad655430a5c0d, engine\Dynamics.Debugger\Summary.vb"
 
     ' Author:
     ' 
@@ -44,11 +44,11 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Text.Xml.HtmlBuilder
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Definitions
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.ModelLoader
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine.Definitions
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine.ModelLoader
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
-Imports DynamicsEngine = SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine.Engine
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
+Imports DynamicsEngine = SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Engine.Engine
 
 ''' <summary>
 ''' model summary report generator
@@ -133,4 +133,3 @@ Public Module Summary
             </div>, rxn.ID, forward.JoinBy("<br />"), reverse.JoinBy("<br />"))
     End Function
 End Module
-

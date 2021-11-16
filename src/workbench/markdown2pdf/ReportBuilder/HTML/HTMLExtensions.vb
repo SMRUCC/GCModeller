@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f6984b832becee26399602540cfb25f3, markdown2pdf\ReportBuilder\HTML\HTMLExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::36a8ec5fc389eb7114bb43e802984976, markdown2pdf\ReportBuilder\HTML\HTMLExtensions.vb"
 
     ' Author:
     ' 

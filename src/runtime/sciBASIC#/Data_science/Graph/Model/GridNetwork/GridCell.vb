@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8a444ce22fb97bf5756722b3b7cfe9ca, Data_science\Graph\Model\GridNetwork\GridCell.vb"
+﻿#Region "Microsoft.VisualBasic::f9464dde52d52346e034bba90c207fcf, Data_science\Graph\Model\GridNetwork\GridCell.vb"
 
     ' Author:
     ' 
@@ -35,6 +35,7 @@
     ' 
     '     Properties: data, index
     ' 
+    '     Constructor: (+2 Overloads) Sub New
     '     Function: ToString
     ' 
     ' /********************************************************************************/
@@ -61,6 +62,14 @@ Public Class GridCell(Of T)
             m_data = value
         End Set
     End Property
+
+    Sub New()
+    End Sub
+
+    Sub New(x As Integer, y As Integer, data As T)
+        index = New Point(x, y)
+        m_data = data
+    End Sub
 
     Public Overrides Function ToString() As String
         Return $"[{index.X}, {index.Y}] {data.ToString}"

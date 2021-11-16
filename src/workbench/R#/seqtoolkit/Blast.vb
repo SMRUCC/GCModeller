@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::58ca2313856e02813eb4d5520c16757a, seqtoolkit\Blast.vb"
+﻿#Region "Microsoft.VisualBasic::858db9d2b8e7be531750d9db23d90e1f, R#\seqtoolkit\Blast.vb"
 
     ' Author:
     ' 
@@ -33,12 +33,15 @@
 
     ' Module Blast
     ' 
-    '     Function: doAlign, gwANIMultipleAlignment, ParseBlosumMatrix, RunGlobalNeedlemanWunsch
+    '     Constructor: (+1 Overloads) Sub New
+    '     Function: doAlign, gwANIMultipleAlignment, HSP_hits, ParseBlosumMatrix, RunGlobalNeedlemanWunsch
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports System.IO
+Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.TagData
 Imports Microsoft.VisualBasic.Data.csv.IO
@@ -48,12 +51,27 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.SequenceTools
 Imports SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative
 Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports SMRUCC.Rsharp.Runtime.Internal
+Imports Rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 
 ''' <summary>
 ''' Blast search tools
 ''' </summary>
 <Package("bioseq.blast")>
 Module Blast
+
+    Sub New()
+        Call ConsolePrinter.AttachConsoleFormatter(Of SmithWaterman)(
+            Function(sw)
+                Dim text As New StringBuilder
+
+                Using str As New StringWriter(text)
+                    Call DirectCast(sw, SmithWaterman).printAlignments(dev:=str)
+                End Using
+
+                Return text.ToString
+            End Function)
+    End Sub
 
     ''' <summary>
     ''' Parse blosum from the given file data
@@ -79,6 +97,44 @@ Module Blast
     <ExportAPI("align.smith_waterman")>
     Public Function doAlign(query As FastaSeq, ref As FastaSeq, Optional blosum As Blosum = Nothing) As SmithWaterman
         Return SmithWaterman.Align(query, ref, blosum)
+    End Function
+
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="align"></param>
+    ''' <param name="cutoff">[0,1] threshold</param>
+    ''' <param name="minW"></param>
+    ''' <returns></returns>
+    <ExportAPI("HSP")>
+    Public Function HSP_hits(align As SmithWaterman, cutoff As Double, minW As Integer) As Object
+        Dim outputs As Output = align.GetOutput(cutoff, minW)
+        Dim query As String() = outputs.HSP.Select(Function(r) r.Query).ToArray
+        Dim subject As String() = outputs.HSP.Select(Function(r) r.Subject).ToArray
+        Dim queryLen As Integer() = outputs.HSP.Select(Function(r) r.QueryLength).ToArray
+        Dim subjectLen As Integer() = outputs.HSP.Select(Function(r) r.SubjectLength).ToArray
+        Dim lenQuery As Integer() = outputs.HSP.Select(Function(r) r.LengthQuery).ToArray
+        Dim lenHit As Integer() = outputs.HSP.Select(Function(r) r.LengthHit).ToArray
+        Dim hspQuery As String() = outputs.HSP.Select(Function(r) $"{r.fromA}..{r.toA}").ToArray
+        Dim hspSubject As String() = outputs.HSP.Select(Function(r) $"{r.fromB}..{r.toB}").ToArray
+        Dim score As Double() = outputs.HSP.Select(Function(r) r.score).ToArray
+        Dim coverage As Double() = outputs.HSP.Select(Function(r) r.LengthQuery / r.QueryLength).ToArray
+
+        Return New Rdataframe With {
+            .columns = New Dictionary(Of String, Array) From {
+                {"query", query},
+                {"subject", subject},
+                {"query_length", queryLen},
+                {"subject_length", subjectLen},
+                {"length_query", lenQuery},
+                {"length_hit", lenHit},
+                {"hsp_query", hspQuery},
+                {"hsp_subject", hspSubject},
+                {"score", score},
+                {"coverage", coverage}
+            }
+        }
     End Function
 
     ''' <summary>

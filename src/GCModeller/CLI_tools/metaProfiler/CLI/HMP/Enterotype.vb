@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1915ca07ae4230fae20bce6f1454a733, CLI_tools\metaProfiler\CLI\HMP\Enterotype.vb"
+﻿#Region "Microsoft.VisualBasic::a3bff06e396939f7a0e814f83b7c1e13, CLI_tools\metaProfiler\CLI\HMP\Enterotype.vb"
 
     ' Author:
     ' 
@@ -44,6 +44,7 @@ Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Math.DataFrame
 Imports Microsoft.VisualBasic.Math.DataFrame.Impute
 Imports SMRUCC.genomics.Analysis.Metagenome
 

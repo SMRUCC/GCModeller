@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ca756cc3ff110ef265ff743bb81e7908, keggReport\PathwayMapRender.vb"
+﻿#Region "Microsoft.VisualBasic::0dca091eec55ee733de5a7efb8cc1f21, modules\keggReport\PathwayMapRender.vb"
 
     ' Author:
     ' 
@@ -41,6 +41,7 @@
 
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.ApplicationServices.Zip
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
@@ -61,8 +62,8 @@ Public Module PathwayMapRender
     ''' <param name="internalResource">zip package data</param>
     ''' <returns></returns>
     Public Function QueryMaps(keggList As IEnumerable(Of String), internalResource As IEnumerable(Of Byte)) As IEnumerable(Of NamedValue(Of Image))
-        Dim zip$ = App.GetAppSysTempFile(".zip", App.PID)
-        Dim repo$ = App.GetAppSysTempFile(".zip", App.PID)
+        Dim zip$ = TempFileSystem.GetAppSysTempFile(".zip", App.PID)
+        Dim repo$ = TempFileSystem.GetAppSysTempFile(".zip", App.PID)
 
         Call internalResource.FlushStream(zip)
         Call UnZip.ImprovedExtractToDirectory(zip, repo, Overwrite.Always)

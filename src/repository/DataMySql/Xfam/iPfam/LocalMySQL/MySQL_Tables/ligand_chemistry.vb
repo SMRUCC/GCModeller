@@ -33,6 +33,9 @@
 
     ' Class ligand_chemistry
     ' 
+    '     Properties: formula, inchi, ligand_id, molecular_weight, name
+    '                 number_fam_int, number_pdbs, smiles
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

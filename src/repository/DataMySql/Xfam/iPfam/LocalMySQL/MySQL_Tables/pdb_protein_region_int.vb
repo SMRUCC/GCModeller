@@ -33,6 +33,9 @@
 
     ' Class pdb_protein_region_int
     ' 
+    '     Properties: auto_reg_int, intrachain, pdb_id, quality_control, region_id_A
+    '                 region_id_B
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

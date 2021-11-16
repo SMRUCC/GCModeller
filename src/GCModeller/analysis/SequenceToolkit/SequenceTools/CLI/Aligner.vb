@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::652d83b5d9c829989f23cbde8a43fe11, analysis\SequenceToolkit\SequenceTools\CLI\Aligner.vb"
+﻿#Region "Microsoft.VisualBasic::d434c747951046a1726c9ee26c365103, analysis\SequenceToolkit\SequenceTools\CLI\Aligner.vb"
 
     ' Author:
     ' 
@@ -71,9 +71,9 @@ Partial Module Utilities
     <ExportAPI("/nw",
                Info:="RunNeedlemanWunsch",
                Usage:="/nw /query <query.fasta> /subject <subject.fasta> [/out <out.txt>]")>
-    <Argument("/query", False, AcceptTypes:={GetType(FastaSeq)})>
-    <Argument("/subject", False, AcceptTypes:={GetType(FastaSeq)})>
-    <Argument("/out", True, AcceptTypes:={GetType(String)})>
+    <ArgumentAttribute("/query", False, AcceptTypes:={GetType(FastaSeq)})>
+    <ArgumentAttribute("/subject", False, AcceptTypes:={GetType(FastaSeq)})>
+    <ArgumentAttribute("/out", True, AcceptTypes:={GetType(String)})>
     <Group(CLIGrouping.Aligner)>
     Public Function NW(args As CommandLine) As Integer
         Dim query As String = args("/query")
@@ -109,8 +109,8 @@ Partial Module Utilities
         Return 0
     End Function
 
-    <ExportAPI("/align.SmithWaterman",
-               Usage:="/align.SmithWaterman /query <query.fasta> /subject <subject.fasta> [/blosum <matrix.txt> /out <out.xml>]")>
+    <ExportAPI("/align.SmithWaterman")>
+    <Usage("/align.SmithWaterman /query <query.fasta> /subject <subject.fasta> [/blosum <matrix.txt> /out <out.xml>]")>
     <Group(CLIGrouping.Aligner)>
     Public Function Align2(args As CommandLine) As Integer
         Dim query As String = args("/query")

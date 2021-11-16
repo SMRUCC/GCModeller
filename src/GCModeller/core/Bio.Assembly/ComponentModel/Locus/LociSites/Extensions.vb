@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cd0b8a2ea5ea44e6c8d3e761168024a1, core\Bio.Assembly\ComponentModel\Locus\LociSites\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::91577bb300ac7f5688994a0a4cf6c1d0, core\Bio.Assembly\ComponentModel\Locus\LociSites\Extensions.vb"
 
     ' Author:
     ' 
@@ -43,6 +43,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.My.JavaScript
 
 Namespace ComponentModel.Loci
 
@@ -78,36 +79,26 @@ Namespace ComponentModel.Loci
             Const motif As String = NameOf(motif)
 
             For Each x As IMotifSite In sitesData
-                x.site.Extension = New ExtendedProps
-                x.site.Extension.DynamicHashTable(motif) = x
+                x.site.Tag = New JavaScriptObject
+                x.site.Tag(motif) = x
                 locations.Add(x.site)
             Next
 
             Dim assm As Location() = locations _
-                .OrderBy(Function(x) x.Left) _
+                .OrderBy(Function(x) x.left) _
                 .FragmentAssembly(gapOffset)
 
             For Each x As Location In assm
-                Dim o As IMotifSite = DirectCast(x.Extension.DynamicHashTable(motif), IMotifSite)
+                Dim o As IMotifSite = DirectCast(x.Tag(motif), IMotifSite)
 
-                Call x.Extension _
-                    .DynamicHashTable _
-                    .Properties _
-                    .Remove(motif)
+                Call x.Tag.Delete(motif)
                 out += New MotifSite With {
                     .Name = o.family,
                     .Site = o.site,
                     .Type = {
                         o.family
                     } _
-                    .Join(x.Extension _
-                           .DynamicHashTable _
-                           .Properties _
-                           .Values _
-                           .Select(Function(s) DirectCast(DirectCast(s, Location) _
-                           .Extension _
-                           .DynamicHashTable _
-                           .Properties(motif), IMotifSite).family)) _
+                    .Join(From s As NamedValue(Of Object) In x.Tag Select DirectCast(DirectCast(s.Value, Location).Tag(motif), IMotifSite).family) _
                     .JoinBy("+")  ' 这里不进行Distinct了，因为这些重复的类型可能还有别的用途，例如数量上面的统计之类的
                 }
             Next

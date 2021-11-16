@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9db82275fd7571ec147e0a627ee99f5e, CLI_tools\eggHTS\CLI\Associate.vb"
+﻿#Region "Microsoft.VisualBasic::71f0ef5d188a41b07b187967797f75f1, CLI_tools\eggHTS\CLI\Associate.vb"
 
     ' Author:
     ' 
@@ -47,6 +47,7 @@ Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.visualize
 Imports Microsoft.VisualBasic.Data.visualize.Network
+Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
@@ -66,7 +67,7 @@ Partial Module CLI
         With CorrelationNetwork.BuildNetwork(matrix, cut)
             Call .matrix.PopulateRowObjects(Of DataSet).SaveTo(out & "/matrix.csv")
 
-            Return .net _
+            Return .net.Tabular() _
                    .Save(out) _
                    .CLICode
         End With

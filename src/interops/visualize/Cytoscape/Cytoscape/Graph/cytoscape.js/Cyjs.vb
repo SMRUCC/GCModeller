@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7e8e6b03def21efa0637b2a4b59c5d77, visualize\Cytoscape\Cytoscape\Graph\cytoscape.js\Cyjs.vb"
+﻿#Region "Microsoft.VisualBasic::e1b7e9408df81185286267090b856558, visualize\Cytoscape\Cytoscape\Graph\cytoscape.js\Cyjs.vb"
 
     ' Author:
     ' 
@@ -84,7 +84,11 @@
 #End Region
 
 Imports System.Text
+#If netcore5 = 0 Then
 Imports System.Web.Script.Serialization
+#Else
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+#End If
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph.Abstract

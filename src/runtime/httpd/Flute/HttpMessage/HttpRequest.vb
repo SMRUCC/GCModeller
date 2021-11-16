@@ -72,6 +72,9 @@ Namespace Core.Message
         ''' GET/POST/PUT/DELETE....
         ''' </summary>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' http方法名是大写的
+        ''' </remarks>
         Public ReadOnly Property HTTPMethod As String
         Public ReadOnly Property URL As URL
         ''' <summary>
@@ -86,6 +89,7 @@ Namespace Core.Message
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property Remote As String
+        Public ReadOnly Property HttpRequest As HttpProcessor
 
         ''' <summary>
         ''' If current request url is indicates the HTTP root:  index.html
@@ -115,6 +119,7 @@ Namespace Core.Message
             version = request.http_protocol_versionstring
             HttpHeaders = request.httpHeaders
             Remote = request.socket.Client.RemoteEndPoint.ToString.Split(":"c).First
+            HttpRequest = request
         End Sub
 
         Sub New()
@@ -131,6 +136,14 @@ Namespace Core.Message
             HttpHeaders = New Dictionary(Of String, String)
             Remote = "127.0.0.1"
         End Sub
+
+        Public Overridable Function GetBoolean(name As String) As Boolean
+            If URL.query.ContainsKey(name) Then
+                Return URL.query(name).ElementAtOrDefault(Scan0).ParseBoolean
+            Else
+                Return False
+            End If
+        End Function
 
         Public Function GetCookies() As NameValueCollection
             Dim cookies As String = HttpHeaders.TryGetValue(RequestHeaders.Cookie)
@@ -180,6 +193,14 @@ Namespace Core.Message
                 HttpHeaders.TryGetValue("fileName") Or uploadfile
             )
         End Sub
+
+        Public Overrides Function GetBoolean(name As String) As Boolean
+            If HasValue(name) Then
+                Return Argument(name).DefaultValue.ParseBoolean
+            Else
+                Return False
+            End If
+        End Function
 
         Public Overrides Function HasValue(name As String) As Boolean
             If Not URL.query.ContainsKey(name) Then

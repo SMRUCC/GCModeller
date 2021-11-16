@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0155086fbde1fc0569d78d9f6c64013c, CLI_tools\RNA-seq\CLI\SAMtools.vb"
+﻿#Region "Microsoft.VisualBasic::867117a51505331d1135c06c5adb0cc0, CLI_tools\RNA-seq\CLI\SAMtools.vb"
 
     ' Author:
     ' 
@@ -45,6 +45,7 @@ Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports System.Text.RegularExpressions
+Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
@@ -61,7 +62,6 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 Imports RDotNET.Extensions.VisualBasic.DataFrameAPI
 Imports SMRUCC.genomics
-Imports SMRUCC.genomics.Analysis.Metagenome
 Imports SMRUCC.genomics.Analysis.Metagenome.BEBaC
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
@@ -290,7 +290,7 @@ Partial Module CLI
 
         If ref.FileExists Then
             provider = Function(locus)
-                           Dim tmp$ = App.GetAppSysTempFile(sessionID:=App.PID)
+                           Dim tmp$ = TempFileSystem.GetAppSysTempFile(sessionID:=App.PID)
                            Dim subset$ = workspace & "/ref.fasta"
 
                            Call locus.JoinBy(ASCII.LF).SaveTo(tmp)
@@ -320,7 +320,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/Export.SAM.Maps",
                Usage:="/Export.SAM.Maps /in <in.sam> [/large /contigs <NNNN.contig.Csv> /raw <ref.fasta> /out <out.Csv> /debug]")>
-    <Argument("/raw", True,
+    <ArgumentAttribute("/raw", True,
               AcceptTypes:={GetType(FastaFile), GetType(FastaSeq)},
               Description:="When this command is processing the NNNNN contact data, just input the contigs csv file, this raw reference is not required for the contig information.")>
     Public Function ExportSAMMaps(args As CommandLine) As Integer

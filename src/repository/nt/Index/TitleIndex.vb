@@ -35,9 +35,11 @@
     ' 
     '     Properties: giKeys, Size
     ' 
+    '     Constructor: (+1 Overloads) Sub New
+    ' 
     '     Function: EnumerateTitles, GetDef, ReadHeader_by_gi, ReadHeader_by_locus_Tag
     ' 
-    '     Sub: Dispose, makeIndex, New
+    '     Sub: Dispose, makeIndex
     ' 
     ' /********************************************************************************/
 

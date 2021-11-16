@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f45b57166f72f5903aa757f031921b97, CLI_tools\S.M.A.R.T\CLI\BuildSmart.vb"
+﻿#Region "Microsoft.VisualBasic::dae0f409713fee61fe7f82b33e10ec40, CLI_tools\S.M.A.R.T\CLI\BuildSmart.vb"
 
     ' Author:
     ' 
@@ -136,7 +136,7 @@ READ_CDD_DIR:
     ''' <returns></returns>
     <ExportAPI("--Family.Align", Usage:="--Family.Align /query <pfam-string.csv> [/threshold 0.65 /mp 0.65 /Name <null>]",
                Info:="Family Annotation by MPAlignment")>
-    <Argument("/Name", True,
+    <ArgumentAttribute("/Name", True,
                           Description:="The database name of the aligned subject, if this value is empty or not exists in the source, then the entired Family database will be used.")>
     Public Function FamilyClassify(args As CommandLine) As Integer
         Dim Query = args("/query").LoadCsv(Of Pfam.PfamString.PfamString)

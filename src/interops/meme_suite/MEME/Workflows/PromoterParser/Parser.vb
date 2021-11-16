@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d6464d01c02c8a251126ee808cf11c9f, meme_suite\MEME\Workflows\PromoterParser\Parser.vb"
+﻿#Region "Microsoft.VisualBasic::f2617fe06b08143539e51f920c0a517c, meme_suite\MEME\Workflows\PromoterParser\Parser.vb"
 
     ' Author:
     ' 
@@ -59,6 +59,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.RNA_Seq
 Imports SMRUCC.genomics.Analysis.RNA_Seq.dataExprMAT
 Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools
+Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.WGCNA.Network
 Imports SMRUCC.genomics.Analysis.RNA_Seq.WGCNA
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
@@ -224,7 +225,7 @@ Namespace Workflows.PromoterParser
             End Sub
 
             Public Sub __extractFromString(stringEntry As String)
-                Dim entry = stringEntry.LoadXml(Of EntrySet)(ThrowEx:=False)
+                Dim entry = stringEntry.LoadXml(Of EntrySet)(throwEx:=False)
 
                 If entry Is Nothing Then
                     Return
@@ -330,7 +331,7 @@ Namespace Workflows.PromoterParser
                     Dim currentPromoter = Operon.InitialX
                     Dim LQuery = (From PairedOperon In PromoterParser.DoorOperonView.Operons
                                   Let condition = Function() As Boolean
-                                                      Dim WGCNA_Object = WGCNA.Find(currentPromoter.Synonym, PairedOperon.InitialX.Synonym, False)
+                                                      Dim WGCNA_Object = WGCNA.Find(currentPromoter.Synonym, PairedOperon.InitialX.Synonym)
                                                       If WGCNA_Object Is Nothing Then
                                                           Return False
                                                       End If
@@ -394,7 +395,7 @@ Namespace Workflows.PromoterParser
         <ExportAPI("Extract.From.WGCNA", Info:="Extract data from WGCNA co-expression data.")>
         Public Shared Function ExtractWholeGenomePromoter([Operator] As DataPreparingParser,
                                                           export As String,
-                                                          wgcna As WGCNA.WGCNAWeight,
+                                                          wgcna As WGCNAWeight,
                                                           cutoff As String) As Integer
             Call [Operator].WholeGenomeParser(wgcna, cutoff, export)
             Return 0

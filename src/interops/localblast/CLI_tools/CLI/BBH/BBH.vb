@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e33816ff10088f396f4d4b68f0249615, localblast\CLI_tools\CLI\BBH\BBH.vb"
+﻿#Region "Microsoft.VisualBasic::1f3f68c7982fc2714d6c8ce7c32a2c59, localblast\CLI_tools\CLI\BBH\BBH.vb"
 
     ' Author:
     ' 
@@ -53,14 +53,16 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Parallel.Linq
 Imports Microsoft.VisualBasic.Scripting
 Imports Microsoft.VisualBasic.Text
+Imports Parallel.ThreadTask
 Imports SMRUCC.genomics.Analysis.localblast.VennDiagram.BlastAPI
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BatchParallel
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.Tasks.BBHLogs
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.Tasks.Models
+Imports SMRUCC.genomics.Interops.NCBI.ParallelTask
+Imports SMRUCC.genomics.Interops.NCBI.ParallelTask.Tasks
+Imports SMRUCC.genomics.Interops.NCBI.ParallelTask.Tasks.BBHLogs
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports csvReflection = Microsoft.VisualBasic.Data.csv.Extensions
 
@@ -75,10 +77,10 @@ Partial Module CLI
                Info:="Using query fasta invoke blastp against the fasta files in a directory.
                * This command tools required of NCBI blast+ suite, you must config the blast bin path by using ``settings.exe`` before running this command.",
                Usage:="/Blastp.BBH.Query /query <query.fasta> /hit <hit.source> [/out <outDIR> /overrides /num_threads <-1>]")>
-    <Argument("/query", False, CLITypes.File,
+    <ArgumentAttribute("/query", False, CLITypes.File,
               AcceptTypes:={GetType(FastaFile)},
               Description:="The protein query fasta file.")>
-    <Argument("/hit", False, CLITypes.File,
+    <ArgumentAttribute("/hit", False, CLITypes.File,
               AcceptTypes:={GetType(FastaFile)},
               Description:="A directory contains the protein sequence fasta files which will be using for bbh search.")>
     <Group(CLIGrouping.BBHTools)>
@@ -120,11 +122,11 @@ Partial Module CLI
     <ExportAPI("/sbh2bbh")>
     <Description("Export bbh result from the sbh pairs.")>
     <Usage("/sbh2bbh /qvs <qvs.sbh.csv> /svq <svq.sbh.csv> [/trim /query.pattern <default=""-""> /hit.pattern <default=""-""> /identities <-1> /coverage <-1> /all /out <bbh.csv>]")>
-    <Argument("/identities", True, CLITypes.Double,
+    <ArgumentAttribute("/identities", True, CLITypes.Double,
               Description:="Makes a further filtering on the bbh by using this option, default value is -1, so that this means no filter.")>
-    <Argument("/coverage", True, CLITypes.Double,
+    <ArgumentAttribute("/coverage", True, CLITypes.Double,
               Description:="Makes a further filtering on the bbh by using this option, default value is -1, so that this means no filter.")>
-    <Argument("/trim", True, CLITypes.Boolean,
+    <ArgumentAttribute("/trim", True, CLITypes.Boolean,
               Description:="If this option was enabled, then the queryName and hitname will be trimed by using space and the first token was taken as the name ID.")>
     <Group(CLIGrouping.BBHTools)>
     Public Function BBHExport2(args As CommandLine) As Integer
@@ -187,15 +189,15 @@ Partial Module CLI
                             If g.Key.StringEmpty OrElse g.Key = IBlastOutput.HITS_NOT_FOUND Then
                                 Return g.ToArray
                             Else
-                                Dim top = g.OrderByDescending(Function(hit) hit.Identities).First
+                                Dim top = g.OrderByDescending(Function(hit) hit.identities).First
 
                                 For Each x As BiDirectionalBesthit In g
                                     If Not x Is top Then
                                         x.HitName = ""
                                         x.forward = 0
                                         x.reverse = 0
-                                        x.Positive = 0
-                                        x.Length = 0
+                                        x.positive = 0
+                                        x.length = 0
                                     End If
                                 Next
 
@@ -244,7 +246,7 @@ Partial Module CLI
             numT = LQuerySchedule.Recommended_NUM_THREADS
         End If
 
-        Return App.SelfFolks(CLI, numT)
+        Return BatchTasks.SelfFolks(CLI, numT)
     End Function
 
     ''' <summary>
@@ -347,11 +349,11 @@ Partial Module CLI
     <ExportAPI("/venn.BlastAll",
                Usage:="/venn.BlastAll /query <queryDIR> [/out <outDIR> /num_threads <-1> /evalue 10 /overrides /all /coverage <0.8> /identities <0.3>]",
                Info:="Completely paired combos blastp bbh operations for the venn diagram Or network builder.")>
-    <Argument("/num_threads", True,
+    <ArgumentAttribute("/num_threads", True,
               Description:="The number of the parallel blast task in this command, set this argument ZERO for single thread. default value Is -1 which means the number of the blast threads Is determined by system automatically.")>
-    <Argument("/all", True,
+    <ArgumentAttribute("/all", True,
               Description:="If this parameter Is represent, then all of the paired best hit will be export, otherwise only the top best will be export.")>
-    <Argument("/query", False,
+    <ArgumentAttribute("/query", False,
               Description:="Recommended format of the fasta title Is that the fasta title only contains gene locus_tag.")>
     <Group(CLIGrouping.BBHTools)>
     Public Function vennBlastAll(args As CommandLine) As Integer
@@ -385,7 +387,7 @@ Partial Module CLI
     <ExportAPI("/venn.BBH",
                Info:="2. Build venn table And bbh data from the blastp result out Or sbh data cache.",
                Usage:="/venn.BBH /imports <blastp_out.DIR> [/skip-load /query <queryName> /all /coverage <0.6> /identities <0.3> /out <outDIR>]")>
-    <Argument("/skip-load", True,
+    <ArgumentAttribute("/skip-load", True,
                    Description:="If the data source in the imports directory Is already the sbh data source, then using this parameter to skip the blastp file parsing.")>
     <Group(CLIGrouping.BBHTools)>
     Public Function VennBBH(args As CommandLine) As Integer
@@ -440,7 +442,7 @@ Partial Module CLI
     "1. [SBH_Batch] Creates the sbh cache data for the downstream bbh analysis. 
     And this batch function is suitable with any scale of the blastp sbh data output.")>
     <Usage("/venn.cache /imports <blastp.DIR> [/out <sbh.out.DIR> /coverage <0.6> /identities <0.3> /num_threads <-1> /overrides]")>
-    <Argument("/num_threads", True,
+    <ArgumentAttribute("/num_threads", True,
               Description:="The number of the sub process thread. -1 value is stands for auto config by the system.")>
     <Group(CLIGrouping.BBHTools)>
     Public Function VennCache(args As CommandLine) As Integer
@@ -461,7 +463,7 @@ Partial Module CLI
 
         With args.GetValue("/num_threads", -1)
             With .ByRef Or LQuerySchedule.Recommended_NUM_THREADS.AsDefault(Function() .ByRef <= 0)
-                Return App.SelfFolks(CLI, .ByRef)
+                Return BatchTasks.SelfFolks(CLI, .ByRef)
             End With
         End With
     End Function

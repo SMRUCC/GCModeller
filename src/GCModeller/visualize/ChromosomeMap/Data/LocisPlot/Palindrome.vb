@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::25fc5da2c9a0ce99206926e82cc47908, visualize\ChromosomeMap\Data\LocisPlot\Palindrome.vb"
+﻿#Region "Microsoft.VisualBasic::6841787ab2e319bda588cc02c8f373a0, visualize\ChromosomeMap\Data\LocisPlot\Palindrome.vb"
 
     ' Author:
     ' 
@@ -42,7 +42,7 @@
 
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
+Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.SequenceLogo
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels

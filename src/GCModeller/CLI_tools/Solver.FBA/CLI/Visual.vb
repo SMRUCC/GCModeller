@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::57a14423c0126d6f17dd1592cfc9e5af, CLI_tools\Solver.FBA\CLI\Visual.vb"
+﻿#Region "Microsoft.VisualBasic::e7adc470377111cd2f32c223f2424a2f, CLI_tools\Solver.FBA\CLI\Visual.vb"
 
     ' Author:
     ' 
@@ -110,7 +110,7 @@ Partial Module CLI
 
     <ExportAPI("/visual.kegg.pathways")>
     <Usage("/visual.kegg.pathways /model <virtualCell.GCMarkup> /maps <kegg_maps.repo.directory> [/gene <default=red> /plasmid.highlight <default=blue> /out <directory>]")>
-    <Argument("/gene", True, CLITypes.String,
+    <ArgumentAttribute("/gene", True, CLITypes.String,
               AcceptTypes:={GetType(String)},
               Description:="The color of the gene object, if this parameter is a color value. There is a special term: ``exclude``, means do not render gene color.")>
     Public Function VisualKEGGPathways(args As CommandLine) As Integer
@@ -138,7 +138,7 @@ Partial Module CLI
             .replicons _
             .Where(Function(chr) Not chr.isPlasmid) _
             .Select(Function(chr)
-                        Return chr.genes.AsEnumerable
+                        Return chr.GetGeneList
                     End Function) _
             .IteratesALL _
             .Select(Function(gene) gene.locus_tag) _

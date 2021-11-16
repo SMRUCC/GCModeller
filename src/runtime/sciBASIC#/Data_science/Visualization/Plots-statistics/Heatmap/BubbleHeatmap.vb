@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bb8bba091fe318e92df2f666e70afa6a, Data_science\Visualization\Plots-statistics\Heatmap\BubbleHeatmap.vb"
+﻿#Region "Microsoft.VisualBasic::22afb8241ac9d9123c05d5adf563c642, Data_science\Visualization\Plots-statistics\Heatmap\BubbleHeatmap.vb"
 
     ' Author:
     ' 
@@ -67,6 +67,8 @@ Namespace Heatmap
                              Optional colors$ = DesignerTerms.GoogleMaterialPalette,
                              Optional minRadius! = 1,
                              Optional scaleMethod As DrawElements = DrawElements.Rows) As GraphicsData
+
+            Throw New NotImplementedException
 
             Dim dataMatrix = data.ToArray
             Dim columnNames$() = dataMatrix.PropertyNames

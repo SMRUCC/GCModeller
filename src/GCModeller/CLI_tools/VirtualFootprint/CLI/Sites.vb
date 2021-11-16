@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d147130aa0cacac1225cd1e3759cb9e0, CLI_tools\VirtualFootprint\CLI\Sites.vb"
+﻿#Region "Microsoft.VisualBasic::5a0e26d6f2f7dfddf22551cffa934aa8, CLI_tools\VirtualFootprint\CLI\Sites.vb"
 
     ' Author:
     ' 
@@ -107,7 +107,7 @@ Partial Module CLI
     <ExportAPI("/Site.match.genes")>
     <Usage("/Site.match.genes /in <sites.csv> /genome <genome.gb> [/replicon <default=accession> /skip.RNA /max.dist <default=500bp> /out <out.csv>]")>
     <Description("Match genome context for the sites model.")>
-    <Argument("/replicon", True, CLITypes.String, AcceptTypes:={GetType(String)},
+    <ArgumentAttribute("/replicon", True, CLITypes.String, AcceptTypes:={GetType(String)},
               Description:="This argument indicate the replicon name source of your export result. The option can be ``accession/locus``, by default is ``accession``.")>
     Public Function MatchSiteGenes(args As CommandLine) As Integer
         Dim in$ = args <= "/in"

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::145d7907d156e2d9884a0ad6726f0d27, engine\Compiler\Workflow.vb"
+﻿#Region "Microsoft.VisualBasic::50f1ee271ede61baa63119d7ae4083bd, engine\Compiler\Workflow.vb"
 
     ' Author:
     ' 
@@ -52,6 +52,9 @@ Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Data.Regprecise
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Molecule
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Process
 Imports SMRUCC.genomics.Metagenomics
 
 ''' <summary>
@@ -238,7 +241,10 @@ Public Module Workflow
     ''' </param>
     ''' <returns></returns>
     <Extension>
-    Friend Iterator Function GetCentralDogmas(genomes As Dictionary(Of String, GBFF.File), KOfunction As Dictionary(Of String, String), locationAsLocustag As Boolean) As IEnumerable(Of CentralDogma)
+    Friend Iterator Function GetCentralDogmas(genomes As Dictionary(Of String, GBFF.File),
+                                              KOfunction As Dictionary(Of String, String),
+                                              locationAsLocustag As Boolean) As IEnumerable(Of CentralDogma)
+
         Dim centralDogmaFeatures = genomes.Values _
             .Select(Function(genome)
                         Dim repliconId$ = genome.Locus.AccessionID

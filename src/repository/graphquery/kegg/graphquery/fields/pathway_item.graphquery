@@ -1,0 +1,9 @@
+pathway css("table") [{
+    
+    id   css("a") | text() | trim()
+    link css("a") | attr("href")
+    name css("td", 1) 
+       | text() 
+       | trim()
+
+}]

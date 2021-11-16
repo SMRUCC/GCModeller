@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::600778790ade5f7c87caa2e1d26eed7a, Knowledge_base\Knowledge_base\PubMed\MedlineCitation\Article.vb"
+﻿#Region "Microsoft.VisualBasic::1d0f8c8c9e6d84e6fd30537675659677, modules\Knowledge_base\Knowledge_base\PubMed\MedlineCitation\Article.vb"
 
     ' Author:
     ' 
@@ -76,6 +76,7 @@
     ' 
     '         Properties: AbstractText, CopyrightInformation
     ' 
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: ToString
     ' 
     '     Class ELocationID
@@ -220,6 +221,13 @@ Namespace PubMed
         <XmlElement("AbstractText")>
         Public Property AbstractText As AbstractText()
         Public Property CopyrightInformation As String
+
+        Sub New()
+        End Sub
+
+        Sub New(text As String)
+            AbstractText = {New AbstractText With {.Text = text}}
+        End Sub
 
         Public Overrides Function ToString() As String
             Return AbstractText _

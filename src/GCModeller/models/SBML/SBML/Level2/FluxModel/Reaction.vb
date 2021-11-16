@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d664ad41db0b21e1ceb42553ea949668, models\SBML\SBML\Level2\FluxModel\Reaction.vb"
+﻿#Region "Microsoft.VisualBasic::d26834f9fbfe0e8ac450f01110046644, models\SBML\SBML\Level2\FluxModel\Reaction.vb"
 
     ' Author:
     ' 
@@ -67,7 +67,10 @@ Namespace Level2.Elements
         Implements IReadOnlyId
 
         <XmlIgnore()> Public Handle As Integer
-        <Escaped> <XmlAttribute()> Public Property id As String Implements FLuxBalanceModel.I_ReactionModel(Of speciesReference).Key, IReadOnlyId.Identity
+
+        <Escaped> <XmlAttribute()>
+        Public Overrides Property id As String Implements FLuxBalanceModel.I_ReactionModel(Of speciesReference).Key, IReadOnlyId.Identity
+
         ''' <summary>
         ''' Name property is the UniqueId in the MetaCyc database.(reactions.dat)
         ''' </summary>

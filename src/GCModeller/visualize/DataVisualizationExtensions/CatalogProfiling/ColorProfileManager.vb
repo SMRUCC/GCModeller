@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ad3826dd2647cf1b55b800098a75c269, visualize\DataVisualizationExtensions\CatalogProfiling\ColorProfileManager.vb"
+﻿#Region "Microsoft.VisualBasic::39e9e3381490242489d5b0956473dffb, visualize\DataVisualizationExtensions\CatalogProfiling\ColorProfileManager.vb"
 
     ' Author:
     ' 
@@ -44,6 +44,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
 Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.ComponentModel.Annotation
 
 Namespace CatalogProfiling
 
@@ -59,12 +60,13 @@ Namespace CatalogProfiling
         ''' </param>
         ''' <returns></returns>
         <Extension>
-        Public Function GetColors(profile As Dictionary(Of String, NamedValue(Of Double)()), colorSchema$, Optional logarithm# = 2) As ColorProfile
+        Public Function GetColors(profile As CatalogProfiles, colorSchema$, Optional logarithm# = 2) As ColorProfile
             Dim colors As ColorProfile
 
             If colorSchema.IsPattern("scale\(.+\)") Then
                 colorSchema = colorSchema.GetStackValue("(", ")")
-                colors = profile.Values _
+                colors = profile.catalogs.Values _
+                    .Select(Function(a) a.AsEnumerable) _
                     .IteratesALL _
                     .DoCall(Function(data)
                                 Return New ValueScaleColorProfile(data, colorSchema, 30, logarithm:=logarithm)
@@ -72,8 +74,8 @@ Namespace CatalogProfiling
             Else
                 Dim category As New Dictionary(Of String, String)
 
-                For Each profileGroup In profile
-                    For Each term As NamedValue(Of Double) In profileGroup.Value
+                For Each profileGroup In profile.catalogs
+                    For Each term As NamedValue(Of Double) In profileGroup.Value.AsEnumerable
                         category(term.Name) = profileGroup.Key
                     Next
                 Next

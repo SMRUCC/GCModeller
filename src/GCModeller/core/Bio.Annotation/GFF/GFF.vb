@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::699a9b1a6ce49ab73895480f12cdd1ec, core\Bio.Annotation\GFF\GFF.vb"
+﻿#Region "Microsoft.VisualBasic::6274e65e2ed2855275ea80f5d0d4b50e, core\Bio.Annotation\GFF\GFF.vb"
 
     ' Author:
     ' 
@@ -46,7 +46,9 @@
 
 #End Region
 
+#If netcore5 = 0 Then
 Imports System.Data.Linq.Mapping
+#End If
 Imports System.Reflection
 Imports System.Runtime.CompilerServices
 Imports System.Text

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b342abf17c2956ba52222782517d5410, annotations\GO\NamespaceCategoryPlots.vb"
+﻿#Region "Microsoft.VisualBasic::de5bdc57394c3696cbf719083dda1444, annotations\GO\NamespaceCategoryPlots.vb"
 
     ' Author:
     ' 
@@ -45,7 +45,8 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.ChartPlots.BarPlot
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Driver
-Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports SMRUCC.genomics.Analysis.Microarray
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
 
@@ -74,10 +75,11 @@ Public Module NamespaceCategoryPlots
         Dim image As GraphicsData
         Dim namespaceTitle$
 
-        For Each [namespace] In namespaceProfiles
-            namespaceTitle = [namespace].Key
-            image = [namespace] _
-                .Value _
+        For Each [namespace] In namespaceProfiles.GetProfiles
+            namespaceTitle = [namespace].Name
+            image = [namespace].Value _
+                .AsEnumerable _
+                .ToArray _
                 .doSingleBarplot(namespaceTitle, size, tick, colorSchema, nolabelTrim)
 
             If TypeOf image Is SVGData Then
@@ -85,7 +87,7 @@ Public Module NamespaceCategoryPlots
             End If
 
             Yield New NamedValue(Of GraphicsData) With {
-                .Name = [namespace].Key,
+                .Name = [namespace].Name,
                 .Value = image
             }
         Next

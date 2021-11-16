@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5f4a02196e5d904c443739b01603be6d, mime\text%html\test\HTMLParserTest.vb"
+﻿#Region "Microsoft.VisualBasic::bd9bf22629a5dc616943f2dd7756aea0, mime\text%html\test\HTMLParserTest.vb"
 
     ' Author:
     ' 
@@ -33,13 +33,13 @@
 
     ' Module HTMLParserTest
     ' 
-    '     Sub: Main
+    '     Sub: Main, realHtmlParseTest
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-Imports Microsoft.VisualBasic.MIME.Markup.HTML
+Imports Microsoft.VisualBasic.MIME.Html.Language
 
 Module HTMLParserTest
 
@@ -47,11 +47,46 @@ Module HTMLParserTest
         (<div style='font-style: normal; font-size: 14; font-family: Microsoft YaHei;' attr2="99999999 + dd">
              <span style="color:red;">Hello</span><span style="color:blue;">world!</span> 
             2<sup>333333</sup> + X<sub>i</sub> = <span style="font-size: 36;">6666666</span>
+             <br/>
+             <img src="aaa.png"/>
+             <font></font>
          </div>).ToString
 
-    Sub Main()
+    ReadOnly simpleTagTest$ = (<div>
+                                   <span>A</span>
+                                   <span>B</span>
+                               </div>).ToString
+    ReadOnly simpleTag2$ = (<br/>).ToString
 
-        Dim content = TextAPI.TryParse(testHTML).ToArray
+    ReadOnly realHtmlTest$ = "
+<!DOCTYPE html>
+<!--[if IE 9]><html class='lt-ie10' lang='en'><![endif]-->
+
+<img src='/path/folder/aaa.gif' width='100%'>
+<br>
+<hr>
+<br />
+<hr/>
+<p style='color: red;'>
+this is text
+</p>
+"
+
+    Sub realHtmlParseTest()
+        Dim document = HtmlParser.ParseTree("E:\repo\xDoc\Yilia\runtime\sciBASIC#\mime\text%html\Test\test.html".GET)
+
+        Pause()
+    End Sub
+
+    Sub Main()
+        Call realHtmlParseTest()
+
+        Dim real = HtmlParser.ParseTree(realHtmlTest)
+        Dim newline = HtmlParser.ParseTree(simpleTag2)
+        Dim simple = HtmlParser.ParseTree(simpleTagTest)
+        Dim doc2 = HtmlParser.ParseTree(testHTML)
+
+        ' Dim content = TextAPI.TryParse(testHTML).ToArray
 
         Pause()
     End Sub

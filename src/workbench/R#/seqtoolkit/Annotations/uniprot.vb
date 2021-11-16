@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e6d2ce634b6fc7f36064e523c3c8eff6, seqtoolkit\Annotations\uniprot.vb"
+﻿#Region "Microsoft.VisualBasic::a56b5fd3747d3291a8e30335234286ce, R#\seqtoolkit\Annotations\uniprot.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     ' Module uniprot
     ' 
-    '     Function: getProteinSeq, getUniprotData, openUniprotXmlAssembly, writePtfFile
+    '     Function: getProteinSeq, IdUnify, openUniprotXmlAssembly, writePtfFile
     ' 
     ' /********************************************************************************/
 
@@ -41,18 +41,56 @@
 
 Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
-Imports SMRUCC.genomics.Data.AnnotationCache
+Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports REnv = SMRUCC.Rsharp.Runtime
 
-<Package("uniprot", Category:=APICategories.UtilityTools)>
+''' <summary>
+''' The Universal Protein Resource (UniProt)
+''' </summary>
+<Package("uniprot",
+         Category:=APICategories.UtilityTools,
+         Description:="The Universal Protein Resource (UniProt)",
+         Url:="https://www.uniprot.org/")>
+<Cite(
+Authors:="Amos Bairoch, Rolf Apweiler, Cathy H. Wu, Winona C. Barker, Brigitte Boeckmann, Serenella Ferro, Elisabeth Gasteiger, Hongzhan Huang, Rodrigo Lopez, Michele Magrane, Maria J. Martin, Darren A. Natale, Claire O'Donovan, Nicole Redaschi and Lai-Su L. Yeh",
+Abstract:="The Universal Protein Resource (UniProt) provides the scientific community with 
+a single, centralized, authoritative resource for protein sequences and functional information. 
+Formed by uniting the Swiss-Prot, TrEMBL and PIR protein database activities, the UniProt 
+consortium produces three layers of protein sequence databases: the UniProt Archive (UniParc), 
+the UniProt Knowledgebase (UniProt) and the UniProt Reference (UniRef) databases. 
+The UniProt Knowledgebase is a comprehensive, fully classified, richly and accurately annotated 
+protein sequence knowledgebase with extensive cross-references. This centrepiece consists of 
+two sections: UniProt/Swiss-Prot, with fully, manually curated entries; and UniProt/TrEMBL, 
+enriched with automated classification and annotation. During 2004, tens of thousands of 
+Knowledgebase records got manually annotated or updated; we introduced a new comment line 
+topic: TOXIC DOSE to store information on the acute toxicity of a toxin; the UniProt keyword 
+list got augmented by additional keywords; we improved the documentation of the keywords and 
+are continuously overhauling and standardizing the annotation of post-translational modifications. 
+Furthermore, we introduced a new documentation file of the strains and their synonyms. 
+Many new database cross-references were introduced and we started to make use of Digital 
+Object Identifiers. We also achieved in collaboration with the Macromolecular Structure 
+Database group at EBI an improved integration with structural databases by residue level mapping 
+of sequences from the Protein Data Bank entries onto corresponding UniProt entries. 
+For convenient sequence searches we provide the UniRef non-redundant sequence databases. 
+The comprehensive UniParc database stores the complete body of publicly available protein 
+sequence data. The UniProt databases can be accessed online (http://www.uniprot.org) or 
+downloaded in several formats (ftp://ftp.uniprot.org/pub). New releases are published every 
+two weeks",
+DOI:="10.1093/nar/gki070",
+Journal:="Nucleic Acids Research",
+Year:=2004,
+Title:="The Universal Protein Resource (UniProt)",
+PubMed:=540024,
+Issue:="Database issue",
+URL:="https://www.uniprot.org/")>
 Module uniprot
 
     ''' <summary>
@@ -84,11 +122,21 @@ Module uniprot
     <ExportAPI("protein.seqs")>
     Public Function getProteinSeq(<RRawVectorArgument> uniprot As Object,
                                   Optional extractAll As Boolean = False,
+                                  Optional KOseq As Boolean = False,
                                   Optional env As Environment = Nothing) As pipeline
 
         Dim source = getUniprotData(uniprot, env)
         Dim protFa = Iterator Function(prot As entry) As IEnumerable(Of FastaSeq)
-                         If extractAll Then
+                         If KOseq Then
+                             Dim KO As dbReference = prot.KO
+
+                             If Not KO Is Nothing Then
+                                 Yield New FastaSeq With {
+                                    .Headers = {KO.id, prot.proteinFullName},
+                                    .SequenceData = prot.ProteinSequence
+                                 }
+                             End If
+                         ElseIf extractAll Then
                              For Each accid As String In prot.accessions
                                  Yield New FastaSeq With {
                                     .Headers = {accid},
@@ -112,22 +160,6 @@ Module uniprot
                         End Function) _
                 .IteratesALL _
                 .DoCall(AddressOf pipeline.CreateFromPopulator)
-        End If
-    End Function
-
-    Public Function getUniprotData(uniprot As Object, env As Environment) As [Variant](Of IEnumerable(Of entry), Message)
-        If uniprot Is Nothing Then
-            Return DirectCast(New entry() {}, IEnumerable(Of entry))
-        End If
-
-        If TypeOf uniprot Is entry() OrElse TypeOf uniprot Is IEnumerable(Of entry) Then
-            Return New [Variant](Of IEnumerable(Of entry), Message)(DirectCast(uniprot, IEnumerable(Of entry)))
-        ElseIf TypeOf uniprot Is pipeline AndAlso DirectCast(uniprot, pipeline).elementType Like GetType(entry) Then
-            Return New [Variant](Of IEnumerable(Of entry), Message)(DirectCast(uniprot, pipeline).populates(Of entry)(env))
-        ElseIf TypeOf uniprot Is vector AndAlso DirectCast(uniprot, vector).elementType Like GetType(entry) Then
-            Return New [Variant](Of IEnumerable(Of entry), Message)(DirectCast(uniprot, vector).data.AsObjectEnumerator(Of entry))
-        Else
-            Return Internal.debug.stop($"invalid data source input: {uniprot.GetType.FullName}!", env)
         End If
     End Function
 
@@ -166,5 +198,31 @@ Module uniprot
 
             Return Nothing
         End If
+    End Function
+
+    ''' <summary>
+    ''' id unify mapping
+    ''' </summary>
+    ''' <param name="uniprot"></param>
+    ''' <param name="id"></param>
+    ''' <param name="target">the database name for map to</param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("id_unify")>
+    Public Function IdUnify(<RRawVectorArgument> uniprot As Object,
+                            <RRawVectorArgument> id As Object,
+                            Optional target As String = Nothing,
+                            Optional env As Environment = Nothing) As Object
+
+        Dim uniprotData As pipeline = pipeline.TryCreatePipeline(Of entry)(uniprot, env)
+
+        If uniprotData.isError Then
+            Return uniprotData
+        End If
+
+        Dim rawIdList As String() = REnv.asVector(Of String)(id)
+        Dim mapId As Func(Of String, String) = GetIDs.IdMapping(uniprotData.populates(Of entry)(env), target)
+
+        Return rawIdList.Select(mapId).ToArray
     End Function
 End Module

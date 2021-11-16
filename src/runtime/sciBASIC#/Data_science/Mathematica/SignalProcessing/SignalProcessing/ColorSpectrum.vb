@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1266fd82b94d43b27fd02b7841156d83, Data_science\Mathematica\SignalProcessing\SignalProcessing\ColorSpectrum.vb"
+﻿#Region "Microsoft.VisualBasic::3dbe4423d54ea378342441e4b3cacb79, Data_science\Mathematica\SignalProcessing\SignalProcessing\ColorSpectrum.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     ' Module ColorSpectrum
     ' 
-    '     Function: wavelengthToColor
+    '     Function: WavelengthToColor
     ' 
     ' /********************************************************************************/
 
@@ -48,7 +48,7 @@ Public Module ColorSpectrum
     ''' </summary>
     ''' <param name="wavelength">wavelength (nm, range in [380,780])</param>
     ''' <returns></returns>
-    Public Function wavelengthToColor(wavelength As Double) As Color
+    Public Function WavelengthToColor(wavelength As Double) As Color
         Dim r#,
             g#,
             b#,

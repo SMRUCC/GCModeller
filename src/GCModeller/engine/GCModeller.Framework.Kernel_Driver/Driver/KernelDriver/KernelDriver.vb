@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::129618bcc69cf8183e33644449f9e1f0, engine\GCModeller.Framework.Kernel_Driver\Driver\KernelDriver\KernelDriver.vb"
+﻿#Region "Microsoft.VisualBasic::47ee5a74a491555ea2187cdb85769547, engine\GCModeller.Framework.Kernel_Driver\Driver\KernelDriver\KernelDriver.vb"
 
     ' Author:
     ' 
@@ -81,7 +81,7 @@ Public Class KernelDriver(Of T, Dynamics As GCModeller.Framework.Kernel_Driver.I
     ''' (从运行开始后到当前的时间中所流逝的内核循环次数)
     ''' </summary>
     ''' <remarks></remarks>
-    <DumpNode> Protected _runtimeTicks As Integer
+    Protected _runtimeTicks As Integer
 
     ''' <summary>
     ''' Load the simulation kernel into the calculation kernel driver and then initialize a data adapter for the kernel.

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e2a896de3769d582172aab5fef928172, core\Bio.Assembly\SequenceModel\FASTA\IO\FastaToken.vb"
+﻿#Region "Microsoft.VisualBasic::46ce1927f2f56171f5a7f563a2060cca, core\Bio.Assembly\SequenceModel\FASTA\IO\FastaToken.vb"
 
     ' Author:
     ' 
@@ -75,7 +75,7 @@ Namespace SequenceModel.FASTA
     ''' <remarks></remarks>
     ''' 
     <Package("GCModeller.IO.FastaToken", Publisher:="amethyst.asuka@gcmodeller.org")>
-    <ActiveViews(FastaSeq.SampleView, type:="bash")>
+    <ActiveViewsAttribute(FastaSeq.SampleView, type:="bash")>
     Public Class FastaSeq : Inherits ISequenceModel
         Implements IPolymerSequenceModel
         Implements IAbstractFastaToken
@@ -403,13 +403,17 @@ AAGCGAACAAATGTTCTATA"
         ''' <returns></returns>
         ''' <remarks></remarks>
         ''' <param name="lineBreak">大于0的数值会换行，小于或者等于0的数值不会换行</param>
-        Public Function GenerateDocument(lineBreak As Integer, Optional [overrides] As Boolean = True, Optional removeCR As Boolean = True) As String
+        Public Function GenerateDocument(lineBreak As Integer,
+                                         Optional [overrides] As Boolean = True,
+                                         Optional removeCR As Boolean = True,
+                                         Optional delimiter As String = DefaultHeaderDelimiter) As String
+
             Dim sb As New StringBuilder(">", 10 * 1024)
 
             If [overrides] Then
                 Call sb.Append(Me.ToString)
             Else
-                Call sb.Append(String.Join(DefaultHeaderDelimiter, Headers))
+                Call sb.Append(String.Join(delimiter, Headers))
             End If
 
             Call sb.AppendLine()

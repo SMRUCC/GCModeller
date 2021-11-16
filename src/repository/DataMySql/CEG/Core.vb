@@ -33,6 +33,10 @@
 
     '     Class Core
     ' 
+    '         Properties: AccessNum, aEvalue, Ahitref, aScore, COGId
+    '                     DEGId, GId, Hprd_aId, Hprd_nId, KOId
+    '                     nEvalue, Nhitref, nScore, OganismId
+    ' 
     '         Function: ToString
     ' 
     ' 

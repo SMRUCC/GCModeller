@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1ed91036f7d25dea39c0dfd3eff785ff, visualize\SyntenyVisual\SyntenyRegion.vb"
+﻿#Region "Microsoft.VisualBasic::a404a9b5ddbc130ad4f858b2bd687ab1, visualize\SyntenyVisual\SyntenyRegion.vb"
 
     ' Author:
     ' 
@@ -49,6 +49,7 @@ Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
+Imports Microsoft.VisualBasic.DataMining.DynamicProgramming
 Imports Microsoft.VisualBasic.DataMining.DynamicProgramming.SmithWaterman
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
@@ -126,11 +127,16 @@ Public Module SyntenyRegionExtensions
                     Return score
                 End If
             End Function
+        Dim intSymbol As New GenericSymbol(Of Integer)(
+            equals:=Function(i, j) scoreProvider(i, j) >= 0.85,
+            similarity:=Function(i, j) scoreProvider(i, j),
+            toChar:=Function(i) Strings.Chr(i),
+            empty:=Function() 0
+        )
         Dim smithwaterMan As New GSW(Of Integer)(
             query:=qSize,
             subject:=sSize,
-            similarity:=scoreProvider,
-            asChar:=Function(x) "-"c
+            symbol:=intSymbol
         )
 
         ' match的位置就是基因组上面的坐标位置

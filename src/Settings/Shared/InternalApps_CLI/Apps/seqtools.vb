@@ -1,4 +1,47 @@
-﻿Imports System.Runtime.CompilerServices
+﻿#Region "Microsoft.VisualBasic::7de3fb0ca78fe574ae30d0c7bdaccbdf, Shared\InternalApps_CLI\Apps\seqtools.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class seqtools
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
+    '     Function: FromEnvironment
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService
@@ -11,11 +54,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7290.24332
-'  // ASSEMBLY:  Settings, Version=3.3277.7290.24332, Culture=neutral, PublicKeyToken=null
-'  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
+'  // VERSION:   3.3277.7609.23646
+'  // ASSEMBLY:  Settings, Version=3.3277.7609.23646, Culture=neutral, PublicKeyToken=null
+'  // COPYRIGHT: Copyright (c) SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     12/17/2019 1:31:04 PM
+'  // BUILT:     10/31/2020 1:08:12 PM
 '  // 
 ' 
 ' 
@@ -27,7 +70,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' 
 ' All of the command that available in this program has been list below:
 ' 
-'  /Count:                                  
+'  /Count:                                  Count the number of the given fasta file.
 '  /Fasta.Subset.Large:                     
 '  /Genotype:                               
 '  /Genotype.Statics:                       
@@ -42,7 +85,6 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  /Rule.dnaA_gyrB.Matrix:                  
 '  /ruler.dist.calc:                        
 '  /Sites2Fasta:                            Converts the simple segment object collection as fasta file.
-'  -321:                                    Polypeptide sequence 3 letters to 1 lettes sequence.
 '  -complement:                             
 '  --Drawing.ClustalW:                      
 '  -pattern_search:                         Parsing the sequence segment from the sequence source using
@@ -314,6 +356,7 @@ End Function
 ''' ```bash
 ''' /Count /in &lt;data.fasta&gt;
 ''' ```
+''' Count the number of the given fasta file.
 ''' </summary>
 '''
 
@@ -1771,28 +1814,6 @@ End Function
 
 ''' <summary>
 ''' ```bash
-''' -321 /in &lt;sequence.txt&gt; [/out &lt;out.fasta&gt;]
-''' ```
-''' Polypeptide sequence 3 letters to 1 lettes sequence.
-''' </summary>
-'''
-
-Public Function PolypeptideBriefs([in] As String, Optional out As String = "") As Integer
-    Dim CLI As New StringBuilder("-321")
-    Call CLI.Append(" ")
-    Call CLI.Append("/in " & """" & [in] & """ ")
-    If Not out.StringEmpty Then
-            Call CLI.Append("/out " & """" & out & """ ")
-    End If
-     Call CLI.Append("/@set --internal_pipeline=TRUE ")
-
-
-    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-    Return proc.Run()
-End Function
-
-''' <summary>
-''' ```bash
 ''' --align /query &lt;query.fasta&gt; /subject &lt;subject.fasta&gt; [/out &lt;out.DIR&gt; /cost &lt;0.7&gt;]
 ''' ```
 ''' </summary>
@@ -2501,3 +2522,4 @@ Public Function Trim([in] As String,
 End Function
 End Class
 End Namespace
+

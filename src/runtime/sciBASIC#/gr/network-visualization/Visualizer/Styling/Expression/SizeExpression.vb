@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::60ddeaadfd4b9a545c087a3af0200aeb, gr\network-visualization\Visualizer\Styling\Expression\SizeExpression.vb"
+﻿#Region "Microsoft.VisualBasic::906aaa061070834de5c3e4d38d83b872, gr\network-visualization\Visualizer\Styling\Expression\SizeExpression.vb"
 
     ' Author:
     ' 
@@ -82,7 +82,7 @@ Namespace Styling
             Dim t = expression.MapExpressionParser
 
             If t.type = MapperTypes.Continuous Then
-                Dim range As DoubleRange = $"{t.values(0)},{t.values(1)}"
+                Dim range As DoubleRange = {t.values(0), t.values(1)}
                 Dim selector = t.propertyName.SelectNodeValue
                 Dim getValue = Function(node As Node) Val(selector(node))
 

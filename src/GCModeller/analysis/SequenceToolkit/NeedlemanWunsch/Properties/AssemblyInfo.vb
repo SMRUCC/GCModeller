@@ -1,7 +1,7 @@
 ﻿Imports System.Reflection
 Imports System.Runtime.CompilerServices
 Imports System.Runtime.InteropServices
-
+#if netcore5= 0 then 
 ' Information about this assembly is defined by the following
 ' attributes.
 '
@@ -29,3 +29,4 @@ Imports System.Runtime.InteropServices
 ' numbers with the '*' character (the default):
 
 <assembly: AssemblyVersion("1.0.*")>
+#end if

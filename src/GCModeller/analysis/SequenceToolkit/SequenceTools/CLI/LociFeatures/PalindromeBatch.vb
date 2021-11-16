@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::497841d3e305a8a6106b777d1cb4ff1a, analysis\SequenceToolkit\SequenceTools\CLI\LociFeatures\PalindromeBatch.vb"
+﻿#Region "Microsoft.VisualBasic::ff510ba8b05451af483e332fdac6ad24, analysis\SequenceToolkit\SequenceTools\CLI\LociFeatures\PalindromeBatch.vb"
 
     ' Author:
     ' 
@@ -46,6 +46,7 @@ Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Parallel.Linq
+Imports Parallel.ThreadTask
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically
 Imports SMRUCC.genomics.SequenceModel
@@ -77,7 +78,7 @@ Partial Module Utilities
 
     <ExportAPI("/Palindrome.BatchTask",
                Usage:="/Palindrome.BatchTask /in <in.DIR> [/num_threads 4 /min 3 /max 20 /min-appears 2 /cutoff <0.6> /Palindrome /max-dist <1000 (bp)> /partitions <-1> /out <out.DIR>]")>
-    <Argument("/Palindrome", True, Description:="Only search for Palindrome, not includes the repeats data.")>
+    <ArgumentAttribute("/Palindrome", True, Description:="Only search for Palindrome, not includes the repeats data.")>
     <Group(CLIGrouping.PalindromeBatchTaskTools)>
     Public Function PalindromeBatchTask(args As CommandLine) As Integer
         Dim inDIR As String = args - "/in"
@@ -97,7 +98,7 @@ Partial Module Utilities
                 $"{api} /in {fa.CLIPath} /min {min} /max {max} /min-appears {minAp} /out {out.CLIPath} /cutoff {cutoff} /max-dist {maxDist} /partitions {parts} /batch {onlyPalindrome}"
         Dim CLI As String() = files.Select(task).ToArray
 
-        Return App.SelfFolks(CLI, parallel:=n)
+        Return BatchTasks.SelfFolks(CLI, parallel:=n)
     End Function
 
     ''' <summary>
@@ -107,9 +108,9 @@ Partial Module Utilities
     ''' <returns></returns>
     <ExportAPI("/Palindrome.Workflow",
                Usage:="/Palindrome.Workflow /in <in.fasta> [/batch /min-appears 2 /min 3 /max 20 /cutoff <0.6> /max-dist <1000 (bp)> /Palindrome /partitions <-1> /out <out.DIR>]")>
-    <Argument("/in", False,
+    <ArgumentAttribute("/in", False,
                    Description:="This is a single sequence fasta file.")>
-    <Argument("/Palindrome", True, Description:="Only search for Palindrome, not includes the repeats data.")>
+    <ArgumentAttribute("/Palindrome", True, Description:="Only search for Palindrome, not includes the repeats data.")>
     <Group(CLIGrouping.PalindromeBatchTaskTools)>
     Public Function PalindromeWorkflow(args As CommandLine) As Integer
         Dim [in] As String = args("/in")

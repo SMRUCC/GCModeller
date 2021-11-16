@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6258d90faf5e2e0629339b29f93977cd, data\GO_gene-ontology\GO_Annotation\ProteinAnnotation.vb"
+﻿#Region "Microsoft.VisualBasic::efcacb7194ab60b0bd3712eaa5ee5f0d, data\GO_gene-ontology\GO_Annotation\ProteinAnnotation.vb"
 
     ' Author:
     ' 

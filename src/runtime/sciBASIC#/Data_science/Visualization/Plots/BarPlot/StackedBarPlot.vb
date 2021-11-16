@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e9f2ef640ccf303e3bac307c62bd7304, Data_science\Visualization\Plots\BarPlot\StackedBarPlot.vb"
+﻿#Region "Microsoft.VisualBasic::e849ed570493e9d4baf9416dbca98104, Data_science\Visualization\Plots\BarPlot\StackedBarPlot.vb"
 
     ' Author:
     ' 
@@ -49,7 +49,7 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D.Text
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
+Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports stdNum = System.Math
 
@@ -105,14 +105,14 @@ Namespace BarPlot
 
                     Dim width = rect.PlotRegion.Width
                     Dim height = rect.PlotRegion.Height
-                    Dim tickFont As Font = CSSFont.TryParse(tickFontCSS)
-                    Dim axisFont As Font = CSSFont.TryParse(axisLabelFontCSS)
-                    Dim legendFont As Font = CSSFont.TryParse(legendLabelFontCSS)
+                    Dim tickFont As Font = CSSFont.TryParse(tickFontCSS).GDIObject(g.Dpi)
+                    Dim axisFont As Font = CSSFont.TryParse(axisLabelFontCSS).GDIObject(g.Dpi)
+                    Dim legendFont As Font = CSSFont.TryParse(legendLabelFontCSS).GDIObject(g.Dpi)
                     Dim tickSize = g.MeasureString("0.00", tickFont)
                     Dim leftPart = axisFont.Height + tickSize.Width + 10
                     Dim barRegionWidth = width - leftPart
                     Dim wb = BarWidth(barRegionWidth, n, interval)
-                    Dim groupLabelFont As Font = CSSFont.TryParse(groupLabelFontCSS)
+                    Dim groupLabelFont As Font = CSSFont.TryParse(groupLabelFontCSS).GDIObject(g.Dpi)
                     Dim boxWidth% = legendFont.Height * 1.1
                     Dim bottomPart = groupLabelFont.Height + 30 + (boxWidth + boxSeperator * 2) * columnCount
                     ' 条形图区域的总高度

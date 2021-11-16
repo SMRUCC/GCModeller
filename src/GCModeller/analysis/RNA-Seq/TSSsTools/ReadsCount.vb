@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fae2f753d3fb6a758c3a234b4b9e39f7, analysis\RNA-Seq\TSSsTools\ReadsCount.vb"
+﻿#Region "Microsoft.VisualBasic::7ec66feeb4c1e8b321fefdb2ba6b6fe6, analysis\RNA-Seq\TSSsTools\ReadsCount.vb"
 
     ' Author:
     ' 
@@ -37,12 +37,16 @@
     '                 SharedPlus
     ' 
     '     Constructor: (+2 Overloads) Sub New
-    '     Function: LoadDb, Serialize, ToString, WriteDb
+    ' 
+    '     Function: getCache, LoadDb, ToString, WriteDb
+    ' 
+    '     Sub: Serialize
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports System.IO
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization
@@ -105,7 +109,7 @@ Public Class ReadsCount : Inherits RawStream
                                        INT32 + ' SharedPlus
                                        INT32  ' SharedMinus
 
-    Public Overrides Function Serialize() As Byte()
+    Private Function getCache() As Byte()
         Dim buffer As Byte() = New Byte(__BUFFER_LENGTH - 1) {}
         Dim temp As Byte()
         Dim p As i32 = 0
@@ -119,6 +123,12 @@ Public Class ReadsCount : Inherits RawStream
 
         Return buffer
     End Function
+
+    Public Overrides Sub Serialize(buffer As Stream)
+        Dim data As Byte() = getCache()
+        Call buffer.Write(data, Scan0, data.Length)
+        Erase data
+    End Sub
 
     Public Shared Function WriteDb(Db As Generic.IEnumerable(Of ReadsCount), saveDb As String) As Boolean
         Dim LQuery = (From x As ReadsCount In Db.AsParallel Select x.Serialize).ToArray.Unlist

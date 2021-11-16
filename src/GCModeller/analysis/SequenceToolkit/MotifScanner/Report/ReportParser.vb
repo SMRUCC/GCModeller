@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8c1c6dd7f28330a8d7fcaf0ac5d09397, analysis\SequenceToolkit\MotifScanner\Report\ReportParser.vb"
+﻿#Region "Microsoft.VisualBasic::a097e9dd605bade36e68e2103430e738, analysis\SequenceToolkit\MotifScanner\Report\ReportParser.vb"
 
     ' Author:
     ' 
@@ -129,4 +129,3 @@ Public Module ReportParser
         Loop
     End Function
 End Module
-

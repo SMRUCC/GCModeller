@@ -1,4 +1,47 @@
-﻿Imports System.Runtime.CompilerServices
+﻿#Region "Microsoft.VisualBasic::b24f4e943a28ddd55be0ad0c503fee4f, Shared\InternalApps_CLI\Apps\MEME.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class MEME
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
+    '     Function: FromEnvironment
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService
@@ -11,11 +54,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7290.24332
-'  // ASSEMBLY:  Settings, Version=3.3277.7290.24332, Culture=neutral, PublicKeyToken=null
-'  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
+'  // VERSION:   3.3277.7609.23646
+'  // ASSEMBLY:  Settings, Version=3.3277.7609.23646, Culture=neutral, PublicKeyToken=null
+'  // COPYRIGHT: Copyright (c) SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     12/17/2019 1:31:04 PM
+'  // BUILT:     10/31/2020 1:08:12 PM
 '  // 
 ' 
 ' 
@@ -40,11 +83,13 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  /mast.Regulations:                   
 '  /MEME.Batch:                         Batch meme task by using tmod toolbox.
 '  /MEME.LDMs:                          
+'  /model.save:                         /model.save /model <meme.txt> [/out <model.json>]
 '  /Motif.BuildRegulons:                
 '  /Motif.Info:                         Assign the phenotype information And genomic context Info for
 '                                       the motif sites. [SimpleSegment] -> [MotifLog]
 '  /Motif.Info.Batch:                   [SimpleSegment] -> [MotifLog]
 '  /Motif.Similarity:                   Export of the calculation result from the tomtom program.
+'  /motif.sites.summary:                
 '  /MotifHits.Regulation:               
 '  /MotifSites.Fasta:                   
 '  /Parser.Pathway.Batch:               
@@ -689,6 +734,24 @@ End Function
 
 ''' <summary>
 ''' ```bash
+''' 
+''' ```
+''' /model.save /model &lt;meme.txt&gt; [/out &lt;model.json&gt;]
+''' </summary>
+'''
+
+Public Function SaveModel() As Integer
+    Dim CLI As New StringBuilder("/model.save")
+    Call CLI.Append(" ")
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```bash
 ''' /Motif.BuildRegulons /meme &lt;meme.txt.DIR&gt; /model &lt;FootprintTrace.xml&gt; /DOOR &lt;DOOR.opr&gt; /maps &lt;bbhmappings.csv&gt; /corrs &lt;name/DIR&gt; [/cut &lt;0.65&gt; /out &lt;outDIR&gt;]
 ''' ```
 ''' </summary>
@@ -817,6 +880,27 @@ Public Function MEMETOM_MotifSimilarity([in] As String, motifs As String, Option
     End If
     If bp_var Then
         Call CLI.Append("/bp.var ")
+    End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```bash
+''' /motif.sites.summary /in &lt;data.directory&gt; [/out &lt;summary.csv&gt;]
+''' ```
+''' </summary>
+'''
+
+Public Function MotifSiteSummary([in] As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/motif.sites.summary")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
     End If
      Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
@@ -2717,3 +2801,4 @@ Public Function VirtualFootprintDIP(vf_csv As String, dip_csv As String) As Inte
 End Function
 End Class
 End Namespace
+

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7657be5b43582b8bbd2183fbbaa3875b, sub-system\PLAS.NET\SSystem\Script\Models\Model.vb"
+﻿#Region "Microsoft.VisualBasic::7083f0253e454dbe281346991b0c77a7, sub-system\PLAS.NET\SSystem\Script\Models\Model.vb"
 
     ' Author:
     ' 
@@ -47,7 +47,9 @@
 
 #End Region
 
+#If netcore5 = 0 Then
 Imports System.Web.Script.Serialization
+#End If
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel

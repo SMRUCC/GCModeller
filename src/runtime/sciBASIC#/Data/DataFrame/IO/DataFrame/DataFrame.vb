@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e7b60601ab13e51298cdf4e285952ed3, Data\DataFrame\IO\DataFrame\DataFrame.vb"
+﻿#Region "Microsoft.VisualBasic::f00cb68c82f76e1d69a1adadeaafcfe4, Data\DataFrame\IO\DataFrame\DataFrame.vb"
 
     ' Author:
     ' 
@@ -36,17 +36,18 @@
     '         Properties: Depth, FieldCount, Headers, HeadTitles, IDataRecord_Item
     '                     IsClosed, Item, RecordsAffected, SchemaOridinal
     ' 
-    '         Constructor: (+2 Overloads) Sub New
+    '         Constructor: (+3 Overloads) Sub New
     ' 
     '         Function: [Select], __createTableVector, AddAttribute, ColumnRows, CreateDataSource
-    '                   CreateObject, createObjectInternal, csv, EnumerateData, Generate
-    '                   GetBoolean, GetByte, GetBytes, GetChar, GetChars
-    '                   getColumnList, GetData, GetDataTypeName, GetDateTime, GetDecimal
-    '                   GetDouble, GetEnumerator2, GetFieldType, GetFloat, GetGuid
-    '                   GetInt16, GetInt32, GetInt64, GetName, GetOrdinal
-    '                   GetOrdinalSchema, GetSchemaTable, GetString, GetValue, GetValueLambda
-    '                   GetValues, IDataRecord_GetValue, IsDBNull, Load, LoadDataSet
-    '                   Parse, Read, reviewColumnHeader, ToString
+    '                   CreateObject, createObjectInternal, csv, EnumerateData, EnumerateRowObjects
+    '                   Generate, GetBoolean, GetByte, GetBytes, GetChar
+    '                   GetChars, getColumnList, GetData, GetDataTypeName, GetDateTime
+    '                   GetDecimal, GetDouble, GetEnumerator2, GetFieldType, GetFloat
+    '                   GetGuid, GetInt16, GetInt32, GetInt64, GetName
+    '                   GetOrdinal, GetOrdinalSchema, GetSchemaTable, GetString, GetValue
+    '                   GetValueLambda, GetValues, IDataRecord_GetValue, IsDBNull, Load
+    '                   LoadDataSet, MeasureTypeSchema, Parse, Read, reviewColumnHeader
+    '                   ToString
     ' 
     '         Sub: ChangeMapping, Close, CopyFrom, (+2 Overloads) Dispose, Initialize
     '              Reset
@@ -92,6 +93,7 @@ Namespace IO
         ''' </summary>
         ''' <remarks></remarks>
         Protected columnList As HeaderSchema
+        Protected typeSchema As Type()
 
         Public ReadOnly Property SchemaOridinal As Dictionary(Of String, Integer) Implements ISchema.SchemaOridinal
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -125,17 +127,33 @@ Namespace IO
             Return columnList.AddAttribute(Name)
         End Function
 
+        Public Function MeasureTypeSchema() As DataFrame
+            Dim types As New List(Of Type)
+
+            For Each col As String() In Columns
+                types.Add(DataImports.SampleForType(col))
+            Next
+
+            typeSchema = types.ToArray
+
+            Return Me
+        End Function
+
         ''' <summary>
         ''' Get the lines data for the convinent data operation.(为了保持一致的顺序，这个函数是非并行化的)
         ''' </summary>
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Function CreateDataSource() As DynamicObjectLoader()
-            Dim LQuery As DynamicObjectLoader() = LinqAPI.Exec(Of DynamicObjectLoader) <=
+            Dim LQuery As DynamicObjectLoader() = LinqAPI.Exec(Of DynamicObjectLoader) _
+ _
+            () <=
  _
                 From i As Integer
-                In RowNumbers.Sequence.AsParallel
-                Let line As RowObject = _innerTable(i)  ' 已经去掉了首行标题行了的
+                In RowNumbers _
+                    .Sequence _
+                    .AsParallel
+                Let line As RowObject = _innerTable(i)
                 Select row = New DynamicObjectLoader With {
                     .lineNumber = i,
                     .RowData = line,
@@ -156,6 +174,16 @@ Namespace IO
                 Next
 
                 Yield out
+            Next
+        End Function
+
+        Public Iterator Function EnumerateRowObjects() As IEnumerable(Of Object())
+            For Each row As RowObject In _innerTable
+                Yield row _
+                    .Select(Function(str, i)
+                                Return Scripting.CTypeDynamic(str, typeSchema(i))
+                            End Function) _
+                    .ToArray
             Next
         End Function
 
@@ -229,6 +257,10 @@ Namespace IO
         End Function
 
         Protected Friend Sub New()
+        End Sub
+
+        Sub New(header As IEnumerable(Of String))
+            columnList = New HeaderSchema(header)
         End Sub
 
         ''' <summary>
@@ -437,7 +469,7 @@ Namespace IO
             If index = -1 AndAlso caseSensitive Then
                 Return Function(r) Nothing
             ElseIf index = -1 Then
-                With Which(columnList.Headers.Select(Function(c) c.TextEquals(columnName))).ToArray
+                With which(columnList.Headers.Select(Function(c) c.TextEquals(columnName))).ToArray
                     If .IsNullOrEmpty Then
                         Return Function(r) Nothing
                     Else
@@ -504,9 +536,7 @@ Namespace IO
             Call Me.Reset()
 
             Do While Me.Read
-                newTable += New RowObject(
-                    pList.Select(
-                    Function(i) current.Column(i)))
+                newTable += New RowObject(pList.Select(Function(i) current.Column(i)))
             Loop
 
             Return New DataFrame With {
@@ -552,20 +582,11 @@ Namespace IO
         End Function
 
         Public Function GetDataTypeName(i As Integer) As String Implements IDataRecord.GetDataTypeName
-            Dim value As String = GetValue(i)
-
-            If value.IsNumeric Then
-                Return "System.Double"
-            ElseIf InStr(value, ", ") > 0 OrElse InStr(value, "; ") > 0 Then
-                Return "System.String()"
-            Else
-                Return "System.String"
-            End If
+            Return typeSchema(i).FullName
         End Function
 
         Public Function GetFieldType(i As Integer) As Type Implements IDataRecord.GetFieldType
-            Dim typeName As String = GetDataTypeName(i)
-            Return InputHandler.GetType(typeName, True)
+            Return typeSchema(i)
         End Function
 
         Private Function IDataRecord_GetValue(i As Integer) As Object Implements IDataRecord.GetValue

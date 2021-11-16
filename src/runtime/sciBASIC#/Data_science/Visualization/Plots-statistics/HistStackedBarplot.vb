@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e472522240a7ad1f58aa8b2b80e68c2c, Data_science\Visualization\Plots-statistics\HistStackedBarplot.vb"
+﻿#Region "Microsoft.VisualBasic::8148bc260b8c24426e8144382079ef46, Data_science\Visualization\Plots-statistics\HistStackedBarplot.vb"
 
     ' Author:
     ' 
@@ -46,14 +46,14 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.ChartPlots.BarPlot
 Imports Microsoft.VisualBasic.Data.ChartPlots.BarPlot.Data
+Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.DataMining.HierarchicalClustering
-Imports Microsoft.VisualBasic.DataMining.HierarchicalClustering.DendrogramVisualize
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
+Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.Scripting.Runtime
 
 Public Module HistStackedBarplot
@@ -65,7 +65,7 @@ Public Module HistStackedBarplot
     <Extension>
     Private Function SampleDataSet(sample As BarDataSample, keys$()) As DataSet
         Return New DataSet With {
-            .ID = sample.Tag,
+            .ID = sample.tag,
             .Properties = keys _
                 .SeqIterator _
                 .ToDictionary(Function(key) key.value,
@@ -80,7 +80,7 @@ Public Module HistStackedBarplot
     ''' <param name="size$"></param>
     ''' <param name="margin$"></param>
     ''' <param name="treeWidth#">假若这个宽度值在[0-1]之之间，则认为是百分比，反之当这个宽度值超过了1，则认为是实际的像素值</param>
-    ''' <param name="sampleGroup"><see cref="DendrogramPanel.ClassTable"/></param>
+    ''' <param name="sampleGroup"><see cref="DendrogramPanelV2.classinfo"/></param>
     ''' <returns></returns>
     Public Function Plot(data As BarDataGroup,
                          Optional size$ = "2700,2100",
@@ -100,17 +100,7 @@ Public Module HistStackedBarplot
             .Select(Function(sample) sample.SampleDataSet(data.Serials.Keys)) _
             .ToArray
         Dim histCanvas = Function(cluster As Cluster)
-                             Return New DendrogramPanel With {
-                                 .LineColor = Color.Black,
-                                 .ScaleValueDecimals = 0,
-                                 .ScaleValueInterval = 1,
-                                 .Model = cluster,
-                                 .ShowScale = False,
-                                 .ShowDistanceValues = False,
-                                 .ShowLeafLabel = False,
-                                 .LinkDotRadius = 0,
-                                 .ClassTable = sampleGroup
-                             }
+                             Return New DendrogramPanelV2(cluster, New Theme)
                          End Function
 
         Dim plotInternal =
@@ -132,7 +122,7 @@ Public Module HistStackedBarplot
 
                 Dim left! = treeRegion.Right + dtreeBar
                 Dim top! = treeRegion.Top
-                Dim legendTitleFont As Font = CSSFont.TryParse(legendTitleFontCSS).GDIObject
+                Dim legendTitleFont As Font = CSSFont.TryParse(legendTitleFontCSS).GDIObject(g.Dpi)
                 Dim maxLabelSize As SizeF = data _
                     .Serials _
                     .Keys _

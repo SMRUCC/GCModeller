@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4a22ee983dc47590ab78b680ff24c484, Data_science\Mathematica\Math\Math\Algebra\Vector\NumericsVector.vb"
+﻿#Region "Microsoft.VisualBasic::80a9a27cf99357ee4d06d7ab350433bf, Data_science\Mathematica\Math\Math\Algebra\Vector\NumericsVector.vb"
 
     ' Author:
     ' 
@@ -64,6 +64,11 @@ Namespace LinearAlgebra
             Return New Vector(source.Select(Function(x) CDbl(CObj(x))))
         End Function
 
+        ''' <summary>
+        ''' numeric to integer values
+        ''' </summary>
+        ''' <param name="vector"></param>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension> Public Function AsInteger(vector As Vector) As Integer()
             Return vector.Select(Function(x) CInt(x)).ToArray

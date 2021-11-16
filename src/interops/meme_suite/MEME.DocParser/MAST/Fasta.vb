@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::51a6f4778b9a375cdeedf821a5c88fd3, meme_suite\MEME.DocParser\MAST\Fasta.vb"
+﻿#Region "Microsoft.VisualBasic::048ba96c8636614c761a20ea41e0b0ff, meme_suite\MEME.DocParser\MAST\Fasta.vb"
 
     ' Author:
     ' 

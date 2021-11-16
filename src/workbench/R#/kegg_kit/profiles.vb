@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ef0afec39436b92510027c154b3888d7, kegg_kit\profiles.vb"
+﻿#Region "Microsoft.VisualBasic::7c4976c61ff4122a3d8111047f3fa571, R#\kegg_kit\profiles.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     ' Module profiles
     ' 
-    '     Function: CompoundPathwayIndex, CompoundPathwayProfiles, KEGGCategoryProfiles, KOpathwayProfiles
+    '     Function: CompoundPathwayIndex, CompoundPathwayProfiles, FluxMapProfiles, KEGGCategoryProfiles, KOpathwayProfiles
     ' 
     ' /********************************************************************************/
 
@@ -47,13 +47,18 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports SMRUCC.genomics.Assembly.KEGG
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.Visualize.CatalogProfiling
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports RDataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
+Imports REnv = SMRUCC.Rsharp.Runtime
 
-<Package("kegg.profiles")>
+<Package("profiles")>
 Module profiles
 
     <ExportAPI("compounds.pathway.index")>
@@ -89,6 +94,56 @@ Module profiles
                           End Function)
     End Function
 
+    <ExportAPI("flux.map.profiles")>
+    Public Function FluxMapProfiles(flux As Object, maps As MapRepository, Optional env As Environment = Nothing) As Object
+        If TypeOf flux Is RDataframe Then
+            Dim activity As Double() = REnv.asVector(Of Double)(DirectCast(flux, RDataframe).getColumnVector("activity"))
+            Dim rId As String()
+            Dim flags = activity.Select(Function(a) a > 0).ToArray
+            Dim data As RDataframe = DirectCast(flux, RDataframe).sliceByRow(flags, env)
+            Dim brite As Dictionary(Of String, BriteHEntry.Pathway()) = BriteHEntry.Pathway _
+                .LoadDictionary _
+                .GroupBy(Function(p) p.Value.class) _
+                .ToDictionary(Function(p) p.Key,
+                              Function(p)
+                                  Return p.Values
+                              End Function)
+
+            rId = REnv.asVector(Of String)(data.getColumnVector("RID"))
+            activity = REnv.asVector(Of Double)(data.getColumnVector("activity"))
+
+            Dim fluxData = rId.SeqIterator.ToDictionary(Function(r) r.value, Function(i) activity(i))
+            Dim profiles As New CatalogProfiles
+
+            For Each catalog In brite
+                Dim catProfiles As New CatalogProfile
+
+                For Each mapId As BriteHEntry.Pathway In catalog.Value
+                    Dim map = maps.GetByKey(mapId.EntryId)
+                    Dim total As Double = Aggregate id As String In map.GetMembers Where fluxData.ContainsKey(id) Into Sum(fluxData(id))
+
+                    If total > 0 Then
+                        catProfiles.Add(map.Name.Replace(" - Reference pathway", "").Trim, total)
+                    End If
+                Next
+
+                If Not catProfiles.isEmpty Then
+                    profiles.catalogs(catalog.Key) = catProfiles
+                End If
+            Next
+
+            Return profiles
+        Else
+            Return Internal.debug.stop(New NotImplementedException, env)
+        End If
+    End Function
+
+    ''' <summary>
+    ''' create KEGG map prfiles via a given KO id list.
+    ''' </summary>
+    ''' <param name="KO">a character vector of KO id list.</param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("KO.map.profiles")>
     <RApiReturn(GetType(Dictionary(Of String, Double)))>
     Public Function KOpathwayProfiles(<RRawVectorArgument> KO As Object, Optional env As Environment = Nothing) As Object

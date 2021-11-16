@@ -1,44 +1,46 @@
-﻿#Region "Microsoft.VisualBasic::55980885847e1d9645d0d1c7646abca8, analysis\HTS_matrix\Matrix.vb"
+﻿#Region "Microsoft.VisualBasic::e6ee266ed35f5f49ffe7b97dad6eeeee, analysis\HTS_matrix\Matrix.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-' Class Matrix
-' 
-'     Properties: expression, sampleID
-' 
-'     Function: LoadData, MatrixAverage, TakeSamples
-' 
-' 
-' /********************************************************************************/
+    ' Class Matrix
+    ' 
+    '     Properties: expression, sampleID, size, tag
+    ' 
+    '     Function: GenericEnumerator, GetEnumerator, LoadData, MatrixAverage, Project
+    '               TakeSamples, ToString, TrimZeros
+    ' 
+    '     Sub: checkMatrix
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -50,7 +52,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 
-Public Class Matrix : Implements INamedValue
+Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow)
 
     ''' <summary>
     ''' the tag data of current expression matrix
@@ -70,30 +72,24 @@ Public Class Matrix : Implements INamedValue
     ''' <returns></returns>
     Public Property expression As DataFrameRow()
 
+    ''' <summary>
+    ''' the row numbers of the expression matrix(number of genes)
+    ''' </summary>
+    ''' <returns></returns>
+    Public ReadOnly Property size As Integer
+        Get
+            Return expression.Length
+        End Get
+    End Property
+
     Default Public ReadOnly Property gene(i As Integer) As DataFrameRow
         Get
             Return expression(i)
         End Get
     End Property
 
-    ''' <summary>
-    ''' matrix subset by a given collection of sample names
-    ''' </summary>
-    ''' <param name="data"></param>
-    ''' <param name="sampleVector"></param>
-    ''' <param name="reversed"></param>
-    ''' <returns></returns>
-    Public Shared Iterator Function TakeSamples(data As DataFrameRow(), sampleVector As Integer(), reversed As Boolean) As IEnumerable(Of DataFrameRow)
-        Dim samples As Double()
-
-        For Each x As DataFrameRow In data
-            samples = x.experiments.Takes(sampleVector, reversed:=reversed)
-
-            Yield New DataFrameRow With {
-                .geneID = x.geneID,
-                .experiments = samples
-            }
-        Next
+    Public Overrides Function ToString() As String
+        Return $"[{tag}] {expression.Length} genes, {sampleID.Length} samples; {sampleID.GetJson}"
     End Function
 
     Public Function Project(sampleNames As String()) As Matrix
@@ -115,9 +111,58 @@ Public Class Matrix : Implements INamedValue
         }
     End Function
 
+    Public Function TrimZeros() As Matrix
+        Return New Matrix With {
+            .sampleID = sampleID,
+            .tag = tag,
+            .expression = expression _
+                .Where(Function(gene) Not gene.experiments.All(Function(x) x = 0.0)) _
+                .ToArray
+        }
+    End Function
+
+    ''' <summary>
+    ''' matrix subset by a given collection of sample names
+    ''' </summary>
+    ''' <param name="data"></param>
+    ''' <param name="sampleVector"></param>
+    ''' <param name="reversed"></param>
+    ''' <returns></returns>
+    Public Shared Iterator Function TakeSamples(data As DataFrameRow(), sampleVector As Integer(), reversed As Boolean) As IEnumerable(Of DataFrameRow)
+        Dim samples As Double()
+
+        For Each x As DataFrameRow In data
+            samples = x.experiments.Takes(
+                index:=sampleVector,
+                reversed:=reversed
+            )
+
+            Yield New DataFrameRow With {
+                .geneID = x.geneID,
+                .experiments = samples
+            }
+        Next
+    End Function
+
+    Private Sub checkMatrix()
+        Dim samples As Integer = sampleID.Length
+
+        If expression.Any(Function(gene) gene.samples <> samples) Then
+            Throw New InvalidProgramException("invalid sample data size of " & expression.Where(Function(gene) gene.geneID).GetJson)
+        End If
+    End Sub
+
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Shared Function LoadData(file As String, Optional excludes As Index(Of String) = Nothing) As Matrix
-        Return Document.LoadMatrixDocument(file, excludes)
+    Public Shared Function LoadData(file As String, Optional excludes As Index(Of String) = Nothing, Optional trimZeros As Boolean = False) As Matrix
+        Dim matrix As Matrix = Document.LoadMatrixDocument(file, excludes)
+
+        Call matrix.checkMatrix()
+
+        If trimZeros Then
+            Return matrix.TrimZeros
+        Else
+            Return matrix
+        End If
     End Function
 
     ''' <summary>
@@ -165,7 +210,14 @@ Public Class Matrix : Implements INamedValue
             .expression = genes
         }
     End Function
+
+    Public Iterator Function GenericEnumerator() As IEnumerator(Of DataFrameRow) Implements Enumeration(Of DataFrameRow).GenericEnumerator
+        For Each gene As DataFrameRow In expression
+            Yield gene
+        Next
+    End Function
+
+    Public Iterator Function GetEnumerator() As IEnumerator Implements Enumeration(Of DataFrameRow).GetEnumerator
+        Yield GenericEnumerator()
+    End Function
 End Class
-
-
-

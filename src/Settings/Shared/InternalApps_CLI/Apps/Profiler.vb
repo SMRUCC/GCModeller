@@ -1,4 +1,47 @@
-﻿Imports System.Runtime.CompilerServices
+﻿#Region "Microsoft.VisualBasic::235ae894f3c95d53aa49c9124a9e8364, Shared\InternalApps_CLI\Apps\Profiler.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class Profiler
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
+    '     Function: FromEnvironment
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService
@@ -11,11 +54,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7290.24332
-'  // ASSEMBLY:  Settings, Version=3.3277.7290.24332, Culture=neutral, PublicKeyToken=null
-'  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
+'  // VERSION:   3.3277.7609.23646
+'  // ASSEMBLY:  Settings, Version=3.3277.7609.23646, Culture=neutral, PublicKeyToken=null
+'  // COPYRIGHT: Copyright (c) SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     12/17/2019 1:31:04 PM
+'  // BUILT:     10/31/2020 1:08:12 PM
 '  // 
 ' 
 ' 
@@ -28,13 +71,15 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' All of the command that available in this program has been list below:
 ' 
 '  /GO.clusters:                     Create GO enrichment background model from uniprot database.
+'  /GO.clusters.blastp:              Create GO clusters from the blastp besthit dataset.
 '  /GO.enrichment.barplot:           
 '  /GSEA:                            Do gene set enrichment analysis.
 '  /GSEA.GO:                         
 '  /id.converts:                     
 '  /kegg.metabolites.background:     Create background model for KEGG pathway enrichment based on the
 '                                    kegg metabolites, used for LC-MS metabolism data analysis.
-'  /KO.clusters:                     Create KEGG pathway map background for a given genome data.
+'  /KO.clusters:                     Create KEGG pathway map background for a given genome data or a
+'                                    reference KO list.
 '  /KO.clusters.By_bbh:              
 ' 
 ' 
@@ -71,18 +116,47 @@ Public Class Profiler : Inherits InteropService
 
 ''' <summary>
 ''' ```bash
-''' /GO.clusters /uniprot &lt;uniprot.XML&gt; /go &lt;go.obo&gt; [/out &lt;clusters.XML&gt;]
+''' /GO.clusters /uniprot &lt;uniprot.XML&gt; /go &lt;go.obo&gt; [/generic /out &lt;clusters.XML&gt;]
 ''' ```
 ''' Create GO enrichment background model from uniprot database.
 ''' </summary>
 '''
 ''' <param name="uniprot"> The uniprot database.
 ''' </param>
-Public Function CreateGOClusters(uniprot As String, go As String, Optional out As String = "") As Integer
+Public Function CreateGOClusters(uniprot As String, go As String, Optional out As String = "", Optional generic As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/GO.clusters")
     Call CLI.Append(" ")
     Call CLI.Append("/uniprot " & """" & uniprot & """ ")
     Call CLI.Append("/go " & """" & go & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If generic Then
+        Call CLI.Append("/generic ")
+    End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```bash
+''' /GO.clusters.blastp /in &lt;besthit.csv&gt; /go &lt;go.obo&gt; [/size &lt;default=-1&gt; /out &lt;clusters.XML&gt;]
+''' ```
+''' Create GO clusters from the blastp besthit dataset.
+''' </summary>
+'''
+
+Public Function GOCluster_blastp([in] As String, go As String, Optional size As String = "-1", Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/GO.clusters.blastp")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/go " & """" & go & """ ")
+    If Not size.StringEmpty Then
+            Call CLI.Append("/size " & """" & size & """ ")
+    End If
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
@@ -279,22 +353,28 @@ End Function
 
 ''' <summary>
 ''' ```bash
-''' /KO.clusters /uniprot &lt;uniprot.XML&gt; /maps &lt;kegg_maps.XML/directory&gt; [/out &lt;clusters.XML&gt;]
+''' /KO.clusters /background &lt;KO.txt/uniprot.XML&gt; /maps &lt;kegg_maps.XML/directory&gt; [/generic /out &lt;clusters.XML&gt;]
 ''' ```
-''' Create KEGG pathway map background for a given genome data.
+''' Create KEGG pathway map background for a given genome data or a reference KO list.
 ''' </summary>
 '''
-''' <param name="uniprot"> Uniprot database that contains the uniprot_id to KO_id mapping.
+''' <param name="background"> the KO annotation background data, it can be a ``UniProt`` database that contains the uniprot_id to KO_id mapping. or just
+'''               a plain text file that contains a list of KO terms as background, each line in this text file should be one KO term word.
 ''' </param>
-''' <param name="maps"> This argument should be a directory path which this folder contains multiple KEGG reference pathway map xml files. A xml file path of the kegg pathway map database is also accepted!
+''' <param name="maps"> This argument should be a directory path which this folder contains multiple 
+'''               KEGG reference pathway map xml files. A xml file path of the kegg pathway map database 
+'''               is also accepted!
 ''' </param>
-Public Function CreateKOCluster(uniprot As String, maps As String, Optional out As String = "") As Integer
+Public Function CreateKOCluster(background As String, maps As String, Optional out As String = "", Optional generic As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/KO.clusters")
     Call CLI.Append(" ")
-    Call CLI.Append("/uniprot " & """" & uniprot & """ ")
+    Call CLI.Append("/background " & """" & background & """ ")
     Call CLI.Append("/maps " & """" & maps & """ ")
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If generic Then
+        Call CLI.Append("/generic ")
     End If
      Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
@@ -336,3 +416,4 @@ Public Function CreateKOClusterFromBBH([in] As String,
 End Function
 End Class
 End Namespace
+

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fb9c3de33b22c193307c51587bd44614, Data_science\Visualization\test\DensityPlotTest.vb"
+﻿#Region "Microsoft.VisualBasic::64f323af4af4104fc143d30e42288576, Data_science\Visualization\test\DensityPlotTest.vb"
 
     ' Author:
     ' 
@@ -44,13 +44,14 @@ Imports Microsoft.VisualBasic.Data.ChartPlots.Statistics.Heatmap
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
+Imports stdNum = System.Math
 
 Module DensityPlotTest
 
     Sub Main()
         Dim data = DataSet.LoadDataSet("D:\OneDrive\2017-8-31\3. DEPs\Time_series\T4vsT3.csv")
         Dim points = data.Select(Function(x)
-                                     Return New PointF(x!log2FC, -Math.Log10(x("p.value")))
+                                     Return New PointF(x!log2FC, -stdNum.Log10(x("p.value")))
                                  End Function).ToArray
 
         Call DensityPlot.Plot(

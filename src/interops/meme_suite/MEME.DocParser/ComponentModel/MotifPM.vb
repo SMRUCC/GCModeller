@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::240a3de31b0c5886c5380a98a1ba8a3f, meme_suite\MEME.DocParser\ComponentModel\MotifPM.vb"
+﻿#Region "Microsoft.VisualBasic::dd6966fa69b6aabcb6230aca4aef7432, meme_suite\MEME.DocParser\ComponentModel\MotifPM.vb"
 
     ' Author:
     ' 

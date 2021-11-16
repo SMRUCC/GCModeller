@@ -1,7 +1,9 @@
-﻿Imports System.CodeDom.Compiler
+﻿#If DEBUG Then
+Imports System.CodeDom.Compiler
+#End If
 Imports System.Text
 Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic.Emit.CodeDOM_VBC
+Imports Microsoft.VisualBasic.ApplicationServices.Emit.CodeDOM_VBC
 Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
 
 ''' <summary>

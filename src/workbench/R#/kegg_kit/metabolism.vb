@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::29e14a16be3dbeb7912883447357a73c, kegg_kit\metabolism.vb"
+﻿#Region "Microsoft.VisualBasic::e95842fef4983977aa071e217c1acc35, R#\kegg_kit\metabolism.vb"
 
     ' Author:
     ' 
@@ -35,6 +35,7 @@
     ' 
     '     Constructor: (+1 Overloads) Sub New
     '     Function: CreateCompoundOriginModel, filterInvalidCompoundIds, GetAllCompounds, KEGGReconstruction, loadReactionCacheIndex
+    '               PickNetwork
     ' 
     ' /********************************************************************************/
 
@@ -43,12 +44,15 @@
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+#If netcore5 = 0 Then
 Imports RDotNET.Extensions.GCModeller
+#End If
 Imports SMRUCC.genomics.Analysis.KEGG
 Imports SMRUCC.genomics.Annotation.Ptf
 Imports SMRUCC.genomics.Assembly.KEGG
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Data
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports SMRUCC.genomics.Model.Network.KEGG.ReactionNetwork
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
@@ -57,7 +61,7 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 ''' <summary>
 ''' The kegg metabolism model toolkit
 ''' </summary>
-<Package("kegg.metabolism", Category:=APICategories.ResearchTools)>
+<Package("metabolism", Category:=APICategories.ResearchTools)>
 Module metabolism
 
     Sub New()
@@ -85,6 +89,7 @@ Module metabolism
             .ToArray
     End Function
 
+#If netcore5 = 0 Then
     <ExportAPI("compound.origins")>
     Public Function CreateCompoundOriginModel(repo As String, Optional compoundNames As Dictionary(Of String, String) = Nothing) As OrganismCompounds
         If compoundNames Is Nothing Then
@@ -93,6 +98,7 @@ Module metabolism
             Return OrganismCompounds.LoadData(repo, compoundNames)
         End If
     End Function
+#End If
 
     ''' <summary>
     ''' Removes invalid kegg compound id
@@ -152,5 +158,25 @@ Module metabolism
                         Return pathway.AssignCompounds(rxnIndex)
                     End Function) _
             .DoCall(AddressOf pipeline.CreateFromPopulator)
+    End Function
+
+    <ExportAPI("pickNetwork")>
+    Public Function PickNetwork(reactions As ReactionRepository, <RRawVectorArgument> terms As Object, Optional env As Environment = Nothing) As Object
+        Dim KoIdlist As String()
+        Dim stream As pipeline = pipeline.TryCreatePipeline(Of String)(terms, env, suppress:=True)
+
+        If stream.isError Then
+            stream = pipeline.TryCreatePipeline(Of BiDirectionalBesthit)(terms, env)
+
+            If stream.isError Then
+                Return stream.getError
+            Else
+                KoIdlist = stream.populates(Of BiDirectionalBesthit)(env).Select(Function(hit) hit.term).Distinct.ToArray
+            End If
+        Else
+            KoIdlist = stream.populates(Of String)(env).ToArray
+        End If
+
+        Return reactions.GetByKOMatch(KoIdlist).ToArray
     End Function
 End Module

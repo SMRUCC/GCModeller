@@ -1,42 +1,43 @@
-﻿#Region "Microsoft.VisualBasic::81471160ebdfc8a6064e4986e8a0a12a, phenotype_kit\sampleInfo.vb"
+﻿#Region "Microsoft.VisualBasic::93ae8a9191628c009bf417e83b04ad30, R#\phenotype_kit\sampleInfo.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-' Module DEGSample
-' 
-'     Constructor: (+1 Overloads) Sub New
-'     Function: guessSampleGroups, print, ReadSampleInfo, ScanForSampleInfo, WriteSampleInfo
-' 
-' /********************************************************************************/
+    ' Module DEGSample
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
+    '     Function: getSampleId, guessSampleGroups, PopulateSampleInfo, print, ReadSampleInfo
+    '               sampleinfoTable, sampleInfoTable, ScanForSampleInfo, WriteSampleInfo
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -58,6 +59,7 @@ Imports SMRUCC.Rsharp.Runtime.Internal.ConsolePrinter
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports REnv = SMRUCC.Rsharp.Runtime
+Imports Rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 
 ''' <summary>
 ''' GCModeller DEG experiment analysis designer toolkit
@@ -68,7 +70,23 @@ Module DEGSample
 
     Sub New()
         Call printer.AttachConsoleFormatter(Of SampleInfo)(AddressOf print)
+        Call Internal.Object.Converts.makeDataframe.addHandler(GetType(SampleInfo()), AddressOf sampleinfoTable)
     End Sub
+
+    Private Function sampleinfoTable(samples As SampleInfo(), args As list, env As Environment) As Rdataframe
+        Dim data As New Rdataframe With {.columns = New Dictionary(Of String, Array)}
+
+        data.columns(NameOf(SampleInfo.ID)) = samples.Select(Function(a) a.ID).ToArray
+        data.columns(NameOf(SampleInfo.sample_name)) = samples.Select(Function(a) a.sample_name).ToArray
+        data.columns(NameOf(SampleInfo.sample_info)) = samples.Select(Function(a) a.sample_info).ToArray
+        data.columns(NameOf(SampleInfo.injectionOrder)) = samples.Select(Function(a) a.injectionOrder).ToArray
+        data.columns(NameOf(SampleInfo.batch)) = samples.Select(Function(a) a.batch).ToArray
+        data.columns(NameOf(SampleInfo.color)) = samples.Select(Function(a) a.color).ToArray
+        data.columns(NameOf(SampleInfo.shape)) = samples.Select(Function(a) a.shape).ToArray
+        data.rownames = samples.Select(Function(a) a.ID).ToArray
+
+        Return data
+    End Function
 
     Private Function print(sample As SampleInfo) As String
         Return $" ({sample.sample_info}) {sample.sample_name}"
@@ -83,10 +101,13 @@ Module DEGSample
     ''' <returns></returns>
     <ExportAPI("guess.sample_groups")>
     <RApiReturn(GetType(list), GetType(SampleInfo))>
-    Public Function guessSampleGroups(sample_names As Array, Optional raw_list As Boolean = True) As Object
+    Public Function guessSampleGroups(sample_names As Array,
+                                      Optional maxDepth As Boolean = False,
+                                      Optional raw_list As Boolean = True) As Object
+
         Return REnv.asVector(Of String)(sample_names) _
             .AsObjectEnumerator(Of String) _
-            .GuessPossibleGroups _
+            .GuessPossibleGroups(maxDepth) _
             .ToDictionary(Function(group) group.name,
                           Function(group)
                               Return CObj(group.ToArray)
@@ -216,6 +237,24 @@ Module DEGSample
         Next
 
         Return list.ToArray
+    End Function
+
+    <ExportAPI("sampleId")>
+    <RApiReturn(GetType(String))>
+    Public Function getSampleId(<RRawVectorArgument> sampleinfo As Object, groups As String(), Optional env As Environment = Nothing) As Object
+        Dim info As pipeline = pipeline.TryCreatePipeline(Of SampleInfo)(sampleinfo, env)
+
+        If info.isError Then
+            Return info.getError
+        End If
+
+        Dim infoData As SampleInfo() = info.populates(Of SampleInfo)(env).ToArray
+        Dim idlist As String() = groups _
+            .Select(Function(label) infoData.SampleIDs(label)) _
+            .IteratesALL _
+            .ToArray
+
+        Return idlist
     End Function
 
     ''' <summary>

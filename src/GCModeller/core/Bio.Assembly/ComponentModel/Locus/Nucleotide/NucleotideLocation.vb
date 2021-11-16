@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4f395e234ac7adc8550a4b44658e82b0, core\Bio.Assembly\ComponentModel\Locus\Nucleotide\NucleotideLocation.vb"
+﻿#Region "Microsoft.VisualBasic::d4467b57b649ce143495262712243e8c, core\Bio.Assembly\ComponentModel\Locus\Nucleotide\NucleotideLocation.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Class NucleotideLocation
     ' 
-    '         Properties: Ends, IsValid, Start, Strand, tag
+    '         Properties: Ends, IsValid, Start, Strand, tagStr
     ' 
     '         Constructor: (+12 Overloads) Sub New
     '         Function: Copy, (+3 Overloads) CreateObject, Equals, GetDownStream, GetRelationship
@@ -77,7 +77,7 @@ Namespace ComponentModel.Loci
         ''' 用户对这个位点的自定义标注信息
         ''' </summary>
         ''' <returns></returns>
-        <XmlAttribute> Public Property tag As String
+        <XmlAttribute> Public Property tagStr As String
 
         ''' <summary>
         ''' <see cref="NucleotideLocation"/>: 实际的物理上面的位置，与核酸链的方向相关，
@@ -385,14 +385,14 @@ Namespace ComponentModel.Loci
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Operator +(loci As NucleotideLocation, offset%) As NucleotideLocation
             Return New NucleotideLocation(loci.left + offset, loci.right + offset, loci.Strand) With {
-                .tag = $"{loci.tag} ({offset}bp)"
+                .tagStr = $"{loci.tagStr} ({offset}bp)"
             }
         End Operator
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Operator -(loci As NucleotideLocation, offset%) As NucleotideLocation
             Return New NucleotideLocation(loci.left - offset, loci.right - offset, loci.Strand) With {
-                .tag = $"{loci.tag} ({offset}bp)"
+                .tagStr = $"{loci.tagStr} ({offset}bp)"
             }
         End Operator
     End Class

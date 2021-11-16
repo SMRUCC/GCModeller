@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a164d51315463d718aa4a952fe6a0587, engine\vcellkit\Modeller\Compiler.vb"
+﻿#Region "Microsoft.VisualBasic::ee10a092ed58a67ae8acb990a9ce9260, engine\vcellkit\Modeller\Compiler.vb"
 
     ' Author:
     ' 
@@ -50,7 +50,7 @@ Imports SMRUCC.genomics.Data.Regprecise
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
 Imports SMRUCC.genomics.GCModeller.Compiler
 Imports SMRUCC.genomics.GCModeller.Compiler.MarkupCompiler
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
@@ -61,7 +61,7 @@ Imports Rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 ''' <summary>
 ''' The GCModeller virtual cell model creator
 ''' </summary>
-<Package("vcellkit.compiler")>
+<Package("compiler")>
 Module Compiler
 
     ''' <summary>

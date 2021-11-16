@@ -1,48 +1,49 @@
 ﻿#Region "Microsoft.VisualBasic::5f4807caa5f4d8d252e21464f52df830, RDotNET.Extensions.VisualBasic\Extensions\Serialization\DataFrameAPI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module DataFrameAPI
-    ' 
-    '     Function: AsDataFrame, csv, dataframe, GetDataFrame, PushAsDataFrame
-    '               PushAsTable, WriteDataFrame
-    ' 
-    '     Sub: (+2 Overloads) PushAsDataFrame, PushAsTable
-    ' 
-    ' /********************************************************************************/
+' Module DataFrameAPI
+' 
+'     Function: AsDataFrame, csv, dataframe, GetDataFrame, PushAsDataFrame
+'               PushAsTable, WriteDataFrame
+' 
+'     Sub: (+2 Overloads) PushAsDataFrame, PushAsTable
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
@@ -53,6 +54,7 @@ Imports Microsoft.VisualBasic.Text
 Imports RDotNET.Extensions.VisualBasic.API
 Imports RDotNET.Extensions.VisualBasic.Serialization
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
+Imports Rutils = RDotNET.Extensions.VisualBasic.API.utils
 Imports vbList = Microsoft.VisualBasic.Language.List(Of String)
 
 Public Module DataFrameAPI
@@ -68,7 +70,7 @@ Public Module DataFrameAPI
     <Extension>
     Public Function csv(R As ExtendedEngine, var$) As csvHandle
         Return New csvHandle(
-            path:=App.GetAppSysTempFile(".csv", App.PID),
+            path:=TempFileSystem.GetAppSysTempFile(".csv", App.PID),
             var:=var,
             append:=False,
             encoding:=TextEncodings.UTF8WithoutBOM
@@ -321,10 +323,10 @@ l;
     <Extension> Public Function AsDataFrame(Of T As Class)(var As var,
                                                            Optional maps As NameMapping = Nothing,
                                                            Optional mute As Boolean = False) As T()
-        Dim tmp$ = App.GetAppSysTempFile
+        Dim tmp$ = TempFileSystem.GetAppSysTempFile
         Dim out As T()
 
-        utils.write.csv(x:=var.name, file:=tmp, rowNames:=False)
+        Rutils.write.csv(x:=var.name, file:=tmp, rowNames:=False)
         ' R的write.csv函数所保存的文件编码默认为UTF8编码
         out = tmp.LoadCsv(Of T)(
             encoding:=Encodings.UTF8.CodePage,
@@ -344,7 +346,7 @@ l;
     ''' <returns></returns>
     <Extension>
     Public Function WriteDataFrame(Of T)(df As IEnumerable(Of T), Optional encoding As Encodings = Encodings.UTF8WithoutBOM) As String
-        Dim tmp$ = App.GetAppSysTempFile(sessionID:=App.PID).UnixPath
+        Dim tmp$ = TempFileSystem.GetAppSysTempFile(sessionID:=App.PID).UnixPath
         Dim var$ = RDotNetGC.Allocate
 
         SyncLock R

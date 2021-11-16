@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8aba981b77d6c8af487f733441d9963c, CLI_tools\Solver.FBA\CLI\gcFBA\BatchWorker.vb"
+﻿#Region "Microsoft.VisualBasic::c826df1d42b4da9c126250fdbaf623e4, CLI_tools\Solver.FBA\CLI\gcFBA\BatchWorker.vb"
 
     ' Author:
     ' 
@@ -43,6 +43,7 @@ Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Language.Default
+Imports Parallel.ThreadTask
 
 Partial Module CLI
 
@@ -75,7 +76,7 @@ Partial Module CLI
         Dim CLI = (From x
                    In files
                    Select __CLIBuilder(model, x.file, out & "/" & x.cat, footprints, obj, params, stat, samples, modifier))
-        Call App.SelfFolks(CLI, parallel)
+        Call BatchTasks.SelfFolks(CLI, parallel)
 
         Return 0
     End Function

@@ -35,9 +35,11 @@
     ' 
     '     Properties: Size, URI
     ' 
+    '     Constructor: (+1 Overloads) Sub New
+    ' 
     '     Function: ReadNT_by_gi
     ' 
-    '     Sub: Dispose, MakeIndex, New
+    '     Sub: Dispose, MakeIndex
     ' 
     ' /********************************************************************************/
 

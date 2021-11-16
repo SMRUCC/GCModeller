@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7a8ac2099c3312d20308576db69b2049, core\Bio.Assembly\Assembly\ELIXIR\UniProt\XML\GetID.vb"
+﻿#Region "Microsoft.VisualBasic::35f0f57f8f8f22871f4084321843d3c6, core\Bio.Assembly\Assembly\ELIXIR\UniProt\XML\GetID.vb"
 
     ' Author:
     ' 
@@ -43,7 +43,7 @@
     ' 
     '  
     ' 
-    '     Function: EnumerateParsers, (+2 Overloads) GetID, ParseType
+    '     Function: EnumerateParsers, (+2 Overloads) GetID, IdMapping, ParseType
     ' 
     ' 
     ' /********************************************************************************/
@@ -149,5 +149,56 @@ Namespace Assembly.Uniprot.XML
             Return parser(LCase(type)).GetID
         End Function
 
+        <Extension>
+        Public Function IdMapping(entryList As IEnumerable(Of entry), Optional target As String = Nothing) As Func(Of String, String)
+            Dim index As New Dictionary(Of String, String)
+
+            If target.StringEmpty Then
+                ' map any to uniprot id
+                For Each entry As entry In entryList
+                    Dim unifyId As String = entry.accessions(Scan0)
+
+                    For Each id As String In entry.EnumerateAllIDs.Select(Function(i) i.xrefID)
+                        index(id) = unifyId
+                    Next
+                Next
+            Else
+                Dim pattern As String = Nothing
+
+                If target.IndexOf(":"c) > -1 Then
+                    With target.GetTagValue(":", trim:=True)
+                        target = .Name
+                        pattern = .Value
+                    End With
+                End If
+
+                ' map any to target database
+                For Each entry As entry In entryList
+                    Dim unifyId As String
+                    Dim allEntry = entry.EnumerateAllIDs.ToArray
+
+                    If Not pattern Is Nothing Then
+                        unifyId = allEntry _
+                            .Where(Function(ref) ref.Database = target) _
+                            .Where(Function(ref) ref.xrefID.IsPattern(pattern)) _
+                            .FirstOrDefault _
+                            .xrefID
+                    Else
+                        unifyId = allEntry _
+                            .Where(Function(ref) ref.Database = target) _
+                            .DefaultFirst _
+                            .xrefID
+                    End If
+
+                    If Not unifyId.StringEmpty Then
+                        For Each id As String In allEntry.Select(Function(i) i.xrefID)
+                            index(id) = unifyId
+                        Next
+                    End If
+                Next
+            End If
+
+            Return Function(anyId) index.TryGetValue(anyId, [default]:=anyId)
+        End Function
     End Module
 End Namespace

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::edb63d4ca95b5bf1ad8280a62dda5acc, Shared\Settings.Configuration\Config\Programs\STAMP.vb"
+﻿#Region "Microsoft.VisualBasic::6904bbf591b192c235069709b214a8db, Shared\Settings.Configuration\Config\Programs\STAMP.vb"
 
     ' Author:
     ' 

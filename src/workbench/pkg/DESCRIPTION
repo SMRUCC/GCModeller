@@ -1,0 +1,10 @@
+Package: GCModeller
+Type: Package
+Title: GCModeller
+Version: 1.1.0-beta
+Author: xieguigang
+Maintainer: xieguigang <xie.guigang@gcmodeller.org>
+Description: GCModeller R# package for bioinformatics data analsysis.
+License: GPL3
+Encoding: UTF-8
+LazyData: true

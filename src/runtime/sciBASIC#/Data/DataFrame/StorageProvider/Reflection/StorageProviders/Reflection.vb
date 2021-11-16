@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ef2f6c2d77078e2ea20ef40460126436, Data\DataFrame\StorageProvider\Reflection\StorageProviders\Reflection.vb"
+﻿#Region "Microsoft.VisualBasic::038f9f53a04d77f610598964d102acbc, Data\DataFrame\StorageProvider\Reflection\StorageProviders\Reflection.vb"
 
     ' Author:
     ' 
@@ -218,20 +218,20 @@ Namespace StorageProvider.Reflection
         ''' Save the specifc type object collection into the csv data file.(将目标对象数据的集合转换为Csv文件已进行数据保存操作)
         ''' </summary>
         ''' <param name="source"></param>
-        ''' <param name="Explicit"></param>
+        ''' <param name="strict"></param>
         ''' <returns></returns>
         ''' <remarks>查找所有具备读属性的属性值</remarks>
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Iterator Function GetsRowData(source As IEnumerable(Of Object), type As Type,
-                        Optional Explicit As Boolean = True,
+                        Optional strict As Boolean = True,
                         Optional maps As Dictionary(Of String, String) = Nothing,
                         Optional parallel As Boolean = True,
                         Optional metaBlank As String = "",
                         Optional reorderKeys As Integer = 0,
                         Optional layout As Dictionary(Of String, Integer) = Nothing) As IEnumerable(Of RowObject)
 
-            For Each row As RowObject In doSave(source, type, Explicit, Nothing, metaBlank,
+            For Each row As RowObject In doSave(source, type, strict, Nothing, metaBlank,
                                                 maps:=maps,
                                                 parallel:=parallel,
                                                 reorderKeys:=reorderKeys,
@@ -256,7 +256,8 @@ Namespace StorageProvider.Reflection
                                Optional maps As Dictionary(Of String, String) = Nothing,
                                Optional parallel As Boolean = True,
                                Optional reorderKeys As Integer = 0,
-                               Optional layout As Dictionary(Of String, Integer) = Nothing) As IEnumerable(Of RowObject)
+                               Optional layout As Dictionary(Of String, Integer) = Nothing,
+                               Optional numFormat$ = Nothing) As IEnumerable(Of RowObject)
 
             ' 结束迭代器，防止Linq表达式重新计算
             Dim source As Object() = objSource.ToVector
@@ -301,7 +302,7 @@ Namespace StorageProvider.Reflection
                 Let createdRow As RowObject = If(
                     row Is Nothing,
                     New RowObject,
-                    rowWriter.ToRow(row))
+                    rowWriter.ToRow(row, numFormat))
                 Select createdRow
 
             If parallel Then
@@ -333,7 +334,8 @@ Namespace StorageProvider.Reflection
                                    Optional maps As Dictionary(Of String, String) = Nothing,
                                    Optional parallel As Boolean = True,
                                    Optional ByRef schemaOut As Dictionary(Of String, Type) = Nothing,
-                                   Optional reorderKeys As Integer = 0) As File
+                                   Optional reorderKeys As Integer = 0,
+                                   Optional numFormat$ = Nothing) As File
 
             Return Reflector.doSave(
                 source, GetType(T), strict,
@@ -341,7 +343,8 @@ Namespace StorageProvider.Reflection
                 metaBlank,
                 maps,
                 parallel,
-                reorderKeys:=reorderKeys
+                reorderKeys:=reorderKeys,
+                numFormat:=numFormat
             ).DataFrame
         End Function
 

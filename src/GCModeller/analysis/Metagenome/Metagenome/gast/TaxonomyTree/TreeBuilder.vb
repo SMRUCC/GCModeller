@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d05b56eae48fe3503d4e354f25523de5, analysis\Metagenome\Metagenome\gast\TaxonomyTree\TreeBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::c7edf8eed7538412ad0efc88fdbf4377, analysis\Metagenome\Metagenome\gast\TaxonomyTree\TreeBuilder.vb"
 
     ' Author:
     ' 
@@ -145,8 +145,3 @@ Namespace gast
         End Sub
     End Module
 End Namespace
-
-
-
-
-

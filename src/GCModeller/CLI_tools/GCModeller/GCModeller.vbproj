@@ -342,6 +342,10 @@
     <Content Include="DNA.ico" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\repository\Bio.Repository\Bio.Repository.vbproj">
+      <Project>{216acc2d-c7a5-4c27-9dc9-bdfa4dbb6a37}</Project>
+      <Name>Bio.Repository</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\repository\DataTools\DataTools.vbproj">
       <Project>{7e6df33f-feb0-447f-b656-a51acd00e888}</Project>
       <Name>DataTools</Name>
@@ -382,7 +386,7 @@
       <Project>{85E71B4B-9276-4EC8-AADC-C849205F1EA8}</Project>
       <Name>Microsoft.VisualBasic.Imaging</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\47-dotnet_Microsoft.VisualBasic.vbproj">
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\47-dotnet_Microsoft.VisualBasic.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
     </ProjectReference>
@@ -398,10 +402,6 @@
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\core\Bio.Repository\Bio.Repository.vbproj">
-      <Project>{216acc2d-c7a5-4c27-9dc9-bdfa4dbb6a37}</Project>
-      <Name>Bio.Repository</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\interops\localblast\LocalBLAST\NCBI.Extensions.localblast.vbproj">
       <Project>{c6b843b8-f990-4faf-98de-a20efc8b69f7}</Project>
       <Name>NCBI.Extensions.localblast</Name>
@@ -409,10 +409,6 @@
     <ProjectReference Include="..\..\analysis\SequenceToolkit\SequencePatterns\SequencePatterns.vbproj">
       <Project>{abdce82b-700e-4f70-a2f1-86b8054d0c8e}</Project>
       <Name>SequencePatterns</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\mysqli\LibMySQL\LibMySQL.vbproj">
-      <Project>{2c34a044-1bde-44e8-a86e-e9971c87da21}</Project>
-      <Name>LibMySQL</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\interops\visualize\Circos\Circos\Circos.vbproj">
       <Project>{5bf44c97-b7a0-47d7-9622-2f2c0c4f31a9}</Project>

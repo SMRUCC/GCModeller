@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f342e4f4bdd4ac823facf92797b76b80, Data\BinaryData\BinaryData\ByteBuffer.vb"
+﻿#Region "Microsoft.VisualBasic::bbc36ff4794afe8d0596d329d849f590, Data\BinaryData\BinaryData\ByteBuffer.vb"
 
     ' Author:
     ' 
@@ -38,9 +38,9 @@
     '     Function: (+2 Overloads) [get], allocate, allocateDirect, capacity, clear
     '               compact, Equals, flip, (+2 Overloads) getChar, (+2 Overloads) getDouble
     '               (+2 Overloads) getFloat, (+2 Overloads) getInt, (+2 Overloads) getLong, (+2 Overloads) getShort, hasRemaining
-    '               limit, (+2 Overloads) position, (+2 Overloads) put, (+2 Overloads) putChar, (+2 Overloads) putDouble
-    '               (+2 Overloads) putFloat, (+2 Overloads) putInt, (+2 Overloads) putLong, (+2 Overloads) putShort, remaining
-    '               rewind
+    '               limit, order, (+2 Overloads) position, (+2 Overloads) put, (+2 Overloads) putChar
+    '               (+2 Overloads) putDouble, (+2 Overloads) putFloat, (+2 Overloads) putInt, (+2 Overloads) putLong, (+2 Overloads) putShort
+    '               remaining, rewind, (+2 Overloads) wrap
     ' 
     '     Sub: Finalize
     ' 
@@ -68,22 +68,23 @@
 
 Imports System.IO
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.My.JavaScript
 
-Public Class ByteBuffer
+Public Class ByteBuffer : Inherits DataView
 
     Dim mode As IOWorkModes
-    Dim stream As MemoryStream
-    Dim reader As BinaryReader
-    Dim writer As BinaryWriter
+    Dim reader As BinaryDataReader
+    Dim writer As BinaryDataWriter
 
     Private Sub New()
         Call Me.New(New MemoryStream)
     End Sub
 
     Sub New(stream As MemoryStream)
-        Me.stream = stream
-        Me.reader = New BinaryReader(stream)
-        Me.writer = New BinaryWriter(stream)
+        Call MyBase.New(stream)
+
+        Me.reader = New BinaryDataReader(stream)
+        Me.writer = New BinaryDataWriter(stream)
     End Sub
 
     Protected Overrides Sub Finalize()
@@ -96,6 +97,12 @@ Public Class ByteBuffer
             MyBase.Finalize()
         End Try
     End Sub
+
+    Public Function order(byteOrder As ByteOrder) As ByteBuffer
+        reader.ByteOrder = byteOrder
+        writer.ByteOrder = byteOrder
+        Return Me
+    End Function
 
     Public Shared Function allocate(capacity As Integer) As ByteBuffer
         Dim buffer As New ByteBuffer()
@@ -127,8 +134,8 @@ Public Class ByteBuffer
     End Function
 
     Public Function compact() As ByteBuffer
+        Dim newStream As New MemoryStream(stream.Capacity)
         mode = IOWorkModes.Write
-        Dim newStream As New System.IO.MemoryStream(stream.Capacity)
         stream.CopyTo(newStream)
         stream = newStream
         Return Me
@@ -333,5 +340,13 @@ Public Class ByteBuffer
         writer.Write(value)
         stream.Position = originalPosition
         Return Me
+    End Function
+
+    Public Shared Function wrap(bytes As Byte()) As ByteBuffer
+        Return New ByteBuffer(New MemoryStream(bytes))
+    End Function
+
+    Public Shared Function wrap(bytes As SByte()) As ByteBuffer
+        Return New ByteBuffer(New MemoryStream(CType(CObj(bytes), Byte())))
     End Function
 End Class

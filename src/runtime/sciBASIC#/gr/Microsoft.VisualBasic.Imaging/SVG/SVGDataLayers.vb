@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::01ae9c3aacfdbd17598e4fb9613e11b0, gr\Microsoft.VisualBasic.Imaging\SVG\SVGDataLayers.vb"
+﻿#Region "Microsoft.VisualBasic::641af121dadad678721f7b91e5260cf4, gr\Microsoft.VisualBasic.Imaging\SVG\SVGDataLayers.vb"
 
     ' Author:
     ' 
@@ -55,8 +55,8 @@ Imports Microsoft.VisualBasic.Imaging.SVG.XML
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.MIME.Markup.HTML
-Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
+Imports Microsoft.VisualBasic.MIME.Html
+Imports Microsoft.VisualBasic.MIME.Html.CSS
 
 Namespace SVG
 

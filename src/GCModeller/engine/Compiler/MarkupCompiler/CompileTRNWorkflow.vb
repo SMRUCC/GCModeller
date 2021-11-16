@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6d8f23c441752dba02d187dccd8212d1, engine\Compiler\MarkupCompiler\CompileTRNWorkflow.vb"
+﻿#Region "Microsoft.VisualBasic::ba74be84523a615c66a7d2411d4380df, engine\Compiler\MarkupCompiler\CompileTRNWorkflow.vb"
 
     ' Author:
     ' 
@@ -48,7 +48,7 @@ Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.Data.Regprecise
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Process
 
 Namespace MarkupCompiler
 

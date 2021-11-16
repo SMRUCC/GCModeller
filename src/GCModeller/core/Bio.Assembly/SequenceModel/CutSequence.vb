@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dcdeb38cc65ea7e4e8d97d149d2f5794, core\Bio.Assembly\SequenceModel\CutSequence.vb"
+﻿#Region "Microsoft.VisualBasic::de7392c4ef7be2d7d38f9caf880b03c9, core\Bio.Assembly\SequenceModel\CutSequence.vb"
 
     ' Author:
     ' 
@@ -162,7 +162,7 @@ Namespace SequenceModel
             Dim site As SimpleSegment = seq.CutSequenceLinear(site:=loci)
 
             site.Strand = If(loci.Strand = Strands.Forward, "+", "-")
-            site.ID = loci.tag Or loci.NCBIstyle.AsDefault
+            site.ID = loci.tagStr Or loci.NCBIstyle.AsDefault
 
             If loci.Strand = Strands.Forward Then
                 Return site

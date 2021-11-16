@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dec1199963bb167e71a8464fbc740495, models\Networks\KEGG\ReactionNetwork\Builder\BuilderBase.vb"
+﻿#Region "Microsoft.VisualBasic::1d31761be3f278303cf57d7a092ebb1e, models\Networks\KEGG\ReactionNetwork\Builder\BuilderBase.vb"
 
     ' Author:
     ' 
@@ -35,7 +35,7 @@
     ' 
     '         Constructor: (+1 Overloads) Sub New
     ' 
-    '         Function: BuildModel, doNetworkExpansion
+    '         Function: BuildModel, doExpansion, doNetworkExpansion
     ' 
     '         Sub: addNewEdge
     ' 
@@ -43,6 +43,10 @@
     ' /********************************************************************************/
 
 #End Region
+
+#If netcore5 = 1 Then
+Imports System.Data
+#End If
 
 Imports System.Drawing
 Imports Microsoft.VisualBasic.ComponentModel.Collection
@@ -96,7 +100,8 @@ Namespace ReactionNetwork
                           compounds As IEnumerable(Of NamedValue(Of String)),
                           color As Brush,
                           ignoresCommonList As Boolean,
-                          filterEngine As EdgeFilterEngine)
+                          filterEngine As EdgeFilterEngine,
+                          randomLayout As Boolean)
 
             ' 构建网络的基础数据
             ' 是依据KEGG代谢反应信息来定义的
@@ -130,7 +135,14 @@ Namespace ReactionNetwork
                 commonIgnores = {}
             End If
 
-            nodes = New CompoundNodeTable(compounds, cpdGroups, commonIgnores, g, color:=color)
+            nodes = New CompoundNodeTable(
+                compounds:=compounds,
+                cpdGroups:=cpdGroups,
+                ignores:=commonIgnores,
+                g:=g,
+                color:=color,
+                randomLayout:=randomLayout
+            )
             strictFilter = EdgeFilter.CreateFilter(
                 nodes:=nodes,
                 networkBase:=networkBase,

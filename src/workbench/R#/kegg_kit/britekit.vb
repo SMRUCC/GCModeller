@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::75799a1f02e6f12a8914d5a1a1254ec4, kegg_kit\britekit.vb"
+﻿#Region "Microsoft.VisualBasic::d8dc011910e98850da2ac968c5d7c6c1, R#\kegg_kit\britekit.vb"
 
     ' Author:
     ' 
@@ -33,26 +33,56 @@
 
     ' Module britekit
     ' 
-    '     Function: BriteTable, KOgeneNames, ParseBriteJson, ParseBriteTree
+    '     Constructor: (+1 Overloads) Sub New
+    '     Function: briteMaps, BriteTable, getHtextTable, getIdPrefix, KOgeneNames
+    '               ParseBriteJson, ParseBriteTree
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Internal.Object
+Imports SMRUCC.Rsharp.Runtime.Interop
+Imports rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 Imports REnv = SMRUCC.Rsharp.Runtime.Internal
 
 ''' <summary>
 ''' Toolkit for process the kegg brite text file
 ''' </summary>
-<Package("kegg.brite")>
+<Package("brite")>
 Module britekit
+
+    Sub New()
+        Call Internal.Object.Converts.makeDataframe.addHandler(GetType(htext), AddressOf getHtextTable)
+    End Sub
+
+    Private Function getHtextTable(x As Object, args As list, env As Environment) As rdataframe
+        Dim rows As EntityObject() = BriteTable(
+            htext:=x,
+            entryId_pattern:=args.getValue("entryId_pattern", env, "[a-z]+\d+"),
+            env:=env
+        )
+        Dim table As New rdataframe With {.columns = New Dictionary(Of String, Array)}
+
+        table.columns("class") = rows.Vector("class")
+        table.columns("category") = rows.Vector("category")
+        table.columns("subcategory") = rows.Vector("subcategory")
+        table.columns("order") = rows.Vector("order")
+        table.columns("entry") = rows.Vector("entry")
+        table.columns("name") = rows.Vector("name")
+
+        Return table
+    End Function
 
     ''' <summary>
     ''' Convert the kegg brite htext tree to plant table
@@ -102,11 +132,14 @@ Module britekit
     ''' The file text content, brite id or its file path
     ''' </param>
     ''' <returns></returns>
-    <ExportAPI("brite.parse")>
+    <ExportAPI("parse")>
+    <RApiReturn(GetType(htext))>
     Public Function ParseBriteTree(file$, Optional env As Environment = Nothing) As Object
         If file.IsPattern("[a-z]+\d+", RegexICSng) Then
             Select Case file.ToLower
+                ' enzymatic reactions
                 Case NameOf(htext.br08201) : Return htext.br08201
+                ' reaction class
                 Case NameOf(htext.br08204) : Return htext.br08204
                 Case CompoundBrite.cpd_br08001,
                      CompoundBrite.cpd_br08002,
@@ -120,9 +153,23 @@ Module britekit
                      CompoundBrite.cpd_br08021
 
                     Return htext.GetInternalResource(file)
+                Case NameOf(htext.ko00001) : Return htext.ko00001
+                ' kegg pathway maps
+                Case NameOf(htext.br08901) : Return htext.br08901
                 Case Else
                     Return REnv.debug.stop({$"Invalid brite id: {file}", $"brite id: {file}"}, env)
             End Select
+        ElseIf file.StartsWith("KO:") Then
+            Dim Tcode As String = file.GetTagValue(":").Value
+            Dim fileTmp As String = TempFileSystem.TempDir & $"/KO/{Tcode}.kegg"
+
+            If Not fileTmp.FileLength > 100 Then
+                Call ($"https://www.kegg.jp/kegg-bin/download_htext?htext={Tcode}00001&format=htext&filedir=") _
+                    .GET _
+                    .SaveTo(fileTmp)
+            End If
+
+            Return htext.StreamParser(res:=fileTmp)
         Else
             Return htext.StreamParser(res:=file)
         End If
@@ -161,5 +208,74 @@ Module britekit
         Next
 
         Return names
+    End Function
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="htext"></param>
+    ''' <param name="geneId"></param>
+    ''' <param name="level">
+    ''' class|category|subcategory
+    ''' </param>
+    ''' <returns></returns>
+    <ExportAPI("briteMaps")>
+    Public Function briteMaps(htext As htext, geneId As String(), Optional level$ = "class") As String()
+        Dim prefix As String = geneId.getIdPrefix
+        Dim table = htext.Deflate($"{prefix}\d+") _
+            .GroupBy(Function(gene) gene.entry.Key) _
+            .ToDictionary(Function(gene) gene.Key,
+                          Function(gene)
+                              Select Case level
+                                  Case "class"
+                                      Return gene.First.class
+                                  Case "category"
+                                      Return gene.First.category
+                                  Case "subcategory"
+                                      Return gene.First.subcategory
+                                  Case Else
+                                      Return "n/a"
+                              End Select
+                          End Function)
+
+        Return geneId _
+            .Select(Function(id)
+                        Return table.TryGetValue(HeaderFormats.TrimAccessionVersion(id), [default]:="n/a")
+                    End Function) _
+            .ToArray
+    End Function
+
+    <Extension>
+    Private Function getIdPrefix(names As String()) As String
+        Dim minName As String = names.MinLengthString
+        Dim index As Integer
+        Dim uniqchars As Char()
+
+        For i As Integer = 0 To minName.Length - 1
+            index = i
+            uniqchars = names _
+                .Select(Function(str) str(index)) _
+                .Distinct _
+                .ToArray
+
+            If uniqchars.Length > 1 Then
+                Exit For
+            End If
+        Next
+
+        Dim prefix As String
+
+        If index = 0 Then
+            prefix = names _
+                .Select(Function(str) str(index)) _
+                .GroupBy(Function(c) c) _
+                .OrderByDescending(Function(c) c.Count) _
+                .First _
+                .Key
+        Else
+            prefix = names(Scan0).Substring(0, index)
+        End If
+
+        Return prefix
     End Function
 End Module

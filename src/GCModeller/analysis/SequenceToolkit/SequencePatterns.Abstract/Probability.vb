@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::993f3dbec9c3075a22fdc1442b0bd53d, analysis\SequenceToolkit\SequencePatterns.Abstract\Probability.vb"
+﻿#Region "Microsoft.VisualBasic::ea93b8d10bf0c55326bdfeeb2b1b91ee, analysis\SequenceToolkit\SequencePatterns.Abstract\Probability.vb"
 
     ' Author:
     ' 
@@ -38,9 +38,9 @@
     '     Function: patternString, ToString
     '     Structure Residue
     ' 
-    '         Properties: frequency, index, isEmpty
+    '         Properties: frequency, index, isEmpty, topChar
     ' 
-    '         Function: Max, ToString
+    '         Function: Cos, GetEmpty, Max, ToString
     ' 
     ' 
     ' 
@@ -78,6 +78,12 @@ Public Class Probability
         Public Property frequency As Dictionary(Of Char, Double)
         Public Property index As Integer
 
+        Public ReadOnly Property topChar As Char
+            Get
+                Return Max(Me)
+            End Get
+        End Property
+
         Default Public ReadOnly Property getFrequency(base As Char) As Double
             Get
                 Return _frequency(base)
@@ -99,7 +105,7 @@ Public Class Probability
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function ToString() As String
             Dim max As Double = -99999
-            Dim maxChar As Char
+            Dim maxChar As Char?
 
             For Each b In frequency
                 If b.Value > max Then
@@ -108,11 +114,24 @@ Public Class Probability
                 End If
             Next
 
-            If max >= 0.5 Then
+            If maxChar Is Nothing Then
+                Return "-"
+            ElseIf max >= 0.5 Then
                 Return Char.ToUpper(maxChar)
             Else
                 Return Char.ToLower(maxChar)
             End If
+        End Function
+
+        Public Function Cos(r As Residue) As Double
+
+        End Function
+
+        Public Shared Function GetEmpty() As Residue
+            Return New Residue With {
+                .frequency = New Dictionary(Of Char, Double),
+                .index = -1
+            }
         End Function
 
         Public Shared Function Max(r As Residue) As Char

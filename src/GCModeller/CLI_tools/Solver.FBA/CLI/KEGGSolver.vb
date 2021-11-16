@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::38536795797ce3b2c5122ef66c2ef8a5, CLI_tools\Solver.FBA\CLI\KEGGSolver.vb"
+﻿#Region "Microsoft.VisualBasic::61cb472ff8dc8665a2f15dfad12ae1ab, CLI_tools\Solver.FBA\CLI\KEGGSolver.vb"
 
     ' Author:
     ' 
@@ -48,7 +48,7 @@ Imports SMRUCC.genomics.Assembly.KEGG.Archives.Xml
 Partial Module CLI
 
     <ExportAPI("/Solver.KEGG", Usage:="/Solver.KEGG /in <model.xml> /objs <locus.txt> [/out <outDIR>]")>
-    <Argument("/objs", False,
+    <ArgumentAttribute("/objs", False,
                    Description:="This parameter defines the objective function in the FBA solver, is a text file which contains a list of genes locus, 
                    and these genes locus is associated to a enzyme reaction in the FBA model.")>
     Public Function KEGGSolver(args As CommandLine) As Integer

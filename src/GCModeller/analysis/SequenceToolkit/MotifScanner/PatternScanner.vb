@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b9f4cdc76a0047bc144bb73a0bfd68ef, analysis\SequenceToolkit\MotifScanner\PatternScanner.vb"
+﻿#Region "Microsoft.VisualBasic::82a6423362bceedd1e650fe27282a3dc, analysis\SequenceToolkit\MotifScanner\PatternScanner.vb"
 
     ' Author:
     ' 
@@ -42,6 +42,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming
+Imports Microsoft.VisualBasic.DataMining.DynamicProgramming
 Imports Microsoft.VisualBasic.DataMining.DynamicProgramming.SmithWaterman
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
@@ -112,7 +113,13 @@ Public Class PatternScanner : Inherits IScanner
     Public Overloads Shared Function Scan(nt$, pattern$, equals As ISimilarity(Of String)) As SimpleSegment()
         Dim words As String() = Patterns.SimpleTokens(pattern)
         Dim subject As String() = nt.Select(Function(c) CStr(c)).ToArray
-        Dim GSW As New GSW(Of String)(words, subject, equals, AddressOf ToChar)
+        Dim symbol As New GenericSymbol(Of String)(
+            equals:=Function(x, y) equals(x, y) >= 0.85,
+            similarity:=Function(x, y) equals(x, y),
+            toChar:=AddressOf ToChar,
+            empty:=Function() "-"
+        )
+        Dim GSW As New GSW(Of String)(words, subject, symbol)
         Dim out As Output = GetOutput(GSW, 0, (2 / 3) * words.Length)
 
         Return LinqAPI.Exec(Of SimpleSegment) _
@@ -134,7 +141,7 @@ Public Class PatternScanner : Inherits IScanner
     ''' 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Function GetOutput(this As GSW(Of String), cutoff#, minW%) As Output
-        Return Output.CreateObject(this, Function(x) x, cutoff, minW)
+        Return Output.CreateObject(this, cutoff, minW)
     End Function
 
     Public Shared Function ToChar(s As String) As Char

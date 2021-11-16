@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e6f8aba362a282d3adad2214d58145e2, engine\Dynamics.Debugger\DataSetDriver.vb"
+﻿#Region "Microsoft.VisualBasic::8209e08419e8048e543b0aef3aefbc6a, engine\Dynamics.Debugger\DataSetDriver.vb"
 
     ' Author:
     ' 
@@ -69,4 +69,3 @@ Public Class DataSetDriver : Implements ISaveHandle
         Return Save(path, encoding.CodePage)
     End Function
 End Class
-

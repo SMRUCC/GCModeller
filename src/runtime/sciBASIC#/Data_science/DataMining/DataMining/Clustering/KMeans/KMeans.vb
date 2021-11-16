@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::778f0cfb84dfb3fc3fbd64d9b0c5b9c6, Data_science\DataMining\DataMining\Clustering\KMeans\KMeans.vb"
+﻿#Region "Microsoft.VisualBasic::d0ec385451e64964603e5f3a1c435053, Data_science\DataMining\DataMining\Clustering\KMeans\KMeans.vb"
 
     ' Author:
     ' 
@@ -33,8 +33,8 @@
 
     '     Module KMeansAlgorithm
     ' 
-    '         Function: (+2 Overloads) ClusterDataSet, ClusterMean, CrossOver, EuclideanDistance, ManhattanDistance
-    '                   means, minIndex
+    '         Function: (+2 Overloads) ClusterDataSet, ClusterMean, CrossOver, means, minIndex
+    '                   ParallelMicrosoft, ParallelUnix
     ' 
     ' 
     ' /********************************************************************************/
@@ -46,6 +46,8 @@ Imports Microsoft.VisualBasic.DataMining.ComponentModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.Math.Correlations
+Imports Microsoft.VisualBasic.Math.Quantile
 Imports Microsoft.VisualBasic.Parallel.Linq
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 Imports stdNum = System.Math
@@ -56,59 +58,6 @@ Namespace KMeans
     ''' This class implement a KMeans clustering algorithm.(请注意，实体对象的属性必须要长度一致)
     ''' </summary>
     Public Module KMeansAlgorithm
-
-        ''' <summary>
-        ''' Calculates the Euclidean Distance Measure between two data points
-        ''' </summary>
-        ''' <param name="X">An array with the values of an object or datapoint</param>
-        ''' <param name="Y">An array with the values of an object or datapoint</param>
-        ''' <returns>Returns the Euclidean Distance Measure Between Points X and Points Y</returns>
-        ''' 
-        <Extension>
-        Public Function EuclideanDistance(X As Double(), Y As Double()) As Double
-            Dim count As Integer = 0
-            Dim sum As Double = 0.0
-
-            If X.Length <> Y.Length Then
-                Throw New ArgumentException(DimNotAgree)
-            Else
-                count = X.Length
-            End If
-
-            For i As Integer = 0 To count - 1
-                sum = sum + stdNum.Pow(stdNum.Abs(X(i) - Y(i)), 2)
-            Next
-
-            Dim distance As Double = stdNum.Sqrt(sum)
-            Return distance
-        End Function
-
-        Const DimNotAgree As String = "The number of elements in X must match the number of elements in Y!"
-
-        ''' <summary>
-        ''' Calculates the Manhattan Distance Measure between two data points
-        ''' </summary>
-        ''' <param name="X">An array with the values of an object or datapoint</param>
-        ''' <param name="Y">An array with the values of an object or datapoint</param>
-        ''' <returns>Returns the Manhattan Distance Measure Between Points X and Points Y</returns>
-        Public Function ManhattanDistance(X#(), Y#()) As Double
-            Dim count As Integer = 0
-            Dim sum As Double = 0.0
-
-            If X.Length <> Y.Length Then
-                Dim ex As New ArgumentException(DimNotAgree)
-                ex = New ArgumentException($"len(X):={X.Length}, len(y):={Y.Length}", ex)
-                Throw ex
-            Else
-                count = X.Length
-            End If
-
-            For i As Integer = 0 To count - 1
-                sum = sum + stdNum.Abs(X(i) - Y(i))
-            Next
-
-            Return sum
-        End Function
 
         ''' <summary>
         ''' Calculates The Mean Of A Cluster OR The Cluster Center
@@ -233,7 +182,7 @@ Namespace KMeans
                     End If
 
                     ' 假若上一次的迭代结果和这一次迭代的结果一样，则距离是0，得到了一个稳定的聚类结果
-                    If (EuclideanDistance(x.ClusterMean, y.ClusterMean)) = 0 Then
+                    If (DistanceMethods.EuclideanDistance(x.ClusterMean, y.ClusterMean)) = 0 Then
                         stableClustersCount += 1
                     End If
                 Next
@@ -253,7 +202,7 @@ Namespace KMeans
                     ' clusters = clusters.CrossOver
                 Else
                     If debug Then
-                        Call $"[{iterationCount}/{[stop]}] stableClustersCount <> clusters.NumOfCluster => {stableClustersCount} <> {clusters.NumOfCluster} = {stableClustersCount <> clusters.NumOfCluster}".__DEBUG_ECHO
+                        Call $"[{iterationCount}/{[stop]}] stable <> NumOfCluster -> {stableClustersCount} <> {clusters.NumOfCluster} = {stableClustersCount <> clusters.NumOfCluster}".__DEBUG_ECHO
                     End If
                     If lastStables = stableClustersCount Then
                         hits += 1
@@ -310,8 +259,9 @@ Namespace KMeans
         <Extension>
         Public Function ClusterDataSet(Of T As EntityBase(Of Double))(clusters As ClusterCollection(Of T), data As T(), Optional parallel As Boolean = False) As ClusterCollection(Of T)
             Dim fieldCount As Integer = data(Scan0).Length
-            Dim newClusters As New ClusterCollection(Of T)     ' create a new collection of clusters
+            Dim newClusters As New ClusterCollection(Of T)
 
+            ' create a new collection of clusters
             For count As Integer = 0 To clusters.NumOfCluster - 1
                 Dim newCluster As New KMeansCluster(Of T)
                 newClusters.Add(newCluster)
@@ -322,20 +272,15 @@ Namespace KMeans
             End If
 
             If parallel Then
+                Dim min As SeqValue(Of Double)()
 
                 ' Kmeans并行算法
                 For Each x As T In data
-                    Dim min = LinqAPI.Exec(Of SeqValue(Of Double)) _
- _
-                        () <= From c As SeqValue(Of KMeansCluster(Of T))
-                              In clusters.SeqIterator.AsParallel
-                              Let cluster As KMeansCluster(Of T) = c.value
-                              Let clusterMean As Double() = cluster.means(x)
-                              Let distance As Double = x.entityVector.EuclideanDistance(clusterMean) ' 计算出当前的cluster和当前的实体对象之间的距离
-                              Select New SeqValue(Of Double) With {
-                                  .i = c.i,
-                                  .value = distance
-                              }
+                    If App.IsMicrosoftPlatform Then
+                        min = clusters.ParallelMicrosoft(x).ToArray
+                    Else
+                        min = clusters.ParallelUnix(x).ToArray
+                    End If
 
                     ' 升序排序就可以得到距离最小的cluster的distance，最后取出下标值
                     Dim index As Integer = min _
@@ -352,6 +297,39 @@ Namespace KMeans
             End If
 
             Return newClusters
+        End Function
+
+        <Extension>
+        Private Function ParallelUnix(Of T As EntityBase(Of Double))(clusters As ClusterCollection(Of T), x As T) As IEnumerable(Of SeqValue(Of Double))
+            Dim blockQuery = From cblock As SeqValue(Of KMeansCluster(Of T))()
+                             In clusters _
+                                 .SeqIterator _
+                                 .Split(1 + clusters.NumOfCluster / 8) _
+                                 .AsParallel
+                             Select From c As SeqValue(Of KMeansCluster(Of T))
+                                    In cblock
+                                    Let cluster As KMeansCluster(Of T) = c.value
+                                    Let clusterMean As Double() = cluster.means(x)
+                                    Let distance As Double = x.entityVector.EuclideanDistance(clusterMean) ' 计算出当前的cluster和当前的实体对象之间的距离
+                                    Select New SeqValue(Of Double) With {
+                                        .i = c.i,
+                                        .value = distance
+                                    }
+
+            Return blockQuery.ToArray.IteratesALL
+        End Function
+
+        <Extension>
+        Private Function ParallelMicrosoft(Of T As EntityBase(Of Double))(clusters As ClusterCollection(Of T), x As T) As IEnumerable(Of SeqValue(Of Double))
+            Return From c As SeqValue(Of KMeansCluster(Of T))
+                   In clusters.SeqIterator.AsParallel
+                   Let cluster As KMeansCluster(Of T) = c.value
+                   Let clusterMean As Double() = cluster.means(x)
+                   Let distance As Double = x.entityVector.EuclideanDistance(clusterMean) ' 计算出当前的cluster和当前的实体对象之间的距离
+                   Select New SeqValue(Of Double) With {
+                       .i = c.i,
+                       .value = distance
+                   }
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -382,9 +360,11 @@ Namespace KMeans
                 Else
                     secondClusterDistance = EuclideanDistance(dataPoint.entityVector, clusterMean)
 
-                    If firstClusterDistance > secondClusterDistance Then ' 相比前一个cluster的计算结果，在这里有一个更好的计算结果，则使用这个对象的下标
+                    ' 相比前一个cluster的计算结果，在这里有一个更好的计算结果，则使用这个对象的下标
+                    If firstClusterDistance > secondClusterDistance Then
                         firstClusterDistance = secondClusterDistance
-                        position = cluster  ' 得到某个聚类和当前的数据对象距离最小的下标
+                        ' 得到某个聚类和当前的数据对象距离最小的下标
+                        position = cluster
                     End If
                 End If
             Next

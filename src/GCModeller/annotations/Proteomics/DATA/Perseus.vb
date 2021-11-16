@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ed4a0778d8209aae28bbd63d57985c00, annotations\Proteomics\DATA\Perseus.vb"
+﻿#Region "Microsoft.VisualBasic::aa5ff3dc7e6fb7591b4f4cc3a0c0ce85, annotations\Proteomics\DATA\Perseus.vb"
 
     ' Author:
     ' 
@@ -44,7 +44,9 @@
 
 #End Region
 
+#If netcore5 = 0 Then
 Imports System.Web.Script.Serialization
+#End If
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection

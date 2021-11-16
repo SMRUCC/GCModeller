@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5361a99b8308101955876a103f4fb584, engine\vcellkit\RawXmlKit.vb"
+﻿#Region "Microsoft.VisualBasic::179bab7bf0ea35c26a573160d666a97a, engine\vcellkit\RawXmlKit.vb"
 
     ' Author:
     ' 
@@ -46,7 +46,7 @@ Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Engine
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.IO
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.IO.vcXML
 Imports SMRUCC.Rsharp.Runtime
@@ -59,7 +59,7 @@ Imports XmlOffset = SMRUCC.genomics.GCModeller.ModellingEngine.IO.vcXML.XML.offs
 ''' <summary>
 ''' 
 ''' </summary>
-<Package("vcellkit.rawXML", Category:=APICategories.UtilityTools, Publisher:="gg.xie@bionovogene.com")>
+<Package("rawXML", Category:=APICategories.UtilityTools, Publisher:="gg.xie@bionovogene.com")>
 Module RawXmlKit
 
     ''' <summary>

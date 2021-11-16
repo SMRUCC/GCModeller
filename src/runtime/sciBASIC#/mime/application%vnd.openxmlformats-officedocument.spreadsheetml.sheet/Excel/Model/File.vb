@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0bbde0cabe836b47a313e3048091dfcb, mime\application%vnd.openxmlformats-officedocument.spreadsheetml.sheet\Excel\Model\File.vb"
+﻿#Region "Microsoft.VisualBasic::0dc7da39e1d10db895ba97614b3812fd, mime\application%vnd.openxmlformats-officedocument.spreadsheetml.sheet\Excel\Model\File.vb"
 
     ' Author:
     ' 
@@ -260,9 +260,11 @@ Public Class File : Implements IFileReference
     ''' <summary>
     ''' 读取Excel文件
     ''' </summary>
-    ''' <param name="path$">``*.xlsx``</param>
+    ''' <param name="path">the file path of ``*.xlsx`` file target.</param>
     ''' <returns></returns>
-    ''' 
+    ''' <remarks>
+    ''' this function allows read table data from a web url
+    ''' </remarks>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Function Open(path As String) As File
         Return IO.CreateReader(xlsx:=path)

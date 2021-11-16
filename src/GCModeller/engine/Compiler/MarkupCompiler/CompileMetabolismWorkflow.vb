@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::61a3654fc2fe639e9600fd86edea569a, engine\Compiler\MarkupCompiler\CompileMetabolismWorkflow.vb"
+﻿#Region "Microsoft.VisualBasic::0118c4385691492fcdb3b573f936599a, engine\Compiler\MarkupCompiler\CompileMetabolismWorkflow.vb"
 
     ' Author:
     ' 
@@ -48,7 +48,7 @@ Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Process
 Imports XmlReaction = SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2.Reaction
 
 Namespace MarkupCompiler

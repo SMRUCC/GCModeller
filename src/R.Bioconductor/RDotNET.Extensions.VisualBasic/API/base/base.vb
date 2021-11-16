@@ -58,6 +58,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
+Imports any = Microsoft.VisualBasic.Scripting
 
 Namespace API
 
@@ -804,7 +805,7 @@ Namespace API
                 Throw New InvalidOperationException($"There is a directory which is located at ""{file}"", please delete it and then try again!")
 
             Else
-                Call file.ParentPath.MkDIR
+                Call file.ParentPath.MakeDir
             End If
 
             SyncLock R
@@ -888,7 +889,7 @@ Namespace API
                 Throw New InvalidOperationException($"There is a directory which is located at ""{file}"", please delete it and then try again!")
 
             Else
-                Call file.ParentPath.MkDIR
+                Call file.ParentPath.MakeDir
             End If
 
             SyncLock R
@@ -1059,6 +1060,10 @@ Namespace API
             Else
                 Return c(list, recursive:=False)
             End If
+        End Function
+
+        Public Function c(x As Array) As String
+            Return c(x.AsObjectEnumerator.Select(AddressOf any.ToString).ToArray, stringVector:=True)
         End Function
 
         ''' <summary>
@@ -1316,10 +1321,11 @@ Namespace API
         ''' <returns></returns>
         Public Function dataframe(ParamArray columns As ArgumentReference()) As String
             Dim var As String = RDotNetGC.Allocate
+            Dim expr As String = $"{var} <- data.frame({columns.ArgumentExpression.JoinBy(", " & vbCrLf)});"
 
             SyncLock R
                 With R
-                    .call = $"{var} <- data.frame({columns.ArgumentExpression.JoinBy(", " & vbCrLf)});"
+                    .call = expr
                 End With
             End SyncLock
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::073bb54ad1a56b4f6799c1cb36a0c245, models\Networks\KEGG\ReactionNetwork\CompoundNodeTable.vb"
+﻿#Region "Microsoft.VisualBasic::3421c764a16acb96c962b4dc12ce2d17, models\Networks\KEGG\ReactionNetwork\CompoundNodeTable.vb"
 
     ' Author:
     ' 
@@ -48,6 +48,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
+Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts
 
 Namespace ReactionNetwork
 
@@ -70,13 +71,13 @@ Namespace ReactionNetwork
             End Get
         End Property
 
-        Sub New(compounds As IEnumerable(Of NamedValue(Of String)), cpdGroups As Dictionary(Of String, String()), ignores As Index(Of String), g As NetworkGraph, color As Brush)
+        Sub New(compounds As IEnumerable(Of NamedValue(Of String)), cpdGroups As Dictionary(Of String, String()), ignores As Index(Of String), g As NetworkGraph, color As Brush, randomLayout As Boolean)
             nodes = compounds _
                 .Where(Function(cpd) Not cpd.Name Like ignores) _
                 .GroupBy(Function(a) a.Name) _
                 .Select(Function(a) a.First) _
                 .Select(Function(cpd As NamedValue(Of String))
-                            Return createCompoundNode(cpd, cpdGroups, color)
+                            Return createCompoundNode(cpd, cpdGroups, color, randomLayout)
                         End Function) _
                 .ToDictionary
             nodes.Values _
@@ -90,7 +91,7 @@ Namespace ReactionNetwork
             Return nodes.ContainsKey(nodeLabelId)
         End Function
 
-        Private Shared Function createCompoundNode(cpd As NamedValue(Of String), cpdGroups As Dictionary(Of String, String()), color As Brush) As Node
+        Private Shared Function createCompoundNode(cpd As NamedValue(Of String), cpdGroups As Dictionary(Of String, String()), color As Brush, randomLayout As Boolean) As Node
             Dim type$ = "n/a"
 
             If cpdGroups.ContainsKey(cpd.Name) Then
@@ -108,7 +109,8 @@ Namespace ReactionNetwork
                         {NamesOf.REFLECTION_ID_MAPPING_NODETYPE, "KEGG Compound"},
                         {"related", type},
                         {"kegg", cpd.Name}
-                    }
+                    },
+                    .initialPostion = If(randomLayout, FDGVector2.Random(), FDGVector2.Zero)
                 }
             }
         End Function

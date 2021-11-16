@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::85bbcf448f6252e367f0c1de552cd304, RNA-Seq\RNA-seq.Data\SAM\SamStream.vb"
+﻿#Region "Microsoft.VisualBasic::fb90e08d2bbd7d21292708cb7a45e25f, RNA-Seq\RNA-seq.Data\SAM\SamStream.vb"
 
     ' Author:
     ' 

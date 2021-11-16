@@ -375,6 +375,10 @@
       <Project>{df1c1740-08b7-40d3-84dc-35c94faca108}</Project>
       <Name>Toolkits.RNA-Seq</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\GCModeller\analysis\RNA-Seq\WGCNA\WGCNA.vbproj">
+      <Project>{154af6a3-6731-437d-a76e-67a41bd303e8}</Project>
+      <Name>WGCNA</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\GCModeller\analysis\SequenceToolkit\DNA_Comparative\DNA_Comparative.vbproj">
       <Project>{e54c3dc8-66a0-4617-aff8-d89457569723}</Project>
       <Name>DNA_Comparative</Name>
@@ -415,10 +419,6 @@
       <Project>{df6469fa-36ac-4959-812f-8ebc54faf7f3}</Project>
       <Name>Bio.InteractionModel</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\GCModeller\core\Bio.Repository\Bio.Repository.vbproj">
-      <Project>{216ACC2D-C7A5-4C27-9DC9-BDFA4DBB6A37}</Project>
-      <Name>Bio.Repository</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\GCModeller\data\ExternalDBSource\DatabaseServices.vbproj">
       <Project>{e036d23d-d5fa-4623-97b6-4a2c06b5f009}</Project>
       <Name>DatabaseServices</Name>
@@ -438,6 +438,10 @@
     <ProjectReference Include="..\..\..\GCModeller\foundation\PSICQUIC\psidev\psidev.vbproj">
       <Project>{387eb391-5940-40e2-83f9-20a49de9b4b6}</Project>
       <Name>psidev</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\repository\Bio.Repository\Bio.Repository.vbproj">
+      <Project>{216acc2d-c7a5-4c27-9dc9-bdfa4dbb6a37}</Project>
+      <Name>Bio.Repository</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame\47_dotnet_ms-vb_data.framework.vbproj">
       <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
@@ -459,7 +463,7 @@
       <Project>{78CB32E6-2904-41E7-ACCA-F1E2757BFA8E}</Project>
       <Name>Network.IO.Extensions</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\47-dotnet_Microsoft.VisualBasic.vbproj">
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\47-dotnet_Microsoft.VisualBasic.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
     </ProjectReference>

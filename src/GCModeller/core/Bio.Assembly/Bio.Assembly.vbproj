@@ -471,7 +471,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'BioDeep_database|x64'">
     <DebugSymbols>true</DebugSymbols>
     <DefineTrace>true</DefineTrace>
-    <OutputPath>bin\x64\BioDeep_database\</OutputPath>
+    <OutputPath>..\..\..\..\..\biodeep\biodeepdb_v3\biodeepdb_v3\assembly\</OutputPath>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
     <DocumentationFile>SMRUCC.genomics.Core.xml</DocumentationFile>
     <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
@@ -551,6 +551,175 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'mzkit|x86'">
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x86\mzkit\</OutputPath>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DocumentationFile>SMRUCC.genomics.Core.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'mzkit_UnixDocker|AnyCPU'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\mzkit_UnixDocker\</OutputPath>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DocumentationFile>SMRUCC.genomics.Core.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'mzkit_UnixDocker|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\mzkit_UnixDocker\</OutputPath>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DocumentationFile>SMRUCC.genomics.Core.xml</DocumentationFile>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>Full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'mzkit_UnixDocker|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\mzkit_UnixDocker\</OutputPath>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DocumentationFile>SMRUCC.genomics.Core.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'LipidSearch|AnyCPU'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\LipidSearch\</OutputPath>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DocumentationFile>SMRUCC.genomics.Core.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'LipidSearch|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>..\..\..\..\..\biodeep\biodeep_pipeline\lipidsearch\LipidSearch\assembly\</OutputPath>
+    <DocumentationFile>SMRUCC.genomics.Core.xml</DocumentationFile>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>Full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'LipidSearch|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\LipidSearch\</OutputPath>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DocumentationFile>SMRUCC.genomics.Core.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'MetaCardio|AnyCPU'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\MetaCardio\</OutputPath>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DocumentationFile>SMRUCC.genomics.Core.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'MetaCardio|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\MetaCardio\</OutputPath>
+    <DocumentationFile>SMRUCC.genomics.Core.xml</DocumentationFile>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>Full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'MetaCardio|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\MetaCardio\</OutputPath>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DocumentationFile>SMRUCC.genomics.Core.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Rsharp_app_release|AnyCPU'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Rsharp_app_release\</OutputPath>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DocumentationFile>SMRUCC.genomics.Core.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Rsharp_app_release|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Rsharp_app_release\</OutputPath>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DocumentationFile>SMRUCC.genomics.Core.xml</DocumentationFile>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>Full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Rsharp_app_release|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Rsharp_app_release\</OutputPath>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DocumentationFile>SMRUCC.genomics.Core.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'vcellkit|AnyCPU'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\vcellkit\</OutputPath>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DocumentationFile>SMRUCC.genomics.Core.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'vcellkit|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\vcellkit\</OutputPath>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DocumentationFile>SMRUCC.genomics.Core.xml</DocumentationFile>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>Full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'vcellkit|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\vcellkit\</OutputPath>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
     <DocumentationFile>SMRUCC.genomics.Core.xml</DocumentationFile>
     <Optimize>true</Optimize>
@@ -660,12 +829,13 @@
     <Compile Include="Assembly\KEGG\DBGET\Objects\Disease\DownloadWorker.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\KEGGOrganism\Organism.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\PathwayMap\PathwayMapDownloads.vb" />
-    <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\ReactionClass.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\Reaction\ReactionCompoundTransform.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\Reaction\ReactionClass.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\CompleteUsingChEBI.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\Module\ModuleDBGet.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\PathwayEntry.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\MetaboliteWebApi.vb" />
-    <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\ReactionWebAPI.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\Reaction\ReactionWebAPI.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\PathwayMap\PathwayWebParser.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\SSDB\Models\Enzyme.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\SSDB\EnzymeWebQuery.vb" />
@@ -683,15 +853,18 @@
     <Compile Include="Assembly\KEGG\Extensions.vb" />
     <Compile Include="Assembly\KEGG\Medical\Extensions.vb" />
     <Compile Include="Assembly\KEGG\Web\FetchSequence.vb" />
-    <Compile Include="Assembly\KEGG\Web\Map\Area.vb" />
+    <Compile Include="Assembly\KEGG\Web\Map\MapQuery.vb" />
+    <Compile Include="Assembly\KEGG\Web\Map\MapRepository.vb" />
+    <Compile Include="Assembly\KEGG\Web\Map\XML\Area.vb" />
     <Compile Include="Assembly\KEGG\Web\Map\KGML\Components.vb" />
     <Compile Include="Assembly\KEGG\Web\Map\KGML\Extensions.vb" />
     <Compile Include="Assembly\KEGG\Web\Map\MapIndex.vb" />
     <Compile Include="Assembly\KEGG\Web\Map\KGML\KGML.vb" />
     <Compile Include="Assembly\KEGG\Web\Map\LocalRender.vb" />
-    <Compile Include="Assembly\KEGG\Web\Map\Downloader.vb" />
+    <Compile Include="Assembly\KEGG\Web\Map\MapDownloader.vb" />
     <Compile Include="Assembly\KEGG\Web\Map\URLEncoder.vb" />
-    <Compile Include="Assembly\KEGG\Web\Map\Map.vb" />
+    <Compile Include="Assembly\KEGG\Web\Map\XML\Map.vb" />
+    <Compile Include="Assembly\KEGG\Web\Map\XML\ParseHtml.vb" />
     <Compile Include="Assembly\KEGG\Web\PathwayMapping.vb" />
     <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\BriteHText\htext.vb" />
     <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\ModuleClassAPI.vb" />
@@ -751,7 +924,8 @@
     <Compile Include="Assembly\NCBI\Database\Genbank\ExportServices\GenbankExportInfo.vb" />
     <Compile Include="Assembly\NCBI\Database\Genbank\TabularFormat\FeatureBriefs\PTT\PTTFileReader.vb" />
     <Compile Include="Assembly\NCBI\Database\Genbank\TabularFormat\FeatureBriefs\PTT\PTTFileWriter.vb" />
-    <Compile Include="ComponentModel\Annotation\CatalogProfiles.vb" />
+    <Compile Include="ComponentModel\Annotation\Profiles\CatalogProfiles.vb" />
+    <Compile Include="ComponentModel\Annotation\Profiles\CatalogProfile.vb" />
     <Compile Include="ComponentModel\Annotation\GeneTable.vb" />
     <Compile Include="Assembly\NCBI\Database\Genbank\ExportServices\gbEntry.vb" />
     <Compile Include="Assembly\NCBI\Database\Genbank\ExportServices\gbExportService.vb" />
@@ -790,7 +964,7 @@
     <Compile Include="Assembly\ELIXIR\UniProt\Web\Retrieve_IDmapping.vb" />
     <Compile Include="Assembly\ELIXIR\UniProt\Web\Entry.vb" />
     <Compile Include="Assembly\ELIXIR\UniProt\XML\UniRef\entry.vb" />
-    <Compile Include="ComponentModel\Annotation\CatalogProfiling.vb" />
+    <Compile Include="ComponentModel\Annotation\Profiles\CatalogList.vb" />
     <Compile Include="ComponentModel\Annotation\COG.vb" />
     <Compile Include="ComponentModel\Annotation\EC\EnzymeClass.vb" />
     <Compile Include="ComponentModel\DBLinkBuilder\IdMapping\Document.vb" />
@@ -864,10 +1038,9 @@
     <Compile Include="Assembly\MetaCyc\Schemas\EquationEquals.vb" />
     <Compile Include="Assembly\MetaCyc\Schemas\Mappings\CompoundsMapping.vb" />
     <Compile Include="Assembly\Expasy\NomenclatureDB\NomenclatureDB.vb" />
-    <Compile Include="Assembly\KEGG\DBGET\Objects\Equation.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\SSDB\OrthologREST.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\Compound.vb" />
-    <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\Reaction.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\Reaction\Reaction.vb" />
     <Compile Include="Assembly\KEGG\DBGET\LinkDB\Pathways.vb" />
     <Compile Include="Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Files\Species.vb" />
     <Compile Include="Assembly\MetaCyc\Schemas\ProteinQuery.vb" />
@@ -1158,7 +1331,7 @@
     <None Include="Resources\KEGG\Reactions\br08204.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\47-dotnet_Microsoft.VisualBasic.vbproj">
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\47-dotnet_Microsoft.VisualBasic.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
     </ProjectReference>

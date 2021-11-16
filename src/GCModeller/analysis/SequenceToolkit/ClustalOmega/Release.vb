@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2892f8de86882d402b5095e619183ae9, analysis\SequenceToolkit\ClustalOmega\Release.vb"
+﻿#Region "Microsoft.VisualBasic::ba416979b808c41b75ddfd07b8ab90a8, analysis\SequenceToolkit\ClustalOmega\Release.vb"
 
     ' Author:
     ' 
@@ -39,6 +39,7 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.ApplicationServices.Zip
 Imports Microsoft.VisualBasic.Language
 
@@ -56,7 +57,7 @@ Public Module Release
 
         Call FileIO.FileSystem.CreateDirectory(DIR)
 
-        With App.GetAppSysTempFile(".zip", App.PID)
+        With TempFileSystem.GetAppSysTempFile(".zip", App.PID)
             Call My.Resources.clustal_omega_1_2_2_win64.FlushStream(.ByRef)
             Call UnZip.ImprovedExtractToDirectory(.ByRef, DIR, Overwrite.Always)
         End With

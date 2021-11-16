@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6327b36b50953bd03734e97c35aba983, sub-system\FBA\FBA.Core\Matrix.vb"
+﻿#Region "Microsoft.VisualBasic::05149978fb193b0c87103b8628cffc05, sub-system\FBA\FBA.Core\Matrix.vb"
 
     ' Author:
     ' 
@@ -33,9 +33,10 @@
 
     ' Class Matrix
     ' 
-    '     Properties: Compounds, Flux, Matrix, NumOfCompounds, Targets
+    '     Properties: Compounds, Flux, Gaps, Matrix, NumOfCompounds
+    '                 Targets
     ' 
-    '     Function: GetMatrix, GetTargetCoefficients
+    '     Function: AdjustRange, GetMatrix, GetTargetCoefficients
     ' 
     ' /********************************************************************************/
 
@@ -43,6 +44,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 
 ''' <summary>
@@ -60,6 +62,9 @@ Public Class Matrix
     ''' </summary>
     ''' <returns></returns>
     Public Property Flux As Dictionary(Of String, DoubleRange)
+
+    Public Property Gaps As String()
+
     ''' <summary>
     ''' 目标函数之中的计算目标，为Reaction <see cref="Flux"/>编号之中的一部分
     ''' </summary>
@@ -110,4 +115,15 @@ Public Class Matrix
         Return Matrix.ToMatrix
     End Function
 
+    Public Function AdjustRange(ranges As IEnumerable(Of NamedValue(Of DoubleRange))) As Matrix
+        For Each newRange As NamedValue(Of DoubleRange) In ranges
+            If Flux.ContainsKey(newRange.Name) Then
+                Flux(newRange.Name) = newRange.Value
+            Else
+                Flux.Add(newRange.Name, newRange.Value)
+            End If
+        Next
+
+        Return Me
+    End Function
 End Class

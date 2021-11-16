@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8b039a2e2adf753a96581256bb5c4b19, analysis\SequenceToolkit\ClustalOmega\Clustal.vb"
+﻿#Region "Microsoft.VisualBasic::35d55cb8c03f6262b9a43b94aa1110d7, analysis\SequenceToolkit\ClustalOmega\Clustal.vb"
 
     ' Author:
     ' 
@@ -40,6 +40,7 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.FileIO.Path
@@ -129,7 +130,7 @@ Public Class Clustal : Inherits CLI
             Throw New Exception(source.ToFileURL, ex)
         End If
 
-        Dim out As String = App.GetAppSysTempFile(".fasta", sessionID:=App.PID)
+        Dim out As String = TempFileSystem.GetAppSysTempFile(".fasta", sessionID:=App.PID)
         Dim args As String = String.Format(CLUSTAL_ARGUMENTS, source, out)
 
         Call MyBase.RunProgram(args).Run()

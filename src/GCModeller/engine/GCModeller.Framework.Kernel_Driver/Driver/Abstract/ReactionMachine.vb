@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ae4c1571d85a206b81780e79139ed191, engine\GCModeller.Framework.Kernel_Driver\Driver\Abstract\ReactionMachine.vb"
+﻿#Region "Microsoft.VisualBasic::5b543abb8a2dc41a55ae8c675d2f75fc, engine\GCModeller.Framework.Kernel_Driver\Driver\Abstract\ReactionMachine.vb"
 
     ' Author:
     ' 
@@ -64,9 +64,9 @@ Public MustInherit Class ReactorMachine(Of DataType, TExpr As IDynamicsExpressio
     ''' The network entity that using for the system behaviour simulation.(所需要被进行模拟计算的网络对象实体)
     ''' </summary>
     ''' <remarks></remarks>
-    <DumpNode> Protected _DynamicsExprs As TExpr()
-    <DumpNode> Public Property IterationLoops As Integer Implements IReactorMachine.IterationCycle
-    <DumpNode> MustOverride ReadOnly Property RuntimeTicks As Long
+    Protected _DynamicsExprs As TExpr()
+    Public Property IterationLoops As Integer Implements IReactorMachine.IterationCycle
+    MustOverride ReadOnly Property RuntimeTicks As Long
 #End Region
 
 #Region "Public Methods"

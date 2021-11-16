@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b3f373652b75b8105f4c1e51e5d43816, engine\Compiler\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::af9d000731263b3105b09e656f1fdcd5, engine\Compiler\Extensions.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
 Imports Excel = Microsoft.VisualBasic.MIME.Office.Excel.File
 
 <HideModuleName>

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d272175d1c6a1274a023fe7d66f3feb2, CLI_tools\KEGG\CLI\Views.vb"
+﻿#Region "Microsoft.VisualBasic::4198d73f6eaa470c4f7474f2d43fef5b, CLI_tools\KEGG\CLI\Views.vb"
 
     ' Author:
     ' 
@@ -62,7 +62,7 @@ Partial Module CLI
 
     <ExportAPI("/Organism.Table")>
     <Usage("/Organism.Table [/in <br08601-htext.keg> /Bacteria /out <out.csv>]")>
-    <Argument("/in", True, CLITypes.File, PipelineTypes.std_in,
+    <ArgumentAttribute("/in", True, CLITypes.File, PipelineTypes.std_in,
               Extensions:="*.keg, *.txt",
               Description:="If this kegg brite file is not presented in the cli arguments, the internal kegg resource will be used.")>
     Public Function KEGGOrganismTable(args As CommandLine) As Integer

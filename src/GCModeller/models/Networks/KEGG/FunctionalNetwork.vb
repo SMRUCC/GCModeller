@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c3c1e213ef02b1f3a0334803edca2a44, models\Networks\KEGG\FunctionalNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::e392cb9db741a783f1bfd9dcdd95ecb4, models\Networks\KEGG\FunctionalNetwork.vb"
 
     ' Author:
     ' 
@@ -44,6 +44,7 @@ Imports System.Drawing.Drawing2D
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
@@ -59,7 +60,7 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D.Math2D.ConvexHull
 Imports Microsoft.VisualBasic.Imaging.LayoutModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
+Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 
@@ -116,7 +117,8 @@ Public Module FunctionalNetwork
                                   Optional groupLowerBounds% = 3,
                                   Optional quantile# = 0.5,
                                   Optional delimiter$ = FunctionalNetwork.Delimiter,
-                                  Optional polygonStroke$ = Stroke.AxisGridStroke) As Image
+                                  Optional polygonStroke$ = Stroke.AxisGridStroke,
+                                  Optional ppi As Integer = 100) As Image
 
         Dim graph As NetworkGraph = model _
             .CreateGraph(
@@ -130,7 +132,7 @@ Public Module FunctionalNetwork
             node.data.size = {Val(node.data(NamesOf.REFLECTION_ID_MAPPING_DEGREE))}
         Next
 
-        Call graph.ScaleRadius(range:=radius)
+        Call graph.ScaleRadius(range:=DoubleRange.TryParse(radius))
 
         If layouts.IsNullOrEmpty Then
             Dim defaultFile$ = App.InputFile.ParentPath & "/" & SpringForce.Parameters.DefaultFileName
@@ -251,7 +253,7 @@ Public Module FunctionalNetwork
 
         ' 在图片的左下角加入代谢途径的名称
         Using g As Graphics2D = image.CreateCanvas2D(directAccess:=True)
-            Dim font As Font = CSSFont.TryParse(KEGGNameFont).GDIObject
+            Dim font As Font = CSSFont.TryParse(KEGGNameFont).GDIObject(ppi)
             Dim dy = 5
             Dim X = margin
             Dim Y = g.Height - (font.Height + dy) * KEGGColors.Count - margin

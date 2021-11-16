@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e869b1b25f162e0776bf3d7019c55d49, engine\Compiler\MarkupCompiler\v2MarkupCompiler.vb"
+﻿#Region "Microsoft.VisualBasic::65ec168bd7f45b164fcce87c2073f656, engine\Compiler\MarkupCompiler\v2MarkupCompiler.vb"
 
     ' Author:
     ' 
@@ -51,7 +51,8 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Data.Regprecise
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
 Imports SMRUCC.genomics.GCModeller.CompilerServices
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Process
 Imports XmlReaction = SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2.Reaction
 
 Namespace MarkupCompiler

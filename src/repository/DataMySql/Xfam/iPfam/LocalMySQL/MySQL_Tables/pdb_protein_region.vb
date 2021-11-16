@@ -33,6 +33,9 @@
 
     ' Class pdb_protein_region
     ' 
+    '     Properties: [end], auto_prot_fam, chain, end_icode, pdb_id
+    '                 prot_fam_acc, region_id, region_source_db, start, start_icode
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

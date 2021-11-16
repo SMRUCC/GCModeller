@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2a102115154a35aaaeb8a1d984be28a8, CLI_tools\gcc\CLI\MetaCyc.vb"
+﻿#Region "Microsoft.VisualBasic::d8dadc4f4d947c2e4deb3bc46949c3e9, CLI_tools\gcc\CLI\MetaCyc.vb"
 
     ' Author:
     ' 
@@ -172,4 +172,3 @@
 '        Return ProteinDomain.AddingRules(MetaCyc:=MetaCyc, Model:=Model, RuleFile:=RuleFile, GrepScript:=CommandLine("-grep"), modelFilePath:=CommandLine("-model"))
 '    End Function
 'End Module
-

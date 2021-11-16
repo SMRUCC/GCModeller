@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::585b04a1a99dba4ee854756e1fe3585d, core\Bio.Assembly\ComponentModel\Equations\EquationBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::91db6be46db454ee681dac3770039e30, core\Bio.Assembly\ComponentModel\Equations\EquationBuilder.vb"
 
     ' Author:
     ' 
@@ -55,7 +55,7 @@ Namespace ComponentModel.EquaionModel
         ''' <summary>
         ''' 可逆的代谢反应过程的箭头
         ''' </summary>
-        Public Const EQUATION_DIRECTIONS_REVERSIBLE As String = " <=> "
+        Public Const EQUATION_DIRECTIONS_REVERSIBLE As String = "<=>"
         ''' <summary>
         ''' 不可逆的代谢反应过程的箭头
         ''' </summary>

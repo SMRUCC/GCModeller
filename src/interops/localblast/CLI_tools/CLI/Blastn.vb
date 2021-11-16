@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::841dc1b0bfd76634155a14998c7dad87, localblast\CLI_tools\CLI\Blastn.vb"
+﻿#Region "Microsoft.VisualBasic::63a07e24cad2e53ee749121a138298b1, localblast\CLI_tools\CLI\Blastn.vb"
 
     ' Author:
     ' 
@@ -62,6 +62,7 @@ Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Parallel.Linq
 Imports Microsoft.VisualBasic.Text
+Imports Parallel.ThreadTask
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
@@ -136,14 +137,14 @@ Partial Module CLI
                                                 In ntHits.AsParallel
                                                 Select New BBH.BestHit With {
                                                     .evalue = x.Score.Expect,
-                                                    .Score = x.Score.Score,
+                                                    .score = x.Score.Score,
                                                     .HitName = x.Name,
                                                     .hit_length = x.Length,
                                                     .identities = x.Score.Identities.Value,
                                                     .length_hit = x.LengthHit,
                                                     .length_hsp = x.SubjectLocation.FragmentSize,
                                                     .length_query = x.LengthQuery,
-                                                    .Positive = x.Score.Positives.Value,
+                                                    .positive = x.Score.Positives.Value,
                                                     .QueryName = query.QueryName,
                                                     .query_length = query.QueryLength
                                                 }
@@ -192,7 +193,7 @@ Partial Module CLI
     <ExportAPI("/blastn.Query",
                Info:="Using target fasta sequence query against all of the fasta sequence in target direcotry. This function is single thread.",
                Usage:="/blastn.Query /query <query.fna/faa> /db <db.DIR> [/thread /evalue 1e-5 /word_size <-1> /out <out.DIR>]")>
-    <Argument("/thread", True, CLITypes.Boolean,
+    <ArgumentAttribute("/thread", True, CLITypes.Boolean,
               Description:="Is this CLI api running in one of the processor in thread mode for a caller API ``/blastn.Query.All``")>
     <Group(CLIGrouping.BlastnTools)>
     Public Function BlastnQuery(args As CommandLine) As Integer
@@ -256,12 +257,12 @@ Partial Module CLI
         Dim parallel As Boolean = args.GetBoolean("/parallel")
         Dim n As Integer = If(parallel, LQuerySchedule.CPU_NUMBER, 0)
 
-        Return App.SelfFolks(CLI, parallel:=n)
+        Return BatchTasks.SelfFolks(CLI, parallel:=n)
     End Function
 
     <ExportAPI("/Export.blastnMaps",
                Usage:="/Export.blastnMaps /in <blastn.txt> [/best /out <out.csv>]")>
-    <Argument("/best", True,
+    <ArgumentAttribute("/best", True,
                    AcceptTypes:={GetType(Boolean)},
                    Description:="Only output the first hit result for each query as best?")>
     <Group(CLIGrouping.BlastnTools)>
@@ -302,20 +303,20 @@ Partial Module CLI
 
         Dim CLI As String() = (ls - l - r - wildcards("*.txt") <= [in]).Select(task).ToArray
 
-        Return App.SelfFolks(CLI, numThreads)
+        Return BatchTasks.SelfFolks(CLI, numThreads)
     End Function
 
     <ExportAPI("/Export.blastnMaps.Write",
                Info:="Exports large amount of blastn output files and write all data into a specific csv file.",
                Usage:="/Export.blastnMaps.Write /in <blastn_out.DIR> [/best /out <write.csv>]")>
     <Group(CLIGrouping.BlastnTools)>
-    <Argument("/best", True, CLITypes.Boolean,
+    <ArgumentAttribute("/best", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
               Description:="Only export the top best blastn alignment hit?")>
-    <Argument("/out", True, CLITypes.File,
+    <ArgumentAttribute("/out", True, CLITypes.File,
               AcceptTypes:={GetType(BlastnMapping)},
               Description:="Blastn alignment maps data.")>
-    <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
+    <ArgumentAttribute("/in", False, CLITypes.File, PipelineTypes.std_in,
               AcceptTypes:={GetType(String)},
               Description:="The directory path that contains the blastn output data.")>
     Public Function ExportBlastnMapsBatchWrite(args As CommandLine) As Integer
@@ -422,7 +423,7 @@ Partial Module CLI
     <ExportAPI("/Blastn.Maps.Taxid",
                Usage:="/Blastn.Maps.Taxid /in <blastnMapping.csv> /2taxid <acc2taxid.tsv/gi2taxid.dmp> [/gi2taxid /trim /tax <NCBI_taxonomy:nodes/names> /out <out.csv>]")>
     <Group(CLIGrouping.BlastnTools)>
-    <Argument("/gi2taxid", True, AcceptTypes:={GetType(Boolean)}, Description:="The 2taxid data source is comes from gi2taxid, by default is acc2taxid.")>
+    <ArgumentAttribute("/gi2taxid", True, AcceptTypes:={GetType(Boolean)}, Description:="The 2taxid data source is comes from gi2taxid, by default is acc2taxid.")>
     Public Function BlastnMapsTaxonomy(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim x2taxid As String = args("/2taxid")

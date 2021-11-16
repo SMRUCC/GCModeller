@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fba2e5c49ed3cbeb8a9e3c4d038f7004, models\Networks\KEGG\ReactionNetwork\Builder\ReactionNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::f21c2d84cdeb944570a9d40b0997bf0a, models\Networks\KEGG\ReactionNetwork\Builder\ReactionNetwork.vb"
 
     ' Author:
     ' 
@@ -78,9 +78,10 @@ Namespace ReactionNetwork
                 compounds As IEnumerable(Of NamedValue(Of String)),
                 Optional ignoresCommonList As Boolean = True,
                 Optional enzymeBridged As Boolean = True,
-                Optional edgeFilter As EdgeFilterEngine = EdgeFilterEngine.ReactionLinkFilter)
+                Optional edgeFilter As EdgeFilterEngine = EdgeFilterEngine.ReactionLinkFilter,
+                Optional randomLayout As Boolean = True)
 
-            Call MyBase.New(br08901, compounds, blue, ignoresCommonList, edgeFilter)
+            Call MyBase.New(br08901, compounds, blue, ignoresCommonList, edgeFilter, randomLayout)
 
             Me.enzymeBridged = enzymeBridged
         End Sub
@@ -125,11 +126,12 @@ Namespace ReactionNetwork
                 rNode = New Node With {
                     .label = rid.label,
                     .data = New NodeData With {
-                        .label = rid.geneSymbols.Distinct.JoinBy(", "),
+                        .label = rid.label,
                         .origID = rid.label,
                         .Properties = New Dictionary(Of String, String) From {
                             {NamesOf.REFLECTION_ID_MAPPING_NODETYPE, "reaction"},
-                            {"kegg", rid.KO.FirstOrDefault Or (rid.keggRid.First.AsDefault)}
+                            {"kegg", rid.KO.FirstOrDefault Or (rid.keggRid.First.AsDefault)},
+                            {"gene_symbols", rid.geneSymbols.Distinct.JoinBy(", ")}
                         }
                     }
                 }
@@ -192,7 +194,8 @@ Namespace ReactionNetwork
                                    Optional filterByEnzymes As Boolean = False,
                                    Optional ignoresCommonList As Boolean = True,
                                    Optional enzymeBridged As Boolean = True,
-                                   Optional strictReactionNetwork As Boolean = False) As NetworkGraph
+                                   Optional strictReactionNetwork As Boolean = False,
+                                   Optional randomLayout As Boolean = True) As NetworkGraph
 
             Dim source As ReactionTable()
 
@@ -214,7 +217,8 @@ Namespace ReactionNetwork
                 br08901:=source,
                 compounds:=compounds,
                 ignoresCommonList:=ignoresCommonList,
-                enzymeBridged:=enzymeBridged
+                enzymeBridged:=enzymeBridged,
+                randomLayout:=randomLayout
             )
             Dim g As NetworkGraph = builderSession.BuildModel(
                 extended:=extended,
@@ -242,6 +246,16 @@ Namespace ReactionNetwork
             For Each ko As NamedValue In pathway.KOpathway.JoinIterates(pathway.modules)
                 If reactions.ContainsKey(ko.name) Then
                     For Each item In reactions(ko.name)
+                        Yield item
+                    Next
+                End If
+            Next
+
+            For Each gene As NamedValue In pathway.genes.SafeQuery
+                Dim ko As String = Strings.Trim(gene.text).Split.FirstOrDefault
+
+                If Not ko.StringEmpty AndAlso reactions.ContainsKey(ko) Then
+                    For Each item In reactions(ko)
                         Yield item
                     Next
                 End If

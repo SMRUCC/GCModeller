@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5f7db2c62d8164f41e989261bc620536, Data_science\DataMining\DataMining\Clustering\KMeans\EntityModels\csv.vb"
+﻿#Region "Microsoft.VisualBasic::c7bcf801b98cdd60f2e55a666bd97d5e, Data_science\DataMining\DataMining\Clustering\KMeans\EntityModels\csv.vb"
 
     ' Author:
     ' 
@@ -48,7 +48,9 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Namespace KMeans
 
     ''' <summary>
-    ''' 存储在Csv文件里面的数据模型，近似等价于<see cref="DataSet"/>，只不过多带了一个用来描述cluster的<see cref="Cluster"/>属性标签
+    ''' 存储在Csv文件里面的数据模型，近似等价于csv DataSet对象，
+    ''' 只不过多带了一个用来描述cluster的<see cref="Cluster"/>
+    ''' 属性标签
     ''' </summary>
     Public Class EntityClusterModel : Inherits DynamicPropertyBase(Of Double)
         Implements INamedValue
@@ -75,7 +77,7 @@ Namespace KMeans
         End Function
 
         Public Overrides Function ToString() As String
-            Return ID
+            Return $"[{Cluster}] {ID}"
         End Function
 
         Public Function ToModel(Optional projection As String() = Nothing) As ClusterEntity

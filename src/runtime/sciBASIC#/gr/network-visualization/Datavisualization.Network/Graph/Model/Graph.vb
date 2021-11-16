@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::094ca0df51d6ca8c83c66dce76fad521, gr\network-visualization\Datavisualization.Network\Graph\Model\Graph.vb"
+﻿#Region "Microsoft.VisualBasic::8bd8d70f7d44faeff407129ceed2b488, gr\network-visualization\Datavisualization.Network\Graph\Model\Graph.vb"
 
     ' Author:
     ' 
@@ -37,13 +37,14 @@
     ' 
     '         Constructor: (+2 Overloads) Sub New
     ' 
-    '         Function: (+3 Overloads) AddEdge, AddNode, Clone, ComputeIfNotExists, Copy
-    '                   (+2 Overloads) CreateEdge, createEdgeInternal, (+2 Overloads) CreateNode, GetConnectedVertex, GetEdge
-    '                   (+2 Overloads) GetEdges, (+2 Overloads) GetElementByID, ToString
+    '         Function: (+3 Overloads) AddEdge, AddNode, (+2 Overloads) Clone, ComputeIfNotExists, Copy
+    '                   (+2 Overloads) CreateEdge, createEdgeInternal, (+2 Overloads) CreateNode, GetConnectedGraph, GetConnectedVertex
+    '                   GetEdge, (+2 Overloads) GetEdges, (+2 Overloads) GetElementByID, GetElementsByClassName, GetElementsByName
+    '                   StyleSelectorGetElementById, ToString
     ' 
     '         Sub: AddGraphListener, Clear, (+2 Overloads) CreateEdges, (+2 Overloads) CreateNodes, DetachNode
     '              FilterEdges, FilterNodes, Merge, notify, RemoveEdge
-    '              RemoveNode
+    '              (+2 Overloads) RemoveNode
     ' 
     ' 
     ' /********************************************************************************/
@@ -93,7 +94,9 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Data.GraphTheory.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis.Model
+Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts.SpringForce.Interfaces
+Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 
@@ -104,6 +107,7 @@ Namespace Graph
     ''' </summary>
     Public Class NetworkGraph : Inherits NetworkGraph(Of Node, Edge)
         Implements ICloneable
+        Implements IStyleSelector(Of Node)
 
         ''' <summary>
         ''' Returns the set of all Nodes that have emanating Edges.
@@ -135,7 +139,7 @@ Namespace Graph
             Call Me.New({}, {})
         End Sub
 
-        Sub New(nodes As IEnumerable(Of Node), edges As IEnumerable(Of Edge))
+        Sub New(nodes As IEnumerable(Of Node), edges As IEnumerable(Of Edge), Optional ignoresBrokenLinks As Boolean = False)
             Call MyBase.New({}, {})
 
             _eventListeners = New List(Of IGraphEventListener)
@@ -146,7 +150,11 @@ Namespace Graph
             Next
 
             For Each edge As Edge In edges
-                Call AddEdge(edge)
+                If ignoresBrokenLinks AndAlso edge.U Is Nothing OrElse edge.V Is Nothing Then
+                    Call $"[{edge}] link is broken!".Warning
+                Else
+                    Call AddEdge(edge)
+                End If
             Next
 
             For Each node As Node In vertex
@@ -176,13 +184,17 @@ Namespace Graph
         ''' <returns></returns>
         Public Function AddNode(node As Node) As Node
             If Not vertices.ContainsKey(node.label) Then
-                vertices.Add(node)
+                ' 20201223 ID必须要在哈希表添加之前进行赋值
+                ' 编号必须从零开始
                 node.ID = buffer.GetAvailablePos
-                buffer += node
+
+                buffer.Add(node)
+                vertices.Add(node)
             End If
 
             _index(node.label) = node
             _index(node.label).directedVertex = New DirectedVertex(node.label)
+            _index(node.label).adjacencies = _index.CreateNodeAdjacencySet(node)
 
             Call notify()
 
@@ -203,7 +215,9 @@ Namespace Graph
         ''' </summary>
         ''' <param name="labelID"><see cref="Node.label"/></param>
         ''' <param name="dataLabel"></param>
-        ''' <returns></returns>
+        ''' <returns>
+        ''' 查找失败会返回空值
+        ''' </returns>
         Public Function GetElementByID(labelID$, Optional dataLabel As Boolean = False) As Node
             If Not dataLabel AndAlso vertices.ContainsKey(labelID) Then
                 Return vertices(labelID)
@@ -215,6 +229,29 @@ Namespace Graph
                     .FirstOrDefault
             End If
         End Function
+
+#Region "css selector supports"
+
+        Private Function StyleSelectorGetElementById(id As String) As Node Implements IStyleSelector(Of Node).GetElementById
+            Return GetElementByID(id, dataLabel:=False)
+        End Function
+
+        Public Function GetElementsByClassName(classname As String) As Node() Implements IStyleSelector(Of Node).GetElementsByClassName
+            Return vertex _
+                .Where(Function(node)
+                           Return classname = node.data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE)
+                       End Function) _
+                .ToArray
+        End Function
+
+        Public Function GetElementsByName(name As String) As Node() Implements IStyleSelector(Of Node).GetElementsByName
+            Return vertex _
+                .Where(Function(node)
+                           Return name = node.data.label
+                       End Function) _
+                .ToArray
+        End Function
+#End Region
 
         Public Overrides Function AddEdge(u As String, v As String, Optional weight As Double = 0) As NetworkGraph(Of Node, Edge)
             Call New EdgeData With {
@@ -397,7 +434,11 @@ Namespace Graph
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetEdges(u As Node, v As Node) As IEnumerable(Of Edge)
-            Return _index.GetEdges(u, v)
+            If u Is Nothing OrElse v Is Nothing Then
+                Return {}
+            Else
+                Return _index.GetEdges(u, v).SafeQuery
+            End If
         End Function
 
         ''' <summary>
@@ -411,9 +452,19 @@ Namespace Graph
             Return _index.GetEdges(iNode.label)
         End Function
 
+        Public Sub RemoveNode(labelId As String)
+            Call RemoveNode(GetElementByID(labelId))
+        End Sub
+
         ''' <summary>
         ''' 应该使用这个方法来安全的删除节点
         ''' </summary>
+        ''' <remarks>
+        ''' 这个函数会移除:
+        ''' 
+        ''' 1. 目标节点从内部索引中删除
+        ''' 2. 删除与之相关的边连接
+        ''' </remarks>
         ''' <param name="node"></param>
         Public Sub RemoveNode(node As Node)
             Call _index.Delete(node)
@@ -426,14 +477,13 @@ Namespace Graph
         ''' </summary>
         ''' <param name="iNode"></param>
         Public Sub DetachNode(iNode As Node)
-            Call graphEdges _
-                .ToArray _
-                .DoEach(Sub(e As Edge)
-                            If e.U.label = iNode.label OrElse e.V.label = iNode.label Then
-                                Call RemoveEdge(e)
-                            End If
-                        End Sub)
-            notify()
+            For Each e As Edge In graphEdges.ToArray
+                If e.U.label = iNode.label OrElse e.V.label = iNode.label Then
+                    Call RemoveEdge(e)
+                End If
+            Next
+
+            Call notify()
         End Sub
 
         ''' <summary>
@@ -497,6 +547,7 @@ Namespace Graph
             _eventListeners.Add(iListener)
         End Sub
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Private Sub notify(<CallerMemberName> Optional event$ = Nothing)
             For Each listener As IGraphEventListener In _eventListeners
                 Call listener.GraphChanged(Me, [event])
@@ -504,7 +555,17 @@ Namespace Graph
         End Sub
 
         Public Overrides Function ToString() As String
-            Return $"Network graph have {vertices.Count} nodes and {graphEdges.Count} edges."
+            Dim communities As String() = vertex _
+                .Select(Function(v) v.data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE)) _
+                .Where(Function(groupId) Not groupId.StringEmpty) _
+                .Distinct _
+                .ToArray
+
+            If communities.Length = 0 Then
+                Return $"Network graph have {vertices.Count} nodes and {graphEdges.Count} edges."
+            Else
+                Return $"Network graph [{vertices.Count} nodes, {graphEdges.Count} edges] has {communities.Length} community class ({communities.JoinBy(", ")})."
+            End If
         End Function
 
         ''' <summary>
@@ -538,6 +599,10 @@ Namespace Graph
         ''' 因为克隆之后的操作可能会涉及对边或者节点对象的修改操作
         ''' </remarks>
         Private Function Clone() As Object Implements ICloneable.Clone
+            Return Clone(vertex)
+        End Function
+
+        Private Function Clone(vertex As IEnumerable(Of Node)) As Object
             Dim g As New NetworkGraph
 
             For Each v In vertex
@@ -554,6 +619,10 @@ Namespace Graph
             Next
 
             Return g
+        End Function
+
+        Public Function GetConnectedGraph() As NetworkGraph
+            Return Clone(connectedNodes)
         End Function
 
         ''' <summary>

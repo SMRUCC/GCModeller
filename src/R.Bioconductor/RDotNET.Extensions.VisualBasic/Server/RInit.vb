@@ -144,6 +144,7 @@ Module RInit
         End If
 
         Dim R = ExtendedEngine.__init("RDotNet_" & App.GetNextUniqueName("process_"))
+        Call REngine.SetEnvironmentVariables()
         Call R.Initialize()
         Return R
     End Function

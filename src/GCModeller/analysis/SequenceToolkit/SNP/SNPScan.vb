@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::87db795c3a3c2373a1daffc7c7c91491, analysis\SequenceToolkit\SNP\SNPScan.vb"
+﻿#Region "Microsoft.VisualBasic::8ea33bf929125baaf1bff094f84f1542, analysis\SequenceToolkit\SNP\SNPScan.vb"
 
     ' Author:
     ' 
@@ -42,6 +42,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis
 Imports SMRUCC.genomics.Analysis.SequenceTools.SNP.SangerSNPs
@@ -114,7 +115,7 @@ Public Module SNPScan
     ''' <returns></returns>
     <Extension>
     Public Function ScanRaw(nt As FASTA.FastaFile) As SNPsAln
-        Dim tmp As String = App.GetAppSysTempFile(".fasta")
+        Dim tmp As String = TempFileSystem.GetAppSysTempFile(".fasta")
         Call nt.Save(tmp, Encodings.ASCII)
         Return __scanRaw(tmp)
     End Function
@@ -145,6 +146,6 @@ Public Module SNPScan
             Call $"Using {nt(index).Title} as reference...".__DEBUG_ECHO
         End If
 
-        Return nt.SNPSitesGeneric(1, 1, 1, App.GetAppSysTempFile, index, If(pureMode, 1, 0), If(monomorphic, 1, 0), vcf_output_filename)
+        Return nt.SNPSitesGeneric(1, 1, 1, TempFileSystem.GetAppSysTempFile, index, If(pureMode, 1, 0), If(monomorphic, 1, 0), vcf_output_filename)
     End Function
 End Module

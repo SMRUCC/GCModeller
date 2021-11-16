@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2fafb69f0f2eac2fe1a682474650d558, sub-system\PLAS.NET\SSystem\Script\ScriptCompiler.vb"
+﻿#Region "Microsoft.VisualBasic::6b13fe3afb8dd7432913a8f219c8b71c, sub-system\PLAS.NET\SSystem\Script\ScriptCompiler.vb"
 
     ' Author:
     ' 
@@ -42,6 +42,10 @@
     ' /********************************************************************************/
 
 #End Region
+
+#If netcore5 = 1 Then
+Imports System.Data
+#End If
 
 Imports System.Text
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging

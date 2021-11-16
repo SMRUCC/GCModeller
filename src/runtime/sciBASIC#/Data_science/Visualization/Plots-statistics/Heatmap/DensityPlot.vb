@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bfa925c6a7434892c913634bac6cb5db, Data_science\Visualization\Plots-statistics\Heatmap\DensityPlot.vb"
+﻿#Region "Microsoft.VisualBasic::0d5189bd647476c0308a2da211a52ff2, Data_science\Visualization\Plots-statistics\Heatmap\DensityPlot.vb"
 
     ' Author:
     ' 
@@ -54,7 +54,7 @@ Imports Microsoft.VisualBasic.Imaging.Driver.CSS
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.Scripting
-Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
+Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.Scripting.Runtime
 
 Namespace Heatmap
@@ -131,8 +131,6 @@ Namespace Heatmap
                     r:=ptSize
                 )
             Dim scatterPadding As Padding = padding
-            Dim xAxis = xrange.CreateAxisTicks.AxisExpression
-            Dim yAxis = yrange.CreateAxisTicks.AxisExpression
 
             scatterPadding.Right += legendWidth
 
@@ -145,8 +143,8 @@ Namespace Heatmap
                 ablines:=ablines,
                 Xlabel:=labX,
                 Ylabel:=labY,
-                xaxis:=xAxis,
-                yaxis:=yAxis,
+                xlim:=xrange.Max,
+                ylim:=yrange.Max,
                 htmlLabel:=htmlLabel,
                 labelFontStyle:=CSSFont.Win7VeryLarge,
                 tickFontStyle:=CSSFont.Win7Large).CreateGraphics
@@ -180,8 +178,8 @@ Namespace Heatmap
                     .IteratesALL _
                     .Range _
                     .CreateAxisTicks
-                Dim legendTitleFont As Font = CSSFont.TryParse(legendTitleFontCSS).GDIObject
-                Dim legendTickFont As Font = CSSFont.TryParse(legendTickFontCSS).GDIObject
+                Dim legendTitleFont As Font = CSSFont.TryParse(legendTitleFontCSS).GDIObject(g.Dpi)
+                Dim legendTickFont As Font = CSSFont.TryParse(legendTickFontCSS).GDIObject(g.Dpi)
                 Dim legendTickStroke As Pen = Stroke.TryParse(legendTickStrokeCSS).GDIObject
 
                 Call Legends.ColorMapLegend(

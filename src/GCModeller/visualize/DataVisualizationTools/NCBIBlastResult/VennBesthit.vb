@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::05490ad9afc424307f69147e8636565d, visualize\DataVisualizationTools\NCBIBlastResult\VennBesthit.vb"
+﻿#Region "Microsoft.VisualBasic::30e374fa9728b41ef89e8c7084137339, visualize\DataVisualizationTools\NCBIBlastResult\VennBesthit.vb"
 
     ' Author:
     ' 
@@ -47,7 +47,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
+Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.Tasks.Models
 
@@ -94,7 +94,8 @@ Namespace NCBIBlastResult
                                       Optional selectList$() = Nothing,
                                       Optional removeList$() = Nothing,
                                       Optional tagFontCSS$ = CSSFont.UbuntuBold,
-                                      Optional title$ = "Orthologs BBH Matrix") As Image
+                                      Optional title$ = "Orthologs BBH Matrix",
+                                      Optional dpi As Integer = 100) As Image
 
             If custom_orders.IsNullOrEmpty Then
                 bh.hits = LinqAPI.Exec(Of HitCollection) <=
@@ -127,7 +128,7 @@ Namespace NCBIBlastResult
                 Call list.Add(bh.hits(i))
             Next
 
-            Dim TagFont As Font = CSSFont.TryParse(tagFontCSS).GDIObject
+            Dim TagFont As Font = CSSFont.TryParse(tagFontCSS).GDIObject(dpi)
             Dim table = CreateAlphabetTagSerials(bh.hits.First.hits.Select(Function(h) h.tag).ToArray)
             Dim maxIdLength = (From hits As HitCollection
                                In list

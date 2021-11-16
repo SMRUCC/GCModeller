@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6e44b5f574dcaccd12823ef48da08201, analysis\SequenceToolkit\MotifScanner\Report\ReportTextBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::98254997e675c99d86d346409fca0725, analysis\SequenceToolkit\MotifScanner\Report\ReportTextBuilder.vb"
 
     ' Author:
     ' 
@@ -75,4 +75,3 @@ Public Module ReportTextBuilder
     End Sub
 
 End Module
-

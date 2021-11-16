@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c091fbaf08e01fce06e6d26fa2e25269, core\Bio.Assembly\Assembly\KEGG\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::d603a8e0c1560eec017c533f06c70a6d, core\Bio.Assembly\Assembly\KEGG\Extensions.vb"
 
     ' Author:
     ' 
@@ -33,8 +33,9 @@
 
     '     Module Extensions
     ' 
-    '         Function: DirectGetChEBI, GetIDpairedList, GetPathwayBrite, Glycan2CompoundId, IDlistStrings
-    '                   LevelAKOStatics, RemarksTable, SingleID, (+2 Overloads) TheSameAs, ValidateEntryFormat
+    '         Function: DirectGetChEBI, DoKeggProfiles, GetIDpairedList, GetPathwayBrite, Glycan2CompoundId
+    '                   IDlistStrings, LevelAKOStatics, RemarksTable, SingleID, (+2 Overloads) TheSameAs
+    '                   ValidateEntryFormat
     '         Interface IKEGGRemarks
     ' 
     '             Properties: Remarks
@@ -54,6 +55,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
+Imports SMRUCC.genomics.ComponentModel.Annotation
 
 Namespace Assembly.KEGG
 
@@ -254,6 +256,29 @@ Namespace Assembly.KEGG
         Public Function GetPathwayBrite(table As Dictionary(Of String, Pathway), ID$) As Pathway
             ID = Regex.Match(ID, "\d+").Value
             Return table.TryGetValue(ID)
+        End Function
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="profiles">[kegg_pathwayMapId -> value]</param>
+        ''' <param name="displays"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function DoKeggProfiles(profiles As Dictionary(Of String, Double), displays%) As CatalogProfiles
+            Dim data = profiles _
+                .KEGGCategoryProfiles _
+                .Where(Function(cls) Not cls.Value.IsNullOrEmpty) _
+                .ToDictionary(Function(p) p.Key,
+                              Function(group)
+                                  Return group.Value _
+                                      .OrderByDescending(Function(t) t.Value) _
+                                      .Take(displays) _
+                                      .ToArray
+                              End Function)
+            Dim profiler As New CatalogProfiles(data)
+
+            Return profiler
         End Function
 
         ''' <summary>

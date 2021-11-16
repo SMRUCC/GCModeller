@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2ad607b3a6d782252f55a02b694bc455, Knowledge_base\Knowledge_base\PubMed\eutils\eSearchResult.vb"
+﻿#Region "Microsoft.VisualBasic::2ad607b3a6d782252f55a02b694bc455, modules\Knowledge_base\Knowledge_base\PubMed\eutils\eSearchResult.vb"
 
     ' Author:
     ' 

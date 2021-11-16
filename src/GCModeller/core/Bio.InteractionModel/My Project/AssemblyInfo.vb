@@ -7,7 +7,7 @@ Imports System.Runtime.InteropServices
 ' associated with an assembly.
 
 ' Review the values of the assembly attributes
-
+#if netcore5=0 then
 <Assembly: AssemblyTitle("Bio.InteractionModel")>
 <Assembly: AssemblyDescription("SMRUCC.genomics.InteractionModel")>
 <Assembly: AssemblyCompany("SMRUCC")>
@@ -33,3 +33,4 @@ Imports System.Runtime.InteropServices
 
 <Assembly: AssemblyVersion("1.2.0.0")>
 <Assembly: AssemblyFileVersion("1.0.34.22")>
+#end if

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::00bdf1cfd520a18d7071024e9939e7ca, Data_science\Mathematica\Math\Math\Scripting\Expression\Expression\SymbolExpression.vb"
+﻿#Region "Microsoft.VisualBasic::bac0b2173c35d3b5e32a69163a0bc3b5, Data_science\Mathematica\Math\Math\Scripting\Expression\Expression\SymbolExpression.vb"
 
     ' Author:
     ' 
@@ -45,6 +45,9 @@
 
 Namespace Scripting.MathExpression.Impl
 
+    ''' <summary>
+    ''' symbol x
+    ''' </summary>
     Public Class SymbolExpression : Inherits Expression
 
         Public ReadOnly Property symbolName As String

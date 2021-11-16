@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::19bbb09b438f3f825c8d41561ec6e87a, visualize\Circos\Test\mchrTest\Module1.vb"
+﻿#Region "Microsoft.VisualBasic::767eabbe71aadb82b63e7397e6e02314, visualize\Circos\Test\mchrTest\Module1.vb"
 
     ' Author:
     ' 

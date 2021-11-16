@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1495d99a05aa7bc9b840c00793135549, sub-system\PLAS.NET\SSystem\System\Kernel.vb"
+﻿#Region "Microsoft.VisualBasic::f55262484e5291d7d9e2ce5ac63138bb, sub-system\PLAS.NET\SSystem\System\Kernel.vb"
 
     ' Author:
     ' 

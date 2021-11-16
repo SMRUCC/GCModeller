@@ -33,6 +33,10 @@
 
     ' Class protein_family
     ' 
+    '     Properties: accession, auto_prot_fam, colour, comment, description
+    '                 identifier, number_fam_int, number_lig_int, number_pdbs, source_db
+    '                 type
+    ' 
     '     Function: GetDeleteSQL, GetInsertSQL, GetReplaceSQL, GetUpdateSQL
     ' 
     ' 

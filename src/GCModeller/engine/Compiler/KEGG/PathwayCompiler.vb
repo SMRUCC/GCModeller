@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d57abb62e9105f76d025d94826eb8b06, engine\Compiler\KEGG\PathwayCompiler.vb"
+﻿#Region "Microsoft.VisualBasic::11309b272e12f75ba0842d6f1c7cb4fe, engine\Compiler\KEGG\PathwayCompiler.vb"
 
     ' Author:
     ' 
@@ -46,7 +46,9 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
 Imports SMRUCC.genomics.GCModeller.Compiler.MarkupCompiler
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Molecule
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Process
 Imports SMRUCC.genomics.Metagenomics
 
 ''' <summary>

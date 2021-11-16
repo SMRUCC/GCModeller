@@ -1,0 +1,46 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>SMRUCC.genomics.Analysis.SSystem</RootNamespace>
+    <TargetFramework>net5.0</TargetFramework>
+    <Platforms>AnyCPU;x64</Platforms>
+    <Configurations>Debug;Release;Rsharp_app_release</Configurations>
+    <AssemblyName>SMRUCC.genomics.Analysis.SSystem</AssemblyName>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>SMRUCC.genomics.Analysis.SSystem.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>SMRUCC.genomics.Analysis.SSystem.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|AnyCPU'">
+    <DocumentationFile>SMRUCC.genomics.Analysis.SSystem.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <DocumentationFile>SMRUCC.genomics.Analysis.SSystem.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <DocumentationFile>SMRUCC.genomics.Analysis.SSystem.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|x64'">
+    <DocumentationFile>SMRUCC.genomics.Analysis.SSystem.xml</DocumentationFile>
+    <DefineConstants>netcore5=1</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data\DataFrame\dataframework-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\Math.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\ODESolver.Extensions\ODESolver.Extensions.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\ODE\odes-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+    <ProjectReference Include="..\..\..\engine\CompilerServices\CompilerServices.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\models\SBML\SBML\sbml-netcore5.vbproj" />
+  </ItemGroup>
+
+</Project>

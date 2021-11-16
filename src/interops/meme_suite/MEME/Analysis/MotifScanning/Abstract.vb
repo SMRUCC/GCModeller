@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a1ccd3fcd6f27adc66e11d1dbeb32441, meme_suite\MEME\Analysis\MotifScanning\Abstract.vb"
+﻿#Region "Microsoft.VisualBasic::6357804ea25f5a6c7abe84b05ebc0dea, meme_suite\MEME\Analysis\MotifScanning\Abstract.vb"
 
     ' Author:
     ' 

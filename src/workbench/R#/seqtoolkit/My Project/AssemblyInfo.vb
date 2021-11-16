@@ -9,6 +9,8 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 
 ' Review the values of the assembly attributes
 
+#if netcore5=0 then
+
 <Assembly: AssemblyTitle("biological sequence analysis toolkit")>
 <Assembly: AssemblyDescription("motif analysis, similarity search, functional annotations for the biological sequence object.")>
 <Assembly: AssemblyCompany("SMRUCC")>
@@ -34,5 +36,5 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 
 <Assembly: AssemblyVersion("1.0.0.0")>
 <Assembly: AssemblyFileVersion("1.0.0.0")>
-
+#end if
 <Assembly: RPackageModule>

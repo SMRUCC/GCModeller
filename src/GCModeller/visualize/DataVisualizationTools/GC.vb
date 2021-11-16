@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b209dea9c1a67cd3f508d5dc15caca64, visualize\DataVisualizationTools\GC.vb"
+﻿#Region "Microsoft.VisualBasic::6528e79566176f5e250be7a68e2c23eb, visualize\DataVisualizationTools\GC.vb"
 
     ' Author:
     ' 
@@ -48,7 +48,7 @@ Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
-Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
+Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels.NucleicAcidStaticsProperty

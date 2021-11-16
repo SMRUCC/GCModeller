@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b510d797ed32b3924484dbec29de30c2, Data_science\Visualization\Plots\BarPlot\BarPlot.vb"
+﻿#Region "Microsoft.VisualBasic::5ac004eb29a580d334f31e3775433922, Data_science\Visualization\Plots\BarPlot\BarPlot.vb"
 
     ' Author:
     ' 
@@ -54,7 +54,7 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
+Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports stdNum = System.Math
 
 Namespace BarPlot
@@ -236,11 +236,11 @@ Namespace BarPlot
                 End If
 
                 Dim cssStyle As String = CSSFont.GetFontStyle(legendFont)
-                Dim legends As Legend() = LinqAPI.Exec(Of Legend) <=
+                Dim legends As LegendObject() = LinqAPI.Exec(Of LegendObject) <=
  _
                 From x As NamedValue(Of Color)
                 In data.Serials
-                Select New Legend With {
+                Select New LegendObject With {
                     .color = x.Value.RGBExpression,
                     .fontstyle = cssStyle,
                     .style = LegendStyles.Circle,

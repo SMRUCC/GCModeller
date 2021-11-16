@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d6f568b5b291b948f3a655f5b105b570, markdown2pdf\PdfConvert\PdfConvert.vb"
+﻿#Region "Microsoft.VisualBasic::bf9076b79c4d06c5ee09c41c0f498fd7, markdown2pdf\PdfConvert\PdfConvert.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     ' Module PdfConvert
     ' 
-    '     Function: BuildArguments, createPageArguments, (+2 Overloads) getRepeatParameters
+    '     Function: BuildArguments, CheckContentSource, createPageArguments, (+2 Overloads) getRepeatParameters, localFileExists
     ' 
     '     Sub: (+4 Overloads) ConvertHtmlToPdf, PdfConvertFailure, RunProcess
     ' 
@@ -93,7 +93,7 @@ Public Module PdfConvert
 
         If url.IsNullOrEmpty Then
             If Not html.StringEmpty Then
-                With App.GetAppSysTempFile(, App.PID)
+                With TempFileSystem.GetAppSysTempFile(, App.PID)
                     html.SaveTo(.ByRef)
                     url = { .ByRef}
                 End With
@@ -112,7 +112,7 @@ Public Module PdfConvert
             outputPdfFilePath = woutput.OutputFilePath
             delete = False
         Else
-            outputPdfFilePath = App.GetAppSysTempFile(".pdf", App.PID)
+            outputPdfFilePath = TempFileSystem.GetAppSysTempFile(".pdf", App.PID)
             delete = True
         End If
 
@@ -123,7 +123,7 @@ Public Module PdfConvert
         End If
 
         Try
-            Call outputPdfFilePath.ParentPath.MkDIR
+            Call outputPdfFilePath.ParentPath.MakeDir
             Call environment.RunProcess(
                 args:=argument,
                 url:=url.JoinBy(ASCII.LF),
@@ -245,7 +245,7 @@ Public Module PdfConvert
                            document As PDFContent,
                            woutput As PdfOutput)
 
-        Using process As New IORedirect(environment.WkHtmlToPdfPath, args)
+        Using process As New IORedirect(environment.WkHtmlToPdfPath, args, IOredirect:=True)
             If environment.Debug Then
                 Call $"Process running in debug mode...".__DEBUG_ECHO
                 Call $"Current workspace: {App.CurrentDirectory}.".__DEBUG_ECHO
@@ -298,15 +298,46 @@ Wkhtmltopdf output:
         Throw New PdfConvertException(msg)
     End Sub
 
-    Public Sub ConvertHtmlToPdf(url As String, outputFilePath As String)
-        Dim [in] As New PdfDocument With {
-            .Url = {url}
-        }
-        Dim out As New PdfOutput With {
-            .OutputFilePath = outputFilePath
-        }
+    Public Sub ConvertHtmlToPdf(url As String, outputFilePath As String, Optional environment As PdfConvertEnvironment = Nothing)
+        Dim [in] As New PdfDocument With {.Url = {url}}
+        Dim out As New PdfOutput With {.OutputFilePath = outputFilePath}
 
-        Call ConvertHtmlToPdf([in], out)
+        Call ConvertHtmlToPdf([in], out, environment)
     End Sub
-End Module
 
+    <Extension>
+    Private Function localFileExists(file As String) As Boolean
+        If file.isURL Then
+            Return True
+        Else
+            Return file.FileExists
+        End If
+    End Function
+
+    ''' <summary>
+    ''' check pdf content source
+    ''' </summary>
+    ''' <param name="content"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function CheckContentSource(content As PdfDocument) As Boolean
+        Dim check As Boolean = True
+        Dim valid As Boolean
+        Dim message As String
+
+        Call Console.WriteLine($"check for {content.Url.Length} content source urls...")
+
+        For Each file As String In content.Url
+            valid = file.localFileExists
+            message = $"{file.GetFullPath} ... [{valid.ToString.ToLower}]"
+
+            Console.WriteLine(message)
+
+            If Not valid Then
+                check = False
+            End If
+        Next
+
+        Return check
+    End Function
+End Module

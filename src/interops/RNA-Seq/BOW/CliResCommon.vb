@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a08b42c67ec2fd31e95fa0037d3c9030, RNA-Seq\BOW\CliResCommon.vb"
+﻿#Region "Microsoft.VisualBasic::fd2957d24924b10c6be10ccf06c45cb2, RNA-Seq\BOW\CliResCommon.vb"
 
     ' Author:
     ' 

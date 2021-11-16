@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d91c67e16b1cd6a2c6dd01e6ba1daa42, CLI_tools\MEME\Cli\Regulons.vb"
+﻿#Region "Microsoft.VisualBasic::b1a1f21105e9bc6e39ca6ec774317935, CLI_tools\MEME\Cli\Regulons.vb"
 
     ' Author:
     ' 
@@ -40,6 +40,7 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
@@ -61,7 +62,7 @@ Partial Module CLI
     Public Function RegulonTest(args As CommandLine) As Integer
         Dim inMEME As String = args("/in")
         Dim inRegulon As String = args("/reg")
-        Dim inId As String = basename(inMEME)
+        Dim inId As String = BaseName(inMEME)
         Dim queryList = AnnotationModel.LoadDocument(inMEME)
         Dim source = inRegulon.LoadXml(Of BacteriaRegulome)
         Dim sourceHash = (From x As Regulator
@@ -73,7 +74,7 @@ Partial Module CLI
         Dim maps = bbh.LoadCsv(Of bbhMappings)
         Dim params As New Parameters
         Dim qResult As MotifHit() = Nothing
-        Call __SWQueryCommon(inMEME, params, True, App.GetAppSysTempFile, qResult)
+        Call __SWQueryCommon(inMEME, params, True, TempFileSystem.GetAppSysTempFile, qResult)
         Dim RegDb As Regulations = GCModeller.FileSystem.GetRegulations.LoadXml(Of Regulations)
         Dim GetRegulators = (From x As MotifHit
                              In qResult
@@ -119,7 +120,7 @@ Partial Module CLI
         Dim bbh As String = args("/bbh")
         Dim genome As String = args("/genome")
         Dim door As String = args("/door")
-        Dim out As String = args.GetValue("/out", $"{bbh.TrimSuffix}.{basename(genome)}.Regulons.Xml")
+        Dim out As String = args.GetValue("/out", $"{bbh.TrimSuffix}.{BaseName(genome)}.Regulons.Xml")
         Dim genomeGET = RegulonAPI.Reconstruct(bbh, genome, door)
         Return genomeGET.GetXml.SaveTo(out)
     End Function
@@ -172,9 +173,9 @@ Partial Module CLI
     <ExportAPI("/Regulon.Reconstructs",
                Info:="Doing the regulon reconstruction job in batch mode.",
                Usage:="/Regulon.Reconstructs /bbh <bbh_EXPORT_csv.DIR> /genome <RegPrecise.genome.DIR> [/door <operon.door> /out <outDIR>]")>
-    <Argument("/bbh", False, Description:="A directory which contains the bbh export csv data from the localblast tool.")>
-    <Argument("/genome", False, Description:="The directory which contains the RegPrecise bacterial genome downloads data from the RegPrecise web server.")>
-    <Argument("/door", False, Description:="Door file which is the prediction data of the bacterial operon.")>
+    <ArgumentAttribute("/bbh", False, Description:="A directory which contains the bbh export csv data from the localblast tool.")>
+    <ArgumentAttribute("/genome", False, Description:="The directory which contains the RegPrecise bacterial genome downloads data from the RegPrecise web server.")>
+    <ArgumentAttribute("/door", False, Description:="Door file which is the prediction data of the bacterial operon.")>
     <Group(CLIGrouping.RegulonTools)>
     Public Function RegulonReconstructs(args As CommandLine) As Integer
         Dim inDIR As String = args("/bbh")

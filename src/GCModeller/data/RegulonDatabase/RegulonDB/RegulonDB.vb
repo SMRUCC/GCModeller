@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ada85ee8fdc3670a9e2636c9acec8a10, data\RegulonDatabase\RegulonDB\RegulonDB.vb"
+﻿#Region "Microsoft.VisualBasic::a51e7a1e217b2aed5ee186d94b8bb333, data\RegulonDatabase\RegulonDB\RegulonDB.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,6 @@
 
     '     Class RegulonDB
     ' 
-    '         Constructor: (+1 Overloads) Sub New
     '         Function: (+2 Overloads) __export, ExportSites
     ' 
     ' 
@@ -41,25 +40,22 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Linq.Extensions
-Imports Oracle.LinuxCompatibility.MySQL
-Imports Oracle.LinuxCompatibility.MySQL.Uri
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace RegulonDB
 
     Public Class RegulonDB
 
-        Dim DbReflector As MySqli
+        'Dim DbReflector As MySqli
 
-        Sub New(MySQL As ConnectionUri)
-            DbReflector = New MySqli(MySQL)
-        End Sub
+        'Sub New(MySQL As ConnectionUri)
+        '    DbReflector = New MySqli(MySQL)
+        'End Sub
 
         Public Function ExportSites() As FastaFile
-            Dim Table = DbReflector.Query(Of Tables.site)("select * from site")
-            Dim File As FastaFile = __export(Table.ToArray)
-            Return File
+            'Dim Table = DbReflector.Query(Of Tables.site)("select * from site")
+            'Dim File As FastaFile = __export(Table.ToArray)
+            'Return File
         End Function
 
         Private Shared Function __export(table As Generic.IEnumerable(Of Tables.site)) As FastaFile

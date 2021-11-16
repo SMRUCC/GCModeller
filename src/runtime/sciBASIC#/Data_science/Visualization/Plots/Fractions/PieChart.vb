@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cca7f67a5ce7e1c264b2acee0f56e224, Data_science\Visualization\Plots\Fractions\PieChart.vb"
+﻿#Region "Microsoft.VisualBasic::40a4b0db1c1bf6367d66c4cce99898f5, Data_science\Visualization\Plots\Fractions\PieChart.vb"
 
     ' Author:
     ' 
@@ -48,12 +48,13 @@ Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Legend
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors.OfficeAccent
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Imaging.Math2D
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
-Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
+Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports stdNum = System.Math
 
@@ -103,10 +104,11 @@ Namespace Fractions
                              Optional reorder% = 0,
                              Optional legendUnitSize$ = "60,50",
                              Optional shadowDistance# = 80,
-                             Optional shadowAngle# = 35) As GraphicsData
+                             Optional shadowAngle# = 35,
+                             Optional ppi As Integer = 100) As GraphicsData
 
             Dim margin As Padding = padding
-            Dim font As Font = CSSFont.TryParse(legendFont)
+            Dim font As Font = CSSFont.TryParse(legendFont).GDIObject(ppi)
 
 #Const DEBUG = 0
             If reorder <> 0 Then
@@ -124,7 +126,7 @@ Namespace Fractions
                     Dim gSize = region.PlotRegion.Size
                     Dim r# = stdNum.Min(gSize.Width, gSize.Height - shadowDistance) / 2 ' 最大的半径值
                     Dim topLeft As New Point(margin.Left, margin.Top)
-                    Dim valueLabelFont As Font = CSSFont.TryParse(valueLabelStyle)
+                    Dim valueLabelFont As Font = CSSFont.TryParse(valueLabelStyle).GDIObject(g.Dpi)
                     Dim layoutRect As Rectangle
 
                     If minRadius <= 0 OrElse CDbl(minRadius) >= r Then  ' 半径固定不变的样式
@@ -222,14 +224,14 @@ Namespace Fractions
                     If legendAlt Then
                         Dim maxL = g.MeasureString(data.MaxLengthString(Function(x) x.Name), font).Width
                         Dim left = layoutRect.Right + margin.Left
-                        Dim legends As New List(Of Legend)
+                        Dim legends As New List(Of LegendObject)
                         Dim d = font.Size
                         Dim height! = (d + g.MeasureString("1", font).Height) * data.Count
                         ' Excel之中的饼图的示例样式位置为默认右居中的
                         Dim top = (gSize.Height - height) / 2 - margin.Top
 
                         For Each x As FractionData In data
-                            legends += New Legend With {
+                            legends += New LegendObject With {
                                 .color = x.Color.RGBExpression,
                                 .style = LegendStyles.Square,
                                 .title = x.Name,

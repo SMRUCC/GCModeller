@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::786e437c06da70e0c85e0bb1bcf99f26, meme_suite\MEME.DocParser\MEME\Text\SiteLength.vb"
+﻿#Region "Microsoft.VisualBasic::f9beda8137da2018c632fdbf67b53d9d, meme_suite\MEME.DocParser\MEME\Text\SiteLength.vb"
 
     ' Author:
     ' 

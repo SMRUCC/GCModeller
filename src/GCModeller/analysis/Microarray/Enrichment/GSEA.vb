@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d142d129ddae63822462d32cd20388a7, analysis\Microarray\Enrichment\GSEA.vb"
+﻿#Region "Microsoft.VisualBasic::efb02345c4bbf1a0a6b4627473e967f9, analysis\Microarray\Enrichment\GSEA.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,9 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports SMRUCC.genomics.Analysis.HTS.GSEA
+Imports SMRUCC.genomics.Analysis.Microarray
 Imports SMRUCC.genomics.Analysis.Microarray.DAVID
 Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7446192962014c883da52c721263e340, Data_science\Visualization\Plots\BarPlot\AlignmentPlot.vb"
+﻿#Region "Microsoft.VisualBasic::c58a8355bfc587aaf8aa4fcd65c9357e, Data_science\Visualization\Plots\BarPlot\AlignmentPlot.vb"
 
     ' Author:
     ' 
@@ -58,7 +58,7 @@ Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Imaging.Math2D
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
+Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports signals = System.ValueTuple(Of Double, Double)
 Imports stdNum = System.Math
@@ -98,6 +98,7 @@ Namespace BarPlot
                                       Optional yrange As DoubleRange = Nothing,
                                       Optional size$ = "1200,800",
                                       Optional padding$ = "padding: 70 30 50 100;",
+                                      Optional bg$ = "white",
                                       Optional cla$ = "steelblue",
                                       Optional clb$ = "brown",
                                       Optional xlab$ = "X",
@@ -117,7 +118,10 @@ Namespace BarPlot
                                       Optional labelPlotStrength# = 0.25,
                                       Optional htmlLabel As Boolean = False,
                                       Optional idTag$ = Nothing,
-                                      Optional rectangleStyle As RectangleStyling = Nothing) As GraphicsData
+                                      Optional rectangleStyle As RectangleStyling = Nothing,
+                                      Optional drawLegend As Boolean = True,
+                                      Optional drawGrid As Boolean = True,
+                                      Optional tagXFormat$ = "F2") As GraphicsData
 
             Dim q As New Signal With {
                 .Name = queryName,
@@ -132,8 +136,8 @@ Namespace BarPlot
 
             Return PlotAlignmentGroups(
                 {q}, {s},
-                xrange, yrange,
-                size, padding,
+                xrange:=xrange, yrange:=yrange,
+                size:=size, padding:=padding, bg:=bg,
                 xlab, ylab, labelCSS, queryName, subjectName,
                 title, tickCSS, titleCSS,
                 legendFontCSS, bw, format, displayX, X_CSS,
@@ -141,7 +145,10 @@ Namespace BarPlot
                 labelPlotStrength,
                 htmlLabel:=htmlLabel,
                 idTag:=idTag,
-                rectangleStyle:=rectangleStyle
+                rectangleStyle:=rectangleStyle,
+                drawLegend:=drawLegend,
+                drawGrid:=drawGrid,
+                tagXFormat:=tagXFormat
             )
         End Function
 
@@ -183,6 +190,7 @@ Namespace BarPlot
         ''' <param name="query">The query signals</param>
         ''' <param name="subject">The subject signal values</param>
         ''' <param name="displayX">是否在信号的柱子上面显示出X坐标的信息</param>
+        ''' <param name="format">the number format of the X axis ticks</param>
         ''' <returns></returns>
         <Extension>
         Public Function PlotAlignmentGroups(query As Signal(), subject As Signal(),
@@ -190,6 +198,7 @@ Namespace BarPlot
                                             Optional yrange As DoubleRange = Nothing,
                                             Optional size$ = "1200,800",
                                             Optional padding$ = "padding: 70 30 50 100;",
+                                            Optional bg$ = "white",
                                             Optional xlab$ = "X",
                                             Optional ylab$ = "Y",
                                             Optional labelCSS$ = CSSFont.Win7Bold,
@@ -211,18 +220,23 @@ Namespace BarPlot
                                             Optional highlightMargin! = 2,
                                             Optional htmlLabel As Boolean = False,
                                             Optional idTag$ = Nothing,
-                                            Optional rectangleStyle As RectangleStyling = Nothing) As GraphicsData
+                                            Optional rectangleStyle As RectangleStyling = Nothing,
+                                            Optional drawLegend As Boolean = True,
+                                            Optional drawGrid As Boolean = True,
+                                            Optional tagXFormat$ = "F2") As GraphicsData
             If xrange Is Nothing Then
                 Dim ALL = query _
                     .Select(Function(x) x.signals.Keys) _
-                    .Join(subject.Select(Function(x) x.signals.Keys)) _
+                    .JoinIterates(subject.Select(Function(x) x.signals.Keys)) _
+                    .IteratesALL _
                     .ToArray
                 xrange = New DoubleRange(ALL)
             End If
             If yrange Is Nothing Then
                 Dim ALL = query _
                     .Select(Function(x) x.signals.Values) _
-                    .Join(subject.Select(Function(x) x.signals.Values)) _
+                    .JoinIterates(subject.Select(Function(x) x.signals.Values)) _
+                    .IteratesALL _
                     .ToArray
                 yrange = New DoubleRange(ALL)
             End If
@@ -258,7 +272,7 @@ Namespace BarPlot
                         '}
                         Dim dt! = 15
                         Dim tickPen As New Pen(Color.Black, 1)
-                        Dim tickFont As Font = CSSFont.TryParse(tickCSS, [default]:=New Font(FontFace.MicrosoftYaHei, 12.0!)).GDIObject
+                        Dim tickFont As Font = CSSFont.TryParse(tickCSS, [default]:=New Font(FontFace.MicrosoftYaHei, 12.0!)).GDIObject(g.Dpi)
                         Dim drawlabel = Sub(c As IGraphics, label$)
                                             Dim tsize = c.MeasureString(label, tickFont)
                                             Dim pos As New Point(.Left - dt - tsize.Width, y - tsize.Height / 2)
@@ -275,7 +289,11 @@ Namespace BarPlot
 
                             y = ymid - yscale(i * dy) ' 上半部分
                             Call g.DrawLine(tickPen, New PointF(.Left, y), New Point(.Left - dt, y))
-                            Call g.DrawLine(gridPen, New Point(.Left, y), New Point(.Right, y))
+
+                            If drawGrid Then
+                                Call g.DrawLine(gridPen, New Point(.Left, y), New Point(.Right, y))
+                            End If
+
                             Call drawlabel(g, label)
 
                             If i = 0 Then
@@ -284,11 +302,15 @@ Namespace BarPlot
 
                             y = ymid + yscale(i * dy) ' 下半部分
                             Call g.DrawLine(tickPen, New PointF(.Left, y), New Point(.Left - dt, y))
-                            Call g.DrawLine(gridPen, New Point(.Left, y), New Point(.Right, y))
+
+                            If drawGrid Then
+                                Call g.DrawLine(gridPen, New Point(.Left, y), New Point(.Right, y))
+                            End If
+
                             Call drawlabel(g, label)
                         Next
 
-                        Dim labelFont As Font = CSSFont.TryParse(labelCSS, [default]:=New Font(FontFace.MicrosoftYaHei, 12.0!, FontStyle.Bold)).GDIObject
+                        Dim labelFont As Font = CSSFont.TryParse(labelCSS, [default]:=New Font(FontFace.MicrosoftYaHei, 12.0!, FontStyle.Bold)).GDIObject(g.Dpi)
                         Dim labSize As SizeF = g.MeasureString(ylab, labelFont)
                         Dim labPos As PointF
 
@@ -319,7 +341,7 @@ Namespace BarPlot
                         Call g.DrawString(xlab, labelFont, Brushes.Black, New Point(.Right - fWidth, ymid + 2))
 
                         Dim left!
-                        Dim xCSSFont As Font = CSSFont.TryParse(X_CSS).GDIObject
+                        Dim xCSSFont As Font = CSSFont.TryParse(X_CSS).GDIObject(g.Dpi)
                         Dim xsz As SizeF
                         Dim xpos As PointF
                         Dim xlabel$
@@ -400,7 +422,7 @@ Namespace BarPlot
                                 rect = New Rectangle(New Point(left, y), New Size(bw, yscale(o.value)))
 
                                 If displayX AndAlso o.value / yLength >= labelPlotStrength Then
-                                    xlabel = o.x.ToString("F2")
+                                    xlabel = o.x.ToString(tagXFormat)
                                     xsz = g.MeasureString(xlabel, xCSSFont)
                                     xpos = New PointF(rect.Left + (rect.Width - xsz.Width) / 2, rect.Top - xsz.Height)
                                     g.DrawString(xlabel, xCSSFont, Brushes.Black, xpos)
@@ -416,7 +438,7 @@ Namespace BarPlot
                                 rect = Rectangle(ymid, left, left + bw, y)
 
                                 If displayX AndAlso o.value / yLength >= labelPlotStrength Then
-                                    xlabel = o.x.ToString("F2")
+                                    xlabel = o.x.ToString(tagXFormat)
                                     xsz = g.MeasureString(xlabel, xCSSFont)
                                     xpos = New PointF(rect.Left + (rect.Width - xsz.Width) / 2, rect.Bottom + 3)
                                     g.DrawString(xlabel, xCSSFont, Brushes.Black, xpos)
@@ -426,39 +448,41 @@ Namespace BarPlot
 #End Region
                         rect = region.PlotRegion
 
-                        Dim boxWidth! = 350
+                        If drawLegend Then
+                            Dim boxWidth! = 350
 
-                        ' legend 的圆角矩形
-                        Call Shapes.RoundRect.Draw(
-                            g,
-                            New Point(rect.Right - (boxWidth + 10), rect.Top + 6),
-                            New Size(boxWidth, 80), 8,
-                            Brushes.White,
-                            New Stroke With {
-                                .dash = DashStyle.Solid,
-                                .fill = "black",
-                                .width = 2
-                            })
+                            ' legend 的圆角矩形
+                            Call Shapes.RoundRect.Draw(
+                                g,
+                                New Point(rect.Right - (boxWidth + 10), rect.Top + 6),
+                                New Size(boxWidth, 80), 8,
+                                Brushes.White,
+                                New Stroke With {
+                                    .dash = DashStyle.Solid,
+                                    .fill = "black",
+                                    .width = 2
+                                })
 
-                        Dim box As Rectangle
-                        Dim legendFont As Font = CSSFont _
-                            .TryParse(legendFontCSS, [default]:=New Font(FontFace.MicrosoftYaHei, 16.0!)) _
-                            .GDIObject
-                        Dim fHeight! = g.MeasureString("1", legendFont).Height
+                            Dim box As Rectangle
+                            Dim legendFont As Font = CSSFont _
+                                .TryParse(legendFontCSS, [default]:=New Font(FontFace.MicrosoftYaHei, 16.0!)) _
+                                .GDIObject(g.Dpi)
+                            Dim fHeight! = g.MeasureString("1", legendFont).Height
 
-                        y = 3
+                            y = 3
 
-                        box = New Rectangle(New Point(rect.Right - boxWidth, rect.Top + 20), New Size(20, 20))
-                        Call g.FillRectangle(query.Last.Color.GetBrush, box)
-                        Call g.DrawString(queryName, legendFont, Brushes.Black, box.Location.OffSet2D(25, -y))
+                            box = New Rectangle(New Point(rect.Right - boxWidth, rect.Top + 20), New Size(20, 20))
+                            Call g.FillRectangle(query.Last.Color.GetBrush, box)
+                            Call g.DrawString(queryName, legendFont, Brushes.Black, box.Location.OffSet2D(25, -y))
 
-                        box = New Rectangle(New Point(box.Left, box.Top + 30), box.Size)
-                        Call g.FillRectangle(subject.Last.Color.GetBrush, box)
-                        Call g.DrawString(subjectName, legendFont, Brushes.Black, box.Location.OffSet2D(25, -y))
+                            box = New Rectangle(New Point(box.Left, box.Top + 30), box.Size)
+                            Call g.FillRectangle(subject.Last.Color.GetBrush, box)
+                            Call g.DrawString(subjectName, legendFont, Brushes.Black, box.Location.OffSet2D(25, -y))
+                        End If
 
                         Dim titleFont As Font = CSSFont _
                             .TryParse(titleCSS, [default]:=New Font(FontFace.MicrosoftYaHei, 16.0!)) _
-                            .GDIObject
+                            .GDIObject(g.Dpi)
                         Dim titleSize As SizeF = g.MeasureString(title, titleFont)
                         Dim tl As New Point With {
                             .X = (region.Width - titleSize.Width) / 2,
@@ -482,8 +506,9 @@ Namespace BarPlot
 
             Return g.GraphicsPlots(
                 size.SizeParser, padding,
-                "white",
-                plotInternal)
+                bg,
+                plotInternal
+            )
         End Function
 
         Private Function HighlightGroups(query As Signal(), subject As Signal(), highlights#(), err#) As (xmin#, xmax#, query#, subject#)()

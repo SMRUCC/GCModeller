@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9cab04adaafb7f59a32c6fd96a71058f, Data_science\Visualization\Plots-statistics\ROCPlot.vb"
+﻿#Region "Microsoft.VisualBasic::1018ac25662f429c7bfb6cc99176b95b, Data_science\Visualization\Plots-statistics\ROCPlot.vb"
 
     ' Author:
     ' 
@@ -50,10 +50,16 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Math.Interpolation
-Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
+Imports Microsoft.VisualBasic.MIME.Html.CSS
 
 Public Module ROCPlot
 
+    ''' <summary>
+    ''' x = <see cref="Validation.Specificity"/>;
+    ''' y = <see cref="Validation.Sensibility"/>;
+    ''' </summary>
+    ''' <param name="test"></param>
+    ''' <returns></returns>
     <Extension>
     Public Function CreateSerial(test As IEnumerable(Of Validation)) As SerialData
         Dim points As New List(Of PointData)
@@ -82,7 +88,7 @@ Public Module ROCPlot
             .pts = points _
                 .OrderBy(Function(p) p.pt.X) _
                 .ToArray,
-            .title = AUC
+            .title = AUC.ToString("F2")
         }
     End Function
 
@@ -117,7 +123,7 @@ Public Module ROCPlot
     ''' <param name="bg$"></param>
     ''' <param name="lineWidth!"></param>
     ''' <param name="fillAUC"></param>
-    ''' <param name="AUCfillColor$"></param>
+    ''' <param name="referenceLineColor$"></param>
     ''' <param name="showReference"></param>
     ''' <returns></returns>
     Public Function Plot(roc As SerialData,
@@ -126,11 +132,14 @@ Public Module ROCPlot
                          Optional bg$ = "white",
                          Optional lineWidth! = 10,
                          Optional fillAUC As Boolean = True,
-                         Optional AUCfillColor$ = "skyblue",
-                         Optional showReference As Boolean = False) As GraphicsData
+                         Optional referenceLineColor$ = "skyblue",
+                         Optional showReference As Boolean = False,
+                         Optional labelFontStyle$ = CSSFont.PlotTitleNormal,
+                         Optional titleFontCSS$ = CSSFont.Win7VeryLarge,
+                         Optional tickFontStyle$ = CSSFont.Win7LargerBold) As GraphicsData
 
         Dim reference As New SerialData With {
-            .color = AUCfillColor.TranslateColor,
+            .color = referenceLineColor.TranslateColor,
             .lineType = DashStyle.Dash,
             .pointSize = 5,
             .width = lineWidth,
@@ -139,7 +148,7 @@ Public Module ROCPlot
         }
 
         roc.width = lineWidth
-        roc.color = AUCfillColor.TranslateColor
+        ' roc.color = AUCfillColor.TranslateColor
         roc.pts = roc.pts.OrderBy(Function(p) p.pt.Y).ToArray
 
         Dim input As SerialData()
@@ -150,13 +159,13 @@ Public Module ROCPlot
             input = {roc}
         End If
 
-        Dim img = Scatter.Plot(
+        Dim img As GraphicsData = Scatter.Plot(
             input,
             size:=size,
             padding:=margin,
             bg:=bg,
             interplot:=Splines.B_Spline,
-            xaxis:="0,1", yaxis:="0,1",
+            xlim:=1, ylim:=1,
             showLegend:=False,
             fill:=fillAUC,
             Xlabel:="1 - Specificity",
@@ -164,8 +173,10 @@ Public Module ROCPlot
             drawAxis:=True,
             htmlLabel:=False,
             title:=$"ROC (AUC={roc.title})",
-            labelFontStyle:=CSSFont.Win7VeryLarge,
-            tickFontStyle:=CSSFont.Win7Large
+            labelFontStyle:=labelFontStyle,
+            tickFontStyle:=tickFontStyle,
+            dpi:=300,
+            titleFontCSS:=titleFontCSS
         )
 
         Return img

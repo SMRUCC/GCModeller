@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::635520bbec757c6eaf63ff676e28594e, mime\application%json\BSON\BSON.vb"
+﻿#Region "Microsoft.VisualBasic::4f8a54c6ac32f12647197227d2afd1b3, mime\application%json\BSON\BSON.vb"
 
     ' Author:
     ' 
@@ -33,9 +33,9 @@
 
     '     Module BSONFormat
     ' 
-    '         Function: GetBuffer, Load
+    '         Function: GetBuffer, (+2 Overloads) Load, SafeGetBuffer
     ' 
-    '         Sub: WriteBuffer
+    '         Sub: SafeWriteBuffer, WriteBuffer
     ' 
     ' 
     ' /********************************************************************************/
@@ -73,9 +73,39 @@ Namespace BSON
             Call New Encoder().encodeDocument(buffer, obj)
         End Sub
 
+        ''' <summary>
+        ''' 只兼容array或者object
+        ''' </summary>
+        ''' <param name="obj"></param>
+        ''' <returns></returns>
+        Public Function SafeGetBuffer(obj As JsonElement) As MemoryStream
+            Dim ms As New MemoryStream
+
+            Call obj.SafeWriteBuffer(ms)
+            Call ms.Flush()
+            Call ms.Seek(Scan0, SeekOrigin.Begin)
+
+            Return ms
+        End Function
+
+        <Extension>
+        Public Sub SafeWriteBuffer(obj As JsonElement, ms As Stream)
+            If TypeOf obj Is JsonObject Then
+                Call WriteBuffer(obj, buffer:=ms)
+            ElseIf TypeOf obj Is JsonArray Then
+                Call New Encoder().encodeArray(ms, obj)
+            Else
+                Throw New NotSupportedException
+            End If
+        End Sub
+
         Public Function GetBuffer(obj As JsonObject) As MemoryStream
             Dim ms As New MemoryStream
-            WriteBuffer(obj, buffer:=ms)
+
+            Call WriteBuffer(obj, buffer:=ms)
+            Call ms.Flush()
+            Call ms.Seek(Scan0, SeekOrigin.Begin)
+
             Return ms
         End Function
     End Module

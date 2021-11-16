@@ -299,6 +299,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
@@ -311,13 +312,9 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\..\..\sciBASIC#\Microsoft.VisualBasic.Core\47-dotnet_Microsoft.VisualBasic.vbproj">
+    <ProjectReference Include="..\..\..\sciBASIC#\Microsoft.VisualBasic.Core\src\47-dotnet_Microsoft.VisualBasic.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\mysqli\LibMySQL\LibMySQL.vbproj">
-      <Project>{2c34a044-1bde-44e8-a86e-e9971c87da21}</Project>
-      <Name>LibMySQL</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="..\..\..\mysqli\mysqliHelper\mysqliHelper.projitems" Label="Shared" />

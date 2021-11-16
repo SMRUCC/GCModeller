@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4ac243da9e0180f27d61d71e59603ab8, visualize\Circos\Circos\ConfFiles\ComponentModel\CircosConfig.vb"
+﻿#Region "Microsoft.VisualBasic::e1ea91eee9cd1f27993b90ed6596442d, visualize\Circos\Circos\ConfFiles\ComponentModel\CircosConfig.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Class CircosConfig
     ' 
-    '         Properties: filePath, includes, main, refPath
+    '         Properties: filePath, includes, main, MimeType, refPath
     ' 
     '         Constructor: (+1 Overloads) Sub New
     ' 

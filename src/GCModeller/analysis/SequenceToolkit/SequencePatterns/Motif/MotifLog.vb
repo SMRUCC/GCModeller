@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::73ec7529fbc0089d9833687b0c2dd250, analysis\SequenceToolkit\SequencePatterns\Motif\MotifLog.vb"
+﻿#Region "Microsoft.VisualBasic::3126d8237d66eeb00f22bbf93c182b1a, analysis\SequenceToolkit\SequencePatterns\Motif\MotifLog.vb"
 
     ' Author:
     ' 
@@ -42,7 +42,11 @@
 
 #End Region
 
+#If netcore5 = 0 Then
 Imports System.Web.Script.Serialization
+#Else
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+#End If
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Math
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels

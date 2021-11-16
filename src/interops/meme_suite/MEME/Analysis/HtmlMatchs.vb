@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::253c227652ca87e84d1c95bcd01339fb, meme_suite\MEME\Analysis\HtmlMatchs.vb"
+﻿#Region "Microsoft.VisualBasic::9d9a7378b9f2915a1fb43b3f63cbe85f, meme_suite\MEME\Analysis\HtmlMatchs.vb"
 
     ' Author:
     ' 
@@ -60,7 +60,7 @@ Imports Microsoft.VisualBasic.Data.Repository
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.RNA_Seq
-Imports SMRUCC.genomics.Analysis.RNA_Seq.WGCNA
+Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.WGCNA.Network
 Imports SMRUCC.genomics.Assembly.DOOR
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
@@ -96,10 +96,10 @@ Namespace Analysis
             For Each item In LQuery
                 Dim CloneItem As MatchedResult = Match.Clone
 
-                CloneItem.BiologicalProcess = item.RegprecisePhenotypeAssociation
-                CloneItem.Effectors = item.Effectors
+                CloneItem.BiologicalProcess = item.pathway
+                CloneItem.Effectors = item.effectors
                 CloneItem.TF = item.QueryName
-                CloneItem.TFFamily = item.Family
+                CloneItem.TFFamily = item.family
 
                 Call TempChunk.Add(CloneItem)
             Next
@@ -227,12 +227,12 @@ Namespace Analysis
         Private Function __match(site As ComponentModel.MotifSite, gene As GeneBrief, Length As Integer) As ComponentModel.MotifSite
             If gene.Location.Strand = Strands.Forward Then
                 site.Strand = "+"
-                site.gStart = gene.Location.Left - Length + site.Start
+                site.gStart = gene.Location.left - Length + site.Start
                 site.gStop = site.gStart + Len(site.Sequence)
                 site.RightEndDownStream = Length - site.Start + Len(site.Sequence)
             Else
                 site.Strand = "-"
-                site.gStart = gene.Location.Right + Length - site.Start
+                site.gStart = gene.Location.right + Length - site.Start
                 site.gStop = site.gStart - Len(site.Sequence)
                 site.gStart.Swap(site.gStop)   ' 再交换位置变换为正常的位点位置
                 site.RightEndDownStream = Length - site.Start - Len(site.Sequence)
@@ -401,15 +401,15 @@ Namespace Analysis
 
             Dim RegulatorsBestMatch As Regprecise.RegpreciseMPBBH() = bh.LoadCsv(Of Regprecise.RegpreciseMPBBH).ToArray
             Call Console.WriteLine("Start to load data of WGCNA weights!")
-            Dim WGCNAWeights = RTools.WGCNA.CreateObject(WGCNA)
+            Dim WGCNAWeights = RTools.WGCNA.FastImports(WGCNA)
 
             Call Console.WriteLine("Start to load data of Pcc values from the chipdata!")
             Dim Pcc As PccMatrix = CreatePccMAT(ChipData, True)
             Dim DoorOperons = SMRUCC.genomics.Assembly.DOOR.Load(Door).DOOROperonView
 
             Dim RegulatorIdList As String() = (From item In RegulatorsBestMatch Select item.QueryName Distinct).ToArray
-            Call WGCNAWeights.Filtering(RegulatorIdList)
-            Call Pcc.Filtering(RegulatorIdList)
+            WGCNAWeights = WGCNAWeights.Subset(RegulatorIdList)
+            Pcc.Filtering(RegulatorIdList)
 
             Console.WriteLine("Data Filtering done!")
 
@@ -441,7 +441,7 @@ Namespace Analysis
             End If
             item.TFPcc = Pcc.GetValue(item.TF, item.OperonPromoter)
             item.PccArray = (From Id As String In item.OperonGeneIds Select Pcc.GetValue(item.TF, Id)).ToArray
-            item.WGCNAWeight = (From Id As String In item.OperonGeneIds Select WGCNAWeights.GetValue(item.TF, Id, Parallel:=False)).ToArray
+            item.WGCNAWeight = (From Id As String In item.OperonGeneIds Select WGCNAWeights.GetValue(item.TF, Id)).ToArray
 
             Return item
         End Function
@@ -478,18 +478,18 @@ Namespace Analysis
                                       Let RegulatedPathways = (From RegulatedGeneId As String
                                                                In Regulator.RegulatedGenes
                                                                Select (From Pathway In Pathways
-                                                                       Where Not Pathway.Genes.IsNullOrEmpty AndAlso Pathway.IsContainsGeneObject(RegulatedGeneId)
+                                                                       Where Not Pathway.genes.IsNullOrEmpty AndAlso Pathway.IsContainsGeneObject(RegulatedGeneId)
                                                                        Let [Class] As BriteHEntry.Pathway = PathwayFunctions(Regex.Match(Pathway.EntryId, "\d{5}").Value)
-                                                                       Select Pathway.EntryId, [Class].Category).ToArray).ToArray.ToVector
+                                                                       Select Pathway.EntryId, [Class].category).ToArray).ToArray.ToVector
                                       Select Regulator.Regulator, RegulatePhenotypes = RegulatedPathways).ToArray
             Dim CsvFile As IO.File = New IO.File
             Dim Head As IO.RowObject = New IO.RowObject From {"Regulator", "Family"}
-            Dim Phenotypes As String() = (From item In PathwayFunctions Select item.Value.Category Distinct).ToArray
+            Dim Phenotypes As String() = (From item In PathwayFunctions Select item.Value.category Distinct).ToArray
             Dim LQuery = (From Regulator In PathwayRegulations.AsParallel
                           Let RegulatorId As String = Regulator.Regulator
                           Let PhenotypeStatics = (From Type As String
                                               In Phenotypes
-                                                  Select RegulatorTF = RegulatorId, Type, Counts = (From item In Regulator.RegulatePhenotypes Where String.Equals(item.Category, Type) Select 1).ToArray.Sum).ToArray
+                                                  Select RegulatorTF = RegulatorId, Type, Counts = (From item In Regulator.RegulatePhenotypes Where String.Equals(item.category, Type) Select 1).ToArray.Sum).ToArray
                           Select PhenotypeStatics).ToArray
 
             Dim st = (From i As Integer

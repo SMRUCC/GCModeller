@@ -1,46 +1,46 @@
-﻿#Region "Microsoft.VisualBasic::67921b65119b54ff6abc7212bb5208b5, Data_science\DataMining\DynamicProgramming\NeedlemanWunsch\GNW.vb"
+﻿#Region "Microsoft.VisualBasic::3fe5a2ec4d4e77ef97a6a5a09b63dba0, Data_science\DataMining\DynamicProgramming\NeedlemanWunsch\GNW.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class NeedlemanWunsch
-' 
-'         Constructor: (+2 Overloads) Sub New
-' 
-'         Function: Compute, fillTracebackMatrix
-' 
-'         Sub: traceback
-' 
-' 
-' /********************************************************************************/
+    '     Class NeedlemanWunsch
+    ' 
+    '         Constructor: (+2 Overloads) Sub New
+    ' 
+    '         Function: Compute, fillTracebackMatrix
+    ' 
+    '         Sub: traceback
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -59,18 +59,19 @@ Namespace NeedlemanWunsch
         Dim matrix%()() = Nothing
         Dim tracebackMatrix%()() = Nothing
 
-        ReadOnly __empty As T
+        ReadOnly symbol As GenericSymbol(Of T)
 
-        Sub New(q As IEnumerable(Of T), s As IEnumerable(Of T), score As ScoreMatrix(Of T), empty As T, toChar As Func(Of T, Char))
-            Call Me.New(score, empty, toChar)
+        Sub New(q As IEnumerable(Of T), s As IEnumerable(Of T), score As ScoreMatrix(Of T), symbol As GenericSymbol(Of T))
+            Call Me.New(score, symbol)
 
             Sequence1 = q.ToArray
             Sequence2 = s.ToArray
         End Sub
 
-        Sub New(score As ScoreMatrix(Of T), empty As T, toChar As Func(Of T, Char))
-            Call MyBase.New(score, toChar)
-            __empty = empty
+        Sub New(score As ScoreMatrix(Of T), symbol As GenericSymbol(Of T))
+            Call MyBase.New(score, symbol.m_viewChar)
+
+            Me.symbol = symbol
         End Sub
 
         ''' <summary>
@@ -106,7 +107,7 @@ Namespace NeedlemanWunsch
                     Me.AddAligned1(aligned1)
                     Me.AddAligned2(aligned2)
                 Case 1 ' upper cell
-                    s1.Push(__empty)
+                    s1.Push(symbol.getEmpty)
                     s2.Push(Me.Sequence2(i - 2))
                     Me.traceback(s1, s2, i - 1, j)
                 Case 2 ' upperLeft cell
@@ -114,23 +115,23 @@ Namespace NeedlemanWunsch
                     s2.Push(Me.Sequence2(i - 2))
                     Me.traceback(s1, s2, i - 1, j - 1)
                 Case 3 ' upper + upperLeft cell
-                    s1.Push(__empty)
+                    s1.Push(symbol.getEmpty)
                     s2.Push(Me.Sequence2(i - 2))
                     Me.traceback(s1, s2, i - 1, j)
                 Case 4 'left cell
                     s1.Push(Me.Sequence1(j - 2))
-                    s2.Push(__empty)
+                    s2.Push(symbol.getEmpty)
                     Me.traceback(s1, s2, i, j - 1)
                 Case 5 ' left + upper cell
                     s1.Push(Me.Sequence1(j - 2))
-                    s2.Push(__empty)
+                    s2.Push(symbol.getEmpty)
                     Me.traceback(s1, s2, i, j - 1)
                 Case 6 ' left + upperLeft cell
                     s1.Push(Me.Sequence1(j - 2))
-                    s2.Push(__empty)
+                    s2.Push(symbol.getEmpty)
                     Me.traceback(s1, s2, i, j - 1)
                 Case 7 ' all 3 cells
-                    s1.Push(__empty)
+                    s1.Push(symbol.getEmpty)
                     s2.Push(Me.Sequence2(i - 2))
                     Me.traceback(s1, s2, i - 1, j)
             End Select

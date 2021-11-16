@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e62e1bd9182a24f58dd8b720ab3f1063, visualize\DataVisualizationExtensions\CatalogProfiling\CatalogProfiling.vb"
+﻿#Region "Microsoft.VisualBasic::c4d6d54f0974dfbe7463cc29a566d6b8, visualize\DataVisualizationExtensions\CatalogProfiling\CatalogProfiling.vb"
 
     ' Author:
     ' 
@@ -55,8 +55,9 @@ Imports Microsoft.VisualBasic.Imaging.SVG
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
+Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.Scripting.Runtime
+Imports SMRUCC.genomics.ComponentModel.Annotation
 
 Namespace CatalogProfiling
 
@@ -98,13 +99,13 @@ Namespace CatalogProfiling
         Public ReadOnly DefaultKEGGColorSchema As [Default](Of String) = "#E41A1C,#377EB8,#4DAF4A,#984EA3,#FF7F00,#CECE00"
 
         <Extension>
-        Private Function removesNotAssign(profile As Dictionary(Of String, NamedValue(Of Double)())) As Dictionary(Of String, NamedValue(Of Double)())
-            profile = New Dictionary(Of String, NamedValue(Of Double)())(profile)
+        Private Function removesNotAssign(profile As CatalogProfiles) As CatalogProfiles
+            profile = New CatalogProfiles(profile)
 
             For Each keyRemove As String In {NOT_ASSIGN, "Brite Hierarchies", "Not Included in Pathway or Brite"}
                 With profile.Keys.FirstOrDefault(Function(key) InStr(key, keyRemove, CompareMethod.Text) > 0)
                     If Not .StringEmpty Then
-                        Call profile.Remove(.ByRef)
+                        Call .DoCall(AddressOf profile.delete)
                     End If
                 End With
             Next
@@ -116,16 +117,19 @@ Namespace CatalogProfiling
         ''' Catalog profiling bar plot
         ''' </summary>
         ''' <param name="profile"></param>
-        ''' <param name="title$"></param>
-        ''' <param name="colorSchema$"></param>
-        ''' <param name="bg$"></param>
+        ''' <param name="title"></param>
+        ''' <param name="colorSchema"></param>
+        ''' <param name="bg"></param>
         ''' <param name="size"></param>
-        ''' <param name="classFontStyle$"></param>
-        ''' <param name="catalogFontStyle$"></param>
-        ''' <param name="titleFontStyle$"></param>
+        ''' <param name="classFontStyle"></param>
+        ''' <param name="catalogFontStyle"></param>
+        ''' <param name="titleFontStyle"></param>
+        ''' <param name="tick">
+        ''' parameter value of ``-1`` means create ticks value sequence automatically. 
+        ''' </param>
         ''' <returns></returns>
         <Extension>
-        Public Function ProfilesPlot(profile As Dictionary(Of String, NamedValue(Of Double)()),
+        Public Function ProfilesPlot(profile As CatalogProfiles,
                                      Optional title$ = "Profiling Plot",
                                      Optional axisTitle$ = "Number Of Gene",
                                      Optional colorSchema$ = "Set1:c6",
@@ -143,38 +147,47 @@ Namespace CatalogProfiling
                                      Optional labelRightAlignment As Boolean = False,
                                      Optional disableLabelColor As Boolean = False,
                                      Optional valueFormat$ = "F2",
-                                     Optional labelTrimLength% = 64) As GraphicsData
+                                     Optional labelTrimLength% = 64,
+                                     Optional dpi As Integer = 300) As GraphicsData
 
             If removeNotAssign Then
                 profile = profile.removesNotAssign
             End If
 
             Dim colors As ColorProfile = profile.GetColors(colorSchema, logarithm:=-1)
-            Dim mapperValues As Double() = profile.Values _
+            Dim mapperValues As Double() = profile.catalogs.Values _
                 .Select(Function(c)
-                            Return c.Select(Function(v) CDbl(v.Value))
+                            Return c.AsEnumerable.Select(Function(v) v.Value)
                         End Function) _
                 .IteratesALL _
                 .ToArray
-            Dim mapper As New Scaling(mapperValues, horizontal:=True)
             Dim plotInternal =
                 Sub(ByRef g As IGraphics, region As GraphicsRegion)
-                    Call g.internalPlotImpl(
-                       region, profile, title,
-                       colors,
-                       titleFontStyle, catalogFontStyle, classFontStyle, valueFontStyle,
-                       New Mapper(mapper, ignoreAxis:=True),
-                       tickFontStyle, tick,
-                       axisTitle,
-                       gray:=gray,
-                       labelAlignmentRight:=labelRightAlignment,
-                       valueFormat:=valueFormat,
-                       disableLabelColor:=disableLabelColor,
-                       labelTrimLength:=labelTrimLength
-                    )
+                    If mapperValues.IsNullOrEmpty Then
+                        ' just do nothing?
+                    Else
+                        Dim mapper As New Scaling(mapperValues, horizontal:=True)
+
+                        Call g.internalPlotImpl(
+                           region, profile, title,
+                           colors,
+                           titleFontStyle, catalogFontStyle, classFontStyle, valueFontStyle,
+                           New Mapper(mapper, ignoreAxis:=True),
+                           tickFontStyle, tick,
+                           axisTitle,
+                           gray:=gray,
+                           labelAlignmentRight:=labelRightAlignment,
+                           valueFormat:=valueFormat,
+                           disableLabelColor:=disableLabelColor,
+                           labelTrimLength:=labelTrimLength,
+                           dpi:=dpi
+                        )
+                    End If
                 End Sub
 
-            Return g.GraphicsPlots(size.SizeParser, padding, bg, plotInternal, Drivers.GDI, "300,300")
+            Call $"Run catalog profile bar plot with size={size}, dpi={dpi}".__DEBUG_ECHO
+
+            Return g.GraphicsPlots(size.SizeParser, padding, bg, plotInternal, Drivers.GDI, $"{dpi},{dpi}")
         End Function
 
         ''' <summary>
@@ -196,7 +209,7 @@ Namespace CatalogProfiling
         ''' <param name="gray">条形图使用灰色的颜色，不再根据分类而产生不同颜色了</param>
         <Extension>
         Private Sub internalPlotImpl(ByRef g As IGraphics, region As GraphicsRegion,
-                                     profile As Dictionary(Of String, NamedValue(Of Double)()),
+                                     profile As CatalogProfiles,
                                      title$,
                                      colors As ColorProfile,
                                      titleFontStyle$,
@@ -210,17 +223,18 @@ Namespace CatalogProfiling
                                      labelAlignmentRight As Boolean,
                                      disableLabelColor As Boolean,
                                      valueFormat$,
-                                     labelTrimLength%)
+                                     labelTrimLength%,
+                                     dpi%)
             ' 这里是大标签的字符串向量
             Dim classes$() = profile.Keys.ToArray
-            Dim titleFont As Font = CSSFont.TryParse(titleFontStyle).GDIObject
-            Dim catalogFont As Font = CSSFont.TryParse(catalogFontStyle).GDIObject
+            Dim titleFont As Font = CSSFont.TryParse(titleFontStyle).GDIObject(dpi)
+            Dim catalogFont As Font = CSSFont.TryParse(catalogFontStyle).GDIObject(dpi)
             Dim catalogCharWidth! = g.MeasureString("A", catalogFont).Width
-            Dim classFont As Font = CSSFont.TryParse(classFontStyle).GDIObject
+            Dim classFont As Font = CSSFont.TryParse(classFontStyle).GDIObject(dpi)
             Dim padding As Padding = region.Padding
             Dim size As Size = region.Size
-            Dim maxLenSubKey$ = profile.Values _
-                .Select(Function(o) o.Select(Function(oo) oo.Name)) _
+            Dim maxLenSubKey$ = profile.catalogs.Values _
+                .Select(Function(o) o.AsEnumerable.Select(Function(oo) oo.Name)) _
                 .IteratesALL _
                 .Where(Function(name)
                            ' 2017-12-27
@@ -248,11 +262,11 @@ Namespace CatalogProfiling
 
             Dim maxLenSubKeySize As SizeF = g.MeasureString(maxLenSubKey, catalogFont)
             Dim maxLenClsKeySize As SizeF = g.MeasureString(maxLenClsKey, classFont)
-            Dim valueFont As Font = CSSFont.TryParse(valueFontStyle)
+            Dim valueFont As Font = CSSFont.TryParse(valueFontStyle).GDIObject(dpi)
 
             ' 所绘制的图形的总的高度
             Dim totalHeight = classes.Length * (maxLenClsKeySize.Height + 5) +
-                profile.Values.IteratesALL.Count * (maxLenSubKeySize.Height + 4) +
+                profile.TotalTerms * (maxLenSubKeySize.Height + 4) +
                 classes.Length * 20
             Dim left!
             Dim y! = region.Padding.Top + (region.PlotRegion.Height - totalHeight) / 2
@@ -305,7 +319,7 @@ Namespace CatalogProfiling
                 y += maxLenClsKeySize.Height + 5
 
                 ' 绘制统计的小分类标签以及barplot图形
-                For Each term As NamedValue(Of Double) In profile([class].value)
+                For Each term As NamedValue(Of Double) In profile([class].value).AsEnumerable
                     Dim color As New SolidBrush(colors.GetColor(term))
                     Dim penColor As Color = color.Color Or grayColor
                     Dim linePen As New Pen(penColor, 2) With {
@@ -386,13 +400,10 @@ Namespace CatalogProfiling
             Next
 
             ' 开始进行标尺的绘制
-            Dim maxValue# = profile.Values _
-                .Max(Function(v)
-                         Return If(v.Length = 0, 0, v.Max(Function(n) n.Value))
-                     End Function)
+            Dim maxValue# = profile.MaxValue
             Dim axisTicks#() = GetTicks(maxValue, tick)
             Dim d# = 25
-            Dim tickFont = CSSFont.TryParse(tickFontStyle)
+            Dim tickFont As Font = CSSFont.TryParse(tickFontStyle).GDIObject(dpi)
             Dim tickSize As SizeF
             Dim tickPen As New Pen(Color.Black, 3)
             Dim tickX!
@@ -425,7 +436,7 @@ Namespace CatalogProfiling
 
             y += d + 10 + g.MeasureString("0", tickFont).Height
 
-            titleFont = CSSFont.TryParse(CSSFont.Win7LargerBold)
+            titleFont = CSSFont.TryParse(CSSFont.Win7LargerBold).GDIObject(dpi)
             titleSize = g.MeasureString(title, titleFont)
             left = barRect.Left + (barRect.Width - titleSize.Width) / 2
 
@@ -446,7 +457,7 @@ Namespace CatalogProfiling
             If tick <= 0 Then
                 ' 自动生成
                 Call "Ticks created from auto axis ticking...".__INFO_ECHO
-                Return AxisScalling.CreateAxisTicks({0, max}.AsEnumerable)
+                Return AxisScalling.CreateAxisTicks({0, max}.AsEnumerable, ticks:=5)
             Else
                 Call "Ticks created from tick sequence...".__INFO_ECHO
                 Return AxisScalling.GetAxisByTick(max, tick)

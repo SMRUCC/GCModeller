@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3c22869c194079dd13b8ef2cdebb42cb, meme_suite\MEME\Analysis\Similarity\TomQuery\SwTom\Parameters.vb"
+﻿#Region "Microsoft.VisualBasic::6f28cab2dc8aadb9eb0120ac382bd728, meme_suite\MEME\Analysis\Similarity\TomQuery\SwTom\Parameters.vb"
 
     ' Author:
     ' 

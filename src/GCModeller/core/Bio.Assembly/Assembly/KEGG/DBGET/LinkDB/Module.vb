@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f8d1ac9e2d7a2922ef1a82687cad0416, core\Bio.Assembly\Assembly\KEGG\DBGET\LinkDB\Module.vb"
+﻿#Region "Microsoft.VisualBasic::9689879296c6006a1f7b039eb63f1bc2, core\Bio.Assembly\Assembly\KEGG\DBGET\LinkDB\Module.vb"
 
     ' Author:
     ' 
@@ -83,7 +83,7 @@ Namespace Assembly.KEGG.DBGET.LinkDB
                 EXPORT = Environment.GetFolderPath(Environment.SpecialFolder.InternetCache) & "/Modules/"
             End If
 
-            Call EXPORT.MkDIR
+            Call EXPORT.MakeDir
 
             Dim ModuleList As New List(Of [Module])
 

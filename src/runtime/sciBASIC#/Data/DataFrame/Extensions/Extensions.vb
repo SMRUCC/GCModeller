@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::73ba9bba3cd63930a0604565128482f0, Data\DataFrame\Extensions\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::ed566a37aa088878c05d92973f670bd6, Data\DataFrame\Extensions\Extensions.vb"
 
     ' Author:
     ' 
@@ -35,7 +35,7 @@
     ' 
     '     Constructor: (+1 Overloads) Sub New
     ' 
-    '     Function: (+4 Overloads) AsDataSource, AsLinq, (+3 Overloads) DataFrame, GetLocusMapName, IsEmptyTable
+    '     Function: (+4 Overloads) AsDataSource, AsLinq, (+4 Overloads) DataFrame, GetLocusMapName, IsEmptyTable
     '               (+3 Overloads) LoadCsv, LoadDataFrame, LoadDblVector, LoadStream, LoadTsv
     '               SaveDataSet, (+2 Overloads) SaveTable, (+7 Overloads) SaveTo, TabExport, ToCsvDoc
     ' 
@@ -65,9 +65,9 @@ Imports Microsoft.VisualBasic.Data.csv.StorageProvider.ComponentModels
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting
-Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
 Imports File_csv = Microsoft.VisualBasic.Data.csv.IO.File
 
@@ -76,9 +76,6 @@ Imports File_csv = Microsoft.VisualBasic.Data.csv.IO.File
 ''' </summary>
 ''' <remarks></remarks>
 '''
-<Package("IO_Device.Csv.Extensions",
-        Description:="The shortcuts operation for the common csv document operations.",
-        Publisher:="xie.guigang@gmail.com")>
 <HideModuleName>
 Public Module Extensions
 
@@ -292,6 +289,11 @@ Public Module Extensions
     End Function
 
     <Extension>
+    Public Function DataFrame(Of T)(source As IEnumerable(Of T)) As EntityObject()
+        Return IO.DataFrame.CreateObject(source.ToCsvDoc).AsDataSource(Of EntityObject)(False).ToArray
+    End Function
+
+    <Extension>
     Public Function SaveTable(table As IEnumerable(Of KeyValuePair(Of String, Double)), path$, Optional encoding As Encoding = Nothing) As Boolean
         Dim csv As New File_csv
 
@@ -417,20 +419,20 @@ Public Module Extensions
     ''' Convert the csv data file to a type specific collection.(将目标Csv文件转换为特定类型的集合数据)
     ''' </summary>
     ''' <typeparam name="T"></typeparam>
-    ''' <param name="df"></param>
+    ''' <param name="dataframe"></param>
     ''' <param name="explicit"></param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    <Extension> Public Function AsDataSource(Of T As Class)(df As DataFrame,
+    <Extension> Public Function AsDataSource(Of T As Class)(dataframe As DataFrame,
                                                             Optional explicit As Boolean = False,
                                                             Optional maps As Dictionary(Of String, String) = Nothing,
                                                             Optional silent As Boolean = False) As IEnumerable(Of T)
-        With df
+        With dataframe
             If Not maps Is Nothing Then
                 Call .ChangeMapping(maps)
             End If
 
-            Return Reflector.Convert(Of T)(.ByRef, explicit, silent:=silent)
+            Return .DoCall(Function(table) Reflector.Convert(Of T)(table, explicit, silent:=silent))
         End With
     End Function
 
@@ -528,11 +530,19 @@ Public Module Extensions
     ''' <typeparam name="T"></typeparam>
     ''' <param name="source"></param>
     ''' <param name="explicit">
-    ''' 列名称隐式解析，即不强制要求属性上面有<see cref="ColumnAttribute"/>标记，默认是，否则只解析出带有<see cref="ColumnAttribute"/>自定义属性标记的属性作为csv的列的数据源
+    ''' 列名称隐式解析，即不强制要求属性上面有<see cref="ColumnAttribute"/>标记，默认是，
+    ''' 否则只解析出带有<see cref="ColumnAttribute"/>自定义属性标记的属性作为csv的列的
+    ''' 数据源
     ''' </param>
     ''' <returns></returns>
-    <Extension> Public Function LoadStream(Of T As Class)(source As IEnumerable(Of String), Optional explicit As Boolean = True, Optional trimBlanks As Boolean = False) As IEnumerable(Of T)
-        Return New File(FileLoader.Load(source.ToArray, trimBlanks)).AsDataSource(Of T)(Not explicit)
+    <Extension> Public Function LoadStream(Of T As Class)(source As IEnumerable(Of String),
+                                                          Optional explicit As Boolean = True,
+                                                          Optional trimBlanks As Boolean = False,
+                                                          Optional isTsv As Boolean = False) As IEnumerable(Of T)
+
+        Return FileLoader.Load(source.ToArray, trimBlanks, isTsv:=isTsv) _
+            .DoCall(Function(rs) New File(rs)) _
+            .AsDataSource(Of T)(Not explicit)
     End Function
 
     ''' <summary>
@@ -584,7 +594,7 @@ Public Module Extensions
         Dim csv As IEnumerable(Of RowObject) = Reflector.GetsRowData(
             source:=objSeq,
             type:=GetType(T),
-            Explicit:=strict,
+            strict:=strict,
             maps:=maps,
             parallel:=Not nonParallel,
             metaBlank:=metaBlank,
@@ -623,7 +633,7 @@ Public Module Extensions
     ''' <param name="source"></param>
     ''' <param name="path$"></param>
     ''' <param name="encoding"></param>
-    ''' <param name="KeyMap$">将<see cref="EntityObject.ID"/>重命名为这个参数的值，假若这个参数值不是空字符串的话</param>
+    ''' <param name="KeyMap">将<see cref="EntityObject.ID"/>重命名为这个参数的值，假若这个参数值不是空字符串的话</param>
     ''' <param name="blank$"></param>
     ''' <param name="reorderKeys"></param>
     ''' <returns></returns>
@@ -676,12 +686,14 @@ Public Module Extensions
                                                Optional strict As Boolean = False,
                                                Optional maps As Dictionary(Of String, String) = Nothing,
                                                Optional metaBlank$ = "",
-                                               Optional reorderKeys% = 0) As File
+                                               Optional reorderKeys% = 0,
+                                               Optional numFormat$ = Nothing) As File
         Return Reflector.Save(
             source, strict,
             maps:=maps,
             metaBlank:=metaBlank,
-            reorderKeys:=reorderKeys
+            reorderKeys:=reorderKeys,
+            numFormat:=numFormat
         )
     End Function
 

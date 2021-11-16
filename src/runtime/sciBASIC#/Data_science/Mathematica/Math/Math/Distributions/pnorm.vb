@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a51aa2cfaa25b19b945a874db95b8591, Data_science\Mathematica\Math\Math\Distributions\pnorm.vb"
+﻿#Region "Microsoft.VisualBasic::93e5dc8f01ee650c736b33059c090441, Data_science\Mathematica\Math\Math\Distributions\pnorm.vb"
 
     ' Author:
     ' 
@@ -45,7 +45,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
-Imports Microsoft.VisualBasic.Math.SyntaxAPI.MathExtension
+Imports Microsoft.VisualBasic.Math.Scripting.Rscript.MathExtension
 Imports stdNum = System.Math
 
 Namespace Distributions

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::40dabd8c7973a78905705782446e7b72, Data_science\Mathematica\Math\Math\Algebra\PCA\Helper.vb"
+﻿#Region "Microsoft.VisualBasic::29e7c4d3127befafc0fd0395fc64e475, Data_science\Mathematica\Math\Math\Algebra\PCA\Helper.vb"
 
     ' Author:
     ' 
@@ -77,7 +77,7 @@ Namespace LinearAlgebra.Prcomp
                               .Select(Function(i) $"Comp.{i}")) _
                          .ToArray
 
-            For Each factor In pca.Loadings.Array.SeqIterator(offset:=1)
+            For Each factor In pca.Loadings.ArrayPack.SeqIterator(offset:=1)
                 table += {"X" & factor.i} _
                     .JoinIterates(factor.value.AsCharacter(True)) _
                     .ToArray

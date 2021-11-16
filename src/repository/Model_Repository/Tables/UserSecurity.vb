@@ -33,6 +33,8 @@
 
     '     Class UserSecurity
     ' 
+    '         Properties: Group, Password, UserName
+    ' 
     '         Function: ToString
     ' 
     ' 

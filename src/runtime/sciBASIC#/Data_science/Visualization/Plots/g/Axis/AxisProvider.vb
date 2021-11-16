@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b0e77ee920d5056fb476e96a75cd4343, Data_science\Visualization\Plots\g\Axis\AxisProvider.vb"
+﻿#Region "Microsoft.VisualBasic::125da894ab23907e08619faf132aa716, Data_science\Visualization\Plots\g\Axis\AxisProvider.vb"
 
     ' Author:
     ' 
@@ -110,7 +110,7 @@ Namespace Graphic.Axis
 
             Return New AxisProvider With {
                 .n = n.ParseInteger,
-                .Range = DoubleRange.op_Implicit(range),
+                .Range = DoubleRange.TryParse(range),
                 .Tick = tick.ParseNumeric
             }
         End Function

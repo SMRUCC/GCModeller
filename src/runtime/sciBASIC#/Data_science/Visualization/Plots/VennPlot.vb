@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::463b3d9556916af384454af8b205ab12, Data_science\Visualization\Plots\VennPlot.vb"
+﻿#Region "Microsoft.VisualBasic::d54dafe0c7004603f24d45e9019a5b84, Data_science\Visualization\Plots\VennPlot.vb"
 
     ' Author:
     ' 
@@ -52,7 +52,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver
-Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
+Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports stdNum = System.Math
 
@@ -77,10 +77,11 @@ Public Module VennPlot
                           Optional bg$ = "white",
                           Optional opacity# = 0.85,
                           Optional strokeCSS$ = Stroke.AxisStroke,
-                          Optional regionTitleFontCSS$ = CSSFont.Win7Large) As GraphicsData
+                          Optional regionTitleFontCSS$ = CSSFont.Win7Large,
+                          Optional ppi As Integer = 100) As GraphicsData
 
         Dim strokePen As Pen = Stroke.TryParse(strokeCSS)
-        Dim regionTitleFont As Font = CSSFont.TryParse(regionTitleFontCSS)
+        Dim regionTitleFont As Font = CSSFont.TryParse(regionTitleFontCSS).GDIObject(ppi)
 
         Call {a, b}.fixSetCompleteness
 
@@ -148,10 +149,11 @@ Public Module VennPlot
                           Optional bg$ = "white",
                           Optional opacity# = 0.85,
                           Optional strokeCSS$ = Stroke.AxisStroke,
-                          Optional regionTitleFontCSS$ = CSSFont.Win7Large) As GraphicsData
+                          Optional regionTitleFontCSS$ = CSSFont.Win7Large,
+                          Optional ppi As Integer = 100) As GraphicsData
 
         Dim strokePen As Pen = Stroke.TryParse(strokeCSS)
-        Dim regionTitleFont As Font = CSSFont.TryParse(regionTitleFontCSS)
+        Dim regionTitleFont As Font = CSSFont.TryParse(regionTitleFontCSS).GDIObject(ppi)
 
         Call {a, b, c}.fixSetCompleteness
 

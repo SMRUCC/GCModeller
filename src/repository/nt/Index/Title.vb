@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d077eef7ba19009a0d45fb3e6d9d6969, nt\Index\Title.vb"
+﻿#Region "Microsoft.VisualBasic::1b9edbe2445d3e4daf75f870eef52124, nt\Index\Title.vb"
 
     ' Author:
     ' 
@@ -33,9 +33,11 @@
 
     ' Class TitleWriter
     ' 
+    '     Constructor: (+1 Overloads) Sub New
+    ' 
     '     Function: Write
     ' 
-    '     Sub: Dispose, New
+    '     Sub: Dispose
     ' 
     ' /********************************************************************************/
 
@@ -60,12 +62,12 @@ Public Class TitleWriter : Inherits IndexAbstract
         Dim path As New Value(Of String)
         Dim file As FileStream
 
-        Call (path = $"{DATA}/headers/{db}/{uid}.txt").ParentPath.MkDIR
+        Call (path = $"{DATA}/headers/{db}/{uid}.txt").ParentPath.MakeDir
 
         file = IO.File.OpenWrite(path)
         __titles = New BinaryDataWriter(file, Encodings.ASCII)
 
-        Call (path = $"{DATA}/headers/index/{db}/{uid}.index").ParentPath.MkDIR
+        Call (path = $"{DATA}/headers/index/{db}/{uid}.index").ParentPath.MakeDir
 
         file = IO.File.OpenWrite(path)
         __index = New BinaryDataWriter(file, Encodings.ASCII)

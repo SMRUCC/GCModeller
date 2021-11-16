@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d137e7e65461e0bd22b41fc9a50bd61f, Shared\Settings.FileSystem\Xfam\Pfam.vb"
+﻿#Region "Microsoft.VisualBasic::b900ffac63f8e328e02a856bb0c6d7d3, Shared\Settings.FileSystem\Xfam\Pfam.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7440d14f47a8777009cf2758a7c0b126, Data_science\Visualization\Plots-statistics\Heatmap\Heatmap.vb"
+﻿#Region "Microsoft.VisualBasic::5c79e8481c39c61cc9c4d3ae1fc9b7f9, Data_science\Visualization\Plots-statistics\Heatmap\Heatmap.vb"
 
     ' Author:
     ' 
@@ -44,14 +44,14 @@ Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.csv.IO
-Imports Microsoft.VisualBasic.DataMining.HierarchicalClustering.DendrogramVisualize
+Imports Microsoft.VisualBasic.DataMining.HierarchicalClustering
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
+Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.Scripting.Runtime
 
 Namespace Heatmap
@@ -133,9 +133,10 @@ Namespace Heatmap
                              Optional legendHasUnmapped As Boolean = True,
                              Optional legendSize$ = "600,100",
                              Optional tick# = -1,
-                             Optional legendLayout As Layouts = Layouts.Horizon) As GraphicsData
+                             Optional legendLayout As Layouts = Layouts.Horizon,
+                             Optional ppi As Integer = 100) As GraphicsData
 
-            Dim valuelabelFont As Font = CSSFont.TryParse(valuelabelFontCSS)
+            Dim valuelabelFont As Font = CSSFont.TryParse(valuelabelFontCSS).GDIObject(ppi)
             Dim array As DataSet() = data.ToArray
             Dim dlayout As (A%, B%)
             Dim dataTable As Dictionary(Of DataSet) = array.ToDictionary
@@ -144,10 +145,10 @@ Namespace Heatmap
                 dlayout = (.Width, .Height)
             End With
 
-            Dim titleFont As Font = CSSFont.TryParse(titleFontCSS)
-            Dim legendFont As Font = CSSFont.TryParse(legendFontStyle)
+            Dim titleFont As Font = CSSFont.TryParse(titleFontCSS).GDIObject(ppi)
+            Dim legendFont As Font = CSSFont.TryParse(legendFontStyle).GDIObject(ppi)
             Dim margin As Padding = padding
-            Dim rowLabelFont As Font = CSSFont.TryParse(rowLabelfontStyle).GDIObject
+            Dim rowLabelFont As Font = CSSFont.TryParse(rowLabelfontStyle).GDIObject(ppi)
             Dim plotInternal =
                 Sub(g As IGraphics, region As GraphicsRegion, args As PlotArguments)
 
@@ -215,7 +216,7 @@ Namespace Heatmap
 
             Return doPlot(
                 plotInternal, array,
-                rowLabelFont, CSSFont.TryParse(colLabelFontStyle).GDIObject, logTransform, drawScaleMethod, drawLabels, drawDendrograms, drawClass, dlayout,
+                rowLabelFont, CSSFont.TryParse(colLabelFontStyle).GDIObject(ppi), logTransform, drawScaleMethod, drawLabels, drawDendrograms, drawClass, dlayout,
                 reverseClrSeq, customColors.GetBrushes, mapLevels, mapName,
                 size.SizeParser, margin, bg,
                 legendTitle, legendFont, Nothing,

@@ -51,18 +51,18 @@ Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Parallel.Threads
 Imports Microsoft.VisualBasic.Text
+Imports Parallel.ThreadTask
 
 Partial Module CLI
 
     <ExportAPI("/GET")>
     <Description("Tools for http get request the content of a specific url.")>
     <Usage("/GET /url <url, /std_in> [/out <file/std_out>]")>
-    <Argument("/url", False, CLITypes.File, PipelineTypes.std_in,
+    <ArgumentAttribute("/url", False, CLITypes.File, PipelineTypes.std_in,
           AcceptTypes:={GetType(String)},
           Description:="The resource URL on the web.")>
-    <Argument("/out", True, CLITypes.File, PipelineTypes.std_out,
+    <ArgumentAttribute("/out", True, CLITypes.File, PipelineTypes.std_out,
           AcceptTypes:={GetType(String)},
           Description:="The save location of your requested data file.")>
     Public Function [GET](args As CommandLine) As Integer
@@ -116,7 +116,12 @@ Partial Module CLI
         Using result As StreamWriter = out.OpenWriter
             Do While True
                 Dim pack%() = SeqRandom(10000)
-                Dim returns = BatchTasks.BatchTask(pack, getTask:=test, numThreads:=1000, TimeInterval:=0)
+                Dim returns = ThreadTask(Of String) _
+                    .CreateThreads(pack, Function(i) Function() test(i)) _
+                    .WithDegreeOfParallelism(App.CPUCoreNumbers) _
+                    .RunParallel() _
+                    .ToArray
+
                 For Each line In returns
                     Call result.WriteLine(line)
                 Next

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::df54e3ae3f710b8c62015c0ab0f66d0d, engine\Dynamics\test\HugeNetworkTest.vb"
+﻿#Region "Microsoft.VisualBasic::b09cef191b927d3c5e12c4194e2e2735, engine\Dynamics\test\HugeNetworkTest.vb"
 
     ' Author:
     ' 
@@ -49,6 +49,7 @@ Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.ComponentModel.EquaionModel
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine
 
 Module HugeNetworkTest
 
@@ -83,16 +84,17 @@ Module HugeNetworkTest
 
         Dim cell As Vessel = New Vessel().load(channels).load(mass.Values)
 
-        Call cell.Initialize(100)
+        Call cell.Initialize()
 
         Dim snapshots As New List(Of DataSet)
         Dim flux As New List(Of DataSet)
-        Dim dynamics = cell.ContainerIterator(5000)
+        Dim dynamics = cell.ContainerIterator(5000, 10000)
+        Dim cache As New FluxAggregater(cell)
 
         For i As Integer = 0 To 5000
             flux += New DataSet With {
                 .ID = i,
-                .Properties = .ToDictionary.FlatTable
+                .Properties = cache.getFlux
             }
             snapshots += New DataSet With {
                 .ID = i,

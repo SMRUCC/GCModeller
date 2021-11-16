@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0568e0e853c9173b6636ee93e94c0cec, meme_suite\MEME.DocParser\ComponentModel\ISiteReader.vb"
+﻿#Region "Microsoft.VisualBasic::5c9f4fcfa144885fac8e960c5c452f24, meme_suite\MEME.DocParser\ComponentModel\ISiteReader.vb"
 
     ' Author:
     ' 

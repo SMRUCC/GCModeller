@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2fb2d77fae7f66a53cee30ecdcafb377, core\Bio.Assembly\Assembly\KEGG\DBGET\WebQuery\Compounds\WebParser.vb"
+﻿#Region "Microsoft.VisualBasic::4d253be791c216c82b9ff299239c674c, core\Bio.Assembly\Assembly\KEGG\DBGET\WebQuery\Compounds\WebParser.vb"
 
     ' Author:
     ' 
@@ -139,7 +139,7 @@ Namespace Assembly.KEGG.DBGET.WebQuery.Compounds
             '    .ToArray
             Dim LQuery As DBLink() = t _
                 .Select(Function(linkTable)
-                            Dim tr = linkTable.GetRowsHTML(0)
+                            Dim tr = linkTable.GetRowsHTML()(0)
                             Dim tuple = tr.GetColumnsHTML
                             Dim name = tuple(0).StripHTMLTags(True).Trim(":"c, " "c)
                             Dim id$ = tuple.ElementAtOrDefault(1) _

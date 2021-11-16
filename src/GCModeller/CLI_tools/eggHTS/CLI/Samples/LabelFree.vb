@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::556146eee1abd2c1147f33071a728ef4, CLI_tools\eggHTS\CLI\Samples\LabelFree.vb"
+﻿#Region "Microsoft.VisualBasic::88060860832e82999e9cb874e1fda05d, CLI_tools\eggHTS\CLI\Samples\LabelFree.vb"
 
     ' Author:
     ' 
@@ -50,6 +50,7 @@ Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math.DataFrame
 Imports Microsoft.VisualBasic.Math.DataFrame.Impute
 Imports Microsoft.VisualBasic.MIME.Office.Excel
 Imports Microsoft.VisualBasic.Scripting.Runtime

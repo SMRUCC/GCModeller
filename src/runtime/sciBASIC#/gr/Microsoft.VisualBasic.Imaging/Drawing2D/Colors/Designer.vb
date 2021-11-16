@@ -1,48 +1,48 @@
-﻿#Region "Microsoft.VisualBasic::6401c0d3d2525cf4e1b5871f754bbdb4, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Colors\Designer.vb"
+﻿#Region "Microsoft.VisualBasic::39666bc09821ba13b267be37f04600c5, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Colors\Designer.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module Designer
-    ' 
-    '         Properties: AvailableInterpolates, Category31, ClusterColour, ColorBrewer, ConsoleColors
-    '                     MaterialPalette, Rainbow, TSF
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: Colors, ConsoleColor, CubicSpline, FromConsoleColor, FromNames
-    '                   FromSchema, GetBrushes, (+2 Overloads) GetColors, getColorsInternal, internalFills
-    '                   IsColorNameList, rangeConstraint, SplitColorList
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module Designer
+' 
+'         Properties: AvailableInterpolates, Category31, ClusterColour, ColorBrewer, ConsoleColors
+'                     MaterialPalette, Rainbow, TSF
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: Colors, ConsoleColor, CubicSpline, FromConsoleColor, FromNames
+'                   FromSchema, GetBrushes, (+2 Overloads) GetColors, getColorsInternal, internalFills
+'                   IsColorNameList, rangeConstraint, SplitColorList
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -53,6 +53,7 @@ Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors.OfficeAccent
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Interpolation
@@ -103,68 +104,18 @@ Namespace Drawing2D.Colors
         '''</summary>
         Public ReadOnly Property AvailableInterpolates As IReadOnlyDictionary(Of Color, Color())
         Public ReadOnly Property ColorBrewer As Dictionary(Of String, ColorBrewer)
-        Public ReadOnly Property Rainbow As Color() = {
-            Color.Red,
-            Color.Orange,
-            Color.Yellow,
-            Color.Green,
-            Color.Lime,
-            Color.Blue,
-            Color.Violet
-        }
 
         ''' <summary>
-        ''' 10 category colors for the data object cluster result
-        ''' </summary>
-        ''' <returns></returns>
-        Public ReadOnly Property ClusterColour As Color() = {
-            Color.FromArgb(128, 200, 180),
-            Color.FromArgb(135, 70, 194),
-            Color.FromArgb(140, 210, 90),
-            Color.FromArgb(200, 80, 147),
-            Color.FromArgb(201, 169, 79),
-            Color.FromArgb(112, 127, 189),
-            Color.FromArgb(192, 82, 58),
-            Color.FromArgb(83, 99, 60),
-            Color.FromArgb(78, 45, 69),
-            Color.FromArgb(202, 161, 169)
-        }
-
-        ''' <summary>
-        ''' <see cref="Designer.GetColors(String)"/> schema name for color profile: <see cref="ClusterColour"/>.
+        ''' <see cref="Designer.GetColors(String)"/> schema name for color profile: <see cref="CustomDesigns.ClusterColour"/>.
         ''' </summary>
         Friend Const Clusters$ = NameOf(Clusters)
 
+        ReadOnly BlackGreenRed As Color() = {Color.Black, Color.Green, Color.Red}
+
         ''' <summary>
-        ''' From TSF launcher on Android
+        ''' 16 console colors
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property TSF As Color() = {
-            {247, 69, 58},
-            {230, 28, 99},
-            {156, 36, 173},
-            {107, 57, 181},
-            {66, 81, 181},
-            {33, 150, 238},
-            {8, 170, 247},
-            {0, 190, 214},
-            {0, 150, 132},
-            {74, 174, 82},
-            {132, 194, 74},
-            {206, 223, 58},
-            {255, 235, 58},
-            {255, 190, 0},
-            {255, 150, 0},
-            {255, 85, 33},
-            {115, 85, 66},
-            {156, 158, 156},
-            {99, 125, 140}
-        }.RowIterator _
-         .Select(Function(c)
-                     Return Color.FromArgb(c(0), c(1), c(2))
-                 End Function) _
-         .ToArray
-
         Public ReadOnly Property ConsoleColors As Color() = Enums(Of ConsoleColor) _
             .Select(Function(c) c.ToString) _
             .Select(Function(exp As String)
@@ -308,7 +259,7 @@ Namespace Drawing2D.Colors
          .ToArray
 
         ''' <summary>
-        ''' Google material design colors
+        ''' 20 Google material design colors
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property MaterialPalette As Color() = {
@@ -337,6 +288,10 @@ Namespace Drawing2D.Colors
                 Return True
             End If
 
+            Static dotnetColorNames As Index(Of String) = GDIColors.AllDotNetColorNames _
+                .Select(AddressOf Strings.LCase) _
+                .Indexing
+
             If Not exp.IsPattern(DesignerExpression.FunctionPattern) AndAlso InStr(exp, ",") > 0 Then
                 If exp.IsPattern(rgbPattern) Then
                     ' 单个rgb表达式的情况，肯定不是颜色列表
@@ -344,6 +299,9 @@ Namespace Drawing2D.Colors
                 Else
                     Return True
                 End If
+            ElseIf Strings.LCase(exp) Like dotnetColorNames Then
+                ' is a single color name
+                Return True
             Else
                 Return False
             End If
@@ -407,34 +365,37 @@ Namespace Drawing2D.Colors
                 Return ColorBrewer(key.Name).GetColors(key.Value)
             End If
 
-            If term.TextEquals("material") Then
-                Return MaterialPalette
-            ElseIf term.TextEquals("console.colors") Then
-                Return ConsoleColors
-            ElseIf term.TextEquals("TSF") Then
-                Return TSF
-            ElseIf term.TextEquals("rainbow") Then
-                Return Rainbow
-            ElseIf term.TextEquals("dotnet.colors") Then
-                Return AllDotNetPrefixColors
-            ElseIf term.TextEquals("scibasic.chart()") Then
-                Return ChartColors
-            ElseIf term.TextEquals("scibasic.category31()") Then
-                Return Category31
-            ElseIf term.TextEquals(Designer.Clusters) Then
-                Return ClusterColour
-            End If
+            Select Case Strings.LCase(term).Trim
+                Case "material" : Return MaterialPalette
+                Case "console.colors", "console" : Return ConsoleColors
+                Case "tsf" : Return CustomDesigns.TSF
+                Case "halloween" : Return CustomDesigns.Halloween
+                Case "unicorn" : Return CustomDesigns.Unicorn
+                Case "vibrant" : Return CustomDesigns.Vibrant
+                Case "rainbow" : Return CustomDesigns.Rainbow
+                Case "paper" : Return CustomDesigns.Paper
+                Case "dotnet.colors" : Return AllDotNetPrefixColors
+                Case "scibasic.chart()" : Return ChartColors
+                Case "scibasic.category31()" : Return Category31
+                Case "clusters" : Return CustomDesigns.ClusterColour
+                Case "blackgreenred" : Return BlackGreenRed
 
-            ' d3.js colors
-            If term.TextEquals("d3.scale.category10()") Then
-                Return d3js.category10
-            ElseIf term.TextEquals("d3.scale.category20()") Then
-                Return d3js.category20
-            ElseIf term.TextEquals("d3.scale.category20b()") Then
-                Return d3js.category20b
-            ElseIf term.TextEquals("d3.scale.category20c()") Then
-                Return d3js.category20c
-            End If
+                    ' d3.js colors
+                Case "d3.scale.category10()" : Return d3js.category10
+                Case "d3.scale.category20()" : Return d3js.category20
+                Case "d3.scale.category20b()" : Return d3js.category20b
+                Case "d3.scale.category20c()" : Return d3js.category20c
+
+                    ' viridis
+                Case "viridis" : Return Viridis.viridis.ToArray
+                Case "viridis:magma" : Return Viridis.magma.ToArray
+                Case "viridis:inferno" : Return Viridis.inferno.ToArray
+                Case "viridis:plasma" : Return Viridis.plasma.ToArray
+                Case "viridis:cividis" : Return Viridis.cividis.ToArray
+                Case "viridis:mako" : Return Viridis.mako.ToArray
+                Case "viridis:rocket" : Return Viridis.rocket.ToArray
+                Case "viridis:turbo" : Return Viridis.turbo.ToArray
+            End Select
 
             Return OfficeColorThemes.GetAccentColors(term)
         End Function
@@ -539,6 +500,18 @@ Namespace Drawing2D.Colors
         <Extension>
         Public Function CubicSpline(colors As IEnumerable(Of Color), Optional n% = 256, Optional alpha% = 255) As Color()
             Dim source As Color() = colors.ToArray
+
+            If source.Length = 1 Then
+                Call $"multiple color value is required, but you just provides one color, color seqeucne will just contains one single color: {source(Scan0).ToString}".Warning
+
+                Return source(Scan0) _
+                    .Alpha(alpha) _
+                    .Replicate(n) _
+                    .ToArray
+            ElseIf n <= source.Length Then
+                Return source.Take(n).ToArray
+            End If
+
             Dim x As New CubicSplineVector(source.Select(Function(c) CSng(c.R)))
             Dim y As New CubicSplineVector(source.Select(Function(c) CSng(c.G)))
             Dim z As New CubicSplineVector(source.Select(Function(c) CSng(c.B)))

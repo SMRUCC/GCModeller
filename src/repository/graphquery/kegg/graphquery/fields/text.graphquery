@@ -1,0 +1,4 @@
+# just plain text data
+#
+
+text text() | trim()

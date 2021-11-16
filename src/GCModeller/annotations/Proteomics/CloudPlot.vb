@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f7b145a1714feff95705f2cd94c36992, annotations\Proteomics\CloudPlot.vb"
+﻿#Region "Microsoft.VisualBasic::fa4e987334dc2f1e491aba2a8eadf94d, annotations\Proteomics\CloudPlot.vb"
 
     ' Author:
     ' 
@@ -44,6 +44,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.Ranges
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
@@ -98,14 +99,14 @@ Public Module CloudPlot
                             Return P
                         End If
                     End Function) _
-            .RangeTransform($"0,{levels - 1}") _
+            .RangeTransform({0, levels - 1}) _
             .Select(Function(x) CInt(x)) _
             .ToArray
         Dim radius#() = foldChanges _
             .Select(Function(protein)
                         Return protein.Value.logFC
                     End Function) _
-            .RangeTransform(sizeRange)
+            .RangeTransform(DoubleRange.TryParse(sizeRange))
         Dim proteinID As Index(Of String) = foldChanges.Keys.Indexing
         Dim expressions =
             expression _
@@ -134,11 +135,11 @@ Public Module CloudPlot
 
                 Dim pointsX = expressions _
                     .Values _
-                    .RangeTransform(rect.XRange)
+                    .RangeTransform(DoubleRange.TryParse(rect.XRange))
                 Dim pointsY = PseAA _
                     .Values _
                     .Select(Function(v) v.Mod) _
-                    .RangeTransform(rect.YRange)
+                    .RangeTransform(DoubleRange.TryParse(rect.YRange))
 
                 For i As Integer = 0 To foldChanges.Length - 1
                     Dim X = pointsX(i), Y = pointsY(i)

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cfdbe621ec050aaed13196eb00593ff9, annotations\GSEA\GSEA\KOBAS\GSEA.vb"
+﻿#Region "Microsoft.VisualBasic::5342c8ff3bbeda95ec899e57a76f92e6, annotations\GSEA\GSEA\KOBAS\GSEA.vb"
 
     ' Author:
     ' 
@@ -119,7 +119,7 @@ Please check the gct file(-e), the gmt file(-g), the idtype(-i), the database ty
             End If
 
             Dim hitsum = hit_matrix.Select(Function(v) v.Sum).AsVector
-            Dim delindex = Which.IsTrue((hitsum < min_size) Or (hitsum > max_size))
+            Dim delindex = which.IsTrue((hitsum < min_size) Or (hitsum > max_size))
             Dim hit_matrix_filtered = hit_matrix.Delete(delindex)
             Dim hit_genes_filtered = hit_genes.Delete(delindex)
             Dim hit_sum_filtered = hitsum.ToArray.Delete(delindex)
@@ -341,10 +341,10 @@ Please check the threshold and ceil of gene set size (values of min_size and max
                 Throw New NotSupportedException(md)
             End If
 
-            Dim hitm As New GeneralMatrix(hit_matrix_filtered(sort_gene_index))
-            Dim missm = hitm - 1
-            Dim sort_arr As New GeneralMatrix(Enumerable.Range(0, hitm.Length).Select(Function(null) sort_r).ToArray)  '  np.array([sort_r for i in range(len(hitm))])
-            Dim tmp As GeneralMatrix
+            Dim hitm As New NumericMatrix(hit_matrix_filtered(sort_gene_index))
+            Dim missm As NumericMatrix = hitm - 1
+            Dim sort_arr As New NumericMatrix(Enumerable.Range(0, hitm.Length).Select(Function(null) sort_r).ToArray)  '  np.array([sort_r for i in range(len(hitm))])
+            Dim tmp As NumericMatrix
 
             If weighted_score_type = 0 Then
                 tmp = hitm

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::343c21a0e6f122516445466b68dbe8bf, markdown2pdf\Markdown2PDF\Program.vb"
+﻿#Region "Microsoft.VisualBasic::1668ccf1734b9e3a53c87e6520b5fedf, markdown2pdf\Markdown2PDF\Program.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     ' Module Program
     ' 
-    '     Function: Main
+    '     Function: Main, RunConvertSingle, RunEmpty
     ' 
     '     Sub: HelloWorld
     ' 
@@ -42,7 +42,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine
-Imports Microsoft.VisualBasic.MIME.Markup
+Imports Microsoft.VisualBasic.MIME.text.markdown
 Imports Microsoft.VisualBasic.Scripting.SymbolBuilder
 Imports Microsoft.VisualBasic.Text
 Imports WkHtmlToPdf
@@ -69,16 +69,25 @@ Module Program
         </html>
 
     Public Function Main() As Integer
-        Dim args As CommandLine = App.CommandLine
+        Return GetType(CLI).RunCLI(App.CommandLine, AddressOf RunConvertSingle, AddressOf RunEmpty)
+    End Function
+
+    Private Function RunEmpty() As Integer
+        Call Console.WriteLine("markdown2PDF <input.md> [custom.css]")
+        Call Console.WriteLine()
+
+        Return 0
+    End Function
+
+    Private Function RunConvertSingle(path$, args As CommandLine) As Integer
         Dim in$ = If(args Is Nothing OrElse args.Tokens.IsNullOrEmpty, "", args.Tokens(Scan0))
         Dim css$ = If(args Is Nothing OrElse args.Tokens.IsNullOrEmpty, "", args.Tokens.Get(1, ""))
 
         If Not [in].FileExists Then
-            Call Console.WriteLine("markdown2PDF <input.md> [custom.css]")
-            Call Console.WriteLine()
+            Return -1
         Else
             Dim md As String = [in].ReadAllText
-            Dim html$ = New MarkDown.MarkdownHTML().Transform(md)
+            Dim html$ = New MarkdownHTML().Transform(md)
             ' 2018-10-24
             ' 转换好的html文本不可以保存在临时文件夹
             ' 应该保存在和原始的markdown文档相同的位置，否则markdown文档之中的图片之类的使用相对路径的
@@ -160,9 +169,6 @@ End Function</code></pre>
         }
 
         Call println(html.GetDocument)
-        Call PdfConvert.ConvertHtmlToPdf(
-            html,
-            App.HOME & "/hello-world.pdf")
+        Call PdfConvert.ConvertHtmlToPdf(html, App.HOME & "/hello-world.pdf")
     End Sub
 End Module
-

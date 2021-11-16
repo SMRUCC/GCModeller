@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5576e617451aff23ebe6ce34488f6598, seqtoolkit\Annotations\genomics.vb"
+﻿#Region "Microsoft.VisualBasic::8b63df3d91354e905f18cd39363b4c74, R#\seqtoolkit\Annotations\genomics.vb"
 
     ' Author:
     ' 
@@ -113,11 +113,11 @@ Module genomics
         If isRelativeOffset Then
             If loci.Strand = Strands.Forward Then
                 loci = New NucleotideLocation(loci.left - length, loci.left, Strands.Forward) With {
-                    .tag = loci.ToString & $"|offset=-{length}"
+                    .tagStr = loci.ToString & $"|offset=-{length}"
                 }
             Else
                 loci = New NucleotideLocation(loci.right, loci.right + length, Strands.Reverse) With {
-                    .tag = loci.ToString & $"|offset=+{length}"
+                    .tagStr = loci.ToString & $"|offset=+{length}"
                 }
             End If
         Else

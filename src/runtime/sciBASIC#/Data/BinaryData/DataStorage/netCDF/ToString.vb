@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::42eac6a1e903d469e7ef261871462b76, Data\BinaryData\DataStorage\netCDF\ToString.vb"
+﻿#Region "Microsoft.VisualBasic::6d572a575a1e19f93cdf3eda7581f40a, Data\BinaryData\DataStorage\netCDF\ToString.vb"
 
     ' Author:
     ' 
@@ -86,7 +86,7 @@ Namespace netCDF
             Call dev.WriteLine("VARIABLES:")
 
             For Each variable As variable In file.variables
-                Dim value As CDFData = file.getDataVariable(variable)
+                Dim value As ICDFDataVector = file.getDataVariable(variable)
                 Dim stringify = value.ToString
 
                 Call dev.WriteLine($"  {variable.name.PadEnd(30)} = {stringify}")

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3f01fd8166db650fdf81e1fd290f9322, Data\BinaryData\DataStorage\SQLite3\Schema\Schema.vb"
+﻿#Region "Microsoft.VisualBasic::7446ce066e60856e71d0244476d0b48d, Data\BinaryData\DataStorage\SQLite3\Schema\Schema.vb"
 
     ' Author:
     ' 
@@ -94,6 +94,9 @@ Namespace ManagedSqlite.Core.SQLSchema
                 type = block.ElementAtOrNull(1)?.text
 
                 If name.ToUpper = "UNIQUE" AndAlso block(1).text = "(" AndAlso block.Last.text = ")" Then
+                    Continue For
+                End If
+                If block(Scan0).text = "PRIMARY" AndAlso block(1).text = "KEY" Then
                     Continue For
                 End If
 

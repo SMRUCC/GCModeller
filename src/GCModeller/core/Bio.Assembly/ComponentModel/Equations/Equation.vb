@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a14dfe15155b6a0a9a380811d8fc89ad, core\Bio.Assembly\ComponentModel\Equations\Equation.vb"
+﻿#Region "Microsoft.VisualBasic::c86829c44a9122a3d9ef34b4762ef915, core\Bio.Assembly\ComponentModel\Equations\Equation.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Class Equation
     ' 
-    '         Properties: Products, Reactants, reversible
+    '         Properties: Id, Products, Reactants, reversible
     ' 
     '         Function: (+2 Overloads) Consume, Equals, GetCoEfficient, getDictionary, GetMetabolites
     '                   (+2 Overloads) Produce, ToString
@@ -45,11 +45,12 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Linq
 
 Namespace ComponentModel.EquaionModel
 
-    Public MustInherit Class Equation(Of T As ICompoundSpecies) : Implements IEquation(Of T)
+    Public MustInherit Class Equation(Of T As ICompoundSpecies) : Implements IEquation(Of T), INamedValue
 
 #Region "SBML接口"
 
@@ -102,6 +103,8 @@ Namespace ComponentModel.EquaionModel
         Protected leftTable As Dictionary(Of String, T())
         Protected rightTable As Dictionary(Of String, T())
 
+        Public Overridable Property Id As String Implements INamedValue.Key
+
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Private Shared Function getDictionary(value As T()) As Dictionary(Of String, T())
             Return (From x As T
@@ -141,7 +144,9 @@ Namespace ComponentModel.EquaionModel
         ''' <param name="ID"></param>
         ''' <returns></returns>
         Public Overridable Function GetCoEfficient(ID As String) As Double
-            ID = ID.ToLower
+            If Not (leftTable.ContainsKey(ID) OrElse rightTable.ContainsKey(ID)) Then
+                ID = ID.ToLower
+            End If
 
             If leftTable.ContainsKey(ID) Then
                 Return -1 * leftTable(ID).Select(Function(x) x.StoiChiometry).Sum

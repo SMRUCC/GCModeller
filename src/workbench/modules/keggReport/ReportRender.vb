@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9cdb809345e675a552872bc8e70d241f, keggReport\ReportRender.vb"
+﻿#Region "Microsoft.VisualBasic::9f1966fbba1f44cda361c1e0f27730f7, modules\keggReport\ReportRender.vb"
 
     ' Author:
     ' 
@@ -119,7 +119,7 @@ Public Class ReportRender
             !map_base64 = New DataURI(rendering).ToString
             !image_width = rendering.Width
             !keggLink = New NamedCollection(Of NamedValue(Of String))() With {
-                .name = map.id,
+                .name = If(map.id.IsPattern("\d+"), $"map{map.id}", map.id),
                 .description = map.Name,
                 .value = objectList
             }.KEGGURLEncode

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2ac8249c2b0b328cfd50213f53a8c705, CLI_tools\RegPrecise\CLI\OperonBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::1aa3d37d9ef71be0548e51defafa26af, CLI_tools\RegPrecise\CLI\OperonBuilder.vb"
 
     ' Author:
     ' 
@@ -54,6 +54,7 @@ Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Parallel.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Parallel.ThreadTask
 Imports SMRUCC.genomics.Assembly.DOOR
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
@@ -144,7 +145,7 @@ Partial Module CLI
                 $"{api} /bbh {source(NameOf(bbh)).CLIPath} /PTT {source(NameOf(PTT)).CLIPath} /TF-bbh {source(NameOf(TFs)).CLIPath} /out {(out & source(NameOf(PTT)).BaseName & ".regulons.csv").CLIPath} /regprecise {regprecise.CLIPath}"
         Dim CLI As String() = pairs.Select(task).ToArray
 
-        Return App.SelfFolks(CLI, n)
+        Return BatchTasks.SelfFolks(CLI, n)
     End Function
 
     ''' <summary>
@@ -154,7 +155,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/Build.Operons", Info:="If the /regprecise parameter is not presented, then you should install the regprecise in the GCModeller database repostiory first.",
                Usage:="/Build.Operons /bbh <bbh.csv> /PTT <genome.PTT> /TF-bbh <bbh.csv> [/tfHit_hash /out <out.csv> /regprecise <regprecise.Xml>]")>
-    <Argument("/bbh", True,
+    <ArgumentAttribute("/bbh", True,
                    Description:="The bbh result between the annotated genome And RegPrecise database. 
                    This result was used for generates the operons, and query should be the genes in 
                    the RegPrecise database and the hits is the genes in your annotated genome.")>
@@ -168,11 +169,11 @@ Partial Module CLI
         Dim plus As New DefaultHashHandle(Of gene)(From x As gene
                                                    In PTT.GetStrandGene(Strands.Forward)
                                                    Select x
-                                                   Order By x.Location.Normalization.Left Ascending)
+                                                   Order By x.Location.Normalization.left Ascending)
         Dim minus As New DefaultHashHandle(Of gene)(From x As gene
                                                     In PTT.GetStrandGene(Strands.Reverse)
                                                     Select x
-                                                    Order By x.Location.Normalization.Right Descending)
+                                                    Order By x.Location.Normalization.right Descending)
         Dim hitsHash = (From x As BBHIndex
                         In bbh.LoadCsv(Of BBHIndex)
                         Where x.isMatched
@@ -281,14 +282,14 @@ Partial Module CLI
             In locus
             Where plus.HasElement(x)
             Select gg = plus.Current(x)
-            Order By gg.node.obj.Location.Left Ascending
+            Order By gg.node.obj.Location.left Ascending
 
         Dim reversed = LinqAPI.MakeList(Of LinkNode(Of IHashValue(Of gene))) <=
             From x As String
             In locus
             Where minus.HasElement(x)
             Select gg = minus.Current(x)
-            Order By gg.node.obj.Location.Right Descending
+            Order By gg.node.obj.Location.right Descending
 
         Dim n As Integer = (From x
                             In members

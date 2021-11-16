@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3605fdf45054cfff83463eca858edd34, CLI_tools\Solver.FBA\CLI\CLI.vb"
+﻿#Region "Microsoft.VisualBasic::581ddbed523f3d350b8d916692d83916, CLI_tools\Solver.FBA\CLI\CLI.vb"
 
     ' Author:
     ' 
@@ -47,15 +47,15 @@ Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.LinearProgramming
-Imports Microsoft.VisualBasic.Parallel.Threads
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Parallel.ThreadTask
 Imports SMRUCC.genomics.Analysis.FBA.Core
 Imports SMRUCC.genomics.Analysis.FBA_DP.Models.rFBA
 Imports SMRUCC.genomics.Analysis.FBA_DP.v2
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
 Imports SMRUCC.genomics.Model.SBML
 Imports SMRUCC.genomics.Model.SBML.ExportServices.KEGG
 
@@ -105,17 +105,18 @@ Imports SMRUCC.genomics.Model.SBML.ExportServices.KEGG
             .ToArray
         Dim raw$ = out & "/raw/"
 
-        Call genes.BatchTask(
-            getTask:=Function(locus_tag)
-                         Return Apps.FBA.SolveGCMarkup(
-                             model:=[in],
-                             mute:=locus_tag,
-                             out:=raw & $"/{locus_tag}.txt",
-                             trim:=True
-                         )
-                     End Function,
-            numThreads:=parallel
-        )
+        Call ThreadTask(Of Integer) _
+            .CreateThreads(genes, Function(locus_tag)
+                                      Return Apps.FBA.SolveGCMarkup(
+                                          model:=[in],
+                                          mute:=locus_tag,
+                                          out:=raw & $"/{locus_tag}.txt",
+                                          trim:=True
+                                      )
+                                  End Function) _
+            .WithDegreeOfParallelism(parallel) _
+            .RunParallel() _
+            .ToArray
 
         ' 将计算结果合并为一个表达矩阵文件
 
@@ -124,15 +125,15 @@ Imports SMRUCC.genomics.Model.SBML.ExportServices.KEGG
 
     <ExportAPI("/solve.gcmarkup")>
     <Usage("/solve.gcmarkup /model <model.GCMarkup> [/mute <locus_tags.txt/list> /trim /objective <flux_names.txt> /out <out.txt>]")>
-    <Argument("/objective", True, CLITypes.File,
+    <ArgumentAttribute("/objective", True, CLITypes.File,
               AcceptTypes:={GetType(String())},
               Description:="A name list of the target reaction names, which this file format should be in one line one ID. 
               If this argument is ignored, then a entire list of reactions that defined in the input virtual cell model will be used.")>
-    <Argument("/trim", True, CLITypes.Boolean,
+    <ArgumentAttribute("/trim", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
               Description:="Removes all of the enzymatic reaction which could not found their corresponding enzyme in current 
               virtual cell model? By default is retain these reactions.")>
-    <Argument("/mute", True, CLITypes.String,
+    <ArgumentAttribute("/mute", True, CLITypes.String,
               AcceptTypes:={GetType(String())},
               Description:="+ If this parameter is a file path, then locus_tag should be one tag per line in the text file;
               + And this parameter is also can be a id list, which the id should seperated by comma symbol, format like: ``id1,id2,id3``.")>

@@ -1,61 +1,59 @@
-﻿#Region "Microsoft.VisualBasic::68ea56b9d22c2830315c3c8d5e513acb, gr\Microsoft.VisualBasic.Imaging\PostScript\GraphicsPS.vb"
+﻿#Region "Microsoft.VisualBasic::99b8dfeeceef79c95a6d4b51d76655b5, gr\Microsoft.VisualBasic.Imaging\PostScript\GraphicsPS.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class GraphicsPS
-' 
-'         Properties: Clip, ClipBounds, CompositingMode, CompositingQuality, DpiX
-'                     DpiY, InterpolationMode, IsClipEmpty, IsVisibleClipEmpty, PageScale
-'                     PageUnit, PixelOffsetMode, RenderingOrigin, Size, SmoothingMode
-'                     TextContrast, TextRenderingHint, Transform, VisibleClipBounds
-' 
-'         Constructor: (+1 Overloads) Sub New
-' 
-'         Function: (+3 Overloads) BeginContainer, GetContextInfo, GetNearestColor, (+8 Overloads) IsVisible, MeasureCharacterRanges
-'                   (+7 Overloads) MeasureString
-' 
-'         Sub: AddMetafileComment, Clear, (+4 Overloads) CopyFromScreen, Dispose, (+4 Overloads) DrawArc
-'              (+3 Overloads) DrawBezier, (+2 Overloads) DrawBeziers, DrawCircle, (+4 Overloads) DrawClosedCurve, (+7 Overloads) DrawCurve
-'              (+4 Overloads) DrawEllipse, (+2 Overloads) DrawIcon, DrawIconUnstretched, (+30 Overloads) DrawImage, (+4 Overloads) DrawImageUnscaled
-'              DrawImageUnscaledAndClipped, (+4 Overloads) DrawLine, (+2 Overloads) DrawLines, DrawPath, (+4 Overloads) DrawPie
-'              (+2 Overloads) DrawPolygon, (+4 Overloads) DrawRectangle, (+2 Overloads) DrawRectangles, (+6 Overloads) DrawString, EndContainer
-'              (+36 Overloads) EnumerateMetafile, (+2 Overloads) ExcludeClip, (+6 Overloads) FillClosedCurve, (+4 Overloads) FillEllipse, FillPath
-'              (+3 Overloads) FillPie, (+4 Overloads) FillPolygon, (+4 Overloads) FillRectangle, (+2 Overloads) FillRectangles, FillRegion
-'              (+2 Overloads) Flush, (+3 Overloads) IntersectClip, (+2 Overloads) MultiplyTransform, ReleaseHdc, ReleaseHdcInternal
-'              ResetClip, ResetTransform, Restore, (+2 Overloads) RotateTransform, (+2 Overloads) ScaleTransform
-'              (+9 Overloads) SetClip, (+2 Overloads) TransformPoints, (+2 Overloads) TranslateClip, (+2 Overloads) TranslateTransform
-' 
-' 
-' /********************************************************************************/
+    '     Class GraphicsPS
+    ' 
+    '         Properties: CompositingMode, CompositingQuality, DpiX, DpiY, InterpolationMode
+    '                     IsClipEmpty, IsVisibleClipEmpty, PageScale, PageUnit, PixelOffsetMode
+    '                     RenderingOrigin, Size, SmoothingMode, TextContrast, TextRenderingHint
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
+    '         Function: (+3 Overloads) BeginContainer, color, font, GetContextInfo, GetNearestColor
+    '                   (+8 Overloads) IsVisible, linewidth, MeasureCharacterRanges, (+7 Overloads) MeasureString, note
+    ' 
+    '         Sub: AddMetafileComment, Clear, (+4 Overloads) CopyFromScreen, Dispose, (+4 Overloads) DrawArc
+    '              (+3 Overloads) DrawBezier, (+2 Overloads) DrawBeziers, DrawCircle, (+4 Overloads) DrawClosedCurve, (+7 Overloads) DrawCurve
+    '              (+4 Overloads) DrawEllipse, (+2 Overloads) DrawIcon, DrawIconUnstretched, (+30 Overloads) DrawImage, (+4 Overloads) DrawImageUnscaled
+    '              DrawImageUnscaledAndClipped, (+4 Overloads) DrawLine, (+2 Overloads) DrawLines, DrawPath, (+4 Overloads) DrawPie
+    '              (+2 Overloads) DrawPolygon, (+4 Overloads) DrawRectangle, (+2 Overloads) DrawRectangles, (+6 Overloads) DrawString, EndContainer
+    '              (+36 Overloads) EnumerateMetafile, (+2 Overloads) ExcludeClip, (+6 Overloads) FillClosedCurve, (+4 Overloads) FillEllipse, FillPath
+    '              (+3 Overloads) FillPie, (+4 Overloads) FillPolygon, (+4 Overloads) FillRectangle, FillRegion, (+2 Overloads) Flush
+    '              (+3 Overloads) IntersectClip, (+2 Overloads) MultiplyTransform, ResetClip, ResetTransform, (+2 Overloads) RotateTransform
+    '              (+2 Overloads) ScaleTransform, (+9 Overloads) SetClip, (+2 Overloads) TransformPoints, (+2 Overloads) TranslateClip, (+2 Overloads) TranslateTransform
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -71,13 +69,28 @@ Namespace PostScript
     Public Class GraphicsPS : Inherits IGraphics
 
         Public Overrides ReadOnly Property Size As Size
-        Public Overrides Property Clip As Region
-        Public Overrides ReadOnly Property ClipBounds As RectangleF
-        Public Overrides Property CompositingMode As CompositingMode
-        Public Overrides Property CompositingQuality As CompositingQuality
         Public Overrides ReadOnly Property DpiX As Single
         Public Overrides ReadOnly Property DpiY As Single
         Public Overrides Property InterpolationMode As InterpolationMode
+
+        Public Overrides Property CompositingMode As CompositingMode
+            Get
+                Throw New NotImplementedException()
+            End Get
+            Set(value As CompositingMode)
+                Throw New NotImplementedException()
+            End Set
+        End Property
+
+        Public Overrides Property CompositingQuality As CompositingQuality
+            Get
+                Throw New NotImplementedException()
+            End Get
+            Set(value As CompositingQuality)
+                Throw New NotImplementedException()
+            End Set
+        End Property
+
         Public Overrides ReadOnly Property IsClipEmpty As Boolean
         Public Overrides ReadOnly Property IsVisibleClipEmpty As Boolean
         Public Overrides Property PageScale As Single
@@ -87,8 +100,6 @@ Namespace PostScript
         Public Overrides Property SmoothingMode As SmoothingMode
         Public Overrides Property TextContrast As Integer
         Public Overrides Property TextRenderingHint As TextRenderingHint
-        Public Overrides Property Transform As Matrix
-        Public Overrides ReadOnly Property VisibleClipBounds As RectangleF
 
         Dim ps_fontsize% = 15
         Dim buffer As New MemoryStream
@@ -787,14 +798,6 @@ Namespace PostScript
             Throw New NotImplementedException()
         End Sub
 
-        Public Overrides Sub FillRectangles(brush As Brush, rects() As RectangleF)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub FillRectangles(brush As Brush, rects() As Rectangle)
-            Throw New NotImplementedException()
-        End Sub
-
         Public Overrides Sub FillRegion(brush As Brush, region As Region)
             Throw New NotImplementedException()
         End Sub
@@ -828,23 +831,11 @@ Namespace PostScript
             Throw New NotImplementedException()
         End Sub
 
-        Public Overrides Sub ReleaseHdc(hdc As IntPtr)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub ReleaseHdcInternal(hdc As IntPtr)
-            Throw New NotImplementedException()
-        End Sub
-
         Public Overrides Sub ResetClip()
             Throw New NotImplementedException()
         End Sub
 
         Public Overrides Sub ResetTransform()
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub Restore(gstate As GraphicsState)
             Throw New NotImplementedException()
         End Sub
 

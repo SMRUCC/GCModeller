@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0629ee9ba4af559c36cf27482d1f1757, Data\BinaryData\DataStorage\netCDF\netCDFReader.vb"
+﻿#Region "Microsoft.VisualBasic::1c571fc5d519df73d39bc1fb377267ac, Data\BinaryData\DataStorage\netCDF\netCDFReader.vb"
 
     ' Author:
     ' 
@@ -47,6 +47,10 @@
 
 #End Region
 
+#If netcore5 = 1 Then
+Imports System.Data
+#End If
+
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Text
@@ -59,7 +63,8 @@ Imports Microsoft.VisualBasic.Text
 Namespace netCDF
 
     ''' <summary>
-    ''' 
+    ''' The dotCDF file of a CDF contains magic numbers and numerous internal records are used to organize information
+    ''' about the contents Of the CDF (For both Single-file And multi-file CDFs).
     ''' </summary>
     ''' <remarks>
     ''' https://github.com/cheminfo-js/netcdfjs
@@ -171,7 +176,7 @@ Namespace netCDF
             End Get
         End Property
 
-        Sub New(buffer As BinaryDataReader)
+        Sub New(buffer As BinaryDataReader, Optional ignoreDuplicated As Boolean = False)
             Dim version As Value(Of Byte) = Scan0
 
             buffer.ByteOrder = ByteOrder.BigEndian
@@ -188,21 +193,34 @@ Namespace netCDF
             Dim conflictsId As String() = header.checkVariableIdConflicts.ToArray
 
             If conflictsId.Length > 0 Then
-                Throw New DuplicateNameException(conflictsId.GetJson)
+                If ignoreDuplicated Then
+                    Me.variableTable = header.variables _
+                        .GroupBy(Function(v) v.name) _
+                        .ToDictionary(Function(var)
+                                          Return var.Key
+                                      End Function,
+                                      Function(group)
+                                          Return group.First
+                                      End Function)
+                Else
+                    Throw New DuplicateNameException(conflictsId.GetJson)
+                End If
+            Else
+                Me.variableTable = header _
+                    .variables _
+                    .ToDictionary(Function(var)
+                                      Return var.name
+                                  End Function)
             End If
-
-            Me.variableTable = header _
-                .variables _
-                .ToDictionary(Function(var) var.name)
         End Sub
 
-        Sub New(file As Stream, Optional encoding As Encodings = Encodings.UTF8)
-            Call Me.New(New BinaryDataReader(file, encoding))
+        Sub New(file As Stream, Optional encoding As Encodings = Encodings.UTF8, Optional ignoreDuplicated As Boolean = False)
+            Call Me.New(New BinaryDataReader(file, encoding), ignoreDuplicated)
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Sub New(path$, Optional encoding As Encodings = Encodings.UTF8)
-            Call Me.New(path.OpenBinaryReader(encoding))
+        Sub New(path$, Optional encoding As Encodings = Encodings.UTF8, Optional ignoreDuplicated As Boolean = False)
+            Call Me.New(path.OpenBinaryReader(encoding), ignoreDuplicated)
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -225,8 +243,8 @@ Namespace netCDF
         ''' Retrieves the data for a given variable
         ''' </summary>
         ''' <returns>List with the variable values</returns>
-        Public Function getDataVariable(variable As variable) As CDFData
-            Dim values As Object()
+        Public Function getDataVariable(variable As variable) As ICDFDataVector
+            Dim values As Array
 
             ' go to the offset position
             Call buffer.Seek(variable.offset, SeekOrigin.Begin)
@@ -239,7 +257,7 @@ Namespace netCDF
                 values = DataReader.nonRecord(buffer, variable)
             End If
 
-            Return (values, variable.type)
+            Return VectorHelper.FromAny(values, variable.type)
         End Function
 
         ''' <summary>
@@ -247,7 +265,7 @@ Namespace netCDF
         ''' </summary>
         ''' <param name="variableName">Name of the variable to search Or variable object</param>
         ''' <returns>List with the variable values</returns>
-        Public Function getDataVariable(variableName As String) As CDFData
+        Public Function getDataVariable(variableName As String) As ICDFDataVector
             ' search the variable
             Dim variable As variable = variableTable.TryGetValue(variableName)
             ' throws if variable Not found

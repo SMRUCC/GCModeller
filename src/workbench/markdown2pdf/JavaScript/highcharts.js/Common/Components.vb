@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5618ad05ce6daad20b7d916d3e9f7a6e, markdown2pdf\JavaScript\highcharts.js\Common\Components.vb"
+﻿#Region "Microsoft.VisualBasic::e2067bbcc2626fa61400392c40a12e4b, markdown2pdf\JavaScript\highcharts.js\Common\Components.vb"
 
     ' Author:
     ' 

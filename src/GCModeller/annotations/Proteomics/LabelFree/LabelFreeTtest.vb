@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cfcf7b946aec0d280428f76fcba1a11c, annotations\Proteomics\LabelFree\LabelFreeTtest.vb"
+﻿#Region "Microsoft.VisualBasic::5c39cd8e70c9e5f38d639369e04fdc0e, annotations\Proteomics\LabelFree\LabelFreeTtest.vb"
 
     ' Author:
     ' 
@@ -42,8 +42,8 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports Microsoft.VisualBasic.Math.Statistics.Hypothesis
 Imports Microsoft.VisualBasic.Scripting.Runtime
-Imports RDotNET.Extensions.VisualBasic.API
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 
 ''' <summary>
@@ -72,8 +72,8 @@ Public Module LabelFreeTtest
                               Optional fdrThreshold# = 0.05,
                               Optional significantA As Boolean = False) As DEP_iTraq()
 
-        Dim experiment$() = sampleInfo.TakeGroup(analysis.Treatment).SampleNames
-        Dim controls$() = sampleInfo.TakeGroup(analysis.Controls).SampleNames
+        Dim experiment$() = sampleInfo.TakeGroup(analysis.treatment).SampleNames
+        Dim controls$() = sampleInfo.TakeGroup(analysis.controls).SampleNames
         Dim allSamples$() = experiment.AsList + controls
 
         ' calc the different expression proteins
@@ -108,7 +108,7 @@ Public Module LabelFreeTtest
         For Each protein As DataSet In data
             Dim foldChange# = protein(experiment).Average / protein(controls).Average
             Dim log2FC# = Math.Log(foldChange, newBase:=2)
-            Dim t As TtestResult = stats.Ttest(
+            Dim tResult = t.Test(
                 protein(experiment),
                 protein(controls),
                 varEqual:=True
@@ -118,7 +118,7 @@ Public Module LabelFreeTtest
                 .ID = protein.ID,
                 .FCavg = foldChange,
                 .log2FC = log2FC,
-                .pvalue = t.pvalue,
+                .pvalue = tResult.Pvalue,
                 .Properties = protein _
                     .SubSet(allSamples) _
                     .Properties _

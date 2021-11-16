@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8382d4cdfb5016213159dc7b9f1a764a, CLI_tools\gcc\CLI\ProteinDomain.vb"
+﻿#Region "Microsoft.VisualBasic::5dea98493ed7b263091e596afbe4b5be, CLI_tools\gcc\CLI\ProteinDomain.vb"
 
     ' Author:
     ' 
@@ -358,4 +358,3 @@
 '        End Function
 '    End Class
 'End Module
-

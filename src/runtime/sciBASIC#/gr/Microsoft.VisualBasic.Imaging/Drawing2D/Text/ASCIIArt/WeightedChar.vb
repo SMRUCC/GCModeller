@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f0b3709a47a69b50c0b2581b3f1df83d, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Text\ASCIIArt\WeightedChar.vb"
+﻿#Region "Microsoft.VisualBasic::c6cf39884cba05127173794f747be79e, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Text\ASCIIArt\WeightedChar.vb"
 
     ' Author:
     ' 
@@ -48,10 +48,21 @@ Imports Microsoft.VisualBasic.Language.Default
 
 Namespace Drawing2D.Text.ASCIIArt
 
+    ''' <summary>
+    ''' a pixel char
+    ''' </summary>
     Public Class WeightedChar
 
+        ''' <summary>
+        ''' a char that represent a pixel on the source bitmap
+        ''' </summary>
+        ''' <returns></returns>
         Public Property Character As String
         Public Property CharacterImage As Bitmap
+        ''' <summary>
+        ''' the gray scale value
+        ''' </summary>
+        ''' <returns></returns>
         Public Property Weight As Double
 
         Public Overrides Function ToString() As String

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::450e55ee751d72fd7d9b973ca8237577, CLI_tools\RegPrecise\CLI\DownloadAPI.vb"
+﻿#Region "Microsoft.VisualBasic::ddc4e4edf8bd0e82bde490db4dbaea3c, CLI_tools\RegPrecise\CLI\DownloadAPI.vb"
 
     ' Author:
     ' 
@@ -54,6 +54,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Text.Similarity
+Imports Parallel.ThreadTask
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Data
@@ -174,7 +175,7 @@ Imports SMRUCC.genomics.SequenceModel
             End If
         Next
 
-        Return App.SelfFolks(CLIs, LQuerySchedule.Recommended_NUM_THREADS)
+        Return BatchTasks.SelfFolks(CLIs, LQuerySchedule.Recommended_NUM_THREADS)
     End Function
 
     <ExportAPI("/Fetches.Thread", Usage:="/Fetches.Thread /gbk <gbkDIR> /query <query.txt> /out <outDIR>")>
@@ -313,8 +314,8 @@ Imports SMRUCC.genomics.SequenceModel
     <Description("Download Regprecise database from Web API")>
     <Usage("/Download.Regprecise [/work ./ /save <save.Xml>]")>
     <Group(CLIGroups.WebAPI)>
-    <Argument("/work", True, CLITypes.File, Description:="The temporary directory for save the xml data. Is a cache directory path, Value is current directory by default.")>
-    <Argument("/save", True, CLITypes.File, Description:="The repository saved xml file path.")>
+    <ArgumentAttribute("/work", True, CLITypes.File, Description:="The temporary directory for save the xml data. Is a cache directory path, Value is current directory by default.")>
+    <ArgumentAttribute("/save", True, CLITypes.File, Description:="The repository saved xml file path.")>
     Public Function DownloadRegprecise2(args As CommandLine) As Integer
         Dim WORK$ = args("/work") Or (App.CurrentDirectory & "/RegpreciseDownloads/")
         Dim regprecise As TranscriptionFactors = WebAPI.Download(WORK)

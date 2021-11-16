@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5035168ea23c18dce4f1c0fde8396023, seqtoolkit\Annotations\genbankKit.vb"
+﻿#Region "Microsoft.VisualBasic::0fc8cf48b53f28d8fc7e56cc60cfab0d, R#\seqtoolkit\Annotations\genbankKit.vb"
 
     ' Author:
     ' 
@@ -33,9 +33,9 @@
 
     ' Module genbankKit
     ' 
-    '     Function: addFeature, addproteinSeq, addRNAGene, asGenbank, createFeature
-    '               enumerateFeatures, getOrAddNtOrigin, getRNASeq, isPlasmidSource, populateGenbanks
-    '               readGenbank, writeGenbank
+    '     Function: addFeature, addMeta, addproteinSeq, addRNAGene, asGenbank
+    '               createFeature, enumerateFeatures, featureMeta, getOrAddNtOrigin, getRNASeq
+    '               isPlasmidSource, keyNames, populateGenbanks, readGenbank, writeGenbank
     ' 
     ' 
     ' /********************************************************************************/
@@ -65,7 +65,7 @@ Imports REnv = SMRUCC.Rsharp.Runtime
 ''' <summary>
 ''' NCBI genbank assembly file I/O toolkit
 ''' </summary>
-<Package("annotation.genbank_kit", Category:=APICategories.UtilityTools, Publisher:="xie.guigang@gcmodeller.org")>
+<Package("GenBank", Category:=APICategories.UtilityTools, Publisher:="xie.guigang@gcmodeller.org")>
 Module genbankKit
 
     ''' <summary>

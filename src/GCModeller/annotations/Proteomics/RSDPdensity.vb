@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0cfb777f87879b1b968bc04b3d2e5df6, annotations\Proteomics\RSDPdensity.vb"
+﻿#Region "Microsoft.VisualBasic::db624dbf80fb266732c4201d0282b198, annotations\Proteomics\RSDPdensity.vb"
 
     ' Author:
     ' 
@@ -49,8 +49,11 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D.Shapes
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Math
-Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
-Imports RDotNET.Extensions.VisualBasic.API
+Imports Microsoft.VisualBasic.Math.Statistics.Hypothesis
+Imports Microsoft.VisualBasic.MIME.Html.CSS
+#If netcore5 = 0 Then
+Imports RDotNet.Extensions.VisualBasic.API
+#End If
 
 ''' <summary>
 ''' iTraq质谱实验结果的质量检验分析
@@ -69,7 +72,7 @@ Public Module RSDPdensity
         Dim points As PointF() = data _
             .Select(Function(x)
                         Dim sample#() = x.Properties.Values.ToArray
-                        Dim pvalue# = stats.Ttest(sample, ZERO, varEqual:=True).pvalue
+                        Dim pvalue# = t.Test(sample, ZERO, varEqual:=True).Pvalue
                         Dim P# = -Math.Log10(pvalue)
                         Return New PointF(sample.RSD, P)
                     End Function) _

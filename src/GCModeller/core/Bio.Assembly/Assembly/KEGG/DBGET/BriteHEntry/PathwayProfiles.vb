@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b913d21268339bbf1b37059a6ff71d76, core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\PathwayProfiles.vb"
+﻿#Region "Microsoft.VisualBasic::0f54c217cf212ccd150aee23de9c0283, core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\PathwayProfiles.vb"
 
     ' Author:
     ' 
@@ -75,6 +75,12 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                               Function(p)
                                   Return p.Values
                               End Function)
+
+            profiles = profiles.ToDictionary(
+                Function(a) a.Key.Match("\d+"),
+                Function(a)
+                    Return a.Value
+                End Function)
 
             Return brite _
                .ToDictionary(Function(p) p.Key,

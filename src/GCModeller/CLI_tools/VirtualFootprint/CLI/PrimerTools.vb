@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8f6ac8b181e1442931052ed0feaa8380, CLI_tools\VirtualFootprint\CLI\PrimerTools.vb"
+﻿#Region "Microsoft.VisualBasic::dd1ffaf868fa0f3cd94b0d7954f4acd0, CLI_tools\VirtualFootprint\CLI\PrimerTools.vb"
 
     ' Author:
     ' 
@@ -63,9 +63,9 @@ Partial Module CLI
     <ExportAPI("/restrict_enzyme.builds",
                Info:="",
                Usage:="/restrict_enzyme.builds [/source <html_DIR> /out <out.json>]")>
-    <Argument("/source", True,
+    <ArgumentAttribute("/source", True,
                    Description:="Default using the data source from Wikipedia.")>
-    <Argument("/out", True,
+    <ArgumentAttribute("/out", True,
                    Description:="Enzyme database was writing to the GCModeller repository by default.")>
     <Group(CLIGrouping.PrimerTools)>
     Public Function BuildEnzymeDb(args As CommandLine) As Integer

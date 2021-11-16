@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a74507d7d478eb031755aaf9d548ea56, CLI_tools\metaProfiler\CLI\CLI.vb"
+﻿#Region "Microsoft.VisualBasic::7c5533d38fdc2973441a9817ba8053e5, CLI_tools\metaProfiler\CLI\CLI.vb"
 
     ' Author:
     ' 
@@ -56,7 +56,7 @@ Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
 
     <ExportAPI("/UPGMA.Tree")>
     <Usage("/UPGMA.Tree /in <in.csv> [/out <>]")>
-    <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
+    <ArgumentAttribute("/in", False, CLITypes.File, PipelineTypes.std_in,
               AcceptTypes:={GetType(DataSet)},
               Description:="The input matrix in csv table format for build and visualize as a UPGMA Tree.")>
     Public Function UPGMATree(args As CommandLine) As Integer

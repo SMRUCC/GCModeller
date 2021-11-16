@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::921c3d9e7cfd101519d19d64790802e7, gr\3DEngineTest\3DEngineTest\Simple\CubeModel.vb"
+﻿#Region "Microsoft.VisualBasic::1a5048284d91f859afcd0427a4254ac3, gr\3DEngineTest\3DEngineTest\Simple\CubeModel.vb"
 
     ' Author:
     ' 
@@ -39,6 +39,7 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.Data.ChartPlots.Drawing3D.Device
 Imports Microsoft.VisualBasic.Imaging.Drawing3D.Device
 Imports Microsoft.VisualBasic.Imaging.Drawing3D.Models
 
@@ -48,7 +49,7 @@ Public Class CubeModel : Inherits GDIDevice
 
     Private Sub CubeModel_Load(sender As Object, e As EventArgs) Handles Me.Load
         Model = Function() cubeModel.faces
-        bg = Color.LightBlue
+        bg = Color.SkyBlue
         Animation = Sub()
                         ' Update the variable after each frame.
                         _camera.angleX += 1

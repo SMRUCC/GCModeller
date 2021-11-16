@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::92ed8a7056654fd5868a2bf770739960, Data_science\Mathematica\Math\Math\Scripting\Factors\FactorVector.vb"
+﻿#Region "Microsoft.VisualBasic::688334d22467b2dd6e124c90a1b35626, Data_science\Mathematica\Math\Math\Scripting\Factors\FactorVector.vb"
 
     ' Author:
     ' 
@@ -48,7 +48,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
-Imports Microsoft.VisualBasic.Math.SyntaxAPI.Vectors
+Imports Microsoft.VisualBasic.Math.Scripting.Rscript
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Scripting

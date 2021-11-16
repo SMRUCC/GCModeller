@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2fb544b8a851950b880670a7a4fc28b5, Shared\Settings.FileSystem\KEGG\Directories.vb"
+﻿#Region "Microsoft.VisualBasic::0ed832df89f5bf23844f2cb21722c4f0, Shared\Settings.FileSystem\KEGG\Directories.vb"
 
     ' Author:
     ' 

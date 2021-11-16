@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f7bebc758d73979328658ac23979c08f, gr\Microsoft.VisualBasic.Imaging\test\DriverTest.vb"
+﻿#Region "Microsoft.VisualBasic::46b5735c54a3b32f6c47376fe941a9c2, gr\Microsoft.VisualBasic.Imaging\test\DriverTest.vb"
 
     ' Author:
     ' 
@@ -43,9 +43,9 @@
 
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Imaging.Driver.CSS
-Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
-Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS.Parser
-Imports VisualBasic = Microsoft.VisualBasic.Language.Runtime
+Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Language.CSS
+Imports VB = Microsoft.VisualBasic.Language.Runtime
 
 Module DriverTest
     Sub Main()
@@ -60,7 +60,7 @@ Module DriverTest
             }
         }
 
-        With New VisualBasic
+        With New VB
 
             ' Call (AddressOf testPlot).RunPlot(css, !A = 99, !B = 123, !CSS = "dertfff")
 
@@ -92,7 +92,7 @@ Module DriverTest
     ''' <param name="A!"></param>
     ''' <param name="b!"></param>
     ''' <returns></returns>
-    <Driver("test.plot")>
+    <Driver.CSS.Driver("test.plot")>
     Public Function testPlot(A!, b!, Optional bg$ = "1234", Optional testFont$ = CSSFont.Win7LargerBold) As GraphicsData
         Call Console.WriteLine(A)
         Call Console.WriteLine(b)

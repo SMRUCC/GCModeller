@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::beb8e1331b165e9bad818fd0b57b2037, typescript\Linq.ts\TsBuild\TsBuild\ModuleBuilder\ModuleBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::30604aa27749b80aacd3786b108f784a, typescript\Linq.ts\TsBuild\TsBuild\ModuleBuilder\ModuleBuilder.vb"
 
     ' Author:
     ' 
@@ -109,4 +109,3 @@ Module ModuleBuilder
         Return vb.ToString
     End Function
 End Module
-

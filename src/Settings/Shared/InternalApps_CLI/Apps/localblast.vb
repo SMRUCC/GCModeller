@@ -1,4 +1,47 @@
-﻿Imports System.Runtime.CompilerServices
+﻿#Region "Microsoft.VisualBasic::53e4501acf618573848d0e39b766f347, Shared\InternalApps_CLI\Apps\localblast.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class localblast
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
+    '     Function: FromEnvironment
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService
@@ -11,11 +54,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7290.24332
-'  // ASSEMBLY:  Settings, Version=3.3277.7290.24332, Culture=neutral, PublicKeyToken=null
-'  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
+'  // VERSION:   3.3277.7609.23646
+'  // ASSEMBLY:  Settings, Version=3.3277.7609.23646, Culture=neutral, PublicKeyToken=null
+'  // COPYRIGHT: Copyright (c) SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     12/17/2019 1:31:04 PM
+'  // BUILT:     10/31/2020 1:08:12 PM
 '  // 
 ' 
 ' 
@@ -1111,18 +1154,21 @@ End Function
 
 ''' <summary>
 ''' ```bash
-''' /Export.gb.genes /gb &lt;genbank.gb&gt; [/geneName /out &lt;out.fasta&gt;]
+''' /Export.gb.genes /gb &lt;genbank.gb&gt; [/locus_tag /geneName /out &lt;out.fasta&gt;]
 ''' ```
 ''' </summary>
 '''
 ''' <param name="geneName"> If this parameter is specific as True, then this function will try using geneName as the fasta sequence title, or using locus_tag value as default.
 ''' </param>
-Public Function ExportGenesFasta(gb As String, Optional out As String = "", Optional genename As Boolean = False) As Integer
+Public Function ExportGenesFasta(gb As String, Optional out As String = "", Optional locus_tag As Boolean = False, Optional genename As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Export.gb.genes")
     Call CLI.Append(" ")
     Call CLI.Append("/gb " & """" & gb & """ ")
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If locus_tag Then
+        Call CLI.Append("/locus_tag ")
     End If
     If genename Then
         Call CLI.Append("/genename ")
@@ -1422,8 +1468,6 @@ End Function
 ''' </summary>
 '''
 ''' <param name="sp"> The organism scientific name.
-''' </param>
-''' <param name="uniprot"> The Uniprot protein database in XML file format.
 ''' </param>
 ''' <param name="exclude"> Exclude the specific organism by ``/sp`` scientific name instead of only include it?
 ''' </param>
@@ -2360,3 +2404,4 @@ Public Function XmlToExcelBatch([in] As String, Optional out As String = "", Opt
 End Function
 End Class
 End Namespace
+

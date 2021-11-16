@@ -33,9 +33,13 @@
 
     '     Class GeneCluster
     ' 
+    '         Properties: CEGId, GeneClusters
+    ' 
     '         Function: GenerateDatabase, ToString
     ' 
     '     Class CEGAssembly
+    ' 
+    '         Properties: GeneClusters, Updates
     ' 
     '         Function: InstallDatabase
     ' 

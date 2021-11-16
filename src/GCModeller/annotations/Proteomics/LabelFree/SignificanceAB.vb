@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3340a08b3d5a84f483a0b744dd6d5349, annotations\Proteomics\LabelFree\SignificanceAB.vb"
+﻿#Region "Microsoft.VisualBasic::2651fea6ca00af2d65a7ef2a1efdff4c, annotations\Proteomics\LabelFree\SignificanceAB.vb"
 
     ' Author:
     ' 
@@ -44,8 +44,10 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Distributions
 Imports Microsoft.VisualBasic.Math.Distributions.BinBox
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
+#If netcore5 = 0 Then
 Imports RDotNET.Extensions.VisualBasic
 Imports RDotNET.Extensions.VisualBasic.API
+#End If
 
 ''' <summary>
 ''' 当T检验无法正常工作的时候，使用这个模块进行P值的计算
@@ -93,6 +95,7 @@ Public Module SignificanceAB
     ''' <param name="ratio"></param>
     ''' <returns></returns>
     Public Function SignificanceA(ratio As Vector) As Vector
+#If netcore5 = 0 Then
         Dim quantile#()
 
         ratio = ratio.Log(base:=2)
@@ -123,6 +126,9 @@ Public Module SignificanceAB
             .AsVector
 
         Return p
+#Else
+        Throw New NotImplementedException
+#End If
     End Function
 
     ''' <summary>

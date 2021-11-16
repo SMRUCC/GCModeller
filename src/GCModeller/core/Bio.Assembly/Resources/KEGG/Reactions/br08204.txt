@@ -1,5 +1,5 @@
 +E	RClass
-#<h2><a href="/kegg/kegg2.html"><img src="/Fig/bget/kegg3.gif" align="middle" border=0></a>&nbsp; Reaction Class</h2>
+#<h2><a href="/kegg/brite.html"><img src="/Fig/bget/kegg3.gif" align="middle" border=0></a>&nbsp; Reaction Class</h2>
 !
 A<b>1. Oxidoreductase reactions</b>
 B  1.1  Acting on the CH-OH group of donors
@@ -804,6 +804,7 @@ D      1.1.1.366
 E        RC00089
 D      1.1.1.367
 E        RC00182
+E        RC01519
 D      1.1.1.368
 E        RC00850
 D      1.1.1.369
@@ -913,6 +914,12 @@ E        RC00066
 D      1.1.1.420
 E        RC00066
 D      1.1.1.421
+D      1.1.1.422
+E        RC01681
+D      1.1.1.423
+E        RC01681
+D      1.1.1.424
+D      1.1.1.425
 D      1.1.1.-
 E        RC00004
 E        RC00029
@@ -927,6 +934,7 @@ E        RC00117
 E        RC00144
 E        RC00154
 E        RC00182
+E        RC00187
 E        RC00234
 E        RC00240
 E        RC00241
@@ -942,6 +950,7 @@ E        RC01014
 E        RC01334
 E        RC01377
 E        RC01516
+E        RC01519
 E        RC01531
 E        RC01812
 E        RC02077
@@ -1095,6 +1104,9 @@ E        RC00044
 D      1.1.5.13
 E        RC00031
 D      1.1.5.-
+C    1.1.7  With an iron-sulfur protein as acceptor
+D      1.1.7.1
+E        RC00490
 C    1.1.9  With a copper protein as acceptor
 D      1.1.9.1
 E        RC00050
@@ -1108,6 +1120,8 @@ D      1.1.98.5
 E        RC00955
 D      1.1.98.6
 E        RC00613
+D      1.1.98.7
+E        RC00099
 D      1.1.98.-
 E        RC00819
 C    1.1.99  With unknown physiological acceptors
@@ -1414,6 +1428,14 @@ D      1.2.1.102
 E        RC00075
 D      1.2.1.103
 E        RC00684
+D      1.2.1.104
+E        RC00004
+E        RC02742
+D      1.2.1.105
+E        RC00004
+E        RC02833
+D      1.2.1.106
+E        RC00684
 D      1.2.1.-
 E        RC00004
 E        RC00047
@@ -1421,13 +1443,11 @@ E        RC00075
 E        RC00080
 E        RC00167
 E        RC00254
-E        RC00684
 E        RC00846
 E        RC01796
 C    1.2.2  With a cytochrome as acceptor
 D      1.2.2.1
 E        RC02796
-D      1.2.2.4
 C    1.2.3  With oxygen as acceptor
 D      1.2.3.1
 E        RC00071
@@ -1464,10 +1484,8 @@ E        RC00075
 E        RC02818
 C    1.2.4  With a disulfide as acceptor
 D      1.2.4.1
-E        RC00004
 E        RC00027
 E        RC00627
-E        RC02742
 E        RC02744
 E        RC02882
 D      1.2.4.2
@@ -1788,6 +1806,7 @@ D      1.3.1.121
 E        RC03552
 D      1.3.1.122
 D      1.3.1.123
+D      1.3.1.124
 D      1.3.1.-
 E        RC00052
 E        RC00057
@@ -1839,6 +1858,7 @@ D      1.3.3.14
 E        RC00921
 D      1.3.3.15
 E        RC00885
+D      1.3.3.16
 C    1.3.4  With a disulfide as acceptor
 D      1.3.4.1
 E        RC00045
@@ -1876,8 +1896,6 @@ E        RC01008
 D      1.3.7.8
 E        RC00002
 E        RC01839
-D      1.3.7.9
-E        RC00490
 D      1.3.7.11
 E        RC03134
 D      1.3.7.12
@@ -1906,7 +1924,9 @@ E        RC02037
 D      1.3.8.4
 E        RC00246
 D      1.3.8.5
+E        RC00052
 E        RC00068
+E        RC00148
 D      1.3.8.6
 E        RC00052
 E        RC00156
@@ -1933,6 +1953,9 @@ D      1.3.8.14
 E        RC03357
 D      1.3.8.15
 E        RC00669
+D      1.3.8.16
+E        RC02565
+D      1.3.8.17
 D      1.3.8.-
 E        RC03363
 C    1.3.98  With other, known, physiological acceptors
@@ -1948,6 +1971,7 @@ E        RC00884
 E        RC03545
 D      1.3.98.6
 E        RC00884
+D      1.3.98.7
 D      1.3.98.-
 E        RC01983
 C    1.3.99  With unknown physiological acceptors
@@ -1959,9 +1983,6 @@ D      1.3.99.6
 E        RC00145
 D      1.3.99.8
 E        RC01856
-D      1.3.99.12
-E        RC00068
-E        RC00148
 D      1.3.99.14
 E        RC00666
 D      1.3.99.16
@@ -1974,8 +1995,6 @@ D      1.3.99.19
 E        RC00787
 D      1.3.99.23
 E        RC01835
-D      1.3.99.24
-E        RC02565
 D      1.3.99.25
 E        RC01501
 D      1.3.99.26
@@ -2005,18 +2024,21 @@ D      1.3.99.33
 E        RC00669
 D      1.3.99.36
 D      1.3.99.37
+E        RC01970
 D      1.3.99.38
 E        RC00212
 D      1.3.99.39
 E        RC01901
 E        RC01965
 D      1.3.99.40
+E        RC02962
 D      1.3.99.-
 E        RC00045
 E        RC00052
 E        RC00076
 E        RC00148
 E        RC00824
+E        RC00885
 E        RC01893
 E        RC01942
 E        RC02037
@@ -2110,6 +2132,9 @@ D      1.4.1.25
 E        RC00006
 D      1.4.1.26
 E        RC00249
+D      1.4.1.27
+E        RC00022
+E        RC02834
 D      1.4.1.-
 E        RC00006
 E        RC00062
@@ -2191,14 +2216,13 @@ E        RC00225
 E        RC00807
 D      1.4.3.25
 E        RC00006
+D      1.4.3.26
 D      1.4.3.-
 E        RC00062
 E        RC02566
 C    1.4.4  With a disulfide as acceptor
 D      1.4.4.2
-E        RC00022
 E        RC00929
-E        RC02834
 E        RC02880
 C    1.4.5  With a quinone or other compound as acceptor
 D      1.4.5.1
@@ -2304,7 +2328,9 @@ E        RC00798
 D      1.5.1.32
 E        RC01593
 D      1.5.1.33
+E        RC00158
 E        RC00601
+E        RC03327
 D      1.5.1.34
 E        RC00023
 D      1.5.1.36
@@ -2343,6 +2369,10 @@ E        RC00217
 E        RC01532
 D      1.5.1.52
 E        RC00283
+D      1.5.1.53
+E        RC00081
+D      1.5.1.54
+E        RC00081
 D      1.5.1.-
 E        RC00126
 E        RC00202
@@ -2499,8 +2529,6 @@ E        RC03214
 E        RC03455
 E        RC03456
 D      1.6.3.-
-C    1.6.4  With a disulfide as acceptor
-D      1.6.4.-
 C    1.6.5  With a quinone or similar compound as acceptor
 D      1.6.5.2
 E        RC00819
@@ -2519,8 +2547,6 @@ D      1.6.5.-
 E        RC02466
 C    1.6.99  With unknown physiological acceptors
 D      1.6.99.1
-E        RC00001
-D      1.6.99.3
 E        RC00001
 D      1.6.99.-
 C    1.6.-  Acting on NADH or NADPH
@@ -2625,11 +2651,8 @@ D      1.8.1.3
 E        RC00580
 D      1.8.1.4
 E        RC00004
-E        RC00022
 E        RC00583
-E        RC02742
 E        RC02833
-E        RC02834
 D      1.8.1.5
 E        RC00069
 D      1.8.1.6
@@ -2677,6 +2700,7 @@ D      1.8.2.5
 E        RC02813
 D      1.8.2.6
 E        RC03511
+D      1.8.2.7
 C    1.8.3  With oxygen as acceptor
 D      1.8.3.1
 E        RC00168
@@ -2763,6 +2787,7 @@ D      1.8.98.5
 E        RC00011
 D      1.8.98.6
 E        RC00011
+D      1.8.98.7
 C    1.8.99  With unknown physiological acceptors
 D      1.8.99.2
 E        RC00007
@@ -2786,7 +2811,6 @@ C    1.10.1  With NAD+ or NADP+ as acceptor
 D      1.10.1.1
 E        RC01061
 C    1.10.2  With a cytochrome as acceptor
-D      1.10.2.1
 D      1.10.2.-
 C    1.10.3  With oxygen as acceptor
 D      1.10.3.1
@@ -2857,9 +2881,6 @@ D      1.11.1.14
 E        RC00596
 E        RC02122
 E        RC03192
-D      1.11.1.15
-E        RC01003
-E        RC01872
 D      1.11.1.16
 E        RC00596
 E        RC03192
@@ -2879,7 +2900,18 @@ E        RC02755
 D      1.11.1.22
 D      1.11.1.23
 E        RC01298
+D      1.11.1.24
+E        RC00013
+D      1.11.1.25
+D      1.11.1.26
+E        RC00001
+D      1.11.1.27
+E        RC00011
+D      1.11.1.28
+E        RC00583
+D      1.11.1.29
 D      1.11.1.-
+E        RC01003
 E        RC01872
 C    1.11.2  Peroxygenases
 D      1.11.2.1
@@ -2889,6 +2921,8 @@ D      1.11.2.3
 E        RC01711
 D      1.11.2.4
 D      1.11.2.5
+E        RC00046
+D      1.11.2.6
 E        RC00046
 B  1.12  Acting on hydrogen as donor
 C    1.12.1  With NAD+ or NADP+ as acceptor
@@ -3130,6 +3164,8 @@ D      1.13.11.88
 E        RC00924
 D      1.13.11.89
 E        RC03544
+D      1.13.11.90
+D      1.13.11.91
 D      1.13.11.-
 E        RC00091
 E        RC00115
@@ -3381,6 +3417,11 @@ D      1.14.11.70
 E        RC03550
 D      1.14.11.71
 E        RC03551
+D      1.14.11.72
+D      1.14.11.73
+D      1.14.11.74
+D      1.14.11.75
+D      1.14.11.76
 D      1.14.11.-
 E        RC00269
 E        RC01371
@@ -3583,10 +3624,6 @@ E        RC01504
 E        RC02383
 E        RC02520
 E        RC02521
-D      1.14.13.106
-E        RC00723
-E        RC00850
-E        RC01900
 D      1.14.13.107
 E        RC01506
 D      1.14.13.111
@@ -3595,8 +3632,6 @@ D      1.14.13.113
 E        RC02551
 D      1.14.13.114
 E        RC00115
-D      1.14.13.116
-E        RC01137
 D      1.14.13.122
 E        RC00116
 E        RC00269
@@ -3664,8 +3699,6 @@ E        RC03230
 E        RC03231
 D      1.14.13.189
 E        RC00490
-D      1.14.13.190
-E        RC03259
 D      1.14.13.195
 E        RC00298
 D      1.14.13.196
@@ -3757,16 +3790,11 @@ D      1.14.13.247
 E        RC02349
 D      1.14.13.-
 E        RC00046
-E        RC00060
-E        RC00181
-E        RC00190
 E        RC00201
 E        RC00206
-E        RC00225
 E        RC00257
 E        RC00269
 E        RC00275
-E        RC00277
 E        RC00298
 E        RC00365
 E        RC00389
@@ -3774,68 +3802,27 @@ E        RC00478
 E        RC00490
 E        RC00520
 E        RC00524
-E        RC00704
 E        RC00723
-E        RC00724
 E        RC00773
-E        RC00797
 E        RC00893
 E        RC00969
 E        RC01048
-E        RC01198
-E        RC01203
 E        RC01218
 E        RC01247
 E        RC01333
-E        RC01349
 E        RC01371
 E        RC01372
 E        RC01444
 E        RC01445
 E        RC01509
-E        RC01624
 E        RC01693
-E        RC01695
-E        RC01710
-E        RC01711
-E        RC01727
 E        RC01732
-E        RC01733
-E        RC01738
-E        RC01739
-E        RC01740
-E        RC01749
-E        RC01750
-E        RC01753
 E        RC01845
-E        RC02017
 E        RC02100
-E        RC02136
-E        RC02225
-E        RC02226
-E        RC02228
-E        RC02229
-E        RC02230
-E        RC02232
-E        RC02234
-E        RC02235
-E        RC02238
-E        RC02239
-E        RC02241
-E        RC02246
-E        RC02266
-E        RC02267
-E        RC02274
-E        RC02281
 E        RC02295
-E        RC02298
-E        RC02299
 E        RC02343
 E        RC02393
 E        RC02490
-E        RC02526
-E        RC02530
-E        RC02531
 E        RC02670
 E        RC03121
 E        RC03133
@@ -3851,13 +3838,11 @@ E        RC03293
 E        RC03294
 E        RC03295
 E        RC03299
-E        RC03360
 E        RC03524
 C    1.14.14  With reduced flavin or flavoprotein as one donor, and incorporation of one atom of oxygen into the other donor
 D      1.14.14.1
 E        RC00046
 E        RC00060
-E        RC00063
 E        RC00181
 E        RC00225
 E        RC00277
@@ -3892,7 +3877,6 @@ E        RC02228
 E        RC02229
 E        RC02230
 E        RC02233
-E        RC02297
 E        RC02299
 E        RC02362
 E        RC02524
@@ -3943,6 +3927,7 @@ E        RC03379
 E        RC03380
 D      1.14.14.22
 E        RC03381
+E        RC03554
 D      1.14.14.23
 E        RC00524
 D      1.14.14.24
@@ -4334,30 +4319,81 @@ D      1.14.14.170
 E        RC00661
 D      1.14.14.171
 E        RC01218
+D      1.14.14.172
+D      1.14.14.173
+E        RC03352
+D      1.14.14.174
+E        RC01137
+D      1.14.14.175
+D      1.14.14.176
+E        RC01508
+D      1.14.14.177
 D      1.14.14.-
 E        RC00046
+E        RC00060
+E        RC00063
 E        RC00181
+E        RC00190
+E        RC00225
+E        RC00269
+E        RC00277
 E        RC00392
 E        RC00490
+E        RC00704
 E        RC00723
 E        RC00724
+E        RC00773
 E        RC00797
 E        RC00949
+E        RC01198
 E        RC01203
+E        RC01349
 E        RC01444
 E        RC01445
 E        RC01504
+E        RC01624
 E        RC01641
 E        RC01675
+E        RC01695
 E        RC01710
 E        RC01711
 E        RC01727
+E        RC01732
+E        RC01733
+E        RC01738
+E        RC01739
+E        RC01740
+E        RC01749
+E        RC01750
+E        RC01753
 E        RC01905
+E        RC02017
+E        RC02136
+E        RC02225
+E        RC02226
+E        RC02228
+E        RC02229
+E        RC02230
+E        RC02232
+E        RC02234
 E        RC02235
+E        RC02238
+E        RC02239
 E        RC02241
+E        RC02246
+E        RC02266
+E        RC02267
+E        RC02274
+E        RC02281
+E        RC02297
+E        RC02298
+E        RC02299
+E        RC02526
+E        RC02530
+E        RC02531
 E        RC03350
 E        RC03351
-E        RC03352
+E        RC03360
 E        RC03542
 E        RC03546
 E        RC03547
@@ -4468,6 +4504,11 @@ E        RC01442
 D      1.14.15.37
 E        RC00741
 E        RC03535
+D      1.14.15.38
+D      1.14.15.39
+E        RC00723
+E        RC00850
+E        RC01900
 D      1.14.15.-
 E        RC00121
 E        RC00269
@@ -4480,8 +4521,6 @@ C    1.14.16  With reduced pteridine as one donor, and incorporation of one atom
 D      1.14.16.1
 E        RC00490
 D      1.14.16.2
-E        RC00046
-D      1.14.16.3
 E        RC00046
 D      1.14.16.4
 E        RC00490
@@ -4514,8 +4553,6 @@ D      1.14.18.5
 E        RC00773
 D      1.14.18.6
 D      1.14.18.7
-D      1.14.18.8
-E        RC01218
 D      1.14.18.9
 E        RC00257
 E        RC00893
@@ -4533,6 +4570,7 @@ E        RC00450
 E        RC01453
 E        RC03228
 E        RC03537
+D      1.14.18.12
 D      1.14.18.-
 E        RC00046
 E        RC00180
@@ -4667,6 +4705,8 @@ D      1.14.19.75
 E        RC00917
 D      1.14.19.76
 E        RC00717
+D      1.14.19.77
+D      1.14.19.78
 D      1.14.19.-
 E        RC00201
 E        RC00917
@@ -4731,7 +4771,6 @@ E        RC00661
 D      1.14.99.15
 E        RC00392
 E        RC01533
-D      1.14.99.19
 D      1.14.99.20
 E        RC01562
 D      1.14.99.21
@@ -4750,8 +4789,6 @@ E        RC00709
 D      1.14.99.34
 D      1.14.99.35
 E        RC02016
-D      1.14.99.37
-E        RC01508
 D      1.14.99.38
 E        RC00963
 D      1.14.99.39
@@ -4765,6 +4802,7 @@ E        RC02638
 D      1.14.99.46
 E        RC02732
 E        RC02733
+E        RC03554
 D      1.14.99.47
 E        RC00046
 D      1.14.99.48
@@ -4802,6 +4840,9 @@ D      1.14.99.66
 E        RC00060
 E        RC00181
 E        RC03038
+D      1.14.99.67
+D      1.14.99.68
+D      1.14.99.69
 D      1.14.99.-
 E        RC00075
 E        RC00115
@@ -4820,9 +4861,12 @@ E        RC00236
 E        RC00478
 E        RC00490
 E        RC00661
+E        RC00704
 E        RC00709
 E        RC00724
+E        RC00773
 E        RC00797
+E        RC00963
 E        RC01216
 E        RC01311
 E        RC01314
@@ -4857,12 +4901,8 @@ B  1.16  Oxidizing metal ions
 C    1.16.1  With NAD+ or NADP+ as acceptor
 D      1.16.1.1
 D      1.16.1.2
-D      1.16.1.3
-E        RC00220
 D      1.16.1.4
 E        RC01010
-D      1.16.1.5
-E        RC00220
 D      1.16.1.6
 E        RC00828
 D      1.16.1.7
@@ -4957,12 +4997,14 @@ D      1.17.9.1
 E        RC00116
 E        RC00269
 E        RC00769
+D      1.17.9.2
 C    1.17.98  With other, known, physiological acceptors
 D      1.17.98.2
 E        RC00269
 E        RC00769
 E        RC03289
 D      1.17.98.3
+D      1.17.98.4
 C    1.17.99  With unknown physiological acceptors
 D      1.17.99.2
 E        RC00275
@@ -4973,7 +5015,12 @@ D      1.17.99.4
 E        RC00410
 E        RC02306
 D      1.17.99.6
-D      1.17.99.7
+D      1.17.99.8
+E        RC00724
+D      1.17.99.9
+E        RC00769
+D      1.17.99.10
+D      1.17.99.11
 C    1.17.-  Acting on CH or CH2 groups
 D      1.17.-.-
 E        RC00275
@@ -5290,6 +5337,7 @@ E        RC00035
 E        RC03122
 D      2.1.1.64
 E        RC00003
+E        RC00392
 E        RC01895
 D      2.1.1.65
 E        RC00003
@@ -6048,9 +6096,6 @@ D      2.1.1.357
 E        RC00003
 E        RC00060
 E        RC00181
-D      2.1.1.358
-E        RC00003
-E        RC00496
 D      2.1.1.359
 E        RC00003
 E        RC00060
@@ -6068,6 +6113,39 @@ D      2.1.1.362
 E        RC00003
 E        RC00181
 D      2.1.1.363
+D      2.1.1.364
+E        RC00003
+E        RC00060
+D      2.1.1.365
+D      2.1.1.366
+E        RC00003
+E        RC00496
+D      2.1.1.367
+E        RC00003
+E        RC00060
+D      2.1.1.368
+E        RC00003
+E        RC00060
+E        RC00181
+D      2.1.1.369
+E        RC00003
+E        RC00060
+D      2.1.1.370
+E        RC00003
+E        RC00060
+E        RC00181
+D      2.1.1.371
+E        RC00003
+E        RC00060
+E        RC00181
+D      2.1.1.372
+E        RC00003
+E        RC00060
+E        RC00181
+E        RC00496
+D      2.1.1.373
+D      2.1.1.374
+D      2.1.1.375
 D      2.1.1.-
 E        RC00003
 E        RC00113
@@ -6132,7 +6210,6 @@ D      2.1.2.10
 E        RC00022
 E        RC00069
 E        RC00183
-E        RC02834
 D      2.1.2.11
 E        RC00022
 E        RC00200
@@ -6140,9 +6217,6 @@ E        RC00471
 D      2.1.2.13
 E        RC00026
 E        RC01575
-D      2.1.2.-
-E        RC00197
-E        RC00323
 C    2.1.3  Carboxy- and carbamoyltransferases
 D      2.1.3.1
 E        RC00040
@@ -6175,6 +6249,7 @@ E        RC00040
 E        RC00253
 D      2.1.3.-
 E        RC00055
+E        RC00064
 E        RC02840
 C    2.1.4  Amidinotransferases
 D      2.1.4.1
@@ -6233,6 +6308,9 @@ E        RC02301
 E        RC03034
 D      2.2.1.12
 E        RC03367
+D      2.2.1.13
+D      2.2.1.14
+E        RC00439
 D      2.2.1.-
 B  2.3  Acyltransferases
 C    2.3.1  Transferring groups other than aminoacyl groups
@@ -6274,7 +6352,6 @@ D      2.3.1.11
 E        RC00004
 D      2.3.1.12
 E        RC00004
-E        RC02742
 E        RC02857
 D      2.3.1.13
 E        RC00004
@@ -7064,6 +7141,7 @@ E        RC00039
 D      2.3.1.275
 E        RC00041
 D      2.3.1.276
+E        RC00166
 D      2.3.1.277
 D      2.3.1.278
 D      2.3.1.279
@@ -7091,8 +7169,22 @@ D      2.3.1.294
 D      2.3.1.295
 D      2.3.1.296
 D      2.3.1.297
+E        RC00004
+E        RC00064
 D      2.3.1.298
+E        RC00004
+E        RC00064
 D      2.3.1.299
+E        RC00004
+E        RC00064
+D      2.3.1.300
+E        RC00004
+D      2.3.1.301
+E        RC00004
+E        RC02888
+D      2.3.1.302
+E        RC00004
+D      2.3.1.303
 D      2.3.1.-
 E        RC00004
 E        RC00029
@@ -7197,6 +7289,10 @@ E        RC00064
 D      2.3.2.31
 D      2.3.2.32
 D      2.3.2.33
+D      2.3.2.34
+D      2.3.2.35
+E        RC00096
+D      2.3.2.36
 D      2.3.2.-
 E        RC00004
 E        RC00055
@@ -8130,6 +8226,15 @@ D      2.4.1.371
 D      2.4.1.372
 D      2.4.1.373
 D      2.4.1.374
+D      2.4.1.375
+D      2.4.1.376
+D      2.4.1.377
+D      2.4.1.378
+D      2.4.1.379
+D      2.4.1.380
+D      2.4.1.381
+D      2.4.1.382
+D      2.4.1.383
 D      2.4.1.-
 E        RC00005
 E        RC00028
@@ -8277,6 +8382,10 @@ E        RC00033
 E        RC03253
 E        RC03254
 D      2.4.2.61
+D      2.4.2.62
+D      2.4.2.63
+D      2.4.2.64
+E        RC00063
 D      2.4.2.-
 E        RC00005
 E        RC00049
@@ -8329,6 +8438,7 @@ D      2.4.99.20
 E        RC00033
 E        RC03216
 D      2.4.99.21
+D      2.4.99.22
 D      2.4.99.-
 E        RC00009
 E        RC00265
@@ -8528,6 +8638,7 @@ E        RC02948
 D      2.5.1.74
 E        RC03264
 D      2.5.1.75
+E        RC00121
 E        RC02820
 D      2.5.1.76
 D      2.5.1.78
@@ -8674,6 +8785,7 @@ E        RC00215
 D      2.5.1.141
 E        RC01786
 D      2.5.1.142
+E        RC00279
 D      2.5.1.143
 E        RC00002
 E        RC03521
@@ -8693,11 +8805,14 @@ D      2.5.1.149
 D      2.5.1.150
 D      2.5.1.151
 D      2.5.1.152
+D      2.5.1.153
 D      2.5.1.-
 E        RC00020
+E        RC00159
 E        RC00209
 E        RC00279
 E        RC00949
+E        RC01091
 E        RC02332
 E        RC02848
 E        RC02936
@@ -8722,6 +8837,7 @@ E        RC00006
 E        RC00036
 D      2.6.1.7
 E        RC00006
+E        RC00930
 D      2.6.1.8
 E        RC00006
 D      2.6.1.9
@@ -8874,6 +8990,7 @@ E        RC00887
 D      2.6.1.63
 E        RC00006
 E        RC00018
+E        RC00930
 D      2.6.1.64
 E        RC00006
 D      2.6.1.65
@@ -9020,6 +9137,8 @@ D      2.6.1.117
 D      2.6.1.118
 E        RC00006
 E        RC00062
+D      2.6.1.119
+E        RC00048
 D      2.6.1.-
 E        RC00006
 E        RC00025
@@ -9193,6 +9312,7 @@ E        RC00017
 D      2.7.1.51
 E        RC00002
 E        RC00017
+E        RC01069
 D      2.7.1.52
 E        RC00002
 E        RC00078
@@ -9605,6 +9725,9 @@ D      2.7.1.229
 E        RC00002
 E        RC00017
 D      2.7.1.230
+D      2.7.1.231
+D      2.7.1.232
+E        RC00002
 D      2.7.1.-
 E        RC00002
 E        RC00017
@@ -9642,7 +9765,6 @@ E        RC00002
 E        RC00043
 D      2.7.2.12
 E        RC00043
-D      2.7.2.13
 D      2.7.2.14
 E        RC00002
 E        RC00043
@@ -9652,6 +9774,9 @@ E        RC00043
 D      2.7.2.16
 E        RC00002
 E        RC00017
+D      2.7.2.17
+E        RC00002
+E        RC00043
 D      2.7.2.-
 E        RC00002
 E        RC00043
@@ -9746,6 +9871,9 @@ E        RC00002
 D      2.7.4.31
 E        RC00002
 D      2.7.4.32
+E        RC00002
+D      2.7.4.33
+D      2.7.4.34
 E        RC00002
 D      2.7.4.-
 E        RC00002
@@ -9936,8 +10064,12 @@ D      2.7.7.100
 D      2.7.7.101
 D      2.7.7.102
 D      2.7.7.103
+D      2.7.7.104
+D      2.7.7.105
+D      2.7.7.106
 D      2.7.7.-
 E        RC00002
+E        RC00152
 C    2.7.8  Transferases for other substituted phosphate groups
 D      2.7.8.1
 E        RC00002
@@ -10410,6 +10542,9 @@ E        RC00014
 E        RC00137
 D      2.8.3.25
 E        RC00014
+D      2.8.3.26
+E        RC00014
+E        RC00978
 D      2.8.3.-
 E        RC00004
 E        RC00012
@@ -10417,7 +10552,6 @@ E        RC00014
 E        RC00131
 E        RC00137
 E        RC00174
-E        RC00978
 C    2.8.4  Transferring alkylthio groups
 D      2.8.4.1
 E        RC00011
@@ -10449,7 +10583,7 @@ E        RC01246
 D      2.9.1.2
 E        RC02965
 E        RC02966
-D      2.9.1.-
+D      2.9.1.3
 B  2.10  Transferring molybdenum- or tungsten-containing groups
 C    2.10.1  Molybdenumtransferases or tungstentransferases with sulfide groups as acceptors
 D      2.10.1.1
@@ -10762,6 +10896,9 @@ E        RC00041
 D      3.1.1.114
 E        RC00460
 E        RC00461
+D      3.1.1.115
+D      3.1.1.116
+D      3.1.1.117
 D      3.1.1.-
 E        RC00020
 E        RC00037
@@ -10922,9 +11059,6 @@ D      3.1.3.28
 E        RC00428
 D      3.1.3.29
 E        RC00017
-D      3.1.3.31
-E        RC00017
-E        RC00078
 D      3.1.3.32
 E        RC00078
 D      3.1.3.33
@@ -11070,6 +11204,9 @@ E        RC00017
 D      3.1.3.106
 E        RC00017
 D      3.1.3.107
+D      3.1.3.108
+E        RC00005
+E        RC00078
 D      3.1.3.-
 E        RC00005
 E        RC00017
@@ -11162,6 +11299,7 @@ D      3.1.4.58
 E        RC00296
 D      3.1.4.59
 D      3.1.4.60
+D      3.1.4.61
 D      3.1.4.-
 E        RC00017
 E        RC00425
@@ -11214,10 +11352,6 @@ D      3.1.7.5
 E        RC00017
 D      3.1.7.6
 E        RC00017
-D      3.1.7.8
-E        RC00017
-D      3.1.7.9
-E        RC01821
 D      3.1.7.10
 E        RC00017
 E        RC02590
@@ -11292,7 +11426,6 @@ D      3.1.26.12
 D      3.1.26.13
 D      3.1.26.-
 C    3.1.27  Endoribonucleases producing 3'-phosphomonoesters
-D      3.1.27.3
 D      3.1.27.7
 D      3.1.27.8
 D      3.1.27.-
@@ -11383,7 +11516,6 @@ D      3.2.1.42
 E        RC00005
 E        RC00078
 D      3.2.1.43
-D      3.2.1.44
 D      3.2.1.45
 E        RC00059
 E        RC00451
@@ -11650,6 +11782,10 @@ D      3.2.1.208
 E        RC00397
 D      3.2.1.209
 D      3.2.1.210
+D      3.2.1.211
+D      3.2.1.212
+D      3.2.1.213
+D      3.2.1.214
 D      3.2.1.-
 E        RC00004
 E        RC00005
@@ -11916,6 +12052,7 @@ D      3.4.17.22
 D      3.4.17.23
 E        RC00064
 E        RC02559
+D      3.4.17.24
 D      3.4.17.-
 C    3.4.18  Cysteine-type carboxypeptidases
 D      3.4.18.1
@@ -12602,14 +12739,20 @@ E        RC00064
 E        RC00090
 D      3.5.1.129
 D      3.5.1.130
+E        RC00064
+E        RC00090
 D      3.5.1.131
 E        RC01287
 D      3.5.1.132
+E        RC00064
+E        RC00090
 D      3.5.1.133
 E        RC00064
 D      3.5.1.134
 E        RC00064
 E        RC00090
+D      3.5.1.135
+D      3.5.1.136
 D      3.5.1.-
 E        RC00010
 E        RC00033
@@ -12920,8 +13063,6 @@ B  3.6  Acting on acid anhydrides
 C    3.6.1  In phosphorus-containing anhydrides
 D      3.6.1.1
 D      3.6.1.2
-D      3.6.1.3
-E        RC00002
 D      3.6.1.5
 E        RC00002
 D      3.6.1.6
@@ -13023,17 +13164,21 @@ D      3.6.1.69
 D      3.6.1.70
 D      3.6.1.71
 D      3.6.1.72
+D      3.6.1.73
+E        RC00002
+D      3.6.1.74
 D      3.6.1.-
 E        RC00002
+E        RC00005
 E        RC00017
+E        RC00078
 C    3.6.2  In sulfonyl-containing anhydrides
 D      3.6.2.1
 E        RC00007
 E        RC02809
 D      3.6.2.2
 E        RC00007
-C    3.6.3  Acting on acid anhydrides to catalyse transmembrane movement of substances
-D      3.6.3.11
+C    3.6.3  Catalysing transmembrane movement of substances
 D      3.6.3.-
 C    3.6.4  Acting on acid anhydrides to facilitate cellular and subcellular movement
 D      3.6.4.6
@@ -13132,6 +13277,10 @@ E        RC00801
 D      3.7.1.25
 E        RC00753
 E        RC01277
+D      3.7.1.26
+E        RC00326
+E        RC03236
+D      3.7.1.27
 D      3.7.1.-
 E        RC00326
 E        RC00475
@@ -13148,17 +13297,15 @@ E        RC01429
 E        RC02010
 E        RC02470
 E        RC02471
-E        RC03236
 B  3.8  Acting on halide bonds
 C    3.8.1  In carbon-halide compounds
-D      3.8.1.1
-E        RC00337
 D      3.8.1.2
 E        RC00697
 E        RC01005
 D      3.8.1.3
 E        RC00697
 D      3.8.1.5
+E        RC00337
 E        RC00698
 E        RC01317
 E        RC01340
@@ -13228,6 +13375,7 @@ E        RC03191
 D      3.13.1.8
 E        RC00021
 E        RC03530
+D      3.13.1.9
 B  3.-  
 C    3.-.-  
 D      3.-.-.-
@@ -13468,6 +13616,8 @@ D      4.1.1.116
 D      4.1.1.117
 D      4.1.1.118
 D      4.1.1.119
+D      4.1.1.120
+D      4.1.1.121
 D      4.1.1.-
 E        RC00097
 E        RC00299
@@ -13522,6 +13672,7 @@ E        RC00435
 D      4.1.2.17
 E        RC00603
 E        RC00604
+E        RC00721
 D      4.1.2.18
 E        RC00307
 E        RC00435
@@ -13582,9 +13733,6 @@ E        RC02327
 D      4.1.2.40
 E        RC00438
 E        RC00439
-D      4.1.2.41
-E        RC00307
-E        RC01468
 D      4.1.2.42
 E        RC00312
 E        RC00372
@@ -13646,6 +13794,11 @@ E        RC00943
 D      4.1.2.60
 E        RC00721
 E        RC00943
+D      4.1.2.61
+E        RC00307
+E        RC01468
+E        RC01828
+D      4.1.2.62
 D      4.1.2.-
 E        RC00264
 E        RC00312
@@ -13786,6 +13939,7 @@ D      4.1.99.23
 E        RC03252
 D      4.1.99.24
 D      4.1.99.25
+D      4.1.99.26
 D      4.1.99.-
 E        RC01433
 E        RC01434
@@ -13988,8 +14142,6 @@ D      4.2.1.99
 E        RC01153
 D      4.2.1.100
 E        RC03168
-D      4.2.1.101
-E        RC01828
 D      4.2.1.103
 E        RC01467
 D      4.2.1.104
@@ -14123,6 +14275,7 @@ E        RC02365
 D      4.2.1.160
 E        RC03343
 D      4.2.1.161
+E        RC00966
 D      4.2.1.162
 E        RC00543
 D      4.2.1.163
@@ -14210,6 +14363,7 @@ D      4.2.2.23
 D      4.2.2.24
 D      4.2.2.25
 D      4.2.2.26
+D      4.2.2.27
 D      4.2.2.-
 C    4.2.3  Acting on phosphates
 D      4.2.3.1
@@ -14899,8 +15053,8 @@ D      4.6.1.20
 D      4.6.1.21
 D      4.6.1.22
 D      4.6.1.23
-D      4.6.1.-
-E        RC00900
+D      4.6.1.24
+D      4.6.1.25
 B  4.7  carbon-phosphorus lyases
 C    4.7.1  carbon-phosphorus lyases (only sub-subclass identified to date)
 D      4.7.1.1
@@ -15027,8 +15181,6 @@ D      5.1.3.10
 E        RC00528
 D      5.1.3.11
 E        RC00289
-D      5.1.3.12
-E        RC00509
 D      5.1.3.13
 E        RC01531
 D      5.1.3.14
@@ -15090,9 +15242,13 @@ E        RC00289
 D      5.1.3.41
 E        RC00540
 D      5.1.3.42
+E        RC00289
 D      5.1.3.43
+D      5.1.3.44
 D      5.1.3.-
 E        RC00289
+E        RC00290
+E        RC00509
 E        RC01518
 E        RC01531
 E        RC01780
@@ -15213,6 +15369,7 @@ D      5.3.1.34
 E        RC00541
 D      5.3.1.35
 E        RC03487
+D      5.3.1.36
 D      5.3.1.-
 E        RC00163
 E        RC00376
@@ -15274,6 +15431,7 @@ D      5.3.3.19
 E        RC03339
 D      5.3.3.21
 D      5.3.3.22
+D      5.3.3.23
 D      5.3.3.-
 E        RC01085
 E        RC02102
@@ -15338,6 +15496,7 @@ E        RC00536
 D      5.4.2.12
 E        RC00536
 D      5.4.2.13
+E        RC00408
 C    5.4.3  Transferring amino groups
 D      5.4.3.2
 E        RC00303
@@ -15864,6 +16023,13 @@ D      6.2.1.58
 D      6.2.1.59
 D      6.2.1.60
 D      6.2.1.61
+D      6.2.1.62
+D      6.2.1.63
+D      6.2.1.64
+D      6.2.1.65
+D      6.2.1.66
+D      6.2.1.67
+D      6.2.1.68
 D      6.2.1.-
 E        RC00004
 E        RC00014
@@ -15873,6 +16039,10 @@ E        RC00174
 E        RC00280
 E        RC00978
 E        RC01438
+C    6.2.2  Amide---thiol ligases
+D      6.2.2.1
+D      6.2.2.2
+D      6.2.2.3
 B  6.3  Forming carbon-nitrogen bonds
 C    6.3.1  Acid-D-ammonia (or amine) ligases (amide synthases)
 D      6.3.1.1
@@ -15925,6 +16095,9 @@ E        RC00070
 E        RC00090
 E        RC00992
 E        RC02896
+D      6.3.1.21
+E        RC00197
+E        RC00323
 D      6.3.1.-
 C    6.3.2  Acid-D-amino-acid ligases (peptide synthases)
 D      6.3.2.1
@@ -16072,10 +16245,15 @@ D      6.3.2.55
 D      6.3.2.56
 D      6.3.2.57
 D      6.3.2.58
+D      6.3.2.59
+E        RC00096
+E        RC00141
+D      6.3.2.60
+E        RC00064
+E        RC00090
 D      6.3.2.-
 E        RC00064
 E        RC00090
-E        RC00096
 E        RC00141
 C    6.3.3  Cyclo-ligases
 D      6.3.3.1
@@ -16210,6 +16388,7 @@ E        RC02798
 D      6.3.5.-
 E        RC00010
 E        RC00358
+E        RC02596
 C    6.3.-  Forming carbon-nitrogen bonds
 D      6.3.-.-
 B  6.4  Forming carbon-carbon bonds
@@ -16232,6 +16411,7 @@ E        RC00367
 E        RC00942
 D      6.4.1.6
 E        RC00040
+E        RC00367
 D      6.4.1.7
 E        RC00626
 D      6.4.1.8
@@ -16256,6 +16436,8 @@ E        RC00005
 D      6.5.1.7
 E        RC00005
 D      6.5.1.8
+D      6.5.1.9
+E        RC00900
 D      6.5.1.-
 B  6.6  Forming nitrogen-D-metal bonds
 C    6.6.1  Forming coordination complexes
@@ -16286,6 +16468,7 @@ E        RC00061
 D      7.1.1.8
 D      7.1.1.9
 E        RC00016
+D      7.1.1.10
 C    7.1.2  Linked to the hydrolysis of a nucleoside triphosphate
 D      7.1.2.1
 D      7.1.2.2
@@ -16318,6 +16501,7 @@ D      7.2.2.18
 D      7.2.2.19
 D      7.2.2.20
 D      7.2.2.21
+D      7.2.2.22
 C    7.2.4  Linked to decarboxylation
 D      7.2.4.1
 E        RC00253
@@ -16352,6 +16536,7 @@ D      7.4.2.10
 D      7.4.2.11
 D      7.4.2.12
 D      7.4.2.13
+D      7.4.2.14
 B  7.5  Catalysing the translocation of carbohydrates and their derivatives
 C    7.5.2  Linked to the hydrolysis of a nucleoside triphosphate
 D      7.5.2.1
@@ -16387,5 +16572,5 @@ D      7.6.2.15
 D      7.6.2.16
 !
 #<hr>
-#<b>[ <a href="/kegg/reaction/">REACTION</a> | <a href="/kegg/brite.html">BRITE</a> | <a href="/kegg/kegg2.html">KEGG2</a> | <a href="/kegg/">KEGG</a> ]</b><br>
-#Last updated: March 15, 2020
+#[ <a href="/kegg/reaction/">REACTION</a> | <a href="/kegg/brite.html">BRITE</a> | <a href="/kegg/kegg2.html">KEGG2</a> | <a href="/kegg/">KEGG</a> ]<br>
+#Last updated: June 18, 2021

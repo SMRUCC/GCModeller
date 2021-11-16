@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::28b0fa801e7bf4ee7bef46f68db8d37c, gr\network-visualization\Visualizer\Styling\StyleMappings.vb"
+﻿#Region "Microsoft.VisualBasic::1a5935b5a8ba6e940dfb400014459c22, gr\network-visualization\Visualizer\Styling\StyleMappings.vb"
 
     ' Author:
     ' 
@@ -167,7 +167,7 @@ Namespace Styling
         ''' <returns></returns>
         <Extension>
         Public Function ColorMapping(Of T As IDynamicsTable)(source As IEnumerable(Of T), key$, colorSchema$, Optional level% = 100) As Map(Of T, Color)()
-            Dim levels As Map(Of T, Double)() = source.NumericMapping(key, "0 -> 1")
+            Dim levels As Map(Of T, Double)() = source.NumericMapping(key, {0, 1})
             Dim out As New List(Of Map(Of T, Color))
             Dim colors As Color() = Designer.GetColors(colorSchema, level)
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::309aaec301ec044722744c5785c1241f, Data\BinaryData\BinaryData\Extensions\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::7c3ae85564596a3d9b88f3f94db5041f, Data\BinaryData\BinaryData\Extensions\Extensions.vb"
 
     ' Author:
     ' 
@@ -37,7 +37,7 @@
     ' 
     ' Module Extensions
     ' 
-    '     Function: OpenBinaryReader, ReadAsDoubleVector, ReadAsInt64Vector, (+2 Overloads) VerifyMagicSignature
+    '     Function: OpenBinaryReader, ReadAsDoubleVector, ReadAsInt64Vector, skip, (+3 Overloads) VerifyMagicSignature
     ' 
     '     Sub: WriteByte
     ' 
@@ -61,6 +61,22 @@ Public Interface IMagicBlock
 End Interface
 
 <HideModuleName> Public Module Extensions
+
+    <Extension>
+    Public Function skip(buffer As Stream, nbytes As Integer) As Long
+        If buffer.Position + nbytes > buffer.Length Then
+            nbytes = buffer.Length - buffer.Position
+        End If
+
+        Call buffer.Seek(nbytes, SeekOrigin.Current)
+
+        Return nbytes
+    End Function
+
+    <Extension>
+    Public Function VerifyMagicSignature(block As IMagicBlock, buffer As BinaryDataReader) As Boolean
+        Return block.VerifyMagicSignature(buffer.ReadString(block.magic.Length))
+    End Function
 
     ''' <summary>
     ''' 使用整形数存储的验证数据

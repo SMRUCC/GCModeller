@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8646c883a88f5de2997f4f9b29a020e0, pipeline\IPC\IPCProtocol.vb"
+﻿#Region "Microsoft.VisualBasic::92e05eabf3a5babf11c878c47543824e, pipeline\IPC\IPCProtocol.vb"
 
     ' Author:
     ' 
@@ -42,4 +42,3 @@
 Module IPCProtocol
 
 End Module
-

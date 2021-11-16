@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9b1b0c7447a017484c1017b032b3a44d, core\Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\Database\IO.StreamProviders\Tables.vb"
+﻿#Region "Microsoft.VisualBasic::76ed38aa781610d639e29c70669165e8, core\Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\Database\IO.StreamProviders\Tables.vb"
 
     ' Author:
     ' 
@@ -41,7 +41,7 @@
     ' 
     '         Properties: CHEMICAL_DATA
     ' 
-    '         Function: ChemicalModel, ppm, ToString
+    '         Function: ChemicalModel, ppm, PpmToMassDelta, ToString
     ' 
     '     Class Names
     ' 
@@ -120,6 +120,20 @@ Namespace Assembly.ELIXIR.EBI.ChEBI.Database.IO.StreamProviders.Tsv.Tables
             Dim ppmd# = stdNum.Abs(measured - actualValue) / actualValue
             ppmd = ppmd * 1000000
             Return ppmd
+        End Function
+
+        Public Shared Function PpmToMassDelta(measure As Double, ppm As Double) As Double
+            Dim da As Double
+
+            ' (measured - actualValue) / actualValue = ppm
+            ' ppm * actualValue = measured - actualValue
+            ' ppm * actualValue + actualValue = measured
+            ' measure + da = measured / (1 + ppm) 
+            ' da = measured / (1 + ppm) - measure
+            ppm = ppm / 10 ^ 6
+            da = measure / (1 + ppm) - measure
+
+            Return stdNum.Abs(da)
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

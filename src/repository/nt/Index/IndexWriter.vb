@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d06fff5034d25bd2267563bd8f61cebf, nt\Index\IndexWriter.vb"
+﻿#Region "Microsoft.VisualBasic::b0bd861c8177a60d98db09347ac58bfc, nt\Index\IndexWriter.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,8 @@
 
     ' Class IndexWriter
     ' 
-    '     Sub: Dispose, New, Write
+    '     Constructor: (+1 Overloads) Sub New
+    '     Sub: Dispose, Write
     ' 
     ' /********************************************************************************/
 
@@ -54,8 +55,8 @@ Public Class IndexWriter : Inherits IndexAbstract
     Sub New(EXPORT$, db$, index$)
         MyBase.New(index)
 
-        Call $"{EXPORT}/index/{db}".MkDIR
-        Call $"{EXPORT}/{db}".MkDIR
+        Call $"{EXPORT}/index/{db}".MakeDir
+        Call $"{EXPORT}/{db}".MakeDir
 
         Me.seqDB = New BinaryDataWriter(File.OpenWrite($"{EXPORT}/{db}/{gi}.nt"))
         Me.index = New BinaryDataWriter(File.OpenWrite($"{EXPORT}/index/{db}/{gi}.index"))

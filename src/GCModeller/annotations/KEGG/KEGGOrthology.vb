@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aaa5a487b7eb6302a1b198d1833128f8, annotations\KEGG\KEGGOrthology.vb"
+﻿#Region "Microsoft.VisualBasic::999c481b476bb4ce1e6ff1e9941e5961, annotations\KEGG\KEGGOrthology.vb"
 
     ' Author:
     ' 
@@ -39,6 +39,10 @@
 
 #End Region
 
+#If netcore5 = 1 Then
+Imports System.Data
+#End If
+
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
@@ -47,11 +51,12 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
+Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports SMRUCC.genomics.Analysis.Microarray.DAVID
 Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
 Imports SMRUCC.genomics.Assembly.KEGG
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
+Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Visualize.CatalogProfiling
 
@@ -184,12 +189,13 @@ Public Module KEGGOrthology
             "Organismal Systems"
         }
 
-        Return profile.ProfilesPlot(
+        Return New CatalogProfiles(profile).ProfilesPlot(
             title, axisTitle,
             colorSchema, bg,
             size, padding,
             classFontStyle, catalogFontStyle, titleFontStyle, valueFontStyle,
-            tickFontStyle, tick)
+            tickFontStyle, tick
+        )
     End Function
 
     Const Other$ = NameOf(Other)
@@ -250,7 +256,7 @@ Public Module KEGGOrthology
                     .ToArray
             End Function)
 
-        Return profile.ProfilesPlot(
+        Return New CatalogProfiles(profile).ProfilesPlot(
             title:="KEGG Pathway enrichment",
             size:=size,
             axisTitle:="-Log10(p-value)",
@@ -336,7 +342,7 @@ Public Module KEGGOrthology
                                   .Take(topN) _
                                   .ToArray
                           End Function)
-        Return profileData _
+        Return New CatalogProfiles(profileData) _
             .ProfilesPlot(title:="KEGG Pathway enrichment",
                           size:=size,
                           axisTitle:="-Log10(p-value)",

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ee2b31cfd14c93ac8d97f1c2fd7c70ea, meme_suite\TmoD\TMod.vb"
+﻿#Region "Microsoft.VisualBasic::d3ce6ece9e51e8fde3c0a2eb796bfd71, meme_suite\TmoD\TMod.vb"
 
     ' Author:
     ' 
@@ -54,8 +54,8 @@ Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.Data.Repository
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Linq.JoinExtensions
-Imports Microsoft.VisualBasic.Parallel.Threads
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Parallel.ThreadTask
 Imports SMRUCC.genomics.SequenceModel
 
 ''' <summary>
@@ -214,7 +214,11 @@ Public Module TMod
                          Return out
                      End Function
 
-        Return BatchTasks.BatchTask(Resources, LQuery, numThreads:=CPUCoreNumbers)
+        Return ThreadTask(Of String) _
+            .CreateThreads(Resources, LQuery) _
+            .WithDegreeOfParallelism(App.CPUCoreNumbers) _
+            .RunParallel _
+            .ToArray
     End Function
 
     ''' <summary>

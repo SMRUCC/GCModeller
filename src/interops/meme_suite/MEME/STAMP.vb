@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1e01214328654323ccbca86c630ee1e1, meme_suite\MEME\STAMP.vb"
+﻿#Region "Microsoft.VisualBasic::cc61bb9b1a1cb100c105079b9bddfb75, meme_suite\MEME\STAMP.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e070894d565c13d8b551f0290564fcd5, gr\network-visualization\Datavisualization.Network\Layouts\ForceDirected\Planner.vb"
+﻿#Region "Microsoft.VisualBasic::733749350b0bf2d9facb2f819ea6beba, gr\network-visualization\Datavisualization.Network\Layouts\ForceDirected\Planner.vb"
 
     ' Author:
     ' 
@@ -31,229 +31,206 @@
 
     ' Summaries:
 
-    '     Module Planner
+    '     Class Planner
     ' 
-    '         Function: CalculateTotalAttraction, CalculateTotalRepulsion, CreateRandomLocations, GetAttractionForce, GetRepulsionForce
-    '                   Plan
+    '         Constructor: (+1 Overloads) Sub New
+    '         Sub: Collide, RejectRegions, reset, runAttraction, runRepulsive
+    '              setPosition
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports System.Drawing
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
+Imports Microsoft.VisualBasic.Imaging.LayoutModel
 Imports Microsoft.VisualBasic.Imaging.Math2D
-Imports Microsoft.VisualBasic.Language
-Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports stdNum = System.Math
 
 Namespace Layouts.ForceDirected
 
-    ''' <summary>
-    ''' Class Planner.
-    ''' </summary>
-    Public Module Planner
+    Public Class Planner
+
+        Protected ReadOnly CANVAS_WIDTH As Integer = 1000
+        Protected ReadOnly CANVAS_HEIGHT As Integer = 1000
+
+        Protected ReadOnly g As NetworkGraph
+
+        Protected ReadOnly mDxMap As New Dictionary(Of String, Double)
+        Protected ReadOnly mDyMap As New Dictionary(Of String, Double)
+
+        Protected ReadOnly k As Double
+        Protected ReadOnly ejectFactor As Integer = 6
+        Protected ReadOnly condenseFactor As Integer = 3
+        Protected ReadOnly maxtx As Integer = 4
+        Protected ReadOnly maxty As Integer = 3
+        Protected ReadOnly dist_thresh As DoubleRange
         ''' <summary>
-        ''' The node displacement termination threshold
+        ''' 会尽量避免在这个区域内存在网络的节点，这个区域一般为legend的绘制区域
         ''' </summary>
-        Private Const TerminationThreshold As Double = 0.0001R
+        Protected ReadOnly avoidRegions As (rect As Rectangle2D, center As PointF)()
 
-        ''' <summary>
-        ''' The repulsion strength between two unconnected vertices
-        ''' </summary>
-        Private Const VertexRepulsionForceStrength As Double = 5.0R
+        Sub New(g As NetworkGraph,
+                Optional ejectFactor As Integer = 6,
+                Optional condenseFactor As Integer = 3,
+                Optional maxtx As Integer = 4,
+                Optional maxty As Integer = 3,
+                Optional dist_threshold$ = "30,250",
+                Optional size$ = "1000,1000",
+                Optional avoidRegions As RectangleF() = Nothing)
 
-        ''' <summary>
-        ''' The attraction strength between two connected vertices
-        ''' </summary>
-        Private Const VertexAttractionForceStrength As Double = 0.9R
+            Me.g = g
 
-        ''' <summary>
-        ''' Plans the specified graph.
-        ''' </summary>
-        ''' <param name="graph">The graph.</param>
-        ''' <param name="MaximumIterations">
-        ''' The maximum number of iterations
-        ''' </param>
-        Public Function Plan(graph As NetworkGraph, Optional MaximumIterations As Integer = 1000, Optional progress As Action(Of String) = Nothing) As IReadOnlyDictionary(Of Node, Vector2D)
-            ' create initial random locations for each vertex
-            Dim currentLocations = CreateRandomLocations(graph)
+            With size.SizeParser
+                CANVAS_WIDTH = .Width
+                CANVAS_HEIGHT = .Height
+            End With
 
-            ' loop until the number of iterations exceeds the hard limit
-            Const terminationThreshold = Planner.TerminationThreshold * Planner.TerminationThreshold
-            Dim i As i32 = 0
+            Me.dist_thresh = dist_threshold.NumericRangeParser
+            Me.maxtx = maxtx
+            Me.maxty = maxty
+            Me.condenseFactor = condenseFactor
+            Me.ejectFactor = ejectFactor
+            Me.k = stdNum.Sqrt(CANVAS_WIDTH * CANVAS_HEIGHT / g.vertex.Count)
+            Me.avoidRegions = avoidRegions _
+                .SafeQuery _
+                .Select(Function(rect) (New Rectangle2D(rect), rect.Centre)) _
+                .ToArray
+        End Sub
 
-            If progress Is Nothing Then
-                progress = Sub()
-                               ' do nothing
-                           End Sub
-            End If
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Sub Collide()
+            Call reset()
+            Call runRepulsive()
+            Call runAttraction()
+            Call RejectRegions()
+            Call setPosition()
+        End Sub
 
-            While i < MaximumIterations
-                ' the total displacement, used as a stop condition
-                Dim totalDisplacement = 0.0R
-                ' prepare the new positions
-                Dim newLocations As New Dictionary(Of Node, Vector2D)(currentLocations)
+        Protected Sub reset()
+            For Each v As Node In g.vertex
+                mDxMap(v.label) = 0.0
+                mDyMap(v.label) = 0.0
+            Next
+        End Sub
 
-                ' iterate over all vertices ...
-                For Each vertex As Node In graph.vertex
-                    ' obtain the vertex location
-                    Dim locationOf As Vector2D = currentLocations(vertex)
+        Protected Sub RejectRegions()
+            Dim dist, distX, distY As Double
+            Dim id As String
+            Dim dx, dy As Double
 
-                    ' and process against all other vertices
-                    Dim netForce As FDGVector2 = FDGVector2.Zero
-                    netForce += CalculateTotalRepulsion(graph, vertex, locationOf, currentLocations)
-                    netForce += CalculateTotalAttraction(graph, vertex, locationOf, currentLocations) ' TODO: make use of force symmetry along edges here
+            For Each rect In avoidRegions
+                For Each v As Node In g.vertex
+                    distX = rect.center.X - v.data.initialPostion.x
+                    distY = rect.center.Y - v.data.initialPostion.y
+                    dist = stdNum.Sqrt(distX * distX + distY * distY)
+                    id = v.label
 
-                    ' finally, update the vertex' position
-                    locationOf += netForce
-                    newLocations(vertex) = locationOf
+                    If dist > 0 Then
+                        dx = (distX / dist) * (k * k / dist) * ejectFactor * 5
+                        dy = (distY / dist) * (k * k / dist) * ejectFactor * 5
 
-                    ' update the total displacement
-                    totalDisplacement += netForce.SquaredNorm()
+                        mDxMap(id) = mDxMap(id) + dx
+                        mDyMap(id) = mDyMap(id) + dy
+                    End If
                 Next
+            Next
+        End Sub
 
-                ' calculate the center
-                Dim center As FDGVector2 = newLocations.Aggregate(FDGVector2.Zero, Function(vector, location) vector + New FDGVector2(location.Value)) * (1.0R / currentLocations.Count)
+        ''' <summary>
+        ''' 节点之间的排斥力
+        ''' </summary>
+        Protected Overridable Sub runRepulsive()
+            Dim distX, distY, dist As Double
+            Dim id As String
+            Dim ejectFactor = Me.ejectFactor
+            Dim dx, dy As Double
 
-                ' adjust each node to prevent creep
-                For Each location In newLocations
-                    currentLocations(location.Key) = location.Value - center
+            For Each v As Node In g.vertex
+                id = v.label
+
+                mDxMap(id) = 0.0
+                mDyMap(id) = 0.0
+
+                For Each u As Node In g.vertex.Where(Function(ui) Not ui Is v)
+                    distX = v.data.initialPostion.x - u.data.initialPostion.x
+                    distY = v.data.initialPostion.y - u.data.initialPostion.y
+                    dist = stdNum.Sqrt(distX * distX + distY * distY)
+
+                    'If (dist < dist_thresh.Min) Then
+                    '    ejectFactor = 5
+                    'End If
+
+                    If dist > 0 AndAlso dist < dist_thresh.Max Then
+                        dx = (distX / dist) * (k * k / dist) * ejectFactor
+                        dy = (distY / dist) * (k * k / dist) * ejectFactor
+
+                        mDxMap(id) = mDxMap(id) + dx
+                        mDyMap(id) = mDyMap(id) + dy
+                    End If
                 Next
+            Next
+        End Sub
 
-                ' early exit if nodes don't move much anymore
-                If totalDisplacement < terminationThreshold Then
-                    Exit While
-                Else
-                    Call progress($"[{++i}/{MaximumIterations}]")
+        Protected Overridable Sub runAttraction()
+            Dim u, v As Node
+            Dim distX, distY, dist As Double
+            Dim dx, dy As Double
+
+            For Each edge As Edge In g.graphEdges
+                u = edge.U
+                v = edge.V
+                distX = u.data.initialPostion.x - v.data.initialPostion.x
+                distY = u.data.initialPostion.y - v.data.initialPostion.y
+                dist = stdNum.Sqrt(distX * distX + distY * distY)
+                dx = distX * dist / k * condenseFactor
+                dy = distY * dist / k * condenseFactor
+
+                mDxMap(u.label) = mDxMap(u.label) - dx
+                mDyMap(u.label) = mDyMap(u.label) - dy
+                mDxMap(v.label) = mDxMap(v.label) + dx
+                mDyMap(v.label) = mDyMap(v.label) + dy
+            Next
+        End Sub
+
+        Private Sub setPosition()
+            Dim dx, dy As Double
+            Dim x, y As Double
+
+            For Each node As Node In g.vertex.Where(Function(v) Not v.pinned)
+                dx = mDxMap(node.label)
+                dy = mDyMap(node.label)
+
+                If (dx < -maxtx) Then dx = -maxtx
+                If (dx > maxtx) Then dx = maxtx
+                If (dy < -maxty) Then dy = -maxty
+                If (dy > maxty) Then dy = maxty
+
+                x = node.data.initialPostion.x
+                y = node.data.initialPostion.y
+                x = x + dx ' If((x + dx) >= CANVAS_WIDTH OrElse (x + dx) <= 0, x - dx, x + dx)
+                y = y + dy ' If((y + dy) >= CANVAS_HEIGHT OrElse (y + dy <= 0), y - dy, y + dy)
+
+                If x >= CANVAS_WIDTH Then
+                    x = CANVAS_WIDTH
+                ElseIf x < 0 Then
+                    x = 0
                 End If
-            End While
 
-            Return currentLocations
-        End Function
+                If y >= CANVAS_HEIGHT Then
+                    y = CANVAS_HEIGHT
+                ElseIf y < 0 Then
+                    y = 0
+                End If
 
-        ''' <summary>
-        ''' Calculates the total repulsion force.
-        ''' </summary>
-        ''' <param name="graph">The graph.</param>
-        ''' <param name="vertex">The vertex.</param>
-        ''' <param name="vertexLocation"></param>
-        ''' <param name="currentLocations">The current locations.</param>
-        ''' <returns>Vector.</returns>
-        Private Function CalculateTotalRepulsion(
- graph As NetworkGraph, vertex As Node, vertexLocation As Vector2D,
- currentLocations As IReadOnlyDictionary(Of Node, Vector2D)) As FDGVector2
-            Dim forces = From other As Node
-                         In graph.vertex.AsParallel()
-                         Where Not other Is vertex
-                         Let otherLocation = currentLocations(other)
-                         Select GetRepulsionForce(vertexLocation, otherLocation)
-
-            Dim force = forces.Aggregate(DirectCast(FDGVector2.Zero, FDGVector2), Function(current, sumOfForces) sumOfForces + current)
-            Return force
-        End Function
-
-        ''' <summary>
-        ''' Calculates the total attraction force.
-        ''' </summary>
-        ''' <param name="graph">The graph.</param>
-        ''' <param name="vertex">The vertex.</param>
-        ''' <param name="vertexLocation"></param>
-        ''' <param name="currentLocations">The current locations.</param>
-        ''' <returns>Vector.</returns>
-        Private Function CalculateTotalAttraction(
- graph As NetworkGraph, vertex As Node, vertexLocation As Vector2D,
- currentLocations As IReadOnlyDictionary(Of Node, Vector2D)) As FDGVector2
-            Dim forces = From edges As Edge
-                         In graph.GetEdges(vertex).AsParallel()
-                         Let other = edges.Other(vertex)
-                         Let otherLocation = currentLocations(other)
-                         Select GetAttractionForce(graph, vertex, vertexLocation, other, otherLocation)
-
-            Dim force = forces.Aggregate(DirectCast(FDGVector2.Zero, FDGVector2), Function(current, sumOfForces) sumOfForces + current)
-            Return force
-        End Function
-
-        ''' <summary>
-        ''' Creates the initial random locations.
-        ''' </summary>
-        ''' <param name="graph">The graph.</param>
-        ''' <returns>ILookup&lt;Vertex, Location&gt;.</returns>
-        Private Function CreateRandomLocations(
-       graph As NetworkGraph) As Dictionary(Of Node, Vector2D)
-            Dim random = randf.seeds
-            Dim initialLocations = graph.vertex.ToDictionary(Function(v) v, Function(v) New Vector2D(10000 * random.NextDouble(), 10000 * random.NextDouble()))
-            Return initialLocations
-        End Function
-
-        ''' <summary>
-        ''' Gets the repulsion force.
-        ''' </summary>
-        ''' <param name="of">The node under observation.</param>
-        ''' <param name="from">The other node.</param>
-        ''' <param name="repulsionForce">The repulsion force.</param>
-        ''' <returns>The force vector.</returns>
-        Private Function GetRepulsionForce([of] As Vector2D, from As Vector2D, Optional repulsionForce As Double = VertexRepulsionForceStrength) As FDGVector2
-            ' get the proximity and the direction
-            Dim currentDistance As Double
-            Dim direction = New FDGVector2([of] - from).Normalized(currentDistance)
-
-            If currentDistance = 0.0 OrElse (direction.x = 0.0 AndAlso direction.y = 0.0) Then
-                Return FDGVector2.Zero
-            Else
-                ' strength decrease is proportional to the squared distance;
-                ' this imitates Coulomb's Law of the repulsion of charged particles (F = k*Q1*Q2/r^2)
-                ' where we assume the charge to be equal for all particles.
-                Dim strength = repulsionForce / (currentDistance * currentDistance)
-
-                ' return the force vector
-                Return direction * strength
-            End If
-        End Function
-
-        ''' <summary>
-        ''' Gets the attraction force.
-        ''' </summary>
-        ''' <param name="graph">The graph.</param>
-        ''' <param name="of">The node under observation.</param>
-        ''' <param name="locationOf">The location of.</param>
-        ''' <param name="from">The other node.</param>
-        ''' <param name="locationFrom">The location from.</param>
-        ''' <param name="attractionStrength">The attraction strength.</param>
-        ''' <returns>The force vector.</returns>
-        Private Function GetAttractionForce(
- graph As NetworkGraph,
- [of] As Node, locationOf As Vector2D,
- from As Node, locationFrom As Vector2D, Optional attractionStrength As Double = VertexAttractionForceStrength) As FDGVector2
-            ' if vertices are unconnected, there is no force that
-            ' pulls them together.
-            Dim edges As Edge() = graph.GetEdges([of], from).ToArray
-
-            If edges.Length = 0 Then
-                Return FDGVector2.Zero
-            End If
-
-            ' the actual distance between the two vertices is given by the edge weight
-            Dim expectedDistance = Aggregate edge As Edge In edges Into Sum(edge.weight)
-
-            ' fetch the force direction and the actual distance
-            Dim currentDistance As Double
-            Dim direction = New FDGVector2(locationOf - locationFrom).Normalized(currentDistance)
-
-            If currentDistance = 0.0 OrElse (direction.x = 0.0 AndAlso direction.y = 0.0) Then
-                Return FDGVector2.Zero
-            Else
-                ' determine the spring strength by Hooke's law:
-                ' If the expected distance is larger than the current distance, the spring is
-                ' too short and should thus expand; hence the attraction force is zero.
-                ' If the expected distance is smaller than the current distance, the spring needs
-                ' to contract, hence the strength is positive.
-                Dim strength = attractionStrength * stdNum.Max(currentDistance - expectedDistance, 0)
-
-                ' In order to contract, we reverse the force direction
-                Return direction * -strength
-            End If
-        End Function
-    End Module
+                node.data.initialPostion.x = x
+                node.data.initialPostion.y = y
+            Next
+        End Sub
+    End Class
 End Namespace
-

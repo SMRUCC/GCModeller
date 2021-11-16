@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a26e1fc1348c2039b76a66e66f3d2e66, Data_science\Mathematica\Math\Math\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::0ee0095306f2f14c289e696cf589830d, Data_science\Mathematica\Math\Math\Extensions.vb"
 
     ' Author:
     ' 
@@ -54,6 +54,9 @@ Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.Scripting
 Imports stdNum = System.Math
 
+' i++
+' Math.Min(Threading.Interlocked.Increment(i), i - 1)
+
 ''' <summary>
 ''' 向量以及统计函数拓展
 ''' </summary>
@@ -100,6 +103,7 @@ Imports stdNum = System.Math
     ''' <param name="s"></param>
     ''' <returns></returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
     Public Function SSM(q As Vector, s As Vector) As Double
         If q.All(Function(a) a = 0.0R) OrElse s.All(Function(a) a = 0.0R) Then
             Return 0

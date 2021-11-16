@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a147e059d5ae2e2e00f4a8f2d3466cac, data\GO_gene-ontology\obographs\obographs\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::0e3da22bfe6299346ead31a96af54c4e, data\GO_gene-ontology\obographs\obographs\Extensions.vb"
 
     ' Author:
     ' 
@@ -54,6 +54,6 @@ Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function DAGasTabular(g As NetworkGraph) As NetworkTables
-        Return g.Tabular({"relationship", "definition", "evidence", "is_obsolete", value_colors})
+        Return g.Tabular(properties:={"relationship", "definition", "evidence", "is_obsolete", value_colors})
     End Function
 End Module

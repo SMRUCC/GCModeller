@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d63ab4450407930c16784942f1e84720, engine\vcellkit\Debugger\Debugger.vb"
+﻿#Region "Microsoft.VisualBasic::89ce37a267caf278ed1d42e21fa76db2, engine\vcellkit\Debugger\Debugger.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,8 @@
 
     ' Module Debugger
     ' 
-    '     Function: createFluxDynamicsEngine, loadDataDriver, ModelPathwayMap
+    '     Function: createFluxDynamicsEngine, CreateNetwork, GetFactor, GetFactors, loadDataDriver
+    '               ModelPathwayMap
     ' 
     '     Sub: createDynamicsSummary
     ' 
@@ -41,26 +42,40 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.ComponentModel.EquaionModel
 Imports SMRUCC.genomics.Data
-Imports SMRUCC.genomics.GCModeller.ModellingEngine
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Definitions
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Engine
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine.Definitions
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Process
+Imports SMRUCC.Rsharp.Interpreter.ExecuteEngine
+Imports SMRUCC.Rsharp.Interpreter.ExecuteEngine.ExpressionSymbols.Closure
+Imports SMRUCC.Rsharp.Interpreter.ExecuteEngine.ExpressionSymbols.DataSets
+Imports SMRUCC.Rsharp.Interpreter.ExecuteEngine.ExpressionSymbols.Operators
+Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Components
+Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports KeggReaction = SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Reaction
+Imports MassFactor = SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core.Factor
 
-<Package("vcellkit.debugger", Category:=APICategories.ResearchTools, Publisher:="xie.guigang@gcmodeller.org")>
+<Package("debugger", Category:=APICategories.ResearchTools, Publisher:="xie.guigang@gcmodeller.org")>
 <RTypeExport("dataset.driver", GetType(DataSetDriver))>
 Module Debugger
 
     <ExportAPI("vcell.summary")>
-    Public Sub createDynamicsSummary(inits As Definition, model As Model.CellularModule, dir As String)
+    Public Sub createDynamicsSummary(inits As Definition, model As CellularModule, dir As String)
         Call Summary.summary(inits, model, dir)
     End Sub
 
@@ -78,7 +93,7 @@ Module Debugger
         Dim left As String()
         Dim right As List(Of String)
 
-        For Each reaction As Reaction In list _
+        For Each reaction As KeggReaction In list _
             .Select(AddressOf reactions.GetByKey) _
             .Where(Function(r)
                        Return Not r Is Nothing
@@ -128,5 +143,87 @@ Module Debugger
         Return core _
             .AttatchMassDriver(AddressOf mass.SnapshotDriver) _
             .AttatchFluxDriver(AddressOf flux.SnapshotDriver)
+    End Function
+
+    <ExportAPI("test_network")>
+    <RApiReturn(GetType(Vessel))>
+    Public Function CreateNetwork(<RRawVectorArgument> network As Object,
+                                  <RListObjectArgument> init0 As list,
+                                  Optional env As Environment = Nothing) As Object
+
+        Dim flux As New List(Of Channel)
+        Dim dynamicsSystem As pipeline = pipeline.TryCreatePipeline(Of Expression)(network, env)
+        Dim vars As New Dictionary(Of String, MassFactor)
+        Dim massInit As Dictionary(Of String, Double) = init0.AsGeneric(Of Double)(env, 100)
+
+        If dynamicsSystem.isError Then
+            Return dynamicsSystem.getError
+        End If
+
+        For Each expr As Expression In dynamicsSystem.populates(Of Expression)(env)
+            If TypeOf expr Is DeclareLambdaFunction Then
+                Dim id As String = DirectCast(expr, DeclareLambdaFunction).parameterNames(Scan0)
+                Dim formula As ValueAssign = DirectCast(DirectCast(expr, DeclareLambdaFunction).closure, ValueAssign)
+                Dim left As Variable() = formula.targetSymbols.Select(Function(a) a.GetFactors(vars)).IteratesALL.ToArray
+                Dim right As Variable() = formula.value.GetFactors(vars).ToArray
+                Dim channel As New Channel(left, right) With {
+                    .bounds = New Boundary(5, 5),
+                    .ID = id,
+                    .forward = New BaselineControls(2),
+                    .reverse = New BaselineControls(1)
+                }
+
+                flux += channel
+
+            ElseIf TypeOf expr Is FormulaExpression Then
+                Throw New NotImplementedException
+            Else
+                Return Message.InCompatibleType(GetType(DeclareLambdaFunction), expr.GetType, env)
+            End If
+        Next
+
+        For Each id As String In vars.Keys
+            If Not massInit.ContainsKey(id) Then
+                massInit.Add(id, 0)
+            End If
+        Next
+
+        Return New Vessel() _
+            .load(flux) _
+            .load(vars.Values) _
+            .Initialize _
+            .Reset(massInit)
+    End Function
+
+    <Extension>
+    Private Iterator Function GetFactors(dataExpr As Expression, vars As Dictionary(Of String, MassFactor)) As IEnumerable(Of Variable)
+        If TypeOf dataExpr Is BinaryExpression Then
+            Dim bin As BinaryExpression = DirectCast(dataExpr, BinaryExpression)
+
+            If bin.operator = "*" Then
+                Dim factor As Double = DirectCast(bin.left, Literal).Evaluate(Nothing)
+                Dim var As New Variable(vars.GetFactor(bin.right), factor)
+
+                Yield var
+            ElseIf bin.operator = "+" Then
+                For Each v As Variable In bin.left.GetFactors(vars)
+                    Yield v
+                Next
+                For Each v As Variable In bin.right.GetFactors(vars)
+                    Yield v
+                Next
+            Else
+                Throw New InvalidExpressionException()
+            End If
+        ElseIf TypeOf dataExpr Is SymbolReference Then
+            Yield New Variable(vars.GetFactor(dataExpr), 1)
+        ElseIf TypeOf dataExpr Is Literal Then
+            Yield New Variable(vars.GetFactor(New SymbolReference(DirectCast(dataExpr, Literal).ValueStr)), 1)
+        End If
+    End Function
+
+    <Extension>
+    Private Function GetFactor(vars As Dictionary(Of String, MassFactor), symbol As SymbolReference) As MassFactor
+        Return vars.ComputeIfAbsent(symbol.symbol, Function() New MassFactor With {.ID = symbol.symbol, .Value = 100})
     End Function
 End Module

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::972d4949703a6cc11f40df4f6797fd0d, CLI_tools\GCModeller\CLI\Repository.vb"
+﻿#Region "Microsoft.VisualBasic::2f37fc8ff720ec6a18497d05dc9a4f9d, CLI_tools\GCModeller\CLI\Repository.vb"
 
     ' Author:
     ' 
@@ -33,8 +33,8 @@
 
     ' Module CLI
     ' 
-    '     Function: CopyFiles, Install_NCBI_nt, InstallCDD, InstallCOGs, InstallGenbank
-    '               MatchHits, ntRepositoryExports, NtScaner, UniqueTitle
+    '     Function: CopyFiles, InstallCDD, InstallCOGs, InstallGenbank, MatchHits
+    '               ntRepositoryExports, NtScaner, UniqueTitle
     ' 
     ' /********************************************************************************/
 
@@ -109,22 +109,22 @@ Partial Module CLI
         Return True
     End Function
 
-    <ExportAPI("--install.ncbi_nt", Usage:="--install.ncbi_nt /nt <nt.fasta/DIR> [/EXPORT <DATA_dir>]")>
-    <Group(CLIGrouping.RepositoryTools)>
-    Public Function Install_NCBI_nt(args As CommandLine) As Integer
-        Dim nt As String = args("/nt")
-        Dim EXPORT$ = args.GetValue(
-            "/EXPORT",
-            If(nt.FileExists, nt.TrimSuffix, nt.TrimDIR) & "-$DATA/")
-        Dim mysql As MySqli = Nothing
+    '<ExportAPI("--install.ncbi_nt", Usage:="--install.ncbi_nt /nt <nt.fasta/DIR> [/EXPORT <DATA_dir>]")>
+    '<Group(CLIGrouping.RepositoryTools)>
+    'Public Function Install_NCBI_nt(args As CommandLine) As Integer
+    '    Dim nt As String = args("/nt")
+    '    Dim EXPORT$ = args.GetValue(
+    '        "/EXPORT",
+    '        If(nt.FileExists, nt.TrimSuffix, nt.TrimDIR) & "-$DATA/")
+    '    Dim mysql As MySqli = Nothing
 
-        Call mysql.[Imports](nt, EXPORT, False)
+    '    Call mysql.[Imports](nt, EXPORT, False)
 
-        Return 0
-    End Function
+    '    Return 0
+    'End Function
 
     <ExportAPI("/nt.repository.query", Usage:="/nt.repository.query /query <arguments.csv> /DATA <DATA_dir> [/out <out_DIR>]")>
-    <Argument("/query", AcceptTypes:={GetType(QueryArgument)})>
+    <ArgumentAttribute("/query", AcceptTypes:={GetType(QueryArgument)})>
     <Group(CLIGrouping.RepositoryTools)>
     Public Function ntRepositoryExports(args As CommandLine) As Integer
         Dim query As String = args("/query")

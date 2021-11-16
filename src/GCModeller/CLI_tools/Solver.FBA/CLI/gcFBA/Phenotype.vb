@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::67fd862782e6a9bf064f720e2431f4d2, CLI_tools\Solver.FBA\CLI\gcFBA\Phenotype.vb"
+﻿#Region "Microsoft.VisualBasic::40797904cb71d3656ad1bd8fc4679d58, CLI_tools\Solver.FBA\CLI\gcFBA\Phenotype.vb"
 
     ' Author:
     ' 
@@ -215,7 +215,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/Solver.rFBA",
                Usage:="/Solver.rFBA /in <MetaCyc.Sbml> /reg <footprints.csv> /obj <object_function.txt/xml> [/obj-type <lst/pathway/module> /params <rfba.parameters.xml> /stat <stat.Csv> /sample <sampleName> /modify <locus_modify.csv> /out <outDIR>]")>
-    <Argument("/obj-type", True,
+    <ArgumentAttribute("/obj-type", True,
                    Description:="The input document type of the objective function, default is a gene_locus list in a text file, alternative format can be KEGG pathway xml and KEGG module xml.")>
     Public Function AnalysisPhenotype(args As CommandLine) As Integer
         Dim inModel As String = args("/in")

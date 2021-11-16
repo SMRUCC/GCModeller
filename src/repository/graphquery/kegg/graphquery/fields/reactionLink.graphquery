@@ -1,0 +1,1 @@
+reaction css("a", "*") [text()]

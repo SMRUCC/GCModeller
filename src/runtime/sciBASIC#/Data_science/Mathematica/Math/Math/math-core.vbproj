@@ -80,7 +80,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
-    <OutputPath>bin\</OutputPath>
+    <OutputPath>..\..\..\..\..\..\..\GCModeller\bin\</OutputPath>
     <DocumentationFile>Microsoft.VisualBasic.Math.Core.xml</DocumentationFile>
     <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
     <DebugType>full</DebugType>
@@ -94,7 +94,7 @@
     <DefineTrace>true</DefineTrace>
     <OutputPath>..\..\..\..\.vs\installer\</OutputPath>
     <DocumentationFile>Microsoft.VisualBasic.Math.Core.xml</DocumentationFile>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
@@ -392,7 +392,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Biodeep_UNIX_x64|x64'">
     <DebugSymbols>true</DebugSymbols>
     <DefineTrace>true</DefineTrace>
-    <OutputPath>bin\x64\Biodeep_UNIX_x64\</OutputPath>
+    <OutputPath>..\..\..\..\..\..\..\..\biodeep\biodeepdb_v3\Rscript\R\</OutputPath>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
     <DocumentationFile>Microsoft.VisualBasic.Math.Core.xml</DocumentationFile>
     <Optimize>false</Optimize>
@@ -633,11 +633,13 @@
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x86\mzkit\</OutputPath>
     <DocumentationFile>Microsoft.VisualBasic.Math.Core.xml</DocumentationFile>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
-    <DebugType>pdbonly</DebugType>
+    <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'PlantMAT|AnyCPU'">
     <DefineTrace>true</DefineTrace>
@@ -684,7 +686,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Voyager1|x64'">
     <DebugSymbols>true</DebugSymbols>
     <DefineTrace>true</DefineTrace>
-    <OutputPath>..\..\..\..\..\..\..\..\voyager-1\Apps\</OutputPath>
+    <OutputPath>..\..\..\..\..\..\..\..\voyager-1\dist\assembly\</OutputPath>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
     <DocumentationFile>Microsoft.VisualBasic.Math.Core.xml</DocumentationFile>
     <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
@@ -695,6 +697,165 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Voyager1|x86'">
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x86\Voyager1\</OutputPath>
+    <DocumentationFile>Microsoft.VisualBasic.Math.Core.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'mzkit_UnixDocker|AnyCPU'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\mzkit_UnixDocker\</OutputPath>
+    <DocumentationFile>Microsoft.VisualBasic.Math.Core.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'mzkit_UnixDocker|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\mzkit_UnixDocker\</OutputPath>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DocumentationFile>Microsoft.VisualBasic.Math.Core.xml</DocumentationFile>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'mzkit_UnixDocker|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\mzkit_UnixDocker\</OutputPath>
+    <DocumentationFile>Microsoft.VisualBasic.Math.Core.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'LipidSearch|AnyCPU'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\LipidSearch\</OutputPath>
+    <DocumentationFile>Microsoft.VisualBasic.Math.Core.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'LipidSearch|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\LipidSearch\</OutputPath>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DocumentationFile>Microsoft.VisualBasic.Math.Core.xml</DocumentationFile>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'LipidSearch|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\LipidSearch\</OutputPath>
+    <DocumentationFile>Microsoft.VisualBasic.Math.Core.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'MetaCardio|AnyCPU'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\MetaCardio\</OutputPath>
+    <DocumentationFile>Microsoft.VisualBasic.Math.Core.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'MetaCardio|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\MetaCardio\</OutputPath>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DocumentationFile>Microsoft.VisualBasic.Math.Core.xml</DocumentationFile>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'MetaCardio|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\MetaCardio\</OutputPath>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DocumentationFile>Microsoft.VisualBasic.Math.Core.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'RsharpDev|AnyCPU'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\RsharpDev\</OutputPath>
+    <DocumentationFile>Microsoft.VisualBasic.Math.Core.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'RsharpDev|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\RsharpDev\</OutputPath>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DocumentationFile>Microsoft.VisualBasic.Math.Core.xml</DocumentationFile>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'RsharpDev|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\RsharpDev\</OutputPath>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DocumentationFile>Microsoft.VisualBasic.Math.Core.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'vcellkit|AnyCPU'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\vcellkit\</OutputPath>
+    <DocumentationFile>Microsoft.VisualBasic.Math.Core.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'vcellkit|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\vcellkit\</OutputPath>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DocumentationFile>Microsoft.VisualBasic.Math.Core.xml</DocumentationFile>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'vcellkit|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\vcellkit\</OutputPath>
     <DocumentationFile>Microsoft.VisualBasic.Math.Core.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
@@ -728,8 +889,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Algebra\Extensions.vb" />
+    <Compile Include="Algebra\LP\LPPDebugView.vb" />
+    <Compile Include="Algebra\LP\LPPModel.vb" />
+    <Compile Include="Algebra\LP\LPPSolver.vb" />
+    <Compile Include="Algebra\Matrix.NET\IndexVector.vb" />
+    <Compile Include="Algebra\Matrix.NET\GeneralMatrix.vb" />
+    <Compile Include="Algebra\Matrix.NET\SparseMatrix.vb" />
     <Compile Include="Algebra\PCA\Algorithm.vb" />
     <Compile Include="Algebra\PCA\Helper.vb" />
+    <Compile Include="Algebra\Polynomial\Formula.vb" />
+    <Compile Include="Algebra\Polynomial\MultivariatePolynomial.vb" />
     <Compile Include="Numerics\Framework\VariableObject.vb" />
     <Compile Include="Numerics\Framework\Iterator.vb" />
     <Compile Include="Algebra\LP\Extensions.vb" />
@@ -742,7 +911,7 @@
     <Compile Include="Algebra\Vector\Class\SparseVector.vb" />
     <Compile Include="Algebra\Vector\Class\Linq.vb" />
     <Compile Include="Algebra\Vector\Class\DoCall.vb" />
-    <Compile Include="Algebra\Vector\Polynomial.vb" />
+    <Compile Include="Algebra\Polynomial\Polynomial.vb" />
     <Compile Include="Distributions\Abundance.vb" />
     <Compile Include="FuzzyLogic\Models\Extensions.vb" />
     <Compile Include="Numerics\BigDecimal.vb" />
@@ -756,7 +925,10 @@
     <Compile Include="Numerics\UncheckedInteger.vb" />
     <Compile Include="Numerics\Half.vb" />
     <Compile Include="Numerics\HalfHelper.vb" />
+    <Compile Include="Quantile\FastRankQuantile.vb" />
     <Compile Include="Quantile\DataQuartile.vb" />
+    <Compile Include="Quantile\QuantileQuery.vb" />
+    <Compile Include="Quantile\QuartileLevels.vb" />
     <Compile Include="Scripting\Aggregate\Aggregate.vb" />
     <Compile Include="Scripting\Expression\ExpressionCompiler.vb" />
     <Compile Include="Scripting\Expression\FunctionElement.vb" />
@@ -772,6 +944,10 @@
     <Compile Include="Scripting\Expression\Expression\Expression.vb" />
     <Compile Include="Scripting\Expression\MathToken.vb" />
     <Compile Include="Scripting\Expression\Splitter.vb" />
+    <Compile Include="Scripting\Symbolic\UnaryExpression.vb" />
+    <Compile Include="Scripting\Symbolic\PolyExpansion.vb" />
+    <Compile Include="Scripting\Symbolic\UnifySymbol.vb" />
+    <Compile Include="Scripting\Symbolic\Symbolic.vb" />
     <Compile Include="Scripting\VectorModel.vb" />
     <Compile Include="Scripting\Factors\NamedVectorFactory.vb" />
     <Compile Include="Scripting\Factors\FactorVector.vb" />
@@ -794,11 +970,11 @@
     <Compile Include="Algebra\Helpers\Variable.vb" />
     <Compile Include="Algebra\Matrix.NET\Extensions\MatrixMath.vb" />
     <Compile Include="Algebra\Vector\Class\Math.vb" />
-    <Compile Include="Algebra\RSyntax\Math\Poisson.vb" />
-    <Compile Include="Algebra\RSyntax\Math\Skellam.vb" />
-    <Compile Include="Algebra\RSyntax\PrimitiveAPI\Etc.vb" />
-    <Compile Include="Algebra\RSyntax\PrimitiveAPI\PrimitiveAPI.vb" />
-    <Compile Include="Algebra\RSyntax\Vectors\GenericVector%28Of T%29.vb" />
+    <Compile Include="Scripting\Rscript\Math\Poisson.vb" />
+    <Compile Include="Scripting\Rscript\Math\Skellam.vb" />
+    <Compile Include="Scripting\Rscript\PrimitiveAPI\Etc.vb" />
+    <Compile Include="Scripting\Rscript\PrimitiveAPI\base.vb" />
+    <Compile Include="Scripting\Rscript\Vectors\GenericVector%28Of T%29.vb" />
     <Compile Include="Algebra\Solvers\SOR.vb" />
     <Compile Include="Algebra\Solvers\GaussianElimination.vb" />
     <Compile Include="Algebra\Solvers\ISolver.vb" />
@@ -831,7 +1007,7 @@
     <Compile Include="Algebra\LP\OptimizationType.vb" />
     <Compile Include="Algebra\Matrix.NET\CholeskyDecomposition.vb" />
     <Compile Include="Algebra\Matrix.NET\EigenvalueDecomposition.vb" />
-    <Compile Include="Algebra\Matrix.NET\GeneralMatrix.vb" />
+    <Compile Include="Algebra\Matrix.NET\NumericMatrix.vb" />
     <Compile Include="Algebra\Matrix.NET\LUDecomposition.vb" />
     <Compile Include="Algebra\Matrix.NET\QRDecomposition.vb" />
     <Compile Include="Algebra\Matrix.NET\SingularValueDecomposition.vb" />
@@ -879,7 +1055,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Algebra\RSyntax\README.txt" />
+    <Content Include="Scripting\Rscript\README.txt" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -894,7 +1070,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Microsoft.VisualBasic.Core\47-dotnet_Microsoft.VisualBasic.vbproj">
+    <ProjectReference Include="..\..\..\..\Microsoft.VisualBasic.Core\src\47-dotnet_Microsoft.VisualBasic.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
     </ProjectReference>

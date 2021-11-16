@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::95e45e5b34c739f148e159ddffe56ff5, gokit\file.vb"
+﻿#Region "Microsoft.VisualBasic::4d3bcd78a4f15fdd1bb44a8be84c512b, R#\gokit\file.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     ' Module file
     ' 
-    '     Function: ReadGoObo
+    '     Function: DAG, ReadGoObo
     ' 
     ' /********************************************************************************/
 
@@ -41,9 +41,10 @@
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Data.GeneOntology
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
 
-<Package("gokit.file")>
+<Package("file")>
 Public Module file
 
     ''' <summary>
@@ -54,5 +55,10 @@ Public Module file
     <ExportAPI("read.go_obo")>
     Public Function ReadGoObo(goDb As String) As GO_OBO
         Return GO_OBO.LoadDocument(path:=goDb)
+    End Function
+
+    <ExportAPI("DAG")>
+    Public Function DAG(goDb As GO_OBO) As DAG.Graph
+        Return New DAG.Graph(goDb.terms)
     End Function
 End Module

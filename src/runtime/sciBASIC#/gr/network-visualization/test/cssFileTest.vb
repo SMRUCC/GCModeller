@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7c3eb5080ee4a030c8312c2e35f01140, gr\network-visualization\test\cssFileTest.vb"
+﻿#Region "Microsoft.VisualBasic::6d0c877c9adf144d34e9b9838ea5b9ad, gr\network-visualization\test\cssFileTest.vb"
 
     ' Author:
     ' 
@@ -39,7 +39,7 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS.Parser
+Imports Microsoft.VisualBasic.MIME.Html.Language.CSS
 
 Module cssFileTest
 

@@ -128,6 +128,25 @@
     <PlatformTarget>x64</PlatformTarget>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'vcellkit|AnyCPU'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\vcellkit\</OutputPath>
+    <DocumentationFile>SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Debugger.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'vcellkit|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\vcellkit\</OutputPath>
+    <DocumentationFile>SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Debugger.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -213,13 +232,17 @@
       <Project>{3291389c-ea87-4b33-a9a5-65a2d60ba3e2}</Project>
       <Name>physics</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\47-dotnet_Microsoft.VisualBasic.vbproj">
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\47-dotnet_Microsoft.VisualBasic.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BootstrapLoader\BootstrapLoader.vbproj">
+      <Project>{72b3198a-049c-4fc3-8b54-8e140c108cb5}</Project>
+      <Name>BootstrapLoader</Name>
     </ProjectReference>
     <ProjectReference Include="..\Dynamics\Dynamics.vbproj">
       <Project>{df077c8b-9b53-41c3-81f3-2ba4f3d7fc9f}</Project>

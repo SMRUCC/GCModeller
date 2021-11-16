@@ -97,13 +97,15 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Biodeep|x64'">
     <DefineTrace>true</DefineTrace>
-    <OutputPath>..\..\..\..\..\..\smartnucl_integrative\biodeepDB\METLINApp\App\</OutputPath>
+    <OutputPath>..\..\..\..\..\GCModeller\bin\</OutputPath>
     <DocumentationFile>SMRUCC.genomics.Model.Network.KEGG.xml</DocumentationFile>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
-    <DebugType>pdbonly</DebugType>
+    <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Biodeep|x86'">
     <DefineTrace>true</DefineTrace>
@@ -209,6 +211,37 @@
     <PlatformTarget>x86</PlatformTarget>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Rsharp_app_release|AnyCPU'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Rsharp_app_release\</OutputPath>
+    <DocumentationFile>SMRUCC.genomics.Model.Network.KEGG.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Rsharp_app_release|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Rsharp_app_release\</OutputPath>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DocumentationFile>SMRUCC.genomics.Model.Network.KEGG.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Rsharp_app_release|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Rsharp_app_release\</OutputPath>
+    <DocumentationFile>SMRUCC.genomics.Model.Network.KEGG.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -231,7 +264,12 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dunnart\GraphObject.vb" />
+    <Compile Include="Dunnart\Builder.vb" />
+    <Compile Include="Dunnart\Components.vb" />
     <Compile Include="IgnoreList.vb" />
+    <Compile Include="SimpleBuilder.vb" />
+    <Compile Include="PathwayMaps\MaxGraphAsignment.vb" />
     <Compile Include="ReactionNetwork\Builder\BuilderBase.vb" />
     <Compile Include="ReactionNetwork\Builder\EdgeFilter.vb" />
     <Compile Include="ReactionNetwork\Builder\ReactionClassNetwork.vb" />
@@ -297,6 +335,10 @@
       <Project>{9c7dd64a-e4c0-4011-8994-c842702c6ed4}</Project>
       <Name>Cytoscape</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\..\repository\Bio.Repository\Bio.Repository.vbproj">
+      <Project>{216acc2d-c7a5-4c27-9dc9-bdfa4dbb6a37}</Project>
+      <Name>Bio.Repository</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data\DataFrame\47_dotnet_ms-vb_data.framework.vbproj">
       <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
       <Name>47_dotnet_ms-vb_data.framework</Name>
@@ -329,7 +371,7 @@
       <Project>{45b726ac-d3b8-476d-89ea-1ff7243a4fa5}</Project>
       <Name>Visualizer</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\47-dotnet_Microsoft.VisualBasic.vbproj">
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\47-dotnet_Microsoft.VisualBasic.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
     </ProjectReference>
@@ -340,10 +382,6 @@
     <ProjectReference Include="..\..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\core\Bio.Repository\Bio.Repository.vbproj">
-      <Project>{216ACC2D-C7A5-4C27-9DC9-BDFA4DBB6A37}</Project>
-      <Name>Bio.Repository</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

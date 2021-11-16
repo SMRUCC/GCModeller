@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e3a6a68e86a8ea371c3c342f39342f1e, CLI_tools\gcc\Program.vb"
+﻿#Region "Microsoft.VisualBasic::b6e1315abf37ab7acdc136585383fcaa, CLI_tools\gcc\Program.vb"
 
     ' Author:
     ' 
@@ -55,6 +55,6 @@ Module Program
 
     Sub New()
         Call Settings.Session.Initialize()
-        Call Settings.LogDIR.MkDIR
+        Call Settings.LogDIR.MakeDir
     End Sub
 End Module

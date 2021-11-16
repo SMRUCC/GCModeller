@@ -185,6 +185,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Linq" />
@@ -208,6 +209,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="RunScript.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -237,8 +239,6 @@
     <Compile Include="R\DESeq\ResultData.vb" />
     <Compile Include="R\DESeq\Views\Views.vb" />
     <Compile Include="R\Wavelets.vb" />
-    <Compile Include="WGCNA\CExprMods.vb" />
-    <Compile Include="WGCNA\API.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
@@ -261,6 +261,7 @@
     <None Include="Resources\onLoad.R" />
     <None Include="Resources\pfsnet.R" />
     <None Include="Resources\pfsnet_not_rJava.R" />
+    <None Include="Resources\WGCNA.R" />
     <None Include="R\DESeq\beginner.pdf" />
     <None Include="R\DESeq\DESeq2.pdf" />
     <None Include="R\DESeq\How to use DESeq to analyse RNAseq data.docx" />
@@ -281,7 +282,7 @@
       <Name>RDotNET.Extensions.VisualBasic</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\R.Bioconductor\RDotNET\RDotNet.vbproj">
-      <Project>{21c35138-455b-4833-9756-b2629f972a22}</Project>
+      <Project>{57d5ea2b-f718-4fd8-9504-b4c0293fa4b9}</Project>
       <Name>RDotNet</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data\DataFrame\47_dotnet_ms-vb_data.framework.vbproj">
@@ -292,7 +293,7 @@
       <Project>{e3367b88-5d0c-495a-8273-331656d4b5aa}</Project>
       <Name>math-core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\47-dotnet_Microsoft.VisualBasic.vbproj">
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\47-dotnet_Microsoft.VisualBasic.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
     </ProjectReference>
@@ -320,9 +321,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Invoke_DESeq2.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\WGCNA.txt" />
   </ItemGroup>
   <Import Project="..\..\..\..\Settings\Shared\Settings.Configuration\Settings.Configuration.projitems" Label="Shared" />
   <Import Project="..\..\..\shared\RNA-Seq.Doc\RNA-Seq.Doc.projitems" Label="Shared" />

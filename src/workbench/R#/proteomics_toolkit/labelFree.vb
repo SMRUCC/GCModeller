@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ee45f50e02bd0cb3a1b2f08834ae276e, proteomics_toolkit\labelFree.vb"
+﻿#Region "Microsoft.VisualBasic::b15082d3130223d7f2139f1dc4b93076, R#\proteomics_toolkit\labelFree.vb"
 
     ' Author:
     ' 
@@ -50,7 +50,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.HTS.Proteomics.FoldChangeMatrix
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 
-<Package("proteomics.labelfree")>
+<Package("labelfree")>
 Module labelFree
 
     <ExportAPI("sample.normalize")>

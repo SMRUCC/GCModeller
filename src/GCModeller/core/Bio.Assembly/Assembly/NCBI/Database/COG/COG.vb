@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::54e1955b4305bed715f0bae811fcb0c3, core\Bio.Assembly\Assembly\NCBI\Database\COG\COG.vb"
+﻿#Region "Microsoft.VisualBasic::c73fba969a431bf09172a2f4c3994aa1, core\Bio.Assembly\Assembly\NCBI\Database\COG\COG.vb"
 
     ' Author:
     ' 
@@ -52,7 +52,7 @@ Namespace Assembly.NCBI.COG
     ''' <summary>
     ''' COG function description data.
     ''' </summary>
-    Public Class COGFunction : Inherits CatalogProfiling
+    Public Class COGFunction : Inherits CatalogList
         Implements INamedValue
 
         ''' <summary>

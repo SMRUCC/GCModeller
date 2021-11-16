@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::44c6944ef1168e1e4c98262313457159, models\SBML\SBML\NamespaceDoc.vb"
+﻿#Region "Microsoft.VisualBasic::ab46c5da4e0f16d192c55832a2d0f562, models\SBML\SBML\NamespaceDoc.vb"
 
     ' Author:
     ' 
@@ -39,7 +39,6 @@
 
 #End Region
 
-
 ''' <summary>
 ''' SBML是一门标记语言，主要用于描述``生化反应网络``的计算模型。SBML可以描述代谢网络、细胞信号通路、调解网络、
 ''' 以及在系统生物学研究范畴中的其他系统。SBML格式所带来的好处在于是的软件工具之间可以通用而不必重写模型。
@@ -49,4 +48,3 @@
 ''' </summary>
 Module NamespaceDoc
 End Module
-
