@@ -10,7 +10,7 @@ GCModeller: genomics CAD(Computer Assistant Design) Modeller system in .NET lang
 
 > + HOME: http://gcmodeller.org
 > + Github: https://github.com/SMRUCC/GCModeller
-> + SDK docs: http://docs.gcmodeller.org
+> + BioTools: https://bio.tools/gcmodeller
 
 **Supported platform:** ``Microsoft Windows``, ``GNU Linux``, ``MAC``, ``Microsoft Azure Cloud`` <br />
 **Development:** Microsoft VisualStudio 2019 | VisualBasic.NET<br />
