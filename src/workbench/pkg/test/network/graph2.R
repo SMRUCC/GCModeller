@@ -62,11 +62,15 @@ bitmap(file = `${@dir}/enriched.png`) {
     |> compute.network 
     |> layout.force_directed(
         size       = [3000, 2100], 
-        iterations = 200
+        iterations = 2000,
+        condenseFactor = 13,
+        algorithm = "degree_weighted"
     )
     ;
     
-    size(V(g)) = lapply(degree(g), x -> x * 2.5);
+    # const d = unlist(degree(g)) |> ColorBrewer::TrIQ();
+
+    size(V(g)) = lapply(degree(g), x -> x * 5);
 
     color(V(g)[~group == "pathway"])  = "red";
     color(V(g)[~group == "compound"]) = "green";
@@ -75,7 +79,7 @@ bitmap(file = `${@dir}/enriched.png`) {
 
     const w = unlist(weight(E(g))) |> ColorBrewer::TrIQ();
 
-    width(E(g)) = lapply(weight(E(g)), x -> ifelse(x > w, w, x));   
+    width(E(g)) = lapply(weight(E(g)), x -> 4 * ifelse(x > w, w, x));   
 
     str(weight(E(g)));
     print(g);
