@@ -61,12 +61,18 @@ bitmap(file = `${@dir}/enriched.png`) {
     |> compute.network 
     |> layout.force_directed(
         size       = [3000, 2100], 
-        iterations = 1200
+        iterations = 200
     )
     ;
     
-    size(V(g)) = degree(g);
+    size(V(g)) = lapply(degree(g), x -> x * 2.5);
 
+    color(V(g)[~group == "pathway"])  = "red";
+    color(V(g)[~group == "compound"]) = "green";
+
+    width(E(g)) = weight(E(g));
+
+    str(weight(E(g)));
     print(g);
 
     save.network(g, file = @dir);
