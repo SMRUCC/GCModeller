@@ -3,6 +3,7 @@ require(igraph);
 
 imports "igraph.layouts" from "igraph";
 imports "igraph.render" from "igraph";
+imports "styler" from "igraph";
 
 const data = read.csv(file = `${@dir}/all_enriched.csv`);
 
@@ -55,14 +56,21 @@ for(pid in names(links)) {
     }
 }
 
-g = g |> layout.force_directed;
-
-print(g);
-
-save.network(g, file = @dir);
-
 bitmap(file = `${@dir}/enriched.png`) {
-    render(g);
+    g = g 
+    |> compute.network 
+    |> layout.force_directed(
+        size       = [3000, 2100], 
+        iterations = 1200
+    )
+    ;
+    
+    size(V(g)) = degree(g);
+
+    print(g);
+
+    save.network(g, file = @dir);
+    render(g, canvasSize = [3000, 2100]);
 }
 
 # for(i in 1:length(IF)) {
