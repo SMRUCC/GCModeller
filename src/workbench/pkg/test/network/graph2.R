@@ -1,5 +1,6 @@
 require(GCModeller);
 require(igraph);
+require(ColorBrewer);
 
 imports "igraph.layouts" from "igraph";
 imports "igraph.render" from "igraph";
@@ -70,13 +71,17 @@ bitmap(file = `${@dir}/enriched.png`) {
     color(V(g)[~group == "pathway"])  = "red";
     color(V(g)[~group == "compound"]) = "green";
 
-    width(E(g)) = weight(E(g));
+    color(E(g)) = "lightgray";
+
+    const w = unlist(weight(E(g))) |> ColorBrewer::TrIQ();
+
+    width(E(g)) = lapply(weight(E(g)), x -> ifelse(x > w, w, x));   
 
     str(weight(E(g)));
     print(g);
 
     save.network(g, file = @dir);
-    render(g, canvasSize = [3000, 2100]);
+    render(g, canvasSize = [3000, 2100], labelerIterations = -1);
 }
 
 # for(i in 1:length(IF)) {
