@@ -2,8 +2,8 @@ require(GCModeller);
 require(igraph);
 require(ColorBrewer);
 
-imports "igraph.layouts" from "igraph";
-imports "igraph.render" from "igraph";
+imports "layouts" from "igraph";
+imports "visualizer" from "igraph";
 imports "styler" from "igraph";
 
 const data = read.csv(file = `${@dir}/all_enriched.csv`);
