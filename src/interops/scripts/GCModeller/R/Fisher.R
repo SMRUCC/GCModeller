@@ -9,10 +9,18 @@ Fisher = function(geneSet, background) {
     }
 
     N = sizeof(background);
-    
-    lapply(background, function(cluster) {
+    enrich = lapply(background, function(cluster) {
         .enrich(cluster, geneSet, N);
     });
+    enrich = data.frame(
+        term_id = sapply(enrich, function(i) i$term_id),
+        cluster_size = sapply(enrich, function(i) i$cluster_size),
+        hits = sapply(enrich, function(i) paste(i$hits, collapse = "; ")),
+        size = sapply(enrich, function(i) i$size),
+        p.value = sapply(enrich, function(i) i$p.value)
+    );
+
+    enrich[order(enrich[, "p.value"]), ];
 }
 
 .enrich = function(cluster, geneSet, N) {
@@ -51,7 +59,7 @@ Fisher = function(geneSet, background) {
         }
     });
 
-    cluster$genes[i] %>% 
+    cluster$genes[unlist(i)] %>% 
         sapply(., function(gene) gene$locus_tag) %>% 
         unlist();
 }
