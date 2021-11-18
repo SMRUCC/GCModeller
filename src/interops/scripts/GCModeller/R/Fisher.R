@@ -19,10 +19,17 @@ Fisher = function(geneSet, background) {
         size = sapply(enrich, function(i) i$size),
         p.value = sapply(enrich, function(i) i$p.value)
     );
+    enrich = enrich[enrich[, "size"] > 0, ];
 
+    # reorder via p-value in asc order
     enrich[order(enrich[, "p.value"]), ];
 }
 
+#' Fisher enrichment test
+#' 
+#' @param N the background size, number of unique gene id in
+#'    the background model.
+#' 
 .enrich = function(cluster, geneSet, N) {
     n = length(geneSet);
     M = length(cluster$genes);
