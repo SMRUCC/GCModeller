@@ -278,3 +278,4 @@ src/GCModeller/analysis/PhenoGraph/Rphenograph.zip
 *.v1
 *.bin
 src/runtime/Rnotebook_1.0.0.1254.tar.gz
+src/interops/scripts/GCModeller_0.1.0.tar.gz
