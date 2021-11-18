@@ -2,8 +2,8 @@ ReadFisherCluster = function(xmlfile) {
     xmlTree    = XML::xmlTreeParse(file = xmlfile);
     background = xmlTree$doc$children$background;
     background = background[4:length(background)];
-    background = lapply(background, function(cl) {
-        .read_cluster(xmlcl = cl);
+    background = lapply(1:length(background), function(i) {
+        .read_cluster(xmlcl = background[[i]], index = i);
     });
 
     names(background) = sapply(background, function(cl) cl$ID);
@@ -11,7 +11,7 @@ ReadFisherCluster = function(xmlfile) {
     background;
 }
 
-.read_cluster = function(xmlcl) {
+.read_cluster = function(xmlcl, index) {
     info = XML::xmlAttrs(xmlcl);
     size = as.numeric(info[["size"]]);
     ID   = info[["ID"]];
@@ -20,10 +20,14 @@ ReadFisherCluster = function(xmlfile) {
     if (is.null(members)) {
         warning(sprintf("No members in cluster [%s]!", ID));
         members = list();
-    } else {
+    } else if(is.matrix(members)) {
         members = lapply(1:ncol(members), function(i) {
             .read_gene(data = members[, i]);
         });
+    } else if (mode(members) == "list") {
+        members = lapply(members, .read_gene);
+    } else {
+        stop(sprintf("invalid data type at index: %s", index));
     }
 
     if (size != length(members)) {
