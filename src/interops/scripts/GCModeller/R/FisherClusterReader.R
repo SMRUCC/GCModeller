@@ -18,7 +18,7 @@ ReadFisherCluster = function(xmlfile) {
     members = XML::xmlToList(xmlcl)$members;
 
     if (is.null(members)) {
-        warning(sprintf("No members in cluster [%s]!", ID));
+        warning(sprintf("No members in cluster [%s, %s]!", index, ID));
         members = list();
     } else if(is.matrix(members)) {
         members = lapply(1:ncol(members), function(i) {
@@ -31,7 +31,7 @@ ReadFisherCluster = function(xmlfile) {
     }
 
     if (size != length(members)) {
-        warning(sprintf("[%s] cluster member is inconsist!", ID));
+        warning(sprintf("[%s, %s] cluster member is inconsist!", index, ID));
     }
 
     list(
