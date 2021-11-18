@@ -6,6 +6,8 @@
     cat("\n");
     cat("                           (c) 2021 | SMRUCC genomics - GuiLin, China\n");
     cat("\n\n");
+
+    require(XML);
 }
 
 .flashLoad <- function() .onLoad(NULL, NULL);
