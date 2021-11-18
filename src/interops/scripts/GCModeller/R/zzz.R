@@ -8,6 +8,7 @@
     cat("\n\n");
 
     require(XML);
+    require(magrittr);
 }
 
 .flashLoad <- function() .onLoad(NULL, NULL);
