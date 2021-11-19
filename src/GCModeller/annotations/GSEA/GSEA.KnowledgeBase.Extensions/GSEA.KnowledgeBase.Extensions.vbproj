@@ -235,6 +235,10 @@
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
     </ProjectReference>
+    <ProjectReference Include="..\FisherCore\FisherCore.vbproj">
+      <Project>{62cc1cc2-7e2b-47ba-a745-37c36bd84955}</Project>
+      <Name>FisherCore</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GSEA\GSEA.vbproj">
       <Project>{db374d72-08f4-4b27-8168-b90785f71bdc}</Project>
       <Name>GSEA</Name>
