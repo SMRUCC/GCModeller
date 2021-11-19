@@ -1,14 +1,20 @@
 
 #' Run fisher enrichment analysis
-#' 
+#'
 #' @param geneSet a gene id list.
-#' 
+#'
 Fisher = function(geneSet, background) {
     if (is.character(background)) {
         background = ReadFisherCluster(background);
     }
 
     N = sizeof(background);
+
+    if (N < length(geneSet)) {
+        N = length(geneSet);
+        warning("the size of your background is less than the input geneSet!");
+    }
+
     enrich = lapply(background, function(cluster) {
         .enrich(cluster, geneSet, N);
     });
@@ -19,10 +25,17 @@ Fisher = function(geneSet, background) {
         size = sapply(enrich, function(i) i$size),
         p.value = sapply(enrich, function(i) i$p.value)
     );
+    enrich = enrich[enrich[, "size"] > 0, ];
 
+    # reorder via p-value in asc order
     enrich[order(enrich[, "p.value"]), ];
 }
 
+#' Fisher enrichment test
+#'
+#' @param N the background size, number of unique gene id in
+#'    the background model.
+#'
 .enrich = function(cluster, geneSet, N) {
     n = length(geneSet);
     M = length(cluster$genes);
@@ -35,6 +48,7 @@ Fisher = function(geneSet, background) {
         gene.in.interest  = c(k, n-k)
     );
     row.names(Crosstab) <- c("In_category", "not_in_category");
+
     F = fisher.test(Crosstab);
 
     list(
@@ -59,21 +73,21 @@ Fisher = function(geneSet, background) {
         }
     });
 
-    cluster$genes[unlist(i)] %>% 
-        sapply(., function(gene) gene$locus_tag) %>% 
+    cluster$genes[unlist(i)] %>%
+        sapply(., function(gene) gene$locus_tag) %>%
         unlist();
 }
 
 #' Get background size
-#' 
-#' @param background a model object which is created from 
+#'
+#' @param background a model object which is created from
 #'    the \code{\link{ReadFisherCluster}} function.
-#' 
+#'
 sizeof = function(background) {
-    background %>% 
+    background %>%
         lapply(., function(cl) sapply(cl$genes, function(gene) gene$geneId)) %>%
-        unlist() %>% 
-        unlist() %>% 
-        unique() %>% 
+        unlist() %>%
+        unlist() %>%
+        unique() %>%
         length();
 }
