@@ -231,7 +231,6 @@ Partial Module CLI
 
                 plot = enrichments.BubblePlot(GO_terms:=terms,
                                               pvalue:=pvalue,
-                                              R:=R,
                                               size:=size,
                                               displays:=displays,
                                               padding:="padding:200px 900px 250px 300px;",

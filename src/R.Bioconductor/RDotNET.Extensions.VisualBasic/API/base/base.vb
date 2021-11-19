@@ -923,12 +923,12 @@ Namespace API
         ''' <summary>
         ''' 这个函数会自动将NAN,Inf等结果值转换为R之中的NA值
         ''' </summary>
-        ''' <param name="x"></param>
+        ''' <param name="data"></param>
         ''' <returns></returns>
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function c(x As IEnumerable(Of Double)) As String
-            Return base.c(list:=x _
+        Public Function c(data As IEnumerable(Of Double)) As String
+            Return base.c(list:=data _
                 .SafeQuery _
                 .Select(Function(d)
                             If d.IsNaNImaginary Then

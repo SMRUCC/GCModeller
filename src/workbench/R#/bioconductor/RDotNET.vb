@@ -62,7 +62,7 @@ Module RDotNET
         Dim codepage As Encoding = Encodings.UTF8WithoutBOM.CodePage
 
         If any Is Nothing Then
-            Return base.c(x:=Nothing)
+            Return base.c(data:=Nothing)
         ElseIf TypeOf any Is list Then
             Return SaveRda.Push(DirectCast(any, list).slots, codepage)
         ElseIf TypeOf any Is vector Then

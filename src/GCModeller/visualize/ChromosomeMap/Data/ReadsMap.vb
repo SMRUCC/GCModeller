@@ -1,42 +1,42 @@
 ﻿#Region "Microsoft.VisualBasic::d393feabc638495184ccb22a2f1bf1eb, visualize\ChromosomeMap\Data\ReadsMap.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module ReadsMap
-    ' 
-    '     Function: CreateLoci, GetLocation, Left, LoadConfig, MapDrawing
-    '               OrderReads, Reads, TSSStatics
-    ' 
-    ' /********************************************************************************/
+' Module ReadsMap
+' 
+'     Function: CreateLoci, GetLocation, Left, LoadConfig, MapDrawing
+'               OrderReads, Reads, TSSStatics
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -46,6 +46,7 @@ Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.My.JavaScript
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Oracle.Java.IO.Properties
 Imports SMRUCC.genomics.Assembly.DOOR
@@ -243,12 +244,12 @@ Public Module ReadsMap
 
         For Each ReadCoverage As Long() In LQuery
             For Each Loci In ReadCoverage
-                HistoneGram(Loci).value += 1
+                HistoneGram(Loci).Value += 1
             Next
         Next
 
         '将位点还原为标签
-        Dim DipartsHistone = (From Loc In TSSPossibleLocation Select Loc.strand, Loc.Loci.tag, ID = Loc.ID, HisData = Reads(Loc.LociSequence, HistoneGram)).ToArray
+        Dim DipartsHistone = (From Loc In TSSPossibleLocation Select Loc.strand, Loc.Loci.Tag, ID = Loc.ID, HisData = Reads(Loc.LociSequence, HistoneGram)).ToArray
         '生成CSV文档
         Dim Df As New IO.File
         Dim OperonPromoterGene As String() = Nothing
@@ -280,7 +281,7 @@ Public Module ReadsMap
                         Call row2.Add("")
                     End If
                 End If
-                Call row2.Add(Loci.Tag)
+                Call row2.Add(Loci.tag.ToString)
 
                 Call row2.AddRange((From p In If(Loci.strand = Strands.Forward, Loci.HisData.Reverse, Loci.HisData) Select CStr(p.Value)).ToArray)
 
@@ -303,7 +304,7 @@ Public Module ReadsMap
                         Call row2.Add("")
                     End If
                 End If
-                Call row2.Add(Loci.Tag)
+                Call row2.Add(Loci.tag.ToString)
 
                 Call row2.AddRange((From p In If(Loci.strand = Strands.Forward, Loci.HisData.Reverse, Loci.HisData) Select CStr(p.Value)).ToArray)
 
@@ -322,14 +323,16 @@ Public Module ReadsMap
                      In LociSequence
                      Select i,
                          hisData = HistoneGram(i)
-        Return LQuery.ToDictionary(Function(x) x.i, Function(x) x.hisData.value)
+        Return LQuery.ToDictionary(Function(x) x.i, Function(x) x.hisData.Value)
     End Function
 
     Private Function GetLocation(GeneObject As TabularFormat.ComponentModels.GeneBrief) As NucleotideLocation
         Return New NucleotideLocation(
             GeneObject.Location.GetUpStreamLoci(CUInt(150)),
             GeneObject.Location.Start,
-            GeneObject.Location.Strand = Strands.Reverse) With {.tag = $"{GeneObject.Synonym} {GeneObject.Location.ToString}"}
+            GeneObject.Location.Strand = Strands.Reverse) With {
+            .Tag = New JavaScriptObject(New Dictionary(Of String, Object) From {{"toString", $"{GeneObject.Synonym} {GeneObject.Location.ToString}"}})
+        }
     End Function
 
 End Module
