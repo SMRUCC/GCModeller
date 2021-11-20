@@ -12,7 +12,7 @@ Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Public Module LDADeconvolve
 
     ''' <summary>
-    ''' Create document vector for run LDA mdelling
+    ''' [1] Create document vector for run LDA mdelling
     ''' </summary>
     ''' <param name="matrix">
     ''' row is pixels and column is gene features. each 
@@ -97,6 +97,12 @@ Public Module LDADeconvolve
         Return geneIds.Indexing
     End Function
 
+    ''' <summary>
+    ''' [2] run LDA modelling
+    ''' </summary>
+    ''' <param name="spatialDoc"></param>
+    ''' <param name="k"></param>
+    ''' <returns></returns>
     <Extension>
     Public Function LDAModelling(spatialDoc As Corpus, k As Integer) As LdaGibbsSampler
         ' 2. Create a LDA sampler
@@ -108,9 +114,22 @@ Public Module LDADeconvolve
         Return ldaGibbsSampler
     End Function
 
+    ''' <summary>
+    ''' [3] get deconvolve result matrix
+    ''' </summary>
+    ''' <param name="LDA"></param>
+    ''' <param name="corpus"></param>
+    ''' <param name="topGenes"></param>
+    ''' <returns></returns>
     <Extension>
-    Public Function Deconvolve(LDA As LdaGibbsSampler) As Deconvolve
+    Public Function Deconvolve(LDA As LdaGibbsSampler, corpus As Corpus, Optional topGenes As Integer = 25) As Deconvolve
+        ' 4. The phi matrix Is a LDA model, you can use LdaUtil to explain it.
+        Dim phi = LDA.Phi()
+        Dim topicMap = LdaUtil.translate(phi, corpus.Vocabulary(), limit:=topGenes)
 
+        Return New Deconvolve With {
+           .topicMap = topicMap
+        }
     End Function
 
 End Module

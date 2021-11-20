@@ -16,5 +16,6 @@ Public Class Deconvolve
     ''' </summary>
     ''' <returns></returns>
     Public Property theta As Matrix
+    Public Property topicMap As Dictionary(Of String, Double)()
 
 End Class
