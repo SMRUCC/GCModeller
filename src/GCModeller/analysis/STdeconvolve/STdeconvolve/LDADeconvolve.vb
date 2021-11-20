@@ -27,27 +27,27 @@ Public Module LDADeconvolve
     Public Function CreateSpatialDocuments(matrix As Matrix,
                                            Optional min As Double = 0.05,
                                            Optional max As Double = 0.95,
-                                           Optional unify As Integer = 20) As Corpus
+                                           Optional unify As Integer = 20) As STCorpus
 
         Dim filter As Index(Of String) = matrix.GeneFilter(min, max)
-        Dim sample As New Corpus
+        Dim sample As New STCorpus
 
         matrix = matrix _
             .Project(matrix.sampleID - filter) _
             .UnifyMatrix(unify)
 
         Dim geneIds As String() = matrix.sampleID
+        Dim document As New List(Of String)
 
         For Each pixel As DataFrameRow In matrix.expression
-            Dim document As New List(Of String)
-
             For i As Integer = 0 To geneIds.Length - 1
                 If pixel(i) > 0 Then
                     document += geneIds(i).Replicate(CInt(pixel(i)))
                 End If
             Next
 
-            Call sample.addDocument(document)
+            Call sample.addPixel(pixel.geneID, document)
+            Call document.Clear()
         Next
 
         Return sample
@@ -104,7 +104,7 @@ Public Module LDADeconvolve
     ''' <param name="k"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function LDAModelling(spatialDoc As Corpus, k As Integer) As LdaGibbsSampler
+    Public Function LDAModelling(spatialDoc As STCorpus, k As Integer) As LdaGibbsSampler
         ' 2. Create a LDA sampler
         Dim ldaGibbsSampler As New LdaGibbsSampler(spatialDoc.Document(), spatialDoc.VocabularySize())
 
@@ -122,13 +122,29 @@ Public Module LDADeconvolve
     ''' <param name="topGenes"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function Deconvolve(LDA As LdaGibbsSampler, corpus As Corpus, Optional topGenes As Integer = 25) As Deconvolve
+    Public Function Deconvolve(LDA As LdaGibbsSampler, corpus As STCorpus, Optional topGenes As Integer = 25) As Deconvolve
         ' 4. The phi matrix Is a LDA model, you can use LdaUtil to explain it.
         Dim phi = LDA.Phi()
         Dim topicMap = LdaUtil.translate(phi, corpus.Vocabulary(), limit:=topGenes)
+        Dim t As DataFrameRow() = LDA.Theta _
+            .Select(Function(dist, i)
+                        Return New DataFrameRow With {
+                            .geneID = corpus.m_pixels(i),
+                            .experiments = dist
+                        }
+                    End Function) _
+            .ToArray
 
         Return New Deconvolve With {
-           .topicMap = topicMap
+            .topicMap = topicMap,
+            .theta = New Matrix With {
+                .expression = t,
+                .sampleID = Enumerable _
+                    .Range(1, 10) _
+                    .Select(Function(i) $"topic_{i}") _
+                    .ToArray,
+                .tag = "theta"
+            }
         }
     End Function
 
