@@ -13,5 +13,7 @@ Module Program
         Dim phi = ldaGibbsSampler.Phi()
         Dim topicMap = LdaUtil.translate(phi, corpus.Vocabulary(), 10)
         LdaUtil.explain(topicMap)
+
+        Pause()
     End Sub
 End Module
