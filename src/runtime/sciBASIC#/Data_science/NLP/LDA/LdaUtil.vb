@@ -1,6 +1,4 @@
-﻿Imports System
-Imports System.Collections.Generic
-Imports stdNum = System.Math
+﻿Imports stdNum = System.Math
 
 Namespace LDA
     Friend Class descOrder
@@ -70,7 +68,7 @@ Namespace LDA
 
         ''' <summary>
         ''' To print the result in a well formatted form </summary>
-        ''' <paramname="result"> </param>
+        ''' <param name="result"> </param>
         Public Shared Sub explain(ByVal result As IDictionary(Of String, Double)())
             Dim i = 0
 

@@ -56,9 +56,9 @@ Namespace LDA
         ''' <summary>
         ''' Load documents from disk
         ''' </summary>
-        ''' <paramname="folderPath"> is a folder, which contains text documents. </param>
+        ''' <param name="folderPath"> is a folder, which contains text documents. </param>
         ''' <returns> a corpus </returns>
-        ''' <exceptioncref="IOException"> </exception>
+        ''' <exception cref="IOException"> </exception>
         Public Shared Function load(ByVal folderPath As String) As Corpus
             Dim corpus As Corpus = New Corpus()
 

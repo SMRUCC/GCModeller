@@ -27,7 +27,7 @@ Namespace LDA
     ''' Gibbs sampler for estimating the best assignments of topics for words and
     ''' documents in a corpus. The algorithm is introduced in Tom Griffiths' paper
     ''' "Gibbs sampling in the generative model of Latent Dirichlet Allocation"
-    ''' (2002).<br>
+    ''' (2002).
     ''' Gibbs sampler采样算法的实现
     ''' 
     ''' @author heinrich
@@ -35,115 +35,115 @@ Namespace LDA
     Public Class LdaGibbsSampler
 
         ''' <summary>
-        ''' document data (term lists)<br>
+        ''' document data (term lists)
         ''' 文档
         ''' </summary>  
         Friend documents As Integer()()
 
         ''' <summary>
-        ''' vocabulary size<br>
+        ''' vocabulary size
         ''' 词表大小
         ''' </summary> 
         Friend V As Integer
 
         ''' <summary>
-        ''' number of topics<br>
+        ''' number of topics
         ''' 主题数目
         ''' </summary> 
         Friend K As Integer
 
         ''' <summary>
-        ''' Dirichlet parameter (document--topic associations)<br>
+        ''' Dirichlet parameter (document--topic associations)
         ''' 文档——主题参数
         ''' </summary> 
         Friend alpha As Double = 2.0
 
         ''' <summary>
-        ''' Dirichlet parameter (topic--term associations)<br>
+        ''' Dirichlet parameter (topic--term associations)
         ''' 主题——词语参数
         ''' </summary>
         Friend beta As Double = 0.5
 
         ''' <summary>
-        ''' topic assignments for each word.<br>
+        ''' topic assignments for each word.
         ''' 每个词语的主题 z[i][j] := 文档i的第j个词语的主题编号
-        ''' </summary></summary>    
+        ''' </summary>
         Friend z As Integer()()
 
         ''' <summary>
-        ''' cwt[i][j] number of instances of word i (term?) assigned to topic j.<br>
+        ''' cwt[i][j] number of instances of word i (term?) assigned to topic j.
         ''' 计数器，nw[i][j] := 词语i归入主题j的次数
         ''' </summary>
         Friend nw As Integer()()
 
         ''' <summary>
-        ''' na[i][j] number of words in document i assigned to topic j.<br>
+        ''' na[i][j] number of words in document i assigned to topic j.
         ''' 计数器，nd[i][j] := 文档[i]中归入主题j的词语的个数
         ''' </summary> 
         Friend nd As Integer()()
 
         ''' <summary>
-        ''' nwsum[j] total number of words assigned to topic j.<br>
+        ''' nwsum[j] total number of words assigned to topic j.
         ''' 计数器，nwsum[j] := 归入主题j词语的个数
         ''' </summary>
         Friend nwsum As Integer()
 
         ''' <summary>
-        ''' nasum[i] total number of words in document i.<br>
+        ''' nasum[i] total number of words in document i.
         ''' 计数器,ndsum[i] := 文档i中全部词语的数量
         ''' </summary>
         Friend ndsum As Integer()
 
 
         ''' <summary>
-        ''' cumulative statistics of theta<br>
+        ''' cumulative statistics of theta
         ''' theta的累积量
         ''' </summary>
         Friend thetasum As Double()()
 
         ''' <summary>
-        ''' cumulative statistics of phi<br>
+        ''' cumulative statistics of phi
         ''' phi的累积量
         ''' </summary>
         Friend phisum As Double()()
 
         ''' <summary>
-        ''' size of statistics<br>
+        ''' size of statistics
         ''' 样本容量
-        ''' </summary></summary>    
+        ''' </summary>
         Friend numstats As Integer
 
         ''' <summary>
-        ''' sampling lag (?)<br>
+        ''' sampling lag (?)
         ''' 多久更新一次统计量
         ''' </summary> 
         Private Shared THIN_INTERVAL As Integer = 20
 
         ''' <summary>
-        ''' burn-in period<br>
+        ''' burn-in period
         ''' 收敛前的迭代次数
-        ''' </summary></summary>    
+        ''' </summary>
         Private Shared BURN_IN As Integer = 100
 
         ''' <summary>
-        ''' max iterations<br>
+        ''' max iterations
         ''' 最大迭代次数
-        ''' </summary></summary>    
+        ''' </summary>
         Private Shared ITERATIONS As Integer = 1000
 
         ''' <summary>
-        ''' sample lag (if -1 only one sample taken)<br>
+        ''' sample lag (if -1 only one sample taken)
         ''' 最后的模型个数（取收敛后的n个迭代的参数做平均可以使得模型质量更高）
-        ''' </summary></summary>    
+        ''' </summary>
         Private Shared SAMPLE_LAG As Integer = 10
         Private Shared dispcol As Integer = 0
 
         ''' <summary>
-        ''' Initialise the Gibbs sampler with data.<br>
+        ''' Initialise the Gibbs sampler with data.
         ''' 用数据初始化采样器
         ''' </summary>
-        ''' <paramname="documents"> 文档 </param>
-        ''' <paramname="V">         vocabulary size 词表大小 </param> 
+        ''' <param name="documents"> 文档 </param>
+        ''' <param name="V">         vocabulary size 词表大小 </param> 
         Public Sub New(ByVal documents As Integer()(), ByVal V As Integer)
             Me.documents = documents
             Me.V = V
@@ -152,10 +152,10 @@ Namespace LDA
         ''' <summary>
         ''' Initialisation: Must start with an assignment of observations to topics ?
         ''' Many alternatives are possible, I chose to perform random assignments
-        ''' with equal probabilities<br>
+        ''' with equal probabilities
         ''' 随机初始化状态
         ''' </summary>
-        ''' <paramname="K"> number of topics K个主题 </param></summary>   
+        ''' <param name="K"> number of topics K个主题 </param>
         Public Overridable Sub initialState(ByVal K As Integer)
             Dim lM = documents.Length
 
@@ -196,12 +196,12 @@ Namespace LDA
         ''' <summary>
         ''' Main method: Select initial state ? Repeat a large number of times: 1.
         ''' Select an element 2. Update conditional on other elements. If
-        ''' appropriate, output summary for each run.<br>
+        ''' appropriate, output summary for each run.
         ''' 采样
         ''' </summary>
-        ''' <paramname="K">     number of topics 主题数 </param>
-        ''' <paramname="alpha"> symmetric prior parameter on document--topic associations 对称文档——主题先验概率？ </param>
-        ''' <paramname="beta">  symmetric prior parameter on topic--term associations 对称主题——词语先验概率？ </param> 
+        ''' <param name="K">     number of topics 主题数 </param>
+        ''' <param name="alpha"> symmetric prior parameter on document--topic associations 对称文档——主题先验概率？ </param>
+        ''' <param name="beta">  symmetric prior parameter on topic--term associations 对称主题——词语先验概率？ </param> 
         Public Overridable Sub gibbs(ByVal K As Integer, ByVal alpha As Double, ByVal beta As Double)
             Me.K = K
             Me.alpha = alpha
@@ -263,11 +263,11 @@ Namespace LDA
         ''' <summary>
         ''' Sample a topic z_i from the full conditional distribution: p(z_i = j |
         ''' z_-i, w) = (n_-i,j(w_i) + beta)/(n_-i,j(.) + W * beta) * (n_-i,j(d_i) +
-        ''' alpha)/(n_-i,.(d_i) + K * alpha) <br>
+        ''' alpha)/(n_-i,.(d_i) + K * alpha) 
         ''' 根据上述公式计算文档m中第n个词语的主题的完全条件分布，输出最可能的主题
         ''' </summary>
-        ''' <paramname="m"> document </param>
-        ''' <paramname="n"> word </param> 
+        ''' <param name="m"> document </param>
+        ''' <param name="n"> word </param> 
         Private Function sampleFullConditional(ByVal m As Integer, ByVal n As Integer) As Integer
 
             ' remove z_i from the count variables  先将这个词从计数器中抹掉
@@ -308,9 +308,9 @@ Namespace LDA
         End Function
 
         ''' <summary>
-        ''' Add to the statistics the values of theta and phi for the current state.<br>
+        ''' Add to the statistics the values of theta and phi for the current state.
         ''' 更新参数
-        ''' </summary></summary>    
+        ''' </summary>
         Private Sub updateParams()
             For m = 0 To documents.Length - 1
 
@@ -331,10 +331,10 @@ Namespace LDA
 
         ''' <summary>
         ''' Retrieve estimated document--topic associations. If sample lag > 0 then
-        ''' the mean value of all sampled statistics for theta[][] is taken.<br>
+        ''' the mean value of all sampled statistics for theta[][] is taken.
         ''' 获取文档——主题矩阵
         ''' </summary>
-        ''' <returns> theta multinomial mixture of document topics (M x K) </returns></summary>   
+        ''' <returns> theta multinomial mixture of document topics (M x K) </returns>
         Public Overridable ReadOnly Property Theta As Double()()
             Get
                 Dim lTheta = MAT(Of Double)(documents.Length, K)
@@ -362,10 +362,10 @@ Namespace LDA
 
         ''' <summary>
         ''' Retrieve estimated topic--word associations. If sample lag > 0 then the
-        ''' mean value of all sampled statistics for phi[][] is taken.<br>
+        ''' mean value of all sampled statistics for phi[][] is taken.
         ''' 获取主题——词语矩阵
         ''' </summary>
-        ''' <returns> phi multinomial mixture of topic words (K x V) </returns></summary>    
+        ''' <returns> phi multinomial mixture of topic words (K x V) </returns>
         Public Overridable ReadOnly Property Phi As Double()()
             Get
                 Dim lPhi = MAT(Of Double)(K, V)
@@ -394,9 +394,9 @@ Namespace LDA
         ''' <summary>
         ''' Print table of multinomial data
         ''' </summary>
-        ''' <paramname="data"> vector of evidence </param>
-        ''' <paramname="fmax"> max frequency in display </param>
-        ''' <returns> the scaled histogram bin values </returns>
+        ''' <param name="data"> vector of evidence </param>
+        ''' <param name="fmax"> max frequency in display </param>
+        ''' <return> the scaled histogram bin values </return>
         Public Shared Sub hist(ByVal data As Double(), ByVal fmax As Integer)
             Dim lHist = New Double(data.Length - 1) {}
             ' scale maximum
@@ -437,13 +437,13 @@ Namespace LDA
         End Sub
 
         ''' <summary>
-        ''' Configure the gibbs sampler<br>
+        ''' Configure the gibbs sampler
         ''' 配置采样器
         ''' </summary>
-        ''' <paramname="iterations">   number of total iterations </param>
-        ''' <paramname="burnIn">       number of burn-in iterations </param>
-        ''' <paramname="thinInterval"> update statistics interval </param>
-        ''' <paramname="sampleLag">    sample interval (-1 for just one sample at the end) </param>
+        ''' <param name="iterations">   number of total iterations </param>
+        ''' <param name="burnIn">       number of burn-in iterations </param>
+        ''' <param name="thinInterval"> update statistics interval </param>
+        ''' <param name="sampleLag">    sample interval (-1 for just one sample at the end) </param>
         Public Overridable Sub configure(ByVal iterations As Integer, ByVal burnIn As Integer, ByVal thinInterval As Integer, ByVal sampleLag As Integer)
             LdaGibbsSampler.ITERATIONS = iterations
             BURN_IN = burnIn
@@ -454,8 +454,8 @@ Namespace LDA
         ''' <summary>
         ''' Inference a new document by a pre-trained phi matrix
         ''' </summary>
-        ''' <paramname="phi"> pre-trained phi matrix </param>
-        ''' <paramname="doc"> document </param>
+        ''' <param name="phi"> pre-trained phi matrix </param>
+        ''' <param name="doc"> document </param>
         ''' <returns> a p array </returns>
         Public Shared Function inference(ByVal alpha As Double, ByVal beta As Double, ByVal phi As Double()(), ByVal doc As Integer()) As Double()
             Dim lK = phi.Length
@@ -551,8 +551,8 @@ Namespace LDA
         ''' create a string representation whose gray value appears as an indicator
         ''' of magnitude, cf. Hinton diagrams in statistics.
         ''' </summary>
-        ''' <paramname="d">   value </param>
-        ''' <paramname="max"> maximum value
+        ''' <param name="d">   value </param>
+        ''' <param name="max"> maximum value
         ''' @return </param>
         Public Shared Function shadeDouble(ByVal d As Double, ByVal max As Double) As String
             Dim a As Integer = stdNum.Floor(d * 10 / max + 0.5)
