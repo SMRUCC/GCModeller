@@ -1,6 +1,6 @@
-﻿Imports Microsoft.VisualBasic.ComponentModel.Collection
+﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
-Imports stdNum = System.Math
 
 '  (C) Copyright 2005, Gregor Heinrich (gregor :: arbylon : net) (This file is
 '  part of the org.knowceans experimental software packages.)
@@ -32,6 +32,9 @@ Namespace LDA
     ''' 
     ''' @author heinrich
     ''' </summary>
+    ''' <remarks>
+    ''' https://github.com/hankcs/LDA4j
+    ''' </remarks>
     Public Class LdaGibbsSampler
 
         ''' <summary>
@@ -117,7 +120,7 @@ Namespace LDA
         ''' sampling lag (?)
         ''' 多久更新一次统计量
         ''' </summary> 
-        Private Shared THIN_INTERVAL As Integer = 20
+        Friend Shared THIN_INTERVAL As Integer = 20
 
         ''' <summary>
         ''' burn-in period
@@ -129,7 +132,7 @@ Namespace LDA
         ''' max iterations
         ''' 最大迭代次数
         ''' </summary>
-        Private Shared ITERATIONS As Integer = 1000
+        Friend Shared ITERATIONS As Integer = 1000
 
         ''' <summary>
         ''' sample lag (if -1 only one sample taken)
@@ -144,7 +147,7 @@ Namespace LDA
         ''' </summary>
         ''' <param name="documents"> 文档 </param>
         ''' <param name="V">         vocabulary size 词表大小 </param> 
-        Public Sub New(ByVal documents As Integer()(), ByVal V As Integer)
+        Public Sub New(documents As Integer()(), V As Integer)
             Me.documents = documents
             Me.V = V
         End Sub
@@ -156,7 +159,7 @@ Namespace LDA
         ''' 随机初始化状态
         ''' </summary>
         ''' <param name="K"> number of topics K个主题 </param>
-        Public Overridable Sub initialState(ByVal K As Integer)
+        Public Overridable Sub initialState(K As Integer)
             Dim lM = documents.Length
 
             ' initialise count variables. 初始化计数器
@@ -189,7 +192,8 @@ Namespace LDA
             Next
         End Sub
 
-        Public Overridable Sub gibbs(ByVal K As Integer)
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Overridable Sub gibbs(K As Integer)
             gibbs(K, 2.0, 0.5)
         End Sub
 
@@ -202,7 +206,7 @@ Namespace LDA
         ''' <param name="K">     number of topics 主题数 </param>
         ''' <param name="alpha"> symmetric prior parameter on document--topic associations 对称文档——主题先验概率？ </param>
         ''' <param name="beta">  symmetric prior parameter on topic--term associations 对称主题——词语先验概率？ </param> 
-        Public Overridable Sub gibbs(ByVal K As Integer, ByVal alpha As Double, ByVal beta As Double)
+        Public Overridable Sub gibbs(K As Integer, alpha As Double, beta As Double)
             Me.K = K
             Me.alpha = alpha
             Me.beta = beta
@@ -218,17 +222,16 @@ Namespace LDA
             initialState(K)
             Console.WriteLine("Sampling " & ITERATIONS & " iterations with burn-in of " & BURN_IN & " uniquetempvar.")
 
-            For i = 0 To ITERATIONS - 1
+            For i As Integer = 0 To ITERATIONS - 1
 
                 ' for all z_i
-                For m = 0 To z.Length - 1
+                For m As Integer = 0 To z.Length - 1
 
-                    For n = 0 To z(m).Length - 1
+                    For n As Integer = 0 To z(m).Length - 1
 
                         ' (z_i = z[m][n])
                         ' sample from p(z_i|z_-i, w)
-                        Dim topic = sampleFullConditional(m, n)
-                        z(m)(n) = topic
+                        z(m)(n) = sampleFullConditional(m, n)
                     Next
                 Next
 
@@ -268,7 +271,7 @@ Namespace LDA
         ''' </summary>
         ''' <param name="m"> document </param>
         ''' <param name="n"> word </param> 
-        Private Function sampleFullConditional(ByVal m As Integer, ByVal n As Integer) As Integer
+        Private Function sampleFullConditional(m As Integer, n As Integer) As Integer
 
             ' remove z_i from the count variables  先将这个词从计数器中抹掉
             Dim topic = z(m)(n)
@@ -280,11 +283,11 @@ Namespace LDA
             ' do multinomial sampling via cumulative method: 通过多项式方法采样多项式分布
             Dim p = New Double(K - 1) {}
 
-            For K = 0 To Me.K - 1
+            For K As Integer = 0 To Me.K - 1
                 p(K) = (nw(documents(m)(n))(K) + beta) / (nwsum(K) + V * beta) * (nd(m)(K) + alpha) / (ndsum(m) + Me.K * alpha)
             Next
             ' cumulate multinomial parameters  累加多项式分布的参数
-            For K = 1 To p.Length - 1
+            For K As Integer = 1 To p.Length - 1
                 p(K) += p(K - 1)
             Next
             ' scaled sample because of unnormalised p[] 正则化
@@ -314,12 +317,12 @@ Namespace LDA
         Private Sub updateParams()
             For m = 0 To documents.Length - 1
 
-                For K = 0 To Me.K - 1
+                For K As Integer = 0 To Me.K - 1
                     thetasum(m)(K) += (nd(m)(K) + alpha) / (ndsum(m) + Me.K * alpha)
                 Next
             Next
 
-            For K = 0 To Me.K - 1
+            For K As Integer = 0 To Me.K - 1
 
                 For w = 0 To V - 1
                     phisum(K)(w) += (nw(w)(K) + beta) / (nwsum(K) + V * beta)
@@ -342,7 +345,7 @@ Namespace LDA
                 If SAMPLE_LAG > 0 Then
                     For m = 0 To documents.Length - 1
 
-                        For K = 0 To Me.K - 1
+                        For K As Integer = 0 To Me.K - 1
                             lTheta(m)(K) = thetasum(m)(K) / numstats
                         Next
                     Next
@@ -350,7 +353,7 @@ Namespace LDA
 
                     For m = 0 To documents.Length - 1
 
-                        For K = 0 To Me.K - 1
+                        For K As Integer = 0 To Me.K - 1
                             lTheta(m)(K) = (nd(m)(K) + alpha) / (ndsum(m) + Me.K * alpha)
                         Next
                     Next
@@ -371,7 +374,7 @@ Namespace LDA
                 Dim lPhi = MAT(Of Double)(K, V)
 
                 If SAMPLE_LAG > 0 Then
-                    For K = 0 To Me.K - 1
+                    For K As Integer = 0 To Me.K - 1
 
                         For w = 0 To V - 1
                             lPhi(K)(w) = phisum(K)(w) / numstats
@@ -379,7 +382,7 @@ Namespace LDA
                     Next
                 Else
 
-                    For K = 0 To Me.K - 1
+                    For K As Integer = 0 To Me.K - 1
 
                         For w = 0 To V - 1
                             lPhi(K)(w) = (nw(w)(K) + beta) / (nwsum(K) + V * beta)
@@ -392,51 +395,6 @@ Namespace LDA
         End Property
 
         ''' <summary>
-        ''' Print table of multinomial data
-        ''' </summary>
-        ''' <param name="data"> vector of evidence </param>
-        ''' <param name="fmax"> max frequency in display </param>
-        ''' <return> the scaled histogram bin values </return>
-        Public Shared Sub hist(ByVal data As Double(), ByVal fmax As Integer)
-            Dim lHist = New Double(data.Length - 1) {}
-            ' scale maximum
-            Dim hmax As Double = 0
-
-            For i = 0 To data.Length - 1
-                hmax = stdNum.Max(data(i), hmax)
-            Next
-
-            Dim shrink = fmax / hmax
-
-            For i = 0 To data.Length - 1
-                lHist(i) = shrink * data(i)
-            Next
-
-            Dim scale = ""
-
-            For i As Integer = 1 To fmax / 10 + 1 - 1
-                scale += "    .    " & i Mod 10
-            Next
-
-            Console.WriteLine("x" & (hmax / fmax).ToString("F2") & vbTab & "0" & scale)
-
-            For i = 0 To lHist.Length - 1
-                Console.Write(i & vbTab & "|")
-
-                For j As Integer = 0 To stdNum.Round(lHist(i)) - 1
-
-                    If (j + 1) Mod 10 = 0 Then
-                        Console.Write("]")
-                    Else
-                        Console.Write("|")
-                    End If
-                Next
-
-                Console.WriteLine()
-            Next
-        End Sub
-
-        ''' <summary>
         ''' Configure the gibbs sampler
         ''' 配置采样器
         ''' </summary>
@@ -444,131 +402,11 @@ Namespace LDA
         ''' <param name="burnIn">       number of burn-in iterations </param>
         ''' <param name="thinInterval"> update statistics interval </param>
         ''' <param name="sampleLag">    sample interval (-1 for just one sample at the end) </param>
-        Public Overridable Sub configure(ByVal iterations As Integer, ByVal burnIn As Integer, ByVal thinInterval As Integer, ByVal sampleLag As Integer)
+        Public Overridable Sub configure(iterations As Integer, burnIn As Integer, thinInterval As Integer, sampleLag As Integer)
             LdaGibbsSampler.ITERATIONS = iterations
             BURN_IN = burnIn
             THIN_INTERVAL = thinInterval
             SAMPLE_LAG = sampleLag
         End Sub
-
-        ''' <summary>
-        ''' Inference a new document by a pre-trained phi matrix
-        ''' </summary>
-        ''' <param name="phi"> pre-trained phi matrix </param>
-        ''' <param name="doc"> document </param>
-        ''' <returns> a p array </returns>
-        Public Shared Function inference(ByVal alpha As Double, ByVal beta As Double, ByVal phi As Double()(), ByVal doc As Integer()) As Double()
-            Dim lK = phi.Length
-            Dim V = phi(0).Length
-            ' init
-
-            ' initialise count variables. 初始化计数器          
-            Dim nw = MAT(Of Integer)(V, lK)
-            Dim nd = New Integer(lK - 1) {}
-            Dim nwsum = New Integer(lK - 1) {}
-            Dim ndsum = 0
-
-            ' The z_i are are initialised to values in [1,K] to determine the
-            ' initial state of the Markov chain.
-
-            Dim N = doc.Length
-            Dim z = New Integer(N - 1) {} ' z_i := 1到K之间的值，表示马氏链的初始状态
-
-            For N = 0 To N - 1
-                Dim topic As Integer = randf.NextInteger(lK)
-                z(N) = topic
-                ' number of instances of word i assigned to topic j
-                nw(doc(N))(topic) += 1
-                ' number of words in document i assigned to topic j.
-                nd(topic) += 1
-                ' total number of words assigned to topic j.
-                nwsum(topic) += 1
-            Next
-            ' total number of words in document i
-            ndsum = N
-
-            For i = 0 To ITERATIONS - 1
-
-                For N = 0 To z.Length - 1
-
-                    ' (z_i = z[m][n])
-                    ' sample from p(z_i|z_-i, w)
-                    ' remove z_i from the count variables  先将这个词从计数器中抹掉
-                    Dim topic = z(N)
-                    nw(doc(N))(topic) -= 1
-                    nd(topic) -= 1
-                    nwsum(topic) -= 1
-                    ndsum -= 1
-
-                    ' do multinomial sampling via cumulative method: 通过多项式方法采样多项式分布
-                    Dim p = New Double(lK - 1) {}
-
-                    For K As Integer = 0 To lK - 1
-                        p(K) = phi(K)(doc(N)) * (nd(K) + alpha) / (ndsum + lK * alpha)
-                    Next
-                    ' cumulate multinomial parameters  累加多项式分布的参数
-                    For K As Integer = 1 To p.Length - 1
-                        p(K) += p(K - 1)
-                    Next
-                    ' scaled sample because of unnormalised p[] 正则化
-                    Dim u = randf.NextDouble * p(lK - 1)
-
-                    For topic = 0 To p.Length - 1
-
-                        If u < p(topic) Then
-                            Exit For
-                        End If
-                    Next
-
-                    If topic = lK Then
-                        Throw New Exception("the param K or topic is set too small")
-                    End If
-                    ' add newly estimated z_i to count variables   将重新估计的该词语加入计数器
-                    nw(doc(N))(topic) += 1
-                    nd(topic) += 1
-                    nwsum(topic) += 1
-                    ndsum += 1
-                    z(N) = topic
-                Next
-            Next
-
-            Dim lTheta = New Double(lK - 1) {}
-
-            For K As Integer = 0 To lK - 1
-                lTheta(K) = (nd(K) + alpha) / (ndsum + lK * alpha)
-            Next
-
-            Return lTheta
-        End Function
-
-        Public Shared Function inference(ByVal phi As Double()(), ByVal doc As Integer()) As Double()
-            Return inference(2.0, 0.5, phi, doc)
-        End Function
-
-        Friend Shared shades As String() = New String() {"     ", ".    ", ":    ", ":.   ", "::   ", "::.  ", ":::  ", ":::. ", ":::: ", "::::.", ":::::"}
-
-        ''' <summary>
-        ''' create a string representation whose gray value appears as an indicator
-        ''' of magnitude, cf. Hinton diagrams in statistics.
-        ''' </summary>
-        ''' <param name="d">   value </param>
-        ''' <param name="max"> maximum value
-        ''' @return </param>
-        Public Shared Function shadeDouble(ByVal d As Double, ByVal max As Double) As String
-            Dim a As Integer = stdNum.Floor(d * 10 / max + 0.5)
-
-            If a > 10 OrElse a < 0 Then
-                Dim x = d.ToString("G2")
-                a = 5 - x.Length
-
-                For i = 0 To a - 1
-                    x += " "
-                Next
-
-                Return "<" & x & ">"
-            End If
-
-            Return "[" & shades(a) & "]"
-        End Function
     End Class
 End Namespace
