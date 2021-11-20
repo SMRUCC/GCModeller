@@ -1,5 +1,6 @@
 ﻿Imports System
 Imports System.Collections.Generic
+Imports stdNum = System.Math
 
 Namespace LDA
     Friend Class descOrder
@@ -21,8 +22,9 @@ Namespace LDA
         ''' <param name="limit"> limit of max words in a topic </param>
         ''' <returns> a map array </returns>
         Public Shared Function translate(ByVal phi As Double()(), ByVal vocabulary As Vocabulary, ByVal limit As Integer) As IDictionary(Of String, Double)()
-            limit = Math.Min(limit, phi(0).Length)
-            Dim result As IDictionary(Of String, Double)() = New Dictionary(Of String, Double)(phi.Length - 1) {}
+            Dim result As IDictionary(Of String, Double)() = New IDictionary(Of String, Double)(phi.Length - 1) {}
+
+            limit = stdNum.Min(limit, phi(0).Length)
 
             For k = 0 To phi.Length - 1
                 Dim rankMap As IDictionary(Of Double, String) = New SortedDictionary(Of Double, String)(New descOrder())
@@ -73,7 +75,7 @@ Namespace LDA
             Dim i = 0
 
             For Each topicMap In result
-                Console.Write("topic {0:D} :" & vbLf, Math.Min(Threading.Interlocked.Increment(i), i - 1))
+                Console.Write("topic {0:D} :" & vbLf, stdNum.Min(Threading.Interlocked.Increment(i), i - 1))
                 explain(topicMap)
                 Console.WriteLine()
             Next

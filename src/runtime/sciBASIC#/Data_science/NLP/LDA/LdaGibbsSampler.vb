@@ -1,5 +1,6 @@
 ﻿Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
+Imports stdNum = System.Math
 
 '  (C) Copyright 2005, Gregor Heinrich (gregor :: arbylon : net) (This file is
 '  part of the org.knowceans experimental software packages.)
@@ -402,7 +403,7 @@ Namespace LDA
             Dim hmax As Double = 0
 
             For i = 0 To data.Length - 1
-                hmax = Math.Max(data(i), hmax)
+                hmax = stdNum.Max(data(i), hmax)
             Next
 
             Dim shrink = fmax / hmax
@@ -422,7 +423,7 @@ Namespace LDA
             For i = 0 To lHist.Length - 1
                 Console.Write(i & vbTab & "|")
 
-                For j As Integer = 0 To Math.Round(lHist(i)) - 1
+                For j As Integer = 0 To stdNum.Round(lHist(i)) - 1
 
                     If (j + 1) Mod 10 = 0 Then
                         Console.Write("]")
@@ -554,7 +555,7 @@ Namespace LDA
         ''' <paramname="max"> maximum value
         ''' @return </param>
         Public Shared Function shadeDouble(ByVal d As Double, ByVal max As Double) As String
-            Dim a As Integer = Math.Floor(d * 10 / max + 0.5)
+            Dim a As Integer = stdNum.Floor(d * 10 / max + 0.5)
 
             If a > 10 OrElse a < 0 Then
                 Dim x = d.ToString("G2")

@@ -1,10 +1,10 @@
-Imports System
-Imports ClassLibrary1.com.hankcs.lda
+
+Imports Microsoft.VisualBasic.Data.NLP.LDA
 
 Module Program
     Sub Main(args As String())
         ' 1. Load corpus from disk
-        Dim corpus As Corpus = Corpus.load("F:\1\data\mini")
+        Dim corpus As Corpus = Corpus.load("D:\GCModeller\src\R-sharp\Library\demo\machineLearning\NLP\data\mini")
         ' 2. Create a LDA sampler
         Dim ldaGibbsSampler As New LdaGibbsSampler(corpus.Document(), corpus.VocabularySize())
         ' 3. Train it

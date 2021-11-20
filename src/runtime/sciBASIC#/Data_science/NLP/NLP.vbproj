@@ -5,6 +5,8 @@
     <TargetFramework>net5.0</TargetFramework>
     <Platforms>AnyCPU;x64</Platforms>
     <DefaultItemExcludes>$(DefaultItemExcludes);$(ProjectDir)**\*.cs</DefaultItemExcludes>
+    <AssemblyName>Microsoft.VisualBasic.Data.NLP</AssemblyName>
+    <RootNamespace>Microsoft.VisualBasic.Data.NLP</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
