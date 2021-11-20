@@ -98,13 +98,19 @@ Public Module LDADeconvolve
     End Function
 
     <Extension>
-    Public Function LDAModelling(spatialDoc As Corpus) As LdaGibbsSampler
+    Public Function LDAModelling(spatialDoc As Corpus, k As Integer) As LdaGibbsSampler
         ' 2. Create a LDA sampler
         Dim ldaGibbsSampler As New LdaGibbsSampler(spatialDoc.Document(), spatialDoc.VocabularySize())
+
         ' 3. Train it
-        Call ldaGibbsSampler.gibbs(10)
+        Call ldaGibbsSampler.gibbs(k)
 
         Return ldaGibbsSampler
+    End Function
+
+    <Extension>
+    Public Function Deconvolve(LDA As LdaGibbsSampler) As Deconvolve
+
     End Function
 
 End Module
