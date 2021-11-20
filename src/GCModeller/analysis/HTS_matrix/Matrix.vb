@@ -94,12 +94,21 @@ Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow)
         End Get
     End Property
 
+    ''' <summary>
+    ''' take by column
+    ''' </summary>
+    ''' <param name="i"></param>
+    ''' <returns></returns>
     Public Property sample(i As Integer) As Vector
         Get
-
+            Return expression.Select(Function(v) v(i)).AsVector
         End Get
         Set(value As Vector)
+            Dim v As Double() = value.Array
 
+            For j As Integer = 0 To value.Length - 1
+                expression(j).experiments(i) = v(j)
+            Next
         End Set
     End Property
 
