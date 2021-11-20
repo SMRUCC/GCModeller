@@ -2,10 +2,10 @@
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <RootNamespace>SMRUCC.genomics.Analysis.Microarray.PhenoGraph</RootNamespace>
+    <RootNamespace>SMRUCC.genomics.Analysis.SingleCell.PhenoGraph</RootNamespace>
     <TargetFramework>net5.0</TargetFramework>
     <Platforms>AnyCPU;x64</Platforms>
-    <AssemblyName>SMRUCC.genomics.Analysis.Microarray.PhenoGraph</AssemblyName>
+    <AssemblyName>SMRUCC.genomics.Analysis.SingleCell.PhenoGraph</AssemblyName>
     <StartupObject />
     <Configurations>Debug;Release;Rsharp_app_release</Configurations>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
