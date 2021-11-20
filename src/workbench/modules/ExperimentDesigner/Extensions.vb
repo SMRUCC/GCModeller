@@ -1,54 +1,53 @@
 ﻿#Region "Microsoft.VisualBasic::f40f25a0a3a8d8213c42d287909eb02d, modules\ExperimentDesigner\Extensions.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module Extensions
-    ' 
-    '     Properties: Names
-    ' 
-    '     Function: DataAnalysisDesign, EnsureGroupPaired, EqualsToTuple, PairedAnalysisSamples, SampleGroupColor
-    '               SampleGroupInfo, SampleIDs, SampleNames, TakeGroup, ToCategory
-    ' 
-    ' /********************************************************************************/
+' Module Extensions
+' 
+'     Properties: Names
+' 
+'     Function: DataAnalysisDesign, EnsureGroupPaired, EqualsToTuple, PairedAnalysisSamples, SampleGroupColor
+'               SampleGroupInfo, SampleIDs, SampleNames, TakeGroup, ToCategory
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
-Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 
@@ -103,9 +102,9 @@ Public Module Extensions
 
     <Extension>
     Private Function EqualsToTuple(ad As AnalysisDesigner, tuple As SampleTuple) As Boolean
-        If ad.Controls = tuple.Sample1 AndAlso ad.Treatment = tuple.Sample2 Then
+        If ad.controls = tuple.sample1 AndAlso ad.treatment = tuple.sample2 Then
             Return True
-        ElseIf ad.Treatment = tuple.Sample1 AndAlso ad.Controls = tuple.Sample2 Then
+        ElseIf ad.treatment = tuple.sample1 AndAlso ad.controls = tuple.sample2 Then
             Return True
         Else
             Return False
@@ -262,8 +261,8 @@ Public Module Extensions
         Dim designs = analysis.ToDictionary(
             Function(name) name.ToString,
             Function(designer)
-                Dim control = sampleGroups(designer.Controls)
-                Dim experimentals = sampleGroups(designer.Treatment)
+                Dim control = sampleGroups(designer.controls)
+                Dim experimentals = sampleGroups(designer.treatment)
 
                 ' 对照 vs 处理 
                 Return control _
@@ -271,9 +270,9 @@ Public Module Extensions
                                 Return experimentals _
                                     .Select(Function(e)
                                                 Return New AnalysisDesigner With {
-                                                    .Controls = c.sample_name,
-                                                    .Treatment = e.sample_name,
-                                                    .Note = translation(.Treatment).ID & "/" & translation(.Controls).ID
+                                                    .controls = c.sample_name,
+                                                    .treatment = e.sample_name,
+                                                    .note = translation(.treatment).ID & "/" & translation(.controls).ID
                                                 }
                                             End Function)
                             End Function) _
@@ -310,8 +309,8 @@ Public Module Extensions
 
             ' returns case + control
             Return groups.AsList + New NamedCollection(Of T) With {
-                .Name = groupCreated,
-                .Value = controls _
+                .name = groupCreated,
+                .value = controls _
                     .Select(Function(name)
                                 Return New T With {
                                     .sample_name = name,
@@ -328,21 +327,24 @@ Public Module Extensions
     ''' <summary>
     ''' 将<see cref="SampleInfo.ID"/>映射为对应的<see cref="SampleInfo.sample_name"/>
     ''' </summary>
-    ''' <param name="matrix">属性的键名称应该都是<see cref="SampleInfo.ID"/></param>
-    Public WriteOnly Property Names(matrix As DataSet()) As SampleInfo()
-        Set(value As SampleInfo())
-            For Each data As DataSet In matrix
-                Dim row As Dictionary(Of String, Double) = data.Properties
+    ''' <param name="matrix">
+    ''' 属性的键名称应该都是<see cref="SampleInfo.ID"/>
+    ''' </param>
+    <Extension>
+    Public Function SetNames(Of DataSet As {INamedValue, DynamicPropertyBase(Of Double)})(matrix As DataSet(), value As SampleInfo()) As SampleInfo()
+        For Each data As DataSet In matrix
+            Dim row As Dictionary(Of String, Double) = data.Properties
 
-                For Each sample As SampleInfo In value
-                    If row.ContainsKey(sample.ID) Then
-                        Dim x As Double = row(sample.ID)
+            For Each sample As SampleInfo In value
+                If row.ContainsKey(sample.ID) Then
+                    Dim x As Double = row(sample.ID)
 
-                        Call row.Remove(sample.ID)
-                        Call row.Add(sample.sample_name, x)
-                    End If
-                Next
+                    Call row.Remove(sample.ID)
+                    Call row.Add(sample.sample_name, x)
+                End If
             Next
-        End Set
-    End Property
+        Next
+
+        Return value
+    End Function
 End Module
