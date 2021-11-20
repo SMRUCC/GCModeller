@@ -1,32 +1,26 @@
 ﻿Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
-' 
 '  (C) Copyright 2005, Gregor Heinrich (gregor :: arbylon : net) (This file is
 '  part of the org.knowceans experimental software packages.)
-' 
 ' 
 '  LdaGibbsSampler is free software; you can redistribute it and/or modify it
 '  under the terms of the GNU General Public License as published by the Free
 '  Software Foundation; either version 2 of the License, or (at your option) any
 '  later version.
 ' 
-' 
 '  LdaGibbsSampler is distributed in the hope that it will be useful, but
 '  WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
 '  FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
 '  details.
 ' 
-' 
 '  You should have received a copy of the GNU General Public License along with
 '  this program; if not, write to the Free Software Foundation, Inc., 59 Temple
 '  Place, Suite 330, Boston, MA 02111-1307 USA
 ' 
-
-' 
 '  Created on Mar 6, 2005
 ' 
-Namespace com.hankcs.lda
+Namespace LDA
 
     ''' <summary>
     ''' Gibbs sampler for estimating the best assignments of topics for words and
@@ -36,37 +30,37 @@ Namespace com.hankcs.lda
     ''' Gibbs sampler采样算法的实现
     ''' 
     ''' @author heinrich
-    ''' </summary></summary> 
+    ''' </summary>
     Public Class LdaGibbsSampler
 
         ''' <summary>
         ''' document data (term lists)<br>
         ''' 文档
-        ''' </summary></summary>       
+        ''' </summary>  
         Friend documents As Integer()()
 
         ''' <summary>
         ''' vocabulary size<br>
         ''' 词表大小
-        ''' </summary></summary>      
+        ''' </summary> 
         Friend V As Integer
 
         ''' <summary>
         ''' number of topics<br>
         ''' 主题数目
-        ''' </summary></summary>      
+        ''' </summary> 
         Friend K As Integer
 
         ''' <summary>
         ''' Dirichlet parameter (document--topic associations)<br>
         ''' 文档——主题参数
-        ''' </summary></summary>      
+        ''' </summary> 
         Friend alpha As Double = 2.0
 
         ''' <summary>
         ''' Dirichlet parameter (topic--term associations)<br>
         ''' 主题——词语参数
-        ''' </summary></summary>     
+        ''' </summary>
         Friend beta As Double = 0.5
 
         ''' <summary>
@@ -78,38 +72,38 @@ Namespace com.hankcs.lda
         ''' <summary>
         ''' cwt[i][j] number of instances of word i (term?) assigned to topic j.<br>
         ''' 计数器，nw[i][j] := 词语i归入主题j的次数
-        ''' </summary></summary>     
+        ''' </summary>
         Friend nw As Integer()()
 
         ''' <summary>
         ''' na[i][j] number of words in document i assigned to topic j.<br>
         ''' 计数器，nd[i][j] := 文档[i]中归入主题j的词语的个数
-        ''' </summary></summary>      
+        ''' </summary> 
         Friend nd As Integer()()
 
         ''' <summary>
         ''' nwsum[j] total number of words assigned to topic j.<br>
         ''' 计数器，nwsum[j] := 归入主题j词语的个数
-        ''' </summary></summary>     
+        ''' </summary>
         Friend nwsum As Integer()
 
         ''' <summary>
         ''' nasum[i] total number of words in document i.<br>
         ''' 计数器,ndsum[i] := 文档i中全部词语的数量
-        ''' </summary></summary>     
+        ''' </summary>
         Friend ndsum As Integer()
 
 
         ''' <summary>
         ''' cumulative statistics of theta<br>
         ''' theta的累积量
-        ''' </summary></summary>     
+        ''' </summary>
         Friend thetasum As Double()()
 
         ''' <summary>
         ''' cumulative statistics of phi<br>
         ''' phi的累积量
-        ''' </summary></summary>     
+        ''' </summary>
         Friend phisum As Double()()
 
         ''' <summary>
@@ -121,7 +115,7 @@ Namespace com.hankcs.lda
         ''' <summary>
         ''' sampling lag (?)<br>
         ''' 多久更新一次统计量
-        ''' </summary></summary>      
+        ''' </summary> 
         Private Shared THIN_INTERVAL As Integer = 20
 
         ''' <summary>
@@ -148,7 +142,7 @@ Namespace com.hankcs.lda
         ''' 用数据初始化采样器
         ''' </summary>
         ''' <paramname="documents"> 文档 </param>
-        ''' <paramname="V">         vocabulary size 词表大小 </param></summary>      
+        ''' <paramname="V">         vocabulary size 词表大小 </param> 
         Public Sub New(ByVal documents As Integer()(), ByVal V As Integer)
             Me.documents = documents
             Me.V = V
@@ -206,7 +200,7 @@ Namespace com.hankcs.lda
         ''' </summary>
         ''' <paramname="K">     number of topics 主题数 </param>
         ''' <paramname="alpha"> symmetric prior parameter on document--topic associations 对称文档——主题先验概率？ </param>
-        ''' <paramname="beta">  symmetric prior parameter on topic--term associations 对称主题——词语先验概率？ </param></summary>      
+        ''' <paramname="beta">  symmetric prior parameter on topic--term associations 对称主题——词语先验概率？ </param> 
         Public Overridable Sub gibbs(ByVal K As Integer, ByVal alpha As Double, ByVal beta As Double)
             Me.K = K
             Me.alpha = alpha
@@ -272,7 +266,7 @@ Namespace com.hankcs.lda
         ''' 根据上述公式计算文档m中第n个词语的主题的完全条件分布，输出最可能的主题
         ''' </summary>
         ''' <paramname="m"> document </param>
-        ''' <paramname="n"> word </param></summary>      
+        ''' <paramname="n"> word </param> 
         Private Function sampleFullConditional(ByVal m As Integer, ByVal n As Integer) As Integer
 
             ' remove z_i from the count variables  先将这个词从计数器中抹掉
@@ -448,7 +442,7 @@ Namespace com.hankcs.lda
         ''' <paramname="iterations">   number of total iterations </param>
         ''' <paramname="burnIn">       number of burn-in iterations </param>
         ''' <paramname="thinInterval"> update statistics interval </param>
-        ''' <paramname="sampleLag">    sample interval (-1 for just one sample at the end) </param></summary>     
+        ''' <paramname="sampleLag">    sample interval (-1 for just one sample at the end) </param>
         Public Overridable Sub configure(ByVal iterations As Integer, ByVal burnIn As Integer, ByVal thinInterval As Integer, ByVal sampleLag As Integer)
             LdaGibbsSampler.ITERATIONS = iterations
             BURN_IN = burnIn

@@ -1,7 +1,7 @@
 ﻿Imports System
 Imports System.Collections.Generic
 
-Namespace com.hankcs.lda
+Namespace LDA
     Friend Class descOrder
         Implements IComparer(Of Double)
 

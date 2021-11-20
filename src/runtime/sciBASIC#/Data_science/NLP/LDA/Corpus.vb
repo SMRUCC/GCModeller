@@ -3,7 +3,7 @@ Imports System.Text
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Values
 
-Namespace com.hankcs.lda
+Namespace LDA
 
     ''' <summary>
     ''' a set of documents

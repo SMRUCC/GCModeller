@@ -2,7 +2,7 @@
 Imports System.Collections.Generic
 Imports System.Text
 
-Namespace com.hankcs.lda
+Namespace LDA
 
     ''' <summary>
     ''' a word set
