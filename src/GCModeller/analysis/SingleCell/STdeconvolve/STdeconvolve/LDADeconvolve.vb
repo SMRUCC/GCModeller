@@ -1,4 +1,4 @@
-Imports System.Runtime.CompilerServices
+﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Data.NLP.LDA
@@ -61,8 +61,8 @@ Public Module LDADeconvolve
         Dim sample As New STCorpus
 
         matrix = matrix _
-            .Project(matrix.sampleID - filter) _
-            .UnifyMatrix(unify, logNorm)
+            .Project(matrix.sampleID - filter) _  ' reduce the gene features in pixels [5% ~ 95%]
+            .UnifyMatrix(unify, logNorm)          ' and then unify the count matrix via log scale and a given unify levels
 
         Dim geneIds As String() = matrix.sampleID
         Dim document As New List(Of String)
@@ -70,6 +70,7 @@ Public Module LDADeconvolve
         For Each pixel As DataFrameRow In matrix.expression
             For i As Integer = 0 To geneIds.Length - 1
                 If pixel(i) > 0 Then
+                    ' convert the unify levels as document composition
                     document += geneIds(i).Replicate(CInt(pixel(i)))
                 End If
             Next
@@ -96,6 +97,7 @@ Public Module LDADeconvolve
             v = matrix.sample(i)
 
             If log Then
+                ' avoid negative value in count matrix unify procedure
                 v = (From x As Double
                      In v
                      Let ln As Double = If(x <= 1, 0, stdNum.Log(x))
@@ -142,12 +144,15 @@ Public Module LDADeconvolve
     ''' <param name="k"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function LDAModelling(spatialDoc As STCorpus, k As Integer) As LdaGibbsSampler
+    Public Function LDAModelling(spatialDoc As STCorpus, k As Integer,
+                                 Optional alpha# = 2.0,
+                                 Optional beta# = 0.5) As LdaGibbsSampler
+
         ' 2. Create a LDA sampler
         Dim ldaGibbsSampler As New LdaGibbsSampler(spatialDoc.Document(), spatialDoc.VocabularySize())
 
         ' 3. Train LDA model via gibbs sampling
-        Call ldaGibbsSampler.gibbs(k)
+        Call ldaGibbsSampler.gibbs(k, alpha, beta)
 
         Return ldaGibbsSampler
     End Function
@@ -161,11 +166,14 @@ Public Module LDADeconvolve
     ''' <returns></returns>
     <Extension>
     Public Function Deconvolve(LDA As LdaGibbsSampler, corpus As STCorpus, Optional topGenes As Integer = 25) As Deconvolve
-        ' 4. The phi matrix Is a LDA model, you can use LdaUtil to explain it.
+        ' 4. The phi matrix Is a LDA model, you can use LdaInterpreter to explain it.
         Dim phi = LDA.Phi()
         Dim topicMap = LdaInterpreter.translate(phi, corpus.Vocabulary, limit:=stdNum.Min(topGenes, corpus.VocabularySize))
         Dim t As DataFrameRow() = LDA.Theta _
             .Select(Function(dist, i)
+                        ' each pixel Is defined as a mixture of 𝐾 cell types 
+                        ' represented As a multinomial distribution Of cell-type 
+                        ' probabilities
                         Return New DataFrameRow With {
                             .geneID = corpus.m_pixels(i),
                             .experiments = dist
