@@ -5,6 +5,7 @@ Imports Microsoft.VisualBasic.Data.NLP.LDA
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
+Imports stdNum = System.Math
 
 ''' <summary>
 ''' do spatial data deconvolve via LDA algorithm
@@ -27,14 +28,15 @@ Public Module LDADeconvolve
     Public Function CreateSpatialDocuments(matrix As Matrix,
                                            Optional min As Double = 0.05,
                                            Optional max As Double = 0.95,
-                                           Optional unify As Integer = 20) As STCorpus
+                                           Optional unify As Integer = 20,
+                                           Optional logNorm As Boolean = True) As STCorpus
 
         Dim filter As Index(Of String) = matrix.GeneFilter(min, max)
         Dim sample As New STCorpus
 
         matrix = matrix _
             .Project(matrix.sampleID - filter) _
-            .UnifyMatrix(unify)
+            .UnifyMatrix(unify, logNorm)
 
         Dim geneIds As String() = matrix.sampleID
         Dim document As New List(Of String)
@@ -60,11 +62,21 @@ Public Module LDADeconvolve
     ''' <param name="unify"></param>
     ''' <returns></returns>
     <Extension>
-    Private Function UnifyMatrix(matrix As Matrix, unify As Integer) As Matrix
+    Private Function UnifyMatrix(matrix As Matrix, unify As Integer, log As Boolean) As Matrix
         Dim unifyFactor As New DoubleRange(1, unify)
+        Dim v As Vector
 
         For i As Integer = 0 To matrix.sampleID.Length - 1
-            matrix.sample(i) = matrix.sample(i).ScaleToRange(unifyFactor)
+            v = matrix.sample(i)
+
+            If log Then
+                v = (From x As Double
+                     In v
+                     Let ln As Double = If(x <= 1, 0, stdNum.Log(x))
+                     Select ln).AsVector
+            End If
+
+            matrix.sample(i) = v.ScaleToRange(unifyFactor)
         Next
 
         Return matrix
@@ -108,7 +120,7 @@ Public Module LDADeconvolve
         ' 2. Create a LDA sampler
         Dim ldaGibbsSampler As New LdaGibbsSampler(spatialDoc.Document(), spatialDoc.VocabularySize())
 
-        ' 3. Train it
+        ' 3. Train LDA model via gibbs sampling
         Call ldaGibbsSampler.gibbs(k)
 
         Return ldaGibbsSampler
@@ -125,7 +137,7 @@ Public Module LDADeconvolve
     Public Function Deconvolve(LDA As LdaGibbsSampler, corpus As STCorpus, Optional topGenes As Integer = 25) As Deconvolve
         ' 4. The phi matrix Is a LDA model, you can use LdaUtil to explain it.
         Dim phi = LDA.Phi()
-        Dim topicMap = LdaUtil.translate(phi, corpus.Vocabulary(), limit:=topGenes)
+        Dim topicMap = LdaInterpreter.translate(phi, corpus.Vocabulary, limit:=stdNum.Min(topGenes, corpus.VocabularySize))
         Dim t As DataFrameRow() = LDA.Theta _
             .Select(Function(dist, i)
                         Return New DataFrameRow With {
