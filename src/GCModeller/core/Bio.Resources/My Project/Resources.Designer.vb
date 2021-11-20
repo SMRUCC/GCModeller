@@ -61,237 +61,6 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to +D	Biochemical compound
-        '''#&lt;h2&gt;&lt;a href=&quot;/kegg/kegg2.html&quot;&gt;&lt;img src=&quot;/Fig/bget/kegg3.gif&quot; align=&quot;middle&quot; border=0&gt;&lt;/a&gt;&amp;nbsp; Compounds with Biological Roles&lt;/h2&gt;
-        '''!
-        '''A&lt;b&gt;Organic acids&lt;/b&gt;
-        '''B  Carboxylic acids [Fig]
-        '''C    Monocarboxylic acids
-        '''D      C00058  Formate; Methanoate
-        '''D      C00033  Acetate; Ethanoate
-        '''D      C00163  Propionate; Propanoate
-        '''D      C00246  Butyrate; Butanoate
-        '''D      C00803  Valerate; Pentanoate
-        '''D      C01585  Capronate; Hexanoate
-        '''D      C17714  Enanthate; Heptanoate
-        '''D      C06423  Caprylate;  [rest of string was truncated]&quot;;.
-        '''</summary>
-        Friend ReadOnly Property br08001() As String
-            Get
-                Return ResourceManager.GetString("br08001", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to +E	Lipid
-        '''#&lt;h2&gt;&lt;a href=&quot;/kegg/kegg2.html&quot;&gt;&lt;img src=&quot;/Fig/bget/kegg3.gif&quot; align=&quot;middle&quot; border=0&gt;&lt;/a&gt;&amp;nbsp; Lipids&lt;/h2&gt;
-        '''!
-        '''A&lt;b&gt;FA  Fatty acyls&lt;/b&gt;
-        '''B  FA01 Fatty Acids and Conjugates
-        '''C    FA0101 Straight chain fatty acids
-        '''D      C00058  Formic acid
-        '''D      C00033  Acetic acid
-        '''D      C00163  Propanoic acid
-        '''D      C00246  Butanoic acid
-        '''D      C00803  Pentanoic acid
-        '''D      C01585  Hexanoic acid
-        '''D      C17714  Heptanoic acid
-        '''D      C06423  Octanoic acid
-        '''D      C01601  Nonanoic acid
-        '''D      C17715  Und [rest of string was truncated]&quot;;.
-        '''</summary>
-        Friend ReadOnly Property br08002() As String
-            Get
-                Return ResourceManager.GetString("br08002", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to +D
-        '''#&lt;h2&gt;&lt;a href=&quot;/kegg/kegg2.html&quot;&gt;&lt;img src=&quot;/Fig/bget/kegg3.gif&quot; align=&quot;middle&quot; border=0&gt;&lt;/a&gt;&amp;nbsp; Phytochemical Compounds&lt;/h2&gt;
-        '''!
-        '''A&lt;b&gt;Alkaloids&lt;/b&gt;
-        '''B  Alkaloids derived from ornithine
-        '''C    Pyrrolidine alkaloids
-        '''D      C06179  Hygrine
-        '''D      C11359  (-)-Hygrine
-        '''D      C06521  Cuscohygrine
-        '''D      C10152  (-)-Hygroline
-        '''D      C10172  Stachydrine
-        '''D      C08283  Homostachydrine
-        '''D      C10151  3-Hydroxystachydrine
-        '''C    Pyrrolizidine alkaloids
-        '''D      C10124  Alexine
-        '''D      C10263  Amabiline
-        '''D     [rest of string was truncated]&quot;;.
-        '''</summary>
-        Friend ReadOnly Property br08003() As String
-            Get
-                Return ResourceManager.GetString("br08003", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to +C	Peptide
-        '''#&lt;h2&gt;&lt;a href=&quot;/kegg/kegg2.html&quot;&gt;&lt;img src=&quot;/Fig/bget/kegg3.gif&quot; align=&quot;middle&quot; border=0&gt;&lt;/a&gt;&amp;nbsp; Bioactive Peptides&lt;/h2&gt;
-        '''!
-        '''A&lt;b&gt;Neuropeptides&lt;/b&gt;
-        '''B  Tachykinin
-        '''C    C16094  Substance P
-        '''C    C16095  Neuropeptide K
-        '''C    C16096  Neuropeptide gamma
-        '''C    C16097  Neurokinin A
-        '''C    C16098  Neurokinin B
-        '''C    C16099  Endokinin A/B
-        '''C    C16100  Endokinin C
-        '''C    C16101  Endokinin D
-        '''B  Neurotensin
-        '''C    C01836  Neurotensin
-        '''C    C15868  Neuromedin N
-        '''B  Feeding-related peptide
-        '''C    C16025  Ghre [rest of string was truncated]&quot;;.
-        '''</summary>
-        Friend ReadOnly Property br08005() As String
-            Get
-                Return ResourceManager.GetString("br08005", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to +C	Environmental compound
-        '''#&lt;h2&gt;&lt;a href=&quot;/kegg/kegg2.html&quot;&gt;&lt;img src=&quot;/Fig/bget/kegg3.gif&quot; align=&quot;middle&quot; border=0&gt;&lt;/a&gt; &amp;nbsp; Endocrine Disrupting Compounds&lt;/h2&gt;
-        '''!
-        '''A&lt;b&gt;Pesticides and herbicides&lt;/b&gt;
-        '''B  Carbamate pesticides
-        '''C    C11015  Aldicarb
-        '''C    C10896  Benlate
-        '''C    C07491  Carbaryl
-        '''C    C11196  Methomyl
-        '''C    C10981  Vinclozolin
-        '''B  Dithiocarbamate pesticides
-        '''C    C15225  Mancozeb
-        '''C    C15231  Maneb
-        '''C    C18144  Metiram
-        '''C    C15232  Zineb
-        '''C    C15229  Ziram
-        '''B  Organochlorine pesticides
-        '''C    C07552  Aldrin
-        ''' [rest of string was truncated]&quot;;.
-        '''</summary>
-        Friend ReadOnly Property br08006() As String
-            Get
-                Return ResourceManager.GetString("br08006", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to +D
-        '''#&lt;h2&gt;&lt;a href=&quot;/kegg/kegg2.html&quot;&gt;&lt;img src=&quot;/Fig/bget/kegg3.gif&quot; align=&quot;middle&quot; border=0&gt;&lt;/a&gt;&amp;nbsp; Pesticides&lt;/h2&gt;
-        '''!
-        '''A&lt;b&gt;Pesticides&lt;/b&gt;
-        '''B  Fungicides
-        '''C    Aliphatic nitrogen fungicides
-        '''D      C18498  Cymoxanil
-        '''D      C18723  Dodine
-        '''D      C18568  Iminoctadine acetate
-        '''C    Amide fungicides
-        '''D      C18581  Amisulbrom
-        '''D      C10929  Benalaxyl
-        '''D      C18547  Boscalid
-        '''D      C11255  Carboxin
-        '''D      C10932  Carpropamid
-        '''D      C18573  Cyazofamid
-        '''D      C18516  Cyflufenamid
-        '''D      C18820  Dichlofl [rest of string was truncated]&quot;;.
-        '''</summary>
-        Friend ReadOnly Property br08007() As String
-            Get
-                Return ResourceManager.GetString("br08007", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to +C	Carcinogen	Cancer site
-        '''#&lt;h2&gt;&lt;a href=&quot;/kegg/kegg2.html&quot;&gt;&lt;img src=&quot;/Fig/bget/kegg3.gif&quot; align=&quot;middle&quot; border=0&gt;&lt;/a&gt;&amp;nbsp; Carcinogens&lt;/h2&gt;
-        '''%&lt;style type=&quot;text/css&quot;&gt;&lt;!--#grid{table-layout:fixed;font-family:monospace;position:relative;color:black;width:1000px;}.col1{position:relative;background:white;z-index:1;overflow:hidden;width:600px;}.col2{position:relative;background:white;z-index:2;padding-left:10px;}--&gt;&lt;/style&gt;
-        '''!
-        '''A&lt;b&gt;Group 1: Carcinogenic to humans&lt;/b&gt;
-        '''B  Compounds
-        '''C    C06800  Aflatoxin B1	Liver and [rest of string was truncated]&quot;;.
-        '''</summary>
-        Friend ReadOnly Property br08008() As String
-            Get
-                Return ResourceManager.GetString("br08008", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to +D
-        '''#&lt;h2&gt;&lt;a href=&quot;/kegg/kegg2.html&quot;&gt;&lt;img src=&quot;/Fig/bget/kegg3.gif&quot; align=&quot;middle&quot; border=0&gt;&lt;/a&gt;&amp;nbsp; Natural Toxins&lt;/h2&gt;
-        '''!
-        '''A&lt;b&gt;Fungal toxins&lt;/b&gt;
-        '''B  Mushroom toxins
-        '''C    Alkaloids
-        '''D      C07473  Muscarine
-        '''D      C08311  Muscimol
-        '''D      C19959  Orellanine
-        '''D      C08312  Psilocin
-        '''D      C07576  Psilocybin
-        '''C    Cyclic peptides
-        '''D      C08438  alpha-Amanitin
-        '''D      C08439  Phalloidin
-        '''C    Terpenoids
-        '''D      C19957  Fasciculol E
-        '''D      C19958  Fasciculol F
-        '''D      C09687  Illudin M
-        '''D      C09688  I [rest of string was truncated]&quot;;.
-        '''</summary>
-        Friend ReadOnly Property br08009() As String
-            Get
-                Return ResourceManager.GetString("br08009", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to +E	Compound	Remark
-        '''#&lt;h2&gt;&lt;a href=&quot;/kegg/kegg2.html&quot;&gt;&lt;img src=&quot;/Fig/bget/kegg3.gif&quot; align=&quot;middle&quot; border=0&gt;&lt;/a&gt;&amp;nbsp; Target-based Classification of Compounds&lt;/h2&gt;
-        '''%&lt;style type=&quot;text/css&quot;&gt;&lt;!--#grid{table-layout:fixed;font-family:monospace;position:relative;color:black;width:1000px;}.col1{position:relative;background:white;z-index:1;overflow:hidden;width:600px;}.col2{position:relative;background:white;z-index:2;padding-left:10px;}--&gt;&lt;/style&gt;
-        '''!
-        '''A&lt;b&gt;G Protein-coupled receptors&lt;/b&gt;
-        '''B  Rhodopsin family: amine rec [rest of string was truncated]&quot;;.
-        '''</summary>
-        Friend ReadOnly Property br08010() As String
-            Get
-                Return ResourceManager.GetString("br08010", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to +D	Glycoside
-        '''#&lt;h2&gt;&lt;a href=&quot;/kegg/kegg2.html&quot;&gt;&lt;img src=&quot;/Fig/bget/kegg3.gif&quot; align=&quot;middle&quot; border=0&gt;&lt;/a&gt;&amp;nbsp; Glycosides&lt;/h2&gt;
-        '''!
-        '''A&lt;b&gt;O-glycosides&lt;/b&gt;
-        '''B  Phenolic glycosides
-        '''C    C06186  Arbutin
-        '''C    C01451  Salicin
-        '''C    C06188  Salicin 6-phosphate
-        '''C    C06046  Salidroside
-        '''C    C01604  Phlorizin
-        '''C    C10823  Populin
-        '''C    C09973  Tremulacin
-        '''C    C10501  Verbascoside
-        '''B  Anthraquinone glycosides
-        '''C    C10303  Aurantio-obtusin beta-D-glucoside
-        '''C    C10313  Chryso-obtusin glucoside
-        '''C    C10316  Chr [rest of string was truncated]&quot;;.
-        '''</summary>
-        Friend ReadOnly Property br08021() As String
-            Get
-                Return ResourceManager.GetString("br08021", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
         '''  Looks up a localized string similar to +E	KEGG Organism
         '''#&lt;h2&gt;&lt;a href=&quot;/kegg/kegg2.html&quot;&gt;&lt;img src=&quot;/Fig/bget/kegg3.gif&quot; align=&quot;middle&quot; border=0&gt;&lt;/a&gt; &amp;nbsp; KEGG Organisms&lt;/h2&gt;
         '''!
@@ -332,8 +101,7 @@ Namespace My.Resources
         '''I                Euarchontoglires
         '''J                  Primates
         '''K                    Haplorrhini
-        '''L                      Catarrhini
-        '''M              [rest of string was truncated]&quot;;.
+        '''L                      Catarrh [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property br08610() As String
             Get
@@ -350,12 +118,11 @@ Namespace My.Resources
         '''C    01100  Metabolic pathways
         '''C    01110  Biosynthesis of secondary metabolites
         '''C    01120  Microbial metabolism in diverse environments
-        '''C    01130  Biosynthesis of antibiotics
         '''C    01200  Carbon metabolism
         '''C    01210  2-Oxocarboxylic acid metabolism
         '''C    01212  Fatty acid metabolism
         '''C    01230  Biosynthesis of amino acids
-        '''C  [rest of string was truncated]&quot;;.
+        '''C    01220  Degradation of aro [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property br08901() As String
             Get
@@ -382,7 +149,7 @@ Namespace My.Resources
         '''A&lt;b&gt;Genes and Proteins&lt;/b&gt;
         '''B  Orthologs and modules
         '''C    ko00001  KEGG Orthology (KO)
-        '''C    ko00002  KEGG mod [rest of string was truncated]&quot;;.
+        '''C    [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property br08902() As String
             Get
@@ -406,8 +173,7 @@ Namespace My.Resources
         '''C    br06010  Ribosomal proteins
         '''C    br06011  RNA polymerases
         '''C    br06020  Photosynthetic and chemosynthetic capacities
-        '''C    br06021  Signaling modules
-        '''B  Enzy [rest of string was truncated]&quot;;.
+        '''C    br06021  Signaling  [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property br08904() As String
             Get
@@ -416,14 +182,22 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to &lt;!DOCTYPE =html&gt;
-        '''&lt;!-- saved from url=(0046)https://www.kegg.jp/kegg/catalog/org_list.html --&gt;
-        '''&lt;html&gt;&lt;head&gt;&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot;&gt;
+        '''  Looks up a localized string similar to &lt;!DOCTYPE=html&gt;
+        '''&lt;html&gt;
         '''
+        '''&lt;head&gt;
+        '''&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot;&gt;
         '''&lt;title&gt;KEGG Organisms: Complete Genomes&lt;/title&gt;
-        '''&lt;link rel=&quot;stylesheet&quot; href=&quot;./KEGG Organisms_ Complete Genomes_files/kegg2.css&quot; type=&quot;text/css&quot; media=&quot;all&quot;&gt;
-        '''&lt;script type=&quot;text/javascript&quot; src=&quot;./KEGG Organisms_ Complete Genomes_files/jquery-3.1.0.min.js.ä¸‹è½½&quot;&gt;&lt;/script&gt;
-        '''&lt;script type=&quot;text/javascript&quot; src=&quot;./KEGG Organisms_ Com [rest of string was truncated]&quot;;.
+        '''&lt;link rel=&quot;stylesheet&quot; href=&quot;/css/kegg2.css&quot; type=&quot;text/css&quot; media=&quot;all&quot;&gt;
+        '''&lt;script type=&quot;text/javascript&quot; src=&quot;https://www.kegg.jp/js/jquery-3.1.0.min.js&quot;&gt;&lt;/script&gt;
+        '''&lt;script type=&quot;text/javascript&quot; src=&quot;https://www.kegg.jp/kegg/js/colorid.js&quot;&gt;&lt;/script&gt;
+        '''&lt;/head&gt;
+        '''
+        '''&lt;body onload=&quot;colorid();&quot;&gt;
+        '''
+        '''&lt;table width=&quot;700&quot;&gt;
+        '''&lt;tr&gt;
+        '''  &lt;td width=&quot;180&quot; align=&quot;center&quot; rowsp [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property KEGG_Organism_Complete_Genomes() As String
             Get
@@ -434,21 +208,16 @@ Namespace My.Resources
         '''<summary>
         '''  Looks up a localized string similar to +D	KO
         '''#&lt;h2&gt;&lt;a href=&quot;/kegg/kegg2.html&quot;&gt;&lt;img src=&quot;/Fig/bget/kegg3.gif&quot; align=&quot;middle&quot; border=0&gt;&lt;/a&gt; &amp;nbsp; KEGG Orthology (KO)&lt;/h2&gt;
-        '''#&lt;!---
-        '''#ENTRY       ko00001
-        '''#NAME        KO
-        '''#DEFINITION  KEGG Orthology (KO)
-        '''#---&gt;
         '''!
-        '''A&lt;b&gt;Metabolism&lt;/b&gt;
+        '''A09100 Metabolism
         '''B
-        '''B  &lt;b&gt;Overview&lt;/b&gt;
-        '''C    01200 Carbon metabolism [PATH:ko01200]
+        '''B  09101 Carbohydrate metabolism
+        '''C    00010 Glycolysis / Gluconeogenesis [PATH:ko00010]
         '''D      K00844  HK; hexokinase [EC:2.7.1.1]
         '''D      K12407  GCK; glucokinase [EC:2.7.1.2]
         '''D      K00845  glk; glucokinase [EC:2.7.1.2]
-        '''D      K00886  ppgK; polyphosphate glucokinase [EC:2.7.1.63]
-        '''D      K08074  ADPG [rest of string was truncated]&quot;;.
+        '''D      K01810  GPI, pgi; glucose-6-phosphate isomerase [EC:5.3.1.9]
+        '''D      K06859  pgi1; glucose-6-phosphate isomerase, archaeal [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property ko00001() As String
             Get
@@ -471,7 +240,7 @@ Namespace My.Resources
         '''C    Carbon fixation
         '''D      M00165  Reductive pentose phosphate cycle (Calvin cycle) [PATH:map01200 map00710]
         '''E        K00855  PRK, prkB; phosphoribulokinase [EC:2.7.1.19]
-        '''E        K01601  rbcL; ribulose-bisphosphate carboxylase large chain [EC:4.1.1. [rest of string was truncated]&quot;;.
+        '''E        K01601  rbcL; ribulose-bisphosphate carboxylase large ch [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property ko00002() As String
             Get
@@ -492,7 +261,7 @@ Namespace My.Resources
         '''B  2-Oxocarboxylic acid chain extension
         '''C    RM001  2-Oxocarboxylic acid chain extension by tricarboxylic acid pathway
         '''D      M00010  Citrate cycle, first carbon oxidation, oxaloacetate =&gt; 2-oxoglutarate
-        '''D      M00433  Lysine biosynthesis, 2-oxoglut [rest of string was truncated]&quot;;.
+        '''D      M00433  Lysine biosynthesi [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property ko00003() As String
             Get
@@ -510,7 +279,7 @@ Namespace My.Resources
         '''D      1.1.1.1  alcohol dehydrogenase
         '''E        K00001  E1.1.1.1, adh; alcohol dehydrogenase [EC:1.1.1.1]
         '''E        K00121  frmA, ADH5, adhC; S-(hydroxymethyl)glutathione dehydrogenase / alcohol dehydrogenase [EC:1.1.1.284 1.1.1.1]
-        '''E        K04072  adhE; acetaldehyde dehydroge [rest of string was truncated]&quot;;.
+        '''E        K04072  adhE; acetaldehyde  [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property ko01000() As String
             Get

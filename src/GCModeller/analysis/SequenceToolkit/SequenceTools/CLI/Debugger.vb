@@ -70,7 +70,7 @@ Partial Module CLI
                               Dim i As i32 = 1
 
                               For Each part As String In segments
-                                  Yield (part, i = i + part.Length)
+                                  Yield (part, i = CInt(i + part.Length))
                               Next
                           End Function().ToArray
 

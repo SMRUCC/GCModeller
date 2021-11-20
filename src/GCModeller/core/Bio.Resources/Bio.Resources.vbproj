@@ -372,33 +372,6 @@
     <None Include="Resources\ko00003.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Compounds\br08001.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Compounds\br08002.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Compounds\br08003.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Compounds\br08005.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Compounds\br08006.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Compounds\br08007.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Compounds\br08008.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Compounds\br08009.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Compounds\br08010.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\SID-Map.KEGG.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -433,9 +406,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Protein families\signaling and cellular processes\ko04812.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Compounds\br08021.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

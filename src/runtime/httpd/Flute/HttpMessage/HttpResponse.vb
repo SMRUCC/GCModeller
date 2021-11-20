@@ -99,6 +99,10 @@ Namespace Core.Message
             Call WriteHTML(<script>window.location='%s';</script>, url)
         End Sub
 
+        Public Sub WriteHeader(mIMEType As String, v As Integer)
+            Throw New NotImplementedException()
+        End Sub
+
         Public Sub SendFile(path As String)
             Dim contentType$ = path.FileMimeType.MIMEType
             Call path.TransferBinary(contentType, Me)

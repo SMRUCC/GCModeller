@@ -71,7 +71,7 @@ Namespace Locis
                                              Optional fontStyle$ = CSSFont.Win10Normal,
                                              Optional complementPalindrom As Boolean = False) As SizeF
 
-            Dim font As Font = CSSFont.TryParse(fontStyle)
+            Dim font As Font = CSSFont.TryParse(fontStyle).GDIObject(100)
             Dim size As SizeF = g.MeasureString("A", font)  ' 计算出单个碱基的绘制大小，因为在这个函数之中是一个碱基一个碱基进行绘图的
             Dim A = palindrome.Loci, B = palindrome.MirrorSite
             Dim left! = location.X

@@ -163,7 +163,7 @@ Module Debugger
         For Each expr As Expression In dynamicsSystem.populates(Of Expression)(env)
             If TypeOf expr Is DeclareLambdaFunction Then
                 Dim id As String = DirectCast(expr, DeclareLambdaFunction).parameterNames(Scan0)
-                Dim formula As ValueAssign = DirectCast(DirectCast(expr, DeclareLambdaFunction).closure, ValueAssign)
+                Dim formula As ValueAssignExpression = DirectCast(DirectCast(expr, DeclareLambdaFunction).closure, ValueAssignExpression)
                 Dim left As Variable() = formula.targetSymbols.Select(Function(a) a.GetFactors(vars)).IteratesALL.ToArray
                 Dim right As Variable() = formula.value.GetFactors(vars).ToArray
                 Dim channel As New Channel(left, right) With {

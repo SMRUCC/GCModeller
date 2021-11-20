@@ -217,6 +217,10 @@
       <Project>{7a5b87b9-4475-4b34-ab8b-30f0b068c1b7}</Project>
       <Name>DataVisualizationTools</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\interops\localblast\LocalBLAST\NCBI.Extensions.localblast.vbproj">
+      <Project>{C6B843B8-F990-4FAF-98DE-A20EFC8B69F7}</Project>
+      <Name>NCBI.Extensions.localblast</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\R-sharp\R#\R.vbproj">
       <Project>{0c2eb77c-39f2-460d-a3f8-ce905f867637}</Project>
       <Name>R</Name>
