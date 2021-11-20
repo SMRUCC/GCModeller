@@ -1,46 +1,46 @@
 ﻿#Region "Microsoft.VisualBasic::e6ee266ed35f5f49ffe7b97dad6eeeee, analysis\HTS_matrix\Matrix.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Class Matrix
-    ' 
-    '     Properties: expression, sampleID, size, tag
-    ' 
-    '     Function: GenericEnumerator, GetEnumerator, LoadData, MatrixAverage, Project
-    '               TakeSamples, ToString, TrimZeros
-    ' 
-    '     Sub: checkMatrix
-    ' 
-    ' /********************************************************************************/
+' Class Matrix
+' 
+'     Properties: expression, sampleID, size, tag
+' 
+'     Function: GenericEnumerator, GetEnumerator, LoadData, MatrixAverage, Project
+'               TakeSamples, ToString, TrimZeros
+' 
+'     Sub: checkMatrix
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -49,6 +49,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 
@@ -67,7 +68,7 @@ Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow)
     Public Property sampleID As String()
 
     ''' <summary>
-    ''' gene list
+    ''' gene list, vector element is the sample data
     ''' </summary>
     ''' <returns></returns>
     Public Property expression As DataFrameRow()
@@ -82,22 +83,53 @@ Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow)
         End Get
     End Property
 
+    ''' <summary>
+    ''' take by row
+    ''' </summary>
+    ''' <param name="i"></param>
+    ''' <returns></returns>
     Default Public ReadOnly Property gene(i As Integer) As DataFrameRow
         Get
             Return expression(i)
         End Get
     End Property
 
+    Public Property sample(i As Integer) As Vector
+        Get
+
+        End Get
+        Set(value As Vector)
+
+        End Set
+    End Property
+
     Public Overrides Function ToString() As String
         Return $"[{tag}] {expression.Length} genes, {sampleID.Length} samples; {sampleID.GetJson}"
     End Function
 
+    ''' <summary>
+    ''' make column projection via <see cref="TakeSamples(DataFrameRow(), Integer(), Boolean)"/>.
+    ''' </summary>
+    ''' <param name="sampleNames"></param>
+    ''' <returns></returns>
     Public Function Project(sampleNames As String()) As Matrix
         Dim index As Index(Of String) = sampleID
-        Dim sampleVector As Integer() = sampleNames.Select(Function(id) index.IndexOf(id)).ToArray
+        Dim sampleVector As Integer() = sampleNames _
+            .Select(Function(id)
+                        Return index.IndexOf(id)
+                    End Function) _
+            .ToArray
 
         If sampleVector.Any(Function(i) i = -1) Then
-            Throw New KeyNotFoundException($"missing sample names in your data matrix: {sampleVector.SeqIterator.Where(Function(a) a.value <> -1).Select(Function(i) sampleNames(i)).GetJson}")
+            With sampleVector _
+                .SeqIterator _
+                .Where(Function(a) a.value <> -1) _
+                .Select(Function(i)
+                            Return sampleNames(i)
+                        End Function)
+
+                Throw New KeyNotFoundException($"missing sample names in your data matrix: { .GetJson}")
+            End With
         End If
 
         Return New Matrix With {
