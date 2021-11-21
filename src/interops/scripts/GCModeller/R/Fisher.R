@@ -23,7 +23,10 @@ Fisher = function(geneSet, background) {
         cluster_size = sapply(enrich, function(i) i$cluster_size),
         hits = sapply(enrich, function(i) paste(i$hits, collapse = "; ")),
         size = sapply(enrich, function(i) i$size),
-        p.value = sapply(enrich, function(i) i$p.value)
+        p.value = sapply(enrich, function(i) i$p.value),
+        fdr = sapply(enrich, function(i) i$p.value) %>% 
+            unlist() %>% 
+            p.adjust(., method = "fdr")
     );
     enrich = enrich[enrich[, "size"] > 0, ];
 
