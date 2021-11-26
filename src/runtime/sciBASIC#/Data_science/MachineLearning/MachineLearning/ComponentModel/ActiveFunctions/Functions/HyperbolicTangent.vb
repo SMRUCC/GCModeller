@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::528bb667112b0f3ee2d058036e03cad6, Data_science\MachineLearning\MachineLearning\NeuralNetwork\ActiveFunctions\Functions\Softplus.vb"
+﻿#Region "Microsoft.VisualBasic::e55b898de49712fa94710f15e0557bbf, Data_science\MachineLearning\MachineLearning\NeuralNetwork\ActiveFunctions\Functions\HyperbolicTangent.vb"
 
     ' Author:
     ' 
@@ -31,7 +31,7 @@
 
     ' Summaries:
 
-    '     Class Softplus
+    '     Class HyperbolicTangent
     ' 
     '         Properties: Store
     ' 
@@ -42,32 +42,60 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.StoreProcedure
 Imports stdNum = System.Math
 
-Namespace NeuralNetwork.Activations
+Namespace ComponentModel.Activations
 
-    Public Class Softplus : Inherits IActivationFunction
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <remarks>
+    ''' ```
+    '''         e ^ x - e ^ -x
+    ''' f(x) = -----------------
+    '''         e ^ x + e ^ -x
+    ''' 
+    ''' ```
+    ''' </remarks>
+    <Serializable>
+    Public Class HyperbolicTangent : Inherits IActivationFunction
 
         Public Overrides ReadOnly Property Store As ActiveFunction
             Get
-                Return New ActiveFunction With {
+                Return New ActiveFunction() With {
                     .Arguments = {},
-                    .name = NameOf(Softplus)
+                    .name = NameOf(HyperbolicTangent)
                 }
             End Get
         End Property
 
+        ''' <summary>
+        ''' 这个函数接受的参数应该是一个弧度值
+        ''' </summary>
+        ''' <param name="x"></param>
+        ''' <returns></returns>
         Public Overrides Function [Function](x As Double) As Double
-            Return stdNum.Log(1 + stdNum.E ^ x)
+            Dim a = stdNum.E ^ x
+            Dim b = stdNum.E ^ (-x)
+
+            Return (a - b) / (a + b)
+        End Function
+
+        ''' <summary>
+        ''' 这个函数所接受的参数也是一个弧度值
+        ''' </summary>
+        ''' <param name="x"></param>
+        ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Protected Overrides Function Derivative(x As Double) As Double
+            Return 1 / (stdNum.Cosh(x) ^ 2)
         End Function
 
         Public Overrides Function ToString() As String
             Return Store.ToString
-        End Function
-
-        Protected Overrides Function Derivative(x As Double) As Double
-            Return 1 / (1 + stdNum.E ^ (-x))
         End Function
     End Class
 End Namespace

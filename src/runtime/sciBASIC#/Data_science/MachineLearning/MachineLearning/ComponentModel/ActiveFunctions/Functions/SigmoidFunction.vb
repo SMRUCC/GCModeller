@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::09b762e7d9f32180af2f17d46fe6b2b7, Data_science\MachineLearning\MachineLearning\NeuralNetwork\ActiveFunctions\Functions\Sinc.vb"
+﻿#Region "Microsoft.VisualBasic::688017fff2d0caf0d777b85a98dc8e8d, Data_science\MachineLearning\MachineLearning\NeuralNetwork\ActiveFunctions\Functions\SigmoidFunction.vb"
 
     ' Author:
     ' 
@@ -31,7 +31,7 @@
 
     ' Summaries:
 
-    '     Class Sinc
+    '     Class SigmoidFunction
     ' 
     '         Properties: Store
     ' 
@@ -42,40 +42,38 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.StoreProcedure
 Imports stdNum = System.Math
 
-Namespace NeuralNetwork.Activations
+Namespace ComponentModel.Activations
 
-    Public Class Sinc : Inherits IActivationFunction
+    ''' <summary>
+    ''' https://github.com/trentsartain/Neural-Network/blob/master/NeuralNetwork/NeuralNetwork/Network/Sigmoid.cs
+    ''' </summary>
+    Public NotInheritable Class SigmoidFunction : Inherits IActivationFunction
 
         Public Overrides ReadOnly Property Store As ActiveFunction
             Get
                 Return New ActiveFunction With {
                     .Arguments = {},
-                    .name = NameOf(Sinc)
+                    .name = NameOf(SigmoidFunction)
                 }
             End Get
         End Property
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Protected Overrides Function Derivative(x As Double) As Double
+            Return x * (1 - x)
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function [Function](x As Double) As Double
-            If x = 0R Then
-                Return 1
-            Else
-                Return stdNum.Sin(x) / x
-            End If
+            Return If(x < -45.0, 0.0, If(x > 45.0, 1.0, 1.0 / (1.0 + stdNum.Exp(-x))))
         End Function
 
         Public Overrides Function ToString() As String
-            Return Store.ToString
-        End Function
-
-        Protected Overrides Function Derivative(x As Double) As Double
-            If x = 0R Then
-                Return 0
-            Else
-                Return stdNum.Cos(x) / x - stdNum.Sin(x) / (x ^ 2)
-            End If
+            Return $"{NameOf(SigmoidFunction)}()"
         End Function
     End Class
 End Namespace

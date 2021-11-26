@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::764bb4b55498d061560b2d276415672d, Data_science\MachineLearning\MachineLearning\test\Module1.vb"
+﻿#Region "Microsoft.VisualBasic::9473ce150a637c8afc8b7282408f8e2d, Data_science\MachineLearning\MachineLearning\DataSet\NamespaceDoc.vb"
 
 ' Author:
 ' 
@@ -31,31 +31,20 @@
 
 ' Summaries:
 
-' Module Module1
+'     Module NamespaceDoc
 ' 
-'     Sub: functionParserTest, Main
+' 
+' 
 ' 
 ' /********************************************************************************/
 
 #End Region
 
-Imports Microsoft.VisualBasic.MachineLearning
-Imports Microsoft.VisualBasic.MachineLearning.ComponentModel.Activations
+Namespace ComponentModel.StoreProcedure
 
-Module Module1
-
-    Sub Main()
-        Call functionParserTest()
-    End Sub
-
-    Sub functionParserTest()
-
-        Dim func As New BipolarSigmoid(alpha:=3)
-        Dim str = func.ToString
-        Dim model = ActiveFunction.Parse(str)
-        Dim func2 As BipolarSigmoid = model
-
-        Pause()
-    End Sub
-
-End Module
+    ''' <summary>
+    ''' A common dataset for machine learnings
+    ''' </summary>
+    Module NamespaceDoc
+    End Module
+End Namespace
