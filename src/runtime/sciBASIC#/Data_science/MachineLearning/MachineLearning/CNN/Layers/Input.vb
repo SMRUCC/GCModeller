@@ -1,6 +1,7 @@
 ﻿Imports System.Drawing
 Imports System.Drawing.Imaging
 Imports System.Runtime.InteropServices
+Imports Microsoft.VisualBasic.MachineLearning.Convolutional.ImageProcessor
 
 Namespace Convolutional
 
@@ -9,22 +10,17 @@ Namespace Convolutional
         Public inputSize As Integer()
         Public avgPixel As Single()
 
-        Public Enum ResizingMethod
-            Stretch
-            ZeroPad
-        End Enum
-
-        Private resizedInputBmpField As Bitmap
-
-        Public ReadOnly Property ResizedInputBmp As Bitmap
+        Public Overrides ReadOnly Property type As LayerTypes
             Get
-                Return resizedInputBmpField
+                Return LayerTypes.Input
             End Get
         End Property
 
+        Public ReadOnly Property ResizedInputBmp As Bitmap
+
         Public Sub New(inputTensorDims As Integer())
             MyBase.New(New Integer() {0, 0, 0})
-            type = "Input"
+
             inputSize = CType(inputTensorDims.Clone(), Integer())
             avgPixel = New Single(2) {}
         End Sub
@@ -33,44 +29,17 @@ Namespace Convolutional
             outputDims = CType(inputSize.Clone(), Integer())
         End Sub
 
-        Private Function resizeBitmap(b As Bitmap, resizingMethod As ResizingMethod) As Bitmap
-            Dim resizedBmp As Bitmap = New Bitmap(inputSize(1), inputSize(0), PixelFormat.Format24bppRgb)
-            Dim gr = Graphics.FromImage(resizedBmp)
-
-            If resizingMethod = ResizingMethod.Stretch Then
-                gr.DrawImage(b, 0, 0, inputSize(1), inputSize(0))
-            Else
-                Dim inputAspRatio As Single = CSng(inputSize(0) / inputSize(1))
-                Dim newHeight, newWidth As Integer
-                Dim multiplier = CSng(b.Width) / b.Height
-
-                If multiplier > inputAspRatio Then
-                    multiplier = inputAspRatio / multiplier
-                    newWidth = inputSize(1)
-                    newHeight = CInt(newWidth * multiplier)
-                Else
-                    newHeight = inputSize(0)
-                    newWidth = CInt(newHeight * multiplier)
-                End If
-
-                gr.DrawImage(b, (inputSize(1) - newWidth) / 2.0F, (inputSize(0) - newHeight) / 2.0F, newWidth, newHeight)
-            End If
-
-            gr.Dispose()
-            Return resizedBmp
-        End Function
-
         Public Function setInput(input As Bitmap, resizingMethod As ResizingMethod) As Input
             outputTensorMemAlloc()
             Dim iBitmap As Bitmap = CType(input.Clone(), Bitmap)
-            resizedInputBmpField = resizeBitmap(iBitmap, resizingMethod)
+            _ResizedInputBmp = ImageProcessor.resizeBitmap(iBitmap, resizingMethod, inputSize)
             iBitmap.Dispose()
 
             Return Me
         End Function
 
-        Public Overrides Sub feedNext()
-            Dim bmpData As BitmapData = resizedInputBmpField.LockBits(New Rectangle(0, 0, inputSize(1), inputSize(0)), ImageLockMode.ReadOnly, resizedInputBmpField.PixelFormat)
+        Public Overrides Function feedNext() As Layer
+            Dim bmpData As BitmapData = _ResizedInputBmp.LockBits(New Rectangle(0, 0, inputSize(1), inputSize(0)), ImageLockMode.ReadOnly, _ResizedInputBmp.PixelFormat)
             Dim stride = bmpData.Stride
             Dim emptyBytesCount = stride - bmpData.Width * 3
             Dim rowLengthWithoutEB = stride - emptyBytesCount
@@ -107,8 +76,10 @@ Namespace Convolutional
                 End If
             End While
 
-            resizedInputBmpField.UnlockBits(bmpData)
-            resizedInputBmpField.Dispose()
-        End Sub
+            _ResizedInputBmp.UnlockBits(bmpData)
+            _ResizedInputBmp.Dispose()
+
+            Return Me
+        End Function
     End Class
 End Namespace

@@ -11,29 +11,35 @@ Namespace Convolutional
         Public weights As Tensor
         Public biases As Tensor
 
+        Public Overrides ReadOnly Property type As LayerTypes
+            Get
+                Return LayerTypes.Convolution
+            End Get
+        End Property
+
         Public Sub New(inputTensorDims As Integer(), pad As Integer())
-            MyBase.New(inputTensorDims, pad)
-            type = "Convolution"
+            Call MyBase.New(inputTensorDims, pad)
+
             stride = New Integer(1) {}
         End Sub
 
         Public Overloads Sub setOutputDims()
-            Dim newHeight = CInt(stdNum.Floor((InputTensorDims(0) - weights.Dimensions(0)) / stride(0))) + 1
-            Dim newWidth = CInt(stdNum.Floor((InputTensorDims(1) - weights.Dimensions(1)) / stride(1))) + 1
+            Dim newHeight = CInt(stdNum.Floor((inputTensorDims(0) - weights.Dimensions(0)) / stride(0))) + 1
+            Dim newWidth = CInt(stdNum.Floor((inputTensorDims(1) - weights.Dimensions(1)) / stride(1))) + 1
             outputDims = New Integer() {newHeight, newWidth, weights.Dimensions(3)}
         End Sub
 
-        Public Overrides Sub feedNext()
+        Public Overrides Function feedNext() As Layer
             outputTensorMemAlloc()
-            Dim inputHeight = InputTensorDims(0)
-            Dim inputWidth = InputTensorDims(1)
+            Dim inputHeight = inputTensorDims(0)
+            Dim inputWidth = inputTensorDims(1)
             Dim filterHeight = weights.Dimensions(0)
             Dim filterWidth = weights.Dimensions(1)
             Dim channelCount = weights.Dimensions(2)
             Dim filterCount = weights.Dimensions(3)
             Dim mCountH = inputHeight - filterHeight + 1
             Dim mCountW = inputWidth - filterWidth + 1
-            Dim possibleH As Tensor = New Tensor(New Integer() {outputDims(0), 1})
+            Dim possibleH As New Tensor(New Integer() {outputDims(0), 1})
             Dim j As i32 = 0
             Dim i = 0
 
@@ -42,7 +48,7 @@ Namespace Convolutional
                 i += stride(0)
             End While
 
-            Dim possibleW As Tensor = New Tensor(New Integer() {1, outputDims(1)})
+            Dim possibleW As New Tensor(New Integer() {1, outputDims(1)})
 
             j = 0
             i = 0
@@ -132,6 +138,8 @@ Namespace Convolutional
             nextLayer.inputTensor.reshape(outputDims)
             allInOne.Dispose()
             disposeInputTensor()
-        End Sub
+
+            Return Me
+        End Function
     End Class
 End Namespace

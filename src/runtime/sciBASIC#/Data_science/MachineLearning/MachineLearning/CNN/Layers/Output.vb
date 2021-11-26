@@ -8,9 +8,15 @@ Namespace Convolutional
         Public sortedClasses As String()
         Public probabilities As Single()
 
+        Public Overrides ReadOnly Property type As LayerTypes
+            Get
+                Return LayerTypes.Output
+            End Get
+        End Property
+
         Public Sub New(inputTensorDims As Integer(), classes As String())
-            MyBase.New(inputTensorDims)
-            type = "Output"
+            Call MyBase.New(inputTensorDims)
+
             Me.classes = classes
             probabilities = New Single(inputTensorDims(2) - 1) {}
             sortedClasses = New String(inputTensorDims(2) - 1) {}
@@ -29,8 +35,8 @@ Namespace Convolutional
             Return sortedClasses(0)
         End Function
 
-        Public Overrides Sub feedNext()
-            Throw New NotImplementedException()
-        End Sub
+        Public Overrides Function feedNext() As Layer
+            Throw New InvalidOperationException("the output layer cann't be feed to next layer!")
+        End Function
     End Class
 End Namespace

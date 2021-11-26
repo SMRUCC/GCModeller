@@ -2,12 +2,17 @@
 Namespace Convolutional
     Friend Class ReLU : Inherits Layer
 
+        Public Overrides ReadOnly Property type As LayerTypes
+            Get
+                Return LayerTypes.ReLU
+            End Get
+        End Property
+
         Public Sub New(inputTensorDims As Integer())
-            MyBase.New(inputTensorDims)
-            type = "ReLU"
+            Call MyBase.New(inputTensorDims)
         End Sub
 
-        Public Overrides Sub feedNext()
+        Public Overrides Function feedNext() As Layer
             outputTensorMemAlloc()
             Dim inputHeight = InputTensorDims(0)
             Dim inputWidth = InputTensorDims(1)
@@ -36,6 +41,8 @@ Namespace Convolutional
             End While
 
             disposeInputTensor()
-        End Sub
+
+            Return Me
+        End Function
     End Class
 End Namespace

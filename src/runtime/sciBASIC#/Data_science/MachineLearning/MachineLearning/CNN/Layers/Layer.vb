@@ -2,16 +2,12 @@
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 
 Namespace Convolutional
+
     Public MustInherit Class Layer
 
-        Public type As String
-        Private inputTensorDimsField As Integer()
+        Public MustOverride ReadOnly Property type As LayerTypes
 
-        Public ReadOnly Property InputTensorDims As Integer()
-            Get
-                Return inputTensorDimsField
-            End Get
-        End Property
+        Public ReadOnly Property inputTensorDims As Integer()
 
         Public paddedWriting As Boolean
         Public pad As Integer()
@@ -31,7 +27,7 @@ Namespace Convolutional
 
         Public Sub New(inputTensorDims As Integer())
             paddedWriting = False
-            inputTensorDimsField = CType(inputTensorDims.Clone(), Integer())
+            _inputTensorDims = CType(inputTensorDims.Clone(), Integer())
         End Sub
 
         Public Sub New(inputTensorDims As Integer(), pad As Integer())
@@ -43,21 +39,27 @@ Namespace Convolutional
                 paddedWriting = False
             End If
 
-            inputTensorDimsField = CType(inputTensorDims.Clone(), Integer())
-            inputTensorDimsField(0) += pad(0) + pad(1)
-            inputTensorDimsField(1) += pad(2) + pad(3)
+            _inputTensorDims = CType(inputTensorDims.Clone(), Integer())
+            _inputTensorDims(0) += pad(0) + pad(1)
+            _inputTensorDims(1) += pad(2) + pad(3)
         End Sub
 
         Public outputDims As Integer()
 
         Public Sub setOutputDims()
-            outputDims = CType(inputTensorDimsField.Clone(), Integer())
+            outputDims = CType(_inputTensorDims.Clone(), Integer())
         End Sub
 
-        Public MustOverride Sub feedNext()
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <returns>
+        ''' this function should be returns itself
+        ''' </returns>
+        Public MustOverride Function feedNext() As Layer
 
         Public Sub inputTensorMemAlloc()
-            inputTensor = New Tensor(inputTensorDimsField)
+            inputTensor = New Tensor(_inputTensorDims)
         End Sub
 
         Public Sub outputTensorMemAlloc()
