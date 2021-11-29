@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::688017fff2d0caf0d777b85a98dc8e8d, Data_science\MachineLearning\MachineLearning\NeuralNetwork\ActiveFunctions\Functions\SigmoidFunction.vb"
+﻿#Region "Microsoft.VisualBasic::528bb667112b0f3ee2d058036e03cad6, Data_science\MachineLearning\MachineLearning\NeuralNetwork\ActiveFunctions\Functions\Softplus.vb"
 
     ' Author:
     ' 
@@ -31,7 +31,7 @@
 
     ' Summaries:
 
-    '     Class SigmoidFunction
+    '     Class Softplus
     ' 
     '         Properties: Store
     ' 
@@ -42,38 +42,32 @@
 
 #End Region
 
-Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.StoreProcedure
 Imports stdNum = System.Math
 
-Namespace NeuralNetwork.Activations
+Namespace ComponentModel.Activations
 
-    ''' <summary>
-    ''' https://github.com/trentsartain/Neural-Network/blob/master/NeuralNetwork/NeuralNetwork/Network/Sigmoid.cs
-    ''' </summary>
-    Public NotInheritable Class SigmoidFunction : Inherits IActivationFunction
+    Public Class Softplus : Inherits IActivationFunction
 
         Public Overrides ReadOnly Property Store As ActiveFunction
             Get
                 Return New ActiveFunction With {
                     .Arguments = {},
-                    .name = NameOf(SigmoidFunction)
+                    .name = NameOf(Softplus)
                 }
             End Get
         End Property
 
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Protected Overrides Function Derivative(x As Double) As Double
-            Return x * (1 - x)
-        End Function
-
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function [Function](x As Double) As Double
-            Return If(x < -45.0, 0.0, If(x > 45.0, 1.0, 1.0 / (1.0 + stdNum.Exp(-x))))
+            Return stdNum.Log(1 + stdNum.E ^ x)
         End Function
 
         Public Overrides Function ToString() As String
-            Return $"{NameOf(SigmoidFunction)}()"
+            Return Store.ToString
+        End Function
+
+        Protected Overrides Function Derivative(x As Double) As Double
+            Return 1 / (1 + stdNum.E ^ (-x))
         End Function
     End Class
 End Namespace

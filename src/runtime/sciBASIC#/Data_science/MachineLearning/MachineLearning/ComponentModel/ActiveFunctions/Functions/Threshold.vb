@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8e8678fe09a560d88d1ae7d0c68c882f, Data_science\MachineLearning\MachineLearning\NeuralNetwork\ActiveFunctions\Functions\Sigmoid.vb"
+﻿#Region "Microsoft.VisualBasic::a20051ab27c55b1616c1f2d77979d508, Data_science\MachineLearning\MachineLearning\NeuralNetwork\ActiveFunctions\Functions\Threshold.vb"
 
     ' Author:
     ' 
@@ -31,12 +31,12 @@
 
     ' Summaries:
 
-    '     Class Sigmoid
+    '     Class Threshold
     ' 
-    '         Properties: Alpha, Store
+    '         Properties: Store
     ' 
-    '         Constructor: (+2 Overloads) Sub New
-    '         Function: [Function], Derivative, doCall, ToString
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: [Function], CalculateDerivative, Derivative, ToString
     ' 
     ' 
     ' /********************************************************************************/
@@ -53,78 +53,43 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.StoreProcedure
-Imports Microsoft.VisualBasic.Text.Xml.Models
-Imports stdNum = System.Math
 
-Namespace NeuralNetwork.Activations
+Namespace ComponentModel.Activations
 
     ''' <summary>
-    ''' Sigmoid activation function.
+    ''' Threshold activation function.
     ''' </summary>
     '''
-    ''' <remarks><para>The class represents sigmoid activation function with
+    ''' <remarks><para>The class represents threshold activation function with
     ''' the next expression:
     ''' <code lang="none">
-    '''                1
-    ''' f(x) = ------------------
-    '''        1 + exp(-alpha * x)
-    '''
-    '''           alpha * exp(-alpha * x )
-    ''' f'(x) = ---------------------------- = alpha * f(x) * (1 - f(x))
-    '''           (1 + exp(-alpha * x))^2
+    ''' f(x) = 1, if x >= 0, otherwise 0
     ''' </code>
     ''' </para>
-    '''
+    ''' 
     ''' <para>Output range of the function: <b>[0, 1]</b>.</para>
     ''' 
     ''' <para>Functions graph:</para>
-    ''' <img src="img/neuro/sigmoid.bmp" width="242" height="172" />
+    ''' <img src="img/neuro/threshold.bmp" width="242" height="172" />
     ''' </remarks>
-    ''' 
+    '''
     <Serializable>
-    Public Class Sigmoid : Inherits IActivationFunction
+    Public Class Threshold : Inherits IActivationFunction
 
         ''' <summary>
-        ''' Sigmoid's alpha value.
-        ''' </summary>
-        ''' 
-        ''' <remarks><para>The value determines steepness of the function. Increasing value of
-        ''' this property changes sigmoid to look more like a threshold function. Decreasing
-        ''' value of this property makes sigmoid to be very smooth (slowly growing from its
-        ''' minimum value to its maximum value).</para>
-        '''
-        ''' <para>Default value is set to <b>2</b>.</para>
-        ''' </remarks>
-        ''' 
-        Public Property Alpha() As Double = 2.0R
-
-        Public Overrides ReadOnly Property Store As ActiveFunction
-            Get
-                Return New ActiveFunction With {
-                    .Arguments = {
-                        New NamedValue With {.name = "alpha", .text = Alpha}
-                    },
-                    .name = NameOf(Sigmoid)
-                }
-            End Get
-        End Property
-
-        ''' <summary>
-        ''' Initializes a new instance of the <see cref="Sigmoid"/> class.
+        ''' Initializes a new instance of the <see cref="Threshold"/> class.
         ''' </summary>
         Public Sub New()
         End Sub
 
-        ''' <summary>
-        ''' Initializes a new instance of the <see cref="Sigmoid"/> class.
-        ''' </summary>
-        ''' 
-        ''' <param name="alpha">Sigmoid's alpha value.</param>
-        ''' 
-        Public Sub New(alpha As Double)
-            Me._Alpha = alpha
-        End Sub
-
+        Public Overrides ReadOnly Property Store As ActiveFunction
+            Get
+                Return New ActiveFunction With {
+                    .Arguments = {},
+                    .name = NameOf(Threshold)
+                }
+            End Get
+        End Property
 
         ''' <summary>
         ''' Calculates function value.
@@ -137,30 +102,30 @@ Namespace NeuralNetwork.Activations
         ''' <remarks>The method calculates function value at point <paramref name="x"/>.</remarks>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function [Function](x As Double) As Double
-            Return (1 / (1 + stdNum.Exp(-_Alpha * x)))
+            Return If((x >= 0), 1, 0)
         End Function
 
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Shared Function doCall(x#, alpha#) As Double
-            Return (1 / (1 + stdNum.Exp(-alpha * x)))
+        Public Overrides Function CalculateDerivative(x As Double) As Double
+            Return 0
         End Function
 
         ''' <summary>
-        ''' Calculates function derivative.
+        ''' Calculates function derivative (not supported).
         ''' </summary>
         ''' 
-        ''' <param name="x">Function input value.</param>
+        ''' <param name="x">Input value.</param>
         ''' 
-        ''' <returns>Function derivative, <i>f'(x)</i>.</returns>
+        ''' <returns>Always returns 0.</returns>
         ''' 
-        ''' <remarks>The method calculates function derivative at point <paramref name="x"/>.</remarks>
+        ''' <remarks><para><note>The method is not supported, because it is not possible to
+        ''' calculate derivative of the function.</note></para></remarks>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Protected Overrides Function Derivative(x As Double) As Double
-            Return (_Alpha * x * (1 - x))
+            Return 0
         End Function
 
         Public Overrides Function ToString() As String
-            Return $"{NameOf(Sigmoid)}(alpha:={Alpha})"
+            Return $"{NameOf(Threshold)}()"
         End Function
     End Class
 End Namespace
