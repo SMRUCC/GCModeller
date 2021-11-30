@@ -61,6 +61,18 @@ Namespace Document
     ''' <summary>
     ''' 一个标签所标记的元素以及内部文本
     ''' </summary>
+    ''' <remarks>
+    ''' 在选择器里：
+    '''
+    ''' + ID 和 类 选择器 区分 大小写
+    ''' + 标签选择器、属性选择器不区分大小写
+    ''' 
+    ''' > 类选择器和 ID 选择器可能是区分大小写的。这取决于文档的语言。
+    ''' > HTML 和 XHTML 将类和 ID 值定义为区分大小写，所以类和 ID 
+    ''' > 值的大小写必须与文档中的相应值匹配。
+    ''' > 
+    ''' > —— W3C
+    ''' </remarks>
     Public Class HtmlElement : Inherits InnerPlantText
         Implements IXmlDocumentTree
         Implements IStyleSelector(Of HtmlElement)
@@ -154,9 +166,22 @@ Namespace Document
             End Get
         End Property
 
+        ''' <summary>
+        ''' 大小写不敏感
+        ''' </summary>
         Dim tagIndex As New Dictionary(Of String, List(Of HtmlElement))
+
+        ''' <summary>
+        ''' ** 大小写敏感
+        ''' </summary>
         Dim classIndex As New Dictionary(Of String, List(Of HtmlElement))
+        ''' <summary>
+        ''' ** 大小写敏感
+        ''' </summary>
         Dim nameIndex As New Dictionary(Of String, List(Of HtmlElement))
+        ''' <summary>
+        ''' ** 大小写敏感
+        ''' </summary>
         Dim idIndex As New Dictionary(Of String, HtmlElement)
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
