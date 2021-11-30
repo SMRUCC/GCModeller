@@ -104,11 +104,7 @@ Namespace netCDF
         ''' <remarks>
         ''' 记录类型的数据可能是一个矩阵类型
         ''' </remarks>
-        Public Function record(buffer As BinaryDataReader,
-                               variable As variable,
-                               recordDimension As recordDimension,
-                               Optional parallel As Boolean = True) As Array
-
+        Public Function record(buffer As BinaryDataReader, variable As variable, recordDimension As recordDimension) As Array
             Dim width% = If(variable.size, variable.size / sizeof(variable.type), 1)
             ' size of the data
             ' TODO streaming data
@@ -121,12 +117,13 @@ Namespace netCDF
             Dim chunkSize As Long = [step] * size
             Dim mem As Byte() = New Byte(chunkSize - 1) {}
             Dim i As i32 = Scan0
+            Dim parallel As Boolean = size >= 100000
 
             Call base.Read(mem, Scan0, chunkSize)
 
             ' 读取的结果可能是一个T()()矩阵或者T()数组
 
-            If parallel Then
+            If Parallel Then
                 For Each item As SeqValue(Of Object) In mem _
                     .SplitIterator([step]) _
                     .SeqIterator _
