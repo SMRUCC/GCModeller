@@ -58,17 +58,18 @@ Namespace Net.Http
     ''' </summary>
     Public Module Base64Codec
 
+        ReadOnly base64Chrs As Index(Of Char) = Enumerable.Range(Asc("a"c), 26) _
+            .JoinIterates(Enumerable.Range(Asc("A"c), 26)) _
+            .Select(Function(a) Chr(a)) _
+            .JoinIterates({"/"c, "+"c, "="c}) _
+            .JoinIterates({"0"c, "1"c, "2"c, "3"c, "4"c, "5"c, "6"c, "7"c, "8"c, "9"c}) _
+            .Indexing
+
         Public Function IsBase64Pattern(str As String) As Boolean
             Dim allChars As Char() = str.Distinct.ToArray
+            Dim test As Boolean = allChars.All(Function(c) c Like base64Chrs)
 
-            Static base64Chrs As Index(Of Char) = Enumerable.Range(Asc("a"c), 26) _
-                .JoinIterates(Enumerable.Range(Asc("A"c), 26)) _
-                .Select(Function(a) Chr(a)) _
-                .JoinIterates({"/"c, "+"c, "="c}) _
-                .JoinIterates({"0"c, "1"c, "2"c, "3"c, "4"c, "5"c, "6"c, "7"c, "8"c, "9"c}) _
-                .Indexing
-
-            Return allChars.All(Function(c) c Like base64Chrs)
+            Return test
         End Function
 
 #Region "text"
