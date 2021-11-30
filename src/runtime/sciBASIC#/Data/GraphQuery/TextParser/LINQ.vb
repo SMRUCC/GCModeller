@@ -17,6 +17,8 @@ Namespace TextParser
         Public Function skip(document As InnerPlantText, parameters As String(), isArray As Boolean) As InnerPlantText
             If Not isArray Then
                 Throw New InvalidExpressionException("data should be an array!")
+            ElseIf Not TypeOf document Is HtmlElement Then
+                Return document
             End If
 
             Dim array As New HtmlElement With {

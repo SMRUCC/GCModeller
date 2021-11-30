@@ -170,7 +170,7 @@ Public Class Engine
         Dim obj As New JsonObject
 
         For Each member As Query In query.members
-            obj.Add(member.name, Execute(document, member))
+            Call obj.Add(member.name, Execute(document, member))
         Next
 
         Return obj
