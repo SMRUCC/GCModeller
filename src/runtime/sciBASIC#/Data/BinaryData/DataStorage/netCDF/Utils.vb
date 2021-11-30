@@ -168,19 +168,70 @@ Namespace netCDF
             End Select
         End Function
 
+        ''' <summary>
+        ''' Parse record type
+        ''' </summary>
+        ''' <param name="type"></param>
+        ''' <returns></returns>
         <Extension>
         Public Function GetRecordReader(type As CDFDataTypes) As Func(Of Byte(), Object)
+            Dim reverse As Boolean = ByteOrderHelper.NeedsReversion(ByteOrder.BigEndian)
+
             Select Case type
                 Case CDFDataTypes.BYTE : Return Function(buffer) buffer(Scan0)
                 Case CDFDataTypes.CHAR : Return Function(buffer) Encoding.UTF8.GetString(buffer)
                 Case CDFDataTypes.BOOLEAN
                     ' 20210212 bytes flags for maps boolean
                     Return Function(buffer) buffer(Scan0) <> 0
-                Case CDFDataTypes.DOUBLE : Return Function(buffer) BitConverter.ToDouble(buffer, Scan0)
-                Case CDFDataTypes.FLOAT : Return Function(buffer) BitConverter.ToSingle(buffer, Scan0)
-                Case CDFDataTypes.INT : Return Function(buffer) BitConverter.ToInt32(buffer, Scan0)
-                Case CDFDataTypes.LONG : Return Function(buffer) BitConverter.ToInt64(buffer, Scan0)
-                Case CDFDataTypes.SHORT : Return Function(buffer) BitConverter.ToInt16(buffer, Scan0)
+                Case CDFDataTypes.DOUBLE
+                    If reverse Then
+                        Return Function(buffer)
+                                   Array.Reverse(buffer)
+                                   Return BitConverter.ToDouble(buffer, Scan0)
+                               End Function
+                    Else
+                        Return Function(buffer) BitConverter.ToDouble(buffer, Scan0)
+                    End If
+                Case CDFDataTypes.FLOAT
+                    If reverse Then
+                        Return Function(buffer)
+                                   Array.Reverse(buffer)
+                                   Return BitConverter.ToSingle(buffer, Scan0)
+                               End Function
+                    Else
+                        Return Function(buffer) BitConverter.ToSingle(buffer, Scan0)
+                    End If
+
+                Case CDFDataTypes.INT
+                    If reverse Then
+                        Return Function(buffer)
+                                   Array.Reverse(buffer)
+                                   Return BitConverter.ToInt32(buffer, Scan0)
+                               End Function
+                    Else
+                        Return Function(buffer) BitConverter.ToInt32(buffer, Scan0)
+                    End If
+
+                Case CDFDataTypes.LONG
+                    If reverse Then
+                        Return Function(buffer)
+                                   Array.Reverse(buffer)
+                                   Return BitConverter.ToInt64(buffer, Scan0)
+                               End Function
+                    Else
+                        Return Function(buffer) BitConverter.ToInt64(buffer, Scan0)
+                    End If
+
+                Case CDFDataTypes.SHORT
+                    If reverse Then
+                        Return Function(buffer)
+                                   Array.Reverse(buffer)
+                                   Return BitConverter.ToInt16(buffer, Scan0)
+                               End Function
+                    Else
+                        Return Function(buffer) BitConverter.ToInt16(buffer, Scan0)
+                    End If
+
                 Case Else
                     ' istanbul ignore next
                     Return Utils.notNetcdf(True, $"non valid type {type}")
