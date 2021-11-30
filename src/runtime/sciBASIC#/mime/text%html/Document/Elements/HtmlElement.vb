@@ -142,6 +142,10 @@ Namespace Document
         ''' </summary>
         Dim elementNodes As New List(Of InnerPlantText)
 
+        ''' <summary>
+        ''' 唯一编号是区分大小写的
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property id As String
             Get
                 Return attrs.TryGetValue("id").Value
@@ -213,7 +217,7 @@ Namespace Document
             End If
 
             Dim element As HtmlElement = DirectCast(node, HtmlElement)
-            Dim id As String = LCase(element.id)
+            Dim id As String = Strings.Trim(element.id)
 
             If (Not id.StringEmpty) AndAlso (Not idIndex.ContainsKey(id)) Then
                 idIndex.Add(id, element)
