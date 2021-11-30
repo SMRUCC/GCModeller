@@ -11,5 +11,9 @@ Namespace TextParser
         Public Overrides Function GetToken(document As InnerPlantText, parameters As String(), isArray As Boolean) As InnerPlantText
             Return method.Invoke(Nothing, {document, parameters, isArray})
         End Function
+
+        Public Overrides Function ToString() As String
+            Return name
+        End Function
     End Class
 End Namespace
