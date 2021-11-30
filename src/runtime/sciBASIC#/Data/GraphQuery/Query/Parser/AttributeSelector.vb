@@ -49,6 +49,12 @@ Public Class AttributeSelector : Inherits Parser
     End Sub
 
     Protected Overrides Function ParseImpl(document As InnerPlantText, isArray As Boolean, env As Engine) As InnerPlantText
+        If TypeOf document Is HtmlElement AndAlso DirectCast(document, HtmlElement).TagName.StringEmpty Then
+            If Not isArray Then
+                document = DirectCast(document, HtmlElement).HtmlElements.First
+            End If
+        End If
+
         If isArray Then
             Return New HtmlElement With {
                 .HtmlElements = DirectCast(document, HtmlElement)(parameters(Scan0)).Values _
