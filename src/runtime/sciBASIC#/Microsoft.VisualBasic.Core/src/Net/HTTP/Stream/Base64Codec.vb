@@ -66,7 +66,7 @@ Namespace Net.Http
             .Indexing
 
         Public Function IsBase64Pattern(str As String) As Boolean
-            Dim allChars As Char() = str.Distinct.ToArray
+            Dim allChars As Char() = str.Distinct.OrderBy(Function(c) c).ToArray
             Dim test As Boolean = allChars.All(Function(c) c Like base64Chrs)
 
             Return test
