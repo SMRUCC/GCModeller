@@ -256,6 +256,11 @@ Namespace Document
             End If
         End Sub
 
+        ''' <summary>
+        ''' add tagged attribute value.
+        ''' </summary>
+        ''' <param name="name">the attribute name</param>
+        ''' <param name="value">the attribute value string.</param>
         Public Sub Add(name As String, value As String)
             If attrs.ContainsKey(name) Then
                 Call attrs(name).Values.Add(value)

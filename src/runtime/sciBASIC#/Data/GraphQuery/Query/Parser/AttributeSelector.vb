@@ -65,7 +65,8 @@ Public Class AttributeSelector : Inherits Parser
                                     .InnerText = a
                                 }
                             End Function) _
-                    .ToArray
+                    .ToArray,
+                .Attributes = {AutoContext.Attribute}
             }
         ElseIf document.GetType Is GetType(InnerPlantText) Then
             Return document

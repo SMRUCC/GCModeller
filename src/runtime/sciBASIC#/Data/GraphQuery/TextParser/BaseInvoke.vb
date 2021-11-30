@@ -61,7 +61,7 @@ Namespace TextParser
                 Throw New InvalidExpressionException("data should be an array!")
             End If
 
-            Dim array As New HtmlElement With {.TagName = "skip"}
+            Dim array As New HtmlElement With {.TagName = "skip", .Attributes = {AutoContext.Attribute}}
             Dim n As Integer = Integer.Parse(parameters(Scan0))
 
             If TypeOf document Is HtmlElement Then

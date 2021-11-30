@@ -148,7 +148,8 @@ Public Class Engine
                 If item.GetType Is GetType(InnerPlantText) Then
                     item = New HtmlElement With {
                         .InnerText = item.GetPlantText,
-                        .TagName = "na"
+                        .TagName = "na",
+                        .Attributes = {AutoContext.Attribute}
                     }
                 End If
 

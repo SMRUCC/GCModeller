@@ -76,7 +76,7 @@ Namespace TextParser
                 Return pip(document)
             End If
 
-            Dim array As New HtmlElement With {.TagName = callFunc}
+            Dim array As New HtmlElement With {.TagName = callFunc, .Attributes = {AutoContext.Attribute}}
 
             If TypeOf document Is HtmlElement Then
                 For Each element In DirectCast(document, HtmlElement).HtmlElements
