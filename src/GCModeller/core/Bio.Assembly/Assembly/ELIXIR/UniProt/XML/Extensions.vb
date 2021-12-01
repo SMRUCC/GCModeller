@@ -128,6 +128,7 @@ Namespace Assembly.Uniprot.XML
                 ?.protein _
                 ?.recommendedName _
                 ?.ecNumber _
+                 .SafeQuery _
                  .Select(Function(ec) ec.value) _
                  .ToArray
         End Function

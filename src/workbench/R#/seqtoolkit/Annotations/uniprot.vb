@@ -137,6 +137,35 @@ Module uniprot
         Dim NCBITaxonomyId As String() = all.Select(Function(p) p.NCBITaxonomyId).ToArray
         Dim ECnumber As String() = all.Select(Function(p) p.ECNumberList.JoinBy("; ")).ToArray
         Dim GOterms As String() = all.Select(Function(p) p.GO.Select(Function(r) r.id).Distinct.JoinBy("; ")).ToArray
+        Dim EMBL As String() = all.Select(Function(p) p.xrefs.TryGetValue("EMBL").FirstOrDefault?.id).ToArray
+        Dim Ensembl As String() = all.Select(Function(p) p.xrefs.TryGetValue("Ensembl").FirstOrDefault?.id).ToArray
+        Dim Ensembl_protein As String() = all _
+            .Select(Function(p)
+                        Dim ref = p.xrefs.TryGetValue("Ensembl").FirstOrDefault
+
+                        If ref Is Nothing Then
+                            Return ""
+                        Else
+                            Return ref("protein sequence ID")
+                        End If
+                    End Function) _
+            .ToArray
+        Dim Ensembl_geneID As String() = all _
+            .Select(Function(p)
+                        Dim ref = p.xrefs.TryGetValue("Ensembl").FirstOrDefault
+
+                        If ref Is Nothing Then
+                            Return ""
+                        Else
+                            Return ref("gene ID")
+                        End If
+                    End Function) _
+            .ToArray
+        Dim Proteomes As String() = all.Select(Function(p) p.xrefs.TryGetValue("Proteomes").FirstOrDefault?.id).ToArray
+        Dim Bgee As String() = all.Select(Function(p) p.xrefs.TryGetValue("Bgee").FirstOrDefault?.id).ToArray
+        Dim eggNOG As String() = all.Select(Function(p) p.xrefs.TryGetValue("eggNOG").FirstOrDefault?.id).ToArray
+        Dim RefSeq As String() = all.Select(Function(p) p.xrefs.TryGetValue("RefSeq").FirstOrDefault?.id).ToArray
+        Dim KEGG As String() = all.Select(Function(p) p.xrefs.TryGetValue("KEGG").FirstOrDefault?.id).ToArray
 
         Return New dataframe With {
             .columns = New Dictionary(Of String, Array) From {
@@ -145,6 +174,15 @@ Module uniprot
                 {"geneName", geneName},
                 {"EC_number", ECnumber},
                 {"GO", GOterms},
+                {"EMBL", EMBL},
+                {"Ensembl", Ensembl},
+                {"Ensembl_protein", Ensembl_protein},
+                {"Ensembl_geneID", Ensembl_geneID},
+                {"Proteomes", Proteomes},
+                {"Bgee", Bgee},
+                {"eggNOG", eggNOG},
+                {"RefSeq", RefSeq},
+                {"KEGG", KEGG},
                 {"NCBI_taxonomyId", NCBITaxonomyId},
                 {"organism", organism}
             }
