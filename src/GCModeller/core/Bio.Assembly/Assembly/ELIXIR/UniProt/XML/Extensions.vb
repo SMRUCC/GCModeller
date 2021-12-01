@@ -71,7 +71,10 @@ Namespace Assembly.Uniprot.XML
 
         <Extension>
         Public Function DbReferenceId(prot As entry, dbName As String) As String
-            Dim ref = prot.xrefs.TryGetValue("Ensembl").SafeQuery.FirstOrDefault
+            Dim ref As dbReference = prot.xrefs _
+                .TryGetValue(dbName) _
+                .SafeQuery _
+                .FirstOrDefault
 
             If ref Is Nothing Then
                 Return ""
