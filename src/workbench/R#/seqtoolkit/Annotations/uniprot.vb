@@ -132,7 +132,8 @@ Module uniprot
         Dim all As entry() = source.TryCast(Of IEnumerable(Of entry)).ToArray
         Dim uniprotId As String() = all.Select(Function(p) p.accessions(Scan0)).ToArray
         Dim name As String() = all.Select(Function(p) p.name).ToArray
-        Dim geneName As String() = all.Select(Function(p) p.proteinFullName).ToArray
+        Dim geneName As String() = all.Select(Function(p) p.gene?.Primary.JoinBy("; ")).ToArray
+        Dim fullName As String() = all.Select(Function(p) p.proteinFullName).ToArray
         Dim organism As String() = all.Select(Function(p) p.OrganismScientificName).ToArray
         Dim NCBITaxonomyId As String() = all.Select(Function(p) p.NCBITaxonomyId).ToArray
         Dim ECnumber As String() = all.Select(Function(p) p.ECNumberList.JoinBy("; ")).ToArray
@@ -166,12 +167,20 @@ Module uniprot
         Dim eggNOG As String() = all.Select(Function(p) p.DbReferenceId("eggNOG")).ToArray
         Dim RefSeq As String() = all.Select(Function(p) p.DbReferenceId("RefSeq")).ToArray
         Dim KEGG As String() = all.Select(Function(p) p.DbReferenceId("KEGG")).ToArray
+        Dim motif As String() = all _
+            .Select(Function(p)
+                        Return p.GetDomainData _
+                            .Select(Function(d) $"{d.DomainId}({d.start}|{d.ends})") _
+                            .JoinBy("+")
+                    End Function) _
+            .ToArray
 
         Return New dataframe With {
             .columns = New Dictionary(Of String, Array) From {
                 {"uniprotId", uniprotId},
                 {"name", name},
                 {"geneName", geneName},
+                {"fullName", fullName},
                 {"EC_number", ECnumber},
                 {"GO", GOterms},
                 {"EMBL", EMBL},
@@ -183,6 +192,7 @@ Module uniprot
                 {"eggNOG", eggNOG},
                 {"RefSeq", RefSeq},
                 {"KEGG", KEGG},
+                {"features", motif},
                 {"NCBI_taxonomyId", NCBITaxonomyId},
                 {"organism", organism}
             }

@@ -229,10 +229,23 @@ Namespace Assembly.Uniprot.XML
         <Extension>
         Public Function GetDomainData(prot As entry) As DomainModel()
             Dim features As feature() = prot.features.Takes("domain")
+            Dim xref = prot.dbReferences _
+                .Where(Function(ref) ref.hasDbReference("entry name")) _
+                .GroupBy(Function(ref) ref("entry name")) _
+                .ToDictionary(Function(r) r.Key,
+                              Function(id)
+                                  Return id.First().id
+                              End Function)
             Dim out As DomainModel() = features _
                 .Select(Function(f)
+                            Dim key As String = f.description
+
+                            If xref.ContainsKey(key) Then
+                                key = $"{xref(key)}:{key}"
+                            End If
+
                             Return New DomainModel With {
-                                .DomainId = f.description,
+                                .DomainId = key,
                                 .start = f.location.begin.position,
                                 .ends = f.location.end.position
                             }
