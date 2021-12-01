@@ -1,41 +1,41 @@
 ﻿#Region "Microsoft.VisualBasic::a56b5fd3747d3291a8e30335234286ce, R#\seqtoolkit\Annotations\uniprot.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module uniprot
-    ' 
-    '     Function: getProteinSeq, IdUnify, openUniprotXmlAssembly, writePtfFile
-    ' 
-    ' /********************************************************************************/
+' Module uniprot
+' 
+'     Function: getProteinSeq, IdUnify, openUniprotXmlAssembly, writePtfFile
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -100,7 +100,10 @@ Module uniprot
     ''' <param name="isUniParc"></param>
     ''' <returns></returns>
     <ExportAPI("open.uniprot")>
-    Public Function openUniprotXmlAssembly(<RRawVectorArgument> files As Object, Optional isUniParc As Boolean = False, Optional env As Environment = Nothing) As pipeline
+    Public Function openUniprotXmlAssembly(<RRawVectorArgument>
+                                           files As Object,
+                                           Optional isUniParc As Boolean = False,
+                                           Optional env As Environment = Nothing) As pipeline
         Dim fileList As pipeline = pipeline.TryCreatePipeline(Of String)(files, env)
 
         If fileList.isError Then
@@ -110,6 +113,90 @@ Module uniprot
         Return UniProtXML _
             .EnumerateEntries(fileList.populates(Of String)(env).ToArray, isUniParc) _
             .DoCall(AddressOf pipeline.CreateFromPopulator)
+    End Function
+
+    ''' <summary>
+    ''' export protein annotation data as data frame.
+    ''' </summary>
+    ''' <param name="uniprot"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("proteinTable")>
+    Public Function proteinTable(<RRawVectorArgument> uniprot As Object, Optional env As Environment = Nothing) As Object
+        Dim source = getUniprotData(uniprot, env)
+
+        If source Like GetType(Message) Then
+            Return source.TryCast(Of Message)
+        End If
+
+        Dim all As entry() = source.TryCast(Of IEnumerable(Of entry)).ToArray
+        Dim uniprotId As String() = all.Select(Function(p) p.accessions(Scan0)).ToArray
+        Dim name As String() = all.Select(Function(p) p.name).ToArray
+        Dim geneName As String() = all.Select(Function(p) p.gene?.Primary.JoinBy("; ")).ToArray
+        Dim fullName As String() = all.Select(Function(p) p.proteinFullName).ToArray
+        Dim organism As String() = all.Select(Function(p) p.OrganismScientificName).ToArray
+        Dim NCBITaxonomyId As String() = all.Select(Function(p) p.NCBITaxonomyId).ToArray
+        Dim ECnumber As String() = all.Select(Function(p) p.ECNumberList.JoinBy("; ")).ToArray
+        Dim GOterms As String() = all.Select(Function(p) p.GO.Select(Function(r) r.id).Distinct.JoinBy("; ")).ToArray
+        Dim EMBL As String() = all.Select(Function(p) p.DbReferenceId("EMBL")).ToArray
+        Dim Ensembl As String() = all.Select(Function(p) p.DbReferenceId("Ensembl")).ToArray
+        Dim Ensembl_protein As String() = all _
+            .Select(Function(p)
+                        Dim ref = p.xrefs.TryGetValue("Ensembl")?.FirstOrDefault
+
+                        If ref Is Nothing Then
+                            Return ""
+                        Else
+                            Return ref("protein sequence ID")
+                        End If
+                    End Function) _
+            .ToArray
+        Dim Ensembl_geneID As String() = all _
+            .Select(Function(p)
+                        Dim ref = p.xrefs.TryGetValue("Ensembl")?.FirstOrDefault
+
+                        If ref Is Nothing Then
+                            Return ""
+                        Else
+                            Return ref("gene ID")
+                        End If
+                    End Function) _
+            .ToArray
+        Dim Proteomes As String() = all.Select(Function(p) p.DbReferenceId("Proteomes")).ToArray
+        Dim Bgee As String() = all.Select(Function(p) p.DbReferenceId("Bgee")).ToArray
+        Dim eggNOG As String() = all.Select(Function(p) p.DbReferenceId("eggNOG")).ToArray
+        Dim RefSeq As String() = all.Select(Function(p) p.DbReferenceId("RefSeq")).ToArray
+        Dim KEGG As String() = all.Select(Function(p) p.DbReferenceId("KEGG")).ToArray
+        Dim motif As String() = all _
+            .Select(Function(p)
+                        Return p.GetDomainData _
+                            .Select(Function(d) $"{d.DomainId}({d.start}|{d.ends})") _
+                            .JoinBy("+")
+                    End Function) _
+            .ToArray
+
+        Return New dataframe With {
+            .columns = New Dictionary(Of String, Array) From {
+                {"uniprotId", uniprotId},
+                {"name", name},
+                {"geneName", geneName},
+                {"fullName", fullName},
+                {"EC_number", ECnumber},
+                {"GO", GOterms},
+                {"EMBL", EMBL},
+                {"Ensembl", Ensembl},
+                {"Ensembl_protein", Ensembl_protein},
+                {"Ensembl_geneID", Ensembl_geneID},
+                {"Proteomes", Proteomes},
+                {"Bgee", Bgee},
+                {"eggNOG", eggNOG},
+                {"RefSeq", RefSeq},
+                {"KEGG", KEGG},
+                {"features", motif},
+                {"NCBI_taxonomyId", NCBITaxonomyId},
+                {"organism", organism}
+            }
+        }
     End Function
 
     ''' <summary>

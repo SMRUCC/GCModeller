@@ -26,3 +26,6 @@
 [submodule "src/runtime/R/Bing"]
 	path = src/runtime/R/Bing
 	url = https://github.com/rsharp-lang/bing.git
+[submodule "src/runtime/R/MediaWiki"]
+	path = src/runtime/R/MediaWiki
+	url = https://gitee.com/xieguigang/MediaWiki.git

@@ -557,6 +557,15 @@ Namespace Assembly.Uniprot.XML
             End Get
         End Property
 
+        Public Function hasDbReference(dbName As String) As Boolean
+            Return Not properties _
+                .SafeQuery _
+                .Where(Function([property])
+                           Return [property].type = dbName
+                       End Function) _
+                .FirstOrDefault Is Nothing
+        End Function
+
         Public Overrides Function ToString() As String
             Return $"[{type}] {id}"
         End Function
