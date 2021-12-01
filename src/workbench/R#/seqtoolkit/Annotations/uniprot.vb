@@ -1,41 +1,41 @@
 ﻿#Region "Microsoft.VisualBasic::a56b5fd3747d3291a8e30335234286ce, R#\seqtoolkit\Annotations\uniprot.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module uniprot
-    ' 
-    '     Function: getProteinSeq, IdUnify, openUniprotXmlAssembly, writePtfFile
-    ' 
-    ' /********************************************************************************/
+' Module uniprot
+' 
+'     Function: getProteinSeq, IdUnify, openUniprotXmlAssembly, writePtfFile
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -132,11 +132,21 @@ Module uniprot
         Dim all As entry() = source.TryCast(Of IEnumerable(Of entry)).ToArray
         Dim uniprotId As String() = all.Select(Function(p) p.accessions(Scan0)).ToArray
         Dim name As String() = all.Select(Function(p) p.name).ToArray
+        Dim geneName As String() = all.Select(Function(p) p.proteinFullName).ToArray
+        Dim organism As String() = all.Select(Function(p) p.OrganismScientificName).ToArray
+        Dim NCBITaxonomyId As String() = all.Select(Function(p) p.NCBITaxonomyId).ToArray
+        Dim ECnumber As String() = all.Select(Function(p) p.ECNumberList.JoinBy("; ")).ToArray
+        Dim GOterms As String() = all.Select(Function(p) p.GO.Select(Function(r) r.id).Distinct.JoinBy("; ")).ToArray
 
         Return New dataframe With {
             .columns = New Dictionary(Of String, Array) From {
                 {"uniprotId", uniprotId},
-                {"name", name}
+                {"name", name},
+                {"geneName", geneName},
+                {"EC_number", ECnumber},
+                {"GO", GOterms},
+                {"NCBI_taxonomyId", NCBITaxonomyId},
+                {"organism", organism}
             }
         }
     End Function

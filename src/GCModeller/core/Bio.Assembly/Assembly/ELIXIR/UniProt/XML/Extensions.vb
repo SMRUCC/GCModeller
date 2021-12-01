@@ -88,7 +88,9 @@ Namespace Assembly.Uniprot.XML
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function GO(protein As entry) As IEnumerable(Of dbReference)
-            Return protein.xrefs.TryGetValue("GO", [default]:=Nothing)
+            Return protein.xrefs _
+                .TryGetValue("GO", [default]:=Nothing) _
+                .SafeQuery
         End Function
 
         ''' <summary>
