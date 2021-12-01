@@ -100,7 +100,10 @@ Module uniprot
     ''' <param name="isUniParc"></param>
     ''' <returns></returns>
     <ExportAPI("open.uniprot")>
-    Public Function openUniprotXmlAssembly(<RRawVectorArgument> files As Object, Optional isUniParc As Boolean = False, Optional env As Environment = Nothing) As pipeline
+    Public Function openUniprotXmlAssembly(<RRawVectorArgument>
+                                           files As Object,
+                                           Optional isUniParc As Boolean = False,
+                                           Optional env As Environment = Nothing) As pipeline
         Dim fileList As pipeline = pipeline.TryCreatePipeline(Of String)(files, env)
 
         If fileList.isError Then
@@ -110,6 +113,32 @@ Module uniprot
         Return UniProtXML _
             .EnumerateEntries(fileList.populates(Of String)(env).ToArray, isUniParc) _
             .DoCall(AddressOf pipeline.CreateFromPopulator)
+    End Function
+
+    ''' <summary>
+    ''' export protein annotation data as data frame.
+    ''' </summary>
+    ''' <param name="uniprot"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("proteinTable")>
+    Public Function proteinTable(<RRawVectorArgument> uniprot As Object, Optional env As Environment = Nothing) As Object
+        Dim source = getUniprotData(uniprot, env)
+
+        If source Like GetType(Message) Then
+            Return source.TryCast(Of Message)
+        End If
+
+        Dim all As entry() = source.TryCast(Of IEnumerable(Of entry)).ToArray
+        Dim uniprotId As String() = all.Select(Function(p) p.accessions(Scan0)).ToArray
+        Dim name As String() = all.Select(Function(p) p.name).ToArray
+
+        Return New dataframe With {
+            .columns = New Dictionary(Of String, Array) From {
+                {"uniprotId", uniprotId},
+                {"name", name}
+            }
+        }
     End Function
 
     ''' <summary>
