@@ -327,6 +327,7 @@
   <ItemGroup>
     <Compile Include="SampleNames.vb" />
     <Compile Include="Templates\AnalysisDesigner.vb" />
+    <Compile Include="Templates\SampleGroup.vb" />
     <Compile Include="Templates\SampleTuple.vb" />
     <Compile Include="Templates\Time_series.vb" />
     <Compile Include="Extensions.vb" />
