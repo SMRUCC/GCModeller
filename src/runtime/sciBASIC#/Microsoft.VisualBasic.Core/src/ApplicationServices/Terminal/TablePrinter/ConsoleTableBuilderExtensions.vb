@@ -72,8 +72,8 @@ Namespace ConsoleTableExt
         ''' <summary>
         ''' Add title row on top of table
         ''' </summary>
-        ''' <paramname="builder"></param>
-        ''' <paramname="title"></param>
+        ''' <param name="builder"></param>
+        ''' <param name="title"></param>
         ''' <returns></returns>
         <Extension()>
         Public Function WithTitle(ByVal builder As ConsoleTableBuilder, ByVal title As String, ByVal Optional titleAligntment As TextAligntment = TextAligntment.Center) As ConsoleTableBuilder
@@ -85,9 +85,9 @@ Namespace ConsoleTableExt
         ''' <summary>
         ''' Add title row on top of table
         ''' </summary>
-        ''' <paramname="builder"></param>
-        ''' <paramname="title"></param>
-        ''' <paramname="foregroundColor">text color</param>
+        ''' <param name="builder"></param>
+        ''' <param name="title"></param>
+        ''' <param name="foregroundColor">text color</param>
         ''' <returns></returns>
         <Extension()>
         Public Function WithTitle(ByVal builder As ConsoleTableBuilder, ByVal title As String, ByVal foregroundColor As ConsoleColor, ByVal Optional titleAligntment As TextAligntment = TextAligntment.Center) As ConsoleTableBuilder
@@ -100,10 +100,10 @@ Namespace ConsoleTableExt
         ''' <summary>
         ''' Add title row on top of table
         ''' </summary>
-        ''' <paramname="builder"></param>
-        ''' <paramname="title"></param>
-        ''' <paramname="foregroundColor">text color</param>
-        ''' <paramname="backgroundColor">background color</param>
+        ''' <param name="builder"></param>
+        ''' <param name="title"></param>
+        ''' <param name="foregroundColor">text color</param>
+        ''' <param name="backgroundColor">background color</param>
         ''' <returns></returns>
         <Extension()>
         Public Function WithTitle(ByVal builder As ConsoleTableBuilder, ByVal title As String, ByVal foregroundColor As ConsoleColor, ByVal backgroundColor As ConsoleColor, ByVal Optional titleAligntment As TextAligntment = TextAligntment.Center) As ConsoleTableBuilder
@@ -150,8 +150,8 @@ Namespace ConsoleTableExt
         ''' <summary>
         ''' Text alignment definition
         ''' </summary>
-        ''' <paramname="builder"></param>
-        ''' <paramname="alignmentData"></param>
+        ''' <param name="builder"></param>
+        ''' <param name="alignmentData"></param>
         ''' <returns></returns>
         <Extension()>
         Public Function WithTextAlignment(ByVal builder As ConsoleTableBuilder, ByVal alignmentData As Dictionary(Of Integer, TextAligntment)) As ConsoleTableBuilder

@@ -43,7 +43,7 @@ Namespace ConsoleTableExt
         ''' <summary>
         ''' This function allow developer implement themeself data-source
         ''' </summary>
-        ''' <paramname="func"></param>
+        ''' <param name="func"></param>
         ''' <returns></returns>
         Public Shared Function From(ByVal func As Func(Of ConsoleTableBaseData)) As ConsoleTableBuilder
             If func IsNot Nothing Then
