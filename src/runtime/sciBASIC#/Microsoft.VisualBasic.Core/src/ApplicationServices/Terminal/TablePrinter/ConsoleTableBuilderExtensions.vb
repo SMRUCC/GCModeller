@@ -5,7 +5,8 @@ Imports System.Linq
 Imports System.Text
 Imports System.Runtime.CompilerServices
 
-Namespace ConsoleTableExt
+Namespace ApplicationServices.Terminal.TablePrinter
+
     Public Module ConsoleTableBuilderExtensions
         <Extension()>
         Public Function AddColumn(ByVal builder As ConsoleTableBuilder, ByVal columnName As String) As ConsoleTableBuilder

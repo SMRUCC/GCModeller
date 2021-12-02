@@ -1,4 +1,4 @@
-﻿Namespace ConsoleTableExt
+﻿Namespace ApplicationServices.Terminal.TablePrinter.Flags
     Public Enum ConsoleTableBuilderFormat
         [Default] = 0
         MarkDown = 1

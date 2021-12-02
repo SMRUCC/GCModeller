@@ -1,6 +1,6 @@
 ﻿Imports System.Collections.Generic
 
-Namespace ConsoleTableExt
+Namespace ApplicationServices.Terminal.TablePrinter
     Public Class CharMapDefinition
         Public Shared FramePipDefinition As Dictionary(Of CharMapPositions, Char) = New Dictionary(Of CharMapPositions, Char) From {
             {CharMapPositions.TopLeft, "┌"c},

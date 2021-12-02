@@ -1,6 +1,6 @@
 ﻿Imports System
 
-Namespace ConsoleTableExt
+Namespace ApplicationServices.Terminal.TablePrinter
     Public Class ConsoleColorNullable
         Public Sub New()
         End Sub

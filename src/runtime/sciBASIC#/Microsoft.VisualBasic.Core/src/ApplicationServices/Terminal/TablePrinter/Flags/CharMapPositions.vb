@@ -1,4 +1,4 @@
-﻿Namespace ConsoleTableExt
+﻿Namespace ApplicationServices.Terminal.TablePrinter.Flags
     ''' <summary>
     ''' Check map here https://raw.githubusercontent.com/minhhungit/ConsoleTableExt/master/wiki/Images/CharMapPositions.png
     ''' </summary>

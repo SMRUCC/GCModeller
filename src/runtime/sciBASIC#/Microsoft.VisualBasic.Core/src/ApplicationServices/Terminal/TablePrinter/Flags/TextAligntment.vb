@@ -1,4 +1,4 @@
-﻿Namespace ConsoleTableExt
+﻿Namespace ApplicationServices.Terminal.TablePrinter.Flags
     Public Enum TextAligntment
         Left = 0
         Right = 1

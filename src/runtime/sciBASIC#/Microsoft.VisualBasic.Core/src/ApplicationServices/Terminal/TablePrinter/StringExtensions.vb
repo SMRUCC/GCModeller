@@ -1,6 +1,6 @@
 ﻿Imports System.Runtime.CompilerServices
 
-Namespace ConsoleTableExt
+Namespace ApplicationServices.Terminal.TablePrinter
     Public Module StringExtensions
         <Extension()>
         Public Function RealLength(ByVal value As String, ByVal withUtf8Characters As Boolean) As Integer
