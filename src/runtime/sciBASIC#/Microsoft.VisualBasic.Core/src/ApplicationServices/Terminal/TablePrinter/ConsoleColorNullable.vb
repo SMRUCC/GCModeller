@@ -1,6 +1,5 @@
-﻿Imports System
+﻿Namespace ApplicationServices.Terminal.TablePrinter
 
-Namespace ApplicationServices.Terminal.TablePrinter
     Public Class ConsoleColorNullable
         Public Sub New()
         End Sub

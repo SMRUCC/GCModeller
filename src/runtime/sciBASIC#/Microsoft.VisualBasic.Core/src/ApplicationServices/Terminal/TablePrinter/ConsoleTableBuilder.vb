@@ -3,10 +3,6 @@ Imports System.Reflection
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.TablePrinter.Flags
 
 Namespace ApplicationServices.Terminal.TablePrinter
-    Public Class ConsoleTableBaseData
-        Public Property Column As List(Of Object)
-        Public Property Rows As List(Of List(Of Object))
-    End Class
 
     Public Class ConsoleTableBuilder
         Friend Property Column As List(Of Object)
