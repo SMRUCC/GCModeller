@@ -8,46 +8,46 @@ Namespace ApplicationServices.Terminal.TablePrinter
     Public Module ConsoleTableBuilderExtensions
 
         <Extension()>
-        Public Function AddColumn(ByVal builder As ConsoleTableBuilder, ByVal columnName As String) As ConsoleTableBuilder
+        Public Function AddColumn(builder As ConsoleTableBuilder, columnName As String) As ConsoleTableBuilder
             builder.Column.Add(columnName)
             Return builder
         End Function
 
         <Extension()>
-        Public Function AddColumn(ByVal builder As ConsoleTableBuilder, ByVal columnNames As List(Of String)) As ConsoleTableBuilder
+        Public Function AddColumn(builder As ConsoleTableBuilder, columnNames As List(Of String)) As ConsoleTableBuilder
             builder.Column.AddRange(columnNames)
             Return builder
         End Function
 
         <Extension()>
-        Public Function AddColumn(ByVal builder As ConsoleTableBuilder, ParamArray columnNames As String()) As ConsoleTableBuilder
+        Public Function AddColumn(builder As ConsoleTableBuilder, ParamArray columnNames As String()) As ConsoleTableBuilder
             builder.Column.AddRange(New List(Of Object)(columnNames))
             Return builder
         End Function
 
         <Extension()>
-        Public Function WithColumn(ByVal builder As ConsoleTableBuilder, ByVal columnNames As List(Of String)) As ConsoleTableBuilder
+        Public Function WithColumn(builder As ConsoleTableBuilder, columnNames As List(Of String)) As ConsoleTableBuilder
             builder.Column = New List(Of Object)()
             builder.Column.AddRange(columnNames)
             Return builder
         End Function
 
         <Extension()>
-        Public Function WithColumn(ByVal builder As ConsoleTableBuilder, ParamArray columnNames As String()) As ConsoleTableBuilder
+        Public Function WithColumn(builder As ConsoleTableBuilder, ParamArray columnNames As String()) As ConsoleTableBuilder
             builder.Column = New List(Of Object)()
             builder.Column.AddRange(New List(Of Object)(columnNames))
             Return builder
         End Function
 
         <Extension()>
-        Public Function AddRow(ByVal builder As ConsoleTableBuilder, ParamArray rowValues As Object()) As ConsoleTableBuilder
+        Public Function AddRow(builder As ConsoleTableBuilder, ParamArray rowValues As Object()) As ConsoleTableBuilder
             If rowValues Is Nothing Then Return builder
             builder.Rows.Add(New List(Of Object)(rowValues))
             Return builder
         End Function
 
         <Extension()>
-        Public Function WithMetadataRow(ByVal builder As ConsoleTableBuilder, ByVal position As MetaRowPositions, ByVal contentGenerator As Func(Of ConsoleTableBuilder, String)) As ConsoleTableBuilder
+        Public Function WithMetadataRow(builder As ConsoleTableBuilder, position As MetaRowPositions, contentGenerator As Func(Of ConsoleTableBuilder, String)) As ConsoleTableBuilder
             Select Case position
                 Case MetaRowPositions.Top
 
@@ -76,7 +76,7 @@ Namespace ApplicationServices.Terminal.TablePrinter
         ''' <param name="title"></param>
         ''' <returns></returns>
         <Extension()>
-        Public Function WithTitle(ByVal builder As ConsoleTableBuilder, ByVal title As String, ByVal Optional titleAligntment As TextAligntment = TextAligntment.Center) As ConsoleTableBuilder
+        Public Function WithTitle(builder As ConsoleTableBuilder, title As String, Optional titleAligntment As TextAligntment = TextAligntment.Center) As ConsoleTableBuilder
             builder.TableTitle = title
             builder.TableTitleTextAlignment = titleAligntment
             Return builder
@@ -90,7 +90,7 @@ Namespace ApplicationServices.Terminal.TablePrinter
         ''' <param name="foregroundColor">text color</param>
         ''' <returns></returns>
         <Extension()>
-        Public Function WithTitle(ByVal builder As ConsoleTableBuilder, ByVal title As String, ByVal foregroundColor As ConsoleColor, ByVal Optional titleAligntment As TextAligntment = TextAligntment.Center) As ConsoleTableBuilder
+        Public Function WithTitle(builder As ConsoleTableBuilder, title As String, foregroundColor As ConsoleColor, Optional titleAligntment As TextAligntment = TextAligntment.Center) As ConsoleTableBuilder
             builder.TableTitle = title
             builder.TableTitleColor = New ConsoleColorNullable(foregroundColor)
             builder.TableTitleTextAlignment = titleAligntment
@@ -106,7 +106,7 @@ Namespace ApplicationServices.Terminal.TablePrinter
         ''' <param name="backgroundColor">background color</param>
         ''' <returns></returns>
         <Extension()>
-        Public Function WithTitle(ByVal builder As ConsoleTableBuilder, ByVal title As String, ByVal foregroundColor As ConsoleColor, ByVal backgroundColor As ConsoleColor, ByVal Optional titleAligntment As TextAligntment = TextAligntment.Center) As ConsoleTableBuilder
+        Public Function WithTitle(builder As ConsoleTableBuilder, title As String, foregroundColor As ConsoleColor, backgroundColor As ConsoleColor, Optional titleAligntment As TextAligntment = TextAligntment.Center) As ConsoleTableBuilder
             builder.TableTitle = title
             builder.TableTitleColor = New ConsoleColorNullable(foregroundColor, backgroundColor)
             builder.TableTitleTextAlignment = titleAligntment
@@ -114,19 +114,19 @@ Namespace ApplicationServices.Terminal.TablePrinter
         End Function
 
         <Extension()>
-        Public Function WithPaddingLeft(ByVal builder As ConsoleTableBuilder, ByVal paddingLeft As String) As ConsoleTableBuilder
+        Public Function WithPaddingLeft(builder As ConsoleTableBuilder, paddingLeft As String) As ConsoleTableBuilder
             builder.PaddingLeft = If(paddingLeft, String.Empty)
             Return builder
         End Function
 
         <Extension()>
-        Public Function WithPaddingRight(ByVal builder As ConsoleTableBuilder, ByVal paddingRight As String) As ConsoleTableBuilder
+        Public Function WithPaddingRight(builder As ConsoleTableBuilder, paddingRight As String) As ConsoleTableBuilder
             builder.PaddingRight = If(paddingRight, String.Empty)
             Return builder
         End Function
 
         <Extension()>
-        Public Function WithFormatter(ByVal builder As ConsoleTableBuilder, ByVal columnIndex As Integer, ByVal formatter As Func(Of String, String)) As ConsoleTableBuilder
+        Public Function WithFormatter(builder As ConsoleTableBuilder, columnIndex As Integer, formatter As Func(Of String, String)) As ConsoleTableBuilder
             If Not builder.FormatterStore.ContainsKey(columnIndex) Then
                 builder.FormatterStore.Add(columnIndex, formatter)
             Else
@@ -137,7 +137,7 @@ Namespace ApplicationServices.Terminal.TablePrinter
         End Function
 
         <Extension()>
-        Public Function WithColumnFormatter(ByVal builder As ConsoleTableBuilder, ByVal columnIndex As Integer, ByVal formatter As Func(Of String, String)) As ConsoleTableBuilder
+        Public Function WithColumnFormatter(builder As ConsoleTableBuilder, columnIndex As Integer, formatter As Func(Of String, String)) As ConsoleTableBuilder
             If Not builder.ColumnFormatterStore.ContainsKey(columnIndex) Then
                 builder.ColumnFormatterStore.Add(columnIndex, formatter)
             Else
@@ -154,7 +154,7 @@ Namespace ApplicationServices.Terminal.TablePrinter
         ''' <param name="alignmentData"></param>
         ''' <returns></returns>
         <Extension()>
-        Public Function WithTextAlignment(ByVal builder As ConsoleTableBuilder, ByVal alignmentData As Dictionary(Of Integer, TextAligntment)) As ConsoleTableBuilder
+        Public Function WithTextAlignment(builder As ConsoleTableBuilder, alignmentData As Dictionary(Of Integer, TextAligntment)) As ConsoleTableBuilder
             If alignmentData IsNot Nothing Then
                 builder.TextAligmentData = alignmentData
             End If
@@ -163,7 +163,7 @@ Namespace ApplicationServices.Terminal.TablePrinter
         End Function
 
         <Extension()>
-        Public Function WithHeaderTextAlignment(ByVal builder As ConsoleTableBuilder, ByVal alignmentData As Dictionary(Of Integer, TextAligntment)) As ConsoleTableBuilder
+        Public Function WithHeaderTextAlignment(builder As ConsoleTableBuilder, alignmentData As Dictionary(Of Integer, TextAligntment)) As ConsoleTableBuilder
             If alignmentData IsNot Nothing Then
                 builder.HeaderTextAligmentData = alignmentData
             End If
@@ -172,7 +172,7 @@ Namespace ApplicationServices.Terminal.TablePrinter
         End Function
 
         <Extension()>
-        Public Function WithMinLength(ByVal builder As ConsoleTableBuilder, ByVal minLengthData As Dictionary(Of Integer, Integer)) As ConsoleTableBuilder
+        Public Function WithMinLength(builder As ConsoleTableBuilder, minLengthData As Dictionary(Of Integer, Integer)) As ConsoleTableBuilder
             If minLengthData IsNot Nothing Then
                 builder.MinLengthData = minLengthData
             End If
@@ -181,34 +181,34 @@ Namespace ApplicationServices.Terminal.TablePrinter
         End Function
 
         <Extension()>
-        Public Function TrimColumn(ByVal builder As ConsoleTableBuilder, ByVal Optional canTrimColumn As Boolean = True) As ConsoleTableBuilder
+        Public Function TrimColumn(builder As ConsoleTableBuilder, Optional canTrimColumn As Boolean = True) As ConsoleTableBuilder
             builder.CanTrimColumn = canTrimColumn
             Return builder
         End Function
 
         <Extension()>
-        Public Function AddRow(ByVal builder As ConsoleTableBuilder, ByVal row As List(Of Object)) As ConsoleTableBuilder
+        Public Function AddRow(builder As ConsoleTableBuilder, row As List(Of Object)) As ConsoleTableBuilder
             If row Is Nothing Then Return builder
             builder.Rows.Add(row)
             Return builder
         End Function
 
         <Extension()>
-        Public Function AddRow(ByVal builder As ConsoleTableBuilder, ByVal rows As List(Of List(Of Object))) As ConsoleTableBuilder
+        Public Function AddRow(builder As ConsoleTableBuilder, rows As List(Of List(Of Object))) As ConsoleTableBuilder
             If rows Is Nothing Then Return builder
             builder.Rows.AddRange(rows)
             Return builder
         End Function
 
         <Extension()>
-        Public Function AddRow(ByVal builder As ConsoleTableBuilder, ByVal row As DataRow) As ConsoleTableBuilder
+        Public Function AddRow(builder As ConsoleTableBuilder, row As DataRow) As ConsoleTableBuilder
             If row Is Nothing Then Return builder
             builder.Rows.Add(New List(Of Object)(row.ItemArray))
             Return builder
         End Function
 
         <Extension()>
-        Public Function WithFormat(ByVal builder As ConsoleTableBuilder, ByVal format As ConsoleTableBuilderFormat) As ConsoleTableBuilder
+        Public Function WithFormat(builder As ConsoleTableBuilder, format As ConsoleTableBuilderFormat) As ConsoleTableBuilder
             ' reset CharMapPositions
             builder.CharMapPositionStore = Nothing
             builder.TableFormat = format
@@ -280,32 +280,32 @@ Namespace ApplicationServices.Terminal.TablePrinter
         End Function
 
         <Extension()>
-        Public Function WithCharMapDefinition(ByVal builder As ConsoleTableBuilder) As ConsoleTableBuilder
+        Public Function WithCharMapDefinition(builder As ConsoleTableBuilder) As ConsoleTableBuilder
             Return builder.WithCharMapDefinition(New Dictionary(Of CharMapPositions, Char) From {
             })
         End Function
 
         <Extension()>
-        Public Function WithCharMapDefinition(ByVal builder As ConsoleTableBuilder, ByVal charMapPositions As Dictionary(Of CharMapPositions, Char)) As ConsoleTableBuilder
+        Public Function WithCharMapDefinition(builder As ConsoleTableBuilder, charMapPositions As Dictionary(Of CharMapPositions, Char)) As ConsoleTableBuilder
             builder.CharMapPositionStore = charMapPositions
             Return builder
         End Function
 
         <Extension()>
-        Public Function WithCharMapDefinition(ByVal builder As ConsoleTableBuilder, ByVal charMapPositions As Dictionary(Of CharMapPositions, Char), ByVal Optional headerCharMapPositions As Dictionary(Of HeaderCharMapPositions, Char) = Nothing) As ConsoleTableBuilder
+        Public Function WithCharMapDefinition(builder As ConsoleTableBuilder, charMapPositions As Dictionary(Of CharMapPositions, Char), Optional headerCharMapPositions As Dictionary(Of HeaderCharMapPositions, Char) = Nothing) As ConsoleTableBuilder
             builder.CharMapPositionStore = charMapPositions
             builder.HeaderCharMapPositionStore = headerCharMapPositions
             Return builder
         End Function
 
         <Extension()>
-        Public Function WithHeaderCharMapDefinition(ByVal builder As ConsoleTableBuilder, ByVal Optional headerCharMapPositions As Dictionary(Of HeaderCharMapPositions, Char) = Nothing) As ConsoleTableBuilder
+        Public Function WithHeaderCharMapDefinition(builder As ConsoleTableBuilder, Optional headerCharMapPositions As Dictionary(Of HeaderCharMapPositions, Char) = Nothing) As ConsoleTableBuilder
             builder.HeaderCharMapPositionStore = headerCharMapPositions
             Return builder
         End Function
 
         <Extension()>
-        Public Function Export(ByVal builder As ConsoleTableBuilder) As StringBuilder
+        Public Function Export(builder As ConsoleTableBuilder) As StringBuilder
             Dim numberOfColumns = 0
 
             If builder.Rows.Any() Then
@@ -356,7 +356,7 @@ Namespace ApplicationServices.Terminal.TablePrinter
         End Function
 
         <Extension()>
-        Public Sub ExportAndWrite(ByVal builder As ConsoleTableBuilder, ByVal Optional alignment As TableAligntment = TableAligntment.Left)
+        Public Sub ExportAndWrite(builder As ConsoleTableBuilder, Optional alignment As TableAligntment = TableAligntment.Left)
             Dim strBuilder = builder.Export()
             Dim lines = strBuilder.ToString().Split(Microsoft.VisualBasic.Strings.ChrW(10))
             Dim linesCount = lines.Count()
@@ -409,12 +409,12 @@ Namespace ApplicationServices.Terminal.TablePrinter
         End Sub
 
         <Extension()>
-        Public Sub ExportAndWriteLine(ByVal builder As ConsoleTableBuilder, ByVal Optional alignment As TableAligntment = TableAligntment.Left)
+        Public Sub ExportAndWriteLine(builder As ConsoleTableBuilder, Optional alignment As TableAligntment = TableAligntment.Left)
             builder.ExportAndWrite(alignment)
             Console.Write(Microsoft.VisualBasic.Strings.ChrW(10))
         End Sub
 
-        Private Function CreateTableForCustomFormat(ByVal builder As ConsoleTableBuilder) As StringBuilder
+        Private Function CreateTableForCustomFormat(builder As ConsoleTableBuilder) As StringBuilder
             If builder.CharMapPositionStore Is Nothing Then
                 builder.WithFormat(ConsoleTableBuilderFormat.Default)
             End If
@@ -721,7 +721,7 @@ Namespace ApplicationServices.Terminal.TablePrinter
         '    return strBuilder;
         '}
 
-        Private Function BuildMetaRowsFormat(ByVal builder As ConsoleTableBuilder, ByVal position As MetaRowPositions) As List(Of String)
+        Private Function BuildMetaRowsFormat(builder As ConsoleTableBuilder, position As MetaRowPositions) As List(Of String)
             Dim result = New List(Of String)()
 
             Select Case position
@@ -753,7 +753,7 @@ Namespace ApplicationServices.Terminal.TablePrinter
             Return result
         End Function
 
-        Private Function FillCharMap(ByVal definition As Dictionary(Of CharMapPositions, Char)) As Dictionary(Of CharMapPositions, Char)
+        Private Function FillCharMap(definition As Dictionary(Of CharMapPositions, Char)) As Dictionary(Of CharMapPositions, Char)
             If definition Is Nothing Then
                 Return New Dictionary(Of CharMapPositions, Char)()
             End If
@@ -770,7 +770,7 @@ Namespace ApplicationServices.Terminal.TablePrinter
             Return filledMap
         End Function
 
-        Private Function FillHeaderCharMap(ByVal definition As Dictionary(Of HeaderCharMapPositions, Char)) As Dictionary(Of HeaderCharMapPositions, Char)
+        Private Function FillHeaderCharMap(definition As Dictionary(Of HeaderCharMapPositions, Char)) As Dictionary(Of HeaderCharMapPositions, Char)
             If definition Is Nothing Then
                 Return Nothing
             End If
@@ -788,7 +788,7 @@ Namespace ApplicationServices.Terminal.TablePrinter
         End Function
 
         <Extension()>
-        Public Function RealLength(ByVal value As String, ByVal withUtf8Characters As Boolean) As Integer
+        Public Function RealLength(value As String, withUtf8Characters As Boolean) As Integer
             If String.IsNullOrEmpty(value) Then Return 0
             If Not withUtf8Characters Then Return value.Length
             Dim i = 0 'count

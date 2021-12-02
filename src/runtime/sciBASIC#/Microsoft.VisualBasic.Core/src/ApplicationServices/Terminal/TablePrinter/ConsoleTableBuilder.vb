@@ -39,7 +39,7 @@ Namespace ApplicationServices.Terminal.TablePrinter
         ''' </summary>
         ''' <param name="func"></param>
         ''' <returns></returns>
-        Public Shared Function From(ByVal func As Func(Of ConsoleTableBaseData)) As ConsoleTableBuilder
+        Public Shared Function From(func As Func(Of ConsoleTableBaseData)) As ConsoleTableBuilder
             If func IsNot Nothing Then
                 Dim baseData = func.Invoke()
                 Return From(baseData)
@@ -48,7 +48,7 @@ Namespace ApplicationServices.Terminal.TablePrinter
             End If
         End Function
 
-        Public Shared Function From(ByVal baseData As ConsoleTableBaseData) As ConsoleTableBuilder
+        Public Shared Function From(baseData As ConsoleTableBaseData) As ConsoleTableBuilder
             Dim builder = New ConsoleTableBuilder()
 
             If baseData IsNot Nothing Then
@@ -64,7 +64,7 @@ Namespace ApplicationServices.Terminal.TablePrinter
             Return builder
         End Function
 
-        Public Shared Function From(ByVal list As List(Of Integer)) As ConsoleTableBuilder
+        Public Shared Function From(list As List(Of Integer)) As ConsoleTableBuilder
             Dim builder = New ConsoleTableBuilder()
 
             For Each value In list
@@ -76,7 +76,7 @@ Namespace ApplicationServices.Terminal.TablePrinter
             Return builder
         End Function
 
-        Public Shared Function From(ByVal list As List(Of String)) As ConsoleTableBuilder
+        Public Shared Function From(list As List(Of String)) As ConsoleTableBuilder
             Dim builder = New ConsoleTableBuilder()
 
             For Each value In list
@@ -88,7 +88,7 @@ Namespace ApplicationServices.Terminal.TablePrinter
             Return builder
         End Function
 
-        Public Shared Function From(ByVal list As List(Of Object)) As ConsoleTableBuilder
+        Public Shared Function From(list As List(Of Object)) As ConsoleTableBuilder
             Dim builder = New ConsoleTableBuilder()
 
             For Each value In list
@@ -100,7 +100,7 @@ Namespace ApplicationServices.Terminal.TablePrinter
             Return builder
         End Function
 
-        Public Shared Function From(ByVal dt As DataTable) As ConsoleTableBuilder
+        Public Shared Function From(dt As DataTable) As ConsoleTableBuilder
             Dim builder = New ConsoleTableBuilder()
 
             If dt Is Nothing Then
@@ -117,7 +117,7 @@ Namespace ApplicationServices.Terminal.TablePrinter
             Return builder
         End Function
 
-        Public Shared Function From(Of T As Class)(ByVal list As List(Of T)) As ConsoleTableBuilder
+        Public Shared Function From(Of T As Class)(list As List(Of T)) As ConsoleTableBuilder
             Dim builder = New ConsoleTableBuilder()
 
             If list Is Nothing Then
@@ -175,7 +175,7 @@ Namespace ApplicationServices.Terminal.TablePrinter
             Return builder
         End Function
 
-        Public Shared Function From(ByVal rows As List(Of Object())) As ConsoleTableBuilder
+        Public Shared Function From(rows As List(Of Object())) As ConsoleTableBuilder
             Dim builder = New ConsoleTableBuilder()
 
             If rows Is Nothing Then
@@ -189,7 +189,7 @@ Namespace ApplicationServices.Terminal.TablePrinter
             Return builder
         End Function
 
-        Public Shared Function From(ByVal rows As List(Of List(Of Object))) As ConsoleTableBuilder
+        Public Shared Function From(rows As List(Of List(Of Object))) As ConsoleTableBuilder
             Dim builder = New ConsoleTableBuilder()
 
             If rows Is Nothing Then
@@ -226,7 +226,7 @@ Namespace ApplicationServices.Terminal.TablePrinter
             Next
         End Sub
 
-        Friend Sub CenterRowContent(ByVal columnLengths As List(Of Integer))
+        Friend Sub CenterRowContent(columnLengths As List(Of Integer))
             For i = 0 To FormattedRows.Count - 1
 
                 For j = 0 To FormattedRows(i).Count - 1
@@ -238,7 +238,7 @@ Namespace ApplicationServices.Terminal.TablePrinter
             Next
         End Sub
 
-        Friend Function CenterColumnContent(ByVal columnSlices As String(), ByVal columnLengths As List(Of Integer)) As String()
+        Friend Function CenterColumnContent(columnSlices As String(), columnLengths As List(Of Integer)) As String()
             For i = 0 To columnSlices.Length - 1
 
                 If HeaderTextAligmentData.ContainsKey(i) Then
@@ -256,7 +256,7 @@ Namespace ApplicationServices.Terminal.TablePrinter
             Return columnSlices
         End Function
 
-        Private Function CenteredString(ByVal s As Object, ByVal width As Integer) As String
+        Private Function CenteredString(s As Object, width As Integer) As String
             If s Is Nothing Then
                 Return Nothing
             End If
@@ -270,7 +270,7 @@ Namespace ApplicationServices.Terminal.TablePrinter
             Return New String(" "c, leftPadding) & s.ToString & New String(" "c, rightPadding)
         End Function
 
-        Friend Function GetCadidateColumnLengths(ByVal Optional withUtf8Characters As Boolean = True) As List(Of Integer)
+        Friend Function GetCadidateColumnLengths(Optional withUtf8Characters As Boolean = True) As List(Of Integer)
             Dim columnLengths = New List(Of Integer)()
             Dim numberOfColumns = 0
 
@@ -378,7 +378,7 @@ Namespace ApplicationServices.Terminal.TablePrinter
         '    }
         '}
 
-        Private Function EmbedTitle(ByVal line As String) As String
+        Private Function EmbedTitle(line As String) As String
             Dim originalTitleLength = TableTitle.Length
 
             If Not String.IsNullOrEmpty(TableTitle) AndAlso TableTitle.Trim().Length > 0 Then ' !IsNullOrWhiteSpace
@@ -418,7 +418,7 @@ Namespace ApplicationServices.Terminal.TablePrinter
         End Function
 #Region "Table lines"
 
-        Friend Function CreateTableTopLine(ByVal columnLengths As List(Of Integer), ByVal definition As Dictionary(Of CharMapPositions, Char)) As String
+        Friend Function CreateTableTopLine(columnLengths As List(Of Integer), definition As Dictionary(Of CharMapPositions, Char)) As String
             Dim borderTop = definition(CharMapPositions.BorderTop)
             Dim topLeft = definition(CharMapPositions.TopLeft)
             Dim topCenter = definition(CharMapPositions.TopCenter)
@@ -439,7 +439,7 @@ Namespace ApplicationServices.Terminal.TablePrinter
             End If
         End Function
 
-        Friend Function CreateTableContentLineFormat(ByVal columnLengths As List(Of Integer), ByVal definition As Dictionary(Of CharMapPositions, Char)) As String
+        Friend Function CreateTableContentLineFormat(columnLengths As List(Of Integer), definition As Dictionary(Of CharMapPositions, Char)) As String
             Dim borderLeft = definition(CharMapPositions.BorderLeft)
             Dim divider = definition(CharMapPositions.DividerY)
             Dim borderRight = definition(CharMapPositions.BorderRight)
@@ -461,7 +461,7 @@ Namespace ApplicationServices.Terminal.TablePrinter
             End If
         End Function
 
-        Friend Function CreateRawLineFormat(ByVal columnLengths As List(Of Integer), ByVal definition As Dictionary(Of CharMapPositions, Char), ParamArray args As Object()) As String
+        Friend Function CreateRawLineFormat(columnLengths As List(Of Integer), definition As Dictionary(Of CharMapPositions, Char), ParamArray args As Object()) As String
             Dim borderLeft = definition(CharMapPositions.BorderLeft)
             Dim divider = definition(CharMapPositions.DividerY)
             Dim borderRight = definition(CharMapPositions.BorderRight)
@@ -488,7 +488,7 @@ Namespace ApplicationServices.Terminal.TablePrinter
             End If
         End Function
 
-        Friend Function CreateTableMiddleLine(ByVal columnLengths As List(Of Integer), ByVal definition As Dictionary(Of CharMapPositions, Char)) As String
+        Friend Function CreateTableMiddleLine(columnLengths As List(Of Integer), definition As Dictionary(Of CharMapPositions, Char)) As String
             Dim dividerX = definition(CharMapPositions.DividerX)
             Dim middleLeft = definition(CharMapPositions.MiddleLeft)
             Dim middleCenter = definition(CharMapPositions.MiddleCenter)
@@ -508,7 +508,7 @@ Namespace ApplicationServices.Terminal.TablePrinter
             End If
         End Function
 
-        Friend Function CreateTableBottomLine(ByVal columnLengths As List(Of Integer), ByVal definition As Dictionary(Of CharMapPositions, Char)) As String
+        Friend Function CreateTableBottomLine(columnLengths As List(Of Integer), definition As Dictionary(Of CharMapPositions, Char)) As String
             Dim borderBottom = definition(CharMapPositions.BorderBottom)
             Dim bottomLeft = definition(CharMapPositions.BottomLeft)
             Dim bottomCenter = definition(CharMapPositions.BottomCenter)
@@ -533,7 +533,7 @@ Namespace ApplicationServices.Terminal.TablePrinter
 
 #Region "Header lines"
 
-        Friend Function CreateHeaderTopLine(ByVal columnLengths As List(Of Integer), ByVal definition As Dictionary(Of CharMapPositions, Char), ByVal headerDefinition As Dictionary(Of HeaderCharMapPositions, Char)) As String
+        Friend Function CreateHeaderTopLine(columnLengths As List(Of Integer), definition As Dictionary(Of CharMapPositions, Char), headerDefinition As Dictionary(Of HeaderCharMapPositions, Char)) As String
             Dim borderTop = If(headerDefinition IsNot Nothing AndAlso headerDefinition.ContainsKey(HeaderCharMapPositions.BorderTop), headerDefinition(HeaderCharMapPositions.BorderTop), definition(CharMapPositions.BorderTop))
             Dim topLeft = If(headerDefinition IsNot Nothing AndAlso headerDefinition.ContainsKey(HeaderCharMapPositions.TopLeft), headerDefinition(HeaderCharMapPositions.TopLeft), definition(CharMapPositions.TopLeft))
             Dim topCenter = If(headerDefinition IsNot Nothing AndAlso headerDefinition.ContainsKey(HeaderCharMapPositions.TopCenter), headerDefinition(HeaderCharMapPositions.TopCenter), definition(CharMapPositions.TopCenter))
@@ -554,7 +554,7 @@ Namespace ApplicationServices.Terminal.TablePrinter
             End If
         End Function
 
-        Friend Function CreateHeaderContentLineFormat(ByVal columnLengths As List(Of Integer), ByVal definition As Dictionary(Of CharMapPositions, Char), ByVal headerDefinition As Dictionary(Of HeaderCharMapPositions, Char)) As String
+        Friend Function CreateHeaderContentLineFormat(columnLengths As List(Of Integer), definition As Dictionary(Of CharMapPositions, Char), headerDefinition As Dictionary(Of HeaderCharMapPositions, Char)) As String
             Dim borderLeft = If(headerDefinition IsNot Nothing AndAlso headerDefinition.ContainsKey(HeaderCharMapPositions.BorderLeft), headerDefinition(HeaderCharMapPositions.BorderLeft), definition(CharMapPositions.BorderLeft))
             Dim divider = If(headerDefinition IsNot Nothing AndAlso headerDefinition.ContainsKey(HeaderCharMapPositions.Divider), headerDefinition(HeaderCharMapPositions.Divider), definition(CharMapPositions.DividerY))
             Dim borderRight = If(headerDefinition IsNot Nothing AndAlso headerDefinition.ContainsKey(HeaderCharMapPositions.BorderRight), headerDefinition(HeaderCharMapPositions.BorderRight), definition(CharMapPositions.BorderRight))
@@ -583,7 +583,7 @@ Namespace ApplicationServices.Terminal.TablePrinter
             End If
         End Function
 
-        Friend Function CreateHeaderBottomLine(ByVal columnLengths As List(Of Integer), ByVal definition As Dictionary(Of CharMapPositions, Char), ByVal headerDefinition As Dictionary(Of HeaderCharMapPositions, Char)) As String
+        Friend Function CreateHeaderBottomLine(columnLengths As List(Of Integer), definition As Dictionary(Of CharMapPositions, Char), headerDefinition As Dictionary(Of HeaderCharMapPositions, Char)) As String
             Dim borderBottom = If(headerDefinition IsNot Nothing AndAlso headerDefinition.ContainsKey(HeaderCharMapPositions.BorderBottom), headerDefinition(HeaderCharMapPositions.BorderBottom), definition(CharMapPositions.DividerX))
             Dim bottomLeft = If(headerDefinition IsNot Nothing AndAlso headerDefinition.ContainsKey(HeaderCharMapPositions.BottomLeft), headerDefinition(HeaderCharMapPositions.BottomLeft), definition(CharMapPositions.MiddleLeft))
             Dim bottomCenter = If(headerDefinition IsNot Nothing AndAlso headerDefinition.ContainsKey(HeaderCharMapPositions.BottomCenter), headerDefinition(HeaderCharMapPositions.BottomCenter), definition(CharMapPositions.MiddleRight))

@@ -4,12 +4,12 @@
         Public Sub New()
         End Sub
 
-        Public Sub New(ByVal foregroundColor As ConsoleColor)
+        Public Sub New(foregroundColor As ConsoleColor)
             Me.ForegroundColor = foregroundColor
             IsForegroundColorNull = False
         End Sub
 
-        Public Sub New(ByVal foregroundColor As ConsoleColor, ByVal backgroundColor As ConsoleColor)
+        Public Sub New(foregroundColor As ConsoleColor, backgroundColor As ConsoleColor)
             Me.ForegroundColor = foregroundColor
             Me.BackgroundColor = backgroundColor
             IsForegroundColorNull = False
