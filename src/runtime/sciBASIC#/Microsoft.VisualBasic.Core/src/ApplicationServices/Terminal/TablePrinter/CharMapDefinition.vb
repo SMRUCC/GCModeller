@@ -1,4 +1,4 @@
-﻿Imports System.Collections.Generic
+﻿Imports Microsoft.VisualBasic.ApplicationServices.Terminal.TablePrinter.Flags
 
 Namespace ApplicationServices.Terminal.TablePrinter
     Public Class CharMapDefinition

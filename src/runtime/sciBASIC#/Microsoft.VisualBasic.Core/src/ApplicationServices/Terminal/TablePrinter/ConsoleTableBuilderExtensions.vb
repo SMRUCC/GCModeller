@@ -1,9 +1,6 @@
-﻿Imports System
-Imports System.Collections.Generic
-Imports System.Data
-Imports System.Linq
+﻿Imports System.Runtime.CompilerServices
 Imports System.Text
-Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.TablePrinter.Flags
 
 Namespace ApplicationServices.Terminal.TablePrinter
 

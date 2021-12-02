@@ -1,8 +1,6 @@
-﻿Imports System
-Imports System.Collections.Generic
-Imports System.Data
-Imports System.Linq
+﻿Imports System.ComponentModel
 Imports System.Reflection
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.TablePrinter.Flags
 
 Namespace ApplicationServices.Terminal.TablePrinter
     Public Class ConsoleTableBaseData
@@ -145,8 +143,8 @@ Namespace ApplicationServices.Terminal.TablePrinter
 
                                                     For Each attr In attrs
 
-                                                        If TypeOf attr Is ComponentModel.DescriptionAttribute Then
-                                                            Return CType(attr, ComponentModel.DescriptionAttribute).Description
+                                                        If TypeOf attr Is DescriptionAttribute Then
+                                                            Return CType(attr, DescriptionAttribute).Description
                                                         End If
                                                     Next
 
