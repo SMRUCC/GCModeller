@@ -23,7 +23,7 @@ Namespace ConsoleTableApp
                                 "-B-",
                                 "-C-"
                             }
-                        }).WithFormat(ConsoleTableBuilderFormat.Alternative).ExportAndWriteLine()
+                        }).WithFormat(ConsoleTableBuilderFormat.Minimal).ExportAndWriteLine()
             ConsoleTableBuilder.From(New List(Of Integer) From {
                             1,
                             2,
