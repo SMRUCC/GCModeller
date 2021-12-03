@@ -57,6 +57,9 @@ Namespace Xdr
                 ' Return 0
                 Throw New InvalidProgramException
             Else
+                ' 20211203
+                ' default in VB.NET is byte shift
+                ' should be convert to integer at first
                 Dim H18 = CInt(r.Read) << &H18
                 Dim H10 = CInt(r.Read) << &H10
                 Dim H8 = CInt(r.Read) << &H8
