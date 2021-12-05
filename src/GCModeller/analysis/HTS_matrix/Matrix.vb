@@ -116,6 +116,13 @@ Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow)
         Return $"[{tag}] {expression.Length} genes, {sampleID.Length} samples; {sampleID.GetJson}"
     End Function
 
+    Public Function IndexOf(sampleName As IEnumerable(Of String)) As Integer()
+        Dim index = Me.sampleID.Indexing
+        Dim i As Integer() = sampleName.Select(Function(name) index(name)).ToArray
+
+        Return i
+    End Function
+
     ''' <summary>
     ''' make column projection via <see cref="TakeSamples(DataFrameRow(), Integer(), Boolean)"/>.
     ''' </summary>
