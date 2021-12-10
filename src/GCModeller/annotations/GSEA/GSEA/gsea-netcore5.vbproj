@@ -6,40 +6,43 @@
     <AssemblyName>SMRUCC.genomics.Analysis.HTS.GSEA</AssemblyName>
     <Platforms>AnyCPU;x64</Platforms>
     <Configurations>Debug;Release;LipidSearch;Rsharp_app_release</Configurations>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>lipidsearch-netcore5.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Analysis.HTS.GSEA.xml</DocumentationFile>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <DefineConstants>netcore5=1</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <DocumentationFile>lipidsearch-netcore5.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Analysis.HTS.GSEA.xml</DocumentationFile>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <DefineConstants>netcore5=1</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>lipidsearch-netcore5.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Analysis.HTS.GSEA.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='LipidSearch|AnyCPU'">
-    <DocumentationFile>lipidsearch-netcore5.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Analysis.HTS.GSEA.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|AnyCPU'">
-    <DocumentationFile>lipidsearch-netcore5.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Analysis.HTS.GSEA.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <DocumentationFile>lipidsearch-netcore5.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Analysis.HTS.GSEA.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='LipidSearch|x64'">
-    <DocumentationFile>lipidsearch-netcore5.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Analysis.HTS.GSEA.xml</DocumentationFile>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
     <Optimize>false</Optimize>
     <DebugSymbols>true</DebugSymbols>
@@ -50,7 +53,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|x64'">
-    <DocumentationFile>lipidsearch-netcore5.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Analysis.HTS.GSEA.xml</DocumentationFile>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
     <Optimize>false</Optimize>
     <DebugSymbols>true</DebugSymbols>
@@ -71,6 +74,13 @@
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
     <ProjectReference Include="..\..\..\data\GO_gene-ontology\GeneOntology\go_owl-netcore5.vbproj" />
     <ProjectReference Include="..\FisherCore\Fisher.NET5.vbproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

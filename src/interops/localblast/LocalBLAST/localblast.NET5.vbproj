@@ -12,27 +12,27 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>seqtoolkit.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Interops.NCBI.Extensions.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>seqtoolkit.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Interops.NCBI.Extensions.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|AnyCPU'">
-    <DocumentationFile>seqtoolkit.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Interops.NCBI.Extensions.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <DocumentationFile>seqtoolkit.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Interops.NCBI.Extensions.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <DocumentationFile>seqtoolkit.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Interops.NCBI.Extensions.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|x64'">
-    <DocumentationFile>seqtoolkit.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Interops.NCBI.Extensions.xml</DocumentationFile>
     <DefineConstants>netcore5=1</DefineConstants>
   </PropertyGroup>
 
