@@ -6,40 +6,43 @@
     <AssemblyName>SMRUCC.genomics.Data.GO_OWL</AssemblyName>
     <Platforms>AnyCPU;x64</Platforms>
     <Configurations>Debug;Release;LipidSearch;Rsharp_app_release</Configurations>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>lipidsearch-netcore5.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Data.GO_OWL.xml</DocumentationFile>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <DefineConstants>netcore5=1</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <DocumentationFile>lipidsearch-netcore5.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Data.GO_OWL.xml</DocumentationFile>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <DefineConstants>netcore5=1</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>lipidsearch-netcore5.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Data.GO_OWL.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='LipidSearch|AnyCPU'">
-    <DocumentationFile>lipidsearch-netcore5.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Data.GO_OWL.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|AnyCPU'">
-    <DocumentationFile>lipidsearch-netcore5.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Data.GO_OWL.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <DocumentationFile>lipidsearch-netcore5.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Data.GO_OWL.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='LipidSearch|x64'">
-    <DocumentationFile>lipidsearch-netcore5.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Data.GO_OWL.xml</DocumentationFile>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
     <Optimize>false</Optimize>
     <DebugSymbols>true</DebugSymbols>
@@ -50,7 +53,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|x64'">
-    <DocumentationFile>lipidsearch-netcore5.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Data.GO_OWL.xml</DocumentationFile>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
     <Optimize>false</Optimize>
     <DebugSymbols>true</DebugSymbols>
@@ -71,6 +74,13 @@
     <ProjectReference Include="..\..\..\core\Bio.Assembly\biocore-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\foundation\OBO_Foundry\obo_foundry-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\models\SBML\Biopax\biopax-netcore5.vbproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
