@@ -12,27 +12,27 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>SMRUCC.genomics.GCModeller.Workbench.SeqFeature.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Abstract.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>SMRUCC.genomics.GCModeller.Workbench.SeqFeature.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Abstract.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|AnyCPU'">
-    <DocumentationFile>SMRUCC.genomics.GCModeller.Workbench.SeqFeature.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Abstract.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <DocumentationFile>SMRUCC.genomics.GCModeller.Workbench.SeqFeature.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Abstract.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <DocumentationFile>SMRUCC.genomics.GCModeller.Workbench.SeqFeature.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Abstract.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|x64'">
-    <DocumentationFile>SMRUCC.genomics.GCModeller.Workbench.SeqFeature.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Abstract.xml</DocumentationFile>
     <DefineConstants>netcore5=1</DefineConstants>
   </PropertyGroup>
 

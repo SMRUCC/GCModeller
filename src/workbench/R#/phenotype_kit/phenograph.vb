@@ -45,7 +45,7 @@ Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
-Imports SMRUCC.genomics.Analysis.Microarray.PhenoGraph
+Imports SMRUCC.genomics.Analysis.SingleCell.PhenoGraph
 
 ''' <summary>
 ''' PhenoGraph algorithm
