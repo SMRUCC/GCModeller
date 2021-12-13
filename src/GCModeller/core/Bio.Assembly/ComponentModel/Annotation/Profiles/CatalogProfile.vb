@@ -51,6 +51,9 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace ComponentModel.Annotation
 
+    ''' <summary>
+    ''' a wrapper of <see cref="Dictionary(Of String, Double)"/>
+    ''' </summary>
     Public Class CatalogProfile : Implements Enumeration(Of NamedValue(Of Double))
 
         Public Property profile As New Dictionary(Of String, Double)

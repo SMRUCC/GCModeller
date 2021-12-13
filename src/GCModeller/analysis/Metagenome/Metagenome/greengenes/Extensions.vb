@@ -54,11 +54,19 @@ Namespace greengenes
     Public Module Extensions
 
         ''' <summary>
-        ''' 
+        ''' Create taxonomy assignment result and OTU aboundance data
+        ''' via gast algorithm.
         ''' </summary>
-        ''' <param name="blastn"></param>
-        ''' <param name="OTUs"></param>
-        ''' <param name="taxonomy"></param>
+        ''' <param name="blastn">
+        ''' the alignment result between the contigs and the 
+        ''' greengenes reference sequence.
+        ''' </param>
+        ''' <param name="OTUs">
+        ''' the OTU count table
+        ''' </param>
+        ''' <param name="taxonomy">
+        ''' taxonomy mapping from greengenes database.
+        ''' </param>
         ''' <returns></returns>
         ''' <remarks>使用gast最多只能够注释到species，不能够具体的注释到某一个菌株？？</remarks>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
