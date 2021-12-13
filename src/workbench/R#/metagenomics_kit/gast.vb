@@ -43,12 +43,17 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Analysis.Metagenome
 Imports SMRUCC.genomics.Analysis.Metagenome.greengenes
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
+Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 
+''' <summary>
+''' gast 16s data analysis tools, combine with the mothur workflow
+''' </summary>
 <Package("gast")>
 Module gastTools
 
@@ -62,6 +67,7 @@ Module gastTools
                                           OTUs As list,
                                           taxonomy As list,
                                           Optional min_pct# = 0.97,
+                                          Optional gast_consensus As Boolean = False,
                                           Optional env As Environment = Nothing) As pipeline
 
         Dim queries As pipeline = pipeline.TryCreatePipeline(Of Query)(blastn, env)
@@ -73,10 +79,17 @@ Module gastTools
         Dim OTUTable = OTUs.AsGeneric(Of NamedValue(Of Integer))(env)
         Dim taxonomyTable = taxonomy.AsGeneric(Of otu_taxonomy)(env)
 
-        Return queries _
-            .populates(Of Query)(env) _
-            .OTUgreengenesTaxonomy(OTUTable, taxonomyTable, min_pct) _
-            .DoCall(AddressOf pipeline.CreateFromPopulator)
+        If gast_consensus Then
+            Return queries _
+                .populates(Of Query)(env) _
+                .OTUgreengenesTaxonomy(OTUTable, taxonomyTable, min_pct) _
+                .DoCall(AddressOf pipeline.CreateFromPopulator)
+        Else
+            Return queries _
+                .populates(Of Query)(env) _
+                .OTUgreengenesTaxonomyTreeAssign(OTUTable, taxonomyTable, min_pct) _
+                .DoCall(AddressOf pipeline.CreateFromPopulator)
+        End If
     End Function
 
     ''' <summary>
@@ -93,6 +106,25 @@ Module gastTools
             .ToDictionary(Function(d) d.ID,
                           Function(d)
                               Return CObj(d)
+                          End Function)
+    End Function
+
+    ''' <summary>
+    ''' parse the OTU data file
+    ''' </summary>
+    ''' <param name="OTU_rep_fasta">
+    ''' ``OTU.rep.fasta`` query source comes from the mothur workflow.
+    ''' </param>
+    ''' <returns></returns>
+    <ExportAPI("parse.mothur_OTUs")>
+    Public Function ParseMothurOTUs(OTU_rep_fasta As String, Optional removes_lt As Double = 0.0001) As list
+        Return StreamIterator _
+            .SeqSource(OTU_rep_fasta) _
+            .ParseOTUrep() _
+            .RemovesOTUlt(cutoff:=removes_lt) _
+            .ToDictionary(Function(d) d.Key,
+                          Function(d)
+                              Return CObj(d.Value)
                           End Function)
     End Function
 End Module
