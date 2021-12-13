@@ -111,7 +111,16 @@ Namespace LocalBLAST.Application.NtMapping
         ''' </summary>
         ''' <returns></returns>
         Public Property QueryLength As Integer
+
+        ''' <summary>
+        ''' Score(bits)
+        ''' </summary>
+        ''' <returns></returns>
         <Column("Score(bits)")> Public Property Score As Integer
+        ''' <summary>
+        ''' Score(Raw)
+        ''' </summary>
+        ''' <returns></returns>
         <Column("Score(Raw)")> Public Property RawScore As Integer
         <Column("E-value")> Public Property Evalue As Double
         ''' <summary>

@@ -98,7 +98,9 @@ Module workflows
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("blastn.maphit")>
-    Public Function parseBlastnMaps(query As pipeline, Optional env As Environment = Nothing) As pipeline
+    Public Function parseBlastnMaps(query As pipeline,
+                                    Optional top_best As Boolean = False,
+                                    Optional env As Environment = Nothing) As pipeline
         If query Is Nothing Then
             Return Nothing
         ElseIf Not query.elementType Like GetType(Query) Then
@@ -106,7 +108,7 @@ Module workflows
         End If
 
         Return query.populates(Of Query)(env) _
-            .Export(parallel:=False) _
+            .Export(parallel:=False, topBest:=top_best) _
             .DoCall(AddressOf pipeline.CreateFromPopulator)
     End Function
 
