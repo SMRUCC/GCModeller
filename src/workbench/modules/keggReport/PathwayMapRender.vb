@@ -124,15 +124,11 @@ Public Module PathwayMapRender
                         .Value _
                         .JoinBy("|")
                 }
+            Catch ex As Exception When throwException
+                Throw New Exception(foundResult.GetJson, ex)
             Catch ex As Exception
-                ex = New Exception(foundResult.GetJson, ex)
-
-                If throwException Then
-                    Throw ex
-                Else
-                    Call ex.PrintException
-                    Call App.LogException(ex)
-                End If
+                Call ex.PrintException
+                Call App.LogException(ex)
             End Try
         Next
     End Function
