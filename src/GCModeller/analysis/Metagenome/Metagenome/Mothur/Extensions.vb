@@ -64,7 +64,9 @@ Public Module Extensions
                             .Properties = headers _
                                 .SeqIterator(offset:=1) _
                                 .ToDictionary(Function(key) key.value,
-                                              Function(i) Val(row.ElementAtOrDefault(i)))
+                                              Function(i)
+                                                  Return Val(row.ElementAtOrDefault(i))
+                                              End Function)
                         }
                     End Function) _
             .ToArray
