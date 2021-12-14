@@ -6,13 +6,41 @@ Public Class MothurRankTree : Inherits Tree(Of MothurData)
 
     Public Overrides ReadOnly Property QualifyName As String
         Get
-            Return Parent.QualifyName & "." & Data.taxon
+            If Parent Is Nothing OrElse Parent.QualifyName = "Root" Then
+                Return Data.taxon
+            Else
+                Return Parent.QualifyName & ";" & Data.taxon
+            End If
         End Get
     End Property
 
     Public Function GetOTUTable() As OTUTable()
-
+        Dim pull As New List(Of OTUTable)
+        Call PullLeafNode(Me, pull)
+        Return pull.ToArray
     End Function
+
+    Private Shared Sub PullLeafNode(node As MothurRankTree, pull As List(Of OTUTable))
+        If node.Childs.IsNullOrEmpty Then
+            Dim taxon = Metagenomics.TaxonomyFromString(node.QualifyName)
+            Dim OTU As New OTUTable With {
+                .ID = pull.Count + 1,
+                .Properties = node.Data.samples _
+                    .ToDictionary(Function(d) d.Key,
+                                  Function(d)
+                                      Return CDbl(d.Value)
+                                  End Function),
+                .taxonomy = taxon
+            }
+
+            ' is leaf node
+            Call pull.Add(OTU)
+        Else
+            For Each subtype As MothurRankTree In node.Childs.Values
+                Call PullLeafNode(subtype, pull)
+            Next
+        End If
+    End Sub
 
     Public Shared Function LoadTaxonomySummary(file As String) As MothurRankTree
         Dim rows As MothurData() = file.LoadTsv(Of MothurData).ToArray
