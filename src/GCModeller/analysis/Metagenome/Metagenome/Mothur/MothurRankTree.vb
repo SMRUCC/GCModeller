@@ -4,6 +4,12 @@ Imports Microsoft.VisualBasic.Language
 
 Public Class MothurRankTree : Inherits Tree(Of MothurData)
 
+    Public Overrides ReadOnly Property QualifyName As String
+        Get
+            Return Parent.QualifyName & "." & Data.taxon
+        End Get
+    End Property
+
     Public Function GetOTUTable() As OTUTable()
 
     End Function
@@ -30,6 +36,8 @@ Public Class MothurRankTree : Inherits Tree(Of MothurData)
                 .label = row.rankID
             }
             taxonNode.Parent = parent(row.parentID).Add(taxonNode)
+
+            Call parent.Add(row.rankID, taxonNode)
         Next
 
         Return root
