@@ -164,7 +164,7 @@ Namespace Kernel
         End Sub
 
         Private Function runTicks(progress As Action) As Integer
-            For _RuntimeTicks = 0 To progress.Target
+            For _RuntimeTicks = 0 To CLng(finalTime * (1 / precision))
                 If is_terminated Then
                     Exit For
                 End If
