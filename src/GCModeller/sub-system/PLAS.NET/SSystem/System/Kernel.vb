@@ -163,35 +163,44 @@ Namespace Kernel
             Call (From x As Equation In Channels Select x.Elapsed(mathEngine)).ToArray
         End Sub
 
+        Private Function runTicks(progress As Action) As Integer
+            For _RuntimeTicks = 0 To progress.Target
+                If is_terminated Then
+                    Exit For
+                End If
+#If DEBUG Then
+                    Call [Step](RuntimeTicks)
+#Else
+                Try
+                    Call [Step](RuntimeTicks)
+                Catch ex As Exception
+                    ex = New Exception("Model calculation error!", ex)
+                    Call App.LogException(ex)
+                    Call ex.PrintException
+                    Return -1
+                End Try
+#End If
+                Call progress()
+            Next
+
+            Return 0
+        End Function
+
         ''' <summary>
         ''' 请注意，当前的线程会被阻塞在这里直到整个计算过程完成
         ''' </summary>
         ''' <returns></returns>
         Public Overrides Function Run() As Integer
-            Using proc As New ProgressBar("Running PLAS.NET S-system kernel...")
-                Dim progress As New ProgressProvider(proc, finalTime * (1 / precision))
+            If App.IsMicrosoftPlatform Then
+                Using proc As New ProgressBar("Running PLAS.NET S-system kernel...")
+                    Dim progress As New ProgressProvider(proc, finalTime * (1 / precision))
+                    Dim exitCode As Integer = runTicks(Sub() proc.SetProgress(progress.StepProgress))
 
-                For _RuntimeTicks = 0 To progress.Target
-                    If is_terminated Then
-                        Exit For
-                    End If
-#If DEBUG Then
-                    Call [Step](RuntimeTicks)
-#Else
-                    Try
-                        Call [Step](RuntimeTicks)
-                    Catch ex As Exception
-                        ex = New Exception("Model calculation error!", ex)
-                        Call App.LogException(ex)
-                        Call ex.PrintException
-                        Return -1
-                    End Try
-#End If
-                    Call proc.SetProgress(progress.StepProgress)
-                Next
-            End Using
-
-            Return 0
+                    Return exitCode
+                End Using
+            Else
+                Return runTicks(DoNothing)
+            End If
         End Function
 
         ''' <summary>
