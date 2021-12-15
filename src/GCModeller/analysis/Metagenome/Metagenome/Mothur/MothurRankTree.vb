@@ -26,7 +26,10 @@ Public Class MothurRankTree : Inherits Tree(Of MothurData)
                 End If
             Next
 
-            Return Metagenomics.TaxonomyFromString(tokens.JoinBy(";"))
+            Dim ranks = Metagenomics.TaxonomyParser(tokens.JoinBy(";"))
+            Dim taxon As New Metagenomics.Taxonomy(ranks)
+
+            Return taxon
         End Get
     End Property
 
