@@ -68,7 +68,7 @@ Module SSystemKit
     End Sub
 
     Private Function getTable(cache As MemoryCacheSnapshot, args As list, env As Environment) As rdataframe
-        Dim all As DataSet() = cache.GetMatrix
+        Dim all As DataSet() = cache.GetMatrix.ToArray
         Dim time As String() = all.Select(Function(d) d.ID).ToArray
         Dim symbols As String() = all(Scan0).Properties.Keys.ToArray
         Dim matrix As New rdataframe With {
