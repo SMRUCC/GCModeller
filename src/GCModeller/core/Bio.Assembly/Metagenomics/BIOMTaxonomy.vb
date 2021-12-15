@@ -191,7 +191,9 @@ Namespace Metagenomics
             Dim taxonomyRanks = tokens _
                 .SeqIterator _
                 .ToDictionary(Function(i) descRanks(i),
-                              Function(rank) rank.value)
+                              Function(rank)
+                                  Return rank.value
+                              End Function)
 
             Return New Taxonomy(taxonomyRanks)
         End Function
