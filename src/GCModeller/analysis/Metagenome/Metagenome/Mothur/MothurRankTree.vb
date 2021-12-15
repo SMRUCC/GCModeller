@@ -21,7 +21,7 @@ Public Class MothurRankTree : Inherits Tree(Of MothurData)
 
             For i As Integer = tokens.Length - 2 To 0 Step -1
                 If token <> tokens(i) Then
-                    tokens = tokens.Take(i).ToArray
+                    tokens = tokens.Take(i + 1).ToArray
                     Exit For
                 End If
             Next
