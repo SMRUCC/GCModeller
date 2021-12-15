@@ -1,54 +1,54 @@
 ﻿#Region "Microsoft.VisualBasic::32e0496236421051e0b1439eca571c65, analysis\Metagenome\Metagenome\RelativeStatics.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module RelativeStatics
-    ' 
-    '     Function: ExportByRanks, RelativeAbundance
-    '     Class RankView
-    ' 
-    '         Properties: OTUs, Samples, TaxonomyName, Tree
-    ' 
-    '         Function: ToString
-    ' 
-    '     Class View
-    ' 
-    '         Properties: OTU, Samples, TaxonTree
-    ' 
-    '         Function: ToString
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Module RelativeStatics
+' 
+'     Function: ExportByRanks, RelativeAbundance
+'     Class RankView
+' 
+'         Properties: OTUs, Samples, TaxonomyName, Tree
+' 
+'         Function: ToString
+' 
+'     Class View
+' 
+'         Properties: OTU, Samples, TaxonTree
+' 
+'         Function: ToString
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -94,42 +94,47 @@ Public Module RelativeStatics
     ''' <returns></returns>
     <Extension>
     Public Function ExportByRanks(source As IEnumerable(Of OTUData), EXPORT As String) As Boolean
-        Dim samples As View() = LinqAPI.Exec(Of View) <=   ' 进行数据视图转换
+        Dim samples As OTUTable() = LinqAPI.Exec(Of OTUTable) <=   ' 进行数据视图转换
             From x As OTUData
             In source
-            Select New View With {
-                .OTU = x.OTU,
-                .Samples = x.Data.ToDictionary(
+            Let taxon = New gast.Taxonomy(BIOMTaxonomyParser.Parse(x.taxonomy))
+            Select New OTUTable With {
+                .ID = x.OTU,
+                .Properties = x.data.ToDictionary(
                     Function(o) o.Key,
-                    Function(o) o.Value * 100),
-                .TaxonTree = New gast.Taxonomy(x.Taxonomy.Split(";"c))
+                    Function(o)
+                        Return o.Value * 100
+                    End Function),
+                .taxonomy = taxon
             }
 
         For Each rank As SeqValue(Of String) In gast.Taxonomy.ranks.SeqIterator   ' 按照rank层次进行计算
             Dim out As String = $"{EXPORT}/{rank.value}.Csv"
-            Dim Groups = (From x As View
+            Dim Groups = (From x As OTUTable
                           In samples
-                          Let tree As String = x.TaxonTree.GetTree(rank.i)   ' 按照物种树进行数据分组
+                          Let tree As String = DirectCast(x.taxonomy, gast.Taxonomy).GetTree(rank.i)   ' 按照物种树进行数据分组
                           Select x,
                               tree
                           Group By tree Into Group).ToArray
-            Dim result As New List(Of RankView)
+            Dim result As New List(Of RankLevelView)
 
             For Each g In Groups
-                Dim gg As View() = g.Group.Select(Function(x) x.x)
-                result += New RankView With {
-                    .OTUs = gg.Select(Function(x) x.OTU),
-                    .TaxonomyName = gg.First.TaxonTree(rank.i),
+                Dim gg As OTUTable() = g.Group.Select(Function(x) x.x)
+                result += New RankLevelView With {
+                    .OTUs = gg.Select(Function(x) x.ID).ToArray,
+                    .TaxonomyName = DirectCast(gg.First.taxonomy, gast.Taxonomy)(rank.i),
                     .Tree = g.tree,
                     .Samples = (From o As KeyValuePair(Of String, Double)
-                                In (From x As View
+                                In (From x As OTUTable
                                     In gg
-                                    Select x.Samples.ToArray).IteratesALL
+                                    Select x.Properties.ToArray).IteratesALL
                                 Select o
                                 Group o By o.Key Into Group) _
                                      .ToDictionary(Function(x) x.Key,
                                                    Function(x) x.Group.Sum(
-                                                   Function(oo) oo.Value) / 100)  ' 计算样品丰度
+                                                   Function(oo)
+                                                       Return oo.Value
+                                                   End Function) / 100)  ' 计算样品丰度
                 }
             Next
 
@@ -138,28 +143,5 @@ Public Module RelativeStatics
 
         Return True
     End Function
-
-    Public Class RankView
-
-        Public Property OTUs As String()
-        Public Property TaxonomyName As String
-        Public Property Tree As String
-        <Meta(GetType(Double))>
-        Public Property Samples As Dictionary(Of String, Double)
-
-        Public Overrides Function ToString() As String
-            Return Me.GetJson
-        End Function
-    End Class
-
-    Public Class View
-
-        Public Property TaxonTree As gast.Taxonomy
-        Public Property Samples As Dictionary(Of String, Double)
-        Public Property OTU As String
-
-        Public Overrides Function ToString() As String
-            Return Me.GetJson
-        End Function
-    End Class
 End Module
+

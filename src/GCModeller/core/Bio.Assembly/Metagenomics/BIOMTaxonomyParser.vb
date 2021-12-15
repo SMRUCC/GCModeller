@@ -31,6 +31,11 @@ Namespace Metagenomics
             Return Parse(biomString:=content)
         End Function
 
+        ''' <summary>
+        ''' parse auto
+        ''' </summary>
+        ''' <param name="biomString"></param>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function Parse(biomString As String) As Taxonomy
             If biomString.StartsWith("superkingdom__") Then
