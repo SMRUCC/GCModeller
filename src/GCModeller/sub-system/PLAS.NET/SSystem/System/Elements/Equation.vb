@@ -151,6 +151,11 @@ Namespace Kernel.ObjectModels
             End If
 
             var.Value += delta
+
+            If var.Value < 0 Then
+                var.Value = 0
+            End If
+
             engine(var.Id) = var.Value
 
             Return True
