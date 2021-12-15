@@ -42,6 +42,7 @@
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.SSystem.Kernel
@@ -127,6 +128,19 @@ Module SSystemKit
         For Each symbolName As String In data.slots.Keys
             value = REnv.asVector(Of Double)(data.getByName(symbolName)).GetValue(Scan0)
             kernel.SetMathSymbol(symbolName, value)
+        Next
+
+        Return kernel
+    End Function
+
+    <ExportAPI("bounds")>
+    Public Function setBounds(kernel As Kernel, <RListObjectArgument> bounds As list, Optional env As Environment = Nothing) As Kernel
+        If bounds.length = 1 AndAlso TypeOf bounds.slots.Values.First Is list Then
+            bounds = bounds.slots.Values.First
+        End If
+
+        For Each symbol As String In bounds.getNames
+            kernel.SetBounds(symbol, New DoubleRange(DirectCast(REnv.asVector(Of Double)(bounds.getByName(symbol)), Double())))
         Next
 
         Return kernel
