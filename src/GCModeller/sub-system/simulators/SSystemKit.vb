@@ -43,6 +43,7 @@
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.SSystem.Kernel
@@ -53,6 +54,7 @@ Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Invokes
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 Imports REnv = SMRUCC.Rsharp.Runtime
 
 ''' <summary>
@@ -60,6 +62,28 @@ Imports REnv = SMRUCC.Rsharp.Runtime
 ''' </summary>
 <Package("S.system")>
 Module SSystemKit
+
+    Sub New()
+        Call Internal.Object.Converts.makeDataframe.addHandler(GetType(MemoryCacheSnapshot), AddressOf getTable)
+    End Sub
+
+    Private Function getTable(cache As MemoryCacheSnapshot, args As list, env As Environment) As rdataframe
+        Dim all As DataSet() = cache.GetMatrix
+        Dim time As String() = all.Select(Function(d) d.ID).ToArray
+        Dim symbols As String() = all(Scan0).Properties.Keys.ToArray
+        Dim matrix As New rdataframe With {
+            .rownames = time,
+            .columns = New Dictionary(Of String, Array)
+        }
+
+        For Each name As String In symbols
+            matrix.columns(name) = all _
+                .Select(Function(d) d(name)) _
+                .ToArray
+        Next
+
+        Return matrix
+    End Function
 
     ''' <summary>
     ''' create a new empty model for run S-system simulation

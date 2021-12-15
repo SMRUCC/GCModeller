@@ -75,6 +75,10 @@ Namespace Kernel
 
         Friend data As New List(Of DataSet)
 
+        Public Function GetMatrix() As IEnumerable(Of DataSet)
+            Return data.AsEnumerable
+        End Function
+
         Public Overrides Sub Cache(data As DataSet)
             Me.data.Add(data)
         End Sub
