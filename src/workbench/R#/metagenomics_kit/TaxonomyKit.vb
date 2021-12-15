@@ -301,7 +301,7 @@ Module TaxonomyKit
 
     <ExportAPI("read.OTUtable")>
     Public Function readOTUTable(file As String, Optional sumDuplicated As Boolean = True) As OTUTable()
-        Dim otus As OTUTable() = file.LoadCsv(Of OTUTable).ToArray
+        Dim otus As OTUTable() = file.LoadCsv(Of OTUTable)(mute:=True).ToArray
 
         If sumDuplicated Then
             Return otus _
