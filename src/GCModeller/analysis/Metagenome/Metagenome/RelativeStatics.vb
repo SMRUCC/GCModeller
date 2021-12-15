@@ -53,11 +53,8 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
-Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Analysis.Metagenome.gast
 Imports SMRUCC.genomics.Metagenomics
 
@@ -87,61 +84,78 @@ Public Module RelativeStatics
     End Function
 
     ''' <summary>
+    ''' 进行数据视图转换
+    ''' </summary>
+    ''' <param name="source"></param>
+    ''' <returns></returns>
+    <Extension>
+    Private Function CastView(source As IEnumerable(Of OTUData)) As IEnumerable(Of OTUTable)
+        Return From x As OTUData
+               In source
+               Let taxon = New gast.Taxonomy(BIOMTaxonomyParser.Parse(x.taxonomy))
+               Select New OTUTable With {
+                   .ID = x.OTU,
+                   .Properties = x.data _
+                       .ToDictionary(Function(o) o.Key,
+                                     Function(o)
+                                         Return o.Value * 100
+                                     End Function),
+                   .taxonomy = taxon
+               }
+    End Function
+
+    ''' <summary>
     ''' 统计OTU在不同的物种分类层次上面每一个实验样品的相对丰度
     ''' </summary>
     ''' <param name="source">OTU统计数据</param>
-    ''' <param name="EXPORT"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function ExportByRanks(source As IEnumerable(Of OTUData), EXPORT As String) As Boolean
-        Dim samples As OTUTable() = LinqAPI.Exec(Of OTUTable) <=   ' 进行数据视图转换
-            From x As OTUData
-            In source
-            Let taxon = New gast.Taxonomy(BIOMTaxonomyParser.Parse(x.taxonomy))
-            Select New OTUTable With {
-                .ID = x.OTU,
-                .Properties = x.data.ToDictionary(
-                    Function(o) o.Key,
-                    Function(o)
-                        Return o.Value * 100
-                    End Function),
-                .taxonomy = taxon
-            }
+    Public Iterator Function ExportByRanks(source As IEnumerable(Of OTUData)) As IEnumerable(Of NamedCollection(Of RankLevelView))
+        Dim samples As OTUTable() = source.CastView.ToArray
 
-        For Each rank As SeqValue(Of String) In gast.Taxonomy.ranks.SeqIterator   ' 按照rank层次进行计算
-            Dim out As String = $"{EXPORT}/{rank.value}.Csv"
-            Dim Groups = (From x As OTUTable
+        ' 按照rank层次进行计算
+        For Each rank As SeqValue(Of String) In gast.Taxonomy.ranks.SeqIterator
+            ' 按照物种树进行数据分组
+            Dim groups = (From x As OTUTable
                           In samples
-                          Let tree As String = DirectCast(x.taxonomy, gast.Taxonomy).GetTree(rank.i)   ' 按照物种树进行数据分组
-                          Select x,
-                              tree
-                          Group By tree Into Group).ToArray
-            Dim result As New List(Of RankLevelView)
+                          Let tree As String = DirectCast(x.taxonomy, gast.Taxonomy).GetTree(rank.i)
+                          Select i = (x, tree)
+                          Group By i.tree Into Group).ToArray
+            Dim tuples = groups.Select(Function(ti) (tree:=ti.tree, list:=ti.Group.Select(Function(x) (x.tree, x.x)).ToArray)).ToArray
+            Dim result As RankLevelView() = rank.PopulateViews(tuples).ToArray
 
-            For Each g In Groups
-                Dim gg As OTUTable() = g.Group.Select(Function(x) x.x)
-                result += New RankLevelView With {
-                    .OTUs = gg.Select(Function(x) x.ID).ToArray,
-                    .TaxonomyName = DirectCast(gg.First.taxonomy, gast.Taxonomy)(rank.i),
-                    .Tree = g.tree,
-                    .Samples = (From o As KeyValuePair(Of String, Double)
-                                In (From x As OTUTable
-                                    In gg
-                                    Select x.Properties.ToArray).IteratesALL
-                                Select o
-                                Group o By o.Key Into Group) _
-                                     .ToDictionary(Function(x) x.Key,
-                                                   Function(x) x.Group.Sum(
-                                                   Function(oo)
-                                                       Return oo.Value
-                                                   End Function) / 100)  ' 计算样品丰度
-                }
-            Next
-
-            Call result.SaveTo(out)
+            Yield New NamedCollection(Of RankLevelView) With {
+                .name = rank.value,
+                .value = result
+            }
         Next
+    End Function
 
-        Return True
+    <Extension>
+    Private Iterator Function PopulateViews(rank As SeqValue(Of String), groups As (tree As String, list As (tree As String, x As OTUTable)())()) As IEnumerable(Of RankLevelView)
+        For Each g In groups
+            Dim gg As OTUTable() = g.list.Select(Function(x) x.x).ToArray
+            Dim sampleData = (From o As KeyValuePair(Of String, Double)
+                              In (From x As OTUTable
+                                  In gg
+                                  Select x.Properties.ToArray).IteratesALL
+                              Select o
+                              Group o By o.Key Into Group) _
+                                  .ToDictionary(Function(x) x.Key,
+                                                Function(x)
+                                                    ' 计算样品丰度
+                                                    Return x.Group.Sum(Function(oo)
+                                                                           Return oo.Value
+                                                                       End Function) / 100
+                                                End Function)
+
+            Yield New RankLevelView With {
+                .OTUs = gg.Select(Function(x) x.ID).ToArray,
+                .TaxonomyName = DirectCast(gg.First.taxonomy, gast.Taxonomy)(rank.i),
+                .Tree = g.tree,
+                .Samples = sampleData
+            }
+        Next
     End Function
 End Module
 
