@@ -55,44 +55,9 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
 
 Namespace Metagenomics
-
-    ''' <summary>
-    ''' Parser and stringfier of <see cref="Taxonomy"/> object.
-    ''' </summary>
-    Public Class BIOMTaxonomyParser : Implements IParser
-
-        ''' <summary>
-        ''' 
-        ''' </summary>
-        ''' <param name="obj">
-        ''' Object value should be in data type <see cref="Taxonomy"/>
-        ''' </param>
-        ''' <returns></returns>
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Overloads Function ToString(obj As Object) As String Implements IParser.ToString
-            Return DirectCast(obj, Taxonomy).ToString(BIOMstyle:=True)
-        End Function
-
-        ''' <summary>
-        ''' Create a <see cref="Taxonomy"/> object from parse taxonomy string
-        ''' </summary>
-        ''' <param name="content"></param>
-        ''' <returns></returns>
-        ''' 
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function TryParse(content As String) As Object Implements IParser.TryParse
-            Return Parse(biomString:=content)
-        End Function
-
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Shared Function Parse(biomString As String) As Taxonomy
-            Return BIOMTaxonomy.TaxonomyParser(biomString).AsTaxonomy
-        End Function
-    End Class
 
     Public Module BIOMTaxonomy
 
@@ -191,7 +156,9 @@ Namespace Metagenomics
             Dim taxonomyRanks = tokens _
                 .SeqIterator _
                 .ToDictionary(Function(i) descRanks(i),
-                              Function(rank) rank.value)
+                              Function(rank)
+                                  Return rank.value
+                              End Function)
 
             Return New Taxonomy(taxonomyRanks)
         End Function

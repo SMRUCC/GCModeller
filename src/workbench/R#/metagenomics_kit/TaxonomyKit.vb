@@ -45,6 +45,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Ranges
+Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -55,9 +56,9 @@ Imports SMRUCC.genomics.Metagenomics
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 Imports REnv = SMRUCC.Rsharp.Runtime.Internal.ConsolePrinter
 Imports Taxonomy = SMRUCC.genomics.Metagenomics.Taxonomy
-Imports rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 
 ''' <summary>
 ''' toolkit for process ncbi taxonomy tree data
@@ -296,5 +297,34 @@ Module TaxonomyKit
     <ExportAPI("as.OTU_table")>
     Public Function asOTUTable(tree As MothurRankTree) As OTUTable()
         Return tree.GetOTUTable
+    End Function
+
+    <ExportAPI("read.OTUtable")>
+    Public Function readOTUTable(file As String, Optional sumDuplicated As Boolean = True) As OTUTable()
+        Dim otus As OTUTable() = file.LoadCsv(Of OTUTable)(mute:=True).ToArray
+
+        If sumDuplicated Then
+            Return otus _
+                .GroupBy(Function(o) o.taxonomy.ToString) _
+                .Select(Function(otu)
+                            Dim allSampleName As String() = otu.PropertyNames
+                            Dim v As Dictionary(Of String, Double) = allSampleName _
+                                .ToDictionary(Function(name) name,
+                                                Function(name)
+                                                    Return Aggregate m As OTUTable
+                                                            In otu
+                                                            Into Sum(m(name))
+                                                End Function)
+
+                            Return New OTUTable With {
+                                .ID = otu.Select(Function(m) m.ID).JoinBy("+"),
+                                .taxonomy = otu.First.taxonomy,
+                                .Properties = v
+                            }
+                        End Function) _
+                .ToArray
+        Else
+            Return otus
+        End If
     End Function
 End Module

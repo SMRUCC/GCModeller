@@ -14,6 +14,25 @@ Public Class MothurRankTree : Inherits Tree(Of MothurData)
         End Get
     End Property
 
+    Public ReadOnly Property taxonmy As Metagenomics.Taxonomy
+        Get
+            Dim tokens As String() = QualifyName.StringSplit("\s*;\s*")
+            Dim token As String = tokens.Last
+
+            For i As Integer = tokens.Length - 2 To 0 Step -1
+                If token <> tokens(i) Then
+                    tokens = tokens.Take(i + 1).ToArray
+                    Exit For
+                End If
+            Next
+
+            Dim ranks = Metagenomics.TaxonomyParser(tokens.JoinBy(";"))
+            Dim taxon As New Metagenomics.Taxonomy(ranks)
+
+            Return taxon
+        End Get
+    End Property
+
     Public Function GetOTUTable() As OTUTable()
         Dim pull As New List(Of OTUTable)
         Call PullLeafNode(Me, pull)
@@ -22,7 +41,7 @@ Public Class MothurRankTree : Inherits Tree(Of MothurData)
 
     Private Shared Sub PullLeafNode(node As MothurRankTree, pull As List(Of OTUTable))
         If node.Childs.IsNullOrEmpty Then
-            Dim taxon = Metagenomics.TaxonomyFromString(node.QualifyName)
+            Dim taxon As Metagenomics.Taxonomy = node.taxonmy
             Dim OTU As New OTUTable With {
                 .ID = pull.Count + 1,
                 .Properties = node.Data.samples _
