@@ -102,7 +102,7 @@ Public Module RunModel
             Call "PLAS using ODEs solver....".__DEBUG_ECHO
 
             Dim p As Double = args.GetValue("/precise", 10000)
-            Dim output As ODEsOut = Kernel.ODEs.RunSystem(model)
+            Dim output As ODEsOut = Kernel.ODEs.RunSystem(model, Nothing)
             Dim df As File = output.DataFrame(xDisp:="#Time")
 
             Return df.Save(out, Encodings.ASCII)

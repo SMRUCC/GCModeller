@@ -1,47 +1,49 @@
 ﻿#Region "Microsoft.VisualBasic::70ec8c0c8a4de5001602aad6e4fcab9b, sub-system\simulators\SSystemKit.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module SSystemKit
-    ' 
-    '     Function: ConfigEnvironment, ConfigSSystem, createKernel, GetSnapshotsDriver, RunKernel
-    '               script
-    ' 
-    ' /********************************************************************************/
+' Module SSystemKit
+' 
+'     Function: ConfigEnvironment, ConfigSSystem, createKernel, GetSnapshotsDriver, RunKernel
+'               script
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.SSystem.Kernel
@@ -52,6 +54,7 @@ Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Invokes
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 Imports REnv = SMRUCC.Rsharp.Runtime
 
 ''' <summary>
@@ -59,6 +62,28 @@ Imports REnv = SMRUCC.Rsharp.Runtime
 ''' </summary>
 <Package("S.system")>
 Module SSystemKit
+
+    Sub New()
+        Call Internal.Object.Converts.makeDataframe.addHandler(GetType(MemoryCacheSnapshot), AddressOf getTable)
+    End Sub
+
+    Private Function getTable(cache As MemoryCacheSnapshot, args As list, env As Environment) As rdataframe
+        Dim all As DataSet() = cache.GetMatrix.ToArray
+        Dim time As String() = all.Select(Function(d) d.ID).ToArray
+        Dim symbols As String() = all(Scan0).Properties.Keys.ToArray
+        Dim matrix As New rdataframe With {
+            .rownames = time,
+            .columns = New Dictionary(Of String, Array)
+        }
+
+        For Each name As String In symbols
+            matrix.columns(name) = all _
+                .Select(Function(d) d(name)) _
+                .ToArray
+        Next
+
+        Return matrix
+    End Function
 
     ''' <summary>
     ''' create a new empty model for run S-system simulation
@@ -132,6 +157,19 @@ Module SSystemKit
         Return kernel
     End Function
 
+    <ExportAPI("bounds")>
+    Public Function setBounds(kernel As Kernel, <RListObjectArgument> bounds As list, Optional env As Environment = Nothing) As Kernel
+        If bounds.length = 1 AndAlso TypeOf bounds.slots.Values.First Is list Then
+            bounds = bounds.slots.Values.First
+        End If
+
+        For Each symbol As String In bounds.getNames
+            kernel.SetBounds(symbol, New DoubleRange(DirectCast(REnv.asVector(Of Double)(bounds.getByName(symbol)), Double())))
+        Next
+
+        Return kernel
+    End Function
+
     ''' <summary>
     ''' load S-system into the dynamics simulators kernel module
     ''' </summary>
@@ -140,19 +178,30 @@ Module SSystemKit
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("s.system")>
-    Public Function ConfigSSystem(kernel As Kernel, ssystem As DeclareLambdaFunction(), Optional env As Environment = Nothing) As Kernel
+    Public Function ConfigSSystem(kernel As Kernel, <RRawVectorArgument> ssystem As Object, Optional env As Environment = Nothing) As Kernel
         Dim equations As New List(Of NamedValue(Of String))
         Dim name As String
         Dim expression As String
 
-        For Each formula In ssystem
-            name = formula.parameterNames(Scan0)
-            expression = formula.name.GetStackValue("[", "]").GetTagValue("->").Value
-            equations += New NamedValue(Of String) With {
-                .Name = name,
-                .Value = expression
-            }
-        Next
+        If TypeOf ssystem Is list Then
+            For Each flux In DirectCast(ssystem, list).AsGeneric(Of String)(env)
+                name = flux.Key
+                expression = flux.Value
+                equations += New NamedValue(Of String) With {
+                    .Name = name,
+                    .Value = expression
+                }
+            Next
+        ElseIf TypeOf ssystem Is DeclareLambdaFunction() Then
+            For Each formula As DeclareLambdaFunction In DirectCast(ssystem, DeclareLambdaFunction())
+                name = formula.parameterNames(Scan0)
+                expression = formula.name.GetStackValue("[", "]").GetTagValue("->").Value
+                equations += New NamedValue(Of String) With {
+                    .Name = name,
+                    .Value = expression
+                }
+            Next
+        End If
 
         kernel.Channels = equations _
             .Select(Function(a) New SEquation(a.Name, a.Value)) _
