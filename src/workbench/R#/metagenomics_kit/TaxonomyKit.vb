@@ -354,4 +354,21 @@ Module TaxonomyKit
             Return otus
         End If
     End Function
+
+    <ExportAPI("taxonomy_range")>
+    Public Function TaxonomyRange(tax As Taxonomy, rank As TaxonomyRanks) As Taxonomy
+        Return tax.TaxonomyRankString(rank).DoCall(AddressOf BIOMTaxonomyParser.Parse)
+    End Function
+
+    <ROperator("in")>
+    Public Function InRange(list As Taxonomy(), range As Taxonomy) As Boolean()
+        Return list _
+            .Select(Function(tax)
+                        Dim compare As Relations = tax.CompareWith(another:=range)
+
+                        Return compare = Relations.Equals OrElse
+                               compare = Relations.IncludeBy
+                    End Function) _
+            .ToArray
+    End Function
 End Module

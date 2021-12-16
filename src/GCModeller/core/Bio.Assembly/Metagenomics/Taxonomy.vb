@@ -217,7 +217,7 @@ Namespace Metagenomics
         ''' <summary>
         ''' 这个函数不会比较<see cref="scientificName"/>
         ''' </summary>
-        ''' <param name="another"></param>
+        ''' <param name="another">item b</param>
         ''' <returns></returns>
         Public Function CompareWith(another As Taxonomy) As Relations
             With another
