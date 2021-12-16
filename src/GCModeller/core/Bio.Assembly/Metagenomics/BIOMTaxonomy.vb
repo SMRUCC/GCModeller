@@ -1,52 +1,52 @@
 ﻿#Region "Microsoft.VisualBasic::09fad594833151b69a6cccce9436fe45, core\Bio.Assembly\Metagenomics\BIOMTaxonomy.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class BIOMTaxonomyParser
-    ' 
-    '         Function: Parse, ToString, TryParse
-    ' 
-    '     Module BIOMTaxonomy
-    ' 
-    '         Properties: BIOMPrefix, BIOMPrefixAlt, BriefParser, CompleteParser
-    '         Delegate Function
-    ' 
-    '             Constructor: (+1 Overloads) Sub New
-    '             Function: AsTaxonomy, FillLineageEmpty, TaxonomyFromString, (+2 Overloads) TaxonomyParser, TaxonomyParserAlt
-    '                       TaxonomyString
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class BIOMTaxonomyParser
+' 
+'         Function: Parse, ToString, TryParse
+' 
+'     Module BIOMTaxonomy
+' 
+'         Properties: BIOMPrefix, BIOMPrefixAlt, BriefParser, CompleteParser
+'         Delegate Function
+' 
+'             Constructor: (+1 Overloads) Sub New
+'             Function: AsTaxonomy, FillLineageEmpty, TaxonomyFromString, (+2 Overloads) TaxonomyParser, TaxonomyParserAlt
+'                       TaxonomyString
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -251,15 +251,18 @@ Namespace Metagenomics
             Dim catalogs As NamedValue(Of String)() = tokens _
                 .Select(Function(t) t.GetTagValue("__")) _
                 .ToArray
-            Dim out As New Dictionary(Of String, String)
+            Dim ranks As New Dictionary(Of String, String)
+            Dim rankName As String
 
-            For Each x As NamedValue(Of String) In catalogs
-                If _BIOMPrefixAlt.IndexOf(x.Name) > -1 Then
-                    Call out.Add(x.Name, x.Value)
+            For Each rank As NamedValue(Of String) In catalogs
+                rankName = LCase(rank.Name)
+
+                If _BIOMPrefixAlt.IndexOf(rankName) > -1 OrElse _BIOMPrefixAlt.IndexOf(rankName & "__") > -1 Then
+                    Call ranks.Add(rank.Name, rank.Value)
                 End If
             Next
 
-            Return out
+            Return ranks
         End Function
 #End Region
 
