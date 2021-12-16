@@ -57,7 +57,7 @@ Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
-Imports REnv = SMRUCC.Rsharp.Runtime.Internal.ConsolePrinter
+Imports REnv = SMRUCC.Rsharp.Runtime
 Imports Taxonomy = SMRUCC.genomics.Metagenomics.Taxonomy
 
 ''' <summary>
@@ -67,7 +67,7 @@ Imports Taxonomy = SMRUCC.genomics.Metagenomics.Taxonomy
 Module TaxonomyKit
 
     Sub New()
-        REnv.AttachConsoleFormatter(Of Taxonomy)(AddressOf printTaxonomy)
+        Internal.ConsolePrinter.AttachConsoleFormatter(Of Taxonomy)(AddressOf printTaxonomy)
 
         Internal.Object.Converts.addHandler(GetType(NcbiTaxonomyTree), AddressOf lineageTable)
         Internal.Object.Converts.addHandler(GetType(OTUTable()), AddressOf getOTUDataframe)
@@ -133,6 +133,12 @@ Module TaxonomyKit
         Return $"<{taxonomy.lowestLevel}> {taxonomy.ToString(BIOMstyle:=True)}"
     End Function
 
+    ''' <summary>
+    ''' cast taxonomy object to biom style taxonomy string
+    ''' </summary>
+    ''' <param name="taxonomy"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("biom.string")>
     <RApiReturn(GetType(String))>
     Public Function TaxonomyBIOMString(<RRawVectorArgument> taxonomy As Object, Optional env As Environment = Nothing) As Object
@@ -147,6 +153,22 @@ Module TaxonomyKit
         End If
     End Function
 
+    <ExportAPI("biom_string.parse")>
+    Public Function ParseBIOMString(<RRawVectorArgument> taxonomy As Object, Optional env As Environment = Nothing) As Object
+        Dim strings As String() = REnv.asVector(Of String)(taxonomy)
+        Dim taxlist As Taxonomy() = strings _
+            .Select(AddressOf BIOMTaxonomyParser.Parse) _
+            .ToArray
+
+        Return taxlist
+    End Function
+
+    ''' <summary>
+    ''' make taxonomy object unique
+    ''' </summary>
+    ''' <param name="taxonomy"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("unique_taxonomy")>
     Public Function uniqueTaxonomy(<RRawVectorArgument> taxonomy As Object, Optional env As Environment = Nothing) As Object
         Dim list = pipeline.TryCreatePipeline(Of Taxonomy)(taxonomy, env)
@@ -271,15 +293,20 @@ Module TaxonomyKit
             .ToArray
     End Function
 
+    ''' <summary>
+    ''' build taxonomy tree based on a given collection of taxonomy object.
+    ''' </summary>
+    ''' <param name="taxonomy"></param>
+    ''' <returns></returns>
     <ExportAPI("as.taxonomy.tree")>
     Public Function buildTree(taxonomy As Taxonomy()) As TaxonomyTree
         Return TaxonomyTree.BuildTree(taxonomy.Select(Function(t) New gast.Taxonomy(t)), Nothing, Nothing)
     End Function
 
     <ExportAPI("consensus")>
-    Public Function Consensus(tree As TaxonomyTree, level As TaxonomyRanks) As Taxonomy()
+    Public Function Consensus(tree As TaxonomyTree, rank As TaxonomyRanks) As Taxonomy()
         Return tree _
-            .PopulateTaxonomy(level) _
+            .PopulateTaxonomy(rank) _
             .Select(Function(t) DirectCast(t, Taxonomy)) _
             .ToArray
     End Function

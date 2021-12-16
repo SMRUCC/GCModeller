@@ -40,8 +40,10 @@ Namespace Metagenomics
         Public Shared Function Parse(biomString As String) As Taxonomy
             If biomString.StartsWith("superkingdom__") Then
                 Return BIOMTaxonomy.TaxonomyParserAlt(biomString).AsTaxonomy
-            Else
+            ElseIf biomString.StartsWith("k__") Then
                 Return BIOMTaxonomy.TaxonomyParser(biomString).AsTaxonomy
+            Else
+                Return BIOMTaxonomy.TaxonomyFromString(biomString)
             End If
         End Function
     End Class
