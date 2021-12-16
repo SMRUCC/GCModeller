@@ -43,6 +43,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
+Imports Microsoft.VisualBasic.Math.Information
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics
@@ -54,7 +55,6 @@ Imports SMRUCC.genomics.Metagenomics
 Imports SMRUCC.genomics.Model.Network.Microbiome
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
-Imports vector = Microsoft.VisualBasic.Math.LinearAlgebra.Vector
 
 <Package("metagenomics_kit")>
 Module metagenomicsKit
@@ -71,15 +71,13 @@ Module metagenomicsKit
     ''' content value of the list is the relative abundance data.
     ''' </param>
     ''' <returns></returns>
-    <ExportAPI("cos")>
+    <ExportAPI("diff.entropy")>
     Public Function similar(v1 As list, v2 As list, Optional rank As TaxonomyRanks = TaxonomyRanks.Genus, Optional env As Environment = Nothing) As Double
         Dim x1 As Dictionary(Of String, Double) = v1.asTaxonomyVector(rank, env)
         Dim x2 As Dictionary(Of String, Double) = v2.asTaxonomyVector(rank, env)
-        Dim unionAll = x1.JoinIterates(x2).Select(Function(t) t.Key).Distinct.ToArray
-        Dim data1 As vector = unionAll.Select(Function(tax) x1.TryGetValue(tax)).ToArray
-        Dim data2 As vector = unionAll.Select(Function(tax) x2.TryGetValue(tax)).ToArray
+        Dim S As Double = x1.DiffEntropy(x2)
 
-        Return data1.SSM(data2)
+        Return S
     End Function
 
     <Extension>
