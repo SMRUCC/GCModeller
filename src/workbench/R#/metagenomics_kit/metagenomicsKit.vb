@@ -1,46 +1,48 @@
 ﻿#Region "Microsoft.VisualBasic::d947c024ad149c0f633d678bba887978, R#\metagenomics_kit\metagenomicsKit.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module metagenomicsKit
-    ' 
-    '     Function: CompoundOrigin, createEmptyCompoundOriginProfile
-    ' 
-    ' /********************************************************************************/
+' Module metagenomicsKit
+' 
+'     Function: CompoundOrigin, createEmptyCompoundOriginProfile
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics
@@ -52,9 +54,46 @@ Imports SMRUCC.genomics.Metagenomics
 Imports SMRUCC.genomics.Model.Network.Microbiome
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
+Imports vector = Microsoft.VisualBasic.Math.LinearAlgebra.Vector
 
 <Package("metagenomics_kit")>
 Module metagenomicsKit
+
+    ''' <summary>
+    ''' evaluate the similarity of two taxonomy data vector
+    ''' </summary>
+    ''' <param name="v1">
+    ''' the names of the list should be the BIOM taxonomy string, 
+    ''' content value of the list is the relative abundance data.
+    ''' </param>
+    ''' <param name="v2">
+    ''' the names of the list should be the BIOM taxonomy string, 
+    ''' content value of the list is the relative abundance data.
+    ''' </param>
+    ''' <returns></returns>
+    <ExportAPI("cos")>
+    Public Function similar(v1 As list, v2 As list, Optional rank As TaxonomyRanks = TaxonomyRanks.Genus, Optional env As Environment = Nothing) As Double
+        Dim x1 As Dictionary(Of String, Double) = v1.asTaxonomyVector(rank, env)
+        Dim x2 As Dictionary(Of String, Double) = v2.asTaxonomyVector(rank, env)
+        Dim unionAll = x1.JoinIterates(x2).Select(Function(t) t.Key).Distinct.ToArray
+        Dim data1 As vector = unionAll.Select(Function(tax) x1.TryGetValue(tax)).ToArray
+        Dim data2 As vector = unionAll.Select(Function(tax) x2.TryGetValue(tax)).ToArray
+
+        Return data1.SSM(data2)
+    End Function
+
+    <Extension>
+    Private Function asTaxonomyVector(v As list, rank As TaxonomyRanks, env As Environment) As Dictionary(Of String, Double)
+        Return v.getNames _
+            .Select(Function(tax)
+                        Return (BIOMTaxonomyParser.Parse(tax).BIOMTaxonomyString(rank), v.getValue(Of Double)(tax, env))
+                    End Function) _
+            .GroupBy(Function(d) d.Item1) _
+            .ToDictionary(Function(d) d.Key,
+                          Function(d)
+                              Return Aggregate xi In d Into Sum(xi.Item2)
+                          End Function)
+    End Function
 
     <ExportAPI("compounds.origin.profile")>
     Public Function createEmptyCompoundOriginProfile(taxonomy As NcbiTaxonomyTree, organism As String) As CompoundOrigins
