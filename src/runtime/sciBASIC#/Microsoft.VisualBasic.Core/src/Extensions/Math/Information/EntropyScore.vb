@@ -5,6 +5,9 @@ Imports stdNum = System.Math
 
 Namespace Math.Information
 
+    ''' <summary>
+    ''' Unweighted entropy similarity
+    ''' </summary>
     Public Module EntropyScore
 
         <Extension>
@@ -16,6 +19,12 @@ Namespace Math.Information
             Return s
         End Function
 
+        ''' <summary>
+        ''' Unweighted entropy similarity
+        ''' </summary>
+        ''' <param name="v1"></param>
+        ''' <param name="v2"></param>
+        ''' <returns></returns>
         <Extension>
         Public Function DiffEntropy(v1 As Dictionary(Of String, Double), v2 As Dictionary(Of String, Double)) As Double
             Dim SAB = Mix(v1, v2).Entropy
