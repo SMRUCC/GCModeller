@@ -3,3 +3,5 @@
 R# --install.packages ./REnv.zip
 R# --install.packages ./GCModeller_1.1.0-beta.zip
 R# --install.packages ./ggplot.zip
+R# --install.packages ./arkdown2PDF.zip
+
