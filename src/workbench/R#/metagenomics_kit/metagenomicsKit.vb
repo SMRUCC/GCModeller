@@ -39,6 +39,7 @@
 
 #End Region
 
+Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Linq
@@ -49,6 +50,7 @@ Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics
 Imports SMRUCC.genomics.Analysis.Metagenome
 Imports SMRUCC.genomics.Analysis.Metagenome.gast
+Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction.PICRUSt
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
 Imports SMRUCC.genomics.Metagenomics
@@ -56,8 +58,51 @@ Imports SMRUCC.genomics.Model.Network.Microbiome
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 
-<Package("metagenomics_kit")>
+''' <summary>
+''' tools for metagenomics and microbiome
+''' </summary>
+<Package("metagenomics")>
 Module metagenomicsKit
+
+    Sub New()
+
+    End Sub
+
+    <ExportAPI("read.PICRUSt_matrix")>
+    Public Function readPICRUStMatrix(file As Stream) As MetaBinaryReader
+        Return New MetaBinaryReader(file)
+    End Function
+
+    ''' <summary>
+    ''' creates the final metagenome functional predictions. It 
+    ''' multiplies each normalized OTU abundance by each predicted 
+    ''' functional trait abundance to produce a table of functions 
+    ''' (rows) by samples (columns).
+    ''' </summary>
+    ''' <param name="table"></param>
+    ''' <returns></returns>
+    <ExportAPI("predict_metagenomes")>
+    Public Function predict_metagenomes(PICRUSt As MetaBinaryReader, table As dataframe) As OTUData(Of Double)()
+        Dim sampleNames As String() = table.colnames
+        Dim OTUtable As OTUData(Of Double)() = table.forEachRow _
+            .Select(Function(OTU, i)
+                        Dim samples As New Dictionary(Of String, Double)
+
+                        For i As Integer = 0 To sampleNames.Length - 1
+                            samples.Add(sampleNames(i), CDbl(OTU.Item(i)))
+                        Next
+
+                        Return New OTUData(Of Double) With {
+                            .OTU = i + 1,
+                            .taxonomy = OTU.name,
+                            .data = samples
+                        }
+                    End Function) _
+            .ToArray
+        Dim result = OTUtable.PredictMetagenome(precalculated:=PICRUSt)
+
+        Return result
+    End Function
 
     ''' <summary>
     ''' evaluate the similarity of two taxonomy data vector

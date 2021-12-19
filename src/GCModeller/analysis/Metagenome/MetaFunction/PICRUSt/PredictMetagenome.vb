@@ -1,4 +1,5 @@
-﻿Imports SMRUCC.genomics.Metagenomics
+﻿Imports System.Runtime.CompilerServices
+Imports SMRUCC.genomics.Metagenomics
 
 Namespace PICRUSt
 
@@ -29,7 +30,9 @@ Namespace PICRUSt
         ''' specific predictions, the per-organism abundances are 
         ''' retained and annotated for each KO.
         ''' </remarks>
-        Public Function PredictMetagenome(OTUtable As OTUData(), precalculated As ko_13_5_precalculated) As OTUData()
+        ''' 
+        <Extension>
+        Public Function PredictMetagenome(OTUtable As OTUData(Of Double)(), precalculated As MetaBinaryReader) As OTUData(Of Double)()
 
         End Function
     End Module
