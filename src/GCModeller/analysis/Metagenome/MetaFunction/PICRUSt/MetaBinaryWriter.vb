@@ -4,6 +4,7 @@ Imports Microsoft.VisualBasic.Data.GraphTheory
 Imports Microsoft.VisualBasic.Data.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Values
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.Metagenome.greengenes
 Imports SMRUCC.genomics.Metagenomics
@@ -42,7 +43,7 @@ Namespace PICRUSt
             Dim line As Value(Of String) = ""
             Dim tokens As String()
             Dim ggId As String
-            Dim data As Double()
+            Dim data As Single()
             Dim taxonomy As Taxonomy
             Dim target As ko_13_5_precalculated
             Dim i As i32 = 1
@@ -65,25 +66,26 @@ Namespace PICRUSt
                 taxonomy = ggTax(ggId)
                 data = tokens _
                     .Skip(1) _
-                    .Select(Function(d) Double.Parse(d)) _
+                    .Select(Function(d) Single.Parse(d)) _
                     .ToArray
                 tokens = taxonomy.Select().ToArray
-                target = offsetIndex.FindNode(tokens)
                 offset = file.Position
+                target = offsetIndex
 
                 Call file.Write(data)
 
-                If target Is Nothing Then
-                    target = offsetIndex
+                For Each name As String In tokens
+                    If Not target.hasNode(name) Then
+                        Call New ko_13_5_precalculated With {
+                            .Childs = New Dictionary(Of String, Tree(Of Long)),
+                            .label = name,
+                            .ID = ++i,
+                            .Parent = target
+                        }.DoCall(AddressOf target.Add)
+                    End If
 
-                    For Each name As String In tokens
-                        If Not target.hasNode(name) Then
-                            target.Add(New ko_13_5_precalculated With {.Childs = New Dictionary(Of String, Tree(Of Long)), .label = name, .ID = ++i})
-                        End If
-
-                        target = target(name)
-                    Next
-                End If
+                    target = target(name)
+                Next
 
                 target.Data = offset
             Loop
