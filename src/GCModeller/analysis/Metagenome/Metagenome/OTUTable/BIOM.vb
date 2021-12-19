@@ -242,8 +242,8 @@ Public Module BIOM
     ''' </param>
     ''' <returns></returns>
     <Extension>
-    Public Function EXPORT(table As IEnumerable(Of OTUData), Optional denseMatrix As Boolean = True) As IntegerMatrix
-        Dim matrix As OTUData() = table.ToArray
+    Public Function EXPORT(table As IEnumerable(Of OTUData(Of Double)), Optional denseMatrix As Boolean = True) As IntegerMatrix
+        Dim matrix As OTUData(Of Double)() = table.ToArray
         Dim allSamples = matrix _
             .Select(Function(otu) otu.data.Keys) _
             .IteratesALL _
@@ -268,14 +268,14 @@ Public Module BIOM
 
         Dim array() = LinqAPI.Exec(Of Names) _
  _
-            () <= From otu As OTUData
+            () <= From otu As OTUData(Of Double)
                   In table
                   Let taxonomy As String = otu.taxonomy _
                       .Split(";"c) _
                       .TaxonomyString
                   Select New Names With {
                       .numOfSeqs = 100,
-                      .composition = otu.data.AsNumeric,
+                      .composition = otu.data,
                       .taxonomy = taxonomy,
                       .unique = otu.OTU
                   }

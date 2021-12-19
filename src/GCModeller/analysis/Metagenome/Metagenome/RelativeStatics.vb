@@ -89,8 +89,8 @@ Public Module RelativeStatics
     ''' <param name="source"></param>
     ''' <returns></returns>
     <Extension>
-    Private Function CastView(source As IEnumerable(Of OTUData)) As IEnumerable(Of OTUTable)
-        Return From x As OTUData
+    Private Function CastView(source As IEnumerable(Of OTUData(Of Double))) As IEnumerable(Of OTUTable)
+        Return From x As OTUData(Of Double)
                In source
                Let taxon = New gast.Taxonomy(BIOMTaxonomyParser.Parse(x.taxonomy))
                Select New OTUTable With {
@@ -110,7 +110,7 @@ Public Module RelativeStatics
     ''' <param name="source">OTU统计数据</param>
     ''' <returns></returns>
     <Extension>
-    Public Iterator Function ExportByRanks(source As IEnumerable(Of OTUData)) As IEnumerable(Of NamedCollection(Of RankLevelView))
+    Public Iterator Function ExportByRanks(source As IEnumerable(Of OTUData(Of Double))) As IEnumerable(Of NamedCollection(Of RankLevelView))
         Dim samples As OTUTable() = source.CastView.ToArray
 
         ' 按照rank层次进行计算
