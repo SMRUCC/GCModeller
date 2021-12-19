@@ -37,6 +37,8 @@ Project("{778DAE3C-4631-46EA-AA77-85C1314464D9}") = "NeedlemanWunsch.NET5", "..\
 EndProject
 Project("{778DAE3C-4631-46EA-AA77-85C1314464D9}") = "BIOM.NET5", "..\..\..\models\BIOM\BIOM\BIOM.NET5.vbproj", "{ED976BBC-99C4-4263-821E-03ADD8CD8E05}"
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "test", "test\test.vbproj", "{22E45A71-104D-42BD-AE3A-2FE1B2EC7CCA}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		..\..\..\..\Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{e93b2951-b7e6-441c-94e6-5488fd53b4db}*SharedItemsImports = 5
@@ -479,6 +481,34 @@ Global
 		{ED976BBC-99C4-4263-821E-03ADD8CD8E05}.Rsharp_app_release|Any CPU.Build.0 = Rsharp_app_release|Any CPU
 		{ED976BBC-99C4-4263-821E-03ADD8CD8E05}.Rsharp_app_release|x64.ActiveCfg = Rsharp_app_release|x64
 		{ED976BBC-99C4-4263-821E-03ADD8CD8E05}.Rsharp_app_release|x64.Build.0 = Rsharp_app_release|x64
+		{22E45A71-104D-42BD-AE3A-2FE1B2EC7CCA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22E45A71-104D-42BD-AE3A-2FE1B2EC7CCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22E45A71-104D-42BD-AE3A-2FE1B2EC7CCA}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{22E45A71-104D-42BD-AE3A-2FE1B2EC7CCA}.Debug|x64.Build.0 = Debug|Any CPU
+		{22E45A71-104D-42BD-AE3A-2FE1B2EC7CCA}.LipidSearch|Any CPU.ActiveCfg = Debug|Any CPU
+		{22E45A71-104D-42BD-AE3A-2FE1B2EC7CCA}.LipidSearch|Any CPU.Build.0 = Debug|Any CPU
+		{22E45A71-104D-42BD-AE3A-2FE1B2EC7CCA}.LipidSearch|x64.ActiveCfg = Debug|Any CPU
+		{22E45A71-104D-42BD-AE3A-2FE1B2EC7CCA}.LipidSearch|x64.Build.0 = Debug|Any CPU
+		{22E45A71-104D-42BD-AE3A-2FE1B2EC7CCA}.mzkit|Any CPU.ActiveCfg = Debug|Any CPU
+		{22E45A71-104D-42BD-AE3A-2FE1B2EC7CCA}.mzkit|Any CPU.Build.0 = Debug|Any CPU
+		{22E45A71-104D-42BD-AE3A-2FE1B2EC7CCA}.mzkit|x64.ActiveCfg = Debug|Any CPU
+		{22E45A71-104D-42BD-AE3A-2FE1B2EC7CCA}.mzkit|x64.Build.0 = Debug|Any CPU
+		{22E45A71-104D-42BD-AE3A-2FE1B2EC7CCA}.NPSearch|Any CPU.ActiveCfg = Debug|Any CPU
+		{22E45A71-104D-42BD-AE3A-2FE1B2EC7CCA}.NPSearch|Any CPU.Build.0 = Debug|Any CPU
+		{22E45A71-104D-42BD-AE3A-2FE1B2EC7CCA}.NPSearch|x64.ActiveCfg = Debug|Any CPU
+		{22E45A71-104D-42BD-AE3A-2FE1B2EC7CCA}.NPSearch|x64.Build.0 = Debug|Any CPU
+		{22E45A71-104D-42BD-AE3A-2FE1B2EC7CCA}.PlantMAT|Any CPU.ActiveCfg = Debug|Any CPU
+		{22E45A71-104D-42BD-AE3A-2FE1B2EC7CCA}.PlantMAT|Any CPU.Build.0 = Debug|Any CPU
+		{22E45A71-104D-42BD-AE3A-2FE1B2EC7CCA}.PlantMAT|x64.ActiveCfg = Debug|Any CPU
+		{22E45A71-104D-42BD-AE3A-2FE1B2EC7CCA}.PlantMAT|x64.Build.0 = Debug|Any CPU
+		{22E45A71-104D-42BD-AE3A-2FE1B2EC7CCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22E45A71-104D-42BD-AE3A-2FE1B2EC7CCA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22E45A71-104D-42BD-AE3A-2FE1B2EC7CCA}.Release|x64.ActiveCfg = Release|Any CPU
+		{22E45A71-104D-42BD-AE3A-2FE1B2EC7CCA}.Release|x64.Build.0 = Release|Any CPU
+		{22E45A71-104D-42BD-AE3A-2FE1B2EC7CCA}.Rsharp_app_release|Any CPU.ActiveCfg = Release|Any CPU
+		{22E45A71-104D-42BD-AE3A-2FE1B2EC7CCA}.Rsharp_app_release|Any CPU.Build.0 = Release|Any CPU
+		{22E45A71-104D-42BD-AE3A-2FE1B2EC7CCA}.Rsharp_app_release|x64.ActiveCfg = Debug|x64
+		{22E45A71-104D-42BD-AE3A-2FE1B2EC7CCA}.Rsharp_app_release|x64.Build.0 = Debug|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

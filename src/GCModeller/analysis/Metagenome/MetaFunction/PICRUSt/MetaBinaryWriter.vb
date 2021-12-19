@@ -1,4 +1,7 @@
 ﻿Imports System.IO
+Imports System.Text
+Imports Microsoft.VisualBasic.Data.GraphTheory
+Imports Microsoft.VisualBasic.Data.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Values
 Imports Microsoft.VisualBasic.Text
@@ -9,37 +12,96 @@ Namespace PICRUSt
 
     Public Class MetaBinaryWriter : Implements IDisposable
 
+        Const Magic As String = "PICRUSt"
+
         ''' <summary>
-        ''' greengenes id -> bytes offset
+        ''' 1. greengenes id -> bytes offset
+        ''' 2. biom taxonomy string -> bytes offset
         ''' </summary>
-        Dim ggIdIndex As New Dictionary(Of String, Long)
-        ''' <summary>
-        ''' biom taxonomy string -> bytes offset
-        ''' </summary>
-        Dim taxIndex As New Dictionary(Of String, Long)
-        Dim file As Stream
-        Dim ggTax As Dictionary(Of String, Taxonomy)
+        Dim offsetIndex As ko_13_5_precalculated
+
+        ReadOnly file As BinaryDataWriter
+        ReadOnly ggTax As Dictionary(Of String, Taxonomy)
+
         Private disposedValue As Boolean
 
         Sub New(file As Stream, ggTax As Dictionary(Of String, Taxonomy))
-            Me.file = file
             Me.ggTax = ggTax
+            Me.file = New BinaryDataWriter(file) With {
+                .ByteOrder = ByteOrder.BigEndian,
+                .Encoding = Encodings.UTF8WithoutBOM.CodePage
+            }
+        End Sub
+
+        Private Sub SaveTreeIndex()
+
+        End Sub
+
+        Private Sub RunFileImports(reader As StreamReader)
+            Dim koId As String() = reader.ReadLine.Split(ASCII.TAB).Skip(1).ToArray
+            Dim line As Value(Of String) = ""
+            Dim tokens As String()
+            Dim ggId As String
+            Dim data As Double()
+            Dim taxonomy As Taxonomy
+            Dim target As ko_13_5_precalculated
+            Dim i As i32 = 1
+            Dim offset As Long
+
+            ' save ko id vector data
+            Call file.Write(koId.Length)
+
+            For Each id As String In koId
+                Call file.Write(id, BinaryStringFormat.ZeroTerminated)
+            Next
+
+            Call file.Flush()
+            ' placeholder for the tree index offset
+            Call file.Write(0L)
+
+            Do While Not (line = reader.ReadLine).StringEmpty
+                tokens = line.Split(ASCII.TAB)
+                ggId = tokens(Scan0)
+                taxonomy = ggTax(ggId)
+                data = tokens _
+                    .Skip(1) _
+                    .Select(Function(d) Double.Parse(d)) _
+                    .ToArray
+                tokens = taxonomy.Select().ToArray
+                target = offsetIndex.FindNode(tokens)
+                offset = file.Position
+
+                Call file.Write(data)
+
+                If target Is Nothing Then
+                    target = offsetIndex
+
+                    For Each name As String In tokens
+                        If Not target.hasNode(name) Then
+                            target.Add(New ko_13_5_precalculated With {.Childs = New Dictionary(Of String, Tree(Of Long)), .label = name, .ID = ++i})
+                        End If
+
+                        target = target(name)
+                    Next
+                End If
+
+                target.Data = offset
+            Loop
         End Sub
 
         Public Sub ImportsComputes(ko_13_5_precalculated As Stream)
+            Call file.Seek(Scan0, SeekOrigin.Begin)
+            Call file.Write(Magic, BinaryStringFormat.ZeroTerminated)
+
+            offsetIndex = New ko_13_5_precalculated With {
+                .label = "/",
+                .Childs = New Dictionary(Of String, Tree(Of Long)),
+                .ID = 0
+            }
+
             Using reader As New StreamReader(ko_13_5_precalculated)
-                Dim koId As String() = reader.ReadLine.Split(ASCII.TAB)
-                Dim line As Value(Of String) = ""
-                Dim tokens As String()
-                Dim ggId As String
-                Dim data As Double()
-
-                Do While Not (line = reader.ReadLine).StringEmpty
-                    tokens = line.Split(ASCII.TAB)
-                    ggId = tokens(Scan0)
-                    data = tokens.Skip(1).Select(Function(d) Double.Parse(d)).ToArray
-
-                Loop
+                Call RunFileImports(reader)
+                Call SaveTreeIndex()
             End Using
         End Sub
 
