@@ -1,4 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.Data.GraphTheory
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Metagenomics
 
 Namespace PICRUSt
@@ -18,20 +19,15 @@ Namespace PICRUSt
         ''' one of the node in the taxonomy tree
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property taxonomy As String
-            Get
-                Return label
-            End Get
-        End Property
-
+        Public Property taxonomy As TaxonomyRanks
         Public Property ggId As String
 
         Public Overrides ReadOnly Property QualifyName As String
             Get
-                If Parent Is Nothing OrElse taxonomy = "." OrElse taxonomy = "/" Then
-                    Return taxonomy
+                If Parent Is Nothing OrElse label = "." OrElse label = "/" Then
+                    Return "/"
                 Else
-                    Return Parent.QualifyName & ";" & taxonomy
+                    Return (Parent.QualifyName & ";" & $"{taxonomy.Description.ToLower}__{label}").Trim("/"c, ";"c, " "c, ASCII.TAB, "."c)
                 End If
             End Get
         End Property
