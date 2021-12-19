@@ -61,8 +61,8 @@ Imports SMRUCC.Rsharp.Runtime.Internal.Object
 ''' <summary>
 ''' tools for metagenomics and microbiome
 ''' </summary>
-<Package("metagenomics")>
-Module metagenomicsKit
+<Package("microbiome")>
+Module microbiomeKit
 
     Sub New()
 
