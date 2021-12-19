@@ -4,6 +4,12 @@ Imports SMRUCC.genomics.Metagenomics
 
 Namespace PICRUSt
 
+    ''' <summary>
+    ''' the data tree is index via two index:
+    ''' 
+    ''' 1. greengenes OTU id index
+    ''' 2. NCBI taxonomy tree index
+    ''' </summary>
     Public Class ko_13_5_precalculated : Inherits Tree(Of DataSet)
 
         Public Property taxonomy As Taxonomy
