@@ -14,8 +14,8 @@ Module Program
 
     Sub testRead()
         Using file As New MetaBinaryReader(dbfile.Open(FileMode.Open, doClear:=False, [readOnly]:=True))
-            Dim data = file.getByOTUId("142199")
-            Dim tax As Taxonomy = file.GetTaxonomy("142199")
+            Dim data = file.getByOTUId("1107197")
+            Dim tax As Taxonomy = file.GetTaxonomy("1107197")
 
             Dim data2 = file.findByTaxonomy(tax)
 

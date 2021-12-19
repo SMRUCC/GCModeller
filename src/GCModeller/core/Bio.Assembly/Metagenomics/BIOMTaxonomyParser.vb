@@ -38,7 +38,7 @@ Namespace Metagenomics
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function Parse(biomString As String) As Taxonomy
-            If biomString.StartsWith("superkingdom__") Then
+            If biomString.StartsWith("superkingdom__") OrElse biomString.StartsWith("kingdom__") Then
                 Return BIOMTaxonomy.TaxonomyParserAlt(biomString).AsTaxonomy
             ElseIf biomString.StartsWith("k__") Then
                 Return BIOMTaxonomy.TaxonomyParser(biomString).AsTaxonomy
