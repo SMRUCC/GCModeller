@@ -13,7 +13,7 @@ Namespace PICRUSt
 
     Public Class MetaBinaryWriter : Implements IDisposable
 
-        Const Magic As String = "PICRUSt"
+        Friend Const Magic As String = "PICRUSt"
 
         ''' <summary>
         ''' 1. greengenes id -> bytes offset
