@@ -51,7 +51,7 @@ Namespace PICRUSt
             Call file.Write(tree.ID)
             Call file.Write(tree.label, BinaryStringFormat.ZeroTerminated)
             Call file.Write(tree.taxonomy) ' integer
-            Call file.Write(tree.ggId)
+            Call file.Write(If(tree.ggId, "#"))
             Call file.Write(tree.Data)
             Call file.Write(tree.EnumerateChilds.Count)
 
@@ -116,6 +116,7 @@ Namespace PICRUSt
                 Next
 
                 target.Data = offset
+                target.ggId = ggId
 
                 ' debug test
                 If i > 10000 Then
