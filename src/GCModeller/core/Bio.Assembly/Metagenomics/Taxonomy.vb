@@ -72,6 +72,7 @@ Namespace Metagenomics
         ''' 1. 界
         ''' </summary>
         Public Property kingdom As String
+
         ''' <summary>
         ''' 2. 门
         ''' </summary>
@@ -198,6 +199,18 @@ Namespace Metagenomics
                 .Value = table,
                 .Description = ncbi_taxid
             }
+        End Function
+
+        Public Function ToArray() As String()
+            Dim all As String() = [Select].ToArray
+
+            For i As Integer = all.Length - 1 To 0 Step -1
+                If all(i) <> "" Then
+                    Return all.Take(i + 1).ToArray
+                End If
+            Next
+
+            Return all
         End Function
 
         ''' <summary>

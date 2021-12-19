@@ -48,6 +48,7 @@ Namespace PICRUSt
             Dim target As ko_13_5_precalculated
             Dim i As i32 = 1
             Dim offset As Long
+            Dim name As String
 
             ' save ko id vector data
             Call file.Write(koId.Length)
@@ -68,19 +69,22 @@ Namespace PICRUSt
                     .Skip(1) _
                     .Select(Function(d) Single.Parse(d)) _
                     .ToArray
-                tokens = taxonomy.Select().ToArray
+                tokens = taxonomy.ToArray
                 offset = file.Position
                 target = offsetIndex
 
                 Call file.Write(data)
 
-                For Each name As String In tokens
+                For j As Integer = 0 To tokens.Length - 1
+                    name = tokens(j)
+
                     If Not target.hasNode(name) Then
                         Call New ko_13_5_precalculated With {
                             .Childs = New Dictionary(Of String, Tree(Of Long)),
                             .label = name,
                             .ID = ++i,
-                            .Parent = target
+                            .Parent = target,
+                            .taxonomy = j + 100
                         }.DoCall(AddressOf target.Add)
                     End If
 
