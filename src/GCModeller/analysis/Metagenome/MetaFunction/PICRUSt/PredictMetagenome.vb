@@ -72,13 +72,15 @@ Namespace PICRUSt
                 }
             Next
 
+            Dim n As Integer = 1
+
             For Each name As String In allSampleNames
                 Dim v As Double() = OTUtable _
                     .Select(Function(OTU) OTU.data.TryGetValue(name)) _
                     .ToArray
                 Dim sum As Double = v.Sum
 
-                Call Console.Write($"Processing sample: {name}...")
+                Call Console.Write($"[{n}/{allSampleNames.Length}]Processing sample: {name}...")
 
                 For i As Integer = 0 To v.Length - 1
                     Dim norm As Double = v(i) / sum
@@ -92,7 +94,7 @@ Namespace PICRUSt
                     Call OTU_KO(i).data.Add(name, ko_vec)
                 Next
 
-                Call Console.WriteLine("  ~~done!")
+                Call Console.WriteLine(" ~done!")
             Next
 
             ' column is sample names
