@@ -88,8 +88,8 @@ Module metagenomicsKit
             .Select(Function(OTU, i)
                         Dim samples As New Dictionary(Of String, Double)
 
-                        For i As Integer = 0 To sampleNames.Length - 1
-                            samples.Add(sampleNames(i), CDbl(OTU.Item(i)))
+                        For idx As Integer = 0 To sampleNames.Length - 1
+                            samples.Add(sampleNames(idx), CDbl(OTU.Item(idx)))
                         Next
 
                         Return New OTUData(Of Double) With {
