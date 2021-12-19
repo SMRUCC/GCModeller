@@ -51,7 +51,7 @@ Namespace PICRUSt
             Call file.Write(tree.ID)
             Call file.Write(tree.label, BinaryStringFormat.ZeroTerminated)
             Call file.Write(tree.taxonomy) ' integer
-            Call file.Write(If(tree.ggId, "#"))
+            Call file.Write(If(tree.ggId, "#"), BinaryStringFormat.ZeroTerminated)
             Call file.Write(tree.Data)
             Call file.Write(tree.EnumerateChilds.Count)
 

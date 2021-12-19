@@ -1,5 +1,6 @@
 ﻿Imports System.IO
 Imports System.Text
+Imports Microsoft.VisualBasic.Data.GraphTheory
 Imports Microsoft.VisualBasic.Data.IO
 
 Namespace PICRUSt
@@ -37,9 +38,23 @@ Namespace PICRUSt
             Call loadIndex()
         End Sub
 
-        Private Sub loadIndex()
+        Private Function loadIndex() As ko_13_5_precalculated
+            Dim node As New ko_13_5_precalculated With {
+                .Childs = New Dictionary(Of String, Tree(Of Long)),
+                .ID = buffer.ReadInt32,
+                .label = buffer.ReadString(BinaryStringFormat.ZeroTerminated),
+                .taxonomy = buffer.ReadInt32,
+                .ggId = buffer.ReadString(BinaryStringFormat.ZeroTerminated),
+                .Data = buffer.ReadInt64
+            }
+            Dim size As Integer = buffer.ReadInt32
 
-        End Sub
+            For i As Integer = 1 To size
+                Call node.Add(loadIndex())
+            Next
+
+            Return node
+        End Function
 
         Protected Overridable Sub Dispose(disposing As Boolean)
             If Not disposedValue Then
