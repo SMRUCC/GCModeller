@@ -65,8 +65,32 @@ Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Module microbiomeKit
 
     Sub New()
-
+        Call Internal.Object.Converts.makeDataframe.addHandler(GetType(OTUData(Of Double)()), AddressOf castTable)
     End Sub
+
+    Private Function castTable(data As OTUData(Of Double)(), args As list, env As Environment) As dataframe
+        Dim id As String() = data.Select(Function(otu) otu.OTU).ToArray
+        Dim taxonomy As String() = data.Select(Function(otu) otu.taxonomy).ToArray
+        Dim allNames As String() = data _
+            .Select(Function(otu) otu.data.Keys) _
+            .IteratesALL _
+            .Distinct _
+            .ToArray
+        Dim table As New dataframe With {
+            .rownames = id,
+            .columns = New Dictionary(Of String, Array) From {
+                {"taxonomy", taxonomy}
+            }
+        }
+
+        For Each name As String In allNames
+            table.columns(name) = data _
+                .Select(Function(otu) otu.data(name)) _
+                .ToArray
+        Next
+
+        Return table
+    End Function
 
     <ExportAPI("read.PICRUSt_matrix")>
     Public Function readPICRUStMatrix(file As Stream) As MetaBinaryReader
