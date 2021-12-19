@@ -2,6 +2,7 @@
 Imports System.Text
 Imports Microsoft.VisualBasic.Data.GraphTheory
 Imports Microsoft.VisualBasic.Data.IO
+Imports SMRUCC.genomics.Metagenomics
 
 Namespace PICRUSt
 
@@ -37,6 +38,74 @@ Namespace PICRUSt
             Call buffer.Seek(buffer.ReadInt64, SeekOrigin.Begin)
             Call loadIndex(root:=tree)
         End Sub
+
+        Public Function findRawByTaxonomy(taxonomy As Taxonomy) As Single()
+            Dim nodes As String() = taxonomy.ToArray
+            Dim target As ko_13_5_precalculated = tree.FindNode(nodes)
+
+            If target Is Nothing Then
+                Return Nothing
+            End If
+
+            Dim offset As Long = target.Data
+
+            If offset = 0 Then
+                Return Nothing
+            Else
+                Dim v As Single()
+
+                buffer.Seek(offset, SeekOrigin.Begin)
+                v = buffer.ReadSingles(ko.Length)
+
+                Return v
+            End If
+        End Function
+
+        Public Function findByTaxonomy(taxonomy As Taxonomy) As Dictionary(Of String, Double)
+            Dim v As Single() = findRawByTaxonomy(taxonomy)
+
+            If v Is Nothing Then
+                Return Nothing
+            End If
+
+            Dim data As New Dictionary(Of String, Double)
+
+            For i As Integer = 0 To v.Length - 1
+                Call data.Add(ko(i), v(i))
+            Next
+
+            Return data
+        End Function
+
+        Public Function getRawByOTUId(id As String) As Single()
+            If Not index.ContainsKey(id) Then
+                Return Nothing
+            Else
+                Dim offset As Long = index(id)
+                Dim v As Single()
+
+                buffer.Seek(offset, SeekOrigin.Begin)
+                v = buffer.ReadSingles(ko.Length)
+
+                Return v
+            End If
+        End Function
+
+        Public Function getByOTUId(id As String) As Dictionary(Of String, Double)
+            Dim v As Single() = getRawByOTUId(id)
+
+            If v Is Nothing Then
+                Return Nothing
+            End If
+
+            Dim data As New Dictionary(Of String, Double)
+
+            For i As Integer = 0 To v.Length - 1
+                Call data.Add(ko(i), v(i))
+            Next
+
+            Return data
+        End Function
 
         Private Sub loadIndex(ByRef root As ko_13_5_precalculated)
             root = loadIndexTree()
