@@ -157,9 +157,11 @@ Namespace PICRUSt
             Next
 
             Dim size As Integer = buffer.ReadInt32
+            Dim child As ko_13_5_precalculated
 
             For i As Integer = 1 To size
-                Call node.Add(loadIndexTree())
+                child = loadIndexTree()
+                node.Add(child)
             Next
 
             Return node
