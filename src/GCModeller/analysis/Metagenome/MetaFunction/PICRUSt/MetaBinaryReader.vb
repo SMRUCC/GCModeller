@@ -64,17 +64,29 @@ Namespace PICRUSt
                 Return Nothing
             End If
 
-            Dim offset As Long = target.Data
+            Dim offset As Dictionary(Of String, Long) = target.Data
+            Dim v As Single() = readByOffsets(offset)
 
-            If offset = 0 Then
+            Return v
+        End Function
+
+        Private Function readByOffsets(offsets As Dictionary(Of String, Long))
+            If offsets.IsNullOrEmpty Then
                 Return Nothing
             Else
+                Dim output As Single() = New Single(ko.Length - 1) {}
                 Dim v As Single()
 
-                buffer.Seek(offset, SeekOrigin.Begin)
-                v = buffer.ReadSingles(ko.Length)
+                For Each offset As Long In (From l As Long In offsets.Values Where l > 0)
+                    buffer.Seek(offset, SeekOrigin.Begin)
+                    v = buffer.ReadSingles(ko.Length)
 
-                Return v
+                    For i As Integer = 0 To v.Length - 1
+                        output(i) += v(i)
+                    Next
+                Next
+
+                Return output
             End If
         End Function
 
@@ -98,15 +110,8 @@ Namespace PICRUSt
             If Not index.ContainsKey(id) Then
                 Return Nothing
             Else
-                Dim offset As Long = index(id).Data
-                Dim v As Single()
-
-                If offset = 0 Then
-                    Return Nothing
-                End If
-
-                buffer.Seek(offset, SeekOrigin.Begin)
-                v = buffer.ReadSingles(ko.Length)
+                Dim offset As Dictionary(Of String, Long) = index(id).Data
+                Dim v As Single() = readByOffsets(offset)
 
                 Return v
             End If
@@ -134,25 +139,24 @@ Namespace PICRUSt
 
         Private Function loadIndexTree() As ko_13_5_precalculated
             Dim node As New ko_13_5_precalculated With {
-                .Childs = New Dictionary(Of String, Tree(Of Long)),
+                .Childs = New Dictionary(Of String, Tree(Of Dictionary(Of String, Long))),
                 .ID = buffer.ReadInt32,
                 .label = buffer.ReadString(BinaryStringFormat.ZeroTerminated),
-                .taxonomy = buffer.ReadInt32,
-                .Data = buffer.ReadInt64
+                .taxonomyRank = buffer.ReadInt32,
+                .Data = New Dictionary(Of String, Long)
             }
-            Dim size As Integer = buffer.ReadInt32
+            Dim offsetCount As Integer = buffer.ReadInt32
+            Dim offsets = node.Data
             Dim ggId As String
 
-            For i As Integer = 1 To size
+            For i As Integer = 1 To offsetCount
                 ggId = buffer.ReadString(BinaryStringFormat.ZeroTerminated)
-                node.ggId.Add(ggId)
+                offsets(ggId) = buffer.ReadInt64
 
-                If ggId <> "#" Then
-                    Call index.Add(ggId, node)
-                End If
+                Call index.Add(ggId, node)
             Next
 
-            size = buffer.ReadInt32
+            Dim size As Integer = buffer.ReadInt32
 
             For i As Integer = 1 To size
                 Call node.Add(loadIndexTree())

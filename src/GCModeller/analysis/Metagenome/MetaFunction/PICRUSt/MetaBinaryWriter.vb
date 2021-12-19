@@ -50,13 +50,12 @@ Namespace PICRUSt
         Private Sub SaveTree(tree As ko_13_5_precalculated)
             Call file.Write(tree.ID)
             Call file.Write(tree.label, BinaryStringFormat.ZeroTerminated)
-            Call file.Write(tree.taxonomy) ' integer
-            Call file.Write(tree.Data)
-
-            Call file.Write(tree.ggId.Count)
+            Call file.Write(tree.taxonomyRank) ' integer
+            Call file.Write(tree.size)
 
             For Each id As String In tree.ggId
                 Call file.Write(id, BinaryStringFormat.ZeroTerminated)
+                Call file.Write(tree.Data(id))
             Next
 
             Call file.Write(tree.EnumerateChilds.Count)
@@ -110,19 +109,19 @@ Namespace PICRUSt
 
                     If Not target.hasNode(name) Then
                         Call New ko_13_5_precalculated With {
-                            .Childs = New Dictionary(Of String, Tree(Of Long)),
+                            .Childs = New Dictionary(Of String, Tree(Of Dictionary(Of String, Long))),
                             .label = name,
                             .ID = ++i,
                             .Parent = target,
-                            .taxonomy = j + 100
+                            .taxonomyRank = j + 100,
+                            .Data = New Dictionary(Of String, Long)
                         }.DoCall(AddressOf target.Add)
                     End If
 
                     target = target(name)
                 Next
 
-                target.Data = offset
-                target.ggId.Add(ggId)
+                target.Add(ggId, offset)
 
                 ' debug test
                 If i > 10000 Then
@@ -139,9 +138,9 @@ Namespace PICRUSt
 
             offsetIndex = New ko_13_5_precalculated With {
                 .label = "/",
-                .Childs = New Dictionary(Of String, Tree(Of Long)),
+                .Childs = New Dictionary(Of String, Tree(Of Dictionary(Of String, Long))),
                 .ID = 0,
-                .ggId = New List(Of String)
+                .Data = New Dictionary(Of String, Long)
             }
 
             Using reader As New StreamReader(ko_13_5_precalculated)
