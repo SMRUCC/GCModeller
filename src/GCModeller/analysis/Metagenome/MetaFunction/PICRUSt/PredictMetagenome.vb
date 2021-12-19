@@ -78,6 +78,8 @@ Namespace PICRUSt
                     .ToArray
                 Dim sum As Double = v.Sum
 
+                Call Console.Write($"Processing sample: {name}...")
+
                 For i As Integer = 0 To v.Length - 1
                     Dim norm As Double = v(i) / sum
                     Dim PICRUSt = OTUdata(i)
@@ -89,6 +91,8 @@ Namespace PICRUSt
 
                     Call OTU_KO(i).data.Add(name, ko_vec)
                 Next
+
+                Call Console.WriteLine("  ~~done!")
             Next
 
             ' column is sample names
