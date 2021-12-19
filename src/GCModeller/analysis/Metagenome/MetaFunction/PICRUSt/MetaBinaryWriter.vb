@@ -118,7 +118,7 @@ Namespace PICRUSt
                 target.Data = offset
 
                 ' debug test
-                If i > 1000 Then
+                If i > 10000 Then
                     Exit Do
                 End If
             Loop
@@ -133,7 +133,8 @@ Namespace PICRUSt
             offsetIndex = New ko_13_5_precalculated With {
                 .label = "/",
                 .Childs = New Dictionary(Of String, Tree(Of Long)),
-                .ID = 0
+                .ID = 0,
+                .ggId = "#"
             }
 
             Using reader As New StreamReader(ko_13_5_precalculated)
