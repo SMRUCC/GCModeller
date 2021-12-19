@@ -9,7 +9,7 @@ Namespace PICRUSt
     Public Class MetaBinaryReader : Implements IDisposable
 
         ReadOnly buffer As BinaryDataReader
-        ReadOnly index As New Dictionary(Of String, Long)
+        ReadOnly index As New Dictionary(Of String, ko_13_5_precalculated)
         ReadOnly tree As ko_13_5_precalculated
 
         Dim ko As String()
@@ -38,6 +38,23 @@ Namespace PICRUSt
             Call buffer.Seek(buffer.ReadInt64, SeekOrigin.Begin)
             Call loadIndex(root:=tree)
         End Sub
+
+        ''' <summary>
+        ''' get taxonomy information via greengenes OTU id
+        ''' </summary>
+        ''' <param name="OTU_id"></param>
+        ''' <returns></returns>
+        Public Function GetTaxonomy(OTU_id As String) As Taxonomy
+            If Not index.ContainsKey(OTU_id) Then
+                Return Nothing
+            Else
+                Dim node As ko_13_5_precalculated = index(OTU_id)
+                Dim lineage As String = node.QualifyName
+                Dim tax As Taxonomy = BIOMTaxonomyParser.Parse(lineage)
+
+                Return tax
+            End If
+        End Function
 
         Public Function findRawByTaxonomy(taxonomy As Taxonomy) As Single()
             Dim nodes As String() = taxonomy.ToArray
@@ -81,8 +98,12 @@ Namespace PICRUSt
             If Not index.ContainsKey(id) Then
                 Return Nothing
             Else
-                Dim offset As Long = index(id)
+                Dim offset As Long = index(id).Data
                 Dim v As Single()
+
+                If offset = 0 Then
+                    Return Nothing
+                End If
 
                 buffer.Seek(offset, SeekOrigin.Begin)
                 v = buffer.ReadSingles(ko.Length)
@@ -123,7 +144,7 @@ Namespace PICRUSt
             Dim size As Integer = buffer.ReadInt32
 
             If node.ggId <> "#" Then
-                Call index.Add(node.ggId, node.Data)
+                Call index.Add(node.ggId, node)
             End If
 
             For i As Integer = 1 To size

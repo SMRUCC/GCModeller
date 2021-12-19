@@ -1,6 +1,7 @@
 Imports System.IO
 Imports SMRUCC.genomics.Analysis.Metagenome.greengenes
 Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction.PICRUSt
+Imports SMRUCC.genomics.Metagenomics
 
 Module Program
 
@@ -13,7 +14,12 @@ Module Program
 
     Sub testRead()
         Using file As New MetaBinaryReader(dbfile.Open(FileMode.Open, doClear:=False, [readOnly]:=True))
+            Dim data = file.getByOTUId("142199")
+            Dim tax As Taxonomy = file.GetTaxonomy("142199")
 
+            Dim data2 = file.findByTaxonomy(tax)
+
+            Call Console.WriteLine(data2.Keys.All(Function(id) data2(id) = data(id)))
         End Using
     End Sub
 
