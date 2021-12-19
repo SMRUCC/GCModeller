@@ -15,6 +15,16 @@ Namespace PICRUSt
         Dim ko As String()
         Dim disposedValue As Boolean
 
+        ''' <summary>
+        ''' contains the number of KO id terms
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property featureSize As Integer
+            Get
+                Return ko.Length
+            End Get
+        End Property
+
         Sub New(file As Stream)
             buffer = New BinaryDataReader(file) With {
                 .ByteOrder = ByteOrder.BigEndian,
@@ -38,6 +48,10 @@ Namespace PICRUSt
             Call buffer.Seek(buffer.ReadInt64, SeekOrigin.Begin)
             Call loadIndex(root:=tree)
         End Sub
+
+        Public Function GetAllFeatureIds() As String()
+            Return ko.ToArray
+        End Function
 
         ''' <summary>
         ''' get taxonomy information via greengenes OTU id
