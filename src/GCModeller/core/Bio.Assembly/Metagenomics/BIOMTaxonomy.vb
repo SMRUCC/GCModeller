@@ -259,6 +259,8 @@ Namespace Metagenomics
 
                 If _BIOMPrefixAlt.IndexOf(rankName) > -1 OrElse _BIOMPrefixAlt.IndexOf(rankName & "__") > -1 Then
                     Call ranks.Add(rank.Name, rank.Value)
+                ElseIf rankName = "kingdom__" OrElse rankName = "kingdom" Then
+                    Call ranks.Add("superkingdom", rank.Value)
                 End If
             Next
 
