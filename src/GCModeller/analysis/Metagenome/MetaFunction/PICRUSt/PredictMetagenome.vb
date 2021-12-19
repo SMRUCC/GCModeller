@@ -79,19 +79,42 @@ Namespace PICRUSt
                 Dim sum As Double = v.Sum
 
                 For i As Integer = 0 To v.Length - 1
-                    Dim norm = v(i) / sum
-                    Dim idx As Integer = i
+                    Dim norm As Double = v(i) / sum
+                    Dim PICRUSt = OTUdata(i)
                     Dim ko_vec As Dictionary(Of String, Double) = KOIds _
                         .ToDictionary(Function(id) id,
                                       Function(id)
-                                          Return norm * OTUdata(idx)(id)
+                                          Return norm * PICRUSt(id)
                                       End Function)
 
                     Call OTU_KO(i).data.Add(name, ko_vec)
                 Next
             Next
 
+            ' column is sample names
+            ' row is the KO terms
+            For i As Integer = 0 To KOResult.Length - 1
+                KOResult(i) = New OTUData(Of Double) With {
+                    .OTU = KOIds(i),
+                    .taxonomy = KOIds(i),
+                    .data = allSampleNames _
+                        .ToDictionary(Function(sample)
+                                          Return sample
+                                      End Function,
+                                      Function(sample)
+                                          Dim sum As Double = 0
+                                          Dim id As String = KOIds(i)
 
+                                          For Each OTU In OTU_KO
+                                              sum += OTU.data(sample)(id)
+                                          Next
+
+                                          Return sum
+                                      End Function)
+                }
+            Next
+
+            Return KOResult
         End Function
     End Module
 End Namespace
