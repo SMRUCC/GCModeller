@@ -7,7 +7,7 @@ Module Program
     Dim dbfile As String = "P:\ko_13_5_precalculated.PICRUSt"
 
     Sub Main(args As String())
-        ' Call testWrite()
+        '  Call testWrite()
         Call testRead()
     End Sub
 

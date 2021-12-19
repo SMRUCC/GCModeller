@@ -8,7 +8,7 @@ Namespace PICRUSt
     Public Class MetaBinaryReader : Implements IDisposable
 
         ReadOnly buffer As BinaryDataReader
-        ReadOnly index As Dictionary(Of String, Long)
+        ReadOnly index As New Dictionary(Of String, Long)
         ReadOnly tree As ko_13_5_precalculated
 
         Dim ko As String()
@@ -35,10 +35,14 @@ Namespace PICRUSt
             End If
 
             Call buffer.Seek(buffer.ReadInt64, SeekOrigin.Begin)
-            Call loadIndex()
+            Call loadIndex(root:=tree)
         End Sub
 
-        Private Function loadIndex() As ko_13_5_precalculated
+        Private Sub loadIndex(ByRef root As ko_13_5_precalculated)
+            root = loadIndexTree()
+        End Sub
+
+        Private Function loadIndexTree() As ko_13_5_precalculated
             Dim node As New ko_13_5_precalculated With {
                 .Childs = New Dictionary(Of String, Tree(Of Long)),
                 .ID = buffer.ReadInt32,
@@ -49,8 +53,12 @@ Namespace PICRUSt
             }
             Dim size As Integer = buffer.ReadInt32
 
+            If node.ggId <> "#" Then
+                Call index.Add(node.ggId, node.Data)
+            End If
+
             For i As Integer = 1 To size
-                Call node.Add(loadIndex())
+                Call node.Add(loadIndexTree())
             Next
 
             Return node
