@@ -15,6 +15,11 @@ using PICRUSt as file("ko_13_5_precalculated.PICRUSt") {
 	|> as.data.frame()
 	;
 	
+	print("create matrix success!");
+	print("saving...");
+	
 	# run enrichment analysis
 	write.csv(metagenome, file = "./metagenome.csv", row.names = TRUE);
+	
+	print("done!");
 }

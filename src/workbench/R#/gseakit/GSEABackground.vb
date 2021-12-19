@@ -194,6 +194,12 @@ Public Module GSEABackground
         Return background
     End Function
 
+    <ExportAPI("KO_reference")>
+    Public Function CreateKOReference() As Background
+        Dim ko0001 = htext.ko00001
+
+    End Function
+
     ''' <summary>
     ''' create kegg background model
     ''' </summary>
