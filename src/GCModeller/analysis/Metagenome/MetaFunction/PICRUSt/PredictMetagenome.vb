@@ -1,4 +1,5 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Metagenomics
 
@@ -72,7 +73,7 @@ Namespace PICRUSt
                 }
             Next
 
-            Dim n As Integer = 1
+            Dim n As i32 = 1
 
             For Each name As String In allSampleNames
                 Dim v As Double() = OTUtable _
@@ -80,7 +81,7 @@ Namespace PICRUSt
                     .ToArray
                 Dim sum As Double = v.Sum
 
-                Call Console.Write($"[{n}/{allSampleNames.Length}]Processing sample: {name}...")
+                Call Console.Write($"[{++n}/{allSampleNames.Length}]Processing sample: {name}...")
 
                 For i As Integer = 0 To v.Length - 1
                     Dim norm As Double = v(i) / sum
