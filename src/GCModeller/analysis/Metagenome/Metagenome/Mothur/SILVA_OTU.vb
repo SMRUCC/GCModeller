@@ -51,7 +51,7 @@ Public Module SILVA_OTU
     ''' <summary>
     ''' 
     ''' </summary>
-    ''' <param name="fasta">通过mothur的<see cref="Mothur.GetOTUrep(String, String, String, Double)"/>
+    ''' <param name="fasta">通过mothur的GetOTUrep
     ''' 命令获取得到的OTU代表序列的fasta文件数据</param>
     ''' <returns></returns>
     <Extension>
