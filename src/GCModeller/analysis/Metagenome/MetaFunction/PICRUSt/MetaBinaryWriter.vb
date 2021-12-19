@@ -34,8 +34,30 @@ Namespace PICRUSt
             }
         End Sub
 
-        Private Sub SaveTreeIndex()
+        Dim treeOffset As Long
 
+        Private Sub SaveTreeIndex()
+            Dim start As Long = file.Position
+
+            Using tempSeek = file.TemporarySeek(treeOffset, SeekOrigin.Begin)
+                Call file.Write(start)
+                Call file.Flush()
+            End Using
+
+            Call SaveTree(offsetIndex)
+        End Sub
+
+        Private Sub SaveTree(tree As ko_13_5_precalculated)
+            Call file.Write(tree.ID)
+            Call file.Write(tree.label, BinaryStringFormat.ZeroTerminated)
+            Call file.Write(tree.taxonomy) ' integer
+            Call file.Write(tree.ggId)
+            Call file.Write(tree.Data)
+            Call file.Write(tree.EnumerateChilds.Count)
+
+            For Each node As ko_13_5_precalculated In tree.Childs.Values
+                Call SaveTree(node)
+            Next
         End Sub
 
         Private Sub RunFileImports(reader As StreamReader)
@@ -60,6 +82,8 @@ Namespace PICRUSt
             Call file.Flush()
             ' placeholder for the tree index offset
             Call file.Write(0L)
+
+            treeOffset = file.Position - 8
 
             Do While Not (line = reader.ReadLine).StringEmpty
                 tokens = line.Split(ASCII.TAB)
@@ -92,7 +116,14 @@ Namespace PICRUSt
                 Next
 
                 target.Data = offset
+
+                ' debug test
+                If i > 1000 Then
+                    Exit Do
+                End If
             Loop
+
+            Call file.Flush()
         End Sub
 
         Public Sub ImportsComputes(ko_13_5_precalculated As Stream)
