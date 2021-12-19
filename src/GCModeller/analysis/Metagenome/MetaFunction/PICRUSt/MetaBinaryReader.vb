@@ -138,14 +138,21 @@ Namespace PICRUSt
                 .ID = buffer.ReadInt32,
                 .label = buffer.ReadString(BinaryStringFormat.ZeroTerminated),
                 .taxonomy = buffer.ReadInt32,
-                .ggId = buffer.ReadString(BinaryStringFormat.ZeroTerminated),
                 .Data = buffer.ReadInt64
             }
             Dim size As Integer = buffer.ReadInt32
+            Dim ggId As String
 
-            If node.ggId <> "#" Then
-                Call index.Add(node.ggId, node)
-            End If
+            For i As Integer = 1 To size
+                ggId = buffer.ReadString(BinaryStringFormat.ZeroTerminated)
+                node.ggId.Add(ggId)
+
+                If ggId <> "#" Then
+                    Call index.Add(ggId, node)
+                End If
+            Next
+
+            size = buffer.ReadInt32
 
             For i As Integer = 1 To size
                 Call node.Add(loadIndexTree())

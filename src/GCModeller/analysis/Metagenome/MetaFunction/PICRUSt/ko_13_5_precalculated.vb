@@ -20,7 +20,12 @@ Namespace PICRUSt
         ''' </summary>
         ''' <returns></returns>
         Public Property taxonomy As TaxonomyRanks
-        Public Property ggId As String
+
+        ''' <summary>
+        ''' 相同的taxonomy可能会映射到多个greengenes编号？
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property ggId As New List(Of String)
 
         Public Overrides ReadOnly Property QualifyName As String
             Get

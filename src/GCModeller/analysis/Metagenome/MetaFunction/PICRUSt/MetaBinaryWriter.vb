@@ -51,8 +51,14 @@ Namespace PICRUSt
             Call file.Write(tree.ID)
             Call file.Write(tree.label, BinaryStringFormat.ZeroTerminated)
             Call file.Write(tree.taxonomy) ' integer
-            Call file.Write(If(tree.ggId, "#"), BinaryStringFormat.ZeroTerminated)
             Call file.Write(tree.Data)
+
+            Call file.Write(tree.ggId.Count)
+
+            For Each id As String In tree.ggId
+                Call file.Write(id, BinaryStringFormat.ZeroTerminated)
+            Next
+
             Call file.Write(tree.EnumerateChilds.Count)
 
             For Each node As ko_13_5_precalculated In tree.Childs.Values
@@ -116,7 +122,7 @@ Namespace PICRUSt
                 Next
 
                 target.Data = offset
-                target.ggId = ggId
+                target.ggId.Add(ggId)
 
                 ' debug test
                 If i > 10000 Then
@@ -135,7 +141,7 @@ Namespace PICRUSt
                 .label = "/",
                 .Childs = New Dictionary(Of String, Tree(Of Long)),
                 .ID = 0,
-                .ggId = "#"
+                .ggId = New List(Of String)
             }
 
             Using reader As New StreamReader(ko_13_5_precalculated)
