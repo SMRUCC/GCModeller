@@ -154,7 +154,7 @@ Namespace PICRUSt
                     dt = App.ElapsedMilliseconds - prog
                     prog = App.ElapsedMilliseconds
 
-                    Console.WriteLine($"[{(pos / size * 100).ToString("F0")}%] {StringFormats.Lanudry(pos)}/{StringFormats.Lanudry(size)} ~ {StringFormats.Lanudry(dsize / (dt / 1000))}MB/s")
+                    Console.WriteLine($"[{(pos / size * 100).ToString("F0")}%] {StringFormats.Lanudry(pos)}/{StringFormats.Lanudry(size)} ~ {StringFormats.Lanudry(dsize / (dt / 1000))}/s")
                 End If
             Loop
 
