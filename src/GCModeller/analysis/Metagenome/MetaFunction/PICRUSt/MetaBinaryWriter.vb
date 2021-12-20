@@ -76,6 +76,10 @@ Namespace PICRUSt
             Dim i As i32 = 1
             Dim offset As Long
             Dim name As String
+            Dim prog As i32 = 0
+            Dim size As Long = reader.BaseStream.Length
+            Dim reportDelta As Integer = size / 20
+            Dim pos As Long
 
             ' save ko id vector data
             Call file.Write(koId.Length)
@@ -124,11 +128,15 @@ Namespace PICRUSt
                 target.Add(ggId, offset)
 
                 ' debug test
-                If i > 20000 Then
-                    Exit Do
+                If ++prog = reportDelta Then
+                    prog = Scan0
+                    pos = reader.BaseStream.Position
+
+                    Console.WriteLine($"[{(pos / size * 100).ToString("F0")}%] {StringFormats.Lanudry(pos)}/{StringFormats.Lanudry(size)}")
                 End If
             Loop
 
+            Call Console.WriteLine("~done!")
             Call file.Flush()
         End Sub
 

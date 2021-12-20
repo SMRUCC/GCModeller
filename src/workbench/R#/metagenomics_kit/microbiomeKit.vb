@@ -50,6 +50,7 @@ Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics
 Imports SMRUCC.genomics.Analysis.Metagenome
 Imports SMRUCC.genomics.Analysis.Metagenome.gast
+Imports SMRUCC.genomics.Analysis.Metagenome.greengenes
 Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction.PICRUSt
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
@@ -90,6 +91,20 @@ Module microbiomeKit
         Next
 
         Return table
+    End Function
+
+    <ExportAPI("parse.otu_taxonomy")>
+    Public Function parsegreenGenesTaxonomy(file As Stream) As otu_taxonomy()
+        Return otu_taxonomy.Load(file).ToArray
+    End Function
+
+    <ExportAPI("save.PICRUSt_matrix")>
+    Public Function indexMatrix(ggtax As otu_taxonomy(), ko_13_5_precalculated As Stream, save As Stream) As Boolean
+        Using file As MetaBinaryWriter = MetaBinaryWriter.CreateWriter(ggtax, save)
+            Call file.ImportsComputes(ko_13_5_precalculated)
+
+            Return True
+        End Using
     End Function
 
     <ExportAPI("read.PICRUSt_matrix")>
