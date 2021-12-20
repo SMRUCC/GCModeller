@@ -368,6 +368,9 @@ Namespace Metagenomics
             Return Me.Select(rank).ToArray.TaxonomyString
         End Function
 
+        Const speciesIndex As Integer = TaxonomyRanks.Species - 100
+        Const genusIndex As Integer = TaxonomyRanks.Genus - 100
+
         ''' <summary>
         ''' 如果<paramref name="BIOMstyle"/>参数为真,则返回符合BIOM文件要求的Taxonomy字符串格式
         ''' </summary>
@@ -381,9 +384,9 @@ Namespace Metagenomics
                 Dim list As String() = Me.Select(TaxonomyRanks.Species).ToArray
 
                 If trimGenus Then
-                    If list(TaxonomyRanks.Species - 100).StartsWith(list(TaxonomyRanks.Genus - 1) & " ") Then
-                        list(TaxonomyRanks.Species - 100) = list(TaxonomyRanks.Species - 100) _
-                            .Replace(list(TaxonomyRanks.Genus - 1) & " ", "") _
+                    If list(speciesIndex).StartsWith(list(genusIndex) & " ") Then
+                        list(speciesIndex) = list(speciesIndex) _
+                            .Replace(list(genusIndex) & " ", "") _
                             .Trim
                     End If
                 End If
