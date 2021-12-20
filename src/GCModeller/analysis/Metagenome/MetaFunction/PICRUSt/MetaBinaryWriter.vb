@@ -78,7 +78,7 @@ Namespace PICRUSt
             Dim name As String
             Dim prog As i32 = 0
             Dim size As Long = reader.BaseStream.Length
-            Dim reportDelta As Integer = size / 20
+            Dim reportDelta As Integer = size / 25
             Dim pos As Long
 
             ' save ko id vector data
@@ -136,8 +136,8 @@ Namespace PICRUSt
                 End If
             Loop
 
-            Call Console.WriteLine("~done!")
             Call file.Flush()
+            Call Console.WriteLine("~done!")
         End Sub
 
         Public Sub ImportsComputes(ko_13_5_precalculated As Stream)
