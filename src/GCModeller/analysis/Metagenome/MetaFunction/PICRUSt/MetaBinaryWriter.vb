@@ -106,6 +106,12 @@ Namespace PICRUSt
                     .Skip(1) _
                     .Select(Function(d) Single.Parse(d)) _
                     .ToArray
+
+                If data.Length <> koId.Length Then
+                    Call Console.WriteLine($"found invalid line: {line.Value.Substring(0, 32)}...")
+                    Continue Do
+                End If
+
                 tokens = taxonomy.ToArray
                 offset = file.Position
                 target = offsetIndex
