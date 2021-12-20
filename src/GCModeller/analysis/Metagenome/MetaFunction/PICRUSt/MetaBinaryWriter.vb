@@ -76,7 +76,7 @@ Namespace PICRUSt
             Dim i As i32 = 1
             Dim offset As Long
             Dim name As String
-            Dim prog As i32 = 0
+            Dim prog As Long = 0
             Dim size As Long = reader.BaseStream.Length
             Dim reportDelta As Integer = size / 25
             Dim pos As Long
@@ -94,7 +94,11 @@ Namespace PICRUSt
 
             treeOffset = file.Position - 8
 
-            Do While Not (line = reader.ReadLine).StringEmpty
+            Do While Not (line = reader.ReadLine) Is Nothing
+                If line.Value.StringEmpty Then
+                    Continue Do
+                End If
+
                 tokens = line.Split(ASCII.TAB)
                 ggId = tokens(Scan0)
                 taxonomy = ggTax(ggId)
@@ -128,9 +132,9 @@ Namespace PICRUSt
                 target.Add(ggId, offset)
 
                 ' debug test
-                If ++prog = reportDelta Then
-                    prog = Scan0
+                If (reader.BaseStream.Position - prog) > reportDelta Then
                     pos = reader.BaseStream.Position
+                    prog = pos
 
                     Console.WriteLine($"[{(pos / size * 100).ToString("F0")}%] {StringFormats.Lanudry(pos)}/{StringFormats.Lanudry(size)}")
                 End If
