@@ -81,6 +81,8 @@ Namespace PICRUSt
             Dim reportDelta As Integer = size / 25
             Dim pos As Long
 
+            Call Console.WriteLine($"start to process matrix with {koId.Length} KO features and data size {StringFormats.Lanudry(size)}")
+
             ' save ko id vector data
             Call file.Write(koId.Length)
 
