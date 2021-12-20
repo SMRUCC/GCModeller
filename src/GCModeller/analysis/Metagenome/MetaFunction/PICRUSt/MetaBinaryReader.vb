@@ -2,6 +2,7 @@
 Imports System.Text
 Imports Microsoft.VisualBasic.Data.GraphTheory
 Imports Microsoft.VisualBasic.Data.IO
+Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Metagenomics
 
 Namespace PICRUSt
@@ -78,20 +79,32 @@ Namespace PICRUSt
                 Return Nothing
             End If
 
-            Dim offset As Dictionary(Of String, Long) = target.Data
-            Dim v As Single() = readByOffsets(offset)
+            Dim offsets As Long() = getAllLineageOffsets(target).ToArray
+            Dim v As Single() = readByOffsets(offsets)
 
             Return v
         End Function
 
-        Private Function readByOffsets(offsets As Dictionary(Of String, Long))
+        Private Iterator Function getAllLineageOffsets(target As ko_13_5_precalculated) As IEnumerable(Of Long)
+            For Each tax In target.Data
+                Yield tax.Value
+            Next
+
+            For Each child In target.Childs.SafeQuery.Select(Function(a) DirectCast(a.Value, ko_13_5_precalculated))
+                For Each offset As Long In getAllLineageOffsets(child)
+                    Yield offset
+                Next
+            Next
+        End Function
+
+        Private Function readByOffsets(offsets As Long())
             If offsets.IsNullOrEmpty Then
                 Return Nothing
             Else
                 Dim output As Single() = New Single(ko.Length - 1) {}
                 Dim v As Single()
 
-                For Each offset As Long In (From l As Long In offsets.Values Where l > 0)
+                For Each offset As Long In (From l As Long In offsets Where l > 0)
                     buffer.Seek(offset, SeekOrigin.Begin)
                     v = buffer.ReadSingles(ko.Length)
 
@@ -124,7 +137,7 @@ Namespace PICRUSt
             If Not index.ContainsKey(id) Then
                 Return Nothing
             Else
-                Dim offset As Dictionary(Of String, Long) = index(id).Data
+                Dim offset As Long() = getAllLineageOffsets(index(id)).ToArray
                 Dim v As Single() = readByOffsets(offset)
 
                 Return v

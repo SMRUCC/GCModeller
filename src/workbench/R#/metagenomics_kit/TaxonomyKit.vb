@@ -137,18 +137,27 @@ Module TaxonomyKit
     ''' cast taxonomy object to biom style taxonomy string
     ''' </summary>
     ''' <param name="taxonomy"></param>
+    ''' <param name="trim_genusName">
+    ''' removes the genus name from the species name?
+    ''' </param>
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("biom.string")>
     <RApiReturn(GetType(String))>
-    Public Function TaxonomyBIOMString(<RRawVectorArgument> taxonomy As Object, Optional env As Environment = Nothing) As Object
+    Public Function TaxonomyBIOMString(<RRawVectorArgument>
+                                       taxonomy As Object,
+                                       Optional trim_genusName As Boolean = False,
+                                       Optional env As Environment = Nothing) As Object
+
         Dim list = pipeline.TryCreatePipeline(Of Taxonomy)(taxonomy, env)
 
         If list.isError Then
             Return list.getError
         Else
             Return list.populates(Of Taxonomy)(env) _
-                .Select(Function(tax) tax.ToString(BIOMstyle:=True)) _
+                .Select(Function(tax)
+                            Return tax.ToString(BIOMstyle:=True, trimGenus:=trim_genusName)
+                        End Function) _
                 .ToArray
         End If
     End Function

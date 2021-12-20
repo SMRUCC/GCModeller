@@ -76,6 +76,14 @@ Namespace PICRUSt
             Dim i As i32 = 1
             Dim offset As Long
             Dim name As String
+            Dim prog As Double = App.ElapsedMilliseconds
+            Dim size As Long = reader.BaseStream.Length
+            Dim reportDelta As Integer = size / 25
+            Dim pos As Long
+            Dim dt As Double
+            Dim dsize As Double
+
+            Call Console.WriteLine($"start to process matrix with {koId.Length} KO features and data size {StringFormats.Lanudry(size)}")
 
             ' save ko id vector data
             Call file.Write(koId.Length)
@@ -90,14 +98,30 @@ Namespace PICRUSt
 
             treeOffset = file.Position - 8
 
-            Do While Not (line = reader.ReadLine).StringEmpty
+            Do While Not (line = reader.ReadLine) Is Nothing
+                If line.Value.StringEmpty Then
+                    Continue Do
+                End If
+
                 tokens = line.Split(ASCII.TAB)
                 ggId = tokens(Scan0)
+
+                If Not ggTax.ContainsKey(ggId) Then
+                    Call Console.WriteLine($"skip missing id: {ggId}...")
+                    Continue Do
+                End If
+
                 taxonomy = ggTax(ggId)
                 data = tokens _
                     .Skip(1) _
                     .Select(Function(d) Single.Parse(d)) _
                     .ToArray
+
+                If data.Length <> koId.Length Then
+                    Call Console.WriteLine($"found invalid line: {line.Value.Substring(0, 32)}...")
+                    Continue Do
+                End If
+
                 tokens = taxonomy.ToArray
                 offset = file.Position
                 target = offsetIndex
@@ -124,12 +148,18 @@ Namespace PICRUSt
                 target.Add(ggId, offset)
 
                 ' debug test
-                If i > 10000 Then
-                    Exit Do
+                If (reader.BaseStream.Position - pos) > reportDelta Then
+                    dsize = reader.BaseStream.Position - pos
+                    pos = reader.BaseStream.Position
+                    dt = App.ElapsedMilliseconds - prog
+                    prog = App.ElapsedMilliseconds
+
+                    Console.WriteLine($"[{(pos / size * 100).ToString("F0")}%] {StringFormats.Lanudry(pos)}/{StringFormats.Lanudry(size)} ~ {StringFormats.Lanudry(dsize / (dt / 1000))}/s")
                 End If
             Loop
 
             Call file.Flush()
+            Call Console.WriteLine("~done!")
         End Sub
 
         Public Sub ImportsComputes(ko_13_5_precalculated As Stream)

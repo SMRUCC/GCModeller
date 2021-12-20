@@ -1,50 +1,50 @@
 ﻿#Region "Microsoft.VisualBasic::3c8da615370f8eab799f27f2d6910ea4, R#\gseakit\GSEA.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module GSEA
-    ' 
-    '     Function: CreateGOEnrichmentGraph, DrawGOEnrichmentGraph, Enrichment, FDR, GOEnrichment
-    '               KOBASFormat, ReadEnrichmentTerms, SaveEnrichment
-    ' 
-    ' Enum EnrichmentTableFormat
-    ' 
-    '     GCModeller, KOBAS
-    ' 
-    '  
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Module GSEA
+' 
+'     Function: CreateGOEnrichmentGraph, DrawGOEnrichmentGraph, Enrichment, FDR, GOEnrichment
+'               KOBASFormat, ReadEnrichmentTerms, SaveEnrichment
+' 
+' Enum EnrichmentTableFormat
+' 
+'     GCModeller, KOBAS
+' 
+'  
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -73,6 +73,28 @@ Imports REnv = SMRUCC.Rsharp.Runtime
 <Package("GSEA", Category:=APICategories.ResearchTools)>
 Module GSEA
 
+    Sub New()
+        Internal.Object.Converts.makeDataframe.addHandler(GetType(EnrichmentResult()), AddressOf enrichmentTable)
+    End Sub
+
+    Private Function enrichmentTable(result As EnrichmentResult(), args As list, env As Environment) As dataframe
+        Dim table As New dataframe With {
+            .columns = New Dictionary(Of String, Array),
+            .rownames = result.Select(Function(d) d.term).ToArray
+        }
+
+        table.columns("name") = result.Select(Function(d) d.name).ToArray
+        table.columns("description") = result.Select(Function(d) d.description).ToArray
+        table.columns("cluster") = result.Select(Function(d) d.cluster).ToArray
+        table.columns("enriched") = result.Select(Function(d) d.enriched).ToArray
+        table.columns("score") = result.Select(Function(d) d.score).ToArray
+        table.columns("pvalue") = result.Select(Function(d) d.pvalue).ToArray
+        table.columns("FDR") = result.Select(Function(d) d.FDR).ToArray
+        table.columns("geneIDs") = result.Select(Function(d) d.geneIDs.JoinBy(";")).ToArray
+
+        Return table
+    End Function
+
     ''' <summary>
     ''' read the enrichment result table
     ''' </summary>
@@ -90,7 +112,7 @@ Module GSEA
     ''' <param name="geneSet">a given geneset id list</param>
     ''' <returns></returns>
     <ExportAPI("enrichment")>
-    Public Function Enrichment(background As Background, geneSet$(), Optional outputAll As Boolean = True, Optional showProgress As Boolean = True) As EnrichmentResult()
+    Public Function Enrichment(background As Background, geneSet$(), Optional outputAll As Boolean = True, Optional showProgress As Boolean = False) As EnrichmentResult()
         Return background.Enrichment(
             list:=geneSet,
             outputAll:=outputAll,

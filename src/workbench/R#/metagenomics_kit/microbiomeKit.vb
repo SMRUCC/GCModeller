@@ -50,6 +50,7 @@ Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics
 Imports SMRUCC.genomics.Analysis.Metagenome
 Imports SMRUCC.genomics.Analysis.Metagenome.gast
+Imports SMRUCC.genomics.Analysis.Metagenome.greengenes
 Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction.PICRUSt
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
@@ -65,8 +66,46 @@ Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Module microbiomeKit
 
     Sub New()
-
+        Call Internal.Object.Converts.makeDataframe.addHandler(GetType(OTUData(Of Double)()), AddressOf castTable)
     End Sub
+
+    Private Function castTable(data As OTUData(Of Double)(), args As list, env As Environment) As dataframe
+        Dim id As String() = data.Select(Function(otu) otu.OTU).ToArray
+        Dim taxonomy As String() = data.Select(Function(otu) otu.taxonomy).ToArray
+        Dim allNames As String() = data _
+            .Select(Function(otu) otu.data.Keys) _
+            .IteratesALL _
+            .Distinct _
+            .ToArray
+        Dim table As New dataframe With {
+            .rownames = id,
+            .columns = New Dictionary(Of String, Array) From {
+                {"taxonomy", taxonomy}
+            }
+        }
+
+        For Each name As String In allNames
+            table.columns(name) = data _
+                .Select(Function(otu) otu.data(name)) _
+                .ToArray
+        Next
+
+        Return table
+    End Function
+
+    <ExportAPI("parse.otu_taxonomy")>
+    Public Function parsegreenGenesTaxonomy(file As Stream) As otu_taxonomy()
+        Return otu_taxonomy.Load(file).ToArray
+    End Function
+
+    <ExportAPI("save.PICRUSt_matrix")>
+    Public Function indexMatrix(ggtax As otu_taxonomy(), ko_13_5_precalculated As Stream, save As Stream) As Boolean
+        Using file As MetaBinaryWriter = MetaBinaryWriter.CreateWriter(ggtax, save)
+            Call file.ImportsComputes(ko_13_5_precalculated)
+
+            Return True
+        End Using
+    End Function
 
     <ExportAPI("read.PICRUSt_matrix")>
     Public Function readPICRUStMatrix(file As Stream) As MetaBinaryReader

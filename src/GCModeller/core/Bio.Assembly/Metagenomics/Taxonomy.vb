@@ -368,16 +368,30 @@ Namespace Metagenomics
             Return Me.Select(rank).ToArray.TaxonomyString
         End Function
 
+        Const speciesIndex As Integer = TaxonomyRanks.Species - 100
+        Const genusIndex As Integer = TaxonomyRanks.Genus - 100
+
         ''' <summary>
         ''' 如果<paramref name="BIOMstyle"/>参数为真,则返回符合BIOM文件要求的Taxonomy字符串格式
         ''' </summary>
         ''' <param name="BIOMstyle"></param>
+        ''' <param name="trimGenus">
+        ''' only works when <paramref name="BIOMstyle"/> parameter value set to TRUE
+        ''' </param>
         ''' <returns></returns>
-        Public Overloads Function ToString(BIOMstyle As Boolean) As String
+        Public Overloads Function ToString(BIOMstyle As Boolean, Optional trimGenus As Boolean = False) As String
             If BIOMstyle Then
-                Return Me.Select(TaxonomyRanks.Species) _
-                    .ToArray _
-                    .TaxonomyString
+                Dim list As String() = Me.Select(TaxonomyRanks.Species).ToArray
+
+                If trimGenus Then
+                    If list(speciesIndex).StartsWith(list(genusIndex) & " ") Then
+                        list(speciesIndex) = list(speciesIndex) _
+                            .Replace(list(genusIndex) & " ", "") _
+                            .Trim
+                    End If
+                End If
+
+                Return list.TaxonomyString
             Else
                 Return Me.ToString
             End If
