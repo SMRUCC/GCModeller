@@ -76,10 +76,12 @@ Namespace PICRUSt
             Dim i As i32 = 1
             Dim offset As Long
             Dim name As String
-            Dim prog As Long = 0
+            Dim prog As Double = App.ElapsedMilliseconds
             Dim size As Long = reader.BaseStream.Length
             Dim reportDelta As Integer = size / 25
             Dim pos As Long
+            Dim dt As Double
+            Dim dsize As Double
 
             Call Console.WriteLine($"start to process matrix with {koId.Length} KO features and data size {StringFormats.Lanudry(size)}")
 
@@ -103,6 +105,12 @@ Namespace PICRUSt
 
                 tokens = line.Split(ASCII.TAB)
                 ggId = tokens(Scan0)
+
+                If Not ggTax.ContainsKey(ggId) Then
+                    Call Console.WriteLine($"skip missing id: {ggId}...")
+                    Continue Do
+                End If
+
                 taxonomy = ggTax(ggId)
                 data = tokens _
                     .Skip(1) _
@@ -140,11 +148,13 @@ Namespace PICRUSt
                 target.Add(ggId, offset)
 
                 ' debug test
-                If (reader.BaseStream.Position - prog) > reportDelta Then
+                If (reader.BaseStream.Position - pos) > reportDelta Then
+                    dsize = reader.BaseStream.Position - pos
                     pos = reader.BaseStream.Position
-                    prog = pos
+                    dt = App.ElapsedMilliseconds - prog
+                    prog = App.ElapsedMilliseconds
 
-                    Console.WriteLine($"[{(pos / size * 100).ToString("F0")}%] {StringFormats.Lanudry(pos)}/{StringFormats.Lanudry(size)}")
+                    Console.WriteLine($"[{(pos / size * 100).ToString("F0")}%] {StringFormats.Lanudry(pos)}/{StringFormats.Lanudry(size)} ~ {StringFormats.Lanudry(dsize / (dt / 1000))}MB/s")
                 End If
             Loop
 
