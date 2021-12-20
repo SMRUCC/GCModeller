@@ -50,6 +50,9 @@ Namespace PICRUSt
                 .Distinct _
                 .ToArray
             Dim KOIds As String() = precalculated.GetAllFeatureIds
+
+            Call Console.Write("Loading taxonomy reference data...")
+
             Dim OTUdata = OTUtable _
                 .Select(Function(OTU)
                             Dim tax As Taxonomy = BIOMTaxonomyParser.Parse(OTU.taxonomy)
@@ -62,6 +65,9 @@ Namespace PICRUSt
                             End If
                         End Function) _
                 .ToArray
+
+            Call Console.WriteLine(" done!")
+
             Dim KOResult As OTUData(Of Double)() = New OTUData(Of Double)(precalculated.featureSize - 1) {}
             Dim OTU_KO As OTUData(Of Dictionary(Of String, Double))() = New OTUData(Of Dictionary(Of String, Double))(OTUdata.Length - 1) {}
 
@@ -74,6 +80,8 @@ Namespace PICRUSt
             Next
 
             Dim n As i32 = 1
+
+            Call Console.WriteLine("start processing samples:")
 
             For Each name As String In allSampleNames
                 Dim v As Double() = OTUtable _
