@@ -112,7 +112,11 @@ Module GSEA
     ''' <param name="geneSet">a given geneset id list</param>
     ''' <returns></returns>
     <ExportAPI("enrichment")>
-    Public Function Enrichment(background As Background, geneSet$(), Optional outputAll As Boolean = True, Optional showProgress As Boolean = False) As EnrichmentResult()
+    Public Function Enrichment(background As Background,
+                               geneSet$(),
+                               Optional outputAll As Boolean = True,
+                               Optional showProgress As Boolean = False) As EnrichmentResult()
+
         Return background.Enrichment(
             list:=geneSet,
             outputAll:=outputAll,
