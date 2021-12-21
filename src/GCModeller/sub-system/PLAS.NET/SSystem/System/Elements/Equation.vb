@@ -144,9 +144,12 @@ Namespace Kernel.ObjectModels
         Public Function Elapsed(engine As ExpressionEngine) As Boolean
             Dim delta As Double = Evaluate(engine) * precision
 
-            If delta > bound.Max Then
+            If Double.IsNaN(delta) Then
+                delta = 0
+                ' delta = Evaluate(engine) * precision
+            ElseIf Double.IsPositiveInfinity(delta) OrElse delta > bound.Max Then
                 delta = bound.Max
-            ElseIf delta < bound.Min Then
+            ElseIf Double.IsNegativeInfinity(delta) OrElse delta < bound.Min Then
                 delta = bound.Min
             End If
 
