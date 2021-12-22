@@ -1,54 +1,55 @@
 ﻿#Region "Microsoft.VisualBasic::f55262484e5291d7d9e2ce5ac63138bb, sub-system\PLAS.NET\SSystem\System\Kernel.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class Kernel
-    ' 
-    '         Properties: finalTime, precision, RuntimeTicks, Vars
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    ' 
-    '         Function: GetValue, (+3 Overloads) Run
-    ' 
-    '         Sub: [Step], Break, SetMathSymbol
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class Kernel
+' 
+'         Properties: finalTime, precision, RuntimeTicks, Vars
+' 
+'         Constructor: (+2 Overloads) Sub New
+' 
+'         Function: GetValue, (+3 Overloads) Run
+' 
+'         Sub: [Step], Break, SetMathSymbol
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
@@ -100,6 +101,7 @@ Namespace Kernel
         Public Channels As Equation()
 
         Friend symbolTable As New Dictionary(Of var)
+        Friend bounds As New Dictionary(Of String, DoubleRange)
 
         ''' <summary>
         ''' Gets the system run time ticks
@@ -153,6 +155,10 @@ Namespace Kernel
             End If
         End Sub
 
+        Public Sub SetBounds(name As String, range As DoubleRange)
+            bounds(name) = range
+        End Sub
+
         ''' <summary>
         ''' The kernel loop.(内核循环, 会在这里更新数学表达式计算引擎的环境变量)
         ''' </summary>
@@ -163,35 +169,44 @@ Namespace Kernel
             Call (From x As Equation In Channels Select x.Elapsed(mathEngine)).ToArray
         End Sub
 
+        Private Function runTicks(progress As Action) As Integer
+            For _RuntimeTicks = 0 To CLng(finalTime * (1 / precision))
+                If is_terminated Then
+                    Exit For
+                End If
+#If DEBUG Then
+                    Call [Step](RuntimeTicks)
+#Else
+                Try
+                    Call [Step](RuntimeTicks)
+                Catch ex As Exception
+                    ex = New Exception("Model calculation error!", ex)
+                    Call App.LogException(ex)
+                    Call ex.PrintException
+                    Return -1
+                End Try
+#End If
+                Call progress()
+            Next
+
+            Return 0
+        End Function
+
         ''' <summary>
         ''' 请注意，当前的线程会被阻塞在这里直到整个计算过程完成
         ''' </summary>
         ''' <returns></returns>
         Public Overrides Function Run() As Integer
-            Using proc As New ProgressBar("Running PLAS.NET S-system kernel...")
-                Dim progress As New ProgressProvider(proc, finalTime * (1 / precision))
+            If App.IsMicrosoftPlatform Then
+                Using proc As New ProgressBar("Running PLAS.NET S-system kernel...")
+                    Dim progress As New ProgressProvider(proc, finalTime * (1 / precision))
+                    Dim exitCode As Integer = runTicks(Sub() proc.SetProgress(progress.StepProgress))
 
-                For _RuntimeTicks = 0 To progress.Target
-                    If is_terminated Then
-                        Exit For
-                    End If
-#If DEBUG Then
-                    Call [Step](RuntimeTicks)
-#Else
-                    Try
-                        Call [Step](RuntimeTicks)
-                    Catch ex As Exception
-                        ex = New Exception("Model calculation error!", ex)
-                        Call App.LogException(ex)
-                        Call ex.PrintException
-                        Return -1
-                    End Try
-#End If
-                    Call proc.SetProgress(progress.StepProgress)
-                Next
-            End Using
-
-            Return 0
+                    Return exitCode
+                End Using
+            Else
+                Return runTicks(DoNothing)
+            End If
         End Function
 
         ''' <summary>
@@ -219,7 +234,7 @@ Namespace Kernel
         ''' <remarks></remarks>
         Public Overloads Shared Function Run(model As Script.Model, precise As Double) As List(Of DataSet)
             Dim snapshot As New MemoryCacheSnapshot
-            Dim kernel As New Kernel(model, AddressOf snapshot.cache) With {
+            Dim kernel As New Kernel(model, AddressOf snapshot.Cache) With {
                 .precision = precise
             }
             Call kernel.loadModel(model).Run()

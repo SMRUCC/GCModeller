@@ -75,7 +75,7 @@ Namespace Script
         ''' <returns></returns>
         <XmlElement> Public Property [Constant] As NamedValue(Of String)()
 
-        Dim __varHash As Dictionary(Of var)
+        Dim __symbols As Dictionary(Of var)
 
         ''' <summary>
         ''' A collection of the system variables.
@@ -84,17 +84,17 @@ Namespace Script
         ''' <remarks></remarks>
         <XmlArray> Public Property Vars As var()
             Get
-                If __varHash Is Nothing Then
+                If __symbols Is Nothing Then
                     Return New var() {}
                 Else
-                    Return __varHash.Values.ToArray
+                    Return __symbols.Values.ToArray
                 End If
             End Get
             Set(value As var())
                 If value Is Nothing Then
-                    __varHash = New Dictionary(Of var)
+                    __symbols = New Dictionary(Of var)
                 Else
-                    __varHash = value.ToDictionary
+                    __symbols = value.ToDictionary
                 End If
             End Set
         End Property
@@ -129,11 +129,11 @@ Namespace Script
         End Property
 
         Public Sub Add(x As var)
-            Call __varHash.Add(x)
+            Call __symbols.Add(x)
         End Sub
 
         Public Function FindObject(x As String) As var
-            Return __varHash(x)
+            Return __symbols(x)
         End Function
 
         Public Overrides Function ToString() As String

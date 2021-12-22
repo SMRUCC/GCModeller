@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <RootNamespace>gseakit</RootNamespace>
@@ -6,9 +6,41 @@
     <AssemblyName>gseakit</AssemblyName>
     <Platforms>AnyCPU;x64</Platforms>
     <Configurations>Debug;Release;Rsharp_app_release</Configurations>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>gseakit.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>gseakit.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|AnyCPU'">
+    <DocumentationFile>gseakit.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <DocumentationFile>gseakit.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <DocumentationFile>gseakit.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|x64'">
+    <DocumentationFile>gseakit.xml</DocumentationFile>
+    <DefineConstants>netcore5=1</DefineConstants>
+    <OutputPath>../../pkg/assembly/</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\GCModeller\analysis\Microarray\Microarray.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\annotations\GO\GOAnalysis.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\annotations\GSEA\FisherCore\Fisher.NET5.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\annotations\GSEA\GSEA\gsea-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\data\GO_gene-ontology\GeneOntology\go_owl-netcore5.vbproj" />
@@ -20,6 +52,13 @@
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\gr\network-visualization\Datavisualization.Network\network_graph-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\gr\network-visualization\Network.IO.Extensions\network_io-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

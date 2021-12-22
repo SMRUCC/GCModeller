@@ -7,6 +7,7 @@ SET REnv=%base%/src/R-sharp
 SET Darwinism=%base%/src/runtime/Darwinism
 SET ggplot=%base%/src/runtime/ggplot
 SET Rnotebook=%base%/src/runtime/R/Rnotebook
+SET wkhtml2pdf=%base%/src/workbench/markdown2pdf/.github/sync_multiplegit.cmd
 SET jump=run
 
 goto :%jump%
@@ -54,6 +55,10 @@ CALL :sync_git %ggplot%
 SET jump=Rnotebook
 CALL :sync_git %Rnotebook%
 :Rnotebook
+
+SET jump=wkhtml2pdf
+CALL :sync_git %wkhtml2pdf%
+:wkhtml2pdf
 
 cd %root%
 CALL sync_multiplegit.cmd

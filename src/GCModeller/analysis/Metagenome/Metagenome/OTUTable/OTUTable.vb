@@ -45,7 +45,6 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports SMRUCC.genomics.Metagenomics
 
 ''' <summary>
@@ -79,7 +78,7 @@ Public Class OTUTable : Inherits DataSet
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Shared Function FromOTUData(data As IEnumerable(Of OTUData), Optional brief As Boolean = True) As IEnumerable(Of OTUTable)
+    Public Shared Function FromOTUData(data As IEnumerable(Of OTUData(Of Double)), Optional brief As Boolean = True) As IEnumerable(Of OTUTable)
         Dim parser As TaxonomyLineageParser = If(brief, BriefParser, CompleteParser)
 
         Return data _
@@ -89,26 +88,26 @@ Public Class OTUTable : Inherits DataSet
 
                         Return New OTUTable With {
                             .ID = d.OTU,
-                            .Properties = d.data.AsNumeric,
+                            .Properties = d.data,
                             .taxonomy = lineage
                         }
                     End Function)
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Overloads Shared Narrowing Operator CType(table As OTUTable) As OTUData
-        Return New OTUData With {
+    Public Overloads Shared Narrowing Operator CType(table As OTUTable) As OTUData(Of Double)
+        Return New OTUData(Of Double) With {
             .OTU = table.ID,
-            .data = table.Properties.AsCharacter,
+            .data = table.Properties,
             .taxonomy = table.taxonomy.ToString(BIOMstyle:=True)
         }
     End Operator
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Shared Widening Operator CType(data As OTUData) As OTUTable
+    Public Shared Widening Operator CType(data As OTUData(Of Double)) As OTUTable
         Return New OTUTable With {
             .ID = data.OTU,
-            .Properties = data.data.AsNumeric,
+            .Properties = data.data,
             .taxonomy = BIOMTaxonomy _
                 .TaxonomyParser(data.taxonomy) _
                 .AsTaxonomy

@@ -1,48 +1,48 @@
 ﻿#Region "Microsoft.VisualBasic::dc45193b4ec4fba0d503d81572bc45ad, core\Bio.Assembly\Metagenomics\Taxonomy.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class Taxonomy
-    ' 
-    '         Properties: [class], family, genus, kingdom, lowestLevel
-    '                     ncbi_taxid, order, phylum, scientificName, species
-    ' 
-    '         Constructor: (+5 Overloads) Sub New
-    '         Function: [Select], compare, CompareWith, CreateTable, IsEmpty
-    '                   Rank, (+3 Overloads) ToString
-    '         Operators: (+2 Overloads) IsFalse, (+2 Overloads) IsTrue
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class Taxonomy
+' 
+'         Properties: [class], family, genus, kingdom, lowestLevel
+'                     ncbi_taxid, order, phylum, scientificName, species
+' 
+'         Constructor: (+5 Overloads) Sub New
+'         Function: [Select], compare, CompareWith, CreateTable, IsEmpty
+'                   Rank, (+3 Overloads) ToString
+'         Operators: (+2 Overloads) IsFalse, (+2 Overloads) IsTrue
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -72,6 +72,7 @@ Namespace Metagenomics
         ''' 1. 界
         ''' </summary>
         Public Property kingdom As String
+
         ''' <summary>
         ''' 2. 门
         ''' </summary>
@@ -200,6 +201,18 @@ Namespace Metagenomics
             }
         End Function
 
+        Public Function ToArray() As String()
+            Dim all As String() = [Select].ToArray
+
+            For i As Integer = all.Length - 1 To 0 Step -1
+                If all(i) <> "" Then
+                    Return all.Take(i + 1).ToArray
+                End If
+            Next
+
+            Return all
+        End Function
+
         ''' <summary>
         ''' Convert current <see cref="Taxonomy"/> object as a string array.
         ''' (返回来的元素值是按照<see cref="TaxonomyRanks"/>从大到小排列的)
@@ -217,7 +230,7 @@ Namespace Metagenomics
         ''' <summary>
         ''' 这个函数不会比较<see cref="scientificName"/>
         ''' </summary>
-        ''' <param name="another"></param>
+        ''' <param name="another">item b</param>
         ''' <returns></returns>
         Public Function CompareWith(another As Taxonomy) As Relations
             With another
@@ -337,15 +350,17 @@ Namespace Metagenomics
             Dim tax As New List(Of String)
             Dim i As i32 = Scan0
 
-            tax += BIOMPrefixAlt(++i) & Me.kingdom
-            tax += BIOMPrefixAlt(++i) & Me.phylum
-            tax += BIOMPrefixAlt(++i) & Me.class
-            tax += BIOMPrefixAlt(++i) & Me.order
-            tax += BIOMPrefixAlt(++i) & Me.family
-            tax += BIOMPrefixAlt(++i) & Me.genus
-            tax += BIOMPrefixAlt(++i) & Me.species
+            tax += If(Me.kingdom.StringEmpty, "", BIOMPrefixAlt(++i) & Me.kingdom)
+            tax += If(Me.phylum.StringEmpty, "", BIOMPrefixAlt(++i) & Me.phylum)
+            tax += If(Me.class.StringEmpty, "", BIOMPrefixAlt(++i) & Me.class)
+            tax += If(Me.order.StringEmpty, "", BIOMPrefixAlt(++i) & Me.order)
+            tax += If(Me.family.StringEmpty, "", BIOMPrefixAlt(++i) & Me.family)
+            tax += If(Me.genus.StringEmpty, "", BIOMPrefixAlt(++i) & Me.genus)
+            tax += If(Me.species.StringEmpty, "", BIOMPrefixAlt(++i) & Me.species)
 
-            Return tax.JoinBy(";")
+            Return tax _
+                .Where(Function(t) Not t.StringEmpty) _
+                .JoinBy(";")
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -353,16 +368,30 @@ Namespace Metagenomics
             Return Me.Select(rank).ToArray.TaxonomyString
         End Function
 
+        Const speciesIndex As Integer = TaxonomyRanks.Species - 100
+        Const genusIndex As Integer = TaxonomyRanks.Genus - 100
+
         ''' <summary>
         ''' 如果<paramref name="BIOMstyle"/>参数为真,则返回符合BIOM文件要求的Taxonomy字符串格式
         ''' </summary>
         ''' <param name="BIOMstyle"></param>
+        ''' <param name="trimGenus">
+        ''' only works when <paramref name="BIOMstyle"/> parameter value set to TRUE
+        ''' </param>
         ''' <returns></returns>
-        Public Overloads Function ToString(BIOMstyle As Boolean) As String
+        Public Overloads Function ToString(BIOMstyle As Boolean, Optional trimGenus As Boolean = False) As String
             If BIOMstyle Then
-                Return Me.Select(TaxonomyRanks.Species) _
-                    .ToArray _
-                    .TaxonomyString
+                Dim list As String() = Me.Select(TaxonomyRanks.Species).ToArray
+
+                If trimGenus Then
+                    If list(speciesIndex).StartsWith(list(genusIndex) & " ") Then
+                        list(speciesIndex) = list(speciesIndex) _
+                            .Replace(list(genusIndex) & " ", "") _
+                            .Trim
+                    End If
+                End If
+
+                Return list.TaxonomyString
             Else
                 Return Me.ToString
             End If

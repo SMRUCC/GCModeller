@@ -1,52 +1,52 @@
 ﻿#Region "Microsoft.VisualBasic::09fad594833151b69a6cccce9436fe45, core\Bio.Assembly\Metagenomics\BIOMTaxonomy.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class BIOMTaxonomyParser
-    ' 
-    '         Function: Parse, ToString, TryParse
-    ' 
-    '     Module BIOMTaxonomy
-    ' 
-    '         Properties: BIOMPrefix, BIOMPrefixAlt, BriefParser, CompleteParser
-    '         Delegate Function
-    ' 
-    '             Constructor: (+1 Overloads) Sub New
-    '             Function: AsTaxonomy, FillLineageEmpty, TaxonomyFromString, (+2 Overloads) TaxonomyParser, TaxonomyParserAlt
-    '                       TaxonomyString
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class BIOMTaxonomyParser
+' 
+'         Function: Parse, ToString, TryParse
+' 
+'     Module BIOMTaxonomy
+' 
+'         Properties: BIOMPrefix, BIOMPrefixAlt, BriefParser, CompleteParser
+'         Delegate Function
+' 
+'             Constructor: (+1 Overloads) Sub New
+'             Function: AsTaxonomy, FillLineageEmpty, TaxonomyFromString, (+2 Overloads) TaxonomyParser, TaxonomyParserAlt
+'                       TaxonomyString
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -55,44 +55,9 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
 
 Namespace Metagenomics
-
-    ''' <summary>
-    ''' Parser and stringfier of <see cref="Taxonomy"/> object.
-    ''' </summary>
-    Public Class BIOMTaxonomyParser : Implements IParser
-
-        ''' <summary>
-        ''' 
-        ''' </summary>
-        ''' <param name="obj">
-        ''' Object value should be in data type <see cref="Taxonomy"/>
-        ''' </param>
-        ''' <returns></returns>
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Overloads Function ToString(obj As Object) As String Implements IParser.ToString
-            Return DirectCast(obj, Taxonomy).ToString(BIOMstyle:=True)
-        End Function
-
-        ''' <summary>
-        ''' Create a <see cref="Taxonomy"/> object from parse taxonomy string
-        ''' </summary>
-        ''' <param name="content"></param>
-        ''' <returns></returns>
-        ''' 
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function TryParse(content As String) As Object Implements IParser.TryParse
-            Return Parse(biomString:=content)
-        End Function
-
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Shared Function Parse(biomString As String) As Taxonomy
-            Return BIOMTaxonomy.TaxonomyParser(biomString).AsTaxonomy
-        End Function
-    End Class
 
     Public Module BIOMTaxonomy
 
@@ -191,7 +156,9 @@ Namespace Metagenomics
             Dim taxonomyRanks = tokens _
                 .SeqIterator _
                 .ToDictionary(Function(i) descRanks(i),
-                              Function(rank) rank.value)
+                              Function(rank)
+                                  Return rank.value
+                              End Function)
 
             Return New Taxonomy(taxonomyRanks)
         End Function
@@ -284,15 +251,20 @@ Namespace Metagenomics
             Dim catalogs As NamedValue(Of String)() = tokens _
                 .Select(Function(t) t.GetTagValue("__")) _
                 .ToArray
-            Dim out As New Dictionary(Of String, String)
+            Dim ranks As New Dictionary(Of String, String)
+            Dim rankName As String
 
-            For Each x As NamedValue(Of String) In catalogs
-                If _BIOMPrefixAlt.IndexOf(x.Name) > -1 Then
-                    Call out.Add(x.Name, x.Value)
+            For Each rank As NamedValue(Of String) In catalogs
+                rankName = LCase(rank.Name)
+
+                If _BIOMPrefixAlt.IndexOf(rankName) > -1 OrElse _BIOMPrefixAlt.IndexOf(rankName & "__") > -1 Then
+                    Call ranks.Add(rank.Name, rank.Value)
+                ElseIf rankName = "kingdom__" OrElse rankName = "kingdom" Then
+                    Call ranks.Add("superkingdom", rank.Value)
                 End If
             Next
 
-            Return out
+            Return ranks
         End Function
 #End Region
 

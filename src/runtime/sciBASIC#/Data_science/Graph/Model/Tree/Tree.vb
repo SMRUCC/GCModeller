@@ -82,4 +82,38 @@ Public Class Tree(Of T) : Inherits AbstractTree(Of Tree(Of T), String)
     Sub New(Optional qualDeli$ = ".")
         MyBase.New(qualDeli)
     End Sub
+
+    Public Function hasNode(name As String) As Boolean
+        Return Childs.ContainsKey(name)
+    End Function
+
+    Public Function FindNode(links As String(), Optional i As Integer = Scan0) As Tree(Of T)
+        Dim key As String = links(i)
+
+        If Childs.ContainsKey(key) Then
+            If i = links.Length - 1 Then
+                ' is end of the link
+                Return Childs(key)
+            Else
+                ' continute to next layer
+                Return Childs(key).FindNode(links, i + 1)
+            End If
+        Else
+            Return Nothing
+        End If
+    End Function
+
+    ''' <summary>
+    ''' add target <paramref name="child"/> node into current childs 
+    ''' collection and the assign the target <paramref name="child"/> 
+    ''' parent to current node.
+    ''' </summary>
+    ''' <param name="child"></param>
+    ''' <returns></returns>
+    Public Function Add(child As Tree(Of T)) As Tree(Of T)
+        Childs.Add(child.label, child)
+        child.Parent = Me
+
+        Return Me
+    End Function
 End Class

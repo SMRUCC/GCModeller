@@ -86,6 +86,10 @@ Public Class AbstractTree(Of T As AbstractTree(Of T, K), K) : Inherits Vertex
     ''' Not null child count in this tree node.
     ''' </summary>
     ''' <returns></returns>
+    ''' <remarks>
+    ''' 请注意，这个属性并不是返回的<see cref="Childs"/>的元素数量，
+    ''' 而是返回当前树节点下的所有的子节点的数量
+    ''' </remarks>
     Public ReadOnly Property Count As Integer
         Get
             Dim childs = Me.EnumerateChilds _
@@ -109,7 +113,7 @@ Public Class AbstractTree(Of T As AbstractTree(Of T, K), K) : Inherits Vertex
         End Get
     End Property
 
-    Public ReadOnly Property QualifyName As String
+    Public Overridable ReadOnly Property QualifyName As String
         Get
             If Not Parent Is Nothing Then
                 Return Parent.QualifyName & qualDeli & label

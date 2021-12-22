@@ -1,51 +1,50 @@
 ﻿#Region "Microsoft.VisualBasic::774e0c98f24e419ab156f7a3e48f3ee4, sub-system\PLAS.NET\SSystem\System\Elements\Equation.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class Equation
-    ' 
-    '         Properties: Expression, Id, Model, precision, Value
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    '         Function: Elapsed, Evaluate, ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class Equation
+' 
+'         Properties: Expression, Id, Model, precision, Value
+' 
+'         Constructor: (+2 Overloads) Sub New
+'         Function: Elapsed, Evaluate, ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
-Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Scripting.MathExpression
 Imports Microsoft.VisualBasic.Math.Scripting.MathExpression.Impl
@@ -53,6 +52,9 @@ Imports SMRUCC.genomics.Analysis.SSystem.Script
 
 Namespace Kernel.ObjectModels
 
+    ''' <summary>
+    ''' A systems dynamics which is associated with a target symbol
+    ''' </summary>
     Public Class Equation : Inherits Expression
         Implements IReadOnlyId
 
@@ -70,6 +72,8 @@ Namespace Kernel.ObjectModels
         Friend var As var
 
         Dim dynamics As Expression
+        Dim bound As DoubleRange
+
         Public Property precision As Double
 
         Public ReadOnly Property Model As SEquation
@@ -96,7 +100,8 @@ Namespace Kernel.ObjectModels
             End Get
         End Property
 
-        Sub New(s As SEquation)
+        Sub New(s As SEquation, bound As DoubleRange)
+            Me.bound = bound
             Me.Model = s
             Me.Expression = s.Expression
             Me.dynamics = New ExpressionTokenIcer(Expression) _
@@ -106,7 +111,7 @@ Namespace Kernel.ObjectModels
         End Sub
 
         Sub New(s As SEquation, kernel As Kernel)
-            Call Me.New(s)
+            Call Me.New(s, kernel.bounds(s.x))
 
             Me.precision = kernel.precision
             Me.var = kernel.GetValue(Id)
@@ -137,7 +142,23 @@ Namespace Kernel.ObjectModels
         ''' <param name="engine"></param>
         ''' <returns></returns>
         Public Function Elapsed(engine As ExpressionEngine) As Boolean
-            var.Value += Evaluate(engine) * precision
+            Dim delta As Double = Evaluate(engine) * precision
+
+            If Double.IsNaN(delta) Then
+                delta = 0
+                ' delta = Evaluate(engine) * precision
+            ElseIf Double.IsPositiveInfinity(delta) OrElse delta > bound.Max Then
+                delta = bound.Max
+            ElseIf Double.IsNegativeInfinity(delta) OrElse delta < bound.Min Then
+                delta = bound.Min
+            End If
+
+            var.Value += delta
+
+            If var.Value < 0 Then
+                var.Value = 0
+            End If
+
             engine(var.Id) = var.Value
 
             Return True

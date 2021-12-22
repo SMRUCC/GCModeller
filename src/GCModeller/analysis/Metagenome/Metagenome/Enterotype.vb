@@ -51,7 +51,8 @@ Imports Microsoft.VisualBasic.Linq
 Public Module Enterotype
 
     ''' <summary>
-    ''' First, the abundances of classified genera are used to produce a JSD matrix between samples.
+    ''' First, the abundances of classified genera are used to 
+    ''' produce a JSD matrix between samples.
     ''' </summary>
     ''' <param name="abundances"></param>
     ''' <returns>A JSD correlation matrix between samples.</returns>
