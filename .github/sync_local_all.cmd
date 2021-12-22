@@ -7,7 +7,7 @@ SET REnv=%base%/src/R-sharp
 SET Darwinism=%base%/src/runtime/Darwinism
 SET ggplot=%base%/src/runtime/ggplot
 SET Rnotebook=%base%/src/runtime/R/Rnotebook
-SET wkhtml2pdf=%base%/src/workbench/markdown2pdf/.github/sync_multiplegit.cmd
+SET wkhtml2pdf=%base%/src/workbench/markdown2pdf
 SET jump=run
 
 goto :%jump%
