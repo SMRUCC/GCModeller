@@ -1,45 +1,45 @@
 ﻿#Region "Microsoft.VisualBasic::8c40fa1630a9181f1437f9b48f388d65, R#\visualkit\visualPlot.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module visualPlot
-    ' 
-    '     Function: CategoryProfilePlots, ClassChangePlot, colorBends, delete, GoEnrichBubbles
-    '               KEGGCategoryProfile, KEGGCategoryProfilePlots, Plot, PlotCMeans3D, PlotExpressionPatterns
-    '               VolcanoPlot
-    ' 
-    '     Sub: DrawSampleColorBend, Main
-    ' 
-    ' /********************************************************************************/
+' Module visualPlot
+' 
+'     Function: CategoryProfilePlots, ClassChangePlot, colorBends, delete, GoEnrichBubbles
+'               KEGGCategoryProfile, KEGGCategoryProfilePlots, Plot, PlotCMeans3D, PlotExpressionPatterns
+'               VolcanoPlot
+' 
+'     Sub: DrawSampleColorBend, Main
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -48,6 +48,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
+Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
 Imports Microsoft.VisualBasic.Data.visualize.KMeans
 Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Imaging
@@ -58,6 +59,7 @@ Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.C.CLangStringFormatProvider
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Scripting.Runtime
@@ -76,9 +78,13 @@ Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Invokes.LinqPipeline
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports any = Microsoft.VisualBasic.Scripting
+Imports ColorPalette = Microsoft.VisualBasic.Imaging.Drawing2D.Colors.Designer
 Imports Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 Imports pathwayBrite = SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry.Pathway
 Imports REnv = SMRUCC.Rsharp.Runtime
+Imports stdNum = System.Math
+Imports stdVec = Microsoft.VisualBasic.Math.LinearAlgebra.Vector
 
 ''' <summary>
 ''' package module for biological analysis data visualization
@@ -176,9 +182,9 @@ Module visualPlot
             }
         Else
             With DirectCast(colors, list)
-                Call colorList.Add(Types.Up, Scripting.ToString(.slots("up")).TranslateColor)
-                Call colorList.Add(Types.Down, Scripting.ToString(.slots("down")).TranslateColor)
-                Call colorList.Add(Types.None, Scripting.ToString(.slots("other")).TranslateColor)
+                Call colorList.Add(Types.Up, any.ToString(.slots("up")).TranslateColor)
+                Call colorList.Add(Types.Down, any.ToString(.slots("down")).TranslateColor)
+                Call colorList.Add(Types.None, any.ToString(.slots("other")).TranslateColor)
             End With
         End If
 
@@ -286,6 +292,11 @@ Module visualPlot
         Dim KOmap = pathwayBrite.LoadFromResource.ToDictionary(Function(map) map.EntryId)
         Dim sizeStr As String = InteropArgumentHelper.getSize(size, env, "2700,2300")
         Dim isGeneric As Boolean = TypeOf profiles Is dataframe
+        Dim rawP As stdVec
+        Dim logP As stdVec
+        Dim Impact As stdVec
+        Dim values As stdVec
+        Dim pathwayList As String()
 
         If isGeneric Then
             Dim enrichment As dataframe = DirectCast(profiles, dataframe)
@@ -295,15 +306,18 @@ Module visualPlot
                     Return New Bitmap(.Width, .Height)
                 End With
             End If
+
+            rawP = enrichment.getVector(Of Double)("Raw p").AsVector
+            ' Y
+            logP = -rawP.Log(base:=10)
+            ' X
+            Impact = enrichment.getVector(Of Double)("Impact")
+            values = enrichment.getVector(Of Double)("Hits")
+            pathwayList = enrichment.getVector(Of String)("pathway")
+        Else
+            Throw New NotImplementedException
         End If
 
-        Dim rawP = enrichment.getVector(Of Double)("Raw p").AsVector
-        ' Y
-        Dim logP = -rawP.Log(base:=10)
-        ' X
-        Dim Impact = enrichment.getVector(Of Double)("Impact")
-        Dim values = enrichment.getVector(Of Double)("Hits")
-        Dim pathwayList = enrichment.getVector(Of String)("pathway")
         Dim bubbleData As New Dictionary(Of String, List(Of BubbleTerm))
         Dim enrichColors As New Dictionary(Of String, Color())
 
@@ -322,7 +336,7 @@ Module visualPlot
             })
         Next
 
-        Dim colorSet As Color() = Designer.GetColors("Set1:c8")
+        Dim colorSet As Color() = ColorPalette.GetColors("Set1:c8")
         Dim keys As String() = bubbleData.Keys.ToArray
         Dim baseColor As Color = unenrichColor.TranslateColor
         Dim middle As Color
@@ -333,7 +347,7 @@ Module visualPlot
                 green:=(baseColor.G + colorSet(i).G) / 2,
                 blue:=(baseColor.B + colorSet(i).B) / 2
             )
-            enrichColors(keys(i)) = Designer.CubicSpline({baseColor, middle, colorSet(i)}, 25)
+            enrichColors(keys(i)) = ColorPalette.CubicSpline({baseColor, middle, colorSet(i)}, 25)
         Next
 
         Dim theme As New Theme With {
@@ -603,7 +617,7 @@ Module visualPlot
             .ToArray
 
             Dim v As Double() = clusterData.Select(Function(a) a(project)).ToArray
-            Dim range = v.Range
+            Dim range As DoubleRange = v.Range
             Dim map As Double
 
             For i As Integer = 0 To clusterNMembers - 1
