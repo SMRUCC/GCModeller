@@ -77,6 +77,7 @@ Imports SMRUCC.Rsharp.Runtime.Internal.Invokes.LinqPipeline
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
+Imports pathwayBrite = SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry.Pathway
 Imports REnv = SMRUCC.Rsharp.Runtime
 
 ''' <summary>
@@ -261,6 +262,110 @@ Module visualPlot
         Next
 
         Return profiles
+    End Function
+
+    ''' <summary>
+    ''' plot kegg enrichment result in bubble plot
+    ''' </summary>
+    ''' <param name="profiles"></param>
+    ''' <param name="size"></param>
+    ''' <param name="padding"></param>
+    ''' <param name="unenrichColor"></param>
+    ''' <param name="ppi"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("kegg.enrichment.bubbles")>
+    Public Function KEGGEnrichBubbles(<RRawVectorArgument> profiles As Object,
+                                      <RRawVectorArgument>
+                                      Optional size As Object = "3800,2600",
+                                      Optional padding As Object = "padding:100px 1500px 300px 300px;",
+                                      Optional unenrichColor As String = NameOf(Color.LightGray),
+                                      Optional ppi As Integer = 300,
+                                      Optional env As Environment = Nothing) As Object
+
+        Dim KOmap = pathwayBrite.LoadFromResource.ToDictionary(Function(map) map.EntryId)
+        Dim sizeStr As String = InteropArgumentHelper.getSize(size, env, "2700,2300")
+        Dim isGeneric As Boolean = TypeOf profiles Is dataframe
+
+        If isGeneric Then
+            Dim enrichment As dataframe = DirectCast(profiles, dataframe)
+
+            If enrichment.nrows = 0 Then
+                With sizeStr.SizeParser
+                    Return New Bitmap(.Width, .Height)
+                End With
+            End If
+        End If
+
+        Dim rawP = enrichment.getVector(Of Double)("Raw p").AsVector
+        ' Y
+        Dim logP = -rawP.Log(base:=10)
+        ' X
+        Dim Impact = enrichment.getVector(Of Double)("Impact")
+        Dim values = enrichment.getVector(Of Double)("Hits")
+        Dim pathwayList = enrichment.getVector(Of String)("pathway")
+        Dim bubbleData As New Dictionary(Of String, List(Of BubbleTerm))
+        Dim enrichColors As New Dictionary(Of String, Color())
+
+        For i As Integer = 0 To pathwayList.Length - 1
+            Dim map As pathwayBrite = KOmap(pathwayList(i).Match("\d+"))
+
+            If Not bubbleData.ContainsKey(map.class) Then
+                bubbleData.Add(map.class, New List(Of BubbleTerm))
+            End If
+
+            bubbleData(map.class).Add(New BubbleTerm With {
+                .data = values(i),
+                .Factor = Impact(i),
+                .PValue = logP(i),
+                .termId = map.entry.text
+            })
+        Next
+
+        Dim colorSet As Color() = Designer.GetColors("Set1:c8")
+        Dim keys As String() = bubbleData.Keys.ToArray
+        Dim baseColor As Color = unenrichColor.TranslateColor
+        Dim middle As Color
+
+        For i As Integer = 0 To keys.Length - 1
+            middle = Color.FromArgb(
+                red:=(baseColor.R + colorSet(i).R) / 2,
+                green:=(baseColor.G + colorSet(i).G) / 2,
+                blue:=(baseColor.B + colorSet(i).B) / 2
+            )
+            enrichColors(keys(i)) = Designer.CubicSpline({baseColor, middle, colorSet(i)}, 25)
+        Next
+
+        Dim theme As New Theme With {
+            .gridFill = "white",
+            .padding = InteropArgumentHelper.getPadding(padding),
+            .legendLabelCSS = "font-style: normal; font-size: 14; font-family: " & FontFace.MicrosoftYaHei & ";"
+        }
+        Dim bubble As New CatalogBubblePlot(
+            data:=bubbleData _
+                .ToDictionary(Function(a) a.Key,
+                              Function(a)
+                                  Return a.Value.ToArray
+                              End Function),
+            enrichColors:=enrichColors,
+            showBubbleBorder:=False,
+            displays:=5,
+            pvalue:=-stdNum.Log10(0.05),
+            unenrich:=baseColor,
+            theme:=theme,
+            bubbleSize:={8, 50}
+        ) With {
+            .xlabel = "Topology Impact",
+            .ylabel = "-log10(p-value)"
+        }
+
+        Try
+            Return bubble.Plot(sizeStr, ppi:=ppi)
+        Catch ex As Exception
+            With sizeStr.SizeParser
+                Return New Bitmap(.Width, .Height)
+            End With
+        End Try
     End Function
 
     ''' <summary>
