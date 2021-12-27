@@ -182,7 +182,9 @@ Module report
     ''' <returns></returns>
     ''' 
     <ExportAPI("keggMap.reportHtml")>
-    Public Function showReportHtml(map As Map, <RRawVectorArgument> highlights As Object,
+    Public Function showReportHtml(map As Map,
+                                   <RRawVectorArgument>
+                                   highlights As Object,
                                    Optional text_color As String = "white",
                                    Optional env As Environment = Nothing) As Object
 
@@ -203,7 +205,10 @@ Module report
     ''' <returns></returns>
     <ExportAPI("map.intersects")>
     Public Function checkIntersection(map As Map, list As String()) As String()
-        Return map.GetMembers.Intersect(list).ToArray
+        Return map _
+            .GetMembers _
+            .Intersect(list) _
+            .ToArray
     End Function
 
     ''' <summary>
@@ -238,7 +243,11 @@ Module report
     ''' <param name="reaction">the default color string for kegg reactions</param>
     ''' <returns></returns>
     <ExportAPI("parseKeggUrl")>
-    Public Function parseUrl(url As String, Optional compound$ = "blue", Optional gene$ = "red", Optional reaction$ = "green") As list
+    Public Function parseUrl(url As String,
+                             Optional compound$ = "blue",
+                             Optional gene$ = "red",
+                             Optional reaction$ = "green") As list
+
         Dim data = URLEncoder.URLParser(url)
         Dim result As New list With {
             .slots = New Dictionary(Of String, Object) From {
