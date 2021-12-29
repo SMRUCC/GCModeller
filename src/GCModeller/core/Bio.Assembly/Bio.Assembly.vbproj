@@ -1049,6 +1049,7 @@
     <Compile Include="Assembly\NCBI\Database\Genbank\TabularFormat\FeatureBriefs\PTT\PTT.vb" />
     <Compile Include="Assembly\NCBI\SeqDump\nt.vb" />
     <Compile Include="BioAssemblyExtensions.vb" />
+    <Compile Include="Metagenomics\BIOMTaxonomyParser.vb" />
     <Compile Include="Metagenomics\SampleAbundanceSelector.vb" />
     <Compile Include="Metagenomics\TaxonomyRanks.vb" />
     <Compile Include="Metagenomics\TaxonomyExtensions.vb" />
