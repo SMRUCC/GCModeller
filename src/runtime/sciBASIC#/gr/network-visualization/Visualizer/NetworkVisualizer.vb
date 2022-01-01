@@ -80,6 +80,8 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports stdNum = System.Math
 
+<Assembly: InternalsVisibleTo("ggplot")>
+
 ''' <summary>
 ''' Image drawing of a network model
 ''' </summary>
@@ -655,15 +657,15 @@ Public Module NetworkVisualizer
     ''' <param name="drawEdgeDirection"></param>
     ''' <returns></returns>
     <Extension>
-    Private Iterator Function drawEdges(g As IGraphics, net As NetworkGraph,
-                                        linkWidth As Func(Of Edge, Single),
-                                        edgeDashTypes As Dictionary(Of String, DashStyle),
-                                        scalePos As Dictionary(Of String, PointF),
-                                        throwEx As Boolean,
-                                        edgeShadowDistance As Single,
-                                        defaultEdgeColor As Color,
-                                        drawEdgeBends As Boolean,
-                                        drawEdgeDirection As Boolean) As IEnumerable(Of LayoutLabel)
+    Friend Iterator Function drawEdges(g As IGraphics, net As NetworkGraph,
+                                       linkWidth As Func(Of Edge, Single),
+                                       edgeDashTypes As Dictionary(Of String, DashStyle),
+                                       scalePos As Dictionary(Of String, PointF),
+                                       throwEx As Boolean,
+                                       edgeShadowDistance As Single,
+                                       defaultEdgeColor As Color,
+                                       drawEdgeBends As Boolean,
+                                       drawEdgeDirection As Boolean) As IEnumerable(Of LayoutLabel)
 
         For Each edge As Edge In net.graphEdges
             Dim n As Node = edge.U
