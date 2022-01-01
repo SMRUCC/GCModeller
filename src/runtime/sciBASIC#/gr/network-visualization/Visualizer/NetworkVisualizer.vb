@@ -295,6 +295,8 @@ Public Module NetworkVisualizer
             linkWidth = Function(edge) CSng(5 * edge.weight * 2) Or minLinkWidthValue
         End If
 
+        Dim renderEdge As New EdgeRendering(linkWidth, edgeDashTypes, scalePos, throwEx, edgeShadowDistance, defaultEdgeColor.TranslateColor, drawEdgeBends, drawEdgeDirection)
+
         Dim plotInternal =
             Sub(ByRef g As IGraphics, region As GraphicsRegion)
 
@@ -314,17 +316,7 @@ Public Module NetworkVisualizer
 
                 Call "Render network edges...".__INFO_ECHO
                 ' 首先在这里绘制出网络的框架：将所有的边绘制出来
-                labels += g.drawEdges(
-                    net,
-                    linkWidth,
-                    edgeDashTypes,
-                    scalePos,
-                    throwEx,
-                    edgeShadowDistance:=edgeShadowDistance,
-                    defaultEdgeColor:=defaultEdgeColor.TranslateColor,
-                    drawEdgeBends:=drawEdgeBends,
-                    drawEdgeDirection:=drawEdgeDirection
-                )
+                labels += renderEdge.drawEdges(g, graph:=net)
 
                 Call "Render network elements...".__INFO_ECHO
                 ' 然后将网络之中的节点绘制出来，同时记录下节点的位置作为label text的锚点

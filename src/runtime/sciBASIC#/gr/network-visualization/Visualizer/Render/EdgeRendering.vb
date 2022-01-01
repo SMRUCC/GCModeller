@@ -11,7 +11,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports stdNum = System.Math
 
-Friend Class EdgeRender
+Friend Class EdgeRendering
 
     ReadOnly linkWidth As Func(Of Edge, Single)
     ReadOnly edgeDashTypes As Dictionary(Of String, DashStyle)
