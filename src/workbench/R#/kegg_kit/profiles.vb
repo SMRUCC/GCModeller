@@ -1,41 +1,41 @@
 ﻿#Region "Microsoft.VisualBasic::7c4976c61ff4122a3d8111047f3fa571, R#\kegg_kit\profiles.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module profiles
-    ' 
-    '     Function: CompoundPathwayIndex, CompoundPathwayProfiles, FluxMapProfiles, KEGGCategoryProfiles, KOpathwayProfiles
-    ' 
-    ' /********************************************************************************/
+' Module profiles
+' 
+'     Function: CompoundPathwayIndex, CompoundPathwayProfiles, FluxMapProfiles, KEGGCategoryProfiles, KOpathwayProfiles
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -54,6 +54,7 @@ Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.Visualize.CatalogProfiling
 Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports RDataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 Imports REnv = SMRUCC.Rsharp.Runtime
@@ -188,5 +189,38 @@ Module profiles
                     End Function) _
             .IteratesALL _
             .ToArray
+    End Function
+
+    <ExportAPI("map_category")>
+    Public Function MapCategory() As list
+        Dim htext As htext = htext.br08901
+        Dim classList As New list With {
+            .slots = New Dictionary(Of String, Object)
+        }
+
+        For Each category As BriteHText In htext.Hierarchical.categoryItems
+            Dim subcat As New list With {
+                .slots = New Dictionary(Of String, Object)
+            }
+
+            For Each subcategory As BriteHText In category.categoryItems
+                Dim index As New RDataframe With {
+                    .columns = New Dictionary(Of String, Array)
+                }
+                Dim mapid As String() = subcategory.categoryItems.Select(Function(d) "map" & d.entryID).ToArray
+                Dim desc As String() = subcategory.categoryItems.Select(Function(d) d.classLabel).ToArray
+                Dim name As String() = subcategory.categoryItems.Select(Function(d) d.description).ToArray
+
+                Call index.add("mapid", mapid)
+                Call index.add("name", name)
+                Call index.add("description", desc)
+
+                subcat.add(subcategory.classLabel, index)
+            Next
+
+            classList.add(category.classLabel, subcat)
+        Next
+
+        Return classList
     End Function
 End Module

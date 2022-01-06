@@ -57,7 +57,7 @@ Namespace Layouts.ForceDirected
     ''' <summary>
     ''' 力导向原始算法代码
     ''' </summary>
-    Public Class Planner
+    Public Class Planner : Implements IPlanner
 
         Protected ReadOnly CANVAS_WIDTH As Integer = 1000
         Protected ReadOnly CANVAS_HEIGHT As Integer = 1000
@@ -106,8 +106,11 @@ Namespace Layouts.ForceDirected
                 .ToArray
         End Sub
 
+        ''' <summary>
+        ''' run a step of the current layout algorithm 
+        ''' </summary>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Sub Collide()
+        Public Sub Collide(Optional timeStep As Double = Double.NaN) Implements IPlanner.Collide
             Call reset()
             Call runRepulsive()
             Call runAttraction()

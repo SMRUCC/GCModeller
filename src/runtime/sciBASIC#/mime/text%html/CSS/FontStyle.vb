@@ -175,7 +175,7 @@ Namespace CSS
         Public ReadOnly Property GDIObject(dpi As Integer) As Font
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Return New Font(family, PointSizeScale(size, dpiResolution:=dpi), style)
+                Return New Font(family, FontFace.PointSizeScale(size, dpiResolution:=dpi), style)
             End Get
         End Property
 
@@ -187,6 +187,11 @@ Namespace CSS
         End Property
 
         Sub New()
+        End Sub
+
+        Sub New(font As Font, fontSize As Single)
+            Call Me.New(font)
+            size = fontSize
         End Sub
 
         Sub New(font As Font)

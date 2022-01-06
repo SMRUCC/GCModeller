@@ -1,43 +1,43 @@
 ﻿#Region "Microsoft.VisualBasic::474df51f1e82b5e57a0d115825ad570d, models\Networks\KEGG\PathwayMaps\ReferenceMapRender.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module ReferenceMapRender
-    ' 
-    '         Function: FromCytoscapeModel, getCategoryColors, GetIdProperties, getMostNearbyColor, (+2 Overloads) GetNodeLabel
-    '                   getReactionName, getReactionNames, mixEdgeColor, (+2 Overloads) Render, sumLinkDegree
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module ReferenceMapRender
+' 
+'         Function: FromCytoscapeModel, getCategoryColors, GetIdProperties, getMostNearbyColor, (+2 Overloads) GetNodeLabel
+'                   getReactionName, getReactionNames, mixEdgeColor, (+2 Overloads) Render, sumLinkDegree
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -288,6 +288,12 @@ Namespace PathwayMaps
                 degrees = graph.ComputeNodeDegrees
             End If
 
+            For Each n As Node In graph.vertex
+                If n.label.IsPattern("R\d+") OrElse n.data.label.Length <= wordWrapWidth Then
+                    n.pinned = True
+                End If
+            Next
+
             Return NetworkVisualizer.DrawImage(
                 net:=If(edgeColorByNodeMixed, graph.mixEdgeColor(renderStyle, degrees), graph),
                 background:="white",'"transparent",
@@ -313,10 +319,7 @@ Namespace PathwayMaps
                 convexHullCurveDegree:=1,
                 fillConvexHullPolygon:=False,
                 drawEdgeBends:=edgeBends,
-                labelWordWrapWidth:=wordWrapWidth,
-                isLabelPinned:=Function(n, actualLabel)
-                                   Return n.label.IsPattern("R\d+") OrElse actualLabel.Length <= wordWrapWidth
-                               End Function
+                labelWordWrapWidth:=wordWrapWidth
             )
         End Function
 
