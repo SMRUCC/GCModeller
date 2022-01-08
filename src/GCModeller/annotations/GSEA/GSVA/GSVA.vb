@@ -1,11 +1,162 @@
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.HTS.GSEA
 
 Public Class GSVA
 
-    Public Function gsva(expr As Matrix, gsetIdxList As Background, Optional method As Methods = Methods.gsva)
+    Public Function gsva(expr As Matrix,
+                         gsetIdxList As Background,
+                         Optional method As Methods = Methods.gsva,
+                         Optional kcdf As KCDFs? = Nothing,
+                         Optional min_sz As Integer = 1,
+                         Optional max_sz As Integer = Integer.MaxValue,
+                         Optional verbose As Boolean = False)
 
+        Dim mapped_gset_idx_list As Dictionary(Of String, String())
+        Dim rnaseq As Boolean = False
+        Dim kernel As Boolean = False
+
+        ' filter genes according To verious criteria,
+        ' e.g., constant expression
+        expr = filterFeatures(expr, method)
+        ' map to the actual features for which expression data is available
+        mapped_gset_idx_list = mapGeneSetsToFeatures(gsetIdxList, expr.rownames)
+        ' remove gene sets from the analysis for which no features are available
+        ' And meet the minimum And maximum gene-Set size specified by the user
+        mapped_gset_idx_list = filterGeneSets(mapped_gset_idx_list, min_sz, max_sz)
+
+        If Not kcdf Is Nothing Then
+            If kcdf = KCDFs.Gaussian Then
+                rnaseq = False
+                kernel = True
+            ElseIf kcdf = KCDFs.Poisson Then
+                rnaseq = True
+                kernel = True
+            Else
+                kernel = False
+            End If
+        End If
+
+        Return gsva(expr, mapped_gset_idx_list, method, kcdf, rnaseq, kernel, verbose)
+    End Function
+
+    Private Function gsva(expr As Matrix,
+                          gsetIdxList As Dictionary(Of String, String()),
+                          method As Methods,
+                          kcdf As KCDFs,
+                          rnaseq As Boolean,
+                          kernel As Boolean,
+                          verbose As Boolean)
+        If gsetIdxList.Count = 0 Then
+            Throw New InvalidProgramException("The gene set list is empty! Filter may be too stringent.")
+        End If
+        If gsetIdxList.Any(Function(d) d.Value.Length = 1) Then
+            Call "Some gene sets have size one. Consider setting 'min.sz > 1'.".Warning
+        End If
+
+        If method = Methods.ssgsea Then
+            If verbose Then
+                Call $"Estimating ssGSEA scores for {gsetIdxList.Count} gene sets.".__DEBUG_ECHO
+            End If
+
+            Throw New NotImplementedException
+        ElseIf method = Methods.zscore Then
+            If rnaseq Then
+                Throw New InvalidProgramException("rnaseq=TRUE does not work with method='zscore'.")
+            End If
+            If verbose Then
+                Call $"Estimating combined z-scores for {gsetIdxList.Count} gene sets.".__DEBUG_ECHO
+            End If
+
+            Throw New NotImplementedException
+        ElseIf method = Methods.plage Then
+            If rnaseq Then
+                Throw New InvalidProgramException("rnaseq=TRUE does not work with method='plage'.")
+            End If
+            If verbose Then
+                Call $"Estimating PLAGE scores for {gsetIdxList.Count} gene sets.".__DEBUG_ECHO
+            End If
+
+            Throw New NotImplementedException
+        Else
+            If verbose Then
+                Call $"Estimating GSVA scores for {gsetIdxList.Count} gene sets.".__DEBUG_ECHO
+            End If
+        End If
+
+        Dim nsamples = expr.sampleID.Length
+        Dim ngenes = expr.size
+        Dim ngset = gsetIdxList.Count
+        Dim es_obs = New Matrix With {
+            .sampleID = expr.sampleID,
+            .expression = gsetIdxList _
+                .Select(Function(s)
+                            Return New DataFrameRow With {
+                                .geneID = s.Key,
+                                .experiments = New Double(nsamples - 1) {}
+                            }
+                        End Function) _
+                .ToArray
+        }
+
+
+
+        Return es_obs
+    End Function
+
+    Private Function compute_geneset_es(expr As Matrix,
+                                        gsetIdxList As Dictionary(Of String, String()),
+                                        sample_idxs As Integer(),
+                                        rnaseq As Boolean,
+                                        kernel As Boolean,
+                                        verbose As Boolean)
+        Dim num_genes = expr.size
+
+        If verbose Then
+            If kernel Then
+                If rnaseq Then
+                    Call "Estimating ECDFs with Poisson kernels".__DEBUG_ECHO
+                Else
+                    Call "Estimating ECDFs with Gaussian kernels".__DEBUG_ECHO
+                End If
+            Else
+                Call "Estimating ECDFs directly".__DEBUG_ECHO
+            End If
+        End If
+
+        Dim gene_density
+    End Function
+
+    Private Function compute_gene_density(expr As Matrix, sample_idxs As Integer(), rnaseq As Boolean, kernel As Boolean) As NumericMatrix
+        Dim ntestsamples = expr.sampleID.Length
+        Dim ngenes = expr.size
+        Dim ndensitysamples = sample_idxs.Length
+        Dim gene_density As NumericMatrix
+
+        If kernel Then
+            gene_density = C.matrix_density_R(expr.T, expr.T, ntestsamples * ngenes, ndensitysamples, ntestsamples, ngenes, rnaseq)
+        Else
+            gene_density = expr.expression.Select(Function(r)
+                                                      Dim ecdf = r.experiments.ecdf
+                                                      Dim p As Double()
+
+                                                      Return p
+                                                  End Function).asmatrix
+            gene_density = DirectCast(gene_density / DirectCast(1 - gene_density, NumericMatrix), NumericMatrix).Log
+        End If
+
+        Return gene_density
+    End Function
+
+    Private Function filterGeneSets(mapped_gset_idx_list As Dictionary(Of String, String()), min_sz As Integer, max_sz As Integer) As Dictionary(Of String, String())
+        Return mapped_gset_idx_list _
+            .Where(Function(d)
+                       Return d.Value.Length >= min_sz AndAlso d.Value.Length <= max_sz
+                   End Function) _
+            .ToDictionary
     End Function
 
     ''' <summary>
@@ -35,7 +186,36 @@ Public Class GSVA
             Return expr
         End If
     End Function
+
+    ''' <summary>
+    ''' maps gene sets content in 'gsets' to 'features', where 'gsets'
+    ''' Is a 'list' object with character string vectors as elements,
+    ''' And 'features' is a character string vector object. it assumes
+    ''' features In both input objects follow the same nomenclature
+    ''' </summary>
+    ''' <param name="gsets"></param>
+    ''' <param name="features"></param>
+    ''' <returns></returns>
+    Public Function mapGeneSetsToFeatures(gsets As Background, features As String()) As Dictionary(Of String, String())
+        Dim mapdgenesets = gsets.clusters _
+            .ToDictionary(Function(c) c.ID,
+                          Function(c)
+                              Return c.Intersect(features).ToArray
+                          End Function)
+
+        If mapdgenesets.Values.IteratesALL.Count = 0 Then
+            Throw New InvalidProgramException("No identifiers in the gene sets could be matched to the identifiers in the expression data.")
+        Else
+            Return mapdgenesets
+        End If
+    End Function
 End Class
+
+Public Enum KCDFs
+    Gaussian
+    Poisson
+    none
+End Enum
 
 Public Enum Methods
     gsva

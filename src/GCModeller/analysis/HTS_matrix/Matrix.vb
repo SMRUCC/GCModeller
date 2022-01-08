@@ -124,6 +124,12 @@ Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow)
         End Set
     End Property
 
+    Public ReadOnly Property rownames As String()
+        Get
+            Return expression.Select(Function(g) g.geneID).ToArray
+        End Get
+    End Property
+
     Public Overrides Function ToString() As String
         Return $"[{tag}] {expression.Length} genes, {sampleID.Length} samples; {sampleID.GetJson}"
     End Function
