@@ -82,7 +82,8 @@ Public Module LabelFreeTtest
                        ' 当原始数据全部都是NaN的时候，R会出错，在这里直接忽略掉这些原始样本
                        Return Not d.Properties _
                            .Values _
-                           .All(AddressOf IsNaNImaginary)
+                           .IsNaNImaginary _
+                           .All
                    End Function) _
             .Where(Function(d)
                        ' 所有结果都是零的蛋白也都剔除掉
