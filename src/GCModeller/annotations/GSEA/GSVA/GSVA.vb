@@ -158,7 +158,9 @@ Public Module GSVA
                            In Enumerable.Range(0, gene_density.ColumnDimension)
                            Let idx = sort_sgn_idxs(i)
                            Let v = compute_rank_score(idx)
-                           Select v.ToArray).AsMatrix
+                           Select v.ToArray) _
+                           .AsMatrix _
+                           .Transpose
         Dim m As New Matrix With {
             .expression = gsetIdxList _
                 .Select(Function(gsetIdx)

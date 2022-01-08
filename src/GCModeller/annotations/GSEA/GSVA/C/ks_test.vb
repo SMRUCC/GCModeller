@@ -29,17 +29,18 @@ Namespace C
                                     abs_rnk As Boolean) As Double()
 
             Dim geneset_mask As Integer() = New Integer(n_genes - 1) {}
-            Dim offset As Integer
+            ' Dim offset As Integer
             Dim nsamples = X.ColumnDimension
             Dim R As Double() = New Double(nsamples - 1) {}
 
             For i As Integer = 0 To n_geneset - 1
-                geneset_mask(geneset_idxs(i) - 1) = 1
+                geneset_mask(geneset_idxs(i)) = 1
             Next
 
             For j As Integer = 0 To n_samples - 1
-                offset = j * n_genes
-                R(j) = ks_sample(X(offset), sidxs(offset), n_genes, geneset_mask, geneset_idxs, n_geneset, tau, mx_diff, abs_rnk)
+                ' offset = j * n_genes
+                ' R(j) = ks_sample(X(offset, byRow:=False), sidxs(offset), n_genes, geneset_mask, geneset_idxs, n_geneset, tau, mx_diff, abs_rnk)
+                R(j) = ks_sample(X(j, byRow:=False), sidxs(j), n_genes, geneset_mask, geneset_idxs, n_geneset, tau, mx_diff, abs_rnk)
             Next
 
             Return R
@@ -59,7 +60,7 @@ Namespace C
             Dim sum_gset As Double = 0.0
 
             For i As Integer = 0 To n_geneset - 1
-                sum_gset += x(geneset_idxs(i) - 1) ^ tau
+                sum_gset += x(geneset_idxs(i)) ^ tau
             Next
 
             Dim mx_value As Double = 0
@@ -71,7 +72,7 @@ Namespace C
             Dim idx As Integer
 
             For i As Integer = 0 To n_genes - 1
-                idx = x_sort_indxs(i) - 1
+                idx = x_sort_indxs(i)
 
                 If geneset_mask(idx) = 1 Then
                     cum_sum += (x(idx) ^ tau) / sum_gset
