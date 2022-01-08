@@ -214,6 +214,12 @@ Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow)
         Next
     End Function
 
+    Public Sub eachGene(apply As Action(Of DataFrameRow, Integer))
+        For i As Integer = 0 To expression.Length - 1
+            Call apply(_expression(i), i)
+        Next
+    End Sub
+
     Private Sub checkMatrix()
         Dim samples As Integer = sampleID.Length
 

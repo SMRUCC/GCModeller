@@ -4,6 +4,7 @@ Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.HTS.GSEA
+Imports Microsoft.VisualBasic.Math.Correlations
 
 Public Class GSVA
 
@@ -112,7 +113,10 @@ Public Class GSVA
                                         sample_idxs As Integer(),
                                         rnaseq As Boolean,
                                         kernel As Boolean,
-                                        verbose As Boolean)
+                                        mxdiff As Boolean,
+                                        tau As Double,
+                                        abs_ranking As Boolean,
+                                        verbose As Boolean) As Matrix
         Dim num_genes = expr.size
 
         If verbose Then
@@ -127,7 +131,45 @@ Public Class GSVA
             End If
         End If
 
-        Dim gene_density
+        Dim gene_density As NumericMatrix = compute_gene_density(expr, sample_idxs, rnaseq, kernel)
+        Dim compute_rank_score = Function(sort_idx_vec As Integer())
+                                     Dim tmp As New Vector(0.0, num_genes)
+                                     tmp(sort_idx_vec) = Vector.seq(from:=num_genes, [to]:=1) - num_genes / 2
+                                     Return tmp
+                                 End Function
+        Dim sort_sgn_idxs = (From i As Integer
+                             In Enumerable.Range(0, gene_density.ColumnDimension)
+                             Let v = gene_density.ColumnVector(i)
+                             Let order As Double() = v.Ranking(strategy:=Strategies.OrdinalRanking, desc:=True)
+                             Select order.Select(Function(d) CInt(d)).ToArray).ToArray
+        Dim rank_scores = (From i As Integer
+                           In Enumerable.Range(0, gene_density.ColumnDimension)
+                           Let idx = sort_sgn_idxs(i)
+                           Let v = compute_rank_score(idx)
+                           Select v.ToArray).AsMatrix
+        Dim m As Matrix = ks_test_m(gsetIdxList, rank_scores, sort_sgn_idxs, mxdiff, abs_ranking, tau, verbose)
+        Dim pathIds As String() = gsetIdxList.Keys.ToArray
+
+        m.sampleID = expr.sampleID
+        m.eachGene(Sub(gene, i) gene.geneID = pathIds(i))
+
+        Return m
+    End Function
+
+    Private Function ks_test_m(gset_idxs As Dictionary(Of String, String()),
+                               gene_density As NumericMatrix,
+                               sort_idxs As Integer()(),
+                               mxdiff As Boolean,
+                               abs_ranking As Boolean,
+                               tau As Double,
+                               verbose As Boolean) As Matrix
+
+        Dim ngenes = gene_density.RowDimension
+        Dim nsamples = gene_density.ColumnDimension
+        Dim ngeneset = gset_idxs.Count
+        Dim geneset_sample_es = C.ks_matrix_R(gene_density, nsamples, sort_idxs, ngenes, gset_idxs, ngeneset, tau, nsamples, mxdiff, abs_ranking)
+
+        Return geneset_sample_es
     End Function
 
     Private Function compute_gene_density(expr As Matrix, sample_idxs As Integer(), rnaseq As Boolean, kernel As Boolean) As NumericMatrix
