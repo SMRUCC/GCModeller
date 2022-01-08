@@ -98,11 +98,18 @@ Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow)
     ''' <summary>
     ''' matrix subset by row
     ''' </summary>
-    ''' <param name="i"></param>
     ''' <returns></returns>
-    Default Public ReadOnly Property gene(i As BooleanVector) As Matrix
+    Default Public ReadOnly Property gene(flags As BooleanVector) As Matrix
         Get
-
+            Return New Matrix With {
+                .sampleID = sampleID,
+                .tag = tag,
+                .expression = expression _
+                    .Select(Function(r, i) (r, flags(i))) _
+                    .Where(Function(t) t.Item2) _
+                    .Select(Function(t) t.r) -
+                    .ToArray
+            }
         End Get
     End Property
 
