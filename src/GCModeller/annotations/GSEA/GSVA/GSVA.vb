@@ -1,5 +1,5 @@
-Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math.Calculus
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
@@ -140,12 +140,12 @@ Public Class GSVA
             gene_density = C.matrix_density_R(expr.T, expr.T, ntestsamples * ngenes, ndensitysamples, ntestsamples, ngenes, rnaseq)
         Else
             gene_density = expr.expression.Select(Function(r)
-                                                      Dim ecdf = r.experiments.ecdf
-                                                      Dim p As Double()
+                                                      Dim ecdf = r.experiments.ECDF(sample_idxs)
+                                                      Dim p As Double() = sample_idxs.Select(Function(i) ecdf(i)).ToArray
 
                                                       Return p
-                                                  End Function).asmatrix
-            gene_density = DirectCast(gene_density / DirectCast(1 - gene_density, NumericMatrix), NumericMatrix).Log
+                                                  End Function).AsMatrix
+            gene_density = (gene_density / DirectCast(1 - gene_density, NumericMatrix)).Log
         End If
 
         Return gene_density

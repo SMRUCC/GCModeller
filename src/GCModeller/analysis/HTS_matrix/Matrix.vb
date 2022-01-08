@@ -177,6 +177,10 @@ Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow)
         }
     End Function
 
+    Public Function T() As Object
+        Throw New NotImplementedException()
+    End Function
+
     Public Function TrimZeros() As Matrix
         Return New Matrix With {
             .sampleID = sampleID,
