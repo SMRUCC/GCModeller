@@ -9,7 +9,6 @@ Namespace C
         ''' 
         ''' </summary>
         ''' <param name="X">gene density scores</param>
-        ''' <param name="R">result</param>
         ''' <param name="sidxs">sorted gene densities idxs</param>
         ''' <param name="n_genes"></param>
         ''' <param name="geneset_idxs"></param>
@@ -26,8 +25,8 @@ Namespace C
                                     n_geneset As Integer,
                                     tau As Double,
                                     n_samples As Integer,
-                                    mx_diff As Integer,
-                                    abs_rnk As Integer) As Double()
+                                    mx_diff As Boolean,
+                                    abs_rnk As Boolean) As Double()
 
             Dim geneset_mask As Integer() = New Integer(n_genes - 1) {}
             Dim offset As Integer
@@ -53,8 +52,8 @@ Namespace C
                                    geneset_idxs As Integer(),
                                    n_geneset As Integer,
                                    tau As Double,
-                                   mx_diff As Integer,
-                                   abs_rnk As Integer) As Double
+                                   mx_diff As Boolean,
+                                   abs_rnk As Boolean) As Double
 
             Dim dec As Double = 1 / (n_genes - n_geneset)
             Dim sum_gset As Double = 0.0
@@ -84,10 +83,10 @@ Namespace C
                 If cum_sum < mx_neg Then mx_neg = cum_sum
             Next
 
-            If mx_diff <> 0.0 Then
+            If mx_diff Then
                 mx_value_sign = mx_pos + mx_neg
 
-                If abs_rnk <> 0 Then
+                If abs_rnk Then
                     mx_value_sign = mx_pos - mx_neg
                 End If
             Else

@@ -12,7 +12,7 @@ Namespace C
                                          n_density_samples As Integer,
                                          n_test_samples As Integer,
                                          n_genes As Integer,
-                                         rnaseq As Integer) As Double()()
+                                         rnaseq As Boolean) As Double()()
 
             Dim R As Double()() = MAT(Of Double)(dims.m, dims.n)
 
@@ -48,7 +48,7 @@ Namespace C
                                ByRef r As Double(),
                                size_density_n As Integer,
                                size_test_n As Integer,
-                               rnaseq As Integer)
+                               rnaseq As Boolean)
 
             Dim bw As Double = If(rnaseq, 0.5, (sd1(x, size_density_n) / SIGMA_FACTOR))
             Dim left_tail As Double

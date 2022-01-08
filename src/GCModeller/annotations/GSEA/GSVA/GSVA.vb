@@ -100,10 +100,11 @@ Public Module GSVA
         Dim nsamples = expr.sampleID.Length
         Dim ngenes = expr.size
         Dim ngset = gsetIdxList.Count
+        Dim i As Integer() = Sequence(nsamples).ToArray
         Dim es_obs As Matrix = compute_geneset_es(
             expr,
             gsetIdxList,
-            Sequence(nsamples).ToArray,
+            i,
             rnaseq,
             kernel,
             mxdiff,
