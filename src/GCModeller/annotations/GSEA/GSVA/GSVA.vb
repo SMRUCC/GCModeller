@@ -42,6 +42,8 @@ Public Module GSVA
             Else
                 kernel = False
             End If
+        Else
+            kcdf = KCDFs.none
         End If
 
         Return gsva(expr, mapped_gset_idx_list, method, kcdf, rnaseq, kernel, mxdiff, tau, abs_ranking, verbose)
