@@ -48,6 +48,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Language.Vectorization
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Serialization.JSON
@@ -91,6 +92,17 @@ Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow)
     Default Public ReadOnly Property gene(i As Integer) As DataFrameRow
         Get
             Return expression(i)
+        End Get
+    End Property
+
+    ''' <summary>
+    ''' matrix subset by row
+    ''' </summary>
+    ''' <param name="i"></param>
+    ''' <returns></returns>
+    Default Public ReadOnly Property gene(i As BooleanVector) As Matrix
+        Get
+
         End Get
     End Property
 

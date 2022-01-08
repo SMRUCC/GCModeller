@@ -8,4 +8,9 @@
     <PackageTags>GSVA</PackageTags>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\analysis\HTS_matrix\HTS_matrix-netcore5.vbproj" />
+    <ProjectReference Include="..\FisherCore\Fisher.NET5.vbproj" />
+  </ItemGroup>
+
 </Project>
