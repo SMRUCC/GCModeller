@@ -46,7 +46,9 @@ def run_gsva():
 
     scores = as.data.frame(scores)
     
-    for(i in 1:ncol(scores)):
+    for(i in colnames(scores)):
+    
+        print(`normalize score: ${i}`)
         scores[, i] = normalization(scores[, i])
 
     return scores
