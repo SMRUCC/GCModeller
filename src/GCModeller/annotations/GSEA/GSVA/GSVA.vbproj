@@ -6,6 +6,8 @@
     <Description>Gene set variation analysis</Description>
     <PackageReleaseNotes>Gene set variation analysis</PackageReleaseNotes>
     <PackageTags>GSVA</PackageTags>
+    <Platforms>AnyCPU;x64</Platforms>
+    <Configurations>Debug;Release;Rsharp_app_release</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
