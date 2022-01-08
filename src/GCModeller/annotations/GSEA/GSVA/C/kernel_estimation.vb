@@ -14,24 +14,25 @@ Namespace C
                                          n_genes As Integer,
                                          rnaseq As Boolean) As Double()()
 
-            Dim R As Double()() = MAT(Of Double)(dims.m, dims.n)
+            Dim R As Double()() = MAT(Of Double)(dims.n, dims.m)
 
             For j As Integer = 0 To n_genes - 1
-                Dim offset_density = j * n_density_samples
-                Dim offset_test = j * n_test_samples
+                'Dim offset_density = j * n_density_samples
+                'Dim offset_test = j * n_test_samples
 
-                row_d(X(offset_density), Y(offset_test), R(offset_test), n_density_samples, n_test_samples, rnaseq)
+                ' row_d(X(offset_density), Y(offset_test), R(offset_test), n_density_samples, n_test_samples, rnaseq)
+                row_d(X(j), Y(j), R(j), n_density_samples, n_test_samples, rnaseq)
             Next
 
             Return R
         End Function
 
         Const SIGMA_FACTOR = 4.0
-        Const PRECOMPUTE_RESOLUTION = 10000
+        Const PRECOMPUTE_RESOLUTION = 1000
         Const MAX_PRECOMPUTE = 10.0
 
         Dim is_precomputed As Integer = 0
-        Dim precomputed_cdf As Double() = New Double(PRECOMPUTE_RESOLUTION - 1) {}
+        Dim precomputed_cdf As Double() = New Double(PRECOMPUTE_RESOLUTION) {}
 
         ''' <summary>
         ''' for resampling, x are the resampled points and y are the
@@ -54,7 +55,7 @@ Namespace C
             Dim left_tail As Double
 
             If Not rnaseq AndAlso is_precomputed = 0 Then
-                Call initCdfs()
+                initCdfs()
                 is_precomputed = 1
             End If
 
@@ -80,7 +81,8 @@ Namespace C
             ElseIf v > MAX_PRECOMPUTE Then
                 Return 1
             Else
-                Dim cdf As Double = precomputed_cdf(stdNum.Abs(v) / MAX_PRECOMPUTE * PRECOMPUTE_RESOLUTION)
+                Dim i As Integer = stdNum.Abs(v) / MAX_PRECOMPUTE * PRECOMPUTE_RESOLUTION
+                Dim cdf As Double = precomputed_cdf(i)
 
                 If v < 0 Then
                     Return 1 - cdf
@@ -97,7 +99,7 @@ Namespace C
         Private Sub initCdfs()
             Dim divisor = PRECOMPUTE_RESOLUTION * 1.0
 
-            For i As Integer = 0 To PRECOMPUTE_RESOLUTION - 1
+            For i As Integer = 0 To PRECOMPUTE_RESOLUTION
                 precomputed_cdf(i) = pnorm.Eval(MAX_PRECOMPUTE * i / divisor, 0.0, 1.0, lower_tail:=True, logP:=False)
             Next
         End Sub

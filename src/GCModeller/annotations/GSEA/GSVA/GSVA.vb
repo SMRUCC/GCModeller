@@ -1,3 +1,4 @@
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Calculus
 Imports Microsoft.VisualBasic.Math.Correlations
@@ -126,6 +127,7 @@ Public Module GSVA
                                         abs_ranking As Boolean,
                                         verbose As Boolean) As Matrix
         Dim num_genes = expr.size
+        Dim rowIndex As Index(Of String) = expr.rownames.Indexing
 
         If verbose Then
             If kernel Then
@@ -142,14 +144,16 @@ Public Module GSVA
         Dim gene_density As NumericMatrix = compute_gene_density(expr, sample_idxs, rnaseq, kernel)
         Dim compute_rank_score = Function(sort_idx_vec As Integer())
                                      Dim tmp As New Vector(0.0, num_genes)
-                                     tmp(sort_idx_vec) = Vector.seq(from:=num_genes, [to]:=1) - num_genes / 2
+                                     Dim v As Vector = Vector.seq(from:=num_genes, [to]:=1, by:=-1) - num_genes / 2
+                                     tmp(sort_idx_vec) = v
                                      Return tmp
                                  End Function
         Dim sort_sgn_idxs = (From i As Integer
                              In Enumerable.Range(0, gene_density.ColumnDimension)
                              Let v = gene_density.ColumnVector(i)
                              Let order As Double() = v.Ranking(strategy:=Strategies.OrdinalRanking, desc:=True)
-                             Select order.Select(Function(d) CInt(d)).ToArray).ToArray
+                             Let zeroI = order.Select(Function(d) CInt(d) - 1).ToArray
+                             Select zeroI).ToArray
         Dim rank_scores = (From i As Integer
                            In Enumerable.Range(0, gene_density.ColumnDimension)
                            Let idx = sort_sgn_idxs(i)
@@ -158,8 +162,11 @@ Public Module GSVA
         Dim m As New Matrix With {
             .expression = gsetIdxList _
                 .Select(Function(gsetIdx)
+                            Dim idx As Integer() = gsetIdx.Value.Select(Function(id) rowIndex.IndexOf(id)).ToArray
+                            Dim test = ks_test_m(idx, rank_scores, sort_sgn_idxs, mxdiff, abs_ranking, tau, verbose)
+
                             Return New DataFrameRow With {
-                                .experiments = ks_test_m(gsetIdx.Value, rank_scores, sort_sgn_idxs, mxdiff, abs_ranking, tau, verbose),
+                                .experiments = test,
                                 .geneID = gsetIdx.Key
                             }
                         End Function) _
@@ -173,7 +180,7 @@ Public Module GSVA
         Return m
     End Function
 
-    Private Function ks_test_m(gset_idxs As String(),
+    Private Function ks_test_m(gset_idxs As Integer(),
                                gene_density As NumericMatrix,
                                sort_idxs As Integer()(),
                                mxdiff As Boolean,
@@ -184,8 +191,7 @@ Public Module GSVA
         Dim ngenes = gene_density.RowDimension
         Dim nsamples = gene_density.ColumnDimension
         Dim ngeneset = gset_idxs.Count
-        Dim geneSet As Integer() = gset_idxs.Sequence.ToArray
-        Dim geneset_sample_es As Double() = C.ks_matrix_R(gene_density, sort_idxs, ngenes, geneSet, ngeneset, tau, nsamples, mxdiff, abs_ranking)
+        Dim geneset_sample_es As Double() = C.ks_matrix_R(gene_density, sort_idxs, ngenes, gset_idxs, ngeneset, tau, nsamples, mxdiff, abs_ranking)
 
         Return geneset_sample_es
     End Function
@@ -197,7 +203,7 @@ Public Module GSVA
         Dim gene_density As NumericMatrix
 
         If kernel Then
-            gene_density = C.matrix_density_R(expr.T.AsNumeric, expr.T.AsNumeric, (ntestsamples, ngenes), ndensitysamples, ntestsamples, ngenes, rnaseq)
+            gene_density = C.matrix_density_R(expr.AsNumeric, expr.AsNumeric, (ntestsamples, ngenes), ndensitysamples, ntestsamples, ngenes, rnaseq)
         Else
             gene_density = expr.expression _
                 .Select(Function(r)
