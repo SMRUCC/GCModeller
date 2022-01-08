@@ -21,7 +21,6 @@ Namespace C
         ''' <param name="abs_rnk"></param>
         ''' <returns></returns>
         Friend Function ks_matrix_R(X As NumericMatrix,
-                                    R As Double()(),
                                     sidxs As Integer()(),
                                     n_genes As Integer,
                                     geneset_idxs As Integer(),
@@ -29,10 +28,12 @@ Namespace C
                                     tau As Double,
                                     n_samples As Integer,
                                     mx_diff As Integer,
-                                    abs_rnk As Integer) As Double()()
+                                    abs_rnk As Integer) As Double()
 
             Dim geneset_mask As Integer() = New Integer(n_genes - 1) {}
             Dim offset As Integer
+            Dim nsamples = X.ColumnDimension
+            Dim R As Double() = New Double(nsamples - 1) {}
 
             For i As Integer = 0 To n_geneset - 1
                 geneset_mask(geneset_idxs(i) - 1) = 1
@@ -54,7 +55,7 @@ Namespace C
                                    n_geneset As Integer,
                                    tau As Double,
                                    mx_diff As Integer,
-                                   abs_rnk As Integer)
+                                   abs_rnk As Integer) As Double
 
             Dim dec As Double = 1 / (n_genes - n_geneset)
             Dim sum_gset As Double = 0.0

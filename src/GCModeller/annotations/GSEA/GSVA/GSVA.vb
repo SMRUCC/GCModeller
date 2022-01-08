@@ -14,11 +14,14 @@ Public Class GSVA
                          Optional kcdf As KCDFs? = Nothing,
                          Optional min_sz As Integer = 1,
                          Optional max_sz As Integer = Integer.MaxValue,
+                         Optional mxdiff As Boolean = True,
+                         Optional tau As Double = 1,
+                         Optional kernel As Boolean = True,
+                         Optional rnaseq As Boolean = False,
+                         Optional abs_ranking As Boolean = False,
                          Optional verbose As Boolean = False)
 
         Dim mapped_gset_idx_list As Dictionary(Of String, String())
-        Dim rnaseq As Boolean = False
-        Dim kernel As Boolean = False
 
         ' filter genes according To verious criteria,
         ' e.g., constant expression
@@ -41,7 +44,7 @@ Public Class GSVA
             End If
         End If
 
-        Return gsva(expr, mapped_gset_idx_list, method, kcdf, rnaseq, kernel, verbose)
+        Return gsva(expr, mapped_gset_idx_list, method, kcdf, rnaseq, kernel, mxdiff, tau, abs_ranking, verbose)
     End Function
 
     Private Function gsva(expr As Matrix,
@@ -50,6 +53,9 @@ Public Class GSVA
                           kcdf As KCDFs,
                           rnaseq As Boolean,
                           kernel As Boolean,
+                          mxdiff As Boolean,
+                          tau As Double,
+                          abs_ranking As Boolean,
                           verbose As Boolean)
         If gsetIdxList.Count = 0 Then
             Throw New InvalidProgramException("The gene set list is empty! Filter may be too stringent.")
@@ -91,19 +97,17 @@ Public Class GSVA
         Dim nsamples = expr.sampleID.Length
         Dim ngenes = expr.size
         Dim ngset = gsetIdxList.Count
-        Dim es_obs = New Matrix With {
-            .sampleID = expr.sampleID,
-            .expression = gsetIdxList _
-                .Select(Function(s)
-                            Return New DataFrameRow With {
-                                .geneID = s.Key,
-                                .experiments = New Double(nsamples - 1) {}
-                            }
-                        End Function) _
-                .ToArray
-        }
-
-
+        Dim es_obs As Matrix = compute_geneset_es(
+            expr,
+            gsetIdxList,
+            Sequence(nsamples).ToArray,
+            rnaseq,
+            kernel,
+            mxdiff,
+            tau,
+            abs_ranking,
+            verbose
+        )
 
         Return es_obs
     End Function
@@ -147,7 +151,16 @@ Public Class GSVA
                            Let idx = sort_sgn_idxs(i)
                            Let v = compute_rank_score(idx)
                            Select v.ToArray).AsMatrix
-        Dim m As Matrix = ks_test_m(gsetIdxList, rank_scores, sort_sgn_idxs, mxdiff, abs_ranking, tau, verbose)
+        Dim m As New Matrix With {
+            .expression = gsetIdxList _
+                .Select(Function(gsetIdx)
+                            Return New DataFrameRow With {
+                                .experiments = ks_test_m(gsetIdx.Value, rank_scores, sort_sgn_idxs, mxdiff, abs_ranking, tau, verbose),
+                                .geneID = gsetIdx.Key
+                            }
+                        End Function) _
+                .ToArray
+        }
         Dim pathIds As String() = gsetIdxList.Keys.ToArray
 
         m.sampleID = expr.sampleID
@@ -156,27 +169,21 @@ Public Class GSVA
         Return m
     End Function
 
-    Private Function ks_test_m(gset_idxs As Dictionary(Of String, String()),
+    Private Function ks_test_m(gset_idxs As String(),
                                gene_density As NumericMatrix,
                                sort_idxs As Integer()(),
                                mxdiff As Boolean,
                                abs_ranking As Boolean,
                                tau As Double,
-                               verbose As Boolean) As Matrix
+                               verbose As Boolean) As Double()
 
         Dim ngenes = gene_density.RowDimension
         Dim nsamples = gene_density.ColumnDimension
         Dim ngeneset = gset_idxs.Count
-        Dim geneset_sample_es = C.ks_matrix_R(gene_density, nsamples, sort_idxs, ngenes, gset_idxs, ngeneset, tau, nsamples, mxdiff, abs_ranking)
-        Dim es As New Matrix With {
-            .expression = geneset_sample_es _
-                .Select(Function(v)
-                            Return New DataFrameRow With {.experiments = v}
-                        End Function) _
-                .ToArray
-        }
+        Dim geneSet As Integer() = gset_idxs.Sequence.ToArray
+        Dim geneset_sample_es As Double() = C.ks_matrix_R(gene_density, sort_idxs, ngenes, geneSet, ngeneset, tau, nsamples, mxdiff, abs_ranking)
 
-        Return es
+        Return geneset_sample_es
     End Function
 
     Private Function compute_gene_density(expr As Matrix, sample_idxs As Integer(), rnaseq As Boolean, kernel As Boolean) As NumericMatrix
