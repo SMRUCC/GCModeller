@@ -1,5 +1,6 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Calculus
 Imports Microsoft.VisualBasic.Math.Correlations
@@ -180,6 +181,20 @@ Public Module GSVA
 
         m.sampleID = expr.sampleID
         m.eachGene(Sub(gene, i) gene.geneID = pathIds(i))
+
+        For Each gene As DataFrameRow In m.expression
+            Dim range As New DoubleRange(gene.experiments.Where(Function(d) Not d.IsNaNImaginary))
+
+            For i As Integer = 0 To gene.experiments.Length - 1
+                If Double.IsPositiveInfinity(gene.experiments(i)) Then
+                    gene.experiments(i) = range.Max
+                ElseIf Double.IsNegativeInfinity(gene.experiments(i)) Then
+                    gene.experiments(i) = range.Min
+                ElseIf gene.experiments(i).IsNaNImaginary Then
+                    gene.experiments(i) = 0
+                End If
+            Next
+        Next
 
         Return m
     End Function
