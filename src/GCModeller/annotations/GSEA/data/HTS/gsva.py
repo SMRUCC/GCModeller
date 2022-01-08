@@ -24,6 +24,9 @@ def getCluster(term):
     names = sapply(kegg_id, id -> metainfo[[id]])
     
     return names
+
+def normalization(x) :
+        return((x - min(x)) / (max(x) - min(x)))
     
 def run_gsva():
 
@@ -39,7 +42,12 @@ def run_gsva():
 
     write.expr_matrix(scores, file = `${@dir}/gsva.csv`, id = "pathway Name")
 
-    return as.data.frame(scores)
+    scores = as.data.frame(scores)
+    
+    for(i in 1:ncol(scores)):
+        scores[, i] = normalization(scores[, i])
+
+    return scores
 
 gsva_score = run_gsva()
 
