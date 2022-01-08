@@ -6,7 +6,7 @@ Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.HTS.GSEA
 
-Public Class GSVA
+Public Module GSVA
 
     Public Function gsva(expr As Matrix,
                          gsetIdxList As Background,
@@ -19,7 +19,7 @@ Public Class GSVA
                          Optional kernel As Boolean = True,
                          Optional rnaseq As Boolean = False,
                          Optional abs_ranking As Boolean = False,
-                         Optional verbose As Boolean = False)
+                         Optional verbose As Boolean = False) As Matrix
 
         Dim mapped_gset_idx_list As Dictionary(Of String, String())
 
@@ -56,7 +56,8 @@ Public Class GSVA
                           mxdiff As Boolean,
                           tau As Double,
                           abs_ranking As Boolean,
-                          verbose As Boolean)
+                          verbose As Boolean) As Matrix
+
         If gsetIdxList.Count = 0 Then
             Throw New InvalidProgramException("The gene set list is empty! Filter may be too stringent.")
         End If
@@ -267,7 +268,7 @@ Public Class GSVA
             Return mapdgenesets
         End If
     End Function
-End Class
+End Module
 
 
 
