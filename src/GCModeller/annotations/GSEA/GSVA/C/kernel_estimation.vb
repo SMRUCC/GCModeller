@@ -1,5 +1,5 @@
-﻿Imports Microsoft.VisualBasic.Math.Distributions
-Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
+﻿Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.Math.Distributions
 Imports stdNum = System.Math
 
 Namespace C
@@ -7,12 +7,14 @@ Namespace C
     Module kernel_estimation
 
         Public Function matrix_density_R(X As Double()(),
-                                     Y As Double()(),
-                                     R As Double()(),
-                                     n_density_samples As Integer,
-                                     n_test_samples As Integer,
-                                     n_genes As Integer,
-                                     rnaseq As Integer) As Double()()
+                                         Y As Double()(),
+                                         dims As (m%, n%),
+                                         n_density_samples As Integer,
+                                         n_test_samples As Integer,
+                                         n_genes As Integer,
+                                         rnaseq As Integer) As Double()()
+
+            Dim R As Double()() = MAT(Of Double)(dims.m, dims.n)
 
             For j As Integer = 0 To n_genes - 1
                 Dim offset_density = j * n_density_samples

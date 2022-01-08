@@ -1,5 +1,4 @@
-﻿Imports Microsoft.VisualBasic.Math.Distributions
-Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
+﻿Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
 Imports stdNum = System.Math
 
 Namespace C

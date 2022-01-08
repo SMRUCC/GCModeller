@@ -1,10 +1,10 @@
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Calculus
+Imports Microsoft.VisualBasic.Math.Correlations
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.HTS.GSEA
-Imports Microsoft.VisualBasic.Math.Correlations
 
 Public Class GSVA
 
@@ -193,14 +193,16 @@ Public Class GSVA
         Dim gene_density As NumericMatrix
 
         If kernel Then
-            gene_density = C.matrix_density_R(expr.T, expr.T, ntestsamples * ngenes, ndensitysamples, ntestsamples, ngenes, rnaseq)
+            gene_density = C.matrix_density_R(expr.T, expr.T, (ntestsamples, ngenes), ndensitysamples, ntestsamples, ngenes, rnaseq)
         Else
-            gene_density = expr.expression.Select(Function(r)
-                                                      Dim ecdf = r.experiments.ECDF(sample_idxs)
-                                                      Dim p As Double() = sample_idxs.Select(Function(i) ecdf(i)).ToArray
+            gene_density = expr.expression _
+                .Select(Function(r)
+                            Dim ecdf = r.experiments.ECDF(sample_idxs)
+                            Dim p As Double() = sample_idxs.Select(Function(i) ecdf(i)).ToArray
 
-                                                      Return p
-                                                  End Function).AsMatrix
+                            Return p
+                        End Function) _
+                .AsMatrix
             gene_density = (gene_density / DirectCast(1 - gene_density, NumericMatrix)).Log
         End If
 
