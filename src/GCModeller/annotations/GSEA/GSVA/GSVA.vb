@@ -260,15 +260,5 @@ Public Class GSVA
     End Function
 End Class
 
-Public Enum KCDFs
-    Gaussian
-    Poisson
-    none
-End Enum
 
-Public Enum Methods
-    gsva
-    ssgsea
-    zscore
-    plage
-End Enum
+
