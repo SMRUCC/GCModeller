@@ -107,7 +107,7 @@ Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow)
                 .expression = expression _
                     .Select(Function(r, i) (r, flags(i))) _
                     .Where(Function(t) t.Item2) _
-                    .Select(Function(t) t.r) -
+                    .Select(Function(t) t.r) _
                     .ToArray
             }
         End Get
@@ -184,8 +184,29 @@ Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow)
         }
     End Function
 
-    Public Function T() As Object
-        Throw New NotImplementedException()
+    ''' <summary>
+    ''' matrix transpose
+    ''' </summary>
+    ''' <returns></returns>
+    Public Function T() As Matrix
+        Dim mat As Double()() = expression _
+            .Select(Function(i) i.experiments) _
+            .MatrixTranspose _
+            .ToArray
+        Dim rows As DataFrameRow() = mat _
+            .Select(Function(c, i)
+                        Return New DataFrameRow With {
+                            .geneID = _sampleID(i),
+                            .experiments = c
+                        }
+                    End Function) _
+            .ToArray
+
+        Return New Matrix With {
+            .sampleID = rownames,
+            .expression = rows,
+            .tag = $"t({tag})"
+        }
     End Function
 
     Public Function TrimZeros() As Matrix
