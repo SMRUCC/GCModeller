@@ -168,8 +168,15 @@ Public Class GSVA
         Dim nsamples = gene_density.ColumnDimension
         Dim ngeneset = gset_idxs.Count
         Dim geneset_sample_es = C.ks_matrix_R(gene_density, nsamples, sort_idxs, ngenes, gset_idxs, ngeneset, tau, nsamples, mxdiff, abs_ranking)
+        Dim es As New Matrix With {
+            .expression = geneset_sample_es _
+                .Select(Function(v)
+                            Return New DataFrameRow With {.experiments = v}
+                        End Function) _
+                .ToArray
+        }
 
-        Return geneset_sample_es
+        Return es
     End Function
 
     Private Function compute_gene_density(expr As Matrix, sample_idxs As Integer(), rnaseq As Boolean, kernel As Boolean) As NumericMatrix
