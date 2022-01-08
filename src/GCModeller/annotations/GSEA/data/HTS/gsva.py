@@ -26,10 +26,12 @@ def getCluster(term):
     return names
 
 def normalization(x) :
-        return((x - min(x)) / (max(x) - min(x)))
+    return (x - min(x)) / (max(x) - min(x))
     
 def run_gsva():
 
+    print("run gsva analysis...")
+    
     metaSet = lapply(as.list(metaSet, byrow = True), r -> getCluster(term = r), names = r -> r$term)
 
     # print("view of the background dataset:")
