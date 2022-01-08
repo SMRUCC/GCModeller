@@ -196,7 +196,7 @@ Public Module GSVA
         Dim gene_density As NumericMatrix
 
         If kernel Then
-            gene_density = C.matrix_density_R(expr.T, expr.T, (ntestsamples, ngenes), ndensitysamples, ntestsamples, ngenes, rnaseq)
+            gene_density = C.matrix_density_R(expr.T.AsNumeric, expr.T.AsNumeric, (ntestsamples, ngenes), ndensitysamples, ntestsamples, ngenes, rnaseq)
         Else
             gene_density = expr.expression _
                 .Select(Function(r)

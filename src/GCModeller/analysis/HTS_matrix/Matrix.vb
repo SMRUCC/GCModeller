@@ -188,6 +188,8 @@ Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow)
     ''' matrix transpose
     ''' </summary>
     ''' <returns></returns>
+    ''' 
+    <DebuggerStepThrough>
     Public Function T() As Matrix
         Dim mat As Double()() = expression _
             .Select(Function(i) i.experiments) _
