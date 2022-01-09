@@ -82,6 +82,35 @@ Module GSVA
             .ToArray
     End Function
 
+    ''' <summary>
+    ''' convert to diff data from dataframe
+    ''' </summary>
+    ''' <param name="diff"></param>
+    ''' <param name="pathId"></param>
+    ''' <param name="t"></param>
+    ''' <param name="pvalue"></param>
+    ''' <returns></returns>
+    <ExportAPI("matrix_to_diff")>
+    Public Function matrixToDiff(diff As dataframe,
+                                 Optional pathId As String = "pathNames",
+                                 Optional t As String = "t",
+                                 Optional pvalue As String = "pvalue") As GSVADiff()
+
+        Dim pathNames As String() = REnv.asVector(Of String)(diff(pathId))
+        Dim testVal As Double() = REnv.asVector(Of Double)(diff(t))
+        Dim pVal As Double() = REnv.asVector(Of Double)(diff(pvalue))
+
+        Return pathNames _
+            .Select(Function(ref, i)
+                        Return New GSVADiff With {
+                            .pathName = ref,
+                            .pvalue = pVal(i),
+                            .t = testVal(i)
+                        }
+                    End Function) _
+            .ToArray
+    End Function
+
     Private Function createGene(name As String) As BackgroundGene
         Return New BackgroundGene With {
             .accessionID = name,
