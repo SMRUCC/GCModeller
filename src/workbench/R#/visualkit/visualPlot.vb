@@ -99,8 +99,13 @@ Module visualPlot
     End Sub
 
     Public Function plotGSVA(diff As GSVADiff(), args As list, env As Environment) As Object
-        Dim size As String = graphicsPipeline.getSize(args.slots, env, [default]:="2100,3700")
-        Dim theme As New Theme
+        Dim size As SizeF = graphicsPipeline.getSize(args.slots, env, [default]:=New SizeF(2100, 3700))
+        Dim theme As New Theme With {
+            .padding = InteropArgumentHelper.getPadding(
+                padding:=args.getByName("padding"),
+                [default]:="padding: 300px 300px 400px 200px"
+            )
+        }
         Dim bar As New GSVADiffBar(diff, theme)
 
         Return bar.Plot(size)

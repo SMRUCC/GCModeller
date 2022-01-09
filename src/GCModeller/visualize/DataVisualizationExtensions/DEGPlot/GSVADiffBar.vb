@@ -63,7 +63,8 @@ Public Class GSVADiffBar : Inherits Plot
         Call g.DrawRectangle(stroke, rect)
         Call axis.Draw(g, XAxisLayoutStyles.Bottom, rect.Bottom, Nothing)
 
-        Dim dy As Double = rect.Height / diff.Length
+        Dim dbar As Double = 5
+        Dim dy As Double = (rect.Height - diff.Length * dbar) / diff.Length
         Dim x As Double
         Dim y As Double = rect.Top - dy
         Dim zeroX As Double = scaleX(0)
@@ -76,7 +77,7 @@ Public Class GSVADiffBar : Inherits Plot
 
         For Each line As GSVADiff In diff
             x = scaleX(line.t)
-            y += dy
+            y += dy + dbar
             labelSize = g.MeasureString(line.pathName, labelFont)
 
             If x > zeroX Then
