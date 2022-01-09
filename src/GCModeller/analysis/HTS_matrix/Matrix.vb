@@ -48,6 +48,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Language.Vectorization
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Serialization.JSON
@@ -95,11 +96,30 @@ Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow)
     End Property
 
     ''' <summary>
+    ''' matrix subset by row
+    ''' </summary>
+    ''' <returns></returns>
+    Default Public ReadOnly Property gene(flags As BooleanVector) As Matrix
+        Get
+            Return New Matrix With {
+                .sampleID = sampleID,
+                .tag = tag,
+                .expression = expression _
+                    .Select(Function(r, i) (r, flags(i))) _
+                    .Where(Function(t) t.Item2) _
+                    .Select(Function(t) t.r) _
+                    .ToArray
+            }
+        End Get
+    End Property
+
+    ''' <summary>
     ''' take by column
     ''' </summary>
     ''' <param name="i"></param>
     ''' <returns></returns>
     Public Property sample(i As Integer) As Vector
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
             Return expression.Select(Function(v) v(i)).AsVector
         End Get
@@ -112,8 +132,20 @@ Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow)
         End Set
     End Property
 
+    Public ReadOnly Property rownames As String()
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Get
+            Return expression.Select(Function(g) g.geneID).ToArray
+        End Get
+    End Property
+
     Public Overrides Function ToString() As String
         Return $"[{tag}] {expression.Length} genes, {sampleID.Length} samples; {sampleID.GetJson}"
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Function IndexOf(sampleGroup As DataGroup) As Integer()
+        Return IndexOf(sampleGroup.sample_id)
     End Function
 
     Public Function IndexOf(sampleName As IEnumerable(Of String)) As Integer()
@@ -159,6 +191,33 @@ Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow)
         }
     End Function
 
+    ''' <summary>
+    ''' matrix transpose
+    ''' </summary>
+    ''' <returns></returns>
+    ''' 
+    <DebuggerStepThrough>
+    Public Function T() As Matrix
+        Dim mat As Double()() = expression _
+            .Select(Function(i) i.experiments) _
+            .MatrixTranspose _
+            .ToArray
+        Dim rows As DataFrameRow() = mat _
+            .Select(Function(c, i)
+                        Return New DataFrameRow With {
+                            .geneID = _sampleID(i),
+                            .experiments = c
+                        }
+                    End Function) _
+            .ToArray
+
+        Return New Matrix With {
+            .sampleID = rownames,
+            .expression = rows,
+            .tag = $"t({tag})"
+        }
+    End Function
+
     Public Function TrimZeros() As Matrix
         Return New Matrix With {
             .sampleID = sampleID,
@@ -191,6 +250,12 @@ Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow)
             }
         Next
     End Function
+
+    Public Sub eachGene(apply As Action(Of DataFrameRow, Integer))
+        For i As Integer = 0 To expression.Length - 1
+            Call apply(_expression(i), i)
+        Next
+    End Sub
 
     Private Sub checkMatrix()
         Dim samples As Integer = sampleID.Length

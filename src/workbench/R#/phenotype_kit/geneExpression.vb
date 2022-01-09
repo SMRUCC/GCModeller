@@ -150,6 +150,11 @@ Module geneExpression
         End If
     End Function
 
+    <ExportAPI("write.expr_matrix")>
+    Public Function writeMatrix(expr As Matrix, file As String, Optional id As String = "geneID") As Boolean
+        Return expr.SaveMatrix(file, id)
+    End Function
+
     <ExportAPI("filter")>
     Public Function filter(HTS As Matrix, geneId As String(), Optional exclude As Boolean = False) As Matrix
         Dim filterIndex As Index(Of String) = geneId
