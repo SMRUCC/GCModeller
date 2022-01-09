@@ -119,6 +119,7 @@ Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow)
     ''' <param name="i"></param>
     ''' <returns></returns>
     Public Property sample(i As Integer) As Vector
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
             Return expression.Select(Function(v) v(i)).AsVector
         End Get
@@ -132,6 +133,7 @@ Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow)
     End Property
 
     Public ReadOnly Property rownames As String()
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
             Return expression.Select(Function(g) g.geneID).ToArray
         End Get
@@ -139,6 +141,11 @@ Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow)
 
     Public Overrides Function ToString() As String
         Return $"[{tag}] {expression.Length} genes, {sampleID.Length} samples; {sampleID.GetJson}"
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Function IndexOf(sampleGroup As DataGroup) As Integer()
+        Return IndexOf(sampleGroup.sample_id)
     End Function
 
     Public Function IndexOf(sampleName As IEnumerable(Of String)) As Integer()
