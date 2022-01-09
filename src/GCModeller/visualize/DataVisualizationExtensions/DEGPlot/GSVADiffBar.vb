@@ -19,7 +19,7 @@ Public Class GSVADiffBar : Inherits Plot
     ''' <summary>
     ''' abs cutoff value of the t-static value
     ''' </summary>
-    ReadOnly cut As Double = 1
+    ReadOnly cut As Double = 2
 
     Public Sub New(diff As GSVADiff(), theme As Theme)
         MyBase.New(theme)
@@ -69,26 +69,39 @@ Public Class GSVADiffBar : Inherits Plot
         Dim zeroX As Double = scaleX(0)
         Dim bar As Rectangle
         Dim color As Brush
+        Dim labelFont As Font = CSS.CSSFont.TryParse(theme.tagCSS).GDIObject(g.Dpi)
+        Dim labelPos As PointF
+        Dim labelSize As SizeF
+        Dim labelColor As Brush
 
         For Each line As GSVADiff In diff
             x = scaleX(line.t)
             y += dy
+            labelSize = g.MeasureString(line.pathName, labelFont)
 
             If x > zeroX Then
                 ' pos
                 bar = New Rectangle(zeroX, y, x - zeroX, dy)
                 color = posColor
+                ' right align
+                labelPos = New PointF(zeroX - labelSize.Width, y - labelSize.Height / 2)
             Else
                 ' neg
                 bar = New Rectangle(x, y, zeroX - x, dy)
                 color = negColor
+                ' left align
+                labelPos = New PointF(zeroX, y - labelSize.Height / 2)
             End If
 
             If stdNum.Abs(line.t) < cut Then
                 color = notsigColor
+                labelColor = notsigColor
+            Else
+                labelColor = Brushes.Black
             End If
 
             Call g.FillRectangle(color, bar)
+            Call g.DrawString(line.pathName, labelFont, labelColor, labelPos)
         Next
 
         Dim cutline As New Pen(Brushes.White, 2) With {
