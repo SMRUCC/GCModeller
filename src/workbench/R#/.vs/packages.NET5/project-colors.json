@@ -105,7 +105,17 @@
       "ProjectGuid": "1c93dbfb-e988-4f47-8fb3-2390ab1a2212",
       "DisplayName": "DataMining.NET5",
       "ColorIndex": 4
+    },
+    "4b352562-978b-4bb6-b034-017085b1cf7e": {
+      "ProjectGuid": "4b352562-978b-4bb6-b034-017085b1cf7e",
+      "DisplayName": "Math.NET5",
+      "ColorIndex": 5
+    },
+    "b2fdf869-ee9d-4f3f-9a7c-1c6bc2e9b722": {
+      "ProjectGuid": "b2fdf869-ee9d-4f3f-9a7c-1c6bc2e9b722",
+      "DisplayName": "plots_extensions-netcore5",
+      "ColorIndex": 6
     }
   },
-  "NextColorIndex": 5
+  "NextColorIndex": 7
 }

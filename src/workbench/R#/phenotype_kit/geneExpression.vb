@@ -387,6 +387,7 @@ Module geneExpression
     End Function
 
     ''' <summary>
+    ''' This function performs clustering analysis of time course data. 
     ''' Calculate gene expression pattern by cmeans algorithm.
     ''' </summary>
     ''' <param name="matrix">
