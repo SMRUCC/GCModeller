@@ -113,6 +113,12 @@ Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow)
         End Get
     End Property
 
+    Public ReadOnly Property sample(sample_id As String) As Vector
+        Get
+            Return Me.sample(IndexOf(sample_id))
+        End Get
+    End Property
+
     ''' <summary>
     ''' take by column
     ''' </summary>
@@ -146,6 +152,11 @@ Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow)
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function IndexOf(sampleGroup As DataGroup) As Integer()
         Return IndexOf(sampleGroup.sample_id)
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Function IndexOf(sample_id As String) As Integer
+        Return Me.sampleID.Indexing.IndexOf(sample_id)
     End Function
 
     Public Function IndexOf(sampleName As IEnumerable(Of String)) As Integer()
