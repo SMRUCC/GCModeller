@@ -51,6 +51,8 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math.Distributions
+Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.HTS.Proteomics
@@ -285,6 +287,44 @@ Module geneExpression
     <ExportAPI("average")>
     Public Function average(matrix As Matrix, sampleinfo As SampleInfo()) As Matrix
         Return Matrix.MatrixAverage(matrix, sampleinfo)
+    End Function
+
+    ''' <summary>
+    ''' To avoid the influence of expression level to the 
+    ''' clustering analysis, z-score transformation can 
+    ''' be applied to covert the expression values to 
+    ''' z-scores by performing the following formula:
+    ''' 
+    ''' ```
+    ''' z = (x - u) / sd
+    ''' ```
+    ''' 
+    ''' x is value to be converted (e.g., a expression value 
+    ''' of a genomic feature in one condition), µ is the 
+    ''' population mean (e.g., average expression value Of 
+    ''' a genomic feature In different conditions), σ Is the 
+    ''' standard deviation (e.g., standard deviation of 
+    ''' expression of a genomic feature in different conditions).
+    ''' </summary>
+    ''' <param name="matrix"></param>
+    ''' <returns></returns>
+    <ExportAPI("z_score")>
+    Public Function zscore(matrix As Matrix) As Matrix
+        Return New Matrix With {
+            .sampleID = matrix.sampleID,
+            .tag = $"z-score({matrix.tag})",
+            .expression = matrix.expression _
+                .Select(Function(expr)
+                            Return New DataFrameRow With {
+                                .geneID = expr.geneID,
+                                .experiments = expr.experiments _
+                                    .AsVector _
+                                    .Z _
+                                    .ToArray
+                            }
+                        End Function) _
+                .ToArray
+        }
     End Function
 
     ''' <summary>
