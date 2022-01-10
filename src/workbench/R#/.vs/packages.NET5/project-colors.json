@@ -80,7 +80,42 @@
       "ProjectGuid": "9a3484d8-5af8-430a-b4da-59510f646b09",
       "DisplayName": "network_graph-netcore5",
       "ColorIndex": 15
+    },
+    "42ab5b8d-6be1-4c81-820e-2cb83e252589": {
+      "ProjectGuid": "42ab5b8d-6be1-4c81-820e-2cb83e252589",
+      "DisplayName": "phenotype_kit.NET5",
+      "ColorIndex": 0
+    },
+    "29fbb15a-6dc2-446e-9baf-9002d635b83e": {
+      "ProjectGuid": "29fbb15a-6dc2-446e-9baf-9002d635b83e",
+      "DisplayName": "HTS_matrix-netcore5",
+      "ColorIndex": 1
+    },
+    "16395e03-c483-4104-a752-47a32ed9e47a": {
+      "ProjectGuid": "16395e03-c483-4104-a752-47a32ed9e47a",
+      "DisplayName": "plots-netcore5",
+      "ColorIndex": 2
+    },
+    "cfba2697-9a7a-49bf-9636-85a05b46ef75": {
+      "ProjectGuid": "cfba2697-9a7a-49bf-9636-85a05b46ef75",
+      "DisplayName": "imaging.NET5",
+      "ColorIndex": 3
+    },
+    "1c93dbfb-e988-4f47-8fb3-2390ab1a2212": {
+      "ProjectGuid": "1c93dbfb-e988-4f47-8fb3-2390ab1a2212",
+      "DisplayName": "DataMining.NET5",
+      "ColorIndex": 4
+    },
+    "4b352562-978b-4bb6-b034-017085b1cf7e": {
+      "ProjectGuid": "4b352562-978b-4bb6-b034-017085b1cf7e",
+      "DisplayName": "Math.NET5",
+      "ColorIndex": 5
+    },
+    "b2fdf869-ee9d-4f3f-9a7c-1c6bc2e9b722": {
+      "ProjectGuid": "b2fdf869-ee9d-4f3f-9a7c-1c6bc2e9b722",
+      "DisplayName": "plots_extensions-netcore5",
+      "ColorIndex": 6
     }
   },
-  "NextColorIndex": 0
+  "NextColorIndex": 7
 }
