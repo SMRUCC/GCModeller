@@ -1,52 +1,53 @@
 ﻿#Region "Microsoft.VisualBasic::b4b681effba1805a72bab6be9fab1319, R#\phenotype_kit\geneExpression.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module geneExpression
-    ' 
-    '     Function: average, castGenericRows, CMeans3D, CmeansPattern, createDEGModels
-    '               DEGclass, depDataTable, expDataTable, filter, geneId
-    '               GetCmeansPattern, loadExpression, loadFromDataFrame, loadFromGenericDataSet, relative
-    '               Ttest, uniqueGeneId
-    ' 
-    '     Sub: Main
-    ' 
-    ' /********************************************************************************/
+' Module geneExpression
+' 
+'     Function: average, castGenericRows, CMeans3D, CmeansPattern, createDEGModels
+'               DEGclass, depDataTable, expDataTable, filter, geneId
+'               GetCmeansPattern, loadExpression, loadFromDataFrame, loadFromGenericDataSet, relative
+'               Ttest, uniqueGeneId
+' 
+'     Sub: Main
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Linq
@@ -286,6 +287,50 @@ Module geneExpression
         Return Matrix.MatrixAverage(matrix, sampleinfo)
     End Function
 
+    ''' <summary>
+    ''' normalize data by sample column
+    ''' </summary>
+    ''' <param name="matrix"></param>
+    ''' <returns></returns>
+    ''' <remarks>
+    ''' apply for the metabolomics data usually
+    ''' </remarks>
+    <ExportAPI("totalSumNorm")>
+    Public Function totalSumNorm(matrix As Matrix, Optional scale As Double = 10000) As Matrix
+        Dim samples = matrix.sampleID _
+            .Select(Function(ref)
+                        Dim v As Vec = matrix.sample(ref)
+                        Dim col As New NamedValue(Of Vec)(ref, scale * v / v.Sum)
+
+                        Return col
+                    End Function) _
+            .ToArray
+        Dim norm As New Matrix With {
+           .sampleID = matrix.sampleID,
+           .tag = $"totalSumNorm({matrix.tag})",
+           .expression = matrix.expression _
+               .Select(Function(gene, i)
+                           Return New DataFrameRow With {
+                               .geneID = gene.geneID,
+                               .experiments = samples _
+                                   .Select(Function(v) v.Value(i)) _
+                                   .ToArray
+                           }
+                       End Function) _
+               .ToArray
+        }
+
+        Return norm
+    End Function
+
+    ''' <summary>
+    ''' normalize data by feature rows
+    ''' </summary>
+    ''' <param name="matrix"></param>
+    ''' <returns></returns>
+    ''' <remarks>
+    ''' row/max(row)
+    ''' </remarks>
     <ExportAPI("relative")>
     Public Function relative(matrix As Matrix) As Matrix
         Return New Matrix With {
