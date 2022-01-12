@@ -115,7 +115,17 @@
       "ProjectGuid": "b2fdf869-ee9d-4f3f-9a7c-1c6bc2e9b722",
       "DisplayName": "plots_extensions-netcore5",
       "ColorIndex": 6
+    },
+    "05457007-17f0-445e-b445-e7fb35a3574a": {
+      "ProjectGuid": "05457007-17f0-445e-b445-e7fb35a3574a",
+      "DisplayName": "metagenomics_kit.NET5",
+      "ColorIndex": 7
+    },
+    "c573b99d-5ada-4bc9-9020-1a4f6acd0a15": {
+      "ProjectGuid": "c573b99d-5ada-4bc9-9020-1a4f6acd0a15",
+      "DisplayName": "gseakit.NET5",
+      "ColorIndex": 8
     }
   },
-  "NextColorIndex": 7
+  "NextColorIndex": 9
 }
