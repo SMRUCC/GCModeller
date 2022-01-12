@@ -1,0 +1,34 @@
+.\" man page create by R# package system.
+.TH BIOSEQ.FASTA 4 2000-01-01 "translate" "translate"
+.SH NAME
+translate \- Do translation of the nt sequence to protein sequence
+.SH SYNOPSIS
+\fItranslate(\fBnt\fR as any, 
+\fBtable\fR as <integer> GeneticCodes = [BacterialArchaealAndPlantPlastidCode], 
+\fBbypassStop\fR as boolean = TRUE, 
+\fBcheckNt\fR as boolean = TRUE, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Do translation of the nt sequence to protein sequence
+.PP
+.SH OPTIONS
+.PP
+\fBnt\fB \fR\- The given fasta collection. 
+.PP
+.PP
+\fBtable\fB \fR\- The genetic code for translation table.. 
+.PP
+.PP
+\fBbypassStop\fB \fR\- 
+ Try ignores of the stop codon.
+. 
+.PP
+.SH SEE ALSO
+bioseq.fasta
+.SH FILES
+.PP
+seqtoolkit.dll
+.PP
+.SH AUTHOR
+Written by \fBxie.guigang@gcmodeller.org\fR
