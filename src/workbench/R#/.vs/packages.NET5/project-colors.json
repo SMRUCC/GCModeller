@@ -125,7 +125,17 @@
       "ProjectGuid": "c573b99d-5ada-4bc9-9020-1a4f6acd0a15",
       "DisplayName": "gseakit.NET5",
       "ColorIndex": 8
+    },
+    "e1cbc537-c0ad-475b-83d3-1f09f59d58c8": {
+      "ProjectGuid": "e1cbc537-c0ad-475b-83d3-1f09f59d58c8",
+      "DisplayName": "Microarray.NET5",
+      "ColorIndex": 9
+    },
+    "7e46a99a-60d3-4bc0-b5a4-39251a599c1e": {
+      "ProjectGuid": "7e46a99a-60d3-4bc0-b5a4-39251a599c1e",
+      "DisplayName": "Proteomics.NET5",
+      "ColorIndex": 10
     }
   },
-  "NextColorIndex": 9
+  "NextColorIndex": 11
 }

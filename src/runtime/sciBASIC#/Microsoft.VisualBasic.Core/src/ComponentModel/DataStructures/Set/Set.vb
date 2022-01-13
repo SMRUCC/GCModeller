@@ -85,10 +85,12 @@ Namespace ComponentModel.DataStructures
         ''' Default constructor.
         ''' </summary>
         Public Sub New(Optional equals As Func(Of Object, Object, Boolean) = Nothing)
-            _equals = equals
-        End Sub
+            If equals Is Nothing Then
+                _equals = Function(a, b) a = b
+            Else
+                _equals = equals
+            End If
 
-        Protected Sub New()
             _behaviour = BadBehaviourResponses.BeAggressive
         End Sub
 
