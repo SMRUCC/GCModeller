@@ -162,8 +162,8 @@ Namespace SequenceModel.NucleotideModels.Translation
         ''' <returns></returns>
         Public Shared Function CreateHashTable() As Codon()
             Dim NNCols As DNA() = {DNA.dAMP, DNA.dCMP, DNA.dGMP, DNA.dTMP}
-            Dim combos = Combination.CreateCombos(NNCols, NNCols)
-            Dim tripleCombos = Combination.CreateCombos(combos, NNCols)
+            Dim combos = CreateCombos(NNCols, NNCols)
+            Dim tripleCombos = CreateCombos(combos, NNCols)
             Dim codens() = LinqAPI.Exec(Of Codon) _
  _
                 () <= From coden As (a As (DNA, DNA), b As DNA)

@@ -498,8 +498,7 @@ Public Module DEGDesigner
                     .ToArray
 
                 ' experiment/controls
-                Dim combos = Combination _
-                    .CreateCombos(experimentValues, controlValues) _
+                Dim combos = CreateCombos(experimentValues, controlValues) _
                     .ToArray
                 Dim foldChanges = combos _
                     .Select(Function(c)
@@ -516,8 +515,7 @@ Public Module DEGDesigner
             End Sub
         Dim doHeaders As doSymbol =
             Sub(gene, experiments, controls, fillRowData)
-                Dim list$() = Combination _
-                    .CreateCombos(experiments, controls) _
+                Dim list$() = CreateCombos(experiments, controls) _
                     .Select(Function(c) $"{c.Item1}/{c.Item2}") _
                     .ToArray
                 Call fillRowData(list)

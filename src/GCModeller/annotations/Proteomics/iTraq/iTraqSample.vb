@@ -296,7 +296,7 @@ Public Module iTraqSample
     ''' <returns></returns>
     <Extension>
     Private Function BridgeFormula(C$, bridgeA$(), bridgeB$()) As NamedValue(Of Formula)()
-        Dim combines = Combination.CreateCombos(bridgeA, bridgeB).ToArray
+        Dim combines = CreateCombos(bridgeA, bridgeB).ToArray
         Dim formulas As NamedValue(Of Formula)() = combines _
             .Select(Function(combine)
                         Dim labelA$ = combine.a, labelB$ = combine.b
