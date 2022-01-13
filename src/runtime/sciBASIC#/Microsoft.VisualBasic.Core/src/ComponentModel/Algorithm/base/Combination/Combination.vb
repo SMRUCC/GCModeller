@@ -117,7 +117,11 @@ Namespace ComponentModel.Algorithm.base
 
         <Extension>
         Public Function AllCombinations(Of T)(source As T(), Optional size As Integer = -1) As IEnumerable(Of T())
-            Return _allCombinations(source, depth:=size)
+            If size <= 0 Then
+                Return _allCombinations(source, depth:=source.Length)
+            Else
+                Return _allCombinations(source, depth:=size)
+            End If
         End Function
 
         <Extension>
@@ -125,6 +129,8 @@ Namespace ComponentModel.Algorithm.base
             If source.Length = 1 Then
                 Yield {source(Scan0)}
                 Return
+            ElseIf depth <= 0 Then
+                Return 
             End If
 
             Dim c As T() = Nothing
