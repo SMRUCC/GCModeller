@@ -114,8 +114,9 @@ Namespace ComponentModel.DataStructures
         End Sub
 
         Sub New(source As IEnumerable, Optional equals As Func(Of Object, Object, Boolean) = Nothing)
+            Call Me.New(equals)
+
             _behaviour = BadBehaviourResponses.BeCool
-            _equals = equals
 
             For Each o As Object In source
                 Call Me.Add(o)
