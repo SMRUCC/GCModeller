@@ -100,8 +100,9 @@ Namespace ComponentModel.DataStructures
         ''' </summary>
         ''' <param name="sources">The source array of <see cref="[Set]">Set</see> objects.</param>
         Public Sub New(sources As [Set](), Optional equals As Func(Of Object, Object, Boolean) = Nothing)
+            Call Me.New(equals)
+
             _behaviour = BadBehaviourResponses.BeCool
-            _equals = equals
 
             For Each initialSet As [Set] In sources
                 For Each o As Object In initialSet
