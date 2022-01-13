@@ -23,9 +23,6 @@
 [submodule "src/runtime/R/Rnotebook"]
 	path = src/runtime/R/Rnotebook
 	url = https://gitee.com/xieguigang/Rnb.git
-[submodule "src/runtime/R/Bing"]
-	path = src/runtime/R/Bing
-	url = https://github.com/rsharp-lang/bing.git
 [submodule "src/workbench/markdown2pdf"]
 	path = src/workbench/markdown2pdf
 	url = https://github.com/xieguigang/markdown2pdf.git
