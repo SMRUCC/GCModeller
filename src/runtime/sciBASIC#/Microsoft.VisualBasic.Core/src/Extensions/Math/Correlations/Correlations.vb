@@ -412,12 +412,12 @@ Namespace Math.Correlations
         ''' <returns></returns>
         <ExportAPI("Pearson")>
         Public Function GetPearson(x#(), y#()) As Double
-            Dim j As Integer, n As Integer = x.Length
+            Dim n As Integer = x.Length
             Dim yt As Double, xt As Double
             Dim syy As Double = 0.0, sxy As Double = 0.0, sxx As Double = 0.0
             Dim ay As Double = 0.0, ax As Double = 0.0
 
-            For j = 0 To n - 1
+            For j As Integer = 0 To n - 1
                 ' finds the mean
                 ax += x(j)
                 ay += y(j)
@@ -426,7 +426,7 @@ Namespace Math.Correlations
             ax /= n
             ay /= n
 
-            For j = 0 To n - 1
+            For j As Integer = 0 To n - 1
                 ' compute correlation coefficient
                 xt = x(j) - ax
                 yt = y(j) - ay
