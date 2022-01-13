@@ -126,11 +126,9 @@ Namespace ComponentModel.Algorithm.base
 
         <Extension>
         Private Iterator Function _allCombinations(Of T)(source As T(), depth As Integer) As IEnumerable(Of T())
-            If source.Length = 1 Then
+            If source.Length = 1 OrElse depth <= 0 Then
                 Yield {source(Scan0)}
                 Return
-            ElseIf depth <= 0 Then
-                Return 
             End If
 
             Dim c As T() = Nothing
