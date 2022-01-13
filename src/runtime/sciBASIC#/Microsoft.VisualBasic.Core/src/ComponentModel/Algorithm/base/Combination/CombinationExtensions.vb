@@ -53,7 +53,7 @@ Namespace ComponentModel.Algorithm.base
     ''' 任意多个集合之间的对象之间相互组成组合输出
     ''' </summary>
     ''' <remarks></remarks>
-    Public Module Combination
+    Public Module CombinationExtensions
 
         ''' <summary>
         ''' 生成两个序列的两两组合 ``{<paramref name="seq_1"/> -> <paramref name="seq_2"/>}()``
