@@ -116,16 +116,36 @@ Namespace ComponentModel.Algorithm.base
         End Function
 
         <Extension>
-        Public Iterator Function AllCombinations(Of T)(source As T()) As IEnumerable(Of T())
-            If source.Length = 1 Then
-                Yield {source(Scan0)}
+        Public Function AllCombinations(Of T)(source As T(), Optional size As Integer = -1) As IEnumerable(Of T())
+            If size <= 0 Then
+                Return _allCombinations(source, depth:=source.Length)
             Else
-                For Each tag As T In source
-                    For Each combine In source.Skip(1).ToArray.AllCombinations
-                        Yield {tag}.JoinIterates(combine).ToArray
-                    Next
-                Next
+                Return _allCombinations(source, depth:=size)
             End If
+        End Function
+
+        <Extension>
+        Private Iterator Function _allCombinations(Of T)(source As T(), depth As Integer) As IEnumerable(Of T())
+            If source.Length = 1 OrElse depth <= 0 Then
+                Yield {source(Scan0)}
+                Return
+            End If
+
+            Dim c As T() = Nothing
+
+            For Each tag As T In source
+                For Each combine As T() In source _
+                    .Skip(1) _
+                    .ToArray _
+                    ._allCombinations(depth:=depth - 1)
+
+                    c = {tag} _
+                        .JoinIterates(combine) _
+                        .ToArray
+
+                    Yield c
+                Next
+            Next
         End Function
 
         <Extension>
