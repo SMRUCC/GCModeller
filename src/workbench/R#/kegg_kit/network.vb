@@ -10,7 +10,10 @@ Imports SMRUCC.genomics.Model.Network.KEGG.ReactionNetwork
 Module network
 
     <ExportAPI("fromCompounds")>
-    Public Function fromCompoundId(compoundsId As String(), graph As Reaction(), Optional compounds As CompoundRepository = Nothing) As NetworkGraph
+    Public Function fromCompoundId(compoundsId As String(), graph As Reaction(),
+                                   Optional compounds As CompoundRepository = Nothing,
+                                   Optional enzymeBridged As Boolean = True) As NetworkGraph
+
         ' BuildModel(br08901 As IEnumerable(Of ReactionTable), compounds As IEnumerable(Of NamedValue(Of String)),
         Dim template As ReactionTable() = ReactionTable.Load(graph).ToArray
         Dim cid As NamedValue(Of String)()
@@ -37,7 +40,7 @@ Module network
             extended:=False,
             enzymaticRelated:=False,
             ignoresCommonList:=False,
-            enzymeBridged:=True
+            enzymeBridged:=enzymeBridged
         )
     End Function
 End Module
