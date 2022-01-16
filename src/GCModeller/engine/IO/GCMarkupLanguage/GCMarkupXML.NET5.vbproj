@@ -153,6 +153,22 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="FBA\**" />
+	  <Compile Remove="GCML_Documents\**" />
+	  <EmbeddedResource Remove="FBA\**" />
+	  <EmbeddedResource Remove="GCML_Documents\**" />
+	  <None Remove="FBA\**" />
+	  <None Remove="GCML_Documents\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Remove="EquationGenerator.vb" />
+	  <Compile Remove="Extensions.vb" />
+	  <Compile Remove="NetworkVisualization.vb" />
+	  <Compile Remove="Replacer.vb" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<None Remove="Resources\scripts\runNet5.sh" />
 		<None Include="..\..\..\..\..\images\logo.png">
 		  <Pack>True</Pack>
