@@ -98,8 +98,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Regtransbase\MySQL\**" />
+    <Compile Remove="RegulonDB\MySQL\**" />
     <Compile Remove="Test\**" />
+    <EmbeddedResource Remove="Regtransbase\MySQL\**" />
+    <EmbeddedResource Remove="RegulonDB\MySQL\**" />
     <EmbeddedResource Remove="Test\**" />
+    <None Remove="Regtransbase\MySQL\**" />
+    <None Remove="RegulonDB\MySQL\**" />
     <None Remove="Test\**" />
     <None Include="..\..\..\..\images\logo.png">
       <Pack>True</Pack>
