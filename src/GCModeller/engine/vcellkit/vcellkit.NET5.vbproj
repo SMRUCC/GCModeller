@@ -117,6 +117,7 @@
     <ProjectReference Include="..\..\core\Bio.Assembly\biocore-netcore5.vbproj" />
     <ProjectReference Include="..\BootstrapLoader\BootstrapLoader.NET5.vbproj" />
     <ProjectReference Include="..\CompilerServices\CompilerServices.NET5.vbproj" />
+    <ProjectReference Include="..\Dynamics.Debugger\vcellDebugger.NET5.vbproj" />
     <ProjectReference Include="..\Dynamics\Dynamics.NET5.vbproj" />
     <ProjectReference Include="..\IO\Raw\vcXML.NET5.vbproj" />
     <ProjectReference Include="..\Model\Model.Core.NET5.vbproj" />
