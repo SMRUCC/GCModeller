@@ -1,9 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <RootNamespace>SMRUCC.genomics.Data</RootNamespace>
+    <RootNamespace>SMRUCC.genomics.Data.MicrobesOnline</RootNamespace>
     <TargetFramework>net5.0</TargetFramework>
-    <AssemblyName>SMRUCC.genomics.Data.RegulonDatabase</AssemblyName>
+    <AssemblyName>SMRUCC.genomics.Data.MicrobesOnline.Org</AssemblyName>
     <Platforms>AnyCPU;x64</Platforms>
     <Configurations>Debug;Release;LipidSearch;mzkit;NPSearch;Rsharp_app_release</Configurations>
     <PackageIcon>logo.png</PackageIcon>
@@ -11,7 +11,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>SMRUCC.genomics.Data.RegulonDatabase.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Data.MicrobesOnline.Org.xml</DocumentationFile>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
@@ -19,7 +19,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <DocumentationFile>SMRUCC.genomics.Data.RegulonDatabase.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Data.MicrobesOnline.Org.xml</DocumentationFile>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
@@ -28,31 +28,31 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>SMRUCC.genomics.Data.RegulonDatabase.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Data.MicrobesOnline.Org.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='LipidSearch|AnyCPU'">
-    <DocumentationFile>SMRUCC.genomics.Data.RegulonDatabase.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Data.MicrobesOnline.Org.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|AnyCPU'">
-    <DocumentationFile>SMRUCC.genomics.Data.RegulonDatabase.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Data.MicrobesOnline.Org.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='NPSearch|AnyCPU'">
-    <DocumentationFile>SMRUCC.genomics.Data.RegulonDatabase.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Data.MicrobesOnline.Org.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='mzkit|AnyCPU'">
-    <DocumentationFile>SMRUCC.genomics.Data.RegulonDatabase.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Data.MicrobesOnline.Org.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <DocumentationFile>SMRUCC.genomics.Data.RegulonDatabase.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Data.MicrobesOnline.Org.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='LipidSearch|x64'">
-    <DocumentationFile>SMRUCC.genomics.Data.RegulonDatabase.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Data.MicrobesOnline.Org.xml</DocumentationFile>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
     <Optimize>false</Optimize>
     <DebugSymbols>true</DebugSymbols>
@@ -63,7 +63,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|x64'">
-    <DocumentationFile>SMRUCC.genomics.Data.RegulonDatabase.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Data.MicrobesOnline.Org.xml</DocumentationFile>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
     <Optimize>false</Optimize>
     <DebugSymbols>true</DebugSymbols>
@@ -74,7 +74,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='NPSearch|x64'">
-    <DocumentationFile>SMRUCC.genomics.Data.RegulonDatabase.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Data.MicrobesOnline.Org.xml</DocumentationFile>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
     <Optimize>false</Optimize>
     <DebugSymbols>true</DebugSymbols>
@@ -86,7 +86,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='mzkit|x64'">
-    <DocumentationFile>SMRUCC.genomics.Data.RegulonDatabase.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Data.MicrobesOnline.Org.xml</DocumentationFile>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
     <Optimize>false</Optimize>
     <DebugSymbols>true</DebugSymbols>
@@ -98,14 +98,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="MySQL\**" />
     <Compile Remove="Regtransbase\MySQL\**" />
     <Compile Remove="Regtransbase\StructureObjects\**" />
     <Compile Remove="RegulonDB\**" />
     <Compile Remove="Test\**" />
+    <EmbeddedResource Remove="MySQL\**" />
     <EmbeddedResource Remove="Regtransbase\MySQL\**" />
     <EmbeddedResource Remove="Regtransbase\StructureObjects\**" />
     <EmbeddedResource Remove="RegulonDB\**" />
     <EmbeddedResource Remove="Test\**" />
+    <None Remove="MySQL\**" />
     <None Remove="Regtransbase\MySQL\**" />
     <None Remove="Regtransbase\StructureObjects\**" />
     <None Remove="RegulonDB\**" />
@@ -122,11 +125,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\interops\localblast\LocalBLAST\localblast.NET5.vbproj" />
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame\dataframework-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
     <ProjectReference Include="..\..\core\Bio.Assembly\biocore-netcore5.vbproj" />
-    <ProjectReference Include="..\MicrobesOnline\MicrobesOnline.NET5.vbproj" />
   </ItemGroup>
 
 </Project>

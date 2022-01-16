@@ -195,7 +195,7 @@ Namespace Regprecise
     ''' 
     Public Class RegpreciseMPBBH : Inherits RegpreciseBBH
 
-        Implements IMPAlignmentResult
+        ' Implements IMPAlignmentResult
         Implements INamedValue
         Implements IRegulatorMatched
 
@@ -204,8 +204,8 @@ Namespace Regprecise
         <Column("Pfam-String")> Public Property PfamString As String
         <Column("subject.pfam-string")> Public Property SubjectPfamString As String
 
-        Public Property Similarity As Double Implements IMPAlignmentResult.Similarity
-        Public Property MPScore As Double Implements IMPAlignmentResult.MPScore
+        Public Property Similarity As Double 'Implements IMPAlignmentResult.Similarity
+        Public Property MPScore As Double 'Implements IMPAlignmentResult.MPScore
 
 #End Region
 

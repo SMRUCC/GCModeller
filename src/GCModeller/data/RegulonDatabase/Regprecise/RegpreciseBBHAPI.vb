@@ -80,37 +80,37 @@ Namespace Regprecise
             Return LQuery
         End Function
 
-        <ExportAPI("Regprecise.MP_Alignment")>
-        Public Function MPAlignment(Besthit As IEnumerable(Of RegpreciseMPBBH),
-                                    QueryPfam As IEnumerable(Of PfamString),
-                                    SubjectPfam As IEnumerable(Of PfamString),
-                                    Optional highlyScoringThreshold As Double = 0.9) As List(Of LevAlign)
+        '<ExportAPI("Regprecise.MP_Alignment")>
+        'Public Function MPAlignment(Besthit As IEnumerable(Of RegpreciseMPBBH),
+        '                            QueryPfam As IEnumerable(Of PfamString),
+        '                            SubjectPfam As IEnumerable(Of PfamString),
+        '                            Optional highlyScoringThreshold As Double = 0.9) As List(Of LevAlign)
 
-            Dim setValue = New SetValue(Of PfamString)().GetSet(NameOf(PfamString.ProteinId))
-            SubjectPfam =
-                LinqAPI.Exec(Of PfamString) <= From sbjPfam As PfamString
-                                               In SubjectPfam
-                                               Let pId As String = Regex.Replace(sbjPfam.ProteinId, "lcl\d+\|", "")
-                                               Select setValue(sbjPfam, pId)
-            Return MotifParallelAlignment.AlignProteins(Of RegpreciseMPBBH)(
-                Besthit,
-                QueryPfam,
-                SubjectPfam,
-                highlyScoringThreshold)
-        End Function
+        '    Dim setValue = New SetValue(Of PfamString)().GetSet(NameOf(PfamString.ProteinId))
+        '    SubjectPfam =
+        '        LinqAPI.Exec(Of PfamString) <= From sbjPfam As PfamString
+        '                                       In SubjectPfam
+        '                                       Let pId As String = Regex.Replace(sbjPfam.ProteinId, "lcl\d+\|", "")
+        '                                       Select setValue(sbjPfam, pId)
+        '    Return MotifParallelAlignment.AlignProteins(Of RegpreciseMPBBH)(
+        '        Besthit,
+        '        QueryPfam,
+        '        SubjectPfam,
+        '        highlyScoringThreshold)
+        'End Function
 
-        <ExportAPI("regprecise.export_mp_alignment")>
-        Public Function MatchAlignment(Besthits As IEnumerable(Of RegpreciseMPBBH), Alignment_Output As IEnumerable(Of MPAlignment.AlignmentOutput)) As RegpreciseMPBBH()
-            Dim UpgradeMethod = Function(AlignmentResult As AlignmentOutput, Besthit As RegpreciseMPBBH)
-                                    Besthit.Similarity = AlignmentResult.Similarity
-                                    Besthit.MPScore = AlignmentResult.Score
-                                    Besthit.SubjectPfamString = AlignmentResult.ProteinSbjct.get__PfamString
+        '<ExportAPI("regprecise.export_mp_alignment")>
+        'Public Function MatchAlignment(Besthits As IEnumerable(Of RegpreciseMPBBH), Alignment_Output As IEnumerable(Of MPAlignment.AlignmentOutput)) As RegpreciseMPBBH()
+        '    Dim UpgradeMethod = Function(AlignmentResult As AlignmentOutput, Besthit As RegpreciseMPBBH)
+        '                            Besthit.Similarity = AlignmentResult.Similarity
+        '                            Besthit.MPScore = AlignmentResult.Score
+        '                            Besthit.SubjectPfamString = AlignmentResult.ProteinSbjct.get__PfamString
 
-                                    Return Besthit
-                                End Function
+        '                            Return Besthit
+        '                        End Function
 
-            Return MotifParallelAlignment.Convert(Of RegpreciseMPBBH, RegpreciseMPBBH)(Besthits, Alignment_Output, UpgradeMethod)
-        End Function
+        '    Return MotifParallelAlignment.Convert(Of RegpreciseMPBBH, RegpreciseMPBBH)(Besthits, Alignment_Output, UpgradeMethod)
+        'End Function
 
         ''' <summary>
         ''' 统计出所比对的蛋白质的家族分布,由于一个蛋白质可能会比对上对各家族，故而总和不会等于最佳比对的结果数目
@@ -137,12 +137,12 @@ Namespace Regprecise
             Return DataFile
         End Function
 
-        <ExportAPI("Pfam.Select.Regprecise_Regulators")>
-        Public Function SelectPfamSource(Besthits As IEnumerable(Of RegpreciseMPBBH), RegpreciseRegulators As FASTA.FastaFile) As FASTA.FastaFile
-            Return MotifParallelAlignment.SelectSource(Besthits,
-                                                       RegpreciseRegulators,
-                                                       Function(besthit As RegpreciseMPBBH, Fasta As FASTA.FastaSeq) String.Equals(besthit.HitName, Fasta.Headers(1).Split.First))
-        End Function
+        '<ExportAPI("Pfam.Select.Regprecise_Regulators")>
+        'Public Function SelectPfamSource(Besthits As IEnumerable(Of RegpreciseMPBBH), RegpreciseRegulators As FASTA.FastaFile) As FASTA.FastaFile
+        '    Return MotifParallelAlignment.SelectSource(Besthits,
+        '                                               RegpreciseRegulators,
+        '                                               Function(besthit As RegpreciseMPBBH, Fasta As FASTA.FastaSeq) String.Equals(besthit.HitName, Fasta.Headers(1).Split.First))
+        'End Function
 
         ''' <summary>
         ''' 通过最佳双向比对来匹配目标蛋白质集合中在Regprecise数据库中存在的记录
@@ -202,86 +202,86 @@ Namespace Regprecise
             Return GetTfbs
         End Function
 
-        ''' <summary>
-        ''' 可能会有一部分数据是在Regprecise之中没有记录的，但是在研究之中也将其添加进入数据源之中，在此时，需要一个额外的Fasta文件来匹配所缺失的数据
-        ''' </summary>
-        ''' <param name="ResultRegpreciseBidirectionalBh"></param>
-        ''' <param name="Regprecise"></param>
-        ''' <param name="Myva_COG"></param>
-        ''' <param name="PfamStrings"></param>
-        ''' <returns></returns>
-        ''' <remarks></remarks>
-        <ExportAPI("Data.Match", Info:="Data enrichment of the basic matches data.")>
-        Public Function Match(ResultRegpreciseBidirectionalBh As RegpreciseMPBBH(),
-                              Regprecise As Regprecise.TranscriptionFactors,
-                              Optional RegpreciseRegulators_Fasta As FASTA.FastaFile = Nothing,
-                              Optional Myva_COG As IEnumerable(Of MyvaCOG) = Nothing,
-                              Optional PfamStrings As PfamString() = Nothing) As RegpreciseMPBBH()
+        '''' <summary>
+        '''' 可能会有一部分数据是在Regprecise之中没有记录的，但是在研究之中也将其添加进入数据源之中，在此时，需要一个额外的Fasta文件来匹配所缺失的数据
+        '''' </summary>
+        '''' <param name="ResultRegpreciseBidirectionalBh"></param>
+        '''' <param name="Regprecise"></param>
+        '''' <param name="Myva_COG"></param>
+        '''' <param name="PfamStrings"></param>
+        '''' <returns></returns>
+        '''' <remarks></remarks>
+        '<ExportAPI("Data.Match", Info:="Data enrichment of the basic matches data.")>
+        'Public Function Match(ResultRegpreciseBidirectionalBh As RegpreciseMPBBH(),
+        '                      Regprecise As Regprecise.TranscriptionFactors,
+        '                      Optional RegpreciseRegulators_Fasta As FASTA.FastaFile = Nothing,
+        '                      Optional Myva_COG As IEnumerable(Of MyvaCOG) = Nothing,
+        '                      Optional PfamStrings As PfamString() = Nothing) As RegpreciseMPBBH()
 
-            Dim RegpreciseRegulators As Regulator() = Regprecise.FilteRegulators(Types.TF)
-            Dim MyvaCogDict As Dictionary(Of String, MyvaCOG) = If(Myva_COG Is Nothing, New Dictionary(Of MyvaCOG), Myva_COG.ToDictionary)
-            Dim PfamStringDict As Dictionary(Of String, PfamString) =
-                If(PfamStrings Is Nothing, New Dictionary(Of PfamString), PfamStrings.ToDictionary)
-            Dim GetRegpreciseRegulator = Function(Id As String) As Regulator
-                                             Dim LQuery = From item In RegpreciseRegulators
-                                                          Where String.Equals(item.LocusId, Id)
-                                                          Select item
-                                             Return LQuery.FirstOrDefault
-                                         End Function
-            Dim RegulatorFasta = If(RegpreciseRegulators_Fasta.IsNullOrEmpty, Nothing, FastaReaders.Regulator.LoadDocument(RegpreciseRegulators_Fasta).ToDictionary(distinct:=True))
-            Dim GetFastaRecord = If(RegpreciseRegulators_Fasta.IsNullOrEmpty, AddressOf FastaReaders.Regulator.NullDictionary, Function(UniqueId As String) RegulatorFasta(UniqueId))
-            Dim ChunkBuffer = (From MatchedItem As RegpreciseMPBBH
-                               In ResultRegpreciseBidirectionalBh.AsParallel
-                               Select __applyingProperty(
-                                   MatchedItem,
-                                   MyvaCogDict,
-                                   PfamStringDict,
-                                   GetRegpreciseRegulator,
-                                   GetFastaRecord)).ToArray
-            Return ChunkBuffer
-        End Function
+        '    Dim RegpreciseRegulators As Regulator() = Regprecise.FilteRegulators(Types.TF)
+        '    Dim MyvaCogDict As Dictionary(Of String, MyvaCOG) = If(Myva_COG Is Nothing, New Dictionary(Of MyvaCOG), Myva_COG.ToDictionary)
+        '    Dim PfamStringDict As Dictionary(Of String, PfamString) =
+        '        If(PfamStrings Is Nothing, New Dictionary(Of PfamString), PfamStrings.ToDictionary)
+        '    Dim GetRegpreciseRegulator = Function(Id As String) As Regulator
+        '                                     Dim LQuery = From item In RegpreciseRegulators
+        '                                                  Where String.Equals(item.LocusId, Id)
+        '                                                  Select item
+        '                                     Return LQuery.FirstOrDefault
+        '                                 End Function
+        '    Dim RegulatorFasta = If(RegpreciseRegulators_Fasta.IsNullOrEmpty, Nothing, FastaReaders.Regulator.LoadDocument(RegpreciseRegulators_Fasta).ToDictionary(distinct:=True))
+        '    Dim GetFastaRecord = If(RegpreciseRegulators_Fasta.IsNullOrEmpty, AddressOf FastaReaders.Regulator.NullDictionary, Function(UniqueId As String) RegulatorFasta(UniqueId))
+        '    Dim ChunkBuffer = (From MatchedItem As RegpreciseMPBBH
+        '                       In ResultRegpreciseBidirectionalBh.AsParallel
+        '                       Select __applyingProperty(
+        '                           MatchedItem,
+        '                           MyvaCogDict,
+        '                           PfamStringDict,
+        '                           GetRegpreciseRegulator,
+        '                           GetFastaRecord)).ToArray
+        '    Return ChunkBuffer
+        'End Function
 
-        Private Function __applyingProperty(MatchedItem As RegpreciseMPBBH,
-                                            MyvaCogDict As Dictionary(Of String, MyvaCOG),
-                                            PfamStringDict As Dictionary(Of String, PfamString),
-                                            GetRegpreciseRegulator As Func(Of String, Regprecise.Regulator),
-                                            GetFastaRecord As Func(Of String, FastaReaders.Regulator)) As RegpreciseMPBBH
-            Dim ProteinId As String = MatchedItem.QueryName
-            Dim Cog = If(MyvaCogDict.ContainsKey(MatchedItem.QueryName), MyvaCogDict(ProteinId), Nothing)
-            Dim Pfam = If(PfamStringDict.ContainsKey(MatchedItem.QueryName), PfamStringDict(ProteinId), Nothing)
-            Dim RegulatorId As String = MatchedItem.HitName.Split(CChar(":")).Last
-            Dim RegpreciseRegulator = GetRegpreciseRegulator(RegulatorId)
+        'Private Function __applyingProperty(MatchedItem As RegpreciseMPBBH,
+        '                                    MyvaCogDict As Dictionary(Of String, MyvaCOG),
+        '                                    PfamStringDict As Dictionary(Of String, PfamString),
+        '                                    GetRegpreciseRegulator As Func(Of String, Regprecise.Regulator),
+        '                                    GetFastaRecord As Func(Of String, FastaReaders.Regulator)) As RegpreciseMPBBH
+        '    Dim ProteinId As String = MatchedItem.QueryName
+        '    Dim Cog = If(MyvaCogDict.ContainsKey(MatchedItem.QueryName), MyvaCogDict(ProteinId), Nothing)
+        '    Dim Pfam = If(PfamStringDict.ContainsKey(MatchedItem.QueryName), PfamStringDict(ProteinId), Nothing)
+        '    Dim RegulatorId As String = MatchedItem.HitName.Split(CChar(":")).Last
+        '    Dim RegpreciseRegulator = GetRegpreciseRegulator(RegulatorId)
 
-            If Cog IsNot Nothing Then
-                MatchedItem.term = Cog.Category
-                MatchedItem.description = Cog.Description
-                MatchedItem.length = If(Cog.Length > 0, CStr(Cog.Length), "")
-            End If
+        '    If Cog IsNot Nothing Then
+        '        MatchedItem.term = Cog.Category
+        '        MatchedItem.description = Cog.Description
+        '        MatchedItem.length = If(Cog.Length > 0, CStr(Cog.Length), "")
+        '    End If
 
-            If Pfam IsNot Nothing Then
-                MatchedItem.description = Pfam.Description
-                MatchedItem.length = Pfam.Length
-                MatchedItem.PfamString = Pfam.get__PfamString
-            End If
+        '    If Pfam IsNot Nothing Then
+        '        MatchedItem.description = Pfam.Description
+        '        MatchedItem.length = Pfam.Length
+        '        MatchedItem.PfamString = Pfam.get__PfamString
+        '    End If
 
-            If Not RegpreciseRegulator Is Nothing Then
-                MatchedItem.pathway = RegpreciseRegulator.biological_process.JoinBy("; ")
-                MatchedItem.effectors = If(String.IsNullOrEmpty(RegpreciseRegulator.effector), Nothing, Strings.Split(RegpreciseRegulator.effector, "; "))
-                MatchedItem.Family = RegpreciseRegulator.family
-                MatchedItem.Tfbs = (From site In RegpreciseRegulator.regulatorySites Select String.Join(":", site.locus_tag, site.position)).ToArray
-                MatchedItem.regulationMode = RegpreciseRegulator.regulationMode
-            Else
-                Dim FastaRegulatorRecord = GetFastaRecord(RegulatorId)
-                If Not FastaRegulatorRecord Is Nothing Then
-                    MatchedItem.Family = FastaRegulatorRecord.Family
-                    MatchedItem.Tfbs = FastaRegulatorRecord.Sites
-                End If
-            End If
+        '    If Not RegpreciseRegulator Is Nothing Then
+        '        MatchedItem.pathway = RegpreciseRegulator.biological_process.JoinBy("; ")
+        '        MatchedItem.effectors = If(String.IsNullOrEmpty(RegpreciseRegulator.effector), Nothing, Strings.Split(RegpreciseRegulator.effector, "; "))
+        '        MatchedItem.Family = RegpreciseRegulator.family
+        '        MatchedItem.Tfbs = (From site In RegpreciseRegulator.regulatorySites Select String.Join(":", site.locus_tag, site.position)).ToArray
+        '        MatchedItem.regulationMode = RegpreciseRegulator.regulationMode
+        '    Else
+        '        Dim FastaRegulatorRecord = GetFastaRecord(RegulatorId)
+        '        If Not FastaRegulatorRecord Is Nothing Then
+        '            MatchedItem.Family = FastaRegulatorRecord.Family
+        '            MatchedItem.Tfbs = FastaRegulatorRecord.Sites
+        '        End If
+        '    End If
 
-            MatchedItem.HitName = MatchedItem.HitName.Split(CChar("|")).Last
+        '    MatchedItem.HitName = MatchedItem.HitName.Split(CChar("|")).Last
 
-            Return MatchedItem
-        End Function
+        '    Return MatchedItem
+        'End Function
 
         <ExportAPI("Write.Csv.Regprecise.bbh")>
         Public Function WriteData(data As IEnumerable(Of RegpreciseMPBBH), saveto As String) As Boolean
