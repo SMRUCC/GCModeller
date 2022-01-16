@@ -1,16 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <RootNamespace>SMRUCC.genomics.GCModeller.Compiler</RootNamespace>
+    <RootNamespace>SMRUCC.genomics.GCModeller.Framework.Kernel_Driver</RootNamespace>
     <TargetFramework>net5.0</TargetFramework>
-    <AssemblyName>SMRUCC.genomics.GCModeller.Compiler</AssemblyName>
+    <AssemblyName>SMRUCC.genomics.GCModeller.Framework.Kernel_Driver_v1.33_33.0.0.899__2a845d2dh080dc9c</AssemblyName>
     <Platforms>AnyCPU;x64</Platforms>
     <Configurations>Debug;Release;LipidSearch;mzkit;NPSearch;Rsharp_app_release</Configurations>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <PackageIcon>logo.png</PackageIcon>
-    <PackageIconUrl />
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -104,10 +102,6 @@
     <Compile Remove="Test\**" />
     <EmbeddedResource Remove="Test\**" />
     <None Remove="Test\**" />
-    <None Include="..\..\..\..\images\logo.png">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
     <None Include="..\..\..\..\LICENSE">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
@@ -115,25 +109,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Import Include="System.Data" />
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\Math.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+    <ProjectReference Include="..\..\core\Bio.Assembly\biocore-netcore5.vbproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\repository\Bio.Repository\repository.NET5.vbproj" />
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Graph\graph-netcore5.vbproj" />
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\gr\network-visualization\Datavisualization.Network\network_graph-netcore5.vbproj" />
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\gr\network-visualization\Network.IO.Extensions\network_io-netcore5.vbproj" />
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\mime\application%vnd.openxmlformats-officedocument.spreadsheetml.sheet\Excel\xlsx-netcore5.vbproj" />
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\mime\application%xml\xml-netcore5.vbproj" />
-    <ProjectReference Include="..\..\core\Bio.Assembly\biocore-netcore5.vbproj" />
-    <ProjectReference Include="..\..\data\SABIO-RK\SABIO-RK.NET.vbproj" />
-    <ProjectReference Include="..\..\models\SBML\SBML\sbml-netcore5.vbproj" />
-    <ProjectReference Include="..\BootstrapLoader\BootstrapLoader.NET5.vbproj" />
-    <ProjectReference Include="..\CompilerServices\CompilerServices.NET5.vbproj" />
-    <ProjectReference Include="..\Dynamics\Dynamics.NET5.vbproj" />
-    <ProjectReference Include="..\IO\GCMarkupLanguage\GCMarkupXML.NET5.vbproj" />
-    <ProjectReference Include="..\Model\Model.Core.NET5.vbproj" />
+    <Import Include="System.Data" />
   </ItemGroup>
 
 </Project>

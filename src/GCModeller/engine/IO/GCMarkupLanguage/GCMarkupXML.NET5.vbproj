@@ -208,6 +208,7 @@
 	  <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
 	  <ProjectReference Include="..\..\..\models\SBML\SBML\sbml-netcore5.vbproj" />
 	  <ProjectReference Include="..\..\BootstrapLoader\BootstrapLoader.NET5.vbproj" />
+	  <ProjectReference Include="..\..\CompilerServices\CompilerServices.NET5.vbproj" />
 	  <ProjectReference Include="..\..\Dynamics\Dynamics.NET5.vbproj" />
 	  <ProjectReference Include="..\..\Model\Model.Core.NET5.vbproj" />
 	</ItemGroup>
