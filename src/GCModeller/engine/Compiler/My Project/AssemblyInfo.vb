@@ -7,7 +7,7 @@ Imports System.Runtime.InteropServices
 ' associated with an assembly.
 
 ' Review the values of the assembly attributes
-
+#if netcore5=0 then 
 <Assembly: AssemblyTitle("The GCModeller vCell Compiler")>
 <Assembly: AssemblyDescription("The GCModeller vCell Compiler")>
 <Assembly: AssemblyCompany("SMRUCC/GCModeller")>
@@ -33,3 +33,4 @@ Imports System.Runtime.InteropServices
 
 <Assembly: AssemblyVersion("2.876.*")>
 <Assembly: AssemblyFileVersion("1.231.*")>
+#end if
