@@ -111,7 +111,7 @@
 		<DebugType>full</DebugType>
 		<DefineDebug>false</DefineDebug>
 		<DefineTrace>true</DefineTrace>
-		<OutputPath>../../../workbench/pkg/assembly\</OutputPath>
+		<OutputPath>../../../../workbench/pkg/assembly\</OutputPath>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='PlantMAT|x64'">
