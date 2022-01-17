@@ -135,7 +135,52 @@
       "ProjectGuid": "7e46a99a-60d3-4bc0-b5a4-39251a599c1e",
       "DisplayName": "Proteomics.NET5",
       "ColorIndex": 10
+    },
+    "bae91f3a-e2c6-4b2f-bf7b-02eb14c901bb": {
+      "ProjectGuid": "bae91f3a-e2c6-4b2f-bf7b-02eb14c901bb",
+      "DisplayName": "Fisher.NET5",
+      "ColorIndex": 11
+    },
+    "60aa6823-471a-48f4-92a7-7f154753f99e": {
+      "ProjectGuid": "60aa6823-471a-48f4-92a7-7f154753f99e",
+      "DisplayName": "gsea-netcore5",
+      "ColorIndex": 12
+    },
+    "a32d7f4a-1993-4443-8044-7f6ad003e5a7": {
+      "ProjectGuid": "a32d7f4a-1993-4443-8044-7f6ad003e5a7",
+      "DisplayName": "SmithWaterman.NET5",
+      "ColorIndex": 13
+    },
+    "a521b880-95d4-4299-a150-a62b6153442b": {
+      "ProjectGuid": "a521b880-95d4-4299-a150-a62b6153442b",
+      "DisplayName": "SequencePatterns.NET5",
+      "ColorIndex": 14
+    },
+    "56116dea-95df-4ad8-b183-3e484231cb4c": {
+      "ProjectGuid": "56116dea-95df-4ad8-b183-3e484231cb4c",
+      "DisplayName": "SequencePatterns.Abstract.NET5",
+      "ColorIndex": 15
+    },
+    "75ac5f06-d5a3-4ede-b092-c7662d9bb4ee": {
+      "ProjectGuid": "75ac5f06-d5a3-4ede-b092-c7662d9bb4ee",
+      "DisplayName": "SequenceLogo.NET5",
+      "ColorIndex": 0
+    },
+    "9bed0810-9ab4-4d15-8f50-3b9bd02f9ae0": {
+      "ProjectGuid": "9bed0810-9ab4-4d15-8f50-3b9bd02f9ae0",
+      "DisplayName": "NeedlemanWunsch.NET5",
+      "ColorIndex": 1
+    },
+    "dc59c0e9-502d-4f12-b823-a25ad1c68a8d": {
+      "ProjectGuid": "dc59c0e9-502d-4f12-b823-a25ad1c68a8d",
+      "DisplayName": "MSA.NET5",
+      "ColorIndex": 2
+    },
+    "842ce3de-2582-4e28-9d90-75750da19131": {
+      "ProjectGuid": "842ce3de-2582-4e28-9d90-75750da19131",
+      "DisplayName": "MotifScanner.NET5",
+      "ColorIndex": 3
     }
   },
-  "NextColorIndex": 11
+  "NextColorIndex": 4
 }
