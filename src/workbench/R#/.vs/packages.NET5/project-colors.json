@@ -180,7 +180,52 @@
       "ProjectGuid": "842ce3de-2582-4e28-9d90-75750da19131",
       "DisplayName": "MotifScanner.NET5",
       "ColorIndex": 3
+    },
+    "f7b0b8c9-0593-4021-bcb0-a81010280935": {
+      "ProjectGuid": "f7b0b8c9-0593-4021-bcb0-a81010280935",
+      "DisplayName": "vcellkit.NET5",
+      "ColorIndex": 4
+    },
+    "fe4c67ee-33c1-486f-9ec0-69ad86d7d647": {
+      "ProjectGuid": "fe4c67ee-33c1-486f-9ec0-69ad86d7d647",
+      "DisplayName": "BootstrapLoader.NET5",
+      "ColorIndex": 5
+    },
+    "2c845b88-1648-4007-afce-64fbbea0d0a9": {
+      "ProjectGuid": "2c845b88-1648-4007-afce-64fbbea0d0a9",
+      "DisplayName": "Compiler.NET5",
+      "ColorIndex": 6
+    },
+    "5746431a-d9f9-4324-97b0-741aac49ac38": {
+      "ProjectGuid": "5746431a-d9f9-4324-97b0-741aac49ac38",
+      "DisplayName": "CompilerServices.NET5",
+      "ColorIndex": 7
+    },
+    "9eec1dd7-cc97-4f17-b860-bc3b50844997": {
+      "ProjectGuid": "9eec1dd7-cc97-4f17-b860-bc3b50844997",
+      "DisplayName": "Dynamics.NET5",
+      "ColorIndex": 8
+    },
+    "792b9a29-bbb0-47a4-86d4-cd0ca34912e7": {
+      "ProjectGuid": "792b9a29-bbb0-47a4-86d4-cd0ca34912e7",
+      "DisplayName": "GCMarkupXML.NET5",
+      "ColorIndex": 9
+    },
+    "22ba98c8-4e5f-413e-af35-6b2b29d1eead": {
+      "ProjectGuid": "22ba98c8-4e5f-413e-af35-6b2b29d1eead",
+      "DisplayName": "Model.Core.NET5",
+      "ColorIndex": 10
+    },
+    "fae70c52-9496-4d47-ad8f-183284cd079b": {
+      "ProjectGuid": "fae70c52-9496-4d47-ad8f-183284cd079b",
+      "DisplayName": "vcellDebugger.NET5",
+      "ColorIndex": 11
+    },
+    "db74684c-d332-4ffa-9c19-ab7268caf348": {
+      "ProjectGuid": "db74684c-d332-4ffa-9c19-ab7268caf348",
+      "DisplayName": "vcXML.NET5",
+      "ColorIndex": 12
     }
   },
-  "NextColorIndex": 4
+  "NextColorIndex": 13
 }
