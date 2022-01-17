@@ -6,3 +6,6 @@ virtual cell network kinetics modeller
 + [cacheOf.enzyme_kinetics](modeller/cacheOf.enzyme_kinetics.1) 
 + [read.vcell](modeller/read.vcell.1) read the virtual cell model file
 + [zip](modeller/zip.1) 
++ [kinetics](modeller/kinetics.1) create dynamics kinetics
++ [kinetics_lambda](modeller/kinetics_lambda.1) 
++ [eval_lambda](modeller/eval_lambda.1) 
