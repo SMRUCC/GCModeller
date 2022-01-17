@@ -2,6 +2,15 @@ import GCModeller
 
 from vcellkit import modeller
 
-result = kinetics("(Vmax * S) / (Km + S)", Vmax = 10, S = "s", Km = 2).kinetics_lambda().eval_lambda(s = 5)
+def eval(s_content):
 
-print(`result value of target kinetics is ${result}`)
+    return kinetics("(Vmax * S) / (Km + S)", Vmax = 10, S = "s", Km = 2).kinetics_lambda().eval_lambda(s = s_content)
+
+
+for target in 0:10 step 0.25:
+    result = eval(target)
+
+    print(`target [${target}] kinetics is ${result}`)
+
+
+
