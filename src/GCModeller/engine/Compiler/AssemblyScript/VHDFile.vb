@@ -91,7 +91,7 @@ Namespace AssemblyScript
             End If
 
             If Not directive.ContainsKey("MAINTAINER") Then
-                vhd.maintainers = {New Maintainer With {.authorName = My.User.Name}}
+                vhd.maintainers = {New Maintainer With {.authorName = App.UserHOME.BaseName}}
             Else
                 vhd.maintainers = directive("MAINTAINER") _
                     .Select(Function(a) New Maintainer(a)) _

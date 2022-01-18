@@ -1,50 +1,55 @@
 ﻿#Region "Microsoft.VisualBasic::1f29afd0ce694eddf550fe615de9f410, data\RegulonDatabase\Regprecise\AnalysisResult\RegPreciseOperon.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class RegPreciseOperon
-    ' 
-    '         Properties: bbh, bbhUID, BiologicalProcess, Effector, Operon
-    '                     Pathway, Regulators, source, Strand, TF_trace
-    ' 
-    '         Constructor: (+3 Overloads) Sub New
-    '         Function: ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class RegPreciseOperon
+' 
+'         Properties: bbh, bbhUID, BiologicalProcess, Effector, Operon
+'                     Pathway, Regulators, source, Strand, TF_trace
+' 
+'         Constructor: (+3 Overloads) Sub New
+'         Function: ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+#If netcore5 = 1 Then
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+#Else
 Imports System.Web.Script.Serialization
+#End If
+
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Serialization.JSON
@@ -126,7 +131,7 @@ Namespace Regprecise
             Effector = regulon.effector
             Pathway = regulon.pathway
             BiologicalProcess = regulon.biological_process.JoinBy("; ")
-            source = regulon.Regulog.name
+            source = regulon.regulog.name
             Strand = cstrand
             bbh = bbhHits
         End Sub

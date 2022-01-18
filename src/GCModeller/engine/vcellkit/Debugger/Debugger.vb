@@ -145,6 +145,17 @@ Module Debugger
             .AttatchFluxDriver(AddressOf flux.SnapshotDriver)
     End Function
 
+    ''' <summary>
+    ''' run network dynamics
+    ''' </summary>
+    ''' <param name="network">
+    ''' the target network graph model
+    ''' </param>
+    ''' <param name="init0">
+    ''' the system initial conditions
+    ''' </param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("test_network")>
     <RApiReturn(GetType(Vessel))>
     Public Function CreateNetwork(<RRawVectorArgument> network As Object,

@@ -7,6 +7,7 @@ Imports System.Runtime.InteropServices
 ' 与程序集关联的信息。
 
 ' 查看程序集特性的值
+#if netcore5=0 then 
 
 <Assembly: AssemblyTitle("(Bacteria Wiki Assembly) LANS Systems Biology GCModeller Virtual Cell Model Xml Assembly")> 
 <Assembly: AssemblyDescription("LANS Systems Biology GCModeller Virtual Cell Model Xml Assembly")> 
@@ -33,3 +34,4 @@ Imports System.Runtime.InteropServices
 
 <Assembly: AssemblyVersion("2.1.0.892")> 
 <Assembly: AssemblyFileVersion("1.0.453.1")> 
+#end if

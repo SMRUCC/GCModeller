@@ -48,7 +48,8 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Vector
 <HideModuleName>
 Public Module Extensions
 
-    <Extension> Public Function EvalEffects(regMode As String) As Double
+    <Extension>
+    Public Function EvalEffects(regMode As String) As Double
         If regMode.StringEmpty Then
             Return 0.25
         End If
