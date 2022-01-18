@@ -1,58 +1,59 @@
 ﻿#Region "Microsoft.VisualBasic::b549f5db635259bc745747ba84fae42f, data\RegulonDatabase\Regprecise\RegpreciseAPI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module RegpreciseAPI
-    ' 
-    '         Function: __exportMotif, __exportMotifs, __getFastaCollection, __matches, (+2 Overloads) Compile
-    '                   Distinct, Download, DownloadRegulatorSequence, ExportByFamily, ExportBySpecies
-    '                   FamilyStatics, FamilyStatics2, GenerateDatabase, GenerateFastaData, GetTfFamilies
-    '                   InsertRegulatoryRecord, LoadRegulationDb, ReadCsv, ReadXml, ReGenerate
-    '                   RegpreciseRegulatorMatch, SaveGenomes, WriteMatches, WriteRegprecise
-    ' 
-    '         Sub: __mergeAction
-    '         Interface IRegulatorMatched
-    ' 
-    '             Properties: Address, Family, locusId
-    ' 
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module RegpreciseAPI
+' 
+'         Function: __exportMotif, __exportMotifs, __getFastaCollection, __matches, (+2 Overloads) Compile
+'                   Distinct, Download, DownloadRegulatorSequence, ExportByFamily, ExportBySpecies
+'                   FamilyStatics, FamilyStatics2, GenerateDatabase, GenerateFastaData, GetTfFamilies
+'                   InsertRegulatoryRecord, LoadRegulationDb, ReadCsv, ReadXml, ReGenerate
+'                   RegpreciseRegulatorMatch, SaveGenomes, WriteMatches, WriteRegprecise
+' 
+'         Sub: __mergeAction
+'         Interface IRegulatorMatched
+' 
+'             Properties: Address, Family, locusId
+' 
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports System.Text
+Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Data.csv
@@ -124,7 +125,7 @@ Rodionov, D. A.", Volume:=14)>
         ''' <returns></returns>
         Public Function Download(<Parameter("Export.DIR", "Directory for save the temp data.")> Optional outDIR As String = "") As TranscriptionFactors
             If String.IsNullOrEmpty(outDIR) Then
-                outDIR = My.Computer.FileSystem.SpecialDirectories.Temp
+                outDIR = TempFileSystem.TempDir
             End If
 
             Dim Regprecise As TranscriptionFactors = WebAPI.Download(outDIR)
@@ -179,7 +180,7 @@ Rodionov, D. A.", Volume:=14)>
         ''' <returns></returns>
         Public Function DownloadRegulatorSequence(Regprecise As TranscriptionFactors, Optional EXPORT As String = "") As FASTA.FastaFile
             If String.IsNullOrEmpty(EXPORT) Then
-                EXPORT = My.Computer.FileSystem.SpecialDirectories.Temp
+                EXPORT = TempFileSystem.TempDir
             End If
 
             Return WebAPI.DownloadRegulatorSequence(Regprecise, EXPORT)
@@ -452,7 +453,7 @@ Rodionov, D. A.", Volume:=14)>
             Dim lcl As Long = 0
 
             If String.IsNullOrEmpty(Export) Then
-                Export = My.Computer.FileSystem.CurrentDirectory
+                Export = App.CurrentDirectory
             End If
 
             For Each Bacteria In Regprecise.genomes
@@ -501,8 +502,8 @@ Rodionov, D. A.", Volume:=14)>
         ''' <returns></returns>
         <ExportAPI("")>
         Public Function LoadRegulationDb() As Regulations
-            Dim Xml As String = GCModeller.FileSystem.GetRegulations
-            Return Xml.LoadXml(Of Regulations)
+            'Dim Xml As String = GCModeller.FileSystem.GetRegulations
+            'Return Xml.LoadXml(Of Regulations)
         End Function
     End Module
 End Namespace

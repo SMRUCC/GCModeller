@@ -8,7 +8,7 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 ' associated with an assembly.
 
 ' Review the values of the assembly attributes
-
+#if netcore5=0 then 
 <Assembly: AssemblyTitle("VirtualCell toolkit: R# package for GCModeller VirtualCell analysis")>
 <Assembly: AssemblyDescription("VirtualCell toolkit: R# package for GCModeller VirtualCell analysis")>
 <Assembly: AssemblyCompany("SMRUCC")>
@@ -35,4 +35,4 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 <Assembly: AssemblyVersion("1.50.*")>
 <Assembly: AssemblyFileVersion("2.3421.*")>
 
-<Assembly: RPackageModule>
+#end if

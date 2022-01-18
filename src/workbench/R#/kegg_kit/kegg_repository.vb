@@ -398,7 +398,7 @@ Public Module kegg_repository
                 .ToArray
         End If
 
-        dataRepo = pipeline.TryCreatePipeline(Of ReactionClassTable)(repo, env)
+        dataRepo = pipeline.TryCreatePipeline(Of ReactionClassTable)(repo, env, suppress:=True)
 
         If Not dataRepo.isError Then
             Return dataRepo _
@@ -412,7 +412,15 @@ Public Module kegg_repository
                 .ToArray
         End If
 
-        dataRepo = pipeline.TryCreatePipeline(Of Map)(repo, env)
+        dataRepo = pipeline.TryCreatePipeline(Of Map)(repo, env, suppress:=True)
+
+        If dataRepo.isError Then
+            dataRepo = pipeline.TryCreatePipeline(Of MapIndex)(repo, env, suppress:=True)
+
+            If Not dataRepo.isError Then
+                dataRepo = pipeline.TryCreatePipeline(Of Map)(dataRepo.populates(Of MapIndex)(env).Select(Function(i) DirectCast(i, Map)), env)
+            End If
+        End If
 
         If Not dataRepo.isError Then
             Return dataRepo _

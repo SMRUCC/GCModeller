@@ -92,12 +92,15 @@ Namespace TabularDump
         Public Property Uniprot As String Implements IKeyValuePairObject(Of String, String).Key
         Public Property Enzyme As String
         Public Property Metabolite As String
-        <Column("MetaboliteId(KEGG.Compound)")> Public Property KEGGCompoundId As String Implements IKeyValuePairObject(Of String, String).Value
+        <Column("MetaboliteId(KEGG.Compound)")>
+        Public Property KEGGCompoundId As String Implements IKeyValuePairObject(Of String, String).Value
         Public Property Kcat As Double
         Public Property Km As Double
         Public Property KEGGReactionId As String
-        <Column("sabiork.kineticrecord")> Public Property KineticRecord As String
-        <Column("EC-code")> Public Property Ec As String
+        <Column("sabiork.kineticrecord")>
+        Public Property KineticRecord As String
+        <Column("EC-code")>
+        Public Property Ec As String
         Public Property PH As Double
         Public Property Temperature As Double
         Public Property Buffer As String

@@ -45,7 +45,7 @@
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Extensions
-Imports Microsoft.VisualBasic.Net.Protocols
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Model.SBML
 
 Namespace FBACompatibility
@@ -57,7 +57,8 @@ Namespace FBACompatibility
         ''' The Unique ID property for the metabolite.
         ''' </summary>
         ''' <remarks></remarks>
-        <XmlAttribute> Public Property Identifier As String Implements FLuxBalanceModel.IMetabolite.Key
+        <XmlAttribute>
+        Public Property Identifier As String Implements FLuxBalanceModel.IMetabolite.Key
 
         Public Overrides Function ToString() As String
             Return Identifier
