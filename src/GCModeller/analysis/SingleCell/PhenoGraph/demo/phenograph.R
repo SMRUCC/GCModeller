@@ -6,7 +6,7 @@ imports ["geneExpression", "phenograph"] from "phenotype_kit";
 
 setwd(@dir);
 
-"../../../demo/HR2MSI mouse urinary bladder S096_top3.csv"
+"../../demo/HR2MSI mouse urinary bladder S096_top3.csv"
 |> load.expr
 |> phenograph(k = 200)
 |> save.network(file = "HR2MSI mouse urinary bladder S096_graph")
@@ -14,11 +14,16 @@ setwd(@dir);
 
 bitmap(file = `Rphenograph.png`) {
 	const data     = read.csv("HR2MSI mouse urinary bladder S096_graph/nodes.csv", row.names = NULL);
-	const ID       = lapply(data[, 1], function(px) as.numeric(strsplit(px, ",")));
+	const ID       = lapply(data[, 1], function(px) as.numeric(strsplit(px, "[,.]", fixed = FALSE)));
 	const clusters = data[, "NodeType"];
 	const x        = sapply(ID, px -> px[1]);
     const y        = sapply(ID, px -> px[2]);
 	
+	print(data, max.print = 13);
+	print("[x,y]:");
+	print(x);
+	print(y);
+
 	plot(x, y, 
 	    class      = clusters, 
 	    shape      = "Square", 
