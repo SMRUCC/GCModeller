@@ -13,7 +13,11 @@ setwd(@dir);
 ;
 
 bitmap(file = `Rphenograph.png`) {
-	const data     = read.csv("HR2MSI mouse urinary bladder S096_graph/nodes.csv", row.names = NULL);
+	const data     = "HR2MSI mouse urinary bladder S096_graph/nodes.csv" 
+	|> read.csv(
+		row.names   = NULL, 
+		check.names = FALSE
+	);
 	const ID       = lapply(data[, 1], function(px) as.numeric(strsplit(px, "[,.]", fixed = FALSE)));
 	const clusters = data[, "NodeType"];
 	const x        = sapply(ID, px -> px[1]);
