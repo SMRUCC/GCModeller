@@ -118,11 +118,11 @@ Namespace Assembly.KEGG.DBGET.bGetObject.Organism
 
             Return New OrganismInfo With {
                 .Aliases = rows.TryGetValue("Aliases"),
-                .code = rows("Org code"),
+                .code = rows("Org_code"),
                 .Comment = comment,
                 .Created = rows!Created,
-                .FullName = rows("Full name"),
-                .Definition = rows!Definition,
+                .FullName = rows.TryGetValue("Full name"),
+                .Definition = rows.TryGetValue("Definition"),
                 .Keywords = keywords,
                 .Sequence = rows.TryGetValue("Sequence").href,
                 .Lineage = rows!Lineage,

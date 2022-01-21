@@ -67,7 +67,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
     ''' </summary>
     Module PathwayWebParser
 
-        Const PATHWAY_SPLIT As String = "<a href=""/kegg-bin/show_pathway.+?"">.+?"
+        Const PATHWAY_SPLIT As String = "<a href=""((/kegg-bin/show_pathway)|(/pathway/)).+?"">.+?"
         Const MODULE_SPLIT As String = "<a href=""/kegg-bin/show_module.+?"">.+?"
         Const GENE_SPLIT As String = "<a href=""/dbget-bin/www_bget\?{0}:.+?"">.+?</a>"
 
@@ -223,7 +223,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 Case LIST_TYPES.Module
                     splitRegex = "<a href=""/kegg-bin/show_module.+?"">.+?</a>"
                 Case LIST_TYPES.Pathway
-                    splitRegex = "<a href=""/kegg-bin/show_pathway.+?"">.+?</a>"
+                    splitRegex = "<a href=""((/kegg-bin/show_pathway)|(/pathway/)).+?"">.+?</a>"
             End Select
 
             For i As Integer = 0 To sbuf.Length - 2
@@ -244,11 +244,16 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 }
             Next
 
-            Dim p As Integer = InStr(html, sbuf.Last)
+            Dim lastP As String = If(sbuf.Length = 0, "", sbuf.Last)
+            Dim p As Integer = InStr(html, lastP)
             html = Mid(html, p)
+
+            Dim nameStr As String = Regex.Match(html, splitRegex).Value
             Dim lastEntry As New NamedValue With {
-                .name = Regex.Match(html, splitRegex).Value,
-                .text = WebForm.RemoveHrefLink(html.Replace(.name, "").Trim)
+                .name = nameStr,
+                .text = If(.name.StringEmpty, "", html.Replace(.name, "")) _
+                    .Trim _
+                    .DoCall(AddressOf WebForm.RemoveHrefLink)
             }
             ' 由于解析value属性的时候还需要使用到key的原始字符串数据
             ' 所以key的最后解析放在初始化代码外
@@ -261,7 +266,9 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 x.text = x.text.StripHTMLTags.StripBlank
             Next
 
-            Return out.ToArray
+            Return out _
+                .Where(Function(t) Not t.name.StringEmpty) _
+                .ToArray
         End Function
 
         Friend Enum LIST_TYPES As Integer
