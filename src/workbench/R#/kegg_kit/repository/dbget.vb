@@ -18,14 +18,12 @@ Public Module dbget
 
         Dim infoJSON$ = $"{export}/kegg.json"
 
-        If Not env.globalEnvironment.debugMode Then
-            If infoJSON.LoadJSON(Of OrganismInfo)(throwEx:=False) Is Nothing Then
-                Call env.globalEnvironment.options.setOption("dbget.cache", export)
-                Call dbget _
-                    .ShowOrganism(code:=sp, env:=env) _
-                    .GetJson _
-                    .SaveTo(infoJSON)
-            End If
+        If infoJSON.LoadJSON(Of OrganismInfo)(throwEx:=False) Is Nothing Then
+            Call env.globalEnvironment.options.setOption("dbget.cache", export)
+            Call dbget _
+                .ShowOrganism(code:=sp, env:=env) _
+                .GetJson _
+                .SaveTo(infoJSON)
         End If
 
         With infoJSON.LoadJSON(Of OrganismInfo)

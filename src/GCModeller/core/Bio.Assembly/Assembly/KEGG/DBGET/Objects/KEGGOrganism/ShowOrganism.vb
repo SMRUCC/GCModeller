@@ -117,7 +117,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject.Organism
                ?.Split(","c)
 
             Return New OrganismInfo With {
-                .Aliases = rows?!Aliases,
+                .Aliases = rows.TryGetValue("Aliases"),
                 .code = rows("Org code"),
                 .Comment = comment,
                 .Created = rows!Created,
