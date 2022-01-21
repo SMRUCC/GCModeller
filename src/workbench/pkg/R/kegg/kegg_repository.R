@@ -26,11 +26,11 @@ const kegg_maps as function(rawMaps = TRUE) {
 
 #' Load internal kegg reaction repository
 #' 
-const kegg_reactions as function() {
+const kegg_reactions as function(raw = TRUE) {
     using file as .readZipStream(
         zipfile = system.file("data/kegg/reactions.zip", package = "GCModeller")
     ) {
-        repository::load.reactions(file);
+        repository::load.reactions(file, raw = raw);
     }
 }
 

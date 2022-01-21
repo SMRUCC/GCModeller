@@ -1,23 +1,21 @@
-imports "vcellkit.debugger" from "vcellkit";
-imports ["kegg.repository", "report.utils"] from "kegg_kit";
+require(GCModeller);
+
+imports "debugger" from "vcellkit";
+imports ["repository", "report.utils"] from "kegg_kit";
 
 setwd(!script$dir);
 
-let KEGG_maps = "E:\GCModeller\src\workbench\R#\demo\kegg\KEGG_maps.zip";
-let kegg_reactions = "E:\smartnucl_integrative\biodeepdb_v3\KEGG\br08201";
-let reactions = load.reactions(kegg_reactions);
-let run as function(mass, flux) {
-	using maps as open.zip(KEGG_maps) {
-		let dynamics = maps[["map00020.XML"]] 
-		:> loadMap 
-		:> map.flux(reactions) 
-		:> flux.dynamics
-		:> flux.load_driver(mass, flux)
-		:> as.object
-		;
-		
-		dynamics$Run();
-	}
+const KEGG_maps = GCModeller::kegg_maps(rawMaps = FALSE);
+const reactions = GCModeller::kegg_reactions(raw = FALSE);
+const run as function(mass, flux) {	
+	const dynamics = KEGG_maps[["map00020"]] 
+	:> map.flux(reactions) 
+	:> flux.dynamics
+	:> flux.load_driver(mass, flux)
+	:> as.object
+	;
+	
+	dynamics$Run();
 }
 
 using mass as auto(new dataset.driver(), "./matrix/mass.csv") {
