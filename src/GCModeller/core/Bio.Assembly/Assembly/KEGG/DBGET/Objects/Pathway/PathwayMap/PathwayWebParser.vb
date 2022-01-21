@@ -74,7 +74,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' <summary>
         ''' 这里会需要同时兼容compound和glycan这两种数据
         ''' </summary>
-        Const COMPOUND_SPLIT As String = "\<a href\=""/dbget-bin/www_bget\?((cpd)|(gl)):.+?""\>.+?\</a\>.+?"
+        Const COMPOUND_SPLIT As String = "\<a href\=""(/dbget-bin/www_bget\?((cpd)|(gl)):.+?)|(/entry/.+?)""\>.+?\</a\>.+?"
 
         <Extension>
         Friend Function parseOrthologyTerms(data As IEnumerable(Of NamedValue)) As OrthologyTerms
