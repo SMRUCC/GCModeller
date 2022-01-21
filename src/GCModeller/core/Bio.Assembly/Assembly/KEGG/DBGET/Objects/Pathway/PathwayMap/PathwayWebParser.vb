@@ -97,13 +97,15 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' </summary>
         ''' <param name="url"></param>
         ''' <returns></returns>
-        <Extension> Public Function PageParser(url$) As Pathway
+        <Extension>
+        Public Function PageParser(url$) As Pathway
             Dim WebForm As New WebForm(url)
 
             If WebForm.Count = 0 Then
                 Return Nothing
             End If
 
+            Dim compounds = WebForm.parseList(WebForm.GetValue("Compound").FirstOrDefault, COMPOUND_SPLIT).ToArray
             Dim Pathway As New Pathway With {
                 .organism = WebForm.__organism,
                 .EntryId = WebForm.__entryID,
@@ -114,7 +116,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 .description = WebForm.__description,
                 .modules = __parseHTML_ModuleList(WebForm.GetValue("Module").FirstOrDefault, LIST_TYPES.Module),
                 .genes = WebForm.parseList(WebForm.GetValue("Gene").FirstOrDefault, String.Format(GENE_SPLIT, .organism.Key)).ToArray,
-                .compound = WebForm.parseList(WebForm.GetValue("Compound").FirstOrDefault, COMPOUND_SPLIT).ToArray,
+                .compound = compounds,
                 .references = WebForm.References,
                 .otherDBs = WebForm("Other DBs").FirstOrDefault.__otherDBs,
                 .drugs = WebForm("Drug").FirstOrDefault.__pathwayDrugs
