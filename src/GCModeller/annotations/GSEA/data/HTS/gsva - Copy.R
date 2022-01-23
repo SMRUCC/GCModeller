@@ -9,7 +9,10 @@ metainfo = read.csv("E:\plot\doMSMSalignment.report1.csv", row.names = NULL);
 # metaSet  = read.csv(`${@dir}/kegg_enrichment.xls`, row.names = NULL, check.names = FALSE, tsv = TRUE);
 # metaSet[, "names"] = NULL;
 
-metaSet = background::KO_reference() |> as.geneSet();
+metaSet = GCModeller::kegg_maps(rawMaps = FALSE)  
+|> background::metabolism.background() 
+|> as.geneSet()
+;
 
 print("view background:");
 str(metaSet);
@@ -18,6 +21,8 @@ metainfo[, "KEGG"] = unique.names(metainfo[, "KEGG"]);
 metainfo = as.list(metainfo, byrow = TRUE);
 names(metainfo) = sapply(metainfo, r -> r$KEGG);
 metainfo = lapply(metainfo, r -> r$ID);
+
+str(metainfo);
 
 getCluster = function(kegg_id) {
 	# kegg_id = strsplit(term$compounds, ";");
