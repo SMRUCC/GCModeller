@@ -49,7 +49,8 @@ const kegg_reactions as function(raw = TRUE) {
 #' 
 const .readZipStream as function(zipfile, entryName = NULL) {
     using zip as open.zip(zipfile) {
-        const names as string = as.object(zip)$ls;
+		const zipfile = as.object(zip);
+        const names as string = zipfile$ls;
         const data = zip[[entryName || names[1]]];
 
         # returns the target data stream

@@ -10,4 +10,5 @@ tools for handling GSEA background model.
 + [as.background](background/as.background.1) 
 + [KO_reference](background/KO_reference.1) 
 + [as.geneSet](background/as.geneSet.1) 
++ [metabolism.background](background/metabolism.background.1) 
 + [KO.background](background/KO.background.1) create kegg background model
