@@ -60,7 +60,9 @@ run_gsva = function() {
     scores;
 }
 
-gsva_score = @profile run_gsva();
+gsva_score = @profile {
+	run_gsva();
+};
 
 diff = function(name, g1, g2) {
 	mean1  = mean(g1);
