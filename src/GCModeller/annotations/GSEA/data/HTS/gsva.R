@@ -67,7 +67,7 @@ run_diff = function(gsva_score) {
     print("run group diff between A01 and CK...");
 
     # test group diff
-    A01 = ["A01.1", "A01.2", "A01.3", "A01.4", "A01.5", "A01.6"];
+    A01 = ["A01-1", "A01-2", "A01-3", "A01-4", "A01-5", "A01-6"];
     CK  = ["CK1", "CK2", "CK3", "CK4", "CK5", "CK6"];
 
     A01       = gsva_score[, A01];
