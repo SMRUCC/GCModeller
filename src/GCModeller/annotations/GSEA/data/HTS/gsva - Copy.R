@@ -47,7 +47,7 @@ run_gsva = function() {
     # print("preview of your gsva score matrix:")
     # print(as.data.frame(scores), max.print = 13)
 
-    write.expr_matrix(scores, file = `${@dir}/gsva.csv`, id = "pathway Name");
+    write.expr_matrix(scores, file = "E:\plot/gsva.csv", id = "pathway Name");
 
     scores = as.data.frame(scores);
     
@@ -74,11 +74,11 @@ diff = function(name, g1, g2) {
 }
 
 run_diff = function(gsva_score) {
-    print("run group diff between A01 and CK...");
+    print("run group diff between GQ and I...");
 
     # test group diff
-    A01 = ["A01-1", "A01-2", "A01-3", "A01-4", "A01-5", "A01-6"];
-    CK  = ["CK1", "CK2", "CK3", "CK4", "CK5", "CK6"];
+    A01 = ["G-Q-1","G-Q-2","G-Q-3"];
+    CK  = ["I-1","I-2","I-3"];
 
     A01       = gsva_score[, A01];
     CK        = gsva_score[, CK];
@@ -111,12 +111,12 @@ run_diff = function(gsva_score) {
 print(" ~done!");
 gsva_diff = run_diff(gsva_score);
 print(gsva_diff, max.print = 13);
-write.csv(gsva_diff, file = `${@dir}/A01_vs_CK_gsva.csv`, row.names = FALSE);
+write.csv(gsva_diff, file = `E:\plot/GQ_vs_I_gsva.csv`, row.names = FALSE);
 
 # do data visualization
 
 
-data = read.csv(`${@dir}/A01_vs_CK_gsva.csv`, row.names = NULL);
+data = read.csv(`E:\plot/GQ_vs_I_gsva.csv`, row.names = NULL);
 data = data[data[, "t"] > 0 || data[, "t"] < -6, ];
 
 print("previews of the gsva diff result between A01 and CK group:");
@@ -124,7 +124,7 @@ print(data, max.print = 6);
 
 data = GSVA::matrix_to_diff(data, "pathNames", "t","pvalue");
 
-bitmap(file = `${@dir}/A01_vs_CK.png`) {
+bitmap(file = `E:\plot/GQ_vs_I.png`) {
    plot(data, padding = "padding: 100px 200px 200px 200px", size = [3300, 3600]);
 }
 
