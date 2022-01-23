@@ -59,7 +59,7 @@ run_gsva = function() {
     scores;
 }
 
-gsva_score = run_gsva();
+gsva_score = @profile run_gsva();
 
 diff = function(name, g1, g2) {
 	mean1  = mean(g1);
@@ -129,3 +129,20 @@ bitmap(file = `E:\plot/GQ_vs_I.png`) {
 }
 
 
+print(" ~~done!");
+profile = profiler.fetch() |> as.data.frame();
+print(profile, max.print = 13);
+
+write.csv(profile, file = `E:\plot/profile.csv`, row.name = TRUE);
+
+profile[, "index"] = 1:nrow(profile);
+
+# data visualize
+bitmap(file = `E:\plot/memory_delta.png`) {
+    ggplot(profile, padding = "padding: 200px 800px 250px 250px;", width = 4000, height = 2400) 
+    + geom_line( aes(x = "index", y = "memory_delta"), width = 8)
+	+ xlab("time(ticks)")
+	+ ylab("memory_delta(MB)")
+	+ ggtitle("Memory Delta Size")
+    ;
+}
