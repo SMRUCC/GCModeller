@@ -251,6 +251,20 @@ Public Module GSEABackground
         }
     End Function
 
+    <ExportAPI("as.geneSet")>
+    Public Function asGenesetList(background As Background) As list
+        Return New list With {
+            .slots = background _
+                .clusters _
+                .ToDictionary(Function(c)
+                                  Return $"{c.ID} {c.names}"
+                              End Function,
+                              Function(c)
+                                  Return CObj(c.members.Select(Function(d) d.accessionID).ToArray)
+                              End Function)
+        }
+    End Function
+
     ''' <summary>
     ''' create kegg background model
     ''' </summary>
