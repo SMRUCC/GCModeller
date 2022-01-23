@@ -1,4 +1,5 @@
 require(GCModeller);
+require(ggplot);
 
 imports ["background", "GSVA"] from "gseakit";
 imports "visualPlot" from "visualkit";
@@ -130,7 +131,13 @@ bitmap(file = `E:\plot/GQ_vs_I.png`) {
 
 
 print(" ~~done!");
-profile = profiler.fetch() |> as.data.frame();
+profile = as.data.frame(profiler.fetch());
+
+print("total time:");
+print(timespan(sum(profile[, "ticks"])));
+
+cat("\n");
+
 print(profile, max.print = 13);
 
 write.csv(profile, file = `E:\plot/profile.csv`, row.name = TRUE);
