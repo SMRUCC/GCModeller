@@ -4,7 +4,7 @@ imports "GSVA" from "gseakit";
 imports "visualPlot" from "visualkit";
 imports "geneExpression" from "phenotype_kit";
 
-expr0    = read.csv(`${@dir}/metabolome.csv`, row.names = 1);
+expr0    = load.expr(`${@dir}/metabolome.csv`);
 metainfo = read.csv(`${@dir}/metainfo.csv`, row.names = NULL);
 metaSet  = read.csv(`${@dir}/kegg_enrichment.xls`, row.names = NULL, check.names = FALSE, tsv = TRUE);
 metaSet[, "names"] = NULL;
