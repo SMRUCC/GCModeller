@@ -251,6 +251,61 @@ Public Module GSEABackground
         }
     End Function
 
+    <ExportAPI("as.geneSet")>
+    Public Function asGenesetList(background As Background) As list
+        Return New list With {
+            .slots = background _
+                .clusters _
+                .ToDictionary(Function(c)
+                                  Return $"{c.ID} {c.names}"
+                              End Function,
+                              Function(c)
+                                  Return CObj(c.members.Select(Function(d) d.accessionID).ToArray)
+                              End Function)
+        }
+    End Function
+
+    <Extension>
+    Private Function compoundCluster(map As MapIndex) As Cluster
+        Return New Cluster With {
+            .description = map.description,
+            .ID = map.id,
+            .names = map.Name,
+            .members = map.shapes _
+                .Select(Function(a) a.IDVector) _
+                .IteratesALL _
+                .Distinct _
+                .Where(Function(id) id.IsPattern("[CDG]\d+")) _
+                .Select(Function(cid)
+                            Return New BackgroundGene With {
+                                .accessionID = cid,
+                                .[alias] = {cid},
+                                .locus_tag = New NamedValue With {.name = cid, .text = cid},
+                                .name = cid,
+                                .term_id = {cid}
+                            }
+                        End Function) _
+                .ToArray
+       }
+    End Function
+
+    <ExportAPI("metabolism.background")>
+    Public Function metabolismBackground(kegg As MapRepository) As Background
+        Dim clusters As Cluster() = kegg.Maps _
+            .Select(Function(map)
+                        Return map.compoundCluster
+                    End Function) _
+            .ToArray
+
+        Return New Background With {
+            .clusters = clusters,
+            .build = Now,
+            .comments = "The KEGG compound metabolism background model",
+            .id = "kegg maps",
+            .name = "kegg maps"
+        }
+    End Function
+
     ''' <summary>
     ''' create kegg background model
     ''' </summary>

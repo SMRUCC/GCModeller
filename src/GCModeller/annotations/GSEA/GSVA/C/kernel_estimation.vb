@@ -28,7 +28,7 @@ Namespace C
         End Function
 
         Const SIGMA_FACTOR = 4.0
-        Const PRECOMPUTE_RESOLUTION = 1000
+        Const PRECOMPUTE_RESOLUTION = 10000
         Const MAX_PRECOMPUTE = 10.0
 
         Dim is_precomputed As Integer = 0
