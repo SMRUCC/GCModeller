@@ -89,11 +89,22 @@ Public Class Cluster : Inherits ListOf(Of BackgroundGene)
                 index = members _
                     .Select(Function(name) name.AsEnumerable) _
                     .IteratesALL _
+                    .Where(Function(str) Not str.StringEmpty) _
                     .Distinct _
                     .ToArray
             Else
                 index = members _
-                    .Select(Function(name) name.locus_tag.name.Split(":"c).Last) _
+                    .Select(Function(name)
+                                If name.locus_tag Is Nothing OrElse name.locus_tag.name.StringEmpty Then
+                                    Return ""
+                                Else
+                                    Return Strings _
+                                        .Trim(name.locus_tag.name) _
+                                        .Split(":"c) _
+                                        .Last
+                                End If
+                            End Function) _
+                    .Where(Function(str) Not str.StringEmpty) _
                     .Distinct _
                     .ToArray
             End If

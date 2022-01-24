@@ -37,7 +37,7 @@ def run_gsva():
     # print("view of the background dataset:")
     # str(metaSet)
 
-    scores = GSVA::gsva(expr0, metaSet)
+    scores = GSVA::gsva(z_score(expr0), metaSet)
 
     # print("preview of your gsva score matrix:")
     # print(as.data.frame(scores), max.print = 13)
