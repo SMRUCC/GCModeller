@@ -129,11 +129,11 @@ Public Module Enrichment
     ''' <param name="outputAll"></param>
     ''' <returns></returns>
     <Extension>
-    Friend Function calcResult(cluster As Cluster, enriched$(), inputSize%, genes%, outputAll As Boolean) As EnrichmentResult
+    Public Function calcResult(cluster As Cluster, enriched$(), inputSize%, genes%, outputAll As Boolean) As EnrichmentResult
         ' 我们的差异基因列表中，属于目标代谢途径的基因的数量
         Dim a% = enriched.Length
         ' 在目标基因组中，属于当前的代谢途径中的基因的数量
-        Dim b% = cluster.members.Length
+        Dim b% = cluster.size
         ' 在我们的差异基因列表中，不属于当前的代谢途径的基因的数量
         Dim c% = inputSize - a
         ' 在目标基因组中，不属于当前的代谢途径中的基因的数量
