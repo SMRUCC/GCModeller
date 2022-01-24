@@ -84,7 +84,7 @@ Imports Rs = SMRUCC.Rsharp.Runtime
 ''' 
 ''' </summary>
 <Package("repository", Category:=APICategories.SoftwareTools)>
-Public Module kegg_repository
+Public Module repository
 
     Sub New()
         Call REnv.ConsolePrinter.AttachConsoleFormatter(Of ReactionTable())(AddressOf showTable)

@@ -79,6 +79,13 @@ Module Debugger
         Call Summary.summary(inits, model, dir)
     End Sub
 
+    ''' <summary>
+    ''' create dynamics model from a kegg pathway map
+    ''' </summary>
+    ''' <param name="map"></param>
+    ''' <param name="reactions"></param>
+    ''' <param name="init"></param>
+    ''' <returns></returns>
     <ExportAPI("map.flux")>
     Public Function ModelPathwayMap(map As Map, reactions As ReactionRepository, Optional init As Double = 1000) As Vessel
         Dim mass As New MassTable

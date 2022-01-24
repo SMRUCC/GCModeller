@@ -10,6 +10,7 @@ C    01200  Carbon metabolism
 C    01210  2-Oxocarboxylic acid metabolism
 C    01212  Fatty acid metabolism
 C    01230  Biosynthesis of amino acids
+C    01250  Biosynthesis of nucleotide sugars
 C    01240  Biosynthesis of cofactors
 C    01220  Degradation of aromatic compounds
 B  Carbohydrate metabolism
@@ -41,7 +42,6 @@ B  Lipid metabolism
 C    00061  Fatty acid biosynthesis
 C    00062  Fatty acid elongation
 C    00071  Fatty acid degradation
-C    00072  Synthesis and degradation of ketone bodies
 C    00073  Cutin, suberine and wax biosynthesis
 C    00100  Steroid biosynthesis
 C    00120  Primary bile acid biosynthesis
@@ -79,9 +79,7 @@ C    00430  Taurine and hypotaurine metabolism
 C    00440  Phosphonate and phosphinate metabolism
 C    00450  Selenocompound metabolism
 C    00460  Cyanoamino acid metabolism
-C    00471  D-Glutamine and D-glutamate metabolism
-C    00472  D-Arginine and D-ornithine metabolism
-C    00473  D-Alanine metabolism
+C    00470  D-Amino acid metabolism
 C    00480  Glutathione metabolism
 B  Glycan biosynthesis and metabolism
 C    00510  N-Glycan biosynthesis
@@ -115,7 +113,7 @@ C    00785  Lipoic acid metabolism
 C    00790  Folate biosynthesis
 C    00670  One carbon pool by folate
 C    00830  Retinol metabolism
-C    00860  Porphyrin and chlorophyll metabolism
+C    00860  Porphyrin metabolism
 C    00130  Ubiquinone and other terpenoid-quinone biosynthesis
 B  Metabolism of terpenoids and polyketides
 C    00900  Terpenoid backbone biosynthesis
@@ -150,7 +148,7 @@ C    00901  Indole alkaloid biosynthesis
 C    00403  Indole diterpene alkaloid biosynthesis
 C    00950  Isoquinoline alkaloid biosynthesis
 C    00960  Tropane, piperidine and pyridine alkaloid biosynthesis
-C    01058  Acridone alkaloid biosynthesis
+C    00996  Biosynthesis of various alkaloids
 C    00232  Caffeine metabolism
 C    00965  Betalain biosynthesis
 C    00966  Glucosinolate biosynthesis
@@ -167,9 +165,9 @@ C    00404  Staurosporine biosynthesis
 C    00405  Phenazine biosynthesis
 C    00333  Prodigiosin biosynthesis
 C    00254  Aflatoxin biosynthesis
-C    00999  Biosynthesis of various secondary metabolites - part 1
-C    00998  Biosynthesis of various secondary metabolites - part 2
-C    00997  Biosynthesis of various secondary metabolites - part 3
+C    00998  Biosynthesis of various antibiotics
+C    00999  Biosynthesis of various plant secondary metabolites
+C    00997  Biosynthesis of various other secondary metabolites
 B  Xenobiotics biodegradation and metabolism
 C    00362  Benzoate degradation
 C    00627  Aminobenzoate degradation
@@ -211,7 +209,7 @@ C    03040  Spliceosome
 B  Translation
 C    03010  Ribosome
 C    00970  Aminoacyl-tRNA biosynthesis
-C    03013  RNA transport
+C    03013  Nucleocytoplasmic transport
 C    03015  mRNA surveillance pathway
 C    03008  Ribosome biogenesis in eukaryotes
 B  Folding, sorting and degradation
@@ -230,6 +228,9 @@ C    03430  Mismatch repair
 C    03440  Homologous recombination
 C    03450  Non-homologous end-joining
 C    03460  Fanconi anemia pathway
+B  Information processing in viruses
+C    03230  Viral genome structure
+C    03240  Viral replication
 #
 A<b>Environmental Information Processing</b>
 B  Membrane transport
@@ -426,7 +427,9 @@ C    05200  Pathways in cancer
 C    05202  Transcriptional misregulation in cancer
 C    05206  MicroRNAs in cancer
 C    05205  Proteoglycans in cancer
-C    05204  Chemical carcinogenesis
+C    05204  Chemical carcinogenesis - DNA adducts
+C    05207  Chemical carcinogenesis - receptor activation
+C    05208  Chemical carcinogenesis - reactive oxygen species
 C    05203  Viral carcinogenesis
 C    05230  Central carbon metabolism in cancer
 C    05231  Choline metabolism in cancer
@@ -516,6 +519,7 @@ B  Endocrine and metabolic disease
 C    04930  Type II diabetes mellitus
 C    04940  Type I diabetes mellitus
 C    04950  Maturity onset diabetes of the young
+C    04936  Alcoholic liver disease
 C    04932  Non-alcoholic fatty liver disease
 C    04931  Insulin resistance
 C    04933  AGE-RAGE signaling pathway in diabetic complications
@@ -619,5 +623,5 @@ C    07114  Naphthalene family
 C    07117  Benzodiazepine family
 !
 #<hr>
-#Last updated: April 21, 2021
+#Last updated: December 22, 2021
 #<br><br><a href="/brite/jp08901">&raquo; Japanese version</a>

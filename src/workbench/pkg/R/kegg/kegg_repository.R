@@ -26,11 +26,11 @@ const kegg_maps as function(rawMaps = TRUE) {
 
 #' Load internal kegg reaction repository
 #' 
-const kegg_reactions as function() {
+const kegg_reactions as function(raw = TRUE) {
     using file as .readZipStream(
         zipfile = system.file("data/kegg/reactions.zip", package = "GCModeller")
     ) {
-        repository::load.reactions(file);
+        repository::load.reactions(file, raw = raw);
     }
 }
 
@@ -49,7 +49,8 @@ const kegg_reactions as function() {
 #' 
 const .readZipStream as function(zipfile, entryName = NULL) {
     using zip as open.zip(zipfile) {
-        const names as string = as.object(zip)$ls;
+		const zipfile = as.object(zip);
+        const names as string = zipfile$ls;
         const data = zip[[entryName || names[1]]];
 
         # returns the target data stream

@@ -195,7 +195,9 @@ Module geneExpression
 
         If rm_ZERO Then
             genes = genes _
-                .Where(Function(gene) Not gene.experiments.All(Function(x) x = 0.0)) _
+                .Where(Function(gene)
+                           Return Not gene.experiments.All(Function(x) x = 0.0)
+                       End Function) _
                 .ToArray
         End If
 
@@ -241,7 +243,9 @@ Module geneExpression
 
     <Extension>
     Private Function uniqueGeneId(m As Matrix, makeNames As Boolean) As Matrix
-        Dim geneId As String() = m.expression.Select(Function(gene) gene.geneID).ToArray
+        Dim geneId As String() = m.expression _
+            .Select(Function(gene) gene.geneID) _
+            .ToArray
         Dim unique As String() = If(makeNames, geneId.makeNames(unique:=True), geneId.uniqueNames)
 
         For i As Integer = 0 To unique.Length - 1
