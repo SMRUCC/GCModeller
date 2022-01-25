@@ -1,2 +1,6 @@
+require(GCModeller);
+
+imports "modeller" from "vcellkit";
+
 # do local cache
-vcellkit.modeller::cacheOf.enzyme_kinetics("K:\20200226\metabolism\vcell\kinetics");
+modeller::cacheOf.enzyme_kinetics("D:/repository/sabio-rk");
