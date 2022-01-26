@@ -117,10 +117,12 @@ Public Class Cluster : Inherits ListOf(Of BackgroundGene)
         Return $"Dim {ID} = '{names}'"
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Protected Overrides Function getSize() As Integer
         Return members.Length
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Protected Overrides Function getCollection() As IEnumerable(Of BackgroundGene)
         Return members
     End Function
