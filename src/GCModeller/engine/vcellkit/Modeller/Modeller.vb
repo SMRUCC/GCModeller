@@ -76,6 +76,10 @@ Module vcellModeller
         Return New Modeller(vcell, cache).Compile()
     End Function
 
+    ''' <summary>
+    ''' create data repository from the sabio-rk database
+    ''' </summary>
+    ''' <param name="export$"></param>
     <ExportAPI("cacheOf.enzyme_kinetics")>
     Public Sub createKineticsDbCache(Optional export$ = "./")
         Call htext.GetInternalResource("ko01000").QueryByECNumbers(export).ToArray
