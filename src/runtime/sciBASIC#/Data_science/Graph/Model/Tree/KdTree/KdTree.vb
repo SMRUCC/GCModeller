@@ -111,7 +111,15 @@ Namespace KdTree
             End Get
         End Property
 
-        Sub New(points As T(), metric As KdNodeAccessor(Of T))
+        Sub New(target As IEnumerable(Of T), metric As KdNodeAccessor(Of T))
+            ' 20220129 due to the reason of build tree processing
+            ' will re-order the input array, so this may caused the 
+            ' algorithm bugs when the analysis algorithm is related
+            ' to the input sequence order.
+            ' so we should break the array reference at here by
+            ' calling toarray etxension method.
+            Dim points As T() = target.ToArray
+
             Me.access = metric
             Me.dimensions = metric.GetDimensions
             Me.root = buildTree(points, Scan0, Nothing)
