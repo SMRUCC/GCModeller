@@ -1,50 +1,50 @@
 ﻿#Region "Microsoft.VisualBasic::67991bf8ad7a5f090d54f7634473d1a9, Data_science\Graph\Model\Tree\KdTree\KdTree.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class KdTree
-    ' 
-    '         Properties: balanceFactor, counts, dimSize, rootNode
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: buildTree, count, findMax, findMin, GetPoints
-    '                   height, innerSearch, insert, nearest, nodeSearch
-    '                   remove
-    ' 
-    '         Sub: nearestSearch, removeNode
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class KdTree
+' 
+'         Properties: balanceFactor, counts, dimSize, rootNode
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'         Function: buildTree, count, findMax, findMin, GetPoints
+'                   height, innerSearch, insert, nearest, nodeSearch
+'                   remove
+' 
+'         Sub: nearestSearch, removeNode
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -120,6 +120,18 @@ Namespace KdTree
 
         Public Function GetPoints() As IEnumerable(Of T)
             Return m_points.AsEnumerable
+        End Function
+
+        Public Iterator Function GetPointSample(n As Integer) As IEnumerable(Of T)
+            Dim i As Integer() = Enumerable _
+                .Range(0, counts) _
+                .Shuffles _
+                .Take(n) _
+                .ToArray
+
+            For Each idx As Integer In i
+                Yield m_points(idx)
+            Next
         End Function
 
         Private Function buildTree(points As T(), depth As Integer, parent As KdTreeNode(Of T)) As KdTreeNode(Of T)
