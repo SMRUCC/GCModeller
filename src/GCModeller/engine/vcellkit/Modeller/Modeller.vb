@@ -81,8 +81,10 @@ Module vcellModeller
     ''' </summary>
     ''' <param name="export$"></param>
     <ExportAPI("cacheOf.enzyme_kinetics")>
-    Public Sub createKineticsDbCache(Optional export$ = "./")
-        Call htext.GetInternalResource("ko01000").QueryByECNumbers(export).ToArray
+    Public Sub createKineticsDbCache(Optional export$ = "./", Optional ko01000 As String = "ko01000")
+        Call htext.GetInternalResource(ko01000) _
+            .QueryByECNumbers(export) _
+            .ToArray
     End Sub
 
     ''' <summary>
