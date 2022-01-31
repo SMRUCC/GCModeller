@@ -157,7 +157,7 @@ Namespace Assembly.KEGG.DBGET.WebQuery.Compounds
             Dim IDs$() = values _
                 .StripHTMLTags(stripBlank:=True) _
                 .Split _
-                .Select(AddressOf Trim) _
+                .Select(AddressOf Strings.Trim) _
                 .Where(Function(s) Not s.StringEmpty) _
                 .ToArray
             Dim LQuery$ = LinqAPI.DefaultFirst(Of String) _
