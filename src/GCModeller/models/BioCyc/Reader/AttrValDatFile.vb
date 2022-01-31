@@ -1,4 +1,12 @@
 
+Imports System.IO
+Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Linq.Extensions
+
 ''' <summary>
 ''' ## Attribute-Value
 ''' 
@@ -47,6 +55,72 @@
 ''' </summary>
 Public Class AttrValDatFile
 
+    Public Property fileMeta As FileMeta
+    Public Property features As FeatureElement()
 
+    Public Overrides Function ToString() As String
+        Return $"{fileMeta} ({features.Length} features)"
+    End Function
+
+    Public Shared Function ParseFile(file As StreamReader) As AttrValDatFile
+        Dim line As Value(Of String) = ""
+        Dim meta As FileMeta = FileMeta.readMeta(file, line)
+        Dim attrVals As New AttrValDatFile With {
+            .fileMeta = meta,
+            .features = loadFeatures(file, line).ToArray
+        }
+
+        Return attrVals
+    End Function
+
+    Private Shared Iterator Function loadFeatures(file As StreamReader, line As Value(Of String)) As IEnumerable(Of FeatureElement)
+        Dim buffer As New List(Of String) From {line.Value}
+
+        Do While Not (line = file.ReadLine) Is Nothing
+            If line.Value = "//" Then
+                Yield FeatureElement.ParseBuffer(buffer.PopAll)
+            Else
+                Call buffer.Add(line)
+            End If
+        Loop
+    End Function
+
+End Class
+
+Public Class FeatureElement : Implements IReadOnlyId
+
+    Public ReadOnly Property uniqueId As String Implements IReadOnlyId.Identity
+        Get
+            Return attributes("UNIQUE-ID").First
+        End Get
+    End Property
+
+    Public Property attributes As Dictionary(Of String, String())
+
+    Public Overrides Function ToString() As String
+        Return uniqueId
+    End Function
+
+    Friend Shared Function ParseBuffer(buffer As String()) As FeatureElement
+        Dim newBuf As New List(Of String)
+
+        For i As Integer = 0 To buffer.Length - 1
+            If buffer(i).StartsWith("/") Then
+                newBuf(newBuf.Count - 1) &= buffer(i).Trim("/"c, " "c)
+            Else
+                newBuf.Add(buffer(i))
+            End If
+        Next
+
+        Return New FeatureElement With {
+            .attributes = newBuf _
+                .Select(Function(str) str.GetTagValue(" - ")) _
+                .GroupBy(Function(s) s.Name) _
+                .ToDictionary(Function(s) s.Key,
+                              Function(s)
+                                  Return (From a As NamedValue(Of String) In s Select a.Value).ToArray
+                              End Function)
+        }
+    End Function
 
 End Class

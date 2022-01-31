@@ -12,7 +12,11 @@ Public Class FileMeta
     Public Property create_time As Date
     Public Property attributes As String()
 
-    Friend Function readMeta(file As StreamReader, ByRef line As Value(Of String)) As FileMeta
+    Public Overrides Function ToString() As String
+        Return fileName
+    End Function
+
+    Friend Shared Function readMeta(file As StreamReader, ByRef line As Value(Of String)) As FileMeta
         Dim lines As New List(Of String)
         Dim meta As New FileMeta
 
@@ -24,7 +28,7 @@ Public Class FileMeta
                  In lines
                  Where Not str.StringEmpty).AsList
 
-        If lines.First.StartsWith("Copyright") Then
+        If lines.First.Trim.StartsWith("Copyright") Then
             meta.copyright = lines.First.Trim
             lines.RemoveAt(Scan0)
         End If
@@ -33,18 +37,18 @@ Public Class FileMeta
         Dim attrNames As New List(Of String)
 
         For i As Integer = 0 To lines.Count - 1
-            If lines(i).StartsWith("Authors:") Then
+            If lines(i).Trim.StartsWith("Authors:") Then
                 For j As Integer = i + 1 To lines.Count - 1
-                    If lines(j).StartsWith(" ") Then
+                    If lines(j).StartsWith("  ") Then
                         Call authors.Add(lines(j).Trim)
                     Else
                         i = j
                         Exit For
                     End If
                 Next
-            ElseIf lines(i).StartsWith("Attributes:") Then
+            ElseIf lines(i).Trim.StartsWith("Attributes:") Then
                 For j As Integer = i + 1 To lines.Count - 1
-                    If lines(j).StartsWith(" ") Then
+                    If lines(j).StartsWith("  ") Then
                         Call attrNames.Add(lines(j).Trim)
                     Else
                         i = j
@@ -52,7 +56,7 @@ Public Class FileMeta
                     End If
                 Next
             Else
-                Dim tag = lines(i).GetTagValue(":")
+                Dim tag = lines(i).Trim.GetTagValue(":")
 
                 If (Not tag.Name.StringEmpty) AndAlso (Not tag.Value.StringEmpty) Then
                     Select Case tag.Name
