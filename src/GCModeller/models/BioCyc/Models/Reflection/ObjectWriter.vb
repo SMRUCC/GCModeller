@@ -1,11 +1,11 @@
 ﻿
 Imports System.Reflection
-Imports BioCyc.Assembly.MetaCyc.Schema.Metabolism
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Scripting
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
+Imports SMRUCC.genomics.Data.BioCyc.Assembly.MetaCyc.Schema.Metabolism
 
 ''' <summary>
 ''' load attribute-value data from file into a .NET object instance 

@@ -1,5 +1,5 @@
-﻿Imports BioCyc.Assembly.MetaCyc.Schema.Metabolism
-Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
+﻿Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
+Imports SMRUCC.genomics.Data.BioCyc.Assembly.MetaCyc.Schema.Metabolism
 
 Module Factory
 
