@@ -23,6 +23,10 @@ Public Class Workspace
     Sub New(dir As String)
         Me.dir = dir.GetDirectoryFullPath
 
+        If {"reports", "data", "input", "kb", "rawdata"}.All(Function(d) $"{dir}/{d}".DirectoryExists) Then
+            dir = $"{dir}/data/"
+        End If
+
         m_reactions = New Lazy(Of AttrDataCollection(Of reactions))(Function() openFile(Of reactions)())
         m_pathways = New Lazy(Of AttrDataCollection(Of pathways))(Function() openFile(Of pathways)())
     End Sub

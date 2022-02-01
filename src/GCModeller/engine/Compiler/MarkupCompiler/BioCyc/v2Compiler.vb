@@ -35,6 +35,14 @@ Namespace MarkupCompiler.BioCyc
         End Function
 
         Protected Overrides Function CompileImpl(args As CommandLine) As Integer
+            m_compiledModel.metabolismStructure = New MetabolismStructure With {
+                .reactions = createReactions()
+            }
+
+            Return 0
+        End Function
+
+        Private Function createReactions() As ReactionGroup
 
         End Function
     End Class
