@@ -37,10 +37,32 @@ Namespace MarkupCompiler.BioCyc
         Protected Overrides Function CompileImpl(args As CommandLine) As Integer
             m_compiledModel.metabolismStructure = New MetabolismStructure With {
                 .reactions = createReactions(),
-                .enzymes = biocyc.reactions.features.Where(Func)
+                .enzymes = createEnzyme.ToArray
             }
 
             Return 0
+        End Function
+
+        Private Iterator Function createEnzyme() As IEnumerable(Of Enzyme)
+            Dim enzList = biocyc.enzrxns.features.GroupBy(Function(a) a.enzyme).ToArray
+
+            For Each enz As IGrouping(Of String, enzrxns) In enzList
+                Yield New Enzyme With {
+                    .ECNumber = Nothing,
+                    .geneID = enz.Key,
+                    .KO = Nothing,
+                    .catalysis = enz _
+                        .Select(Function(a)
+                                    Return New Catalysis With {
+                                        .PH = a.PH,
+                                        .temperature = a.temperature,
+                                        .reaction = a.reaction,
+                                        .parameter = {}
+                                    }
+                                End Function) _
+                         .ToArray
+                }
+            Next
         End Function
 
         Private Function createReactions() As ReactionGroup

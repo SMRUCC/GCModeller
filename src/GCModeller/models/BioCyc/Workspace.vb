@@ -7,6 +7,7 @@ Public Class Workspace
 
     Dim m_reactions As Lazy(Of AttrDataCollection(Of reactions))
     Dim m_pathways As Lazy(Of AttrDataCollection(Of pathways))
+    Dim m_enzrxns As Lazy(Of AttrDataCollection(Of enzrxns))
 
     Public ReadOnly Property reactions As AttrDataCollection(Of reactions)
         Get
@@ -20,6 +21,12 @@ Public Class Workspace
         End Get
     End Property
 
+    Public ReadOnly Property enzrxns As AttrDataCollection(Of enzrxns)
+        Get
+            Return m_enzrxns.Value
+        End Get
+    End Property
+
     Sub New(dir As String)
         Me.dir = dir.GetDirectoryFullPath
 
@@ -27,6 +34,7 @@ Public Class Workspace
             Me.dir = $"{Me.dir}/data/"
         End If
 
+        m_enzrxns = New Lazy(Of AttrDataCollection(Of enzrxns))(Function() openFile(Of enzrxns)())
         m_reactions = New Lazy(Of AttrDataCollection(Of reactions))(Function() openFile(Of reactions)())
         m_pathways = New Lazy(Of AttrDataCollection(Of pathways))(Function() openFile(Of pathways)())
     End Sub
