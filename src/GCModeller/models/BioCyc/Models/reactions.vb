@@ -40,4 +40,37 @@ Public Class reactions : Inherits Model
     <AttributeField("SPECIES")>
     Public Property species As String
 
+    Public ReadOnly Property equation As Equation
+        Get
+            Select Case reactionDirection
+                Case ReactionDirections.IrreversibleLeftToRight, ReactionDirections.LeftToRight, ReactionDirections.PhysiolLeftToRight
+                    Return New Equation With {
+                        .Id = MyBase.ToString,
+                        .reversible = False,
+                        .Reactants = left,
+                        .Products = right
+                    }
+                Case ReactionDirections.Reversible
+                    Return New Equation With {
+                        .Id = MyBase.ToString,
+                        .Reactants = left,
+                        .Products = right,
+                        .reversible = True
+                    }
+                Case Else
+                    ' right to left
+                    Return New Equation With {
+                        .Id = MyBase.ToString,
+                        .reversible = False,
+                        .Reactants = right,
+                        .Products = left
+                    }
+            End Select
+        End Get
+    End Property
+
+    Public Overrides Function ToString() As String
+        Return equation.ToString
+    End Function
+
 End Class
