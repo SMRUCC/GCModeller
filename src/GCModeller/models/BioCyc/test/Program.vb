@@ -5,6 +5,12 @@ Imports BioCyc
 Module Program
     Sub Main(args As String())
 
+        Using file As Stream = "P:\2022_nar\25.5\data\reactions.dat".Open
+            Dim data = AttrDataCollection(Of reactions).LoadFile(file)
+
+            Pause()
+        End Using
+
         Using file As Stream = "P:\2022_nar\25.5\data\pathways.dat".Open(FileMode.Open, doClear:=False, [readOnly]:=True)
             Dim data = AttrDataCollection(Of pathways).LoadFile(file)
 
