@@ -44,8 +44,41 @@ Namespace MarkupCompiler.BioCyc
 
         Private Function createReactions() As ReactionGroup
             Dim reactions = biocyc.reactions
+            Dim enzymatic = reactions.features.Where(Function(rxn) Not rxn.ec_number Is Nothing).ToArray
+            Dim non_enzymatic = reactions.features _
+                .Where(Function(rxn)
+                           Return rxn.ec_number Is Nothing AndAlso rxn.enzymaticReaction.IsNullOrEmpty
+                       End Function) _
+                .ToArray
 
+            Return New ReactionGroup With {
+                .etc = non_enzymatic _
+                    .Select(Function(r) nonEnzymaticReaction(r)) _
+                    .ToArray,
+                .enzymatic = enzymatic _
+                    .Select(Function(r) enzymaticReaction(r)) _
+                    .ToArray
+            }
+        End Function
 
+        Private Function enzymaticReaction(rxn As reactions) As Reaction
+            Return New Reaction With {
+                .ID = rxn.uniqueId,
+                .is_enzymatic = True,
+                .bounds = {5, 5},
+                .Equation = rxn.equation.ToString,
+                .name = rxn.commonName
+            }
+        End Function
+
+        Private Function nonEnzymaticReaction(rxn As reactions) As Reaction
+            Return New Reaction With {
+                .ID = rxn.uniqueId,
+                .bounds = {5, 5},
+                .is_enzymatic = False,
+                .name = rxn.commonName,
+                .Equation = rxn.equation.ToString
+            }
         End Function
     End Class
 End Namespace
