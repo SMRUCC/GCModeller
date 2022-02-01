@@ -7,7 +7,7 @@ Imports SMRUCC.genomics.Data.BioCyc
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
 Imports SMRUCC.genomics.GCModeller.CompilerServices
 
-Namespace BioCyc
+Namespace MarkupCompiler.BioCyc
 
     Public Class v2MarkupCompiler : Inherits Compiler(Of VirtualCell)
 
