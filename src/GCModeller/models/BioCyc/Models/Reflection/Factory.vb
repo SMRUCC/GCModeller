@@ -36,4 +36,12 @@ Module Factory
         Return ref
     End Function
 
+    Public Function ParseKineticsFactor(value As ValueString) As KineticsFactor
+        Return New KineticsFactor With {
+           .Km = Double.Parse(value.value),
+           .citations = value.getAttributes("CITATIONS"),
+           .substrate = value("SUBSTRATE")
+       }
+    End Function
+
 End Module

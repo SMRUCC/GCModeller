@@ -99,6 +99,13 @@ Public Class ValueString
         End Get
     End Property
 
+    Public Function getAttributes(key As String) As String()
+        Return (From attr As NamedValue(Of String)
+                In attributes
+                Where attr.Name = key
+                Select attr.Value).ToArray
+    End Function
+
     Public Overrides Function ToString() As String
         Return value
     End Function

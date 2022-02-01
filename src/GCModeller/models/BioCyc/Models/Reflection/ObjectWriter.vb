@@ -19,6 +19,7 @@ Public Class ObjectWriter
         Call ElementFactory.Register(Of ECNumber)(Function(str) ECNumber.ValueParser(str.value))
         Call ElementFactory.Register(Of CompoundSpecieReference)(AddressOf Factory.ParseCompoundReference)
         Call ElementFactory.Register(Of ReactionDirections)(AddressOf Factory.ParseReactionDirection)
+        Call ElementFactory.Register(Of KineticsFactor)(AddressOf Factory.ParseKineticsFactor)
     End Sub
 
     Private Sub New(type As Type)

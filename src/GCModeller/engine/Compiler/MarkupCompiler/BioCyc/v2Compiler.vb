@@ -36,7 +36,8 @@ Namespace MarkupCompiler.BioCyc
 
         Protected Overrides Function CompileImpl(args As CommandLine) As Integer
             m_compiledModel.metabolismStructure = New MetabolismStructure With {
-                .reactions = createReactions()
+                .reactions = createReactions(),
+                .enzymes = biocyc.reactions.features.Where(Func)
             }
 
             Return 0
