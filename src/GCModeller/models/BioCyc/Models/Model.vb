@@ -2,6 +2,12 @@
 
 Public MustInherit Class Model : Implements IReadOnlyId
 
-    Public ReadOnly Property uniqueId As String Implements IReadOnlyId.Identity
+    ''' <summary>
+    ''' the unique reference id of current feature 
+    ''' element object.
+    ''' </summary>
+    ''' <returns></returns>
+    <AttributeField("UNIQUE-ID")>
+    Public Property uniqueId As String Implements IReadOnlyId.Identity
 
 End Class
