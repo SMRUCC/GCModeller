@@ -109,7 +109,7 @@ Public Module PathwayMapVisualize
         For Each gene As gene In genes
             Dim logValue = gene(logFC).ParseNumeric
             Dim bgColor$
-            Dim KEGG As String = Trim(gene(KO))
+            Dim KEGG As String = Strings.Trim(gene(KO))
 
             If String.IsNullOrEmpty(KEGG) Then
                 Continue For
@@ -123,7 +123,7 @@ Public Module PathwayMapVisualize
                 bgColor = colorNormal
             End If
 
-            For Each tag As String In KEGG.Split(";"c).Select(AddressOf Trim)
+            For Each tag As String In KEGG.Split(";"c).Select(AddressOf Strings.Trim)
                 out += $"{tag} {bgColor},black"
             Next
         Next
