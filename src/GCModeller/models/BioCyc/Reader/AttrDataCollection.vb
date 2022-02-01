@@ -1,4 +1,6 @@
-﻿Public Class AttrDataCollection(Of T As Model)
+﻿Imports System.IO
+
+Public Class AttrDataCollection(Of T As Model)
 
     Public ReadOnly Property fileMeta As FileMeta
     Public ReadOnly Property features As IEnumerable(Of T)
@@ -22,6 +24,17 @@
 
     Public Overrides Function ToString() As String
         Return fileMeta.ToString
+    End Function
+
+    Public Shared Function LoadFile(file As Stream) As AttrDataCollection(Of T)
+        Dim dataFile As AttrValDatFile = AttrValDatFile.ParseFile(New StreamReader(file))
+        Dim writer As ObjectWriter = ObjectWriter.LoadSchema(Of T)
+        Dim data As T() = (From a As FeatureElement
+                           In dataFile.features
+                           Let obj As Object = writer.Deserize(a)
+                           Select DirectCast(obj, T)).ToArray
+
+        Return New AttrDataCollection(Of T)(dataFile.fileMeta, data)
     End Function
 
 End Class
