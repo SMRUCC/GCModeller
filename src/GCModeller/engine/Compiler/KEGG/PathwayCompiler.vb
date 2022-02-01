@@ -87,7 +87,7 @@ Public Module PathwayCompiler
                    End Function) _
             .ToDictionary(Function(term) term.geneID)
         Dim maps As FunctionalCategory() = kegg.CreateMaps.ToArray
-        Dim compiler As New v2MarkupCompiler(cell, genomes, Nothing, {}, locationAsLocustag)
+        Dim compiler As New v2KEGGCompiler(cell, genomes, Nothing, {}, locationAsLocustag)
         Dim genomeCompiler As New CompileGenomeWorkflow(compiler)
 
         Return New VirtualCell With {

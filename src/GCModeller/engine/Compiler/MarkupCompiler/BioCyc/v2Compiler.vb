@@ -9,7 +9,7 @@ Imports SMRUCC.genomics.GCModeller.CompilerServices
 
 Namespace MarkupCompiler.BioCyc
 
-    Public Class v2MarkupCompiler : Inherits Compiler(Of VirtualCell)
+    Public Class v2Compiler : Inherits Compiler(Of VirtualCell)
 
         ReadOnly biocyc As Workspace
         ReadOnly genbank As GBFF.File
@@ -23,7 +23,7 @@ Namespace MarkupCompiler.BioCyc
             Dim info As New StringBuilder
 
             Using writer As New StringWriter(info)
-                Call CLITools.AppSummary(GetType(v2MarkupCompiler).Assembly.FromAssembly, "", "", writer)
+                Call CLITools.AppSummary(GetType(v2Compiler).Assembly.FromAssembly, "", "", writer)
             End Using
 
             m_compiledModel = New VirtualCell With {

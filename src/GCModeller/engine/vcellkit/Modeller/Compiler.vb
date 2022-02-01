@@ -203,7 +203,7 @@ Module Compiler
                              Optional lociAsLocus_tag As Boolean = False,
                              Optional logfile As String = Nothing) As VirtualCell
 
-        Using compiler As New v2MarkupCompiler(model, genomes, KEGG, regulations, lociAsLocus_tag)
+        Using compiler As New v2KEGGCompiler(model, genomes, KEGG, regulations, lociAsLocus_tag)
             Return compiler.Compile($"compile --log {logfile.CLIPath}")
         End Using
     End Function
@@ -220,7 +220,7 @@ Module Compiler
 
     <ExportAPI("compile.biocyc")>
     Public Function compileBiocyc(biocyc As Workspace, genomes As Dictionary(Of String, GBFF.File), Optional logfile As String = "./gcc.log") As VirtualCell
-        Using compiler As New BioCyc.v2MarkupCompiler(genomes.First.Value, biocyc)
+        Using compiler As New BioCyc.v2Compiler(genomes.First.Value, biocyc)
             Return compiler.Compile($"compile --log {logfile.CLIPath}")
         End Using
     End Function
