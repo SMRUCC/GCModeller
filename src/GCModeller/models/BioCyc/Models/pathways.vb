@@ -5,7 +5,7 @@
 Public Class pathways : Inherits Model
 
     <AttributeField("TYPES")>
-    Public Property types As String
+    Public Property types As String()
 
     <AttributeField("COMMON-NAME")>
     Public Property commonName As String
@@ -22,6 +22,13 @@ Public Class pathways : Inherits Model
     <AttributeField("INSTANCE-NAME-TEMPLATE")>
     Public Property instanceNameTemplate As String
 
+    <AttributeField("IN-PATHWAY")>
+    Public Property inPathway As String()
+    <AttributeField("SUPER-PATHWAYS")>
+    Public Property superPathways As String()
+    <AttributeField("SUB-PATHWAYS")>
+    Public Property subPathways As String()
+
     <AttributeField("PATHWAY-LINKS")>
     Public Property pathwayLinks As String()
 
@@ -36,5 +43,9 @@ Public Class pathways : Inherits Model
 
     <AttributeField("REACTION-LIST")>
     Public Property reactionList As String()
+    <AttributeField("SYNONYMS")>
+    Public Property synonyms As String()
+    <AttributeField("ENZYMES-NOT-USED")>
+    Public Property enzymesNotUsed As String()
 
 End Class
