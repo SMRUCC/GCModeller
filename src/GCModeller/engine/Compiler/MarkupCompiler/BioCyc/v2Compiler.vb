@@ -54,8 +54,8 @@ Namespace MarkupCompiler.BioCyc
                     .catalysis = enz _
                         .Select(Function(a)
                                     Return New Catalysis With {
-                                        .PH = a.PH,
-                                        .temperature = a.temperature,
+                                        .PH = If(a.PH = 0, 7, a.PH),
+                                        .temperature = If(a.temperature = 0, 23, a.temperature),
                                         .reaction = a.reaction,
                                         .parameter = {}
                                     }
