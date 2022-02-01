@@ -43,7 +43,7 @@ Public Class ObjectWriter
         Return obj
     End Function
 
-    Private Shared Function castVal(val As String(), target As Type) As Object
+    Private Shared Function castVal(val As ValueString(), target As Type) As Object
         If val Is Nothing Then
             Return Nothing
         End If
@@ -53,12 +53,22 @@ Public Class ObjectWriter
             Dim vec As Array = Array.CreateInstance(template, val.Length)
 
             For i As Integer = 0 To vec.Length - 1
-                vec(i) = CTypeDynamic(val(i), template)
+                vec(i) = castVal(val(i), template)
             Next
 
             Return vec
         Else
-            Return CTypeDynamic(val(Scan0), target)
+            Return castVal(val(Scan0), target)
+        End If
+    End Function
+
+    Private Shared Function castVal(val As ValueString, target As Type) As Object
+        If DataFramework.IsPrimitive(target) Then
+            Return CTypeDynamic(val.value, target)
+        Else
+            Dim obj As Object = Activator.CreateInstance(target)
+            Throw New NotImplementedException
+            Return obj
         End If
     End Function
 
