@@ -97,6 +97,12 @@ Public Class FeatureElement : Implements IReadOnlyId
 
     Public Property attributes As Dictionary(Of String, String())
 
+    Default Public ReadOnly Property getValue(key As String) As String()
+        Get
+            Return attributes.TryGetValue(key)
+        End Get
+    End Property
+
     Public Overrides Function ToString() As String
         Return uniqueId
     End Function
