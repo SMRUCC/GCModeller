@@ -139,7 +139,15 @@ Namespace v2
             End Set
         End Property
 
+        ''' <summary>
+        ''' enzymatic reactions
+        ''' </summary>
+        ''' <returns></returns>
         Public Property enzymatic As Reaction()
+        ''' <summary>
+        ''' non-enzymatic reactions
+        ''' </summary>
+        ''' <returns></returns>
         Public Property etc As Reaction()
 
         Public Iterator Function GenericEnumerator() As IEnumerator(Of Reaction) Implements Enumeration(Of Reaction).GenericEnumerator
