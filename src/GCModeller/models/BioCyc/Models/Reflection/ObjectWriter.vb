@@ -25,6 +25,10 @@ Public Class ObjectWriter
             .ToArray
     End Sub
 
+    Public Overrides Function ToString() As String
+        Return model.FullName
+    End Function
+
     Public Function Deserize(data As FeatureElement) As Model
         Dim obj As Object = Activator.CreateInstance(model)
         Dim val As Object
@@ -45,10 +49,11 @@ Public Class ObjectWriter
         End If
 
         If target.IsArray Then
-            Dim vec As Array = Array.CreateInstance(target, val.Length)
+            Dim template As Type = target.GetElementType
+            Dim vec As Array = Array.CreateInstance(template, val.Length)
 
             For i As Integer = 0 To vec.Length - 1
-                vec(i) = CTypeDynamic(val(i), target)
+                vec(i) = CTypeDynamic(val(i), template)
             Next
 
             Return vec
