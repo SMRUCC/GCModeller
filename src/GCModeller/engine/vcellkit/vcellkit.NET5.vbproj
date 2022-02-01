@@ -116,6 +116,7 @@
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
     <ProjectReference Include="..\..\core\Bio.Assembly\biocore-netcore5.vbproj" />
     <ProjectReference Include="..\..\data\SABIO-RK\SABIO-RK.NET.vbproj" />
+    <ProjectReference Include="..\..\models\BioCyc\BioCyc.vbproj" />
     <ProjectReference Include="..\BootstrapLoader\BootstrapLoader.NET5.vbproj" />
     <ProjectReference Include="..\CompilerServices\CompilerServices.NET5.vbproj" />
     <ProjectReference Include="..\Compiler\Compiler.NET5.vbproj" />
