@@ -118,7 +118,7 @@ Namespace MarkupCompiler
                 .IteratesALL _
                 .Distinct _
                 .ToArray
-            Dim compounds As CompoundRepository = compiler.KEGG.GetCompounds
+            Dim compounds As CompoundRepository '= compiler.KEGG.GetCompounds
 
             For Each id As String In allCompoundId.Where(Function(cid) compounds.Exists(cid))
                 Dim keggModel = compounds.GetByKey(id).Entity

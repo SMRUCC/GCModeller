@@ -114,8 +114,8 @@ Namespace MarkupCompiler
                 .ToDictionary(Function(term)
                                   Return term.geneID
                               End Function)
-            Dim metabolism As New CompileMetabolismWorkflow(Me)
-
+            ' Dim metabolism As New CompileMetabolismWorkflow(Me)
+            Dim metabolism As CompileMetabolismWorkflow
             Dim enzymes As Enzyme() = model.Regulations _
                 .Where(Function(process)
                            Return process.type = Processes.MetabolicProcess
@@ -128,8 +128,10 @@ Namespace MarkupCompiler
                               Function(g)
                                   Return g.ToArray
                               End Function)
-            Dim genomeCompiler As New CompileGenomeWorkflow(Me)
-            Dim TRNCompiler As New CompileTRNWorkflow(Me)
+            'Dim genomeCompiler As New CompileGenomeWorkflow(Me)
+            'Dim TRNCompiler As New CompileTRNWorkflow(Me)
+            Dim genomeCompiler As CompileGenomeWorkflow
+            Dim TRNCompiler As CompileTRNWorkflow
 
             m_compiledModel.genome = New Genome With {
                 .replicons = genomeCompiler _
