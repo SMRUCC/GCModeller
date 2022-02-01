@@ -1,4 +1,7 @@
-﻿Public Class reactions : Inherits Model
+﻿Imports BioCyc.Assembly.MetaCyc.Schema.Metabolism
+Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
+
+Public Class reactions : Inherits Model
 
     <AttributeField("EC-NUMBER")>
     Public Property ec_number As String
@@ -9,15 +12,15 @@
     <AttributeField("IN-PATHWAY")>
     Public Property inPathway As String()
     <AttributeField("LEFT")>
-    Public Property left As String()
+    Public Property left As CompoundSpecieReference()
     <AttributeField("RIGHT")>
-    Public Property right As String()
+    Public Property right As CompoundSpecieReference()
     <AttributeField("PHYSIOLOGICALLY-RELEVANT?")>
     Public Property physiologicallyRelevant As Boolean
     <AttributeField("REACTION-BALANCE-STATUS")>
     Public Property reactionBalanceStatus As String
     <AttributeField("REACTION-DIRECTION")>
-    Public Property reactionDirection As String
+    Public Property reactionDirection As ReactionDirections
     <AttributeField("REACTION-LIST")>
     Public Property reactionList As String()
     <AttributeField("RXN-LOCATIONS")>

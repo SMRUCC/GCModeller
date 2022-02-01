@@ -90,6 +90,15 @@ Public Class ValueString
     Public Property value As String
     Public Property attributes As NamedValue(Of String)()
 
+    Default Public ReadOnly Property getValue(key As String) As String
+        Get
+            Return attributes _
+                .Where(Function(a) a.Name = key) _
+                .FirstOrDefault _
+                .Value
+        End Get
+    End Property
+
     Public Overrides Function ToString() As String
         Return value
     End Function

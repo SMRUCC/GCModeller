@@ -1,8 +1,10 @@
 ﻿
 Imports System.Reflection
+Imports BioCyc.Assembly.MetaCyc.Schema.Metabolism
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Scripting
+Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 
 ''' <summary>
 ''' load attribute-value data from file into a .NET object instance 
@@ -11,6 +13,11 @@ Public Class ObjectWriter
 
     ReadOnly schema As NamedValue(Of PropertyInfo)()
     ReadOnly model As Type
+
+    Shared Sub New()
+        Call ElementFactory.Register(Of CompoundSpecieReference)(AddressOf Factory.ParseCompoundReference)
+        Call ElementFactory.Register(Of ReactionDirections)(AddressOf Factory.ParseReactionDirection)
+    End Sub
 
     Private Sub New(type As Type)
         model = type
@@ -66,9 +73,7 @@ Public Class ObjectWriter
         If DataFramework.IsPrimitive(target) Then
             Return CTypeDynamic(val.value, target)
         Else
-            Dim obj As Object = Activator.CreateInstance(target)
-            Throw New NotImplementedException
-            Return obj
+            Return ElementFactory.CastTo(val, target)
         End If
     End Function
 
