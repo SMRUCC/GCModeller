@@ -4,6 +4,7 @@ Imports BioCyc.Assembly.MetaCyc.Schema.Metabolism
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Scripting
+Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 
 ''' <summary>
@@ -15,6 +16,7 @@ Public Class ObjectWriter
     ReadOnly model As Type
 
     Shared Sub New()
+        Call ElementFactory.Register(Of ECNumber)(Function(str) ECNumber.ValueParser(str.value))
         Call ElementFactory.Register(Of CompoundSpecieReference)(AddressOf Factory.ParseCompoundReference)
         Call ElementFactory.Register(Of ReactionDirections)(AddressOf Factory.ParseReactionDirection)
     End Sub

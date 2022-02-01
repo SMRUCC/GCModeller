@@ -1,10 +1,11 @@
 ﻿Imports BioCyc.Assembly.MetaCyc.Schema.Metabolism
+Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 
 Public Class reactions : Inherits Model
 
     <AttributeField("EC-NUMBER")>
-    Public Property ec_number As String
+    Public Property ec_number As ECNumber
     <AttributeField("ENZYMATIC-REACTION")>
     Public Property enzymaticReaction As String()
     <AttributeField("GIBBS-0")>

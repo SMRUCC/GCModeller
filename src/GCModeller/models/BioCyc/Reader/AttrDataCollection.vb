@@ -1,4 +1,5 @@
 ﻿Imports System.IO
+Imports Microsoft.VisualBasic.Linq
 
 Public Class AttrDataCollection(Of T As Model)
 
@@ -29,9 +30,12 @@ Public Class AttrDataCollection(Of T As Model)
     Public Shared Function LoadFile(file As Stream) As AttrDataCollection(Of T)
         Dim dataFile As AttrValDatFile = AttrValDatFile.ParseFile(New StreamReader(file))
         Dim writer As ObjectWriter = ObjectWriter.LoadSchema(Of T)
-        Dim data As T() = (From a As FeatureElement
-                           In dataFile.features
-                           Let obj As Object = writer.Deserize(a)
+        Dim data As T() = (From a As SeqValue(Of FeatureElement)
+                           In dataFile.features _
+                               .SeqIterator _
+                               .AsParallel
+                           Let obj As Object = writer.Deserize(a.value)
+                           Order By a.i
                            Select DirectCast(obj, T)).ToArray
 
         Return New AttrDataCollection(Of T)(dataFile.fileMeta, data)
