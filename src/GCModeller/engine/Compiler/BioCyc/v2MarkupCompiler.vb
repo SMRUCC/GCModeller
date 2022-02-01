@@ -2,6 +2,7 @@
 Imports System.Text
 Imports Microsoft.VisualBasic.ApplicationServices.Development
 Imports Microsoft.VisualBasic.CommandLine
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Data.BioCyc
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
 Imports SMRUCC.genomics.GCModeller.CompilerServices
@@ -11,9 +12,11 @@ Namespace BioCyc
     Public Class v2MarkupCompiler : Inherits Compiler(Of VirtualCell)
 
         ReadOnly biocyc As Workspace
+        ReadOnly genbank As GBFF.File
 
-        Sub New(biocyc As Workspace)
+        Sub New(genbank As GBFF.File, biocyc As Workspace)
             Me.biocyc = biocyc
+            Me.genbank = genbank
         End Sub
 
         Protected Overrides Function PreCompile(args As CommandLine) As Integer
@@ -24,7 +27,7 @@ Namespace BioCyc
             End Using
 
             m_compiledModel = New VirtualCell With {
-                .taxonomy = Model.Taxonomy
+                .taxonomy = genbank.Source.GetTaxonomy
             }
             m_logging.WriteLine(info.ToString)
 
