@@ -1,7 +1,9 @@
-﻿Imports BioCyc.Assembly.MetaCyc.Schema.Metabolism
-Imports SMRUCC.genomics.ComponentModel.Annotation
+﻿Imports SMRUCC.genomics.ComponentModel.Annotation
+Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
+Imports SMRUCC.genomics.Data.BioCyc.Assembly.MetaCyc.Schema.Metabolism
 
+<Xref("reactions.dat")>
 Public Class reactions : Inherits Model
 
     <AttributeField("EC-NUMBER")>

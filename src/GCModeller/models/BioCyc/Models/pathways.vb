@@ -1,7 +1,10 @@
-﻿
+﻿Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
+
 ''' <summary>
 ''' Pathways, including relationships among reactions
 ''' </summary>
+''' 
+<Xref("pathways.dat")>
 Public Class pathways : Inherits Model
 
     <AttributeField("IN-PATHWAY")>
