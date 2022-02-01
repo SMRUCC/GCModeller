@@ -48,4 +48,8 @@ Public Class pathways : Inherits Model
     <AttributeField("ENZYMES-NOT-USED")>
     Public Property enzymesNotUsed As String()
 
+    Public Overrides Function ToString() As String
+        Return If(commonName, uniqueId)
+    End Function
+
 End Class
