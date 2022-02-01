@@ -217,4 +217,11 @@ Module Compiler
     Public Function openBioCyc(repo As String) As Workspace
         Return New Workspace(repo)
     End Function
+
+    <ExportAPI("compile.biocyc")>
+    Public Function compileBiocyc(biocyc As Workspace, genomes As Dictionary(Of String, GBFF.File), Optional logfile As String = "./gcc.log") As VirtualCell
+        Using compiler As New BioCyc.v2MarkupCompiler(genomes.First.Value, biocyc)
+            Return compiler.Compile($"compile --log {logfile.CLIPath}")
+        End Using
+    End Function
 End Module
