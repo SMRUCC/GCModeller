@@ -43,6 +43,8 @@ Namespace MarkupCompiler.BioCyc
         End Function
 
         Private Function createReactions() As ReactionGroup
+            Dim reactions = biocyc.reactions
+
 
         End Function
     End Class
