@@ -139,7 +139,8 @@ Public Module Simulator
     ''' <param name="dynamics"></param>
     ''' <returns></returns>
     <ExportAPI("engine.load")>
-    Public Function CreateVCellEngine(inits As Definition, vcell As CellularModule,
+    Public Function CreateVCellEngine(vcell As CellularModule,
+                                      Optional inits As Definition = Nothing,
                                       Optional iterations% = 100,
                                       Optional time_resolutions% = 10000,
                                       Optional deletions$() = Nothing,

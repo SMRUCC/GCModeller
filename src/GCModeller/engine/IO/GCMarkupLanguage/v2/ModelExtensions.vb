@@ -70,7 +70,9 @@ Namespace v2
                 .centralDogmas = model _
                     .createGenotype _
                     .OrderByDescending(Function(gene) gene.RNA.Value) _
-                    .ToArray
+                    .ToArray,
+                .ProteinMatrix = {},
+                .RNAMatrix = {}
             }
 
             If hasGenotype Then
