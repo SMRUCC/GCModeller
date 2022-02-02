@@ -92,7 +92,7 @@ Namespace MarkupCompiler.BioCyc
                     New KineticsParameter With {.name = "E", .target = a.enzyme, .value = 0, .isModifier = True}
                 }
                 dynamics = New FunctionElement With {
-                    .name = "d",
+                    .name = a.commonName,
                     .parameters = {"E", "s"},
                     .lambda = $"(({Kcat.Km} * E) * s) / ({Km.Km} + s)"
                 }
@@ -110,7 +110,7 @@ Namespace MarkupCompiler.BioCyc
                     .isModifier = False
                 }}
                 dynamics = New FunctionElement With {
-                    .name = "d",
+                    .name = a.commonName,
                     .parameters = {"s"},
                     .lambda = $"({Vmax} * s) / ({Km.Km} + s)"
                 }
