@@ -199,6 +199,7 @@ Namespace v2
                 .Select(Function(enz)
                             Return enz _
                                 .catalysis _
+                                .SafeQuery _
                                 .Select(Function(ec)
                                             Return (rID:=ec.reaction, enz:=New NamedValue(Of Catalysis)(enz.KO, ec))
                                         End Function)
