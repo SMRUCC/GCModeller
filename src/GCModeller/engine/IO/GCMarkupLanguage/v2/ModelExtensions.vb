@@ -1,42 +1,42 @@
 ﻿#Region "Microsoft.VisualBasic::db8e09eceb7746c4bc6f4b3d6a32e392, engine\IO\GCMarkupLanguage\v2\ModelExtensions.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module ModelExtensions
-    ' 
-    '         Function: createFluxes, createGenotype, CreateModel, createPhenotype, exportRegulations
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module ModelExtensions
+' 
+'         Function: createFluxes, createGenotype, CreateModel, createPhenotype, exportRegulations
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -65,27 +65,31 @@ Namespace v2
         ''' <returns></returns>
         <Extension>
         Public Function CreateModel(model As VirtualCell) As CellularModule
+            Dim hasGenotype As Boolean = (Not model.genome Is Nothing) AndAlso Not model.genome.replicons.IsNullOrEmpty
             Dim genotype As New Genotype With {
                 .centralDogmas = model _
                     .createGenotype _
                     .OrderByDescending(Function(gene) gene.RNA.Value) _
-                    .ToArray,
-                .ProteinMatrix = model.genome.replicons _
+                    .ToArray
+            }
+
+            If hasGenotype Then
+                genotype.ProteinMatrix = model.genome.replicons _
                     .Select(Function(rep) rep.GetGeneList) _
                     .IteratesALL _
                     .Where(Function(gene) Not gene.amino_acid Is Nothing) _
                     .Select(Function(gene)
                                 Return gene.amino_acid.DoCall(AddressOf ProteinFromVector)
                             End Function) _
-                    .ToArray,
-                .RNAMatrix = model.genome.replicons _
+                    .ToArray
+                genotype.RNAMatrix = model.genome.replicons _
                     .Select(Function(rep) rep.GetGeneList) _
                     .IteratesALL _
                     .Select(Function(rna)
                                 Return rna.nucleotide_base.DoCall(AddressOf RNAFromVector)
                             End Function) _
                     .ToArray
-            }
+            End If
 
             Return New CellularModule With {
                 .Taxonomy = model.taxonomy,
@@ -151,26 +155,31 @@ Namespace v2
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Private Function createPhenotype(model As VirtualCell) As Phenotype
+            Dim hasGenotype As Boolean = (Not model.genome Is Nothing) AndAlso Not model.genome.replicons.IsNullOrEmpty
             Dim fluxChannels = model.createFluxes _
                 .OrderByDescending(Function(r) r.enzyme.SafeQuery.Count) _
                 .ToArray
             Dim enzymes = model.metabolismStructure.enzymes _
                 .Select(Function(enz) enz.geneID) _
                 .ToArray
-            Dim proteins = model.genome.replicons _
-                .Select(Function(genome)
-                            Return genome.GetGeneList
-                        End Function) _
-                .IteratesALL _
-                .Where(Function(gene) Not gene.amino_acid Is Nothing) _
-                .Select(Function(orf)
-                            Return New Protein With {
-                                .compounds = {},
-                                .polypeptides = {orf.protein_id},
-                                .ProteinID = orf.protein_id
-                            }
-                        End Function) _
-                .ToArray
+            Dim proteins As Protein() = {}
+
+            If hasGenotype Then
+                proteins = model.genome.replicons _
+                    .Select(Function(genome)
+                                Return genome.GetGeneList
+                            End Function) _
+                    .IteratesALL _
+                    .Where(Function(gene) Not gene.amino_acid Is Nothing) _
+                    .Select(Function(orf)
+                                Return New Protein With {
+                                    .compounds = {},
+                                    .polypeptides = {orf.protein_id},
+                                    .ProteinID = orf.protein_id
+                                }
+                            End Function) _
+                    .ToArray
+            End If
 
             Return New Phenotype With {
                 .fluxes = fluxChannels,
@@ -262,7 +271,7 @@ Namespace v2
                     .products = equation.Products _
                         .Select(Function(c) c.AsFactor) _
                         .ToArray,
-                    .Enzyme = KO.Keys.Distinct.ToArray,
+                    .enzyme = KO.Keys.Distinct.ToArray,
                     .bounds = bounds,
                     .kinetics = kinetics.FirstOrDefault
                 }
@@ -271,6 +280,12 @@ Namespace v2
 
         <Extension>
         Private Iterator Function exportRegulations(model As VirtualCell) As IEnumerable(Of Regulation)
+            Dim hasGenotype As Boolean = (Not model.genome Is Nothing) AndAlso Not model.genome.replicons.IsNullOrEmpty
+
+            If Not hasGenotype Then
+                Return
+            End If
+
             For Each reg As transcription In model.genome.regulations
                 Yield New Regulation With {
                     .effects = reg.mode.EvalEffects,
