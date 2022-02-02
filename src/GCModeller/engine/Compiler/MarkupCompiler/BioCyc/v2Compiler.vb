@@ -2,6 +2,7 @@
 Imports System.Text
 Imports Microsoft.VisualBasic.ApplicationServices.Development
 Imports Microsoft.VisualBasic.CommandLine
+Imports Microsoft.VisualBasic.Math.Scripting.MathExpression
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Data.BioCyc
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
@@ -47,17 +48,56 @@ Namespace MarkupCompiler.BioCyc
             Dim enzList = biocyc.enzrxns.features.GroupBy(Function(a) a.enzyme).ToArray
 
             For Each enz As IGrouping(Of String, enzrxns) In enzList
+                Dim ecList = enz.Where(Function(d) Not d.EC_number Is Nothing).ToArray
+                Dim ecNumber = ecList.GroupBy(Function(id) id.ToString).OrderByDescending(Function(l) l.Count).FirstOrDefault
+
                 Yield New Enzyme With {
-                    .ECNumber = Nothing,
+                    .ECNumber = If(ecNumber Is Nothing, Nothing, ecNumber.Key),
                     .geneID = enz.Key,
                     .KO = Nothing,
                     .catalysis = enz _
                         .Select(Function(a)
+                                    ' ((kcat * E) * S) / (Km + S)
+                                    ' (Vmax * S) / (Km + S)
+                                    Dim dynamics As FunctionElement
+
+                                    If (Not a.Kcat.IsNullOrEmpty) AndAlso (Not a.Km.IsNullOrEmpty) Then
+                                        Dim Kcat = a.Kcat.FirstOrDefault
+                                        Dim Km = a.Km.FirstOrDefault
+
+                                        dynamics = New FunctionElement With {
+                                            .name = "d",
+                                            .parameters = {"E", "s"},
+                                            .lambda = $"(({Kcat.Km} * E) * s) / ({Km.Km} + s)"
+                                        }
+                                    ElseIf a.Km.IsNullOrEmpty Then
+                                        dynamics = New FunctionElement With {
+                                            .name = "c",
+                                            .lambda = "1",
+                                            .parameters = {}
+                                        }
+                                    Else
+                                        Dim Km = a.Km.FirstOrDefault
+                                        Dim Vmax = a.Vmax
+
+                                        dynamics = New FunctionElement With {
+                                            .name = "d",
+                                            .parameters = {"s"},
+                                            .lambda = $"({Vmax} * s) / ({Km.Km} + s)"
+                                        }
+                                    End If
+
                                     Return New Catalysis With {
                                         .PH = If(a.PH = 0, 7, a.PH),
                                         .temperature = If(a.temperature = 0, 23, a.temperature),
                                         .reaction = a.reaction,
-                                        .parameter = {}
+                                        .parameter = {New KineticsParameter With {
+                                            .name = "s",
+                                            .target = "s",
+                                            .value = 0,
+                                            .isModifier = True
+                                        }},
+                                        .formula = dynamics
                                     }
                                 End Function) _
                          .ToArray

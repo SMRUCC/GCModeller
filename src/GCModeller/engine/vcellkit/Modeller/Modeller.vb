@@ -65,6 +65,7 @@ Imports RExpr = SMRUCC.Rsharp.Interpreter.ExecuteEngine.Expression
 Module vcellModeller
 
     ' ((kcat * E) * S) / (Km + S)
+    ' (Vmax * S) / (Km + S)
 
     ''' <summary>
     ''' apply the kinetics parameters from the sabio-rk database.

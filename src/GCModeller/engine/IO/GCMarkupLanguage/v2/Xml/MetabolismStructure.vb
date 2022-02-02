@@ -251,6 +251,9 @@ Namespace v2
 
     End Class
 
+    ''' <summary>
+    ''' 酶分子对象
+    ''' </summary>
     <XmlType("enzyme", [Namespace]:=VirtualCell.GCMarkupLanguage)>
     Public Class Enzyme : Implements INamedValue
 
@@ -258,6 +261,10 @@ Namespace v2
         <XmlAttribute> Public Property KO As String
         <XmlAttribute> Public Property ECNumber As String
 
+        ''' <summary>
+        ''' 酶分子所催化的反应列表
+        ''' </summary>
+        ''' <returns></returns>
         <XmlElement>
         Public Property catalysis As Catalysis()
 
