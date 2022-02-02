@@ -67,52 +67,62 @@ Namespace MarkupCompiler.BioCyc
                     .KO = Nothing,
                     .catalysis = enz _
                         .Select(Function(a)
-                                    ' ((kcat * E) * S) / (Km + S)
-                                    ' (Vmax * S) / (Km + S)
-                                    Dim dynamics As FunctionElement
-
-                                    If (Not a.Kcat.IsNullOrEmpty) AndAlso (Not a.Km.IsNullOrEmpty) Then
-                                        Dim Kcat = a.Kcat.FirstOrDefault
-                                        Dim Km = a.Km.FirstOrDefault
-
-                                        dynamics = New FunctionElement With {
-                                            .name = "d",
-                                            .parameters = {"E", "s"},
-                                            .lambda = $"(({Kcat.Km} * E) * s) / ({Km.Km} + s)"
-                                        }
-                                    ElseIf a.Km.IsNullOrEmpty Then
-                                        dynamics = New FunctionElement With {
-                                            .name = "c",
-                                            .lambda = "1",
-                                            .parameters = {}
-                                        }
-                                    Else
-                                        Dim Km = a.Km.FirstOrDefault
-                                        Dim Vmax = a.Vmax
-
-                                        dynamics = New FunctionElement With {
-                                            .name = "d",
-                                            .parameters = {"s"},
-                                            .lambda = $"({Vmax} * s) / ({Km.Km} + s)"
-                                        }
-                                    End If
-
-                                    Return New Catalysis With {
-                                        .PH = If(a.PH = 0, 7, a.PH),
-                                        .temperature = If(a.temperature = 0, 23, a.temperature),
-                                        .reaction = a.reaction,
-                                        .parameter = {New KineticsParameter With {
-                                            .name = "s",
-                                            .target = "s",
-                                            .value = 0,
-                                            .isModifier = True
-                                        }},
-                                        .formula = dynamics
-                                    }
+                                    Return createKinetics(a)
                                 End Function) _
-                         .ToArray
+                        .Where(Function(c) Not c Is Nothing) _
+                        .ToArray
                 }
             Next
+        End Function
+
+        Private Function createKinetics(a As enzrxns) As Catalysis
+            ' ((kcat * E) * S) / (Km + S)
+            ' (Vmax * S) / (Km + S)
+            Dim dynamics As FunctionElement
+            Dim substrate As String
+            Dim params As KineticsParameter()
+
+            If (Not a.Kcat.IsNullOrEmpty) AndAlso (Not a.Km.IsNullOrEmpty) Then
+                Dim Kcat = a.Kcat.FirstOrDefault
+                Dim Km = a.Km.FirstOrDefault
+
+                substrate = If(Kcat.substrate, Km.substrate)
+                params = {
+                    New KineticsParameter With {.name = "s", .target = substrate, .value = 0, .isModifier = False},
+                    New KineticsParameter With {.name = "E", .target = a.enzyme, .value = 0, .isModifier = True}
+                }
+                dynamics = New FunctionElement With {
+                    .name = "d",
+                    .parameters = {"E", "s"},
+                    .lambda = $"(({Kcat.Km} * E) * s) / ({Km.Km} + s)"
+                }
+            ElseIf a.Km.IsNullOrEmpty Then
+                Return Nothing
+            Else
+                Dim Km = a.Km.FirstOrDefault
+                Dim Vmax = a.Vmax
+
+                substrate = Km.substrate
+                params = {New KineticsParameter With {
+                    .name = "s",
+                    .target = substrate,
+                    .value = 0,
+                    .isModifier = False
+                }}
+                dynamics = New FunctionElement With {
+                    .name = "d",
+                    .parameters = {"s"},
+                    .lambda = $"({Vmax} * s) / ({Km.Km} + s)"
+                }
+            End If
+
+            Return New Catalysis With {
+                .PH = If(a.PH = 0, 7, a.PH),
+                .temperature = If(a.temperature = 0, 23, a.temperature),
+                .reaction = a.reaction,
+                .parameter = params,
+                .formula = dynamics
+            }
         End Function
 
         Private Function createReactions() As ReactionGroup
