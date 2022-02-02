@@ -48,7 +48,11 @@ Public Class Workspace
     End Sub
 
     Private Function openFile(Of T As Model)() As AttrDataCollection(Of T)
-        Using file As Stream = $"{dir}/{getFileName(Of T)()}".Open(FileMode.OpenOrCreate, doClear:=False, [readOnly]:=True)
+        Dim fileName As String = getFileName(Of T)()
+
+        Call Console.WriteLine($"[biocyc_open] {fileName}")
+
+        Using file As Stream = $"{dir}/{fileName}".Open(FileMode.OpenOrCreate, doClear:=False, [readOnly]:=True)
             Return AttrDataCollection(Of T).LoadFile(file)
         End Using
     End Function
