@@ -187,6 +187,8 @@ Namespace Core
                     channels = massIndex(mass.ID).ToArray
                 End If
 
+                channels = channels.Where(Function(fx) Not (fx.left.IsNullOrEmpty OrElse fx.right.IsNullOrEmpty)).ToArray
+
                 For Each flux As Channel In channels
                     matter = flux.GetReactants _
                         .Where(Function(a) a.mass.ID = mass.ID) _
