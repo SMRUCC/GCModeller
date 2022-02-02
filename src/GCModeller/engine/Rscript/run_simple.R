@@ -29,7 +29,7 @@ rawXml = "result.vcXML";
 engine = vcell
 |> engine.load(	
 	iterations       = time.ticks, 
-	time_resolutions = 10000, 	
+	time_resolutions = 1000, 	
 	showProgress     = TRUE
 ) 
 |> as.object()
