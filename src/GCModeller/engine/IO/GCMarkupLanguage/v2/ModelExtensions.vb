@@ -105,6 +105,12 @@ Namespace v2
             Dim RNA As NamedValue(Of RNATypes)
             Dim proteinId$
 
+            ' just contains the metabolism network
+            ' for run simulator
+            If model.genome Is Nothing OrElse model.genome.replicons.IsNullOrEmpty Then
+                Return
+            End If
+
             For Each replicon In model.genome.replicons
                 genomeName = replicon.genomeName
                 rnaTable = replicon _

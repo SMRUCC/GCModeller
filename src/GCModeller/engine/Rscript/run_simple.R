@@ -1,6 +1,6 @@
 require(GCModeller);
 
-imports ["rawXML", "simulator"] from "vcellkit";
+imports ["rawXML", "simulator", "modeller"] from "vcellkit";
 
 setwd("P:\2022_nar\vcell");
 
