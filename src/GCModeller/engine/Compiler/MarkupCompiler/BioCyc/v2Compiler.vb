@@ -2,8 +2,11 @@
 Imports System.Text
 Imports Microsoft.VisualBasic.ApplicationServices.Development
 Imports Microsoft.VisualBasic.CommandLine
+Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Scripting.MathExpression
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
+Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 Imports SMRUCC.genomics.Data.BioCyc
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
 Imports SMRUCC.genomics.GCModeller.CompilerServices
@@ -41,6 +44,25 @@ Namespace MarkupCompiler.BioCyc
                 .enzymes = createEnzyme.ToArray,
                 .compounds = createCompounds.ToArray
             }
+
+            Dim usedIndex As Index(Of String) = m_compiledModel _
+                .metabolismStructure _
+                .reactions _
+                .AsEnumerable _
+                .Select(Function(fx)
+                            Return Equation.TryParse(fx.Equation) _
+                                           .GetMetabolites _
+                                           .Select(Function(compound) compound.ID)
+                        End Function) _
+                .IteratesALL _
+                .Distinct _
+                .Indexing
+
+            m_compiledModel.metabolismStructure.compounds = m_compiledModel _
+                .metabolismStructure _
+                .compounds _
+                .Where(Function(c) c.ID Like usedIndex) _
+                .ToArray
 
             Return 0
         End Function
