@@ -53,7 +53,9 @@ Namespace Scripting.MathExpression
 
         <XmlAttribute>
         Public Property name As String
+        <XmlAttribute>
         Public Property parameters As String()
+        <XmlText>
         Public Property lambda As String
 
         Public Overrides Function ToString() As String
