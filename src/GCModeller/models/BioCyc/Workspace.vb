@@ -8,6 +8,13 @@ Public Class Workspace
     Dim m_reactions As Lazy(Of AttrDataCollection(Of reactions))
     Dim m_pathways As Lazy(Of AttrDataCollection(Of pathways))
     Dim m_enzrxns As Lazy(Of AttrDataCollection(Of enzrxns))
+    Dim m_compounds As Lazy(Of AttrDataCollection(Of compounds))
+
+    Public ReadOnly Property compounds As AttrDataCollection(Of compounds)
+        Get
+            Return m_compounds.Value
+        End Get
+    End Property
 
     Public ReadOnly Property reactions As AttrDataCollection(Of reactions)
         Get
@@ -37,6 +44,7 @@ Public Class Workspace
         m_enzrxns = New Lazy(Of AttrDataCollection(Of enzrxns))(Function() openFile(Of enzrxns)())
         m_reactions = New Lazy(Of AttrDataCollection(Of reactions))(Function() openFile(Of reactions)())
         m_pathways = New Lazy(Of AttrDataCollection(Of pathways))(Function() openFile(Of pathways)())
+        m_compounds = New Lazy(Of AttrDataCollection(Of compounds))(Function() openFile(Of compounds)())
     End Sub
 
     Private Function openFile(Of T As Model)() As AttrDataCollection(Of T)

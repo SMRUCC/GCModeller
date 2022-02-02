@@ -38,10 +38,21 @@ Namespace MarkupCompiler.BioCyc
         Protected Overrides Function CompileImpl(args As CommandLine) As Integer
             m_compiledModel.metabolismStructure = New MetabolismStructure With {
                 .reactions = createReactions(),
-                .enzymes = createEnzyme.ToArray
+                .enzymes = createEnzyme.ToArray,
+                .compounds = createCompounds.ToArray
             }
 
             Return 0
+        End Function
+
+        Private Iterator Function createCompounds() As IEnumerable(Of Compound)
+            For Each cpd As compounds In biocyc.compounds.features
+                Yield New Compound With {
+                    .ID = cpd.uniqueId,
+                    .name = cpd.commonName,
+                    .otherNames = cpd.synonyms
+                }
+            Next
         End Function
 
         Private Iterator Function createEnzyme() As IEnumerable(Of Enzyme)
