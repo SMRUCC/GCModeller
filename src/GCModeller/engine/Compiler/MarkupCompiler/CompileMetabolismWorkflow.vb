@@ -125,12 +125,7 @@ Namespace MarkupCompiler
 
                 Yield New Compound With {
                     .ID = id,
-                    .name = keggModel.commonNames _
-                        .ElementAtOrDefault(0, keggModel.formula),
-                    .otherNames = keggModel.commonNames _
-                        .SafeQuery _
-                        .Skip(1) _
-                        .ToArray
+                    .name = keggModel.commonNames.ElementAtOrDefault(0, keggModel.formula)
                 }
             Next
         End Function

@@ -182,10 +182,13 @@ Namespace v2
     Public Class Compound : Implements INamedValue
 
         <XmlAttribute> Public Property ID As String Implements IKeyedEntity(Of String).Key
-        <XmlAttribute> Public Property name As String
+        <XmlText> Public Property name As String
 
-        <XmlArray>
-        Public Property otherNames As String()
+        ''' <summary>
+        ''' the initialize mass content of current compound.
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property mass0 As Double = 1000
 
     End Class
 

@@ -49,8 +49,7 @@ Namespace MarkupCompiler.BioCyc
             For Each cpd As compounds In biocyc.compounds.features
                 Yield New Compound With {
                     .ID = cpd.uniqueId,
-                    .name = cpd.commonName,
-                    .otherNames = cpd.synonyms
+                    .name = cpd.commonName
                 }
             Next
         End Function
