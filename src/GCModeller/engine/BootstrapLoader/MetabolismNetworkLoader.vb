@@ -65,6 +65,11 @@ Namespace ModelLoader
             loader.fluxIndex.Add(NameOf(MetabolismNetworkLoader), New List(Of String))
         End Sub
 
+        ''' <summary>
+        ''' create reaction flux data
+        ''' </summary>
+        ''' <param name="cell"></param>
+        ''' <returns></returns>
         Public Overrides Iterator Function CreateFlux(cell As CellularModule) As IEnumerable(Of Channel)
             Dim KOfunctions = cell.Genotype.centralDogmas _
                 .Where(Function(cd) Not cd.orthology.StringEmpty) _
