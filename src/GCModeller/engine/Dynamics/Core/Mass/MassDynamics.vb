@@ -179,6 +179,7 @@ Namespace Core
 
                 If Not massIndex.ContainsKey(mass.ID) Then
                     If Not mass.ID Like templates Then
+                        ' compound is constant value
                         Call ($"missing dynamics for compound: " & mass.ID).Warning
                     End If
 
