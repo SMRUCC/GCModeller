@@ -45,6 +45,45 @@ Namespace MarkupCompiler.BioCyc
                 .compounds = createCompounds.ToArray
             }
 
+            Dim usedIndex As Index(Of String) = m_compiledModel _
+                .metabolismStructure _
+                .reactions _
+                .AsEnumerable _
+                .Select(Function(fx)
+                            Return Equation.TryParse(fx.Equation) _
+                                           .GetMetabolites _
+                                           .Select(Function(compound) compound.ID)
+                        End Function) _
+                .IteratesALL _
+                .Distinct _
+                .Indexing
+
+            ' join enzyme kinetics compounds
+            Dim missing = m_compiledModel.metabolismStructure _
+                .enzymes _
+                .Select(Function(enz) enz.catalysis) _
+                .IteratesALL _
+                .Select(Function(cat) cat.parameter) _
+                .IteratesALL _
+                .Select(Function(par) par.target) _
+                .Where(Function(id) Not id.StringEmpty) _
+                .Distinct _
+                .Where(Function(id) Not id Like usedIndex) _
+                .Select(Function(id)
+                            Return New Compound With {
+                                .ID = id,
+                                .mass0 = 5,
+                                .name = id
+                            }
+                        End Function) _
+                .ToArray
+
+            m_compiledModel.metabolismStructure.compounds = m_compiledModel _
+                .metabolismStructure _
+                .compounds _
+                .JoinIterates(missing) _
+                .ToArray
+
             Return 0
         End Function
 
