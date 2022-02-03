@@ -28,6 +28,7 @@ rawXml = "result.vcXML";
 
 engine = vcell
 |> engine.load(	
+	inits            = mass0(model),
 	iterations       = time.ticks, 
 	time_resolutions = 1000, 	
 	showProgress     = TRUE
