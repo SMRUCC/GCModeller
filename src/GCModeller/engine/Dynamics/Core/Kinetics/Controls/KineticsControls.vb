@@ -80,7 +80,11 @@ Namespace Core
             Me.lambda = lambda
             Me.raw = raw
             Me.getMass = Function(id)
-                             Return env.m_massIndex(id).Value
+                             If env.m_massIndex.ContainsKey(id) Then
+                                 Return env.m_massIndex(id).Value
+                             Else
+                                 Return 0
+                             End If
                          End Function
         End Sub
 

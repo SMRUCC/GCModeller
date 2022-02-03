@@ -45,25 +45,6 @@ Namespace MarkupCompiler.BioCyc
                 .compounds = createCompounds.ToArray
             }
 
-            Dim usedIndex As Index(Of String) = m_compiledModel _
-                .metabolismStructure _
-                .reactions _
-                .AsEnumerable _
-                .Select(Function(fx)
-                            Return Equation.TryParse(fx.Equation) _
-                                           .GetMetabolites _
-                                           .Select(Function(compound) compound.ID)
-                        End Function) _
-                .IteratesALL _
-                .Distinct _
-                .Indexing
-
-            m_compiledModel.metabolismStructure.compounds = m_compiledModel _
-                .metabolismStructure _
-                .compounds _
-                .Where(Function(c) c.ID Like usedIndex) _
-                .ToArray
-
             Return 0
         End Function
 
@@ -110,8 +91,8 @@ Namespace MarkupCompiler.BioCyc
 
                 substrate = If(Kcat.substrate, Km.substrate)
                 params = {
-                    New KineticsParameter With {.name = "s", .target = substrate, .value = 0, .isModifier = False},
-                    New KineticsParameter With {.name = "E", .target = a.enzyme, .value = 0, .isModifier = True}
+                    New KineticsParameter With {.name = "s", .target = substrate, .value = Double.NaN, .isModifier = False},
+                    New KineticsParameter With {.name = "E", .target = a.enzyme, .value = Double.NaN, .isModifier = True}
                 }
                 dynamics = New FunctionElement With {
                     .name = a.commonName,
@@ -122,13 +103,13 @@ Namespace MarkupCompiler.BioCyc
                 Return Nothing
             Else
                 Dim Km = a.Km.FirstOrDefault
-                Dim Vmax = a.Vmax
+                Dim Vmax = If(a.Vmax = 0.0, 5, a.Vmax)
 
                 substrate = Km.substrate
                 params = {New KineticsParameter With {
                     .name = "s",
                     .target = substrate,
-                    .value = 0,
+                    .value = Double.NaN,
                     .isModifier = False
                 }}
                 dynamics = New FunctionElement With {
