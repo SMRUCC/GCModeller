@@ -47,14 +47,8 @@ Namespace MarkupCompiler.BioCyc
 
             Dim usedIndex As Index(Of String) = m_compiledModel _
                 .metabolismStructure _
-                .reactions _
-                .AsEnumerable _
-                .Select(Function(fx)
-                            Return Equation.TryParse(fx.Equation) _
-                                           .GetMetabolites _
-                                           .Select(Function(compound) compound.ID)
-                        End Function) _
-                .IteratesALL _
+                .compounds _
+                .Select(Function(c) c.ID) _
                 .Distinct _
                 .Indexing
 
