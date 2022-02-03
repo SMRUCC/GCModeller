@@ -178,11 +178,11 @@ Namespace Core
                 factors.Clear()
 
                 If Not massIndex.ContainsKey(mass.ID) Then
-                    If mass.ID Like templates Then
-                        channels = {}
-                    Else
-                        Throw New InvalidConstraintException($"missing dynamics for compound: " & mass.ID)
+                    If Not mass.ID Like templates Then
+                        Call ($"missing dynamics for compound: " & mass.ID).Warning
                     End If
+
+                    channels = {}
                 Else
                     channels = massIndex(mass.ID).ToArray
                 End If
