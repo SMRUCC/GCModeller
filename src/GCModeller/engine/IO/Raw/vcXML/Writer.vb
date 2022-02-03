@@ -127,7 +127,7 @@ xmlns=""https://bioCAD.gcmodeller.org/XML/schema_revision/vcellXML_1.10.33"">")
 
             Using write As New BinaryDataWriter(ms)
                 For Each id As String In list
-                    Call write.Write(id, BinaryStringFormat.ByteLengthPrefix)
+                    Call write.Write(id, BinaryStringFormat.ZeroTerminated)
                 Next
 
                 write.Flush()
@@ -191,9 +191,10 @@ xmlns=""https://bioCAD.gcmodeller.org/XML/schema_revision/vcellXML_1.10.33"">")
 
         Private Function encode(data As IEnumerable(Of Double)) As String
             Dim ms As New MemoryStream
+            Dim vec As Double() = data.ToArray
 
             Using write As New BinaryWriter(ms)
-                For Each d As Double In data
+                For Each d As Double In vec
                     write.Write(d)
                 Next
 
