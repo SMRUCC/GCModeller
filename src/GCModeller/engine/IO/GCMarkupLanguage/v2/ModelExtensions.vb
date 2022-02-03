@@ -237,7 +237,9 @@ Namespace v2
                                         Dim expr = ScriptEngine.ParseExpression(k.Value.formula.lambda)
                                         Dim refVals = k.Value.parameter _
                                                 .Select(Function(a) As Object
-                                                            If a.value.IsNaNImaginary Then
+                                                            Dim useReferenceId As String = (a.value = 0.0 OrElse a.value.IsNaNImaginary) AndAlso Not a.target.StringEmpty
+
+                                                            If useReferenceId Then
                                                                 Return a.target
                                                             Else
                                                                 Return a.value
