@@ -46,6 +46,7 @@ Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Engine
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.IO
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.IO.vcXML
@@ -272,6 +273,22 @@ Module RawXmlKit
             Next
         Next
 
-        Return entities
+        Dim timeTicks As String() = index _
+            .Select(Function(o) o.id.ToString) _
+            .ToArray
+        Dim matrix As New HTS_Matrix With {
+            .sampleID = timeTicks,
+            .tag = raw.ToString,
+            .expression = entities _
+                .Select(Function(v)
+                            Return New DataFrameRow With {
+                                .geneID = v.ID,
+                                .experiments = v(timeTicks)
+                            }
+                        End Function) _
+                .ToArray
+        }
+
+        Return matrix
     End Function
 End Module
