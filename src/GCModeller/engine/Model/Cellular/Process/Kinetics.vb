@@ -47,9 +47,19 @@ Imports Microsoft.VisualBasic.Math.Scripting
 Namespace Cellular.Process
 
     Public Structure Kinetics
-
+        ''' <summary>
+        ''' body expression of the lambda expression
+        ''' </summary>
         Dim formula As Impl.Expression
+        ''' <summary>
+        ''' parameter names for create lambda expression
+        ''' </summary>
         Dim parameters As String()
+        ''' <summary>
+        ''' parameter value list data of the lambda <see cref="parameters"/>. 
+        ''' numeric value means constant value and string value means
+        ''' id reference of the substrate
+        ''' </summary>
         Dim paramVals As Object()
         ''' <summary>
         ''' enzyme target

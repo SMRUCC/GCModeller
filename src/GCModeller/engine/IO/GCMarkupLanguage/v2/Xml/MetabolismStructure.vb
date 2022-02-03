@@ -212,7 +212,7 @@ Namespace v2
         Public Property Equation As String
 
         Public Overrides Function ToString() As String
-            Return name
+            Return $"({ID}: {name}) {Equation}"
         End Function
 
     End Class

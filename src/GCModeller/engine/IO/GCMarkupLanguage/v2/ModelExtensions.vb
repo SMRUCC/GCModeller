@@ -234,11 +234,8 @@ Namespace v2
                             .Where(Function(c) Not c.Value.formula Is Nothing) _
                             .Where(Function(c) c.Value.reaction = reaction.ID) _
                             .Select(Function(k)
-                                        Return New Kinetics With {
-                                            .enzyme = k.Name,
-                                            .formula = ScriptEngine.ParseExpression(k.Value.formula.lambda),
-                                            .parameters = k.Value.formula.parameters,
-                                            .paramVals = k.Value.parameter _
+                                        Dim expr = ScriptEngine.ParseExpression(k.Value.formula.lambda)
+                                        Dim refVals = k.Value.parameter _
                                                 .Select(Function(a) As Object
                                                             If a.value.IsNaNImaginary Then
                                                                 Return a.target
@@ -246,7 +243,13 @@ Namespace v2
                                                                 Return a.value
                                                             End If
                                                         End Function) _
-                                                .ToArray,
+                                                .ToArray
+
+                                        Return New Kinetics With {
+                                            .enzyme = k.Name,
+                                            .formula = expr,
+                                            .parameters = k.Value.formula.parameters,
+                                            .paramVals = refVals,
                                             .target = reaction.ID,
                                             .PH = k.Value.PH,
                                             .temperature = k.Value.temperature
