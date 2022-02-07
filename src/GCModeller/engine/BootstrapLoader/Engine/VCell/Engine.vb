@@ -135,6 +135,10 @@ Namespace Engine
         ''' Reset the reactor engine. (Do reset of the biological mass contents)
         ''' </summary>
         Public Sub Reset()
+            If initials Is Nothing Then
+                Return
+            End If
+
             For Each mass As Factor In core.m_massIndex.Values
                 If initials.status.ContainsKey(mass.ID) Then
                     mass.Value = initials.status(mass.ID)

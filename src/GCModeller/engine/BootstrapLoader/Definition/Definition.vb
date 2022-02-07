@@ -102,7 +102,7 @@ Namespace Definitions
         Public Property status As Dictionary(Of String, Double)
 
         Public Function GetInfinitySource() As Index(Of String)
-            Return {Water, Oxygen}
+            Return {Water, Oxygen}.Where(Function(ref) Not ref Is Nothing).Indexing
         End Function
 
         ''' <summary>

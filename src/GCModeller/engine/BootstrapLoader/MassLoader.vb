@@ -62,6 +62,10 @@ Namespace ModelLoader
             massTable = loader.massTable
         End Sub
 
+        ''' <summary>
+        ''' create mass table from the virtual cell model
+        ''' </summary>
+        ''' <param name="cell"></param>
         Public Sub doMassLoadingOn(cell As CellularModule)
             ' 在这里需要首选构建物质列表
             ' 否则下面的转录和翻译过程的构建会出现找不到物质因子对象的问题
@@ -71,6 +75,19 @@ Namespace ModelLoader
                         Call massTable.AddNew(compound, MassRoles.compound)
                     End If
                 Next
+            Next
+
+            ' add missing kinetics factors at here?
+            For Each reaction As Reaction In cell.Phenotype.fluxes
+                If Not reaction.kinetics.paramVals.IsNullOrEmpty Then
+                    For Each factor As Object In reaction.kinetics.paramVals
+                        If TypeOf factor Is String Then
+                            If Not massTable.Exists(DirectCast(factor, String)) Then
+                                Call massTable.AddNew(DirectCast(factor, String), MassRoles.compound)
+                            End If
+                        End If
+                    Next
+                End If
             Next
 
             Dim complexID As String

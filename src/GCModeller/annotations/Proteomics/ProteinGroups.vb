@@ -504,7 +504,7 @@ Public Module ProteinGroups
             .Where(Function(x) Not x.KO.IsNullOrEmpty) _
             .Select(Function(x) x.KO) _
             .Unlist _
-            .Select(AddressOf Trim) _
+            .Select(AddressOf Strings.Trim) _
             .Distinct _
             .Where(Function(s) Not String.IsNullOrEmpty(s)) _
             .SeqIterator _

@@ -110,7 +110,7 @@ Namespace Pipeline.COG
                 ' 直接使用字符串的split方法可能会因为空字符串的出现而出错，所以在这里使用vb6的split方法 
                 Dim cogs$() = Strings _
                     .Split(protein.COG, ";") _
-                    .Select(AddressOf Trim) _
+                    .Select(AddressOf Strings.Trim) _
                     .Where(Function(s) Not s.StringEmpty) _
                     .ToArray
 

@@ -178,14 +178,17 @@ Namespace Core
                 factors.Clear()
 
                 If Not massIndex.ContainsKey(mass.ID) Then
-                    If mass.ID Like templates Then
-                        channels = {}
-                    Else
-                        Throw New InvalidConstraintException($"missing dynamics for compound: " & mass.ID)
+                    If Not mass.ID Like templates Then
+                        ' compound is constant value
+                        Call ($"missing dynamics for compound: " & mass.ID).Warning
                     End If
+
+                    channels = {}
                 Else
                     channels = massIndex(mass.ID).ToArray
                 End If
+
+                ' channels = channels.Where(Function(fx) Not (fx.left.IsNullOrEmpty OrElse fx.right.IsNullOrEmpty)).ToArray
 
                 For Each flux As Channel In channels
                     matter = flux.GetReactants _

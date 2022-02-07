@@ -79,9 +79,7 @@ Namespace Core
         Sub New(env As Vessel, lambda As DynamicInvoke, raw As Expression)
             Me.lambda = lambda
             Me.raw = raw
-            Me.getMass = Function(id)
-                             Return env.m_massIndex(id).Value
-                         End Function
+            Me.getMass = Function(id) env.m_massIndex(id).Value
         End Sub
 
         Public Overrides Function ToString() As String

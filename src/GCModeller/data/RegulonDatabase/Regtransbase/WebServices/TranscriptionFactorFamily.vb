@@ -292,7 +292,7 @@ Namespace Regtransbase.WebServices
 
         Protected Friend Shared Function TrimText(strText As String) As String
             strText = strText.Replace(vbCrLf, " ").Replace(vbCr, " ").Replace(vbLf, " ")
-            strText = Trim(strText.Replace(vbTab, " "))
+            strText = Strings.Trim(strText.Replace(vbTab, " "))
             Return strText
         End Function
     End Class

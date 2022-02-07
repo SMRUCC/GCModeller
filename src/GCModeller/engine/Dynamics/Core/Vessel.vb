@@ -107,6 +107,19 @@ Namespace Core
 
         Public Function load(flux As IEnumerable(Of Channel)) As Vessel
             m_channels = flux.ToArray
+
+            ' check for broken flux
+            ' and then write to logfile?
+            'Dim brokens = m_channels _
+            '    .Where(Function(fx) fx.left.IsNullOrEmpty OrElse fx.right.IsNullOrEmpty) _
+            '    .ToArray
+
+            'm_channels = m_channels _
+            '    .Where(Function(fx)
+            '               Return Not (fx.left.IsNullOrEmpty OrElse fx.right.IsNullOrEmpty)
+            '           End Function) _
+            '    .ToArray
+
             Return Me
         End Function
 

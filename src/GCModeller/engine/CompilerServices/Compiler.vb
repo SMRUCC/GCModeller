@@ -53,7 +53,9 @@ Imports Microsoft.VisualBasic.Linq
 ''' <summary>
 ''' Model file of class type <see cref="ModelBaseType"></see> compiler.
 ''' </summary>
-''' <typeparam name="TModel"></typeparam>
+''' <typeparam name="TModel">
+''' the output model file
+''' </typeparam>
 ''' <remarks></remarks>
 Public MustInherit Class Compiler(Of TModel As ModelBaseType)
     Implements IDisposable

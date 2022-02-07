@@ -64,7 +64,7 @@ Namespace MarkupCompiler
         End Function
 
         Private Function getIdMapper() As Func(Of String, String)
-            Dim allCompounds = compiler.KEGG.GetCompounds.Compounds
+            Dim allCompounds '= compiler.KEGG.GetCompounds.Compounds
             ' lower name -> cid mapping
             Dim mapperIndex As New Dictionary(Of String, String)
             Dim invalidNames As New Index(Of String)
@@ -72,7 +72,7 @@ Namespace MarkupCompiler
             For Each keggCompound In allCompounds _
                 .Select(Function(c) c.Entity) _
                 .OrderBy(Function(c)
-                             Return c.entry.Match("\d+").DoCall(AddressOf Integer.Parse)
+                             ' Return c.entry.Match("\d+").DoCall(AddressOf Integer.Parse)
                          End Function)
 
                 For Each name As String In keggCompound.commonNames
@@ -99,42 +99,42 @@ Namespace MarkupCompiler
         End Function
 
         Friend Iterator Function getTFregulations() As IEnumerable(Of transcription)
-            Dim centralDogmas = compiler.model.Genotype.centralDogmas.ToDictionary(Function(d) d.geneID)
+            Dim centralDogmas '= compiler.model.Genotype.centralDogmas.ToDictionary(Function(d) d.geneID)
             Dim getId As Func(Of String, String) = getIdMapper()
 
             Call compiler.CompileLogging.WriteLine("create transcripting regulation network")
 
-            For Each reg As RegulationFootprint In compiler.regulations
-                Dim process As CentralDogma = centralDogmas.TryGetValue(reg.regulated)
+            'For Each reg As RegulationFootprint In compiler.regulations
+            '    Dim process As CentralDogma = centralDogmas.TryGetValue(reg.regulated)
 
-                If process.geneID.StringEmpty Then
-                    Call compiler.CompileLogging.WriteLine($"{reg.ToString}: {reg.regulated} process not found!", type:=MSG_TYPES.WRN)
-                End If
+            '    If process.geneID.StringEmpty Then
+            '        Call compiler.CompileLogging.WriteLine($"{reg.ToString}: {reg.regulated} process not found!", type:=MSG_TYPES.WRN)
+            '    End If
 
-                If reg.motif Is Nothing Then
-                    reg.motif = New NucleotideLocation
-                End If
+            '    If reg.motif Is Nothing Then
+            '        reg.motif = New NucleotideLocation
+            '    End If
 
-                Yield New transcription With {
-                    .biological_process = reg.biological_process,
-                    .effector = reg.effector _
-                        .StringSplit("\s*;\s*") _
-                        .Select(getId) _
-                        .Where(Function(cid) Not cid.StringEmpty) _
-                        .ToArray,
-                    .mode = reg.mode,
-                    .regulator = reg.regulator,
-                    .motif = New Motif With {
-                        .family = reg.family,
-                        .left = reg.motif.left,
-                        .right = reg.motif.right,
-                        .strand = reg.motif.Strand.GetBriefCode,
-                        .sequence = reg.sequenceData,
-                        .distance = reg.distance
-                    },
-                    .centralDogma = process.ToString
-                }
-            Next
+            '    Yield New transcription With {
+            '        .biological_process = reg.biological_process,
+            '        .effector = reg.effector _
+            '            .StringSplit("\s*;\s*") _
+            '            .Select(getId) _
+            '            .Where(Function(cid) Not cid.StringEmpty) _
+            '            .ToArray,
+            '        .mode = reg.mode,
+            '        .regulator = reg.regulator,
+            '        .motif = New Motif With {
+            '            .family = reg.family,
+            '            .left = reg.motif.left,
+            '            .right = reg.motif.right,
+            '            .strand = reg.motif.Strand.GetBriefCode,
+            '            .sequence = reg.sequenceData,
+            '            .distance = reg.distance
+            '        },
+            '        .centralDogma = process.ToString
+            '    }
+            'Next
         End Function
     End Class
 End Namespace
