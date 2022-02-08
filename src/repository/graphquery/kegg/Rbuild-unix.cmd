@@ -1,7 +1,10 @@
 @echo off
 
-SET Rscript="D:\GCModeller\src\R-sharp\App\net5.0\Rscript.exe"
+SET R_HOME=D:\GCModeller\src\R-sharp\App\net5.0
+SET Rscript="%R_HOME%\Rscript.exe"
+SET REnv="%R_HOME%\R#.exe"
 
 %Rscript% --build
+%REnv% --install.packages "../kegg_graphquery_0.1.0.zip"
 
 pause
