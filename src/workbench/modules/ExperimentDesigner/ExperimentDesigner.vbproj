@@ -325,6 +325,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataAnalysis.vb" />
     <Compile Include="SampleNames.vb" />
     <Compile Include="Templates\AnalysisDesigner.vb" />
     <Compile Include="Templates\SampleGroup.vb" />
