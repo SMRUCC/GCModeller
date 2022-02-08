@@ -1,42 +1,42 @@
 ﻿#Region "Microsoft.VisualBasic::179bab7bf0ea35c26a573160d666a97a, engine\vcellkit\RawXmlKit.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module RawXmlKit
-    ' 
-    '     Function: checkStreamRef, extractFrameMatrix, getEntityNames, getOffsetIndex, timeFrames
-    '               xmlWriter
-    ' 
-    ' /********************************************************************************/
+' Module RawXmlKit
+' 
+'     Function: checkStreamRef, extractFrameMatrix, getEntityNames, getOffsetIndex, timeFrames
+'               xmlWriter
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -46,6 +46,7 @@ Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Engine
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.IO
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.IO.vcXML
@@ -53,6 +54,7 @@ Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports HTS_Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 Imports REnv = SMRUCC.Rsharp.Runtime
 Imports XmlOffset = SMRUCC.genomics.GCModeller.ModellingEngine.IO.vcXML.XML.offset
 
@@ -105,6 +107,17 @@ Module RawXmlKit
         Return raw.allFrames
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="raw"></param>
+    ''' <param name="stream">
+    ''' module descripting of the stream content to read, should be a list of content type mapping:
+    ''' list element name could be: "transcriptome", "proteome", "metabolome"
+    ''' element content type could be: mass_profile, activity, flux_size
+    ''' </param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("entity.names")>
     Public Function getEntityNames(raw As vcXML.Reader, <RListObjectArgument> stream As Object, Optional env As Environment = Nothing) As Object
         Dim args As list = Internal.Invokes.base.Rlist(stream, env)
@@ -218,6 +231,7 @@ Module RawXmlKit
     ''' <param name="stream"></param>
     ''' <param name="env"></param>
     ''' <returns></returns>
+    <RApiReturn(GetType(HTS_Matrix))>
     <ExportAPI("time.frames")>
     Public Function timeFrames(raw As vcXML.Reader, <RListObjectArgument> stream As Object, Optional env As Environment = Nothing) As Object
         Dim args As list = Internal.Invokes.base.Rlist(stream, env)
@@ -230,6 +244,7 @@ Module RawXmlKit
 
         For Each name As String In {"transcriptome", "proteome", "metabolome"}
             If args.hasName(name) Then
+                ' get offset index for read data from raw data xml file
                 index = raw.getStreamIndex(name)(args.getValue(Of String)(name, env)) _
                     .OrderBy(Function(p) p.id) _
                     .ToArray
@@ -237,6 +252,8 @@ Module RawXmlKit
             End If
         Next
 
+        ' each row is feature item
+        ' and the column value is the time stream data
         Dim entities As DataSet() = raw _
             .getStreamEntities(index(Scan0).module, index(Scan0).content_type) _
             .Select(Function(id)
@@ -256,6 +273,22 @@ Module RawXmlKit
             Next
         Next
 
-        Return entities
+        Dim timeTicks As String() = index _
+            .Select(Function(o) o.id.ToString) _
+            .ToArray
+        Dim matrix As New HTS_Matrix With {
+            .sampleID = timeTicks,
+            .tag = raw.ToString,
+            .expression = entities _
+                .Select(Function(v)
+                            Return New DataFrameRow With {
+                                .geneID = v.ID,
+                                .experiments = v(timeTicks)
+                            }
+                        End Function) _
+                .ToArray
+        }
+
+        Return matrix
     End Function
 End Module

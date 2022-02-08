@@ -91,9 +91,9 @@ Namespace MarkupCompiler
         End Function
 
         Private Function getRNAs(repliconName$) As IEnumerable(Of RNA)
-            Dim cdProcess As CentralDogma() = compiler.model _
-                .Genotype _
-                .centralDogmas
+            Dim cdProcess As CentralDogma() '= compiler.model _
+            '.Genotype _
+            '.centralDogmas
 
             Return cdProcess _
                 .Where(Function(proc)

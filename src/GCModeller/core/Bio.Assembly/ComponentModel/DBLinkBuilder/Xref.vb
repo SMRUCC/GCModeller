@@ -50,14 +50,21 @@ Imports Microsoft.VisualBasic.Scripting.Runtime
 
 Namespace ComponentModel.DBLinkBuilder
 
-    <AttributeUsage(AttributeTargets.Property)>
+    <AttributeUsage(AttributeTargets.Property Or AttributeTargets.Class)>
     Public Class XrefAttribute : Inherits Attribute
         Implements INamedValue
 
         Public Property Name As String Implements IKeyedEntity(Of String).Key
 
+        Sub New()
+        End Sub
+
+        Sub New(name As String)
+            Me.Name = name
+        End Sub
+
         Public Overrides Function ToString() As String
-            Return "Xref Link"
+            Return If(Name, "Xref Link")
         End Function
 
         Public Shared Function GetProperties(type As Type) As PropertyInfo()

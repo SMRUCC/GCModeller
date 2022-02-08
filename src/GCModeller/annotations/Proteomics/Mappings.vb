@@ -83,7 +83,7 @@ Public Module Mappings
             .Select(Function(gene)
                         Return gene.ID _
                             .Split(";"c) _
-                            .Select(AddressOf Trim) _
+                            .Select(AddressOf Strings.Trim) _
                             .Select(Function(id)
                                         Return New EntityObject With {
                                             .ID = id,

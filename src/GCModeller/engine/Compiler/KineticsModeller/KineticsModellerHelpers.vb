@@ -51,13 +51,14 @@ Module KineticsModellerHelpers
     <Extension>
     Friend Function compoundIdNameIndex(vcell As VirtualCell) As Dictionary(Of String, String)
         Dim index As New Dictionary(Of String, String)
+        Dim name As String
 
-        For Each cpd In vcell.metabolismStructure.compounds
-            For Each name As String In {cpd.name}.JoinIterates(cpd.otherNames)
-                If Not index.ContainsKey(name) Then
-                    Call index.Add(name, cpd.ID)
-                End If
-            Next
+        For Each cpd As Compound In vcell.metabolismStructure.compounds
+            name = cpd.name
+
+            If Not index.ContainsKey(name) Then
+                Call index.Add(name, cpd.ID)
+            End If
         Next
 
         Return index
@@ -68,7 +69,11 @@ Module KineticsModellerHelpers
     ''' </summary>
     ''' <returns></returns>
     <Extension>
-    Friend Iterator Function parseKineticsParameters(reaction As SBMLReaction， index As SBMLInternalIndexer, KO$, compoundId As Dictionary(Of String, String)) As IEnumerable(Of KineticsParameter)
+    Friend Iterator Function parseKineticsParameters(reaction As SBMLReaction,
+                                                     index As SBMLInternalIndexer,
+                                                     KO$,
+                                                     compoundId As Dictionary(Of String, String)) As IEnumerable(Of KineticsParameter)
+
         Dim locals As Dictionary(Of String, localParameter) = reaction.kineticLaw.listOfLocalParameters.ToDictionary(Function(a) a.id)
         Dim local As localParameter
         Dim id As String

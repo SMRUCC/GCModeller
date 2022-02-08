@@ -47,6 +47,7 @@
 
 #End Region
 
+Imports System.Diagnostics
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Runtime.InteropServices
@@ -239,6 +240,7 @@ Public Class BinaryDataWriter : Inherits BinaryWriter
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <DebuggerStepThrough>
     Public Overrides Sub Write(buffer As Byte()) Implements IByteWriter.Write
         Call MyBase.Write(buffer)
     End Sub

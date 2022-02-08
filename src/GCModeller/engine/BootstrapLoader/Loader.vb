@@ -87,6 +87,10 @@ Namespace ModelLoader
         Sub New(define As Definition, dynamics As FluxBaseline)
             Me.define = define
             Me.dynamics = dynamics
+
+            If Me.define Is Nothing Then
+                Me.define = New Definition
+            End If
         End Sub
 
         Public Function GetFluxIndex() As Dictionary(Of String, String())

@@ -114,7 +114,7 @@ Namespace Regprecise
             Dim left As Integer = InStr(strData, """>") + 2
             Dim Id As String = Mid(strData, left)
 
-            If String.IsNullOrEmpty(Trim(Id)) Then
+            If String.IsNullOrEmpty(Strings.Trim(Id)) Then
                 Return ""
             Else
                 Id = Mid(Id, 1, Len(Id) - 4)

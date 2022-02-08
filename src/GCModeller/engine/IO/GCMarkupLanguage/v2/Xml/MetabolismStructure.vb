@@ -139,7 +139,15 @@ Namespace v2
             End Set
         End Property
 
+        ''' <summary>
+        ''' enzymatic reactions
+        ''' </summary>
+        ''' <returns></returns>
         Public Property enzymatic As Reaction()
+        ''' <summary>
+        ''' non-enzymatic reactions
+        ''' </summary>
+        ''' <returns></returns>
         Public Property etc As Reaction()
 
         Public Iterator Function GenericEnumerator() As IEnumerator(Of Reaction) Implements Enumeration(Of Reaction).GenericEnumerator
@@ -174,10 +182,13 @@ Namespace v2
     Public Class Compound : Implements INamedValue
 
         <XmlAttribute> Public Property ID As String Implements IKeyedEntity(Of String).Key
-        <XmlAttribute> Public Property name As String
+        <XmlText> Public Property name As String
 
-        <XmlArray>
-        Public Property otherNames As String()
+        ''' <summary>
+        ''' the initialize mass content of current compound.
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property mass0 As Double = 1000
 
     End Class
 
@@ -201,7 +212,7 @@ Namespace v2
         Public Property Equation As String
 
         Public Overrides Function ToString() As String
-            Return name
+            Return $"({ID}: {name}) {Equation}"
         End Function
 
     End Class
@@ -243,6 +254,9 @@ Namespace v2
 
     End Class
 
+    ''' <summary>
+    ''' 酶分子对象
+    ''' </summary>
     <XmlType("enzyme", [Namespace]:=VirtualCell.GCMarkupLanguage)>
     Public Class Enzyme : Implements INamedValue
 
@@ -250,6 +264,10 @@ Namespace v2
         <XmlAttribute> Public Property KO As String
         <XmlAttribute> Public Property ECNumber As String
 
+        ''' <summary>
+        ''' 酶分子所催化的反应列表
+        ''' </summary>
+        ''' <returns></returns>
         <XmlElement>
         Public Property catalysis As Catalysis()
 

@@ -76,7 +76,7 @@ Imports gene = Microsoft.VisualBasic.Data.csv.IO.EntityObject
 Public Module DEGDesigner
 
     Public Function ParseDEGTypes(str$) As Types
-        Select Case Trim(str).ToLower
+        Select Case Strings.Trim(str).ToLower
             Case "up" : Return Types.Up
             Case "down" : Return Types.Down
             Case Else

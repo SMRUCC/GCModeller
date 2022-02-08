@@ -97,7 +97,7 @@ Public Class MSAOutput
             End If
         Next
 
-        If Not Trim(conserved).StringEmpty Then
+        If Not Strings.Trim(conserved).StringEmpty Then
             out.WriteLine(New String(" "c, maxNameWidth) & vbTab & conserved)
         End If
 

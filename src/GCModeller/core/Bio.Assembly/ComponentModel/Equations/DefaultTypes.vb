@@ -62,14 +62,15 @@ Namespace ComponentModel.EquaionModel.DefaultTypes
         ''' </summary>
         ''' <returns></returns>
         <XmlAttribute> Public Property StoiChiometry As Double Implements ICompoundSpecies.StoiChiometry
-        <XmlAttribute> Public Property ID As String Implements ICompoundSpecies.Key
+        <XmlText> Public Property ID As String Implements ICompoundSpecies.Key
+        <XmlAttribute> Public Property Compartment As String
 
         Sub New()
         End Sub
 
-        Sub New(x As ICompoundSpecies)
-            StoiChiometry = x.StoiChiometry
-            ID = x.Key
+        Sub New(ref As ICompoundSpecies)
+            StoiChiometry = ref.StoiChiometry
+            ID = ref.Key
         End Sub
 
         Public Overloads Function Equals(b As ICompoundSpecies, strict As Boolean) As Boolean

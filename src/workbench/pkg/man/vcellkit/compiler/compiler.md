@@ -8,3 +8,5 @@ The GCModeller virtual cell model creator
 + [assembling.metabolic](compiler/assembling.metabolic.1) add metabolism network information for the virtual cell model
 + [assembling.TRN](compiler/assembling.TRN.1) add transcription regulation network information for the virtual cell model
 + [vcell.markup](compiler/vcell.markup.1) Save the virtual cell data model in XML file format.
++ [open.biocyc](compiler/open.biocyc.1) open a directory path as the biocyc workspace
++ [compile.biocyc](compiler/compile.biocyc.1) 

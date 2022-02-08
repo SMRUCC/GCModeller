@@ -1,0 +1,53 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>SMRUCC.genomics.Data.BioCyc</RootNamespace>
+    <TargetFramework>net5.0</TargetFramework>
+    <Platforms>AnyCPU;x64</Platforms>
+    <AssemblyName>SMRUCC.genomics.Data.BioCyc</AssemblyName>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <Configurations>Debug;Release;Rsharp_app_release</Configurations>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>SMRUCC.genomics.Data.BioCyc.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>SMRUCC.genomics.Data.BioCyc.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|AnyCPU'">
+    <DocumentationFile>SMRUCC.genomics.Data.BioCyc.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <DocumentationFile>SMRUCC.genomics.Data.BioCyc.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <DocumentationFile>SMRUCC.genomics.Data.BioCyc.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|x64'">
+    <DocumentationFile>SMRUCC.genomics.Data.BioCyc.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="test\**" />
+    <EmbeddedResource Remove="test\**" />
+    <None Remove="test\**" />
+    <None Include="..\..\..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+    <ProjectReference Include="..\..\core\Bio.Assembly\biocore-netcore5.vbproj" />
+  </ItemGroup>
+
+</Project>

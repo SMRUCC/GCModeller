@@ -84,7 +84,7 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords
 
                 links += Mid(line, 13).Trim.GetTagValue(":", trim:=True)
                 For Each line In list.Skip(1)
-                    links += Trim(line).GetTagValue(":", trim:=True)
+                    links += Strings.Trim(line).GetTagValue(":", trim:=True)
                 Next
             End If
 

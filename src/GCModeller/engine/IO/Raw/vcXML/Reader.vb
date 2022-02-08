@@ -188,7 +188,7 @@ Namespace vcXML
                     Dim id As New List(Of String)
 
                     Do While Not reader.EndOfStream
-                        id.Add(reader.ReadString(BinaryStringFormat.ByteLengthPrefix))
+                        id.Add(reader.ReadString(BinaryStringFormat.ZeroTerminated))
                     Loop
 
                     entities([module]).Add(type, id.ToArray)

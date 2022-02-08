@@ -170,7 +170,7 @@ Namespace Regprecise
 
         Private Shared Function getTagValue_td(strData As String) As String
             strData = r.Match(strData, "<td>.+?</td>", RegexOptions.Singleline).Value
-            If String.IsNullOrEmpty(Trim(strData)) Then
+            If String.IsNullOrEmpty(Strings.Trim(strData)) Then
                 Return ""
             End If
             strData = Mid(strData, 5)
@@ -194,7 +194,7 @@ Namespace Regprecise
             s = Regex.Match(s, """>.+?</td>").Value
             s = Mid(s, 3)
             s = Mid(s, 1, Len(s) - 5)
-            Return Trim(s)
+            Return Strings.Trim(s)
         End Function
     End Class
 End Namespace

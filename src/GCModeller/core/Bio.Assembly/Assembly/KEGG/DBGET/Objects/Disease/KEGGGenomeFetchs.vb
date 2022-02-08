@@ -111,7 +111,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             Dim out As New List(Of KeyValuePair)
             Dim divs = html.DivInternals.SlideWindows(2, offset:=2)
 
-            If Trim(html).StringEmpty Then
+            If Strings.Trim(html).StringEmpty Then
                 Return Nothing
             End If
 
