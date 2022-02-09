@@ -38,7 +38,7 @@ Public Class GSVADiffBar : Inherits Plot
             .CreateAxisTicks(ticks:=5)
         Dim scaleX = d3js.scale _
             .linear() _
-            .domain(t) _
+            .domain(values:=t) _
             .range(integers:={rect.Left, rect.Right})
         Dim axisPen As Pen = CSS.Stroke.TryParse(theme.axisStroke).GDIObject
         Dim axisTickStroke As Pen = CSS.Stroke.TryParse(theme.axisTickStroke).GDIObject
