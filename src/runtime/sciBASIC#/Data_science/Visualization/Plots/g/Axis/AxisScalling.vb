@@ -82,7 +82,7 @@ Namespace Graphic.Axis
                                         Optional w_min# = 0.1,
                                         Optional w_max# = 0.1) As Double()
 
-            Static smallNumber As New DoubleRange(0, 0.00001)
+            Static smallNumber As New DoubleRange(1.0E-300, 0.00001)
 
             With range
                 If .Min.IsNaNImaginary AndAlso .Max.IsNaNImaginary Then
