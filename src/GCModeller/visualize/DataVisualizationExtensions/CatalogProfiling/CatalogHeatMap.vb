@@ -12,12 +12,14 @@ Namespace CatalogProfiling
 
         ReadOnly profile As CatalogProfiles
         ReadOnly matrix As Matrix
+        ReadOnly mapLevels As Integer
 
-        Public Sub New(profile As CatalogProfiles, matrix As Matrix, theme As Theme)
+        Public Sub New(profile As CatalogProfiles, matrix As Matrix, mapLevels As Integer, theme As Theme)
             MyBase.New(theme)
 
             Me.profile = profile
             Me.matrix = matrix
+            Me.mapLevels = mapLevels
         End Sub
 
         ''' <summary>

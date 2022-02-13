@@ -472,6 +472,16 @@ Module visualPlot
         )
     End Function
 
+    <ExportAPI("category_profiles.heatmap")>
+    Public Function CatalogHeatMapPlot(profile As CatalogProfiles, matrix As Matrix,
+                                       Optional mapLevels As Integer = 64,
+                                       Optional env As Environment = Nothing) As Object
+        Dim theme As New Theme
+        Dim app As New CatalogHeatMap(profile, matrix, mapLevels, theme)
+
+        Return app.Plot
+    End Function
+
     <ExportAPI("sample.color_bend")>
     Public Sub DrawSampleColorBend(g As IGraphics, layout As RectangleF, geneExpression As Color(),
                                    Optional horizontal As Boolean = True,
