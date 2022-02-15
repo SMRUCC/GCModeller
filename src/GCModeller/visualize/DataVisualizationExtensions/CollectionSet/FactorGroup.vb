@@ -51,7 +51,15 @@ Namespace CollectionSet
 
     Public Class FactorGroup
 
+        ''' <summary>
+        ''' the feature set name
+        ''' </summary>
+        ''' <returns></returns>
         Public Property factor As String
+        ''' <summary>
+        ''' the data feature collection
+        ''' </summary>
+        ''' <returns></returns>
         Public Property data As NamedCollection(Of String)()
         Public Property color As Color
 
