@@ -1024,7 +1024,7 @@ Public Module App
             Call __GCThread.Dispose()
             Call Environment.Exit(state)
         Catch ex As Exception
-            ' End
+            Process.GetCurrentProcess.Kill()
         End Try
 
         Return state
