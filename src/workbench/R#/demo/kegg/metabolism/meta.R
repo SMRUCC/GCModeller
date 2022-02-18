@@ -26,6 +26,10 @@ data = lapply(data, function(mass) {
 	hit = mass[i];
 	hit$name = kegg[[hit$Matched.Compound]];
 	
+	if (is.null(hit$name) || (hit$name == "")) {
+		hit$name = hit$Matched.Compound;
+	}
+	
 	hit;
 });
 
