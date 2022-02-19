@@ -332,7 +332,11 @@ Namespace Drawing2D.Colors
         End Function
 
         ''' <summary>
-        ''' 对于无效的键名称，默认是返回<see cref="Office2016"/>，请注意，如果是所有的.net的颜色的话，这里面还会包含有白色，所以还需要手工去除掉白色
+        ''' a unify method for get color maps.
+        ''' 
+        ''' (对于无效的键名称，默认是返回<see cref="Office2016"/>，请注意，
+        ''' 如果是所有的.net的颜色的话，这里面还会包含有白色，所以还需要手工
+        ''' 去除掉白色)
         ''' </summary>
         ''' <param name="exp$">
         ''' <see cref="DesignerExpression"/>.
@@ -354,6 +358,18 @@ Namespace Drawing2D.Colors
             End If
         End Function
 
+        ReadOnly colorRegistry As New Dictionary(Of String, Color())
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Sub Register(colorName As String, ParamArray colors As Color())
+            colorRegistry(colorName) = colors
+        End Sub
+
+        ''' <summary>
+        ''' a unify method for get color maps
+        ''' </summary>
+        ''' <param name="term$"></param>
+        ''' <returns></returns>
         Private Function getColorsInternal(term$) As Color()
             If Array.IndexOf(allColorMapNames, term.ToLower) > -1 Then
                 Return New ColorMap(20, 255).ColorSequence(term)
@@ -395,9 +411,20 @@ Namespace Drawing2D.Colors
                 Case "viridis:mako" : Return Viridis.mako.ToArray
                 Case "viridis:rocket" : Return Viridis.rocket.ToArray
                 Case "viridis:turbo" : Return Viridis.turbo.ToArray
-            End Select
 
-            Return OfficeColorThemes.GetAccentColors(term)
+                Case Else
+
+                    If OfficeColorThemes.Themes.ContainsKey(term) Then
+                        Return OfficeColorThemes.GetAccentColors(term)
+                    ElseIf colorRegistry.ContainsKey(term) Then
+                        Return colorRegistry(term)
+                    Else
+                        Call $"unknown color set name: '{term}', returns the paper schema by default.".Warning
+
+                        ' returns the default color set
+                        Return CustomDesigns.Paper
+                    End If
+            End Select
         End Function
 
         ''' <summary>
