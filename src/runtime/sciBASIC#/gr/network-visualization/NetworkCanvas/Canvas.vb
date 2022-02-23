@@ -220,6 +220,8 @@ Public Class Canvas
             Graph = New NetworkGraph
         End If
 
+        On Error Resume Next
+
         timer.ErrHandle = AddressOf App.LogException
         timer.Start()
         physicsEngine.ErrHandle = AddressOf App.LogException
