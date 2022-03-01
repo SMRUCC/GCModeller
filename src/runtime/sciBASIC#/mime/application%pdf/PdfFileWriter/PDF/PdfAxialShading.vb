@@ -48,7 +48,7 @@
 
 #End Region
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'
 '
 '	PdfFileWriter
 '	PDF File Write C# Class Library.
@@ -71,7 +71,7 @@
 '
 '	For version history please refer to PdfDocument.cs
 '
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'
 
 Imports SysMedia = System.Windows.Media
 
@@ -90,14 +90,14 @@ Imports SysMedia = System.Windows.Media
         Absolute
     End Enum
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ''' <summary>
     ''' PDF axial shading resource class
     ''' </summary>
     ''' <remarks>
     ''' Derived class from PdfObject
     ''' </remarks>
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     Public Class PdfAxialShading
         Inherits PdfObject
 
@@ -113,7 +113,7 @@ Imports SysMedia = System.Windows.Media
         Private ExtendShadingBefore As Boolean = True
         Private ExtendShadingAfter As Boolean = True
 
-        '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        
         ''' <summary>
         ''' PDF axial shading constructor.
         ''' </summary>
@@ -123,7 +123,7 @@ Imports SysMedia = System.Windows.Media
         ''' <param name="BBoxWidth">Bounding box width</param>
         ''' <param name="BBoxHeight">Bounding box height</param>
         ''' <param name="ShadingFunction">Shading function</param>
-        '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        
         Public Sub New(ByVal Document As PdfDocument, ByVal BBoxLeft As Double, ByVal BBoxBottom As Double, ByVal BBoxWidth As Double, ByVal BBoxHeight As Double, ByVal ShadingFunction As PdfShadingFunction)
             MyBase.New(Document)
             ' create resource code
@@ -206,33 +206,33 @@ Imports SysMedia = System.Windows.Media
             Return
         End Sub
 
-        '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        
         ''' <summary>
         ''' Sets anti-alias parameter
         ''' </summary>
         ''' <param name="Value">Anti-alias true or false</param>
-        '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        
         Public Sub AntiAlias(ByVal Value As Boolean)
             Dictionary.AddBoolean("/AntiAlias", Value)
             Return
         End Sub
 
-        '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        
         ''' <summary>
         ''' Extend shading beyond axis
         ''' </summary>
         ''' <param name="Before">Before (true or false)</param>
         ''' <param name="After">After (true or false)</param>
-        '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        
         Public Sub ExtendShading(ByVal Before As Boolean, ByVal After As Boolean)
             ExtendShadingBefore = Before
             ExtendShadingAfter = After
             Return
         End Sub
 
-        '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        
         ' Write object to PDF file
-        '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        
 
         Friend Overrides Sub WriteObjectToPdfFile()
             ' bounding box

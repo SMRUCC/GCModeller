@@ -83,7 +83,7 @@
 
 #End Region
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'
 '
 '	PDF417 Barcode Encoder
 '
@@ -117,7 +117,7 @@
 '		Remove icones from form windows to solve VS 2019 security
 '	Version 2.0 2019/05/07
 '		Add support for .NET framework and .NET standard
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'
 
 Imports System
 Imports System.Collections.Generic

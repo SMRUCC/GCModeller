@@ -68,7 +68,7 @@
 
 #End Region
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'
 '
 '	QR Code Encoder Library
 '
@@ -101,7 +101,7 @@
 '	The Article accompanying the Work may not be distributed or republished
 '	without the Author's consent
 '
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'
 
 Imports System
 Imports System.Text
@@ -534,9 +534,9 @@ Public Class QREncoder
     End Function
 
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ' Initialization
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
 
     Friend Sub Initialization()
         ' create encoding mode array
@@ -615,9 +615,9 @@ Public Class QREncoder
         Return
     End Sub
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ' QRCode: Convert data to bit array
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     Friend Sub EncodeData()
         ' codewords array
         CodewordsArray = New Byte(MaxCodewords - 1) {}
@@ -699,9 +699,9 @@ Public Class QREncoder
         Return
     End Sub
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ' Save data to codeword array
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     Friend Sub SaveBitsToCodewordsArray(ByVal Data As Integer, ByVal Bits As Integer)
         BitBuffer = BitBuffer Or CUInt(Data) << 32 - BitBufferLen - Bits
         BitBufferLen += Bits
@@ -715,9 +715,9 @@ Public Class QREncoder
         Return
     End Sub
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ' Calculate Error Correction
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     Friend Sub CalculateErrorCorrection()
         ' set generator polynomial array
         Dim Generator = GenArray(ErrCorrCodewords - 7)
@@ -764,9 +764,9 @@ Public Class QREncoder
         Return
     End Sub
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ' Polynomial division for error correction
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
 
     Friend Shared Sub PolynominalDivision(ByVal Polynomial As Byte(), ByVal PolyLength As Integer, ByVal Generator As Byte(), ByVal ErrCorrCodewords As Integer)
         Dim DataCodewords = PolyLength - ErrCorrCodewords
@@ -788,9 +788,9 @@ Public Class QREncoder
         Return
     End Sub
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ' Interleave data and error correction blocks
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     Friend Sub InterleaveBlocks()
         ' allocate temp codewords array
         Dim TempArray = New Byte(MaxCodewords - 1) {}
@@ -860,9 +860,9 @@ Public Class QREncoder
         Return
     End Sub
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ' Load base matrix with data and error correction codewords
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     Friend Sub LoadMatrixWithData()
         ' input array pointer initialization
         Dim Ptr = 0
@@ -936,9 +936,9 @@ Public Class QREncoder
         Return
     End Sub
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ' Select Mask
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     Friend Sub SelectBastMask()
         Dim BestScore = Integer.MaxValue
         MaskCode = 0
@@ -967,10 +967,10 @@ Public Class QREncoder
         Return
     End Sub
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ' Evaluation condition #1
     ' 5 consecutive or more modules of the same color
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     Friend Function EvaluationCondition1() As Integer
         Dim Score = 0
 
@@ -1013,10 +1013,10 @@ Public Class QREncoder
         Return Score
     End Function
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ' Evaluation condition #2
     ' same color in 2 by 2 area
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     Friend Function EvaluationCondition2() As Integer
         Dim Score = 0
         ' test rows
@@ -1037,11 +1037,11 @@ Public Class QREncoder
         Return Score
     End Function
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ' Evaluation condition #3
     ' pattern dark, light, dark, dark, dark, light, dark
     ' before or after 4 light modules
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     Friend Function EvaluationCondition3() As Integer
         Dim Score = 0
 
@@ -1109,10 +1109,10 @@ Public Class QREncoder
         Return Score
     End Function
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ' Evaluation condition #4
     ' blak to white ratio
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
 
     Friend Function EvaluationCondition4() As Integer
         ' count black cells
@@ -1138,24 +1138,24 @@ Public Class QREncoder
         Return 0
     End Function
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ' Test horizontal dark light pattern
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     Friend Function TestHorizontalDarkLight(ByVal Row As Integer, ByVal Col As Integer) As Boolean
         Return (MaskMatrix(Row, Col) And Not MaskMatrix(Row, Col + 1) And MaskMatrix(Row, Col + 2) And MaskMatrix(Row, Col + 3) And MaskMatrix(Row, Col + 4) And Not MaskMatrix(Row, Col + 5) And MaskMatrix(Row, Col + 6) And 1) <> 0
     End Function
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ' Test vertical dark light pattern
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     Friend Function TestVerticalDarkLight(ByVal Row As Integer, ByVal Col As Integer) As Boolean
         Return (MaskMatrix(Row, Col) And Not MaskMatrix(Row + 1, Col) And MaskMatrix(Row + 2, Col) And MaskMatrix(Row + 3, Col) And MaskMatrix(Row + 4, Col) And Not MaskMatrix(Row + 5, Col) And MaskMatrix(Row + 6, Col) And 1) <> 0
     End Function
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ' Add format information
     ' version, error correction code plus mask code
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     Friend Sub AddFormatInformation()
         Dim Mask As Integer
 
@@ -1221,9 +1221,9 @@ Public Class QREncoder
 
         Return
     End Sub
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ' Set encoded data bits length
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
 
     Friend Function DataLengthBits(ByVal EncodingMode As EncodingMode) As Integer
         ' Data length bits
@@ -1244,9 +1244,9 @@ Public Class QREncoder
         Throw New ApplicationException("Encoding mode error")
     End Function
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ' Set data and error correction codewords length
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
 
     Friend Sub SetDataCodewordsLength()
         ' index shortcut
@@ -1278,9 +1278,9 @@ Public Class QREncoder
         Return
     End Sub
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ' Build Base Matrix
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
 
     Friend Sub BuildBaseMatrix()
         ' allocate base matrix
@@ -1365,9 +1365,9 @@ Public Class QREncoder
         Return
     End Sub
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ' Apply Mask
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
 
     Friend Sub ApplyMask(ByVal Mask As Integer)
         MaskMatrix = CType(BaseMatrix.Clone(), Byte(,))
@@ -1394,10 +1394,10 @@ Public Class QREncoder
         Return
     End Sub
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ' Apply Mask 0
     ' (row + column) % 2 == 0
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
 
     Friend Sub ApplyMask0()
         For Row = 0 To QRCodeDimension - 1 Step 2
@@ -1411,10 +1411,10 @@ Public Class QREncoder
         Return
     End Sub
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ' Apply Mask 1
     ' row % 2 == 0
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
 
     Friend Sub ApplyMask1()
         For Row = 0 To QRCodeDimension - 1 Step 2
@@ -1427,10 +1427,10 @@ Public Class QREncoder
         Return
     End Sub
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ' Apply Mask 2
     ' column % 3 == 0
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
 
     Friend Sub ApplyMask2()
         For Row = 0 To QRCodeDimension - 1
@@ -1443,10 +1443,10 @@ Public Class QREncoder
         Return
     End Sub
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ' Apply Mask 3
     ' (row + column) % 3 == 0
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
 
     Friend Sub ApplyMask3()
         For Row = 0 To QRCodeDimension - 1 Step 3
@@ -1461,10 +1461,10 @@ Public Class QREncoder
         Return
     End Sub
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ' Apply Mask 4
     ' ((row / 2) + (column / 3)) % 2 == 0
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
 
     Friend Sub ApplyMask4()
         For Row = 0 To QRCodeDimension - 1 Step 4
@@ -1488,10 +1488,10 @@ Public Class QREncoder
         Return
     End Sub
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ' Apply Mask 5
     ' ((row * column) % 2) + ((row * column) % 3) == 0
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
 
     Friend Sub ApplyMask5()
         For Row = 0 To QRCodeDimension - 1 Step 6
@@ -1516,10 +1516,10 @@ Public Class QREncoder
         Return
     End Sub
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ' Apply Mask 6
     ' (((row * column) % 2) + ((row * column) mod 3)) mod 2 == 0
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
 
     Friend Sub ApplyMask6()
         For Row = 0 To QRCodeDimension - 1 Step 6
@@ -1552,10 +1552,10 @@ Public Class QREncoder
         Return
     End Sub
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ' Apply Mask 7
     ' (((row + column) % 2) + ((row * column) mod 3)) mod 2 == 0
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
 
     Friend Sub ApplyMask7()
         For Row = 0 To QRCodeDimension - 1 Step 6

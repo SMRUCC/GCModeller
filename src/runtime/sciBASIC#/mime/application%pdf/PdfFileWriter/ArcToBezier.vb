@@ -47,7 +47,7 @@
 
 #End Region
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'
 '
 '	PdfFileWriter
 '	PDF File Write C# Class Library.
@@ -55,7 +55,7 @@
 '	ArcToBezier
 '	Convert eliptical arc to Bezier segments.
 '
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'''
 '	The PDF File Writer library was enhanced to allow drawing of graphic
 '	artwork using Windows Presentation Foundation (WPF) classes.
 '	These enhancements were proposed by Elena Malnati elena@yelleaf.com.
@@ -67,7 +67,7 @@
 '	from all of these enhancements
 '	For further information visit www.joecridge.me/bezier.pdf.
 '	Also visit http://p5js.org/ for some coolness
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'''
 '
 '	Uzi Granot
 '	Version: 1.0
@@ -84,7 +84,7 @@
 '
 '	For version history please refer to PdfDocument.cs
 '
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'
 
 Imports System
 Imports stdNum = System.Math
@@ -118,7 +118,7 @@ End Enum
 ''' Convert eliptical arc to Bezier segments
 ''' </summary>
 Public Module ArcToBezier
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ''' <summary>
     ''' Create eliptical arc
     ''' </summary>
@@ -128,7 +128,7 @@ Public Module ArcToBezier
     ''' <param name="Rotate">X axis rotation angle in radians</param>
     ''' <param name="Type">Arc type enumeration</param>
     ''' <returns>Array of points.</returns>
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     Public Function CreateArc(ByVal ArcStart As PointD, ByVal ArcEnd As PointD, ByVal Radius As SizeD, ByVal Rotate As Double, ByVal Type As ArcType) As PointD()
         Dim SegArray As PointD()
         Dim ScaleX = Radius.Width / Radius.Height

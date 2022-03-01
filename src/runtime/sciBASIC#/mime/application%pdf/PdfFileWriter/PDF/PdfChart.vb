@@ -54,7 +54,7 @@
 
 #End Region
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'
 '
 '	PdfFileWriter
 '	PDF File Write C# Class Library.
@@ -78,7 +78,7 @@
 '
 '	For version history please refer to PdfDocument.cs
 '
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'
 
 Imports System
 Imports System.Drawing
@@ -199,7 +199,7 @@ Imports System.Windows.Forms.DataVisualization.Charting
             End Set
         End Property
 
-        '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        
         ''' <summary>
         ''' PDF chart constructor
         ''' </summary>
@@ -224,7 +224,7 @@ Imports System.Windows.Forms.DataVisualization.Charting
         ''' 	MyChart.Dispose();
         ''' </code>
         ''' </example>
-        '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        
         Public Sub New(ByVal Document As PdfDocument, ByVal MSChart As Chart)
             MyBase.New(Document)
             ' save chart
@@ -243,7 +243,7 @@ Imports System.Windows.Forms.DataVisualization.Charting
             Return
         End Sub
 
-        '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        
         ''' <summary>
         ''' Static method to create .NET Chart object.
         ''' </summary>
@@ -255,7 +255,7 @@ Imports System.Windows.Forms.DataVisualization.Charting
         ''' <remarks>
         ''' The returned chart has the correct width and height in pixels.
         ''' </remarks>
-        '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        
         Public Shared Function CreateChart(ByVal Document As PdfDocument, ByVal Width As Double, ByVal Height As Double, ByVal Optional Resolution As Double = 0.0) As Chart
             ' create chart
             Dim MSChart As Chart = New Chart()
@@ -271,7 +271,7 @@ Imports System.Windows.Forms.DataVisualization.Charting
             Return MSChart
         End Function
 
-        '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        
         ''' <summary>
         ''' Helper method to create a font for chart drawing.
         ''' </summary>
@@ -280,7 +280,7 @@ Imports System.Windows.Forms.DataVisualization.Charting
         ''' <param name="FontSize">Font size per unit argument.</param>
         ''' <param name="Unit">Font size unit.</param>
         ''' <returns>.NET font</returns>
-        '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        
         Public Function CreateFont(ByVal FontFamilyName As String, ByVal FontStyle As FontStyle, ByVal FontSize As Double, ByVal Unit As FontSizeUnit) As Font  ' font family name
             ' font style
             ' as per units below
@@ -332,9 +332,9 @@ Imports System.Windows.Forms.DataVisualization.Charting
             Return
         End Sub
 
-        '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        
         ' Write object to PDF file
-        '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        
 
         Friend Overrides Sub WriteObjectToPdfFile()
             ' convert chart to bitmap

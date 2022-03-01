@@ -40,7 +40,7 @@
 
 #End Region
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'
 '
 '	PdfFileWriter
 '	PDF File Write C# Class Library.
@@ -63,7 +63,7 @@
 '
 '	For version history please refer to PdfDocument.cs
 '
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'
 
 Imports System
 Imports System.Drawing
@@ -72,7 +72,7 @@ Imports Color = System.Drawing.Color
 Imports SysMedia = System.Windows.Media
 
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ''' <summary>
     ''' PDF shading function class
     ''' </summary>
@@ -80,16 +80,16 @@ Imports SysMedia = System.Windows.Media
     ''' PDF function to convert a number between 0 and 1 into a
     ''' color red green and blue based on the sample color array.
     ''' </remarks>
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     Public Class PdfShadingFunction
         Inherits PdfObject
-        '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        
         ''' <summary>
         ''' PDF Shading function constructor
         ''' </summary>
         ''' <param name="Document">Document object parent of this function.</param>
         ''' <param name="ColorArray">Array of colors.</param>
-        '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        
         Public Sub New(ByVal Document As PdfDocument, ByVal ColorArray As Color())      ' PDF document object
             ' Array of colors. Minimum 2.
             MyBase.New(Document, ObjectType.Stream)
