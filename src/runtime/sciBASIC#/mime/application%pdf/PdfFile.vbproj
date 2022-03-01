@@ -94,7 +94,6 @@
     <Compile Include="PdfFileWriter\AnnotAction.vb" />
     <Compile Include="PdfFileWriter\ArcToBezier.vb" />
     <Compile Include="PdfFileWriter\Barcode.vb" />
-    <Compile Include="PdfFileWriter\CreateMetafile.vb" />
     <Compile Include="PdfFileWriter\DrawWPFPath.vb" />
     <Compile Include="PdfFileWriter\FontApi.vb" />
     <Compile Include="PdfFileWriter\Geometry.vb" />
