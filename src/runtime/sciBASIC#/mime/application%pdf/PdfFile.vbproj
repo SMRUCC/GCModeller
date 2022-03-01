@@ -114,12 +114,8 @@
     <Compile Include="PdfReader\Tokenizer\TokenStringLiteral.vb" />
     <Compile Include="PdfReader\Tokenizer\TokenXRefEntry.vb" />
     <Compile Include="PdfFileWriter\AnnotAction.vb" />
-    <Compile Include="PdfFileWriter\ArcToBezier.vb" />
     <Compile Include="PdfFileWriter\Barcode.vb" />
-    <Compile Include="PdfFileWriter\DrawWPFPath.vb" />
     <Compile Include="PdfFileWriter\FontApi.vb" />
-    <Compile Include="PdfFileWriter\Geometry.vb" />
-    <Compile Include="PdfFileWriter\ImageSizePos.vb" />
     <Compile Include="PdfReader\Document\IPdfObjectVisitor.vb" />
     <Compile Include="PdfFileWriter\LocationMarker.vb" />
     <Compile Include="PdfReader\Parser\ParseArray.vb" />
@@ -147,7 +143,6 @@
     <Compile Include="PdfFileWriter\PDF\PdfBookmark.vb" />
     <Compile Include="PdfReader\Document\PdfBoolean.vb" />
     <Compile Include="PdfReader\Document\PdfCatalog.vb" />
-    <Compile Include="PdfFileWriter\PDF\PdfChart.vb" />
     <Compile Include="PdfFileWriter\PDF\PdfContents.vb" />
     <Compile Include="PdfReader\Document\PdfContents.vb" />
     <Compile Include="PdfReader\Document\PdfContentsParser.vb" />
@@ -195,6 +190,12 @@
     <Compile Include="PdfReader\Document\PdfPage.vb" />
     <Compile Include="PdfReader\Document\PdfPageInherit.vb" />
     <Compile Include="PdfReader\Document\PdfPages.vb" />
+	
+	  <Compile Include="PdfFileWriter\Graphics\ArcToBezier.vb" />
+  <Compile Include="PdfFileWriter\Graphics\Geometry.vb" />
+  <Compile Include="PdfFileWriter\Graphics\ImageSizePos.vb" />
+	
+	
     <Compile Include="PdfFileWriter\PDF\PdfPrintDocument.vb">
       <SubType>Component</SubType>
     </Compile>
@@ -243,6 +244,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="PdfReader\LICENSE" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="PdfFileWriter\readme.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
