@@ -492,7 +492,8 @@ Public Class PdfGraphics : Inherits MockGDIPlusGraphics
     End Sub
 
     Public Overrides Sub DrawString(s As String, font As Font, brush As Brush, point As PointF)
-        Throw New NotImplementedException()
+        Dim pdfFont As PdfFont = PdfFont.CreatePdfFont(page.Document, font.Name, font.Style)
+        Call g.DrawText(pdfFont, font.Size, point.X, point.Y, s)
     End Sub
 
     Public Overrides Sub DrawString(s As String, font As Font, brush As Brush, layoutRectangle As RectangleF)
