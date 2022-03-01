@@ -1,5 +1,6 @@
 ﻿Imports System.Drawing
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Text
 
 Namespace Driver
 
@@ -12,6 +13,11 @@ Namespace Driver
 
         Private Shared Function FontScale(font As Font) As Font
             Return New Font(font, font.Size * 2)
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function FontMetrics(font As Font) As FontMetrics
+            Return New FontMetrics(font, gdi)
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
