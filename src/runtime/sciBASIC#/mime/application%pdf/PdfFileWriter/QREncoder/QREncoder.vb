@@ -226,18 +226,6 @@ Public Class QREncoder
     Inherits QREncoderTables
 
     ''' <summary>
-    ''' QR code matrix.
-    ''' </summary>
-
-    ''' <summary>
-    ''' Gets QR Code matrix version
-    ''' </summary>
-
-    ''' <summary>
-    ''' Gets QR Code matrix dimension in bits
-    ''' </summary>
-
-    ''' <summary>
     ''' Gets QR Code image dimension
     ''' </summary>
     Private _QRCodeMatrix As Boolean(,), _QRCodeVersion As Integer, _QRCodeDimension As Integer, _QRCodeImageDimension As Integer
@@ -246,6 +234,9 @@ Public Class QREncoder
     ''' </summary>
     Public Const VersionNumber As String = "Ver 2.1.0 - 2019-05-26"
 
+    ''' <summary>
+    ''' QR code matrix.
+    ''' </summary>
     Public Property QRCodeMatrix As Boolean(,)
         Get
             Return _QRCodeMatrix
@@ -255,6 +246,9 @@ Public Class QREncoder
         End Set
     End Property
 
+    ''' <summary>
+    ''' Gets QR Code matrix version
+    ''' </summary>
     Public Property QRCodeVersion As Integer
         Get
             Return _QRCodeVersion
@@ -264,6 +258,9 @@ Public Class QREncoder
         End Set
     End Property
 
+    ''' <summary>
+    ''' Gets QR Code matrix dimension in bits
+    ''' </summary>
     Public Property QRCodeDimension As Integer
         Get
             Return _QRCodeDimension
@@ -312,7 +309,9 @@ Public Class QREncoder
         End Get
         Set(ByVal value As ErrorCorrection)
             ' test error correction
-            If value < ErrorCorrection.L OrElse value > ErrorCorrection.H Then Throw New ArgumentException("Error correction is invalid. Must be L, M, Q or H. Default is M")
+            If value < ErrorCorrection.L OrElse value > ErrorCorrection.H Then
+                Throw New ArgumentException("Error correction is invalid. Must be L, M, Q or H. Default is M")
+            End If
 
             ' save error correction level
             _ErrorCorrection = value
