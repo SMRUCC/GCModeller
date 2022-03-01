@@ -195,7 +195,6 @@ Public Enum DrawStyle
     Superscript = 32
 End Enum
 
-'
 ''' <summary>
 ''' Path painting and clipping operators enumeration
 ''' </summary>
@@ -206,7 +205,6 @@ End Enum
 ''' it is nonzero winding number rule.
 ''' </para>
 ''' </remarks>
-'
 Public Enum PaintOp
     ''' <summary>
     ''' No operator

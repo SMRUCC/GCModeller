@@ -65,10 +65,7 @@
 '
 '
 
-Imports System
-Imports SysMedia = System.Windows.Media
 Imports stdNum = System.Math
-
 
 ''' <summary>
 ''' PDF radial shading resource class

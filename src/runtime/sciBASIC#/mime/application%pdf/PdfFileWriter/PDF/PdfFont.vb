@@ -1440,13 +1440,14 @@ Public Class PdfFont
     ''' </summary>
     ''' <param name="Other">Other PDFFont</param>
     ''' <returns>Compare result</returns>
-    Public Function CompareTo(ByVal Other As PdfFont) As Integer Implements IComparable(Of PdfFont).CompareTo
+    Public Overloads Function CompareTo(ByVal Other As PdfFont) As Integer Implements IComparable(Of PdfFont).CompareTo
         Dim Cmp = String.Compare(FontFamilyName, Other.FontFamilyName, True)
         If Cmp <> 0 Then Return Cmp
         Cmp = FontStyle - Other.FontStyle
         If Cmp <> 0 Then Return Cmp
         Return If(EmbeddedFont, 1, 0) - If(Other.EmbeddedFont, 1, 0)
     End Function
+
     ''' <summary>
     ''' Dispose FontApi
     ''' </summary>

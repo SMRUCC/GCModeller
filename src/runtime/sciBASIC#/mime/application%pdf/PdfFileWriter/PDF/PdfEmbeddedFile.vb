@@ -222,15 +222,15 @@ Imports System.Collections.Generic
             Return EmbeddedFile
         End Function
 
-        ''' <summary>
-        ''' Compare two PdfEmbededFile objects
-        ''' </summary>
-        ''' <param name="Other">Other argument</param>
-        ''' <returns>Compare result</returns>
-        Public Function CompareTo(ByVal Other As PdfEmbeddedFile) As Integer Implements IComparable(Of PdfEmbeddedFile).CompareTo
-            Return String.Compare(FileName, Other.FileName, True)
-        End Function
-    End Class
+    ''' <summary>
+    ''' Compare two PdfEmbededFile objects
+    ''' </summary>
+    ''' <param name="Other">Other argument</param>
+    ''' <returns>Compare result</returns>
+    Public Overloads Function CompareTo(ByVal Other As PdfEmbeddedFile) As Integer Implements IComparable(Of PdfEmbeddedFile).CompareTo
+        Return String.Compare(FileName, Other.FileName, True)
+    End Function
+End Class
 
     Friend Class ExtToMime
         Implements IComparable(Of ExtToMime)

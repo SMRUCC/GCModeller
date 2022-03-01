@@ -145,12 +145,12 @@ Imports System.Collections.Generic
             Return WebLink
         End Function
 
-        ''' <summary>
-        ''' Compare two WebLinkStr objects.
-        ''' </summary>
-        ''' <param name="Other">Other object.</param>
-        ''' <returns>Compare result.</returns>
-        Public Function CompareTo(ByVal Other As PdfWebLink) As Integer Implements IComparable(Of PdfWebLink).CompareTo
-            Return String.Compare(WebLinkStr, Other.WebLinkStr)
-        End Function
-    End Class
+    ''' <summary>
+    ''' Compare two WebLinkStr objects.
+    ''' </summary>
+    ''' <param name="Other">Other object.</param>
+    ''' <returns>Compare result.</returns>
+    Public Overloads Function CompareTo(ByVal Other As PdfWebLink) As Integer Implements IComparable(Of PdfWebLink).CompareTo
+        Return String.Compare(WebLinkStr, Other.WebLinkStr)
+    End Function
+End Class

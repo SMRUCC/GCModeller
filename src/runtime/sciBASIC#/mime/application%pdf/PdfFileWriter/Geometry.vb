@@ -173,11 +173,9 @@ Public Class PointD
     End Sub
 End Class
 
-'
 ''' <summary>
 ''' Size in double precision class
 ''' </summary>
-'
 Public Class SizeD
     ''' <summary>
     ''' Width
@@ -207,11 +205,9 @@ Public Class SizeD
     End Sub
 End Class
 
-'
 ''' <summary>
 ''' Line in double precision class
 ''' </summary>
-'
 Public Class LineD
     ''' <summary>
     ''' Gets or sets point 1

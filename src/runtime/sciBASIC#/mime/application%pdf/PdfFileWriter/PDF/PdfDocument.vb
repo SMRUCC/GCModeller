@@ -348,7 +348,6 @@ Public Enum InitialDocDisplay
     UseAttachments
 End Enum
 
-'
 ''' <summary>
 ''' Number Format Information static class
 ''' </summary>
@@ -357,7 +356,6 @@ End Enum
 ''' Some countries define decimal separator as a comma.
 ''' The project uses NFI.DecSep to force period for all regions.
 ''' </remarks>
-'
 Public Module NFI
     ''' <summary>
     ''' Define period as number decimal separator.
