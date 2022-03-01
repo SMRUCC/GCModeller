@@ -1,8 +1,20 @@
 ﻿Imports System.Drawing
 Imports System.IO
+Imports Microsoft.VisualBasic.Imaging.Drawing2D
+Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.MIME.application.pdf
+Imports Microsoft.VisualBasic.MIME.Html.CSS
 
-Module Driver
+Public Module Driver
+
+    Sub New()
+        g.pdfDriver = AddressOf OpenDevice
+        g.getPdfImage = AddressOf CreateImage
+    End Sub
+
+    Private Function CreateImage(g As IGraphics, size As Size, padding As Padding) As GraphicsData
+        Return New PdfImage(g, size, padding)
+    End Function
 
     Public Function OpenDevice(size As Size) As PdfGraphics
         Dim buffer As New MemoryStream
@@ -24,5 +36,9 @@ Module Driver
 
         Return g
     End Function
+
+    Public Sub Init()
+        Call Console.WriteLine()
+    End Sub
 
 End Module
