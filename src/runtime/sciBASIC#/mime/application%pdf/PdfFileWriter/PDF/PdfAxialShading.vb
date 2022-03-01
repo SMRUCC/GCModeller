@@ -162,25 +162,14 @@ Imports SysMedia = System.Windows.Media
             Me.New(Document, 0.0, 0.0, 1.0, 1.0, ShadingFunction)
         End Sub
 
-        ''' <summary>
-        ''' PDF axial shading constructor for unit bounding box
-        ''' </summary>
-        ''' <param name="Document">Parent PDF document object</param>
-        ''' <param name="MediaBrush">System.Windows.Media brush</param>
-        Public Sub New(ByVal Document As PdfDocument, ByVal MediaBrush As SysMedia.LinearGradientBrush)
-            Me.New(Document, 0.0, 0.0, 1.0, 1.0, New PdfShadingFunction(Document, MediaBrush))
-            SetAxisDirection(MediaBrush.StartPoint.X, MediaBrush.StartPoint.Y, MediaBrush.EndPoint.X, MediaBrush.EndPoint.Y, If(MediaBrush.MappingMode = SysMedia.BrushMappingMode.RelativeToBoundingBox, MappingMode.Relative, MappingMode.Absolute))
-            Return
-        End Sub
-
-        ''' <summary>
-        ''' Set bounding box
-        ''' </summary>
-        ''' <param name="BBoxLeft">Bounding box left</param>
-        ''' <param name="BBoxBottom">Bounding box bottom</param>
-        ''' <param name="BBoxWidth">Bounding box width</param>
-        ''' <param name="BBoxHeight">Bounding box height</param>
-        Public Sub SetBoundingBox(ByVal BBoxLeft As Double, ByVal BBoxBottom As Double, ByVal BBoxWidth As Double, ByVal BBoxHeight As Double)
+    ''' <summary>
+    ''' Set bounding box
+    ''' </summary>
+    ''' <param name="BBoxLeft">Bounding box left</param>
+    ''' <param name="BBoxBottom">Bounding box bottom</param>
+    ''' <param name="BBoxWidth">Bounding box width</param>
+    ''' <param name="BBoxHeight">Bounding box height</param>
+    Public Sub SetBoundingBox(ByVal BBoxLeft As Double, ByVal BBoxBottom As Double, ByVal BBoxWidth As Double, ByVal BBoxHeight As Double)
             ' bounding box
             Me.BBoxLeft = BBoxLeft
             Me.BBoxBottom = BBoxBottom

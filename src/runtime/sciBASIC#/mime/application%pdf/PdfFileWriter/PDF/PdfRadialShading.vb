@@ -145,18 +145,6 @@ Public Class PdfRadialShading
     End Sub
 
     ''' <summary>
-    ''' PDF radial shading constructor for one unit bounding box
-    ''' </summary>
-    ''' <param name="Document">Parent PDF document object.</param>
-    ''' <param name="MediaBrush">System.Windows.Media brush</param>
-    ''' <remarks>Support for WPF media</remarks>
-    Public Sub New(ByVal Document As PdfDocument, ByVal MediaBrush As SysMedia.RadialGradientBrush)
-        Me.New(Document, 0.0, 0.0, 1.0, 1.0, New PdfShadingFunction(Document, MediaBrush))
-        SetGradientDirection(MediaBrush.Center.X, MediaBrush.Center.Y, 0.0, MediaBrush.GradientOrigin.X, MediaBrush.GradientOrigin.Y, 0.5 * (MediaBrush.RadiusX + MediaBrush.RadiusY), If(MediaBrush.MappingMode = SysMedia.BrushMappingMode.RelativeToBoundingBox, MappingMode.Relative, MappingMode.Absolute))
-        Return
-    End Sub
-
-    ''' <summary>
     ''' Set bounding box
     ''' </summary>
     ''' <param name="BBoxLeft">Bounding box left</param>

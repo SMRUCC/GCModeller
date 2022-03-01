@@ -3089,109 +3089,6 @@ Public Class PdfContents
     End Sub
 
     ''' <summary>
-    ''' Draw WPF path
-    ''' </summary>
-    ''' <param name="Path">DrawWPFPath class</param>
-    ''' <param name="OriginX">Origin X</param>
-    ''' <param name="OriginY">Origin Y</param>
-    ''' <param name="Width">Path area width</param>
-    ''' <param name="Height">Path area height</param>
-    ''' <param name="Alignment">Alignment of path bounding box in drawing area. 0=no alignment</param>
-    Public Sub DrawWPFPath(ByVal Path As DrawWPFPath, ByVal OriginX As Double, ByVal OriginY As Double, ByVal Width As Double, ByVal Height As Double, ByVal Optional Alignment As ContentAlignment = 0)
-        ' draw WPF path
-        Path.Draw(Me, OriginX, OriginY, Width, Height, Alignment)
-        Return
-    End Sub
-
-    
-    ''' <summary>
-    ''' Draw chart
-    ''' </summary>
-    ''' <param name="PdfChart">PdfChart resource</param>
-    ''' <param name="OriginX">Origin X</param>
-    ''' <param name="OriginY">Origin Y</param>
-    ''' <param name="DisposeChart">Dispose chart</param>
-    ''' <param name="GCCollect">Run the garbage collector</param>
-    ''' <remarks>
-    ''' <para>
-    ''' The chart is saved in the PDF document as an image.
-    ''' </para>
-    ''' <para>
-    ''' The PdfChart resource contains a .NET Chart class. The .NET
-    ''' Chart defines width and height in pixels and image resolution
-    ''' in pixels per inch. This method calculates the chart's display
-    ''' width and height based on these values.
-    ''' </para>
-    ''' <para>
-    ''' The .NET Chart member is defined by the user. It must be
-    ''' disposed in order to free unmanaged resources. If
-    ''' DisposeChart is true the DrawChart will call the Chart.Dispose()
-    ''' method. If the DisposeChart is false it is the responsibility
-    ''' of the calling method to dispose of the chart.
-    ''' </para>
-    ''' </remarks>
-    
-    Public Sub DrawChart(ByVal PdfChart As PdfChart, ByVal OriginX As Double, ByVal OriginY As Double, ByVal Optional DisposeChart As Boolean = True, ByVal Optional GCCollect As Boolean = True)
-        ' write chart as an image to PDF output file
-        PdfChart.CommitToPdfFile(DisposeChart, GCCollect)
-
-        ' add chart code to current list of resources
-        AddToUsedResources(PdfChart)
-
-        ' draw chart image
-        MyBase.ObjectValueFormat("q {0} 0 0 {1} {2} {3} cm {4} Do Q" & Microsoft.VisualBasic.Constants.vbLf, ToPt(PdfChart.Width), ToPt(PdfChart.Height), ToPt(OriginX), ToPt(OriginY), PdfChart.ResourceCode)
-        Return
-    End Sub
-
-    
-    ''' <summary>
-    ''' Draw chart
-    ''' </summary>
-    ''' <param name="PdfChart">PdfChart resource</param>
-    ''' <param name="OriginX">Origin X</param>
-    ''' <param name="OriginY">Origin Y</param>
-    ''' <param name="Width">Display width</param>
-    ''' <param name="Height">Display height</param>
-    ''' <param name="DisposeChart">Dispose chart</param>
-    ''' <param name="GCCollect">Run the garbage collector</param>
-    ''' <remarks>
-    ''' <para>
-    ''' The chart is saved in the PDF document as an image.
-    ''' </para>
-    ''' <para>
-    ''' The PdfChart resource contains a .NET Chart class. The .NET
-    ''' Chart defines width and height in pixels and image resolution
-    ''' in pixels per inch.
-    ''' </para>
-    ''' <para>
-    ''' The chart will be stretched or shrunk to fit the display width
-    ''' and display height. Use PdfChart.ImageSize(...) or 
-    ''' PdfChart.ImageSizePosition(...) to ensure correct aspect ratio 
-    ''' and positioning.
-    ''' </para>
-    ''' <para>
-    ''' The .NET Chart member is defined by the user. It must be
-    ''' disposed in order to free unmanaged resources. If
-    ''' DisposeChart is true the DrawChart will call the Chart.Dispose()
-    ''' method. If the DisposeChart is false it is the responsibility
-    ''' of the calling method to dispose of the chart.
-    ''' </para>
-    ''' </remarks>
-    
-    Public Sub DrawChart(ByVal PdfChart As PdfChart, ByVal OriginX As Double, ByVal OriginY As Double, ByVal Width As Double, ByVal Height As Double, ByVal Optional DisposeChart As Boolean = True, ByVal Optional GCCollect As Boolean = True)
-        ' write chart as an image to PDF output file
-        PdfChart.CommitToPdfFile(DisposeChart, GCCollect)
-
-        ' add image code to current list of resources
-        AddToUsedResources(PdfChart)
-
-        ' draw chart image
-        MyBase.ObjectValueFormat("q {0} 0 0 {1} {2} {3} cm {4} Do Q" & Microsoft.VisualBasic.Constants.vbLf, ToPt(Width), ToPt(Height), ToPt(OriginX), ToPt(OriginY), PdfChart.ResourceCode)
-        Return
-    End Sub
-
-    
-    ''' <summary>
     ''' Draw X Object
     ''' </summary>
     ''' <param name="XObject">X Object resource</param>
@@ -3199,7 +3096,7 @@ Public Class PdfContents
     ''' X object is displayed at current position. X object Size
     ''' is as per X object.
     ''' </remarks>
-    
+
     Public Sub DrawXObject(ByVal XObject As PdfXObject)
         ' add image code to current list of resources
         AddToUsedResources(XObject)
