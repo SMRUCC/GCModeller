@@ -18,12 +18,11 @@ Public Class PdfGraphics : Inherits MockGDIPlusGraphics
     ''' </summary>
     ReadOnly height As Integer
 
-    Public Overrides ReadOnly Property Size As Size
-
     Sub New(size As Size, page As PdfPage, buffer As Stream)
+        Call MyBase.New(size, New Size(300, 300))
+
         Me.buffer = buffer
         Me.page = page
-        Me.Size = size
         Me.g = New PdfContents(page)
         Me.height = size.Height
     End Sub
@@ -44,18 +43,6 @@ Public Class PdfGraphics : Inherits MockGDIPlusGraphics
         Set(value As CompositingQuality)
             Throw New NotImplementedException()
         End Set
-    End Property
-
-    Public Overrides ReadOnly Property DpiX As Single
-        Get
-            Throw New NotImplementedException()
-        End Get
-    End Property
-
-    Public Overrides ReadOnly Property DpiY As Single
-        Get
-            Throw New NotImplementedException()
-        End Get
     End Property
 
     Public Overrides Property InterpolationMode As InterpolationMode
@@ -419,15 +406,15 @@ Public Class PdfGraphics : Inherits MockGDIPlusGraphics
     End Sub
 
     Public Overrides Sub DrawLine(pen As Pen, pt1 As PointF, pt2 As PointF)
-        Throw New NotImplementedException()
+        Call DrawLine(pen, pt1.X, pt1.Y, pt2.X, pt2.Y)
     End Sub
 
     Public Overrides Sub DrawLine(pen As Pen, pt1 As Point, pt2 As Point)
-        Throw New NotImplementedException()
+        Call DrawLine(pen, pt1.X, pt1.Y, pt2.X, pt2.Y)
     End Sub
 
     Public Overrides Sub DrawLine(pen As Pen, x1 As Integer, y1 As Integer, x2 As Integer, y2 As Integer)
-        Throw New NotImplementedException()
+        Call DrawLine(pen, CSng(x1), CSng(y1), CSng(x2), CSng(y2))
     End Sub
 
     Public Overrides Sub DrawLine(pen As Pen, x1 As Single, y1 As Single, x2 As Single, y2 As Single)
@@ -499,8 +486,7 @@ Public Class PdfGraphics : Inherits MockGDIPlusGraphics
     End Sub
 
     Public Overrides Sub DrawString(s As String, font As Font, brush As Brush, point As PointF)
-        Dim pdfFont As PdfFont = PdfFont.CreatePdfFont(page.Document, font.Name, font.Style)
-        Call g.DrawText(pdfFont, font.Size, point.X, height - point.Y, s)
+        Call DrawString(s, font, brush, point.X, point.Y)
     End Sub
 
     Public Overrides Sub DrawString(s As String, font As Font, brush As Brush, layoutRectangle As RectangleF)
@@ -516,7 +502,11 @@ Public Class PdfGraphics : Inherits MockGDIPlusGraphics
     End Sub
 
     Public Overrides Sub DrawString(s As String, font As Font, brush As Brush, x As Single, y As Single)
-        Throw New NotImplementedException()
+        Dim pdfFont As PdfFont = PdfFont.CreatePdfFont(page.Document, font.Name, font.Style)
+        Dim color As Color = DirectCast(brush, SolidBrush).Color
+
+        Call g.SetColorNonStroking(color)
+        Call g.DrawText(pdfFont, font.Size, x, height - y, s)
     End Sub
 
     Public Overrides Sub DrawString(s As String, font As Font, brush As Brush, x As Single, y As Single, format As StringFormat)
@@ -704,11 +694,15 @@ Public Class PdfGraphics : Inherits MockGDIPlusGraphics
     End Sub
 
     Public Overrides Sub FillEllipse(brush As Brush, rect As Rectangle)
-        Throw New NotImplementedException()
+        Call FillEllipse(brush, New RectangleF(rect.X, rect.Y, rect.Width, rect.Height))
     End Sub
 
     Public Overrides Sub FillEllipse(brush As Brush, rect As RectangleF)
-        Throw New NotImplementedException()
+        Dim x As Double = rect.X + rect.Width / 2
+        Dim y As Double = Me.height - (rect.Y + rect.Height / 2)
+
+        g.SetColorNonStroking(DirectCast(brush, SolidBrush).Color)
+        g.DrawOval(x, y, rect.Width, rect.Height, PaintOp.Fill)
     End Sub
 
     Public Overrides Sub FillEllipse(brush As Brush, x As Single, y As Single, width As Single, height As Single)
@@ -724,7 +718,11 @@ Public Class PdfGraphics : Inherits MockGDIPlusGraphics
     End Sub
 
     Public Overrides Sub FillPie(brush As Brush, rect As Rectangle, startAngle As Single, sweepAngle As Single)
-        Throw New NotImplementedException()
+        Dim x As Double = rect.X + rect.Width / 2
+        Dim y As Double = Me.height - (rect.Y + rect.Height / 2)
+
+        g.SetColorNonStroking(DirectCast(brush, SolidBrush).Color)
+        g.DrawOval(x, y, rect.Width, rect.Height, PaintOp.Fill)
     End Sub
 
     Public Overrides Sub FillPie(brush As Brush, x As Integer, y As Integer, width As Integer, height As Integer, startAngle As Integer, sweepAngle As Integer)
@@ -752,7 +750,7 @@ Public Class PdfGraphics : Inherits MockGDIPlusGraphics
     End Sub
 
     Public Overrides Sub FillRectangle(brush As Brush, rect As Rectangle)
-        Throw New NotImplementedException()
+        Call FillRectangle(brush, New RectangleF(rect.X, rect.Y, rect.Width, rect.Height))
     End Sub
 
     Public Overrides Sub FillRectangle(brush As Brush, rect As RectangleF)
