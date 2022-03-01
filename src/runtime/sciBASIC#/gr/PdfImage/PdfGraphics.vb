@@ -424,7 +424,7 @@ Public Class PdfGraphics : Inherits MockGDIPlusGraphics
     End Sub
 
     Public Overrides Sub DrawLine(pen As Pen, x1 As Single, y1 As Single, x2 As Single, y2 As Single)
-        Throw New NotImplementedException()
+        g.DrawLine(x1, y1, x2, y2, New PdfTableBorderStyle(pen))
     End Sub
 
     Public Overrides Sub DrawLines(pen As Pen, points() As PointF)

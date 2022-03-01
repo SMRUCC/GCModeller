@@ -169,6 +169,10 @@ Public Class PdfTableBorderStyle
         Return
     End Sub
 
+    Sub New(pen As Pen)
+        Call Me.New(pen.Width, pen.Color)
+    End Sub
+
     ''' <summary>
     ''' Clear border line style
     ''' </summary>
