@@ -110,7 +110,7 @@ Namespace Drawing2D.Text
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function FontMetrics(g As GraphicsSVG, font As Font) As FontMetrics
-            Return New FontMetrics(font, g.internalGraphicsHelper)
+            Return New FontMetrics(font, g.gdi)
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

@@ -2,12 +2,18 @@
 Imports System.Drawing.Drawing2D
 Imports System.Drawing.Imaging
 Imports System.Drawing.Text
+Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.MIME.application.pdf
 
-Public Class PdfGraphics : Inherits IGraphics
+Public Class PdfGraphics : Inherits MockGDIPlusGraphics
 
     ReadOnly g As PdfContents
     ReadOnly page As PdfPage
+
+    Sub New(page As PdfPage)
+        Me.page = page
+        Me.g = New PdfContents(page)
+    End Sub
 
     Public Overrides ReadOnly Property Size As Size
         Get
@@ -128,11 +134,6 @@ Public Class PdfGraphics : Inherits IGraphics
             Throw New NotImplementedException()
         End Set
     End Property
-
-    Sub New(page As PdfPage)
-        Me.page = page
-        Me.g = New PdfContents(page)
-    End Sub
 
     Public Overrides Sub AddMetafileComment(data() As Byte)
         Throw New NotImplementedException()
@@ -923,38 +924,6 @@ Public Class PdfGraphics : Inherits IGraphics
     End Function
 
     Public Overrides Function IsVisible(x As Single, y As Single, width As Single, height As Single) As Boolean
-        Throw New NotImplementedException()
-    End Function
-
-    Public Overrides Function MeasureCharacterRanges(text As String, font As Font, layoutRect As RectangleF, stringFormat As StringFormat) As Region()
-        Throw New NotImplementedException()
-    End Function
-
-    Public Overrides Function MeasureString(text As String, font As Font) As SizeF
-        Throw New NotImplementedException()
-    End Function
-
-    Public Overrides Function MeasureString(text As String, font As Font, width As Integer) As SizeF
-        Throw New NotImplementedException()
-    End Function
-
-    Public Overrides Function MeasureString(text As String, font As Font, layoutArea As SizeF) As SizeF
-        Throw New NotImplementedException()
-    End Function
-
-    Public Overrides Function MeasureString(text As String, font As Font, width As Integer, format As StringFormat) As SizeF
-        Throw New NotImplementedException()
-    End Function
-
-    Public Overrides Function MeasureString(text As String, font As Font, origin As PointF, stringFormat As StringFormat) As SizeF
-        Throw New NotImplementedException()
-    End Function
-
-    Public Overrides Function MeasureString(text As String, font As Font, layoutArea As SizeF, stringFormat As StringFormat) As SizeF
-        Throw New NotImplementedException()
-    End Function
-
-    Public Overrides Function MeasureString(text As String, font As Font, layoutArea As SizeF, stringFormat As StringFormat, ByRef charactersFitted As Integer, ByRef linesFilled As Integer) As SizeF
         Throw New NotImplementedException()
     End Function
 End Class
