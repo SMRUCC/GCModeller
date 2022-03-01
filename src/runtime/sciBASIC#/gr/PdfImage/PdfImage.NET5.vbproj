@@ -120,6 +120,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+    <ProjectReference Include="..\..\mime\application%pdf\Pdf.NET5.vbproj" />
+    <ProjectReference Include="..\Microsoft.VisualBasic.Imaging\imaging.NET5.vbproj" />
   </ItemGroup>
 
   <ItemGroup>
