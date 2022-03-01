@@ -65,6 +65,7 @@
 '
 '
 
+Imports System
 Imports Color = System.Drawing.Color
 
 ''' <summary>
@@ -102,7 +103,9 @@ Public Class PdfShadingFunction
 
     Private Sub Constructorhelper(ByVal Length As Integer)
         ' test for error
-        If Length < 2 Then Throw New ApplicationException("Shading function color array must have two or more items")
+        If Length < 2 Then
+            Throw New Exception("Shading function color array must have two or more items")
+        End If
 
         ' the shading function is a sampled function
         Dictionary.Add("/FunctionType", "0")

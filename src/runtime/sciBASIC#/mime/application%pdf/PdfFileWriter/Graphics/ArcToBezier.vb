@@ -86,6 +86,7 @@
 '
 '
 
+Imports System
 Imports stdNum = System.Math
 
 ''' <summary>
@@ -181,7 +182,9 @@ Public Module ArcToBezier
         Dim ChordLength = stdNum.Sqrt(ChordDeltaX * ChordDeltaX + ChordDeltaY * ChordDeltaY)
 
         ' test radius
-        If 2 * Radius < ChordLength Then Throw New ApplicationException("Radius too small.")
+        If 2 * Radius < ChordLength Then
+            Throw New Exception("Radius too small.")
+        End If
 
         ' line perpendicular to chord at mid point
         ' distance from chord mid point to center of circle
@@ -200,8 +203,14 @@ Public Module ArcToBezier
 
         ' arc angle
         Dim ArcAngle = 2 * stdNum.Asin(ChordLength / (2 * Radius))
-        If ArcAngle < 0.001 Then Throw New ApplicationException("Angle too small")
-        If Type = ArcType.LargeCounterClockWise OrElse Type = ArcType.LargeClockWise Then ArcAngle = 2 * stdNum.PI - ArcAngle
+
+        If ArcAngle < 0.001 Then
+            Throw New ApplicationException("Angle too small")
+        End If
+
+        If Type = ArcType.LargeCounterClockWise OrElse Type = ArcType.LargeClockWise Then
+            ArcAngle = 2 * stdNum.PI - ArcAngle
+        End If
 
         ' segment array
         Dim SegArray As PointD()
