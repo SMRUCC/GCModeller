@@ -65,6 +65,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Driver.vb" />
     <Compile Include="PdfImage.vb" />
     <Compile Include="PdfGraphics.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />

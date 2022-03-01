@@ -7,6 +7,7 @@ Imports Microsoft.VisualBasic.MIME.application.pdf
 Public Class PdfGraphics : Inherits IGraphics
 
     ReadOnly g As PdfContents
+    ReadOnly page As PdfPage
 
     Public Overrides ReadOnly Property Size As Size
         Get
@@ -127,6 +128,11 @@ Public Class PdfGraphics : Inherits IGraphics
             Throw New NotImplementedException()
         End Set
     End Property
+
+    Sub New(page As PdfPage)
+        Me.page = page
+        Me.g = New PdfContents(page)
+    End Sub
 
     Public Overrides Sub AddMetafileComment(data() As Byte)
         Throw New NotImplementedException()
