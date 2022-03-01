@@ -12,17 +12,21 @@ Public Class PdfGraphics : Inherits MockGDIPlusGraphics
     Friend ReadOnly page As PdfPage
     Friend ReadOnly buffer As Stream
 
-    Sub New(page As PdfPage, buffer As Stream)
-        Me.buffer = buffer
-        Me.page = page
-        Me.g = New PdfContents(page)
-    End Sub
+    ''' <summary>
+    ''' 在PDF文件之中的坐标系是与gdi的绘图坐标系是颠倒过来的
+    ''' 所以会需要通过这个height值来进行颠倒修正
+    ''' </summary>
+    ReadOnly height As Integer
 
     Public Overrides ReadOnly Property Size As Size
-        Get
-            Throw New NotImplementedException()
-        End Get
-    End Property
+
+    Sub New(size As Size, page As PdfPage, buffer As Stream)
+        Me.buffer = buffer
+        Me.page = page
+        Me.Size = size
+        Me.g = New PdfContents(page)
+        Me.height = size.Height
+    End Sub
 
     Public Overrides Property CompositingMode As CompositingMode
         Get
@@ -427,7 +431,7 @@ Public Class PdfGraphics : Inherits MockGDIPlusGraphics
     End Sub
 
     Public Overrides Sub DrawLine(pen As Pen, x1 As Single, y1 As Single, x2 As Single, y2 As Single)
-        g.DrawLine(x1, y1, x2, y2, New PdfTableBorderStyle(pen))
+        g.DrawLine(x1, height - y1, x2, height - y2, New PdfTableBorderStyle(pen))
     End Sub
 
     Public Overrides Sub DrawLines(pen As Pen, points() As PointF)
@@ -496,7 +500,7 @@ Public Class PdfGraphics : Inherits MockGDIPlusGraphics
 
     Public Overrides Sub DrawString(s As String, font As Font, brush As Brush, point As PointF)
         Dim pdfFont As PdfFont = PdfFont.CreatePdfFont(page.Document, font.Name, font.Style)
-        Call g.DrawText(pdfFont, font.Size, point.X, point.Y, s)
+        Call g.DrawText(pdfFont, font.Size, point.X, height - point.Y, s)
     End Sub
 
     Public Overrides Sub DrawString(s As String, font As Font, brush As Brush, layoutRectangle As RectangleF)
@@ -752,7 +756,9 @@ Public Class PdfGraphics : Inherits MockGDIPlusGraphics
     End Sub
 
     Public Overrides Sub FillRectangle(brush As Brush, rect As RectangleF)
-        Call g.DrawRectangle(rect.X, rect.Y, rect.Width, rect.Height, PaintOp.Fill)
+        ' change nonstroking (fill) color to yellow
+        Call g.SetColorNonStroking(DirectCast(brush, SolidBrush).Color)
+        Call g.DrawRectangle(rect.X, height - rect.Y, rect.Width, rect.Height, PaintOp.Fill)
     End Sub
 
     Public Overrides Sub FillRectangle(brush As Brush, x As Integer, y As Integer, width As Integer, height As Integer)
