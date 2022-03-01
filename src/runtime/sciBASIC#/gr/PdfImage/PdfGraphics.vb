@@ -2,9 +2,11 @@
 Imports System.Drawing.Drawing2D
 Imports System.Drawing.Imaging
 Imports System.Drawing.Text
-Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.MIME.application.pdf
 
 Public Class PdfGraphics : Inherits IGraphics
+
+    ReadOnly g As PdfContents
 
     Public Overrides ReadOnly Property Size As Size
         Get
