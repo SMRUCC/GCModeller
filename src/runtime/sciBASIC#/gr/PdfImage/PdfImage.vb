@@ -1,13 +1,13 @@
 ﻿Imports System.Drawing
 Imports System.IO
 Imports Microsoft.VisualBasic.Imaging.Driver
-Imports Microsoft.VisualBasic.MIME.application.pdf
 Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.Net.Http
 
 Public Class PdfImage : Inherits GraphicsData
 
-    Public ReadOnly Property Image As PdfContents
+    ReadOnly image As PdfGraphics
+    ReadOnly pdf As MemoryStream
 
     Public Overrides ReadOnly Property Driver As Drivers
         Get
@@ -17,17 +17,32 @@ Public Class PdfImage : Inherits GraphicsData
 
     Public Sub New(img As Object, size As Size, padding As Padding)
         MyBase.New(img, size, padding)
+
+        image = DirectCast(img, PdfGraphics)
+        pdf = image.buffer
+
+        Call image.page.Document.CreateFile()
+        Call pdf.Seek(Scan0, SeekOrigin.Begin)
     End Sub
 
     Public Overrides Function GetDataURI() As DataURI
-        Throw New NotImplementedException()
+        Using buffer As New MemoryStream
+            Call Save(buffer)
+            Return New DataURI(buffer, "application/pdf")
+        End Using
     End Function
 
     Public Overrides Function Save(path As String) As Boolean
-        Throw New NotImplementedException()
+        Using file As Stream = path.Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False)
+            Return Save(file)
+        End Using
     End Function
 
     Public Overrides Function Save(out As Stream) As Boolean
-        Throw New NotImplementedException()
+        Call pdf.CopyTo(out)
+        Call pdf.Seek(Scan0, SeekOrigin.Begin)
+        Call out.Flush()
+
+        Return True
     End Function
 End Class

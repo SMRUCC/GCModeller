@@ -2,15 +2,18 @@
 Imports System.Drawing.Drawing2D
 Imports System.Drawing.Imaging
 Imports System.Drawing.Text
+Imports System.IO
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.MIME.application.pdf
 
 Public Class PdfGraphics : Inherits MockGDIPlusGraphics
 
-    ReadOnly g As PdfContents
-    ReadOnly page As PdfPage
+    Friend ReadOnly g As PdfContents
+    Friend ReadOnly page As PdfPage
+    Friend ReadOnly buffer As Stream
 
-    Sub New(page As PdfPage)
+    Sub New(page As PdfPage, buffer As Stream)
+        Me.buffer = buffer
         Me.page = page
         Me.g = New PdfContents(page)
     End Sub
@@ -765,7 +768,8 @@ Public Class PdfGraphics : Inherits MockGDIPlusGraphics
     End Sub
 
     Public Overrides Sub Flush()
-        Throw New NotImplementedException()
+        ' save graphics state
+        g.SaveGraphicsState()
     End Sub
 
     Public Overrides Sub Flush(intention As FlushIntention)

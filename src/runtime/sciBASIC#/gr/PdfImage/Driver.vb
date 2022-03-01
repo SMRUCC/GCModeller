@@ -32,7 +32,7 @@ Public Module Driver
         info.Producer("PdfFileWriter C# Class Library Version " & PdfDocument.RevisionNumber)
 
         Dim page As New PdfPage(stream)
-        Dim g As New PdfGraphics(page)
+        Dim g As New PdfGraphics(page, buffer)
 
         Return g
     End Function
