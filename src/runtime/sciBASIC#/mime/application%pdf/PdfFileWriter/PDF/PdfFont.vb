@@ -74,7 +74,7 @@
 
 #End Region
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'
 '
 '	PdfFileWriter
 '	PDF File Write C# Class Library.
@@ -97,7 +97,7 @@
 '
 '	For version history please refer to PdfDocument.cs
 '
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'
 
 Imports System
 Imports System.Collections.Generic
@@ -190,7 +190,7 @@ Public Class KerningAdjust
     ''' </summary>
     ''' <param name="Text">Text</param>
     ''' <param name="Adjust">Adjustment</param>
-    Public Sub New(ByVal Text As String, ByVal Adjust As Double)
+    Public Sub New(Text As String, Adjust As Double)
         Me.Text = Text
         Me.Adjust = Adjust
         Return
@@ -261,7 +261,7 @@ Public Class PdfFont
     ''' <returns>PdfFont resource</returns>
     ''' <remarks>The returned result is either a new PdfFont or an
     ''' existing one with the same properties.</remarks>
-    Public Shared Function CreatePdfFont(ByVal Document As PdfDocument, ByVal FontFamilyName As String, ByVal FontStyle As FontStyle, ByVal Optional EmbeddedFont As Boolean = True) As PdfFont     ' PDF document main object
+    Public Shared Function CreatePdfFont(Document As PdfDocument, FontFamilyName As String, FontStyle As FontStyle, Optional EmbeddedFont As Boolean = True) As PdfFont     ' PDF document main object
         ' font family name
         ' font style (Regular, Bold, Italic or Bold | Italic
         ' embed font in PDF document file
@@ -274,7 +274,7 @@ Public Class PdfFont
     End Function
 
     ' for search only
-    Private Sub New(ByVal FontFamilyName As String, ByVal FontStyle As FontStyle, ByVal Optional EmbeddedFont As Boolean = True)        ' font family name
+    Private Sub New(FontFamilyName As String, FontStyle As FontStyle, Optional EmbeddedFont As Boolean = True)        ' font family name
         ' font style (Regular, Bold, Italic or Bold | Italic
         ' embed font in PDF document file
         ' save parameters
@@ -284,7 +284,7 @@ Public Class PdfFont
         Return
     End Sub
 
-    Private Sub New(ByVal Document As PdfDocument, ByVal FontFamilyName As String, ByVal FontStyle As FontStyle, ByVal Optional EmbeddedFont As Boolean = True)     ' PDF document main object
+    Private Sub New(Document As PdfDocument, FontFamilyName As String, FontStyle As FontStyle, Optional EmbeddedFont As Boolean = True)     ' PDF document main object
         ' font family name
         ' font style (Regular, Bold, Italic or Bold | Italic
         ' embed font in PDF document file
@@ -381,9 +381,9 @@ Public Class PdfFont
         Return
     End Sub
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ' Create glyph index font object on first usage
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
 
     Friend Sub CreateGlyphIndexFont()
         GlyphIndexFont = New PdfObject(Document, ObjectType.Dictionary, "/Font")
@@ -396,7 +396,7 @@ Public Class PdfFont
     ''' </summary>
     ''' <param name="CharValue">Character value</param>
     ''' <returns>Character information class</returns>
-    Public Function GetCharInfo(ByVal CharValue As Integer) As CharInfo
+    Public Function GetCharInfo(CharValue As Integer) As CharInfo
         ' no support for control characters 
         If CharValue < Asc(" "c) OrElse CharValue > Asc("~"c) AndAlso CharValue < 160 OrElse CharValue > &HFFFF Then
             Throw New ApplicationException("No support for control characters 0-31 or 127-159")
@@ -433,37 +433,37 @@ Public Class PdfFont
         Return Info
     End Function
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ''' <summary>
     ''' Font units to user units
     ''' </summary>
     ''' <param name="FontSize">Font size</param>
     ''' <param name="Value">Design value</param>
     ''' <returns>Design value in user units</returns>
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    Public Function FontDesignToUserUnits(ByVal FontSize As Double, ByVal Value As Integer) As Double
+    
+    Public Function FontDesignToUserUnits(FontSize As Double, Value As Integer) As Double
         Return Value * FontSize / (DesignHeight * ScaleFactor)
     End Function
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ''' <summary>
     ''' Font design units to PDF design units
     ''' </summary>
     ''' <param name="Value">Font design value</param>
     ''' <returns>PDF dictionary value</returns>
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    Public Function FontDesignToPdfUnits(ByVal Value As Integer) As Double
+    
+    Public Function FontDesignToPdfUnits(Value As Integer) As Double
         Return 1000.0 * Value / DesignHeight
     End Function
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ''' <summary>
     ''' Line spacing in user units
     ''' </summary>
     ''' <param name="FontSize">Font size</param>
     ''' <returns>Line spacing</returns>
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    Public Function LineSpacing(ByVal FontSize As Double) As Double
+    
+    Public Function LineSpacing(FontSize As Double) As Double
         Return FontDesignToUserUnits(FontSize, PdfLineSpacing)
     End Function
 
@@ -472,7 +472,7 @@ Public Class PdfFont
     ''' </summary>
     ''' <param name="FontSize">Font size</param>
     ''' <returns>Font ascent</returns>
-    Public Function Ascent(ByVal FontSize As Double) As Double
+    Public Function Ascent(FontSize As Double) As Double
         Return FontDesignToUserUnits(FontSize, PdfAscent)
     End Function
 
@@ -481,146 +481,146 @@ Public Class PdfFont
     ''' </summary>
     ''' <param name="FontSize">Font size</param>
     ''' <returns>Font ascent plus half of internal leading.</returns>
-    Public Function AscentPlusLeading(ByVal FontSize As Double) As Double
+    Public Function AscentPlusLeading(FontSize As Double) As Double
         Return FontDesignToUserUnits(FontSize, PdfAscent + (PdfLeading + 1) / 2)
     End Function
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ''' <summary>
     ''' Font descent in user units
     ''' </summary>
     ''' <param name="FontSize">Font size</param>
     ''' <returns>Font descent</returns>
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    Public Function Descent(ByVal FontSize As Double) As Double
+    
+    Public Function Descent(FontSize As Double) As Double
         Return FontDesignToUserUnits(FontSize, PdfDescent)
     End Function
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ''' <summary>
     ''' Font descent in user units
     ''' </summary>
     ''' <param name="FontSize">Font size</param>
     ''' <returns>Font descent plus half of internal leading.</returns>
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    Public Function DescentPlusLeading(ByVal FontSize As Double) As Double
+    
+    Public Function DescentPlusLeading(FontSize As Double) As Double
         Return FontDesignToUserUnits(FontSize, PdfDescent + PdfLeading / 2)
     End Function
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ''' <summary>
     ''' Capital M height in user units
     ''' </summary>
     ''' <param name="FontSize">Font size</param>
     ''' <returns>Capital M height</returns>
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    Public Function CapHeight(ByVal FontSize As Double) As Double
+    
+    Public Function CapHeight(FontSize As Double) As Double
         Return FontDesignToUserUnits(FontSize, DesignCapHeight)
     End Function
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ''' <summary>
     ''' Strikeout position in user units
     ''' </summary>
     ''' <param name="FontSize">Font size</param>
     ''' <returns>Strikeout position</returns>
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    Public Function StrikeoutPosition(ByVal FontSize As Double) As Double
+    
+    Public Function StrikeoutPosition(FontSize As Double) As Double
         Return FontDesignToUserUnits(FontSize, DesignStrikeoutPosition)
     End Function
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ''' <summary>
     ''' Strikeout width in user units
     ''' </summary>
     ''' <param name="FontSize">Font size</param>
     ''' <returns>Strikeout line width.</returns>
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    Public Function StrikeoutWidth(ByVal FontSize As Double) As Double
+    
+    Public Function StrikeoutWidth(FontSize As Double) As Double
         Return FontDesignToUserUnits(FontSize, DesignStrikeoutWidth)
     End Function
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ''' <summary>
     ''' Underline position in user units
     ''' </summary>
     ''' <param name="FontSize">Font size</param>
     ''' <returns>Underline position</returns>
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    Public Function UnderlinePosition(ByVal FontSize As Double) As Double
+    
+    Public Function UnderlinePosition(FontSize As Double) As Double
         Return FontDesignToUserUnits(FontSize, DesignUnderlinePosition)
     End Function
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ''' <summary>
     ''' Underline width in user units
     ''' </summary>
     ''' <param name="FontSize">Font size</param>
     ''' <returns>Underline line width.</returns>
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    Public Function UnderlineWidth(ByVal FontSize As Double) As Double
+    
+    Public Function UnderlineWidth(FontSize As Double) As Double
         Return FontDesignToUserUnits(FontSize, DesignUnderlineWidth)
     End Function
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ''' <summary>
     ''' Subscript position in user units
     ''' </summary>
     ''' <param name="FontSize">Font size</param>
     ''' <returns>Subscript position</returns>
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    Public Function SubscriptPosition(ByVal FontSize As Double) As Double
+    
+    Public Function SubscriptPosition(FontSize As Double) As Double
         Return FontDesignToUserUnits(FontSize, DesignSubscriptPosition)
     End Function
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ''' <summary>
     ''' Subscript character size in points
     ''' </summary>
     ''' <param name="FontSize">Font size</param>
     ''' <returns>Subscript font size</returns>
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    Public Function SubscriptSize(ByVal FontSize As Double) As Double
+    
+    Public Function SubscriptSize(FontSize As Double) As Double
         ' note: font size is in always points
         Return FontSize * DesignSubscriptSize / DesignHeight
     End Function
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ''' <summary>
     ''' Superscript character position
     ''' </summary>
     ''' <param name="FontSize">Font size</param>
     ''' <returns>Superscript position</returns>
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    Public Function SuperscriptPosition(ByVal FontSize As Double) As Double
+    
+    Public Function SuperscriptPosition(FontSize As Double) As Double
         Return FontDesignToUserUnits(FontSize, DesignSuperscriptPosition)
     End Function
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ''' <summary>
     ''' Superscript character size in points
     ''' </summary>
     ''' <param name="FontSize">Font size</param>
     ''' <returns>Superscript font size</returns>
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    Public Function SuperscriptSize(ByVal FontSize As Double) As Double
+    
+    Public Function SuperscriptSize(FontSize As Double) As Double
         ' note: font size is in always points
         Return FontSize * DesignSuperscriptSize / DesignHeight
     End Function
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ''' <summary>
     ''' Character width in user units
     ''' </summary>
     ''' <param name="FontSize">Font size</param>
     ''' <param name="CharValue">Character code</param>
     ''' <returns>Character width</returns>
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    Public Function CharWidth(ByVal FontSize As Double, ByVal CharValue As Char) As Double
+    
+    Public Function CharWidth(FontSize As Double, CharValue As Char) As Double
         Return Me.FontDesignToUserUnits(FontSize, Me.GetCharInfo(Microsoft.VisualBasic.AscW(CharValue)).DesignWidth)
     End Function
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ''' <summary>
     ''' Character width in user units
     ''' </summary>
@@ -628,8 +628,8 @@ Public Class PdfFont
     ''' <param name="DrawStyle">Draw style</param>
     ''' <param name="CharValue">Character code</param>
     ''' <returns>Character width</returns>
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    Public Function CharWidth(ByVal FontSize As Double, ByVal DrawStyle As DrawStyle, ByVal CharValue As Char) As Double
+    
+    Public Function CharWidth(FontSize As Double, DrawStyle As DrawStyle, CharValue As Char) As Double
         ' character style is not superscript or subscript
         If (DrawStyle And (DrawStyle.Subscript Or DrawStyle.Superscript)) = 0 Then Return Me.FontDesignToUserUnits(FontSize, Me.GetCharInfo(Microsoft.VisualBasic.AscW(CharValue)).DesignWidth)
 
@@ -640,15 +640,15 @@ Public Class PdfFont
         Return Me.FontDesignToUserUnits(SuperscriptSize(FontSize), Me.GetCharInfo(Microsoft.VisualBasic.AscW(CharValue)).DesignWidth)
     End Function
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ''' <summary>
     ''' Character bounding box in user coordinate units.
     ''' </summary>
     ''' <param name="FontSize">Font size</param>
     ''' <param name="CharValue">Character</param>
     ''' <returns>Bounding box</returns>
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    Public Function CharBoundingBox(ByVal FontSize As Double, ByVal CharValue As Char) As PdfRectangle
+    
+    Public Function CharBoundingBox(FontSize As Double, CharValue As Char) As PdfRectangle
         ' get character info
         Dim CharInfo = Me.GetCharInfo(AscW(CharValue))
 
@@ -657,15 +657,15 @@ Public Class PdfFont
         Return New PdfRectangle(Factor * CharInfo.DesignBBoxLeft, Factor * CharInfo.DesignBBoxBottom, Factor * CharInfo.DesignBBoxRight, Factor * CharInfo.DesignBBoxTop)
     End Function
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ''' <summary>
     ''' Text width
     ''' </summary>
     ''' <param name="FontSize">Font size</param>
     ''' <param name="Text">Text</param>
     ''' <returns>Width</returns>
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    Public Function TextWidth(ByVal FontSize As Double, ByVal Text As String) As Double
+    
+    Public Function TextWidth(FontSize As Double, Text As String) As Double
         ' text width
         Dim Width = 0
 
@@ -677,7 +677,7 @@ Public Class PdfFont
         Return FontDesignToUserUnits(FontSize, Width)
     End Function
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ''' <summary>
     ''' Word spacing to stretch text to given width
     ''' </summary>
@@ -687,8 +687,8 @@ Public Class PdfFont
     ''' <param name="CharSpacing">Output character spacing</param>
     ''' <param name="Text">Text</param>
     ''' <returns>True-done, False-not done.</returns>
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    Public Function TextFitToWidth(ByVal FontSize As Double, ByVal ReqWidth As Double, <Out> ByRef WordSpacing As Double, <Out> ByRef CharSpacing As Double, ByVal Text As String) As Boolean
+    
+    Public Function TextFitToWidth(FontSize As Double, ReqWidth As Double, <Out> ByRef WordSpacing As Double, <Out> ByRef CharSpacing As Double, Text As String) As Boolean
         WordSpacing = 0
         CharSpacing = 0
         If Equals(Text, Nothing) OrElse Text.Length < 2 Then Return False
@@ -734,15 +734,15 @@ Public Class PdfFont
         Return True
     End Function
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ''' <summary>
     ''' Text bounding box in user coordinate units.
     ''' </summary>
     ''' <param name="FontSize">Font size</param>
     ''' <param name="Text">Text</param>
     ''' <returns>Bounding box</returns>
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    Public Function TextBoundingBox(ByVal FontSize As Double, ByVal Text As String) As PdfRectangle
+    
+    Public Function TextBoundingBox(FontSize As Double, Text As String) As PdfRectangle
         If String.IsNullOrEmpty(Text) Then Return Nothing
 
         ' initialize result box to first character
@@ -780,14 +780,14 @@ Public Class PdfFont
         Return New PdfRectangle(Factor * Left, Factor * Bottom, Factor * Right, Factor * Top)
     End Function
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ''' <summary>
     ''' Text Kerning
     ''' </summary>
     ''' <param name="Text">Text</param>
     ''' <returns>Kerning adjustment pairs</returns>
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    Public Function TextKerning(ByVal Text As String) As KerningAdjust()
+    
+    Public Function TextKerning(Text As String) As KerningAdjust()
         ' string is empty or one character
         If String.IsNullOrEmpty(Text) OrElse Text.Length = 1 Then Return Nothing
 
@@ -840,15 +840,15 @@ Public Class PdfFont
         Return KA.ToArray()
     End Function
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ''' <summary>
     ''' Text kerning width
     ''' </summary>
     ''' <param name="FontSize">Font size</param>
     ''' <param name="KerningArray">Kerning array</param>
     ''' <returns>Width</returns>
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    Public Function TextKerningWidth(ByVal FontSize As Double, ByVal KerningArray As KerningAdjust()) As Double     ' in points
+    
+    Public Function TextKerningWidth(FontSize As Double, KerningArray As KerningAdjust()) As Double     ' in points
         ' text is null or empty
         If KerningArray Is Nothing OrElse KerningArray.Length = 0 Then Return 0
 
@@ -868,9 +868,9 @@ Public Class PdfFont
         Return Width
     End Function
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ' Write object to PDF file
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
 
     Friend Overrides Sub WriteObjectToPdfFile()
         ' pdf font name
@@ -916,11 +916,11 @@ Public Class PdfFont
         Return
     End Sub
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ' Write character code oject to PDF file
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
 
-    Friend Sub CharCodeToPdfFile(ByVal PdfFontName As String)
+    Friend Sub CharCodeToPdfFile(PdfFontName As String)
         ' look for first and last character
         Dim FirstChar As Integer
         Dim LastChar As Integer
@@ -961,11 +961,11 @@ Public Class PdfFont
         Return
     End Sub
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ' Character code font descriptor
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
 
-    Private Function CharCodeFontDescriptor(ByVal PdfFontName As String, ByVal FirstChar As Integer, ByVal LastChar As Integer) As PdfObject
+    Private Function CharCodeFontDescriptor(PdfFontName As String, FirstChar As Integer, LastChar As Integer) As PdfObject
         ' create font descriptor
         Dim FontDescriptor = FontDescriptorCommon(PdfFontName)
 
@@ -1013,11 +1013,11 @@ Public Class PdfFont
         Return FontDescriptor
     End Function
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ' Character code font descriptor
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
 
-    Private Function FontDescriptorCommon(ByVal PdfFontName As String) As PdfObject
+    Private Function FontDescriptorCommon(PdfFontName As String) As PdfObject
         ' create font descriptor
         Dim FontDescriptor As PdfObject = New PdfObject(Document, ObjectType.Dictionary, "/FontDescriptor")
 
@@ -1047,11 +1047,11 @@ Public Class PdfFont
         Return FontDescriptor
     End Function
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ' Character code font width array
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
 
-    Friend Function CharCodeFontWidthArray(ByVal FirstChar As Integer, ByVal LastChar As Integer) As PdfObject
+    Friend Function CharCodeFontWidthArray(FirstChar As Integer, LastChar As Integer) As PdfObject
         ' create width object array
         Dim FontWidthArray As PdfObject = New PdfObject(Document, ObjectType.Other)
         FontWidthArray.ObjectValueList.Add(Microsoft.VisualBasic.AscW("["c))
@@ -1087,11 +1087,11 @@ Public Class PdfFont
         Return FontWidthArray
     End Function
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ' Write glyph index font oject to PDF file
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
 
-    Friend Sub GlyphIndexToPdfFile(ByVal PdfFontName As String)
+    Friend Sub GlyphIndexToPdfFile(PdfFontName As String)
         ' add items to dictionary
         GlyphIndexFont.Dictionary.Add("/Subtype", "/Type0")
         GlyphIndexFont.Dictionary.Add("/BaseFont", PdfFontName)
@@ -1128,11 +1128,11 @@ Public Class PdfFont
         Return
     End Sub
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ' Glyph index font descriptor
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
 
-    Private Function GlyphIndexFontDescriptor(ByVal PdfFontName As String) As PdfObject
+    Private Function GlyphIndexFontDescriptor(PdfFontName As String) As PdfObject
         ' create font descriptor
         Dim FontDescriptor = FontDescriptorCommon(PdfFontName)
 
@@ -1184,9 +1184,9 @@ Public Class PdfFont
         Return FontDescriptor
     End Function
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ' Glyph index to Unicode stream
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
 
     Private Function GlyphIndexToUnicode() As PdfObject
         Dim Header As String = "/CIDInit /ProcSet findresource begin" & Microsoft.VisualBasic.Constants.vbLf & "14 dict begin" & Microsoft.VisualBasic.Constants.vbLf & "begincmap" & Microsoft.VisualBasic.Constants.vbLf & "/CIDSystemInfo<</Registry(Adobe)/Ordering (UCS)/Supplement 0>>def" & Microsoft.VisualBasic.Constants.vbLf & "/CMapName/Adobe-Identity-UCS def" & Microsoft.VisualBasic.Constants.vbLf & "/CMapType 2 def" & Microsoft.VisualBasic.Constants.vbLf & "1 begincodespacerange" & Microsoft.VisualBasic.Constants.vbLf & "<0000><FFFF>" & Microsoft.VisualBasic.Constants.vbLf & "endcodespacerange" & Microsoft.VisualBasic.Constants.vbLf
@@ -1281,9 +1281,9 @@ Public Class PdfFont
         Return ToUnicode
     End Function
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ' Glyph index to width array
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
 
     Private Function GlyphIndexWidthArray() As PdfObject
         ' create array of glyph index to character code
@@ -1394,9 +1394,9 @@ Public Class PdfFont
         Return GlyphWidthArray
     End Function
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ' Calculate StemV from capital I
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
 
     Private Function StemV() As Double
         ' convert I to graphics path
@@ -1440,13 +1440,14 @@ Public Class PdfFont
     ''' </summary>
     ''' <param name="Other">Other PDFFont</param>
     ''' <returns>Compare result</returns>
-    Public Function CompareTo(ByVal Other As PdfFont) As Integer Implements IComparable(Of PdfFont).CompareTo
+    Public Overloads Function CompareTo(Other As PdfFont) As Integer Implements IComparable(Of PdfFont).CompareTo
         Dim Cmp = String.Compare(FontFamilyName, Other.FontFamilyName, True)
         If Cmp <> 0 Then Return Cmp
         Cmp = FontStyle - Other.FontStyle
         If Cmp <> 0 Then Return Cmp
         Return If(EmbeddedFont, 1, 0) - If(Other.EmbeddedFont, 1, 0)
     End Function
+
     ''' <summary>
     ''' Dispose FontApi
     ''' </summary>
@@ -1460,9 +1461,9 @@ Public Class PdfFont
     End Sub
 End Class
 
-'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
 ' Support class for glyph index to unicode translation
-'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
 
 Friend Class UnicodeRange
     Implements IComparable(Of UnicodeRange)
@@ -1471,21 +1472,21 @@ Friend Class UnicodeRange
     Friend GlyphEnd As Integer
     Friend CharCode As Integer
 
-    Friend Sub New(ByVal GlyphIndex As Integer, ByVal CharCode As Integer)
+    Friend Sub New(GlyphIndex As Integer, CharCode As Integer)
         GlyphStart = GlyphIndex
         GlyphEnd = GlyphIndex
         Me.CharCode = CharCode
         Return
     End Sub
 
-    Public Function CompareTo(ByVal Other As UnicodeRange) As Integer Implements IComparable(Of UnicodeRange).CompareTo
+    Public Function CompareTo(Other As UnicodeRange) As Integer Implements IComparable(Of UnicodeRange).CompareTo
         Return GlyphStart - Other.GlyphStart
     End Function
 End Class
 
-'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
 ' Support class for glyph index to unicode translation
-'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
 
 Friend Class GlyphWidth
     Implements IComparable(Of GlyphWidth)
@@ -1493,13 +1494,13 @@ Friend Class GlyphWidth
     Friend GlyphIndex As Integer
     Friend Width As Integer
 
-    Friend Sub New(ByVal GlyphIndex As Integer, ByVal Width As Integer)
+    Friend Sub New(GlyphIndex As Integer, Width As Integer)
         Me.GlyphIndex = GlyphIndex
         Me.Width = Width
         Return
     End Sub
 
-    Public Function CompareTo(ByVal Other As GlyphWidth) As Integer Implements IComparable(Of GlyphWidth).CompareTo
+    Public Function CompareTo(Other As GlyphWidth) As Integer Implements IComparable(Of GlyphWidth).CompareTo
         Return GlyphIndex - Other.GlyphIndex
     End Function
 End Class

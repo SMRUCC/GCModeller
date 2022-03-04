@@ -47,7 +47,7 @@
 
 #End Region
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'
 '
 '	PdfFileWriter
 '	PDF File Write C# Class Library.
@@ -70,7 +70,7 @@
 '
 '	For version history please refer to PdfDocument.cs
 '
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'
 
 Imports System
 Imports System.IO
@@ -102,7 +102,7 @@ Imports System.Collections.Generic
             Get
                 Return _FileName
             End Get
-            Private Set(ByVal value As String)
+            Private Set(value As String)
                 _FileName = value
             End Set
         End Property
@@ -111,7 +111,7 @@ Imports System.Collections.Generic
             Get
                 Return _MimeType
             End Get
-            Private Set(ByVal value As String)
+            Private Set(value As String)
                 _MimeType = value
             End Set
         End Property
@@ -119,7 +119,7 @@ Imports System.Collections.Generic
         Private Sub New()
         End Sub
 
-        Private Sub New(ByVal Document As PdfDocument, ByVal FileName As String, ByVal PdfFileName As String)
+        Private Sub New(Document As PdfDocument, FileName As String, PdfFileName As String)
             MyBase.New(Document, ObjectType.Dictionary, "/Filespec")
             ' save file name
             Me.FileName = FileName
@@ -181,7 +181,7 @@ Imports System.Collections.Generic
             Return
         End Sub
 
-        Private Sub New(ByVal FileName As String)
+        Private Sub New(FileName As String)
             ' save file name
             Me.FileName = FileName
             Return
@@ -202,7 +202,7 @@ Imports System.Collections.Generic
         ''' the hard disk's file name without the path.
         ''' </para>
         ''' </remarks>
-        Public Shared Function CreateEmbeddedFile(ByVal Document As PdfDocument, ByVal FileName As String, ByVal Optional PdfFileName As String = Nothing) As PdfEmbeddedFile
+        Public Shared Function CreateEmbeddedFile(Document As PdfDocument, FileName As String, Optional PdfFileName As String = Nothing) As PdfEmbeddedFile
             ' first time
             If Document.EmbeddedFileArray Is Nothing Then Document.EmbeddedFileArray = New List(Of PdfEmbeddedFile)()
 
@@ -222,15 +222,15 @@ Imports System.Collections.Generic
             Return EmbeddedFile
         End Function
 
-        ''' <summary>
-        ''' Compare two PdfEmbededFile objects
-        ''' </summary>
-        ''' <param name="Other">Other argument</param>
-        ''' <returns>Compare result</returns>
-        Public Function CompareTo(ByVal Other As PdfEmbeddedFile) As Integer Implements IComparable(Of PdfEmbeddedFile).CompareTo
-            Return String.Compare(FileName, Other.FileName, True)
-        End Function
-    End Class
+    ''' <summary>
+    ''' Compare two PdfEmbededFile objects
+    ''' </summary>
+    ''' <param name="Other">Other argument</param>
+    ''' <returns>Compare result</returns>
+    Public Overloads Function CompareTo(Other As PdfEmbeddedFile) As Integer Implements IComparable(Of PdfEmbeddedFile).CompareTo
+        Return String.Compare(FileName, Other.FileName, True)
+    End Function
+End Class
 
     Friend Class ExtToMime
         Implements IComparable(Of ExtToMime)
@@ -238,13 +238,13 @@ Imports System.Collections.Generic
         Friend Ext As String
         Friend Mime As String
 
-        Friend Sub New(ByVal Ext As String, ByVal Mime As String)
+        Friend Sub New(Ext As String, Mime As String)
             Me.Ext = Ext
             Me.Mime = Mime
             Return
         End Sub
 
-        Friend Shared Function TranslateExtToMime(ByVal Ext As String) As String
+        Friend Shared Function TranslateExtToMime(Ext As String) As String
             Dim Index As Integer = Array.BinarySearch(ExtToMimeArray, New ExtToMime(Ext, Nothing))
             Return If(Index >= 0, ExtToMimeArray(Index).Mime, Nothing)
         End Function
@@ -254,7 +254,7 @@ Imports System.Collections.Generic
         ''' </summary>
         ''' <param name="Other">Other record</param>
         ''' <returns></returns>
-        Public Function CompareTo(ByVal Other As ExtToMime) As Integer Implements IComparable(Of ExtToMime).CompareTo
+        Public Function CompareTo(Other As ExtToMime) As Integer Implements IComparable(Of ExtToMime).CompareTo
             Return String.Compare(Ext, Other.Ext, True)
         End Function
 

@@ -108,6 +108,19 @@ Public Module Simulator
                     End Function)
     End Function
 
+    <ExportAPI("mass0")>
+    Public Function mass0(vcell As VirtualCell) As Definition
+        Return New Definition With {
+            .status = vcell _
+                .metabolismStructure _
+                .compounds _
+                .ToDictionary(Function(c) c.ID,
+                              Function(c)
+                                  Return c.mass0
+                              End Function)
+        }
+    End Function
+
     ''' <summary>
     ''' create a generic vcell object model from a loaded vcell xml file model
     ''' </summary>
@@ -139,7 +152,8 @@ Public Module Simulator
     ''' <param name="dynamics"></param>
     ''' <returns></returns>
     <ExportAPI("engine.load")>
-    Public Function CreateVCellEngine(inits As Definition, vcell As CellularModule,
+    Public Function CreateVCellEngine(vcell As CellularModule,
+                                      Optional inits As Definition = Nothing,
                                       Optional iterations% = 100,
                                       Optional time_resolutions% = 10000,
                                       Optional deletions$() = Nothing,

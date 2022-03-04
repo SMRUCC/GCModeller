@@ -57,7 +57,7 @@
 
 #End Region
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'
 '
 '	PdfFileWriter
 '	PDF File Write C# Class Library.
@@ -80,7 +80,7 @@
 '
 '	For version history please refer to PdfDocument.cs
 '
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'
 
 Imports System
 Imports System.Collections.Generic
@@ -106,25 +106,25 @@ Public Class PdfDictionary
     Friend Parent As PdfObject
     Friend Document As PdfDocument
 
-    Friend Sub New(ByVal Parent As PdfObject)
+    Friend Sub New(Parent As PdfObject)
         KeyValue = New List(Of PdfKeyValue)()
         Me.Parent = Parent
         Document = Parent.Document
         Return
     End Sub
 
-    Friend Sub New(ByVal Document As PdfDocument)
+    Friend Sub New(Document As PdfDocument)
         KeyValue = New List(Of PdfKeyValue)()
         Me.Document = Document
         Return
     End Sub
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ' Find key value pair in dictionary.
     ' return index number or -1 if not found.
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
 
-    Friend Function Find(ByVal Key As String) As Integer        ' key (first character must be forward slash /)
+    Friend Function Find(Key As String) As Integer        ' key (first character must be forward slash /)
         ' look through the dictionary
         For Index = 0 To KeyValue.Count - 1
             If Equals(KeyValue(Index).Key, Key) Then Return Index
@@ -134,140 +134,140 @@ Public Class PdfDictionary
         Return -1
     End Function
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ' Add key value pair to dictionary.
     ' The value is string format
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
 
-    Friend Sub Add(ByVal Key As String, ByVal Str As String)        ' key (first character must be forward slash /)
+    Friend Sub Add(Key As String, Str As String)        ' key (first character must be forward slash /)
         Add(Key, Str, ValueType.Other)
         Return
     End Sub
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ' Add key value pair to dictionary.
     ' The value is string format
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
 
-    Friend Sub AddName(ByVal Key As String, ByVal Str As String)        ' key (first character must be forward slash /)
+    Friend Sub AddName(Key As String, Str As String)        ' key (first character must be forward slash /)
         Add(Key, "/" & Str, ValueType.Other)
         Return
     End Sub
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ' Add key value pair to dictionary.
     ' The value is string format
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
 
-    Friend Sub AddInteger(ByVal Key As String, ByVal [Integer] As Integer)      ' key (first character must be forward slash /)
+    Friend Sub AddInteger(Key As String, [Integer] As Integer)      ' key (first character must be forward slash /)
         Add(Key, [Integer].ToString(), ValueType.Other)
         Return
     End Sub
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ' Add key value pair to dictionary.
     ' The value is string format
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
 
-    Friend Sub AddReal(ByVal Key As String, ByVal Real As Double)       ' key (first character must be forward slash /)
+    Friend Sub AddReal(Key As String, Real As Double)       ' key (first character must be forward slash /)
         If stdNum.Abs(Real) < 0.0001 Then Real = 0
         Add(Key, String.Format(PeriodDecSep, "{0}", CSng(Real)), ValueType.Other)
         Return
     End Sub
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ' Add key value pair to dictionary.
     ' The value is string format
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
 
-    Friend Sub AddReal(ByVal Key As String, ByVal Real As Single)       ' key (first character must be forward slash /)
+    Friend Sub AddReal(Key As String, Real As Single)       ' key (first character must be forward slash /)
         If stdNum.Abs(Real) < 0.0001 Then Real = 0
         Add(Key, String.Format(PeriodDecSep, "{0}", Real), ValueType.Other)
         Return
     End Sub
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ' Add key value pair to dictionary.
     ' The value is string format
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
 
-    Friend Sub AddRectangle(ByVal Key As String, ByVal Rect As PdfRectangle)        ' key (first character must be forward slash /)
+    Friend Sub AddRectangle(Key As String, Rect As PdfRectangle)        ' key (first character must be forward slash /)
         AddRectangle(Key, Rect.Left, Rect.Bottom, Rect.Right, Rect.Top)
         Return
     End Sub
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ' Add key value pair to dictionary.
     ' The value is string format
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
 
-    Friend Sub AddRectangle(ByVal Key As String, ByVal Left As Double, ByVal Bottom As Double, ByVal Right As Double, ByVal Top As Double)      ' key (first character must be forward slash /)
+    Friend Sub AddRectangle(Key As String, Left As Double, Bottom As Double, Right As Double, Top As Double)      ' key (first character must be forward slash /)
         Add(Key, String.Format(PeriodDecSep, "[{0} {1} {2} {3}]", Parent.ToPt(Left), Parent.ToPt(Bottom), Parent.ToPt(Right), Parent.ToPt(Top)))
         Return
     End Sub
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ' Add key value pair to dictionary.
     ' The value is string format
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
 
-    Friend Sub AddBoolean(ByVal Key As String, ByVal Bool As Boolean)       ' key (first character must be forward slash /)
+    Friend Sub AddBoolean(Key As String, Bool As Boolean)       ' key (first character must be forward slash /)
         Add(Key, If(Bool, "true", "false"), ValueType.Other)
         Return
     End Sub
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ' Add key value pair to dictionary.
     ' The value is string format
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
 
-    Friend Sub AddPdfString(ByVal Key As String, ByVal Str As String)       ' key (first character must be forward slash /)
+    Friend Sub AddPdfString(Key As String, Str As String)       ' key (first character must be forward slash /)
         Add(Key, Str, ValueType.String)
         Return
     End Sub
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ' Add key value pair to dictionary.
     ' The value is string format
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
 
-    Friend Sub AddFormat(ByVal Key As String, ByVal FormatStr As String, ParamArray FormatList As Object())     ' key (first character must be forward slash /)
+    Friend Sub AddFormat(Key As String, FormatStr As String, ParamArray FormatList As Object())     ' key (first character must be forward slash /)
         Add(Key, String.Format(PeriodDecSep, FormatStr, FormatList), ValueType.Other)
         Return
     End Sub
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ' Add key value pair to dictionary.
     ' The value is a reference to indirect object number.
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
 
-    Friend Sub AddIndirectReference(ByVal Key As String, ByVal Obj As PdfObject)    ' key (first character must be forward slash /)
+    Friend Sub AddIndirectReference(Key As String, Obj As PdfObject)    ' key (first character must be forward slash /)
         ' PdfObject. The method creates an indirect reference "n 0 R" to the object.
         Add(Key, String.Format("{0} 0 R", Obj.ObjectNumber), ValueType.Other)
         Return
     End Sub
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ' Add key value pair to dictionary.
     ' If dictionary does not exist, create it.
     ' If key is not found, add the pair as new entry.
     ' If key is found, replace old pair with new one.
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
 
-    Friend Sub AddDictionary(ByVal Key As String, ByVal Value As PdfDictionary)     ' key (first character must be forward slash /)
+    Friend Sub AddDictionary(Key As String, Value As PdfDictionary)     ' key (first character must be forward slash /)
         ' value
         Add(Key, Value, ValueType.Dictionary)
         Return
     End Sub
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ' Add key value pair to dictionary.
     ' If dictionary does not exist, create it.
     ' If key is not found, add the pair as new entry.
     ' If key is found, replace old pair with new one.
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
 
-    Private Sub Add(ByVal Key As String, ByVal Value As Object, ByVal Type As ValueType)        ' key (first character must be forward slash /)
+    Private Sub Add(Key As String, Value As Object, Type As ValueType)        ' key (first character must be forward slash /)
         ' value
         ' value type
         ' search for existing key
@@ -287,30 +287,30 @@ Public Class PdfDictionary
         Return
     End Sub
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ' Get dictionary value
     ' Return string if key is found, null if not
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
 
-    Friend Function GetValue(ByVal Key As String) As PdfKeyValue        ' key (first character must be forward slash /)
+    Friend Function GetValue(Key As String) As PdfKeyValue        ' key (first character must be forward slash /)
         Dim Index = Find(Key)
         Return If(Index >= 0, KeyValue(Index), Nothing)
     End Function
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ' Remove key value pair from dictionary
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
 
-    Friend Sub Remove(ByVal Key As String)      ' key (first character must be forward slash /)
+    Friend Sub Remove(Key As String)      ' key (first character must be forward slash /)
         Dim Index = Find(Key)
         If Index >= 0 Then KeyValue.RemoveAt(Index)
         Return
     End Sub
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ' Write dictionary to PDF file
     ' Called from WriteObjectToPdfFile to output a dictionary
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
 
     Friend Sub WriteToPdfFile()
         Dim EolMarker = 100
@@ -322,7 +322,7 @@ Public Class PdfDictionary
         Return
     End Sub
 
-    Private Sub WriteToPdfFile(ByVal Str As StringBuilder, ByRef EolMarker As Integer)
+    Private Sub WriteToPdfFile(Str As StringBuilder, ByRef EolMarker As Integer)
         Str.Append("<<")
 
         ' output dictionary
@@ -368,11 +368,11 @@ Friend Class PdfKeyValue
     Friend Value As Object      ' value associated with key
     Friend Type As ValueType        ' value is a PDF string
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ' Constructor
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
 
-    Friend Sub New(ByVal Key As String, ByVal Value As Object, ByVal Type As ValueType)     ' key first character must be forward slash ?
+    Friend Sub New(Key As String, Value As Object, Type As ValueType)     ' key first character must be forward slash ?
         ' value associated with key
         ' value type
         If Key(0) <> "/"c Then Throw New ApplicationException("Dictionary key must start with /")

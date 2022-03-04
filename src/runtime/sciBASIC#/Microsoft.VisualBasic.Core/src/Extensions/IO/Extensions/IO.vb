@@ -76,7 +76,9 @@ Public Module IOExtensions
     End Function
 
     ''' <summary>
-    ''' 
+    ''' copy the data from the input <paramref name="stream"/> to 
+    ''' the target file which is specified by the parameter
+    ''' <paramref name="path"/>
     ''' </summary>
     ''' <param name="stream">
     ''' 必须要能够支持<see cref="Stream.Length"/>，对于有些网络服务器的HttpResponseStream可能不支持
@@ -87,9 +89,11 @@ Public Module IOExtensions
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function FlushStream(stream As Stream, path$) As Boolean
-        Dim buffer As Byte() = New Byte(stream.Length - 1) {}
-        Call stream.Read(buffer, Scan0, stream.Length)
-        Return buffer.FlushStream(path)
+        Using writer As Stream = path.Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False)
+            Call stream.CopyTo(writer)
+            Call writer.Flush()
+            Call writer.Close()
+        End Using
     End Function
 
     ''' <summary>

@@ -58,7 +58,7 @@ Namespace MarkupCompiler
 
         Public ReadOnly Property locationAsLocus_tag As Boolean
             Get
-                Return compiler.locationAsLocus_tag
+                'Return compiler.locationAsLocus_tag
             End Get
         End Property
 
@@ -88,7 +88,7 @@ Namespace MarkupCompiler
         End Function
 
         Public Iterator Function getGenes(genome As GBFF.File) As IEnumerable(Of gene)
-            Dim model As CellularModule = compiler.model
+            Dim model As CellularModule ' = compiler.model
             Dim proteinSequnce As Dictionary(Of String, ProteinComposition) = getProtVector(genome)
             Dim genes = genome.Features _
                 .Where(Function(feature)

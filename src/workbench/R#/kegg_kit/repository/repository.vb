@@ -182,13 +182,19 @@ Public Module repository
     ''' <param name="repository"></param>
     ''' <returns></returns>
     <ExportAPI("load.compounds")>
+    <RApiReturn(GetType(CompoundRepository), GetType(Compound))>
     Public Function LoadCompoundRepo(<RRawVectorArgument>
                                      repository As Object,
-                                     Optional env As Environment = Nothing) As CompoundRepository
+                                     Optional rawList As Boolean = False,
+                                     Optional env As Environment = Nothing) As Object
 
         If TypeOf repository Is Stream Then
             Using file As Stream = DirectCast(repository, Stream)
-                Return New CompoundRepository(KEGGCompoundPack.ReadKeggDb(file))
+                If rawList Then
+                    Return KEGGCompoundPack.ReadKeggDb(file)
+                Else
+                    Return New CompoundRepository(KEGGCompoundPack.ReadKeggDb(file))
+                End If
             End Using
         Else
             Dim dataRepo As String() = pipeline _
@@ -198,7 +204,11 @@ Public Module repository
 
             If dataRepo.Length = 1 AndAlso dataRepo(Scan0).ExtensionSuffix("msgpack") Then
                 Using file As Stream = dataRepo(Scan0).Open(FileMode.Open, doClear:=False, [readOnly]:=True)
-                    Return New CompoundRepository(KEGGCompoundPack.ReadKeggDb(file))
+                    If rawList Then
+                        Return KEGGCompoundPack.ReadKeggDb(file)
+                    Else
+                        Return New CompoundRepository(KEGGCompoundPack.ReadKeggDb(file))
+                    End If
                 End Using
             Else
                 Return CompoundRepository.ScanModels(dataRepo, ignoreGlycan:=False)

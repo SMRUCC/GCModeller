@@ -11,12 +11,24 @@ Namespace System
         Public Sub GC()
             Call FlushMemory()
         End Sub
+
+        Public Sub arraycopy(ByVal a1 As Array, ByVal sourceIndex As Long, ByVal a2 As Array, ByVal destIndex As Long, ByVal len As Long)
+            Array.Copy(a1, sourceIndex, a2, destIndex, len)
+        End Sub
     End Module
 
     Public NotInheritable Class out
         Public Shared Sub format(strData As String, ParamArray args As Object())
             Dim str As String = sprintf(strData, (From obj In args Let strItem As String = obj.ToString Select strItem).ToArray)
             Call Console.WriteLine(str)
+        End Sub
+
+        Public Shared Sub print(ByVal v As String)
+            Console.Write(v)
+        End Sub
+
+        Public Shared Sub println(ByVal v As String)
+            Console.WriteLine(v)
         End Sub
     End Class
 
@@ -27,7 +39,8 @@ Namespace System
         End Sub
 
         Public Sub print(s As String)
-            Throw New NotImplementedException()
+            Call Console.Error.Write(s)
+            Call Console.Error.Flush()
         End Sub
     End Module
 

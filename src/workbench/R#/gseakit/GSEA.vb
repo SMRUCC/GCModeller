@@ -126,6 +126,35 @@ Module GSEA
     End Function
 
     ''' <summary>
+    ''' fisher enrichment test
+    ''' </summary>
+    ''' <param name="list"></param>
+    ''' <param name="geneSet"></param>
+    ''' <param name="background"></param>
+    ''' <returns></returns>
+    <ExportAPI("fisher")>
+    Public Function fisher(list As String(),
+                           geneSet As String(),
+                           background As String(),
+                           Optional term As String = "unknown") As EnrichmentResult
+
+        Dim info As New Cluster With {
+            .ID = term,
+            .description = term,
+            .names = term,
+            .members = New BackgroundGene(geneSet.Length - 1) {}
+        }
+        Dim enrich As EnrichmentResult = info.calcResult(
+            enriched:=list,
+            inputSize:=list.Length,
+            genes:=background.Length,
+            outputAll:=True
+        )
+
+        Return enrich
+    End Function
+
+    ''' <summary>
     ''' do GO GSEA enrichment analysis
     ''' </summary>
     ''' <param name="background"></param>

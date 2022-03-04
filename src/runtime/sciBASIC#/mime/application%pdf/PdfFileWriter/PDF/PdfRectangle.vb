@@ -42,7 +42,7 @@
 
 #End Region
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'
 '
 '	PdfFileWriter
 '	PDF File Write C# Class Library.
@@ -65,11 +65,11 @@
 '
 '	For version history please refer to PdfDocument.cs
 '
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'
 
 
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ''' <summary>
     ''' PDF rectangle in double precision class
     ''' </summary>
@@ -78,7 +78,7 @@
     ''' PDF rectangle is left, bottom, right and top.
     ''' PDF numeric precision is double and Microsoft is Single.
     ''' </remarks>
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     Public Class PdfRectangle
         ''' <summary>
         ''' Gets or sets Left side.
@@ -113,7 +113,7 @@
         ''' <param name="Bottom">Bottom side</param>
         ''' <param name="Right">Right side</param>
         ''' <param name="Top">Top side</param>
-        Public Sub New(ByVal Left As Double, ByVal Bottom As Double, ByVal Right As Double, ByVal Top As Double)
+        Public Sub New(Left As Double, Bottom As Double, Right As Double, Top As Double)
             Me.Left = Left
             Me.Bottom = Bottom
             Me.Right = Right
@@ -125,7 +125,7 @@
         ''' Copy constructor
         ''' </summary>
         ''' <param name="Rect">Source rectangle</param>
-        Public Sub New(ByVal Rect As PdfRectangle)
+        Public Sub New(Rect As PdfRectangle)
             Left = Rect.Left
             Bottom = Rect.Bottom
             Right = Rect.Right
@@ -137,7 +137,7 @@
         ''' Constructor for margin
         ''' </summary>
         ''' <param name="AllTheSame">Single value for all sides</param>
-        Public Sub New(ByVal AllTheSame As Double)
+        Public Sub New(AllTheSame As Double)
             Left = AllTheSame
             Bottom = AllTheSame
             Right = AllTheSame
@@ -150,7 +150,7 @@
         ''' </summary>
         ''' <param name="Hor">Left and right value</param>
         ''' <param name="Vert">Top and bottom value</param>
-        Public Sub New(ByVal Hor As Double, ByVal Vert As Double)
+        Public Sub New(Hor As Double, Vert As Double)
             Left = Hor
             Bottom = Vert
             Right = Hor

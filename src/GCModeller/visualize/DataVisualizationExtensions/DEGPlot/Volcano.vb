@@ -259,8 +259,8 @@ Public Module Volcano
                 Dim x, y As d3js.scale.LinearScale
 
                 With plotRegion
-                    x = d3js.scale.linear.domain(xTicks).range(integers:={ .Left, .Right})
-                    y = d3js.scale.linear.domain(yTicks).range(integers:={plotRegion.Top, plotRegion.Bottom})
+                    x = d3js.scale.linear.domain(values:=xTicks).range(integers:={ .Left, .Right})
+                    y = d3js.scale.linear.domain(values:=yTicks).range(integers:={plotRegion.Top, plotRegion.Bottom})
                 End With
 
                 Dim scaler As New DataScaler With {

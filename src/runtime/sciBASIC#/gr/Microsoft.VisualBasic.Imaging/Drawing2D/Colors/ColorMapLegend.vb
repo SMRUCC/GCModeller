@@ -85,5 +85,16 @@ Namespace Drawing2D.Colors
                 noLeftBlank:=noblank
             )
         End Sub
+
+        Public Function Draw(size As Size) As Image
+            Using g As Graphics2D = size.CreateGDIDevice(filled:=Color.Transparent)
+                Call Draw(g, New Rectangle With {.X = 0, .Y = 0, .Width = size.Width, .Height = size.Height})
+                Return g.ImageResource
+            End Using
+        End Function
+
+        Public Overrides Function ToString() As String
+            Return title
+        End Function
     End Class
 End Namespace

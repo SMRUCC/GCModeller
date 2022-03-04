@@ -64,11 +64,11 @@ Namespace Contour
         Friend xlim As Double = Double.NaN
         Friend ylim As Double = Double.NaN
 
-        Public Sub New(sample As IEnumerable(Of MeasureData), theme As Theme)
+        Public Sub New(sample As IEnumerable(Of MeasureData), interpolateFill As Boolean, theme As Theme)
             MyBase.New(theme)
 
             contours = ContourLayer _
-                .GetContours(sample) _
+                .GetContours(sample, interpolateFill:=interpolateFill) _
                 .ToArray
         End Sub
 
@@ -125,8 +125,8 @@ Namespace Contour
             End If
 
             If dims.Width * dims.Height > 0 Then
-                Dim scaleX = d3js.scale.linear.domain(New Double() {0, dims.Width}).range(New Double() {rect.Left, rect.Right})
-                Dim scaleY = d3js.scale.linear.domain(New Double() {0, dims.Height}).range(New Double() {rect.Top, rect.Bottom})
+                Dim scaleX = d3js.scale.linear.domain(values:=New Double() {0, dims.Width}).range(New Double() {rect.Left, rect.Right})
+                Dim scaleY = d3js.scale.linear.domain(values:=New Double() {0, dims.Height}).range(New Double() {rect.Top, rect.Bottom})
 
                 For Each polygon As GeneralPath In contours
                     Dim color As SolidBrush = colors(++i)

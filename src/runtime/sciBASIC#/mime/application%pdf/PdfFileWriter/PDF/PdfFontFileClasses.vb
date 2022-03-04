@@ -74,7 +74,7 @@
 
 #End Region
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'
 '
 '	PdfFileWriter
 '	PDF File Write C# Class Library.
@@ -97,14 +97,14 @@
 '
 '	For version history please refer to PdfDocument.cs
 '
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'
 
 Imports System
 
 
-    ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    '
     ' Font file header
-    ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    '
 
     Friend Class FontFileHeader
         Friend FileVersion As UInteger      ' 0x00010000 for version 1.0.
@@ -146,9 +146,9 @@ Imports System
         End Property
     End Class
 
-    ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    '
     ' Font file table record
-    ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    '
 
     Friend Class TableRecord
         Friend Tag As UInteger          ' 4 -byte identifier
@@ -158,15 +158,15 @@ Imports System
         Friend Data As Byte()       ' table data in big endian format
 
         ' constructor
-        Friend Sub New(ByVal Tag As UInteger)
+        Friend Sub New(Tag As UInteger)
             Me.Tag = Tag
             Return
         End Sub
     End Class
 
-    ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    '
     ' 'cmap' encoding sub-table
-    ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    '
 
     Friend Class cmapSubTbl
         Implements IComparable(Of cmapSubTbl)
@@ -186,7 +186,7 @@ Imports System
         End Sub
 
         ' search constructor
-        Friend Sub New(ByVal PlatformID As UShort, ByVal EncodingID As UShort, ByVal Format As UShort)
+        Friend Sub New(PlatformID As UShort, EncodingID As UShort, Format As UShort)
             Me.PlatformID = PlatformID
             Me.EncodingID = EncodingID
             Me.Format = Format
@@ -194,7 +194,7 @@ Imports System
         End Sub
 
         ' compare two sub-tables for sort and binary search
-        Public Function CompareTo(ByVal Other As cmapSubTbl) As Integer Implements IComparable(Of cmapSubTbl).CompareTo
+        Public Function CompareTo(Other As cmapSubTbl) As Integer Implements IComparable(Of cmapSubTbl).CompareTo
             If PlatformID <> Other.PlatformID Then Return PlatformID - Other.PlatformID
             If EncodingID <> Other.EncodingID Then Return EncodingID - Other.EncodingID
             Return Format - Other.Format
@@ -243,9 +243,9 @@ Imports System
         End Property
     End Class
 
-    ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    '
     ' 'cmap' format 4 encoding sub-table segment record
-    ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    '
 
     Friend Class cmapSeg
         Implements IComparable(Of cmapSeg)
@@ -256,7 +256,7 @@ Imports System
         Friend IDRangeOffset As UShort          ' Offsets (in byte) into glyphIdArray or 0. Array length=segCount
 
         ' search constructor
-        Friend Sub New(ByVal StartChar As Integer, ByVal EndChar As Integer, ByVal IDDelta As Integer, ByVal IDRangeOffset As Integer)
+        Friend Sub New(StartChar As Integer, EndChar As Integer, IDDelta As Integer, IDRangeOffset As Integer)
             Me.StartChar = CUShort(StartChar)
             Me.EndChar = CUShort(EndChar)
             Me.IDDelta = CShort(IDDelta)
@@ -265,20 +265,20 @@ Imports System
         End Sub
 
         ' search constructor
-        Friend Sub New(ByVal EndCount As Integer)
+        Friend Sub New(EndCount As Integer)
             EndChar = CUShort(EndCount)
             Return
         End Sub
 
         ' compare two records for sort and binary search
-        Public Function CompareTo(ByVal Other As cmapSeg) As Integer Implements IComparable(Of cmapSeg).CompareTo
+        Public Function CompareTo(Other As cmapSeg) As Integer Implements IComparable(Of cmapSeg).CompareTo
             Return EndChar - Other.EndChar
         End Function
     End Class
 
-    ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    '
     ' 'head' font file header table
-    ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    '
 
     Friend Class headTable
         Friend TableVersion As UInteger         ' 0x00010000 for version 1.0.
@@ -327,9 +327,9 @@ Imports System
         Friend glyphDataFormat As Short     ' 0 for current format.
     End Class
 
-    ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    '
     ' 'head' horizontal header table
-    ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    '
 
     Friend Class hheaTable
         Friend TableVersion As UInteger         ' 0x00010000 for version 1.0.
@@ -353,9 +353,9 @@ Imports System
         Friend numberOfHMetrics As UShort       ' Number of hMetric entries in 'hmtx' table
     End Class
 
-    ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    '
     ' 'maxp' font maximum values
-    ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    '
 
     Friend Class maxpTable
         Friend TableVersion As UInteger         ' 0x00010000 for version 1.0.
@@ -376,9 +376,9 @@ Imports System
         Friend maxComponentDepth As UShort      ' Maximum levels of recursion; 1 for simple components.
     End Class
 
-    ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    '
     ' Glyph table support
-    ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    '
 
     ' glyph flags for comosite glyphs
     Friend Enum CompFlag

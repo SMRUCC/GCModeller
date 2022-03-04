@@ -55,8 +55,8 @@ Namespace Core
     ''' </summary>
     Public Class Channel : Implements INamedValue
 
-        Friend left As Variable()
-        Friend right As Variable()
+        Friend ReadOnly left As Variable()
+        Friend ReadOnly right As Variable()
 
         Public Property forward As Controls
         Public Property reverse As Controls
@@ -84,11 +84,15 @@ Namespace Core
             End Get
         End Property
 
+        Public ReadOnly Property isBroken As Boolean
+
         Public Property ID As String Implements IKeyedEntity(Of String).Key
 
         Sub New(left As IEnumerable(Of Variable), right As IEnumerable(Of Variable))
             Me.left = left.ToArray
             Me.right = right.ToArray
+
+            isBroken = Me.left.IsNullOrEmpty OrElse Me.right.IsNullOrEmpty
         End Sub
 
         ''' <summary>
@@ -98,7 +102,11 @@ Namespace Core
         ''' <param name="regulation"></param>
         ''' <returns></returns>
         Public Function CoverLeft(shares As Dictionary(Of String, Double), regulation#) As Double
-            Return minimalUnit(shares, left, regulation, bounds.forward)
+            If isBroken Then
+                Return 0
+            Else
+                Return minimalUnit(shares, left, regulation, bounds.forward)
+            End If
         End Function
 
         ''' <summary>
@@ -108,7 +116,11 @@ Namespace Core
         ''' <param name="regulation"></param>
         ''' <returns></returns>
         Public Function CoverRight(shares As Dictionary(Of String, Double), regulation#) As Double
-            Return minimalUnit(shares, right, regulation, bounds.reverse)
+            If isBroken Then
+                Return 0
+            Else
+                Return minimalUnit(shares, right, regulation, bounds.reverse)
+            End If
         End Function
 
         ''' <summary>

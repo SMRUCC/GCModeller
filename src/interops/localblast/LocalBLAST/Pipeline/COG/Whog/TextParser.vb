@@ -81,7 +81,7 @@ Namespace Pipeline.COG.Whog
                 Else
                     list.Last = New NamedValue With {
                         .name = list.Last.name,
-                        .Text = list.Last.text & " " & Trim(nid.Value)
+                        .text = list.Last.text & " " & Strings.Trim(nid.Value)
                     }
                 End If
             Next

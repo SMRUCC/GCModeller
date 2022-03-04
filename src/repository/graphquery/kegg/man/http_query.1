@@ -1,21 +1,21 @@
-﻿.TH HTTP_QUERY 1 2021-08-18 "" "Run query with http cache"
+﻿.TH HTTP_QUERY 1 2022-02-08 "" "Run query with http cache"
 .SH NAME
 http_query \- http_query(url, raw = TRUE, graphquery = get_graph(graphquery/kegg_table.graphquery))
 .SH SYNOPSIS
 \fIhttp_query(url, raw = TRUE, graphquery = get_graph(graphquery/kegg_table.graphquery))\fR
 .SH OPTIONS
 .PP
-\fBurl\fB \fR\- 
+\fBurl\fB \fR\- . a data resource on remote server or local resource file
 .PP
 .PP
-\fBraw\fB \fR\- TRUE
+\fBraw\fB \fR\- TRUE. returns the JSON raw element data or ``R#`` list object?
 .PP
 .PP
-\fBgraphquery\fB \fR\- get_graph(graphquery/kegg_table.graphquery)
+\fBgraphquery\fB \fR\- get_graph(graphquery/kegg_table.graphquery). the graphquery script for read the resource file from the remote server.
 .PP
 .SH FILES
 .PP
 SMRUCC/R#.declare_function.http_query at http_query.R:line 35
 .PP
 .SH COPYRIGHT
-Copyright © xieguigang, MIT Licensed 2021
+Copyright © xieguigang, MIT Licensed 2022

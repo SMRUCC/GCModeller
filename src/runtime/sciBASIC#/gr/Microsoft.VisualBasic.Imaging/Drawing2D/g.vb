@@ -62,6 +62,7 @@
 Imports System.Drawing
 Imports System.Drawing.Drawing2D
 Imports System.Drawing.Text
+Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Driver
@@ -72,6 +73,8 @@ Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.My.FrameworkInternal
 Imports Microsoft.VisualBasic.Scripting.Runtime
+
+<Assembly: InternalsVisibleTo("Microsoft.VisualBasic.Imaging.PDF")>
 
 Namespace Drawing2D
 
@@ -111,6 +114,9 @@ Namespace Drawing2D
 
         Friend Const GraphicDriverEnvironmentConfigName$ = "graphic_driver"
 
+        Friend pdfDriver As Func(Of Size, IGraphics)
+        Friend getPdfImage As Func(Of IGraphics, Size, Padding, GraphicsData)
+
         ''' <summary>
         ''' 在这个模块的构造函数之中，程序会自动根据命令行所设置的环境参数来设置默认的图形引擎
         ''' 
@@ -134,6 +140,7 @@ Namespace Drawing2D
                 Case "gdi" : Return Drivers.GDI
                 Case "ps" : Return Drivers.PS
                 Case "wmf" : Return Drivers.WMF
+                Case "pdf" : Return Drivers.PDF
                 Case Else
                     Return Drivers.Default
             End Select
@@ -162,6 +169,7 @@ Namespace Drawing2D
                         Return "png"
                     Case Drivers.PS : Return "ps"
                     Case Drivers.WMF : Return "wmf"
+                    Case Drivers.PDF : Return "pdf"
                     Case Else
                         Throw New NotImplementedException(ActiveDriver.Description)
                 End Select
@@ -261,6 +269,7 @@ Namespace Drawing2D
                                       Optional dpi$ = "100,100") As GraphicsData
 
             Dim driverUsed As Drivers = g.__getDriver(developerValue:=driver)
+            Dim dpiXY As Size = dpi.SizeParser
 
             size = size Or defaultSize
             padding = padding Or defaultPaddingValue
@@ -272,7 +281,6 @@ Namespace Drawing2D
 
             Select Case driverUsed
                 Case Drivers.SVG
-                    Dim dpiXY As Size = dpi.SizeParser
                     Dim svg As New GraphicsSVG(size, dpiXY.Width, dpiXY.Height)
 
                     Call svg.Clear(bg.TranslateColor)
@@ -280,14 +288,28 @@ Namespace Drawing2D
 
                     Return New SVGData(svg, size, padding)
                 Case Drivers.PS
-                    Dim ps As New GraphicsPS(size)
+                    Dim ps As New GraphicsPS(size, dpiXY)
 
                     Throw New NotImplementedException
                 Case Drivers.WMF
-                    Using wmf As New Wmf(size, WmfData.wmfTmp, bg)
+                    Dim wmfstream As New MemoryStream
+
+                    Using wmf As New Wmf(size, wmfstream, bg, dpi:=dpiXY)
                         Call plotAPI(wmf, region)
-                        Return New WmfData(wmf.wmfFile, size, padding)
+                        Call wmf.Flush()
                     End Using
+
+                    Return New WmfData(wmfstream, size, padding)
+
+                Case Drivers.PDF
+
+                    Dim g As IGraphics = pdfDriver(size)
+
+                    Call plotAPI(g, region)
+                    Call g.Flush()
+
+                    Return getPdfImage(g, size, padding)
+
                 Case Else
                     ' using gdi+ graphics driver
                     ' 在这里使用透明色进行填充，防止当bg参数为透明参数的时候被CreateGDIDevice默认填充为白色

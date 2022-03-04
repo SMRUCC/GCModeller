@@ -83,7 +83,7 @@ Namespace SequenceModel.NucleotideModels.Translation
 
             tokens = (From token As String
                       In tokens.Skip(1)
-                      Let ss As String = Trim(token)
+                      Let ss As String = Strings.Trim(token)
                       Where Not String.IsNullOrEmpty(ss)
                       Select ss).ToArray
             hashTable = parseHashValues(tokens)

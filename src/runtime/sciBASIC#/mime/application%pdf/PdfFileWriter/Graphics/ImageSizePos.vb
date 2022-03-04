@@ -1,45 +1,45 @@
 ﻿#Region "Microsoft.VisualBasic::1cf25c1287562723441567bd6acf7b06, mime\application%pdf\PdfFileWriter\ImageSizePos.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module ImageSizePos
-    ' 
-    '     Function: (+2 Overloads) ImageArea, ImageSize
-    ' 
-    ' /********************************************************************************/
+' Module ImageSizePos
+' 
+'     Function: (+2 Overloads) ImageArea, ImageSize
+' 
+' /********************************************************************************/
 
 #End Region
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'
 '
 '	PdfFileWriter
 '	PDF File Write C# Class Library.
@@ -62,7 +62,7 @@
 '
 '	For version history please refer to PdfDocument.cs
 '
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'
 
 Imports System.Drawing
 
@@ -83,7 +83,7 @@ Public Module ImageSizePos
     ''' <param name="DrawArea">Drawing area rectangle</param>
     ''' <param name="Alignment">Content alignment.</param>
     ''' <returns>Adjusted drawing area rectangle</returns>
-    Public Function ImageArea(ByVal ImageWidthPix As Integer, ByVal ImageHeightPix As Integer, ByVal DrawArea As PdfRectangle, ByVal Alignment As ContentAlignment) As PdfRectangle
+    Public Function ImageArea(ImageWidthPix As Integer, ImageHeightPix As Integer, DrawArea As PdfRectangle, Alignment As ContentAlignment) As PdfRectangle
         Return ImageArea(ImageWidthPix, ImageHeightPix, DrawArea.Left, DrawArea.Bottom, DrawArea.Width, DrawArea.Height, Alignment)
     End Function
 
@@ -98,7 +98,7 @@ Public Module ImageSizePos
     ''' <param name="DrawAreaHeight">Drawing area height.</param>
     ''' <param name="Alignment">Content alignment.</param>
     ''' <returns>Adjusted drawing area rectangle</returns>
-    Public Function ImageArea(ByVal ImageWidthPix As Integer, ByVal ImageHeightPix As Integer, ByVal DrawAreaLeft As Double, ByVal DrawAreaBottom As Double, ByVal DrawAreaWidth As Double, ByVal DrawAreaHeight As Double, ByVal Alignment As ContentAlignment) As PdfRectangle
+    Public Function ImageArea(ImageWidthPix As Integer, ImageHeightPix As Integer, DrawAreaLeft As Double, DrawAreaBottom As Double, DrawAreaWidth As Double, DrawAreaHeight As Double, Alignment As ContentAlignment) As PdfRectangle
         Dim DeltaX As Double = 0
         Dim DeltaY As Double = 0
         Dim Width As Double
@@ -143,7 +143,7 @@ Public Module ImageSizePos
     ''' <param name="DrawAreaWidth">Drawing area width.</param>
     ''' <param name="DrawAreaHeight">Drawing area height.</param>
     ''' <returns>Image size in user units.</returns>
-    Public Function ImageSize(ByVal ImageWidthPix As Integer, ByVal ImageHeightPix As Integer, ByVal DrawAreaWidth As Double, ByVal DrawAreaHeight As Double) As SizeD
+    Public Function ImageSize(ImageWidthPix As Integer, ImageHeightPix As Integer, DrawAreaWidth As Double, DrawAreaHeight As Double) As SizeD
         Dim OutputSize As SizeD = New SizeD()
         OutputSize.Height = DrawAreaWidth * ImageHeightPix / ImageWidthPix
 

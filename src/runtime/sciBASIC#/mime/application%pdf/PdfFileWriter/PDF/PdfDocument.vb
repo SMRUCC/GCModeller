@@ -78,7 +78,7 @@
 
 #End Region
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'
 '
 '	PdfFileWriter
 '	PDF File Write C# Class Library.
@@ -238,7 +238,7 @@
 '	Version 1.25.0 2019/07/15
 '		Support for collection of fonts. Support for non ascii font names
 '
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'
 
 Imports System
 Imports System.Collections.Generic
@@ -281,11 +281,11 @@ Public Enum UnitOfMeasure
     m
 End Enum
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'
 ''' <summary>
 ''' Standard paper size enumeration 
 ''' </summary>
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'
 Public Enum PaperType
     ''' <summary>
     ''' Letter
@@ -348,7 +348,6 @@ Public Enum InitialDocDisplay
     UseAttachments
 End Enum
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 ''' <summary>
 ''' Number Format Information static class
 ''' </summary>
@@ -357,7 +356,6 @@ End Enum
 ''' Some countries define decimal separator as a comma.
 ''' The project uses NFI.DecSep to force period for all regions.
 ''' </remarks>
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 Public Module NFI
     ''' <summary>
     ''' Define period as number decimal separator.
@@ -372,7 +370,7 @@ Public Module NFI
         Get
             Return _PeriodDecSep
         End Get
-        Private Set(ByVal value As NumberFormatInfo)
+        Private Set(value As NumberFormatInfo)
             _PeriodDecSep = value
         End Set
     End Property
@@ -386,7 +384,7 @@ Public Module NFI
     End Sub
 End Module
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'
 ''' <summary>
 ''' PDF document class
 ''' </summary>
@@ -422,7 +420,7 @@ End Module
 ''' <a href="http://www.codeproject.com/Articles/570682/PDF-File-Writer-Csharp-Class-Library-Version#DocumentCreation">For example of document creation see 3.1. Document Creation Overview</a>
 ''' </para>
 ''' </remarks>
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'
 Public Class PdfDocument
     Implements IDisposable
 
@@ -454,7 +452,7 @@ Public Class PdfDocument
         Get
             Return _ScaleFactor
         End Get
-        Friend Set(ByVal value As Double)
+        Friend Set(value As Double)
             _ScaleFactor = value
         End Set
     End Property
@@ -463,7 +461,7 @@ Public Class PdfDocument
         Get
             Return _Epsilon
         End Get
-        Friend Set(ByVal value As Double)
+        Friend Set(value As Double)
             _Epsilon = value
         End Set
     End Property
@@ -490,7 +488,7 @@ Public Class PdfDocument
     ''' </summary>
     ''' <param name="Index">Page index (zero based)</param>
     ''' <returns>PdfPage object</returns>
-    Public Function GetPage(ByVal Index As Integer) As PdfPage
+    Public Function GetPage(Index As Integer) As PdfPage
         If Index < 0 OrElse Index >= PageArray.Count Then Throw New ApplicationException("GetPage invalid argument")
         Return PageArray(Index)
     End Function
@@ -543,7 +541,7 @@ Public Class PdfDocument
     ' A4
     ' A5
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ''' <summary>
     ''' PDF document constructor.
     ''' </summary>
@@ -556,14 +554,14 @@ Public Class PdfDocument
     ''' <para>Scale factor is 1.0.</para>
     ''' <para>The PDF document will be saved in a file named FileName.</para>
     ''' </remarks>
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    Public Sub New(ByVal FileName As String)
+    
+    Public Sub New(FileName As String)
         ' constructor helper
         ConstructorHelper(8.5 * 72.0, 11.0 * 72.0, 1.0, FileName, Nothing)
         Return
     End Sub
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ''' <summary>
     ''' PDF document constructor.
     ''' </summary>
@@ -579,14 +577,14 @@ Public Class PdfDocument
     ''' responsibiliy to close the stream after CreateFile() method
     ''' is called.</para>
     ''' </remarks>
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    Public Sub New(ByVal Stream As Stream)
+    
+    Public Sub New(Stream As Stream)
         ' constructor helper
         ConstructorHelper(8.5 * 72.0, 11.0 * 72.0, 1.0, Nothing, Stream)
         Return
     End Sub
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ''' <summary>
     ''' PDF document constructor.
     ''' </summary>
@@ -603,8 +601,8 @@ Public Class PdfDocument
     ''' For example, Inch has scale factor of 72.0.</para>
     ''' <para>The PDF document will be saved in a file named FileName.</para>
     ''' </remarks>
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    Public Sub New(ByVal Width As Double, ByVal Height As Double, ByVal ScaleFactor As Double, ByVal FileName As String)            ' page width
+    
+    Public Sub New(Width As Double, Height As Double, ScaleFactor As Double, FileName As String)            ' page width
         ' page height
         ' scale factor from user units to points (i.e. 72.0 for inch)
         ' constructor helper
@@ -612,7 +610,7 @@ Public Class PdfDocument
         Return
     End Sub
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ''' <summary>
     ''' PDF document constructor.
     ''' </summary>
@@ -632,8 +630,8 @@ Public Class PdfDocument
     ''' responsibiliy to close the stream after CreateFile() method
     ''' is called.</para>
     ''' </remarks>
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    Public Sub New(ByVal Width As Double, ByVal Height As Double, ByVal ScaleFactor As Double, ByVal Stream As Stream)          ' page width
+    
+    Public Sub New(Width As Double, Height As Double, ScaleFactor As Double, Stream As Stream)          ' page width
         ' page height
         ' scale factor from user units to points (i.e. 72.0 for inch)
         ' constructor helper
@@ -641,7 +639,7 @@ Public Class PdfDocument
         Return
     End Sub
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ''' <summary>
     ''' PDF document constructor
     ''' </summary>
@@ -657,8 +655,8 @@ Public Class PdfDocument
     ''' <para>Unit of measure is a an enumeration constant (Point, Inch, cm, mm, m)</para>
     ''' <para>The PDF document will be saved in a file named FileName.</para>
     ''' </remarks>
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    Public Sub New(ByVal Width As Double, ByVal Height As Double, ByVal UnitOfMeasure As UnitOfMeasure, ByVal FileName As String)           ' page width
+    
+    Public Sub New(Width As Double, Height As Double, UnitOfMeasure As UnitOfMeasure, FileName As String)           ' page width
         ' page height
         ' unit of measure: Point, Inch, cm, mm, m
         ' constructor helper
@@ -667,7 +665,7 @@ Public Class PdfDocument
         Return
     End Sub
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ''' <summary>
     ''' PDF document constructor
     ''' </summary>
@@ -686,8 +684,8 @@ Public Class PdfDocument
     ''' responsibiliy to close the stream after CreateFile() method
     ''' is called.</para>
     ''' </remarks>
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    Public Sub New(ByVal Width As Double, ByVal Height As Double, ByVal UnitOfMeasure As UnitOfMeasure, ByVal Stream As Stream)         ' page width
+    
+    Public Sub New(Width As Double, Height As Double, UnitOfMeasure As UnitOfMeasure, Stream As Stream)         ' page width
         ' page height
         ' unit of measure: Point, Inch, cm, mm, m
         ' constructor helper
@@ -696,7 +694,7 @@ Public Class PdfDocument
         Return
     End Sub
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ''' <summary>
     ''' PDF document constructor
     ''' </summary>
@@ -711,8 +709,8 @@ Public Class PdfDocument
     ''' <para>Unit of measure is a an enumeration constant (Point, Inch, cm, mm, m)</para>
     ''' <para>The PDF document will be saved in a file named FileName.</para>
     ''' </remarks>
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    Public Sub New(ByVal PaperType As PaperType, ByVal Landscape As Boolean, ByVal UnitOfMeasure As UnitOfMeasure, ByVal FileName As String)    ' unit of measure: Point, Inch, cm, mm, m
+    
+    Public Sub New(PaperType As PaperType, Landscape As Boolean, UnitOfMeasure As UnitOfMeasure, FileName As String)    ' unit of measure: Point, Inch, cm, mm, m
         ' set scale factor (user units to points)
         Dim Scale = UnitInPoints(UnitOfMeasure)
         Dim Width = PaperTypeSize(PaperType).Width
@@ -728,7 +726,7 @@ Public Class PdfDocument
         Return
     End Sub
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ''' <summary>
     ''' PDF document constructor
     ''' </summary>
@@ -746,8 +744,8 @@ Public Class PdfDocument
     ''' responsibiliy to close the stream after CreateFile() method
     ''' is called.</para>
     ''' </remarks>
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    Public Sub New(ByVal PaperType As PaperType, ByVal Landscape As Boolean, ByVal UnitOfMeasure As UnitOfMeasure, ByVal Stream As Stream)  ' unit of measure: Point, Inch, cm, mm, m
+    
+    Public Sub New(PaperType As PaperType, Landscape As Boolean, UnitOfMeasure As UnitOfMeasure, Stream As Stream)  ' unit of measure: Point, Inch, cm, mm, m
         ' set scale factor (user units to points)
         Dim Scale = UnitInPoints(UnitOfMeasure)
         Dim Width = PaperTypeSize(PaperType).Width
@@ -763,11 +761,11 @@ Public Class PdfDocument
         Return
     End Sub
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ' Initial Object Array
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
 
-    Private Sub ConstructorHelper(ByVal Width As Double, ByVal Height As Double, ByVal ScaleFactor As Double, ByVal FileName As String, ByVal OutputStream As Stream)           ' page width
+    Private Sub ConstructorHelper(Width As Double, Height As Double, ScaleFactor As Double, FileName As String, OutputStream As Stream)           ' page width
         ' page height
         ' scale factor from user units to points (i.e. 72.0 for inch)
         ' set scale factor (user units to points)
@@ -826,7 +824,7 @@ Public Class PdfDocument
         Return
     End Sub
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ''' <summary>
     ''' Set encryption
     ''' </summary>
@@ -837,13 +835,13 @@ Public Class PdfDocument
     ''' A PDF reader such as Acrobat will open the document with the 
     ''' default user password. Permissions flags are set to allow all.
     ''' </remarks>
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     Public Sub SetEncryption()
         SetEncryption(Nothing, Nothing, Permission.All, EncryptionType.Aes128)
         Return
     End Sub
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ''' <summary>
     ''' Set encryption
     ''' </summary>
@@ -855,13 +853,13 @@ Public Class PdfDocument
     ''' A PDF reader such as Acrobat will open the document with the 
     ''' default user password. Permissions flags are set as per argument.
     ''' </remarks>
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    Public Sub SetEncryption(ByVal Permissions As Permission)
+    
+    Public Sub SetEncryption(Permissions As Permission)
         SetEncryption(Nothing, Nothing, Permissions, EncryptionType.Aes128)
         Return
     End Sub
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ''' <summary>
     ''' Set encryption
     ''' </summary>
@@ -876,13 +874,13 @@ Public Class PdfDocument
     ''' being random is effectively unknown.
     ''' Permissions flags are set as per argument.
     ''' </remarks>
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    Public Sub SetEncryption(ByVal UserPassword As String, ByVal Permissions As Permission)
+    
+    Public Sub SetEncryption(UserPassword As String, Permissions As Permission)
         SetEncryption(UserPassword, Nothing, Permissions, EncryptionType.Aes128)
         Return
     End Sub
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ''' <summary>
     ''' Set encryption
     ''' </summary>
@@ -900,8 +898,8 @@ Public Class PdfDocument
     ''' user to enter a password. The user can supply either the user
     ''' or the owner password. Permissions flags are set as per argument.
     ''' </remarks>
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    Public Sub SetEncryption(ByVal UserPassword As String, ByVal OwnerPassword As String, ByVal Permissions As Permission, ByVal Optional EncryptionType As EncryptionType = EncryptionType.Aes128)
+    
+    Public Sub SetEncryption(UserPassword As String, OwnerPassword As String, Permissions As Permission, Optional EncryptionType As EncryptionType = EncryptionType.Aes128)
         ' encryption can be set only once
         If Encryption IsNot Nothing Then Throw New ApplicationException("Encryption is already set")
 
@@ -912,12 +910,12 @@ Public Class PdfDocument
         Return
     End Sub
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ''' <summary>
     ''' Gets bookmarks root
     ''' </summary>
     ''' <returns>Root bookmark object</returns>
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     Public Function GetBookmarksRoot() As PdfBookmark
         ' create bookmarks root node if this is the first time
         If BookmarksRoot Is Nothing Then BookmarksRoot = New PdfBookmark(Me)
@@ -931,7 +929,7 @@ Public Class PdfDocument
     ''' </summary>
     ''' <param name="SourceIndex">Page's current position</param>
     ''' <param name="DestinationIndex">Page's new position</param>
-    Public Sub MovePage(ByVal SourceIndex As Integer, ByVal DestinationIndex As Integer)
+    Public Sub MovePage(SourceIndex As Integer, DestinationIndex As Integer)
         If SourceIndex < 0 OrElse SourceIndex >= PageCount OrElse DestinationIndex < 0 OrElse DestinationIndex > PageCount Then Throw New ApplicationException("Move page invalid argument")
 
         ' there is only one page or no move
@@ -945,7 +943,7 @@ Public Class PdfDocument
         Return
     End Sub
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ''' <summary>
     ''' Create PDF document file
     ''' </summary>
@@ -957,7 +955,7 @@ Public Class PdfDocument
     ''' the CreateFile does not close the stream. It is the user application
     ''' that should close the stream after the stream was used.</para>
     ''' </remarks>
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     Public Sub CreateFile()
         ' add destinations to link annotation
         AddDestToLinkAnnot()
@@ -1075,12 +1073,12 @@ Public Class PdfDocument
         Return
     End Sub
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ' Convert byte array to PDF string
     ' used for document id and encryption
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
 
-    Friend Function ByteArrayToPdfHexString(ByVal ByteArray As Byte()) As String
+    Friend Function ByteArrayToPdfHexString(ByteArray As Byte()) As String
         ' convert to hex string
         Dim HexText As StringBuilder = New StringBuilder("<")
 
@@ -1092,11 +1090,11 @@ Public Class PdfDocument
         Return HexText.ToString()
     End Function
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ' C# string text to PDF strings only
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
 
-    Friend Function TextToPdfString(ByVal Text As String, ByVal Parent As PdfObject) As String
+    Friend Function TextToPdfString(Text As String, Parent As PdfObject) As String
         ' convert C# string to byte array
         Dim ByteArray = TextToByteArray(Text)
 
@@ -1107,12 +1105,12 @@ Public Class PdfDocument
         Return ByteArrayToPdfString(ByteArray)
     End Function
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ' C# string text to byte array
     ' This method is used for PDF strings only
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
 
-    Friend Function TextToByteArray(ByVal Text As String) As Byte()
+    Friend Function TextToByteArray(Text As String) As Byte()
         ' scan input text for Unicode characters and for non printing characters
         Dim Unicode = False
 
@@ -1158,12 +1156,12 @@ Public Class PdfDocument
         Return ByteArray
     End Function
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ' byte array to PDF string
     ' This method is used for PDF strings only
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
 
-    Friend Function ByteArrayToPdfString(ByVal ByteArray As Byte()) As String
+    Friend Function ByteArrayToPdfString(ByteArray As Byte()) As String
         ' create output string with open and closing parenthesis
         Dim Str As StringBuilder = New StringBuilder("(")
 
@@ -1186,11 +1184,11 @@ Public Class PdfDocument
         Return Str.ToString()
     End Function
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ' Create random byte array
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
 
-    Friend Shared Function RandomByteArray(ByVal Length As Integer) As Byte()
+    Friend Shared Function RandomByteArray(Length As Integer) As Byte()
         Dim ByteArray = New Byte(Length - 1) {}
 
         Using RandNumGen As RNGCryptoServiceProvider = New RNGCryptoServiceProvider()
@@ -1200,20 +1198,20 @@ Public Class PdfDocument
         Return ByteArray
     End Function
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ' Generate unique resource number
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
 
-    Friend Function GenerateResourceNumber(ByVal Code As Char) As String        ' one letter code for each type of resource
+    Friend Function GenerateResourceNumber(Code As Char) As String        ' one letter code for each type of resource
         ' create resource code
         Return String.Format("/{0}{1}", Code, Threading.Interlocked.Increment(ResCodeNo(PdfObject.ResCodeLetter.IndexOf(Code))))
     End Function
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ''' <summary>
     ''' Dispose PDF document object
     ''' </summary>
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     Public Sub Dispose() Implements IDisposable.Dispose
         ' close output file
         ' Note: stream input will not be closed

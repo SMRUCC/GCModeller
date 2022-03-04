@@ -118,19 +118,14 @@ Namespace MarkupCompiler
                 .IteratesALL _
                 .Distinct _
                 .ToArray
-            Dim compounds As CompoundRepository = compiler.KEGG.GetCompounds
+            Dim compounds As CompoundRepository '= compiler.KEGG.GetCompounds
 
             For Each id As String In allCompoundId.Where(Function(cid) compounds.Exists(cid))
                 Dim keggModel = compounds.GetByKey(id).Entity
 
                 Yield New Compound With {
                     .ID = id,
-                    .name = keggModel.commonNames _
-                        .ElementAtOrDefault(0, keggModel.formula),
-                    .otherNames = keggModel.commonNames _
-                        .SafeQuery _
-                        .Skip(1) _
-                        .ToArray
+                    .name = keggModel.commonNames.ElementAtOrDefault(0, keggModel.formula)
                 }
             Next
         End Function

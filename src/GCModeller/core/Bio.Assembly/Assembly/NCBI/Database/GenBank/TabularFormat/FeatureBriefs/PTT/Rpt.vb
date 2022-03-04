@@ -136,7 +136,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat
                                                    Let strKey As String = Mid(sValue, 1, Len(Key))
                                                    Where String.Equals(strKey, Key, StringComparison.OrdinalIgnoreCase)
                                                    Select sValue.Replace(Key, "")
-            Return Trim(LQuery)
+            Return Strings.Trim(LQuery)
         End Function
 
         Public Function Save(FilePath As String, Encoding As Encoding) As Boolean Implements ISaveHandle.Save

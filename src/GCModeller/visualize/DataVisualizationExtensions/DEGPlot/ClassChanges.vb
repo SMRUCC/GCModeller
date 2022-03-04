@@ -93,7 +93,7 @@ Public Class ClassChanges : Inherits Plot
         Dim tickStroke As Pen = Stroke.TryParse(theme.axisTickStroke)
         Dim a As PointF
         Dim b As PointF
-        Dim xscale = d3js.scale.linear.domain(xTicks).range(integers:={plotregion.Left, plotregion.Right})
+        Dim xscale = d3js.scale.linear.domain(values:=xTicks).range(integers:={plotregion.Left, plotregion.Right})
         Dim labelText As String
         Dim labelSize As SizeF
         Dim labelFont As Font = CSSFont.TryParse(theme.axisTickCSS).GDIObject(dpi)

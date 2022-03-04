@@ -111,9 +111,9 @@ Namespace DAVID
             If Not uniprot2KEGG.IsNullOrEmpty Then
                 For Each term As FunctionCluster In KEGG
                     Dim profile As New NamedCollection(Of NamedValue(Of String)) With {
-                        .Name = term.Term.GetTagValue(":").Name,
-                        .Value = term.ORFs _
-                            .Select(AddressOf Trim) _
+                        .name = term.Term.GetTagValue(":").Name,
+                        .value = term.ORFs _
+                            .Select(AddressOf Strings.Trim) _
                             .Where(Function(id) uniprot2KEGG.ContainsKey(id)) _
                             .Select(Function(ID)
                                         Return uniprot2KEGG(ID).Select(Function(kid) New NamedValue(Of String)(kid, "red"))
