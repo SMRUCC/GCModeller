@@ -4,13 +4,13 @@ Namespace Tamir.SharpSsh.java.util
     ''' Summary description for Hashtable.
     ''' </summary>
     Public Class Hashtable
-        Friend h As System.Collections.Hashtable
+        Friend h As Global.System.Collections.Hashtable
 
         Public Sub New()
-            h = New System.Collections.Hashtable()
+            h = New Global.System.Collections.Hashtable()
         End Sub
 
-        Public Sub New(ByVal h As System.Collections.Hashtable)
+        Public Sub New(ByVal h As Global.System.Collections.Hashtable)
             Me.h = h
         End Sub
 

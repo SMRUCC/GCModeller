@@ -4,27 +4,15 @@ Namespace Tamir.SharpSsh.java.io
     ''' Summary description for InputStream.
     ''' </summary>
     Public MustInherit Class OutputStream
-        Inherits System.IO.Stream
+        Inherits Global.System.IO.Stream
 
-        Public Overrides Function ReadMethod(ByVal buffer As Byte(), ByVal offset As Integer, ByVal count As Integer) As Integer
+        Public Overridable Function ReadMethod(ByVal buffer As Byte(), ByVal offset As Integer, ByVal count As Integer) As Integer
             Return 0
         End Function
 
         Public Overrides Function ReadByte() As Integer
             Return 0
         End Function
-
-        Public Overridable Sub write(ByVal buffer As Byte(), ByVal offset As Integer, ByVal count As Integer)
-            MyBase.Write(buffer, offset, count)
-        End Sub
-
-        Public Overridable Sub close()
-            MyBase.Close()
-        End Sub
-
-        Public Overridable Sub flush()
-            FlushMethod()
-        End Sub
 
         Public Overrides ReadOnly Property CanRead As Boolean
             Get
@@ -44,8 +32,6 @@ Namespace Tamir.SharpSsh.java.io
             End Get
         End Property
 
-        Public Overrides Sub FlushMethod()
-        End Sub
 
         Public Overrides ReadOnly Property Length As Long
             Get
@@ -64,7 +50,7 @@ Namespace Tamir.SharpSsh.java.io
         Public Overrides Sub SetLength(ByVal value As Long)
         End Sub
 
-        Public Overrides Function Seek(ByVal offset As Long, ByVal origin As System.IO.SeekOrigin) As Long
+        Public Overrides Function Seek(ByVal offset As Long, ByVal origin As Global.System.IO.SeekOrigin) As Long
             Return 0
         End Function
     End Class

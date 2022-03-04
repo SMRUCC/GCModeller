@@ -4,17 +4,17 @@ Namespace Tamir.SharpSsh.java.lang
     ''' Summary description for StringBuffer.
     ''' </summary>
     Public Class StringBuffer
-        Private sb As System.Text.StringBuilder
+        Private sb As Global.System.Text.StringBuilder
 
         Public Sub New()
-            sb = New System.Text.StringBuilder()
+            sb = New Global.System.Text.StringBuilder()
         End Sub
 
         Public Sub New(ByVal s As String)
-            sb = New System.Text.StringBuilder(s)
+            sb = New Global.System.Text.StringBuilder(s)
         End Sub
 
-        Public Sub New(ByVal sb As System.Text.StringBuilder)
+        Public Sub New(ByVal sb As Global.System.Text.StringBuilder)
             Me.New(sb.ToString())
         End Sub
 
@@ -41,12 +41,8 @@ Namespace Tamir.SharpSsh.java.lang
             Return Me
         End Function
 
-        Public Overrides Function ToStringMethod() As String
+        Public Function ToStringMethod() As String
             Return sb.ToString()
-        End Function
-
-        Public Function toStringMethod() As String
-            Return Me.ToStringMethod()
         End Function
     End Class
 End Namespace

@@ -4,7 +4,7 @@ Namespace Tamir.SharpSsh.java.util
     ''' Summary description for Vector.
     ''' </summary>
     Public Class Vector
-        Inherits System.Collections.ArrayList
+        Inherits Global.System.Collections.ArrayList
 
         Public Function size() As Integer
             Return Me.Count

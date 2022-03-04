@@ -4,11 +4,11 @@ Namespace Tamir.SharpSsh.java.io
     ''' Summary description for Stream.
     ''' </summary>
     Public Class JStream
-        Inherits System.IO.Stream
+        Inherits Global.System.IO.Stream
 
-        Friend s As System.IO.Stream
+        Friend s As Global.System.IO.Stream
 
-        Public Sub New(ByVal s As System.IO.Stream)
+        Public Sub New(ByVal s As Global.System.IO.Stream)
             Me.s = s
         End Sub
 
@@ -97,7 +97,7 @@ Namespace Tamir.SharpSsh.java.io
             s.SetLength(value)
         End Sub
 
-        Public Overrides Function Seek(ByVal offset As Long, ByVal origin As System.IO.SeekOrigin) As Long
+        Public Overrides Function Seek(ByVal offset As Long, ByVal origin As Global.System.IO.SeekOrigin) As Long
             Return s.Seek(offset, origin)
         End Function
 

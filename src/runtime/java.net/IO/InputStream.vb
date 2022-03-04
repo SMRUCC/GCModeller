@@ -4,7 +4,7 @@ Namespace Tamir.SharpSsh.java.io
     ''' Summary description for InputStream.
     ''' </summary>
     Public MustInherit Class InputStream
-        Inherits System.IO.Stream
+        Inherits Global.System.IO.Stream
 
         Public Overridable Function read(ByVal buffer As Byte(), ByVal offset As Integer, ByVal count As Integer) As Integer
             Return Read(buffer, offset, count)
@@ -66,7 +66,7 @@ Namespace Tamir.SharpSsh.java.io
         Public Overrides Sub SetLength(ByVal value As Long)
         End Sub
 
-        Public Overrides Function Seek(ByVal offset As Long, ByVal origin As System.IO.SeekOrigin) As Long
+        Public Overrides Function Seek(ByVal offset As Long, ByVal origin As Global.System.IO.SeekOrigin) As Long
             Return 0
         End Function
 

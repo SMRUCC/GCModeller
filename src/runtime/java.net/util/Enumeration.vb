@@ -4,10 +4,10 @@ Namespace Tamir.SharpSsh.java.util
     ''' Summary description for Enumeration.
     ''' </summary>
     Public Class Enumeration
-        Private e As System.Collections.IEnumerator
+        Private e As Global.System.Collections.IEnumerator
         Private hasMore As Boolean
 
-        Public Sub New(ByVal e As System.Collections.IEnumerator)
+        Public Sub New(ByVal e As Global.System.Collections.IEnumerator)
             Me.e = e
             hasMore = e.MoveNext()
         End Sub

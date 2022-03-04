@@ -4,7 +4,7 @@ Namespace Tamir.SharpSsh.java.net
     ''' Summary description for ServerSocket.
     ''' </summary>
     Public Class ServerSocket
-        Inherits System.Net.Sockets.TcpListener
+        Inherits Global.System.Net.Sockets.TcpListener
 
         Public Sub New(ByVal port As Integer, ByVal arg As Integer, ByVal addr As InetAddress)
             MyBase.New(addr.addr, port)

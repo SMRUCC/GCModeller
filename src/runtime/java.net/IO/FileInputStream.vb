@@ -6,10 +6,10 @@ Namespace Tamir.SharpSsh.java.io
     Public Class FileInputStream
         Inherits InputStream
 
-        Private fs As System.IO.FileStream
+        Private fs As Global.System.IO.FileStream
 
         Public Sub New(ByVal file As String)
-            fs = System.IO.File.OpenRead(file)
+            fs = Global.System.IO.File.OpenRead(file)
         End Sub
 
         Public Sub New(ByVal file As File)
@@ -30,7 +30,7 @@ Namespace Tamir.SharpSsh.java.io
             End Get
         End Property
 
-        Public Overrides Function Seek(ByVal offset As Long, ByVal origin As System.IO.SeekOrigin) As Long
+        Public Overrides Function Seek(ByVal offset As Long, ByVal origin As Global.System.IO.SeekOrigin) As Long
             Return fs.Seek(offset, origin)
         End Function
     End Class

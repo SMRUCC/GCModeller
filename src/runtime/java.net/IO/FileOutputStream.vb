@@ -1,4 +1,6 @@
 ﻿
+Imports Oracle.Java.IO
+
 Namespace Tamir.SharpSsh.java.io
     ''' <summary>
     ''' Summary description for FileInputStream.
@@ -6,7 +8,7 @@ Namespace Tamir.SharpSsh.java.io
     Public Class FileOutputStream
         Inherits OutputStream
 
-        Private fs As System.IO.FileStream
+        Private fs As Global.System.IO.FileStream
 
         Public Sub New(ByVal file As String)
             Me.New(file, False)
@@ -18,9 +20,9 @@ Namespace Tamir.SharpSsh.java.io
 
         Public Sub New(ByVal file As String, ByVal append As Boolean)
             If append Then
-                fs = New System.IO.FileStream(file, System.IO.FileMode.Append) ' append
+                fs = New Global.System.IO.FileStream(file, Global.System.IO.FileMode.Append) ' append
             Else
-                fs = New System.IO.FileStream(file, System.IO.FileMode.Create)
+                fs = New Global.System.IO.FileStream(file, Global.System.IO.FileMode.Create)
             End If
         End Sub
 
@@ -28,15 +30,15 @@ Namespace Tamir.SharpSsh.java.io
             Me.New(file.info.Name)
         End Sub
 
-        Public Overrides Sub WriteMethod(ByVal buffer As Byte(), ByVal offset As Integer, ByVal count As Integer)
+        Public Overrides Sub Write(ByVal buffer As Byte(), ByVal offset As Integer, ByVal count As Integer)
             fs.Write(buffer, offset, count)
         End Sub
 
-        Public Overrides Sub FlushMethod()
+        Public Overrides Sub Flush()
             fs.Flush()
         End Sub
 
-        Public Overrides Sub CloseMethod()
+        Public Overrides Sub Close()
             fs.Close()
         End Sub
 
@@ -46,7 +48,7 @@ Namespace Tamir.SharpSsh.java.io
             End Get
         End Property
 
-        Public Overrides Function Seek(ByVal offset As Long, ByVal origin As System.IO.SeekOrigin) As Long
+        Public Overrides Function Seek(ByVal offset As Long, ByVal origin As Global.System.IO.SeekOrigin) As Long
             Return fs.Seek(offset, origin)
         End Function
     End Class

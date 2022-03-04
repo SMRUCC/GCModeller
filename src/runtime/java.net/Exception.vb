@@ -4,7 +4,7 @@ Namespace Tamir.SharpSsh.java
     ''' Summary description for Exception.
     ''' </summary>
     Public Class Exception
-        Inherits System.Exception
+        Inherits Global.System.Exception
 
         Public Sub New()
             MyBase.New()

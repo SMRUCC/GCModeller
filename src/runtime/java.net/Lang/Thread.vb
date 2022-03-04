@@ -4,18 +4,18 @@ Namespace Tamir.SharpSsh.java.lang
     ''' Summary description for Thread.
     ''' </summary>
     Public Class Thread
-        Private t As System.Threading.Thread
+        Private t As Global.System.Threading.Thread
 
-        Public Sub New(ByVal t As System.Threading.Thread)
+        Public Sub New(ByVal t As Global.System.Threading.Thread)
             Me.t = t
         End Sub
 
-        Public Sub New(ByVal ts As System.Threading.ThreadStart)
-            Me.New(New System.Threading.Thread(ts))
+        Public Sub New(ByVal ts As Global.System.Threading.ThreadStart)
+            Me.New(New Global.System.Threading.Thread(ts))
         End Sub
 
         Public Sub New(ByVal r As Runnable)
-            Me.New(New System.Threading.ThreadStart(AddressOf r.run))
+            Me.New(New Global.System.Threading.ThreadStart(AddressOf r.run))
         End Sub
 
         Public Sub setName(ByVal name As String)
@@ -41,11 +41,11 @@ Namespace Tamir.SharpSsh.java.lang
         End Sub
 
         Public Sub notifyAll()
-            System.Threading.Monitor.PulseAll(Me)
+            Global.System.Threading.Monitor.PulseAll(Me)
         End Sub
 
         Public Shared Sub Sleep(ByVal t As Integer)
-            System.Threading.Thread.Sleep(t)
+            Global.System.Threading.Thread.Sleep(t)
         End Sub
 
         Public Shared Sub sleepMethod(ByVal t As Integer)
@@ -53,7 +53,7 @@ Namespace Tamir.SharpSsh.java.lang
         End Sub
 
         Public Shared Function currentThread() As Thread
-            Return New Thread(System.Threading.Thread.CurrentThread)
+            Return New Thread(Global.System.Threading.Thread.CurrentThread)
         End Function
     End Class
 End Namespace

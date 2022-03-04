@@ -4,11 +4,11 @@ Namespace Tamir.SharpSsh.java.net
     ''' Summary description for Socket.
     ''' </summary>
     Public Class Socket
-        Friend sock As System.Net.Sockets.Socket
+        Friend sock As Global.System.Net.Sockets.Socket
 
-        Protected Sub SetSocketOption(ByVal level As System.Net.Sockets.SocketOptionLevel, ByVal name As System.Net.Sockets.SocketOptionName, ByVal val As Integer)
+        Protected Sub SetSocketOption(ByVal level As Global.System.Net.Sockets.SocketOptionLevel, ByVal name As Global.System.Net.Sockets.SocketOptionName, ByVal val As Integer)
             Try
-                sock.SetSocketOption(System.Net.Sockets.SocketOptionLevel.Socket, System.Net.Sockets.SocketOptionName.NoDelay, val)
+                sock.SetSocketOption(Global.System.Net.Sockets.SocketOptionLevel.Socket, Global.System.Net.Sockets.SocketOptionName.NoDelay, val)
             Catch
             End Try
         End Sub
@@ -20,21 +20,21 @@ Namespace Tamir.SharpSsh.java.net
         '		}
 
         Public Sub New(ByVal host As String, ByVal port As Integer)
-            Dim ep As System.Net.IPEndPoint = New System.Net.IPEndPoint(System.Net.Dns.GetHostByName(host).AddressList(0), port)
-            sock = New System.Net.Sockets.Socket(ep.AddressFamily, System.Net.Sockets.SocketType.Stream, System.Net.Sockets.ProtocolType.Tcp)
+            Dim ep As Global.System.Net.IPEndPoint = New Global.System.Net.IPEndPoint(Global.System.Net.Dns.GetHostByName(host).AddressList(0), port)
+            sock = New Global.System.Net.Sockets.Socket(ep.AddressFamily, Global.System.Net.Sockets.SocketType.Stream, Global.System.Net.Sockets.ProtocolType.Tcp)
             sock.Connect(ep)
         End Sub
 
-        Public Sub New(ByVal sock As System.Net.Sockets.Socket)
+        Public Sub New(ByVal sock As Global.System.Net.Sockets.Socket)
             Me.sock = sock
         End Sub
 
-        Public Function getInputStream() As System.IO.Stream
-            Return New System.Net.Sockets.NetworkStream(sock)
+        Public Function getInputStream() As Global.System.IO.Stream
+            Return New Global.System.Net.Sockets.NetworkStream(sock)
         End Function
 
-        Public Function getOutputStream() As System.IO.Stream
-            Return New System.Net.Sockets.NetworkStream(sock)
+        Public Function getOutputStream() As Global.System.IO.Stream
+            Return New Global.System.Net.Sockets.NetworkStream(sock)
         End Function
 
         Public Function isConnected() As Boolean
@@ -43,15 +43,15 @@ Namespace Tamir.SharpSsh.java.net
 
         Public Sub setTcpNoDelay(ByVal b As Boolean)
             If b Then
-                Me.SetSocketOption(System.Net.Sockets.SocketOptionLevel.Socket, System.Net.Sockets.SocketOptionName.NoDelay, 1)
+                Me.SetSocketOption(Global.System.Net.Sockets.SocketOptionLevel.Socket, Global.System.Net.Sockets.SocketOptionName.NoDelay, 1)
             Else
-                Me.SetSocketOption(System.Net.Sockets.SocketOptionLevel.Socket, System.Net.Sockets.SocketOptionName.NoDelay, 0)
+                Me.SetSocketOption(Global.System.Net.Sockets.SocketOptionLevel.Socket, Global.System.Net.Sockets.SocketOptionName.NoDelay, 0)
             End If
         End Sub
 
         Public Sub setSoTimeout(ByVal t As Integer)
-            Me.SetSocketOption(System.Net.Sockets.SocketOptionLevel.Socket, System.Net.Sockets.SocketOptionName.ReceiveTimeout, t)
-            Me.SetSocketOption(System.Net.Sockets.SocketOptionLevel.Socket, System.Net.Sockets.SocketOptionName.SendTimeout, t)
+            Me.SetSocketOption(Global.System.Net.Sockets.SocketOptionLevel.Socket, Global.System.Net.Sockets.SocketOptionName.ReceiveTimeout, t)
+            Me.SetSocketOption(Global.System.Net.Sockets.SocketOptionLevel.Socket, Global.System.Net.Sockets.SocketOptionName.SendTimeout, t)
         End Sub
 
         Public Sub close()
@@ -59,11 +59,11 @@ Namespace Tamir.SharpSsh.java.net
         End Sub
 
         Public Function getInetAddress() As InetAddress
-            Return New InetAddress(CType(sock.RemoteEndPoint, System.Net.IPEndPoint).Address)
+            Return New InetAddress(CType(sock.RemoteEndPoint, Global.System.Net.IPEndPoint).Address)
         End Function
 
         Public Function getPort() As Integer
-            Return CType(sock.RemoteEndPoint, System.Net.IPEndPoint).Port
+            Return CType(sock.RemoteEndPoint, Global.System.Net.IPEndPoint).Port
         End Function
     End Class
 End Namespace
