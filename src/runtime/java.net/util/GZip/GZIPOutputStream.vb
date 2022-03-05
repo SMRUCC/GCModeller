@@ -1,4 +1,6 @@
-﻿Public Class GZIPOutputStream
+﻿Imports Oracle.Java.Tamir.SharpSsh.java.io
+
+Public Class GZIPOutputStream
     Private fileOutputStream As FileOutputStream
 
     Public Sub New(fileOutputStream As FileOutputStream)
