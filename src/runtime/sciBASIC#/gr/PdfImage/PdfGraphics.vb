@@ -137,7 +137,8 @@ Public Class PdfGraphics : Inherits MockGDIPlusGraphics
     End Sub
 
     Public Overrides Sub Clear(color As Color)
-        Throw New NotImplementedException()
+        Call g.SetColorNonStroking(color)
+        Call g.DrawRectangle(New PointD(0, 0), New SizeD(Size.Width, Size.Height), PaintOp.Fill)
     End Sub
 
     Public Overrides Sub CopyFromScreen(upperLeftSource As Point, upperLeftDestination As Point, blockRegionSize As Size)
@@ -269,7 +270,7 @@ Public Class PdfGraphics : Inherits MockGDIPlusGraphics
     End Sub
 
     Public Overrides Sub DrawImage(image As Image, point As Point)
-        Throw New NotImplementedException()
+        DrawImage(image, New Rectangle(point, image.Size))
     End Sub
 
     Public Overrides Sub DrawImage(image As Image, destPoints() As Point)
@@ -283,24 +284,26 @@ Public Class PdfGraphics : Inherits MockGDIPlusGraphics
     Public Overrides Sub DrawImage(image As Image, rect As Rectangle)
         Dim element As New MIME.application.pdf.PdfImage(page.Document)
 
+        Call g.SaveGraphicsState()
+        Call g.MoveTo(New PointD(0, 0))
         Call element.LoadImage(image)
-        Call g.DrawImage(element, rect.X, height - rect.Y, rect.Width)
+        Call g.DrawImage(element, rect.X, rect.Y, rect.Width)
     End Sub
 
     Public Overrides Sub DrawImage(image As Image, point As PointF)
-        Throw New NotImplementedException()
+        DrawImage(image, New Rectangle(point.ToPoint, image.Size))
     End Sub
 
     Public Overrides Sub DrawImage(image As Image, rect As RectangleF)
-        Throw New NotImplementedException()
+        DrawImage(image, New Rectangle(rect.X, rect.Y, rect.Width, rect.Height))
     End Sub
 
     Public Overrides Sub DrawImage(image As Image, x As Integer, y As Integer)
-        Throw New NotImplementedException()
+        DrawImage(image, New Rectangle(x, y, image.Width, image.Height))
     End Sub
 
     Public Overrides Sub DrawImage(image As Image, x As Single, y As Single)
-        Throw New NotImplementedException()
+        DrawImage(image, New Rectangle(x, y, image.Width, image.Height))
     End Sub
 
     Public Overrides Sub DrawImage(image As Image, destRect As RectangleF, srcRect As RectangleF, srcUnit As GraphicsUnit)
@@ -762,7 +765,7 @@ Public Class PdfGraphics : Inherits MockGDIPlusGraphics
     Public Overrides Sub FillRectangle(brush As Brush, rect As RectangleF)
         ' change nonstroking (fill) color to yellow
         Call g.SetColorNonStroking(DirectCast(brush, SolidBrush).Color)
-        Call g.DrawRectangle(rect.X, height - rect.Y, rect.Width, rect.Height, PaintOp.Fill)
+        Call g.DrawRectangle(rect.X, Me.height - rect.Y, rect.Width, rect.Height, PaintOp.Fill)
     End Sub
 
     Public Overrides Sub FillRectangle(brush As Brush, x As Integer, y As Integer, width As Integer, height As Integer)
