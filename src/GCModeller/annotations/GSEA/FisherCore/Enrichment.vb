@@ -69,27 +69,29 @@ Public Module Enrichment
                                         list As IEnumerable(Of String),
                                         Optional outputAll As Boolean = False,
                                         Optional isLocustag As Boolean = False,
-                                        Optional showProgress As Boolean = True) As IEnumerable(Of EnrichmentResult)
+                                        Optional showProgress As Boolean = True,
+                                        Optional doProgress As Action(Of String) = Nothing) As IEnumerable(Of EnrichmentResult)
 
-        Dim doProgress As Action(Of String)
         Dim progress As ProgressBar = Nothing
         Dim ETA$
         Dim termResult As New Value(Of EnrichmentResult)
         Dim genes As Integer
 
-        If showProgress Then
-            Dim tick As ProgressProvider
+        If doProgress Is Nothing Then
+            If showProgress Then
+                Dim tick As ProgressProvider
 
-            progress = New ProgressBar("Do enrichment...")
-            tick = New ProgressProvider(progress, genome.clusters.Length)
-            doProgress = Sub(id)
-                             ETA = $"{id}.... ETA: {tick.ETA().FormatTime}"
-                             progress.SetProgress(tick.StepProgress, ETA)
-                         End Sub
-        Else
-            doProgress = Sub()
-                             ' Do Nothing
-                         End Sub
+                progress = New ProgressBar("Do enrichment...")
+                tick = New ProgressProvider(progress, genome.clusters.Length)
+                doProgress = Sub(id)
+                                 ETA = $"{id}.... ETA: {tick.ETA().FormatTime}"
+                                 progress.SetProgress(tick.StepProgress, ETA)
+                             End Sub
+            Else
+                doProgress = Sub()
+                                 ' Do Nothing
+                             End Sub
+            End If
         End If
 
         If genome.size <= 0 Then
