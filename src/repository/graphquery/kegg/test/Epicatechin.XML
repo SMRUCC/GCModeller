@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-16"?>
+<Compound xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:KEGG="http://www.kegg.jp/dbget-bin/www_bget?cpd:compound_id" entry="null">
+  <!--
+     model:     SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Compound
+     assembly:  SMRUCC.genomics.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+     version:   1.0.0.0
+     built:     1/1/2000 12:00:00 AM
+     md5:       f841b14b8f17099f3b2dade7ae4821e3
+     timestamp: 3/13/2022 7:52:25 PM
+  -->
+  <formula>null</formula>
+  <molWeight>0</molWeight>
+  <exactMass>0</exactMass>
+  <KEGG:pathway />
+  <KEGG:module />
+  <remarks>
+    <string>null</string>
+  </remarks>
+  <KEGG:DBlinks />
+  <KCF />
+</Compound>

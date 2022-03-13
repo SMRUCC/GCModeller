@@ -5,8 +5,8 @@ options(http.cache_dir = `${dirname(@script)}/.cache/`);
 
 kegg_compound(
 
-    "https://www.kegg.jp/entry/C00002"
+    "https://www.kegg.jp/entry/C09727"
 )
 |> xml
-|> writeLines(con = `${dirname(@script)}/ATP.XML`)
+|> writeLines(con = `${dirname(@script)}/Epicatechin.XML`)
 ;
