@@ -121,7 +121,8 @@ Namespace Analysis.Louvain
         ''' </summary>
         ReadOnly maxIterations As Integer = 3
 
-        Sub New(Optional maxIterations As Integer = 3)
+        Sub New(Optional maxIterations As Integer = 3, Optional eps As Double = 0.00000000000001)
+            Me.eps = eps
             Me.maxIterations = maxIterations
         End Sub
 
