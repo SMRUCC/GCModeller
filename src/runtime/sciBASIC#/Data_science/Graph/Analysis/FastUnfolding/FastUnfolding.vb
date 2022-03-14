@@ -1,9 +1,12 @@
-﻿Namespace Analysis.Louvain
+﻿Namespace Analysis.FastUnfolding
 
+    ''' <summary>
+    ''' Fast unfolding of communities in large networks.
+    ''' </summary>
     Public Class FastUnfolding
 
-        Public Function com_member(tag_dict As Dictionary(Of String, String)) As Dictionary(Of String, List(Of String))
-            Dim member As New Dictionary(Of String, List(Of String))
+        Public Function com_member(tag_dict As Dictionary(Of String, String)) As KeyMaps
+            Dim member As New KeyMaps
 
             For Each i In tag_dict.Keys
                 member(tag_dict(i)).Add(i)
@@ -12,10 +15,10 @@
             Return member
         End Function
 
-        Public Function modularity(tag_dict As Dictionary(Of String, String), map_dict As Dictionary(Of String, List(Of String))) As Double
+        Public Function modularity(tag_dict As Dictionary(Of String, String), map_dict As KeyMaps) As Double
             ' 根据tag和图的连接方式计算模块度
             Dim m As Double = 0
-            Dim community_dict As New Dictionary(Of String, List(Of String))
+            Dim community_dict As New KeyMaps
             '同属一个社群的人都有谁
 
             For Each key In map_dict.Keys
@@ -46,11 +49,11 @@
         End Function
 
         Dim tag_dict As New Dictionary(Of String, String)
-        Dim member As Dictionary(Of String, List(Of String))
-        Dim map_dict As Dictionary(Of String, List(Of String))
+        Dim member As KeyMaps
+        Dim map_dict As KeyMaps
 
         Public Function changeTagRound(tag_dict2 As Dictionary(Of String, String),
-                                       map_dict2 As Dictionary(Of String, List(Of String)),
+                                       map_dict2 As KeyMaps,
                                        Q As Double) As (Q As Double, tag_dict As Dictionary(Of String, String), tag_dict2 As Dictionary(Of String, String))
 
             For Each u In map_dict2.Keys
@@ -76,9 +79,9 @@
             Return (Q, tag_dict, tag_dict2)
         End Function
 
-        Public Function rebuildMap(tag_dict As Dictionary(Of String, String), map_dict As Dictionary(Of String, List(Of String))) As (tag2 As Dictionary(Of String, String), map2 As Dictionary(Of String, List(Of String)))
+        Public Function rebuildMap(tag_dict As Dictionary(Of String, String), map_dict As KeyMaps) As (tag2 As Dictionary(Of String, String), map2 As KeyMaps)
             ' 将一个社区作为一个节点重新构造图
-            Dim map2 As New Dictionary(Of String, List(Of String))
+            Dim map2 As New KeyMaps
 
             For Each u In map_dict.Keys
                 Dim tagu = tag_dict(u)
@@ -97,7 +100,14 @@
             Return (tag2, map2)
         End Function
 
-        Public Function DoAnalysis(map_dict As Dictionary(Of String, List(Of String))) As (Dictionary(Of String, List(Of String)), Double)
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="map_dict">
+        ''' the network data: [a -> b[]]
+        ''' </param>
+        ''' <returns></returns>
+        Public Function Analysis(map_dict As KeyMaps) As (KeyMaps, Double)
             Dim Q As Double = 0
 
             Me.map_dict = map_dict
