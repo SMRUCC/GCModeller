@@ -80,17 +80,7 @@ Namespace Analysis
             Dim getEdgeGoups =
                 Iterator Function() As IEnumerable(Of Edge())
                     For Each nodeSet In nodeGroups
-                        ' find a subset of edges from a
-                        ' given node set of the network.
-                        Dim id As Index(Of String) = nodeSet _
-                            .Select(Function(v) v.label) _
-                            .Indexing
-
-                        Yield g.graphEdges _
-                            .Where(Function(url)
-                                       Return url.U.label Like id OrElse url.V.label Like id
-                                   End Function) _
-                            .ToArray
+                        Yield g.getEdgeSet(nodeSet)
                     Next
                 End Function
 
@@ -100,30 +90,54 @@ Namespace Analysis
         End Function
 
         <Extension>
-        Private Iterator Function DecomposeGraph(components As IEnumerable(Of Edge()), minVertices As Integer) As IEnumerable(Of NetworkGraph)
+        Public Function getEdgeSet(g As NetworkGraph, nodeSet As IEnumerable(Of Node)) As Edge()
+            ' find a subset of edges from a
+            ' given node set of the network.
+            Dim id As Index(Of String) = nodeSet _
+                .Select(Function(v) v.label) _
+                .Indexing
+            Dim edgeSet = g.graphEdges _
+                .Where(Function(url)
+                           Return url.U.label Like id OrElse url.V.label Like id
+                       End Function) _
+                .ToArray
+
+            Return edgeSet
+        End Function
+
+        <Extension>
+        Public Function DecomposeGraph(components As Edge(), minVertices As Integer) As NetworkGraph
+            Dim subnetwork As New NetworkGraph
+            Dim nodes = components _
+                .Select(Function(a) {a.U, a.V}) _
+                .IteratesALL _
+                .Distinct _
+                .ToArray
+
+            If nodes.Length < minVertices Then
+                Return Nothing
+            End If
+
+            For Each v As Node In nodes.Select(Function(a) a.Clone)
+                Call subnetwork.AddNode(v)
+            Next
+            For Each edge As Edge In components.Select(Function(a) a.Clone)
+                Call subnetwork.CreateEdge(edge.U, edge.V, 0, edge.data)
+            Next
+
+            Return subnetwork
+        End Function
+
+        <Extension>
+        Public Iterator Function DecomposeGraph(components As IEnumerable(Of Edge()), minVertices As Integer) As IEnumerable(Of NetworkGraph)
             Dim subnetwork As NetworkGraph
-            Dim nodes As Node()
 
             For Each part As Edge() In components
-                subnetwork = New NetworkGraph
-                nodes = part _
-                    .Select(Function(a) {a.U, a.V}) _
-                    .IteratesALL _
-                    .Distinct _
-                    .ToArray
+                subnetwork = part.DecomposeGraph(minVertices)
 
-                If nodes.Length < minVertices Then
-                    Continue For
+                If Not subnetwork Is Nothing Then
+                    Yield subnetwork
                 End If
-
-                For Each v As Node In nodes.Select(Function(a) a.Clone)
-                    Call subnetwork.AddNode(v)
-                Next
-                For Each edge As Edge In part.Select(Function(a) a.Clone)
-                    Call subnetwork.CreateEdge(edge.U, edge.V, 0, edge.data)
-                Next
-
-                Yield subnetwork
             Next
         End Function
 
