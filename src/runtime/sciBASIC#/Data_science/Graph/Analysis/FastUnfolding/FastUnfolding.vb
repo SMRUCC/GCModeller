@@ -5,49 +5,6 @@
     ''' </summary>
     Public Class FastUnfolding
 
-        Public Function com_member(tag_dict As Dictionary(Of String, String)) As KeyMaps
-            Dim member As New KeyMaps
-
-            For Each i In tag_dict.Keys
-                member(tag_dict(i)).Add(i)
-            Next
-
-            Return member
-        End Function
-
-        Public Function modularity(tag_dict As Dictionary(Of String, String), map_dict As KeyMaps) As Double
-            ' 根据tag和图的连接方式计算模块度
-            Dim m As Double = 0
-            Dim community_dict As New KeyMaps
-            '同属一个社群的人都有谁
-
-            For Each key In map_dict.Keys
-                m += map_dict(key).Count
-                community_dict(tag_dict(key)).Add(key)
-            Next
-
-            Dim Q As Double = 0
-
-            For Each com In community_dict.Keys
-                Dim sum_in As Double = 0
-                Dim sum_tot As Double = 0
-
-                For Each u In community_dict(com)
-                    sum_tot += map_dict(u).Count
-
-                    For Each v In map_dict(u)
-                        If tag_dict(v) = tag_dict(u) Then
-                            sum_in += 1
-                        End If
-                    Next
-                Next
-
-                Q += (sum_in / m - (sum_tot / m) ^ 2)
-            Next
-
-            Return Q
-        End Function
-
         Dim tag_dict As New Dictionary(Of String, String)
         Dim member As KeyMaps
         Dim map_dict As KeyMaps
@@ -61,44 +18,61 @@
         Sub New(map_dict As KeyMaps)
             Me.map_dict = map_dict
             Me.tag_dict = map_dict.Keys.ToDictionary(Function(k) k)
-            Me.member = com_member(tag_dict)
+            Me.member = members(tag_dict)
         End Sub
 
-        Public Function changeTagRound(tag_dict2 As Dictionary(Of String, String),
-                                       map_dict2 As KeyMaps,
-                                       Q As Double) As (Q As Double, tag_dict As Dictionary(Of String, String), tag_dict2 As Dictionary(Of String, String))
+        Public Function members(tags As Dictionary(Of String, String)) As KeyMaps
+            Dim member As New KeyMaps
 
-            For Each u In map_dict2.Keys
-                For Each v In map_dict2(u)
+            For Each i In tags.Keys
+                member(tags(i)).Add(i)
+            Next
+
+            Return member
+        End Function
+
+        Friend Function tagMatrix(tag2 As Dictionary(Of String, String), map2 As KeyMaps, Q As Double) As Matrix
+            For Each u As String In map2.Keys
+                For Each v As String In map2(u)
                     Dim tag_dict_copy As New Dictionary(Of String, String)(tag_dict)
-                    Dim tag_dict2_copy As New Dictionary(Of String, String)(tag_dict2)
+                    Dim tag_dict2_copy As New Dictionary(Of String, String)(tag2)
+
                     tag_dict2_copy(u) = tag_dict2_copy(v)
 
                     For Each p As String In member(u)
                         tag_dict_copy(p) = tag_dict2_copy(v)
                     Next
 
-                    Dim Q_new = modularity(tag_dict_copy, map_dict)
+                    Dim Q_new As Double = tag_dict_copy.Modularity(map_dict)
 
                     If Q_new > Q Then
                         Q = Q_new
                         tag_dict = tag_dict_copy
-                        tag_dict2 = tag_dict2_copy
+                        tag2 = tag_dict2_copy
                     End If
                 Next
             Next
 
-            Return (Q, tag_dict, tag_dict2)
+            Return New Matrix With {
+                .Q = Q,
+                .tag_dict = tag_dict,
+                .tag_dict2 = tag2
+            }
         End Function
 
-        Public Function rebuildMap(tag_dict As Dictionary(Of String, String), map_dict As KeyMaps) As (tag2 As Dictionary(Of String, String), map2 As KeyMaps)
-            ' 将一个社区作为一个节点重新构造图
+        ''' <summary>
+        ''' 将一个社区作为一个节点重新构造图
+        ''' </summary>
+        ''' <param name="tag_dict"></param>
+        ''' <param name="map_dict"></param>
+        ''' <returns></returns>
+        Private Function rebuildMap(tag_dict As Dictionary(Of String, String), map_dict As KeyMaps) As Map
             Dim map2 As New KeyMaps
 
-            For Each u In map_dict.Keys
+            For Each u As String In map_dict.Keys
                 Dim tagu = tag_dict(u)
 
-                For Each v In map_dict.Keys
+                For Each v As String In map_dict.Keys
                     Dim tagv = tag_dict(v)
 
                     If tagu <> tagv AndAlso map_dict(u).Lookups(v).Count <> 0 AndAlso map2(tagu).Lookups(tagv).Count = 0 Then
@@ -107,30 +81,33 @@
                 Next
             Next
 
-            Dim tag2 = map2.Keys.ToDictionary(Function(k) k)
-
-            Return (tag2, map2)
+            Return New Map With {
+                .tag2 = map2.Keys.ToDictionary(Function(k) k),
+                .map2 = map2
+            }
         End Function
 
-        Public Function Analysis() As (KeyMaps, Double)
+        Public Function Analysis() As (community As KeyMaps, Q As Double)
             Dim Q As Double = 0
-            Dim Q_new As Double = modularity(tag_dict, map_dict)
+            Dim Q_new As Double = tag_dict.Modularity(map_dict)
             Dim tag_dict2 = tag_dict
             Dim map_dict2 = map_dict
 
             Do While Q <> Q_new
                 Q = Q_new
-                Dim x = changeTagRound(tag_dict2, map_dict2, Q)
 
-                Q_new = x.Q
-                tag_dict = x.tag_dict
-                tag_dict2 = x.tag_dict2
-                member = com_member(tag_dict)
+                With tagMatrix(tag_dict2, map_dict2, Q)
+                    Q_new = .Q
+                    tag_dict = .tag_dict
+                    tag_dict2 = .tag_dict2
+                End With
 
-                Dim y = rebuildMap(tag_dict, map_dict)
+                member = members(tag_dict)
 
-                tag_dict2 = y.tag2
-                map_dict2 = y.map2
+                With rebuildMap(tag_dict, map_dict)
+                    tag_dict2 = .tag2
+                    map_dict2 = .map2
+                End With
             Loop
 
             Return (member, Q)
