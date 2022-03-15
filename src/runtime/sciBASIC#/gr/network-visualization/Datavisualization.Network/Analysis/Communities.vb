@@ -1,46 +1,47 @@
 ﻿#Region "Microsoft.VisualBasic::4008a943bb6863ab05bdd794fe447186, gr\network-visualization\Datavisualization.Network\Analysis\Communities.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class Communities
-    ' 
-    '         Function: Analysis, Community, GetCommunitySet, Modularity
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class Communities
+' 
+'         Function: Analysis, Community, GetCommunitySet, Modularity
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports Microsoft.VisualBasic.Data.GraphTheory.Analysis
+Imports Microsoft.VisualBasic.Data.GraphTheory.Analysis.FastUnfolding
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 
@@ -111,6 +112,27 @@ Namespace Analysis
 
             Dim mov As Double = (1.0 / (2.0 * m)) * q
             Return mov
+        End Function
+
+        Public Shared Function AnalysisUnweighted(ByRef g As NetworkGraph) As NetworkGraph
+            Dim maps As New KeyMaps
+
+            For Each link As Edge In g.graphEdges
+                Call maps(link.U.label).Add(link.V.label)
+            Next
+
+            Dim clustering As New FastUnfolding(maps)
+            Dim communities = clustering.Analysis
+
+            maps = communities.Item1
+
+            For Each group In maps.Keys
+                For Each id As String In maps(group)
+                    g.GetElementByID(id).data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE) = group
+                Next
+            Next
+
+            Return g
         End Function
 
         ''' <summary>

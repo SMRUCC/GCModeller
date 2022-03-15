@@ -52,6 +52,18 @@
         Dim member As KeyMaps
         Dim map_dict As KeyMaps
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="map_dict">
+        ''' the network data: [a -> b[]]
+        ''' </param>
+        Sub New(map_dict As KeyMaps)
+            Me.map_dict = map_dict
+            Me.tag_dict = map_dict.Keys.ToDictionary(Function(k) k)
+            Me.member = com_member(tag_dict)
+        End Sub
+
         Public Function changeTagRound(tag_dict2 As Dictionary(Of String, String),
                                        map_dict2 As KeyMaps,
                                        Q As Double) As (Q As Double, tag_dict As Dictionary(Of String, String), tag_dict2 As Dictionary(Of String, String))
@@ -100,20 +112,8 @@
             Return (tag2, map2)
         End Function
 
-        ''' <summary>
-        ''' 
-        ''' </summary>
-        ''' <param name="map_dict">
-        ''' the network data: [a -> b[]]
-        ''' </param>
-        ''' <returns></returns>
-        Public Function Analysis(map_dict As KeyMaps) As (KeyMaps, Double)
+        Public Function Analysis() As (KeyMaps, Double)
             Dim Q As Double = 0
-
-            Me.map_dict = map_dict
-            Me.tag_dict = map_dict.Keys.ToDictionary(Function(k) k)
-            Me.member = com_member(tag_dict)
-
             Dim Q_new As Double = modularity(tag_dict, map_dict)
             Dim tag_dict2 = tag_dict
             Dim map_dict2 = map_dict
