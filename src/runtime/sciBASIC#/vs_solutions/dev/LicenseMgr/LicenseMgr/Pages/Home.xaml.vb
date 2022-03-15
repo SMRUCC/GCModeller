@@ -1,51 +1,51 @@
 ﻿#Region "Microsoft.VisualBasic::bd271e1f85cdf7fcf09e164d0322fd26, vs_solutions\dev\LicenseMgr\LicenseMgr\Pages\Home.xaml.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class Home
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Sub: __update, Add_Author_Click, AuthorAddCommon, copyright_TextChanged, license_brief_TextChanged
-    '              license_title_TextChanged, Load_Click, Save_Click
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class Home
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Sub: __update, Add_Author_Click, AuthorAddCommon, copyright_TextChanged, license_brief_TextChanged
+'              license_title_TextChanged, Load_Click, Save_Click
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Linq
 Imports System.Windows
 Imports System.Windows.Controls
-Imports Microsoft.VisualBasic.ApplicationServices.Development
+Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.CodeSign
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.Xml.Models
@@ -160,7 +160,7 @@ Namespace Pages
         ''' </summary>
         Private Sub __update()
             info.Authors = LinqAPI.Exec(Of NamedValue) _
- _
+                                                       _
                 () <= From author As KeyValuePair(Of TextBox, TextBox)
                       In Me.authors
                       Select New NamedValue With {

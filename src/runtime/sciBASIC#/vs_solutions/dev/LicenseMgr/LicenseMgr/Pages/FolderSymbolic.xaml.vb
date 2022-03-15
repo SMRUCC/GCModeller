@@ -1,57 +1,53 @@
 ﻿#Region "Microsoft.VisualBasic::9c038e448e84af2295159d3e505335cf, vs_solutions\dev\LicenseMgr\LicenseMgr\Pages\FolderSymbolic.xaml.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class FolderSymbolic
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Sub: Admin_Rights, Original_Folder, Symlink_Create, UserControl_Initialized
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class FolderSymbolic
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Sub: Admin_Rights, Original_Folder, Symlink_Create, UserControl_Initialized
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
-Imports FirstFloor.ModernUI.Presentation
-Imports FirstFloor.ModernUI.Windows.Controls
-Imports System.IO
 Imports System.Windows
 Imports System.Windows.Controls
 Imports System.Windows.Media
-'Imports Microsoft.VisualBasic.FileIO.SymLinker
-Imports Microsoft
+Imports FirstFloor.ModernUI.Presentation
+Imports FirstFloor.ModernUI.Windows.Controls
+Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports Microsoft.VisualBasic.ApplicationServices
-'Imports Microsoft.VisualBasic.Windows.Forms
 
 Namespace Pages
 
@@ -84,7 +80,7 @@ Namespace Pages
                 Try
 
                     Dim rootDir$ = BrowsedFolder.Text
-                    Dim failures = Development.LicenseMgr.Inserts(info, rootDir)
+                    Dim failures = CodeSign.LicenseMgr.Inserts(info, rootDir)
 
                     If failures.Length > 0 Then
                         Dim ex As New Exception("These files are write data failures!")

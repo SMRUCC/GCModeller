@@ -65,6 +65,11 @@ Namespace CodeSign
             Return r.Replace(line, VBCodePatterns.Attribute, "", RegexICSng)
         End Function
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="vb">the vb source code text</param>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension> Public Function SummaryModules(vb As String) As String
             Dim vblines As Pointer(Of String) = vb _

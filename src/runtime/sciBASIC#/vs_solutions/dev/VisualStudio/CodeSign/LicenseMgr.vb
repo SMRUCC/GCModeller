@@ -152,6 +152,7 @@ THE SOFTWARE.",
 
         Public Function AddRegion(src As String, info As LicenseInfo, file As String) As String
             Dim sb As New StringBuilder
+            Dim stat = CodeStatics.StatVB(src)
 
             Call sb.AppendLine($"#Region ""Microsoft.VisualBasic::{SecurityString.GetMd5Hash(src)}, {file}""")
             Call sb.AppendLine()
@@ -178,6 +179,19 @@ THE SOFTWARE.",
             sb.AppendLine("    ' /********************************************************************************/")
             sb.AppendLine()
             sb.AppendLine("    ' Summaries:")
+            sb.AppendLine()
+
+            sb.AppendLine()
+
+            sb.AppendLine($"    ' Code Statistics:")
+            sb.AppendLine()
+            sb.AppendLine($"    '   Total Lines: {stat.totalLines}")
+            sb.AppendLine($"    '    Code Lines: {stat.lineOfCodes}")
+            sb.AppendLine($"    ' Comment Lines: {stat.commentLines}")
+            sb.AppendLine($"    '   Blank Lines: {stat.blankLines}")
+            sb.AppendLine($"    '     File Size: {StringFormats.Lanudry(stat.size)}")
+
+            sb.AppendLine()
             sb.AppendLine()
 
             For Each line As String In VBCodeSignature.SummaryModules(vb:=src).LineTokens
