@@ -70,11 +70,11 @@
 
             For Each u In map_dict2.Keys
                 For Each v In map_dict2(u)
-                    Dim tag_dict_copy = tag_dict.ToDictionary
-                    Dim tag_dict2_copy = tag_dict2.ToDictionary
+                    Dim tag_dict_copy As New Dictionary(Of String, String)(tag_dict)
+                    Dim tag_dict2_copy As New Dictionary(Of String, String)(tag_dict2)
                     tag_dict2_copy(u) = tag_dict2_copy(v)
 
-                    For Each p In member(u)
+                    For Each p As String In member(u)
                         tag_dict_copy(p) = tag_dict2_copy(v)
                     Next
 
