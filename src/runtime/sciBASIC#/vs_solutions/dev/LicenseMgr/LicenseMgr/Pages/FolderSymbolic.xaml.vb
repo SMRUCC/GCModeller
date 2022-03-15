@@ -1,43 +1,53 @@
-﻿#Region "Microsoft.VisualBasic::9c038e448e84af2295159d3e505335cf, vs_solutions\dev\LicenseMgr\LicenseMgr\Pages\FolderSymbolic.xaml.vb"
+﻿#Region "Microsoft.VisualBasic::e54a536d882ffc4bdd2631f41fa10f57, sciBASIC#\vs_solutions\dev\LicenseMgr\LicenseMgr\Pages\FolderSymbolic.xaml.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class FolderSymbolic
-' 
-'         Constructor: (+1 Overloads) Sub New
-'         Sub: Admin_Rights, Original_Folder, Symlink_Create, UserControl_Initialized
-' 
-' 
-' /********************************************************************************/
+
+    ' Code Statistics:
+
+    '   Total Lines: 75
+    '    Code Lines: 54
+    ' Comment Lines: 8
+    '   Blank Lines: 13
+    '     File Size: 3.22 KB
+
+
+    '     Class FolderSymbolic
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Sub: Admin_Rights, Original_Folder, Symlink_Create, UserControl_Initialized
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

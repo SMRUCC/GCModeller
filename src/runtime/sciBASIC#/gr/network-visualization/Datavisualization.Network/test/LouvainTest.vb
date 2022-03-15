@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2c539dfde31316551d7a512c1ef272c5, gr\network-visualization\Datavisualization.Network\test\LouvainTest.vb"
+﻿#Region "Microsoft.VisualBasic::9ce34d03f18a4b7dea6c18dafe5273df, sciBASIC#\gr\network-visualization\Datavisualization.Network\test\LouvainTest.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 73
+    '    Code Lines: 47
+    ' Comment Lines: 3
+    '   Blank Lines: 23
+    '     File Size: 2.25 KB
+
+
     ' Module LouvainTest
     ' 
-    '     Sub: Main, RunAnalysis
+    '     Function: loadModel
+    ' 
+    '     Sub: analysis2, Main, RunAnalysis
     ' 
     ' /********************************************************************************/
 

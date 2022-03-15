@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fdffbe3f5a9b5ef21aeb6960771243db, vs_solutions\dev\VisualStudio\CodeSign\LicenseMgr.vb"
+﻿#Region "Microsoft.VisualBasic::46d4d176abaa394bbd47d675c7375152, sciBASIC#\vs_solutions\dev\VisualStudio\CodeSign\LicenseMgr.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 199
+    '    Code Lines: 137
+    ' Comment Lines: 27
+    '   Blank Lines: 35
+    '     File Size: 7.55 KB
+
 
     '     Module LicenseMgr
     ' 
