@@ -47,7 +47,7 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 
 Module LouvainTest
 
-    Const source As String = "D:\GCModeller\src\runtime\sciBASIC#\Data_science\algorithms\Louvain\facebook_combined.txt"
+    Const source As String = "D:\GCModeller\src\runtime\sciBASIC#\Data_science\algorithms\Louvain\testdata.txt"
 
     Sub analysis2()
 
@@ -65,7 +65,7 @@ Module LouvainTest
 
         Call clusters _
             .Tabular _
-            .Save("D:\GCModeller\src\runtime\sciBASIC#\Data_science\algorithms\UnweightedFastUnfolding\facebook_combined_graph")
+            .Save("D:\GCModeller\src\runtime\sciBASIC#\Data_science\algorithms\UnweightedFastUnfolding\")
 
         Pause()
     End Sub
