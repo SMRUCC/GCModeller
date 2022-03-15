@@ -189,11 +189,14 @@ Public Module CollectionValueGetter
     ''' <param name="keys"></param>
     ''' <param name="[default]"></param>
     ''' <returns></returns>
-    <Extension> Public Function TryGetValue(Of TKey, TValue)(table As Dictionary(Of TKey, TValue),
-                                                             keys As TKey(),
-                                                             Optional [default] As TValue = Nothing,
-                                                             Optional mute As Boolean = False,
-                                                             <CallerMemberName> Optional trace$ = Nothing) As TValue
+    <Extension>
+    Public Function TryGetValue(Of TKey, TValue)(table As Dictionary(Of TKey, TValue),
+                                                 keys As TKey(),
+                                                 Optional [default] As TValue = Nothing,
+                                                 Optional mute As Boolean = False,
+                                                 <CallerMemberName>
+                                                 Optional trace$ = Nothing) As TValue
+
         ' 表示空的，或者键名是空的，都意味着键名不存在与表之中
         ' 直接返回默认值
         If table Is Nothing Then
@@ -264,7 +267,8 @@ Public Module CollectionValueGetter
         Return table(index)
     End Function
 
-    <Extension> Public Function TryGetValue(Of TKey, TValue, TProp)(hash As Dictionary(Of TKey, TValue), Index As TKey, prop As String) As TProp
+    <Extension>
+    Public Function TryGetValue(Of TKey, TValue, TProp)(hash As Dictionary(Of TKey, TValue), Index As TKey, prop As String) As TProp
         If hash Is Nothing Then
             Return Nothing
         End If

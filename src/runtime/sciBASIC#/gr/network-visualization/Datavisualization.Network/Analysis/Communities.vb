@@ -114,12 +114,14 @@ Namespace Analysis
             Return mov
         End Function
 
-        Public Shared Function AnalysisUnweighted(ByRef g As NetworkGraph) As NetworkGraph
+        Public Shared Function AnalysisUnweighted(ByRef g As NetworkGraph, Optional directed As Boolean = True) As NetworkGraph
             Dim maps As New KeyMaps
 
             For Each link As Edge In g.graphEdges
                 Call maps(link.U.label).Add(link.V.label)
+                'If Not directed Then
                 Call maps(link.V.label).Add(link.U.label)
+                'End If
             Next
 
             Dim clustering As New FastUnfolding(maps)
