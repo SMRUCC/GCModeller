@@ -119,6 +119,7 @@ Namespace Analysis
 
             For Each link As Edge In g.graphEdges
                 Call maps(link.U.label).Add(link.V.label)
+                Call maps(link.V.label).Add(link.U.label)
             Next
 
             Dim clustering As New FastUnfolding(maps)
