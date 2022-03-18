@@ -114,7 +114,7 @@ Namespace Drawing2D.HeatMap
 
             Call raw _
                 .CreateCanvas2D(directAccess:=True) _
-                .FillRectangle(Brushes.Transparent, full)
+                .FillRectangle(New SolidBrush(defaultColor), full)
 
             Using buffer As BitmapBuffer = BitmapBuffer.FromBitmap(raw, ImageLockMode.WriteOnly)
                 For Each point As Pixel In ScalePixels(pixels)
