@@ -67,7 +67,7 @@ Namespace Drawing2D.HeatMap
 
         Sub New(colorSet As String, mapLevels As Integer, Optional defaultColor As Color? = Nothing)
             colors = Designer.GetColors(colorSet, mapLevels)
-            indexRange = New Double() {0, mapLevels}
+            indexRange = New Double() {0, mapLevels - 1}
 
             If defaultColor Is Nothing Then
                 Me.defaultColor = colors.First
