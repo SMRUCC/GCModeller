@@ -96,7 +96,7 @@ Namespace Drawing2D.HeatMap
                     .Y = pixel.Y
                 }
 
-                Yield pixel
+                Yield newPixel
             Next
         End Function
 
