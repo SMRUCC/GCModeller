@@ -64,7 +64,7 @@ Imports Microsoft.VisualBasic.Text.Xml.Models
 Namespace CodeSign
 
     ''' <summary>
-    ''' Source code license manager
+    ''' Source code license banner
     ''' </summary>
     Public Module LicenseMgr
 
@@ -126,14 +126,14 @@ THE SOFTWARE.",
         ''' <param name="info">License meta data</param>
         ''' <returns></returns>
         <Extension>
-        Public Function Insert(src As String, info As LicenseInfo, rootDir$) As Boolean
+        Public Function Insert(src As String, info As LicenseInfo, rootDir$, Optional ByRef stat As CodeStatics = Nothing) As Boolean
             Dim file As String = PathExtensions.RelativePath(rootDir, src, appendParent:=False)
             Dim [in] As String = src.ReadAllText
             Dim path As String = src
 
             src = Trim([in])
             src = RemoveRegion(src)
-            src = AddRegion(src, info, file)
+            src = AddRegion(src, info, file, stat)
 
             Try
                 Return src.SaveTo(path, Encoding.UTF8)
@@ -160,9 +160,8 @@ THE SOFTWARE.",
             Return src
         End Function
 
-        Public Function AddRegion(src As String, info As LicenseInfo, file As String) As String
+        Public Function AddRegion(src As String, info As LicenseInfo, file As String, Optional ByRef stat As CodeStatics = Nothing) As String
             Dim sb As New StringBuilder
-            Dim stat = CodeStatics.StatVB(src)
 
             Call sb.AppendLine($"#Region ""Microsoft.VisualBasic::{SecurityString.GetMd5Hash(src)}, {file}""")
             Call sb.AppendLine()
@@ -172,6 +171,7 @@ THE SOFTWARE.",
             For Each author As NamedValue In info.Authors.SafeQuery
                 Call sb.AppendLine($"    '       {author.name} ({author.text})")
             Next
+
             Call sb.AppendLine("    ' ")
             Call sb.AppendLine("    ' " & info.Copyright)
             Call sb.AppendLine("    ' ")
@@ -193,6 +193,8 @@ THE SOFTWARE.",
 
             sb.AppendLine()
 
+            stat = CodeStatics.StatVB(src)
+
             sb.AppendLine($"    ' Code Statistics:")
             sb.AppendLine()
             sb.AppendLine($"    '   Total Lines: {stat.totalLines}")
@@ -204,11 +206,12 @@ THE SOFTWARE.",
             sb.AppendLine()
             sb.AppendLine()
 
-            For Each line As String In VBCodeSignature.SummaryModules(vb:=src).LineTokens
+            For Each line As String In VBCodeSignature.SummaryModules(vb:=src, stat).LineTokens
                 Call sb.AppendLine("    ' " & line)
             Next
 
             sb.AppendLine("    ' /********************************************************************************/")
+
             Call sb.AppendLine()
             Call sb.AppendLine($"#End Region")
             Call sb.AppendLine()
