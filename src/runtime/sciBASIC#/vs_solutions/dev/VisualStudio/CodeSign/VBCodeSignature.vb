@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4682d4cbcf5aefe9ccea4f2b111c2499, vs_solutions\dev\VisualStudio\CodeSign\VBCodeSignature.vb"
+﻿#Region "Microsoft.VisualBasic::fb4cfb0eda51d89906f7f65852e7ff3f, sciBASIC#\vs_solutions\dev\VisualStudio\CodeSign\VBCodeSignature.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 270
+    '    Code Lines: 225
+    ' Comment Lines: 9
+    '   Blank Lines: 36
+    '     File Size: 11.46 KB
+
 
     '     Module VBCodeSignature
     ' 
@@ -65,8 +75,14 @@ Namespace CodeSign
             Return r.Replace(line, VBCodePatterns.Attribute, "", RegexICSng)
         End Function
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="vb">the vb source code text</param>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        <Extension> Public Function SummaryModules(vb As String) As String
+        <Extension>
+        Public Function SummaryModules(vb As String, stat As CodeStatics) As String
             Dim vblines As Pointer(Of String) = vb _
                 .LineTokens _
                 .Select(AddressOf RemoveAttributes) _
@@ -74,7 +90,7 @@ Namespace CodeSign
 
             With New StringBuilder
                 Do While Not vblines.EndRead
-                    Call .AppendLine(vblines.SummaryInternal(vb))
+                    Call .AppendLine(vblines.SummaryInternal(vb, stat))
                 Loop
 
                 Return .ToString
@@ -82,7 +98,7 @@ Namespace CodeSign
         End Function
 
         <Extension>
-        Private Function SummaryInternal(vblines As Pointer(Of String), vb$) As String
+        Private Function SummaryInternal(vblines As Pointer(Of String), vb$, stat As CodeStatics) As String
             Dim line$
             Dim tokens As Value(Of String) = ""
             Dim list As List(Of String)
@@ -103,6 +119,7 @@ Namespace CodeSign
                     type = list(-2)
                     name = list(-1)
                     indents = line.Match(VBCodePatterns.Indents, RegexICMul)
+                    stat.classes += 1
 
                     If type = "Enum" Then
                         Dim members = vb _
@@ -133,7 +150,7 @@ Namespace CodeSign
                             container = New NamedValue(Of String)(name, type, indents.Trim(ASCII.CR, ASCII.LF))
                         Else
                             ' 下一层堆栈
-                            innerModules.AppendLine((vblines - 1).SummaryInternal(vb))
+                            innerModules.AppendLine((vblines - 1).SummaryInternal(vb, stat))
                         End If
                     End If
                 End If
@@ -142,6 +159,7 @@ Namespace CodeSign
                     type = list(-2)
                     name = list(-1)
                     indents = line.Match(VBCodePatterns.Indents, RegexICMul)
+                    stat.properties += 1
 
                     properties += New NamedValue(Of String)(name, type, indents)
                 End If
@@ -153,7 +171,14 @@ Namespace CodeSign
 
                     If type = "Operator" Then
                         operators += New NamedValue(Of String)(name, type, indents)
+                        stat.operator += 1
                     Else
+                        If type.Trim = "Sub" Then
+                            stat.method += 1
+                        Else
+                            stat.function += 1
+                        End If
+
                         methods += New NamedValue(Of String)(name, type, indents)
                     End If
                 End If
@@ -164,8 +189,15 @@ Namespace CodeSign
                     indents = line.Match(VBCodePatterns.Indents, RegexICMul)
 
                     If type = "Operator" Then
+                        stat.operator += 1
                         operators += New NamedValue(Of String)(name, type, indents)
                     Else
+                        If type.Trim = "Sub" Then
+                            stat.method += 1
+                        Else
+                            stat.function += 1
+                        End If
+
                         methods += New NamedValue(Of String)(name, type, indents)
                     End If
                 End If

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fdffbe3f5a9b5ef21aeb6960771243db, vs_solutions\dev\VisualStudio\CodeSign\LicenseMgr.vb"
+﻿#Region "Microsoft.VisualBasic::46d4d176abaa394bbd47d675c7375152, sciBASIC#\vs_solutions\dev\VisualStudio\CodeSign\LicenseMgr.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,16 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 199
+    '    Code Lines: 137
+    ' Comment Lines: 27
+    '   Blank Lines: 35
+    '     File Size: 7.55 KB
+
+
     '     Module LicenseMgr
     ' 
     '         Properties: Ignores, Template
@@ -54,7 +64,7 @@ Imports Microsoft.VisualBasic.Text.Xml.Models
 Namespace CodeSign
 
     ''' <summary>
-    ''' Source code license manager
+    ''' Source code license banner
     ''' </summary>
     Public Module LicenseMgr
 
@@ -116,14 +126,14 @@ THE SOFTWARE.",
         ''' <param name="info">License meta data</param>
         ''' <returns></returns>
         <Extension>
-        Public Function Insert(src As String, info As LicenseInfo, rootDir$) As Boolean
+        Public Function Insert(src As String, info As LicenseInfo, rootDir$, Optional ByRef stat As CodeStatics = Nothing) As Boolean
             Dim file As String = PathExtensions.RelativePath(rootDir, src, appendParent:=False)
             Dim [in] As String = src.ReadAllText
             Dim path As String = src
 
             src = Trim([in])
             src = RemoveRegion(src)
-            src = AddRegion(src, info, file)
+            src = AddRegion(src, info, file, stat)
 
             Try
                 Return src.SaveTo(path, Encoding.UTF8)
@@ -150,7 +160,7 @@ THE SOFTWARE.",
             Return src
         End Function
 
-        Public Function AddRegion(src As String, info As LicenseInfo, file As String) As String
+        Public Function AddRegion(src As String, info As LicenseInfo, file As String, Optional ByRef stat As CodeStatics = Nothing) As String
             Dim sb As New StringBuilder
 
             Call sb.AppendLine($"#Region ""Microsoft.VisualBasic::{SecurityString.GetMd5Hash(src)}, {file}""")
@@ -161,6 +171,7 @@ THE SOFTWARE.",
             For Each author As NamedValue In info.Authors.SafeQuery
                 Call sb.AppendLine($"    '       {author.name} ({author.text})")
             Next
+
             Call sb.AppendLine("    ' ")
             Call sb.AppendLine("    ' " & info.Copyright)
             Call sb.AppendLine("    ' ")
@@ -180,11 +191,27 @@ THE SOFTWARE.",
             sb.AppendLine("    ' Summaries:")
             sb.AppendLine()
 
-            For Each line As String In VBCodeSignature.SummaryModules(vb:=src).LineTokens
+            sb.AppendLine()
+
+            stat = CodeStatics.StatVB(src)
+
+            sb.AppendLine($"    ' Code Statistics:")
+            sb.AppendLine()
+            sb.AppendLine($"    '   Total Lines: {stat.totalLines}")
+            sb.AppendLine($"    '    Code Lines: {stat.lineOfCodes}")
+            sb.AppendLine($"    ' Comment Lines: {stat.commentLines}")
+            sb.AppendLine($"    '   Blank Lines: {stat.blankLines}")
+            sb.AppendLine($"    '     File Size: {StringFormats.Lanudry(stat.size)}")
+
+            sb.AppendLine()
+            sb.AppendLine()
+
+            For Each line As String In VBCodeSignature.SummaryModules(vb:=src, stat).LineTokens
                 Call sb.AppendLine("    ' " & line)
             Next
 
             sb.AppendLine("    ' /********************************************************************************/")
+
             Call sb.AppendLine()
             Call sb.AppendLine($"#End Region")
             Call sb.AppendLine()
