@@ -131,7 +131,8 @@ Namespace BarPlot
                                       Optional rectangleStyle As RectangleStyling = Nothing,
                                       Optional drawLegend As Boolean = True,
                                       Optional drawGrid As Boolean = True,
-                                      Optional tagXFormat$ = "F2") As GraphicsData
+                                      Optional tagXFormat$ = "F2",
+                                      Optional driver As Drivers = Drivers.Default) As GraphicsData
 
             Dim q As New Signal With {
                 .Name = queryName,
@@ -158,7 +159,8 @@ Namespace BarPlot
                 rectangleStyle:=rectangleStyle,
                 drawLegend:=drawLegend,
                 drawGrid:=drawGrid,
-                tagXFormat:=tagXFormat
+                tagXFormat:=tagXFormat,
+                driver:=driver
             )
         End Function
 
@@ -172,7 +174,8 @@ Namespace BarPlot
             End Function
         End Structure
 
-        <Extension> Private Function Hit(highlights#(), err#) As Func(Of Double, (err#, X#, yes As Boolean))
+        <Extension>
+        Private Function Hit(highlights#(), err#) As Func(Of Double, (err#, X#, yes As Boolean))
             If highlights.IsNullOrEmpty Then
                 Return Function() (-1, -1, False)
             Else
@@ -233,7 +236,8 @@ Namespace BarPlot
                                             Optional rectangleStyle As RectangleStyling = Nothing,
                                             Optional drawLegend As Boolean = True,
                                             Optional drawGrid As Boolean = True,
-                                            Optional tagXFormat$ = "F2") As GraphicsData
+                                            Optional tagXFormat$ = "F2",
+                                            Optional driver As Drivers = Drivers.Default) As GraphicsData
             If xrange Is Nothing Then
                 Dim ALL = query _
                     .Select(Function(x) x.signals.Keys) _
@@ -517,7 +521,8 @@ Namespace BarPlot
             Return g.GraphicsPlots(
                 size.SizeParser, padding,
                 bg,
-                plotInternal
+                plotInternal,
+                driver:=driver
             )
         End Function
 
