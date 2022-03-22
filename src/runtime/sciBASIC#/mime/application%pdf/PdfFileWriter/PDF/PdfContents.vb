@@ -1336,7 +1336,10 @@ Public Class PdfContents
 
                     If FontResGlyph Is Nothing Then
                         FontResGlyph = CreateFontResStr(Font.ResourceCodeGlyph, FontSizeStr)
-                        If Not Font.FontResGlyphUsed Then Font.CreateGlyphIndexFont()
+
+                        If Not Font.FontResGlyphUsed Then
+                            Font.CreateGlyphIndexFont()
+                        End If
                     End If
 
                     ObjectValueList.AddRange(FontResGlyph)
@@ -1351,7 +1354,10 @@ Public Class PdfContents
                 ' output glyph index
                 OutputOneByte(CharInfo.CharCode)
             Else
-                If CharInfo.NewGlyphIndex < 0 Then CharInfo.NewGlyphIndex = If(Font.EmbeddedFont, stdNum.Min(Threading.Interlocked.Increment(Font.NewGlyphIndex), Font.NewGlyphIndex - 1), CharInfo.GlyphIndex)
+                If CharInfo.NewGlyphIndex < 0 Then
+                    CharInfo.NewGlyphIndex = If(Font.EmbeddedFont, stdNum.Min(Threading.Interlocked.Increment(Font.NewGlyphIndex), Font.NewGlyphIndex - 1), CharInfo.GlyphIndex)
+                End If
+
                 OutputOneByte(CharInfo.NewGlyphIndex >> 8)
                 OutputOneByte(CharInfo.NewGlyphIndex And &HFF)
             End If
@@ -1362,6 +1368,7 @@ Public Class PdfContents
         ObjectValueList.Add(Microsoft.VisualBasic.AscW("T"c))
         ObjectValueList.Add(Microsoft.VisualBasic.AscW("j"c))
         ObjectValueList.Add(Microsoft.VisualBasic.AscW(Microsoft.VisualBasic.Strings.ChrW(10)))
+
         Return Font.FontDesignToUserUnits(FontSize, Width)
     End Function
 
@@ -1370,26 +1377,20 @@ Public Class PdfContents
             Case 13
                 ObjectValueList.Add(Microsoft.VisualBasic.AscW("\"c))
                 ObjectValueList.Add(Microsoft.VisualBasic.AscW("r"c))
-                Return
             Case 10
                 ObjectValueList.Add(Microsoft.VisualBasic.AscW("\"c))
                 ObjectValueList.Add(Microsoft.VisualBasic.AscW("n"c))
-                Return
             Case Asc("("c)
                 ObjectValueList.Add(Microsoft.VisualBasic.AscW("\"c))
                 ObjectValueList.Add(Microsoft.VisualBasic.AscW("("c))
-                Return
             Case Asc(")"c)
                 ObjectValueList.Add(Microsoft.VisualBasic.AscW("\"c))
                 ObjectValueList.Add(Microsoft.VisualBasic.AscW(")"c))
-                Return
             Case Asc("\"c)
                 ObjectValueList.Add(Microsoft.VisualBasic.AscW("\"c))
                 ObjectValueList.Add(Microsoft.VisualBasic.AscW("\"c))
-                Return
             Case Else
                 ObjectValueList.Add(CharCode)
-                Return
         End Select
     End Sub
 
@@ -1410,9 +1411,9 @@ Public Class PdfContents
         FontRes(++Index) = Microsoft.VisualBasic.AscW(" "c)
         FontRes(++Index) = Microsoft.VisualBasic.AscW("T"c)
         FontRes(++Index) = Microsoft.VisualBasic.AscW("f"c)
+
         Return FontRes
     End Function
-
 
     ''' <summary>
     ''' Draw one line of text left justified
@@ -1423,11 +1424,9 @@ Public Class PdfContents
     ''' <param name="PosY">Position Y</param>
     ''' <param name="Text">Text</param>
     ''' <returns>Text width</returns>
-
     Public Function DrawText(Font As PdfFont, FontSize As Double, PosX As Double, PosY As Double, Text As String) As Double       ' in points
         Return DrawText(Font, FontSize, PosX, PosY, TextJustify.Left, Text)
     End Function
-
 
     ''' <summary>
     ''' Draw one line of text
@@ -1439,10 +1438,11 @@ Public Class PdfContents
     ''' <param name="Justify">Text justify enumeration</param>
     ''' <param name="Text">Text</param>
     ''' <returns>Text width</returns>
-
     Public Function DrawText(Font As PdfFont, FontSize As Double, PosX As Double, PosY As Double, Justify As TextJustify, Text As String) As Double     ' in points
         ' text is null or empty
-        If String.IsNullOrEmpty(Text) Then Return 0
+        If String.IsNullOrEmpty(Text) Then
+            Return 0
+        End If
 
         ' add font code to current list of font codes
         AddToUsedResources(Font)
@@ -1517,7 +1517,9 @@ Public Class PdfContents
     ''' <returns>Text width</returns>
     Public Function DrawText(Font As PdfFont, FontSize As Double, PosX As Double, PosY As Double, Justify As TextJustify, DrawStyle As DrawStyle, TextColor As Color, Text As String) As Double     ' in points
         ' text is null or empty
-        If String.IsNullOrEmpty(Text) Then Return 0
+        If String.IsNullOrEmpty(Text) Then
+            Return 0
+        End If
 
         ' text width
         Dim TextWidth As Double = 0
@@ -1951,7 +1953,6 @@ Public Class PdfContents
         Return Width
     End Function
 
-
     ''' <summary>
     ''' Draw TextBox
     ''' </summary>
@@ -1994,7 +1995,6 @@ Public Class PdfContents
     ''' page bottom left corner.
     ''' </para>
     ''' </remarks>
-
     Public Function DrawText(PosX As Double, ByRef PosYTop As Double, PosYBottom As Double, LineNo As Integer, TextBox As TextBox, Optional Page As PdfPage = Nothing) As Integer
         Return DrawText(PosX, PosYTop, PosYBottom, LineNo, 0.0, 0.0, TextBoxJustify.Left, TextBox, Page)
     End Function
@@ -2343,7 +2343,6 @@ Public Class PdfContents
         Return DrawBarcode(PosX, PosY, TextJustify.Left, BarWidth, BarHeight, Color.Black, Barcode, TextFont, FontSize)
     End Function
 
-
     ''' <summary>
     ''' Draw barcode
     ''' </summary>
@@ -2488,7 +2487,9 @@ Public Class PdfContents
             ' display text if font is specified
 
             ' EAN-13 or UPC-A
-            If TextFont IsNot Nothing Then DrawBarcodeText(TextFont, FontSize, PosX + 0.5 * TotalWidth, PosY, TextJustify.Center, Barcode.Text)
+            If TextFont IsNot Nothing Then
+                DrawBarcodeText(TextFont, FontSize, PosX + 0.5 * TotalWidth, PosY, TextJustify.Center, Barcode.Text)
+            End If
         Else
             ' loop for all bars
             For Index = 0 To Barcode.BarCount - 1
@@ -2555,10 +2556,13 @@ Public Class PdfContents
         End While
 
         If Index < Text.Length Then
-            Dim Str As StringBuilder = New StringBuilder(Text)
+            Dim Str As New StringBuilder(Text)
 
             While Index < Text.Length
-                If Str(Index) < " "c OrElse Str(Index) > "~"c Then Str(Index) = " "c
+                If Str(Index) < " "c OrElse Str(Index) > "~"c Then
+                    Str(Index) = " "c
+                End If
+
                 Index += 1
             End While
 
