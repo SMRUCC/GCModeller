@@ -80,6 +80,7 @@ Namespace BarPlot
             Dim highlightPen As Pen = Stroke.TryParse(theme.lineStroke).GDIObject
             Dim paddingTop = canvas.Padding.Top
             Dim paddingBottom = canvas.Padding.Bottom
+            Dim height As Double
 
             ' 上半部分的蓝色条
             For Each part As Signal In query
@@ -91,10 +92,10 @@ Namespace BarPlot
                            End Function)
 
                     left = xscale(o.x)
-                    y = o.value
-                    y = ymid - yscale(y)
+                    height = yscale(o.value)
+                    y = ymid - height
                     position = New Point(left, y)
-                    sz = New Size(bw, yscale(o.value))
+                    sz = New Size(bw, height)
                     rect = New Rectangle With {
                         .Location = position,
                         .Size = sz
