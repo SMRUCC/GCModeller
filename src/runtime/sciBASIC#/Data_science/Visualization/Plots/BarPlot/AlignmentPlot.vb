@@ -346,7 +346,9 @@ Namespace BarPlot
                                         Call .DrawString(ylab, labelFont, Brushes.Black, labPos, -90)
                                     End With
                                 Else
-                                    Call g.DrawString(ylab, labelFont, Brushes.Black, labPos.X, labPos.Y, -90)
+                                    ' 20220324 pdf设备还没有找到办法兼容这个操作
+                                    ' 所以在这里正常绘制，不做角度旋转
+                                    Call g.DrawString(ylab, labelFont, Brushes.Black, labPos.X, labPos.Y)
                                 End If
                             Case Else
                                 ' 不进行标签的绘制
