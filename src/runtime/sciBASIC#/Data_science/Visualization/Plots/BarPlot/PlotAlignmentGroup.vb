@@ -288,7 +288,7 @@ Namespace BarPlot
                     Call DrawLegeneds(g, rect)
                 End If
 
-                Call DrawMainTitle(g, canvas.PlotRegion)
+                Call DrawMainTitle(g, canvas.PlotRegion, offsetFactor:=1.5)
 
                 If Not idTag Is Nothing Then
                     Dim titleFont As Font = CSSFont _
