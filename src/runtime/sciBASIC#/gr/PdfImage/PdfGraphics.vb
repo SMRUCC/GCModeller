@@ -848,9 +848,11 @@ Public Class PdfGraphics : Inherits MockGDIPlusGraphics
     End Sub
 
     Public Overrides Sub FillRectangle(brush As Brush, rect As RectangleF)
+        Dim y As Double = Me.height - rect.Y
+
         ' change nonstroking (fill) color to yellow
         Call g.SetColorNonStroking(DirectCast(brush, SolidBrush).Color)
-        Call g.DrawRectangle(rect.X, Me.height - rect.Y, rect.Width, rect.Height, PaintOp.Fill)
+        Call g.DrawRectangle(rect.X, y, rect.Width, rect.Height, PaintOp.Fill)
     End Sub
 
     Public Overrides Sub FillRectangle(brush As Brush, x As Integer, y As Integer, width As Integer, height As Integer)

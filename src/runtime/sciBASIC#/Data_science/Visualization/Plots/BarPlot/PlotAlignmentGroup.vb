@@ -67,13 +67,19 @@ Namespace BarPlot
             End If
         End Sub
 
-        Private Sub DrawAlignmentBars(g As IGraphics, canvas As GraphicsRegion, ymid As Single, xscale As Func(Of Single, Single), yscale As Func(Of Single, Single))
+        Private Sub DrawAlignmentBars(g As IGraphics,
+                                      canvas As GraphicsRegion,
+                                      ymid As Single,
+                                      xscale As d3js.scale.LinearScale,
+                                      yscale As d3js.scale.LinearScale)
             Dim left As Double
             Dim y As Double
             Dim position As Point
             Dim sz As Size
             Dim rect As Rectangle
             Dim highlightPen As Pen = Stroke.TryParse(theme.lineStroke).GDIObject
+            Dim paddingTop = canvas.Padding.Top
+            Dim paddingBottom = canvas.Padding.Bottom
 
             ' 上半部分的蓝色条
             For Each part As Signal In query
@@ -84,7 +90,7 @@ Namespace BarPlot
                                Return f.Item2 <> 0R
                            End Function)
 
-                    left = canvas.Padding.Left + xscale(o.x)
+                    left = xscale(o.x)
                     y = o.value
                     y = ymid - yscale(y)
                     position = New Point(left, y)
@@ -108,18 +114,20 @@ Namespace BarPlot
                                        Return f.Item2 <> 0R
                                    End Function)
 
-                    y = o.value
-                    y = ymid + yscale(y)
-                    left = canvas.Padding.Left + xscale(o.x)
-                    rect = Rectangle(ymid, left, left + bw, y)
+                    Dim scaleY = yscale(o.value)
+
+                    y = ymid + scaleY
+                    left = xscale(o.x)
 
                     If canvas.device.driverUsed = Drivers.PDF Then
                         rect = New Rectangle With {
-                            .X = rect.X,
-                            .Y = rect.Y + ymid,
-                            .Width = rect.Width,
-                            .Height = rect.Height
+                            .X = left,
+                            .Y = y - ymid + paddingTop + paddingBottom,
+                            .Width = bw,
+                            .Height = scaleY - ymid + paddingTop
                         }
+                    Else
+                        rect = Rectangle(ymid, left, left + bw, y)
                     End If
 
                     ' g.FillRectangle(bb, rect)
@@ -133,8 +141,8 @@ Namespace BarPlot
             Dim blockHeight!
 
             For Each block As (xmin#, xmax#, query#, subject#) In highlights
-                left = canvas.Padding.Left + xscale(block.xmin)
-                right = canvas.Padding.Left + xscale(block.xmax) + bw
+                left = xscale(block.xmin)
+                right = xscale(block.xmax) + bw
                 y = ymid - yscale(block.query)
                 blockHeight = yscale(block.query) + yscale(block.subject)
 
@@ -152,20 +160,9 @@ Namespace BarPlot
 
         Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
             Dim rect As Rectangle = canvas.PlotRegion
-            Dim yLength! = yrange.Length
-            Dim xLength! = xrange.Length
-            Dim xmin# = xrange.Min
+            Dim scaleX = d3js.scale.linear().domain(values:={xrange.Min, xrange.Max}).range(values:={rect.Left, rect.Right})
+            Dim scaleY = d3js.scale.linear().domain(values:={0, yrange.Max}).range(values:={0, rect.Height / 2})
             Dim ymid! = rect.Height / 2 + canvas.Padding.Top
-            Dim width! = rect.Width
-            Dim height! = rect.Height / 2
-            Dim yscale = Function(y!)
-                             ' 因为ymin总是0，所以在这里就不需要将减ymin写出来了
-                             Return (y / yLength) * (height)
-                         End Function
-            Dim xscale = Function(x!)
-                             ' width 乘上百分比
-                             Return ((x - xmin) / xLength) * width
-                         End Function
 
             With rect
                 Dim axisPen As New Pen(Color.Black, 2)
@@ -192,7 +189,7 @@ Namespace BarPlot
                 For i As Integer = 0 To 5
                     Dim label$ = (i * dy).ToString(theme.YaxisTickFormat) & "%"
 
-                    y = ymid - yscale(i * dy) ' 上半部分
+                    y = ymid - scaleY(i * dy) ' 上半部分
                     Call g.DrawLine(tickPen, New PointF(.Left, y), New Point(.Left - dt, y))
 
                     If theme.drawGrid Then
@@ -205,7 +202,7 @@ Namespace BarPlot
                         Continue For
                     End If
 
-                    y = ymid + yscale(i * dy) ' 下半部分
+                    y = ymid + scaleY(i * dy) ' 下半部分
                     Call g.DrawLine(tickPen, New PointF(.Left, y), New Point(.Left - dt, y))
 
                     If theme.drawGrid Then
@@ -258,18 +255,18 @@ Namespace BarPlot
                 Dim xlabel$
 
 #Region "绘制柱状图"
-                Call DrawAlignmentBars(g, canvas, ymid, xscale, yscale)
+                Call DrawAlignmentBars(g, canvas, ymid, scaleX, scaleY)
 #End Region
                 ' 考虑到x轴标签可能会被柱子挡住，所以在这里将柱子和x标签的绘制分开在两个循环之中来完成
 #Region "绘制横坐标轴"
-                For Each part In query
+                For Each part As Signal In query
                     For Each o As (x#, value#) In part.signals
                         y = o.value
-                        y = ymid - yscale(y)
-                        left = canvas.Padding.Left + xscale(o.x)
-                        rect = New Rectangle(New Point(left, y), New Size(bw, yscale(o.value)))
+                        y = ymid - scaleY(y)
+                        left = scaleX(o.x)
+                        rect = New Rectangle(New Point(left, y), New Size(bw, scaleY(o.value)))
 
-                        If displayX AndAlso o.value / yLength >= labelPlotStrength Then
+                        If displayX AndAlso o.value / yrange.Max >= labelPlotStrength Then
                             xlabel = o.x.ToString(theme.tagFormat)
                             xsz = g.MeasureString(xlabel, xCSSFont)
                             xpos = New PointF(rect.Left + (rect.Width - xsz.Width) / 2, rect.Top - xsz.Height)
@@ -278,14 +275,14 @@ Namespace BarPlot
                     Next
                 Next
 
-                For Each part In subject
+                For Each part As Signal In subject
                     For Each o As (x#, value#) In part.signals
                         y = o.value
-                        y = ymid + yscale(y)
-                        left = canvas.Padding.Left + xscale(o.x)
+                        y = ymid + scaleY(y)
+                        left = scaleX(o.x)
                         rect = Rectangle(ymid, left, left + bw, y)
 
-                        If displayX AndAlso o.value / yLength >= labelPlotStrength Then
+                        If displayX AndAlso o.value / yrange.Max >= labelPlotStrength Then
                             xlabel = o.x.ToString(theme.tagFormat)
                             xsz = g.MeasureString(xlabel, xCSSFont)
                             xpos = New PointF(rect.Left + (rect.Width - xsz.Width) / 2, rect.Bottom + 3)
