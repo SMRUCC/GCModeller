@@ -8,9 +8,11 @@ Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Text
 Imports Microsoft.VisualBasic.Imaging.Math2D
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Html.CSS
-Imports Microsoft.VisualBasic.Scripting.Runtime
+Imports FontStyle = System.Drawing.FontStyle
+Imports stdNum = System.Math
 
 Namespace BarPlot
 
@@ -24,7 +26,12 @@ Namespace BarPlot
         Public Property displayX As Boolean
         Public Property queryName As String
         Public Property subjectName As String
-
+        Public Property highlightMargin As Single
+        Public Property hitsHightLights As Double()
+        Public Property labelPlotStrength As Double
+        Public Property idTag As String
+        Public Property bw As Single
+        Public Property xError As Double
 
         Public Sub New(query As Signal(),
                        subject As Signal(),
@@ -165,7 +172,7 @@ Namespace BarPlot
                 Dim xsz As SizeF
                 Dim xpos As PointF
                 Dim xlabel$
-                Dim highlightPen As Pen = Stroke.TryParse(highlight).GDIObject
+                Dim highlightPen As Pen = Stroke.TryParse(theme.lineStroke).GDIObject
                 Dim position As Point
                 Dim sz As Size
 #Region "绘制柱状图"
@@ -258,7 +265,7 @@ Namespace BarPlot
                         rect = Rectangle(ymid, left, left + bw, y)
 
                         If displayX AndAlso o.value / yLength >= labelPlotStrength Then
-                            xlabel = o.x.ToString(tagXFormat)
+                            xlabel = o.x.ToString(theme.tagFormat)
                             xsz = g.MeasureString(xlabel, xCSSFont)
                             xpos = New PointF(rect.Left + (rect.Width - xsz.Width) / 2, rect.Bottom + 3)
                             g.DrawString(xlabel, xCSSFont, Brushes.Black, xpos)
@@ -301,7 +308,7 @@ Namespace BarPlot
                 End If
 
                 Dim titleFont As Font = CSSFont _
-                            .TryParse(titleCSS, [default]:=New Font(FontFace.MicrosoftYaHei, 16.0!)) _
+                            .TryParse(theme.mainCSS, [default]:=New Font(FontFace.MicrosoftYaHei, 16.0!)) _
                             .GDIObject(g.Dpi)
                 Dim titleSize As SizeF = g.MeasureString(main, titleFont)
                 Dim tl As New Point With {
@@ -323,5 +330,51 @@ Namespace BarPlot
                 End If
             End With
         End Sub
+
+        Private Function HighlightGroups(query As Signal(), subject As Signal(), highlights#(), err#) As (xmin#, xmax#, query#, subject#)()
+            If highlights.IsNullOrEmpty Then
+                Return {}
+            End If
+
+            Dim isHighlight = Hit(highlights, err)
+            Dim qh = query.createHits(isHighlight)
+            Dim sh = subject.createHits(isHighlight)
+            Dim out As New List(Of (xmin#, xmax#, query#, subject#))
+
+            For Each x In highlights
+                If Not qh.ContainsKey(x) OrElse Not sh.ContainsKey(x) Then
+                    Continue For
+                End If
+
+                Dim q = qh(x)
+                Dim s = sh(x)
+
+                With q.x + s.x.ToArray
+                    out += (.Min, .Max, q.y, s.y)
+                End With
+            Next
+
+            Return out
+        End Function
+
+        Private Shared Function Hit(highlights#(), err#) As Func(Of Double, (err#, X#, yes As Boolean))
+            If highlights.IsNullOrEmpty Then
+                Return Function() (-1, -1, False)
+            Else
+                Return Function(x)
+                           Dim e#
+
+                           For Each n In highlights
+                               e = stdNum.Abs(n - x)
+
+                               If e <= err Then
+                                   Return (e, n, True)
+                               End If
+                           Next
+
+                           Return (-1, -1, False)
+                       End Function
+            End If
+        End Function
     End Class
 End Namespace

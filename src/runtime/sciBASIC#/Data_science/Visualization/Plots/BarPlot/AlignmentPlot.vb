@@ -175,27 +175,6 @@ Namespace BarPlot
             End Function
         End Structure
 
-        <Extension>
-        Private Function Hit(highlights#(), err#) As Func(Of Double, (err#, X#, yes As Boolean))
-            If highlights.IsNullOrEmpty Then
-                Return Function() (-1, -1, False)
-            Else
-                Return Function(x)
-                           Dim e#
-
-                           For Each n In highlights
-                               e = stdNum.Abs(n - x)
-
-                               If e <= err Then
-                                   Return (e, n, True)
-                               End If
-                           Next
-
-                           Return (-1, -1, False)
-                       End Function
-            End If
-        End Function
-
         ''' <summary>
         ''' 以条形图的方式可视化绘制两个离散的信号的比对的图形，由于绘制的时候是分别对<paramref name="query"/>和<paramref name="subject"/>
         ''' 信号数据使用For循环进行绘图的，所以数组最后一个位置的元素会在最上层
@@ -251,7 +230,10 @@ Namespace BarPlot
                 .legendTickFormat = format,
                 .XaxisTickFormat = format,
                 .YaxisTickFormat = format,
-                .tagFormat = tagXFormat
+                .tagFormat = tagXFormat,
+                .lineStroke = highlight,
+                .drawLegend = drawLegend,
+                .drawGrid = drawGrid
             }
             Dim barplot As New PlotAlignmentGroup(query, subject, xrange, yrange, rectangleStyle, theme) With {
                 .main = title,
@@ -260,40 +242,20 @@ Namespace BarPlot
                 .XAxisLabelCss = X_CSS,
                 .displayX = displayX,
                 .queryName = queryName,
-                .subjectName = subjectName
+                .subjectName = subjectName,
+                .highlightMargin = highlightMargin,
+                .hitsHightLights = hitsHightLights,
+                .labelPlotStrength = labelPlotStrength,
+                .idTag = idTag,
+                .bw = bw,
+                .xError = xError
             }
 
             Return barplot.Plot(size, driver:=driver)
         End Function
 
-        Private Function HighlightGroups(query As Signal(), subject As Signal(), highlights#(), err#) As (xmin#, xmax#, query#, subject#)()
-            If highlights.IsNullOrEmpty Then
-                Return {}
-            End If
-
-            Dim isHighlight = highlights.Hit(err)
-            Dim qh = query.createHits(isHighlight)
-            Dim sh = subject.createHits(isHighlight)
-            Dim out As New List(Of (xmin#, xmax#, query#, subject#))
-
-            For Each x In highlights
-                If Not qh.ContainsKey(x) OrElse Not sh.ContainsKey(x) Then
-                    Continue For
-                End If
-
-                Dim q = qh(x)
-                Dim s = sh(x)
-
-                With q.x + s.x.ToArray
-                    out += (.Min, .Max, q.y, s.y)
-                End With
-            Next
-
-            Return out
-        End Function
-
         <Extension>
-        Private Function createHits(data As Signal(), ishighlight As Func(Of Double, (err#, x#, yes As Boolean))) As Dictionary(Of Double, (x As List(Of Double), y#))
+        Friend Function createHits(data As Signal(), ishighlight As Func(Of Double, (err#, x#, yes As Boolean))) As Dictionary(Of Double, (x As List(Of Double), y#))
             Dim hits As New Dictionary(Of Double, (x As List(Of Double), y#))
             Dim source As IEnumerable(Of signals) = data _
                 .Select(Function(x) x.signals) _
