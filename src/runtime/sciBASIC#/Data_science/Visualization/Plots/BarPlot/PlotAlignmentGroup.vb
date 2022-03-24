@@ -7,6 +7,7 @@ Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Text
+Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Imaging.Math2D
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
@@ -74,13 +75,14 @@ Namespace BarPlot
             Dim rect As Rectangle
             Dim highlightPen As Pen = Stroke.TryParse(theme.lineStroke).GDIObject
 
+            ' 上半部分的蓝色条
             For Each part As Signal In query
                 Dim ba As New SolidBrush(part.Color.TranslateColor)
 
                 For Each o As (x#, value#) In part.signals _
-                            .Where(Function(f)
-                                       Return f.Item2 <> 0R
-                                   End Function)
+                    .Where(Function(f)
+                               Return f.Item2 <> 0R
+                           End Function)
 
                     left = canvas.Padding.Left + xscale(o.x)
                     y = o.value
@@ -88,15 +90,16 @@ Namespace BarPlot
                     position = New Point(left, y)
                     sz = New Size(bw, yscale(o.value))
                     rect = New Rectangle With {
-                                .Location = position,
-                                .Size = sz
-                            }
+                        .Location = position,
+                        .Size = sz
+                    }
 
                     ' Call g.FillRectangle(ba, rect)
                     Call rectangleStyle(g, ba, rect, RectangleSides.Bottom)
                 Next
             Next
 
+            ' 下半部分的棕色条
             For Each part As Signal In subject
                 Dim bb As New SolidBrush(part.Color.TranslateColor)
 
@@ -109,6 +112,15 @@ Namespace BarPlot
                     y = ymid + yscale(y)
                     left = canvas.Padding.Left + xscale(o.x)
                     rect = Rectangle(ymid, left, left + bw, y)
+
+                    If canvas.device.driverUsed = Drivers.PDF Then
+                        rect = New Rectangle With {
+                            .X = rect.X,
+                            .Y = rect.Y + ymid,
+                            .Width = rect.Width,
+                            .Height = rect.Height
+                        }
+                    End If
 
                     ' g.FillRectangle(bb, rect)
                     Call rectangleStyle(g, bb, rect, RectangleSides.Top)
