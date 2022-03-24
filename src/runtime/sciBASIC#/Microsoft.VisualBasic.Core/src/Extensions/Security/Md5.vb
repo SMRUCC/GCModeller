@@ -352,7 +352,7 @@ Namespace SecurityString
         Public Function GetSha1Hash(filePath As String) As String
             Using fs As FileStream = File.OpenRead(filePath)
                 Dim sha As SHA1 = New SHA1Managed()
-                Return BitConverter.ToString(sha.ComputeHash(fs))
+                Return BitConverter.ToString(sha.ComputeHash(fs)).Replace("-", "").ToLower
             End Using
         End Function
     End Module
