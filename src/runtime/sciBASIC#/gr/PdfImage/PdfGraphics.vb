@@ -563,11 +563,15 @@ Public Class PdfGraphics : Inherits MockGDIPlusGraphics
     End Sub
 
     Public Overrides Sub DrawRectangles(pen As Pen, rects() As RectangleF)
-        Throw New NotImplementedException()
+        For Each rect In rects
+            Call DrawRectangle(pen, rect)
+        Next
     End Sub
 
     Public Overrides Sub DrawRectangles(pen As Pen, rects() As Rectangle)
-        Throw New NotImplementedException()
+        For Each rect In rects
+            Call DrawRectangle(pen, rect)
+        Next
     End Sub
 
     Public Overrides Sub DrawString(s As String, font As Font, brush As Brush, point As PointF)
@@ -849,6 +853,8 @@ Public Class PdfGraphics : Inherits MockGDIPlusGraphics
 
     Public Overrides Sub FillRectangle(brush As Brush, rect As RectangleF)
         Dim y As Double = Me.height - rect.Y
+
+        Call g.MoveTo(rect.X, y)
 
         ' change nonstroking (fill) color to yellow
         Call g.SetColorNonStroking(DirectCast(brush, SolidBrush).Color)
