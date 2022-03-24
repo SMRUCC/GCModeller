@@ -251,7 +251,7 @@ Namespace BarPlot
                 .xError = xError
             }
 
-            Return barplot.Plot(size, driver:=driver)
+            Return barplot.Plot(size, ppi:=100, driver:=driver)
         End Function
 
         <Extension>

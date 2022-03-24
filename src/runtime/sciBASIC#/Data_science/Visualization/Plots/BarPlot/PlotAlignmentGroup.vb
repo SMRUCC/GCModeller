@@ -66,6 +66,78 @@ Namespace BarPlot
             End If
         End Sub
 
+        Private Sub DrawAlignmentBars(g As IGraphics, canvas As GraphicsRegion, ymid As Single, xscale As Func(Of Single, Single), yscale As Func(Of Single, Single))
+            Dim left As Double
+            Dim y As Double
+            Dim position As Point
+            Dim sz As Size
+            Dim rect As Rectangle
+            Dim highlightPen As Pen = Stroke.TryParse(theme.lineStroke).GDIObject
+
+            For Each part As Signal In query
+                Dim ba As New SolidBrush(part.Color.TranslateColor)
+
+                For Each o As (x#, value#) In part.signals _
+                            .Where(Function(f)
+                                       Return f.Item2 <> 0R
+                                   End Function)
+
+                    left = canvas.Padding.Left + xscale(o.x)
+                    y = o.value
+                    y = ymid - yscale(y)
+                    position = New Point(left, y)
+                    sz = New Size(bw, yscale(o.value))
+                    rect = New Rectangle With {
+                                .Location = position,
+                                .Size = sz
+                            }
+
+                    ' Call g.FillRectangle(ba, rect)
+                    Call rectangleStyle(g, ba, rect, RectangleSides.Bottom)
+                Next
+            Next
+
+            For Each part As Signal In subject
+                Dim bb As New SolidBrush(part.Color.TranslateColor)
+
+                For Each o As (x#, value#) In part.signals _
+                            .Where(Function(f)
+                                       Return f.Item2 <> 0R
+                                   End Function)
+
+                    y = o.value
+                    y = ymid + yscale(y)
+                    left = canvas.Padding.Left + xscale(o.x)
+                    rect = Rectangle(ymid, left, left + bw, y)
+
+                    ' g.FillRectangle(bb, rect)
+                    Call rectangleStyle(g, bb, rect, RectangleSides.Top)
+                Next
+            Next
+
+            ' 绘制高亮的区域
+            Dim highlights = HighlightGroups(query, subject, hitsHightLights, xError)
+            Dim right!
+            Dim blockHeight!
+
+            For Each block As (xmin#, xmax#, query#, subject#) In highlights
+                left = canvas.Padding.Left + xscale(block.xmin)
+                right = canvas.Padding.Left + xscale(block.xmax) + bw
+                y = ymid - yscale(block.query)
+                blockHeight = yscale(block.query) + yscale(block.subject)
+
+                rect = New Rectangle With {
+                            .Location = New Point(left - highlightMargin, y - highlightMargin),
+                            .Size = New Size With {
+                                .Width = right - left + 2 * highlightMargin,
+                                .Height = blockHeight + 2 * highlightMargin
+                            }
+                        }
+
+                g.DrawRectangle(highlightPen, rect)
+            Next
+        End Sub
+
         Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
             Dim rect As Rectangle = canvas.PlotRegion
             Dim yLength! = yrange.Length
@@ -172,72 +244,9 @@ Namespace BarPlot
                 Dim xsz As SizeF
                 Dim xpos As PointF
                 Dim xlabel$
-                Dim highlightPen As Pen = Stroke.TryParse(theme.lineStroke).GDIObject
-                Dim position As Point
-                Dim sz As Size
+
 #Region "绘制柱状图"
-                For Each part As Signal In query
-                    Dim ba As New SolidBrush(part.Color.TranslateColor)
-
-                    For Each o As (x#, value#) In part.signals _
-                                .Where(Function(f)
-                                           Return f.Item2 <> 0R
-                                       End Function)
-
-                        left = canvas.Padding.Left + xscale(o.x)
-                        y = o.value
-                        y = ymid - yscale(y)
-                        position = New Point(left, y)
-                        sz = New Size(bw, yscale(o.value))
-                        rect = New Rectangle With {
-                                    .Location = position,
-                                    .Size = sz
-                                }
-
-                        ' Call g.FillRectangle(ba, rect)
-                        Call rectangleStyle(g, ba, rect, RectangleSides.Bottom)
-                    Next
-                Next
-
-                For Each part As Signal In subject
-                    Dim bb As New SolidBrush(part.Color.TranslateColor)
-
-                    For Each o As (x#, value#) In part.signals _
-                                .Where(Function(f)
-                                           Return f.Item2 <> 0R
-                                       End Function)
-
-                        y = o.value
-                        y = ymid + yscale(y)
-                        left = canvas.Padding.Left + xscale(o.x)
-                        rect = Rectangle(ymid, left, left + bw, y)
-
-                        ' g.FillRectangle(bb, rect)
-                        Call rectangleStyle(g, bb, rect, RectangleSides.Top)
-                    Next
-                Next
-
-                ' 绘制高亮的区域
-                Dim highlights = HighlightGroups(query, subject, hitsHightLights, xError)
-                Dim right!
-                Dim blockHeight!
-
-                For Each block As (xmin#, xmax#, query#, subject#) In highlights
-                    left = canvas.Padding.Left + xscale(block.xmin)
-                    right = canvas.Padding.Left + xscale(block.xmax) + bw
-                    y = ymid - yscale(block.query)
-                    blockHeight = yscale(block.query) + yscale(block.subject)
-
-                    rect = New Rectangle With {
-                                .Location = New Point(left - highlightMargin, y - highlightMargin),
-                                .Size = New Size With {
-                                    .Width = right - left + 2 * highlightMargin,
-                                    .Height = blockHeight + 2 * highlightMargin
-                                }
-                            }
-
-                    g.DrawRectangle(highlightPen, rect)
-                Next
+                Call DrawAlignmentBars(g, canvas, ymid, xscale, yscale)
 #End Region
                 ' 考虑到x轴标签可能会被柱子挡住，所以在这里将柱子和x标签的绘制分开在两个循环之中来完成
 #Region "绘制横坐标轴"
@@ -276,59 +285,59 @@ Namespace BarPlot
                 rect = canvas.PlotRegion
 
                 If theme.drawLegend Then
-                    Dim boxWidth! = 350
-
-                    ' legend 的圆角矩形
-                    Call Shapes.RoundRect.Draw(
-                                g,
-                                New Point(rect.Right - (boxWidth + 10), rect.Top + 6),
-                                New Size(boxWidth, 80), 8,
-                                Brushes.White,
-                                New Stroke With {
-                                    .dash = DashStyle.Solid,
-                                    .fill = "black",
-                                    .width = 2
-                                })
-
-                    Dim box As Rectangle
-                    Dim legendFont As Font = CSSFont _
-                                .TryParse(theme.legendLabelCSS, [default]:=New Font(FontFace.MicrosoftYaHei, 16.0!)) _
-                                .GDIObject(g.Dpi)
-                    Dim fHeight! = g.MeasureString("1", legendFont).Height
-
-                    y = 3
-
-                    box = New Rectangle(New Point(rect.Right - boxWidth, rect.Top + 20), New Size(20, 20))
-                    Call g.FillRectangle(query.Last.Color.GetBrush, box)
-                    Call g.DrawString(queryName, legendFont, Brushes.Black, box.Location.OffSet2D(25, -y))
-
-                    box = New Rectangle(New Point(box.Left, box.Top + 30), box.Size)
-                    Call g.FillRectangle(subject.Last.Color.GetBrush, box)
-                    Call g.DrawString(subjectName, legendFont, Brushes.Black, box.Location.OffSet2D(25, -y))
+                    Call DrawLegeneds(g, rect)
                 End If
 
-                Dim titleFont As Font = CSSFont _
-                            .TryParse(theme.mainCSS, [default]:=New Font(FontFace.MicrosoftYaHei, 16.0!)) _
-                            .GDIObject(g.Dpi)
-                Dim titleSize As SizeF = g.MeasureString(main, titleFont)
-                Dim tl As New Point With {
-                            .X = (canvas.Width - titleSize.Width) / 2,
-                            .Y = (canvas.Padding.Top - titleSize.Height) / 2
-                        }
-
-                Call g.DrawString(main, titleFont, Brushes.Black, tl)
+                Call DrawMainTitle(g, canvas.PlotRegion)
 
                 If Not idTag Is Nothing Then
+                    Dim titleFont As Font = CSSFont _
+                            .TryParse(theme.mainCSS, [default]:=New Font(FontFace.MicrosoftYaHei, 16.0!)) _
+                            .GDIObject(g.Dpi)
+
                     ' 绘制右下角的编号标签
-                    titleSize = g.MeasureString(idTag, titleFont)
-                    tl = New Point With {
-                                .X = rect.Right - titleSize.Width - 20,
-                                .Y = rect.Bottom - titleSize.Height - 20
-                            }
+                    Dim titleSize = g.MeasureString(idTag, titleFont)
+                    Dim tl As New Point With {
+                        .X = rect.Right - titleSize.Width - 20,
+                        .Y = rect.Bottom - titleSize.Height - 20
+                    }
 
                     Call g.DrawString(idTag, titleFont, Brushes.Gray, tl)
                 End If
             End With
+        End Sub
+
+        Private Sub DrawLegeneds(g As IGraphics, rect As Rectangle)
+            Dim boxWidth! = 350
+            Dim y As Double
+
+            ' legend 的圆角矩形
+            Call Shapes.RoundRect.Draw(
+                        g,
+                        New Point(rect.Right - (boxWidth + 10), rect.Top + 6),
+                        New Size(boxWidth, 80), 8,
+                        Brushes.White,
+                        New Stroke With {
+                            .dash = DashStyle.Solid,
+                            .fill = "black",
+                            .width = 2
+                        })
+
+            Dim box As Rectangle
+            Dim legendFont As Font = CSSFont _
+                        .TryParse(theme.legendLabelCSS, [default]:=New Font(FontFace.MicrosoftYaHei, 16.0!)) _
+                        .GDIObject(g.Dpi)
+            Dim fHeight! = g.MeasureString("1", legendFont).Height
+
+            y = 3
+
+            box = New Rectangle(New Point(rect.Right - boxWidth, rect.Top + 20), New Size(20, 20))
+            Call g.FillRectangle(query.Last.Color.GetBrush, box)
+            Call g.DrawString(queryName, legendFont, Brushes.Black, box.Location.OffSet2D(25, -y))
+
+            box = New Rectangle(New Point(box.Left, box.Top + 30), box.Size)
+            Call g.FillRectangle(subject.Last.Color.GetBrush, box)
+            Call g.DrawString(subjectName, legendFont, Brushes.Black, box.Location.OffSet2D(25, -y))
         End Sub
 
         Private Function HighlightGroups(query As Signal(), subject As Signal(), highlights#(), err#) As (xmin#, xmax#, query#, subject#)()
