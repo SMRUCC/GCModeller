@@ -101,6 +101,7 @@
 Imports System.IO
 Imports System.IO.Compression
 Imports System.Text
+Imports System.Threading
 Imports i32 = Microsoft.VisualBasic.Language.i32
 Imports stdNum = System.Math
 
@@ -419,9 +420,9 @@ Public Class PdfObject : Implements IComparable(Of PdfObject)
 
         ' ZLib checksum is Adler32 write it big endian order, high byte first
         OutputLen += 2
-        OutputBuf(stdNum.Min(Threading.Interlocked.Increment(OutputLen), OutputLen - 1)) = CByte(ReadAdler32 >> 24)
-        OutputBuf(stdNum.Min(Threading.Interlocked.Increment(OutputLen), OutputLen - 1)) = CByte(ReadAdler32 >> 16)
-        OutputBuf(stdNum.Min(Threading.Interlocked.Increment(OutputLen), OutputLen - 1)) = CByte(ReadAdler32 >> 8)
+        OutputBuf(stdNum.Min(Interlocked.Increment(OutputLen), OutputLen - 1)) = CByte(ReadAdler32 >> 24)
+        OutputBuf(stdNum.Min(Interlocked.Increment(OutputLen), OutputLen - 1)) = CByte(ReadAdler32 >> 16)
+        OutputBuf(stdNum.Min(Interlocked.Increment(OutputLen), OutputLen - 1)) = CByte(ReadAdler32 >> 8)
         OutputBuf(OutputLen) = CByte(ReadAdler32)
 
         ' update dictionary
@@ -457,7 +458,7 @@ Public Class PdfObject : Implements IComparable(Of PdfObject)
             Dim n = If(Len < 5552, Len, 5552)
             Len -= n
 
-            While Threading.Interlocked.Decrement(n) >= 0
+            While Interlocked.Decrement(n) >= 0
                 AdlerLow += Buffer(++Pos)
                 AdlerHigh += AdlerLow
             End While
