@@ -1,56 +1,56 @@
 ﻿#Region "Microsoft.VisualBasic::ceb4d40b78ab6fcac3c4091faaffdc5e, sciBASIC#\Data_science\Graph\Model\Abstract\Graph.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 267
-    '    Code Lines: 149
-    ' Comment Lines: 84
-    '   Blank Lines: 34
-    '     File Size: 9.43 KB
+' Summaries:
 
 
-    ' Class Graph
-    ' 
-    '     Properties: graphEdges, size, vertex
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: (+3 Overloads) AddEdge, AddEdges, (+2 Overloads) AddVertex, CreateEdge, (+3 Overloads) Delete
-    '               ExistEdge, ExistVertex, GetConnectedVertex, GetEnumerator, IEnumerable_GetEnumerator
-    '               Insert
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 267
+'    Code Lines: 149
+' Comment Lines: 84
+'   Blank Lines: 34
+'     File Size: 9.43 KB
+
+
+' Class Graph
+' 
+'     Properties: graphEdges, size, vertex
+' 
+'     Constructor: (+1 Overloads) Sub New
+'     Function: (+3 Overloads) AddEdge, AddEdges, (+2 Overloads) AddVertex, CreateEdge, (+3 Overloads) Delete
+'               ExistEdge, ExistVertex, GetConnectedVertex, GetEnumerator, IEnumerable_GetEnumerator
+'               Insert
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -72,7 +72,11 @@ Public MustInherit Class Graph(Of V As {New, TV}, Edge As {New, Edge(Of V)}, G A
     Implements IEnumerable(Of Edge)
 
 #Region "Let G=(V, E) be a simple graph"
-    Protected Friend edges As New Dictionary(Of Edge)
+    Protected Friend edges As New List(Of Edge)
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    Protected ReadOnly linkIndex As New Dictionary(Of String, Dictionary(Of String, Edge))
 
     ''' <summary>
     ''' <see cref="vertices"/>和<see cref="buffer"/>哈希表分别使用了两种属性来对节点进行索引的建立：
@@ -122,7 +126,7 @@ Public MustInherit Class Graph(Of V As {New, TV}, Edge As {New, Edge(Of V)}, G A
     Public ReadOnly Property graphEdges As IEnumerable(Of Edge)
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
-            Return edges.Values
+            Return edges
         End Get
     End Property
 
@@ -130,12 +134,30 @@ Public MustInherit Class Graph(Of V As {New, TV}, Edge As {New, Edge(Of V)}, G A
     End Sub
 
     ''' <summary>
+    ''' query edges by directed node tuple.
+    ''' </summary>
+    ''' <param name="from"></param>
+    ''' <returns>
+    ''' returns nothing if target node is not exists in the index
+    ''' </returns>
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Function QueryEdge(from As String, [to] As String) As Edge
+        If linkIndex.ContainsKey(from) Then
+            If linkIndex(from).ContainsKey([to]) Then
+                Return linkIndex(from)([to])
+            End If
+        End If
+
+        Return Nothing
+    End Function
+
+    ''' <summary>
     ''' 返回所有至少具有一条边连接的节点的集合
     ''' </summary>
     ''' <returns></returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function GetConnectedVertex() As V()
-        Return edges.Values _
+        Return edges _
             .Select(Function(e) {e.U, e.V}) _
             .IteratesALL _
             .Distinct _
@@ -173,8 +195,15 @@ Public MustInherit Class Graph(Of V As {New, TV}, Edge As {New, Edge(Of V)}, G A
     ''' <param name="edge"></param>
     ''' <returns></returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Function ExistEdge(edge As Edge) As Boolean
-        Return edges.ContainsKey(edge.ID)
+    Public Overridable Function ExistEdge(edge As Edge) As Boolean
+        Dim u As V = edge.U
+        Dim v As V = edge.V
+
+        If Not linkIndex.ContainsKey(u.label) Then
+            Return False
+        End If
+
+        Return linkIndex(u.label).ContainsKey(v.label)
     End Function
 
     ''' <summary>
@@ -201,6 +230,11 @@ Public MustInherit Class Graph(Of V As {New, TV}, Edge As {New, Edge(Of V)}, G A
         Dim u = edge.U
         Dim v = edge.V
 
+        If Not linkIndex.ContainsKey(u.label) Then
+            linkIndex.Add(u.label, New Dictionary(Of String, Edge))
+        End If
+
+        linkIndex(u.label)(v.label) = edge
         edges += edge
 
         If Not vertices.ContainsKey(u.label) Then
@@ -293,23 +327,27 @@ Public MustInherit Class Graph(Of V As {New, TV}, Edge As {New, Edge(Of V)}, G A
     ''' 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function Delete(U As V, V As V) As G
-        Return Delete(U.ID, V.ID)
+        Return Delete(U.label, V.label)
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function Delete(u$, v$) As G
-        Return Delete(vertices(u).ID, vertices(v).ID)
+        If linkIndex.ContainsKey(u) Then
+            If linkIndex(u).ContainsKey(v) Then
+                Call linkIndex(u).Remove(v)
+                Call edges.Remove(linkIndex(u)(v))
+            End If
+        End If
+
+        Return Me
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function Delete(u%, v%) As G
-        Dim key$ = VertexEdge.EdgeKey(vertices(u), vertices(v))
+        Dim uNode As V = buffer(u)
+        Dim vNode As V = buffer(v)
 
-        If edges.ContainsKey(key) Then
-            Call edges.Remove(key)
-        End If
-
-        Return Me
+        Return Delete(uNode.label, vNode.label)
     End Function
 
     ''' <summary>
@@ -317,7 +355,7 @@ Public MustInherit Class Graph(Of V As {New, TV}, Edge As {New, Edge(Of V)}, G A
     ''' </summary>
     ''' <returns></returns>
     Public Iterator Function GetEnumerator() As IEnumerator(Of Edge) Implements IEnumerable(Of Edge).GetEnumerator
-        For Each edge As Edge In edges.Values
+        For Each edge As Edge In edges
             Yield edge
         Next
     End Function
