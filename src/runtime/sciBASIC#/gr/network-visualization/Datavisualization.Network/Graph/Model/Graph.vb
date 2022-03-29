@@ -280,11 +280,9 @@ Namespace Graph
         End Function
 
         Public Overloads Function AddEdge(edge As Edge) As Edge
-            If Not edges.ContainsKey(edge.ID) Then
-                Call edges.Add(edge.ID, edge)
-            End If
-
             Dim tuple = _index.AddEdge(edge)
+
+            Call Insert(edge)
 
             ' gr.addEdge(edge)
             ' tail.addOutgoingEdge(edge)
@@ -504,7 +502,7 @@ Namespace Graph
         ''' <param name="edge"></param>
         Public Sub RemoveEdge(edge As Edge)
             Call _index.RemoveEdge(edge)
-            Call edges.Remove(edge.ID)
+            Call edges.Remove(edge)
             Call notify()
         End Sub
 

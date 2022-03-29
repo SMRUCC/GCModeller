@@ -192,6 +192,20 @@ Public MustInherit Class Graph(Of V As {New, TV}, Edge As {New, Edge(Of V)}, G A
     ''' <summary>
     ''' query edge item exists or not by edge id
     ''' </summary>
+    ''' <param name="u"></param>
+    ''' <returns></returns>
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Overridable Function ExistEdge(u As String, v As String) As Boolean
+        If Not linkIndex.ContainsKey(u) Then
+            Return False
+        Else
+            Return linkIndex(u).ContainsKey(v)
+        End If
+    End Function
+
+    ''' <summary>
+    ''' query edge item exists or not by edge id
+    ''' </summary>
     ''' <param name="edge"></param>
     ''' <returns></returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
