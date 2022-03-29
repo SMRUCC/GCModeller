@@ -72,7 +72,8 @@ Public MustInherit Class Graph(Of V As {New, TV}, Edge As {New, Edge(Of V)}, G A
     Implements IEnumerable(Of Edge)
 
 #Region "Let G=(V, E) be a simple graph"
-    Protected Friend edges As New List(Of Edge)
+    Dim edges As New List(Of Edge)
+
     ''' <summary>
     ''' 
     ''' </summary>
@@ -116,8 +117,10 @@ Public MustInherit Class Graph(Of V As {New, TV}, Edge As {New, Edge(Of V)}, G A
     End Property
 
     ''' <summary>
-    ''' 获取得到这个图中的所有的节点的边的集合，请注意，这个只读属性是一个枚举集合，
-    ''' 所以为了减少性能上的损失，不可以过多的使用下标来访问集合元素
+    ''' get the enumeration of the internal edge list data.
+    ''' (获取得到这个图中的所有的节点的边的集合，请注意，
+    ''' 这个只读属性是一个枚举集合，所以为了减少性能上的损失，
+    ''' 不可以过多的使用下标来访问集合元素.)
     ''' </summary>
     ''' <returns>
     ''' 因为在这里使用了一个<see cref="SortedDictionary(Of String, V)"/>来进行
@@ -131,6 +134,11 @@ Public MustInherit Class Graph(Of V As {New, TV}, Edge As {New, Edge(Of V)}, G A
     End Property
 
     Public Sub New()
+    End Sub
+
+    Protected Sub clearEdges()
+        Call edges.Clear()
+        Call linkIndex.Clear()
     End Sub
 
     ''' <summary>
@@ -342,6 +350,11 @@ Public MustInherit Class Graph(Of V As {New, TV}, Edge As {New, Edge(Of V)}, G A
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function Delete(U As V, V As V) As G
         Return Delete(U.label, V.label)
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Function Delete(edge As Edge) As G
+        Return Delete(edge.U.label, edge.V.label)
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
