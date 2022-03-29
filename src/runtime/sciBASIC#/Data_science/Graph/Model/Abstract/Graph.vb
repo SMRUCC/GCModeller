@@ -248,6 +248,15 @@ Public MustInherit Class Graph(Of V As {New, TV}, Edge As {New, Edge(Of V)}, G A
         End If
     End Function
 
+    ''' <summary>
+    ''' just add edges
+    ''' </summary>
+    ''' <param name="edge">
+    ''' vertex nodes in this given edge object 
+    ''' will be added into the graph if not 
+    ''' exists.
+    ''' </param>
+    ''' <returns></returns>
     Public Overridable Function Insert(edge As Edge) As G
         Dim u = edge.U
         Dim v = edge.V
