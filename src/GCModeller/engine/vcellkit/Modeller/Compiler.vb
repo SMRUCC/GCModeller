@@ -208,16 +208,6 @@ Module Compiler
         End Using
     End Function
 
-    ''' <summary>
-    ''' open a directory path as the biocyc workspace
-    ''' </summary>
-    ''' <param name="repo"></param>
-    ''' <returns></returns>
-    <ExportAPI("open.biocyc")>
-    Public Function openBioCyc(repo As String) As Workspace
-        Return New Workspace(repo)
-    End Function
-
     <ExportAPI("compile.biocyc")>
     Public Function compileBiocyc(biocyc As Workspace, genomes As Dictionary(Of String, GBFF.File), Optional logfile As String = "./gcc.log") As VirtualCell
         Using compiler As New BioCyc.v2Compiler(genomes.First.Value, biocyc)
