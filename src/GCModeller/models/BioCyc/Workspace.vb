@@ -37,7 +37,10 @@ Public Class Workspace
     Sub New(dir As String)
         Me.dir = dir.GetDirectoryFullPath
 
-        If {"reports", "data", "input", "kb", "rawdata"}.All(Function(d) $"{dir}/{d}".DirectoryExists) Then
+        ' 20220401 when commit the data base into git reposiotry
+        ' some empty folder may be missing from the repository
+        ' just check these three main folder
+        If {"data", "input", "kb"}.All(Function(d) $"{dir}/{d}".DirectoryExists) Then
             Me.dir = $"{Me.dir}/data/"
         End If
 
