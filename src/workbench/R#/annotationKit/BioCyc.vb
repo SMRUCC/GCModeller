@@ -19,4 +19,17 @@ Public Module BioCycRepository
     Public Function getCompounds(repo As Workspace) As compounds()
         Return repo.compounds.features.ToArray
     End Function
+
+    <ExportAPI("formula")>
+    Public Function formulaString(meta As compounds) As String
+        If meta.chemicalFormula.IsNullOrEmpty Then
+            Return ""
+        Else
+            Return meta.chemicalFormula _
+                .Select(Function(d)
+                            Return d.Trim(" "c, "("c, ")"c).Replace(" ", "")
+                        End Function) _
+                .JoinBy("")
+        End If
+    End Function
 End Module
