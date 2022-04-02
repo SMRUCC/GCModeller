@@ -230,7 +230,17 @@
       "ProjectGuid": "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3",
       "DisplayName": "Miscellaneous Files",
       "ColorIndex": -1
+    },
+    "5726d3bb-3716-400a-8b63-6e15f2f1bf09": {
+      "ProjectGuid": "5726d3bb-3716-400a-8b63-6e15f2f1bf09",
+      "DisplayName": "BioCyc",
+      "ColorIndex": 13
+    },
+    "6a88a279-8760-4ab9-96fd-8f82e68bb26d": {
+      "ProjectGuid": "6a88a279-8760-4ab9-96fd-8f82e68bb26d",
+      "DisplayName": "annotationKit",
+      "ColorIndex": 14
     }
   },
-  "NextColorIndex": 13
+  "NextColorIndex": 15
 }

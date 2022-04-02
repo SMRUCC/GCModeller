@@ -37,7 +37,10 @@ Public Class Workspace
     Sub New(dir As String)
         Me.dir = dir.GetDirectoryFullPath
 
-        If {"reports", "data", "input", "kb", "rawdata"}.All(Function(d) $"{dir}/{d}".DirectoryExists) Then
+        ' 20220401 when commit the data base into git reposiotry
+        ' some empty folder may be missing from the repository
+        ' just check these three main folder
+        If {"data", "input", "kb"}.All(Function(d) $"{dir}/{d}".DirectoryExists) Then
             Me.dir = $"{Me.dir}/data/"
         End If
 
@@ -49,10 +52,11 @@ Public Class Workspace
 
     Private Function openFile(Of T As Model)() As AttrDataCollection(Of T)
         Dim fileName As String = getFileName(Of T)()
+        Dim fullName As String = $"{dir}/{fileName}".GetFullPath
 
-        Call Console.WriteLine($"[biocyc_open] {fileName}")
+        Call Console.WriteLine($"[biocyc_open] {fullName}")
 
-        Using file As Stream = $"{dir}/{fileName}".Open(FileMode.OpenOrCreate, doClear:=False, [readOnly]:=True)
+        Using file As Stream = fullName.Open(FileMode.OpenOrCreate, doClear:=False, [readOnly]:=True)
             Return AttrDataCollection(Of T).LoadFile(file)
         End Using
     End Function
