@@ -88,7 +88,7 @@ Namespace Pattern
 #If netcore5 = 0 Then
             Segment.Left = Strings.InStr(Start:=startLeft, String1:=WholeSeq, String2:=Segment.Sequence, Compare:=CompareMethod.Text)
 #Else
-            Segment.Left = Strings.InStr(StartPos:=startLeft, String1:=WholeSeq, String2:=Segment.Sequence, Compare:=CompareMethod.Text)
+            Segment.Left = Strings.InStr(startLeft, String1:=WholeSeq, String2:=Segment.Sequence, Compare:=CompareMethod.Text)
 #End If
             Segment.Right = Segment.Left + Segment.Length - 1
             startLeft = Segment.Left + 1
