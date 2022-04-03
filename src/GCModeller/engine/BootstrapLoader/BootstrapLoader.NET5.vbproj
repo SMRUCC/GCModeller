@@ -153,7 +153,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<None Remove="Resources\scripts\runNet5.sh" />
+		
 		<None Include="..\..\..\..\images\logo.png">
 		  <Pack>True</Pack>
 		  <PackagePath></PackagePath>
@@ -164,9 +164,7 @@
 		</None>
 	</ItemGroup>
 
-	<ItemGroup>
-		<Resource Include="Resources\scripts\runNet5.sh" />
-	</ItemGroup>
+	
 
 	<ItemGroup>
 		<PackageReference Include="System.Composition" Version="6.0.0" />
