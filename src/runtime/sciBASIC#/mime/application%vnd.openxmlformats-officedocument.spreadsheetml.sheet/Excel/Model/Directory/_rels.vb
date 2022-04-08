@@ -81,6 +81,8 @@ Namespace Model.Directory
         Protected Overrides Sub _loadContents()
             Dim path As Value(Of String) = ""
 
+            On Error Resume Next
+
             If (path = Folder & "/.rels").FileExists Then
                 rels = (+path).LoadXml(Of rels)
             End If
