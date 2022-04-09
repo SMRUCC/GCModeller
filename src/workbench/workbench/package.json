@@ -13,7 +13,7 @@
   "author": "xieguigang",
   "license": "MIT",
   "devDependencies": {
-    "electron": "^11.5.0"
+    "electron": "^13.6.6"
   },
   "dependencies": {
     "request": "^2.88.2",
