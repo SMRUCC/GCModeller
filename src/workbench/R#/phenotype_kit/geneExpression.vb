@@ -44,6 +44,7 @@
 
 #End Region
 
+Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
@@ -153,9 +154,29 @@ Module geneExpression
         End If
     End Function
 
+    <ExportAPI("load.expr0")>
+    <RApiReturn(GetType(Matrix))>
+    Public Function readBinaryMatrix(file As Object, Optional env As Environment = Nothing) As Object
+        Dim stream = SMRUCC.Rsharp.GetFileStream(file, FileAccess.Read, env)
+
+        If stream Like GetType(Message) Then
+            Return stream.TryCast(Of Message)
+        Else
+            Return BinaryMatrix.LoadStream(stream.TryCast(Of Stream))
+        End If
+    End Function
+
     <ExportAPI("write.expr_matrix")>
-    Public Function writeMatrix(expr As Matrix, file As String, Optional id As String = "geneID") As Boolean
-        Return expr.SaveMatrix(file, id)
+    Public Function writeMatrix(expr As Matrix, file As String,
+                                Optional id As String = "geneID",
+                                Optional binary As Boolean = False) As Boolean
+        If binary Then
+            Using buffer As Stream = file.Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False)
+                Return expr.Save(file:=buffer)
+            End Using
+        Else
+            Return expr.SaveMatrix(file, id)
+        End If
     End Function
 
     <ExportAPI("filter")>

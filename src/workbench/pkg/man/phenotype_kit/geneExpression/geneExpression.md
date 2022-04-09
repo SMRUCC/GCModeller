@@ -3,6 +3,7 @@
 the gene expression matrix data toolkit
 
 + [load.expr](geneExpression/load.expr.1) load an expressin matrix data
++ [load.expr0](geneExpression/load.expr0.1) 
 + [write.expr_matrix](geneExpression/write.expr_matrix.1) 
 + [filter](geneExpression/filter.1) 
 + [as.generic](geneExpression/as.generic.1) 
