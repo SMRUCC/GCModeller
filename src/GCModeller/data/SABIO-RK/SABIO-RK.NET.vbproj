@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <RootNamespace>SMRUCC.genomics.Data.SABIORK</RootNamespace>
-    <TargetFramework>net5.0</TargetFramework>
+	  <TargetFrameworks>net6.0;net5.0;net48</TargetFrameworks>
     <AssemblyName>SMRUCC.genomics.Data.SABIO-RK</AssemblyName>
     <Platforms>AnyCPU;x64</Platforms>
     <Configurations>Debug;Release;LipidSearch;mzkit;NPSearch;Rsharp_app_release</Configurations>
@@ -116,6 +116,7 @@
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\mime\application%rdf+xml\rdf_xml-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\mime\application%xml\xml-netcore5.vbproj" />
+    <ProjectReference Include="..\..\core\Bio.Assembly\biocore-netcore5.vbproj" />
     <ProjectReference Include="..\..\models\SBML\SBML\sbml-netcore5.vbproj" />
   </ItemGroup>
 

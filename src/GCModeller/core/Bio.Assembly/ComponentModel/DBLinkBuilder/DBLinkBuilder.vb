@@ -71,8 +71,21 @@ Namespace ComponentModel.DBLinkBuilder
             Call Initialize(links.Select(Function(link) New DBLink With {.DBName = link.name, .Entry = link.text}))
         End Sub
 
+        'Private Shared Iterator Function KeggParserPatched(xref As IEnumerable(Of DBLink)) As IEnumerable(Of DBLink)
+        '    For Each item As DBLink In xref
+        '        Select Case item.DBName
+        '            Case "CAS"
+        '                For Each id As String In item.Entry.Split
+
+        '                Next
+        '        End Select
+        '    Next
+        'End Function
+
         Private Sub Initialize(objects As IEnumerable(Of DBLink))
+            ' _DBLinkObjects = KeggParserPatched(objects).AsList
             _DBLinkObjects = objects.AsList
+
             Call LoadData(_DBLinkObjects, New KeyValuePair(Of String, Action(Of DBLink))() {
                           New KeyValuePair(Of String, Action(Of DBLink))("3DMET", Sub(DBLink As DBLink) Me.__3DMET = DBLink),
                           New KeyValuePair(Of String, Action(Of DBLink))("HMDB", Sub(DBLink As DBLink) Me._HMDB = DBLink),

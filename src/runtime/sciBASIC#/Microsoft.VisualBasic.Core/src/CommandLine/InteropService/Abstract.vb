@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e7ab0853d5c13c177cac4cf7c81a9ace, Microsoft.VisualBasic.Core\src\CommandLine\InteropService\Abstract.vb"
+﻿#Region "Microsoft.VisualBasic::92f028a3f359625461fff6f1b0c4f029, sciBASIC#\Microsoft.VisualBasic.Core\src\CommandLine\InteropService\Abstract.vb"
 
     ' Author:
     ' 
@@ -31,12 +31,23 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 167
+    '    Code Lines: 90
+    ' Comment Lines: 52
+    '   Blank Lines: 25
+    '     File Size: 6.15 KB
+
+
     '     Class InteropService
     ' 
     '         Properties: IORedirect, IsAvailable, Path
     ' 
     '         Constructor: (+2 Overloads) Sub New
-    '         Function: GetLastCLRException, GetLastError, RunDotNetApp, RunProgram, ToString
+    '         Function: CreateSlave, GetLastCLRException, GetLastError, RunDotNetApp, RunProgram
+    '                   ToString
     ' 
     '     Interface AppDriver
     ' 
@@ -54,6 +65,7 @@
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Diagnostics
+Imports Microsoft.VisualBasic.CommandLine.InteropService.Pipeline
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Text.Parser
@@ -161,6 +173,10 @@ Namespace CommandLine.InteropService
             Dim tracess = logs(-1).Where(Function(s) Not s.StringEmpty).Select(Function(s) Mid(s, 6).Trim).ToArray
 
             Return ExceptionData.CreateInstance(message, tracess, typeINF)
+        End Function
+
+        Public Function CreateSlave(args As String) As RunSlavePipeline
+            Return New RunSlavePipeline(_executableAssembly, args)
         End Function
 
         ''' <summary>

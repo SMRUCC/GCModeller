@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f33fee647ee77e9013727eb16e3b8d34, Data_science\Graph\Analysis\PageRank\WeightedPRGraph.vb"
+﻿#Region "Microsoft.VisualBasic::f33fee647ee77e9013727eb16e3b8d34, sciBASIC#\Data_science\Graph\Analysis\PageRank\WeightedPRGraph.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 173
+    '    Code Lines: 105
+    ' Comment Lines: 33
+    '   Blank Lines: 35
+    '     File Size: 6.21 KB
+
 
     '     Class WeightedPRNode
     ' 
@@ -102,21 +112,20 @@ Namespace Analysis.PageRank
         ''' <summary>
         ''' <paramref name="u"/>和<paramref name="v"/>都是<see cref="WeightedPRNode.Label"/>
         ''' </summary>
-        ''' <param name="u"></param>
-        ''' <param name="v"></param>
+        ''' <param name="u">the source node</param>
+        ''' <param name="v">the target node</param>
         ''' <param name="weight"></param>
         ''' <returns></returns>
         Public Overrides Function AddEdge(u As String, v As String, Optional weight As Double = 0) As WeightedPRGraph
             Dim j% = vertices(v).ID
-            Dim edgeKey$ = VertexEdge.EdgeKey(vertices(u), vertices(v))
 
             vertices(u).Outbound += weight
 
-            If Not edges.ContainsKey(edgeKey) Then
+            If Not ExistEdge(u, v) Then
                 Call AddEdge(vertices(u), vertices(v))
             End If
 
-            With edges(edgeKey)
+            With QueryEdge(from:=u, [to]:=v)
                 .weight += weight
 
                 If .U.ConnectedTargets Is Nothing Then

@@ -108,7 +108,7 @@ Public Module Enrichment
             For Each cluster As Cluster In genome.clusters
                 Dim enriched$() = cluster.Intersect(.ByRef, isLocustag).ToArray
 
-                Call doProgress(cluster.ID)
+                Call doProgress(cluster.names)
 
                 If Not (termResult = cluster.calcResult(enriched, .Length, genes, outputAll)) Is Nothing Then
                     Yield termResult

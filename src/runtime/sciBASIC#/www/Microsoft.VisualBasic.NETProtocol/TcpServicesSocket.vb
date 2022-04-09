@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9bfbc9550954786a17bba017682937bc, www\Microsoft.VisualBasic.NETProtocol\TcpServicesSocket.vb"
+﻿#Region "Microsoft.VisualBasic::9bfbc9550954786a17bba017682937bc, sciBASIC#\www\Microsoft.VisualBasic.NETProtocol\TcpServicesSocket.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 466
+    '    Code Lines: 264
+    ' Comment Lines: 126
+    '   Blank Lines: 76
+    '     File Size: 19.35 KB
+
 
     '     Class TcpServicesSocket
     ' 
@@ -216,7 +226,7 @@ Namespace Tcp
                 End If
             Next
 
-            While Not Me.disposedValue
+            While Not Me.disposedValue AndAlso App.Running
                 If _threadEndAccept Then
                     _threadEndAccept = False
 

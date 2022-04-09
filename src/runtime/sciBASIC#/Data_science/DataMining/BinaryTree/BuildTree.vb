@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5826dd9e971ade6664c30fad7976552e, Data_science\DataMining\BinaryTree\BuildTree.vb"
+﻿#Region "Microsoft.VisualBasic::5826dd9e971ade6664c30fad7976552e, sciBASIC#\Data_science\DataMining\BinaryTree\BuildTree.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 42
+    '    Code Lines: 35
+    ' Comment Lines: 0
+    '   Blank Lines: 7
+    '     File Size: 1.91 KB
+
 
     ' Module BuildTree
     ' 
@@ -75,6 +85,17 @@ Public Module BuildTree
         Dim btree As New AVLTree(Of String, String)(compares.GetComparer, Function(str) str)
 
         For Each id As String In list.Keys
+            Call btree.Add(id, id, valueReplace:=False)
+        Next
+
+        Return BTreeCluster.GetClusters(btree)
+    End Function
+
+    <Extension>
+    Public Function BTreeCluster(uniqueId As IEnumerable(Of String), alignment As ComparisonProvider) As BTreeCluster
+        Dim btree As New AVLTree(Of String, String)(alignment.GetComparer, Function(str) str)
+
+        For Each id As String In uniqueId
             Call btree.Add(id, id, valueReplace:=False)
         Next
 

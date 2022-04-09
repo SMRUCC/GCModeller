@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f21bf2c2f8c6e9d354a2690ffa20396f, Microsoft.VisualBasic.Core\src\Extensions\StringHelpers\StringHelpers.vb"
+﻿#Region "Microsoft.VisualBasic::57bfe4410fce43ee7b3e2e0db10b2c75, sciBASIC#\Microsoft.VisualBasic.Core\src\Extensions\StringHelpers\StringHelpers.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,16 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 1302
+    '    Code Lines: 712
+    ' Comment Lines: 443
+    '   Blank Lines: 147
+    '     File Size: 48.81 KB
+
+
     ' Module StringHelpers
     ' 
     '     Properties: EmptyString, NonStrictCompares, StrictCompares
@@ -40,13 +50,13 @@
     '               First, FormatString, FormatZero, GetBetween, GetEMails
     '               GetStackValue, GetString, (+2 Overloads) GetTagValue, GetURLs, IgnoreCase
     '               InStrAny, (+2 Overloads) Intersection, IsEmptyStringVector, JoinBy, LineTokens
-    '               Located, Lookup, (+2 Overloads) Match, Matches, MatchPattern
-    '               (+2 Overloads) MaxLengthString, MinLengthString, NotEmpty, PadEnd, Parts
-    '               RepeatString, ReplaceChars, (+2 Overloads) Reverse, RNull, SaveTo
-    '               (+2 Overloads) Split, SplitBy, StartsWith, StringEmpty, StringHashCode
-    '               StringReplace, (+2 Overloads) StringSplit, StripBlank, Strips, SubstringSpecial
-    '               TextEquals, TextLast, TokenCount, TokenCountIgnoreCase, TrimNewLine
-    '               TrimNull, WildcardsLocated
+    '               Located, Lookup, Lookups, (+2 Overloads) Match, Matches
+    '               MatchPattern, (+2 Overloads) MaxLengthString, MinLengthString, NotEmpty, PadEnd
+    '               Parts, RepeatString, ReplaceChars, (+2 Overloads) Reverse, RNull
+    '               SaveTo, (+2 Overloads) Split, SplitBy, StartsWith, StringEmpty
+    '               StringHashCode, StringReplace, (+2 Overloads) StringSplit, StripBlank, Strips
+    '               SubstringSpecial, TextEquals, TextLast, TokenCount, TokenCountIgnoreCase
+    '               TrimNewLine, TrimNull, WildcardsLocated
     ' 
     '     Sub: Parts, RemoveLast
     ' 
@@ -1134,10 +1144,42 @@ Public Module StringHelpers
         Return -1
     End Function
 
+    <Extension>
+    Public Iterator Function Lookups(source As IEnumerable(Of String), keyword As String,
+                                     Optional caseSensitive As Boolean = True,
+                                     Optional identical As Boolean = False) As IEnumerable(Of Integer)
+        Dim i As Integer
+
+        If identical Then
+            Dim method As StringComparison = If(caseSensitive, StringComparison.Ordinal, StringComparison.OrdinalIgnoreCase)
+
+            For Each line As String In source
+                If String.Equals(line, keyword, method) Then
+                    Yield i
+                Else
+                    i += 1
+                End If
+            Next
+        Else
+            Dim method As CompareMethod = If(caseSensitive, CompareMethod.Binary, CompareMethod.Text)
+
+            For Each line As String In source
+                If InStr(line, keyword, method) > 0 Then
+                    Yield i
+                Else
+                    i += 1
+                End If
+            Next
+        End If
+    End Function
+
     ''' <summary>
-    ''' Search the string by keyword in a string collection. Unlike search function <see cref="StringHelpers.Located(IEnumerable(Of String), String, Boolean, Boolean)"/>
-    ''' using function <see cref="String.Equals"/> function to search string, this function using <see cref="Strings.InStr(String, String, CompareMethod)"/>
+    ''' Search the string by keyword in a string collection. Unlike 
+    ''' search function <see cref="StringHelpers.Located(IEnumerable(Of String), String, Boolean, Boolean)"/>
+    ''' using function <see cref="String.Equals"/> function to search 
+    ''' string, this function using <see cref="Strings.InStr(String, String, CompareMethod)"/>
     ''' to search the keyword.
+    ''' (查找目标<paramref name="keyword"/>在输入的字符串序列之中的哪个下标元素中)
     ''' </summary>
     ''' <param name="source"></param>
     ''' <param name="keyword"></param>
@@ -1178,13 +1220,18 @@ Public Module StringHelpers
     End Function
 
     ''' <summary>
-    ''' 查找到任意一个既返回位置，大小写不敏感，假若查找不到，则返回-1值，判断是否查找成功，可以使用 &lt;0 来完成，
-    ''' 因为是通过InStr来完成的，所以查找成功的时候，最小的值是1，即字符串序列的第一个位置，也是元素0位置
+    ''' test if any <paramref name="find"/> tokens is 
+    ''' inside the given <paramref name="text"/> 
+    ''' string.
+    ''' (查找到任意一个既返回位置，大小写不敏感)
     ''' </summary>
     ''' <param name="text"></param>
     ''' <param name="find"></param>
-    ''' <returns></returns>
-    <ExportAPI("InStr.Any")>
+    ''' <returns>
+    ''' 假若查找不到，则返回-1值，判断是否查找成功，可以使用 &lt;0 来完成，
+    ''' 因为是通过InStr来完成的，所以查找成功的时候，最小的值是1，
+    ''' 即字符串序列的第一个位置，也是元素0位置
+    ''' </returns>
     <Extension>
     Public Function InStrAny(text$, ParamArray find$()) As Integer
         For Each token As String In find
@@ -1252,7 +1299,8 @@ Public Module StringHelpers
     ''' 是否需要将字符串之中的``\n``转义为换行之后再进行分割？默认不进行转义
     ''' </param>
     <ExportAPI("LineTokens")>
-    <Extension> Public Function LineTokens(s$, Optional trim As Boolean = True, Optional escape As Boolean = False) As String()
+    <Extension>
+    Public Function LineTokens(s$, Optional trim As Boolean = True, Optional escape As Boolean = False) As String()
         If String.IsNullOrEmpty(s) Then
             Return {}
         ElseIf escape Then
@@ -1287,7 +1335,8 @@ Public Module StringHelpers
     ''' <param name="s$"></param>
     ''' <param name="token$"></param>
     ''' <returns></returns>
-    <Extension> Public Function TextLast(s$, token$) As Boolean
+    <Extension>
+    Public Function TextLast(s$, token$) As Boolean
         Dim lastIndex% = s.Length - token.Length
         ' 因为token子字符串可能会在s字符串之中出现多次，所以直接使用正向的InStr函数
         ' 可能会导致匹配到第一个字符串而无法正确的匹配上最后一个token，所以在这里使用

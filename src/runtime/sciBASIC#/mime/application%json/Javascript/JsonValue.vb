@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6e01dcf43fa5242a329106024ee37908, mime\application%json\Javascript\JsonValue.vb"
+﻿#Region "Microsoft.VisualBasic::6e01dcf43fa5242a329106024ee37908, sciBASIC#\mime\application%json\Javascript\JsonValue.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,16 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 64
+    '    Code Lines: 44
+    ' Comment Lines: 10
+    '   Blank Lines: 10
+    '     File Size: 2.05 KB
+
+
     '     Class JsonValue
     ' 
     '         Properties: BSONValue, value
@@ -61,6 +71,16 @@ Namespace Javascript
         Public ReadOnly Property BSONValue As BSONValue
             Get
                 Return BSONValue.FromValue(value)
+            End Get
+        End Property
+
+        Public ReadOnly Property UnderlyingType As Type
+            Get
+                If value Is Nothing Then
+                    Return GetType(Object)
+                Else
+                    Return value.GetType
+                End If
             End Get
         End Property
 

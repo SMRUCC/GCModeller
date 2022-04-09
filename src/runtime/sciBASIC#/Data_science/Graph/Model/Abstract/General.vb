@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b25baf2be827517ea1b242c9274627a5, Data_science\Graph\Model\Abstract\General.vb"
+﻿#Region "Microsoft.VisualBasic::b25baf2be827517ea1b242c9274627a5, sciBASIC#\Data_science\Graph\Model\Abstract\General.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,16 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 33
+    '    Code Lines: 22
+    ' Comment Lines: 5
+    '   Blank Lines: 6
+    '     File Size: 1.17 KB
+
+
     ' Class VertexEdge
     ' 
     '     Function: EdgeKey
@@ -48,10 +58,6 @@ Imports TV = Microsoft.VisualBasic.Data.GraphTheory.Vertex
 
 Public Class VertexEdge : Inherits Edge(Of TV)
 
-    <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Shared Function EdgeKey(U As TV, V As TV) As String
-        Return $"[{U.ID}]{U.label} -> [{V.ID}]{V.label}"
-    End Function
 End Class
 
 ''' <summary>
@@ -65,13 +71,7 @@ Public Class Graph : Inherits Graph(Of TV, VertexEdge, Graph)
         If Not (vertices.ContainsKey(u) OrElse vertices.ContainsKey(v)) Then
             Return Nothing
         Else
-            Dim key As String = VertexEdge.EdgeKey(vertices(u), vertices(v))
-
-            If edges.ContainsKey(key) Then
-                Return edges(key)
-            Else
-                Return Nothing
-            End If
+            Return QueryEdge(u, v)
         End If
     End Function
 

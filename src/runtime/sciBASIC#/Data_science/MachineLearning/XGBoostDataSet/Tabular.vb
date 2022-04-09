@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7ca658f2deacc8b73bdd16209377b528, Data_science\MachineLearning\XGBoostDataSet\Tabular.vb"
+﻿#Region "Microsoft.VisualBasic::c2fc7076e8669e7392e4b935c523976b, sciBASIC#\Data_science\MachineLearning\XGBoostDataSet\Tabular.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 208
+    '    Code Lines: 154
+    ' Comment Lines: 10
+    '   Blank Lines: 44
+    '     File Size: 6.82 KB
+
 
     ' Module Tabular
     ' 
@@ -84,7 +94,7 @@ Public Module Tabular
             br.ReadLine()
 
             For row = 0 To data.dataset_size - 1
-                Dim strs As String() = br.ReadLine().Split(",")
+                Dim strs As String() = br.ReadLine().Split(","c)
 
                 For col = 0 To data.feature_dim - 1
 
@@ -133,7 +143,7 @@ Public Module Tabular
             br.ReadLine()
 
             For row = 0 To data.dataset_size - 1
-                Dim strs As String() = br.ReadLine().Split(",")
+                Dim strs As String() = br.ReadLine().Split(","c)
                 data.label(row) = Single.Parse(strs(strs.Length - 1))
 
                 For col = 0 To data.feature_dim - 1
@@ -228,7 +238,7 @@ Public Module Tabular
         Arrays.fill(cur_missing_index, 0)
 
         For row = 0 To data.dataset_size - 1
-            Dim strs As String() = br.ReadLine().Split(",")
+            Dim strs As String() = br.ReadLine().Split(","c)
             data.label(row) = Single.Parse(strs(strs.Length - 1))
 
             For col = 0 To data.feature_dim - 1

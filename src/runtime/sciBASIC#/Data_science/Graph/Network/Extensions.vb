@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9378ca65aab6c76ab728b24a157149f3, Data_science\Graph\Network\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::9378ca65aab6c76ab728b24a157149f3, sciBASIC#\Data_science\Graph\Network\Extensions.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,16 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 87
+    '    Code Lines: 54
+    ' Comment Lines: 19
+    '   Blank Lines: 14
+    '     File Size: 4.24 KB
+
+
     '     Module Extensions
     ' 
     '         Function: (+2 Overloads) ComputeDegreeData, EndPoints, IteratesSubNetworks
@@ -41,7 +51,6 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language
 
 Namespace Network

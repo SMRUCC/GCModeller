@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8930cc182cbb31161106d856d41ff8b5, Data\DataFrame\IO\csv\File.vb"
+﻿#Region "Microsoft.VisualBasic::8930cc182cbb31161106d856d41ff8b5, sciBASIC#\Data\DataFrame\IO\csv\File.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 927
+    '    Code Lines: 554
+    ' Comment Lines: 253
+    '   Blank Lines: 120
+    '     File Size: 37.24 KB
+
 
     '     Class File
     ' 
@@ -749,6 +759,15 @@ B21,B22,B23,...
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Private Shared Function loads(path As String, encoding As Encoding, trimBlanks As Boolean, skipWhile As NamedValue(Of Func(Of String, Boolean))) As List(Of RowObject)
             Return FileLoader.Load(path.MapNetFile.ReadAllLines(encoding), trimBlanks, skipWhile)
+        End Function
+
+        Protected Shared Function loads(file As Stream, encoding As Encoding, trimBlanks As Boolean, skipWhile As NamedValue(Of Func(Of String, Boolean))) As List(Of RowObject)
+            Using reader As New StreamReader(file, encoding)
+                Dim allLines As String() = reader.IteratesStream.ToArray
+                Dim data = FileLoader.Load(allLines, trimBlanks, skipWhile)
+
+                Return data
+            End Using
         End Function
 
         ''' <summary>

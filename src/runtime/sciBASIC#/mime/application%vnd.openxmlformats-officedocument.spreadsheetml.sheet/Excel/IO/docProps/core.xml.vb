@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2d49332076fd5277e12362444dd4a2b9, mime\application%vnd.openxmlformats-officedocument.spreadsheetml.sheet\Excel\IO\docProps\core.xml.vb"
+﻿#Region "Microsoft.VisualBasic::2d49332076fd5277e12362444dd4a2b9, sciBASIC#\mime\application%vnd.openxmlformats-officedocument.spreadsheetml.sheet\Excel\IO\docProps\core.xml.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,16 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 63
+    '    Code Lines: 46
+    ' Comment Lines: 0
+    '   Blank Lines: 17
+    '     File Size: 2.06 KB
+
+
     '     Class core
     ' 
     '         Properties: category, contentStatus, created, creator, description
@@ -54,7 +64,7 @@ Imports OpenXML = Microsoft.VisualBasic.MIME.Office.Excel.Model.Xmlns
 Namespace XML.docProps
 
     <XmlRoot("coreProperties", [Namespace]:=OpenXML.cp)>
-    Public Class core : Inherits IXml
+    Public Class core : Implements IXml
 
         <XmlNamespaceDeclarations()>
         Public xmlns As XmlSerializerNamespaces
@@ -96,11 +106,11 @@ Namespace XML.docProps
         <XmlElement([Namespace]:=OpenXML.cp)>
         Public Property contentStatus As String
 
-        Protected Overrides Function filePath() As String
+        Protected Function filePath() As String Implements IXml.filePath
             Return "docProps/core.xml"
         End Function
 
-        Protected Overrides Function toXml() As String
+        Protected Function toXml() As String Implements IXml.toXml
             Return Me.GetXml
         End Function
     End Class

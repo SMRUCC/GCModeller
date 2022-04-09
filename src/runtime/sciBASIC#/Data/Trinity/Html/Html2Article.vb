@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::04b108d7554f7c64e427c7d428a8a0f4, Data\Trinity\Html\Html2Article.vb"
+﻿#Region "Microsoft.VisualBasic::7467378a7785dd76554b881bcfe044e1, sciBASIC#\Data\Trinity\Html\Html2Article.vb"
 
 ' Author:
 ' 
@@ -31,11 +31,21 @@
 
 ' Summaries:
 
+
+' Code Statistics:
+
+'   Total Lines: 291
+'    Code Lines: 174
+' Comment Lines: 83
+'   Blank Lines: 34
+'     File Size: 11.05 KB
+
+
 ' Class Html2Article
 ' 
 '     Properties: AppendMode, Depth, LimitCount
 ' 
-'     Function: FormatTag, GetArticle, GetPublishDate, GetTitle
+'     Function: FormatTag, GetArticle, GetPublishDate, GetTitle, ParseDateResult
 ' 
 '     Sub: GetContent
 ' 
@@ -44,6 +54,7 @@
 #End Region
 
 ' Author: StanZhai 翟士丹（mail@zhaishidan.cn）. All rights reserved. See License.md in the project root for license information.
+Imports System.Net
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports System.Web
@@ -329,7 +340,7 @@ Public Class Html2Article
         Dim result As String = sb.ToString()
         ' 处理回车符，更好的将文本格式化输出
         content = result.Replace("[crlf]", Environment.NewLine)
-        content = HttpUtility.HtmlDecode(content)
+        content = WebUtility.HtmlDecode(content)
         ' 输出带标签文本
         contentWithTags = orgSb.ToString()
     End Sub

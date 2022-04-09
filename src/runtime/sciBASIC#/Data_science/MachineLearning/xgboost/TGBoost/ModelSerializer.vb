@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8abfee3f34d079c7c214ee3f82e262d2, Data_science\MachineLearning\xgboost\TGBoost\ModelSerializer.vb"
+﻿#Region "Microsoft.VisualBasic::2c485e407e9e156017ec19ef659e0047, sciBASIC#\Data_science\MachineLearning\xgboost\TGBoost\ModelSerializer.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 220
+    '    Code Lines: 152
+    ' Comment Lines: 31
+    '   Blank Lines: 37
+    '     File Size: 8.28 KB
+
 
     '     Class ModelSerializer
     ' 
@@ -177,8 +187,8 @@ Namespace train
         ''' <returns></returns>
         Public Shared Function load_model(txtLine As String()) As GBM
             Dim i As i32 = 0
-            Dim first_round_predict As Double = Double.Parse(txtLine(++i).Split("=")(1))
-            Dim eta As Double = Double.Parse(txtLine(++i).Split("=")(1))
+            Dim first_round_predict As Double = Double.Parse(txtLine(++i).Split("="c)(1))
+            Dim eta As Double = Double.Parse(txtLine(++i).Split("="c)(1))
             Dim loss As Loss = Nothing
 
             If txtLine(++i) = "logloss" Then
@@ -228,12 +238,12 @@ Namespace train
                     Dim index = Integer.Parse(line.Split(":"c)(0))
 
                     If line.Split(":"c)(1).StartsWith("leaf") Then
-                        Dim leaf_score = Double.Parse(line.Split(":"c)(CInt(1)).Split("=")(1))
+                        Dim leaf_score = Double.Parse(line.Split(":"c)(CInt(1)).Split("="c)(1))
                         Dim node As TreeNode = New TreeNode(index, leaf_score)
                         map(index) = node
                     Else
                         Dim nan_go_to = Double.Parse(line.Split("="c)(1))
-                        Dim split_info = line.Split(":"c)(1).Split("]")(0)
+                        Dim split_info = line.Split(":"c)(1).Split("]"c)(0)
                         split_info = split_info.Substring(1)
                         Dim strs = split_info.Split(","c)
                         Dim split_feature = Integer.Parse(strs(0))

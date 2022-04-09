@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::50f8f97448d02fff9f74ecdf7e62bb2a, Data_science\Graph\Analysis\Louvain\Builder.vb"
+﻿#Region "Microsoft.VisualBasic::e35bf775c288801a58f90d34378dc3c5, sciBASIC#\Data_science\Graph\Analysis\Louvain\Builder.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 102
+    '    Code Lines: 78
+    ' Comment Lines: 3
+    '   Blank Lines: 21
+    '     File Size: 3.99 KB
+
 
     '     Class Builder
     ' 
@@ -79,8 +89,8 @@ Namespace Analysis.Louvain
             louvain.head(u) = stdNum.Min(Threading.Interlocked.Increment(louvain.top), louvain.top - 1)
         End Sub
 
-        Public Shared Function Load(Of Node As {New, Network.Node}, Edge As {New, Network.Edge(Of Node)})(g As NetworkGraph(Of Node, Edge)) As LouvainCommunity
-            Dim louvain As New LouvainCommunity With {
+        Public Shared Function Load(Of Node As {New, Network.Node}, Edge As {New, Network.Edge(Of Node)})(g As NetworkGraph(Of Node, Edge), Optional eps As Double = 0.00000001) As LouvainCommunity
+            Dim louvain As New LouvainCommunity(eps:=eps) With {
                 .n = g.size.vertex,
                 .global_n = .n,
                 .m = g.size.edges * 2,

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e45ba7a7b38d087fda2074ee05a6a4ec, mime\application%vnd.openxmlformats-officedocument.spreadsheetml.sheet\Excel\IXml.vb"
+﻿#Region "Microsoft.VisualBasic::e45ba7a7b38d087fda2074ee05a6a4ec, sciBASIC#\mime\application%vnd.openxmlformats-officedocument.spreadsheetml.sheet\Excel\IXml.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,16 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 19
+    '    Code Lines: 15
+    ' Comment Lines: 0
+    '   Blank Lines: 4
+    '     File Size: 591.00 B
+
+
     ' Class IXml
     ' 
     '     Function: ToString, WriteXml
@@ -42,19 +52,20 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Text
 
-Public MustInherit Class IXml
+Public Interface IXml
 
-    Protected MustOverride Function filePath() As String
-    Protected MustOverride Function toXml() As String
+    Function filePath() As String
+    Function toXml() As String
 
-    <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Overrides Function ToString() As String
-        Return filePath()
-    End Function
+End Interface
 
-    Public Function WriteXml(dir$) As Boolean
-        Dim path$ = dir & "/" & filePath()
-        Dim xml$ = toXml()
+Module XMLExtensions
+
+    <Extension>
+    Public Function WriteXml(xmlObj As IXml, dir$) As Boolean
+        Dim path$ = dir & "/" & xmlObj.filePath()
+        Dim xml$ = xmlObj.ToXML()
+
         Return xml.SaveTo(path, TextEncodings.UTF8WithoutBOM)
     End Function
-End Class
+End Module

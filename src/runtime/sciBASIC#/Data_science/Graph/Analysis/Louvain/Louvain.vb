@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b612b77007b0a025507e3671b6cfde48, Data_science\Graph\Analysis\Louvain\Louvain.vb"
+﻿#Region "Microsoft.VisualBasic::8b015b2797e8f9081a703495b8248c9b, sciBASIC#\Data_science\Graph\Analysis\Louvain\Louvain.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,16 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 364
+    '    Code Lines: 218
+    ' Comment Lines: 78
+    '   Blank Lines: 68
+    '     File Size: 11.63 KB
+
+
     '     Class LouvainCommunity
     ' 
     '         Constructor: (+1 Overloads) Sub New
@@ -53,7 +63,9 @@ Namespace Analysis.Louvain
     ''' A fast algorithm To find communities In large network
     ''' </summary>
     ''' <remarks>
-    ''' Blondel V D, Guillaume J L, Lambiotte R, et al. Fast unfolding of communities in large networks[J]. Journal of Statistical Mechanics, 2008, 2008(10)155-168.
+    ''' Blondel V D, Guillaume J L, Lambiotte R, et al. Fast 
+    ''' unfolding of communities in large networks[J]. Journal 
+    ''' of Statistical Mechanics, 2008, 2008(10)155-168.
     ''' </remarks>
     Public Class LouvainCommunity
 
@@ -121,7 +133,8 @@ Namespace Analysis.Louvain
         ''' </summary>
         ReadOnly maxIterations As Integer = 3
 
-        Sub New(Optional maxIterations As Integer = 3)
+        Sub New(Optional maxIterations As Integer = 3, Optional eps As Double = 0.00000000000001)
+            Me.eps = eps
             Me.maxIterations = maxIterations
         End Sub
 
@@ -360,6 +373,13 @@ Namespace Analysis.Louvain
                 update_flag = False ' 是否发生过更新的标记
                 maxLoop = node_weight.Length * 50
 
+                Dim max As Integer = maxLoop
+                Dim deltaP As Integer = maxLoop / 25
+                Dim p As Integer = Scan0
+
+                Call Console.WriteLine()
+                Call Console.Write($" [loop_{count}] Progress: ")
+
                 Do
                     Dim i As Integer = order(point)
 
@@ -375,6 +395,14 @@ Namespace Analysis.Louvain
 
                     If maxLoop < 0 Then
                         Exit Do
+                    Else
+                        p += 1
+
+                        If p = deltaP Then
+                            p = 0
+
+                            Console.Write(vbTab & $"{CInt(100 * (max - maxLoop) / max)}%")
+                        End If
                     End If
                 Loop While enum_time < n
 

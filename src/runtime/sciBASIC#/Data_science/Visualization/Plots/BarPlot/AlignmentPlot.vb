@@ -1,48 +1,58 @@
-﻿#Region "Microsoft.VisualBasic::c58a8355bfc587aaf8aa4fcd65c9357e, Data_science\Visualization\Plots\BarPlot\AlignmentPlot.vb"
+﻿#Region "Microsoft.VisualBasic::c58a8355bfc587aaf8aa4fcd65c9357e, sciBASIC#\Data_science\Visualization\Plots\BarPlot\AlignmentPlot.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module AlignmentPlot
-    ' 
-    '         Function: createHits, HighlightGroups, Hit, Keys, PlotAlignment
-    '                   PlotAlignmentGroups, Values
-    '         Structure Signal
-    ' 
-    '             Function: ToString
-    ' 
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+
+' Code Statistics:
+
+'   Total Lines: 521
+'    Code Lines: 410
+' Comment Lines: 37
+'   Blank Lines: 74
+'     File Size: 26.25 KB
+
+
+'     Module AlignmentPlot
+' 
+'         Function: createHits, HighlightGroups, Hit, Keys, PlotAlignment
+'                   PlotAlignmentGroups, Values
+'         Structure Signal
+' 
+'             Function: ToString
+' 
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -51,6 +61,7 @@ Imports System.Drawing.Drawing2D
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
+Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Text
@@ -78,7 +89,7 @@ Namespace BarPlot
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
-        Private Function Values(signals As signals()) As Double()
+        Friend Function Values(signals As signals()) As Double()
             Return signals.Select(Function(t) t.Item2).ToArray
         End Function
 
@@ -121,7 +132,8 @@ Namespace BarPlot
                                       Optional rectangleStyle As RectangleStyling = Nothing,
                                       Optional drawLegend As Boolean = True,
                                       Optional drawGrid As Boolean = True,
-                                      Optional tagXFormat$ = "F2") As GraphicsData
+                                      Optional tagXFormat$ = "F2",
+                                      Optional driver As Drivers = Drivers.Default) As GraphicsData
 
             Dim q As New Signal With {
                 .Name = queryName,
@@ -148,7 +160,8 @@ Namespace BarPlot
                 rectangleStyle:=rectangleStyle,
                 drawLegend:=drawLegend,
                 drawGrid:=drawGrid,
-                tagXFormat:=tagXFormat
+                tagXFormat:=tagXFormat,
+                driver:=driver
             )
         End Function
 
@@ -161,26 +174,6 @@ Namespace BarPlot
                 Return Name & $" ({Color})"
             End Function
         End Structure
-
-        <Extension> Private Function Hit(highlights#(), err#) As Func(Of Double, (err#, X#, yes As Boolean))
-            If highlights.IsNullOrEmpty Then
-                Return Function() (-1, -1, False)
-            Else
-                Return Function(x)
-                           Dim e#
-
-                           For Each n In highlights
-                               e = stdNum.Abs(n - x)
-
-                               If e <= err Then
-                                   Return (e, n, True)
-                               End If
-                           Next
-
-                           Return (-1, -1, False)
-                       End Function
-            End If
-        End Function
 
         ''' <summary>
         ''' 以条形图的方式可视化绘制两个离散的信号的比对的图形，由于绘制的时候是分别对<paramref name="query"/>和<paramref name="subject"/>
@@ -223,322 +216,46 @@ Namespace BarPlot
                                             Optional rectangleStyle As RectangleStyling = Nothing,
                                             Optional drawLegend As Boolean = True,
                                             Optional drawGrid As Boolean = True,
-                                            Optional tagXFormat$ = "F2") As GraphicsData
-            If xrange Is Nothing Then
-                Dim ALL = query _
-                    .Select(Function(x) x.signals.Keys) _
-                    .JoinIterates(subject.Select(Function(x) x.signals.Keys)) _
-                    .IteratesALL _
-                    .ToArray
-                xrange = New DoubleRange(ALL)
-            End If
-            If yrange Is Nothing Then
-                Dim ALL = query _
-                    .Select(Function(x) x.signals.Values) _
-                    .JoinIterates(subject.Select(Function(x) x.signals.Values)) _
-                    .IteratesALL _
-                    .ToArray
-                yrange = New DoubleRange(ALL)
-            End If
+                                            Optional tagXFormat$ = "F2",
+                                            Optional driver As Drivers = Drivers.Default) As GraphicsData
 
-            rectangleStyle = rectangleStyle Or RectangleStyles.DefaultStyle
+            Dim theme As New Theme With {
+                .padding = padding,
+                .axisTickCSS = tickCSS,
+                .mainCSS = titleCSS,
+                .legendLabelCSS = legendFontCSS,
+                .background = bg,
+                .axisLabelCSS = labelCSS,
+                .yAxislabelPosition = yAxislabelPosition,
+                .legendTickFormat = format,
+                .XaxisTickFormat = format,
+                .YaxisTickFormat = format,
+                .tagFormat = tagXFormat,
+                .lineStroke = highlight,
+                .drawLegend = drawLegend,
+                .drawGrid = drawGrid
+            }
+            Dim barplot As New PlotAlignmentGroup(query, subject, xrange, yrange, rectangleStyle, theme) With {
+                .main = title,
+                .xlabel = xlab,
+                .ylabel = ylab,
+                .XAxisLabelCss = X_CSS,
+                .displayX = displayX,
+                .queryName = queryName,
+                .subjectName = subjectName,
+                .highlightMargin = highlightMargin,
+                .hitsHightLights = hitsHightLights,
+                .labelPlotStrength = labelPlotStrength,
+                .idTag = idTag,
+                .bw = bw,
+                .xError = xError
+            }
 
-            Dim plotInternal =
-                Sub(ByRef g As IGraphics, region As GraphicsRegion)
-
-                    Dim rect As Rectangle = region.PlotRegion
-                    Dim yLength! = yrange.Length
-                    Dim xLength! = xrange.Length
-                    Dim xmin# = xrange.Min
-                    Dim ymid! = rect.Height / 2 + region.Padding.Top
-                    Dim width! = rect.Width
-                    Dim height! = rect.Height / 2
-                    Dim yscale = Function(y!)
-                                     ' 因为ymin总是0，所以在这里就不需要将减ymin写出来了
-                                     Return (y / yLength) * (height)
-                                 End Function
-                    Dim xscale = Function(x!)
-                                     ' width 乘上百分比
-                                     Return ((x - xmin) / xLength) * width
-                                 End Function
-
-                    With rect
-                        Dim axisPen As New Pen(Color.Black, 2)
-                        Dim dy = yrange.Length / 5
-                        Dim y!
-                        Dim gridPen As New Pen(Color.FromArgb(230, 230, 230), 2) 'With {
-                        '.DashStyle = DashStyle.Solid,
-                        '    .DashPattern = {15.0!, 4.0!}
-                        '}
-                        Dim dt! = 15
-                        Dim tickPen As New Pen(Color.Black, 1)
-                        Dim tickFont As Font = CSSFont.TryParse(tickCSS, [default]:=New Font(FontFace.MicrosoftYaHei, 12.0!)).GDIObject(g.Dpi)
-                        Dim drawlabel = Sub(c As IGraphics, label$)
-                                            Dim tsize = c.MeasureString(label, tickFont)
-                                            Dim pos As New Point(.Left - dt - tsize.Width, y - tsize.Height / 2)
-
-                                            Call c.DrawString(label, tickFont, Brushes.Black, pos)
-                                        End Sub
-
-                        If TypeOf g Is Graphics2D Then
-                            DirectCast(g, Graphics2D).Stroke = tickPen
-                        End If
-
-                        For i As Integer = 0 To 5
-                            Dim label$ = (i * dy).ToString(format) & "%"
-
-                            y = ymid - yscale(i * dy) ' 上半部分
-                            Call g.DrawLine(tickPen, New PointF(.Left, y), New Point(.Left - dt, y))
-
-                            If drawGrid Then
-                                Call g.DrawLine(gridPen, New Point(.Left, y), New Point(.Right, y))
-                            End If
-
-                            Call drawlabel(g, label)
-
-                            If i = 0 Then
-                                Continue For
-                            End If
-
-                            y = ymid + yscale(i * dy) ' 下半部分
-                            Call g.DrawLine(tickPen, New PointF(.Left, y), New Point(.Left - dt, y))
-
-                            If drawGrid Then
-                                Call g.DrawLine(gridPen, New Point(.Left, y), New Point(.Right, y))
-                            End If
-
-                            Call drawlabel(g, label)
-                        Next
-
-                        Dim labelFont As Font = CSSFont.TryParse(labelCSS, [default]:=New Font(FontFace.MicrosoftYaHei, 12.0!, FontStyle.Bold)).GDIObject(g.Dpi)
-                        Dim labSize As SizeF = g.MeasureString(ylab, labelFont)
-                        Dim labPos As PointF
-
-                        ' Y 坐标轴
-                        Call g.DrawLine(axisPen, .Location, New Point(.Left, .Bottom))
-
-                        Select Case yAxislabelPosition
-                            Case YlabelPosition.InsidePlot
-                                labPos = New Point(.Left + 3, .Top)
-                                Call g.DrawString(ylab, labelFont, Brushes.Black, labPos)
-                            Case YlabelPosition.LeftCenter
-                                Dim lx = (.Left - labSize.Height) / 4
-                                Dim ly = .Top * 2.5 + (.Height - labSize.Width) / 2
-
-                                labPos = New PointF(lx, ly)
-
-                                With New GraphicsText(DirectCast(g, Graphics2D).Graphics)
-                                    Call .DrawString(ylab, labelFont, Brushes.Black, labPos, -90)
-                                End With
-                            Case Else
-                                ' 不进行标签的绘制
-                        End Select
-
-                        ' X 坐标轴
-                        Dim fWidth! = g.MeasureString(xlab, labelFont).Width
-
-                        Call g.DrawLine(axisPen, New Point(.Left, ymid), New Point(.Right, ymid))
-                        Call g.DrawString(xlab, labelFont, Brushes.Black, New Point(.Right - fWidth, ymid + 2))
-
-                        Dim left!
-                        Dim xCSSFont As Font = CSSFont.TryParse(X_CSS).GDIObject(g.Dpi)
-                        Dim xsz As SizeF
-                        Dim xpos As PointF
-                        Dim xlabel$
-                        Dim highlightPen As Pen = Stroke.TryParse(highlight).GDIObject
-                        Dim position As Point
-                        Dim sz As Size
-#Region "绘制柱状图"
-                        For Each part As Signal In query
-                            Dim ba As New SolidBrush(part.Color.TranslateColor)
-
-                            For Each o As (x#, value#) In part.signals _
-                                .Where(Function(f)
-                                           Return f.Item2 <> 0R
-                                       End Function)
-
-                                left = region.Padding.Left + xscale(o.x)
-                                y = o.value
-                                y = ymid - yscale(y)
-                                position = New Point(left, y)
-                                sz = New Size(bw, yscale(o.value))
-                                rect = New Rectangle With {
-                                    .Location = position,
-                                    .Size = sz
-                                }
-
-                                ' Call g.FillRectangle(ba, rect)
-                                Call rectangleStyle(g, ba, rect, RectangleSides.Bottom)
-                            Next
-                        Next
-
-                        For Each part As Signal In subject
-                            Dim bb As New SolidBrush(part.Color.TranslateColor)
-
-                            For Each o As (x#, value#) In part.signals _
-                                .Where(Function(f)
-                                           Return f.Item2 <> 0R
-                                       End Function)
-
-                                y = o.value
-                                y = ymid + yscale(y)
-                                left = region.Padding.Left + xscale(o.x)
-                                rect = Rectangle(ymid, left, left + bw, y)
-
-                                ' g.FillRectangle(bb, rect)
-                                Call rectangleStyle(g, bb, rect, RectangleSides.Top)
-                            Next
-                        Next
-
-                        ' 绘制高亮的区域
-                        Dim highlights = HighlightGroups(query, subject, hitsHightLights, xError)
-                        Dim right!
-                        Dim blockHeight!
-
-                        For Each block As (xmin#, xmax#, query#, subject#) In highlights
-                            left = region.Padding.Left + xscale(block.xmin)
-                            right = region.Padding.Left + xscale(block.xmax) + bw
-                            y = ymid - yscale(block.query)
-                            blockHeight = yscale(block.query) + yscale(block.subject)
-
-                            rect = New Rectangle With {
-                                .Location = New Point(left - highlightMargin, y - highlightMargin),
-                                .Size = New Size With {
-                                    .Width = right - left + 2 * highlightMargin,
-                                    .Height = blockHeight + 2 * highlightMargin
-                                }
-                            }
-
-                            g.DrawRectangle(highlightPen, rect)
-                        Next
-#End Region
-                        ' 考虑到x轴标签可能会被柱子挡住，所以在这里将柱子和x标签的绘制分开在两个循环之中来完成
-#Region "绘制横坐标轴"
-                        For Each part In query
-                            For Each o As (x#, value#) In part.signals
-                                y = o.value
-                                y = ymid - yscale(y)
-                                left = region.Padding.Left + xscale(o.x)
-                                rect = New Rectangle(New Point(left, y), New Size(bw, yscale(o.value)))
-
-                                If displayX AndAlso o.value / yLength >= labelPlotStrength Then
-                                    xlabel = o.x.ToString(tagXFormat)
-                                    xsz = g.MeasureString(xlabel, xCSSFont)
-                                    xpos = New PointF(rect.Left + (rect.Width - xsz.Width) / 2, rect.Top - xsz.Height)
-                                    g.DrawString(xlabel, xCSSFont, Brushes.Black, xpos)
-                                End If
-                            Next
-                        Next
-
-                        For Each part In subject
-                            For Each o As (x#, value#) In part.signals
-                                y = o.value
-                                y = ymid + yscale(y)
-                                left = region.Padding.Left + xscale(o.x)
-                                rect = Rectangle(ymid, left, left + bw, y)
-
-                                If displayX AndAlso o.value / yLength >= labelPlotStrength Then
-                                    xlabel = o.x.ToString(tagXFormat)
-                                    xsz = g.MeasureString(xlabel, xCSSFont)
-                                    xpos = New PointF(rect.Left + (rect.Width - xsz.Width) / 2, rect.Bottom + 3)
-                                    g.DrawString(xlabel, xCSSFont, Brushes.Black, xpos)
-                                End If
-                            Next
-                        Next
-#End Region
-                        rect = region.PlotRegion
-
-                        If drawLegend Then
-                            Dim boxWidth! = 350
-
-                            ' legend 的圆角矩形
-                            Call Shapes.RoundRect.Draw(
-                                g,
-                                New Point(rect.Right - (boxWidth + 10), rect.Top + 6),
-                                New Size(boxWidth, 80), 8,
-                                Brushes.White,
-                                New Stroke With {
-                                    .dash = DashStyle.Solid,
-                                    .fill = "black",
-                                    .width = 2
-                                })
-
-                            Dim box As Rectangle
-                            Dim legendFont As Font = CSSFont _
-                                .TryParse(legendFontCSS, [default]:=New Font(FontFace.MicrosoftYaHei, 16.0!)) _
-                                .GDIObject(g.Dpi)
-                            Dim fHeight! = g.MeasureString("1", legendFont).Height
-
-                            y = 3
-
-                            box = New Rectangle(New Point(rect.Right - boxWidth, rect.Top + 20), New Size(20, 20))
-                            Call g.FillRectangle(query.Last.Color.GetBrush, box)
-                            Call g.DrawString(queryName, legendFont, Brushes.Black, box.Location.OffSet2D(25, -y))
-
-                            box = New Rectangle(New Point(box.Left, box.Top + 30), box.Size)
-                            Call g.FillRectangle(subject.Last.Color.GetBrush, box)
-                            Call g.DrawString(subjectName, legendFont, Brushes.Black, box.Location.OffSet2D(25, -y))
-                        End If
-
-                        Dim titleFont As Font = CSSFont _
-                            .TryParse(titleCSS, [default]:=New Font(FontFace.MicrosoftYaHei, 16.0!)) _
-                            .GDIObject(g.Dpi)
-                        Dim titleSize As SizeF = g.MeasureString(title, titleFont)
-                        Dim tl As New Point With {
-                            .X = (region.Width - titleSize.Width) / 2,
-                            .Y = (region.Padding.Top - titleSize.Height) / 2
-                        }
-
-                        Call g.DrawString(title, titleFont, Brushes.Black, tl)
-
-                        If Not idTag Is Nothing Then
-                            ' 绘制右下角的编号标签
-                            titleSize = g.MeasureString(idTag, titleFont)
-                            tl = New Point With {
-                                .X = rect.Right - titleSize.Width - 20,
-                                .Y = rect.Bottom - titleSize.Height - 20
-                            }
-
-                            Call g.DrawString(idTag, titleFont, Brushes.Gray, tl)
-                        End If
-                    End With
-                End Sub
-
-            Return g.GraphicsPlots(
-                size.SizeParser, padding,
-                bg,
-                plotInternal
-            )
-        End Function
-
-        Private Function HighlightGroups(query As Signal(), subject As Signal(), highlights#(), err#) As (xmin#, xmax#, query#, subject#)()
-            If highlights.IsNullOrEmpty Then
-                Return {}
-            End If
-
-            Dim isHighlight = highlights.Hit(err)
-            Dim qh = query.createHits(isHighlight)
-            Dim sh = subject.createHits(isHighlight)
-            Dim out As New List(Of (xmin#, xmax#, query#, subject#))
-
-            For Each x In highlights
-                If Not qh.ContainsKey(x) OrElse Not sh.ContainsKey(x) Then
-                    Continue For
-                End If
-
-                Dim q = qh(x)
-                Dim s = sh(x)
-
-                With q.x + s.x.ToArray
-                    out += (.Min, .Max, q.y, s.y)
-                End With
-            Next
-
-            Return out
+            Return barplot.Plot(size, ppi:=100, driver:=driver)
         End Function
 
         <Extension>
-        Private Function createHits(data As Signal(), ishighlight As Func(Of Double, (err#, x#, yes As Boolean))) As Dictionary(Of Double, (x As List(Of Double), y#))
+        Friend Function createHits(data As Signal(), ishighlight As Func(Of Double, (err#, x#, yes As Boolean))) As Dictionary(Of Double, (x As List(Of Double), y#))
             Dim hits As New Dictionary(Of Double, (x As List(Of Double), y#))
             Dim source As IEnumerable(Of signals) = data _
                 .Select(Function(x) x.signals) _

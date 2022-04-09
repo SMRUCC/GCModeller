@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a4f9035bc77abe5df8beefe534190c65, mime\application%vnd.openxmlformats-officedocument.spreadsheetml.sheet\Excel\IO\docProps\app.xml.vb"
+﻿#Region "Microsoft.VisualBasic::a4f9035bc77abe5df8beefe534190c65, sciBASIC#\mime\application%vnd.openxmlformats-officedocument.spreadsheetml.sheet\Excel\IO\docProps\app.xml.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,16 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 67
+    '    Code Lines: 46
+    ' Comment Lines: 8
+    '   Blank Lines: 13
+    '     File Size: 2.15 KB
+
+
     '     Class app
     ' 
     '         Properties: Application, AppVersion, Company, DocSecurity, HeadingPairs
@@ -62,7 +72,7 @@ Imports OpenXML = Microsoft.VisualBasic.MIME.Office.Excel.Model.Xmlns
 Namespace XML.docProps
 
     <XmlRoot("Properties", [Namespace]:="http://schemas.openxmlformats.org/officeDocument/2006/extended-properties")>
-    Public Class app : Inherits IXml
+    Public Class app : Implements IXml
 
         Public Property Application As String
         Public Property DocSecurity As String
@@ -83,11 +93,11 @@ Namespace XML.docProps
             xmlns.Add("vt", OpenXML.vt)
         End Sub
 
-        Protected Overrides Function filePath() As String
+        Protected Function filePath() As String Implements IXml.filePath
             Return "docProps/app.xml"
         End Function
 
-        Protected Overrides Function toXml() As String
+        Protected Function toXml() As String Implements IXml.toXml
             Throw New NotImplementedException()
         End Function
     End Class

@@ -1,53 +1,63 @@
-﻿#Region "Microsoft.VisualBasic::8bd8d70f7d44faeff407129ceed2b488, gr\network-visualization\Datavisualization.Network\Graph\Model\Graph.vb"
+﻿#Region "Microsoft.VisualBasic::56ef636df8500ace786a5df489cc111b, sciBASIC#\gr\network-visualization\Datavisualization.Network\Graph\Model\Graph.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class NetworkGraph
-    ' 
-    '         Properties: connectedNodes
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    ' 
-    '         Function: (+3 Overloads) AddEdge, AddNode, (+2 Overloads) Clone, ComputeIfNotExists, Copy
-    '                   (+2 Overloads) CreateEdge, createEdgeInternal, (+2 Overloads) CreateNode, GetConnectedGraph, GetConnectedVertex
-    '                   GetEdge, (+2 Overloads) GetEdges, (+2 Overloads) GetElementByID, GetElementsByClassName, GetElementsByName
-    '                   StyleSelectorGetElementById, ToString
-    ' 
-    '         Sub: AddGraphListener, Clear, (+2 Overloads) CreateEdges, (+2 Overloads) CreateNodes, DetachNode
-    '              FilterEdges, FilterNodes, Merge, notify, RemoveEdge
-    '              (+2 Overloads) RemoveNode
-    ' 
-    ' 
-    ' /********************************************************************************/
+
+' Code Statistics:
+
+'   Total Lines: 588
+'    Code Lines: 354
+' Comment Lines: 155
+'   Blank Lines: 79
+'     File Size: 22.28 KB
+
+
+'     Class NetworkGraph
+' 
+'         Properties: connectedNodes
+' 
+'         Constructor: (+2 Overloads) Sub New
+' 
+'         Function: (+3 Overloads) AddEdge, AddNode, (+2 Overloads) Clone, ComputeIfNotExists, Copy
+'                   (+2 Overloads) CreateEdge, createEdgeInternal, (+2 Overloads) CreateNode, GetConnectedGraph, GetConnectedVertex
+'                   GetEdge, (+2 Overloads) GetEdges, (+2 Overloads) GetElementByID, GetElementsByClassName, GetElementsByName
+'                   StyleSelectorGetElementById, ToString
+' 
+'         Sub: AddGraphListener, Clear, (+2 Overloads) CreateEdges, (+2 Overloads) CreateNodes, DetachNode
+'              FilterEdges, FilterNodes, Merge, notify, RemoveEdge
+'              (+2 Overloads) RemoveNode
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -172,7 +182,7 @@ Namespace Graph
         ''' </summary>
         Public Sub Clear()
             Call vertices.Clear()
-            Call edges.Clear()
+            Call clearEdges()
             Call _index.Clear()
         End Sub
 
@@ -182,11 +192,13 @@ Namespace Graph
         ''' </summary>
         ''' <param name="node"></param>
         ''' <returns></returns>
-        Public Function AddNode(node As Node) As Node
+        Public Function AddNode(node As Node, Optional assignId As Boolean = True) As Node
             If Not vertices.ContainsKey(node.label) Then
-                ' 20201223 ID必须要在哈希表添加之前进行赋值
-                ' 编号必须从零开始
-                node.ID = buffer.GetAvailablePos
+                If assignId Then
+                    ' 20201223 ID必须要在哈希表添加之前进行赋值
+                    ' 编号必须从零开始
+                    node.ID = buffer.GetAvailablePos
+                End If
 
                 buffer.Add(node)
                 vertices.Add(node)
@@ -268,11 +280,9 @@ Namespace Graph
         End Function
 
         Public Overloads Function AddEdge(edge As Edge) As Edge
-            If Not edges.ContainsKey(edge.ID) Then
-                Call edges.Add(edge.ID, edge)
-            End If
-
             Dim tuple = _index.AddEdge(edge)
+
+            Call Insert(edge)
 
             ' gr.addEdge(edge)
             ' tail.addOutgoingEdge(edge)
@@ -492,7 +502,7 @@ Namespace Graph
         ''' <param name="edge"></param>
         Public Sub RemoveEdge(edge As Edge)
             Call _index.RemoveEdge(edge)
-            Call edges.Remove(edge.ID)
+            Call Delete(edge)
             Call notify()
         End Sub
 

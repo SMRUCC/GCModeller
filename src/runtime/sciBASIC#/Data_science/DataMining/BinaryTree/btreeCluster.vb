@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dd44689dd45f801d606a5c637b1d14f0, Data_science\DataMining\BinaryTree\btreeCluster.vb"
+﻿#Region "Microsoft.VisualBasic::dd44689dd45f801d606a5c637b1d14f0, sciBASIC#\Data_science\DataMining\BinaryTree\btreeCluster.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,16 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 33
+    '    Code Lines: 23
+    ' Comment Lines: 4
+    '   Blank Lines: 6
+    '     File Size: 1.12 KB
+
+
     ' Class BTreeCluster
     ' 
     '     Properties: left, members, right, uuid
@@ -56,6 +66,10 @@ Public Class BTreeCluster : Implements INamedValue
     ''' </summary>
     ''' <returns></returns>
     Public Property members As String()
+
+    Public Overrides Function ToString() As String
+        Return $"[{uuid}] ({members.Length} members) {members.JoinBy(", ")}"
+    End Function
 
     Public Shared Function GetClusters(btree As AVLTree(Of String, String)) As BTreeCluster
         Return GetClusters(btree.root)

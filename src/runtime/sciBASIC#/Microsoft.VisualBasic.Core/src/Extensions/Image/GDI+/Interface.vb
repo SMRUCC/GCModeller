@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ae11c528a546231cc375971e6dce18b6, Microsoft.VisualBasic.Core\src\Extensions\Image\GDI+\Interface.vb"
+﻿#Region "Microsoft.VisualBasic::ae11c528a546231cc375971e6dce18b6, sciBASIC#\Microsoft.VisualBasic.Core\src\Extensions\Image\GDI+\Interface.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 4479
+    '    Code Lines: 265
+    ' Comment Lines: 4169
+    '   Blank Lines: 45
+    '     File Size: 203.71 KB
+
 
     '     Class IGraphics
     ' 
@@ -68,6 +78,12 @@ Namespace Imaging
         Implements IDisposable
 
         Public MustOverride ReadOnly Property Size As Size
+
+        ''' <summary>
+        ''' set background via <see cref="Clear"/> method.
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property Background As Color
 
         ''
         '' Summary:
@@ -236,16 +252,27 @@ Namespace Imaging
         '   data:
         '     Array of bytes that contains the comment.
         Public MustOverride Sub AddMetafileComment(data() As Byte)
-        '
-        ' Summary:
-        '     Clears the entire drawing surface and fills it with the specified background
-        '     color.
-        '
-        ' Parameters:
-        '   color:
-        '     System.Drawing.Color structure that represents the background color of the drawing
-        '     surface.
-        Public MustOverride Sub Clear(color As Color)
+
+        ''' <summary>
+        ''' Clears the entire drawing surface and fills it with the specified background
+        ''' color.
+        ''' </summary>
+        ''' <param name="color">
+        ''' <see cref="Color"/> structure that represents the background color of the drawing
+        ''' surface.
+        ''' </param>
+        Public Sub Clear(color As Color)
+            Me.ClearCanvas(color)
+            Me._Background = color
+        End Sub
+
+        ''' <summary>
+        ''' Clears the entire drawing surface and fills it with the specified background
+        ''' color.
+        ''' </summary>
+        ''' <param name="color"></param>
+        Protected MustOverride Sub ClearCanvas(color As Color)
+
         '
         ' Summary:
         '     Performs a bit-block transfer of color data, corresponding to a rectangle of

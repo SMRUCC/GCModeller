@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4008a943bb6863ab05bdd794fe447186, gr\network-visualization\Datavisualization.Network\Analysis\Communities.vb"
+﻿#Region "Microsoft.VisualBasic::f3de3c1ad2639a3aac10bd19245b5588, sciBASIC#\gr\network-visualization\Datavisualization.Network\Analysis\Communities.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,19 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 122
+    '    Code Lines: 79
+    ' Comment Lines: 17
+    '   Blank Lines: 26
+    '     File Size: 4.57 KB
+
+
     '     Class Communities
     ' 
-    '         Function: Analysis, Community, GetCommunitySet, Modularity
+    '         Function: Analysis, AnalysisUnweighted, Community, GetCommunitySet, Modularity
     ' 
     ' 
     ' /********************************************************************************/
@@ -41,6 +51,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.Data.GraphTheory.Analysis
+Imports Microsoft.VisualBasic.Data.GraphTheory.Analysis.FastUnfolding
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 
@@ -113,16 +124,43 @@ Namespace Analysis
             Return mov
         End Function
 
+        Public Shared Function AnalysisUnweighted(ByRef g As NetworkGraph, Optional directed As Boolean = True) As NetworkGraph
+            Dim maps As New KeyMaps
+
+            For Each link As Edge In g.graphEdges
+                Call maps(link.U.label).Add(link.V.label)
+                'If Not directed Then
+                Call maps(link.V.label).Add(link.U.label)
+                'End If
+            Next
+
+            Dim clustering As New FastUnfolding(maps)
+            Dim communities = clustering.Analysis
+
+            maps = communities.Item1
+
+            For Each group In maps.Keys
+                For Each id As String In maps(group)
+                    g.GetElementByID(id).data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE) = group
+                Next
+            Next
+
+            Return g
+        End Function
+
         ''' <summary>
-        ''' 
+        ''' analysis network node community structure
         ''' </summary>
         ''' <param name="g">
         ''' 请注意，这个必须要要求节点的编号是连续的``0:n``序列中的值，不可以存在重复编号
         ''' </param>
-        ''' <returns></returns>
-        Public Shared Function Analysis(g As NetworkGraph) As NetworkGraph
+        ''' <returns>
+        ''' a network model with the <see cref="NamesOf.REFLECTION_ID_MAPPING_NODETYPE"/> 
+        ''' property data has been assigned as the community tags.
+        ''' </returns>
+        Public Shared Function Analysis(ByRef g As NetworkGraph, Optional eps As Double = 0.00001) As NetworkGraph
             Dim clusters As String() = Louvain.Builder _
-                .Load(g) _
+                .Load(g, eps:=eps) _
                 .SolveClusters _
                 .GetCommunity
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::557058139dbdf659910b2c94d644cda5, vs_solutions\dev\VisualStudio\vbproj\Project.vb"
+﻿#Region "Microsoft.VisualBasic::557058139dbdf659910b2c94d644cda5, sciBASIC#\vs_solutions\dev\VisualStudio\vbproj\Project.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 79
+    '    Code Lines: 58
+    ' Comment Lines: 7
+    '   Blank Lines: 14
+    '     File Size: 3.07 KB
+
 
     '     Class Project
     ' 
@@ -63,6 +73,7 @@ Namespace vbproj
         Public Const xmlns$ = "http://schemas.microsoft.com/developer/msbuild/2003"
 
         <XmlAttribute> Public Property ToolsVersion As String
+        <XmlAttribute> Public Property Sdk As String
         <XmlAttribute> Public Property DefaultTargets As String
 
         <XmlElement("Import")>
@@ -77,7 +88,9 @@ Namespace vbproj
 
         Public ReadOnly Property MimeType As ContentType() Implements IFileReference.MimeType
             Get
-                Throw New NotImplementedException()
+                Return {
+                    New ContentType With {.Details = "VisualStudio Project", .FileExt = ".vbproj", .MIMEType = "visualstudio/xml-project", .Name = "Project"}
+                }
             End Get
         End Property
 
@@ -104,7 +117,12 @@ Namespace vbproj
         End Function
 
         Public Overrides Function ToString() As String
-            Return Me.GetJson
+            Dim sb As New StringBuilder
+
+            Call sb.AppendLine($"[{MimeType(0).ToString}]")
+
+
+            Return sb.ToString
         End Function
 
         Public Shared Function Load(file As String) As Project

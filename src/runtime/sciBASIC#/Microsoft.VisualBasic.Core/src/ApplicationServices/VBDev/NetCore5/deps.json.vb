@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2a3a9707ec8dbbd3e9ff0fcd3c76e4b9, Microsoft.VisualBasic.Core\src\ApplicationServices\VBDev\NetCore5\deps.json.vb"
+﻿#Region "Microsoft.VisualBasic::ccdc43f79ee79a54cd9ba4090539f646, sciBASIC#\Microsoft.VisualBasic.Core\src\ApplicationServices\VBDev\NetCore5\deps.json.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 150
+    '    Code Lines: 95
+    ' Comment Lines: 37
+    '   Blank Lines: 18
+    '     File Size: 6.50 KB
+
 
     '     Class deps
     ' 
@@ -121,7 +131,7 @@ Namespace ApplicationServices.Development.NetCore5
         ''' </summary>
         ''' <param name="dllFile">full path</param>
         ''' <returns></returns>
-        Public Shared Function LoadAssemblyOrCache(dllFile As String) As Assembly
+        Public Shared Function LoadAssemblyOrCache(dllFile As String, Optional strict As Boolean = True) As Assembly
             Dim dllFullName As String = dllFile.FileName
             Dim result As New Value(Of Assembly)
 
@@ -134,8 +144,18 @@ Namespace ApplicationServices.Development.NetCore5
                               Select assembly
 
             If (result = queryLoaded.FirstOrDefault) Is Nothing Then
-                ' not loaded yet
-                Return Assembly.LoadFrom(dllFile.GetFullPath)
+                Try
+                    ' not loaded yet
+                    Return Assembly.LoadFrom(dllFile.GetFullPath)
+                Catch ex As Exception
+                    ex = New InvalidProgramException($"error while loading dll file: " & dllFile, ex)
+
+                    If strict Then
+                        Throw ex
+                    Else
+                        Return App.LogException(ex)
+                    End If
+                End Try
             Else
                 Return result
             End If

@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <RootNamespace>SMRUCC.genomics.Analysis.SSystem</RootNamespace>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFrameworks>net6.0;net5.0;net48</TargetFrameworks>
     <Platforms>AnyCPU;x64</Platforms>
     <Configurations>Debug;Release;Rsharp_app_release</Configurations>
     <AssemblyName>SMRUCC.genomics.Analysis.SSystem</AssemblyName>
@@ -39,6 +39,7 @@
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\ODESolver.Extensions\ODESolver.Extensions.NET5.vbproj" />
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\ODE\odes-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+    <ProjectReference Include="..\..\..\core\Bio.Assembly\biocore-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\engine\CompilerServices\CompilerServices.NET5.vbproj" />
     <ProjectReference Include="..\..\..\models\SBML\SBML\sbml-netcore5.vbproj" />
   </ItemGroup>
