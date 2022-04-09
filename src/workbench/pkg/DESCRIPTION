@@ -1,6 +1,6 @@
 Package: GCModeller
 Type: Package
-Title: GCModeller
+Title: GCModeller: genomics CAD(Computer Assistant Design) Modeller System
 Version: 1.1.0-beta
 Author: xieguigang
 Maintainer: xieguigang <xie.guigang@gcmodeller.org>
