@@ -20,6 +20,8 @@ Public Module BinaryMatrix
             ' reverse bytes
             encode = AddressOf networkByteOrderEncoder
             decode = AddressOf networkByteOrderDecoder
+
+            Call Console.WriteLine("system byte order is little endian.")
         Else
             ' no bytes sequence reverse
             encode = Function(nums)
@@ -32,22 +34,25 @@ Public Module BinaryMatrix
                          Return bytes.ToArray
                      End Function
             decode = Function(buffer)
-                         Return buffer _
-                            .Split(8) _
-                            .Select(Function(d) BitConverter.ToDouble(d, Scan0)) _
-                            .ToArray
+                         Dim nums As Double() = New Double(buffer.Length / 8 - 1) {}
+
+                         For i As Integer = 0 To nums.Length - 1
+                             nums(i) = BitConverter.ToDouble(buffer, i * 8)
+                         Next
+
+                         Return nums
                      End Function
         End If
     End Sub
 
     Private Function networkByteOrderDecoder(buffer As Byte()) As Double()
-        Dim blocks = buffer.Split(8)
-        Dim nums As Double() = New Double(blocks.Length - 1) {}
-        Dim bytes As Byte()
+        Dim nums As Double() = New Double(buffer.Length / 8 - 1) {}
+        Dim bytes As Byte() = New Byte(8 - 1) {}
 
         For i As Integer = 0 To nums.Length - 1
-            bytes = blocks(i)
-            Array.Reverse(bytes)
+            Call Array.ConstrainedCopy(buffer, i * 8, bytes, Scan0, bytes.Length)
+            Call Array.Reverse(bytes)
+
             nums(i) = BitConverter.ToDouble(bytes, Scan0)
         Next
 

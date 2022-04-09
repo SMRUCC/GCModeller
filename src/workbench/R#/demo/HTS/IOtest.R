@@ -27,3 +27,15 @@ print(" ~~done!");
 profile = profiler.fetch() |> as.data.frame();
 print(profile, max.print = 13);
 
+gc();
+
+@profile {
+
+	x = load.expr0("C:\GSM3067190_06hpf.HTS");
+	x = NULL;
+	
+}
+
+print(" ~~done!");
+profile = profiler.fetch() |> as.data.frame();
+print(profile, max.print = 13);
