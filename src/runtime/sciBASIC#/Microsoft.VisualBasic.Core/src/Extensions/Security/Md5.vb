@@ -151,7 +151,8 @@ Namespace SecurityString
         ''' Note I have made no attempt To deal With endianness. If you just care about a consistent hash value, 
         ''' though, endianness should Not matter.
         ''' </remarks>
-        <ExportAPI("As.Long")> <Extension>
+        <ExportAPI("As.Long")>
+        <Extension>
         Public Function ToLong(bytes As Byte()) As Long
             Dim md5 As Long() = (From chunk As Byte()
                                  In bytes.Split(4)
