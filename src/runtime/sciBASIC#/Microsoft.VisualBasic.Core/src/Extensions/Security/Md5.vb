@@ -154,8 +154,9 @@ Namespace SecurityString
         <ExportAPI("As.Long")> <Extension>
         Public Function ToLong(bytes As Byte()) As Long
             Dim md5 As Long() = (From chunk As Byte()
-                                 In bytes.Split(8)
-                                 Select BitConverter.ToInt64(chunk, Scan0)).ToArray
+                                 In bytes.Split(4)
+                                 Let i32 As Integer = BitConverter.ToInt32(chunk, Scan0)
+                                 Select CLng(i32)).ToArray
 
             Dim a As Long = md5(0) * 256 * md5(1) + 256 * 256 * md5(2) + 256 * 256 * 256 * md5(3)
             Dim b As Long = md5(4) * 256 * md5(5) + 256 * 256 * md5(6) + 256 * 256 * 256 * md5(7)
