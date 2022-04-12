@@ -157,6 +157,8 @@ Namespace Network
                 Loop
             Loop
 
+            Call Console.WriteLine($"sub-graph: {subnetwork.ToString}!")
+
             Return subnetwork
         End Function
 
