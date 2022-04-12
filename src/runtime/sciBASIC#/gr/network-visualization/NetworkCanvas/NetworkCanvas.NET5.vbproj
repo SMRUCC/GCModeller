@@ -102,6 +102,7 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\..\..\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+	  <ProjectReference Include="..\..\avi\AVI.NET5.vbproj" />
 	  <ProjectReference Include="..\..\Microsoft.VisualBasic.Imaging\imaging.NET5.vbproj" />
 	  <ProjectReference Include="..\Datavisualization.Network\network_graph-netcore5.vbproj" />
 	  <ProjectReference Include="..\Network.IO.Extensions\network_io-netcore5.vbproj" />
