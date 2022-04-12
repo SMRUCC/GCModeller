@@ -20,7 +20,7 @@
 	  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	  <Copyright>GPL3</Copyright>
 	  <PackageLicenseExpression>GPL3</PackageLicenseExpression>
-	  <PackageIcon>R-sharp.png</PackageIcon>
+
 	  <PackageIconUrl />
   </PropertyGroup>
 
