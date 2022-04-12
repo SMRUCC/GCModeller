@@ -5,7 +5,8 @@
     <TargetFrameworks>net6.0;net5.0;net48</TargetFrameworks>
     <AssemblyName>SMRUCC.genomics.GCModeller.Workbench.keggReport</AssemblyName>
     <Platforms>AnyCPU;x64</Platforms>
-    <Configurations>Debug;Release;Rsharp_app_release</Configurations>
+    <Configurations>Debug;Release;Rsharp_app_release;mzkit_win32</Configurations>
+	  <DefineConstants>netcore5=1</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -20,6 +21,10 @@
     <DocumentationFile>SMRUCC.genomics.GCModeller.Workbench.keggReport.xml</DocumentationFile>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='mzkit_win32|AnyCPU'">
+    <DocumentationFile>SMRUCC.genomics.GCModeller.Workbench.keggReport.xml</DocumentationFile>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <DocumentationFile>SMRUCC.genomics.GCModeller.Workbench.keggReport.xml</DocumentationFile>
   </PropertyGroup>
@@ -29,6 +34,11 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|x64'">
+    <DocumentationFile>SMRUCC.genomics.GCModeller.Workbench.keggReport.xml</DocumentationFile>
+    <DefineConstants>netcore5=1</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='mzkit_win32|x64'">
     <DocumentationFile>SMRUCC.genomics.GCModeller.Workbench.keggReport.xml</DocumentationFile>
     <DefineConstants>netcore5=1</DefineConstants>
   </PropertyGroup>
