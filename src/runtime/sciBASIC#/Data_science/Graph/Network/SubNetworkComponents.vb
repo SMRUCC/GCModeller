@@ -67,8 +67,8 @@ Namespace Network
         ''' </summary>
         Dim edges As New Dictionary(Of String, NamedValue(Of U))
         Dim network As NetworkGraph(Of Node, U)
-        Dim components As Graph()
         Dim populatedNodes As New List(Of Node)
+        Dim singleNodeAsGraph As Boolean
 
         Sub New(network As NetworkGraph(Of Node, U), Optional singleNodeAsGraph As Boolean = False)
             Dim label As String
@@ -82,19 +82,19 @@ Namespace Network
             Next
 
             Me.network = network
-            Me.components = IteratesSubNetworks.ToArray
-
-            If singleNodeAsGraph Then
-                Me.components = Me.components _
-                    .JoinIterates(GetSingleNodeGraphs) _
-                    .ToArray
-            End If
+            Me.singleNodeAsGraph = singleNodeAsGraph
         End Sub
 
         Public Iterator Function GetEnumerator() As IEnumerator(Of Graph) Implements IEnumerable(Of Graph).GetEnumerator
-            For Each g As Graph In components
+            For Each g As Graph In IteratesSubNetworks()
                 Yield g
             Next
+
+            If singleNodeAsGraph Then
+                For Each g As Graph In GetSingleNodeGraphs()
+                    Yield g
+                Next
+            End If
         End Function
 
         Private Iterator Function GetSingleNodeGraphs() As IEnumerable(Of Graph)
