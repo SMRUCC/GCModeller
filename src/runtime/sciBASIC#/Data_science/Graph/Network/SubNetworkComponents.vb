@@ -88,15 +88,23 @@ Namespace Network
 
             For Each link As U In network.graphEdges
                 If Not breakKeys.IsNullOrEmpty Then
+                    Dim ignoreByKey As Boolean = False
+
                     For Each key As String In breakKeys
                         If vertex.hasMetadata(link.U, key) AndAlso vertex.hasMetadata(link.V, key) Then
                             If vertex.getMetadata(link.U, key) <> vertex.getMetadata(link.V, key) Then
-                                Continue For
+                                ignoreByKey = True
+                                Exit For
                             End If
                         Else
-                            Continue For
+                            ignoreByKey = True
+                            Exit For
                         End If
                     Next
+
+                    If ignoreByKey Then
+                        Continue For
+                    End If
                 End If
 
                 If link.weight >= edgeCut Then
