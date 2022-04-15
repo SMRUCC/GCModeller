@@ -59,6 +59,13 @@ Imports Microsoft.VisualBasic.Linq
 
 Namespace Network
 
+    Public Interface NodeMetaDataAccessor(Of Node As {New, Network.Node})
+
+        Function hasMetadata(v As Node, key As String) As Boolean
+        Function getMetadata(v As Node, key As String) As String
+
+    End Interface
+
     Public Class SubNetworkComponents(Of Node As {New, Network.Node}, U As {New, Network.Edge(Of Node)}, Graph As {New, NetworkGraph(Of Node, U)})
         Implements IEnumerable(Of Graph)
 
@@ -72,12 +79,26 @@ Namespace Network
 
         Sub New(network As NetworkGraph(Of Node, U),
                 Optional singleNodeAsGraph As Boolean = False,
-                Optional edgeCut As Double = -1)
+                Optional edgeCut As Double = -1,
+                Optional breakKeys As String() = Nothing,
+                Optional vertex As NodeMetaDataAccessor(Of Node) = Nothing)
 
             Dim label As String
             Dim tag As NamedValue(Of U)
 
             For Each link As U In network.graphEdges
+                If Not breakKeys.IsNullOrEmpty Then
+                    For Each key As String In breakKeys
+                        If vertex.hasMetadata(link.U, key) AndAlso vertex.hasMetadata(link.V, key) Then
+                            If vertex.getMetadata(link.U, key) <> vertex.getMetadata(link.V, key) Then
+                                Continue For
+                            End If
+                        Else
+                            Continue For
+                        End If
+                    Next
+                End If
+
                 If link.weight >= edgeCut Then
                     label = link.ID
                     tag = New NamedValue(Of U) With {.Name = label, .Value = link}
