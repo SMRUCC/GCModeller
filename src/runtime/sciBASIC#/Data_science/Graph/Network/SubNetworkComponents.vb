@@ -97,8 +97,11 @@ Namespace Network
                                 Exit For
                             End If
                         Else
-                            ignoreByKey = True
-                            Exit For
+                            ' ignoreByKey = True
+                            ' Exit For 
+                            ' 
+                            ' 20220415 just ignores this missing data test result?
+                            ' do nothing
                         End If
                     Next
 
