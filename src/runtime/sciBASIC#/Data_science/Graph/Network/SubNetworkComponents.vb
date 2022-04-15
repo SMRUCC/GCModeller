@@ -70,15 +70,23 @@ Namespace Network
         Dim populatedNodes As New List(Of Node)
         Dim singleNodeAsGraph As Boolean
 
-        Sub New(network As NetworkGraph(Of Node, U), Optional singleNodeAsGraph As Boolean = False)
+        Sub New(network As NetworkGraph(Of Node, U),
+                Optional singleNodeAsGraph As Boolean = False,
+                Optional edgeCut As Double = -1)
+
             Dim label As String
             Dim tag As NamedValue(Of U)
 
             For Each link As U In network.graphEdges
-                label = link.ID
-                tag = New NamedValue(Of U) With {.Name = label, .Value = link}
+                If link.weight >= edgeCut Then
+                    label = link.ID
+                    tag = New NamedValue(Of U) With {.Name = label, .Value = link}
 
-                Call edges.Add(label, tag)
+                    ' only add edges that its edge weight
+                    ' greater than the given cutoff
+                    ' value.
+                    Call edges.Add(label, tag)
+                End If
             Next
 
             Me.network = network
