@@ -58,6 +58,21 @@ Namespace Data.Repository
             End If
         End Function
 
+        Public Function GetHashCode(targets As IEnumerable(Of String)) As Integer
+            Const offset As Integer = 2166136261
+            Const prime As Integer = 16777619
+
+            Return targets.Aggregate(
+                seed:=offset,
+                func:=Function(hashCode As Integer, value As String)
+                          If value Is Nothing Then
+                              Return (hashCode Xor 0) * prime
+                          Else
+                              Return (hashCode Xor GetDeterministicHashCode(value)) * prime
+                          End If
+                      End Function)
+        End Function
+
         ''' <summary>
         ''' get FNV-1a hascode
         ''' 
