@@ -53,10 +53,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "R", "R", "{024D5DD9-1F8E-46
 EndProject
 Project("{778DAE3C-4631-46EA-AA77-85C1314464D9}") = "Rsharp-netcore5", "..\..\R-sharp\R#\Rsharp-netcore5.vbproj", "{FB1CBF3E-51DD-42CA-8080-7A4D9D500520}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "R_graphic.interop", "..\..\R-sharp\Library\R_graphic.interop\R_graphic.interop.shproj", "{53AF2B13-CCD5-4F73-94D5-612191E785A9}"
-EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "JsonHelper", "..\..\R-sharp\Library\JsonHelper\JsonHelper.shproj", "{B2AE1422-D7DA-4053-A386-EB2EA9326D68}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "gsea", "gsea", "{4BCD0972-30EE-4F41-8ACB-36BA3E769AA0}"
 EndProject
 Project("{778DAE3C-4631-46EA-AA77-85C1314464D9}") = "gsea-netcore5", "..\..\GCModeller\annotations\GSEA\GSEA\gsea-netcore5.vbproj", "{60AA6823-471A-48F4-92A7-7F154753F99E}"
@@ -257,7 +253,33 @@ Project("{778DAE3C-4631-46EA-AA77-85C1314464D9}") = "BioCyc", "..\..\GCModeller\
 EndProject
 Project("{778DAE3C-4631-46EA-AA77-85C1314464D9}") = "annotationKit", "annotationKit\annotationKit.vbproj", "{6A88A279-8760-4AB9-96FD-8F82E68BB26D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "codes", "codes", "{8CDC5684-758C-4145-A73F-70E8311045D7}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "JsonHelper", "..\..\R-sharp\Library\shares\JsonHelper\JsonHelper.shproj", "{B2AE1422-D7DA-4053-A386-EB2EA9326D68}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "R_graphic.interop", "..\..\R-sharp\Library\shares\R_graphic.interop\R_graphic.interop.shproj", "{53AF2B13-CCD5-4F73-94D5-612191E785A9}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Rstudio.common", "..\..\R-sharp\studio\Rstudio.common\Rstudio.common.shproj", "{14010B90-BC3B-42D9-A52C-30CA537D3C11}"
+EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		..\..\R-sharp\Library\shares\R_graphic.interop\R_graphic.interop.projitems*{05457007-17f0-445e-b445-e7fb35a3574a}*SharedItemsImports = 5
+		..\..\Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{0f7f5a31-9276-4a1b-a5fc-4568fc4f94a8}*SharedItemsImports = 5
+		..\..\Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{0f7f5a31-9276-4a1b-a5fc-4568fc4f94a8}*SharedItemsImports = 5
+		..\..\R-sharp\studio\Rstudio.common\Rstudio.common.projitems*{14010b90-bc3b-42d9-a52c-30ca537d3c11}*SharedItemsImports = 13
+		..\..\R-sharp\Library\shares\R_graphic.interop\R_graphic.interop.projitems*{193ee8cb-3597-49db-86b9-f03b9cb2cfe2}*SharedItemsImports = 5
+		Rscript_shared\Rscript_shared.projitems*{28a18d47-5f41-43cd-a0a7-c8dd9e731bd3}*SharedItemsImports = 13
+		..\..\Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{36ee8dc2-3d23-45b7-8ce4-1942916a02aa}*SharedItemsImports = 13
+		..\..\Settings\Shared\InternalApps_CLI\InternalApps_CLI.projitems*{3d1fb85c-c35b-4ae8-bc0a-36fce222551e}*SharedItemsImports = 13
+		..\..\R-sharp\Library\shares\R_graphic.interop\R_graphic.interop.projitems*{42ab5b8d-6be1-4c81-820e-2cb83e252589}*SharedItemsImports = 5
+		..\..\R-sharp\studio\Rstudio.common\Rstudio.common.projitems*{4e4e76b9-eee7-4257-98be-413bf9c8504b}*SharedItemsImports = 5
+		..\..\R-sharp\Library\shares\R_graphic.interop\R_graphic.interop.projitems*{53af2b13-ccd5-4f73-94d5-612191e785a9}*SharedItemsImports = 13
+		..\..\R-sharp\Library\shares\R_graphic.interop\R_graphic.interop.projitems*{5e88c198-db8f-4cd1-8312-2e962e52d1c7}*SharedItemsImports = 5
+		..\..\Settings\Shared\RepositoryCommon\RepositoryCommon.projitems*{9b5ef311-a718-4067-a409-417de0f9d2af}*SharedItemsImports = 13
+		..\..\R-sharp\Library\shares\JsonHelper\JsonHelper.projitems*{b2ae1422-d7da-4053-a386-eb2ea9326d68}*SharedItemsImports = 13
+		Rscript_shared\Rscript_shared.projitems*{e2d629cc-31b1-4bd6-97fa-e3714537d3a6}*SharedItemsImports = 5
+		..\..\Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{e8cabde9-5471-4eb6-8abc-54c95d3b1512}*SharedItemsImports = 13
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		BioDeep_database|Any CPU = BioDeep_database|Any CPU
 		BioDeep_database|ARM32 = BioDeep_database|ARM32
@@ -20157,8 +20179,6 @@ Global
 		{E79975FC-5463-47CC-98A5-0DF815AB5617} = {4BD2A42C-0531-4F19-A562-B1F9CC026715}
 		{DBF7724B-AB1C-4632-A822-0BA07AB9116B} = {A92E28A7-95FC-445A-BA1C-B60AC113446B}
 		{FB1CBF3E-51DD-42CA-8080-7A4D9D500520} = {024D5DD9-1F8E-4638-9B03-926832A83487}
-		{53AF2B13-CCD5-4F73-94D5-612191E785A9} = {024D5DD9-1F8E-4638-9B03-926832A83487}
-		{B2AE1422-D7DA-4053-A386-EB2EA9326D68} = {024D5DD9-1F8E-4638-9B03-926832A83487}
 		{4BCD0972-30EE-4F41-8ACB-36BA3E769AA0} = {A92E28A7-95FC-445A-BA1C-B60AC113446B}
 		{60AA6823-471A-48F4-92A7-7F154753F99E} = {4BCD0972-30EE-4F41-8ACB-36BA3E769AA0}
 		{102E31EF-D5D4-4025-9EEE-4F220389A19A} = {A92E28A7-95FC-445A-BA1C-B60AC113446B}
@@ -20253,25 +20273,12 @@ Global
 		{FA3DB933-8FEE-4593-BDEB-227EB9FF3B68} = {1DAB8799-CDB5-40E7-B897-F05CF4560B92}
 		{B2480E4A-ACB2-4525-AD6A-9368FE6DB916} = {1DAB8799-CDB5-40E7-B897-F05CF4560B92}
 		{5726D3BB-3716-400A-8B63-6E15F2F1BF09} = {102E31EF-D5D4-4025-9EEE-4F220389A19A}
+		{8CDC5684-758C-4145-A73F-70E8311045D7} = {024D5DD9-1F8E-4638-9B03-926832A83487}
+		{B2AE1422-D7DA-4053-A386-EB2EA9326D68} = {8CDC5684-758C-4145-A73F-70E8311045D7}
+		{53AF2B13-CCD5-4F73-94D5-612191E785A9} = {8CDC5684-758C-4145-A73F-70E8311045D7}
+		{14010B90-BC3B-42D9-A52C-30CA537D3C11} = {8CDC5684-758C-4145-A73F-70E8311045D7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {87EEAB3F-776C-4AB4-8038-6CEC3B9F0A12}
-	EndGlobalSection
-	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		..\..\R-sharp\Library\R_graphic.interop\R_graphic.interop.projitems*{05457007-17f0-445e-b445-e7fb35a3574a}*SharedItemsImports = 5
-		..\..\Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{0f7f5a31-9276-4a1b-a5fc-4568fc4f94a8}*SharedItemsImports = 5
-		..\..\Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{0f7f5a31-9276-4a1b-a5fc-4568fc4f94a8}*SharedItemsImports = 5
-		..\..\R-sharp\Library\R_graphic.interop\R_graphic.interop.projitems*{193ee8cb-3597-49db-86b9-f03b9cb2cfe2}*SharedItemsImports = 5
-		Rscript_shared\Rscript_shared.projitems*{28a18d47-5f41-43cd-a0a7-c8dd9e731bd3}*SharedItemsImports = 13
-		..\..\Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{36ee8dc2-3d23-45b7-8ce4-1942916a02aa}*SharedItemsImports = 13
-		..\..\Settings\Shared\InternalApps_CLI\InternalApps_CLI.projitems*{3d1fb85c-c35b-4ae8-bc0a-36fce222551e}*SharedItemsImports = 13
-		..\..\R-sharp\Library\R_graphic.interop\R_graphic.interop.projitems*{42ab5b8d-6be1-4c81-820e-2cb83e252589}*SharedItemsImports = 5
-		..\..\R-sharp\studio\Rstudio.common\Rstudio.common.projitems*{4e4e76b9-eee7-4257-98be-413bf9c8504b}*SharedItemsImports = 5
-		..\..\R-sharp\Library\R_graphic.interop\R_graphic.interop.projitems*{53af2b13-ccd5-4f73-94d5-612191e785a9}*SharedItemsImports = 13
-		..\..\R-sharp\Library\R_graphic.interop\R_graphic.interop.projitems*{5e88c198-db8f-4cd1-8312-2e962e52d1c7}*SharedItemsImports = 5
-		..\..\Settings\Shared\RepositoryCommon\RepositoryCommon.projitems*{9b5ef311-a718-4067-a409-417de0f9d2af}*SharedItemsImports = 13
-		..\..\R-sharp\Library\JsonHelper\JsonHelper.projitems*{b2ae1422-d7da-4053-a386-eb2ea9326d68}*SharedItemsImports = 13
-		Rscript_shared\Rscript_shared.projitems*{e2d629cc-31b1-4bd6-97fa-e3714537d3a6}*SharedItemsImports = 5
-		..\..\Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{e8cabde9-5471-4eb6-8abc-54c95d3b1512}*SharedItemsImports = 13
 	EndGlobalSection
 EndGlobal
