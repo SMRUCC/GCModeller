@@ -17,7 +17,8 @@ Namespace Data.Repository
         ''' </summary>
         ''' <param name="str"></param>
         ''' <returns></returns>
-        Private Function GetDeterministicHashCode(str As String) As Integer
+        <Extension>
+        Public Function GetDeterministicHashCode(str As String) As Integer
             Dim hash1 As Integer = (5381 << 16) + 5381
             Dim hash2 As Integer = hash1
 
