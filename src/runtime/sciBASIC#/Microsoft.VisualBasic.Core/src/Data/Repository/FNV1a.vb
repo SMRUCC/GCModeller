@@ -65,7 +65,7 @@ Namespace Data.Repository
             Return targets.Aggregate(
                 seed:=offset,
                 func:=Function(hashCode As Integer, value As String)
-                          If value Is Nothing Then
+                          If value Is Nothing OrElse value = "" Then
                               Return (hashCode Xor 0) * prime
                           Else
                               Return (hashCode Xor GetDeterministicHashCode(value)) * prime
