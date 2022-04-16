@@ -7,11 +7,31 @@ Namespace Data.Repository
         ReadOnly hashHandler As New Dictionary(Of Type, Func(Of Object, Integer))
 
         Sub New()
-            hashHandler(GetType(String)) = AddressOf stringCode
+            hashHandler(GetType(String)) = AddressOf GetDeterministicHashCode
         End Sub
 
-        Private Function stringCode(str As String) As Integer
+        ''' <summary>
+        ''' What if you need GetHashCode() to be deterministic across program executions?
+        ''' 
+        ''' https://andrewlock.net/why-is-string-gethashcode-different-each-time-i-run-my-program-in-net-core/
+        ''' </summary>
+        ''' <param name="str"></param>
+        ''' <returns></returns>
+        Private Function GetDeterministicHashCode(str As String) As Integer
+            Dim hash1 As Integer = (5381 << 16) + 5381
+            Dim hash2 As Integer = hash1
 
+            For i As Integer = 0 To str.Length - 1 Step 2
+                hash1 = (hash1 << 5) + hash1 Xor AscW(str(i))
+
+                If i = str.Length - 1 Then
+                    Exit For
+                Else
+                    hash2 = (hash2 << 5) + hash2 Xor AscW(str(i + 1))
+                End If
+            Next
+
+            Return hash1 + hash2 * 1566083941
         End Function
 
         <Extension()>
