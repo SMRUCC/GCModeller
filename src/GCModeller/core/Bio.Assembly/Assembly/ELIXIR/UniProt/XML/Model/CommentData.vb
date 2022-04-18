@@ -63,6 +63,7 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 Namespace Assembly.Uniprot.XML
 
     Public Class comment
+
         <XmlAttribute> Public Property type As String
         <XmlAttribute> Public Property evidence As String
         Public Property text As value
@@ -71,6 +72,13 @@ Namespace Assembly.Uniprot.XML
         Public Property [event] As value
         <XmlElement("isoform")>
         Public Property isoforms As isoform()
+        <XmlElement("dbReference")>
+        Public Property dbReferences As dbReference()
+
+        Public Overrides Function ToString() As String
+            Return text.ToString
+        End Function
+
     End Class
 
     Public Class subcellularLocation
