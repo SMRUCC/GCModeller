@@ -57,7 +57,7 @@ Namespace Assembly.Uniprot.XML
     ''' <summary>
     ''' Describes a collection of UniProtKB entries, XML file can be download from the uniprot database id mappings result.
     ''' </summary>
-    <XmlType("uniprot", [Namespace]:="http://uniprot.org/uniprot")>
+    <XmlType("uniprot")>
     Public Class UniProtXML
 
         Const ns$ = "xmlns=""http://uniprot.org/uniprot"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xsi:schemaLocation=""http://uniprot.org/uniprot http://www.uniprot.org/support/docs/uniprot.xsd"""
