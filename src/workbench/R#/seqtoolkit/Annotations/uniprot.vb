@@ -115,6 +115,11 @@ Module uniprot
             .DoCall(AddressOf pipeline.CreateFromPopulator)
     End Function
 
+    <ExportAPI("parseUniProt")>
+    Public Function parseUniProt(xml As String) As entry
+        Return xml.LoadFromXml(GetType(entry))
+    End Function
+
     ''' <summary>
     ''' export protein annotation data as data frame.
     ''' </summary>
