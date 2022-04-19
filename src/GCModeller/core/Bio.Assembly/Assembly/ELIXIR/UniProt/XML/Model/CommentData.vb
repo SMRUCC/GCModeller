@@ -74,10 +74,24 @@ Namespace Assembly.Uniprot.XML
         Public Property isoforms As isoform()
         <XmlElement("dbReference")>
         Public Property dbReferences As dbReference()
+        Public Property reaction As reaction
+        Public Property physiologicalReaction As reaction
 
         Public Overrides Function ToString() As String
             Return text.ToString
         End Function
+
+    End Class
+
+    Public Class reaction
+
+        <XmlAttribute>
+        Public Property direction As String
+        <XmlAttribute>
+        Public Property evidence As Integer
+        Public Property text As String
+        <XmlElement("dbReference")>
+        Public Property dbReferences As dbReference()
 
     End Class
 

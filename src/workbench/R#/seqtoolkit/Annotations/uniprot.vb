@@ -103,7 +103,9 @@ Module uniprot
     Public Function openUniprotXmlAssembly(<RRawVectorArgument>
                                            files As Object,
                                            Optional isUniParc As Boolean = False,
+                                           Optional ignoreError As Boolean = True,
                                            Optional env As Environment = Nothing) As pipeline
+
         Dim fileList As pipeline = pipeline.TryCreatePipeline(Of String)(files, env)
 
         If fileList.isError Then
@@ -111,8 +113,20 @@ Module uniprot
         End If
 
         Return UniProtXML _
-            .EnumerateEntries(fileList.populates(Of String)(env).ToArray, isUniParc) _
+            .EnumerateEntries(
+                files:=fileList.populates(Of String)(env).ToArray,
+                isUniParc:=isUniParc,
+                ignoreError:=ignoreError
+            ) _
             .DoCall(AddressOf pipeline.CreateFromPopulator)
+    End Function
+
+    <ExportAPI("parseUniProt")>
+    Public Function parseUniProt(xml As String) As entry()
+        Dim uniprot As UniProtXML = UniProtXML.LoadXml(xml)
+        Dim proteins As entry() = uniprot.entries
+
+        Return proteins
     End Function
 
     ''' <summary>
