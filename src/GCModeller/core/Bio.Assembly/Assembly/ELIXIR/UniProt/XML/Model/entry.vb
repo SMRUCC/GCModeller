@@ -59,6 +59,7 @@ Namespace Assembly.Uniprot.XML
     ''' <see cref="entry.ShadowCopy()"/>函数来解决实体多态的问题。
     ''' 经过shadow copy之后可以使用主键<see cref="accession"/>来创建字典)
     ''' </summary>
+    ''' 
     Public Class entry : Implements INamedValue
 
         <XmlAttribute> Public Property dataset As String

@@ -116,8 +116,8 @@ Module uniprot
     End Function
 
     <ExportAPI("parseUniProt")>
-    Public Function parseUniProt(xml As String) As entry
-        Return xml.LoadFromXml(GetType(entry))
+    Public Function parseUniProt(xml As String) As entry()
+        Return DirectCast(xml.LoadFromXml(GetType(UniProtXML)), UniProtXML).entries
     End Function
 
     ''' <summary>
