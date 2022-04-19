@@ -103,6 +103,37 @@ Public Module GSEABackground
         Return background.GetXml.SaveTo(file)
     End Function
 
+    ''' <summary>
+    ''' get cluster info data table
+    ''' </summary>
+    ''' <param name="background"></param>
+    ''' <param name="clusterId"></param>
+    ''' <returns></returns>
+    <ExportAPI("clusterInfo")>
+    Public Function GetCluster(background As Background, clusterId As String) As Rdataframe
+        Dim cluster As Cluster = background.clusters _
+            .Where(Function(c) c.ID = clusterId) _
+            .FirstOrDefault
+        Dim data As New Rdataframe With {
+            .columns = New Dictionary(Of String, Array)
+        }
+
+        If Not cluster Is Nothing Then
+            data.rownames = cluster.members _
+                .Select(Function(gene) gene.accessionID) _
+                .ToArray
+
+            data.columns("clusterId") = {cluster.ID}
+            data.columns("clusterName") = {cluster.names}
+            data.columns("name") = cluster.members.Select(Function(gene) gene.name).ToArray
+            data.columns("locus_tag") = cluster.members.Select(Function(gene) If(gene.locus_tag Is Nothing, "", gene.locus_tag.name)).ToArray
+            data.columns("description") = cluster.members.Select(Function(gene) If(gene.locus_tag Is Nothing, "", gene.locus_tag.text)).ToArray
+            data.columns("terms") = cluster.members.Select(Function(gene) gene.term_id.JoinBy("; ")).ToArray
+        End If
+
+        Return data
+    End Function
+
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <ExportAPI("geneSet.intersects")>
     Public Function ClusterIntersections(cluster As Cluster, geneSet$(), Optional isLocusTag As Boolean = False) As String()
