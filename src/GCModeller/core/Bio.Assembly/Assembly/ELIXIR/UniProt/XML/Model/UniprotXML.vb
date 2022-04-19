@@ -57,7 +57,8 @@ Namespace Assembly.Uniprot.XML
     ''' <summary>
     ''' Describes a collection of UniProtKB entries, XML file can be download from the uniprot database id mappings result.
     ''' </summary>
-    <XmlType("uniprot")> Public Class UniProtXML
+    <XmlType("uniprot", [Namespace]:="http://uniprot.org/uniprot")>
+    Public Class UniProtXML
 
         Const ns$ = "xmlns=""http://uniprot.org/uniprot"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xsi:schemaLocation=""http://uniprot.org/uniprot http://www.uniprot.org/support/docs/uniprot.xsd"""
 
@@ -84,9 +85,11 @@ Namespace Assembly.Uniprot.XML
         ''' </summary>
         ''' <param name="path">XML文件路径</param>
         ''' <returns></returns>
-        Public Shared Function Load(path$) As UniProtXML
-            Dim xml As String = path.ReadAllText
+        Public Shared Function Load(path As String) As UniProtXML
+            Return LoadXml(path.ReadAllText)
+        End Function
 
+        Public Shared Function LoadXml(xml As String) As UniProtXML
             If InStr(xml, "<uniparc xmlns=", CompareMethod.Text) > 0 Then
                 xml = xml.Replace(UniProtXML.uniparc_ns, Xmlns.DefaultXmlns)
                 xml = xml.Replace("<uniparc xmlns", "<uniprot xmlns")
@@ -95,8 +98,7 @@ Namespace Assembly.Uniprot.XML
                 xml = xml.Replace(UniProtXML.ns, Xmlns.DefaultXmlns)
             End If
 
-            Dim model As UniProtXML = xml.LoadFromXml(Of UniProtXML)
-            Return model
+            Return xml.LoadFromXml(Of UniProtXML)
         End Function
 
         Public Overloads Shared Function [GetType](file As String) As String

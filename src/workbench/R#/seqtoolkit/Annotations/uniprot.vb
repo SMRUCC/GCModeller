@@ -117,7 +117,7 @@ Module uniprot
 
     <ExportAPI("parseUniProt")>
     Public Function parseUniProt(xml As String) As entry()
-        Dim uniprot As UniProtXML = DirectCast(xml.LoadFromXml(GetType(UniProtXML)), UniProtXML)
+        Dim uniprot As UniProtXML = UniProtXML.LoadXml(xml)
         Dim proteins = uniprot.entries
 
         Return proteins
