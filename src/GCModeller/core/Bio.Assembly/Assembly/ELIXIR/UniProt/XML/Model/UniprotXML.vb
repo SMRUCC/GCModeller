@@ -118,20 +118,22 @@ Namespace Assembly.Uniprot.XML
         ''' <returns></returns>
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Shared Function EnumerateEntries(path$, Optional isUniParc As Boolean = False) As IEnumerable(Of entry)
+        Public Shared Function EnumerateEntries(path$, Optional isUniParc As Boolean = False, Optional ignoreError As Boolean = False) As IEnumerable(Of entry)
             If isUniParc Then
-                Return path.LoadUltraLargeXMLDataSet(Of entry)(xmlns:="http://uniprot.org/uniparc")
+                Return path.LoadUltraLargeXMLDataSet(Of entry)(xmlns:="http://uniprot.org/uniparc", ignoreError:=ignoreError)
             Else
-                Return path.LoadUltraLargeXMLDataSet(Of entry)(xmlns:="http://uniprot.org/uniprot")
+                Return path.LoadUltraLargeXMLDataSet(Of entry)(xmlns:="http://uniprot.org/uniprot", ignoreError:=ignoreError)
             End If
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Shared Function EnumerateEntries(files$(), Optional isUniParc As Boolean = False) As IEnumerable(Of entry)
+        Public Shared Function EnumerateEntries(files$(),
+                                                Optional isUniParc As Boolean = False,
+                                                Optional ignoreError As Boolean = False) As IEnumerable(Of entry)
             Return files _
                 .Select(Function(path)
                             Call $"Populate {path}".__INFO_ECHO
-                            Return EnumerateEntries(path, isUniParc)
+                            Return EnumerateEntries(path, isUniParc, ignoreError:=ignoreError)
                         End Function) _
                 .IteratesALL
         End Function
