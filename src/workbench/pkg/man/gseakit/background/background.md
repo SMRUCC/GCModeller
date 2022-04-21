@@ -4,6 +4,7 @@ tools for handling GSEA background model.
 
 + [read.background](background/read.background.1) Load GSEA background model from a xml file.
 + [write.background](background/write.background.1) Save GSEA background model as xml file
++ [background_summary](background/background_summary.1) 
 + [clusterInfo](background/clusterInfo.1) get cluster info data table
 + [geneSet.intersects](background/geneSet.intersects.1) 
 + [KO.table](background/KO.table.1) 

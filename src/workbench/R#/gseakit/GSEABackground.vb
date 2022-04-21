@@ -103,6 +103,20 @@ Public Module GSEABackground
         Return background.GetXml.SaveTo(file)
     End Function
 
+    <ExportAPI("background_summary")>
+    Public Function backgroundSummary(background As Background) As Rdataframe
+        Dim table As New Dictionary(Of String, Array)
+
+        table("ID") = background.clusters.Select(Function(c) c.ID).ToArray
+        table("name") = background.clusters.Select(Function(c) c.names).ToArray
+        table("description") = background.clusters.Select(Function(c) c.description).ToArray
+        table("cluster_size") = background.clusters.Select(Function(c) c.size).ToArray
+
+        Return New Rdataframe With {
+            .columns = table
+        }
+    End Function
+
     ''' <summary>
     ''' get cluster info data table
     ''' </summary>
