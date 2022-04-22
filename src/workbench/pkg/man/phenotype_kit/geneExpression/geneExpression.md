@@ -3,8 +3,8 @@
 the gene expression matrix data toolkit
 
 + [load.expr](geneExpression/load.expr.1) load an expressin matrix data
-+ [load.expr0](geneExpression/load.expr0.1) 
-+ [write.expr_matrix](geneExpression/write.expr_matrix.1) 
++ [load.expr0](geneExpression/load.expr0.1) read the binary matrix data file
++ [write.expr_matrix](geneExpression/write.expr_matrix.1) write the gene expression data matrix file
 + [filter](geneExpression/filter.1) 
 + [as.generic](geneExpression/as.generic.1) 
 + [average](geneExpression/average.1) calculate average value of the gene expression for

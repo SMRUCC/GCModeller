@@ -154,6 +154,12 @@ Module geneExpression
         End If
     End Function
 
+    ''' <summary>
+    ''' read the binary matrix data file
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("load.expr0")>
     <RApiReturn(GetType(Matrix))>
     Public Function readBinaryMatrix(file As Object, Optional env As Environment = Nothing) As Object
@@ -166,6 +172,17 @@ Module geneExpression
         End If
     End Function
 
+    ''' <summary>
+    ''' write the gene expression data matrix file
+    ''' </summary>
+    ''' <param name="expr"></param>
+    ''' <param name="file"></param>
+    ''' <param name="id"></param>
+    ''' <param name="binary">
+    ''' write matrix data in binary data format? default value 
+    ''' is False means write matrix as csv matrix file.
+    ''' </param>
+    ''' <returns></returns>
     <ExportAPI("write.expr_matrix")>
     Public Function writeMatrix(expr As Matrix, file As String,
                                 Optional id As String = "geneID",
