@@ -196,6 +196,16 @@ Module geneExpression
         End If
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="HTS"></param>
+    ''' <param name="geneId"></param>
+    ''' <param name="exclude">matrix a subset of the data matrix excepts the 
+    ''' input <paramref name="geneId"/> features or just make a subset which 
+    ''' just contains the input <paramref name="geneId"/> features.
+    ''' </param>
+    ''' <returns></returns>
     <ExportAPI("filter")>
     Public Function filter(HTS As Matrix, geneId As String(), Optional exclude As Boolean = False) As Matrix
         Dim filterIndex As Index(Of String) = geneId
