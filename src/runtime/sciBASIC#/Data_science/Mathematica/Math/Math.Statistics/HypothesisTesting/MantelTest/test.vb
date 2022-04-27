@@ -92,8 +92,6 @@ Namespace Hypothesis.Mantel
             End If
             ' define and test number of randomizations 
             If model.exact = False Then
-                model.numrand = stdNum.Abs(Now().GetHashCode)
-
                 If model.numrand < 99 OrElse model.numrand > 999999999 Then
                     Throw New InvalidProgramException("Error: Number of iterations must be between 99 and 999999999.")
                 End If
@@ -117,8 +115,8 @@ Namespace Hypothesis.Mantel
                 Console.Write("exact ")
             End If
 
-            Console.Write(vbLf & vbLf)
-            Console.Write("Randomizing..." & vbLf & vbLf)
+            Console.WriteLine()
+            Console.WriteLine("Randomizing...")
 
             ' launch the test 
             If model.partial Then
@@ -222,8 +220,7 @@ Namespace Hypothesis.Mantel
             Dim i As Integer
             Dim j As Integer
             Dim zini As Double
-            Dim N = p.matsize - 1
-            Dim ret = 0
+            Dim N = p.matsize
 
             Call norm(A, N)
             Call norm(B, N)
@@ -241,12 +238,10 @@ Namespace Hypothesis.Mantel
             p.coef = zini / (p.numelt - 1)
 
             If p.exact = 0 Then
-                ret = smt_perm(A, B, p)
+                Return smt_perm(A, B, p)
             Else
-                ret = smt_perm_exact(A, B, p)
+                Return smt_perm_exact(A, B, p)
             End If
-
-            Return ret
         End Function
     End Module
 End Namespace
