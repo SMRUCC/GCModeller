@@ -49,6 +49,13 @@ Namespace Hypothesis.Mantel
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function test(model As Model, matA As Double()(), matB As Double()(), Optional matC As Double()() = Nothing) As Result
+            matA = matA.GetCorrelations(AddressOf Pearson).cor
+            matB = matB.GetCorrelations(AddressOf Pearson).cor
+
+            If Not matC Is Nothing Then
+                matC = matC.GetCorrelations(AddressOf Pearson).cor
+            End If
+
             Return New Result(model).test(matA, matB, matC)
         End Function
 
@@ -85,7 +92,7 @@ Namespace Hypothesis.Mantel
             End If
             ' define and test number of randomizations 
             If model.exact = False Then
-                model.numrand = Now().GetHashCode
+                model.numrand = stdNum.Abs(Now().GetHashCode)
 
                 If model.numrand < 99 OrElse model.numrand > 999999999 Then
                     Throw New InvalidProgramException("Error: Number of iterations must be between 99 and 999999999.")
