@@ -1,4 +1,4 @@
-﻿# S.system
+# S.system
 
 S-system toolkit
 

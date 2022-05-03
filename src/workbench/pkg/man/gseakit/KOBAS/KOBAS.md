@@ -1,4 +1,4 @@
-﻿# KOBAS
+# KOBAS
 
 
 

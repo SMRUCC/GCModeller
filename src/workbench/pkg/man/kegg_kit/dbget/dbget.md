@@ -1,4 +1,4 @@
-﻿# dbget
+# dbget
 
 
 

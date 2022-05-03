@@ -1,4 +1,4 @@
-﻿# modeller
+# modeller
 
 virtual cell network kinetics modeller
 

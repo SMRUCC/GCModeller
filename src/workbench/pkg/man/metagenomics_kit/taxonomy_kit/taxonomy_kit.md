@@ -1,4 +1,4 @@
-﻿# taxonomy_kit
+# taxonomy_kit
 
 toolkit for process ncbi taxonomy tree data
 

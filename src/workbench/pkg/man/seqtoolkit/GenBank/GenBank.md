@@ -1,4 +1,4 @@
-﻿# GenBank
+# GenBank
 
 NCBI genbank assembly file I/O toolkit
 
