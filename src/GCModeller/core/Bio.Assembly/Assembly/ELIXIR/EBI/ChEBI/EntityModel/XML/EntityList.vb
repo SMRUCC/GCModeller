@@ -49,11 +49,6 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Runtime.Serialization
-#If netcore5 = 0 Then
-Imports System.Web.Script.Serialization
-#Else
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-#End If
 Imports System.Xml
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
@@ -77,7 +72,6 @@ Namespace Assembly.ELIXIR.EBI.ChEBI.XML
 
         <DataMember>
         <IgnoreDataMember>
-        <ScriptIgnore>
         <SoapIgnore>
         <XmlAnyElement>
         Public Property TypeComment As XmlComment Implements XmlDataModel.IXmlType.TypeComment

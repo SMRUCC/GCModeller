@@ -44,11 +44,7 @@
 #End Region
 
 Imports System.Xml.Serialization
-#If netcore5 = 0 Then
-Imports System.Data.Linq.Mapping
-#Else
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
-#End If
 
 Namespace Assembly.Bac_sRNA.org
 
