@@ -7,7 +7,7 @@
 		<Authors>xie.guigang@live.com</Authors>
 		<Company>sciBASIC.NET</Company>
 		<Version>5.0.1.2389</Version>
-
+    <DefineConstants>netcore5=1,FRAMEWORD_CORE=1</DefineConstants>
 		<AssemblyVersion>5.33.69.2558</AssemblyVersion>
 		<Deterministic>false</Deterministic>
 		<RuntimeIdentifiers>win7-x64;win7-x86;win-x64;linux-x64;linux-arm64;osx-x64</RuntimeIdentifiers>
@@ -22,6 +22,7 @@
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 		<Description>sciBASIC#: Microsoft VisualBasic for Scientific Computing</Description>
 		<AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -118,9 +119,13 @@
 		<OutputPath>../../../../\R-sharp\App\</OutputPath>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='mzkit_win32|x64'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)|$(TargetFramework)'=='mzkit_win32|x64|net6.0'">
+    <OutputPath>bin\</OutputPath>
+  </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)|$(TargetFramework)'=='mzkit_win32|x64|net48'">
 	  <DocumentationFile>Microsoft.VisualBasic.Runtime.xml</DocumentationFile>
-	  <DefineConstants>netcore5=1,UNIX=1,FRAMEWORD_CORE=1</DefineConstants>
+	  <DefineConstants>netcore5=0,UNIX=1,FRAMEWORD_CORE=1</DefineConstants>
 	  <RemoveIntegerChecks>true</RemoveIntegerChecks>
 	  <Optimize>false</Optimize>
 	  <BaseAddress>4194304</BaseAddress>
@@ -128,7 +133,7 @@
 	  <DebugType>full</DebugType>
 	  <DefineDebug>false</DefineDebug>
 	  <DefineTrace>true</DefineTrace>
-	  <OutputPath>D:\GCModeller\src\R-sharp\App\</OutputPath>
+	  <OutputPath>E:\mzkit\dist\bin\</OutputPath>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='PlantMAT|x64'">
@@ -178,20 +183,38 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="System.ComponentModel.Annotations" Version="6.0.0-preview.4.21253.7" />
 		<PackageReference Include="System.Composition" Version="6.0.0" />
+		<PackageReference Include="System.Data.DataSetExtensions" Version="4.6.0-preview3.19128.7" />
 		<PackageReference Include="System.Drawing.Common" Version="6.0.0-preview.6.21352.12" />
 		<PackageReference Include="System.Drawing.Primitives" Version="4.3.0" />
 		<PackageReference Include="System.IO.Compression" Version="4.3.0" />
+		<PackageReference Include="System.Linq.Queryable" Version="4.3.0" />
 		<PackageReference Include="System.Net.Http" Version="4.3.4" />
 		<PackageReference Include="System.Net.Requests" Version="4.3.0" />
 		<PackageReference Include="System.Net.WebHeaderCollection" Version="4.3.0" />
 		<PackageReference Include="System.Resources.Extensions" Version="6.0.0" />
 		<PackageReference Include="System.Runtime" Version="4.3.1" />
+		<PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.0.0" />
 		<PackageReference Include="System.Text.Encoding.CodePages" Version="6.0.0" />
 		<PackageReference Include="System.Text.Encodings.Web" Version="6.0.0" />
 	</ItemGroup>
 
-	<ItemGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(TargetFramework)' == 'mzkit_win32|net48' ">
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='mzkit_win32|net6.0-windows|x64'">
+    <DocumentationFile>Microsoft.VisualBasic.Runtime.xml</DocumentationFile>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <Optimize>false</Optimize>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+  </PropertyGroup>
+
+  <ItemGroup>
 		<Compile Update="My Project\Resources.Designer.vb">
 			<DesignTime>True</DesignTime>
 			<AutoGen>True</AutoGen>

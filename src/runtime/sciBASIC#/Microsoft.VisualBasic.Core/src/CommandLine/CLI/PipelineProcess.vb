@@ -130,9 +130,15 @@ Namespace CommandLine
         ''' <remarks>https://github.com/lishewen/LSWFramework/blob/master/LSWClassLib/CMD/CMDHelper.vb</remarks>
         Public Function ExecSub(app$, args$, onReadLine As Action(Of String),
                                 Optional in$ = "",
-                                Optional ByRef stdErr As String = Nothing) As Integer
+                                Optional ByRef stdErr As String = Nothing,
+                                Optional workdir As String = Nothing) As Integer
 
-            Dim p As Process = CreatePipeline(app, args, it:=(Not app.ExtensionSuffix("sh")) OrElse app.FileExists)
+            Dim p As Process = CreatePipeline(
+                appPath:=app,
+                args:=args,
+                it:=(Not app.ExtensionSuffix("sh")) OrElse app.FileExists,
+                workdir:=workdir
+            )
             Dim reader As StreamReader = p.StandardOutput
             Dim errReader As StreamReader = p.StandardError
 
@@ -157,7 +163,7 @@ Namespace CommandLine
         ''' <summary>
         ''' 
         ''' </summary>
-        ''' <param name="app"></param>
+        ''' <param name="appPath"></param>
         ''' <param name="args"></param>
         ''' <param name="it">
         ''' this option will affects the UseShellExecute:
@@ -172,17 +178,31 @@ Namespace CommandLine
         ''' the target process object is already has been 
         ''' started in this function.
         ''' </returns>
-        Public Function CreatePipeline(app As String, args As String, Optional it As Boolean = True) As Process
+        Public Function CreatePipeline(appPath As String,
+                                       args As String,
+                                       Optional it As Boolean = True,
+                                       Optional workdir As String = Nothing) As Process
             Dim p As New Process
+
             p.StartInfo = New ProcessStartInfo
-            p.StartInfo.FileName = app
+            p.StartInfo.FileName = appPath
             p.StartInfo.Arguments = args.TrimNewLine(replacement:=" ")
             p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden
             p.StartInfo.RedirectStandardOutput = it
             p.StartInfo.RedirectStandardInput = it
             p.StartInfo.RedirectStandardError = it
             p.StartInfo.UseShellExecute = Not it
-            p.StartInfo.CreateNoWindow = Microsoft.VisualBasic.App.IsMicrosoftPlatform
+            p.StartInfo.CreateNoWindow = App.IsMicrosoftPlatform
+
+            If Not workdir.StringEmpty Then
+                If Not workdir.DirectoryExists Then
+                    Call $"mising work directory: {workdir}!".Warning
+                    Call workdir.MakeDir
+                End If
+
+                p.StartInfo.WorkingDirectory = workdir.GetDirectoryFullPath
+            End If
+
             p.Start()
 
             Return p

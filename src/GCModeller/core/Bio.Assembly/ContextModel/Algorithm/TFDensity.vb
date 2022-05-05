@@ -54,12 +54,6 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-#If netcore5 = 0 Then
-Imports System.Web.Script.Serialization
-#Else
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-#End If
-
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Language
@@ -270,7 +264,9 @@ Namespace ContextModel
         ''' </summary>
         ''' <returns></returns>
         Public Property product As String
-        <ScriptIgnore> <XmlIgnore> Public Property location As String
+
+        <XmlIgnore>
+        Public Property location As String
             Get
                 Return loci.ToString
             End Get
