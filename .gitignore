@@ -285,3 +285,4 @@ src/workbench/REnv.zip
 *.vsidx
 mzkit/App/Microsoft.VisualBasic.Framework_v47_dotnet_8da45dcd8060cc9a.xml
 mzkit/App/Microsoft.VisualBasic.Framework_v47_dotnet_8da45dcd8060cc9a.dll.config
+src/workbench/pkg/.pkg/GCModeller.NET5.zip
