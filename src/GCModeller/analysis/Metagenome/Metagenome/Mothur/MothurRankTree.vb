@@ -42,13 +42,25 @@ Public Class MothurRankTree : Inherits Tree(Of MothurData)
     Private Shared Sub PullLeafNode(node As MothurRankTree, pull As List(Of OTUTable))
         If node.Childs.IsNullOrEmpty Then
             Dim taxon As Metagenomics.Taxonomy = node.taxonmy
+            Dim sampleData As New Dictionary(Of String, Double)
+
+            ' 20220507 sample id data will be missing from the summary
+            ' result file if just contains only one sample data
+            '
+            ' use the [total] count as the sample data result
+            ' at here!
+            '
+            If node.Data.samples.Count = 0 Then
+                sampleData.Add("total", node.Data.total)
+            Else
+                For Each sampleId As String In node.Data.samples.Keys
+                    Call sampleData.Add(sampleId, node.Data.samples(sampleId))
+                Next
+            End If
+
             Dim OTU As New OTUTable With {
                 .ID = pull.Count + 1,
-                .Properties = node.Data.samples _
-                    .ToDictionary(Function(d) d.Key,
-                                  Function(d)
-                                      Return CDbl(d.Value)
-                                  End Function),
+                .Properties = sampleData,
                 .taxonomy = taxon
             }
 
