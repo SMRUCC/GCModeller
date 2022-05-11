@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.Language
+﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports stdNum = System.Math
 
@@ -86,6 +87,7 @@ Namespace ComponentModel.Algorithm
             Me.binary = New BinarySearchFunction(Of Block(Of T), Block(Of T))(blocks, Function(any) any, compares)
         End Sub
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Private Function getOrderSeq(data As IEnumerable(Of T), eval As Func(Of T, Double)) As IEnumerable(Of SequenceTag(Of T))
             Return data _
                 .Select(Function(a) (a, eval(a))) _
