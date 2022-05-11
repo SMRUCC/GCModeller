@@ -104,12 +104,14 @@ Namespace ComponentModel.Algorithm
         ''' </summary>
         ''' <param name="x"></param>
         ''' <returns></returns>
-        Public Iterator Function Search(x As T) As IEnumerable(Of T)
+        Public Iterator Function Search(x As T, Optional tolerance As Double? = Nothing) As IEnumerable(Of T)
             Dim wrap As New Block(Of T) With {.min = eval(x)}
             Dim i As Integer = binary.BinarySearch(target:=wrap)
 
             If i = -1 Then
                 Return
+            ElseIf tolerance Is Nothing Then
+                tolerance = Me.tolerance
             End If
 
             Dim joint As New List(Of SequenceTag(Of T))
