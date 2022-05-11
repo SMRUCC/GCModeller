@@ -70,8 +70,9 @@ Namespace ComponentModel.Algorithm
                     tmp.Add(x)
                 ElseIf tmp > 0 Then
                     block = New Block(Of T)(tmp.PopAll)
-                    min = block.max
+                    min = x.tag
                     blocks.Add(block)
+                    tmp.Add(x)
                 End If
             Next
 
