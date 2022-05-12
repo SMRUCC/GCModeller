@@ -1,7 +1,9 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.HTS.GSEA
+Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 Imports SMRUCC.genomics.Data.BioCyc
 
 <Package("BioCyc")>
@@ -60,15 +62,32 @@ Public Module BioCycRepository
 
     <Extension>
     Private Function createBackground(biocyc As Workspace, pathway As pathways) As Cluster
-        Dim compounds As New List(Of BackgroundGene)
+        Dim compounds As New Dictionary(Of String, BackgroundGene)
+        Dim reactions = biocyc.reactions
+        Dim metadata = biocyc.compounds
 
+        For Each linkId As String In pathway.reactionList
+            Dim reaction As reactions = reactions(linkId)
+            Dim all = reaction.left.JoinIterates(reaction.right).ToArray
 
+            For Each c As CompoundSpecieReference In all
+                If compounds.ContainsKey(c.ID) Then
+                    Continue For
+                End If
+
+                Dim cpd As New BackgroundGene With {
+                    .accessionID = c.ID
+                }
+
+                Call compounds.Add(c.ID, cpd)
+            Next
+        Next
 
         Return New Cluster With {
             .ID = pathway.uniqueId,
             .description = pathway.comment,
             .names = pathway.commonName,
-            .members = compounds.ToArray
+            .members = compounds.Values.ToArray
         }
     End Function
 End Module
