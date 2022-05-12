@@ -21,15 +21,18 @@ Module Factory
             .ID = value.value,
             .StoiChiometry = 1
         }
+        Dim factor As Double
 
         ref.Compartment = value("COMPARTMENT")
         coef = value("COEFFICIENT")
 
         If Not coef.StringEmpty Then
-            If coef = "n" OrElse coef Like "n*" Then
+            If coef = "n" OrElse coef = "N" OrElse coef Like "n*" OrElse coef Like "*n" Then
                 ref.StoiChiometry = Double.PositiveInfinity
+            ElseIf Double.TryParse(coef, result:=factor) Then
+                ref.StoiChiometry = factor
             Else
-                ref.StoiChiometry = Double.Parse(coef)
+                ref.StoiChiometry = 0
             End If
         End If
 
