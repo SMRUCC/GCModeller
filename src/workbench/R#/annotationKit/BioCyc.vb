@@ -2,6 +2,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Analysis.HTS.GSEA
 Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 Imports SMRUCC.genomics.Data.BioCyc
@@ -68,15 +69,31 @@ Public Module BioCycRepository
 
         For Each linkId As String In pathway.reactionList
             Dim reaction As reactions = reactions(linkId)
-            Dim all = reaction.left.JoinIterates(reaction.right).ToArray
+
+            If reaction Is Nothing Then
+                Continue For
+            End If
+
+            Dim all = reaction.left _
+                .JoinIterates(reaction.right) _
+                .ToArray
 
             For Each c As CompoundSpecieReference In all
                 If compounds.ContainsKey(c.ID) Then
                     Continue For
                 End If
 
+                Dim metainfo As compounds = metadata(c.ID)
+                Dim name As String = metainfo?.commonName
                 Dim cpd As New BackgroundGene With {
-                    .accessionID = c.ID
+                    .accessionID = c.ID,
+                    .name = If(name, c.ID),
+                    .term_id = {c.ID},
+                    .[alias] = {c.ID},
+                    .locus_tag = New NamedValue With {
+                        .name = c.ID,
+                        .text = If(name, c.ID)
+                    }
                 }
 
                 Call compounds.Add(c.ID, cpd)
@@ -87,7 +104,9 @@ Public Module BioCycRepository
             .ID = pathway.uniqueId,
             .description = pathway.comment,
             .names = pathway.commonName,
-            .members = compounds.Values.ToArray
+            .members = compounds _
+                .Values _
+                .ToArray
         }
     End Function
 End Module
