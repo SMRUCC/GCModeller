@@ -281,41 +281,68 @@ Namespace Assembly.KEGG.WebServices
         ''' <param name="list"></param>
         Private Shared Sub renderCompound(ByRef g As Graphics2D, font As Font, map As Map, scale As SizeF, list As NamedValue(Of String)())
             Dim shapes = getAreas(map, "Compound")
-            Dim scaleCircle As New SizeF(2, 2)  ' 通用的缩放
+            Dim scaleCircle As New SizeF(2, 2)
 
             For Each id As NamedValue(Of String) In list
                 If Not shapes.ContainsKey(id.Name) Then
                     Continue For
                 End If
 
-                Dim rectBrush As Brush = id.Value _
-                    .TranslateColor _
-                    .Alpha(100) _
-                    .DoCall(Function(c)
-                                Return New SolidBrush(c)
-                            End Function)
-                Dim brush As Brush = id.Value.GetBrush
-
-                With shapes(id.Name)
-                    Dim name As String = .Name
-                    Dim strSize = g.MeasureString(name, font)
-
-                    For Each shape As Area In .Value
-                        If shape.shape = "rect" Then
-                            Dim rect As RectangleF = shape.Rectangle
-
-                            Call g.FillRectangle(rectBrush, rect)
-                        Else
-                            Dim rect As RectangleF = shape.Rectangle _
-                                .Scale(scale) _
-                                .Scale(scaleCircle)
-
-                            Call g.FillPie(brush, rect, 0, 360)
-                            ' Call g.DrawCircle(rect.Centre, rect.Width, Pens.Black, fill:=False)
-                        End If
-                    Next
-                End With
+                Call CompoundShapeDrawing(id, shapes, font, g, scale, scaleCircle)
             Next
+        End Sub
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="id"></param>
+        ''' <param name="shapes"></param>
+        ''' <param name="font"></param>
+        ''' <param name="g"></param>
+        ''' <param name="scale"></param>
+        ''' <param name="scaleCircle">通用的缩放</param>
+        Private Shared Sub CompoundShapeDrawing(id As NamedValue(Of String),
+                                                shapes As Dictionary(Of String, NamedValue(Of Area())),
+                                                font As Font,
+                                                g As Graphics2D,
+                                                scale As SizeF,
+                                                scaleCircle As SizeF)
+            Dim rectBrush As Brush = id.Value _
+                .TranslateColor _
+                .Alpha(100) _
+                .DoCall(Function(c)
+                            Return New SolidBrush(c)
+                        End Function)
+            Dim brush As Brush = id.Value.GetBrush
+
+            With shapes(id.Name)
+                Dim name As String = .Name
+                Dim strSize = g.MeasureString(name, font)
+
+                For Each shape As Area In .Value
+                    If shape.shape = "rect" Then
+                        Dim rect As RectangleF = shape.Rectangle
+
+                        Try
+                            Call g.FillRectangle(rectBrush, rect)
+                        Catch ex As Exception
+                            Call ex.Message.Warning
+                        End Try
+                    Else
+                        Dim rect As RectangleF = shape.Rectangle _
+                            .Scale(scale) _
+                            .Scale(scaleCircle)
+
+                        Try
+                            Call g.FillPie(brush, rect, 0, 360)
+                        Catch ex As Exception
+                            Call ex.Message.Warning
+                        End Try
+
+                        ' Call g.DrawCircle(rect.Centre, rect.Width, Pens.Black, fill:=False)
+                    End If
+                Next
+            End With
         End Sub
 
         Public Iterator Function GetEnumerator() As IEnumerator(Of Map) Implements IEnumerable(Of Map).GetEnumerator
