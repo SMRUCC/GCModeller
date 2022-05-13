@@ -14,7 +14,7 @@ Public Class AttrDataCollection(Of T As Model)
 
     Default Public ReadOnly Property getFeature(i As String) As T
         Get
-            Return models(i)
+            Return models.TryGetValue(i)
         End Get
     End Property
 

@@ -56,7 +56,7 @@ Public Class Workspace
 
         Call Console.WriteLine($"[biocyc_open] {fullName}")
 
-        Using file As Stream = fullName.Open(FileMode.OpenOrCreate, doClear:=False, [readOnly]:=True)
+        Using file As Stream = fullName.Open(FileMode.Open, doClear:=False, [readOnly]:=True)
             Return AttrDataCollection(Of T).LoadFile(file)
         End Using
     End Function
