@@ -1,57 +1,59 @@
 ﻿#Region "Microsoft.VisualBasic::7934bc74da0f9d191a8b94264bbc9d2d, core\Bio.Assembly\ComponentModel\Annotation\Profiles\CatalogList.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class CatalogProfiling
-    ' 
-    '         Properties: Catalog, Description, SubCategory
-    ' 
-    '         Function: ToString
-    ' 
-    '     Class CatalogList
-    ' 
-    '         Properties: Catalog, Count, Description, IDs, IsReadOnly
-    ' 
-    '         Function: Contains, GetEnumerator, IEnumerable_GetEnumerator, IndexOf, Remove
-    '                   ToString
-    ' 
-    '         Sub: Add, Clear, CopyTo, Insert, RemoveAt
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class CatalogProfiling
+' 
+'         Properties: Catalog, Description, SubCategory
+' 
+'         Function: ToString
+' 
+'     Class CatalogList
+' 
+'         Properties: Catalog, Count, Description, IDs, IsReadOnly
+' 
+'         Function: Contains, GetEnumerator, IEnumerable_GetEnumerator, IndexOf, Remove
+'                   ToString
+' 
+'         Sub: Add, Clear, CopyTo, Insert, RemoveAt
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON
@@ -111,6 +113,11 @@ Namespace ComponentModel.Annotation
                 Return False
             End Get
         End Property
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function Intersect(targets As Index(Of String)) As IEnumerable(Of String)
+            Return list.Where(Function(id) id Like targets)
+        End Function
 
         Private Sub Insert(index As Integer, item As String) Implements IList(Of String).Insert
             Call list.Insert(index, item)
