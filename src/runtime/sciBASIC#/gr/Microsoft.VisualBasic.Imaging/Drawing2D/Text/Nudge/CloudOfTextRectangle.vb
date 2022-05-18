@@ -120,8 +120,11 @@ Namespace Drawing2D.Text.Nudge
                 cpt = 0
             End If
 
-            Dim childrens = From c In new_configs Select c.treat_conflicts(parent_nodes_conflicts, cpt)
-            Return New ResolvedTree With {.parent = Me, .childrens = childrens}
+            Dim childrens = From c As CloudOfTextRectangle
+                            In new_configs
+                            Select c.treat_conflicts(parent_nodes_conflicts, cpt)
+
+            Return New ResolvedTree With {.parent = Me, .childrens = childrens.ToArray}
         End Function
 
         ''' <summary>
@@ -151,7 +154,7 @@ Namespace Drawing2D.Text.Nudge
             End If
             Dim resolve_conflicts_tree = treat_conflicts(New List(Of ConflictIndexTuple), cpt:=0)
             Dim tree_leaves = get_tree_leaves(resolve_conflicts_tree)
-            Dim sorted_leaves = tree_leaves.OrderBy(Function(x) Len(x.conflicts)).ToArray
+            Dim sorted_leaves = tree_leaves.OrderBy(Function(x) x.conflicts.Length).ToArray
             list_tr = sorted_leaves(0).list_tr
             Call get_conflicts()
             Return 0
@@ -161,7 +164,11 @@ Namespace Drawing2D.Text.Nudge
             If tree.childrens Is Nothing Then
                 Return {tree.parent}
             Else
-                Return tree.childrens
+                Return (From c As ResolvedTree
+                        In tree.childrens
+                        Select get_tree_leaves(c)) _
+                    .IteratesALL _
+                    .ToArray
             End If
         End Function
     End Class
