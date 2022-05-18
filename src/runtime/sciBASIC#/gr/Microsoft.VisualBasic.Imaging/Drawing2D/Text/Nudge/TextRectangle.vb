@@ -38,6 +38,17 @@ Namespace Drawing2D.Text.Nudge
             Me.text = text
         End Sub
 
+        Private Sub New()
+        End Sub
+
+        Friend Function deepCopy() As TextRectangle
+            Return New TextRectangle With {
+                .marge = marge.ToArray,
+                .r = New PlateRectangle(r.x1, r.l, r.h),
+                .state = state
+            }
+        End Function
+
         Public Overrides Function ToString() As String
             Return $"[{state.Description}] {text} ({marge.Select(Function(d) d.ToString("F4")).JoinBy(", ")}) {r.ToString}"
         End Function
@@ -66,6 +77,11 @@ Namespace Drawing2D.Text.Nudge
             state += 2
         End Sub
 
+        ''' <summary>
+        ''' 通过这个函数尝试进行位置更新
+        ''' </summary>
+        ''' <param name="state"></param>
+        ''' <returns></returns>
         Public Function change_state(state As States) As Integer
             If Me.state = state Then
                 Return 0

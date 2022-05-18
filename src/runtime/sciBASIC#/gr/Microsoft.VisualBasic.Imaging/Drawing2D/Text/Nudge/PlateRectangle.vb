@@ -1,5 +1,4 @@
 ﻿Imports np = Microsoft.VisualBasic.Math.LinearAlgebra.Matrix.Numpy
-Imports stdNum = System.Math
 
 Namespace Drawing2D.Text.Nudge
 
@@ -20,7 +19,7 @@ Namespace Drawing2D.Text.Nudge
         ''' <summary>
         ''' This is a "plate" rectangle
         ''' </summary>
-        ''' <param name="bottomLeft">x1 for the coordinates of the bottom left point.</param>
+        ''' <param name="bottomLeft">``x1`` for the coordinates of the bottom left point.</param>
         ''' <param name="l">l for the length of the rectangle to get the bottom right point</param>
         ''' <param name="h">h for the height of the rectangle</param>
         Sub New(bottomLeft As Double(), l As Double, h As Double)

@@ -3,6 +3,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Imaging.d3js.Layout
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports np = Microsoft.VisualBasic.Math.LinearAlgebra.Matrix.Numpy
 
 Namespace Drawing2D.Text.Nudge
@@ -96,7 +97,12 @@ Namespace Drawing2D.Text.Nudge
         End Function
 
         <Extension>
-        Public Function adjust_text(ax As GraphicsTextHandle, Optional add_marge As Boolean = True, Optional arrows As Boolean = False) As Boolean
+        Public Function adjust_text(ax As GraphicsTextHandle,
+                                    Optional add_marge As Boolean = True,
+                                    Optional arrows As Boolean = False,
+                                    Optional maxLoop As Integer = 30,
+                                    Optional debug As Boolean = True) As Boolean
+
             If ax.texts.IsNullOrEmpty Then
                 Return False
             End If
@@ -124,16 +130,37 @@ Namespace Drawing2D.Text.Nudge
             Next
 
             Dim cloud As New CloudOfTextRectangle(list_tr)
+            Dim [loop] As Integer = 1
 
             Do While cloud.conflicts.Length > 0
                 Call cloud.arrange_text(arrows)
-                Call Console.WriteLine(cloud.ToString)
+
+                If debug Then
+                    Call Console.WriteLine($"[{[loop]}/{maxLoop}] {cloud.ToString}")
+                End If
+
+                If maxLoop = [loop] Then
+                    Exit Do
+                Else
+                    [loop] += 1
+                End If
             Loop
 
             For i As Integer = 0 To ax.texts.Length - 1
                 Dim tr = cloud.list_tr(i)
-                ax.texts(i).X = tr.r.x1(0)
-                ax.texts(i).Y = tr.r.x1(1)
+                Dim label = ax.texts(i)
+
+                If Not (label.X = tr.r.x1(0) AndAlso label.Y = tr.r.x1(1)) Then
+                    Dim move As String = $"[{label.X.ToString("F3")},{ label.Y.ToString("F3")}] -> [{tr.r.x1(0).ToString("F3")},{tr.r.x1(1).ToString("F3")}]"
+                    Dim offset As String = {label.X - tr.r.x1(0), label.Y - tr.r.x1(1)}.GetJson
+
+                    label.X = tr.r.x1(0)
+                    label.Y = tr.r.x1(1)
+
+                    If debug Then
+                        Call Console.WriteLine($"move '{label.text}' {move}, offset {offset}")
+                    End If
+                End If
             Next
 
             Return True

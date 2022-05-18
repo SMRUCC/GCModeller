@@ -60,7 +60,9 @@ Namespace Drawing2D.Text.Nudge
         ''' <param name="state"></param>
         ''' <returns></returns>
         Public Function new_config_cloud(index As Integer, state As States) As CloudOfTextRectangle
-            Dim new_config = list_tr.ToArray
+            Dim new_config As TextRectangle() = list_tr _
+                .Select(Function(txt) txt.deepCopy) _
+                .ToArray
             new_config(index).change_state(state)
             Return New CloudOfTextRectangle(new_config)
         End Function
@@ -98,11 +100,16 @@ Namespace Drawing2D.Text.Nudge
             'print("parent_nodes_conflicts:")
             'print(parent_nodes_conflicts)
             Dim configs As New List(Of CloudOfTextRectangle)
-            Dim first_conflict = conflicts(0)
+            Dim first_conflict As ConflictIndexTuple = conflicts(Scan0)
+
+            ' update the label position of each conflicts 
+            'For Each first_conflict As ConflictIndexTuple In conflicts
             For Each s In {1, 2, 3, 4}
-                configs.Add(new_config_cloud(first_conflict.i, s))
-                configs.Add(new_config_cloud(first_conflict.j, s))
+                Call configs.Add(new_config_cloud(first_conflict.i, s))
+                Call configs.Add(new_config_cloud(first_conflict.j, s))
             Next
+            'Next
+
             Dim new_configs_better As CloudOfTextRectangle() = (From c In configs Where parent_nodes_conflicts.IndexOf(c) = -1 AndAlso c.conflicts.Length < n_min).ToArray
             Dim new_configs_even As CloudOfTextRectangle() = (From c In configs Where parent_nodes_conflicts.IndexOf(c) = -1 AndAlso c.conflicts.Length = n_min).ToArray
             ' size limitation to four childrens
