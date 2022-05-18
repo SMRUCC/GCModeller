@@ -35,8 +35,8 @@ Namespace Drawing2D.Text.Nudge
         Public Function get_conflicts() As Integer
             Dim conflicts As New List(Of ConflictIndexTuple)
 
-            For i As Integer = 0 To list_tr.Length - 1
-                For j As Integer = i + 1 To list_tr.Length
+            For i As Integer = 0 To list_tr.Length - 2
+                For j As Integer = i + 1 To list_tr.Length - 1
                     If list_tr(i).r.covers_rectangle(list_tr(j).r) Then
                         Call conflicts.Add(New ConflictIndexTuple With {.i = i, .j = j})
                     End If
