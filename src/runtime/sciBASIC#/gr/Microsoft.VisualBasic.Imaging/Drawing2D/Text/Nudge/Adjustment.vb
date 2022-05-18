@@ -1,5 +1,7 @@
-﻿Imports System.Runtime.CompilerServices
+﻿Imports System.Drawing
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Imaging.d3js.Layout
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports np = Microsoft.VisualBasic.Math.LinearAlgebra.Matrix.Numpy
 
@@ -7,16 +9,7 @@ Namespace Drawing2D.Text.Nudge
 
     Public Module Adjustment
 
-        ''' <summary>
-        ''' function to create text rectangle from xy coordonnee and text to print.
-        ''' Added a coef to balance output for some reason
-        ''' </summary>
-        ''' <param name="xy"></param>
-        ''' <param name="text"></param>
-        ''' <param name="marge"></param>
-        ''' <param name="ax"></param>
-        ''' <returns></returns>
-        Public Function make_text_rectangle(xy As Double(), text As String, marge As Double(), ax As GraphicsTextHandle) As TextRectangle
+        Private Function measureSize(xy As Double(), text As String, marge As Double(), ax As GraphicsTextHandle) As SizeF
             Dim x_scope = ax.get_xlim()(1) - ax.get_xlim()(0)
             Dim y_scope = ax.get_ylim()(1) - ax.get_ylim()(0)
             Dim figwidth = ax.get_figwidth()
@@ -82,8 +75,24 @@ Namespace Drawing2D.Text.Nudge
                 End If
             Next
 
-            ' print("text : {0}, size : {1}".format(text, str(l)))
-            Return New TextRectangle(New PlateRectangle(xy + np.array(marge), l, h), 1, marge)
+            Return New SizeF(l, h)
+        End Function
+
+        ''' <summary>
+        ''' function to create text rectangle from xy coordonnee and text to print.
+        ''' Added a coef to balance output for some reason
+        ''' </summary>
+        ''' <param name="marge"></param>
+        ''' <param name="ax"></param>
+        ''' <returns></returns>
+        ''' 
+        <Extension>
+        Private Function make_text_rectangle(label As Label, marge As Double(), ax As GraphicsTextHandle) As TextRectangle
+            Dim xy As Double() = New Double() {label.X, label.Y}
+            Dim l As Double = label.width
+            Dim h As Double = label.height
+
+            Return New TextRectangle(label.text, New PlateRectangle(xy + np.array(marge), l, h), 1, marge)
         End Function
 
         <Extension>
@@ -109,7 +118,9 @@ Namespace Drawing2D.Text.Nudge
             Dim list_tr As New List(Of TextRectangle)
 
             For Each text As Label In ax.texts
-                Call list_tr.Add(make_text_rectangle({text.X, text.Y}, text.text, marge, ax))
+                Call text _
+                    .make_text_rectangle(marge, ax) _
+                    .DoCall(AddressOf list_tr.Add)
             Next
 
             Dim cloud As New CloudOfTextRectangle(list_tr)

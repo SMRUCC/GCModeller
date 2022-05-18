@@ -25,7 +25,9 @@ Namespace Drawing2D.Text.Nudge
         Friend state As States
         Friend marge As Double()
 
-        Sub New(r As PlateRectangle, state As States, Optional marge As Double() = Nothing)
+        Public ReadOnly Property text As String
+
+        Sub New(text As String, r As PlateRectangle, state As States, Optional marge As Double() = Nothing)
             If marge.IsNullOrEmpty Then
                 marge = New Double() {0, 0}
             End If
@@ -33,7 +35,12 @@ Namespace Drawing2D.Text.Nudge
             Me.r = r
             Me.state = state
             Me.marge = marge
+            Me.text = text
         End Sub
+
+        Public Overrides Function ToString() As String
+            Return $"[{state.Description}] {text} ({marge.Select(Function(d) d.ToString("F4")).JoinBy(", ")}) {r.ToString}"
+        End Function
 
         Public Sub left_translation()
             Dim x1 = r.x1 + np.array({-r.l - 2 * marge(0), 0})

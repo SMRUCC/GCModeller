@@ -1,4 +1,5 @@
 ﻿Imports np = Microsoft.VisualBasic.Math.LinearAlgebra.Matrix.Numpy
+Imports stdNum = System.Math
 
 Namespace Drawing2D.Text.Nudge
 
@@ -32,6 +33,10 @@ Namespace Drawing2D.Text.Nudge
             Me.y1 = x1 + {0, h}
             Me.y2 = x1 + {l, h}
         End Sub
+
+        Public Overrides Function ToString() As String
+            Return $"[{x1(Scan0).ToString("F2")}, {x1(1).ToString("F2")}] text_width={l}, text_height={h}"
+        End Function
 
         ''' <summary>
         ''' return True if self rectangle equals passed argument rectangle
