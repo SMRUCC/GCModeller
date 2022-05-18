@@ -14,7 +14,7 @@
         Public Property j As Integer
 
         Public Overrides Function ToString() As String
-            Return $"[{i}, {j}]"
+            Return $"[{i} == {j}]"
         End Function
 
         Public Overrides Function Equals(obj As Object) As Boolean

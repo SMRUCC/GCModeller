@@ -25,6 +25,10 @@ Namespace Drawing2D.Text.Nudge
             Call get_conflicts()
         End Sub
 
+        Public Overrides Function ToString() As String
+            Return $"{list_tr.Length} text labels with {conflicts.Length} overlap conflicts!"
+        End Function
+
         ''' <summary>
         ''' function that compute the conflicts associated to a cloud of
 		''' text rectangles.
@@ -102,19 +106,19 @@ Namespace Drawing2D.Text.Nudge
             Dim new_configs_better As CloudOfTextRectangle() = (From c In configs Where parent_nodes_conflicts.IndexOf(c) = -1 AndAlso c.conflicts.Length < n_min).ToArray
             Dim new_configs_even As CloudOfTextRectangle() = (From c In configs Where parent_nodes_conflicts.IndexOf(c) = -1 AndAlso c.conflicts.Length = n_min).ToArray
             ' size limitation to four childrens
-            Dim nsize As Integer = stdNum.Max(0, 4 - Len(new_configs_better))
+            Dim nsize As Integer = stdNum.Max(0, 4 - new_configs_better.Length)
             Dim new_configs = new_configs_better.JoinIterates(new_configs_even.Take(nsize)).ToArray
             'print("new_config")
             'print([c.conflicts for c in new_configs])
             ' second stop condition : no more config not explored and
             ' no config found with new conflict to treat
-            If Len(new_configs) = 0 Then
+            If new_configs.Length = 0 Then
                 Return New ResolvedTree With {.parent = Me, .childrens = Nothing}
             End If
             ' compteur qui compte les tentatives "infructeurses completes de trouver
             ' un sous chemin meilleurs. L'objectif est d'éviter les boucles trop goourmandes 
             ' en calcul
-            If (From c In new_configs Let t = n_conflict = Len(c.conflicts) Select If(t, 1, 0)).Sum = Len(new_configs) Then
+            If (From c In new_configs Let t = n_conflict = c.conflicts.Length Select If(t, 1, 0)).Sum = new_configs.Length Then
                 cpt += 1
             Else
                 cpt = 0
@@ -127,6 +131,26 @@ Namespace Drawing2D.Text.Nudge
             Return New ResolvedTree With {.parent = Me, .childrens = childrens.ToArray}
         End Function
 
+        Private Sub moveArrows()
+            For Each j In list_tr.Select(Function(tr, i) (i, tr))
+                Dim i = j.i
+                Dim tr = j.tr
+
+                If tr.r.x1(0) >= 0 And tr.r.x1(1) >= 0 Then
+                    Continue For
+                End If
+                If tr.r.x1(0) < 0 And tr.r.x1(1) >= 0 Then
+                    list_tr(i).change_state(2)
+                End If
+                If tr.r.x1(0) >= 0 And tr.r.x1(1) < 0 Then
+                    list_tr(i).change_state(3)
+                End If
+                If tr.r.x1(0) < 0 And tr.r.x1(1) < 0 Then
+                    list_tr(i).change_state(4)
+                End If
+            Next
+        End Sub
+
         ''' <summary>
         ''' main Function To arrange texts Using treat_conflicts result	
         ''' </summary>
@@ -134,28 +158,15 @@ Namespace Drawing2D.Text.Nudge
         ''' <returns></returns>
         Public Function arrange_text(Optional arrows As Boolean = False) As Integer
             If arrows Then
-                For Each j In list_tr.Select(Function(tr, i) (i, tr))
-                    Dim i = j.i
-                    Dim tr = j.tr
-
-                    If tr.r.x1(0) >= 0 And tr.r.x1(1) >= 0 Then
-                        Continue For
-                    End If
-                    If tr.r.x1(0) < 0 And tr.r.x1(1) >= 0 Then
-                        list_tr(i).change_state(2)
-                    End If
-                    If tr.r.x1(0) >= 0 And tr.r.x1(1) < 0 Then
-                        list_tr(i).change_state(3)
-                    End If
-                    If tr.r.x1(0) < 0 And tr.r.x1(1) < 0 Then
-                        list_tr(i).change_state(4)
-                    End If
-                Next
+                Call moveArrows()
             End If
+
             Dim parent_asserts As New List(Of CloudOfTextRectangle)
-            Dim resolve_conflicts_tree = treat_conflicts(parent_asserts, cpt:=0)
+            Dim resolve_conflicts_tree As ResolvedTree = treat_conflicts(parent_asserts, cpt:=0)
             Dim tree_leaves = get_tree_leaves(resolve_conflicts_tree)
-            Dim sorted_leaves = tree_leaves.OrderBy(Function(x) x.conflicts.Length).ToArray
+            Dim sorted_leaves = tree_leaves _
+                .OrderBy(Function(x) x.conflicts.Length) _
+                .ToArray
             list_tr = sorted_leaves(0).list_tr
             Call get_conflicts()
             Return 0
