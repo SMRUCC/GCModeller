@@ -63,7 +63,9 @@ Namespace Drawing2D.Text.Nudge
             Dim new_config As TextRectangle() = list_tr _
                 .Select(Function(txt) txt.deepCopy) _
                 .ToArray
-            new_config(index).change_state(state)
+
+            Call new_config(index).change_state(state)
+
             Return New CloudOfTextRectangle(new_config)
         End Function
 
@@ -88,27 +90,46 @@ Namespace Drawing2D.Text.Nudge
         ''' a tree of resolved conflicts in the form of
         ''' recursively nested dictionary.
         ''' </returns>
-        Public Function treat_conflicts(parent_nodes_conflicts As List(Of CloudOfTextRectangle), cpt As Integer) As ResolvedTree
+        Public Function treat_conflicts(parent_nodes_conflicts As List(Of CloudOfTextRectangle), cpt As Integer, moveAll As Boolean) As ResolvedTree
             ' check input type	
             Dim n_conflict = conflicts.Length
+
             ' stop condition to recursion --> no conflict in the cloud
             If n_conflict = 0 OrElse cpt > 3 Then
                 Return New ResolvedTree With {.parent = Me, .childrens = Nothing}
+            Else
+                Call parent_nodes_conflicts.Add(Me)
             End If
-            parent_nodes_conflicts.Add(Me)
+
             Dim n_min As Integer = (From c In parent_nodes_conflicts Select c.conflicts.Length).Min
             'print("parent_nodes_conflicts:")
             'print(parent_nodes_conflicts)
             Dim configs As New List(Of CloudOfTextRectangle)
-            Dim first_conflict As ConflictIndexTuple = conflicts(Scan0)
+
+            Static stateList As States() = {
+                States.top_right,
+                States.right_bottom,
+                States.left_bottom,
+                States.top_left
+            }
 
             ' update the label position of each conflicts 
-            'For Each first_conflict As ConflictIndexTuple In conflicts
-            For Each s In {1, 2, 3, 4}
-                Call configs.Add(new_config_cloud(first_conflict.i, s))
-                Call configs.Add(new_config_cloud(first_conflict.j, s))
-            Next
-            'Next
+            If moveAll Then
+                For Each first_conflict As ConflictIndexTuple In conflicts
+                    For Each s As States In stateList
+                        Call configs.Add(new_config_cloud(first_conflict.i, s))
+                        Call configs.Add(new_config_cloud(first_conflict.j, s))
+                    Next
+                Next
+            Else
+                ' or just move first
+                Dim first_conflict As ConflictIndexTuple = conflicts(Scan0)
+
+                For Each s As States In stateList
+                    Call configs.Add(new_config_cloud(first_conflict.i, s))
+                    Call configs.Add(new_config_cloud(first_conflict.j, s))
+                Next
+            End If
 
             Dim new_configs_better As CloudOfTextRectangle() = (From c In configs Where parent_nodes_conflicts.IndexOf(c) = -1 AndAlso c.conflicts.Length < n_min).ToArray
             Dim new_configs_even As CloudOfTextRectangle() = (From c In configs Where parent_nodes_conflicts.IndexOf(c) = -1 AndAlso c.conflicts.Length = n_min).ToArray
@@ -133,7 +154,7 @@ Namespace Drawing2D.Text.Nudge
 
             Dim childrens = From c As CloudOfTextRectangle
                             In new_configs
-                            Select c.treat_conflicts(parent_nodes_conflicts, cpt)
+                            Select c.treat_conflicts(parent_nodes_conflicts, cpt, moveAll)
 
             Return New ResolvedTree With {.parent = Me, .childrens = childrens.ToArray}
         End Function
@@ -163,13 +184,14 @@ Namespace Drawing2D.Text.Nudge
         ''' </summary>
         ''' <param name="arrows"></param>
         ''' <returns></returns>
-        Public Function arrange_text(Optional arrows As Boolean = False) As Integer
+        Public Function arrange_text(Optional arrows As Boolean = False,
+                                     Optional moveAll As Boolean = False) As Integer
             If arrows Then
                 Call moveArrows()
             End If
 
             Dim parent_asserts As New List(Of CloudOfTextRectangle)
-            Dim resolve_conflicts_tree As ResolvedTree = treat_conflicts(parent_asserts, cpt:=0)
+            Dim resolve_conflicts_tree As ResolvedTree = treat_conflicts(parent_asserts, cpt:=0, moveAll:=moveAll)
             Dim tree_leaves = get_tree_leaves(resolve_conflicts_tree)
             Dim sorted_leaves = tree_leaves _
                 .OrderBy(Function(x) x.conflicts.Length) _

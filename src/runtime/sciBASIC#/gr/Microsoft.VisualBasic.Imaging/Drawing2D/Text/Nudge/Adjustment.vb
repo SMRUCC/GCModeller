@@ -133,7 +133,7 @@ Namespace Drawing2D.Text.Nudge
             Dim [loop] As Integer = 1
 
             Do While cloud.conflicts.Length > 0
-                Call cloud.arrange_text(arrows)
+                Call cloud.arrange_text(arrows, moveAll:=True)
 
                 If debug Then
                     Call Console.WriteLine($"[{[loop]}/{maxLoop}] {cloud.ToString}")
