@@ -114,7 +114,7 @@ Namespace Drawing2D.Text.Nudge
 
             Dim cloud As New CloudOfTextRectangle(list_tr)
             cloud.arrange_text(arrows)
-            For i As Integer = 0 To Len(ax.texts)
+            For i As Integer = 0 To ax.texts.Length - 1
                 Dim tr = cloud.list_tr(i)
                 ax.texts(i).X = tr.r.x1(0)
                 ax.texts(i).Y = tr.r.x1(1)
