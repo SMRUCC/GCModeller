@@ -13,11 +13,9 @@
         ''' <returns></returns>
         Public Property j As Integer
 
-        Public ReadOnly Property length As Integer
-            Get
-                Throw New NotImplementedException
-            End Get
-        End Property
+        Public Overrides Function ToString() As String
+            Return $"[{i}, {j}]"
+        End Function
 
         Public Overrides Function Equals(obj As Object) As Boolean
             If Not TypeOf obj Is ConflictIndexTuple Then
@@ -32,7 +30,7 @@
         End Function
 
         Public Shared Function [In](conflicts As ConflictIndexTuple(), parent As IEnumerable(Of ConflictIndexTuple)) As Boolean
-
+            Throw New NotImplementedException
         End Function
     End Class
 End Namespace

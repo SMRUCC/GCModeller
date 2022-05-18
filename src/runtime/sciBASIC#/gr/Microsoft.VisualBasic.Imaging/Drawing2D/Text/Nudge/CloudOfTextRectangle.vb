@@ -82,15 +82,15 @@ Namespace Drawing2D.Text.Nudge
         ''' a tree of resolved conflicts in the form of
         ''' recursively nested dictionary.
         ''' </returns>
-        Public Function treat_conflicts(parent_nodes_conflicts As List(Of ConflictIndexTuple), cpt As Integer) As ResolvedTree
+        Public Function treat_conflicts(parent_nodes_conflicts As List(Of CloudOfTextRectangle), cpt As Integer) As ResolvedTree
             ' check input type	
             Dim n_conflict = conflicts.Length
             ' stop condition to recursion --> no conflict in the cloud
             If n_conflict = 0 OrElse cpt > 3 Then
                 Return New ResolvedTree With {.parent = Me, .childrens = Nothing}
             End If
-            parent_nodes_conflicts.AddRange(Me.conflicts)
-            Dim n_min As Integer = (From c In parent_nodes_conflicts Select c.length).Min
+            parent_nodes_conflicts.Add(Me)
+            Dim n_min As Integer = (From c In parent_nodes_conflicts Select c.conflicts.Length).Min
             'print("parent_nodes_conflicts:")
             'print(parent_nodes_conflicts)
             Dim configs As New List(Of CloudOfTextRectangle)
@@ -99,8 +99,8 @@ Namespace Drawing2D.Text.Nudge
                 configs.Add(new_config_cloud(first_conflict.i, s))
                 configs.Add(new_config_cloud(first_conflict.j, s))
             Next
-            Dim new_configs_better As CloudOfTextRectangle() = (From c In configs Where Not ConflictIndexTuple.In(c.conflicts, parent_nodes_conflicts) AndAlso c.conflicts.Length < n_min).ToArray
-            Dim new_configs_even As CloudOfTextRectangle() = (From c In configs Where Not ConflictIndexTuple.In(c.conflicts, parent_nodes_conflicts) AndAlso c.conflicts.Length = n_min).ToArray
+            Dim new_configs_better As CloudOfTextRectangle() = (From c In configs Where parent_nodes_conflicts.IndexOf(c) = -1 AndAlso c.conflicts.Length < n_min).ToArray
+            Dim new_configs_even As CloudOfTextRectangle() = (From c In configs Where parent_nodes_conflicts.IndexOf(c) = -1 AndAlso c.conflicts.Length = n_min).ToArray
             ' size limitation to four childrens
             Dim nsize As Integer = stdNum.Max(0, 4 - Len(new_configs_better))
             Dim new_configs = new_configs_better.JoinIterates(new_configs_even.Take(nsize)).ToArray
@@ -152,7 +152,8 @@ Namespace Drawing2D.Text.Nudge
                     End If
                 Next
             End If
-            Dim resolve_conflicts_tree = treat_conflicts(New List(Of ConflictIndexTuple), cpt:=0)
+            Dim parent_asserts As New List(Of CloudOfTextRectangle)
+            Dim resolve_conflicts_tree = treat_conflicts(parent_asserts, cpt:=0)
             Dim tree_leaves = get_tree_leaves(resolve_conflicts_tree)
             Dim sorted_leaves = tree_leaves.OrderBy(Function(x) x.conflicts.Length).ToArray
             list_tr = sorted_leaves(0).list_tr
