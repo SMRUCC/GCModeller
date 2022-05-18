@@ -87,9 +87,9 @@ Namespace Drawing2D.Text.Nudge
         End Function
 
         <Extension>
-        Public Function adjust_text(ax As GraphicsTextHandle, Optional add_marge As Boolean = True, Optional arrows As Boolean = False) As Integer
-            If Strings.Len(ax.texts) = 0 Then
-                Return 0
+        Public Function adjust_text(ax As GraphicsTextHandle, Optional add_marge As Boolean = True, Optional arrows As Boolean = False) As Boolean
+            If ax.texts.IsNullOrEmpty Then
+                Return False
             End If
             'If the Then axis aspect Is Set To equal To keep proportion (For cercle) For example, the x_scope Is going To be multiply by two When we will enlarge 
             'If ax Then.get_aspect() == "equal":
@@ -120,7 +120,7 @@ Namespace Drawing2D.Text.Nudge
                 ax.texts(i).Y = tr.r.x1(1)
             Next
 
-            Return 1
+            Return True
         End Function
     End Module
 End Namespace
