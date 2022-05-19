@@ -126,9 +126,9 @@ Namespace CollectionSet
             Dim allCompares = getCombinations(collectionSetLabels).IteratesALL.ToArray
             ' unique + combinations
             Dim dotsPerGroup As Integer = collectionSetLabels.Length + allCompares.Length
-            Dim widthPerGroup As Double = layout.Width / collections.size
+            Dim widthPerGroup As Double = layout.Width / allCompares.Length
 
-            boxWidth = widthPerGroup / dotsPerGroup
+            boxWidth = widthPerGroup ' / dotsPerGroup
             boxHeight = layout.Height / collectionSetLabels.Length
 
             Dim pointSize As Double = stdNum.Min(boxWidth, boxHeight) / 3
