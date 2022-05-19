@@ -101,16 +101,18 @@ Namespace CollectionSet
         ''' 2 vs 2 -> a vs b vs c vs ...
         ''' </summary>
         ''' <returns></returns>
-        Private Function getCombinations(collectionSetLabels As String()) As String()()
-            Return collectionSetLabels _
-                .AllCombinations _
-                .GroupBy(Function(combine)
-                             Return combine.Distinct.OrderBy(Function(str) str).JoinBy("---")
-                         End Function) _
-                .Select(Function(group)
-                            Return group.First.Distinct.ToArray
-                        End Function) _
-                .ToArray
+        Private Iterator Function getCombinations(collectionSetLabels As String()) As IEnumerable(Of String()())
+            For i As Integer = 2 To collectionSetLabels.Length
+                Yield collectionSetLabels _
+                    .AllCombinations(size:=i) _
+                    .GroupBy(Function(combine)
+                                 Return combine.Distinct.OrderBy(Function(str) str).JoinBy("---")
+                             End Function) _
+                    .Select(Function(group)
+                                Return group.First.Distinct.ToArray
+                            End Function) _
+                    .ToArray
+            Next
         End Function
 
         Private Sub drawBottomIntersctionVisualize(g As IGraphics,
@@ -121,7 +123,7 @@ Namespace CollectionSet
                                                    layout As Rectangle)
 
             Dim dh As Double = layout.Height / collectionSetLabels.Length
-            Dim allCompares = getCombinations(collectionSetLabels).ToArray
+            Dim allCompares = getCombinations(collectionSetLabels).IteratesALL.ToArray
             ' unique + combinations
             Dim dotsPerGroup As Integer = collectionSetLabels.Length + allCompares.Length
             Dim widthPerGroup As Double = layout.Width / collections.size
