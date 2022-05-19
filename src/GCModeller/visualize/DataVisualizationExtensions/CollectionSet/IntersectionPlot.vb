@@ -142,6 +142,7 @@ Namespace CollectionSet
             Dim allCompares = getCombinations(collectionSetLabels).IteratesALL.ToArray
             Dim factor As FactorGroup = collections.groups
             Dim intersectList As (index As Index(Of String), intersect As String())() = getIntersectList(factor, allCompares, collectionSetLabels) _
+                .Where(Function(d) d.intersect.Length > 0) _
                 .Sort(Function(d) d.intersect.Length, desc) _
                 .ToArray
             ' unique + combinations
