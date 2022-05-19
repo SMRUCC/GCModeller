@@ -113,7 +113,13 @@ Namespace CollectionSet
                 .ToArray
         End Function
 
-        Private Sub drawBottomIntersctionVisualize(g As IGraphics, collectionSetLabels As String(), barData As List(Of NamedValue(Of Integer)), ByRef boxWidth As Double, ByRef boxHeight As Double, layout As Rectangle)
+        Private Sub drawBottomIntersctionVisualize(g As IGraphics,
+                                                   collectionSetLabels As String(),
+                                                   barData As List(Of NamedValue(Of Integer)),
+                                                   ByRef boxWidth As Double,
+                                                   ByRef boxHeight As Double,
+                                                   layout As Rectangle)
+
             Dim dh As Double = layout.Height / collectionSetLabels.Length
             Dim allCompares = getCombinations(collectionSetLabels).ToArray
             ' unique + combinations
@@ -303,7 +309,12 @@ Namespace CollectionSet
             g.DrawString("Set Size", labelFont, Brushes.Black, labelPos)
         End Sub
 
-        Private Sub drawTopBarPlot(g As IGraphics, barData As List(Of NamedValue(Of Integer)), boxWidth As Double, boxHeight As Double, layout As Rectangle)
+        Private Sub drawTopBarPlot(g As IGraphics,
+                                   barData As List(Of NamedValue(Of Integer)),
+                                   boxWidth As Double,
+                                   boxHeight As Double,
+                                   layout As Rectangle)
+
             Dim yTick = barData.Select(Function(d) CDbl(d.Value)).JoinIterates({0.0, 1.0}).CreateAxisTicks
             Dim scaleY = d3js.scale.linear.domain(values:=yTick).range(New Double() {0, layout.Height})
             Dim x As Double = layout.Left
