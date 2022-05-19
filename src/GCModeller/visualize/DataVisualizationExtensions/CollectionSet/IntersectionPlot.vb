@@ -69,10 +69,17 @@ Namespace CollectionSet
         ReadOnly setSizeLabel As String = "Set Size"
         ReadOnly setSizeBarColor As String = "gray"
         ReadOnly desc As Boolean = False
+        ReadOnly classSet As Dictionary(Of String, String())
 
-        Public Sub New(data As IntersectionData, desc As Boolean, setSizeBarColor As String, theme As Theme)
+        Public Sub New(data As IntersectionData,
+                       desc As Boolean,
+                       setSizeBarColor As String,
+                       classSet As Dictionary(Of String, String()),
+                       theme As Theme)
+
             MyBase.New(theme)
 
+            Me.classSet = classSet
             Me.desc = desc
             Me.setSizeBarColor = setSizeBarColor
             Me.collections = data
@@ -88,13 +95,21 @@ Namespace CollectionSet
             Dim bottomIntersection As New Rectangle(plotRect.Left, plotRect.Bottom - totalHeight + 50, plotRect.Width, totalHeight)
             Dim leftSetSizeBar As New Rectangle(canvas.Padding.Left / 20, bottomIntersection.Top, plotRect.Left, totalHeight)
             Dim topbarLayout As New Rectangle(bottomIntersection.Left, plotRect.Top, bottomIntersection.Width, plotRect.Height - bottomIntersection.Height)
-            Dim barData As New List(Of NamedValue(Of Integer))
+            Dim barData As New List(Of NamedCollection(Of String))
             Dim boxWidth As Double = -1
             Dim boxHeight As Double = -1
 
             Call drawBottomIntersctionVisualize(g, collectionSetLabels, barData, boxWidth:=boxWidth, boxHeight:=boxHeight, layout:=bottomIntersection)
             Call drawLeftBarSet(g, labelFont, collectionSetLabels, layout:=New Rectangle(leftSetSizeBar.X, leftSetSizeBar.Y, leftSetSizeBar.Width - boxWidth * 5, leftSetSizeBar.Height))
             Call drawTopBarPlot(g, barData, boxWidth:=boxWidth, layout:=topbarLayout, boxHeight:=boxHeight)
+
+            If Not classSet.IsNullOrEmpty Then
+                Call drawClassLegends(g, canvas)
+            End If
+        End Sub
+
+        Private Sub drawClassLegends(g As IGraphics, canvas As GraphicsRegion)
+
         End Sub
 
         ''' <summary>
@@ -131,9 +146,18 @@ Namespace CollectionSet
             Next
         End Function
 
+        ''' <summary>
+        ''' draw the dot intersection summary in the bottom region
+        ''' </summary>
+        ''' <param name="g"></param>
+        ''' <param name="collectionSetLabels"></param>
+        ''' <param name="barData"></param>
+        ''' <param name="boxWidth"></param>
+        ''' <param name="boxHeight"></param>
+        ''' <param name="layout"></param>
         Private Sub drawBottomIntersctionVisualize(g As IGraphics,
                                                    collectionSetLabels As String(),
-                                                   barData As List(Of NamedValue(Of Integer)),
+                                                   barData As List(Of NamedCollection(Of String)),
                                                    ByRef boxWidth As Double,
                                                    ByRef boxHeight As Double,
                                                    layout As Rectangle)
@@ -229,10 +253,10 @@ Namespace CollectionSet
                     Next
                 End If
 
-                Call New NamedValue(Of Integer) With {
-                    .Name = combine.index.Objects.JoinBy("--"),
-                    .Value = intersect.Length,
-                    .Description = htmlColor
+                Call New NamedCollection(Of String) With {
+                    .name = combine.index.Objects.JoinBy("--"),
+                    .value = intersect,
+                    .description = htmlColor
                 }.DoCall(AddressOf barData.Add)
 
                 x += boxWidth
@@ -315,14 +339,27 @@ Namespace CollectionSet
             g.DrawString("Set Size", labelFont, Brushes.Black, labelPos)
         End Sub
 
+        ''' <summary>
+        ''' draw barplot of the intersect data
+        ''' </summary>
+        ''' <param name="g"></param>
+        ''' <param name="barData"></param>
+        ''' <param name="boxWidth"></param>
+        ''' <param name="boxHeight"></param>
+        ''' <param name="layout"></param>
         Private Sub drawTopBarPlot(g As IGraphics,
-                                   barData As List(Of NamedValue(Of Integer)),
+                                   barData As List(Of NamedCollection(Of String)),
                                    boxWidth As Double,
                                    boxHeight As Double,
                                    layout As Rectangle)
 
-            Dim yTick = barData.Select(Function(d) CDbl(d.Value)).JoinIterates({0.0, 1.0}).CreateAxisTicks
-            Dim scaleY = d3js.scale.linear.domain(values:=yTick).range(New Double() {0, layout.Height})
+            Dim yTick As Double() = barData _
+                .Select(Function(d) CDbl(d.Length)) _
+                .JoinIterates({0.0, 1.0}) _
+                .CreateAxisTicks
+            Dim scaleY = d3js.scale.linear _
+                .domain(values:=yTick) _
+                .range(New Double() {0, layout.Height})
             Dim x As Double = layout.Left
             Dim labelFont As Font = CSSFont.TryParse(theme.tagCSS).GDIObject(g.Dpi)
             Dim offset As Double = boxWidth * 0.1
@@ -341,8 +378,8 @@ Namespace CollectionSet
                          tickFormat:="F0"
             )
 
-            For Each bar In barData
-                Dim barHeight As Double = scaleY(bar.Value)
+            For Each bar As NamedCollection(Of String) In barData
+                Dim barHeight As Double = scaleY(bar.Length)
                 Dim y As Double = layout.Bottom - barHeight
                 Dim barRect As New Rectangle With {
                     .X = x + offset,
@@ -350,10 +387,21 @@ Namespace CollectionSet
                     .Width = boxWidth * 0.8,
                     .Height = barHeight
                 }
-                Dim labelSize As SizeF = g.MeasureString(bar.Value, labelFont)
+                Dim sizeLabel As String = bar.Length.ToString()
+                Dim labelSize As SizeF = g.MeasureString(sizeLabel, labelFont)
+                Dim defaultColor As Brush = bar.description.GetBrush
 
-                Call g.FillRectangle(bar.Description.GetBrush, barRect)
-                Call g.DrawString(bar.Value, labelFont, Brushes.Black, New PointF(x + (barRect.Width - labelSize.Width) / 2, y - labelSize.Height))
+                If classSet.IsNullOrEmpty Then
+                    Dim pos As New PointF With {
+                        .X = x + (barRect.Width - labelSize.Width) / 2,
+                        .Y = y - labelSize.Height
+                    }
+
+                    Call g.FillRectangle(defaultColor, barRect)
+                    Call g.DrawString(sizeLabel, labelFont, Brushes.Black, pos)
+                Else
+
+                End If
 
                 x += boxWidth
             Next
