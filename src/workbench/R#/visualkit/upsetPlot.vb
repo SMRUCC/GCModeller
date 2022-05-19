@@ -22,7 +22,8 @@ Module upsetPlot
             .YaxisTickFormat = "F0",
             .axisStroke = "stroke: black; stroke-width: 10px; stroke-dash: solid;",
             .axisLabelCSS = "font-style: normal; font-size: 20; font-family: " & FontFace.MicrosoftYaHei & ";",
-            .colorSet = args.getValue("colors", env, "Jet")
+            .colorSet = args.getValue("colors", env, "Paper"),
+            .legendLabelCSS = "font-style: normal; font-size: 20; font-family: " & FontFace.MicrosoftYaHei & ";"
         }
         Dim classSet As Dictionary(Of String, String()) = args.getValue(Of Dictionary(Of String, String()))("class", env, Nothing)
         Dim upsetBar As String = RColorPalette.getColor(args!upsetBar, "gray")

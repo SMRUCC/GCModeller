@@ -128,6 +128,7 @@ Namespace CollectionSet
             Dim legends As New List(Of LegendObject)
             Dim maxwidth As Integer = -1
             Dim font As Font = CSSFont.TryParse(theme.legendLabelCSS).GDIObject(g.Dpi)
+            Dim defaultColor As String = collections.groups.color.ToHtmlColor
 
             For Each classKey As String In classColors.Keys
                 Call New LegendObject With {
@@ -139,6 +140,15 @@ Namespace CollectionSet
 
                 maxwidth = stdNum.Max(g.MeasureString(classKey, font).Width, maxwidth)
             Next
+
+            Call New LegendObject With {
+                .color = defaultColor,
+                .fontstyle = theme.legendLabelCSS,
+                .style = LegendStyles.Rectangle,
+                .title = "No Class"
+            }.DoCall(AddressOf legends.Add)
+
+            maxwidth = stdNum.Max(g.MeasureString(legends.Last.title, font).Width, maxwidth)
 
             theme.legendLayout = New Absolute With {
                 .x = canvas.Width - maxwidth * 2,
