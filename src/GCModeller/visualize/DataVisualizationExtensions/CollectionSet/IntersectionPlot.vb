@@ -126,6 +126,8 @@ Namespace CollectionSet
 
         Private Sub drawClassLegends(g As IGraphics, canvas As GraphicsRegion)
             Dim legends As New List(Of LegendObject)
+            Dim maxwidth As Integer = -1
+            Dim font As Font = CSSFont.TryParse(theme.legendLabelCSS).GDIObject(g.Dpi)
 
             For Each classKey As String In classColors.Keys
                 Call New LegendObject With {
@@ -134,7 +136,14 @@ Namespace CollectionSet
                     .style = LegendStyles.Rectangle,
                     .title = classKey
                 }.DoCall(AddressOf legends.Add)
+
+                maxwidth = stdNum.Max(g.MeasureString(classKey, font).Width, maxwidth)
             Next
+
+            theme.legendLayout = New Absolute With {
+                .x = canvas.Width - maxwidth * 2,
+                .y = stdNum.Max(200, canvas.Padding.Top)
+            }
 
             Call DrawLegends(g, legends.ToArray, showBorder:=True, canvas:=canvas)
         End Sub
