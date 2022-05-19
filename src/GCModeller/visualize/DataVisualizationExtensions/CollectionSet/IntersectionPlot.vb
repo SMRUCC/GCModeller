@@ -54,6 +54,8 @@ Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports stdNum = System.Math
@@ -70,6 +72,7 @@ Namespace CollectionSet
         ReadOnly setSizeBarColor As String = "gray"
         ReadOnly desc As Boolean = False
         ReadOnly classSet As Dictionary(Of String, String())
+        ReadOnly classColors As New Dictionary(Of String, Brush)
 
         Public Sub New(data As IntersectionData,
                        desc As Boolean,
@@ -77,12 +80,24 @@ Namespace CollectionSet
                        classSet As Dictionary(Of String, String()),
                        theme As Theme)
 
-            MyBase.New(theme)
+            Call MyBase.New(theme)
 
             Me.classSet = classSet
             Me.desc = desc
             Me.setSizeBarColor = setSizeBarColor
             Me.collections = data
+
+            If Not classSet.IsNullOrEmpty Then
+                Dim colors As Brush() = Designer _
+                    .GetColors(theme.colorSet, n:=classSet.Count) _
+                    .Select(Function(c) New SolidBrush(c)) _
+                    .ToArray
+                Dim i As i32 = Scan0
+
+                For Each [class] In classSet
+                    Call classColors.Add([class].Key, colors(++i))
+                Next
+            End If
         End Sub
 
         Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
@@ -390,18 +405,57 @@ Namespace CollectionSet
                 Dim sizeLabel As String = bar.Length.ToString()
                 Dim labelSize As SizeF = g.MeasureString(sizeLabel, labelFont)
                 Dim defaultColor As Brush = bar.description.GetBrush
+                Dim labelPos As New PointF With {
+                    .X = x + (barRect.Width - labelSize.Width) / 2,
+                    .Y = y - labelSize.Height
+                }
 
                 If classSet.IsNullOrEmpty Then
-                    Dim pos As New PointF With {
-                        .X = x + (barRect.Width - labelSize.Width) / 2,
-                        .Y = y - labelSize.Height
+                    Call g.FillRectangle(defaultColor, barRect)
+                Else
+                    Dim blocks As New List(Of (label As String, rect As Rectangle))
+                    Dim size = classSet.ToDictionary(Function(v) v.Key, Function(v) CDbl(bar.Intersect(v.Value).Count))
+                    Dim missing As Double = bar.value.Intersect(classSet.Values.IteratesALL.Distinct).Count
+                    Dim all As Double = size.Values.Sum + missing
+
+                    size = size.ToDictionary(Function(v) v.Key, Function(v) v.Value / all)
+                    y = layout.Bottom
+                    missing = missing / all
+
+                    Dim [set] As Double = bar.Length * missing
+                    Dim h As Integer = scaleY([set])
+                    Dim rect As New Rectangle With {
+                        .X = x + offset,
+                        .Y = y - h,
+                        .Width = boxWidth * 0.8,
+                        .Height = h
                     }
 
-                    Call g.FillRectangle(defaultColor, barRect)
-                    Call g.DrawString(sizeLabel, labelFont, Brushes.Black, pos)
-                Else
+                    y -= h
 
+                    If h > 0 Then
+                        Call g.FillRectangle(defaultColor, rect)
+                    End If
+
+                    For Each v In classSet
+                        [set] = bar.Length * size(v.Key)
+                        h = scaleY([set])
+                        rect = New Rectangle With {
+                            .X = x + offset,
+                            .Y = y - h,
+                            .Width = boxWidth * 0.8,
+                            .Height = h
+                        }
+
+                        y -= h
+
+                        If h > 0 Then
+                            Call g.FillRectangle(classColors(v.Key), rect)
+                        End If
+                    Next
                 End If
+
+                Call g.DrawString(sizeLabel, labelFont, Brushes.Black, labelPos)
 
                 x += boxWidth
             Next
