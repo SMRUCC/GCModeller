@@ -115,6 +115,22 @@ Namespace CollectionSet
             Next
         End Function
 
+        Private Iterator Function getIntersectList(factor As FactorGroup, allCompares As String()(), collectionSetLabels As String()) As IEnumerable(Of (index As Index(Of String), intersect As String()))
+            For Each combine As String() In allCompares
+                Dim intersect As String() = factor _
+                    .GetIntersection(combine) _
+                    .ToArray
+
+                Yield (index:=combine.Indexing, intersect)
+            Next
+
+            For Each lbl As String In collectionSetLabels
+                Dim unique As String() = factor.GetUniqueId(lbl)
+
+                Yield ({lbl}.Indexing, unique)
+            Next
+        End Function
+
         Private Sub drawBottomIntersctionVisualize(g As IGraphics,
                                                    collectionSetLabels As String(),
                                                    barData As List(Of NamedValue(Of Integer)),
@@ -124,9 +140,13 @@ Namespace CollectionSet
 
             Dim dh As Double = layout.Height / collectionSetLabels.Length
             Dim allCompares = getCombinations(collectionSetLabels).IteratesALL.ToArray
+            Dim factor As FactorGroup = collections.groups
+            Dim intersectList As (index As Index(Of String), intersect As String())() = getIntersectList(factor, allCompares, collectionSetLabels) _
+                .Sort(Function(d) d.intersect.Length, desc) _
+                .ToArray
             ' unique + combinations
             Dim dotsPerGroup As Integer = collectionSetLabels.Length + allCompares.Length
-            Dim widthPerGroup As Double = layout.Width / allCompares.Length
+            Dim widthPerGroup As Double = layout.Width / intersectList.Length
 
             boxWidth = widthPerGroup ' / dotsPerGroup
             boxHeight = layout.Height / collectionSetLabels.Length
@@ -135,7 +155,6 @@ Namespace CollectionSet
             Dim gray As New SolidBrush("LightGray".TranslateColor)
             Dim linkStroke As Pen = Stroke.TryParse(theme.lineStroke)
             Dim x As Double = layout.Left + pointSize
-            Dim factor As FactorGroup = collections.groups
             Dim allData = factor.GetAllUniques.ToDictionary(Function(i) i.name)
             Dim labelIndex As Index(Of String) = collectionSetLabels
             Dim y As Double = layout.Top + pointSize
@@ -167,22 +186,6 @@ Namespace CollectionSet
             '    x += boxWidth
             '    y = layout.Top + pointSize
             'Next
-
-            Dim intersectList As (index As Index(Of String), intersect As String())() = allCompares _
-                .Select(Function(combine)
-                            Dim intersect As String() = factor _
-                                .GetIntersection(combine) _
-                                .ToArray
-
-                            Return (index:=combine.Indexing, intersect)
-                        End Function) _
-                .Where(Function(d) d.intersect.Length > 0) _
-                .JoinIterates(collectionSetLabels.Select(Function(lbl)
-                                                             Dim unique As String() = factor.GetUniqueId(lbl)
-                                                             Return ({lbl}.Indexing, unique)
-                                                         End Function)) _
-                .Sort(Function(d) d.intersect.Length, desc) _
-                .ToArray
 
             ' draw for each combine group
             For Each combine In intersectList
