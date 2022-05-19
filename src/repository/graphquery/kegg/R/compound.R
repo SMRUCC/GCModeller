@@ -21,6 +21,7 @@ const kegg_compound as function(url) {
   const reactionId  = graphquery::query(document = Html::parse(keyValues$"Reaction"),   graphquery = get_graph("graphquery/fields/reactionLink.graphquery"));
   const commonNames = graphquery::query(document = Html::parse(keyValues$"Name"),       graphquery = get_graph("graphquery/fields/commonNames.graphquery"))
   |> strsplit("\r|\n")
+  |> unlist()
   |> trim("; ")
   ;
   const id          = graphquery::query(document = Html::parse(keyValues$"Entry"),      graphquery = get_graph("graphquery/fields/simpleText.graphquery"));
