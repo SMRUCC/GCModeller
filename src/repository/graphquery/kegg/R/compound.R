@@ -11,6 +11,8 @@ const kegg_compound as function(url) {
   # str(keyValues);
   # stop();
 
+  print("start to parse fields...");
+  
   # parse fields
   const xref        = graphquery::query(document = Html::parse(keyValues$"Other DBs"),  graphquery = get_graph("graphquery/fields/dbLinks.graphquery"));
   const KCF_text    = graphquery::query(document = Html::parse(keyValues$"KCF data"),   graphquery = get_graph("graphquery/fields/KCFtext.graphquery"));
