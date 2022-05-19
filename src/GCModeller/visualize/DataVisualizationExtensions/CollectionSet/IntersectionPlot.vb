@@ -124,108 +124,106 @@ Namespace CollectionSet
             boxHeight = layout.Height / collectionSetLabels.Length
 
             Dim pointSize As Double = stdNum.Min(boxWidth, boxHeight) / 3
-            Dim gray As New SolidBrush(Color.LightGray)
+            Dim gray As New SolidBrush("LightGray".TranslateColor)
             Dim linkStroke As Pen = Stroke.TryParse(theme.lineStroke)
             Dim x As Double = layout.Left + pointSize
+            Dim factor As FactorGroup = collections.groups
+            Dim allData = factor.GetAllUniques.ToDictionary(Function(i) i.name)
+            Dim labelIndex As Index(Of String) = collectionSetLabels
+            Dim y As Double = layout.Top + pointSize
+            Dim color As New SolidBrush(factor.color)
+            Dim htmlColor As String = factor.color.ToHtmlColor
 
-            For Each factor As FactorGroup In collections.groups
-                Dim allData = factor.GetAllUniques.ToDictionary(Function(i) i.name)
-                Dim labelIndex As Index(Of String) = collectionSetLabels
-                Dim y As Double = layout.Top + pointSize
-                Dim color As New SolidBrush(factor.color)
-                Dim htmlColor As String = factor.color.ToHtmlColor
+            '' single & unique
+            'For Each label As String In collectionSetLabels
+            '    ' get all data only appears in current collection
+            '    Dim unique As Integer = allData(label).Length
 
-                '' single & unique
-                'For Each label As String In collectionSetLabels
-                '    ' get all data only appears in current collection
-                '    Dim unique As Integer = allData(label).Length
+            '    Call New NamedValue(Of Integer) With {
+            '        .Name = label,
+            '        .Value = unique,
+            '        .Description = htmlColor
+            '    }.DoCall(AddressOf barData.Add)
 
-                '    Call New NamedValue(Of Integer) With {
-                '        .Name = label,
-                '        .Value = unique,
-                '        .Description = htmlColor
-                '    }.DoCall(AddressOf barData.Add)
+            '    For Each label2 As String In collectionSetLabels
+            '        If label <> label2 OrElse unique = 0 Then
+            '            ' gray dot
+            '            Call g.FillCircles(gray, {New Point(x, y)}, pointSize)
+            '        Else
+            '            Call g.FillCircles(color, {New Point(x, y)}, pointSize)
+            '        End If
 
-                '    For Each label2 As String In collectionSetLabels
-                '        If label <> label2 OrElse unique = 0 Then
-                '            ' gray dot
-                '            Call g.FillCircles(gray, {New Point(x, y)}, pointSize)
-                '        Else
-                '            Call g.FillCircles(color, {New Point(x, y)}, pointSize)
-                '        End If
+            '        y += boxHeight
+            '    Next
 
-                '        y += boxHeight
-                '    Next
+            '    x += boxWidth
+            '    y = layout.Top + pointSize
+            'Next
 
-                '    x += boxWidth
-                '    y = layout.Top + pointSize
-                'Next
+            Dim intersectList As (index As Index(Of String), intersect As String())() = allCompares _
+                .Select(Function(combine)
+                            Dim intersect As String() = factor _
+                                .GetIntersection(combine) _
+                                .ToArray
 
-                Dim intersectList As (index As Index(Of String), intersect As String())() = allCompares _
-                    .Select(Function(combine)
-                                Dim intersect As String() = factor _
-                                    .GetIntersection(combine) _
-                                    .ToArray
+                            Return (index:=combine.Indexing, intersect)
+                        End Function) _
+                .Where(Function(d) d.intersect.Length > 0) _
+                .JoinIterates(collectionSetLabels.Select(Function(lbl)
+                                                             Dim unique As String() = factor.GetUniqueId(lbl)
+                                                             Return ({lbl}.Indexing, unique)
+                                                         End Function)) _
+                .Sort(Function(d) d.intersect.Length, desc) _
+                .ToArray
 
-                                Return (index:=combine.Indexing, intersect)
-                            End Function) _
-                    .Where(Function(d) d.intersect.Length > 0) _
-                    .JoinIterates(collectionSetLabels.Select(Function(lbl)
-                                                                 Dim unique As String() = factor.GetUniqueId(lbl)
-                                                                 Return ({lbl}.Indexing, unique)
-                                                             End Function)) _
-                    .Sort(Function(d) d.intersect.Length, desc) _
-                    .ToArray
+            ' draw for each combine group
+            For Each combine In intersectList
+                Dim intersect As String() = combine.intersect
 
-                ' draw for each combine group
-                For Each combine In intersectList
-                    Dim intersect As String() = combine.intersect
+                y = layout.Top + pointSize
 
-                    y = layout.Top + pointSize
+                If intersect.Length > 0 Then
+                    ' line between the dots
+                    Dim ymin As Double = 999999
+                    Dim ymax As Double = -99999
+                    Dim combineIndex As Index(Of String) = combine.index
 
-                    If intersect.Length > 0 Then
-                        ' line between the dots
-                        Dim ymin As Double = 999999
-                        Dim ymax As Double = -99999
-                        Dim combineIndex As Index(Of String) = combine.index
+                    For Each tag In collectionSetLabels
+                        If tag Like combineIndex Then
+                            ' black dot
+                            Call g.FillCircles(color, {New Point(x, y)}, pointSize)
 
-                        For Each tag In collectionSetLabels
-                            If tag Like combineIndex Then
-                                ' black dot
-                                Call g.FillCircles(color, {New Point(x, y)}, pointSize)
-
-                                If y < ymin Then
-                                    ymin = y
-                                End If
-                                If y > ymax Then
-                                    ymax = y
-                                End If
-                            Else
-                                ' none
-                                Call g.FillCircles(gray, {New Point(x, y)}, pointSize)
+                            If y < ymin Then
+                                ymin = y
                             End If
+                            If y > ymax Then
+                                ymax = y
+                            End If
+                        Else
+                            ' none
+                            Call g.FillCircles(gray, {New Point(x, y)}, pointSize)
+                        End If
 
-                            y += boxHeight
-                        Next
+                        y += boxHeight
+                    Next
 
-                        ' draw line
-                        Call g.DrawLine(linkStroke, New PointF(x, ymin), New PointF(x, ymax))
-                    Else
-                        ' all gray dots
-                        For Each tag In collectionSetLabels
-                            g.FillCircles(gray, {New Point(x, y)}, pointSize)
-                            y += boxHeight
-                        Next
-                    End If
+                    ' draw line
+                    Call g.DrawLine(linkStroke, New PointF(x, ymin), New PointF(x, ymax))
+                Else
+                    ' all gray dots
+                    For Each tag In collectionSetLabels
+                        g.FillCircles(gray, {New Point(x, y)}, pointSize)
+                        y += boxHeight
+                    Next
+                End If
 
-                    Call New NamedValue(Of Integer) With {
-                        .Name = combine.index.Objects.JoinBy("--"),
-                        .Value = intersect.Length,
-                        .Description = htmlColor
-                    }.DoCall(AddressOf barData.Add)
+                Call New NamedValue(Of Integer) With {
+                    .Name = combine.index.Objects.JoinBy("--"),
+                    .Value = intersect.Length,
+                    .Description = htmlColor
+                }.DoCall(AddressOf barData.Add)
 
-                    x += boxWidth
-                Next
+                x += boxWidth
             Next
         End Sub
 
