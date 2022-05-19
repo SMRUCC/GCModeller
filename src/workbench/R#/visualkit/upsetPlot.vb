@@ -21,13 +21,16 @@ Module upsetPlot
             .XaxisTickFormat = "F0",
             .YaxisTickFormat = "F0",
             .axisStroke = "stroke: black; stroke-width: 10px; stroke-dash: solid;",
-            .axisLabelCSS = "font-style: normal; font-size: 20; font-family: " & FontFace.MicrosoftYaHei & ";"
+            .axisLabelCSS = "font-style: normal; font-size: 20; font-family: " & FontFace.MicrosoftYaHei & ";",
+            .colorSet = args.getValue("colors", env, "Paper"),
+            .legendLabelCSS = "font-style: normal; font-size: 20; font-family: " & FontFace.MicrosoftYaHei & ";"
         }
+        Dim classSet As Dictionary(Of String, String()) = args.getValue(Of Dictionary(Of String, String()))("class", env, Nothing)
         Dim upsetBar As String = RColorPalette.getColor(args!upsetBar, "gray")
         Dim setSizeBar As String = RColorPalette.getColor(args!setSizeBar, "gray")
         Dim desc As Boolean = args.getValue("desc", env, False)
-        Dim app As New IntersectionPlot(vennSet, desc, setSizeBar, theme)
         Dim size As String = InteropArgumentHelper.getSize(args!size, env, "8000,4000")
+        Dim app As New IntersectionPlot(vennSet, desc, setSizeBar, classSet, theme)
 
         Return app.Plot(size)
     End Function

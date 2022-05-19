@@ -114,16 +114,19 @@ Namespace CollectionSet
                             }
                         End Function) _
                 .ToArray
-
-            For Each id As String In allIndex _
+            Dim allLabels As String() = allIndex _
                 .Select(Function(t) t.Value.Objects) _
                 .IteratesALL _
-                .Distinct
+                .Distinct _
+                .ToArray
 
+            ' all index must contains the target id
+            For Each id As String In allLabels
                 Dim countN As Integer = Aggregate i As NamedValue(Of Index(Of String))
                                         In allIndex
                                         Where id Like i.Value
-                                        Into Count
+                                        Let hit = 1
+                                        Into Sum(hit)
 
                 If countN = collections.Length Then
                     Yield id

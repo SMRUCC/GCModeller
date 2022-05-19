@@ -50,16 +50,16 @@ Namespace CollectionSet
 
     Public Class IntersectionData
 
-        Public Property groups As FactorGroup()
+        Public Property groups As FactorGroup
 
         Public ReadOnly Property size As Integer
             Get
-                Return groups.Length
+                Return groups.data.Length
             End Get
         End Property
 
         Public Function GetSetSize() As NamedValue(Of Integer)()
-            Dim allLabels = groups.Select(Function(i) i.data).IteratesALL.GroupBy(Function([set]) [set].name).ToArray
+            Dim allLabels = groups.data.GroupBy(Function([set]) [set].name).ToArray
             Dim counts = allLabels _
                 .Select(Function(d)
                             Dim name As String = d.Key
@@ -84,9 +84,8 @@ Namespace CollectionSet
         ''' </summary>
         ''' <returns></returns>
         Public Function GetAllCollectionTags() As String()
-            Return groups _
-                .Select(Function(d) d.data.Select(Function(t) t.name)) _
-                .IteratesALL _
+            Return groups.data _
+                .Select(Function(t) t.name) _
                 .Distinct _
                 .ToArray
         End Function
