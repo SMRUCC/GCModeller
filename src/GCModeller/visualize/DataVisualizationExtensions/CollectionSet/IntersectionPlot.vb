@@ -52,6 +52,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
+Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Legend
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
@@ -124,7 +125,18 @@ Namespace CollectionSet
         End Sub
 
         Private Sub drawClassLegends(g As IGraphics, canvas As GraphicsRegion)
+            Dim legends As New List(Of LegendObject)
 
+            For Each classKey As String In classColors.Keys
+                Call New LegendObject With {
+                    .color = DirectCast(classColors(classKey), SolidBrush).Color.ToHtmlColor,
+                    .fontstyle = theme.legendLabelCSS,
+                    .style = LegendStyles.Rectangle,
+                    .title = classKey
+                }.DoCall(AddressOf legends.Add)
+            Next
+
+            Call DrawLegends(g, legends.ToArray, showBorder:=True, canvas:=canvas)
         End Sub
 
         ''' <summary>
@@ -410,7 +422,7 @@ Namespace CollectionSet
                     .Y = y - labelSize.Height
                 }
 
-                If classSet.IsNullOrEmpty Then
+                If classSet.IsNullOrEmpty OrElse bar.Length <= classColors.Count Then
                     Call g.FillRectangle(defaultColor, barRect)
                 Else
                     Dim blocks As New List(Of (label As String, rect As Rectangle))
