@@ -74,15 +74,18 @@ Namespace CollectionSet
         ReadOnly desc As Boolean = False
         ReadOnly classSet As Dictionary(Of String, String())
         ReadOnly classColors As New Dictionary(Of String, Brush)
+        ReadOnly intersectionCut As Integer = 0
 
         Public Sub New(data As IntersectionData,
                        desc As Boolean,
                        setSizeBarColor As String,
                        classSet As Dictionary(Of String, String()),
+                       intersectionCut As Integer,
                        theme As Theme)
 
             Call MyBase.New(theme)
 
+            Me.intersectionCut = intersectionCut
             Me.classSet = classSet
             Me.desc = desc
             Me.setSizeBarColor = setSizeBarColor
@@ -212,7 +215,7 @@ Namespace CollectionSet
             Dim allCompares = getCombinations(collectionSetLabels).IteratesALL.ToArray
             Dim factor As FactorGroup = collections.groups
             Dim intersectList As (index As Index(Of String), intersect As String())() = getIntersectList(factor, allCompares, collectionSetLabels) _
-                .Where(Function(d) d.intersect.Length > 0) _
+                .Where(Function(d) d.intersect.Length > intersectionCut) _
                 .Sort(Function(d) d.intersect.Length, desc) _
                 .ToArray
             ' unique + combinations

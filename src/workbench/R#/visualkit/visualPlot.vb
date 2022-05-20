@@ -245,7 +245,10 @@ Module visualPlot
     ''' <returns></returns>
     <ExportAPI("kegg.category_profile")>
     <RApiReturn(GetType(CatalogProfiles))>
-    Public Function KEGGCategoryProfile(profiles As Object, Optional top% = 10, Optional sort As Boolean = True, Optional env As Environment = Nothing) As Object
+    Public Function KEGGCategoryProfile(profiles As Object,
+                                        Optional top% = 10,
+                                        Optional sort As Boolean = True,
+                                        Optional env As Environment = Nothing) As Object
         Dim profile As CatalogProfiles
 
         If TypeOf profiles Is Dictionary(Of String, Integer) Then
