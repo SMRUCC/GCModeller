@@ -30,7 +30,8 @@ Module upsetPlot
         Dim setSizeBar As String = RColorPalette.getColor(args!setSizeBar, "gray")
         Dim desc As Boolean = args.getValue("desc", env, False)
         Dim size As String = InteropArgumentHelper.getSize(args!size, env, "8000,4000")
-        Dim app As New IntersectionPlot(vennSet, desc, setSizeBar, classSet, theme)
+        Dim intersectionCut As Integer = args.getValue("intersection_cut", env, [default]:=0)
+        Dim app As New IntersectionPlot(vennSet, desc, setSizeBar, classSet, intersectionCut, theme)
 
         Return app.Plot(size)
     End Function
