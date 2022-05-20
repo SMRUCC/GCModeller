@@ -1,4 +1,5 @@
 ﻿
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -19,7 +20,86 @@ Module upsetPlot
     <RInitialize>
     Sub Main()
         Call Internal.generic.add("plot", GetType(IntersectionData), AddressOf plotVennSet)
+        Call Internal.Object.Converts.makeDataframe.addHandler(GetType(FactorGroup), AddressOf getUpsetTable)
     End Sub
+
+    Private Function getUpsetTable(upset As FactorGroup, args As list, env As Environment) As dataframe
+        Dim classSet As Dictionary(Of String, String()) = args.getValue(Of Dictionary(Of String, String()))("class", env, Nothing)
+
+        If classSet Is Nothing Then
+            Return UpsetTableNoClass(upset)
+        Else
+            Return UpsetTableClass(upset, classSet)
+        End If
+    End Function
+
+    Private Function UpsetTableClass(upset As FactorGroup, classSet As Dictionary(Of String, String())) As dataframe
+        Dim compares As String() = upset.data _
+            .Select(Function(a) a.name) _
+            .ToArray
+        Dim data As New dataframe With {
+            .columns = New Dictionary(Of String, Array),
+            .rownames = compares
+        }
+        Dim hist As New List(Of List(Of String))
+
+        For Each row In upset.data
+            Call hist.Add(New List(Of String))
+        Next
+
+        For Each classList In classSet
+            Dim className As String = classList.Key
+            Dim intersects = upset.data _
+                .Select(Function(a, i)
+                            Dim it = a _
+                                .Intersect(classList.Value) _
+                                .ToArray
+                            hist(i).AddRange(it)
+                            Return it
+                        End Function) _
+                .ToArray
+
+            data.columns.Add($"count.{className}", intersects.Select(Function(i) i.Length))
+            data.columns.Add($"id.{className}", intersects.Select(Function(i) i.JoinBy("; ")))
+        Next
+
+        ' add no class
+        data.columns.Add($"count.no_class",
+             upset.data.Select(Function(a, i)
+                                   Dim index As Index(Of String) = hist(i).Indexing
+                                   Dim notIncludes = a _
+                                      .Where(Function(id) Not id Like index) _
+                                      .ToArray
+
+                                   Return notIncludes.Length
+                               End Function))
+        data.columns.Add($"id.no_class",
+             upset.data.Select(Function(a, i)
+                                   Dim index As Index(Of String) = hist(i).Indexing
+                                   Dim notIncludes = a _
+                                      .Where(Function(id) Not id Like index) _
+                                      .ToArray
+
+                                   Return notIncludes.JoinBy("; ")
+                               End Function))
+
+        Return data
+    End Function
+
+    Private Function UpsetTableNoClass(upset As FactorGroup) As dataframe
+        Dim compares As String() = upset.data _
+            .Select(Function(a) a.name) _
+            .ToArray
+        Dim data As New dataframe With {
+            .columns = New Dictionary(Of String, Array),
+            .rownames = compares
+        }
+
+        data.columns.Add("count", upset.data.Select(Function(a) a.Length))
+        data.columns.Add("id", upset.data.Select(Function(a) a.JoinBy("; ")))
+
+        Return data
+    End Function
 
     Private Function plotVennSet(vennSet As IntersectionData, args As list, env As Environment) As Object
         Dim theme As New Theme With {
@@ -41,4 +121,6 @@ Module upsetPlot
 
         Return app.Plot(size)
     End Function
+
+
 End Module
