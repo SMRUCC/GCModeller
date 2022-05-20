@@ -50,6 +50,9 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace ComponentModel.Annotation
 
+    ''' <summary>
+    ''' a numeric profile data
+    ''' </summary>
     Public Class CatalogProfiles
 
         Public Property catalogs As New Dictionary(Of String, CatalogProfile)
