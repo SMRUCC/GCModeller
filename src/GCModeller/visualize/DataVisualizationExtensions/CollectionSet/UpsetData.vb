@@ -1,19 +1,9 @@
-﻿Imports System.Drawing
-Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
+﻿Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Legend
 Imports Microsoft.VisualBasic.Imaging
-Imports Microsoft.VisualBasic.Imaging.Drawing2D
-Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.MIME.Html.CSS
-Imports stdNum = System.Math
 
 Namespace CollectionSet
 
@@ -30,10 +20,21 @@ Namespace CollectionSet
         ''' </summary>
         ''' <returns></returns>
         Public Property compares As FactorGroup
+        Public Property desc As Boolean
+        Public Property intersectionCut As Integer
+        Public Property setSize As NamedValue(Of Integer)()
+        Public Property allData As Dictionary(Of String, NamedCollection(Of String))
+        Public Property index As Index(Of String)()
 
         Public ReadOnly Property size As Integer
             Get
                 Return compares.data.Length
+            End Get
+        End Property
+
+        Public ReadOnly Property collectionSetLabels As String()
+            Get
+                Return groups
             End Get
         End Property
 
@@ -43,16 +44,21 @@ Namespace CollectionSet
             Dim allCompares As String()() = getCombinations(collectionSetLabels) _
                 .IteratesALL _
                 .ToArray
+            Dim allData As Dictionary(Of String, NamedCollection(Of String)) = factor.GetAllUniques.ToDictionary(Function(i) i.name)
+            ' index - a vs b
+            ' intersect - id intersection between a / b
             Dim intersectList As (index As Index(Of String), intersect As String())() = getIntersectList(factor, allCompares, collectionSetLabels) _
                 .Where(Function(d) d.intersect.Length > intersectionCut) _
                 .Sort(Function(d) d.intersect.Length, desc) _
                 .ToArray
             Dim barData As New List(Of NamedCollection(Of String))
             Dim htmlColor As String = factor.color.ToHtmlColor
+            Dim index As New List(Of Index(Of String))
 
             For Each combine In intersectList
                 Dim intersect As String() = combine.intersect
 
+                Call index.Add(combine.index)
                 Call New NamedCollection(Of String) With {
                     .name = combine.index.Objects.JoinBy(" vs "),
                     .value = intersect,
@@ -70,7 +76,12 @@ Namespace CollectionSet
                 .groups = factor.data _
                     .Select(Function(a) a.name) _
                     .ToArray,
-                .compares = factorCombines
+                .compares = factorCombines,
+                .desc = desc,
+                .intersectionCut = intersectionCut,
+                .setSize = collectionSet.GetSetSize,
+                .allData = allData,
+                .index = index.ToArray
             }
         End Function
 

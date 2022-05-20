@@ -68,26 +68,20 @@ Namespace CollectionSet
     ''' </summary>
     Public Class IntersectionPlot : Inherits Plot
 
-        ReadOnly collections As IntersectionData
+        ReadOnly collections As UpsetData
         ReadOnly setSizeLabel As String = "Set Size"
         ReadOnly setSizeBarColor As String = "gray"
-        ReadOnly desc As Boolean = False
         ReadOnly classSet As Dictionary(Of String, String())
         ReadOnly classColors As New Dictionary(Of String, Brush)
-        ReadOnly intersectionCut As Integer = 0
 
-        Public Sub New(data As IntersectionData,
-                       desc As Boolean,
+        Public Sub New(data As UpsetData,
                        setSizeBarColor As String,
                        classSet As Dictionary(Of String, String()),
-                       intersectionCut As Integer,
                        theme As Theme)
 
             Call MyBase.New(theme)
 
-            Me.intersectionCut = intersectionCut
             Me.classSet = classSet
-            Me.desc = desc
             Me.setSizeBarColor = setSizeBarColor
             Me.collections = data
 
@@ -107,19 +101,24 @@ Namespace CollectionSet
         Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
             Dim plotRect As Rectangle = canvas.PlotRegion
             Dim labelFont As Font = CSSFont.TryParse(theme.axisLabelCSS).GDIObject(g.Dpi)
-            Dim maxLabelSize As SizeF = g.MeasureString(collectionSetLabels.MaxLengthString, labelFont)
-            Dim totalHeight As Double = collectionSetLabels.Length * (maxLabelSize.Height * 1.125)
+            Dim maxLabelSize As SizeF = g.MeasureString(collections.collectionSetLabels.MaxLengthString, labelFont)
+            Dim totalHeight As Double = collections.collectionSetLabels.Length * (maxLabelSize.Height * 1.125)
             Dim topBarPlot As New Rectangle(plotRect.Left, plotRect.Top, plotRect.Width, plotRect.Height - totalHeight)
             Dim bottomIntersection As New Rectangle(plotRect.Left, plotRect.Bottom - totalHeight + 50, plotRect.Width, totalHeight)
             Dim leftSetSizeBar As New Rectangle(canvas.Padding.Left / 20, bottomIntersection.Top, plotRect.Left, totalHeight)
             Dim topbarLayout As New Rectangle(bottomIntersection.Left, plotRect.Top, bottomIntersection.Width, plotRect.Height - bottomIntersection.Height)
-            Dim barData As New List(Of NamedCollection(Of String))
             Dim boxWidth As Double = -1
             Dim boxHeight As Double = -1
+            Dim barPlotLayout As New Rectangle(
+                x:=leftSetSizeBar.X,
+                y:=leftSetSizeBar.Y,
+                width:=leftSetSizeBar.Width - boxWidth * 5,
+                height:=leftSetSizeBar.Height
+            )
 
-            Call drawBottomIntersctionVisualize(g, collectionSetLabels, barData, boxWidth:=boxWidth, boxHeight:=boxHeight, layout:=bottomIntersection)
-            Call drawLeftBarSet(g, labelFont, collectionSetLabels, layout:=New Rectangle(leftSetSizeBar.X, leftSetSizeBar.Y, leftSetSizeBar.Width - boxWidth * 5, leftSetSizeBar.Height))
-            Call drawTopBarPlot(g, barData, boxWidth:=boxWidth, layout:=topbarLayout, boxHeight:=boxHeight)
+            Call drawBottomIntersctionVisualize(g, boxWidth:=boxWidth, boxHeight:=boxHeight, layout:=bottomIntersection)
+            Call drawLeftBarSet(g, labelFont, layout:=barPlotLayout)
+            Call drawTopBarPlot(g, boxWidth:=boxWidth, layout:=topbarLayout, boxHeight:=boxHeight)
 
             If Not classSet.IsNullOrEmpty Then
                 Call drawClassLegends(g, canvas)
@@ -130,7 +129,7 @@ Namespace CollectionSet
             Dim legends As New List(Of LegendObject)
             Dim maxwidth As Integer = -1
             Dim font As Font = CSSFont.TryParse(theme.legendLabelCSS).GDIObject(g.Dpi)
-            Dim defaultColor As String = collections.groups.color.ToHtmlColor
+            Dim defaultColor As String = collections.compares.color.ToHtmlColor
 
             For Each classKey As String In classColors.Keys
                 Call New LegendObject With {
@@ -164,22 +163,19 @@ Namespace CollectionSet
         ''' draw the dot intersection summary in the bottom region
         ''' </summary>
         ''' <param name="g"></param>
-        ''' <param name="collectionSetLabels"></param>
-        ''' <param name="barData"></param>
         ''' <param name="boxWidth"></param>
         ''' <param name="boxHeight"></param>
         ''' <param name="layout"></param>
         Private Sub drawBottomIntersctionVisualize(g As IGraphics,
-                                                   collectionSetLabels As String(),
-                                                   barData As List(Of NamedCollection(Of String)),
                                                    ByRef boxWidth As Double,
                                                    ByRef boxHeight As Double,
                                                    layout As Rectangle)
 
+            Dim collectionSetLabels As String() = collections.collectionSetLabels
             Dim dh As Double = layout.Height / collectionSetLabels.Length
             ' unique + combinations
-            Dim dotsPerGroup As Integer = collectionSetLabels.Length + allCompares.Length
-            Dim widthPerGroup As Double = layout.Width / intersectList.Length
+            Dim dotsPerGroup As Integer = collectionSetLabels.Length + collections.compares.data.Length
+            Dim widthPerGroup As Double = layout.Width / collections.compares.data.Length
 
             boxWidth = widthPerGroup ' / dotsPerGroup
             boxHeight = layout.Height / collectionSetLabels.Length
@@ -188,11 +184,11 @@ Namespace CollectionSet
             Dim gray As New SolidBrush("LightGray".TranslateColor)
             Dim linkStroke As Pen = Stroke.TryParse(theme.lineStroke)
             Dim x As Double = layout.Left + pointSize
-            Dim allData = factor.GetAllUniques.ToDictionary(Function(i) i.name)
+            Dim allData As Dictionary(Of String, NamedCollection(Of String)) = collections.allData
             Dim labelIndex As Index(Of String) = collectionSetLabels
             Dim y As Double = layout.Top + pointSize
-            Dim color As New SolidBrush(factor.color)
-            Dim htmlColor As String = factor.color.ToHtmlColor
+            Dim color As New SolidBrush(collections.compares.color)
+            Dim htmlColor As String = collections.compares.color.ToHtmlColor
 
             '' single & unique
             'For Each label As String In collectionSetLabels
@@ -221,8 +217,9 @@ Namespace CollectionSet
             'Next
 
             ' draw for each combine group
-            For Each combine In intersectList
-                Dim intersect As String() = combine.intersect
+            For i As Integer = 0 To collections.index.Length - 1
+                Dim combineIndex As Index(Of String) = collections.index(i)
+                Dim intersect As String() = collections.compares.data(i).value
 
                 y = layout.Top + pointSize
 
@@ -230,7 +227,6 @@ Namespace CollectionSet
                     ' line between the dots
                     Dim ymin As Double = 999999
                     Dim ymax As Double = -99999
-                    Dim combineIndex As Index(Of String) = combine.index
 
                     For Each tag In collectionSetLabels
                         If tag Like combineIndex Then
@@ -270,11 +266,15 @@ Namespace CollectionSet
         ''' </summary>
         ''' <param name="g"></param>
         ''' <param name="layout"></param>
-        Private Sub drawLeftBarSet(g As IGraphics, labelFont As Font, collectionSetLabels As String(), layout As Rectangle)
-            Dim setSize = collections.GetSetSize.ToDictionary(Function(d) d.Name, Function(d) d.Value)
+        Private Sub drawLeftBarSet(g As IGraphics, labelFont As Font, layout As Rectangle)
+            Dim collectionSetLabels As String() = collections.collectionSetLabels
+            Dim setSize As Dictionary(Of String, Integer) = collections.setSize.ToDictionary(Function(d) d.Name, Function(d) d.Value)
             Dim maxLabelSize As SizeF = g.MeasureString(collectionSetLabels.MaxLengthString, labelFont)
             Dim y As Double = layout.Top
-            Dim scale = d3js.scale.linear.domain(0.0.Join(setSize.Select(Function(i) CDbl(i.Value)))).range(New Double() {0, layout.Width - maxLabelSize.Width})
+            Dim scale = d3js.scale _
+                .linear _
+                .domain(0.0.Join(setSize.Select(Function(i) CDbl(i.Value)))) _
+                .range(New Double() {0, layout.Width - maxLabelSize.Width})
             Dim labelSize As SizeF
             Dim labelPos As New PointF
             Dim setSizeColor As Brush = Me.setSizeBarColor.GetBrush
@@ -345,17 +345,15 @@ Namespace CollectionSet
         ''' draw barplot of the intersect data
         ''' </summary>
         ''' <param name="g"></param>
-        ''' <param name="barData"></param>
         ''' <param name="boxWidth"></param>
         ''' <param name="boxHeight"></param>
         ''' <param name="layout"></param>
         Private Sub drawTopBarPlot(g As IGraphics,
-                                   barData As List(Of NamedCollection(Of String)),
                                    boxWidth As Double,
                                    boxHeight As Double,
                                    layout As Rectangle)
 
-            Dim yTick As Double() = barData _
+            Dim yTick As Double() = collections.compares.data _
                 .Select(Function(d) CDbl(d.Length)) _
                 .JoinIterates({0.0, 1.0}) _
                 .CreateAxisTicks
@@ -380,7 +378,7 @@ Namespace CollectionSet
                          tickFormat:="F0"
             )
 
-            For Each bar As NamedCollection(Of String) In barData
+            For Each bar As NamedCollection(Of String) In collections.compares.data
                 Dim barHeight As Double = scaleY(bar.Length)
                 Dim y As Double = layout.Bottom - barHeight
                 Dim barRect As New Rectangle With {

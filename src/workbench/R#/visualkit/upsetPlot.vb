@@ -1,4 +1,5 @@
 ﻿
+Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
 Imports Microsoft.VisualBasic.Imaging
@@ -20,6 +21,8 @@ Module upsetPlot
     <RInitialize>
     Sub Main()
         Call Internal.generic.add("plot", GetType(IntersectionData), AddressOf plotVennSet)
+        Call Internal.generic.add("plot", GetType(UpsetData), AddressOf plotVennSet1)
+
         Call Internal.Object.Converts.makeDataframe.addHandler(GetType(FactorGroup), AddressOf getUpsetTable)
     End Sub
 
@@ -102,6 +105,14 @@ Module upsetPlot
     End Function
 
     Private Function plotVennSet(vennSet As IntersectionData, args As list, env As Environment) As Object
+        Dim intersectionCut As Integer = args.getValue("intersection_cut", env, [default]:=0)
+        Dim desc As Boolean = args.getValue("desc", env, False)
+        Dim upset As UpsetData = UpsetData.CreateUpSetData(vennSet, intersectionCut, desc)
+
+        Return plotVennSet1(upset, args, env)
+    End Function
+
+    Private Function plotVennSet1(upSet As UpsetData, args As list, env As Environment) As Object
         Dim theme As New Theme With {
             .padding = InteropArgumentHelper.getPadding(args!padding, "padding:150px 50px 200px 2000px;"),
             .XaxisTickFormat = "F0",
@@ -114,13 +125,18 @@ Module upsetPlot
         Dim classSet As Dictionary(Of String, String()) = args.getValue(Of Dictionary(Of String, String()))("class", env, Nothing)
         Dim upsetBar As String = RColorPalette.getColor(args!upsetBar, "gray")
         Dim setSizeBar As String = RColorPalette.getColor(args!setSizeBar, "gray")
-        Dim desc As Boolean = args.getValue("desc", env, False)
         Dim size As String = InteropArgumentHelper.getSize(args!size, env, "8000,4000")
-        Dim intersectionCut As Integer = args.getValue("intersection_cut", env, [default]:=0)
-        Dim app As New IntersectionPlot(vennSet, desc, setSizeBar, classSet, intersectionCut, theme)
+        Dim app As New IntersectionPlot(upSet, setSizeBar, classSet, theme)
 
         Return app.Plot(size)
     End Function
 
+    <ExportAPI("as.upsetData")>
+    Public Function CreateUpSetData(vennSet As IntersectionData,
+                                    Optional desc As Boolean = True,
+                                    Optional intersectionCut As Integer = 0) As UpsetData
+
+        Return UpsetData.CreateUpSetData(vennSet, intersectionCut, desc)
+    End Function
 
 End Module
