@@ -4,7 +4,7 @@ package module for biological analysis data visualization
 
 + [classchange.plot](visualPlot/classchange.plot.1) 
 + [volcano](visualPlot/volcano.1) volcano plot of the different expression result
-+ [kegg.category_profile](visualPlot/kegg.category_profile.1) Create catalog profiles data for KEGG pathway enrichment result its data visualization.
++ [kegg.category_profile](visualPlot/kegg.category_profile.1) Create catalog profiles data for KEGG pathway 
 + [erase](visualPlot/erase.1) 
 + [kegg.enrichment.bubbles](visualPlot/kegg.enrichment.bubbles.1) plot kegg enrichment result in bubble plot
 + [go.enrichment.bubbles](visualPlot/go.enrichment.bubbles.1) plot of the Go enrichment in bubble plot style

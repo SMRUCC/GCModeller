@@ -237,7 +237,8 @@ Module visualPlot
     End Function
 
     ''' <summary>
-    ''' Create catalog profiles data for KEGG pathway enrichment result its data visualization.
+    ''' Create catalog profiles data for KEGG pathway 
+    ''' enrichment result its data visualization.
     ''' </summary>
     ''' <param name="profiles"></param>
     ''' <param name="top"></param>
@@ -248,11 +249,13 @@ Module visualPlot
     Public Function KEGGCategoryProfile(profiles As Object,
                                         Optional top% = 10,
                                         Optional sort As Boolean = True,
+                                        Optional valueCut As Double = -1,
                                         Optional env As Environment = Nothing) As Object
         Dim profile As CatalogProfiles
 
         If TypeOf profiles Is Dictionary(Of String, Integer) Then
             profile = DirectCast(profiles, Dictionary(Of String, Integer)) _
+                .Where(Function(v) v.Value > valueCut) _
                 .ToDictionary(Function(a) a.Key,
                               Function(a)
                                   Return CDbl(a.Value)
