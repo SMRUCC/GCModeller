@@ -5,3 +5,4 @@ UpSet plot provides an efficient way to
  compared to the traditional approaches, 
  i.e. the Venn Diagram.
 
++ [as.upsetData](upsetPlot/as.upsetData.1) 

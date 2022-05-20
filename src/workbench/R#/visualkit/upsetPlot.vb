@@ -23,11 +23,16 @@ Module upsetPlot
         Call Internal.generic.add("plot", GetType(IntersectionData), AddressOf plotVennSet)
         Call Internal.generic.add("plot", GetType(UpsetData), AddressOf plotVennSet1)
 
+        Call Internal.Object.Converts.makeDataframe.addHandler(GetType(UpsetData), AddressOf getUpsetTable)
         Call Internal.Object.Converts.makeDataframe.addHandler(GetType(FactorGroup), AddressOf getUpsetTable)
     End Sub
 
-    Private Function getUpsetTable(upset As FactorGroup, args As list, env As Environment) As dataframe
+    Private Function getUpsetTable(upset As Object, args As list, env As Environment) As dataframe
         Dim classSet As Dictionary(Of String, String()) = args.getValue(Of Dictionary(Of String, String()))("class", env, Nothing)
+
+        If TypeOf upset Is UpsetData Then
+            upset = DirectCast(upset, UpsetData).compares
+        End If
 
         If classSet Is Nothing Then
             Return UpsetTableNoClass(upset)
@@ -62,29 +67,29 @@ Module upsetPlot
                         End Function) _
                 .ToArray
 
-            data.columns.Add($"count.{className}", intersects.Select(Function(i) i.Length))
-            data.columns.Add($"id.{className}", intersects.Select(Function(i) i.JoinBy("; ")))
+            data.add($"count.{className}", intersects.Select(Function(i) i.Length))
+            data.add($"id.{className}", intersects.Select(Function(i) i.JoinBy("; ")))
         Next
 
         ' add no class
-        data.columns.Add($"count.no_class",
-             upset.data.Select(Function(a, i)
-                                   Dim index As Index(Of String) = hist(i).Indexing
-                                   Dim notIncludes = a _
+        data.add($"count.no_class",
+            upset.data.Select(Function(a, i)
+                                  Dim index As Index(Of String) = hist(i).Indexing
+                                  Dim notIncludes = a _
                                       .Where(Function(id) Not id Like index) _
                                       .ToArray
 
-                                   Return notIncludes.Length
-                               End Function))
-        data.columns.Add($"id.no_class",
-             upset.data.Select(Function(a, i)
-                                   Dim index As Index(Of String) = hist(i).Indexing
-                                   Dim notIncludes = a _
+                                  Return notIncludes.Length
+                              End Function))
+        data.add($"id.no_class",
+            upset.data.Select(Function(a, i)
+                                  Dim index As Index(Of String) = hist(i).Indexing
+                                  Dim notIncludes = a _
                                       .Where(Function(id) Not id Like index) _
                                       .ToArray
 
-                                   Return notIncludes.JoinBy("; ")
-                               End Function))
+                                  Return notIncludes.JoinBy("; ")
+                              End Function))
 
         Return data
     End Function
