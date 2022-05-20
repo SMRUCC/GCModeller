@@ -107,7 +107,6 @@ Namespace CollectionSet
         Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
             Dim plotRect As Rectangle = canvas.PlotRegion
             Dim labelFont As Font = CSSFont.TryParse(theme.axisLabelCSS).GDIObject(g.Dpi)
-            Dim collectionSetLabels As String() = collections.GetAllCollectionTags
             Dim maxLabelSize As SizeF = g.MeasureString(collectionSetLabels.MaxLengthString, labelFont)
             Dim totalHeight As Double = collectionSetLabels.Length * (maxLabelSize.Height * 1.125)
             Dim topBarPlot As New Rectangle(plotRect.Left, plotRect.Top, plotRect.Width, plotRect.Height - totalHeight)
@@ -162,40 +161,6 @@ Namespace CollectionSet
         End Sub
 
         ''' <summary>
-        ''' 2 vs 2 -> a vs b vs c vs ...
-        ''' </summary>
-        ''' <returns></returns>
-        Private Iterator Function getCombinations(collectionSetLabels As String()) As IEnumerable(Of String()())
-            For i As Integer = 2 To collectionSetLabels.Length
-                Yield collectionSetLabels _
-                    .AllCombinations(size:=i) _
-                    .GroupBy(Function(combine)
-                                 Return combine.Distinct.OrderBy(Function(str) str).JoinBy("---")
-                             End Function) _
-                    .Select(Function(group)
-                                Return group.First.Distinct.ToArray
-                            End Function) _
-                    .ToArray
-            Next
-        End Function
-
-        Private Iterator Function getIntersectList(factor As FactorGroup, allCompares As String()(), collectionSetLabels As String()) As IEnumerable(Of (index As Index(Of String), intersect As String()))
-            For Each combine As String() In allCompares
-                Dim intersect As String() = factor _
-                    .GetIntersection(combine) _
-                    .ToArray
-
-                Yield (index:=combine.Indexing, intersect)
-            Next
-
-            For Each lbl As String In collectionSetLabels
-                Dim unique As String() = factor.GetUniqueId(lbl)
-
-                Yield ({lbl}.Indexing, unique)
-            Next
-        End Function
-
-        ''' <summary>
         ''' draw the dot intersection summary in the bottom region
         ''' </summary>
         ''' <param name="g"></param>
@@ -212,12 +177,6 @@ Namespace CollectionSet
                                                    layout As Rectangle)
 
             Dim dh As Double = layout.Height / collectionSetLabels.Length
-            Dim allCompares = getCombinations(collectionSetLabels).IteratesALL.ToArray
-            Dim factor As FactorGroup = collections.groups
-            Dim intersectList As (index As Index(Of String), intersect As String())() = getIntersectList(factor, allCompares, collectionSetLabels) _
-                .Where(Function(d) d.intersect.Length > intersectionCut) _
-                .Sort(Function(d) d.intersect.Length, desc) _
-                .ToArray
             ' unique + combinations
             Dim dotsPerGroup As Integer = collectionSetLabels.Length + allCompares.Length
             Dim widthPerGroup As Double = layout.Width / intersectList.Length
@@ -301,12 +260,6 @@ Namespace CollectionSet
                         y += boxHeight
                     Next
                 End If
-
-                Call New NamedCollection(Of String) With {
-                    .name = combine.index.Objects.JoinBy("--"),
-                    .value = intersect,
-                    .description = htmlColor
-                }.DoCall(AddressOf barData.Add)
 
                 x += boxWidth
             Next
