@@ -69,7 +69,7 @@ Module profiles
                                          pathways As Object,
                                          Optional env As Environment = Nothing) As Object
 
-        Dim pathwayMaps As pipeline = pipeline.TryCreatePipeline(Of PathwayMap)(pathways, env)
+        Dim pathwayMaps As pipeline = pipeline.TryCreatePipeline(Of PathwayMap)(pathways, env, suppress:=True)
 
         If Not pathwayMaps.isError Then
             ' probably has duplicated pathway item
