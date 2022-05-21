@@ -49,7 +49,7 @@ const enumeratePath as function(brite, prefix = "", maxChars = 64) {
   const class        = brite[, "class"]       |> placeNULL();
   const category     = brite[, "category"]    |> placeNULL() |> trimLongName(maxChars);
   const subcategory  = brite[, "subcategory"] |> placeNULL() |> trimLongName(maxChars);
-  const order        = brite[, "order"]       |> placeNULL();
+  const order        = brite[, "order"]       |> placeNULL() |> trimLongName(maxChars);;
   const id as string = brite[, "entry"];
 
   print("get all kegg class category maps:");
@@ -95,7 +95,7 @@ const enumeratePath as function(brite, prefix = "", maxChars = 64) {
 #' @details the name in long length will caused the filesystem errors
 #'     on windows system.
 #' 
-const trimLongName as function(longNames as string, maxChars = 64) {
+const trimLongName = function(longNames as string, maxChars = 32) {
   if (all(is.null(longNames))) {
     NULL;
   } else {
@@ -107,7 +107,8 @@ const trimLongName as function(longNames as string, maxChars = 64) {
         str;
       }
     })
-    |> gsub(":", ",")
+    |> gsub(":", "-")
+    |> gsub("\s*[/\\]\s*", "+", regexp = TRUE)
     ;
   }
 }
