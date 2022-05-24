@@ -120,6 +120,11 @@ Namespace FileStream
 
             Dim nodes As Node() = g.createNodesTable(properties, is2D).ToArray
             Dim edges As New List(Of NetworkEdge)
+            Dim edgeProperties As String() = properties
+
+            If (Not edgeProperties.IsNullOrEmpty) AndAlso edgeProperties.Length = 1 AndAlso edgeProperties(Scan0) = "*" Then
+                edgeProperties = (From e In g.graphEdges Select e.data).GetUnionProperties
+            End If
 
             For Each l As Edge In g.graphEdges
                 edges += New NetworkEdge With {
@@ -150,13 +155,17 @@ Namespace FileStream
         End Function
 
         <Extension>
+        Private Function GetUnionProperties(Of T As GraphData)(vlist As IEnumerable(Of T)) As String()
+            Return vlist.Select(Function(v) v.Properties.Keys) _
+                .IteratesALL _
+                .Distinct _
+                .ToArray
+        End Function
+
+        <Extension>
         Private Iterator Function createNodesTable(g As NetworkGraph, properties$(), is2Dlayout As Boolean) As IEnumerable(Of Node)
             If Not properties.IsNullOrEmpty AndAlso properties.Length = 1 AndAlso properties(Scan0) = "*" Then
-                properties = g.vertex _
-                    .Select(Function(v) v.data.Properties.Keys) _
-                    .IteratesALL _
-                    .Distinct _
-                    .ToArray
+                properties = (From v In g.vertex Select v.data).GetUnionProperties
             End If
 
             For Each n As Graph.Node In g.vertex
