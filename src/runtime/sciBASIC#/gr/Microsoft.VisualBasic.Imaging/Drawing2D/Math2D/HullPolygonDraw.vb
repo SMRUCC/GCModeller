@@ -71,6 +71,10 @@ Namespace Drawing2D.Math2D
         ''' <param name="strokeWidth!"></param>
         ''' <param name="alpha"><see cref="Color.A"/></param>
         ''' <param name="shadow"></param>
+        ''' <param name="convexHullCurveDegree">
+        ''' the spline degree of the polygon edges, smaller than value 1
+        ''' means on spline interpolation 
+        ''' </param>
         <Extension>
         Public Sub DrawHullPolygon(g As IGraphics,
                                    polygon As IEnumerable(Of PointF),
