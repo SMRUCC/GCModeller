@@ -148,7 +148,7 @@ Namespace d3js.Layout
                         m_anchors(index).y, m_labels(index).Y, m_anchors(i).y, m_labels(i).Y
                     )
 
-                    If (overlap) Then
+                    If overlap Then
                         ener += w_inter
                     End If
 
@@ -247,6 +247,8 @@ Namespace d3js.Layout
             ' delta E
             Dim delta_energy = new_energy - old_energy
 
+            ' the lower of the delta energy
+            ' the higher chance to accept current change
             If (Rnd() < stdNum.Exp(-delta_energy / currT)) Then
                 acc += 1
             Else
@@ -350,6 +352,8 @@ Namespace d3js.Layout
 
             For i As Integer = 0 To nsweeps
                 For j As Integer = 0 To m_labels.Length
+                    ' choose rotate or move action based on the 
+                    ' random states
                     If (randf.seeds.NextDouble < rotate) Then
                         Call MonteCarlo(T, moves)
                     Else
