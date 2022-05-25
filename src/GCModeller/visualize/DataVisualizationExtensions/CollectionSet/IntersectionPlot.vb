@@ -102,11 +102,17 @@ Namespace CollectionSet
             Dim plotRect As Rectangle = canvas.PlotRegion
             Dim labelFont As Font = CSSFont.TryParse(theme.axisLabelCSS).GDIObject(g.Dpi)
             Dim maxLabelSize As SizeF = g.MeasureString(collections.collectionSetLabels.MaxLengthString, labelFont)
+            Dim hideLabels As Boolean = False
             Dim totalHeight As Double = collections.collectionSetLabels.Length * (maxLabelSize.Height * 1.125)
             Dim topBarPlot As New Rectangle(plotRect.Left, plotRect.Top, plotRect.Width, plotRect.Height - totalHeight)
             Dim bottomIntersection As New Rectangle(plotRect.Left, plotRect.Bottom - totalHeight + 50, plotRect.Width, totalHeight)
             Dim leftSetSizeBar As New Rectangle(canvas.Padding.Left / 20, bottomIntersection.Top, plotRect.Left, totalHeight)
-            Dim topbarLayout As New Rectangle(bottomIntersection.Left, plotRect.Top, bottomIntersection.Width, plotRect.Height - bottomIntersection.Height)
+            Dim topbarLayout As New Rectangle(
+                x:=bottomIntersection.Left,
+                y:=plotRect.Top,
+                width:=bottomIntersection.Width,
+                height:=plotRect.Height - bottomIntersection.Height
+            )
             Dim boxWidth As Double = -1
             Dim boxHeight As Double = -1
             Dim barPlotLayout As New Rectangle(
@@ -116,9 +122,25 @@ Namespace CollectionSet
                 height:=leftSetSizeBar.Height
             )
 
-            Call drawBottomIntersctionVisualize(g, boxWidth:=boxWidth, boxHeight:=boxHeight, layout:=bottomIntersection)
+            Call drawBottomIntersctionVisualize(
+                g,
+                boxWidth:=boxWidth,
+                boxHeight:=boxHeight,
+                layout:=bottomIntersection
+            )
             Call drawLeftBarSet(g, labelFont, layout:=barPlotLayout)
-            Call drawTopBarPlot(g, boxWidth:=boxWidth, layout:=topbarLayout, boxHeight:=boxHeight)
+
+            If maxLabelSize.Width / boxWidth > 3 Then
+                hideLabels = True
+            End If
+
+            Call drawTopBarPlot(
+                g:=g,
+                hideLabels:=hideLabels,
+                boxWidth:=boxWidth,
+                layout:=topbarLayout,
+                boxHeight:=boxHeight
+            )
 
             If Not classSet.IsNullOrEmpty Then
                 Call drawClassLegends(g, canvas)
@@ -351,6 +373,7 @@ Namespace CollectionSet
         Private Sub drawTopBarPlot(g As IGraphics,
                                    boxWidth As Double,
                                    boxHeight As Double,
+                                   hideLabels As Boolean,
                                    layout As Rectangle)
 
             Dim yTick As Double() = collections.compares.data _
@@ -440,7 +463,9 @@ Namespace CollectionSet
                     Next
                 End If
 
-                Call g.DrawString(sizeLabel, labelFont, Brushes.Black, labelPos)
+                If Not hideLabels Then
+                    Call g.DrawString(sizeLabel, labelFont, Brushes.Black, labelPos)
+                End If
 
                 x += boxWidth
             Next
