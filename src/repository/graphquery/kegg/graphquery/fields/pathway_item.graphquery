@@ -1,4 +1,4 @@
-pathway css("table") [{
+pathway css(".w1", "*") [{
     
     id   css("a") | text() | trim()
     link css("a") | attr("href")

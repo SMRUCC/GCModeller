@@ -14,7 +14,7 @@ const get_graph as function(ref) {
 
 #' create indexed list from a key-value pair collection
 #'
-const keyIndex as function(keyValues) {
+const keyIndex = function(keyValues) {
   keyValues
   |> groupBy(r -> r$key)
   |> lapply(function(group) {
@@ -33,5 +33,5 @@ const keyIndex as function(keyValues) {
 #' @param str a string value to test
 #'
 const isNullString as function(str) {
-  is.null(str) || (str in ["", "null", "NULL"]);
+  is.null(str) || (str in ["", "null", "NULL", "-"]);
 }

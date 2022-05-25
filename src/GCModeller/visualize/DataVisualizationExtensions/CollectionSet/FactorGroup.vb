@@ -90,13 +90,20 @@ Namespace CollectionSet
         End Function
 
         Public Function GetUniqueId(name As String) As String()
-            Dim target As NamedCollection(Of String) = data.Where(Function(t) t.name = name).FirstOrDefault
+            Dim target As NamedCollection(Of String) = data _
+                .Where(Function(t) t.name = name) _
+                .FirstOrDefault
 
             If target.IsEmpty Then
                 Return {}
             End If
 
-            Dim others = data.Where(Function(t) t.name <> name).Select(Function(t) t.value).IteratesALL.Distinct.Indexing
+            Dim others = data _
+                .Where(Function(t) t.name <> name) _
+                .Select(Function(t) t.value) _
+                .IteratesALL _
+                .Distinct _
+                .Indexing
             Dim unique = target.Where(Function(id) Not id Like others).ToArray
 
             Return unique
@@ -114,16 +121,19 @@ Namespace CollectionSet
                             }
                         End Function) _
                 .ToArray
-
-            For Each id As String In allIndex _
+            Dim allLabels As String() = allIndex _
                 .Select(Function(t) t.Value.Objects) _
                 .IteratesALL _
-                .Distinct
+                .Distinct _
+                .ToArray
 
+            ' all index must contains the target id
+            For Each id As String In allLabels
                 Dim countN As Integer = Aggregate i As NamedValue(Of Index(Of String))
                                         In allIndex
                                         Where id Like i.Value
-                                        Into Count
+                                        Let hit = 1
+                                        Into Sum(hit)
 
                 If countN = collections.Length Then
                     Yield id

@@ -54,6 +54,7 @@ Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.Visualize.CatalogProfiling
 Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports RDataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
@@ -63,18 +64,48 @@ Imports REnv = SMRUCC.Rsharp.Runtime
 Module profiles
 
     <ExportAPI("compounds.pathway.index")>
-    Public Function CompoundPathwayIndex(pathways As PathwayMap()) As Dictionary(Of String, Index(Of String))
-        Return pathways _
-            .GroupBy(Function(p) p.briteID) _
-            .ToDictionary(Function(p)
-                              Return p.Key
-                          End Function,
-                          Function(p)
-                              Return p.First.KEGGCompound _
-                                  .SafeQuery _
-                                  .Keys _
-                                  .Indexing
-                          End Function)
+    <RApiReturn(GetType(Dictionary(Of String, Index(Of String))))>
+    Public Function CompoundPathwayIndex(<RRawVectorArgument>
+                                         pathways As Object,
+                                         Optional env As Environment = Nothing) As Object
+
+        Dim pathwayMaps As pipeline = pipeline.TryCreatePipeline(Of PathwayMap)(pathways, env, suppress:=True)
+
+        If Not pathwayMaps.isError Then
+            ' probably has duplicated pathway item
+            ' removes the duplicated data at first
+            Return pathwayMaps _
+                .populates(Of PathwayMap)(env) _
+                .GroupBy(Function(p) p.briteID) _
+                .ToDictionary(Function(p)
+                                  Return p.Key
+                              End Function,
+                              Function(p)
+                                  Return p.First.KEGGCompound _
+                                      .SafeQuery _
+                                      .Keys _
+                                      .Indexing
+                              End Function)
+        Else
+            pathwayMaps = pipeline.TryCreatePipeline(Of Map)(pathways, env)
+        End If
+
+        If Not pathwayMaps.isError Then
+            Return pathwayMaps _
+                .populates(Of Map)(env) _
+                .GroupBy(Function(m) m.id) _
+                .ToDictionary(Function(m) m.Key,
+                              Function(m)
+                                  Return m.First.shapes _
+                                     .Select(Function(a) a.IDVector) _
+                                     .IteratesALL _
+                                     .Distinct _
+                                     .Where(Function(id) id.IsPattern("C\d+")) _
+                                     .Indexing
+                              End Function)
+        End If
+
+        Return pathwayMaps.getError
     End Function
 
     ''' <summary>
@@ -93,6 +124,18 @@ Module profiles
                                   .Distinct _
                                   .Count
                           End Function)
+    End Function
+
+    <ExportAPI("getProfileMapping")>
+    Public Function GetProfileMapping(map As Map(), mapping As list, Optional env As Environment = Nothing) As Object
+        Dim err As Message = Nothing
+        Dim metainfo As Dictionary(Of String, String) = mapping.AsGeneric(Of String)(env, err:=err)
+
+        If Not err Is Nothing Then
+            Return err
+        End If
+
+        Return map.GetProfileMapping(metainfo)
     End Function
 
     <ExportAPI("flux.map.profiles")>

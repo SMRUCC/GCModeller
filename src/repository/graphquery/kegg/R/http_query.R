@@ -32,7 +32,7 @@ const http_get as function(url, streamTo, interval = 3, filetype = "html") {
 #' @param graphquery the graphquery script for read the resource file
 #'                   from the remote server.
 #'
-const http_query as function(url, raw = TRUE, graphquery = get_graph("graphquery/kegg_table.graphquery")) {
+const http_query = function(url, raw = TRUE, graphquery = get_graph("graphquery/kegg_table.graphquery")) {
   ({
     if (file.exists(url)) {
       # read from the local file

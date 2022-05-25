@@ -8,6 +8,11 @@ const kegg_compound as function(url) {
   # parse the page text
   const keyValues = keyIndex(http_query(url, raw = FALSE));
 
+  # str(keyValues);
+  # stop();
+
+  print("start to parse fields...");
+  
   # parse fields
   const xref        = graphquery::query(document = Html::parse(keyValues$"Other DBs"),  graphquery = get_graph("graphquery/fields/dbLinks.graphquery"));
   const KCF_text    = graphquery::query(document = Html::parse(keyValues$"KCF data"),   graphquery = get_graph("graphquery/fields/KCFtext.graphquery"));
@@ -16,6 +21,7 @@ const kegg_compound as function(url) {
   const reactionId  = graphquery::query(document = Html::parse(keyValues$"Reaction"),   graphquery = get_graph("graphquery/fields/reactionLink.graphquery"));
   const commonNames = graphquery::query(document = Html::parse(keyValues$"Name"),       graphquery = get_graph("graphquery/fields/commonNames.graphquery"))
   |> strsplit("\r|\n")
+  |> unlist()
   |> trim("; ")
   ;
   const id          = graphquery::query(document = Html::parse(keyValues$"Entry"),      graphquery = get_graph("graphquery/fields/simpleText.graphquery"));
