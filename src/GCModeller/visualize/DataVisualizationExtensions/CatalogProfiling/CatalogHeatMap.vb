@@ -40,6 +40,7 @@ Namespace CatalogProfiling
             Dim pathways As Dictionary(Of String, String()) = getPathways()
             Dim pathwayNameFont As Font = CSSFont.TryParse(theme.axisTickCSS).GDIObject(g.Dpi)
             Dim categoryFont As Font = CSSFont.TryParse(theme.axisLabelCSS).GDIObject(g.Dpi)
+            Dim labelHeight As Double = g.MeasureString("A", categoryFont).Height
             Dim pvalues As DoubleRange = multiples _
                 .Select(Function(v) v.Value.Values) _
                 .IteratesALL _
@@ -67,7 +68,7 @@ Namespace CatalogProfiling
                 .Width = canvas.PlotRegion.Width - maxTag.Width,
                 .Height = canvas.PlotRegion.Height
             }
-            Dim gap As Double = 50
+            Dim gap As Double = labelHeight * 1.5
             Dim dh As Double = (region.Height - gap * (pathways.Count - 1)) / (pathways.Values.IteratesALL.Count)
             Dim dw As Double = region.Width / multiples.Length
             Dim sizeRange As DoubleRange = New Double() {0, dw}
@@ -97,11 +98,9 @@ Namespace CatalogProfiling
                             End Function) _
                     .ToArray
 
-                Call g.DrawString(catName, categoryFont, Brushes.Black, New PointF(region.Right, y))
+                Call g.DrawString(catName, categoryFont, Brushes.Black, New PointF(region.Right, y - labelHeight))
 
                 Dim top As Double = y
-
-                y += dh
 
                 For Each id As String In pathIds
                     x = region.Left
@@ -125,7 +124,8 @@ Namespace CatalogProfiling
                         x += dw
                     Next
 
-                    Call g.DrawString(id, pathwayNameFont, Brushes.Black, New PointF(x, y))
+                    g.DrawString(id, pathwayNameFont, Brushes.Black, New PointF(x, y))
+                    y += dh
                 Next
 
                 Call g.DrawRectangle(Stroke.TryParse(theme.axisStroke).GDIObject, New Rectangle(region.Left, top, region.Width, y - top))
