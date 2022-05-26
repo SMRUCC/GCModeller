@@ -91,6 +91,11 @@ Namespace CatalogProfiling
             Dim ymin As Double = y
             Dim ymax As Double
             Dim tickFont As Font = CSSFont.TryParse(theme.axisTickCSS).GDIObject(g.Dpi)
+            Dim labelFont As Font = CSSFont.TryParse(theme.legendLabelCSS).GDIObject(g.Dpi)
+
+            Call g.DrawString("Pathway Impact", labelFont, Brushes.Black, New PointF(x, y))
+
+            y += 10
 
             For Each ip As Double In values
                 r = impacts.ScaleMapping(ip, Me.radius)
@@ -107,6 +112,17 @@ Namespace CatalogProfiling
             Call g.DrawLine(New Pen(Color.Black, 2), New PointF(x, ymin), New PointF(x, ymax))
             Call g.DrawString(values.Max.ToString("F4"), tickFont, Brushes.Black, New PointF(x + 5, ymax))
         End Sub
+
+        Private Function getSampleColors() As Dictionary(Of String, SolidBrush)
+            Dim colors As Color() = Designer.GetColors("paper")
+            Dim list As New Dictionary(Of String, SolidBrush)
+
+            For Each sample In multiples.SeqIterator
+                Call list.Add(sample.value.Name, New SolidBrush(colors(sample)))
+            Next
+
+            Return list
+        End Function
 
         Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
             Dim pvalueTicks As Double() = multiples _
@@ -160,6 +176,7 @@ Namespace CatalogProfiling
             Dim r As Double
             Dim colorSet As LoopArray(Of Color) = Designer.GetColors(theme.colorSet)
             Dim paint As SolidBrush
+            Dim sampleColors As Dictionary(Of String, SolidBrush) = getSampleColors()
 
             Call g.DrawRectangle(Stroke.TryParse(theme.axisStroke).GDIObject, region)
 
@@ -215,12 +232,13 @@ Namespace CatalogProfiling
 
                     For Each group As NamedValue(Of Dictionary(Of String, BubbleTerm)) In categoryData
                         Dim bubble As BubbleTerm = group.Value.TryGetValue(name)
+                        Dim fill As SolidBrush = sampleColors(group.Name)
 
                         If Not bubble Is Nothing Then
                             x = xscale(bubble.PValue)
                             r = impacts.ScaleMapping(bubble.data, Me.radius)
 
-                            Call g.DrawCircle(New PointF(x, y), r, paint)
+                            Call g.DrawCircle(New PointF(x, y), r, color:=fill)
                         End If
                     Next
 
@@ -230,6 +248,11 @@ Namespace CatalogProfiling
             Next
 
             Call drawRadiusLegend(g, impacts, canvas)
+            Call drawSampleLegends(sampleColors, g, canvas)
+        End Sub
+
+        Private Sub drawSampleLegends(sampleColors As Dictionary(Of String, SolidBrush), g As IGraphics, canvas As GraphicsRegion)
+
         End Sub
     End Class
 End Namespace
