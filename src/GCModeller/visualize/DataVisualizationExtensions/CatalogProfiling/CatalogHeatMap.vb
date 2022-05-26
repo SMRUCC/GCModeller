@@ -1,8 +1,10 @@
 ﻿
 Imports System.Drawing
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
+Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
@@ -79,9 +81,14 @@ Namespace CatalogProfiling
             Dim indexRange As DoubleRange = New Double() {0, mapLevels - 1}
             Dim y As Double = region.Top
             Dim x As Double
+            Dim categoryColors As LoopArray(Of SolidBrush) = Designer _
+                .GetColors("Set1:c8") _
+                .Select(Function(c) New SolidBrush(c)) _
+                .ToArray
 
             For Each catName As String In pathways.Keys
                 Dim pathIds As String() = pathways(catName)
+                Dim foreColor = ++categoryColors
                 Dim samples = multiples _
                     .Select(Function(v)
                                 Dim list = v.Value.TryGetValue(catName)
@@ -100,7 +107,12 @@ Namespace CatalogProfiling
 
                 Call g.DrawString(catName, categoryFont, Brushes.Black, New PointF(region.Right, y - labelHeight))
 
-                Dim top As Double = y
+                Dim deltaY As Double = dh * pathIds.Length
+                Dim block As New Rectangle(region.Left, y, region.Width, deltaY)
+                ' Dim v As New List(Of Double)
+
+                Call g.FillRectangle("#FAFAFA".GetBrush, block)
+                Call g.DrawRectangle(Stroke.TryParse(theme.axisStroke).GDIObject, block)
 
                 For Each id As String In pathIds
                     x = region.Left
@@ -114,8 +126,8 @@ Namespace CatalogProfiling
                             Dim cell As New RectangleF With {
                                 .X = x,
                                 .Y = y,
-                                .Width = size,
-                                .Height = size
+                                .Width = dw,
+                                .Height = dh
                             }
 
                             Call g.FillRectangle(paint, cell)
@@ -124,14 +136,37 @@ Namespace CatalogProfiling
                         x += dw
                     Next
 
-                    g.DrawString(id, pathwayNameFont, Brushes.Black, New PointF(x, y))
+                    g.DrawString(id, pathwayNameFont, foreColor, New PointF(x, y))
                     y += dh
                 Next
 
-                Call g.DrawRectangle(Stroke.TryParse(theme.axisStroke).GDIObject, New Rectangle(region.Left, top, region.Width, y - top))
-
                 y += gap
             Next
+
+            Call drawColorLegends(pvalues, right:=region.Left + maxTag.Width * 1.125, g:=g, canvas:=canvas)
+        End Sub
+
+        Private Sub drawColorLegends(pvalues As DoubleRange, right As Double, ByRef g As IGraphics, canvas As GraphicsRegion)
+            Dim maps As New ColorMapLegend(palette:=theme.colorSet, mapLevels) With {
+                .format = "F2",
+                .noblank = False,
+                .tickAxisStroke = Stroke.TryParse(theme.legendTickAxisStroke).GDIObject,
+                .tickFont = CSSFont.TryParse(theme.legendTickCSS).GDIObject(g.Dpi),
+                .ticks = pvalues.CreateAxisTicks,
+                .title = "-log10(pvalue)",
+                .titleFont = CSSFont.TryParse(theme.legendTitleCSS).GDIObject(g.Dpi),
+                .unmapColor = "#FAFAFA",
+                .ruleOffset = 5,
+                .legendOffsetLeft = 5
+            }
+            Dim layout As New Rectangle With {
+                .X = right,
+                .Width = canvas.Padding.Right * (2 / 3),
+                .Height = canvas.PlotRegion.Height * (2 / 3),
+                .Y = canvas.Padding.Top
+            }
+
+            Call maps.Draw(g, layout)
         End Sub
     End Class
 End Namespace

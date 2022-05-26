@@ -323,6 +323,7 @@ Module visualPlot
             .padding = padding,
             .legendLabelCSS = "font-style: normal; font-size: 12; font-family: " & FontFace.MicrosoftYaHei & ";",
             .axisLabelCSS = "font-style: normal; font-size: 16; font-family: " & FontFace.MicrosoftYaHei & ";",
+            .axisTickCSS = "font-style: normal; font-size: 10; font-family: " & FontFace.BookmanOldStyle & ";",
             .colorSet = themeColors
         }
 
