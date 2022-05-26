@@ -80,9 +80,7 @@ Imports SMRUCC.Rsharp.Runtime.Internal.Invokes.LinqPipeline
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports any = Microsoft.VisualBasic.Scripting
-Imports ColorPalette = Microsoft.VisualBasic.Imaging.Drawing2D.Colors.Designer
 Imports Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
-Imports pathwayBrite = SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry.Pathway
 Imports REnv = SMRUCC.Rsharp.Runtime
 Imports stdNum = System.Math
 Imports stdVec = Microsoft.VisualBasic.Math.LinearAlgebra.Vector
@@ -305,7 +303,7 @@ Module visualPlot
     Public Function KEGGEnrichBubbles(<RRawVectorArgument> profiles As Object,
                                       <RRawVectorArgument>
                                       Optional size As Object = "3800,2600",
-                                      Optional padding As Object = "padding:100px 1200px 300px 300px;",
+                                      Optional padding As Object = "padding:300px 1000px 300px 200px;",
                                       Optional unenrichColor As String = NameOf(Color.LightGray),
                                       Optional themeColors As String = "Set1:c8",
                                       Optional alpha As Double = 0.75,
@@ -372,7 +370,11 @@ Module visualPlot
                 theme:=theme,
                 radius:=bubbleSize,
                 alpha:=alpha
-            )
+            ) With {
+                .legendTitle = "Samples",
+                .main = "KEGG Enrichments",
+                .xlabel = "-log10(pvalue) * Pathway Impacts"
+            }
 
             Return bubbles.Plot(sizeStr, ppi:=ppi)
         Else

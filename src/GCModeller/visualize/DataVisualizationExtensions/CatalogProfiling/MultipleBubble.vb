@@ -14,6 +14,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports FontStyle = System.Drawing.FontStyle
+Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
 Namespace CatalogProfiling
 
@@ -56,21 +57,39 @@ Namespace CatalogProfiling
             Dim nsamples As Double = all.Length
             Dim takes = all _
                 .Select(Function(d)
-                            Return d.Value.Select(Function(b) b.Value.Select(Function(i) (i, category:=b.Key, sampleName:=d.Name)))
+                            Return d.Value _
+                                .Select(Function(b)
+                                            Return b.Value.Select(Function(i) (i, category:=b.Key, sampleName:=d.Name))
+                                        End Function)
                         End Function) _
                 .IteratesALL _
                 .IteratesALL _
                 .GroupBy(Function(i) i.i.termId) _
                 .Select(Function(t)
-                            Return (t, category:=t.First.category, rsd:=t.Select(Function(xi) xi.i.PValue).RSD(maxSize:=nsamples))
+                            Dim category As String = t.First.category
+                            Dim rsd As Double = t _
+                                .Select(Function(xi) xi.i.PValue * xi.i.Factor).JoinIterates(0.0.Repeats(nsamples - t.Count).Select(Function(any) randf.NextDouble * 99999)) _
+                                .RSD()
+
+                            Return (t, Category, rsd)
                         End Function) _
                 .GroupBy(Function(i) i.category) _
                 .Select(Function(i)
-                            Return i.OrderByDescending(Function(a) a.rsd).Take(topN).ToArray
+                            Return i _
+                                .OrderByDescending(Function(a) a.rsd) _
+                                .Take(topN) _
+                                .ToArray
                         End Function) _
                 .ToArray
 
-            For Each sample In takes.IteratesALL.Select(Function(a) a.t).IteratesALL.GroupBy(Function(a) a.sampleName)
+            For Each sample In takes _
+                .IteratesALL _
+                .Select(Function(a) a.t) _
+                .IteratesALL _
+                .GroupBy(Function(a)
+                             Return a.sampleName
+                         End Function)
+
                 Dim cats = sample _
                     .GroupBy(Function(a) a.category) _
                     .ToDictionary(Function(a) a.Key,
@@ -87,34 +106,35 @@ Namespace CatalogProfiling
 
         Private Sub drawRadiusLegend(ByRef g As IGraphics, impacts As DoubleRange, canvas As GraphicsRegion)
             Dim values As Double() = impacts.Enumerate(4)
-            Dim x As Double = canvas.PlotRegion.Right + canvas.Padding.Right / 2
+            Dim x As Double = canvas.PlotRegion.Right + canvas.Padding.Right / 5
             Dim y As Double = canvas.Padding.Top * 1.125
             Dim r As Double
             Dim paint As SolidBrush = Brushes.Black
             Dim pos As PointF
-            Dim ymin As Double = y
-            Dim ymax As Double
             Dim tickFont As Font = CSSFont.TryParse(theme.axisTickCSS).GDIObject(g.Dpi)
             Dim labelFont As Font = CSSFont.TryParse(theme.legendTitleCSS).GDIObject(g.Dpi)
 
-            Call g.DrawString("Pathway Impact", labelFont, Brushes.Black, New PointF(x, y))
+            g.DrawString("Enrichment Factor", labelFont, Brushes.Black, New PointF(x - impacts.ScaleMapping(values.Max, Me.radius) * 2, y))
+            y += g.MeasureString("A", labelFont).Height * 1.5
 
-            y += 10
+            Dim ymin As Double = y
+            Dim ymax As Double
+            Dim nsize As SizeF = g.MeasureString("0", tickFont)
 
             For Each ip As Double In values
                 r = impacts.ScaleMapping(ip, Me.radius)
                 pos = New PointF(x, y)
                 ymax = y
-                y = y + r * 2.5 + 10
+                y = y + r * 2.5 + 30
 
                 Call g.DrawCircle(pos, r, paint)
             Next
 
             x = x + r * 1.5
 
-            Call g.DrawString(values.Min.ToString("F4"), tickFont, Brushes.Black, New PointF(x + 5, ymin))
+            Call g.DrawString(values.Min.ToString("F4"), tickFont, Brushes.Black, New PointF(x + 5, ymin - nsize.Height / 2))
             Call g.DrawLine(New Pen(Color.Black, 2), New PointF(x, ymin), New PointF(x, ymax))
-            Call g.DrawString(values.Max.ToString("F4"), tickFont, Brushes.Black, New PointF(x + 5, ymax))
+            Call g.DrawString(values.Max.ToString("F4"), tickFont, Brushes.Black, New PointF(x + 5, ymax - nsize.Height / 2))
         End Sub
 
         Private Function getSampleColors() As Dictionary(Of String, SolidBrush)
@@ -133,7 +153,7 @@ Namespace CatalogProfiling
                 .Select(Function(t) t.Value.Values) _
                 .IteratesALL _
                 .IteratesALL _
-                .Select(Function(b) b.PValue) _
+                .Select(Function(b) b.PValue * b.data) _
                 .CreateAxisTicks
             Dim categories As String() = multiples _
                 .Select(Function(t) t.Value.Keys) _
@@ -168,14 +188,14 @@ Namespace CatalogProfiling
                 .linear() _
                 .domain(values:=pvalueTicks) _
                 .range(values:={region.Left, region.Right})
-
-            Dim y As Double = region.Top + 5
+            Dim dh As Double = region.Height / (pathways.Length + categories.Length + 1)
+            Dim y As Double = region.Top - g.MeasureString("A", categoryFont).Height / 2
             Dim x As Double
             Dim impacts As DoubleRange = multiples _
                 .Select(Function(t) t.Value.Values) _
                 .IteratesALL _
                 .IteratesALL _
-                .Select(Function(b) b.data) _
+                .Select(Function(b) b.Factor) _
                 .Range
             Dim r As Double
             Dim colorSet As LoopArray(Of Color) = Designer.GetColors(theme.colorSet)
@@ -188,7 +208,7 @@ Namespace CatalogProfiling
             Call Axis.DrawX(
                 g:=g,
                 pen:=Stroke.TryParse(theme.axisStroke).GDIObject,
-                label:="-log10(pvalue)",
+                label:=xlabel,
                 scaler:=New DataScaler With {.AxisTicks = (pvalueTicks.AsVector, Nothing), .region = region, .X = xscale, .Y = Nothing},
                 layout:=XAxisLayoutStyles.Bottom,
                 Y0:=0,
@@ -226,33 +246,35 @@ Namespace CatalogProfiling
                     .Distinct _
                     .ToArray
 
+                y = y + fontsize.Height
                 fontsize = g.MeasureString("A", pathwayLabelFont)
-                y += fontsize.Height / 2
+                y = y + (dh - fontsize.Height) / 2
 
                 ' draw bubbles in multiple groups
                 For Each name As String In pathwayNames
-                    Call g.DrawString(name, pathwayLabelFont, paint, New PointF(x + fontsize.Width, y))
-                    Call g.DrawLine(New Pen(paint, 2) With {.DashStyle = DashStyle.Dot}, New PointF(region.Left, y), New PointF(region.Right, y))
+                    Call g.DrawString(name, pathwayLabelFont, paint, New PointF(x + fontsize.Width / 2, y))
+                    Call g.DrawLine(New Pen(paint, 3) With {.DashStyle = DashStyle.Dash}, New PointF(region.Left, y), New PointF(region.Right, y))
 
                     For Each group As NamedValue(Of Dictionary(Of String, BubbleTerm)) In categoryData
                         Dim bubble As BubbleTerm = group.Value.TryGetValue(name)
                         Dim fill As SolidBrush = sampleColors(group.Name)
 
                         If Not bubble Is Nothing Then
-                            x = xscale(bubble.PValue)
-                            r = impacts.ScaleMapping(bubble.data, Me.radius)
+                            x = xscale(bubble.PValue * bubble.data)
+                            r = impacts.ScaleMapping(bubble.Factor, Me.radius)
 
                             Call g.DrawCircle(New PointF(x, y), r, color:=fill)
                         End If
                     Next
 
-                    y += fontsize.Height + 5
+                    y += dh
                     x = canvas.Padding.Left
                 Next
             Next
 
             Call drawRadiusLegend(g, impacts, canvas)
             Call drawSampleLegends(sampleColors, g, canvas)
+            Call DrawMainTitle(g, region)
         End Sub
 
         Private Sub drawSampleLegends(sampleColors As Dictionary(Of String, SolidBrush), g As IGraphics, canvas As GraphicsRegion)
@@ -268,11 +290,11 @@ Namespace CatalogProfiling
                 .ToArray
 
             theme.legendLayout = New Absolute() With {
-                .x = canvas.PlotRegion.Right + canvas.Padding.Right / 4,
+                .x = canvas.PlotRegion.Right + 100,
                 .y = canvas.PlotRegion.Top + canvas.PlotRegion.Height / 3
             }
 
-            Call DrawLegends(g, legends, showBorder:=True, canvas)
+            Call DrawLegends(g, legends, showBorder:=False, canvas)
         End Sub
     End Class
 End Namespace
