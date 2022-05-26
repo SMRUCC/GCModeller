@@ -114,8 +114,8 @@ Namespace CatalogProfiling
                             Dim cell As New RectangleF With {
                                 .X = x,
                                 .Y = y,
-                                .Width = dw,
-                                .Height = dw
+                                .Width = size,
+                                .Height = size
                             }
 
                             Call g.FillRectangle(paint, cell)
