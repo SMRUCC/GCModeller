@@ -18,34 +18,41 @@ Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
 Namespace CatalogProfiling
 
-    ''' <summary>
-    ''' kegg enrichment bubble in multiple groups
-    ''' 
-    ''' 1. x axis is related to the -log10(pvalue)
-    ''' 2. y axis is the category of the kegg pathway maps
-    ''' 3. bubble size is the impact factor or pathway hit score
-    ''' 4. color of the bubble can be related to the another score
-    ''' </summary>
-    Public Class MultipleBubble : Inherits Plot
+    Public MustInherit Class MultipleCategoryProfiles : Inherits Plot
 
         ''' <summary>
         ''' the multiple groups data
         ''' </summary>
-        ReadOnly multiples As NamedValue(Of Dictionary(Of String, BubbleTerm()))()
-        ReadOnly radius As DoubleRange
-        ReadOnly alpha As Double = 1
+        Protected ReadOnly multiples As NamedValue(Of Dictionary(Of String, BubbleTerm()))()
 
-        Sub New(multiples As IEnumerable(Of NamedValue(Of Dictionary(Of String, BubbleTerm()))),
-                radius As DoubleRange,
-                alpha As Double,
-                theme As Theme)
-
+        Protected Sub New(multiples As IEnumerable(Of NamedValue(Of Dictionary(Of String, BubbleTerm()))), theme As Theme)
             Call MyBase.New(theme)
 
-            Me.radius = radius
             Me.multiples = multiples.ToArray
-            Me.alpha = alpha
         End Sub
+
+        Protected Function getCategories() As String()
+            Return multiples _
+                .Select(Function(t) t.Value.Keys) _
+                .IteratesALL _
+                .Distinct _
+                .ToArray
+        End Function
+
+        Protected Function getPathways() As Dictionary(Of String, String())
+            Return multiples _
+                .Select(Function(t) t.Value.Select(Function(b) b.Value.Select(Function(a) (a.termId, b.Key)))) _
+                .IteratesALL _
+                .IteratesALL _
+                .GroupBy(Function(t) t.Key) _
+                .ToDictionary(Function(a) a.Key,
+                              Function(b)
+                                  Return b _
+                                      .Select(Function(t) t.termId) _
+                                      .Distinct _
+                                      .ToArray
+                              End Function)
+        End Function
 
         Public Shared Iterator Function TopBubbles(multiples As IEnumerable(Of NamedValue(Of Dictionary(Of String, BubbleTerm()))), topN As Integer) As IEnumerable(Of NamedValue(Of Dictionary(Of String, BubbleTerm())))
             Dim all = multiples.ToArray
@@ -64,11 +71,19 @@ Namespace CatalogProfiling
                         End Function) _
                 .IteratesALL _
                 .IteratesALL _
+                .Where(Function(d)
+                           Dim i = d.i
+                           Dim test1 = Not (i.data.IsNaNImaginary OrElse i.Factor.IsNaNImaginary OrElse i.PValue.IsNaNImaginary)
+                           Dim test2 = i.data * i.PValue > 0 AndAlso i.Factor > 0
+
+                           Return test1 AndAlso test2
+                       End Function) _
                 .GroupBy(Function(i) i.i.termId) _
                 .Select(Function(t)
                             Dim category As String = t.First.category
                             Dim rsd As Double = t _
-                                .Select(Function(xi) xi.i.PValue * xi.i.Factor).JoinIterates(0.0.Repeats(nsamples - t.Count).Select(Function(any) randf.NextDouble * 99999)) _
+                                .Select(Function(xi) xi.i.PValue * xi.i.Factor) _
+                                .JoinIterates(0.0.Repeats(nsamples - t.Count).Select(Function(any) randf.NextDouble * 99999)) _
                                 .RSD()
 
                             Return (t, Category, rsd)
@@ -88,7 +103,9 @@ Namespace CatalogProfiling
                 .IteratesALL _
                 .GroupBy(Function(a)
                              Return a.sampleName
-                         End Function)
+                         End Function) _
+                .OrderByDescending(Function(d) d.Count) _
+                .Take(12)
 
                 Dim cats = sample _
                     .GroupBy(Function(a) a.category) _
@@ -103,6 +120,32 @@ Namespace CatalogProfiling
                 }
             Next
         End Function
+
+    End Class
+
+    ''' <summary>
+    ''' kegg enrichment bubble in multiple groups
+    ''' 
+    ''' 1. x axis is related to the -log10(pvalue)
+    ''' 2. y axis is the category of the kegg pathway maps
+    ''' 3. bubble size is the impact factor or pathway hit score
+    ''' 4. color of the bubble can be related to the another score
+    ''' </summary>
+    Public Class MultipleBubble : Inherits MultipleCategoryProfiles
+
+        ReadOnly radius As DoubleRange
+        ReadOnly alpha As Double = 1
+
+        Sub New(multiples As IEnumerable(Of NamedValue(Of Dictionary(Of String, BubbleTerm()))),
+                radius As DoubleRange,
+                alpha As Double,
+                theme As Theme)
+
+            Call MyBase.New(multiples, theme)
+
+            Me.radius = radius
+            Me.alpha = alpha
+        End Sub
 
         Private Sub drawRadiusLegend(ByRef g As IGraphics, impacts As DoubleRange, canvas As GraphicsRegion)
             Dim values As Double() = impacts.Enumerate(4)
@@ -138,7 +181,7 @@ Namespace CatalogProfiling
         End Sub
 
         Private Function getSampleColors() As Dictionary(Of String, SolidBrush)
-            Dim colors As Color() = Designer.GetColors("paper")
+            Dim colors As Color() = Designer.GetColors("paper", n:=multiples.Length)
             Dim list As New Dictionary(Of String, SolidBrush)
 
             For Each sample In multiples.SeqIterator
@@ -149,24 +192,21 @@ Namespace CatalogProfiling
         End Function
 
         Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
-            Dim pvalueTicks As Double() = multiples _
+            Dim allScores As Double() = multiples _
                 .Select(Function(t) t.Value.Values) _
                 .IteratesALL _
                 .IteratesALL _
                 .Select(Function(b) b.PValue * b.data) _
-                .CreateAxisTicks
-            Dim categories As String() = multiples _
-                .Select(Function(t) t.Value.Keys) _
-                .IteratesALL _
-                .Distinct _
+                .OrderBy(Function(xi) xi) _
                 .ToArray
-            Dim pathways As String() = multiples _
-                .Select(Function(t) t.Value.Values) _
-                .IteratesALL _
-                .IteratesALL _
-                .Select(Function(b) b.termId) _
-                .Distinct _
-                .ToArray
+            Dim pvalueTicks As Double() = allScores.CreateAxisTicks
+            Dim categories As String() = getCategories()
+            Dim pathways As String() = getPathways().Values.IteratesALL.ToArray
+
+            If pathways.IsNullOrEmpty Then
+                Return
+            End If
+
             Dim fontsize As SizeF
             Dim pathwayLabelFont As Font = CSSFont.TryParse(theme.axisLabelCSS).GDIObject(g.Dpi)
             Dim categoryFont As New Font(pathwayLabelFont.Name, CSng(pathwayLabelFont.Size * 1.25), FontStyle.Bold)
