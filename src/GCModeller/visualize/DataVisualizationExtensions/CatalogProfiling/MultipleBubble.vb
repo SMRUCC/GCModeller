@@ -136,6 +136,22 @@ Namespace CatalogProfiling
 
             Call g.DrawRectangle(Stroke.TryParse(theme.axisStroke).GDIObject, region)
 
+            ' draw axis
+            Call Axis.DrawX(
+                g:=g,
+                pen:=Stroke.TryParse(theme.axisStroke).GDIObject,
+                label:="-log10(pvalue)",
+                scaler:=New DataScaler With {.AxisTicks = (pvalueTicks.AsVector, Nothing), .region = region, .X = xscale, .Y = Nothing},
+                layout:=XAxisLayoutStyles.Bottom,
+                Y0:=0,
+                offset:=Nothing,
+                labelFont:=theme.axisLabelCSS,
+                labelColor:=Brushes.Black,
+                tickFont:=CSSFont.TryParse(theme.axisTickCSS).GDIObject(g.Dpi),
+                tickColor:=Brushes.Black,
+                htmlLabel:=False
+            )
+
             For Each catName As String In categories
                 fontsize = g.MeasureString(catName, categoryFont)
                 x = canvas.Padding.Left
