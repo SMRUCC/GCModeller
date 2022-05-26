@@ -26,6 +26,7 @@ Namespace CatalogProfiling
     Public Class CatalogHeatMap : Inherits MultipleCategoryProfiles
 
         ReadOnly mapLevels As Integer
+        ReadOnly colorMissing As String = NameOf(Color.LightGray)
 
         Public Sub New(profile As IEnumerable(Of NamedValue(Of Dictionary(Of String, BubbleTerm()))), mapLevels As Integer, theme As Theme)
             Call MyBase.New(profile, theme)
@@ -111,7 +112,7 @@ Namespace CatalogProfiling
                 Dim block As New Rectangle(region.Left, y, region.Width, deltaY)
                 ' Dim v As New List(Of Double)
 
-                Call g.FillRectangle("#FAFAFA".GetBrush, block)
+                Call g.FillRectangle(colorMissing.GetBrush, block)
                 Call g.DrawRectangle(Stroke.TryParse(theme.axisStroke).GDIObject, block)
 
                 For Each id As String In pathIds
@@ -155,7 +156,7 @@ Namespace CatalogProfiling
                 .ticks = pvalues.CreateAxisTicks,
                 .title = "-log10(pvalue)",
                 .titleFont = CSSFont.TryParse(theme.legendTitleCSS).GDIObject(g.Dpi),
-                .unmapColor = "#FAFAFA",
+                .unmapColor = colorMissing,
                 .ruleOffset = 5,
                 .legendOffsetLeft = 5
             }
