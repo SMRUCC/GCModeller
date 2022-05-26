@@ -44,6 +44,7 @@
 #End Region
 
 Imports System.Drawing
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
@@ -312,11 +313,12 @@ Module visualPlot
 
         Dim sizeStr As String = InteropArgumentHelper.getSize(size, env, "2700,2300")
         Dim isGeneric As Boolean = TypeOf profiles Is dataframe
-        Dim rawP As stdVec
-        Dim logP As stdVec
-        Dim Impact As stdVec
-        Dim values As stdVec
-        Dim pathwayList As String()
+        Dim theme As New Theme With {
+            .gridFill = "white",
+            .padding = padding,
+            .legendLabelCSS = "font-style: normal; font-size: 14; font-family: " & FontFace.MicrosoftYaHei & ";",
+            .colorSet = themeColors
+        }
 
         If isGeneric Then
             Dim enrichment As dataframe = DirectCast(profiles, dataframe)
@@ -327,30 +329,78 @@ Module visualPlot
                 End With
             End If
 
-            rawP = enrichment.getVector(Of Double)("Raw p").AsVector
-            ' Y
-            logP = -rawP.Log(base:=10)
-            ' X
-            Impact = enrichment.getVector(Of Double)("Impact")
-            values = enrichment.getVector(Of Double)("Hits")
-            pathwayList = enrichment.getVector(Of String)("pathway")
+            Return enrichment.plotSingle(
+                sizeStr:=sizeStr,
+                theme:=theme,
+                unenrichColor:=unenrichColor,
+                padding:=InteropArgumentHelper.getPadding(padding),
+                ppi:=ppi
+            )
+        ElseIf TypeOf profiles Is list Then
+            ' multiple groups
+            Dim multiples As New List(Of NamedValue(Of Dictionary(Of String, BubbleTerm())))
+            Dim rawList = DirectCast(profiles, list)
+
+            For Each name As String In rawList.getNames
+                profiles = rawList.getValue(Of dataframe)(name, env, [default]:=Nothing)
+
+                If Not profiles Is Nothing Then
+                    Dim bubbleData As Dictionary(Of String, BubbleTerm()) = DirectCast(profiles, dataframe).toBubbles
+                    Dim data As New NamedValue(Of Dictionary(Of String, BubbleTerm())) With {
+                       .Name = name,
+                       .Value = bubbleData
+                    }
+
+                    Call multiples.Add(data)
+                End If
+            Next
+
+            Dim bubbles As New MultipleBubble(
+                multiples:=multiples,
+                theme:=theme
+            )
+
+            Try
+                Return bubbles.Plot(sizeStr, ppi:=ppi)
+            Catch ex As Exception
+                With sizeStr.SizeParser
+                    Return New Bitmap(.Width, .Height)
+                End With
+            End Try
         Else
             Throw New NotImplementedException
         End If
+    End Function
 
-        Dim bubbleData = BubbleTerm.CreateBubbles(logP, Impact, values, pathwayList)
+    <Extension>
+    Private Function toBubbles(enrichment As dataframe) As Dictionary(Of String, BubbleTerm())
+        Dim rawP As stdVec = enrichment.getVector(Of Double)("Raw p").AsVector
+        ' Y
+        Dim logP As stdVec = -rawP.Log(base:=10)
+        ' X
+        Dim Impact As stdVec = enrichment.getVector(Of Double)("Impact")
+        Dim values As stdVec = enrichment.getVector(Of Double)("Hits")
+        Dim pathwayList As String() = enrichment.getVector(Of String)("pathway")
+        Dim bubbleData As Dictionary(Of String, BubbleTerm()) = BubbleTerm.CreateBubbles(logP, Impact, values, pathwayList)
+
+        Return bubbleData
+    End Function
+
+    <Extension>
+    Private Function plotSingle(enrichment As dataframe,
+                                sizeStr As String,
+                                theme As Theme,
+                                unenrichColor As String,
+                                padding As String,
+                                ppi As Integer) As Object
+
+        Dim bubbleData As Dictionary(Of String, BubbleTerm()) = enrichment.toBubbles
         Dim enrichColors = BubbleTerm.CreateEnrichColors(
             bubbleData:=bubbleData,
-            theme:=themeColors,
+            theme:=theme.colorSet,
             unenrichColor:=unenrichColor
         )
         Dim baseColor As Color = unenrichColor.TranslateColor
-        Dim theme As New Theme With {
-            .gridFill = "white",
-            .padding = InteropArgumentHelper.getPadding(padding),
-            .legendLabelCSS = "font-style: normal; font-size: 14; font-family: " & FontFace.MicrosoftYaHei & ";",
-            .colorSet = themeColors
-        }
         Dim bubble As New CatalogBubblePlot(
             data:=bubbleData,
             enrichColors:=enrichColors,
