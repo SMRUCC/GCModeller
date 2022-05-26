@@ -28,9 +28,13 @@ Namespace CatalogProfiling
         ReadOnly multiples As NamedValue(Of Dictionary(Of String, BubbleTerm()))()
         ReadOnly radius As DoubleRange
 
-        Sub New(multiples As IEnumerable(Of NamedValue(Of Dictionary(Of String, BubbleTerm()))), theme As Theme)
+        Sub New(multiples As IEnumerable(Of NamedValue(Of Dictionary(Of String, BubbleTerm()))),
+                radius As DoubleRange,
+                theme As Theme)
+
             Call MyBase.New(theme)
 
+            Me.radius = radius
             Me.multiples = multiples.ToArray
         End Sub
 

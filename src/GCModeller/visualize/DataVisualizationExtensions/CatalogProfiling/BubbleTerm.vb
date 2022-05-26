@@ -39,10 +39,18 @@ Namespace CatalogProfiling
                                              pathwayList As String()) As Dictionary(Of String, BubbleTerm())
 
             Dim bubbleData As New Dictionary(Of String, List(Of BubbleTerm))
-            Dim KOmap = pathwayBrite.LoadFromResource.ToDictionary(Function(map) map.EntryId)
+            Dim KOmap As Dictionary(Of String, pathwayBrite) = pathwayBrite _
+                .LoadFromResource _
+                .ToDictionary(Function(map)
+                                  Return map.EntryId
+                              End Function)
 
             For i As Integer = 0 To pathwayList.Length - 1
-                Dim map As pathwayBrite = KOmap(pathwayList(i).Match("\d+"))
+                Dim map As pathwayBrite = KOmap.TryGetValue(pathwayList(i).Match("\d+"))
+
+                If map Is Nothing Then
+                    Continue For
+                End If
 
                 If Not bubbleData.ContainsKey(map.class) Then
                     bubbleData.Add(map.class, New List(Of BubbleTerm))

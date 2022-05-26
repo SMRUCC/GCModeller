@@ -308,9 +308,12 @@ Module visualPlot
                                       Optional padding As Object = "padding:100px 1500px 300px 300px;",
                                       Optional unenrichColor As String = NameOf(Color.LightGray),
                                       Optional themeColors As String = "Set1:c8",
+                                      <RRawVectorArgument(GetType(Double))>
+                                      Optional bubbleRadius As Object = "8,50",
                                       Optional ppi As Integer = 300,
                                       Optional env As Environment = Nothing) As Object
 
+        Dim bubbleSize = SMRUCC.Rsharp.GetDoubleRange(bubbleRadius, env, [default]:="8,50")
         Dim sizeStr As String = InteropArgumentHelper.getSize(size, env, "2700,2300")
         Dim isGeneric As Boolean = TypeOf profiles Is dataframe
         Dim theme As New Theme With {
@@ -319,6 +322,10 @@ Module visualPlot
             .legendLabelCSS = "font-style: normal; font-size: 14; font-family: " & FontFace.MicrosoftYaHei & ";",
             .colorSet = themeColors
         }
+
+        If bubbleSize Like GetType(Message) Then
+            Return bubbleSize.TryCast(Of Message)
+        End If
 
         If isGeneric Then
             Dim enrichment As dataframe = DirectCast(profiles, dataframe)
@@ -334,7 +341,8 @@ Module visualPlot
                 theme:=theme,
                 unenrichColor:=unenrichColor,
                 padding:=InteropArgumentHelper.getPadding(padding),
-                ppi:=ppi
+                ppi:=ppi,
+                bubbleRadius:=bubbleSize
             )
         ElseIf TypeOf profiles Is list Then
             ' multiple groups
@@ -357,7 +365,8 @@ Module visualPlot
 
             Dim bubbles As New MultipleBubble(
                 multiples:=multiples,
-                theme:=theme
+                theme:=theme,
+                radius:=bubbleSize
             )
 
             Try
@@ -392,7 +401,8 @@ Module visualPlot
                                 theme As Theme,
                                 unenrichColor As String,
                                 padding As String,
-                                ppi As Integer) As Object
+                                ppi As Integer,
+                                bubbleRadius As DoubleRange) As Object
 
         Dim bubbleData As Dictionary(Of String, BubbleTerm()) = enrichment.toBubbles
         Dim enrichColors = BubbleTerm.CreateEnrichColors(
@@ -409,7 +419,7 @@ Module visualPlot
             pvalue:=-stdNum.Log10(0.05),
             unenrich:=baseColor,
             theme:=theme,
-            bubbleSize:={8, 50}
+            bubbleSize:=bubbleRadius
         ) With {
             .xlabel = "Topology Impact",
             .ylabel = "-log10(p-value)"
