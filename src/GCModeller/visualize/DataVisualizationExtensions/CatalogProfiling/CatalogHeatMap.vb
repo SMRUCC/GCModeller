@@ -83,9 +83,16 @@ Namespace CatalogProfiling
                 Dim pathIds As String() = pathways(catName)
                 Dim samples = multiples _
                     .Select(Function(v)
+                                Dim list = v.Value.TryGetValue(catName)
+                                Dim maps As Dictionary(Of String, BubbleTerm) = Nothing
+
+                                If Not list Is Nothing Then
+                                    maps = list.ToDictionary(Function(p) p.termId)
+                                End If
+
                                 Return New NamedValue(Of Dictionary(Of String, BubbleTerm)) With {
                                     .Name = v.Name,
-                                    .Value = v.Value(catName).ToDictionary(Function(p) p.termId)
+                                    .Value = maps
                                 }
                             End Function) _
                     .ToArray
@@ -100,7 +107,7 @@ Namespace CatalogProfiling
                     x = region.Left
 
                     For Each sample In samples
-                        If sample.Value.ContainsKey(id) Then
+                        If (Not sample.Value.IsNullOrEmpty) AndAlso sample.Value.ContainsKey(id) Then
                             Dim bubble As BubbleTerm = sample.Value(id)
                             Dim index As Integer = pvalues.ScaleMapping(bubble.PValue, indexRange)
                             Dim paint As Brush = colors(index)
