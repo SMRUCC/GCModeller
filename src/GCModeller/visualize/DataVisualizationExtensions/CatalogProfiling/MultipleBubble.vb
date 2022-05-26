@@ -6,6 +6,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
+Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Legend
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
@@ -31,15 +32,18 @@ Namespace CatalogProfiling
         ''' </summary>
         ReadOnly multiples As NamedValue(Of Dictionary(Of String, BubbleTerm()))()
         ReadOnly radius As DoubleRange
+        ReadOnly alpha As Double = 1
 
         Sub New(multiples As IEnumerable(Of NamedValue(Of Dictionary(Of String, BubbleTerm()))),
                 radius As DoubleRange,
+                alpha As Double,
                 theme As Theme)
 
             Call MyBase.New(theme)
 
             Me.radius = radius
             Me.multiples = multiples.ToArray
+            Me.alpha = alpha
         End Sub
 
         Public Shared Iterator Function TopBubbles(multiples As IEnumerable(Of NamedValue(Of Dictionary(Of String, BubbleTerm()))), topN As Integer) As IEnumerable(Of NamedValue(Of Dictionary(Of String, BubbleTerm())))
@@ -91,7 +95,7 @@ Namespace CatalogProfiling
             Dim ymin As Double = y
             Dim ymax As Double
             Dim tickFont As Font = CSSFont.TryParse(theme.axisTickCSS).GDIObject(g.Dpi)
-            Dim labelFont As Font = CSSFont.TryParse(theme.legendLabelCSS).GDIObject(g.Dpi)
+            Dim labelFont As Font = CSSFont.TryParse(theme.legendTitleCSS).GDIObject(g.Dpi)
 
             Call g.DrawString("Pathway Impact", labelFont, Brushes.Black, New PointF(x, y))
 
@@ -118,7 +122,7 @@ Namespace CatalogProfiling
             Dim list As New Dictionary(Of String, SolidBrush)
 
             For Each sample In multiples.SeqIterator
-                Call list.Add(sample.value.Name, New SolidBrush(colors(sample)))
+                Call list.Add(sample.value.Name, New SolidBrush(colors(sample).Alpha(alpha * 255)))
             Next
 
             Return list
@@ -252,7 +256,23 @@ Namespace CatalogProfiling
         End Sub
 
         Private Sub drawSampleLegends(sampleColors As Dictionary(Of String, SolidBrush), g As IGraphics, canvas As GraphicsRegion)
+            Dim legends As LegendObject() = sampleColors _
+                .Select(Function(sample)
+                            Return New LegendObject With {
+                                .color = sample.Value.Color.ToHtmlColor,
+                                .fontstyle = theme.legendLabelCSS,
+                                .style = LegendStyles.Circle,
+                                .title = sample.Key
+                            }
+                        End Function) _
+                .ToArray
 
+            theme.legendLayout = New Absolute() With {
+                .x = canvas.PlotRegion.Right + canvas.Padding.Right / 4,
+                .y = canvas.PlotRegion.Top + canvas.PlotRegion.Height / 3
+            }
+
+            Call DrawLegends(g, legends, showBorder:=True, canvas)
         End Sub
     End Class
 End Namespace

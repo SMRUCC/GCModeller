@@ -308,9 +308,10 @@ Module visualPlot
                                       Optional padding As Object = "padding:100px 1200px 300px 300px;",
                                       Optional unenrichColor As String = NameOf(Color.LightGray),
                                       Optional themeColors As String = "Set1:c8",
+                                      Optional alpha As Double = 0.75,
                                       Optional displays As Integer = 5,
                                       <RRawVectorArgument(GetType(Double))>
-                                      Optional bubbleRadius As Object = "8,50",
+                                      Optional bubbleRadius As Object = "12,64",
                                       Optional ppi As Integer = 300,
                                       Optional env As Environment = Nothing) As Object
 
@@ -369,7 +370,8 @@ Module visualPlot
             Dim bubbles As New MultipleBubble(
                 multiples:=MultipleBubble.TopBubbles(multiples, displays),
                 theme:=theme,
-                radius:=bubbleSize
+                radius:=bubbleSize,
+                alpha:=alpha
             )
 
             Return bubbles.Plot(sizeStr, ppi:=ppi)
