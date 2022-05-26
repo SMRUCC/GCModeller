@@ -179,6 +179,11 @@ Namespace CatalogProfiling
                 .Select(Function(b) b.termId) _
                 .Distinct _
                 .ToArray
+
+            If pathways.IsNullOrEmpty Then
+                Return
+            End If
+
             Dim fontsize As SizeF
             Dim pathwayLabelFont As Font = CSSFont.TryParse(theme.axisLabelCSS).GDIObject(g.Dpi)
             Dim categoryFont As New Font(pathwayLabelFont.Name, CSng(pathwayLabelFont.Size * 1.25), FontStyle.Bold)
