@@ -9,6 +9,7 @@ Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Text
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Html.CSS
 
@@ -26,7 +27,7 @@ Namespace CatalogProfiling
     Public Class CatalogHeatMap : Inherits MultipleCategoryProfiles
 
         ReadOnly mapLevels As Integer
-        ReadOnly colorMissing As String = NameOf(Color.LightGray)
+        ReadOnly colorMissing As String = NameOf(Color.Black)
 
         Public Sub New(profile As IEnumerable(Of NamedValue(Of Dictionary(Of String, BubbleTerm()))), mapLevels As Integer, theme As Theme)
             Call MyBase.New(profile, theme)
@@ -144,7 +145,23 @@ Namespace CatalogProfiling
                 y += gap
             Next
 
-            Call drawColorLegends(pvalues, right:=region.Right + maxTag.Width * 1.125, g:=g, canvas:=canvas)
+            ' draw sample labels
+            x = region.Left + dw / 2
+            y -= gap
+
+            Dim text As New GraphicsText(DirectCast(g, Graphics2D).Graphics)
+
+            For Each sample In multiples
+                text.DrawString(sample.Name, pathwayNameFont, Brushes.Black, New PointF(x, y), angle:=45)
+                x += dw
+            Next
+
+            Call drawColorLegends(
+                pvalues:=pvalues,
+                right:=region.Right + maxTag.Width * 1.125,
+                g:=g,
+                canvas:=canvas
+            )
         End Sub
 
         Private Sub drawColorLegends(pvalues As DoubleRange, right As Double, ByRef g As IGraphics, canvas As GraphicsRegion)
