@@ -136,6 +136,7 @@ Namespace CatalogProfiling
                     Next
 
                     y += fontsize.Height + 5
+                    x = canvas.Padding.Left
                 Next
             Next
         End Sub
