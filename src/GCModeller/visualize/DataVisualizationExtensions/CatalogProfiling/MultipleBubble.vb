@@ -1,11 +1,14 @@
 ﻿Imports System.Drawing
+Imports System.Drawing.Drawing2D
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.MIME.Html.CSS
@@ -52,12 +55,12 @@ Namespace CatalogProfiling
                             Return d.Value.Select(Function(b) b.Value.Select(Function(i) (i, category:=b.Key, sampleName:=d.Name)))
                         End Function) _
                 .IteratesALL _
-                .IteratesALL  _
+                .IteratesALL _
                 .GroupBy(Function(i) i.i.termId) _
                 .Select(Function(t)
-                           Return (t, rsd:=t.Select(Function(xi) xi.i.PValue).RSD(maxSize:=nsamples))
+                            Return (t, category:=t.First.category, rsd:=t.Select(Function(xi) xi.i.PValue).RSD(maxSize:=nsamples))
                         End Function) _
-                .GroupBy(Function(i) i.t.Key) _
+                .GroupBy(Function(i) i.category) _
                 .Select(Function(i)
                             Return i.OrderByDescending(Function(a) a.rsd).Take(topN).ToArray
                         End Function) _
@@ -128,12 +131,15 @@ Namespace CatalogProfiling
                 .Select(Function(b) b.data) _
                 .Range
             Dim r As Double
+            Dim colorSet As LoopArray(Of Color) = Designer.GetColors(theme.colorSet)
+            Dim paint As SolidBrush
 
             Call g.DrawRectangle(Stroke.TryParse(theme.axisStroke).GDIObject, region)
 
             For Each catName As String In categories
                 fontsize = g.MeasureString(catName, categoryFont)
                 x = canvas.Padding.Left
+                paint = New SolidBrush(++colorSet)
 
                 Call Console.WriteLine(catName)
                 Call g.DrawString(catName, categoryFont, Brushes.Black, New PointF(x, y))
@@ -161,7 +167,8 @@ Namespace CatalogProfiling
 
                 ' draw bubbles in multiple groups
                 For Each name As String In pathwayNames
-                    Call g.DrawString(name, pathwayLabelFont, Brushes.Black, New PointF(x + fontsize.Width, y))
+                    Call g.DrawString(name, pathwayLabelFont, paint, New PointF(x + fontsize.Width, y))
+                    Call g.DrawLine(New Pen(paint, 2) With {.DashStyle = DashStyle.Dot}, New PointF(region.Left, y), New PointF(region.Right, y))
 
                     For Each group As NamedValue(Of Dictionary(Of String, BubbleTerm)) In categoryData
                         Dim bubble As BubbleTerm = group.Value.TryGetValue(name)
@@ -170,7 +177,7 @@ Namespace CatalogProfiling
                             x = xscale(bubble.PValue)
                             r = impacts.ScaleMapping(bubble.data, Me.radius)
 
-                            Call g.DrawCircle(New PointF(x, y), r, Brushes.Black)
+                            Call g.DrawCircle(New PointF(x, y), r, paint)
                         End If
                     Next
 
