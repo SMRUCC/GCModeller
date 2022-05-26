@@ -81,6 +81,33 @@ Namespace CatalogProfiling
             Next
         End Function
 
+        Private Sub drawRadiusLegend(ByRef g As IGraphics, impacts As DoubleRange, canvas As GraphicsRegion)
+            Dim values As Double() = impacts.Enumerate(4)
+            Dim x As Double = canvas.PlotRegion.Right + canvas.Padding.Right / 2
+            Dim y As Double = canvas.Padding.Top * 1.125
+            Dim r As Double
+            Dim paint As SolidBrush = Brushes.Black
+            Dim pos As PointF
+            Dim ymin As Double = y
+            Dim ymax As Double
+            Dim tickFont As Font = CSSFont.TryParse(theme.axisTickCSS).GDIObject(g.Dpi)
+
+            For Each ip As Double In values
+                r = impacts.ScaleMapping(ip, Me.radius)
+                pos = New PointF(x, y)
+                ymax = y
+                y = y + r * 2.5 + 10
+
+                Call g.DrawCircle(pos, r, paint)
+            Next
+
+            x = x + r * 1.5
+
+            Call g.DrawString(values.Min.ToString("F4"), tickFont, Brushes.Black, New PointF(x + 5, ymin))
+            Call g.DrawLine(New Pen(Color.Black, 2), New PointF(x, ymin), New PointF(x, ymax))
+            Call g.DrawString(values.Max.ToString("F4"), tickFont, Brushes.Black, New PointF(x + 5, ymax))
+        End Sub
+
         Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
             Dim pvalueTicks As Double() = multiples _
                 .Select(Function(t) t.Value.Values) _
@@ -201,6 +228,8 @@ Namespace CatalogProfiling
                     x = canvas.Padding.Left
                 Next
             Next
+
+            Call drawRadiusLegend(g, impacts, canvas)
         End Sub
     End Class
 End Namespace
