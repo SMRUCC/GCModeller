@@ -66,7 +66,10 @@ Namespace CatalogProfiling
                 .IteratesALL _
                 .Where(Function(d)
                            Dim i = d.i
-                           Return Not (i.data.IsNaNImaginary OrElse i.Factor.IsNaNImaginary OrElse i.PValue.IsNaNImaginary)
+                           Dim test1 = Not (i.data.IsNaNImaginary OrElse i.Factor.IsNaNImaginary OrElse i.PValue.IsNaNImaginary)
+                           Dim test2 = i.data * i.PValue > 0 AndAlso i.Factor > 0
+
+                           Return test1 AndAlso test2
                        End Function) _
                 .GroupBy(Function(i) i.i.termId) _
                 .Select(Function(t)
