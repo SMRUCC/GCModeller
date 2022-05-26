@@ -305,9 +305,10 @@ Module visualPlot
     Public Function KEGGEnrichBubbles(<RRawVectorArgument> profiles As Object,
                                       <RRawVectorArgument>
                                       Optional size As Object = "3800,2600",
-                                      Optional padding As Object = "padding:100px 1500px 300px 300px;",
+                                      Optional padding As Object = "padding:100px 1200px 300px 300px;",
                                       Optional unenrichColor As String = NameOf(Color.LightGray),
                                       Optional themeColors As String = "Set1:c8",
+                                      Optional displays As Integer = 5,
                                       <RRawVectorArgument(GetType(Double))>
                                       Optional bubbleRadius As Object = "8,50",
                                       Optional ppi As Integer = 300,
@@ -343,7 +344,8 @@ Module visualPlot
                 unenrichColor:=unenrichColor,
                 padding:=InteropArgumentHelper.getPadding(padding),
                 ppi:=ppi,
-                bubbleRadius:=bubbleSize
+                bubbleRadius:=bubbleSize,
+                displays:=displays
             )
         ElseIf TypeOf profiles Is list Then
             ' multiple groups
@@ -365,7 +367,7 @@ Module visualPlot
             Next
 
             Dim bubbles As New MultipleBubble(
-                multiples:=multiples,
+                multiples:=MultipleBubble.TopBubbles(multiples, displays),
                 theme:=theme,
                 radius:=bubbleSize
             )
@@ -397,6 +399,7 @@ Module visualPlot
                                 unenrichColor As String,
                                 padding As String,
                                 ppi As Integer,
+                                displays As Integer,
                                 bubbleRadius As DoubleRange) As Object
 
         Dim bubbleData As Dictionary(Of String, BubbleTerm()) = enrichment.toBubbles
@@ -410,7 +413,7 @@ Module visualPlot
             data:=bubbleData,
             enrichColors:=enrichColors,
             showBubbleBorder:=False,
-            displays:=5,
+            displays:=displays,
             pvalue:=-stdNum.Log10(0.05),
             unenrich:=baseColor,
             theme:=theme,

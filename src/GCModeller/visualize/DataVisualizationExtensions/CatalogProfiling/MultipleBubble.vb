@@ -7,6 +7,7 @@ Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports FontStyle = System.Drawing.FontStyle
 
@@ -38,13 +39,46 @@ Namespace CatalogProfiling
             Me.multiples = multiples.ToArray
         End Sub
 
+        Public Shared Iterator Function TopBubbles(multiples As IEnumerable(Of NamedValue(Of Dictionary(Of String, BubbleTerm()))), topN As Integer) As IEnumerable(Of NamedValue(Of Dictionary(Of String, BubbleTerm())))
+            Dim all = multiples.ToArray
+            Dim categories As String() = all _
+               .Select(Function(t) t.Value.Keys) _
+               .IteratesALL _
+               .Distinct _
+               .ToArray
+            Dim takes = all _
+                .Select(Function(d)
+                            Return d.Value.Select(Function(b) b.Value.Select(Function(i) (i, b.Key, d.Name)))
+                        End Function) _
+                .IteratesALL _
+                .IteratesALL _
+                .GroupBy(Function(i) i.i.termId) _
+                .Select(Function(t) (t, t.Select(Function(xi) xi.i.PValue).RSD)) _
+                .GroupBy(Function(i) i.t.Key) _
+                .Select(Function(i) i.OrderByDescending(Function(a) a.RSD).Take(topN)) _
+                .ToArray
+
+            For Each sample In takes.IteratesALL.Select(Function(a) a.t).IteratesALL.GroupBy(Function(a) a.Name)
+                Dim cats = sample _
+                    .GroupBy(Function(a) a.Key) _
+                    .ToDictionary(Function(a) a.Key,
+                                  Function(a)
+                                      Return a.Select(Function(i) i.i).ToArray
+                                  End Function)
+
+                Yield New NamedValue(Of Dictionary(Of String, BubbleTerm())) With {
+                    .Name = sample.Key,
+                    .Value = cats
+                }
+            Next
+        End Function
+
         Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
             Dim pvalueTicks As Double() = multiples _
                 .Select(Function(t) t.Value.Values) _
                 .IteratesALL _
                 .IteratesALL _
                 .Select(Function(b) b.PValue) _
-                .Range _
                 .CreateAxisTicks
             Dim categories As String() = multiples _
                 .Select(Function(t) t.Value.Keys) _
