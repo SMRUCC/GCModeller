@@ -306,10 +306,10 @@ Module visualPlot
                                       Optional size As Object = "3800,2600",
                                       Optional padding As Object = "padding:100px 1500px 300px 300px;",
                                       Optional unenrichColor As String = NameOf(Color.LightGray),
+                                      Optional themeColors As String = "Set1:c8",
                                       Optional ppi As Integer = 300,
                                       Optional env As Environment = Nothing) As Object
 
-        Dim KOmap = pathwayBrite.LoadFromResource.ToDictionary(Function(map) map.EntryId)
         Dim sizeStr As String = InteropArgumentHelper.getSize(size, env, "2700,2300")
         Dim isGeneric As Boolean = TypeOf profiles Is dataframe
         Dim rawP As stdVec
@@ -338,49 +338,21 @@ Module visualPlot
             Throw New NotImplementedException
         End If
 
-        Dim bubbleData As New Dictionary(Of String, List(Of BubbleTerm))
-        Dim enrichColors As New Dictionary(Of String, Color())
-
-        For i As Integer = 0 To pathwayList.Length - 1
-            Dim map As pathwayBrite = KOmap(pathwayList(i).Match("\d+"))
-
-            If Not bubbleData.ContainsKey(map.class) Then
-                bubbleData.Add(map.class, New List(Of BubbleTerm))
-            End If
-
-            bubbleData(map.class).Add(New BubbleTerm With {
-                .data = values(i),
-                .Factor = Impact(i),
-                .PValue = logP(i),
-                .termId = map.entry.text
-            })
-        Next
-
-        Dim colorSet As Color() = ColorPalette.GetColors("Set1:c8")
-        Dim keys As String() = bubbleData.Keys.ToArray
+        Dim bubbleData = BubbleTerm.CreateBubbles(logP, Impact, values, pathwayList)
+        Dim enrichColors = BubbleTerm.CreateEnrichColors(
+            bubbleData:=bubbleData,
+            theme:=themeColors,
+            unenrichColor:=unenrichColor
+        )
         Dim baseColor As Color = unenrichColor.TranslateColor
-        Dim middle As Color
-
-        For i As Integer = 0 To keys.Length - 1
-            middle = Color.FromArgb(
-                red:=(baseColor.R + colorSet(i).R) / 2,
-                green:=(baseColor.G + colorSet(i).G) / 2,
-                blue:=(baseColor.B + colorSet(i).B) / 2
-            )
-            enrichColors(keys(i)) = ColorPalette.CubicSpline({baseColor, middle, colorSet(i)}, 25)
-        Next
-
         Dim theme As New Theme With {
             .gridFill = "white",
             .padding = InteropArgumentHelper.getPadding(padding),
-            .legendLabelCSS = "font-style: normal; font-size: 14; font-family: " & FontFace.MicrosoftYaHei & ";"
+            .legendLabelCSS = "font-style: normal; font-size: 14; font-family: " & FontFace.MicrosoftYaHei & ";",
+            .colorSet = themeColors
         }
         Dim bubble As New CatalogBubblePlot(
-            data:=bubbleData _
-                .ToDictionary(Function(a) a.Key,
-                              Function(a)
-                                  Return a.Value.ToArray
-                              End Function),
+            data:=bubbleData,
             enrichColors:=enrichColors,
             showBubbleBorder:=False,
             displays:=5,

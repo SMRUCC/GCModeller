@@ -78,7 +78,12 @@ Namespace CatalogProfiling
 
             Dim y As Double = region.Top + 5
             Dim x As Double
-            Dim impacts = multiples.Select(Function(t) t.Value.Values).IteratesALL.IteratesALL.Select(Function(b) b.data).Range
+            Dim impacts As DoubleRange = multiples _
+                .Select(Function(t) t.Value.Values) _
+                .IteratesALL _
+                .IteratesALL _
+                .Select(Function(b) b.data) _
+                .Range
             Dim r As Double
 
             Call g.DrawRectangle(Stroke.TryParse(theme.axisStroke).GDIObject, region)
