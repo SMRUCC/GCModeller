@@ -29,6 +29,10 @@ Namespace CatalogProfiling
         Public Property data As Double
         Public Property termId As String
 
+        Public Overrides Function ToString() As String
+            Return $"{termId} [{PValue}, {Factor}, {data}]"
+        End Function
+
         Public Shared Function CreateBubbles(logP As stdVec,
                                              Impact As stdVec,
                                              values As stdVec,
