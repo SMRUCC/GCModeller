@@ -370,13 +370,7 @@ Module visualPlot
                 radius:=bubbleSize
             )
 
-            Try
-                Return bubbles.Plot(sizeStr, ppi:=ppi)
-            Catch ex As Exception
-                With sizeStr.SizeParser
-                    Return New Bitmap(.Width, .Height)
-                End With
-            End Try
+            Return bubbles.Plot(sizeStr, ppi:=ppi)
         Else
             Throw New NotImplementedException
         End If

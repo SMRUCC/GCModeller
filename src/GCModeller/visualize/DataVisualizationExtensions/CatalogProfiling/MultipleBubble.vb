@@ -96,9 +96,11 @@ Namespace CatalogProfiling
                 fontsize = g.MeasureString(catName, categoryFont)
                 x = canvas.Padding.Left
 
+                Call Console.WriteLine(catName)
                 Call g.DrawString(catName, categoryFont, Brushes.Black, New PointF(x, y))
 
                 Dim categoryData = multiples _
+                    .Where(Function(group) group.Value.ContainsKey(catName)) _
                     .Select(Function(group)
                                 Return New NamedValue(Of Dictionary(Of String, BubbleTerm)) With {
                                     .Name = group.Name,
