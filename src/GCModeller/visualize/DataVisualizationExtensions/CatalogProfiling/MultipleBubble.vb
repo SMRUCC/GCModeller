@@ -56,7 +56,7 @@ Namespace CatalogProfiling
                 .GroupBy(Function(i) i.i.termId) _
                 .Select(Function(t) (t, t.Select(Function(xi) xi.i.PValue).RSD(maxSize:=nsamples))) _
                 .GroupBy(Function(i) i.t.Key) _
-                .Select(Function(i) i.OrderByDescending(Function(a) a.RSD).Take(topN)) _
+                .Select(Function(i) i.OrderByDescending(Function(a) a.Item2).Take(topN)) _
                 .ToArray
 
             For Each sample In takes.IteratesALL.Select(Function(a) a.t).IteratesALL.GroupBy(Function(a) a.Name)
