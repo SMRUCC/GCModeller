@@ -143,7 +143,7 @@ Namespace CatalogProfiling
                 y += gap
             Next
 
-            Call drawColorLegends(pvalues, right:=region.Left + maxTag.Width * 1.125, g:=g, canvas:=canvas)
+            Call drawColorLegends(pvalues, right:=region.Right + maxTag.Width * 1.125, g:=g, canvas:=canvas)
         End Sub
 
         Private Sub drawColorLegends(pvalues As DoubleRange, right As Double, ByRef g As IGraphics, canvas As GraphicsRegion)
@@ -162,7 +162,7 @@ Namespace CatalogProfiling
             Dim layout As New Rectangle With {
                 .X = right,
                 .Width = canvas.Padding.Right * (2 / 3),
-                .Height = canvas.PlotRegion.Height * (2 / 3),
+                .Height = canvas.PlotRegion.Height / 3,
                 .Y = canvas.Padding.Top
             }
 

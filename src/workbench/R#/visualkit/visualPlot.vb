@@ -371,7 +371,7 @@ Module visualPlot
             Dim app As Plot
 
             If heatmap Then
-                app = New CatalogHeatMap(multiples, 30, theme)
+                app = New CatalogHeatMap(multiples, 100, theme)
             Else
                 app = New MultipleBubble(
                     multiples:=MultipleBubble.TopBubbles(multiples, displays),
