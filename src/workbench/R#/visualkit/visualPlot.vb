@@ -44,6 +44,7 @@
 #End Region
 
 Imports System.Drawing
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
@@ -79,9 +80,7 @@ Imports SMRUCC.Rsharp.Runtime.Internal.Invokes.LinqPipeline
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports any = Microsoft.VisualBasic.Scripting
-Imports ColorPalette = Microsoft.VisualBasic.Imaging.Drawing2D.Colors.Designer
 Imports Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
-Imports pathwayBrite = SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry.Pathway
 Imports REnv = SMRUCC.Rsharp.Runtime
 Imports stdNum = System.Math
 Imports stdVec = Microsoft.VisualBasic.Math.LinearAlgebra.Vector
@@ -304,19 +303,30 @@ Module visualPlot
     Public Function KEGGEnrichBubbles(<RRawVectorArgument> profiles As Object,
                                       <RRawVectorArgument>
                                       Optional size As Object = "3800,2600",
-                                      Optional padding As Object = "padding:100px 1500px 300px 300px;",
+                                      Optional padding As Object = "padding:300px 1000px 300px 200px;",
                                       Optional unenrichColor As String = NameOf(Color.LightGray),
+                                      Optional themeColors As String = "Set1:c8",
+                                      Optional alpha As Double = 0.75,
+                                      Optional displays As Integer = 5,
+                                      <RRawVectorArgument(GetType(Double))>
+                                      Optional bubbleRadius As Object = "12,64",
                                       Optional ppi As Integer = 300,
                                       Optional env As Environment = Nothing) As Object
 
-        Dim KOmap = pathwayBrite.LoadFromResource.ToDictionary(Function(map) map.EntryId)
+        Dim bubbleSize = SMRUCC.Rsharp.GetDoubleRange(bubbleRadius, env, [default]:="8,50")
         Dim sizeStr As String = InteropArgumentHelper.getSize(size, env, "2700,2300")
         Dim isGeneric As Boolean = TypeOf profiles Is dataframe
-        Dim rawP As stdVec
-        Dim logP As stdVec
-        Dim Impact As stdVec
-        Dim values As stdVec
-        Dim pathwayList As String()
+        Dim theme As New Theme With {
+            .gridFill = "white",
+            .padding = padding,
+            .legendLabelCSS = "font-style: normal; font-size: 12; font-family: " & FontFace.MicrosoftYaHei & ";",
+            .axisLabelCSS = "font-style: normal; font-size: 16; font-family: " & FontFace.MicrosoftYaHei & ";",
+            .colorSet = themeColors
+        }
+
+        If bubbleSize Like GetType(Message) Then
+            Return bubbleSize.TryCast(Of Message)
+        End If
 
         If isGeneric Then
             Dim enrichment As dataframe = DirectCast(profiles, dataframe)
@@ -327,67 +337,91 @@ Module visualPlot
                 End With
             End If
 
-            rawP = enrichment.getVector(Of Double)("Raw p").AsVector
-            ' Y
-            logP = -rawP.Log(base:=10)
-            ' X
-            Impact = enrichment.getVector(Of Double)("Impact")
-            values = enrichment.getVector(Of Double)("Hits")
-            pathwayList = enrichment.getVector(Of String)("pathway")
+            Return enrichment.plotSingle(
+                sizeStr:=sizeStr,
+                theme:=theme,
+                unenrichColor:=unenrichColor,
+                padding:=InteropArgumentHelper.getPadding(padding),
+                ppi:=ppi,
+                bubbleRadius:=bubbleSize,
+                displays:=displays
+            )
+        ElseIf TypeOf profiles Is list Then
+            ' multiple groups
+            Dim multiples As New List(Of NamedValue(Of Dictionary(Of String, BubbleTerm())))
+            Dim rawList = DirectCast(profiles, list)
+
+            For Each name As String In rawList.getNames
+                profiles = rawList.getValue(Of dataframe)(name, env, [default]:=Nothing)
+
+                If Not profiles Is Nothing Then
+                    Dim bubbleData As Dictionary(Of String, BubbleTerm()) = DirectCast(profiles, dataframe).toBubbles
+                    Dim data As New NamedValue(Of Dictionary(Of String, BubbleTerm())) With {
+                       .Name = name,
+                       .Value = bubbleData
+                    }
+
+                    Call multiples.Add(data)
+                End If
+            Next
+
+            Dim bubbles As New MultipleBubble(
+                multiples:=MultipleBubble.TopBubbles(multiples, displays),
+                theme:=theme,
+                radius:=bubbleSize,
+                alpha:=alpha
+            ) With {
+                .legendTitle = "Samples",
+                .main = "KEGG Enrichments",
+                .xlabel = "-log10(pvalue) * Pathway Impacts"
+            }
+
+            Return bubbles.Plot(sizeStr, ppi:=ppi)
         Else
             Throw New NotImplementedException
         End If
+    End Function
 
-        Dim bubbleData As New Dictionary(Of String, List(Of BubbleTerm))
-        Dim enrichColors As New Dictionary(Of String, Color())
+    <Extension>
+    Private Function toBubbles(enrichment As dataframe) As Dictionary(Of String, BubbleTerm())
+        Dim rawP As stdVec = enrichment.getVector(Of Double)("Raw p").AsVector
+        ' Y
+        Dim logP As stdVec = -rawP.Log(base:=10)
+        ' X
+        Dim Impact As stdVec = enrichment.getVector(Of Double)("Impact")
+        Dim values As stdVec = enrichment.getVector(Of Double)("Hits")
+        Dim pathwayList As String() = enrichment.getVector(Of String)("pathway")
+        Dim bubbleData As Dictionary(Of String, BubbleTerm()) = BubbleTerm.CreateBubbles(logP, Impact, values, pathwayList)
 
-        For i As Integer = 0 To pathwayList.Length - 1
-            Dim map As pathwayBrite = KOmap(pathwayList(i).Match("\d+"))
+        Return bubbleData
+    End Function
 
-            If Not bubbleData.ContainsKey(map.class) Then
-                bubbleData.Add(map.class, New List(Of BubbleTerm))
-            End If
+    <Extension>
+    Private Function plotSingle(enrichment As dataframe,
+                                sizeStr As String,
+                                theme As Theme,
+                                unenrichColor As String,
+                                padding As String,
+                                ppi As Integer,
+                                displays As Integer,
+                                bubbleRadius As DoubleRange) As Object
 
-            bubbleData(map.class).Add(New BubbleTerm With {
-                .data = values(i),
-                .Factor = Impact(i),
-                .PValue = logP(i),
-                .termId = map.entry.text
-            })
-        Next
-
-        Dim colorSet As Color() = ColorPalette.GetColors("Set1:c8")
-        Dim keys As String() = bubbleData.Keys.ToArray
+        Dim bubbleData As Dictionary(Of String, BubbleTerm()) = enrichment.toBubbles
+        Dim enrichColors = BubbleTerm.CreateEnrichColors(
+            bubbleData:=bubbleData,
+            theme:=theme.colorSet,
+            unenrichColor:=unenrichColor
+        )
         Dim baseColor As Color = unenrichColor.TranslateColor
-        Dim middle As Color
-
-        For i As Integer = 0 To keys.Length - 1
-            middle = Color.FromArgb(
-                red:=(baseColor.R + colorSet(i).R) / 2,
-                green:=(baseColor.G + colorSet(i).G) / 2,
-                blue:=(baseColor.B + colorSet(i).B) / 2
-            )
-            enrichColors(keys(i)) = ColorPalette.CubicSpline({baseColor, middle, colorSet(i)}, 25)
-        Next
-
-        Dim theme As New Theme With {
-            .gridFill = "white",
-            .padding = InteropArgumentHelper.getPadding(padding),
-            .legendLabelCSS = "font-style: normal; font-size: 14; font-family: " & FontFace.MicrosoftYaHei & ";"
-        }
         Dim bubble As New CatalogBubblePlot(
-            data:=bubbleData _
-                .ToDictionary(Function(a) a.Key,
-                              Function(a)
-                                  Return a.Value.ToArray
-                              End Function),
+            data:=bubbleData,
             enrichColors:=enrichColors,
             showBubbleBorder:=False,
-            displays:=5,
+            displays:=displays,
             pvalue:=-stdNum.Log10(0.05),
             unenrich:=baseColor,
             theme:=theme,
-            bubbleSize:={8, 50}
+            bubbleSize:=bubbleRadius
         ) With {
             .xlabel = "Topology Impact",
             .ylabel = "-log10(p-value)"
