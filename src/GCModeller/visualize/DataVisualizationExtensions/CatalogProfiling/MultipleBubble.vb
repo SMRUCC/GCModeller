@@ -49,19 +49,23 @@ Namespace CatalogProfiling
             Dim nsamples As Double = all.Length
             Dim takes = all _
                 .Select(Function(d)
-                            Return d.Value.Select(Function(b) b.Value.Select(Function(i) (i, b.Key, d.Name)))
+                            Return d.Value.Select(Function(b) b.Value.Select(Function(i) (i, category:=b.Key, sampleName:=d.Name)))
                         End Function) _
                 .IteratesALL _
-                .IteratesALL _
+                .IteratesALL  _
                 .GroupBy(Function(i) i.i.termId) _
-                .Select(Function(t) (t, t.Select(Function(xi) xi.i.PValue).RSD(maxSize:=nsamples))) _
+                .Select(Function(t)
+                           Return (t, rsd:=t.Select(Function(xi) xi.i.PValue).RSD(maxSize:=nsamples))
+                        End Function) _
                 .GroupBy(Function(i) i.t.Key) _
-                .Select(Function(i) i.OrderByDescending(Function(a) a.Item2).Take(topN)) _
+                .Select(Function(i)
+                            Return i.OrderByDescending(Function(a) a.rsd).Take(topN).ToArray
+                        End Function) _
                 .ToArray
 
-            For Each sample In takes.IteratesALL.Select(Function(a) a.t).IteratesALL.GroupBy(Function(a) a.Name)
+            For Each sample In takes.IteratesALL.Select(Function(a) a.t).IteratesALL.GroupBy(Function(a) a.sampleName)
                 Dim cats = sample _
-                    .GroupBy(Function(a) a.Key) _
+                    .GroupBy(Function(a) a.category) _
                     .ToDictionary(Function(a) a.Key,
                                   Function(a)
                                       Return a.Select(Function(i) i.i).ToArray
