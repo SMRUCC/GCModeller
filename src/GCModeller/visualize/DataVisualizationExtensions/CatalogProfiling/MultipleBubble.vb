@@ -88,7 +88,9 @@ Namespace CatalogProfiling
                 .IteratesALL _
                 .GroupBy(Function(a)
                              Return a.sampleName
-                         End Function)
+                         End Function) _
+                .OrderByDescending(Function(d) d.Count) _
+                .Take(12)
 
                 Dim cats = sample _
                     .GroupBy(Function(a) a.category) _
@@ -138,7 +140,7 @@ Namespace CatalogProfiling
         End Sub
 
         Private Function getSampleColors() As Dictionary(Of String, SolidBrush)
-            Dim colors As Color() = Designer.GetColors("paper")
+            Dim colors As Color() = Designer.GetColors("paper", n:=multiples.Length)
             Dim list As New Dictionary(Of String, SolidBrush)
 
             For Each sample In multiples.SeqIterator
