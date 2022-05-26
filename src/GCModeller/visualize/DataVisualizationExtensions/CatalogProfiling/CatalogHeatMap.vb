@@ -46,6 +46,12 @@ Namespace CatalogProfiling
                 .IteratesALL _
                 .Select(Function(b) b.PValue) _
                 .Range
+            Dim impacts As DoubleRange = multiples _
+                .Select(Function(v) v.Value.Values) _
+                .IteratesALL _
+                .IteratesALL _
+                .Select(Function(p) p.data) _
+                .Range
             Dim viz As IGraphics = g
             Dim maxTag As SizeF = pathways.Values _
                 .IteratesALL _
@@ -64,11 +70,12 @@ Namespace CatalogProfiling
             Dim gap As Double = 50
             Dim dh As Double = (region.Height - gap * (pathways.Count - 1)) / (pathways.Values.IteratesALL.Count)
             Dim dw As Double = region.Width / multiples.Length
+            Dim sizeRange As DoubleRange = New Double() {0, dw}
             Dim colors As SolidBrush() = Designer _
                 .GetColors(theme.colorSet, mapLevels) _
                 .Select(Function(c) New SolidBrush(c)) _
                 .ToArray
-
+            Dim indexRange As DoubleRange = New Double() {0, mapLevels - 1}
             Dim y As Double = region.Top
             Dim x As Double
 
@@ -85,6 +92,8 @@ Namespace CatalogProfiling
 
                 Call g.DrawString(catName, categoryFont, Brushes.Black, New PointF(region.Right, y))
 
+                Dim top As Double = y
+
                 y += dh
 
                 For Each id As String In pathIds
@@ -93,15 +102,29 @@ Namespace CatalogProfiling
                     For Each sample In samples
                         If sample.Value.ContainsKey(id) Then
                             Dim bubble As BubbleTerm = sample.Value(id)
+                            Dim index As Integer = pvalues.ScaleMapping(bubble.PValue, indexRange)
+                            Dim paint As Brush = colors(index)
+                            Dim size As Double = impacts.ScaleMapping(bubble.data, sizeRange)
+                            Dim cell As New RectangleF With {
+                                .X = x,
+                                .Y = y,
+                                .Width = dw,
+                                .Height = dw
+                            }
 
+                            Call g.FillRectangle(paint, cell)
                         End If
 
                         x += dw
                     Next
+
+                    Call g.DrawString(id, pathwayNameFont, Brushes.Black, New PointF(x, y))
                 Next
+
+                Call g.DrawRectangle(Stroke.TryParse(theme.axisStroke).GDIObject, New Rectangle(region.Left, top, region.Width, y - top))
+
+                y += gap
             Next
-
-
         End Sub
     End Class
 End Namespace
