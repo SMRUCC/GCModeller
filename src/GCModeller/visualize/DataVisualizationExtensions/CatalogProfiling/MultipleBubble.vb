@@ -46,6 +46,7 @@ Namespace CatalogProfiling
                .IteratesALL _
                .Distinct _
                .ToArray
+            Dim nsamples As Double = all.Length
             Dim takes = all _
                 .Select(Function(d)
                             Return d.Value.Select(Function(b) b.Value.Select(Function(i) (i, b.Key, d.Name)))
@@ -53,7 +54,7 @@ Namespace CatalogProfiling
                 .IteratesALL _
                 .IteratesALL _
                 .GroupBy(Function(i) i.i.termId) _
-                .Select(Function(t) (t, t.Select(Function(xi) xi.i.PValue).RSD)) _
+                .Select(Function(t) (t, t.Select(Function(xi) xi.i.PValue).RSD(maxSize:=nsamples))) _
                 .GroupBy(Function(i) i.t.Key) _
                 .Select(Function(i) i.OrderByDescending(Function(a) a.RSD).Take(topN)) _
                 .ToArray
