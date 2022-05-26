@@ -1,24 +1,33 @@
 ﻿
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
-Imports SMRUCC.genomics.Analysis.HTS.DataFrame
-Imports SMRUCC.genomics.ComponentModel.Annotation
 
 Namespace CatalogProfiling
 
+    ''' <summary>
+    ''' heatmap data of the KEGG enrichment between 
+    ''' multiple groups data:
+    ''' 
+    ''' 1. x axis is the sample id
+    ''' 2. y axis is the pathway name and category data
+    ''' 3. cell size is the impact value or enrich factor
+    ''' 4. cell color is scaled via -log10(pvalue)
+    ''' </summary>
     Public Class CatalogHeatMap : Inherits Plot
 
-        ReadOnly profile As CatalogProfiles
-        ReadOnly matrix As Matrix
+        ''' <summary>
+        ''' the multiple groups data
+        ''' </summary>
+        ReadOnly multiples As NamedValue(Of Dictionary(Of String, BubbleTerm()))()
         ReadOnly mapLevels As Integer
 
-        Public Sub New(profile As CatalogProfiles, matrix As Matrix, mapLevels As Integer, theme As Theme)
-            MyBase.New(theme)
+        Public Sub New(profile As IEnumerable(Of NamedValue(Of Dictionary(Of String, BubbleTerm()))), mapLevels As Integer, theme As Theme)
+            Call MyBase.New(theme)
 
-            Me.profile = profile
-            Me.matrix = matrix
+            Me.multiples = profile.ToArray
             Me.mapLevels = mapLevels
         End Sub
 
@@ -28,7 +37,7 @@ Namespace CatalogProfiling
         ''' <param name="g"></param>
         ''' <param name="canvas"></param>
         Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
-            Throw New NotImplementedException()
+
         End Sub
     End Class
 End Namespace

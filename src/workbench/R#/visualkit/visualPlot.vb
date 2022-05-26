@@ -49,6 +49,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
+Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
 Imports Microsoft.VisualBasic.Data.visualize.KMeans
 Imports Microsoft.VisualBasic.DataMining.KMeans
@@ -310,6 +311,7 @@ Module visualPlot
                                       Optional displays As Integer = 5,
                                       <RRawVectorArgument(GetType(Double))>
                                       Optional bubbleRadius As Object = "12,64",
+                                      Optional heatmap As Boolean = False,
                                       Optional ppi As Integer = 300,
                                       Optional env As Environment = Nothing) As Object
 
@@ -365,18 +367,24 @@ Module visualPlot
                 End If
             Next
 
-            Dim bubbles As New MultipleBubble(
-                multiples:=MultipleBubble.TopBubbles(multiples, displays),
-                theme:=theme,
-                radius:=bubbleSize,
-                alpha:=alpha
-            ) With {
-                .legendTitle = "Samples",
-                .main = "KEGG Enrichments",
-                .xlabel = "-log10(pvalue) * Pathway Impacts"
-            }
+            Dim app As Plot
 
-            Return bubbles.Plot(sizeStr, ppi:=ppi)
+            If heatmap Then
+                app = New CatalogHeatMap(multiples, 30, theme)
+            Else
+                app = New MultipleBubble(
+                    multiples:=MultipleBubble.TopBubbles(multiples, displays),
+                    theme:=theme,
+                    radius:=bubbleSize,
+                    alpha:=alpha
+                ) With {
+                    .legendTitle = "Samples",
+                    .main = "KEGG Enrichments",
+                    .xlabel = "-log10(pvalue) * Pathway Impacts"
+                }
+            End If
+
+            Return app.Plot(sizeStr, ppi:=ppi)
         Else
             Throw New NotImplementedException
         End If
@@ -510,16 +518,6 @@ Module visualPlot
             colorSchema:=colors,
             dpi:=dpi
         )
-    End Function
-
-    <ExportAPI("category_profiles.heatmap")>
-    Public Function CatalogHeatMapPlot(profile As CatalogProfiles, matrix As Matrix,
-                                       Optional mapLevels As Integer = 64,
-                                       Optional env As Environment = Nothing) As Object
-        Dim theme As New Theme
-        Dim app As New CatalogHeatMap(profile, matrix, mapLevels, theme)
-
-        Return app.Plot
     End Function
 
     <ExportAPI("sample.color_bend")>
