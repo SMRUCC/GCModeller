@@ -64,11 +64,16 @@ Namespace CatalogProfiling
                         End Function) _
                 .IteratesALL _
                 .IteratesALL _
+                .Where(Function(d)
+                           Dim i = d.i
+                           Return Not (i.data.IsNaNImaginary OrElse i.Factor.IsNaNImaginary OrElse i.PValue.IsNaNImaginary)
+                       End Function) _
                 .GroupBy(Function(i) i.i.termId) _
                 .Select(Function(t)
                             Dim category As String = t.First.category
                             Dim rsd As Double = t _
-                                .Select(Function(xi) xi.i.PValue * xi.i.Factor).JoinIterates(0.0.Repeats(nsamples - t.Count).Select(Function(any) randf.NextDouble * 99999)) _
+                                .Select(Function(xi) xi.i.PValue * xi.i.Factor) _
+                                .JoinIterates(0.0.Repeats(nsamples - t.Count).Select(Function(any) randf.NextDouble * 99999)) _
                                 .RSD()
 
                             Return (t, Category, rsd)
@@ -151,12 +156,14 @@ Namespace CatalogProfiling
         End Function
 
         Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
-            Dim pvalueTicks As Double() = multiples _
+            Dim allScores As Double() = multiples _
                 .Select(Function(t) t.Value.Values) _
                 .IteratesALL _
                 .IteratesALL _
                 .Select(Function(b) b.PValue * b.data) _
-                .CreateAxisTicks
+                .OrderBy(Function(xi) xi) _
+                .ToArray
+            Dim pvalueTicks As Double() = allScores.CreateAxisTicks
             Dim categories As String() = multiples _
                 .Select(Function(t) t.Value.Keys) _
                 .IteratesALL _
