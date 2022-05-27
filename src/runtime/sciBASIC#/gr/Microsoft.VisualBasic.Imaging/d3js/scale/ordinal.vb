@@ -100,24 +100,12 @@ Namespace d3js.scale
                 End If
 
                 If Not index.NotExists(term) Then
-                    Dim i As Integer = index(term) + 1
+                    Dim i As Integer = index(term)
                     Dim val As Double = positions(i)
 
                     Return val
                 Else
-                    'For Each factor In factors.SeqIterator
-                    '    With factor.value
-                    '        If term < .FactorValue Then
-                    '            If factor.i = 0 Then
-                    '                Return .Value
-                    '            End If
-                    '            Return (factors(factor.i - 1).Value + .Value) / 2
-                    '        End If
-                    '    End With
-                    'Next
-
-                    'Return factors.Last.Value
-                    Throw New NotImplementedException
+                    Throw New MissingMemberException($"missing ordinal mapping: {term}!")
                 End If
             End Get
         End Property
