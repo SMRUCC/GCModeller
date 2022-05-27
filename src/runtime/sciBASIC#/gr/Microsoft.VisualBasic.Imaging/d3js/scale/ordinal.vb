@@ -55,7 +55,6 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Math.Scripting
 
 Namespace d3js.scale
 
@@ -120,6 +119,12 @@ Namespace d3js.scale
                     'Return factors.Last.Value
                     Throw New NotImplementedException
                 End If
+            End Get
+        End Property
+
+        Public Overrides ReadOnly Property type As scalers
+            Get
+                Return scalers.ordinal
             End Get
         End Property
 

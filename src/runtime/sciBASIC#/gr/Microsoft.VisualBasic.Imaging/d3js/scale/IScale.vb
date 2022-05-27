@@ -107,6 +107,8 @@ Namespace d3js.scale
 
     Public MustInherit Class IScale(Of T As IScale(Of T)) : Inherits Scaler
 
+        Public MustOverride ReadOnly Property type As scalers
+
         Public MustOverride Function domain(values As IEnumerable(Of Double)) As T
         Public MustOverride Function domain(values As IEnumerable(Of String)) As T
         Public MustOverride Function domain(values As IEnumerable(Of Integer)) As T
