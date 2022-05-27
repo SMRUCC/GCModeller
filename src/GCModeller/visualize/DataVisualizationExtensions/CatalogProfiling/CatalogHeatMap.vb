@@ -3,7 +3,6 @@ Imports System.Drawing
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
 Imports Microsoft.VisualBasic.Imaging
@@ -24,15 +23,10 @@ Namespace CatalogProfiling
     ''' 3. cell size is the impact value or enrich factor
     ''' 4. cell color is scaled via -log10(pvalue)
     ''' </summary>
-    Public Class CatalogHeatMap : Inherits MultipleCategoryProfiles
-
-        ReadOnly mapLevels As Integer
-        ReadOnly colorMissing As String = NameOf(Color.Black)
+    Public Class CatalogHeatMap : Inherits MultipleCatalogHeatmap
 
         Public Sub New(profile As IEnumerable(Of NamedValue(Of Dictionary(Of String, BubbleTerm()))), mapLevels As Integer, theme As Theme)
-            Call MyBase.New(profile, theme)
-
-            Me.mapLevels = mapLevels
+            Call MyBase.New(profile, mapLevels, "black", theme)
         End Sub
 
         ''' <summary>
@@ -162,29 +156,6 @@ Namespace CatalogProfiling
                 g:=g,
                 canvas:=canvas
             )
-        End Sub
-
-        Private Sub drawColorLegends(pvalues As DoubleRange, right As Double, ByRef g As IGraphics, canvas As GraphicsRegion)
-            Dim maps As New ColorMapLegend(palette:=theme.colorSet, mapLevels) With {
-                .format = "F2",
-                .noblank = False,
-                .tickAxisStroke = Stroke.TryParse(theme.legendTickAxisStroke).GDIObject,
-                .tickFont = CSSFont.TryParse(theme.legendTickCSS).GDIObject(g.Dpi),
-                .ticks = pvalues.CreateAxisTicks,
-                .title = "-log10(pvalue)",
-                .titleFont = CSSFont.TryParse(theme.legendTitleCSS).GDIObject(g.Dpi),
-                .unmapColor = colorMissing,
-                .ruleOffset = 5,
-                .legendOffsetLeft = 5
-            }
-            Dim layout As New Rectangle With {
-                .X = right,
-                .Width = canvas.Padding.Right * (2 / 3),
-                .Height = canvas.PlotRegion.Height / 3,
-                .Y = canvas.Padding.Top
-            }
-
-            Call maps.Draw(g, layout)
         End Sub
     End Class
 End Namespace

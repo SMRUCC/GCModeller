@@ -18,6 +18,47 @@ Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
 Namespace CatalogProfiling
 
+    Public MustInherit Class MultipleCatalogHeatmap : Inherits MultipleCategoryProfiles
+
+        Protected ReadOnly mapLevels As Integer
+        Protected ReadOnly colorMissing As String
+
+        Protected Sub New(multiples As IEnumerable(Of NamedValue(Of Dictionary(Of String, BubbleTerm()))),
+                          mapLevels As Integer,
+                          colorMissing As String,
+                          theme As Theme
+            )
+
+            Call MyBase.New(multiples, theme)
+
+            Me.mapLevels = mapLevels
+            Me.colorMissing = colorMissing
+        End Sub
+
+        Protected Sub drawColorLegends(pvalues As DoubleRange, right As Double, ByRef g As IGraphics, canvas As GraphicsRegion)
+            Dim maps As New ColorMapLegend(palette:=theme.colorSet, mapLevels) With {
+                .format = "F2",
+                .noblank = False,
+                .tickAxisStroke = Stroke.TryParse(theme.legendTickAxisStroke).GDIObject,
+                .tickFont = CSSFont.TryParse(theme.legendTickCSS).GDIObject(g.Dpi),
+                .ticks = pvalues.CreateAxisTicks,
+                .title = "-log10(pvalue)",
+                .titleFont = CSSFont.TryParse(theme.legendTitleCSS).GDIObject(g.Dpi),
+                .unmapColor = colorMissing,
+                .ruleOffset = 5,
+                .legendOffsetLeft = 5
+            }
+            Dim layout As New Rectangle With {
+                .X = right,
+                .Width = canvas.Padding.Right * (2 / 3),
+                .Height = canvas.PlotRegion.Height / 3,
+                .Y = canvas.Padding.Top
+            }
+
+            Call maps.Draw(g, layout)
+        End Sub
+    End Class
+
     Public MustInherit Class MultipleCategoryProfiles : Inherits Plot
 
         ''' <summary>
