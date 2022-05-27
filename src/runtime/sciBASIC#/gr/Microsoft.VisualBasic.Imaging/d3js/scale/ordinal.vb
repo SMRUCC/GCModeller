@@ -152,7 +152,7 @@ Namespace d3js.scale
             'index = factors _
             '    .Select(Function(x) x.FactorValue) _
             '    .Indexing
-            index = values.Indexing
+            index = values.Distinct.Indexing
 
             Return Me
         End Function
