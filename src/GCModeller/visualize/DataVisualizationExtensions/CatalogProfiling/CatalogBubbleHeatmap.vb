@@ -98,6 +98,7 @@ Namespace CatalogProfiling
                 x = region.Left + dx / 2
 
                 Call g.DrawLine(gridStroke, New PointF(region.Left, y), New PointF(region.Right, y))
+                Call g.DrawLine(Stroke.TryParse(theme.axisStroke).GDIObject, New PointF(region.Left, y), New PointF(region.Left - pad.Width / 2, y))
 
                 For Each sample In matrix
                     Dim bubble As BubbleTerm = sample.Value.TryGetValue(pid)
