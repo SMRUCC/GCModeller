@@ -148,6 +148,11 @@ Namespace Graphic.Axis
             Return Me.X(x)
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function TranslateX(x As String) As Double
+            Return Me.X(x)
+        End Function
+
         Public Function TranslateWidth(x1 As Double, x2 As Double) As Double
             x1 = TranslateX(x1)
             x2 = TranslateX(x2)
