@@ -5,6 +5,7 @@ Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Text
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports stdNum = System.Math
@@ -43,6 +44,7 @@ Namespace CatalogProfiling
             Dim pathways As String() = getPathways().Values.IteratesALL.Distinct.ToArray
             Dim pathwayNameFont As Font = CSSFont.TryParse(theme.axisTickCSS).GDIObject(g.Dpi)
             Dim pad = g.MeasureString("A", pathwayNameFont)
+            Dim labelSize As SizeF
             Dim pvalues As DoubleRange = multiples _
                 .Select(Function(v) v.Value.Values) _
                 .IteratesALL _
@@ -101,17 +103,31 @@ Namespace CatalogProfiling
                     x += dx
                 Next
 
-                x = region.Right + pad.Width
+                labelSize = g.MeasureString(pid, pathwayNameFont)
+                x = region.Left - labelSize.Width - dx / 2
                 g.DrawString(pid, pathwayNameFont, Brushes.Black, New PointF(x, y + (dy - pad.Height) / 2))
 
                 y += dy
             Next
 
+            ' draw sample labels
+            x = region.Left + dx / 2
+            y -= dy
+
+            Dim text As New GraphicsText(DirectCast(g, Graphics2D).Graphics)
+
+            For Each sample In multiples
+                text.DrawString(sample.Name, pathwayNameFont, Brushes.Black, New PointF(x, y), angle:=45)
+                x += dx
+            Next
+
+            Call MultipleBubble.drawRadiusLegend(g, impacts, cellRange, canvas, theme)
             Call drawColorLegends(
                 pvalues:=pvalues,
-                right:=region.Right + maxTag.Width * 1.125,
+                right:=region.Right + pad.Width * 1.125,
                 g:=g,
-                canvas:=canvas
+                canvas:=canvas,
+                y:=region.Top + region.Height / 3
             )
         End Sub
     End Class

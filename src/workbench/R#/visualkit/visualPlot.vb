@@ -312,6 +312,7 @@ Module visualPlot
                                       <RRawVectorArgument(GetType(Double))>
                                       Optional bubbleRadius As Object = "12,64",
                                       Optional heatmap As Boolean = False,
+                                      Optional bubbleStyle As Boolean = False,
                                       Optional ppi As Integer = 300,
                                       Optional env As Environment = Nothing) As Object
 
@@ -371,10 +372,14 @@ Module visualPlot
             Dim app As Plot
 
             If heatmap Then
-                app = New CatalogHeatMap(multiples, 100, theme)
+                If bubbleStyle Then
+                    app = New CatalogBubbleHeatmap(MultipleBubble.TopBubbles(multiples, displays, Function(b) b.data), mapLevels:=100, bubbleSize, theme)
+                Else
+                    app = New CatalogHeatMap(multiples, 100, theme)
+                End If
             Else
                 app = New MultipleBubble(
-                    multiples:=MultipleBubble.TopBubbles(multiples, displays),
+                    multiples:=MultipleBubble.TopBubbles(multiples, displays, Function(b) b.PValue * b.Factor),
                     theme:=theme,
                     radius:=bubbleSize,
                     alpha:=alpha

@@ -32,7 +32,7 @@ Namespace CatalogProfiling
             Me.colorMissing = colorMissing
         End Sub
 
-        Protected Sub drawColorLegends(pvalues As DoubleRange, right As Double, ByRef g As IGraphics, canvas As GraphicsRegion)
+        Protected Sub drawColorLegends(pvalues As DoubleRange, right As Double, ByRef g As IGraphics, canvas As GraphicsRegion, Optional y As Double = Double.NaN)
             Dim maps As New ColorMapLegend(palette:=theme.colorSet, mapLevels) With {
                 .format = "F2",
                 .noblank = False,
@@ -49,7 +49,7 @@ Namespace CatalogProfiling
                 .X = right,
                 .Width = canvas.Padding.Right * (2 / 3),
                 .Height = canvas.PlotRegion.Height / 3,
-                .Y = canvas.Padding.Top
+                .Y = If(y.IsNaNImaginary, canvas.Padding.Top, y)
             }
 
             Call maps.Draw(g, layout)
@@ -92,7 +92,9 @@ Namespace CatalogProfiling
                               End Function)
         End Function
 
-        Public Shared Iterator Function TopBubbles(multiples As IEnumerable(Of NamedValue(Of Dictionary(Of String, BubbleTerm()))), topN As Integer) As IEnumerable(Of NamedValue(Of Dictionary(Of String, BubbleTerm())))
+        Public Shared Iterator Function TopBubbles(multiples As IEnumerable(Of NamedValue(Of Dictionary(Of String, BubbleTerm()))), 
+                                                   topN As Integer, 
+                                                   eval As Func(Of BubbleTerm, Double)) As IEnumerable(Of NamedValue(Of Dictionary(Of String, BubbleTerm())))
             Dim all = multiples.ToArray
             Dim categories As String() = all _
                .Select(Function(t) t.Value.Keys) _
@@ -120,7 +122,7 @@ Namespace CatalogProfiling
                 .Select(Function(t)
                             Dim category As String = t.First.category
                             Dim rsd As Double = t _
-                                .Select(Function(xi) xi.i.PValue * xi.i.Factor) _
+                                .Select(Function(xi) eval(xi.i)) _
                                 .JoinIterates(0.0.Repeats(nsamples - t.Count).Select(Function(any) randf.NextDouble * 99999)) _
                                 .RSD()
 
