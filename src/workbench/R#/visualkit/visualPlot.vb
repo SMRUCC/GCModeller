@@ -373,7 +373,9 @@ Module visualPlot
 
             If heatmap Then
                 If bubbleStyle Then
-                    app = New CatalogBubbleHeatmap(MultipleBubble.TopBubbles(multiples, displays, Function(b) b.data), mapLevels:=100, bubbleSize, theme)
+                    app = New CatalogBubbleHeatmap(MultipleBubble.TopBubbles(multiples, displays, Function(b) b.data), mapLevels:=100, bubbleSize, theme) With {
+                        .main = "Pathway enrichment analysis"
+                    }
                 Else
                     app = New CatalogHeatMap(multiples, 100, theme)
                 End If

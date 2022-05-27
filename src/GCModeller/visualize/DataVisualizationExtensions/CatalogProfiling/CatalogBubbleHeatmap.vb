@@ -83,12 +83,21 @@ Namespace CatalogProfiling
                 .Height = stdNum.Min(dx, dy)
             }
             Dim x, y As Double
+            Dim gridStroke As Pen = Stroke.TryParse(theme.gridStrokeX).GDIObject
 
+            x = region.Left + dx / 2
             y = region.Top + dy / 2
             g.DrawRectangle(Stroke.TryParse(theme.axisStroke).GDIObject, region)
 
+            For Each sample In multiples
+                Call g.DrawLine(gridStroke, New PointF(x, region.Top), New PointF(x, region.Bottom))
+                x += dx
+            Next
+
             For Each pid As String In pathways
                 x = region.Left + dx / 2
+
+                Call g.DrawLine(gridStroke, New PointF(region.Left, y), New PointF(region.Right, y))
 
                 For Each sample In matrix
                     Dim bubble As BubbleTerm = sample.Value.TryGetValue(pid)
@@ -105,14 +114,14 @@ Namespace CatalogProfiling
 
                 labelSize = g.MeasureString(pid, pathwayNameFont)
                 x = region.Left - labelSize.Width - dx / 2
-                g.DrawString(pid, pathwayNameFont, Brushes.Black, New PointF(x, y + (dy - pad.Height) / 2))
+                g.DrawString(pid, pathwayNameFont, Brushes.Black, New PointF(x, y - dy / 2 + (dy - pad.Height) / 2))
 
                 y += dy
             Next
 
             ' draw sample labels
             x = region.Left + dx / 2
-            y -= dy
+            y -= dy / 3
 
             Dim text As New GraphicsText(DirectCast(g, Graphics2D).Graphics)
 
@@ -121,6 +130,7 @@ Namespace CatalogProfiling
                 x += dx
             Next
 
+            Call DrawMainTitle(g, region)
             Call MultipleBubble.drawRadiusLegend(g, impacts, cellRange, canvas, theme)
             Call drawColorLegends(
                 pvalues:=pvalues,
