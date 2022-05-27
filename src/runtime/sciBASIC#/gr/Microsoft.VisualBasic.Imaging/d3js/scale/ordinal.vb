@@ -100,7 +100,7 @@ Namespace d3js.scale
                 End If
 
                 If Not index.NotExists(term) Then
-                    Dim i As Integer = index(term)
+                    Dim i As Integer = index(term) + 1
                     Dim val As Double = positions(i)
 
                     Return val
