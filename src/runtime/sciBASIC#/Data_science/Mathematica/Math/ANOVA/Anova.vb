@@ -1,7 +1,7 @@
 ﻿Imports Microsoft.VisualBasic.Math.Statistics.Distributions.LinearMoments
 Imports stdNum = System.Math
 
-Public Class Anova
+Public Class AnovaTest
 
     Public SSB As Double
     Public SSW As Double
@@ -23,6 +23,10 @@ Public Class Anova
 
     Dim m_type As String = "this will be a constant to chose 1 or 5 %"
 
+    ''' <summary>
+    ''' numenator_degrees_of_freedom(Groups degrees of freedom)
+    ''' </summary>
+    ''' <returns></returns>
     Public Overridable ReadOnly Property numenator As Integer
         Get
             ' return groups.size() -1...
@@ -31,6 +35,10 @@ Public Class Anova
         End Get
     End Property
 
+    ''' <summary>
+    ''' denomenator_degrees_of_freedom(Observations degrees of freedom)
+    ''' </summary>
+    ''' <returns></returns>
     Public Overridable ReadOnly Property denomenator As Integer
         Get
             ' return number of all observations - groups.size()... 
@@ -39,23 +47,28 @@ Public Class Anova
         End Get
     End Property
 
+    ''' <summary>
+    ''' return whether this is a 1% or a 5% test
+    ''' </summary>
+    ''' <returns></returns>
     Public Overridable ReadOnly Property type As String
         Get
-            ' return whether this is a 1% or a 5% test
             Return m_type
         End Get
     End Property
 
     Public Overridable ReadOnly Property criticalNumber As Double
         Get
-            Dim table As New DistributionTable()
-            Dim critical = table.getCriticalNumber(denomenator, numenator, type)
-
+            Dim critical = DistributionTable.getCriticalNumber(denomenator, numenator, type)
             Return critical
         End Get
     End Property
 
-    Public Overridable Function fScore_determineIt_step7() As Double
+    ''' <summary>
+    ''' step7
+    ''' </summary>
+    ''' <returns></returns>
+    Public Overridable Function fScore_determineIt() As Double
         F_score = SSB / SSW
         singlePvalue = New FDistribution(numenator_degrees_of_freedom, denomenator_degrees_of_freedom).GetCDF(F_score)
         doublePvalue = singlePvalue * 2
@@ -63,23 +76,30 @@ Public Class Anova
         Return F_score
     End Function
 
-    Public Overridable Sub divide_by_degrees_of_freedom_step6()
+    ''' <summary>
+    ''' step6
+    ''' </summary>
+    Public Overridable Sub divide_by_degrees_of_freedom()
+        Dim observations = 0
 
         numenator_degrees_of_freedom = groups.Count - 1
-
         SSB = SSB_sum_of_squares_between_groups / numenator_degrees_of_freedom
-        Dim observations = 0
+
         For Each g In groups
             observations += g.ary.Length
         Next
 
         'degrees_of_freedom = observations - groups.size(); 
         denomenator_degrees_of_freedom = observations - groups.Count
-
         SSW = SSW_sum_of_squares_within_groups / denomenator_degrees_of_freedom
     End Sub
 
-    Public Overridable Sub populate_step1(ByVal matrix As IEnumerable(Of Double()), ByVal type As String)
+    ''' <summary>
+    ''' step1
+    ''' </summary>
+    ''' <param name="matrix"></param>
+    ''' <param name="type"></param>
+    Public Overridable Sub populate(matrix As IEnumerable(Of Double()), type As String)
         m_type = type
 
         For Each v As Double() In matrix
@@ -87,50 +107,96 @@ Public Class Anova
         Next
     End Sub
 
-    Public Overridable Sub findWithinGroupMeans_step2()
+    ''' <summary>
+    ''' step2
+    ''' </summary>
+    Public Overridable Sub findWithinGroupMeans()
         Dim total As Double = 0
         Dim observationsCount = 0
-        For i = 0 To groups.Count - 1
+
+        For i As Integer = 0 To groups.Count - 1
             Dim g = groups(i)
             Dim groupTotal As Double = 0
-            For j = 0 To g.ary.Length - 1
+
+            For j As Integer = 0 To g.ary.Length - 1
                 groupTotal += g.ary(j)
             Next
+
             total += groupTotal
             observationsCount += g.ary.Length
             g.mean = groupTotal / g.ary.Length
         Next
+
         allObservationsMean = total / observationsCount
     End Sub
 
-    Public Overridable Sub setSumOfSquaresOfGroups_step3()
+    ''' <summary>
+    ''' step3
+    ''' </summary>
+    Public Overridable Sub setSumOfSquaresOfGroups()
+        For i As Integer = 0 To groups.Count - 1
+            Dim g As Group = groups(i)
 
-        For i = 0 To groups.Count - 1
-            Dim g = groups(i)
-            For j = 0 To g.ary.Length - 1
+            For j As Integer = 0 To g.ary.Length - 1
                 Dim observation = g.ary(j)
                 Dim result = observation - g.mean
                 Dim answer = stdNum.Pow(result, 2)
+
                 g.raisedSum += answer
             Next
+
             SSW_sum_of_squares_within_groups += g.raisedSum
         Next
     End Sub
 
-    Public Overridable Sub setTotalSumOfSquares_step4()
+    ''' <summary>
+    ''' step4
+    ''' </summary>
+    Public Overridable Sub setTotalSumOfSquares()
         SS_total_sum_of_squares = 0
-        For i = 0 To groups.Count - 1
-            Dim g = groups(i)
-            For j = 0 To g.ary.Length - 1
+
+        For i As Integer = 0 To groups.Count - 1
+            Dim g As Group = groups(i)
+
+            For j As Integer = 0 To g.ary.Length - 1
                 Dim observation = g.ary(j)
                 Dim result = observation - allObservationsMean
 
                 SS_total_sum_of_squares += stdNum.Pow(result, 2)
             Next
         Next
-    End Sub
 
-    Public Overridable Sub setTotalSumOfSquares_step5()
         SSB_sum_of_squares_between_groups = SS_total_sum_of_squares - SSW_sum_of_squares_within_groups
     End Sub
+
+    Public Overrides Function ToString() As String
+        Dim f_score As Double = fScore_determineIt()
+        Dim criticalNumber = Me.criticalNumber
+        Dim result As String = "The null hypothesis is supported! There is no especial difference in these groups. "
+
+        If f_score > criticalNumber Then
+            result = "The null hypothesis is rejected! These groups are different."
+        End If
+
+        Return $"
+Call:
+   aov(formula = v ~ group, data = observations)
+
+Terms:
+                group Residuals
+Sum of Squares     80        80
+Deg. of Freedom     2        17
+
+Residual standard error: 2.169305
+Estimated effects may be unbalanced
+Probability level: {type}
+allObservationsMean: {allObservationsMean}
+Critical number: {criticalNumber}
+
+*** F Score:  {f_score}
+*** P-Value:  {singlePvalue}  [double_tailed: {doublePvalue}]
+
+{result}
+"
+    End Function
 End Class
