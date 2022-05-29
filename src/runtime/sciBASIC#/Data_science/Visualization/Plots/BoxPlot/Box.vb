@@ -167,6 +167,7 @@ Namespace BoxPlot
             Dim x1 = x0 + boxWidth / 2  ' x1在盒子的中间
             Dim pen As Pen
             Dim y0 As Double
+            Dim deltaWidth As Double = boxWidth / 2
 
             If fillBox Then
                 ' 使用彩色画刷填充盒子，但是线条和点都是黑色的
@@ -188,15 +189,15 @@ Namespace BoxPlot
 
             ' max
             y0 = y.TranslateY(quartile.range.Max)
-            g.DrawLine(pen, New Drawing.Point(x0, y0), New Drawing.Point(x0 + boxWidth, y0))
+            g.DrawLine(pen, New Drawing.Point(x0 + deltaWidth / 2, y0), New Drawing.Point(x0 + deltaWidth * 1.5, y0))
 
             ' min
             y0 = y.TranslateY(quartile.range.Min)
-            g.DrawLine(pen, New Drawing.Point(x0, y0), New Drawing.Point(x0 + boxWidth, y0))
+            g.DrawLine(pen, New Drawing.Point(x0 + deltaWidth / 2, y0), New Drawing.Point(x0 + deltaWidth * 1.5, y0))
 
             ' q1
             Dim q1Y = y.TranslateY(quartile.Q1)
-            g.DrawLine(pen, New Drawing.Point(x0, q1Y), New Drawing.Point(x0 + boxWidth, q1Y))
+            ' g.DrawLine(pen, New Drawing.Point(x0, q1Y), New Drawing.Point(x0 + boxWidth, q1Y))
 
             ' q2
             Dim q2Y = y.TranslateY(quartile.Q2)
@@ -206,11 +207,11 @@ Namespace BoxPlot
 
             ' q3
             Dim q3Y = y.TranslateY(quartile.Q3)
-            g.DrawLine(pen, New Drawing.Point(x0, q3Y), New Drawing.Point(x0 + boxWidth, q3Y))
+            ' g.DrawLine(pen, New Drawing.Point(x0, q3Y), New Drawing.Point(x0 + boxWidth, q3Y))
 
             ' box
-            g.DrawLine(pen, New Drawing.Point(x0, q3Y), New Drawing.Point(x0, q1Y))
-            g.DrawLine(pen, New Drawing.Point(x0 + boxWidth, q3Y), New Drawing.Point(x0 + boxWidth, q1Y))
+            ' g.DrawLine(pen, New Drawing.Point(x0, q3Y), New Drawing.Point(x0, q1Y))
+            ' g.DrawLine(pen, New Drawing.Point(x0 + boxWidth, q3Y), New Drawing.Point(x0 + boxWidth, q1Y))
 
             ' dashline to min/max
             pen = New Pen(brush.Color, lineWidth) With {
