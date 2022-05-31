@@ -65,16 +65,23 @@ Namespace ExpressionPattern
         Public Property [dim] As Integer()
         Public Property centers As Classify()
 
-        Public Function ToSummaryText() As String
+        Public Function ToSummaryText(Optional membershipCutoff As Double = 0.8) As String
             Dim sb As New StringBuilder
+            Dim allPatterns As Integer() = Patterns _
+                .Select(Function(v) v.memberships.Keys) _
+                .IteratesALL _
+                .Distinct _
+                .OrderBy(Function(i) i) _
+                .ToArray
 
             Call sb.AppendLine($"fuzzy cmeans partitions: [{[dim](0)}, {[dim](1)}]")
-            Call sb.AppendLine("base on samples(or groups):")
+            Call sb.AppendLine($"base on {sampleNames.Length} samples(or groups):")
             Call sb.AppendLine(sampleNames.JoinBy(", "))
             Call sb.AppendLine($"clusters (should be #0 ~ #{[dim](0) * [dim](1) - 1}):")
+            Call sb.AppendLine($"members under membership cutoff:")
 
-            For Each cluster In Patterns.GroupBy(Function(a) a.cluster).OrderBy(Function(a) a.Key)
-                Call sb.AppendLine($" # {cluster.Key}: {cluster.Count}")
+            For Each clusterId As Integer In allPatterns
+                Call sb.AppendLine($" # {clusterId}: {Patterns.Where(Function(v) v.memberships(key:=clusterId)).Count}")
             Next
 
             Return sb.ToString
