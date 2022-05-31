@@ -74,6 +74,13 @@ Namespace ExpressionPattern
                 .OrderBy(Function(i) i) _
                 .ToArray
             Dim nsize As Integer
+            Dim max = allPatterns _
+                .ToDictionary(Function(a) a,
+                              Function(a)
+                                  Return Patterns _
+                                      .Select(Function(v) v.memberships(key:=a)) _
+                                      .Max
+                              End Function)
 
             Call sb.AppendLine($"fuzzy cmeans partitions: [{[dim](0)}, {[dim](1)}]")
             Call sb.AppendLine($"base on {sampleNames.Length} samples(or groups):")
@@ -84,7 +91,7 @@ Namespace ExpressionPattern
             For Each clusterId As Integer In allPatterns
                 nsize = Aggregate v As FuzzyCMeansEntity
                         In Patterns
-                        Where v.memberships(key:=clusterId) > membershipCutoff
+                        Where v.memberships(key:=clusterId) / max(key:=clusterId) > membershipCutoff
                         Into Count
 
                 Call sb.AppendLine($" # {clusterId}: {nsize}")
