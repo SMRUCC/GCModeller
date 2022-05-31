@@ -190,7 +190,7 @@ Namespace ExpressionPattern
                 Dim matrix = New Matrix With {
                     .sampleID = sampleNames,
                     .expression = features,
-                    .tag = $"#{patternId}"
+                    .tag = patternId
                 }
 
                 row += matrix

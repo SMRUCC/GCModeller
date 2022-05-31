@@ -154,9 +154,13 @@ Module DEGSample
         Dim samples As SampleInfo()
 
         If tsv Then
-            samples = file.LoadTsv(Of SampleInfo)(nameMaps:=nameMaps).ToArray
+            samples = file _
+                .LoadTsv(Of SampleInfo)(nameMaps:=nameMaps, mute:=True) _
+                .ToArray
         Else
-            samples = file.LoadCsv(Of SampleInfo)(maps:=nameMaps).ToArray
+            samples = file _
+                .LoadCsv(Of SampleInfo)(maps:=nameMaps, mute:=True) _
+                .ToArray
         End If
 
         If Not exclude_groups Is Nothing Then
@@ -170,7 +174,9 @@ Module DEGSample
         End If
 
         If id_makenames Then
-            Dim sampleId As String() = samples.Select(Function(a) a.ID).ToArray
+            Dim sampleId As String() = samples _
+                .Select(Function(a) a.ID) _
+                .ToArray
 
             sampleId = REnv.Internal.Invokes.base.makeNames(sampleId)
 
