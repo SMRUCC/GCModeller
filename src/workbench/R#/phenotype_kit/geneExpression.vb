@@ -124,6 +124,17 @@ Module geneExpression
     End Function
 
     ''' <summary>
+    ''' filter out all samples columns which its expression vector is ZERO!
+    ''' </summary>
+    ''' <param name="mat"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("filterZeroSamples")>
+    Public Function filterZeroSamples(mat As Matrix, Optional env As Environment = Nothing) As Object
+        Return mat.T.TrimZeros.T
+    End Function
+
+    ''' <summary>
     ''' load an expressin matrix data
     ''' </summary>
     ''' <param name="file"></param>

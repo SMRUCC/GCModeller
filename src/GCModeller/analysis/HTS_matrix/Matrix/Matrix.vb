@@ -229,6 +229,10 @@ Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow)
         }
     End Function
 
+    ''' <summary>
+    ''' removes the rows which all gene expression result is ZERO
+    ''' </summary>
+    ''' <returns></returns>
     Public Function TrimZeros() As Matrix
         Return New Matrix With {
             .sampleID = sampleID,
