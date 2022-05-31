@@ -99,6 +99,7 @@
 
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts.SpringForce.Interfaces
+Imports stdNum = System.Math
 
 Namespace Layouts.SpringForce
 
@@ -281,6 +282,7 @@ Namespace Layouts.SpringForce
             Dim point As LayoutPoint
             Dim delta As AbstractVector
             Dim x, y, z As Double
+            Dim maxCanvas As Double = 1000
 
             For Each n As Node In graph.vertex
                 point = GetPoint(n)
@@ -290,13 +292,13 @@ Namespace Layouts.SpringForce
                 delta = point.velocity * iTimeStep
                 point.position.Add(delta)
 
-                If point.position.x.IsNaNImaginary Then
+                If point.position.x.IsNaNImaginary OrElse stdNum.Abs(point.position.x) > maxCanvas Then
                     point.position.x = x
                 End If
-                If point.position.y.IsNaNImaginary Then
+                If point.position.y.IsNaNImaginary OrElse stdNum.Abs(point.position.y) > maxCanvas Then
                     point.position.y = y
                 End If
-                If point.position.z.IsNaNImaginary Then
+                If point.position.z.IsNaNImaginary OrElse stdNum.Abs(point.position.z) > maxCanvas Then
                     point.position.z = z
                 End If
             Next
