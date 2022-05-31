@@ -56,7 +56,7 @@ Namespace Styling
                             Return s.GetTagValue("=", trim:=True)
                         End Function)
 
-                shape = [Enum].Parse(GetType(LegendStyles), p.Value)
+                shape = [Enum].Parse(GetType(LegendStyles), p.Value, ignoreCase:=True)
                 shapeList.Add(p.Name, shape)
             Next
         End Sub
