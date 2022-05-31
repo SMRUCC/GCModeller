@@ -248,8 +248,6 @@ Namespace Layouts.SpringForce
                 Else
                     spring.point1.ApplyForce(direction * (spring.K * displacement * -0.5F))
                     spring.point2.ApplyForce(direction * (spring.K * displacement * 0.5F))
-
-
                 End If
             Next
         End Sub
