@@ -88,8 +88,14 @@ Namespace ExpressionPattern
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function GetPartitionMatrix(membershipCutoff As Double) As IEnumerable(Of Matrix())
-            Return populatePartitions(Patterns, [dim], sampleNames, membershipCutoff)
+        Public Function GetPartitionMatrix(membershipCutoff As Double, topMembers As Integer) As IEnumerable(Of Matrix())
+            Return populatePartitions(
+                clusters:=Patterns,
+                [dim]:=[dim],
+                sampleNames:=sampleNames,
+                membershipCutoff:=membershipCutoff,
+                topMembers:=topMembers
+            )
         End Function
 
         Public Shared Function CMeansCluster(matrix As Matrix, nsize%, Optional fuzzification# = 2, Optional threshold# = 0.001) As Classify()
@@ -167,7 +173,8 @@ Namespace ExpressionPattern
         Private Shared Iterator Function populatePartitions(clusters As IEnumerable(Of FuzzyCMeansEntity),
                                                             dim%(),
                                                             sampleNames As String(),
-                                                            membershipCutoff As Double) As IEnumerable(Of Matrix())
+                                                            membershipCutoff As Double,
+                                                            topMembers As Integer) As IEnumerable(Of Matrix())
             Dim row As New List(Of Matrix)
             Dim cmeans As FuzzyCMeansEntity() = clusters.ToArray
             Dim allPatterns As Integer() = cmeans _
@@ -185,15 +192,31 @@ Namespace ExpressionPattern
                     .Where(Function(v) v.Value / max >= membershipCutoff) _
                     .Select(Function(v) v.Name) _
                     .Indexing
-                Dim features As DataFrameRow() = cmeans _
-                    .Where(Function(v) v.uid Like filter) _
-                    .Select(Function(a)
-                                Return New DataFrameRow With {
-                                    .geneID = a.uid,
-                                    .experiments = a.entityVector
-                                }
-                            End Function) _
-                    .ToArray
+                Dim features As DataFrameRow()
+
+                If filter.Count < topMembers Then
+                    features = cmeans _
+                        .OrderByDescending(Function(v) v.memberships(key:=patternId)) _
+                        .Take(topMembers) _
+                        .Select(Function(a)
+                                    Return New DataFrameRow With {
+                                        .geneID = a.uid,
+                                        .experiments = a.entityVector
+                                    }
+                                End Function) _
+                        .ToArray
+                Else
+                    features = cmeans _
+                        .Where(Function(v) v.uid Like filter) _
+                        .Select(Function(a)
+                                    Return New DataFrameRow With {
+                                        .geneID = a.uid,
+                                        .experiments = a.entityVector
+                                    }
+                                End Function) _
+                        .ToArray
+                End If
+
                 Dim matrix = New Matrix With {
                     .sampleID = sampleNames,
                     .expression = features,

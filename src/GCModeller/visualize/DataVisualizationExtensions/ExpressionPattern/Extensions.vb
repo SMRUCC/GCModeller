@@ -79,6 +79,7 @@ Namespace ExpressionPattern
                                    Optional prefix$ = "Pattern",
                                    Optional levels% = 50,
                                    Optional membershipCutoff As Double = 0.8,
+                                   Optional topMembers As Double = 0.25,
                                    Optional clusterLabelStyle As String = CSSFont.PlotSubTitle,
                                    Optional legendTitleStyle As String = CSSFont.Win7Small,
                                    Optional legendTickStyle As String = CSSFont.Win7Small,
@@ -96,7 +97,7 @@ Namespace ExpressionPattern
                 .xAxisRotate = xAxisLabelRotate
             }
 
-            Return New PatternPlot(matrix, membershipCutoff, theme, colorSet, levels) With {
+            Return New PatternPlot(matrix, membershipCutoff, topMembers, theme, colorSet, levels) With {
                 .main = title,
                 .xlabel = xlab,
                 .ylabel = ylab,
