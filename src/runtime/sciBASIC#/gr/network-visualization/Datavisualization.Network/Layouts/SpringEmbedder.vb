@@ -78,9 +78,13 @@ Namespace Layouts
         ''' <param name="maxRepulsiveForceDistance">
         ''' Repulsive forces between nodes that are further apart than this are ignored.
         ''' </param>
-        Sub New(g As NetworkGraph, size As Size, Optional maxRepulsiveForceDistance As Double = 10)
+        Sub New(g As NetworkGraph, size As Size,
+                Optional maxRepulsiveForceDistance As Double = 10,
+                Optional c As Double = 3)
+
             Me.nodes = g.connectedNodes
             Me.edges = g.graphEdges.ToArray
+            Me.c = c
             Me.maxRepulsiveForceDistance = maxRepulsiveForceDistance
             Me.k = size.Width * size.Height / (nodes.Length * 1000)
         End Sub

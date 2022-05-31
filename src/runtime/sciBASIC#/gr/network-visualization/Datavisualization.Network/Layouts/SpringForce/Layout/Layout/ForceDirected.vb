@@ -281,7 +281,7 @@ Namespace Layouts.SpringForce
             Dim point As LayoutPoint
             Dim delta As AbstractVector
             Dim x, y, z As Double
-            Dim maxCanvas As Double = 10000
+            Dim maxCanvas As Double = 1000000
 
             For Each n As Node In graph.vertex
                 point = GetPoint(n)
