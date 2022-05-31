@@ -100,6 +100,7 @@
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts.SpringForce.Interfaces
 Imports stdNum = System.Math
+Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
 Namespace Layouts.SpringForce
 
@@ -298,6 +299,12 @@ Namespace Layouts.SpringForce
                 End If
                 If point.position.z.IsNaNImaginary OrElse stdNum.Abs(point.position.z) > maxCanvas OrElse point.position.z < 0 Then
                     point.position.z = z
+                End If
+
+                If point.position.x = 0.0 AndAlso point.position.y = 0.0 AndAlso point.position.z = 0.0 Then
+                    point.position.x = randf.NextDouble * (maxCanvas)
+                    point.position.y = randf.NextDouble * (maxCanvas)
+                    point.position.z = randf.NextDouble * (maxCanvas)
                 End If
             Next
         End Sub
