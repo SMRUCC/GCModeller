@@ -73,15 +73,21 @@ Namespace ExpressionPattern
                 .Distinct _
                 .OrderBy(Function(i) i) _
                 .ToArray
+            Dim nsize As Integer
 
             Call sb.AppendLine($"fuzzy cmeans partitions: [{[dim](0)}, {[dim](1)}]")
             Call sb.AppendLine($"base on {sampleNames.Length} samples(or groups):")
             Call sb.AppendLine(sampleNames.JoinBy(", "))
             Call sb.AppendLine($"clusters (should be #0 ~ #{[dim](0) * [dim](1) - 1}):")
-            Call sb.AppendLine($"members under membership cutoff:")
+            Call sb.AppendLine($"n members under membership cutoff {membershipCutoff}:")
 
             For Each clusterId As Integer In allPatterns
-                Call sb.AppendLine($" # {clusterId}: {Patterns.Where(Function(v) v.memberships(key:=clusterId)).Count}")
+                nsize = Aggregate v As FuzzyCMeansEntity
+                        In Patterns
+                        Where v.memberships(key:=clusterId) > membershipCutoff
+                        Into Count
+
+                Call sb.AppendLine($" # {clusterId}: {nsize}")
             Next
 
             Return sb.ToString
