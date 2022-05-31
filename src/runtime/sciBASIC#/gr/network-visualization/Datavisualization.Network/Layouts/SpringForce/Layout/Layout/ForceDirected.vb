@@ -292,13 +292,13 @@ Namespace Layouts.SpringForce
                 delta = point.velocity * iTimeStep
                 point.position.Add(delta)
 
-                If point.position.x.IsNaNImaginary OrElse stdNum.Abs(point.position.x) > maxCanvas Then
+                If point.position.x.IsNaNImaginary OrElse stdNum.Abs(point.position.x) > maxCanvas OrElse point.position.x < 0 Then
                     point.position.x = x
                 End If
-                If point.position.y.IsNaNImaginary OrElse stdNum.Abs(point.position.y) > maxCanvas Then
+                If point.position.y.IsNaNImaginary OrElse stdNum.Abs(point.position.y) > maxCanvas OrElse point.position.y < 0 Then
                     point.position.y = y
                 End If
-                If point.position.z.IsNaNImaginary OrElse stdNum.Abs(point.position.z) > maxCanvas Then
+                If point.position.z.IsNaNImaginary OrElse stdNum.Abs(point.position.z) > maxCanvas OrElse point.position.z < 0 Then
                     point.position.z = z
                 End If
             Next
