@@ -117,8 +117,12 @@ Module metabolism
     ''' <summary>
     ''' do kegg pathway reconstruction by given protein annotation data
     ''' </summary>
-    ''' <param name="reference"></param>
-    ''' <param name="reactions"></param>
+    ''' <param name="reference">
+    ''' the kegg reference maps
+    ''' </param>
+    ''' <param name="reactions">
+    ''' a list of the kegg reaction data models
+    ''' </param>
     ''' <param name="annotations"></param>
     ''' <param name="min_cov"></param>
     ''' <param name="env"></param>
@@ -160,8 +164,22 @@ Module metabolism
             .DoCall(AddressOf pipeline.CreateFromPopulator)
     End Function
 
+    ''' <summary>
+    ''' pick the reaction list from the kegg reaction
+    ''' network repository by KO id terms
+    ''' </summary>
+    ''' <param name="reactions"></param>
+    ''' <param name="terms">
+    ''' the KO id terms
+    ''' </param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("pickNetwork")>
-    Public Function PickNetwork(reactions As ReactionRepository, <RRawVectorArgument> terms As Object, Optional env As Environment = Nothing) As Object
+    Public Function PickNetwork(reactions As ReactionRepository,
+                                <RRawVectorArgument>
+                                terms As Object,
+                                Optional env As Environment = Nothing) As Object
+
         Dim KoIdlist As String()
         Dim stream As pipeline = pipeline.TryCreatePipeline(Of String)(terms, env, suppress:=True)
 
@@ -171,7 +189,11 @@ Module metabolism
             If stream.isError Then
                 Return stream.getError
             Else
-                KoIdlist = stream.populates(Of BiDirectionalBesthit)(env).Select(Function(hit) hit.term).Distinct.ToArray
+                KoIdlist = stream _
+                    .populates(Of BiDirectionalBesthit)(env) _
+                    .Select(Function(hit) hit.term) _
+                    .Distinct _
+                    .ToArray
             End If
         Else
             KoIdlist = stream.populates(Of String)(env).ToArray
