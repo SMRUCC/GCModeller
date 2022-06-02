@@ -51,6 +51,7 @@ Module upsetPlot
             .rownames = compares
         }
         Dim hist As New List(Of List(Of String))
+        Dim countId As String
 
         For Each row In upset.data
             Call hist.Add(New List(Of String))
@@ -68,7 +69,8 @@ Module upsetPlot
                         End Function) _
                 .ToArray
 
-            data.add($"count.{className}", intersects.Select(Function(i) i.Length))
+            countId = If(exportIdSet, $"count.{className}", className)
+            data.add(countId, intersects.Select(Function(i) i.Length))
 
             If exportIdSet Then
                 data.add($"id.{className}", intersects.Select(Function(i) i.JoinBy("; ")))
@@ -76,7 +78,8 @@ Module upsetPlot
         Next
 
         ' add no class
-        data.add($"count.no_class",
+        countId = If(exportIdSet, $"count.no_class", "no_class")
+        data.add(countId,
             upset.data.Select(Function(a, i)
                                   Dim index As Index(Of String) = hist(i).Indexing
                                   Dim notIncludes = a _
