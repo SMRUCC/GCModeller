@@ -43,4 +43,18 @@ Module network
             enzymeBridged:=enzymeBridged
         )
     End Function
+
+    ''' <summary>
+    ''' assign kegg class to the graph nodes
+    ''' </summary>
+    ''' <param name="g">
+    ''' a network graph data model, with nodes label id must 
+    ''' be the kegg pathway id and compounds id or kegg KO id
+    ''' </param>
+    ''' <returns></returns>
+    <ExportAPI("assignKeggClass")>
+    Public Function assignKeggClass(g As NetworkGraph) As NetworkGraph
+        ' first assign the class id to the pathway id node
+
+    End Function
 End Module
