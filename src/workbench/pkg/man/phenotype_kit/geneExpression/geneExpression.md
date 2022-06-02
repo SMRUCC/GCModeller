@@ -2,6 +2,7 @@
 
 the gene expression matrix data toolkit
 
++ [filterZeroSamples](geneExpression/filterZeroSamples.1) filter out all samples columns which its expression vector is ZERO!
 + [load.expr](geneExpression/load.expr.1) load an expressin matrix data
 + [load.expr0](geneExpression/load.expr0.1) read the binary matrix data file
 + [write.expr_matrix](geneExpression/write.expr_matrix.1) write the gene expression data matrix file

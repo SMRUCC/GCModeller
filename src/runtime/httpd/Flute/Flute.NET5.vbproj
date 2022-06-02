@@ -6,6 +6,7 @@
     <AssemblyName>Flute.Http</AssemblyName>
     <Platforms>AnyCPU;ARM32;x64</Platforms>
     <Configurations>Debug;Release;Rsharp_app_release;PlantMAT;mzkit_win32;LipidSearch</Configurations>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

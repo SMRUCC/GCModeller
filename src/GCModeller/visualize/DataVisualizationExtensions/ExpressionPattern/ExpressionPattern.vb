@@ -1,49 +1,51 @@
 ﻿#Region "Microsoft.VisualBasic::b91d5f4d76b461a88418c6c6205210db, visualize\DataVisualizationExtensions\ExpressionPattern\ExpressionPattern.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class ExpressionPattern
-    ' 
-    '         Properties: [dim], centers, Patterns, sampleNames
-    ' 
-    '         Function: (+2 Overloads) CMeansCluster, CMeansCluster3D, GetPartitionMatrix, populatePartitions, ToSummaryText
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class ExpressionPattern
+' 
+'         Properties: [dim], centers, Patterns, sampleNames
+' 
+'         Function: (+2 Overloads) CMeansCluster, CMeansCluster3D, GetPartitionMatrix, populatePartitions, ToSummaryText
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports System.Text
+Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.DataMining.FuzzyCMeans
 Imports Microsoft.VisualBasic.DataMining.KMeans
@@ -63,24 +65,50 @@ Namespace ExpressionPattern
         Public Property [dim] As Integer()
         Public Property centers As Classify()
 
-        Public Function ToSummaryText() As String
+        Public Function ToSummaryText(Optional membershipCutoff As Double = 0.8) As String
             Dim sb As New StringBuilder
+            Dim allPatterns As Integer() = Patterns _
+                .Select(Function(v) v.memberships.Keys) _
+                .IteratesALL _
+                .Distinct _
+                .OrderBy(Function(i) i) _
+                .ToArray
+            Dim nsize As Integer
+            Dim max = allPatterns _
+                .ToDictionary(Function(a) a,
+                              Function(a)
+                                  Return Patterns _
+                                      .Select(Function(v) v.memberships(key:=a)) _
+                                      .Max
+                              End Function)
 
             Call sb.AppendLine($"fuzzy cmeans partitions: [{[dim](0)}, {[dim](1)}]")
-            Call sb.AppendLine("base on samples(or groups):")
+            Call sb.AppendLine($"base on {sampleNames.Length} samples(or groups):")
             Call sb.AppendLine(sampleNames.JoinBy(", "))
             Call sb.AppendLine($"clusters (should be #0 ~ #{[dim](0) * [dim](1) - 1}):")
+            Call sb.AppendLine($"n members under membership cutoff {membershipCutoff}:")
 
-            For Each cluster In Patterns.GroupBy(Function(a) a.cluster).OrderBy(Function(a) a.Key)
-                Call sb.AppendLine($" # {cluster.Key}: {cluster.Count}")
+            For Each clusterId As Integer In allPatterns
+                nsize = Aggregate v As FuzzyCMeansEntity
+                        In Patterns
+                        Where v.memberships(key:=clusterId) / max(key:=clusterId) > membershipCutoff
+                        Into Count
+
+                Call sb.AppendLine($" # {clusterId}: {nsize}")
             Next
 
             Return sb.ToString
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function GetPartitionMatrix() As IEnumerable(Of Matrix())
-            Return populatePartitions(Patterns, [dim], sampleNames)
+        Public Function GetPartitionMatrix(membershipCutoff As Double, topMembers As Integer) As IEnumerable(Of Matrix())
+            Return populatePartitions(
+                clusters:=Patterns,
+                [dim]:=[dim],
+                sampleNames:=sampleNames,
+                membershipCutoff:=membershipCutoff,
+                topMembers:=topMembers
+            )
         End Function
 
         Public Shared Function CMeansCluster(matrix As Matrix, nsize%, Optional fuzzification# = 2, Optional threshold# = 0.001) As Classify()
@@ -155,22 +183,57 @@ Namespace ExpressionPattern
             }
         End Function
 
-        Private Shared Iterator Function populatePartitions(clusters As IEnumerable(Of FuzzyCMeansEntity), dim%(), sampleNames As String()) As IEnumerable(Of Matrix())
+        Private Shared Iterator Function populatePartitions(clusters As IEnumerable(Of FuzzyCMeansEntity),
+                                                            dim%(),
+                                                            sampleNames As String(),
+                                                            membershipCutoff As Double,
+                                                            topMembers As Integer) As IEnumerable(Of Matrix())
             Dim row As New List(Of Matrix)
-            Dim clusterGroups = clusters.GroupBy(Function(c) c.cluster).ToArray
+            Dim cmeans As FuzzyCMeansEntity() = clusters.ToArray
+            Dim allPatterns As Integer() = cmeans _
+                .Select(Function(c) c.memberships.Keys) _
+                .IteratesALL _
+                .Distinct _
+                .ToArray
 
-            For Each cluster As IGrouping(Of Integer, FuzzyCMeansEntity) In clusterGroups
-                Dim matrix = New Matrix With {
-                    .sampleID = sampleNames,
-                    .expression = cluster _
+            For Each patternId As Integer In allPatterns
+                Dim membership = cmeans _
+                    .Select(Function(v) New NamedValue(Of Double)(v.uid, v.memberships(patternId))) _
+                    .ToArray
+                Dim max As Double = membership.Select(Function(v) v.Value).Max
+                Dim filter As Index(Of String) = membership _
+                    .Where(Function(v) v.Value / max >= membershipCutoff) _
+                    .Select(Function(v) v.Name) _
+                    .Indexing
+                Dim features As DataFrameRow()
+
+                If filter.Count < topMembers Then
+                    features = cmeans _
+                        .OrderByDescending(Function(v) v.memberships(key:=patternId)) _
+                        .Take(topMembers) _
                         .Select(Function(a)
                                     Return New DataFrameRow With {
                                         .geneID = a.uid,
                                         .experiments = a.entityVector
                                     }
                                 End Function) _
-                        .ToArray,
-                    .tag = cluster.Key
+                        .ToArray
+                Else
+                    features = cmeans _
+                        .Where(Function(v) v.uid Like filter) _
+                        .Select(Function(a)
+                                    Return New DataFrameRow With {
+                                        .geneID = a.uid,
+                                        .experiments = a.entityVector
+                                    }
+                                End Function) _
+                        .ToArray
+                End If
+
+                Dim matrix = New Matrix With {
+                    .sampleID = sampleNames,
+                    .expression = features,
+                    .tag = patternId
                 }
 
                 row += matrix

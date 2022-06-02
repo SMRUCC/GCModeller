@@ -71,18 +71,38 @@ Namespace ExpressionPattern
 
         ReadOnly patternsIndex As Dictionary(Of String, FuzzyCMeansEntity)
         ReadOnly colors As Color()
+        ReadOnly membershipCutoff As Double
+        ReadOnly topMembers As Double
 
         Public Property clusterLabelStyle As String = CSSFont.PlotSubTitle
         Public Property legendTitleStyle As String = CSSFont.Win7Small
         Public Property legendTickStyle As String = CSSFont.Win7Small
         Public Property Prefix As String = "Pattern"
 
-        Public Sub New(matrix As ExpressionPattern, theme As Theme, colorSet$, levels%)
-            MyBase.New(theme)
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="matrix"></param>
+        ''' <param name="membershipCutoff">
+        ''' the cluster members is filter via the membership cutoff
+        ''' </param>
+        ''' <param name="theme"></param>
+        ''' <param name="colorSet$"></param>
+        ''' <param name="levels%"></param>
+        Public Sub New(matrix As ExpressionPattern,
+                       membershipCutoff As Double,
+                       topMembers As Double,
+                       theme As Theme,
+                       colorSet$,
+                       levels%)
+
+            Call MyBase.New(theme)
 
             Me.matrix = matrix
             Me.patternsIndex = matrix.Patterns.ToDictionary(Function(a) a.uid)
             Me.colors = Designer.GetColors(colorSet, levels)
+            Me.membershipCutoff = membershipCutoff
+            Me.topMembers = topMembers
         End Sub
 
         Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
@@ -115,7 +135,7 @@ Namespace ExpressionPattern
             Dim tickFormat As String
             Dim left As Double = canvas.PlotRegion.Left + iw / 6
 
-            For Each row As Matrix() In matrix.GetPartitionMatrix
+            For Each row As Matrix() In matrix.GetPartitionMatrix(membershipCutoff, topMembers:=topMembers * matrix.Patterns.Length)
                 x = left + iw / 5
 
                 For Each col As Matrix In row
