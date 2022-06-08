@@ -173,12 +173,9 @@
     <Compile Include="MotifMatch.vb" />
     <Compile Include="MotifNeedlemanWunsch.vb" />
     <Compile Include="MotifTree.vb" />
-    <Compile Include="Consensus\SeedCluster.vb" />
-    <Compile Include="Consensus\DATA.vb" />
     <Compile Include="ProbabilityScanner.vb" />
     <Compile Include="Consensus\ConsensusScanner.vb" />
     <Compile Include="Consensus\ModelLoader.vb" />
-    <Compile Include="Consensus\Protocol.vb" />
     <Compile Include="PatternScanner.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
