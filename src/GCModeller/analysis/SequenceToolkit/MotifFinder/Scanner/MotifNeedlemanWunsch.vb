@@ -42,21 +42,21 @@
 
 Imports Microsoft.VisualBasic.DataMining.DynamicProgramming
 Imports Microsoft.VisualBasic.DataMining.DynamicProgramming.NeedlemanWunsch
-Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Abstract.Probability
+Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Abstract
 
 Public Class MotifNeedlemanWunsch : Inherits NeedlemanWunsch(Of Residue)
 
-    Sub New(query As Residue(), subject As Residue())
-        Call MyBase.New(defaultScoreMatrix, symbolProvider)
+    Sub New(query As Residue(), subject As Residue(), score As ResidueScore)
+        Call MyBase.New(defaultScoreMatrix, symbolProvider(score))
 
         Me.Sequence1 = query
         Me.Sequence2 = subject
     End Sub
 
-    Private Shared Function symbolProvider() As GenericSymbol(Of Residue)
+    Private Shared Function symbolProvider(score As ResidueScore) As GenericSymbol(Of Residue)
         Return New GenericSymbol(Of Residue)(
             equals:=Function(a, b) a.topChar = b.topChar,
-            similarity:=Function(a, b) a.Cos(b),
+            similarity:=Function(a, b) score.Cos(a, b),
             toChar:=Function(x) x.topChar,
             empty:=Function()
                        Return New Residue With {
