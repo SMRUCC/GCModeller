@@ -170,10 +170,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MotifMatch.vb" />
-    <Compile Include="MotifNeedlemanWunsch.vb" />
     <Compile Include="MotifTree.vb" />
-    <Compile Include="ProbabilityScanner.vb" />
     <Compile Include="Consensus\ConsensusScanner.vb" />
     <Compile Include="Consensus\ModelLoader.vb" />
     <Compile Include="PatternScanner.vb" />
@@ -247,6 +244,10 @@
     <ProjectReference Include="..\..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MotifFinder\MotifFinder.vbproj">
+      <Project>{a18eacfc-c124-48b0-9166-bd1e6e6bdd7f}</Project>
+      <Name>MotifFinder</Name>
     </ProjectReference>
     <ProjectReference Include="..\MSA\MSA.vbproj">
       <Project>{099d156f-13a1-4a1f-868e-5e67f9b99d54}</Project>
