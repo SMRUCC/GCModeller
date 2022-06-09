@@ -176,6 +176,7 @@ Public Module Protocol
 
     Public Function pairwiseSeeding(q As FastaSeq, s As FastaSeq, param As PopulatorParameter) As IEnumerable(Of HSP)
         Dim smithWaterman As New SmithWaterman(q.SequenceData, s.SequenceData, New DNAMatrix)
+        Call smithWaterman.BuildMatrix()
         Dim result = smithWaterman.GetOutput(param.seedingCutoff, param.minW)
         Return result.HSP.Where(Function(seed) seed.LengthHit <= param.maxW)
     End Function

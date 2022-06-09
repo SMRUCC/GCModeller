@@ -1,3 +1,5 @@
+require(GCModeller);
+
 imports ["bioseq.fasta", "bioseq.patterns"] from "seqtoolkit.dll";
 
 setwd(!script$dir);
