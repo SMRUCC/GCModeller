@@ -1,16 +1,16 @@
-﻿{
+{
   "pvalue": 0,
   "region": [{
       "frequency": {
-        "A": 0.022222222222222223,
+        "A": 0.7073170731707317,
         "T": 0,
-        "G": 0.26666666666666666,
+        "G": 0,
         "C": 0
       },
       "index": 0
     },{
       "frequency": {
-        "A": 0.55555555555555558,
+        "A": 1,
         "T": 0,
         "G": 0,
         "C": 0
@@ -18,138 +18,82 @@
       "index": 1
     },{
       "frequency": {
-        "A": 0.97777777777777775,
-        "T": 0,
-        "G": 0.022222222222222223,
-        "C": 0
+        "A": 0.07317073170731707,
+        "T": 0.024390243902439025,
+        "G": 0,
+        "C": 0.9024390243902439
       },
       "index": 2
     },{
       "frequency": {
-        "A": 0,
+        "A": 0.9024390243902439,
         "T": 0,
-        "G": 0,
-        "C": 0.44444444444444442
+        "G": 0.024390243902439025,
+        "C": 0.07317073170731707
       },
       "index": 3
     },{
       "frequency": {
-        "A": 0,
-        "T": 0,
-        "G": 0.44444444444444442,
+        "A": 0.4146341463414634,
+        "T": 0.3902439024390244,
+        "G": 0.1951219512195122,
         "C": 0
       },
       "index": 4
     },{
       "frequency": {
-        "A": 0,
-        "T": 0.44444444444444442,
+        "A": 0.975609756097561,
+        "T": 0.024390243902439025,
         "G": 0,
         "C": 0
       },
       "index": 5
     },{
       "frequency": {
-        "A": 0,
-        "T": 0,
-        "G": 0.44444444444444442,
-        "C": 0
+        "A": 0.07317073170731707,
+        "T": 0.36585365853658536,
+        "G": 0,
+        "C": 0.5609756097560976
       },
       "index": 6
     },{
       "frequency": {
         "A": 0,
-        "T": 0.44444444444444442,
-        "G": 0,
+        "T": 0.07317073170731707,
+        "G": 0.926829268292683,
         "C": 0
       },
       "index": 7
     },{
       "frequency": {
         "A": 0,
-        "T": 0.44444444444444442,
-        "G": 0,
+        "T": 0.04878048780487805,
+        "G": 0.07317073170731707,
         "C": 0
       },
       "index": 8
     },{
       "frequency": {
-        "A": 0,
-        "T": 0,
+        "A": 0.024390243902439025,
+        "T": 0.9512195121951219,
         "G": 0,
-        "C": 0.44444444444444442
+        "C": 0
       },
       "index": 9
     },{
       "frequency": {
         "A": 0,
-        "T": 0.44444444444444442,
+        "T": 0.9512195121951219,
         "G": 0,
-        "C": 0
+        "C": 0.04878048780487805
       },
       "index": 10
-    },{
-      "frequency": {
-        "A": 0.13333333333333333,
-        "T": 0,
-        "G": 0,
-        "C": 0.42222222222222222
-      },
-      "index": 11
-    },{
-      "frequency": {
-        "A": 0,
-        "T": 0,
-        "G": 0.55555555555555558,
-        "C": 0
-      },
-      "index": 12
-    },{
-      "frequency": {
-        "A": 0.022222222222222223,
-        "T": 0.53333333333333333,
-        "G": 0,
-        "C": 0
-      },
-      "index": 13
-    },{
-      "frequency": {
-        "A": 0.17777777777777778,
-        "T": 0.37777777777777777,
-        "G": 0,
-        "C": 0
-      },
-      "index": 14
-    },{
-      "frequency": {
-        "A": 0,
-        "T": 0.53333333333333333,
-        "G": 0,
-        "C": 0.022222222222222223
-      },
-      "index": 15
-    },{
-      "frequency": {
-        "A": 0.022222222222222223,
-        "T": 0,
-        "G": 0.53333333333333333,
-        "C": 0
-      },
-      "index": 16
-    },{
-      "frequency": {
-        "A": 0.022222222222222223,
-        "T": 0.26666666666666666,
-        "G": 0,
-        "C": 0.26666666666666666
-      },
-      "index": 17
     }],
-  "score": 3876,
-  "length": 18,
+  "score": 65.92859340656163,
+  "length": 11,
   "seeds": {
-    "MSA": ["GAA--------CGTATGT","--ACGTGTTCT-------","--ACGTGTTCT-------","--ACGTGTTCT-------","--ACGTGTTCT-------","--ACGTGTTCT-------","--ACGTGTTCT-------","--ACGTGTTCT-------","--ACGTGTTCT-------","--ACGTGTTCT-------","--ACGTGTTCT-------","--ACGTGTTCT-------","--ACGTGTTCT-------","--ACGTGTTCT-------","--ACGTGTTCT-------","--ACGTGTTCT-------","--ACGTGTTCT-------","GAA--------CGTTTGT","GAA--------CGTTTGT","GAA--------CGTTTGT","GAA--------CGTTTGT","GAA--------CGTTTGT","--ACGTGTTCT-------","--ACGTGTTCT-------","AAG--------CGAACAA","-AA--------CGTTTGC","-AA--------CGTTTGC","-AA--------CGTTTGC","-AA--------CGTTTGC","-AA--------CGTTTGC","-AA--------CGTTTGC","-AA--------CGTTTGC","-AA--------CGTTTGC","-AA--------CGTTTGC","-AA--------CGTTTGC","-AA--------CGTTTGC","-AA--------CGTTTGC","--ACGTGTTCT-------","--ACGTGTTCT-------","GAA--------AGTATGT","GAA--------AGTATGT","GAA--------AGTATGT","GAA--------AGTATGT","GAA--------AGTATGT","GAA--------AGTATGT"],
-    "cost": 458978,
-    "names": ["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""]
+    "MSA": ["-ACAGACGTTC","-AACAAATGTT","-AACAAATGTT","-AACAAATGTT","-ACAGACG--T","-ACAGACG-TT","-ACAGACG-TT","-ACAGACG-TT","-ACAGACG-TT","-ACAGACG-TT","-ACAGACG-TT","-ATGTTTGTAC","AACAAATG-TT","AACAAATG-TT","AACAAATG-TT","AACAAATG-TT","AACAAATG-TT","AACAAATG-TT","AACAAATG-TT","AACAAATG-TT","AACAAATG-TT","AACAAATG-TT","AACAAATG-TT","AACAAATG-TT","AACAAATG-TT","AACAAATG-TT","AACATACG-TT","AACATACG-TT","AACATACG-TT","AACATACG-TT","AACATACG-TT","AACATACG-TT","AACATACG-TT","AACATACG-TT","AACATACG-TT","AACATACG-TT","AACATACG-TT","AACATACG-TT","AACATACG-TT","AACATACG-TT","AACATACG-TT"],
+    "cost": 72310,
+    "names": ["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""]
   }
 }
