@@ -191,7 +191,7 @@ Public Module Protocol
             .pvalue = pvalue,
             .score = scores.Sum,
             .seeds = alignment,
-            .length = MSA(Scan0).Length
+            .width = MSA(Scan0).Length
         }
     End Function
 
