@@ -52,9 +52,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.Parser
 
 Namespace Text
@@ -86,7 +84,9 @@ Namespace Text
         ''' 假若长度分割落在单词内，则添加一个连接符，假如是空格或者标点符号，则不处理
         ''' </remarks>
         <Extension>
-        Public Iterator Function SplitParagraph(text$, len%, Optional delimiters As String = ";:,.-_&*!+'~") As IEnumerable(Of String)
+        Public Iterator Function SplitParagraph(text$, len%,
+                                                Optional delimiters As String = ";:,.-_&*!+'~",
+                                                Optional floatChars As Integer = 6) As IEnumerable(Of String)
             Dim lines$() = text.LineTokens
             Dim delIndex As Index(Of Char) = delimiters.Indexing
 
@@ -100,13 +100,20 @@ Namespace Text
                     buf.Add(c)
 
                     If c Like delIndex Then
-                        If buf.Count >= len OrElse len - buf.Count < 3 Then
+                        If buf.Count >= len OrElse len - buf.Count < floatChars Then
                             Yield buf.PopAll.CharString
                         End If
                     ElseIf buf.Count >= len Then
+                        Dim floats = Enumerable _
+                            .Range(0, floatChars) _
+                            .Select(Function(ci) i(ci)) _
+                            .Any(Function(ci)
+                                     Return ci <> ASCII.NUL AndAlso ci Like delIndex
+                                 End Function)
+
                         ' if the next 3 chars contains a delimiter
                         ' then not break current line
-                        If Not {i(1), i(2), i(3)}.Any(Function(ci) ci Like delimiters) Then
+                        If Not floats Then
                             Yield buf.PopAll.CharString
                         End If
                     End If
@@ -116,15 +123,6 @@ Namespace Text
                     Yield buf.PopAll.CharString
                 End If
             Next
-        End Function
-
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Private Function Trim(s$) As String
-            If s Is Nothing Then
-                Return ""
-            Else
-                Return s.Trim(" "c, ASCII.TAB)
-            End If
         End Function
     End Module
 End Namespace
