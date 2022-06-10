@@ -129,11 +129,13 @@ Namespace Text
 
                     If Not s.Value.StringEmpty Then
                         Yield Trim(+s)
+                        s.Value = Nothing
                     End If
                 Loop
 
                 If Not String.IsNullOrEmpty(+s) Then
                     Yield Trim(+s)
+                    s.Value = Nothing
                 Else
                     If i.i <> lines.Length - 1 Then
                         Yield vbCrLf
