@@ -834,7 +834,7 @@ Namespace SVG
 
         Public Overloads Sub DrawRectangle(pen As Pen, rect As RectangleF, fill As Color)
             Dim rectangle As New rect(rect) With {
-               .style = {New Stroke(pen).CSSValue, $"fill: {fill.ToHtmlColor}"}.JoinBy("; ")
+                .style = {New Stroke(pen).CSSValue, $"fill: {fill.ToHtmlColor}"}.JoinBy("; ")
             }
             Call __svgData.Add(rectangle)
         End Sub
@@ -845,7 +845,7 @@ Namespace SVG
                 .y = y,
                 .width = width,
                 .height = height,
-                .style = New Stroke(pen).CSSValue,
+                .style = New Stroke(pen).CSSValue & "; fill: transparent;",
                 .XmlCommentValue = $"DrawRectangle({ .style}, x:={x}, y:={y}, width:={width}, height:={height})"
             }
             Call __svgData.Add(rectangle)
