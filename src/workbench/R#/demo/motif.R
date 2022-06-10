@@ -11,7 +11,7 @@ let export as string = ?"-export" || `${dirname(seq)}/${basename(seq)}`;
 # ["LexA.fasta"]
 seq
 :> read.fasta
-:> find_motifs(minw = 6, maxw = 10)
+:> find_motifs(minw = 12, maxw = 16)
 :> lapply(function(motif) {
 	motif :> json(compress = FALSE) :> writeLines(con = `${export}/${i}.json`); 
 	# motif :> plot.seqLogo :> bitmap(file = `${export}/${i}.png`);
