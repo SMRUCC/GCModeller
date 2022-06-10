@@ -53,6 +53,14 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Public Module Protocol
 
+    ''' <summary>
+    ''' create seeds via pairwise alignment, use 
+    ''' the smith-waterman HSP as motif seeds.
+    ''' </summary>
+    ''' <param name="regions"></param>
+    ''' <param name="q"></param>
+    ''' <param name="param"></param>
+    ''' <returns></returns>
     <Extension>
     Private Function seeding(regions As IEnumerable(Of FastaSeq), q As FastaSeq, param As PopulatorParameter) As IEnumerable(Of HSP)
         Dim seeds As New List(Of HSP)
@@ -73,7 +81,7 @@ Public Module Protocol
 
         param = param Or PopulatorParameter.DefaultParameter
 
-        Call "seeding...".__DEBUG_ECHO
+        Call param.log()("seeding...")
 
         ' 先进行两两局部最优比对，得到最基本的种子
         ' 2018-3-2 在这里应该选取的是短的高相似度的序列
@@ -83,7 +91,8 @@ Public Module Protocol
             .IteratesALL _
             .AsList
 
-        Call $"Generate {seeds.Count} seeds...".__DEBUG_ECHO
+        Call param.log()($"create {seeds.Count} seeds...")
+        Call param.log()("create motif cluster tree!")
 
         ' 构建出二叉树
         ' 每一个node都是一个cluster
@@ -92,22 +101,16 @@ Public Module Protocol
             .Select(Function(q) New NamedValue(Of String)(q.Query, q.Query)) _
             .BuildAVLTreeCluster(param.seedingCutoff)
 
-        Call "Populate motifs...".__DEBUG_ECHO
+        Call param.log()("populate motifs...")
 
         ' 对聚类簇进行多重序列比对得到概率矩阵
-        For Each group As BinaryTree(Of String, String) In tree.PopulateNodes
-            Dim members As List(Of String) = group!values
-
-            If members.Count < leastN Then
-                Continue For
-            End If
-
-            Dim MSA = members _
-                .Select(Function(seq)
-                            Return New FastaSeq With {.SequenceData = seq, .Headers = {""}}
-                        End Function) _
-                .MultipleAlignment(Nothing)
-            Dim motif As SequenceMotif = MSA.PWM(members:=regions, param:=param)
+        For Each motif As SequenceMotif In tree _
+            .PopulateNodes _
+            .Where(Function(group) group.MemberSize >= leastN) _
+            .AsParallel _
+            .Select(Function(group)
+                        Return group.motif(regions, param)
+                    End Function)
 
             If motif.score > 0 Then
                 Yield motif
@@ -115,8 +118,24 @@ Public Module Protocol
         Next
     End Function
 
+    <Extension>
+    Private Function motif(group As BinaryTree(Of String, String), regions As FastaSeq(), param As PopulatorParameter) As SequenceMotif
+        Dim members As List(Of String) = group!values
+        Dim MSA As MSAOutput = members _
+                .Select(Function(seq)
+                            Return New FastaSeq With {
+                                .SequenceData = seq,
+                                .Headers = {""}
+                            }
+                        End Function) _
+                .MultipleAlignment(Nothing)
+        Dim PWM As SequenceMotif = MSA.PWM(members:=regions, param:=param)
+
+        Return PWM
+    End Function
+
     ''' <summary>
-    ''' 
+    ''' create PWM matrix of a motif model
     ''' </summary>
     ''' <param name="alignment">经过了多重序列比对之后，所有的成员的长度都已经是一致的了</param>
     ''' <param name="members"></param>
@@ -125,7 +144,7 @@ Public Module Protocol
     Private Function PWM(alignment As MSAOutput, members As FastaSeq(), param As PopulatorParameter) As SequenceMotif
         Dim residues As New List(Of Residue)
         Dim nt = {"A"c, "T"c, "G"c, "C"c}
-        Dim MSA = alignment.MSA
+        Dim MSA As String() = alignment.MSA
 
         For i As Integer = 0 To MSA(Scan0).Length - 1
             Dim index% = i
@@ -133,7 +152,9 @@ Public Module Protocol
                 .Select(Function(seq) seq(index)) _
                 .GroupBy(Function(c) c) _
                 .ToDictionary(Function(c) c.Key,
-                              Function(g) g.Count / MSA.Length)
+                              Function(g)
+                                  Return g.Count / MSA.Length
+                              End Function)
             Dim Pi = nt.ToDictionary(
                 Function(base) base,
                 Function(base)
@@ -180,6 +201,11 @@ Public Module Protocol
         Return result.HSP.Where(Function(seed) seed.LengthHit <= param.maxW)
     End Function
 
+    ''' <summary>
+    ''' get consensus sequence of a pairwise alignment seed
+    ''' </summary>
+    ''' <param name="pairwise"></param>
+    ''' <returns></returns>
     <Extension>
     Public Function Consensus(pairwise As HSP) As String
         Dim query As New FastaSeq With {.SequenceData = pairwise.Query, .Headers = {"query"}}

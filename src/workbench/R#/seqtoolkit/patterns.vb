@@ -267,7 +267,8 @@ Module patterns
             .minW = minw,
             .seedingCutoff = seedingCutoff,
             .ScanMinW = scanMinW,
-            .ScanCutoff = scanCutoff
+            .ScanCutoff = scanCutoff,
+            .log = env.WriteLineHandler
         }
         Dim motifs As SequenceMotif() = GetFastaSeq(fasta, env) _
             .PopulateMotifs(
