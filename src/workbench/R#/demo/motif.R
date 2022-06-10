@@ -4,21 +4,22 @@ imports ["bioseq.fasta", "bioseq.patterns"] from "seqtoolkit.dll";
 
 setwd(!script$dir);
 
-let i as integer = 1;
+# let i as integer = 1;
 let seq as string = ?"--seq" || stop("required a collection of fasta sequence!");
 let export as string = ?"-export" || `${dirname(seq)}/${basename(seq)}`;
 
 # ["LexA.fasta"]
 seq
-:> read.fasta
-:> find_motifs(minw = 6, maxw = 10)
-:> lapply(function(motif) {
-	motif :> json(compress = FALSE) :> writeLines(con = `${export}/${i}.json`); 
-	# motif :> plot.seqLogo :> bitmap(file = `${export}/${i}.png`);
-	
-	bitmap(file = `${export}/${i}.png`) {
+|> read.fasta
+|> find_motifs(minw = 6, maxw = 10)
+|> lapply(function(motif) {
+	motif 
+	|> json(compress = FALSE) 
+	|> writeLines(con = `${export}/${motifString(motif)}.json`)
+	; 
+		
+	bitmap(file = `${export}/${motifString(motif)}.png`) {
 		plot(motif);
 	};
-	
-	i = i + 1;
-});
+})
+;
