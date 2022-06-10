@@ -104,7 +104,11 @@ Namespace Text
                             Yield buf.PopAll.CharString
                         End If
                     ElseIf buf.Count >= len Then
-                        Yield buf.PopAll.CharString
+                        ' if the next 3 chars contains a delimiter
+                        ' then not break current line
+                        If Not {i(1), i(2), i(3)}.Any(Function(ci) ci Like delimiters) Then
+                            Yield buf.PopAll.CharString
+                        End If
                     End If
                 Loop
 
