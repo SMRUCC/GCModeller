@@ -66,8 +66,9 @@ Module TrimMotif
                         Dim aa As IPatternSite = f(i)
                         Dim hi As Double = Probability.HI(aa)
                         Dim bit As Double = SequenceMotif.CalculatesBits(hi, En, NtMol:=True)
+                        Dim h As Double = bit * aa.EnumerateValues.Sum
 
-                        Return bit
+                        Return h
                     End Function) _
             .ToArray
 
