@@ -1,5 +1,11 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math.Information
 Imports SMRUCC.genomics.Analysis.SequenceTools.MSA
+Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports SMRUCC.genomics.SequenceModel.Patterns
 
 Module TrimMotif
 
@@ -54,9 +60,15 @@ Module TrimMotif
     <Extension>
     Private Function getBits(motif As SequenceMotif) As Double()
         Dim En As Double = SequenceMotif.E(nsize:=motif.seeds.size)
+        Dim MSA As FastaFile = motif.seeds.ToFasta
+        Dim f As PatternModel = PatternsAPI.Frequency(MSA)
         Dim bits As Double() = motif.region _
-            .Select(Function(a)
-                        Return SequenceMotif.CalculatesBits(a.Hi, En, NtMol:=True)
+            .Select(Function(a, i)
+                        Dim aa As IPatternSite = f(i)
+                        Dim hi As Double = Probability.HI(aa)
+                        Dim bit As Double = SequenceMotif.CalculatesBits(hi, En, NtMol:=True)
+
+                        Return bit
                     End Function) _
             .ToArray
 

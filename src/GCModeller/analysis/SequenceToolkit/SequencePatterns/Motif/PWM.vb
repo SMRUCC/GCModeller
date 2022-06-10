@@ -91,7 +91,7 @@ Namespace Motif
             Dim n As Integer = fa.Count
             Dim base As Integer = If(fa.First.IsProtSource, 20, 4)
             Dim E As Double = (1 / Math.Log(2)) * ((base - 1) / (2 * n))
-            Dim H As Double() = f.Residues.Select(Function(x) x.Alphabets.__hi).ToArray
+            Dim H As Double() = f.Residues.Select(Function(x) Probability.HI(x.Alphabets)).ToArray
             Dim PWM As ResidueSite() =
                 LinqAPI.Exec(Of SimpleSite, ResidueSite) _
                (f.Residues) <= Function(x, i) __residue(x.Alphabets, H(i), E, base, i)
@@ -126,24 +126,6 @@ Namespace Motif
                 .PWM = alphabets,
                 .Site = i
             }
-        End Function
-
-        ''' <summary>
-        ''' 
-        ''' </summary>
-        ''' <param name="f"></param>
-        ''' <returns></returns>
-        ''' <remarks>
-        ''' If n equals ZERO, then log2(0) is NaN, n * Math.Log(n, 2) could not be measure,
-        ''' due to the reason of ZERO multiple any number is ZERO, so that if n is ZERO, 
-        ''' then set n * Math.Log(n, 2) its value to Zero directly.
-        ''' </remarks>
-        <Extension>
-        Private Function __hi(f As Dictionary(Of Char, Double)) As Double
-            ' 零乘以任何数都是得结果零
-            Dim h As Double = f.Values.Sum(Function(n) If(n = 0R, 0, n * Math.Log(n, 2)))
-            h = 0 - h
-            Return h
         End Function
     End Module
 End Namespace
