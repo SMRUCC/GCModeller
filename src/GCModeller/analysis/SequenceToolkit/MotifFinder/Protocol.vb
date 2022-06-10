@@ -111,6 +111,8 @@ Public Module Protocol
                         Return group.motif(regions, param)
                     End Function)
 
+            motif = motif.Cleanup
+
             If motif.score > 0 Then
                 Yield motif
             End If

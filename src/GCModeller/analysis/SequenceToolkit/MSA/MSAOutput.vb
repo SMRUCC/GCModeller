@@ -53,6 +53,12 @@ Public Class MSAOutput
     Public Property MSA As String()
     Public Property cost As Double
 
+    Public ReadOnly Property size As Integer
+        Get
+            Return MSA.Length
+        End Get
+    End Property
+
     Public Overrides Function ToString() As String
         With New MemoryStream
             Print(, New StreamWriter(.ByRef))
