@@ -47,7 +47,6 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.Statistics.Hypothesis
-Imports SMRUCC.genomics.Analysis.SequenceTools
 Imports SMRUCC.genomics.Analysis.SequenceTools.MSA
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Abstract
 Imports SMRUCC.genomics.SequenceModel.FASTA

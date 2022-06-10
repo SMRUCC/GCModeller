@@ -1,0 +1,131 @@
+{
+  "pvalue": 0,
+  "region": [{
+      "frequency": {
+        "A": 0.95,
+        "T": 0,
+        "G": 0,
+        "C": 0
+      },
+      "index": 0
+    },{
+      "frequency": {
+        "A": 0.25,
+        "T": 0.65,
+        "G": 0,
+        "C": 0
+      },
+      "index": 1
+    },{
+      "frequency": {
+        "A": 0.65,
+        "T": 0,
+        "G": 0,
+        "C": 0.35
+      },
+      "index": 2
+    },{
+      "frequency": {
+        "A": 0.25,
+        "T": 0,
+        "G": 0.75,
+        "C": 0
+      },
+      "index": 3
+    },{
+      "frequency": {
+        "A": 1,
+        "T": 0,
+        "G": 0,
+        "C": 0
+      },
+      "index": 4
+    },{
+      "frequency": {
+        "A": 1,
+        "T": 0,
+        "G": 0,
+        "C": 0
+      },
+      "index": 5
+    },{
+      "frequency": {
+        "A": 0,
+        "T": 0.05,
+        "G": 0,
+        "C": 0.95
+      },
+      "index": 6
+    },{
+      "frequency": {
+        "A": 0.65,
+        "T": 0,
+        "G": 0.35,
+        "C": 0
+      },
+      "index": 7
+    },{
+      "frequency": {
+        "A": 0,
+        "T": 1,
+        "G": 0,
+        "C": 0
+      },
+      "index": 8
+    },{
+      "frequency": {
+        "A": 0.1,
+        "T": 0.9,
+        "G": 0,
+        "C": 0
+      },
+      "index": 9
+    },{
+      "frequency": {
+        "A": 0,
+        "T": 0.35,
+        "G": 0,
+        "C": 0.65
+      },
+      "index": 10
+    },{
+      "frequency": {
+        "A": 0,
+        "T": 0,
+        "G": 1,
+        "C": 0
+      },
+      "index": 11
+    },{
+      "frequency": {
+        "A": 0,
+        "T": 0.65,
+        "G": 0,
+        "C": 0.15
+      },
+      "index": 12
+    },{
+      "frequency": {
+        "A": 0,
+        "T": 0.95,
+        "G": 0,
+        "C": 0
+      },
+      "index": 13
+    },{
+      "frequency": {
+        "A": 0,
+        "T": 0.3,
+        "G": 0,
+        "C": 0.7
+      },
+      "index": 14
+    }],
+  "score": 71.86095400611522,
+  "length": 15,
+  "seeds": {
+    "MSA": ["--CAAATGTTTG-TT","AACGAACGTATG-TT","AACGAACGTATG-TT","AACAAACGTTTGCTT","AACAAACGTTTGCTT","AACAAACGTTTGCTT","A-CAAACGTTTG--C","ATAGAACATTCGTTC","ATAGAACATTCGTTC","ATAGAACATTCGTTC","ATAGAACATTCGTTC","ATAGAACATTCGTTC","ATAGAACATTCGTTC","ATAGAACATTCGTTC","ATAGAACATTCGTTC","ATAGAACATTCGTTC","ATAGAACATTCGTTC","ATAGAACATTCGTTC","ATAGAACATTCGTTC","ATAGAACATTCGTTC"],
+    "cost": 1567,
+    "names": ["","","","","","","","","","","","","","","","","","","",""]
+  }
+}

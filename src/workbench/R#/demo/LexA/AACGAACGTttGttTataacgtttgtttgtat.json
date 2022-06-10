@@ -1,0 +1,267 @@
+{
+  "pvalue": 0,
+  "region": [{
+      "frequency": {
+        "A": 0.5097087378640777,
+        "T": 0.04692556634304207,
+        "G": 0,
+        "C": 0.0412621359223301
+      },
+      "index": 0
+    },{
+      "frequency": {
+        "A": 0.6375404530744336,
+        "T": 0.006472491909385114,
+        "G": 0.0372168284789644,
+        "C": 0.049352750809061485
+      },
+      "index": 1
+    },{
+      "frequency": {
+        "A": 0.11650485436893204,
+        "T": 0,
+        "G": 0.0008090614886731392,
+        "C": 0.6529126213592233
+      },
+      "index": 2
+    },{
+      "frequency": {
+        "A": 0.22653721682847897,
+        "T": 0,
+        "G": 0.6650485436893204,
+        "C": 0
+      },
+      "index": 3
+    },{
+      "frequency": {
+        "A": 0.6464401294498382,
+        "T": 0.2807443365695793,
+        "G": 0,
+        "C": 0.0008090614886731392
+      },
+      "index": 4
+    },{
+      "frequency": {
+        "A": 0.7629449838187702,
+        "T": 0.13915857605177995,
+        "G": 0.025889967637540454,
+        "C": 0
+      },
+      "index": 5
+    },{
+      "frequency": {
+        "A": 0.030744336569579287,
+        "T": 0.3276699029126214,
+        "G": 0,
+        "C": 0.56957928802589
+      },
+      "index": 6
+    },{
+      "frequency": {
+        "A": 0.3988673139158576,
+        "T": 0.006472491909385114,
+        "G": 0.5080906148867314,
+        "C": 0
+      },
+      "index": 7
+    },{
+      "frequency": {
+        "A": 0.24352750809061488,
+        "T": 0.6359223300970874,
+        "G": 0.0186084142394822,
+        "C": 0
+      },
+      "index": 8
+    },{
+      "frequency": {
+        "A": 0.3932038834951456,
+        "T": 0.4894822006472492,
+        "G": 0.010517799352750809,
+        "C": 0.0048543689320388345
+      },
+      "index": 9
+    },{
+      "frequency": {
+        "A": 0.00889967637540453,
+        "T": 0.46601941747572817,
+        "G": 0,
+        "C": 0.41262135922330095
+      },
+      "index": 10
+    },{
+      "frequency": {
+        "A": 0.0048543689320388345,
+        "T": 0.03802588996763754,
+        "G": 0.8228155339805825,
+        "C": 0.00889967637540453
+      },
+      "index": 11
+    },{
+      "frequency": {
+        "A": 0,
+        "T": 0.39724919093851135,
+        "G": 0.08656957928802589,
+        "C": 0.015372168284789644
+      },
+      "index": 12
+    },{
+      "frequency": {
+        "A": 0,
+        "T": 0.10275080906148867,
+        "G": 0,
+        "C": 0
+      },
+      "index": 13
+    },{
+      "frequency": {
+        "A": 0.0186084142394822,
+        "T": 0.7669902912621359,
+        "G": 0.0040453074433656954,
+        "C": 0.03155339805825243
+      },
+      "index": 14
+    },{
+      "frequency": {
+        "A": 0.11650485436893204,
+        "T": 0.0016181229773462784,
+        "G": 0.06957928802588997,
+        "C": 0.06310679611650485
+      },
+      "index": 15
+    },{
+      "frequency": {
+        "A": 0.11326860841423948,
+        "T": 0.4894822006472492,
+        "G": 0.10194174757281553,
+        "C": 0.17718446601941748
+      },
+      "index": 16
+    },{
+      "frequency": {
+        "A": 0.08656957928802589,
+        "T": 0.015372168284789644,
+        "G": 0.016181229773462782,
+        "C": 0
+      },
+      "index": 17
+    },{
+      "frequency": {
+        "A": 0.0744336569579288,
+        "T": 0.043689320388349516,
+        "G": 0,
+        "C": 0
+      },
+      "index": 18
+    },{
+      "frequency": {
+        "A": 0.007281553398058253,
+        "T": 0.025080906148867314,
+        "G": 0.003236245954692557,
+        "C": 0.0825242718446602
+      },
+      "index": 19
+    },{
+      "frequency": {
+        "A": 0.0048543689320388345,
+        "T": 0.015372168284789644,
+        "G": 0.06715210355987054,
+        "C": 0.025080906148867314
+      },
+      "index": 20
+    },{
+      "frequency": {
+        "A": 0.0048543689320388345,
+        "T": 0.0970873786407767,
+        "G": 0.0056634304207119745,
+        "C": 0
+      },
+      "index": 21
+    },{
+      "frequency": {
+        "A": 0.038834951456310676,
+        "T": 0.049352750809061485,
+        "G": 0.011326860841423949,
+        "C": 0.0024271844660194173
+      },
+      "index": 22
+    },{
+      "frequency": {
+        "A": 0.014563106796116505,
+        "T": 0.0703883495145631,
+        "G": 0,
+        "C": 0.009708737864077669
+      },
+      "index": 23
+    },{
+      "frequency": {
+        "A": 0.0048543689320388345,
+        "T": 0,
+        "G": 0.07281553398058252,
+        "C": 0
+      },
+      "index": 24
+    },{
+      "frequency": {
+        "A": 0,
+        "T": 0.07200647249190939,
+        "G": 0,
+        "C": 0
+      },
+      "index": 25
+    },{
+      "frequency": {
+        "A": 0,
+        "T": 0.07200647249190939,
+        "G": 0,
+        "C": 0
+      },
+      "index": 26
+    },{
+      "frequency": {
+        "A": 0,
+        "T": 0.040453074433656956,
+        "G": 0,
+        "C": 0.03155339805825243
+      },
+      "index": 27
+    },{
+      "frequency": {
+        "A": 0,
+        "T": 0,
+        "G": 0.07200647249190939,
+        "C": 0
+      },
+      "index": 28
+    },{
+      "frequency": {
+        "A": 0,
+        "T": 0.04692556634304207,
+        "G": 0.003236245954692557,
+        "C": 0.007281553398058253
+      },
+      "index": 29
+    },{
+      "frequency": {
+        "A": 0.054207119741100325,
+        "T": 0.01699029126213592,
+        "G": 0.0008090614886731392,
+        "C": 0
+      },
+      "index": 30
+    },{
+      "frequency": {
+        "A": 0.0008090614886731392,
+        "T": 0.0412621359223301,
+        "G": 0.0016181229773462784,
+        "C": 0
+      },
+      "index": 31
+    }],
+  "score": 72.08488738615293,
+  "length": 32,
+  "seeds": {
+    "MSA": ["AACGAACAAACG--T-T---------------","AACGAACAAACGTTT-G---------------","AACGAACAAACGTTT-G---------------","--CGAACAAACG--T-T---------------","--CGAACAAACG--T-T---------------","--CGAACAAACG--T-T---------------","AACGAACAAACGTTT-G---------------","--CGAACAAACG--T-T---------------","-ACGAACAAACG--T-T---------------","--CGAACAAACG--T-T---------------","--CGAACAAACG--T-T---------------","-ACGAACGTACGTTTGT---------------","AACGAACGTACGTTT-G---------------","-ACGAACGTACGT-T-T---------------","-ACGAACGTACGT-T-T---------------","-ACGAACGTACGT-T-T---------------","AACGAACGTACGTTT-G---------------","AACGAACGTACGTTT-G---------------","CA-GAACGTACGT-TCG---------------","ACAGAACGTACGT-TCG---------------","CA-GAACGTACGTTCGT---------------","CA-GAACGTACGTTCGT---------------","--CAAACAGACG--T-T---------------","--CAAACAGACG--T-T---------------","--CAAACAGACG--T-T---------------","--CAAACAGACGT-T-C---------------","--CAAACAGACG--T-T---------------","--CAAACAGACG--T-T---------------","--CAAACAGACG--T-T---------------","--CAAACAGACG--T-T---------------","--CAAACAGACGT-T-C---------------","--CAAACAGACG--T-T---------------","--CAAACAGACG--T-T---------------","TACAAACAGACGT-TCG---------------","TACGAACAAATGTTT-G---------------","--CGAACAAATG--T-T---------------","--CGAACAAATG--T-T---------------","--CGAACAAATG--T-T---------------","--CGAACAAATG--T-T---------------","--CGAACAAATG--T-T---------------","TACGAACAAATGTTT-G---------------","TAAGAACATACGT-T-C---------------","TAAGAACATACGT-T-C---------------","TAAGAACATACGT-TCT---------------","TAAGAACATACGT-TCT---------------","TAAGAACATACGT-TCT---------------","TAAGAACATACGT-TCT---------------","AA-GAACATACGT-T-C---------------","TAAGAACATACGT-T-C---------------","TAAGAACATACGT-T-C---------------","TAAGAACATACGT-T-C---------------","TAAGAACATACGT-T-C---------------","-A-GAACATACGT-T-C---------------","AA-GAACATACGT-T-C---------------","TAAGAACATACGT-T-C---------------","TACGAACAAATGTTT-G---------------","--CGAACAAATG--T-T---------------","--CGAACAAATG--T-T---------------","--CGAACAAATG--T-T---------------","TACGAACAAATGTTT-G---------------","TACGAACAAATGTTT-G---------------","--CGAACAAATG--T-T---------------","--CGAACAAATG--T-T---------------","TACGAACAAATGTTT-G---------------","---GAACATTTGT-T-C---------------","---GAACATTTGT-T-C---------------","---GAACATTTGT-T-C---------------","AACATTTGTTCT--TAT---------------","AAC-ATTTGTTC--T-T---------------","AACATTTGTTCT--TAT---------------","AACATTTGTTCT--TAT---------------","AACATTTGTTCT--TAT---------------","AACATTTGTTCT--TAT---------------","AAC-ATTTGTTC--T-T---------------","AACATTTGTTCT--TAT---------------","AACATTTGTTCT--TAT---------------","AACATTTGTTCT--TAT---------------","AACATTTGTTCT--TAT---------------","AACATTTGTTCT--TAT---------------","AACATTTGTTCT--TAT---------------","AACATTTGTTCT--TAT---------------","AAC-ATTTGTTC--T-T---------------","AACATTTGTTCT--TAT---------------","AACATTTGTTCT--TAT---------------","AACATTTGTTCT--T-A---------------","AACATTTGTTCT--T-A---------------","AAC-ATTTGTTC--T-T---------------","AACATTTGTTCT--TAT---------------","AACATTTGTTCT--T-A---------------","AAC-ATTTGTTC--T-T---------------","AACATTTGTTCT--TAT---------------","AACATTTGTTCT--TAT---------------","AACATTTGTTCT--TAT---------------","AACATTTGTTCT--TAT---------------","AACATTTGTTCT--T-A---------------","AACATTTGTTCT--TAT---------------","AACATTTGTTCT--T-A---------------","AACATTTGTTCT--TAT---------------","AACATTTGTTCT--TAT---------------","AACATTTGTTCT--TAT---------------","AACATTTGTTCT--TAT---------------","AACATTTGTTCT--T-A---------------","AACATTTGTTCT--TAT---------------","AACATTTGTTCT--TAT---------------","AAC-ATTTGTTC--T-T---------------","AACATTTGTTCT--TAT---------------","AACATTTGTTCT--TAT---------------","AACATTTGTTCT--TAT---------------","-ACATTTGTTCT--TAT---------------","AACATTTGTTCT--T-A---------------","-TGGAACATTTG--T-T---------------","AACATTTGTTCT--TAT---------------","AACAAATGTTTGT-T-T---------------","AACAAATGTTTGT-T-T---------------","AACAAATGTTTGT-T-T---------------","-ACGAACAAATG--T-T---------------","-ACGAACAAATGTTT-G---------------","--CGAACAAATGTTT-G---------------","AACAAATGTTTGT-T-T---------------","-ACGAACAAATG--T-T---------------","AACAAATGTTTGT-T-T---------------","-ACGAACAAATG--T-T---------------","AACAAATGTTTG--T-T---------------","--CGAACAAATG--T-T---------------","--CGAACAAATGTTT-G---------------","--CGAACAAATGTTTGT---------------","-ACGAACAAATG--T-T---------------","AACAAATGTTTGT-T-T---------------","--CGAACAAATG--T-T---------------","-ACGAACAAATG--T-T---------------","-ACGAACAAATGTTT-G---------------","-ACGAACAAATG--T-T---------------","-ACGAACAAATGTTT-G---------------","--CGAACAAATGTTTGT---------------","AACAAATGTTTGT-T-T---------------","AACAAATGTTTG--T-T---------------","-ACGAACAAATGTTTGT---------------","--CGAACAAATGTTTGT---------------","AACAAATGTTTGT-T-T---------------","AACAAATGTTTG--T-T---------------","-ACGAACAAATG--T-T---------------","-ACGAACAAATGTTT-G---------------","AACAAATGTTTGT-T-T---------------","AACAAATGTTTGT-T-T---------------","--CGAACAAATGTTTGT---------------","--CGAACAAATG--T-T---------------","AACAAATGTTTGT-T-T---------------","AACAAATGTTTGT-T-T---------------","AACAAATGTTTGT-T-T---------------","-ACGAACAAATG--T-T---------------","-ACGAACAAATG--T-T---------------","-ACGAACAAATGTTT-G---------------","AACAAATGTTTGT-T-T---------------","AACAAATGTTTGT-T-T---------------","--CGAACAAATGTTTGT---------------","--CGAACAAATGTTTGT---------------","AACAAATGTTTGT-T-T---------------","-ACGAACAAATG--T-T---------------","-ACGAACAAATGTTT-G---------------","-ACGAACAAATGTTTGT---------------","-ACGAACAAATG--T-T---------------","AACAAATGTTTGT-T-T---------------","---GAACAAACGT-T-C---------------","-ACGAACAAACG--T-T---------------","TACGAACAAACGT-T-C---------------","--CGAACAAACG--T-T---------------","--CGAACAAACG--T-T---------------","TACGAACAAACGT-TCT---------------","TACGAACAAACGT-TCT---------------","--CGAACAAACGT-T-C---------------","--CGAACAAACGT-T-C---------------","--CGAACAAACG--T-T---------------","--CGAACAAACG--T-T---------------","TACGAACAAACGT-TCT---------------","--CGAACAAACGT-TCT---------------","-ACGAACAAACGT-T-C---------------","TACGAACAAACGT-T-C---------------","---GAACAAACGT-T-C---------------","--CGAACAAACG--T-T---------------","-ACGAACAAACG--T-T---------------","-ACGAACAAACG--T-T---------------","--CGAACAAACG--T-T---------------","---GAACAAACGT-T-C---------------","---GAACAAACGT-T-C---------------","TACGAACAAACGT-T-C---------------","---GAACAAACGT-T-C---------------","--CGAACAAACGT-T-C---------------","---GAACAAACGT-T-C---------------","--CGAACAAACG--T-T---------------","--CGAACAAACG--T-T---------------","---GAACAAACGT-T-C---------------","-ACGAACAAACG--T-T---------------","-ACGAACAAACGT-T-C---------------","---GAACAAACGT-T-C---------------","--CGAACAAACG--T-T---------------","--CGAACAAACG--T-T---------------","TACGAACAAACGT-T-C---------------","-ACGAACAAACG--T-T---------------","TACGAACAAACG--T-T---------------","AAAGTATGTTCGC-A-T---------------","-ACGAAAGTATGT-TCG---------------","--CGAAAGTATG--T-T---------------","--CGAAAGTATG--T-T---------------","AAAGTATGTTCGC-A-T---------------","--CGAAAGTATG--T-T---------------","------------G----AAAGTATGTTCGCAT","-ACGAAAGTATGT-T-C---------------","AAAGTATGTTCG----C---------------","AAAGTATGTTCGC-A-T---------------","--CGAAAGTATG--T-T---------------","--CGAAAGTATG--T-T---------------","-ACGAAAGTATGT-TCG---------------","-ACGAAAGTATGT-T-C---------------","------------G----AAAGTATGTTCGCAT","-ACGAAAGTATGT-TCG---------------","--CGAAAGTATG--T-T---------------","AAAGTATGTTCGC-A-T---------------","TACGAAAGTATG--T-T---------------","TACGAAAGTATGT-TCG---------------","AAAGTATGTTCGC-A-T---------------","AAAGTATGTTCG----C---------------","TACGAAAGTATG--T-T---------------","TACGAAAGTATGT-TCG---------------","--CGAAAGTATG--T-T---------------","AAAGTATGTTCGC-A-T---------------","AAAGTATGTTCGC-A-T---------------","--CGAAAGTATG--T-T---------------","------------G----AAAGTATGTTCGCAT","AAAGTATGTTCGC-A-T---------------","AAAGTATGTTCGC-A-T---------------","AAAGTATGTTCGC-A-T---------------","-ACGAAAGTATG--T-T---------------","-ACGAAAGTATGT-TCG---------------","-ACGAAAGTATGT-T-C---------------","AAAGTATGTTCGC-A-T---------------","AAAGTATGTTCGC-A-T---------------","--CGAAAGTATG--T-T---------------","AAAGTATGTTCGC-A-T---------------","TACGAAAGTATG--T-T---------------","TACGAAAGTATGT-TCG---------------","-ACGAAAGTATGT-T-C---------------","TACGAAAGTATG--T-T---------------","TACGAAAGTATGT-TCG---------------","-ACGAAAGTATG--T-T---------------","-ACGAAAGTATGT-TCG---------------","AAAGTATGTTCGC-A-T---------------","CA-GAACGTGTGT-TCG---------------","AACGTGTGTTCG----T---------------","AACGTGTGTTCG--TAT---------------","ACAGAACGTGTGT-T-C---------------","AACGTGTGTTCG--T-A---------------","------------G----AACGTGTGTTCG-T-","------------G----AACGTGTGTTCGTAT","AACGTGTGTTCG----T---------------","AACGTGTGTTCG--TAT---------------","AACGTGTGTTCG--T-A---------------","------------G----AACGTGTGTTCGTAT","ACAGAACGTGTGT-T-C---------------","------------G----AACGTGTGTTCGTAT","AACGTGTGTTCG--TAT---------------","AACGTGTGTTCG--T-A---------------","------------G----AACGTGTGTTCGTAT","-A-GAACGTGTGT-T-C---------------","AACGTGTGTTCG--T-A---------------","------------G----AACGTGTGTTCGTAT","AACGTGTGTTCG--TAT---------------","AACGTGTGTTCG--TAT---------------","AACGTGTGTTCG--T-A---------------","AACGTGTGTTCG----T---------------","AACGTGTGTTCG--TAT---------------","ACAGAACGTGTGT-T-C---------------","------------G----AACGTGTGTTCG-T-","------------G----AACGTGTGTTCGTAT","AACGTGTGTTCG--T-A---------------","------------G----AACGTGTGTTCGTAT","AACGTGTGTTCG----T---------------","-A-GAACGTGTGT-TCG---------------","AACGTGTGTTCG--T-A---------------","AACGTGTGTTCG--T-A---------------","ACAGAACGTGTGT-TCG---------------","CA-GAACGTGTGTTCGT---------------","AACGTGTGTTCG--T-A---------------","ACAGAACGTGTGT-T-C---------------","------------G----AACGTGTGTTCGTAT","AACGTGTGTTCG--TAT---------------","AACGTGTGTTCG--T-A---------------","------------G----AACGTGTGTTCGTAT","AACGTGTGTTCG--T-A---------------","------------G----AACGTGTGTTCGTAT","AACGTGTGTTCG--TAT---------------","AACGTGTGTTCG----T---------------","AACGTGTGTTCG--TAT---------------","AACGTGTGTTCG--TAT---------------","CA-GAACGTGTGTTCGT---------------","AACGTGTGTTCG--T-A---------------","------------G----AACGTGTGTTCGTAT","-A-GAACGTGTGT-T-C---------------","AACGTGTGTTCG--T-A---------------","ACAGAACGTGTGT-T-C---------------","AACGTGTGTTCG--T-A---------------","---GAACGTGTGT-T-C---------------","AACGTGTGTTCG--T-A---------------","AACGTGTGTTCG----T---------------","------------G----AACGTGTGTTCGTAT","CA-GAACATTTGT-TCG---------------","CA-GAACATTTGTTCGT---------------","AACATTTGTTCG--TGT---------------","CA-GAACATTTGT-T-C---------------","CA-GAACATTTGTTCGT---------------","AACATTTGTTCG----T---------------","AACATTTGTTCG--TGT---------------","---GAACATTTGT-T-C---------------","AACATTTGTTCG----T---------------","AACATTTGTTCG--TGT---------------","ACAGAACATTTGT-TCG---------------","-A-GAACATTTGT-T-C---------------","AACATTTGTTCG----T---------------","---GAACATTTGT-T-C---------------","---GAACATTTGT-T-C---------------","CA-GAACATTTGTTCGT---------------","AACATTTGTTCG----T---------------","AACATTTGTTCG--TGT---------------","AACATTTGTTCG----T---------------","AACATTTGTTCG--TGT---------------","AACATTTGTTCG----T---------------","AACATTTGTTCG--TGT---------------","CA-GAACATTTGT-T-C---------------","AACATTTGTTCG----T---------------","AACATTTGTTCG----T---------------","-A-GAACATTTG--T-T---------------","-A-GAACATTTGT-TCG---------------","-A-GAACATTTGT-TCG---------------","AACATTTGTTCG----T---------------","AACATTTGTTCG----T---------------","CA-GAACATTTGT-TCG---------------","CA-GAACATTTGTTCGT---------------","AACATTTGTTCG----T---------------","CA-GAACATTTGT-T-C---------------","CA-GAACATTTGTTCGT---------------","AACATTTGTTCG----T---------------","AACATTTGTTCG--TGT---------------","CA-GAACATTTGTTCGT---------------","CA-GAACATTTGT-T-C---------------","CA-GAACATTTGTTCGT---------------","AACATTTGTTCG----T---------------","AACATTTGTTCG----T---------------","CA-GAACATTTGTTCGT---------------","ACAGAACATTTGT-T-C---------------","AACATTTGTTCG----T---------------","AACATTTGTTCG--TGT---------------","AACATTTGTTCG----T---------------","AACATTTGTTCG--TGT---------------","CA-GAACATTTGTTCGT---------------","-A-GAACATTTGT-T-C---------------","AACATTTGTTCG----T---------------","CA-GAACATTTGTTCGT---------------","---GAACATTTGT-T-C---------------","AACATTTGTTCG----T---------------","---GAACATTTGT-T-C---------------","AACATTTGTTCG----T---------------","AACATTTGTTCG----T---------------","AACAAATATTCG--C-A---------------","-GCGAACAAA--T----ATTC-----------","AACAAATATTCGC-A-A---------------","AACAAATATTCG--C-A---------------","AACAAATATTCG--C-A---------------","AGCGAACAAATA--T-T---------------","AGCGAACAAA--T----ATTCG----------","------------G----AACAAATATTCGCA-","AACAAATATTCG--C-A---------------","-GCGAACAAATATTCGC---------------","AACAAATATTCG--C-A---------------","---GAACAAA--T----ATTC-----------","AACAAATATTCGC-A-A---------------","AACAAATATTCG--C-A---------------","-GCGAACAAATA--T-T---------------","-GCGAACAAA--T----ATTCG----------","---GAACAAA--T----ATTC-----------","------------G----AACAAATATTCGCA-","-GCGAACAAA--T----ATTCG----------","AACAAATATTCG--C-A---------------","AACAAATATTCG--C-A---------------","AGCGAACAAATA--T-T---------------","AGCGAACAAA--T----ATTCG----------","--CGAACAAATA--T-T---------------","--CGAACAAA--T----ATTCG----------","AACAAATATTCG--C-A---------------","AGCGAACAAA--T----ATTCG----------","AACAAATATTCG--C-A---------------","AACAAATATTCG--C-A---------------","------------G----AACAAATATTCGCA-","---GAACAAA--T----ATTC-----------","-GCGAACAAATA--T-T---------------","-GCGAACAAA--T----ATTCG----------","AACAAATATTCG--C-A---------------","--CGAACAAA--T----ATTC-----------","AACAAATATTCG--C-A---------------","AACAAATATTCG--C-A---------------","---GAACAAA--T----ATTC-----------","------------G----AACAAATATTCGCA-","AACAAATATTCG--C-A---------------","AACAAATATTCG--C-A---------------","------------G----AACAAATATTCGCA-","------------G----AACAAATATTCGCA-","AACAAATATTCG--C-A---------------","------------G----AACGTTTGTTTGTAT","AACGTTTGTTTG----T---------------","AACGTTTGTTTG--TAT---------------","------------G----AACGTTTGTTTGTAT","------------G----AACGTTTGTTTG-T-","------------G----AACGTTTGTTTGTAT","AACGTTTGTTTG--T-A---------------","-A-GAACGTTTG--T-T---------------","------------G----AACGTTTGTTTGTAT","AACGTTTGTTTG--TAT---------------","-A-GAACGTTTG--T-T---------------","-A-GAACGTTTGTTT-G---------------","------------G----AACGTTTGTTTG-T-","AACGTTTGTTTG--T-A---------------","------------G----AACGTTTGTTTGTAT","------------G----AACGTTTGTTTGTAT","AACGTTTGTTTG--TAT---------------","AACGTTTGTTTG--TAT---------------","AACGTTTGTTTG----T---------------","AACGTTTGTTTG--TAT---------------","------------G----AACGTTTGTTTG-T-","------------G----AACGTTTGTTTGTAT","AACGTTTGTTTG--T-A---------------","AACGTTTGTTTG----T---------------","AACGTTTGTTTG--T-A---------------","AACGTTTGTTTG--T-A---------------","AACGTTTGTTTG----T---------------","AACGTTTGTTTG--TAT---------------","AACGTTTGTTTG--T-A---------------","------------G----AACGTTTGTTTGTAT","AACGTTTGTTTG--TAT---------------","------------G----AACGTTTGTTTGTAT","------------G----AACGTTTGTTTGTA-","AACGTTTGTTTG----T---------------","AACGTTTGTTTG--T-A---------------","AACGTTTGTTTG--TAT---------------","------------G----AACGTTTGTTTGTAT","------------G----AACGTTTGTTTGTAT","AACGTTTGTTTG--TAT---------------","AACGTTTGTTTG--TAT---------------","------------G----AACGTTTGTTTGTAT","------------G----AACGTTTGTTTG-T-","------------G----AACGTTTGTTTGTAT","AACGTTTGTTTG--T-A---------------","------------G----AACGTTTGTTTGTAT","-A-GAACGTTTG--T-T---------------","AACGTTTGTTTG--T-A---------------","AACGTTTGTTTG--T-A---------------","AACGTTTGTTTG----T---------------","-A-GAACATTTGT-T-C---------------","-A-GAACATTTGT-T-C---------------","AACATTTGTTCT--A-T---------------","-A-GAACATTTGTTCTA---------------","---GAACATTTGT-T-C---------------","-A-GAACATTTGT-T-C---------------","TCAGAACATTTGT-T-C---------------","TCAGAACATTTGT-TCT---------------","---GAACATTTGT-T-C---------------","---GAACATTTGT-T-C---------------","-A-GAACATTTGT-T-C---------------","TCAGAACATTTGT-TCT---------------","-A-GAACATTTGT-T-C---------------","-A-GAACATTTGT-TCT---------------","TCAGAACATTTGT-T-C---------------","-A-GAACATTTG--T-T---------------","TCAGAACATTTGT-T-C---------------","-A-GAACATTTGT-TCT---------------","TCAGAACATTTGT-T-C---------------","-A-GAACATTTGT-T-C---------------","-A-GAACATTTGT-TCT---------------","---GAACATTTGT-T-C---------------","AACATTTGTTCT--A-T---------------","---GAACATTTGT-T-C---------------","---GAACATTTGT-T-C---------------","AACATTTGTTC-T----ATG------------","-A-GAACATTTGT-T-C---------------","-A-GAACATTTGT-T-C---------------","-A-GAACATTTGT-T-C---------------","CA-GAACATCTGT-T-C---------------","AAC-ATCTGTTC--T-T---------------","AAC-ATC-----T----GTTCTTA--------","ACAGAACATCTGT-T-C---------------","AAC-ATC-----T----GTTCTTAG-------","AAC-ATC-----T----GTTCTTA--------","AAC-ATC-----T----GTTCTTA--------","AAC-ATCTGTTC--T-T---------------","AAC-ATC-----T----GTTCTTAG-------","-A-GAACATCTG--T-T---------------","AAC-ATC-----T----GTTCTTA--------","AAC-ATC-----T----GTTCTTAG-------","ACAGAACATCTGT-T-C---------------","CA-GAACATCTGT-T-C---------------","AAC-ATC-----T----GTTCTTA--------","AAC-ATC-----T----GTTCTTA--------","AAC-ATC-----T----GTTCTTAG-------","AAC-ATC-----T----GTTCTTA--------","AAC-ATC-----T----GTTCTTA--------","AAC-ATC-----T----GTTCTTA--------","AAC-ATC-----T----GTTCTTAG-------","CA-GAACATCTGT-T-C---------------","AAC-ATC-----T----GTTCTTA--------","AAC-ATC-----T----GTTCTTAG-------","AAC-ATC-----T----GTTCTTA--------","AAC-ATC-----T----GTTCTTAG-------","AACGAACAAATG--T-T---------------","--CGAACAAATGTTT-G---------------","--CGAACAAATG--T-T---------------","--CGAACAAATGTTT-G---------------","AACGAACAAATGTTT-G---------------","AACGAACAAATGTTT-G---------------","--CGAACAAATG--T-T---------------","AACAAATGTTTG--T-T---------------","--CGAACAAATG--T-T---------------","--CGAACAAATGTTT-G---------------","AACGAACAAATG--T-T---------------","--CGAACAAATG--T-T---------------","--CGAACAAATGTTT-G---------------","-ACGAACAAATGTTTGT---------------","AACAAATGTTTG--T-T---------------","--CGAACAAATGTTTGT---------------","-ACGAACAAATGTTTGT---------------","AACGAACAAATG--T-T---------------","AACGAACAAATGTTT-G---------------","AACAAATGTTTG--T-T---------------","AACAAATGTTTG--T-T---------------","AACGAACAAATG--T-T---------------","AACGAACAAATGTTT-G---------------","AACGAACAAATG--T-T---------------","AACGAACAAATGTTT-G---------------","--CGAACAAATG--T-T---------------","-ACGAACAAATG--T-T---------------","--CGAACAAATG--T-T---------------","--CGAACAAATG--T-T---------------","--CGAACAAATGTTT-G---------------","--CGAACAAATGTTTGT---------------","AACGTACGTTTG--T-A---------------","------------G----AACGTACGTTTG-T-","AACGAACGTACG--T-T---------------","--CGAACGTACGTTT-G---------------","AACGTACGTTTG--T-A---------------","-ACGAACGTACGTTTGT---------------","AACGTACGTTTG--T-A---------------","AACGAACGTACGTTT-G---------------","-ACGAACGTACG----T---------------","-ACGAACGTACGT-T-T---------------","AACGTACGTTTG--T-A---------------","--CGAACGTACG--T-T---------------","--CGAACGTACG--T-T---------------","--CGAACGTACGTTT-G---------------","AACGTACGTTTG----T---------------","AACGTACGTTTG--T-A---------------","-ACGAACGTACG----T---------------","-ACGAACGTACGT-T-T---------------","AACGTACGTTTG--T-A---------------","-ACGAACGTACG----T---------------","-ACGAACGTACGT-T-T---------------","AACGTACGTTTG--T-A---------------","AACGAACGTACG--T-T---------------","--CGAACGTACG--T-T---------------","--CGAACGTACGTTT-G---------------","AACGTACGTTTG--T-A---------------","--CGAACGTACGTTTGT---------------","AACGTACGTTTG--T-A---------------","-ACGAACGTACG--T-T---------------","AACGAACGTACG--T-T---------------","AACGAACGTACGTTT-G---------------","------------G----AACGTACGTTTG-T-","------------G----AACGTACGTTTGTA-","------------G----AACGTACGTTTGTA-","AACGAACGTACG--T-T---------------","AACGAACGTACGTTT-G---------------","AACGTACGTTTG--T-A---------------","AACGTACGTTTG--T-A---------------","AACGTACGTTTG--TAG---------------","------------G----AACGTACGTTTGTA-","--CGAACGTACG--T-T---------------","-ACGAACGTACG--T-T---------------","AACGTACGTTTG--T-A---------------","AACGTACGTTTG--T-A---------------","--CGAACGTACGTTTGT---------------","--CGAACGTACG--T-T---------------","--CGAACGTACG--T-T---------------","--CGAACGTACGTTT-G---------------","AACGTACGTTTG--T-A---------------","AACGTACGTTTG----T---------------","AACGTACGTTTG--T-A---------------","AACGTACGTTTG--T-A---------------","AACGAACGTAC-----G---------------","--CGAACGTACG--T-T---------------","--CGAACGTACGTTT-G---------------","------------G----AACGTACGTTTGTAG","--CGAACGTACGTTTGT---------------","AACGTACGTTTG--T-A---------------","ACCGAAAATATGT-TCG---------------","-CCGAAAATATGT-T-C---------------","AAAATATGTTCG--TAT---------------","AAAATATGTTCG--TAT---------------","AAAATATGTTCG--TAT---------------","AAAATATGTTCG--TAT---------------","AAAATATGTTCG--TAT---------------","AAAATATGTTCG--TAT---------------","AAAATATGTTCG--TAT---------------","AAAATATGTTCG--TAT---------------","-CCGAAAATATGT-T-C---------------","AAAATATGTTCG--TAT---------------","AAAATATGTTCG--TAT---------------","-CCGAAAATATGT-TCG---------------","-CCGAAAATATGT-T-C---------------","AAAATATGTTCG--TAT---------------","AAAATATGTTCG--TAT---------------","AAAATATGTTCG--TAT---------------","AAAATATGTTCG--TAT---------------","AAAATATGTTCG--TAT---------------","AAAATATGTTCG--TAT---------------","AAAATATGTTCG--TAT---------------","AAAATATGTTCG--TAT---------------","AA-ATATGTTCG--TAT---------------","AAAATATGTTCG--TAT---------------","CACGAACAAATGT-T-C---------------","--CGAACAAATG--T-T---------------","--CGAACAAATGT-T-C---------------","--CGAACAAATG--T-T---------------","--CGAACAAATG--T-T---------------","--CGAACAAATGT-TCT---------------","CACGAACAAATGT-T-C---------------","CACGAACAAATGT-T-C---------------","--CGAACAAATG--T-T---------------","--CGAACAAATG--T-T---------------","--CGAACAAATGT-TCT---------------","--CGAACAAATGT-T-C---------------","--CGAACAAATGT-T-C---------------","---GAACAAATGT-T-C---------------","--CGAACAAATG--T-T---------------","--CGAACAAATG--T-T---------------","--CGAACAAATG--T-T---------------","--CGAACAAATG--T-T---------------","---GAACAAATGT-T-C---------------","---GAACAAATGT-T-C---------------","---GAACAAATGT-T-C---------------","--CGAACAAATGT-T-C---------------","---GAACAAATGT-T-C---------------","--CGAACAAATG--T-T---------------","--CGAACAAATG--T-T---------------","---GAACAAATGT-T-C---------------","--CGAACAAATG--T-T---------------","--CGAACAAATGT-T-C---------------","---GAACAAATGT-T-C---------------","--CGAACAAATG--T-T---------------","--CGAACAAATG--T-T---------------","--CGAACAAATGT-T-C---------------","--CGAACAAATG--T-T---------------","--CGAACAAATG--T-T---------------","AACAAACGTTTG--TAT---------------","AGCGAACAAACG--T-T---------------","AACAAACGTTTG--TAT---------------","AACAAACGTTTG--TAT---------------","AGCGAACAAACGTTT-G---------------","AACAAACGTTTG--TAT---------------","AGCGAACAAACGTTT-G---------------","AACAAACGTTTG--TAT---------------","AACAAACGTTTG--TAT---------------","AACAAACGTTTG--TAT---------------","AACAAACGTTTG--TAT---------------","AACAAACGTTTG--TAT---------------","AACAAACGTTTG--TAT---------------","AACAAACGTTTG--TAT---------------","AGCGAACAAACG--T-T---------------","AGCGAACAAACGTTT-G---------------","AACAAACGTTTG--TAT---------------","AGCGAACAAACG--T-T---------------","AGCGAACAAACGTTT-G---------------","AACAAACGTTTG--TAT---------------","AGCGAACAAACG--T-T---------------","AGCGAACAAACGTTT-G---------------","AACAAACGTTTG--TAT---------------","AACAAACGTTTG--TAT---------------","AACAAACGTTTG--TAT---------------","--CGAACAAACG--T-T---------------","AACAAACGTTTG--TAT---------------","AACAAACGTTTG--TAT---------------","-GCGAACAAACG--T-T---------------","-GCGAACAAACGTTT-G---------------","AACAAACGTTTG--TAT---------------","-ACAAACGTTTG--TAT---------------","AACAAACGTTTG--TAT---------------","AAC-ATTAGTTC--T-T---------------","AAC-ATTA----G----TTCTTAT--------","AAAGAACATTAG--T-T---------------","AA-GAACATTAG--T-T---------------","AAC-ATTA----G----TTCTTAT--------","AA-GAACATTAG--T-T---------------","AAAGAACA----T----TAGTTC---------","AA-GAACATTAG--T-T---------------","AA-GAACATTAG--T-T---------------","AAC-ATTA----G----TTCTTAT--------","AAC-ATTAGTTC--T-T---------------","AAC-ATTA----G----TTCTTAT--------","AAAGAACATTAG--T-T---------------","AAC-ATTA----G----TTCTTA---------","AAAGAACATTAG--T-T---------------","AAC-ATTAGTTC--T-T---------------","AAC-ATTA----G----TTCTTAT--------","AAC-ATTA----G----TTCTTA---------","AAC-ATTA----G----TTCTTAT--------","AA-GAACA----T----TAGTTC---------","AA-GAACATTAG--T-T---------------","AA-GAACATTAG--T-T---------------","AAC-ATTA----G----TTCTTAT--------","AAC-ATTA----G----TTCTTA---------","AAC-ATTA----G----TTCTTAT--------","AAC-ATTA----G----TTCTTAT--------","AAC-ATTA----G----TTCTTA---------","AAAGAACA----T----TAGTTC---------","AA-GAACATTAG--T-T---------------","AA-GAACATTAG--T-T---------------","-AC-ATTA----G----TTCTTAT--------","AAC-ATTA----G----TTCTTA---------","AAC-ATTA----G----TTCTTA---------","AACAAATGTTCG--TAT---------------","AAAGAACAAATGT-T-C---------------","AACAAATGTTCG--T-A---------------","-A-GAACAAATGTTCGT---------------","AA-GAACAAATGTTCGT---------------","AAAGAACAAATG--T-T---------------","AAAGAACAAATGT-TCG---------------","AAAGAACAAATGT-T-C---------------","AACAAATGTTCG--TAT---------------","AACAAATGTTCG--T-A---------------","---GAACAAATGT-T-C---------------","-A-GAACAAATGT-TCG---------------","AACAAATGTTCG--TAT---------------","AACAAATGTTCG--T-A---------------","AACAAATGTTCG--TAT---------------","AAAGAACAAATGT-T-C---------------","-A-GAACAAATGTTCGT---------------","AACAAATGTTCG--T-A---------------","AACAAATGTTCG--T-A---------------","AAAGAACAAATGT-TCG---------------","AACAAATGTTCG--TAT---------------","AACAAATGTTCG--T-A---------------","AAAGAACAAATGT-T-C---------------","AACAAATGTTCG--TAT---------------","AAAGAACAAATGT-TCG---------------","AACAAATGTTCG--T-A---------------","AACAAATGTTCG--TAT---------------","AACAAATGTTCG--TAT---------------","AACAAATGTTCG--TAT---------------","AACAAATGTTCG--TAT---------------","AACAAATGTTCG--T-A---------------","---GAACAAATGT-T-C---------------","AAAGAACAAATGT-T-C---------------","AACAAATGTTCG--T-A---------------","-A-GAACAAATGT-T-C---------------","AACAAATGTTCG--T-A---------------","AACATATGTTC-T----ATA------------","---GAACATATGT-T-C---------------","AACATATGTTC-T----ATA------------","TGCGAACATATGT-T-C---------------","--CGAACATATG--T-T---------------","TGCGAACATATGT-TCT---------------","---GAACATATGT-T-C---------------","AACATATGTTC-T----ATA------------","---GAACATATGT-T-C---------------","AACATATGTTCT--A-T---------------","--CGAACATATG--T-T---------------","---GAACATATGT-T-C---------------","TGCGAACATATGT-T-C---------------","--CGAACATATGT-T-C---------------","AACATATGTTCT--A-T---------------","---GAACATATGT-T-C---------------","AACATATGTTCT--A-T---------------","---GAACATATGT-T-C---------------","-GCGAACATATG--T-T---------------","AACATATGTTC-T----ATA------------","--CGAACATATGT-T-C---------------","---GAACATATGT-T-C---------------","--CGAACATATGT-T-C---------------","---GAACATATGT-T-C---------------","--CGAACATATG--T-T---------------","---GAACATATGT-T-C---------------","--CGAACATATGT-T-C---------------","AACATATGTTCT--A-T---------------","TGCGAACATATGT-T-C---------------","AACATATGTTCT--A-T---------------","TGCGAACATATG--T-T---------------","AACGTATGTTCG----T---------------","AACGTATGTTCG--TAT---------------","ATAGAACGTATGT-T-C---------------","AACGTATGTTCG--T-A---------------","------------G----AACGTATGTTCG-T-","------------G----AACGTATGTTCGTAT","AACGTATGTTCG----T---------------","AACGTATGTTCG--TAT---------------","AACGTATGTTCG--T-A---------------","ATAGAACGTATGT-T-C---------------","------------G----AACGTATGTTCGTAT","AACGTATGTTCG--TAT---------------","TA-GAACGTATGT-TCG---------------","AACGTATGTTCG--T-A---------------","---GAACGTATGT-T-C---------------","AACGTATGTTCG--T-A---------------","------------G----AACGTATGTTCGTAT","AACGTATGTTCG--TAT---------------","AACGTATGTTCG--TAT---------------","AACGTATGTTCG--TAT---------------","AACGTATGTTCG--T-A---------------","AACGTATGTTCG----T---------------","AACGTATGTTCG--TAT---------------","ATAGAACGTATGT-T-C---------------","------------G----AACGTATGTTCG-T-","------------G----AACGTATGTTCGTAT","AACGTATGTTCG--T-A---------------","AACGTATGTTCG----T---------------","------------G----AACGTATGTTCGTAT","AACGTATGTTCG--T-A---------------","AACGTATGTTCG--T-A---------------","ATAGAACGTATGT-TCG---------------","ATAGAACGTATGT-TCG---------------","AACGTATGTTCG----T---------------","AACGTATGTTCG--TAT---------------","AACGTATGTTCG--T-A---------------","ATAGAACGTATGT-T-C---------------","------------G----AACGTATGTTCGTAT","AACGTATGTTCG--TAT---------------","AACGTATGTTCG--T-A---------------","AACGTATGTTCG----T---------------","AACGTATGTTCG--T-A---------------","AACGTATGTTCG--TAT---------------","AACGTATGTTCG--TAT---------------","------------G----AACGTATGTTCGTAT","AACGTATGTTCG--TAT---------------","AACGTATGTTCG----T---------------","AACGTATGTTCG--TAT---------------","AACGTATGTTCG--TAT---------------","------------G----AACGTATGTTCG-T-","------------G----AACGTATGTTCGTAT","AACGTATGTTCG--T-A---------------","---GAACGTATGT-T-C---------------","AACGTATGTTCG--T-A---------------","AACGTATGTTCG--T-A---------------","ATAGAACGTATGT-T-C---------------","-ACGTATGTTCG--TAT---------------","AACGTATGTTCG--T-A---------------","---GAACGTATGT-T-C---------------","AACGTATGTTCG--T-A---------------","AACGTATGTTCG----T---------------","CA-GAACGTTTGT-TCG---------------","AACGTTTGTTC-G----GTA------------","CA-GAACGTTTGT-T-C---------------","CA-GAACGTTTGT-TCG---------------","------------G----AACGTTTGTTCGGT-","---GAACGTTTGT-T-C---------------","---GAACGTTTGT-T-C---------------","AACGTTTGTTCG--G-T---------------","------------G----AACGTTTGTTCGGTA","CA-GAACGTTTGT-TCG---------------","------------G----AACGTTTGTTCGGT-","---GAACGTTTGT-T-C---------------","---GAACGTTTGT-T-C---------------","CA-GAACGTTTGT-TCG---------------","AACGTTTGTTCG--G-T---------------","------------G----AACGTTTGTTCGGT-","-A-GAACGTTTG--T-T---------------","-A-GAACGTTTGT-TCG---------------","-A-GAACGTTTGT-TCG---------------","CA-GAACGTTTGT-TCG---------------","CA-GAACGTTTGT-TCG---------------","CA-GAACGTTTGT-T-C---------------","AACGTTTGTTCG--G-T---------------","CA-GAACGTTTGT-TCG---------------","CA-GAACGTTTGT-T-C---------------","ACAGAACGTTTGT-TCG---------------","---GAACGTTTGT-T-C---------------","AACGTTTGTTC-G----GTA------------","CA-GAACGTTTGT-TCG---------------","CA-GAACGTTTGT-TCG---------------","-A-GAACGTTTGT-T-C---------------","CA-GAACGTTTGT-TCG---------------","---GAACGTTTGT-T-C---------------","------------G----AACGTTTGTTCG-G-","---GAACGTTTGT-T-C---------------","CA-GAACATATGT-TCG---------------","AACATATGTTCG----T---------------","AACATATGTTCG--TAT---------------","ACAGAACATATGT-T-C---------------","AACATATGTTCG--T-A---------------","AACATATGTTCG----T---------------","AACATATGTTCG--TAT---------------","AACATATGTTCG--T-A---------------","ACAGAACATATGT-T-C---------------","AACATATGTTCG--TAT---------------","AACATATGTTCG--T-A---------------","-A-GAACATATGT-T-C---------------","AACATATGTTCG----T---------------","AACATATGTTCG--TAT---------------","AACATATGTTCG--T-A---------------","AACATATGTTCG--TAT---------------","AACATATGTTCG--TAT---------------","AACATATGTTCG--TAT---------------","AACATATGTTCG--T-A---------------","AACATATGTTCG----T---------------","AACATATGTTCG--TAT---------------","ACAGAACATATGT-T-C---------------","AACATATGTTCG--T-A---------------","AACATATGTTCG----T---------------","-A-GAACATATGT-TCG---------------","AACATATGTTCG--T-A---------------","AACATATGTTCG--T-A---------------","AACATATGTTCG--T-A---------------","ACAGAACATATGT-TCG---------------","CA-GAACATATGTTCGT---------------","AACATATGTTCG--T-A---------------","ACAGAACATATGT-T-C---------------","AACATATGTTCG--TAT---------------","AACATATGTTCG--T-A---------------","AACATATGTTCG----T---------------","AACATATGTTCG--T-A---------------","AACATATGTTCG--TAT---------------","AACATATGTTCG--TAT---------------","AACATATGTTCG----T---------------","AACATATGTTCG--TAT---------------","AACATATGTTCG--TAT---------------","CA-GAACATATGTTCGT---------------","AACATATGTTCG--T-A---------------","-A-GAACATATGT-T-C---------------","AACATATGTTCG--T-A---------------","AACATATGTTCG--T-A---------------","ACAGAACATATGT-T-C---------------","-ACATATGTTCG--TAT---------------","AACATATGTTCG--T-A---------------","---GAACATATGT-T-C---------------","AACATATGTTCG--T-A---------------","AACATATGTTCG----T---------------","AAAATATGTTCG--TGT---------------","AAAATATGTTCG--TGT---------------","AAAATATGTTCG--TGT---------------","AAAATATGTTCG--TGT---------------","AAAATATGTTCG--TGT---------------","AAAATATGTTCG--TGT---------------","AAAATATGTTCG--TGT---------------","CCCGAAAATATGT-TCG---------------","AAAATATGTTCG--T-G---------------","CCCGAAAATATGT-TCG---------------","AAAATATGTTCG--TGT---------------","AAAATATGTTCG--TGT---------------","AAAATATGTTCG--TGT---------------","AAAATATGTTCG--TGT---------------","AAAATATGTTCG--TGT---------------","-CCGAAAATATG--T-T---------------","-CCGAAAATATGT-TCG---------------","AAAATATGTTCG--TGT---------------","AAAATATGTTCG--TGT---------------","CCCGAAAATATGT-T-C---------------","AAAATATGTTCG--TGT---------------","AAAATATGTTCG--TGT---------------","AAAATATGTTCG--TGT---------------","AAAATATGTTCG--TGT---------------","AAAATATGTTCG--TGT---------------","AAAATATGTTCG--TGT---------------","AAAATATGTTCG--TGT---------------","AAAATATGTTCG--TGT---------------","AAAATATGTTCG--TGT---------------","AAAATATGTTCG--TGT---------------","AAAATATGTTCG--TGT---------------","------------G----AACGTTTGTTTGTAT","AACGTTTGTTTG----T---------------","AACGTTTGTTTG--TAT---------------","------------G----AACGTTTGTTTGTAT","------------G----AACGTTTGTTTG-T-","------------G----AACGTTTGTTTGTAT","AACGTTTGTTTG--T-A---------------","-A-GAACGTTTG--T-T---------------","------------G----AACGTTTGTTTGTAT","AACGTTTGTTTG--TAT---------------","-A-GAACGTTTG--T-T---------------","-A-GAACGTTTGTTT-G---------------","------------G----AACGTTTGTTTG-T-","AACGTTTGTTTG--T-A---------------","------------G----AACGTTTGTTTGTAT","------------G----AACGTTTGTTTGTAT","AACGTTTGTTTG--TAT---------------","AACGTTTGTTTG--TAT---------------","AACGTTTGTTTG----T---------------","AACGTTTGTTTG--TAT---------------","------------G----AACGTTTGTTTG-T-","------------G----AACGTTTGTTTGTAT","AACGTTTGTTTG--T-A---------------","AACGTTTGTTTG----T---------------","AACGTTTGTTTG--T-A---------------","AACGTTTGTTTG--T-A---------------","AACGTTTGTTTG----T---------------","AACGTTTGTTTG--TAT---------------","AACGTTTGTTTG--T-A---------------","------------G----AACGTTTGTTTGTAT","AACGTTTGTTTG--TAT---------------","------------G----AACGTTTGTTTGTAT","------------G----AACGTTTGTTTGTA-","AACGTTTGTTTG----T---------------","AACGTTTGTTTG--T-A---------------","AACGTTTGTTTG--TAT---------------","------------G----AACGTTTGTTTGTAT","------------G----AACGTTTGTTTGTAT","AACGTTTGTTTG--TAT---------------","AACGTTTGTTTG--TAT---------------","------------G----AACGTTTGTTTGTAT","------------G----AACGTTTGTTTG-T-","------------G----AACGTTTGTTTGTAT","AACGTTTGTTTG--T-A---------------","------------G----AACGTTTGTTTGTAT","-A-GAACGTTTG--T-T---------------","AACGTTTGTTTG--T-A---------------","AACGTTTGTTTG--T-A---------------","AACGTTTGTTTG----T---------------","---GAACAAATGT-T-C---------------","---GAACAAATGT-T-C---------------","AGCGAACAAATG--T-T---------------","AGCGAACAAATG--T-T---------------","---GAACAAATGT-T-C---------------","---GAACAAATGT-T-C---------------","AGCGAACAAATG--T-T---------------","AGCGAACAAATG--T-T---------------","AGCGAACAAATG--T-T---------------","AGCGAACAAATGT-TCT---------------","---GAACAAATGT-T-C---------------","---GAACAAATGT-T-C---------------","AGCGAACAAATGT-T-C---------------","AGCGAACAAATGT-T-C---------------","---GAACAAATGT-T-C---------------","--CGAACAAATG--T-T---------------","-GCGAACAAATGT-T-C---------------","AGCGAACAAATGT-T-C---------------","AGCGAACAAATGT-T-C---------------","AGCGAACAAATG--T-T---------------","AGCGAACAAATG--T-T---------------","---GAACAAATGT-T-C---------------","AGCGAACAAATG--T-T---------------","---GAACAAATGT-T-C---------------","-GCGAACAAATGT-T-C---------------","AGCGAACAAATG--T-T---------------","AGCGAACAAATG--T-T---------------","-A-GAACGAATGT-T-C---------------","AACGAATGTTC-----T---------------","AACGAATGTTCT--G-T---------------","-A-GAACGAATGT-TCT---------------","---GAACGAATGT-T-C---------------","-A-GAACGAATGT-T-C---------------","TCAGAACGAATGT-T-C---------------","TCAGAACGAATGT-TCT---------------","---GAACGAATGT-T-C---------------","AACGAATGTTC-----T---------------","---GAACGAATGT-T-C---------------","-A-GAACGAATGT-T-C---------------","TCAGAACGAATGT-T-C---------------","TCAGAACGAATGT-TCT---------------","-A-GAACGAATGT-T-C---------------","AACGAATGTTC-----T---------------","TCAGAACGAATGT-T-C---------------","-A-GAACGAATG--T-T---------------","TCAGAACGAATGT-T-C---------------","-A-GAACGAATGT-T-C---------------","-A-GAACGAATGT-TCT---------------","TCAGAACGAATGT-T-C---------------","-A-GAACGAATGT-T-C---------------","-A-GAACGAATGT-TCT---------------","AACGAATGTTC-----T---------------","---GAACGAATGT-T-C---------------","AACGAATGTTC-----T---------------","AACGAATGTTCT--G-T---------------","---GAACGAATGT-T-C---------------","---GAACGAATGT-T-C---------------","AACGAATGTTC-----T---------------","AACGAATGTTC-----T---------------","-A-GAACGAATGT-T-C---------------","-A-GAACGAATGT-T-C---------------","-A-GAACGAATGT-T-C---------------","TCAGAACGAATGT-TCT---------------","-ACGAACAAACGTTTGC---------------","--CGAACAAACGTTTGC---------------","-ACGAACAAACG--T-T---------------","-ACGAACAAACG--T-T---------------","--CGAACAAACGTTTGC---------------","--CGAACAAACGTTT-G---------------","-ACGAACAAACG--T-T---------------","--CGAACAAACG--T-T---------------","-ACGAACAAACGTTTGC---------------","-ACGAACAAACGTTTGC---------------","--CGAACAAACGTTT-G---------------","TACGAACAAACGTTT-G---------------","AACAAACGTTTGC-T-T---------------","TACGAACAAACGTTT-G---------------","--CGAACAAACGTTT-G---------------","-ACAAACGTTTGC-T-T---------------","AACAAACGTTTGC-T-T---------------","-ACGAACAAACGTTTGC---------------","--CGAACAAACGTTT-G---------------","--CGAACAAACGTTT-G---------------","--CGAACAAACG--T-T---------------","-ACGAACAAACG--T-T---------------","--CGAACAAACGTTT-G---------------","--CGAACAAACGTTT-G---------------","-ACGAACAAACGTTTGC---------------","TACGAACAAACGTTT-G---------------","-ACGAACAAACG--T-T---------------","TACGAACAAACGTTT-G---------------","-ACGAACAAACGTTT-G---------------","AACAAACGTTTGT-T-T---------------","AACAAACGTTTGT-T-T---------------","AACAAACGTTTGT-T-T---------------","AACAAACGTTTGT-T-T---------------","--CGAACAAACG--T-T---------------","--CGAACAAACGTTT-G---------------","AACGAACAAACGTTT-G---------------","AACAAACGTTTGT-T-T---------------","--CGAACAAACG--T-T---------------","--CAAACGTTTG--T-T---------------","AACAAACGTTTG--T-T---------------","--CGAACAAACG--T-T---------------","--CGAACAAACGTTT-G---------------","AACAAACGTTTGT-T-T---------------","AACAAACGTTTGT-T-T---------------","--CAAACGTTTG--T-T---------------","--CGAACAAACG--T-T---------------","--CGAACAAACGTTT-G---------------","-ACGAACAAACGTTTGT---------------","--CGAACAAACGTTTGT---------------","-ACGAACAAACGTTTGT---------------","-ACAAACGTTTGT-T-T---------------","-ACAAACGTTTGT-T-T---------------","AACGAACAAACGTTT-G---------------","AACAAACGTTTGT-T-T---------------","AACAAACGTTTGT-T-T---------------","AACGAACAAACGTTT-G---------------","--CGAACAAACG--T-T---------------","-ACGAACAAACG--T-T---------------","--CGAACAAACG--T-T---------------","--CAAACGTTTG--T-T---------------","AACAAACGTTTGT-T-T---------------","--CGAACAAACG--T-T---------------","--CGAACAAACGTTT-G---------------","--CGAACAAACGTTTGT---------------","CA-GAACATTTGT-T-C---------------","ACAGAACATTTGT-T-C---------------","ACAGAACATTTGT-T-C---------------","ACAGAACATTTGT-T-C---------------","---GAACATTTGT-T-C---------------","ACAGAACATTTGT-TCT---------------","ACAGAACATTTGT-T-C---------------","---GAACATTTGT-T-C---------------","ACAGAACATTTGT-T-C---------------","-A-GAACATTTGT-TCT---------------","---GAACATTTGT-T-C---------------","ACAGAACATTTGT-TCT---------------","ACAGAACATTTGT-T-C---------------","ACAGAACATTTGT-TCT---------------","---GAACATTTGT-T-C---------------","-A-GAACATTTG--T-T---------------","-A-GAACATTTGT-T-C---------------","ACAGAACATTTGT-T-C---------------","CA-GAACATTTGT-T-C---------------","ACAGAACATTTGT-TCT---------------","---GAACATTTGT-T-C---------------","ACAGAACATTTGT-T-C---------------","ACAGAACATTTGT-TCT---------------","CA-GAACATTTGT-T-C---------------","ACAGAACATTTGT-T-C---------------","ACAGAACATTTGT-T-C---------------","ACAGAACATTTGT-T-C---------------","ACAGAACATTTGT-T-C---------------","CA-GAACATTTGT-T-C---------------","-A-GAACATTTGTTCTA---------------","ACAGAACATTTGT-T-C---------------","ACAGAACATTTGT-TCT---------------","AACGTACGTTTG--T-A---------------","------------G----AACGTACGTTTG-T-","AACGAACGTACG--T-T---------------","--CGAACGTACGTTT-G---------------","AACGTACGTTTG--T-A---------------","-ACGAACGTACGTTTGT---------------","AACGTACGTTTG--T-A---------------","AACGAACGTACGTTT-G---------------","-ACGAACGTACG----T---------------","-ACGAACGTACGT-T-T---------------","AACGTACGTTTG--T-A---------------","--CGAACGTACG--T-T---------------","--CGAACGTACG--T-T---------------","--CGAACGTACGTTT-G---------------","AACGTACGTTTG----T---------------","AACGTACGTTTG--T-A---------------","-ACGAACGTACG----T---------------","-ACGAACGTACGT-T-T---------------","AACGTACGTTTG--T-A---------------","-ACGAACGTACG----T---------------","-ACGAACGTACGT-T-T---------------","AACGTACGTTTG--T-A---------------","AACGAACGTACG--T-T---------------","--CGAACGTACG--T-T---------------","--CGAACGTACGTTT-G---------------","AACGTACGTTTG--T-A---------------","--CGAACGTACGTTTGT---------------","AACGTACGTTTG--T-A---------------","-ACGAACGTACG--T-T---------------","AACGAACGTACG--T-T---------------","AACGAACGTACGTTT-G---------------","------------G----AACGTACGTTTG-T-","------------G----AACGTACGTTTGTA-","------------G----AACGTACGTTTGTA-","AACGAACGTACG--T-T---------------","AACGAACGTACGTTT-G---------------","AACGTACGTTTG--T-A---------------","AACGTACGTTTG--T-A---------------","AACGTACGTTTG--TAG---------------","------------G----AACGTACGTTTGTA-","--CGAACGTACG--T-T---------------","-ACGAACGTACG--T-T---------------","AACGTACGTTTG--T-A---------------","AACGTACGTTTG--T-A---------------","--CGAACGTACGTTTGT---------------","--CGAACGTACG--T-T---------------","--CGAACGTACG--T-T---------------","--CGAACGTACGTTT-G---------------","AACGTACGTTTG--T-A---------------","AACGTACGTTTG----T---------------","AACGTACGTTTG--T-A---------------","AACGTACGTTTG--T-A---------------","AACGAACGTAC-----G---------------","--CGAACGTACG--T-T---------------","--CGAACGTACGTTT-G---------------","------------G----AACGTACGTTTGTAG","--CGAACGTACGTTTGT---------------","AACGTACGTTTG--T-A---------------","AACACGTGTTCG--TAT---------------"],
+    "cost": 1122684152,
+    "names": ["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""]
+  }
+}

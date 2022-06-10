@@ -1,0 +1,179 @@
+{
+  "pvalue": 0,
+  "region": [{
+      "frequency": {
+        "A": 0.1443850267379679,
+        "T": 0.0748663101604278,
+        "G": 0.0106951871657754,
+        "C": 0
+      },
+      "index": 0
+    },{
+      "frequency": {
+        "A": 0.12299465240641712,
+        "T": 0,
+        "G": 0.026737967914438502,
+        "C": 0.2620320855614973
+      },
+      "index": 1
+    },{
+      "frequency": {
+        "A": 0.0962566844919786,
+        "T": 0,
+        "G": 0,
+        "C": 0.06417112299465241
+      },
+      "index": 2
+    },{
+      "frequency": {
+        "A": 0,
+        "T": 0.053475935828877004,
+        "G": 0.6470588235294118,
+        "C": 0
+      },
+      "index": 3
+    },{
+      "frequency": {
+        "A": 0.9197860962566845,
+        "T": 0,
+        "G": 0,
+        "C": 0
+      },
+      "index": 4
+    },{
+      "frequency": {
+        "A": 0.93048128342246,
+        "T": 0,
+        "G": 0,
+        "C": 0
+      },
+      "index": 5
+    },{
+      "frequency": {
+        "A": 0.06417112299465241,
+        "T": 0,
+        "G": 0,
+        "C": 0.8502673796791443
+      },
+      "index": 6
+    },{
+      "frequency": {
+        "A": 0.786096256684492,
+        "T": 0,
+        "G": 0.19786096256684493,
+        "C": 0
+      },
+      "index": 7
+    },{
+      "frequency": {
+        "A": 0.7754010695187166,
+        "T": 0.1657754010695187,
+        "G": 0,
+        "C": 0.058823529411764705
+      },
+      "index": 8
+    },{
+      "frequency": {
+        "A": 0.983957219251337,
+        "T": 0.016042780748663103,
+        "G": 0,
+        "C": 0
+      },
+      "index": 9
+    },{
+      "frequency": {
+        "A": 0,
+        "T": 0.6417112299465241,
+        "G": 0,
+        "C": 0.25133689839572193
+      },
+      "index": 10
+    },{
+      "frequency": {
+        "A": 0.0106951871657754,
+        "T": 0,
+        "G": 0.8983957219251337,
+        "C": 0
+      },
+      "index": 11
+    },{
+      "frequency": {
+        "A": 0,
+        "T": 0.8021390374331551,
+        "G": 0,
+        "C": 0
+      },
+      "index": 12
+    },{
+      "frequency": {
+        "A": 0.0481283422459893,
+        "T": 0.7967914438502673,
+        "G": 0,
+        "C": 0
+      },
+      "index": 13
+    },{
+      "frequency": {
+        "A": 0,
+        "T": 0.8877005347593583,
+        "G": 0,
+        "C": 0.11229946524064172
+      },
+      "index": 14
+    },{
+      "frequency": {
+        "A": 0.016042780748663103,
+        "T": 0.016042780748663103,
+        "G": 0.7967914438502673,
+        "C": 0
+      },
+      "index": 15
+    },{
+      "frequency": {
+        "A": 0,
+        "T": 0.43315508021390375,
+        "G": 0,
+        "C": 0
+      },
+      "index": 16
+    },{
+      "frequency": {
+        "A": 0,
+        "T": 0.0855614973262032,
+        "G": 0.0427807486631016,
+        "C": 0.12834224598930483
+      },
+      "index": 17
+    },{
+      "frequency": {
+        "A": 0.18181818181818182,
+        "T": 0.3155080213903743,
+        "G": 0.016042780748663103,
+        "C": 0.016042780748663103
+      },
+      "index": 18
+    },{
+      "frequency": {
+        "A": 0.03208556149732621,
+        "T": 0.6203208556149733,
+        "G": 0,
+        "C": 0.06417112299465241
+      },
+      "index": 19
+    },{
+      "frequency": {
+        "A": 0.18181818181818182,
+        "T": 0.26737967914438504,
+        "G": 0,
+        "C": 0.11764705882352941
+      },
+      "index": 20
+    }],
+  "score": 73.04814181331597,
+  "length": 21,
+  "seeds": {
+    "MSA": ["-C-GAACAAATGTTTG---TT","---GAACAAATGTTTG--TTT","---GAACAAATGTTTG--TTT","-C-GAAAGTATGTTCG---CA","-C-GAAAGTATGTTCG----C","-C-GAAAGTATGTTCG---CA","-C-GAAAGTATGTTCG---CA","-C-G---AAA-GTATG--TTC","-C-GAAAGTATGTTCG---CA","-C-GAAAGTATGTTCG---CA","---GAAAGTATGTTCG---CA","-C-GAAAGTATGTTCG----C","---GAAAGTATGTTCG---CA","-C-G---AAA-GTATG--TTC","-C-GAAAGTATGTTCG---CA","-C-G---AAA-GTATG--TTC","---GAAAGTATGTTCG---CA","-C-GAAAGTATGTTCG---CA","-----ACAAATATTCG---CA","-----ACAAATATTCG---CA","------CAAATGTTTG--TTC","------CAAATGTTTG--TTC","------CAAATGTTTG--TTC","---GAACAAATGTTTG---TT","---GAACAAATGTTTG--TTC","---GAACAAATGTTTG--TTC","------CAAATGTTTG--TTC","------CAAATGTTTG--TTC","-C-GAACGTACGTTTG---TA","-C-GAACGTACGTTTG---TA","-C-GAACGTACGTTTG---TA","-C-GAACGTACGTTTG---TA","-C-GAACGTACGTTTG---TA","-C-GAACGTACGTTTG---TA","---GAACAAACGTTTG--TAT","---GAACAAACGTTTG---TA","---GAACAAACGTTTG--TAT","---GAACAAACGTTTG--TAT","---GAACAAACGTTTG---TA","---GAACAAACGTTTG---TA","---GAACAAACGTTTG---TA","---GAACAAACGTTTG---TA","---GAACAAACGTTTG---TA","---GAACAAACGTTTG--TAT","-C-GAACAAACGTTTG---TA","----AACAAACGTTTG---TA","---GAACAAACGTTTG--TAT","---GAACAAACGTTTG--TAT","---GAACAAACGTTTG---TA","---GAACAAACGTTTG---TA","-A-GAACGAATGTTCT--G-T","-A-GAACGAATGTTCT--G-T","-A-GAACGAATGTTCT--G-T","---GAACAAACGTTTG--CTT","---GAACAAACGTTTG--CTT","---GAACAAACGTTTG--CTT","---GAACAAACGTTTG--TTT","-C-GAACAAACGTTTG---TT","---GAACAAACGTTTG--TTT","---GAACAAACGTTTG--TTT","---GAACAAACGTTTG--TTT","-C-GAACAAACGTTTG---TT","-C-GAACGTACGTTTG---TA","-C-GAACGTACGTTTG---TA","-C-GAACGTACGTTTG---TA","-C-GAACGTACGTTTG---TA","-C-GAACGTACGTTTG---TA","-C-GAACGTACGTTTG---TA","---TAA-GTACGTTTG--TTC","---TAA-GTACGTTTG--TTC","---TAA-GTACGTTTG--TTC","---TAA-GTACGTTTG--TTC","-C-G----TTTGTTCG--ATT","ACAGAACACATG--T-TC---","ACAGAACACATG--T-TC---","ACAGAACACATG--T-TC---","ACAGAACACATG--T-TC---","ACAGAACACATG--T-TC---","AA-GAACAAA----TGTT---","TAAGAACAAATG--T-TC---","TAAGAACAAATG--T-TC---","TAAGAACAAATG--T-TC---","TAAGAACAAATG--T-TC---","TAAGAACAAATG--T-TC---","AA-GAACAAA----TGTT---","TAAGAACAAATG--T-TC---","AA-GAACAAA----TGTT---","TAAGAACAAATG--T-TC---","AA-GAACAAA----TGTT---","TAAGAACAAATG--T-TC---","AA-GAACAAA----TGTT---","TACGAACAAA--TAT-TC---","TACGAACAAA--TAT-TC---","TACGAACAAA--TAT-TC---","AC-GAACAAA----TATT---","TACGAACAAA--TAT-TC---","AC-GAACAAA----TATT---","TACGAACAAA--TAT-TC---","AC-GAACAAA----TATT---","TACGAACAAA--TAT-TC---","---TAA-GCACGTTTG--TTC","---TAA-GCACGTTTG--TTC","---TAA-GCACGTTTG--TTC","---TAA-GCACGTTTG--TTC","-C-G----TTTGTTCG--TTT","-C-G----TTTGTTCG--TTT","---TAA-GCACGTTTG--TTC","---TAA-GCACGTTTG--TTC","ACAGAACAAATG--T-TC---","ACAGAACAAATG--T-TC---","ACAGAACAAATG--T-TC---","ACAGAACAAATG--T-TC---","ACAGAACAAATG--T-TC---","----AACAAATGTTTG--TTT","---GAACAAATGTTTG--TTT","----AACAAATGTTTG--TTT","----AACAAATGTTTG--TTT","AC-GAACAAATG-TT-TG---","----AACAAATGTTTG--TTT","---GAACAAATGTTTG--TTT","----AACAAATGTTTG--TTT","----AACAAATGTTTGTT---","----AACAAATGTTTG--TTT","---GAACAAATGTTTG--TTT","AC-GAACAAA----TGTT---","------CAAATGTTTGTT---","---GAACAAATGTTTG--TTT","----AACAAATGTTTG--TTT","----AACAAATGTTTG--TTT","----AACAAATGTTTGTT---","----AACAAATGTTTG--TTT","---GAACAAATGTTTG--TTT","----AACAAATGTTTGTT---","----AACAAATGTTTG--TTT","----AACAAATGTTTG--TTT","---GAACAAATGTTTG--TTT","---GAACAAATGTTTG--TTT","----AACAAATGTTTG--TTT","----AACAAATGTTTG--TTT","------CAAATGTTTGTT---","----AACAAATGTTTG--TTT","----AACAAATGTTTG--TTT","AACGAACAAATG-TT-TG---","----AACAAATGTTTG--TTT","----AACAAATGTTTG--TTT","----AACAAATGTTTG--TTT","----AACAAATGTTTGT-AT-","---GAACAAATGTTTGT-AT-","----AACAAATGTTTGT-AT-","----AACAAATGTTTGT-AT-","---GAACAAATGTTTGT-AT-","AGCGAACAAATG-TT-TG---","----AACAAATGTTTGT-AT-","AGCGAACAAATG-TT-TG---","----AACAAATGTTTGT-AT-","----AACAAATGTTTGT-AT-","---GAACAAATGTTTGT-AT-","----AACAAATGTTTGT-AT-","----AACAAATGTTTGT-AT-","----AACAAATGTTTGT-AT-","----AACAAATGTTTGT-AT-","---GAACAAATGTTTGT-AT-","----AACAAATGTTTGT-AT-","----AACAAATGTTTGT-AT-","AGCGAACAAATG-TT-TG---","---GAACAAATGTTTGT-AT-","----AACAAATGTTTGT-AT-","AGCGAACAAATG-TT-TG---","----AACAAATGTTTGT-AT-","AGCGAACAAATG-TT-TG---","----AACAAATGTTTGT-AT-","---GAACAAATGTTTGT-AT-","----AACAAATGTTTGT-AT-","----AACAAATGTTTGT-AT-","----AACAAATGTTTGT-AT-","----AACAAATGTTTGT-AT-","----AACAAATGTTTGT-AT-","---GAACAAATGTTTGT-AT-","---GAACAAATGTTTGT-AT-","----AACAAATGTTTGT-AT-","----AACAAATGTTTGT-AT-","GC-GAACAAA----TGTT---","GC-GAACAAATG-TT-TG---","----AACAAATGTTTGT-AT-","----AACAAATGTTTGT-AT-","----AACAAATGTTTGT-AT-","AC-GAACAAA----CGTT---"],
+    "cost": 5817930,
+    "names": ["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""]
+  }
+}

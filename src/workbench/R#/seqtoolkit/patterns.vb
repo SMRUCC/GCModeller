@@ -257,14 +257,17 @@ Module patterns
                               Optional maxw% = 20,
                               Optional nmotifs% = 25,
                               Optional noccurs% = 6,
+                              Optional seedingCutoff As Double = 0.95,
+                              Optional scanMinW As Integer = 6,
+                              Optional scanCutoff As Double = 0.8,
                               Optional env As Environment = Nothing) As SequenceMotif()
 
         Dim param As New PopulatorParameter With {
             .maxW = maxw,
             .minW = minw,
-            .seedingCutoff = 0.95,
-            .ScanMinW = 6,
-            .ScanCutoff = 0.8
+            .seedingCutoff = seedingCutoff,
+            .ScanMinW = scanMinW,
+            .ScanCutoff = scanCutoff
         }
         Dim motifs As SequenceMotif() = GetFastaSeq(fasta, env) _
             .PopulateMotifs(
