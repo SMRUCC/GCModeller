@@ -49,7 +49,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Abstract.Motif
+Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 

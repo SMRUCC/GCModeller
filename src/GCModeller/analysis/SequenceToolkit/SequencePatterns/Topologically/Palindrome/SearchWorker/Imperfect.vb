@@ -51,7 +51,7 @@ Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming.Levenshtein
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Text.Search
-Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Abstract.Motif
+Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.Seeding
 Imports SMRUCC.genomics.SequenceModel
 

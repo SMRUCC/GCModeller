@@ -51,7 +51,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text.Search
-Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Abstract.Motif
+Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.SimilarityMatches
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
