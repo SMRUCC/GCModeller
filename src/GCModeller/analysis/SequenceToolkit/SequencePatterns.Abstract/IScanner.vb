@@ -48,7 +48,7 @@
 
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Abstract.Motif.Patterns
+Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif.Patterns
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 

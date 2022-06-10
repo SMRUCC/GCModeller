@@ -1,5 +1,4 @@
 ﻿Imports SMRUCC.genomics.Analysis.SequenceTools.MSA
-Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Abstract
 
 Public Class SequenceMotif : Inherits Probability
 
