@@ -1,3 +1,5 @@
+require(GCModeller);
+
 imports ["bioseq.fasta", "bioseq.patterns"] from "seqtoolkit.dll";
 
 setwd(!script$dir);
@@ -12,7 +14,11 @@ seq
 :> find_motifs(minw = 6, maxw = 10)
 :> lapply(function(motif) {
 	motif :> json(compress = FALSE) :> writeLines(con = `${export}/${i}.json`); 
-	motif :> plot.seqLogo :> save.graphics(file = `${export}/${i}.png`);
+	# motif :> plot.seqLogo :> bitmap(file = `${export}/${i}.png`);
+	
+	bitmap(file = `${export}/${i}.png`) {
+		plot(motif);
+	};
 	
 	i = i + 1;
 });

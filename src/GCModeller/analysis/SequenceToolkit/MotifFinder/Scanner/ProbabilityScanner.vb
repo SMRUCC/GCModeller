@@ -46,7 +46,7 @@ Imports Microsoft.VisualBasic.DataMining.DynamicProgramming.NeedlemanWunsch
 Imports Microsoft.VisualBasic.DataMining.DynamicProgramming.SmithWaterman
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Abstract.Probability
+Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Abstract
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -135,7 +135,7 @@ Public Module ProbabilityScanner
 
         Dim q = PWM.Skip(match.fromA).Take(match.toA - match.fromA).ToArray
         Dim s = subject.Skip(match.fromB).Take(match.toB - match.fromA).ToArray
-        Dim pairwise As New MotifNeedlemanWunsch(q, s)
+        Dim pairwise As New MotifNeedlemanWunsch(q, s, ResidueScore.Gene)
 
         Return pairwise _
             .Compute() _

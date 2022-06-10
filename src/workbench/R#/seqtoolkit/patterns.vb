@@ -72,7 +72,15 @@ Module patterns
     Sub New()
         Call REnv.Internal.ConsolePrinter.AttachConsoleFormatter(Of PalindromeLoci)(AddressOf PalindromeToString)
         Call REnv.Internal.Object.Converts.makeDataframe.addHandler(GetType(MotifMatch()), AddressOf matchTableOutput)
+        Call REnv.Internal.generic.add("plot", GetType(SequenceMotif), AddressOf plotMotif)
     End Sub
+
+    Private Function plotMotif(motif As SequenceMotif, args As list, env As Environment) As Object
+        Dim data As IEnumerable(Of FastaSeq) = DirectCast(motif, SequenceMotif).seeds.ToFasta
+        Dim title As String = args.getValue(Of String)("title", env, [default]:="")
+
+        Return DrawingDevice.DrawFrequency(New FastaFile(data), title)
+    End Function
 
     Private Function matchTableOutput(scans As MotifMatch(), args As list, env As Environment) As dataframe
         Dim table As New dataframe With {

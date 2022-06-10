@@ -41,6 +41,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\GCModeller\analysis\SequenceToolkit\gwANI\gwANI.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\analysis\SequenceToolkit\MotifFinder\MotifFinder.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\analysis\SequenceToolkit\MotifScanner\MotifScanner.NET5.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\analysis\SequenceToolkit\MSA\MSA.NET5.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\analysis\SequenceToolkit\SequenceLogo\SequenceLogo.NET5.vbproj" />

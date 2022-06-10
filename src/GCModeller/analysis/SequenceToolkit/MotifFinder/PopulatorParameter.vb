@@ -48,8 +48,6 @@
 
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports SMRUCC.genomics.Analysis.SequenceTools.MSA
-Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Abstract
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Public Class PopulatorParameter
@@ -94,14 +92,3 @@ Public Class PopulatorParameter
 
 End Class
 
-Public Class SequenceMotif : Inherits Probability
-
-    Public Property seeds As MSAOutput
-    Public Property length As Integer
-
-    Public ReadOnly Property AverageScore As Double
-        Get
-            Return score / seeds.MSA.Length
-        End Get
-    End Property
-End Class

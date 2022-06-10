@@ -2,68 +2,53 @@
 
   <PropertyGroup>
     <RootNamespace>SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif</RootNamespace>
-	  <TargetFrameworks>net6.0;net5.0;net48</TargetFrameworks>
-    <AssemblyName>SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.MotifScanner</AssemblyName>
+    <TargetFrameworks>net6.0;net5.0;net48</TargetFrameworks>
     <Platforms>AnyCPU;x64</Platforms>
     <Configurations>Debug;Release;Rsharp_app_release</Configurations>
-    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <AssemblyName>SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.MotifFinder</AssemblyName>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.MotifScanner.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.MotifFinder.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.MotifScanner.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.MotifFinder.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|AnyCPU'">
-    <DocumentationFile>SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.MotifScanner.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.MotifFinder.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <DocumentationFile>SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.MotifScanner.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.MotifFinder.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <DocumentationFile>SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.MotifScanner.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.MotifFinder.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|x64'">
-    <DocumentationFile>SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.MotifScanner.xml</DocumentationFile>
-    <DefineConstants>netcore5=1</DefineConstants>
+    <DocumentationFile>SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.MotifFinder.xml</DocumentationFile>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <Optimize>false</Optimize>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="test\**" />
-    <EmbeddedResource Remove="test\**" />
-    <None Remove="test\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\..\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj" />
-    <ProjectReference Include="..\..\..\..\interops\localblast\LocalBLAST\localblast.NET5.vbproj" />
-    <ProjectReference Include="..\..\..\..\repository\Bio.Repository\repository.NET5.vbproj" />
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\DataMining\DataMining\DataMining.NET5.vbproj" />
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\DataMining\DynamicProgramming\DynamicProgramming.NET5.vbproj" />
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math.Statistics\stats-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\Math.NET5.vbproj" />
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
-    <ProjectReference Include="..\MotifFinder\MotifFinder.vbproj" />
+    <ProjectReference Include="..\..\..\core\Bio.Assembly\biocore-netcore5.vbproj" />
     <ProjectReference Include="..\MSA\MSA.NET5.vbproj" />
     <ProjectReference Include="..\NeedlemanWunsch\NeedlemanWunsch.NET5.vbproj" />
     <ProjectReference Include="..\SequencePatterns.Abstract\SequencePatterns.Abstract.NET5.vbproj" />
     <ProjectReference Include="..\SmithWaterman\SmithWaterman.NET5.vbproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="..\..\..\..\..\LICENSE">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
   </ItemGroup>
 
 </Project>
