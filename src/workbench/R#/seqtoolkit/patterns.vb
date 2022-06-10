@@ -260,6 +260,7 @@ Module patterns
                               Optional seedingCutoff As Double = 0.95,
                               Optional scanMinW As Integer = 6,
                               Optional scanCutoff As Double = 0.8,
+                              Optional cleanMotif As Double = 0.5,
                               Optional env As Environment = Nothing) As SequenceMotif()
 
         Dim param As New PopulatorParameter With {
@@ -273,7 +274,8 @@ Module patterns
         Dim motifs As SequenceMotif() = GetFastaSeq(fasta, env) _
             .PopulateMotifs(
                 leastN:=noccurs,
-                param:=param
+                param:=param,
+                cleanMotif:=cleanMotif
             ) _
             .OrderByDescending(Function(m) m.score / m.seeds.MSA.Length) _
             .Take(nmotifs) _

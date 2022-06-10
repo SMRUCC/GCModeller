@@ -4,7 +4,7 @@ Imports SMRUCC.genomics.Analysis.SequenceTools.MSA
 Module TrimMotif
 
     <Extension>
-    Public Function Cleanup(motif As SequenceMotif, Optional cutoff As Double = 0.3) As SequenceMotif
+    Public Function Cleanup(motif As SequenceMotif, Optional cutoff As Double = 0.5) As SequenceMotif
         Dim bits As Double() = motif.getBits
         Dim start As Integer = Scan0
         Dim ends As Integer = bits.Length - 1

@@ -74,6 +74,7 @@ Public Module Protocol
     <Extension>
     Public Iterator Function PopulateMotifs(inputs As IEnumerable(Of FastaSeq),
                                             Optional leastN% = 5,
+                                            Optional cleanMotif As Double = 0.5,
                                             Optional param As PopulatorParameter = Nothing) As IEnumerable(Of SequenceMotif)
 
         Dim regions As FastaSeq() = inputs.ToArray
@@ -111,7 +112,7 @@ Public Module Protocol
                         Return group.motif(regions, param)
                     End Function)
 
-            motif = motif.Cleanup
+            motif = motif.Cleanup(cutoff:=cleanMotif)
 
             If motif.score > 0 Then
                 Yield motif
@@ -185,14 +186,14 @@ Public Module Protocol
                     End Function) _
             .AsVector
         Dim pvalue# = t.Test(scores, Vector.Zero(Dim:=scores.Length), Hypothesis.TwoSided).Pvalue
-
-        Return New SequenceMotif With {
+        Dim motif As New SequenceMotif With {
             .region = residues,
             .pvalue = pvalue,
             .score = scores.Sum,
-            .seeds = alignment,
-            .width = MSA(Scan0).Length
+            .seeds = alignment
         }
+
+        Return motif
     End Function
 
     Public Function pairwiseSeeding(q As FastaSeq, s As FastaSeq, param As PopulatorParameter) As IEnumerable(Of HSP)
