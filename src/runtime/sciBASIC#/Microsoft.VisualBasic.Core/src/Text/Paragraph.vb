@@ -85,7 +85,7 @@ Namespace Text
         ''' </remarks>
         <Extension>
         Public Iterator Function SplitParagraph(text$, len%,
-                                                Optional delimiters As String = ";:,.-_&*!+'~",
+                                                Optional delimiters As String = ";:,.-_&*!+'~ " & ASCII.TAB,
                                                 Optional floatChars As Integer = 6) As IEnumerable(Of String)
             Dim lines$() = text.LineTokens
             Dim delIndex As Index(Of Char) = delimiters.Indexing
