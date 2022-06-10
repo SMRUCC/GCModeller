@@ -122,7 +122,7 @@ Namespace Text
                         ' 必须要value值删除字符串，否则会重复出现最后一行
                         s.Value = Nothing
 
-                        If left >= len Then
+                        If left >= line.Length Then
                             Exit Do
                         End If
                     End If
