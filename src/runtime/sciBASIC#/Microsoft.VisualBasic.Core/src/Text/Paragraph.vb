@@ -107,19 +107,29 @@ Namespace Text
                         Exit Do
                     End If
 
-                    If Not String.IsNullOrEmpty(part.Name) Then ' 有空格
+                    ' 有空格
+                    If Not String.IsNullOrEmpty(part.Name) Then
                         s.Value = Trim((+s) & part.Name)
                         left += part.Name.Length + 1
-                    ElseIf nextLine.First = " "c Then ' 第一个字符是空格，则忽略掉
+
+                    ElseIf nextLine.First = " "c Then
+                        ' 第一个字符是空格，则忽略掉
                         left += 1
                     Else
-                        s.Value &= nextLine  ' 是剩余的结束部分
+                        ' 是剩余的结束部分
+                        s.Value &= nextLine
                         Yield Trim(+s)
-                        s.Value = Nothing ' 必须要value值删除字符串，否则会重复出现最后一行
-                        Exit Do
+                        ' 必须要value值删除字符串，否则会重复出现最后一行
+                        s.Value = Nothing
+
+                        If left >= len Then
+                            Exit Do
+                        End If
                     End If
 
-                    Yield Trim(+s)
+                    If Not s.Value.StringEmpty Then
+                        Yield Trim(+s)
+                    End If
                 Loop
 
                 If Not String.IsNullOrEmpty(+s) Then
