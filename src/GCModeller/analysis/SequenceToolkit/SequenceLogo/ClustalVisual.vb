@@ -81,11 +81,6 @@ Public Module ClustalVisual
     ''' </summary>
     ReadOnly __colours As Dictionary(Of String, Color)
 
-    <ExportAPI("DotSize.Set", Info:="Setups of the dot size for the residue plot.")>
-    Public Sub SetDotSize(n As Integer)
-        ClustalVisual.DotSize = n
-    End Sub
-
     Sub New()
         ClustalVisual.__colours = Polypeptides.MEGASchema.ToDictionary(Function(x) x.Key.ToString, Function(x) x.Value)
 
