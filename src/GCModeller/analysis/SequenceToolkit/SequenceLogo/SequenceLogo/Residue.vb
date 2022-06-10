@@ -125,27 +125,5 @@ Namespace SequenceLogo
                 .Select(Function(a) a.RelativeFrequency) _
                 .ShannonEntropy()
         End Function
-
-        ''' <summary>
-        ''' The information content (y-axis) of position i is given by:
-        ''' 
-        ''' ```
-        ''' Ri = log2(4) - (Hi + en)   //nt
-        ''' Ri = log2(20) - (Hi + en)  //prot 
-        ''' ```
-        ''' 
-        ''' 4 for DNA/RNA or 20 for protein. Consequently, the maximum sequence conservation 
-        ''' per site Is log2 4 = 2 bits for DNA/RNA And log2 20 ≈ 4.32 bits for proteins.
-        ''' 
-        ''' </summary>
-        ''' <param name="rsd"></param>
-        ''' <param name="En"></param>
-        ''' <returns></returns>
-        Public Shared Function CalculatesBits(rsd As Residue, En As Double, NtMol As Boolean) As Residue
-            Dim n As Double = If(NtMol, 2, Math.Log(20, newBase:=2))
-            Dim bits = n - (rsd.Hi + En)
-            rsd.Bits = bits
-            Return rsd
-        End Function
     End Class
 End Namespace

@@ -70,4 +70,36 @@ Public Class Probability
            .Select(Function(r) r.ToString) _
            .JoinBy("")
     End Function
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="nsize">
+    ''' the count of the fasta sequence.
+    ''' </param>
+    ''' <returns></returns>
+    Public Shared Function E(nsize As Integer) As Double
+        Return (1 / Math.Log(2)) * ((4 - 1) / (2 * nsize))
+    End Function
+
+    ''' <summary>
+    ''' The information content (y-axis) of position i is given by:
+    ''' 
+    ''' ```
+    ''' Ri = log2(4) - (Hi + en)   //nt
+    ''' Ri = log2(20) - (Hi + en)  //prot 
+    ''' ```
+    ''' 
+    ''' 4 for DNA/RNA or 20 for protein. Consequently, the maximum sequence conservation 
+    ''' per site Is log2 4 = 2 bits for DNA/RNA And log2 20 ≈ 4.32 bits for proteins.
+    ''' 
+    ''' </summary>
+    ''' <param name="En"></param>
+    ''' <returns></returns>
+    Public Shared Function CalculatesBits(Hi As Double, En As Double, NtMol As Boolean) As Double
+        Dim n As Double = If(NtMol, 2, Math.Log(20, newBase:=2))
+        Dim bits = n - (Hi + En)
+
+        Return bits
+    End Function
 End Class
