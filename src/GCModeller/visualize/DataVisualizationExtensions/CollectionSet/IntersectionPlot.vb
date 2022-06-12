@@ -302,7 +302,7 @@ Namespace CollectionSet
                 .OrderByDescending(Function(lb) lb.Item1.Width) _
                 .FirstOrDefault
             Dim charWidth = maxLabelTuple.Item1.Width / maxLabelTuple.Item2
-            Dim maxLabelSize As New SizeF(maxLabelTuple.Item1.Width + charWidth * 3, maxLabelTuple.Item1.Height)
+            Dim maxLabelSize As New SizeF(maxLabelTuple.Item1.Width + charWidth * 5, maxLabelTuple.Item1.Height)
 
             Dim y As Double = layout.Top
             Dim scale = d3js.scale _
