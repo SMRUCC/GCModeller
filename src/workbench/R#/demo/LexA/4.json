@@ -1,123 +1,227 @@
-﻿{
+{
   "pvalue": 0,
   "region": [{
       "frequency": {
-        "A": 0,
+        "A": 0.5333333333333333,
         "T": 0,
-        "G": 0,
+        "G": 0.30238095238095236,
         "C": 0
       },
       "index": 0
     },{
       "frequency": {
-        "A": 0.052631578947368418,
+        "A": 0.28095238095238095,
         "T": 0,
-        "G": 0.21052631578947367,
-        "C": 0
+        "G": 0,
+        "C": 0.0380952380952381
       },
       "index": 1
     },{
       "frequency": {
-        "A": 0.15789473684210525,
+        "A": 0.9738095238095238,
         "T": 0,
         "G": 0,
-        "C": 0
+        "C": 0.016666666666666666
       },
       "index": 2
     },{
       "frequency": {
-        "A": 0.15789473684210525,
+        "A": 0.20714285714285716,
         "T": 0,
-        "G": 0,
-        "C": 0
+        "G": 0.007142857142857143,
+        "C": 0.7857142857142857
       },
       "index": 3
     },{
       "frequency": {
-        "A": 0,
-        "T": 0,
-        "G": 0,
-        "C": 0.15789473684210525
+        "A": 0.7476190476190476,
+        "T": 0.016666666666666666,
+        "G": 0.2357142857142857,
+        "C": 0
       },
       "index": 4
     },{
       "frequency": {
-        "A": 0.15789473684210525,
-        "T": 0,
+        "A": 0.20714285714285716,
+        "T": 0.7166666666666667,
         "G": 0,
-        "C": 0.52631578947368418
+        "C": 0.0761904761904762
       },
       "index": 5
     },{
       "frequency": {
-        "A": 0.15789473684210525,
-        "T": 0,
-        "G": 0,
-        "C": 0
+        "A": 0.3904761904761905,
+        "T": 0.4785714285714286,
+        "G": 0.007142857142857143,
+        "C": 0.016666666666666666
       },
       "index": 6
     },{
       "frequency": {
-        "A": 0.15789473684210525,
-        "T": 0,
-        "G": 0,
-        "C": 0
+        "A": 0.023809523809523808,
+        "T": 0.8119047619047619,
+        "G": 0.016666666666666666,
+        "C": 0.04047619047619048
       },
       "index": 7
     },{
       "frequency": {
-        "A": 0.10526315789473684,
-        "T": 0.21052631578947367,
-        "G": 0.52631578947368418,
+        "A": 0.016666666666666666,
+        "T": 0.016666666666666666,
+        "G": 0.8595238095238096,
         "C": 0
       },
       "index": 8
     },{
       "frequency": {
-        "A": 0.57894736842105265,
-        "T": 0.21052631578947367,
+        "A": 0,
+        "T": 0.8928571428571429,
         "G": 0,
-        "C": 0.052631578947368418
+        "C": 0
       },
       "index": 9
     },{
       "frequency": {
-        "A": 0.57894736842105265,
-        "T": 0.15789473684210525,
+        "A": 0,
+        "T": 0.8761904761904762,
         "G": 0,
-        "C": 0.10526315789473684
+        "C": 0.016666666666666666
       },
       "index": 10
     },{
       "frequency": {
-        "A": 0.052631578947368418,
-        "T": 0,
-        "G": 0.26315789473684209,
-        "C": 0.52631578947368418
+        "A": 0,
+        "T": 0.40714285714285714,
+        "G": 0,
+        "C": 0.47619047619047616
       },
       "index": 11
     },{
       "frequency": {
-        "A": 0.631578947368421,
-        "T": 0.21052631578947367,
-        "G": 0,
+        "A": 0,
+        "T": 0.07380952380952381,
+        "G": 0.7952380952380952,
         "C": 0
       },
       "index": 12
     },{
       "frequency": {
-        "A": 0.57894736842105265,
+        "A": 0.030952380952380953,
+        "T": 0.7095238095238096,
+        "G": 0.004761904761904762,
+        "C": 0.0880952380952381
+      },
+      "index": 13
+    },{
+      "frequency": {
+        "A": 0.6071428571428571,
+        "T": 0.06190476190476191,
+        "G": 0.0380952380952381,
+        "C": 0.05
+      },
+      "index": 14
+    },{
+      "frequency": {
+        "A": 0.19523809523809524,
+        "T": 0.6738095238095239,
+        "G": 0.023809523809523808,
+        "C": 0
+      },
+      "index": 15
+    },{
+      "frequency": {
+        "A": 0,
+        "T": 0.10714285714285714,
+        "G": 0,
+        "C": 0
+      },
+      "index": 16
+    },{
+      "frequency": {
+        "A": 0.10714285714285714,
         "T": 0,
         "G": 0,
         "C": 0
       },
-      "index": 13
+      "index": 17
+    },{
+      "frequency": {
+        "A": 0,
+        "T": 0.10714285714285714,
+        "G": 0,
+        "C": 0
+      },
+      "index": 18
+    },{
+      "frequency": {
+        "A": 0,
+        "T": 0,
+        "G": 0.10714285714285714,
+        "C": 0
+      },
+      "index": 19
+    },{
+      "frequency": {
+        "A": 0,
+        "T": 0.10714285714285714,
+        "G": 0,
+        "C": 0
+      },
+      "index": 20
+    },{
+      "frequency": {
+        "A": 0,
+        "T": 0.10714285714285714,
+        "G": 0,
+        "C": 0
+      },
+      "index": 21
+    },{
+      "frequency": {
+        "A": 0,
+        "T": 0,
+        "G": 0,
+        "C": 0.10714285714285714
+      },
+      "index": 22
+    },{
+      "frequency": {
+        "A": 0,
+        "T": 0,
+        "G": 0.10714285714285714,
+        "C": 0
+      },
+      "index": 23
+    },{
+      "frequency": {
+        "A": 0,
+        "T": 0.10714285714285714,
+        "G": 0,
+        "C": 0
+      },
+      "index": 24
+    },{
+      "frequency": {
+        "A": 0.04523809523809524,
+        "T": 0,
+        "G": 0.05952380952380952,
+        "C": 0
+      },
+      "index": 25
+    },{
+      "frequency": {
+        "A": 0,
+        "T": 0.10476190476190476,
+        "G": 0.002380952380952381,
+        "C": 0
+      },
+      "index": 26
     }],
-  "score": 1878,
-  "length": 14,
+  "score": 75.32841472854435,
+  "length": 27,
   "seeds": {
-    "MSA": ["-G------TTCGT-","--AACAAA------","--AACAAA------","--AACAAA------","-----C--GAACAA","-----C--GAACAA","-----C--GAACAA","-G------TTTGT-","-G------TTTGT-","-G------TTTGT-","-----C--GAACAA","--------AACGAA","-----C--GAACAA","-----C--GAACAA","-A------ACAAA-","-----C--GAACAA","-----C--GAACAA","-----C--GAACAA","-----C--GAACAA"],
-    "cost": 93767,
-    "names": ["","","","","","","","","","","","","","","","","","",""]
+    "MSA": ["--ACAAGTGTTCGTAT-----------","A-ACATTTGTTCGTAT-----------","A-ACATTTGTTCGTAT-----------","A-ACATTTGTTCGTAT-----------","A-ACATTTGTTCGTAT-----------","A-ACATTTGTTCGTAT-----------","A-ACATTTGTTCGTAT-----------","A-ACATTTGTTCGTAT-----------","A-ACATTTGTTCGTAT-----------","A-ACATTTGTTCGTAT-----------","A-ACATTTGTTCGTAT-----------","A-ACATTTGTTCGTAT-----------","A-ACATTTGTTCGTAT-----------","--ACATTTGTTCGTAT-----------","A-ACAAATATTCGCAA-----------","A-ACAAATATTCGCAA-----------","--ACAAATATTCG-CA-----------","GAACATTTGTTTGTAT-----------","A-ACATTTGTTTGTAT-----------","GAACATTTGTTTGTAT-----------","GAACATTTGTTTGTAT-----------","A-ACATTTGTTTGTAT-----------","GAACATTTGTTTGTAT-----------","A-ACATTTGTTTGTAT-----------","GAACATTTGTTTGTAT-----------","GAACATTTGTTTGTAT-----------","A-ACATTTGTTTGTAT-----------","A-ACATTTGTTTGTAT-----------","A-ACATTTGTTTGTAT-----------","A-ACATTTGTTTGTAT-----------","GAACATTTGTTTGTAT-----------","GAACATTTGTTTGTAT-----------","A-ACATTTGTTTGTAT-----------","GAACATTTGTTTGTAT-----------","A-ACATTTGTTTGTAT-----------","GAACATTTGTTTGTAT-----------","A-ACATTTGTTTGTAT-----------","A-ACATTTGTTTGTAT-----------","GAACATTTGTTTGTAT-----------","GAACATTTGTTTGTAT-----------","A-ACATTTGTTTGTAT-----------","A-ACATTTGTTTGTAT-----------","A-ACATTTGTTTGTAT-----------","GAACATTTGTTTGTAT-----------","GAACATTTGTTTGTAT-----------","GAACATTTGTTTGTAT-----------","--ACATTTGTTTGTAT-----------","A-ACATCTGTTCTTAG-----------","A-ACATCTGTTCTTAG-----------","A-ACATCTGTTCTTAG-----------","A-ACATCTGTTCTTAG-----------","A-ACATCTGTTCTTAG-----------","A-ACATCTGTTCTTAG-----------","A-ACATCTGTTCTTAG-----------","A-ACAAATGTTTGT-T-----------","A-ACAAATGTTTGT-T-----------","A-ACAAATGTTTGT-T-----------","A-ACAAATGTTTGT-T-----------","--AAAA----------TATGTTCGTAT","GAAAATATGTTCGTAT-----------","--AAAA----------TATGTTCGTAT","--AAAA----------TATGTTCGTAT","--AAAA----------TATGTTCGTAT","--AAAA----------TATGTTCGTAT","GAAAATATGTTCGTAT-----------","--AAAA----------TATGTTCGTAT","GAAAATATGTTCGTAT-----------","--AAAA----------TATGTTCGTAT","--AAAA----------TATGTTCGTAT","GAAAATATGTTCGTAT-----------","GAAAATATGTTCGTAT-----------","GAAAATATGTTCGTAT-----------","GAAAATATGTTCGTAT-----------","--AAAA----------TATGTTCGTAT","--AAAA----------TATGTTCGTAT","--AAAA----------TATGTTCGTAT","GAAAATATGTTCGTAT-----------","--AAAA----------TATGTTCGTAT","GAAAATATGTTCGTAT-----------","--AAAA----------TATGTTCGTAT","--AAAA----------TATGTTCGTAT","--AAAA----------TATGTTCGTAT","--AAAA----------TATGTTCGTAT","--AAAA----------TATGTTCGTAT","GAAAATATGTTCGTAT-----------","GAAAATATGTTCGTAT-----------","--AAAA----------TATGTTCGTAT","--AAATATGTTCGTAT-----------","--AAAA----------TATGTTCGTAT","A-ACAAATGTTCTAAA-----------","A-ACATTAGTTCTTAT-----------","A-ACATTAGTTCTTAT-----------","A-ACATTAGTTCTTAT-----------","A-ACATTAGTTCTTAT-----------","A-ACATTAGTTCTTAT-----------","A-ACATTAGTTCTTAT-----------","A-ACATTAGTTCTTAT-----------","A-ACATTAGTTCTTAT-----------","A-ACATTAGTTCTTAT-----------","--ACATTAGTTCTTAT-----------","AACATATGTTC-TATA-----------","AACATATGTTC-TATA-----------","AACATATGTTC-TATA-----------","A-ACATATGTTC-TAT-----------","---CATATGTTC-TAT-----------","A-ACATATGTTC-TAT-----------","A-ACATATGTTC-TAT-----------","AACATATGTTC-TATA-----------","A-ACATATGTTC-TAT-----------","A-ACATATGTTC-TAT-----------","GAACGTTTGTTTGTAT-----------","A-ACGTTTGTTTGTAT-----------","GAACGTTTGTTTGTAT-----------","GAACGTTTGTTTGTAT-----------","A-ACGTTTGTTTGT-A-----------","GAACGTTTGTTTGTAT-----------","A-ACGTTTGTTTGTAT-----------","A-ACGTTTGTTTGT-A-----------","GAACGTTTGTTTGTAT-----------","GAACGTTTGTTTGTAT-----------","A-ACGTTTGTTTGTAT-----------","A-ACGTTTGTTTGTAT-----------","A-ACGTTTGTTTGTAT-----------","GAACGTTTGTTTGTAT-----------","A-ACGTTTGTTTGT-A-----------","A-ACGTTTGTTTGT-A-----------","A-ACGTTTGTTTGT-A-----------","A-ACGTTTGTTTGTAT-----------","A-ACGTTTGTTTGT-A-----------","GAACGTTTGTTTGTAT-----------","A-ACGTTTGTTTGTAT-----------","GAACGTTTGTTTGTAT-----------","A-ACGTTTGTTTGT-A-----------","A-ACGTTTGTTTGTAT-----------","GAACGTTTGTTTGTAT-----------","GAACGTTTGTTTGTAT-----------","A-ACGTTTGTTTGTAT-----------","A-ACGTTTGTTTGTAT-----------","GAACGTTTGTTTGTAT-----------","GAACGTTTGTTTGTAT-----------","A-ACGTTTGTTTGT-A-----------","GAACGTTTGTTTGTAT-----------","A-ACGTTTGTTTGT-A-----------","A-ACGTTTGTTTGT-A-----------","A-ACGAATGTTC-TGT-----------","A-ACGAATGTTC-TGT-----------","--ACACGTGTTCTTAT-----------","GAACAAATGTTTGTAT-----------","GAACAAATGTTTGTAT-----------","GAACAAATGTTTGTAT-----------","GAACAAATGTTTGTAT-----------","GAACAAATGTTTGTAT-----------","GAACAAATGTTTGTAT-----------","GAACAAATGTTTGTAT-----------","GAACAAATGTTTGTAT-----------","A-AAGTATGTTCGCAT-----------","A-AAGTATGTTCGCAT-----------","GAAAGTATGTTCGCAT-----------","A-AAGTATGTTCGCAT-----------","GAAAGTATGTTCGCAT-----------","A-AAGTATGTTCGCAT-----------","A-AAGTATGTTCGCAT-----------","A-AAGTATGTTCGCAT-----------","A-AAGTATGTTCGCAT-----------","GAAAGTATGTTCGCAT-----------","A-AAGTATGTTCGCAT-----------","A-AAGTATGTTCGCAT-----------","A-AAGTATGTTCGCAT-----------","A-AAGTATGTTCGCAT-----------","A-AAGTATGTTCGCAT-----------","A-AAGTATGTTCGCAT-----------","A-AAGTATGTTCGCAT-----------","A-ACAAATATTCGCAA-----------","A-ACAAATATTCGCAA-----------","---CATTTGTTCGTTT-----------","---CATTTGTTCGTTT-----------","---CATTTGTTCGTTT-----------","A-ACGTATGTTC-TGT-----------","AACGTATGTTCTGT-T-----------","AACGTATGTTCTGT-T-----------","AACGTATGTTCTGT-T-----------","A-ACGTATGTTC-TGT-----------","GAACATTTGTTTGTAT-----------","A-ACATTTGTTTGTAT-----------","GAACATTTGTTTGTAT-----------","GAACATTTGTTTGTAT-----------","A-ACATTTGTTTGTAT-----------","GAACATTTGTTTGTAT-----------","A-ACATTTGTTTGTAT-----------","GAACATTTGTTTGTAT-----------","GAACATTTGTTTGTAT-----------","A-ACATTTGTTTGTAT-----------","A-ACATTTGTTTGTAT-----------","A-ACATTTGTTTGTAT-----------","A-ACATTTGTTTGTAT-----------","GAACATTTGTTTGTAT-----------","A-ACATTTGTTTGTAT-----------","GAACATTTGTTTGTAT-----------","A-ACATTTGTTTGTAT-----------","GAACATTTGTTTGTAT-----------","A-ACATTTGTTTGTAT-----------","A-ACATTTGTTTGTAT-----------","GAACATTTGTTTGTAT-----------","GAACATTTGTTTGTAT-----------","A-ACATTTGTTTGTAT-----------","A-ACATTTGTTTGTAT-----------","A-ACATTTGTTTGTAT-----------","GAACATTTGTTTGTAT-----------","GAACATTTGTTTGTAT-----------","GAACATTTGTTTGTAT-----------","--ACATTTGTTTGTAT-----------","A-ACAAATGTTTGT-T-----------","A-ACAAATGTTTGT-T-----------","A-ACATTTGTTTGCAT-----------","A-ACATTTGTTTGCAT-----------","A-ACATTTGTTTGCAT-----------","A-ACATTTGTTTGCAT-----------","A-ACATTTGTTTGCAT-----------","A-ACATTTGTTTGCAT-----------","A-ACATTTGTTTGCAT-----------","A-ACATTTGTTTGCAT-----------","A-ACATTTGTTTGCAT-----------","A-ACATTTGTTTGCAT-----------","--ACATTTGTTTGCAT-----------","--ACGATTGTTCG-CT-----------","A-ACGATTGTTCGCTG-----------","--ACGATTGTTCG-CT-----------","--ACGATTGTTCG-CT-----------","--ACGATTGTTCG-CT-----------","--ACGATTGTTCG-CT-----------","A-ACAAATGTTTGTAA-----------","A-ACGTTTGTTCGGTA-----------","A-ACGTTTGTTCG-GT-----------","A-ACGTTTGTTCG-GT-----------","A-ACGTTTGTTCG-GT-----------","A-ACGTTTGTTCGGTA-----------","A-ACATATGTTCGTAT-----------","A-ACATATGTTCGT-A-----------","GAACATATGTTCGTAT-----------","A-ACATATGTTCGTAT-----------","A-ACATATGTTCGT-A-----------","GAACATATGTTCGTAT-----------","GAACATATGTTCGTAT-----------","A-ACATATGTTCGTAT-----------","A-ACATATGTTCGT-A-----------","GAACATATGTTCGTAT-----------","A-ACATATGTTCGTAT-----------","A-ACATATGTTCGT-A-----------","GAACATATGTTCGTAT-----------","A-ACATATGTTCGTAT-----------","A-ACATATGTTCGTAT-----------","A-ACATATGTTCGTAT-----------","A-ACATATGTTCGT-A-----------","A-ACATATGTTCGTAT-----------","GAACATATGTTCGTAT-----------","A-ACATATGTTCGT-A-----------","GAACATATGTTCGTAT-----------","A-ACATATGTTCGT-A-----------","A-ACATATGTTCGT-A-----------","A-ACATATGTTCGT-A-----------","A-ACATATGTTCGT-A-----------","GAACATATGTTCGTAT-----------","A-ACATATGTTCGTAT-----------","A-ACATATGTTCGT-A-----------","GAACATATGTTCGTAT-----------","A-ACATATGTTCGT-A-----------","A-ACATATGTTCGTAT-----------","GAACATATGTTCGTAT-----------","A-ACATATGTTCGTAT-----------","A-ACATATGTTCGTAT-----------","A-ACATATGTTCGTAT-----------","A-ACATATGTTCGT-A-----------","GAACATATGTTCGTAT-----------","A-ACATATGTTCGT-A-----------","A-ACATATGTTCGT-A-----------","--ACATATGTTCGTAT-----------","A-ACATATGTTCGT-A-----------","A-ACATATGTTCGT-A-----------","GAACATATGTTCGTAT-----------","--AAAA----------TATGTTCGTGT","--AAAA----------TATGTTCGTGT","--AAAA----------TATGTTCGTGT","GAAAATATGTTCGTGT-----------","--AAAA----------TATGTTCGTGT","--AAAA----------TATGTTCGTGT","--AAAA----------TATGTTCGTGT","--AAAA----------TATGTTCGTGT","GAAAATATGTTCGTGT-----------","--AAAA----------TATGTTCGT-G","--AAAA----------TATGTTCGTGT","GAAAATATGTTCGTGT-----------","--AAAA----------TATGTTCGTGT","--AAAA----------TATGTTCGTGT","--AAAA----------TATGTTCGTGT","GAAAATATGTTCGTGT-----------","GAAAATATGTTCGTGT-----------","GAAAATATGTTCGTGT-----------","--AAAA----------TATGTTCGTGT","GAAAATATGTTCGTGT-----------","--AAAA----------TATGTTCGTGT","--AAAA----------TATGTTCGTGT","GAAAATATGTTCGTGT-----------","--AAAA----------TATGTTCGTGT","--AAAA----------TATGTTCGTGT","--AAAA----------TATGTTCGTGT","--AAAA----------TATGTTCGTGT","--AAAA----------TATGTTCGTGT","GAAAATATGTTCGTGT-----------","--AAAA----------TATGTTCGTGT","--AAAA----------TATGTTCGTGT","--AAAA----------TATGTTCGTGT","--AAAA----------TATGTTCGTGT","--AAAA----------TATGTTCGTGT","--AAAA----------TATGTTCGTGT","A-ACATTTGTTCTAAA-----------","A-ACATTTGTTCTAAA-----------","A-ACATTTGTTCTAAA-----------","A-ACATTTGTTCTAAA-----------","A-ACATTTGTTCTAAA-----------","A-ACATTTGTTCTAAA-----------","A-ACATTTGTTCTAAA-----------","A-ACATTTGTTCTAAA-----------","--ACACGTGTTCGTAT-----------","A-ACACATGTTCGT-A-----------","--ACACATGTTCG--T-----------","A-ACACATGTTCGT-A-----------","--ACACATGTTCGTAT-----------","GAACACATGTTCGTAT-----------","GAACACATGTTCGTAT-----------","A-ACACATGTTCGT-A-----------","GAACACATGTTCGTAT-----------","A-ACACATGTTCGT-A-----------","GAACACATGTTCGTAT-----------","A-ACACATGTTCGT-A-----------","A-ACACATGTTCGT-A-----------","GAACACATGTTCGTAT-----------","A-ACACATGTTCGT-A-----------","A-ACACATGTTCGT-A-----------","A-ACACATGTTCGT-A-----------","A-ACACATGTTCGT-A-----------","GAACACATGTTCGTAT-----------","A-ACACATGTTCGT-A-----------","GAACACATGTTCGTAT-----------","A-ACACATGTTCGT-A-----------","GAACACATGTTCGTAT-----------","A-ACACATGTTCGT-A-----------","GAACACATGTTCGTAT-----------","A-ACACATGTTCGT-A-----------","A-ACACATGTTCGT-A-----------","--ACACATGTTCGTAT-----------","A-ACACATGTTCGT-A-----------","A-ACACATGTTCGT-A-----------","GAACACATGTTCGTAT-----------","A-ACAAATATTCGCAA-----------","A-ACAAATATTCGCAA-----------","GCACGTTTGTTCGTTT-----------","GCACGTTTGTTCGTTT-----------","GCACGTTTGTTCGTTT-----------","GCACGTTTGTTCGTTT-----------","GCACGTTTGTTCGTTT-----------","GCACGTTTGTTCGTTT-----------","GCACGTTTGTTCGTTT-----------","GCACGTTTGTTCGTTT-----------","GCACGTTTGTTCGTTT-----------","GCACGTTTGTTCGTTT-----------","GCACGTTTGTTCGTTT-----------","GCACGTTTGTTCGTTT-----------","GCACGTTTGTTCGTTT-----------","GCACGTTTGTTCGTTT-----------","GCACGTTTGTTCGTTT-----------","GCACGTTTGTTCGTTT-----------","A-ACAAATGTTTGT-T-----------","A-ACAAATGTTTGT-T-----------","A-ACAAATGTTTGT-T-----------","A-ACGTACGTTTG-CA-----------","A-ACGTACGTTTG-CA-----------","A-ACGTACGTTTG-CA-----------","A-ACGTACGTTTG-CA-----------","A-ACGTACGTTTG-CA-----------","A-ACGTACGTTTG-CA-----------","A-ACGTACGTTTGCAG-----------","A-ACGTACGTTTG-CA-----------","A-ACGTACGTTTG-CA-----------","A-ACGTACGTTTG-CA-----------","A-ACGTACGTTTG-CA-----------","A-ACGTACGTTTG-CA-----------","A-ACGTACGTTTG-CA-----------","A-ACGTACGTTTG-CA-----------","A-ACGTACGTTTG-CA-----------","GAACGTACGTTTGCAG-----------","A-ACGTACGTTTG-CA-----------","GAACATTTGTTTGTAT-----------","A-ACATTTGTTTGTAT-----------","GAACATTTGTTTGTAT-----------","GAACATTTGTTTGTAT-----------","A-ACATTTGTTTGTAT-----------","GAACATTTGTTTGTAT-----------","A-ACATTTGTTTGTAT-----------","GAACATTTGTTTGTAT-----------","GAACATTTGTTTGTAT-----------","A-ACATTTGTTTGTAT-----------","A-ACATTTGTTTGTAT-----------","A-ACATTTGTTTGTAT-----------","A-ACATTTGTTTGTAT-----------","GAACATTTGTTTGTAT-----------","A-ACATTTGTTTGTAT-----------","GAACATTTGTTTGTAT-----------","A-ACATTTGTTTGTAT-----------","GAACATTTGTTTGTAT-----------","A-ACATTTGTTTGTAT-----------","A-ACATTTGTTTGTAT-----------","GAACATTTGTTTGTAT-----------","GAACATTTGTTTGTAT-----------","A-ACATTTGTTTGTAT-----------","A-ACATTTGTTTGTAT-----------","A-ACATTTGTTTGTAT-----------","GAACATTTGTTTGTAT-----------","GAACATTTGTTTGTAT-----------","GAACATTTGTTTGTAT-----------","--ACATTTGTTTGTAT-----------"],
+    "cost": 84291658,
+    "names": ["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""]
   }
 }

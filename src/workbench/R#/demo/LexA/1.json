@@ -1,91 +1,139 @@
-﻿{
+{
   "pvalue": 0,
   "region": [{
       "frequency": {
         "A": 0,
-        "T": 0.77777777777777779,
-        "G": 0,
-        "C": 0.22222222222222221
+        "T": 0,
+        "G": 0.5384615384615384,
+        "C": 0.2692307692307692
       },
       "index": 0
     },{
       "frequency": {
-        "A": 0,
+        "A": 0.038461538461538464,
         "T": 0,
-        "G": 1,
+        "G": 0.2692307692307692,
         "C": 0
       },
       "index": 1
     },{
       "frequency": {
-        "A": 0.1111111111111111,
-        "T": 0.88888888888888884,
+        "A": 1,
+        "T": 0,
         "G": 0,
         "C": 0
       },
       "index": 2
     },{
       "frequency": {
-        "A": 0.22222222222222221,
-        "T": 0.77777777777777779,
+        "A": 0.9615384615384616,
+        "T": 0,
         "G": 0,
-        "C": 0
+        "C": 0.038461538461538464
       },
       "index": 3
     },{
       "frequency": {
-        "A": 0,
+        "A": 0.038461538461538464,
         "T": 0,
         "G": 0,
-        "C": 1
+        "C": 0.9615384615384616
       },
       "index": 4
     },{
       "frequency": {
-        "A": 0,
+        "A": 1,
         "T": 0,
-        "G": 0.88888888888888884,
+        "G": 0,
         "C": 0
       },
       "index": 5
     },{
       "frequency": {
-        "A": 0,
-        "T": 0.1111111111111111,
-        "G": 0,
+        "A": 0.34615384615384615,
+        "T": 0,
+        "G": 0.6538461538461539,
         "C": 0
       },
       "index": 6
     },{
       "frequency": {
-        "A": 0,
-        "T": 0.1111111111111111,
-        "G": 0,
+        "A": 0.6153846153846154,
+        "T": 0.038461538461538464,
+        "G": 0.34615384615384615,
         "C": 0
       },
       "index": 7
     },{
       "frequency": {
-        "A": 0.1111111111111111,
-        "T": 0.55555555555555558,
-        "G": 0,
-        "C": 0.33333333333333331
+        "A": 0,
+        "T": 0.9615384615384616,
+        "G": 0.038461538461538464,
+        "C": 0
       },
       "index": 8
     },{
       "frequency": {
-        "A": 0.44444444444444442,
-        "T": 0.33333333333333331,
-        "G": 0.22222222222222221,
+        "A": 0,
+        "T": 0.038461538461538464,
+        "G": 0.9615384615384616,
         "C": 0
       },
       "index": 9
+    },{
+      "frequency": {
+        "A": 0,
+        "T": 1,
+        "G": 0,
+        "C": 0
+      },
+      "index": 10
+    },{
+      "frequency": {
+        "A": 0,
+        "T": 0.9615384615384616,
+        "G": 0,
+        "C": 0.038461538461538464
+      },
+      "index": 11
+    },{
+      "frequency": {
+        "A": 0,
+        "T": 0.6153846153846154,
+        "G": 0.038461538461538464,
+        "C": 0.34615384615384615
+      },
+      "index": 12
+    },{
+      "frequency": {
+        "A": 0,
+        "T": 0.038461538461538464,
+        "G": 0.8076923076923077,
+        "C": 0
+      },
+      "index": 13
+    },{
+      "frequency": {
+        "A": 0.038461538461538464,
+        "T": 0.34615384615384615,
+        "G": 0,
+        "C": 0
+      },
+      "index": 14
+    },{
+      "frequency": {
+        "A": 0.34615384615384615,
+        "T": 0.5,
+        "G": 0.15384615384615385,
+        "C": 0
+      },
+      "index": 15
     }],
-  "score": 4286,
-  "length": 10,
+  "score": 72.98375470068191,
+  "length": 16,
   "seeds": {
-    "MSA": ["CGTACGTTTG","CGAAC---AG","TGTTCG--TA","TGTTCG--TA","TGTTCG--TA","TGTTCG--TA","TGTTCG--CT","TGTTCG--CT","TGTTCG--CT"],
-    "cost": 5733,
-    "names": ["","","","","","","","",""]
+    "MSA": ["--AACAGATGTTTG-T","G-AACAGATGTTTG-T","CGAACAGATGTTTGTA","G-AACAGATGTTTG-T","--AACAGATGTTT--G","--AACAGATGTTT--G","--AACAGATGTTT--G","G-AACAGATGTTTG-T","--AACAGATGTTT--G","CGAACAGATGTTTGTA","CGAACAGATGTTTGTA","G-AACAGATGTTTG-T","CGAACAGATGTTTGTA","CGAACAGATGTTTGTA","CGAACAGATGTTTGTA","G-AACAGATGTTTG-T","G-AACAAGTGTTCG-T","G-AACAAGTGTTCG-T","G-AACAAGTGTTCG-T","G-AACAAGTGTTCG-T","CGAACAAGTGTTCGTA","G-AACAAGTGTTCG-T","G-AACAAGTGTTCG-T","GAACAAGTGTTCGTAT","G-AACAAGTGTTCGTA","G-AACAAGTGTTCGTA"],
+    "cost": 30850,
+    "names": ["","","","","","","","","","","","","","","","","","","","","","","","","",""]
   }
 }

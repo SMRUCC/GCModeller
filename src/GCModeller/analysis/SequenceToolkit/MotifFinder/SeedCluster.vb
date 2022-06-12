@@ -1,55 +1,55 @@
 ﻿#Region "Microsoft.VisualBasic::bf025d66f69cd04b4ae2f325733aaaae, analysis\SequenceToolkit\MotifScanner\Consensus\SeedCluster.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module SeedCluster
-    ' 
-    '     Function: BuildAVLTreeCluster, BuildKmeansCluster, (+2 Overloads) Compare, matrixRow, ScoreTuple
-    '               ScoreVector
-    ' 
-    ' /********************************************************************************/
+' Module SeedCluster
+' 
+'     Function: BuildAVLTreeCluster, BuildKmeansCluster, (+2 Overloads) Compare, matrixRow, ScoreTuple
+'               ScoreVector
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.BinaryTree
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.DataMining.DynamicProgramming.NeedlemanWunsch
 Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports SMRUCC.genomics.Analysis.SequenceTools
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 ''' <summary>
@@ -159,10 +159,10 @@ Public Module SeedCluster
     End Function
 
     <Extension>
-    Private Function matrixRow(q As HSP, i%, seeds As IGrouping(Of String, SeqValue(Of HSP))()) As DataSet
-        Dim row As New DataSet With {
-            .ID = i,
-            .Properties = New Dictionary(Of String, Double)
+    Private Function matrixRow(q As HSP, i%, seeds As IGrouping(Of String, SeqValue(Of HSP))()) As NamedCollection(Of Double)
+        Dim row As New NamedCollection(Of Double) With {
+            .name = i,
+            .value = New Double(seeds.Length - 1) {}
         }
         Dim j As i32 = 1
         Dim query As New FastaSeq With {
@@ -192,7 +192,7 @@ Public Module SeedCluster
             .SeqIterator _
             .GroupBy(Function(q) q.value.Query) _
             .ToArray
-        Dim matrix As DataSet() = queryGroup _
+        Dim matrix As NamedCollection(Of Double)() = queryGroup _
             .SeqIterator _
             .AsParallel _
             .Select(Function(seed)
