@@ -42,7 +42,6 @@
 
 Imports Microsoft.VisualBasic.DataMining.DynamicProgramming
 Imports Microsoft.VisualBasic.DataMining.DynamicProgramming.NeedlemanWunsch
-Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Abstract
 
 Public Class MotifNeedlemanWunsch : Inherits NeedlemanWunsch(Of Residue)
 

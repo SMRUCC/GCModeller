@@ -41,7 +41,6 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Language
 Imports ScannerMotif = SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif.SequenceMotif
 
 Namespace SequenceLogo
@@ -52,26 +51,30 @@ Namespace SequenceLogo
         <Extension>
         Public Function CreateDrawingModel(motif As ScannerMotif) As DrawingModel
             Dim n% = motif.seeds.MSA.Length
-            Dim E# = (1 / Math.Log(2)) * ((4 - 1) / (2 * n))
+            Dim E# = Probability.E(n)
+            Dim alphas As Residue() = motif _
+                .region _
+                .Select(Function(r)
+                            Dim nt As New Residue With {
+                                .Alphabets = r.frequency _
+                                    .Select(Function(b)
+                                                Return New Alphabet With {
+                                                    .Alphabet = b.Key,
+                                                    .RelativeFrequency = b.Value
+                                                }
+                                            End Function) _
+                                    .ToArray,
+                                .Position = r.index
+                            }
+
+                            nt.Bits = Probability.CalculatesBits(nt.Hi, En:=E, NtMol:=True)
+
+                            Return nt
+                        End Function) _
+                .ToArray
 
             Return New DrawingModel With {
-                .Residues = motif _
-                    .region _
-                    .Select(Function(r)
-                                Return New Residue With {
-                                    .Alphabets = r.frequency _
-                                        .Select(Function(b)
-                                                    Return New Alphabet With {
-                                                        .Alphabet = b.Key,
-                                                        .RelativeFrequency = b.Value
-                                                    }
-                                                End Function) _
-                                        .ToArray,
-                                    .Position = r.index,
-                                    .Bits = Residue.CalculatesBits(.ByRef, E, NtMol:=True).Bits
-                                }
-                            End Function) _
-                    .ToArray,
+                .Residues = alphas,
                 .En = E
             }
         End Function

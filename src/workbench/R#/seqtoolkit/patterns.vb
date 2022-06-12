@@ -1,44 +1,44 @@
 ﻿#Region "Microsoft.VisualBasic::212f2f5ae3522fd320b63faeedcf8ad8, R#\seqtoolkit\patterns.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module patterns
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: DrawLogo, FindMirrorPalindromes, GetMotifs, GetSeeds, matchSites
-    '               matchTableOutput, PalindromeToString, readMotifs, readSites, ScaffoldOrthogonality
-    '               viewSites
-    ' 
-    ' /********************************************************************************/
+' Module patterns
+' 
+'     Constructor: (+1 Overloads) Sub New
+'     Function: DrawLogo, FindMirrorPalindromes, GetMotifs, GetSeeds, matchSites
+'               matchTableOutput, PalindromeToString, readMotifs, readSites, ScaffoldOrthogonality
+'               viewSites
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -58,6 +58,7 @@ Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.Seeding
 Imports SMRUCC.genomics.GCModeller.Workbench.SeqFeature
 Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports SMRUCC.Rsharp
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
@@ -236,6 +237,11 @@ Module patterns
         Return Seeds.InitializeSeeds(base.ToArray, size)
     End Function
 
+    <ExportAPI("motifString")>
+    Public Function MotifString(<RRawVectorArgument> motif As Object, Optional env As Environment = Nothing) As Object
+        Return env.EvaluateFramework(Of SequenceMotif, String)(motif, Function(m) m.patternString())
+    End Function
+
     ''' <summary>
     ''' find possible motifs of the given sequence collection
     ''' </summary>
@@ -251,19 +257,25 @@ Module patterns
                               Optional maxw% = 20,
                               Optional nmotifs% = 25,
                               Optional noccurs% = 6,
+                              Optional seedingCutoff As Double = 0.95,
+                              Optional scanMinW As Integer = 6,
+                              Optional scanCutoff As Double = 0.8,
+                              Optional cleanMotif As Double = 0.5,
                               Optional env As Environment = Nothing) As SequenceMotif()
 
         Dim param As New PopulatorParameter With {
             .maxW = maxw,
             .minW = minw,
-            .seedingCutoff = 0.95,
-            .ScanMinW = 6,
-            .ScanCutoff = 0.8
+            .seedingCutoff = seedingCutoff,
+            .ScanMinW = scanMinW,
+            .ScanCutoff = scanCutoff,
+            .log = env.WriteLineHandler
         }
         Dim motifs As SequenceMotif() = GetFastaSeq(fasta, env) _
             .PopulateMotifs(
                 leastN:=noccurs,
-                param:=param
+                param:=param,
+                cleanMotif:=cleanMotif
             ) _
             .OrderByDescending(Function(m) m.score / m.seeds.MSA.Length) _
             .Take(nmotifs) _
