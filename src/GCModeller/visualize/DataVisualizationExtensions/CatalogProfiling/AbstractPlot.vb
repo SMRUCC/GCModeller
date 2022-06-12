@@ -28,8 +28,12 @@ Namespace CatalogProfiling
 
             Call MyBase.New(multiples, theme)
 
+            Dim orders As String() = TreeOrder.OrderByTree(Me)
+
             Me.mapLevels = mapLevels
             Me.colorMissing = colorMissing
+
+            Call Me.ReOrder(orders)
         End Sub
 
         Protected Sub drawColorLegends(pvalues As DoubleRange, right As Double, ByRef g As IGraphics, canvas As GraphicsRegion, Optional y As Double = Double.NaN)
@@ -61,12 +65,12 @@ Namespace CatalogProfiling
         ''' <summary>
         ''' the multiple groups data
         ''' </summary>
-        Protected ReadOnly multiples As NamedValue(Of Dictionary(Of String, BubbleTerm()))()
+        Protected Friend ReadOnly multiples As List(Of NamedValue(Of Dictionary(Of String, BubbleTerm())))
 
         Protected Sub New(multiples As IEnumerable(Of NamedValue(Of Dictionary(Of String, BubbleTerm()))), theme As Theme)
             Call MyBase.New(theme)
 
-            Me.multiples = multiples.ToArray
+            Me.multiples = multiples.AsList
         End Sub
 
         Protected Function getCategories() As String()
