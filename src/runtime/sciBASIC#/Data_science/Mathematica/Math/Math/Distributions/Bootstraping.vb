@@ -101,6 +101,9 @@ Namespace Distributions
         ''' 是否为有放回的进行抽样？默认是有放回的。设置这个参数为False表示不重复的采样，即抽取过后的元素将不会再出现在后面的采样结果之中
         ''' </param>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' this method can be affected by the <see cref="randf2.SetSeed(Integer)"/> method.
+        ''' </remarks>
         <Extension>
         Public Iterator Function Samples(Of T)(source As IEnumerable(Of T), N As Integer,
                                                Optional bags As Integer = 100,
@@ -133,6 +136,9 @@ Namespace Distributions
         ''' else, each of the data element in one bag sample is unique.
         ''' </param>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' this method can be affected by the <see cref="randf2.SetSeed(Integer)"/> method.
+        ''' </remarks>
         <Extension>
         Private Iterator Function GetBagSample(Of T)(pool As T(), N As Integer, index As List(Of Integer), replace As Boolean) As IEnumerable(Of T)
             If replace Then
@@ -143,7 +149,7 @@ Namespace Distributions
             ElseIf index.Count = 0 Then
                 Return
             Else
-                Dim i As Integer
+                Dim i As Integer = Scan0
 
                 ' 无放回的抽样
                 For k As Integer = 0 To N - 1
