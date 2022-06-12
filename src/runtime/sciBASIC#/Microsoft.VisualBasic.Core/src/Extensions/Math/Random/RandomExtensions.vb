@@ -124,6 +124,10 @@ Namespace Math
             Return stdNum.Abs(CInt(stdNum.Log10(Rnd() * Now.ToBinary + 1) + 1) * (100 + 10000 * Rnd()))
         End Function
 
+        ''' <summary>
+        ''' re-initialize of the random <see cref="seeds"/> object
+        ''' </summary>
+        ''' <param name="seed"></param>
         Public Sub SetSeed(seed As Integer)
             _seeds = New Random(seed)
         End Sub
@@ -297,7 +301,8 @@ Namespace Math
         ''' </summary>
         ''' <param name="r"></param>
         ''' <param name = "list"></param>
-        <Extension> Public Sub Shuffle(Of T)(r As Random, ByRef list As List(Of T))
+        <Extension>
+        Public Sub Shuffle(Of T)(r As Random, ByRef list As List(Of T))
             Dim j As Integer
             Dim temp As T
 
