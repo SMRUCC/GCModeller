@@ -291,7 +291,13 @@ Namespace CollectionSet
         Private Sub drawLeftBarSet(g As IGraphics, labelFont As Font, layout As Rectangle)
             Dim collectionSetLabels As String() = collections.collectionSetLabels
             Dim setSize As Dictionary(Of String, Integer) = collections.setSize.ToDictionary(Function(d) d.Name, Function(d) d.Value)
-            Dim maxLabelSize As SizeF = g.MeasureString(collectionSetLabels.MaxLengthString, labelFont)
+            Dim maxLabelSize As SizeF = collectionSetLabels _
+                .Select(Function(lb) g.MeasureString(lb, labelFont)) _
+                .OrderByDescending(Function(lb) lb.Width) _
+                .FirstOrDefault
+
+            maxLabelSize = New SizeF(maxLabelSize.Width * 1.25, maxLabelSize.Height)
+
             Dim y As Double = layout.Top
             Dim scale = d3js.scale _
                 .linear _
