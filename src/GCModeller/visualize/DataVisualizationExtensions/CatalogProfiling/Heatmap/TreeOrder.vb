@@ -62,7 +62,15 @@ Namespace CatalogProfiling
 
         <Extension>
         Private Iterator Function GetTreeOrder(tree As AVLTree(Of String, String)) As IEnumerable(Of String)
+            Dim orders = tree.root.PopulateNodes.ToArray
 
+            For Each node As BinaryTree(Of String, String) In orders
+                Dim members As IEnumerable(Of String) = node.Members
+
+                For Each name As String In members
+                    Yield name
+                Next
+            Next
         End Function
 
         <Extension>
