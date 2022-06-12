@@ -44,7 +44,7 @@
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Abstract.Motif
+Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 Namespace Motif

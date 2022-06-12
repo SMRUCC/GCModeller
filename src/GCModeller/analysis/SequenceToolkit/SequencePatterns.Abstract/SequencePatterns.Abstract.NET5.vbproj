@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <RootNamespace>SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Abstract</RootNamespace>
+    <RootNamespace>SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns</RootNamespace>
 	  <TargetFrameworks>net6.0;net5.0;net48</TargetFrameworks>
     <AssemblyName>SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Abstract</AssemblyName>
     <Platforms>AnyCPU;x64</Platforms>

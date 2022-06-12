@@ -64,7 +64,9 @@ Public Class ConsensusScanner
             Dim upstreams = .Select(Function(g) g.GetUpstreams(length)) _
                             .Select(Function(up)
                                         Return up.ToDictionary(Function(g) g.Key.ToUpper,
-                                                               Function(g) g.Value)
+                                                               Function(g)
+                                                                   Return g.Value
+                                                               End Function)
                                     End Function) _
                             .ToArray
 
@@ -108,17 +110,19 @@ Public Class ConsensusScanner
         End With
     End Sub
 
-    Public Iterator Function PopulateMotifs(Optional leastN% = 10, Optional param As PopulatorParameter = Nothing) As IEnumerable(Of NamedCollection(Of SequenceMotif))
+    Public Iterator Function PopulateMotifs(Optional leastN% = 10,
+                                            Optional cleanMotif As Double = 0.5,
+                                            Optional param As PopulatorParameter = Nothing) As IEnumerable(Of NamedCollection(Of SequenceMotif))
         For Each KO As String In Me.KO.Keys
-            Dim motifs = PopulateMotifs(KO, leastN, param) _
+            Dim motifs = PopulateMotifs(KO, leastN, cleanMotif, param) _
                 .OrderByDescending(Function(m)
                                        Return m.score / m.seeds.MSA.Length
                                    End Function) _
                 .ToArray
 
             Yield New NamedCollection(Of SequenceMotif) With {
-                .Name = KO,
-                .Value = motifs
+                .name = KO,
+                .value = motifs
             }
         Next
     End Function
@@ -129,7 +133,11 @@ Public Class ConsensusScanner
     End Sub
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Function PopulateMotifs(KO$, Optional leastN% = 10, Optional param As PopulatorParameter = Nothing) As IEnumerable(Of SequenceMotif)
-        Return KOUpstream(KO).PopulateMotifs(leastN, param)
+    Public Function PopulateMotifs(KO$,
+                                   Optional leastN% = 10,
+                                   Optional cleanMotif As Double = 0.5,
+                                   Optional param As PopulatorParameter = Nothing) As IEnumerable(Of SequenceMotif)
+
+        Return KOUpstream(KO).PopulateMotifs(leastN, cleanMotif, param)
     End Function
 End Class

@@ -87,6 +87,11 @@ Namespace SequenceModel
                 cut = seq.Substring(start)
             Else
                 ' 计算是从1开始的，不是从零开始的
+                If left <= 0 Then
+                    Call $"set negative start position({left}) to base 1.".Warning
+                    left = 1
+                End If
+
                 cut = seq.Substring(left - 1, l)
             End If
 

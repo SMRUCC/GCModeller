@@ -2,6 +2,7 @@
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math.Information
 
 Public Structure Residue
 
@@ -29,6 +30,12 @@ Public Structure Residue
             Else
                 Return False
             End If
+        End Get
+    End Property
+
+    Public ReadOnly Property Hi As Double
+        Get
+            Return frequency.Values.ShannonEntropy()
         End Get
     End Property
 
@@ -65,7 +72,7 @@ Public Structure Residue
             If .Values.All(Function(p) p = 0R) Then
                 Return "-"c
             Else
-                Return .ByRef(Which.Max(.Values)) _
+                Return .ByRef(which.Max(.Values)) _
                        .Key
             End If
         End With
