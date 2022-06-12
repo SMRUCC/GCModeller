@@ -1,50 +1,50 @@
 ﻿#Region "Microsoft.VisualBasic::297fe11797362ed81ea1456a04672557, visualize\DataVisualizationExtensions\CatalogProfiling\CatalogBubblePlot.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class BubbleTerm
-    ' 
-    '         Properties: data, Factor, PValue, termId
-    ' 
-    '     Class CatalogBubblePlot
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: GetCatalogSerialData, GetColorIndex, unenrichSerial
-    ' 
-    '         Sub: DrawBubbleLegends, PlotInternal
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class BubbleTerm
+' 
+'         Properties: data, Factor, PValue, termId
+' 
+'     Class CatalogBubblePlot
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'         Function: GetCatalogSerialData, GetColorIndex, unenrichSerial
+' 
+'         Sub: DrawBubbleLegends, PlotInternal
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -204,6 +204,10 @@ Namespace CatalogProfiling
                 .Range
             Dim serials As SerialData() = GetCatalogSerialData(allValues).ToArray
             Dim bubbleBorder As Stroke = Nothing
+            Dim radiusData As DoubleRange = data.Values _
+                .IteratesALL _
+                .Select(Function(gene) gene.data) _
+                .Range
 
             If showBubbleBorder Then
                 bubbleBorder = New Stroke With {
@@ -237,8 +241,15 @@ Namespace CatalogProfiling
             }
 
             Call g.DrawString(main, titleFont, Brushes.Black, tloc)
+            Call MultipleBubble.drawRadiusLegend(g, radiusData, bubbleResize, region, theme, title:="Enrichment Hits")
         End Sub
 
+        ''' <summary>
+        ''' show category legend
+        ''' </summary>
+        ''' <param name="g"></param>
+        ''' <param name="serials"></param>
+        ''' <param name="region"></param>
         Private Sub DrawBubbleLegends(g As IGraphics, serials As SerialData(), region As GraphicsRegion)
             Dim legendFontStyle As String = theme.legendLabelCSS
             Dim plot As Rectangle = region.PlotRegion

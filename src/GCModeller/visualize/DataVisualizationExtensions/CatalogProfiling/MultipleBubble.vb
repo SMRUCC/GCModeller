@@ -47,7 +47,26 @@ Namespace CatalogProfiling
             Call drawRadiusLegend(g, impacts, radius, canvas, theme)
         End Sub
 
-        Friend Shared Sub drawRadiusLegend(ByRef g As IGraphics, impacts As DoubleRange, radius As DoubleRange, canvas As GraphicsRegion, theme As Theme)
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="g"></param>
+        ''' <param name="impacts">
+        ''' the data value range
+        ''' </param>
+        ''' <param name="radius">
+        ''' the bubble radius pixel range
+        ''' </param>
+        ''' <param name="canvas"></param>
+        ''' <param name="theme"></param>
+        ''' <param name="title"></param>
+        Friend Shared Sub drawRadiusLegend(ByRef g As IGraphics,
+                                           impacts As DoubleRange,
+                                           radius As DoubleRange,
+                                           canvas As GraphicsRegion,
+                                           theme As Theme,
+                                           Optional title As String = "Enrichment Factor")
+
             Dim values As Double() = impacts.Enumerate(4)
             Dim x As Double = canvas.PlotRegion.Right + canvas.Padding.Right / 5
             Dim y As Double = canvas.Padding.Top * 1.125
@@ -57,7 +76,7 @@ Namespace CatalogProfiling
             Dim tickFont As Font = CSSFont.TryParse(theme.axisTickCSS).GDIObject(g.Dpi)
             Dim labelFont As Font = CSSFont.TryParse(theme.legendTitleCSS).GDIObject(g.Dpi)
 
-            g.DrawString("Enrichment Factor", labelFont, Brushes.Black, New PointF(x - impacts.ScaleMapping(values.Max, radius) * 2, y))
+            g.DrawString(title, labelFont, Brushes.Black, New PointF(x - impacts.ScaleMapping(values.Max, radius) * 2, y))
             y += g.MeasureString("A", labelFont).Height * 1.5
 
             Dim ymin As Double = y
@@ -81,7 +100,7 @@ Namespace CatalogProfiling
         End Sub
 
         Private Function getSampleColors() As Dictionary(Of String, SolidBrush)
-            Dim colors As Color() = Designer.GetColors("paper", n:=multiples.Length)
+            Dim colors As Color() = Designer.GetColors("paper", n:=multiples.Count)
             Dim list As New Dictionary(Of String, SolidBrush)
 
             For Each sample In multiples.SeqIterator
