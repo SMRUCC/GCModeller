@@ -150,6 +150,11 @@ Namespace Math
         ''' 不同的代码重复使用这个种子，这样子可以尽量的模拟出真正的随机行为
         ''' </summary>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' the random seed value of this property value can 
+        ''' be reset by the <see cref="SetSeed(Integer)"/>
+        ''' method.
+        ''' </remarks>
         Public ReadOnly Property seeds As New Random(Now.Millisecond * Now.Second + 1)
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
