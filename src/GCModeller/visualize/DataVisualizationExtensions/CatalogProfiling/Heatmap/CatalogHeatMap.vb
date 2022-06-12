@@ -67,7 +67,7 @@ Namespace CatalogProfiling
             }
             Dim gap As Double = labelHeight * 1.5
             Dim dh As Double = (region.Height - gap * (pathways.Count - 1)) / (pathways.Values.IteratesALL.Count)
-            Dim dw As Double = region.Width / multiples.Length
+            Dim dw As Double = region.Width / multiples.Count
             Dim sizeRange As DoubleRange = New Double() {0, dw}
             Dim colors As SolidBrush() = Designer _
                 .GetColors(theme.colorSet, mapLevels) _

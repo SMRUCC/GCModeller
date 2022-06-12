@@ -100,7 +100,7 @@ Namespace CatalogProfiling
         End Sub
 
         Private Function getSampleColors() As Dictionary(Of String, SolidBrush)
-            Dim colors As Color() = Designer.GetColors("paper", n:=multiples.Length)
+            Dim colors As Color() = Designer.GetColors("paper", n:=multiples.Count)
             Dim list As New Dictionary(Of String, SolidBrush)
 
             For Each sample In multiples.SeqIterator
