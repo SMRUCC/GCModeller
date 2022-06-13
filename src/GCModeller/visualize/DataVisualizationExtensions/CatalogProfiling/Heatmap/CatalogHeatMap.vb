@@ -151,7 +151,7 @@ Namespace CatalogProfiling
 
             Call drawColorLegends(
                 pvalues:=pvalues,
-                right:=region.Right + maxTag.Width * 1.125,
+                right:=region.Right + maxTag.Width * 0.975,
                 g:=g,
                 canvas:=canvas
             )
