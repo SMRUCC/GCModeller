@@ -65,7 +65,8 @@ Namespace CatalogProfiling
                                            radius As DoubleRange,
                                            canvas As GraphicsRegion,
                                            theme As Theme,
-                                           Optional title As String = "Enrichment Factor")
+                                           Optional title As String = "Enrichment Factor",
+                                           Optional tickFormat As String = "F3")
 
             Dim values As Double() = impacts.Enumerate(4)
             Dim x As Double = canvas.PlotRegion.Right + canvas.Padding.Right / 5
@@ -94,9 +95,9 @@ Namespace CatalogProfiling
 
             x = x + r * 1.5
 
-            Call g.DrawString(values.Min.ToString("F4"), tickFont, Brushes.Black, New PointF(x + 5, ymin - nsize.Height / 2))
+            Call g.DrawString(values.Min.ToString(tickFormat), tickFont, Brushes.Black, New PointF(x + 5, ymin - nsize.Height / 2))
             Call g.DrawLine(New Pen(Color.Black, 2), New PointF(x, ymin), New PointF(x, ymax))
-            Call g.DrawString(values.Max.ToString("F4"), tickFont, Brushes.Black, New PointF(x + 5, ymax - nsize.Height / 2))
+            Call g.DrawString(values.Max.ToString(tickFormat), tickFont, Brushes.Black, New PointF(x + 5, ymax - nsize.Height / 2))
         End Sub
 
         Private Function getSampleColors() As Dictionary(Of String, SolidBrush)
