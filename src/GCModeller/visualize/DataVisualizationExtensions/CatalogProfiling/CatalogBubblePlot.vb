@@ -77,6 +77,9 @@ Namespace CatalogProfiling
         ReadOnly unenrich As Color
         ReadOnly bubbleResize As DoubleRange
 
+        Public Property radiusTitle As String = "Enrichment Hits"
+        Public Property radiusFormat As String = "F0"
+
         Public Sub New(data As Dictionary(Of String, BubbleTerm()),
                        enrichColors As Dictionary(Of String, Color()),
                        showBubbleBorder As Boolean,
@@ -241,7 +244,15 @@ Namespace CatalogProfiling
             }
 
             Call g.DrawString(main, titleFont, Brushes.Black, tloc)
-            Call MultipleBubble.drawRadiusLegend(g, radiusData, bubbleResize, region, theme, title:="Enrichment Hits")
+            Call MultipleBubble.drawRadiusLegend(
+                g:=g,
+                impacts:=radiusData,
+                radius:=bubbleResize,
+                canvas:=region,
+                theme:=theme,
+                title:=radiusTitle,
+                tickFormat:=radiusFormat
+            )
         End Sub
 
         ''' <summary>
