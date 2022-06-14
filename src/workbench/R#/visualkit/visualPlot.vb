@@ -309,6 +309,7 @@ Module visualPlot
                                       Optional themeColors As String = "Set1:c8",
                                       Optional alpha As Double = 0.75,
                                       Optional displays As Integer = 5,
+                                      Optional serialTopn As Boolean = False,
                                       <RRawVectorArgument(GetType(Double))>
                                       Optional bubbleRadius As Object = "12,64",
                                       Optional heatmap As Boolean = False,
@@ -348,7 +349,8 @@ Module visualPlot
                 padding:=InteropArgumentHelper.getPadding(padding),
                 ppi:=ppi,
                 bubbleRadius:=bubbleSize,
-                displays:=displays
+                displays:=displays,
+                serialTopn:=serialTopn
             )
         ElseIf TypeOf profiles Is list Then
             ' multiple groups
@@ -420,6 +422,7 @@ Module visualPlot
                                 padding As String,
                                 ppi As Integer,
                                 displays As Integer,
+                                serialTopn As Boolean,
                                 bubbleRadius As DoubleRange) As Object
 
         Dim bubbleData As Dictionary(Of String, BubbleTerm()) = enrichment.toBubbles
@@ -433,7 +436,7 @@ Module visualPlot
             data:=bubbleData,
             enrichColors:=enrichColors,
             showBubbleBorder:=False,
-            displays:=displays,
+            displays:=New LabelDisplayStrategy With {.displays = displays, .serialTopn = serialTopn},
             pvalue:=-stdNum.Log10(0.05),
             unenrich:=baseColor,
             theme:=theme,
