@@ -104,7 +104,7 @@ Namespace CatalogProfiling
         End Sub
 
         Private Function GetColorIndex(ByRef catalog As List(Of BubbleTerm), colors As Color()) As Integer()
-            Dim pv = catalog.Select(Function(gene) gene.PValue).AsVector
+            Dim pv As Vector = catalog.Select(Function(gene) gene.PValue).AsVector
             Dim enrichResults = catalog(which.IsTrue(pv > pvalue))
             Dim colorIndex%()
             Dim dataRange As DoubleRange = enrichResults _
