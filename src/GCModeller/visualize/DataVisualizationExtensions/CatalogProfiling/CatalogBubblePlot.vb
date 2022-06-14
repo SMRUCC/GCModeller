@@ -67,13 +67,96 @@ Imports stdNum = System.Math
 
 Namespace CatalogProfiling
 
+    Public Class LabelDisplayStrategy
+
+        ''' <summary>
+        ''' show top n labels for each serial category? 
+        ''' otherwise set this property false will make 
+        ''' the top n labels between all terms data.
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property serialTopn As Boolean
+        ''' <summary>
+        ''' the number of the term labels to display on 
+        ''' the charting.
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property displays As Integer
+
+        Public Shared Function [Default]() As LabelDisplayStrategy
+            Return New LabelDisplayStrategy With {
+                .displays = 5,
+                .serialTopn = False
+            }
+        End Function
+
+        Friend Function filterLabelDisplays(serials As SerialData()) As SerialData()
+            Dim pt As PointData
+
+            If serialTopn Then
+                For Each serial As SerialData In From s As SerialData
+                                                 In serials
+                                                 Where s.title <> CatalogBubblePlot.unenrichTerm
+
+                    ' 只显示前displays个term的标签字符串，
+                    ' 其余的term的标签字符串都设置为空值， 就不会被显示出来了
+                    For i As Integer = displays To serial.pts.Length - 1
+                        pt = serial.pts(i)
+                        serial.pts(i) = New PointData With {
+                            .pt = pt.pt,
+                            .tag = Nothing,
+                            .value = pt.value,
+                            .color = pt.color
+                        }
+                    Next
+                Next
+            Else
+                ' top n labels between all terms
+                Dim allTerms = From s As SerialData
+                               In serials
+                               Where s.title <> CatalogBubblePlot.unenrichTerm
+                               Select s.pts
+
+                ' get a index of labels to keeps
+                Dim orders As Index(Of String) = allTerms _
+                    .IteratesALL _
+                    .OrderByDescending(Function(t) t.pt.Y) _
+                    .Take(displays) _
+                    .Select(Function(t) t.tag) _
+                    .Indexing
+
+                For Each s As SerialData In serials
+                    For i As Integer = 0 To s.pts.Length - 1
+                        If Not s.pts(i).tag Like orders Then
+                            pt = s.pts(i)
+                            s.pts(i) = New PointData With {
+                                .pt = pt.pt,
+                                .tag = Nothing,
+                                .value = pt.value,
+                                .color = pt.color
+                            }
+                        End If
+                    Next
+                Next
+            End If
+
+            Return serials
+        End Function
+
+    End Class
+
     Public Class CatalogBubblePlot : Inherits Plot
 
         ReadOnly showBubbleBorder As Boolean
         ReadOnly data As Dictionary(Of String, BubbleTerm())
         ReadOnly enrichColors As Dictionary(Of String, Color())
-        ReadOnly displays As Integer = 0
-        ReadOnly pvalue As Double
+        ReadOnly displays As LabelDisplayStrategy = LabelDisplayStrategy.Default
+        ''' <summary>
+        ''' the pvalue cutoff between the enriched terms 
+        ''' and the un-enriched terms. default value of 
+        ''' this cutoff is -log10(0.05)
+        ''' </summary>
+        ReadOnly pvalue As Double = -stdNum.Log10(0.05)
         ReadOnly unenrich As Color
         ReadOnly bubbleResize As DoubleRange
 
@@ -83,7 +166,7 @@ Namespace CatalogProfiling
         Public Sub New(data As Dictionary(Of String, BubbleTerm()),
                        enrichColors As Dictionary(Of String, Color()),
                        showBubbleBorder As Boolean,
-                       displays As Integer,
+                       displays As LabelDisplayStrategy,
                        pvalue As Double,
                        unenrich As Color,
                        bubbleSize As DoubleRange,
@@ -155,6 +238,7 @@ Namespace CatalogProfiling
                                         .color = c.ARGBExpression
                                     }
                                 End Function) _
+                        .Where(Function(t) t.pt.Y >= pvalue) _
                         .OrderByDescending(Function(bubble)
                                                ' 按照y也就是pvalue倒序排序
                                                Return bubble.pt.Y
@@ -162,24 +246,22 @@ Namespace CatalogProfiling
                         .ToArray
                 }
 
-                ' 只显示前displays个term的标签字符串，
-                ' 其余的term的标签字符串都设置为空值， 就不会被显示出来了
-                For i As Integer = displays To serial.pts.Length - 1
-                    pt = serial.pts(i)
-                    serial.pts(i) = New PointData With {
-                        .pt = pt.pt,
-                        .tag = Nothing,
-                        .value = pt.value,
-                        .color = pt.color
-                    }
-                Next
-
-                Yield serial
+                If serial.pts.Length > 0 Then
+                    Yield serial
+                End If
             Next
 
             Yield unenrichSerial(catalog:=data.Values.IteratesALL, allValues)
         End Function
 
+        Friend Const unenrichTerm As String = "Unenrich terms"
+
+        ''' <summary>
+        ''' the title that created via this function is <see cref="unenrichTerm"/>
+        ''' </summary>
+        ''' <param name="catalog"></param>
+        ''' <param name="allValues"></param>
+        ''' <returns></returns>
         Private Function unenrichSerial(catalog As IEnumerable(Of BubbleTerm), allValues As DoubleRange) As SerialData
             Dim unenrichs As BubbleTerm() = catalog _
                 .Where(Function(term) term.PValue <= pvalue) _
@@ -195,7 +277,7 @@ Namespace CatalogProfiling
 
             Return New SerialData With {
                 .color = unenrich,
-                .title = "Unenrich terms",
+                .title = unenrichTerm,
                 .pts = points
             }
         End Function
@@ -212,6 +294,9 @@ Namespace CatalogProfiling
                 .Select(Function(gene) gene.data) _
                 .Range
 
+            If Not displays Is Nothing Then
+                serials = displays.filterLabelDisplays(serials)
+            End If
             If showBubbleBorder Then
                 bubbleBorder = New Stroke With {
                     .dash = DashStyle.Solid,
