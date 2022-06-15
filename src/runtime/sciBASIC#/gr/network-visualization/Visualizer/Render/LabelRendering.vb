@@ -117,7 +117,7 @@ Friend Class LabelRendering
             Call $"Do node label layouts, iteration={iteration}".__INFO_ECHO
             Call d3js _
                 .labeler(maxMove:=1, maxAngle:=1, w_len:=1, w_inter:=2, w_lab2:=10, w_lab_anc:=10, w_orient:=2) _
-                .MaxMoveDistance() _
+                .MaxMoveDistance(0.05 * {g.Size.Width, g.Size.Height}.DistanceTo(0, 0)) _
                 .Anchors(labels.Select(Function(x) x.anchor)) _
                 .Labels(labels.Select(Function(x) x.label)) _
                 .Size(g.Size) _
