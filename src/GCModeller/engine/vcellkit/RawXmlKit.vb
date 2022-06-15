@@ -119,7 +119,11 @@ Module RawXmlKit
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("entity.names")>
-    Public Function getEntityNames(raw As vcXML.Reader, <RListObjectArgument> stream As Object, Optional env As Environment = Nothing) As Object
+    Public Function getEntityNames(raw As vcXML.Reader,
+                                   <RListObjectArgument>
+                                   stream As Object,
+                                   Optional env As Environment = Nothing) As Object
+
         Dim args As list = Internal.Invokes.base.Rlist(stream, env)
         Dim message As Message = checkStreamRef(args, env)
 

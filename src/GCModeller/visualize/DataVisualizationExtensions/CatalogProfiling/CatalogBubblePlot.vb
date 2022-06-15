@@ -72,8 +72,13 @@ Namespace CatalogProfiling
         ReadOnly showBubbleBorder As Boolean
         ReadOnly data As Dictionary(Of String, BubbleTerm())
         ReadOnly enrichColors As Dictionary(Of String, Color())
-        ReadOnly displays As Integer = 0
-        ReadOnly pvalue As Double
+        ReadOnly displays As LabelDisplayStrategy = LabelDisplayStrategy.Default
+        ''' <summary>
+        ''' the pvalue cutoff between the enriched terms 
+        ''' and the un-enriched terms. default value of 
+        ''' this cutoff is -log10(0.05)
+        ''' </summary>
+        ReadOnly pvalue As Double = -stdNum.Log10(0.05)
         ReadOnly unenrich As Color
         ReadOnly bubbleResize As DoubleRange
 
@@ -83,7 +88,7 @@ Namespace CatalogProfiling
         Public Sub New(data As Dictionary(Of String, BubbleTerm()),
                        enrichColors As Dictionary(Of String, Color()),
                        showBubbleBorder As Boolean,
-                       displays As Integer,
+                       displays As LabelDisplayStrategy,
                        pvalue As Double,
                        unenrich As Color,
                        bubbleSize As DoubleRange,
@@ -104,7 +109,7 @@ Namespace CatalogProfiling
         End Sub
 
         Private Function GetColorIndex(ByRef catalog As List(Of BubbleTerm), colors As Color()) As Integer()
-            Dim pv = catalog.Select(Function(gene) gene.PValue).AsVector
+            Dim pv As Vector = catalog.Select(Function(gene) gene.PValue).AsVector
             Dim enrichResults = catalog(which.IsTrue(pv > pvalue))
             Dim colorIndex%()
             Dim dataRange As DoubleRange = enrichResults _
@@ -155,6 +160,7 @@ Namespace CatalogProfiling
                                         .color = c.ARGBExpression
                                     }
                                 End Function) _
+                        .Where(Function(t) t.pt.Y >= pvalue) _
                         .OrderByDescending(Function(bubble)
                                                ' 按照y也就是pvalue倒序排序
                                                Return bubble.pt.Y
@@ -162,24 +168,22 @@ Namespace CatalogProfiling
                         .ToArray
                 }
 
-                ' 只显示前displays个term的标签字符串，
-                ' 其余的term的标签字符串都设置为空值， 就不会被显示出来了
-                For i As Integer = displays To serial.pts.Length - 1
-                    pt = serial.pts(i)
-                    serial.pts(i) = New PointData With {
-                        .pt = pt.pt,
-                        .tag = Nothing,
-                        .value = pt.value,
-                        .color = pt.color
-                    }
-                Next
-
-                Yield serial
+                If serial.pts.Length > 0 Then
+                    Yield serial
+                End If
             Next
 
             Yield unenrichSerial(catalog:=data.Values.IteratesALL, allValues)
         End Function
 
+        Friend Const unenrichTerm As String = "Unenrich terms"
+
+        ''' <summary>
+        ''' the title that created via this function is <see cref="unenrichTerm"/>
+        ''' </summary>
+        ''' <param name="catalog"></param>
+        ''' <param name="allValues"></param>
+        ''' <returns></returns>
         Private Function unenrichSerial(catalog As IEnumerable(Of BubbleTerm), allValues As DoubleRange) As SerialData
             Dim unenrichs As BubbleTerm() = catalog _
                 .Where(Function(term) term.PValue <= pvalue) _
@@ -195,7 +199,7 @@ Namespace CatalogProfiling
 
             Return New SerialData With {
                 .color = unenrich,
-                .title = "Unenrich terms",
+                .title = unenrichTerm,
                 .pts = points
             }
         End Function
@@ -212,6 +216,9 @@ Namespace CatalogProfiling
                 .Select(Function(gene) gene.data) _
                 .Range
 
+            If Not displays Is Nothing Then
+                serials = displays.filterLabelDisplays(serials)
+            End If
             If showBubbleBorder Then
                 bubbleBorder = New Stroke With {
                     .dash = DashStyle.Solid,
