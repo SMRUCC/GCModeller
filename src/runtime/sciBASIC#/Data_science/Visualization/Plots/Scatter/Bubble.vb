@@ -291,13 +291,19 @@ Public Class Bubble : Inherits Plot
 
         Dim anchor As Anchor
         Dim label As Label
+        Dim labelPos As PointF
 
         For Each index As SeqValue(Of Label) In labels.SeqIterator
             label = index
             anchor = anchors(index)
+            labelPos = New PointF(label.X, label.Y)
+
+            If label.X + label.width > canvas.PlotRegion.Right Then
+                labelPos = New PointF(canvas.PlotRegion.Right - label.width, labelPos.Y)
+            End If
 
             ' Call g.DrawLine(Pens.Gray, anchor, label.GetTextAnchor(anchor))
-            Call g.DrawString(label.text, tagLabelFont, Brushes.Black, label)
+            Call g.DrawString(label.text, tagLabelFont, Brushes.Black, labelPos)
         Next
 
         If theme.drawLegend Then
