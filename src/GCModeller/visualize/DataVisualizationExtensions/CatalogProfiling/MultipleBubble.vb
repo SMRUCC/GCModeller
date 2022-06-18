@@ -151,12 +151,11 @@ Namespace CatalogProfiling
             Dim dh As Double = region.Height / (pathways.Length + categories.Length + 1)
             Dim y As Double = region.Top - g.MeasureString("A", categoryFont).Height / 2
             Dim x As Double
-            Dim impacts As DoubleRange = multiples _
+            Dim impacts As New DoubleRange(multiples _
                 .Select(Function(t) t.Value.Values) _
                 .IteratesALL _
                 .IteratesALL _
-                .Select(Function(b) b.Factor) _
-                .Range
+                .Select(Function(b) b.Factor))
             Dim r As Double
             Dim colorSet As LoopArray(Of Color) = Designer.GetColors(theme.colorSet)
             Dim paint As SolidBrush

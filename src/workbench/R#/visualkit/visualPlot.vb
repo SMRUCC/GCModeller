@@ -240,7 +240,9 @@ Module visualPlot
     ''' Create catalog profiles data for KEGG pathway 
     ''' enrichment result its data visualization.
     ''' </summary>
-    ''' <param name="profiles"></param>
+    ''' <param name="profiles">
+    ''' kegg map id mapping to the profiles data
+    ''' </param>
     ''' <param name="top"></param>
     ''' <param name="env"></param>
     ''' <returns></returns>
