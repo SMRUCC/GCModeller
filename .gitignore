@@ -288,3 +288,4 @@ mzkit/App/Microsoft.VisualBasic.Framework_v47_dotnet_8da45dcd8060cc9a.dll.config
 src/workbench/pkg/.pkg/GCModeller.NET5.zip
 src/workbench/pkg/.pkg/GCModeller-net5.0.zip
 src/repository/graphquery/kegg/.pkg/kegg_graphquery.zip
+*.v3

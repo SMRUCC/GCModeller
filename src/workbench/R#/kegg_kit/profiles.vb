@@ -194,7 +194,11 @@ Module profiles
         If KO Is Nothing Then
             Return Nothing
         ElseIf TypeOf KO Is String() Then
-            KO = DirectCast(KO, String()).Select(Function(id) New NamedValue(Of String)(id, id)).ToArray
+            KO = DirectCast(KO, String()) _
+                .Select(Function(id)
+                            Return New NamedValue(Of String)(id, id)
+                        End Function) _
+                .ToArray
         End If
 
         If Not TypeOf KO Is NamedValue(Of String)() Then
