@@ -121,7 +121,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                            Return New NamedValue(Of Double) With {
                                .Name = p.entry.text,
                                .Value = profiles(p.EntryId),
-                               .Description = p.entry.text
+                               .Description = p.category & ":" & p.EntryId
                            }
                        End Function) _
                .ToArray
