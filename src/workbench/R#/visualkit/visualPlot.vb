@@ -85,6 +85,10 @@ Imports Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 Imports REnv = SMRUCC.Rsharp.Runtime
 Imports stdNum = System.Math
 Imports stdVec = Microsoft.VisualBasic.Math.LinearAlgebra.Vector
+Imports RDataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
+Imports SMRUCC.Rsharp.Runtime.Internal.Object.Linq
+Imports Microsoft.VisualBasic.Data.ChartPlots.BarPlot.Data
+Imports Microsoft.VisualBasic.Data.ChartPlots.BarPlot
 
 ''' <summary>
 ''' package module for biological analysis data visualization
@@ -109,6 +113,50 @@ Module visualPlot
         Dim bar As New GSVADiffBar(diff, theme)
 
         Return bar.Plot(size)
+    End Function
+
+    <ExportAPI("dem.barplot")>
+    Public Function DEMBarPlot(sample As RDataframe,
+                               Optional upName As String = "up",
+                               Optional downName As String = "down",
+                               <RRawVectorArgument>
+                               Optional size As Object = "2700,2400",
+                               <RRawVectorArgument>
+                               Optional padding As Object = "padding:200px 350px 250px 200px;",
+                               Optional title As String = "Statistic of Differently Expressed Metabolite",
+                               Optional ppi As Integer = 300,
+                               Optional env As Environment = Nothing) As Object
+
+        Dim theme As New Theme With {
+            .padding = InteropArgumentHelper.getPadding(padding, "padding:200px 100px 250px 200px;"),
+            .axisLabelCSS = "font-style: normal; font-size: 13; font-family: " & FontFace.MicrosoftYaHei & ";",
+            .XaxisTickFormat = "F0",
+            .YaxisTickFormat = "F0"
+        }
+
+        sample = sample.head(n:=60)
+
+        Dim up As Double() = sample.getVector(Of Double)(upName)
+        Dim down As Double() = sample.getVector(Of Double)(downName)
+        Dim tags As String() = sample.rownames
+        Dim bar As New BiDirectionData With {
+            .Factor1 = upName,
+            .Factor2 = downName,
+            .samples = tags _
+                .Select(Function(label, i)
+                            Return New BarDataSample With {
+                                .data = {up(i), down(i)},
+                                .tag = label
+                            }
+                        End Function) _
+                .ToArray
+        }
+        Dim app As New BiDirectionBarPlot(bar, Color.Brown, Color.SteelBlue, theme) With {
+            .main = title,
+            .xlabel = "Number of Metabolites"
+        }
+
+        Return app.Plot(InteropArgumentHelper.getSize(size, env), ppi:=ppi)
     End Function
 
     <ExportAPI("classchange.plot")>
