@@ -2,6 +2,7 @@
 
 package module for biological analysis data visualization
 
++ [dem.barplot](visualPlot/dem.barplot.1) 
 + [classchange.plot](visualPlot/classchange.plot.1) 
 + [volcano](visualPlot/volcano.1) volcano plot of the different expression result
 + [kegg.category_profile](visualPlot/kegg.category_profile.1) Create catalog profiles data for KEGG pathway 
