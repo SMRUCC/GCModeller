@@ -99,8 +99,8 @@
 
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts.SpringForce.Interfaces
-Imports stdNum = System.Math
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
+Imports stdNum = System.Math
 
 Namespace Layouts.SpringForce
 
@@ -114,9 +114,11 @@ Namespace Layouts.SpringForce
         Public Property threshold As Double Implements IForceDirected.Threshold
         Public Property withinThreshold As Boolean Implements IForceDirected.WithinThreshold
 
-        Protected nodePoints As Dictionary(Of String, LayoutPoint)
-        Protected edgeSprings As Dictionary(Of String, Spring)
-        Private disposedValue As Boolean
+        Protected nodePoints As New Dictionary(Of String, LayoutPoint)
+        Protected edgeSprings As New Dictionary(Of String, Spring)
+
+        Dim disposedValue As Boolean
+
         Public Property graph As NetworkGraph Implements IForceDirected.graph
 
         Public Sub Clear() Implements IForceDirected.Clear
@@ -125,30 +127,30 @@ Namespace Layouts.SpringForce
             graph.Clear()
         End Sub
 
-        Public Sub New(iGraph As NetworkGraph, iStiffness As Double, iRepulsion As Double, iDamping As Double)
-            graph = iGraph
-            stiffness = iStiffness
-            repulsion = iRepulsion
-            damping = iDamping
-            nodePoints = New Dictionary(Of String, LayoutPoint)()
-            edgeSprings = New Dictionary(Of String, Spring)()
-            threshold = 0.01F
+        Public Sub New(igraph As NetworkGraph, stiffness As Double, repulsion As Double, damping As Double)
+            Me.graph = igraph
+            Me.stiffness = stiffness
+            Me.repulsion = repulsion
+            Me.damping = damping
+            Me.threshold = 0.01F
         End Sub
 
         Public MustOverride Function GetPoint(iNode As Node) As LayoutPoint Implements IForceDirected.GetPoint
 
-        Public Function GetSpring(iEdge As Edge) As Spring
-            If Not (edgeSprings.ContainsKey(iEdge.ID)) Then
-                Return createSpring(iEdge)
-            Else
-                Return edgeSprings(iEdge.ID)
-            End If
+        Public Function GetSpring(edge As Edge) As Spring
+            SyncLock edgeSprings
+                If Not edgeSprings.ContainsKey(edge.ID) Then
+                    Return createSpring(edge)
+                Else
+                    Return edgeSprings(edge.ID)
+                End If
+            End SyncLock
         End Function
 
-        Private Function createSpring(iedge As Edge) As Spring
-            Dim length As Double = iedge.data.length
+        Private Function createSpring(edge As Edge) As Spring
+            Dim length As Double = edge.data.length
             Dim existingSpring As Spring = Nothing
-            Dim fromEdges As IEnumerable(Of Edge) = graph.GetEdges(iedge.U, iedge.V)
+            Dim fromEdges As IEnumerable(Of Edge) = graph.GetEdges(edge.U, edge.V)
 
             If fromEdges IsNot Nothing Then
                 For Each e As Edge In fromEdges
@@ -156,15 +158,14 @@ Namespace Layouts.SpringForce
                         existingSpring = edgeSprings(e.ID)
                         Exit For
                     End If
-
                 Next
             End If
 
             If existingSpring IsNot Nothing Then
-                Return New Spring(existingSpring.point1, existingSpring.point2, 0F, 0F)
+                Return New Spring(existingSpring.A, existingSpring.B, 0F, 0F)
             End If
 
-            Dim toEdges As IEnumerable(Of Edge) = graph.GetEdges(iedge.V, iedge.U)
+            Dim toEdges As IEnumerable(Of Edge) = graph.GetEdges(edge.V, edge.U)
 
             If toEdges IsNot Nothing Then
                 For Each e As Edge In toEdges
@@ -176,16 +177,16 @@ Namespace Layouts.SpringForce
             End If
 
             If existingSpring IsNot Nothing Then
-                Return New Spring(existingSpring.point2, existingSpring.point1, 0F, 0F)
+                Return New Spring(existingSpring.B, existingSpring.A, 0F, 0F)
             End If
 
-            Dim U = GetPoint(iedge.U)
-            Dim V = GetPoint(iedge.V)
+            Dim U = GetPoint(edge.U)
+            Dim V = GetPoint(edge.V)
             Dim link As New Spring(U, V, length, stiffness)
 
-            Call edgeSprings.Add(iedge.ID, link)
+            Call edgeSprings.Add(edge.ID, link)
 
-            Return edgeSprings(iedge.ID)
+            Return edgeSprings(edge.ID)
         End Function
 
         ''' <summary>
@@ -197,31 +198,27 @@ Namespace Layouts.SpringForce
             Next
         End Sub
 
-        Private Sub applyCoulombsLaw(n1 As Node, point1 As LayoutPoint)
+        Private Sub applyCoulombsLaw(n1 As Node, partner As LayoutPoint)
             For Each n2 As Node In graph.vertex
-                Dim point2 As LayoutPoint = GetPoint(n2)
+                Dim current As LayoutPoint = GetPoint(n2)
 
-                If point1 IsNot point2 Then
-                    Dim d As AbstractVector = point1.position - point2.position
+                If partner IsNot current Then
+                    Dim d As AbstractVector = partner.position - current.position
                     Dim distance As Double = d.Magnitude() + 0.1F
                     Dim direction As AbstractVector = d.Normalize()
 
                     If n1.pinned AndAlso n2.pinned Then
-                        point1.ApplyForce(direction * 0F)
-                        point2.ApplyForce(direction * 0F)
+                        partner.ApplyForce(direction * 0F)
+                        current.ApplyForce(direction * 0F)
                     ElseIf n1.pinned Then
-                        point1.ApplyForce(direction * 0F)
-                        'point2.ApplyForce((direction * Repulsion) / (distance * distance * -1.0f));
-                        point2.ApplyForce((direction * repulsion) / (distance * -1.0F))
+                        partner.ApplyForce(direction * 0F)
+                        current.ApplyForce((direction * repulsion) / (distance * -1.0F))
                     ElseIf n2.pinned Then
-                        'point1.ApplyForce((direction * Repulsion) / (distance * distance));
-                        point1.ApplyForce((direction * repulsion) / (distance))
-                        point2.ApplyForce(direction * 0F)
+                        partner.ApplyForce((direction * repulsion) / (distance))
+                        current.ApplyForce(direction * 0F)
                     Else
-                        '                             point1.ApplyForce((direction * Repulsion) / (distance * distance * 0.5f));
-                        '                             point2.ApplyForce((direction * Repulsion) / (distance * distance * -0.5f));
-                        point1.ApplyForce((direction * repulsion) / (distance * 0.5F))
-                        point2.ApplyForce((direction * repulsion) / (distance * -0.5F))
+                        partner.ApplyForce((direction * repulsion) / (distance * 0.5F))
+                        current.ApplyForce((direction * repulsion) / (distance * -0.5F))
                     End If
                 End If
             Next
@@ -233,22 +230,22 @@ Namespace Layouts.SpringForce
         Protected Sub applyHookesLaw()
             For Each e As Edge In graph.graphEdges
                 Dim spring As Spring = GetSpring(e)
-                Dim d As AbstractVector = spring.point2.position - spring.point1.position
+                Dim d As AbstractVector = spring.B.position - spring.A.position
                 Dim displacement As Double = spring.length - d.Magnitude()
                 Dim direction As AbstractVector = d.Normalize()
 
-                If spring.point1.node.pinned AndAlso spring.point2.node.pinned Then
-                    spring.point1.ApplyForce(direction * 0F)
-                    spring.point2.ApplyForce(direction * 0F)
-                ElseIf spring.point1.node.pinned Then
-                    spring.point1.ApplyForce(direction * 0F)
-                    spring.point2.ApplyForce(direction * (spring.K * displacement))
-                ElseIf spring.point2.node.pinned Then
-                    spring.point1.ApplyForce(direction * (spring.K * displacement * -1.0F))
-                    spring.point2.ApplyForce(direction * 0F)
+                If spring.A.node.pinned AndAlso spring.B.node.pinned Then
+                    spring.A.ApplyForce(direction * 0F)
+                    spring.B.ApplyForce(direction * 0F)
+                ElseIf spring.A.node.pinned Then
+                    spring.A.ApplyForce(direction * 0F)
+                    spring.B.ApplyForce(direction * (spring.K * displacement))
+                ElseIf spring.B.node.pinned Then
+                    spring.A.ApplyForce(direction * (spring.K * displacement * -1.0F))
+                    spring.B.ApplyForce(direction * 0F)
                 Else
-                    spring.point1.ApplyForce(direction * (spring.K * displacement * -0.5F))
-                    spring.point2.ApplyForce(direction * (spring.K * displacement * 0.5F))
+                    spring.A.ApplyForce(direction * (spring.K * displacement * -0.5F))
+                    spring.B.ApplyForce(direction * (spring.K * displacement * 0.5F))
                 End If
             Next
         End Sub
@@ -256,28 +253,28 @@ Namespace Layouts.SpringForce
         Protected Sub attractToCentre()
             For Each n As Node In graph.vertex
                 Dim point As LayoutPoint = GetPoint(n)
+
                 If Not point.node.pinned Then
                     Dim direction As AbstractVector = point.position * -1.0F
-                    'point.ApplyForce(direction * ((float)Math.Sqrt((double)(Repulsion / 100.0f))));
-
-
                     Dim displacement As Double = direction.Magnitude()
+
                     direction = direction.Normalize()
                     point.ApplyForce(direction * (stiffness * displacement * 0.4F))
                 End If
             Next
         End Sub
 
-        Protected Sub updateVelocity(iTimeStep As Double)
+        Protected Sub updateVelocity(timeStep As Double)
             For Each n As Node In graph.vertex
                 Dim point As LayoutPoint = GetPoint(n)
-                point.velocity.Add(point.acceleration * iTimeStep)
+
+                point.velocity.Add(point.acceleration * timeStep)
                 point.velocity.Multiply(damping)
                 point.acceleration.SetZero()
             Next
         End Sub
 
-        Protected Sub updatePosition(iTimeStep As Double)
+        Protected Sub updatePosition(timeStep As Double)
             Dim point As LayoutPoint
             Dim delta As AbstractVector
             Dim x, y, z As Double
@@ -288,7 +285,7 @@ Namespace Layouts.SpringForce
                 x = point.position.x
                 y = point.position.y
                 z = point.position.z
-                delta = point.velocity * iTimeStep
+                delta = point.velocity * timeStep
                 point.position.Add(delta)
 
                 If point.position.x.IsNaNImaginary OrElse stdNum.Abs(point.position.x) > maxCanvas OrElse point.position.x < 0 Then
@@ -315,6 +312,7 @@ Namespace Layouts.SpringForce
             For Each n As Node In graph.vertex
                 Dim point As LayoutPoint = GetPoint(n)
                 Dim speed As Double = point.velocity.Magnitude()
+
                 energy += 0.5F * point.mass * speed * speed
             Next
 

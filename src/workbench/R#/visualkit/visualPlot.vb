@@ -85,6 +85,10 @@ Imports Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 Imports REnv = SMRUCC.Rsharp.Runtime
 Imports stdNum = System.Math
 Imports stdVec = Microsoft.VisualBasic.Math.LinearAlgebra.Vector
+Imports RDataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
+Imports SMRUCC.Rsharp.Runtime.Internal.Object.Linq
+Imports Microsoft.VisualBasic.Data.ChartPlots.BarPlot.Data
+Imports Microsoft.VisualBasic.Data.ChartPlots.BarPlot
 
 ''' <summary>
 ''' package module for biological analysis data visualization
@@ -109,6 +113,85 @@ Module visualPlot
         Dim bar As New GSVADiffBar(diff, theme)
 
         Return bar.Plot(size)
+    End Function
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="sample">
+    ''' DAM data between sample group comparisions, this parameter 
+    ''' has two data format:
+    ''' 
+    ''' 1. dataframe - should contains at least two data fields: up and down, 
+    '''    field values of up and down is the DAM counts number. row data in
+    '''    dataframe is the sample comparision groups
+    ''' 2. list - elements in the list is the sample comparision groups and 
+    '''    each element slot values should be a tuple list which contains the 
+    '''    DAM id vector, and each id vector is named up and down.
+    ''' </param>
+    ''' <param name="upName"></param>
+    ''' <param name="downName"></param>
+    ''' <param name="size"></param>
+    ''' <param name="padding"></param>
+    ''' <param name="title"></param>
+    ''' <param name="headN"></param>
+    ''' <param name="ppi"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("dem.barplot")>
+    Public Function DEMBarPlot(sample As Object,
+                               Optional upName As String = "up",
+                               Optional downName As String = "down",
+                               <RRawVectorArgument>
+                               Optional size As Object = "2700,2400",
+                               <RRawVectorArgument>
+                               Optional padding As Object = "padding:200px 350px 250px 200px;",
+                               Optional title As String = "Statistic of Differently Expressed Metabolite",
+                               Optional headN As Integer = 60,
+                               Optional ppi As Integer = 300,
+                               Optional env As Environment = Nothing) As Object
+
+        Dim theme As New Theme With {
+            .padding = InteropArgumentHelper.getPadding(padding, "padding:200px 100px 250px 200px;"),
+            .axisLabelCSS = "font-style: normal; font-size: 13; font-family: " & FontFace.MicrosoftYaHei & ";",
+            .XaxisTickFormat = "F0",
+            .YaxisTickFormat = "F0"
+        }
+
+        Dim up As Double()
+        Dim down As Double()
+        Dim tags As String()
+
+        If TypeOf sample Is RDataframe Then
+            Dim sampleTable As RDataframe = DirectCast(sample, RDataframe)
+
+            sample = sample.head(n:=headN)
+
+            up = sampleTable.getVector(Of Double)(upName)
+            down = sampleTable.getVector(Of Double)(downName)
+            tags = sampleTable.rownames
+        Else
+            Throw New NotImplementedException
+        End If
+
+        Dim bar As New BiDirectionData With {
+            .Factor1 = upName,
+            .Factor2 = downName,
+            .samples = tags _
+                .Select(Function(label, i)
+                            Return New BarDataSample With {
+                                .data = {up(i), down(i)},
+                                .tag = label
+                            }
+                        End Function) _
+                .ToArray
+        }
+        Dim app As New BiDirectionBarPlot(bar, Color.Brown, Color.SteelBlue, theme) With {
+            .main = title,
+            .xlabel = "Number of Metabolites"
+        }
+
+        Return app.Plot(InteropArgumentHelper.getSize(size, env), ppi:=ppi)
     End Function
 
     <ExportAPI("classchange.plot")>
