@@ -17,5 +17,5 @@ the gene expression matrix data toolkit
 + [cmeans_matrix](geneExpression/cmeans_matrix.1) get cluster membership matrix
 + [deg.t.test](geneExpression/deg.t.test.1) 
 + [geneId](geneExpression/geneId.1) get gene Id list
-+ [as.deg](geneExpression/as.deg.1) 
++ [as.deg](geneExpression/as.deg.1) create gene expression DEG model
 + [deg.class](geneExpression/deg.class.1) 

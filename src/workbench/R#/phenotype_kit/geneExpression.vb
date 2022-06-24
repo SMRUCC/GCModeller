@@ -557,6 +557,15 @@ Module geneExpression
         Return dep.Select(Function(a) a.ID).ToArray
     End Function
 
+    ''' <summary>
+    ''' create gene expression DEG model
+    ''' </summary>
+    ''' <param name="x"></param>
+    ''' <param name="logFC"></param>
+    ''' <param name="pvalue"></param>
+    ''' <param name="label"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("as.deg")>
     <RApiReturn(GetType(DEGModel))>
     Public Function createDEGModels(<RRawVectorArgument> x As Object,
