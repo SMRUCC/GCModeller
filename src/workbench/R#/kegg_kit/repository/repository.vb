@@ -186,6 +186,7 @@ Public Module repository
     Public Function LoadCompoundRepo(<RRawVectorArgument>
                                      repository As Object,
                                      Optional rawList As Boolean = False,
+                                     Optional ignoreGlycan As Boolean = False,
                                      Optional env As Environment = Nothing) As Object
 
         If TypeOf repository Is Stream Then
@@ -211,7 +212,10 @@ Public Module repository
                     End If
                 End Using
             Else
-                Return CompoundRepository.ScanModels(dataRepo, ignoreGlycan:=False)
+                Return CompoundRepository.ScanModels(
+                    directories:=dataRepo,
+                    ignoreGlycan:=ignoreGlycan
+                )
             End If
         End If
     End Function
