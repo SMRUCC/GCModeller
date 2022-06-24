@@ -91,9 +91,9 @@ Public Class Canvas
     ''' <summary>
     ''' Render and layout engine works in 3D mode?
     ''' </summary>
-    Dim space3D As Boolean
+    Friend space3D As Boolean
 
-    Private Sub setupGraph(net As NetworkGraph, space As Boolean)
+    Private Sub setupGraph(net As NetworkGraph, space3D As Boolean)
         Dim showLabel As Boolean = Me.ShowLabel
 
         Me.net = net
@@ -105,7 +105,7 @@ Public Class Canvas
             inputs = Nothing
         End If
 
-        If space Then
+        If space3D Then
             fdgPhysics = New ForceDirected3D(Me.net, FdgArgs.Stiffness, FdgArgs.Repulsion, FdgArgs.Damping)
             fdgRenderer = New Renderer3D(
                 Function() paper,
