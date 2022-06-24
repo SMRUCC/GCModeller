@@ -194,6 +194,20 @@ Module visualPlot
         Return app.Plot(InteropArgumentHelper.getSize(size, env), ppi:=ppi)
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="genes"></param>
+    ''' <param name="size"></param>
+    ''' <param name="padding"></param>
+    ''' <param name="bg"></param>
+    ''' <param name="colorSet"></param>
+    ''' <param name="showLabel"></param>
+    ''' <param name="radius"></param>
+    ''' <param name="xlab"></param>
+    ''' <param name="orderByClass"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("classchange.plot")>
     Public Function ClassChangePlot(<RRawVectorArgument> genes As Object,
                                     <RRawVectorArgument> Optional size As Object = "3000,2400",
