@@ -1,0 +1,60 @@
+.\" man page create by R# package system.
+.TH VISUALPLOT 2 2000-01-01 "dem.barplot" "dem.barplot"
+.SH NAME
+dem.barplot \- 
+.SH SYNOPSIS
+\fIdem.barplot(\fBsample\fR as any, 
+\fBupName\fR as string = "up", 
+\fBdownName\fR as string = "down", 
+\fBsize\fR as any = "2700,2400", 
+\fBpadding\fR as any = "padding:200px 350px 250px 200px;", 
+\fBtitle\fR as string = "Statistic of Differently Expressed Metabolite", 
+\fBheadN\fR as integer = 60, 
+\fBppi\fR as integer = 300, 
+[\fB<Environment>\fR]);\fR
+.SH OPTIONS
+.PP
+\fBsample\fB \fR\- 
+ DAM data between sample group comparisions, this parameter 
+ has two data format:
+ 
+ 1. dataframe - should contains at least two data fields: up and down, 
+    field values of up and down is the DAM counts number. row data in
+    dataframe is the sample comparision groups
+ 2. list - elements in the list is the sample comparision groups and 
+    each element slot values should be a tuple list which contains the 
+    DAM id vector, and each id vector is named up and down.
+. 
+.PP
+.PP
+\fBupName\fB \fR\- -. 
+.PP
+.PP
+\fBdownName\fB \fR\- -. 
+.PP
+.PP
+\fBsize\fB \fR\- -. 
+.PP
+.PP
+\fBpadding\fB \fR\- -. 
+.PP
+.PP
+\fBtitle\fB \fR\- -. 
+.PP
+.PP
+\fBheadN\fB \fR\- -. 
+.PP
+.PP
+\fBppi\fB \fR\- -. 
+.PP
+.PP
+\fBenv\fB \fR\- -. 
+.PP
+.SH SEE ALSO
+visualPlot
+.SH FILES
+.PP
+visualkit.dll
+.PP
+.SH AUTHOR
+Written by \fBxie.guigang@gcmodeller.org\fR
