@@ -186,6 +186,7 @@ Public Module repository
     Public Function LoadCompoundRepo(<RRawVectorArgument>
                                      repository As Object,
                                      Optional rawList As Boolean = False,
+                                     Optional ignoreGlycan As Boolean = False,
                                      Optional env As Environment = Nothing) As Object
 
         If TypeOf repository Is Stream Then
@@ -210,8 +211,20 @@ Public Module repository
                         Return New CompoundRepository(KEGGCompoundPack.ReadKeggDb(file))
                     End If
                 End Using
+            ElseIf rawList Then
+                Return dataRepo _
+                    .Select(Function(dir)
+                                Return CompoundRepository.ScanRepository(directory:=dir, ignoreGlycan:=ignoreGlycan)
+                            End Function) _
+                    .IteratesALL _
+                    .GroupBy(Function(c) c.entry) _
+                    .Select(Function(c) c.First) _
+                    .ToArray
             Else
-                Return CompoundRepository.ScanModels(dataRepo, ignoreGlycan:=False)
+                Return CompoundRepository.ScanModels(
+                    directories:=dataRepo,
+                    ignoreGlycan:=ignoreGlycan
+                )
             End If
         End If
     End Function
