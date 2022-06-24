@@ -211,6 +211,15 @@ Public Module repository
                         Return New CompoundRepository(KEGGCompoundPack.ReadKeggDb(file))
                     End If
                 End Using
+            ElseIf rawList Then
+                Return dataRepo _
+                    .Select(Function(dir)
+                                Return CompoundRepository.ScanRepository(directory:=dir, ignoreGlycan:=ignoreGlycan)
+                            End Function) _
+                    .IteratesALL _
+                    .GroupBy(Function(c) c.entry) _
+                    .Select(Function(c) c.First) _
+                    .ToArray
             Else
                 Return CompoundRepository.ScanModels(
                     directories:=dataRepo,
