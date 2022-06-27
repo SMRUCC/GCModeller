@@ -2,10 +2,33 @@
 
 Public Class StreamGroup : Inherits StreamObject
 
-    Public ReadOnly Property tree As Dictionary(Of String, StreamObject)
+    ReadOnly tree As Dictionary(Of String, StreamObject)
 
-    Sub New()
-    End Sub
+    ''' <summary>
+    ''' get total data size in current folder
+    ''' </summary>
+    ''' <returns></returns>
+    Public ReadOnly Property totalSize As Long
+        Get
+            Dim size As Long
+
+            For Each file In tree.Values
+                If TypeOf file Is StreamBlock Then
+                    size += DirectCast(file, StreamBlock).size
+                Else
+                    size += DirectCast(file, StreamGroup).totalSize
+                End If
+            Next
+
+            Return size
+        End Get
+    End Property
+
+    Public ReadOnly Property files As StreamObject()
+        Get
+            Return tree.Values.ToArray
+        End Get
+    End Property
 
     ''' <summary>
     ''' create a new file tree
@@ -27,6 +50,16 @@ Public Class StreamGroup : Inherits StreamObject
         tree = New Dictionary(Of String, StreamObject)
     End Sub
 
+    Sub New(path As FilePath, tree As Dictionary(Of String, StreamObject))
+        Call MyBase.New(path)
+        ' assign the exists tree data
+        Me.tree = tree
+    End Sub
+
+    Public Function hasName(nodeName As String) As Boolean
+        Return tree.ContainsKey(nodeName)
+    End Function
+
     Public Function GetDataBlock(filepath As FilePath) As StreamBlock
         Return VisitBlock(filepath)
     End Function
@@ -39,7 +72,7 @@ Public Class StreamGroup : Inherits StreamObject
 
         If dirBlock Is Nothing Then
             ' no dir tree
-            dirBlock = AddDataGroup(filepath)
+            dirBlock = AddDataGroup(dir)
         End If
 
         Call dirBlock.tree.Add(filepath.FileName, createNew)
@@ -48,22 +81,23 @@ Public Class StreamGroup : Inherits StreamObject
     End Function
 
     Public Function AddDataGroup(filepath As FilePath) As StreamGroup
-        Dim tree As Dictionary(Of String, StreamObject) = Me.tree
+        Dim dir As StreamGroup = Me
         Dim file As StreamObject
         Dim names As String() = filepath.Components
         Dim name As String
+        Dim targetName As String = filepath.FileName
 
         For i As Integer = 0 To names.Length - 1
             name = names(i)
 
-            If Not tree.ContainsKey(name) Then
-                tree.Add(name, New StreamGroup(filepath.Components.Take(i)))
-                tree = DirectCast(tree(name), StreamGroup).tree
+            If Not dir.hasName(name) Then
+                dir.tree.Add(name, New StreamGroup(filepath.Components.Take(i + 1)))
+                dir = DirectCast(dir.tree(name), StreamGroup)
             Else
-                file = tree(name)
+                file = dir.tree(name)
 
                 If TypeOf file Is StreamGroup Then
-                    tree = DirectCast(file, StreamGroup).tree
+                    dir = DirectCast(file, StreamGroup)
                 Else
                     ' required a folder(file group)
                     ' but a file is exists?
@@ -72,7 +106,7 @@ Public Class StreamGroup : Inherits StreamObject
             End If
         Next
 
-        Return tree(filepath.Components.Last)
+        Return dir
     End Function
 
     Private Function VisitBlock(filepath As FilePath) As StreamObject
@@ -114,7 +148,12 @@ Public Class StreamGroup : Inherits StreamObject
         Return Not VisitBlock(filepath) Is Nothing
     End Function
 
+    Public Overrides Function ToString() As String
+        Return $"{MyBase.ToString} [total: {StringFormats.Lanudry(totalSize)}]"
+    End Function
+
     Public Shared Function CreateRootTree() As StreamGroup
         Return New StreamGroup("/")
     End Function
+
 End Class

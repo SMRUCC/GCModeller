@@ -20,10 +20,10 @@
 
         Public ReadOnly Property ParentDirectory As FilePath
             Get
-                If Components.Length - 1 Then
+                If Components.Length = 1 Then
                     Return New FilePath("/")
                 Else
-                    Return New FilePath(Components.Take(Components.Length - 1), IsDirectory, IsAbsolutePath)
+                    Return New FilePath(Components.Take(Components.Length - 1), True, IsAbsolutePath)
                 End If
             End Get
         End Property
@@ -59,9 +59,9 @@
 
         Public Overrides Function ToString() As String
             If IsDirectory Then
-                Return DirectoryPath
+                Return DirectoryPath.StringReplace("[/]{2,}", "/")
             Else
-                Return $"{DirectoryPath}/{FileName}"
+                Return $"{DirectoryPath}/{FileName}".StringReplace("[/]{2,}", "/")
             End If
         End Function
     End Class
