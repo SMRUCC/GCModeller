@@ -1,43 +1,43 @@
 ﻿#Region "Microsoft.VisualBasic::62b2ae550cd3c405da5548bf91cc4123, visualize\Cytoscape\Cytoscape\Graph\Serialization\ExportToFile.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module ExportToFile
-    ' 
-    '         Function: __createTypeMapping, __exportEdge, __exportEdges, __exportNode, __exportNodes
-    '                   __getMap, __mapInterface, __mapNodes, __mapping, (+4 Overloads) Export
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module ExportToFile
+' 
+'         Function: __createTypeMapping, __exportEdge, __exportEdges, __exportNode, __exportNodes
+'                   __getMap, __mapInterface, __mapNodes, __mapping, (+4 Overloads) Export
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -284,6 +284,11 @@ Namespace CytoscapeGraphView.Serialization
         Private Function __exportNode(dict As Dictionary(Of String, String), __getType As Func(Of String, String)) As XGMMLnode
             Dim ID As String = dict(REFLECTION_ID_MAPPING_IDENTIFIER)
             Dim attrs As New List(Of Attribute)
+            Dim x As Double = Val(dict.TryGetValue("x"))
+            Dim y As Double = Val(dict.TryGetValue("y"))
+            Dim z As Double = Val(dict.TryGetValue("z"))
+            Dim degree As Double = Val(dict.TryGetValue("degree"))
+            Dim color As String = dict.TryGetValue("color")
 
             attrs += New Attribute With {
                 .name = ATTR_SHARED_NAME,
@@ -296,6 +301,9 @@ Namespace CytoscapeGraphView.Serialization
                 .Type = ATTR_VALUE_TYPE_STRING
             }
             Call dict.Remove(REFLECTION_ID_MAPPING_IDENTIFIER)
+            Call dict.Remove("x")
+            Call dict.Remove("y")
+            Call dict.Remove("z")
 
             attrs += From item As KeyValuePair(Of String, String)
                      In dict
@@ -308,7 +316,15 @@ Namespace CytoscapeGraphView.Serialization
             Dim node As New XGMMLnode With {
                 .label = ID,
                 .attributes = attrs.ToArray,
-                .graphics = New NodeGraphics
+                .graphics = New NodeGraphics With {
+                    .x = x,
+                    .y = y,
+                    .w = degree,
+                    .Width = degree,
+                    .h = degree,
+                    .z = z,
+                    .Fill = color
+                }
             }
 
             Return node
