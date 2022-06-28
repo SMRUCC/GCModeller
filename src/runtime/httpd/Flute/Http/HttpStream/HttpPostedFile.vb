@@ -103,7 +103,7 @@ Namespace Core.HttpStream
             Me.TempPath = TempFileSystem.GetAppSysTempFile(, App.PID)
 
             ' 数据写入到临时文件之中
-            Call SaveAs(TempPath, New ReadSubStream(base_stream, offset, length))
+            Call SaveAs(TempPath, New SubStream(base_stream, offset, length))
         End Sub
 
         Public Function Summary() As Dictionary(Of String, String)

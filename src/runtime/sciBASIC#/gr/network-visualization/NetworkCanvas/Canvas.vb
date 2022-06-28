@@ -1,58 +1,58 @@
 ﻿#Region "Microsoft.VisualBasic::07e91b1af52db23c55a8b596b1a408be, sciBASIC#\gr\network-visualization\NetworkCanvas\Canvas.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 233
-    '    Code Lines: 164
-    ' Comment Lines: 35
-    '   Blank Lines: 34
-    '     File Size: 7.18 KB
+' Summaries:
 
 
-    ' Class Canvas
-    ' 
-    '     Properties: AutoRotate, DynamicsRadius, FdgArgs, Graph, ShowLabel
-    '                 ViewDistance
-    ' 
-    '     Function: GetSnapshot, GetTargetNode
-    ' 
-    '     Sub: [Stop], Canvas_Disposed, Canvas_Load, Canvas_Paint, doPaint
-    '          doPhysicsUpdates, Run, SetFDGParams, SetPhysical, SetRotate
-    '          setupGraph, WriteLayout
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 233
+'    Code Lines: 164
+' Comment Lines: 35
+'   Blank Lines: 34
+'     File Size: 7.18 KB
+
+
+' Class Canvas
+' 
+'     Properties: AutoRotate, DynamicsRadius, FdgArgs, Graph, ShowLabel
+'                 ViewDistance
+' 
+'     Function: GetSnapshot, GetTargetNode
+' 
+'     Sub: [Stop], Canvas_Disposed, Canvas_Load, Canvas_Paint, doPaint
+'          doPhysicsUpdates, Run, SetFDGParams, SetPhysical, SetRotate
+'          setupGraph, WriteLayout
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -91,9 +91,9 @@ Public Class Canvas
     ''' <summary>
     ''' Render and layout engine works in 3D mode?
     ''' </summary>
-    Dim space3D As Boolean
+    Friend space3D As Boolean
 
-    Private Sub setupGraph(net As NetworkGraph, space As Boolean)
+    Private Sub setupGraph(net As NetworkGraph, space3D As Boolean)
         Dim showLabel As Boolean = Me.ShowLabel
 
         Me.net = net
@@ -105,12 +105,13 @@ Public Class Canvas
             inputs = Nothing
         End If
 
-        If space Then
+        If space3D Then
             fdgPhysics = New ForceDirected3D(Me.net, FdgArgs.Stiffness, FdgArgs.Repulsion, FdgArgs.Damping)
             fdgRenderer = New Renderer3D(
                 Function() paper,
                 Function() New Rectangle(New Point, Size),
                 fdgPhysics, DynamicsRadius)
+            DirectCast(fdgRenderer, Renderer3D).ViewDistance = viewDist
             inputs = New Input3D(Me)
         Else
             fdgPhysics = New ForceDirected2D(Me.net, FdgArgs.Stiffness, FdgArgs.Repulsion, FdgArgs.Damping)
@@ -121,6 +122,7 @@ Public Class Canvas
             inputs = New InputDevice(Me)
         End If
 
+        Me.fdgPhysics.interactiveMode = True
         Me.ShowLabel = showLabel
     End Sub
 
@@ -166,6 +168,7 @@ Public Class Canvas
     ''' GDI+ interface for the canvas control.
     ''' </summary>
     Dim paper As Graphics
+    Dim viewDist As Double = -450
 
     Public Property AutoRotate As Boolean = True
     Public Property DynamicsRadius As Boolean = False
@@ -182,6 +185,8 @@ Public Class Canvas
             If space3D Then
                 DirectCast(fdgRenderer, Renderer3D).ViewDistance = value
             End If
+
+            viewDist = value
         End Set
     End Property
 
@@ -280,9 +285,10 @@ Public Class Canvas
     ''' <summary>
     ''' Write the node layout position into its extensions data, for generates the svg graphics.
     ''' </summary>
-    Public Sub WriteLayout()
+    Public Function WriteLayout() As NetworkGraph
         Call Graph.WriteLayouts(fdgPhysics)
-    End Sub
+        Return Graph
+    End Function
 
     Private Sub Canvas_Disposed(sender As Object, e As EventArgs) Handles Me.Disposed
         timer.Dispose()
