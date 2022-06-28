@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::87abf7461dac8a626699ea60db7bbcb7, sciBASIC#\Data\BinaryData\DataStorage\netCDF\Components\CDFData\flags.vb"
+﻿#Region "Microsoft.VisualBasic::13737a7d8a3c8579738e173c9b569448, sciBASIC#\Data\BinaryData\DataStorage\netCDF\Components\DimensionList.vb"
 
     ' Author:
     ' 
@@ -34,37 +34,44 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 18
-    '    Code Lines: 14
+    '   Total Lines: 23
+    '    Code Lines: 16
     ' Comment Lines: 0
-    '   Blank Lines: 4
-    '     File Size: 557.00 B
+    '   Blank Lines: 7
+    '     File Size: 638.00 B
 
 
-    '     Class flags
+    '     Class DimensionList
     ' 
-    '         Properties: cdfDataType
+    '         Properties: dimensions, HaveRecordDimension, recordId, recordName
+    ' 
+    '         Function: ToString
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-Imports System.Runtime.CompilerServices
+Imports System.Xml.Serialization
 
-Namespace netCDF.Components
+Namespace Components
 
-    Public Class flags : Inherits CDFData(Of Boolean)
+    Public Class DimensionList
 
-        Public Overrides ReadOnly Property cdfDataType As CDFDataTypes
+        <XmlAttribute> Public Property recordId As Integer?
+        <XmlAttribute> Public Property recordName As String
+
+        Public ReadOnly Property HaveRecordDimension As Boolean
             Get
-                Return CDFDataTypes.BOOLEAN
+                Return Not (recordId Is Nothing AndAlso recordName = "NA")
             End Get
         End Property
 
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Overloads Shared Widening Operator CType(data As Boolean()) As flags
-            Return New flags With {.buffer = data}
-        End Operator
+        Public Property dimensions As Dimension()
+
+        Public Overrides Function ToString() As String
+            Return $"[{recordId}] {recordName}"
+        End Function
     End Class
+
 End Namespace

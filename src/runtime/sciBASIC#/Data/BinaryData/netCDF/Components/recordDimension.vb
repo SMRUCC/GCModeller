@@ -54,7 +54,7 @@
 
 Imports System.Xml.Serialization
 
-Namespace netCDF.Components
+Namespace Components
 
     ''' <summary>
     ''' Metadata for the record dimension

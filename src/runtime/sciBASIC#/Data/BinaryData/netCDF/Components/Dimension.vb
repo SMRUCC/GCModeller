@@ -57,13 +57,13 @@ Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 
-Namespace netCDF.Components
+Namespace Components
 
     ''' <summary>
     ''' ``[name => size]``
     ''' </summary>
     ''' 
-    <XmlType("dim", [Namespace]:=Xml.netCDF)>
+    <XmlType("dim", [Namespace]:=Data.Xml.netCDF)>
     Public Structure Dimension : Implements INamedValue
 
         ''' <summary>
