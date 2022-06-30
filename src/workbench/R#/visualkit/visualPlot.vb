@@ -165,7 +165,7 @@ Module visualPlot
         If TypeOf sample Is RDataframe Then
             Dim sampleTable As RDataframe = DirectCast(sample, RDataframe)
 
-            sample = sample.head(n:=headN)
+            sampleTable = sampleTable.head(n:=headN)
 
             up = sampleTable.getVector(Of Double)(upName)
             down = sampleTable.getVector(Of Double)(downName)
