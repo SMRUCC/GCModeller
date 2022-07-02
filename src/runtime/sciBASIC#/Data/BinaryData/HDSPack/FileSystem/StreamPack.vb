@@ -137,7 +137,7 @@ Namespace FileSystem
             If Encoding.ASCII.GetString(magic) <> StreamPack.magic Then
                 Throw New FormatException("invalid magic header!")
             Else
-                Dim bin As New BinaryDataReader(buffer)
+                Dim bin As New BinaryDataReader(buffer) With {.ByteOrder = ByteOrder.BigEndian}
                 Dim bufSize As Integer = bin.ReadInt32
                 Dim buf As Byte() = bin.ReadBytes(bufSize)
 
