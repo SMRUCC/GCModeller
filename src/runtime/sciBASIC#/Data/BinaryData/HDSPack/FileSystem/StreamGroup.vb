@@ -137,7 +137,8 @@ Namespace FileSystem
             Dim file As StreamObject
             Dim names As String() = filepath.Components
             Dim name As String
-            Dim targetName As String = names.Last
+            ' root dir / contains no names
+            Dim targetName As String = names.LastOrDefault
 
             If Me.referencePath = filepath Then
                 Return Me

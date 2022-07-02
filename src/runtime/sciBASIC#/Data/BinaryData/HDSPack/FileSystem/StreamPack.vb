@@ -100,12 +100,15 @@ Namespace FileSystem
         ''' <summary>
         ''' 
         ''' </summary>
-        ''' <param name="fileName"></param>
+        ''' <param name="fileName">
+        ''' the dir object its file name must be ends with the symbol '\' or '/'
+        ''' </param>
         ''' <param name="attrs">
         ''' all attribute value will be serialized via messagepack
         ''' </param>
         Public Sub SetAttribute(fileName As String, attrs As Dictionary(Of String, Object))
-            Dim file As StreamObject = superBlock.GetObject(New FilePath(fileName))
+            Dim reference As New FilePath(fileName)
+            Dim file As StreamObject = superBlock.GetObject(reference)
 
             For Each val As Object In attrs.Values
                 If Not val Is Nothing Then
@@ -154,6 +157,13 @@ Namespace FileSystem
             Return TreeParser.Parse(buffer, registry)
         End Function
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="fileName">
+        ''' the dir object its file name must be ends with the symbol '\' or '/'
+        ''' </param>
+        ''' <returns></returns>
         Public Function GetObject(fileName As String) As StreamObject
             Return superBlock.GetObject(New FilePath(fileName))
         End Function
@@ -168,7 +178,9 @@ Namespace FileSystem
         ''' if the target file block is missing from the tree, then this function will append a new file block
         ''' otherwise a substream object will be returns for read data
         ''' </summary>
-        ''' <param name="fileName"></param>
+        ''' <param name="fileName">
+        ''' the dir object its file name must be ends with the symbol '\' or '/'
+        ''' </param>
         ''' <returns></returns>
         Public Function OpenBlock(fileName As String) As Stream
             Dim path As New FilePath("/" & fileName)
