@@ -214,9 +214,9 @@ Namespace FileSystem
                     Dim treeMetadata As Byte() = superBlock.GetBuffer(_registriedTypes)
                     Dim registeryMetadata As Byte() = _registriedTypes.GetTypeCodes
                     Dim globalMetadata As Byte() = globalAttributes.Pack(_registriedTypes)
-                    Dim size As Byte() = BitConverter.GetBytes(treeMetadata.Length)
-                    Dim size2 As Byte() = BitConverter.GetBytes(registeryMetadata.Length)
-                    Dim size3 As Byte() = BitConverter.GetBytes(globalMetadata.Length)
+                    Dim size As Byte() = NetworkByteOrderBitConvertor.GetBytes(treeMetadata.Length)
+                    Dim size2 As Byte() = NetworkByteOrderBitConvertor.GetBytes(registeryMetadata.Length)
+                    Dim size3 As Byte() = NetworkByteOrderBitConvertor.GetBytes(globalMetadata.Length)
 
                     Call buffer.Seek(magic.Length, SeekOrigin.Begin)
                     Call buffer.Write(size2, Scan0, size2.Length)
