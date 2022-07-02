@@ -136,6 +136,7 @@ Namespace FileSystem
             Dim file As StreamObject
             Dim names As String() = filepath.Components
             Dim name As String
+            Dim targetName As String = names.Last
 
             If Me.referencePath = filepath Then
                 Return Me
@@ -163,7 +164,7 @@ Namespace FileSystem
                 End If
             Next
 
-            Return tree(filepath.Components.Last)
+            Return tree(targetName)
         End Function
 
         ''' <summary>
