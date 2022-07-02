@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.FileIO.Path
+﻿Imports System.Data
+Imports Microsoft.VisualBasic.FileIO.Path
 
 Namespace FileSystem
 
@@ -164,7 +165,11 @@ Namespace FileSystem
                 End If
             Next
 
-            Return tree(targetName)
+            If Not tree.ContainsKey(targetName) Then
+                Throw New MissingPrimaryKeyException($"missing folder or file which is named '{targetName}', if you want to find a folder, then you must ensure that your object path is end with symbol '\' or '/'!")
+            Else
+                Return tree(targetName)
+            End If
         End Function
 
         ''' <summary>
