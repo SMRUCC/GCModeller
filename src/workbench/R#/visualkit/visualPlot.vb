@@ -410,13 +410,13 @@ Module visualPlot
                                       Optional displays As Integer = 5,
                                       Optional serialTopn As Boolean = False,
                                       <RRawVectorArgument(GetType(Double))>
-                                      Optional bubbleRadius As Object = "12,64",
+                                      Optional bubbleRadius As Object = "7,40",
                                       Optional heatmap As Boolean = False,
                                       Optional bubbleStyle As Boolean = False,
                                       Optional ppi As Integer = 300,
                                       Optional env As Environment = Nothing) As Object
 
-        Dim bubbleSize = SMRUCC.Rsharp.GetDoubleRange(bubbleRadius, env, [default]:="8,50")
+        Dim bubbleSize = SMRUCC.Rsharp.GetDoubleRange(bubbleRadius, env, [default]:="7,40")
         Dim sizeStr As String = InteropArgumentHelper.getSize(size, env, "2700,2300")
         Dim isGeneric As Boolean = TypeOf profiles Is dataframe
         Dim theme As New Theme With {
