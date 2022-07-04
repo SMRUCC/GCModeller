@@ -172,9 +172,8 @@ Namespace CollectionSet
             }.DoCall(AddressOf legends.Add)
 
             maxwidth = stdNum.Max(g.MeasureString(legends.Last.title, font).Width, maxwidth)
-
             theme.legendLayout = New Absolute With {
-                .x = canvas.Width - maxwidth * 2,
+                .x = canvas.Width - maxwidth * 1.25,
                 .y = stdNum.Max(200, canvas.Padding.Top)
             }
 
@@ -317,7 +316,7 @@ Namespace CollectionSet
             For Each label As String In collectionSetLabels
                 labelSize = g.MeasureString(label, labelFont)
                 labelPos = New PointF With {
-                    .X = layout.Right - maxLabelSize.Width + (maxLabelSize.Width - labelSize.Width) / 2,
+                    .X = layout.Right - maxLabelSize.Width + (maxLabelSize.Width - labelSize.Width) / 2.5,
                     .Y = y
                 }
 
@@ -345,7 +344,6 @@ Namespace CollectionSet
             Dim width As Double = stdNum.Abs(a.X - b.X)
 
             labelFont = CSSFont.TryParse(theme.axisTickCSS).GDIObject(g.Dpi)
-
             g.DrawLine(pen, a, b)
 
             For Each tick As Double In New DoubleRange(0.Join(setSize.Values)).CreateAxisTicks(ticks:=3, decimalDigits:=0)
