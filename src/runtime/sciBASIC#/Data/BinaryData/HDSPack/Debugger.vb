@@ -33,7 +33,10 @@ Public Module Debugger
     ''' <param name="dir"></param>
     ''' <param name="text"></param>
     <Extension>
-    Public Sub Tree(dir As StreamGroup, text As TextWriter, Optional indent As Integer = 0, Optional pack As StreamPack = Nothing)
+    Public Sub Tree(dir As StreamGroup, text As TextWriter,
+                    Optional indent As Integer = 0,
+                    Optional pack As StreamPack = Nothing)
+
         Call text.WriteLine(dir.ToString)
         Call treeInternal(dir, text, indent, pack)
     End Sub

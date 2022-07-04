@@ -18,6 +18,11 @@ Module Program
             For Each file In hds.ListFiles
                 Call Console.WriteLine(file.ToString)
             Next
+
+            Call Console.WriteLine()
+            Call Console.WriteLine()
+            Call Console.WriteLine()
+            Call hds.superBlock.Tree(App.StdOut, pack:=hds)
         End Using
     End Sub
 
@@ -65,21 +70,27 @@ Module Program
 
     Sub writePackTest()
         Using hds As StreamPack = StreamPack.CreateNewStream(testfile)
-            Dim image = "E:\GCModeller\src\runtime\sciBASIC#\etc\ch07_18.png".ReadBinary
+            Dim image = "/GCModeller\src\runtime\sciBASIC#\etc\ch07_18.png".ReadBinary
             Dim block = hds.OpenBlock("/path/to/the/image/file/ch07-18.png")
 
             Call block.Write(image, Scan0, image.Length)
             Call block.Flush()
             Call block.Dispose()
 
-            image = "E:\GCModeller\src\runtime\sciBASIC#\etc\ggplot2.png".ReadBinary
+            block = hds.OpenBlock("/path/to/empty.dat")
+
+            Call block.Write({}, Scan0, 0)
+            Call block.Flush()
+            Call block.Dispose()
+
+            image = "/GCModeller\src\runtime\sciBASIC#\etc\ggplot2.png".ReadBinary
             block = hds.OpenBlock("/another_folder\ggplot-logo.png")
 
             Call block.Write(image, Scan0, image.Length)
             Call block.Flush()
             Call block.Dispose()
 
-            image = "E:\GCModeller\src\GCModeller.sln".ReadBinary
+            image = "/GCModeller\src\GCModeller.sln".ReadBinary
 
             block = hds.OpenBlock("/another_folder/git/////////////\gcmodeller.sln")
 
@@ -87,7 +98,7 @@ Module Program
             Call block.Flush()
             Call block.Dispose()
 
-            Dim textBuf As Byte() = "E:\GCModeller\src\runtime\sciBASIC#\etc\(๑•̀ㅂ•́)و✧.svg".ReadBinary
+            Dim textBuf As Byte() = "/GCModeller\src\runtime\sciBASIC#\etc\(๑•̀ㅂ•́)و✧.svg".ReadBinary
             Dim block2 = hds.OpenBlock("/another_folder/text_data/\GCModeller\src\runtime\sciBASIC#\etc\(๑•̀ㅂ•́)و✧.svg")
 
             Call block2.Write(textBuf, Scan0, textBuf.Length)
@@ -118,19 +129,21 @@ Module Program
             Call block2.Flush()
             Call block2.Dispose()
 
-            image = "E:\GCModeller\src\runtime\sciBASIC#\mime\PDF32000_2008.pdf".ReadBinary
+            image = "/GCModeller\src\runtime\sciBASIC#\mime\PDF32000_2008.pdf".ReadBinary
             block = hds.OpenBlock("/another_folder\lagerfile.pdf")
 
             Call block.Write(image, Scan0, image.Length)
             Call block.Flush()
             Call block.Dispose()
 
-            image = "E:\mzkit\Rscript\Library\mzkit_app\data\KEGG_maps.msgpack".ReadBinary
+            image = "/mzkit\Rscript\Library\mzkit_app\data\KEGG_maps.msgpack".ReadBinary
             block = hds.OpenBlock("/another_folder\lager2\file.pdf")
 
             Call block.Write(image, Scan0, image.Length)
             Call block.Flush()
             Call block.Dispose()
+
+            Call hds.WriteText("Hello world! this is a note text about the root directory!", "/readme.txt")
 
         End Using
     End Sub
