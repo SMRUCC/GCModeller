@@ -32,7 +32,7 @@ Public Class Logistic
 
     Public Sub New(n As Integer, Optional rate As Double = 0.0001, Optional println As Action(Of String) = Nothing)
         Me.rate = rate
-        Me.theta = New Vector(New Double(n - 1) {})
+        Me.theta = Vector.rand(n) * n
         Me.println = println
     End Sub
 
