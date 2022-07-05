@@ -56,7 +56,7 @@ Public Class LazyAttribute
             Case GetType(Long) : Return NetworkByteOrderBitConvertor.ToInt64(attr.data, Scan0)
             Case GetType(Byte) : Return attr.data(Scan0)
             Case Else
-                Throw New NotImplementedException(attr.ToString)
+                Return MsgPackSerializer.Deserialize(attr.GetUnderlyingType, attr.data)
         End Select
     End Function
 
