@@ -14,6 +14,11 @@ Friend Module TreeParser
     ''' <param name="buffer"></param>
     ''' <param name="registry"></param>
     ''' <returns></returns>
+    ''' <remarks>
+    ''' the attribute data in the tree element has 
+    ''' already been unpack from the raw data 
+    ''' buffer.
+    ''' </remarks>
     Public Function Parse(buffer As Stream, registry As Dictionary(Of String, String)) As StreamGroup
         Dim size As Integer
         Dim bin As New BinaryDataReader(buffer) With {.ByteOrder = ByteOrder.BigEndian}

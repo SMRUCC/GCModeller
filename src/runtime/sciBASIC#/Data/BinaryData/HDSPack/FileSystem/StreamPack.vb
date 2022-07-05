@@ -159,7 +159,8 @@ Namespace FileSystem
         End Function
 
         ''' <summary>
-        ''' 
+        ''' Get target object and its corresponding attributes data
+        ''' which is specified by the given <paramref name="fileName"/>
         ''' </summary>
         ''' <param name="fileName">
         ''' the dir object its file name must be ends with the symbol '\' or '/'
