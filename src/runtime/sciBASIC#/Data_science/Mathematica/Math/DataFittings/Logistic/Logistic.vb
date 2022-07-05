@@ -26,13 +26,13 @@ Public Class Logistic
     ''' <summary>
     ''' the weight to learn 
     ''' </summary>
-    Friend weights As Vector
+    Friend theta As Vector
 
     Dim println As Action(Of String)
 
     Public Sub New(n As Integer, Optional rate As Double = 0.0001, Optional println As Action(Of String) = Nothing)
         Me.rate = rate
-        Me.weights = New Vector(New Double(n - 1) {})
+        Me.theta = New Vector(New Double(n - 1) {})
         Me.println = println
     End Sub
 
@@ -46,14 +46,14 @@ Public Class Logistic
 
     Public Function train(instances As IEnumerable(Of Instance)) As LogisticFit
         Dim matrix As Instance() = instances.ToArray
-        Dim weights As Double() = Me.weights.Array
+        Dim weights As Double() = Me.theta.Array
 
         For n As Integer = 0 To ITERATIONS - 1
             Dim lik As Double = 0.0
 
             For i As Integer = 0 To matrix.Length - 1
                 Dim x = matrix(i).x
-                Dim predicted = classify(x)
+                Dim predicted = predict(x, weights)
                 Dim label = matrix(i).label
 
                 For j As Integer = 0 To weights.Length - 1
@@ -61,7 +61,7 @@ Public Class Logistic
                 Next
 
                 ' not necessary for learning
-                lik += label * stdNum.Log(classify(x)) + (1 - label) * stdNum.Log(1 - classify(x))
+                lik += label * stdNum.Log(predict(x, weights)) + (1 - label) * stdNum.Log(1 - predict(x, weights))
             Next
 
             If Not println Is Nothing Then
@@ -69,15 +69,22 @@ Public Class Logistic
             End If
         Next
 
-        Me.weights = New Vector(weights)
+        Me.theta = New Vector(weights)
 
         Return LogisticFit.CreateFit(Me, matrix)
     End Function
 
-    Public Function classify(x As Double()) As Double
-        Dim logit As Double = (weights * x).Sum
-        Dim log = sigmoid(logit)
+    Private Function predict(x As Double(), theta As Double()) As Double
+        Dim logit As Double = theta.Select(Function(wi, i) wi * x(i)).Sum
+        Dim p = sigmoid(logit)
 
-        Return log
+        Return p
+    End Function
+
+    Public Function predict(x As Double()) As Double
+        Dim logit As Double = (theta * x).Sum
+        Dim p = sigmoid(logit)
+
+        Return p
     End Function
 End Class
