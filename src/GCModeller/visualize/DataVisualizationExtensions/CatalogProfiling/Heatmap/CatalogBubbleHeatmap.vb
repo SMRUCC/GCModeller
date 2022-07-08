@@ -21,7 +21,7 @@ Namespace CatalogProfiling
                        cellRange As DoubleRange,
                        theme As Theme)
 
-            Call MyBase.New(multiples, mapLevels, "black", theme)
+            Call MyBase.New(multiples, mapLevels, colorMissing:=Nothing, theme)
 
             Me.cellRange = cellRange
         End Sub
