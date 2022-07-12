@@ -85,6 +85,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+    <ProjectReference Include="..\..\Graph\graph-netcore5.vbproj" />
     <ProjectReference Include="..\..\Mathematica\Math\DataFrame\dataframeUtils-netcore5.vbproj" />
     <ProjectReference Include="..\..\Mathematica\Math\Math\Math.NET5.vbproj" />
   </ItemGroup>
