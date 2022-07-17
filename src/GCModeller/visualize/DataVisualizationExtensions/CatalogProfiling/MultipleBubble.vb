@@ -69,6 +69,13 @@ Namespace CatalogProfiling
                                            Optional tickFormat As String = "F3")
 
             Dim values As Double() = impacts.Enumerate(4)
+
+            ' no data?
+            If values.IsNullOrEmpty Then
+                Call "no impacts data???".Warning
+                Return
+            End If
+
             Dim x As Double = canvas.PlotRegion.Right + canvas.Padding.Right / 5
             Dim y As Double = canvas.Padding.Top * 1.125
             Dim r As Double
