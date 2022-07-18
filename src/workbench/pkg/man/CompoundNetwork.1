@@ -1,14 +1,16 @@
 ﻿.TH COMPOUNDNETWORK 1 2022-07-18 "" "Create kegg compound network"
 .SH NAME
-CompoundNetwork \- CompoundNetwork(compoundsId, make.pathway_cluster = TRUE)
+CompoundNetwork \- CompoundNetwork(compoundsId
+make.pathway.cluster = TRUE)
 .SH SYNOPSIS
-\fICompoundNetwork(compoundsId, make.pathway_cluster = TRUE)\fR
+\fICompoundNetwork(compoundsId
+make.pathway.cluster = TRUE)\fR
 .SH OPTIONS
 .PP
 \fBcompoundsId\fB \fR\- . a ``dataframe`` object that contains the kegg compound cid as the node item in the network graph data. there are fields in this dataframe that must be included: 1. kegg_id: is the kegg compound cid 2. weight: apply for measure the node size
 .PP
 .PP
-\fBmake.pathway_cluster\fB \fR\- TRUE. make node cluster info via pathway maps information?
+\fBmake.pathway.cluster\fB \fR\- TRUE. 
 .PP
 .SH VALUE
 .PP
