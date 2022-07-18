@@ -84,6 +84,12 @@ Namespace Javascript
             End Get
         End Property
 
+        Public Shared ReadOnly Property NULL As JsonValue
+            Get
+                Return New JsonValue(Nothing)
+            End Get
+        End Property
+
         Public Sub New()
         End Sub
 
