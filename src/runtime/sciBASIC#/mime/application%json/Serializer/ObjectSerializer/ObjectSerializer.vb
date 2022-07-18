@@ -114,7 +114,9 @@ Public Module ObjectSerializer
                 valueType = valObj.GetType
             End If
 
-            json.Add(reader.Key, valueType.GetJsonElement(valObj, opt))
+            If Not (valueType Is GetType(Type) OrElse valueType Is GetType(TypeInfo)) Then
+                Call json.Add(reader.Key, valueType.GetJsonElement(valObj, opt))
+            End If
         Next
 
         Return json
