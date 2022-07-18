@@ -243,9 +243,9 @@ Namespace BSON
             _double = v
         End Sub
 
-        Public Sub New(v As [String])
-            valueType = ValueType.[String]
-            _string = v
+        Public Sub New(v As String)
+            valueType = ValueType.String
+            _string = Strings.Trim(v)
         End Sub
 
         Public Sub New(v As Byte())
