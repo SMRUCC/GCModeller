@@ -97,8 +97,8 @@ Namespace Javascript
             value = obj
         End Sub
 
-        Public Function Literal(typeOfT As Type) As Object
-            Dim str As String = GetStripString()
+        Public Function Literal(typeOfT As Type, decodeMetachar As Boolean) As Object
+            Dim str As String = GetStripString(decodeMetachar)
 
             Select Case typeOfT
                 Case GetType(String)
@@ -120,16 +120,16 @@ Namespace Javascript
         ''' 处理转义等特殊字符串
         ''' </summary>
         ''' <returns></returns>
-        Public Function GetStripString() As String
+        Public Function GetStripString(decodeMetachar As Boolean) As String
             Dim s$ = Scripting _
                 .ToString(value, "null") _
                 .GetString
-            s = JsonParser.StripString(s)
+            s = JsonParser.StripString(s, decodeMetachar)
             Return s
         End Function
 
         Public Overrides Function ToString() As String
-            Return GetStripString()
+            Return GetStripString(decodeMetachar:=True)
         End Function
     End Class
 End Namespace
