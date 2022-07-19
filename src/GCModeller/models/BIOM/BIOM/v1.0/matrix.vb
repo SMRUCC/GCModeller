@@ -72,7 +72,7 @@ Namespace v10
         Public Overloads Shared Function LoadFile(path$) As IntegerMatrix
             Dim jsonText$ = path.ReadAllText
             Dim jsonObj As JsonElement = json.ParseJson(jsonText)
-            Dim biom As IntegerMatrix = jsonObj.CreateObject(GetType(IntegerMatrix))
+            Dim biom As IntegerMatrix = jsonObj.CreateObject(GetType(IntegerMatrix), decodeMetachar:=True)
             Return biom
         End Function
     End Class
@@ -85,7 +85,7 @@ Namespace v10
         Public Overloads Shared Function LoadFile(path$) As FloatMatrix
             Dim jsonText$ = path.ReadAllText
             Dim jsonObj As JsonElement = json.ParseJson(jsonText)
-            Dim biom As FloatMatrix = jsonObj.CreateObject(GetType(FloatMatrix))
+            Dim biom As FloatMatrix = jsonObj.CreateObject(GetType(FloatMatrix), decodeMetachar:=True)
             Return biom
         End Function
     End Class
@@ -98,7 +98,7 @@ Namespace v10
         Public Overloads Shared Function LoadFile(path$) As StringMatrix
             Dim jsonText$ = path.ReadAllText
             Dim jsonObj As JsonElement = json.ParseJson(jsonText)
-            Dim biom As StringMatrix = jsonObj.CreateObject(GetType(StringMatrix))
+            Dim biom As StringMatrix = jsonObj.CreateObject(GetType(StringMatrix), decodeMetachar:=True)
             Return biom
         End Function
     End Class
