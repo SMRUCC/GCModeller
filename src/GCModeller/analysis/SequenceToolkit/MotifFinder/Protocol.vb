@@ -86,8 +86,14 @@ Public Module Protocol
         ' 先进行两两局部最优比对，得到最基本的种子
         ' 2018-3-2 在这里应该选取的是短的高相似度的序列
         Dim seeds As List(Of HSP) = regions _
+            .Split(partitionSize:=regions.Length / App.CPUCoreNumbers) _
             .AsParallel _
-            .Select(Function(q) regions.seeding(q, param)) _
+            .Select(Iterator Function(q) As IEnumerable(Of HSP())
+                        For Each q1 In q
+                            Yield regions.seeding(q1, param).ToArray
+                        Next
+                    End Function) _
+            .IteratesALL _
             .IteratesALL _
             .AsList
 
