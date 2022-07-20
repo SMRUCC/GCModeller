@@ -60,9 +60,9 @@ Public Module Protocol
 
         Sub New(q As FastaSeq, regions As IEnumerable(Of FastaSeq), param As PopulatorParameter)
             Me.q = New FastaSeq With {.Headers = q.Headers, .SequenceData = q.SequenceData}
-            Me.regions = regions _
-                .Select(Function(qi) New FastaSeq(fa:=qi)) _
-                .ToArray
+            Me.regions = regions.ToArray
+            '.Select(Function(qi) New FastaSeq(fa:=qi)) _
+            '.ToArray
             Me.param = New PopulatorParameter(param)
         End Sub
 
