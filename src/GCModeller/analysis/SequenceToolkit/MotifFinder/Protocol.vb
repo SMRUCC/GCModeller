@@ -60,7 +60,9 @@ Public Module Protocol
 
         Sub New(q As FastaSeq, regions As IEnumerable(Of FastaSeq), param As PopulatorParameter)
             Me.q = New FastaSeq With {.Headers = q.Headers, .SequenceData = q.SequenceData}
-            Me.regions = regions.ToArray
+            Me.regions = regions _
+                .Select(Function(qi) New FastaSeq(fa:=qi)) _
+                .ToArray
             Me.param = New PopulatorParameter(param)
         End Sub
 
@@ -103,7 +105,7 @@ Public Module Protocol
 
         Dim payloads As TaskPayload()() = regions _
             .Select(Function(q) New TaskPayload(q, regions, param)) _
-            .Split(partitionSize:=regions.Length / App.CPUCoreNumbers) _
+            .Split(partitionSize:=regions.Length / (App.CPUCoreNumbers * 2)) _
             .ToArray
 
         Call param.log()($"run task on {payloads.Length} parallel process!")
