@@ -52,6 +52,24 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Public Module Protocol
 
+    Private Class TaskPayload
+
+        Public q As FastaSeq
+        Public regions As FastaSeq()
+        Public param As PopulatorParameter
+
+        Sub New(q As FastaSeq, regions As IEnumerable(Of FastaSeq), param As PopulatorParameter)
+            Me.q = New FastaSeq With {.Headers = q.Headers, .SequenceData = q.SequenceData}
+            Me.regions = regions.ToArray
+            Me.param = New PopulatorParameter(param)
+        End Sub
+
+        Public Function Seeding() As HSP()
+            Return regions.seeding(q, param).ToArray
+        End Function
+
+    End Class
+
     ''' <summary>
     ''' create seeds via pairwise alignment, use 
     ''' the smith-waterman HSP as motif seeds.
@@ -81,19 +99,25 @@ Public Module Protocol
 
         param = param Or PopulatorParameter.DefaultParameter
 
+        Call param.log()("create parallel task payload...")
+
+        Dim payloads As TaskPayload()() = regions _
+            .Select(Function(q) New TaskPayload(q, regions, param)) _
+            .Split(partitionSize:=regions.Length / App.CPUCoreNumbers) _
+            .ToArray
+
+        Call param.log()($"run task on {payloads.Length} parallel process!")
+        Call param.log()($"there are {Aggregate x In payloads Into Average(x.Length)} task in each parallel process.")
         Call param.log()("seeding...")
 
         ' 先进行两两局部最优比对，得到最基本的种子
         ' 2018-3-2 在这里应该选取的是短的高相似度的序列
-        Dim seeds As List(Of HSP) = regions _
-            .Split(partitionSize:=regions.Length / App.CPUCoreNumbers) _
+        Dim seeds As List(Of HSP) = payloads _
             .AsParallel _
-            .Select(Iterator Function(q) As IEnumerable(Of HSP())
-                        For Each q1 In q
-                            Yield regions.seeding(q1, param).ToArray
-                        Next
+            .Select(Function(q)
+                        Return q.Select(Function(qi) qi.Seeding).IteratesALL.ToArray
                     End Function) _
-            .IteratesALL _
+            .ToArray _
             .IteratesALL _
             .AsList
 

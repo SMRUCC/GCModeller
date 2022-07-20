@@ -78,6 +78,19 @@ Public Class PopulatorParameter
 
     Public Property log As Action(Of Object)
 
+    Sub New()
+    End Sub
+
+    Sub New(clone As PopulatorParameter)
+        minW = clone.minW
+        maxW = clone.maxW
+        seedingCutoff = clone.seedingCutoff
+        seedOccurances = clone.seedOccurances
+        ScanMinW = clone.ScanMinW
+        ScanCutoff = clone.ScanCutoff
+        log = clone.log
+    End Sub
+
     Public Overrides Function ToString() As String
         Return Me.GetJson
     End Function
