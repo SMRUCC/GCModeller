@@ -144,7 +144,7 @@ Namespace ExpressionPattern
                     legendLayout = New Rectangle With {
                         .X = x + w,
                         .Y = y,
-                        .Width = iw * 0.8,
+                        .Width = iw * 0.65,
                         .Height = h * 0.75
                     }
                     layout = New GraphicsRegion(canvas.Size, padding)

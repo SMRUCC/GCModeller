@@ -71,7 +71,7 @@ Namespace CatalogProfiling
 
         ReadOnly showBubbleBorder As Boolean
         ReadOnly data As Dictionary(Of String, BubbleTerm())
-        ReadOnly enrichColors As Dictionary(Of String, Color())
+        ReadOnly enrichColors As Dictionary(Of String, Color)
         ReadOnly displays As LabelDisplayStrategy = LabelDisplayStrategy.Default
         ''' <summary>
         ''' the pvalue cutoff between the enriched terms 
@@ -86,7 +86,7 @@ Namespace CatalogProfiling
         Public Property radiusFormat As String = "F0"
 
         Public Sub New(data As Dictionary(Of String, BubbleTerm()),
-                       enrichColors As Dictionary(Of String, Color()),
+                       enrichColors As Dictionary(Of String, Color),
                        showBubbleBorder As Boolean,
                        displays As LabelDisplayStrategy,
                        pvalue As Double,
@@ -139,19 +139,17 @@ Namespace CatalogProfiling
             For Each category As String In data.Keys
                 ' 这些都是经过筛选的，pvalue阈值符合条件的，
                 ' 剩下的pvalue阈值不符合条件的都被当作为同一个serials
-                Dim color As Color() = enrichColors(category).Alpha(250).ToArray
+                Dim color As Color = enrichColors(category).Alpha(250)
                 Dim terms = data(category).AsList
                 Dim pt As PointData = Nothing
-                Dim colorIndex As Integer() = GetColorIndex(terms, color)
                 Dim serial As New SerialData With {
-                    .color = color.Last,
+                    .color = color,
                     .title = category,
                     .pts = terms _
                         .SeqIterator _
                         .Select(Function(obj)
                                     Dim gene As BubbleTerm = obj
-                                    Dim i As Integer = colorIndex(obj)
-                                    Dim c As Color = color(i)
+                                    Dim c As Color = color
 
                                     Return New PointData With {
                                         .value = allValues.ScaleMapping(gene.data, bubbleResize),

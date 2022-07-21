@@ -219,9 +219,9 @@ AAGCGAACAAATGTTCTATA"
             SequenceData = fa.SequenceData
         End Sub
 
-        Sub New(seq As IAbstractFastaToken)
-            Me.SequenceData = seq.SequenceData
-            Me.Headers = seq.headers
+        Sub New(fa As IAbstractFastaToken)
+            Me.SequenceData = fa.SequenceData
+            Me.Headers = fa.headers
         End Sub
 
         Sub New(attrs As IEnumerable(Of String), seq As String)

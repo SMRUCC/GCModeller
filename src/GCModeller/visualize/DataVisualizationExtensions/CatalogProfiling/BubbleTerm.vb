@@ -71,23 +71,13 @@ Namespace CatalogProfiling
                               End Function)
         End Function
 
-        Public Shared Function CreateEnrichColors(bubbleData As Dictionary(Of String, BubbleTerm()),
-                                                  Optional theme As String = "Set1:c8",
-                                                  Optional unenrichColor As String = NameOf(Color.LightGray)) As Dictionary(Of String, Color())
-
-            Dim enrichColors As New Dictionary(Of String, Color())
+        Public Shared Function CreateEnrichColors(bubbleData As Dictionary(Of String, BubbleTerm()), Optional theme As String = "Set1:c8") As Dictionary(Of String, Color)
+            Dim enrichColors As New Dictionary(Of String, Color)
             Dim colorSet As Color() = ColorPalette.GetColors(theme)
             Dim keys As String() = bubbleData.Keys.ToArray
-            Dim baseColor As Color = unenrichColor.TranslateColor
-            Dim middle As Color
 
             For i As Integer = 0 To keys.Length - 1
-                middle = Color.FromArgb(
-                    red:=(baseColor.R + colorSet(i).R) / 2,
-                    green:=(baseColor.G + colorSet(i).G) / 2,
-                    blue:=(baseColor.B + colorSet(i).B) / 2
-                )
-                enrichColors(keys(i)) = ColorPalette.CubicSpline({baseColor, middle, colorSet(i)}, 25)
+                enrichColors(keys(i)) = colorSet(i)
             Next
 
             Return enrichColors

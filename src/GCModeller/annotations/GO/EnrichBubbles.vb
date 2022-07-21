@@ -103,11 +103,11 @@ Public Module EnrichBubbles
                               Return cat.Value.BubbleModel(correlatedPvalue).ToArray
                           End Function)
 
-        With New Dictionary(Of String, Color())
+        With New Dictionary(Of String, Color)
 
-            !cellular_component = Designer.GetColors("OrRd:c9", alpha:=225)
-            !molecular_function = Designer.GetColors("Blues:c9", alpha:=225)
-            !biological_process = Designer.GetColors("Greens:c9", alpha:=225)
+            !cellular_component = Color.Red
+            !molecular_function = Color.Blue
+            !biological_process = Color.Green
 
             Dim theme As New Theme With {
                 .padding = padding,
