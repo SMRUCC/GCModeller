@@ -527,8 +527,7 @@ Module visualPlot
         Dim bubbleData As Dictionary(Of String, BubbleTerm()) = enrichment.toBubbles
         Dim enrichColors = BubbleTerm.CreateEnrichColors(
             bubbleData:=bubbleData,
-            theme:=theme.colorSet,
-            unenrichColor:=unenrichColor
+            theme:=theme.colorSet
         )
         Dim baseColor As Color = unenrichColor.TranslateColor
         Dim bubble As New CatalogBubblePlot(
