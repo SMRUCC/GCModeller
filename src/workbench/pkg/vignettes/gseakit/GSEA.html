@@ -1,0 +1,353 @@
+<!DOCTYPE html><html lang="zh-CN">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>GSEA</title>
+    <meta name="author" content="xie.guigang@gcmodeller.org" />
+    <meta name="copyright" content="SMRUCC genomics Copyright (c) 2020" />
+    <meta name="keywords" content="GCModeller; Xanthomonas; Artificial Life" />
+    <meta name="generator" content="https://github.com/xieguigang/xDoc" />
+    <meta name="theme-color" content="#333" />
+    <meta name="last-update" content="7/24/2022 2:23:26 PM" />
+    <meta name="description" content="A software system aim at Artificial Life system design and analysis." />
+    <meta class="foundation-data-attribute-namespace" />
+    <meta class="foundation-mq-xxlarge" />
+    <meta class="foundation-mq-xlarge" />
+    <meta class="foundation-mq-large" />
+    <meta class="foundation-mq-medium" />
+    <meta class="foundation-mq-small" />
+    <meta class="foundation-mq-topbar" />
+  </head>
+  <body>
+    <table width="100%" summary="page for {GSEA}">
+      <tbody>
+        <tr>
+          <td>{GSEA}</td>
+          <td style="text-align: right;">R# Documentation</td>
+        </tr>
+      </tbody>
+    </table>
+    <h1>GSEA</h1>
+    <hr />
+    <p></p>
+    <div id="main-wrapper">
+                           <div>
+  <h2 id="read.enrichment">
+    <a href="./GSEA/read.enrichment.html">read.enrichment</a>
+  </h2>
+  <hr />
+  <p>
+                    <p>read the enrichment result table</p>  
+                
+                    <pre><p>let <code>read.enrichment</code> as function(<code>file</code> as string) -> <code>&lt;generic&gt; EnrichmentResult[]</code> {
+    #
+    # .NET API information
+    #
+    # module: gseakit.GSEA
+    # LibPath: E:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: gseakit.dll
+    # package: "GSEA"
+    #
+    return call <code>R&#35;.interop_[GSEA::ReadEnrichmentTerms]</code>(...);
+}</p></pre>
+
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>file</code>: -
+                </li>
+                </ul>
+</div>
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="enrichment">
+    <a href="./GSEA/enrichment.html">enrichment</a>
+  </h2>
+  <hr />
+  <p>
+                    <p>do GSEA enrichment analysis</p>  
+                
+                    <pre><p>let <code>enrichment</code> as function(<code>background</code> as <generic> Background, 
+<code>geneSet</code> as string, 
+<code>outputAll</code> as boolean = TRUE, 
+<code>showProgress</code> as boolean = FALSE) -> <code>&lt;generic&gt; EnrichmentResult[]</code> {
+    #
+    # .NET API information
+    #
+    # module: gseakit.GSEA
+    # LibPath: E:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: gseakit.dll
+    # package: "GSEA"
+    #
+    return call <code>R&#35;.interop_[GSEA::Enrichment]</code>(...);
+}</p></pre>
+
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>background</code>: -
+                </li>
+<li>
+  <code>geneSet</code>: a given geneset id list
+                </li>
+                </ul>
+</div>
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="fisher">
+    <a href="./GSEA/fisher.html">fisher</a>
+  </h2>
+  <hr />
+  <p>
+                    <p>fisher enrichment test</p>  
+                
+                    <pre><p>let <code>fisher</code> as function(<code>list</code> as string, 
+<code>geneSet</code> as string, 
+<code>background</code> as string, 
+<code>term</code> as string = "unknown") -> <code>&lt;generic&gt; EnrichmentResult</code> {
+    #
+    # .NET API information
+    #
+    # module: gseakit.GSEA
+    # LibPath: E:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: gseakit.dll
+    # package: "GSEA"
+    #
+    return call <code>R&#35;.interop_[GSEA::fisher]</code>(...);
+}</p></pre>
+
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>list</code>: -
+                </li>
+<li>
+  <code>geneSet</code>: -
+                </li>
+<li>
+  <code>background</code>: -
+                </li>
+                </ul>
+</div>
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="enrichment.go">
+    <a href="./GSEA/enrichment.go.html">enrichment.go</a>
+  </h2>
+  <hr />
+  <p>
+                    <p>do GO GSEA enrichment analysis</p>  
+                
+                    <pre><p>let <code>enrichment.go</code> as function(<code>background</code> as <generic> Background, 
+<code>geneSet</code> as string, 
+<code>go</code> as any, 
+<code>showProgress</code> as boolean = TRUE, 
+[<code>&lt;Environment&gt;</code>]) -> <code>&lt;generic&gt; EnrichmentResult</code> {
+    #
+    # .NET API information
+    #
+    # module: gseakit.GSEA
+    # LibPath: E:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: gseakit.dll
+    # package: "GSEA"
+    #
+    return call <code>R&#35;.interop_[GSEA::GOEnrichment]</code>(...);
+}</p></pre>
+
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>background</code>: -
+                </li>
+<li>
+  <code>geneSet</code>: -
+                </li>
+<li>
+  <code>go</code>: the go database object can be the raw go obo data or the DAG graph model.
+                </li>
+                </ul>
+</div>
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="write.enrichment">
+    <a href="./GSEA/write.enrichment.html">write.enrichment</a>
+  </h2>
+  <hr />
+  <p>
+                    <p>save the enrichment analysis result</p>  
+                
+                    <pre><p>let <code>write.enrichment</code> as function(<code>enrichment</code> as any, 
+<code>file</code> as string, 
+<code>format</code> as <integer> EnrichmentTableFormat = [GCModeller], 
+[<code>&lt;Environment&gt;</code>]) -> <code>boolean</code> {
+    #
+    # .NET API information
+    #
+    # module: gseakit.GSEA
+    # LibPath: E:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: gseakit.dll
+    # package: "GSEA"
+    #
+    return call <code>R&#35;.interop_[GSEA::SaveEnrichment]</code>(...);
+}</p></pre>
+
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>enrichment</code>: -
+                </li>
+<li>
+  <code>file</code>: -
+                </li>
+<li>
+  <code>format</code>: -
+                </li>
+                </ul>
+</div>
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="enrichment.FDR">
+    <a href="./GSEA/enrichment.FDR.html">enrichment.FDR</a>
+  </h2>
+  <hr />
+  <p>
+                      
+                
+                    <pre><p>let <code>enrichment.FDR</code> as function(<code>enrichment</code> as <generic> EnrichmentResult[]) -> <code>&lt;generic&gt; EnrichmentResult[]</code> {
+    #
+    # .NET API information
+    #
+    # module: gseakit.GSEA
+    # LibPath: E:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: gseakit.dll
+    # package: "GSEA"
+    #
+    return call <code>R&#35;.interop_[GSEA::FDR]</code>(...);
+}</p></pre>
+
+                    
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="as.KOBAS_terms">
+    <a href="./GSEA/as.KOBAS_terms.html">as.KOBAS_terms</a>
+  </h2>
+  <hr />
+  <p>
+                    <p>Convert GSEA enrichment result from GCModeller output format to KOBAS output format</p>  
+                
+                    <pre><p>let <code>as.KOBAS_terms</code> as function(<code>enrichment</code> as <generic> EnrichmentResult[], <code>database</code> as string = "n/a") -> <code>&lt;generic&gt; EnrichmentTerm[]</code> {
+    #
+    # .NET API information
+    #
+    # module: gseakit.GSEA
+    # LibPath: E:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: gseakit.dll
+    # package: "GSEA"
+    #
+    return call <code>R&#35;.interop_[GSEA::KOBASFormat]</code>(...);
+}</p></pre>
+
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>enrichment</code>: -
+                </li>
+<li>
+  <code>database$</code>: -
+                </li>
+                </ul>
+</div>
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="enrichment.go_dag">
+    <a href="./GSEA/enrichment.go_dag.html">enrichment.go_dag</a>
+  </h2>
+  <hr />
+  <p>
+                    <p>Create network graph data for Cytoscape</p>  
+                
+                    <pre><p>let <code>enrichment.go_dag</code> as function(<code>go_enrichment</code> as <generic> EnrichmentResult[], <code>go</code> as <generic> GO_OBO) -> <code>&lt;generic&gt; NetworkTables</code> {
+    #
+    # .NET API information
+    #
+    # module: gseakit.GSEA
+    # LibPath: E:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: gseakit.dll
+    # package: "GSEA"
+    #
+    return call <code>R&#35;.interop_[GSEA::CreateGOEnrichmentGraph]</code>(...);
+}</p></pre>
+
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>go_enrichment</code>: -
+                </li>
+<li>
+  <code>go</code>: -
+                </li>
+                </ul>
+</div>
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="enrichment.draw.go_dag">
+    <a href="./GSEA/enrichment.draw.go_dag.html">enrichment.draw.go_dag</a>
+  </h2>
+  <hr />
+  <p>
+                      
+                
+                    <pre><p>let <code>enrichment.draw.go_dag</code> as function(<code>go_enrichment</code> as <generic> EnrichmentResult[], <code>go</code> as <generic> GO_OBO) -> <code>&lt;generic&gt; GraphicsData</code> {
+    #
+    # .NET API information
+    #
+    # module: gseakit.GSEA
+    # LibPath: E:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: gseakit.dll
+    # package: "GSEA"
+    #
+    return call <code>R&#35;.interop_[GSEA::DrawGOEnrichmentGraph]</code>(...);
+}</p></pre>
+
+                    
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div>
+                       </div>
+  </body>
+</html>

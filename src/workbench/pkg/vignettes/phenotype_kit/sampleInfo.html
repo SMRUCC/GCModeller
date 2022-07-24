@@ -1,0 +1,226 @@
+<!DOCTYPE html><html lang="zh-CN">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>sampleInfo</title>
+    <meta name="author" content="xie.guigang@gcmodeller.org" />
+    <meta name="copyright" content="SMRUCC genomics Copyright (c) 2020" />
+    <meta name="keywords" content="GCModeller; Xanthomonas; Artificial Life" />
+    <meta name="generator" content="https://github.com/xieguigang/xDoc" />
+    <meta name="theme-color" content="#333" />
+    <meta name="last-update" content="7/24/2022 2:23:26 PM" />
+    <meta name="description" content="A software system aim at Artificial Life system design and analysis." />
+    <meta class="foundation-data-attribute-namespace" />
+    <meta class="foundation-mq-xxlarge" />
+    <meta class="foundation-mq-xlarge" />
+    <meta class="foundation-mq-large" />
+    <meta class="foundation-mq-medium" />
+    <meta class="foundation-mq-small" />
+    <meta class="foundation-mq-topbar" />
+  </head>
+  <body>
+    <table width="100%" summary="page for {sampleInfo}">
+      <tbody>
+        <tr>
+          <td>{sampleInfo}</td>
+          <td style="text-align: right;">R# Documentation</td>
+        </tr>
+      </tbody>
+    </table>
+    <h1>sampleInfo</h1>
+    <hr />
+    <p></p>
+    <div id="main-wrapper">
+                           <div>
+  <h2 id="guess.sample_groups">
+    <a href="./sampleInfo/guess.sample_groups.html">guess.sample_groups</a>
+  </h2>
+  <hr />
+  <p>
+                    <p>try to parse the sampleInfo data from the<br />
+ sample labels</p>  
+                
+                    <pre><p>let <code>guess.sample_groups</code> as function(<code>sample_names</code> as <generic> Array, <code>maxDepth</code> as boolean = FALSE, <code>raw_list</code> as boolean = TRUE) -> <code>list|&lt;generic&gt; SampleInfo</code> {
+    #
+    # .NET API information
+    #
+    # module: phenotype_kit.DEGSample
+    # LibPath: E:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: phenotype_kit.dll
+    # package: "sampleInfo"
+    #
+    return call <code>R&#35;.interop_[DEGSample::guessSampleGroups]</code>(...);
+}</p></pre>
+
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>sample_names</code>: -
+                </li>
+<li>
+  <code>raw_list</code>: -
+                </li>
+                </ul>
+</div>
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="read.sampleinfo">
+    <a href="./sampleInfo/read.sampleinfo.html">read.sampleinfo</a>
+  </h2>
+  <hr />
+  <p>
+                      
+                
+                    <pre><p>let <code>read.sampleinfo</code> as function(<code>file</code> as string, 
+<code>tsv</code> as boolean = FALSE, 
+<code>exclude_groups</code> as string = <code>&lt;NULL&gt;</code>, 
+<code>id_makenames</code> as boolean = FALSE) -> <code>&lt;generic&gt; SampleInfo[]</code> {
+    #
+    # .NET API information
+    #
+    # module: phenotype_kit.DEGSample
+    # LibPath: E:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: phenotype_kit.dll
+    # package: "sampleInfo"
+    #
+    return call <code>R&#35;.interop_[DEGSample::ReadSampleInfo]</code>(...);
+}</p></pre>
+
+                    
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="write.sampleinfo">
+    <a href="./sampleInfo/write.sampleinfo.html">write.sampleinfo</a>
+  </h2>
+  <hr />
+  <p>
+                      
+                
+                    <pre><p>let <code>write.sampleinfo</code> as function(<code>sampleinfo</code> as <generic> SampleInfo[], <code>file</code> as string) -> <code>boolean</code> {
+    #
+    # .NET API information
+    #
+    # module: phenotype_kit.DEGSample
+    # LibPath: E:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: phenotype_kit.dll
+    # package: "sampleInfo"
+    #
+    return call <code>R&#35;.interop_[DEGSample::WriteSampleInfo]</code>(...);
+}</p></pre>
+
+                    
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="sampleInfo">
+    <a href="./sampleInfo/sampleInfo.html">sampleInfo</a>
+  </h2>
+  <hr />
+  <p>
+                    <p>create <code>sample_info</code> data table</p>  
+                
+                    <pre><p>let <code>sampleInfo</code> as function(<code>ID</code> as string, 
+<code>sample_name</code> as string, 
+<code>sample_info</code> as string, 
+[<code>&lt;Environment&gt;</code>]) -> <code>&lt;generic&gt; SampleInfo</code> {
+    #
+    # .NET API information
+    #
+    # module: phenotype_kit.DEGSample
+    # LibPath: E:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: phenotype_kit.dll
+    # package: "sampleInfo"
+    #
+    return call <code>R&#35;.interop_[DEGSample::sampleinfoTable]</code>(...);
+}</p></pre>
+
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>ID</code>: -
+                </li>
+<li>
+  <code>sample_name</code>: -
+                </li>
+<li>
+  <code>sample_info</code>: -
+                </li>
+                </ul>
+</div>
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="sampleId">
+    <a href="./sampleInfo/sampleId.html">sampleId</a>
+  </h2>
+  <hr />
+  <p>
+                      
+                
+                    <pre><p>let <code>sampleId</code> as function(<code>sampleinfo</code> as any, <code>groups</code> as string, [<code>&lt;Environment&gt;</code>]) -> <code>string</code> {
+    #
+    # .NET API information
+    #
+    # module: phenotype_kit.DEGSample
+    # LibPath: E:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: phenotype_kit.dll
+    # package: "sampleInfo"
+    #
+    return call <code>R&#35;.interop_[DEGSample::getSampleId]</code>(...);
+}</p></pre>
+
+                    
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="sampleinfo.text.groups">
+    <a href="./sampleInfo/sampleinfo.text.groups.html">sampleinfo.text.groups</a>
+  </h2>
+  <hr />
+  <p>
+                    <p>Create sampleInfo table from text files</p>  
+                
+                    <pre><p>let <code>sampleinfo.text.groups</code> as function(<code>dir</code> as string) -> <code>&lt;generic&gt; SampleInfo[]</code> {
+    #
+    # .NET API information
+    #
+    # module: phenotype_kit.DEGSample
+    # LibPath: E:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: phenotype_kit.dll
+    # package: "sampleInfo"
+    #
+    return call <code>R&#35;.interop_[DEGSample::ScanForSampleInfo]</code>(...);
+}</p></pre>
+
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>dir</code>: -
+                </li>
+                </ul>
+</div>
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div>
+                       </div>
+  </body>
+</html>
