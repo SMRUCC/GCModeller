@@ -1,0 +1,661 @@
+<!DOCTYPE html><html lang="zh-CN">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>visualPlot</title>
+    <meta name="author" content="xie.guigang@gcmodeller.org" />
+    <meta name="copyright" content="SMRUCC genomics Copyright (c) 2020" />
+    <meta name="keywords" content="GCModeller; Xanthomonas; Artificial Life" />
+    <meta name="generator" content="https://github.com/xieguigang/xDoc" />
+    <meta name="theme-color" content="#333" />
+    <meta name="last-update" content="7/24/2022 2:23:26 PM" />
+    <meta name="description" content="A software system aim at Artificial Life system design and analysis." />
+    <meta class="foundation-data-attribute-namespace" />
+    <meta class="foundation-mq-xxlarge" />
+    <meta class="foundation-mq-xlarge" />
+    <meta class="foundation-mq-large" />
+    <meta class="foundation-mq-medium" />
+    <meta class="foundation-mq-small" />
+    <meta class="foundation-mq-topbar" />
+  </head>
+  <body>
+    <table width="100%" summary="page for {visualPlot}">
+      <tbody>
+        <tr>
+          <td>{visualPlot}</td>
+          <td style="text-align: right;">R# Documentation</td>
+        </tr>
+      </tbody>
+    </table>
+    <h1>visualPlot</h1>
+    <hr />
+    <p></p>
+    <div id="main-wrapper">
+                           <div>
+  <h2 id="dem.barplot">
+    <a href="./visualPlot/dem.barplot.html">dem.barplot</a>
+  </h2>
+  <hr />
+  <p>
+                      
+                
+                    <pre><p>let <code>dem.barplot</code> as function(<code>sample</code> as any, 
+<code>upName</code> as string = "up", 
+<code>downName</code> as string = "down", 
+<code>size</code> as any = "2700,2400", 
+<code>padding</code> as any = "padding:200px 350px 250px 200px;", 
+<code>title</code> as string = "Statistic of Differently Expressed Metabolite", 
+<code>headN</code> as integer = 60, 
+<code>ppi</code> as integer = 300, 
+[<code>&lt;Environment&gt;</code>]) -> <code>any</code> {
+    #
+    # .NET API information
+    #
+    # module: visualkit.visualPlot
+    # LibPath: E:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: visualkit.dll
+    # package: "visualPlot"
+    #
+    return call <code>R&#35;.interop_[visualPlot::DEMBarPlot]</code>(...);
+}</p></pre>
+
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>sample</code>: DAM data between sample group comparisions, this parameter <br />
+ has two data format:
+                </li>
+<li>
+  <code>upName</code>: -
+                </li>
+<li>
+  <code>downName</code>: -
+                </li>
+<li>
+  <code>size</code>: -
+                </li>
+<li>
+  <code>padding</code>: -
+                </li>
+<li>
+  <code>title</code>: -
+                </li>
+<li>
+  <code>headN</code>: -
+                </li>
+<li>
+  <code>ppi</code>: -
+                </li>
+<li>
+  <code>env</code>: -
+                </li>
+                </ul>
+</div>
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="classchange.plot">
+    <a href="./visualPlot/classchange.plot.html">classchange.plot</a>
+  </h2>
+  <hr />
+  <p>
+                      
+                
+                    <pre><p>let <code>classchange.plot</code> as function(<code>genes</code> as any, 
+<code>size</code> as any = "3000,2400", 
+<code>padding</code> as any = "padding:250px 150px 300px 300px;", 
+<code>bg</code> as any = "white", 
+<code>colorSet</code> as any = "Set1:c9", 
+<code>showLabel</code> as boolean = FALSE, 
+<code>radius</code> as any = "15,50", 
+<code>xlab</code> as string = "X", 
+<code>orderByClass</code> as <integer> orders = [none], 
+[<code>&lt;Environment&gt;</code>]) -> <code>any</code> {
+    #
+    # .NET API information
+    #
+    # module: visualkit.visualPlot
+    # LibPath: E:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: visualkit.dll
+    # package: "visualPlot"
+    #
+    return call <code>R&#35;.interop_[visualPlot::ClassChangePlot]</code>(...);
+}</p></pre>
+
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>genes</code>: -
+                </li>
+<li>
+  <code>size</code>: -
+                </li>
+<li>
+  <code>padding</code>: -
+                </li>
+<li>
+  <code>bg</code>: -
+                </li>
+<li>
+  <code>colorSet</code>: -
+                </li>
+<li>
+  <code>showLabel</code>: -
+                </li>
+<li>
+  <code>radius</code>: -
+                </li>
+<li>
+  <code>xlab</code>: -
+                </li>
+<li>
+  <code>orderByClass</code>: -
+                </li>
+<li>
+  <code>env</code>: -
+                </li>
+                </ul>
+</div>
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="volcano">
+    <a href="./visualPlot/volcano.html">volcano</a>
+  </h2>
+  <hr />
+  <p>
+                    <p>volcano plot of the different expression result</p>  
+                
+                    <pre><p>let <code>volcano</code> as function(<code>genes</code> as <generic> DEP_iTraq[], 
+<code>size</code> as any = "2400,2700", 
+<code>padding</code> as any = "padding:250px 150px 300px 300px;", 
+<code>bg</code> as any = "white", 
+<code>colors</code> as any = CALL "LIST"("UP" &lt;- "RED", "DOWN" &lt;- "GREEN", "OTHER" &lt;- "BLACK"), 
+<code>pvalue</code> as double = 0.05, 
+<code>level</code> as double = 1.5, 
+<code>title</code> as string = "volcano plot") -> <code>any</code> {
+    #
+    # .NET API information
+    #
+    # module: visualkit.visualPlot
+    # LibPath: E:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: visualkit.dll
+    # package: "visualPlot"
+    #
+    return call <code>R&#35;.interop_[visualPlot::VolcanoPlot]</code>(...);
+}</p></pre>
+
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>genes</code>: -
+                </li>
+<li>
+  <code>size</code>: -
+                </li>
+<li>
+  <code>padding</code>: -
+                </li>
+<li>
+  <code>bg</code>: -
+                </li>
+<li>
+  <code>colors</code>: -
+                </li>
+<li>
+  <code>pvalue</code>: -
+                </li>
+<li>
+  <code>level</code>: -
+                </li>
+<li>
+  <code>title$</code>: -
+                </li>
+                </ul>
+</div>
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="kegg.category_profile">
+    <a href="./visualPlot/kegg.category_profile.html">kegg.category_profile</a>
+  </h2>
+  <hr />
+  <p>
+                    <p>Create catalog profiles data for KEGG pathway <br />
+ enrichment result its data visualization.</p>  
+                
+                    <pre><p>let <code>kegg.category_profile</code> as function(<code>profiles</code> as any, 
+<code>top</code> as integer = 10, 
+<code>sort</code> as boolean = TRUE, 
+<code>valueCut</code> as double = -1, 
+[<code>&lt;Environment&gt;</code>]) -> <code>&lt;generic&gt; CatalogProfiles</code> {
+    #
+    # .NET API information
+    #
+    # module: visualkit.visualPlot
+    # LibPath: E:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: visualkit.dll
+    # package: "visualPlot"
+    #
+    return call <code>R&#35;.interop_[visualPlot::KEGGCategoryProfile]</code>(...);
+}</p></pre>
+
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>profiles</code>: kegg map id mapping to the profiles data
+                </li>
+<li>
+  <code>top</code>: -
+                </li>
+<li>
+  <code>env</code>: -
+                </li>
+                </ul>
+</div>
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="erase">
+    <a href="./visualPlot/erase.html">erase</a>
+  </h2>
+  <hr />
+  <p>
+                      
+                
+                    <pre><p>let <code>erase</code> as function(<code>profiles</code> as <generic> CatalogProfiles, <code>catalogs</code> as string) -> <code>&lt;generic&gt; CatalogProfiles</code> {
+    #
+    # .NET API information
+    #
+    # module: visualkit.visualPlot
+    # LibPath: E:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: visualkit.dll
+    # package: "visualPlot"
+    #
+    return call <code>R&#35;.interop_[visualPlot::delete]</code>(...);
+}</p></pre>
+
+                    
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="kegg.enrichment.bubbles">
+    <a href="./visualPlot/kegg.enrichment.bubbles.html">kegg.enrichment.bubbles</a>
+  </h2>
+  <hr />
+  <p>
+                    <p>plot kegg enrichment result in bubble plot</p>  
+                
+                    <pre><p>let <code>kegg.enrichment.bubbles</code> as function(<code>profiles</code> as any, 
+<code>size</code> as any = "3800,2600", 
+<code>padding</code> as any = "padding:300px 1000px 300px 200px;", 
+<code>unenrichColor</code> as string = "LightGray", 
+<code>themeColors</code> as string = "Set1:c8", 
+<code>alpha</code> as double = 0.75, 
+<code>displays</code> as integer = 5, 
+<code>serialTopn</code> as boolean = FALSE, 
+<code>bubbleRadius</code> as any = [7,40], 
+<code>heatmap</code> as boolean = FALSE, 
+<code>bubbleStyle</code> as boolean = FALSE, 
+<code>ppi</code> as integer = 300, 
+[<code>&lt;Environment&gt;</code>]) -> <code>any</code> {
+    #
+    # .NET API information
+    #
+    # module: visualkit.visualPlot
+    # LibPath: E:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: visualkit.dll
+    # package: "visualPlot"
+    #
+    return call <code>R&#35;.interop_[visualPlot::KEGGEnrichBubbles]</code>(...);
+}</p></pre>
+
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>profiles</code>: -
+                </li>
+<li>
+  <code>size</code>: -
+                </li>
+<li>
+  <code>padding</code>: -
+                </li>
+<li>
+  <code>unenrichColor</code>: -
+                </li>
+<li>
+  <code>ppi</code>: -
+                </li>
+<li>
+  <code>env</code>: -
+                </li>
+                </ul>
+</div>
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="go.enrichment.bubbles">
+    <a href="./visualPlot/go.enrichment.bubbles.html">go.enrichment.bubbles</a>
+  </h2>
+  <hr />
+  <p>
+                    <p>plot of the Go enrichment in bubble plot style</p>  
+                
+                    <pre><p>let <code>go.enrichment.bubbles</code> as function(<code>profiles</code> as <generic> EnrichmentTerm[], 
+<code>goDb</code> as <generic> GO_OBO, 
+<code>size</code> as string = "2000,1600", 
+<code>pvalue</code> as double = 0.05, 
+<code>topN</code> as integer = 10, 
+<code>R</code> as string = "10,50") -> <code>any</code> {
+    #
+    # .NET API information
+    #
+    # module: visualkit.visualPlot
+    # LibPath: E:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: visualkit.dll
+    # package: "visualPlot"
+    #
+    return call <code>R&#35;.interop_[visualPlot::GoEnrichBubbles]</code>(...);
+}</p></pre>
+
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>profiles</code>: -
+                </li>
+<li>
+  <code>goDb</code>: -
+                </li>
+<li>
+  <code>size</code>: -
+                </li>
+<li>
+  <code>pvalue</code>: -
+                </li>
+<li>
+  <code>topN</code>: -
+                </li>
+<li>
+  <code>R</code>: -
+                </li>
+                </ul>
+</div>
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="category_profiles.plot">
+    <a href="./visualPlot/category_profiles.plot.html">category_profiles.plot</a>
+  </h2>
+  <hr />
+  <p>
+                    <p>Do plot of the given catalog profiles data</p>  
+                
+                    <pre><p>let <code>category_profiles.plot</code> as function(<code>profiles</code> as <generic> CatalogProfiles, 
+<code>title</code> as string = "KEGG Orthology Profiling", 
+<code>axis_title</code> as string = "Number Of Proteins", 
+<code>size</code> as any = "2300,2000", 
+<code>tick</code> as double = -1, 
+<code>colors</code> as any = "#E41A1C,#377EB8,#4DAF4A,#984EA3,#FF7F00,#CECE00", 
+<code>dpi</code> as integer = 300, 
+<code>format</code> as string = "F2", 
+[<code>&lt;Environment&gt;</code>]) -> <code>&lt;generic&gt; GraphicsData</code> {
+    #
+    # .NET API information
+    #
+    # module: visualkit.visualPlot
+    # LibPath: E:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: visualkit.dll
+    # package: "visualPlot"
+    #
+    return call <code>R&#35;.interop_[visualPlot::KEGGCategoryProfilePlots]</code>(...);
+}</p></pre>
+
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>profiles</code>: -
+                </li>
+<li>
+  <code>title</code>: -
+                </li>
+<li>
+  <code>axis_title</code>: -
+                </li>
+<li>
+  <code>size</code>: the size of the image
+                </li>
+<li>
+  <code>tick</code>: axis ticks, default value -1 for auto generated.
+                </li>
+<li>
+  <code>colors</code>: the color schema name
+                </li>
+                </ul>
+</div>
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="sample.color_bend">
+    <a href="./visualPlot/sample.color_bend.html">sample.color_bend</a>
+  </h2>
+  <hr />
+  <p>
+                      
+                
+                    <pre><p>let <code>sample.color_bend</code> as function(<code>g</code> as <generic> IGraphics, 
+<code>layout</code> as <generic> RectangleF, 
+<code>geneExpression</code> as <generic> Color[], 
+<code>horizontal</code> as boolean = TRUE, 
+<code>sampleNames</code> as string = <code>&lt;NULL&gt;</code>, 
+<code>labelFontCSS</code> as string = "font-style: normal; font-size: 16; font-family: Bookman Old Style;") -> <code>any</code> {
+    #
+    # .NET API information
+    #
+    # module: visualkit.visualPlot
+    # LibPath: E:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: visualkit.dll
+    # package: "visualPlot"
+    #
+    return call <code>R&#35;.interop_[visualPlot::DrawSampleColorBend]</code>(...);
+}</p></pre>
+
+                    
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="color_bends">
+    <a href="./visualPlot/color_bends.html">color_bends</a>
+  </h2>
+  <hr />
+  <p>
+                    <p>map gene expressin data to color bends</p>  
+                
+                    <pre><p>let <code>color_bends</code> as function(<code>matrix</code> as <generic> Matrix, 
+<code>colorSet</code> as string = "RdYlGn:c8", 
+<code>levels</code> as integer = 25, 
+[<code>&lt;Environment&gt;</code>]) -> <code>list</code> {
+    #
+    # .NET API information
+    #
+    # module: visualkit.visualPlot
+    # LibPath: E:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: visualkit.dll
+    # package: "visualPlot"
+    #
+    return call <code>R&#35;.interop_[visualPlot::colorBends]</code>(...);
+}</p></pre>
+
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>matrix</code>: -
+                </li>
+<li>
+  <code>colorSet$</code>: -
+                </li>
+<li>
+  <code>levels</code>: -
+                </li>
+                </ul>
+</div>
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="plot.expression_patterns">
+    <a href="./visualPlot/plot.expression_patterns.html">plot.expression_patterns</a>
+  </h2>
+  <hr />
+  <p>
+                    <p>Visualize of the gene expression patterns across different sample groups.</p>  
+                
+                    <pre><p>let <code>plot.expression_patterns</code> as function(<code>matrix</code> as <generic> ExpressionPattern, 
+<code>size</code> as any = "2400,2700", 
+<code>padding</code> as any = "padding:250px 150px 300px 300px;", 
+<code>bg</code> as any = "white", 
+<code>colorSet</code> as string = "PiYG:c8", 
+<code>levels</code> as integer = 25, 
+<code>clusterLabelStyle</code> as string = "font-style: normal; font-size: 20; font-family: Bookman Old Style;", 
+<code>legendTitleStyle</code> as string = "font-style: normal; font-size: 10; font-family: Microsoft YaHei;", 
+<code>legendTickStyle</code> as string = "font-style: normal; font-size: 10; font-family: Microsoft YaHei;", 
+<code>axisTickCSS</code> as string = "font-style: normal; font-size: 12; font-family: Segoe UI;", 
+<code>axisLabelCSS</code> as string = "font-style: normal; font-size: 12; font-family: Microsoft YaHei;", 
+<code>driver</code> as <integer> Drivers = [Default], 
+<code>ppi</code> as integer = 300, 
+[<code>&lt;Environment&gt;</code>]) -> <code>any</code> {
+    #
+    # .NET API information
+    #
+    # module: visualkit.visualPlot
+    # LibPath: E:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: visualkit.dll
+    # package: "visualPlot"
+    #
+    return call <code>R&#35;.interop_[visualPlot::PlotExpressionPatterns]</code>(...);
+}</p></pre>
+
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>matrix</code>: -
+                </li>
+<li>
+  <code>size</code>: -
+                </li>
+<li>
+  <code>padding</code>: -
+                </li>
+<li>
+  <code>bg</code>: -
+                </li>
+<li>
+  <code>colorSet</code>: color set for visualize the cmeans membership
+                </li>
+                </ul>
+</div>
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="plot.cmeans3D">
+    <a href="./visualPlot/plot.cmeans3D.html">plot.cmeans3D</a>
+  </h2>
+  <hr />
+  <p>
+                      
+                
+                    <pre><p>let <code>plot.cmeans3D</code> as function(<code>matrix</code> as <generic> ExpressionPattern, 
+<code>kmeans_n</code> as integer = 3, 
+<code>size</code> as any = "2400,2700", 
+<code>padding</code> as any = "padding:250px 150px 300px 300px;", 
+<code>bg</code> as any = "white", 
+<code>colorSet</code> as string = "red,blue,green", 
+<code>viewAngle</code> as any = [30,60,-56.25], 
+<code>viewDistance</code> as double = 2500, 
+<code>qDisplay</code> as double = 0.9, 
+<code>prefix</code> as string = "Cluster: #", 
+<code>axisFormat</code> as string = "CMeans dimension #none", 
+<code>showHull</code> as boolean = TRUE, 
+<code>hullAlpha</code> as integer = 150, 
+<code>hullBspline</code> as double = 3, 
+[<code>&lt;Environment&gt;</code>]) -> <code>any</code> {
+    #
+    # .NET API information
+    #
+    # module: visualkit.visualPlot
+    # LibPath: E:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: visualkit.dll
+    # package: "visualPlot"
+    #
+    return call <code>R&#35;.interop_[visualPlot::PlotCMeans3D]</code>(...);
+}</p></pre>
+
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>matrix</code>: -
+                </li>
+<li>
+  <code>size</code>: -
+                </li>
+<li>
+  <code>padding</code>: -
+                </li>
+<li>
+  <code>bg</code>: -
+                </li>
+<li>
+  <code>colorSet$</code>: -
+                </li>
+<li>
+  <code>viewAngle</code>: -
+                </li>
+<li>
+  <code>viewDistance#</code>: -
+                </li>
+<li>
+  <code>qDisplay</code>: quantile value for display the gene labels
+                </li>
+                </ul>
+</div>
+                       
+                    
+
+                    <span style="font-size:0.9em; display: "><h4>Details</h4><blockquote></blockquote></span></p>
+</div>
+                       </div>
+  </body>
+</html>
