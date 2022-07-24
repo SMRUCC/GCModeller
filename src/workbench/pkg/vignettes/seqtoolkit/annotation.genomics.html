@@ -1,0 +1,221 @@
+<!DOCTYPE html><html lang="zh-CN">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>annotation.genomics</title>
+    <meta name="author" content="xie.guigang@gcmodeller.org" />
+    <meta name="copyright" content="SMRUCC genomics Copyright (c) 2020" />
+    <meta name="keywords" content="GCModeller; Xanthomonas; Artificial Life" />
+    <meta name="generator" content="https://github.com/xieguigang/xDoc" />
+    <meta name="theme-color" content="#333" />
+    <meta name="last-update" content="7/25/2022 3:30:13 AM" />
+    <meta name="description" content="A software system aim at Artificial Life system design and analysis." />
+    <meta class="foundation-data-attribute-namespace" />
+    <meta class="foundation-mq-xxlarge" />
+    <meta class="foundation-mq-xlarge" />
+    <meta class="foundation-mq-large" />
+    <meta class="foundation-mq-medium" />
+    <meta class="foundation-mq-small" />
+    <meta class="foundation-mq-topbar" />
+  </head>
+  <body>
+    <table width="100%" summary="page for {annotation.genomics}">
+      <tbody>
+        <tr>
+          <td>{annotation.genomics}</td>
+          <td style="text-align: right;">R# Documentation</td>
+        </tr>
+      </tbody>
+    </table>
+    <h1>annotation.genomics</h1>
+    <hr />
+    <p></p>
+    <div id="main-wrapper">
+                           <div>
+  <h2 id="read.gtf">
+    <a href="./annotation.genomics/read.gtf.html">read.gtf</a>
+  </h2>
+  <hr />
+  <p>
+                      
+                
+                    <pre><p>let <code>read.gtf</code> as function(<code>file</code> as string) -> <code>&lt;generic&gt; GeneBrief[]</code> {
+    #
+    # .NET API information
+    #
+    # module: seqtoolkit.genomics
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: seqtoolkit.dll
+    # package: "annotation.genomics"
+    #
+    return call <code>R&#35;.interop_[genomics::readGtf]</code>(...);
+}</p></pre>
+
+                    
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="as.tabular">
+    <a href="./annotation.genomics/as.tabular.html">as.tabular</a>
+  </h2>
+  <hr />
+  <p>
+                      
+                
+                    <pre><p>let <code>as.tabular</code> as function(<code>genes</code> as <generic> GeneBrief[], 
+<code>title</code> as string = "n/a", 
+<code>size</code> as integer = 0, 
+<code>format</code> as string = "PTT|GFF|GTF", 
+[<code>&lt;Environment&gt;</code>]) -> <code>any</code> {
+    #
+    # .NET API information
+    #
+    # module: seqtoolkit.genomics
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: seqtoolkit.dll
+    # package: "annotation.genomics"
+    #
+    return call <code>R&#35;.interop_[genomics::asTable]</code>(...);
+}</p></pre>
+
+                    
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="as.geneTable">
+    <a href="./annotation.genomics/as.geneTable.html">as.geneTable</a>
+  </h2>
+  <hr />
+  <p>
+                      
+                
+                    <pre><p>let <code>as.geneTable</code> as function(<code>PTT</code> as <generic> PTT) -> <code>&lt;generic&gt; GeneTable[]</code> {
+    #
+    # .NET API information
+    #
+    # module: seqtoolkit.genomics
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: seqtoolkit.dll
+    # package: "annotation.genomics"
+    #
+    return call <code>R&#35;.interop_[genomics::PTT2Dump]</code>(...);
+}</p></pre>
+
+                    
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="as.PTT">
+    <a href="./annotation.genomics/as.PTT.html">as.PTT</a>
+  </h2>
+  <hr />
+  <p>
+                      
+                
+                    <pre><p>let <code>as.PTT</code> as function(<code>gb</code> as <generic> File) -> <code>&lt;generic&gt; PTT</code> {
+    #
+    # .NET API information
+    #
+    # module: seqtoolkit.genomics
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: seqtoolkit.dll
+    # package: "annotation.genomics"
+    #
+    return call <code>R&#35;.interop_[genomics::asPTT]</code>(...);
+}</p></pre>
+
+                    
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="upstream">
+    <a href="./annotation.genomics/upstream.html">upstream</a>
+  </h2>
+  <hr />
+  <p>
+                      
+                
+                    <pre><p>let <code>upstream</code> as function(<code>context</code> as <generic> GeneBrief[], <code>length</code> as integer = 200, <code>isRelativeOffset</code> as boolean = FALSE) -> <code>&lt;generic&gt; NucleotideLocation[]</code> {
+    #
+    # .NET API information
+    #
+    # module: seqtoolkit.genomics
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: seqtoolkit.dll
+    # package: "annotation.genomics"
+    #
+    return call <code>R&#35;.interop_[genomics::getUpstream]</code>(...);
+}</p></pre>
+
+                    
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="genome.genes">
+    <a href="./annotation.genomics/genome.genes.html">genome.genes</a>
+  </h2>
+  <hr />
+  <p>
+                      
+                
+                    <pre><p>let <code>genome.genes</code> as function(<code>genome</code> as any, [<code>&lt;Environment&gt;</code>]) -> <code>&lt;generic&gt; GeneBrief</code> {
+    #
+    # .NET API information
+    #
+    # module: seqtoolkit.genomics
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: seqtoolkit.dll
+    # package: "annotation.genomics"
+    #
+    return call <code>R&#35;.interop_[genomics::genes]</code>(...);
+}</p></pre>
+
+                    
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="write.PTT_tabular">
+    <a href="./annotation.genomics/write.PTT_tabular.html">write.PTT_tabular</a>
+  </h2>
+  <hr />
+  <p>
+                      
+                
+                    <pre><p>let <code>write.PTT_tabular</code> as function(<code>genomics</code> as any, 
+<code>file</code> as string = <code>&lt;NULL&gt;</code>, 
+<code>encoding</code> as <integer> Encodings = [ASCII], 
+[<code>&lt;Environment&gt;</code>]) -> <code>any</code> {
+    #
+    # .NET API information
+    #
+    # module: seqtoolkit.genomics
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: seqtoolkit.dll
+    # package: "annotation.genomics"
+    #
+    return call <code>R&#35;.interop_[genomics::writePPTTabular]</code>(...);
+}</p></pre>
+
+                    
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div>
+                       </div>
+  </body>
+</html>

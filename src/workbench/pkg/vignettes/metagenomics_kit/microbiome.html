@@ -1,0 +1,262 @@
+<!DOCTYPE html><html lang="zh-CN">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>microbiome</title>
+    <meta name="author" content="xie.guigang@gcmodeller.org" />
+    <meta name="copyright" content="SMRUCC genomics Copyright (c) 2020" />
+    <meta name="keywords" content="GCModeller; Xanthomonas; Artificial Life" />
+    <meta name="generator" content="https://github.com/xieguigang/xDoc" />
+    <meta name="theme-color" content="#333" />
+    <meta name="last-update" content="7/25/2022 3:30:13 AM" />
+    <meta name="description" content="A software system aim at Artificial Life system design and analysis." />
+    <meta class="foundation-data-attribute-namespace" />
+    <meta class="foundation-mq-xxlarge" />
+    <meta class="foundation-mq-xlarge" />
+    <meta class="foundation-mq-large" />
+    <meta class="foundation-mq-medium" />
+    <meta class="foundation-mq-small" />
+    <meta class="foundation-mq-topbar" />
+  </head>
+  <body>
+    <table width="100%" summary="page for {microbiome}">
+      <tbody>
+        <tr>
+          <td>{microbiome}</td>
+          <td style="text-align: right;">R# Documentation</td>
+        </tr>
+      </tbody>
+    </table>
+    <h1>microbiome</h1>
+    <hr />
+    <p></p>
+    <div id="main-wrapper">
+                           <div>
+  <h2 id="parse.otu_taxonomy">
+    <a href="./microbiome/parse.otu_taxonomy.html">parse.otu_taxonomy</a>
+  </h2>
+  <hr />
+  <p>
+                      
+                
+                    <pre><p>let <code>parse.otu_taxonomy</code> as function(<code>file</code> as <generic> Stream) -> <code>&lt;generic&gt; otu_taxonomy[]</code> {
+    #
+    # .NET API information
+    #
+    # module: metagenomics_kit.microbiomeKit
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: metagenomics_kit.dll
+    # package: "microbiome"
+    #
+    return call <code>R&#35;.interop_[microbiomeKit::parsegreenGenesTaxonomy]</code>(...);
+}</p></pre>
+
+                    
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="save.PICRUSt_matrix">
+    <a href="./microbiome/save.PICRUSt_matrix.html">save.PICRUSt_matrix</a>
+  </h2>
+  <hr />
+  <p>
+                      
+                
+                    <pre><p>let <code>save.PICRUSt_matrix</code> as function(<code>ggtax</code> as <generic> otu_taxonomy[], <code>ko_13_5_precalculated</code> as <generic> Stream, <code>save</code> as <generic> Stream) -> <code>boolean</code> {
+    #
+    # .NET API information
+    #
+    # module: metagenomics_kit.microbiomeKit
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: metagenomics_kit.dll
+    # package: "microbiome"
+    #
+    return call <code>R&#35;.interop_[microbiomeKit::indexMatrix]</code>(...);
+}</p></pre>
+
+                    
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="read.PICRUSt_matrix">
+    <a href="./microbiome/read.PICRUSt_matrix.html">read.PICRUSt_matrix</a>
+  </h2>
+  <hr />
+  <p>
+                      
+                
+                    <pre><p>let <code>read.PICRUSt_matrix</code> as function(<code>file</code> as <generic> Stream) -> <code>&lt;generic&gt; MetaBinaryReader</code> {
+    #
+    # .NET API information
+    #
+    # module: metagenomics_kit.microbiomeKit
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: metagenomics_kit.dll
+    # package: "microbiome"
+    #
+    return call <code>R&#35;.interop_[microbiomeKit::readPICRUStMatrix]</code>(...);
+}</p></pre>
+
+                    
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="predict_metagenomes">
+    <a href="./microbiome/predict_metagenomes.html">predict_metagenomes</a>
+  </h2>
+  <hr />
+  <p>
+                    <p>creates the final metagenome functional predictions. It <br />
+ multiplies each normalized OTU abundance by each predicted <br />
+ functional trait abundance to produce a table of functions <br />
+ (rows) by samples (columns).</p>  
+                
+                    <pre><p>let <code>predict_metagenomes</code> as function(<code>PICRUSt</code> as <generic> MetaBinaryReader, <code>table</code> as <generic> dataframe) -> <code>&lt;generic&gt; OTUData`1[]</code> {
+    #
+    # .NET API information
+    #
+    # module: metagenomics_kit.microbiomeKit
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: metagenomics_kit.dll
+    # package: "microbiome"
+    #
+    return call <code>R&#35;.interop_[microbiomeKit::predict_metagenomes]</code>(...);
+}</p></pre>
+
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>table</code>: -
+                </li>
+                </ul>
+</div>
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="diff.entropy">
+    <a href="./microbiome/diff.entropy.html">diff.entropy</a>
+  </h2>
+  <hr />
+  <p>
+                    <p>evaluate the similarity of two taxonomy data vector</p>  
+                
+                    <pre><p>let <code>diff.entropy</code> as function(<code>v1</code> as list, 
+<code>v2</code> as list, 
+<code>rank</code> as <integer> TaxonomyRanks = [Genus], 
+[<code>&lt;Environment&gt;</code>]) -> <code>double</code> {
+    #
+    # .NET API information
+    #
+    # module: metagenomics_kit.microbiomeKit
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: metagenomics_kit.dll
+    # package: "microbiome"
+    #
+    return call <code>R&#35;.interop_[microbiomeKit::similar]</code>(...);
+}</p></pre>
+
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>v1</code>: the names of the list should be the BIOM taxonomy string, <br />
+ content value of the list is the relative abundance data.
+                </li>
+<li>
+  <code>v2</code>: the names of the list should be the BIOM taxonomy string, <br />
+ content value of the list is the relative abundance data.
+                </li>
+                </ul>
+</div>
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="compounds.origin.profile">
+    <a href="./microbiome/compounds.origin.profile.html">compounds.origin.profile</a>
+  </h2>
+  <hr />
+  <p>
+                      
+                
+                    <pre><p>let <code>compounds.origin.profile</code> as function(<code>taxonomy</code> as <generic> NcbiTaxonomyTree, <code>organism</code> as string) -> <code>&lt;generic&gt; CompoundOrigins</code> {
+    #
+    # .NET API information
+    #
+    # module: metagenomics_kit.microbiomeKit
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: metagenomics_kit.dll
+    # package: "microbiome"
+    #
+    return call <code>R&#35;.interop_[microbiomeKit::createEmptyCompoundOriginProfile]</code>(...);
+}</p></pre>
+
+                    
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="compounds.origin">
+    <a href="./microbiome/compounds.origin.html">compounds.origin</a>
+  </h2>
+  <hr />
+  <p>
+                    <p>create compound origin profile dataset</p>  
+                
+                    <pre><p>let <code>compounds.origin</code> as function(<code>annotations</code> as list, 
+<code>tree</code> as <generic> NcbiTaxonomyTree, 
+<code>rank</code> as <integer> TaxonomyRanks = [Family], 
+<code>ranges</code> as string = <code>&lt;NULL&gt;</code>, 
+[<code>&lt;Environment&gt;</code>]) -> <code>list</code> {
+    #
+    # .NET API information
+    #
+    # module: metagenomics_kit.microbiomeKit
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: metagenomics_kit.dll
+    # package: "microbiome"
+    #
+    return call <code>R&#35;.interop_[microbiomeKit::CompoundOrigin]</code>(...);
+}</p></pre>
+
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>annotations</code>: a list of multiple organism protein functional annotation dataset.
+                </li>
+<li>
+  <code>tree</code>: the ncbi taxonomy tree
+                </li>
+<li>
+  <code>rank</code>: minimal rank for takes the most abondance taxonomy from the raw dataset.
+                </li>
+<li>
+  <code>ranges</code>: -
+                </li>
+<li>
+  <code>env</code>: -
+                </li>
+                </ul>
+</div>
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div>
+                       </div>
+  </body>
+</html>
