@@ -90,7 +90,7 @@ Namespace Text
             Dim lines$() = text.LineTokens
             Dim delIndex As Index(Of Char) = delimiters.Indexing
 
-            For Each line As String In lines
+            For Each line As String In lines.Select(Function(l) l.Trim(delIndex.Objects))
                 Dim buf As New List(Of Char)
                 Dim i As New CharPtr(line)
                 Dim c As Char
