@@ -120,6 +120,7 @@ Namespace Text
                 Loop
 
                 If buf > 0 Then
+                    buf += i.Current
                     Yield buf.PopAllChars.CharString
                 End If
             Next
