@@ -1,0 +1,137 @@
+<!DOCTYPE html><html lang="zh-CN">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>analysis</title>
+    <meta name="author" content="xie.guigang@gcmodeller.org" />
+    <meta name="copyright" content="SMRUCC genomics Copyright (c) 2020" />
+    <meta name="keywords" content="GCModeller; Xanthomonas; Artificial Life" />
+    <meta name="generator" content="https://github.com/xieguigang/xDoc" />
+    <meta name="theme-color" content="#333" />
+    <meta name="last-update" content="2022-07-27" />
+    <meta name="description" content="A software system aim at Artificial Life system design and analysis." />
+    <meta class="foundation-data-attribute-namespace" />
+    <meta class="foundation-mq-xxlarge" />
+    <meta class="foundation-mq-xlarge" />
+    <meta class="foundation-mq-large" />
+    <meta class="foundation-mq-medium" />
+    <meta class="foundation-mq-small" />
+    <meta class="foundation-mq-topbar" />
+  </head>
+  <body>
+    <table width="100%" summary="page for {analysis}">
+      <tbody>
+        <tr>
+          <td>{analysis}</td>
+          <td style="text-align: right;">R# Documentation</td>
+        </tr>
+      </tbody>
+    </table>
+    <h1>analysis</h1>
+    <hr />
+    <p></p>
+    <div id="main-wrapper">
+                           <div>
+  <h2 id="union.matrix">
+    <a href="./analysis/union.matrix.html">union.matrix</a>
+  </h2>
+  <hr />
+  <p>
+                    <p>union of the profile snapshot list to a matrix dataset.</p>  
+                
+                    <pre><p>let <code>union.matrix</code> as function(<code>result</code> as string, <code>setName</code> as string = "mass\metabolome.json", <code>trim</code> as boolean = TRUE) -> <code>&lt;generic&gt; DataSet[]</code> {
+    #
+    # .NET API information
+    #
+    # module: vcellkit.Analysis
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: vcellkit.dll
+    # package: "analysis"
+    #
+    return call <code>R&#35;.interop_[Analysis::UnionSnapshot]</code>(...);
+}</p></pre>
+
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>result</code>: -
+                </li>
+<li>
+  <code>setName</code>: -
+                </li>
+<li>
+  <code>trim</code>: Will delete all of the metabolites row that have no changes
+                </li>
+                </ul>
+</div>
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="compound.names">
+    <a href="./analysis/compound.names.html">compound.names</a>
+  </h2>
+  <hr />
+  <p>
+                    <p>set compound names for the kegg metabolites</p>  
+                
+                    <pre><p>let <code>compound.names</code> as function(<code>metabolites</code> as <generic> DataSet[], <code>names</code> as list[string]) -> <code>&lt;generic&gt; DataSet[]</code> {
+    #
+    # .NET API information
+    #
+    # module: vcellkit.Analysis
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: vcellkit.dll
+    # package: "analysis"
+    #
+    return call <code>R&#35;.interop_[Analysis::CompoundNames]</code>(...);
+}</p></pre>
+
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>metabolites</code>: -
+                </li>
+<li>
+  <code>names</code>: -
+                </li>
+                </ul>
+</div>
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="vcell.mass.graph">
+    <a href="./analysis/vcell.mass.graph.html">vcell.mass.graph</a>
+  </h2>
+  <hr />
+  <p>
+                      
+                
+                    <pre><p>let <code>vcell.mass.graph</code> as function(<code>vcell</code> as any, [<code>&lt;Environment&gt;</code>]) -> <code>&lt;generic&gt; NetworkGraph</code> {
+    #
+    # .NET API information
+    #
+    # module: vcellkit.Analysis
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: vcellkit.dll
+    # package: "analysis"
+    #
+    return call <code>R&#35;.interop_[Analysis::vcellGraph]</code>(...);
+}</p></pre>
+
+                    
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div>
+                       </div>
+  </body>
+</html>

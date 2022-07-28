@@ -1,0 +1,193 @@
+<!DOCTYPE html><html lang="zh-CN">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>debugger</title>
+    <meta name="author" content="xie.guigang@gcmodeller.org" />
+    <meta name="copyright" content="SMRUCC genomics Copyright (c) 2020" />
+    <meta name="keywords" content="GCModeller; Xanthomonas; Artificial Life" />
+    <meta name="generator" content="https://github.com/xieguigang/xDoc" />
+    <meta name="theme-color" content="#333" />
+    <meta name="last-update" content="2022-07-27" />
+    <meta name="description" content="A software system aim at Artificial Life system design and analysis." />
+    <meta class="foundation-data-attribute-namespace" />
+    <meta class="foundation-mq-xxlarge" />
+    <meta class="foundation-mq-xlarge" />
+    <meta class="foundation-mq-large" />
+    <meta class="foundation-mq-medium" />
+    <meta class="foundation-mq-small" />
+    <meta class="foundation-mq-topbar" />
+  </head>
+  <body>
+    <table width="100%" summary="page for {debugger}">
+      <tbody>
+        <tr>
+          <td>{debugger}</td>
+          <td style="text-align: right;">R# Documentation</td>
+        </tr>
+      </tbody>
+    </table>
+    <h1>debugger</h1>
+    <hr />
+    <p></p>
+    <div id="main-wrapper">
+                           <div>
+  <h2 id="vcell.summary">
+    <a href="./debugger/vcell.summary.html">vcell.summary</a>
+  </h2>
+  <hr />
+  <p>
+                      
+                
+                    <pre><p>let <code>vcell.summary</code> as function(<code>inits</code> as <generic> Definition, <code>model</code> as <generic> CellularModule, <code>dir</code> as string) -> <code>any</code> {
+    #
+    # .NET API information
+    #
+    # module: vcellkit.Debugger
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: vcellkit.dll
+    # package: "debugger"
+    #
+    return call <code>R&#35;.interop_[Debugger::createDynamicsSummary]</code>(...);
+}</p></pre>
+
+                    
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="map.flux">
+    <a href="./debugger/map.flux.html">map.flux</a>
+  </h2>
+  <hr />
+  <p>
+                    <p>create dynamics model from a kegg pathway map</p>  
+                
+                    <pre><p>let <code>map.flux</code> as function(<code>map</code> as <generic> Map, <code>reactions</code> as <generic> ReactionRepository, <code>init</code> as double = 1000) -> <code>&lt;generic&gt; Vessel</code> {
+    #
+    # .NET API information
+    #
+    # module: vcellkit.Debugger
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: vcellkit.dll
+    # package: "debugger"
+    #
+    return call <code>R&#35;.interop_[Debugger::ModelPathwayMap]</code>(...);
+}</p></pre>
+
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>map</code>: -
+                </li>
+<li>
+  <code>reactions</code>: -
+                </li>
+<li>
+  <code>init</code>: -
+                </li>
+                </ul>
+</div>
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="flux.dynamics">
+    <a href="./debugger/flux.dynamics.html">flux.dynamics</a>
+  </h2>
+  <hr />
+  <p>
+                      
+                
+                    <pre><p>let <code>flux.dynamics</code> as function(<code>core</code> as <generic> Vessel, 
+<code>time</code> as integer = 50, 
+<code>resolution</code> as integer = 10000, 
+<code>showProgress</code> as boolean = TRUE) -> <code>&lt;generic&gt; FluxEmulator</code> {
+    #
+    # .NET API information
+    #
+    # module: vcellkit.Debugger
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: vcellkit.dll
+    # package: "debugger"
+    #
+    return call <code>R&#35;.interop_[Debugger::createFluxDynamicsEngine]</code>(...);
+}</p></pre>
+
+                    
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="flux.load_driver">
+    <a href="./debugger/flux.load_driver.html">flux.load_driver</a>
+  </h2>
+  <hr />
+  <p>
+                      
+                
+                    <pre><p>let <code>flux.load_driver</code> as function(<code>core</code> as <generic> FluxEmulator, <code>mass</code> as <generic> DataSetDriver, <code>flux</code> as <generic> DataSetDriver) -> <code>&lt;generic&gt; FluxEmulator</code> {
+    #
+    # .NET API information
+    #
+    # module: vcellkit.Debugger
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: vcellkit.dll
+    # package: "debugger"
+    #
+    return call <code>R&#35;.interop_[Debugger::loadDataDriver]</code>(...);
+}</p></pre>
+
+                    
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="test_network">
+    <a href="./debugger/test_network.html">test_network</a>
+  </h2>
+  <hr />
+  <p>
+                    <p>run network dynamics</p>  
+                
+                    <pre><p>let <code>test_network</code> as function(<code>network</code> as any, ..., [<code>&lt;Environment&gt;</code>]) -> <code>&lt;generic&gt; Vessel</code> {
+    #
+    # .NET API information
+    #
+    # module: vcellkit.Debugger
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: vcellkit.dll
+    # package: "debugger"
+    #
+    return call <code>R&#35;.interop_[Debugger::CreateNetwork]</code>(...);
+}</p></pre>
+
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>network</code>: the target network graph model
+                </li>
+<li>
+  <code>init0</code>: the system initial conditions
+                </li>
+<li>
+  <code>env</code>: -
+                </li>
+                </ul>
+</div>
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div>
+                       </div>
+  </body>
+</html>

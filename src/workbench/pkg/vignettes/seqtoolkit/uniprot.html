@@ -1,0 +1,250 @@
+<!DOCTYPE html><html lang="zh-CN">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>uniprot</title>
+    <meta name="author" content="xie.guigang@gcmodeller.org" />
+    <meta name="copyright" content="SMRUCC genomics Copyright (c) 2020" />
+    <meta name="keywords" content="GCModeller; Xanthomonas; Artificial Life" />
+    <meta name="generator" content="https://github.com/xieguigang/xDoc" />
+    <meta name="theme-color" content="#333" />
+    <meta name="last-update" content="2022-07-27" />
+    <meta name="description" content="A software system aim at Artificial Life system design and analysis." />
+    <meta class="foundation-data-attribute-namespace" />
+    <meta class="foundation-mq-xxlarge" />
+    <meta class="foundation-mq-xlarge" />
+    <meta class="foundation-mq-large" />
+    <meta class="foundation-mq-medium" />
+    <meta class="foundation-mq-small" />
+    <meta class="foundation-mq-topbar" />
+  </head>
+  <body>
+    <table width="100%" summary="page for {uniprot}">
+      <tbody>
+        <tr>
+          <td>{uniprot}</td>
+          <td style="text-align: right;">R# Documentation</td>
+        </tr>
+      </tbody>
+    </table>
+    <h1>uniprot</h1>
+    <hr />
+    <p></p>
+    <div id="main-wrapper">
+                           <div>
+  <h2 id="open.uniprot">
+    <a href="./uniprot/open.uniprot.html">open.uniprot</a>
+  </h2>
+  <hr />
+  <p>
+                    <p>open a uniprot database file</p>  
+                
+                    <pre><p>let <code>open.uniprot</code> as function(<code>files</code> as any, 
+<code>isUniParc</code> as boolean = FALSE, 
+<code>ignoreError</code> as boolean = TRUE, 
+[<code>&lt;Environment&gt;</code>]) -> <code>&lt;generic&gt; pipeline</code> {
+    #
+    # .NET API information
+    #
+    # module: seqtoolkit.uniprot
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: seqtoolkit.dll
+    # package: "uniprot"
+    #
+    return call <code>R&#35;.interop_[uniprot::openUniprotXmlAssembly]</code>(...);
+}</p></pre>
+
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>files</code>: -
+                </li>
+<li>
+  <code>isUniParc</code>: -
+                </li>
+                </ul>
+</div>
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="parseUniProt">
+    <a href="./uniprot/parseUniProt.html">parseUniProt</a>
+  </h2>
+  <hr />
+  <p>
+                      
+                
+                    <pre><p>let <code>parseUniProt</code> as function(<code>xml</code> as string) -> <code>&lt;generic&gt; entry[]</code> {
+    #
+    # .NET API information
+    #
+    # module: seqtoolkit.uniprot
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: seqtoolkit.dll
+    # package: "uniprot"
+    #
+    return call <code>R&#35;.interop_[uniprot::parseUniProt]</code>(...);
+}</p></pre>
+
+                    
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="proteinTable">
+    <a href="./uniprot/proteinTable.html">proteinTable</a>
+  </h2>
+  <hr />
+  <p>
+                    <p>export protein annotation data as data frame.</p>  
+                
+                    <pre><p>let <code>proteinTable</code> as function(<code>uniprot</code> as any, [<code>&lt;Environment&gt;</code>]) -> <code>any</code> {
+    #
+    # .NET API information
+    #
+    # module: seqtoolkit.uniprot
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: seqtoolkit.dll
+    # package: "uniprot"
+    #
+    return call <code>R&#35;.interop_[uniprot::proteinTable]</code>(...);
+}</p></pre>
+
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>uniprot</code>: -
+                </li>
+<li>
+  <code>env</code>: -
+                </li>
+                </ul>
+</div>
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="protein.seqs">
+    <a href="./uniprot/protein.seqs.html">protein.seqs</a>
+  </h2>
+  <hr />
+  <p>
+                    <p>populate all protein fasta sequence from the given uniprot database reader</p>  
+                
+                    <pre><p>let <code>protein.seqs</code> as function(<code>uniprot</code> as any, 
+<code>extractAll</code> as boolean = FALSE, 
+<code>KOseq</code> as boolean = FALSE, 
+[<code>&lt;Environment&gt;</code>]) -> <code>&lt;generic&gt; pipeline</code> {
+    #
+    # .NET API information
+    #
+    # module: seqtoolkit.uniprot
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: seqtoolkit.dll
+    # package: "uniprot"
+    #
+    return call <code>R&#35;.interop_[uniprot::getProteinSeq]</code>(...);
+}</p></pre>
+
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>uniprot</code>: -
+                </li>
+<li>
+  <code>extractAll</code>: -
+                </li>
+<li>
+  <code>env</code>: -
+                </li>
+                </ul>
+</div>
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="cache.ptf">
+    <a href="./uniprot/cache.ptf.html">cache.ptf</a>
+  </h2>
+  <hr />
+  <p>
+                      
+                
+                    <pre><p>let <code>cache.ptf</code> as function(<code>uniprot</code> as any, 
+<code>file</code> as any, 
+<code>cacheTaxonomy</code> as boolean = FALSE, 
+[<code>&lt;Environment&gt;</code>]) -> <code>any</code> {
+    #
+    # .NET API information
+    #
+    # module: seqtoolkit.uniprot
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: seqtoolkit.dll
+    # package: "uniprot"
+    #
+    return call <code>R&#35;.interop_[uniprot::writePtfFile]</code>(...);
+}</p></pre>
+
+                    
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="id_unify">
+    <a href="./uniprot/id_unify.html">id_unify</a>
+  </h2>
+  <hr />
+  <p>
+                    <p>id unify mapping</p>  
+                
+                    <pre><p>let <code>id_unify</code> as function(<code>uniprot</code> as any, 
+<code>id</code> as any, 
+<code>target</code> as string = <code>&lt;NULL&gt;</code>, 
+[<code>&lt;Environment&gt;</code>]) -> <code>any</code> {
+    #
+    # .NET API information
+    #
+    # module: seqtoolkit.uniprot
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: seqtoolkit.dll
+    # package: "uniprot"
+    #
+    return call <code>R&#35;.interop_[uniprot::IdUnify]</code>(...);
+}</p></pre>
+
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>uniprot</code>: -
+                </li>
+<li>
+  <code>id</code>: -
+                </li>
+<li>
+  <code>target</code>: the database name for map to
+                </li>
+<li>
+  <code>env</code>: -
+                </li>
+                </ul>
+</div>
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div>
+                       </div>
+  </body>
+</html>

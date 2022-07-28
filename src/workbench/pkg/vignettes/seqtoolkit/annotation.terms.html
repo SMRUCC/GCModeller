@@ -1,0 +1,294 @@
+<!DOCTYPE html><html lang="zh-CN">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>annotation.terms</title>
+    <meta name="author" content="xie.guigang@gcmodeller.org" />
+    <meta name="copyright" content="SMRUCC genomics Copyright (c) 2020" />
+    <meta name="keywords" content="GCModeller; Xanthomonas; Artificial Life" />
+    <meta name="generator" content="https://github.com/xieguigang/xDoc" />
+    <meta name="theme-color" content="#333" />
+    <meta name="last-update" content="2022-07-27" />
+    <meta name="description" content="A software system aim at Artificial Life system design and analysis." />
+    <meta class="foundation-data-attribute-namespace" />
+    <meta class="foundation-mq-xxlarge" />
+    <meta class="foundation-mq-xlarge" />
+    <meta class="foundation-mq-large" />
+    <meta class="foundation-mq-medium" />
+    <meta class="foundation-mq-small" />
+    <meta class="foundation-mq-topbar" />
+  </head>
+  <body>
+    <table width="100%" summary="page for {annotation.terms}">
+      <tbody>
+        <tr>
+          <td>{annotation.terms}</td>
+          <td style="text-align: right;">R# Documentation</td>
+        </tr>
+      </tbody>
+    </table>
+    <h1>annotation.terms</h1>
+    <hr />
+    <p></p>
+    <div id="main-wrapper">
+                           <div>
+  <h2 id="geneNames">
+    <a href="./annotation.terms/geneNames.html">geneNames</a>
+  </h2>
+  <hr />
+  <p>
+                    <p>try parse gene names from the product description strings</p>  
+                
+                    <pre><p>let <code>geneNames</code> as function(<code>descriptions</code> as any) -> <code>&lt;generic&gt; vector</code> {
+    #
+    # .NET API information
+    #
+    # module: seqtoolkit.terms
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: seqtoolkit.dll
+    # package: "annotation.terms"
+    #
+    return call <code>R&#35;.interop_[terms::geneNames]</code>(...);
+}</p></pre>
+
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>descriptions</code>: the gene functional product description strings.
+                </li>
+                </ul>
+</div>
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="assign.KO">
+    <a href="./annotation.terms/assign.KO.html">assign.KO</a>
+  </h2>
+  <hr />
+  <p>
+                    <p>do KO number assign based on the bbh alignment result.</p>  
+                
+                    <pre><p>let <code>assign.KO</code> as function(<code>forward</code> as <generic> pipeline, <code>reverse</code> as <generic> pipeline, [<code>&lt;Environment&gt;</code>]) -> <code>&lt;generic&gt; pipeline</code> {
+    #
+    # .NET API information
+    #
+    # module: seqtoolkit.terms
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: seqtoolkit.dll
+    # package: "annotation.terms"
+    #
+    return call <code>R&#35;.interop_[terms::KOannotations]</code>(...);
+}</p></pre>
+
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>forward</code>: -
+                </li>
+<li>
+  <code>reverse</code>: -
+                </li>
+<li>
+  <code>env</code>: -
+                </li>
+                </ul>
+</div>
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="assign.COG">
+    <a href="./annotation.terms/assign.COG.html">assign.COG</a>
+  </h2>
+  <hr />
+  <p>
+                      
+                
+                    <pre><p>let <code>assign.COG</code> as function(<code>alignment</code> as any, [<code>&lt;Environment&gt;</code>]) -> <code>any</code> {
+    #
+    # .NET API information
+    #
+    # module: seqtoolkit.terms
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: seqtoolkit.dll
+    # package: "annotation.terms"
+    #
+    return call <code>R&#35;.interop_[terms::COGannotations]</code>(...);
+}</p></pre>
+
+                    
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="assign.Pfam">
+    <a href="./annotation.terms/assign.Pfam.html">assign.Pfam</a>
+  </h2>
+  <hr />
+  <p>
+                      
+                
+                    <pre><p>let <code>assign.Pfam</code> as function() -> <code>any</code> {
+    #
+    # .NET API information
+    #
+    # module: seqtoolkit.terms
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: seqtoolkit.dll
+    # package: "annotation.terms"
+    #
+    return call <code>R&#35;.interop_[terms::Pfamannotations]</code>(...);
+}</p></pre>
+
+                    
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="assign.GO">
+    <a href="./annotation.terms/assign.GO.html">assign.GO</a>
+  </h2>
+  <hr />
+  <p>
+                      
+                
+                    <pre><p>let <code>assign.GO</code> as function() -> <code>any</code> {
+    #
+    # .NET API information
+    #
+    # module: seqtoolkit.terms
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: seqtoolkit.dll
+    # package: "annotation.terms"
+    #
+    return call <code>R&#35;.interop_[terms::GOannotations]</code>(...);
+}</p></pre>
+
+                    
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="write.id_maps">
+    <a href="./annotation.terms/write.id_maps.html">write.id_maps</a>
+  </h2>
+  <hr />
+  <p>
+                      
+                
+                    <pre><p>let <code>write.id_maps</code> as function(<code>maps</code> as <generic> SecondaryIDSolver, <code>file</code> as string) -> <code>boolean</code> {
+    #
+    # .NET API information
+    #
+    # module: seqtoolkit.terms
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: seqtoolkit.dll
+    # package: "annotation.terms"
+    #
+    return call <code>R&#35;.interop_[terms::saveIdMappings]</code>(...);
+}</p></pre>
+
+                    
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="read.MyvaCOG">
+    <a href="./annotation.terms/read.MyvaCOG.html">read.MyvaCOG</a>
+  </h2>
+  <hr />
+  <p>
+                      
+                
+                    <pre><p>let <code>read.MyvaCOG</code> as function(<code>file</code> as string) -> <code>&lt;generic&gt; MyvaCOG[]</code> {
+    #
+    # .NET API information
+    #
+    # module: seqtoolkit.terms
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: seqtoolkit.dll
+    # package: "annotation.terms"
+    #
+    return call <code>R&#35;.interop_[terms::readMyvaCOG]</code>(...);
+}</p></pre>
+
+                    
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="read.id_maps">
+    <a href="./annotation.terms/read.id_maps.html">read.id_maps</a>
+  </h2>
+  <hr />
+  <p>
+                      
+                
+                    <pre><p>let <code>read.id_maps</code> as function(<code>file</code> as string, <code>skip2ndMaps</code> as boolean = FALSE) -> <code>&lt;generic&gt; SecondaryIDSolver</code> {
+    #
+    # .NET API information
+    #
+    # module: seqtoolkit.terms
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: seqtoolkit.dll
+    # package: "annotation.terms"
+    #
+    return call <code>R&#35;.interop_[terms::readIdMappings]</code>(...);
+}</p></pre>
+
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>file</code>: -
+                </li>
+<li>
+  <code>skip2ndMaps</code>: set this parameter value to <code>true</code> for fixed for build the <code>kegg2go</code> mapping model.
+                </li>
+                </ul>
+</div>
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="synonym">
+    <a href="./annotation.terms/synonym.html">synonym</a>
+  </h2>
+  <hr />
+  <p>
+                      
+                
+                    <pre><p>let <code>synonym</code> as function(<code>idlist</code> as string, <code>idmap</code> as <generic> SecondaryIDSolver, <code>excludeNull</code> as boolean = FALSE) -> <code>&lt;generic&gt; Synonym[]</code> {
+    #
+    # .NET API information
+    #
+    # module: seqtoolkit.terms
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: seqtoolkit.dll
+    # package: "annotation.terms"
+    #
+    return call <code>R&#35;.interop_[terms::Synonyms]</code>(...);
+}</p></pre>
+
+                    
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div>
+                       </div>
+  </body>
+</html>

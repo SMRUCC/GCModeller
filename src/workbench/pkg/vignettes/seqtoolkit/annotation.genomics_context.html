@@ -1,0 +1,264 @@
+<!DOCTYPE html><html lang="zh-CN">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>annotation.genomics_context</title>
+    <meta name="author" content="xie.guigang@gcmodeller.org" />
+    <meta name="copyright" content="SMRUCC genomics Copyright (c) 2020" />
+    <meta name="keywords" content="GCModeller; Xanthomonas; Artificial Life" />
+    <meta name="generator" content="https://github.com/xieguigang/xDoc" />
+    <meta name="theme-color" content="#333" />
+    <meta name="last-update" content="2022-07-27" />
+    <meta name="description" content="A software system aim at Artificial Life system design and analysis." />
+    <meta class="foundation-data-attribute-namespace" />
+    <meta class="foundation-mq-xxlarge" />
+    <meta class="foundation-mq-xlarge" />
+    <meta class="foundation-mq-large" />
+    <meta class="foundation-mq-medium" />
+    <meta class="foundation-mq-small" />
+    <meta class="foundation-mq-topbar" />
+  </head>
+  <body>
+    <table width="100%" summary="page for {annotation.genomics_context}">
+      <tbody>
+        <tr>
+          <td>{annotation.genomics_context}</td>
+          <td style="text-align: right;">R# Documentation</td>
+        </tr>
+      </tbody>
+    </table>
+    <h1>annotation.genomics_context</h1>
+    <hr />
+    <p></p>
+    <div id="main-wrapper">
+                           <div>
+  <h2 id="strand.filter">
+    <a href="./annotation.genomics_context/strand.filter.html">strand.filter</a>
+  </h2>
+  <hr />
+  <p>
+                    <p>filter genes by given strand direction</p>  
+                
+                    <pre><p>let <code>strand.filter</code> as function(<code>genes</code> as any, <code>strand</code> as any = "+", [<code>&lt;Environment&gt;</code>]) -> <code>any</code> {
+    #
+    # .NET API information
+    #
+    # module: seqtoolkit.context
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: seqtoolkit.dll
+    # package: "annotation.genomics_context"
+    #
+    return call <code>R&#35;.interop_[context::strandFilter]</code>(...);
+}</p></pre>
+
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>genes</code>: -
+                </li>
+<li>
+  <code>strand</code>: -
+                </li>
+<li>
+  <code>env</code>: -
+                </li>
+                </ul>
+</div>
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="location">
+    <a href="./annotation.genomics_context/location.html">location</a>
+  </h2>
+  <hr />
+  <p>
+                    <p>create a new nucleotide location object</p>  
+                
+                    <pre><p>let <code>location</code> as function(<code>left</code> as integer, <code>right</code> as integer, <code>strand</code> as any = <code>&lt;NULL&gt;</code>) -> <code>any</code> {
+    #
+    # .NET API information
+    #
+    # module: seqtoolkit.context
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: seqtoolkit.dll
+    # package: "annotation.genomics_context"
+    #
+    return call <code>R&#35;.interop_[context::location]</code>(...);
+}</p></pre>
+
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>left</code>: -
+                </li>
+<li>
+  <code>right</code>: -
+                </li>
+<li>
+  <code>strand</code>: -
+                </li>
+                </ul>
+</div>
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="is.forward">
+    <a href="./annotation.genomics_context/is.forward.html">is.forward</a>
+  </h2>
+  <hr />
+  <p>
+                    <p>the given nucleotide location is in forward direction</p>  
+                
+                    <pre><p>let <code>is.forward</code> as function(<code>loci</code> as <generic> NucleotideLocation) -> <code>boolean</code> {
+    #
+    # .NET API information
+    #
+    # module: seqtoolkit.context
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: seqtoolkit.dll
+    # package: "annotation.genomics_context"
+    #
+    return call <code>R&#35;.interop_[context::isForward]</code>(...);
+}</p></pre>
+
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>loci</code>: -
+                </li>
+                </ul>
+</div>
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="offset">
+    <a href="./annotation.genomics_context/offset.html">offset</a>
+  </h2>
+  <hr />
+  <p>
+                    <p>do offset of the given location</p>  
+                
+                    <pre><p>let <code>offset</code> as function(<code>loci</code> as <generic> NucleotideLocation, <code>offset</code> as integer) -> <code>&lt;generic&gt; NucleotideLocation</code> {
+    #
+    # .NET API information
+    #
+    # module: seqtoolkit.context
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: seqtoolkit.dll
+    # package: "annotation.genomics_context"
+    #
+    return call <code>R&#35;.interop_[context::offsetLocation]</code>(...);
+}</p></pre>
+
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>loci</code>: -
+                </li>
+<li>
+  <code>offset</code>: -
+                </li>
+                </ul>
+</div>
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="context">
+    <a href="./annotation.genomics_context/context.html">context</a>
+  </h2>
+  <hr />
+  <p>
+                    <p>Create a new context model of a specific genomics feature site.</p>  
+                
+                    <pre><p>let <code>context</code> as function(<code>loci</code> as any, 
+<code>distance</code> as integer, 
+<code>note</code> as string = <code>&lt;NULL&gt;</code>, 
+[<code>&lt;Environment&gt;</code>]) -> <code>&lt;generic&gt; Context</code> {
+    #
+    # .NET API information
+    #
+    # module: seqtoolkit.context
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: seqtoolkit.dll
+    # package: "annotation.genomics_context"
+    #
+    return call <code>R&#35;.interop_[context::context]</code>(...);
+}</p></pre>
+
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>loci</code>: -
+                </li>
+<li>
+  <code>distance</code>: -
+                </li>
+<li>
+  <code>note</code>: -
+                </li>
+<li>
+  <code>env</code>: -
+                </li>
+                </ul>
+</div>
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="relationship">
+    <a href="./annotation.genomics_context/relationship.html">relationship</a>
+  </h2>
+  <hr />
+  <p>
+                    <p>get the segment relationship of two location</p>  
+                
+                    <pre><p>let <code>relationship</code> as function(<code>a</code> as any, <code>b</code> as any, [<code>&lt;Environment&gt;</code>]) -> <code>&lt;integer&gt; SegmentRelationships</code> {
+    #
+    # .NET API information
+    #
+    # module: seqtoolkit.context
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: seqtoolkit.dll
+    # package: "annotation.genomics_context"
+    #
+    return call <code>R&#35;.interop_[context::relationship]</code>(...);
+}</p></pre>
+
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>a</code>: -
+                </li>
+<li>
+  <code>b</code>: -
+                </li>
+<li>
+  <code>env</code>: -
+                </li>
+                </ul>
+</div>
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div>
+                       </div>
+  </body>
+</html>
