@@ -73,6 +73,16 @@ Namespace ManagedSqlite.Core.SQLSchema
             Me.columns = ParseColumns(sql, removeNameEscape).ToArray
         End Sub
 
+        Public Function GetOrdinal(column As String) As Integer
+            For i As Integer = 0 To columns.Length - 1
+                If column = columns(i).Name Then
+                    Return i
+                End If
+            Next
+
+            Return -1
+        End Function
+
         Private Iterator Function ParseColumns(sql$, removeNameEscape As Boolean) As IEnumerable(Of NamedValue(Of String))
             Dim tokens As Token() = New SQLParser(sql).GetTokens.ToArray
             Dim [nameOf] = Function(text As Token()) As String
