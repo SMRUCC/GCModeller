@@ -291,3 +291,4 @@ src/workbench/pkg/.pkg/GCModeller-net5.0.zip
 src/repository/graphquery/kegg/.pkg/kegg_graphquery.zip
 *.v3
 src/workbench/Markdown2PDF_0.1.0.zip
+*.v5
