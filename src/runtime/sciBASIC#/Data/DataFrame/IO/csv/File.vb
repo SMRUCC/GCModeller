@@ -745,7 +745,7 @@ B21,B22,B23,...
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function LoadTsv(path$, Optional encoding As Encoding = Nothing) As File
-            Return csv.Imports(path, ASCII.TAB, encoding)
+            Return Load(path, encoding:=encoding, isTsv:=True)
         End Function
 
 
