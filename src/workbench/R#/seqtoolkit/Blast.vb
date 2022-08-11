@@ -148,7 +148,7 @@ Module Blast
         Dim score As Double = 0
         Dim alignments = RunNeedlemanWunsch.RunAlign(query, ref, score).ToArray
 
-        Return (score, alignments)
+        Return FactorValue(Of Double, GlobalAlign(Of Char)()).Create(score, alignments)
     End Function
 
     <ExportAPI("align.gwANI")>
