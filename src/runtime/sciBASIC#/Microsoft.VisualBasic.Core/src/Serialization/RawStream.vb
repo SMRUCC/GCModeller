@@ -220,9 +220,21 @@ Namespace Serialization
             Return objs
         End Function
 
+        ''' <summary>
+        ''' this function only works for the primitive data types
+        ''' </summary>
+        ''' <param name="vector"></param>
+        ''' <param name="encoding"></param>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function GetBytes(vector As Array, Optional encoding As Encodings = Encodings.UTF8) As Byte()
-            Return BytesInternal(vector, encoding).IteratesALL.ToArray
+            If vector Is Nothing OrElse vector.Length = 0 Then
+                Return {}
+            Else
+                Return BytesInternal(vector, encoding) _
+                    .IteratesALL _
+                    .ToArray
+            End If
         End Function
 
         Private Shared Function BytesInternal(vector As Array, encoding As Encodings) As IEnumerable(Of Byte())
