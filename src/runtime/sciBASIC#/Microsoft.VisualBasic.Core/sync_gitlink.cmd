@@ -1,6 +1,6 @@
 @echo off
 
-REM git remote add gitlink https://gitlink.org.cn/xieguigang/sciBASIC.git
+REM git remote add gitlink https://gitlink.org.cn/xieguigang/microsoft-visualbasic-runtime.git
 
 git pull gitlink HEAD
 git push gitlink HEAD
