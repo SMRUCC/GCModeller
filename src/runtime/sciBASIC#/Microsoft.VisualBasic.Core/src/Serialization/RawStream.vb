@@ -157,6 +157,10 @@ Namespace Serialization
             Dim type As Type = code.CreatePrimitiveType
             Dim bytes As Byte() = New Byte(raw.Length - 1) {}
 
+            If bytes.Length = 0 Then
+                Return New Object() {}
+            End If
+
             Call raw.Read(bytes, Scan0, bytes.Length)
 
             Select Case code
