@@ -62,7 +62,7 @@ Namespace DAG
 
             parentName = tokens.ElementAtOrNull(1%)
             tokens = tokens(Scan0).Split
-            type = relationshipParser(tokens(Scan0))
+            type = relationshipParser.TryGetValue(tokens(Scan0), [default]:=OntologyRelations.none)
             parent = tokens(1).GetTagValue(":")
         End Sub
 
