@@ -60,7 +60,7 @@ Namespace DAG
         Sub New(value$)
             Dim tokens$() = Strings.Split(value$, " ! ")
 
-            parentName = tokens(1%)
+            parentName = tokens.ElementAtOrNull(1%)
             tokens = tokens(Scan0).Split
             type = relationshipParser(tokens(Scan0))
             parent = tokens(1).GetTagValue(":")
@@ -95,7 +95,7 @@ Namespace DAG
             Dim tokens$() = Strings.Split(value$, " ! ")
 
             term_id = tokens(Scan0%)
-            name = tokens(1%)
+            name = tokens.ElementAtOrDefault(1%, [default]:=term_id)
         End Sub
 
         Public Overrides Function ToString() As String
