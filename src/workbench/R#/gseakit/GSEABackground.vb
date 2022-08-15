@@ -52,6 +52,7 @@ Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Analysis.HTS.GSEA
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports SMRUCC.genomics.Data.GeneOntology.OBO
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
@@ -79,6 +80,14 @@ Public Module GSEABackground
         Call summary.AppendLine($"background_size: {x.size}")
 
         Return summary.ToString
+    End Function
+
+    <ExportAPI("dag.background")>
+    Public Function DAGbackground(dag As GO_OBO) As Background
+        Dim getCluster = dag.terms.GOClusters
+        Dim background = dag.terms.Select(Function(t) t.id).CreateGOGeneric(getCluster, dag.terms.Length)
+
+        Return background
     End Function
 
     ''' <summary>
