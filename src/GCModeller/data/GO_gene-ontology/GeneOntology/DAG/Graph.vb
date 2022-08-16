@@ -181,6 +181,9 @@ Namespace DAG
             End If
         End Function
 
+        ''' <summary>
+        ''' the lineage
+        ''' </summary>
         Public Structure InheritsChain
 
             Dim Route As List(Of TermNode)

@@ -82,10 +82,17 @@ Public Module GSEABackground
         Return summary.ToString
     End Function
 
+    ''' <summary>
+    ''' create gsea background from a given obo ontology file data.
+    ''' </summary>
+    ''' <param name="dag"></param>
+    ''' <returns></returns>
     <ExportAPI("dag.background")>
     Public Function DAGbackground(dag As GO_OBO) As Background
         Dim getCluster = dag.terms.GOClusters
-        Dim background = dag.terms.Select(Function(t) t.id).CreateGOGeneric(getCluster, dag.terms.Length)
+        Dim background = dag.terms _
+            .Select(Function(t) t.id) _
+            .CreateGOGeneric(getCluster, dag.terms.Length)
 
         Return background
     End Function
@@ -340,9 +347,14 @@ Public Module GSEABackground
                             }
                         End Function) _
                 .ToArray
-       }
+        }
     End Function
 
+    ''' <summary>
+    ''' create kegg maps background for the metabolism data analysis
+    ''' </summary>
+    ''' <param name="kegg"></param>
+    ''' <returns></returns>
     <ExportAPI("metabolism.background")>
     Public Function metabolismBackground(kegg As MapRepository) As Background
         Dim clusters As Cluster() = kegg.Maps _
