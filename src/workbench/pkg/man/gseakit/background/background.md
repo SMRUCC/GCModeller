@@ -2,6 +2,7 @@
 
 tools for handling GSEA background model.
 
++ [dag.background](background/dag.background.1) 
 + [read.background](background/read.background.1) Load GSEA background model from a xml file.
 + [write.background](background/write.background.1) Save GSEA background model as xml file
 + [background_summary](background/background_summary.1) 
