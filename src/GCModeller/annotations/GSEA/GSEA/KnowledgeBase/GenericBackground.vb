@@ -98,7 +98,8 @@ Public Module GenericBackground
 
     <Extension>
     Public Function ImportsTree(Of T)(tree As Tree(Of T), createTerm As Func(Of T, BackgroundGene)) As Background
-        Dim allTerms = tree.PopulateAllNodes.ToArray
+        ' skip of the first root node
+        Dim allTerms = tree.PopulateAllNodes.Skip(1).ToArray
         Dim terms As Cluster() = allTerms _
             .Select(Function(term)
                         Return New Cluster With {
