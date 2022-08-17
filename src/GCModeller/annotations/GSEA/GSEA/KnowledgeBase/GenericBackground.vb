@@ -97,15 +97,17 @@ Public Module GenericBackground
     End Function
 
     <Extension>
-    Public Function ImportsTree(tree As Tree(Of String)) As Background
+    Public Function ImportsTree(Of T)(tree As Tree(Of T), createTerm As Func(Of T, BackgroundGene)) As Background
         Dim allTerms = tree.PopulateAllNodes.ToArray
         Dim terms As Cluster() = allTerms _
-            .Select(Function(t)
+            .Select(Function(term)
                         Return New Cluster With {
-                            .ID = t.label,
-                            .description = t.label,
-                            .names = t.label,
-                            .members = t.enumerateAllTerms.ToArray
+                            .ID = term.label,
+                            .description = term.label,
+                            .names = term.label,
+                            .members = term _
+                                .enumerateAllTerms(createTerm) _
+                                .ToArray
                         }
                     End Function) _
             .ToArray
@@ -117,18 +119,29 @@ Public Module GenericBackground
     End Function
 
     <Extension>
-    Private Iterator Function enumerateAllTerms(node As Tree(Of String)) As IEnumerable(Of BackgroundGene)
+    Public Function ImportsTree(tree As Tree(Of String)) As Background
+        Return tree.ImportsTree(simpleTerm)
+    End Function
+
+    Private Function simpleTerm() As Func(Of String, BackgroundGene)
+        Return Function(label)
+                   Return New BackgroundGene With {
+                       .accessionID = label,
+                       .[alias] = {label},
+                       .locus_tag = New NamedValue With {
+                           .name = label,
+                           .text = label
+                       },
+                       .name = label,
+                       .term_id = {label}
+                   }
+               End Function
+    End Function
+
+    <Extension>
+    Private Iterator Function enumerateAllTerms(Of T)(node As Tree(Of T), gene As Func(Of T, BackgroundGene)) As IEnumerable(Of BackgroundGene)
         For Each t In node.PopulateAllNodes
-            Yield New BackgroundGene With {
-                .accessionID = t.label,
-                .[alias] = {t.label},
-                .locus_tag = New NamedValue With {
-                    .name = t.label,
-                    .text = t.label
-                },
-                .name = t.label,
-                .term_id = {t.label}
-            }
+            Yield gene(t.Data)
         Next
     End Function
 End Module
