@@ -2,6 +2,7 @@
 
 tools for handling GSEA background model.
 
++ [dag.background](background/dag.background.1) create gsea background from a given obo ontology file data.
 + [read.background](background/read.background.1) Load GSEA background model from a xml file.
 + [write.background](background/write.background.1) Save GSEA background model as xml file
 + [background_summary](background/background_summary.1) 
@@ -12,5 +13,5 @@ tools for handling GSEA background model.
 + [as.background](background/as.background.1) 
 + [KO_reference](background/KO_reference.1) 
 + [as.geneSet](background/as.geneSet.1) 
-+ [metabolism.background](background/metabolism.background.1) 
++ [metabolism.background](background/metabolism.background.1) create kegg maps background for the metabolism data analysis
 + [KO.background](background/KO.background.1) create kegg background model
