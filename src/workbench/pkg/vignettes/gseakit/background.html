@@ -39,7 +39,7 @@
   </h2>
   <hr />
   <p>
-                      
+                    <p>create gsea background from a given obo ontology file data.</p>  
                 
                     <pre><p>let <code>dag.background</code> as function(<code>dag</code> as <generic> GO_OBO) -> <code>&lt;generic&gt; Background</code> {
     #
@@ -53,7 +53,14 @@
     return call <code>R&#35;.interop_[GSEABackground::DAGbackground]</code>(...);
 }</p></pre>
 
-                    
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>dag</code>: -
+                </li>
+                </ul>
+</div>
                        
                     
 
@@ -364,7 +371,7 @@
   </h2>
   <hr />
   <p>
-                      
+                    <p>create kegg maps background for the metabolism data analysis</p>  
                 
                     <pre><p>let <code>metabolism.background</code> as function(<code>kegg</code> as <generic> MapRepository) -> <code>&lt;generic&gt; Background</code> {
     #
@@ -378,7 +385,14 @@
     return call <code>R&#35;.interop_[GSEABackground::metabolismBackground]</code>(...);
 }</p></pre>
 
-                    
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>kegg</code>: -
+                </li>
+                </ul>
+</div>
                        
                     
 

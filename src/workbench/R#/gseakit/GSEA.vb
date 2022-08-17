@@ -225,7 +225,10 @@ Module GSEA
 
     <ExportAPI("enrichment.FDR")>
     Public Function FDR(enrichment As EnrichmentResult()) As EnrichmentResult()
-        Return enrichment.FDRCorrection
+        Return enrichment _
+            .FDRCorrection _
+            .OrderBy(Function(e) e.FDR) _
+            .ToArray
     End Function
 
     ''' <summary>
