@@ -111,7 +111,10 @@ Namespace ExpressionPattern
             )
         End Function
 
-        Public Shared Function CMeansCluster(matrix As Matrix, nsize%, Optional fuzzification# = 2, Optional threshold# = 0.001) As Classify()
+        Public Shared Function CMeansCluster(matrix As Matrix, nsize%,
+                                             Optional fuzzification# = 2,
+                                             Optional threshold# = 0.001) As Classify()
+
             Dim sampleNames As String() = matrix.sampleID
             Dim geneNodes As ClusterEntity() = matrix.expression _
                 .AsParallel _
