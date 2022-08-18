@@ -243,7 +243,7 @@ Namespace Graphic
 
             Dim lines As String() = main.SplitParagraph(len:=maxChars).ToArray
             Dim titleSize As SizeF = g.MeasureString("A", fontOfTitle)
-            Dim y As Single = plotRegion.Y - titleSize.Height * offsetFactor
+            Dim y As Single = plotRegion.Y - titleSize.Height * offsetFactor * lines.Length
             Dim position As PointF
 
             For Each line As String In lines
