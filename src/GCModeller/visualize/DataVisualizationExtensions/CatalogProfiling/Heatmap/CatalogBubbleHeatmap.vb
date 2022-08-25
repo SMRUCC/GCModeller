@@ -132,7 +132,7 @@ Namespace CatalogProfiling
             Next
 
             Call DrawMainTitle(g, region)
-            Call MultipleBubble.drawRadiusLegend(g, impacts, cellRange, canvas, theme, title:="Enrichment Hits", tickFormat:="F2")
+            Call MultipleBubble.drawRadiusLegend(g, impacts, cellRange, canvas, theme, title:="Enrichment Hits", tickFormat:="F0")
             Call drawColorLegends(
                 pvalues:=pvalues,
                 right:=region.Right + pad.Width * 1.125,
