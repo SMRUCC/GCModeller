@@ -11,7 +11,7 @@
     <AssemblyName>Test</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Console</MyType>
-    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -63,12 +63,14 @@
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x64\Release\</OutputPath>
     <DocumentationFile>Test.xml</DocumentationFile>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
-    <DebugType>pdbonly</DebugType>
+    <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -97,6 +99,7 @@
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
       <DependentUpon>Application.myapp</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="My Project\Resources.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -130,29 +133,33 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data\BinaryData\BinaryData\BinaryData.vbproj">
-      <Project>{487d7c92-d05a-4908-bf81-e6baba0bf592}</Project>
-      <Name>BinaryData</Name>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data\BinaryData\BinaryData\binarydata-netcore5.vbproj">
+      <Project>{9b282bd9-ff3b-4c9f-995c-2c443481f6ec}</Project>
+      <Name>binarydata-netcore5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data\BinaryData\DataStorage\DataStorage.vbproj">
-      <Project>{3c79ae03-a766-4b61-bdc4-824d78481b53}</Project>
-      <Name>DataStorage</Name>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data\BinaryData\HDF5\HDF5.vbproj">
+      <Project>{3e0c35d3-900a-48bc-ba3a-ae7171969ef4}</Project>
+      <Name>HDF5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\47-dotnet_Microsoft.VisualBasic.vbproj">
-      <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
-      <Name>47-dotnet_Microsoft.VisualBasic</Name>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data\BinaryData\netCDF\netCDF.vbproj">
+      <Project>{35af94ac-cd1b-4e55-9bb5-d151055ef2de}</Project>
+      <Name>netCDF</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\mime\application%25json\application.json.vbproj">
-      <Project>{32228818-26f1-44df-8d40-347136c743cd}</Project>
-      <Name>application.json</Name>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj">
+      <Project>{d46170ac-842f-4558-a755-a9d6c3ed9f11}</Project>
+      <Name>Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
-      <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
-      <Name>Bio.Assembly</Name>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\mime\application%25json\JSON-netcore5.vbproj">
+      <Project>{f1bae175-ba60-4667-acf9-0c1791e12311}</Project>
+      <Name>JSON-netcore5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BIOM\BIOM.vbproj">
-      <Project>{ee17be25-17e3-48f5-bef2-a7d540ae09e1}</Project>
-      <Name>BIOM</Name>
+    <ProjectReference Include="..\..\..\core\Bio.Assembly\biocore-netcore5.vbproj">
+      <Project>{d8731e9d-f2e6-4252-9931-7561db8d4a6c}</Project>
+      <Name>biocore-netcore5</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BIOM\BIOM.NET5.vbproj">
+      <Project>{66c2e4de-11aa-400e-b802-41e02de642b0}</Project>
+      <Name>BIOM.NET5</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
