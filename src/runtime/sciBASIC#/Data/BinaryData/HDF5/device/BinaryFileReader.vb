@@ -86,9 +86,9 @@ Namespace device
 
         Private Shared Function StopIfMissingFile(filepath As String) As FileInfo
             If filepath.StringEmpty Then
-                Throw New ArgumentException("filepath must not be null or empty!")
+                Throw New ArgumentException($"filepath({filepath}) must not be null or empty!")
             ElseIf filepath.FileLength <= 0 Then
-                Throw New FileLoadException("file missing or zero length!")
+                Throw New FileLoadException($"file({filepath}) missing or zero length!")
             End If
 
             Return New FileInfo(filepath)
@@ -147,10 +147,18 @@ Namespace device
         End Function
 
         Public Overrides Function ToString() As String
+            Dim debug As String
+            Dim pos As Long = randomaccessfile.Position
+            Dim width As Integer = 64
+
+            ' randomaccessfile.Position = pos - width
+            debug = Helpers.getDebugView(Me, width)
+            randomaccessfile.Position = pos
+
             If TypeOf randomaccessfile Is FileStream Then
-                Return $"{MyBase.ToString()}  #{DirectCast(randomaccessfile, FileStream).Name.FileName}"
+                Return $"{MyBase.ToString()}  #{DirectCast(randomaccessfile, FileStream).Name.FileName} '{debug}'"
             Else
-                Return $"{MyBase.ToString()}  #{randomaccessfile.ToString}"
+                Return $"{MyBase.ToString()}  #{randomaccessfile.ToString} '{debug}'"
             End If
         End Function
 
@@ -163,6 +171,10 @@ Namespace device
                 MyBase.offset = 0
             End Try
         End Sub
+
+        Public Overrides Function getBuffer() As ByteBuffer
+            Return New ByteBuffer(randomaccessfile)
+        End Function
     End Class
 
 End Namespace
