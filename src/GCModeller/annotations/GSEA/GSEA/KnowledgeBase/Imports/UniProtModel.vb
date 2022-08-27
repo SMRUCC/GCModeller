@@ -15,7 +15,7 @@ Public Module UniProtModel
             go_terms = extractTerms(protein)
 
             If Not go_terms.IsNullOrEmpty Then
-                Yield protein.createGene(go_terms)
+                Yield protein.uniprotGeneModel(go_terms)
             End If
         Next
     End Function
@@ -107,7 +107,7 @@ Public Module UniProtModel
     End Function
 
     <Extension>
-    Friend Function uniprotGeneModel(protein As entry) As BackgroundGene
+    Friend Function uniprotGeneModel(protein As entry, Optional terms As String() = Nothing) As BackgroundGene
         Dim dbxref = protein.dbReferences _
             .Where(Function(id)
                        Return id.type Like xrefDbNames
@@ -121,7 +121,7 @@ Public Module UniProtModel
             .[alias] = protein.accessions.JoinIterates(dbxref).ToArray,
             .locus_tag = protein.proteinLocusTag(.accessionID),
             .name = protein.name,
-            .term_id = dbxref
+            .term_id = terms
         }
     End Function
 

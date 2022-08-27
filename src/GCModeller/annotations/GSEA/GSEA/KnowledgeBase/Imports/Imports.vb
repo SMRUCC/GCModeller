@@ -158,19 +158,12 @@ Public Module [Imports]
             Return .CreateBackground(
                 getTerms:=getTerm,
                 define:=define,
-                createGene:=AddressOf createGene,
+                createGene:=AddressOf uniprotGeneModel,
                 genomeName:=genomeName,
                 taxonomy:=taxonomy,
                 outputAll:=outputAll
             )
         End With
-    End Function
-
-    <Extension>
-    Friend Function createGene(protein As entry, terms As String()) As BackgroundGene
-        Dim gene = protein.uniprotGeneModel
-        gene.term_id = terms
-        Return gene
     End Function
 
     <Extension>
