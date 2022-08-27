@@ -177,20 +177,6 @@ Public Module [Imports]
     End Function
 
     <Extension>
-    Private Function proteinLocusTag(protein As entry, accessionID$) As NamedValue
-        Dim tag$ = accessionID
-
-        If protein.xrefs.ContainsKey("KEGG") Then
-            tag = protein.xrefs("KEGG").First.id
-        End If
-
-        Return New NamedValue With {
-            .name = tag,
-            .text = protein.protein.fullName
-        }
-    End Function
-
-    <Extension>
     Public Function CreateBackground(Of T)(db As IEnumerable(Of T),
                                            createGene As Func(Of T, String(), BackgroundGene),
                                            getTerms As Func(Of T, String()),
