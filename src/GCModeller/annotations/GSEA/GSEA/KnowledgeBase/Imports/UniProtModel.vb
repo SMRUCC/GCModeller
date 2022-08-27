@@ -35,7 +35,46 @@ Public Module UniProtModel
 
     <Extension>
     Public Function UniprotKeywordsModel(uniprot As IEnumerable(Of entry)) As Background
+        Dim words = uniprot _
+            .Select(Function(i) i.extractKeywords) _
+            .IteratesALL _
+            .GroupBy(Function(i) i.Name) _
+            .ToArray
+        Dim clusters = words _
+            .Select(Function(c)
+                        Return New Cluster With {
+                            .ID = c.Key,
+                            .members = c _
+                                .Select(Function(i) i.Value) _
+                                .GroupBy(Function(i) i.accessionID) _
+                                .Select(Function(a) a.First) _
+                                .ToArray,
+                            .names = c.First.Description,
+                            .description = .names
+                        }
+                    End Function) _
+            .ToArray
 
+        Return New Background With {
+            .build = Now,
+            .clusters = clusters
+        }
+    End Function
+
+    <Extension>
+    Private Iterator Function extractKeywords(protein As entry) As IEnumerable(Of NamedValue(Of BackgroundGene))
+        Dim keywords = protein.keywords
+        Dim gene As BackgroundGene = protein.uniprotGeneModel
+
+        If Not keywords.IsNullOrEmpty Then
+            For Each word In keywords
+                Yield New NamedValue(Of BackgroundGene) With {
+                    .Description = word.value,
+                    .Name = word.id,
+                    .Value = gene
+                }
+            Next
+        End If
     End Function
 
     ReadOnly xrefDbNames As Index(Of String) = {"EMBL", "RefSeq", "AlphaFoldDB", "STRING", "Ensembl", "UCSC", "eggNOG", "GeneTree", "Bgee"}
