@@ -90,7 +90,10 @@ Public Module UniProtModel
         End If
     End Function
 
-    ReadOnly xrefDbNames As Index(Of String) = {"EMBL", "RefSeq", "AlphaFoldDB", "STRING", "Ensembl", "UCSC", "eggNOG", "GeneTree", "Bgee"}
+    ''' <summary>
+    ''' removes EMBL id due to the reason of too much id that can be extract from this kind of id
+    ''' </summary>
+    ReadOnly xrefDbNames As Index(Of String) = {"RefSeq", "AlphaFoldDB", "STRING", "Ensembl", "UCSC", "eggNOG", "GeneTree", "Bgee"}
 
     <Extension>
     Friend Function proteinLocusTag(protein As entry, accessionID$) As NamedValue
