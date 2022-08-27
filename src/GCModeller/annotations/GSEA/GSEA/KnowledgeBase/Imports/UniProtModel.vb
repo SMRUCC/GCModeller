@@ -7,6 +7,19 @@ Imports SMRUCC.genomics.Assembly.Uniprot.XML
 
 Public Module UniProtModel
 
+    Public Iterator Function UniprotGoHits(uniprot As IEnumerable(Of entry)) As IEnumerable(Of BackgroundGene)
+        Dim extractTerms = UniProtGetGOTerms()
+        Dim go_terms As String()
+
+        For Each protein In uniprot
+            go_terms = extractTerms(protein)
+
+            If Not go_terms.IsNullOrEmpty Then
+                Yield protein.createGene(go_terms)
+            End If
+        Next
+    End Function
+
     <Extension>
     Public Function SubcellularLocation(uniprot As IEnumerable(Of entry)) As Background
         Dim locations = uniprot _
@@ -94,17 +107,18 @@ Public Module UniProtModel
     End Function
 
     <Extension>
-    Private Function uniprotGeneModel(protein As entry) As BackgroundGene
+    Friend Function uniprotGeneModel(protein As entry) As BackgroundGene
         Dim dbxref = protein.dbReferences _
             .Where(Function(id)
                        Return id.type Like xrefDbNames
                    End Function) _
             .Select(Function(i) i.id) _
+            .Distinct _
             .ToArray
 
         Return New BackgroundGene With {
             .accessionID = protein.accessions.First,
-            .[alias] = protein.accessions,
+            .[alias] = protein.accessions.JoinIterates(dbxref).ToArray,
             .locus_tag = protein.proteinLocusTag(.accessionID),
             .name = protein.name,
             .term_id = dbxref

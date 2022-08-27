@@ -166,14 +166,11 @@ Public Module [Imports]
         End With
     End Function
 
-    Private Function createGene(protein As entry, terms As String()) As BackgroundGene
-        Return New BackgroundGene With {
-            .accessionID = protein.accessions(Scan0),
-            .[alias] = protein.accessions,
-            .name = protein.name,
-            .locus_tag = protein.proteinLocusTag(.accessionID),
-            .term_id = terms
-        }
+    <Extension>
+    Friend Function createGene(protein As entry, terms As String()) As BackgroundGene
+        Dim gene = protein.uniprotGeneModel
+        gene.term_id = terms
+        Return gene
     End Function
 
     <Extension>
