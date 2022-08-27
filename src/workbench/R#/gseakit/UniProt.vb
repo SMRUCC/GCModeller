@@ -45,7 +45,10 @@ Module UniProt
     End Function
 
     <ExportAPI("keyword_profiles")>
-    Public Function keywordsProfiles(enrichment As EnrichmentResult(), keywords As dataframe) As CatalogProfiles
+    Public Function keywordsProfiles(enrichment As EnrichmentResult(),
+                                     keywords As dataframe,
+                                     Optional top As Integer = 4) As CatalogProfiles
+
         Dim catalogs As New Dictionary(Of String, CatalogProfile)
         Dim id As String() = keywords("Keyword ID")
         Dim Category As String() = keywords("Category")
@@ -60,16 +63,29 @@ Module UniProt
             id = group.Select(Function(i) i.Item2).ToArray
             profile = id _
                 .Where(Function(a) enrich.ContainsKey(a)) _
+                .OrderBy(Function(a) enrich(a).pvalue) _
+                .Take(top) _
                 .Select(Function(a)
                             Return New NamedValue(Of Double) With {
-                                .Name = a,
+                                .Name = $"{a}: {enrich(a).name}",
                                 .Value = -stdNum.Log10(enrich(a).pvalue),
                                 .Description = enrich(a).name
                             }
                         End Function) _
                 .ToArray
 
-            catalogs.Add(group.Key, New CatalogProfile(data:=profile))
+            If profile.Length > 0 Then
+                Dim max = profile.Select(Function(a) a.Value).Where(Function(pi) Not pi.IsNaNImaginary).ToArray
+
+                If max.Length = 0 Then
+                    max = {100}
+                Else
+                    max = {max.Max}
+                End If
+
+                profile = profile.Select(Function(a) New NamedValue(Of Double)(a.Name, If(a.Value.IsNaNImaginary, max(0), a.Value))).ToArray
+                catalogs.Add(group.Key, New CatalogProfile(data:=profile))
+            End If
         Next
 
         Return New CatalogProfiles With {
