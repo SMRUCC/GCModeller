@@ -137,7 +137,7 @@ Public Module UniProtModel
                 .Select(Function(l) l.locations) _
                 .IteratesALL
 
-                Yield New NamedValue(Of BackgroundGene)(location.value)
+                Yield New NamedValue(Of BackgroundGene)(location.value, gene)
             Next
         End If
     End Function
