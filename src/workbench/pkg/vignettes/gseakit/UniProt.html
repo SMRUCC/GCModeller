@@ -4,7 +4,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
-    <title>network</title>
+    <title>UniProt</title>
     <meta name="author" content="xie.guigang@gcmodeller.org" />
     <meta name="copyright" content="SMRUCC genomics Copyright (c) 2020" />
     <meta name="keywords" content="GCModeller; Xanthomonas; Artificial Life" />
@@ -21,39 +21,36 @@
     <meta class="foundation-mq-topbar" />
   </head>
   <body>
-    <table width="100%" summary="page for {network}">
+    <table width="100%" summary="page for {UniProt}">
       <tbody>
         <tr>
-          <td>{network}</td>
+          <td>{UniProt}</td>
           <td style="text-align: right;">R# Documentation</td>
         </tr>
       </tbody>
     </table>
-    <h1>network</h1>
+    <h1>UniProt</h1>
     <hr />
     <p></p>
     <div id="main-wrapper">
                            <div>
-  <h2 id="fromCompounds">
-    <a href="./network/fromCompounds.html">fromCompounds</a>
+  <h2 id="subcellular_location">
+    <a href="./UniProt/subcellular_location.html">subcellular_location</a>
   </h2>
   <hr />
   <p>
                       
                 
-                    <pre><p>let <code>fromCompounds</code> as function(<code>compoundsId</code> as string, 
-<code>graph</code> as <generic> Reaction[], 
-<code>compounds</code> as <generic> CompoundRepository = <code>&lt;NULL&gt;</code>, 
-<code>enzymeBridged</code> as boolean = TRUE) -> <code>&lt;generic&gt; NetworkGraph</code> {
+                    <pre><p>let <code>subcellular_location</code> as function(<code>uniprot</code> as any, [<code>&lt;Environment&gt;</code>]) -> <code>&lt;generic&gt; Background</code> {
     #
     # .NET API information
     #
-    # module: kegg_kit.network
+    # module: gseakit.UniProt
     # LibPath: E:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: kegg_kit.dll
-    # package: "network"
+    # library: gseakit.dll
+    # package: "UniProt"
     #
-    return call <code>R&#35;.interop_[network::fromCompoundId]</code>(...);
+    return call <code>R&#35;.interop_[UniProt::SubcellularLocation]</code>(...);
 }</p></pre>
 
                     
@@ -62,34 +59,51 @@
 
                     <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
 </div><br /><div>
-  <h2 id="assignKeggClass">
-    <a href="./network/assignKeggClass.html">assignKeggClass</a>
+  <h2 id="uniprot_keywords">
+    <a href="./UniProt/uniprot_keywords.html">uniprot_keywords</a>
   </h2>
   <hr />
   <p>
-                    <p>assign kegg class to the graph nodes</p>  
+                      
                 
-                    <pre><p>let <code>assignKeggClass</code> as function(<code>g</code> as <generic> NetworkGraph) -> <code>&lt;generic&gt; NetworkGraph</code> {
+                    <pre><p>let <code>uniprot_keywords</code> as function(<code>uniprot</code> as any, [<code>&lt;Environment&gt;</code>]) -> <code>&lt;generic&gt; Background</code> {
     #
     # .NET API information
     #
-    # module: kegg_kit.network
+    # module: gseakit.UniProt
     # LibPath: E:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: kegg_kit.dll
-    # package: "network"
+    # library: gseakit.dll
+    # package: "UniProt"
     #
-    return call <code>R&#35;.interop_[network::assignKeggClass]</code>(...);
+    return call <code>R&#35;.interop_[UniProt::uniprotKeywords]</code>(...);
 }</p></pre>
 
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>g</code>: a network graph data model, with nodes label id must <br />
- be the kegg pathway id and compounds id or kegg KO id
-                </li>
-                </ul>
-</div>
+                    
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="keyword_profiles">
+    <a href="./UniProt/keyword_profiles.html">keyword_profiles</a>
+  </h2>
+  <hr />
+  <p>
+                      
+                
+                    <pre><p>let <code>keyword_profiles</code> as function(<code>enrichment</code> as <generic> EnrichmentResult[], <code>keywords</code> as <generic> dataframe, <code>top</code> as integer = 4) -> <code>&lt;generic&gt; CatalogProfiles</code> {
+    #
+    # .NET API information
+    #
+    # module: gseakit.UniProt
+    # LibPath: E:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: gseakit.dll
+    # package: "UniProt"
+    #
+    return call <code>R&#35;.interop_[UniProt::keywordsProfiles]</code>(...);
+}</p></pre>
+
+                    
                        
                     
 
