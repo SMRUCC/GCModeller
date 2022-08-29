@@ -256,43 +256,6 @@ Public Module GSEABackground
         Return background
     End Function
 
-    <Extension>
-    Private Function KO_category(category As BriteHText) As IEnumerable(Of Cluster)
-        Return category.categoryItems _
-            .SafeQuery _
-            .Select(Function(subtype)
-                        Return subtype.categoryItems _
-                            .SafeQuery _
-                            .Select(Function(pathway)
-                                        Return New Cluster With {
-                                            .ID = "map" & pathway.entryID,
-                                            .description = pathway _
-                                                .ToString _
-                                                .Replace("[BR:ko]", "") _
-                                                .Replace("[PATH:ko]", "") _
-                                                .Trim,
-                                            .names = pathway.description _
-                                                .Replace("[BR:ko]", "") _
-                                                .Replace("[PATH:ko]", "") _
-                                                .Trim,
-                                            .members = pathway.categoryItems _
-                                                .SafeQuery _
-                                                .Select(Function(ko)
-                                                            Return New BackgroundGene With {
-                                                                .accessionID = ko.entryID,
-                                                                .[alias] = {ko.entryID},
-                                                                .locus_tag = New NamedValue With {.name = ko.entryID, .text = ko.description},
-                                                                .name = ko.description,
-                                                                .term_id = {ko.entryID}
-                                                            }
-                                                        End Function) _
-                                                .ToArray
-                                        }
-                                    End Function)
-                    End Function) _
-            .IteratesALL
-    End Function
-
     <ExportAPI("KO_reference")>
     Public Function CreateKOReference() As Background
         Dim ko00001 = htext.ko00001.Hierarchical.categoryItems
