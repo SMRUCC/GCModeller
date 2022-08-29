@@ -121,8 +121,9 @@ Module GSEA
             list:=geneSet,
             outputAll:=outputAll,
             showProgress:=showProgress
-        ).OrderBy(Function(a) a.pvalue) _
-         .ToArray
+        ).FDRCorrection _
+        .OrderBy(Function(e) e.FDR) _
+        .ToArray
     End Function
 
     ''' <summary>
@@ -221,14 +222,6 @@ Module GSEA
         Else
             Return Internal.debug.stop(New InvalidProgramException(enrichment.GetType.FullName), env)
         End If
-    End Function
-
-    <ExportAPI("enrichment.FDR")>
-    Public Function FDR(enrichment As EnrichmentResult()) As EnrichmentResult()
-        Return enrichment _
-            .FDRCorrection _
-            .OrderBy(Function(e) e.FDR) _
-            .ToArray
     End Function
 
     ''' <summary>
