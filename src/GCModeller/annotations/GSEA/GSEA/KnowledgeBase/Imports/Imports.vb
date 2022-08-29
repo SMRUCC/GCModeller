@@ -158,36 +158,12 @@ Public Module [Imports]
             Return .CreateBackground(
                 getTerms:=getTerm,
                 define:=define,
-                createGene:=AddressOf createGene,
+                createGene:=AddressOf uniprotGeneModel,
                 genomeName:=genomeName,
                 taxonomy:=taxonomy,
                 outputAll:=outputAll
             )
         End With
-    End Function
-
-    Private Function createGene(protein As entry, terms As String()) As BackgroundGene
-        Return New BackgroundGene With {
-            .accessionID = protein.accessions(Scan0),
-            .[alias] = protein.accessions,
-            .name = protein.name,
-            .locus_tag = protein.proteinLocusTag(.accessionID),
-            .term_id = terms
-        }
-    End Function
-
-    <Extension>
-    Private Function proteinLocusTag(protein As entry, accessionID$) As NamedValue
-        Dim tag$ = accessionID
-
-        If protein.xrefs.ContainsKey("KEGG") Then
-            tag = protein.xrefs("KEGG").First.id
-        End If
-
-        Return New NamedValue With {
-            .name = tag,
-            .text = protein.protein.fullName
-        }
     End Function
 
     <Extension>

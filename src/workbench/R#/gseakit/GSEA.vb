@@ -73,7 +73,7 @@ Imports REnv = SMRUCC.Rsharp.Runtime
 <Package("GSEA", Category:=APICategories.ResearchTools)>
 Module GSEA
 
-    Sub New()
+    Sub Main()
         Internal.Object.Converts.makeDataframe.addHandler(GetType(EnrichmentResult()), AddressOf enrichmentTable)
     End Sub
 
