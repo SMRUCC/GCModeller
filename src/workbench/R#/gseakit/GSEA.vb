@@ -121,8 +121,9 @@ Module GSEA
             list:=geneSet,
             outputAll:=outputAll,
             showProgress:=showProgress
-        ).OrderBy(Function(a) a.pvalue) _
-         .ToArray
+        ).FDRCorrection _
+        .OrderBy(Function(e) e.FDR) _
+        .ToArray
     End Function
 
     ''' <summary>
@@ -223,14 +224,6 @@ Module GSEA
         End If
     End Function
 
-    <ExportAPI("enrichment.FDR")>
-    Public Function FDR(enrichment As EnrichmentResult()) As EnrichmentResult()
-        Return enrichment _
-            .FDRCorrection _
-            .OrderBy(Function(e) e.FDR) _
-            .ToArray
-    End Function
-
     ''' <summary>
     ''' Convert GSEA enrichment result from GCModeller output format to KOBAS output format
     ''' </summary>
@@ -278,6 +271,29 @@ Module GSEA
         Dim image As GraphicsData = EnrichmentVisualize.DrawGraph(dag)
 
         Return image
+    End Function
+
+    <ExportAPI("cast_enrichs")>
+    Public Function CreateEnrichmentObjects(term As String(),
+                                            name As String(),
+                                            pvalue As Double(),
+                                            geneIDs As list,
+                                            Optional desc As String() = Nothing,
+                                            Optional score As Double() = Nothing,
+                                            Optional fdr As Double() = Nothing,
+                                            Optional cluster As Integer() = Nothing,
+                                            Optional enriched As String() = Nothing,
+                                            Optional env As Environment = Nothing) As EnrichmentResult()
+        Return term _
+            .Select(Function(id, i)
+                        Return New EnrichmentResult With {
+                            .term = id,
+                            .name = name(i),
+                            .pvalue = pvalue(i),
+                            .geneIDs = geneIDs.getValue(Of String())(id, env)
+                        }
+                    End Function) _
+            .ToArray
     End Function
 End Module
 
