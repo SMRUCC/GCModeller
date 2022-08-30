@@ -49,6 +49,7 @@ Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text.Xml.Models
+Imports SMRUCC.genomics.Analysis.GO
 Imports SMRUCC.genomics.Analysis.HTS.GSEA
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
@@ -80,6 +81,11 @@ Public Module GSEABackground
         Call summary.AppendLine($"background_size: {x.size}")
 
         Return summary.ToString
+    End Function
+
+    <ExportAPI("meta_background")>
+    Public Function MetaEnrichBackground(enrich As EnrichmentResult(), graphQuery As GraphQuery) As Object
+        Return enrich.CastBackground(graphQuery)
     End Function
 
     ''' <summary>
