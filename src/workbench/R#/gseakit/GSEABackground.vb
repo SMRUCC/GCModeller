@@ -82,6 +82,11 @@ Public Module GSEABackground
         Return summary.ToString
     End Function
 
+    <ExportAPI("meta_background")>
+    Public Function MetaEnrichBackground(enrich As EnrichmentResult(), graphQuery As GraphQuery) As Object
+        Return enrich.CastBackground(graphQuery)
+    End Function
+
     ''' <summary>
     ''' create gsea background from a given obo ontology file data.
     ''' </summary>

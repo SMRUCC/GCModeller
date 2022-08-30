@@ -228,31 +228,6 @@
 
                     <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
 </div><br /><div>
-  <h2 id="enrichment.FDR">
-    <a href="./GSEA/enrichment.FDR.html">enrichment.FDR</a>
-  </h2>
-  <hr />
-  <p>
-                      
-                
-                    <pre><p>let <code>enrichment.FDR</code> as function(<code>enrichment</code> as <generic> EnrichmentResult[]) -> <code>&lt;generic&gt; EnrichmentResult[]</code> {
-    #
-    # .NET API information
-    #
-    # module: gseakit.GSEA
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: gseakit.dll
-    # package: "GSEA"
-    #
-    return call <code>R&#35;.interop_[GSEA::FDR]</code>(...);
-}</p></pre>
-
-                    
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
   <h2 id="as.KOBAS_terms">
     <a href="./GSEA/as.KOBAS_terms.html">as.KOBAS_terms</a>
   </h2>
@@ -340,6 +315,40 @@
     # package: "GSEA"
     #
     return call <code>R&#35;.interop_[GSEA::DrawGOEnrichmentGraph]</code>(...);
+}</p></pre>
+
+                    
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="cast_enrichs">
+    <a href="./GSEA/cast_enrichs.html">cast_enrichs</a>
+  </h2>
+  <hr />
+  <p>
+                      
+                
+                    <pre><p>let <code>cast_enrichs</code> as function(<code>term</code> as string, 
+<code>name</code> as string, 
+<code>pvalue</code> as double, 
+<code>geneIDs</code> as list, 
+<code>desc</code> as string = <code>&lt;NULL&gt;</code>, 
+<code>score</code> as double = <code>&lt;NULL&gt;</code>, 
+<code>fdr</code> as double = <code>&lt;NULL&gt;</code>, 
+<code>cluster</code> as integer = <code>&lt;NULL&gt;</code>, 
+<code>enriched</code> as string = <code>&lt;NULL&gt;</code>, 
+[<code>&lt;Environment&gt;</code>]) -> <code>&lt;generic&gt; EnrichmentResult[]</code> {
+    #
+    # .NET API information
+    #
+    # module: gseakit.GSEA
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: gseakit.dll
+    # package: "GSEA"
+    #
+    return call <code>R&#35;.interop_[GSEA::CreateEnrichmentObjects]</code>(...);
 }</p></pre>
 
                     
