@@ -8,4 +8,13 @@
     <AssemblyName>SMRUCC.genomics.Analysis.HTS.GSEA.Core</AssemblyName>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Graph\graph-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+    <ProjectReference Include="..\..\..\core\Bio.Assembly\biocore-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\data\GO_gene-ontology\GeneOntology\go_owl-netcore5.vbproj" />
+    <ProjectReference Include="..\FisherCore\Fisher.NET5.vbproj" />
+    <ProjectReference Include="..\GSEA\gsea-netcore5.vbproj" />
+  </ItemGroup>
+
 </Project>
