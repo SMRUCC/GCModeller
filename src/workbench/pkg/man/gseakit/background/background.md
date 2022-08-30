@@ -2,6 +2,7 @@
 
 tools for handling GSEA background model.
 
++ [meta_background](background/meta_background.1) 
 + [dag.background](background/dag.background.1) create gsea background from a given obo ontology file data.
 + [read.background](background/read.background.1) Load GSEA background model from a xml file.
 + [write.background](background/write.background.1) Save GSEA background model as xml file

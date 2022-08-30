@@ -48,6 +48,7 @@
     <ProjectReference Include="..\..\data\GO_gene-ontology\obographs\obographs\obographs.NET5.vbproj" />
     <ProjectReference Include="..\..\foundation\OBO_Foundry\obo_foundry-netcore5.vbproj" />
     <ProjectReference Include="..\..\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj" />
+    <ProjectReference Include="..\GSEA\FisherCore\Fisher.NET5.vbproj" />
     <ProjectReference Include="..\GSEA\GSEA\gsea-netcore5.vbproj" />
   </ItemGroup>
 
