@@ -10,7 +10,7 @@
     <meta name="keywords" content="GCModeller; Xanthomonas; Artificial Life" />
     <meta name="generator" content="https://github.com/xieguigang/xDoc" />
     <meta name="theme-color" content="#333" />
-    <meta name="last-update" content="2022-09-04" />
+    <meta name="last-update" content="2022-09-05" />
     <meta name="description" content="A software system aim at Artificial Life system design and analysis." />
     <meta class="foundation-data-attribute-namespace" />
     <meta class="foundation-mq-xxlarge" />
@@ -34,6 +34,113 @@
     <p></p>
     <div id="main-wrapper">
                            <div>
+  <h2 id="tr">
+    <a href="./geneExpression/tr.html">tr</a>
+  </h2>
+  <hr />
+  <p>
+                    <p>do matrix transpose</p>  
+                
+                    <pre><p>let <code>tr</code> as function(<code>mat</code> as <generic> Matrix) -> <code>&lt;generic&gt; Matrix</code> {
+    #
+    # .NET API information
+    #
+    # module: phenotype_kit.geneExpression
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: phenotype_kit.dll
+    # package: "geneExpression"
+    #
+    return call <code>R&#35;.interop_[geneExpression::tr]</code>(...);
+}</p></pre>
+
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>mat</code>: -
+                </li>
+                </ul>
+</div>
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="dims">
+    <a href="./geneExpression/dims.html">dims</a>
+  </h2>
+  <hr />
+  <p>
+                      
+                
+                    <pre><p>let <code>dims</code> as function(<code>mat</code> as <generic> Matrix) -> <code>list</code> {
+    #
+    # .NET API information
+    #
+    # module: phenotype_kit.geneExpression
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: phenotype_kit.dll
+    # package: "geneExpression"
+    #
+    return call <code>R&#35;.interop_[geneExpression::dims]</code>(...);
+}</p></pre>
+
+                    
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="as.expr_list">
+    <a href="./geneExpression/as.expr_list.html">as.expr_list</a>
+  </h2>
+  <hr />
+  <p>
+                      
+                
+                    <pre><p>let <code>as.expr_list</code> as function(<code>expr0</code> as <generic> Matrix) -> <code>list</code> {
+    #
+    # .NET API information
+    #
+    # module: phenotype_kit.geneExpression
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: phenotype_kit.dll
+    # package: "geneExpression"
+    #
+    return call <code>R&#35;.interop_[geneExpression::createVectorList]</code>(...);
+}</p></pre>
+
+                    
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="setZero">
+    <a href="./geneExpression/setZero.html">setZero</a>
+  </h2>
+  <hr />
+  <p>
+                      
+                
+                    <pre><p>let <code>setZero</code> as function(<code>expr0</code> as <generic> Matrix, <code>q</code> as double = 0.1) -> <code>&lt;generic&gt; Matrix</code> {
+    #
+    # .NET API information
+    #
+    # module: phenotype_kit.geneExpression
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: phenotype_kit.dll
+    # package: "geneExpression"
+    #
+    return call <code>R&#35;.interop_[geneExpression::setZero]</code>(...);
+}</p></pre>
+
+                    
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
   <h2 id="filterZeroSamples">
     <a href="./geneExpression/filterZeroSamples.html">filterZeroSamples</a>
   </h2>
@@ -193,7 +300,7 @@
   </h2>
   <hr />
   <p>
-                      
+                    <p>Filter the geneID rows</p>  
                 
                     <pre><p>let <code>filter</code> as function(<code>HTS</code> as <generic> Matrix, <code>geneId</code> as string, <code>exclude</code> as boolean = FALSE) -> <code>&lt;generic&gt; Matrix</code> {
     #
