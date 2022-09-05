@@ -54,6 +54,7 @@ Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Distributions
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports Microsoft.VisualBasic.Math.Quantile
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.HTS.Proteomics
@@ -152,6 +153,22 @@ Module geneExpression
                                   Return CObj(a.experiments)
                               End Function)
         }
+    End Function
+
+    <ExportAPI("setZero")>
+    Public Function setZero(expr0 As Matrix, Optional q As Double = 0.1) As Matrix
+        For Each gene As DataFrameRow In expr0.expression
+            Dim qk = gene.experiments.GKQuantile
+            Dim qcut As Double = qk.Query(q)
+
+            For i As Integer = 0 To gene.experiments.Length - 1
+                If gene.experiments(i) <= qcut Then
+                    gene.experiments(i) = 0
+                End If
+            Next
+        Next
+
+        Return expr0
     End Function
 
     ''' <summary>
