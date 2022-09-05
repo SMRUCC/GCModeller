@@ -173,6 +173,23 @@ Module geneExpression
         Return expr0
     End Function
 
+    <ExportAPI("setFeatures")>
+    <RApiReturn(GetType(Matrix))>
+    Public Function setGeneIDs(expr0 As Matrix,
+                               gene_ids As String(),
+                               Optional env As Environment = Nothing) As Object
+
+        If expr0.expression.Length <> gene_ids.Length Then
+            Return Internal.debug.stop({$"dimension({expr0.expression.Length} genes) of the matrix feature must be equals to the dimension({gene_ids.Length} names) of the name vector!"}, env)
+        End If
+
+        For i As Integer = 0 To gene_ids.Length - 1
+            expr0.expression(i).geneID = gene_ids(i)
+        Next
+
+        Return expr0
+    End Function
+
     ''' <summary>
     ''' filter out all samples columns which its expression vector is ZERO!
     ''' </summary>
