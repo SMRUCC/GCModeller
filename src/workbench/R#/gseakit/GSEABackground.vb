@@ -262,6 +262,10 @@ Public Module GSEABackground
         Return background
     End Function
 
+    ''' <summary>
+    ''' gene/protein KO id background
+    ''' </summary>
+    ''' <returns></returns>
     <ExportAPI("KO_reference")>
     Public Function CreateKOReference() As Background
         Dim ko00001 = htext.ko00001.Hierarchical.categoryItems
@@ -299,8 +303,8 @@ Public Module GSEABackground
     Private Function compoundCluster(map As MapIndex) As Cluster
         Return New Cluster With {
             .description = map.description,
-            .ID = map.id,
-            .names = map.Name,
+            .ID = If(map.id.IsPattern("\d+"), $"map{map.id}", map.id),
+            .names = map.Name.Replace(" - Reference pathway", ""),
             .members = map.shapes _
                 .Select(Function(a) a.IDVector) _
                 .IteratesALL _
