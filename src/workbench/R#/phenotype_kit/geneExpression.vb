@@ -124,6 +124,37 @@ Module geneExpression
     End Function
 
     ''' <summary>
+    ''' do matrix transpose
+    ''' </summary>
+    ''' <param name="mat"></param>
+    ''' <returns></returns>
+    <ExportAPI("tr")>
+    Public Function tr(mat As Matrix) As Matrix
+        Return mat.T
+    End Function
+
+    <ExportAPI("dims")>
+    Public Function dims(mat As Matrix) As list
+        Return New list With {
+            .slots = New Dictionary(Of String, Object) From {
+                {"features", mat.expression.Length},
+                {"samples", mat.sampleID.Length}
+            }
+        }
+    End Function
+
+    <ExportAPI("as.expr_list")>
+    Public Function createVectorList(expr0 As Matrix) As list
+        Return New list With {
+            .slots = expr0.expression _
+                .ToDictionary(Function(a) a.geneID,
+                              Function(a)
+                                  Return CObj(a.experiments)
+                              End Function)
+        }
+    End Function
+
+    ''' <summary>
     ''' filter out all samples columns which its expression vector is ZERO!
     ''' </summary>
     ''' <param name="mat"></param>
@@ -208,7 +239,7 @@ Module geneExpression
     End Function
 
     ''' <summary>
-    ''' 
+    ''' Filter the geneID rows
     ''' </summary>
     ''' <param name="HTS"></param>
     ''' <param name="geneId"></param>
