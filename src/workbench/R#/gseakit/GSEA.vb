@@ -181,9 +181,17 @@ Module GSEA
                 list:=geneSet,
                 goClusters:=New DAG.Graph(DirectCast(go, GO_OBO).AsEnumerable),
                 showProgress:=showProgress
-            ).ToArray
+            ).ToArray _
+             .FDRCorrection _
+             .OrderBy(Function(e) e.FDR) _
+             .ToArray
         ElseIf go.GetType Is GetType(DAG.Graph) Then
-            Return background.Enrichment(geneSet, DirectCast(go, DAG.Graph), showProgress:=showProgress).ToArray
+            Return background _
+                .Enrichment(geneSet, DirectCast(go, DAG.Graph), showProgress:=showProgress) _
+                .ToArray _
+                .FDRCorrection _
+                .OrderBy(Function(e) e.FDR) _
+                .ToArray
         Else
             Return Internal.debug.stop(New InvalidProgramException(go.GetType.FullName), env)
         End If
