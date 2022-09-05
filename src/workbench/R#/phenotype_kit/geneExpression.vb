@@ -138,8 +138,10 @@ Module geneExpression
     Public Function dims(mat As Matrix) As list
         Return New list With {
             .slots = New Dictionary(Of String, Object) From {
-                {"features", mat.expression.Length},
-                {"samples", mat.sampleID.Length}
+                {"feature_size", mat.expression.Length},
+                {"feature_names", mat.rownames},
+                {"sample_size", mat.sampleID.Length},
+                {"sample_names", mat.sampleID}
             }
         }
     End Function
