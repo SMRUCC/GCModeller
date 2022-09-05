@@ -44,6 +44,7 @@
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Linq
@@ -329,8 +330,19 @@ Public Module GSEABackground
     ''' <param name="kegg"></param>
     ''' <returns></returns>
     <ExportAPI("metabolism.background")>
-    Public Function metabolismBackground(kegg As MapRepository) As Background
+    Public Function metabolismBackground(kegg As MapRepository, Optional filter As String() = Nothing) As Background
+        Dim mapIdFilter As Index(Of String) = filter _
+            .SafeQuery _
+            .Select(Function(id) id.Match("\d+")) _
+            .Indexing
         Dim clusters As Cluster() = kegg.Maps _
+            .Where(Function(map)
+                       If mapIdFilter.Count > 0 Then
+                           Return map.id.Match("\d+") Like mapIdFilter
+                       Else
+                           Return True
+                       End If
+                   End Function) _
             .Select(Function(map)
                         Return map.compoundCluster
                     End Function) _
