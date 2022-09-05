@@ -207,8 +207,8 @@ Public Module GSEABackground
         Dim namevec As String() = asVector(Of String)(data.columns(name))
         Dim cluster As New Cluster With {
             .ID = clusterId,
-            .description = desc,
-            .names = clusterName,
+            .description = desc.TrimNewLine().StringReplace("\s{2,}", " "),
+            .names = clusterName.TrimNewLine().StringReplace("\s{2,}", " "),
             .members = idvec _
                 .Select(Function(idstr, i)
                             Return New BackgroundGene With {
@@ -230,7 +230,7 @@ Public Module GSEABackground
 
     <ExportAPI("as.background")>
     <RApiReturn(GetType(Background))>
-    Public Function assembleBackground(clusters As Object,
+    Public Function assembleBackground(<RRawVectorArgument> clusters As Object,
                                        Optional background_size% = -1,
                                        Optional name$ = "n/a",
                                        Optional tax_id$ = "n/a",
