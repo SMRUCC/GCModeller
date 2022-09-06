@@ -84,6 +84,11 @@ Public Module GSEABackground
         Return summary.ToString
     End Function
 
+    <ExportAPI("clusterIDs")>
+    Public Function clusterIDs(background As Background) As String()
+        Return background.clusters.Select(Function(a) a.ID).ToArray
+    End Function
+
     <ExportAPI("meta_background")>
     Public Function MetaEnrichBackground(enrich As EnrichmentResult(), graphQuery As GraphQuery) As Object
         Return enrich.CastBackground(graphQuery)

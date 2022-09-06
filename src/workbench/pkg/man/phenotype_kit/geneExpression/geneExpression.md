@@ -6,6 +6,7 @@ the gene expression matrix data toolkit
 + [dims](geneExpression/dims.1) 
 + [as.expr_list](geneExpression/as.expr_list.1) 
 + [setZero](geneExpression/setZero.1) 
++ [setFeatures](geneExpression/setFeatures.1) 
 + [filterZeroSamples](geneExpression/filterZeroSamples.1) filter out all samples columns which its expression vector is ZERO!
 + [load.expr](geneExpression/load.expr.1) load an expressin matrix data
 + [load.expr0](geneExpression/load.expr0.1) read the binary matrix data file

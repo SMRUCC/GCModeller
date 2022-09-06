@@ -10,7 +10,7 @@
     <meta name="keywords" content="GCModeller; Xanthomonas; Artificial Life" />
     <meta name="generator" content="https://github.com/xieguigang/xDoc" />
     <meta name="theme-color" content="#333" />
-    <meta name="last-update" content="2022-09-05" />
+    <meta name="last-update" content="2022-09-06" />
     <meta name="description" content="A software system aim at Artificial Life system design and analysis." />
     <meta class="foundation-data-attribute-namespace" />
     <meta class="foundation-mq-xxlarge" />
@@ -34,6 +34,31 @@
     <p></p>
     <div id="main-wrapper">
                            <div>
+  <h2 id="clusterIDs">
+    <a href="./background/clusterIDs.html">clusterIDs</a>
+  </h2>
+  <hr />
+  <p>
+                      
+                
+                    <pre><p>let <code>clusterIDs</code> as function(<code>background</code> as <generic> Background) -> <code>string</code> {
+    #
+    # .NET API information
+    #
+    # module: gseakit.GSEABackground
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: gseakit.dll
+    # package: "background"
+    #
+    return call <code>R&#35;.interop_[GSEABackground::clusterIDs]</code>(...);
+}</p></pre>
+
+                    
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
   <h2 id="meta_background">
     <a href="./background/meta_background.html">meta_background</a>
   </h2>
@@ -346,7 +371,7 @@
   </h2>
   <hr />
   <p>
-                      
+                    <p>gene/protein KO id background</p>  
                 
                     <pre><p>let <code>KO_reference</code> as function() -> <code>&lt;generic&gt; Background</code> {
     #
@@ -398,7 +423,7 @@
   <p>
                     <p>create kegg maps background for the metabolism data analysis</p>  
                 
-                    <pre><p>let <code>metabolism.background</code> as function(<code>kegg</code> as <generic> MapRepository) -> <code>&lt;generic&gt; Background</code> {
+                    <pre><p>let <code>metabolism.background</code> as function(<code>kegg</code> as <generic> MapRepository, <code>filter</code> as string = <code>&lt;NULL&gt;</code>) -> <code>&lt;generic&gt; Background</code> {
     #
     # .NET API information
     #
