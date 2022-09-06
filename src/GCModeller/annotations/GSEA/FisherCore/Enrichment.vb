@@ -67,6 +67,7 @@ Public Module Enrichment
     <Extension>
     Public Iterator Function Enrichment(genome As Background,
                                         list As IEnumerable(Of String),
+                                        Optional resize As Integer = -1,
                                         Optional outputAll As Boolean = False,
                                         Optional isLocustag As Boolean = False,
                                         Optional showProgress As Boolean = True,
@@ -105,12 +106,14 @@ Public Module Enrichment
         End If
 
         With list.ToArray
+            Dim input_size As Integer = If(resize > 0, resize, .Length)
+
             For Each cluster As Cluster In genome.clusters
                 Dim enriched$() = cluster.Intersect(.ByRef, isLocustag).ToArray
 
                 Call doProgress(cluster.names)
 
-                If Not (termResult = cluster.calcResult(enriched, .Length, genes, outputAll)) Is Nothing Then
+                If Not (termResult = cluster.calcResult(enriched, input_size, genes, outputAll)) Is Nothing Then
                     Yield termResult
                 End If
             Next

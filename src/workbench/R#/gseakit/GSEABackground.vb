@@ -176,10 +176,40 @@ Public Module GSEABackground
         Return data
     End Function
 
+    ''' <summary>
+    ''' get an intersection id list between the background
+    ''' model and the given gene id list.
+    ''' </summary>
+    ''' <param name="cluster">
+    ''' A gene cluster model or gsea background model object.
+    ''' </param>
+    ''' <param name="geneSet"></param>
+    ''' <param name="isLocusTag"></param>
+    ''' <returns></returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <ExportAPI("geneSet.intersects")>
-    Public Function ClusterIntersections(cluster As Cluster, geneSet$(), Optional isLocusTag As Boolean = False) As String()
-        Return cluster.Intersect(geneSet, isLocusTag).ToArray
+    <RApiReturn(GetType(String))>
+    Public Function ClusterIntersections(cluster As Object, geneSet$(),
+                                         Optional isLocusTag As Boolean = False,
+                                         Optional env As Environment = Nothing) As Object
+        If cluster Is Nothing Then
+            Return Nothing
+        End If
+        If TypeOf cluster Is Cluster Then
+            Return DirectCast(cluster, Cluster) _
+                .Intersect(geneSet, isLocusTag) _
+                .ToArray
+        ElseIf TypeOf cluster Is Background Then
+            Return DirectCast(cluster, Background).clusters _
+                .Select(Function(c)
+                            Return c.Intersect(geneSet, isLocusTag)
+                        End Function) _
+                .IteratesALL _
+                .Distinct _
+                .ToArray
+        Else
+            Return Message.InCompatibleType(GetType(Background), cluster.GetType, env)
+        End If
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
