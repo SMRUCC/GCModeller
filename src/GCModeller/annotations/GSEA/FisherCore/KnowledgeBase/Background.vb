@@ -72,6 +72,14 @@ Public Class Background : Inherits XmlDataModel
     <XmlElement>
     Public Property clusters As Cluster()
 
+    Default Public ReadOnly Property Item(id As String) As Cluster
+        Get
+            Return clusters _
+                .Where(Function(c) c.ID = id) _
+                .FirstOrDefault
+        End Get
+    End Property
+
     Public Function SubsetOf(predicate As Func(Of Cluster, Boolean)) As Background
         Return New Background With {
             .build = build,
