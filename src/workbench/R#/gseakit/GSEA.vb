@@ -116,12 +116,14 @@ Module GSEA
     Public Function Enrichment(background As Background,
                                geneSet$(),
                                Optional outputAll As Boolean = True,
+                               Optional resize As Integer = -1,
                                Optional showProgress As Boolean = False) As EnrichmentResult()
 
         Return background.Enrichment(
             list:=geneSet,
             outputAll:=outputAll,
-            showProgress:=showProgress
+            showProgress:=showProgress,
+            resize:=resize
         ).FDRCorrection _
         .OrderBy(Function(e) e.FDR) _
         .ToArray

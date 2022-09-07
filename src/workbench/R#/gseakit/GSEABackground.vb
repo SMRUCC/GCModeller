@@ -44,6 +44,7 @@
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Linq
@@ -81,6 +82,11 @@ Public Module GSEABackground
         Call summary.AppendLine($"background_size: {x.size}")
 
         Return summary.ToString
+    End Function
+
+    <ExportAPI("clusterIDs")>
+    Public Function clusterIDs(background As Background) As String()
+        Return background.clusters.Select(Function(a) a.ID).ToArray
     End Function
 
     <ExportAPI("meta_background")>
@@ -170,10 +176,40 @@ Public Module GSEABackground
         Return data
     End Function
 
+    ''' <summary>
+    ''' get an intersection id list between the background
+    ''' model and the given gene id list.
+    ''' </summary>
+    ''' <param name="cluster">
+    ''' A gene cluster model or gsea background model object.
+    ''' </param>
+    ''' <param name="geneSet"></param>
+    ''' <param name="isLocusTag"></param>
+    ''' <returns></returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <ExportAPI("geneSet.intersects")>
-    Public Function ClusterIntersections(cluster As Cluster, geneSet$(), Optional isLocusTag As Boolean = False) As String()
-        Return cluster.Intersect(geneSet, isLocusTag).ToArray
+    <RApiReturn(GetType(String))>
+    Public Function ClusterIntersections(cluster As Object, geneSet$(),
+                                         Optional isLocusTag As Boolean = False,
+                                         Optional env As Environment = Nothing) As Object
+        If cluster Is Nothing Then
+            Return Nothing
+        End If
+        If TypeOf cluster Is Cluster Then
+            Return DirectCast(cluster, Cluster) _
+                .Intersect(geneSet, isLocusTag) _
+                .ToArray
+        ElseIf TypeOf cluster Is Background Then
+            Return DirectCast(cluster, Background).clusters _
+                .Select(Function(c)
+                            Return c.Intersect(geneSet, isLocusTag)
+                        End Function) _
+                .IteratesALL _
+                .Distinct _
+                .ToArray
+        Else
+            Return Message.InCompatibleType(GetType(Background), cluster.GetType, env)
+        End If
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -207,8 +243,8 @@ Public Module GSEABackground
         Dim namevec As String() = asVector(Of String)(data.columns(name))
         Dim cluster As New Cluster With {
             .ID = clusterId,
-            .description = desc,
-            .names = clusterName,
+            .description = desc.TrimNewLine().StringReplace("\s{2,}", " "),
+            .names = clusterName.TrimNewLine().StringReplace("\s{2,}", " "),
             .members = idvec _
                 .Select(Function(idstr, i)
                             Return New BackgroundGene With {
@@ -230,7 +266,7 @@ Public Module GSEABackground
 
     <ExportAPI("as.background")>
     <RApiReturn(GetType(Background))>
-    Public Function assembleBackground(clusters As Object,
+    Public Function assembleBackground(<RRawVectorArgument> clusters As Object,
                                        Optional background_size% = -1,
                                        Optional name$ = "n/a",
                                        Optional tax_id$ = "n/a",
@@ -262,6 +298,10 @@ Public Module GSEABackground
         Return background
     End Function
 
+    ''' <summary>
+    ''' gene/protein KO id background
+    ''' </summary>
+    ''' <returns></returns>
     <ExportAPI("KO_reference")>
     Public Function CreateKOReference() As Background
         Dim ko00001 = htext.ko00001.Hierarchical.categoryItems
@@ -299,8 +339,8 @@ Public Module GSEABackground
     Private Function compoundCluster(map As MapIndex) As Cluster
         Return New Cluster With {
             .description = map.description,
-            .ID = map.id,
-            .names = map.Name,
+            .ID = If(map.id.IsPattern("\d+"), $"map{map.id}", map.id),
+            .names = map.Name.Replace(" - Reference pathway", ""),
             .members = map.shapes _
                 .Select(Function(a) a.IDVector) _
                 .IteratesALL _
@@ -325,8 +365,19 @@ Public Module GSEABackground
     ''' <param name="kegg"></param>
     ''' <returns></returns>
     <ExportAPI("metabolism.background")>
-    Public Function metabolismBackground(kegg As MapRepository) As Background
+    Public Function metabolismBackground(kegg As MapRepository, Optional filter As String() = Nothing) As Background
+        Dim mapIdFilter As Index(Of String) = filter _
+            .SafeQuery _
+            .Select(Function(id) id.Match("\d+")) _
+            .Indexing
         Dim clusters As Cluster() = kegg.Maps _
+            .Where(Function(map)
+                       If mapIdFilter.Count > 0 Then
+                           Return map.id.Match("\d+") Like mapIdFilter
+                       Else
+                           Return True
+                       End If
+                   End Function) _
             .Select(Function(map)
                         Return map.compoundCluster
                     End Function) _
