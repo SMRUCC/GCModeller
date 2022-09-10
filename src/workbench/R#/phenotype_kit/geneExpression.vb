@@ -54,6 +54,7 @@ Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Distributions
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports Microsoft.VisualBasic.Math.Quantile
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.HTS.Proteomics
@@ -121,6 +122,72 @@ Module geneExpression
         Next
 
         Return table
+    End Function
+
+    ''' <summary>
+    ''' do matrix transpose
+    ''' </summary>
+    ''' <param name="mat"></param>
+    ''' <returns></returns>
+    <ExportAPI("tr")>
+    Public Function tr(mat As Matrix) As Matrix
+        Return mat.T
+    End Function
+
+    <ExportAPI("dims")>
+    Public Function dims(mat As Matrix) As list
+        Return New list With {
+            .slots = New Dictionary(Of String, Object) From {
+                {"feature_size", mat.expression.Length},
+                {"feature_names", mat.rownames},
+                {"sample_size", mat.sampleID.Length},
+                {"sample_names", mat.sampleID}
+            }
+        }
+    End Function
+
+    <ExportAPI("as.expr_list")>
+    Public Function createVectorList(expr0 As Matrix) As list
+        Return New list With {
+            .slots = expr0.expression _
+                .ToDictionary(Function(a) a.geneID,
+                              Function(a)
+                                  Return CObj(a.experiments)
+                              End Function)
+        }
+    End Function
+
+    <ExportAPI("setZero")>
+    Public Function setZero(expr0 As Matrix, Optional q As Double = 0.1) As Matrix
+        For Each gene As DataFrameRow In expr0.expression
+            Dim qk = gene.experiments.GKQuantile
+            Dim qcut As Double = qk.Query(q)
+
+            For i As Integer = 0 To gene.experiments.Length - 1
+                If gene.experiments(i) <= qcut Then
+                    gene.experiments(i) = 0
+                End If
+            Next
+        Next
+
+        Return expr0
+    End Function
+
+    <ExportAPI("setFeatures")>
+    <RApiReturn(GetType(Matrix))>
+    Public Function setGeneIDs(expr0 As Matrix,
+                               gene_ids As String(),
+                               Optional env As Environment = Nothing) As Object
+
+        If expr0.expression.Length <> gene_ids.Length Then
+            Return Internal.debug.stop({$"dimension({expr0.expression.Length} genes) of the matrix feature must be equals to the dimension({gene_ids.Length} names) of the name vector!"}, env)
+        End If
+
+        For i As Integer = 0 To gene_ids.Length - 1
+            expr0.expression(i).geneID = gene_ids(i)
+        Next
+
+        Return expr0
     End Function
 
     ''' <summary>
@@ -208,7 +275,7 @@ Module geneExpression
     End Function
 
     ''' <summary>
-    ''' 
+    ''' Filter the geneID rows
     ''' </summary>
     ''' <param name="HTS"></param>
     ''' <param name="geneId"></param>
