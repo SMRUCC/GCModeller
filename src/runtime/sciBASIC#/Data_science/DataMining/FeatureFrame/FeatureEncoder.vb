@@ -16,6 +16,13 @@ Public Class FeatureEncoder
         encodings(field) = encoder
     End Sub
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="data">
+    ''' 不是所有的字段都需要进行编码操作的
+    ''' </param>
+    ''' <returns></returns>
     Public Function Encoding(data As DataFrame) As DataFrame
         For Each name As String In data.features.Keys.ToArray
             If Not encodings.ContainsKey(name) Then
