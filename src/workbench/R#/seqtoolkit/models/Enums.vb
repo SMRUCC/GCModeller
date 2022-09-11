@@ -31,6 +31,16 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 18
+    '    Code Lines: 13
+    ' Comment Lines: 3
+    '   Blank Lines: 2
+    '     File Size: 306 B
+
+
     ' Enum TableTypes
     ' 
     '     BBH, Mapping, SBH

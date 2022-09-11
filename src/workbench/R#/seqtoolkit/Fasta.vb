@@ -31,6 +31,16 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 464
+    '    Code Lines: 349
+    ' Comment Lines: 63
+    '   Blank Lines: 52
+    '     File Size: 18.86 KB
+
+
     ' Module Fasta
     ' 
     '     Constructor: (+1 Overloads) Sub New

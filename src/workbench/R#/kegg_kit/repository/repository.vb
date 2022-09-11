@@ -1,54 +1,64 @@
-﻿#Region "Microsoft.VisualBasic::29caeb3d2863e0632e1c4bb904f71c8d, R#\kegg_kit\kegg_repository.vb"
+﻿#Region "Microsoft.VisualBasic::bce8286372c15c9b23c16781f1d2d731, R#\kegg_kit\repository\repository.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-' Module kegg_repository
-' 
-'     Constructor: (+1 Overloads) Sub New
-'     Function: createCompound, FetchKEGGOrganism, getCompoundsId, getReactionsId, keggMap
-'               LoadCompoundRepo, loadMapRepository, LoadPathways, loadReactionClassRaw, loadReactionClassTable
-'               LoadReactionRepo, pathway, reaction, reaction_class, ReadKEGGOrganism
-'               readKEGGpathway, SaveKEGGOrganism, SaveKEGGPathway, shapeAreas, showMapTable
-'               showTable, TableOfReactions, writeMessagePack
-' 
-' Enum OrganismTypes
-' 
-'     all, eukaryotes, prokaryote
-' 
-'  
-' 
-' 
-' 
-' /********************************************************************************/
+
+    ' Code Statistics:
+
+    '   Total Lines: 773
+    '    Code Lines: 598
+    ' Comment Lines: 102
+    '   Blank Lines: 73
+    '     File Size: 32.34 KB
+
+
+    ' Module repository
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
+    '     Function: createCompound, FetchKEGGOrganism, getCompoundsId, getReactionsId, keggMap
+    '               LoadCompoundRepo, loadMapRepository, LoadPathways, loadReactionClassRaw, loadReactionClassTable
+    '               LoadReactionRepo, pathway, reaction, reaction_class, ReadKEGGOrganism
+    '               readKEGGpathway, SaveKEGGOrganism, SaveKEGGPathway, shapeAreas, showMapTable
+    '               showTable, TableOfReactions, writeMessagePack
+    ' 
+    ' Enum OrganismTypes
+    ' 
+    '     all, eukaryotes, prokaryote
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

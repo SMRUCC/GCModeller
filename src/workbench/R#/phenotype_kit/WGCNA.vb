@@ -31,6 +31,16 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 49
+    '    Code Lines: 43
+    ' Comment Lines: 0
+    '   Blank Lines: 6
+    '     File Size: 1.91 KB
+
+
     ' Module WGCNA
     ' 
     '     Function: applyModuleColors, readModules, readWeightMatrix

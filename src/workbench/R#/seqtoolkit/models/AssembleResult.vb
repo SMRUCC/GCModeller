@@ -31,6 +31,16 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 12
+    '    Code Lines: 9
+    ' Comment Lines: 0
+    '   Blank Lines: 3
+    '     File Size: 260 B
+
+
     ' Class AssembleResult
     ' 
     '     Constructor: (+1 Overloads) Sub New

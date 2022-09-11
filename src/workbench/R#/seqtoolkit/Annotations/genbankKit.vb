@@ -31,6 +31,16 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 419
+    '    Code Lines: 295
+    ' Comment Lines: 70
+    '   Blank Lines: 54
+    '     File Size: 16.83 KB
+
+
     ' Module genbankKit
     ' 
     '     Function: addFeature, addMeta, addproteinSeq, addRNAGene, asGenbank
