@@ -64,6 +64,12 @@ Public Class FeatureVector
         End Get
     End Property
 
+    Public ReadOnly Property size As Integer
+        Get
+            Return vector.Length
+        End Get
+    End Property
+
     Sub New(ints As IEnumerable(Of Integer))
         vector = ints.ToArray
         type = GetType(Integer)
@@ -100,7 +106,16 @@ Public Class FeatureVector
     End Sub
 
     Public Function [TryCast](Of T)() As T()
-        Throw New NotImplementedException
+        If GetType(T) Is type Then
+            Return DirectCast(vector, T())
+        Else
+            Select Case GetType(T)
+                Case GetType(Double)
+
+            End Select
+
+            Throw New NotImplementedException
+        End If
     End Function
 
     Public Overrides Function ToString() As String
