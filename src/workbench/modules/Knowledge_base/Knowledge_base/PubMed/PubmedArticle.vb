@@ -31,6 +31,16 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 63
+    '    Code Lines: 54
+    ' Comment Lines: 0
+    '   Blank Lines: 9
+    '     File Size: 2.21 KB
+
+
     '     Class PubmedArticle
     ' 
     '         Properties: MedlineCitation, PubmedData

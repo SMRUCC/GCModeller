@@ -31,6 +31,16 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 28
+    '    Code Lines: 22
+    ' Comment Lines: 0
+    '   Blank Lines: 6
+    '     File Size: 1.04 KB
+
+
     ' Module pubmedTools
     ' 
     '     Constructor: (+1 Overloads) Sub New

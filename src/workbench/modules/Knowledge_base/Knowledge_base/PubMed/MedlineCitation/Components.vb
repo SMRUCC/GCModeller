@@ -31,6 +31,16 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 26
+    '    Code Lines: 21
+    ' Comment Lines: 0
+    '   Blank Lines: 5
+    '     File Size: 702 B
+
+
     '     Class MedlineJournalInfo
     ' 
     '         Properties: Country, ISSNLinking, MedlineTA, NlmUniqueID

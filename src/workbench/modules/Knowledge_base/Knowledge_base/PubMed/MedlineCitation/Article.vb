@@ -31,6 +31,16 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 173
+    '    Code Lines: 137
+    ' Comment Lines: 0
+    '   Blank Lines: 36
+    '     File Size: 5.22 KB
+
+
     '     Class PMID
     ' 
     '         Properties: ID, Version
