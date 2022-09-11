@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dc0a86bf51e496d33b65e7989e5319ae, data\RegulonDatabase\RegulonDB\MySQL\srna_interaction.vb"
+﻿#Region "Microsoft.VisualBasic::dc0a86bf51e496d33b65e7989e5319ae, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\srna_interaction.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 176
+    '    Code Lines: 91
+    ' Comment Lines: 63
+    '   Blank Lines: 22
+    '     File Size: 11.21 KB
+
 
     ' Class srna_interaction
     ' 

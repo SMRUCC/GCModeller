@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3bf135ca378f298539773816fe477bb7, models\SBML\SBML\Specifics\MetaCyc\Property\FluxPropReader.vb"
+﻿#Region "Microsoft.VisualBasic::3bf135ca378f298539773816fe477bb7, GCModeller\models\SBML\SBML\Specifics\MetaCyc\Property\FluxPropReader.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 23
+    '    Code Lines: 18
+    ' Comment Lines: 0
+    '   Blank Lines: 5
+    '     File Size: 963 B
+
 
     '     Class FluxPropReader
     ' 

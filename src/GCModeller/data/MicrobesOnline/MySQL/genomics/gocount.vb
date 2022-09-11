@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b05af37dd4f073bee16c4c8045ebfad8, data\MicrobesOnline\MySQL\genomics\gocount.vb"
+﻿#Region "Microsoft.VisualBasic::b05af37dd4f073bee16c4c8045ebfad8, GCModeller\data\MicrobesOnline\MySQL\genomics\gocount.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 63
+    '    Code Lines: 35
+    ' Comment Lines: 21
+    '   Blank Lines: 7
+    '     File Size: 2.69 KB
+
 
     ' Class gocount
     ' 

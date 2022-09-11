@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8d414ff3424d956f6df9cb3ea8258a2d, engine\Dynamics\Core\Mass\Variable.vb"
+﻿#Region "Microsoft.VisualBasic::8d414ff3424d956f6df9cb3ea8258a2d, GCModeller\engine\Dynamics\Core\Mass\Variable.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 47
+    '    Code Lines: 20
+    ' Comment Lines: 19
+    '   Blank Lines: 8
+    '     File Size: 1.71 KB
+
 
     '     Class Variable
     ' 

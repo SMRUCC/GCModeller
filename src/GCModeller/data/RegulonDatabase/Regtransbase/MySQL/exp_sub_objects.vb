@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e03e5acd9d8702a3f288717fa375de13, data\RegulonDatabase\Regtransbase\MySQL\exp_sub_objects.vb"
+﻿#Region "Microsoft.VisualBasic::e03e5acd9d8702a3f288717fa375de13, GCModeller\data\RegulonDatabase\Regtransbase\MySQL\exp_sub_objects.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 180
+    '    Code Lines: 91
+    ' Comment Lines: 67
+    '   Blank Lines: 22
+    '     File Size: 9.07 KB
+
 
     ' Class exp_sub_objects
     ' 

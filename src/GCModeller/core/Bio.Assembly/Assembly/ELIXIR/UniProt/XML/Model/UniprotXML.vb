@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5b43e1a65f0cdec1f3167e8436abd4de, core\Bio.Assembly\Assembly\ELIXIR\UniProt\XML\Model\UniprotXML.vb"
+﻿#Region "Microsoft.VisualBasic::95a8ab10b338afa8067cf2daccba0ab7, GCModeller\core\Bio.Assembly\Assembly\ELIXIR\UniProt\XML\Model\UniprotXML.vb"
 
     ' Author:
     ' 
@@ -31,12 +31,22 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 151
+    '    Code Lines: 91
+    ' Comment Lines: 42
+    '   Blank Lines: 18
+    '     File Size: 6.95 KB
+
+
     '     Class UniProtXML
     ' 
     '         Properties: copyright, entries, version
     ' 
     '         Function: [GetType], CreateTable, (+2 Overloads) EnumerateEntries, Load, LoadDictionary
-    '                   ToIndexTable, ToString
+    '                   LoadXml, ToIndexTable, ToString
     ' 
     ' 
     ' /********************************************************************************/

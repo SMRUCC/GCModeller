@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::63bf2d9da2ec990fd1154c5b8e37370e, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Disease\Drug.vb"
+﻿#Region "Microsoft.VisualBasic::63bf2d9da2ec990fd1154c5b8e37370e, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Disease\Drug.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 19
+    '    Code Lines: 15
+    ' Comment Lines: 0
+    '   Blank Lines: 4
+    '     File Size: 707 B
+
 
     '     Class Drug
     ' 

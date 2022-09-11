@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5fa9de908e713d62b6daf0f3c3f1dbac, data\RegulonDatabase\RegulonDB\MySQL\intermediate.vb"
+﻿#Region "Microsoft.VisualBasic::5fa9de908e713d62b6daf0f3c3f1dbac, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\intermediate.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 152
+    '    Code Lines: 75
+    ' Comment Lines: 55
+    '   Blank Lines: 22
+    '     File Size: 6.25 KB
+
 
     ' Class intermediate
     ' 

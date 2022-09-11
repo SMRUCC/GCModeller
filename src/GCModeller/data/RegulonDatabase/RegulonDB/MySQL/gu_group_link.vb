@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::94c3a81115fad52d04b6283d8dfd584e, data\RegulonDatabase\RegulonDB\MySQL\gu_group_link.vb"
+﻿#Region "Microsoft.VisualBasic::94c3a81115fad52d04b6283d8dfd584e, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\gu_group_link.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 149
+    '    Code Lines: 73
+    ' Comment Lines: 54
+    '   Blank Lines: 22
+    '     File Size: 5.12 KB
+
 
     ' Class gu_group_link
     ' 

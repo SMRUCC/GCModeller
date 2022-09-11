@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::19e7032d22bca1ff0b072ae8b7c11cce, data\RegulonDatabase\RegulonDB\MySQL\groups.vb"
+﻿#Region "Microsoft.VisualBasic::19e7032d22bca1ff0b072ae8b7c11cce, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\groups.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 149
+    '    Code Lines: 73
+    ' Comment Lines: 54
+    '   Blank Lines: 22
+    '     File Size: 5.12 KB
+
 
     ' Class groups
     ' 

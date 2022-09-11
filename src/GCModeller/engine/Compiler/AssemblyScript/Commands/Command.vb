@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::90a91f847c4b439dadabc23507725edf, engine\Compiler\AssemblyScript\Commands\Command.vb"
+﻿#Region "Microsoft.VisualBasic::90a91f847c4b439dadabc23507725edf, GCModeller\engine\Compiler\AssemblyScript\Commands\Command.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 22
+    '    Code Lines: 14
+    ' Comment Lines: 3
+    '   Blank Lines: 5
+    '     File Size: 655 B
+
 
     '     Class Command
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ebb44c932e84e259bd34aed71b37b3d8, data\GO_gene-ontology\GeneOntology\DAG\TermNode.vb"
+﻿#Region "Microsoft.VisualBasic::ebb44c932e84e259bd34aed71b37b3d8, GCModeller\data\GO_gene-ontology\GeneOntology\DAG\TermNode.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 34
+    '    Code Lines: 18
+    ' Comment Lines: 11
+    '   Blank Lines: 5
+    '     File Size: 1.20 KB
+
 
     '     Class TermNode
     ' 

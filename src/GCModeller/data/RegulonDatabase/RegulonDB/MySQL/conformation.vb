@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aa00f340f6cd3ba72db778977f532ac1, data\RegulonDatabase\RegulonDB\MySQL\conformation.vb"
+﻿#Region "Microsoft.VisualBasic::aa00f340f6cd3ba72db778977f532ac1, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\conformation.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 170
+    '    Code Lines: 87
+    ' Comment Lines: 61
+    '   Blank Lines: 22
+    '     File Size: 10.58 KB
+
 
     ' Class conformation
     ' 

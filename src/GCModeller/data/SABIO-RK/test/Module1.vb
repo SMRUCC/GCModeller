@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::eccff19573e008c32f36873c4d36d361, data\SABIO-RK\test\Module1.vb"
+﻿#Region "Microsoft.VisualBasic::eccff19573e008c32f36873c4d36d361, GCModeller\data\SABIO-RK\test\Module1.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 39
+    '    Code Lines: 31
+    ' Comment Lines: 0
+    '   Blank Lines: 8
+    '     File Size: 1.56 KB
+
 
     ' Module Module1
     ' 

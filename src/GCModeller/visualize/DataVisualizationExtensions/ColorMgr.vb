@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::155444b1e4a35fd181305605ea02136c, visualize\DataVisualizationExtensions\ColorMgr.vb"
+﻿#Region "Microsoft.VisualBasic::155444b1e4a35fd181305605ea02136c, GCModeller\visualize\DataVisualizationExtensions\ColorMgr.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 76
+    '    Code Lines: 41
+    ' Comment Lines: 25
+    '   Blank Lines: 10
+    '     File Size: 2.40 KB
+
 
     ' Class ColorMgr
     ' 

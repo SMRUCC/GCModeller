@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d810181b7493d4b4a3e4a76966190f9c, data\GO_gene-ontology\GeneOntology\GoBriefTable.vb"
+﻿#Region "Microsoft.VisualBasic::d810181b7493d4b4a3e4a76966190f9c, GCModeller\data\GO_gene-ontology\GeneOntology\GoBriefTable.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 12
+    '    Code Lines: 9
+    ' Comment Lines: 0
+    '   Blank Lines: 3
+    '     File Size: 304 B
+
 
     ' Class GoBriefTable
     ' 

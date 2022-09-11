@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::781ab4119d6748e630f3ee8ea52f0dd2, data\RegulonDatabase\RegulonDB\MySQL\transcription_unit.vb"
+﻿#Region "Microsoft.VisualBasic::781ab4119d6748e630f3ee8ea52f0dd2, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\transcription_unit.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 164
+    '    Code Lines: 83
+    ' Comment Lines: 59
+    '   Blank Lines: 22
+    '     File Size: 9.08 KB
+
 
     ' Class transcription_unit
     ' 

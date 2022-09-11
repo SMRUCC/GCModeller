@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cc0cd9ac53f86d0488f5e5dfc173ecae, visualize\DataVisualizationExtensions\DEGPlot\LabelTypes.vb"
+﻿#Region "Microsoft.VisualBasic::cc0cd9ac53f86d0488f5e5dfc173ecae, GCModeller\visualize\DataVisualizationExtensions\DEGPlot\LabelTypes.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 15
+    '    Code Lines: 11
+    ' Comment Lines: 3
+    '   Blank Lines: 1
+    '     File Size: 256 B
+
 
     ' Enum LabelTypes
     ' 

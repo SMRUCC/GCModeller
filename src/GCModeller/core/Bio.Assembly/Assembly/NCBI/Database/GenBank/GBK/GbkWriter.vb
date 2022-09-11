@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aa4661983849eb435e0b12756bb4c1d6, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\GbkWriter.vb"
+﻿#Region "Microsoft.VisualBasic::aa4661983849eb435e0b12756bb4c1d6, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\GbkWriter.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 218
+    '    Code Lines: 144
+    ' Comment Lines: 33
+    '   Blank Lines: 41
+    '     File Size: 8.77 KB
+
 
     '     Module GbkWriter
     ' 

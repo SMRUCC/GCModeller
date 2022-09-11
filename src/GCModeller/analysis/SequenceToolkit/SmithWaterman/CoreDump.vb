@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::69fcbf49df0b99ff06c56ff4bcc173f1, analysis\SequenceToolkit\SmithWaterman\CoreDump.vb"
+﻿#Region "Microsoft.VisualBasic::69fcbf49df0b99ff06c56ff4bcc173f1, GCModeller\analysis\SequenceToolkit\SmithWaterman\CoreDump.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 108
+    '    Code Lines: 69
+    ' Comment Lines: 24
+    '   Blank Lines: 15
+    '     File Size: 3.86 KB
+
 
     ' Module CoreDump
     ' 

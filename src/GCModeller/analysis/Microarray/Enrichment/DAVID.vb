@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c069f4975941d87e4902b7f46897218e, analysis\Microarray\Enrichment\DAVID.vb"
+﻿#Region "Microsoft.VisualBasic::55c970c745c00ef1d3e6342c8efb74c7, GCModeller\analysis\Microarray\Enrichment\DAVID.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 104
+    '    Code Lines: 84
+    ' Comment Lines: 5
+    '   Blank Lines: 15
+    '     File Size: 4.53 KB
+
 
     '     Module DAVID
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aa7c131d6c8113c1f519fbf15ff05275, annotations\Proteomics\iTraq\iTraqReader.vb"
+﻿#Region "Microsoft.VisualBasic::aa7c131d6c8113c1f519fbf15ff05275, GCModeller\annotations\Proteomics\iTraq\iTraqReader.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 79
+    '    Code Lines: 56
+    ' Comment Lines: 10
+    '   Blank Lines: 13
+    '     File Size: 3.26 KB
+
 
     ' Class iTraqReader
     ' 

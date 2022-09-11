@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ac069146a8e08b38d1703513803c5619, data\MicrobesOnline\MySQL\genomics\homolset.vb"
+﻿#Region "Microsoft.VisualBasic::ac069146a8e08b38d1703513803c5619, GCModeller\data\MicrobesOnline\MySQL\genomics\homolset.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 73
+    '    Code Lines: 39
+    ' Comment Lines: 27
+    '   Blank Lines: 7
+    '     File Size: 3.73 KB
+
 
     ' Class homolset
     ' 

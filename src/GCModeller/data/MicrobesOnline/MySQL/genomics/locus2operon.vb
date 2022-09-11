@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::175e3fc1298e5ed4e8c9f2e9b173babd, data\MicrobesOnline\MySQL\genomics\locus2operon.vb"
+﻿#Region "Microsoft.VisualBasic::175e3fc1298e5ed4e8c9f2e9b173babd, GCModeller\data\MicrobesOnline\MySQL\genomics\locus2operon.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 60
+    '    Code Lines: 34
+    ' Comment Lines: 19
+    '   Blank Lines: 7
+    '     File Size: 2.41 KB
+
 
     ' Class locus2operon
     ' 

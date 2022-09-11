@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::00fb6c980961cefc949931868aa19d05, data\RegulonDatabase\Regprecise\RegulationFootprint.vb"
+﻿#Region "Microsoft.VisualBasic::00fb6c980961cefc949931868aa19d05, GCModeller\data\RegulonDatabase\Regprecise\RegulationFootprint.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 86
+    '    Code Lines: 27
+    ' Comment Lines: 47
+    '   Blank Lines: 12
+    '     File Size: 2.92 KB
+
 
     '     Class RegulationFootprint
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1b9633147b5db4a3148a13fe51b68913, data\RegulonDatabase\Regtransbase\MySQL\exp2result_types.vb"
+﻿#Region "Microsoft.VisualBasic::1b9633147b5db4a3148a13fe51b68913, GCModeller\data\RegulonDatabase\Regtransbase\MySQL\exp2result_types.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 171
+    '    Code Lines: 85
+    ' Comment Lines: 64
+    '   Blank Lines: 22
+    '     File Size: 8.15 KB
+
 
     ' Class exp2result_types
     ' 

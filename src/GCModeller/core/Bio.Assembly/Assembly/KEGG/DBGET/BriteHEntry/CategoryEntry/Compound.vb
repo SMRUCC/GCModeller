@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::77ffd444edc3d35fc0a2a4b533132e12, core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\Compound.vb"
+﻿#Region "Microsoft.VisualBasic::77ffd444edc3d35fc0a2a4b533132e12, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\Compound.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 254
+    '    Code Lines: 141
+    ' Comment Lines: 80
+    '   Blank Lines: 33
+    '     File Size: 10.94 KB
+
 
     '     Module CompoundBrite
     ' 

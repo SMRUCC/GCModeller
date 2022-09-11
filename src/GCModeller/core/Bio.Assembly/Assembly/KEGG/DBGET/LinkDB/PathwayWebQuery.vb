@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cb48b32710cdff8001caf95da0b65185, core\Bio.Assembly\Assembly\KEGG\DBGET\LinkDB\PathwayWebQuery.vb"
+﻿#Region "Microsoft.VisualBasic::cb48b32710cdff8001caf95da0b65185, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\LinkDB\PathwayWebQuery.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 90
+    '    Code Lines: 72
+    ' Comment Lines: 0
+    '   Blank Lines: 18
+    '     File Size: 3.64 KB
+
 
     '     Class PathwayEntryQuery
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ba416979b808c41b75ddfd07b8ab90a8, analysis\SequenceToolkit\ClustalOmega\Release.vb"
+﻿#Region "Microsoft.VisualBasic::ba416979b808c41b75ddfd07b8ab90a8, GCModeller\analysis\SequenceToolkit\ClustalOmega\Release.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 26
+    '    Code Lines: 14
+    ' Comment Lines: 7
+    '   Blank Lines: 5
+    '     File Size: 964 B
+
 
     ' Module Release
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ec812a72894c026a0d5027d1f0225ac8, data\RegulonDatabase\Regtransbase\MySQL\reg_elem_sub_objects.vb"
+﻿#Region "Microsoft.VisualBasic::ec812a72894c026a0d5027d1f0225ac8, GCModeller\data\RegulonDatabase\Regtransbase\MySQL\reg_elem_sub_objects.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 183
+    '    Code Lines: 93
+    ' Comment Lines: 68
+    '   Blank Lines: 22
+    '     File Size: 10.04 KB
+
 
     ' Class reg_elem_sub_objects
     ' 

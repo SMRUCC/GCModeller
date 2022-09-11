@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::52d7a44d955859f957f4f0f60775980c, core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Files\Promoters.vb"
+﻿#Region "Microsoft.VisualBasic::52d7a44d955859f957f4f0f60775980c, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Files\Promoters.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 60
+    '    Code Lines: 43
+    ' Comment Lines: 10
+    '   Blank Lines: 7
+    '     File Size: 2.55 KB
+
 
     '     Class Promoters
     ' 

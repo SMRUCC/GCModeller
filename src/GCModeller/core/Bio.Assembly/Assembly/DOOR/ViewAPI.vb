@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bb933c97a923e9b067ae59915cfab1d3, core\Bio.Assembly\Assembly\DOOR\ViewAPI.vb"
+﻿#Region "Microsoft.VisualBasic::bb933c97a923e9b067ae59915cfab1d3, GCModeller\core\Bio.Assembly\Assembly\DOOR\ViewAPI.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 24
+    '    Code Lines: 19
+    ' Comment Lines: 0
+    '   Blank Lines: 5
+    '     File Size: 1007 B
+
 
     '     Module ViewAPI
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0fab4d9fba7f2c85f53ee2c91b9fe16d, core\Bio.Assembly\Assembly\KEGG\Web\Form\AllLinksWidget.vb"
+﻿#Region "Microsoft.VisualBasic::0fab4d9fba7f2c85f53ee2c91b9fe16d, GCModeller\core\Bio.Assembly\Assembly\KEGG\Web\Form\AllLinksWidget.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 54
+    '    Code Lines: 43
+    ' Comment Lines: 1
+    '   Blank Lines: 10
+    '     File Size: 2.18 KB
+
 
     '     Class AllLinksWidget
     ' 

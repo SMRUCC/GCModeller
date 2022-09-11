@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::056a938507f6b60c4a89c6fe45e75e95, data\MicrobesOnline\MySQL\glamm\glammdatasource.vb"
+﻿#Region "Microsoft.VisualBasic::056a938507f6b60c4a89c6fe45e75e95, GCModeller\data\MicrobesOnline\MySQL\glamm\glammdatasource.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 73
+    '    Code Lines: 40
+    ' Comment Lines: 26
+    '   Blank Lines: 7
+    '     File Size: 4.02 KB
+
 
     ' Class glammdatasource
     ' 

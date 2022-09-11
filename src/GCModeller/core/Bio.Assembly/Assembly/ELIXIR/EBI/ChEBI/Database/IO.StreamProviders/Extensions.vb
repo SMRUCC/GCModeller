@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e5382c9703f0c64acba82b311b1f761a, core\Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\Database\IO.StreamProviders\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::e5382c9703f0c64acba82b311b1f761a, GCModeller\core\Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\Database\IO.StreamProviders\Extensions.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 84
+    '    Code Lines: 59
+    ' Comment Lines: 15
+    '   Blank Lines: 10
+    '     File Size: 3.47 KB
+
 
     '     Module TsvExtensions
     ' 

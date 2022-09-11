@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8253ed63a6cab5c3a676df90cecfb156, core\Bio.Annotation\GFF\FeatureKeys.vb"
+﻿#Region "Microsoft.VisualBasic::8253ed63a6cab5c3a676df90cecfb156, GCModeller\core\Bio.Annotation\GFF\FeatureKeys.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 102
+    '    Code Lines: 75
+    ' Comment Lines: 16
+    '   Blank Lines: 11
+    '     File Size: 4.26 KB
+
 
     '     Module FeatureKeys
     ' 

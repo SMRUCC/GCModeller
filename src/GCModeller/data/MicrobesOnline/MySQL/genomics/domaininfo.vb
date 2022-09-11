@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::24d8cb29749003c1c0ea47b25aed9da4, data\MicrobesOnline\MySQL\genomics\domaininfo.vb"
+﻿#Region "Microsoft.VisualBasic::24d8cb29749003c1c0ea47b25aed9da4, GCModeller\data\MicrobesOnline\MySQL\genomics\domaininfo.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 71
+    '    Code Lines: 39
+    ' Comment Lines: 25
+    '   Blank Lines: 7
+    '     File Size: 3.77 KB
+
 
     ' Class domaininfo
     ' 

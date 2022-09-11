@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5e9217e2bf03f0ca9f2d7d4345ad03ec, engine\IO\Raw\vcXML\XmlHelper.vb"
+﻿#Region "Microsoft.VisualBasic::5e9217e2bf03f0ca9f2d7d4345ad03ec, GCModeller\engine\IO\Raw\vcXML\XmlHelper.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 25
+    '    Code Lines: 18
+    ' Comment Lines: 0
+    '   Blank Lines: 7
+    '     File Size: 724 B
+
 
     '     Module XmlHelper
     ' 

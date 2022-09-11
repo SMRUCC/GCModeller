@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5118eac13e2ef1544ba3dad9ed94a775, models\SBML\Biopax\Level3\Elements\SmallMolecule.vb"
+﻿#Region "Microsoft.VisualBasic::5118eac13e2ef1544ba3dad9ed94a775, GCModeller\models\SBML\Biopax\Level3\Elements\SmallMolecule.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 137
+    '    Code Lines: 112
+    ' Comment Lines: 0
+    '   Blank Lines: 25
+    '     File Size: 4.77 KB
+
 
     ' Class SmallMolecule
     ' 

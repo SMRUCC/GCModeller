@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::83b25d99bd3e55b5f063818e56c866cf, core\Bio.Assembly\ProteinModel\Chou-Fasman\Matrix.vb"
+﻿#Region "Microsoft.VisualBasic::83b25d99bd3e55b5f063818e56c866cf, GCModeller\core\Bio.Assembly\ProteinModel\Chou-Fasman\Matrix.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 137
+    '    Code Lines: 42
+    ' Comment Lines: 84
+    '   Blank Lines: 11
+    '     File Size: 7.37 KB
+
 
     '     Module MatrixAPI
     ' 

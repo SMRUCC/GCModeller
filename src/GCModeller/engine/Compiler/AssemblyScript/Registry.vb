@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6af0f465c27dd1a2633d0ffe980a7e03, engine\Compiler\AssemblyScript\Registry.vb"
+﻿#Region "Microsoft.VisualBasic::6af0f465c27dd1a2633d0ffe980a7e03, GCModeller\engine\Compiler\AssemblyScript\Registry.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 38
+    '    Code Lines: 19
+    ' Comment Lines: 10
+    '   Blank Lines: 9
+    '     File Size: 1.39 KB
+
 
     '     Class Registry
     ' 

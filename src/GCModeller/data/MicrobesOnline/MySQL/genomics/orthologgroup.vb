@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cf8de8cba7eb8558ee5a01d15ce1bf2d, data\MicrobesOnline\MySQL\genomics\orthologgroup.vb"
+﻿#Region "Microsoft.VisualBasic::cf8de8cba7eb8558ee5a01d15ce1bf2d, GCModeller\data\MicrobesOnline\MySQL\genomics\orthologgroup.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 72
+    '    Code Lines: 40
+    ' Comment Lines: 25
+    '   Blank Lines: 7
+    '     File Size: 4.08 KB
+
 
     ' Class orthologgroup
     ' 

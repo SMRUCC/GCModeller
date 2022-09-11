@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3df32739decb91cafb9ec5b3ef7ed563, data\MicrobesOnline\MySQL\genomics\association_species_qualifier.vb"
+﻿#Region "Microsoft.VisualBasic::3df32739decb91cafb9ec5b3ef7ed563, GCModeller\data\MicrobesOnline\MySQL\genomics\association_species_qualifier.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 63
+    '    Code Lines: 35
+    ' Comment Lines: 21
+    '   Blank Lines: 7
+    '     File Size: 2.87 KB
+
 
     ' Class association_species_qualifier
     ' 

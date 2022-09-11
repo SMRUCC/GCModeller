@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::95a5d0afae662e334596cb5497fd38cf, core\Bio.Annotation\AnnotationTable.vb"
+﻿#Region "Microsoft.VisualBasic::95a5d0afae662e334596cb5497fd38cf, GCModeller\core\Bio.Annotation\AnnotationTable.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 53
+    '    Code Lines: 48
+    ' Comment Lines: 0
+    '   Blank Lines: 5
+    '     File Size: 1.89 KB
+
 
     ' Class AnnotationTable
     ' 

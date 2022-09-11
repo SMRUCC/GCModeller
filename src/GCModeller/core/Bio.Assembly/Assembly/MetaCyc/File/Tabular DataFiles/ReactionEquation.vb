@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1ef23e59290a19a089f28ac1d079c6ee, core\Bio.Assembly\Assembly\MetaCyc\File\Tabular DataFiles\ReactionEquation.vb"
+﻿#Region "Microsoft.VisualBasic::1ef23e59290a19a089f28ac1d079c6ee, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\Tabular DataFiles\ReactionEquation.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 39
+    '    Code Lines: 30
+    ' Comment Lines: 0
+    '   Blank Lines: 9
+    '     File Size: 1.22 KB
+
 
     '     Class ReactionEquation
     ' 

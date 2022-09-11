@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::94ee7670911224ded45f6745792b3cfc, sub-system\PLAS.NET\SSystem\System\Elements\Var.vb"
+﻿#Region "Microsoft.VisualBasic::94ee7670911224ded45f6745792b3cfc, GCModeller\sub-system\PLAS.NET\SSystem\System\Elements\Var.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 74
+    '    Code Lines: 49
+    ' Comment Lines: 12
+    '   Blank Lines: 13
+    '     File Size: 2.67 KB
+
 
     '     Class var
     ' 

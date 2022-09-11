@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::16ed94debf00c5c991d31f8bf4d225d7, annotations\GO\PlantRegMap\PlantRegMap.vb"
+﻿#Region "Microsoft.VisualBasic::16ed94debf00c5c991d31f8bf4d225d7, GCModeller\annotations\GO\PlantRegMap\PlantRegMap.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 29
+    '    Code Lines: 21
+    ' Comment Lines: 3
+    '   Blank Lines: 5
+    '     File Size: 1.06 KB
+
 
     '     Class PlantRegMap_GoTermEnrichment
     ' 

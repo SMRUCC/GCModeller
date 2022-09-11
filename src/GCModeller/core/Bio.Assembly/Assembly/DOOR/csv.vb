@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::49e73e46bfebb0bfd50230746de62ec4, core\Bio.Assembly\Assembly\DOOR\csv.vb"
+﻿#Region "Microsoft.VisualBasic::49e73e46bfebb0bfd50230746de62ec4, GCModeller\core\Bio.Assembly\Assembly\DOOR\csv.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 73
+    '    Code Lines: 54
+    ' Comment Lines: 6
+    '   Blank Lines: 13
+    '     File Size: 2.57 KB
+
 
     '     Module DOOR_IO
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4cb4925ef48ec46847ba6324c121338c, data\MicrobesOnline\MySQL\genomics\instance_data.vb"
+﻿#Region "Microsoft.VisualBasic::4cb4925ef48ec46847ba6324c121338c, GCModeller\data\MicrobesOnline\MySQL\genomics\instance_data.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 61
+    '    Code Lines: 35
+    ' Comment Lines: 19
+    '   Blank Lines: 7
+    '     File Size: 2.79 KB
+
 
     ' Class instance_data
     ' 

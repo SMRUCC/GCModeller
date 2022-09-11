@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3f68a50c8c6e139839a830d32d07472d, data\MicrobesOnline\MySQL\genomics\bindplayer.vb"
+﻿#Region "Microsoft.VisualBasic::3f68a50c8c6e139839a830d32d07472d, GCModeller\data\MicrobesOnline\MySQL\genomics\bindplayer.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 64
+    '    Code Lines: 35
+    ' Comment Lines: 22
+    '   Blank Lines: 7
+    '     File Size: 2.94 KB
+
 
     ' Class bindplayer
     ' 

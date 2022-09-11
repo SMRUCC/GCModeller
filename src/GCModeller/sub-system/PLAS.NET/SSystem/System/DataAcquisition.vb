@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1a6bc1b5cb6762811593ef41144db203, sub-system\PLAS.NET\SSystem\System\DataAcquisition.vb"
+﻿#Region "Microsoft.VisualBasic::1c72f437014949d0c4bbfdd0aa6ad10f, GCModeller\sub-system\PLAS.NET\SSystem\System\DataAcquisition.vb"
 
     ' Author:
     ' 
@@ -31,13 +31,25 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 152
+    '    Code Lines: 90
+    ' Comment Lines: 31
+    '   Blank Lines: 31
+    '     File Size: 5.46 KB
+
+
     '     Class DataSnapshot
     ' 
     ' 
     ' 
     '     Class MemoryCacheSnapshot
     ' 
-    '         Sub: Cache, flush
+    '         Function: GetMatrix
+    ' 
+    '         Sub: Cache, (+2 Overloads) Dispose, flush
     ' 
     '     Class SnapshotStream
     ' 

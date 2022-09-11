@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::88e53259da40d309d839b3e56afbc793, data\MicrobesOnline\MySQL\glamm\glammreaction.vb"
+﻿#Region "Microsoft.VisualBasic::88e53259da40d309d839b3e56afbc793, GCModeller\data\MicrobesOnline\MySQL\glamm\glammreaction.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 71
+    '    Code Lines: 40
+    ' Comment Lines: 24
+    '   Blank Lines: 7
+    '     File Size: 3.94 KB
+
 
     ' Class glammreaction
     ' 

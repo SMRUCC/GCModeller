@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::293153671a178e649a6e55dce61384cb, models\Networks\KEGG\BiologicalObjectCluster.vb"
+﻿#Region "Microsoft.VisualBasic::293153671a178e649a6e55dce61384cb, GCModeller\models\Networks\KEGG\BiologicalObjectCluster.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 51
+    '    Code Lines: 46
+    ' Comment Lines: 0
+    '   Blank Lines: 5
+    '     File Size: 1.94 KB
+
 
     ' Module BiologicalObjectCluster
     ' 

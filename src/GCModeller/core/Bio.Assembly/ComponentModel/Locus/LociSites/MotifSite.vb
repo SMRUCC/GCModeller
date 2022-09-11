@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::86b393ae750097db2536bd0fc86c5524, core\Bio.Assembly\ComponentModel\Locus\LociSites\MotifSite.vb"
+﻿#Region "Microsoft.VisualBasic::86b393ae750097db2536bd0fc86c5524, GCModeller\core\Bio.Assembly\ComponentModel\Locus\LociSites\MotifSite.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 32
+    '    Code Lines: 10
+    ' Comment Lines: 18
+    '   Blank Lines: 4
+    '     File Size: 855 B
+
 
     '     Interface IMotifSite
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2621b0c08d6f9ada9089b9a3d0597866, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\ORIGIN.vb"
+﻿#Region "Microsoft.VisualBasic::2621b0c08d6f9ada9089b9a3d0597866, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\ORIGIN.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 141
+    '    Code Lines: 79
+    ' Comment Lines: 41
+    '   Blank Lines: 21
+    '     File Size: 5.31 KB
+
 
     '     Class ORIGIN
     ' 

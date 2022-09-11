@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d9854d2df20bd22f73c9936fa37541a9, models\SBML\SBML\Components\Compartment.vb"
+﻿#Region "Microsoft.VisualBasic::d9854d2df20bd22f73c9936fa37541a9, GCModeller\models\SBML\SBML\Components\Compartment.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 17
+    '    Code Lines: 9
+    ' Comment Lines: 5
+    '   Blank Lines: 3
+    '     File Size: 489 B
+
 
     '     Class Compartment
     ' 

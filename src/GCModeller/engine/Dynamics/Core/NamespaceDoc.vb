@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3ff01c7c3999f82fa40223c2b91ffeed, engine\Dynamics\Core\NamespaceDoc.vb"
+﻿#Region "Microsoft.VisualBasic::3ff01c7c3999f82fa40223c2b91ffeed, GCModeller\engine\Dynamics\Core\NamespaceDoc.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 9
+    '    Code Lines: 4
+    ' Comment Lines: 4
+    '   Blank Lines: 1
+    '     File Size: 251 B
+
 
     '     Module NamespaceDoc
     ' 

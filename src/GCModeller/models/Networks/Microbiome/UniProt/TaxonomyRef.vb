@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f1ed72aa159f616affd9e7fbfc1f9fff, models\Networks\Microbiome\UniProt\TaxonomyRef.vb"
+﻿#Region "Microsoft.VisualBasic::f1ed72aa159f616affd9e7fbfc1f9fff, GCModeller\models\Networks\Microbiome\UniProt\TaxonomyRef.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 112
+    '    Code Lines: 70
+    ' Comment Lines: 24
+    '   Blank Lines: 18
+    '     File Size: 3.30 KB
+
 
     ' Class TaxonomyRef
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5fd55ff4e75540dc0a568d4557ce4cc2, engine\IO\Raw\GCModellerRaw\Writer.vb"
+﻿#Region "Microsoft.VisualBasic::5fd55ff4e75540dc0a568d4557ce4cc2, GCModeller\engine\IO\Raw\GCModellerRaw\Writer.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 158
+    '    Code Lines: 91
+    ' Comment Lines: 42
+    '   Blank Lines: 25
+    '     File Size: 6.26 KB
+
 
     '     Class Writer
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7126460b611bbdbcf5ee6459f0e131ac, data\MicrobesOnline\MySQL\genomics\scaffoldposchunks.vb"
+﻿#Region "Microsoft.VisualBasic::7126460b611bbdbcf5ee6459f0e131ac, GCModeller\data\MicrobesOnline\MySQL\genomics\scaffoldposchunks.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 70
+    '    Code Lines: 37
+    ' Comment Lines: 26
+    '   Blank Lines: 7
+    '     File Size: 3.68 KB
+
 
     ' Class scaffoldposchunks
     ' 

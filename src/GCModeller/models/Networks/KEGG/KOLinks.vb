@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1fde2d72026cc7d0a33cd87cde2ee6f1, models\Networks\KEGG\KOLinks.vb"
+﻿#Region "Microsoft.VisualBasic::1fde2d72026cc7d0a33cd87cde2ee6f1, GCModeller\models\Networks\KEGG\KOLinks.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 54
+    '    Code Lines: 34
+    ' Comment Lines: 14
+    '   Blank Lines: 6
+    '     File Size: 1.87 KB
+
 
     ' Class KOLinks
     ' 

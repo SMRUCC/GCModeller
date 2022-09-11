@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ccf4bcd76bd6e037cc7d5a166a5a9b56, data\MicrobesOnline\MySQL\genomics\operon.vb"
+﻿#Region "Microsoft.VisualBasic::ccf4bcd76bd6e037cc7d5a166a5a9b56, GCModeller\data\MicrobesOnline\MySQL\genomics\operon.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 62
+    '    Code Lines: 35
+    ' Comment Lines: 20
+    '   Blank Lines: 7
+    '     File Size: 2.62 KB
+
 
     ' Class operon
     ' 

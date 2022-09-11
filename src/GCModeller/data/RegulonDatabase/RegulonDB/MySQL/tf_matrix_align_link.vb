@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d2a8e6efc2613375aad6326e8bedb65c, data\RegulonDatabase\RegulonDB\MySQL\tf_matrix_align_link.vb"
+﻿#Region "Microsoft.VisualBasic::d2a8e6efc2613375aad6326e8bedb65c, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\tf_matrix_align_link.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 176
+    '    Code Lines: 91
+    ' Comment Lines: 63
+    '   Blank Lines: 22
+    '     File Size: 11.13 KB
+
 
     ' Class tf_matrix_align_link
     ' 

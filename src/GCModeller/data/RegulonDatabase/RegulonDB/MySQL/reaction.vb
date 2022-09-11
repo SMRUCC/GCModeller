@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::54b117d31f826b9983c28fd48fcdc733, data\RegulonDatabase\RegulonDB\MySQL\reaction.vb"
+﻿#Region "Microsoft.VisualBasic::54b117d31f826b9983c28fd48fcdc733, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\reaction.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 158
+    '    Code Lines: 79
+    ' Comment Lines: 57
+    '   Blank Lines: 22
+    '     File Size: 7.03 KB
+
 
     ' Class reaction
     ' 

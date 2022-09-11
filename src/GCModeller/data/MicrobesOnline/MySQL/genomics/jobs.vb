@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b3719bef8a83881eacdf8e0019678f74, data\MicrobesOnline\MySQL\genomics\jobs.vb"
+﻿#Region "Microsoft.VisualBasic::b3719bef8a83881eacdf8e0019678f74, GCModeller\data\MicrobesOnline\MySQL\genomics\jobs.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 82
+    '    Code Lines: 44
+    ' Comment Lines: 31
+    '   Blank Lines: 7
+    '     File Size: 4.79 KB
+
 
     ' Class jobs
     ' 

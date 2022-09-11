@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e6f7512143a6cd74a098dbbce4f32b9e, data\MicrobesOnline\MySQL\genomics\term2term_metadata.vb"
+﻿#Region "Microsoft.VisualBasic::e6f7512143a6cd74a098dbbce4f32b9e, GCModeller\data\MicrobesOnline\MySQL\genomics\term2term_metadata.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 66
+    '    Code Lines: 36
+    ' Comment Lines: 23
+    '   Blank Lines: 7
+    '     File Size: 3.14 KB
+
 
     ' Class term2term_metadata
     ' 

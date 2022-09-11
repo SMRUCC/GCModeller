@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6b6e94d89136189df820f4e144e6be9d, data\RegulonDatabase\RegulonDB\MySQL\operon_d_tmp.vb"
+﻿#Region "Microsoft.VisualBasic::6b6e94d89136189df820f4e144e6be9d, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\operon_d_tmp.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 173
+    '    Code Lines: 89
+    ' Comment Lines: 62
+    '   Blank Lines: 22
+    '     File Size: 10.66 KB
+
 
     ' Class operon_d_tmp
     ' 

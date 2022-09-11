@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6a754adf102b900a13d9bbbc6a7db53b, core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\EnzymaticReaction.vb"
+﻿#Region "Microsoft.VisualBasic::6a754adf102b900a13d9bbbc6a7db53b, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\EnzymaticReaction.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 182
+    '    Code Lines: 126
+    ' Comment Lines: 29
+    '   Blank Lines: 27
+    '     File Size: 7.21 KB
+
 
     '     Class EnzymaticReaction
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a6b4302800b05f8ab10198dc31a118ae, data\RegulonDatabase\RegulonDB\MySQL\generegulation_tmp.vb"
+﻿#Region "Microsoft.VisualBasic::a6b4302800b05f8ab10198dc31a118ae, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\generegulation_tmp.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 170
+    '    Code Lines: 87
+    ' Comment Lines: 61
+    '   Blank Lines: 22
+    '     File Size: 10.96 KB
+
 
     ' Class generegulation_tmp
     ' 

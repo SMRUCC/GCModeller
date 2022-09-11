@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c4ad8a30674163b942fabc88202645c8, engine\Dynamics\Core\Flux\Channel.vb"
+﻿#Region "Microsoft.VisualBasic::0d3d479ef1cdb2c9177fb4011bb737d3, GCModeller\engine\Dynamics\Core\Flux\Channel.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,20 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 128
+    '    Code Lines: 71
+    ' Comment Lines: 37
+    '   Blank Lines: 20
+    '     File Size: 4.84 KB
+
+
     '     Class Channel
     ' 
-    '         Properties: bounds, direct, forward, ID, reverse
+    '         Properties: bounds, direct, forward, ID, isBroken
+    '                     reverse
     ' 
     '         Constructor: (+1 Overloads) Sub New
     '         Function: CoverLeft, CoverRight, (+2 Overloads) minimalUnit, ToString

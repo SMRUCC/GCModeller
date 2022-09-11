@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::049905a4e9a93eab24ec5f57b26d4da5, analysis\SequenceToolkit\SequencePatterns\Topologically\Exactly\Repeats\SearchReversedRepeats.vb"
+﻿#Region "Microsoft.VisualBasic::33ff6b46a3ec0d75fcbbe1a0255551aa, GCModeller\analysis\SequenceToolkit\SequencePatterns\Topologically\Exactly\Repeats\SearchReversedRepeats.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 53
+    '    Code Lines: 38
+    ' Comment Lines: 5
+    '   Blank Lines: 10
+    '     File Size: 2.13 KB
+
 
     '     Class ReversedRepeatSeacher
     ' 

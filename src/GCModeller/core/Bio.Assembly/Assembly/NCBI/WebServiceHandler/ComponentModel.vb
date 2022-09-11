@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::78c0d201af5cefd9107c369e53a5adba, core\Bio.Assembly\Assembly\NCBI\WebServiceHandler\ComponentModel.vb"
+﻿#Region "Microsoft.VisualBasic::78c0d201af5cefd9107c369e53a5adba, GCModeller\core\Bio.Assembly\Assembly\NCBI\WebServiceHandler\ComponentModel.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 19
+    '    Code Lines: 11
+    ' Comment Lines: 4
+    '   Blank Lines: 4
+    '     File Size: 671 B
+
 
     '     Class I_QueryEntry
     ' 

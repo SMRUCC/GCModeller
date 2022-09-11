@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9b9872a373b7cfb0a949df79f06a2b65, data\MicrobesOnline\MySQL\glamm\glammenzyme.vb"
+﻿#Region "Microsoft.VisualBasic::9b9872a373b7cfb0a949df79f06a2b65, GCModeller\data\MicrobesOnline\MySQL\glamm\glammenzyme.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 71
+    '    Code Lines: 39
+    ' Comment Lines: 25
+    '   Blank Lines: 7
+    '     File Size: 3.70 KB
+
 
     ' Class glammenzyme
     ' 

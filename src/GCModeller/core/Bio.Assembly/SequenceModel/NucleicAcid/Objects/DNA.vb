@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1c2560de2182c9308e0e54274b6f8498, core\Bio.Assembly\SequenceModel\NucleicAcid\Objects\DNA.vb"
+﻿#Region "Microsoft.VisualBasic::1c2560de2182c9308e0e54274b6f8498, GCModeller\core\Bio.Assembly\SequenceModel\NucleicAcid\Objects\DNA.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 82
+    '    Code Lines: 23
+    ' Comment Lines: 54
+    '   Blank Lines: 5
+    '     File Size: 2.25 KB
+
 
     '     Enum DNA
     ' 

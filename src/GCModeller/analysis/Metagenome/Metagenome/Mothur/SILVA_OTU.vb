@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::016ec816547ebc6fd50a77e6ffe9f38c, analysis\Metagenome\Metagenome\Mothur\SILVA_OTU.vb"
+﻿#Region "Microsoft.VisualBasic::9fc4cfcd09776453a152654d6f627d74, GCModeller\analysis\Metagenome\Metagenome\Mothur\SILVA_OTU.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 76
+    '    Code Lines: 50
+    ' Comment Lines: 18
+    '   Blank Lines: 8
+    '     File Size: 2.92 KB
+
 
     ' Module SILVA_OTU
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c407f7eb1d1159df10f9625737fe1d35, core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\Property.vb"
+﻿#Region "Microsoft.VisualBasic::c407f7eb1d1159df10f9625737fe1d35, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\Property.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 86
+    '    Code Lines: 62
+    ' Comment Lines: 12
+    '   Blank Lines: 12
+    '     File Size: 3.55 KB
+
 
     '     Class [Property]
     ' 

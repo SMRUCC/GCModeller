@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::09b5eb989fab7a2180e52d1d69a2f120, data\MicrobesOnline\MySQL\genomics\fasthmmfamily2hmm.vb"
+﻿#Region "Microsoft.VisualBasic::09b5eb989fab7a2180e52d1d69a2f120, GCModeller\data\MicrobesOnline\MySQL\genomics\fasthmmfamily2hmm.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 65
+    '    Code Lines: 36
+    ' Comment Lines: 22
+    '   Blank Lines: 7
+    '     File Size: 3.21 KB
+
 
     ' Class fasthmmfamily2hmm
     ' 

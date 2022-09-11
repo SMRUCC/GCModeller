@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::902ce0dc9a0c0fc8c192faf56af74e15, engine\IO\GCMarkupLanguage\FBA\Model.vb"
+﻿#Region "Microsoft.VisualBasic::902ce0dc9a0c0fc8c192faf56af74e15, GCModeller\engine\IO\GCMarkupLanguage\FBA\Model.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 72
+    '    Code Lines: 45
+    ' Comment Lines: 16
+    '   Blank Lines: 11
+    '     File Size: 2.74 KB
+
 
     '     Class Model
     ' 

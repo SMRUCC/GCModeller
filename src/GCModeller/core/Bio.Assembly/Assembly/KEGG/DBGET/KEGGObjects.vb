@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::45999908c258a731cb194eb20248d297, core\Bio.Assembly\Assembly\KEGG\DBGET\KEGGObjects.vb"
+﻿#Region "Microsoft.VisualBasic::45999908c258a731cb194eb20248d297, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\KEGGObjects.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 52
+    '    Code Lines: 15
+    ' Comment Lines: 33
+    '   Blank Lines: 4
+    '     File Size: 1.38 KB
+
 
     '     Enum KEGGObjects
     ' 

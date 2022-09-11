@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6659c4fea2da6130031da981e7b62147, data\MicrobesOnline\MySQL\genomics\carts.vb"
+﻿#Region "Microsoft.VisualBasic::6659c4fea2da6130031da981e7b62147, GCModeller\data\MicrobesOnline\MySQL\genomics\carts.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 70
+    '    Code Lines: 39
+    ' Comment Lines: 24
+    '   Blank Lines: 7
+    '     File Size: 3.52 KB
+
 
     ' Class carts
     ' 

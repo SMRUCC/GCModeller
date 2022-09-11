@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f591ffc51de94670a5c34ef25939b381, analysis\SequenceToolkit\SequencePatterns\Topologically\Palindrome\SearchWorker\PalindromeSearch.vb"
+﻿#Region "Microsoft.VisualBasic::f591ffc51de94670a5c34ef25939b381, GCModeller\analysis\SequenceToolkit\SequencePatterns\Topologically\Palindrome\SearchWorker\PalindromeSearch.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 31
+    '    Code Lines: 14
+    ' Comment Lines: 13
+    '   Blank Lines: 4
+    '     File Size: 1.07 KB
+
 
     '     Class PalindromeSearch
     ' 

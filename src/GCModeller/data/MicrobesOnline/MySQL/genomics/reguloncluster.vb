@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bda93cad22cffc88836f202839055d20, data\MicrobesOnline\MySQL\genomics\reguloncluster.vb"
+﻿#Region "Microsoft.VisualBasic::bda93cad22cffc88836f202839055d20, GCModeller\data\MicrobesOnline\MySQL\genomics\reguloncluster.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 65
+    '    Code Lines: 36
+    ' Comment Lines: 22
+    '   Blank Lines: 7
+    '     File Size: 3.22 KB
+
 
     ' Class reguloncluster
     ' 

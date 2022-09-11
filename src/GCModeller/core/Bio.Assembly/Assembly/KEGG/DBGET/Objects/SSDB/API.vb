@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8f1466aa96142c0614133afb49a3514a, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\SSDB\API.vb"
+﻿#Region "Microsoft.VisualBasic::8f1466aa96142c0614133afb49a3514a, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\SSDB\API.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 262
+    '    Code Lines: 195
+    ' Comment Lines: 27
+    '   Blank Lines: 40
+    '     File Size: 12.55 KB
+
 
     '     Module API
     ' 

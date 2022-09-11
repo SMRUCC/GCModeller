@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2a4a96ef76ba763d96d220aa313aa561, data\RegulonDatabase\RegulonDB\MySQL\t_factor_d_tmp.vb"
+﻿#Region "Microsoft.VisualBasic::2a4a96ef76ba763d96d220aa313aa561, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\t_factor_d_tmp.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 161
+    '    Code Lines: 81
+    ' Comment Lines: 58
+    '   Blank Lines: 22
+    '     File Size: 8.07 KB
+
 
     ' Class t_factor_d_tmp
     ' 

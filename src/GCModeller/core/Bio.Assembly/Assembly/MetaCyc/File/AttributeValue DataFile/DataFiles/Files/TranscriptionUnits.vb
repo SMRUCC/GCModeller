@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ae39a7c65620d8c36da9d06bece64589, core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Files\TranscriptionUnits.vb"
+﻿#Region "Microsoft.VisualBasic::ae39a7c65620d8c36da9d06bece64589, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Files\TranscriptionUnits.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 38
+    '    Code Lines: 19
+    ' Comment Lines: 16
+    '   Blank Lines: 3
+    '     File Size: 2.19 KB
+
 
     '     Class TransUnits
     ' 

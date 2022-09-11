@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ae28eb03f5443cf602af7bc2e26ea051, analysis\Metagenome\MetaFunction\CARD\CARDdata.vb"
+﻿#Region "Microsoft.VisualBasic::ae28eb03f5443cf602af7bc2e26ea051, GCModeller\analysis\Metagenome\MetaFunction\CARD\CARDdata.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 136
+    '    Code Lines: 80
+    ' Comment Lines: 39
+    '   Blank Lines: 17
+    '     File Size: 5.11 KB
+
 
     ' Module CARDdata
     ' 

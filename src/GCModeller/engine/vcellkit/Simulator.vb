@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::970b425dc9b20431bfbcf18481c1eb66, engine\vcellkit\Simulator.vb"
+﻿#Region "Microsoft.VisualBasic::88729d973cd60aee7b074d9887fec2d5, GCModeller\engine\vcellkit\Simulator.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,16 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 173
+    '    Code Lines: 119
+    ' Comment Lines: 33
+    '   Blank Lines: 21
+    '     File Size: 7.29 KB
+
+
     ' Enum ModuleSystemLevels
     ' 
     '     Metabolome, Proteome, Transcriptome
@@ -44,7 +54,7 @@
     '     Constructor: (+1 Overloads) Sub New
     ' 
     '     Function: ApplyModuleProfile, CreateObjectModel, CreateUnifyDefinition, CreateVCellEngine, FluxIndex
-    '               GetDefaultDynamics, MassIndex
+    '               GetDefaultDynamics, mass0, MassIndex
     ' 
     '     Sub: TakeStatusSnapshot
     ' 

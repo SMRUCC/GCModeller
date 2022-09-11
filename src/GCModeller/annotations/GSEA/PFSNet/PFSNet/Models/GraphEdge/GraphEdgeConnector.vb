@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::682239cb4f0a09f67893b6ebe9a08ca5, annotations\GSEA\PFSNet\PFSNet\Models\GraphEdge\GraphEdgeConnector.vb"
+﻿#Region "Microsoft.VisualBasic::682239cb4f0a09f67893b6ebe9a08ca5, GCModeller\annotations\GSEA\PFSNet\PFSNet\Models\GraphEdge\GraphEdgeConnector.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 32
+    '    Code Lines: 28
+    ' Comment Lines: 0
+    '   Blank Lines: 4
+    '     File Size: 1.14 KB
+
 
     '     Module GraphEdgeConnector
     ' 

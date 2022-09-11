@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::78806b45186f3ff77adb678bc7bbafa0, data\RegulonDatabase\Regtransbase\MySQL\db_users.vb"
+﻿#Region "Microsoft.VisualBasic::78806b45186f3ff77adb678bc7bbafa0, GCModeller\data\RegulonDatabase\Regtransbase\MySQL\db_users.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 166
+    '    Code Lines: 84
+    ' Comment Lines: 60
+    '   Blank Lines: 22
+    '     File Size: 7.28 KB
+
 
     ' Class db_users
     ' 

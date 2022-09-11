@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0c4ba42e0259a19be207ca30af91647b, engine\Compiler\AssemblyScript\Commands\From.vb"
+﻿#Region "Microsoft.VisualBasic::0c4ba42e0259a19be207ca30af91647b, GCModeller\engine\Compiler\AssemblyScript\Commands\From.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 33
+    '    Code Lines: 22
+    ' Comment Lines: 3
+    '   Blank Lines: 8
+    '     File Size: 895 B
+
 
     '     Class From
     ' 

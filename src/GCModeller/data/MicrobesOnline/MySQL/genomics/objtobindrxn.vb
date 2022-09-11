@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dad3780bd5d7f5fb7acc0240da1110d4, data\MicrobesOnline\MySQL\genomics\objtobindrxn.vb"
+﻿#Region "Microsoft.VisualBasic::dad3780bd5d7f5fb7acc0240da1110d4, GCModeller\data\MicrobesOnline\MySQL\genomics\objtobindrxn.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 61
+    '    Code Lines: 34
+    ' Comment Lines: 20
+    '   Blank Lines: 7
+    '     File Size: 2.68 KB
+
 
     ' Class objtobindrxn
     ' 

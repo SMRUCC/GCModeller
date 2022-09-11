@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::337242bbd630aba96a92ea84b5b61609, data\SABIO-RK\Dumps\DocAPI.vb"
+﻿#Region "Microsoft.VisualBasic::337242bbd630aba96a92ea84b5b61609, GCModeller\data\SABIO-RK\Dumps\DocAPI.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 128
+    '    Code Lines: 109
+    ' Comment Lines: 0
+    '   Blank Lines: 19
+    '     File Size: 6.94 KB
+
 
     '     Module DocAPI
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::088dd2d606d3fa8c0f730177aeafb5be, data\MicrobesOnline\MySQL\genomics\pfamclan.vb"
+﻿#Region "Microsoft.VisualBasic::088dd2d606d3fa8c0f730177aeafb5be, GCModeller\data\MicrobesOnline\MySQL\genomics\pfamclan.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 60
+    '    Code Lines: 34
+    ' Comment Lines: 19
+    '   Blank Lines: 7
+    '     File Size: 2.43 KB
+
 
     ' Class pfamclan
     ' 

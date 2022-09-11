@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::510ce7c6b074a041a77be6e10138b6d2, data\RegulonDatabase\RegulonDB\MySQL\interaction_condition_link.vb"
+﻿#Region "Microsoft.VisualBasic::510ce7c6b074a041a77be6e10138b6d2, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\interaction_condition_link.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 149
+    '    Code Lines: 73
+    ' Comment Lines: 54
+    '   Blank Lines: 22
+    '     File Size: 5.67 KB
+
 
     ' Class interaction_condition_link
     ' 

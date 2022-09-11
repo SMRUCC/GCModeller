@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::399c40b8dd86fe033421bd49e9c2d79e, data\MicrobesOnline\MySQL\glamm\glammkeggmap.vb"
+﻿#Region "Microsoft.VisualBasic::399c40b8dd86fe033421bd49e9c2d79e, GCModeller\data\MicrobesOnline\MySQL\glamm\glammkeggmap.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 70
+    '    Code Lines: 39
+    ' Comment Lines: 24
+    '   Blank Lines: 7
+    '     File Size: 3.64 KB
+
 
     ' Class glammkeggmap
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::30a8321309af0e675f0b51f1b6b5498c, annotations\GSEA\PFSNet\PFSNet\Algorithm\computew1.vb"
+﻿#Region "Microsoft.VisualBasic::30a8321309af0e675f0b51f1b6b5498c, GCModeller\annotations\GSEA\PFSNet\PFSNet\Algorithm\computew1.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 88
+    '    Code Lines: 56
+    ' Comment Lines: 27
+    '   Blank Lines: 5
+    '     File Size: 3.56 KB
+
 
     ' Module computew1Function
     ' 

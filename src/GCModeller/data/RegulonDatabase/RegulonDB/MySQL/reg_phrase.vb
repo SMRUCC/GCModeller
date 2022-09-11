@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::69da3d46da91eb40104bf94bb7440a70, data\RegulonDatabase\RegulonDB\MySQL\reg_phrase.vb"
+﻿#Region "Microsoft.VisualBasic::69da3d46da91eb40104bf94bb7440a70, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\reg_phrase.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 173
+    '    Code Lines: 89
+    ' Comment Lines: 62
+    '   Blank Lines: 22
+    '     File Size: 10.72 KB
+
 
     ' Class reg_phrase
     ' 

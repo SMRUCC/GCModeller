@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::eb06b1bf658d5ace1a5aa61b8d993b5f, annotations\GSEA\GSEA\KnowledgeBase\Imports\Imports.vb"
+﻿#Region "Microsoft.VisualBasic::45b7f389698e5f348f619b3833dd0d24, GCModeller\annotations\GSEA\GSEA\KnowledgeBase\Imports\Imports.vb"
 
     ' Author:
     ' 
@@ -31,14 +31,23 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 178
+    '    Code Lines: 136
+    ' Comment Lines: 20
+    '   Blank Lines: 22
+    '     File Size: 7.11 KB
+
+
     ' Module [Imports]
     ' 
     ' 
     '     Delegate Function
     ' 
-    '         Function: CreateBackground, CreateCluster, createGene, getTermInternal, GOClusters
-    '                   ImportsUniProt, KEGGMapRelation, missingGoTermWarnings, proteinLocusTag, UniProtGetGOTerms
-    '                   UniProtGetKOTerms
+    '         Function: CreateBackground, CreateCluster, getTermInternal, ImportsUniProt, KEGGMapRelation
+    '                   UniProtGetGOTerms, UniProtGetKOTerms
     ' 
     ' 
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::166beff613bbda68fed734de6445b705, data\RegulonDatabase\RegulonDB\MySQL\gene.vb"
+﻿#Region "Microsoft.VisualBasic::166beff613bbda68fed734de6445b705, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\gene.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 179
+    '    Code Lines: 93
+    ' Comment Lines: 64
+    '   Blank Lines: 22
+    '     File Size: 10.73 KB
+
 
     ' Class gene
     ' 

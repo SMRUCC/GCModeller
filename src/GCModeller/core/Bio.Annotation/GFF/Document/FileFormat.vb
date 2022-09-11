@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a77f1036c87d0753dd6550a3198348af, core\Bio.Annotation\GFF\Document\FileFormat.vb"
+﻿#Region "Microsoft.VisualBasic::a77f1036c87d0753dd6550a3198348af, GCModeller\core\Bio.Annotation\GFF\Document\FileFormat.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 93
+    '    Code Lines: 73
+    ' Comment Lines: 7
+    '   Blank Lines: 13
+    '     File Size: 4.10 KB
+
 
     '     Module FileFormat
     ' 

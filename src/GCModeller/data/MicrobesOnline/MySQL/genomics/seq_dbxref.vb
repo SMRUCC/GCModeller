@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::631477f633507c3fd23ed4199a92091d, data\MicrobesOnline\MySQL\genomics\seq_dbxref.vb"
+﻿#Region "Microsoft.VisualBasic::631477f633507c3fd23ed4199a92091d, GCModeller\data\MicrobesOnline\MySQL\genomics\seq_dbxref.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 62
+    '    Code Lines: 34
+    ' Comment Lines: 21
+    '   Blank Lines: 7
+    '     File Size: 2.61 KB
+
 
     ' Class seq_dbxref
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::25e5670943fe88350318466848df116a, data\MicrobesOnline\MySQL\genomics\assoc_rel.vb"
+﻿#Region "Microsoft.VisualBasic::25e5670943fe88350318466848df116a, GCModeller\data\MicrobesOnline\MySQL\genomics\assoc_rel.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 66
+    '    Code Lines: 36
+    ' Comment Lines: 23
+    '   Blank Lines: 7
+    '     File Size: 3.00 KB
+
 
     ' Class assoc_rel
     ' 

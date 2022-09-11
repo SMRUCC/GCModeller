@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f58d9e7c0fbbf6f52650a83790463ed1, visualize\ChromosomeMap\Configuration\DataReader.vb"
+﻿#Region "Microsoft.VisualBasic::f58d9e7c0fbbf6f52650a83790463ed1, GCModeller\visualize\ChromosomeMap\Configuration\DataReader.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 67
+    '    Code Lines: 35
+    ' Comment Lines: 24
+    '   Blank Lines: 8
+    '     File Size: 3.02 KB
+
 
     '     Class DataReader
     ' 

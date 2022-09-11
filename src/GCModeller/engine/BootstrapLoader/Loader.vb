@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6db1cb6c1266739e1941c650fe78c167, engine\BootstrapLoader\Loader.vb"
+﻿#Region "Microsoft.VisualBasic::c983d14c16def748d3502bc0fd48937a, GCModeller\engine\BootstrapLoader\Loader.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 116
+    '    Code Lines: 86
+    ' Comment Lines: 7
+    '   Blank Lines: 23
+    '     File Size: 4.71 KB
+
 
     '     Class Loader
     ' 

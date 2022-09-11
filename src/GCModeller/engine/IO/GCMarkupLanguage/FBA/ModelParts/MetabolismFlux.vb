@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0a394237b6f9e1e622e93feb3d58de4b, engine\IO\GCMarkupLanguage\FBA\ModelParts\MetabolismFlux.vb"
+﻿#Region "Microsoft.VisualBasic::0a394237b6f9e1e622e93feb3d58de4b, GCModeller\engine\IO\GCMarkupLanguage\FBA\ModelParts\MetabolismFlux.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 72
+    '    Code Lines: 48
+    ' Comment Lines: 12
+    '   Blank Lines: 12
+    '     File Size: 3.19 KB
+
 
     '     Class MetabolismFlux
     ' 

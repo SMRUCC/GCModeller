@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5e0704e2e314f764e011848b74035cd7, data\MicrobesOnline\MySQL\genomics\locus2rtbarticles.vb"
+﻿#Region "Microsoft.VisualBasic::5e0704e2e314f764e011848b74035cd7, GCModeller\data\MicrobesOnline\MySQL\genomics\locus2rtbarticles.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 62
+    '    Code Lines: 35
+    ' Comment Lines: 20
+    '   Blank Lines: 7
+    '     File Size: 2.75 KB
+
 
     ' Class locus2rtbarticles
     ' 

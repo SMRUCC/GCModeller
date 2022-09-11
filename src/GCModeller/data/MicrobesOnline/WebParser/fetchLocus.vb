@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5436b4e29f7cacfad0f560c871dd05c1, data\MicrobesOnline\WebParser\fetchLocus.vb"
+﻿#Region "Microsoft.VisualBasic::5436b4e29f7cacfad0f560c871dd05c1, GCModeller\data\MicrobesOnline\WebParser\fetchLocus.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 42
+    '    Code Lines: 27
+    ' Comment Lines: 11
+    '   Blank Lines: 4
+    '     File Size: 1.96 KB
+
 
     ' Module fetchLocus
     ' 

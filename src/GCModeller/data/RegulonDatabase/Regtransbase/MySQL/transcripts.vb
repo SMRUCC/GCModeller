@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::84df040e740558b669a6fa3bbf7c62e2, data\RegulonDatabase\Regtransbase\MySQL\transcripts.vb"
+﻿#Region "Microsoft.VisualBasic::84df040e740558b669a6fa3bbf7c62e2, GCModeller\data\RegulonDatabase\Regtransbase\MySQL\transcripts.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 225
+    '    Code Lines: 110
+    ' Comment Lines: 93
+    '   Blank Lines: 22
+    '     File Size: 15.39 KB
+
 
     ' Class transcripts
     ' 

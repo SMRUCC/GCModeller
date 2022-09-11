@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3e98edad52171b477832b6269a3f96ac, data\MicrobesOnline\MySQL\BioCyc\protein.vb"
+﻿#Region "Microsoft.VisualBasic::3e98edad52171b477832b6269a3f96ac, GCModeller\data\MicrobesOnline\MySQL\BioCyc\protein.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 87
+    '    Code Lines: 47
+    ' Comment Lines: 33
+    '   Blank Lines: 7
+    '     File Size: 5.46 KB
+
 
     ' Class protein
     ' 

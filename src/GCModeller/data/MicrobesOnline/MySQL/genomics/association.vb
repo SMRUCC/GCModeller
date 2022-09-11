@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2850c1866245edc77568e6c6c8eca7b4, data\MicrobesOnline\MySQL\genomics\association.vb"
+﻿#Region "Microsoft.VisualBasic::2850c1866245edc77568e6c6c8eca7b4, GCModeller\data\MicrobesOnline\MySQL\genomics\association.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 76
+    '    Code Lines: 39
+    ' Comment Lines: 30
+    '   Blank Lines: 7
+    '     File Size: 3.87 KB
+
 
     ' Class association
     ' 

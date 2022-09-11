@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e6e4ff8115b94b7a6f60af202f254dc1, core\Bio.Assembly\Assembly\MetaCyc\File\Tabular DataFiles\RecordLine.vb"
+﻿#Region "Microsoft.VisualBasic::e6e4ff8115b94b7a6f60af202f254dc1, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\Tabular DataFiles\RecordLine.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 31
+    '    Code Lines: 23
+    ' Comment Lines: 0
+    '   Blank Lines: 8
+    '     File Size: 794 B
+
 
     '     Class RecordLine
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d72393bbf6345ca1ca47f66f380d4f56, data\MicrobesOnline\MySQL\glamm\glammxref.vb"
+﻿#Region "Microsoft.VisualBasic::d72393bbf6345ca1ca47f66f380d4f56, GCModeller\data\MicrobesOnline\MySQL\glamm\glammxref.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 74
+    '    Code Lines: 40
+    ' Comment Lines: 27
+    '   Blank Lines: 7
+    '     File Size: 4.00 KB
+
 
     ' Class glammxref
     ' 

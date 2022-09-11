@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ba8071b5e594869b72b4132d2983aa3d, data\RegulonDatabase\Regtransbase\MySQL\obj_name_genomes.vb"
+﻿#Region "Microsoft.VisualBasic::ba8071b5e594869b72b4132d2983aa3d, GCModeller\data\RegulonDatabase\Regtransbase\MySQL\obj_name_genomes.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 175
+    '    Code Lines: 88
+    ' Comment Lines: 65
+    '   Blank Lines: 22
+    '     File Size: 8.33 KB
+
 
     ' Class obj_name_genomes
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::47bf742d2e7cde4e2813689c796027db, core\Bio.Assembly\Assembly\KEGG\DBGET\LinkDB\ParserHelper.vb"
+﻿#Region "Microsoft.VisualBasic::47bf742d2e7cde4e2813689c796027db, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\LinkDB\ParserHelper.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 32
+    '    Code Lines: 22
+    ' Comment Lines: 3
+    '   Blank Lines: 7
+    '     File Size: 1.23 KB
+
 
     '     Module ParserHelper
     ' 

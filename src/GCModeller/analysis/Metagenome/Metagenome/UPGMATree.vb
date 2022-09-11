@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0cca111fbfdab636282d9f833b0409e8, analysis\Metagenome\Metagenome\UPGMATree.vb"
+﻿#Region "Microsoft.VisualBasic::0cca111fbfdab636282d9f833b0409e8, GCModeller\analysis\Metagenome\Metagenome\UPGMATree.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 134
+    '    Code Lines: 108
+    ' Comment Lines: 5
+    '   Blank Lines: 21
+    '     File Size: 4.31 KB
+
 
     ' Module UPGMATree
     ' 

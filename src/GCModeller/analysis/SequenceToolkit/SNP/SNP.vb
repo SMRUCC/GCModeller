@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4390af87de7fa23466762ebeab219102, analysis\SequenceToolkit\SNP\SNP.vb"
+﻿#Region "Microsoft.VisualBasic::4390af87de7fa23466762ebeab219102, GCModeller\analysis\SequenceToolkit\SNP\SNP.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 111
+    '    Code Lines: 64
+    ' Comment Lines: 38
+    '   Blank Lines: 9
+    '     File Size: 3.48 KB
+
 
     ' Class SNP
     ' 

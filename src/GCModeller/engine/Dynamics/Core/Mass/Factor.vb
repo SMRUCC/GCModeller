@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1aa90a3f7ebb623cb150eeccdb3112df, engine\Dynamics\Core\Mass\Factor.vb"
+﻿#Region "Microsoft.VisualBasic::1aa90a3f7ebb623cb150eeccdb3112df, GCModeller\engine\Dynamics\Core\Mass\Factor.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 44
+    '    Code Lines: 25
+    ' Comment Lines: 11
+    '   Blank Lines: 8
+    '     File Size: 1.25 KB
+
 
     '     Class Factor
     ' 

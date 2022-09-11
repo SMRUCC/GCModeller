@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0e0753ce2f7a38baf08f081d7f972102, core\Bio.Assembly\Assembly\NCBI\Taxonomy\TaxidMaps.vb"
+﻿#Region "Microsoft.VisualBasic::0e0753ce2f7a38baf08f081d7f972102, GCModeller\core\Bio.Assembly\Assembly\NCBI\Taxonomy\TaxidMaps.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 92
+    '    Code Lines: 56
+    ' Comment Lines: 22
+    '   Blank Lines: 14
+    '     File Size: 3.52 KB
+
 
     '     Module TaxidMaps
     ' 

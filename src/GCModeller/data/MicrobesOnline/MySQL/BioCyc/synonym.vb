@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::94d49f0a6efb69c5f90087b5eefd18f6, data\MicrobesOnline\MySQL\BioCyc\synonym.vb"
+﻿#Region "Microsoft.VisualBasic::94d49f0a6efb69c5f90087b5eefd18f6, GCModeller\data\MicrobesOnline\MySQL\BioCyc\synonym.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 61
+    '    Code Lines: 34
+    ' Comment Lines: 20
+    '   Blank Lines: 7
+    '     File Size: 2.66 KB
+
 
     ' Class synonym
     ' 

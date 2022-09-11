@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ba7b282e27a4b8ea0243c19158e8de3e, visualize\DataVisualizationExtensions\ExpressionPattern\PatternPlot.vb"
+﻿#Region "Microsoft.VisualBasic::99c10a77a3acef82ef570998bfc7c1e5, GCModeller\visualize\DataVisualizationExtensions\ExpressionPattern\PatternPlot.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 190
+    '    Code Lines: 156
+    ' Comment Lines: 13
+    '   Blank Lines: 21
+    '     File Size: 8.46 KB
+
 
     '     Class PatternPlot
     ' 

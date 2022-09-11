@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1a287a8e656853539ac55ecfd5e52342, core\Bio.Assembly\Assembly\KEGG\Medical\DrugParser.vb"
+﻿#Region "Microsoft.VisualBasic::1a287a8e656853539ac55ecfd5e52342, GCModeller\core\Bio.Assembly\Assembly\KEGG\Medical\DrugParser.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 256
+    '    Code Lines: 194
+    ' Comment Lines: 25
+    '   Blank Lines: 37
+    '     File Size: 9.65 KB
+
 
     '     Module DrugParser
     ' 

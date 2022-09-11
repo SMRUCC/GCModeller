@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::63069cb4570b40601c515b003a500b10, engine\Dynamics\Core\Kinetics\Controls\BaselineControls.vb"
+﻿#Region "Microsoft.VisualBasic::63069cb4570b40601c515b003a500b10, GCModeller\engine\Dynamics\Core\Kinetics\Controls\BaselineControls.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 18
+    '    Code Lines: 14
+    ' Comment Lines: 0
+    '   Blank Lines: 4
+    '     File Size: 392 B
+
 
     '     Class BaselineControls
     ' 

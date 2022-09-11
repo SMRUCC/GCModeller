@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d14d0bd1414d831e2c0da19ba4df018d, data\RegulonDatabase\Regtransbase\MySQL\pkg_history.vb"
+﻿#Region "Microsoft.VisualBasic::d14d0bd1414d831e2c0da19ba4df018d, GCModeller\data\RegulonDatabase\Regtransbase\MySQL\pkg_history.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 182
+    '    Code Lines: 95
+    ' Comment Lines: 65
+    '   Blank Lines: 22
+    '     File Size: 11.77 KB
+
 
     ' Class pkg_history
     ' 

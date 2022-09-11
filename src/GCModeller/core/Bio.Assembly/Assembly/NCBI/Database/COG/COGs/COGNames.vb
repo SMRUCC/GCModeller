@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::60498aa3e23ac4df6d4e8fdaa6a66ece, core\Bio.Assembly\Assembly\NCBI\Database\COG\COGs\COGNames.vb"
+﻿#Region "Microsoft.VisualBasic::60498aa3e23ac4df6d4e8fdaa6a66ece, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\COG\COGs\COGNames.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 206
+    '    Code Lines: 100
+    ' Comment Lines: 79
+    '   Blank Lines: 27
+    '     File Size: 6.63 KB
+
 
     '     Class COGName
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8851236c844e6a47964e928d1c70bf9f, visualize\ChromosomeMap\PlasmidMap\DrawGene.vb"
+﻿#Region "Microsoft.VisualBasic::8851236c844e6a47964e928d1c70bf9f, GCModeller\visualize\ChromosomeMap\PlasmidMap\DrawGene.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 40
+    '    Code Lines: 26
+    ' Comment Lines: 9
+    '   Blank Lines: 5
+    '     File Size: 1.62 KB
+
 
     '     Module DrawGene
     ' 

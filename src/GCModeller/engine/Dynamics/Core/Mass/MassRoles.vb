@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::87fb3367b6274af78c3340eff4a4d5e3, engine\Dynamics\Core\Mass\MassRoles.vb"
+﻿#Region "Microsoft.VisualBasic::87fb3367b6274af78c3340eff4a4d5e3, GCModeller\engine\Dynamics\Core\Mass\MassRoles.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 21
+    '    Code Lines: 11
+    ' Comment Lines: 9
+    '   Blank Lines: 1
+    '     File Size: 445 B
+
 
     '     Enum MassRoles
     ' 

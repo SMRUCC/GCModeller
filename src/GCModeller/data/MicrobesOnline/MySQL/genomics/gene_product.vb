@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cba1ea18806705699f3a901951e58cd1, data\MicrobesOnline\MySQL\genomics\gene_product.vb"
+﻿#Region "Microsoft.VisualBasic::cba1ea18806705699f3a901951e58cd1, GCModeller\data\MicrobesOnline\MySQL\genomics\gene_product.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 77
+    '    Code Lines: 38
+    ' Comment Lines: 32
+    '   Blank Lines: 7
+    '     File Size: 3.62 KB
+
 
     ' Class gene_product
     ' 

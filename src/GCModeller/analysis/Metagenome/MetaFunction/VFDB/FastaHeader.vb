@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::80ddebde7daac4c00072c50acd6c9943, analysis\Metagenome\MetaFunction\VFDB\FastaHeader.vb"
+﻿#Region "Microsoft.VisualBasic::80ddebde7daac4c00072c50acd6c9943, GCModeller\analysis\Metagenome\MetaFunction\VFDB\FastaHeader.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 48
+    '    Code Lines: 35
+    ' Comment Lines: 3
+    '   Blank Lines: 10
+    '     File Size: 1.59 KB
+
 
     '     Class FastaHeader
     ' 

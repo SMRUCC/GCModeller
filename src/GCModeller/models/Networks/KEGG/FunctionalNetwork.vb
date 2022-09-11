@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e392cb9db741a783f1bfd9dcdd95ecb4, models\Networks\KEGG\FunctionalNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::e392cb9db741a783f1bfd9dcdd95ecb4, GCModeller\models\Networks\KEGG\FunctionalNetwork.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 236
+    '    Code Lines: 182
+    ' Comment Lines: 19
+    '   Blank Lines: 35
+    '     File Size: 9.91 KB
+
 
     ' Module FunctionalNetwork
     ' 

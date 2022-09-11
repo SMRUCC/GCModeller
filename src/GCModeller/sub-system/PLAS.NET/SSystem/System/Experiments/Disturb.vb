@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::69bdc0edee6d4dc2ac3ab0554ce2d8c4, sub-system\PLAS.NET\SSystem\System\Experiments\Disturb.vb"
+﻿#Region "Microsoft.VisualBasic::69bdc0edee6d4dc2ac3ab0554ce2d8c4, GCModeller\sub-system\PLAS.NET\SSystem\System\Experiments\Disturb.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 52
+    '    Code Lines: 33
+    ' Comment Lines: 9
+    '   Blank Lines: 10
+    '     File Size: 1.57 KB
+
 
     '     Class Disturb
     ' 

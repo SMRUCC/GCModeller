@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2b396bed968cbc8622dbdce07860ecc6, analysis\SequenceToolkit\SequenceLogo\ClustalVisual.vb"
+﻿#Region "Microsoft.VisualBasic::8d1e60d8d2f642f7fed36c553f312ba7, GCModeller\analysis\SequenceToolkit\SequenceLogo\ClustalVisual.vb"
 
     ' Author:
     ' 
@@ -31,13 +31,20 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 140
+    '    Code Lines: 93
+    ' Comment Lines: 25
+    '   Blank Lines: 22
+    '     File Size: 5.67 KB
+
+
     ' Module ClustalVisual
     ' 
     '     Constructor: (+1 Overloads) Sub New
-    ' 
     '     Function: (+2 Overloads) InvokeDrawing
-    ' 
-    '     Sub: SetDotSize
     ' 
     ' /********************************************************************************/
 

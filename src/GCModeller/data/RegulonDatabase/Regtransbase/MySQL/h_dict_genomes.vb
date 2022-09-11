@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::63e97200de0dc96697d750b2903905f5, data\RegulonDatabase\Regtransbase\MySQL\h_dict_genomes.vb"
+﻿#Region "Microsoft.VisualBasic::63e97200de0dc96697d750b2903905f5, GCModeller\data\RegulonDatabase\Regtransbase\MySQL\h_dict_genomes.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 151
+    '    Code Lines: 74
+    ' Comment Lines: 55
+    '   Blank Lines: 22
+    '     File Size: 5.20 KB
+
 
     ' Class h_dict_genomes
     ' 

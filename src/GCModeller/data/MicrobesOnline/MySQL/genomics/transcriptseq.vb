@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d07fe660f5266d5830f4074c7eacbde3, data\MicrobesOnline\MySQL\genomics\transcriptseq.vb"
+﻿#Region "Microsoft.VisualBasic::d07fe660f5266d5830f4074c7eacbde3, GCModeller\data\MicrobesOnline\MySQL\genomics\transcriptseq.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 62
+    '    Code Lines: 35
+    ' Comment Lines: 20
+    '   Blank Lines: 7
+    '     File Size: 2.77 KB
+
 
     ' Class transcriptseq
     ' 

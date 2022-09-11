@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c183f9be440b0b7feb5273ed82d601f0, engine\IO\GCMarkupLanguage\GCML_Documents\XmlElements\ComponentModels\T_MetaCycEntity.vb"
+﻿#Region "Microsoft.VisualBasic::c183f9be440b0b7feb5273ed82d601f0, GCModeller\engine\IO\GCMarkupLanguage\GCML_Documents\XmlElements\ComponentModels\T_MetaCycEntity.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 40
+    '    Code Lines: 19
+    ' Comment Lines: 15
+    '   Blank Lines: 6
+    '     File Size: 1.60 KB
+
 
     '     Class T_MetaCycEntity
     ' 

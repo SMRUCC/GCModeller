@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::28e06710b83b72610233af7688b7efac, data\RegulonDatabase\RegulonDB\MySQL\condition.vb"
+﻿#Region "Microsoft.VisualBasic::28e06710b83b72610233af7688b7efac, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\condition.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 164
+    '    Code Lines: 83
+    ' Comment Lines: 59
+    '   Blank Lines: 22
+    '     File Size: 8.60 KB
+
 
     ' Class condition
     ' 

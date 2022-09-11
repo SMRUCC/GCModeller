@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2f9b6ce29412b900245eacad4f328d0e, models\SBML\Biopax\Level3\Elements\EntityProperty.vb"
+﻿#Region "Microsoft.VisualBasic::2f9b6ce29412b900245eacad4f328d0e, GCModeller\models\SBML\Biopax\Level3\Elements\EntityProperty.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 167
+    '    Code Lines: 87
+    ' Comment Lines: 0
+    '   Blank Lines: 80
+    '     File Size: 3.26 KB
+
 
     '     Class structureFormat
     ' 

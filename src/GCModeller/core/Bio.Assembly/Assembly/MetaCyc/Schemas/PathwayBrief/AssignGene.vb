@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2a5da0b7d3ab168be947b586571ed237, core\Bio.Assembly\Assembly\MetaCyc\Schemas\PathwayBrief\AssignGene.vb"
+﻿#Region "Microsoft.VisualBasic::2a5da0b7d3ab168be947b586571ed237, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\Schemas\PathwayBrief\AssignGene.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 130
+    '    Code Lines: 71
+    ' Comment Lines: 40
+    '   Blank Lines: 19
+    '     File Size: 5.93 KB
+
 
     '     Class AssignGene
     ' 

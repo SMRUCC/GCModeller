@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4e03c67d1ae83418fd1bd8d942f58891, data\RegulonDatabase\RegulonDB\MySQL\object_synonym.vb"
+﻿#Region "Microsoft.VisualBasic::4e03c67d1ae83418fd1bd8d942f58891, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\object_synonym.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 155
+    '    Code Lines: 77
+    ' Comment Lines: 56
+    '   Blank Lines: 22
+    '     File Size: 6.73 KB
+
 
     ' Class object_synonym
     ' 

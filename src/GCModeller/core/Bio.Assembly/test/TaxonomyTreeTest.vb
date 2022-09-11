@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::18306ef85d6f239e582ca9040019088d, core\Bio.Assembly\Test\TaxonomyTreeTest.vb"
+﻿#Region "Microsoft.VisualBasic::18306ef85d6f239e582ca9040019088d, GCModeller\core\Bio.Assembly\Test\TaxonomyTreeTest.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 12
+    '    Code Lines: 9
+    ' Comment Lines: 0
+    '   Blank Lines: 3
+    '     File Size: 390 B
+
 
     ' Module TaxonomyTreeTest
     ' 

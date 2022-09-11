@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::55fc98ab0e77f17d4089d1d8bca085f7, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\PTT\PTT.vb"
+﻿#Region "Microsoft.VisualBasic::55fc98ab0e77f17d4089d1d8bca085f7, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\PTT\PTT.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 391
+    '    Code Lines: 230
+    ' Comment Lines: 109
+    '   Blank Lines: 52
+    '     File Size: 16.99 KB
+
 
     '     Class PTT
     ' 

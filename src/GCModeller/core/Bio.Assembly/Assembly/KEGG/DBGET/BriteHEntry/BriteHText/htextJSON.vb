@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9e0c2de86d896866c0afae6b89102558, core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\BriteHText\htextJSON.vb"
+﻿#Region "Microsoft.VisualBasic::9e0c2de86d896866c0afae6b89102558, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\BriteHText\htextJSON.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 50
+    '    Code Lines: 37
+    ' Comment Lines: 0
+    '   Blank Lines: 13
+    '     File Size: 1.36 KB
+
 
     '     Class htextJSON
     ' 

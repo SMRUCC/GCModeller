@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::15de73801a024485c4f2a0e7c3ca1b3b, analysis\SequenceToolkit\SequencePatterns\Topologically\Similarity\MirrorPalindrome.vb"
+﻿#Region "Microsoft.VisualBasic::e72b578a2a135e634c099cf956e61a33, GCModeller\analysis\SequenceToolkit\SequencePatterns\Topologically\Similarity\MirrorPalindrome.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 107
+    '    Code Lines: 63
+    ' Comment Lines: 29
+    '   Blank Lines: 15
+    '     File Size: 4.53 KB
+
 
     '     Module MirrorPalindrome
     ' 

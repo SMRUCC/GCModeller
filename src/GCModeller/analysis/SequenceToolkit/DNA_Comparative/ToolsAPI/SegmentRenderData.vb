@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f8a922e792b3f362c7793dec32bc3a65, analysis\SequenceToolkit\DNA_Comparative\ToolsAPI\SegmentRenderData.vb"
+﻿#Region "Microsoft.VisualBasic::f8a922e792b3f362c7793dec32bc3a65, GCModeller\analysis\SequenceToolkit\DNA_Comparative\ToolsAPI\SegmentRenderData.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 18
+    '    Code Lines: 6
+    ' Comment Lines: 12
+    '   Blank Lines: 0
+    '     File Size: 687 B
+
 
     ' Class SegmentRenderData
     ' 

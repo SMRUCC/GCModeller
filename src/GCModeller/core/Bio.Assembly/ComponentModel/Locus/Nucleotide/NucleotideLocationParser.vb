@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7327b298e4fcadf972a07b76aa9524ef, core\Bio.Assembly\ComponentModel\Locus\Nucleotide\NucleotideLocationParser.vb"
+﻿#Region "Microsoft.VisualBasic::7327b298e4fcadf972a07b76aa9524ef, GCModeller\core\Bio.Assembly\ComponentModel\Locus\Nucleotide\NucleotideLocationParser.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 23
+    '    Code Lines: 16
+    ' Comment Lines: 3
+    '   Blank Lines: 4
+    '     File Size: 713 B
+
 
     '     Class NucleotideLocationParser
     ' 

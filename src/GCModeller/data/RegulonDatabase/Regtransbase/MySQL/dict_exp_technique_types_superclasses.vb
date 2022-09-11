@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::12acd10b67d3058c8afe21427f296c6b, data\RegulonDatabase\Regtransbase\MySQL\dict_exp_technique_types_superclasses.vb"
+﻿#Region "Microsoft.VisualBasic::12acd10b67d3058c8afe21427f296c6b, GCModeller\data\RegulonDatabase\Regtransbase\MySQL\dict_exp_technique_types_superclasses.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 151
+    '    Code Lines: 74
+    ' Comment Lines: 55
+    '   Blank Lines: 22
+    '     File Size: 6.42 KB
+
 
     ' Class dict_exp_technique_types_superclasses
     ' 

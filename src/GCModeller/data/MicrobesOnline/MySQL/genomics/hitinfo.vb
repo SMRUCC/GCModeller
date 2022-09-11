@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a21dff2b51daf3d7488ba07210ed00b6, data\MicrobesOnline\MySQL\genomics\hitinfo.vb"
+﻿#Region "Microsoft.VisualBasic::a21dff2b51daf3d7488ba07210ed00b6, GCModeller\data\MicrobesOnline\MySQL\genomics\hitinfo.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 63
+    '    Code Lines: 36
+    ' Comment Lines: 20
+    '   Blank Lines: 7
+    '     File Size: 2.85 KB
+
 
     ' Class hitinfo
     ' 

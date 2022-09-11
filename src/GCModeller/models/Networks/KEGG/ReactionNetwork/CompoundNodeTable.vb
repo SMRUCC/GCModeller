@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3421c764a16acb96c962b4dc12ce2d17, models\Networks\KEGG\ReactionNetwork\CompoundNodeTable.vb"
+﻿#Region "Microsoft.VisualBasic::3421c764a16acb96c962b4dc12ce2d17, GCModeller\models\Networks\KEGG\ReactionNetwork\CompoundNodeTable.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 80
+    '    Code Lines: 66
+    ' Comment Lines: 0
+    '   Blank Lines: 14
+    '     File Size: 3.09 KB
+
 
     '     Class CompoundNodeTable
     ' 

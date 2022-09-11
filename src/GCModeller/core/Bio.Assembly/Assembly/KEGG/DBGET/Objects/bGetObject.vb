@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e33a1340c649963790292fdae23c7271, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\bGetObject.vb"
+﻿#Region "Microsoft.VisualBasic::e33a1340c649963790292fdae23c7271, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\bGetObject.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 17
+    '    Code Lines: 9
+    ' Comment Lines: 3
+    '   Blank Lines: 5
+    '     File Size: 417 B
+
 
     '     Class bGetObject
     ' 

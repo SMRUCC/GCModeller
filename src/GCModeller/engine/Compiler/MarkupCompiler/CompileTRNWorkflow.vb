@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ba74be84523a615c66a7d2411d4380df, engine\Compiler\MarkupCompiler\CompileTRNWorkflow.vb"
+﻿#Region "Microsoft.VisualBasic::93b73c324a40317600620b9378af4b41, GCModeller\engine\Compiler\MarkupCompiler\CompileTRNWorkflow.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 97
+    '    Code Lines: 51
+    ' Comment Lines: 30
+    '   Blank Lines: 16
+    '     File Size: 4.26 KB
+
 
     '     Class CompileTRNWorkflow
     ' 

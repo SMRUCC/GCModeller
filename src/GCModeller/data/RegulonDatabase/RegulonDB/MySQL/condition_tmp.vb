@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b7c21198e86ebcea085e877c6358c89a, data\RegulonDatabase\RegulonDB\MySQL\condition_tmp.vb"
+﻿#Region "Microsoft.VisualBasic::b7c21198e86ebcea085e877c6358c89a, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\condition_tmp.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 176
+    '    Code Lines: 91
+    ' Comment Lines: 63
+    '   Blank Lines: 22
+    '     File Size: 12.32 KB
+
 
     ' Class condition_tmp
     ' 

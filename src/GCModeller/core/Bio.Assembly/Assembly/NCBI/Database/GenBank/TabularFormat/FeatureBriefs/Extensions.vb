@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7d1bacdba12cad5d73ae96467339b104, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::7d1bacdba12cad5d73ae96467339b104, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\Extensions.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 16
+    '    Code Lines: 13
+    ' Comment Lines: 0
+    '   Blank Lines: 3
+    '     File Size: 538 B
+
 
     '     Module Extensions
     ' 

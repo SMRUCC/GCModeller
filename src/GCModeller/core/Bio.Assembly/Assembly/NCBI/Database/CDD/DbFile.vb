@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6461a11b2fc739651fe5a727c76dee24, core\Bio.Assembly\Assembly\NCBI\Database\CDD\DbFile.vb"
+﻿#Region "Microsoft.VisualBasic::6461a11b2fc739651fe5a727c76dee24, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\CDD\DbFile.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 267
+    '    Code Lines: 206
+    ' Comment Lines: 36
+    '   Blank Lines: 25
+    '     File Size: 11.32 KB
+
 
     '     Class DbFile
     ' 

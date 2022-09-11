@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b8ae97faedbae8d2c8de63945397aa76, engine\IO\GCMarkupLanguage\GCML_Documents\GCMLDocBuilder\MetabolismBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::b8ae97faedbae8d2c8de63945397aa76, GCModeller\engine\IO\GCMarkupLanguage\GCML_Documents\GCMLDocBuilder\MetabolismBuilder.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 175
+    '    Code Lines: 114
+    ' Comment Lines: 37
+    '   Blank Lines: 24
+    '     File Size: 10.44 KB
+
 
     '     Class MetabolismBuilder
     ' 

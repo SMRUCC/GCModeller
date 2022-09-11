@@ -1,54 +1,51 @@
-﻿#Region "Microsoft.VisualBasic::32e0496236421051e0b1439eca571c65, analysis\Metagenome\Metagenome\RelativeStatics.vb"
+﻿#Region "Microsoft.VisualBasic::8240666bf616bfab06a0204a16f6f6bc, GCModeller\analysis\Metagenome\Metagenome\RelativeStatics.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-' Module RelativeStatics
-' 
-'     Function: ExportByRanks, RelativeAbundance
-'     Class RankView
-' 
-'         Properties: OTUs, Samples, TaxonomyName, Tree
-' 
-'         Function: ToString
-' 
-'     Class View
-' 
-'         Properties: OTU, Samples, TaxonTree
-' 
-'         Function: ToString
-' 
-' 
-' 
-' /********************************************************************************/
+
+    ' Code Statistics:
+
+    '   Total Lines: 106
+    '    Code Lines: 77
+    ' Comment Lines: 21
+    '   Blank Lines: 8
+    '     File Size: 5.03 KB
+
+
+    ' Module RelativeStatics
+    ' 
+    '     Function: CastView, ExportByRanks, PopulateViews, RelativeAbundance
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -158,4 +155,3 @@ Public Module RelativeStatics
         Next
     End Function
 End Module
-

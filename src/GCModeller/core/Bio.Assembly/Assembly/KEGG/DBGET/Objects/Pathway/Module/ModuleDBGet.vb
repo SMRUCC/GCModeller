@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8c70df60561749df1f52434f9d2a7f84, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Module\ModuleDBGet.vb"
+﻿#Region "Microsoft.VisualBasic::8c70df60561749df1f52434f9d2a7f84, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Module\ModuleDBGet.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 38
+    '    Code Lines: 26
+    ' Comment Lines: 5
+    '   Blank Lines: 7
+    '     File Size: 1.84 KB
+
 
     '     Module ModuleDBGet
     ' 

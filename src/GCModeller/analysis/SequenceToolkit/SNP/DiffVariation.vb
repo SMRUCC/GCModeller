@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::342976ae0e27ecf7546b8d52f7ff7eda, analysis\SequenceToolkit\SNP\DiffVariation.vb"
+﻿#Region "Microsoft.VisualBasic::342976ae0e27ecf7546b8d52f7ff7eda, GCModeller\analysis\SequenceToolkit\SNP\DiffVariation.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 153
+    '    Code Lines: 114
+    ' Comment Lines: 13
+    '   Blank Lines: 26
+    '     File Size: 5.53 KB
+
 
     ' Module DiffVariation
     ' 

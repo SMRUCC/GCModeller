@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::35d55cb8c03f6262b9a43b94aa1110d7, analysis\SequenceToolkit\ClustalOmega\Clustal.vb"
+﻿#Region "Microsoft.VisualBasic::35d55cb8c03f6262b9a43b94aa1110d7, GCModeller\analysis\SequenceToolkit\ClustalOmega\Clustal.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 159
+    '    Code Lines: 103
+    ' Comment Lines: 35
+    '   Blank Lines: 21
+    '     File Size: 7.62 KB
+
 
     ' Class Clustal
     ' 

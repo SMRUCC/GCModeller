@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5b52867bbeecc913e3cefd374932b24a, data\MicrobesOnline\MySQL\genomics\mogneighborscores.vb"
+﻿#Region "Microsoft.VisualBasic::5b52867bbeecc913e3cefd374932b24a, GCModeller\data\MicrobesOnline\MySQL\genomics\mogneighborscores.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 68
+    '    Code Lines: 38
+    ' Comment Lines: 23
+    '   Blank Lines: 7
+    '     File Size: 3.58 KB
+
 
     ' Class mogneighborscores
     ' 

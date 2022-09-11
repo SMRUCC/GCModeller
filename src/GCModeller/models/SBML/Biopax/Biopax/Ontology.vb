@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aad56aeb63d8dc4c50ba3b9a52226cf2, models\SBML\Biopax\Biopax\Ontology.vb"
+﻿#Region "Microsoft.VisualBasic::aad56aeb63d8dc4c50ba3b9a52226cf2, GCModeller\models\SBML\Biopax\Biopax\Ontology.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 5
+    '    Code Lines: 3
+    ' Comment Lines: 0
+    '   Blank Lines: 2
+    '     File Size: 128 B
+
 
     ' Class OwlOntology
     ' 

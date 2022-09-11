@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3cca7ce67470f8e5933a8b5343a0994d, data\MicrobesOnline\MySQL\genomics\term_dbxref.vb"
+﻿#Region "Microsoft.VisualBasic::3cca7ce67470f8e5933a8b5343a0994d, GCModeller\data\MicrobesOnline\MySQL\genomics\term_dbxref.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 64
+    '    Code Lines: 35
+    ' Comment Lines: 22
+    '   Blank Lines: 7
+    '     File Size: 3.08 KB
+
 
     ' Class term_dbxref
     ' 

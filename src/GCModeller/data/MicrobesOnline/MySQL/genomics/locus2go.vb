@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ec11c26ed0671ab632056a9faafb836f, data\MicrobesOnline\MySQL\genomics\locus2go.vb"
+﻿#Region "Microsoft.VisualBasic::ec11c26ed0671ab632056a9faafb836f, GCModeller\data\MicrobesOnline\MySQL\genomics\locus2go.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 63
+    '    Code Lines: 35
+    ' Comment Lines: 21
+    '   Blank Lines: 7
+    '     File Size: 2.74 KB
+
 
     ' Class locus2go
     ' 

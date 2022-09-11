@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bbfe07f260983f8adaa5f9a675d8dd49, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\ReferenceMap\Reaction.vb"
+﻿#Region "Microsoft.VisualBasic::bbfe07f260983f8adaa5f9a675d8dd49, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\ReferenceMap\Reaction.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 54
+    '    Code Lines: 38
+    ' Comment Lines: 6
+    '   Blank Lines: 10
+    '     File Size: 2.14 KB
+
 
     '     Class ReferenceReaction
     ' 

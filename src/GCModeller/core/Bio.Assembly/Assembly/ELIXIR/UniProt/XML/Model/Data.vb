@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fa26e591bc4517e1762666d475c073ce, core\Bio.Assembly\Assembly\ELIXIR\UniProt\XML\Model\Data.vb"
+﻿#Region "Microsoft.VisualBasic::2683c5333862dea2a90fb8ce3d517bd7, GCModeller\core\Bio.Assembly\Assembly\ELIXIR\UniProt\XML\Model\Data.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 475
+    '    Code Lines: 289
+    ' Comment Lines: 122
+    '   Blank Lines: 64
+    '     File Size: 16.58 KB
+
 
     '     Class sequence
     ' 
@@ -101,7 +111,7 @@
     ' 
     '         Properties: id, molecule, properties, type
     ' 
-    '         Function: ToString
+    '         Function: hasDbReference, ToString
     ' 
     '     Structure molecule
     ' 

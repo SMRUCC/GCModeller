@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::79d3afd74e9a9fa4f1bc21705fe28429, core\Bio.Assembly\Assembly\iGEM\iGEMQuery.vb"
+﻿#Region "Microsoft.VisualBasic::79d3afd74e9a9fa4f1bc21705fe28429, GCModeller\core\Bio.Assembly\Assembly\iGEM\iGEMQuery.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 24
+    '    Code Lines: 18
+    ' Comment Lines: 0
+    '   Blank Lines: 6
+    '     File Size: 866 B
+
 
     '     Class iGEMQuery
     ' 

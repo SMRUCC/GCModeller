@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e9e3883cb0a6eab5296c77279b28958f, models\BIOM\BIOM\v1.0\namesOf.vb"
+﻿#Region "Microsoft.VisualBasic::e9e3883cb0a6eab5296c77279b28958f, GCModeller\models\BIOM\BIOM\v1.0\namesOf.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 44
+    '    Code Lines: 26
+    ' Comment Lines: 9
+    '   Blank Lines: 9
+    '     File Size: 1.43 KB
+
 
     '     Class namesOf
     ' 

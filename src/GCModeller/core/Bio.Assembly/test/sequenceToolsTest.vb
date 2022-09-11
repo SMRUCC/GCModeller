@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3624ead2772c698d34482d5a91d77c7d, core\Bio.Assembly\Test\sequenceToolsTest.vb"
+﻿#Region "Microsoft.VisualBasic::3624ead2772c698d34482d5a91d77c7d, GCModeller\core\Bio.Assembly\Test\sequenceToolsTest.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 16
+    '    Code Lines: 14
+    ' Comment Lines: 0
+    '   Blank Lines: 2
+    '     File Size: 743 B
+
 
     ' Module sequenceToolsTest
     ' 

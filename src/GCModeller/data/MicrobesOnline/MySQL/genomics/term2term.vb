@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2a12db1db8d59fbeb96767f333814469, data\MicrobesOnline\MySQL\genomics\term2term.vb"
+﻿#Region "Microsoft.VisualBasic::2a12db1db8d59fbeb96767f333814469, GCModeller\data\MicrobesOnline\MySQL\genomics\term2term.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 70
+    '    Code Lines: 37
+    ' Comment Lines: 26
+    '   Blank Lines: 7
+    '     File Size: 3.41 KB
+
 
     ' Class term2term
     ' 

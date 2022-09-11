@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5cfe13991f362d5ae5d8c071c90867ed, core\Bio.Assembly\Metagenomics\TaxonomyExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::5cfe13991f362d5ae5d8c071c90867ed, GCModeller\core\Bio.Assembly\Metagenomics\TaxonomyExtensions.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 122
+    '    Code Lines: 83
+    ' Comment Lines: 25
+    '   Blank Lines: 14
+    '     File Size: 4.92 KB
+
 
     '     Interface ITaxonomyLineage
     ' 

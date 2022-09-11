@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7b805fddad35842d7a4f76a797053495, models\Networks\KEGG\PathwayMaps\Styles\BlockStyle.vb"
+﻿#Region "Microsoft.VisualBasic::7b805fddad35842d7a4f76a797053495, GCModeller\models\Networks\KEGG\PathwayMaps\Styles\BlockStyle.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 98
+    '    Code Lines: 74
+    ' Comment Lines: 8
+    '   Blank Lines: 16
+    '     File Size: 3.97 KB
+
 
     '     Class BlockStyle
     ' 

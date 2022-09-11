@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::122c6c9260b411e8d39bc4447386c540, core\Bio.Annotation\GFF\Feature.vb"
+﻿#Region "Microsoft.VisualBasic::122c6c9260b411e8d39bc4447386c540, GCModeller\core\Bio.Annotation\GFF\Feature.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 300
+    '    Code Lines: 157
+    ' Comment Lines: 114
+    '   Blank Lines: 29
+    '     File Size: 14.26 KB
+
 
     '     Class Feature
     ' 

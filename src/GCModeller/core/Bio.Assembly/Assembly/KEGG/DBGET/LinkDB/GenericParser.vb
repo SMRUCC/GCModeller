@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d8cf0a08c26978f73bbc513f1be06835, core\Bio.Assembly\Assembly\KEGG\DBGET\LinkDB\GenericParser.vb"
+﻿#Region "Microsoft.VisualBasic::d8cf0a08c26978f73bbc513f1be06835, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\LinkDB\GenericParser.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 78
+    '    Code Lines: 60
+    ' Comment Lines: 3
+    '   Blank Lines: 15
+    '     File Size: 3.04 KB
+
 
     '     Class GenericParser
     ' 

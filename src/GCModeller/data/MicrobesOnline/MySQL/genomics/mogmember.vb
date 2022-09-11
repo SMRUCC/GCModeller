@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::441c947d111688f3e612e1afb16cd5ea, data\MicrobesOnline\MySQL\genomics\mogmember.vb"
+﻿#Region "Microsoft.VisualBasic::441c947d111688f3e612e1afb16cd5ea, GCModeller\data\MicrobesOnline\MySQL\genomics\mogmember.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 78
+    '    Code Lines: 42
+    ' Comment Lines: 29
+    '   Blank Lines: 7
+    '     File Size: 4.47 KB
+
 
     ' Class mogmember
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9b84d328e67ae76fd1212892c70327b1, engine\Dynamics\Core\Kinetics\Controls\KineticsControls.vb"
+﻿#Region "Microsoft.VisualBasic::ab68996389ea81b9772690a474c06472, GCModeller\engine\Dynamics\Core\Kinetics\Controls\KineticsControls.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 44
+    '    Code Lines: 27
+    ' Comment Lines: 9
+    '   Blank Lines: 8
+    '     File Size: 1.52 KB
+
 
     '     Class KineticsControls
     ' 

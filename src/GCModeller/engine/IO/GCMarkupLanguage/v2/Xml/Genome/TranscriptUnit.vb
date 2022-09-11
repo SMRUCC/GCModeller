@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bf0c920e7275557db08c1d2239160b43, engine\IO\GCMarkupLanguage\v2\Xml\Genome\TranscriptUnit.vb"
+﻿#Region "Microsoft.VisualBasic::bf0c920e7275557db08c1d2239160b43, GCModeller\engine\IO\GCMarkupLanguage\v2\Xml\Genome\TranscriptUnit.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 28
+    '    Code Lines: 18
+    ' Comment Lines: 4
+    '   Blank Lines: 6
+    '     File Size: 735 B
+
 
     '     Class TranscriptUnit
     ' 

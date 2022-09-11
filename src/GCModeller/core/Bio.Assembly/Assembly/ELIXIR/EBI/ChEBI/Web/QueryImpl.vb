@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c6e63a0e1b9e69a2ff0fce9ddd3f3a08, core\Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\Web\QueryImpl.vb"
+﻿#Region "Microsoft.VisualBasic::c6e63a0e1b9e69a2ff0fce9ddd3f3a08, GCModeller\core\Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\Web\QueryImpl.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 38
+    '    Code Lines: 31
+    ' Comment Lines: 0
+    '   Blank Lines: 7
+    '     File Size: 1.22 KB
+
 
     '     Class QueryImpl
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::45a7a940bbb343253d7d4a4c7807635c, visualize\DataVisualizationExtensions\CurvesChart\Histogram.vb"
+﻿#Region "Microsoft.VisualBasic::45a7a940bbb343253d7d4a4c7807635c, GCModeller\visualize\DataVisualizationExtensions\CurvesChart\Histogram.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 92
+    '    Code Lines: 63
+    ' Comment Lines: 9
+    '   Blank Lines: 20
+    '     File Size: 3.85 KB
+
 
     ' Class Histogram
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8fa0202b64a6d99fb5fd77a276b95058, data\MicrobesOnline\MySQL\genomics\interpro.vb"
+﻿#Region "Microsoft.VisualBasic::8fa0202b64a6d99fb5fd77a276b95058, GCModeller\data\MicrobesOnline\MySQL\genomics\interpro.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 89
+    '    Code Lines: 47
+    ' Comment Lines: 35
+    '   Blank Lines: 7
+    '     File Size: 5.83 KB
+
 
     ' Class interpro
     ' 

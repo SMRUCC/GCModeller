@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f760c9de66e3eb398dae78f8b5f07f84, core\Bio.Assembly\Assembly\MetaCyc\Schemas\PropertyAttributes.vb"
+﻿#Region "Microsoft.VisualBasic::f760c9de66e3eb398dae78f8b5f07f84, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\Schemas\PropertyAttributes.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 72
+    '    Code Lines: 54
+    ' Comment Lines: 6
+    '   Blank Lines: 12
+    '     File Size: 3.32 KB
+
 
     '     Class PropertyAttributes
     ' 

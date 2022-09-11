@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5d00338e4bda31d9b0bc1f3dda52d4bd, data\RegulonDatabase\RegulonDB\MySQL\product_fc_link.vb"
+﻿#Region "Microsoft.VisualBasic::5d00338e4bda31d9b0bc1f3dda52d4bd, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\product_fc_link.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 152
+    '    Code Lines: 75
+    ' Comment Lines: 55
+    '   Blank Lines: 22
+    '     File Size: 6.11 KB
+
 
     ' Class product_fc_link
     ' 

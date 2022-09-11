@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::464b05f1c5ff175cab394d430e59a98d, models\Networks\Microbiome\MetabolicComplementation\CompoundOrigins.vb"
+﻿#Region "Microsoft.VisualBasic::464b05f1c5ff175cab394d430e59a98d, GCModeller\models\Networks\Microbiome\MetabolicComplementation\CompoundOrigins.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 53
+    '    Code Lines: 35
+    ' Comment Lines: 11
+    '   Blank Lines: 7
+    '     File Size: 2.03 KB
+
 
     ' Class CompoundOrigins
     ' 

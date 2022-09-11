@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f38b02980b87703ddbb98483d03c1dde, core\Bio.Assembly\Assembly\NCBI\WebServiceHandler\Taxonomy.vb"
+﻿#Region "Microsoft.VisualBasic::f38b02980b87703ddbb98483d03c1dde, GCModeller\core\Bio.Assembly\Assembly\NCBI\WebServiceHandler\Taxonomy.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 113
+    '    Code Lines: 80
+    ' Comment Lines: 14
+    '   Blank Lines: 19
+    '     File Size: 4.17 KB
+
 
     '     Module TaxonomyWebAPI
     ' 

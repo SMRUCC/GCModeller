@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::de5bdc57394c3696cbf719083dda1444, annotations\GO\NamespaceCategoryPlots.vb"
+﻿#Region "Microsoft.VisualBasic::de5bdc57394c3696cbf719083dda1444, GCModeller\annotations\GO\NamespaceCategoryPlots.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 72
+    '    Code Lines: 57
+    ' Comment Lines: 7
+    '   Blank Lines: 8
+    '     File Size: 2.96 KB
+
 
     ' Module NamespaceCategoryPlots
     ' 

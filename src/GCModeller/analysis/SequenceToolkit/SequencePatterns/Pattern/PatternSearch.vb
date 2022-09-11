@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::935b66dd1d50e706581d3843e832486f, analysis\SequenceToolkit\SequencePatterns\Pattern\PatternSearch.vb"
+﻿#Region "Microsoft.VisualBasic::935b66dd1d50e706581d3843e832486f, GCModeller\analysis\SequenceToolkit\SequencePatterns\Pattern\PatternSearch.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 66
+    '    Code Lines: 47
+    ' Comment Lines: 11
+    '   Blank Lines: 8
+    '     File Size: 2.91 KB
+
 
     '     Module PatternSearch
     ' 

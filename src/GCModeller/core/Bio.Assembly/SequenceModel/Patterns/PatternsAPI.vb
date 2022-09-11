@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8644d4caffbf539c17486f72d9d8ff7d, core\Bio.Assembly\SequenceModel\Patterns\PatternsAPI.vb"
+﻿#Region "Microsoft.VisualBasic::8644d4caffbf539c17486f72d9d8ff7d, GCModeller\core\Bio.Assembly\SequenceModel\Patterns\PatternsAPI.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 179
+    '    Code Lines: 102
+    ' Comment Lines: 60
+    '   Blank Lines: 17
+    '     File Size: 8.68 KB
+
 
     '     Module PatternsAPI
     ' 

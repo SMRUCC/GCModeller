@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e94690f21daf75f7d1f37cc1447db686, data\RegulonDatabase\RegulonDB\MySQL\attenuator_terminator.vb"
+﻿#Region "Microsoft.VisualBasic::e94690f21daf75f7d1f37cc1447db686, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\attenuator_terminator.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 164
+    '    Code Lines: 83
+    ' Comment Lines: 59
+    '   Blank Lines: 22
+    '     File Size: 9.72 KB
+
 
     ' Class attenuator_terminator
     ' 

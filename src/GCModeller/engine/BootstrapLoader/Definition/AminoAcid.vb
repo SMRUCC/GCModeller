@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5e620a6ab8533d5b8cd537866b8dc419, engine\BootstrapLoader\Definition\AminoAcid.vb"
+﻿#Region "Microsoft.VisualBasic::5e620a6ab8533d5b8cd537866b8dc419, GCModeller\engine\BootstrapLoader\Definition\AminoAcid.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 142
+    '    Code Lines: 46
+    ' Comment Lines: 88
+    '   Blank Lines: 8
+    '     File Size: 4.08 KB
+
 
     '     Class AminoAcid
     ' 

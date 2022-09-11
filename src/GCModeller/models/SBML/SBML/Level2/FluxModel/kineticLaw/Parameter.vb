@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b73aca7e18237ae5161a4c2476988475, models\SBML\SBML\Level2\FluxModel\kineticLaw\Parameter.vb"
+﻿#Region "Microsoft.VisualBasic::b73aca7e18237ae5161a4c2476988475, GCModeller\models\SBML\SBML\Level2\FluxModel\kineticLaw\Parameter.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 27
+    '    Code Lines: 20
+    ' Comment Lines: 0
+    '   Blank Lines: 7
+    '     File Size: 875 B
+
 
     '     Structure MathInfo
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b7e74bbfed0ac5f3bf31eff89964a099, data\RegulonDatabase\Regprecise\BBHH.vb"
+﻿#Region "Microsoft.VisualBasic::b7e74bbfed0ac5f3bf31eff89964a099, GCModeller\data\RegulonDatabase\Regprecise\BBHH.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 48
+    '    Code Lines: 28
+    ' Comment Lines: 14
+    '   Blank Lines: 6
+    '     File Size: 1.91 KB
+
 
     '     Class bbhMappings
     ' 

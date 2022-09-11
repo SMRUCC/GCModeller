@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4bb9604feae7394aa6c7d2be37136bad, data\RegulonDatabase\RegulonDB\MySQL\operon.vb"
+﻿#Region "Microsoft.VisualBasic::4bb9604feae7394aa6c7d2be37136bad, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\operon.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 170
+    '    Code Lines: 87
+    ' Comment Lines: 61
+    '   Blank Lines: 22
+    '     File Size: 9.86 KB
+
 
     ' Class operon
     ' 

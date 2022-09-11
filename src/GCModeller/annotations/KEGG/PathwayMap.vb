@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8c4619ba94e66d77e2b576ca2d27232d, annotations\KEGG\PathwayMap.vb"
+﻿#Region "Microsoft.VisualBasic::2aa460e7520b79e34f25316fe5a58454, GCModeller\annotations\KEGG\PathwayMap.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 92
+    '    Code Lines: 58
+    ' Comment Lines: 21
+    '   Blank Lines: 13
+    '     File Size: 3.45 KB
+
 
     ' Module PathwayMapVisualize
     ' 

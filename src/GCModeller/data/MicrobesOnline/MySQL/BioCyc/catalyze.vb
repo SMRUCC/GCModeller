@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b0d466d868da5d72242c76e2f1c5e115, data\MicrobesOnline\MySQL\BioCyc\catalyze.vb"
+﻿#Region "Microsoft.VisualBasic::b0d466d868da5d72242c76e2f1c5e115, GCModeller\data\MicrobesOnline\MySQL\BioCyc\catalyze.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 61
+    '    Code Lines: 34
+    ' Comment Lines: 20
+    '   Blank Lines: 7
+    '     File Size: 2.66 KB
+
 
     ' Class catalyze
     ' 

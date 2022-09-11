@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::027f4e5c3f85e43195caf8b9a61d02c1, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\PTT\PTTFileWriter.vb"
+﻿#Region "Microsoft.VisualBasic::027f4e5c3f85e43195caf8b9a61d02c1, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\PTT\PTTFileWriter.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 63
+    '    Code Lines: 54
+    ' Comment Lines: 0
+    '   Blank Lines: 9
+    '     File Size: 2.67 KB
+
 
     '     Module PTTFileWriter
     ' 

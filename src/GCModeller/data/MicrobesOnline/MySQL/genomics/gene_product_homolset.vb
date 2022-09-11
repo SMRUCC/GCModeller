@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::534dced771ad46b470a1467a77b44a21, data\MicrobesOnline\MySQL\genomics\gene_product_homolset.vb"
+﻿#Region "Microsoft.VisualBasic::534dced771ad46b470a1467a77b44a21, GCModeller\data\MicrobesOnline\MySQL\genomics\gene_product_homolset.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 63
+    '    Code Lines: 35
+    ' Comment Lines: 21
+    '   Blank Lines: 7
+    '     File Size: 2.84 KB
+
 
     ' Class gene_product_homolset
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4dba4c66298b2c2b81a61e14bdf248f7, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\SSDB\OrthologREST.vb"
+﻿#Region "Microsoft.VisualBasic::4dba4c66298b2c2b81a61e14bdf248f7, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\SSDB\OrthologREST.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 58
+    '    Code Lines: 35
+    ' Comment Lines: 11
+    '   Blank Lines: 12
+    '     File Size: 2.76 KB
+
 
     '     Class OrthologREST
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::256db5c93762790819be7eb5634338df, data\RegulonDatabase\Regtransbase\MySQL\exp2technique_types.vb"
+﻿#Region "Microsoft.VisualBasic::256db5c93762790819be7eb5634338df, GCModeller\data\RegulonDatabase\Regtransbase\MySQL\exp2technique_types.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 171
+    '    Code Lines: 85
+    ' Comment Lines: 64
+    '   Blank Lines: 22
+    '     File Size: 8.38 KB
+
 
     ' Class exp2technique_types
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a3fa61f1589fbe61f8f409d33a6a53ec, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\SSDB\Models\Ortholog.vb"
+﻿#Region "Microsoft.VisualBasic::a3fa61f1589fbe61f8f409d33a6a53ec, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\SSDB\Models\Ortholog.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 62
+    '    Code Lines: 47
+    ' Comment Lines: 9
+    '   Blank Lines: 6
+    '     File Size: 2.38 KB
+
 
     '     Class Ortholog
     ' 

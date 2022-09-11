@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::69d717729fcc377116b5409eb9f54d8e, core\Bio.Assembly\Assembly\bac-srna.org\Sequence.vb"
+﻿#Region "Microsoft.VisualBasic::69d717729fcc377116b5409eb9f54d8e, GCModeller\core\Bio.Assembly\Assembly\bac-srna.org\Sequence.vb"
 
     ' Author:
     ' 
@@ -31,12 +31,22 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 86
+    '    Code Lines: 65
+    ' Comment Lines: 8
+    '   Blank Lines: 13
+    '     File Size: 3.00 KB
+
+
     '     Class Sequence
     ' 
     '         Properties: Name, SequenceData, Specie, UniqueId
     ' 
     '         Constructor: (+3 Overloads) Sub New
-    '         Function: [CType], __getMappingLoci, ToFasta, ToString
+    '         Function: __getMappingLoci, [CType], ToFasta, ToString
     ' 
     ' 
     ' /********************************************************************************/

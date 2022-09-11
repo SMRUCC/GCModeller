@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::33f0565159e8f8f2907077c5aeaedce8, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Disease\KEGGGenomeFetchs.vb"
+﻿#Region "Microsoft.VisualBasic::01e7a6fb1195cb07d9c44da04bb2c5ab, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Disease\KEGGGenomeFetchs.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 123
+    '    Code Lines: 83
+    ' Comment Lines: 24
+    '   Blank Lines: 16
+    '     File Size: 4.93 KB
+
 
     '     Module KEGGgenomeFetch
     ' 

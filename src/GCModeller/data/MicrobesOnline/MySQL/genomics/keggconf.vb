@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e20f2184f474265f288796c9138a5e7d, data\MicrobesOnline\MySQL\genomics\keggconf.vb"
+﻿#Region "Microsoft.VisualBasic::e20f2184f474265f288796c9138a5e7d, GCModeller\data\MicrobesOnline\MySQL\genomics\keggconf.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 67
+    '    Code Lines: 37
+    ' Comment Lines: 23
+    '   Blank Lines: 7
+    '     File Size: 3.19 KB
+
 
     ' Class keggconf
     ' 

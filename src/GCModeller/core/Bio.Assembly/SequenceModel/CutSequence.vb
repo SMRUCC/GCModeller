@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::de7392c4ef7be2d7d38f9caf880b03c9, core\Bio.Assembly\SequenceModel\CutSequence.vb"
+﻿#Region "Microsoft.VisualBasic::79bc99637b33079f8eff036143dec472, GCModeller\core\Bio.Assembly\SequenceModel\CutSequence.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 221
+    '    Code Lines: 131
+    ' Comment Lines: 60
+    '   Blank Lines: 30
+    '     File Size: 8.64 KB
+
 
     '     Module CutSequence
     ' 

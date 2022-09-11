@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::333754ad6604bc19ab1912552966cf86, data\RegulonDatabase\Regtransbase\MySQL\packages.vb"
+﻿#Region "Microsoft.VisualBasic::333754ad6604bc19ab1912552966cf86, GCModeller\data\RegulonDatabase\Regtransbase\MySQL\packages.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 170
+    '    Code Lines: 86
+    ' Comment Lines: 62
+    '   Blank Lines: 22
+    '     File Size: 8.52 KB
+
 
     ' Class packages
     ' 

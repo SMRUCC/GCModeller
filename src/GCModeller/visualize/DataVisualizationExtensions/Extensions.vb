@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a5e39d3e815ef5c1a4e0929b71de6f84, visualize\DataVisualizationExtensions\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::a5e39d3e815ef5c1a4e0929b71de6f84, GCModeller\visualize\DataVisualizationExtensions\Extensions.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 96
+    '    Code Lines: 72
+    ' Comment Lines: 7
+    '   Blank Lines: 17
+    '     File Size: 3.76 KB
+
 
     ' Module Extensions
     ' 

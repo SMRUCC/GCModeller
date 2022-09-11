@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cc79d57ed6dbcc853ab48703f915689d, engine\GCModeller.Framework.Kernel_Driver\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::cc79d57ed6dbcc853ab48703f915689d, GCModeller\engine\GCModeller.Framework.Kernel_Driver\Extensions.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 11
+    '    Code Lines: 9
+    ' Comment Lines: 0
+    '   Blank Lines: 2
+    '     File Size: 473 B
+
 
     ' Module Extensions
     ' 

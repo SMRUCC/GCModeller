@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::89f63e6405f47e6b468f3b8b5f243a40, models\Networks\KEGG\PathwayMaps\Styles\RenderStyle.vb"
+﻿#Region "Microsoft.VisualBasic::89f63e6405f47e6b468f3b8b5f243a40, GCModeller\models\Networks\KEGG\PathwayMaps\Styles\RenderStyle.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 97
+    '    Code Lines: 80
+    ' Comment Lines: 2
+    '   Blank Lines: 15
+    '     File Size: 4.16 KB
+
 
     '     Class RenderStyle
     ' 

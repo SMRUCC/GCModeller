@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::999c481b476bb4ce1e6ff1e9941e5961, annotations\KEGG\KEGGOrthology.vb"
+﻿#Region "Microsoft.VisualBasic::999c481b476bb4ce1e6ff1e9941e5961, GCModeller\annotations\KEGG\KEGGOrthology.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 314
+    '    Code Lines: 244
+    ' Comment Lines: 31
+    '   Blank Lines: 39
+    '     File Size: 12.51 KB
+
 
     ' Module KEGGOrthology
     ' 

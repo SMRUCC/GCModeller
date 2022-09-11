@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bc5c43abef65a72bcfa0dc687855cc79, engine\IO\Raw\GCModellerRaw\Reader.vb"
+﻿#Region "Microsoft.VisualBasic::bc5c43abef65a72bcfa0dc687855cc79, GCModeller\engine\IO\Raw\GCModellerRaw\Reader.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 145
+    '    Code Lines: 102
+    ' Comment Lines: 16
+    '   Blank Lines: 27
+    '     File Size: 5.66 KB
+
 
     '     Class Reader
     ' 

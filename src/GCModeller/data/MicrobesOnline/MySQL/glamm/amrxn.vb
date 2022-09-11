@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::99e1bbd9758a0b2c4c0edbb8a3149bf9, data\MicrobesOnline\MySQL\glamm\amrxn.vb"
+﻿#Region "Microsoft.VisualBasic::99e1bbd9758a0b2c4c0edbb8a3149bf9, GCModeller\data\MicrobesOnline\MySQL\glamm\amrxn.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 62
+    '    Code Lines: 35
+    ' Comment Lines: 20
+    '   Blank Lines: 7
+    '     File Size: 2.58 KB
+
 
     ' Class amrxn
     ' 

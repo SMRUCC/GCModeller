@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::83f23bf2c73146a6b9ae74813fb9cf89, data\GO_gene-ontology\GeneOntology\DAG\Relationship.vb"
+﻿#Region "Microsoft.VisualBasic::2d861614b1a4d3dbcb79335c01fa21ca, GCModeller\data\GO_gene-ontology\GeneOntology\DAG\Relationship.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 57
+    '    Code Lines: 33
+    ' Comment Lines: 12
+    '   Blank Lines: 12
+    '     File Size: 2.35 KB
+
 
     '     Structure Relationship
     ' 

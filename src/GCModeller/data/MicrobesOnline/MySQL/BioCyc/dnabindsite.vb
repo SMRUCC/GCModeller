@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e736d67b5ecee8434b51b180c17248d1, data\MicrobesOnline\MySQL\BioCyc\dnabindsite.vb"
+﻿#Region "Microsoft.VisualBasic::e736d67b5ecee8434b51b180c17248d1, GCModeller\data\MicrobesOnline\MySQL\BioCyc\dnabindsite.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 70
+    '    Code Lines: 39
+    ' Comment Lines: 24
+    '   Blank Lines: 7
+    '     File Size: 3.52 KB
+
 
     ' Class dnabindsite
     ' 

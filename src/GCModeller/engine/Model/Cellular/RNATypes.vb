@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5997444a6301f38b36fd7d7fac24d1c9, engine\Model\Cellular\RNATypes.vb"
+﻿#Region "Microsoft.VisualBasic::5997444a6301f38b36fd7d7fac24d1c9, GCModeller\engine\Model\Cellular\RNATypes.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 19
+    '    Code Lines: 10
+    ' Comment Lines: 6
+    '   Blank Lines: 3
+    '     File Size: 364 B
+
 
     '     Enum RNATypes
     ' 

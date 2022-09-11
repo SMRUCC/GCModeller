@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::71dfa12d7ee4eb22d3892f5b8f748760, data\SABIO-RK\SBML\kineticLaw.vb"
+﻿#Region "Microsoft.VisualBasic::71dfa12d7ee4eb22d3892f5b8f748760, GCModeller\data\SABIO-RK\SBML\kineticLaw.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 73
+    '    Code Lines: 58
+    ' Comment Lines: 0
+    '   Blank Lines: 15
+    '     File Size: 2.76 KB
+
 
     '     Class kineticLaw
     ' 

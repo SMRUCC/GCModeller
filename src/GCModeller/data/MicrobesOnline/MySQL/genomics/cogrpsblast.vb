@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d1a884278d35c6ab7b5bfa69215d3ac5, data\MicrobesOnline\MySQL\genomics\cogrpsblast.vb"
+﻿#Region "Microsoft.VisualBasic::d1a884278d35c6ab7b5bfa69215d3ac5, GCModeller\data\MicrobesOnline\MySQL\genomics\cogrpsblast.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 83
+    '    Code Lines: 45
+    ' Comment Lines: 31
+    '   Blank Lines: 7
+    '     File Size: 5.53 KB
+
 
     ' Class cogrpsblast
     ' 

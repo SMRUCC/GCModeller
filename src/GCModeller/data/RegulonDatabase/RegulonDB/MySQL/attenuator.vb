@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0e8b22ed820a82851ed2693c97a15859, data\RegulonDatabase\RegulonDB\MySQL\attenuator.vb"
+﻿#Region "Microsoft.VisualBasic::0e8b22ed820a82851ed2693c97a15859, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\attenuator.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 155
+    '    Code Lines: 77
+    ' Comment Lines: 56
+    '   Blank Lines: 22
+    '     File Size: 6.58 KB
+
 
     ' Class attenuator
     ' 

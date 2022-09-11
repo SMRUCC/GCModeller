@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::58ef026876bb06c0f479eb138deab390, core\Bio.Assembly\ComponentModel\Equations\DefaultTypes.vb"
+﻿#Region "Microsoft.VisualBasic::a4c472066a3866a5eb80db68a22e5662, GCModeller\core\Bio.Assembly\ComponentModel\Equations\DefaultTypes.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,19 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 105
+    '    Code Lines: 80
+    ' Comment Lines: 8
+    '   Blank Lines: 17
+    '     File Size: 4.07 KB
+
+
     '     Class CompoundSpecieReference
     ' 
-    '         Properties: ID, StoiChiometry
+    '         Properties: Compartment, ID, StoiChiometry
     ' 
     '         Constructor: (+2 Overloads) Sub New
     '         Function: AsFactor, Equals, ToString

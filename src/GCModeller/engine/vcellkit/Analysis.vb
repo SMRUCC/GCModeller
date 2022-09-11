@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1c7a03e1de04b0dcc6b190f3f7380b8c, engine\vcellkit\Analysis.vb"
+﻿#Region "Microsoft.VisualBasic::1c7a03e1de04b0dcc6b190f3f7380b8c, GCModeller\engine\vcellkit\Analysis.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 105
+    '    Code Lines: 77
+    ' Comment Lines: 18
+    '   Blank Lines: 10
+    '     File Size: 4.01 KB
+
 
     ' Module Analysis
     ' 

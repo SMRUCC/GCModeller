@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4a57547c87275ccba563cfc2617d0801, data\MicrobesOnline\MySQL\genomics\term_synonym.vb"
+﻿#Region "Microsoft.VisualBasic::4a57547c87275ccba563cfc2617d0801, GCModeller\data\MicrobesOnline\MySQL\genomics\term_synonym.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 70
+    '    Code Lines: 37
+    ' Comment Lines: 26
+    '   Blank Lines: 7
+    '     File Size: 3.68 KB
+
 
     ' Class term_synonym
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3fac6f9a31dda58a9b160d22a78e6c13, core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\ReactionClass.vb"
+﻿#Region "Microsoft.VisualBasic::3fac6f9a31dda58a9b160d22a78e6c13, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\ReactionClass.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 83
+    '    Code Lines: 53
+    ' Comment Lines: 20
+    '   Blank Lines: 10
+    '     File Size: 3.02 KB
+
 
     '     Class ReactionClass
     ' 

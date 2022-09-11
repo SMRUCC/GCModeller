@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8cd53c6811f5a482236bbd768bfbc26a, annotations\GO\PlantRegMap\EnrichmentPlots.vb"
+﻿#Region "Microsoft.VisualBasic::8cd53c6811f5a482236bbd768bfbc26a, GCModeller\annotations\GO\PlantRegMap\EnrichmentPlots.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 19
+    '    Code Lines: 16
+    ' Comment Lines: 0
+    '   Blank Lines: 3
+    '     File Size: 800 B
+
 
     '     Module EnrichmentPlots
     ' 

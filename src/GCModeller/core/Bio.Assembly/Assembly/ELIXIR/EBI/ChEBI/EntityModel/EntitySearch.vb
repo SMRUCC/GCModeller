@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::996130706f125625c3176ad1342b8b5d, core\Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\EntityModel\EntitySearch.vb"
+﻿#Region "Microsoft.VisualBasic::996130706f125625c3176ad1342b8b5d, GCModeller\core\Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\EntityModel\EntitySearch.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 112
+    '    Code Lines: 74
+    ' Comment Lines: 24
+    '   Blank Lines: 14
+    '     File Size: 4.55 KB
+
 
     '     Module EntitySearch
     ' 

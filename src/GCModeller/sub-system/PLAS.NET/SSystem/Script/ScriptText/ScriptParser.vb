@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::061626b13533a231ca1db558ba99e059, sub-system\PLAS.NET\SSystem\Script\ScriptText\ScriptParser.vb"
+﻿#Region "Microsoft.VisualBasic::061626b13533a231ca1db558ba99e059, GCModeller\sub-system\PLAS.NET\SSystem\Script\ScriptText\ScriptParser.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 189
+    '    Code Lines: 154
+    ' Comment Lines: 11
+    '   Blank Lines: 24
+    '     File Size: 7.11 KB
+
 
     '     Module ScriptParser
     ' 

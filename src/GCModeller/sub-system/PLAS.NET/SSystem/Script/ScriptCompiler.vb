@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6b13fe3afb8dd7432913a8f219c8b71c, sub-system\PLAS.NET\SSystem\Script\ScriptCompiler.vb"
+﻿#Region "Microsoft.VisualBasic::6b13fe3afb8dd7432913a8f219c8b71c, GCModeller\sub-system\PLAS.NET\SSystem\Script\ScriptCompiler.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 118
+    '    Code Lines: 67
+    ' Comment Lines: 33
+    '   Blank Lines: 18
+    '     File Size: 5.03 KB
+
 
     '     Class ScriptCompiler
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d6079ea51af6d378be7d90bd2bdcbe92, data\RegulonDatabase\RegulonDB\MySQL\product_tf_link.vb"
+﻿#Region "Microsoft.VisualBasic::d6079ea51af6d378be7d90bd2bdcbe92, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\product_tf_link.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 152
+    '    Code Lines: 75
+    ' Comment Lines: 55
+    '   Blank Lines: 22
+    '     File Size: 6.34 KB
+
 
     ' Class product_tf_link
     ' 

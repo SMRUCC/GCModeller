@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e5018f5d821028e362dcf7f7a2fda350, engine\IO\GCMarkupLanguage\GCML_Documents\GCMLDocBuilder\UniqueIdTrimer.vb"
+﻿#Region "Microsoft.VisualBasic::e5018f5d821028e362dcf7f7a2fda350, GCModeller\engine\IO\GCMarkupLanguage\GCML_Documents\GCMLDocBuilder\UniqueIdTrimer.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 36
+    '    Code Lines: 29
+    ' Comment Lines: 0
+    '   Blank Lines: 7
+    '     File Size: 1.21 KB
+
 
     '     Class UniqueIdTrimer
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a6bc6bc3acd85b3e6f13f851fa6894bd, data\RegulonDatabase\Regprecise\WebServices\WebParser\Motif\MotifWebQuery.vb"
+﻿#Region "Microsoft.VisualBasic::a6bc6bc3acd85b3e6f13f851fa6894bd, GCModeller\data\RegulonDatabase\Regprecise\WebServices\WebParser\Motif\MotifWebQuery.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 15
+    '    Code Lines: 10
+    ' Comment Lines: 0
+    '   Blank Lines: 5
+    '     File Size: 688 B
+
 
     '     Class MotifWebQuery
     ' 

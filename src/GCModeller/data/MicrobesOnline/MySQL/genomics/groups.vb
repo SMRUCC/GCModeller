@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::660e72e956154155ee1ba0a345c13233, data\MicrobesOnline\MySQL\genomics\groups.vb"
+﻿#Region "Microsoft.VisualBasic::660e72e956154155ee1ba0a345c13233, GCModeller\data\MicrobesOnline\MySQL\genomics\groups.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 65
+    '    Code Lines: 36
+    ' Comment Lines: 22
+    '   Blank Lines: 7
+    '     File Size: 2.98 KB
+
 
     ' Class groups
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5d1142d37a26cd24aaa4d254c241a373, data\RegulonDatabase\Regtransbase\MySQL\db_user_roles.vb"
+﻿#Region "Microsoft.VisualBasic::5d1142d37a26cd24aaa4d254c241a373, GCModeller\data\RegulonDatabase\Regtransbase\MySQL\db_user_roles.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 151
+    '    Code Lines: 74
+    ' Comment Lines: 55
+    '   Blank Lines: 22
+    '     File Size: 5.02 KB
+
 
     ' Class db_user_roles
     ' 

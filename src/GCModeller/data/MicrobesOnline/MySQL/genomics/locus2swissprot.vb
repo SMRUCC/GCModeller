@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a36dbf68538f0977c2130088d9867149, data\MicrobesOnline\MySQL\genomics\locus2swissprot.vb"
+﻿#Region "Microsoft.VisualBasic::a36dbf68538f0977c2130088d9867149, GCModeller\data\MicrobesOnline\MySQL\genomics\locus2swissprot.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 69
+    '    Code Lines: 38
+    ' Comment Lines: 24
+    '   Blank Lines: 7
+    '     File Size: 3.46 KB
+
 
     ' Class locus2swissprot
     ' 

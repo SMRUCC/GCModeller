@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d3e4e3f8a732580aab8adba7d238c623, data\MicrobesOnline\MySQL\genomics\scaffold.vb"
+﻿#Region "Microsoft.VisualBasic::d3e4e3f8a732580aab8adba7d238c623, GCModeller\data\MicrobesOnline\MySQL\genomics\scaffold.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 88
+    '    Code Lines: 47
+    ' Comment Lines: 34
+    '   Blank Lines: 7
+    '     File Size: 5.60 KB
+
 
     ' Class scaffold
     ' 

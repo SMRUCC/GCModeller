@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5e1c2405b03a12d353e1f5433e6c9450, core\Bio.Assembly\Assembly\NCBI\Database\CDD\Database.vb"
+﻿#Region "Microsoft.VisualBasic::5e1c2405b03a12d353e1f5433e6c9450, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\CDD\Database.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 241
+    '    Code Lines: 157
+    ' Comment Lines: 51
+    '   Blank Lines: 33
+    '     File Size: 9.52 KB
+
 
     '     Class Database
     ' 

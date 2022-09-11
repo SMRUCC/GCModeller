@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::106c83a4904a2c006c640348f0eebdb3, data\RegulonDatabase\Regtransbase\MySQL\exp2effectors.vb"
+﻿#Region "Microsoft.VisualBasic::106c83a4904a2c006c640348f0eebdb3, GCModeller\data\RegulonDatabase\Regtransbase\MySQL\exp2effectors.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 171
+    '    Code Lines: 85
+    ' Comment Lines: 64
+    '   Blank Lines: 22
+    '     File Size: 7.75 KB
+
 
     ' Class exp2effectors
     ' 

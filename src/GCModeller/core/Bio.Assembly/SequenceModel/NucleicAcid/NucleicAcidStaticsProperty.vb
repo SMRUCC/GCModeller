@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9c2b9abd4591874af39a2bded9b8dab6, core\Bio.Assembly\SequenceModel\NucleicAcid\NucleicAcidStaticsProperty.vb"
+﻿#Region "Microsoft.VisualBasic::9c2b9abd4591874af39a2bded9b8dab6, GCModeller\core\Bio.Assembly\SequenceModel\NucleicAcid\NucleicAcidStaticsProperty.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 306
+    '    Code Lines: 185
+    ' Comment Lines: 85
+    '   Blank Lines: 36
+    '     File Size: 13.96 KB
+
 
     '     Module NucleicAcidStaticsProperty
     ' 

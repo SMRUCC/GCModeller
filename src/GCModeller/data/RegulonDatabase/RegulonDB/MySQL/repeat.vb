@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8ec2303f320189cdad74a1cba5be9b5b, data\RegulonDatabase\RegulonDB\MySQL\repeat.vb"
+﻿#Region "Microsoft.VisualBasic::8ec2303f320189cdad74a1cba5be9b5b, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\repeat.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 164
+    '    Code Lines: 83
+    ' Comment Lines: 59
+    '   Blank Lines: 22
+    '     File Size: 8.38 KB
+
 
     ' Class repeat
     ' 

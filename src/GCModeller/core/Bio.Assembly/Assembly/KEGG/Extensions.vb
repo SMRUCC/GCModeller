@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d603a8e0c1560eec017c533f06c70a6d, core\Bio.Assembly\Assembly\KEGG\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::d603a8e0c1560eec017c533f06c70a6d, GCModeller\core\Bio.Assembly\Assembly\KEGG\Extensions.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 302
+    '    Code Lines: 190
+    ' Comment Lines: 84
+    '   Blank Lines: 28
+    '     File Size: 12.28 KB
+
 
     '     Module Extensions
     ' 

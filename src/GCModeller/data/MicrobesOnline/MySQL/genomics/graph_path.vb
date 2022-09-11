@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bf2a1b2f56a3fd635a6beb16ba80507c, data\MicrobesOnline\MySQL\genomics\graph_path.vb"
+﻿#Region "Microsoft.VisualBasic::bf2a1b2f56a3fd635a6beb16ba80507c, GCModeller\data\MicrobesOnline\MySQL\genomics\graph_path.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 68
+    '    Code Lines: 36
+    ' Comment Lines: 25
+    '   Blank Lines: 7
+    '     File Size: 3.05 KB
+
 
     ' Class graph_path
     ' 

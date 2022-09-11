@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::14ff7126a428b88ea87bc0fdf4ca0884, data\RegulonDatabase\RegulonDB\MySQL\gu_component_link.vb"
+﻿#Region "Microsoft.VisualBasic::14ff7126a428b88ea87bc0fdf4ca0884, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\gu_component_link.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 155
+    '    Code Lines: 77
+    ' Comment Lines: 56
+    '   Blank Lines: 22
+    '     File Size: 6.37 KB
+
 
     ' Class gu_component_link
     ' 

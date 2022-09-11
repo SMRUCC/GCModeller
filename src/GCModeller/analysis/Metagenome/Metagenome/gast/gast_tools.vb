@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1e63df59d6de75e34f60b4b97f60138d, analysis\Metagenome\Metagenome\gast\gast_tools.vb"
+﻿#Region "Microsoft.VisualBasic::1e63df59d6de75e34f60b4b97f60138d, GCModeller\analysis\Metagenome\Metagenome\gast\gast_tools.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 249
+    '    Code Lines: 182
+    ' Comment Lines: 22
+    '   Blank Lines: 45
+    '     File Size: 10.06 KB
+
 
     '     Module gast_tools
     ' 

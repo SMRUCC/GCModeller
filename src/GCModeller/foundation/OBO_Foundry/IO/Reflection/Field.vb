@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b2efb3d0259455b5714857537824f0ec, foundation\OBO_Foundry\IO\Reflection\Field.vb"
+﻿#Region "Microsoft.VisualBasic::b2efb3d0259455b5714857537824f0ec, GCModeller\foundation\OBO_Foundry\IO\Reflection\Field.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 51
+    '    Code Lines: 27
+    ' Comment Lines: 16
+    '   Blank Lines: 8
+    '     File Size: 1.60 KB
+
 
     '     Class Field
     ' 

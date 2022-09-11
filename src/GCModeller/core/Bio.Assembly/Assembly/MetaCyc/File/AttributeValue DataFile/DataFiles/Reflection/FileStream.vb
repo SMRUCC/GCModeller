@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::466fea704095cd230a7e6603ab27cc9f, core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Reflection\FileStream.vb"
+﻿#Region "Microsoft.VisualBasic::466fea704095cd230a7e6603ab27cc9f, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Reflection\FileStream.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 372
+    '    Code Lines: 237
+    ' Comment Lines: 81
+    '   Blank Lines: 54
+    '     File Size: 17.71 KB
+
 
     '     Module FileStream
     ' 

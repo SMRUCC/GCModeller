@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9b41bcb7180723b59a73bcf18cde49b2, core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\ModuleClassAPI.vb"
+﻿#Region "Microsoft.VisualBasic::9b41bcb7180723b59a73bcf18cde49b2, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\ModuleClassAPI.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 171
+    '    Code Lines: 130
+    ' Comment Lines: 14
+    '   Blank Lines: 27
+    '     File Size: 6.61 KB
+
 
     '     Class ModuleClassAPI
     ' 

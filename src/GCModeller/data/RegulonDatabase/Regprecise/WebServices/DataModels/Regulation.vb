@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d64ea8363a941e82944cdb2a2e14a1bb, data\RegulonDatabase\Regprecise\WebServices\DataModels\Regulation.vb"
+﻿#Region "Microsoft.VisualBasic::d64ea8363a941e82944cdb2a2e14a1bb, GCModeller\data\RegulonDatabase\Regprecise\WebServices\DataModels\Regulation.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 235
+    '    Code Lines: 55
+    ' Comment Lines: 169
+    '   Blank Lines: 11
+    '     File Size: 8.40 KB
+
 
     '     Class regulog
     ' 

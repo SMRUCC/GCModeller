@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::17e681b1446be57b1e7280ebf770ffc2, analysis\SequenceToolkit\SNP\VCF\VCFStream.vb"
+﻿#Region "Microsoft.VisualBasic::17e681b1446be57b1e7280ebf770ffc2, GCModeller\analysis\SequenceToolkit\SNP\VCF\VCFStream.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 77
+    '    Code Lines: 45
+    ' Comment Lines: 24
+    '   Blank Lines: 8
+    '     File Size: 2.69 KB
+
 
     '     Module VCFStream
     ' 

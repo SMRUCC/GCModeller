@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6e1c5bf67bbd8054242a7f0f05b727b8, engine\BootstrapLoader\Definition\Definition.vb"
+﻿#Region "Microsoft.VisualBasic::735fdeee85d23ea2e6c8059dfd0b97dd, GCModeller\engine\BootstrapLoader\Definition\Definition.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 113
+    '    Code Lines: 78
+    ' Comment Lines: 21
+    '   Blank Lines: 14
+    '     File Size: 3.72 KB
+
 
     '     Enum GeneralCompound
     ' 

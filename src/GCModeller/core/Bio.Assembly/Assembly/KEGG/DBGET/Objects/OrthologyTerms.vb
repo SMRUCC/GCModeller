@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::da4fb8f750d03884ed3899ab70d954bf, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\OrthologyTerms.vb"
+﻿#Region "Microsoft.VisualBasic::da4fb8f750d03884ed3899ab70d954bf, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\OrthologyTerms.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 51
+    '    Code Lines: 35
+    ' Comment Lines: 8
+    '   Blank Lines: 8
+    '     File Size: 1.71 KB
+
 
     '     Class OrthologyTerms
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d1f9749f36915c1efd6d8102f9c04177, data\SABIO-RK\SBML\SbmlDocument.vb"
+﻿#Region "Microsoft.VisualBasic::d1f9749f36915c1efd6d8102f9c04177, GCModeller\data\SABIO-RK\SBML\SbmlDocument.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 38
+    '    Code Lines: 31
+    ' Comment Lines: 0
+    '   Blank Lines: 7
+    '     File Size: 1.49 KB
+
 
     '     Class SbmlDocument
     ' 

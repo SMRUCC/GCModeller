@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::87c49d2488e691860133c99550e0a3df, data\RegulonDatabase\Regtransbase\WebServices\WebServiceHandler.vb"
+﻿#Region "Microsoft.VisualBasic::14798914321fffc27800e57f9b651ccb, GCModeller\data\RegulonDatabase\Regtransbase\WebServices\WebServiceHandler.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 160
+    '    Code Lines: 127
+    ' Comment Lines: 12
+    '   Blank Lines: 21
+    '     File Size: 10.24 KB
+
 
     '     Class WebServiceHandler
     ' 

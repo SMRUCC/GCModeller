@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c908628acf20b56d868064e6196d77c5, analysis\SequenceToolkit\SmithWaterman\Matrix\DNAMatrix.vb"
+﻿#Region "Microsoft.VisualBasic::c908628acf20b56d868064e6196d77c5, GCModeller\analysis\SequenceToolkit\SmithWaterman\Matrix\DNAMatrix.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 46
+    '    Code Lines: 30
+    ' Comment Lines: 10
+    '   Blank Lines: 6
+    '     File Size: 1.29 KB
+
 
     ' Class DNAMatrix
     ' 

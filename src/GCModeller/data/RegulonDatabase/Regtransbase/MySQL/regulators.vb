@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6f049ddd569a6fdcbc3ba88c400bba7b, data\RegulonDatabase\Regtransbase\MySQL\regulators.vb"
+﻿#Region "Microsoft.VisualBasic::6f049ddd569a6fdcbc3ba88c400bba7b, GCModeller\data\RegulonDatabase\Regtransbase\MySQL\regulators.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 216
+    '    Code Lines: 114
+    ' Comment Lines: 80
+    '   Blank Lines: 22
+    '     File Size: 15.43 KB
+
 
     ' Class regulators
     ' 

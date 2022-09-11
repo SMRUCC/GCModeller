@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5dd4aa2049c158a95e1b2da67f2b0832, data\RegulonDatabase\Regtransbase\MySQL\guids.vb"
+﻿#Region "Microsoft.VisualBasic::5dd4aa2049c158a95e1b2da67f2b0832, GCModeller\data\RegulonDatabase\Regtransbase\MySQL\guids.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 149
+    '    Code Lines: 73
+    ' Comment Lines: 54
+    '   Blank Lines: 22
+    '     File Size: 5.10 KB
+
 
     ' Class guids
     ' 

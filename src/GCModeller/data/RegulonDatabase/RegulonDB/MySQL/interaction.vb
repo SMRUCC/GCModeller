@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c09f8c606d9039b4293c865a3d57f396, data\RegulonDatabase\RegulonDB\MySQL\interaction.vb"
+﻿#Region "Microsoft.VisualBasic::c09f8c606d9039b4293c865a3d57f396, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\interaction.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 179
+    '    Code Lines: 93
+    ' Comment Lines: 64
+    '   Blank Lines: 22
+    '     File Size: 12.21 KB
+
 
     ' Class interaction
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4bf770207c8b0959491473b49b0c1813, models\Networks\KEGG\ReactionNetwork\NetworkExpansion.vb"
+﻿#Region "Microsoft.VisualBasic::4bf770207c8b0959491473b49b0c1813, GCModeller\models\Networks\KEGG\ReactionNetwork\NetworkExpansion.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 107
+    '    Code Lines: 78
+    ' Comment Lines: 18
+    '   Blank Lines: 11
+    '     File Size: 5.07 KB
+
 
     '     Module NetworkExpansion
     ' 

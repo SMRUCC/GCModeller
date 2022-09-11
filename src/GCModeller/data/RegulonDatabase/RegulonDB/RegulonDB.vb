@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a51e7a1e217b2aed5ee186d94b8bb333, data\RegulonDatabase\RegulonDB\RegulonDB.vb"
+﻿#Region "Microsoft.VisualBasic::a51e7a1e217b2aed5ee186d94b8bb333, GCModeller\data\RegulonDatabase\RegulonDB\RegulonDB.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 40
+    '    Code Lines: 26
+    ' Comment Lines: 7
+    '   Blank Lines: 7
+    '     File Size: 1.37 KB
+
 
     '     Class RegulonDB
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::87d8919fa653059fe994c30a940674ca, engine\Compiler\KEGG\Arguments.vb"
+﻿#Region "Microsoft.VisualBasic::87d8919fa653059fe994c30a940674ca, GCModeller\engine\Compiler\KEGG\Arguments.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 40
+    '    Code Lines: 29
+    ' Comment Lines: 0
+    '   Blank Lines: 11
+    '     File Size: 1.20 KB
+
 
     ' Class RepositoryArguments
     ' 
