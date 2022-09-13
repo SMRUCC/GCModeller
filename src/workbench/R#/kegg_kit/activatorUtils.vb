@@ -31,6 +31,16 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 62
+    '    Code Lines: 56
+    ' Comment Lines: 0
+    '   Blank Lines: 6
+    '     File Size: 2.41 KB
+
+
     ' Module activatorUtils
     ' 
     '     Function: GetDbLinks, GetNameValues, GetPropertyValues, GetReference

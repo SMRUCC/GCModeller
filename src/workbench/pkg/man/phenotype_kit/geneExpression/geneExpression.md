@@ -20,6 +20,7 @@ the gene expression matrix data toolkit
 + [expression.cmeans_pattern](geneExpression/expression.cmeans_pattern.1) This function performs clustering analysis of time course data. 
 + [expression.cmeans3D](geneExpression/expression.cmeans3D.1) 
 + [cmeans_matrix](geneExpression/cmeans_matrix.1) get cluster membership matrix
++ [peakCMeans](geneExpression/peakCMeans.1) This function performs clustering analysis of time course data
 + [deg.t.test](geneExpression/deg.t.test.1) 
 + [geneId](geneExpression/geneId.1) get gene Id list
 + [as.deg](geneExpression/as.deg.1) create gene expression DEG model

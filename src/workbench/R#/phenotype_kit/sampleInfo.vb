@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::93ae8a9191628c009bf417e83b04ad30, R#\phenotype_kit\sampleInfo.vb"
+﻿#Region "Microsoft.VisualBasic::3e9f96f7a6b061fc48ac5c839ab55bde, R#\phenotype_kit\sampleInfo.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 251
+    '    Code Lines: 195
+    ' Comment Lines: 22
+    '   Blank Lines: 34
+    '     File Size: 10.07 KB
+
 
     ' Module DEGSample
     ' 

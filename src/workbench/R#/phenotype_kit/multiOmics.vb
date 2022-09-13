@@ -31,6 +31,16 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 55
+    '    Code Lines: 49
+    ' Comment Lines: 0
+    '   Blank Lines: 6
+    '     File Size: 2.32 KB
+
+
     ' Module multiOmics
     ' 
     '     Function: getData, omics2DScatterPlot

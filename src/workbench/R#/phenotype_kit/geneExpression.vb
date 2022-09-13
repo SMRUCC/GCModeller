@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b4b681effba1805a72bab6be9fab1319, R#\phenotype_kit\geneExpression.vb"
+﻿#Region "Microsoft.VisualBasic::66b0667c733a82bb4cbcb7a28a76fe45, R#\phenotype_kit\geneExpression.vb"
 
 ' Author:
 ' 
@@ -31,12 +31,24 @@
 
 ' Summaries:
 
+
+' Code Statistics:
+
+'   Total Lines: 640
+'    Code Lines: 451
+' Comment Lines: 125
+'   Blank Lines: 64
+'     File Size: 24.98 KB
+
+
 ' Module geneExpression
 ' 
 '     Function: average, castGenericRows, CMeans3D, CmeansPattern, createDEGModels
-'               DEGclass, depDataTable, expDataTable, filter, geneId
-'               GetCmeansPattern, loadExpression, loadFromDataFrame, loadFromGenericDataSet, relative
-'               Ttest, uniqueGeneId
+'               createVectorList, DEGclass, depDataTable, dims, expDataTable
+'               filter, filterZeroSamples, geneId, GetCmeansPattern, loadExpression
+'               loadFromDataFrame, loadFromGenericDataSet, readBinaryMatrix, relative, setGeneIDs
+'               setZero, totalSumNorm, tr, Ttest, uniqueGeneId
+'               writeMatrix, zscore
 ' 
 '     Sub: Main
 ' 
@@ -44,6 +56,7 @@
 
 #End Region
 
+Imports System.Drawing
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
@@ -51,11 +64,13 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.DataMining.KMeans
+Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Distributions
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.Quantile
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.HTS.Proteomics
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
@@ -563,7 +578,11 @@ Module geneExpression
     ''' <param name="pattern"></param>
     ''' <returns></returns>
     <ExportAPI("cmeans_matrix")>
-    Public Function GetCmeansPattern(pattern As ExpressionPattern, Optional kmeans_n As Integer = -1, Optional env As Environment = Nothing) As Object
+    <Extension>
+    Public Function GetCmeansPattern(pattern As ExpressionPattern,
+                                     Optional memberCutoff As Double = 0.8,
+                                     Optional env As Environment = Nothing) As Object
+
         Dim result As DataSet() = pattern _
             .Patterns _
             .Select(Function(a)
@@ -577,23 +596,103 @@ Module geneExpression
                         }
                     End Function) _
             .ToArray
+        Dim kmeans As EntityClusterModel() = result _
+            .ToKMeansModels _
+            .ToArray
+        Dim clusterId As String() = kmeans _
+            .Select(Function(p) p.Properties.Keys) _
+            .IteratesALL _
+            .Distinct _
+            .ToArray
+        Dim max = clusterId _
+            .ToDictionary(Function(id) id,
+                            Function(id)
+                                Return kmeans _
+                                    .Select(Function(v) v(id)) _
+                                    .Max
+                            End Function)
 
-        If kmeans_n > 0 Then
-            If kmeans_n >= result.Length Then
-                Return Internal.debug.stop({
-                    "kmeans centers can not be greater than or equals to the data points!",
-                    "data: " & result.Length,
-                    "kmeans_n: " & kmeans_n
-                }, env)
+        For Each item As EntityClusterModel In kmeans
+            Dim tags As String() = item.Properties _
+                .Where(Function(c) c.Value / max(c.Key) > memberCutoff) _
+                .OrderByDescending(Function(c) c.Value) _
+                .Select(Function(c) c.Key) _
+                .ToArray
+
+            If tags.IsNullOrEmpty OrElse tags.Length = max.Count Then
+                item.Cluster = item.Properties _
+                    .OrderByDescending(Function(c) c.Value) _
+                    .Take(3) _
+                    .Select(Function(cl) cl.Key) _
+                    .JoinBy("; ")
             Else
-                Return result _
-                    .ToKMeansModels _
-                    .Kmeans(expected:=kmeans_n, debug:=env.globalEnvironment.debugMode) _
-                    .ToArray
+                item.Cluster = tags.Take(3).JoinBy("; ")
             End If
-        Else
-            Return result
-        End If
+        Next
+
+        Return kmeans
+    End Function
+
+    ''' <summary>
+    ''' This function performs clustering analysis of time course data
+    ''' </summary>
+    ''' <param name="matrix"></param>
+    ''' <param name="nsize"></param>
+    ''' <param name="threshold">the cmeans threshold</param>
+    ''' <param name="plotSize"></param>
+    ''' <param name="env"></param>
+    ''' <returns>
+    ''' this function returns a tuple list that contains the pattern 
+    ''' cluster matrix and the cmeans pattern plots.
+    ''' 
+    ''' 1. 'pattern' is a dataframe object that contains the object cluster patterns
+    ''' 2. 'image' is a bitmap image that plot based on the object cluster patterns data.
+    ''' 
+    ''' </returns>
+    <ExportAPI("peakCMeans")>
+    Public Function cmeans(matrix As Matrix,
+                           Optional nsize$ = "3,3",
+                           Optional threshold As Double = 10,
+                           Optional fuzzification# = 2,
+                           <RRawVectorArgument>
+                           Optional plotSize As Object = "8100,5200",
+                           Optional colorSet As String = "Jet",
+                           Optional memberCutoff As Double = 0.8,
+                           Optional env As Environment = Nothing) As Object
+
+        Dim println As Action(Of Object) = env.WriteLineHandler
+        Dim size As Size = InteropArgumentHelper.getSize(nsize, env).SizeParser
+        Dim patterns As ExpressionPattern = ExpressionPattern.CMeansCluster(
+            matrix:=matrix,
+            [dim]:={size.Width, size.Height},
+            fuzzification:=fuzzification,
+            threshold:=threshold
+        )
+        Dim output As New list With {
+            .slots = New Dictionary(Of String, Object)
+        }
+        Dim kmeans = patterns.GetCmeansPattern(memberCutoff, env)
+
+        Call println($"membership cutoff for the cmeans patterns is: {memberCutoff}")
+        Call println(patterns.ToSummaryText(memberCutoff))
+        Call patterns _
+            .DrawMatrix(
+                size:=InteropArgumentHelper.getSize(plotSize, env, "8100,5200"),
+                colorSet:=colorSet,
+                xlab:="Spatial Regions",
+                ylab:="z-score(Normalized Intensity)",
+                xAxisLabelRotate:=45,
+                padding:="padding:100px 100px 300px 100px;",
+                membershipCutoff:=memberCutoff
+            ).AsGDIImage _
+                .DoCall(Sub(img)
+                            Call output.add("image", img)
+                        End Sub)
+
+        Call println("export cmeans pattern matrix!")
+        Call output.add("pattern", Kmeans)
+
+        Return output
     End Function
 
     <ExportAPI("deg.t.test")>

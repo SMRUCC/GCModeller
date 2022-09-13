@@ -31,6 +31,16 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 174
+    '    Code Lines: 135
+    ' Comment Lines: 17
+    '   Blank Lines: 22
+    '     File Size: 8.26 KB
+
+
     ' Module PFSNetAnalysis
     ' 
     '     Constructor: (+1 Overloads) Sub New

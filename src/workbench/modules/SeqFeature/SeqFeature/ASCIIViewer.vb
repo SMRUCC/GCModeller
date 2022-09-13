@@ -31,6 +31,16 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 104
+    '    Code Lines: 65
+    ' Comment Lines: 22
+    '   Blank Lines: 17
+    '     File Size: 3.41 KB
+
+
     ' Module ASCIIViewer
     ' 
     '     Sub: DisplayOn

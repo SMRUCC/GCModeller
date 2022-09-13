@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0dca091eec55ee733de5a7efb8cc1f21, modules\keggReport\PathwayMapRender.vb"
+﻿#Region "Microsoft.VisualBasic::cb7f2c62bbb4ffa55b729a114e7ef664, modules\keggReport\PathwayMapRender.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 112
+    '    Code Lines: 79
+    ' Comment Lines: 19
+    '   Blank Lines: 14
+    '     File Size: 4.79 KB
+
 
     ' Module PathwayMapRender
     ' 

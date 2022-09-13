@@ -31,6 +31,16 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 101
+    '    Code Lines: 70
+    ' Comment Lines: 20
+    '   Blank Lines: 11
+    '     File Size: 3.50 KB
+
+
     ' Class ReportRender
     ' 
     '     Function: (+3 Overloads) CreateMap, Render

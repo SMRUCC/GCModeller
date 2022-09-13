@@ -31,6 +31,16 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 151
+    '    Code Lines: 128
+    ' Comment Lines: 1
+    '   Blank Lines: 22
+    '     File Size: 5.68 KB
+
+
     ' Module genomics
     ' 
     '     Function: asPTT, asTable, genes, getUpstream, getUpStream

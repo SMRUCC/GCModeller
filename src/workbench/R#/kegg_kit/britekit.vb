@@ -31,6 +31,16 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 238
+    '    Code Lines: 175
+    ' Comment Lines: 38
+    '   Blank Lines: 25
+    '     File Size: 9.28 KB
+
+
     ' Module britekit
     ' 
     '     Constructor: (+1 Overloads) Sub New

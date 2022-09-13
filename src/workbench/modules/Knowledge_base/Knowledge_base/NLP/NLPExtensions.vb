@@ -31,6 +31,16 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 30
+    '    Code Lines: 25
+    ' Comment Lines: 0
+    '   Blank Lines: 5
+    '     File Size: 1.10 KB
+
+
     ' Module NLPExtensions
     ' 
     '     Function: InformationAbstract, TextGraphWeights

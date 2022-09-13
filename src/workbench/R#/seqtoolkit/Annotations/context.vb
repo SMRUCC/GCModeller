@@ -31,6 +31,16 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 203
+    '    Code Lines: 138
+    ' Comment Lines: 40
+    '   Blank Lines: 25
+    '     File Size: 7.62 KB
+
+
     ' Module context
     ' 
     '     Constructor: (+1 Overloads) Sub New

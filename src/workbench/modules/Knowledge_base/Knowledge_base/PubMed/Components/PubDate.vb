@@ -31,6 +31,16 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 25
+    '    Code Lines: 19
+    ' Comment Lines: 0
+    '   Blank Lines: 6
+    '     File Size: 791 B
+
+
     '     Class PubDate
     ' 
     '         Properties: DateType, Day, Hour, Minute, Month
