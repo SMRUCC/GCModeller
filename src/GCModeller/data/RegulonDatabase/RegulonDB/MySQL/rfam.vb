@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c8b4759b7cb63a4f48426e5f3bc55683, data\RegulonDatabase\RegulonDB\MySQL\rfam.vb"
+﻿#Region "Microsoft.VisualBasic::c8b4759b7cb63a4f48426e5f3bc55683, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\rfam.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 170
+    '    Code Lines: 87
+    ' Comment Lines: 61
+    '   Blank Lines: 22
+    '     File Size: 9.07 KB
+
 
     ' Class rfam
     ' 

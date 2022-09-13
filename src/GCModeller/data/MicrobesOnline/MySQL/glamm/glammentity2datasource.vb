@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7fdb1a38c0f3ad82c7160d78eed8c195, data\MicrobesOnline\MySQL\glamm\glammentity2datasource.vb"
+﻿#Region "Microsoft.VisualBasic::7fdb1a38c0f3ad82c7160d78eed8c195, GCModeller\data\MicrobesOnline\MySQL\glamm\glammentity2datasource.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 69
+    '    Code Lines: 38
+    ' Comment Lines: 24
+    '   Blank Lines: 7
+    '     File Size: 3.67 KB
+
 
     ' Class glammentity2datasource
     ' 

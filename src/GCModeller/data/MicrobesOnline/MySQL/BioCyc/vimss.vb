@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e2943ed87daaedbd3a0e31de930a71a2, data\MicrobesOnline\MySQL\BioCyc\vimss.vb"
+﻿#Region "Microsoft.VisualBasic::e2943ed87daaedbd3a0e31de930a71a2, GCModeller\data\MicrobesOnline\MySQL\BioCyc\vimss.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 69
+    '    Code Lines: 34
+    ' Comment Lines: 28
+    '   Blank Lines: 7
+    '     File Size: 2.91 KB
+
 
     ' Class vimss
     ' 

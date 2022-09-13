@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e0ed82465d6ba7d6d5722fb4a399bb33, analysis\SequenceToolkit\DNA_Comparative\DeltaSimilarity1998\CAI\XML\CodonFrequency.vb"
+﻿#Region "Microsoft.VisualBasic::e0ed82465d6ba7d6d5722fb4a399bb33, GCModeller\analysis\SequenceToolkit\DNA_Comparative\DeltaSimilarity1998\CAI\XML\CodonFrequency.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 71
+    '    Code Lines: 39
+    ' Comment Lines: 21
+    '   Blank Lines: 11
+    '     File Size: 2.36 KB
+
 
     '     Class CodonFrequencyCAI
     ' 

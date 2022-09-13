@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8b7ac3928d117959411be9409106a3f3, data\RegulonDatabase\RegulonDB\MySQL\objects.vb"
+﻿#Region "Microsoft.VisualBasic::8b7ac3928d117959411be9409106a3f3, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\objects.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 152
+    '    Code Lines: 75
+    ' Comment Lines: 55
+    '   Blank Lines: 22
+    '     File Size: 6.04 KB
+
 
     ' Class objects
     ' 

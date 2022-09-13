@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aa895e93399e30f524e76e08cae61abc, analysis\SequenceToolkit\SNP\SangerSNPs\AlignmentMinusfile.vb"
+﻿#Region "Microsoft.VisualBasic::aa895e93399e30f524e76e08cae61abc, GCModeller\analysis\SequenceToolkit\SNP\SangerSNPs\AlignmentMinusfile.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 132
+    '    Code Lines: 89
+    ' Comment Lines: 14
+    '   Blank Lines: 29
+    '     File Size: 5.75 KB
+
 
     '     Module SNPsAlignment
     ' 

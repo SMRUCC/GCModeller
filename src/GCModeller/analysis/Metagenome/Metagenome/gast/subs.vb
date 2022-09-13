@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3c5c0c7864ce6a1e61bf424669a5884e, analysis\Metagenome\Metagenome\gast\subs.vb"
+﻿#Region "Microsoft.VisualBasic::3c5c0c7864ce6a1e61bf424669a5884e, GCModeller\analysis\Metagenome\Metagenome\gast\subs.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 28
+    '    Code Lines: 20
+    ' Comment Lines: 3
+    '   Blank Lines: 5
+    '     File Size: 872 B
+
 
     '     Module SUBROUTINES
     ' 

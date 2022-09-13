@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fd21b63f9dbaf38108d4b8cb81cd55b9, data\MicrobesOnline\MySQL\genomics\tu.vb"
+﻿#Region "Microsoft.VisualBasic::fd21b63f9dbaf38108d4b8cb81cd55b9, GCModeller\data\MicrobesOnline\MySQL\genomics\tu.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 63
+    '    Code Lines: 36
+    ' Comment Lines: 20
+    '   Blank Lines: 7
+    '     File Size: 2.71 KB
+
 
     ' Class tu
     ' 

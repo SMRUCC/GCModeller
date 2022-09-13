@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8812d84d4fe24caa20d2e0f0b5d909c4, engine\Compiler\MarkupCompiler\CompileGeneModelWorkflow.vb"
+﻿#Region "Microsoft.VisualBasic::ea06f360eac5f330e90c1b1930c35579, GCModeller\engine\Compiler\MarkupCompiler\CompileGeneModelWorkflow.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 105
+    '    Code Lines: 90
+    ' Comment Lines: 2
+    '   Blank Lines: 13
+    '     File Size: 4.58 KB
+
 
     '     Class CompileGeneModelWorkflow
     ' 

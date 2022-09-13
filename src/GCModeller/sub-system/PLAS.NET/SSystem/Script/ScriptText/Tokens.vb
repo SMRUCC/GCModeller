@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c61950af5b33ea23c840a33d5e18c2de, sub-system\PLAS.NET\SSystem\Script\ScriptText\Tokens.vb"
+﻿#Region "Microsoft.VisualBasic::c61950af5b33ea23c840a33d5e18c2de, GCModeller\sub-system\PLAS.NET\SSystem\Script\ScriptText\Tokens.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 57
+    '    Code Lines: 22
+    ' Comment Lines: 30
+    '   Blank Lines: 5
+    '     File Size: 1.47 KB
+
 
     '     Class ScriptToken
     ' 

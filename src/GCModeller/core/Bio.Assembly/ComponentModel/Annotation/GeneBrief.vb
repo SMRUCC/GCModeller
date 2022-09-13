@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::df8935d785b3e9356d148e9dd3a5a75e, core\Bio.Assembly\ComponentModel\Annotation\GeneBrief.vb"
+﻿#Region "Microsoft.VisualBasic::df8935d785b3e9356d148e9dd3a5a75e, GCModeller\core\Bio.Assembly\ComponentModel\Annotation\GeneBrief.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 60
+    '    Code Lines: 15
+    ' Comment Lines: 35
+    '   Blank Lines: 10
+    '     File Size: 2.01 KB
+
 
     '     Interface IGeneBrief
     ' 

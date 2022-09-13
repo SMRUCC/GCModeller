@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::06cd3b6e829fd0ce64b159bfae34ac25, engine\BootstrapLoader\Definition\NucleicAcid.vb"
+﻿#Region "Microsoft.VisualBasic::06cd3b6e829fd0ce64b159bfae34ac25, GCModeller\engine\BootstrapLoader\Definition\NucleicAcid.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 46
+    '    Code Lines: 24
+    ' Comment Lines: 16
+    '   Blank Lines: 6
+    '     File Size: 1.25 KB
+
 
     '     Class NucleicAcid
     ' 

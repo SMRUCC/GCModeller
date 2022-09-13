@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ae15b862fdca5d222ba6653875bab882, engine\IO\GCMarkupLanguage\GCML_Documents\GCMLDocBuilder\ExpressionFluxBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::ae15b862fdca5d222ba6653875bab882, GCModeller\engine\IO\GCMarkupLanguage\GCML_Documents\GCMLDocBuilder\ExpressionFluxBuilder.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 126
+    '    Code Lines: 70
+    ' Comment Lines: 39
+    '   Blank Lines: 17
+    '     File Size: 7.27 KB
+
 
     '     Class ExpressionFluxBuilder
     ' 

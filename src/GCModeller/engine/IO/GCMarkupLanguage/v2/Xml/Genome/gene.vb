@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::af6deeeee1064b4b779b2a09eb31a434, engine\IO\GCMarkupLanguage\v2\Xml\Genome\gene.vb"
+﻿#Region "Microsoft.VisualBasic::af6deeeee1064b4b779b2a09eb31a434, GCModeller\engine\IO\GCMarkupLanguage\v2\Xml\Genome\gene.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 39
+    '    Code Lines: 15
+    ' Comment Lines: 16
+    '   Blank Lines: 8
+    '     File Size: 1.18 KB
+
 
     '     Class gene
     ' 

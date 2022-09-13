@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b44fbcda04e95cfc2a381190041f7e8f, data\MicrobesOnline\MySQL\genomics\scaffoldisactiveflag.vb"
+﻿#Region "Microsoft.VisualBasic::b44fbcda04e95cfc2a381190041f7e8f, GCModeller\data\MicrobesOnline\MySQL\genomics\scaffoldisactiveflag.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 59
+    '    Code Lines: 34
+    ' Comment Lines: 18
+    '   Blank Lines: 7
+    '     File Size: 2.55 KB
+
 
     ' Class scaffoldisactiveflag
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a2823a6f84b0ded8a349f34a84e90594, models\SBML\SBML\Level3\reaction.vb"
+﻿#Region "Microsoft.VisualBasic::a2823a6f84b0ded8a349f34a84e90594, GCModeller\models\SBML\SBML\Level3\reaction.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 41
+    '    Code Lines: 28
+    ' Comment Lines: 3
+    '   Blank Lines: 10
+    '     File Size: 1.40 KB
+
 
     '     Class Reaction
     ' 

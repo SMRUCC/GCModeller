@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::64f495281ef9db6a76027fd08d076a06, core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Files\Compounds.vb"
+﻿#Region "Microsoft.VisualBasic::64f495281ef9db6a76027fd08d076a06, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Files\Compounds.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 80
+    '    Code Lines: 56
+    ' Comment Lines: 17
+    '   Blank Lines: 7
+    '     File Size: 4.25 KB
+
 
     '     Class Compounds
     ' 

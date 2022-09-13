@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::405b35b9f2e77446b6fa0cc3c5360033, data\RegulonDatabase\Regprecise\WebServices\WebParser\Operon\Operon.vb"
+﻿#Region "Microsoft.VisualBasic::405b35b9f2e77446b6fa0cc3c5360033, GCModeller\data\RegulonDatabase\Regprecise\WebServices\WebParser\Operon\Operon.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 60
+    '    Code Lines: 45
+    ' Comment Lines: 4
+    '   Blank Lines: 11
+    '     File Size: 2.02 KB
+
 
     '     Class Operon
     ' 

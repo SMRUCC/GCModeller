@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4f407f6e3a4710ff1226f501966e077a, data\RegulonDatabase\Regtransbase\MySQL\dict_func_site_types.vb"
+﻿#Region "Microsoft.VisualBasic::4f407f6e3a4710ff1226f501966e077a, GCModeller\data\RegulonDatabase\Regtransbase\MySQL\dict_func_site_types.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 151
+    '    Code Lines: 74
+    ' Comment Lines: 55
+    '   Blank Lines: 22
+    '     File Size: 5.58 KB
+
 
     ' Class dict_func_site_types
     ' 

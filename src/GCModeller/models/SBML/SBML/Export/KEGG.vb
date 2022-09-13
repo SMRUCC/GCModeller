@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9389dd98d0995a4026f332c772a2141f, models\SBML\SBML\Export\KEGG.vb"
+﻿#Region "Microsoft.VisualBasic::9389dd98d0995a4026f332c772a2141f, GCModeller\models\SBML\SBML\Export\KEGG.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 82
+    '    Code Lines: 67
+    ' Comment Lines: 7
+    '   Blank Lines: 8
+    '     File Size: 3.79 KB
+
 
     '     Module KEGG
     ' 

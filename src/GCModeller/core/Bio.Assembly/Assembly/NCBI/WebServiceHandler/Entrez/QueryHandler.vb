@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::84ce5f23591b07419b9eb85971b18d9a, core\Bio.Assembly\Assembly\NCBI\WebServiceHandler\Entrez\QueryHandler.vb"
+﻿#Region "Microsoft.VisualBasic::84ce5f23591b07419b9eb85971b18d9a, GCModeller\core\Bio.Assembly\Assembly\NCBI\WebServiceHandler\Entrez\QueryHandler.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 78
+    '    Code Lines: 50
+    ' Comment Lines: 14
+    '   Blank Lines: 14
+    '     File Size: 3.75 KB
+
 
     '     Class QueryHandler
     ' 

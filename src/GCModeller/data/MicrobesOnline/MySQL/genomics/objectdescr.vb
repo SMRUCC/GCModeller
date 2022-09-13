@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f72ccf2b72c5b394af58339480347a02, data\MicrobesOnline\MySQL\genomics\objectdescr.vb"
+﻿#Region "Microsoft.VisualBasic::f72ccf2b72c5b394af58339480347a02, GCModeller\data\MicrobesOnline\MySQL\genomics\objectdescr.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 59
+    '    Code Lines: 34
+    ' Comment Lines: 18
+    '   Blank Lines: 7
+    '     File Size: 2.46 KB
+
 
     ' Class objectdescr
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b8801b3849e515a7efe572a950355ca2, analysis\Metagenome\Metagenome\SILVA\SILVABuild.vb"
+﻿#Region "Microsoft.VisualBasic::b8801b3849e515a7efe572a950355ca2, GCModeller\analysis\Metagenome\Metagenome\SILVA\SILVABuild.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 31
+    '    Code Lines: 20
+    ' Comment Lines: 7
+    '   Blank Lines: 4
+    '     File Size: 1.06 KB
+
 
     ' Module SILVABuild
     ' 

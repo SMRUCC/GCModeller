@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f19e936f2bea42c3378821abce623519, analysis\Microarray\OmicsScatter2D.vb"
+﻿#Region "Microsoft.VisualBasic::f19e936f2bea42c3378821abce623519, GCModeller\analysis\Microarray\OmicsScatter2D.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 176
+    '    Code Lines: 141
+    ' Comment Lines: 19
+    '   Blank Lines: 16
+    '     File Size: 7.29 KB
+
 
     ' Module OmicsScatter2D
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0feab3dba9168c0c79a638188e6eaabb, data\RegulonDatabase\RegulonDB\MySQL\site.vb"
+﻿#Region "Microsoft.VisualBasic::0feab3dba9168c0c79a638188e6eaabb, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\site.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 167
+    '    Code Lines: 85
+    ' Comment Lines: 60
+    '   Blank Lines: 22
+    '     File Size: 8.67 KB
+
 
     ' Class site
     ' 

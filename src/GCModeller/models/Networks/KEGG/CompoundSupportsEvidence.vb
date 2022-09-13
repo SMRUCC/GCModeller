@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::20c5db168e3679cbdcb6042d6d3f6249, models\Networks\KEGG\CompoundSupportsEvidence.vb"
+﻿#Region "Microsoft.VisualBasic::20c5db168e3679cbdcb6042d6d3f6249, GCModeller\models\Networks\KEGG\CompoundSupportsEvidence.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 97
+    '    Code Lines: 59
+    ' Comment Lines: 28
+    '   Blank Lines: 10
+    '     File Size: 4.09 KB
+
 
     ' Module CompoundSupportsEvidence
     ' 

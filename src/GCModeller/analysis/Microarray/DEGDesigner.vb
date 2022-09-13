@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fe956a4d2860de7df73c46c19376caab, analysis\Microarray\DEGDesigner.vb"
+﻿#Region "Microsoft.VisualBasic::71ed69ac4f4690c1805490eff336f286, GCModeller\analysis\Microarray\DEGDesigner.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 470
+    '    Code Lines: 348
+    ' Comment Lines: 66
+    '   Blank Lines: 56
+    '     File Size: 18.96 KB
+
 
     ' Module DEGDesigner
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::218f3256519c21007fa48264ea83c152, models\SBML\SBML\Specifics\MetaCyc\Property\ReaderBase.vb"
+﻿#Region "Microsoft.VisualBasic::218f3256519c21007fa48264ea83c152, GCModeller\models\SBML\SBML\Specifics\MetaCyc\Property\ReaderBase.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 35
+    '    Code Lines: 28
+    ' Comment Lines: 0
+    '   Blank Lines: 7
+    '     File Size: 1.28 KB
+
 
     '     Class ReaderBase
     ' 

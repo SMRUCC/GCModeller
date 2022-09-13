@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7083f0253e454dbe281346991b0c77a7, sub-system\PLAS.NET\SSystem\Script\Models\Model.vb"
+﻿#Region "Microsoft.VisualBasic::587815e33b55230ec537f56b46b4f170, GCModeller\sub-system\PLAS.NET\SSystem\Script\Models\Model.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 125
+    '    Code Lines: 65
+    ' Comment Lines: 45
+    '   Blank Lines: 15
+    '     File Size: 4.36 KB
+
 
     '     Class Model
     ' 

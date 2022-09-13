@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::773462baf3aa3af61efb8f64632ae9c6, data\RegulonDatabase\RegulonDB\MySQL\gene_product_link.vb"
+﻿#Region "Microsoft.VisualBasic::773462baf3aa3af61efb8f64632ae9c6, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\gene_product_link.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 149
+    '    Code Lines: 73
+    ' Comment Lines: 54
+    '   Blank Lines: 22
+    '     File Size: 5.29 KB
+
 
     ' Class gene_product_link
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7397222dd74162558d71c602f4602d17, core\Bio.Assembly\Assembly\KEGG\Web\Map\LocalRender.vb"
+﻿#Region "Microsoft.VisualBasic::aa1a9a04c0646ceaaefaa05414616c87, GCModeller\core\Bio.Assembly\Assembly\KEGG\Web\Map\LocalRender.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,16 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 311
+    '    Code Lines: 206
+    ' Comment Lines: 66
+    '   Blank Lines: 39
+    '     File Size: 12.95 KB
+
+
     '     Class LocalRender
     ' 
     '         Constructor: (+2 Overloads) Sub New
@@ -38,7 +48,7 @@
     '         Function: FromRepository, getAreas, GetEnumerator, GetTitle, IEnumerable_GetEnumerator
     '                   IteratesMapNames, (+3 Overloads) Rendering
     ' 
-    '         Sub: renderCompound, renderGenes
+    '         Sub: CompoundShapeDrawing, renderCompound, renderGenes
     ' 
     ' 
     ' /********************************************************************************/

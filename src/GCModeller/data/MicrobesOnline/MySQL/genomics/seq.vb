@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8aeef778710b47f2bb162143f94a0c70, data\MicrobesOnline\MySQL\genomics\seq.vb"
+﻿#Region "Microsoft.VisualBasic::8aeef778710b47f2bb162143f94a0c70, GCModeller\data\MicrobesOnline\MySQL\genomics\seq.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 75
+    '    Code Lines: 40
+    ' Comment Lines: 28
+    '   Blank Lines: 7
+    '     File Size: 3.81 KB
+
 
     ' Class seq
     ' 

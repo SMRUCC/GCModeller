@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d3c326857eac4222f26fbbf1ad395a21, engine\GCModeller.Framework.Kernel_Driver\DriverAPI.vb"
+﻿#Region "Microsoft.VisualBasic::d3c326857eac4222f26fbbf1ad395a21, GCModeller\engine\GCModeller.Framework.Kernel_Driver\DriverAPI.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 84
+    '    Code Lines: 57
+    ' Comment Lines: 14
+    '   Blank Lines: 13
+    '     File Size: 4.03 KB
+
 
     ' Module DriverAPI
     ' 

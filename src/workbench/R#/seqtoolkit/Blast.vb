@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::858db9d2b8e7be531750d9db23d90e1f, R#\seqtoolkit\Blast.vb"
+﻿#Region "Microsoft.VisualBasic::0bb39ae7019ac1f5432d345d2354492a, R#\seqtoolkit\Blast.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 116
+    '    Code Lines: 76
+    ' Comment Lines: 28
+    '   Blank Lines: 12
+    '     File Size: 4.78 KB
+
 
     ' Module Blast
     ' 

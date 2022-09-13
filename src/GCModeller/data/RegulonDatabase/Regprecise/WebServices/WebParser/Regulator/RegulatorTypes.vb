@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::94c72c1ac065ae9ea568af482d0dd20d, data\RegulonDatabase\Regprecise\WebServices\WebParser\Regulator\RegulatorTypes.vb"
+﻿#Region "Microsoft.VisualBasic::94c72c1ac065ae9ea568af482d0dd20d, GCModeller\data\RegulonDatabase\Regprecise\WebServices\WebParser\Regulator\RegulatorTypes.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 16
+    '    Code Lines: 7
+    ' Comment Lines: 8
+    '   Blank Lines: 1
+    '     File Size: 345 B
+
 
     '     Enum Types
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c2be6b0d5383de1e01f138357fda728b, core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Files\Pathways.vb"
+﻿#Region "Microsoft.VisualBasic::c2be6b0d5383de1e01f138357fda728b, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Files\Pathways.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 27
+    '    Code Lines: 19
+    ' Comment Lines: 4
+    '   Blank Lines: 4
+    '     File Size: 1.19 KB
+
 
     '     Class Pathways
     ' 

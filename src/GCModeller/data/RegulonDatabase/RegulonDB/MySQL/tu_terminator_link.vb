@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::db17a64950586e899d74c91ee55d664c, data\RegulonDatabase\RegulonDB\MySQL\tu_terminator_link.vb"
+﻿#Region "Microsoft.VisualBasic::db17a64950586e899d74c91ee55d664c, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\tu_terminator_link.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 149
+    '    Code Lines: 73
+    ' Comment Lines: 54
+    '   Blank Lines: 22
+    '     File Size: 5.70 KB
+
 
     ' Class tu_terminator_link
     ' 

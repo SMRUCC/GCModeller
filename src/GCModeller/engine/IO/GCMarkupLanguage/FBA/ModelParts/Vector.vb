@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aed81d244a8b231cd0aee55939905491, engine\IO\GCMarkupLanguage\FBA\ModelParts\Vector.vb"
+﻿#Region "Microsoft.VisualBasic::1d538060012d4d5c0a7fe51aef534d64, GCModeller\engine\IO\GCMarkupLanguage\FBA\ModelParts\Vector.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 26
+    '    Code Lines: 17
+    ' Comment Lines: 4
+    '   Blank Lines: 5
+    '     File Size: 869 B
+
 
     '     Class Vector
     ' 

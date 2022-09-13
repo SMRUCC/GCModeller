@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::81643fb14582fbccdcaef2664ae61730, data\RegulonDatabase\Regtransbase\MySQL\genome2ncbitaxon.vb"
+﻿#Region "Microsoft.VisualBasic::81643fb14582fbccdcaef2664ae61730, GCModeller\data\RegulonDatabase\Regtransbase\MySQL\genome2ncbitaxon.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 151
+    '    Code Lines: 74
+    ' Comment Lines: 55
+    '   Blank Lines: 22
+    '     File Size: 5.46 KB
+
 
     ' Class genome2ncbitaxon
     ' 

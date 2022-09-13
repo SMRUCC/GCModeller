@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::10b13a1a5bdb2ba0193db6173a25549a, visualize\ChromosomeMap\ChromesomeMapAPI.vb"
+﻿#Region "Microsoft.VisualBasic::10b13a1a5bdb2ba0193db6173a25549a, GCModeller\visualize\ChromosomeMap\ChromesomeMapAPI.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 411
+    '    Code Lines: 329
+    ' Comment Lines: 37
+    '   Blank Lines: 45
+    '     File Size: 18.51 KB
+
 
     ' Module ChromesomeMapAPI
     ' 

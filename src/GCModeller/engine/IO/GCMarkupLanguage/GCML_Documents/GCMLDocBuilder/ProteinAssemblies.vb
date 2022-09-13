@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e50b7fef11bad81c1be5dd24068fbf20, engine\IO\GCMarkupLanguage\GCML_Documents\GCMLDocBuilder\ProteinAssemblies.vb"
+﻿#Region "Microsoft.VisualBasic::e50b7fef11bad81c1be5dd24068fbf20, GCModeller\engine\IO\GCMarkupLanguage\GCML_Documents\GCMLDocBuilder\ProteinAssemblies.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 74
+    '    Code Lines: 38
+    ' Comment Lines: 21
+    '   Blank Lines: 15
+    '     File Size: 4.13 KB
+
 
     '     Class ProteinAssemblies
     ' 

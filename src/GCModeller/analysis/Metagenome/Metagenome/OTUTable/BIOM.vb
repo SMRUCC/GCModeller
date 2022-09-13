@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2dfa38d2f6f8f4e125830a19ac2ca9fe, analysis\Metagenome\Metagenome\OTUTable\BIOM.vb"
+﻿#Region "Microsoft.VisualBasic::cc3c70589fb64292d436796eedb50670, GCModeller\analysis\Metagenome\Metagenome\OTUTable\BIOM.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 243
+    '    Code Lines: 179
+    ' Comment Lines: 33
+    '   Blank Lines: 31
+    '     File Size: 9.03 KB
+
 
     ' Module BIOM
     ' 

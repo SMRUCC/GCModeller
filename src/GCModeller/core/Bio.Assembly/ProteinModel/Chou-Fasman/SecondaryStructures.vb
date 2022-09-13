@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d6936bef732765b7a4bd813a1ddf4eea, core\Bio.Assembly\ProteinModel\Chou-Fasman\SecondaryStructures.vb"
+﻿#Region "Microsoft.VisualBasic::d6936bef732765b7a4bd813a1ddf4eea, GCModeller\core\Bio.Assembly\ProteinModel\Chou-Fasman\SecondaryStructures.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 30
+    '    Code Lines: 8
+    ' Comment Lines: 20
+    '   Blank Lines: 2
+    '     File Size: 710 B
+
 
     '     Enum SecondaryStructures
     ' 

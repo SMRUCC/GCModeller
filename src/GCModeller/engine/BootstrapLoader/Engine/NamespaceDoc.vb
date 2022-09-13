@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4f95cf8c00df937872d4b2a571bc8c70, engine\BootstrapLoader\Engine\NamespaceDoc.vb"
+﻿#Region "Microsoft.VisualBasic::4f95cf8c00df937872d4b2a571bc8c70, GCModeller\engine\BootstrapLoader\Engine\NamespaceDoc.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 10
+    '    Code Lines: 5
+    ' Comment Lines: 3
+    '   Blank Lines: 2
+    '     File Size: 295 B
+
 
     '     Module NamespaceDoc
     ' 

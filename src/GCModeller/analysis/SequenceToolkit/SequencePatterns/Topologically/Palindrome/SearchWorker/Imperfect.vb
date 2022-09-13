@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::573878053a765e3609992bef3d3c651b, analysis\SequenceToolkit\SequencePatterns\Topologically\Palindrome\SearchWorker\Imperfect.vb"
+﻿#Region "Microsoft.VisualBasic::8469710550320705ec295ff19d1a0cc1, GCModeller\analysis\SequenceToolkit\SequencePatterns\Topologically\Palindrome\SearchWorker\Imperfect.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 88
+    '    Code Lines: 63
+    ' Comment Lines: 13
+    '   Blank Lines: 12
+    '     File Size: 3.77 KB
+
 
     '     Class Imperfect
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ab46c5da4e0f16d192c55832a2d0f562, models\SBML\SBML\NamespaceDoc.vb"
+﻿#Region "Microsoft.VisualBasic::ab46c5da4e0f16d192c55832a2d0f562, GCModeller\models\SBML\SBML\NamespaceDoc.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 9
+    '    Code Lines: 2
+    ' Comment Lines: 7
+    '   Blank Lines: 0
+    '     File Size: 815 B
+
 
     ' Module NamespaceDoc
     ' 

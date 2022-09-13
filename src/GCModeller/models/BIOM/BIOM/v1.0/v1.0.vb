@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::339c60e982e819e1cc04df40c45933c3, models\BIOM\BIOM\v1.0\v1.0.vb"
+﻿#Region "Microsoft.VisualBasic::339c60e982e819e1cc04df40c45933c3, GCModeller\models\BIOM\BIOM\v1.0\v1.0.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 178
+    '    Code Lines: 64
+    ' Comment Lines: 102
+    '   Blank Lines: 12
+    '     File Size: 6.56 KB
+
 
     '     Class BIOMDataSet
     ' 

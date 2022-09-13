@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e5ead006916a315830b9bbaf46b8b11b, annotations\GSEA\GSEA\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::a3d566c5965aba80bd892776c4361bbc, GCModeller\annotations\GSEA\GSEA\Extensions.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,19 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 60
+    '    Code Lines: 54
+    ' Comment Lines: 0
+    '   Blank Lines: 6
+    '     File Size: 2.25 KB
+
+
     ' Module Extensions
     ' 
-    '     Function: BackgroundFromCatalog, createClusters, createGenes, CreateResultProfiles, (+2 Overloads) Enrichment
+    '     Function: BackgroundFromCatalog, createClusters, createGenes
     ' 
     ' /********************************************************************************/
 

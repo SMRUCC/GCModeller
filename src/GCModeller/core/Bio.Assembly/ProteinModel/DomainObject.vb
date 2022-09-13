@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::744c3ca2a911bb5df37b304d570c99b8, core\Bio.Assembly\ProteinModel\DomainObject.vb"
+﻿#Region "Microsoft.VisualBasic::744c3ca2a911bb5df37b304d570c99b8, GCModeller\core\Bio.Assembly\ProteinModel\DomainObject.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 78
+    '    Code Lines: 54
+    ' Comment Lines: 13
+    '   Blank Lines: 11
+    '     File Size: 2.69 KB
+
 
     '     Class DomainObject
     ' 

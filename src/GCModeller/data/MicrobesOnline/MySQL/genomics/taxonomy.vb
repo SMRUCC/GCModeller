@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8fcfe511bc57d204e6161b7e3894645f, data\MicrobesOnline\MySQL\genomics\taxonomy.vb"
+﻿#Region "Microsoft.VisualBasic::8fcfe511bc57d204e6161b7e3894645f, GCModeller\data\MicrobesOnline\MySQL\genomics\taxonomy.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 76
+    '    Code Lines: 42
+    ' Comment Lines: 27
+    '   Blank Lines: 7
+    '     File Size: 4.48 KB
+
 
     ' Class taxonomy
     ' 

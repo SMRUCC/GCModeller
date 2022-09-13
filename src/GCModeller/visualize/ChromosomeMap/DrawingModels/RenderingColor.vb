@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8046fc72dd92d31b6fd58196082e2792, visualize\ChromosomeMap\DrawingModels\RenderingColor.vb"
+﻿#Region "Microsoft.VisualBasic::8046fc72dd92d31b6fd58196082e2792, GCModeller\visualize\ChromosomeMap\DrawingModels\RenderingColor.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 95
+    '    Code Lines: 70
+    ' Comment Lines: 9
+    '   Blank Lines: 16
+    '     File Size: 4.35 KB
+
 
     '     Module ModelColorExtensions
     ' 

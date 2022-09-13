@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4e65d66f08e0b9cdc629a10575264380, data\RegulonDatabase\Regprecise\WebServices\WebParser\Motif\MotifSite.vb"
+﻿#Region "Microsoft.VisualBasic::4e65d66f08e0b9cdc629a10575264380, GCModeller\data\RegulonDatabase\Regprecise\WebServices\WebParser\Motif\MotifSite.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 57
+    '    Code Lines: 47
+    ' Comment Lines: 3
+    '   Blank Lines: 7
+    '     File Size: 2.40 KB
+
 
     '     Class MotifSitelog
     ' 

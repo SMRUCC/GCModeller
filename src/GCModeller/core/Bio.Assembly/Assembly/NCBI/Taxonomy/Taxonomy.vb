@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5dd26f999aff82b2f04756cc3e03dc5c, core\Bio.Assembly\Assembly\NCBI\Taxonomy\Taxonomy.vb"
+﻿#Region "Microsoft.VisualBasic::5dd26f999aff82b2f04756cc3e03dc5c, GCModeller\core\Bio.Assembly\Assembly\NCBI\Taxonomy\Taxonomy.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 164
+    '    Code Lines: 98
+    ' Comment Lines: 43
+    '   Blank Lines: 23
+    '     File Size: 6.30 KB
+
 
     '     Class TaxiValue
     ' 

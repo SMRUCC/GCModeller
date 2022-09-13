@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::373627aeba688cfd5c77f5811d7c4e21, core\Bio.Assembly\Assembly\DOMINE\Tables.vb"
+﻿#Region "Microsoft.VisualBasic::373627aeba688cfd5c77f5811d7c4e21, GCModeller\core\Bio.Assembly\Assembly\DOMINE\Tables.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,19 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 221
+    '    Code Lines: 144
+    ' Comment Lines: 66
+    '   Blank Lines: 11
+    '     File Size: 7.32 KB
+
+
     '     Class Interaction
     ' 
-    '         Properties: [ME], _3did, DIPD, Domain1, Domain2
+    '         Properties: _3did, [ME], DIPD, Domain1, Domain2
     '                     DomainGA, DPEA, Fusion, GPE, INSITE
     '                     iPfam, KGIDDI, MetaData, PE, PP
     '                     PredictionConfidence, Pvalue, RCDP, RDFF, SameGO

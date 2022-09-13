@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3f0f319a4e25a612e4753628833f1f19, data\MicrobesOnline\MySQL\genomics\COGCount.vb"
+﻿#Region "Microsoft.VisualBasic::3f0f319a4e25a612e4753628833f1f19, GCModeller\data\MicrobesOnline\MySQL\genomics\COGCount.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 62
+    '    Code Lines: 0
+    ' Comment Lines: 55
+    '   Blank Lines: 7
+    '     File Size: 3.12 KB
+
 
     ' 
     ' /********************************************************************************/

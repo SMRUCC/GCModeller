@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7e861c013c21f8473d19f8e181a37fa2, core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\BriteHText\BriteTerm.vb"
+﻿#Region "Microsoft.VisualBasic::7e861c013c21f8473d19f8e181a37fa2, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\BriteHText\BriteTerm.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 80
+    '    Code Lines: 43
+    ' Comment Lines: 27
+    '   Blank Lines: 10
+    '     File Size: 2.52 KB
+
 
     '     Class BriteTerm
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3fc3bc1af7d13bee69327c91fa56afaf, data\RegulonDatabase\RegulonDB\MySQL\promoter_feature.vb"
+﻿#Region "Microsoft.VisualBasic::3fc3bc1af7d13bee69327c91fa56afaf, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\promoter_feature.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 182
+    '    Code Lines: 95
+    ' Comment Lines: 65
+    '   Blank Lines: 22
+    '     File Size: 12.72 KB
+
 
     ' Class promoter_feature
     ' 

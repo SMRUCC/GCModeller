@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fe86430f1b92ee1be00901d76fceca79, models\SBML\SBML\Export\Intersection.vb"
+﻿#Region "Microsoft.VisualBasic::fe86430f1b92ee1be00901d76fceca79, GCModeller\models\SBML\SBML\Export\Intersection.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 71
+    '    Code Lines: 57
+    ' Comment Lines: 7
+    '   Blank Lines: 7
+    '     File Size: 3.57 KB
+
 
     '     Module Intersection
     ' 

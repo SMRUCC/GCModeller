@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5b458fda1fae364bf9cd659013c671e9, annotations\Proteomics\Mappings.vb"
+﻿#Region "Microsoft.VisualBasic::1db89429b5e94abd30a44a6ae87ef117, GCModeller\annotations\Proteomics\Mappings.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 56
+    '    Code Lines: 39
+    ' Comment Lines: 11
+    '   Blank Lines: 6
+    '     File Size: 2.18 KB
+
 
     ' Module Mappings
     ' 

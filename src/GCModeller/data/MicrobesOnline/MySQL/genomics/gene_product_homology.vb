@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::99cb7177a5aa2159fa62de07656c323a, data\MicrobesOnline\MySQL\genomics\gene_product_homology.vb"
+﻿#Region "Microsoft.VisualBasic::99cb7177a5aa2159fa62de07656c323a, GCModeller\data\MicrobesOnline\MySQL\genomics\gene_product_homology.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 63
+    '    Code Lines: 35
+    ' Comment Lines: 21
+    '   Blank Lines: 7
+    '     File Size: 3.17 KB
+
 
     ' Class gene_product_homology
     ' 

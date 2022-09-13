@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bddc4abef0436bea4e99841a1cdc332c, models\Networks\KEGG\ReactionNetwork\Builder\EdgeFilter.vb"
+﻿#Region "Microsoft.VisualBasic::bddc4abef0436bea4e99841a1cdc332c, GCModeller\models\Networks\KEGG\ReactionNetwork\Builder\EdgeFilter.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 137
+    '    Code Lines: 93
+    ' Comment Lines: 18
+    '   Blank Lines: 26
+    '     File Size: 5.55 KB
+
 
     '     Class EdgeFilter
     ' 

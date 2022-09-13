@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::755817af8a3d7e1dcb106fb74082f214, engine\IO\GCMarkupLanguage\GCML_Documents\GCMLDocBuilder\IBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::755817af8a3d7e1dcb106fb74082f214, GCModeller\engine\IO\GCMarkupLanguage\GCML_Documents\GCMLDocBuilder\IBuilder.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 48
+    '    Code Lines: 26
+    ' Comment Lines: 12
+    '   Blank Lines: 10
+    '     File Size: 1.82 KB
+
 
     '     Class IBuilder
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8788b86452adedc1f7b7766e94f29b27, data\MicrobesOnline\MySQL\genomics\taxnode.vb"
+﻿#Region "Microsoft.VisualBasic::8788b86452adedc1f7b7766e94f29b27, GCModeller\data\MicrobesOnline\MySQL\genomics\taxnode.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 84
+    '    Code Lines: 45
+    ' Comment Lines: 32
+    '   Blank Lines: 7
+    '     File Size: 4.97 KB
+
 
     ' Class taxnode
     ' 

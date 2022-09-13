@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1bdbba134a5b40937ca3c44a63b10253, core\Bio.Assembly\Assembly\MetaCyc\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::1bdbba134a5b40937ca3c44a63b10253, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\Extensions.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 70
+    '    Code Lines: 51
+    ' Comment Lines: 6
+    '   Blank Lines: 13
+    '     File Size: 2.44 KB
+
 
     '     Module Extensions
     ' 

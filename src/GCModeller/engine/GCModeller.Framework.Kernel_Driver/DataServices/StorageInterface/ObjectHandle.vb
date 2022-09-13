@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::11a5ed5221a0c83cfd52023f54a0c111, engine\GCModeller.Framework.Kernel_Driver\DataServices\StorageInterface\ObjectHandle.vb"
+﻿#Region "Microsoft.VisualBasic::11a5ed5221a0c83cfd52023f54a0c111, GCModeller\engine\GCModeller.Framework.Kernel_Driver\DataServices\StorageInterface\ObjectHandle.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 19
+    '    Code Lines: 15
+    ' Comment Lines: 0
+    '   Blank Lines: 4
+    '     File Size: 741 B
+
 
     '     Class ObjectHandle
     ' 

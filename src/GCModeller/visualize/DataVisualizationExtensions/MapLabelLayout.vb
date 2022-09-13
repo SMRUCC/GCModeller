@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a1d4340af6455740d001ec9405453845, visualize\DataVisualizationExtensions\MapLabelLayout.vb"
+﻿#Region "Microsoft.VisualBasic::a1d4340af6455740d001ec9405453845, GCModeller\visualize\DataVisualizationExtensions\MapLabelLayout.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 69
+    '    Code Lines: 43
+    ' Comment Lines: 15
+    '   Blank Lines: 11
+    '     File Size: 2.16 KB
+
 
     ' Structure MapLabelLayout
     ' 

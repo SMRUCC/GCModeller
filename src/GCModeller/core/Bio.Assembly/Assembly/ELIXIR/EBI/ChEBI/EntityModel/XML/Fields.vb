@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1422b7b23ec4e6bb39c610347b850b65, core\Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\EntityModel\XML\Fields.vb"
+﻿#Region "Microsoft.VisualBasic::1422b7b23ec4e6bb39c610347b850b65, GCModeller\core\Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\EntityModel\XML\Fields.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 98
+    '    Code Lines: 66
+    ' Comment Lines: 11
+    '   Blank Lines: 21
+    '     File Size: 2.92 KB
+
 
     '     Class CompoundOrigin
     ' 

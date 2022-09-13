@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9bf5fb78aa5b51bc55f2071e13b073b6, data\MicrobesOnline\MySQL\genomics\locus2string.vb"
+﻿#Region "Microsoft.VisualBasic::9bf5fb78aa5b51bc55f2071e13b073b6, GCModeller\data\MicrobesOnline\MySQL\genomics\locus2string.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 59
+    '    Code Lines: 34
+    ' Comment Lines: 18
+    '   Blank Lines: 7
+    '     File Size: 2.42 KB
+
 
     ' Class locus2string
     ' 

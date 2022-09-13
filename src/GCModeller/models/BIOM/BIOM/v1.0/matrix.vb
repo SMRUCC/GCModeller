@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::106c1011fcdb09bf28d24c8cf23be112, models\BIOM\BIOM\v1.0\matrix.vb"
+﻿#Region "Microsoft.VisualBasic::52732d205295db1a00fc9a1baf5f23db, GCModeller\models\BIOM\BIOM\v1.0\matrix.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 127
+    '    Code Lines: 71
+    ' Comment Lines: 39
+    '   Blank Lines: 17
+    '     File Size: 4.88 KB
+
 
     '     Class IntegerMatrix
     ' 

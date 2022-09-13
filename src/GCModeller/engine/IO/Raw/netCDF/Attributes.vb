@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::423e18bba3a6e13868acc443d2b47600, engine\IO\Raw\netCDF\Attributes.vb"
+﻿#Region "Microsoft.VisualBasic::423e18bba3a6e13868acc443d2b47600, GCModeller\engine\IO\Raw\netCDF\Attributes.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 10
+    '    Code Lines: 7
+    ' Comment Lines: 0
+    '   Blank Lines: 3
+    '     File Size: 208 B
+
 
     '     Class Attributes
     ' 

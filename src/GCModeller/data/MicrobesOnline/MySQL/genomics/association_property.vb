@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::94e824426ade4c4eb08fba20ac2c9961, data\MicrobesOnline\MySQL\genomics\association_property.vb"
+﻿#Region "Microsoft.VisualBasic::94e824426ade4c4eb08fba20ac2c9961, GCModeller\data\MicrobesOnline\MySQL\genomics\association_property.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 66
+    '    Code Lines: 36
+    ' Comment Lines: 23
+    '   Blank Lines: 7
+    '     File Size: 3.19 KB
+
 
     ' Class association_property
     ' 

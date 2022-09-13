@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::13c87ef28bbd8c7fa4d88cc240c76063, data\RegulonDatabase\Regtransbase\MySQL\locuses.vb"
+﻿#Region "Microsoft.VisualBasic::13c87ef28bbd8c7fa4d88cc240c76063, GCModeller\data\RegulonDatabase\Regtransbase\MySQL\locuses.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 184
+    '    Code Lines: 94
+    ' Comment Lines: 68
+    '   Blank Lines: 22
+    '     File Size: 9.98 KB
+
 
     ' Class locuses
     ' 

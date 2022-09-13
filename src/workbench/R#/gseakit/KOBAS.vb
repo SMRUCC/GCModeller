@@ -31,6 +31,16 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 17
+    '    Code Lines: 15
+    ' Comment Lines: 0
+    '   Blank Lines: 2
+    '     File Size: 541 B
+
+
     ' Module KOBAS
     ' 
     '     Function: KEGGPathway

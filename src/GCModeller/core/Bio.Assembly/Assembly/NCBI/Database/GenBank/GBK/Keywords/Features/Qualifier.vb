@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::79313d9a33f19e50b4046cbe217cf845, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\Features\Qualifier.vb"
+﻿#Region "Microsoft.VisualBasic::79313d9a33f19e50b4046cbe217cf845, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\Features\Qualifier.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 172
+    '    Code Lines: 40
+    ' Comment Lines: 131
+    '   Blank Lines: 1
+    '     File Size: 6.08 KB
+
 
     '     Enum FeatureQualifiers
     ' 

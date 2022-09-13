@@ -31,6 +31,16 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 57
+    '    Code Lines: 39
+    ' Comment Lines: 6
+    '   Blank Lines: 12
+    '     File Size: 1.98 KB
+
+
     ' Module BingSearch
     ' 
     '     Function: CreateQueryURL, CreateRefer, GetWikiMarkdown, GetWikiPageText, WikiBingSearch

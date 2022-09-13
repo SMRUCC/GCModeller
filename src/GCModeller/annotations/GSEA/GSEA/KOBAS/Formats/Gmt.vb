@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7e333b3bd5410b16558225bbcb1c5aa9, annotations\GSEA\GSEA\KOBAS\Formats\Gmt.vb"
+﻿#Region "Microsoft.VisualBasic::7e333b3bd5410b16558225bbcb1c5aa9, GCModeller\annotations\GSEA\GSEA\KOBAS\Formats\Gmt.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 92
+    '    Code Lines: 61
+    ' Comment Lines: 21
+    '   Blank Lines: 10
+    '     File Size: 3.89 KB
+
 
     '     Class Gmt
     ' 

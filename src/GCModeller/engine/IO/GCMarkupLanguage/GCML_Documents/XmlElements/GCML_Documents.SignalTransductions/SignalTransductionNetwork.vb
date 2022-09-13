@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f895feb447c631744252b88f126a5868, engine\IO\GCMarkupLanguage\GCML_Documents\XmlElements\GCML_Documents.SignalTransductions\SignalTransductionNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::f895feb447c631744252b88f126a5868, GCModeller\engine\IO\GCMarkupLanguage\GCML_Documents\XmlElements\GCML_Documents.SignalTransductions\SignalTransductionNetwork.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 60
+    '    Code Lines: 13
+    ' Comment Lines: 44
+    '   Blank Lines: 3
+    '     File Size: 2.59 KB
+
 
     '     Class SignalTransductionNetwork
     ' 

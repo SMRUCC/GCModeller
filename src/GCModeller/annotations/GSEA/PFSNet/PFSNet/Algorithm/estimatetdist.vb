@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ee689fa3a19186d4eac23ef3556af5a0, annotations\GSEA\PFSNet\PFSNet\Algorithm\estimatetdist.vb"
+﻿#Region "Microsoft.VisualBasic::ee689fa3a19186d4eac23ef3556af5a0, GCModeller\annotations\GSEA\PFSNet\PFSNet\Algorithm\estimatetdist.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 72
+    '    Code Lines: 50
+    ' Comment Lines: 8
+    '   Blank Lines: 14
+    '     File Size: 2.82 KB
+
 
     ' Module estimatetdistFunction
     ' 

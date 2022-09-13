@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1d6d3f1dd47d5cd44aea4bc083855486, analysis\SequenceToolkit\SNP\Genotype.vb"
+﻿#Region "Microsoft.VisualBasic::1d6d3f1dd47d5cd44aea4bc083855486, GCModeller\analysis\SequenceToolkit\SNP\Genotype.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 278
+    '    Code Lines: 203
+    ' Comment Lines: 19
+    '   Blank Lines: 56
+    '     File Size: 8.90 KB
+
 
     ' Module Genotype
     ' 

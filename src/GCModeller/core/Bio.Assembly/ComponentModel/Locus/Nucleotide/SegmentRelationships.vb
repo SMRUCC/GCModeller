@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9a1f6944388210b72266297710343dac, core\Bio.Assembly\ComponentModel\Locus\Nucleotide\SegmentRelationships.vb"
+﻿#Region "Microsoft.VisualBasic::9a1f6944388210b72266297710343dac, GCModeller\core\Bio.Assembly\ComponentModel\Locus\Nucleotide\SegmentRelationships.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 67
+    '    Code Lines: 20
+    ' Comment Lines: 41
+    '   Blank Lines: 6
+    '     File Size: 2.58 KB
+
 
     '     Enum SegmentRelationships
     ' 

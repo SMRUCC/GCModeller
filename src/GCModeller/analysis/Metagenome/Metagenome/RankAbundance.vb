@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::05ecf227168db2056561a92a3f0caa18, analysis\Metagenome\Metagenome\RankAbundance.vb"
+﻿#Region "Microsoft.VisualBasic::05ecf227168db2056561a92a3f0caa18, GCModeller\analysis\Metagenome\Metagenome\RankAbundance.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 129
+    '    Code Lines: 84
+    ' Comment Lines: 32
+    '   Blank Lines: 13
+    '     File Size: 5.91 KB
+
 
     ' Module RankAbundance
     ' 

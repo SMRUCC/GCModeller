@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b2ffc8328221205a535d2de3786333bb, core\Bio.Assembly\ComponentModel\DBLinkBuilder\IdMapping\SecondaryIDSolver.vb"
+﻿#Region "Microsoft.VisualBasic::b2ffc8328221205a535d2de3786333bb, GCModeller\core\Bio.Assembly\ComponentModel\DBLinkBuilder\IdMapping\SecondaryIDSolver.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 209
+    '    Code Lines: 124
+    ' Comment Lines: 57
+    '   Blank Lines: 28
+    '     File Size: 8.20 KB
+
 
     '     Class SecondaryIDSolver
     ' 

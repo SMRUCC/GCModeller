@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5408af664be520353b0ccdee561f643a, core\Bio.Assembly\Assembly\ELIXIR\UniProt\Web\ID_types.vb"
+﻿#Region "Microsoft.VisualBasic::5408af664be520353b0ccdee561f643a, GCModeller\core\Bio.Assembly\Assembly\ELIXIR\UniProt\Web\ID_types.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 429
+    '    Code Lines: 132
+    ' Comment Lines: 295
+    '   Blank Lines: 2
+    '     File Size: 9.65 KB
+
 
     '     Enum ID_types
     ' 

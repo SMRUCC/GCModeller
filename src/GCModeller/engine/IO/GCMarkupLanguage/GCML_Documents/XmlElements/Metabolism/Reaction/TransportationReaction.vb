@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::617ba5bdcacb298a402e2fcd36d5277f, engine\IO\GCMarkupLanguage\GCML_Documents\XmlElements\Metabolism\Reaction\TransportationReaction.vb"
+﻿#Region "Microsoft.VisualBasic::617ba5bdcacb298a402e2fcd36d5277f, GCModeller\engine\IO\GCMarkupLanguage\GCML_Documents\XmlElements\Metabolism\Reaction\TransportationReaction.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 9
+    '    Code Lines: 6
+    ' Comment Lines: 0
+    '   Blank Lines: 3
+    '     File Size: 207 B
+
 
     '     Class TransportationReaction
     ' 

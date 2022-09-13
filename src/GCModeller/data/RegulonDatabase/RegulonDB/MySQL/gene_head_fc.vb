@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::506812938efc8a59711f133af275bfa3, data\RegulonDatabase\RegulonDB\MySQL\gene_head_fc.vb"
+﻿#Region "Microsoft.VisualBasic::506812938efc8a59711f133af275bfa3, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\gene_head_fc.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 173
+    '    Code Lines: 89
+    ' Comment Lines: 62
+    '   Blank Lines: 22
+    '     File Size: 10.72 KB
+
 
     ' Class gene_head_fc
     ' 

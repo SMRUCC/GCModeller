@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c72d6d68c29b3fc1114a8634d42c6a48, data\MicrobesOnline\MySQL\BioCyc\reaction.vb"
+﻿#Region "Microsoft.VisualBasic::c72d6d68c29b3fc1114a8634d42c6a48, GCModeller\data\MicrobesOnline\MySQL\BioCyc\reaction.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 59
+    '    Code Lines: 34
+    ' Comment Lines: 18
+    '   Blank Lines: 7
+    '     File Size: 2.34 KB
+
 
     ' Class reaction
     ' 

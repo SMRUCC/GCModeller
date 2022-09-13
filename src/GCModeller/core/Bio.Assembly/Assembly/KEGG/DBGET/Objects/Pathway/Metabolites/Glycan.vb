@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ff803b94c61b017a0a84762a55e69bc8, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\Glycan.vb"
+﻿#Region "Microsoft.VisualBasic::ff803b94c61b017a0a84762a55e69bc8, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\Glycan.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 103
+    '    Code Lines: 79
+    ' Comment Lines: 10
+    '   Blank Lines: 14
+    '     File Size: 3.75 KB
+
 
     '     Class Glycan
     ' 

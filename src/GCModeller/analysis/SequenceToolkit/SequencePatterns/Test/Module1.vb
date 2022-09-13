@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d521f9a0205f76edbcc2da5e074c2a66, analysis\SequenceToolkit\SequencePatterns\Test\Module1.vb"
+﻿#Region "Microsoft.VisualBasic::d521f9a0205f76edbcc2da5e074c2a66, GCModeller\analysis\SequenceToolkit\SequencePatterns\Test\Module1.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 45
+    '    Code Lines: 27
+    ' Comment Lines: 0
+    '   Blank Lines: 18
+    '     File Size: 1.42 KB
+
 
     ' Module Module1
     ' 

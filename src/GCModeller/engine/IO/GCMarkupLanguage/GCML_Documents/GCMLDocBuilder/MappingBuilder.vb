@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::edee4dc363019292ccc4f48c05105fcd, engine\IO\GCMarkupLanguage\GCML_Documents\GCMLDocBuilder\MappingBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::edee4dc363019292ccc4f48c05105fcd, GCModeller\engine\IO\GCMarkupLanguage\GCML_Documents\GCMLDocBuilder\MappingBuilder.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 96
+    '    Code Lines: 58
+    ' Comment Lines: 27
+    '   Blank Lines: 11
+    '     File Size: 5.30 KB
+
 
     '     Class MappingBuilder
     ' 

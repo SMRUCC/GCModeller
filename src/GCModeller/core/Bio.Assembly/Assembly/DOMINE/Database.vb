@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b47c227150b5e210da6579888f8987ae, core\Bio.Assembly\Assembly\DOMINE\Database.vb"
+﻿#Region "Microsoft.VisualBasic::b47c227150b5e210da6579888f8987ae, GCModeller\core\Bio.Assembly\Assembly\DOMINE\Database.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 56
+    '    Code Lines: 45
+    ' Comment Lines: 0
+    '   Blank Lines: 11
+    '     File Size: 2.15 KB
+
 
     '     Class Database
     ' 

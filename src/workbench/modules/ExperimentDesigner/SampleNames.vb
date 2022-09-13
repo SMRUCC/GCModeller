@@ -31,6 +31,16 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 103
+    '    Code Lines: 70
+    ' Comment Lines: 20
+    '   Blank Lines: 13
+    '     File Size: 3.54 KB
+
+
     ' Module SampleNames
     ' 
     '     Function: GuessPossibleGroups

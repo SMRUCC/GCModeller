@@ -1,44 +1,53 @@
-﻿#Region "Microsoft.VisualBasic::f40f25a0a3a8d8213c42d287909eb02d, modules\ExperimentDesigner\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::f6fc13690fbbd6d55ad6ba646ba91e40, modules\ExperimentDesigner\Extensions.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-' Module Extensions
-' 
-'     Properties: Names
-' 
-'     Function: DataAnalysisDesign, EnsureGroupPaired, EqualsToTuple, PairedAnalysisSamples, SampleGroupColor
-'               SampleGroupInfo, SampleIDs, SampleNames, TakeGroup, ToCategory
-' 
-' /********************************************************************************/
+
+    ' Code Statistics:
+
+    '   Total Lines: 306
+    '    Code Lines: 192
+    ' Comment Lines: 89
+    '   Blank Lines: 25
+    '     File Size: 12.82 KB
+
+
+    ' Module Extensions
+    ' 
+    '     Function: DataAnalysisDesign, EnsureGroupPaired, EqualsToTuple, PairedAnalysisSamples, SampleGroupColor
+    '               SampleGroupInfo, SampleIDs, SampleNames, SetNames, TakeGroup
+    '               ToCategory
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

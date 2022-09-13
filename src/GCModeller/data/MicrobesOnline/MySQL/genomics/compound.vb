@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3968027bc6e7bdf8bb5a017b80103241, data\MicrobesOnline\MySQL\genomics\compound.vb"
+﻿#Region "Microsoft.VisualBasic::3968027bc6e7bdf8bb5a017b80103241, GCModeller\data\MicrobesOnline\MySQL\genomics\compound.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 71
+    '    Code Lines: 40
+    ' Comment Lines: 24
+    '   Blank Lines: 7
+    '     File Size: 3.54 KB
+
 
     ' Class compound
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ecbe1f4d0d0dec962e9b9c0de39ab68b, engine\Compiler\AssemblyScript\Commands\metadata\Keywords.vb"
+﻿#Region "Microsoft.VisualBasic::ecbe1f4d0d0dec962e9b9c0de39ab68b, GCModeller\engine\Compiler\AssemblyScript\Commands\metadata\Keywords.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 26
+    '    Code Lines: 20
+    ' Comment Lines: 0
+    '   Blank Lines: 6
+    '     File Size: 841 B
+
 
     '     Class Keywords
     ' 

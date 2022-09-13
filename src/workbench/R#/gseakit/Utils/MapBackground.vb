@@ -31,6 +31,16 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 143
+    '    Code Lines: 119
+    ' Comment Lines: 10
+    '   Blank Lines: 14
+    '     File Size: 6.20 KB
+
+
     ' Module MapBackground
     ' 
     '     Function: fromOrganismSpecificHtext, fromPtfAnnotation, fromUniprot, KOMaps

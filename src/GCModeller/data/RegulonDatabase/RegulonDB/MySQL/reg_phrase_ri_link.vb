@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1defac1b5de52214b1dab590b1d4a4ca, data\RegulonDatabase\RegulonDB\MySQL\reg_phrase_ri_link.vb"
+﻿#Region "Microsoft.VisualBasic::1defac1b5de52214b1dab590b1d4a4ca, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\reg_phrase_ri_link.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 152
+    '    Code Lines: 75
+    ' Comment Lines: 55
+    '   Blank Lines: 22
+    '     File Size: 6.19 KB
+
 
     ' Class reg_phrase_ri_link
     ' 

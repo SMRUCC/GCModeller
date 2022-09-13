@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::64b546a5886a8d38d2ca3d39de85f7b0, engine\Model\Cellular\Process\Metabolism.vb"
+﻿#Region "Microsoft.VisualBasic::64b546a5886a8d38d2ca3d39de85f7b0, GCModeller\engine\Model\Cellular\Process\Metabolism.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 119
+    '    Code Lines: 72
+    ' Comment Lines: 30
+    '   Blank Lines: 17
+    '     File Size: 4.43 KB
+
 
     '     Class Reaction
     ' 

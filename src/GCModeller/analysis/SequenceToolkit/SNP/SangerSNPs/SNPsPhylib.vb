@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::15019a0e6e7e374fd2476a5667a2e378, analysis\SequenceToolkit\SNP\SangerSNPs\SNPsPhylib.vb"
+﻿#Region "Microsoft.VisualBasic::15019a0e6e7e374fd2476a5667a2e378, GCModeller\analysis\SequenceToolkit\SNP\SangerSNPs\SNPsPhylib.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 108
+    '    Code Lines: 59
+    ' Comment Lines: 30
+    '   Blank Lines: 19
+    '     File Size: 4.19 KB
+
 
     '     Module SNPsPhylib
     ' 

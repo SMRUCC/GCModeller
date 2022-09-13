@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3ccf97d8c1761c2c09dcf825d050db28, core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Files\Genes.vb"
+﻿#Region "Microsoft.VisualBasic::3ccf97d8c1761c2c09dcf825d050db28, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Files\Genes.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 66
+    '    Code Lines: 44
+    ' Comment Lines: 16
+    '   Blank Lines: 6
+    '     File Size: 3.26 KB
+
 
     '     Class Genes
     ' 

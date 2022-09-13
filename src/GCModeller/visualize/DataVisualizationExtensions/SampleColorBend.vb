@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2c53db8d9639661f89f7c7e8d5d2e76e, visualize\DataVisualizationExtensions\SampleColorBend.vb"
+﻿#Region "Microsoft.VisualBasic::2c53db8d9639661f89f7c7e8d5d2e76e, GCModeller\visualize\DataVisualizationExtensions\SampleColorBend.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 86
+    '    Code Lines: 61
+    ' Comment Lines: 13
+    '   Blank Lines: 12
+    '     File Size: 3.24 KB
+
 
     ' Module SampleColorBend
     ' 

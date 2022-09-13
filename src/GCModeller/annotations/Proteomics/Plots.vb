@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::92273ad417f769fbb8235127562b3c7f, annotations\Proteomics\Plots.vb"
+﻿#Region "Microsoft.VisualBasic::92273ad417f769fbb8235127562b3c7f, GCModeller\annotations\Proteomics\Plots.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 110
+    '    Code Lines: 81
+    ' Comment Lines: 16
+    '   Blank Lines: 13
+    '     File Size: 4.34 KB
+
 
     ' Module Plots
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0b9a48cdad941d8f981df4e8861aa875, visualize\DataVisualizationExtensions\CurvesChart\CurvesModel.vb"
+﻿#Region "Microsoft.VisualBasic::0b9a48cdad941d8f981df4e8861aa875, GCModeller\visualize\DataVisualizationExtensions\CurvesChart\CurvesModel.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 47
+    '    Code Lines: 39
+    ' Comment Lines: 0
+    '   Blank Lines: 8
+    '     File Size: 1.67 KB
+
 
     ' Class CurvesModel
     ' 

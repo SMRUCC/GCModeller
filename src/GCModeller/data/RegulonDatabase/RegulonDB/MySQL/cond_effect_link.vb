@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::91232b6ff76db953e92351a79f70e8fb, data\RegulonDatabase\RegulonDB\MySQL\cond_effect_link.vb"
+﻿#Region "Microsoft.VisualBasic::91232b6ff76db953e92351a79f70e8fb, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\cond_effect_link.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 158
+    '    Code Lines: 79
+    ' Comment Lines: 57
+    '   Blank Lines: 22
+    '     File Size: 7.37 KB
+
 
     ' Class cond_effect_link
     ' 

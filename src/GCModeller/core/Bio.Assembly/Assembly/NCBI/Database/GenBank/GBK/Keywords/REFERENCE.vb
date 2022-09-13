@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::59605cd784abc39a7027319cd6b8edb3, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\REFERENCE.vb"
+﻿#Region "Microsoft.VisualBasic::59605cd784abc39a7027319cd6b8edb3, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\REFERENCE.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 109
+    '    Code Lines: 82
+    ' Comment Lines: 8
+    '   Blank Lines: 19
+    '     File Size: 4.64 KB
+
 
     '     Class REFERENCE
     ' 

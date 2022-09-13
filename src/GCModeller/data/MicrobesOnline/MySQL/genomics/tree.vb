@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a8f156a28cc6dc3c5126f85ed572764c, data\MicrobesOnline\MySQL\genomics\tree.vb"
+﻿#Region "Microsoft.VisualBasic::a8f156a28cc6dc3c5126f85ed572764c, GCModeller\data\MicrobesOnline\MySQL\genomics\tree.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 67
+    '    Code Lines: 37
+    ' Comment Lines: 23
+    '   Blank Lines: 7
+    '     File Size: 3.21 KB
+
 
     ' Class tree
     ' 

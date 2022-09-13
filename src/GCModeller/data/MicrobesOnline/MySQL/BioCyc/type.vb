@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cda2408ed5246c5bad42d49bbae4103d, data\MicrobesOnline\MySQL\BioCyc\type.vb"
+﻿#Region "Microsoft.VisualBasic::cda2408ed5246c5bad42d49bbae4103d, GCModeller\data\MicrobesOnline\MySQL\BioCyc\type.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 64
+    '    Code Lines: 35
+    ' Comment Lines: 22
+    '   Blank Lines: 7
+    '     File Size: 2.96 KB
+
 
     ' Class type
     ' 

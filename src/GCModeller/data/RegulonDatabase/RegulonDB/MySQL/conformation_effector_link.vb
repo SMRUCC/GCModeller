@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::273055d277c2d8ce24351e444260ec8e, data\RegulonDatabase\RegulonDB\MySQL\conformation_effector_link.vb"
+﻿#Region "Microsoft.VisualBasic::273055d277c2d8ce24351e444260ec8e, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\conformation_effector_link.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 149
+    '    Code Lines: 73
+    ' Comment Lines: 54
+    '   Blank Lines: 22
+    '     File Size: 5.67 KB
+
 
     ' Class conformation_effector_link
     ' 

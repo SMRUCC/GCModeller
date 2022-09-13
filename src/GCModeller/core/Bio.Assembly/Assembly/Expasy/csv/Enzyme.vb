@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f405a9c382c769419e761de81ad6af60, core\Bio.Assembly\Assembly\Expasy\csv\Enzyme.vb"
+﻿#Region "Microsoft.VisualBasic::f405a9c382c769419e761de81ad6af60, GCModeller\core\Bio.Assembly\Assembly\Expasy\csv\Enzyme.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 34
+    '    Code Lines: 29
+    ' Comment Lines: 0
+    '   Blank Lines: 5
+    '     File Size: 1.20 KB
+
 
     '     Class Enzyme
     ' 

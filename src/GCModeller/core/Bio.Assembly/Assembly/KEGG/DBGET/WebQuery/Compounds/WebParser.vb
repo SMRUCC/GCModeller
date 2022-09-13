@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4d253be791c216c82b9ff299239c674c, core\Bio.Assembly\Assembly\KEGG\DBGET\WebQuery\Compounds\WebParser.vb"
+﻿#Region "Microsoft.VisualBasic::79ece02dfd276c3cf579c02fd9245bfa, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\WebQuery\Compounds\WebParser.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 157
+    '    Code Lines: 126
+    ' Comment Lines: 14
+    '   Blank Lines: 17
+    '     File Size: 6.83 KB
+
 
     '     Module WebParser
     ' 

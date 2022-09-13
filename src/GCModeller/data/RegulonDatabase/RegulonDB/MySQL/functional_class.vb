@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7f2bd9ee31186f141f4cfa6d8ba0fc16, data\RegulonDatabase\RegulonDB\MySQL\functional_class.vb"
+﻿#Region "Microsoft.VisualBasic::7f2bd9ee31186f141f4cfa6d8ba0fc16, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\functional_class.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 170
+    '    Code Lines: 87
+    ' Comment Lines: 61
+    '   Blank Lines: 22
+    '     File Size: 9.67 KB
+
 
     ' Class functional_class
     ' 

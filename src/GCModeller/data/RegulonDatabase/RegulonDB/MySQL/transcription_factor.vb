@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b90c9aa5d8524582c49806fc71f02a3d, data\RegulonDatabase\RegulonDB\MySQL\transcription_factor.vb"
+﻿#Region "Microsoft.VisualBasic::b90c9aa5d8524582c49806fc71f02a3d, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\transcription_factor.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 176
+    '    Code Lines: 91
+    ' Comment Lines: 63
+    '   Blank Lines: 22
+    '     File Size: 12.20 KB
+
 
     ' Class transcription_factor
     ' 

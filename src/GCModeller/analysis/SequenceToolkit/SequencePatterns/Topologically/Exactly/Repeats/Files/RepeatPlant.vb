@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6a88b0f5a83464b98f9155613a7c36f9, analysis\SequenceToolkit\SequencePatterns\Topologically\Exactly\Repeats\Files\RepeatPlant.vb"
+﻿#Region "Microsoft.VisualBasic::6a88b0f5a83464b98f9155613a7c36f9, GCModeller\analysis\SequenceToolkit\SequencePatterns\Topologically\Exactly\Repeats\Files\RepeatPlant.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 232
+    '    Code Lines: 170
+    ' Comment Lines: 31
+    '   Blank Lines: 31
+    '     File Size: 9.02 KB
+
 
     '     Class RepeatsLoci
     ' 

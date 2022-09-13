@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3f282da18cf389cee530a19aded42bc8, models\Networks\Microbiome\PathwayProfile\EnrichmentProfiles.vb"
+﻿#Region "Microsoft.VisualBasic::3f282da18cf389cee530a19aded42bc8, GCModeller\models\Networks\Microbiome\PathwayProfile\EnrichmentProfiles.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 14
+    '    Code Lines: 11
+    ' Comment Lines: 0
+    '   Blank Lines: 3
+    '     File Size: 406 B
+
 
     '     Class EnrichmentProfiles
     ' 

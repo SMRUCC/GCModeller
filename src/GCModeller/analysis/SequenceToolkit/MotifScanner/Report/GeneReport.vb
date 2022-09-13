@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e378bcb868aea1d7a496a918a2362d9f, analysis\SequenceToolkit\MotifScanner\Report\GeneReport.vb"
+﻿#Region "Microsoft.VisualBasic::e378bcb868aea1d7a496a918a2362d9f, GCModeller\analysis\SequenceToolkit\MotifScanner\Report\GeneReport.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 46
+    '    Code Lines: 29
+    ' Comment Lines: 8
+    '   Blank Lines: 9
+    '     File Size: 1.58 KB
+
 
     ' Class GeneReport
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4727c6b3abf21e494b5f58819582a77c, annotations\Proteomics\ProteinGroups.vb"
+﻿#Region "Microsoft.VisualBasic::2c7af31fbc9f5961571563bdbfaab16b, GCModeller\annotations\Proteomics\ProteinGroups.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 471
+    '    Code Lines: 356
+    ' Comment Lines: 60
+    '   Blank Lines: 55
+    '     File Size: 19.79 KB
+
 
     ' Module ProteinGroups
     ' 

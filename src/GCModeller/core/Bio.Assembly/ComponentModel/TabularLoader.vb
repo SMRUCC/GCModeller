@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0f86987a1a0d6055124f28feea91c9f6, core\Bio.Assembly\ComponentModel\TabularLoader.vb"
+﻿#Region "Microsoft.VisualBasic::0f86987a1a0d6055124f28feea91c9f6, GCModeller\core\Bio.Assembly\ComponentModel\TabularLoader.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 33
+    '    Code Lines: 23
+    ' Comment Lines: 3
+    '   Blank Lines: 7
+    '     File Size: 1.16 KB
+
 
     '     Class TabularLazyLoader
     ' 

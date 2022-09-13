@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ada1b262198bc8d2b05d3abd039b19ed, core\Bio.Assembly\Assembly\MetaCyc\Schemas\PathwayLink.vb"
+﻿#Region "Microsoft.VisualBasic::ada1b262198bc8d2b05d3abd039b19ed, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\Schemas\PathwayLink.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 76
+    '    Code Lines: 57
+    ' Comment Lines: 5
+    '   Blank Lines: 14
+    '     File Size: 2.68 KB
+
 
     '     Class PathwayLink
     ' 

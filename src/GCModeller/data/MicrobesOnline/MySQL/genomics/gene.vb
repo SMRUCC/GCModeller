@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::90b4ce7054daac45335f27fbb614cec8, data\MicrobesOnline\MySQL\genomics\gene.vb"
+﻿#Region "Microsoft.VisualBasic::90b4ce7054daac45335f27fbb614cec8, GCModeller\data\MicrobesOnline\MySQL\genomics\gene.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 74
+    '    Code Lines: 40
+    ' Comment Lines: 27
+    '   Blank Lines: 7
+    '     File Size: 3.83 KB
+
 
     ' Class gene
     ' 

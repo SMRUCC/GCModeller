@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b254b435c382c44545396f33beddb7e1, data\SABIO-RK\SBML\MathMLParser.vb"
+﻿#Region "Microsoft.VisualBasic::b254b435c382c44545396f33beddb7e1, GCModeller\data\SABIO-RK\SBML\MathMLParser.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 43
+    '    Code Lines: 35
+    ' Comment Lines: 0
+    '   Blank Lines: 8
+    '     File Size: 1.65 KB
+
 
     '     Module MathMLParser
     ' 

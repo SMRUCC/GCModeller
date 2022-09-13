@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::98254997e675c99d86d346409fca0725, analysis\SequenceToolkit\MotifScanner\Report\ReportTextBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::98254997e675c99d86d346409fca0725, GCModeller\analysis\SequenceToolkit\MotifScanner\Report\ReportTextBuilder.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 36
+    '    Code Lines: 28
+    ' Comment Lines: 0
+    '   Blank Lines: 8
+    '     File Size: 1.41 KB
+
 
     ' Module ReportTextBuilder
     ' 

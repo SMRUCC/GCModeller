@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::324189d67b3a67495bae6e00636917c9, data\MicrobesOnline\MySQL\genomics\synonymtype.vb"
+﻿#Region "Microsoft.VisualBasic::324189d67b3a67495bae6e00636917c9, GCModeller\data\MicrobesOnline\MySQL\genomics\synonymtype.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 59
+    '    Code Lines: 34
+    ' Comment Lines: 18
+    '   Blank Lines: 7
+    '     File Size: 2.42 KB
+
 
     ' Class synonymtype
     ' 

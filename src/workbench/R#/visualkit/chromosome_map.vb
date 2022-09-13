@@ -31,6 +31,16 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 55
+    '    Code Lines: 33
+    ' Comment Lines: 15
+    '   Blank Lines: 7
+    '     File Size: 1.92 KB
+
+
     ' Module chromosome_map
     ' 
     '     Function: config, draw

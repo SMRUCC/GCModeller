@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::91db6be46db454ee681dac3770039e30, core\Bio.Assembly\ComponentModel\Equations\EquationBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::91db6be46db454ee681dac3770039e30, GCModeller\core\Bio.Assembly\ComponentModel\Equations\EquationBuilder.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 161
+    '    Code Lines: 115
+    ' Comment Lines: 18
+    '   Blank Lines: 28
+    '     File Size: 7.34 KB
+
 
     '     Module EquationBuilder
     ' 

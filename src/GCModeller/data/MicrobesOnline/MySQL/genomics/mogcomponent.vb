@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::71a9e69cb3b8e04202b406b6f6872cfe, data\MicrobesOnline\MySQL\genomics\mogcomponent.vb"
+﻿#Region "Microsoft.VisualBasic::71a9e69cb3b8e04202b406b6f6872cfe, GCModeller\data\MicrobesOnline\MySQL\genomics\mogcomponent.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 68
+    '    Code Lines: 38
+    ' Comment Lines: 23
+    '   Blank Lines: 7
+    '     File Size: 3.42 KB
+
 
     ' Class mogcomponent
     ' 

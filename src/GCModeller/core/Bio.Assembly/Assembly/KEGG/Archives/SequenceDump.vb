@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2fb7eed06d82ec33ed0126551996563b, core\Bio.Assembly\Assembly\KEGG\Archives\SequenceDump.vb"
+﻿#Region "Microsoft.VisualBasic::2fb7eed06d82ec33ed0126551996563b, GCModeller\core\Bio.Assembly\Assembly\KEGG\Archives\SequenceDump.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 176
+    '    Code Lines: 143
+    ' Comment Lines: 6
+    '   Blank Lines: 27
+    '     File Size: 7.58 KB
+
 
     '     Class SequenceDump
     ' 

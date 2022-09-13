@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0f8ad444d61b5565612a1b27cda0e121, models\Networks\Microbiome\UniProt\TaxonomyIndexExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::0f8ad444d61b5565612a1b27cda0e121, GCModeller\models\Networks\Microbiome\UniProt\TaxonomyIndexExtensions.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 65
+    '    Code Lines: 58
+    ' Comment Lines: 0
+    '   Blank Lines: 7
+    '     File Size: 2.63 KB
+
 
     ' Module TaxonomyIndexExtensions
     ' 

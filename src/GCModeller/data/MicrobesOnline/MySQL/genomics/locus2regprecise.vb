@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d9ec5bba40d9a6a052f4c884e569d56d, data\MicrobesOnline\MySQL\genomics\locus2regprecise.vb"
+﻿#Region "Microsoft.VisualBasic::d9ec5bba40d9a6a052f4c884e569d56d, GCModeller\data\MicrobesOnline\MySQL\genomics\locus2regprecise.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 68
+    '    Code Lines: 39
+    ' Comment Lines: 22
+    '   Blank Lines: 7
+    '     File Size: 3.99 KB
+
 
     ' Class locus2regprecise
     ' 

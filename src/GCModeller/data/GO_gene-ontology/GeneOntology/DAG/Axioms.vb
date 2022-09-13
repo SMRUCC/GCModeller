@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::67b94da2b8fc49372f8b02505cefbbfd, data\GO_gene-ontology\GeneOntology\DAG\Axioms.vb"
+﻿#Region "Microsoft.VisualBasic::67b94da2b8fc49372f8b02505cefbbfd, GCModeller\data\GO_gene-ontology\GeneOntology\DAG\Axioms.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 72
+    '    Code Lines: 43
+    ' Comment Lines: 20
+    '   Blank Lines: 9
+    '     File Size: 2.53 KB
+
 
     ' Module Axioms
     ' 

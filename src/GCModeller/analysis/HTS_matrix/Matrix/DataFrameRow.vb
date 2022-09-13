@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::56468c0ae136dc46055239d5165d08e9, analysis\HTS_matrix\DataFrameRow.vb"
+﻿#Region "Microsoft.VisualBasic::dcde3511f87cb9ef8692c9631538800b, GCModeller\analysis\HTS_matrix\Matrix\DataFrameRow.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 73
+    '    Code Lines: 45
+    ' Comment Lines: 16
+    '   Blank Lines: 12
+    '     File Size: 2.34 KB
+
 
     ' Class DataFrameRow
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b09cef191b927d3c5e12c4194e2e2735, engine\Dynamics\test\HugeNetworkTest.vb"
+﻿#Region "Microsoft.VisualBasic::b09cef191b927d3c5e12c4194e2e2735, GCModeller\engine\Dynamics\test\HugeNetworkTest.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 72
+    '    Code Lines: 59
+    ' Comment Lines: 0
+    '   Blank Lines: 13
+    '     File Size: 3.03 KB
+
 
     ' Module HugeNetworkTest
     ' 

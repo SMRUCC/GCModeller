@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1bf5ffd53de09133691bd19ead2db4ab, data\GO_gene-ontology\GeneOntology\Enrichment.vb"
+﻿#Region "Microsoft.VisualBasic::1bf5ffd53de09133691bd19ead2db4ab, GCModeller\data\GO_gene-ontology\GeneOntology\Enrichment.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 26
+    '    Code Lines: 2
+    ' Comment Lines: 23
+    '   Blank Lines: 1
+    '     File Size: 3.09 KB
+
 
     ' Module Enrichment
     ' 

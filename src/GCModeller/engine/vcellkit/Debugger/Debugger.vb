@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::89ce37a267caf278ed1d42e21fa76db2, engine\vcellkit\Debugger\Debugger.vb"
+﻿#Region "Microsoft.VisualBasic::1e3ed1fd992749572c22e591de6f5ab4, GCModeller\engine\vcellkit\Debugger\Debugger.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 203
+    '    Code Lines: 161
+    ' Comment Lines: 18
+    '   Blank Lines: 24
+    '     File Size: 9.01 KB
+
 
     ' Module Debugger
     ' 

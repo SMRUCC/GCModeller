@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::70432bc564747dd6a463cd19693f5b65, R#\seqtoolkit\Annotations\workflows.vb"
+﻿#Region "Microsoft.VisualBasic::96319bde4d1ad11f484830916b354dc9, R#\seqtoolkit\Annotations\workflows.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 335
+    '    Code Lines: 265
+    ' Comment Lines: 35
+    '   Blank Lines: 35
+    '     File Size: 15.62 KB
+
 
     ' Module workflows
     ' 

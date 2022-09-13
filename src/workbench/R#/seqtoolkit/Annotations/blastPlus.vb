@@ -31,6 +31,16 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 27
+    '    Code Lines: 17
+    ' Comment Lines: 0
+    '   Blank Lines: 10
+    '     File Size: 561 B
+
+
     ' Module blastPlusInterop
     ' 
     '     Function: blastn, blastp, blastx, makeblastdb

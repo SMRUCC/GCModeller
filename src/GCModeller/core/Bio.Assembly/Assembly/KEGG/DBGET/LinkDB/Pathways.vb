@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c1cbbfae663841aa6c6789a24e3b20da, core\Bio.Assembly\Assembly\KEGG\DBGET\LinkDB\Pathways.vb"
+﻿#Region "Microsoft.VisualBasic::c1cbbfae663841aa6c6789a24e3b20da, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\LinkDB\Pathways.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 124
+    '    Code Lines: 84
+    ' Comment Lines: 16
+    '   Blank Lines: 24
+    '     File Size: 5.02 KB
+
 
     '     Module Pathways
     ' 

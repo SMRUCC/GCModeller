@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1845887d81c3234c9c753a8a7689d940, core\Bio.Assembly\Assembly\MetaCyc\Schemas\Reaction\ReactionDirections.vb"
+﻿#Region "Microsoft.VisualBasic::1845887d81c3234c9c753a8a7689d940, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\Schemas\Reaction\ReactionDirections.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 72
+    '    Code Lines: 19
+    ' Comment Lines: 50
+    '   Blank Lines: 3
+    '     File Size: 3.69 KB
+
 
     '     Enum ReactionDirections
     ' 

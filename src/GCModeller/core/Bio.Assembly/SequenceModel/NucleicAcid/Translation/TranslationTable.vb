@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1bb3d7369cbe4409a30c482f8a1f7bb0, core\Bio.Assembly\SequenceModel\NucleicAcid\Translation\TranslationTable.vb"
+﻿#Region "Microsoft.VisualBasic::1bb3d7369cbe4409a30c482f8a1f7bb0, GCModeller\core\Bio.Assembly\SequenceModel\NucleicAcid\Translation\TranslationTable.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 110
+    '    Code Lines: 66
+    ' Comment Lines: 31
+    '   Blank Lines: 13
+    '     File Size: 4.17 KB
+
 
     '     Module TranslationTable
     ' 

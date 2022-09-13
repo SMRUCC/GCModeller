@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a63aaddbec5c68960da3446bf30714c8, core\Bio.Assembly\SequenceModel\FASTA\IO\FastaFile.vb"
+﻿#Region "Microsoft.VisualBasic::a63aaddbec5c68960da3446bf30714c8, GCModeller\core\Bio.Assembly\SequenceModel\FASTA\IO\FastaFile.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 636
+    '    Code Lines: 403
+    ' Comment Lines: 134
+    '   Blank Lines: 99
+    '     File Size: 25.25 KB
+
 
     '     Class FastaFile
     ' 

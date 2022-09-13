@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::82a6423362bceedd1e650fe27282a3dc, analysis\SequenceToolkit\MotifScanner\PatternScanner.vb"
+﻿#Region "Microsoft.VisualBasic::3ce54fdaf06797a5bc8f0dc228201b75, GCModeller\analysis\SequenceToolkit\MotifScanner\PatternScanner.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 118
+    '    Code Lines: 94
+    ' Comment Lines: 12
+    '   Blank Lines: 12
+    '     File Size: 4.12 KB
+
 
     ' Class PatternScanner
     ' 

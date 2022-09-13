@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4dd43ff5e9379e11973dadd33e473b58, data\MicrobesOnline\MySQL\genomics\autoanno.vb"
+﻿#Region "Microsoft.VisualBasic::4dd43ff5e9379e11973dadd33e473b58, GCModeller\data\MicrobesOnline\MySQL\genomics\autoanno.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 84
+    '    Code Lines: 46
+    ' Comment Lines: 31
+    '   Blank Lines: 7
+    '     File Size: 5.46 KB
+
 
     ' Class autoanno
     ' 

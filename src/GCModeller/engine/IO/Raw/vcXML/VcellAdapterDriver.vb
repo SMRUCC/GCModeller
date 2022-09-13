@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::76153d208cf8ff680ba28787494ea526, engine\IO\Raw\vcXML\VcellAdapterDriver.vb"
+﻿#Region "Microsoft.VisualBasic::76153d208cf8ff680ba28787494ea526, GCModeller\engine\IO\Raw\vcXML\VcellAdapterDriver.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 71
+    '    Code Lines: 44
+    ' Comment Lines: 14
+    '   Blank Lines: 13
+    '     File Size: 3.46 KB
+
 
     '     Class VcellAdapterDriver
     ' 

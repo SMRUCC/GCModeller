@@ -31,6 +31,16 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 87
+    '    Code Lines: 4
+    ' Comment Lines: 81
+    '   Blank Lines: 2
+    '     File Size: 12.94 KB
+
+
     '     Class QueryForm
     ' 
     ' 

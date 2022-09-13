@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::65da203a40766b5982edfa8c1384c498, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Disease\DownloadWorker.vb"
+﻿#Region "Microsoft.VisualBasic::65da203a40766b5982edfa8c1384c498, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Disease\DownloadWorker.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 51
+    '    Code Lines: 36
+    ' Comment Lines: 6
+    '   Blank Lines: 9
+    '     File Size: 2.02 KB
+
 
     '     Module DownloadWorker
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::90afa607de446f5372b3fefcd71c73a6, data\RegulonDatabase\RegulonDB\MySQL\sigma_tmp.vb"
+﻿#Region "Microsoft.VisualBasic::90afa607de446f5372b3fefcd71c73a6, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\sigma_tmp.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 170
+    '    Code Lines: 87
+    ' Comment Lines: 61
+    '   Blank Lines: 22
+    '     File Size: 9.66 KB
+
 
     ' Class sigma_tmp
     ' 

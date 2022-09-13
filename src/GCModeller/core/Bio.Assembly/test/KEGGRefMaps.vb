@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ea9b595cfcd807a837c97b973e69fd74, core\Bio.Assembly\Test\KEGGRefMaps.vb"
+﻿#Region "Microsoft.VisualBasic::ea9b595cfcd807a837c97b973e69fd74, GCModeller\core\Bio.Assembly\Test\KEGGRefMaps.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 33
+    '    Code Lines: 17
+    ' Comment Lines: 1
+    '   Blank Lines: 15
+    '     File Size: 786 B
+
 
     ' Module KEGGRefMaps
     ' 

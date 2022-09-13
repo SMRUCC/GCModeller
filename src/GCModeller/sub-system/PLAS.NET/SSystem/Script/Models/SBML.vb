@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f16775f7c4e457aa48df89b7daf384d1, sub-system\PLAS.NET\SSystem\Script\Models\SBML.vb"
+﻿#Region "Microsoft.VisualBasic::f16775f7c4e457aa48df89b7daf384d1, GCModeller\sub-system\PLAS.NET\SSystem\Script\Models\SBML.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 166
+    '    Code Lines: 109
+    ' Comment Lines: 31
+    '   Blank Lines: 26
+    '     File Size: 6.28 KB
+
 
     '     Class SBML
     ' 

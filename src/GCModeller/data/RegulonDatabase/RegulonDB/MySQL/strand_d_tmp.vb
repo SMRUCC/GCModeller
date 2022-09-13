@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::743fb75237ffc08d7909b7d0baa11613, data\RegulonDatabase\RegulonDB\MySQL\strand_d_tmp.vb"
+﻿#Region "Microsoft.VisualBasic::743fb75237ffc08d7909b7d0baa11613, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\strand_d_tmp.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 149
+    '    Code Lines: 73
+    ' Comment Lines: 54
+    '   Blank Lines: 22
+    '     File Size: 5.18 KB
+
 
     ' Class strand_d_tmp
     ' 

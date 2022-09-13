@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5daa726c8b0a014a2389462701a0fe34, core\Bio.Assembly\ComponentModel\Annotation\GeneTable.vb"
+﻿#Region "Microsoft.VisualBasic::5daa726c8b0a014a2389462701a0fe34, GCModeller\core\Bio.Assembly\ComponentModel\Annotation\GeneTable.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 91
+    '    Code Lines: 45
+    ' Comment Lines: 39
+    '   Blank Lines: 7
+    '     File Size: 3.54 KB
+
 
     '     Class GeneTable
     ' 

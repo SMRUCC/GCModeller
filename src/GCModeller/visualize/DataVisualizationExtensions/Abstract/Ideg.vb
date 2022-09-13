@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1dea82afe35a956dfcd2c05af4da60c4, visualize\DataVisualizationExtensions\Abstract\Ideg.vb"
+﻿#Region "Microsoft.VisualBasic::1dea82afe35a956dfcd2c05af4da60c4, GCModeller\visualize\DataVisualizationExtensions\Abstract\Ideg.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 7
+    '    Code Lines: 5
+    ' Comment Lines: 0
+    '   Blank Lines: 2
+    '     File Size: 132 B
+
 
     ' Interface IDeg
     ' 

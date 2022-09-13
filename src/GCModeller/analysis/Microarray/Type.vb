@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8917d9bc43cd7c148b9667cd056428ae, analysis\Microarray\Type.vb"
+﻿#Region "Microsoft.VisualBasic::8917d9bc43cd7c148b9667cd056428ae, GCModeller\analysis\Microarray\Type.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 5
+    '    Code Lines: 5
+    ' Comment Lines: 0
+    '   Blank Lines: 0
+    '     File Size: 77 B
+
 
     ' Enum Types
     ' 

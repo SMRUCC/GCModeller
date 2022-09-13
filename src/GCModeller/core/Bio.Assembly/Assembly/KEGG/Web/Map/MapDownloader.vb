@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4ed1b80d9775d01df5a44d518d35f323, core\Bio.Assembly\Assembly\KEGG\Web\Map\MapDownloader.vb"
+﻿#Region "Microsoft.VisualBasic::4ed1b80d9775d01df5a44d518d35f323, GCModeller\core\Bio.Assembly\Assembly\KEGG\Web\Map\MapDownloader.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 128
+    '    Code Lines: 93
+    ' Comment Lines: 17
+    '   Blank Lines: 18
+    '     File Size: 5.38 KB
+
 
     '     Module MapDownloader
     ' 

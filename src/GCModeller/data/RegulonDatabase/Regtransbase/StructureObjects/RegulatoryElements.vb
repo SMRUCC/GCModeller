@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::416a37039260ec6a28b36766488ea044, data\RegulonDatabase\Regtransbase\StructureObjects\RegulatoryElements.vb"
+﻿#Region "Microsoft.VisualBasic::416a37039260ec6a28b36766488ea044, GCModeller\data\RegulonDatabase\Regtransbase\StructureObjects\RegulatoryElements.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 747
+    '    Code Lines: 194
+    ' Comment Lines: 520
+    '   Blank Lines: 33
+    '     File Size: 36.19 KB
+
 
     '     Class RegulatoryElement
     ' 

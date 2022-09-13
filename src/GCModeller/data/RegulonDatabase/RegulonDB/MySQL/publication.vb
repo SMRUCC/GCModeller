@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aafd9460dbc82f8f5a69c3edfd7bba46, data\RegulonDatabase\RegulonDB\MySQL\publication.vb"
+﻿#Region "Microsoft.VisualBasic::aafd9460dbc82f8f5a69c3edfd7bba46, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\publication.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 170
+    '    Code Lines: 87
+    ' Comment Lines: 61
+    '   Blank Lines: 22
+    '     File Size: 9.36 KB
+
 
     ' Class publication
     ' 

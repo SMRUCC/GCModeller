@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7877b5001c474ec7d191ad72738c029f, core\Bio.Assembly\Metagenomics\SampleAbundanceSelector.vb"
+﻿#Region "Microsoft.VisualBasic::7877b5001c474ec7d191ad72738c029f, GCModeller\core\Bio.Assembly\Metagenomics\SampleAbundanceSelector.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 49
+    '    Code Lines: 34
+    ' Comment Lines: 7
+    '   Blank Lines: 8
+    '     File Size: 1.99 KB
+
 
     '     Class SampleAbundanceSelector
     ' 

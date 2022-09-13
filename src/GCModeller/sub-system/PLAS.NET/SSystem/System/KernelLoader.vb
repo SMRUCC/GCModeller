@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8d1cb3df50a087312c9b68682bff42ac, sub-system\PLAS.NET\SSystem\System\KernelLoader.vb"
+﻿#Region "Microsoft.VisualBasic::8d1cb3df50a087312c9b68682bff42ac, GCModeller\sub-system\PLAS.NET\SSystem\System\KernelLoader.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 56
+    '    Code Lines: 40
+    ' Comment Lines: 7
+    '   Blank Lines: 9
+    '     File Size: 1.96 KB
+
 
     '     Module KernelLoader
     ' 

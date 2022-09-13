@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b8e634600ba035c00c128268c080dd1b, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\COMMENT.vb"
+﻿#Region "Microsoft.VisualBasic::b8e634600ba035c00c128268c080dd1b, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\COMMENT.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 38
+    '    Code Lines: 24
+    ' Comment Lines: 4
+    '   Blank Lines: 10
+    '     File Size: 1.24 KB
+
 
     '     Class COMMENT
     ' 

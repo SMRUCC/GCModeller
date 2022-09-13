@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1475baec19f67e4c7e0309caa7994bc1, data\RegulonDatabase\Regtransbase\MySQL\regulons.vb"
+﻿#Region "Microsoft.VisualBasic::1475baec19f67e4c7e0309caa7994bc1, GCModeller\data\RegulonDatabase\Regtransbase\MySQL\regulons.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 188
+    '    Code Lines: 96
+    ' Comment Lines: 70
+    '   Blank Lines: 22
+    '     File Size: 10.54 KB
+
 
     ' Class regulons
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ffdb340015293834bb9c65aa2bfbc465, core\Bio.Assembly\Assembly\MetaCyc\File\Tabular DataFiles\Object.vb"
+﻿#Region "Microsoft.VisualBasic::ffdb340015293834bb9c65aa2bfbc465, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\Tabular DataFiles\Object.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 68
+    '    Code Lines: 58
+    ' Comment Lines: 0
+    '   Blank Lines: 10
+    '     File Size: 2.37 KB
+
 
     '     Class [Object]
     ' 

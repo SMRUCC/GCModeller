@@ -1,52 +1,58 @@
-﻿#Region "Microsoft.VisualBasic::09fad594833151b69a6cccce9436fe45, core\Bio.Assembly\Metagenomics\BIOMTaxonomy.vb"
+﻿#Region "Microsoft.VisualBasic::d7f96869c34a711b013ecd9e0c1607e0, GCModeller\core\Bio.Assembly\Metagenomics\BIOMTaxonomy.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class BIOMTaxonomyParser
-' 
-'         Function: Parse, ToString, TryParse
-' 
-'     Module BIOMTaxonomy
-' 
-'         Properties: BIOMPrefix, BIOMPrefixAlt, BriefParser, CompleteParser
-'         Delegate Function
-' 
-'             Constructor: (+1 Overloads) Sub New
-'             Function: AsTaxonomy, FillLineageEmpty, TaxonomyFromString, (+2 Overloads) TaxonomyParser, TaxonomyParserAlt
-'                       TaxonomyString
-' 
-' 
-' 
-' /********************************************************************************/
+
+    ' Code Statistics:
+
+    '   Total Lines: 230
+    '    Code Lines: 138
+    ' Comment Lines: 61
+    '   Blank Lines: 31
+    '     File Size: 10.30 KB
+
+
+    '     Module BIOMTaxonomy
+    ' 
+    '         Properties: BIOMPrefix, BIOMPrefixAlt, BriefParser, CompleteParser
+    '         Delegate Function
+    ' 
+    '             Constructor: (+1 Overloads) Sub New
+    '             Function: AsTaxonomy, FillLineageEmpty, TaxonomyFromString, (+2 Overloads) TaxonomyParser, TaxonomyParserAlt
+    '                       TaxonomyString
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

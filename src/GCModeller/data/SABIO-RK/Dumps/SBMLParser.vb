@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e921058ca705d68a60f9bf0b31ea7caa, data\SABIO-RK\Dumps\SBMLParser.vb"
+﻿#Region "Microsoft.VisualBasic::e921058ca705d68a60f9bf0b31ea7caa, GCModeller\data\SABIO-RK\Dumps\SBMLParser.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 157
+    '    Code Lines: 132
+    ' Comment Lines: 0
+    '   Blank Lines: 25
+    '     File Size: 8.29 KB
+
 
     '     Class CompoundSpecie
     ' 

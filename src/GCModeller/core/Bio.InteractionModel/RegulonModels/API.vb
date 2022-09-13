@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::945dd53963113a9f4dffe86eeaad4d38, core\Bio.InteractionModel\RegulonModels\API.vb"
+﻿#Region "Microsoft.VisualBasic::945dd53963113a9f4dffe86eeaad4d38, GCModeller\core\Bio.InteractionModel\RegulonModels\API.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 95
+    '    Code Lines: 72
+    ' Comment Lines: 14
+    '   Blank Lines: 9
+    '     File Size: 5.49 KB
+
 
     '     Module RegulationModel
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a451c934c061743a2c6980b53b69d612, core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Files\DNABindSites.vb"
+﻿#Region "Microsoft.VisualBasic::a451c934c061743a2c6980b53b69d612, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Files\DNABindSites.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 27
+    '    Code Lines: 19
+    ' Comment Lines: 4
+    '   Blank Lines: 4
+    '     File Size: 1.18 KB
+
 
     '     Class DNABindSites
     ' 

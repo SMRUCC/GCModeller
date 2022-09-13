@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::91577bb300ac7f5688994a0a4cf6c1d0, core\Bio.Assembly\ComponentModel\Locus\LociSites\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::91577bb300ac7f5688994a0a4cf6c1d0, GCModeller\core\Bio.Assembly\ComponentModel\Locus\LociSites\Extensions.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 67
+    '    Code Lines: 47
+    ' Comment Lines: 7
+    '   Blank Lines: 13
+    '     File Size: 2.61 KB
+
 
     '     Module Extensions
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b94dd325e5e61bd704be0ce3b14cb36c, core\Bio.Assembly\ComponentModel\Equations\Equivalence.vb"
+﻿#Region "Microsoft.VisualBasic::b94dd325e5e61bd704be0ce3b14cb36c, GCModeller\core\Bio.Assembly\ComponentModel\Equations\Equivalence.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 90
+    '    Code Lines: 73
+    ' Comment Lines: 9
+    '   Blank Lines: 8
+    '     File Size: 3.93 KB
+
 
     '     Module Equivalence
     ' 

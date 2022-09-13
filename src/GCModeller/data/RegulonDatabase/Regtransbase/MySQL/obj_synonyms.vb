@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b9f1843e36f34d667b4465e10dfcc7a6, data\RegulonDatabase\Regtransbase\MySQL\obj_synonyms.vb"
+﻿#Region "Microsoft.VisualBasic::b9f1843e36f34d667b4465e10dfcc7a6, GCModeller\data\RegulonDatabase\Regtransbase\MySQL\obj_synonyms.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 170
+    '    Code Lines: 85
+    ' Comment Lines: 63
+    '   Blank Lines: 22
+    '     File Size: 7.69 KB
+
 
     ' Class obj_synonyms
     ' 

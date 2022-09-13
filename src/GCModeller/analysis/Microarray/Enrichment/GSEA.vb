@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::efb02345c4bbf1a0a6b4627473e967f9, analysis\Microarray\Enrichment\GSEA.vb"
+﻿#Region "Microsoft.VisualBasic::efb02345c4bbf1a0a6b4627473e967f9, GCModeller\analysis\Microarray\Enrichment\GSEA.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 66
+    '    Code Lines: 47
+    ' Comment Lines: 14
+    '   Blank Lines: 5
+    '     File Size: 2.81 KB
+
 
     ' Module GSEA
     ' 

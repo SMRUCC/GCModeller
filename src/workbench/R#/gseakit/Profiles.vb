@@ -31,6 +31,16 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 38
+    '    Code Lines: 24
+    ' Comment Lines: 9
+    '   Blank Lines: 5
+    '     File Size: 1.65 KB
+
+
     ' Module profiles
     ' 
     '     Function: GOEnrichmentProfiles, KEGGEnrichmentProfiles

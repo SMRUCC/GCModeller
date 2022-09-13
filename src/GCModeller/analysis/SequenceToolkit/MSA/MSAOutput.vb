@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0ef80ffb62881bc796a1bdc1d3ecc192, analysis\SequenceToolkit\MSA\MSAOutput.vb"
+﻿#Region "Microsoft.VisualBasic::0553779d34cfcaafb37942725fce3a85, GCModeller\analysis\SequenceToolkit\MSA\MSAOutput.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,19 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 67
+    '    Code Lines: 54
+    ' Comment Lines: 0
+    '   Blank Lines: 13
+    '     File Size: 2.00 KB
+
+
     ' Class MSAOutput
     ' 
-    '     Properties: cost, MSA, names
+    '     Properties: cost, MSA, names, size
     ' 
     '     Function: ToFasta, ToString
     ' 

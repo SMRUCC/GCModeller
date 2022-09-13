@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8b9df1a94c26199ded5c1fdf4c0d30b4, core\Bio.Assembly\ComponentModel\DBLinkBuilder\DBLinksManager.vb"
+﻿#Region "Microsoft.VisualBasic::8b9df1a94c26199ded5c1fdf4c0d30b4, GCModeller\core\Bio.Assembly\ComponentModel\DBLinkBuilder\DBLinksManager.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 116
+    '    Code Lines: 90
+    ' Comment Lines: 9
+    '   Blank Lines: 17
+    '     File Size: 4.38 KB
+
 
     '     Class DBLinksManager
     ' 

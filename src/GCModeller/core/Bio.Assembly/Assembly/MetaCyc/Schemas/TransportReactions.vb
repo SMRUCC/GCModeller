@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5de593130ab45a59330857717d6d6d00, core\Bio.Assembly\Assembly\MetaCyc\Schemas\TransportReactions.vb"
+﻿#Region "Microsoft.VisualBasic::5de593130ab45a59330857717d6d6d00, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\Schemas\TransportReactions.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 165
+    '    Code Lines: 138
+    ' Comment Lines: 5
+    '   Blank Lines: 22
+    '     File Size: 7.54 KB
+
 
     '     Class TransportReaction
     ' 

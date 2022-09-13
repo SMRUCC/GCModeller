@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5a55a96946ea6259f5c1ad9c5d5c73bd, data\MicrobesOnline\MySQL\genomics\kegg2taxonomy.vb"
+﻿#Region "Microsoft.VisualBasic::5a55a96946ea6259f5c1ad9c5d5c73bd, GCModeller\data\MicrobesOnline\MySQL\genomics\kegg2taxonomy.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 59
+    '    Code Lines: 34
+    ' Comment Lines: 18
+    '   Blank Lines: 7
+    '     File Size: 2.49 KB
+
 
     ' Class kegg2taxonomy
     ' 

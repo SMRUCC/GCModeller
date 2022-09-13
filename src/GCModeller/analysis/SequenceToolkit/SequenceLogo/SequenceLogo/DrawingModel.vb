@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d166df1bea72da18013a30a1ba416acc, analysis\SequenceToolkit\SequenceLogo\SequenceLogo\DrawingModel.vb"
+﻿#Region "Microsoft.VisualBasic::d166df1bea72da18013a30a1ba416acc, GCModeller\analysis\SequenceToolkit\SequenceLogo\SequenceLogo\DrawingModel.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 117
+    '    Code Lines: 70
+    ' Comment Lines: 33
+    '   Blank Lines: 14
+    '     File Size: 4.26 KB
+
 
     '     Interface ILogoResidue
     ' 

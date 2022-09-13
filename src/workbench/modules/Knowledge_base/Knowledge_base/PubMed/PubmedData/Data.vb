@@ -31,6 +31,16 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 20
+    '    Code Lines: 15
+    ' Comment Lines: 0
+    '   Blank Lines: 5
+    '     File Size: 480 B
+
+
     '     Class History
     ' 
     '         Properties: PubMedPubDate

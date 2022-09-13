@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7d97d12dfcb428fb0f6a6f614d119970, core\Bio.Assembly\ContextModel\Promoter\PrefixLength.vb"
+﻿#Region "Microsoft.VisualBasic::7d97d12dfcb428fb0f6a6f614d119970, GCModeller\core\Bio.Assembly\ContextModel\Promoter\PrefixLength.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 12
+    '    Code Lines: 11
+    ' Comment Lines: 0
+    '   Blank Lines: 1
+    '     File Size: 243 B
+
 
     '     Enum PrefixLength
     ' 

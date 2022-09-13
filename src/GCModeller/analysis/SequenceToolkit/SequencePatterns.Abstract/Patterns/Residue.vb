@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5fc19a48bf8ff4259509fd1303a1af74, analysis\SequenceToolkit\SequencePatterns.Abstract\Patterns\Residue.vb"
+﻿#Region "Microsoft.VisualBasic::5fc19a48bf8ff4259509fd1303a1af74, GCModeller\analysis\SequenceToolkit\SequencePatterns.Abstract\Patterns\Residue.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 89
+    '    Code Lines: 68
+    ' Comment Lines: 8
+    '   Blank Lines: 13
+    '     File Size: 2.64 KB
+
 
     '     Class Residue
     ' 

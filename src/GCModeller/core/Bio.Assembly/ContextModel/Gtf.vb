@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5727cdae971c016b4c5aebcd85cd4066, core\Bio.Assembly\ContextModel\Gtf.vb"
+﻿#Region "Microsoft.VisualBasic::5727cdae971c016b4c5aebcd85cd4066, GCModeller\core\Bio.Assembly\ContextModel\Gtf.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 48
+    '    Code Lines: 42
+    ' Comment Lines: 0
+    '   Blank Lines: 6
+    '     File Size: 1.82 KB
+
 
     '     Module Gtf
     ' 

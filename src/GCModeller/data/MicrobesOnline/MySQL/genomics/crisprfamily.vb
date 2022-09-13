@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::959ba3bea5daee061700cc23d6fcd231, data\MicrobesOnline\MySQL\genomics\crisprfamily.vb"
+﻿#Region "Microsoft.VisualBasic::959ba3bea5daee061700cc23d6fcd231, GCModeller\data\MicrobesOnline\MySQL\genomics\crisprfamily.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 61
+    '    Code Lines: 35
+    ' Comment Lines: 19
+    '   Blank Lines: 7
+    '     File Size: 2.75 KB
+
 
     ' Class crisprfamily
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bc563f4b57d2ff246d22a76042470ede, models\Networks\Microbiome\MetabolicComplementation\MetabolicComplementation.vb"
+﻿#Region "Microsoft.VisualBasic::bc563f4b57d2ff246d22a76042470ede, GCModeller\models\Networks\Microbiome\MetabolicComplementation\MetabolicComplementation.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 203
+    '    Code Lines: 137
+    ' Comment Lines: 43
+    '   Blank Lines: 23
+    '     File Size: 9.23 KB
+
 
     ' Module MetabolicComplementation
     ' 

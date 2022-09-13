@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::093ba0f5cde5e686d4843ea78d19e0a8, core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\Module.vb"
+﻿#Region "Microsoft.VisualBasic::093ba0f5cde5e686d4843ea78d19e0a8, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\Module.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 179
+    '    Code Lines: 112
+    ' Comment Lines: 45
+    '   Blank Lines: 22
+    '     File Size: 7.39 KB
+
 
     '     Class [Module]
     ' 

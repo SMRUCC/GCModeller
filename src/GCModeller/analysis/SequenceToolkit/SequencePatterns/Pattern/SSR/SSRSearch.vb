@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a2b50e8950af39ffe721ed636b327e19, analysis\SequenceToolkit\SequencePatterns\Pattern\SSR\SSRSearch.vb"
+﻿#Region "Microsoft.VisualBasic::a2b50e8950af39ffe721ed636b327e19, GCModeller\analysis\SequenceToolkit\SequencePatterns\Pattern\SSR\SSRSearch.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 207
+    '    Code Lines: 140
+    ' Comment Lines: 29
+    '   Blank Lines: 38
+    '     File Size: 8.57 KB
+
 
     ' Module SSRSearch
     ' 

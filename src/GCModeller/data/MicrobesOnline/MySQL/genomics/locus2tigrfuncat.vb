@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::29d5000f91cf15487751123a3e8d4ebe, data\MicrobesOnline\MySQL\genomics\locus2tigrfuncat.vb"
+﻿#Region "Microsoft.VisualBasic::29d5000f91cf15487751123a3e8d4ebe, GCModeller\data\MicrobesOnline\MySQL\genomics\locus2tigrfuncat.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 65
+    '    Code Lines: 36
+    ' Comment Lines: 22
+    '   Blank Lines: 7
+    '     File Size: 3.00 KB
+
 
     ' Class locus2tigrfuncat
     ' 

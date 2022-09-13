@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6ab08bb74f5d341fa4403d56a440e040, core\Bio.Assembly\Assembly\NCBI\Database\CDD\Pn.vb"
+﻿#Region "Microsoft.VisualBasic::6ab08bb74f5d341fa4403d56a440e040, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\CDD\Pn.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 58
+    '    Code Lines: 39
+    ' Comment Lines: 10
+    '   Blank Lines: 9
+    '     File Size: 1.97 KB
+
 
     '     Class Pn
     ' 

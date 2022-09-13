@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c10c12f4da1f0b840457b806b3f72b20, annotations\GSEA\PFSNet\PFSNet_visual\ggiBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::c10c12f4da1f0b840457b806b3f72b20, GCModeller\annotations\GSEA\PFSNet\PFSNet_visual\ggiBuilder.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 52
+    '    Code Lines: 40
+    ' Comment Lines: 6
+    '   Blank Lines: 6
+    '     File Size: 2.07 KB
+
 
     ' Module ggiBuilder
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::172768e27a18455e1c5f0b0a4a633fda, core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Files\Reactions.vb"
+﻿#Region "Microsoft.VisualBasic::172768e27a18455e1c5f0b0a4a633fda, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Files\Reactions.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 85
+    '    Code Lines: 60
+    ' Comment Lines: 16
+    '   Blank Lines: 9
+    '     File Size: 4.71 KB
+
 
     '     Class Reactions
     ' 

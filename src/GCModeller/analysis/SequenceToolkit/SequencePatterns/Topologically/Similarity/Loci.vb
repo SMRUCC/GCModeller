@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1f919ec8b33e8f97ea50bf89ca58bf25, analysis\SequenceToolkit\SequencePatterns\Topologically\Similarity\Loci.vb"
+﻿#Region "Microsoft.VisualBasic::1f919ec8b33e8f97ea50bf89ca58bf25, GCModeller\analysis\SequenceToolkit\SequencePatterns\Topologically\Similarity\Loci.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 51
+    '    Code Lines: 22
+    ' Comment Lines: 22
+    '   Blank Lines: 7
+    '     File Size: 1.61 KB
+
 
     '     Class ReversedLociMatchedResult
     ' 

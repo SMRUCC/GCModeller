@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::346f963928fca49499e76d8bbe0da54d, data\MicrobesOnline\MySQL\genomics\gene_product_synonym.vb"
+﻿#Region "Microsoft.VisualBasic::346f963928fca49499e76d8bbe0da54d, GCModeller\data\MicrobesOnline\MySQL\genomics\gene_product_synonym.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 61
+    '    Code Lines: 34
+    ' Comment Lines: 20
+    '   Blank Lines: 7
+    '     File Size: 2.88 KB
+
 
     ' Class gene_product_synonym
     ' 

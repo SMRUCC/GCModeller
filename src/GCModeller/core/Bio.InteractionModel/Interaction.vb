@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4ffa30380526276b58ad49ed6b967b98, core\Bio.InteractionModel\Interaction.vb"
+﻿#Region "Microsoft.VisualBasic::4ffa30380526276b58ad49ed6b967b98, GCModeller\core\Bio.InteractionModel\Interaction.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 98
+    '    Code Lines: 65
+    ' Comment Lines: 23
+    '   Blank Lines: 10
+    '     File Size: 3.26 KB
+
 
     ' Class Interaction
     ' 

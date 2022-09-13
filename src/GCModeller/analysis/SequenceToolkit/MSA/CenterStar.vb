@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::13d8b23095825ac104911eaa6f30192f, analysis\SequenceToolkit\MSA\CenterStar.vb"
+﻿#Region "Microsoft.VisualBasic::13d8b23095825ac104911eaa6f30192f, GCModeller\analysis\SequenceToolkit\MSA\CenterStar.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 201
+    '    Code Lines: 142
+    ' Comment Lines: 33
+    '   Blank Lines: 26
+    '     File Size: 6.85 KB
+
 
     ' Class CenterStar
     ' 

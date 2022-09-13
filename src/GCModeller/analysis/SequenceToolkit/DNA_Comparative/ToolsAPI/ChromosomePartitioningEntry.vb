@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::435c4846ec9bb16b16fb18eb2e5ab5d4, analysis\SequenceToolkit\DNA_Comparative\ToolsAPI\ChromosomePartitioningEntry.vb"
+﻿#Region "Microsoft.VisualBasic::435c4846ec9bb16b16fb18eb2e5ab5d4, GCModeller\analysis\SequenceToolkit\DNA_Comparative\ToolsAPI\ChromosomePartitioningEntry.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 10
+    '    Code Lines: 8
+    ' Comment Lines: 0
+    '   Blank Lines: 2
+    '     File Size: 295 B
+
 
     ' Class ChromosomePartitioningEntry
     ' 

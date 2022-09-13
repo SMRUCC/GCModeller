@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::980b167216a457a5467eea18e92b3829, core\Bio.Assembly\ProteinModel\Chou-Fasman\Rules\RuleBetaTurn.vb"
+﻿#Region "Microsoft.VisualBasic::980b167216a457a5467eea18e92b3829, GCModeller\core\Bio.Assembly\ProteinModel\Chou-Fasman\Rules\RuleBetaTurn.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 41
+    '    Code Lines: 29
+    ' Comment Lines: 5
+    '   Blank Lines: 7
+    '     File Size: 1.66 KB
+
 
     '     Module RuleBetaTurn
     ' 

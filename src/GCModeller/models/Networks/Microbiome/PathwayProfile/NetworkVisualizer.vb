@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0c15a8c982fd59445bc6ed133cd5d02d, models\Networks\Microbiome\PathwayProfile\NetworkVisualizer.vb"
+﻿#Region "Microsoft.VisualBasic::0c15a8c982fd59445bc6ed133cd5d02d, GCModeller\models\Networks\Microbiome\PathwayProfile\NetworkVisualizer.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 39
+    '    Code Lines: 35
+    ' Comment Lines: 0
+    '   Blank Lines: 4
+    '     File Size: 1.62 KB
+
 
     '     Module ProfileNetworkVisualizer
     ' 

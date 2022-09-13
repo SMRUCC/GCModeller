@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::de32fe5450970ad208dbe02936370186, core\Bio.Assembly\Assembly\NCBI\Taxonomy\Tree\TaxonomyExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::de32fe5450970ad208dbe02936370186, GCModeller\core\Bio.Assembly\Assembly\NCBI\Taxonomy\Tree\TaxonomyExtensions.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 36
+    '    Code Lines: 25
+    ' Comment Lines: 6
+    '   Blank Lines: 5
+    '     File Size: 1.20 KB
+
 
     '     Module TaxonomyExtensions
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::de472a2adf3ffc75b5f3e22c7af286ba, data\MicrobesOnline\MySQL\genomics\gene_product_ancestor.vb"
+﻿#Region "Microsoft.VisualBasic::de472a2adf3ffc75b5f3e22c7af286ba, GCModeller\data\MicrobesOnline\MySQL\genomics\gene_product_ancestor.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 60
+    '    Code Lines: 34
+    ' Comment Lines: 19
+    '   Blank Lines: 7
+    '     File Size: 2.69 KB
+
 
     ' Class gene_product_ancestor
     ' 

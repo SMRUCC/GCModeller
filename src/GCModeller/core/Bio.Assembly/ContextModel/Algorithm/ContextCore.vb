@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5ede238136b36f43c7becdc97a1a432d, core\Bio.Assembly\ContextModel\Algorithm\ContextCore.vb"
+﻿#Region "Microsoft.VisualBasic::5ede238136b36f43c7becdc97a1a432d, GCModeller\core\Bio.Assembly\ContextModel\Algorithm\ContextCore.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 72
+    '    Code Lines: 48
+    ' Comment Lines: 17
+    '   Blank Lines: 7
+    '     File Size: 3.20 KB
+
 
     '     Structure RelationDelegate
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cccf82a64456efb0b4438dbc7377d154, core\Bio.Assembly\Assembly\NCBI\Taxonomy\Tree\TaxonomyNode.vb"
+﻿#Region "Microsoft.VisualBasic::cccf82a64456efb0b4438dbc7377d154, GCModeller\core\Bio.Assembly\Assembly\NCBI\Taxonomy\Tree\TaxonomyNode.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 61
+    '    Code Lines: 31
+    ' Comment Lines: 22
+    '   Blank Lines: 8
+    '     File Size: 2.37 KB
+
 
     '     Class TaxonomyNode
     ' 

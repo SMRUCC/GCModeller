@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bb7a06cfe7604a9fd1531f26ea6191de, data\MicrobesOnline\MySQL\genomics\source_audit.vb"
+﻿#Region "Microsoft.VisualBasic::bb7a06cfe7604a9fd1531f26ea6191de, GCModeller\data\MicrobesOnline\MySQL\genomics\source_audit.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 69
+    '    Code Lines: 39
+    ' Comment Lines: 23
+    '   Blank Lines: 7
+    '     File Size: 3.86 KB
+
 
     ' Class source_audit
     ' 

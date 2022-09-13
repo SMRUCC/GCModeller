@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ecfa9a279f03d236ca1cc63b6a900ef7, annotations\Proteomics\iTraq\iTraqSample.vb"
+﻿#Region "Microsoft.VisualBasic::dd53a6f53cf9cd29328c32516bbd3a15, GCModeller\annotations\Proteomics\iTraq\iTraqSample.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 350
+    '    Code Lines: 243
+    ' Comment Lines: 60
+    '   Blank Lines: 47
+    '     File Size: 14.21 KB
+
 
     ' Module iTraqSample
     ' 

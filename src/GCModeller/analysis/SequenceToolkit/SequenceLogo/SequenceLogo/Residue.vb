@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8853f9fa41986a52908d1f70fbe921c8, analysis\SequenceToolkit\SequenceLogo\SequenceLogo\Residue.vb"
+﻿#Region "Microsoft.VisualBasic::edbb3cacebfd65da335da8ff7ffac7b6, GCModeller\analysis\SequenceToolkit\SequenceLogo\SequenceLogo\Residue.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 83
+    '    Code Lines: 37
+    ' Comment Lines: 36
+    '   Blank Lines: 10
+    '     File Size: 3.00 KB
+
+
     '     Class Residue
     ' 
     '         Properties: Alphabets, AsChar, Bits, Position
     ' 
-    '         Function: CalculatesBits, Hi, ToString
+    '         Function: Hi, ToString
     ' 
     '         Sub: Assign
     ' 

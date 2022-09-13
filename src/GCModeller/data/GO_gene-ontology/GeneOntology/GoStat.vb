@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5e8a6ce74c798514472aaba672878be1, data\GO_gene-ontology\GeneOntology\GoStat.vb"
+﻿#Region "Microsoft.VisualBasic::5e8a6ce74c798514472aaba672878be1, GCModeller\data\GO_gene-ontology\GeneOntology\GoStat.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 224
+    '    Code Lines: 160
+    ' Comment Lines: 36
+    '   Blank Lines: 28
+    '     File Size: 8.89 KB
+
 
     ' Module GoStat
     ' 

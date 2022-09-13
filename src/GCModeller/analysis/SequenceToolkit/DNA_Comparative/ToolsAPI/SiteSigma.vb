@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::82bb5071ed84375223c4645b0496c05a, analysis\SequenceToolkit\DNA_Comparative\ToolsAPI\SiteSigma.vb"
+﻿#Region "Microsoft.VisualBasic::82bb5071ed84375223c4645b0496c05a, GCModeller\analysis\SequenceToolkit\DNA_Comparative\ToolsAPI\SiteSigma.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 12
+    '    Code Lines: 7
+    ' Comment Lines: 4
+    '   Blank Lines: 1
+    '     File Size: 505 B
+
 
     ' Class SiteSigma
     ' 

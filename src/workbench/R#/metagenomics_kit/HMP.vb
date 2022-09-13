@@ -31,6 +31,16 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 47
+    '    Code Lines: 31
+    ' Comment Lines: 11
+    '   Blank Lines: 5
+    '     File Size: 1.73 KB
+
+
     ' Module HMP
     ' 
     '     Function: fetch, readFileManifest

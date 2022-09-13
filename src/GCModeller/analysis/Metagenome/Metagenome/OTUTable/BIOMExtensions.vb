@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cb11f010b7e19dd5d4990a1640094468, analysis\Metagenome\Metagenome\OTUTable\BIOMExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::cb11f010b7e19dd5d4990a1640094468, GCModeller\analysis\Metagenome\Metagenome\OTUTable\BIOMExtensions.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 25
+    '    Code Lines: 20
+    ' Comment Lines: 0
+    '   Blank Lines: 5
+    '     File Size: 821 B
+
 
     ' Module BIOMExtensions
     ' 

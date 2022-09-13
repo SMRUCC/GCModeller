@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::47260c7cacab47e188c402b8383bc205, visualize\DataVisualizationExtensions\RenderingColor.vb"
+﻿#Region "Microsoft.VisualBasic::47260c7cacab47e188c402b8383bc205, GCModeller\visualize\DataVisualizationExtensions\RenderingColor.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 167
+    '    Code Lines: 106
+    ' Comment Lines: 32
+    '   Blank Lines: 29
+    '     File Size: 6.16 KB
+
 
     ' Module RenderingColor
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f8815816c5b61034578d50a76f0dc5c2, visualize\ChromosomeMap\PlasmidAnnotation.vb"
+﻿#Region "Microsoft.VisualBasic::f8815816c5b61034578d50a76f0dc5c2, GCModeller\visualize\ChromosomeMap\PlasmidAnnotation.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 140
+    '    Code Lines: 97
+    ' Comment Lines: 35
+    '   Blank Lines: 8
+    '     File Size: 5.90 KB
+
 
     ' Class PlasmidAnnotation
     ' 

@@ -31,6 +31,16 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 178
+    '    Code Lines: 107
+    ' Comment Lines: 46
+    '   Blank Lines: 25
+    '     File Size: 7.41 KB
+
+
     '     Module PubMedServicesExtensions
     ' 
     '         Function: GetArticleInfo, MetaLines, ParseArticles, QueryPubmed, QueryPubmedRaw

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dc490dcc0989e1ad4eeb8b8226b09c39, sub-system\PLAS.NET\SSystem\System\Experiments\Experiment.vb"
+﻿#Region "Microsoft.VisualBasic::dc490dcc0989e1ad4eeb8b8226b09c39, GCModeller\sub-system\PLAS.NET\SSystem\System\Experiments\Experiment.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 44
+    '    Code Lines: 16
+    ' Comment Lines: 23
+    '   Blank Lines: 5
+    '     File Size: 1.42 KB
+
 
     '     Class Experiment
     ' 

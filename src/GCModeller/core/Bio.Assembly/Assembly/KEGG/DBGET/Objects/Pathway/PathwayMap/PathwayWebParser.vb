@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::31b7790257141adc65c454e3b7a1628a, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\PathwayMap\PathwayWebParser.vb"
+﻿#Region "Microsoft.VisualBasic::f065a848b6239a0ab0f3f07f259e5d9e, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\PathwayMap\PathwayWebParser.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 230
+    '    Code Lines: 174
+    ' Comment Lines: 20
+    '   Blank Lines: 36
+    '     File Size: 9.53 KB
+
 
     '     Module PathwayWebParser
     ' 

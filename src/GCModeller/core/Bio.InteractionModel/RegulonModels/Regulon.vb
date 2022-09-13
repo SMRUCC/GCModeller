@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3b5f08f0e44c94c575cff00146c82133, core\Bio.InteractionModel\RegulonModels\Regulon.vb"
+﻿#Region "Microsoft.VisualBasic::3b5f08f0e44c94c575cff00146c82133, GCModeller\core\Bio.InteractionModel\RegulonModels\Regulon.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 108
+    '    Code Lines: 51
+    ' Comment Lines: 39
+    '   Blank Lines: 18
+    '     File Size: 3.44 KB
+
 
     '     Interface IRegulon
     ' 

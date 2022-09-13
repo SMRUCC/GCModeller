@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4dc27bd1e185ce9668a25ea04697030a, core\Bio.Assembly\ContextModel\Algorithm\GenomicsContext.vb"
+﻿#Region "Microsoft.VisualBasic::4dc27bd1e185ce9668a25ea04697030a, GCModeller\core\Bio.Assembly\ContextModel\Algorithm\GenomicsContext.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 35
+    '    Code Lines: 13
+    ' Comment Lines: 16
+    '   Blank Lines: 6
+    '     File Size: 1.34 KB
+
 
     '     Interface IGenomicsContextProvider
     ' 

@@ -1,41 +1,52 @@
-﻿#Region "Microsoft.VisualBasic::0b6e73a0a827aa2e4a847aaa5b6aae22, annotations\GSEA\GSEA\KnowledgeBase\GenericBackground.vb"
+﻿#Region "Microsoft.VisualBasic::151495050dbcde581858d94c0508810f, GCModeller\annotations\GSEA\GSEA\KnowledgeBase\GenericBackground.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-' Module GenericBackground
-' 
-'     Function: CreateGOGeneric, CreateKOGeneric, createTermGenericGene
-' 
-' /********************************************************************************/
+
+    ' Code Statistics:
+
+    '   Total Lines: 107
+    '    Code Lines: 91
+    ' Comment Lines: 7
+    '   Blank Lines: 9
+    '     File Size: 3.87 KB
+
+
+    ' Module GenericBackground
+    ' 
+    '     Function: CreateGOGeneric, CreateKOGeneric, createTermGenericGene, enumerateAllTerms, (+2 Overloads) ImportsTree
+    '               simpleTerm
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

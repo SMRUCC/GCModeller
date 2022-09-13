@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::51d1131fcf7db456623a508973a605fb, core\Bio.Assembly\SequenceModel\Patterns\Clustal\Residue.vb"
+﻿#Region "Microsoft.VisualBasic::51d1131fcf7db456623a508973a605fb, GCModeller\core\Bio.Assembly\SequenceModel\Patterns\Clustal\Residue.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 159
+    '    Code Lines: 101
+    ' Comment Lines: 42
+    '   Blank Lines: 16
+    '     File Size: 6.52 KB
+
 
     '     Class SR
     ' 

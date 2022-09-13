@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f07adaf83875c6ded11697b6410e6fc3, engine\Dynamics\Core\Vessel.vb"
+﻿#Region "Microsoft.VisualBasic::ac4c05c8823811f26b5bf794b8be0615, GCModeller\engine\Dynamics\Core\Vessel.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 148
+    '    Code Lines: 79
+    ' Comment Lines: 48
+    '   Blank Lines: 21
+    '     File Size: 5.82 KB
+
 
     '     Class Vessel
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fd83b5ce6122cca1837658d238bc8dc6, engine\Dynamics\Core\EnvirClone.vb"
+﻿#Region "Microsoft.VisualBasic::fd83b5ce6122cca1837658d238bc8dc6, GCModeller\engine\Dynamics\Core\EnvirClone.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 15
+    '    Code Lines: 8
+    ' Comment Lines: 3
+    '   Blank Lines: 4
+    '     File Size: 311 B
+
 
     '     Module EnvirClone
     ' 

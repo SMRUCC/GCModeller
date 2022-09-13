@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a40fe835691b015bcef047e9e3497cbf, data\MicrobesOnline\MySQL\genomics\enzplayer.vb"
+﻿#Region "Microsoft.VisualBasic::a40fe835691b015bcef047e9e3497cbf, GCModeller\data\MicrobesOnline\MySQL\genomics\enzplayer.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 62
+    '    Code Lines: 35
+    ' Comment Lines: 20
+    '   Blank Lines: 7
+    '     File Size: 2.85 KB
+
 
     ' Class enzplayer
     ' 

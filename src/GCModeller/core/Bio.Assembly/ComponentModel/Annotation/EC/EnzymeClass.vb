@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d94cfae77a4dcaddb8acf1a79d5b5e35, core\Bio.Assembly\ComponentModel\Annotation\EC\EnzymeClass.vb"
+﻿#Region "Microsoft.VisualBasic::d94cfae77a4dcaddb8acf1a79d5b5e35, GCModeller\core\Bio.Assembly\ComponentModel\Annotation\EC\EnzymeClass.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 43
+    '    Code Lines: 11
+    ' Comment Lines: 31
+    '   Blank Lines: 1
+    '     File Size: 1.16 KB
+
 
     '     Enum EnzymeClasses
     ' 

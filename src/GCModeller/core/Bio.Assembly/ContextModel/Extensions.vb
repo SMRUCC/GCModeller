@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d7f166530dd93a89458d5450d0519b25, core\Bio.Assembly\ContextModel\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::d7f166530dd93a89458d5450d0519b25, GCModeller\core\Bio.Assembly\ContextModel\Extensions.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 45
+    '    Code Lines: 34
+    ' Comment Lines: 6
+    '   Blank Lines: 5
+    '     File Size: 1.93 KB
+
 
     '     Module Extensions
     ' 

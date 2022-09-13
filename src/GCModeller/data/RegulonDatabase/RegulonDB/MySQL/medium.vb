@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b1b214db72a291533a29bc65cad92785, data\RegulonDatabase\RegulonDB\MySQL\medium.vb"
+﻿#Region "Microsoft.VisualBasic::b1b214db72a291533a29bc65cad92785, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\medium.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 152
+    '    Code Lines: 75
+    ' Comment Lines: 55
+    '   Blank Lines: 22
+    '     File Size: 5.89 KB
+
 
     ' Class medium
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9040fa9de06809cc9926706f1f6f4dd4, core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Files\ProteinFeature.vb"
+﻿#Region "Microsoft.VisualBasic::9040fa9de06809cc9926706f1f6f4dd4, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Files\ProteinFeature.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 31
+    '    Code Lines: 22
+    ' Comment Lines: 5
+    '   Blank Lines: 4
+    '     File Size: 1.44 KB
+
 
     '     Class ProteinFeatures
     ' 

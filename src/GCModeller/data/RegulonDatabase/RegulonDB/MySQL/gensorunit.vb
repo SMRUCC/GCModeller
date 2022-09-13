@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::adf27db22c7789e857092b3e3b7a128f, data\RegulonDatabase\RegulonDB\MySQL\gensorunit.vb"
+﻿#Region "Microsoft.VisualBasic::adf27db22c7789e857092b3e3b7a128f, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\gensorunit.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 173
+    '    Code Lines: 89
+    ' Comment Lines: 62
+    '   Blank Lines: 22
+    '     File Size: 10.83 KB
+
 
     ' Class gensorunit
     ' 

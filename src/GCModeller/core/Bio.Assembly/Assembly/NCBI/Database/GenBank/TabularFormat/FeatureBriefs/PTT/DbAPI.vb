@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e04d9ba139dbc3f1b9d56ca683d6c129, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\PTT\DbAPI.vb"
+﻿#Region "Microsoft.VisualBasic::e04d9ba139dbc3f1b9d56ca683d6c129, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\PTT\DbAPI.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 99
+    '    Code Lines: 73
+    ' Comment Lines: 14
+    '   Blank Lines: 12
+    '     File Size: 3.73 KB
+
 
     '     Module DbAPI
     ' 

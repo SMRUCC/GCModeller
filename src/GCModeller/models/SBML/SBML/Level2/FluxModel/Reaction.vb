@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d26834f9fbfe0e8ac450f01110046644, models\SBML\SBML\Level2\FluxModel\Reaction.vb"
+﻿#Region "Microsoft.VisualBasic::d26834f9fbfe0e8ac450f01110046644, GCModeller\models\SBML\SBML\Level2\FluxModel\Reaction.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 94
+    '    Code Lines: 70
+    ' Comment Lines: 12
+    '   Blank Lines: 12
+    '     File Size: 4.42 KB
+
 
     '     Class Reaction
     ' 

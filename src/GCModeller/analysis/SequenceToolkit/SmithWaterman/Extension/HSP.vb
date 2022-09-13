@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5d63c6dd6afbf35687aa2126ecdd837c, analysis\SequenceToolkit\SmithWaterman\Extension\HSP.vb"
+﻿#Region "Microsoft.VisualBasic::5d63c6dd6afbf35687aa2126ecdd837c, GCModeller\analysis\SequenceToolkit\SmithWaterman\Extension\HSP.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 61
+    '    Code Lines: 40
+    ' Comment Lines: 11
+    '   Blank Lines: 10
+    '     File Size: 1.80 KB
+
 
     ' Class HSP
     ' 

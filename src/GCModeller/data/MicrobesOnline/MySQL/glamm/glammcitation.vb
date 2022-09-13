@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5e744ff1a6561fdb58b2d45374b031d4, data\MicrobesOnline\MySQL\glamm\glammcitation.vb"
+﻿#Region "Microsoft.VisualBasic::5e744ff1a6561fdb58b2d45374b031d4, GCModeller\data\MicrobesOnline\MySQL\glamm\glammcitation.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 68
+    '    Code Lines: 38
+    ' Comment Lines: 23
+    '   Blank Lines: 7
+    '     File Size: 3.52 KB
+
 
     ' Class glammcitation
     ' 

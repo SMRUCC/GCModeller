@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::727cfb5c243094080afacb37610fca26, core\Bio.Assembly\Assembly\KEGG\Web\Form\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::727cfb5c243094080afacb37610fca26, GCModeller\core\Bio.Assembly\Assembly\KEGG\Web\Form\Extensions.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 43
+    '    Code Lines: 32
+    ' Comment Lines: 5
+    '   Blank Lines: 6
+    '     File Size: 1.47 KB
+
 
     '     Module Extensions
     ' 

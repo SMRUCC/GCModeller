@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::66006337d253f74a910ce1bd53ab7545, data\MicrobesOnline\MySQL\genomics\graph_path2term.vb"
+﻿#Region "Microsoft.VisualBasic::66006337d253f74a910ce1bd53ab7545, GCModeller\data\MicrobesOnline\MySQL\genomics\graph_path2term.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 62
+    '    Code Lines: 35
+    ' Comment Lines: 20
+    '   Blank Lines: 7
+    '     File Size: 2.78 KB
+
 
     ' Class graph_path2term
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4eb92d77c13be9d29ebc6648b4c457c9, data\MicrobesOnline\MySQL\genomics\locus2pdb.vb"
+﻿#Region "Microsoft.VisualBasic::4eb92d77c13be9d29ebc6648b4c457c9, GCModeller\data\MicrobesOnline\MySQL\genomics\locus2pdb.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 87
+    '    Code Lines: 47
+    ' Comment Lines: 33
+    '   Blank Lines: 7
+    '     File Size: 6.04 KB
+
 
     ' Class locus2pdb
     ' 

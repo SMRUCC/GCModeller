@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3d41f3d102bbeb53d6c18cd707cedc22, annotations\GO\EnrichBubbles.vb"
+﻿#Region "Microsoft.VisualBasic::551802d04ad7b047559ebbacdef6bbe6, GCModeller\annotations\GO\EnrichBubbles.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 125
+    '    Code Lines: 95
+    ' Comment Lines: 17
+    '   Blank Lines: 13
+    '     File Size: 5.84 KB
+
 
     ' Module EnrichBubbles
     ' 

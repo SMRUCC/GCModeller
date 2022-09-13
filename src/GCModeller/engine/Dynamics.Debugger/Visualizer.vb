@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f5b403e36b2ad2286e3d6dfdd9ec13b0, engine\Dynamics.Debugger\Visualizer.vb"
+﻿#Region "Microsoft.VisualBasic::f5b403e36b2ad2286e3d6dfdd9ec13b0, GCModeller\engine\Dynamics.Debugger\Visualizer.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 129
+    '    Code Lines: 113
+    ' Comment Lines: 1
+    '   Blank Lines: 15
+    '     File Size: 5.51 KB
+
 
     ' Module Visualizer
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7f4fafbf372cb0e788329d0f53bd55db, analysis\SequenceToolkit\gwANI\gwANIPrinter.vb"
+﻿#Region "Microsoft.VisualBasic::7f4fafbf372cb0e788329d0f53bd55db, GCModeller\analysis\SequenceToolkit\gwANI\gwANIPrinter.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 49
+    '    Code Lines: 36
+    ' Comment Lines: 3
+    '   Blank Lines: 10
+    '     File Size: 1.54 KB
+
 
     ' Module gwANIPrinter
     ' 

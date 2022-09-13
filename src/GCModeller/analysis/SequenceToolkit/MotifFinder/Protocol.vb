@@ -1,41 +1,58 @@
-﻿#Region "Microsoft.VisualBasic::c7b5363a9e73b650c22e30c130f5d681, analysis\SequenceToolkit\MotifScanner\Consensus\Protocol.vb"
+﻿#Region "Microsoft.VisualBasic::f6288d424c3467c0975e1c18ff1b9fc6, GCModeller\analysis\SequenceToolkit\MotifFinder\Protocol.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-' Module Protocol
-' 
-'     Function: (+2 Overloads) Consensus, pairwiseSeeding, PopulateMotifs, PWM, seeding
-' 
-' /********************************************************************************/
+
+    ' Code Statistics:
+
+    '   Total Lines: 221
+    '    Code Lines: 158
+    ' Comment Lines: 29
+    '   Blank Lines: 34
+    '     File Size: 8.87 KB
+
+
+    ' Module Protocol
+    ' 
+    '     Function: (+2 Overloads) Consensus, motif, pairwiseSeeding, PopulateMotifs, PWM
+    '               seeding
+    '     Class TaskPayload
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: Seeding
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

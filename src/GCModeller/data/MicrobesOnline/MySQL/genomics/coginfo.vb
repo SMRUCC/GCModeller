@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bc117394d6ed933bd631c6fd2e5ac176, data\MicrobesOnline\MySQL\genomics\coginfo.vb"
+﻿#Region "Microsoft.VisualBasic::bc117394d6ed933bd631c6fd2e5ac176, GCModeller\data\MicrobesOnline\MySQL\genomics\coginfo.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 68
+    '    Code Lines: 38
+    ' Comment Lines: 23
+    '   Blank Lines: 7
+    '     File Size: 3.39 KB
+
 
     ' Class coginfo
     ' 

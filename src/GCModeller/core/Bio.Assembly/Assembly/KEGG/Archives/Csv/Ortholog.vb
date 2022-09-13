@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9f9392d6012b387e6d56223507624910, core\Bio.Assembly\Assembly\KEGG\Archives\Csv\Ortholog.vb"
+﻿#Region "Microsoft.VisualBasic::9f9392d6012b387e6d56223507624910, GCModeller\core\Bio.Assembly\Assembly\KEGG\Archives\Csv\Ortholog.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 10
+    '    Code Lines: 7
+    ' Comment Lines: 0
+    '   Blank Lines: 3
+    '     File Size: 219 B
+
 
     '     Class Ortholog
     ' 

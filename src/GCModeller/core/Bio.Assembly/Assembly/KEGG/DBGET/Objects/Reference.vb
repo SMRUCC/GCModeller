@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::abb11247e27df24c529e6842ce72b157, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Reference.vb"
+﻿#Region "Microsoft.VisualBasic::abb11247e27df24c529e6842ce72b157, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Reference.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 103
+    '    Code Lines: 64
+    ' Comment Lines: 22
+    '   Blank Lines: 17
+    '     File Size: 3.63 KB
+
 
     '     Class Reference
     ' 

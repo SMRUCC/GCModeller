@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::95ba3336503c80dbbd213758cdaafd75, core\Bio.Assembly\SequenceModel\Bits.vb"
+﻿#Region "Microsoft.VisualBasic::95ba3336503c80dbbd213758cdaafd75, GCModeller\core\Bio.Assembly\SequenceModel\Bits.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 119
+    '    Code Lines: 79
+    ' Comment Lines: 22
+    '   Blank Lines: 18
+    '     File Size: 4.41 KB
+
 
     '     Class Bits
     ' 

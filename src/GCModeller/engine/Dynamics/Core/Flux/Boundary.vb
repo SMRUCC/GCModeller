@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8814c4f37e5aeb1a5da7931fe4930c21, engine\Dynamics\Core\Flux\Boundary.vb"
+﻿#Region "Microsoft.VisualBasic::8814c4f37e5aeb1a5da7931fe4930c21, GCModeller\engine\Dynamics\Core\Flux\Boundary.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 34
+    '    Code Lines: 21
+    ' Comment Lines: 4
+    '   Blank Lines: 9
+    '     File Size: 1007 B
+
 
     '     Class Boundary
     ' 

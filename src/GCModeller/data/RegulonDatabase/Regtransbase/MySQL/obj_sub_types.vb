@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::54f424e9b2f75af22b9aecf1c47ee21c, data\RegulonDatabase\Regtransbase\MySQL\obj_sub_types.vb"
+﻿#Region "Microsoft.VisualBasic::54f424e9b2f75af22b9aecf1c47ee21c, GCModeller\data\RegulonDatabase\Regtransbase\MySQL\obj_sub_types.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 149
+    '    Code Lines: 73
+    ' Comment Lines: 54
+    '   Blank Lines: 22
+    '     File Size: 5.68 KB
+
 
     ' Class obj_sub_types
     ' 

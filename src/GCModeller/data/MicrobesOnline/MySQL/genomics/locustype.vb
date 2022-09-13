@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::265bc8b24b1d48958593c178c341ed7a, data\MicrobesOnline\MySQL\genomics\locustype.vb"
+﻿#Region "Microsoft.VisualBasic::265bc8b24b1d48958593c178c341ed7a, GCModeller\data\MicrobesOnline\MySQL\genomics\locustype.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 58
+    '    Code Lines: 34
+    ' Comment Lines: 17
+    '   Blank Lines: 7
+    '     File Size: 2.52 KB
+
 
     ' Class locustype
     ' 

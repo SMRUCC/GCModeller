@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::118749193baa7a0fb3af8ca1eeb84d43, analysis\Metagenome\Metagenome\ACE.vb"
+﻿#Region "Microsoft.VisualBasic::118749193baa7a0fb3af8ca1eeb84d43, GCModeller\analysis\Metagenome\Metagenome\ACE.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 100
+    '    Code Lines: 79
+    ' Comment Lines: 3
+    '   Blank Lines: 18
+    '     File Size: 3.52 KB
+
 
     ' Module ACE
     ' 

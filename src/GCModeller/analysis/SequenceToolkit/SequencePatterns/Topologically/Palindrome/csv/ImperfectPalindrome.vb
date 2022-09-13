@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::67d0bbd1df33aca91a59ea06ab9e4539, analysis\SequenceToolkit\SequencePatterns\Topologically\Palindrome\csv\ImperfectPalindrome.vb"
+﻿#Region "Microsoft.VisualBasic::67d0bbd1df33aca91a59ea06ab9e4539, GCModeller\analysis\SequenceToolkit\SequencePatterns\Topologically\Palindrome\csv\ImperfectPalindrome.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 72
+    '    Code Lines: 26
+    ' Comment Lines: 39
+    '   Blank Lines: 7
+    '     File Size: 2.42 KB
+
 
     '     Class ImperfectPalindrome
     ' 

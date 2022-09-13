@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5c39edb1f652598347b9e059d081ec95, data\RegulonDatabase\RegulonDB\MySQL\matrix.vb"
+﻿#Region "Microsoft.VisualBasic::5c39edb1f652598347b9e059d081ec95, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\matrix.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 161
+    '    Code Lines: 81
+    ' Comment Lines: 58
+    '   Blank Lines: 22
+    '     File Size: 6.91 KB
+
 
     ' Class matrix
     ' 

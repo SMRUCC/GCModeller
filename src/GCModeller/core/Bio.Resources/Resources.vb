@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d40c4e7dcb420869d1c9659f8ca1af02, core\Bio.Resources\Resources.vb"
+﻿#Region "Microsoft.VisualBasic::d40c4e7dcb420869d1c9659f8ca1af02, GCModeller\core\Bio.Resources\Resources.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 20
+    '    Code Lines: 11
+    ' Comment Lines: 7
+    '   Blank Lines: 2
+    '     File Size: 596 B
+
 
     ' Module Resources
     ' 

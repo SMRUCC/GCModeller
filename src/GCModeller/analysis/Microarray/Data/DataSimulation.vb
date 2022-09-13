@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::95cfeaa4234ab499690d5ee8fbc3ff68, analysis\Microarray\Data\DataSimulation.vb"
+﻿#Region "Microsoft.VisualBasic::95cfeaa4234ab499690d5ee8fbc3ff68, GCModeller\analysis\Microarray\Data\DataSimulation.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 70
+    '    Code Lines: 48
+    ' Comment Lines: 11
+    '   Blank Lines: 11
+    '     File Size: 2.85 KB
+
 
     ' Module DataSimulation
     ' 

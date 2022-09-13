@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::034abc49467041512f37b900eb3c9257, data\MicrobesOnline\MySQL\genomics\annotation.vb"
+﻿#Region "Microsoft.VisualBasic::034abc49467041512f37b900eb3c9257, GCModeller\data\MicrobesOnline\MySQL\genomics\annotation.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 62
+    '    Code Lines: 35
+    ' Comment Lines: 20
+    '   Blank Lines: 7
+    '     File Size: 2.71 KB
+
 
     ' Class annotation
     ' 

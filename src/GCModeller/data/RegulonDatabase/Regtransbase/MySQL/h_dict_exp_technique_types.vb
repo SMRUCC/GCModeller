@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b137d4e7bf88da0f30caed08f1111c0e, data\RegulonDatabase\Regtransbase\MySQL\h_dict_exp_technique_types.vb"
+﻿#Region "Microsoft.VisualBasic::b137d4e7bf88da0f30caed08f1111c0e, GCModeller\data\RegulonDatabase\Regtransbase\MySQL\h_dict_exp_technique_types.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 151
+    '    Code Lines: 74
+    ' Comment Lines: 55
+    '   Blank Lines: 22
+    '     File Size: 5.43 KB
+
 
     ' Class h_dict_exp_technique_types
     ' 

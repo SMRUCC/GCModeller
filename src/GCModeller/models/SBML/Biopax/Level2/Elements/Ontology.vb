@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b2ef3d3966b302771edcb9f43c5430ce, models\SBML\Biopax\Level2\Elements\Ontology.vb"
+﻿#Region "Microsoft.VisualBasic::b2ef3d3966b302771edcb9f43c5430ce, GCModeller\models\SBML\Biopax\Level2\Elements\Ontology.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 61
+    '    Code Lines: 51
+    ' Comment Lines: 0
+    '   Blank Lines: 10
+    '     File Size: 2.01 KB
+
 
     ' Class Ontology
     ' 
