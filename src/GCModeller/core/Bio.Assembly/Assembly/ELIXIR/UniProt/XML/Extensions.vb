@@ -151,6 +151,10 @@ Namespace Assembly.Uniprot.XML
                 For Each id As String In entry.gene.ORF.SafeQuery
                     Yield ("gene", id)
                 Next
+
+                For Each name In entry.gene.names
+                    Yield ("geneName", name.value)
+                Next
             End If
 
             For Each reference As dbReference In entry.dbReferences.SafeQuery
