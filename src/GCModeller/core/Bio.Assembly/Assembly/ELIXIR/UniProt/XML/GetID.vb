@@ -92,33 +92,36 @@ Namespace Assembly.Uniprot.XML
             Return parser(LCase(type))
         End Function
 
+        Private Function getAccession(prot As entry) As String
+            Return DirectCast(prot, INamedValue).Key
+        End Function
+
+        Private Function getEmbl(prot As entry) As String
+            If prot.xrefs.ContainsKey(NameOf(IDTypes.EMBL)) Then
+                Return prot.xrefs(NameOf(IDTypes.EMBL)) _
+                    .First _
+                    .properties _
+                    .Where(Function(p) p.type = "protein sequence ID") _
+                    .FirstOrDefault?.value
+            Else
+                Return Nothing
+            End If
+        End Function
+
+        Private Function getKEGG(prot As entry) As String
+            If prot.xrefs.ContainsKey(NameOf(IDTypes.KEGG)) Then
+                Return prot.xrefs(NameOf(IDTypes.KEGG)).FirstOrDefault?.id
+            Else
+                Return Nothing
+            End If
+        End Function
+
         <Extension>
         Public Function GetID(type As IDTypes) As Func(Of entry, String)
             Select Case type
-                Case IDTypes.Accession
-                    Return Function(prot As entry)
-                               Return DirectCast(prot, INamedValue).Key
-                           End Function
-                Case IDTypes.EMBL
-                    Return Function(prot As entry)
-                               If prot.xrefs.ContainsKey(NameOf(IDTypes.EMBL)) Then
-                                   Return prot.xrefs(NameOf(IDTypes.EMBL)) _
-                                       .First _
-                                       .properties _
-                                       .Where(Function(p) p.type = "protein sequence ID") _
-                                       .FirstOrDefault?.value
-                               Else
-                                   Return Nothing
-                               End If
-                           End Function
-                Case IDTypes.KEGG
-                    Return Function(prot As entry)
-                               If prot.xrefs.ContainsKey(NameOf(IDTypes.KEGG)) Then
-                                   Return prot.xrefs(NameOf(IDTypes.KEGG)).FirstOrDefault?.id
-                               Else
-                                   Return Nothing
-                               End If
-                           End Function
+                Case IDTypes.Accession : Return AddressOf getAccession
+                Case IDTypes.EMBL : Return AddressOf getEmbl
+                Case IDTypes.KEGG : Return AddressOf getKEGG
                 Case IDTypes.LocusTag
                     Return Function(prot As entry)
                                If prot.gene Is Nothing Then
