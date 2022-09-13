@@ -578,7 +578,11 @@ Module geneExpression
     ''' <param name="pattern"></param>
     ''' <returns></returns>
     <ExportAPI("cmeans_matrix")>
-    Public Function GetCmeansPattern(pattern As ExpressionPattern, Optional kmeans_n As Integer = -1, Optional env As Environment = Nothing) As Object
+    <Extension>
+    Public Function GetCmeansPattern(pattern As ExpressionPattern,
+                                     Optional memberCutoff As Double = 0.8,
+                                     Optional env As Environment = Nothing) As Object
+
         Dim result As DataSet() = pattern _
             .Patterns _
             .Select(Function(a)
@@ -592,23 +596,41 @@ Module geneExpression
                         }
                     End Function) _
             .ToArray
+        Dim kmeans As EntityClusterModel() = result _
+            .ToKMeansModels _
+            .ToArray
+        Dim clusterId As String() = kmeans _
+            .Select(Function(p) p.Properties.Keys) _
+            .IteratesALL _
+            .Distinct _
+            .ToArray
+        Dim max = clusterId _
+            .ToDictionary(Function(id) id,
+                            Function(id)
+                                Return kmeans _
+                                    .Select(Function(v) v(id)) _
+                                    .Max
+                            End Function)
 
-        If kmeans_n > 0 Then
-            If kmeans_n >= result.Length Then
-                Return Internal.debug.stop({
-                    "kmeans centers can not be greater than or equals to the data points!",
-                    "data: " & result.Length,
-                    "kmeans_n: " & kmeans_n
-                }, env)
+        For Each item As EntityClusterModel In kmeans
+            Dim tags As String() = item.Properties _
+                .Where(Function(c) c.Value / max(c.Key) > memberCutoff) _
+                .OrderByDescending(Function(c) c.Value) _
+                .Select(Function(c) c.Key) _
+                .ToArray
+
+            If tags.IsNullOrEmpty OrElse tags.Length = max.Count Then
+                item.Cluster = item.Properties _
+                    .OrderByDescending(Function(c) c.Value) _
+                    .Take(3) _
+                    .Select(Function(cl) cl.Key) _
+                    .JoinBy("; ")
             Else
-                Return result _
-                    .ToKMeansModels _
-                    .Kmeans(expected:=kmeans_n, debug:=env.globalEnvironment.debugMode) _
-                    .ToArray
+                item.Cluster = tags.Take(3).JoinBy("; ")
             End If
-        Else
-            Return result
-        End If
+        Next
+
+        Return kmeans
     End Function
 
     ''' <summary>
@@ -646,22 +668,10 @@ Module geneExpression
             fuzzification:=fuzzification,
             threshold:=threshold
         )
-        Dim result As DataSet() = patterns _
-            .Patterns _
-            .Select(Function(a)
-                        Return New DataSet With {
-                            .ID = a.uid,
-                            .Properties = a.memberships _
-                                .ToDictionary(Function(c) $"#{c.Key + 1}",
-                                                Function(c)
-                                                    Return c.Value
-                                                End Function)
-                        }
-                    End Function) _
-            .ToArray
         Dim output As New list With {
             .slots = New Dictionary(Of String, Object)
         }
+        Dim kmeans = patterns.GetCmeansPattern(memberCutoff, env)
 
         Call println($"membership cutoff for the cmeans patterns is: {memberCutoff}")
         Call println(patterns.ToSummaryText(memberCutoff))
@@ -679,42 +689,8 @@ Module geneExpression
                             Call output.add("image", img)
                         End Sub)
 
-        Dim kmeans As EntityClusterModel() = result _
-            .ToKMeansModels _
-            .ToArray
-        Dim clusterId As String() = kmeans _
-            .Select(Function(p) p.Properties.Keys) _
-            .IteratesALL _
-            .Distinct _
-            .ToArray
-        Dim max = clusterId _
-            .ToDictionary(Function(id) id,
-                            Function(id)
-                                Return kmeans _
-                                    .Select(Function(v) v(id)) _
-                                    .Max
-                            End Function)
-
-        For Each item As EntityClusterModel In kmeans
-            Dim tags As String() = item.Properties _
-                .Where(Function(c) c.Value / max(c.Key) > memberCutoff) _
-                .OrderByDescending(Function(c) c.Value) _
-                .Select(Function(c) c.Key) _
-                .ToArray
-
-            If tags.IsNullOrEmpty OrElse tags.Length = max.Count Then
-                item.Cluster = item.Properties _
-                    .OrderByDescending(Function(c) c.Value) _
-                    .Take(3) _
-                    .Select(Function(cl) cl.Key) _
-                    .JoinBy("; ")
-            Else
-                item.Cluster = tags.Take(3).JoinBy("; ")
-            End If
-        Next
-
         Call println("export cmeans pattern matrix!")
-        Call output.add("pattern", kmeans)
+        Call output.add("pattern", Kmeans)
 
         Return output
     End Function

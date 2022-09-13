@@ -215,7 +215,7 @@ Namespace ExpressionPattern
                     .ToArray
                 Dim max As Double = membership.Select(Function(v) v.Value).Max
                 Dim filter As Index(Of String) = membership _
-                    .Where(Function(v) v.Value / max >= membershipCutoff) _
+                    .Where(Function(v) v.Value / max > membershipCutoff) _
                     .Select(Function(v) v.Name) _
                     .Indexing
                 Dim features As DataFrameRow()
