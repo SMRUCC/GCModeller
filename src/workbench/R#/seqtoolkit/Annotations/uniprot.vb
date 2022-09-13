@@ -324,6 +324,26 @@ Module uniprot
         Dim rawIdList As String() = REnv.asVector(Of String)(id)
         Dim mapId As Func(Of String, String) = GetIDs.IdMapping(uniprotData.populates(Of entry)(env), target)
 
-        Return rawIdList.Select(mapId).ToArray
+        Return rawIdList _
+            .Select(mapId) _
+            .ToArray
+    End Function
+
+    ''' <summary>
+    ''' do id mapping/conversion between different database 
+    ''' based on the uniprot database data.
+    ''' </summary>
+    ''' <param name="uniprot"></param>
+    ''' <param name="from"></param>
+    ''' <param name="[to]"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("id_mapping")>
+    Public Function createIDMapping(<RRawVectorArgument>
+                                    uniprot As Object,
+                                    from As String,
+                                    [to] As String,
+                                    Optional env As Environment = Nothing) As Object
+
     End Function
 End Module
