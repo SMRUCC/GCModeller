@@ -611,7 +611,7 @@
   <p>
                     <p>get cluster membership matrix</p>  
                 
-                    <pre><p>let <code>cmeans_matrix</code> as function(<code>pattern</code> as <generic> ExpressionPattern, <code>kmeans_n</code> as integer = -1, [<code>&lt;Environment&gt;</code>]) -> <code>any</code> {
+                    <pre><p>let <code>cmeans_matrix</code> as function(<code>pattern</code> as <generic> ExpressionPattern, <code>memberCutoff</code> as double = 0.8, [<code>&lt;Environment&gt;</code>]) -> <code>any</code> {
     #
     # .NET API information
     #
@@ -633,6 +633,63 @@
 </div>
                        
                     
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="peakCMeans">
+    <a href="./geneExpression/peakCMeans.html">peakCMeans</a>
+  </h2>
+  <hr />
+  <p>
+                    <p>This function performs clustering analysis of time course data</p>  
+                
+                    <pre><p>let <code>peakCMeans</code> as function(<code>matrix</code> as <generic> Matrix, 
+<code>nsize</code> as string = "3,3", 
+<code>threshold</code> as double = 10, 
+<code>fuzzification</code> as double = 2, 
+<code>plotSize</code> as any = "8100,5200", 
+<code>colorSet</code> as string = "Jet", 
+<code>memberCutoff</code> as double = 0.8, 
+[<code>&lt;Environment&gt;</code>]) -> <code>any</code> {
+    #
+    # .NET API information
+    #
+    # module: phenotype_kit.geneExpression
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: phenotype_kit.dll
+    # package: "geneExpression"
+    #
+    return call <code>R&#35;.interop_[geneExpression::cmeans]</code>(...);
+}</p></pre>
+
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>matrix</code>: -
+                </li>
+<li>
+  <code>nsize</code>: -
+                </li>
+<li>
+  <code>threshold</code>: the cmeans threshold
+                </li>
+<li>
+  <code>plotSize</code>: -
+                </li>
+<li>
+  <code>env</code>: -
+                </li>
+                </ul>
+</div>
+                       
+                    <h4>Value</h4><p>this function returns a tuple list that contains the pattern <br />
+ cluster matrix and the cmeans pattern plots.</p>
+
+<ol>
+<li>'pattern' is a dataframe object that contains the object cluster patterns</li>
+<li>'image' is a bitmap image that plot based on the object cluster patterns data.</li>
+</ol>
 
                     <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
 </div><br /><div>
