@@ -425,10 +425,19 @@ Namespace Assembly.Uniprot.XML
         ''' </summary>
         ''' <returns></returns>
         Public Property location As location
+        Public Property ligand As ligand
 
         Public Overrides Function ToString() As String
             Return description
         End Function
+    End Class
+
+    Public Class ligand
+
+        Public Property name As String
+        Public Property label As String
+        Public Property dbReference As dbReference
+
     End Class
 
     ''' <summary>
