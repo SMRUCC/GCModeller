@@ -10,7 +10,7 @@
     <meta name="keywords" content="GCModeller; Xanthomonas; Artificial Life" />
     <meta name="generator" content="https://github.com/xieguigang/xDoc" />
     <meta name="theme-color" content="#333" />
-    <meta name="last-update" content="2022-09-06" />
+    <meta name="last-update" content="2022-09-08" />
     <meta name="description" content="A software system aim at Artificial Life system design and analysis." />
     <meta class="foundation-data-attribute-namespace" />
     <meta class="foundation-mq-xxlarge" />
@@ -248,9 +248,13 @@
   </h2>
   <hr />
   <p>
-                      
+                    <p>get an intersection id list between the background<br />
+ model and the given gene id list.</p>  
                 
-                    <pre><p>let <code>geneSet.intersects</code> as function(<code>cluster</code> as <generic> Cluster, <code>geneSet</code> as string, <code>isLocusTag</code> as boolean = FALSE) -> <code>string</code> {
+                    <pre><p>let <code>geneSet.intersects</code> as function(<code>cluster</code> as any, 
+<code>geneSet</code> as string, 
+<code>isLocusTag</code> as boolean = FALSE, 
+[<code>&lt;Environment&gt;</code>]) -> <code>string</code> {
     #
     # .NET API information
     #
@@ -262,7 +266,20 @@
     return call <code>R&#35;.interop_[GSEABackground::ClusterIntersections]</code>(...);
 }</p></pre>
 
-                    
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>cluster</code>: A gene cluster model or gsea background model object.
+                </li>
+<li>
+  <code>geneSet</code>: -
+                </li>
+<li>
+  <code>isLocusTag</code>: -
+                </li>
+                </ul>
+</div>
                        
                     
 
