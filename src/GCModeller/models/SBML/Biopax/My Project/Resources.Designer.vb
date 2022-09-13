@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e3c924cb68726b3c833c47bbbe226974, GCModeller\models\SBML\Biopax\My Project\Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::c32c0de44c37fa0041d2dc2367c3986e, GCModeller\models\SBML\Biopax\My Project\Resources.Designer.vb"
 
     ' Author:
     ' 
@@ -113,4 +113,3 @@ Namespace My.Resources
         End Property
     End Module
 End Namespace
-

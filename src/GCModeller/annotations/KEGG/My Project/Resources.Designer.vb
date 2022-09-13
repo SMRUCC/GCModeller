@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::691297688880161a92f013d5616479cf, GCModeller\annotations\KEGG\My Project\Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::a419764a37aa8b6c87deb165e0cc2550, GCModeller\annotations\KEGG\My Project\Resources.Designer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 32
     ' Comment Lines: 23
     '   Blank Lines: 8
-    '     File Size: 2.80 KB
+    '     File Size: 2.79 KB
 
 
     '     Module Resources
@@ -113,4 +113,3 @@ Namespace My.Resources
         End Property
     End Module
 End Namespace
-

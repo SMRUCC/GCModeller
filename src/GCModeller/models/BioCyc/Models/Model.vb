@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::210c8a3e76cf4ce1191746a45ccd7183, GCModeller\models\BioCyc\Models\Model.vb"
+﻿#Region "Microsoft.VisualBasic::520ab7b2bf7622e9c76fc6c95e08bd4f, GCModeller\models\BioCyc\Models\Model.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 22
     ' Comment Lines: 5
     '   Blank Lines: 10
-    '     File Size: 1.07 KB
+    '     File Size: 1.06 KB
 
 
     ' Class Model
@@ -89,4 +89,3 @@ Public MustInherit Class Model : Implements IReadOnlyId
     End Function
 
 End Class
-

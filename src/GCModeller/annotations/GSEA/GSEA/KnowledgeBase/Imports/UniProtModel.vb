@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9e4802c4cd74a4698c034fd37b2ef96c, GCModeller\annotations\GSEA\GSEA\KnowledgeBase\Imports\UniProtModel.vb"
+﻿#Region "Microsoft.VisualBasic::6db46661463f89da201fee946f8bddff, GCModeller\annotations\GSEA\GSEA\KnowledgeBase\Imports\UniProtModel.vb"
 
     ' Author:
     ' 
@@ -198,4 +198,3 @@ Public Module UniProtModel
     End Function
 
 End Module
-

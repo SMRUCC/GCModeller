@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2ffbe542f7715ba22d97b5f886f1c73d, GCModeller\annotations\GSEA\GSVA\ssgsea.vb"
+﻿#Region "Microsoft.VisualBasic::378034ab99f0e582155b69030484b43a, GCModeller\annotations\GSEA\GSVA\ssgsea.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 2
     ' Comment Lines: 0
     '   Blank Lines: 1
-    '     File Size: 29 B
+    '     File Size: 27 B
 
 
     ' Module ssgsea
@@ -52,4 +52,3 @@
 Module ssgsea
 
 End Module
-

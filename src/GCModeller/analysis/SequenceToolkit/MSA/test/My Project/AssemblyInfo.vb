@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::80b883e108545e15d566dbfbd91f9142, GCModeller\analysis\SequenceToolkit\MSA\test\My Project\AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::aac3638026766ad1d175a3110ba246cd, GCModeller\analysis\SequenceToolkit\MSA\test\My Project\AssemblyInfo.vb"
 
     ' Author:
     ' 
@@ -81,4 +81,3 @@ Imports System.Runtime.InteropServices
 
 <Assembly: AssemblyVersion("1.0.0.0")>
 <Assembly: AssemblyFileVersion("1.0.0.0")>
-

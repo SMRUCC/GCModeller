@@ -46,7 +46,7 @@
     '         Properties: Catalogs, NotAssigned
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: __getCategory, __trimCOGs, [Default], CanbeCategoryAs, Category
+    '         Function: [Default], __getCategory, __trimCOGs, CanbeCategoryAs, Category
     '                   ClassCategory, GetCatalog, (+2 Overloads) GetCategories, GetCategory, IndexOf
     '                   Statistics
     ' 

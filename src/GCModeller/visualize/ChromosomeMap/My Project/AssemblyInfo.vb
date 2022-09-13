@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::23e45eb885b3d9548a24f1e0e25a6488, GCModeller\visualize\ChromosomeMap\My Project\AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::2bbdfffa8146fb3867eff7793ec345bf, GCModeller\visualize\ChromosomeMap\My Project\AssemblyInfo.vb"
 
     ' Author:
     ' 
@@ -81,4 +81,3 @@ Imports System.Runtime.InteropServices
 
 <Assembly: AssemblyVersion("1.0.0.0")>
 <Assembly: AssemblyFileVersion("1.0.0.0")>
-

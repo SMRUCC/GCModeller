@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::694f33e24691b596fb46cdabbfa9f9e9, GCModeller\models\BioCyc\Reader\FileMeta.vb"
+﻿#Region "Microsoft.VisualBasic::cc3f7048651f3318b475bc5c827e046f, GCModeller\models\BioCyc\Reader\FileMeta.vb"
 
     ' Author:
     ' 
@@ -133,4 +133,3 @@ Public Class FileMeta
     End Function
 
 End Class
-

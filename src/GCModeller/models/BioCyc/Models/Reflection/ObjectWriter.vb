@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::86b9f6e48ce2229461e650f03e6673fc, GCModeller\models\BioCyc\Models\Reflection\ObjectWriter.vb"
+﻿#Region "Microsoft.VisualBasic::2631a4f2156dfa8a0539e31e10d54d31, GCModeller\models\BioCyc\Models\Reflection\ObjectWriter.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 96
+    '   Total Lines: 95
     '    Code Lines: 72
     ' Comment Lines: 6
-    '   Blank Lines: 18
-    '     File Size: 3.39 KB
+    '   Blank Lines: 17
+    '     File Size: 3.38 KB
 
 
     ' Class ObjectWriter
@@ -49,7 +49,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports System.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
@@ -146,4 +145,3 @@ Public Class ObjectWriter
     End Function
 
 End Class
-

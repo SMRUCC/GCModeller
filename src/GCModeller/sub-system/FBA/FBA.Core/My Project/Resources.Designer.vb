@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b3727180a06141f98cd453af07b06de5, GCModeller\sub-system\FBA\FBA.Core\My Project\Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::81e13fdece142d5a84bb05458077ce01, GCModeller\sub-system\FBA\FBA.Core\My Project\Resources.Designer.vb"
 
     ' Author:
     ' 
@@ -113,4 +113,3 @@ Namespace My.Resources
         End Property
     End Module
 End Namespace
-

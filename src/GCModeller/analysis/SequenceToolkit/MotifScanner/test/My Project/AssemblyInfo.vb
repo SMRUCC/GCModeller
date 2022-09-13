@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e5a6381ae30fc68c512f9b0769e5607b, GCModeller\analysis\SequenceToolkit\MotifScanner\test\My Project\AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::c71c69706a9cfda86d74515244a31411, GCModeller\analysis\SequenceToolkit\MotifScanner\test\My Project\AssemblyInfo.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 13
     ' Comment Lines: 15
     '   Blank Lines: 7
-    '     File Size: 1.15 KB
+    '     File Size: 1.14 KB
 
 
     ' 
@@ -81,4 +81,3 @@ Imports System.Runtime.InteropServices
 
 <Assembly: AssemblyVersion("1.0.0.0")>
 <Assembly: AssemblyFileVersion("1.0.0.0")>
-

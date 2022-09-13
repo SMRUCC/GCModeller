@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bf996c4504b6223cf82ec4b02d8efff7, GCModeller\engine\IO\Raw\My Project\Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::17769afd7b34ea00229f11200822d194, GCModeller\engine\IO\Raw\My Project\Resources.Designer.vb"
 
     ' Author:
     ' 
@@ -113,4 +113,3 @@ Namespace My.Resources
         End Property
     End Module
 End Namespace
-

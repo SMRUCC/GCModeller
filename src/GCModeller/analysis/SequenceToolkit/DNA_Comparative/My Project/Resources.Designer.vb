@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8a1dc537a30a315f5ddcdc09450522b5, GCModeller\analysis\SequenceToolkit\DNA_Comparative\My Project\Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::ebc5cd8c4387cdd345db34f1c8e98ee2, GCModeller\analysis\SequenceToolkit\DNA_Comparative\My Project\Resources.Designer.vb"
 
     ' Author:
     ' 
@@ -113,4 +113,3 @@ Namespace My.Resources
         End Property
     End Module
 End Namespace
-

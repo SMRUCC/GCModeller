@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8cca21bf50d87505e42c2cb5819bb8ac, GCModeller\analysis\SequenceToolkit\SequencePatterns\Test\My Project\Settings.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::19f2052768cde85413e1c7630665f12b, GCModeller\analysis\SequenceToolkit\SequencePatterns\Test\My Project\Settings.Designer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 51
     ' Comment Lines: 9
     '   Blank Lines: 13
-    '     File Size: 2.96 KB
+    '     File Size: 2.95 KB
 
 
     '     Class MySettings
@@ -129,4 +129,3 @@ Namespace My
         End Property
     End Module
 End Namespace
-

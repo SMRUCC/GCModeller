@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e212292be70b7d5999d017e339a45f0b, GCModeller\engine\BootstrapLoader\My Project\Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::639a83a059d4def6a2d917ddb61ddddd, GCModeller\engine\BootstrapLoader\My Project\Resources.Designer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 32
     ' Comment Lines: 23
     '   Blank Lines: 8
-    '     File Size: 2.83 KB
+    '     File Size: 2.82 KB
 
 
     '     Module Resources
@@ -113,4 +113,3 @@ Namespace My.Resources
         End Property
     End Module
 End Namespace
-

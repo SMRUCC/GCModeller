@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::44ccf8521d22ed63cbbdc8a875a88239, GCModeller\analysis\SequenceToolkit\DNA_Comparative\My Project\Settings.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::dff9ad02248be2f230d7fffab5b1dd3e, GCModeller\analysis\SequenceToolkit\DNA_Comparative\My Project\Settings.Designer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 51
     ' Comment Lines: 9
     '   Blank Lines: 13
-    '     File Size: 3.06 KB
+    '     File Size: 3.05 KB
 
 
     '     Class MySettings
@@ -129,4 +129,3 @@ Namespace My
         End Property
     End Module
 End Namespace
-

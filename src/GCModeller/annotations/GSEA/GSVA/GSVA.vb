@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dd1cf46c386db13dd33bae53d3b68c7e, GCModeller\annotations\GSEA\GSVA\GSVA.vb"
+﻿#Region "Microsoft.VisualBasic::e23e37a310dc56bdf5f3ca07577f38e0, GCModeller\annotations\GSEA\GSVA\GSVA.vb"
 
     ' Author:
     ' 
@@ -34,17 +34,16 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 243
+    '   Total Lines: 240
     '    Code Lines: 206
     ' Comment Lines: 5
-    '   Blank Lines: 32
-    '     File Size: 10.59 KB
+    '   Blank Lines: 29
+    '     File Size: 10.58 KB
 
 
     ' Module GSVA
     ' 
     '     Function: compute_gene_density, compute_geneset_es, (+2 Overloads) gsva, ks_test_m
-    ' 
     ' 
     ' /********************************************************************************/
 
@@ -290,7 +289,3 @@ Public Module GSVA
         Return gene_density
     End Function
 End Module
-
-
-
-

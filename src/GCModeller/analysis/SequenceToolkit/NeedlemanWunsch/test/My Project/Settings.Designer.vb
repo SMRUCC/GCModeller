@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b57f318582c836d0975818ed44f65e5d, GCModeller\analysis\SequenceToolkit\NeedlemanWunsch\test\My Project\Settings.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::add20debc3a7f902c9eb1e695b30254b, GCModeller\analysis\SequenceToolkit\NeedlemanWunsch\test\My Project\Settings.Designer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 51
     ' Comment Lines: 9
     '   Blank Lines: 13
-    '     File Size: 2.96 KB
+    '     File Size: 2.95 KB
 
 
     '     Class MySettings
@@ -129,4 +129,3 @@ Namespace My
         End Property
     End Module
 End Namespace
-

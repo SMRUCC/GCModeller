@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1b1e3cff9fc17f67c4f621031f36377f, GCModeller\analysis\SequenceToolkit\ClusterMatrix\My Project\AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::c1c6dd333f2a71ca2367d5119b485c10, GCModeller\analysis\SequenceToolkit\ClusterMatrix\My Project\AssemblyInfo.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 13
     ' Comment Lines: 15
     '   Blank Lines: 7
-    '     File Size: 1.24 KB
+    '     File Size: 1.23 KB
 
 
     ' 
@@ -81,4 +81,3 @@ Imports System.Runtime.InteropServices
 
 <Assembly: AssemblyVersion("1.0.0.0")>
 <Assembly: AssemblyFileVersion("1.0.0.0")>
-

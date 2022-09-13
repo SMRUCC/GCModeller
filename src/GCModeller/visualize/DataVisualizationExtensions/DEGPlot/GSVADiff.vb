@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::183a7c9a59a04a61a7b6f5ea50a46a91, GCModeller\visualize\DataVisualizationExtensions\DEGPlot\GSVADiff.vb"
+﻿#Region "Microsoft.VisualBasic::620b7317d8d87373270edf4fcb70e448, GCModeller\visualize\DataVisualizationExtensions\DEGPlot\GSVADiff.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 5
     ' Comment Lines: 0
     '   Blank Lines: 2
-    '     File Size: 149 B
+    '     File Size: 147 B
 
 
     ' Class GSVADiff
@@ -56,4 +56,3 @@ Public Class GSVADiff
     Public Property pvalue As Double
 
 End Class
-

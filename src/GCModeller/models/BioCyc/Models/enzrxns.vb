@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3c0534b102a9ed2b07ec9539f36b312a, GCModeller\models\BioCyc\Models\enzrxns.vb"
+﻿#Region "Microsoft.VisualBasic::325e9a86f308122d8595d746f3c94b9d, GCModeller\models\BioCyc\Models\enzrxns.vb"
 
     ' Author:
     ' 
@@ -34,10 +34,10 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 44
+    '   Total Lines: 43
     '    Code Lines: 37
     ' Comment Lines: 0
-    '   Blank Lines: 7
+    '   Blank Lines: 6
     '     File Size: 1.47 KB
 
 
@@ -54,7 +54,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder

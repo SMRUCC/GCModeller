@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8dc0362e09ddadfecfe90e93047d809b, GCModeller\sub-system\simulators\My Project\AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::18b022378370d65f5ae85959d78d0edd, GCModeller\sub-system\simulators\My Project\AssemblyInfo.vb"
 
     ' Author:
     ' 
@@ -83,4 +83,3 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 <Assembly: AssemblyVersion("1.0.0.0")>
 <Assembly: AssemblyFileVersion("1.0.0.0")>
 #end if
-

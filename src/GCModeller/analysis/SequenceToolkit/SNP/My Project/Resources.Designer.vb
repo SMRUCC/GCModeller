@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a99424324155d63febc35d55380edc65, GCModeller\analysis\SequenceToolkit\SNP\My Project\Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::4631ad64dc5a90a317d7fae98ad7198a, GCModeller\analysis\SequenceToolkit\SNP\My Project\Resources.Designer.vb"
 
     ' Author:
     ' 
@@ -113,4 +113,3 @@ Namespace My.Resources
         End Property
     End Module
 End Namespace
-

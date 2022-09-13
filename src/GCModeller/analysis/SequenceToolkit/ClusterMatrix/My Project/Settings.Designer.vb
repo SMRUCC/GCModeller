@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fe4b8675c6a4717675de569fa1e5feb1, GCModeller\analysis\SequenceToolkit\ClusterMatrix\My Project\Settings.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::a6e26c5bca0d8de64cbdfe4ef4b01af1, GCModeller\analysis\SequenceToolkit\ClusterMatrix\My Project\Settings.Designer.vb"
 
     ' Author:
     ' 
@@ -129,4 +129,3 @@ Namespace My
         End Property
     End Module
 End Namespace
-

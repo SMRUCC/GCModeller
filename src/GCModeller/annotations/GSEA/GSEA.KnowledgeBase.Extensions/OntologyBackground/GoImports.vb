@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fcd2671b7073fac1065163464f2fb565, GCModeller\annotations\GSEA\GSEA.KnowledgeBase.Extensions\OntologyBackground\GoImports.vb"
+﻿#Region "Microsoft.VisualBasic::02db4e48c5eed4bbfd1aee624adf1dd7, GCModeller\annotations\GSEA\GSEA.KnowledgeBase.Extensions\OntologyBackground\GoImports.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 2
     ' Comment Lines: 0
     '   Blank Lines: 1
-    '     File Size: 39 B
+    '     File Size: 37 B
 
 
     ' Module GoImports
@@ -52,4 +52,3 @@
 Public Module GoImports
 
 End Module
-

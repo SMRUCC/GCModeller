@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3c3ce8af76c2c2092650c6fceb1bfb19, GCModeller\analysis\SequenceToolkit\ClustalOmega\My Project\Settings.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::1bb03c2dd2b3ae10f283c655c3dd3a0a, GCModeller\analysis\SequenceToolkit\ClustalOmega\My Project\Settings.Designer.vb"
 
     ' Author:
     ' 
@@ -129,4 +129,3 @@ Namespace My
         End Property
     End Module
 End Namespace
-

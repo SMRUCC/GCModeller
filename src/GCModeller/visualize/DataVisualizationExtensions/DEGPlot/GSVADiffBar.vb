@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8e378e56094a42638c7ba1ca668c1cbb, GCModeller\visualize\DataVisualizationExtensions\DEGPlot\GSVADiffBar.vb"
+﻿#Region "Microsoft.VisualBasic::86281cb672db747da81971985a461c92, GCModeller\visualize\DataVisualizationExtensions\DEGPlot\GSVADiffBar.vb"
 
     ' Author:
     ' 
@@ -166,4 +166,3 @@ Public Class GSVADiffBar : Inherits Plot
 
     End Sub
 End Class
-

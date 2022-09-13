@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a0bed653030bac5de36b849c8887f0e0, GCModeller\analysis\SequenceToolkit\MotifFinder\TrimMotif.vb"
+﻿#Region "Microsoft.VisualBasic::bdabb1873c698966d3f2e5e70ee6a83f, GCModeller\analysis\SequenceToolkit\MotifFinder\TrimMotif.vb"
 
     ' Author:
     ' 
@@ -126,4 +126,3 @@ Module TrimMotif
         Return bits
     End Function
 End Module
-

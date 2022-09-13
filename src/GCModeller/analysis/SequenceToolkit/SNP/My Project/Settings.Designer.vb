@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::448b6de506a37e8c2332b3a29151f6cd, GCModeller\analysis\SequenceToolkit\SNP\My Project\Settings.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::0a022e1570913deefa47bc11d47932c1, GCModeller\analysis\SequenceToolkit\SNP\My Project\Settings.Designer.vb"
 
     ' Author:
     ' 
@@ -129,4 +129,3 @@ Namespace My
         End Property
     End Module
 End Namespace
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4ba408799ad8b3b631bd94bd028bb0b9, GCModeller\analysis\Metagenome\Metagenome\My Project\Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::ebdca31cb6df3517afed16f3b6bdb74e, GCModeller\analysis\Metagenome\Metagenome\My Project\Resources.Designer.vb"
 
     ' Author:
     ' 
@@ -113,4 +113,3 @@ Namespace My.Resources
         End Property
     End Module
 End Namespace
-
