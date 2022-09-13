@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a368c485c21e8b98391ceea74dc978dd, analysis\SequenceToolkit\ClusterMatrix\Clusters.vb"
+﻿#Region "Microsoft.VisualBasic::a368c485c21e8b98391ceea74dc978dd, GCModeller\analysis\SequenceToolkit\ClusterMatrix\Clusters.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 39
+    '    Code Lines: 29
+    ' Comment Lines: 5
+    '   Blank Lines: 5
+    '     File Size: 1.34 KB
+
 
     ' Module Clusters
     ' 

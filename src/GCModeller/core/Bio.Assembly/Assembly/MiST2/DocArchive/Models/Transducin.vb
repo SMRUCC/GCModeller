@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::388d78896bf5adbbe327024c5fcae55b, core\Bio.Assembly\Assembly\MiST2\DocArchive\Models\Transducin.vb"
+﻿#Region "Microsoft.VisualBasic::388d78896bf5adbbe327024c5fcae55b, GCModeller\core\Bio.Assembly\Assembly\MiST2\DocArchive\Models\Transducin.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 71
+    '    Code Lines: 45
+    ' Comment Lines: 18
+    '   Blank Lines: 8
+    '     File Size: 2.73 KB
+
 
     '     Class Transducin
     ' 

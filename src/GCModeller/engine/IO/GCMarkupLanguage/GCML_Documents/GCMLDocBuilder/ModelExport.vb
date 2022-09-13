@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::229a3346fd6549271c795f2184842d67, engine\IO\GCMarkupLanguage\GCML_Documents\GCMLDocBuilder\ModelExport.vb"
+﻿#Region "Microsoft.VisualBasic::229a3346fd6549271c795f2184842d67, GCModeller\engine\IO\GCMarkupLanguage\GCML_Documents\GCMLDocBuilder\ModelExport.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 39
+    '    Code Lines: 19
+    ' Comment Lines: 11
+    '   Blank Lines: 9
+    '     File Size: 1.68 KB
+
 
     '     Module ModelExport
     ' 

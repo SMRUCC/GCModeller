@@ -1,48 +1,58 @@
-﻿#Region "Microsoft.VisualBasic::dc45193b4ec4fba0d503d81572bc45ad, core\Bio.Assembly\Metagenomics\Taxonomy.vb"
+﻿#Region "Microsoft.VisualBasic::df4f313ef60f01e37de95ebe750a7e95, GCModeller\core\Bio.Assembly\Metagenomics\Taxonomy.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class Taxonomy
-' 
-'         Properties: [class], family, genus, kingdom, lowestLevel
-'                     ncbi_taxid, order, phylum, scientificName, species
-' 
-'         Constructor: (+5 Overloads) Sub New
-'         Function: [Select], compare, CompareWith, CreateTable, IsEmpty
-'                   Rank, (+3 Overloads) ToString
-'         Operators: (+2 Overloads) IsFalse, (+2 Overloads) IsTrue
-' 
-' 
-' /********************************************************************************/
+
+    ' Code Statistics:
+
+    '   Total Lines: 352
+    '    Code Lines: 229
+    ' Comment Lines: 77
+    '   Blank Lines: 46
+    '     File Size: 14.02 KB
+
+
+    '     Class Taxonomy
+    ' 
+    '         Properties: [class], family, genus, kingdom, lowestLevel
+    '                     ncbi_taxid, order, phylum, scientificName, species
+    ' 
+    '         Constructor: (+5 Overloads) Sub New
+    '         Function: [Select], compare, CompareWith, CreateTable, IsEmpty
+    '                   Rank, ToArray, (+3 Overloads) ToString
+    '         Operators: (+2 Overloads) IsFalse, (+2 Overloads) IsTrue
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

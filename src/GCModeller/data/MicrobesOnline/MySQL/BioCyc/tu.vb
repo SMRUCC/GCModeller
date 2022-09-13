@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2cf188b5db78b691bbf11a7681ba82f5, data\MicrobesOnline\MySQL\BioCyc\tu.vb"
+﻿#Region "Microsoft.VisualBasic::2cf188b5db78b691bbf11a7681ba82f5, GCModeller\data\MicrobesOnline\MySQL\BioCyc\tu.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 63
+    '    Code Lines: 36
+    ' Comment Lines: 20
+    '   Blank Lines: 7
+    '     File Size: 2.73 KB
+
 
     ' Class tu
     ' 

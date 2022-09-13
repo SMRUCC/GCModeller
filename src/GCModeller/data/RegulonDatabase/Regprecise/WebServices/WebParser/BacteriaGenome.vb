@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::714cd507474573aa321803ebf0d12732, data\RegulonDatabase\Regprecise\WebServices\WebParser\BacteriaGenome.vb"
+﻿#Region "Microsoft.VisualBasic::714cd507474573aa321803ebf0d12732, GCModeller\data\RegulonDatabase\Regprecise\WebServices\WebParser\BacteriaGenome.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 97
+    '    Code Lines: 55
+    ' Comment Lines: 29
+    '   Blank Lines: 13
+    '     File Size: 3.51 KB
+
 
     '     Class BacteriaRegulome
     ' 

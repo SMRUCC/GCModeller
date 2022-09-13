@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5599809886d2ac9ae70977090f935361, data\RegulonDatabase\RegulonDB\MySQL\object_ev_method_pub_link.vb"
+﻿#Region "Microsoft.VisualBasic::5599809886d2ac9ae70977090f935361, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\object_ev_method_pub_link.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 155
+    '    Code Lines: 77
+    ' Comment Lines: 56
+    '   Blank Lines: 22
+    '     File Size: 6.64 KB
+
 
     ' Class object_ev_method_pub_link
     ' 

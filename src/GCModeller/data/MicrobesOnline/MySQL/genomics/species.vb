@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b985966428803324db64cd0f5fa933fd, data\MicrobesOnline\MySQL\genomics\species.vb"
+﻿#Region "Microsoft.VisualBasic::b985966428803324db64cd0f5fa933fd, GCModeller\data\MicrobesOnline\MySQL\genomics\species.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 90
+    '    Code Lines: 42
+    ' Comment Lines: 41
+    '   Blank Lines: 7
+    '     File Size: 4.90 KB
+
 
     ' Class species
     ' 

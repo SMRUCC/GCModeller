@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c0159267ba46eaceeb2921e3ac8902d8, data\GO_gene-ontology\obographs\obographs\DAGModel.vb"
+﻿#Region "Microsoft.VisualBasic::c0159267ba46eaceeb2921e3ac8902d8, GCModeller\data\GO_gene-ontology\obographs\obographs\DAGModel.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 166
+    '    Code Lines: 109
+    ' Comment Lines: 37
+    '   Blank Lines: 20
+    '     File Size: 6.32 KB
+
 
     ' Module DAGModel
     ' 

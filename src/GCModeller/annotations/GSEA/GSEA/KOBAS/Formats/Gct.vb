@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0e6dce0a9cafbbdf3f87bb676b763a1f, annotations\GSEA\GSEA\KOBAS\Formats\Gct.vb"
+﻿#Region "Microsoft.VisualBasic::0e6dce0a9cafbbdf3f87bb676b763a1f, GCModeller\annotations\GSEA\GSEA\KOBAS\Formats\Gct.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 83
+    '    Code Lines: 65
+    ' Comment Lines: 5
+    '   Blank Lines: 13
+    '     File Size: 3.15 KB
+
 
     '     Class Gct
     ' 

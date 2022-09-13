@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f8f11a70327cdef64ca7482a74b3c44a, data\MicrobesOnline\MySQL\genomics\taxparentchild.vb"
+﻿#Region "Microsoft.VisualBasic::f8f11a70327cdef64ca7482a74b3c44a, GCModeller\data\MicrobesOnline\MySQL\genomics\taxparentchild.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 63
+    '    Code Lines: 35
+    ' Comment Lines: 21
+    '   Blank Lines: 7
+    '     File Size: 2.87 KB
+
 
     ' Class taxparentchild
     ' 

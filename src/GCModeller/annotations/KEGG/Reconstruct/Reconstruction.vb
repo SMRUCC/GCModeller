@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ebef8f5c57a0f0d50295bd30d4fab7a8, annotations\KEGG\Reconstruct\Reconstruction.vb"
+﻿#Region "Microsoft.VisualBasic::ebef8f5c57a0f0d50295bd30d4fab7a8, GCModeller\annotations\KEGG\Reconstruct\Reconstruction.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 268
+    '    Code Lines: 200
+    ' Comment Lines: 38
+    '   Blank Lines: 30
+    '     File Size: 10.91 KB
+
 
     ' Module Reconstruction
     ' 

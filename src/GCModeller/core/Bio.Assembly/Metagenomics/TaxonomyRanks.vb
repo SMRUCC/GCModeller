@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::08e91e3c0bb4941fddd9a85f5b4fa5ab, core\Bio.Assembly\Metagenomics\TaxonomyRanks.vb"
+﻿#Region "Microsoft.VisualBasic::08e91e3c0bb4941fddd9a85f5b4fa5ab, GCModeller\core\Bio.Assembly\Metagenomics\TaxonomyRanks.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 38
+    '    Code Lines: 13
+    ' Comment Lines: 24
+    '   Blank Lines: 1
+    '     File Size: 803 B
+
 
     '     Enum TaxonomyRanks
     ' 

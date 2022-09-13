@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5c749190ae968e5bcbd0b9b51ec457d2, core\Bio.Assembly\Assembly\KEGG\DBGET\LinkDB\Relationship.vb"
+﻿#Region "Microsoft.VisualBasic::5c749190ae968e5bcbd0b9b51ec457d2, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\LinkDB\Relationship.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 73
+    '    Code Lines: 45
+    ' Comment Lines: 18
+    '   Blank Lines: 10
+    '     File Size: 2.87 KB
+
 
     '     Enum Relationships
     ' 

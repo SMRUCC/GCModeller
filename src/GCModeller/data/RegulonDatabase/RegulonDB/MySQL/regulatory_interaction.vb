@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cc9d9ab016ac61270a2af8aace885a16, data\RegulonDatabase\RegulonDB\MySQL\regulatory_interaction.vb"
+﻿#Region "Microsoft.VisualBasic::cc9d9ab016ac61270a2af8aace885a16, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\regulatory_interaction.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 188
+    '    Code Lines: 99
+    ' Comment Lines: 67
+    '   Blank Lines: 22
+    '     File Size: 14.36 KB
+
 
     ' Class regulatory_interaction
     ' 

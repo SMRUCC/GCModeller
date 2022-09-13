@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f251fe38ef979fe1f892ee7a5b7f99e0, data\MicrobesOnline\MySQL\genomics\locusseq.vb"
+﻿#Region "Microsoft.VisualBasic::f251fe38ef979fe1f892ee7a5b7f99e0, GCModeller\data\MicrobesOnline\MySQL\genomics\locusseq.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 62
+    '    Code Lines: 35
+    ' Comment Lines: 20
+    '   Blank Lines: 7
+    '     File Size: 2.76 KB
+
 
     ' Class locusseq
     ' 

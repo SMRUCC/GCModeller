@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::65d335106637a85a46132d6c4cd7241e, core\Bio.Assembly\Assembly\Expasy\NomenclatureDB\NomenclatureDB.vb"
+﻿#Region "Microsoft.VisualBasic::65d335106637a85a46132d6c4cd7241e, GCModeller\core\Bio.Assembly\Assembly\Expasy\NomenclatureDB\NomenclatureDB.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 113
+    '    Code Lines: 77
+    ' Comment Lines: 24
+    '   Blank Lines: 12
+    '     File Size: 5.79 KB
+
 
     '     Class NomenclatureDB
     ' 

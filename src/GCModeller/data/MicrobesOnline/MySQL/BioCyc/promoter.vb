@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0cca00bc31c12701b1b63d7e33d35c0d, data\MicrobesOnline\MySQL\BioCyc\promoter.vb"
+﻿#Region "Microsoft.VisualBasic::0cca00bc31c12701b1b63d7e33d35c0d, GCModeller\data\MicrobesOnline\MySQL\BioCyc\promoter.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 64
+    '    Code Lines: 36
+    ' Comment Lines: 21
+    '   Blank Lines: 7
+    '     File Size: 2.89 KB
+
 
     ' Class promoter
     ' 

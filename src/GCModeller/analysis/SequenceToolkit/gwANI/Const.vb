@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bc82001d7cb3638940ea18d8241f6d87, analysis\SequenceToolkit\gwANI\Const.vb"
+﻿#Region "Microsoft.VisualBasic::bc82001d7cb3638940ea18d8241f6d87, GCModeller\analysis\SequenceToolkit\gwANI\Const.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 29
+    '    Code Lines: 9
+    ' Comment Lines: 18
+    '   Blank Lines: 2
+    '     File Size: 1.22 KB
+
 
     ' Module DefineConstants
     ' 

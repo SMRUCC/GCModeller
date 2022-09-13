@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::03bf4edfc5d6c124b7893312d5e1d017, models\SBML\SBML\Level2\Elements\speciesReference.vb"
+﻿#Region "Microsoft.VisualBasic::03bf4edfc5d6c124b7893312d5e1d017, GCModeller\models\SBML\SBML\Level2\Elements\speciesReference.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 52
+    '    Code Lines: 32
+    ' Comment Lines: 12
+    '   Blank Lines: 8
+    '     File Size: 1.82 KB
+
 
     '     Class speciesReference
     ' 

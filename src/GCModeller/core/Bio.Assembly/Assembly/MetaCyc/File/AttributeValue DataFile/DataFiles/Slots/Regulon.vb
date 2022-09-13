@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1641193e78f376066cc2705f03cf3f8c, core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Slots\Regulon.vb"
+﻿#Region "Microsoft.VisualBasic::1641193e78f376066cc2705f03cf3f8c, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Slots\Regulon.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 11
+    '    Code Lines: 9
+    ' Comment Lines: 0
+    '   Blank Lines: 2
+    '     File Size: 296 B
+
 
     '     Class Regulon
     ' 

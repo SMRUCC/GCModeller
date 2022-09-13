@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f7ba7e0a655e6a6cb05fc5b7f9278ce4, data\MicrobesOnline\MySQL\genomics\ecinfo.vb"
+﻿#Region "Microsoft.VisualBasic::f7ba7e0a655e6a6cb05fc5b7f9278ce4, GCModeller\data\MicrobesOnline\MySQL\genomics\ecinfo.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 60
+    '    Code Lines: 34
+    ' Comment Lines: 19
+    '   Blank Lines: 7
+    '     File Size: 2.36 KB
+
 
     ' Class ecinfo
     ' 

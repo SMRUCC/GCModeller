@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0e686b7c9da558c5d52c658700e0dd0b, engine\GCModeller.Framework.Kernel_Driver\DataServices\DataAdapter.vb"
+﻿#Region "Microsoft.VisualBasic::0e686b7c9da558c5d52c658700e0dd0b, GCModeller\engine\GCModeller.Framework.Kernel_Driver\DataServices\DataAdapter.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 114
+    '    Code Lines: 0
+    ' Comment Lines: 96
+    '   Blank Lines: 18
+    '     File Size: 4.77 KB
+
 
     ' 
     ' /********************************************************************************/

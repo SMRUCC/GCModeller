@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::109c9508d4681ad9b51baed7c9d80ded, core\Bio.Assembly\Assembly\NCBI\Taxonomy\Tree\Ranks.vb"
+﻿#Region "Microsoft.VisualBasic::109c9508d4681ad9b51baed7c9d80ded, GCModeller\core\Bio.Assembly\Assembly\NCBI\Taxonomy\Tree\Ranks.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 101
+    '    Code Lines: 66
+    ' Comment Lines: 19
+    '   Blank Lines: 16
+    '     File Size: 4.37 KB
+
 
     '     Class Ranks
     ' 

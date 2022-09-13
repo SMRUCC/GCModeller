@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3fde3df0c5ca3c0d7089847e91d6c5b2, analysis\SequenceToolkit\DNA_Comparative\GCOutlier.vb"
+﻿#Region "Microsoft.VisualBasic::3fde3df0c5ca3c0d7089847e91d6c5b2, GCModeller\analysis\SequenceToolkit\DNA_Comparative\GCOutlier.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 104
+    '    Code Lines: 76
+    ' Comment Lines: 13
+    '   Blank Lines: 15
+    '     File Size: 3.80 KB
+
 
     ' Module GCOutlier
     ' 

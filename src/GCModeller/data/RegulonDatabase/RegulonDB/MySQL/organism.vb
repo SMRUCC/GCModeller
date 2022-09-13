@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c9e35ed76c1410dd0f86093ac158836e, data\RegulonDatabase\RegulonDB\MySQL\organism.vb"
+﻿#Region "Microsoft.VisualBasic::c9e35ed76c1410dd0f86093ac158836e, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\organism.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 158
+    '    Code Lines: 79
+    ' Comment Lines: 57
+    '   Blank Lines: 22
+    '     File Size: 7.52 KB
+
 
     ' Class organism
     ' 

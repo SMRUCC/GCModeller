@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9c0c0278d9209a9a55ba43f0eaeba709, core\Bio.Assembly\Assembly\MetaCyc\Schemas\PathwayBrief\PwyFilters.vb"
+﻿#Region "Microsoft.VisualBasic::9c0c0278d9209a9a55ba43f0eaeba709, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\Schemas\PathwayBrief\PwyFilters.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 81
+    '    Code Lines: 44
+    ' Comment Lines: 30
+    '   Blank Lines: 7
+    '     File Size: 4.63 KB
+
 
     '     Module PwyFilters
     ' 

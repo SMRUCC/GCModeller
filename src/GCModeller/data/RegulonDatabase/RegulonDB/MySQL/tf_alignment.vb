@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::052bf34bfb0e4e892180e150ff1f2cc6, data\RegulonDatabase\RegulonDB\MySQL\tf_alignment.vb"
+﻿#Region "Microsoft.VisualBasic::052bf34bfb0e4e892180e150ff1f2cc6, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\tf_alignment.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 164
+    '    Code Lines: 83
+    ' Comment Lines: 59
+    '   Blank Lines: 22
+    '     File Size: 9.13 KB
+
 
     ' Class tf_alignment
     ' 

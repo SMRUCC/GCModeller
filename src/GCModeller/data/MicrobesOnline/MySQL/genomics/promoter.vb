@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ef5deb7e20a6166e489db46c1e4a21ce, data\MicrobesOnline\MySQL\genomics\promoter.vb"
+﻿#Region "Microsoft.VisualBasic::ef5deb7e20a6166e489db46c1e4a21ce, GCModeller\data\MicrobesOnline\MySQL\genomics\promoter.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 64
+    '    Code Lines: 36
+    ' Comment Lines: 21
+    '   Blank Lines: 7
+    '     File Size: 2.87 KB
+
 
     ' Class promoter
     ' 

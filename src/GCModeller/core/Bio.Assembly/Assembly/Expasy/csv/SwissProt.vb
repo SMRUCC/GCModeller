@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ac48008dee31454ab065a58409d04d96, core\Bio.Assembly\Assembly\Expasy\csv\SwissProt.vb"
+﻿#Region "Microsoft.VisualBasic::ac48008dee31454ab065a58409d04d96, GCModeller\core\Bio.Assembly\Assembly\Expasy\csv\SwissProt.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 28
+    '    Code Lines: 22
+    ' Comment Lines: 0
+    '   Blank Lines: 6
+    '     File Size: 794 B
+
 
     '     Class SwissProt
     ' 

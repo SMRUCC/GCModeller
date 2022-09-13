@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::70aabc0856a6c772d068dec48f5cf43f, data\RegulonDatabase\Regtransbase\MySQL\h_dict_struct_site_types.vb"
+﻿#Region "Microsoft.VisualBasic::70aabc0856a6c772d068dec48f5cf43f, GCModeller\data\RegulonDatabase\Regtransbase\MySQL\h_dict_struct_site_types.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 151
+    '    Code Lines: 74
+    ' Comment Lines: 55
+    '   Blank Lines: 22
+    '     File Size: 5.39 KB
+
 
     ' Class h_dict_struct_site_types
     ' 

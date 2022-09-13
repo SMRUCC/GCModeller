@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::25656d43254ea18ed34d79f4cac0b2b2, annotations\GSEA\PFSNet\PFSNet\Models\Graph.vb"
+﻿#Region "Microsoft.VisualBasic::25656d43254ea18ed34d79f4cac0b2b2, GCModeller\annotations\GSEA\PFSNet\PFSNet\Models\Graph.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 117
+    '    Code Lines: 79
+    ' Comment Lines: 27
+    '   Blank Lines: 11
+    '     File Size: 6.01 KB
+
 
     '     Module Data
     ' 

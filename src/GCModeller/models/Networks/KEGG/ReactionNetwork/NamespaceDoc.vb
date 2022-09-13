@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7c00c32c6d68c51da8868044cfeff139, models\Networks\KEGG\ReactionNetwork\NamespaceDoc.vb"
+﻿#Region "Microsoft.VisualBasic::7c00c32c6d68c51da8868044cfeff139, GCModeller\models\Networks\KEGG\ReactionNetwork\NamespaceDoc.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 8
+    '    Code Lines: 4
+    ' Comment Lines: 3
+    '   Blank Lines: 1
+    '     File Size: 227 B
+
 
     '     Module NamespaceDoc
     ' 

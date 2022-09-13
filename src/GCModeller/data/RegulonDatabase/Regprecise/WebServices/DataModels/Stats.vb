@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ec02c2c9f591bd6d95a2eae1be5a829d, data\RegulonDatabase\Regprecise\WebServices\DataModels\Stats.vb"
+﻿#Region "Microsoft.VisualBasic::ec02c2c9f591bd6d95a2eae1be5a829d, GCModeller\data\RegulonDatabase\Regprecise\WebServices\DataModels\Stats.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 203
+    '    Code Lines: 53
+    ' Comment Lines: 140
+    '   Blank Lines: 10
+    '     File Size: 7.12 KB
+
 
     '     Class genomeStat
     ' 

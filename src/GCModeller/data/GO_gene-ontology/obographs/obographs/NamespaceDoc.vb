@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::985f35ad45f0a71f6a21ae7bddf9e9f4, data\GO_gene-ontology\obographs\obographs\NamespaceDoc.vb"
+﻿#Region "Microsoft.VisualBasic::985f35ad45f0a71f6a21ae7bddf9e9f4, GCModeller\data\GO_gene-ontology\obographs\obographs\NamespaceDoc.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 6
+    '    Code Lines: 2
+    ' Comment Lines: 3
+    '   Blank Lines: 1
+    '     File Size: 92 B
+
 
     ' Module NamespaceDoc
     ' 

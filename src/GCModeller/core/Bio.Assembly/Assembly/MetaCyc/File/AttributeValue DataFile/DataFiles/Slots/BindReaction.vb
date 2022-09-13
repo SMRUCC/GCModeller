@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8e59f66c4da876f906d1fb47b7b13d0e, core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Slots\BindReaction.vb"
+﻿#Region "Microsoft.VisualBasic::8e59f66c4da876f906d1fb47b7b13d0e, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Slots\BindReaction.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 44
+    '    Code Lines: 19
+    ' Comment Lines: 14
+    '   Blank Lines: 11
+    '     File Size: 2.25 KB
+
 
     '     Class BindReaction
     ' 

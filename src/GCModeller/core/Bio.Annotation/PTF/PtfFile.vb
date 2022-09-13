@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3c0f574e40fbcdfa202a5debff83c5f0, core\Bio.Annotation\PTF\PtfFile.vb"
+﻿#Region "Microsoft.VisualBasic::3c0f574e40fbcdfa202a5debff83c5f0, GCModeller\core\Bio.Annotation\PTF\PtfFile.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 95
+    '    Code Lines: 71
+    ' Comment Lines: 7
+    '   Blank Lines: 17
+    '     File Size: 3.74 KB
+
 
     '     Class PtfFile
     ' 

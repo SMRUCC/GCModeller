@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ce25a3b86c0e40eaf8e09410ade4a752, analysis\SequenceToolkit\MSA\test\Module1.vb"
+﻿#Region "Microsoft.VisualBasic::ce25a3b86c0e40eaf8e09410ade4a752, GCModeller\analysis\SequenceToolkit\MSA\test\Module1.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 180
+    '    Code Lines: 166
+    ' Comment Lines: 0
+    '   Blank Lines: 14
+    '     File Size: 2.93 KB
+
 
     ' Module Module1
     ' 

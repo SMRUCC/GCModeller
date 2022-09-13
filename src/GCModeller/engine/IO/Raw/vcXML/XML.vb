@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::04be3e8e76f0bddb904ac38f9107d199, engine\IO\Raw\vcXML\XML.vb"
+﻿#Region "Microsoft.VisualBasic::04be3e8e76f0bddb904ac38f9107d199, GCModeller\engine\IO\Raw\vcXML\XML.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 92
+    '    Code Lines: 68
+    ' Comment Lines: 0
+    '   Blank Lines: 24
+    '     File Size: 2.68 KB
+
 
     '     Class vcXMLFile
     ' 

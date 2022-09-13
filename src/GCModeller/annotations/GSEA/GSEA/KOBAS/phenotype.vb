@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::328a4a724975c4a4792e1a92b9dffdaf, annotations\GSEA\GSEA\KOBAS\phenotype.vb"
+﻿#Region "Microsoft.VisualBasic::328a4a724975c4a4792e1a92b9dffdaf, GCModeller\annotations\GSEA\GSEA\KOBAS\phenotype.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 53
+    '    Code Lines: 39
+    ' Comment Lines: 4
+    '   Blank Lines: 10
+    '     File Size: 1.78 KB
+
 
     '     Class phenotype
     ' 

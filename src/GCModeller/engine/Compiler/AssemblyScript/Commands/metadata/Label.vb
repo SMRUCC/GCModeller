@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ba77c26be87a52140de0a203d5102d8e, engine\Compiler\AssemblyScript\Commands\metadata\Label.vb"
+﻿#Region "Microsoft.VisualBasic::ba77c26be87a52140de0a203d5102d8e, GCModeller\engine\Compiler\AssemblyScript\Commands\metadata\Label.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 36
+    '    Code Lines: 25
+    ' Comment Lines: 3
+    '   Blank Lines: 8
+    '     File Size: 1.32 KB
+
 
     '     Class Label
     ' 

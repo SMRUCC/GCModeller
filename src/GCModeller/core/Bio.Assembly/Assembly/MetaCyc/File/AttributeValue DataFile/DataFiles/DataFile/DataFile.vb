@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::579fc2e11b623f53ae72a9efa8e92afa, core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\DataFile\DataFile.vb"
+﻿#Region "Microsoft.VisualBasic::579fc2e11b623f53ae72a9efa8e92afa, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\DataFile\DataFile.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 235
+    '    Code Lines: 144
+    ' Comment Lines: 53
+    '   Blank Lines: 38
+    '     File Size: 10.19 KB
+
 
     '     Class DataFile
     ' 

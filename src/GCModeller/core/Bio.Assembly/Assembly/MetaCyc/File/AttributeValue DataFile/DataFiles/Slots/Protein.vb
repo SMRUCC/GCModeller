@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3bde26ddf0811169171957646e40e96f, core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Slots\Protein.vb"
+﻿#Region "Microsoft.VisualBasic::3bde26ddf0811169171957646e40e96f, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Slots\Protein.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 267
+    '    Code Lines: 75
+    ' Comment Lines: 160
+    '   Blank Lines: 32
+    '     File Size: 13.12 KB
+
 
     '     Class Protein
     ' 

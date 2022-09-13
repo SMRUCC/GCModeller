@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9f4cbae296c4e5594b9943a6e99ebda3, core\Bio.Assembly\Assembly\ELIXIR\UniProt\XML\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::ee11c44e062901fcf764fc777046d42c, GCModeller\core\Bio.Assembly\Assembly\ELIXIR\UniProt\XML\Extensions.vb"
 
 ' Author:
 ' 
@@ -31,11 +31,21 @@
 
 ' Summaries:
 
+
+' Code Statistics:
+
+'   Total Lines: 252
+'    Code Lines: 186
+' Comment Lines: 37
+'   Blank Lines: 29
+'     File Size: 9.42 KB
+
+
 '     Module Extensions
 ' 
-'         Function: ECNumberList, EnumerateAllIDs, GetDomainData, GO, KO
-'                   NCBITaxonomyId, ORF, OrganismScientificName, proteinFullName, ProteinSequence
-'                   SubCellularLocations, Summary, Term2Gene
+'         Function: DbReferenceId, ECNumberList, EnumerateAllIDs, GetDomainData, GO
+'                   KO, NCBITaxonomyId, ORF, OrganismScientificName, proteinFullName
+'                   ProteinSequence, SubCellularLocations, Summary, Term2Gene
 ' 
 ' 
 ' /********************************************************************************/
@@ -44,6 +54,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
@@ -107,6 +118,20 @@ Namespace Assembly.Uniprot.XML
                 .SafeQuery
         End Function
 
+        ReadOnly ignores As Index(Of String) = {
+            "Antibodypedia:antibodies",
+            "Bgee:expression_patterns",
+            "BioGRID:interactions",
+            "BioGRID-ORCS:hits",
+            "ChiTaRS:organism_name",
+            "eggNOG:taxonomic_scope",
+            "EMBL:molecule_type",
+            "EMBL:status",
+            "ExpressionAtlas:expression_patterns",
+            "HPA:expression_patterns",
+            "Pfam"
+        }
+
         ''' <summary>
         ''' includes uniprot accession id and db entry in other database
         ''' </summary>
@@ -114,6 +139,8 @@ Namespace Assembly.Uniprot.XML
         ''' <returns></returns>
         <Extension>
         Public Iterator Function EnumerateAllIDs(entry As entry) As IEnumerable(Of (Database$, xrefID$))
+            Dim key As String
+
             For Each accession As String In entry.accessions.SafeQuery
                 Yield (entry.dataset, accession)
             Next
@@ -124,13 +151,23 @@ Namespace Assembly.Uniprot.XML
                 For Each id As String In entry.gene.ORF.SafeQuery
                     Yield ("gene", id)
                 Next
+
+                For Each name In entry.gene.names
+                    Yield ("geneName", name.value)
+                Next
             End If
 
             For Each reference As dbReference In entry.dbReferences.SafeQuery
-                Yield (reference.type, reference.id)
+                If Not reference.type Like ignores Then
+                    Yield (reference.type, reference.id)
+                End If
 
                 For Each prop As [property] In reference.properties.SafeQuery
-                    Yield (reference.type & ":" & prop.type.Replace(" ", "_"), prop.value)
+                    key = reference.type & ":" & prop.type.Replace(" ", "_")
+
+                    If Not key Like ignores Then
+                        Yield (key, prop.value)
+                    End If
                 Next
             Next
         End Function

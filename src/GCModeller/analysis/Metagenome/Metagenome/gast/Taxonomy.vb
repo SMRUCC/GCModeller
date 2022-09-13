@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ad05da8180a8ccd65970a058122fc6fe, analysis\Metagenome\Metagenome\gast\Taxonomy.vb"
+﻿#Region "Microsoft.VisualBasic::ad05da8180a8ccd65970a058122fc6fe, GCModeller\analysis\Metagenome\Metagenome\gast\Taxonomy.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 245
+    '    Code Lines: 133
+    ' Comment Lines: 80
+    '   Blank Lines: 32
+    '     File Size: 8.46 KB
+
 
     '     Class Taxonomy
     ' 

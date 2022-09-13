@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::af38303887f38a1dccae60ff733ac482, data\RegulonDatabase\Regtransbase\MySQL\articles.vb"
+﻿#Region "Microsoft.VisualBasic::af38303887f38a1dccae60ff733ac482, GCModeller\data\RegulonDatabase\Regtransbase\MySQL\articles.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 196
+    '    Code Lines: 103
+    ' Comment Lines: 71
+    '   Blank Lines: 22
+    '     File Size: 12.46 KB
+
 
     ' Class articles
     ' 

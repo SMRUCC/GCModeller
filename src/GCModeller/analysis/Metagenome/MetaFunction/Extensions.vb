@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b8f1b76231a36856de504e79616e3118, analysis\Metagenome\MetaFunction\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::b8f1b76231a36856de504e79616e3118, GCModeller\analysis\Metagenome\MetaFunction\Extensions.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 4
+    '    Code Lines: 2
+    ' Comment Lines: 0
+    '   Blank Lines: 2
+    '     File Size: 40 B
+
 
     ' Module Extensions
     ' 

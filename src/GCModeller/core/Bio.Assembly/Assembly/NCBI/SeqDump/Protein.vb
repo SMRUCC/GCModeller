@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::955fede1b6decf7419773f4dcb09f8f0, core\Bio.Assembly\Assembly\NCBI\SeqDump\Protein.vb"
+﻿#Region "Microsoft.VisualBasic::955fede1b6decf7419773f4dcb09f8f0, GCModeller\core\Bio.Assembly\Assembly\NCBI\SeqDump\Protein.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 36
+    '    Code Lines: 26
+    ' Comment Lines: 3
+    '   Blank Lines: 7
+    '     File Size: 1.13 KB
+
 
     '     Class Protein
     ' 

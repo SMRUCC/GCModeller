@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e1ca2df93610b80e1860ada694e60baa, analysis\SequenceToolkit\MotifScanner\MotifMatch.vb"
+﻿#Region "Microsoft.VisualBasic::e1ca2df93610b80e1860ada694e60baa, GCModeller\analysis\SequenceToolkit\MotifFinder\Scanner\MotifMatch.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 13
+    '    Code Lines: 11
+    ' Comment Lines: 0
+    '   Blank Lines: 2
+    '     File Size: 383 B
+
 
     ' Class MotifMatch
     ' 

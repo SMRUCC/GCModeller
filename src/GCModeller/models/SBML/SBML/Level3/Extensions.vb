@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d253051f43c7a50b6f70f446548298cd, models\SBML\SBML\Level3\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::d253051f43c7a50b6f70f446548298cd, GCModeller\models\SBML\SBML\Level3\Extensions.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 8
+    '    Code Lines: 6
+    ' Comment Lines: 0
+    '   Blank Lines: 2
+    '     File Size: 195 B
+
 
     '     Module Extensions
     ' 

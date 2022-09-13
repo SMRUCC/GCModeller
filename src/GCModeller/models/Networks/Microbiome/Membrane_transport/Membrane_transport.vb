@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::07a7b583c6060365d50edd37db8a119d, models\Networks\Microbiome\Membrane_transport\Membrane_transport.vb"
+﻿#Region "Microsoft.VisualBasic::07a7b583c6060365d50edd37db8a119d, GCModeller\models\Networks\Microbiome\Membrane_transport\Membrane_transport.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 327
+    '    Code Lines: 254
+    ' Comment Lines: 32
+    '   Blank Lines: 41
+    '     File Size: 14.88 KB
+
 
     ' Module Membrane_transport
     ' 

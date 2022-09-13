@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fd53e1ea4e2aeca478463442e55348f0, data\SABIO-RK\docuRESTfulWeb\ModelQuery.vb"
+﻿#Region "Microsoft.VisualBasic::fd53e1ea4e2aeca478463442e55348f0, GCModeller\data\SABIO-RK\docuRESTfulWeb\ModelQuery.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 43
+    '    Code Lines: 36
+    ' Comment Lines: 0
+    '   Blank Lines: 7
+    '     File Size: 1.67 KB
+
 
     ' Class ModelQuery
     ' 

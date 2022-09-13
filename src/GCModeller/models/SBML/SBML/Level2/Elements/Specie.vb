@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6c658e5ffe1a8cca52fe0d649071c4c4, models\SBML\SBML\Level2\Elements\Specie.vb"
+﻿#Region "Microsoft.VisualBasic::6c658e5ffe1a8cca52fe0d649071c4c4, GCModeller\models\SBML\SBML\Level2\Elements\Specie.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 43
+    '    Code Lines: 27
+    ' Comment Lines: 11
+    '   Blank Lines: 5
+    '     File Size: 1.51 KB
+
 
     '     Class Specie
     ' 

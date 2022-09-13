@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::267ebb2355baf2a4d793ccf644d9e3cb, core\Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\Database\DataModels\NameOf.vb"
+﻿#Region "Microsoft.VisualBasic::267ebb2355baf2a4d793ccf644d9e3cb, GCModeller\core\Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\Database\DataModels\NameOf.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 323
+    '    Code Lines: 241
+    ' Comment Lines: 55
+    '   Blank Lines: 27
+    '     File Size: 13.85 KB
+
 
     '     Class [NameOf]
     ' 

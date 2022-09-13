@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::72440eb8a3317a403a2d8047f6c92529, analysis\SequenceToolkit\MSA\ScoreMatrix.vb"
+﻿#Region "Microsoft.VisualBasic::72440eb8a3317a403a2d8047f6c92529, GCModeller\analysis\SequenceToolkit\MSA\ScoreMatrix.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 39
+    '    Code Lines: 31
+    ' Comment Lines: 0
+    '   Blank Lines: 8
+    '     File Size: 1.44 KB
+
 
     ' Class ScoreMatrix
     ' 

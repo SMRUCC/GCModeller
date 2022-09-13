@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ee0d2dde5499cfd322a8bc88b84b9b60, data\MicrobesOnline\MySQL\genomics\keggcompound.vb"
+﻿#Region "Microsoft.VisualBasic::ee0d2dde5499cfd322a8bc88b84b9b60, GCModeller\data\MicrobesOnline\MySQL\genomics\keggcompound.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 63
+    '    Code Lines: 36
+    ' Comment Lines: 20
+    '   Blank Lines: 7
+    '     File Size: 2.77 KB
+
 
     ' Class keggcompound
     ' 

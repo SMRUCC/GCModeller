@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7de60a8b2413775867868a806bd6e9d0, analysis\SequenceToolkit\MotifScanner\ProbabilityScanner.vb"
+﻿#Region "Microsoft.VisualBasic::d3b88ce3f897c2bd04b833deeafe9ba1, GCModeller\analysis\SequenceToolkit\MotifFinder\Scanner\ProbabilityScanner.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 155
+    '    Code Lines: 113
+    ' Comment Lines: 21
+    '   Blank Lines: 21
+    '     File Size: 6.07 KB
+
 
     ' Module ProbabilityScanner
     ' 

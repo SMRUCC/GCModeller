@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::571e85eec965520f54d5a10987d00757, data\RegulonDatabase\Regprecise\RegpreciseBBHAPI.vb"
+﻿#Region "Microsoft.VisualBasic::6bb6aca30a31111034e22a29e9b24e15, GCModeller\data\RegulonDatabase\Regprecise\RegpreciseBBHAPI.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,20 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 293
+    '    Code Lines: 122
+    ' Comment Lines: 143
+    '   Blank Lines: 28
+    '     File Size: 18.30 KB
+
+
     '     Module RegpreciseBidirectionalBh_Methods
     ' 
-    '         Function: __applyingProperty, __applyProperty, __gettfbs, Convert, FamilyStatics
-    '                   (+3 Overloads) Match, MatchAlignment, MPAlignment, MPCutoff, ReadData
-    '                   SelectPfamSource, WriteData
+    '         Function: __applyProperty, __gettfbs, Convert, FamilyStatics, (+2 Overloads) Match
+    '                   MPCutoff, ReadData, WriteData
     ' 
     ' 
     ' /********************************************************************************/

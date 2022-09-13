@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3ffaf73afc97daf4dc203aa6181161fe, analysis\Microarray\Enrichment\KOBAS\KOBAS.vb"
+﻿#Region "Microsoft.VisualBasic::3ffaf73afc97daf4dc203aa6181161fe, GCModeller\analysis\Microarray\Enrichment\KOBAS\KOBAS.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 98
+    '    Code Lines: 70
+    ' Comment Lines: 13
+    '   Blank Lines: 15
+    '     File Size: 3.86 KB
+
 
     '     Module KOBAS
     ' 

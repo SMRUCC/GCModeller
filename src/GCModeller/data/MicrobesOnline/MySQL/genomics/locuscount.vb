@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8f9b46ad008bc374c1a46dd6334f5fb6, data\MicrobesOnline\MySQL\genomics\locuscount.vb"
+﻿#Region "Microsoft.VisualBasic::8f9b46ad008bc374c1a46dd6334f5fb6, GCModeller\data\MicrobesOnline\MySQL\genomics\locuscount.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 62
+    '    Code Lines: 35
+    ' Comment Lines: 20
+    '   Blank Lines: 7
+    '     File Size: 2.76 KB
+
 
     ' Class locuscount
     ' 

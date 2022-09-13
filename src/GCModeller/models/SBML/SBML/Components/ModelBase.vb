@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::585a921da556c33339111320e7585cc5, models\SBML\SBML\Components\ModelBase.vb"
+﻿#Region "Microsoft.VisualBasic::585a921da556c33339111320e7585cc5, GCModeller\models\SBML\SBML\Components\ModelBase.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 23
+    '    Code Lines: 14
+    ' Comment Lines: 4
+    '   Blank Lines: 5
+    '     File Size: 710 B
+
 
     '     Class ModelBase
     ' 

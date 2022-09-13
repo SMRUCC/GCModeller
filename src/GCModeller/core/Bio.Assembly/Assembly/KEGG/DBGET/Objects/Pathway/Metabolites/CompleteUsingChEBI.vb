@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::34246b03c75bd9de19770b071d521d8d, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\CompleteUsingChEBI.vb"
+﻿#Region "Microsoft.VisualBasic::34246b03c75bd9de19770b071d521d8d, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\CompleteUsingChEBI.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 80
+    '    Code Lines: 56
+    ' Comment Lines: 11
+    '   Blank Lines: 13
+    '     File Size: 3.31 KB
+
 
     '     Module MetaboliteWebApi
     ' 

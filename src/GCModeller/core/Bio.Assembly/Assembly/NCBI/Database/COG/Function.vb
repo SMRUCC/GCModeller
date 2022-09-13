@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::831e339c745fac0f106c6a97cc00a76b, core\Bio.Assembly\Assembly\NCBI\Database\COG\Function.vb"
+﻿#Region "Microsoft.VisualBasic::831e339c745fac0f106c6a97cc00a76b, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\COG\Function.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 352
+    '    Code Lines: 202
+    ' Comment Lines: 110
+    '   Blank Lines: 40
+    '     File Size: 14.36 KB
+
 
     '     Class [Function]
     ' 

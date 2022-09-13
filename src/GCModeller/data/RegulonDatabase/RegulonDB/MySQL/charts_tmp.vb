@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::04dc5eaa5a6b9a9c6dde990c602f9800, data\RegulonDatabase\RegulonDB\MySQL\charts_tmp.vb"
+﻿#Region "Microsoft.VisualBasic::04dc5eaa5a6b9a9c6dde990c602f9800, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\charts_tmp.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 170
+    '    Code Lines: 87
+    ' Comment Lines: 61
+    '   Blank Lines: 22
+    '     File Size: 8.99 KB
+
 
     ' Class charts_tmp
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ff0314eefbb23a40db71af6b7b98cc56, data\MicrobesOnline\MySQL\glamm\glammlastguid.vb"
+﻿#Region "Microsoft.VisualBasic::ff0314eefbb23a40db71af6b7b98cc56, GCModeller\data\MicrobesOnline\MySQL\glamm\glammlastguid.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 57
+    '    Code Lines: 33
+    ' Comment Lines: 17
+    '   Blank Lines: 7
+    '     File Size: 2.22 KB
+
 
     ' Class glammlastguid
     ' 

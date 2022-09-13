@@ -1,44 +1,54 @@
-﻿#Region "Microsoft.VisualBasic::b91d5f4d76b461a88418c6c6205210db, visualize\DataVisualizationExtensions\ExpressionPattern\ExpressionPattern.vb"
+﻿#Region "Microsoft.VisualBasic::61b91baca17da519ca579801fc7e4c3e, GCModeller\visualize\DataVisualizationExtensions\ExpressionPattern\ExpressionPattern.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class ExpressionPattern
-' 
-'         Properties: [dim], centers, Patterns, sampleNames
-' 
-'         Function: (+2 Overloads) CMeansCluster, CMeansCluster3D, GetPartitionMatrix, populatePartitions, ToSummaryText
-' 
-' 
-' /********************************************************************************/
+
+    ' Code Statistics:
+
+    '   Total Lines: 210
+    '    Code Lines: 174
+    ' Comment Lines: 10
+    '   Blank Lines: 26
+    '     File Size: 8.86 KB
+
+
+    '     Class ExpressionPattern
+    ' 
+    '         Properties: [dim], centers, Patterns, sampleNames
+    ' 
+    '         Function: (+2 Overloads) CMeansCluster, CMeansCluster3D, GetPartitionMatrix, populatePartitions, ToSummaryText
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -205,7 +215,7 @@ Namespace ExpressionPattern
                     .ToArray
                 Dim max As Double = membership.Select(Function(v) v.Value).Max
                 Dim filter As Index(Of String) = membership _
-                    .Where(Function(v) v.Value / max >= membershipCutoff) _
+                    .Where(Function(v) v.Value / max > membershipCutoff) _
                     .Select(Function(v) v.Name) _
                     .Indexing
                 Dim features As DataFrameRow()

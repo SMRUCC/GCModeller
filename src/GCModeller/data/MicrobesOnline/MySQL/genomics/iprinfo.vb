@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::81fcf43b78a8735bb3c000814577cc62, data\MicrobesOnline\MySQL\genomics\iprinfo.vb"
+﻿#Region "Microsoft.VisualBasic::81fcf43b78a8735bb3c000814577cc62, GCModeller\data\MicrobesOnline\MySQL\genomics\iprinfo.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 66
+    '    Code Lines: 37
+    ' Comment Lines: 22
+    '   Blank Lines: 7
+    '     File Size: 3.08 KB
+
 
     ' Class iprinfo
     ' 

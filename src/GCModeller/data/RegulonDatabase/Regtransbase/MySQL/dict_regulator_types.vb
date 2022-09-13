@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3e5242765f657b880669bf498141f6fe, data\RegulonDatabase\Regtransbase\MySQL\dict_regulator_types.vb"
+﻿#Region "Microsoft.VisualBasic::3e5242765f657b880669bf498141f6fe, GCModeller\data\RegulonDatabase\Regtransbase\MySQL\dict_regulator_types.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 151
+    '    Code Lines: 74
+    ' Comment Lines: 55
+    '   Blank Lines: 22
+    '     File Size: 5.60 KB
+
 
     ' Class dict_regulator_types
     ' 

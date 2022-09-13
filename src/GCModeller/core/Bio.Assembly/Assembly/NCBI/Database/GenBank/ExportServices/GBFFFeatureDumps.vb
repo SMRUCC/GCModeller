@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6aaf9640ad1904e80694d9d74f3bb56a, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\ExportServices\GBFFFeatureDumps.vb"
+﻿#Region "Microsoft.VisualBasic::6aaf9640ad1904e80694d9d74f3bb56a, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\ExportServices\GBFFFeatureDumps.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 153
+    '    Code Lines: 127
+    ' Comment Lines: 10
+    '   Blank Lines: 16
+    '     File Size: 7.02 KB
+
 
     '     Module GBFFFeatureDumps
     ' 

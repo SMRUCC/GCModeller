@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::604dd213aadbf57061246382c24fec15, core\Bio.Assembly\Assembly\DOOR\Models\DOOR.vb"
+﻿#Region "Microsoft.VisualBasic::604dd213aadbf57061246382c24fec15, GCModeller\core\Bio.Assembly\Assembly\DOOR\Models\DOOR.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 184
+    '    Code Lines: 107
+    ' Comment Lines: 53
+    '   Blank Lines: 24
+    '     File Size: 6.80 KB
+
 
     '     Class DOOR
     ' 

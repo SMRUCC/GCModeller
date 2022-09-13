@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f6e1f3297f7d891107e2ad7dc98d711f, data\MicrobesOnline\MySQL\genomics\fasthmmrawhits.vb"
+﻿#Region "Microsoft.VisualBasic::f6e1f3297f7d891107e2ad7dc98d711f, GCModeller\data\MicrobesOnline\MySQL\genomics\fasthmmrawhits.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 74
+    '    Code Lines: 41
+    ' Comment Lines: 26
+    '   Blank Lines: 7
+    '     File Size: 4.43 KB
+
 
     ' Class fasthmmrawhits
     ' 

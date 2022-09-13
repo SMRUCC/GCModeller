@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3ac836f0d4a8dfa21ab271ac3f1de073, analysis\SequenceToolkit\SequencePatterns.Abstract\Patterns\Tokens.vb"
+﻿#Region "Microsoft.VisualBasic::3ac836f0d4a8dfa21ab271ac3f1de073, GCModeller\analysis\SequenceToolkit\SequencePatterns.Abstract\Patterns\Tokens.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 34
+    '    Code Lines: 15
+    ' Comment Lines: 15
+    '   Blank Lines: 4
+    '     File Size: 809 B
+
 
     '     Enum Tokens
     ' 

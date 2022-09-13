@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fecb62a4b6282ed16ce902dcf053b63f, core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Files\Enzrxns.vb"
+﻿#Region "Microsoft.VisualBasic::fecb62a4b6282ed16ce902dcf053b63f, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Files\Enzrxns.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 34
+    '    Code Lines: 21
+    ' Comment Lines: 9
+    '   Blank Lines: 4
+    '     File Size: 1.90 KB
+
 
     '     Class Enzrxns
     ' 

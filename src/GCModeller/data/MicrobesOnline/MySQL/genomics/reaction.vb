@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cd5eae909075b9854abc0783e2d9e770, data\MicrobesOnline\MySQL\genomics\reaction.vb"
+﻿#Region "Microsoft.VisualBasic::cd5eae909075b9854abc0783e2d9e770, GCModeller\data\MicrobesOnline\MySQL\genomics\reaction.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 59
+    '    Code Lines: 34
+    ' Comment Lines: 18
+    '   Blank Lines: 7
+    '     File Size: 2.32 KB
+
 
     ' Class reaction
     ' 

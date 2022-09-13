@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::66fea1a951bfbfe81ba547941b6b3bb9, analysis\SequenceToolkit\SequencePatterns\Topologically\Seeds\SeedBox.vb"
+﻿#Region "Microsoft.VisualBasic::66fea1a951bfbfe81ba547941b6b3bb9, GCModeller\analysis\SequenceToolkit\SequencePatterns\Topologically\Seeds\SeedBox.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 93
+    '    Code Lines: 53
+    ' Comment Lines: 25
+    '   Blank Lines: 15
+    '     File Size: 3.40 KB
+
 
     '     Class SeedBox
     ' 

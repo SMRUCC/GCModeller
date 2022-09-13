@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::31aa5720d482c696ff705707f1ff432d, data\RegulonDatabase\RegulonDB\MySQL\reaction_component_link.vb"
+﻿#Region "Microsoft.VisualBasic::31aa5720d482c696ff705707f1ff432d, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\reaction_component_link.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 155
+    '    Code Lines: 77
+    ' Comment Lines: 56
+    '   Blank Lines: 22
+    '     File Size: 6.73 KB
+
 
     ' Class reaction_component_link
     ' 

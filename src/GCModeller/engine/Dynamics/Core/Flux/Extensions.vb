@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::89d5e15b43bd6e0cf8da21fdf449058f, engine\Dynamics\Core\Flux\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::89d5e15b43bd6e0cf8da21fdf449058f, GCModeller\engine\Dynamics\Core\Flux\Extensions.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 37
+    '    Code Lines: 30
+    ' Comment Lines: 0
+    '   Blank Lines: 7
+    '     File Size: 1.28 KB
+
 
     '     Module Extensions
     ' 

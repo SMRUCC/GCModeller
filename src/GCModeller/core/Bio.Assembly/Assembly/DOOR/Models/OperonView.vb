@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aa74c1b1c8e95104ebc34cfffbdb6c62, core\Bio.Assembly\Assembly\DOOR\Models\OperonView.vb"
+﻿#Region "Microsoft.VisualBasic::aa74c1b1c8e95104ebc34cfffbdb6c62, GCModeller\core\Bio.Assembly\Assembly\DOOR\Models\OperonView.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 155
+    '    Code Lines: 112
+    ' Comment Lines: 20
+    '   Blank Lines: 23
+    '     File Size: 6.02 KB
+
 
     '     Class OperonView
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fbbc18054607a5011184b22a61e317fd, core\Bio.Assembly\Assembly\NCBI\Database\CDD\SmpFile.vb"
+﻿#Region "Microsoft.VisualBasic::fbbc18054607a5011184b22a61e317fd, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\CDD\SmpFile.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 134
+    '    Code Lines: 91
+    ' Comment Lines: 21
+    '   Blank Lines: 22
+    '     File Size: 4.69 KB
+
 
     '     Class SmpFile
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::809b68a78da5b2b1b631300f5e89c7f0, data\MicrobesOnline\MySQL\genomics\term_audit.vb"
+﻿#Region "Microsoft.VisualBasic::809b68a78da5b2b1b631300f5e89c7f0, GCModeller\data\MicrobesOnline\MySQL\genomics\term_audit.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 60
+    '    Code Lines: 34
+    ' Comment Lines: 19
+    '   Blank Lines: 7
+    '     File Size: 2.48 KB
+
 
     ' Class term_audit
     ' 

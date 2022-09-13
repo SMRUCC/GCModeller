@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c8634902ff57511dd511dcd659a7a73a, data\RegulonDatabase\RegulonDB\MySQL\condition_object.vb"
+﻿#Region "Microsoft.VisualBasic::c8634902ff57511dd511dcd659a7a73a, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\condition_object.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 149
+    '    Code Lines: 73
+    ' Comment Lines: 54
+    '   Blank Lines: 22
+    '     File Size: 5.52 KB
+
 
     ' Class condition_object
     ' 

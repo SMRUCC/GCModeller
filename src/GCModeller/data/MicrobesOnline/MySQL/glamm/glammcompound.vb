@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::01901e1959834fd1fa82d939f3c44930, data\MicrobesOnline\MySQL\glamm\glammcompound.vb"
+﻿#Region "Microsoft.VisualBasic::01901e1959834fd1fa82d939f3c44930, GCModeller\data\MicrobesOnline\MySQL\glamm\glammcompound.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 73
+    '    Code Lines: 41
+    ' Comment Lines: 25
+    '   Blank Lines: 7
+    '     File Size: 3.98 KB
+
 
     ' Class glammcompound
     ' 

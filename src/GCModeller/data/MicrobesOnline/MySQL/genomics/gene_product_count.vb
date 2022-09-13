@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::86cccc18abad760aa8b69abba0f64125, data\MicrobesOnline\MySQL\genomics\gene_product_count.vb"
+﻿#Region "Microsoft.VisualBasic::86cccc18abad760aa8b69abba0f64125, GCModeller\data\MicrobesOnline\MySQL\genomics\gene_product_count.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 70
+    '    Code Lines: 37
+    ' Comment Lines: 26
+    '   Blank Lines: 7
+    '     File Size: 3.46 KB
+
 
     ' Class gene_product_count
     ' 

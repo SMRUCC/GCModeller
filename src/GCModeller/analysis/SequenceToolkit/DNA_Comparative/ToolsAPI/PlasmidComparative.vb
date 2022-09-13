@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::97352c47a16f1c8deb205718b28931c7, analysis\SequenceToolkit\DNA_Comparative\ToolsAPI\PlasmidComparative.vb"
+﻿#Region "Microsoft.VisualBasic::97352c47a16f1c8deb205718b28931c7, GCModeller\analysis\SequenceToolkit\DNA_Comparative\ToolsAPI\PlasmidComparative.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 80
+    '    Code Lines: 69
+    ' Comment Lines: 5
+    '   Blank Lines: 6
+    '     File Size: 4.61 KB
+
 
     ' Module PlasmidComparative
     ' 

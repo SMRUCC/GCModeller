@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d79182054b9111d5fa6346cda4353300, engine\IO\GCMarkupLanguage\GCML_Documents\XmlElements\Metabolism\Proteins.vb"
+﻿#Region "Microsoft.VisualBasic::d79182054b9111d5fa6346cda4353300, GCModeller\engine\IO\GCMarkupLanguage\GCML_Documents\XmlElements\Metabolism\Proteins.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 98
+    '    Code Lines: 44
+    ' Comment Lines: 39
+    '   Blank Lines: 15
+    '     File Size: 4.88 KB
+
 
     '     Class Polypeptide
     ' 

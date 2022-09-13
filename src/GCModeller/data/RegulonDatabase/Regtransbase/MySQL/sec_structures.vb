@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::46e119fad5490ab426eb45c32f8090d0, data\RegulonDatabase\Regtransbase\MySQL\sec_structures.vb"
+﻿#Region "Microsoft.VisualBasic::46e119fad5490ab426eb45c32f8090d0, GCModeller\data\RegulonDatabase\Regtransbase\MySQL\sec_structures.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 205
+    '    Code Lines: 108
+    ' Comment Lines: 75
+    '   Blank Lines: 22
+    '     File Size: 13.95 KB
+
 
     ' Class sec_structures
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b14448a5b78e7b9bb7c9c6d62ca43ab1, core\Bio.Assembly\Assembly\NCBI\Database\COG\Categories.vb"
+﻿#Region "Microsoft.VisualBasic::b14448a5b78e7b9bb7c9c6d62ca43ab1, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\COG\Categories.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 29
+    '    Code Lines: 10
+    ' Comment Lines: 15
+    '   Blank Lines: 4
+    '     File Size: 902 B
+
 
     '     Enum COGCategories
     ' 

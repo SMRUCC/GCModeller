@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::183a56390a66f6e8d7ba5df7aa7f4687, analysis\SequenceToolkit\SequencePatterns\Topologically\Palindrome\csv\PalindromeLoci.vb"
+﻿#Region "Microsoft.VisualBasic::183a56390a66f6e8d7ba5df7aa7f4687, GCModeller\analysis\SequenceToolkit\SequencePatterns\Topologically\Palindrome\csv\PalindromeLoci.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 94
+    '    Code Lines: 49
+    ' Comment Lines: 33
+    '   Blank Lines: 12
+    '     File Size: 3.39 KB
+
 
     '     Class PalindromeLoci
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b455f631a06d8959cfe27d806c0e36fb, core\Bio.Assembly\ComponentModel\Locus\Interfaces.vb"
+﻿#Region "Microsoft.VisualBasic::b455f631a06d8959cfe27d806c0e36fb, GCModeller\core\Bio.Assembly\ComponentModel\Locus\Interfaces.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 59
+    '    Code Lines: 18
+    ' Comment Lines: 34
+    '   Blank Lines: 7
+    '     File Size: 1.86 KB
+
 
     '     Interface ILocationSegment
     ' 

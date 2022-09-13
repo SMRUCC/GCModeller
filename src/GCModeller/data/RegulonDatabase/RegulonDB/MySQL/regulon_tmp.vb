@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1ecab8ac3cb9960f01088069d6b64bf9, data\RegulonDatabase\RegulonDB\MySQL\regulon_tmp.vb"
+﻿#Region "Microsoft.VisualBasic::1ecab8ac3cb9960f01088069d6b64bf9, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\regulon_tmp.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 152
+    '    Code Lines: 75
+    ' Comment Lines: 55
+    '   Blank Lines: 22
+    '     File Size: 5.83 KB
+
 
     ' Class regulon_tmp
     ' 

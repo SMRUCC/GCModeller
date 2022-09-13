@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aa5ff3dc7e6fb7591b4f4cc3a0c0ce85, annotations\Proteomics\DATA\Perseus.vb"
+﻿#Region "Microsoft.VisualBasic::aa5ff3dc7e6fb7591b4f4cc3a0c0ce85, GCModeller\annotations\Proteomics\DATA\Perseus.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 71
+    '    Code Lines: 49
+    ' Comment Lines: 12
+    '   Blank Lines: 10
+    '     File Size: 2.95 KB
+
 
     ' Class Perseus
     ' 

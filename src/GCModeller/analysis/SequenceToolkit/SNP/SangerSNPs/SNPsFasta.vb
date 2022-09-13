@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2f3c14b7ff8d688035aa46fd8debc973, analysis\SequenceToolkit\SNP\SangerSNPs\SNPsFasta.vb"
+﻿#Region "Microsoft.VisualBasic::2f3c14b7ff8d688035aa46fd8debc973, GCModeller\analysis\SequenceToolkit\SNP\SangerSNPs\SNPsFasta.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 76
+    '    Code Lines: 34
+    ' Comment Lines: 29
+    '   Blank Lines: 13
+    '     File Size: 3.31 KB
+
 
     '     Module SNPsFasta
     ' 

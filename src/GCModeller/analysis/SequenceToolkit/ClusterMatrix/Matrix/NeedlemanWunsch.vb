@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a693b533d7f29ca250d49a67caf8c8f8, analysis\SequenceToolkit\ClusterMatrix\Matrix\NeedlemanWunsch.vb"
+﻿#Region "Microsoft.VisualBasic::a693b533d7f29ca250d49a67caf8c8f8, GCModeller\analysis\SequenceToolkit\ClusterMatrix\Matrix\NeedlemanWunsch.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 74
+    '    Code Lines: 63
+    ' Comment Lines: 0
+    '   Blank Lines: 11
+    '     File Size: 2.73 KB
+
 
     ' Module Matrix
     ' 

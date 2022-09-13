@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7c80001618054320267cc6baef1cec9b, data\RegulonDatabase\Regtransbase\MySQL\dict_effectors_superclasses.vb"
+﻿#Region "Microsoft.VisualBasic::7c80001618054320267cc6baef1cec9b, GCModeller\data\RegulonDatabase\Regtransbase\MySQL\dict_effectors_superclasses.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 163
+    '    Code Lines: 82
+    ' Comment Lines: 59
+    '   Blank Lines: 22
+    '     File Size: 7.90 KB
+
 
     ' Class dict_effectors_superclasses
     ' 

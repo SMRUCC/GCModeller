@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::25f7f502512eb19bc8f04ac8c00a1c1b, engine\IO\GCMarkupLanguage\GCML_Documents\GCMLDocBuilder\Expender.vb"
+﻿#Region "Microsoft.VisualBasic::25f7f502512eb19bc8f04ac8c00a1c1b, GCModeller\engine\IO\GCMarkupLanguage\GCML_Documents\GCMLDocBuilder\Expender.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 91
+    '    Code Lines: 0
+    ' Comment Lines: 80
+    '   Blank Lines: 11
+    '     File Size: 4.75 KB
+
 
     ' 
     ' /********************************************************************************/

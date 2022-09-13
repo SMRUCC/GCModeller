@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::abeb900ab3bf8c8921499b4d12c41048, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Disease\DownloadAPI.vb"
+﻿#Region "Microsoft.VisualBasic::abeb900ab3bf8c8921499b4d12c41048, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Disease\DownloadAPI.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 175
+    '    Code Lines: 139
+    ' Comment Lines: 13
+    '   Blank Lines: 23
+    '     File Size: 6.78 KB
+
 
     '     Module DownloadDiseases
     ' 

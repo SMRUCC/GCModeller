@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b86ded1325461ec363c9cff911f8526b, core\Bio.Assembly\Assembly\KEGG\DBGET\WebQuery\ReactionQuery.vb"
+﻿#Region "Microsoft.VisualBasic::b86ded1325461ec363c9cff911f8526b, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\WebQuery\ReactionQuery.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 172
+    '    Code Lines: 128
+    ' Comment Lines: 16
+    '   Blank Lines: 28
+    '     File Size: 7.09 KB
+
 
     '     Class ReactionQuery
     ' 

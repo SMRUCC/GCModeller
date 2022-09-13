@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c9e5445959912833e8143c51686db137, core\Bio.Assembly\Assembly\KEGG\Web\PathwayMapping.vb"
+﻿#Region "Microsoft.VisualBasic::c9e5445959912833e8143c51686db137, GCModeller\core\Bio.Assembly\Assembly\KEGG\Web\PathwayMapping.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 338
+    '    Code Lines: 211
+    ' Comment Lines: 86
+    '   Blank Lines: 41
+    '     File Size: 17.27 KB
+
 
     '     Module PathwayMapping
     ' 

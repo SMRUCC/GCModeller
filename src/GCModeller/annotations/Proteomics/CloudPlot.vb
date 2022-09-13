@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fa4e987334dc2f1e491aba2a8eadf94d, annotations\Proteomics\CloudPlot.vb"
+﻿#Region "Microsoft.VisualBasic::fa4e987334dc2f1e491aba2a8eadf94d, GCModeller\annotations\Proteomics\CloudPlot.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 115
+    '    Code Lines: 90
+    ' Comment Lines: 15
+    '   Blank Lines: 10
+    '     File Size: 4.70 KB
+
 
     ' Module CloudPlot
     ' 

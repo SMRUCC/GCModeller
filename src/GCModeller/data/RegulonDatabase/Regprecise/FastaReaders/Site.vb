@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f098f1b498c439c0c51b02292ae23ea2, data\RegulonDatabase\Regprecise\FastaReaders\Site.vb"
+﻿#Region "Microsoft.VisualBasic::f098f1b498c439c0c51b02292ae23ea2, GCModeller\data\RegulonDatabase\Regprecise\FastaReaders\Site.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 129
+    '    Code Lines: 79
+    ' Comment Lines: 36
+    '   Blank Lines: 14
+    '     File Size: 5.34 KB
+
 
     '     Class Site
     ' 

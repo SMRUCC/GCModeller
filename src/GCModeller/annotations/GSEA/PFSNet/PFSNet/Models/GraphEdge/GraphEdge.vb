@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e4ba5024584b2cc0a22ed5ba1f60d4c7, annotations\GSEA\PFSNet\PFSNet\Models\GraphEdge\GraphEdge.vb"
+﻿#Region "Microsoft.VisualBasic::e4ba5024584b2cc0a22ed5ba1f60d4c7, GCModeller\annotations\GSEA\PFSNet\PFSNet\Models\GraphEdge\GraphEdge.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 53
+    '    Code Lines: 30
+    ' Comment Lines: 16
+    '   Blank Lines: 7
+    '     File Size: 1.97 KB
+
 
     '     Class GraphEdge
     ' 

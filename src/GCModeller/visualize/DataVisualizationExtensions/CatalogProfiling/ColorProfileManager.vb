@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::39e9e3381490242489d5b0956473dffb, visualize\DataVisualizationExtensions\CatalogProfiling\ColorProfileManager.vb"
+﻿#Region "Microsoft.VisualBasic::39e9e3381490242489d5b0956473dffb, GCModeller\visualize\DataVisualizationExtensions\CatalogProfiling\ColorProfileManager.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 47
+    '    Code Lines: 32
+    ' Comment Lines: 8
+    '   Blank Lines: 7
+    '     File Size: 1.98 KB
+
 
     '     Module Extensions
     ' 

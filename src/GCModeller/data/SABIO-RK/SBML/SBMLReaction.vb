@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ca1c7fb8bc9384196afa7b6d123069b6, data\SABIO-RK\SBML\SBMLReaction.vb"
+﻿#Region "Microsoft.VisualBasic::ca1c7fb8bc9384196afa7b6d123069b6, GCModeller\data\SABIO-RK\SBML\SBMLReaction.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 15
+    '    Code Lines: 8
+    ' Comment Lines: 4
+    '   Blank Lines: 3
+    '     File Size: 368 B
+
 
     '     Class SBMLReaction
     ' 

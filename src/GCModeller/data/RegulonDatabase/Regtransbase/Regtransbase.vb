@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c24fa38245a0275fe954ba0ce29c05e7, data\RegulonDatabase\Regtransbase\Regtransbase.vb"
+﻿#Region "Microsoft.VisualBasic::c24fa38245a0275fe954ba0ce29c05e7, GCModeller\data\RegulonDatabase\Regtransbase\Regtransbase.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 55
+    '    Code Lines: 24
+    ' Comment Lines: 21
+    '   Blank Lines: 10
+    '     File Size: 2.81 KB
+
 
     '     Class Database
     ' 

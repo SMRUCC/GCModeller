@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::09232b06710ee8cac3e7baee9d0edb0d, data\MicrobesOnline\MySQL\genomics\enzrxn.vb"
+﻿#Region "Microsoft.VisualBasic::09232b06710ee8cac3e7baee9d0edb0d, GCModeller\data\MicrobesOnline\MySQL\genomics\enzrxn.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 65
+    '    Code Lines: 37
+    ' Comment Lines: 21
+    '   Blank Lines: 7
+    '     File Size: 3.10 KB
+
 
     ' Class enzrxn
     ' 

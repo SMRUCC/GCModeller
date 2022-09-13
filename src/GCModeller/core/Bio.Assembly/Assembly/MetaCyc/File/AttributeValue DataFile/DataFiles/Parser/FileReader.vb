@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::773b1625275971d28ad00be6d5ae8684, core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Parser\FileReader.vb"
+﻿#Region "Microsoft.VisualBasic::773b1625275971d28ad00be6d5ae8684, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Parser\FileReader.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 81
+    '    Code Lines: 47
+    ' Comment Lines: 23
+    '   Blank Lines: 11
+    '     File Size: 3.20 KB
+
 
     '     Module FileReader
     ' 

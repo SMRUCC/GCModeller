@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c365e29e30b0f0d506a71c24cd42ef79, data\MicrobesOnline\MySQL\glamm\pathway.vb"
+﻿#Region "Microsoft.VisualBasic::c365e29e30b0f0d506a71c24cd42ef79, GCModeller\data\MicrobesOnline\MySQL\glamm\pathway.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 61
+    '    Code Lines: 35
+    ' Comment Lines: 19
+    '   Blank Lines: 7
+    '     File Size: 2.53 KB
+
 
     ' Class pathway
     ' 

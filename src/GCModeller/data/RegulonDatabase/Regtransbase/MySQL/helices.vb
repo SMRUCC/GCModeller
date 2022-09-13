@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3681dcca0720c4be6bfa783f4e8005e9, data\RegulonDatabase\Regtransbase\MySQL\helices.vb"
+﻿#Region "Microsoft.VisualBasic::3681dcca0720c4be6bfa783f4e8005e9, GCModeller\data\RegulonDatabase\Regtransbase\MySQL\helices.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 199
+    '    Code Lines: 103
+    ' Comment Lines: 74
+    '   Blank Lines: 22
+    '     File Size: 11.79 KB
+
 
     ' Class helices
     ' 

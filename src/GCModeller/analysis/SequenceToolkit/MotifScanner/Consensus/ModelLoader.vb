@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::84a109f1d08c6fa9439d9c1f60556d7d, analysis\SequenceToolkit\MotifScanner\Consensus\ModelLoader.vb"
+﻿#Region "Microsoft.VisualBasic::84a109f1d08c6fa9439d9c1f60556d7d, GCModeller\analysis\SequenceToolkit\MotifScanner\Consensus\ModelLoader.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 69
+    '    Code Lines: 47
+    ' Comment Lines: 11
+    '   Blank Lines: 11
+    '     File Size: 2.69 KB
+
 
     ' Module ModelLoader
     ' 

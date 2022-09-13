@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4bde54542bae325f5a7dc5cf6423b53d, data\MicrobesOnline\MySQL\glamm\glammmapconn.vb"
+﻿#Region "Microsoft.VisualBasic::4bde54542bae325f5a7dc5cf6423b53d, GCModeller\data\MicrobesOnline\MySQL\glamm\glammmapconn.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 77
+    '    Code Lines: 43
+    ' Comment Lines: 27
+    '   Blank Lines: 7
+    '     File Size: 4.72 KB
+
 
     ' Class glammmapconn
     ' 

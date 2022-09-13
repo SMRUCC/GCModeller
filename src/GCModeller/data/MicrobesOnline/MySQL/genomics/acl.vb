@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cf64d48c9924ca094597635156cdee57, data\MicrobesOnline\MySQL\genomics\acl.vb"
+﻿#Region "Microsoft.VisualBasic::cf64d48c9924ca094597635156cdee57, GCModeller\data\MicrobesOnline\MySQL\genomics\acl.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 70
+    '    Code Lines: 39
+    ' Comment Lines: 24
+    '   Blank Lines: 7
+    '     File Size: 3.88 KB
+
 
     ' Class acl
     ' 

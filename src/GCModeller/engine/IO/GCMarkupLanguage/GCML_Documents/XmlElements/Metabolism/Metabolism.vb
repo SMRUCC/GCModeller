@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bafea2b5ce81c52f98e09ea1c65fc2ba, engine\IO\GCMarkupLanguage\GCML_Documents\XmlElements\Metabolism\Metabolism.vb"
+﻿#Region "Microsoft.VisualBasic::bafea2b5ce81c52f98e09ea1c65fc2ba, GCModeller\engine\IO\GCMarkupLanguage\GCML_Documents\XmlElements\Metabolism\Metabolism.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 62
+    '    Code Lines: 29
+    ' Comment Lines: 28
+    '   Blank Lines: 5
+    '     File Size: 2.62 KB
+
 
     '     Class Metabolism
     ' 

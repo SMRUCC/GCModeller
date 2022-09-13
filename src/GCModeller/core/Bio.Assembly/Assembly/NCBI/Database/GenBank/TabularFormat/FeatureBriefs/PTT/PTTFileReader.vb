@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c6175dda54a4ebee1b2b302b2208fa53, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\PTT\PTTFileReader.vb"
+﻿#Region "Microsoft.VisualBasic::c6175dda54a4ebee1b2b302b2208fa53, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\PTT\PTTFileReader.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 33
+    '    Code Lines: 24
+    ' Comment Lines: 4
+    '   Blank Lines: 5
+    '     File Size: 1.38 KB
+
 
     '     Module PTTFileReader
     ' 

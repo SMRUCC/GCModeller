@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dd56ac80004b6bcf1b3fe4df3561f591, data\RegulonDatabase\RegulonDB\MySQL\alignment.vb"
+﻿#Region "Microsoft.VisualBasic::dd56ac80004b6bcf1b3fe4df3561f591, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\alignment.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 155
+    '    Code Lines: 77
+    ' Comment Lines: 56
+    '   Blank Lines: 22
+    '     File Size: 6.84 KB
+
 
     ' Class alignment
     ' 

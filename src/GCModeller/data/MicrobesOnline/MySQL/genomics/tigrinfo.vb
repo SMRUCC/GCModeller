@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0d0f2f361f21bf1b6038e04dfd9fdb5f, data\MicrobesOnline\MySQL\genomics\tigrinfo.vb"
+﻿#Region "Microsoft.VisualBasic::0d0f2f361f21bf1b6038e04dfd9fdb5f, GCModeller\data\MicrobesOnline\MySQL\genomics\tigrinfo.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 72
+    '    Code Lines: 39
+    ' Comment Lines: 26
+    '   Blank Lines: 7
+    '     File Size: 3.48 KB
+
 
     ' Class tigrinfo
     ' 

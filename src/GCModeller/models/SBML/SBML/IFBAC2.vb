@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3ef5abd66f3d4eef25e4917aa64f15ac, models\SBML\SBML\IFBAC2.vb"
+﻿#Region "Microsoft.VisualBasic::3ef5abd66f3d4eef25e4917aa64f15ac, GCModeller\models\SBML\SBML\IFBAC2.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 64
+    '    Code Lines: 25
+    ' Comment Lines: 27
+    '   Blank Lines: 12
+    '     File Size: 2.38 KB
+
 
     '     Class IFBA
     ' 

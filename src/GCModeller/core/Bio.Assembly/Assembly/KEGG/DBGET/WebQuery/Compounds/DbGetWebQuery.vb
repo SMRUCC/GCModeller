@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3a3e1235896c93fef2bd3e565b106f4f, core\Bio.Assembly\Assembly\KEGG\DBGET\WebQuery\Compounds\DbGetWebQuery.vb"
+﻿#Region "Microsoft.VisualBasic::3a3e1235896c93fef2bd3e565b106f4f, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\WebQuery\Compounds\DbGetWebQuery.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 57
+    '    Code Lines: 48
+    ' Comment Lines: 0
+    '   Blank Lines: 9
+    '     File Size: 2.07 KB
+
 
     '     Class DbGetWebQuery
     ' 

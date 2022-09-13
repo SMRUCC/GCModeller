@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8a1222aab5422a7289fd90730da9eb69, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\ReferenceMap\ReferenceMap.vb"
+﻿#Region "Microsoft.VisualBasic::8a1222aab5422a7289fd90730da9eb69, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\ReferenceMap\ReferenceMap.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 209
+    '    Code Lines: 157
+    ' Comment Lines: 26
+    '   Blank Lines: 26
+    '     File Size: 10.27 KB
+
 
     '     Class ReferenceMapData
     ' 

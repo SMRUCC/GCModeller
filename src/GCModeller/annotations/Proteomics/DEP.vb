@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::72b04d54da84619a13ba75b7e2adad09, annotations\Proteomics\DEP.vb"
+﻿#Region "Microsoft.VisualBasic::72b04d54da84619a13ba75b7e2adad09, GCModeller\annotations\Proteomics\DEP.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 25
+    '    Code Lines: 16
+    ' Comment Lines: 5
+    '   Blank Lines: 4
+    '     File Size: 956 B
+
 
     ' Class DEP_iTraq
     ' 

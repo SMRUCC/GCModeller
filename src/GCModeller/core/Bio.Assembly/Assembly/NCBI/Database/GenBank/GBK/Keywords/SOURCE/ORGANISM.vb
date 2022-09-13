@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6925ed82c448f709c0afd4528f3c8d6a, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\SOURCE\ORGANISM.vb"
+﻿#Region "Microsoft.VisualBasic::6925ed82c448f709c0afd4528f3c8d6a, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\SOURCE\ORGANISM.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 43
+    '    Code Lines: 34
+    ' Comment Lines: 0
+    '   Blank Lines: 9
+    '     File Size: 1.48 KB
+
 
     '     Class ORGANISM
     ' 

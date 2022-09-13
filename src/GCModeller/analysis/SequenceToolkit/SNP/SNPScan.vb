@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8ea33bf929125baaf1bff094f84f1542, analysis\SequenceToolkit\SNP\SNPScan.vb"
+﻿#Region "Microsoft.VisualBasic::8ea33bf929125baaf1bff094f84f1542, GCModeller\analysis\SequenceToolkit\SNP\SNPScan.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 108
+    '    Code Lines: 61
+    ' Comment Lines: 35
+    '   Blank Lines: 12
+    '     File Size: 5.01 KB
+
 
     ' Module SNPScan
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::40f2f721e20d52c31c0cbd541c59325b, data\MicrobesOnline\MySQL\genomics\locus2ipr.vb"
+﻿#Region "Microsoft.VisualBasic::40f2f721e20d52c31c0cbd541c59325b, GCModeller\data\MicrobesOnline\MySQL\genomics\locus2ipr.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 64
+    '    Code Lines: 35
+    ' Comment Lines: 22
+    '   Blank Lines: 7
+    '     File Size: 2.80 KB
+
 
     ' Class locus2ipr
     ' 

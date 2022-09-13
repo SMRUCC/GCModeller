@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f08d1c22b13ef7f92a88421b5fb48c8e, core\Bio.Assembly\ComponentModel\DBLinkBuilder\IdMapping\Document.vb"
+﻿#Region "Microsoft.VisualBasic::f08d1c22b13ef7f92a88421b5fb48c8e, GCModeller\core\Bio.Assembly\ComponentModel\DBLinkBuilder\IdMapping\Document.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 36
+    '    Code Lines: 31
+    ' Comment Lines: 0
+    '   Blank Lines: 5
+    '     File Size: 1.41 KB
+
 
     '     Module Document
     ' 

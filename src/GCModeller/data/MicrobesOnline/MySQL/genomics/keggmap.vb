@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::62c266c927db8f97038185a81412044e, data\MicrobesOnline\MySQL\genomics\keggmap.vb"
+﻿#Region "Microsoft.VisualBasic::62c266c927db8f97038185a81412044e, GCModeller\data\MicrobesOnline\MySQL\genomics\keggmap.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 59
+    '    Code Lines: 34
+    ' Comment Lines: 18
+    '   Blank Lines: 7
+    '     File Size: 2.35 KB
+
 
     ' Class keggmap
     ' 

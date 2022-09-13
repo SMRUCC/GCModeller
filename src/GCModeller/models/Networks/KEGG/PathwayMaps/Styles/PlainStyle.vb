@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b74db9c9ee187f09395966d4263df409, models\Networks\KEGG\PathwayMaps\Styles\PlainStyle.vb"
+﻿#Region "Microsoft.VisualBasic::b74db9c9ee187f09395966d4263df409, GCModeller\models\Networks\KEGG\PathwayMaps\Styles\PlainStyle.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 90
+    '    Code Lines: 71
+    ' Comment Lines: 3
+    '   Blank Lines: 16
+    '     File Size: 3.50 KB
+
 
     '     Class PlainStyle
     ' 

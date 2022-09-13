@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::558d993d8b0792c603f066713464b310, data\RegulonDatabase\RegulonDB\MySQL\method.vb"
+﻿#Region "Microsoft.VisualBasic::558d993d8b0792c603f066713464b310, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\method.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 164
+    '    Code Lines: 83
+    ' Comment Lines: 59
+    '   Blank Lines: 22
+    '     File Size: 8.42 KB
+
 
     ' Class method
     ' 

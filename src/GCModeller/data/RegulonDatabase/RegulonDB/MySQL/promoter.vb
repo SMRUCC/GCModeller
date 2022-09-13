@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9220856cfa9c332203b95589444fb740, data\RegulonDatabase\RegulonDB\MySQL\promoter.vb"
+﻿#Region "Microsoft.VisualBasic::9220856cfa9c332203b95589444fb740, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\promoter.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 182
+    '    Code Lines: 95
+    ' Comment Lines: 65
+    '   Blank Lines: 22
+    '     File Size: 12.20 KB
+
 
     ' Class promoter
     ' 

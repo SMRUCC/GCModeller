@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0710a1558d5f01a1e19ef81192974b05, core\Bio.Assembly\Assembly\NCBI\Taxonomy\Accession2Taxid.vb"
+﻿#Region "Microsoft.VisualBasic::0710a1558d5f01a1e19ef81192974b05, GCModeller\core\Bio.Assembly\Assembly\NCBI\Taxonomy\Accession2Taxid.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 140
+    '    Code Lines: 82
+    ' Comment Lines: 36
+    '   Blank Lines: 22
+    '     File Size: 5.64 KB
+
 
     '     Module Accession2Taxid
     ' 

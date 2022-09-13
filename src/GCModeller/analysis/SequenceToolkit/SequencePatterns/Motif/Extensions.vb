@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a24073beccc1a06175b6e606d1311251, analysis\SequenceToolkit\SequencePatterns\Motif\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::a24073beccc1a06175b6e606d1311251, GCModeller\analysis\SequenceToolkit\SequencePatterns\Motif\Extensions.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 3
+    '    Code Lines: 2
+    ' Comment Lines: 0
+    '   Blank Lines: 1
+    '     File Size: 31 B
+
 
     ' Module Extensions
     ' 

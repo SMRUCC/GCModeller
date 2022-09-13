@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c3935d9e83c574d10cade65a657605d5, engine\Model\Cellular\Molecule\TranscriptsUnit.vb"
+﻿#Region "Microsoft.VisualBasic::c3935d9e83c574d10cade65a657605d5, GCModeller\engine\Model\Cellular\Molecule\TranscriptsUnit.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 29
+    '    Code Lines: 8
+    ' Comment Lines: 16
+    '   Blank Lines: 5
+    '     File Size: 933 B
+
 
     '     Class TranscriptsUnit
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::13b2e044f1db9b0357dc1caa4cd7d97f, engine\IO\GCMarkupLanguage\v2\Assembly\ZipWriter.vb"
+﻿#Region "Microsoft.VisualBasic::13b2e044f1db9b0357dc1caa4cd7d97f, GCModeller\engine\IO\GCMarkupLanguage\v2\Assembly\ZipWriter.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 41
+    '    Code Lines: 31
+    ' Comment Lines: 0
+    '   Blank Lines: 10
+    '     File Size: 2.32 KB
+
 
     '     Module ZipWriter
     ' 

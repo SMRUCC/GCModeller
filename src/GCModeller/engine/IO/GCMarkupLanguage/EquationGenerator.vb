@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b1126535e323b1ebed6d9108498e15bb, engine\IO\GCMarkupLanguage\EquationGenerator.vb"
+﻿#Region "Microsoft.VisualBasic::b1126535e323b1ebed6d9108498e15bb, GCModeller\engine\IO\GCMarkupLanguage\EquationGenerator.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 110
+    '    Code Lines: 90
+    ' Comment Lines: 0
+    '   Blank Lines: 20
+    '     File Size: 4.31 KB
+
 
     ' Class EquationGenerator
     ' 

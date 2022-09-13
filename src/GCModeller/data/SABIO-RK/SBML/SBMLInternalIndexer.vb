@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ee489a3f1a23e3da1a84218ab467d3e3, data\SABIO-RK\SBML\SBMLInternalIndexer.vb"
+﻿#Region "Microsoft.VisualBasic::ee489a3f1a23e3da1a84218ab467d3e3, GCModeller\data\SABIO-RK\SBML\SBMLInternalIndexer.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 92
+    '    Code Lines: 71
+    ' Comment Lines: 5
+    '   Blank Lines: 16
+    '     File Size: 3.79 KB
+
 
     '     Class SBMLInternalIndexer
     ' 

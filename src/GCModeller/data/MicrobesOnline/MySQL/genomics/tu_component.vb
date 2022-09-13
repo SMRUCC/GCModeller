@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::79484f31afd39068e8fe6f8de9779737, data\MicrobesOnline\MySQL\genomics\tu_component.vb"
+﻿#Region "Microsoft.VisualBasic::79484f31afd39068e8fe6f8de9779737, GCModeller\data\MicrobesOnline\MySQL\genomics\tu_component.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 62
+    '    Code Lines: 35
+    ' Comment Lines: 20
+    '   Blank Lines: 7
+    '     File Size: 2.58 KB
+
 
     ' Class tu_component
     ' 

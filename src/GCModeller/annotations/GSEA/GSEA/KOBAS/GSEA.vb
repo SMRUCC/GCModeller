@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5342c8ff3bbeda95ec899e57a76f92e6, annotations\GSEA\GSEA\KOBAS\GSEA.vb"
+﻿#Region "Microsoft.VisualBasic::5342c8ff3bbeda95ec899e57a76f92e6, GCModeller\annotations\GSEA\GSEA\KOBAS\GSEA.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 328
+    '    Code Lines: 236
+    ' Comment Lines: 44
+    '   Blank Lines: 48
+    '     File Size: 16.02 KB
+
 
     '     Module KOBAS_GSEA
     ' 

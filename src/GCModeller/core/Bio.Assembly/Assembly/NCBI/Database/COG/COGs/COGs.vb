@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b7d2f1ec1d474bcc551045b6abe0cfca, core\Bio.Assembly\Assembly\NCBI\Database\COG\COGs\COGs.vb"
+﻿#Region "Microsoft.VisualBasic::b7d2f1ec1d474bcc551045b6abe0cfca, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\COG\COGs\COGs.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 113
+    '    Code Lines: 37
+    ' Comment Lines: 67
+    '   Blank Lines: 9
+    '     File Size: 4.71 KB
+
 
     '     Module COGs
     ' 

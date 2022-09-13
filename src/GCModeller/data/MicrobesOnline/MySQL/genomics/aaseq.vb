@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cbbaaf23ab630916dcfc14b0b431dbb2, data\MicrobesOnline\MySQL\genomics\aaseq.vb"
+﻿#Region "Microsoft.VisualBasic::cbbaaf23ab630916dcfc14b0b431dbb2, GCModeller\data\MicrobesOnline\MySQL\genomics\aaseq.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 61
+    '    Code Lines: 35
+    ' Comment Lines: 19
+    '   Blank Lines: 7
+    '     File Size: 2.66 KB
+
 
     ' Class aaseq
     ' 

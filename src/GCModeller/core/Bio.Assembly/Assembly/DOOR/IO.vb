@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e61df22310d9cd324848208aab086e17, core\Bio.Assembly\Assembly\DOOR\IO.vb"
+﻿#Region "Microsoft.VisualBasic::e61df22310d9cd324848208aab086e17, GCModeller\core\Bio.Assembly\Assembly\DOOR\IO.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 75
+    '    Code Lines: 55
+    ' Comment Lines: 12
+    '   Blank Lines: 8
+    '     File Size: 2.57 KB
+
 
     '     Module DOOR_IO
     ' 

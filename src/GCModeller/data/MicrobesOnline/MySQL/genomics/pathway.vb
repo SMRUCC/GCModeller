@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::87036d0aee05c5b9c20c338532741413, data\MicrobesOnline\MySQL\genomics\pathway.vb"
+﻿#Region "Microsoft.VisualBasic::87036d0aee05c5b9c20c338532741413, GCModeller\data\MicrobesOnline\MySQL\genomics\pathway.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 59
+    '    Code Lines: 34
+    ' Comment Lines: 18
+    '   Blank Lines: 7
+    '     File Size: 2.37 KB
+
 
     ' Class pathway
     ' 

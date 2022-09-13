@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::119d8f1bd488f21c3c19785e13f0bc85, data\MicrobesOnline\MySQL\genomics\vimss.vb"
+﻿#Region "Microsoft.VisualBasic::119d8f1bd488f21c3c19785e13f0bc85, GCModeller\data\MicrobesOnline\MySQL\genomics\vimss.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 69
+    '    Code Lines: 34
+    ' Comment Lines: 28
+    '   Blank Lines: 7
+    '     File Size: 2.89 KB
+
 
     ' Class vimss
     ' 

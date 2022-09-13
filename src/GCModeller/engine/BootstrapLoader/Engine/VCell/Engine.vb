@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ac6dda8e7ccf90d096df9e7b6bf30f5f, engine\BootstrapLoader\Engine\VCell\Engine.vb"
+﻿#Region "Microsoft.VisualBasic::fe60a6fc9eda3fc0b14e0b5f0354a1a5, GCModeller\engine\BootstrapLoader\Engine\VCell\Engine.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 113
+    '    Code Lines: 70
+    ' Comment Lines: 22
+    '   Blank Lines: 21
+    '     File Size: 4.22 KB
+
 
     '     Class Engine
     ' 

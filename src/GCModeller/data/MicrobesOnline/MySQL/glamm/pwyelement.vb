@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0a9fad7e0527f39f68499d1d39cae900, data\MicrobesOnline\MySQL\glamm\pwyelement.vb"
+﻿#Region "Microsoft.VisualBasic::0a9fad7e0527f39f68499d1d39cae900, GCModeller\data\MicrobesOnline\MySQL\glamm\pwyelement.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 73
+    '    Code Lines: 36
+    ' Comment Lines: 30
+    '   Blank Lines: 7
+    '     File Size: 3.37 KB
+
 
     ' Class pwyelement
     ' 

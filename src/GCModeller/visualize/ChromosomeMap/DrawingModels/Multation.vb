@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4e611eaa947f1c8061fa447087455b55, visualize\ChromosomeMap\DrawingModels\Multation.vb"
+﻿#Region "Microsoft.VisualBasic::4e611eaa947f1c8061fa447087455b55, GCModeller\visualize\ChromosomeMap\DrawingModels\Multation.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 104
+    '    Code Lines: 60
+    ' Comment Lines: 29
+    '   Blank Lines: 15
+    '     File Size: 4.04 KB
+
 
     '     Enum MutationTypes
     ' 

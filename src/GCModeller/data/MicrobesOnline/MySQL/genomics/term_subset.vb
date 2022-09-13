@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::84b97aa6cec1ea065aa43a6f150e7ea7, data\MicrobesOnline\MySQL\genomics\term_subset.vb"
+﻿#Region "Microsoft.VisualBasic::84b97aa6cec1ea065aa43a6f150e7ea7, GCModeller\data\MicrobesOnline\MySQL\genomics\term_subset.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 61
+    '    Code Lines: 34
+    ' Comment Lines: 20
+    '   Blank Lines: 7
+    '     File Size: 2.50 KB
+
 
     ' Class term_subset
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::acc435d8da0866f21d1af4d0d232bdaa, core\Bio.Assembly\SequenceModel\Patterns\IPatterns.vb"
+﻿#Region "Microsoft.VisualBasic::acc435d8da0866f21d1af4d0d232bdaa, GCModeller\core\Bio.Assembly\SequenceModel\Patterns\IPatterns.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 113
+    '    Code Lines: 78
+    ' Comment Lines: 13
+    '   Blank Lines: 22
+    '     File Size: 4.16 KB
+
 
     '     Interface IPatternProvider
     ' 

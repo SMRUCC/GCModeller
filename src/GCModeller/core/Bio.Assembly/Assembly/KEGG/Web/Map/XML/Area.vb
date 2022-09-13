@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4dc3d972c9f572ae835f8b45e7b9a541, core\Bio.Assembly\Assembly\KEGG\Web\Map\XML\Area.vb"
+﻿#Region "Microsoft.VisualBasic::4dc3d972c9f572ae835f8b45e7b9a541, GCModeller\core\Bio.Assembly\Assembly\KEGG\Web\Map\XML\Area.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 160
+    '    Code Lines: 121
+    ' Comment Lines: 23
+    '   Blank Lines: 16
+    '     File Size: 6.45 KB
+
 
     '     Class Area
     ' 

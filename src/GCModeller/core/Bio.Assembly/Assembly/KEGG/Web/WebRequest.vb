@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::97837eb575a987400f60d54726fa5dac, core\Bio.Assembly\Assembly\KEGG\Web\WebRequest.vb"
+﻿#Region "Microsoft.VisualBasic::97837eb575a987400f60d54726fa5dac, GCModeller\core\Bio.Assembly\Assembly\KEGG\Web\WebRequest.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 372
+    '    Code Lines: 210
+    ' Comment Lines: 112
+    '   Blank Lines: 50
+    '     File Size: 16.18 KB
+
 
     '     Module WebRequest
     ' 

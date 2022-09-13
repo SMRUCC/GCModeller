@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f1db96a02ca06c96cd2e9e7bd4eff930, core\Bio.Assembly\Assembly\MetaCyc\File\Tabular DataFiles\TabularFile.vb"
+﻿#Region "Microsoft.VisualBasic::f1db96a02ca06c96cd2e9e7bd4eff930, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\Tabular DataFiles\TabularFile.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 77
+    '    Code Lines: 50
+    ' Comment Lines: 14
+    '   Blank Lines: 13
+    '     File Size: 2.84 KB
+
 
     '     Class TabularFile
     ' 

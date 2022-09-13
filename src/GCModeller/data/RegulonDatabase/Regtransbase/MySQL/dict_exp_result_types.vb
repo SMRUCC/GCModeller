@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::22c358549a2ab05c25858b6613f08c4e, data\RegulonDatabase\Regtransbase\MySQL\dict_exp_result_types.vb"
+﻿#Region "Microsoft.VisualBasic::22c358549a2ab05c25858b6613f08c4e, GCModeller\data\RegulonDatabase\Regtransbase\MySQL\dict_exp_result_types.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 151
+    '    Code Lines: 74
+    ' Comment Lines: 55
+    '   Blank Lines: 22
+    '     File Size: 5.63 KB
+
 
     ' Class dict_exp_result_types
     ' 

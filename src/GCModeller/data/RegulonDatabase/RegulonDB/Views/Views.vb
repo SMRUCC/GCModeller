@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::91cc972005dca87f01a630c3574e82f0, data\RegulonDatabase\RegulonDB\Views\Views.vb"
+﻿#Region "Microsoft.VisualBasic::91cc972005dca87f01a630c3574e82f0, GCModeller\data\RegulonDatabase\RegulonDB\Views\Views.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 283
+    '    Code Lines: 101
+    ' Comment Lines: 170
+    '   Blank Lines: 12
+    '     File Size: 14.00 KB
+
 
     '     Class Index
     ' 

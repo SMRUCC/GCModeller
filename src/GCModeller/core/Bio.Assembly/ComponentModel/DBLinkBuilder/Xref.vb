@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::46eb5cee02005dedd6b5318273722cae, core\Bio.Assembly\ComponentModel\DBLinkBuilder\Xref.vb"
+﻿#Region "Microsoft.VisualBasic::3024ca76ea977bc51ca42978ab1f9612, GCModeller\core\Bio.Assembly\ComponentModel\DBLinkBuilder\Xref.vb"
 
     ' Author:
     ' 
@@ -31,10 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 58
+    '    Code Lines: 48
+    ' Comment Lines: 0
+    '   Blank Lines: 10
+    '     File Size: 2.39 KB
+
+
     '     Class XrefAttribute
     ' 
     '         Properties: Name
     ' 
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: CreateDictionary, GetProperties, ToString
     ' 
     ' 

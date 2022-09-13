@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::65ec168bd7f45b164fcce87c2073f656, engine\Compiler\MarkupCompiler\v2MarkupCompiler.vb"
+﻿#Region "Microsoft.VisualBasic::ab4588f1d5a45c582494715a40130abc, GCModeller\engine\Compiler\MarkupCompiler\KEGG\v2KEGGCompiler.vb"
 
     ' Author:
     ' 
@@ -31,7 +31,17 @@
 
     ' Summaries:
 
-    '     Class v2MarkupCompiler
+
+    ' Code Statistics:
+
+    '   Total Lines: 131
+    '    Code Lines: 103
+    ' Comment Lines: 13
+    '   Blank Lines: 15
+    '     File Size: 5.56 KB
+
+
+    '     Class v2KEGGCompiler
     ' 
     '         Constructor: (+1 Overloads) Sub New
     '         Function: CompileImpl, PreCompile

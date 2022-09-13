@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cf9a3ebb6fddf834acce352cd39b7a3b, data\MicrobesOnline\MySQL\genomics\taxonomy2tree.vb"
+﻿#Region "Microsoft.VisualBasic::cf9a3ebb6fddf834acce352cd39b7a3b, GCModeller\data\MicrobesOnline\MySQL\genomics\taxonomy2tree.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 60
+    '    Code Lines: 34
+    ' Comment Lines: 19
+    '   Blank Lines: 7
+    '     File Size: 2.49 KB
+
 
     ' Class taxonomy2tree
     ' 

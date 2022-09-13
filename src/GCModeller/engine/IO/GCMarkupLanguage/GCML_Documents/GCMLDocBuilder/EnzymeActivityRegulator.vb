@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::eb9509b0dcb1e8f8c81ff2aa45d581d4, engine\IO\GCMarkupLanguage\GCML_Documents\GCMLDocBuilder\EnzymeActivityRegulator.vb"
+﻿#Region "Microsoft.VisualBasic::eb9509b0dcb1e8f8c81ff2aa45d581d4, GCModeller\engine\IO\GCMarkupLanguage\GCML_Documents\GCMLDocBuilder\EnzymeActivityRegulator.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 17
+    '    Code Lines: 13
+    ' Comment Lines: 0
+    '   Blank Lines: 4
+    '     File Size: 565 B
+
 
     '     Class EnzymeActivityRegulator
     ' 

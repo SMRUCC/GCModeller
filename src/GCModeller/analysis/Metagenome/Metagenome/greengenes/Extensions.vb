@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c03953991bec22f1e15c34b21aac59e1, analysis\Metagenome\Metagenome\greengenes\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::f2563ef4af65b7aabf513cdf04fa67ee, GCModeller\analysis\Metagenome\Metagenome\greengenes\Extensions.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 148
+    '    Code Lines: 101
+    ' Comment Lines: 33
+    '   Blank Lines: 14
+    '     File Size: 6.33 KB
+
 
     '     Module Extensions
     ' 

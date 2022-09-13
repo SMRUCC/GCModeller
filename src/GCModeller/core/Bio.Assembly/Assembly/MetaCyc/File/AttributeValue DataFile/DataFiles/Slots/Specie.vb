@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::91782d04573526314f1ad1a00215a00f, core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Slots\Specie.vb"
+﻿#Region "Microsoft.VisualBasic::91782d04573526314f1ad1a00215a00f, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Slots\Specie.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 95
+    '    Code Lines: 49
+    ' Comment Lines: 30
+    '   Blank Lines: 16
+    '     File Size: 6.40 KB
+
 
     '     Class Specie
     ' 

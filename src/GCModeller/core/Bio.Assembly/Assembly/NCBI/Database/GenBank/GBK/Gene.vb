@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bfb5632df1c81dd2fb526bb4176ebe52, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Gene.vb"
+﻿#Region "Microsoft.VisualBasic::bfb5632df1c81dd2fb526bb4176ebe52, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Gene.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 68
+    '    Code Lines: 57
+    ' Comment Lines: 0
+    '   Blank Lines: 11
+    '     File Size: 2.60 KB
+
 
     '     Class GeneObject
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7ed73bc971c392b4ce5dd74345083434, data\MicrobesOnline\MySQL\genomics\pdbentries.vb"
+﻿#Region "Microsoft.VisualBasic::7ed73bc971c392b4ce5dd74345083434, GCModeller\data\MicrobesOnline\MySQL\genomics\pdbentries.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 74
+    '    Code Lines: 41
+    ' Comment Lines: 26
+    '   Blank Lines: 7
+    '     File Size: 4.08 KB
+
 
     ' Class pdbentries
     ' 

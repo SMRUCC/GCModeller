@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::acd080ffebf06323748d3200274ab403, data\RegulonDatabase\RegulonDB\MySQL\external_db.vb"
+﻿#Region "Microsoft.VisualBasic::acd080ffebf06323748d3200274ab403, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\external_db.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 161
+    '    Code Lines: 81
+    ' Comment Lines: 58
+    '   Blank Lines: 22
+    '     File Size: 8.18 KB
+
 
     ' Class external_db
     ' 

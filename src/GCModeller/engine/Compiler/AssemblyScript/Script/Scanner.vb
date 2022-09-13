@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::eb290f08a716481eb8628061d68679bc, engine\Compiler\AssemblyScript\Script\Scanner.vb"
+﻿#Region "Microsoft.VisualBasic::eb290f08a716481eb8628061d68679bc, GCModeller\engine\Compiler\AssemblyScript\Script\Scanner.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 117
+    '    Code Lines: 95
+    ' Comment Lines: 4
+    '   Blank Lines: 18
+    '     File Size: 4.00 KB
+
 
     '     Class Scanner
     ' 

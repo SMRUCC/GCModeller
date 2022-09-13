@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3ff68fbc12a63473e8f8c924f4802c8d, data\MicrobesOnline\MySQL\BioCyc\class.vb"
+﻿#Region "Microsoft.VisualBasic::3ff68fbc12a63473e8f8c924f4802c8d, GCModeller\data\MicrobesOnline\MySQL\BioCyc\class.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 59
+    '    Code Lines: 34
+    ' Comment Lines: 18
+    '   Blank Lines: 7
+    '     File Size: 2.35 KB
+
 
     ' Class [class]
     ' 

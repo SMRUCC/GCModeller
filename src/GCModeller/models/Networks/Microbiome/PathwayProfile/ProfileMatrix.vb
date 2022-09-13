@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bb340459886a2e4c644a26e097a07098, models\Networks\Microbiome\PathwayProfile\ProfileMatrix.vb"
+﻿#Region "Microsoft.VisualBasic::bb340459886a2e4c644a26e097a07098, GCModeller\models\Networks\Microbiome\PathwayProfile\ProfileMatrix.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 131
+    '    Code Lines: 80
+    ' Comment Lines: 34
+    '   Blank Lines: 17
+    '     File Size: 5.72 KB
+
 
     '     Module ProfileMatrix
     ' 

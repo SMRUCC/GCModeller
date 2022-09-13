@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::89326d0dcb6557d4718f82f9d4664da2, core\Bio.Assembly\Assembly\KEGG\Web\Form\WebForm.vb"
+﻿#Region "Microsoft.VisualBasic::89326d0dcb6557d4718f82f9d4664da2, GCModeller\core\Bio.Assembly\Assembly\KEGG\Web\Form\WebForm.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 314
+    '    Code Lines: 223
+    ' Comment Lines: 40
+    '   Blank Lines: 51
+    '     File Size: 12.61 KB
+
 
     '     Class WebForm
     ' 

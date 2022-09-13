@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::eae0279439a90d3e3745e7bf8ba7af3b, data\MicrobesOnline\MySQL\genomics\groupusers.vb"
+﻿#Region "Microsoft.VisualBasic::eae0279439a90d3e3745e7bf8ba7af3b, GCModeller\data\MicrobesOnline\MySQL\genomics\groupusers.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 64
+    '    Code Lines: 36
+    ' Comment Lines: 21
+    '   Blank Lines: 7
+    '     File Size: 2.90 KB
+
 
     ' Class groupusers
     ' 

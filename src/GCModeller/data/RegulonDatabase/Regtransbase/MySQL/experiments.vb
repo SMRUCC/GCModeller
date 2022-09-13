@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4b83f30b225a1bcd1c4b68e3089c3ba6, data\RegulonDatabase\Regtransbase\MySQL\experiments.vb"
+﻿#Region "Microsoft.VisualBasic::4b83f30b225a1bcd1c4b68e3089c3ba6, GCModeller\data\RegulonDatabase\Regtransbase\MySQL\experiments.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 168
+    '    Code Lines: 84
+    ' Comment Lines: 62
+    '   Blank Lines: 22
+    '     File Size: 7.65 KB
+
 
     ' Class experiments
     ' 

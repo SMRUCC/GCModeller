@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5b556747c4077cea98720e43d0160457, core\Bio.Assembly\Assembly\MiST2\DocArchive\MiST2.vb"
+﻿#Region "Microsoft.VisualBasic::5b556747c4077cea98720e43d0160457, GCModeller\core\Bio.Assembly\Assembly\MiST2\DocArchive\MiST2.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 135
+    '    Code Lines: 105
+    ' Comment Lines: 9
+    '   Blank Lines: 21
+    '     File Size: 6.33 KB
+
 
     '     Class MiST2
     ' 

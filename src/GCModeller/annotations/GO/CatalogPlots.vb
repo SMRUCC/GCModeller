@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::38e4da842964962ec773d2ee03ac539c, annotations\GO\CatalogPlots.vb"
+﻿#Region "Microsoft.VisualBasic::38e4da842964962ec773d2ee03ac539c, GCModeller\annotations\GO\CatalogPlots.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 396
+    '    Code Lines: 304
+    ' Comment Lines: 43
+    '   Blank Lines: 49
+    '     File Size: 17.39 KB
+
 
     ' Module CatalogPlots
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1670dc54600ce13a8770adb3dab31012, analysis\Metagenome\Metagenome\MeganImports.vb"
+﻿#Region "Microsoft.VisualBasic::1670dc54600ce13a8770adb3dab31012, GCModeller\analysis\Metagenome\Metagenome\MeganImports.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 67
+    '    Code Lines: 44
+    ' Comment Lines: 10
+    '   Blank Lines: 13
+    '     File Size: 2.28 KB
+
 
     ' Class MeganImports
     ' 

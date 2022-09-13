@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::03de0a176df6b6f58821d855dcf320f1, data\RegulonDatabase\Regprecise\WebServices\WebParser\Regulator\Regulator.vb"
+﻿#Region "Microsoft.VisualBasic::03de0a176df6b6f58821d855dcf320f1, GCModeller\data\RegulonDatabase\Regprecise\WebServices\WebParser\Regulator\Regulator.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 105
+    '    Code Lines: 66
+    ' Comment Lines: 25
+    '   Blank Lines: 14
+    '     File Size: 4.33 KB
+
 
     '     Class Regulator
     ' 

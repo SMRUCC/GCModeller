@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::17da84ad7c9fda70a1bdb502babf019a, data\GO_gene-ontology\GeneOntology\Files\Obo\File\Typedef.vb"
+﻿#Region "Microsoft.VisualBasic::17da84ad7c9fda70a1bdb502babf019a, GCModeller\data\GO_gene-ontology\GeneOntology\Files\Obo\File\Typedef.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 73
+    '    Code Lines: 33
+    ' Comment Lines: 36
+    '   Blank Lines: 4
+    '     File Size: 3.16 KB
+
 
     '     Class Typedef
     ' 

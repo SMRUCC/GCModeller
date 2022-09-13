@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::59806d17f8a8048b96e3f13aeb3d3dd9, data\RegulonDatabase\RegulonDB\MySQL\gu_reaction_link.vb"
+﻿#Region "Microsoft.VisualBasic::59806d17f8a8048b96e3f13aeb3d3dd9, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\gu_reaction_link.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 155
+    '    Code Lines: 77
+    ' Comment Lines: 56
+    '   Blank Lines: 22
+    '     File Size: 6.53 KB
+
 
     ' Class gu_reaction_link
     ' 

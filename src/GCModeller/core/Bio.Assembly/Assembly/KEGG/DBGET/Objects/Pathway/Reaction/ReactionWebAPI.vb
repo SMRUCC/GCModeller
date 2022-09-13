@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dda6e6723c0092f1bba4d3fef35d97a9, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Reaction\ReactionWebAPI.vb"
+﻿#Region "Microsoft.VisualBasic::dda6e6723c0092f1bba4d3fef35d97a9, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Reaction\ReactionWebAPI.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 149
+    '    Code Lines: 91
+    ' Comment Lines: 35
+    '   Blank Lines: 23
+    '     File Size: 5.89 KB
+
 
     '     Module ReactionWebAPI
     ' 

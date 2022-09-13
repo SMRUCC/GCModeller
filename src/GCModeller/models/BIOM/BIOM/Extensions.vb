@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::27b3e92ca38831ef4487b9569e8e1bd1, models\BIOM\BIOM\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::27b3e92ca38831ef4487b9569e8e1bd1, GCModeller\models\BIOM\BIOM\Extensions.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 58
+    '    Code Lines: 43
+    ' Comment Lines: 8
+    '   Blank Lines: 7
+    '     File Size: 2.13 KB
+
 
     ' Module Extensions
     ' 

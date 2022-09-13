@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::67633229b7a2d575c4925d8acfdfe8ae, core\Bio.Assembly\Assembly\MetaCyc\Schemas\DBLink.vb"
+﻿#Region "Microsoft.VisualBasic::67633229b7a2d575c4925d8acfdfe8ae, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\Schemas\DBLink.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 180
+    '    Code Lines: 120
+    ' Comment Lines: 30
+    '   Blank Lines: 30
+    '     File Size: 8.39 KB
+
 
     '     Class DBLinkManager
     ' 

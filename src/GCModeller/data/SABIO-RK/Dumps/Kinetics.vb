@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e30103ea4fd3aeac029420e62c3a51b6, data\SABIO-RK\Dumps\Kinetics.vb"
+﻿#Region "Microsoft.VisualBasic::e51b4f08bfecd7ad5dcf26f9a010204e, GCModeller\data\SABIO-RK\Dumps\Kinetics.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 151
+    '    Code Lines: 91
+    ' Comment Lines: 44
+    '   Blank Lines: 16
+    '     File Size: 7.24 KB
+
 
     '     Class EnzymeCatalystKineticLaw
     ' 

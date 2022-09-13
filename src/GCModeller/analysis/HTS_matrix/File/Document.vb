@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0743e2db27b2b6ae69cc67311c898d1d, analysis\HTS_matrix\Document.vb"
+﻿#Region "Microsoft.VisualBasic::533350564628cfe74dc5541246e95a3f, GCModeller\analysis\HTS_matrix\File\Document.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 69
+    '    Code Lines: 49
+    ' Comment Lines: 9
+    '   Blank Lines: 11
+    '     File Size: 2.41 KB
+
 
     ' Module Document
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e66c2dcf43f8111fb52ad5f929c8a908, data\RegulonDatabase\Regprecise\WebServices\WebParser\Motif\MotifWebAPI.vb"
+﻿#Region "Microsoft.VisualBasic::e66c2dcf43f8111fb52ad5f929c8a908, GCModeller\data\RegulonDatabase\Regprecise\WebServices\WebParser\Motif\MotifWebAPI.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 75
+    '    Code Lines: 61
+    ' Comment Lines: 0
+    '   Blank Lines: 14
+    '     File Size: 3.04 KB
+
 
     '     Module MotifWebAPI
     ' 

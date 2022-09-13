@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3144bbbf9c7886ccecbe5217f651bf9d, analysis\SequenceToolkit\DNA_Comparative\ToolsAPI\PartitioningData.vb"
+﻿#Region "Microsoft.VisualBasic::3144bbbf9c7886ccecbe5217f651bf9d, GCModeller\analysis\SequenceToolkit\DNA_Comparative\ToolsAPI\PartitioningData.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 77
+    '    Code Lines: 40
+    ' Comment Lines: 29
+    '   Blank Lines: 8
+    '     File Size: 2.43 KB
+
 
     ' Class PartitioningData
     ' 

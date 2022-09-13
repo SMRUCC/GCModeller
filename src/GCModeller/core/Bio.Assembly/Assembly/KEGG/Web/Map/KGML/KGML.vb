@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::af369249722a6d669c5157e5e80f51ea, core\Bio.Assembly\Assembly\KEGG\Web\Map\KGML\KGML.vb"
+﻿#Region "Microsoft.VisualBasic::af369249722a6d669c5157e5e80f51ea, GCModeller\core\Bio.Assembly\Assembly\KEGG\Web\Map\KGML\KGML.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 35
+    '    Code Lines: 24
+    ' Comment Lines: 5
+    '   Blank Lines: 6
+    '     File Size: 1.34 KB
+
 
     '     Class pathway
     ' 

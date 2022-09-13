@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::adf99b789e18b78119a04b1b038a2966, foundation\OBO_Foundry\Tree\Builder.vb"
+﻿#Region "Microsoft.VisualBasic::adf99b789e18b78119a04b1b038a2966, GCModeller\foundation\OBO_Foundry\Tree\Builder.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 119
+    '    Code Lines: 91
+    ' Comment Lines: 16
+    '   Blank Lines: 12
+    '     File Size: 4.89 KB
+
 
     '     Module Builder
     ' 

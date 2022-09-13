@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f1669e79eb6df459ac3e274cf1dbe9b8, data\MicrobesOnline\MySQL\BioCyc\rxnplayer.vb"
+﻿#Region "Microsoft.VisualBasic::f1669e79eb6df459ac3e274cf1dbe9b8, GCModeller\data\MicrobesOnline\MySQL\BioCyc\rxnplayer.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 63
+    '    Code Lines: 35
+    ' Comment Lines: 21
+    '   Blank Lines: 7
+    '     File Size: 2.87 KB
+
 
     ' Class rxnplayer
     ' 

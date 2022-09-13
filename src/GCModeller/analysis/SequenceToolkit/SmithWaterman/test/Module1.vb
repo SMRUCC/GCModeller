@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3783df3b00ba977412ea6bb65bfa9d8f, analysis\SequenceToolkit\SmithWaterman\test\Module1.vb"
+﻿#Region "Microsoft.VisualBasic::3783df3b00ba977412ea6bb65bfa9d8f, GCModeller\analysis\SequenceToolkit\SmithWaterman\test\Module1.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 14
+    '    Code Lines: 11
+    ' Comment Lines: 0
+    '   Blank Lines: 3
+    '     File Size: 430 B
+
 
     ' Module Module1
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::42777ae1be472d64657c52b0774cbbac, foundation\OBO_Foundry\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::42777ae1be472d64657c52b0774cbbac, GCModeller\foundation\OBO_Foundry\Extensions.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 14
+    '    Code Lines: 12
+    ' Comment Lines: 0
+    '   Blank Lines: 2
+    '     File Size: 490 B
+
 
     ' Module Extensions
     ' 

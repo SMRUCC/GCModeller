@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4aebf2d8133e2a4199be06bd6686c88d, analysis\SequenceToolkit\NeedlemanWunsch\GapPenalty.vb"
+﻿#Region "Microsoft.VisualBasic::4aebf2d8133e2a4199be06bd6686c88d, GCModeller\analysis\SequenceToolkit\NeedlemanWunsch\GapPenalty.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 53
+    '    Code Lines: 30
+    ' Comment Lines: 18
+    '   Blank Lines: 5
+    '     File Size: 1.50 KB
+
 
     ' Class GapPenalty
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9d7a0a1d9375f9f910cb8851b0c42205, models\SBML\SBML\Level2\Elements\Model.vb"
+﻿#Region "Microsoft.VisualBasic::9d7a0a1d9375f9f910cb8851b0c42205, GCModeller\models\SBML\SBML\Level2\Elements\Model.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 24
+    '    Code Lines: 15
+    ' Comment Lines: 4
+    '   Blank Lines: 5
+    '     File Size: 823 B
+
 
     '     Class Model
     ' 

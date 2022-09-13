@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0b3cdadd729c33c6764422330a865ddd, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\ExportServices\GenbankExportInfo.vb"
+﻿#Region "Microsoft.VisualBasic::0b3cdadd729c33c6764422330a865ddd, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\ExportServices\GenbankExportInfo.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 96
+    '    Code Lines: 70
+    ' Comment Lines: 9
+    '   Blank Lines: 17
+    '     File Size: 3.34 KB
+
 
     '     Class GenbankExportInfo
     ' 

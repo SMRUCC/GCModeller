@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8f405603ee2d0f45ce16b28b175f7424, data\MicrobesOnline\MySQL\genomics\tigrroles.vb"
+﻿#Region "Microsoft.VisualBasic::8f405603ee2d0f45ce16b28b175f7424, GCModeller\data\MicrobesOnline\MySQL\genomics\tigrroles.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 62
+    '    Code Lines: 35
+    ' Comment Lines: 20
+    '   Blank Lines: 7
+    '     File Size: 2.70 KB
+
 
     ' Class tigrroles
     ' 

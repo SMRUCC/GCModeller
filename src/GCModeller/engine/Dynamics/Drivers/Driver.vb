@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9cdc121012fa3d4a1d5bc7003b9d87b3, engine\Dynamics\Drivers\Driver.vb"
+﻿#Region "Microsoft.VisualBasic::9cdc121012fa3d4a1d5bc7003b9d87b3, GCModeller\engine\Dynamics\Drivers\Driver.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 45
+    '    Code Lines: 21
+    ' Comment Lines: 14
+    '   Blank Lines: 10
+    '     File Size: 1.60 KB
+
 
     '     Delegate Sub
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d710e6ed736f992a78949cbfd4db53fe, data\RegulonDatabase\Regtransbase\MySQL\regulator2effectors.vb"
+﻿#Region "Microsoft.VisualBasic::d710e6ed736f992a78949cbfd4db53fe, GCModeller\data\RegulonDatabase\Regtransbase\MySQL\regulator2effectors.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 151
+    '    Code Lines: 74
+    ' Comment Lines: 55
+    '   Blank Lines: 22
+    '     File Size: 5.85 KB
+
 
     ' Class regulator2effectors
     ' 

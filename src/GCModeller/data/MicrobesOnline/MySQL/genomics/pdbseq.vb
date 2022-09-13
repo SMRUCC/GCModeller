@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::df3c121c0dfa09244e441d6dbc78d471, data\MicrobesOnline\MySQL\genomics\pdbseq.vb"
+﻿#Region "Microsoft.VisualBasic::df3c121c0dfa09244e441d6dbc78d471, GCModeller\data\MicrobesOnline\MySQL\genomics\pdbseq.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 64
+    '    Code Lines: 36
+    ' Comment Lines: 21
+    '   Blank Lines: 7
+    '     File Size: 3.04 KB
+
 
     ' Class pdbseq
     ' 

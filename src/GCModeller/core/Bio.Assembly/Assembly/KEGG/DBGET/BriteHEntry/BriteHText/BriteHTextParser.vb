@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e400f97d91322d4fac7a76e97110601a, core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\BriteHText\BriteHTextParser.vb"
+﻿#Region "Microsoft.VisualBasic::e400f97d91322d4fac7a76e97110601a, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\BriteHText\BriteHTextParser.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 93
+    '    Code Lines: 62
+    ' Comment Lines: 13
+    '   Blank Lines: 18
+    '     File Size: 3.00 KB
+
 
     '     Module BriteHTextParser
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3cd926e0fa5b61982f12b8845cb53453, analysis\SequenceToolkit\SequencePatterns\Topologically\Palindrome\PalindromeAPI.vb"
+﻿#Region "Microsoft.VisualBasic::fd787ead6fbb03d6a0b6b41b5cfe5604, GCModeller\analysis\SequenceToolkit\SequencePatterns\Topologically\Palindrome\PalindromeAPI.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 421
+    '    Code Lines: 258
+    ' Comment Lines: 116
+    '   Blank Lines: 47
+    '     File Size: 20.68 KB
+
 
     '     Module Palindrome
     ' 

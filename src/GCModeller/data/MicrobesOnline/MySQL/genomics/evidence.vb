@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6adde0451017e4cce872916c39993fd0, data\MicrobesOnline\MySQL\genomics\evidence.vb"
+﻿#Region "Microsoft.VisualBasic::6adde0451017e4cce872916c39993fd0, GCModeller\data\MicrobesOnline\MySQL\genomics\evidence.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 73
+    '    Code Lines: 37
+    ' Comment Lines: 29
+    '   Blank Lines: 7
+    '     File Size: 3.41 KB
+
 
     ' Class evidence
     ' 

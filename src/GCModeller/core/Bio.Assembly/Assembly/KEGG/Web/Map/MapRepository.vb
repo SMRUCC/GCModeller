@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::43dc7958386a194999c5e398570df33a, core\Bio.Assembly\Assembly\KEGG\Web\Map\MapRepository.vb"
+﻿#Region "Microsoft.VisualBasic::43dc7958386a194999c5e398570df33a, GCModeller\core\Bio.Assembly\Assembly\KEGG\Web\Map\MapRepository.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 161
+    '    Code Lines: 119
+    ' Comment Lines: 21
+    '   Blank Lines: 21
+    '     File Size: 6.47 KB
+
 
     '     Class MapRepository
     ' 

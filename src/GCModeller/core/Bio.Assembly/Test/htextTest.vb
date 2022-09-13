@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::67676868d864d6b9716e4019ed2ab1a4, core\Bio.Assembly\Test\htextTest.vb"
+﻿#Region "Microsoft.VisualBasic::67676868d864d6b9716e4019ed2ab1a4, GCModeller\core\Bio.Assembly\Test\htextTest.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 13
+    '    Code Lines: 9
+    ' Comment Lines: 0
+    '   Blank Lines: 4
+    '     File Size: 358 B
+
 
     ' Module htextTest
     ' 

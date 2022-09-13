@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d6afc15717d281da9ab89a18396734c6, data\SABIO-RK\Dumps\Enzyme.vb"
+﻿#Region "Microsoft.VisualBasic::d6afc15717d281da9ab89a18396734c6, GCModeller\data\SABIO-RK\Dumps\Enzyme.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 38
+    '    Code Lines: 23
+    ' Comment Lines: 9
+    '   Blank Lines: 6
+    '     File Size: 1.60 KB
+
 
     '     Class EnzymeModifier
     ' 

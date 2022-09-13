@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5998fc82e62e626e693485e5bff3821f, core\Bio.Assembly\Assembly\KEGG\Web\QueryEntry.vb"
+﻿#Region "Microsoft.VisualBasic::5998fc82e62e626e693485e5bff3821f, GCModeller\core\Bio.Assembly\Assembly\KEGG\Web\QueryEntry.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 225
+    '    Code Lines: 125
+    ' Comment Lines: 68
+    '   Blank Lines: 32
+    '     File Size: 8.02 KB
+
 
     '     Class QuerySource
     ' 

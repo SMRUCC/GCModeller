@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::48b138a7b404aa92aa56995ed2005d70, data\MicrobesOnline\MySQL\genomics\pdbreps.vb"
+﻿#Region "Microsoft.VisualBasic::48b138a7b404aa92aa56995ed2005d70, GCModeller\data\MicrobesOnline\MySQL\genomics\pdbreps.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 65
+    '    Code Lines: 36
+    ' Comment Lines: 22
+    '   Blank Lines: 7
+    '     File Size: 3.25 KB
+
 
     ' Class pdbreps
     ' 

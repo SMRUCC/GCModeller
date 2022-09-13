@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::79390a11f87c0839e63244530041112f, foundation\OBO_Foundry\IO\Models\OBOFile.vb"
+﻿#Region "Microsoft.VisualBasic::79390a11f87c0839e63244530041112f, GCModeller\foundation\OBO_Foundry\IO\Models\OBOFile.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 293
+    '    Code Lines: 88
+    ' Comment Lines: 182
+    '   Blank Lines: 23
+    '     File Size: 10.45 KB
+
 
     '     Class OBOFile
     ' 

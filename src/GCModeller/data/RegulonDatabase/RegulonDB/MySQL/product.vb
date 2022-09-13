@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8267b275f20778141cb710e2a68962a0, data\RegulonDatabase\RegulonDB\MySQL\product.vb"
+﻿#Region "Microsoft.VisualBasic::8267b275f20778141cb710e2a68962a0, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\product.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 176
+    '    Code Lines: 91
+    ' Comment Lines: 63
+    '   Blank Lines: 22
+    '     File Size: 10.78 KB
+
 
     ' Class product
     ' 

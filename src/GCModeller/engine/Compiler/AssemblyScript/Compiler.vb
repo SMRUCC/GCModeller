@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c3def328f2cce2344091a63fcdeaf3ae, engine\Compiler\AssemblyScript\Compiler.vb"
+﻿#Region "Microsoft.VisualBasic::c3def328f2cce2344091a63fcdeaf3ae, GCModeller\engine\Compiler\AssemblyScript\Compiler.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 20
+    '    Code Lines: 15
+    ' Comment Lines: 0
+    '   Blank Lines: 5
+    '     File Size: 687 B
+
 
     '     Class Compiler
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8d2ae34cd712d0a91567b5bded30da8d, sub-system\FBA\FBA.Core\LinearProgrammingEngine.vb"
+﻿#Region "Microsoft.VisualBasic::8d2ae34cd712d0a91567b5bded30da8d, GCModeller\sub-system\FBA\FBA.Core\LinearProgrammingEngine.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 92
+    '    Code Lines: 66
+    ' Comment Lines: 16
+    '   Blank Lines: 10
+    '     File Size: 3.87 KB
+
 
     ' Class LinearProgrammingEngine
     ' 

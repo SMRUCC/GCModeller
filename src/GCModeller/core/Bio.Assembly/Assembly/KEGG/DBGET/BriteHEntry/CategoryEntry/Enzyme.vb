@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1e83d1cbe367ad8feb17cc260dcec7ec, core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\Enzyme.vb"
+﻿#Region "Microsoft.VisualBasic::1e83d1cbe367ad8feb17cc260dcec7ec, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\Enzyme.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 67
+    '    Code Lines: 49
+    ' Comment Lines: 8
+    '   Blank Lines: 10
+    '     File Size: 2.15 KB
+
 
     '     Class EnzymeEntry
     ' 

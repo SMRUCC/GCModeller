@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::65350523ba9e89ba9d3d6ea5fd9d9b19, models\Networks\Microbiome\PathwayProfile\Profile.vb"
+﻿#Region "Microsoft.VisualBasic::65350523ba9e89ba9d3d6ea5fd9d9b19, GCModeller\models\Networks\Microbiome\PathwayProfile\Profile.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 54
+    '    Code Lines: 28
+    ' Comment Lines: 18
+    '   Blank Lines: 8
+    '     File Size: 1.73 KB
+
 
     '     Class Profile
     ' 

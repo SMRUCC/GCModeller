@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8977a549a1107d3e5eb75f37bb2833e5, engine\IO\GCMarkupLanguage\GCML_Documents\XmlElements\Bacterial_GENOME\TranscriptUnit.vb"
+﻿#Region "Microsoft.VisualBasic::8977a549a1107d3e5eb75f37bb2833e5, GCModeller\engine\IO\GCMarkupLanguage\GCML_Documents\XmlElements\Bacterial_GENOME\TranscriptUnit.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 182
+    '    Code Lines: 90
+    ' Comment Lines: 70
+    '   Blank Lines: 22
+    '     File Size: 8.01 KB
+
 
     '     Class TranscriptUnit
     ' 

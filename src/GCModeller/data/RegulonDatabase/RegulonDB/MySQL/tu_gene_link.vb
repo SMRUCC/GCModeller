@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::480bc3c491d1d6339bd4b05f438f7df2, data\RegulonDatabase\RegulonDB\MySQL\tu_gene_link.vb"
+﻿#Region "Microsoft.VisualBasic::480bc3c491d1d6339bd4b05f438f7df2, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\tu_gene_link.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 149
+    '    Code Lines: 73
+    ' Comment Lines: 54
+    '   Blank Lines: 22
+    '     File Size: 5.45 KB
+
 
     ' Class tu_gene_link
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1a054cf611653e72685499ca1cfea370, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\ProteinTable\ProteinTable.vb"
+﻿#Region "Microsoft.VisualBasic::1a054cf611653e72685499ca1cfea370, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\ProteinTable\ProteinTable.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 62
+    '    Code Lines: 53
+    ' Comment Lines: 0
+    '   Blank Lines: 9
+    '     File Size: 2.50 KB
+
 
     '     Class ProteinTable
     ' 

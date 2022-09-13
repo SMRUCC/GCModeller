@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9bc23ee2d614cc6b9126a7c9fac1d224, analysis\SequenceToolkit\MSA\GlobalAlignment.vb"
+﻿#Region "Microsoft.VisualBasic::9bc23ee2d614cc6b9126a7c9fac1d224, GCModeller\analysis\SequenceToolkit\MSA\GlobalAlignment.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 4
+    '    Code Lines: 4
+    ' Comment Lines: 0
+    '   Blank Lines: 0
+    '     File Size: 93 B
+
 
     ' Structure GlobalAlignment
     ' 

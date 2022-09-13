@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bfbb92ad668300b69bb834b3f0e4ab73, analysis\Metagenome\Metagenome\gast\Models.vb"
+﻿#Region "Microsoft.VisualBasic::bfbb92ad668300b69bb834b3f0e4ab73, GCModeller\analysis\Metagenome\Metagenome\gast\Models.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 75
+    '    Code Lines: 41
+    ' Comment Lines: 26
+    '   Blank Lines: 8
+    '     File Size: 2.70 KB
+
 
     '     Class Names
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1a490e57d01b9dbd232bb43d5611dbb2, core\Bio.Assembly\Assembly\KEGG\DBGET\WebQuery\Compounds\GlycanParser.vb"
+﻿#Region "Microsoft.VisualBasic::1a490e57d01b9dbd232bb43d5611dbb2, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\WebQuery\Compounds\GlycanParser.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 50
+    '    Code Lines: 43
+    ' Comment Lines: 0
+    '   Blank Lines: 7
+    '     File Size: 1.95 KB
+
 
     '     Module GlycanParser
     ' 

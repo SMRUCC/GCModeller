@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fa84f67fb8d2f712d1f2b5379d916869, data\RegulonDatabase\RegulonDB\MySQL\effector.vb"
+﻿#Region "Microsoft.VisualBasic::fa84f67fb8d2f712d1f2b5379d916869, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\effector.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 164
+    '    Code Lines: 83
+    ' Comment Lines: 59
+    '   Blank Lines: 22
+    '     File Size: 8.38 KB
+
 
     ' Class effector
     ' 

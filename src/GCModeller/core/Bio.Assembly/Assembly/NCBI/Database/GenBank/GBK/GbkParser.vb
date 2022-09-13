@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5ad36e101c863074ed1f6de62b422397, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\GbkParser.vb"
+﻿#Region "Microsoft.VisualBasic::5ad36e101c863074ed1f6de62b422397, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\GbkParser.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 167
+    '    Code Lines: 124
+    ' Comment Lines: 14
+    '   Blank Lines: 29
+    '     File Size: 6.67 KB
+
 
     '     Module GbkParser
     ' 

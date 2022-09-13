@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e8485093a572db4157f2af76bd478dd6, core\Bio.Assembly\ComponentModel\DBLinkBuilder\Abstract.vb"
+﻿#Region "Microsoft.VisualBasic::e8485093a572db4157f2af76bd478dd6, GCModeller\core\Bio.Assembly\ComponentModel\DBLinkBuilder\Abstract.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 22
+    '    Code Lines: 14
+    ' Comment Lines: 5
+    '   Blank Lines: 3
+    '     File Size: 685 B
+
 
     '     Interface IMetabolite
     ' 

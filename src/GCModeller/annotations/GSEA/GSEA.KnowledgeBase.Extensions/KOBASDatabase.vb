@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1b5d4a48e3ee868d2e81ec165c9902f4, annotations\GSEA\GSEA.KnowledgeBase.Extensions\KOBASDatabase.vb"
+﻿#Region "Microsoft.VisualBasic::741762f082cd3478e21410cb3b71f6b5, GCModeller\annotations\GSEA\GSEA.KnowledgeBase.Extensions\KOBASDatabase.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 8
+    '    Code Lines: 6
+    ' Comment Lines: 0
+    '   Blank Lines: 2
+    '     File Size: 246 B
+
 
     ' Module KOBASDatabase
     ' 

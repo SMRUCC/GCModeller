@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bf190fb21c18666c780e3620754b87f1, data\MicrobesOnline\MySQL\genomics\ogmember.vb"
+﻿#Region "Microsoft.VisualBasic::bf190fb21c18666c780e3620754b87f1, GCModeller\data\MicrobesOnline\MySQL\genomics\ogmember.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 79
+    '    Code Lines: 43
+    ' Comment Lines: 29
+    '   Blank Lines: 7
+    '     File Size: 4.74 KB
+
 
     ' Class ogmember
     ' 

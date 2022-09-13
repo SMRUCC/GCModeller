@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1092d3b3b920a4703ecc878335823b27, analysis\SequenceToolkit\DNA_Comparative\DeltaSimilarity1998\CAI\RelativeCodonBiases.vb"
+﻿#Region "Microsoft.VisualBasic::1092d3b3b920a4703ecc878335823b27, GCModeller\analysis\SequenceToolkit\DNA_Comparative\DeltaSimilarity1998\CAI\RelativeCodonBiases.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 156
+    '    Code Lines: 98
+    ' Comment Lines: 43
+    '   Blank Lines: 15
+    '     File Size: 6.61 KB
+
 
     '     Class RelativeCodonBiases
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1e29738257142ddffe6159d1d449caa1, data\MicrobesOnline\MySQL\genomics\citation.vb"
+﻿#Region "Microsoft.VisualBasic::1e29738257142ddffe6159d1d449caa1, GCModeller\data\MicrobesOnline\MySQL\genomics\citation.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 59
+    '    Code Lines: 34
+    ' Comment Lines: 18
+    '   Blank Lines: 7
+    '     File Size: 2.38 KB
+
 
     ' Class citation
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::40c37fd8e34bda991d30648ae44cb198, data\MicrobesOnline\MySQL\genomics\swissprot.vb"
+﻿#Region "Microsoft.VisualBasic::40c37fd8e34bda991d30648ae44cb198, GCModeller\data\MicrobesOnline\MySQL\genomics\swissprot.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 65
+    '    Code Lines: 36
+    ' Comment Lines: 22
+    '   Blank Lines: 7
+    '     File Size: 2.99 KB
+
 
     ' Class swissprot
     ' 

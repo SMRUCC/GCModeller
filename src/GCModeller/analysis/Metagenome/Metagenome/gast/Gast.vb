@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f4eba4f2b4247543bf4fba674e521c09, analysis\Metagenome\Metagenome\gast\Gast.vb"
+﻿#Region "Microsoft.VisualBasic::f4eba4f2b4247543bf4fba674e521c09, GCModeller\analysis\Metagenome\Metagenome\gast\Gast.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 528
+    '    Code Lines: 275
+    ' Comment Lines: 152
+    '   Blank Lines: 101
+    '     File Size: 24.18 KB
+
 
     '     Module GastAPI
     ' 

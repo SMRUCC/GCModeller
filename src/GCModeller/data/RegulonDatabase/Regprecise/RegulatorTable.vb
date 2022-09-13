@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d8a56636cc0c3bf44449771f423bfffc, data\RegulonDatabase\Regprecise\RegulatorTable.vb"
+﻿#Region "Microsoft.VisualBasic::d8a56636cc0c3bf44449771f423bfffc, GCModeller\data\RegulonDatabase\Regprecise\RegulatorTable.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 45
+    '    Code Lines: 38
+    ' Comment Lines: 0
+    '   Blank Lines: 7
+    '     File Size: 1.76 KB
+
 
     '     Class RegulatorTable
     ' 

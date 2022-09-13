@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b9655af91407790a02f5196cc3d94571, models\SBML\Biopax\Level3\Schema\DatatypeProperty.vb"
+﻿#Region "Microsoft.VisualBasic::b9655af91407790a02f5196cc3d94571, GCModeller\models\SBML\Biopax\Level3\Schema\DatatypeProperty.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 8
+    '    Code Lines: 6
+    ' Comment Lines: 0
+    '   Blank Lines: 2
+    '     File Size: 211 B
+
 
     '     Class DatatypeProperty
     ' 

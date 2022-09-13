@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d79f204c5f9af06988f7afb4418a1fc8, engine\IO\GCMarkupLanguage\GCML_Documents\GCMLDocBuilder\RegulationNetworkBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::d79f204c5f9af06988f7afb4418a1fc8, GCModeller\engine\IO\GCMarkupLanguage\GCML_Documents\GCMLDocBuilder\RegulationNetworkBuilder.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 95
+    '    Code Lines: 71
+    ' Comment Lines: 10
+    '   Blank Lines: 14
+    '     File Size: 6.37 KB
+
 
     '     Class RegulationNetworkBuilder
     ' 

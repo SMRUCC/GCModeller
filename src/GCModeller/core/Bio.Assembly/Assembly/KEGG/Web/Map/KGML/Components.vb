@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::da0f319a18c3f39d5770a83d36b8ef4c, core\Bio.Assembly\Assembly\KEGG\Web\Map\KGML\Components.vb"
+﻿#Region "Microsoft.VisualBasic::da0f319a18c3f39d5770a83d36b8ef4c, GCModeller\core\Bio.Assembly\Assembly\KEGG\Web\Map\KGML\Components.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 78
+    '    Code Lines: 55
+    ' Comment Lines: 6
+    '   Blank Lines: 17
+    '     File Size: 2.34 KB
+
 
     '     Class Link
     ' 

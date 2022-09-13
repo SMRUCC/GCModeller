@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7f3a370a0cd7090c7c166cde18df7172, data\RegulonDatabase\Regtransbase\MySQL\genes.vb"
+﻿#Region "Microsoft.VisualBasic::7f3a370a0cd7090c7c166cde18df7172, GCModeller\data\RegulonDatabase\Regtransbase\MySQL\genes.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 208
+    '    Code Lines: 110
+    ' Comment Lines: 76
+    '   Blank Lines: 22
+    '     File Size: 14.35 KB
+
 
     ' Class genes
     ' 

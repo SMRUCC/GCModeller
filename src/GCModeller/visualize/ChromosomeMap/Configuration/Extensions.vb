@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8a297173bde183bf292194521432b059, visualize\ChromosomeMap\Configuration\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::8a297173bde183bf292194521432b059, GCModeller\visualize\ChromosomeMap\Configuration\Extensions.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 47
+    '    Code Lines: 35
+    ' Comment Lines: 6
+    '   Blank Lines: 6
+    '     File Size: 1.90 KB
+
 
     '     Module Extensions
     ' 

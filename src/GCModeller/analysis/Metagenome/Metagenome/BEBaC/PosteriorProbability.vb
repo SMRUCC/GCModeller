@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7d13029e60e46f871516f4500ed2c65b, analysis\Metagenome\Metagenome\BEBaC\PosteriorProbability.vb"
+﻿#Region "Microsoft.VisualBasic::7d13029e60e46f871516f4500ed2c65b, GCModeller\analysis\Metagenome\Metagenome\BEBaC\PosteriorProbability.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 65
+    '    Code Lines: 30
+    ' Comment Lines: 26
+    '   Blank Lines: 9
+    '     File Size: 2.46 KB
+
 
     '     Module PosteriorProbability
     ' 

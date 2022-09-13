@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5d50e64f5fde0aa14f7aa325517150af, core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\BriteHText\htext.vb"
+﻿#Region "Microsoft.VisualBasic::5d50e64f5fde0aa14f7aa325517150af, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\BriteHText\htext.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 196
+    '    Code Lines: 124
+    ' Comment Lines: 48
+    '   Blank Lines: 24
+    '     File Size: 7.83 KB
+
 
     '     Class htext
     ' 

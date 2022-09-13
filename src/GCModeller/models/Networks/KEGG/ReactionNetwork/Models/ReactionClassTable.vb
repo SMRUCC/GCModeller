@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a062a2ffa811fc3d44b5bc6696097442, models\Networks\KEGG\ReactionNetwork\Models\ReactionClassTable.vb"
+﻿#Region "Microsoft.VisualBasic::a062a2ffa811fc3d44b5bc6696097442, GCModeller\models\Networks\KEGG\ReactionNetwork\Models\ReactionClassTable.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 115
+    '    Code Lines: 57
+    ' Comment Lines: 46
+    '   Blank Lines: 12
+    '     File Size: 4.68 KB
+
 
     '     Class ReactionClassTable
     ' 

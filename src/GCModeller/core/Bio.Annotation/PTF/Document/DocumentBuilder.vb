@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f02db47caa779a12e033a42b594648ec, core\Bio.Annotation\PTF\Document\DocumentBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::f02db47caa779a12e033a42b594648ec, GCModeller\core\Bio.Annotation\PTF\Document\DocumentBuilder.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 26
+    '    Code Lines: 21
+    ' Comment Lines: 0
+    '   Blank Lines: 5
+    '     File Size: 935 B
+
 
     '     Module DocumentBuilder
     ' 

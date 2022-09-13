@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::26c4c3505c832357e5a7f11d8052eb8c, core\Bio.Assembly\Assembly\ELIXIR\UniProt\XML\Model\CommentData.vb"
+﻿#Region "Microsoft.VisualBasic::3115fd35db05bb9d8374bf33686624c0, GCModeller\core\Bio.Assembly\Assembly\ELIXIR\UniProt\XML\Model\CommentData.vb"
 
     ' Author:
     ' 
@@ -31,10 +31,26 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 68
+    '    Code Lines: 53
+    ' Comment Lines: 0
+    '   Blank Lines: 15
+    '     File Size: 2.07 KB
+
+
     '     Class comment
     ' 
-    '         Properties: [event], evidence, isoforms, subcellularLocations, text
-    '                     type
+    '         Properties: [event], dbReferences, evidence, isoforms, physiologicalReaction
+    '                     reaction, subcellularLocations, text, type
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class reaction
+    ' 
+    '         Properties: dbReferences, direction, evidence, text
     ' 
     '     Class subcellularLocation
     ' 

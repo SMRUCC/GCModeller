@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aa620ddc9e12cbefe5b980489c90132a, data\RegulonDatabase\RegulonDB\MySQL\component.vb"
+﻿#Region "Microsoft.VisualBasic::aa620ddc9e12cbefe5b980489c90132a, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\component.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 152
+    '    Code Lines: 75
+    ' Comment Lines: 55
+    '   Blank Lines: 22
+    '     File Size: 5.99 KB
+
 
     ' Class component
     ' 

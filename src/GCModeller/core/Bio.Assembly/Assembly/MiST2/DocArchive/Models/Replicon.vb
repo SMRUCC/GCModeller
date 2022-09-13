@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::62956066d670104a537b59f8f25713f2, core\Bio.Assembly\Assembly\MiST2\DocArchive\Models\Replicon.vb"
+﻿#Region "Microsoft.VisualBasic::62956066d670104a537b59f8f25713f2, GCModeller\core\Bio.Assembly\Assembly\MiST2\DocArchive\Models\Replicon.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 64
+    '    Code Lines: 30
+    ' Comment Lines: 26
+    '   Blank Lines: 8
+    '     File Size: 2.19 KB
+
 
     '     Class Replicon
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5be4dc323e269801afd54bb99b0b6b0c, engine\Compiler\MarkupCompiler\CompilerWorkflow.vb"
+﻿#Region "Microsoft.VisualBasic::5be4dc323e269801afd54bb99b0b6b0c, GCModeller\engine\Compiler\MarkupCompiler\CompilerWorkflow.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 11
+    '    Code Lines: 8
+    ' Comment Lines: 0
+    '   Blank Lines: 3
+    '     File Size: 264 B
+
 
     '     Class CompilerWorkflow
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::78ecb4a82cbf204120787d9e783b88b6, models\Networks\Microbiome\UniProtBuilder\UniProtBuild.vb"
+﻿#Region "Microsoft.VisualBasic::78ecb4a82cbf204120787d9e783b88b6, GCModeller\models\Networks\Microbiome\UniProtBuilder\UniProtBuild.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 219
+    '    Code Lines: 165
+    ' Comment Lines: 28
+    '   Blank Lines: 26
+    '     File Size: 9.25 KB
+
 
     ' Module UniProtBuild
     ' 

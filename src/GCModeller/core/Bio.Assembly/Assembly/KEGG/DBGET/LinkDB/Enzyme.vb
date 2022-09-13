@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::990aabfdb4739aba8c86f5711eebebb9, core\Bio.Assembly\Assembly\KEGG\DBGET\LinkDB\Enzyme.vb"
+﻿#Region "Microsoft.VisualBasic::990aabfdb4739aba8c86f5711eebebb9, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\LinkDB\Enzyme.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 19
+    '    Code Lines: 14
+    ' Comment Lines: 0
+    '   Blank Lines: 5
+    '     File Size: 779 B
+
 
     '     Module Enzyme
     ' 

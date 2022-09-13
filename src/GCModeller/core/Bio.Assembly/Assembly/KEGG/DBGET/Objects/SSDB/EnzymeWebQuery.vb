@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2b666759e02f72dfad8be727b0011527, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\SSDB\EnzymeWebQuery.vb"
+﻿#Region "Microsoft.VisualBasic::2b666759e02f72dfad8be727b0011527, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\SSDB\EnzymeWebQuery.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 32
+    '    Code Lines: 26
+    ' Comment Lines: 0
+    '   Blank Lines: 6
+    '     File Size: 1.18 KB
+
 
     '     Class EnzymeWebQuery
     ' 

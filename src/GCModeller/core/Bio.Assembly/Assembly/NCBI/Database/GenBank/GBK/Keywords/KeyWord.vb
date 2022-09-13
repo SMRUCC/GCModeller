@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e65aee828454241c0f62247eabfc6f2d, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\KeyWord.vb"
+﻿#Region "Microsoft.VisualBasic::e65aee828454241c0f62247eabfc6f2d, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\KeyWord.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 110
+    '    Code Lines: 89
+    ' Comment Lines: 0
+    '   Blank Lines: 21
+    '     File Size: 4.01 KB
+
 
     '     Class KeyWord
     ' 

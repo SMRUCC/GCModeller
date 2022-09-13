@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::426c69a98758ab2fb980480094dd14d2, data\RegulonDatabase\Regtransbase\MySQL\dict_genomes.vb"
+﻿#Region "Microsoft.VisualBasic::426c69a98758ab2fb980480094dd14d2, GCModeller\data\RegulonDatabase\Regtransbase\MySQL\dict_genomes.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 151
+    '    Code Lines: 74
+    ' Comment Lines: 55
+    '   Blank Lines: 22
+    '     File Size: 5.17 KB
+
 
     ' Class dict_genomes
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::74f90a478fcb049899c8a21b89c28d11, data\MicrobesOnline\MySQL\glamm\glammkeggrpair.vb"
+﻿#Region "Microsoft.VisualBasic::74f90a478fcb049899c8a21b89c28d11, GCModeller\data\MicrobesOnline\MySQL\glamm\glammkeggrpair.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 81
+    '    Code Lines: 42
+    ' Comment Lines: 32
+    '   Blank Lines: 7
+    '     File Size: 4.98 KB
+
 
     ' Class glammkeggrpair
     ' 

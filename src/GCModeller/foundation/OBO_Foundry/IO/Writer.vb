@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c74d036eb9fb2eae6cf32525be00866d, foundation\OBO_Foundry\IO\Writer.vb"
+﻿#Region "Microsoft.VisualBasic::c74d036eb9fb2eae6cf32525be00866d, GCModeller\foundation\OBO_Foundry\IO\Writer.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 71
+    '    Code Lines: 46
+    ' Comment Lines: 14
+    '   Blank Lines: 11
+    '     File Size: 2.70 KB
+
 
     '     Module Writer
     ' 

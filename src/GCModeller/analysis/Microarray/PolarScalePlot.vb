@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ec9614aee34c9b39000a623c9a3af585, analysis\Microarray\PolarScalePlot.vb"
+﻿#Region "Microsoft.VisualBasic::ec9614aee34c9b39000a623c9a3af585, GCModeller\analysis\Microarray\PolarScalePlot.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 28
+    '    Code Lines: 12
+    ' Comment Lines: 11
+    '   Blank Lines: 5
+    '     File Size: 960 B
+
 
     ' Module PolarScalePlot
     ' 

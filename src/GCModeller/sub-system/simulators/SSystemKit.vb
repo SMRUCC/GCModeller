@@ -1,42 +1,53 @@
-﻿#Region "Microsoft.VisualBasic::70ec8c0c8a4de5001602aad6e4fcab9b, sub-system\simulators\SSystemKit.vb"
+﻿#Region "Microsoft.VisualBasic::e3236192b94e6bfd50385fb84ddb86e5, GCModeller\sub-system\simulators\SSystemKit.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-' Module SSystemKit
-' 
-'     Function: ConfigEnvironment, ConfigSSystem, createKernel, GetSnapshotsDriver, RunKernel
-'               script
-' 
-' /********************************************************************************/
+
+    ' Code Statistics:
+
+    '   Total Lines: 207
+    '    Code Lines: 138
+    ' Comment Lines: 42
+    '   Blank Lines: 27
+    '     File Size: 7.74 KB
+
+
+    ' Module SSystemKit
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
+    '     Function: ConfigEnvironment, ConfigSSystem, createKernel, GetSnapshotsDriver, getTable
+    '               RunKernel, script, setBounds
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

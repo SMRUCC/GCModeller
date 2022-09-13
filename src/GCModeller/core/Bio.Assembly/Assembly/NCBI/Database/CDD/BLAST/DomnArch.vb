@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b223f0a386571b1661886ec6ca00d515, core\Bio.Assembly\Assembly\NCBI\Database\CDD\BLAST\DomnArch.vb"
+﻿#Region "Microsoft.VisualBasic::b223f0a386571b1661886ec6ca00d515, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\CDD\BLAST\DomnArch.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 98
+    '    Code Lines: 49
+    ' Comment Lines: 32
+    '   Blank Lines: 17
+    '     File Size: 4.09 KB
+
 
     '     Class DomnArch
     ' 

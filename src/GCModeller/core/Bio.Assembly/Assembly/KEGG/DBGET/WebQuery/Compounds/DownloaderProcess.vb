@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3854a48e8a51923f058bc9a04c142e84, core\Bio.Assembly\Assembly\KEGG\DBGET\WebQuery\Compounds\DownloaderProcess.vb"
+﻿#Region "Microsoft.VisualBasic::3854a48e8a51923f058bc9a04c142e84, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\WebQuery\Compounds\DownloaderProcess.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 132
+    '    Code Lines: 97
+    ' Comment Lines: 16
+    '   Blank Lines: 19
+    '     File Size: 5.72 KB
+
 
     '     Module DownloaderProcess
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4e2db9de04c7270205d505d3dbe633c4, data\RegulonDatabase\RegulonDB\MySQL\object_external_db_link.vb"
+﻿#Region "Microsoft.VisualBasic::4e2db9de04c7270205d505d3dbe633c4, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\object_external_db_link.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 152
+    '    Code Lines: 75
+    ' Comment Lines: 55
+    '   Blank Lines: 22
+    '     File Size: 6.22 KB
+
 
     ' Class object_external_db_link
     ' 

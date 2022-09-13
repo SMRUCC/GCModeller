@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4cab5d916f76bf0fbc34b7ddc11209a9, models\Networks\KEGG\IgnoreList.vb"
+﻿#Region "Microsoft.VisualBasic::4cab5d916f76bf0fbc34b7ddc11209a9, GCModeller\models\Networks\KEGG\IgnoreList.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 14
+    '    Code Lines: 12
+    ' Comment Lines: 0
+    '   Blank Lines: 2
+    '     File Size: 341 B
+
 
     ' Module IgnoreList
     ' 

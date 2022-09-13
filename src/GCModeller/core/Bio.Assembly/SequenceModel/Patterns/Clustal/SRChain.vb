@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aee7c31f9a5a60e834d606e9a51c8199, core\Bio.Assembly\SequenceModel\Patterns\Clustal\SRChain.vb"
+﻿#Region "Microsoft.VisualBasic::aee7c31f9a5a60e834d606e9a51c8199, GCModeller\core\Bio.Assembly\SequenceModel\Patterns\Clustal\SRChain.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 36
+    '    Code Lines: 30
+    ' Comment Lines: 0
+    '   Blank Lines: 6
+    '     File Size: 1.15 KB
+
 
     '     Class SRChain
     ' 

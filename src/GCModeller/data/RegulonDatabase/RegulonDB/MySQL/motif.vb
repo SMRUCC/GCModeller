@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ebcb9d5c5e5ed24a6e3265483d5d3779, data\RegulonDatabase\RegulonDB\MySQL\motif.vb"
+﻿#Region "Microsoft.VisualBasic::ebcb9d5c5e5ed24a6e3265483d5d3779, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\motif.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 173
+    '    Code Lines: 89
+    ' Comment Lines: 62
+    '   Blank Lines: 22
+    '     File Size: 10.05 KB
+
 
     ' Class motif
     ' 

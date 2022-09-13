@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1ba33fb98f461f5c336157d33883c1f6, data\RegulonDatabase\RegulonDB\MySQL\shine_dalgarno.vb"
+﻿#Region "Microsoft.VisualBasic::1ba33fb98f461f5c336157d33883c1f6, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\shine_dalgarno.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 170
+    '    Code Lines: 87
+    ' Comment Lines: 61
+    '   Blank Lines: 22
+    '     File Size: 10.73 KB
+
 
     ' Class shine_dalgarno
     ' 

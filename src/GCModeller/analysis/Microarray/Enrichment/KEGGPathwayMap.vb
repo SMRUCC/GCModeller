@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::176299307ed61e7486fdda81b252dd31, analysis\Microarray\Enrichment\KEGGPathwayMap.vb"
+﻿#Region "Microsoft.VisualBasic::176299307ed61e7486fdda81b252dd31, GCModeller\analysis\Microarray\Enrichment\KEGGPathwayMap.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 203
+    '    Code Lines: 137
+    ' Comment Lines: 41
+    '   Blank Lines: 25
+    '     File Size: 8.25 KB
+
 
     ' Module KEGGPathwayMap
     ' 

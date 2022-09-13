@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fbe52dd5e267056937334bdf6e2615f2, core\Bio.Assembly\Assembly\KEGG\Archives\Csv\Pathway.vb"
+﻿#Region "Microsoft.VisualBasic::fbe52dd5e267056937334bdf6e2615f2, GCModeller\core\Bio.Assembly\Assembly\KEGG\Archives\Csv\Pathway.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 120
+    '    Code Lines: 69
+    ' Comment Lines: 34
+    '   Blank Lines: 17
+    '     File Size: 4.63 KB
+
 
     '     Class Pathway
     ' 

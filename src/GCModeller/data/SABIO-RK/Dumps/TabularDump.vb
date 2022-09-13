@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7168de394bfdb93999be662a365972de, data\SABIO-RK\Dumps\TabularDump.vb"
+﻿#Region "Microsoft.VisualBasic::7168de394bfdb93999be662a365972de, GCModeller\data\SABIO-RK\Dumps\TabularDump.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 83
+    '    Code Lines: 37
+    ' Comment Lines: 29
+    '   Blank Lines: 17
+    '     File Size: 3.68 KB
+
 
     '     Class SabiorkEntity
     ' 

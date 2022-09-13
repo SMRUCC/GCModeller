@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6b31b7e92e7a1cde2a3c79ed555bdd58, engine\GCModeller.Framework.Kernel_Driver\Driver\Abstract\LDM.vb"
+﻿#Region "Microsoft.VisualBasic::6b31b7e92e7a1cde2a3c79ed555bdd58, GCModeller\engine\GCModeller.Framework.Kernel_Driver\Driver\Abstract\LDM.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 73
+    '    Code Lines: 35
+    ' Comment Lines: 28
+    '   Blank Lines: 10
+    '     File Size: 2.90 KB
+
 
     ' Class Expression
     ' 

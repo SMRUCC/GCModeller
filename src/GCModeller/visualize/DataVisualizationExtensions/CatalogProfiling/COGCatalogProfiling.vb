@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1c2a6a1888a3d404ccea07572204f3b1, visualize\DataVisualizationExtensions\CatalogProfiling\COGCatalogProfiling.vb"
+﻿#Region "Microsoft.VisualBasic::1c2a6a1888a3d404ccea07572204f3b1, GCModeller\visualize\DataVisualizationExtensions\CatalogProfiling\COGCatalogProfiling.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 76
+    '    Code Lines: 65
+    ' Comment Lines: 0
+    '   Blank Lines: 11
+    '     File Size: 3.15 KB
+
 
     '     Module COGCatalogProfiling
     ' 

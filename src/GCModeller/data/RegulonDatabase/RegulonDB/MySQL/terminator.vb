@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0a3b03de474b4f019e52405b1a2ac127, data\RegulonDatabase\RegulonDB\MySQL\terminator.vb"
+﻿#Region "Microsoft.VisualBasic::0a3b03de474b4f019e52405b1a2ac127, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\terminator.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 170
+    '    Code Lines: 87
+    ' Comment Lines: 61
+    '   Blank Lines: 22
+    '     File Size: 10.49 KB
+
 
     ' Class terminator
     ' 

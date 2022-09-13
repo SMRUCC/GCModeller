@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::23e39976893430965ce6835e77c7a36e, models\Networks\Microbiome\UniProt\TaxonomyRepository.vb"
+﻿#Region "Microsoft.VisualBasic::23e39976893430965ce6835e77c7a36e, GCModeller\models\Networks\Microbiome\UniProt\TaxonomyRepository.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 155
+    '    Code Lines: 92
+    ' Comment Lines: 44
+    '   Blank Lines: 19
+    '     File Size: 6.50 KB
+
 
     ' Class TaxonomyRepository
     ' 

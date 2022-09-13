@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::00d833ff34f7f1cc2acd8e2a8d648af5, core\Bio.Assembly\SequenceModel\NucleicAcid\Objects\DegenerateBases.vb"
+﻿#Region "Microsoft.VisualBasic::00d833ff34f7f1cc2acd8e2a8d648af5, GCModeller\core\Bio.Assembly\SequenceModel\NucleicAcid\Objects\DegenerateBases.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 104
+    '    Code Lines: 61
+    ' Comment Lines: 30
+    '   Blank Lines: 13
+    '     File Size: 4.36 KB
+
 
     '     Class DegenerateBasesExtensions
     ' 

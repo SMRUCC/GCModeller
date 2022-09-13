@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6f6775d35259b2962a4d5d841658095a, analysis\SequenceToolkit\SNP\VCF\MetaData.vb"
+﻿#Region "Microsoft.VisualBasic::6f6775d35259b2962a4d5d841658095a, GCModeller\analysis\SequenceToolkit\SNP\VCF\MetaData.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 64
+    '    Code Lines: 36
+    ' Comment Lines: 14
+    '   Blank Lines: 14
+    '     File Size: 2.65 KB
+
 
     '     Class MetaData
     ' 

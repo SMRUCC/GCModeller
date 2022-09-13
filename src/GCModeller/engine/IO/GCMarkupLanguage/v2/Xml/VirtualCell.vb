@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a038330148ba04fbd22ba121587f1723, engine\IO\GCMarkupLanguage\v2\Xml\VirtualCell.vb"
+﻿#Region "Microsoft.VisualBasic::a038330148ba04fbd22ba121587f1723, GCModeller\engine\IO\GCMarkupLanguage\v2\Xml\VirtualCell.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 99
+    '    Code Lines: 60
+    ' Comment Lines: 20
+    '   Blank Lines: 19
+    '     File Size: 3.81 KB
+
 
     '     Class VirtualCell
     ' 

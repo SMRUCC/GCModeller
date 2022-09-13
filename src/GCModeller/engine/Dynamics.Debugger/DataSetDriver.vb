@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8209e08419e8048e543b0aef3aefbc6a, engine\Dynamics.Debugger\DataSetDriver.vb"
+﻿#Region "Microsoft.VisualBasic::8209e08419e8048e543b0aef3aefbc6a, GCModeller\engine\Dynamics.Debugger\DataSetDriver.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 26
+    '    Code Lines: 20
+    ' Comment Lines: 0
+    '   Blank Lines: 6
+    '     File Size: 930 B
+
 
     ' Class DataSetDriver
     ' 

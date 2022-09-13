@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::38409bcce85868fbc28a9e34f593c1f2, annotations\GSEA\PFSNet\PFSNet\Algorithm\ccs_statistics.vb"
+﻿#Region "Microsoft.VisualBasic::38409bcce85868fbc28a9e34f593c1f2, GCModeller\annotations\GSEA\PFSNet\PFSNet\Algorithm\ccs_statistics.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 40
+    '    Code Lines: 20
+    ' Comment Lines: 15
+    '   Blank Lines: 5
+    '     File Size: 1.66 KB
+
 
     ' Module ccs_statistics
     ' 

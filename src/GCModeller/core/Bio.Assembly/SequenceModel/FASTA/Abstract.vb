@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9a90a9991115df48f8aed7799699157a, core\Bio.Assembly\SequenceModel\FASTA\Abstract.vb"
+﻿#Region "Microsoft.VisualBasic::9a90a9991115df48f8aed7799699157a, GCModeller\core\Bio.Assembly\SequenceModel\FASTA\Abstract.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 45
+    '    Code Lines: 12
+    ' Comment Lines: 27
+    '   Blank Lines: 6
+    '     File Size: 1.87 KB
+
 
     '     Interface IFastaProvider
     ' 

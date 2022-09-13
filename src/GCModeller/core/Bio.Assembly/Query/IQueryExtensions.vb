@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4cab2554ba379397601bfeae63c51629, core\Bio.Assembly\Query\IQueryExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::4cab2554ba379397601bfeae63c51629, GCModeller\core\Bio.Assembly\Query\IQueryExtensions.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 104
+    '    Code Lines: 63
+    ' Comment Lines: 27
+    '   Blank Lines: 14
+    '     File Size: 4.44 KB
+
 
     '     Module IQueryExtensions
     ' 

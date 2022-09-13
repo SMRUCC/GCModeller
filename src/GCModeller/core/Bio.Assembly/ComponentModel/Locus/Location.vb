@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1292f43efeb4bc407e595fc921bedee8, core\Bio.Assembly\ComponentModel\Locus\Location.vb"
+﻿#Region "Microsoft.VisualBasic::1292f43efeb4bc407e595fc921bedee8, GCModeller\core\Bio.Assembly\ComponentModel\Locus\Location.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 277
+    '    Code Lines: 132
+    ' Comment Lines: 112
+    '   Blank Lines: 33
+    '     File Size: 10.41 KB
+
 
     '     Class Location
     ' 

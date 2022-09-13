@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ae7bfe3fb55618b55dfdcbd889b9e63f, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Disease\Hsa_gene.vb"
+﻿#Region "Microsoft.VisualBasic::ae7bfe3fb55618b55dfdcbd889b9e63f, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Disease\Hsa_gene.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 84
+    '    Code Lines: 51
+    ' Comment Lines: 22
+    '   Blank Lines: 11
+    '     File Size: 3.12 KB
+
 
     '     Class Hsa_gene
     ' 

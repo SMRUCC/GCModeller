@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3a925d0938bcd6137137627a648d2f70, core\Bio.Assembly\Assembly\ELIXIR\UniProt\Web\Uniprot.vb"
+﻿#Region "Microsoft.VisualBasic::3a925d0938bcd6137137627a648d2f70, GCModeller\core\Bio.Assembly\Assembly\ELIXIR\UniProt\Web\Uniprot.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 54
+    '    Code Lines: 23
+    ' Comment Lines: 24
+    '   Blank Lines: 7
+    '     File Size: 2.14 KB
+
 
     '     Module WebServices
     ' 

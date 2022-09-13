@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bec79fb87b56993f27f3fc4dad7314b3, data\RegulonDatabase\Regtransbase\MySQL\h_dict_obj_side_types.vb"
+﻿#Region "Microsoft.VisualBasic::bec79fb87b56993f27f3fc4dad7314b3, GCModeller\data\RegulonDatabase\Regtransbase\MySQL\h_dict_obj_side_types.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 151
+    '    Code Lines: 74
+    ' Comment Lines: 55
+    '   Blank Lines: 22
+    '     File Size: 5.33 KB
+
 
     ' Class h_dict_obj_side_types
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d3066e500f5bff0c02a07ff2f88111fc, analysis\SequenceToolkit\DNA_Comparative\DeltaSimilarity1998\ReferenceRule.vb"
+﻿#Region "Microsoft.VisualBasic::d3066e500f5bff0c02a07ff2f88111fc, GCModeller\analysis\SequenceToolkit\DNA_Comparative\DeltaSimilarity1998\ReferenceRule.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 118
+    '    Code Lines: 73
+    ' Comment Lines: 33
+    '   Blank Lines: 12
+    '     File Size: 4.82 KB
+
 
     '     Module ReferenceRule
     ' 

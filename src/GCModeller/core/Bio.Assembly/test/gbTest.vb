@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d03bc7e6983900cfd3dcb85dad5c4a6b, core\Bio.Assembly\Test\gbTest.vb"
+﻿#Region "Microsoft.VisualBasic::d03bc7e6983900cfd3dcb85dad5c4a6b, GCModeller\core\Bio.Assembly\Test\gbTest.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 20
+    '    Code Lines: 16
+    ' Comment Lines: 0
+    '   Blank Lines: 4
+    '     File Size: 759 B
+
 
     ' Module gbTest
     ' 

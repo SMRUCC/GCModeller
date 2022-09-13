@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::186a5313b35c1535ee7f4e9d8ac32d56, engine\IO\GCMarkupLanguage\v2\Xml\MetabolismStructure.vb"
+﻿#Region "Microsoft.VisualBasic::5fb8554fd368dff2e1f777e4742f6377, GCModeller\engine\IO\GCMarkupLanguage\v2\Xml\MetabolismStructure.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,16 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 254
+    '    Code Lines: 138
+    ' Comment Lines: 69
+    '   Blank Lines: 47
+    '     File Size: 8.66 KB
+
+
     '     Class MetabolismStructure
     ' 
     '         Properties: compounds, enzymes, maps, reactions
@@ -45,7 +55,7 @@
     ' 
     '     Class Compound
     ' 
-    '         Properties: ID, name, otherNames
+    '         Properties: ID, mass0, name
     ' 
     '     Class Reaction
     ' 

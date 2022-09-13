@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a4b884083714b43ccebd010d15f75986, data\MicrobesOnline\MySQL\genomics\mog.vb"
+﻿#Region "Microsoft.VisualBasic::a4b884083714b43ccebd010d15f75986, GCModeller\data\MicrobesOnline\MySQL\genomics\mog.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 63
+    '    Code Lines: 36
+    ' Comment Lines: 20
+    '   Blank Lines: 7
+    '     File Size: 2.82 KB
+
 
     ' Class mog
     ' 

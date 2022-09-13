@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9689879296c6006a1f7b039eb63f1bc2, core\Bio.Assembly\Assembly\KEGG\DBGET\LinkDB\Module.vb"
+﻿#Region "Microsoft.VisualBasic::9689879296c6006a1f7b039eb63f1bc2, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\LinkDB\Module.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 90
+    '    Code Lines: 68
+    ' Comment Lines: 3
+    '   Blank Lines: 19
+    '     File Size: 4.35 KB
+
 
     '     Module Modules
     ' 

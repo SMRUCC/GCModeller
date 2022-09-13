@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6ed1e15b12a91e764a0149d54098b1b0, data\MicrobesOnline\MySQL\genomics\pathwayplayer.vb"
+﻿#Region "Microsoft.VisualBasic::6ed1e15b12a91e764a0149d54098b1b0, GCModeller\data\MicrobesOnline\MySQL\genomics\pathwayplayer.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 66
+    '    Code Lines: 35
+    ' Comment Lines: 24
+    '   Blank Lines: 7
+    '     File Size: 2.96 KB
+
 
     ' Class pathwayplayer
     ' 
