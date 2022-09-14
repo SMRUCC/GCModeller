@@ -8,3 +8,4 @@ The Universal Protein Resource (UniProt)
 + [protein.seqs](uniprot/protein.seqs.1) populate all protein fasta sequence from the given uniprot database reader
 + [cache.ptf](uniprot/cache.ptf.1) 
 + [id_unify](uniprot/id_unify.1) id unify mapping
++ [metaboliteSet](uniprot/metaboliteSet.1) 
