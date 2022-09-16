@@ -340,21 +340,37 @@ Module uniprot
             .ToArray
     End Function
 
-    '''' <summary>
-    '''' do id mapping/conversion between different database 
-    '''' based on the uniprot database data.
-    '''' </summary>
-    '''' <param name="uniprot"></param>
-    '''' <param name="from"></param>
-    '''' <param name="[to]"></param>
-    '''' <param name="env"></param>
-    '''' <returns></returns>
-    '<ExportAPI("id_mapping")>
-    'Public Function createIDMapping(<RRawVectorArgument>
-    '                                uniprot As Object,
-    '                                from As String,
-    '                                [to] As String,
-    '                                Optional env As Environment = Nothing) As Object
+    <ExportAPI("metaboliteSet")>
+    Public Function metaboliteSet(<RRawVectorArgument> uniprot As Object, Optional env As Environment = Nothing) As Object
+        Dim uniprotData As pipeline = pipeline.TryCreatePipeline(Of entry)(uniprot, env)
 
-    'End Function
+        If uniprotData.isError Then
+            Return uniprotData
+        End If
+
+        Return uniprotData _
+            .populates(Of entry)(env) _
+            .ToDictionary(Function(p) p.accessions(Scan0),
+                          Function(p)
+                              Dim comments = p.comments _
+                                  .Where(Function(t) t.type = "catalytic activity") _
+                                  .ToArray
+                              Dim features = p.features _
+                                  .Where(Function(t) t.type = "binding site") _
+                                  .Where(Function(t) t.ligand IsNot Nothing AndAlso t.ligand.dbReference IsNot Nothing) _
+                                  .ToArray
+                              Dim substrates = comments _
+                                  .Select(Function(t) t.reaction.dbReferences) _
+                                  .IteratesALL _
+                                  .Where(Function(r) r.type = "ChEBI") _
+                                  .Select(Function(c) c.id) _
+                                  .ToArray
+
+                              Return features _
+                                  .Select(Function(f) f.ligand.dbReference.id) _
+                                  .JoinIterates(substrates) _
+                                  .Distinct _
+                                  .ToArray
+                          End Function)
+    End Function
 End Module
