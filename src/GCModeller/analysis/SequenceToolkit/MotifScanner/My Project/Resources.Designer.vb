@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c57c1cf38b64f5861021d8e058fcc57d, GCModeller\analysis\SequenceToolkit\MotifScanner\My Project\Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::19cc723326584301c0e1d0c76311a26a, GCModeller\analysis\SequenceToolkit\MotifScanner\My Project\Resources.Designer.vb"
 
     ' Author:
     ' 
@@ -113,4 +113,3 @@ Namespace My.Resources
         End Property
     End Module
 End Namespace
-

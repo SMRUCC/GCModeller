@@ -9,7 +9,7 @@ tools for handling GSEA background model.
 + [write.background](background/write.background.1) Save GSEA background model as xml file
 + [background_summary](background/background_summary.1) 
 + [clusterInfo](background/clusterInfo.1) get cluster info data table
-+ [geneSet.intersects](background/geneSet.intersects.1) 
++ [geneSet.intersects](background/geneSet.intersects.1) get an intersection id list between the background
 + [KO.table](background/KO.table.1) 
 + [gsea.cluster](background/gsea.cluster.1) Create a cluster for gsea background
 + [as.background](background/as.background.1) 

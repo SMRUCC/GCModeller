@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::193d3996686ab262a3fefa899ffafb83, GCModeller\data\GO_gene-ontology\GeneOntology\My Project\Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::d0692928296e8261372a513b3eb02426, GCModeller\data\GO_gene-ontology\GeneOntology\My Project\Resources.Designer.vb"
 
     ' Author:
     ' 
@@ -113,4 +113,3 @@ Namespace My.Resources
         End Property
     End Module
 End Namespace
-

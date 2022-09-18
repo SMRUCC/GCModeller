@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ffc2112e19750e685d0aa5d1ebca0c55, GCModeller\engine\Compiler\MarkupCompiler\v2MarkupCompiler.vb"
+﻿#Region "Microsoft.VisualBasic::4e4181b8ce0060d3179b75bd9914ad68, GCModeller\engine\Compiler\MarkupCompiler\v2MarkupCompiler.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 14
+    '   Total Lines: 13
     '    Code Lines: 10
     ' Comment Lines: 0
-    '   Blank Lines: 4
-    '     File Size: 447 B
+    '   Blank Lines: 3
+    '     File Size: 445 B
 
 
     '     Class v2MarkupCompiler
@@ -49,7 +49,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports Microsoft.VisualBasic.CommandLine
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2

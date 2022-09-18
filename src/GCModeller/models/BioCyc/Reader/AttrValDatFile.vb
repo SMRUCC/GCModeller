@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4a68d4d78ba45e34760f5c1119f49846, GCModeller\models\BioCyc\Reader\AttrValDatFile.vb"
+﻿#Region "Microsoft.VisualBasic::67f369a9784f2a8a74421b9b80cca86a, GCModeller\models\BioCyc\Reader\AttrValDatFile.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 88
+    '   Total Lines: 85
     '    Code Lines: 31
     ' Comment Lines: 46
-    '   Blank Lines: 11
-    '     File Size: 3.38 KB
+    '   Blank Lines: 8
+    '     File Size: 3.37 KB
 
 
     ' Class AttrValDatFile
@@ -47,11 +47,9 @@
     ' 
     '     Function: loadFeatures, ParseFile, ToString
     ' 
-    ' 
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports System.IO
 Imports Microsoft.VisualBasic.ComponentModel.Collection
@@ -138,6 +136,3 @@ Public Class AttrValDatFile
     End Function
 
 End Class
-
-
-

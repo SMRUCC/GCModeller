@@ -1,52 +1,52 @@
 ﻿#Region "Microsoft.VisualBasic::4b719c0ce272e511ca6ced7c78b23e5a, R#\seqtoolkit\Annotations\uniprot.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 288
-    '    Code Lines: 229
-    ' Comment Lines: 30
-    '   Blank Lines: 29
-    '     File Size: 13.51 KB
+' Summaries:
 
 
-    ' Module uniprot
-    ' 
-    '     Function: getProteinSeq, IdUnify, openUniprotXmlAssembly, parseUniProt, proteinTable
-    '               writePtfFile
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 288
+'    Code Lines: 229
+' Comment Lines: 30
+'   Blank Lines: 29
+'     File Size: 13.51 KB
+
+
+' Module uniprot
+' 
+'     Function: getProteinSeq, IdUnify, openUniprotXmlAssembly, parseUniProt, proteinTable
+'               writePtfFile
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -335,6 +335,42 @@ Module uniprot
         Dim rawIdList As String() = REnv.asVector(Of String)(id)
         Dim mapId As Func(Of String, String) = GetIDs.IdMapping(uniprotData.populates(Of entry)(env), target)
 
-        Return rawIdList.Select(mapId).ToArray
+        Return rawIdList _
+            .Select(mapId) _
+            .ToArray
+    End Function
+
+    <ExportAPI("metaboliteSet")>
+    Public Function metaboliteSet(<RRawVectorArgument> uniprot As Object, Optional env As Environment = Nothing) As Object
+        Dim uniprotData As pipeline = pipeline.TryCreatePipeline(Of entry)(uniprot, env)
+
+        If uniprotData.isError Then
+            Return uniprotData
+        End If
+
+        Return uniprotData _
+            .populates(Of entry)(env) _
+            .ToDictionary(Function(p) p.accessions(Scan0),
+                          Function(p)
+                              Dim comments = p.comments _
+                                  .Where(Function(t) t.type = "catalytic activity") _
+                                  .ToArray
+                              Dim features = p.features _
+                                  .Where(Function(t) t.type = "binding site") _
+                                  .Where(Function(t) t.ligand IsNot Nothing AndAlso t.ligand.dbReference IsNot Nothing) _
+                                  .ToArray
+                              Dim substrates = comments _
+                                  .Select(Function(t) t.reaction.dbReferences) _
+                                  .IteratesALL _
+                                  .Where(Function(r) r.type = "ChEBI") _
+                                  .Select(Function(c) c.id) _
+                                  .ToArray
+
+                              Return features _
+                                  .Select(Function(f) f.ligand.dbReference.id) _
+                                  .JoinIterates(substrates) _
+                                  .Distinct _
+                                  .ToArray
+                          End Function)
     End Function
 End Module

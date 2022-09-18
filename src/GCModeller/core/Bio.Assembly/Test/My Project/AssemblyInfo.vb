@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e578cf21a92a6292c740bbb5e90205d3, GCModeller\core\Bio.Assembly\Test\My Project\AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::e9f59b5eeeae63f4e5a4426a2b4a2738, GCModeller\core\Bio.Assembly\Test\My Project\AssemblyInfo.vb"
 
     ' Author:
     ' 
@@ -81,4 +81,3 @@ Imports System.Runtime.InteropServices
 
 <Assembly: AssemblyVersion("1.0.0.0")>
 <Assembly: AssemblyFileVersion("1.0.0.0")>
-

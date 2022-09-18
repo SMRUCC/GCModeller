@@ -43,7 +43,7 @@
 
     '     Module DOOR_IO
     ' 
-    '         Function: __lines, [Imports], Text
+    '         Function: [Imports], __lines, Text
     ' 
     ' 
     ' /********************************************************************************/

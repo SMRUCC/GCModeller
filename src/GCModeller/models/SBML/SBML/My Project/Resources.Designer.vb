@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6e235e0ee984b2cf41370c92c4b01f7d, GCModeller\models\SBML\SBML\My Project\Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::0d3a342c304d545f566dd480a36b8e9e, GCModeller\models\SBML\SBML\My Project\Resources.Designer.vb"
 
     ' Author:
     ' 
@@ -113,4 +113,3 @@ Namespace My.Resources
         End Property
     End Module
 End Namespace
-

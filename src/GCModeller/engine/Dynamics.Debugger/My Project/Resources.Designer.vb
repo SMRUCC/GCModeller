@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5cfe39ea618e4a9977acd6aa9313d30a, GCModeller\engine\Dynamics.Debugger\My Project\Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::00f31d09b99ebfb539183d54e4fd4d61, GCModeller\engine\Dynamics.Debugger\My Project\Resources.Designer.vb"
 
     ' Author:
     ' 
@@ -113,4 +113,3 @@ Namespace My.Resources
         End Property
     End Module
 End Namespace
-

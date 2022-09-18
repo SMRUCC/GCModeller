@@ -43,7 +43,7 @@
 
     ' Module Matrix
     ' 
-    '     Function: __needlemanWunsch, [As], NeedlemanWunsch
+    '     Function: [As], __needlemanWunsch, NeedlemanWunsch
     ' 
     ' /********************************************************************************/
 

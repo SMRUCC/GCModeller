@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8752aa6843d03a5b3d595fe27438014c, GCModeller\analysis\HTS_matrix\Math.vb"
+﻿#Region "Microsoft.VisualBasic::ce5487e04665ba38059f633d0f308fc8, GCModeller\analysis\HTS_matrix\Math.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 21
     ' Comment Lines: 3
     '   Blank Lines: 3
-    '     File Size: 860 B
+    '     File Size: 858 B
 
 
     ' Module Math
@@ -76,4 +76,3 @@ Public Module Math
                 Select t.experiments).ToArray
     End Function
 End Module
-

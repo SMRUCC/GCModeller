@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::abb74297b45940a9ac492665f1b89315, GCModeller\analysis\Metagenome\MetaFunction\My Project\Settings.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::2dff4bdae62a8933ad645c9734669f50, GCModeller\analysis\Metagenome\MetaFunction\My Project\Settings.Designer.vb"
 
     ' Author:
     ' 
@@ -130,4 +130,3 @@ Namespace My
     End Module
 End Namespace
 #end if
-

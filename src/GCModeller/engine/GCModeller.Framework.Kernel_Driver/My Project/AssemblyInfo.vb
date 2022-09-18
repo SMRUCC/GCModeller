@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9dc10a4461780c7a239bed27dfc57332, GCModeller\engine\GCModeller.Framework.Kernel_Driver\My Project\AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::9601ab8efc2c72e8f106ea5dda8e055c, GCModeller\engine\GCModeller.Framework.Kernel_Driver\My Project\AssemblyInfo.vb"
 
     ' Author:
     ' 
@@ -81,4 +81,3 @@ Imports System.Runtime.InteropServices
 
 <Assembly: AssemblyVersion("1.33.899.*")> 
 <Assembly: AssemblyFileVersion("2.0.345.0")> 
-

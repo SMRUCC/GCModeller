@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7fb3412f2fc2a4547e39cbefd8c1d533, GCModeller\engine\GCModeller.Framework.Kernel_Driver\My Project\Settings.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::eb5d2ecf86316d8623c3d12918ad8dc6, GCModeller\engine\GCModeller.Framework.Kernel_Driver\My Project\Settings.Designer.vb"
 
     ' Author:
     ' 
@@ -129,4 +129,3 @@ Namespace My
         End Property
     End Module
 End Namespace
-

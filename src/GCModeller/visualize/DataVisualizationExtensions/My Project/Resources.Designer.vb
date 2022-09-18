@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4af27b7907da5a5d525be3ed597cb046, GCModeller\visualize\DataVisualizationExtensions\My Project\Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::85ea827cf9a965b7107cd4c69bb3ddf6, GCModeller\visualize\DataVisualizationExtensions\My Project\Resources.Designer.vb"
 
     ' Author:
     ' 
@@ -113,4 +113,3 @@ Namespace My.Resources
         End Property
     End Module
 End Namespace
-

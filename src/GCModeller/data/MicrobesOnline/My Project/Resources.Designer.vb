@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::263fb71ef804b8223dbb88cd49a0e2ae, GCModeller\data\MicrobesOnline\My Project\Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::15cf4378341047612aee04d560372f8a, GCModeller\data\MicrobesOnline\My Project\Resources.Designer.vb"
 
     ' Author:
     ' 
@@ -113,4 +113,3 @@ Namespace My.Resources
         End Property
     End Module
 End Namespace
-

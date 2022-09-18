@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3160d3b18fc5ab9c120521095986b66a, GCModeller\models\Networks\KEGG\My Project\Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::a3040218a278e760706eec97b049e498, GCModeller\models\Networks\KEGG\My Project\Resources.Designer.vb"
 
     ' Author:
     ' 
@@ -186,4 +186,3 @@ Namespace My.Resources
         End Property
     End Module
 End Namespace
-

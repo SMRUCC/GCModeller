@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f9e8342066ec6459b9f907d311e53c8d, GCModeller\data\SABIO-RK\test\My Project\AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::24a075c52f60c10bfc45522a98662ba3, GCModeller\data\SABIO-RK\test\My Project\AssemblyInfo.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 13
     ' Comment Lines: 15
     '   Blank Lines: 7
-    '     File Size: 1.15 KB
+    '     File Size: 1.14 KB
 
 
     ' 
@@ -81,4 +81,3 @@ Imports System.Runtime.InteropServices
 
 <Assembly: AssemblyVersion("1.0.0.0")>
 <Assembly: AssemblyFileVersion("1.0.0.0")>
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::586280c3275dff4c74776b950b1ecab4, GCModeller\analysis\SequenceToolkit\DNA_Comparative\My Project\AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::17cc6b4eba0f357499c110d95fe949b4, GCModeller\analysis\SequenceToolkit\DNA_Comparative\My Project\AssemblyInfo.vb"
 
     ' Author:
     ' 
@@ -81,4 +81,3 @@ Imports System.Runtime.InteropServices
 
 <Assembly: AssemblyVersion("1.0.0.0")> 
 <Assembly: AssemblyFileVersion("1.0.0.0")> 
-

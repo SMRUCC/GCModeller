@@ -48,6 +48,7 @@
     <ProjectReference Include="..\..\..\R-sharp\R#\Rsharp-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\DataMining\UMAP\UMAP.NET5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\Math.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\imaging.NET5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\gr\network-visualization\Visualizer\networkVisualizer.NET5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
     <ProjectReference Include="..\..\modules\ExperimentDesigner\designer-netcore5.vbproj" />

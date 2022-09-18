@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::45e1ad4619cf0c401d191104d9db4482, GCModeller\analysis\SequenceToolkit\SmithWaterman\test\My Project\AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::eb90c705bb9879e2f5b236ae5e0fa395, GCModeller\analysis\SequenceToolkit\SmithWaterman\test\My Project\AssemblyInfo.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 13
     ' Comment Lines: 15
     '   Blank Lines: 7
-    '     File Size: 1.15 KB
+    '     File Size: 1.14 KB
 
 
     ' 
@@ -81,4 +81,3 @@ Imports System.Runtime.InteropServices
 
 <Assembly: AssemblyVersion("1.0.0.0")>
 <Assembly: AssemblyFileVersion("1.0.0.0")>
-

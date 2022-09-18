@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0b45a8c9126fa29b2e7c9708e26a0966, GCModeller\data\RegulonDatabase\My Project\Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::1d1315509b57485efae90cfe394b83b9, GCModeller\data\RegulonDatabase\My Project\Resources.Designer.vb"
 
     ' Author:
     ' 
@@ -113,4 +113,3 @@ Namespace My.Resources
         End Property
     End Module
 End Namespace
-

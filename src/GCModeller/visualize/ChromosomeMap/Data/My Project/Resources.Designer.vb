@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ec8b74411d77a837b0ba0153e0515337, GCModeller\visualize\ChromosomeMap\Data\My Project\Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::2aaebbba949dde93c3c169b18c21445a, GCModeller\visualize\ChromosomeMap\Data\My Project\Resources.Designer.vb"
 
     ' Author:
     ' 
@@ -113,4 +113,3 @@ Namespace My.Resources
         End Property
     End Module
 End Namespace
-

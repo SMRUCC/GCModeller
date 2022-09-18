@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::80efad7c552955a6a5d18bd7e9b915e6, GCModeller\core\Bio.Assembly\Test\My Project\Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::d55cbe0996219144a48ddaf6ea76c2bf, GCModeller\core\Bio.Assembly\Test\My Project\Resources.Designer.vb"
 
     ' Author:
     ' 
@@ -112,4 +112,3 @@ Namespace My.Resources
         End Property
     End Module
 End Namespace
-

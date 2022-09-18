@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::eb85bb7d2461aaeaaac798402481f764, GCModeller\annotations\GSEA\GSVA\zscore.vb"
+﻿#Region "Microsoft.VisualBasic::b74d1db250a850d6d6ffce42c89ed501, GCModeller\annotations\GSEA\GSVA\zscore.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 2
     ' Comment Lines: 0
     '   Blank Lines: 1
-    '     File Size: 29 B
+    '     File Size: 27 B
 
 
     ' Module zscore
@@ -52,4 +52,3 @@
 Module zscore
 
 End Module
-

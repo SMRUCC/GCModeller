@@ -245,7 +245,9 @@ Public Module GSEABackground
     ''' <summary>
     ''' Create a cluster for gsea background
     ''' </summary>
-    ''' <param name="data"></param>
+    ''' <param name="data">
+    ''' id, name data fields should be exists in current dataframe object
+    ''' </param>
     ''' <param name="clusterId$"></param>
     ''' <param name="clusterName$"></param>
     ''' <returns></returns>

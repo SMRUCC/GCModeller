@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d8227aee1fe71c3d06fcd797d3cf140a, GCModeller\models\BioCyc\Models\compounds.vb"
+﻿#Region "Microsoft.VisualBasic::de2e5bb65be6c903323e0d364341bab2, GCModeller\models\BioCyc\Models\compounds.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 30
+    '   Total Lines: 29
     '    Code Lines: 26
     ' Comment Lines: 0
-    '   Blank Lines: 4
-    '     File Size: 1019 B
+    '   Blank Lines: 3
+    '     File Size: 1015 B
 
 
     ' Class compounds
@@ -50,7 +50,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 
@@ -81,4 +80,3 @@ Public Class compounds : Inherits Model
     Public Property componentOf As String()
 
 End Class
-

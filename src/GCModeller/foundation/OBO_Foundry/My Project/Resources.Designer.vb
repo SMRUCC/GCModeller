@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6d555ae286f95537c850f64beb036a26, GCModeller\foundation\OBO_Foundry\My Project\Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::6a01804ce44e7f0ef7c1e179f8b74acb, GCModeller\foundation\OBO_Foundry\My Project\Resources.Designer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 32
     ' Comment Lines: 23
     '   Blank Lines: 8
-    '     File Size: 2.81 KB
+    '     File Size: 2.80 KB
 
 
     '     Module Resources
@@ -113,4 +113,3 @@ Namespace My.Resources
         End Property
     End Module
 End Namespace
-

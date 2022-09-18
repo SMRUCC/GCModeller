@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a3f723fba7cab3b153f315c9000f2ea2, GCModeller\visualize\DataVisualizationExtensions\CatalogProfiling\Heatmap\CatalogHeatMap.vb"
+﻿#Region "Microsoft.VisualBasic::eefc5012bb4cfca62ba3e91acfed013b, GCModeller\visualize\DataVisualizationExtensions\CatalogProfiling\Heatmap\CatalogHeatMap.vb"
 
     ' Author:
     ' 
@@ -34,10 +34,10 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 160
+    '   Total Lines: 159
     '    Code Lines: 123
     ' Comment Lines: 16
-    '   Blank Lines: 21
+    '   Blank Lines: 20
     '     File Size: 7.10 KB
 
 
@@ -50,7 +50,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports System.Drawing
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel

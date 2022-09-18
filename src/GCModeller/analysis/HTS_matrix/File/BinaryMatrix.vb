@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5f8d7faaac7de50c1bd6b33cb998b810, GCModeller\analysis\HTS_matrix\File\BinaryMatrix.vb"
+﻿#Region "Microsoft.VisualBasic::3a8eec8510b2f14b27fdb26df5a8c531, GCModeller\analysis\HTS_matrix\File\BinaryMatrix.vb"
 
     ' Author:
     ' 
@@ -210,4 +210,3 @@ Public Module BinaryMatrix
     End Sub
 
 End Module
-

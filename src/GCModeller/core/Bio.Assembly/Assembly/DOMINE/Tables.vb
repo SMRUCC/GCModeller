@@ -43,7 +43,7 @@
 
     '     Class Interaction
     ' 
-    '         Properties: _3did, [ME], DIPD, Domain1, Domain2
+    '         Properties: [ME], _3did, DIPD, Domain1, Domain2
     '                     DomainGA, DPEA, Fusion, GPE, INSITE
     '                     iPfam, KGIDDI, MetaData, PE, PP
     '                     PredictionConfidence, Pvalue, RCDP, RDFF, SameGO

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1e2df3c5e1cc0769102b2f7588a55a25, GCModeller\models\BioCyc\Models\reactions.vb"
+﻿#Region "Microsoft.VisualBasic::d1c0ba9f45f79b5567bd0acd0b7119ff, GCModeller\models\BioCyc\Models\reactions.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 73
     ' Comment Lines: 1
     '   Blank Lines: 5
-    '     File Size: 3.15 KB
+    '     File Size: 3.14 KB
 
 
     ' Class reactions
@@ -133,4 +133,3 @@ Public Class reactions : Inherits Model
     End Function
 
 End Class
-

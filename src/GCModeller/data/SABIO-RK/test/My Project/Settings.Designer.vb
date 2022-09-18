@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::20c9194aa14c303f0a497faa5a0c01f6, GCModeller\data\SABIO-RK\test\My Project\Settings.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::c93dcf008694b736518b36b742358195, GCModeller\data\SABIO-RK\test\My Project\Settings.Designer.vb"
 
     ' Author:
     ' 
@@ -129,4 +129,3 @@ Namespace My
         End Property
     End Module
 End Namespace
-

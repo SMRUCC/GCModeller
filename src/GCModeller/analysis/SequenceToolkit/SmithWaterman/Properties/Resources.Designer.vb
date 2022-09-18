@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::32291fd107ab3d2ed2502b7169e37d03, GCModeller\analysis\SequenceToolkit\SmithWaterman\Properties\Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::7242c8b48aded959a4dd05ab967c8e50, GCModeller\analysis\SequenceToolkit\SmithWaterman\Properties\Resources.Designer.vb"
 
     ' Author:
     ' 
@@ -131,4 +131,3 @@ Namespace My.Resources
         End Property
     End Module
 End Namespace
-

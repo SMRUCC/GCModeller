@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bcdb5cb91a455ac8aec212d8cd13c6ab, GCModeller\models\BioCyc\Reader\AttrDataCollection.vb"
+﻿#Region "Microsoft.VisualBasic::0e6eb4bec40dd079b0cc40d1400e22bf, GCModeller\models\BioCyc\Reader\AttrDataCollection.vb"
 
     ' Author:
     ' 
@@ -96,4 +96,3 @@ Public Class AttrDataCollection(Of T As Model)
     End Function
 
 End Class
-

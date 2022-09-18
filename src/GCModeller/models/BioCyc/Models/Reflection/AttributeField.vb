@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3e36c292b93067791ddb3ef170dfd5d3, GCModeller\models\BioCyc\Models\Reflection\AttributeField.vb"
+﻿#Region "Microsoft.VisualBasic::27b57f1d2cda1c8722ca5dd6cd6217ee, GCModeller\models\BioCyc\Models\Reflection\AttributeField.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 27
+    '   Total Lines: 26
     '    Code Lines: 19
     ' Comment Lines: 0
-    '   Blank Lines: 8
-    '     File Size: 684 B
+    '   Blank Lines: 7
+    '     File Size: 680 B
 
 
     ' Class AttributeField
@@ -51,7 +51,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports System.Reflection
 
@@ -79,4 +78,3 @@ Public Class AttributeField : Inherits Attribute
     End Function
 
 End Class
-

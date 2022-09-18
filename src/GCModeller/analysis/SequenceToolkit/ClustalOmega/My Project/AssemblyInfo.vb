@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2526df960366bbdb0ed138dc9f7be852, GCModeller\analysis\SequenceToolkit\ClustalOmega\My Project\AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::84f6e84ded2074ff972f481547639e09, GCModeller\analysis\SequenceToolkit\ClustalOmega\My Project\AssemblyInfo.vb"
 
     ' Author:
     ' 
@@ -81,4 +81,3 @@ Imports System.Runtime.InteropServices
 
 <Assembly: AssemblyVersion("1.1.0.*")> 
 <Assembly: AssemblyFileVersion("4.0.3.456")> 
-

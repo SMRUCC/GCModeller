@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::68b1ea8e4e4e0377a6588a437bd7f6b1, GCModeller\models\BioCyc\Models\Reflection\ElementFactory.vb"
+﻿#Region "Microsoft.VisualBasic::0dea570c06dc54133168ee5dcc2aaba7, GCModeller\models\BioCyc\Models\Reflection\ElementFactory.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 14
     ' Comment Lines: 0
     '   Blank Lines: 5
-    '     File Size: 618 B
+    '     File Size: 616 B
 
 
     ' Class ElementFactory
@@ -72,4 +72,3 @@ Public NotInheritable Class ElementFactory
         Return registry(template)(value)
     End Function
 End Class
-
