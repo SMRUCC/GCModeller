@@ -84,6 +84,34 @@ Module OBO_DAG
         Return obo
     End Function
 
+    <ExportAPI("filter_properties")>
+    Public Function filterProperty(obo As GO_OBO, excludes As String()) As GO_OBO
+        If excludes.IsNullOrEmpty Then
+            Return obo
+        End If
+
+        obo = New GO_OBO With {
+            .headers = obo.headers,
+            .typedefs = obo.typedefs,
+            .terms = obo.terms _
+                .AsParallel _
+                .Select(Function(t)
+                            If Not t.property_value.IsNullOrEmpty Then
+                                t.property_value = t.property_value _
+                                    .Where(Function(str)
+                                               Return Not excludes.Any(Function(assert) str.StartsWith(assert))
+                                           End Function) _
+                                    .ToArray
+                            End If
+
+                            Return t
+                        End Function) _
+                .ToArray
+        }
+
+        Return obo
+    End Function
+
     <ExportAPI("write.obo")>
     Public Function saveObo(obo As GO_OBO, path As String, Optional excludes As String() = Nothing) As Boolean
         Using file As Stream = path.Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False)
