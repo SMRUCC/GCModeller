@@ -74,7 +74,7 @@ Namespace IO
                                                         Optional excludes As Index(Of String) = Nothing) As IEnumerable(Of String)
             Dim name$
             Dim value As Object
-            Dim vals As Object()
+            Dim vals As Array
 
             For Each [property] As BindProperty(Of Field) In schema.Values
                 If [property].Type Is GetType(String) Then
@@ -89,7 +89,19 @@ Namespace IO
 
                     Yield String.Format("{0}: {1}", name, value.ToString)
                 Else
-                    vals = [property].GetValue(target)
+                    value = [property].GetValue(target)
+
+                    If value Is Nothing Then
+                        Continue For
+                    ElseIf value.GetType.IsArray Then
+                        vals = value
+                    ElseIf TypeOf value Is Dictionary(Of String, String) Then
+                        vals = DirectCast(value, Dictionary(Of String, String)) _
+                            .Select(Function(t1) $"{t1.Key} {t1.Value}") _
+                            .ToArray
+                    Else
+                        Throw New NotImplementedException(value.GetType.FullName)
+                    End If
 
                     If vals.IsNullOrEmpty Then
                         Continue For
