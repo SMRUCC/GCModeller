@@ -53,11 +53,9 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
-Imports any = Microsoft.VisualBasic.Scripting
 Imports SMRUCC.genomics.foundation.OBO_Foundry.IO.Reflection
+Imports any = Microsoft.VisualBasic.Scripting
 Imports Field = SMRUCC.genomics.foundation.OBO_Foundry.IO.Reflection.Field
-Imports System.ComponentModel.Design
-Imports System.Numerics
 
 Namespace IO
 
@@ -71,7 +69,9 @@ Namespace IO
         ''' <param name="schema"></param>
         ''' <returns></returns>
         <Extension>
-        Public Iterator Function ToLines(Of T As Class)(target As T, schema As Dictionary(Of BindProperty(Of Field))) As IEnumerable(Of String)
+        Public Iterator Function ToLines(Of T As Class)(target As T,
+                                                        schema As Dictionary(Of BindProperty(Of Field)),
+                                                        Optional excludes As Index(Of String) = Nothing) As IEnumerable(Of String)
             Dim name$
             Dim value As Object
             Dim vals As Object()
@@ -83,6 +83,8 @@ Namespace IO
 
                     If value Is Nothing Then
                         Continue For
+                    ElseIf Not excludes Is Nothing AndAlso name Like excludes Then
+                        Continue For
                     End If
 
                     Yield String.Format("{0}: {1}", name, value.ToString)
@@ -93,6 +95,10 @@ Namespace IO
                         Continue For
                     Else
                         name = [property].field.name
+
+                        If Not excludes Is Nothing AndAlso name Like excludes Then
+                            Continue For
+                        End If
                     End If
 
                     Dim pvalue = From o As Object

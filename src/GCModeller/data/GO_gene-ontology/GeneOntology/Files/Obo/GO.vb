@@ -96,14 +96,22 @@ Namespace OBO
             Return True
         End Function
 
-        Public Sub Save(file As Stream)
+        Public Sub Save(file As Stream, Optional excludes As String() = Nothing)
             Dim text As New StreamWriter(file, encoding:=Encodings.ASCII.CodePage) With {.NewLine = vbLf}
             Dim schema = Reflection.LoadClassSchema(Of Term)()
+            Dim excludeList As Index(Of String) = Nothing
+
+            If Not excludes.IsNullOrEmpty Then
+                excludeList = excludes.Indexing
+            End If
 
             Call headers.ToLines.ForEach(AddressOf text.WriteLine)
             Call text.WriteLine()
 
-            For Each lines As String() In From t As Term In terms Select t.ToLines(schema).ToArray
+            For Each lines As String() In From t As Term
+                                          In terms
+                                          Select t.ToLines(schema, excludeList).ToArray
+
                 Call text.WriteLine(Term.Term)
                 Call lines.ForEach(AddressOf text.WriteLine)
                 Call text.WriteLine()
