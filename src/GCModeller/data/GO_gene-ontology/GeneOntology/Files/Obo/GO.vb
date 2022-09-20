@@ -105,7 +105,7 @@ Namespace OBO
                 excludeList = excludes.Indexing
             End If
 
-            Call headers.ToLines.ForEach(AddressOf text.WriteLine)
+            Call headers.ToLines.DoEach(AddressOf text.WriteLine)
             Call text.WriteLine()
 
             For Each lines As String() In From t As Term
@@ -113,7 +113,7 @@ Namespace OBO
                                           Select t.ToLines(schema, excludeList).ToArray
 
                 Call text.WriteLine(Term.Term)
-                Call lines.ForEach(AddressOf text.WriteLine)
+                Call lines.DoEach(AddressOf text.WriteLine)
                 Call text.WriteLine()
             Next
 

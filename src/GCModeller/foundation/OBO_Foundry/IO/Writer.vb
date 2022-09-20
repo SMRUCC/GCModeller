@@ -97,7 +97,7 @@ Namespace IO
                         vals = value
                     ElseIf TypeOf value Is Dictionary(Of String, String) Then
                         vals = DirectCast(value, Dictionary(Of String, String)) _
-                            .Select(Function(t1) $"{t1.Key} {t1.Value}") _
+                            .Select(Function(t1) $"{t1.Key} ""{t1.Value}""") _
                             .ToArray
                     Else
                         Throw New NotImplementedException(value.GetType.FullName)
