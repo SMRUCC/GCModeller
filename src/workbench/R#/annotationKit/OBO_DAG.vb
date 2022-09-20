@@ -71,7 +71,7 @@ Module OBO_DAG
     End Function
 
     <ExportAPI("write.obo")>
-    Public Function saveObo(obo As GO_OBO, path As String) As Boolean
+    Public Function saveObo(obo As GO_OBO, path As String, Optional excludes As String() = Nothing) As Boolean
         Return obo.Save(path)
     End Function
 End Module

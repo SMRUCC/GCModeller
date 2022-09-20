@@ -103,7 +103,7 @@ Namespace OBO
             Call headers.ToLines.ForEach(AddressOf text.WriteLine)
             Call text.WriteLine()
 
-            For Each lines As String() In From t As Term In terms Select t.ToLines(schema)
+            For Each lines As String() In From t As Term In terms Select t.ToLines(schema).ToArray
                 Call text.WriteLine(Term.Term)
                 Call lines.ForEach(AddressOf text.WriteLine)
                 Call text.WriteLine()
