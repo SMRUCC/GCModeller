@@ -69,5 +69,10 @@ Module OBO_DAG
     Public Function readOboDAG(path As String) As GO_OBO
         Return GO_OBO.LoadDocument(path)
     End Function
+
+    <ExportAPI("write.obo")>
+    Public Function saveObo(obo As GO_OBO, path As String) As Boolean
+        Return obo.Save(path)
+    End Function
 End Module
 
