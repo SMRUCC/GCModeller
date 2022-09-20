@@ -123,7 +123,9 @@ Namespace IO
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function ToLines(Of T As Class)(target As T) As String()
-            Return target.ToLines(Reflector.LoadClassSchema(Of T)())
+            Return target _
+                .ToLines(Reflector.LoadClassSchema(Of T)()) _
+                .ToArray
         End Function
     End Module
 End Namespace
