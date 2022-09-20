@@ -71,6 +71,19 @@ Module OBO_DAG
         Return GO_OBO.LoadDocument(path)
     End Function
 
+    <ExportAPI("filter.is_obsolete")>
+    Public Function filterObsolete(obo As GO_OBO) As GO_OBO
+        obo = New GO_OBO With {
+            .headers = obo.headers,
+            .typedefs = obo.typedefs,
+            .terms = obo.terms _
+                .Where(Function(t) Not t.is_obsolete.TextEquals("true")) _
+                .ToArray
+        }
+
+        Return obo
+    End Function
+
     <ExportAPI("write.obo")>
     Public Function saveObo(obo As GO_OBO, path As String, Optional excludes As String() = Nothing) As Boolean
         Using file As Stream = path.Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False)
