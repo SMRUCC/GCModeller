@@ -125,7 +125,7 @@ Namespace Plots
         ''' show debug message if verbose
         ''' </param>
         ''' <returns></returns>
-        Public Function GetDataScaler(ByRef g As IGraphics, rect As GraphicsRegion, verbose As Boolean) As DataScaler
+        Public Function GetDataScaler(ByRef g As IGraphics, rect As GraphicsRegion) As DataScaler
             Dim XTicks#(), YTicks#()
 
             XTicks = array.Select(Function(s) s.pts).IteratesALL.Select(Function(p) CDbl(p.pt.X)).ToArray
