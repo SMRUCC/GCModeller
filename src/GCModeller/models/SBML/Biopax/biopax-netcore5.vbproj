@@ -64,14 +64,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\mime\application%rdf+xml\rdf_xml-netcore5.vbproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="..\..\..\..\..\LICENSE">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\mime\application%rdf+xml\rdf_xml-netcore5.vbproj" />
   </ItemGroup>
 
 </Project>
