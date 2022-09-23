@@ -236,7 +236,7 @@ Namespace Parallel.Threads
                     End If
                 End SyncLock
 
-                If task.IsEmpty Then
+                If Not task.IsEmpty Then
                     Dim h As Func(Of Long) = AddressOf New __taskInvoke With {.task = task.Bind}.Run
                     Dim callback As Action(Of Long) = task.Target
 
@@ -291,7 +291,7 @@ Namespace Parallel.Threads
             Call Thread.Sleep(1000)
 
             Do While threads.Any(Function(t) t.RunningTask)
-                Call Thread.Sleep(1000)
+                Call Thread.Sleep(5000)
                 Call Console.WriteLine()
                 Call Console.WriteLine(ToString)
             Loop
