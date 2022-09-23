@@ -139,6 +139,17 @@ Namespace CommandLine
                 it:=(Not app.ExtensionSuffix("sh")) OrElse app.FileExists,
                 workdir:=workdir
             )
+
+            If p.StartInfo.RedirectStandardOutput Then
+                stdErr = handleRunStream(p, [in], onReadLine)
+            End If
+
+            Call p.WaitForExit()
+
+            Return p.ExitCode
+        End Function
+
+        Private Function handleRunStream(p As Process, in$, onReadLine As Action(Of String)) As String
             Dim reader As StreamReader = p.StandardOutput
             Dim errReader As StreamReader = p.StandardError
 
@@ -153,11 +164,7 @@ Namespace CommandLine
                 Call onReadLine(reader.ReadLine)
             End While
 
-            stdErr = reader.ReadToEnd
-
-            Call p.WaitForExit()
-
-            Return p.ExitCode
+            Return reader.ReadToEnd
         End Function
 
         ''' <summary>
@@ -184,6 +191,12 @@ Namespace CommandLine
                                        Optional workdir As String = Nothing) As Process
             Dim p As New Process
 
+            ' force shell exec when call a dotnet app
+            If appPath = "dotnet" Then
+                it = False
+                p.StartInfo.UseShellExecute = True
+            End If
+
             p.StartInfo = New ProcessStartInfo
             p.StartInfo.FileName = appPath
             p.StartInfo.Arguments = args.TrimNewLine(replacement:=" ")
@@ -193,11 +206,6 @@ Namespace CommandLine
             p.StartInfo.RedirectStandardError = it
             p.StartInfo.UseShellExecute = Not it
             p.StartInfo.CreateNoWindow = App.IsMicrosoftPlatform
-
-            ' force shell exec when call a dotnet app
-            If appPath = "dotnet" Then
-                p.StartInfo.UseShellExecute = True
-            End If
 
             If Not workdir.StringEmpty Then
                 If Not workdir.DirectoryExists Then
