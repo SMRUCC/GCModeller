@@ -1,53 +1,53 @@
 ﻿#Region "Microsoft.VisualBasic::52ac96ac6fa5f3582b3a8af3ad3d1f08, sciBASIC#\Microsoft.VisualBasic.Core\src\CommandLine\CLI\PipelineProcess.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 267
-    '    Code Lines: 147
-    ' Comment Lines: 78
-    '   Blank Lines: 42
-    '     File Size: 10.34 KB
+' Summaries:
 
 
-    '     Module PipelineProcess
-    ' 
-    '         Function: (+2 Overloads) [Call], CallDotNetCorePipeline, CreatePipeline, (+2 Overloads) ExecSub, FindProc
-    '                   (+2 Overloads) GetProc
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 267
+'    Code Lines: 147
+' Comment Lines: 78
+'   Blank Lines: 42
+'     File Size: 10.34 KB
+
+
+'     Module PipelineProcess
+' 
+'         Function: (+2 Overloads) [Call], CallDotNetCorePipeline, CreatePipeline, (+2 Overloads) ExecSub, FindProc
+'                   (+2 Overloads) GetProc
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -86,7 +86,7 @@ Namespace CommandLine
             Dim CLICompared As CommandLine = CommandLine.op_Implicit(cli)
             Dim listProc As Process() = Proc.GetProcesses
             Dim process = LinqAPI.DefaultFirst(Of Process) _
- _
+                                                           _
                 () <= From proc As Process
                       In listProc
                       Let args = Parsers.TryParse(proc.StartInfo.Arguments)
@@ -193,6 +193,11 @@ Namespace CommandLine
             p.StartInfo.RedirectStandardError = it
             p.StartInfo.UseShellExecute = Not it
             p.StartInfo.CreateNoWindow = App.IsMicrosoftPlatform
+
+            ' force shell exec when call a dotnet app
+            If appPath = "dotnet" Then
+                p.StartInfo.UseShellExecute = True
+            End If
 
             If Not workdir.StringEmpty Then
                 If Not workdir.DirectoryExists Then
