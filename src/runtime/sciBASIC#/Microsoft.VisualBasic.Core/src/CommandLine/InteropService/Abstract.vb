@@ -135,6 +135,10 @@ Namespace CommandLine.InteropService
 
         Dim lastProc As IIORedirectAbstract
 
+        Public Sub SetDotNetCoreDll()
+            _executableDll = _executableAssembly.ChangeSuffix("dll")
+        End Sub
+
         Public Function RunDotNetApp(args$) As IIORedirectAbstract
 #If NETCOREAPP Then
             lastProc = App.Shell(_executableDll, args, CLR:=True)
