@@ -64,6 +64,19 @@ Imports F = Microsoft.VisualBasic.Math.Statistics.Hypothesis.FishersExact.Fisher
 ''' </summary>
 Public Module Enrichment
 
+    <Extension>
+    Public Function CutBackgroundBySize(genome As Background, cutSize As Integer) As Background
+        Return New Background With {
+            .build = genome.build,
+            .comments = genome.comments,
+            .id = genome.id,
+            .name = genome.name,
+            .clusters = genome.clusters _
+                .Where(Function(cl) cl.members.Length > cutSize) _
+                .ToArray
+        }
+    End Function
+
     ''' <summary>
     ''' 基于Fisher精确检验的基因列表富集计算分析
     ''' </summary>
@@ -78,6 +91,7 @@ Public Module Enrichment
     Public Iterator Function Enrichment(genome As Background,
                                         list As IEnumerable(Of String),
                                         Optional resize As Integer = -1,
+                                        Optional cutSize As Integer = 3,
                                         Optional outputAll As Boolean = False,
                                         Optional isLocustag As Boolean = False,
                                         Optional showProgress As Boolean = True,
@@ -103,6 +117,10 @@ Public Module Enrichment
                                  ' Do Nothing
                              End Sub
             End If
+        End If
+
+        If cutSize > 0 Then
+            genome = genome.CutBackgroundBySize(cutSize)
         End If
 
         If genome.size <= 0 Then
