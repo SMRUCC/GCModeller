@@ -127,15 +127,16 @@ Module GSEA
     <ExportAPI("enrichment")>
     Public Function Enrichment(background As Background,
                                geneSet$(),
+                               Optional cut_size As Integer = 3,
                                Optional outputAll As Boolean = True,
                                Optional resize As Integer = -1,
                                Optional showProgress As Boolean = False) As EnrichmentResult()
-
         Return background.Enrichment(
             list:=geneSet,
             outputAll:=outputAll,
             showProgress:=showProgress,
-            resize:=resize
+            resize:=resize,
+            cutSize:=cut_size
         ).FDRCorrection _
         .OrderBy(Function(e) e.FDR) _
         .ToArray

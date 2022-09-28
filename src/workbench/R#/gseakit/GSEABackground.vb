@@ -96,9 +96,30 @@ Public Module GSEABackground
         Return summary.ToString
     End Function
 
+    ''' <summary>
+    ''' get all of the cluster id set from the given background model object 
+    ''' </summary>
+    ''' <param name="background"></param>
+    ''' <returns></returns>
     <ExportAPI("clusterIDs")>
     Public Function clusterIDs(background As Background) As String()
         Return background.clusters.Select(Function(a) a.ID).ToArray
+    End Function
+
+    ''' <summary>
+    ''' get all of the molecule id set from the given background model object
+    ''' </summary>
+    ''' <param name="background"></param>
+    ''' <returns></returns>
+    <ExportAPI("moleculeIDs")>
+    Public Function moleculeIDs(background As Background) As String()
+        Return background.clusters _
+            .Select(Function(c)
+                        Return c.members.Select(Function(a) a.accessionID)
+                    End Function) _
+            .IteratesALL _
+            .Distinct _
+            .ToArray
     End Function
 
     <ExportAPI("meta_background")>
