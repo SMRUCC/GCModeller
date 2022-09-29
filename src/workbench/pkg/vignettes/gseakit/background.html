@@ -10,7 +10,7 @@
     <meta name="keywords" content="GCModeller; Xanthomonas; Artificial Life" />
     <meta name="generator" content="https://github.com/xieguigang/xDoc" />
     <meta name="theme-color" content="#333" />
-    <meta name="last-update" content="2022-09-28" />
+    <meta name="last-update" content="2022-09-29" />
     <meta name="description" content="A software system aim at Artificial Life system design and analysis." />
     <meta class="foundation-data-attribute-namespace" />
     <meta class="foundation-mq-xxlarge" />
@@ -39,7 +39,7 @@
   </h2>
   <hr />
   <p>
-                      
+                    <p>get all of the cluster id set from the given background model object</p>  
                 
                     <pre><p>let <code>clusterIDs</code> as function(<code>background</code> as <generic> Background) -> <code>string</code> {
     #
@@ -53,7 +53,46 @@
     return call <code>R&#35;.interop_[GSEABackground::clusterIDs]</code>(...);
 }</p></pre>
 
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>background</code>: -
+                </li>
+                </ul>
+</div>
+                       
                     
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="moleculeIDs">
+    <a href="./background/moleculeIDs.html">moleculeIDs</a>
+  </h2>
+  <hr />
+  <p>
+                    <p>get all of the molecule id set from the given background model object</p>  
+                
+                    <pre><p>let <code>moleculeIDs</code> as function(<code>background</code> as <generic> Background) -> <code>string</code> {
+    #
+    # .NET API information
+    #
+    # module: gseakit.GSEABackground
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: gseakit.dll
+    # package: "background"
+    #
+    return call <code>R&#35;.interop_[GSEABackground::moleculeIDs]</code>(...);
+}</p></pre>
+
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>background</code>: -
+                </li>
+                </ul>
+</div>
                        
                     
 
