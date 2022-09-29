@@ -1,55 +1,55 @@
 ﻿#Region "Microsoft.VisualBasic::72a5e101c1450bcea746aff59aa2e1fc, R#\gseakit\GSEABackground.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 432
-    '    Code Lines: 330
-    ' Comment Lines: 60
-    '   Blank Lines: 42
-    '     File Size: 16.99 KB
+' Summaries:
 
 
-    ' Module GSEABackground
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: asGenesetList, assembleBackground, backgroundSummary, clusterIDs, ClusterIntersections
-    '               compoundCluster, CreateCluster, createGene, CreateKOBackground, CreateKOReference
-    '               DAGbackground, GetCluster, KOTable, metabolismBackground, MetaEnrichBackground
-    '               PrintBackground, ReadBackground, WriteBackground
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 432
+'    Code Lines: 330
+' Comment Lines: 60
+'   Blank Lines: 42
+'     File Size: 16.99 KB
+
+
+' Module GSEABackground
+' 
+'     Constructor: (+1 Overloads) Sub New
+'     Function: asGenesetList, assembleBackground, backgroundSummary, clusterIDs, ClusterIntersections
+'               compoundCluster, CreateCluster, createGene, CreateKOBackground, CreateKOReference
+'               DAGbackground, GetCluster, KOTable, metabolismBackground, MetaEnrichBackground
+'               PrintBackground, ReadBackground, WriteBackground
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -317,7 +317,7 @@ Public Module GSEABackground
             clusterVec = clusterList.populates(Of Cluster)(env).ToArray
 
             If background_size <= 0 Then
-                background_size = Aggregate cluster In clusterVec Into Sum(cluster.size)
+                background_size = clusterVec.BackgroundSize
             End If
         End If
 
