@@ -77,7 +77,7 @@ Public Class PtfWriter : Implements IDisposable
 
     Private Sub saveCrossReference()
         For Each dbname In id_mapping
-            Dim intptr As String = $"/db_xref/{dbname.Value.Name}.json"
+            Dim intptr As String = $"/db_xref/{dbname.Value.Name}.txt"
             Dim file As Stream = stream.OpenBlock(intptr)
             Dim b = dbname.Value.Value.ToBEncode(Nothing)
             Dim bstr = b.ToBencodedString
