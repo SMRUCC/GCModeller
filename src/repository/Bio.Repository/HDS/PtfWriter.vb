@@ -50,7 +50,7 @@ Public Class PtfWriter : Implements IDisposable
             If protein.has(dbname.Key) Then
                 Dim hash = dbname.Value.Value
 
-                For Each xref As String In protein(dbname.Key)
+                For Each xref As String In protein.attributes(dbname.Key)
                     If Not hash.ContainsKey(xref) Then
                         Call hash.Add(xref, New List(Of String))
                     End If
