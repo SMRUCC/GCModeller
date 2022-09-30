@@ -1,4 +1,6 @@
 ﻿Imports System.IO
+Imports System.Text
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.IO
 Imports Microsoft.VisualBasic.DataStorage.HDSPack.FileSystem
 Imports Microsoft.VisualBasic.Serialization.Bencoding
@@ -8,7 +10,7 @@ Imports SMRUCC.genomics.Annotation.Ptf
 Public Class PtfWriter : Implements IDisposable
 
     ReadOnly stream As StreamPack
-    ReadOnly id_mapping As Dictionary(Of String, Dictionary(Of String, String))
+    ReadOnly id_mapping As Dictionary(Of String, NamedValue(Of Dictionary(Of String, List(Of String))))
 
     Private disposedValue As Boolean
 
@@ -22,11 +24,14 @@ Public Class PtfWriter : Implements IDisposable
         Me.id_mapping = initIndex(id_mapping)
     End Sub
 
-    Private Shared Function initIndex(id_mapping As String()) As Dictionary(Of String, Dictionary(Of String, String))
+    Private Shared Function initIndex(id_mapping As String()) As Dictionary(Of String, NamedValue(Of Dictionary(Of String, List(Of String))))
         Return id_mapping _
-            .ToDictionary(Function(dbname) dbname,
+            .ToDictionary(Function(dbname) dbname.ToLower,
                           Function(any)
-                              Return New Dictionary(Of String, String)
+                              Return New NamedValue(Of Dictionary(Of String, List(Of String)))(
+                                  name:=any,
+                                  value:=New Dictionary(Of String, List(Of String))
+                              )
                           End Function)
     End Function
 
@@ -43,8 +48,14 @@ Public Class PtfWriter : Implements IDisposable
 
         For Each dbname In id_mapping
             If protein.has(dbname.Key) Then
+                Dim hash = dbname.Value.Value
+
                 For Each xref As String In protein(dbname.Key)
-                    Call dbname.Value.Add(xref, protein.geneId)
+                    If Not hash.ContainsKey(xref) Then
+                        Call hash.Add(xref, New List(Of String))
+                    End If
+
+                    Call hash(xref).Add(protein.geneId)
                 Next
             End If
         Next
@@ -66,13 +77,14 @@ Public Class PtfWriter : Implements IDisposable
 
     Private Sub saveCrossReference()
         For Each dbname In id_mapping
-            Dim intptr As String = $"/db_xref/{dbname.Key}.json"
-            Dim file As New BinaryDataWriter(stream.OpenBlock(intptr)) With {
-                .ByteOrder = ByteOrder.BigEndian,
-                .Encoding = Encodings.ASCII.CodePage
-            }
+            Dim intptr As String = $"/db_xref/{dbname.Value.Name}.json"
+            Dim file As Stream = stream.OpenBlock(intptr)
+            Dim b = dbname.Value.Value.ToBEncode(Nothing)
+            Dim bstr = b.ToBencodedString
 
-            Call file.Write(dbname.Value.ToBEncode(Nothing).ToBencodedString)
+            ' bytes count is equals to chars count
+            ' in ascii text encoding
+            Call file.Write(Encoding.ASCII.GetBytes(bstr), Scan0, bstr.Length)
             Call file.Flush()
             Call file.Dispose()
         Next
