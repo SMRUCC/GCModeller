@@ -62,10 +62,10 @@ Public Class PtfWriter : Implements IDisposable
     End Sub
 
     Public Shared Sub WriteBytes(block As BinaryDataWriter, protein As ProteinAnnotation)
-        Call block.Write(protein.geneId, BinaryStringFormat.ZeroTerminated)
-        Call block.Write(protein.locus_id, BinaryStringFormat.ZeroTerminated)
-        Call block.Write(protein.geneName, BinaryStringFormat.ZeroTerminated)
-        Call block.Write(protein.description, BinaryStringFormat.ZeroTerminated)
+        Call block.Write(If(protein.geneId, ""), BinaryStringFormat.ZeroTerminated)
+        Call block.Write(If(protein.locus_id, ""), BinaryStringFormat.ZeroTerminated)
+        Call block.Write(If(protein.geneName, ""), BinaryStringFormat.ZeroTerminated)
+        Call block.Write(If(protein.description, ""), BinaryStringFormat.ZeroTerminated)
         Call block.Write(protein.attributes.Count)
 
         For Each tuple In protein.attributes
