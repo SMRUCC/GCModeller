@@ -1,5 +1,7 @@
 ﻿Imports Microsoft.VisualBasic.Data.IO
 Imports Microsoft.VisualBasic.DataStorage.HDSPack.FileSystem
+Imports Microsoft.VisualBasic.Serialization.Bencoding
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Annotation.Ptf
 
 Public Class PtfWriter : Implements IDisposable
@@ -19,21 +21,58 @@ Public Class PtfWriter : Implements IDisposable
     End Sub
 
     Public Sub AddProtein(protein As ProteinAnnotation)
-        Dim file As New BinaryDataWriter(stream.OpenBlock($"/annotation/{protein.geneId}.ptf"))
+        Dim intptr As String = $"/annotation/{protein.geneId}.ptf"
+        Dim file As New BinaryDataWriter(stream.OpenBlock(intptr)) With {
+            .ByteOrder = ByteOrder.BigEndian,
+            .Encoding = Encodings.ASCII.CodePage
+        }
 
         Call WriteBytes(file, protein)
         Call file.Flush()
         Call file.Dispose()
+
+        For Each dbname In id_mapping
+            If protein.has(dbname.Key) Then
+                For Each xref As String In protein(dbname.Key)
+                    Call dbname.Value.Add(xref, protein.geneId)
+                Next
+            End If
+        Next
     End Sub
 
     Public Shared Sub WriteBytes(block As BinaryDataWriter, protein As ProteinAnnotation)
+        Call block.Write(protein.geneId, BinaryStringFormat.ZeroTerminated)
+        Call block.Write(protein.locus_id, BinaryStringFormat.ZeroTerminated)
+        Call block.Write(protein.geneName, BinaryStringFormat.ZeroTerminated)
+        Call block.Write(protein.description, BinaryStringFormat.ZeroTerminated)
+        Call block.Write(protein.attributes.Count)
 
+        For Each tuple In protein.attributes
+            Call block.Write(tuple.Key, BinaryStringFormat.ZeroTerminated)
+            Call block.Write(tuple.Value.Length)
+            Call tuple.Value.DoEach(Sub(val) block.Write(val, BinaryStringFormat.ZeroTerminated))
+        Next
+    End Sub
+
+    Private Sub saveCrossReference()
+        For Each dbname In id_mapping
+            Dim intptr As String = $"/db_xref/{dbname.Key}.json"
+            Dim file As New BinaryDataWriter(stream.OpenBlock(intptr)) With {
+                .ByteOrder = ByteOrder.BigEndian,
+                .Encoding = Encodings.ASCII.CodePage
+            }
+
+            Call file.Write(dbname.Value.ToBEncode(Nothing).ToBencodedString)
+            Call file.Flush()
+            Call file.Dispose()
+        Next
     End Sub
 
     Protected Overridable Sub Dispose(disposing As Boolean)
         If Not disposedValue Then
             If disposing Then
                 ' TODO: 释放托管状态(托管对象)
+                Call saveCrossReference()
                 Call stream.Dispose()
             End If
 
