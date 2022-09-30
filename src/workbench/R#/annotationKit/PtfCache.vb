@@ -2,11 +2,13 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Annotation.Ptf
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports REnv = SMRUCC.Rsharp.Runtime
 
 ''' <summary>
 ''' The protein annotation metadata
@@ -17,11 +19,14 @@ Imports SMRUCC.Rsharp.Runtime.Interop
     Public Function writePtfFile(<RRawVectorArgument>
                                  uniprot As Object,
                                  file As Object,
+                                 <RRawVectorArgument(GetType(String))>
+                                 Optional db_xref As Object = "KEGG|KO|GO|Pfam|RefSeq|EC|InterPro|BioCyc|eggNOG",
                                  Optional cacheTaxonomy As Boolean = False,
                                  Optional hds_stream As Boolean = False,
                                  Optional env As Environment = Nothing) As Object
 
         Dim source = getUniprotData(uniprot, env)
+        Dim keys As String() = REnv.asVector(Of String)(db_xref)
 
         If source Like GetType(Message) Then
             Return source.TryCast(Of Message)
@@ -30,7 +35,8 @@ Imports SMRUCC.Rsharp.Runtime.Interop
                 file:=file,
                 cacheTaxonomy:=cacheTaxonomy,
                 hds_stream:=hds_stream,
-                env:=env
+                env:=env,
+                idMapping:=keys
             )
         End If
     End Function
@@ -38,28 +44,38 @@ Imports SMRUCC.Rsharp.Runtime.Interop
     <Extension>
     Private Function writePtfInternal(source As IEnumerable(Of entry),
                                       file As Object,
+                                      idMapping As String(),
                                       cacheTaxonomy As Boolean,
                                       hds_stream As Boolean,
                                       env As Environment) As Object
         Dim stream As StreamWriter
+        Dim buffer = SMRUCC.Rsharp.GetFileStream(file, FileAccess.Write, env)
+        Dim keys As String = idMapping.JoinBy(",")
 
-        If file Is Nothing Then
-            Return Internal.debug.stop({"file output can not be nothing!"}, env)
-        ElseIf TypeOf file Is String Then
-            stream = DirectCast(file, String).OpenWriter
-        ElseIf TypeOf file Is Stream Then
-            stream = New StreamWriter(DirectCast(file, Stream)) With {.NewLine = True}
-        ElseIf TypeOf file Is StreamWriter Then
-            stream = DirectCast(file, StreamWriter)
-        Else
-            Return Internal.debug.stop(Message.InCompatibleType(GetType(Stream), file.GetType, env,, NameOf(file)), env)
+        If TypeOf file Is StreamWriter Then
+            stream = file
+        ElseIf buffer Like GetType(Message) Then
+            Return buffer.TryCast(Of Message)
         End If
 
-        Call source.WritePtfCache(stream, cacheTaxonomy)
-        Call stream.Flush()
+        If hds_stream Then
+            Dim fileObj As Stream = buffer.TryCast(Of Stream)
+            Call fileObj.SetLength(0)
 
-        If TypeOf file Is String Then
-            Call stream.Close()
+            Using cache As New PtfWriter(fileObj, idMapping)
+                For Each protein As ProteinAnnotation In source.Select(Function(p) AnnotationCache.toPtf(p, cacheTaxonomy, keys))
+                    Call cache.AddProtein(protein)
+                Next
+            End Using
+        Else
+            stream = New StreamWriter(buffer.TryCast(Of Stream))
+
+            Call source.WritePtfCache(stream, cacheTaxonomy, keys)
+            Call stream.Flush()
+
+            If TypeOf file Is String Then
+                Call stream.Close()
+            End If
         End If
 
         Return Nothing

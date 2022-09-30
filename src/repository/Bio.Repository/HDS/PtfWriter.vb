@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.Data.IO
+﻿Imports System.IO
+Imports Microsoft.VisualBasic.Data.IO
 Imports Microsoft.VisualBasic.DataStorage.HDSPack.FileSystem
 Imports Microsoft.VisualBasic.Serialization.Bencoding
 Imports Microsoft.VisualBasic.Text
@@ -11,14 +12,23 @@ Public Class PtfWriter : Implements IDisposable
 
     Private disposedValue As Boolean
 
+    Sub New(file As Stream, id_mapping As String())
+        Me.stream = New StreamPack(file)
+        Me.id_mapping = initIndex(id_mapping)
+    End Sub
+
     Sub New(file As String, id_mapping As String())
         Me.stream = StreamPack.CreateNewStream(file)
-        Me.id_mapping = id_mapping _
+        Me.id_mapping = initIndex(id_mapping)
+    End Sub
+
+    Private Shared Function initIndex(id_mapping As String()) As Dictionary(Of String, Dictionary(Of String, String))
+        Return id_mapping _
             .ToDictionary(Function(dbname) dbname,
                           Function(any)
                               Return New Dictionary(Of String, String)
                           End Function)
-    End Sub
+    End Function
 
     Public Sub AddProtein(protein As ProteinAnnotation)
         Dim intptr As String = $"/annotation/{protein.geneId}.ptf"
