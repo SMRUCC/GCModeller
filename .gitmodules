@@ -26,3 +26,6 @@
 [submodule "src/workbench/markdown2pdf"]
 	path = src/workbench/markdown2pdf
 	url = https://github.com/xieguigang/markdown2pdf.git
+[submodule "src/workbench/win32_desktop"]
+	path = src/workbench/win32_desktop
+	url = https://github.com/SMRUCC/GCModeller-workbench.git
