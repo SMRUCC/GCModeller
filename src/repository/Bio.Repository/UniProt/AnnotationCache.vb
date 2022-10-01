@@ -52,7 +52,10 @@ Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Public Module AnnotationCache
 
     <Extension>
-    Public Sub WritePtfCache(proteins As IEnumerable(Of entry), cache As TextWriter, Optional includesNCBITaxonomy As Boolean = False, Optional keys$ = "KEGG,KO,GO,Pfam,RefSeq,EC,InterPro,BioCyc,eggNOG")
+    Public Sub WritePtfCache(proteins As IEnumerable(Of entry), cache As TextWriter,
+                             Optional includesNCBITaxonomy As Boolean = False,
+                             Optional keys$ = "KEGG,KO,GO,Pfam,RefSeq,EC,InterPro,BioCyc,eggNOG")
+
         For Each protein As entry In proteins
             Call cache.WriteLine(PtfFile.ToString(toPtf(protein, includesNCBITaxonomy, keys)))
         Next

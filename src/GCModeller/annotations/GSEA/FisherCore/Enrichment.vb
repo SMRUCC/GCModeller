@@ -1,51 +1,51 @@
 ﻿#Region "Microsoft.VisualBasic::29ca4950f4f18ae9a0a9cc3f524a8bfa, GCModeller\annotations\GSEA\FisherCore\Enrichment.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 141
-    '    Code Lines: 91
-    ' Comment Lines: 33
-    '   Blank Lines: 17
-    '     File Size: 5.96 KB
+' Summaries:
 
 
-    ' Module Enrichment
-    ' 
-    '     Function: calcResult, Enrichment, FDRCorrection
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 141
+'    Code Lines: 91
+' Comment Lines: 33
+'   Blank Lines: 17
+'     File Size: 5.96 KB
+
+
+' Module Enrichment
+' 
+'     Function: calcResult, Enrichment, FDRCorrection
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -64,6 +64,30 @@ Imports F = Microsoft.VisualBasic.Math.Statistics.Hypothesis.FishersExact.Fisher
 ''' </summary>
 Public Module Enrichment
 
+    <Extension>
+    Public Function CutBackgroundBySize(genome As Background, cutSize As Integer) As Background
+        Return New Background With {
+            .build = genome.build,
+            .comments = genome.comments,
+            .id = genome.id,
+            .name = genome.name,
+            .clusters = genome.clusters _
+                .Where(Function(cl) cl.members.Length > cutSize) _
+                .ToArray,
+            .size = .clusters.BackgroundSize
+        }
+    End Function
+
+    <Extension>
+    Public Function BackgroundSize(clusters As IEnumerable(Of Cluster)) As Integer
+        Return clusters _
+            .Select(Function(c) c.members) _
+            .IteratesALL _
+            .Select(Function(c) c.accessionID) _
+            .Distinct _
+            .Count
+    End Function
+
     ''' <summary>
     ''' 基于Fisher精确检验的基因列表富集计算分析
     ''' </summary>
@@ -78,6 +102,7 @@ Public Module Enrichment
     Public Iterator Function Enrichment(genome As Background,
                                         list As IEnumerable(Of String),
                                         Optional resize As Integer = -1,
+                                        Optional cutSize As Integer = 3,
                                         Optional outputAll As Boolean = False,
                                         Optional isLocustag As Boolean = False,
                                         Optional showProgress As Boolean = True,
@@ -105,12 +130,12 @@ Public Module Enrichment
             End If
         End If
 
+        If cutSize > 0 Then
+            genome = genome.CutBackgroundBySize(cutSize)
+        End If
+
         If genome.size <= 0 Then
-            genes = genome.clusters _
-                .Select(Function(c) c.members) _
-                .IteratesALL _
-                .Distinct _
-                .Count
+            genes = genome.clusters.BackgroundSize
         Else
             genes = genome.size
         End If
@@ -123,8 +148,10 @@ Public Module Enrichment
 
                 Call doProgress(cluster.names)
 
-                If Not (termResult = cluster.calcResult(enriched, input_size, genes, outputAll)) Is Nothing Then
-                    Yield termResult
+                If enriched.Length > 0 Then
+                    If Not (termResult = cluster.calcResult(enriched, input_size, genes, outputAll)) Is Nothing Then
+                        Yield termResult
+                    End If
                 End If
             Next
         End With
