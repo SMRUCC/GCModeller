@@ -145,7 +145,7 @@ Namespace Core.HttpStream
                 ' 一种是jquery POST
                 ' 另外的一种就是只有单独的一个文件的POST上传，
                 ' 现在我们假设jquery POST的长度很小， 而文件上传的长度很大，则在这里目前就只通过stream的长度来进行分别处理
-                If ContentType = "application/json" Then
+                If ContentType = "application/json" OrElse ContentType.ToLower.StartsWith("application/json") Then
                     Dim json = New StreamReader(inputStream).ReadToEnd
                     Dim knows As Type() = {
                         GetType(Dictionary(Of String, Object)),
