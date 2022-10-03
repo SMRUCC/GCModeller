@@ -35,13 +35,16 @@ Public Class PtfReader : Implements IDisposable
 
             For Each id As BElement In list.Keys
                 Dim cluster = list(DirectCast(id, BString).Value)
-                Dim geneSymbols As String()
+                Dim geneSymbols As String() = DirectCast(cluster, BList) _
+                    .Select(Function(b) DirectCast(b, BString).Value) _
+                    .Distinct _
+                    .ToArray
 
                 xrefs.Add(DirectCast(id, BString).Value, geneSymbols)
             Next
-        End If
 
-        Return Nothing
+            Return xrefs
+        End If
     End Function
 
     Protected Overridable Sub Dispose(disposing As Boolean)
