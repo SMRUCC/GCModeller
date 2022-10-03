@@ -27,6 +27,20 @@ Public Class PtfReader : Implements IDisposable
         Dim rawtext As String = stream.ReadText(filename:=intptr)
         Dim data = BencodeDecoder.Decode(rawtext)
 
+        If data.IsNullOrEmpty Then
+            Return New Dictionary(Of String, String())
+        Else
+            Dim xrefs As New Dictionary(Of String, String())
+            Dim list = DirectCast(data(Scan0), BDictionary)
+
+            For Each id As BElement In list.Keys
+                Dim cluster = list(DirectCast(id, BString).Value)
+                Dim geneSymbols As String()
+
+                xrefs.Add(DirectCast(id, BString).Value, geneSymbols)
+            Next
+        End If
+
         Return Nothing
     End Function
 
