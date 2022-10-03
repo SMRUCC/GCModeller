@@ -1,7 +1,10 @@
 ﻿Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.DataStorage.HDSPack.FileSystem
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Text.Xml.Models
+Imports SMRUCC.genomics.Analysis.HTS.GSEA
 Imports SMRUCC.genomics.Annotation.Ptf
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Data
@@ -14,6 +17,39 @@ Imports REnv = SMRUCC.Rsharp.Runtime
 ''' The protein annotation metadata
 ''' </summary>
 <Package("ptf")> Module PTFCache
+
+    <ExportAPI("loadBackgroundModel")>
+    Public Function loadModel(ptf As StreamPack, database As String) As Background
+        Dim data = New PtfReader(ptf).LoadCrossReference(key:=database)
+        Dim clusters As Cluster() = data _
+            .Select(Function(c)
+                        Return New Cluster With {
+                            .ID = c.Key,
+                            .description = c.Key,
+                            .names = c.Key,
+                            .members = c.Value _
+                                .Select(Function(id)
+                                            Return New BackgroundGene With {
+                                                .accessionID = id,
+                                                .[alias] = {id},
+                                                .locus_tag = New NamedValue With {.name = id, .text = id},
+                                                .name = id,
+                                                .term_id = {id}
+                                            }
+                                        End Function) _
+                                .ToArray
+                        }
+                    End Function) _
+            .ToArray
+
+        Return New Background With {
+            .id = database,
+            .name = database,
+            .build = Now,
+            .clusters = clusters,
+            .comments = database
+        }
+    End Function
 
     <ExportAPI("cache.ptf")>
     Public Function writePtfFile(<RRawVectorArgument>
