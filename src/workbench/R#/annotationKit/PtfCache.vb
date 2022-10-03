@@ -20,7 +20,7 @@ Imports REnv = SMRUCC.Rsharp.Runtime
                                  uniprot As Object,
                                  file As Object,
                                  <RRawVectorArgument(GetType(String))>
-                                 Optional db_xref As Object = "KEGG|KO|GO|Pfam|RefSeq|EC|InterPro|BioCyc|eggNOG",
+                                 Optional db_xref As Object = "KEGG|KO|GO|Pfam|RefSeq|EC|InterPro|BioCyc|eggNOG|keyword",
                                  Optional cacheTaxonomy As Boolean = False,
                                  Optional hds_stream As Boolean = False,
                                  Optional env As Environment = Nothing) As Object

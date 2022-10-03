@@ -87,6 +87,7 @@ Public Module AnnotationCache
 
         dbNames = dbNameList.ComputeIfAbsent(keys, Function() keys.StringSplit("[,|;+]"))
         dbxref.Add("synonym", protein.accessions)
+        dbxref.Add("protein_name", {protein.name})
 
         For Each refDb As String In dbNames
             If protein.xrefs.ContainsKey(refDb) Then
@@ -103,6 +104,8 @@ Public Module AnnotationCache
                         Call dbxref.Add("pfamstring", domains.Select(AddressOf trimConflicts).ToArray)
                     End If
                 End If
+            ElseIf refDb = "keyword" AndAlso Not protein.keywords.IsNullOrEmpty Then
+                Call dbxref.Add(refDb, protein.keywords.Select(Function(key) $"{key.id}:{key.value}").ToArray)
             End If
         Next
 
