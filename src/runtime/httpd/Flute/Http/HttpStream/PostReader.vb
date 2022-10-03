@@ -109,7 +109,7 @@ Namespace Core.HttpStream
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property Form As New NameValueCollection
-        Public ReadOnly Property Objects As Dictionary(Of String, Object)
+        Public ReadOnly Property Objects As New Dictionary(Of String, Object)
         Public ReadOnly Property files As New Dictionary(Of String, List(Of HttpPostedFile))
 
         ''' <summary>
@@ -124,7 +124,9 @@ Namespace Core.HttpStream
             Me.ContentType = contentType
             Me.ContentEncoding = encoding
 
-            Call LoadMultiPart(fileName)
+            If input.FileLength > 0 Then
+                Call LoadMultiPart(fileName)
+            End If
         End Sub
 
         ''' <summary>
