@@ -23,10 +23,14 @@ Imports REnv = SMRUCC.Rsharp.Runtime
         Dim data = New PtfReader(ptf).LoadCrossReference(key:=database)
         Dim clusters As Cluster() = data _
             .Select(Function(c)
+                        Dim metadata = c.Key.Split("@"c)
+                        Dim cid As String = metadata(0)
+                        Dim name As String = metadata.ElementAtOrDefault(1, "")
+
                         Return New Cluster With {
-                            .ID = c.Key,
+                            .ID = cid,
                             .description = c.Key,
-                            .names = c.Key,
+                            .names = name,
                             .members = c.Value _
                                 .Select(Function(id)
                                             Return New BackgroundGene With {
