@@ -121,7 +121,7 @@ Namespace Core.HttpStream
         ''' <param name="fileName$"></param>
         Sub New(input$, contentType$, encoding As Encoding, Optional fileName$ = Nothing)
             Me.InputStream = input
-            Me.ContentType = contentType
+            Me.ContentType = If(contentType.StringEmpty, "application/octet-stream", contentType)
             Me.ContentEncoding = encoding
 
             If input.FileLength > 0 Then
