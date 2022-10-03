@@ -80,6 +80,7 @@ Namespace Ptf
         ''' </summary>
         ''' <returns></returns>
         Public Property attributes As Dictionary(Of String, String())
+        Public Property sequence As String
 
         Default Public Property attr(key As String) As String
             Get

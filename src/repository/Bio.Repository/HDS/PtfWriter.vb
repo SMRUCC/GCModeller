@@ -68,6 +68,7 @@ Public Class PtfWriter : Implements IDisposable
         Call block.Write(If(protein.locus_id, ""), BinaryStringFormat.ZeroTerminated)
         Call block.Write(If(protein.geneName, ""), BinaryStringFormat.ZeroTerminated)
         Call block.Write(If(protein.description, ""), BinaryStringFormat.ZeroTerminated)
+        Call block.Write(If(protein.sequence, ""), BinaryStringFormat.ZeroTerminated)
         Call block.Write(protein.attributes.Count)
 
         For Each tuple In protein.attributes

@@ -1,43 +1,43 @@
 ﻿#Region "Microsoft.VisualBasic::5f1729cd7ad2b22a17ffc9258176fec9, Bio.Repository\UniProt\AnnotationCache.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module AnnotationCache
-    ' 
-    '     Function: toPtf, trimConflicts
-    ' 
-    '     Sub: SplitAnnotations, WritePtfCache
-    ' 
-    ' /********************************************************************************/
+' Module AnnotationCache
+' 
+'     Function: toPtf, trimConflicts
+' 
+'     Sub: SplitAnnotations, WritePtfCache
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -92,7 +92,20 @@ Public Module AnnotationCache
         For Each refDb As String In dbNames
             If protein.xrefs.ContainsKey(refDb) Then
                 refList = protein.xrefs(refDb) _
-                    .Select(Function(ref) ref.id) _
+                    .Select(Function(ref)
+                                Dim id As String = ref.id
+                                Dim tag As String = ""
+
+                                Select Case refDb
+                                    Case "GO" : tag = ref.PropertyValue("term")
+                                    Case "Pfam" : tag = ref.PropertyValue("entry name")
+                                    Case "InterPro" : tag = ref.PropertyValue("entry name")
+                                    Case Else
+                                        Return id
+                                End Select
+
+                                Return $"{id}@{tag}"
+                            End Function) _
                     .ToArray
 
                 Call dbxref.Add(refDb.ToLower, refList)
@@ -105,7 +118,7 @@ Public Module AnnotationCache
                     End If
                 End If
             ElseIf refDb = "keyword" AndAlso Not protein.keywords.IsNullOrEmpty Then
-                Call dbxref.Add(refDb, protein.keywords.Select(Function(key) $"{key.id}:{key.value}").ToArray)
+                Call dbxref.Add(refDb, protein.keywords.Select(Function(key) $"{key.id}@{key.value}").ToArray)
             End If
         Next
 
@@ -137,7 +150,8 @@ Public Module AnnotationCache
             .description = protein.proteinFullName,
             .attributes = dbxref,
             .locus_id = locus_id Or .geneId.AsDefault,
-            .geneName = geneName
+            .geneName = geneName,
+            .sequence = protein.ProteinSequence
         }
     End Function
 
