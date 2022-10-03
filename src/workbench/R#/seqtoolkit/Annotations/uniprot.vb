@@ -113,17 +113,31 @@ Module uniprot
                                            files As Object,
                                            Optional isUniParc As Boolean = False,
                                            Optional ignoreError As Boolean = True,
-                                           Optional env As Environment = Nothing) As pipeline
+                                           Optional env As Environment = Nothing) As Object
 
         Dim fileList As pipeline = pipeline.TryCreatePipeline(Of String)(files, env)
+        Dim fileSet As String()
 
         If fileList.isError Then
             Return fileList
+        Else
+            fileSet = fileList _
+                .populates(Of String)(env) _
+                .ToArray
+
+            For Each file As String In fileSet
+                If Not file.FileExists Then
+                    Return Internal.debug.stop({
+                        $"uniprot database file is not found!",
+                        $"missing file: {file}"
+                    }, env)
+                End If
+            Next
         End If
 
         Return UniProtXML _
             .EnumerateEntries(
-                files:=fileList.populates(Of String)(env).ToArray,
+                files:=fileSet,
                 isUniParc:=isUniParc,
                 ignoreError:=ignoreError
             ) _
