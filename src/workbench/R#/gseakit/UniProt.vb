@@ -81,6 +81,13 @@ Module UniProt
         End If
     End Function
 
+    ''' <summary>
+    ''' Create a gsea background model for uniprot keywords based
+    ''' on the given uniprot database assembly data
+    ''' </summary>
+    ''' <param name="uniprot"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("uniprot_keywords")>
     <RApiReturn(GetType(Background))>
     Public Function uniprotKeywords(<RRawVectorArgument> uniprot As Object,
@@ -95,6 +102,13 @@ Module UniProt
         End If
     End Function
 
+    ''' <summary>
+    ''' create uniprot keyword ontology result
+    ''' </summary>
+    ''' <param name="enrichment"></param>
+    ''' <param name="keywords"></param>
+    ''' <param name="top"></param>
+    ''' <returns></returns>
     <ExportAPI("keyword_profiles")>
     Public Function keywordsProfiles(enrichment As EnrichmentResult(),
                                      keywords As dataframe,
