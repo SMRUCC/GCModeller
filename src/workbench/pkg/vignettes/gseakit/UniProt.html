@@ -64,7 +64,8 @@
   </h2>
   <hr />
   <p>
-                      
+                    <p>Create a gsea background model for uniprot keywords based<br />
+ on the given uniprot database assembly data</p>  
                 
                     <pre><p>let <code>uniprot_keywords</code> as function(<code>uniprot</code> as any, [<code>&lt;Environment&gt;</code>]) -> <code>&lt;generic&gt; Background</code> {
     #
@@ -78,7 +79,17 @@
     return call <code>R&#35;.interop_[UniProt::uniprotKeywords]</code>(...);
 }</p></pre>
 
-                    
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>uniprot</code>: -
+                </li>
+<li>
+  <code>env</code>: -
+                </li>
+                </ul>
+</div>
                        
                     
 
@@ -89,7 +100,7 @@
   </h2>
   <hr />
   <p>
-                      
+                    <p>create uniprot keyword ontology result</p>  
                 
                     <pre><p>let <code>keyword_profiles</code> as function(<code>enrichment</code> as <generic> EnrichmentResult[], <code>keywords</code> as <generic> dataframe, <code>top</code> as integer = 4) -> <code>&lt;generic&gt; CatalogProfiles</code> {
     #
@@ -103,7 +114,20 @@
     return call <code>R&#35;.interop_[UniProt::keywordsProfiles]</code>(...);
 }</p></pre>
 
-                    
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>enrichment</code>: -
+                </li>
+<li>
+  <code>keywords</code>: -
+                </li>
+<li>
+  <code>top</code>: -
+                </li>
+                </ul>
+</div>
                        
                     
 
