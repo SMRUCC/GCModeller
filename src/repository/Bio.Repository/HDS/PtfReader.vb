@@ -17,6 +17,12 @@ Public Class PtfReader : Implements IDisposable
         Me.stream = stream
     End Sub
 
+    Public Function getExternalReferenceList() As String()
+        Return DirectCast(stream.GetObject("/db_xref/"), StreamGroup).files _
+            .Select(Function(a) a.fileName.BaseName) _
+            .ToArray
+    End Function
+
     Public Function LoadCrossReference(key As String) As Dictionary(Of String, String())
         Dim intptr As String = $"/db_xref/{key}.txt"
 
