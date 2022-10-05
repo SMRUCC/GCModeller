@@ -1,43 +1,43 @@
 ﻿#Region "Microsoft.VisualBasic::f3913d8946a7ac8926f63aeffbe4f96d, WebCloud\SMRUCC.WebCloud.VBScript\vbhtml.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module vbhtml
-    ' 
-    '     Function: GetIncludesPath, LoadStrings, ParseVariables, ReadHTML, TemplateInterplot
-    ' 
-    '     Sub: (+2 Overloads) ApplyStrings
-    ' 
-    ' /********************************************************************************/
+' Module vbhtml
+' 
+'     Function: GetIncludesPath, LoadStrings, ParseVariables, ReadHTML, TemplateInterplot
+' 
+'     Sub: (+2 Overloads) ApplyStrings
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -50,7 +50,6 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.Expressions
 Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Text.Xml.Linq
-Imports SMRUCC.WebCloud.HTTPInternal.Platform.Plugins
 Imports Map = System.Collections.Generic.KeyValuePair(Of String, String)
 Imports r = System.Text.RegularExpressions.Regex
 
@@ -59,17 +58,30 @@ Public Module vbhtml
     Const PartialIncludes$ = "<%= [^>]+? %>"
     Const ValueExpression$ = "<\?vb\s+[$].+?=\s*""[^""]*""\s+\?>"
 
+    ' <Scripting("*.vbhtml")>
+
     ''' <summary>
+    ''' Do html template rendering
+    ''' 
     ''' ``&lt;%= relative_path %>``
     ''' </summary>
-    ''' <param name="path$"></param>
+    ''' <param name="path">target template file to rendering</param>
     ''' <param name="wwwroot">Using for reading strings.XML resource file.</param>
+    ''' <param name="variables">Data symbols to fill onto the html template</param>
     ''' <returns></returns>
-    <Scripting("*.vbhtml")>
-    <Extension> Public Function ReadHTML(wwwroot$, path$, variables As Dictionary(Of String, Object), Optional encoding As Encodings = Encodings.UTF8) As String
+    <Extension>
+    Public Function ReadHTML(wwwroot$, path$,
+                             Optional variables As Dictionary(Of String, Object) = Nothing,
+                             Optional encoding As Encodings = Encodings.UTF8) As String
+
         Dim html As New StringBuilder(path.ReadAllText(encoding.CodePage))
         Dim parent$ = path.ParentPath
         Dim strings = (wwwroot & "/includes/strings.XML").LoadStrings
+
+        If variables Is Nothing Then
+            variables = New Dictionary(Of String, Object)
+        End If
+
         Dim values = variables _
             .Where(Function(map) IsVariableType(map.Value)) _
             .CreateVariables
@@ -196,7 +208,8 @@ Public Module vbhtml
         Return html.ToString
     End Function
 
-    <Extension> Public Function LoadStrings(pathXML As String) As Dictionary(Of String, String)
+    <Extension>
+    Public Function LoadStrings(pathXML As String) As Dictionary(Of String, String)
         If pathXML.FileExists Then
             Dim xml As XmlDocument = pathXML.LoadXmlDocument
             Dim XmlNodeList As XmlNodeList = xml.GetElementsByTagName("string")
