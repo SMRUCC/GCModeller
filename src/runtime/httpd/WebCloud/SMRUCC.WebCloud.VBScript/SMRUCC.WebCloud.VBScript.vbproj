@@ -4,6 +4,8 @@
     <RootNamespace>SMRUCC.WebCloud.VBScript</RootNamespace>
     <TargetFramework>net6.0</TargetFramework>
     <AssemblyName>SMRUCC.WebCloud.VBScript</AssemblyName>
+    <Platforms>AnyCPU;x64</Platforms>
+    <Configurations>Debug;Release;Rsharp_app_release</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
