@@ -87,6 +87,8 @@ Namespace Kernel
         ''' <remarks></remarks>
         Friend kicks As Kicks
 
+        Public Property strict As Boolean = True
+
         ''' <summary>
         ''' Store the system state.(变量，也就是生化反应底物)
         ''' </summary>

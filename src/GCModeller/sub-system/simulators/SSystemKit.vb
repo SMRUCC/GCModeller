@@ -117,13 +117,15 @@ Module SSystemKit
     ''' <param name="model"></param>
     ''' <returns></returns>
     <ExportAPI("kernel")>
-    Public Function createKernel(snapshot As DataSnapshot, Optional model As Model = Nothing) As Kernel
+    Public Function createKernel(snapshot As DataSnapshot,
+                                 Optional model As Model = Nothing,
+                                 Optional strict As Boolean = True) As Kernel
         If model Is Nothing Then
             model = SSystemKit.script()
         End If
 
         Dim dataDriver As New DataAcquisition(AddressOf snapshot.Cache)
-        Dim kernel As New Kernel(model, dataDriver)
+        Dim kernel As New Kernel(model, dataDriver) With {.strict = strict}
         Dim kick As New Kicks(kernel, model)
 
         kick.loadKernel(kernel)
