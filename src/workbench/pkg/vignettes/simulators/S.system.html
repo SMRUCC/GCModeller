@@ -10,7 +10,7 @@
     <meta name="keywords" content="GCModeller; Xanthomonas; Artificial Life" />
     <meta name="generator" content="https://github.com/xieguigang/xDoc" />
     <meta name="theme-color" content="#333" />
-    <meta name="last-update" content="2022-10-05" />
+    <meta name="last-update" content="2022-10-07" />
     <meta name="description" content="A software system aim at Artificial Life system design and analysis." />
     <meta class="foundation-data-attribute-namespace" />
     <meta class="foundation-mq-xxlarge" />
@@ -76,7 +76,7 @@
   <p>
                     <p>create a new S-system dynamics kernel module</p>  
                 
-                    <pre><p>let <code>kernel</code> as function(<code>snapshot</code> as <generic> DataSnapshot, <code>model</code> as <generic> Model = <code>&lt;NULL&gt;</code>) -> <code>&lt;generic&gt; Kernel</code> {
+                    <pre><p>let <code>kernel</code> as function(<code>snapshot</code> as <generic> DataSnapshot, <code>model</code> as <generic> Model = <code>&lt;NULL&gt;</code>, <code>strict</code> as boolean = TRUE) -> <code>&lt;generic&gt; Kernel</code> {
     #
     # .NET API information
     #
