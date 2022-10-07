@@ -174,6 +174,7 @@ Public Module GSEABackground
                             .members = geneList
                         }
                     End Function) _
+            .Where(Function(c) c.members.Length > 0) _
             .ToArray
 
         Return New Background With {
