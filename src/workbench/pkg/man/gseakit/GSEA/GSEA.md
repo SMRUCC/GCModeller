@@ -11,3 +11,4 @@ The GCModeller GSEA toolkit
 + [enrichment.go_dag](GSEA/enrichment.go_dag.1) Create network graph data for Cytoscape
 + [enrichment.draw.go_dag](GSEA/enrichment.draw.go_dag.1) 
 + [cast_enrichs](GSEA/cast_enrichs.1) 
++ [to_enrichment_terms](GSEA/to_enrichment_terms.1) 

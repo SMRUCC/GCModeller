@@ -1,12 +1,17 @@
 ﻿Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.DataStorage.HDSPack.FileSystem
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Text.Xml.Models
+Imports SMRUCC.genomics.Analysis.HTS.GSEA
 Imports SMRUCC.genomics.Annotation.Ptf
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
+Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports REnv = SMRUCC.Rsharp.Runtime
 
@@ -15,12 +20,86 @@ Imports REnv = SMRUCC.Rsharp.Runtime
 ''' </summary>
 <Package("ptf")> Module PTFCache
 
+    <ExportAPI("list.xrefs")>
+    Public Function getDatabaseList(ptf As StreamPack) As String()
+        Return New PtfReader(ptf).getExternalReferenceList
+    End Function
+
+    <ExportAPI("summary.xrefs")>
+    Public Function summaryofXrefs(ptf As StreamPack, xrefs As String()) As Object
+        Dim cache As New PtfReader(ptf)
+        Dim data As New list With {
+            .slots = New Dictionary(Of String, Object)
+        }
+
+        For Each name As String In xrefs.SafeQuery
+            Dim model = cache.LoadCrossReference(key:=name)
+            Dim info As New list With {
+                .slots = New Dictionary(Of String, Object) From {
+                    {"clusters", model.Count},
+                    {"unique_size", model.Values.IteratesALL.Distinct.Count}
+                }
+            }
+
+            Call data.add(name, info)
+        Next
+
+        Return data
+    End Function
+
+    <ExportAPI("load_xref")>
+    Public Function loadXrefs(ptf As StreamPack, database As String) As Object
+        Return New PtfReader(ptf).LoadCrossReference(key:=database)
+    End Function
+
+    <ExportAPI("loadBackgroundModel")>
+    Public Function loadModel(ptf As StreamPack, database As String) As Background
+        Dim data = New PtfReader(ptf).LoadCrossReference(key:=database)
+        Dim clusters As Cluster() = data _
+            .Select(Function(c)
+                        Return c.createCluster
+                    End Function) _
+            .ToArray
+
+        Return New Background With {
+            .id = database,
+            .name = database,
+            .build = Now,
+            .clusters = clusters,
+            .comments = database
+        }
+    End Function
+
+    <Extension>
+    Private Function createCluster(c As KeyValuePair(Of String, String())) As Cluster
+        Dim metadata = c.Key.Split("@"c)
+        Dim cid As String = metadata(0)
+        Dim name As String = metadata.ElementAtOrDefault(1, "")
+
+        Return New Cluster With {
+            .ID = cid,
+            .description = c.Key,
+            .names = name,
+            .members = c.Value _
+                .Select(Function(id)
+                            Return New BackgroundGene With {
+                                .accessionID = id,
+                                .[alias] = {id},
+                                .locus_tag = New NamedValue With {.name = id, .text = id},
+                                .name = id,
+                                .term_id = {id}
+                            }
+                        End Function) _
+                .ToArray
+        }
+    End Function
+
     <ExportAPI("cache.ptf")>
     Public Function writePtfFile(<RRawVectorArgument>
                                  uniprot As Object,
                                  file As Object,
                                  <RRawVectorArgument(GetType(String))>
-                                 Optional db_xref As Object = "KEGG|KO|GO|Pfam|RefSeq|EC|InterPro|BioCyc|eggNOG",
+                                 Optional db_xref As Object = "KEGG|KO|GO|Pfam|RefSeq|EC|InterPro|BioCyc|eggNOG|keyword",
                                  Optional cacheTaxonomy As Boolean = False,
                                  Optional hds_stream As Boolean = False,
                                  Optional env As Environment = Nothing) As Object

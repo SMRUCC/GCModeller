@@ -11,6 +11,7 @@ Public Class PtfWriter : Implements IDisposable
 
     ReadOnly stream As StreamPack
     ReadOnly id_mapping As Dictionary(Of String, NamedValue(Of Dictionary(Of String, List(Of String))))
+    ReadOnly protein_ids As New List(Of String)
 
     Private disposedValue As Boolean
 
@@ -45,6 +46,7 @@ Public Class PtfWriter : Implements IDisposable
         Call WriteBytes(file, protein)
         Call file.Flush()
         Call file.Dispose()
+        Call protein_ids.Add(protein.geneId)
 
         For Each dbname In id_mapping
             If protein.has(dbname.Key) Then
@@ -66,6 +68,7 @@ Public Class PtfWriter : Implements IDisposable
         Call block.Write(If(protein.locus_id, ""), BinaryStringFormat.ZeroTerminated)
         Call block.Write(If(protein.geneName, ""), BinaryStringFormat.ZeroTerminated)
         Call block.Write(If(protein.description, ""), BinaryStringFormat.ZeroTerminated)
+        Call block.Write(If(protein.sequence, ""), BinaryStringFormat.ZeroTerminated)
         Call block.Write(protein.attributes.Count)
 
         For Each tuple In protein.attributes
@@ -88,6 +91,19 @@ Public Class PtfWriter : Implements IDisposable
             Call file.Flush()
             Call file.Dispose()
         Next
+
+        Call saveText("/metadata/count.txt", protein_ids.Count)
+        Call saveText("/metadata/proteins.txt", protein_ids.JoinBy(vbLf))
+    End Sub
+
+    Private Sub saveText(intptr As String, text As String)
+        Dim file As Stream = stream.OpenBlock(intptr)
+
+        ' bytes count is equals to chars count
+        ' in ascii text encoding
+        Call file.Write(Encoding.ASCII.GetBytes(text), Scan0, text.Length)
+        Call file.Flush()
+        Call file.Dispose()
     End Sub
 
     Protected Overridable Sub Dispose(disposing As Boolean)

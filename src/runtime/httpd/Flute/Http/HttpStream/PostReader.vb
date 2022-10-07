@@ -109,7 +109,7 @@ Namespace Core.HttpStream
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property Form As New NameValueCollection
-        Public ReadOnly Property Objects As Dictionary(Of String, Object)
+        Public ReadOnly Property Objects As New Dictionary(Of String, Object)
         Public ReadOnly Property files As New Dictionary(Of String, List(Of HttpPostedFile))
 
         ''' <summary>
@@ -121,10 +121,12 @@ Namespace Core.HttpStream
         ''' <param name="fileName$"></param>
         Sub New(input$, contentType$, encoding As Encoding, Optional fileName$ = Nothing)
             Me.InputStream = input
-            Me.ContentType = contentType
+            Me.ContentType = If(contentType.StringEmpty, "application/octet-stream", contentType)
             Me.ContentEncoding = encoding
 
-            Call LoadMultiPart(fileName)
+            If input.FileLength > 0 Then
+                Call LoadMultiPart(fileName)
+            End If
         End Sub
 
         ''' <summary>
@@ -143,7 +145,7 @@ Namespace Core.HttpStream
                 ' 一种是jquery POST
                 ' 另外的一种就是只有单独的一个文件的POST上传，
                 ' 现在我们假设jquery POST的长度很小， 而文件上传的长度很大，则在这里目前就只通过stream的长度来进行分别处理
-                If ContentType = "application/json" Then
+                If ContentType = "application/json" OrElse ContentType.ToLower.StartsWith("application/json") Then
                     Dim json = New StreamReader(inputStream).ReadToEnd
                     Dim knows As Type() = {
                         GetType(Dictionary(Of String, Object)),

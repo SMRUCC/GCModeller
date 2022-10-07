@@ -1,58 +1,59 @@
 ﻿#Region "Microsoft.VisualBasic::2708287673545bce98d244b275544683, GCModeller\sub-system\PLAS.NET\SSystem\System\Elements\Equation.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 130
-    '    Code Lines: 74
-    ' Comment Lines: 35
-    '   Blank Lines: 21
-    '     File Size: 4.36 KB
+' Summaries:
 
 
-    '     Class Equation
-    ' 
-    '         Properties: Expression, Id, Model, precision, Value
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    '         Function: Elapsed, Evaluate, ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 130
+'    Code Lines: 74
+' Comment Lines: 35
+'   Blank Lines: 21
+'     File Size: 4.36 KB
+
+
+'     Class Equation
+' 
+'         Properties: Expression, Id, Model, precision, Value
+' 
+'         Constructor: (+2 Overloads) Sub New
+'         Function: Elapsed, Evaluate, ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.Data
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Linq
@@ -121,7 +122,7 @@ Namespace Kernel.ObjectModels
         End Sub
 
         Sub New(s As SEquation, kernel As Kernel)
-            Call Me.New(s, kernel.bounds(s.x))
+            Call Me.New(s, readRangeHelper(s, kernel))
 
             Me.precision = kernel.precision
             Me.var = kernel.GetValue(Id)
@@ -134,6 +135,16 @@ Namespace Kernel.ObjectModels
                 kernel.symbolTable(Id) = var
             End If
         End Sub
+
+        Private Shared Function readRangeHelper(s As SEquation, kernel As Kernel) As DoubleRange
+            If kernel.bounds.ContainsKey(s.x) Then
+                Return kernel.bounds(s.x)
+            ElseIf kernel.strict Then
+                Throw New MissingPrimaryKeyException($"No flux range bounds parameter for systems variable '{s.x}'!")
+            Else
+                Return New DoubleRange(-5, 5)
+            End If
+        End Function
 
         ''' <summary>
         ''' Evaluate the expression value of the property <see cref="Equation.Expression"></see>.
