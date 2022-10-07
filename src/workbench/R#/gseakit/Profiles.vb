@@ -51,6 +51,7 @@
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.GO
@@ -85,5 +86,21 @@ Module profiles
         Dim result As CatalogProfiles = profiles.DoKeggProfiles(displays:=top)
 
         Return result
+    End Function
+
+    <ExportAPI("no_catagory_profile")>
+    Public Function NoCatagoryProfile(enrichments As EnrichmentTerm(), name As String, Optional top% = 30) As CatalogProfiles
+        Dim profiles As NamedValue(Of Double)() = enrichments _
+            .OrderBy(Function(a) a.Pvalue) _
+            .Take(top) _
+            .Select(Function(a)
+                        Return New NamedValue(Of Double)(a.ID, -Math.Log10(a.Pvalue), a.Term)
+                    End Function)
+
+        Return New CatalogProfiles With {
+            .catalogs = New Dictionary(Of String, CatalogProfile) From {
+                {name, New CatalogProfile()}
+            }
+        }
     End Function
 End Module
