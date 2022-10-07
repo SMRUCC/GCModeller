@@ -99,7 +99,7 @@ Module profiles
 
         Return New CatalogProfiles With {
             .catalogs = New Dictionary(Of String, CatalogProfile) From {
-                {name, New CatalogProfile()}
+                {name, New CatalogProfile(data:=profiles)}
             }
         }
     End Function
