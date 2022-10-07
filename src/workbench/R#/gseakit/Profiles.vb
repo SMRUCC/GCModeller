@@ -109,14 +109,16 @@ Module profiles
                 .Take(top) _
                 .Select(Function(a)
                             Return New NamedValue(Of Double)(a.ID, -Math.Log10(a.Pvalue), a.Term)
-                        End Function)
+                        End Function) _
+                .ToArray
         ElseIf TypeOf enrichments Is EnrichmentResult() Then
             profiles = DirectCast(enrichments, EnrichmentResult()) _
                 .OrderBy(Function(a) a.pvalue) _
                 .Take(top) _
                 .Select(Function(a)
                             Return New NamedValue(Of Double)(a.term, -Math.Log10(a.pvalue), a.name)
-                        End Function)
+                        End Function) _
+                .ToArray
         Else
             Return Message.InCompatibleType(GetType(EnrichmentTerm), enrichments.GetType, env)
         End If
