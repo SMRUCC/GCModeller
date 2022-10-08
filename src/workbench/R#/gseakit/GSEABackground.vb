@@ -144,26 +144,38 @@ Public Module GSEABackground
 
     <ExportAPI("background.id_mapping")>
     Public Function BackgroundIDmapping(background As Background, mapping As list, Optional env As Environment = Nothing) As Object
-        Dim maps As Dictionary(Of String, String) = mapping.AsGeneric(Of String)(env, [default]:="")
+        Dim maps As Dictionary(Of String, String()) = mapping.AsGeneric(Of String())(env, [default]:={})
         Dim newClusterList = background.clusters _
             .Select(Function(c)
                         Dim geneList As BackgroundGene() = c.members _
                             .Select(Function(g)
-                                        Return New BackgroundGene With {
-                                            .accessionID = maps.TryGetValue(g.accessionID),
-                                            .[alias] = g.alias _
-                                                .SafeQuery _
-                                                .Select(AddressOf maps.TryGetValue) _
-                                                .Where(Function(id) Not id.StringEmpty) _
-                                                .ToArray,
-                                            .locus_tag = g.locus_tag,
-                                            .name = g.name,
-                                            .term_id = g.term_id
-                                        }
+                                        Dim multipleID As String() = maps.TryGetValue(g.accessionID)
+
+                                        If multipleID.IsNullOrEmpty Then
+                                            Return Nothing
+                                        End If
+
+                                        Return multipleID _
+                                            .Select(Function(mapId)
+                                                        Return New BackgroundGene With {
+                                                            .accessionID = mapId,
+                                                            .[alias] = g.alias _
+                                                                .SafeQuery _
+                                                                .Select(AddressOf maps.TryGetValue) _
+                                                                .Where(Function(id) Not id.IsNullOrEmpty) _
+                                                                .IteratesALL _
+                                                                .Distinct _
+                                                                .ToArray,
+                                                            .locus_tag = g.locus_tag,
+                                                            .name = g.name,
+                                                            .term_id = g.term_id
+                                                        }
+                                                    End Function)
                                     End Function) _
+                            .IteratesALL _
                             .Where(Function(g)
                                        ' skip of all genes with no id mapping result
-                                       Return Not g.accessionID.StringEmpty
+                                       Return g IsNot Nothing AndAlso Not g.accessionID.StringEmpty
                                    End Function) _
                             .ToArray
 
