@@ -71,7 +71,7 @@
   </h2>
   <hr />
   <p>
-                      
+                    <p>get summary information about the HTS matrix dimensions</p>  
                 
                     <pre><p>let <code>dims</code> as function(<code>mat</code> as <generic> Matrix) -> <code>list</code> {
     #
@@ -85,7 +85,14 @@
     return call <code>R&#35;.interop_[geneExpression::dims]</code>(...);
 }</p></pre>
 
-                    
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>mat</code>: -
+                </li>
+                </ul>
+</div>
                        
                     
 
@@ -96,7 +103,7 @@
   </h2>
   <hr />
   <p>
-                      
+                    <p>convert the matrix into row gene list</p>  
                 
                     <pre><p>let <code>as.expr_list</code> as function(<code>expr0</code> as <generic> Matrix) -> <code>list</code> {
     #
@@ -110,7 +117,14 @@
     return call <code>R&#35;.interop_[geneExpression::createVectorList]</code>(...);
 }</p></pre>
 
-                    
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>expr0</code>: -
+                </li>
+                </ul>
+</div>
                        
                     
 
@@ -190,6 +204,44 @@
   <ul>
                    <li>
   <code>mat</code>: -
+                </li>
+<li>
+  <code>env</code>: -
+                </li>
+                </ul>
+</div>
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="filterNaNMissing">
+    <a href="./geneExpression/filterNaNMissing.html">filterNaNMissing</a>
+  </h2>
+  <hr />
+  <p>
+                    <p>set the NaN missing value to default value</p>  
+                
+                    <pre><p>let <code>filterNaNMissing</code> as function(<code>x</code> as <generic> Matrix, <code>missingDefault</code> as double = 0, [<code>&lt;Environment&gt;</code>]) -> <code>any</code> {
+    #
+    # .NET API information
+    #
+    # module: phenotype_kit.geneExpression
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: phenotype_kit.dll
+    # package: "geneExpression"
+    #
+    return call <code>R&#35;.interop_[geneExpression::filterNaN]</code>(...);
+}</p></pre>
+
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>x</code>: -
+                </li>
+<li>
+  <code>missingDefault</code>: -
                 </li>
 <li>
   <code>env</code>: -
@@ -365,7 +417,7 @@
   </h2>
   <hr />
   <p>
-                      
+                    <p>cast the HTS matrix object to the general dataset</p>  
                 
                     <pre><p>let <code>as.generic</code> as function(<code>matrix</code> as <generic> Matrix) -> <code>&lt;generic&gt; DataSet[]</code> {
     #
@@ -379,7 +431,14 @@
     return call <code>R&#35;.interop_[geneExpression::castGenericRows]</code>(...);
 }</p></pre>
 
-                    
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>matrix</code>: -
+                </li>
+                </ul>
+</div>
                        
                     
 

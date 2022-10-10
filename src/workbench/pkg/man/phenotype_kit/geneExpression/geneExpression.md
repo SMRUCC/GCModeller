@@ -3,16 +3,17 @@
 the gene expression matrix data toolkit
 
 + [tr](geneExpression/tr.1) do matrix transpose
-+ [dims](geneExpression/dims.1) 
-+ [as.expr_list](geneExpression/as.expr_list.1) 
++ [dims](geneExpression/dims.1) get summary information about the HTS matrix dimensions
++ [as.expr_list](geneExpression/as.expr_list.1) convert the matrix into row gene list
 + [setZero](geneExpression/setZero.1) 
 + [setFeatures](geneExpression/setFeatures.1) 
 + [filterZeroSamples](geneExpression/filterZeroSamples.1) filter out all samples columns which its expression vector is ZERO!
++ [filterNaNMissing](geneExpression/filterNaNMissing.1) set the NaN missing value to default value
 + [load.expr](geneExpression/load.expr.1) load an expressin matrix data
 + [load.expr0](geneExpression/load.expr0.1) read the binary matrix data file
 + [write.expr_matrix](geneExpression/write.expr_matrix.1) write the gene expression data matrix file
 + [filter](geneExpression/filter.1) Filter the geneID rows
-+ [as.generic](geneExpression/as.generic.1) 
++ [as.generic](geneExpression/as.generic.1) cast the HTS matrix object to the general dataset
 + [average](geneExpression/average.1) calculate average value of the gene expression for
 + [z_score](geneExpression/z_score.1) To avoid the influence of expression level to the 
 + [pca](geneExpression/pca.1) 
