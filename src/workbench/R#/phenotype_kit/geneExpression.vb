@@ -68,6 +68,7 @@ Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Distributions
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports Microsoft.VisualBasic.Math.LinearAlgebra.Prcomp
 Imports Microsoft.VisualBasic.Math.Quantile
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Scripting.Runtime
@@ -149,6 +150,11 @@ Module geneExpression
         Return mat.T
     End Function
 
+    ''' <summary>
+    ''' get summary information about the HTS matrix dimensions
+    ''' </summary>
+    ''' <param name="mat"></param>
+    ''' <returns></returns>
     <ExportAPI("dims")>
     Public Function dims(mat As Matrix) As list
         Return New list With {
@@ -161,6 +167,11 @@ Module geneExpression
         }
     End Function
 
+    ''' <summary>
+    ''' convert the matrix into row gene list
+    ''' </summary>
+    ''' <param name="expr0"></param>
+    ''' <returns></returns>
     <ExportAPI("as.expr_list")>
     Public Function createVectorList(expr0 As Matrix) As list
         Return New list With {
@@ -214,6 +225,26 @@ Module geneExpression
     <ExportAPI("filterZeroSamples")>
     Public Function filterZeroSamples(mat As Matrix, Optional env As Environment = Nothing) As Object
         Return mat.T.TrimZeros.T
+    End Function
+
+    ''' <summary>
+    ''' set the NaN missing value to default value
+    ''' </summary>
+    ''' <param name="x"></param>
+    ''' <param name="missingDefault"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("filterNaNMissing")>
+    Public Function filterNaN(x As Matrix, Optional missingDefault As Double = 0, Optional env As Environment = Nothing) As Object
+        For Each gene As DataFrameRow In x.expression
+            For i As Integer = 0 To gene.experiments.Length - 1
+                If gene.experiments(i).IsNaNImaginary Then
+                    gene.experiments(i) = missingDefault
+                End If
+            Next
+        Next
+
+        Return x
     End Function
 
     ''' <summary>
@@ -396,6 +427,11 @@ Module geneExpression
         Return m
     End Function
 
+    ''' <summary>
+    ''' cast the HTS matrix object to the general dataset
+    ''' </summary>
+    ''' <param name="matrix"></param>
+    ''' <returns></returns>
     <ExportAPI("as.generic")>
     Public Function castGenericRows(matrix As Matrix) As DataSet()
         Dim sampleNames As String() = matrix.sampleID
@@ -451,15 +487,17 @@ Module geneExpression
     ''' standard deviation (e.g., standard deviation of 
     ''' expression of a genomic feature in different conditions).
     ''' </summary>
-    ''' <param name="matrix"></param>
+    ''' <param name="x"></param>
     ''' <returns></returns>
     <ExportAPI("z_score")>
-    Public Function zscore(matrix As Matrix) As Matrix
+    Public Function zscore(x As Matrix) As Matrix
         Return New Matrix With {
-            .sampleID = matrix.sampleID,
-            .tag = $"z-score({matrix.tag})",
-            .expression = matrix.expression _
+            .sampleID = x.sampleID,
+            .tag = $"z-score({x.tag})",
+            .expression = x.expression _
                 .Select(Function(expr)
+                            ' each row is the gene expression data across experiments
+                            ' do z-score transformation for each gene
                             Return New DataFrameRow With {
                                 .geneID = expr.geneID,
                                 .experiments = expr.experiments _
@@ -470,6 +508,32 @@ Module geneExpression
                         End Function) _
                 .ToArray
         }
+    End Function
+
+    <ExportAPI("pca")>
+    Public Function applyPCA(x As Matrix, Optional npc As Integer = 3) As Rdataframe
+        Dim mat As Double()() = x.expression _
+            .Select(Function(gene) gene.experiments) _
+            .ToArray
+        Dim pca As New PCA(mat, center:=False)
+        Dim pcaSpace As Vec() = pca.Project(npc)
+        Dim embedded As New Rdataframe With {
+            .columns = New Dictionary(Of String, Array),
+            .rownames = x.rownames
+        }
+
+        For i As Integer = 0 To npc - 1
+#Disable Warning
+            Dim v As Double() = pcaSpace _
+                .Select(Function(r) r(i)) _
+                .ToArray
+            Dim name As String = $"PC{i + 1}"
+
+            Call embedded.add(name, v)
+#Enable Warning
+        Next
+
+        Return embedded
     End Function
 
     ''' <summary>
@@ -690,7 +754,7 @@ Module geneExpression
                         End Sub)
 
         Call println("export cmeans pattern matrix!")
-        Call output.add("pattern", Kmeans)
+        Call output.add("pattern", kmeans)
 
         Return output
     End Function
