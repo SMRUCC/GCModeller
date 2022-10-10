@@ -15,6 +15,7 @@ the gene expression matrix data toolkit
 + [as.generic](geneExpression/as.generic.1) 
 + [average](geneExpression/average.1) calculate average value of the gene expression for
 + [z_score](geneExpression/z_score.1) To avoid the influence of expression level to the 
++ [pca](geneExpression/pca.1) 
 + [totalSumNorm](geneExpression/totalSumNorm.1) normalize data by sample column
 + [relative](geneExpression/relative.1) normalize data by feature rows
 + [expression.cmeans_pattern](geneExpression/expression.cmeans_pattern.1) This function performs clustering analysis of time course data. 
