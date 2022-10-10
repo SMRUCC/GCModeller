@@ -149,6 +149,10 @@ Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow)
         End Set
     End Property
 
+    ''' <summary>
+    ''' get all gene id list
+    ''' </summary>
+    ''' <returns></returns>
     Public ReadOnly Property rownames As String()
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get

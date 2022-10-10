@@ -142,6 +142,63 @@ Public Module GSEABackground
         Return background
     End Function
 
+    <ExportAPI("background.id_mapping")>
+    Public Function BackgroundIDmapping(background As Background, mapping As list, Optional env As Environment = Nothing) As Object
+        Dim maps As Dictionary(Of String, String()) = mapping.AsGeneric(Of String())(env, [default]:={})
+        Dim newClusterList = background.clusters _
+            .Select(Function(c)
+                        Dim geneList As BackgroundGene() = c.members _
+                            .Select(Function(g)
+                                        Dim multipleID As String() = maps.TryGetValue(g.accessionID)
+
+                                        If multipleID.IsNullOrEmpty Then
+                                            Return Nothing
+                                        End If
+
+                                        Return multipleID _
+                                            .Select(Function(mapId)
+                                                        Return New BackgroundGene With {
+                                                            .accessionID = mapId,
+                                                            .[alias] = g.alias _
+                                                                .SafeQuery _
+                                                                .Select(AddressOf maps.TryGetValue) _
+                                                                .Where(Function(id) Not id.IsNullOrEmpty) _
+                                                                .IteratesALL _
+                                                                .Distinct _
+                                                                .ToArray,
+                                                            .locus_tag = g.locus_tag,
+                                                            .name = g.name,
+                                                            .term_id = g.term_id
+                                                        }
+                                                    End Function)
+                                    End Function) _
+                            .IteratesALL _
+                            .Where(Function(g)
+                                       ' skip of all genes with no id mapping result
+                                       Return g IsNot Nothing AndAlso Not g.accessionID.StringEmpty
+                                   End Function) _
+                            .ToArray
+
+                        Return New Cluster With {
+                            .description = c.description,
+                            .ID = c.ID,
+                            .names = c.names,
+                            .members = geneList
+                        }
+                    End Function) _
+            .Where(Function(c) c.members.Length > 0) _
+            .ToArray
+
+        Return New Background With {
+            .build = Now,
+            .clusters = newClusterList,
+            .comments = background.comments,
+            .id = background.id,
+            .name = background.name,
+            .size = -1
+        }
+    End Function
+
     ''' <summary>
     ''' Load GSEA background model from a xml file.
     ''' </summary>
