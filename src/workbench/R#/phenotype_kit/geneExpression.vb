@@ -150,6 +150,11 @@ Module geneExpression
         Return mat.T
     End Function
 
+    ''' <summary>
+    ''' get summary information about the HTS matrix dimensions
+    ''' </summary>
+    ''' <param name="mat"></param>
+    ''' <returns></returns>
     <ExportAPI("dims")>
     Public Function dims(mat As Matrix) As list
         Return New list With {
@@ -162,6 +167,11 @@ Module geneExpression
         }
     End Function
 
+    ''' <summary>
+    ''' convert the matrix into row gene list
+    ''' </summary>
+    ''' <param name="expr0"></param>
+    ''' <returns></returns>
     <ExportAPI("as.expr_list")>
     Public Function createVectorList(expr0 As Matrix) As list
         Return New list With {
@@ -215,6 +225,26 @@ Module geneExpression
     <ExportAPI("filterZeroSamples")>
     Public Function filterZeroSamples(mat As Matrix, Optional env As Environment = Nothing) As Object
         Return mat.T.TrimZeros.T
+    End Function
+
+    ''' <summary>
+    ''' set the NaN missing value to default value
+    ''' </summary>
+    ''' <param name="x"></param>
+    ''' <param name="missingDefault"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("filterNaNMissing")>
+    Public Function filterNaN(x As Matrix, Optional missingDefault As Double = 0, Optional env As Environment = Nothing) As Object
+        For Each gene As DataFrameRow In x.expression
+            For i As Integer = 0 To gene.experiments.Length - 1
+                If gene.experiments(i).IsNaNImaginary Then
+                    gene.experiments(i) = missingDefault
+                End If
+            Next
+        Next
+
+        Return x
     End Function
 
     ''' <summary>
@@ -397,6 +427,11 @@ Module geneExpression
         Return m
     End Function
 
+    ''' <summary>
+    ''' cast the HTS matrix object to the general dataset
+    ''' </summary>
+    ''' <param name="matrix"></param>
+    ''' <returns></returns>
     <ExportAPI("as.generic")>
     Public Function castGenericRows(matrix As Matrix) As DataSet()
         Dim sampleNames As String() = matrix.sampleID
