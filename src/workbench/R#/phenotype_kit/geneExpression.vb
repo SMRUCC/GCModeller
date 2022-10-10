@@ -68,6 +68,7 @@ Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Distributions
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports Microsoft.VisualBasic.Math.LinearAlgebra.Prcomp
 Imports Microsoft.VisualBasic.Math.Quantile
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Scripting.Runtime
@@ -451,15 +452,17 @@ Module geneExpression
     ''' standard deviation (e.g., standard deviation of 
     ''' expression of a genomic feature in different conditions).
     ''' </summary>
-    ''' <param name="matrix"></param>
+    ''' <param name="x"></param>
     ''' <returns></returns>
     <ExportAPI("z_score")>
-    Public Function zscore(matrix As Matrix) As Matrix
+    Public Function zscore(x As Matrix) As Matrix
         Return New Matrix With {
-            .sampleID = matrix.sampleID,
-            .tag = $"z-score({matrix.tag})",
-            .expression = matrix.expression _
+            .sampleID = x.sampleID,
+            .tag = $"z-score({x.tag})",
+            .expression = x.expression _
                 .Select(Function(expr)
+                            ' each row is the gene expression data across experiments
+                            ' do z-score transformation for each gene
                             Return New DataFrameRow With {
                                 .geneID = expr.geneID,
                                 .experiments = expr.experiments _
@@ -470,6 +473,32 @@ Module geneExpression
                         End Function) _
                 .ToArray
         }
+    End Function
+
+    <ExportAPI("pca")>
+    Public Function applyPCA(x As Matrix, Optional npc As Integer = 3) As Rdataframe
+        Dim mat As Double()() = x.expression _
+            .Select(Function(gene) gene.experiments) _
+            .ToArray
+        Dim pca As New PCA(mat, center:=False)
+        Dim pcaSpace As Vec() = pca.Project(npc)
+        Dim embedded As New Rdataframe With {
+            .columns = New Dictionary(Of String, Array),
+            .rownames = x.rownames
+        }
+
+        For i As Integer = 0 To npc - 1
+#Disable Warning
+            Dim v As Double() = pcaSpace _
+                .Select(Function(r) r(i)) _
+                .ToArray
+            Dim name As String = $"PC{i + 1}"
+
+            Call embedded.add(name, v)
+#Enable Warning
+        Next
+
+        Return embedded
     End Function
 
     ''' <summary>
@@ -690,7 +719,7 @@ Module geneExpression
                         End Sub)
 
         Call println("export cmeans pattern matrix!")
-        Call output.add("pattern", Kmeans)
+        Call output.add("pattern", kmeans)
 
         Return output
     End Function
