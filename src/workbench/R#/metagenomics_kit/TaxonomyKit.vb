@@ -346,6 +346,39 @@ Module TaxonomyKit
         Return tree.GetOTUTable
     End Function
 
+    <ExportAPI("as.OTUtable")>
+    Public Function asOTUTable(table As rdataframe,
+                               Optional id As String = "OTU_num",
+                               Optional taxonomy As String = "taxonomy",
+                               Optional env As Environment = Nothing) As OTUTable()
+
+        Dim unique_id As String() = REnv.asVector(Of String)(table.getColumnVector(id))
+        Dim taxonomyStr As Taxonomy() = DirectCast(REnv.asVector(Of String)(table.getColumnVector(taxonomy)), String()) _
+            .Select(Function(str) New Taxonomy(BIOMTaxonomy.TaxonomyParser(str))) _
+            .ToArray
+
+        Call table.columns.Remove(id)
+        Call table.columns.Remove(taxonomy)
+
+        Dim samples = table.forEachRow.ToArray
+        Dim sample_ids As String() = table.colnames
+
+        Return unique_id _
+            .Select(Function(tax, i)
+                        Return New OTUTable With {
+                            .ID = tax,
+                            .taxonomy = taxonomyStr(i),
+                            .Properties = samples(i) _
+                                .Select(Function(sample, j) (sample, sample_ids(j))) _
+                                .ToDictionary(Function(a) a.Item2,
+                                              Function(a)
+                                                  Return Val(a.Item1)
+                                              End Function)
+                        }
+                    End Function) _
+            .ToArray
+    End Function
+
     <ExportAPI("read.OTUtable")>
     Public Function readOTUTable(file As String, Optional sumDuplicated As Boolean = True) As OTUTable()
         Dim otus As OTUTable() = file.LoadCsv(Of OTUTable)(mute:=True).ToArray
