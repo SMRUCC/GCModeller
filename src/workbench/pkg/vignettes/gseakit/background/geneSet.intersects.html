@@ -158,7 +158,8 @@
 
         <div style="width: 100%; padding-left: 3%; color: black;">
             <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>geneSet.intersects</strong>(<i>cluster</i>, <i>geneSet</i>,
-    <i>isLocusTag</i> = FALSE);</code></pre>
+    <i>isLocusTag</i> = FALSE,
+    <i>get.clusterID</i> = FALSE);</code></pre>
         </div>
 
         <h3>Arguments</h3>
@@ -175,6 +176,15 @@
 
 <dt>isLocusTag</dt>
 <dd><p><p>-</p></p></dd>
+
+
+<dt>get.clusterID</dt>
+<dd><p><p>this function will returns a set of mapping cluster id if this <br />
+ parameter value is set to value TRUE, otherwise this function<br />
+ returns a set of intersected geneID list by default.</p>
+
+<p>this parameter only works when the cluster object is a <br />
+ gsea background model object.</p></p></dd>
 
         </table>
 

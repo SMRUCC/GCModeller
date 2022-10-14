@@ -6,6 +6,7 @@ geneSet.intersects \- get an intersection id list between the background
 \fIgeneSet.intersects(\fBcluster\fR as any, 
 \fBgeneSet\fR as string, 
 \fBisLocusTag\fR as boolean = FALSE, 
+\fBget_clusterID\fR as boolean = FALSE, 
 [\fB<Environment>\fR]);\fR
 .SH DESCRIPTION
 .PP
@@ -23,6 +24,16 @@ get an intersection id list between the background
 .PP
 .PP
 \fBisLocusTag\fB \fR\- -. 
+.PP
+.PP
+\fBget_clusterID\fB \fR\- 
+ this function will returns a set of mapping cluster id if this 
+ parameter value is set to value TRUE, otherwise this function
+ returns a set of intersected geneID list by default.
+ 
+ this parameter only works when the cluster object is a 
+ gsea background model object.
+. 
 .PP
 .SH SEE ALSO
 background
