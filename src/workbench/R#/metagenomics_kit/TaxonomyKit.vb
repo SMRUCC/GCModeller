@@ -369,10 +369,10 @@ Module TaxonomyKit
                             .ID = tax,
                             .taxonomy = taxonomyStr(i),
                             .Properties = samples(i) _
-                                .Zip(sample_ids) _
-                                .ToDictionary(Function(a) a.Second,
+                                .Select(Function(sample, j) (sample, sample_ids(j))) _
+                                .ToDictionary(Function(a) a.Item2,
                                               Function(a)
-                                                  Return Val(a.First)
+                                                  Return Val(a.Item1)
                                               End Function)
                         }
                     End Function) _
