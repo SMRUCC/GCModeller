@@ -94,7 +94,10 @@ Namespace PICRUSt
         ''' </remarks>
         ''' 
         <Extension>
-        Public Function PredictMetagenome(OTUtable As OTUData(Of Double)(), precalculated As MetaBinaryReader) As OTUData(Of Double)()
+        Public Function PredictMetagenome(OTUtable As OTUData(Of Double)(),
+                                          precalculated As MetaBinaryReader,
+                                          Optional println As Action(Of String, Boolean) = Nothing) As OTUData(Of Double)()
+
             ' normalize the OTU table at first
             Dim allSampleNames As String() = OTUtable _
                 .Select(Function(OTU) OTU.data.Keys) _
@@ -103,12 +106,20 @@ Namespace PICRUSt
                 .ToArray
             Dim KOIds As String() = precalculated.GetAllFeatureIds
 
-            Call Console.Write("Loading taxonomy reference data...")
+            If println Is Nothing Then
+                println = AddressOf Console.WriteLine
+            End If
+
+            Call println($"Loading {KOIds.Length} KO id list, and", True)
+            Call println($"   processing for {OTUtable.Length} OTU dataset!", True)
+            Call println($"Loading taxonomy reference data...", True)
 
             Dim OTUdata = OTUtable _
                 .Select(Function(OTU)
                             Dim tax As Taxonomy = BIOMTaxonomyParser.Parse(OTU.taxonomy)
                             Dim data = precalculated.findByTaxonomy(tax)
+
+                            Call println($" -> {data.TryCount} hits, {OTU.taxonomy}", True)
 
                             If data.IsNullOrEmpty Then
                                 Return KOIds.ToDictionary(Function(id) id, Function(any) 0.0)
@@ -118,7 +129,7 @@ Namespace PICRUSt
                         End Function) _
                 .ToArray
 
-            Call Console.WriteLine(" done!")
+            Call println(" done!", True)
 
             Dim KOResult As OTUData(Of Double)() = New OTUData(Of Double)(precalculated.featureSize - 1) {}
             Dim OTU_KO As OTUData(Of Dictionary(Of String, Double))() = New OTUData(Of Dictionary(Of String, Double))(OTUdata.Length - 1) {}
@@ -133,7 +144,7 @@ Namespace PICRUSt
 
             Dim n As i32 = 1
 
-            Call Console.WriteLine("start processing samples:")
+            Call println("start processing samples:", True)
 
             For Each name As String In allSampleNames
                 Dim v As Double() = OTUtable _
@@ -141,7 +152,7 @@ Namespace PICRUSt
                     .ToArray
                 Dim sum As Double = v.Sum
 
-                Call Console.Write($"[{++n}/{allSampleNames.Length}]Processing sample: {name}...")
+                Call println($"[{++n}/{allSampleNames.Length}]Processing sample: {name}...", False)
 
                 For i As Integer = 0 To v.Length - 1
                     Dim norm As Double = v(i) / sum
@@ -155,7 +166,7 @@ Namespace PICRUSt
                     Call OTU_KO(i).data.Add(name, ko_vec)
                 Next
 
-                Call Console.WriteLine(" ~done!")
+                Call println(" ~done!", True)
             Next
 
             ' column is sample names
