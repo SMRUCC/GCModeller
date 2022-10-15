@@ -10,7 +10,7 @@
     <meta name="keywords" content="GCModeller; Xanthomonas; Artificial Life" />
     <meta name="generator" content="https://github.com/xieguigang/xDoc" />
     <meta name="theme-color" content="#333" />
-    <meta name="last-update" content="2022-10-10" />
+    <meta name="last-update" content="2022-10-14" />
     <meta name="description" content="A software system aim at Artificial Life system design and analysis." />
     <meta class="foundation-data-attribute-namespace" />
     <meta class="foundation-mq-xxlarge" />
@@ -318,6 +318,7 @@
                     <pre><p>let <code>geneSet.intersects</code> as function(<code>cluster</code> as any, 
 <code>geneSet</code> as string, 
 <code>isLocusTag</code> as boolean = FALSE, 
+<code>get_clusterID</code> as boolean = FALSE, 
 [<code>&lt;Environment&gt;</code>]) -> <code>string</code> {
     #
     # .NET API information
@@ -341,6 +342,14 @@
                 </li>
 <li>
   <code>isLocusTag</code>: -
+                </li>
+<li>
+  <code>get_clusterID</code>: this function will returns a set of mapping cluster id if this <br />
+ parameter value is set to value TRUE, otherwise this function<br />
+ returns a set of intersected geneID list by default.</p>
+
+<p>this parameter only works when the cluster object is a <br />
+ gsea background model object.
                 </li>
                 </ul>
 </div>

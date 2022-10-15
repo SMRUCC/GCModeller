@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>get an intersection id list between the background</title>
+    <title>as.OTUtable</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <style rel="stylesheet" type="text/css">
@@ -143,49 +143,29 @@
 
         <table style="width: 100%;">
             <tr>
-                <td>geneSet.intersects {background}</td>
+                <td>as.OTUtable {taxonomy_kit}</td>
                 <td style="text-align: right;">R Documentation</td>
             </tr>
         </table>
 
-        <h2>get an intersection id list between the background</h2>
+        <h2>as.OTUtable</h2>
 
         <h3>Description</h3>
 
-        <p>model and the given gene id list.</p>
+        as.OTUtable
 
         <h3>Usage</h3>
 
         <div style="width: 100%; padding-left: 3%; color: black;">
-            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>geneSet.intersects</strong>(<i>cluster</i>, <i>geneSet</i>,
-    <i>isLocusTag</i> = FALSE,
-    <i>get.clusterID</i> = FALSE);</code></pre>
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>as.OTUtable</strong>(<i>table</i>,
+    <i>id</i> = <span style='color: brown;'><strong>"OTU_num"</strong></span>,
+    <i>taxonomy</i> = <span style='color: brown;'><strong>"taxonomy"</strong></span>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
 
         <table>
             
-<dt>cluster</dt>
-<dd><p><p>A gene cluster model or gsea background model object.</p></p></dd>
-
-
-<dt>geneSet</dt>
-<dd><p><p>-</p></p></dd>
-
-
-<dt>isLocusTag</dt>
-<dd><p><p>-</p></p></dd>
-
-
-<dt>get.clusterID</dt>
-<dd><p><p>this function will returns a set of mapping cluster id if this <br />
- parameter value is set to value TRUE, otherwise this function<br />
- returns a set of intersected geneID list by default.</p>
-
-<p>this parameter only works when the cluster object is a <br />
- gsea background model object.</p></p></dd>
-
         </table>
 
 
@@ -199,8 +179,8 @@
         This function has no value returns.
 
         <hr />
-        <div style="text-align: center;">[Package <em>background</em> version 1.0.0.0 <a
-                href="../background.html">Index</a>]
+        <div style="text-align: center;">[Package <em>taxonomy_kit</em> version 1.0.0.0 <a
+                href="../taxonomy_kit.html">Index</a>]
         </div>
     </div>
 </body>

@@ -276,7 +276,7 @@ Namespace ReactionNetwork
                .Select(Function(x) x.First) _
                .AsList
 
-            For Each x In extends
+            For Each x As Node In extends
                 If Not nodes.containsKey(x.label) Then
                     nodes.add(x)
                 End If

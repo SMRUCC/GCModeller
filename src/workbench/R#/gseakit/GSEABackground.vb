@@ -147,44 +147,7 @@ Public Module GSEABackground
         Dim maps As Dictionary(Of String, String()) = mapping.AsGeneric(Of String())(env, [default]:={})
         Dim newClusterList = background.clusters _
             .Select(Function(c)
-                        Dim geneList As BackgroundGene() = c.members _
-                            .Select(Function(g)
-                                        Dim multipleID As String() = maps.TryGetValue(g.accessionID)
-
-                                        If multipleID.IsNullOrEmpty Then
-                                            Return Nothing
-                                        End If
-
-                                        Return multipleID _
-                                            .Select(Function(mapId)
-                                                        Return New BackgroundGene With {
-                                                            .accessionID = mapId,
-                                                            .[alias] = g.alias _
-                                                                .SafeQuery _
-                                                                .Select(AddressOf maps.TryGetValue) _
-                                                                .Where(Function(id) Not id.IsNullOrEmpty) _
-                                                                .IteratesALL _
-                                                                .Distinct _
-                                                                .ToArray,
-                                                            .locus_tag = g.locus_tag,
-                                                            .name = g.name,
-                                                            .term_id = g.term_id
-                                                        }
-                                                    End Function)
-                                    End Function) _
-                            .IteratesALL _
-                            .Where(Function(g)
-                                       ' skip of all genes with no id mapping result
-                                       Return g IsNot Nothing AndAlso Not g.accessionID.StringEmpty
-                                   End Function) _
-                            .ToArray
-
-                        Return New Cluster With {
-                            .description = c.description,
-                            .ID = c.ID,
-                            .names = c.names,
-                            .members = geneList
-                        }
+                        Return c.id_translation(maps)
                     End Function) _
             .Where(Function(c) c.members.Length > 0) _
             .ToArray
@@ -196,6 +159,48 @@ Public Module GSEABackground
             .id = background.id,
             .name = background.name,
             .size = -1
+        }
+    End Function
+
+    <Extension>
+    Private Function id_translation(c As Cluster, maps As Dictionary(Of String, String())) As Cluster
+        Dim geneList As BackgroundGene() = c.members _
+            .Select(Function(g)
+                        Dim multipleID As String() = maps.TryGetValue(g.accessionID)
+
+                        If multipleID.IsNullOrEmpty Then
+                            Return Nothing
+                        End If
+
+                        Return multipleID _
+                            .Select(Function(mapId)
+                                        Return New BackgroundGene With {
+                                            .accessionID = mapId,
+                                            .[alias] = g.alias _
+                                                .SafeQuery _
+                                                .Select(AddressOf maps.TryGetValue) _
+                                                .Where(Function(id) Not id.IsNullOrEmpty) _
+                                                .IteratesALL _
+                                                .Distinct _
+                                                .ToArray,
+                                            .locus_tag = g.locus_tag,
+                                            .name = g.name,
+                                            .term_id = g.term_id
+                                        }
+                                    End Function)
+                    End Function) _
+            .IteratesALL _
+            .Where(Function(g)
+                       ' skip of all genes with no id mapping result
+                       Return g IsNot Nothing AndAlso Not g.accessionID.StringEmpty
+                   End Function) _
+            .ToArray
+
+        Return New Cluster With {
+            .description = c.description,
+            .ID = c.ID,
+            .names = c.names,
+            .members = geneList
         }
     End Function
 
@@ -275,12 +280,21 @@ Public Module GSEABackground
     ''' </param>
     ''' <param name="geneSet"></param>
     ''' <param name="isLocusTag"></param>
+    ''' <param name="get_clusterID">
+    ''' this function will returns a set of mapping cluster id if this 
+    ''' parameter value is set to value TRUE, otherwise this function
+    ''' returns a set of intersected geneID list by default.
+    ''' 
+    ''' this parameter only works when the cluster object is a 
+    ''' gsea background model object.
+    ''' </param>
     ''' <returns></returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <ExportAPI("geneSet.intersects")>
     <RApiReturn(GetType(String))>
     Public Function ClusterIntersections(cluster As Object, geneSet$(),
                                          Optional isLocusTag As Boolean = False,
+                                         Optional get_clusterID As Boolean = False,
                                          Optional env As Environment = Nothing) As Object
         If cluster Is Nothing Then
             Return Nothing
@@ -290,13 +304,22 @@ Public Module GSEABackground
                 .Intersect(geneSet, isLocusTag) _
                 .ToArray
         ElseIf TypeOf cluster Is Background Then
-            Return DirectCast(cluster, Background).clusters _
-                .Select(Function(c)
-                            Return c.Intersect(geneSet, isLocusTag)
-                        End Function) _
-                .IteratesALL _
-                .Distinct _
-                .ToArray
+            If get_clusterID Then
+                Return DirectCast(cluster, Background).clusters _
+                    .Where(Function(c)
+                               Return c.Intersect(geneSet, isLocusTag).Any
+                           End Function) _
+                    .Select(Function(c) c.ID) _
+                    .ToArray
+            Else
+                Return DirectCast(cluster, Background).clusters _
+                    .Select(Function(c)
+                                Return c.Intersect(geneSet, isLocusTag)
+                            End Function) _
+                    .IteratesALL _
+                    .Distinct _
+                    .ToArray
+            End If
         Else
             Return Message.InCompatibleType(GetType(Background), cluster.GetType, env)
         End If

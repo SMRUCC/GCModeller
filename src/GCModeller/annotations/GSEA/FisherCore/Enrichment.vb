@@ -211,7 +211,10 @@ Public Module Enrichment
     ''' <returns></returns>
     <Extension>
     Public Function FDRCorrection(enrichments As IEnumerable(Of EnrichmentResult)) As EnrichmentResult()
-        With enrichments.Shadows
+        With enrichments _
+            .OrderBy(Function(t) t.pvalue) _
+            .Shadows
+
             !FDR = !Pvalue.FDR
             Return .ToArray
         End With

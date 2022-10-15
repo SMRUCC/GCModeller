@@ -10,7 +10,7 @@
     <meta name="keywords" content="GCModeller; Xanthomonas; Artificial Life" />
     <meta name="generator" content="https://github.com/xieguigang/xDoc" />
     <meta name="theme-color" content="#333" />
-    <meta name="last-update" content="2022-10-10" />
+    <meta name="last-update" content="2022-10-14" />
     <meta name="description" content="A software system aim at Artificial Life system design and analysis." />
     <meta class="foundation-data-attribute-namespace" />
     <meta class="foundation-mq-xxlarge" />
@@ -336,6 +336,34 @@
                       
                 
                     <pre><p>let <code>as.OTU_table</code> as function(<code>tree</code> as <generic> MothurRankTree) -> <code>&lt;generic&gt; OTUTable[]</code> {
+    #
+    # .NET API information
+    #
+    # module: metagenomics_kit.TaxonomyKit
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: metagenomics_kit.dll
+    # package: "taxonomy_kit"
+    #
+    return call <code>R&#35;.interop_[TaxonomyKit::asOTUTable]</code>(...);
+}</p></pre>
+
+                    
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="as.OTUtable">
+    <a href="./taxonomy_kit/as.OTUtable.html">as.OTUtable</a>
+  </h2>
+  <hr />
+  <p>
+                      
+                
+                    <pre><p>let <code>as.OTUtable</code> as function(<code>table</code> as <generic> dataframe, 
+<code>id</code> as string = "OTU_num", 
+<code>taxonomy</code> as string = "taxonomy", 
+[<code>&lt;Environment&gt;</code>]) -> <code>&lt;generic&gt; OTUTable[]</code> {
     #
     # .NET API information
     #

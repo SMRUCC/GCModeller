@@ -1,53 +1,53 @@
 ﻿#Region "Microsoft.VisualBasic::f4ffea182863f381c6db4606348e2163, R#\metagenomics_kit\microbiomeKit.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 234
-    '    Code Lines: 173
-    ' Comment Lines: 32
-    '   Blank Lines: 29
-    '     File Size: 10.21 KB
+' Summaries:
 
 
-    ' Module microbiomeKit
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: asTaxonomyVector, castTable, CompoundOrigin, createEmptyCompoundOriginProfile, indexMatrix
-    '               parsegreenGenesTaxonomy, predict_metagenomes, readPICRUStMatrix, similar
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 234
+'    Code Lines: 173
+' Comment Lines: 32
+'   Blank Lines: 29
+'     File Size: 10.21 KB
+
+
+' Module microbiomeKit
+' 
+'     Constructor: (+1 Overloads) Sub New
+'     Function: asTaxonomyVector, castTable, CompoundOrigin, createEmptyCompoundOriginProfile, indexMatrix
+'               parsegreenGenesTaxonomy, predict_metagenomes, readPICRUStMatrix, similar
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -69,6 +69,7 @@ Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
 Imports SMRUCC.genomics.Metagenomics
 Imports SMRUCC.genomics.Model.Network.Microbiome
 Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Internal.Invokes
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 
 ''' <summary>
@@ -133,7 +134,10 @@ Module microbiomeKit
     ''' <param name="table"></param>
     ''' <returns></returns>
     <ExportAPI("predict_metagenomes")>
-    Public Function predict_metagenomes(PICRUSt As MetaBinaryReader, table As dataframe) As OTUData(Of Double)()
+    Public Function predict_metagenomes(PICRUSt As MetaBinaryReader,
+                                        table As dataframe,
+                                        Optional env As Environment = Nothing) As OTUData(Of Double)()
+
         Dim sampleNames As String() = table.colnames
         Dim OTUtable As OTUData(Of Double)() = table.forEachRow _
             .Select(Function(OTU, i)
@@ -150,7 +154,11 @@ Module microbiomeKit
                         }
                     End Function) _
             .ToArray
-        Dim result = OTUtable.PredictMetagenome(precalculated:=PICRUSt)
+        Dim println As Action(Of String, Boolean) = Sub(line, newLine) Call base.cat(line & If(newLine, "\n", ""),,, env)
+        Dim result = OTUtable.PredictMetagenome(
+            precalculated:=PICRUSt,
+            println:=println
+        )
 
         Return result
     End Function
