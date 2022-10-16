@@ -636,6 +636,16 @@ Module geneExpression
         Return ExpressionPattern.CMeansCluster3D(matrix, fuzzification, threshold)
     End Function
 
+    <ExportAPI("savePattern")>
+    Public Function savePattern(pattern As ExpressionPattern, file As String) As Boolean
+        Return Writer.WriteExpressionPattern(pattern, file.Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False))
+    End Function
+
+    <ExportAPI("readPattern")>
+    Public Function readPattern(file As String) As ExpressionPattern
+        Return Reader.ReadExpressionPattern(file.Open(FileMode.Open, doClear:=False, [readOnly]:=True))
+    End Function
+
     ''' <summary>
     ''' get cluster membership matrix
     ''' </summary>
