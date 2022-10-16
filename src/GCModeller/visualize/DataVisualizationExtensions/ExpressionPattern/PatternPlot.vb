@@ -144,8 +144,12 @@ Namespace ExpressionPattern
             Dim legendTickFont As Font = CSSFont.TryParse(legendTickStyle).GDIObject(g.Dpi)
             Dim tickFormat As String
             Dim left As Double = canvas.PlotRegion.Left + iw / 6
+            Dim topMembers As Integer = If(Me.topMembers > 1, Me.topMembers, Me.topMembers * matrix.Patterns.Length)
 
-            For Each row As Matrix() In matrix.GetPartitionMatrix(membershipCutoff, topMembers:=topMembers * matrix.Patterns.Length)
+            For Each row As Matrix() In matrix.GetPartitionMatrix(
+                membershipCutoff:=membershipCutoff,
+                topMembers:=topMembers
+            )
                 x = left + iw / 5
 
                 For Each col As Matrix In row
