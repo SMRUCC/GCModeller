@@ -22,6 +22,18 @@ Namespace ExpressionPattern
                     Call bin.Write(buf.Length)
                     Call bin.Write(buf)
                 Next
+
+                ' save patterns
+                Call bin.Write(pattern.Patterns.Length)
+
+                For Each data As FuzzyCMeansEntity In pattern.Patterns
+                    Dim buf As Byte() = Classify.GetBuffer(data)
+
+                    Call bin.Write(buf.Length)
+                    Call bin.Write(buf)
+                Next
+
+                Call bin.Flush()
             End Using
 
             Return True
@@ -36,7 +48,14 @@ Namespace ExpressionPattern
                 Call bin.Write(center.center)
                 Call bin.Write(center.members.Count)
 
+                For Each data As FuzzyCMeansEntity In center.members
+                    Dim buf As Byte() = Classify.GetBuffer(data)
 
+                    Call bin.Write(buf.Length)
+                    Call bin.Write(buf)
+                Next
+
+                Call bin.Flush()
 
                 Return ms.ToArray
             End Using
