@@ -98,7 +98,7 @@ Namespace Distributions.BinBox
                 ' 20221017
                 ' the width is too small, split into k parts directly!
                 ' or the entire process may takes a very long time to run
-                Dim bins = v.Split(partitionSize:=v.Length / k)
+                Dim bins = v.Split(partitionSize:=v.Length / k + 1)
                 Dim boxes = bins _
                     .Select(Function(part)
                                 Dim lowerbound As Double = eval(part.First)
