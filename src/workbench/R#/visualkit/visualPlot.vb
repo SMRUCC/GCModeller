@@ -685,6 +685,7 @@ Module visualPlot
         Dim axisTickCSS As String = InteropArgumentHelper.getFontCSS("axis_tick.cex", CSSFont.Win10Normal)
         Dim axisLabelCSS As String = InteropArgumentHelper.getFontCSS("axis_label.cex", CSSFont.Win7Normal)
         Dim ppi As Integer = args.getValue("ppi", env, 300)
+        Dim topMembers As Double = args.getValue("top_members", env, 500)
 
         Return matrix.DrawMatrix(
             size:=size,
@@ -697,7 +698,8 @@ Module visualPlot
             legendTitleStyle:=legendTitleStyle,
             axisLabelCSS:=axisLabelCSS,
             axisTickCSS:=axisTickCSS,
-            ppi:=ppi
+            ppi:=ppi,
+            topMembers:=topMembers
         )
     End Function
 
