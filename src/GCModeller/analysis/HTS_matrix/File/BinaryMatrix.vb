@@ -1,55 +1,55 @@
 ﻿#Region "Microsoft.VisualBasic::3a8eec8510b2f14b27fdb26df5a8c531, GCModeller\analysis\HTS_matrix\File\BinaryMatrix.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 157
-    '    Code Lines: 112
-    ' Comment Lines: 14
-    '   Blank Lines: 31
-    '     File Size: 5.07 KB
+' Summaries:
 
 
-    ' Module BinaryMatrix
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    ' 
-    '     Function: LoadStream, networkByteOrderDecoder, networkByteOrderEncoder, (+2 Overloads) readMatrix, Save
-    ' 
-    '     Sub: save
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 157
+'    Code Lines: 112
+' Comment Lines: 14
+'   Blank Lines: 31
+'     File Size: 5.07 KB
+
+
+' Module BinaryMatrix
+' 
+'     Constructor: (+1 Overloads) Sub New
+' 
+'     Function: LoadStream, networkByteOrderDecoder, networkByteOrderEncoder, (+2 Overloads) readMatrix, Save
+' 
+'     Sub: save
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -57,6 +57,7 @@ Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.Emit.Marshal
+Imports Microsoft.VisualBasic.Serialization.BinaryDumping
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 ''' <summary>
@@ -64,69 +65,12 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 ''' </summary>
 Public Module BinaryMatrix
 
-    ReadOnly encode As Func(Of Double(), Byte())
-    ReadOnly decode As Func(Of Byte(), Double())
     ReadOnly magic As Byte()
+    ReadOnly bin As New NetworkByteOrderBuffer
 
     Sub New()
         magic = Encoding.ASCII.GetBytes("GCModeller/HTS_matrix")
-
-        If BitConverter.IsLittleEndian Then
-            ' reverse bytes
-            encode = AddressOf networkByteOrderEncoder
-            decode = AddressOf networkByteOrderDecoder
-
-            Call Console.WriteLine("system byte order is little endian.")
-        Else
-            ' no bytes sequence reverse
-            encode = Function(nums)
-                         Dim bytes As New List(Of Byte)
-
-                         For Each d As Double In nums
-                             Call bytes.AddRange(BitConverter.GetBytes(d))
-                         Next
-
-                         Return bytes.ToArray
-                     End Function
-            decode = Function(buffer)
-                         Dim nums As Double() = New Double(buffer.Length / 8 - 1) {}
-
-                         For i As Integer = 0 To nums.Length - 1
-                             nums(i) = BitConverter.ToDouble(buffer, i * 8)
-                         Next
-
-                         Return nums
-                     End Function
-        End If
     End Sub
-
-    Private Function networkByteOrderDecoder(buffer As Byte()) As Double()
-        Dim nums As Double() = New Double(buffer.Length / 8 - 1) {}
-        Dim bytes As Byte() = New Byte(8 - 1) {}
-
-        For i As Integer = 0 To nums.Length - 1
-            Call Array.ConstrainedCopy(buffer, i * 8, bytes, Scan0, bytes.Length)
-            Call Array.Reverse(bytes)
-
-            nums(i) = BitConverter.ToDouble(bytes, Scan0)
-        Next
-
-        Return nums
-    End Function
-
-    Private Function networkByteOrderEncoder(nums As Double()) As Byte()
-        Dim bytes As New List(Of Byte)
-        Dim buffer As Byte()
-
-        For Each d As Double In nums
-            buffer = BitConverter.GetBytes(d)
-
-            Call Array.Reverse(buffer)
-            Call bytes.AddRange(buffer)
-        Next
-
-        Return bytes.ToArray
-    End Function
 
     Public Function LoadStream(file As Stream) As Matrix
         Using reader As New BinaryReader(file, Encoding.UTF8)
@@ -170,7 +114,7 @@ Public Module BinaryMatrix
 
         Do While buffer.Length > buffer.Position
             bytes = file.ReadBytes(bytes.Length)
-            exp = decode(bytes)
+            exp = bin.decode(bytes)
 
             Yield New DataFrameRow With {
                 .experiments = exp,
@@ -205,7 +149,7 @@ Public Module BinaryMatrix
 
         ' write each feature row data
         For Each feature As DataFrameRow In mat.expression
-            Call file.Write(encode(feature.experiments))
+            Call file.Write(bin.encode(feature.experiments))
         Next
     End Sub
 

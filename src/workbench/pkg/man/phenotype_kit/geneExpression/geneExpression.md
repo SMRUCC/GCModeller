@@ -21,6 +21,8 @@ the gene expression matrix data toolkit
 + [relative](geneExpression/relative.1) normalize data by feature rows
 + [expression.cmeans_pattern](geneExpression/expression.cmeans_pattern.1) This function performs clustering analysis of time course data. 
 + [expression.cmeans3D](geneExpression/expression.cmeans3D.1) 
++ [savePattern](geneExpression/savePattern.1) 
++ [readPattern](geneExpression/readPattern.1) 
 + [cmeans_matrix](geneExpression/cmeans_matrix.1) get cluster membership matrix
 + [peakCMeans](geneExpression/peakCMeans.1) This function performs clustering analysis of time course data
 + [deg.t.test](geneExpression/deg.t.test.1) 

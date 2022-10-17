@@ -1,58 +1,58 @@
 ﻿#Region "Microsoft.VisualBasic::99c10a77a3acef82ef570998bfc7c1e5, GCModeller\visualize\DataVisualizationExtensions\ExpressionPattern\PatternPlot.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 190
-    '    Code Lines: 156
-    ' Comment Lines: 13
-    '   Blank Lines: 21
-    '     File Size: 8.46 KB
+' Summaries:
 
 
-    '     Class PatternPlot
-    ' 
-    '         Properties: clusterLabelStyle, legendTickStyle, legendTitleStyle, matrix, Prefix
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: createLines
-    ' 
-    '         Sub: PlotInternal
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 190
+'    Code Lines: 156
+' Comment Lines: 13
+'   Blank Lines: 21
+'     File Size: 8.46 KB
+
+
+'     Class PatternPlot
+' 
+'         Properties: clusterLabelStyle, legendTickStyle, legendTitleStyle, matrix, Prefix
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'         Function: createLines
+' 
+'         Sub: PlotInternal
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -144,8 +144,13 @@ Namespace ExpressionPattern
             Dim legendTickFont As Font = CSSFont.TryParse(legendTickStyle).GDIObject(g.Dpi)
             Dim tickFormat As String
             Dim left As Double = canvas.PlotRegion.Left + iw / 6
+            Dim topMembers As Integer = If(Me.topMembers > 1, Me.topMembers, Me.topMembers * matrix.Patterns.Length)
+            Dim label As String
 
-            For Each row As Matrix() In matrix.GetPartitionMatrix(membershipCutoff, topMembers:=topMembers * matrix.Patterns.Length)
+            For Each row As Matrix() In matrix.GetPartitionMatrix(
+                membershipCutoff:=membershipCutoff,
+                topMembers:=topMembers
+            )
                 x = left + iw / 5
 
                 For Each col As Matrix In row
@@ -165,6 +170,7 @@ Namespace ExpressionPattern
                                      Return patternsIndex(gene.title).memberships(clusterTagId)
                                  End Function) _
                         .ToArray
+                    label = $"{Prefix} #{Integer.Parse(col.tag) + 1}"
 
                     If scatterData.Select(Function(l) l.pts.Select(Function(a) a.pt.Y).Max).Max > 3000 Then
                         tickFormat = "G2"
@@ -172,7 +178,8 @@ Namespace ExpressionPattern
                         tickFormat = "F2"
                     End If
 
-                    Call g.DrawString($"{Prefix} #{Integer.Parse(col.tag) + 1}", clusterTagFont, Brushes.Black, tagPos)
+                    Call g.DrawString(label, clusterTagFont, Brushes.Black, tagPos)
+                    Call Console.WriteLine(label & "...")
 
                     Call Scatter.Plot(
                         c:=scatterData,
