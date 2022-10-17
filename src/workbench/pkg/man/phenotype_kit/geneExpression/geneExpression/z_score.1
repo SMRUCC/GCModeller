@@ -1,0 +1,34 @@
+.\" man page create by R# package system.
+.TH GENEEXPRESSION 1 2000-01-01 "z_score" "z_score"
+.SH NAME
+z_score \- To avoid the influence of expression level to the
+.SH SYNOPSIS
+\fIz_score(\fBx\fR as <generic> Matrix);\fR
+.SH DESCRIPTION
+.PP
+To avoid the influence of expression level to the 
+ clustering analysis, z-score transformation can 
+ be applied to covert the expression values to 
+ z-scores by performing the following formula:
+ 
+ \fB
+ z = (x - u) / sd
+ \fR`
+ 
+ x is value to be converted (e.g., a expression value 
+ of a genomic feature in one condition), µ is the 
+ population mean (e.g., average expression value Of 
+ a genomic feature In different conditions), σ Is the 
+ standard deviation (e.g., standard deviation of 
+ expression of a genomic feature in different conditions).
+.PP
+.SH OPTIONS
+.PP
+\fBx\fB \fR\- -. 
+.PP
+.SH SEE ALSO
+geneExpression
+.SH FILES
+.PP
+phenotype_kit.dll
+.PP

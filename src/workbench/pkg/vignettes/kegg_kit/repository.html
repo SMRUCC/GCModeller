@@ -1,0 +1,771 @@
+<!DOCTYPE html><html lang="zh-CN">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>repository</title>
+    <meta name="author" content="xie.guigang@gcmodeller.org" />
+    <meta name="copyright" content="SMRUCC genomics Copyright (c) 2020" />
+    <meta name="keywords" content="GCModeller; Xanthomonas; Artificial Life" />
+    <meta name="generator" content="https://github.com/xieguigang/xDoc" />
+    <meta name="theme-color" content="#333" />
+    <meta name="last-update" content="2022-10-17" />
+    <meta name="description" content="A software system aim at Artificial Life system design and analysis." />
+    <meta class="foundation-data-attribute-namespace" />
+    <meta class="foundation-mq-xxlarge" />
+    <meta class="foundation-mq-xlarge" />
+    <meta class="foundation-mq-large" />
+    <meta class="foundation-mq-medium" />
+    <meta class="foundation-mq-small" />
+    <meta class="foundation-mq-topbar" />
+  </head>
+  <body>
+    <table width="100%" summary="page for {repository}">
+      <tbody>
+        <tr>
+          <td>{repository}</td>
+          <td style="text-align: right;">R# Documentation</td>
+        </tr>
+      </tbody>
+    </table>
+    <h1>repository</h1>
+    <hr />
+    <p></p>
+    <div id="main-wrapper">
+                           <div>
+  <h2 id="write.msgpack">
+    <a href="./repository/write.msgpack.html">write.msgpack</a>
+  </h2>
+  <hr />
+  <p>
+                    <p>a generic method for write kegg data stream as messagepack</p>  
+                
+                    <pre><p>let <code>write.msgpack</code> as function(<code>data</code> as any, <code>file</code> as any, [<code>&lt;Environment&gt;</code>]) -> <code>boolean</code> {
+    #
+    # .NET API information
+    #
+    # module: kegg_kit.repository
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: kegg_kit.dll
+    # package: "repository"
+    #
+    return call <code>R&#35;.interop_[repository::writeMessagePack]</code>(...);
+}</p></pre>
+
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>data</code>: -
+                </li>
+<li>
+  <code>file</code>: -
+                </li>
+<li>
+  <code>env</code>: -
+                </li>
+                </ul>
+</div>
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="load.compounds">
+    <a href="./repository/load.compounds.html">load.compounds</a>
+  </h2>
+  <hr />
+  <p>
+                    <p>load repository of kegg @<code>T:SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Compound</code>.</p>  
+                
+                    <pre><p>let <code>load.compounds</code> as function(<code>repository</code> as any, 
+<code>rawList</code> as boolean = FALSE, 
+<code>ignoreGlycan</code> as boolean = FALSE, 
+[<code>&lt;Environment&gt;</code>]) -> <code>&lt;generic&gt; CompoundRepository|&lt;generic&gt; Compound</code> {
+    #
+    # .NET API information
+    #
+    # module: kegg_kit.repository
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: kegg_kit.dll
+    # package: "repository"
+    #
+    return call <code>R&#35;.interop_[repository::LoadCompoundRepo]</code>(...);
+}</p></pre>
+
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>repository</code>: -
+                </li>
+                </ul>
+</div>
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="load.reactions">
+    <a href="./repository/load.reactions.html">load.reactions</a>
+  </h2>
+  <hr />
+  <p>
+                    <p>load reaction data from the given kegg reaction data repository</p>  
+                
+                    <pre><p>let <code>load.reactions</code> as function(<code>repository</code> as any, <code>raw</code> as boolean = TRUE, [<code>&lt;Environment&gt;</code>]) -> <code>&lt;generic&gt; ReactionRepository|&lt;generic&gt; Reaction</code> {
+    #
+    # .NET API information
+    #
+    # module: kegg_kit.repository
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: kegg_kit.dll
+    # package: "repository"
+    #
+    return call <code>R&#35;.interop_[repository::LoadReactionRepo]</code>(...);
+}</p></pre>
+
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>repository</code>: -
+                </li>
+                </ul>
+</div>
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="load.maps">
+    <a href="./repository/load.maps.html">load.maps</a>
+  </h2>
+  <hr />
+  <p>
+                    <p>load list of kegg reference @<code>T:SMRUCC.genomics.Assembly.KEGG.WebServices.Map</code>.</p>  
+                
+                    <pre><p>let <code>load.maps</code> as function(<code>repository</code> as any, <code>rawMaps</code> as boolean = TRUE) -> <code>&lt;generic&gt; Map|&lt;generic&gt; MapRepository</code> {
+    #
+    # .NET API information
+    #
+    # module: kegg_kit.repository
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: kegg_kit.dll
+    # package: "repository"
+    #
+    return call <code>R&#35;.interop_[repository::loadMapRepository]</code>(...);
+}</p></pre>
+
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>repository</code>: a directory of repository data for kegg reference @<code>T:SMRUCC.genomics.Assembly.KEGG.WebServices.Map</code>.
+                </li>
+                </ul>
+</div>
+                       
+                    <h4>Value</h4><p>a kegg reference map object vector, which can be indexed <br />
+ via @<code>P:SMRUCC.genomics.Assembly.KEGG.WebServices.Map.id</code>.</p>
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="load.pathways">
+    <a href="./repository/load.pathways.html">load.pathways</a>
+  </h2>
+  <hr />
+  <p>
+                    <p>load kegg pathway maps from a given repository data directory.</p>  
+                
+                    <pre><p>let <code>load.pathways</code> as function(<code>repository</code> as string, <code>referenceMap</code> as boolean = TRUE, [<code>&lt;Environment&gt;</code>]) -> <code>&lt;generic&gt; PathwayMap|&lt;generic&gt; Pathway</code> {
+    #
+    # .NET API information
+    #
+    # module: kegg_kit.repository
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: kegg_kit.dll
+    # package: "repository"
+    #
+    return call <code>R&#35;.interop_[repository::LoadPathways]</code>(...);
+}</p></pre>
+
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>repository</code>: -
+                </li>
+                </ul>
+</div>
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="reactions.table">
+    <a href="./repository/reactions.table.html">reactions.table</a>
+  </h2>
+  <hr />
+  <p>
+                    <p>load kegg reaction table from a given repository model or resource file on your filesystem.</p>  
+                
+                    <pre><p>let <code>reactions.table</code> as function(<code>repo</code> as any, [<code>&lt;Environment&gt;</code>]) -> <code>any</code> {
+    #
+    # .NET API information
+    #
+    # module: kegg_kit.repository
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: kegg_kit.dll
+    # package: "repository"
+    #
+    return call <code>R&#35;.interop_[repository::TableOfReactions]</code>(...);
+}</p></pre>
+
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>repo</code>: -
+                </li>
+<li>
+  <code>env</code>: -
+                </li>
+                </ul>
+</div>
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="reactionsId">
+    <a href="./repository/reactionsId.html">reactionsId</a>
+  </h2>
+  <hr />
+  <p>
+                      
+                
+                    <pre><p>let <code>reactionsId</code> as function(<code>repo</code> as any, [<code>&lt;Environment&gt;</code>]) -> <code>any</code> {
+    #
+    # .NET API information
+    #
+    # module: kegg_kit.repository
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: kegg_kit.dll
+    # package: "repository"
+    #
+    return call <code>R&#35;.interop_[repository::getReactionsId]</code>(...);
+}</p></pre>
+
+                    
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="compoundsId">
+    <a href="./repository/compoundsId.html">compoundsId</a>
+  </h2>
+  <hr />
+  <p>
+                    <p>get a vector of kegg compound id from the kegg reaction_class/pathway maps data repository</p>  
+                
+                    <pre><p>let <code>compoundsId</code> as function(<code>repo</code> as any, [<code>&lt;Environment&gt;</code>]) -> <code>any</code> {
+    #
+    # .NET API information
+    #
+    # module: kegg_kit.repository
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: kegg_kit.dll
+    # package: "repository"
+    #
+    return call <code>R&#35;.interop_[repository::getCompoundsId]</code>(...);
+}</p></pre>
+
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>repo</code>: -
+                </li>
+<li>
+  <code>env</code>: -
+                </li>
+                </ul>
+</div>
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="reaction_class.repo">
+    <a href="./repository/reaction_class.repo.html">reaction_class.repo</a>
+  </h2>
+  <hr />
+  <p>
+                    <p>load stream of the reaction_class data model from kegg data repository.</p>  
+                
+                    <pre><p>let <code>reaction_class.repo</code> as function(<code>repo</code> as any, [<code>&lt;Environment&gt;</code>]) -> <code>&lt;generic&gt; ReactionClass</code> {
+    #
+    # .NET API information
+    #
+    # module: kegg_kit.repository
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: kegg_kit.dll
+    # package: "repository"
+    #
+    return call <code>R&#35;.interop_[repository::loadReactionClassRaw]</code>(...);
+}</p></pre>
+
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>repo</code>: -
+                </li>
+<li>
+  <code>env</code>: -
+                </li>
+                </ul>
+</div>
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="reaction_class.table">
+    <a href="./repository/reaction_class.table.html">reaction_class.table</a>
+  </h2>
+  <hr />
+  <p>
+                    <p>load reaction class data from a repository data source.</p>  
+                
+                    <pre><p>let <code>reaction_class.table</code> as function(<code>repo</code> as any, [<code>&lt;Environment&gt;</code>]) -> <code>&lt;generic&gt; ReactionClassTable</code> {
+    #
+    # .NET API information
+    #
+    # module: kegg_kit.repository
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: kegg_kit.dll
+    # package: "repository"
+    #
+    return call <code>R&#35;.interop_[repository::loadReactionClassTable]</code>(...);
+}</p></pre>
+
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>repo</code>: -
+                </li>
+<li>
+  <code>env</code>: -
+                </li>
+                </ul>
+</div>
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="fetch.kegg_organism">
+    <a href="./repository/fetch.kegg_organism.html">fetch.kegg_organism</a>
+  </h2>
+  <hr />
+  <p>
+                    <p>Fetch the kegg organism table data from a given resource</p>  
+                
+                    <pre><p>let <code>fetch.kegg_organism</code> as function(<code>resource</code> as string = "<a href="http://www.kegg.jp/kegg/catalog/org_list.html">http://www.kegg.jp/kegg/catalog/org_list.html</a>", <code>type</code> as <integer> OrganismTypes = [all]) -> <code>&lt;generic&gt; Prokaryote[]</code> {
+    #
+    # .NET API information
+    #
+    # module: kegg_kit.repository
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: kegg_kit.dll
+    # package: "repository"
+    #
+    return call <code>R&#35;.interop_[repository::FetchKEGGOrganism]</code>(...);
+}</p></pre>
+
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>resource</code>: the kegg organism data resource, by default is the kegg online page data.
+                </li>
+<li>
+  <code>type</code>: <ol>
+<li>all</li>
+<li>prokaryote</li>
+<li>eukaryotes</li>
+</ol>
+                </li>
+                </ul>
+</div>
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="save.KEGG_pathway">
+    <a href="./repository/save.KEGG_pathway.html">save.KEGG_pathway</a>
+  </h2>
+  <hr />
+  <p>
+                    <p>save the kegg pathway annotation result data.</p>  
+                
+                    <pre><p>let <code>save.KEGG_pathway</code> as function(<code>pathway</code> as any, <code>file</code> as string, [<code>&lt;Environment&gt;</code>]) -> <code>any</code> {
+    #
+    # .NET API information
+    #
+    # module: kegg_kit.repository
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: kegg_kit.dll
+    # package: "repository"
+    #
+    return call <code>R&#35;.interop_[repository::SaveKEGGPathway]</code>(...);
+}</p></pre>
+
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>pathway</code>: -
+                </li>
+<li>
+  <code>file$</code>: -
+                </li>
+<li>
+  <code>env</code>: -
+                </li>
+                </ul>
+</div>
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="read.KEGG_pathway">
+    <a href="./repository/read.KEGG_pathway.html">read.KEGG_pathway</a>
+  </h2>
+  <hr />
+  <p>
+                    <p>read the kegg pathway annotation result data.</p>  
+                
+                    <pre><p>let <code>read.KEGG_pathway</code> as function(<code>file</code> as string, [<code>&lt;Environment&gt;</code>]) -> <code>&lt;generic&gt; Pathway</code> {
+    #
+    # .NET API information
+    #
+    # module: kegg_kit.repository
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: kegg_kit.dll
+    # package: "repository"
+    #
+    return call <code>R&#35;.interop_[repository::readKEGGpathway]</code>(...);
+}</p></pre>
+
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>file</code>: -
+                </li>
+<li>
+  <code>env</code>: -
+                </li>
+                </ul>
+</div>
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="save.kegg_organism">
+    <a href="./repository/save.kegg_organism.html">save.kegg_organism</a>
+  </h2>
+  <hr />
+  <p>
+                    <p>save the kegg organism data as data table file.</p>  
+                
+                    <pre><p>let <code>save.kegg_organism</code> as function(<code>organism</code> as <generic> Prokaryote[], <code>file</code> as string, [<code>&lt;Environment&gt;</code>]) -> <code>boolean</code> {
+    #
+    # .NET API information
+    #
+    # module: kegg_kit.repository
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: kegg_kit.dll
+    # package: "repository"
+    #
+    return call <code>R&#35;.interop_[repository::SaveKEGGOrganism]</code>(...);
+}</p></pre>
+
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>organism</code>: -
+                </li>
+<li>
+  <code>file$</code>: -
+                </li>
+<li>
+  <code>env</code>: -
+                </li>
+                </ul>
+</div>
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="read.kegg_organism">
+    <a href="./repository/read.kegg_organism.html">read.kegg_organism</a>
+  </h2>
+  <hr />
+  <p>
+                      
+                
+                    <pre><p>let <code>read.kegg_organism</code> as function(<code>file</code> as string) -> <code>&lt;generic&gt; Prokaryote[]</code> {
+    #
+    # .NET API information
+    #
+    # module: kegg_kit.repository
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: kegg_kit.dll
+    # package: "repository"
+    #
+    return call <code>R&#35;.interop_[repository::ReadKEGGOrganism]</code>(...);
+}</p></pre>
+
+                    
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="compound">
+    <a href="./repository/compound.html">compound</a>
+  </h2>
+  <hr />
+  <p>
+                      
+                
+                    <pre><p>let <code>compound</code> as function(<code>entry</code> as string, 
+<code>name</code> as string, 
+<code>formula</code> as string, 
+<code>exactMass</code> as double, 
+<code>reaction</code> as string, 
+<code>enzyme</code> as string, 
+<code>remarks</code> as string, 
+<code>KCF</code> as string, 
+<code>DBLinks</code> as <generic> dataframe, 
+<code>pathway</code> as <generic> dataframe, 
+<code>modules</code> as <generic> dataframe) -> <code>&lt;generic&gt; Compound</code> {
+    #
+    # .NET API information
+    #
+    # module: kegg_kit.repository
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: kegg_kit.dll
+    # package: "repository"
+    #
+    return call <code>R&#35;.interop_[repository::createCompound]</code>(...);
+}</p></pre>
+
+                    
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="pathway">
+    <a href="./repository/pathway.html">pathway</a>
+  </h2>
+  <hr />
+  <p>
+                      
+                
+                    <pre><p>let <code>pathway</code> as function(<code>id</code> as string, 
+<code>name</code> as string, 
+<code>description</code> as string, 
+<code>modules</code> as <generic> dataframe, 
+<code>DBLinks</code> as <generic> dataframe, 
+<code>KO_pathway</code> as string, 
+<code>references</code> as <generic> dataframe, 
+<code>compounds</code> as <generic> dataframe, 
+<code>drugs</code> as <generic> dataframe, 
+<code>genes</code> as <generic> dataframe, 
+<code>organism</code> as list, 
+<code>disease</code> as <generic> dataframe, 
+[<code>&lt;Environment&gt;</code>]) -> <code>&lt;generic&gt; Pathway</code> {
+    #
+    # .NET API information
+    #
+    # module: kegg_kit.repository
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: kegg_kit.dll
+    # package: "repository"
+    #
+    return call <code>R&#35;.interop_[repository::pathway]</code>(...);
+}</p></pre>
+
+                    
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="reaction">
+    <a href="./repository/reaction.html">reaction</a>
+  </h2>
+  <hr />
+  <p>
+                      
+                
+                    <pre><p>let <code>reaction</code> as function(<code>id</code> as string, 
+<code>name</code> as string, 
+<code>definition</code> as string, 
+<code>equation</code> as string, 
+<code>comment</code> as string, 
+<code>reaction_class</code> as <generic> dataframe, 
+<code>enzyme</code> as string, 
+<code>pathways</code> as <generic> dataframe, 
+<code>modules</code> as <generic> dataframe, 
+<code>KO</code> as <generic> dataframe, 
+<code>links</code> as <generic> dataframe) -> <code>&lt;generic&gt; Reaction</code> {
+    #
+    # .NET API information
+    #
+    # module: kegg_kit.repository
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: kegg_kit.dll
+    # package: "repository"
+    #
+    return call <code>R&#35;.interop_[repository::reaction]</code>(...);
+}</p></pre>
+
+                    
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="reaction_class">
+    <a href="./repository/reaction_class.html">reaction_class</a>
+  </h2>
+  <hr />
+  <p>
+                    <p>create a new data model of kegg reaction_class</p>  
+                
+                    <pre><p>let <code>reaction_class</code> as function(<code>id</code> as string, 
+<code>definition</code> as string, 
+<code>reactions</code> as string, 
+<code>enzyme</code> as string, 
+<code>pathways</code> as <generic> dataframe, 
+<code>KO</code> as <generic> dataframe, 
+<code>transforms</code> as <generic> dataframe, 
+<code>rmodules</code> as <generic> dataframe) -> <code>&lt;generic&gt; ReactionClass</code> {
+    #
+    # .NET API information
+    #
+    # module: kegg_kit.repository
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: kegg_kit.dll
+    # package: "repository"
+    #
+    return call <code>R&#35;.interop_[repository::reaction_class]</code>(...);
+}</p></pre>
+
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>id</code>: -
+                </li>
+<li>
+  <code>definition</code>: -
+                </li>
+<li>
+  <code>reactions</code>: -
+                </li>
+<li>
+  <code>enzyme</code>: -
+                </li>
+<li>
+  <code>pathways</code>: -
+                </li>
+<li>
+  <code>KO</code>: -
+                </li>
+<li>
+  <code>transforms</code>: -
+                </li>
+<li>
+  <code>rmodules</code>: -
+                </li>
+                </ul>
+</div>
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="shapeAreas">
+    <a href="./repository/shapeAreas.html">shapeAreas</a>
+  </h2>
+  <hr />
+  <p>
+                      
+                
+                    <pre><p>let <code>shapeAreas</code> as function(<code>data</code> as <generic> dataframe) -> <code>&lt;generic&gt; Area[]</code> {
+    #
+    # .NET API information
+    #
+    # module: kegg_kit.repository
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: kegg_kit.dll
+    # package: "repository"
+    #
+    return call <code>R&#35;.interop_[repository::shapeAreas]</code>(...);
+}</p></pre>
+
+                    
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="keggMap">
+    <a href="./repository/keggMap.html">keggMap</a>
+  </h2>
+  <hr />
+  <p>
+                      
+                
+                    <pre><p>let <code>keggMap</code> as function(<code>id</code> as string, 
+<code>name</code> as string, 
+<code>description</code> as string, 
+<code>img</code> as string, 
+<code>url</code> as string, 
+<code>area</code> as <generic> Area[]) -> <code>&lt;generic&gt; Map</code> {
+    #
+    # .NET API information
+    #
+    # module: kegg_kit.repository
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: kegg_kit.dll
+    # package: "repository"
+    #
+    return call <code>R&#35;.interop_[repository::keggMap]</code>(...);
+}</p></pre>
+
+                    
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div>
+                       </div>
+  </body>
+</html>

@@ -1,0 +1,241 @@
+<!DOCTYPE html><html lang="zh-CN">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>profiles</title>
+    <meta name="author" content="xie.guigang@gcmodeller.org" />
+    <meta name="copyright" content="SMRUCC genomics Copyright (c) 2020" />
+    <meta name="keywords" content="GCModeller; Xanthomonas; Artificial Life" />
+    <meta name="generator" content="https://github.com/xieguigang/xDoc" />
+    <meta name="theme-color" content="#333" />
+    <meta name="last-update" content="2022-10-17" />
+    <meta name="description" content="A software system aim at Artificial Life system design and analysis." />
+    <meta class="foundation-data-attribute-namespace" />
+    <meta class="foundation-mq-xxlarge" />
+    <meta class="foundation-mq-xlarge" />
+    <meta class="foundation-mq-large" />
+    <meta class="foundation-mq-medium" />
+    <meta class="foundation-mq-small" />
+    <meta class="foundation-mq-topbar" />
+  </head>
+  <body>
+    <table width="100%" summary="page for {profiles}">
+      <tbody>
+        <tr>
+          <td>{profiles}</td>
+          <td style="text-align: right;">R# Documentation</td>
+        </tr>
+      </tbody>
+    </table>
+    <h1>profiles</h1>
+    <hr />
+    <p></p>
+    <div id="main-wrapper">
+                           <div>
+  <h2 id="compounds.pathway.index">
+    <a href="./profiles/compounds.pathway.index.html">compounds.pathway.index</a>
+  </h2>
+  <hr />
+  <p>
+                      
+                
+                    <pre><p>let <code>compounds.pathway.index</code> as function(<code>pathways</code> as any, [<code>&lt;Environment&gt;</code>]) -> <code>list[&lt;generic&gt; Index`1]</code> {
+    #
+    # .NET API information
+    #
+    # module: kegg_kit.profiles
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: kegg_kit.dll
+    # package: "profiles"
+    #
+    return call <code>R&#35;.interop_[profiles::CompoundPathwayIndex]</code>(...);
+}</p></pre>
+
+                    
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="compounds.pathway.profiles">
+    <a href="./profiles/compounds.pathway.profiles.html">compounds.pathway.profiles</a>
+  </h2>
+  <hr />
+  <p>
+                    <p>Do statistics of the KEGG pathway profiles based on the given kegg id</p>  
+                
+                    <pre><p>let <code>compounds.pathway.profiles</code> as function(<code>pathways</code> as list[<generic> Index`1], <code>compounds</code> as string) -> <code>list[integer]</code> {
+    #
+    # .NET API information
+    #
+    # module: kegg_kit.profiles
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: kegg_kit.dll
+    # package: "profiles"
+    #
+    return call <code>R&#35;.interop_[profiles::CompoundPathwayProfiles]</code>(...);
+}</p></pre>
+
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>pathways</code>: The pathway compound reference index data
+                </li>
+<li>
+  <code>compounds</code>: The kegg compound id
+                </li>
+                </ul>
+</div>
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="getProfileMapping">
+    <a href="./profiles/getProfileMapping.html">getProfileMapping</a>
+  </h2>
+  <hr />
+  <p>
+                      
+                
+                    <pre><p>let <code>getProfileMapping</code> as function(<code>map</code> as <generic> Map[], <code>mapping</code> as list, [<code>&lt;Environment&gt;</code>]) -> <code>any</code> {
+    #
+    # .NET API information
+    #
+    # module: kegg_kit.profiles
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: kegg_kit.dll
+    # package: "profiles"
+    #
+    return call <code>R&#35;.interop_[profiles::GetProfileMapping]</code>(...);
+}</p></pre>
+
+                    
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="flux.map.profiles">
+    <a href="./profiles/flux.map.profiles.html">flux.map.profiles</a>
+  </h2>
+  <hr />
+  <p>
+                      
+                
+                    <pre><p>let <code>flux.map.profiles</code> as function(<code>flux</code> as any, <code>maps</code> as <generic> MapRepository, [<code>&lt;Environment&gt;</code>]) -> <code>any</code> {
+    #
+    # .NET API information
+    #
+    # module: kegg_kit.profiles
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: kegg_kit.dll
+    # package: "profiles"
+    #
+    return call <code>R&#35;.interop_[profiles::FluxMapProfiles]</code>(...);
+}</p></pre>
+
+                    
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="KO.map.profiles">
+    <a href="./profiles/KO.map.profiles.html">KO.map.profiles</a>
+  </h2>
+  <hr />
+  <p>
+                    <p>create KEGG map prfiles via a given KO id list.</p>  
+                
+                    <pre><p>let <code>KO.map.profiles</code> as function(<code>KO</code> as any, [<code>&lt;Environment&gt;</code>]) -> <code>list[double]</code> {
+    #
+    # .NET API information
+    #
+    # module: kegg_kit.profiles
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: kegg_kit.dll
+    # package: "profiles"
+    #
+    return call <code>R&#35;.interop_[profiles::KOpathwayProfiles]</code>(...);
+}</p></pre>
+
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>KO</code>: a character vector of KO id list.
+                </li>
+<li>
+  <code>env</code>: -
+                </li>
+                </ul>
+</div>
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="kegg.category_profiles">
+    <a href="./profiles/kegg.category_profiles.html">kegg.category_profiles</a>
+  </h2>
+  <hr />
+  <p>
+                    <p>create kegg catalog profiles data table</p>  
+                
+                    <pre><p>let <code>kegg.category_profiles</code> as function(<code>profiles</code> as list[integer]) -> <code>&lt;generic&gt; EntityObject[]</code> {
+    #
+    # .NET API information
+    #
+    # module: kegg_kit.profiles
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: kegg_kit.dll
+    # package: "profiles"
+    #
+    return call <code>R&#35;.interop_[profiles::KEGGCategoryProfiles]</code>(...);
+}</p></pre>
+
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>profiles</code>: -
+                </li>
+                </ul>
+</div>
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="map_category">
+    <a href="./profiles/map_category.html">map_category</a>
+  </h2>
+  <hr />
+  <p>
+                      
+                
+                    <pre><p>let <code>map_category</code> as function() -> <code>list</code> {
+    #
+    # .NET API information
+    #
+    # module: kegg_kit.profiles
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: kegg_kit.dll
+    # package: "profiles"
+    #
+    return call <code>R&#35;.interop_[profiles::MapCategory]</code>(...);
+}</p></pre>
+
+                    
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div>
+                       </div>
+  </body>
+</html>

@@ -1,0 +1,169 @@
+<!DOCTYPE html><html lang="zh-CN">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>ptf</title>
+    <meta name="author" content="xie.guigang@gcmodeller.org" />
+    <meta name="copyright" content="SMRUCC genomics Copyright (c) 2020" />
+    <meta name="keywords" content="GCModeller; Xanthomonas; Artificial Life" />
+    <meta name="generator" content="https://github.com/xieguigang/xDoc" />
+    <meta name="theme-color" content="#333" />
+    <meta name="last-update" content="2022-10-17" />
+    <meta name="description" content="A software system aim at Artificial Life system design and analysis." />
+    <meta class="foundation-data-attribute-namespace" />
+    <meta class="foundation-mq-xxlarge" />
+    <meta class="foundation-mq-xlarge" />
+    <meta class="foundation-mq-large" />
+    <meta class="foundation-mq-medium" />
+    <meta class="foundation-mq-small" />
+    <meta class="foundation-mq-topbar" />
+  </head>
+  <body>
+    <table width="100%" summary="page for {ptf}">
+      <tbody>
+        <tr>
+          <td>{ptf}</td>
+          <td style="text-align: right;">R# Documentation</td>
+        </tr>
+      </tbody>
+    </table>
+    <h1>ptf</h1>
+    <hr />
+    <p></p>
+    <div id="main-wrapper">
+                           <div>
+  <h2 id="list.xrefs">
+    <a href="./ptf/list.xrefs.html">list.xrefs</a>
+  </h2>
+  <hr />
+  <p>
+                      
+                
+                    <pre><p>let <code>list.xrefs</code> as function(<code>ptf</code> as <generic> StreamPack) -> <code>string</code> {
+    #
+    # .NET API information
+    #
+    # module: annotationKit.PTFCache
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: annotationKit.dll
+    # package: "ptf"
+    #
+    return call <code>R&#35;.interop_[PTFCache::getDatabaseList]</code>(...);
+}</p></pre>
+
+                    
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="summary.xrefs">
+    <a href="./ptf/summary.xrefs.html">summary.xrefs</a>
+  </h2>
+  <hr />
+  <p>
+                      
+                
+                    <pre><p>let <code>summary.xrefs</code> as function(<code>ptf</code> as <generic> StreamPack, <code>xrefs</code> as string) -> <code>any</code> {
+    #
+    # .NET API information
+    #
+    # module: annotationKit.PTFCache
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: annotationKit.dll
+    # package: "ptf"
+    #
+    return call <code>R&#35;.interop_[PTFCache::summaryofXrefs]</code>(...);
+}</p></pre>
+
+                    
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="load_xref">
+    <a href="./ptf/load_xref.html">load_xref</a>
+  </h2>
+  <hr />
+  <p>
+                      
+                
+                    <pre><p>let <code>load_xref</code> as function(<code>ptf</code> as <generic> StreamPack, <code>database</code> as string) -> <code>any</code> {
+    #
+    # .NET API information
+    #
+    # module: annotationKit.PTFCache
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: annotationKit.dll
+    # package: "ptf"
+    #
+    return call <code>R&#35;.interop_[PTFCache::loadXrefs]</code>(...);
+}</p></pre>
+
+                    
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="loadBackgroundModel">
+    <a href="./ptf/loadBackgroundModel.html">loadBackgroundModel</a>
+  </h2>
+  <hr />
+  <p>
+                      
+                
+                    <pre><p>let <code>loadBackgroundModel</code> as function(<code>ptf</code> as <generic> StreamPack, <code>database</code> as string) -> <code>&lt;generic&gt; Background</code> {
+    #
+    # .NET API information
+    #
+    # module: annotationKit.PTFCache
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: annotationKit.dll
+    # package: "ptf"
+    #
+    return call <code>R&#35;.interop_[PTFCache::loadModel]</code>(...);
+}</p></pre>
+
+                    
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="cache.ptf">
+    <a href="./ptf/cache.ptf.html">cache.ptf</a>
+  </h2>
+  <hr />
+  <p>
+                      
+                
+                    <pre><p>let <code>cache.ptf</code> as function(<code>uniprot</code> as any, 
+<code>file</code> as any, 
+<code>db_xref</code> as any = ["KEGG","KO","GO","Pfam","RefSeq","EC","InterPro","BioCyc","eggNOG","keyword"], 
+<code>cacheTaxonomy</code> as boolean = FALSE, 
+<code>hds_stream</code> as boolean = FALSE, 
+[<code>&lt;Environment&gt;</code>]) -> <code>any</code> {
+    #
+    # .NET API information
+    #
+    # module: annotationKit.PTFCache
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: annotationKit.dll
+    # package: "ptf"
+    #
+    return call <code>R&#35;.interop_[PTFCache::writePtfFile]</code>(...);
+}</p></pre>
+
+                    
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div>
+                       </div>
+  </body>
+</html>

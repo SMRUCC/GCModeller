@@ -1,0 +1,92 @@
+<!DOCTYPE html><html lang="zh-CN">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>dbget</title>
+    <meta name="author" content="xie.guigang@gcmodeller.org" />
+    <meta name="copyright" content="SMRUCC genomics Copyright (c) 2020" />
+    <meta name="keywords" content="GCModeller; Xanthomonas; Artificial Life" />
+    <meta name="generator" content="https://github.com/xieguigang/xDoc" />
+    <meta name="theme-color" content="#333" />
+    <meta name="last-update" content="2022-10-17" />
+    <meta name="description" content="A software system aim at Artificial Life system design and analysis." />
+    <meta class="foundation-data-attribute-namespace" />
+    <meta class="foundation-mq-xxlarge" />
+    <meta class="foundation-mq-xlarge" />
+    <meta class="foundation-mq-large" />
+    <meta class="foundation-mq-medium" />
+    <meta class="foundation-mq-small" />
+    <meta class="foundation-mq-topbar" />
+  </head>
+  <body>
+    <table width="100%" summary="page for {dbget}">
+      <tbody>
+        <tr>
+          <td>{dbget}</td>
+          <td style="text-align: right;">R# Documentation</td>
+        </tr>
+      </tbody>
+    </table>
+    <h1>dbget</h1>
+    <hr />
+    <p></p>
+    <div id="main-wrapper">
+                           <div>
+  <h2 id="fetch.pathwayMaps">
+    <a href="./dbget/fetch.pathwayMaps.html">fetch.pathwayMaps</a>
+  </h2>
+  <hr />
+  <p>
+                      
+                
+                    <pre><p>let <code>fetch.pathwayMaps</code> as function(<code>sp</code> as string, 
+<code>export</code> as string = "./", 
+<code>isKGML</code> as boolean = FALSE, 
+[<code>&lt;Environment&gt;</code>]) -> <code>boolean</code> {
+    #
+    # .NET API information
+    #
+    # module: kegg_kit.dbget
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: kegg_kit.dll
+    # package: "dbget"
+    #
+    return call <code>R&#35;.interop_[dbget::DownloadPathwayMaps]</code>(...);
+}</p></pre>
+
+                    
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="show_organism">
+    <a href="./dbget/show_organism.html">show_organism</a>
+  </h2>
+  <hr />
+  <p>
+                      
+                
+                    <pre><p>let <code>show_organism</code> as function(<code>code</code> as string, [<code>&lt;Environment&gt;</code>]) -> <code>&lt;generic&gt; OrganismInfo</code> {
+    #
+    # .NET API information
+    #
+    # module: kegg_kit.dbget
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: kegg_kit.dll
+    # package: "dbget"
+    #
+    return call <code>R&#35;.interop_[dbget::ShowOrganism]</code>(...);
+}</p></pre>
+
+                    
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div>
+                       </div>
+  </body>
+</html>

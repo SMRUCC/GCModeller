@@ -1,0 +1,25 @@
+.\" man page create by R# package system.
+.TH MICROBIOME 1 2000-01-01 "predict_metagenomes" "predict_metagenomes"
+.SH NAME
+predict_metagenomes \- creates the final metagenome functional predictions. It
+.SH SYNOPSIS
+\fIpredict_metagenomes(\fBPICRUSt\fR as <generic> MetaBinaryReader, 
+\fBtable\fR as <generic> dataframe, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+creates the final metagenome functional predictions. It 
+ multiplies each normalized OTU abundance by each predicted 
+ functional trait abundance to produce a table of functions 
+ (rows) by samples (columns).
+.PP
+.SH OPTIONS
+.PP
+\fBtable\fB \fR\- -. 
+.PP
+.SH SEE ALSO
+microbiome
+.SH FILES
+.PP
+metagenomics_kit.dll
+.PP

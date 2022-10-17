@@ -1,0 +1,153 @@
+<!DOCTYPE html><html lang="zh-CN">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>BioCyc</title>
+    <meta name="author" content="xie.guigang@gcmodeller.org" />
+    <meta name="copyright" content="SMRUCC genomics Copyright (c) 2020" />
+    <meta name="keywords" content="GCModeller; Xanthomonas; Artificial Life" />
+    <meta name="generator" content="https://github.com/xieguigang/xDoc" />
+    <meta name="theme-color" content="#333" />
+    <meta name="last-update" content="2022-10-17" />
+    <meta name="description" content="A software system aim at Artificial Life system design and analysis." />
+    <meta class="foundation-data-attribute-namespace" />
+    <meta class="foundation-mq-xxlarge" />
+    <meta class="foundation-mq-xlarge" />
+    <meta class="foundation-mq-large" />
+    <meta class="foundation-mq-medium" />
+    <meta class="foundation-mq-small" />
+    <meta class="foundation-mq-topbar" />
+  </head>
+  <body>
+    <table width="100%" summary="page for {BioCyc}">
+      <tbody>
+        <tr>
+          <td>{BioCyc}</td>
+          <td style="text-align: right;">R# Documentation</td>
+        </tr>
+      </tbody>
+    </table>
+    <h1>BioCyc</h1>
+    <hr />
+    <p></p>
+    <div id="main-wrapper">
+                           <div>
+  <h2 id="open.biocyc">
+    <a href="./BioCyc/open.biocyc.html">open.biocyc</a>
+  </h2>
+  <hr />
+  <p>
+                    <p>open a directory path as the biocyc workspace</p>  
+                
+                    <pre><p>let <code>open.biocyc</code> as function(<code>repo</code> as string) -> <code>&lt;generic&gt; Workspace</code> {
+    #
+    # .NET API information
+    #
+    # module: annotationKit.BioCycRepository
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: annotationKit.dll
+    # package: "BioCyc"
+    #
+    return call <code>R&#35;.interop_[BioCycRepository::openBioCyc]</code>(...);
+}</p></pre>
+
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>repo</code>: -
+                </li>
+                </ul>
+</div>
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="getCompounds">
+    <a href="./BioCyc/getCompounds.html">getCompounds</a>
+  </h2>
+  <hr />
+  <p>
+                      
+                
+                    <pre><p>let <code>getCompounds</code> as function(<code>repo</code> as <generic> Workspace) -> <code>&lt;generic&gt; compounds[]</code> {
+    #
+    # .NET API information
+    #
+    # module: annotationKit.BioCycRepository
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: annotationKit.dll
+    # package: "BioCyc"
+    #
+    return call <code>R&#35;.interop_[BioCycRepository::getCompounds]</code>(...);
+}</p></pre>
+
+                    
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="formula">
+    <a href="./BioCyc/formula.html">formula</a>
+  </h2>
+  <hr />
+  <p>
+                      
+                
+                    <pre><p>let <code>formula</code> as function(<code>meta</code> as <generic> compounds) -> <code>string</code> {
+    #
+    # .NET API information
+    #
+    # module: annotationKit.BioCycRepository
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: annotationKit.dll
+    # package: "BioCyc"
+    #
+    return call <code>R&#35;.interop_[BioCycRepository::formulaString]</code>(...);
+}</p></pre>
+
+                    
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="createBackground">
+    <a href="./BioCyc/createBackground.html">createBackground</a>
+  </h2>
+  <hr />
+  <p>
+                    <p>Create pathway background model</p>  
+                
+                    <pre><p>let <code>createBackground</code> as function(<code>biocyc</code> as <generic> Workspace) -> <code>&lt;generic&gt; Background</code> {
+    #
+    # .NET API information
+    #
+    # module: annotationKit.BioCycRepository
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: annotationKit.dll
+    # package: "BioCyc"
+    #
+    return call <code>R&#35;.interop_[BioCycRepository::createBackground]</code>(...);
+}</p></pre>
+
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>biocyc</code>: -
+                </li>
+                </ul>
+</div>
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div>
+                       </div>
+  </body>
+</html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html><html lang="zh-CN">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>PFSNet</title>
+    <meta name="author" content="xie.guigang@gcmodeller.org" />
+    <meta name="copyright" content="SMRUCC genomics Copyright (c) 2020" />
+    <meta name="keywords" content="GCModeller; Xanthomonas; Artificial Life" />
+    <meta name="generator" content="https://github.com/xieguigang/xDoc" />
+    <meta name="theme-color" content="#333" />
+    <meta name="last-update" content="2022-10-17" />
+    <meta name="description" content="A software system aim at Artificial Life system design and analysis." />
+    <meta class="foundation-data-attribute-namespace" />
+    <meta class="foundation-mq-xxlarge" />
+    <meta class="foundation-mq-xlarge" />
+    <meta class="foundation-mq-large" />
+    <meta class="foundation-mq-medium" />
+    <meta class="foundation-mq-small" />
+    <meta class="foundation-mq-topbar" />
+  </head>
+  <body>
+    <table width="100%" summary="page for {PFSNet}">
+      <tbody>
+        <tr>
+          <td>{PFSNet}</td>
+          <td style="text-align: right;">R# Documentation</td>
+        </tr>
+      </tbody>
+    </table>
+    <h1>PFSNet</h1>
+    <hr />
+    <p></p>
+    <div id="main-wrapper">
+                           <div>
+  <h2 id="load.pathway_network">
+    <a href="./PFSNet/load.pathway_network.html">load.pathway_network</a>
+  </h2>
+  <hr />
+  <p>
+                      
+                
+                    <pre><p>let <code>load.pathway_network</code> as function(<code>file</code> as string) -> <code>&lt;generic&gt; GraphEdge[]</code> {
+    #
+    # .NET API information
+    #
+    # module: phenotype_kit.PFSNetAnalysis
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: phenotype_kit.dll
+    # package: "PFSNet"
+    #
+    return call <code>R&#35;.interop_[PFSNetAnalysis::loadPathwayNetwork]</code>(...);
+}</p></pre>
+
+                    
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="build.pathway_network">
+    <a href="./PFSNet/build.pathway_network.html">build.pathway_network</a>
+  </h2>
+  <hr />
+  <p>
+                      
+                
+                    <pre><p>let <code>build.pathway_network</code> as function(<code>maps</code> as <generic> Map[], <code>reactions</code> as any, [<code>&lt;Environment&gt;</code>]) -> <code>&lt;generic&gt; pipeline</code> {
+    #
+    # .NET API information
+    #
+    # module: phenotype_kit.PFSNetAnalysis
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: phenotype_kit.dll
+    # package: "PFSNet"
+    #
+    return call <code>R&#35;.interop_[PFSNetAnalysis::buildPathwayNetwork]</code>(...);
+}</p></pre>
+
+                    
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="save.pathway_network">
+    <a href="./PFSNet/save.pathway_network.html">save.pathway_network</a>
+  </h2>
+  <hr />
+  <p>
+                      
+                
+                    <pre><p>let <code>save.pathway_network</code> as function(<code>ggi</code> as any, <code>file</code> as any, [<code>&lt;Environment&gt;</code>]) -> <code>boolean</code> {
+    #
+    # .NET API information
+    #
+    # module: phenotype_kit.PFSNetAnalysis
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: phenotype_kit.dll
+    # package: "PFSNet"
+    #
+    return call <code>R&#35;.interop_[PFSNetAnalysis::savePathwayNetwork]</code>(...);
+}</p></pre>
+
+                    
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="pfsnet">
+    <a href="./PFSNet/pfsnet.html">pfsnet</a>
+  </h2>
+  <hr />
+  <p>
+                    <p>Finding consistent disease subnetworks using PFSNet</p>  
+                
+                    <pre><p>let <code>pfsnet</code> as function(<code>expr1o</code> as any, 
+<code>expr2o</code> as any, 
+<code>ggi</code> as <generic> GraphEdge[], 
+<code>b</code> as double = 0.5, 
+<code>t1</code> as double = 0.95, 
+<code>t2</code> as double = 0.85, 
+<code>n</code> as integer = 1000) -> <code>&lt;generic&gt; PFSNetResultOut</code> {
+    #
+    # .NET API information
+    #
+    # module: phenotype_kit.PFSNetAnalysis
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: phenotype_kit.dll
+    # package: "PFSNet"
+    #
+    return call <code>R&#35;.interop_[PFSNetAnalysis::run_pfsnet]</code>(...);
+}</p></pre>
+
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>expr1o</code>: -
+                </li>
+<li>
+  <code>expr2o</code>: -
+                </li>
+<li>
+  <code>ggi</code>: -
+                </li>
+<li>
+  <code>b</code>: -
+                </li>
+<li>
+  <code>t1</code>: -
+                </li>
+<li>
+  <code>t2</code>: -
+                </li>
+<li>
+  <code>n</code>: -
+                </li>
+                </ul>
+</div>
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="read.pfsnet_result">
+    <a href="./PFSNet/read.pfsnet_result.html">read.pfsnet_result</a>
+  </h2>
+  <hr />
+  <p>
+                      
+                
+                    <pre><p>let <code>read.pfsnet_result</code> as function(<code>file</code> as string, <code>format</code> as <integer> FileFormats = [xml], [<code>&lt;Environment&gt;</code>]) -> <code>&lt;generic&gt; PFSNetResultOut</code> {
+    #
+    # .NET API information
+    #
+    # module: phenotype_kit.PFSNetAnalysis
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: phenotype_kit.dll
+    # package: "PFSNet"
+    #
+    return call <code>R&#35;.interop_[PFSNetAnalysis::readPFSNetOutput]</code>(...);
+}</p></pre>
+
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>file</code>: -
+                </li>
+<li>
+  <code>format</code>: xml/json
+                </li>
+                </ul>
+</div>
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div>
+                       </div>
+  </body>
+</html>
