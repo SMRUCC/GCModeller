@@ -174,13 +174,13 @@ Visit http://GCModeller.org/ for more information.
 #End Region
 
 #Region "Program Settings Items"
-        <ProfileNodeItem> Public Property C2 As Settings.Programs.C2
+        ' <ProfileNodeItem> Public Property C2 As Settings.Programs.C2
         <ProfileNodeItem> Public Property Dev2 As Settings.Programs.IDE
-        <ProfileNodeItem> Public Property Gcc As Settings.Programs.GCC
-        <ProfileNodeItem> Public Property SMART As Settings.Programs.SMART
-        <ProfileNodeItem> Public Property STAMP As Settings.Programs.STAMP
-        <ProfileNodeItem> Public Property GCHOST As Settings.Programs.GCHOST
-        <ProfileNodeItem> Public Property MPAlignment As Settings.Programs.MPAlignment
+        '<ProfileNodeItem> Public Property Gcc As Settings.Programs.GCC
+        '<ProfileNodeItem> Public Property SMART As Settings.Programs.SMART
+        '<ProfileNodeItem> Public Property STAMP As Settings.Programs.STAMP
+        '<ProfileNodeItem> Public Property GCHOST As Settings.Programs.GCHOST
+        '<ProfileNodeItem> Public Property MPAlignment As Settings.Programs.MPAlignment
 #End Region
 
         Public Function GetMplParam() As Settings.Programs.MPAlignment
