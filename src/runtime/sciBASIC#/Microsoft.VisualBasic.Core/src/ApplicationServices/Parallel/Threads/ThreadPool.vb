@@ -182,10 +182,15 @@ Namespace Parallel.Threads
         ''' </summary>
         ''' <param name="task"></param>
         ''' <param name="callback">回调函数里面的参数是任务的执行的时间长度</param>
-        Public Sub RunTask(task As Action, Optional callback As Action(Of Long) = Nothing)
+        ''' <param name="name">the name of current task</param>
+        Public Sub RunTask(task As Action,
+                           Optional callback As Action(Of Long) = Nothing,
+                           Optional name As String = Nothing)
+
             Dim pends As New TaskBinding With {
                 .Bind = task,
-                .Target = callback
+                .Target = callback,
+                .name = name
             }
 
             SyncLock pendings
@@ -243,7 +248,7 @@ Namespace Parallel.Threads
                     ' 当线程池里面的线程数量非常多的时候，这个事件会变长，
                     ' 所以讲分配的代码单独放在线程里面执行，以提神web
                     ' 服务器的响应效率
-                    Call GetAvaliableThread.Enqueue(h, callback)
+                    Call GetAvaliableThread.Enqueue(h, callback, name:=task.name)
                 End If
 
                 Call Thread.Sleep(1)

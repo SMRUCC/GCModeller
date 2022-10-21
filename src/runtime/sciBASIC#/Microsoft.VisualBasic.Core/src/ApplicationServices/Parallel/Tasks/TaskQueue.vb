@@ -114,6 +114,11 @@ Namespace Parallel.Tasks
         Public ReadOnly Property uid As String
 
         ''' <summary>
+        ''' the name of the task is running
+        ''' </summary>
+        Dim task_name As String
+
+        ''' <summary>
         ''' 会单独启动一条新的线程来用来执行任务队列
         ''' </summary>
         Sub New(Optional name As String = Nothing)
@@ -126,7 +131,7 @@ Namespace Parallel.Tasks
         End Sub
 
         Public Overrides Function ToString() As String
-            Return $"[{uid}] {If(RunningTask, "running", "stop")}, queue {Tasks} tasks."
+            Return $"[{uid}{task_name}] {If(RunningTask, "running", "stop")}, queue {Tasks} tasks."
         End Function
 
         ''' <summary>
@@ -161,13 +166,17 @@ Namespace Parallel.Tasks
         End Sub
 
         ''' <summary>
-        ''' 这个函数只会讲任务添加到队列之中，而不会阻塞线程
+        ''' 这个函数只会任务添加到队列之中，而不会阻塞线程
         ''' </summary>
         ''' <param name="handle"></param>
-        Public Sub Enqueue(handle As Func(Of T), Optional callback As Action(Of T) = Nothing)
+        Public Sub Enqueue(handle As Func(Of T),
+                           Optional callback As Action(Of T) = Nothing,
+                           Optional name As String = Nothing)
+
             Dim task As New __task With {
                 .handle = handle,
-                .callback = callback
+                .callback = callback,
+                .name = name
             }
 
             SyncLock __tasks
@@ -181,18 +190,7 @@ Namespace Parallel.Tasks
         Private Sub __taskQueueEXEC()
             Do While Not disposedValue
                 If Not Tasks = 0 Then
-                    Dim task As __task
-
-                    SyncLock __tasks
-                        task = __tasks.Dequeue
-                    End SyncLock
-
-                    _RunningTask = True
-                    Call task.Run()
-                    If Not task.receiveDone Is Nothing Then
-                        Call task.receiveDone.Set()
-                    End If
-                    _RunningTask = False
+                    Call __calls()
                 Else
                     ' 当前的线程处于空闲的状态
                     Call Thread.Sleep(1)
@@ -200,11 +198,28 @@ Namespace Parallel.Tasks
             Loop
         End Sub
 
+        Private Sub __calls()
+            Dim task As __task
+
+            SyncLock __tasks
+                task = __tasks.Dequeue
+            End SyncLock
+
+            task_name = If(task.name.StringEmpty, "", $"::{task.name}")
+            _RunningTask = True
+            Call task.Run()
+            If Not task.receiveDone Is Nothing Then
+                Call task.receiveDone.Set()
+            End If
+            _RunningTask = False
+        End Sub
+
         Private Structure __task
 
             Public callback As Action(Of T)
             Public handle As Func(Of T)
             Public receiveDone As ManualResetEvent
+            Public name As String
 
             Public ReadOnly Property Value As T
 
