@@ -103,17 +103,30 @@ Namespace Parallel.Tasks
         End Property
 
         ''' <summary>
+        ''' 当这个属性为False的时候说明没有任务在执行，此时为空闲状态
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property RunningTask As Boolean
+        ''' <summary>
+        ''' the unique name of current task
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property uid As String
+
+        ''' <summary>
         ''' 会单独启动一条新的线程来用来执行任务队列
         ''' </summary>
-        Sub New()
+        Sub New(Optional name As String = Nothing)
 #If DEBUG Then
             Call $"Using default buffer_size={App.BufferSize}".__DEBUG_ECHO
 #End If
             Call RunTask(AddressOf __taskQueueEXEC)
+
+            Me.uid = If(name, Me.GetHashCode.ToHexString)
         End Sub
 
         Public Overrides Function ToString() As String
-            Return $"[{uid.ToHexString}] {If(RunningTask, "running", "stop")}, queue {Tasks} tasks."
+            Return $"[{uid}] {If(RunningTask, "running", "stop")}, queue {Tasks} tasks."
         End Function
 
         ''' <summary>
@@ -161,17 +174,6 @@ Namespace Parallel.Tasks
                 Call __tasks.Enqueue(task)
             End SyncLock
         End Sub
-
-        ''' <summary>
-        ''' 当这个属性为False的时候说明没有任务在执行，此时为空闲状态
-        ''' </summary>
-        ''' <returns></returns>
-        Public ReadOnly Property RunningTask As Boolean
-        Public ReadOnly Property uid As Integer
-            Get
-                Return Me.GetHashCode
-            End Get
-        End Property
 
         ''' <summary>
         ''' 有一条线程单独执行这个任务队列
