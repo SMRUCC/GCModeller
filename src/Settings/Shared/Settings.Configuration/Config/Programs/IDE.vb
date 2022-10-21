@@ -76,12 +76,14 @@
 #End Region
 
 Imports System.ComponentModel
+Imports System.Runtime.InteropServices
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Settings
-Imports System.Drawing
 
 Namespace Settings.Programs
 
+    <ClassInterface(ClassInterfaceType.AutoDual)>
+    <ComVisible(True)>
     Public Class IDE
 
         ''' <summary>
@@ -132,6 +134,8 @@ Namespace Settings.Programs
             Return DefaultProfile
         End Function
 
+        <ClassInterface(ClassInterfaceType.AutoDual)>
+        <ComVisible(True)>
         Public Class StartPageF
             <ProfileItem> <XmlElement> Public Property CloseAfterProjectLoad As Boolean
             <ProfileItem> <XmlElement> Public Property ShowOnStartUp As Boolean
@@ -141,6 +145,8 @@ Namespace Settings.Programs
             End Function
         End Class
 
+        <ClassInterface(ClassInterfaceType.AutoDual)>
+        <ComVisible(True)>
         Public Class IDEConfig
             <ProfileItem> <XmlElement> Public Property Location As PointF
             <ProfileItem> <XmlElement> Public Property Size As SizeF
@@ -162,17 +168,23 @@ Namespace Settings.Programs
                 Return config
             End Function
 
+            <ClassInterface(ClassInterfaceType.AutoDual)>
+            <ComVisible(True)>
             Public Class PointF
                 <XmlAttribute> Public Property Left As Double
                 <XmlAttribute> Public Property Top As Double
             End Class
 
+            <ClassInterface(ClassInterfaceType.AutoDual)>
+            <ComVisible(True)>
             Public Class SizeF
                 <XmlAttribute> Public Property Width As Integer
                 <XmlAttribute> Public Property Height As Integer
             End Class
         End Class
 
+        <ClassInterface(ClassInterfaceType.AutoDual)>
+        <ComVisible(True)>
         Public Class SessionF
             <ProfileItem> <XmlElement> Public Property ProjectFile As String
             <ProfileItem> <XmlAttribute> Public Property LoadLastSessionAfterStartUp As Boolean = False
