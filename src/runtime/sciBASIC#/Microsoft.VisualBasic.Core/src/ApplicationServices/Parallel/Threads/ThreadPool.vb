@@ -64,6 +64,7 @@
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports System.Threading
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Parallel.Linq
 Imports Microsoft.VisualBasic.Parallel.Tasks
@@ -316,7 +317,7 @@ Namespace Parallel.Threads
             Call sb.AppendLine($"{NameOf(Me.WorkingThreads)}: {WorkingThreads}")
             Call sb.AppendLine($"{NameOf(Me.pendings)}: {pendings.Count}")
             Call sb.AppendLine($"{NameOf(Me.totalTask)}: {totalTask}")
-            Call sb.AppendLine($"Progress: {(100 * popoutTask / totalTask).ToString("F2")}%")
+            Call sb.AppendLine($"Progress: [{Program.ProgressText(popoutTask / totalTask)}] {(100 * popoutTask / totalTask).ToString("F2")}%")
             Call sb.AppendLine()
             Call sb.AppendLine(threads.JoinBy(vbCrLf))
 
