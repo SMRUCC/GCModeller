@@ -89,37 +89,37 @@ Namespace Settings.Programs
             Return New Settings(Of MPAlignment)(Me).View
         End Function
 
-        Public Shared Function GetValue(source As Settings.File) As MPAlignment
-            If source Is Nothing Then
-                Return New MPAlignment
-            ElseIf source.MPAlignment Is Nothing Then
-                Return New MPAlignment
-            End If
+        'Public Shared Function GetValue(source As Settings.File) As MPAlignment
+        '    If source Is Nothing Then
+        '        Return New MPAlignment
+        '    ElseIf source.MPAlignment Is Nothing Then
+        '        Return New MPAlignment
+        '    End If
 
-            Dim param As MPAlignment = source.MPAlignment
-            If param.ParserTimeOut <= 0 Then
-                param.ParserTimeOut = 300
-            End If
-            If param.ParserThreads <= 0 Then
-                param.ParserThreads = LQuerySchedule.CPU_NUMBER
-            End If
-            If param.Evalue <= 0 Then
-                param.Evalue = 10 ^ -5
-            End If
-            If param.Coverage >= 1 OrElse param.Coverage <= 0R Then
-                param.Coverage = 0.85
-            End If
-            If param.Identities >= 1 OrElse param.Identities <= 0R Then
-                param.Identities = 0.3
-            End If
-            If param.Offset >= 1 OrElse param.Offset <= 0R Then
-                param.Offset = 0.1
-            End If
-            If param.FamilyAccept <= 0 Then
-                param.FamilyAccept = 50
-            End If
+        '    Dim param As MPAlignment = source.MPAlignment
+        '    If param.ParserTimeOut <= 0 Then
+        '        param.ParserTimeOut = 300
+        '    End If
+        '    If param.ParserThreads <= 0 Then
+        '        param.ParserThreads = LQuerySchedule.CPU_NUMBER
+        '    End If
+        '    If param.Evalue <= 0 Then
+        '        param.Evalue = 10 ^ -5
+        '    End If
+        '    If param.Coverage >= 1 OrElse param.Coverage <= 0R Then
+        '        param.Coverage = 0.85
+        '    End If
+        '    If param.Identities >= 1 OrElse param.Identities <= 0R Then
+        '        param.Identities = 0.3
+        '    End If
+        '    If param.Offset >= 1 OrElse param.Offset <= 0R Then
+        '        param.Offset = 0.1
+        '    End If
+        '    If param.FamilyAccept <= 0 Then
+        '        param.FamilyAccept = 50
+        '    End If
 
-            Return param
-        End Function
+        '    Return param
+        'End Function
     End Class
 End Namespace

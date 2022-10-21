@@ -183,9 +183,9 @@ Visit http://GCModeller.org/ for more information.
         '<ProfileNodeItem> Public Property MPAlignment As Settings.Programs.MPAlignment
 #End Region
 
-        Public Function GetMplParam() As Settings.Programs.MPAlignment
-            Return Settings.Programs.MPAlignment.GetValue(Me)
-        End Function
+        'Public Function GetMplParam() As Settings.Programs.MPAlignment
+        '    Return Settings.Programs.MPAlignment.GetValue(Me)
+        'End Function
 
         ''' <summary>
         ''' 配置文件的默认文件位置为AppData文件夹之中
