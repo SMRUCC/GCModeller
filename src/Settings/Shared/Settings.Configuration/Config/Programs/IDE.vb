@@ -76,6 +76,7 @@
 #End Region
 
 Imports System.ComponentModel
+Imports System.Drawing
 Imports System.Runtime.InteropServices
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Settings
