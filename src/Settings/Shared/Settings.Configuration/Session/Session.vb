@@ -119,6 +119,11 @@ Namespace Settings
             End Get
         End Property
 
+        ''' <summary>
+        ''' this function will do <see cref="Initialize"/> automatically if 
+        ''' the settings session has not been <see cref="Initialized"/>.
+        ''' </summary>
+        ''' <returns></returns>
         Public Function GetSettingsFile() As Settings.File
             If Not Initialized Then
                 Call Initialize()
