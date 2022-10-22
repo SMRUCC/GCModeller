@@ -327,7 +327,7 @@ Namespace Settings
         ''' Close the application session and save the settings file.
         ''' </summary>
         ''' <remarks></remarks>
-        ''' 
+        <ExportAPI("Profile.Save")>
         Public Sub Finallize()
             Call ProfileData.Save(Nothing)
         End Sub
@@ -363,11 +363,6 @@ Namespace Settings
         Public Function SetValue(name As String, value As String) As Boolean
             Return ProfileData.Set(name, value)
         End Function
-
-        <ExportAPI("Profile.Save")>
-        Public Sub Save()
-            Call ProfileData.Save(Nothing)
-        End Sub
 
         ''' <summary>
         ''' For unawareless of overrides the original data file, this function will automatcly add a .std_out extension to the STDOUT filepath.

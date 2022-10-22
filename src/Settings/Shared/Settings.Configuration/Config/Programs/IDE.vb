@@ -124,14 +124,20 @@ Namespace Settings.Programs
         <ProfileNodeItem> Public Property IDE As Settings.Programs.IDE.IDEConfig
         <ProfileNodeItem> Public Property Session As Settings.Programs.IDE.SessionF
 
+        ''' <summary>
+        ''' save the <see cref="IDE"/> window size and location configuration data
+        ''' and then apply to the window at startup?
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property RememberWindowStatus As Boolean
+
         Public Shared Function [Default]() As Settings.Programs.IDE
-            Dim DefaultProfile As Programs.IDE = New IDE
-
-            DefaultProfile.StartPage = Settings.Programs.IDE.StartPageF.Default
-            DefaultProfile.IDE = Settings.Programs.IDE.IDEConfig.Default
-            DefaultProfile.Session = Settings.Programs.IDE.SessionF.Default
-
-            Return DefaultProfile
+            Return New IDE With {
+                .RememberWindowStatus = True,
+                .StartPage = Settings.Programs.IDE.StartPageF.Default,
+                .IDE = Settings.Programs.IDE.IDEConfig.Default,
+                .Session = Settings.Programs.IDE.SessionF.Default
+            }
         End Function
 
         <ClassInterface(ClassInterfaceType.AutoDual)>
