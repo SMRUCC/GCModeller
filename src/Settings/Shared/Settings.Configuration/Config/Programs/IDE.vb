@@ -179,6 +179,16 @@ Namespace Settings.Programs
             Public Class PointF
                 <XmlAttribute> Public Property Left As Double
                 <XmlAttribute> Public Property Top As Double
+
+                Public ReadOnly Property IsEmpty As Boolean
+                    Get
+                        Return Left + Top = 0
+                    End Get
+                End Property
+
+                Public Shared Widening Operator CType(pos As PointF) As Point
+                    Return New Point(pos.Left, pos.Top)
+                End Operator
             End Class
 
             <ClassInterface(ClassInterfaceType.AutoDual)>
@@ -186,6 +196,16 @@ Namespace Settings.Programs
             Public Class SizeF
                 <XmlAttribute> Public Property Width As Integer
                 <XmlAttribute> Public Property Height As Integer
+
+                Public ReadOnly Property IsEmpty As Boolean
+                    Get
+                        Return Width = 0 OrElse Height = 0
+                    End Get
+                End Property
+
+                Public Shared Widening Operator CType(size As SizeF) As Size
+                    Return New Size(size.Width, size.Height)
+                End Operator
             End Class
         End Class
 
