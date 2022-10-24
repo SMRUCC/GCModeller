@@ -153,10 +153,14 @@ Namespace Assembly.Uniprot.XML
         <XmlElement("reference")> Public Property references As reference()
         <XmlIgnore>
         Public ReadOnly Property CommentList As Dictionary(Of String, comment())
+
         ''' <summary>
         ''' <see cref="dbReferences"/> table
         ''' </summary>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' indexed by the <see cref=" dbReference.type"/>
+        ''' </remarks>
         <XmlIgnore>
         Public ReadOnly Property xrefs As Dictionary(Of String, dbReference())
 

@@ -54,6 +54,7 @@ Imports System.Net.Sockets
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports System.Threading
+Imports Flute.Http.Core.HttpOptions
 Imports Flute.Http.Core.Message
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.Language
@@ -266,6 +267,8 @@ Namespace Core
                 handleGETRequest()
             ElseIf http_method = "POST" Then
                 HandlePOSTRequest()
+            ElseIf http_method = "OPTIONS" AndAlso Preflight.IsPreflightRequest(Me) Then
+                Preflight.HandlePreflightRequest(Me)
             Else
                 Call srv.handleOtherMethod(Me)
             End If
