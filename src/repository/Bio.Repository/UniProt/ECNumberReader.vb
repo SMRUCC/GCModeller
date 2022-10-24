@@ -24,7 +24,7 @@ Public Class ECNumberReader : Implements IDisposable
                 Dim seq As String = New StreamReader(stream.OpenBlock(file)).ReadToEnd
                 Dim tokens = file.fullName.Trim("/"c).Split("/"c)
                 Dim classNumber = rootNames(tokens(0))
-                Dim ECNumber = classNumber & "." & tokens.Skip(1).Take(tokens.Length - 1).JoinBy(".")
+                Dim ECNumber = classNumber & "." & tokens.Skip(1).Take(tokens.Length - 2).JoinBy(".")
                 Dim id As String = file.fileName.BaseName
 
                 Yield New FastaSeq With {
