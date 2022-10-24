@@ -281,6 +281,11 @@ Project("{778DAE3C-4631-46EA-AA77-85C1314464D9}") = "HDSPack", "..\..\runtime\sc
 EndProject
 Project("{778DAE3C-4631-46EA-AA77-85C1314464D9}") = "Rscript.NET5", "..\..\R-sharp\Rscript\Rscript.NET5.vbproj", "{B0421D6A-508A-4F25-BD54-BD1B9BD1F290}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{08FC8F81-1EFA-468B-ACEF-31731A62A9C8}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		BioDeep_database|Any CPU = BioDeep_database|Any CPU

@@ -89,6 +89,7 @@ Imports Microsoft.VisualBasic.Net.Protocols.ContentTypes
             Call reader.CopyTo(
                 destination:=out.response.BaseStream
             )
+            Call out.response.Flush()
 #End If
         End Using
     End Sub
