@@ -163,7 +163,7 @@ Namespace LocalBLAST.Programs
 
             Dim Cmdl As String = String.Format("{0} {1}", _makeBlastDbAsm, Argums)
             Console.WriteLine("LOCALBLAST+::MAKE_BLAST_DB" & vbCrLf & "  ---> {0}", Cmdl)
-            Return New IORedirectFile(_makeBlastDbAsm, argv:=Argums)
+            Return New IORedirectFile(_makeBlastDbAsm, argv:=Argums, win_os:=True)
         End Function
 
         ''' <summary>
