@@ -4,7 +4,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
-    <title>multi_omics</title>
+    <title>UniProt</title>
     <meta name="author" content="xie.guigang@gcmodeller.org" />
     <meta name="copyright" content="SMRUCC genomics Copyright (c) 2020" />
     <meta name="keywords" content="GCModeller; Xanthomonas; Artificial Life" />
@@ -21,43 +21,61 @@
     <meta class="foundation-mq-topbar" />
   </head>
   <body>
-    <table width="100%" summary="page for {multi_omics}">
+    <table width="100%" summary="page for {UniProt}">
       <tbody>
         <tr>
-          <td>{multi_omics}</td>
+          <td>{UniProt}</td>
           <td style="text-align: right;">R# Documentation</td>
         </tr>
       </tbody>
     </table>
-    <h1>multi_omics</h1>
+    <h1>UniProt</h1>
     <hr />
     <p></p>
     <div id="main-wrapper">
                            <div>
-  <h2 id="omics.2D_scatter">
-    <a href="./multi_omics/omics.2D_scatter.html">omics.2D_scatter</a>
+  <h2 id="ECnumber_pack">
+    <a href="./UniProt/ECnumber_pack.html">ECnumber_pack</a>
   </h2>
   <hr />
   <p>
                       
                 
-                    <pre><p>let <code>omics.2D_scatter</code> as function(<code>x</code> as any, 
-<code>y</code> as any, 
-<code>xlab</code> as string = "X", 
-<code>ylab</code> as string = "Y", 
-<code>size</code> as any = "3000,3000", 
-<code>padding</code> as any = "padding: 200px 250px 200px 100px;", 
-<code>ptSize</code> as double = 10, 
-[<code>&lt;Environment&gt;</code>]) -> <code>any</code> {
+                    <pre><p>let <code>ECnumber_pack</code> as function(<code>file</code> as string, <code>create_new</code> as boolean = FALSE) -> <code>&lt;generic&gt; ECNumberWriter</code> {
     #
     # .NET API information
     #
-    # module: phenotype_kit.multiOmics
+    # module: annotationKit.UniProt
     # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: phenotype_kit.dll
-    # package: "multi_omics"
+    # library: annotationKit.dll
+    # package: "UniProt"
     #
-    return call <code>R&#35;.interop_[multiOmics::omics2DScatterPlot]</code>(...);
+    return call <code>R&#35;.interop_[UniProt::OpenOrCreateEnzymeSequencePack]</code>(...);
+}</p></pre>
+
+                    
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="add_ecNumbers">
+    <a href="./UniProt/add_ecNumbers.html">add_ecNumbers</a>
+  </h2>
+  <hr />
+  <p>
+                      
+                
+                    <pre><p>let <code>add_ecNumbers</code> as function(<code>pack</code> as <generic> ECNumberWriter, <code>uniprot</code> as any, [<code>&lt;Environment&gt;</code>]) -> <code>any</code> {
+    #
+    # .NET API information
+    #
+    # module: annotationKit.UniProt
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: annotationKit.dll
+    # package: "UniProt"
+    #
+    return call <code>R&#35;.interop_[UniProt::Addnumbers]</code>(...);
 }</p></pre>
 
                     
