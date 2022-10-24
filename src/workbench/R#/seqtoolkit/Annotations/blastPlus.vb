@@ -54,6 +54,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Programs
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports REnv = SMRUCC.Rsharp.Runtime
 
 <Package("blast+")>
 Module blastPlusInterop
@@ -65,7 +66,8 @@ Module blastPlusInterop
                                 Optional env As Environment = Nothing) As Object
 
         Dim bin As String = env.globalEnvironment.options.getOption("ncbi_blast")
-        Dim localblast = New BLASTPlus(bin).FormatDb(Db:=[in], dbtype)
+        Dim seqtype As String = REnv.single(REnv.asVector(Of String)(dbtype), forceSingle:=True)
+        Dim localblast = New BLASTPlus(bin).FormatDb(Db:=[in], dbType:=seqtype)
         Dim stdout As String
 
         localblast.Run()
