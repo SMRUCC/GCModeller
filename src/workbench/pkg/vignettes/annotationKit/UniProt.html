@@ -41,12 +41,12 @@
   <p>
                       
                 
-                    <pre><p>let <code>ECnumber_pack</code> as function(<code>file</code> as string, <code>create_new</code> as boolean = FALSE) -> <code>&lt;generic&gt; ECNumberWriter</code> {
+                    <pre><p>let <code>ECnumber_pack</code> as function(<code>file</code> as string, <code>create_new</code> as boolean = FALSE) -> <code>&lt;generic&gt; ECNumberWriter|&lt;generic&gt; ECNumberReader</code> {
     #
     # .NET API information
     #
     # module: annotationKit.UniProt
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # LibPath: E:/GCModeller/src/workbench/pkg/assembly/net6.0
     # library: annotationKit.dll
     # package: "UniProt"
     #
@@ -71,11 +71,36 @@
     # .NET API information
     #
     # module: annotationKit.UniProt
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # LibPath: E:/GCModeller/src/workbench/pkg/assembly/net6.0
     # library: annotationKit.dll
     # package: "UniProt"
     #
     return call <code>R&#35;.interop_[UniProt::Addnumbers]</code>(...);
+}</p></pre>
+
+                    
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="extract_fasta">
+    <a href="./UniProt/extract_fasta.html">extract_fasta</a>
+  </h2>
+  <hr />
+  <p>
+                      
+                
+                    <pre><p>let <code>extract_fasta</code> as function(<code>pack</code> as <generic> ECNumberReader) -> <code>&lt;generic&gt; FastaFile</code> {
+    #
+    # .NET API information
+    #
+    # module: annotationKit.UniProt
+    # LibPath: E:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: annotationKit.dll
+    # package: "UniProt"
+    #
+    return call <code>R&#35;.interop_[UniProt::ExtractFasta]</code>(...);
 }</p></pre>
 
                     

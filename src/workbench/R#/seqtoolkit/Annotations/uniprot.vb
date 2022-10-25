@@ -107,7 +107,9 @@ Module uniprot
     ''' </summary>
     ''' <param name="files"></param>
     ''' <param name="isUniParc"></param>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' this function returns a pipeline stream of the uniprot protein entries.
+    ''' </returns>
     <ExportAPI("open.uniprot")>
     Public Function openUniprotXmlAssembly(<RRawVectorArgument>
                                            files As Object,

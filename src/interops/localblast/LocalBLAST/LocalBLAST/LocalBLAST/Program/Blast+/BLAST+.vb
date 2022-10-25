@@ -89,9 +89,9 @@ Namespace LocalBLAST.Programs
         Sub New(bin As String)
             Call MyBase.New(bin)
 
-            _makeBlastDbAsm = String.Format("{0}\makeblastdb.exe", bin).CLIPath
-            _blastpAssembly = String.Format("{0}\blastp.exe", bin).CLIPath
-            _blastnAssembly = String.Format("{0}\blastn.exe", bin).CLIPath
+            _makeBlastDbAsm = String.Format("{0}\makeblastdb.exe", bin)
+            _blastpAssembly = String.Format("{0}\blastp.exe", bin)
+            _blastnAssembly = String.Format("{0}\blastn.exe", bin)
         End Sub
 
         Const MAKE_BLAST_DB_PROT As String = "-dbtype prot -in ""{0}"""
@@ -163,7 +163,7 @@ Namespace LocalBLAST.Programs
 
             Dim Cmdl As String = String.Format("{0} {1}", _makeBlastDbAsm, Argums)
             Console.WriteLine("LOCALBLAST+::MAKE_BLAST_DB" & vbCrLf & "  ---> {0}", Cmdl)
-            Return New IORedirectFile(_makeBlastDbAsm, argv:=Argums)
+            Return New IORedirectFile(_makeBlastDbAsm, argv:=Argums, win_os:=True)
         End Function
 
         ''' <summary>

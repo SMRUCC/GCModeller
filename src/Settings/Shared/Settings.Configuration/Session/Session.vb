@@ -181,7 +181,7 @@ Namespace Settings
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public ReadOnly Property SettingsDIR As String
+        Public ReadOnly Property SettingsDir As String
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return File.DefaultXmlFile.ParentPath
@@ -200,13 +200,15 @@ Namespace Settings
         ''' <returns></returns>
         ''' <remarks></remarks>
         ''' 
-        Public Function Initialize() As Settings.File
-            Call FileIO.FileSystem.CreateDirectory(SettingsDIR)
+        Public Function Initialize(Optional base_dir As String = Nothing) As Settings.File
+            Dim settingsDir As String = If(base_dir.StringEmpty, Session.SettingsDir, base_dir)
+
+            Call FileIO.FileSystem.CreateDirectory(settingsDir)
             Call FileIO.FileSystem.CreateDirectory(_LogDir)
             Call FileIO.FileSystem.CreateDirectory(TEMP)
             Call FileIO.FileSystem.CreateDirectory(DataCache)
 
-            Dim settings As String = Session.SettingsDIR & "/Settings.xml"
+            Dim settings As String = settingsDir & "/Settings.xml"
             Dim save As Action(Of Settings.File, String) = AddressOf saveProfile
 #If DEBUG Then
             Call $"Load GCModeller settings data from xml file: {settings.ToFileURL}".__DEBUG_ECHO

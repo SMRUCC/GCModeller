@@ -4,6 +4,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Data
+Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Interop
@@ -12,11 +13,16 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 Public Module UniProt
 
     <ExportAPI("ECnumber_pack")>
-    Public Function OpenOrCreateEnzymeSequencePack(file As String, Optional create_new As Boolean = False) As ECNumberWriter
+    <RApiReturn(GetType(ECNumberWriter), GetType(ECNumberReader))>
+    Public Function OpenOrCreateEnzymeSequencePack(file As String, Optional create_new As Boolean = False) As Object
         If create_new Then
-            Return New ECNumberWriter(file.Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False))
+            Return New ECNumberWriter(file.Open(
+                mode:=FileMode.OpenOrCreate,
+                doClear:=True,
+                [readOnly]:=False
+            ))
         Else
-            Return New ECNumberWriter(file.Open(FileMode.Open, doClear:=False, [readOnly]:=True))
+            Return New ECNumberReader(file.Open(FileMode.Open, doClear:=False, [readOnly]:=True))
         End If
     End Function
 
@@ -37,5 +43,10 @@ Public Module UniProt
         End If
 
         Return Nothing
+    End Function
+
+    <ExportAPI("extract_fasta")>
+    Public Function ExtractFasta(pack As ECNumberReader) As FastaFile
+        Return New FastaFile(pack.QueryFasta)
     End Function
 End Module
