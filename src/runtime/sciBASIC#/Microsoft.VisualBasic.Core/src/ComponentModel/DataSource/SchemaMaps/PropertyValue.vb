@@ -57,6 +57,7 @@
 #End Region
 
 Imports System.Reflection
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.Abstract
@@ -78,26 +79,55 @@ Namespace ComponentModel.DataSourceModel.SchemaMaps
         Protected member As MemberInfo
         Protected caster As LoadObject
 
+        ''' <summary>
+        ''' Gets the type of this <see cref="member"/>.
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property Type As Type
+
+        ''' <summary>
+        ''' Gets a value indicating whether the <see cref="System.Type"/> is one of the primitive types.
+        ''' </summary>
+        ''' <returns>
+        ''' true if the <see cref="System.Type"/> is one of the primitive types; otherwise, false.
+        ''' </returns>
+        Public ReadOnly Property IsPrimitive As Boolean
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
+            Get
+                Return Scripting.IsPrimitive(Type)
+            End Get
+        End Property
+
+        Private Sub New(type As Type, member As MemberInfo)
+            If Scripting.CasterString.ContainsKey(type) Then
+                caster = Scripting.CasterString(type)
+            End If
+
+            Me.member = member
+        End Sub
+
         Sub New(prop As PropertyInfo)
+            Call Me.New(prop.PropertyType, prop)
+
             ' Compile the property get/set as the delegate
             With prop
                 handleSetValue = AddressOf prop.SetValue  ' .DeclaringType.PropertySet(.Name)
                 handleGetValue = AddressOf prop.GetValue  ' .DeclaringType.PropertyGet(.Name)
             End With
-
-            member = prop
         End Sub
 
         Sub New(field As FieldInfo)
+            Call Me.New(field.FieldType, field)
+
             With field
                 handleSetValue = AddressOf field.SetValue  ' .DeclaringType.FieldSet(.Name)
                 handleGetValue = AddressOf field.GetValue  ' .DeclaringType.FieldGet(.Name)
             End With
-
-            Me.member = field
         End Sub
 
         Sub New(method As MethodInfo)
+            Call Me.New(method.ReturnType, method)
+
             If method.IsNonParametric(optionalAsNone:=True) Then
                 Throw New InvalidConstraintException("Only allows parameterless method or all of the parameter should be optional!")
             End If
@@ -108,8 +138,6 @@ Namespace ComponentModel.DataSourceModel.SchemaMaps
                                  End Sub
                 handleGetValue = Function(obj) method.Invoke(obj, {})
             End With
-
-            Me.member = method
         End Sub
     End Class
 End Namespace

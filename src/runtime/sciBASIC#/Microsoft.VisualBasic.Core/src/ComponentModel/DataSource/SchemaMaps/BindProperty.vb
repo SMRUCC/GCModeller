@@ -82,12 +82,6 @@ Namespace ComponentModel.DataSourceModel.SchemaMaps
 #Region "Property List"
 
         ''' <summary>
-        ''' Gets the type of this <see cref="member"/>.
-        ''' </summary>
-        ''' <returns></returns>
-        Public ReadOnly Property Type As Type
-
-        ''' <summary>
         ''' The map name or the <see cref="PropertyInfo.Name"/>.
         ''' (这个属性会首先查找标记的自定义属性的名称结果，如果不存在才会使用属性或者字段的反射成员名称)
         ''' </summary>
@@ -116,31 +110,10 @@ Namespace ComponentModel.DataSourceModel.SchemaMaps
                 Return member Is Nothing OrElse field Is Nothing
             End Get
         End Property
-
-        ''' <summary>
-        ''' Gets a value indicating whether the <see cref="System.Type"/> is one of the primitive types.
-        ''' </summary>
-        ''' <returns>
-        ''' true if the <see cref="System.Type"/> is one of the primitive types; otherwise, false.
-        ''' </returns>
-        Public ReadOnly Property IsPrimitive As Boolean
-            <MethodImpl(MethodImplOptions.AggressiveInlining)>
-            Get
-                Return Scripting.IsPrimitive(Type)
-            End Get
-        End Property
 #End Region
 
-        Private Sub New(type As Type)
-            Me.Type = type
-
-            If Scripting.CasterString.ContainsKey(type) Then
-                MyBase.caster = Scripting.CasterString(type)
-            End If
-        End Sub
-
         Sub New(attr As T, prop As PropertyInfo, Optional getName As IToString(Of T) = Nothing)
-            Call Me.New(prop.PropertyType)
+            Call MyBase.New(prop)
 
             field = attr
 
@@ -165,7 +138,7 @@ Namespace ComponentModel.DataSourceModel.SchemaMaps
         End Sub
 
         Sub New(attr As T, field As FieldInfo, Optional getName As IToString(Of T) = Nothing)
-            Call Me.New(field.FieldType)
+            Call MyBase.New(field)
 
             Me.field = attr
 
@@ -175,7 +148,7 @@ Namespace ComponentModel.DataSourceModel.SchemaMaps
         End Sub
 
         Sub New(attr As T, method As MethodInfo, Optional getName As IToString(Of T) = Nothing)
-            Call Me.New(method.ReturnType)
+            Call MyBase.New(method)
 
             Me.field = attr
 
@@ -276,9 +249,8 @@ Namespace ComponentModel.DataSourceModel.SchemaMaps
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function FromSchemaTable(x As KeyValuePair(Of T, PropertyInfo)) As BindProperty(Of T)
-            Return New BindProperty(Of T) With {
-                .field = x.Key,
-                .member = x.Value
+            Return New BindProperty(Of T)(x.Value) With {
+                .field = x.Key
             }
         End Function
     End Class
