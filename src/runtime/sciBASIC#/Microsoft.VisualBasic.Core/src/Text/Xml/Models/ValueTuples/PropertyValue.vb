@@ -1,4 +1,11 @@
-﻿Namespace Text.Xml.Models
+﻿Imports System.Runtime.CompilerServices
+Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
+Imports Microsoft.VisualBasic.Serialization.JSON
+
+Namespace Text.Xml.Models
 
     ''' <summary>
     ''' 用于读写tsv/XML文件格式的键值对数据
