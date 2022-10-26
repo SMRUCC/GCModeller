@@ -76,7 +76,7 @@ Namespace ComponentModel.DataSourceModel.SchemaMaps
         ''' <summary>
         ''' The property/field object that bind with its custom attribute <see cref="field"/> of type 
         ''' </summary>
-        Protected member As MemberInfo
+        Protected Friend ReadOnly member As MemberInfo
         Protected caster As LoadObject
 
         ''' <summary>
