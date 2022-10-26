@@ -80,13 +80,19 @@ Namespace ComponentModel.DataSourceModel.SchemaMaps
     Public Class ColumnAttribute : Inherits Attribute
 
         Public Property Name As String
+        Public ReadOnly Property [alias] As String()
 
-        Sub New(name As String)
+        Sub New(name As String, ParamArray [alias] As String())
             Me.Name = name
+            Me.alias = [alias]
         End Sub
 
         Sub New()
         End Sub
+
+        Public Overrides Function ToString() As String
+            Return Name
+        End Function
     End Class
 
     ''' <summary>
