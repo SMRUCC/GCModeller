@@ -215,7 +215,7 @@ Namespace Core.Message
             If Not URL.query.ContainsKey(name) Then
                 Return POSTData.Form.ContainsKey(name)
             Else
-                Return False
+                Return True
             End If
         End Function
     End Class
