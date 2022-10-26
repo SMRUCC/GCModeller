@@ -1,69 +1,64 @@
 ﻿#Region "Microsoft.VisualBasic::73e304381202fc509b63eb5cde26204b, sciBASIC#\Microsoft.VisualBasic.Core\src\ComponentModel\DataSource\SchemaMaps\BindProperty.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 266
-    '    Code Lines: 132
-    ' Comment Lines: 97
-    '   Blank Lines: 37
-    '     File Size: 10.99 KB
+' Summaries:
 
 
-    '     Structure BindProperty
-    ' 
-    '         Properties: Identity, IsNull, IsPrimitive, Type
-    ' 
-    '         Constructor: (+7 Overloads) Sub New
-    ' 
-    '         Function: FromSchemaTable, GetValue, ToString
-    ' 
-    '         Sub: SetValue, WriteScriptValue
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 266
+'    Code Lines: 132
+' Comment Lines: 97
+'   Blank Lines: 37
+'     File Size: 10.99 KB
+
+
+'     Structure BindProperty
+' 
+'         Properties: Identity, IsNull, IsPrimitive, Type
+' 
+'         Constructor: (+7 Overloads) Sub New
+' 
+'         Function: FromSchemaTable, GetValue, ToString
+' 
+'         Sub: SetValue, WriteScriptValue
+' 
+' 
+' /********************************************************************************/
 
 #End Region
-
-#If netcore5 = 1 Then
-Imports System.Data
-#End If
 
 Imports System.Reflection
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic.Scripting.Abstract
 Imports Microsoft.VisualBasic.Serialization
 
 Namespace ComponentModel.DataSourceModel.SchemaMaps
@@ -73,25 +68,16 @@ Namespace ComponentModel.DataSourceModel.SchemaMaps
     ''' (使用这个对象将公共的域或者属性的读写统一起来)
     ''' </summary>
     ''' <typeparam name="T"></typeparam>
-    Public Structure BindProperty(Of T As Attribute)
+    Public Class BindProperty(Of T As Attribute) : Inherits Bind
         Implements IReadOnlyId
         Implements INamedValue
         Implements IProperty
 
         ''' <summary>
-        ''' The property/field object that bind with its custom attribute <see cref="field"/> of type <typeparamref name="T"/>
-        ''' </summary>
-        Dim member As MemberInfo
-        ''' <summary>
         ''' The flag for this field binding.
         ''' </summary>
         Dim field As T
         Dim name As String
-
-        ReadOnly caster As LoadObject
-
-        Friend ReadOnly handleSetValue As Action(Of Object, Object)
-        Friend ReadOnly handleGetValue As Func(Of Object, Object)
 
 #Region "Property List"
 
@@ -149,7 +135,7 @@ Namespace ComponentModel.DataSourceModel.SchemaMaps
             Me.Type = type
 
             If Scripting.CasterString.ContainsKey(type) Then
-                Me.caster = Scripting.CasterString(type)
+                MyBase.caster = Scripting.CasterString(type)
             End If
         End Sub
 
@@ -157,17 +143,10 @@ Namespace ComponentModel.DataSourceModel.SchemaMaps
             Call Me.New(prop.PropertyType)
 
             field = attr
-            member = prop
 
             If Not getName Is Nothing Then
                 name = getName(attr)
             End If
-
-            ' Compile the property get/set as the delegate
-            With prop
-                handleSetValue = AddressOf prop.SetValue  ' .DeclaringType.PropertySet(.Name)
-                handleGetValue = AddressOf prop.GetValue  ' .DeclaringType.PropertyGet(.Name)
-            End With
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -189,38 +168,20 @@ Namespace ComponentModel.DataSourceModel.SchemaMaps
             Call Me.New(field.FieldType)
 
             Me.field = attr
-            Me.member = field
 
             If Not getName Is Nothing Then
                 name = getName(attr)
             End If
-
-            With field
-                handleSetValue = AddressOf field.SetValue  ' .DeclaringType.FieldSet(.Name)
-                handleGetValue = AddressOf field.GetValue  ' .DeclaringType.FieldGet(.Name)
-            End With
         End Sub
 
         Sub New(attr As T, method As MethodInfo, Optional getName As IToString(Of T) = Nothing)
             Call Me.New(method.ReturnType)
 
             Me.field = attr
-            Me.member = method
 
             If Not getName Is Nothing Then
                 name = getName(attr)
             End If
-
-            If method.IsNonParametric(optionalAsNone:=True) Then
-                Throw New InvalidConstraintException("Only allows parameterless method or all of the parameter should be optional!")
-            End If
-
-            With field
-                handleSetValue = Sub(a, b)
-                                     Throw New ReadOnlyException
-                                 End Sub
-                handleGetValue = Function(obj) method.Invoke(obj, {})
-            End With
         End Sub
 
         ' Exceptions:
@@ -320,5 +281,5 @@ Namespace ComponentModel.DataSourceModel.SchemaMaps
                 .member = x.Value
             }
         End Function
-    End Structure
+    End Class
 End Namespace
