@@ -287,7 +287,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
                     Continue For
                 End If
 
-                Call sb.AppendLine($"{[property].name} {str}")
+                Call sb.AppendLine($"{[property].GetColumnName} {str}")
             Next
 
             Call sb.AppendLine(features.JoinBy(ASCII.LF))
