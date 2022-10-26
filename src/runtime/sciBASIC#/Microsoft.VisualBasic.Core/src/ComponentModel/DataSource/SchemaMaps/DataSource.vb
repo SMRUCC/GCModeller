@@ -76,6 +76,9 @@ Imports FieldTuple = System.Collections.Generic.KeyValuePair(Of Microsoft.Visual
 
 Namespace ComponentModel.DataSourceModel.SchemaMaps
 
+    ''' <summary>
+    ''' field data mapping
+    ''' </summary>
     <AttributeUsage(AttributeTargets.[Property], Inherited:=True, AllowMultiple:=False)>
     Public Class ColumnAttribute : Inherits Attribute
 

@@ -85,6 +85,12 @@ Namespace ComponentModel.DataSourceModel.SchemaMaps
         ''' <returns></returns>
         Public ReadOnly Property Type As Type
 
+        Public ReadOnly Property memberName As String
+            Get
+                Return member.Name
+            End Get
+        End Property
+
         ''' <summary>
         ''' Gets a value indicating whether the <see cref="System.Type"/> is one of the primitive types.
         ''' </summary>

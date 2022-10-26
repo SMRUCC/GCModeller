@@ -76,8 +76,8 @@ Namespace ComponentModel.DataSourceModel.SchemaMaps
         ''' <summary>
         ''' The flag for this field binding.
         ''' </summary>
-        Dim field As T
-        Dim name As String
+        Friend field As T
+        Friend name As String
 
 #Region "Property List"
 
@@ -90,7 +90,7 @@ Namespace ComponentModel.DataSourceModel.SchemaMaps
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 If name.StringEmpty Then
-                    name = member.Name
+                    name = memberName
                 End If
 
                 Return name
