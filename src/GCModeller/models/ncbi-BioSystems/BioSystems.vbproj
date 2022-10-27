@@ -11,5 +11,12 @@
     <Configurations>Debug;Release;Rsharp_app_release</Configurations>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\BinaryData\BinaryData\binarydata-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\BinaryData\HDSPack\HDSPack.vbproj" />
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+    <ProjectReference Include="..\..\core\Bio.Assembly\biocore-netcore5.vbproj" />
+  </ItemGroup>
+
 
 </Project>
