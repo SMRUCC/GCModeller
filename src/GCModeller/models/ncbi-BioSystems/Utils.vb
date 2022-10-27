@@ -26,7 +26,7 @@ Public Module Utils
     Private Iterator Function populateProteins(genbank As GBFF.File) As IEnumerable(Of ProteinAnnotation)
         For Each feature As Feature In From f As Feature
                                        In genbank.Features
-                                       Where f.KeyName.TextEquals("CDF")
+                                       Where f.KeyName.TextEquals("CDS")
 
             Yield New ProteinAnnotation With {
                 .locus_id = feature("protein_id"),
