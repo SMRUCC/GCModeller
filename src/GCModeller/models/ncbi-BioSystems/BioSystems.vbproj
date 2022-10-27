@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>SMRUCC.genomics.Model.BioSystems</RootNamespace>
+	  <TargetFrameworks>net6.0;net5.0;net48</TargetFrameworks>
+    <Platforms>AnyCPU;x64</Platforms>
+    <AssemblyName>SMRUCC.genomics.Model.BioSystems</AssemblyName>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <Configurations>Debug;Release;Rsharp_app_release</Configurations>
+  </PropertyGroup>
+
+
+</Project>
