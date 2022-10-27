@@ -9,5 +9,7 @@ Public Class ProjectWriter
         stream = New StreamPack(file)
     End Sub
 
+    Public Sub WriteProject(proj As Project)
 
+    End Sub
 End Class

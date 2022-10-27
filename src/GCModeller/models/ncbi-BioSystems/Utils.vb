@@ -1,8 +1,10 @@
-﻿Imports SMRUCC.genomics.Assembly.NCBI.GenBank
+﻿Imports System.Runtime.CompilerServices
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 
 Public Module Utils
 
-    Public Function FromGenBank(genbank As GBFF.File)
+    <Extension>
+    Public Function FromGenBank(genbank As GBFF.File) As Project
 
     End Function
 End Module
