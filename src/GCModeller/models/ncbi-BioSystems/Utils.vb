@@ -11,7 +11,11 @@ Public Module Utils
         Dim proteins As New Dictionary(Of String, ProteinAnnotation)
 
         For Each prot As ProteinAnnotation In genbank.populateProteins
-            Call proteins.Add(prot.locus_id, prot)
+            If prot.sequence.StringEmpty Then
+                Continue For
+            End If
+
+            Call proteins.Add(prot.geneId, prot)
         Next
 
         Return New Project With {
@@ -29,8 +33,8 @@ Public Module Utils
                                        Where f.KeyName.TextEquals("CDS")
 
             Yield New ProteinAnnotation With {
-                .locus_id = feature("protein_id"),
-                .geneId = feature("locus_tag"),
+                .locus_id = feature("locus_tag"),
+                .geneId = feature("protein_id"),
                 .geneName = feature("gene"),
                 .description = feature("product"),
                 .sequence = feature("translation")

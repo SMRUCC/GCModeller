@@ -74,13 +74,18 @@ Public Class PtfWriter : Implements IDisposable
         Call block.Write(If(protein.geneName, ""), BinaryStringFormat.ZeroTerminated)
         Call block.Write(If(protein.description, ""), BinaryStringFormat.ZeroTerminated)
         Call block.Write(If(protein.sequence, ""), BinaryStringFormat.ZeroTerminated)
-        Call block.Write(protein.attributes.Count)
 
-        For Each tuple In protein.attributes
-            Call block.Write(tuple.Key, BinaryStringFormat.ZeroTerminated)
-            Call block.Write(tuple.Value.Length)
-            Call tuple.Value.DoEach(Sub(val) block.Write(val, BinaryStringFormat.ZeroTerminated))
-        Next
+        If protein.attributes.IsNullOrEmpty Then
+            Call block.Write(0)
+        Else
+            Call block.Write(protein.attributes.Count)
+
+            For Each tuple In protein.attributes
+                Call block.Write(tuple.Key, BinaryStringFormat.ZeroTerminated)
+                Call block.Write(tuple.Value.Length)
+                Call tuple.Value.DoEach(Sub(val) block.Write(val, BinaryStringFormat.ZeroTerminated))
+            Next
+        End If
     End Sub
 
     Private Sub saveCrossReference()
