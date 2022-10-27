@@ -25,6 +25,11 @@ Public Class PtfWriter : Implements IDisposable
         Me.id_mapping = initIndex(id_mapping)
     End Sub
 
+    Sub New(stream As StreamPack, id_mapping As String())
+        Me.stream = stream
+        Me.id_mapping = initIndex(id_mapping)
+    End Sub
+
     Private Shared Function initIndex(id_mapping As String()) As Dictionary(Of String, NamedValue(Of Dictionary(Of String, List(Of String))))
         Return id_mapping _
             .ToDictionary(Function(dbname) dbname.ToLower,
