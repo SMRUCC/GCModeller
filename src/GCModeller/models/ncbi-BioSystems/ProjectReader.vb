@@ -1,3 +1,3 @@
-﻿Public Class Class1
+﻿Public Class ProjectReader
 
 End Class
