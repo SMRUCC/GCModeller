@@ -198,10 +198,12 @@ Namespace ComponentModel.DataSourceModel.SchemaMaps
                     If includesAliasNames Then
                         table(map.GetColumnName) = memberName
 
-                        If Not map.field.alias.IsNullOrEmpty Then
-                            For Each name As String In map.field.alias
-                                table(name) = memberName
-                            Next
+                        If Not map.field Is Nothing Then
+                            If Not map.field.alias.IsNullOrEmpty Then
+                                For Each name As String In map.field.alias
+                                    table(name) = memberName
+                                Next
+                            End If
                         End If
                     Else
                         table(map.GetColumnName) = memberName
