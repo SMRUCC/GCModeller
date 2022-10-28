@@ -24,8 +24,9 @@
 ' 
 
 Namespace Drawing2D.HeatMap.hqx
-    Public Class Hqx_2x
-        Inherits HqxScaling
+
+    Public Class Hqx_2x : Inherits HqxScaling
+
         ''' <summary>
         ''' This is the extended Java port of the hq2x algorithm.
         ''' <b>The destination image must be exactly twice as large in both dimensions as the source image</b>
@@ -36,7 +37,7 @@ Namespace Drawing2D.HeatMap.hqx
         ''' <param name="Xres"> the horizontal resolution of the source image </param>
         ''' <param name="Yres"> the vertical resolution of the source image
         ''' </param>
-        Public Shared Sub hq2x_32_rb(sp As Integer(), dp As Integer(), Xres As Integer, Yres As Integer)
+        Public Shared Sub hq2x_32_rb(ByRef sp As Integer(), ByRef dp As Integer(), Xres As Integer, Yres As Integer)
             hq2x_32_rb(sp, dp, Xres, Yres, 48, 7, 6, 0, False, False)
         End Sub
 
@@ -53,7 +54,7 @@ Namespace Drawing2D.HeatMap.hqx
         ''' <param name="trA"> the A (transparency) threshold </param>
         ''' <param name="wrapX"> used for images that can be seamlessly repeated horizontally </param>
         ''' <param name="wrapY"> used for images that can be seamlessly repeated vertically </param>
-        Public Shared Sub hq2x_32_rb(sp As Integer(), dp As Integer(), Xres As Integer, Yres As Integer, [trY] As Integer, trU As Integer, trV As Integer, trA As Integer, wrapX As Boolean, wrapY As Boolean)
+        Public Shared Sub hq2x_32_rb(ByRef sp As Integer(), ByRef dp As Integer(), Xres As Integer, Yres As Integer, [trY] As Integer, trU As Integer, trV As Integer, trA As Integer, wrapX As Boolean, wrapY As Boolean)
             Dim spIdx = 0, dpIdx = 0
             'Don't shift trA, as it uses shift right instead of a mask for comparisons.
             [trY] <<= 2 * 8
