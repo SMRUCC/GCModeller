@@ -25,6 +25,11 @@ Public Class PtfWriter : Implements IDisposable
         Me.id_mapping = initIndex(id_mapping)
     End Sub
 
+    Sub New(stream As StreamPack, id_mapping As String())
+        Me.stream = stream
+        Me.id_mapping = initIndex(id_mapping)
+    End Sub
+
     Private Shared Function initIndex(id_mapping As String()) As Dictionary(Of String, NamedValue(Of Dictionary(Of String, List(Of String))))
         Return id_mapping _
             .ToDictionary(Function(dbname) dbname.ToLower,
@@ -69,13 +74,18 @@ Public Class PtfWriter : Implements IDisposable
         Call block.Write(If(protein.geneName, ""), BinaryStringFormat.ZeroTerminated)
         Call block.Write(If(protein.description, ""), BinaryStringFormat.ZeroTerminated)
         Call block.Write(If(protein.sequence, ""), BinaryStringFormat.ZeroTerminated)
-        Call block.Write(protein.attributes.Count)
 
-        For Each tuple In protein.attributes
-            Call block.Write(tuple.Key, BinaryStringFormat.ZeroTerminated)
-            Call block.Write(tuple.Value.Length)
-            Call tuple.Value.DoEach(Sub(val) block.Write(val, BinaryStringFormat.ZeroTerminated))
-        Next
+        If protein.attributes.IsNullOrEmpty Then
+            Call block.Write(0)
+        Else
+            Call block.Write(protein.attributes.Count)
+
+            For Each tuple In protein.attributes
+                Call block.Write(tuple.Key, BinaryStringFormat.ZeroTerminated)
+                Call block.Write(tuple.Value.Length)
+                Call tuple.Value.DoEach(Sub(val) block.Write(val, BinaryStringFormat.ZeroTerminated))
+            Next
+        End If
     End Sub
 
     Private Sub saveCrossReference()
