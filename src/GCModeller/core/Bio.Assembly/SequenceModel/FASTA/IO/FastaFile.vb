@@ -118,12 +118,15 @@ Namespace SequenceModel.FASTA
         ''' </summary>
         ''' <param name="data"></param>
         Sub New(data As IEnumerable(Of FastaSeq))
-            _innerList =
-                LinqAPI.MakeList(Of FastaSeq) <= From fa As FastaSeq
-                                                 In data
-                                                 Where Not fa Is Nothing AndAlso Not fa.SequenceData.StringEmpty
-                                                 Select fa
+            _innerList = LinqAPI.MakeList(Of FastaSeq) <= filterNulls(data)
         End Sub
+
+        Private Shared Function filterNulls(data As IEnumerable(Of FastaSeq)) As IEnumerable(Of FastaSeq)
+            Return From fa As FastaSeq
+                   In data
+                   Where Not fa Is Nothing AndAlso Not fa.SequenceData.StringEmpty
+                   Select fa
+        End Function
 
         Sub New(fa As FASTA.FastaSeq)
             Call Me.New({fa})
