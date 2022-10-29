@@ -14,11 +14,12 @@ Public Class ProjectReader
         proteins = New PtfReader(buffer)
     End Sub
 
-    Public Iterator Function GetProteinFasta() As IEnumerable(Of FastaSeq)
+    Public Function GetProteinFasta() As IEnumerable(Of FastaSeq)
         Using file As Stream = buffer.OpenBlock("/workspace/protein_set.fasta")
-            Using reader As New StreamReader(file, Encodings.ASCII.CodePage)
+            Dim cacheLines As String() = New StreamReader(file, Encodings.ASCII.CodePage).ReadToEnd.LineTokens
+            Dim load As IEnumerable(Of FastaSeq) = FastaFile.DocParser(cacheLines)
 
-            End Using
+            Return load
         End Using
     End Function
 End Class
