@@ -56,9 +56,26 @@ Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports REnv = SMRUCC.Rsharp.Runtime
 
+''' <summary>
+''' Basic Local Alignment Search Tool
+''' 
+''' NCBI blast+ wrapper
+''' 
+''' BLAST finds regions Of similarity between biological 
+''' sequences. The program compares nucleotide Or protein 
+''' sequences To sequence databases And calculates the 
+''' statistical significance.
+''' </summary>
 <Package("blast+")>
 Module blastPlusInterop
 
+    ''' <summary>
+    ''' Application to create BLAST databases
+    ''' </summary>
+    ''' <param name="[in]">Input file/database name</param>
+    ''' <param name="dbtype">Molecule type of target db</param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("makeblastdb")>
     Public Function makeblastdb([in] As String,
                                 <RRawVectorArgument(GetType(String))>
@@ -76,9 +93,26 @@ Module blastPlusInterop
         Return stdout
     End Function
 
+    ''' <summary>
+    ''' Protein-Protein BLAST
+    ''' </summary>
+    ''' <returns></returns>
     <ExportAPI("blastp")>
-    Public Function blastp()
+    Public Function blastp(query As String, subject As String, output As String,
+                           Optional evalue As Double = 0.001,
+                           Optional n_threads As Integer = 2,
+                           Optional env As Environment = Nothing) As Object
 
+        Dim bin As String = env.globalEnvironment.options.getOption("ncbi_blast")
+        Dim stdout As String
+        Dim localblast = New BLASTPlus(bin) With {
+            .NumThreads = n_threads
+        }.Blastp(query, subject, output, evalue)
+
+        localblast.Run()
+        stdout = localblast.StandardOutput
+
+        Return stdout
     End Function
 
     <ExportAPI("blastn")>
