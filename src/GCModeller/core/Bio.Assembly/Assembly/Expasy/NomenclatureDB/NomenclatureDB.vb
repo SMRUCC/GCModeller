@@ -69,7 +69,7 @@ Namespace Assembly.Expasy.Database
     <XmlRoot("ENZYME nomenclature database", Namespace:="http://enzyme.expasy.org/")>
     Public Class NomenclatureDB : Inherits XmlDataModel
 
-        Dim __defHash As Dictionary(Of String, Enzyme)
+        Dim __defs As Dictionary(Of String, Enzyme)
 
         <XmlElement("Enzyme", Namespace:="http://code.google.com/p/genome-in-code/expasy")>
         Public Property Enzymes As Enzyme()
@@ -89,10 +89,10 @@ Namespace Assembly.Expasy.Database
         ''' <remarks></remarks>
         Default Public ReadOnly Property DataItem(EC As String) As Enzyme
             Get
-                If Not __defHash.ContainsKey(EC) Then
+                If Not __defs.ContainsKey(EC) Then
                     Return Nothing
                 End If
-                Return __defHash(EC)
+                Return __defs(EC)
             End Get
         End Property
 
@@ -137,26 +137,31 @@ Namespace Assembly.Expasy.Database
         ''' <summary>
         ''' Load the expasy database from the text file.(从文本文件之中加载expasy数据库)
         ''' </summary>
-        ''' <param name="File">File path of the expasy database file.(exapsy数据库文件的文件路径)</param>
+        ''' <param name="path">File path of the expasy database file.(exapsy数据库文件的文件路径)</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Overloads Shared Function CreateObject(File As String) As NomenclatureDB
-            Dim strData As String() = Regex.Split(FileIO.FileSystem.ReadAllText(File).Replace("-!-", ""), "^//$", RegexOptions.Multiline)
-            Dim DBDescription As String = strData.First
-            Dim Enzymes As Enzyme() = (From strLine As String
-                                       In strData.Skip(1).AsParallel
-                                       Let strLines As String() = (From strItem As String
-                                                                   In Strings.Split(strLine, vbLf)
-                                                                   Let strL As String = Trim(strItem)
-                                                                   Where Not String.IsNullOrEmpty(strL)
-                                                                   Select strL).ToArray
-                                       Where Not strLines.IsNullOrEmpty
-                                       Let Enzyme = Enzyme.__createObjectFromText(strData:=strLines)
-                                       Select Enzyme
-                                       Order By Enzyme.Identification Ascending).ToArray
+        Public Overloads Shared Function CreateObject(path As String) As NomenclatureDB
+            Dim strData As String() = Regex.Split(FileIO.FileSystem.ReadAllText(path).Replace("-!-", ""), "^//$", RegexOptions.Multiline)
+            Dim desc As String = strData.First
+            Dim enzymes As Enzyme() = ParseFileLines(strData.Skip(1)).ToArray
+
             Return New NomenclatureDB With {
-                .Enzymes = Enzymes
+                .Enzymes = enzymes
             }
+        End Function
+
+        Private Shared Function ParseFileLines(strdata As IEnumerable(Of String)) As IEnumerable(Of Enzyme)
+            Return From strLine As String
+                   In strdata
+                   Let strLines As String() = (From strItem As String
+                                               In Strings.Split(strLine, vbLf)
+                                               Let strL As String = Trim(strItem)
+                                               Where Not String.IsNullOrEmpty(strL)
+                                               Select strL).ToArray
+                   Where Not strLines.IsNullOrEmpty
+                   Let Enzyme = Enzyme.__createObjectFromText(strData:=strLines)
+                   Select Enzyme
+                   Order By Enzyme.Identification Ascending
         End Function
 
         Public Sub Export(ByRef Classes As csv.Enzyme(), ByRef SwissProt As csv.SwissProt())
