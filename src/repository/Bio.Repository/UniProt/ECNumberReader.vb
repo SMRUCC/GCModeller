@@ -28,7 +28,7 @@ Public Class ECNumberReader : Implements IDisposable
                 Dim id As String = file.fileName.BaseName
 
                 Yield New FastaSeq With {
-                    .Headers = {id, ECNumber},
+                    .Headers = {ECNumber, id},
                     .SequenceData = seq
                 }
             Next
