@@ -41,6 +41,10 @@ Public Class PtfWriter : Implements IDisposable
                           End Function)
     End Function
 
+    ''' <summary>
+    ''' file name based on the <see cref="ProteinAnnotation.geneId"/>
+    ''' </summary>
+    ''' <param name="protein"></param>
     Public Sub AddProtein(protein As ProteinAnnotation)
         Dim intptr As String = $"/annotation/{protein.geneId}.ptf"
         Dim file As New BinaryDataWriter(stream.OpenBlock(intptr)) With {
