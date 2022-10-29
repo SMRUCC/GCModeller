@@ -272,35 +272,33 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG
         ''' <param name="lines"></param>
         ''' <param name="deli"></param>
         ''' <returns></returns>
-        Public Shared Function DocParser(lines As String(), Optional deli As Char() = Nothing) As List(Of FastaSeq)
-            Dim faToken As New List(Of String)
-            Dim FASTA As New List(Of FastaSeq)
+        Public Shared Iterator Function DocParser(lines As String(), Optional deli As String = "|") As IEnumerable(Of FastaSeq)
+            Dim faseq As New List(Of String)
 
             If lines.IsNullOrEmpty Then
-                Return FASTA
-            End If
-            If deli.IsNullOrEmpty Then
-                deli = {"|"c}
+                Return
+            ElseIf deli.StringEmpty Then
+                deli = "|"
             End If
 
-            For Each Line As String In lines
-                If String.IsNullOrEmpty(Line) Then
+            For Each line As String In lines
+                If String.IsNullOrEmpty(line) Then
                     Continue For
-                ElseIf Line.Chars(Scan0) = ">"c Then  'New FASTA Object
-                    Call FASTA.Add(FastaSeq.ParseFromStream(faToken, deli))
-                    Call faToken.Clear()
+                ElseIf line.Chars(Scan0) = ">"c Then
+                    ' New FASTA Object
+                    If faseq > 0 Then
+                        Yield FastaSeq.ParseFromStream(faseq.PopAll, deli)
+                    End If
+
+                    faseq *= 0
                 End If
 
-                Call faToken.Add(Line)
+                Call faseq.Add(line)
             Next
 
-            If FASTA.Count > 0 Then
-                Call FASTA.RemoveAt(Scan0)
+            If faseq > 0 Then
+                Yield FastaSeq.ParseFromStream(faseq.PopAll, deli)
             End If
-
-            Call FASTA.Add(FastaSeq.ParseFromStream(faToken, deli))
-
-            Return FASTA
         End Function
 
         Public Shared Function DocParser(doc As String, deli As Char()) As List(Of FastaSeq)
