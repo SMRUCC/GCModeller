@@ -56,7 +56,7 @@ Public Module TextParser
             Dim obj As New Reaction With {
                 .entry = list!ENTRY,
                 .definition = list!DEFINITION,
-                .equation = list!EQUATION
+                .equation = Reaction.EquationParser(list!EQUATION)
             }
 
             If list.ContainsKey("ENZYME") Then
