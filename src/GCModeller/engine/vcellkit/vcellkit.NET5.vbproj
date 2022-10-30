@@ -120,6 +120,7 @@
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
     <ProjectReference Include="..\..\analysis\HTS_matrix\HTS_matrix-netcore5.vbproj" />
     <ProjectReference Include="..\..\core\Bio.Assembly\biocore-netcore5.vbproj" />
+    <ProjectReference Include="..\..\data\Rhea\Rhea.vbproj" />
     <ProjectReference Include="..\..\data\SABIO-RK\SABIO-RK.NET.vbproj" />
     <ProjectReference Include="..\..\models\BioCyc\BioCyc.vbproj" />
     <ProjectReference Include="..\BootstrapLoader\BootstrapLoader.NET5.vbproj" />
