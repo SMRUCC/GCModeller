@@ -6,4 +6,8 @@ Public Class Compound
     Public Property reactions As String()
     Public Property enzyme As String()
 
+    Public Overrides Function ToString() As String
+        Return name
+    End Function
+
 End Class

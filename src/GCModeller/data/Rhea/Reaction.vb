@@ -22,4 +22,8 @@ Public Class Reaction
         Return eq
     End Function
 
+    Public Overrides Function ToString() As String
+        Return definition
+    End Function
+
 End Class
