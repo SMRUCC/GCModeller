@@ -2,7 +2,7 @@
 Imports Microsoft.VisualBasic.DataStorage.HDSPack
 Imports Microsoft.VisualBasic.DataStorage.HDSPack.FileSystem
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Microsoft.VisualBasic.Serialization.Bencoding
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.ComponentModel.Annotation
@@ -20,7 +20,7 @@ Public Class ECNumberWriter : Implements IDisposable
     Private disposedValue As Boolean
 
     Sub New(file As Stream)
-        stream = New StreamPack(file)
+        stream = New StreamPack(file, init_size:=4096, meta_size:=1024 * 1024 * 32)
     End Sub
 
     Public Sub AddProtein(protein As entry)
@@ -68,7 +68,7 @@ Public Class ECNumberWriter : Implements IDisposable
         If Not disposedValue Then
             If disposing Then
                 ' TODO: dispose managed state (managed objects)
-                Call stream.WriteText(locations.GetJson, "/subcellularLocation.json")
+                Call stream.WriteText(locations.ToBEncode.ToBencodedString, "/subcellularLocation.txt")
                 Call stream.Dispose()
             End If
 

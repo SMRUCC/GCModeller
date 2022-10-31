@@ -1,5 +1,7 @@
 ﻿Imports System.IO
+Imports Microsoft.VisualBasic.DataStorage.HDSPack
 Imports Microsoft.VisualBasic.DataStorage.HDSPack.FileSystem
+Imports Microsoft.VisualBasic.Serialization.Bencoding
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
@@ -17,6 +19,21 @@ Public Class ECNumberReader : Implements IDisposable
     Sub New(file As Stream)
         Me.stream = New StreamPack(file, [readonly]:=True)
     End Sub
+
+    Public Function GetSubcellularLocations() As Dictionary(Of String, String())
+        Dim btext As String = stream.ReadText("/subcellularLocation.txt")
+        Dim bnodes As BDictionary = BencodeDecoder.Decode(btext)(0)
+        Dim list As New Dictionary(Of String, String())
+
+        For Each key As BString In bnodes.Keys
+            list(key.Value) = bnodes(key) _
+                .ToList _
+                .Select(Function(str) DirectCast(str, BString).Value) _
+                .ToArray
+        Next
+
+        Return list
+    End Function
 
     Public Iterator Function QueryFasta(Optional q As String = "*") As IEnumerable(Of FastaSeq)
         If q = "*" Then
