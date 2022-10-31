@@ -1,8 +1,10 @@
 ﻿Imports System.IO
 Imports Microsoft.VisualBasic.DataStorage.HDSPack
 Imports Microsoft.VisualBasic.DataStorage.HDSPack.FileSystem
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Annotation.Ptf
 Imports SMRUCC.genomics.Data
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Public Class ProjectWriter : Implements IDisposable
 
@@ -17,11 +19,17 @@ Public Class ProjectWriter : Implements IDisposable
     End Sub
 
     Public Sub WriteProject(proj As Project)
+        Dim fasta As New List(Of FastaSeq)
+
         Call stream.WriteText(proj.metadata.GetXml, "/metadata.xml")
 
         For Each protein As ProteinAnnotation In proj.proteins.proteins.Values
             Call proteinWriter.AddProtein(protein)
+            Call fasta.Add(New FastaSeq With {.SequenceData = protein.sequence, .Headers = {protein.geneId}})
         Next
+
+        ' save fasta sequence pack
+        Call stream.WriteText(New FastaFile(fasta).Generate, "/workspace/protein_set.fasta", Encodings.ASCII)
     End Sub
 
     Protected Overridable Sub Dispose(disposing As Boolean)

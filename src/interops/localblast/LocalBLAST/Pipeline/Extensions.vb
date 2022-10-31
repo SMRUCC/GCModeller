@@ -106,8 +106,7 @@ Namespace Pipeline
 
         <ExportAPI("EnzymeClassification")>
         Public Function EnzymeClassification(Expasy As NomenclatureDB, bh As BestHit()) As T_EnzymeClass_BLAST_OUT()
-            Dim EnzymeClasses As T_EnzymeClass_BLAST_OUT() =
-                API.GenerateBasicDocument(Expasy.Enzymes)
+            Dim EnzymeClasses As T_EnzymeClass_BLAST_OUT() = API.GenerateBasicDocument(Expasy.Enzymes)
             Dim LQuery As T_EnzymeClass_BLAST_OUT() =
                 LinqAPI.Exec(Of T_EnzymeClass_BLAST_OUT) <= From enzPre As T_EnzymeClass_BLAST_OUT
                                                             In EnzymeClasses.AsParallel

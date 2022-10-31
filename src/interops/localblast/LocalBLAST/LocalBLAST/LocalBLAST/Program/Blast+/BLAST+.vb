@@ -120,7 +120,7 @@ Namespace LocalBLAST.Programs
             Dim Cmdl As String = String.Format("{0} {1}", _blastpAssembly, argv)
             Console.WriteLine("LOCALBLAST+::BLASTP" & vbCrLf & "  ---> {0}", Cmdl)
             MyBase._InternalLastBLASTOutputFile = Output
-            Return New IORedirectFile(_blastpAssembly, argv)
+            Return New IORedirectFile(_blastpAssembly, argv, win_os:=True)
         End Function
 
         Public Overrides Function GetLastLogFile() As BLASTOutput.IBlastOutput
