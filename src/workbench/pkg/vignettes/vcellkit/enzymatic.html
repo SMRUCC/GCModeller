@@ -4,7 +4,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
-    <title>dbget</title>
+    <title>enzymatic</title>
     <meta name="author" content="xie.guigang@gcmodeller.org" />
     <meta name="copyright" content="SMRUCC genomics Copyright (c) 2020" />
     <meta name="keywords" content="GCModeller; Xanthomonas; Artificial Life" />
@@ -21,64 +21,36 @@
     <meta class="foundation-mq-topbar" />
   </head>
   <body>
-    <table width="100%" summary="page for {dbget}">
+    <table width="100%" summary="page for {enzymatic}">
       <tbody>
         <tr>
-          <td>{dbget}</td>
+          <td>{enzymatic}</td>
           <td style="text-align: right;">R# Documentation</td>
         </tr>
       </tbody>
     </table>
-    <h1>dbget</h1>
+    <h1>enzymatic</h1>
     <hr />
     <p></p>
     <div id="main-wrapper">
                            <div>
-  <h2 id="fetch.pathwayMaps">
-    <a href="./dbget/fetch.pathwayMaps.html">fetch.pathwayMaps</a>
+  <h2 id="query_reaction">
+    <a href="./enzymatic/query_reaction.html">query_reaction</a>
   </h2>
   <hr />
   <p>
                       
                 
-                    <pre><p>let <code>fetch.pathwayMaps</code> as function(<code>sp</code> as string, 
-<code>export</code> as string = "./", 
-<code>isKGML</code> as boolean = FALSE, 
-[<code>&lt;Environment&gt;</code>]) -> <code>boolean</code> {
+                    <pre><p>let <code>query_reaction</code> as function(<code>reaction</code> as <generic> Reaction, <code>cache</code> as string = "./.cache/") -> <code>any</code> {
     #
     # .NET API information
     #
-    # module: kegg_kit.dbget
+    # module: vcellkit.Enzymatic
     # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: kegg_kit.dll
-    # package: "dbget"
+    # library: vcellkit.dll
+    # package: "enzymatic"
     #
-    return call <code>R&#35;.interop_[dbget::DownloadPathwayMaps]</code>(...);
-}</p></pre>
-
-                    
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="show_organism">
-    <a href="./dbget/show_organism.html">show_organism</a>
-  </h2>
-  <hr />
-  <p>
-                      
-                
-                    <pre><p>let <code>show_organism</code> as function(<code>code</code> as string, [<code>&lt;Environment&gt;</code>]) -> <code>&lt;generic&gt; OrganismInfo</code> {
-    #
-    # .NET API information
-    #
-    # module: kegg_kit.dbget
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: kegg_kit.dll
-    # package: "dbget"
-    #
-    return call <code>R&#35;.interop_[dbget::ShowOrganism]</code>(...);
+    return call <code>R&#35;.interop_[Enzymatic::QueryReaction]</code>(...);
 }</p></pre>
 
                     
