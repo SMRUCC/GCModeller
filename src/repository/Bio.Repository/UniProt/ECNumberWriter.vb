@@ -20,7 +20,7 @@ Public Class ECNumberWriter : Implements IDisposable
     Private disposedValue As Boolean
 
     Sub New(file As Stream)
-        stream = New StreamPack(file, init_size:=4096, meta_size:=1024 * 1024 * 32)
+        stream = New StreamPack(file, init_size:=4096, meta_size:=1024 * 1024 * 128)
     End Sub
 
     Public Sub AddProtein(protein As entry)
@@ -35,7 +35,7 @@ Public Class ECNumberWriter : Implements IDisposable
                 Dim ec As String = number.id
                 Dim tokens As String() = ec.Split("."c)
                 Dim rootName As String = rootNames(tokens(Scan0))
-                Dim path As String = $"/{rootName}/{tokens.Skip(1).JoinBy("/")}/{uniqueId}.txt"
+                Dim path As String = $"/enzyme/{rootName}/{tokens.Skip(1).JoinBy("/")}/{uniqueId}.txt"
 
                 Call stream.WriteText(seq, path, Encodings.ASCII)
             Next

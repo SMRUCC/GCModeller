@@ -37,9 +37,15 @@ Public Class ECNumberReader : Implements IDisposable
 
     Public Iterator Function QueryFasta(Optional q As String = "*") As IEnumerable(Of FastaSeq)
         If q = "*" Then
-            For Each file As StreamBlock In stream.files
+            For Each file As StreamBlock In DirectCast(stream.GetObject("/enzyme/"), StreamGroup) _
+                .ListFiles _
+                .Where(Function(f)
+                           Return TypeOf f Is StreamBlock
+                       End Function)
+
                 Dim seq As String = New StreamReader(stream.OpenBlock(file)).ReadToEnd
-                Dim tokens = file.fullName.Trim("/"c).Split("/"c)
+                ' first element tag is the enzyme folder name
+                Dim tokens = file.fullName.Trim("/"c).Split("/"c).Skip(1).ToArray
                 Dim classNumber = rootNames(tokens(0))
                 Dim ECNumber = classNumber & "." & tokens.Skip(1).Take(tokens.Length - 2).JoinBy(".")
                 Dim id As String = file.fileName.BaseName
