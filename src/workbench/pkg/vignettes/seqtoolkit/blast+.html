@@ -10,7 +10,7 @@
     <meta name="keywords" content="GCModeller; Xanthomonas; Artificial Life" />
     <meta name="generator" content="https://github.com/xieguigang/xDoc" />
     <meta name="theme-color" content="#333" />
-    <meta name="last-update" content="2022-10-28" />
+    <meta name="last-update" content="2022-10-31" />
     <meta name="description" content="A software system aim at Artificial Life system design and analysis." />
     <meta class="foundation-data-attribute-namespace" />
     <meta class="foundation-mq-xxlarge" />
@@ -39,7 +39,7 @@
   </h2>
   <hr />
   <p>
-                      
+                    <p>Application to create BLAST databases</p>  
                 
                     <pre><p>let <code>makeblastdb</code> as function(<code>in</code> as string, <code>dbtype</code> as any = ["nucl","prot"], [<code>&lt;Environment&gt;</code>]) -> <code>any</code> {
     #
@@ -53,7 +53,20 @@
     return call <code>R&#35;.interop_[blastPlusInterop::makeblastdb]</code>(...);
 }</p></pre>
 
-                    
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>[in]</code>: Input file/database name
+                </li>
+<li>
+  <code>dbtype</code>: Molecule type of target db
+                </li>
+<li>
+  <code>env</code>: -
+                </li>
+                </ul>
+</div>
                        
                     
 
@@ -64,9 +77,14 @@
   </h2>
   <hr />
   <p>
-                      
+                    <p>Protein-Protein BLAST</p>  
                 
-                    <pre><p>let <code>blastp</code> as function() -> <code>any</code> {
+                    <pre><p>let <code>blastp</code> as function(<code>query</code> as string, 
+<code>subject</code> as string, 
+<code>output</code> as string, 
+<code>evalue</code> as double = 0.001, 
+<code>n_threads</code> as integer = 2, 
+[<code>&lt;Environment&gt;</code>]) -> <code>any</code> {
     #
     # .NET API information
     #
