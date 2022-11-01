@@ -66,6 +66,7 @@ Namespace ComponentModel.Algorithm
 
         ReadOnly sequence As (index As Integer, key As K, T)()
         ReadOnly order As Comparison(Of K)
+        ReadOnly fuzzy As Boolean = False
 
         Friend ReadOnly rawOrder As T()
 
@@ -85,7 +86,11 @@ Namespace ComponentModel.Algorithm
             End Get
         End Property
 
-        Sub New(source As IEnumerable(Of T), key As Func(Of T, K), compares As Comparison(Of K))
+        Sub New(source As IEnumerable(Of T),
+                key As Func(Of T, K),
+                compares As Comparison(Of K),
+                Optional allowFuzzy As Boolean = False)
+
             order = compares
             rawOrder = source.ToArray
             sequence = rawOrder _
@@ -96,6 +101,7 @@ Namespace ComponentModel.Algorithm
                                 key:=Function(i) i.Item2
                             )
                         End Function)
+            fuzzy = allowFuzzy
         End Sub
 
         ''' <summary>
@@ -141,6 +147,8 @@ Namespace ComponentModel.Algorithm
                 Return sequence(min).index
             ElseIf 0 = order(sequence(max).key, target) Then
                 Return sequence(max).index
+            ElseIf fuzzy Then
+                Return x.index
             Else
                 Return -1
             End If
