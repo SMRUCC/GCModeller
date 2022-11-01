@@ -151,6 +151,11 @@ Namespace Assembly.Uniprot.XML
         End Property
 
         <XmlElement("reference")> Public Property references As reference()
+
+        ''' <summary>
+        ''' indexed by <see cref="comment.type"/>
+        ''' </summary>
+        ''' <returns></returns>
         <XmlIgnore>
         Public ReadOnly Property CommentList As Dictionary(Of String, comment())
 

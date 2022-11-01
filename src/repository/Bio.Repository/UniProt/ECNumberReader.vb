@@ -1,5 +1,7 @@
 ﻿Imports System.IO
+Imports Microsoft.VisualBasic.DataStorage.HDSPack
 Imports Microsoft.VisualBasic.DataStorage.HDSPack.FileSystem
+Imports Microsoft.VisualBasic.Serialization.Bencoding
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
@@ -18,11 +20,32 @@ Public Class ECNumberReader : Implements IDisposable
         Me.stream = New StreamPack(file, [readonly]:=True)
     End Sub
 
+    Public Function GetSubcellularLocations() As Dictionary(Of String, String())
+        Dim btext As String = stream.ReadText("/subcellularLocation.txt")
+        Dim bnodes As BDictionary = BencodeDecoder.Decode(btext)(0)
+        Dim list As New Dictionary(Of String, String())
+
+        For Each key As BString In bnodes.Keys
+            list(key.Value) = bnodes(key) _
+                .ToList _
+                .Select(Function(str) DirectCast(str, BString).Value) _
+                .ToArray
+        Next
+
+        Return list
+    End Function
+
     Public Iterator Function QueryFasta(Optional q As String = "*") As IEnumerable(Of FastaSeq)
         If q = "*" Then
-            For Each file As StreamBlock In stream.files
+            For Each file As StreamBlock In DirectCast(stream.GetObject("/enzyme/"), StreamGroup) _
+                .ListFiles _
+                .Where(Function(f)
+                           Return TypeOf f Is StreamBlock
+                       End Function)
+
                 Dim seq As String = New StreamReader(stream.OpenBlock(file)).ReadToEnd
-                Dim tokens = file.fullName.Trim("/"c).Split("/"c)
+                ' first element tag is the enzyme folder name
+                Dim tokens = file.fullName.Trim("/"c).Split("/"c).Skip(1).ToArray
                 Dim classNumber = rootNames(tokens(0))
                 Dim ECNumber = classNumber & "." & tokens.Skip(1).Take(tokens.Length - 2).JoinBy(".")
                 Dim id As String = file.fileName.BaseName
