@@ -55,6 +55,8 @@
 #End Region
 
 Imports System.IO
+Imports System.Runtime.CompilerServices
+Imports stdNum = System.Math
 
 Namespace ApplicationServices
 
@@ -74,18 +76,21 @@ Namespace ApplicationServices
         ReadOnly buffer_size As Integer
 
         Public Overrides ReadOnly Property CanRead As Boolean
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return True
             End Get
         End Property
 
         Public Overrides ReadOnly Property CanSeek As Boolean
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return True
             End Get
         End Property
 
         Public Overrides ReadOnly Property CanWrite As Boolean
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return False
             End Get
@@ -96,6 +101,7 @@ Namespace ApplicationServices
         ''' </summary>
         ''' <returns></returns>
         Public Overrides ReadOnly Property Length As Long
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return Aggregate ms As MemoryStream
                        In pool
@@ -103,12 +109,20 @@ Namespace ApplicationServices
             End Get
         End Property
 
+        Dim p As Long
+        ''' <summary>
+        ''' the block index of <see cref="pool"/>.
+        ''' </summary>
+        Dim block As Integer
+
         Public Overrides Property Position As Long
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Throw New NotImplementedException()
+                Return p
             End Get
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Set(value As Long)
-                Throw New NotImplementedException()
+                Call Seek(value, SeekOrigin.Begin)
             End Set
         End Property
 
@@ -117,6 +131,10 @@ Namespace ApplicationServices
             Me.buffer_size = size
         End Sub
 
+        Public Overrides Function ToString() As String
+            Return $"[{Position}/{Length}, block_numbers={pool.Length}, buffer_size={buffer_size} Byte] current_section={block}, section_offset={pool(block).Position}"
+        End Function
+
         Public Overrides Sub Flush()
             For Each ms As MemoryStream In pool
                 Call ms.Flush()
@@ -124,19 +142,44 @@ Namespace ApplicationServices
         End Sub
 
         Public Overrides Sub SetLength(value As Long)
-            Throw New NotImplementedException()
+            Throw New InvalidProgramException("is a readonly stream!")
         End Sub
 
         Public Overrides Sub Write(buffer() As Byte, offset As Integer, count As Integer)
-            Throw New NotImplementedException()
+            Throw New InvalidProgramException("is a readonly stream!")
         End Sub
 
         Public Overrides Function Read(buffer() As Byte, offset As Integer, count As Integer) As Integer
-            Throw New NotImplementedException()
+            Dim current As MemoryStream = pool(block)
+            Dim buffer_size As Long = If(current.Length < Me.buffer_size, current.Length, Me.buffer_size)
+            Dim [end] As Long = count + current.Position
+
+            If [end] > buffer_size Then
+                Throw New NotImplementedException()
+            Else
+                Call pool(block).Read(buffer, offset, count)
+            End If
+
+            Call Seek(count, SeekOrigin.Current)
+
+            Return count
         End Function
 
         Public Overrides Function Seek(offset As Long, origin As SeekOrigin) As Long
-            Throw New NotImplementedException()
+            Select Case origin
+                Case SeekOrigin.Current : offset += Position
+                Case SeekOrigin.End : offset += Length
+                Case Else
+                    ' from scan0, no transform
+            End Select
+
+            block = stdNum.Floor(offset / buffer_size)
+            p = offset
+            offset = offset - buffer_size * block
+
+            Call pool(block).Seek(offset, loc:=SeekOrigin.Begin)
+
+            Return Position
         End Function
 
         ''' <summary>
@@ -165,6 +208,14 @@ Namespace ApplicationServices
 
                     If file.Length - file.Position < buffer_size Then
                         size = file.Length - file.Position
+                        buffer = New Byte(size - 1) {}
+                    Else
+                        ' 20221101 the memorystream object just assign
+                        ' the input array into the internal variable
+                        ' directly
+                        ' we needs to create a new array to break the 
+                        ' class object reference
+                        buffer = New Byte(size - 1) {}
                     End If
                 Loop
             End If
