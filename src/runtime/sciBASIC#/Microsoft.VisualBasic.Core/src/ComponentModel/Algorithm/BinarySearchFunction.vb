@@ -70,16 +70,25 @@ Namespace ComponentModel.Algorithm
 
         Friend ReadOnly rawOrder As T()
 
+        ''' <summary>
+        ''' negative index value means read from reverse seqeucne
+        ''' </summary>
+        ''' <param name="i"></param>
+        ''' <returns></returns>
         Default Public ReadOnly Property Item(i As Integer) As T
             Get
-                If i = -1 Then
-                    Return Nothing
+                If i < 0 Then
+                    Return rawOrder(rawOrder.Length + i)
                 Else
                     Return rawOrder(i)
                 End If
             End Get
         End Property
 
+        ''' <summary>
+        ''' the length of the input sequence data
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property size As Integer
             Get
                 Return rawOrder.Length
