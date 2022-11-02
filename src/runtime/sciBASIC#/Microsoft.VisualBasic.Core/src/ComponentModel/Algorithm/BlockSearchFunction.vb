@@ -142,7 +142,7 @@ Namespace ComponentModel.Algorithm
         ''' <param name="tolerance"></param>
         ''' <param name="factor"></param>
         ''' <param name="fuzzy">
-        ''' 20221101        ''' 
+        ''' 20221101       
         ''' works for the continues numeric sequence
         ''' </param>
         Sub New(data As IEnumerable(Of T),
