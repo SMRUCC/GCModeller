@@ -35,7 +35,44 @@ Public Class ECNumberReader : Implements IDisposable
         Return list
     End Function
 
-    Public Iterator Function QueryFasta(Optional q As String = "*") As IEnumerable(Of FastaSeq)
+    Public Function QueryFasta(Optional q As String = "*", Optional enzymeQuery As Boolean = True) As IEnumerable(Of FastaSeq)
+        If enzymeQuery Then
+            Return QueryEnzymeFasta(q)
+        Else
+            Return QuerySubcellularFasta(q)
+        End If
+    End Function
+
+    Public Iterator Function QuerySubcellularFasta(Optional q As String = "*") As IEnumerable(Of FastaSeq)
+        If q = "*" Then
+            Dim locations = GetSubcellularLocations()
+
+            For Each file As StreamBlock In DirectCast(stream.GetObject("/enzyme/"), StreamGroup) _
+                .ListFiles _
+                .Where(Function(f)
+                           Return TypeOf f Is StreamBlock
+                       End Function)
+
+                Dim seq As String = New StreamReader(stream.OpenBlock(file)).ReadToEnd
+                Dim id As String = file.fileName.BaseName
+
+                If Not locations.ContainsKey(id) Then
+                    Continue For
+                End If
+
+                For Each tag As String In locations(id)
+                    Yield New FastaSeq With {
+                        .Headers = {tag, id},
+                        .SequenceData = seq
+                    }
+                Next
+            Next
+        Else
+            Throw New NotImplementedException
+        End If
+    End Function
+
+    Public Iterator Function QueryEnzymeFasta(Optional q As String = "*") As IEnumerable(Of FastaSeq)
         If q = "*" Then
             For Each file As StreamBlock In DirectCast(stream.GetObject("/enzyme/"), StreamGroup) _
                 .ListFiles _
