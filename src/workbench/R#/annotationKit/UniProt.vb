@@ -46,7 +46,7 @@ Public Module UniProt
     End Function
 
     <ExportAPI("extract_fasta")>
-    Public Function ExtractFasta(pack As ECNumberReader) As FastaFile
-        Return New FastaFile(pack.QueryFasta)
+    Public Function ExtractFasta(pack As ECNumberReader, Optional enzyme As Boolean = True) As FastaFile
+        Return New FastaFile(pack.QueryFasta(enzymeQuery:=enzyme))
     End Function
 End Module
