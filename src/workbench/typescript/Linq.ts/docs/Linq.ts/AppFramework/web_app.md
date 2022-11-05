@@ -1,2 +1,0 @@
-# Linq.js WebApp Framework
-
