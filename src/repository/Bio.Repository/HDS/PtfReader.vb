@@ -2,6 +2,7 @@
 Imports Microsoft.VisualBasic.Data.IO
 Imports Microsoft.VisualBasic.DataStorage.HDSPack
 Imports Microsoft.VisualBasic.DataStorage.HDSPack.FileSystem
+Imports Microsoft.VisualBasic.My.FrameworkInternal
 Imports Microsoft.VisualBasic.Serialization.Bencoding
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Annotation.Ptf
@@ -9,6 +10,7 @@ Imports SMRUCC.genomics.Annotation.Ptf
 Public Class PtfReader : Implements IDisposable
 
     ReadOnly stream As StreamPack
+    ReadOnly cache As New Dictionary(Of String, ProteinAnnotation)
 
     Private disposedValue As Boolean
 
@@ -27,16 +29,28 @@ Public Class PtfReader : Implements IDisposable
     End Function
 
     Public Function GetAnnotation(id As String) As ProteinAnnotation
+        If App.MemoryLoad <> MemoryLoads.Light Then
+            If cache.ContainsKey(id) Then
+                Return cache(id)
+            End If
+        End If
+
         Dim path As String = $"/annotation/{id}.ptf"
         Dim file As StreamObject = stream.GetObject(path)
 
         If file Is Nothing Then
             Return Nothing
         Else
-            Return ReadBytes(New BinaryDataReader(stream.OpenBlock(file)) With {
+            Dim info As ProteinAnnotation = ReadBytes(New BinaryDataReader(stream.OpenBlock(file)) With {
                 .ByteOrder = ByteOrder.BigEndian,
                 .Encoding = Encodings.ASCII.CodePage
             })
+
+            If App.MemoryLoad <> MemoryLoads.Light Then
+                Call cache.Add(id, info)
+            End If
+
+            Return info
         End If
     End Function
 
