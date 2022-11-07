@@ -194,5 +194,20 @@ Namespace ComponentModel.EquaionModel.DefaultTypes
                 Call ms.Write(CByte(0))
             Next
         End Sub
+
+        Private Shared Iterator Function ReadMetabolite(file As BinaryReader) As IEnumerable(Of CompoundSpecieReference)
+
+        End Function
+
+        Public Shared Function ParseBuffer(buffer As Stream) As Equation
+            Using file As New BinaryReader(buffer)
+                Dim id As String = file.ReadStringZero(Encoding.ASCII)
+                Dim is_reverse As Boolean = file.ReadByte > 0
+                Dim left As CompoundSpecieReference() = ReadMetabolite(file).ToArray
+                Dim right As CompoundSpecieReference() = ReadMetabolite(file).ToArray
+
+                Return New Equation(left, right, is_reverse) With {.Id = id}
+            End Using
+        End Function
     End Class
 End Namespace
