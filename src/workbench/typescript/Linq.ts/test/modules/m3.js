@@ -1,1 +1,0 @@
-console.log("script3 is loaded!");
