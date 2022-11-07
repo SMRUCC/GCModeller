@@ -196,7 +196,21 @@ Namespace ComponentModel.EquaionModel.DefaultTypes
         End Sub
 
         Private Shared Iterator Function ReadMetabolite(file As BinaryReader) As IEnumerable(Of CompoundSpecieReference)
+            Dim size As Integer = file.ReadInt32
 
+            For i As Integer = 0 To size - 1
+                Dim id As String = file.ReadStringZero(Encoding.ASCII)
+                Dim compartment As String = file.ReadStringZero(Encoding.ASCII)
+                Dim factor As Double = file.ReadDouble
+
+                Call file.ReadByte()
+
+                Yield New CompoundSpecieReference With {
+                    .Compartment = compartment,
+                    .ID = id,
+                    .StoiChiometry = factor
+                }
+            Next
         End Function
 
         Public Shared Function ParseBuffer(buffer As Stream) As Equation
