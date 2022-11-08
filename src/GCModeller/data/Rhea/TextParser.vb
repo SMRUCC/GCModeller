@@ -63,6 +63,8 @@ Public Module TextParser
                 .equation = Reaction.EquationParser(list!EQUATION)
             }
 
+            obj.equation.Id = list!ENTRY
+
             If list.ContainsKey("ENZYME") Then
                 obj.enzyme = (list!ENZYME).Split
             End If
