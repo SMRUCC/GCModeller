@@ -32,6 +32,11 @@ Module Enzymatic
         Return TextParser.ParseReactions(file.ReadAllLines).DoCall(AddressOf pipeline.CreateFromPopulator)
     End Function
 
+    <ExportAPI("open.rhea")>
+    Public Function openRheaQuery(repo As String) As Object
+        Return New RheaNetworkReader(repo.Open(FileMode.Open, doClear:=False, [readOnly]:=True))
+    End Function
+
     <ExportAPI("imports_rhea")>
     Public Function ImportsRhea(<RRawVectorArgument>
                                 rhea As Object,
@@ -45,14 +50,13 @@ Module Enzymatic
         End If
 
         Using file As Stream = New FileStream(repo, FileMode.OpenOrCreate)
-            Dim fs As New StreamPack(file, meta_size:=32 * 1024 * 1024)
-            Dim writer As New RheaNetworkWriter(fs)
+            Dim writer As New RheaNetworkWriter(New StreamPack(file, meta_size:=32 * 1024 * 1024))
 
             For Each reaction As Rhea.Reaction In reactions.populates(Of Rhea.Reaction)(env)
                 Call writer.AddReaction(reaction)
             Next
 
-            Call fs.Dispose()
+            Call writer.Dispose()
         End Using
 
         Return Nothing
