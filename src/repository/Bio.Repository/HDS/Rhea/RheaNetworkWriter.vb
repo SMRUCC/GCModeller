@@ -20,11 +20,13 @@ Public Class RheaNetworkWriter
 
         Call file.Write(reaction.entry)
         Call file.Write(reaction.definition)
-        Call file.Write(reaction.enzyme.ToBEncode.ToBencodedString)
+        Call file.Write(If(reaction.enzyme, {}).ToBEncode.ToBencodedString)
         Call file.Write(eq.Length)
         Call file.Write(eq)
         Call file.Flush()
-        Call file.Dispose()
+        ' 20221108 dispose the file writer will also dispose the stream pack object
+        ' so we removes this code, just needs to flush data
+        ' Call file.Dispose()
         Call pack.Dispose()
     End Sub
 
