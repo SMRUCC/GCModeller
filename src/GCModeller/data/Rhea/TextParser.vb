@@ -32,9 +32,13 @@ Public Module TextParser
             Dim tag As String = Mid(line, 1, 12).Trim
             Dim value As String = Mid(line, 13).Trim
 
-            If Not tag.StringEmpty AndAlso Not key.StringEmpty Then
-                data.Add(key, sb.ToString)
-                sb.Clear()
+            If Not tag.StringEmpty Then
+                If Not key.StringEmpty Then
+                    data.Add(key, sb.ToString)
+                    sb.Clear()
+                End If
+
+                sb.Append(value)
                 key = tag
             Else
                 Call sb.Append(" ")
