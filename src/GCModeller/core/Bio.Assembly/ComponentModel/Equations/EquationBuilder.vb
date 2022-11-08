@@ -113,7 +113,8 @@ Namespace ComponentModel.EquaionModel
             Return CreateObject(Of DefaultTypes.CompoundSpecieReference, DefaultTypes.Equation)(Equation)
         End Function
 
-        <Extension> Private Function GetSides(Of T As ICompoundSpecies)(expr As String) As T()
+        <Extension>
+        Private Function GetSides(Of T As ICompoundSpecies)(expr As String) As T()
             If String.IsNullOrEmpty(expr) Then
                 Return New T() {}
             End If

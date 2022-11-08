@@ -1,8 +1,9 @@
-﻿Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
+﻿Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 
-Public Class Reaction
+Public Class Reaction : Implements INamedValue
 
-    Public Property entry As String
+    Public Property entry As String Implements INamedValue.Key
     Public Property definition As String
     Public Property equation As Equation
     Public Property enzyme As String()
