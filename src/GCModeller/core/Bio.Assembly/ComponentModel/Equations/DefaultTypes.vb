@@ -188,7 +188,7 @@ Namespace ComponentModel.EquaionModel.DefaultTypes
             For Each factor As CompoundSpecieReference In list
                 Call ms.Write(Encoding.ASCII.GetBytes(factor.ID))
                 Call ms.Write(CByte(0))
-                Call ms.Write(Encoding.ASCII.GetBytes(factor.Compartment))
+                Call ms.Write(Encoding.ASCII.GetBytes(If(factor.Compartment, "")))
                 Call ms.Write(CByte(0))
                 Call ms.Write(factor.StoiChiometry)
                 Call ms.Write(CByte(0))
