@@ -1,6 +1,7 @@
 ﻿Imports System.IO
 Imports Microsoft.VisualBasic.DataStorage.HDSPack
 Imports Microsoft.VisualBasic.DataStorage.HDSPack.FileSystem
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Annotation.Ptf
 Imports SMRUCC.genomics.Data
@@ -30,6 +31,13 @@ Public Class ProjectWriter : Implements IDisposable
 
         ' save fasta sequence pack
         Call stream.WriteText(New FastaFile(fasta).Generate, "/workspace/protein_set.fasta", Encodings.ASCII)
+    End Sub
+
+    Public Sub WriteMetabolicNetwork(compartment As String, enzymes As IEnumerable(Of Enzyme))
+        Dim path As String = $"/metabolic/{compartment}.json"
+        Dim json As String = enzymes.ToArray.GetJson
+
+        Call stream.WriteText(json, path)
     End Sub
 
     Protected Overridable Sub Dispose(disposing As Boolean)

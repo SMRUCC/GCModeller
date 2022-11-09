@@ -1,54 +1,54 @@
 ﻿#Region "Microsoft.VisualBasic::91db6be46db454ee681dac3770039e30, GCModeller\core\Bio.Assembly\ComponentModel\Equations\EquationBuilder.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 161
-    '    Code Lines: 115
-    ' Comment Lines: 18
-    '   Blank Lines: 28
-    '     File Size: 7.34 KB
+' Summaries:
 
 
-    '     Module EquationBuilder
-    ' 
-    '         Function: __tryParse, (+2 Overloads) CreateObject, GetSides, (+4 Overloads) ToString
-    ' 
-    '         Sub: __appendSide, (+2 Overloads) AppendSides
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 161
+'    Code Lines: 115
+' Comment Lines: 18
+'   Blank Lines: 28
+'     File Size: 7.34 KB
+
+
+'     Module EquationBuilder
+' 
+'         Function: __tryParse, (+2 Overloads) CreateObject, GetSides, (+4 Overloads) ToString
+' 
+'         Sub: __appendSide, (+2 Overloads) AppendSides
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -70,34 +70,57 @@ Namespace ComponentModel.EquaionModel
         ''' 不可逆的代谢反应过程的箭头
         ''' </summary>
         Public Const EQUATION_DIRECTIONS_INREVERSIBLE As String = " --> "
+        Public Const EQUATION_DIRECTIONS_RIGHT_TO_LEFT As String = " <-- "
         Public Const EQUATION_SPECIES_CONNECTOR As String = " + "
+
+        Private Function MeasureDelimiter(eq_str As String) As (direction As Integer, delimiter As String)
+            If InStr(eq_str, EQUATION_DIRECTIONS_REVERSIBLE) > 0 Then
+                Return (0, EQUATION_DIRECTIONS_REVERSIBLE)
+            ElseIf InStr(eq_str, EQUATION_DIRECTIONS_INREVERSIBLE) > 0 Then
+                Return (1, EQUATION_DIRECTIONS_INREVERSIBLE)
+            ElseIf InStr(eq_str, " => ") > 0 Then
+                Return (1, " => ")
+            ElseIf InStr(eq_str, EQUATION_DIRECTIONS_RIGHT_TO_LEFT) > 0 Then
+                Return (-1, EQUATION_DIRECTIONS_RIGHT_TO_LEFT)
+            ElseIf InStr(eq_str, " <= ") > 0 Then
+                Return (-1, " <= ")
+            ElseIf InStr(eq_str, " = ") > 0 Then
+                Return (0, " = ")
+            Else
+                Throw New NotImplementedException(eq_str)
+            End If
+        End Function
 
         ''' <summary>
         ''' 从代谢过程的表达式字符串值创建代谢过程的对象模型
         ''' </summary>
         ''' <typeparam name="TCompound"></typeparam>
         ''' <typeparam name="TEquation"></typeparam>
-        ''' <param name="Equation"></param>
+        ''' <param name="eqStr"></param>
         ''' <returns></returns>
         <Extension>
-        Public Function CreateObject(Of TCompound As ICompoundSpecies, TEquation As IEquation(Of TCompound))(Equation As String) As TEquation
+        Public Function CreateObject(Of TCompound As ICompoundSpecies, TEquation As IEquation(Of TCompound))(eqStr As String) As TEquation
             With Activator.CreateInstance(Of TEquation)()
-                Dim reversible = InStr(Equation, EQUATION_DIRECTIONS_REVERSIBLE) > 0
-                Dim deli As String = EQUATION_DIRECTIONS_INREVERSIBLE Or EQUATION_DIRECTIONS_REVERSIBLE.When(reversible)
-                Dim tokens As String() = Strings.Split(Equation, deli)
+                Dim deli = MeasureDelimiter(eq_str:=eqStr)
+                Dim tokens As String() = Strings.Split(eqStr, deli.delimiter)
 
                 If tokens.Length < 2 Then
-                    Throw New FormatException($"Invalid format text: {Equation}, it should be in syntax like: left <=> right.")
+                    Throw New FormatException($"Invalid format text: {eqStr}, it should be in syntax like: left <=> right.")
                 End If
 
                 Try
-                    .Reversible = reversible
+                    .Reversible = deli.direction = 0
                     .Reactants = tokens(left).GetSides(Of TCompound)()
                     .Products = tokens(right).GetSides(Of TCompound)()
+
+                    If deli.direction = -1 Then
+                        ' a <- b
+                        ' swap list data
+                        .Reactants.Swap(.Products)
+                    End If
                 Catch ex As Exception
                     ' 生成字典的时候可能会因为重复的代谢物而出错
-                    Dim msg As String = String.Format(Duplicated, Equation)
-                    Throw New Exception(msg, ex)
+                    Throw New Exception(String.Format(Duplicated, eqStr), ex)
                 End Try
 
                 Return .ByRef
@@ -113,7 +136,8 @@ Namespace ComponentModel.EquaionModel
             Return CreateObject(Of DefaultTypes.CompoundSpecieReference, DefaultTypes.Equation)(Equation)
         End Function
 
-        <Extension> Private Function GetSides(Of T As ICompoundSpecies)(expr As String) As T()
+        <Extension>
+        Private Function GetSides(Of T As ICompoundSpecies)(expr As String) As T()
             If String.IsNullOrEmpty(expr) Then
                 Return New T() {}
             End If
@@ -196,7 +220,7 @@ Namespace ComponentModel.EquaionModel
         Private Sub __appendSide(Of T)(compounds As IEnumerable(Of T), sb As StringBuilder, getSto As Func(Of T, Double), getId As Func(Of T, String))
             If Not compounds Is Nothing Then
                 Dim array$() = LinqAPI.Exec(Of String) _
- _
+                                                       _
                     () <= From cp As T
                           In compounds
                           Let sto As Double = getSto(cp)

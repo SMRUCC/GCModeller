@@ -1,64 +1,66 @@
 ﻿#Region "Microsoft.VisualBasic::a4c472066a3866a5eb80db68a22e5662, GCModeller\core\Bio.Assembly\ComponentModel\Equations\DefaultTypes.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 105
-    '    Code Lines: 80
-    ' Comment Lines: 8
-    '   Blank Lines: 17
-    '     File Size: 4.07 KB
+' Summaries:
 
 
-    '     Class CompoundSpecieReference
-    ' 
-    '         Properties: Compartment, ID, StoiChiometry
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    '         Function: AsFactor, Equals, ToString
-    ' 
-    '     Class Equation
-    ' 
-    '         Constructor: (+3 Overloads) Sub New
-    '         Function: __equals, GetCoEfficient, TryParse
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 105
+'    Code Lines: 80
+' Comment Lines: 8
+'   Blank Lines: 17
+'     File Size: 4.07 KB
+
+
+'     Class CompoundSpecieReference
+' 
+'         Properties: Compartment, ID, StoiChiometry
+' 
+'         Constructor: (+2 Overloads) Sub New
+'         Function: AsFactor, Equals, ToString
+' 
+'     Class Equation
+' 
+'         Constructor: (+3 Overloads) Sub New
+'         Function: __equals, GetCoEfficient, TryParse
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.IO
 Imports System.Runtime.CompilerServices
+Imports System.Text
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.TagData
 Imports Microsoft.VisualBasic.Linq
@@ -160,6 +162,66 @@ Namespace ComponentModel.EquaionModel.DefaultTypes
 
         Protected Overrides Function __equals(a As CompoundSpecieReference, b As CompoundSpecieReference, strict As Boolean) As Object
             Return a.Equals(b, strict)
+        End Function
+
+        ''' <summary>
+        ''' save the given equation model as byte stream
+        ''' </summary>
+        ''' <param name="eq"></param>
+        ''' <returns></returns>
+        Public Shared Function GetBuffer(eq As Equation) As Byte()
+            Using ms As New MemoryStream, file As New BinaryWriter(ms)
+                Call file.Write(Encoding.ASCII.GetBytes(eq.Id))
+                Call file.Write(CByte(0))
+                Call file.Write(CByte(If(eq.reversible, 1, 0)))
+                Call SaveMetabolite(file, eq.Reactants)
+                Call SaveMetabolite(file, eq.Products)
+                Call file.Flush()
+
+                Return ms.ToArray
+            End Using
+        End Function
+
+        Private Shared Sub SaveMetabolite(ms As BinaryWriter, list As CompoundSpecieReference())
+            Call ms.Write(list.Length)
+
+            For Each factor As CompoundSpecieReference In list
+                Call ms.Write(Encoding.ASCII.GetBytes(factor.ID))
+                Call ms.Write(CByte(0))
+                Call ms.Write(Encoding.ASCII.GetBytes(If(factor.Compartment, "")))
+                Call ms.Write(CByte(0))
+                Call ms.Write(factor.StoiChiometry)
+                Call ms.Write(CByte(0))
+            Next
+        End Sub
+
+        Private Shared Iterator Function ReadMetabolite(file As BinaryReader) As IEnumerable(Of CompoundSpecieReference)
+            Dim size As Integer = file.ReadInt32
+
+            For i As Integer = 0 To size - 1
+                Dim id As String = file.ReadStringZero(Encoding.ASCII)
+                Dim compartment As String = file.ReadStringZero(Encoding.ASCII)
+                Dim factor As Double = file.ReadDouble
+
+                Call file.ReadByte()
+
+                Yield New CompoundSpecieReference With {
+                    .Compartment = compartment,
+                    .ID = id,
+                    .StoiChiometry = factor
+                }
+            Next
+        End Function
+
+        Public Shared Function ParseBuffer(buffer As Stream) As Equation
+            Using file As New BinaryReader(buffer)
+                Dim id As String = file.ReadStringZero(Encoding.ASCII)
+                Dim is_reverse As Boolean = file.ReadByte > 0
+                Dim left As CompoundSpecieReference() = ReadMetabolite(file).ToArray
+                Dim right As CompoundSpecieReference() = ReadMetabolite(file).ToArray
+
+                Return New Equation(left, right, is_reverse) With {.Id = id}
+            End Using
         End Function
     End Class
 End Namespace
