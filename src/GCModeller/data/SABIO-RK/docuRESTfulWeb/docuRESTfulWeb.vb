@@ -60,7 +60,11 @@ Public Module docuRESTfulWeb
     ''' </summary>
     ''' <param name="id"></param>
     ''' <returns></returns>
-    Public Function getModelById(id As String, Optional level As Integer = 2, Optional version As Integer = 3, Optional annotation As String = "identifier") As SabiorkSBML
+    Public Function getModelById(id As String,
+                                 Optional level As Integer = 2,
+                                 Optional version As Integer = 3,
+                                 Optional annotation As String = "identifier") As SabiorkSBML
+
         Dim url = SabiorkSBML.URL_SABIORK_KINETIC_LAWS_QUERY & id
         Dim sbml As String = url.GET
 

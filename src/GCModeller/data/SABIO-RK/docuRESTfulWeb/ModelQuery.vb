@@ -51,31 +51,28 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports sbXML = SMRUCC.genomics.Model.SBML.Level3.XmlFile(Of SMRUCC.genomics.Data.SABIORK.SBML.SBMLReaction)
 
-Public Class ModelQuery : Inherits WebQuery(Of Dictionary(Of QueryFields, String))
+Public Class ModelQuery : Inherits WebQueryModule(Of Dictionary(Of QueryFields, String))
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Sub New(<CallerMemberName>
                    Optional cache As String = Nothing,
                    Optional interval As Integer = -1,
                    Optional offline As Boolean = False)
 
-        MyBase.New(
-            url:=AddressOf CreateQueryURL,
-            contextGuid:=AddressOf cacheGuid,
-            parser:=AddressOf parseSBML,
-            prefix:=Function(guid) guid.First,
-            cache:=cache,
-            interval:=interval,
-            offline:=offline
-        )
+        Call MyBase.New(cache, interval, offline)
     End Sub
 
-    Private Shared Function cacheGuid(q As Dictionary(Of QueryFields, String)) As String
-        Return q.GetJson.MD5
-    End Function
+    Public Sub New(cache As IFileSystemEnvironment,
+                   Optional interval As Integer = -1,
+                   Optional offline As Boolean = False)
+
+        Call MyBase.New(cache, interval, offline)
+    End Sub
 
     Public Shared Function CreateQueryURL(q As Dictionary(Of QueryFields, String)) As String
         Dim searches As String() = q _
@@ -89,7 +86,23 @@ Public Class ModelQuery : Inherits WebQuery(Of Dictionary(Of QueryFields, String
         Return url
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Function parseSBML(xml As String, schema As Type) As Object
         Return xml.LoadFromXml(Of sbXML)(throwEx:=False)
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Protected Overrides Function doParseUrl(context As Dictionary(Of QueryFields, String)) As String
+        Return CreateQueryURL(q:=context)
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Protected Overrides Function doParseObject(html As String, schema As Type) As Object
+        Return parseSBML(html, schema)
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Protected Overrides Function doParseGuid(context As Dictionary(Of QueryFields, String)) As String
+        Return context.GetJson.MD5
     End Function
 End Class
