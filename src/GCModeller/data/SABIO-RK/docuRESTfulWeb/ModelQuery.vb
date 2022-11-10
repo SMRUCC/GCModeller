@@ -52,6 +52,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices
+Imports Microsoft.VisualBasic.FileIO
 Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports sbXML = SMRUCC.genomics.Model.SBML.Level3.XmlFile(Of SMRUCC.genomics.Data.SABIORK.SBML.SBMLReaction)
@@ -104,5 +105,13 @@ Public Class ModelQuery : Inherits WebQueryModule(Of Dictionary(Of QueryFields, 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Protected Overrides Function doParseGuid(context As Dictionary(Of QueryFields, String)) As String
         Return context.GetJson.MD5
+    End Function
+
+    Protected Overrides Function contextPrefix(guid As String) As String
+        If TypeOf cache Is Directory Then
+            Return guid.Substring(1, 2)
+        Else
+            Return $"/.cache/{guid.Substring(1, 2)}"
+        End If
     End Function
 End Class
