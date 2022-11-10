@@ -11,7 +11,7 @@ Public Class SabiorkRepository : Implements IDisposable
     Private disposedValue As Boolean
 
     Sub New(file As Stream)
-        Me.cache = New StreamPack(file, meta_size:=16 * 1024 * 1024, [readonly]:=False)
+        Me.cache = New StreamPack(file, meta_size:=32 * 1024 * 1024, [readonly]:=False)
         Me.webRequest = New ModelQuery(cache)
     End Sub
 
