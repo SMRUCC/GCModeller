@@ -11,6 +11,11 @@ Public Module sabiork_repository
         Return New SabiorkRepository(file.Open(FileMode.OpenOrCreate, doClear:=True))
     End Function
 
+    <ExportAPI("open")>
+    Public Function openRepository(file As String) As SabiorkRepository
+        Return New SabiorkRepository(file.Open(FileMode.OpenOrCreate, doClear:=False))
+    End Function
+
     <ExportAPI("query")>
     Public Function query(ec_number As String, cache As SabiorkRepository) As Object
         Return cache.GetByECNumber(ec_number)
