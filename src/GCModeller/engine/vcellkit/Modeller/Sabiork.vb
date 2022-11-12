@@ -1,7 +1,10 @@
 ﻿Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.MIME.Office.Excel.XML.xl.worksheets
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Data
+Imports SMRUCC.genomics.Data.SABIORK
+Imports sbXML = SMRUCC.genomics.Model.SBML.Level3.XmlFile(Of SMRUCC.genomics.Data.SABIORK.SBML.SBMLReaction)
 
 <Package("sabiork")>
 Public Module sabiork_repository
@@ -19,5 +22,12 @@ Public Module sabiork_repository
     <ExportAPI("query")>
     Public Function query(ec_number As String, cache As SabiorkRepository) As Object
         Return cache.GetByECNumber(ec_number)
+    End Function
+
+    <ExportAPI("parseSbml")>
+    Public Function parseSbml(data As String) As sbXML
+        Dim xml As String = data.LineIterators.JoinBy(vbLf)
+        Dim model As sbXML = ModelQuery.parseSBML(xml)
+        Return model
     End Function
 End Module
