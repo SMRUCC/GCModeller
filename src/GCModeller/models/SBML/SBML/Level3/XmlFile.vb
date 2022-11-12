@@ -123,7 +123,7 @@ Namespace Level3
         Public ReadOnly Property expression As String
             Get
                 Dim args = math.lambda.bvar.JoinBy(", ")
-                Dim exp = math.lambda.apply.ToString
+                Dim exp = MathML.Math.BuildExpressionString(math.lambda.apply)
                 Return $"{args} => {exp}"
             End Get
         End Property
