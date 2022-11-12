@@ -88,7 +88,7 @@ Public Class ModelQuery : Inherits WebQueryModule(Of Dictionary(Of QueryFields, 
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Shared Function parseSBML(xml As String, schema As Type) As Object
+    Public Shared Function parseSBML(xml As String, Optional schema As Type = Nothing) As Object
         Return xml.LoadFromXml(Of sbXML)(throwEx:=False)
     End Function
 
