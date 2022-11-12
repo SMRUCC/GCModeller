@@ -1,5 +1,6 @@
 ﻿Imports System.IO
 Imports Microsoft.VisualBasic.DataStorage.HDSPack.FileSystem
+Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.Data.SABIORK
 Imports sbXML = SMRUCC.genomics.Model.SBML.Level3.XmlFile(Of SMRUCC.genomics.Data.SABIORK.SBML.SBMLReaction)
 
@@ -7,12 +8,18 @@ Public Class SabiorkRepository : Implements IDisposable
 
     ReadOnly cache As StreamPack
     ReadOnly webRequest As ModelQuery
+    ReadOnly enzyme_class As Dictionary(Of String, String)
 
     Private disposedValue As Boolean
 
     Sub New(file As Stream)
         Me.cache = New StreamPack(file, meta_size:=32 * 1024 * 1024, [readonly]:=False)
         Me.webRequest = New ModelQuery(cache)
+        Me.enzyme_class = Enums(Of EnzymeClasses)() _
+            .ToDictionary(Function(c) CInt(c).ToString,
+                          Function(c)
+                              Return c.Description
+                          End Function)
     End Sub
 
     ''' <summary>
@@ -28,9 +35,19 @@ Public Class SabiorkRepository : Implements IDisposable
             {QueryFields.ECNumber, ec_number}
         }
         Dim result = webRequest.Query(Of sbXML)(q)
+        ' 20221112 andalso write kinetics model data 
+        ' to the repository package
+
+        If Not result Is Nothing Then
+            Call saveKineticsModel(model:=result)
+        End If
 
         Return result
     End Function
+
+    Private Sub saveKineticsModel(model As sbXML)
+
+    End Sub
 
     Protected Overridable Sub Dispose(disposing As Boolean)
         If Not disposedValue Then
