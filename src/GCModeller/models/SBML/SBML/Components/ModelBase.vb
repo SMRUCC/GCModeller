@@ -75,5 +75,9 @@ Namespace Components
         <Escaped>
         <XmlAttribute> Public Overridable Property id As String
         <XmlAttribute> Public Overridable Property name As String
+
+        Public Overrides Function ToString() As String
+            Return id
+        End Function
     End Class
 End Namespace

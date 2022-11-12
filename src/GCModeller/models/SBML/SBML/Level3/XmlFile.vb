@@ -110,12 +110,14 @@ Namespace Level3
         Public Property listOfReactions As T()
         Public Property listOfUnitDefinitions As unitDefinition()
         Public Property listOfFunctionDefinitions As functionDefinition()
+
     End Class
 
     Public Class functionDefinition : Inherits IPartsBase
 
         <XmlElement("math", [Namespace]:="http://www.w3.org/1998/Math/MathML")>
         Public Property math As MathML.Math
+
     End Class
 
     <XmlType("compartment", Namespace:="http://www.sbml.org/sbml/level3/version1/core")>
