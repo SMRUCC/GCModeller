@@ -58,10 +58,12 @@ Public Class SabiorkRepository : Implements IDisposable
         Dim pathDir As String = $"/{enzyme_class(numbers(Scan0).ToString)}/{numbers.Skip(1).JoinBy("/")}"
         Dim path As String
         Dim math As LambdaExpression
+        Dim mathId As String
 
         For Each rxn As SBMLReaction In model.sbml.model.listOfReactions
             path = $"{pathDir}/{rxn.id}.xml"
-            math = mathList(rxn.kineticLaw.metaid)
+            mathId = "KL_" & rxn.kineticLaw.annotation.sabiork.kineticLawID
+            math = mathList(mathId)
 
         Next
     End Sub
