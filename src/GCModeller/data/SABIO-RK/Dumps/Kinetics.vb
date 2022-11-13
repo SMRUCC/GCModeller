@@ -130,6 +130,19 @@ Namespace TabularDump
             Dim equation As String = doc.ToString(rxn, xrefs)
             Dim enzymes = doc.getEnzymes(rxn).ToArray
             Dim args As New Dictionary(Of String, String)
+            Dim ci As String() = rxn.kineticLaw.math.apply.ci
+            Dim locals = rxn.kineticLaw.listOfLocalParameters.ToDictionary(Function(l) l.id)
+
+            For i As Integer = 0 To ci.Length - 1
+                Dim name As String = math.parameters(i)
+                Dim ci_id As String = ci(i)
+
+                If locals.ContainsKey(ci_id) Then
+                    Dim local = locals(ci_id)
+                Else
+                    args.Add(name, ci_id)
+                End If
+            Next
 
             Return New EnzymeCatalystKineticLaw With {
                 .SabiorkId = rxn.kineticLaw.annotation.sabiork.kineticLawID,
