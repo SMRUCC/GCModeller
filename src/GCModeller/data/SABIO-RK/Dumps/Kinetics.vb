@@ -99,7 +99,7 @@ Namespace TabularDump
     ''' <remarks></remarks>
     Public Class EnzymeCatalystKineticLaw : Inherits SabiorkEntity
 
-        Public Property enzyme As String()
+        Public Property enzyme As Dictionary(Of String, String)
         Public Property reaction As String
         Public Property KEGGReactionId As String
         Public Property Ec_number As String
@@ -128,7 +128,7 @@ Namespace TabularDump
                 .ToArray
             Dim xrefs As Dictionary(Of String, String()) = Nothing
             Dim equation As String = doc.ToString(rxn, xrefs)
-            Dim enzymes = doc.getEnzymes(rxn).ToArray
+            Dim enzymes = doc.getEnzymes(rxn).ToDictionary(Function(e) e.id, Function(e) e.name)
             Dim args As New Dictionary(Of String, String)
             Dim ci As String() = rxn.kineticLaw.math.apply.ci _
                 .Select(AddressOf Strings.Trim) _
@@ -160,7 +160,7 @@ Namespace TabularDump
 
             Return New EnzymeCatalystKineticLaw With {
                 .SabiorkId = rxn.kineticLaw.annotation.sabiork.kineticLawID,
-                .Buffer = experiment.buffer,
+                .Buffer = experiment.buffer.Trim,
                 .PH = experiment.pHValue.startValuepH,
                 .Temperature = experiment.temperature.startValueTemperature,
                 .lambda = exp,
@@ -172,7 +172,7 @@ Namespace TabularDump
                 .reaction = equation,
                 .parameters = args,
                 .xref = xrefs,
-                .enzyme = enzymes.Select(Function(e) e.ToString).ToArray
+                .enzyme = enzymes
             }
         End Function
     End Class

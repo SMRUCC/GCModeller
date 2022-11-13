@@ -2,6 +2,7 @@
 Imports Microsoft.VisualBasic.DataStorage.HDSPack
 Imports Microsoft.VisualBasic.DataStorage.HDSPack.FileSystem
 Imports Microsoft.VisualBasic.MIME.application.xml.MathML
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.Data.SABIORK
 Imports SMRUCC.genomics.Data.SABIORK.SBML
@@ -62,12 +63,12 @@ Public Class SabiorkRepository : Implements IDisposable
         Dim path As String
         Dim math As LambdaExpression
         Dim mathId As String
-        Dim xml As String
+        Dim json As String
         Dim kineticisModel As EnzymeCatalystKineticLaw
         Dim indexer As New SBMLInternalIndexer(model)
 
         For Each rxn As SBMLReaction In model.sbml.model.listOfReactions
-            path = $"{pathDir}/{rxn.id}.xml"
+            path = $"{pathDir}/{rxn.id}.json"
             mathId = "KL_" & rxn.kineticLaw.annotation.sabiork.kineticLawID
             math = mathList(mathId)
 
@@ -75,11 +76,11 @@ Public Class SabiorkRepository : Implements IDisposable
                 Continue For
             Else
                 kineticisModel = EnzymeCatalystKineticLaw.Create(rxn, math, doc:=indexer)
-                xml = rxn.GetXml
+                json = rxn.GetJson
             End If
 
             Call cache.Delete(path)
-            Call cache.WriteText(xml, path)
+            Call cache.WriteText(json, path)
         Next
     End Sub
 
