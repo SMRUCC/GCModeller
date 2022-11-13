@@ -97,7 +97,7 @@ Namespace SBML
             Dim lambda = LambdaExpression.FromMathML(xml)
 
             If lambda Is Nothing Then
-                If lambda.parameters.Length = 4 AndAlso
+                If lambda.parameters.Length = 3 AndAlso
                     lambda.parameters.Any(Function(a) a = "Km") AndAlso
                     lambda.parameters.Any(Function(a) a = "kcat") AndAlso
                     lambda.parameters.Any(Function(a) a = "E") Then
