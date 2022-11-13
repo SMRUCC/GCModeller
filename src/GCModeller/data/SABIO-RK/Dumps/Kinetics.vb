@@ -130,15 +130,29 @@ Namespace TabularDump
             Dim equation As String = doc.ToString(rxn, xrefs)
             Dim enzymes = doc.getEnzymes(rxn).ToArray
             Dim args As New Dictionary(Of String, String)
-            Dim ci As String() = rxn.kineticLaw.math.apply.ci
+            Dim ci As String() = rxn.kineticLaw.math.apply.ci _
+                .Select(AddressOf Strings.Trim) _
+                .ToArray
             Dim locals = rxn.kineticLaw.listOfLocalParameters.ToDictionary(Function(l) l.id)
 
             For i As Integer = 0 To ci.Length - 1
                 Dim name As String = math.parameters(i)
-                Dim ci_id As String = ci(i)
+                Dim prefix As String
+
+                If name = "E" Then
+                    prefix = "ENZ"
+                Else
+                    prefix = name
+                End If
+
+                Dim ci_id As String = ci.Where(Function(e) e.StartsWith(prefix)).FirstOrDefault
+
+                If ci_id.StringEmpty Then
+                    ci_id = ci.Where(Function(e) e.StartsWith("KL")).FirstOrDefault
+                End If
 
                 If locals.ContainsKey(ci_id) Then
-                    Dim local = locals(ci_id)
+                    args.Add(name, locals(ci_id).value)
                 Else
                     args.Add(name, ci_id)
                 End If
