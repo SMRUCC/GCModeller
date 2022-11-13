@@ -74,5 +74,17 @@ Namespace SBML
             End Get
         End Property
 
+        Public ReadOnly Property kineticLawID As String
+            Get
+                Dim anno = kineticLaw.annotation?.sabiork
+
+                If anno Is Nothing Then
+                    Return kineticLaw.annotation.RDF.description.about.Match("\d+")
+                Else
+                    Return anno.kineticLawID
+                End If
+            End Get
+        End Property
+
     End Class
 End Namespace

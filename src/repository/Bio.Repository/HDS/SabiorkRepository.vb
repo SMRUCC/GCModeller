@@ -69,7 +69,7 @@ Public Class SabiorkRepository : Implements IDisposable
 
         For Each rxn As SBMLReaction In model.sbml.model.listOfReactions
             path = $"{pathDir}/{rxn.id}.json"
-            mathId = "KL_" & rxn.kineticLaw.annotation.sabiork.kineticLawID
+            mathId = "KL_" & rxn.kineticLawID
             math = mathList(mathId)
 
             If math.lambda Is Nothing Then
