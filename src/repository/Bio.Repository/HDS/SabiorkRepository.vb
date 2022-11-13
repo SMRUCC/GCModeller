@@ -1,9 +1,11 @@
 ﻿Imports System.IO
+Imports Microsoft.VisualBasic.DataStorage.HDSPack
 Imports Microsoft.VisualBasic.DataStorage.HDSPack.FileSystem
 Imports Microsoft.VisualBasic.MIME.application.xml.MathML
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.Data.SABIORK
 Imports SMRUCC.genomics.Data.SABIORK.SBML
+Imports SMRUCC.genomics.Data.SABIORK.TabularDump
 
 Public Class SabiorkRepository : Implements IDisposable
 
@@ -51,6 +53,7 @@ Public Class SabiorkRepository : Implements IDisposable
     ' V = Kcat[E]t[S] / ( KM + [S])
     ' [S] substracte concentration
     ' [E]t enzyme concentration
+    ' Vmax = kcat[E]
 
     Private Sub saveKineticsModel(ec_number As String, model As SbmlDocument)
         Dim mathList = model.mathML.ToDictionary(Function(a) a.Name, Function(a) a.Value)
@@ -59,12 +62,23 @@ Public Class SabiorkRepository : Implements IDisposable
         Dim path As String
         Dim math As LambdaExpression
         Dim mathId As String
+        Dim xml As String
+        Dim kineticisModel As EnzymeCatalystKineticLaw
 
         For Each rxn As SBMLReaction In model.sbml.model.listOfReactions
             path = $"{pathDir}/{rxn.id}.xml"
             mathId = "KL_" & rxn.kineticLaw.annotation.sabiork.kineticLawID
             math = mathList(mathId)
 
+            If math.lambda Is Nothing Then
+                Continue For
+            Else
+                kineticisModel = EnzymeCatalystKineticLaw.Create(rxn, math)
+                xml = rxn.GetXml
+            End If
+
+            Call cache.Delete(path)
+            Call cache.WriteText(xml, path)
         Next
     End Sub
 

@@ -1,88 +1,87 @@
 ﻿#Region "Microsoft.VisualBasic::e51b4f08bfecd7ad5dcf26f9a010204e, GCModeller\data\SABIO-RK\Dumps\Kinetics.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 151
-    '    Code Lines: 91
-    ' Comment Lines: 44
-    '   Blank Lines: 16
-    '     File Size: 7.24 KB
+' Summaries:
 
 
-    '     Class EnzymeCatalystKineticLaw
-    ' 
-    '         Properties: Buffer, Ec, Enzyme, Kcat, KEGGCompoundId
-    '                     KEGGReactionId, KineticRecord, Km, Metabolite, PH
-    '                     PubMed, Temperature, Uniprot
-    ' 
-    '         Function: Copy, ToString
-    ' 
-    '     Class ModifierKinetics
-    ' 
-    ' 
-    '         Enum ModifierTypes
-    ' 
-    '             Activator, CoFactors, Inhibitor
-    ' 
-    ' 
-    ' 
-    '  
-    ' 
-    '     Properties: K, KEGGCompoundId, KineticsRecordId, Modifier, ModifierType
-    '                 ObjectId
-    ' 
-    '     Function: ToString, TryGetType
-    ' 
-    '     Class KineticLawModel
-    ' 
-    '         Properties: Catalyst, Ec, Equation, Fast, KeggReaction
-    '                     KineticRecord, PubMed, Reaction, Taxonomy
-    ' 
-    '         Function: CreateObject, ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 151
+'    Code Lines: 91
+' Comment Lines: 44
+'   Blank Lines: 16
+'     File Size: 7.24 KB
+
+
+'     Class EnzymeCatalystKineticLaw
+' 
+'         Properties: Buffer, Ec, Enzyme, Kcat, KEGGCompoundId
+'                     KEGGReactionId, KineticRecord, Km, Metabolite, PH
+'                     PubMed, Temperature, Uniprot
+' 
+'         Function: Copy, ToString
+' 
+'     Class ModifierKinetics
+' 
+' 
+'         Enum ModifierTypes
+' 
+'             Activator, CoFactors, Inhibitor
+' 
+' 
+' 
+'  
+' 
+'     Properties: K, KEGGCompoundId, KineticsRecordId, Modifier, ModifierType
+'                 ObjectId
+' 
+'     Function: ToString, TryGetType
+' 
+'     Class KineticLawModel
+' 
+'         Properties: Catalyst, Ec, Equation, Fast, KeggReaction
+'                     KineticRecord, PubMed, Reaction, Taxonomy
+' 
+'         Function: CreateObject, ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.MIME.application.xml.MathML
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text.Xml.Models.KeyValuePair
-Imports SMRUCC.genomics.ComponentModel.EquaionModel
-Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 Imports SMRUCC.genomics.Data.SABIORK.SBML
 
 Namespace TabularDump
@@ -96,50 +95,37 @@ Namespace TabularDump
     ''' Kcat/Km 称为 催化效率，常常以此来比较 不同的酶而同一底物， 或者 不同底物而同一种酶。
     ''' </summary>
     ''' <remarks></remarks>
-    Public Class EnzymeCatalystKineticLaw
+    Public Class EnzymeCatalystKineticLaw : Inherits SabiorkEntity
         Implements IKeyValuePair
 
         Public Property Uniprot As String Implements IKeyValuePairObject(Of String, String).Key
         Public Property Enzyme As String
         Public Property Metabolite As String
-        <Column("MetaboliteId(KEGG.Compound)")>
         Public Property KEGGCompoundId As String Implements IKeyValuePairObject(Of String, String).Value
-        Public Property Kcat As Double
-        Public Property Km As Double
         Public Property KEGGReactionId As String
-        <Column("sabiork.kineticrecord")>
-        Public Property KineticRecord As String
-        <Column("EC-code")>
         Public Property Ec As String
         Public Property PH As Double
         Public Property Temperature As Double
         Public Property Buffer As String
         Public Property PubMed As String
+        Public Property parameters As Dictionary(Of String, String)
+        Public Property lambda As String
 
         Public Overrides Function ToString() As String
             Return String.Format("{0} -> {1}", Enzyme, Metabolite)
         End Function
 
-        Public Function Copy(Of T As EnzymeCatalystKineticLaw)() As T
-            Dim Eck As T = Activator.CreateInstance(Of T)()
+        Public Shared Function Create(rxn As SBMLReaction, math As LambdaExpression) As EnzymeCatalystKineticLaw
+            Dim experiment = rxn.kineticLaw.annotation.sabiork.experimentalConditions
+            Dim exp As String = math.lambda.ToString
 
-            With Eck
-                .Uniprot = Me.Uniprot
-                .Enzyme = Me.Enzyme
-                .Metabolite = Me.Metabolite
-                .Kcat = Me.Kcat
-                .Km = Me.Km
-                .KEGGReactionId = KEGGReactionId
-                .Ec = Me.Ec
-                .PH = Me.PH
-                .Temperature = Me.Temperature
-                .Buffer = Me.Buffer
-                .PubMed = Me.PubMed
-                .KineticRecord = Me.KineticRecord
-                .KEGGCompoundId = Me.KEGGCompoundId
-            End With
-
-            Return Eck
+            Return New EnzymeCatalystKineticLaw With {
+                .SabiorkId = rxn.kineticLaw.annotation.sabiork.kineticLawID,
+                .Buffer = experiment.buffer,
+                .PH = experiment.pHValue.startValuepH,
+                .Temperature = experiment.temperature.startValueTemperature,
+                .lambda = exp
+            }
         End Function
     End Class
 
@@ -206,22 +192,6 @@ Namespace TabularDump
         Public Property Catalyst As String()
         Public Property PubMed As String
         <Column("sabiork.kineticrecord")> Public Property KineticRecord As String
-
-        Public Shared Function CreateObject(SabiorkData As SabiorkSBML) As KineticLawModel
-            'Dim kineticLawModel As KineticLawModel = New KineticLawModel With {.SabiorkId = SabiorkData.kineticLawID}
-            'kineticLawModel.Ec = GetIdentifier(SabiorkData.Identifiers, "ec-code")
-            'kineticLawModel.KeggReaction = GetIdentifier(SabiorkData.Identifiers, "kegg.reaction")
-            'kineticLawModel.KineticRecord = GetIdentifier(SabiorkData.Identifiers, "sabiork.kineticrecord")
-            'kineticLawModel.PubMed = GetIdentifier(SabiorkData.Identifiers, "pubmed")
-            'kineticLawModel.Reaction = GetIdentifier(SabiorkData.Identifiers, "sabiork.reaction")
-            'kineticLawModel.Taxonomy = GetIdentifier(SabiorkData.Identifiers, "taxonomy")
-            'kineticLawModel.Fast = SabiorkData.Fast
-            'kineticLawModel.Equation = EquationBuilder.ToString(Of CompoundSpecieReference)(SabiorkData)
-            'kineticLawModel.Catalyst = (From item In SabiorkData.CompoundSpecies
-            '                            Where String.Equals(item.modifierType, "Modifier-Catalyst")
-            '                            Select GetIdentifier(item.Identifiers, "uniprot")).ToArray
-            'Return kineticLawModel
-        End Function
 
         Public Overrides Function ToString() As String
             Return Me.GetJson

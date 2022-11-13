@@ -51,6 +51,7 @@
 #End Region
 
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.MIME.application.xml.MathML
 Imports SMRUCC.genomics.Model.SBML.Level3
 
 Namespace SBML
@@ -63,5 +64,6 @@ Namespace SBML
     Public Class SBMLReaction : Inherits Reaction
 
         Public Property kineticLaw As kineticLaw
+
     End Class
 End Namespace

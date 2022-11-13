@@ -54,11 +54,8 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Data.csv.Extensions
-Imports Microsoft.VisualBasic.IEnumerations
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports SMRUCC.genomics.Data.SABIORK.TabularDump
 
 Namespace SBML
 
@@ -87,96 +84,5 @@ Namespace SBML
                 Select strItem.Split(CChar("/")).Last
             Return LQuery
         End Function
-
-        <ExportAPI("Db.Export")>
-        Public Sub ExportDatabase(DataDir As String, ExportDir As String)
-            Dim KineticLawModels As KineticLawModel() = Nothing
-            Dim CompoundSpecies As CompoundSpecie() = Nothing
-            Dim EnzymeModifiers As EnzymeModifier() = Nothing
-            Dim ModifierKinetics As ModifierKinetics() = Nothing
-            Dim EnzymeCatalystKineticLaws As EnzymeCatalystKineticLaw() = Nothing
-
-            Call ExportDatabase(DataDir, KineticLawModels, CompoundSpecies, EnzymeModifiers, ModifierKinetics, EnzymeCatalystKineticLaws)
-
-            Call KineticLawModels.SaveTo(String.Format("{0}/KineticLawModels.csv", ExportDir), False)
-            Call CompoundSpecies.SaveTo(String.Format("{0}/CompoundSpecies.csv", ExportDir), False)
-            Call EnzymeModifiers.SaveTo(String.Format("{0}/EnzymeModifiers.csv", ExportDir), False)
-            Call ModifierKinetics.SaveTo(String.Format("{0}/ModifierKinetics.csv", ExportDir), False)
-            Call EnzymeCatalystKineticLaws.SaveTo(String.Format("{0}/EnzymeCatalystKineticLaws.csv", ExportDir), False)
-        End Sub
-
-        <ExportAPI("Db.Export")>
-        Public Sub ExportDatabase(data As SabiorkSBML(), ExportDir As String)
-            Dim KineticLawModels As KineticLawModel() = Nothing
-            Dim CompoundSpecies As CompoundSpecie() = Nothing
-            Dim EnzymeModifiers As EnzymeModifier() = Nothing
-            Dim ModifierKinetics As ModifierKinetics() = Nothing
-            Dim EnzymeCatalystKineticLaws As EnzymeCatalystKineticLaw() = Nothing
-
-            Call ExportDatabase(data, KineticLawModels, CompoundSpecies, EnzymeModifiers, ModifierKinetics, EnzymeCatalystKineticLaws)
-
-            Call KineticLawModels.SaveTo(String.Format("{0}/KineticLawModels.csv", ExportDir), False)
-            Call CompoundSpecies.SaveTo(String.Format("{0}/CompoundSpecies.csv", ExportDir), False)
-            Call EnzymeModifiers.SaveTo(String.Format("{0}/EnzymeModifiers.csv", ExportDir), False)
-            Call ModifierKinetics.SaveTo(String.Format("{0}/ModifierKinetics.csv", ExportDir), False)
-            Call EnzymeCatalystKineticLaws.SaveTo(String.Format("{0}/EnzymeCatalystKineticLaws.csv", ExportDir), False)
-        End Sub
-
-        <ExportAPI("Db.Export")>
-        Public Sub ExportDatabase(data As SabiorkSBML(),
- _
-                      ByRef KineticLawModels As KineticLawModel(),
-                      ByRef CompoundSpecies As CompoundSpecie(),
-                      ByRef EnzymeModifiers As EnzymeModifier(),
-                      ByRef ModifierKinetics As ModifierKinetics(),
-                      ByRef EnzymeCatalystKineticLaws As EnzymeCatalystKineticLaw())
-
-            Dim CompoundSpeciesDict As SortedDictionary(Of String, CompoundSpecie) = New SortedDictionary(Of String, CompoundSpecie)
-            Dim Enzymes As SortedDictionary(Of String, EnzymeModifier) = New SortedDictionary(Of String, EnzymeModifier)
-            Dim KineticLaws As List(Of KineticLawModel) = New List(Of KineticLawModel)
-            Dim ModifierKineticsList = New List(Of ModifierKinetics)
-            Dim EnzymeCatalystKineticLawsList = New List(Of EnzymeCatalystKineticLaw)
-
-            For Each ItemObject In data
-                Dim Compounds = CompoundSpecie.CreateObjects(ItemObject)
-                For Each cps In Compounds
-                    If Not CompoundSpeciesDict.ContainsKey(cps.CommonNames.First) Then
-                        Call CompoundSpeciesDict.Add(cps.CommonNames.First, cps)
-                    End If
-                Next
-                For Each Enzyme In EnzymeModifier.CreateObjects(ItemObject)
-                    If Not Enzymes.ContainsKey(Enzyme.CommonName) Then
-                        Call Enzymes.Add(Enzyme.CommonName, Enzyme)
-                    End If
-                Next
-
-                Call ModifierKineticsList.AddRange(LocalParameterParser.TryParseModifierKinetic(ItemObject))
-                Call EnzymeCatalystKineticLawsList.AddRange(LocalParameterParser.TryParseEnzymeCatalyst(ItemObject))
-                Call KineticLaws.Add(KineticLawModel.CreateObject(ItemObject))
-            Next
-
-            CompoundSpecies = CompoundSpeciesDict.Values.ToArray
-            KineticLawModels = (From ItemObject In KineticLaws Select ItemObject Order By ItemObject.Ec Ascending).ToArray
-            EnzymeModifiers = Enzymes.Values.ToArray
-            ModifierKinetics = ModifierKineticsList.TrimNull
-            EnzymeCatalystKineticLaws = EnzymeCatalystKineticLawsList.TrimNull
-        End Sub
-
-        <ExportAPI("Db.Export")>
-        Public Sub ExportDatabase(DataDir As String,
- _
-                      ByRef KineticLawModels As KineticLawModel(),
-                      ByRef CompoundSpecies As CompoundSpecie(),
-                      ByRef EnzymeModifiers As EnzymeModifier(),
-                      ByRef ModifierKinetics As ModifierKinetics(),
-                      ByRef EnzymeCatalystKineticLaws As EnzymeCatalystKineticLaw())
-
-            Dim LQuery = (From strPath As String
-                          In FileIO.FileSystem.GetFiles(DataDir, FileIO.SearchOption.SearchTopLevelOnly, "*.sbml").AsParallel
-                          Where FileIO.FileSystem.GetFileInfo(strPath).Length > 0
-                          Select SBMLParser.kineticLawModel.LoadDocument(strPath)).ToArray 'Read sbml file document from the filesystem
-
-            Call ExportDatabase(LQuery, KineticLawModels, CompoundSpecies, EnzymeModifiers, ModifierKinetics, EnzymeCatalystKineticLaws)
-        End Sub
     End Module
 End Namespace

@@ -96,7 +96,7 @@ Namespace SBML
         Private Shared Function getLambda(xml As XmlElement) As LambdaExpression
             Dim lambda = LambdaExpression.FromMathML(xml)
 
-            If lambda Is Nothing Then
+            If lambda.lambda Is Nothing Then
                 If lambda.parameters.Length = 3 AndAlso
                     lambda.parameters.Any(Function(a) a = "Km") AndAlso
                     lambda.parameters.Any(Function(a) a = "kcat") AndAlso
@@ -104,7 +104,8 @@ Namespace SBML
 
                     Return DefaultKineticis()
                 Else
-                    Throw New NotImplementedException
+                    ' Throw New NotImplementedException(lambda.parameters.JoinBy(" | "))
+                    Return lambda
                 End If
             End If
 
