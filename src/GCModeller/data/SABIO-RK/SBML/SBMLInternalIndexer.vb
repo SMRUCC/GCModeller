@@ -53,6 +53,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.application.xml.MathML
 Imports SMRUCC.genomics.Model.SBML.Level3
 
@@ -110,16 +111,31 @@ Namespace SBML
             Next
         End Sub
 
-        Public Overloads Function ToString(rxn As SBMLReaction) As String
-            Dim left = rxn.listOfReactants.Select(AddressOf factorString).ToArray
-            Dim right = rxn.listOfProducts.Select(AddressOf factorString).ToArray
+        Public Overloads Function ToString(rxn As SBMLReaction, ByRef xrefs As Dictionary(Of String, String())) As String
+            Dim left = rxn.listOfReactants.Select(Function(f, i) factorString(f, $"l{i + 1}")).ToArray
+            Dim right = rxn.listOfProducts.Select(Function(f, i) factorString(f, $"r{i + 1}")).ToArray
 
-            Return $"{left.JoinBy(" + ")} -> {right.JoinBy(" + ")}"
+            If xrefs Is Nothing Then
+                xrefs = New Dictionary(Of String, String())
+            End If
+
+            For Each factor In left.JoinIterates(right)
+                Call xrefs.Add(factor.ref, factor.xref)
+            Next
+
+            Return $"{left.Select(Function(i) i.Item1).JoinBy(" + ")} -> {right.Select(Function(i) i.Item1).JoinBy(" + ")}"
         End Function
 
-        Private Function factorString(factor As SpeciesReference) As String
+        Private Function factorString(factor As SpeciesReference, i As String) As (String, ref As String, xref As String())
             Dim ref = getSpecies(factor.species)
-            Return $"{factor.stoichiometry} {ref.ToString}"
+            Dim annos = ref.annotation.RDF.description.is _
+                .Select(Function(bag) bag.Bag.list) _
+                .IteratesALL _
+                .Select(Function(li) li.resource) _
+                .Distinct _
+                .ToArray
+
+            Return ($"{factor.stoichiometry} {i}", i, annos)
         End Function
 
         Public Shared Iterator Function GetKeggReactionId(react As SBMLReaction) As IEnumerable(Of String)

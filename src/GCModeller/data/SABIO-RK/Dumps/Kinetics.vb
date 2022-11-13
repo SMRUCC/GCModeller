@@ -111,6 +111,7 @@ Namespace TabularDump
         Public Property PubMed As String()
         Public Property parameters As Dictionary(Of String, String)
         Public Property lambda As String
+        Public Property xref As Dictionary(Of String, String())
 
         Public Overrides Function ToString() As String
             Return String.Format("{0} -> {1}", Enzyme, reaction)
@@ -125,7 +126,8 @@ Namespace TabularDump
                 .Where(Function(li) Strings.InStr(li.resource, "pubmed") > 0) _
                 .Select(Function(li) li.resource) _
                 .ToArray
-            Dim equation As String = doc.ToString(rxn)
+            Dim xrefs As Dictionary(Of String, String()) = Nothing
+            Dim equation As String = doc.ToString(rxn, xrefs)
             Dim enzymes = doc.getEnzymes(rxn).ToArray
             Dim args As New Dictionary(Of String, String)
 
@@ -141,7 +143,9 @@ Namespace TabularDump
                 .Ec_number = rxn.ec_number,
                 .KEGGReactionId = SBMLInternalIndexer.GetKeggReactionId(rxn).FirstOrDefault,
                 .reaction = equation,
-                .parameters = args
+                .parameters = args,
+                .xref = xrefs,
+                .Enzyme = enzymes.Select(Function(e) e.ToString).ToArray
             }
         End Function
     End Class
