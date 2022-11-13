@@ -119,7 +119,7 @@ Namespace TabularDump
             Return String.Format("{0} -> {1}", Enzyme, Metabolite)
         End Function
 
-        Public Shared Function Create(rxn As SBMLReaction, math As LambdaExpression) As EnzymeCatalystKineticLaw
+        Public Shared Function Create(rxn As SBMLReaction, math As LambdaExpression, doc As SBMLInternalIndexer) As EnzymeCatalystKineticLaw
             Dim experiment = rxn.kineticLaw.annotation.sabiork.experimentalConditions
             Dim exp As String = math.lambda.ToString
             Dim pubmeds As String() = rxn.kineticLaw.annotation.RDF.description.isDescribedBy _

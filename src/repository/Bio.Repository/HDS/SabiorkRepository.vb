@@ -64,6 +64,7 @@ Public Class SabiorkRepository : Implements IDisposable
         Dim mathId As String
         Dim xml As String
         Dim kineticisModel As EnzymeCatalystKineticLaw
+        Dim indexer As New SBMLInternalIndexer(model)
 
         For Each rxn As SBMLReaction In model.sbml.model.listOfReactions
             path = $"{pathDir}/{rxn.id}.xml"
@@ -73,7 +74,7 @@ Public Class SabiorkRepository : Implements IDisposable
             If math.lambda Is Nothing Then
                 Continue For
             Else
-                kineticisModel = EnzymeCatalystKineticLaw.Create(rxn, math)
+                kineticisModel = EnzymeCatalystKineticLaw.Create(rxn, math, doc:=indexer)
                 xml = rxn.GetXml
             End If
 
