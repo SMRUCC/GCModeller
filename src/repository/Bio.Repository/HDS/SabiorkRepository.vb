@@ -1,9 +1,9 @@
 ﻿Imports System.IO
 Imports Microsoft.VisualBasic.DataStorage.HDSPack.FileSystem
+Imports Microsoft.VisualBasic.MIME.application.xml.MathML
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.Data.SABIORK
 Imports SMRUCC.genomics.Data.SABIORK.SBML
-Imports sbXML = SMRUCC.genomics.Model.SBML.Level3.XmlFile(Of SMRUCC.genomics.Data.SABIORK.SBML.SBMLReaction)
 
 Public Class SabiorkRepository : Implements IDisposable
 
@@ -19,7 +19,7 @@ Public Class SabiorkRepository : Implements IDisposable
         Me.enzyme_class = Enums(Of EnzymeClasses)() _
             .ToDictionary(Function(c) CInt(c).ToString,
                           Function(c)
-                              Return c.Description
+                              Return c & "." & c.Description
                           End Function)
     End Sub
 
@@ -35,19 +35,35 @@ Public Class SabiorkRepository : Implements IDisposable
         Dim q As New Dictionary(Of QueryFields, String) From {
             {QueryFields.ECNumber, ec_number}
         }
-        Dim result = webRequest.Query(Of SbmlDocument)(q)
+        Dim str As String = webRequest.QueryCacheText(q)
+        Dim result As SbmlDocument = ModelQuery.parseSBML(str)
+
         ' 20221112 andalso write kinetics model data 
         ' to the repository package
-
         If Not result Is Nothing Then
-            Call saveKineticsModel(model:=result)
+            Call saveKineticsModel(ec_number, model:=result)
         End If
 
         Return result
     End Function
 
-    Private Sub saveKineticsModel(model As SbmlDocument)
+    ' V = Vmax[S] / ( KM + [S])
+    ' V = Kcat[E]t[S] / ( KM + [S])
+    ' [S] substracte concentration
+    ' [E]t enzyme concentration
 
+    Private Sub saveKineticsModel(ec_number As String, model As SbmlDocument)
+        Dim mathList = model.mathML.ToDictionary(Function(a) a.Name, Function(a) a.Value)
+        Dim numbers As String() = ec_number.Split("."c)
+        Dim pathDir As String = $"/{enzyme_class(numbers(Scan0).ToString)}/{numbers.Skip(1).JoinBy("/")}"
+        Dim path As String
+        Dim math As LambdaExpression
+
+        For Each rxn As SBMLReaction In model.sbml.model.listOfReactions
+            path = $"{pathDir}/{rxn.id}.xml"
+            math = mathList(rxn.kineticLaw.metaid)
+
+        Next
     End Sub
 
     Protected Overridable Sub Dispose(disposing As Boolean)
