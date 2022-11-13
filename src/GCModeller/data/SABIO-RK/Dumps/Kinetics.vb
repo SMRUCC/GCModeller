@@ -99,7 +99,7 @@ Namespace TabularDump
     ''' <remarks></remarks>
     Public Class EnzymeCatalystKineticLaw : Inherits SabiorkEntity
 
-        Public Property Enzyme As String
+        Public Property enzyme As String()
         Public Property reaction As String
         Public Property KEGGReactionId As String
         Public Property Ec_number As String
@@ -114,7 +114,7 @@ Namespace TabularDump
         Public Property xref As Dictionary(Of String, String())
 
         Public Overrides Function ToString() As String
-            Return String.Format("{0} -> {1}", Enzyme, reaction)
+            Return String.Format("{0} -> {1}", enzyme, reaction)
         End Function
 
         Public Shared Function Create(rxn As SBMLReaction, math As LambdaExpression, doc As SBMLInternalIndexer) As EnzymeCatalystKineticLaw
@@ -145,7 +145,7 @@ Namespace TabularDump
                 .reaction = equation,
                 .parameters = args,
                 .xref = xrefs,
-                .Enzyme = enzymes.Select(Function(e) e.ToString).ToArray
+                .enzyme = enzymes.Select(Function(e) e.ToString).ToArray
             }
         End Function
     End Class

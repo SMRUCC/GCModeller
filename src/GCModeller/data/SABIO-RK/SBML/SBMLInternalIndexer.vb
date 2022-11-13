@@ -112,8 +112,8 @@ Namespace SBML
         End Sub
 
         Public Overloads Function ToString(rxn As SBMLReaction, ByRef xrefs As Dictionary(Of String, String())) As String
-            Dim left = rxn.listOfReactants.Select(Function(f, i) factorString(f, $"l{i + 1}")).ToArray
-            Dim right = rxn.listOfProducts.Select(Function(f, i) factorString(f, $"r{i + 1}")).ToArray
+            Dim left = rxn.listOfReactants.Select(AddressOf factorString).ToArray
+            Dim right = rxn.listOfProducts.Select(AddressOf factorString).ToArray
 
             If xrefs Is Nothing Then
                 xrefs = New Dictionary(Of String, String())
@@ -126,14 +126,15 @@ Namespace SBML
             Return $"{left.Select(Function(i) i.Item1).JoinBy(" + ")} -> {right.Select(Function(i) i.Item1).JoinBy(" + ")}"
         End Function
 
-        Private Function factorString(factor As SpeciesReference, i As String) As (String, ref As String, xref As String())
+        Private Function factorString(factor As SpeciesReference) As (String, ref As String, xref As String())
             Dim ref = getSpecies(factor.species)
             Dim annos = ref.annotation.RDF.description.is _
                 .Select(Function(bag) bag.Bag.list) _
                 .IteratesALL _
-                .Select(Function(li) li.resource) _
+                .Select(Function(li) li.resource.Split("/"c).Last) _
                 .Distinct _
                 .ToArray
+            Dim i As String = ref.name.StringReplace("(\s+)|([*-])", "_")
 
             Return ($"{factor.stoichiometry} {i}", i, annos)
         End Function
