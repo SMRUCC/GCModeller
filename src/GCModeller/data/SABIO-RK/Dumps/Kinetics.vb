@@ -79,10 +79,12 @@
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.application.xml.MathML
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text.Xml.Models.KeyValuePair
 Imports SMRUCC.genomics.Data.SABIORK.SBML
+Imports SMRUCC.genomics.Model.SBML.Level3
 
 Namespace TabularDump
 
@@ -104,10 +106,12 @@ Namespace TabularDump
         Public Property KEGGCompoundId As String Implements IKeyValuePairObject(Of String, String).Value
         Public Property KEGGReactionId As String
         Public Property Ec As String
+        Public Property fast As Boolean
+        Public Property reversible As Boolean
         Public Property PH As Double
         Public Property Temperature As Double
         Public Property Buffer As String
-        Public Property PubMed As String
+        Public Property PubMed As String()
         Public Property parameters As Dictionary(Of String, String)
         Public Property lambda As String
 
@@ -118,13 +122,22 @@ Namespace TabularDump
         Public Shared Function Create(rxn As SBMLReaction, math As LambdaExpression) As EnzymeCatalystKineticLaw
             Dim experiment = rxn.kineticLaw.annotation.sabiork.experimentalConditions
             Dim exp As String = math.lambda.ToString
+            Dim pubmeds As String() = rxn.kineticLaw.annotation.RDF.description.isDescribedBy _
+                .Select(Function(i) i.Bag.list) _
+                .IteratesALL _
+                .Where(Function(li) Strings.InStr(li.resource, "pubmed") > 0) _
+                .Select(Function(li) li.resource) _
+                .ToArray
 
             Return New EnzymeCatalystKineticLaw With {
                 .SabiorkId = rxn.kineticLaw.annotation.sabiork.kineticLawID,
                 .Buffer = experiment.buffer,
                 .PH = experiment.pHValue.startValuepH,
                 .Temperature = experiment.temperature.startValueTemperature,
-                .lambda = exp
+                .lambda = exp,
+                .fast = rxn.fast,
+                .reversible = rxn.reversible,
+                .PubMed = pubmeds.Select(Function(url) url.Split("/"c).Last).ToArray
             }
         End Function
     End Class
