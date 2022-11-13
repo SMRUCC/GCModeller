@@ -74,9 +74,11 @@ Public Class SabiorkRepository : Implements IDisposable
 
             If math.lambda Is Nothing Then
                 Continue For
+            ElseIf math.parameters.Length <> rxn.kineticLaw.math.apply.ci.Length Then
+                Continue For
             Else
                 kineticisModel = EnzymeCatalystKineticLaw.Create(rxn, math, doc:=indexer)
-                json = rxn.GetJson
+                json = kineticisModel.GetJson
             End If
 
             Call cache.Delete(path)

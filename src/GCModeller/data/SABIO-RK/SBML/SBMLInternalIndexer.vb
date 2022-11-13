@@ -128,7 +128,9 @@ Namespace SBML
 
         Private Function factorString(factor As SpeciesReference) As (String, ref As String, xref As String())
             Dim ref = getSpecies(factor.species)
-            Dim annos = ref.annotation.RDF.description.is _
+            Dim reference = ref.annotation?.RDF.description.is
+            Dim annos As String() = reference _
+                .SafeQuery _
                 .Select(Function(bag) bag.Bag.list) _
                 .IteratesALL _
                 .Select(Function(li) li.resource.Split("/"c).Last) _

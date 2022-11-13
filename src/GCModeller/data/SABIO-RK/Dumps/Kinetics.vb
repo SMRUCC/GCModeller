@@ -99,6 +99,7 @@ Namespace TabularDump
     ''' <remarks></remarks>
     Public Class EnzymeCatalystKineticLaw : Inherits SabiorkEntity
 
+        Public Property compartment As String()
         Public Property enzyme As Dictionary(Of String, String)
         Public Property reaction As String
         Public Property KEGGReactionId As String
@@ -106,8 +107,8 @@ Namespace TabularDump
         Public Property fast As Boolean
         Public Property reversible As Boolean
         Public Property PH As Double
-        Public Property Temperature As Double
-        Public Property Buffer As String
+        Public Property temperature As Double
+        Public Property buffer As String
         Public Property PubMed As String()
         Public Property parameters As Dictionary(Of String, String)
         Public Property lambda As String
@@ -128,12 +129,15 @@ Namespace TabularDump
                 .ToArray
             Dim xrefs As Dictionary(Of String, String()) = Nothing
             Dim equation As String = doc.ToString(rxn, xrefs)
-            Dim enzymes = doc.getEnzymes(rxn).ToDictionary(Function(e) e.id, Function(e) e.name)
+            Dim enzymes = doc.getEnzymes(rxn).ToArray
             Dim args As New Dictionary(Of String, String)
             Dim ci As String() = rxn.kineticLaw.math.apply.ci _
                 .Select(AddressOf Strings.Trim) _
                 .ToArray
             Dim locals = rxn.kineticLaw.listOfLocalParameters.ToDictionary(Function(l) l.id)
+            Dim locations As String() = enzymes _
+                .Select(Function(e) doc.getCompartmentName(e.compartmentId)) _
+                .ToArray
 
             For i As Integer = 0 To ci.Length - 1
                 Dim name As String = math.parameters(i)
@@ -160,9 +164,9 @@ Namespace TabularDump
 
             Return New EnzymeCatalystKineticLaw With {
                 .SabiorkId = rxn.kineticLaw.annotation.sabiork.kineticLawID,
-                .Buffer = experiment.buffer.Trim,
+                .buffer = experiment.buffer.Trim,
                 .PH = experiment.pHValue.startValuepH,
-                .Temperature = experiment.temperature.startValueTemperature,
+                .temperature = experiment.temperature.startValueTemperature,
                 .lambda = exp,
                 .fast = rxn.fast,
                 .reversible = rxn.reversible,
@@ -172,7 +176,8 @@ Namespace TabularDump
                 .reaction = equation,
                 .parameters = args,
                 .xref = xrefs,
-                .enzyme = enzymes
+                .enzyme = enzymes.ToDictionary(Function(e) e.id, Function(e) e.name),
+                .compartment = locations
             }
         End Function
     End Class
