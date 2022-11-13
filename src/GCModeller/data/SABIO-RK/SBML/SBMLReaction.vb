@@ -78,7 +78,9 @@ Namespace SBML
             Get
                 Dim anno = kineticLaw.annotation?.sabiork
 
-                If anno Is Nothing Then
+                If kineticLaw.annotation Is Nothing Then
+                    Return ""
+                ElseIf anno Is Nothing Then
                     Return kineticLaw.annotation.RDF.description.about.Match("\d+")
                 Else
                     Return anno.kineticLawID
