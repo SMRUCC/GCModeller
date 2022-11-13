@@ -2,6 +2,7 @@
 Imports Microsoft.VisualBasic.DataStorage.HDSPack.FileSystem
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.Data.SABIORK
+Imports SMRUCC.genomics.Data.SABIORK.SBML
 Imports sbXML = SMRUCC.genomics.Model.SBML.Level3.XmlFile(Of SMRUCC.genomics.Data.SABIORK.SBML.SBMLReaction)
 
 Public Class SabiorkRepository : Implements IDisposable
@@ -30,11 +31,11 @@ Public Class SabiorkRepository : Implements IDisposable
     ''' <remarks>
     ''' url = `https://sabiork.h-its.org/sabioRestWebServices/searchKineticLaws/sbml?q=ecnumber:${num}`;
     ''' </remarks>
-    Public Function GetByECNumber(ec_number As String) As sbXML
+    Public Function GetByECNumber(ec_number As String) As SbmlDocument
         Dim q As New Dictionary(Of QueryFields, String) From {
             {QueryFields.ECNumber, ec_number}
         }
-        Dim result = webRequest.Query(Of sbXML)(q)
+        Dim result = webRequest.Query(Of SbmlDocument)(q)
         ' 20221112 andalso write kinetics model data 
         ' to the repository package
 
@@ -45,7 +46,7 @@ Public Class SabiorkRepository : Implements IDisposable
         Return result
     End Function
 
-    Private Sub saveKineticsModel(model As sbXML)
+    Private Sub saveKineticsModel(model As SbmlDocument)
 
     End Sub
 
