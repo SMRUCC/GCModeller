@@ -51,7 +51,6 @@
 #End Region
 
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.MIME.application.xml.MathML
 Imports SMRUCC.genomics.Model.SBML.Level3
 
 Namespace SBML
@@ -64,6 +63,16 @@ Namespace SBML
     Public Class SBMLReaction : Inherits Reaction
 
         Public Property kineticLaw As kineticLaw
+
+        Public ReadOnly Property ec_number As String
+            Get
+                Return annotation.RDF.description.isVersionOf.Bag.list _
+                    .Where(Function(li) InStr(li.resource, "ec-code") > 0) _
+                    .FirstOrDefault.resource _
+                    .Split("/"c) _
+                    .Last
+            End Get
+        End Property
 
     End Class
 End Namespace

@@ -98,14 +98,11 @@ Namespace TabularDump
     ''' </summary>
     ''' <remarks></remarks>
     Public Class EnzymeCatalystKineticLaw : Inherits SabiorkEntity
-        Implements IKeyValuePair
 
-        Public Property Uniprot As String Implements IKeyValuePairObject(Of String, String).Key
         Public Property Enzyme As String
         Public Property reaction As String
-        Public Property KEGGCompoundId As String Implements IKeyValuePairObject(Of String, String).Value
         Public Property KEGGReactionId As String
-        Public Property Ec As String
+        Public Property Ec_number As String
         Public Property fast As Boolean
         Public Property reversible As Boolean
         Public Property PH As Double
@@ -128,6 +125,9 @@ Namespace TabularDump
                 .Where(Function(li) Strings.InStr(li.resource, "pubmed") > 0) _
                 .Select(Function(li) li.resource) _
                 .ToArray
+            Dim equation As String = doc.ToString(rxn)
+            Dim enzymes = doc.getEnzymes(rxn).ToArray
+            Dim args As New Dictionary(Of String, String)
 
             Return New EnzymeCatalystKineticLaw With {
                 .SabiorkId = rxn.kineticLaw.annotation.sabiork.kineticLawID,
@@ -137,7 +137,11 @@ Namespace TabularDump
                 .lambda = exp,
                 .fast = rxn.fast,
                 .reversible = rxn.reversible,
-                .PubMed = pubmeds.Select(Function(url) url.Split("/"c).Last).ToArray
+                .PubMed = pubmeds.Select(Function(url) url.Split("/"c).Last).ToArray,
+                .Ec_number = rxn.ec_number,
+                .KEGGReactionId = SBMLInternalIndexer.GetKeggReactionId(rxn).FirstOrDefault,
+                .reaction = equation,
+                .parameters = args
             }
         End Function
     End Class

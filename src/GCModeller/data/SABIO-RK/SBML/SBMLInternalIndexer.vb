@@ -67,18 +67,18 @@ Namespace SBML
         ReadOnly formulaLambdas As New Dictionary(Of String, LambdaExpression)
 
         Sub New(sbml As SbmlDocument)
-            Dim entries As NamedValue(Of String)()
+            Dim entries As String()
             Dim ref As NamedValue(Of String)
 
             For Each react As SBMLReaction In sbml.sbml.model.listOfReactions
-                entries = react.getIdentifiers.Where(Function(r) r.Name = "kegg.reaction").ToArray
+                entries = GetKeggReactionId(react).ToArray
 
-                For Each id In entries
-                    If Not keggReactions.ContainsKey(id.Value) Then
-                        keggReactions.Add(id.Value, New List(Of SBMLReaction))
+                For Each id As String In entries
+                    If Not keggReactions.ContainsKey(id) Then
+                        keggReactions.Add(id, New List(Of SBMLReaction))
                     End If
 
-                    keggReactions(id.Value).Add(react)
+                    keggReactions(id).Add(react)
                 Next
             Next
 
@@ -109,6 +109,24 @@ Namespace SBML
                 End If
             Next
         End Sub
+
+        Public Overloads Function ToString(rxn As SBMLReaction) As String
+            Dim left = rxn.listOfReactants.Select(AddressOf factorString).ToArray
+            Dim right = rxn.listOfProducts.Select(AddressOf factorString).ToArray
+
+            Return $"{left.JoinBy(" + ")} -> {right.JoinBy(" + ")}"
+        End Function
+
+        Private Function factorString(factor As SpeciesReference) As String
+            Dim ref = getSpecies(factor.species)
+            Return $"{factor.stoichiometry} {ref.ToString}"
+        End Function
+
+        Public Shared Iterator Function GetKeggReactionId(react As SBMLReaction) As IEnumerable(Of String)
+            For Each id In react.getIdentifiers.Where(Function(r) r.Name = "kegg.reaction")
+                Yield id.Value
+            Next
+        End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function getCompartmentName(id As String) As String
