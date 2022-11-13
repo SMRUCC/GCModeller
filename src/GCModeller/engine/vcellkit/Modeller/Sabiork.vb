@@ -23,6 +23,11 @@ Public Module sabiork_repository
         Return cache.GetByECNumber(ec_number)
     End Function
 
+    <ExportAPI("get_kineticis")>
+    Public Function getKineticis(cache As SabiorkRepository, ec_number As String) As Object
+        Return cache.GetKineticisLaw(ec_number).ToArray
+    End Function
+
     <ExportAPI("parseSbml")>
     Public Function parseSbml(data As String) As SbmlDocument
         Dim xml As String = data.LineIterators.JoinBy(vbLf)

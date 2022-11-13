@@ -26,8 +26,23 @@ Public Class SabiorkRepository : Implements IDisposable
                           End Function)
     End Sub
 
+    Public Iterator Function GetKineticisLaw(ec_number As String) As IEnumerable(Of EnzymeCatalystKineticLaw)
+        Dim pathDir As String = getEcNumberDirectoryPath(ec_number) & "/"
+        Dim folder As StreamGroup = cache.GetObject(pathDir)
+
+        If folder Is Nothing Then
+            Return
+        Else
+            For Each file As StreamObject In folder.files
+                If TypeOf file Is StreamBlock Then
+                    Yield cache.ReadText(file.ToString).LoadJSON(Of EnzymeCatalystKineticLaw)
+                End If
+            Next
+        End If
+    End Function
+
     ''' <summary>
-    ''' 
+    ''' web query of the sabio-rk document content data
     ''' </summary>
     ''' <param name="ec_number"></param>
     ''' <returns></returns>
@@ -50,6 +65,13 @@ Public Class SabiorkRepository : Implements IDisposable
         Return result
     End Function
 
+    Private Function getEcNumberDirectoryPath(ec_number As String) As String
+        Dim numbers As String() = ec_number.Split("."c)
+        Dim pathDir As String = $"/{enzyme_class(numbers(Scan0).ToString)}/{numbers.Skip(1).JoinBy("/")}"
+
+        Return pathDir
+    End Function
+
     ' V = Vmax[S] / ( KM + [S])
     ' V = Kcat[E]t[S] / ( KM + [S])
     ' [S] substracte concentration
@@ -58,14 +80,13 @@ Public Class SabiorkRepository : Implements IDisposable
 
     Private Sub saveKineticsModel(ec_number As String, model As SbmlDocument)
         Dim mathList = model.mathML.ToDictionary(Function(a) a.Name, Function(a) a.Value)
-        Dim numbers As String() = ec_number.Split("."c)
-        Dim pathDir As String = $"/{enzyme_class(numbers(Scan0).ToString)}/{numbers.Skip(1).JoinBy("/")}"
         Dim path As String
         Dim math As LambdaExpression
         Dim mathId As String
         Dim json As String
         Dim kineticisModel As EnzymeCatalystKineticLaw
         Dim indexer As New SBMLInternalIndexer(model)
+        Dim pathDir As String = getEcNumberDirectoryPath(ec_number)
 
         For Each rxn As SBMLReaction In model.sbml.model.listOfReactions
             path = $"{pathDir}/{rxn.id}.json"
