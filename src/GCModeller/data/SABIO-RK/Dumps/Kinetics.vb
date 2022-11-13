@@ -102,7 +102,7 @@ Namespace TabularDump
 
         Public Property Uniprot As String Implements IKeyValuePairObject(Of String, String).Key
         Public Property Enzyme As String
-        Public Property Metabolite As String
+        Public Property reaction As String
         Public Property KEGGCompoundId As String Implements IKeyValuePairObject(Of String, String).Value
         Public Property KEGGReactionId As String
         Public Property Ec As String
@@ -116,7 +116,7 @@ Namespace TabularDump
         Public Property lambda As String
 
         Public Overrides Function ToString() As String
-            Return String.Format("{0} -> {1}", Enzyme, Metabolite)
+            Return String.Format("{0} -> {1}", Enzyme, reaction)
         End Function
 
         Public Shared Function Create(rxn As SBMLReaction, math As LambdaExpression, doc As SBMLInternalIndexer) As EnzymeCatalystKineticLaw
