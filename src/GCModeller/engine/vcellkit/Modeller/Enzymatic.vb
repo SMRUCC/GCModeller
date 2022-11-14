@@ -17,11 +17,11 @@ Imports sbXML = SMRUCC.genomics.Model.SBML.Level3.XmlFile(Of SMRUCC.genomics.Dat
 Module Enzymatic
 
     <ExportAPI("query_reaction")>
-    Public Function QueryReaction(reaction As Rhea.Reaction, Optional cache As String = "./.cache/") As Object
+    Public Function QueryReaction(reaction As Rhea.Reaction, Optional cache As Object = "./.cache/") As Object
         Dim list As New Dictionary(Of String, sbXML)
 
         For Each id As String In reaction.enzyme.SafeQuery
-            list.Add(id, SABIORK.WebRequest.QueryByECNumber(id, cache))
+            list.Add(id, SMRUCC.genomics.Data.SABIORK.WebRequest.QueryByECNumber(id, cache))
         Next
 
         Return list

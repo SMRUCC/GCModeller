@@ -103,6 +103,7 @@
     <ProjectReference Include="..\..\GCModeller\core\Bio.Annotation\annotation.NET5.vbproj" />
     <ProjectReference Include="..\..\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj" />
     <ProjectReference Include="..\..\GCModeller\data\Rhea\Rhea.vbproj" />
+    <ProjectReference Include="..\..\GCModeller\data\SABIO-RK\SABIO-RK.NET.vbproj" />
     <ProjectReference Include="..\..\runtime\sciBASIC#\Data\BinaryData\BinaryData\binarydata-netcore5.vbproj" />
     <ProjectReference Include="..\..\runtime\sciBASIC#\Data\BinaryData\HDSPack\HDSPack.vbproj" />
     <ProjectReference Include="..\..\runtime\sciBASIC#\Data\BinaryData\msgpack\msgpack-netcore5.vbproj" />

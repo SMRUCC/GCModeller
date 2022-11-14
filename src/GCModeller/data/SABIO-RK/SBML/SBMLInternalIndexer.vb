@@ -1,57 +1,59 @@
 ﻿#Region "Microsoft.VisualBasic::ee489a3f1a23e3da1a84218ab467d3e3, GCModeller\data\SABIO-RK\SBML\SBMLInternalIndexer.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 92
-    '    Code Lines: 71
-    ' Comment Lines: 5
-    '   Blank Lines: 16
-    '     File Size: 3.79 KB
+' Summaries:
 
 
-    '     Class SBMLInternalIndexer
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: getEnzymes, getFormula, getKEGGCompoundId, getKEGGreactions, getSpecies
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 92
+'    Code Lines: 71
+' Comment Lines: 5
+'   Blank Lines: 16
+'     File Size: 3.79 KB
+
+
+'     Class SBMLInternalIndexer
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: getEnzymes, getFormula, getKEGGCompoundId, getKEGGreactions, getSpecies
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.application.xml.MathML
 Imports SMRUCC.genomics.Model.SBML.Level3
 
@@ -66,18 +68,18 @@ Namespace SBML
         ReadOnly formulaLambdas As New Dictionary(Of String, LambdaExpression)
 
         Sub New(sbml As SbmlDocument)
-            Dim entries As NamedValue(Of String)()
+            Dim entries As String()
             Dim ref As NamedValue(Of String)
 
             For Each react As SBMLReaction In sbml.sbml.model.listOfReactions
-                entries = react.getIdentifiers.Where(Function(r) r.Name = "kegg.reaction").ToArray
+                entries = GetKeggReactionId(react).ToArray
 
-                For Each id In entries
-                    If Not keggReactions.ContainsKey(id.Value) Then
-                        keggReactions.Add(id.Value, New List(Of SBMLReaction))
+                For Each id As String In entries
+                    If Not keggReactions.ContainsKey(id) Then
+                        keggReactions.Add(id, New List(Of SBMLReaction))
                     End If
 
-                    keggReactions(id.Value).Add(react)
+                    keggReactions(id).Add(react)
                 Next
             Next
 
@@ -109,6 +111,48 @@ Namespace SBML
             Next
         End Sub
 
+        Public Overloads Function ToString(rxn As SBMLReaction, ByRef xrefs As Dictionary(Of String, String())) As String
+            Dim left = rxn.listOfReactants.Select(AddressOf factorString).ToArray
+            Dim right = rxn.listOfProducts.Select(AddressOf factorString).ToArray
+
+            If xrefs Is Nothing Then
+                xrefs = New Dictionary(Of String, String())
+            End If
+
+            For Each factor In left.JoinIterates(right)
+                Call xrefs.Add(factor.ref, factor.xref)
+            Next
+
+            Return $"{left.Select(Function(i) i.Item1).JoinBy(" + ")} -> {right.Select(Function(i) i.Item1).JoinBy(" + ")}"
+        End Function
+
+        Private Function factorString(factor As SpeciesReference) As (String, ref As String, xref As String())
+            Dim ref = getSpecies(factor.species)
+            Dim reference = ref.annotation?.RDF.description.is
+            Dim annos As String() = reference _
+                .SafeQuery _
+                .Select(Function(bag) bag.Bag.list) _
+                .IteratesALL _
+                .Select(Function(li) li.resource.Split("/"c).Last) _
+                .Distinct _
+                .ToArray
+            Dim i As String = ref.name.StringReplace("(\s+)|([*-])", "_")
+
+            Return ($"{factor.stoichiometry} {i}", i, annos)
+        End Function
+
+        Public Shared Iterator Function GetKeggReactionId(react As SBMLReaction) As IEnumerable(Of String)
+            For Each id In react.getIdentifiers.Where(Function(r) r.Name = "kegg.reaction")
+                Yield id.Value
+            Next
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function getCompartmentName(id As String) As String
+            Return compartments(id).name
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function getKEGGCompoundId(speciesId As String) As String
             Return keggCompounds.TryGetValue(speciesId)
         End Function
@@ -126,6 +170,7 @@ Namespace SBML
             End If
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function getKEGGreactions(id As String) As IEnumerable(Of SBMLReaction)
             Return keggReactions.TryGetValue(id)
         End Function
@@ -138,6 +183,7 @@ Namespace SBML
             End If
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function getSpecies(id As String) As species
             Return species.TryGetValue(id)
         End Function

@@ -84,6 +84,7 @@ Imports SMRUCC.genomics.Model.SBML.Level3
 Namespace SBML
 
     Public Class kineticLaw
+
         <XmlAttribute> Public Property metaid As String
         <XmlAttribute> Public Property sboTerm As String
 
@@ -91,6 +92,7 @@ Namespace SBML
         <XmlElement("math", Namespace:="http://www.w3.org/1998/Math/MathML")>
         Public Property math As Math
         Public Property listOfLocalParameters As localParameter()
+
     End Class
 
     Public Class kineticLawAnnotation
@@ -107,19 +109,30 @@ Namespace SBML
             xmlns.Add("rdf", RDFEntity.XmlnsNamespace)
             xmlns.Add("sbrk", "http://sabiork.h-its.org")
         End Sub
+
+        Public Overrides Function ToString() As String
+            Return sabiork.ToString
+        End Function
+
     End Class
 
     <XmlType("sabiork", Namespace:="http://sabiork.h-its.org")>
     Public Class sabiorkAnnotation
+
         <XmlElement("kineticLawID", Namespace:="http://sabiork.h-its.org")>
         Public Property kineticLawID As Integer
 
         <XmlElement("experimentalConditions", [Namespace]:="http://sabiork.h-its.org")>
         Public Property experimentalConditions As experimentalConditions
 
+        Public Overrides Function ToString() As String
+            Return $"{kineticLawID}: {experimentalConditions}"
+        End Function
+
     End Class
 
     Public Class experimentalConditions
+
         <XmlElement("temperature", [Namespace]:="http://sabiork.h-its.org")>
         Public Property temperature As temperature
         <XmlElement("pH", [Namespace]:="http://sabiork.h-its.org")>
@@ -127,18 +140,34 @@ Namespace SBML
 
         <XmlElement("buffer", [Namespace]:="http://sabiork.h-its.org")>
         Public Property buffer As String
+
+        Public Overrides Function ToString() As String
+            Return $"{buffer}, ph={pHValue}, {temperature}"
+        End Function
+
     End Class
 
     Public Class temperature
+
         <XmlElement([Namespace]:="http://sabiork.h-its.org")>
         Public Property startValueTemperature As Double
         <XmlElement([Namespace]:="http://sabiork.h-its.org")>
         Public Property temperatureUnit As String
+
+        Public Overrides Function ToString() As String
+            Return $"{startValueTemperature} {temperatureUnit}"
+        End Function
+
     End Class
 
     Public Class pH
+
         <XmlElement([Namespace]:="http://sabiork.h-its.org")>
         Public Property startValuepH As Double
+
+        Public Overrides Function ToString() As String
+            Return startValuepH
+        End Function
     End Class
 
     Public Class localParameter

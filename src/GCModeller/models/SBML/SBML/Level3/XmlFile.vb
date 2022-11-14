@@ -110,12 +110,28 @@ Namespace Level3
         Public Property listOfReactions As T()
         Public Property listOfUnitDefinitions As unitDefinition()
         Public Property listOfFunctionDefinitions As functionDefinition()
+
     End Class
 
     Public Class functionDefinition : Inherits IPartsBase
 
         <XmlElement("math", [Namespace]:="http://www.w3.org/1998/Math/MathML")>
         Public Property math As MathML.Math
+        <XmlAttribute>
+        Public Property sboTerm As String
+
+        Public ReadOnly Property expression As String
+            Get
+                Dim args = math.lambda.bvar.JoinBy(", ")
+                Dim exp = MathML.Math.BuildExpressionString(math.lambda.apply)
+                Return $"{args} => {exp}"
+            End Get
+        End Property
+
+        Public Overrides Function ToString() As String
+            Return $"{id}: {math}"
+        End Function
+
     End Class
 
     <XmlType("compartment", Namespace:="http://www.sbml.org/sbml/level3/version1/core")>

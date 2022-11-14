@@ -63,5 +63,30 @@ Namespace SBML
     Public Class SBMLReaction : Inherits Reaction
 
         Public Property kineticLaw As kineticLaw
+
+        Public ReadOnly Property ec_number As String
+            Get
+                Return annotation.RDF.description.isVersionOf.Bag.list _
+                    .Where(Function(li) InStr(li.resource, "ec-code") > 0) _
+                    .FirstOrDefault.resource _
+                    .Split("/"c) _
+                    .Last
+            End Get
+        End Property
+
+        Public ReadOnly Property kineticLawID As String
+            Get
+                Dim anno = kineticLaw.annotation?.sabiork
+
+                If kineticLaw.annotation Is Nothing Then
+                    Return ""
+                ElseIf anno Is Nothing Then
+                    Return kineticLaw.annotation.RDF.description.about.Match("\d+")
+                Else
+                    Return anno.kineticLawID
+                End If
+            End Get
+        End Property
+
     End Class
 End Namespace
