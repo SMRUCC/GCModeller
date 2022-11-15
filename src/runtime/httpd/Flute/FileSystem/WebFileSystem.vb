@@ -16,6 +16,13 @@ Namespace FileSystem
             Dim url As URL = request.URL
             Dim path As String = url.path
 
+            If Not path.StringEmpty AndAlso path.Last = "/"c Then
+                ' target url path is a directory path
+                ' but request a file at here, so we needs
+                ' to redirect to index.html
+                path = path & "/index.html"
+            End If
+
             If fs.FileExists(path) Then
                 Dim mime As ContentType = fs.GetContentType(path)
                 Dim res As Byte() = fs.GetByteBuffer(path)
