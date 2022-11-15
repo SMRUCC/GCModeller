@@ -63,7 +63,9 @@ Namespace FileSystem
         ''' <param name="attachTo"></param>
         ''' <param name="cacheMode">Work in cache mode or mapping mode?</param>
         ''' <returns></returns>
-        Public Iterator Function AttachFolder(directory$, Optional attachTo$ = "/", Optional cacheMode As Boolean = False) As IEnumerable(Of NamedValue(Of FileObject))
+        Public Iterator Function AttachFolder(directory$,
+                                              Optional attachTo$ = "/",
+                                              Optional cacheMode As Boolean = False) As IEnumerable(Of NamedValue(Of FileObject))
             Dim resourceUrl$
             Dim fileObj As FileObject
 
@@ -131,6 +133,11 @@ Namespace FileSystem
             Return New MemoryStream(buffer:={})
         End Function
 
+        ''' <summary>
+        ''' get file data
+        ''' </summary>
+        ''' <param name="pathRelative"></param>
+        ''' <returns></returns>
         Public Function GetByteBuffer(pathRelative As String) As Byte()
             ' test of the physical file at first
             If resourceUrl(pathRelative).FileExists Then

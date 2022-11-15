@@ -54,10 +54,15 @@ Namespace Core.Message
     ''' </summary>
     Public Structure Content
 
+        ''' <summary>
+        ''' the content length in byte size
+        ''' </summary>
+        ''' <returns></returns>
         Public Property length As Integer
 
         ''' <summary>
-        ''' 不需要在这里写入http头部
+        ''' the mime content type, usually in format like: ``text/html``.
+        ''' (不需要在这里写入http头部)
         ''' </summary>
         ''' <returns></returns>
         Public Property type As String

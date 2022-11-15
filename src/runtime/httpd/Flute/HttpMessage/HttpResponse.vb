@@ -87,7 +87,10 @@ Namespace Core.Message
         ''' <summary>
         ''' 在这里只需要将错误消息放进来就行了，页面使用自定义的模板
         ''' </summary>
-        ''' <param name="message$"></param>
+        ''' <param name="message"></param>
+        ''' <remarks>
+        ''' calling <see cref="writeFailed"/> function to show error message to the browser
+        ''' </remarks>
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub WriteError(code$, message$)
@@ -99,13 +102,27 @@ Namespace Core.Message
             Call WriteHTML(<script>window.location='%s';</script>, url)
         End Sub
 
-        Public Sub WriteHeader(mIMEType As String, v As Integer)
-            Throw New NotImplementedException()
+        Public Sub WriteHeader(MIMEType As String, contentLength As Integer)
+            Call WriteHttp(New Content With {.length = contentLength, .type = MIMEType})
         End Sub
 
         Public Sub SendFile(path As String)
             Dim contentType$ = path.FileMimeType.MIMEType
             Call path.TransferBinary(contentType, Me)
+        End Sub
+
+        ''' <summary>
+        ''' the function <see cref="WriteHttp(Content)"/> should 
+        ''' be called before this function to send data payload.
+        ''' </summary>
+        ''' <param name="data"></param>
+        Public Sub SendData(data As Byte())
+            Using buffer As New MemoryStream(data)
+                Call buffer.CopyTo(
+                    destination:=response.BaseStream
+                )
+                Call response.Flush()
+            End Using
         End Sub
 
         Public Sub WriteHTML(html As String)
@@ -159,7 +176,12 @@ Namespace Core.Message
         ''' write http headers
         ''' </summary>
         ''' <param name="content"></param>
-        Public Sub WriteHttp(content As Content)
+        ''' <remarks>
+        ''' this function will terminates the http header and 
+        ''' anything after this function calls should be the 
+        ''' data payload to the browser.
+        ''' </remarks>
+        Public Function WriteHttp(content As Content) As HttpResponse
             ' this is the successful HTTP response line
             response.WriteLine("HTTP/1.0 200 OK")
             ' these are the HTTP headers...          
@@ -182,7 +204,9 @@ Namespace Core.Message
             ' this terminates the HTTP headers.. everything after this is HTTP body..
             response.WriteLine()
             response.Flush()
-        End Sub
+
+            Return Me
+        End Function
 
         ''' <summary>
         ''' %s %d, etc
