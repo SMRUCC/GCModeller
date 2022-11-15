@@ -36,7 +36,7 @@ Namespace FileSystem
 
         Public Function AddCache(resourceUrl$, data As Byte(), Optional mime As ContentType = Nothing) As FileObject
             Dim resource As New MemoryCachedFile(resourceUrl.FileName, data, mime)
-            Dim key$ = FileSystem.resourceUrl(resourceUrl)
+            Dim key$ = resourceUrl.Trim("."c, "/"c, "\"c)
 
             ' add new cache resource or update current 
             ' existed resource
@@ -47,7 +47,7 @@ Namespace FileSystem
 
         Public Function AddMapping(resourceUrl$, file$, Optional mime As ContentType = Nothing) As FileObject
             Dim resource As New VirtualMappedFile(resourceUrl.FileName, file, mime)
-            Dim key$ = FileSystem.resourceUrl(resourceUrl)
+            Dim key$ = resourceUrl.Trim("."c, "/"c, "\"c)
 
             ' add new cache resource or update current 
             ' existed resource
@@ -86,8 +86,10 @@ Namespace FileSystem
             Next
         End Function
 
-        Private Shared Function resourceUrl(ByRef pathRelative As String) As String
+        Private Function resourceUrl(ByRef pathRelative As String) As String
             pathRelative = pathRelative.Trim("."c, "/"c, "\"c)
+            pathRelative = wwwroot.GetFullPath(pathRelative)
+
             Return pathRelative
         End Function
 
