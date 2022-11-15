@@ -86,7 +86,7 @@ Namespace FileSystem
             Next
         End Function
 
-        Private Function resourceUrl(ByRef pathRelative As String) As String
+        Private Function resourceUrl(pathRelative As String) As String
             pathRelative = pathRelative.Trim("."c, "/"c, "\"c)
             pathRelative = wwwroot.GetFullPath(pathRelative)
 
@@ -110,7 +110,7 @@ Namespace FileSystem
         Public Function GetFileSize(pathRelative As String) As Integer
             ' test of the physical file at first
             If resourceUrl(pathRelative).FileExists Then
-                Return pathRelative.FileLength
+                Return resourceUrl(pathRelative).FileLength
             Else
                 ' and then test for the logical file
                 If virtualMaps.ContainsKey(pathRelative) Then
@@ -124,7 +124,7 @@ Namespace FileSystem
         Public Function GetResource(pathRelative As String) As Stream
             ' test of the physical file at first
             If resourceUrl(pathRelative).FileExists Then
-                Return pathRelative.Open(FileMode.Open, doClear:=False)
+                Return resourceUrl(pathRelative).Open(FileMode.Open, doClear:=False)
             Else
                 ' and then test for the logical file
                 If virtualMaps.ContainsKey(pathRelative) Then
@@ -143,7 +143,7 @@ Namespace FileSystem
         Public Function GetByteBuffer(pathRelative As String) As Byte()
             ' test of the physical file at first
             If resourceUrl(pathRelative).FileExists Then
-                Return pathRelative.ReadBinary
+                Return resourceUrl(pathRelative).ReadBinary
             Else
                 ' and then test for the logical file
                 If virtualMaps.ContainsKey(pathRelative) Then
