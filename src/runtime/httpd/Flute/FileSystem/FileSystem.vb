@@ -96,7 +96,13 @@ Namespace FileSystem
         Public Function GetContentType(pathRelative As String) As ContentType
             ' test of the physical file at first
             If resourceUrl(pathRelative).FileExists Then
-                Return MIME.ContentTypes(pathRelative.ExtensionSuffix.ToLower)
+                Dim extName As String = "." & pathRelative.ExtensionSuffix.ToLower
+
+                If MIME.SuffixTable.ContainsKey(extName) Then
+                    Return MIME.SuffixTable(extName)
+                Else
+                    Return MIME.UnknownType
+                End If
             Else
                 ' and then test for the logical file
                 If virtualMaps.ContainsKey(pathRelative) Then
