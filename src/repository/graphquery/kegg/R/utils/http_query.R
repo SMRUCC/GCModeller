@@ -51,7 +51,7 @@ const http_query = function(url, raw = TRUE, graphquery = get_graph("graphquery/
 #'
 #' @param url image url
 #'
-const getImage as function(url, interval = 3) {
+const getImage = function(url, interval = 3) {
   if (file.exists(url)) {
     # proxy handle local filesystem 
     readImage(url);
@@ -77,7 +77,7 @@ const getImage as function(url, interval = 3) {
 #' @param interval the time interval in seconds for sleep after
 #'                 request data from the remote server.
 #'
-const getHtml as function(url, interval = 3) {
+const getHtml = function(url, interval = 3) {
   if (file.exists(url)) {
     # proxy handle local filesystem 
     readText(url);
