@@ -1,4 +1,5 @@
 require(kegg_graphquery);
+require(HDS);
 
 const cache_dir = ?"--cache" || `${dirname(@script)}/.cache/`;
 const Tcode     = ?"--tcode" || "map";
@@ -22,10 +23,10 @@ print("get all kegg pathway maps:");
 str(maps);
 
 for(i in 1:nrow(maps)) {
-    const map = kegg_pathway(url = sprintf(url, id[i]));
+    const url = sprintf(url, id[i]);
+    const map = kegg_pathway(url);
 
     if ((map != "") && (!is.null(map))) {
-
         map
         |> xml
         |> writeLines(con = `${repoDir(i)}.XML`)

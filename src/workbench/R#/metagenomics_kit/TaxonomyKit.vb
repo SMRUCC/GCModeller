@@ -341,11 +341,24 @@ Module TaxonomyKit
         Return MothurRankTree.LoadTaxonomySummary(file)
     End Function
 
+    ''' <summary>
+    ''' convert the mothur rank tree as the OTU table
+    ''' </summary>
+    ''' <param name="tree"></param>
+    ''' <returns></returns>
     <ExportAPI("as.OTU_table")>
     Public Function asOTUTable(tree As MothurRankTree) As OTUTable()
         Return tree.GetOTUTable
     End Function
 
+    ''' <summary>
+    ''' convert the dataframe object to OTU table
+    ''' </summary>
+    ''' <param name="table"></param>
+    ''' <param name="id"></param>
+    ''' <param name="taxonomy"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("as.OTUtable")>
     Public Function asOTUTable(table As rdataframe,
                                Optional id As String = "OTU_num",
@@ -379,6 +392,12 @@ Module TaxonomyKit
             .ToArray
     End Function
 
+    ''' <summary>
+    ''' read 16s OTU table
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <param name="sumDuplicated"></param>
+    ''' <returns></returns>
     <ExportAPI("read.OTUtable")>
     Public Function readOTUTable(file As String, Optional sumDuplicated As Boolean = True) As OTUTable()
         Dim otus As OTUTable() = file.LoadCsv(Of OTUTable)(mute:=True).ToArray
@@ -413,6 +432,12 @@ Module TaxonomyKit
         Return tax.TaxonomyRankString(rank).DoCall(AddressOf BIOMTaxonomyParser.Parse)
     End Function
 
+    ''' <summary>
+    ''' test the given taxonomy list is inside the specific taxonomy range?
+    ''' </summary>
+    ''' <param name="list"></param>
+    ''' <param name="range"></param>
+    ''' <returns></returns>
     <ROperator("in")>
     Public Function InRange(list As Taxonomy(), range As Taxonomy) As Boolean()
         Return list _

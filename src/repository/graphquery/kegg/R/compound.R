@@ -8,9 +8,6 @@ const kegg_compound as function(url) {
   # parse the page text
   const keyValues = keyIndex(http_query(url, raw = FALSE));
 
-  # str(keyValues);
-  # stop();
-
   print("start to parse fields...");
   
   # parse fields

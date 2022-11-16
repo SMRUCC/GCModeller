@@ -4,11 +4,11 @@ imports "repository" from "kegg_kit";
 #'
 #' @param url the resource url on remote server or local file path for debug
 #'
-const kegg_pathway as function(url, debug = FALSE) {
+const kegg_pathway = function(url, debug = FALSE) {
   # parse the page text
   const keyValues = keyIndex(http_query(url, raw = FALSE));
   const getDocument = function(keyName) {
-    Html::parse(keyValues[[ keyName ]]);
+    Html::parse(keyValues[[keyName]]);
   }
 
   const id         = graphquery::query(document = Html::parse(keyValues$"Entry"),       graphquery = get_graph("graphquery/fields/simpleText.graphquery"));
@@ -63,7 +63,7 @@ const kegg_pathway as function(url, debug = FALSE) {
 #'
 #' @return this function returns a list with ``code`` and ``name``.
 #'
-const parseKeggCode as function(name) {
+const parseKeggCode = function(name) {
   if (name == "") {
     list();
   } else {
@@ -81,7 +81,7 @@ const parseKeggCode as function(name) {
 
 #' Create a literature dataframe
 #'
-const literature as function(reference, authors, title, journal) {
+const literature = function(reference, authors, title, journal) {
   const text_query = get_graph("graphquery/fields/text.graphquery");
   const getText = function(str) {
     graphquery::query(
