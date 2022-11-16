@@ -211,21 +211,6 @@ Namespace Assembly.KEGG.DBGET.ReferenceMap
             Return RefMap
         End Function
 
-        Private Shared Function __downloadRefRxn(Entry As WebServices.ListEntry) As ReferenceMap.ReferenceReaction
-            Dim path As String = "./Downloads/" & Entry.entryId.NormalizePathString & ".xml"
-
-            If FileIO.FileSystem.FileExists(path) Then
-                Dim refData = path.LoadXml(Of ReferenceMap.ReferenceReaction)()
-                If Not refData Is Nothing AndAlso Not String.IsNullOrEmpty(refData.Equation) Then
-                    Return refData
-                End If
-            End If
-
-            Dim ref = ReferenceReaction.Download(Entry)
-            Call ref.GetXml.SaveTo(path)
-            Return ref
-        End Function
-
         Const DB_LINK_PATTERN As String = ".+: (<a href="".+?"">.+?</a>\s*)+"
 
         Private Shared Function __DBLinksParser(str As String) As KeyValuePair()

@@ -163,21 +163,6 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         End Function
 
         ''' <summary>
-        ''' 测试用的函数
-        ''' </summary>
-        ''' <param name="entryId$">mapxxxx</param>
-        ''' <returns></returns>
-        Public Shared Function Download(entryId$, Optional cache$ = "./", Optional offline As Boolean = False) As PathwayMap
-            Dim entry As New BriteHEntry.Pathway With {
-                .entry = New NamedValue With {
-                    .name = entryId.Match("\d+")
-                }
-            }
-
-            Return Download(entry, cache, offline)
-        End Function
-
-        ''' <summary>
         ''' 下载pathway的图片
         ''' </summary>
         ''' <param name="sp$"></param>
