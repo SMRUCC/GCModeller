@@ -101,7 +101,6 @@ Namespace Assembly.KEGG.WebServices
         <Extension>
         Public Function GetText(form As WebForm, key$) As String
             Return form(key) _
-                .FirstOrDefault _
                 .StripHTMLTags _
                 .StripBlank _
                 .GetTagValue(vbLf) _

@@ -64,6 +64,7 @@ Option Strict Off
 Imports Microsoft.VisualBasic.Emit.Marshal
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 
 Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
@@ -87,6 +88,16 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
         ''' </summary>
         ''' <returns></returns>
         Public Property References As bGetObject.Reference()
+
+        Default Public ReadOnly Property Item(key As String) As String
+            Get
+                If _strData.ContainsKey(key) Then
+                    Return _strData(key).First
+                Else
+                    Return ""
+                End If
+            End Get
+        End Property
 
         ''' <summary>
         ''' 这个构造函数同时支持url或者文本内容
@@ -175,14 +186,23 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
         ''' 获取某一个字段的数据
         ''' </summary>
         ''' <param name="KeyWord">网页的表格之中的最左端的字段名</param>
-        ''' <returns></returns>
+        ''' <returns>
+        ''' this is a null safe function: key not found will 
+        ''' returns an empty collection.
+        ''' </returns>
         ''' <remarks></remarks>
         Public Function GetValue(KeyWord As String) As String()
             If _strData.ContainsKey(KeyWord) Then
                 Return _strData.Item(KeyWord)
             Else
-                Return New String() {""}
+                Return New String() {}
             End If
+        End Function
+
+        Public Iterator Function GetXmlTuples(key As String) As IEnumerable(Of NamedValue)
+            For Each line As String In GetValue(key)
+                Yield New NamedValue(line.GetTagValue(" ", trim:=True))
+            Next
         End Function
 
 #Region "Implements IReadOnlyDictionary(Of String, String)"
@@ -203,7 +223,7 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
             Return _strData.ContainsKey(key)
         End Function
 
-        Default Public ReadOnly Property Item(key As String) As String() Implements IReadOnlyDictionary(Of String, String()).Item
+        Private ReadOnly Property GetMultipleItems(key As String) As String() Implements IReadOnlyDictionary(Of String, String()).Item
             Get
                 Return GetValue(key)
             End Get

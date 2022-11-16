@@ -82,7 +82,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' <remarks></remarks>
         <XmlElement>
         Public Property name As String
-
+        Public Property [class] As String
         ''' <summary>
         ''' The module entry collection data in this pathway.
         ''' </summary>
@@ -103,6 +103,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         <XmlArray("otherDB", [Namespace]:=LICENSE.GCModeller)>
         Public Property otherDBs As DBLink()
         Public Property pathwayMap As NamedValue
+        Public Property related_pathways As NamedValue()
 
         Public Property genes As NamedValue()
             Get
@@ -136,7 +137,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         End Property
 
         Public Property disease As NamedValue()
-        Public Property organism As KeyValuePair
+        Public Property organism As String
         Public Property KOpathway As NamedValue()
 
         ''' <summary>
