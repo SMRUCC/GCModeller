@@ -8,7 +8,7 @@ const kegg_pathway = function(url, debug = FALSE) {
   # parse the page text
   const keyValues = keyIndex(http_query(url, raw = FALSE));
   const getDocument = function(keyName) {
-    Html::parse(keyValues[[ keyName ]]);
+    Html::parse(keyValues[[keyName]]);
   }
 
   const id         = graphquery::query(document = Html::parse(keyValues$"Entry"),       graphquery = get_graph("graphquery/fields/simpleText.graphquery"));
