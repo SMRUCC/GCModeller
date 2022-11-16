@@ -1,8 +1,14 @@
+imports "package_utils" from "devkit";
+
+package_utils::attach("E:\\GCModeller\\src\\workbench\\pkg");
+package_utils::attach("E:\\GCModeller\\src\\repository\\graphquery\\kegg");
+
 require(kegg_graphquery);
-require(HDS);
 
 const cache_dir = ?"--cache" || `${dirname(@script)}/.cache/`;
 const Tcode     = ?"--tcode" || "map";
+
+list_pathway(Tcode);
 
 options(http.cache_dir = cache_dir);
 
