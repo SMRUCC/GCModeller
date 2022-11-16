@@ -165,14 +165,5 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         Public Overrides Function ToString() As String
             Return String.Format("{0}: {1}", entry, Me.formula)
         End Function
-
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Shared Function GetLinkDbRDF(compound As Compound) As IEnumerable(Of LinkDB.Relationship)
-            If InStr(compound.entry, ":") > 0 Then
-                Return LinkDB.Relationship.GetLinkDb(compound.entry)
-            Else
-                Return LinkDB.Relationship.GetLinkDb($"cpd:{compound.entry}")
-            End If
-        End Function
     End Class
 End Namespace
