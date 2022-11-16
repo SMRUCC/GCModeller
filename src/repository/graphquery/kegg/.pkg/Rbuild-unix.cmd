@@ -8,3 +8,5 @@ SET REnv="%R_HOME%\R#.exe"
 %REnv% --install.packages "./kegg_graphquery.zip"
 
 pause
+
+            

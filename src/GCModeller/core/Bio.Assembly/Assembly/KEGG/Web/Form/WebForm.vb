@@ -1,82 +1,77 @@
 ﻿#Region "Microsoft.VisualBasic::89326d0dcb6557d4718f82f9d4664da2, GCModeller\core\Bio.Assembly\Assembly\KEGG\Web\Form\WebForm.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 314
-    '    Code Lines: 223
-    ' Comment Lines: 40
-    '   Blank Lines: 51
-    '     File Size: 12.61 KB
+' Summaries:
 
 
-    '     Class WebForm
-    ' 
-    '         Properties: AllLinksWidget, Count, Keys, References, Values
-    '                     WebPageTitle
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: ContainsKey, GetEnumerator, GetEnumerator1, getHtml, GetRaw
-    '                   GetValue, parseList, parseListInternal, RegexReplace, RemoveHrefLink
-    '                   ToString, TryGetValue
-    ' 
-    '         Sub: (+2 Overloads) Dispose, ParseRefList
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 314
+'    Code Lines: 223
+' Comment Lines: 40
+'   Blank Lines: 51
+'     File Size: 12.61 KB
+
+
+'     Class WebForm
+' 
+'         Properties: AllLinksWidget, Count, Keys, References, Values
+'                     WebPageTitle
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'         Function: ContainsKey, GetEnumerator, GetEnumerator1, getHtml, GetRaw
+'                   GetValue, parseList, parseListInternal, RegexReplace, RemoveHrefLink
+'                   ToString, TryGetValue
+' 
+'         Sub: (+2 Overloads) Dispose, ParseRefList
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Option Strict Off
 
-Imports System.Text
-Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic.ComponentModel.Collection
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Emit.Marshal
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
-Imports Microsoft.VisualBasic.Text
-Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
-Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
-Imports r = System.Text.RegularExpressions.Regex
 
 Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
 
     ''' <summary>
-    ''' KEGG 网页表格的数据解析方法，在Value之中可能会有重复的Key数据出现
+    ''' parser for the kegg form data text, example like request text 
+    ''' content from the rest: ``https://rest.kegg.jp/get/hsa00592``
+    ''' (KEGG 网页表格的数据解析方法，在Value之中可能会有重复的Key数据出现)
     ''' </summary>
     ''' <remarks></remarks>
     Public Class WebForm : Implements IReadOnlyDictionary(Of String, String())
@@ -85,82 +80,7 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
         ''' <summary>
         ''' Entry, {trim_formatted, non-process}
         ''' </summary>
-        Dim _strData As SortedDictionary(Of String, NamedValue(Of String)())
-        Dim _url As String
-
-        Public ReadOnly Property WebPageTitle As String
-        Public Property AllLinksWidget As AllLinksWidget
-
-        ''' <summary>
-        ''' 这个构造函数同时支持url或者文本内容
-        ''' </summary>
-        ''' <param name="resource"></param>
-        Sub New(resource As String)
-            Dim html As String = getHtml(resource)
-            Dim tokens As String() = r.Split(html, "<th class="".+?"" align="".+?""").Skip(1).ToArray
-            Dim tmp As String() = LinqAPI.Exec(Of String) <=
- _
-                From strValue As String
-                In tokens
-                Let value As String = r.Match(strValue, "<nobr>.+?</nobr>.+", RegexOptions.Singleline).Value.Trim
-                Where Not String.IsNullOrEmpty(value)
-                Select value
-
-            Me._WebPageTitle = html.HTMLTitle
-            Me._strData = New SortedDictionary(Of String, NamedValue(Of String)())
-
-            Dim fields = LinqAPI.Exec(Of NamedValue(Of String())) <=
- _
-                From strValue As String
-                In tmp
-                Let Key As String = r.Match(strValue, "<nobr>.+?</nobr>").Value
-                Let Value As String = RegexReplace(strValue.Replace(Key, ""), WebForm.HtmlFormatControl)
-                Select New NamedValue(Of String()) With {
-                    .Name = Key.GetValue,
-                    .Value = {Value.TrimNewLine, strValue}
-                }
-            Dim allKeys As IEnumerable(Of String) = From item As NamedValue(Of String())
-                                                    In fields
-                                                    Let KeyValue As String = item.Name
-                                                    Select KeyValue
-                                                    Distinct
-            For Each Key As String In allKeys
-                Dim vals As NamedValue(Of String)() = LinqAPI.Exec(Of NamedValue(Of String)) <=
- _
-                    From item As NamedValue(Of String())
-                    In fields
-                    Where String.Equals(Key, item.Name)
-                    Select New NamedValue(Of String) With {
-                        .Name = item.Value(Scan0),
-                        .Value = item.Value(1)
-                    }
-
-                Call _strData.Add(Key, vals)
-            Next
-
-            AllLinksWidget = InternalWebFormParsers.AllLinksWidget.InternalParser(html)
-            Call ParseRefList(html)
-        End Sub
-
-        Private Shared Function getHtml(res As String) As String
-            Dim html$
-
-            If res.IsURLPattern Then
-                html = res.GET
-            Else
-                html = res
-            End If
-
-            Return html _
-                .Replace("&nbsp;", " ") _
-                .Replace("&gt;", ">") _
-                .Replace("&lt;", "<")
-        End Function
-
-        Private Sub ParseRefList(Page As String)
-            Dim list As String() = Strings.Split(Page, "<nobr>Reference</nobr></th>").Skip(1).ToArray
-            Me.References = bGetObject.Reference.References(list)
-        End Sub
+        Dim _strData As New SortedDictionary(Of String, String())
 
         ''' <summary>
         ''' Reference list of this biological object
@@ -168,83 +88,84 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
         ''' <returns></returns>
         Public Property References As bGetObject.Reference()
 
-        Private Shared ReadOnly HtmlFormatControl As String() = {
-            "<td .+?>",
-            "<div .+?>",
-            "</th>|</div>|</td>|</tr>|<tr>|<tbody>|<div>|</tbody>|</table>|<nobr>|</nobr>",
-            "<table .+?>"
-        }
-
-        Protected Friend Shared Function parseList(html$, splitRegx$) As NamedValue()
-            If String.IsNullOrEmpty(html) Then
-                Return {}
-            Else
-                Return parseListInternal(html, splitRegx)
-            End If
-        End Function
-
-        Private Shared Function parseListInternal(html$, splitRegx$) As NamedValue()
-            Dim componentList As New List(Of NamedValue)
-            Dim bufs As String() = LinqAPI.Exec(Of String) <=
- _
-                From m As Match
-                In r.Matches(html, splitRegx)
-                Select m.Value
-                Distinct
-
-            For i As Integer = 0 To bufs.Length - 2
-                Dim p1 As Integer = InStr(html, bufs(i))
-                Dim p2 As Integer = InStr(html, bufs(i + 1))
-                Dim strTemp As String = Mid(html, p1, p2 - p1)
-
-                Dim entry As String = r.Match(strTemp, splitRegx).Value
-                Dim cps_Describ As String = strTemp.Replace(entry, "").Trim
-
-                entry = entry.GetValue
-                cps_Describ = WebForm.RemoveHrefLink(cps_Describ)
-
-                componentList += New NamedValue With {
-                    .name = entry,
-                    .text = cps_Describ
-                }
-            Next
-
-            If bufs.Length > 0 Then
-                Dim p As Integer = InStr(html, bufs.Last)
-                html = Mid(html, p)
-                Dim last As New NamedValue With {
-                    .name = r.Match(html, splitRegx).Value,
-                    .text = WebForm.RemoveHrefLink(html.Replace(.name, "").Trim)
-                }
-
-                last.name = last.name.GetValue
-
-                Call componentList.Add(last)
-            End If
-
-            For Each cpd As NamedValue In componentList
-                cpd.name = cpd.name.StripHTMLTags.Trim({ASCII.TAB, ASCII.CR, ASCII.LF, " "c})
-                cpd.text = cpd.text.StripHTMLTags.Trim({ASCII.TAB, ASCII.CR, ASCII.LF, " "c})
-            Next
-
-            Return componentList _
-                .Where(Function(li) li.name <> "DBGET") _
-                .ToArray
-        End Function
-
         ''' <summary>
-        ''' 将符合目标规则的字符串替换为空字符串
+        ''' 这个构造函数同时支持url或者文本内容
         ''' </summary>
-        ''' <param name="strData"></param>
-        ''' <param name="ExprCollection"></param>
-        ''' <returns></returns>
-        ''' <remarks></remarks>
-        Private Shared Function RegexReplace(strData As String, ExprCollection As String()) As String
-            For Each strItem As String In ExprCollection
-                strData = r.Replace(strData, strItem, "")
-            Next
-            Return strData
-        End Function
+        ''' <param name="resource"></param>
+        Sub New(resource As String)
+            Dim lines As New Pointer(Of String)(resource.SolveStream.LineTokens)
+            ' fix size 12 chars
+            Dim key As String = Nothing
+            Dim name As String = Nothing
+            Dim value As String = Nothing
+            Dim list As New List(Of String)
+            Dim refs As New List(Of bGetObject.Reference)
+            Dim ref As bGetObject.Reference = Nothing
+
+            Do While Not lines.EndRead
+                Call MoveNext(lines, name, value)
+
+                If name.StringEmpty Then
+                    Call list.Add(value)
+                Else
+                    If list > 0 Then
+                        Call _strData.Add(key, list.PopAll)
+                    End If
+
+                    key = name
+
+                    If key = "REFERENCE" Then
+                        If Not ref Is Nothing Then
+                            Call refs.Add(ref)
+                        End If
+
+                        ref = New bGetObject.Reference With {
+                            .PMID = value
+                        }
+
+                        Call pullReference(lines, ref)
+                    End If
+                End If
+            Loop
+
+            If list > 0 Then
+                Call _strData.Add(key, list.PopAll)
+            End If
+
+            References = refs.ToArray
+        End Sub
+
+        Private Shared Sub pullReference(ByRef lines As Pointer(Of String), ByRef ref As bGetObject.Reference)
+            Dim name As String = Nothing
+            Dim value As String = Nothing
+
+            Do While Not lines.EndRead
+                Call MoveNext(lines, name, value)
+
+                Select Case name
+                    Case "AUTHORS" : ref.Authors = value.Split(","c)
+                    Case "TITLE" : ref.Title = value
+                    Case "JOURNAL" : ref.Journal = value
+                    Case Else
+                        If name.StringEmpty Then
+                            ref.DOI = value
+                            Exit Do
+                        ElseIf name = "REFERENCE" Then
+                            lines -= 1
+                            Exit Do
+                        Else
+                            Throw New MissingPrimaryKeyException($"{name}: {value}")
+                        End If
+                End Select
+            Loop
+        End Sub
+
+        Private Shared Sub MoveNext(lines As Pointer(Of String), ByRef name$, ByRef value$)
+            Dim line As String = ++lines
+
+            name = Mid(line, 1, 12).Trim
+            value = Mid(line, 13).Trim
+        End Sub
 
         ''' <summary>
         ''' 获取某一个字段的数据
@@ -254,49 +175,17 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
         ''' <remarks></remarks>
         Public Function GetValue(KeyWord As String) As String()
             If _strData.ContainsKey(KeyWord) Then
-                Return _strData.Item(KeyWord).Select(Function(x) x.Value).ToArray
+                Return _strData.Item(KeyWord)
             Else
                 Return New String() {""}
             End If
-        End Function
-
-        Public Function GetRaw(Keyword As String) As String()
-            If _strData.ContainsKey(Keyword) Then
-                Return _strData.Item(Keyword).Select(Function(x) x.Value).ToArray
-            Else
-                Return New String() {""}
-            End If
-        End Function
-
-        Public Overrides Function ToString() As String
-            Return WebPageTitle
-        End Function
-
-        Const HREF As String = "<a href="".+?"">.+?</a>"
-
-        Public Shared Function RemoveHrefLink(strValue As String) As String
-            If String.IsNullOrEmpty(strValue) Then
-                Return ""
-            End If
-
-            Dim sBuilder As New StringBuilder(strValue)
-            Dim Links = From m As Match
-                        In Regex.Matches(strValue, HREF)
-                        Select Original = m.Value,
-                            Value = m.Value.GetValue
-
-            For Each LinkItem In Links
-                Call sBuilder.Replace(LinkItem.Original, LinkItem.Value)
-            Next
-
-            Return sBuilder.ToString
         End Function
 
 #Region "Implements IReadOnlyDictionary(Of String, String)"
 
         Public Iterator Function GetEnumerator() As IEnumerator(Of KeyValuePair(Of String, String())) Implements IEnumerable(Of KeyValuePair(Of String, String())).GetEnumerator
-            For Each Item As KeyValuePair(Of String, NamedValue(Of String)()) In Me._strData
-                Yield New KeyValuePair(Of String, String())(Item.Key, Item.Value.Select(Function(obj) obj.Value).ToArray)
+            For Each item As KeyValuePair(Of String, String()) In Me._strData
+                Yield item
             Next
         End Function
 
@@ -323,15 +212,12 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
         End Property
 
         Public Function TryGetValue(key As String, ByRef value As String()) As Boolean Implements IReadOnlyDictionary(Of String, String()).TryGetValue
-            Dim raw As NamedValue(Of String)() = Nothing
-            Dim f As Boolean = _strData.TryGetValue(key, raw)
-            value = raw.Select(Function(obj) obj.Value).ToArray
-            Return f
+            Return _strData.TryGetValue(key, value)
         End Function
 
         Public ReadOnly Property Values As IEnumerable(Of String()) Implements IReadOnlyDictionary(Of String, String()).Values
             Get
-                Return _strData.Values.Select(Function(tuple) tuple.Values).ToArray
+                Return _strData.Values
             End Get
         End Property
 

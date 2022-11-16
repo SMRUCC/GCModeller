@@ -3,7 +3,7 @@
 ''' <summary>
 ''' 
 ''' </summary>
-Public Class KEGGApi
+Public Module KEGGApi
 
     Const base As String = "https://rest.kegg.jp"
 
@@ -96,7 +96,14 @@ Public Class KEGGApi
                          Optional [option] As String = Nothing)
 
     End Function
-End Class
+
+    Public Function GetObject(id As String) As String
+        Dim url As String = $"{base}/get/{id}"
+        Dim html As String = url.GET
+
+        Return html
+    End Function
+End Module
 
 Public Enum operation
     ''' <summary>
