@@ -7,7 +7,7 @@ imports "graphquery" from "webKit";
 #'     this parameter should run http get request from the remote server and then
 #'     save file to local cache.
 #'
-const http_get as function(url, streamTo, interval = 3, filetype = "html") {
+const http_get = function(url, streamTo, interval = 3, filetype = "html") {
   const http.cache_dir as string = getOption("http.cache_dir") || stop("You should set of the 'http.cache_dir' option at first!");
 
   const cacheKey as string   = md5(url);
