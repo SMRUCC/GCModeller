@@ -56,7 +56,7 @@ Imports SMRUCC.genomics.Assembly.ELIXIR.EBI.ChEBI.XML
 
 Module chebiTest
 
-    Sub Main()
+    Sub Main1()
 
         Dim tables As New TSVTables("D:\smartnucl_integrative\DATA\ChEBI\tsv")
 

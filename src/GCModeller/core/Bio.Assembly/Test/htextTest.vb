@@ -1,64 +1,63 @@
-﻿#Region "Microsoft.VisualBasic::67676868d864d6b9716e4019ed2ab1a4, GCModeller\core\Bio.Assembly\Test\htextTest.vb"
+﻿'#Region "Microsoft.VisualBasic::67676868d864d6b9716e4019ed2ab1a4, GCModeller\core\Bio.Assembly\Test\htextTest.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-    ' /********************************************************************************/
-
-    ' Summaries:
+'    ' Author:
+'    ' 
+'    '       asuka (amethyst.asuka@gcmodeller.org)
+'    '       xie (genetics@smrucc.org)
+'    '       xieguigang (xie.guigang@live.com)
+'    ' 
+'    ' Copyright (c) 2018 GPL3 Licensed
+'    ' 
+'    ' 
+'    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+'    ' 
+'    ' 
+'    ' This program is free software: you can redistribute it and/or modify
+'    ' it under the terms of the GNU General Public License as published by
+'    ' the Free Software Foundation, either version 3 of the License, or
+'    ' (at your option) any later version.
+'    ' 
+'    ' This program is distributed in the hope that it will be useful,
+'    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+'    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+'    ' GNU General Public License for more details.
+'    ' 
+'    ' You should have received a copy of the GNU General Public License
+'    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-    ' Code Statistics:
 
-    '   Total Lines: 13
-    '    Code Lines: 9
-    ' Comment Lines: 0
-    '   Blank Lines: 4
-    '     File Size: 358 B
+'    ' /********************************************************************************/
+
+'    ' Summaries:
 
 
-    ' Module htextTest
-    ' 
-    '     Sub: Main
-    ' 
-    ' /********************************************************************************/
+'    ' Code Statistics:
 
-#End Region
+'    '   Total Lines: 13
+'    '    Code Lines: 9
+'    ' Comment Lines: 0
+'    '   Blank Lines: 4
+'    '     File Size: 358 B
 
-Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
-Imports SMRUCC.genomics.Assembly.KEGG.DBGET.WebQuery
 
-Module htextTest
+'    ' Module htextTest
+'    ' 
+'    '     Sub: Main
+'    ' 
+'    ' /********************************************************************************/
 
-    Sub Main()
-        Dim RC = ReactionClass.LoadFromResource.ToArray
+'#End Region
 
-        Call ReactionClassWebQuery.DownloadReactionClass("D:\biodeep\biodeep_v2\data\KEGG\reaction_class")
+'Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 
-        Pause()
-    End Sub
-End Module
+'Module htextTest
+
+'    Sub Main()
+'        Dim RC = ReactionClass.LoadFromResource.ToArray
+
+'        Call ReactionClassWebQuery.DownloadReactionClass("D:\biodeep\biodeep_v2\data\KEGG\reaction_class")
+
+'        Pause()
+'    End Sub
+'End Module

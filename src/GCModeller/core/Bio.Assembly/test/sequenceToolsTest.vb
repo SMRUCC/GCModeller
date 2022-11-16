@@ -54,7 +54,7 @@ Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Module sequenceToolsTest
-    Sub Main()
+    Sub Main1()
         Dim nt As New FastaSeq With {.Headers = {"ABC"}, .SequenceData = "abcdefghijklmnopqrstuvwxyz"}
         Dim cut = nt.CutSequenceLinear(New Location With {.left = 1, .right = 7})
         Dim cut2 = nt.CutSequenceLinear(New Location With {.left = 1, .right = 25})

@@ -4,6 +4,14 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>test</RootNamespace>
     <TargetFramework>net6.0</TargetFramework>
+    <TargetFrameworks>net6.0;net5.0;net48</TargetFrameworks>
+       <Platforms>AnyCPU;x64</Platforms>
+    <Configurations>Debug;Release;LipidSearch;mzkit;NPSearch;Rsharp_app_release;mzkit_win32;gcmodeller_desktop</Configurations>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+    <ProjectReference Include="..\biocore-netcore5.vbproj" />
+  </ItemGroup>
 
 </Project>

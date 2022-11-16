@@ -53,7 +53,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 
 Module gbTest
-    Sub Main()
+    Sub Main1()
         Call dbXref2LocationGuid()
     End Sub
 
