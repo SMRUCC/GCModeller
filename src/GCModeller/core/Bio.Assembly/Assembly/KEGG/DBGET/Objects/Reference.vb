@@ -71,7 +71,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         <XmlAttribute> Public Property Reference As String
         <XmlAttribute> Public Property DOI As String
 
-        Public Property PMID As Long
+        Public Property PMID As String
 
         Sub New()
         End Sub

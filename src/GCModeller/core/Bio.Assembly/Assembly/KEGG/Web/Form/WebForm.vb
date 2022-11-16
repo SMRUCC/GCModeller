@@ -107,23 +107,26 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
 
                 If name.StringEmpty Then
                     Call list.Add(value)
+                ElseIf name = "///" Then
+                    ' is break of current section
+                    Exit Do
                 Else
                     If list > 0 Then
                         Call _strData.Add(key, list.PopAll)
                     End If
 
+                    list += value
                     key = name
 
                     If key = "REFERENCE" Then
-                        If Not ref Is Nothing Then
-                            Call refs.Add(ref)
-                        End If
-
+                        key = Nothing
+                        list *= 0
                         ref = New bGetObject.Reference With {
                             .PMID = value
                         }
 
                         Call pullReference(lines, ref)
+                        Call refs.Add(ref)
                     End If
                 End If
             Loop
@@ -154,7 +157,8 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
                             lines -= 1
                             Exit Do
                         Else
-                            Throw New MissingPrimaryKeyException($"{name}: {value}")
+                            lines -= 1
+                            Exit Do
                         End If
                 End Select
             Loop
