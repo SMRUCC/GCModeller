@@ -1,5 +1,8 @@
 ﻿Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 
+''' <summary>
+''' 
+''' </summary>
 Public Class KEGGApi
 
     Const base As String = "https://rest.kegg.jp"
@@ -54,28 +57,35 @@ Public Class KEGGApi
     End Function
 
     ''' <summary>
-    ''' This is a search operation. The first form searches entry identifier and associated fields shown below for matching keywords.
+    ''' This is a search operation. The first form searches entry identifier 
+    ''' and associated fields shown below for matching keywords.
     '''
-''' |Database	|Text search fields (see flat file format)
-''' pathway	ENTRY And NAME
-''' Module ENTRY And NAME
-''' ko	ENTRY, NAME And DEFINITION
-''' genes (<org>, vg, vp, ag)	ENTRY, ORTHOLOGY, NAME And DEFINITION
-''' genome	ENTRY, NAME And DEFINITION
-''' compound	ENTRY And NAME
-''' glycan	ENTRY, NAME And COMPOSITION
-''' reaction	ENTRY, NAME And DEFINITION
-''' rclass	ENTRY And DEFINITION
-''' enzyme	ENTRY And NAME
-''' network	ENTRY And NAME
-''' variant	ENTRY And NAME
-''' disease	ENTRY And NAME
-''' drug	ENTRY And NAME
-''' dgroup	ENTRY And NAME
-'''
-''' Keyword search against brite Is Not supported. Use /list/brite To retrieve a Short list.
-'''
-''' In the second form the chemical formula search Is a partial match irrespective of the order of atoms given. The exact mass (Or molecular weight) Is checked by rounding off to the same decimal place as the query data. A range of values may also be specified with the minus(-) sign.
+    ''' |Database	|Text search fields (see flat file format)|
+    ''' |----------|-----------------------------------------|
+    ''' |pathway|	ENTRY And NAME|
+    ''' |module| ENTRY And NAME|
+    ''' |ko	   |ENTRY, NAME And DEFINITION|
+    ''' |genes (&lt;org>, vg, vp, ag)|	ENTRY, ORTHOLOGY, NAME And DEFINITION|
+    ''' |genome	|ENTRY, NAME And DEFINITION|
+    ''' |compound|	ENTRY And NAME|
+    ''' |glycan	|ENTRY, NAME And COMPOSITION|
+    ''' |reaction|	ENTRY, NAME And DEFINITION|
+    ''' |rclass	|ENTRY And DEFINITION|
+    ''' |enzyme	|ENTRY And NAME|
+    ''' |network|	ENTRY And NAME|
+    ''' |variant|	ENTRY And NAME|
+    ''' |disease|	ENTRY And NAME|
+    ''' |drug	|ENTRY And NAME|
+    ''' |dgroup|	ENTRY And NAME|
+    '''
+    ''' Keyword search against brite Is Not supported. Use /list/brite To 
+    ''' retrieve a Short list.
+    '''
+    ''' In the second form the chemical formula search Is a partial match 
+    ''' irrespective of the order of atoms given. The exact mass (Or molecular 
+    ''' weight) Is checked by rounding off to the same decimal place as the
+    ''' query data. A range of values may also be specified with the minus(-) 
+    ''' sign.
     ''' </summary>
     ''' <param name="database"></param>
     ''' <param name="query"></param>
