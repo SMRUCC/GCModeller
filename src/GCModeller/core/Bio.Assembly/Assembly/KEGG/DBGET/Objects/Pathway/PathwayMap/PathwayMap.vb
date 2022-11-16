@@ -63,7 +63,6 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Text.Xml.Models
-Imports SMRUCC.genomics.Assembly.KEGG.WebServices.InternalWebFormParsers
 Imports SMRUCC.genomics.ComponentModel.Annotation
 
 Namespace Assembly.KEGG.DBGET.bGetObject
@@ -163,17 +162,6 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             }
         End Function
 
-        Public Shared Function Download(entry As BriteHEntry.Pathway, Optional cache$ = "./", Optional offline As Boolean = False) As PathwayMap
-            Dim url As String = "http://www.genome.jp/dbget-bin/www_bget?pathway:map" & entry.EntryId
-            Dim WebForm As New WebForm(url)
-
-            If WebForm.Count = 0 Then
-                Return Nothing
-            Else
-                Return WebForm.DoCall(Function(form) mapParserInternal(form, entry, cache, offline))
-            End If
-        End Function
-
         ''' <summary>
         ''' 测试用的函数
         ''' </summary>
@@ -187,21 +175,6 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             }
 
             Return Download(entry, cache, offline)
-        End Function
-
-        ''' <summary>
-        ''' 函数会返回失败的个数
-        ''' </summary>
-        ''' <param name="EXPORT"></param>
-        ''' <param name="briteFile"></param>
-        ''' <param name="directoryOrganized"></param>
-        ''' <returns></returns>
-        Public Shared Function DownloadAll(EXPORT$,
-                                           Optional briteFile$ = "",
-                                           Optional directoryOrganized As Boolean = True,
-                                           Optional [overrides] As Boolean = False) As Integer
-
-            Return PathwayMapDownloads.DownloadAll(EXPORT, briteFile, directoryOrganized, [overrides])
         End Function
 
         ''' <summary>

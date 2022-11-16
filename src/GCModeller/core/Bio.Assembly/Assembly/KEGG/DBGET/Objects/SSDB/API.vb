@@ -163,41 +163,6 @@ both of these relationships hold
             Return __genesParser(WebForm, KO_ID)
         End Function
 
-        Private Function __genesParser(WebForm As WebForm, EntryID As String) As QueryEntry()
-            Dim GeneData As String
-
-            Try
-                GeneData = WebForm.GetRaw("Genes").First
-            Catch ex As Exception
-                Call $"The target orthology of ""{EntryID}"" contains no gene!".__DEBUG_ECHO
-                Return New QueryEntry() {}
-            End Try
-
-            Dim GeneEntryList = (From m As Match
-                                 In Regex.Matches(GeneData, GENE_RECORD, RegexOptions.IgnoreCase + RegexOptions.Singleline)
-                                 Select m.Value).ToArray
-            Dim LQuery = (From Entry As String In GeneEntryList Select __entryParser(Entry)).ToArray
-            Return LQuery
-        End Function
-
-        Private Function __entryParser(Entry As String) As QueryEntry
-            Dim Tokens As String() = Strings.Split(Entry, "</td>", Compare:=CompareMethod.Text)
-            Dim Name As String = Tokens(1)
-            Entry = Regex.Match(Name, GENE_ENTRY, RegexOptions.IgnoreCase).Value
-            Name = Trim(Strings.Split(Name, "</a>", Compare:=CompareMethod.Text).LastOrDefault.StripHTMLTags)
-
-            If Not String.IsNullOrEmpty(Name) AndAlso (Name.First = "("c AndAlso Name.Last = ")"c) Then
-                Name = Mid(Name, 2, Len(Name) - 2)
-            End If
-
-            Dim EntryData As QueryEntry = New QueryEntry With {
-                .locusID = Entry.GetValue,
-                .speciesID = Entry.href.Split(CChar("?")).Last.Split(CChar(":")).First,
-                .description = Name
-            }
-            Return EntryData
-        End Function
-
         <ExportAPI("Query")>
         Public Function Query(ko As String) As Orthology
             Dim url As String = String.Format(SSDB.API.ORTHOLOGY_WEBFORM, ko)
