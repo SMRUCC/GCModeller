@@ -99,37 +99,5 @@ Namespace Assembly.KEGG.DBGET.LinkDB
         Public Property relationship As Relationships
         Public Property right As NamedValue(Of String)
 
-        Public Shared Function TryParseLine(line As String) As Relationship
-            Dim links$() = line.Matches("[<].+?[>]", RegexICSng) _
-                               .Select(Function(l)
-                                           Return l.GetStackValue("<", ">")
-                                       End Function) _
-                               .ToArray
-            Dim rel As Relationships = links.ElementAtOrDefault(1).GetRelationship
-            Dim entry$ = links(0).Split("/"c).Last
-            Dim right$ = links(2)
-            Dim name$ = Strings.Split(right, "//")(1).Split("/"c).First
-            Dim value$ = right.Split("/"c, "?"c, "="c).Last
-
-            Return New Relationship With {
-                .left = entry,
-                .relationship = rel,
-                .right = New NamedValue(Of String) With {
-                    .Name = name,
-                    .Value = value,
-                    .Description = right
-                }
-            }
-        End Function
-
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Shared Function LinkIterator(lines As IEnumerable(Of String)) As IEnumerable(Of Relationship)
-            Return lines.Select(AddressOf TryParseLine)
-        End Function
-
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Shared Function GetLinkDb(entry As String) As IEnumerable(Of Relationship)
-            Return LinkIterator($"http://www.genome.jp/dbget-bin/get_linkdb?-N+{entry}".GET.LineTokens)
-        End Function
     End Class
 End Namespace

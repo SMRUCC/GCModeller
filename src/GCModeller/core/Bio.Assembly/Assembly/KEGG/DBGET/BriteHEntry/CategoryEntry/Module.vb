@@ -160,62 +160,6 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         End Function
 
         ''' <summary>
-        ''' 会按照分类来组织文件夹结构
-        ''' </summary>
-        ''' <param name="sp">KEGG organism species code</param>
-        ''' <param name="EXPORT"></param>
-        ''' <returns>返回成功下载的代谢途径的数目</returns>
-        ''' <remarks></remarks>
-        Public Shared Function DownloadModules(sp$, EXPORT$, Optional BriefFile As String = "") As String()
-            Dim BriefEntries As [Module]() =
-                If(String.IsNullOrEmpty(BriefFile),
-                LoadFromResource(),
-                LoadFile(BriefFile))
-            Dim failes As New List(Of String)
-
-            For Each entry As [Module] In BriefEntries
-                If Not __downloadModules(sp, EXPORT, entry) Then
-                    failes += entry.EntryId
-                End If
-            Next
-
-            Return failes
-        End Function
-
-        ''' <summary>
-        ''' 下载特定物种的模块数据
-        ''' </summary>
-        ''' <param name="sp"></param>
-        ''' <param name="EXPORT"></param>
-        ''' <param name="entry"></param>
-        Private Shared Function __downloadModules(sp$, EXPORT$, entry As [Module]) As Boolean
-            Dim entryId$ = $"{sp}{entry.Entry.Key}"
-            Dim t$() = EXPORT + {
-                entry.Class,
-                entry.Category,
-                entry.SubCategory
-            }.Select(AddressOf TrimPath) _
-             .AsList
-
-            Dim DIR As String = t.JoinBy("/")
-            Dim xml As String = String.Format("{0}/{1}.xml", DIR, entryId)
-
-            If xml.FileLength > 0 Then
-                Return True
-            End If
-
-            Dim url As String = $"http://www.genome.jp/dbget-bin/www_bget?md:{sp}_{entry.Entry.Key}"
-            Dim [module] As bGetObject.Module = ModuleDBGet.Download(url)
-
-            If [module] Is Nothing Then
-                Call $"[{sp}] {entry.ToString} is not exists in KEGG!".Warning
-                Return False
-            Else
-                Return [module].SaveAsXml(xml)
-            End If
-        End Function
-
-        ''' <summary>
         ''' 防止文件夹的名称过长而出错
         ''' </summary>
         ''' <param name="pathToken"></param>
