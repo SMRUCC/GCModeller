@@ -1,4 +1,5 @@
 require(kegg_graphquery);
+require(HDS);
 
 const cache_dir = ?"--cache" || `${dirname(@script)}/.cache/`;
 const Tcode     = ?"--tcode" || "map";
