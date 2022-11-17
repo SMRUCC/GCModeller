@@ -1,7 +1,6 @@
 +C	Map number
-#<h2><a href="/kegg/brite.html"><img src="/Fig/bget/kegg3.gif" align="middle" border=0></a>&nbsp; KEGG Pathway Maps</h2>
 !
-A<b>Metabolism</b>
+AMetabolism
 B  Global and overview maps
 C    01100  Metabolic pathways
 C    01110  Biosynthesis of secondary metabolites
@@ -10,6 +9,7 @@ C    01200  Carbon metabolism
 C    01210  2-Oxocarboxylic acid metabolism
 C    01212  Fatty acid metabolism
 C    01230  Biosynthesis of amino acids
+C    01232  Nucleotide metabolism
 C    01250  Biosynthesis of nucleotide sugars
 C    01240  Biosynthesis of cofactors
 C    01220  Degradation of aromatic compounds
@@ -95,13 +95,15 @@ C    00563  Glycosylphosphatidylinositol (GPI)-anchor biosynthesis
 C    00601  Glycosphingolipid biosynthesis - lacto and neolacto series
 C    00603  Glycosphingolipid biosynthesis - globo and isoglobo series
 C    00604  Glycosphingolipid biosynthesis - ganglio series
+C    00511  Other glycan degradation
 C    00540  Lipopolysaccharide biosynthesis
 C    00542  O-Antigen repeat unit biosynthesis
 C    00541  O-Antigen nucleotide sugar biosynthesis
 C    00550  Peptidoglycan biosynthesis
-C    00511  Other glycan degradation
+C    00552  Teichoic acid biosynthesis
 C    00571  Lipoarabinomannan (LAM) biosynthesis
 C    00572  Arabinogalactan biosynthesis - Mycobacterium
+C    00543  Exopolysaccharide biosynthesis
 B  Metabolism of cofactors and vitamins
 C    00730  Thiamine metabolism
 C    00740  Riboflavin metabolism
@@ -200,8 +202,7 @@ C    01064  Biosynthesis of alkaloids derived from ornithine, lysine and nicotin
 C    01065  Biosynthesis of alkaloids derived from histidine and purine
 C    01066  Biosynthesis of alkaloids derived from terpenoid and polyketide
 C    01070  Biosynthesis of plant hormones
-#
-A<b>Genetic Information Processing</b>
+AGenetic Information Processing
 B  Transcription
 C    03020  RNA polymerase
 C    03022  Basal transcription factors
@@ -231,8 +232,16 @@ C    03460  Fanconi anemia pathway
 B  Information processing in viruses
 C    03230  Viral genome structure
 C    03240  Viral replication
-#
-A<b>Environmental Information Processing</b>
+C    03250  Viral life cycle - HIV-1
+C    03260  Virion - Human immunodeficiency virus
+C    03261  Virion - Influenza A virus
+C    03263  Virion - Enterovirus
+C    03264  Virion - Flavivirus
+C    03265  Virion - Lyssavirus
+C    03266  Virion - Herpesvirus
+C    03268  Virion - Orthopoxvirus
+C    03267  Virion - Adenovirus
+AEnvironmental Information Processing
 B  Membrane transport
 C    02010  ABC transporters
 C    02060  Phosphotransferase system (PTS)
@@ -277,8 +286,7 @@ C    04060  Cytokine-cytokine receptor interaction
 C    04061  Viral protein interaction with cytokine and cytokine receptor
 C    04512  ECM-receptor interaction
 C    04514  Cell adhesion molecules
-#
-A<b>Cellular Processes</b>
+ACellular Processes
 B  Transport and catabolism
 C    04144  Endocytosis
 C    04145  Phagosome
@@ -317,8 +325,7 @@ B  Cell motility
 C    02030  Bacterial chemotaxis
 C    02040  Flagellar assembly
 C    04810  Regulation of actin cytoskeleton
-#
-A<b>Organismal Systems</b>
+AOrganismal Systems
 B  Immune system
 C    04640  Hematopoietic cell lineage
 C    04610  Complement and coagulation cascades
@@ -420,8 +427,7 @@ C    04711  Circadian rhythm - fly
 C    04712  Circadian rhythm - plant
 C    04714  Thermogenesis
 C    04626  Plant-pathogen interaction
-#
-A<b>Human Diseases</b>
+AHuman Diseases
 B  Cancer: overview
 C    05200  Pathways in cancer
 C    05202  Transcriptional misregulation in cancer
@@ -533,8 +539,7 @@ C    01521  EGFR tyrosine kinase inhibitor resistance
 C    01524  Platinum drug resistance
 C    01523  Antifolate resistance
 C    01522  Endocrine resistance
-#
-A<b>Drug Development</b>
+ADrug Development
 B  Chronology: Antiinfectives
 C    07011  Penicillins
 C    07012  Cephalosporins - parenteral agents
@@ -622,6 +627,6 @@ C    07112  1,2-Diphenyl substitution family
 C    07114  Naphthalene family
 C    07117  Benzodiazepine family
 !
-#<hr>
-#Last updated: December 22, 2021
-#<br><br><a href="/brite/jp08901">&raquo; Japanese version</a>
+#
+#Last updated: November 10, 2022
+#&raquo; Japanese version
