@@ -13,7 +13,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         Public Function ParsePathway(form As WebForm) As Pathway
             Return New Pathway With {
                 .compound = form.GetXmlTuples("COMPOUND").ToArray,
-                .genes = form.GetXmlTuples("GENE").ToArray,
+                .genes = form.GetValue("GENE").Select(AddressOf GeneName.Parse).ToArray,
                 .drugs = form.GetXmlTuples("DRUG").ToArray,
                 .name = form!NAME,
                 .description = form!DESCRIPTION,

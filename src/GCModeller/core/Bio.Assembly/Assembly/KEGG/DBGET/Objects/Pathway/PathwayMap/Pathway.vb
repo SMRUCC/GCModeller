@@ -105,7 +105,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         Public Property pathwayMap As NamedValue
         Public Property related_pathways As NamedValue()
 
-        Public Property genes As NamedValue()
+        Public Property genes As GeneName()
             Get
                 Return _genes
             End Get
@@ -115,10 +115,10 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 If Not Value.IsNullOrEmpty Then
                     _geneTable = Value _
                         .ToDictionary(Function(gene)
-                                          Return gene.name.Split(":"c).Last
+                                          Return gene.geneName
                                       End Function)
                 Else
-                    _geneTable = New Dictionary(Of String, NamedValue)
+                    _geneTable = New Dictionary(Of String, GeneName)
                 End If
             End Set
         End Property
@@ -146,8 +146,8 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' <returns></returns>
         Public Property references As Reference()
 
-        Dim _genes As NamedValue()
-        Dim _geneTable As New Dictionary(Of String, NamedValue)
+        Dim _genes As GeneName()
+        Dim _geneTable As New Dictionary(Of String, GeneName)
 
         <XmlNamespaceDeclarations()>
         Public xmlns As XmlSerializerNamespaces
@@ -247,7 +247,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             End If
 
             Dim LQuery As String() = genes _
-                .Select(Function(g) g.name.Split(":"c).Last) _
+                .Select(Function(g) g.geneName) _
                 .ToArray
             Return LQuery
         End Function
