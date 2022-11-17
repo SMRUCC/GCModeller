@@ -95,11 +95,11 @@ Public Module SSDB
                     Continue For
                 End If
 
-                Dim seq As FastaSeq =
-                    SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB.API.CutSequence(
-                    region,
-                    org:=code,
-                    vector:=loci.Strand)
+                Dim seq As FastaSeq '=
+                'SMRUCC.genomics.Assembly.KEGG.DBG.API.CutSequence(
+                'region,
+                'org:=code,
+                'vector:=loci.Strand)
 
                 seq.Headers = {title}
 

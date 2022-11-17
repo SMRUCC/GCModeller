@@ -697,6 +697,9 @@ Public Module repository
                             disease As dataframe,
                             Optional env As Environment = Nothing) As Pathway
 
+        Dim code As String = organism.getValue(Of String)("code", env, "KO")
+        Dim sp_name As String = organism.getValue(Of String)("name", env, "")
+
         Return New Pathway With {
             .EntryId = id, .name = name,
             .description = description,
@@ -708,10 +711,7 @@ Public Module repository
             .references = references.GetReference,
             .compound = compounds.GetNameValues,
             .drugs = drugs.GetNameValues,
-            .organism = New KeyValuePair With {
-                .Key = organism.getValue(Of String)("code", env, "KO"),
-                .Value = organism.getValue(Of String)("name", env, "")
-            },
+            .organism = $"[{code}] {sp_name}",
             .genes = genes.GetNameValues,
             .disease = disease.GetNameValues
         }
