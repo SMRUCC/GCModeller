@@ -105,6 +105,15 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
         ''' <param name="resource"></param>
         Sub New(resource As String)
             Dim lines As New Pointer(Of String)(resource.SolveStream.LineTokens)
+
+            If lines.Length = 1 AndAlso lines.Current.StringEmpty Then
+                References = {}
+            Else
+                References = doFormParse(lines)
+            End If
+        End Sub
+
+        Private Function doFormParse(lines As Pointer(Of String)) As bGetObject.Reference()
             ' fix size 12 chars
             Dim key As String = Nothing
             Dim name As String = Nothing
@@ -142,12 +151,12 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
                 End If
             Loop
 
-            If list > 0 Then
+            If list > 0 AndAlso Not key.StringEmpty Then
                 Call _strData.Add(key, list.PopAll)
             End If
 
-            References = refs.ToArray
-        End Sub
+            Return refs.ToArray
+        End Function
 
         Private Shared Sub pullReference(ByRef lines As Pointer(Of String), ByRef ref As bGetObject.Reference)
             Dim name As String = Nothing
