@@ -24,8 +24,10 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             text = data.Value
             KO = text.Match("\[KO[:](K\d+\s*)+\]")
             EC = text.Match("\[EC[:]([\d.\s]+)\]")
-            text = text.Replace(KO, "")
-            EC = text.Replace(EC, "")
+
+            If Not KO.StringEmpty Then text = text.Replace(KO, "")
+            If Not EC.StringEmpty Then text = text.Replace(EC, "")
+
             text = text.Trim
             gene.description = text
             gene.KO = KO.Match("K\d+")
