@@ -210,7 +210,7 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
 
         Public Iterator Function GetXmlTuples(key As String) As IEnumerable(Of NamedValue)
             For Each line As String In GetValue(key)
-                Yield New NamedValue(line.GetTagValue(" ", trim:=True))
+                Yield New NamedValue(line.GetTagValue(" ", trim:=True, failureNoName:=False))
             Next
         End Function
 

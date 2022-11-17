@@ -30,4 +30,4 @@ for(name in names(pathways)) {
     ;
 }
 
-close(cache_dir);
+close([cache_dir]::fs);
