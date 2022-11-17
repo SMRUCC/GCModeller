@@ -12,6 +12,6 @@ const Tcode     = ?"--tcode" || "map";
 const pathways  = list_pathway(Tcode);
 
 for(name in names(pathways)) {
-    print(`${name}: {pathways[[name]]}`);
+    print(`${name}: ${pathways[[name]]}`);
 
 }
