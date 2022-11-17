@@ -9,7 +9,7 @@ require(HDS);
 require(GCModeller);
 
 const cache_dir = [?"--cache" || stop("No data cahce file!")] 
-|> HDS::openStream() 
+|> HDS::openStream(allowCreate = TRUE)
 |> http::http.cache()
 ;
 const Tcode     =  ?"--tcode" || "map";
@@ -23,7 +23,7 @@ for(name in names(pathways)) {
     
     pathway
     |> xml()
-    |> writeLines(`/pathways/${dir}/${name}.xml`, fs = cache_dir)
+    |> writeLines(`/pathways/${dir}/${name}.xml`, fs = [cache_dir]::fs)
     ;
 }
 
