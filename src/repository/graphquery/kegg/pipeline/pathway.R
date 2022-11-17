@@ -23,7 +23,10 @@ for(name in names(pathways)) {
     
     pathway
     |> xml()
-    |> writeLines(`/pathways/${dir}/${name}.xml`, fs = [cache_dir]::fs)
+    |> writeLines(
+        con = `/pathways/${dir}/${name}.xml`, 
+        fs = [cache_dir]::fs
+    )
     ;
 }
 
