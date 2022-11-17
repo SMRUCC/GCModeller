@@ -21,7 +21,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 .organism = form!ORGANISM,
                 .references = form.References,
                 .modules = form.GetXmlTuples("MODULE").ToArray,
-                .[class] = form!CLASS,
+                .[class] = Strings.Trim(form!CLASS).StringSplit(";\s+"),
                 .related_pathways = form.GetXmlTuples("REL_PATHWAY").ToArray
             }
         End Function

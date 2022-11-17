@@ -12,7 +12,14 @@ const cache_dir = [?"--cache" || stop("No data cahce file!")] |> http::http.cach
 const Tcode     =  ?"--tcode" || "map";
 const pathways  = list_pathway(Tcode, cache = cache_dir);
 
-for(name in names(pathways)) {
+for(name in names(pathways)) {    
     print(`${name}: ${pathways[[name]]}`);
 
+    name 
+    |> kegg_pathway(cache = cache_dir)
+    |> xml()
+    |> writeLines(`/pathways/${name}.xml`, fs = cache_dir)
+    ;
 }
+
+close(cache_dir);

@@ -82,7 +82,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' <remarks></remarks>
         <XmlElement>
         Public Property name As String
-        Public Property [class] As String
+        Public Property [class] As String()
         ''' <summary>
         ''' The module entry collection data in this pathway.
         ''' </summary>
