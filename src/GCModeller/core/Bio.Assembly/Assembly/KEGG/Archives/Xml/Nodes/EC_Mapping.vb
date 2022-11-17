@@ -62,7 +62,6 @@ Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 
 Namespace Assembly.KEGG.Archives.Xml.Nodes
@@ -123,9 +122,9 @@ Namespace Assembly.KEGG.Archives.Xml.Nodes
                         Select (From Pathway As bGetObject.Pathway
                                 In cat.Pathways
                                 Where Not Pathway.genes.IsNullOrEmpty
-                                Select (From gene As NamedValue In Pathway.genes
-                                        Let EC As String() = gene.text.EcParser
-                                        Select locusId = gene.name,
+                                Select (From gene As bGetObject.GeneName In Pathway.genes
+                                        Let EC As String() = gene.EC
+                                        Select locusId = gene.geneName,
                                             EC).ToArray).ToArray).IteratesALL.IteratesALL
             Dim gLst = (From GG In (From GO In gECs
                                     Select GO
