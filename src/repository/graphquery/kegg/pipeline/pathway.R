@@ -8,17 +8,22 @@ require(kegg_graphquery);
 require(HDS);
 require(GCModeller);
 
-const cache_dir = [?"--cache" || stop("No data cahce file!")] |> http::http.cache();
+const cache_dir = [?"--cache" || stop("No data cahce file!")] 
+|> HDS::openStream() 
+|> http::http.cache()
+;
 const Tcode     =  ?"--tcode" || "map";
 const pathways  = list_pathway(Tcode, cache = cache_dir);
 
-for(name in names(pathways)) {    
-    print(`${name}: ${pathways[[name]]}`);
+for(name in names(pathways)) {  
+    const pathway = kegg_pathway(name, cache = cache_dir);
+    const dir = paste([pathway]::class, "/");
 
-    name 
-    |> kegg_pathway(cache = cache_dir)
+    print(`${name}: ${pathways[[name]]} | ${dir}`);
+    
+    pathway
     |> xml()
-    |> writeLines(`/pathways/${name}.xml`, fs = cache_dir)
+    |> writeLines(`/pathways/${dir}/${name}.xml`, fs = cache_dir)
     ;
 }
 
