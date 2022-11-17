@@ -1,11 +1,28 @@
-﻿Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Net.Http
 
 ''' <summary>
 ''' 
 ''' </summary>
-Public Module KEGGApi
+Public Class KEGGApi
 
     Const base As String = "https://rest.kegg.jp"
+
+    ReadOnly proxy As IHttpGet
+
+    Sub New(Optional proxy As IHttpGet = Nothing)
+        Me.proxy = proxy
+    End Sub
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Private Function getUrl(url As String) As String
+        If proxy Is Nothing Then
+            Return url.GET
+        Else
+            Return proxy.GetText(url)
+        End If
+    End Function
 
     ''' <summary>
     ''' This operation displays the database release information with statistics for the databases shown in Table 1. Except for kegg, genes and ligand, this operation also displays the list of linked databases that can be used in the link operation.
@@ -23,7 +40,7 @@ Public Module KEGGApi
     ''' <returns></returns>
     Public Function GetInformation(database As String) As String
         Dim url As String = $"{base}/info/{database}"
-        Dim html As String = url.GET
+        Dim html As String = getUrl(url)
         Return html
     End Function
 
@@ -43,7 +60,7 @@ Public Module KEGGApi
             url = $"{url}/{org}"
         End If
 
-        Dim html As String = url.GET
+        Dim html As String = getUrl(url)
         Dim lines As String() = html.LineTokens.Where(Function(str) Not str.StringEmpty).ToArray
         Dim dataset As New Dictionary(Of String, String)
         Dim tuple As NamedValue(Of String)
@@ -99,11 +116,11 @@ Public Module KEGGApi
 
     Public Function GetObject(id As String) As String
         Dim url As String = $"{base}/get/{id}"
-        Dim html As String = url.GET
+        Dim html As String = getUrl(url)
 
         Return html
     End Function
-End Module
+End Class
 
 Public Enum operation
     ''' <summary>
