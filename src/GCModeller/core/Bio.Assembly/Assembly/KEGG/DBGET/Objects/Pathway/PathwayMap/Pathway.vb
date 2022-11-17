@@ -115,7 +115,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 If Not Value.IsNullOrEmpty Then
                     _geneTable = Value _
                         .ToDictionary(Function(gene)
-                                          Return gene.geneName
+                                          Return gene.geneId
                                       End Function)
                 Else
                     _geneTable = New Dictionary(Of String, GeneName)
