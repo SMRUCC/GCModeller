@@ -1,11 +1,12 @@
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 
 Namespace Assembly.KEGG.DBGET.bGetObject
 
     <XmlType("geneName")>
-    Public Class GeneName
+    Public Class GeneName : Implements INamedValue
 
-        <XmlAttribute> Public Property geneId As String
+        <XmlAttribute> Public Property geneId As String Implements INamedValue.Key
         <XmlAttribute> Public Property geneName As String
         <XmlText> Public Property description As String
         <XmlAttribute> Public Property KO As String

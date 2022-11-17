@@ -131,9 +131,9 @@ Public Module PathwayCompiler
                                 .enzymes = map.genes _
                                     .Select(Function(gene)
                                                 Return New [Property] With {
-                                                    .name = gene.name.GetTagValue(":", trim:=True).Value,
-                                                    .comment = gene.name,
-                                                    .value = gene.text.Split.First
+                                                    .name = gene.geneName,
+                                                    .comment = gene.description,
+                                                    .value = gene.description
                                                 }
                                             End Function) _
                                     .ToArray

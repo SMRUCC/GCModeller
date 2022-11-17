@@ -712,7 +712,7 @@ Public Module repository
             .compound = compounds.GetNameValues,
             .drugs = drugs.GetNameValues,
             .organism = $"[{code}] {sp_name}",
-            .genes = genes.GetNameValues,
+            .genes = genes.GetGeneName,
             .disease = disease.GetNameValues
         }
     End Function

@@ -79,10 +79,10 @@ Public Class OrganismModel : Inherits XmlDataModel
                                      Return pathway.genes
                                  End Function) _
                          .IteratesALL _
-                         .GroupBy(Function(gene) gene.name.Split(":"c).First) _
+                         .GroupBy(Function(gene) gene.KO) _
                          .ToDictionary(Function(gene) gene.Key,
                                        Function(gene)
-                                           Return gene.First.text.Split.First
+                                           Return gene.First.description
                                        End Function)
         End Get
     End Property

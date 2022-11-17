@@ -301,9 +301,9 @@ Public Module Reconstruction
             .KOpathway = kopathway,
             .genes = proteins _
                 .Select(Function(g)
-                            Return New NamedValue With {
-                                .name = g.geneId,
-                                .text = g.description
+                            Return New GeneName With {
+                                .geneId = g.geneId,
+                                .description = g.description
                             }
                         End Function) _
                 .ToArray,

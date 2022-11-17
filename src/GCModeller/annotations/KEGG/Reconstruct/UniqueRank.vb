@@ -95,7 +95,9 @@ Public Module UniqueRank
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function EvaluateEnzymeUniqueRank(pathwayProfile As IEnumerable(Of Pathway), Optional cutoff As Double = 0.3, Optional quantile# = 0.8) As IEnumerable(Of DataSet)
-        Return pathwayProfile.EvaluateUniqueRank(Function(map) map.genes.Keys.ToArray, cutoff, quantile)
+        Return pathwayProfile.EvaluateUniqueRank(Function(map)
+                                                     Return map.genes.Select(Function(g) g.geneId).ToArray
+                                                 End Function, cutoff, quantile)
     End Function
 
     ''' <summary>

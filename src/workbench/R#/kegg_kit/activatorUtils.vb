@@ -85,6 +85,18 @@ Module activatorUtils
     End Function
 
     <Extension>
+    Public Function GetGeneName(data As dataframe) As GeneName()
+        Return data.forEachRow({"id", "name"}) _
+            .Select(Function(r)
+                        Return New GeneName With {
+                            .geneId = any.ToString(r(0)),
+                            .description = any.ToString(r(1))
+                        }
+                    End Function) _
+            .ToArray
+    End Function
+
+    <Extension>
     Public Function GetDbLinks(data As dataframe) As DBLink()
         Return data.forEachRow({"db", "id", "link"}) _
             .Select(Function(r)

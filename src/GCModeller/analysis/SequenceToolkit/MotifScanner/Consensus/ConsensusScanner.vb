@@ -85,17 +85,17 @@ Public Class ConsensusScanner
                                  .genome _
                                  .Select(Function(pathway) pathway.genes) _
                                  .IteratesALL _
-                                 .Where(Function(g) Not g.text.StringEmpty)
+                                 .Where(Function(g)
+                                            Return Not g.KO.StringEmpty
+                                        End Function)
                          End Function) _
                  .IteratesALL _
-                 .GroupBy(Function(gene) gene.text.Split.First) _
+                 .GroupBy(Function(gene) gene.KO) _
                  .ToDictionary(Function(id) id.Key,
                                Function(genes)
                                    ' KEGG之中的基因编号都会存在一个物种缩写的前缀
                                    ' 在这里移除掉
-                                   Return genes.Keys _
-                                       .Select(Function(id) id.Split(":"c).Last.ToUpper) _
-                                       .ToArray
+                                   Return genes.Select(Function(g) g.geneId).ToArray
                                End Function)
             KOUpstream = KO.ToDictionary(Function(id) id.Key,
                                          Function(consensus)
