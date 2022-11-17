@@ -4,7 +4,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
-    <title>blast+</title>
+    <title>kegg_api</title>
     <meta name="author" content="xie.guigang@gcmodeller.org" />
     <meta name="copyright" content="SMRUCC genomics Copyright (c) 2020" />
     <meta name="keywords" content="GCModeller; Xanthomonas; Artificial Life" />
@@ -21,104 +21,36 @@
     <meta class="foundation-mq-topbar" />
   </head>
   <body>
-    <table width="100%" summary="page for {blast+}">
+    <table width="100%" summary="page for {kegg_api}">
       <tbody>
         <tr>
-          <td>{blast+}</td>
+          <td>{kegg_api}</td>
           <td style="text-align: right;">R# Documentation</td>
         </tr>
       </tbody>
     </table>
-    <h1>blast+</h1>
+    <h1>kegg_api</h1>
     <hr />
     <p></p>
     <div id="main-wrapper">
                            <div>
-  <h2 id="makeblastdb">
-    <a href="./blast+/makeblastdb.html">makeblastdb</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>Application to create BLAST databases</p>  
-                
-                    <pre><p>let <code>makeblastdb</code> as function(<code>in</code> as string, <code>dbtype</code> as any = ["nucl","prot"], [<code>&lt;Environment&gt;</code>]) -> <code>any</code> {
-    #
-    # .NET API information
-    #
-    # module: seqtoolkit.blastPlusInterop
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: seqtoolkit.dll
-    # package: "blast+"
-    #
-    return call <code>R&#35;.interop_[blastPlusInterop::makeblastdb]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>[in]</code>: Input file/database name
-                </li>
-<li>
-  <code>dbtype</code>: Molecule type of target db
-                </li>
-<li>
-  <code>env</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="blastp">
-    <a href="./blast+/blastp.html">blastp</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>Protein-Protein BLAST</p>  
-                
-                    <pre><p>let <code>blastp</code> as function(<code>query</code> as string, 
-<code>subject</code> as string, 
-<code>output</code> as string, 
-<code>evalue</code> as double = 0.001, 
-<code>n_threads</code> as integer = 2, 
-[<code>&lt;Environment&gt;</code>]) -> <code>any</code> {
-    #
-    # .NET API information
-    #
-    # module: seqtoolkit.blastPlusInterop
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: seqtoolkit.dll
-    # package: "blast+"
-    #
-    return call <code>R&#35;.interop_[blastPlusInterop::blastp]</code>(...);
-}</p></pre>
-
-                    
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="blastn">
-    <a href="./blast+/blastn.html">blastn</a>
+  <h2 id="listing">
+    <a href="./kegg_api/listing.html">listing</a>
   </h2>
   <hr />
   <p>
                       
                 
-                    <pre><p>let <code>blastn</code> as function() -> <code>any</code> {
+                    <pre><p>let <code>listing</code> as function(<code>database</code> as string, <code>option</code> as string = <code>&lt;NULL&gt;</code>, <code>cache</code> as <generic> IHttpGet = <code>&lt;NULL&gt;</code>) -> <code>any</code> {
     #
     # .NET API information
     #
-    # module: seqtoolkit.blastPlusInterop
+    # module: kegg_kit.kegg_api
     # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: seqtoolkit.dll
-    # package: "blast+"
+    # library: kegg_kit.dll
+    # package: "kegg_api"
     #
-    return call <code>R&#35;.interop_[blastPlusInterop::blastn]</code>(...);
+    return call <code>R&#35;.interop_[kegg_api::listing]</code>(...);
 }</p></pre>
 
                     
@@ -127,23 +59,73 @@
 
                     <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
 </div><br /><div>
-  <h2 id="blastx">
-    <a href="./blast+/blastx.html">blastx</a>
+  <h2 id="get">
+    <a href="./kegg_api/get.html">get</a>
   </h2>
   <hr />
   <p>
                       
                 
-                    <pre><p>let <code>blastx</code> as function() -> <code>any</code> {
+                    <pre><p>let <code>get</code> as function(<code>id</code> as string, <code>cache</code> as <generic> IHttpGet = <code>&lt;NULL&gt;</code>) -> <code>string</code> {
     #
     # .NET API information
     #
-    # module: seqtoolkit.blastPlusInterop
+    # module: kegg_kit.kegg_api
     # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: seqtoolkit.dll
-    # package: "blast+"
+    # library: kegg_kit.dll
+    # package: "kegg_api"
     #
-    return call <code>R&#35;.interop_[blastPlusInterop::blastx]</code>(...);
+    return call <code>R&#35;.interop_[kegg_api::get]</code>(...);
+}</p></pre>
+
+                    
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="parseForm">
+    <a href="./kegg_api/parseForm.html">parseForm</a>
+  </h2>
+  <hr />
+  <p>
+                      
+                
+                    <pre><p>let <code>parseForm</code> as function(<code>text</code> as string) -> <code>&lt;generic&gt; WebForm</code> {
+    #
+    # .NET API information
+    #
+    # module: kegg_kit.kegg_api
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: kegg_kit.dll
+    # package: "kegg_api"
+    #
+    return call <code>R&#35;.interop_[kegg_api::parseWebForm]</code>(...);
+}</p></pre>
+
+                    
+                       
+                    
+
+                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
+</div><br /><div>
+  <h2 id="as.pathway">
+    <a href="./kegg_api/as.pathway.html">as.pathway</a>
+  </h2>
+  <hr />
+  <p>
+                      
+                
+                    <pre><p>let <code>as.pathway</code> as function(<code>form</code> as <generic> WebForm) -> <code>&lt;generic&gt; Pathway</code> {
+    #
+    # .NET API information
+    #
+    # module: kegg_kit.kegg_api
+    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
+    # library: kegg_kit.dll
+    # package: "kegg_api"
+    #
+    return call <code>R&#35;.interop_[kegg_api::convertToPathway]</code>(...);
 }</p></pre>
 
                     

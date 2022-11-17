@@ -10,7 +10,7 @@
     <meta name="keywords" content="GCModeller; Xanthomonas; Artificial Life" />
     <meta name="generator" content="https://github.com/xieguigang/xDoc" />
     <meta name="theme-color" content="#333" />
-    <meta name="last-update" content="2022-11-16" />
+    <meta name="last-update" content="2022-11-17" />
     <meta name="description" content="A software system aim at Artificial Life system design and analysis." />
     <meta class="foundation-data-attribute-namespace" />
     <meta class="foundation-mq-xxlarge" />
@@ -333,7 +333,7 @@
   </h2>
   <hr />
   <p>
-                      
+                    <p>convert the mothur rank tree as the OTU table</p>  
                 
                     <pre><p>let <code>as.OTU_table</code> as function(<code>tree</code> as <generic> MothurRankTree) -> <code>&lt;generic&gt; OTUTable[]</code> {
     #
@@ -347,7 +347,14 @@
     return call <code>R&#35;.interop_[TaxonomyKit::asOTUTable]</code>(...);
 }</p></pre>
 
-                    
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>tree</code>: -
+                </li>
+                </ul>
+</div>
                        
                     
 
@@ -358,7 +365,7 @@
   </h2>
   <hr />
   <p>
-                      
+                    <p>convert the mothur rank tree as the OTU table</p>  
                 
                     <pre><p>let <code>as.OTUtable</code> as function(<code>table</code> as <generic> dataframe, 
 <code>id</code> as string = "OTU_num", 
@@ -375,7 +382,14 @@
     return call <code>R&#35;.interop_[TaxonomyKit::asOTUTable]</code>(...);
 }</p></pre>
 
-                    
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>tree</code>: -
+                </li>
+                </ul>
+</div>
                        
                     
 
@@ -386,7 +400,7 @@
   </h2>
   <hr />
   <p>
-                      
+                    <p>read 16s OTU table</p>  
                 
                     <pre><p>let <code>read.OTUtable</code> as function(<code>file</code> as string, <code>sumDuplicated</code> as boolean = TRUE) -> <code>&lt;generic&gt; OTUTable[]</code> {
     #
@@ -400,7 +414,17 @@
     return call <code>R&#35;.interop_[TaxonomyKit::readOTUTable]</code>(...);
 }</p></pre>
 
-                    
+                    <div>
+  <h4>Arguments</h4>
+  <ul>
+                   <li>
+  <code>file</code>: -
+                </li>
+<li>
+  <code>sumDuplicated</code>: -
+                </li>
+                </ul>
+</div>
                        
                     
 
