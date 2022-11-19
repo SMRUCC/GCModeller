@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bab5be538431b669101b5fedd982f77a, sciBASIC#\Microsoft.VisualBasic.Core\src\Extensions\Image\Math\Polygon2D.vb"
+﻿#Region "Microsoft.VisualBasic::456bb31795ee85a634f91abafde44db7, sciBASIC#\Microsoft.VisualBasic.Core\src\Extensions\Image\Math\Polygon2D.vb"
 
     ' Author:
     ' 
@@ -34,16 +34,16 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 290
-    '    Code Lines: 185
+    '   Total Lines: 300
+    '    Code Lines: 194
     ' Comment Lines: 59
-    '   Blank Lines: 46
-    '     File Size: 10.49 KB
+    '   Blank Lines: 47
+    '     File Size: 10.78 KB
 
 
     '     Class Polygon2D
     ' 
-    '         Properties: height, length, xpoints, ypoints
+    '         Properties: height, length, width, xpoints, ypoints
     ' 
     '         Constructor: (+6 Overloads) Sub New
     ' 
@@ -90,6 +90,16 @@ Namespace Imaging.Math2D
                     Return 0
                 Else
                     Return ypoints.Max - ypoints.Min
+                End If
+            End Get
+        End Property
+
+        Public ReadOnly Property width As Double
+            Get
+                If xpoints.Length = 0 Then
+                    Return 0
+                Else
+                    Return xpoints.Max - xpoints.Min
                 End If
             End Get
         End Property
