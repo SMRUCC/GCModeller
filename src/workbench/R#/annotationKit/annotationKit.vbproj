@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <RootNamespace>annotationKit</RootNamespace>
-	  <TargetFrameworks>net6.0;net5.0;net48</TargetFrameworks>
+    <TargetFrameworks>net6.0-windows;net6.0</TargetFrameworks>
     <Platforms>AnyCPU;x64</Platforms>
     <Configurations>Debug;Release;Rsharp_app_release</Configurations>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
