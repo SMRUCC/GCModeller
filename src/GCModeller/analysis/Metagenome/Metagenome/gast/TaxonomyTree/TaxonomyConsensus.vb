@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5be47c01e8a138aa8b3fc322fef2be6b, GCModeller\analysis\Metagenome\Metagenome\gast\TaxonomyTree\TaxonomyConsensus.vb"
+﻿#Region "Microsoft.VisualBasic::e0b31082e508194b7f7f0ebe199231de, GCModeller\analysis\Metagenome\Metagenome\gast\TaxonomyTree\TaxonomyConsensus.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 90
     ' Comment Lines: 19
     '   Blank Lines: 29
-    '     File Size: 5.68 KB
+    '     File Size: 5.54 KB
 
 
     '     Module TaxonomyConsensus

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a63aaddbec5c68960da3446bf30714c8, GCModeller\core\Bio.Assembly\SequenceModel\FASTA\IO\FastaFile.vb"
+﻿#Region "Microsoft.VisualBasic::1ae9e41204b40b21c8420cfc6c690f7e, GCModeller\core\Bio.Assembly\SequenceModel\FASTA\IO\FastaFile.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 636
+    '   Total Lines: 637
     '    Code Lines: 403
-    ' Comment Lines: 134
+    ' Comment Lines: 135
     '   Blank Lines: 99
-    '     File Size: 25.25 KB
+    '     File Size: 25.24 KB
 
 
     '     Class FastaFile
@@ -48,11 +48,11 @@
     '         Constructor: (+8 Overloads) Sub New
     ' 
     '         Function: [Select], AddRange, AsKSource, Clone, Contains
-    '                   Distinct, (+2 Overloads) DocParser, Find, Generate, GetEnumerator
-    '                   GetEnumerator1, IndexOf, IsValidFastaFile, LoadNucleotideData, Match
-    '                   ParseDocument, (+2 Overloads) Query, QueryAny, Read, Remove
-    '                   (+4 Overloads) Save, SaveData, SingleSequence, Take, ToLower
-    '                   ToString, ToUpper
+    '                   Distinct, (+2 Overloads) DocParser, filterNulls, Find, Generate
+    '                   GetEnumerator, GetEnumerator1, IndexOf, IsValidFastaFile, LoadNucleotideData
+    '                   Match, ParseDocument, (+2 Overloads) Query, QueryAny, Read
+    '                   Remove, (+4 Overloads) Save, SaveData, SingleSequence, Take
+    '                   ToLower, ToString, ToUpper
     ' 
     '         Sub: Add, AppendToFile, Clear, CopyTo, Insert
     '              RemoveAt, Split

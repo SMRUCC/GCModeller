@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bf3d3f29b46f52bc5cf913a1f568ab81, GCModeller\models\BIOM\BIOM\v2.1.vb"
+﻿#Region "Microsoft.VisualBasic::66515c60a5355e0d7ad2e2ef9b1dd678, GCModeller\models\BIOM\BIOM\v2.1.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 80
     ' Comment Lines: 25
     '   Blank Lines: 16
-    '     File Size: 4.91 KB
+    '     File Size: 4.79 KB
 
 
     '     Module HDF5

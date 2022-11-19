@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c32c0de44c37fa0041d2dc2367c3986e, GCModeller\models\SBML\Biopax\My Project\Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::41ddee924ceac2e2d952db36975a27dd, GCModeller\models\SBML\Biopax\My Project\Resources.Designer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 32
     ' Comment Lines: 23
     '   Blank Lines: 8
-    '     File Size: 2.79 KB
+    '     File Size: 2.73 KB
 
 
     '     Module Resources

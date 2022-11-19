@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9ebf82726f6882e7b9b3a34573f4c9dd, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\Schemas\PathwayBrief\Models.vb"
+﻿#Region "Microsoft.VisualBasic::60c6de5a2a51852f9512269b8aa55eda, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\Schemas\PathwayBrief\Models.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 62
     ' Comment Lines: 12
     '   Blank Lines: 12
-    '     File Size: 3.27 KB
+    '     File Size: 3.18 KB
 
 
     '     Class Pathway

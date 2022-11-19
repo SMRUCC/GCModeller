@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::666e4a92ed9201a595ab553aa2b37ecc, GCModeller\core\Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\Database\IO.StreamProviders\StreamProvider.vb"
+﻿#Region "Microsoft.VisualBasic::3912c894e07d05ae6903aeb44c1ff2a2, GCModeller\core\Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\Database\IO.StreamProviders\StreamProvider.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 4
     ' Comment Lines: 0
     '   Blank Lines: 2
-    '     File Size: 146 B
+    '     File Size: 141 B
 
 
     '     Class StreamProvider

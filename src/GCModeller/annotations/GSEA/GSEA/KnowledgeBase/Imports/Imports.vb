@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::45b7f389698e5f348f619b3833dd0d24, GCModeller\annotations\GSEA\GSEA\KnowledgeBase\Imports\Imports.vb"
+﻿#Region "Microsoft.VisualBasic::7455f3232ea1f1dcc05cf0e33cb9dbb3, GCModeller\annotations\GSEA\GSEA\KnowledgeBase\Imports\Imports.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 136
     ' Comment Lines: 20
     '   Blank Lines: 22
-    '     File Size: 7.11 KB
+    '     File Size: 6.93 KB
 
 
     ' Module [Imports]

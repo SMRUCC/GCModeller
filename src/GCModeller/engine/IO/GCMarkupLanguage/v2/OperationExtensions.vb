@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::598ae840a11ac28aae0ef3a011ef846d, GCModeller\engine\IO\GCMarkupLanguage\v2\OperationExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::81d2b6152621c9f7ec5b80b749ee61b4, GCModeller\engine\IO\GCMarkupLanguage\v2\OperationExtensions.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 62
     ' Comment Lines: 22
     '   Blank Lines: 10
-    '     File Size: 3.89 KB
+    '     File Size: 3.80 KB
 
 
     '     Module OperationExtensions

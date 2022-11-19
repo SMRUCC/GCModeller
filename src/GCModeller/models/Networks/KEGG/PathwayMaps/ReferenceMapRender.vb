@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::14c63ee96557c10e969a41481aa00788, GCModeller\models\Networks\KEGG\PathwayMaps\ReferenceMapRender.vb"
+﻿#Region "Microsoft.VisualBasic::6409b06b00fcb9e42a25e041e5ebfb89, GCModeller\models\Networks\KEGG\PathwayMaps\ReferenceMapRender.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 365
     ' Comment Lines: 35
     '   Blank Lines: 52
-    '     File Size: 21.43 KB
+    '     File Size: 20.98 KB
 
 
     '     Module ReferenceMapRender

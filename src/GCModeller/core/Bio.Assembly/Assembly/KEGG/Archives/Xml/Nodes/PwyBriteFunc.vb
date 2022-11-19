@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::635b70dd80361cc0067fad2074e17199, GCModeller\core\Bio.Assembly\Assembly\KEGG\Archives\Xml\Nodes\PwyBriteFunc.vb"
+﻿#Region "Microsoft.VisualBasic::64efb58ee0e3cc98e1770dd922569b3a, GCModeller\core\Bio.Assembly\Assembly\KEGG\Archives\Xml\Nodes\PwyBriteFunc.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 13
     ' Comment Lines: 12
     '   Blank Lines: 4
-    '     File Size: 945 B
+    '     File Size: 917 B
 
 
     '     Class PwyBriteFunc

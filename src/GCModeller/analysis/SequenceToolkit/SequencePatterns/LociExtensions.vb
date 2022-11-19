@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::866e15bb294b4fc0e34153d296a1d70c, GCModeller\analysis\SequenceToolkit\SequencePatterns\LociExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::e3c2878cfabdede0256281b225f36997, GCModeller\analysis\SequenceToolkit\SequencePatterns\LociExtensions.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 142
     ' Comment Lines: 20
     '   Blank Lines: 29
-    '     File Size: 6.62 KB
+    '     File Size: 6.43 KB
 
 
     ' Module LociExtensions

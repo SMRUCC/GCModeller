@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4ef23dabbaf3a8ad961139c8e253e65d, GCModeller\analysis\Metagenome\MetaFunction\CARD\Tables.vb"
+﻿#Region "Microsoft.VisualBasic::d97807503bf7c2740372d7c18267b7d2, GCModeller\analysis\Metagenome\MetaFunction\CARD\Tables.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 6
     ' Comment Lines: 8
     '   Blank Lines: 2
-    '     File Size: 489 B
+    '     File Size: 474 B
 
 
     ' Class ncbi_taxomony

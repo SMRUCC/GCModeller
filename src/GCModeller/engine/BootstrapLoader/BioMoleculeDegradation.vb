@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1bc3947662587dd3df4033c0c8f985fd, GCModeller\engine\BootstrapLoader\BioMoleculeDegradation.vb"
+﻿#Region "Microsoft.VisualBasic::629dac34ff033276132dbd6df349297d, GCModeller\engine\BootstrapLoader\BioMoleculeDegradation.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 97
     ' Comment Lines: 7
     '   Blank Lines: 19
-    '     File Size: 5.41 KB
+    '     File Size: 5.29 KB
 
 
     '     Class BioMoleculeDegradation

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2f485bffc1355585d7b4216d3040ab9b, GCModeller\engine\vcellkit\Modeller\API.vb"
+﻿#Region "Microsoft.VisualBasic::b1159d7da9c214a5d54d3eae05d68fd8, GCModeller\engine\vcellkit\Modeller\API.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 57
     ' Comment Lines: 0
     '   Blank Lines: 12
-    '     File Size: 2.42 KB
+    '     File Size: 2.35 KB
 
 
     ' Module API

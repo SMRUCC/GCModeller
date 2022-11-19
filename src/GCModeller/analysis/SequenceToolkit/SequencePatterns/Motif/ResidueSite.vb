@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b17df84d7f99ea3af10b259b41fdd3b4, GCModeller\analysis\SequenceToolkit\SequencePatterns\Motif\ResidueSite.vb"
+﻿#Region "Microsoft.VisualBasic::b6f7d724eeebacb07d3a2a30858db93f, GCModeller\analysis\SequenceToolkit\SequencePatterns\Motif\ResidueSite.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 62
     ' Comment Lines: 25
     '   Blank Lines: 13
-    '     File Size: 3.43 KB
+    '     File Size: 3.33 KB
 
 
     '     Class ResidueSite

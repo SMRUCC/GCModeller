@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fcf0c70dd5622326665d3f9998ee023f, GCModeller\analysis\SequenceToolkit\SequencePatterns\Topologically\SearchWorker.vb"
+﻿#Region "Microsoft.VisualBasic::135c28cec6ead81b77a54ba4d84d4e56, GCModeller\analysis\SequenceToolkit\SequencePatterns\Topologically\SearchWorker.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 25
     ' Comment Lines: 9
     '   Blank Lines: 6
-    '     File Size: 1.26 KB
+    '     File Size: 1.22 KB
 
 
     '     Class SearchWorker

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3e15bf5493c7463ffd1d49e7a46cb83b, GCModeller\visualize\DataVisualizationExtensions\CatalogProfiling\Heatmap\TreeOrder.vb"
+﻿#Region "Microsoft.VisualBasic::36ad7494da470e757add084af7e3a0ba, GCModeller\visualize\DataVisualizationExtensions\CatalogProfiling\Heatmap\TreeOrder.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 69
     ' Comment Lines: 0
     '   Blank Lines: 15
-    '     File Size: 3.23 KB
+    '     File Size: 3.15 KB
 
 
     '     Module TreeOrder

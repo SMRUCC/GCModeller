@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::15072a691982284553adada5b9be302e, GCModeller\core\Bio.Assembly\Assembly\KEGG\Archives\Xml\MapAPI.vb"
+﻿#Region "Microsoft.VisualBasic::68ba0f8b334fefcc7ce7c489d7c300c7, GCModeller\core\Bio.Assembly\Assembly\KEGG\Archives\Xml\MapAPI.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 42
     ' Comment Lines: 17
     '   Blank Lines: 7
-    '     File Size: 3.01 KB
+    '     File Size: 2.95 KB
 
 
     '     Module MapAPI

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::94db2a548e2bae3ded4c1090cf44c24a, GCModeller\core\Bio.Assembly\Assembly\KEGG\Medical\Drug.vb"
+﻿#Region "Microsoft.VisualBasic::ee7bb8c44bf01e79222f687558c2def3, GCModeller\core\Bio.Assembly\Assembly\KEGG\Medical\Drug.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 133
     ' Comment Lines: 17
     '   Blank Lines: 29
-    '     File Size: 6.19 KB
+    '     File Size: 6.01 KB
 
 
     '     Class ClassInheritance

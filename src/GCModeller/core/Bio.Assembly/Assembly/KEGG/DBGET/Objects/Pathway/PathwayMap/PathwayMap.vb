@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5fbe103ead75139ca060868e95820f4d, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\PathwayMap\PathwayMap.vb"
+﻿#Region "Microsoft.VisualBasic::3942cfa08fa119235c2abc61e5aac7a7, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\PathwayMap\PathwayMap.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 163
-    '    Code Lines: 87
-    ' Comment Lines: 53
-    '   Blank Lines: 23
-    '     File Size: 6.24 KB
+    '   Total Lines: 121
+    '    Code Lines: 63
+    ' Comment Lines: 41
+    '   Blank Lines: 17
+    '     File Size: 4.37 KB
 
 
     '     Class PathwayMap
@@ -48,8 +48,7 @@
     '                     name
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: (+2 Overloads) Download, DownloadAll, DownloadPathwayMap, GetCompounds, GetMapImage
-    '                   GetPathwayGenes, ToPathway
+    '         Function: DownloadPathwayMap, GetCompounds, GetMapImage, GetPathwayGenes, ToPathway
     ' 
     ' 
     ' /********************************************************************************/

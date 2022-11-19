@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1845887d81c3234c9c753a8a7689d940, GCModeller\models\BioCyc\Models\ReactionDirections.vb"
+﻿#Region "Microsoft.VisualBasic::3e709287bcbddb4723f6f2055a42695b, GCModeller\models\BioCyc\Models\ReactionDirections.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 19
     ' Comment Lines: 50
     '   Blank Lines: 3
-    '     File Size: 3.69 KB
+    '     File Size: 3.62 KB
 
 
     '     Enum ReactionDirections

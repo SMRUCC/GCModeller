@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c1d95fb462026038a8191e947cf61309, GCModeller\models\Networks\Microbiome\MetabolicComplementation\EndPointAnalysis.vb"
+﻿#Region "Microsoft.VisualBasic::868b48d8aaa3239597e6893bb70ac9d9, GCModeller\models\Networks\Microbiome\MetabolicComplementation\EndPointAnalysis.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 70
     ' Comment Lines: 11
     '   Blank Lines: 14
-    '     File Size: 4.10 KB
+    '     File Size: 4.01 KB
 
 
     ' Module EndPointAnalysis

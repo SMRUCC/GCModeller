@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::11d076386e900dff60c67add9473bf31, GCModeller\core\Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\Database\IO.StreamProviders\Compound.vb"
+﻿#Region "Microsoft.VisualBasic::fa1f9fa1d8dd1a570229f5f6d003fa0c, GCModeller\core\Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\Database\IO.StreamProviders\Compound.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 55
     ' Comment Lines: 4
     '   Blank Lines: 9
-    '     File Size: 2.89 KB
+    '     File Size: 2.82 KB
 
 
     '     Class Compound

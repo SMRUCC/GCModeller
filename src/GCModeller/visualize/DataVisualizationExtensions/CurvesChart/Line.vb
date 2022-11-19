@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::35748b80e2f421ccaddbfc2022f097fe, GCModeller\visualize\DataVisualizationExtensions\CurvesChart\Line.vb"
+﻿#Region "Microsoft.VisualBasic::aacfe0aadb5c3e839993898c1fb6e16b, GCModeller\visualize\DataVisualizationExtensions\CurvesChart\Line.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 48
     ' Comment Lines: 2
     '   Blank Lines: 15
-    '     File Size: 2.64 KB
+    '     File Size: 2.58 KB
 
 
     ' Class Line

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::74ee32f975c80d25167c460d5dd95869, GCModeller\core\Bio.Assembly\Assembly\ELIXIR\UniProt\XML\Model\entry.vb"
+﻿#Region "Microsoft.VisualBasic::e05912d54d2d487202d5ec9bf529b145, GCModeller\core\Bio.Assembly\Assembly\ELIXIR\UniProt\XML\Model\entry.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 126
+    '   Total Lines: 135
     '    Code Lines: 79
-    ' Comment Lines: 33
-    '   Blank Lines: 14
-    '     File Size: 4.85 KB
+    ' Comment Lines: 40
+    '   Blank Lines: 16
+    '     File Size: 5.09 KB
 
 
     '     Class entry

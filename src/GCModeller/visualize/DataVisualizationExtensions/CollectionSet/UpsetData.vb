@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::13e867ab5af62c44e73332c16159a945, GCModeller\visualize\DataVisualizationExtensions\CollectionSet\UpsetData.vb"
+﻿#Region "Microsoft.VisualBasic::ce0820b68d5fda7b4991c0fbc2385e99, GCModeller\visualize\DataVisualizationExtensions\CollectionSet\UpsetData.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 92
     ' Comment Lines: 15
     '   Blank Lines: 15
-    '     File Size: 5.17 KB
+    '     File Size: 5.05 KB
 
 
     '     Class UpsetData

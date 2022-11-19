@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::487f8f0da7da8cefd7f17a5ccc36dced, GCModeller\engine\IO\Raw\netCDF\FileWriter.vb"
+﻿#Region "Microsoft.VisualBasic::d84f7b27c201b818822b0dfaf2549b2b, GCModeller\engine\IO\Raw\netCDF\FileWriter.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 4
     ' Comment Lines: 0
     '   Blank Lines: 2
-    '     File Size: 79 B
+    '     File Size: 74 B
 
 
     '     Class FileWriter

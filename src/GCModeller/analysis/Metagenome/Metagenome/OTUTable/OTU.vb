@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ad5b15642a7eb60c381879eed11e6512, GCModeller\analysis\Metagenome\Metagenome\OTUTable\OTU.vb"
+﻿#Region "Microsoft.VisualBasic::25513ead07deb77426f495e111f0b014, GCModeller\analysis\Metagenome\Metagenome\OTUTable\OTU.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 125
     ' Comment Lines: 9
     '   Blank Lines: 12
-    '     File Size: 6.05 KB
+    '     File Size: 5.90 KB
 
 
     ' Module OTU

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c35b6ebb36747125fc23c9c27380c784, GCModeller\engine\Compiler\AssemblyScript\SyntaxTree\SyntaxParser.vb"
+﻿#Region "Microsoft.VisualBasic::1b8793fe51bd4a86169cb44788930cda, GCModeller\engine\Compiler\AssemblyScript\SyntaxTree\SyntaxParser.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 4
     ' Comment Lines: 0
     '   Blank Lines: 2
-    '     File Size: 84 B
+    '     File Size: 79 B
 
 
     '     Module SyntaxParser

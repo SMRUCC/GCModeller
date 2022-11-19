@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4dfbdd1ecbfe2c3092367c41c099e24a, GCModeller\engine\vcellkit\zzz.vb"
+﻿#Region "Microsoft.VisualBasic::ca24b76711ee9dd2d38403b2194ed455, GCModeller\engine\vcellkit\zzz.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 6
     ' Comment Lines: 0
     '   Blank Lines: 4
-    '     File Size: 147 B
+    '     File Size: 138 B
 
 
     ' Class zzz

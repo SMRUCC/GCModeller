@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5b543abb8a2dc41a55ae8c675d2f75fc, GCModeller\engine\GCModeller.Framework.Kernel_Driver\Driver\Abstract\ReactionMachine.vb"
+﻿#Region "Microsoft.VisualBasic::f61820e12190f7bcf7e24fc423da4ba7, GCModeller\engine\GCModeller.Framework.Kernel_Driver\Driver\Abstract\ReactionMachine.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 28
     ' Comment Lines: 17
     '   Blank Lines: 14
-    '     File Size: 1.85 KB
+    '     File Size: 1.80 KB
 
 
     ' Class ReactorMachine

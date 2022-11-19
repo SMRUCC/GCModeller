@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1f45b03eb0c73a8755aa1c5aecac9cf4, GCModeller\engine\IO\Raw\GCModellerRaw\Raw.vb"
+﻿#Region "Microsoft.VisualBasic::b5bea73deeb4565ea2e0283af780096a, GCModeller\engine\IO\Raw\GCModellerRaw\Raw.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 61
     ' Comment Lines: 51
     '   Blank Lines: 16
-    '     File Size: 4.99 KB
+    '     File Size: 4.86 KB
 
 
     '     Class CellularModules

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cd1e16f35ad8c80bf9c4933bb47dc4f4, GCModeller\core\Bio.Assembly\Assembly\Expasy\NomenclatureDB\Enzyme.vb"
+﻿#Region "Microsoft.VisualBasic::8e3b016bc4bb10fc0832fc5259209e8f, GCModeller\core\Bio.Assembly\Assembly\Expasy\NomenclatureDB\Enzyme.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 92
     ' Comment Lines: 52
     '   Blank Lines: 17
-    '     File Size: 6.68 KB
+    '     File Size: 6.52 KB
 
 
     '     Class Enzyme

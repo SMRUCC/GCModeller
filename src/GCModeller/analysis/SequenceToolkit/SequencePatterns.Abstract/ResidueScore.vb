@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4ec01c96a3772b9cd7da07f5d6f7b462, GCModeller\analysis\SequenceToolkit\SequencePatterns.Abstract\ResidueScore.vb"
+﻿#Region "Microsoft.VisualBasic::4c025ebb8fce9b150e17ff0a045bb88b, GCModeller\analysis\SequenceToolkit\SequencePatterns.Abstract\ResidueScore.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 27
     ' Comment Lines: 0
     '   Blank Lines: 9
-    '     File Size: 982 B
+    '     File Size: 947 B
 
 
     ' Class ResidueScore

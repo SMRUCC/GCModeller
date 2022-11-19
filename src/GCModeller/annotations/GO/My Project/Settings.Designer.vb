@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::607d16b497ed7467ff2cbd8ebdf81f5a, GCModeller\annotations\GO\My Project\Settings.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::18f9639085d5b89506aac91a7b7dcd98, GCModeller\annotations\GO\My Project\Settings.Designer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 53
     ' Comment Lines: 9
     '   Blank Lines: 12
-    '     File Size: 3.03 KB
+    '     File Size: 2.96 KB
 
 
     '     Class MySettings

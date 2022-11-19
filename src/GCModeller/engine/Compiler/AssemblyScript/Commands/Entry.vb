@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d930d6dd98113109972b4fb7eb836eb9, GCModeller\engine\Compiler\AssemblyScript\Commands\Entry.vb"
+﻿#Region "Microsoft.VisualBasic::c36f8e795d67b6f76ddf55f2a458bb33, GCModeller\engine\Compiler\AssemblyScript\Commands\Entry.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 52
     ' Comment Lines: 0
     '   Blank Lines: 16
-    '     File Size: 2.34 KB
+    '     File Size: 2.27 KB
 
 
     '     Class Entry

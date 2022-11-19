@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c90adc082f9d1b8b8d68aad5f18dc8a1, GCModeller\analysis\Metagenome\Metagenome\gast\TaxonomyTree\TaxonomyTree.vb"
+﻿#Region "Microsoft.VisualBasic::e65ccdd19918b750c34bef7524b26e51, GCModeller\analysis\Metagenome\Metagenome\gast\TaxonomyTree\TaxonomyTree.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 47
     ' Comment Lines: 12
     '   Blank Lines: 15
-    '     File Size: 2.40 KB
+    '     File Size: 2.32 KB
 
 
     '     Class TaxonomyTree

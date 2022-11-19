@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c70ebc7cef550845fe42b53876bdbd5c, GCModeller\engine\IO\Raw\GCModellerRaw\NamespaceDoc.vb"
+﻿#Region "Microsoft.VisualBasic::9c4111109f4f0d775aab9f3fafe6dbdc, GCModeller\engine\IO\Raw\GCModellerRaw\NamespaceDoc.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 4
     ' Comment Lines: 3
     '   Blank Lines: 1
-    '     File Size: 182 B
+    '     File Size: 175 B
 
 
     '     Class NamespaceDoc

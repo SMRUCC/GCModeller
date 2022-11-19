@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::22463d90ad37262a84f4cb15213cbf39, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\Features\Feature.vb"
+﻿#Region "Microsoft.VisualBasic::8bf80c248f5293212db75030891a7971, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\Features\Feature.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 237
     ' Comment Lines: 46
     '   Blank Lines: 54
-    '     File Size: 13.86 KB
+    '     File Size: 13.53 KB
 
 
     '     Class Feature

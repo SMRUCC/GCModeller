@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9a40379bec813715a1741b72776e8427, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\Schemas\ProteinQuery.vb"
+﻿#Region "Microsoft.VisualBasic::40fbeaf94ebc2fb3f2eb09854f19a951, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\Schemas\ProteinQuery.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 31
     ' Comment Lines: 6
     '   Blank Lines: 8
-    '     File Size: 1.71 KB
+    '     File Size: 1.66 KB
 
 
     '     Class ProteinQuery

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::67d97a05a6fb44748d7d2d3703871dc7, GCModeller\core\Bio.Assembly\SequenceModel\FASTA\Reflection\FastaTools.vb"
+﻿#Region "Microsoft.VisualBasic::4b50b4c0d70f717719caa4906ea55f15, GCModeller\core\Bio.Assembly\SequenceModel\FASTA\Reflection\FastaTools.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 195
     ' Comment Lines: 50
     '   Blank Lines: 36
-    '     File Size: 12.20 KB
+    '     File Size: 11.91 KB
 
 
     '     Module FastaExportMethods

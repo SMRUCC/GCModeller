@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::093ba0f5cde5e686d4843ea78d19e0a8, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\Module.vb"
+﻿#Region "Microsoft.VisualBasic::5733e984ba8bd8a6862ca194f8d9d6a0, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\Module.vb"
 
     ' Author:
     ' 
@@ -34,19 +34,19 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 179
-    '    Code Lines: 112
-    ' Comment Lines: 45
-    '   Blank Lines: 22
-    '     File Size: 7.39 KB
+    '   Total Lines: 123
+    '    Code Lines: 77
+    ' Comment Lines: 32
+    '   Blank Lines: 14
+    '     File Size: 5.26 KB
 
 
     '     Class [Module]
     ' 
     '         Properties: [Class], Category, Entry, EntryId, SubCategory
     ' 
-    '         Function: __downloadModules, Build, DownloadModules, (+3 Overloads) GetDictionary, LoadFile
-    '                   LoadFromResource, ToString, TrimPath
+    '         Function: Build, (+3 Overloads) GetDictionary, LoadFile, LoadFromResource, ToString
+    '                   TrimPath
     ' 
     ' 
     ' /********************************************************************************/

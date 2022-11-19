@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1a174cf01d4b1bd91719ace2f70cd19b, GCModeller\models\SBML\Biopax\My Project\AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::cdf1ccc5dc2da6db69aeab72216736dc, GCModeller\models\SBML\Biopax\My Project\AssemblyInfo.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 15
     ' Comment Lines: 15
     '   Blank Lines: 6
-    '     File Size: 1.16 KB
+    '     File Size: 1.12 KB
 
 
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4616fe6501e6680bc0f0eb3a7cef3467, GCModeller\core\Bio.Assembly\Assembly\KEGG\Archives\Xml\CompilerAPI.vb"
+﻿#Region "Microsoft.VisualBasic::3481c4b6baa4bbb205d25a197d28077c, GCModeller\core\Bio.Assembly\Assembly\KEGG\Archives\Xml\CompilerAPI.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 98
     ' Comment Lines: 9
     '   Blank Lines: 12
-    '     File Size: 6.93 KB
+    '     File Size: 6.81 KB
 
 
     '     Module CompilerAPI

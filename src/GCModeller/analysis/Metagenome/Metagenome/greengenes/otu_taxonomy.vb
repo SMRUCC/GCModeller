@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5f2bae4782fe825e7bf5ca38bd5fe041, GCModeller\analysis\Metagenome\Metagenome\greengenes\otu_taxonomy.vb"
+﻿#Region "Microsoft.VisualBasic::7ff042d683067b33ceac53e02b964179, GCModeller\analysis\Metagenome\Metagenome\greengenes\otu_taxonomy.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 37
     ' Comment Lines: 0
     '   Blank Lines: 9
-    '     File Size: 1.64 KB
+    '     File Size: 1.59 KB
 
 
     '     Class otu_taxonomy

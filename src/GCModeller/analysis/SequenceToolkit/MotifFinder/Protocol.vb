@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f6288d424c3467c0975e1c18ff1b9fc6, GCModeller\analysis\SequenceToolkit\MotifFinder\Protocol.vb"
+﻿#Region "Microsoft.VisualBasic::1c3cfeb67234cbccca5b02f941ca1ef1, GCModeller\analysis\SequenceToolkit\MotifFinder\Protocol.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 158
     ' Comment Lines: 29
     '   Blank Lines: 34
-    '     File Size: 8.87 KB
+    '     File Size: 8.65 KB
 
 
     ' Module Protocol

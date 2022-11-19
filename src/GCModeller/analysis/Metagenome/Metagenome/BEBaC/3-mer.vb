@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::305b574d9bdfe06d2c391ce3f53cdb22, GCModeller\analysis\Metagenome\Metagenome\BEBaC\3-mer.vb"
+﻿#Region "Microsoft.VisualBasic::9fb4d55f9841e8d079ef9e5cbbe5d595, GCModeller\analysis\Metagenome\Metagenome\BEBaC\3-mer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 129
     ' Comment Lines: 27
     '   Blank Lines: 31
-    '     File Size: 5.10 KB
+    '     File Size: 4.91 KB
 
 
     '     Enum I3Mers

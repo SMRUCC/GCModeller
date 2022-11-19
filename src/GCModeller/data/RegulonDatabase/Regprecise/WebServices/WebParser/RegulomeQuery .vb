@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7854cb755e85d9ecae20d206e8fbff12, GCModeller\data\RegulonDatabase\Regprecise\WebServices\WebParser\RegulomeQuery .vb"
+﻿#Region "Microsoft.VisualBasic::284a0a9bc3dcecbd0c91ec515385fa54, GCModeller\data\RegulonDatabase\Regprecise\WebServices\WebParser\RegulomeQuery .vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 64
     ' Comment Lines: 4
     '   Blank Lines: 14
-    '     File Size: 3.19 KB
+    '     File Size: 3.11 KB
 
 
     '     Class RegulomeQuery

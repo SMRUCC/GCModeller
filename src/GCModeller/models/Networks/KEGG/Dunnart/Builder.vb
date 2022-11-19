@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e6515685c3c13a560eaa944eee6b277d, GCModeller\models\Networks\KEGG\Dunnart\Builder.vb"
+﻿#Region "Microsoft.VisualBasic::1d9be73eddaae9379351baad0907801c, GCModeller\models\Networks\KEGG\Dunnart\Builder.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 165
     ' Comment Lines: 9
     '   Blank Lines: 30
-    '     File Size: 8.19 KB
+    '     File Size: 7.98 KB
 
 
     '     Module Extensions

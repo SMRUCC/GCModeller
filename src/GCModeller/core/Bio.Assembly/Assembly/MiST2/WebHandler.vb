@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::719ae4922abc16d89884092b26aceebb, GCModeller\core\Bio.Assembly\Assembly\MiST2\WebHandler.vb"
+﻿#Region "Microsoft.VisualBasic::5e8f0e7d8ea1ecca6d5d317439d17038, GCModeller\core\Bio.Assembly\Assembly\MiST2\WebHandler.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 100
     ' Comment Lines: 18
     '   Blank Lines: 40
-    '     File Size: 7.77 KB
+    '     File Size: 7.61 KB
 
 
     '     Module WebServices

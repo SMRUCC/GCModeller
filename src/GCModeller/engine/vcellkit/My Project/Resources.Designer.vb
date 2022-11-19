@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::037414a66093a230e39b69648d7ca8c2, GCModeller\engine\vcellkit\My Project\Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::d36bcefb65ceba747a565ba9f512e089, GCModeller\engine\vcellkit\My Project\Resources.Designer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 32
     ' Comment Lines: 23
     '   Blank Lines: 8
-    '     File Size: 2.77 KB
+    '     File Size: 2.71 KB
 
 
     '     Module Resources

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::919bbd4316c18faf23e73e9c3e2b2d90, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\Schemas\Reflection\TableLink.vb"
+﻿#Region "Microsoft.VisualBasic::718b1998b5dd0bc2a56d4a190c5a11db, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\Schemas\Reflection\TableLink.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 49
     ' Comment Lines: 32
     '   Blank Lines: 12
-    '     File Size: 4.45 KB
+    '     File Size: 4.36 KB
 
 
     '     Class ExternalKey

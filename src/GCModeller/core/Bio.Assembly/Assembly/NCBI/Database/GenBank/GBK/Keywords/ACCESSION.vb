@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2901f45d3805a4a259a8f6516be6720b, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\ACCESSION.vb"
+﻿#Region "Microsoft.VisualBasic::b8fef45fc4b3d2ec671c34a26d25224d, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\ACCESSION.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 111
     ' Comment Lines: 8
     '   Blank Lines: 28
-    '     File Size: 4.83 KB
+    '     File Size: 4.69 KB
 
 
     '     Class ACCESSION

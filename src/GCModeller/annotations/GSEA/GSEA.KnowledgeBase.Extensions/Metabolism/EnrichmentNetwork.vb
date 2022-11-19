@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::310e9901e55bd5ee81673623af435fef, GCModeller\annotations\GSEA\GSEA.KnowledgeBase.Extensions\Metabolism\EnrichmentNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::daa6b6ba929d852d2f9d5a97c868258f, GCModeller\annotations\GSEA\GSEA.KnowledgeBase.Extensions\Metabolism\EnrichmentNetwork.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 2
     ' Comment Lines: 3
     '   Blank Lines: 1
-    '     File Size: 122 B
+    '     File Size: 117 B
 
 
     ' Class EnrichmentNetwork

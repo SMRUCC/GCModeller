@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4dc70c0ce802b29bd90a92be12687d70, GCModeller\foundation\OBO_Foundry\My Project\AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::5bbc6e8645a938816db3a2f56403f8ea, GCModeller\foundation\OBO_Foundry\My Project\AssemblyInfo.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 15
     ' Comment Lines: 15
     '   Blank Lines: 6
-    '     File Size: 1.20 KB
+    '     File Size: 1.17 KB
 
 
     ' 

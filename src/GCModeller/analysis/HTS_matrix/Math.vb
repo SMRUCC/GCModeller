@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ce5487e04665ba38059f633d0f308fc8, GCModeller\analysis\HTS_matrix\Math.vb"
+﻿#Region "Microsoft.VisualBasic::2fc796f98db6834d63adc45689f25eb4, GCModeller\analysis\HTS_matrix\Math.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 21
     ' Comment Lines: 3
     '   Blank Lines: 3
-    '     File Size: 858 B
+    '     File Size: 832 B
 
 
     ' Module Math

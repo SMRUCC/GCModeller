@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4450154ad7fc4137b25a84841b2b4413, GCModeller\core\Bio.Assembly\Metagenomics\OTUData.vb"
+﻿#Region "Microsoft.VisualBasic::84aa6cf08e7095749ad4e1af620fe388, GCModeller\core\Bio.Assembly\Metagenomics\OTUData.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 29
     ' Comment Lines: 19
     '   Blank Lines: 7
-    '     File Size: 1.78 KB
+    '     File Size: 1.73 KB
 
 
     '     Class OTUData

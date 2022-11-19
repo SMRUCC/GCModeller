@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::666b19671c753c888dd4253cfae2b60b, GCModeller\sub-system\FBA\FBA.Core\My Project\Settings.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::1282af5283ac1a3c9d080a876eb369d1, GCModeller\sub-system\FBA\FBA.Core\My Project\Settings.Designer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 53
     ' Comment Lines: 9
     '   Blank Lines: 12
-    '     File Size: 3.04 KB
+    '     File Size: 2.97 KB
 
 
     '     Class MySettings

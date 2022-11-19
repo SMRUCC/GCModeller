@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0ca9f556eb12a11c9d8736924dded225, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Reaction\ReactionCompoundTransform.vb"
+﻿#Region "Microsoft.VisualBasic::3af735fdf8ffc177d4a6edd9f534d205, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Reaction\ReactionCompoundTransform.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 10
     ' Comment Lines: 11
     '   Blank Lines: 5
-    '     File Size: 790 B
+    '     File Size: 765 B
 
 
     '     Class ReactionCompoundTransform

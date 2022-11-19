@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6fc7317e6ca03d8f7d8d3d5ea5d3ec9f, GCModeller\visualize\DataVisualizationExtensions\ExpressionPattern\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::1df4a6e42f81e51f315639117387c634, GCModeller\visualize\DataVisualizationExtensions\ExpressionPattern\Extensions.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 62
     ' Comment Lines: 0
     '   Blank Lines: 7
-    '     File Size: 3.35 KB
+    '     File Size: 3.28 KB
 
 
     '     Module PatternPlotExtensions

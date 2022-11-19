@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2651fea6ca00af2d65a7ef2a1efdff4c, GCModeller\annotations\Proteomics\LabelFree\SignificanceAB.vb"
+﻿#Region "Microsoft.VisualBasic::e4c729d5b89b20f6f5917e0cf74a16f5, GCModeller\annotations\Proteomics\LabelFree\SignificanceAB.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 82
     ' Comment Lines: 35
     '   Blank Lines: 15
-    '     File Size: 5.06 KB
+    '     File Size: 4.93 KB
 
 
     ' Module SignificanceAB

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1e31a375527932e89d741e136f5bfbda, GCModeller\core\Bio.Assembly\Metagenomics\BIOMTaxonomyParser.vb"
+﻿#Region "Microsoft.VisualBasic::867ca7a6a6d862a6495ed2ebd6b456a2, GCModeller\core\Bio.Assembly\Metagenomics\BIOMTaxonomyParser.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 24
     ' Comment Lines: 21
     '   Blank Lines: 5
-    '     File Size: 1.94 KB
+    '     File Size: 1.89 KB
 
 
     '     Class BIOMTaxonomyParser

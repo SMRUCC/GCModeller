@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::232bbe365947ea59bd014276a37bb70c, GCModeller\models\SBML\SBML\Level3\annotation.vb"
+﻿#Region "Microsoft.VisualBasic::0a402e2d2c96a711d9c45b3daafcd9b1, GCModeller\models\SBML\SBML\Level3\annotation.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 44
     ' Comment Lines: 3
     '   Blank Lines: 14
-    '     File Size: 2.06 KB
+    '     File Size: 2.00 KB
 
 
     '     Class SbmlAnnotationData

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::89f2f9fa571863f99247c0febad14cfa, GCModeller\annotations\Proteomics\My Project\Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::ad4c6091812e8d846f5bb1b34392e21c, GCModeller\annotations\Proteomics\My Project\Resources.Designer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 32
     ' Comment Lines: 23
     '   Blank Lines: 8
-    '     File Size: 2.80 KB
+    '     File Size: 2.74 KB
 
 
     '     Module Resources

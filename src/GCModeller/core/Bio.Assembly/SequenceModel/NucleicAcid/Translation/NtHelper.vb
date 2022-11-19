@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3e73969ee80a04f6b6a7dfc3818fc35a, GCModeller\core\Bio.Assembly\SequenceModel\NucleicAcid\Translation\NtHelper.vb"
+﻿#Region "Microsoft.VisualBasic::5fb90232cf3898a3d1846e5eabbc7d83, GCModeller\core\Bio.Assembly\SequenceModel\NucleicAcid\Translation\NtHelper.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 32
     ' Comment Lines: 12
     '   Blank Lines: 13
-    '     File Size: 1.93 KB
+    '     File Size: 1.87 KB
 
 
     '     Module NtHelper

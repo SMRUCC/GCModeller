@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a64de2d871a745dcfbf7d53a38aefdd1, GCModeller\core\Bio.Assembly\SequenceModel\FASTA\HeaderFormats.vb"
+﻿#Region "Microsoft.VisualBasic::9bdc0af1a3ca80550c147508081feb61, GCModeller\core\Bio.Assembly\SequenceModel\FASTA\HeaderFormats.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 34
     ' Comment Lines: 14
     '   Blank Lines: 9
-    '     File Size: 1.90 KB
+    '     File Size: 1.84 KB
 
 
     '     Module HeaderFormats

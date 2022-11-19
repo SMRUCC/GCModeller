@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ed4e76c321920bc58e9989d8b45c1791, GCModeller\engine\IO\GCMarkupLanguage\GCML_Documents\XmlElements\ComponentModels\ConstraintMetaboliteMap.vb"
+﻿#Region "Microsoft.VisualBasic::ed2e02a30bbd5e9e1aa2efe0abd2e42e, GCModeller\engine\IO\GCMarkupLanguage\GCML_Documents\XmlElements\ComponentModels\ConstraintMetaboliteMap.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 230
     ' Comment Lines: 17
     '   Blank Lines: 15
-    '     File Size: 19.72 KB
+    '     File Size: 19.46 KB
 
 
     '     Class ConstraintMetaboliteMap

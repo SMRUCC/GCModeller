@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5c0514679af75a5d82ef0f09a5cb293b, GCModeller\core\Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\EntityModel\EntitySummary.vb"
+﻿#Region "Microsoft.VisualBasic::209bc523ce049fd7cdd64c440fbb82fa, GCModeller\core\Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\EntityModel\EntitySummary.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 64
     ' Comment Lines: 7
     '   Blank Lines: 10
-    '     File Size: 3.31 KB
+    '     File Size: 3.23 KB
 
 
     '     Class EntitySummary

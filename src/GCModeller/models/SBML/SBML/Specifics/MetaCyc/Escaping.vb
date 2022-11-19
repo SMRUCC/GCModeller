@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::595765fe58feb376c20e3a210a58436c, GCModeller\models\SBML\SBML\Specifics\MetaCyc\Escaping.vb"
+﻿#Region "Microsoft.VisualBasic::1db7cd7417d950087b252b48935aa1ac, GCModeller\models\SBML\SBML\Specifics\MetaCyc\Escaping.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 63
     ' Comment Lines: 11
     '   Blank Lines: 14
-    '     File Size: 3.87 KB
+    '     File Size: 3.78 KB
 
 
     '     Structure Escaping

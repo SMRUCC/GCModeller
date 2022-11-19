@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5c749190ae968e5bcbd0b9b51ec457d2, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\LinkDB\Relationship.vb"
+﻿#Region "Microsoft.VisualBasic::e677e3ea61e436ca9e69e2b7e4b78fe3, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\LinkDB\Relationship.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 73
-    '    Code Lines: 45
+    '   Total Lines: 41
+    '    Code Lines: 16
     ' Comment Lines: 18
-    '   Blank Lines: 10
-    '     File Size: 2.87 KB
+    '   Blank Lines: 7
+    '     File Size: 1.31 KB
 
 
     '     Enum Relationships
@@ -52,8 +52,6 @@
     '     Class Relationship
     ' 
     '         Properties: left, relationship, right
-    ' 
-    '         Function: GetLinkDb, LinkIterator, TryParseLine
     ' 
     ' 
     ' /********************************************************************************/

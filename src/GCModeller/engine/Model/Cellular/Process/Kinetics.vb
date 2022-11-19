@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0835c3009147237c4b1c7dabc497a300, GCModeller\engine\Model\Cellular\Process\Kinetics.vb"
+﻿#Region "Microsoft.VisualBasic::02750d99c5a54e527af2cc25e1b6d221, GCModeller\engine\Model\Cellular\Process\Kinetics.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 38
     ' Comment Lines: 17
     '   Blank Lines: 8
-    '     File Size: 2.27 KB
+    '     File Size: 2.21 KB
 
 
     '     Structure Kinetics

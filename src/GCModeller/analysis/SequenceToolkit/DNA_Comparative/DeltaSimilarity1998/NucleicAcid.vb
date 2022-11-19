@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::583f4735bc93ad449d544e65339dc70d, GCModeller\analysis\SequenceToolkit\DNA_Comparative\DeltaSimilarity1998\NucleicAcid.vb"
+﻿#Region "Microsoft.VisualBasic::1a223f978b459dec47c25f5e3838f05c, GCModeller\analysis\SequenceToolkit\DNA_Comparative\DeltaSimilarity1998\NucleicAcid.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 83
     ' Comment Lines: 26
     '   Blank Lines: 18
-    '     File Size: 4.77 KB
+    '     File Size: 4.64 KB
 
 
     '     Class NucleicAcid

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c106e51e42755d0ed993ca3fefeddfb1, GCModeller\engine\BootstrapLoader\MassLoader.vb"
+﻿#Region "Microsoft.VisualBasic::77440698b288b05f30c7c4e74f6c15a6, GCModeller\engine\BootstrapLoader\MassLoader.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 40
     ' Comment Lines: 7
     '   Blank Lines: 10
-    '     File Size: 2.41 KB
+    '     File Size: 2.35 KB
 
 
     '     Class MassLoader

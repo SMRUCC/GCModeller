@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::51b223ea80175678a9c027f0f5eadad6, GCModeller\analysis\SequenceToolkit\SmithWaterman\Extension\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::c40023109fed33804cb5167012ee3fb6, GCModeller\analysis\SequenceToolkit\SmithWaterman\Extension\Extensions.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 31
     ' Comment Lines: 5
     '   Blank Lines: 8
-    '     File Size: 1.53 KB
+    '     File Size: 1.48 KB
 
 
     ' Module Coverage

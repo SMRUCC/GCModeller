@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c697f79fcd1dfbd6197d23d46ad5257d, GCModeller\analysis\SequenceToolkit\ClusterMatrix\CoreTree.vb"
+﻿#Region "Microsoft.VisualBasic::8d3f52979d0a93c213a20c45a6c6235f, GCModeller\analysis\SequenceToolkit\ClusterMatrix\CoreTree.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 87
     ' Comment Lines: 11
     '   Blank Lines: 19
-    '     File Size: 4.21 KB
+    '     File Size: 4.10 KB
 
 
     ' Module CoreTree

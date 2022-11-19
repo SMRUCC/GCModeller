@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4d07ccc056b91ae4dbc47911b7af40b7, GCModeller\core\Bio.Assembly\ComponentModel\Equations\Reaction.vb"
+﻿#Region "Microsoft.VisualBasic::6f42c44c20fbf88fa381b39e66e8042b, GCModeller\core\Bio.Assembly\ComponentModel\Equations\Reaction.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 11
     ' Comment Lines: 0
     '   Blank Lines: 4
-    '     File Size: 478 B
+    '     File Size: 464 B
 
 
     '     Class Reaction

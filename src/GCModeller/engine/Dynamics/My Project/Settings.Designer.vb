@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f8530aae2931a0c6c0e910eb286e1796, GCModeller\engine\Dynamics\My Project\Settings.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::1387b6fac5d0c4ae3c4aa289a8a7add2, GCModeller\engine\Dynamics\My Project\Settings.Designer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 53
     ' Comment Lines: 9
     '   Blank Lines: 14
-    '     File Size: 3.08 KB
+    '     File Size: 3.01 KB
 
 
     '     Class MySettings

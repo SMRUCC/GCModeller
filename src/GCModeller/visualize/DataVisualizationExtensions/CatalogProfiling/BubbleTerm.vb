@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5d022ac1ad7ada383c54e5a0db1b9f75, GCModeller\visualize\DataVisualizationExtensions\CatalogProfiling\BubbleTerm.vb"
+﻿#Region "Microsoft.VisualBasic::e9d7aad4595b5ba18f2b6fe16ec331a4, GCModeller\visualize\DataVisualizationExtensions\CatalogProfiling\BubbleTerm.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 60
     ' Comment Lines: 12
     '   Blank Lines: 15
-    '     File Size: 3.31 KB
+    '     File Size: 3.22 KB
 
 
     '     Class BubbleTerm

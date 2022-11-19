@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e990cc9d123db3a92362edd1a0abad2a, GCModeller\engine\Dynamics\Core\Kinetics\Controls\Controls.vb"
+﻿#Region "Microsoft.VisualBasic::6ae959855f15476e0548429ff6e65ad4, GCModeller\engine\Dynamics\Core\Kinetics\Controls\Controls.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 38
     ' Comment Lines: 11
     '   Blank Lines: 9
-    '     File Size: 2.01 KB
+    '     File Size: 1.95 KB
 
 
     '     Class Controls

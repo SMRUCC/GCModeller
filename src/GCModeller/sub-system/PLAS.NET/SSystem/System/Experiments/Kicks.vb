@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5b583f2f95af2dd70117e7f4f9ac94d5, GCModeller\sub-system\PLAS.NET\SSystem\System\Experiments\Kicks.vb"
+﻿#Region "Microsoft.VisualBasic::7f3e562267a172453c04acd2087e1591, GCModeller\sub-system\PLAS.NET\SSystem\System\Experiments\Kicks.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 56
     ' Comment Lines: 21
     '   Blank Lines: 14
-    '     File Size: 2.91 KB
+    '     File Size: 2.82 KB
 
 
     '     Class Kicks

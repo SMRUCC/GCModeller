@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e12413f423c0224df4c026d12f5667f9, GCModeller\models\Networks\KEGG\Dunnart\GraphObject.vb"
+﻿#Region "Microsoft.VisualBasic::1f8e843c0e032fef44156d808dd23cef, GCModeller\models\Networks\KEGG\Dunnart\GraphObject.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 12
     ' Comment Lines: 3
     '   Blank Lines: 4
-    '     File Size: 521 B
+    '     File Size: 503 B
 
 
     '     Class GraphObject

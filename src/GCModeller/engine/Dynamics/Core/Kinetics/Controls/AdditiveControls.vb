@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dffd7f7b089ab88617e474d6281dd643, GCModeller\engine\Dynamics\Core\Kinetics\Controls\AdditiveControls.vb"
+﻿#Region "Microsoft.VisualBasic::2e0640599cc6ec6de191780f702f46b3, GCModeller\engine\Dynamics\Core\Kinetics\Controls\AdditiveControls.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 28
     ' Comment Lines: 16
     '   Blank Lines: 8
-    '     File Size: 1.87 KB
+    '     File Size: 1.82 KB
 
 
     '     Class AdditiveControls

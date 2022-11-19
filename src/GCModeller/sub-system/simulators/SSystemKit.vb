@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e3236192b94e6bfd50385fb84ddb86e5, GCModeller\sub-system\simulators\SSystemKit.vb"
+﻿#Region "Microsoft.VisualBasic::a0a74e2c16775285af2718e176e775c5, GCModeller\sub-system\simulators\SSystemKit.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 207
-    '    Code Lines: 138
+    '   Total Lines: 209
+    '    Code Lines: 140
     ' Comment Lines: 42
     '   Blank Lines: 27
-    '     File Size: 7.74 KB
+    '     File Size: 7.87 KB
 
 
     ' Module SSystemKit

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0dfc26fc15349c21e08516ed08875c21, GCModeller\core\Bio.Assembly\Assembly\ELIXIR\UniProt\IdMapping.vb"
+﻿#Region "Microsoft.VisualBasic::c45c30209ccc0187c2fd2fa8d47c68a0, GCModeller\core\Bio.Assembly\Assembly\ELIXIR\UniProt\IdMapping.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 104
     ' Comment Lines: 28
     '   Blank Lines: 11
-    '     File Size: 5.11 KB
+    '     File Size: 4.96 KB
 
 
     '     Class IdMapping

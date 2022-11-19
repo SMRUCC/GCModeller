@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b71e8181108da20bec8b3ead7e5ed792, GCModeller\models\Networks\KEGG\PathwayMaps\MapAssignment.vb"
+﻿#Region "Microsoft.VisualBasic::fed62699ac44858ce6a375d80fb86d49, GCModeller\models\Networks\KEGG\PathwayMaps\MapAssignment.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 87
     ' Comment Lines: 20
     '   Blank Lines: 17
-    '     File Size: 6.11 KB
+    '     File Size: 5.98 KB
 
 
     '     Module MapAssignment

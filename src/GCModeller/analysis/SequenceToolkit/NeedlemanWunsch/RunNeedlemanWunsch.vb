@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7fb6b9ce42247391143174c87d306e73, GCModeller\analysis\SequenceToolkit\NeedlemanWunsch\RunNeedlemanWunsch.vb"
+﻿#Region "Microsoft.VisualBasic::cb261ab65424b8bca2824865c008e22a, GCModeller\analysis\SequenceToolkit\NeedlemanWunsch\RunNeedlemanWunsch.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 43
     ' Comment Lines: 23
     '   Blank Lines: 8
-    '     File Size: 2.86 KB
+    '     File Size: 2.78 KB
 
 
     ' Module RunNeedlemanWunsch

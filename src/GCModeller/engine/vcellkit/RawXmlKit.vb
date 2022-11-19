@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2f53e5cbd8ca382c3977aca12b466fce, GCModeller\engine\vcellkit\RawXmlKit.vb"
+﻿#Region "Microsoft.VisualBasic::07550d302f6f532cfc07893032334946, GCModeller\engine\vcellkit\RawXmlKit.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 175
     ' Comment Lines: 46
     '   Blank Lines: 35
-    '     File Size: 9.88 KB
+    '     File Size: 9.63 KB
 
 
     ' Module RawXmlKit

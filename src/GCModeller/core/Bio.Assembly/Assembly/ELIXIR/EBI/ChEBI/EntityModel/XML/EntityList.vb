@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4ce75b9d73566aa112f213ac2ec78ea1, GCModeller\core\Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\EntityModel\XML\EntityList.vb"
+﻿#Region "Microsoft.VisualBasic::31a900c15e6337f6cb610d8d9e7428d1, GCModeller\core\Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\EntityModel\XML\EntityList.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 76
     ' Comment Lines: 6
     '   Blank Lines: 19
-    '     File Size: 3.55 KB
+    '     File Size: 3.45 KB
 
 
     '     Class EntityList

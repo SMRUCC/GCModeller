@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::88306809d4c002e1f855d0b4ef459792, GCModeller\annotations\GSEA\PFSNet\PFSNet\Models\PfsNet.vb"
+﻿#Region "Microsoft.VisualBasic::c863e4bb7d9bc8be3040004ad7bc2646, GCModeller\annotations\GSEA\PFSNet\PFSNet\Models\PfsNet.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 48
     ' Comment Lines: 52
     '   Blank Lines: 12
-    '     File Size: 4.34 KB
+    '     File Size: 4.22 KB
 
 
     '     Class PFSNetGraphNode

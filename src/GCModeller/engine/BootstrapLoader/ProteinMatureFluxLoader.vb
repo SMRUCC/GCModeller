@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6e6074b231cf96028efa80b6328b9f92, GCModeller\engine\BootstrapLoader\ProteinMatureFluxLoader.vb"
+﻿#Region "Microsoft.VisualBasic::f7e92d936c17c0ccf3992d5a3c69208e, GCModeller\engine\BootstrapLoader\ProteinMatureFluxLoader.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 51
     ' Comment Lines: 4
     '   Blank Lines: 13
-    '     File Size: 2.76 KB
+    '     File Size: 2.69 KB
 
 
     '     Class ProteinMatureFluxLoader

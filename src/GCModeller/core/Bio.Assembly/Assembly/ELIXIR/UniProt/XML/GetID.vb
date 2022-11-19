@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d197e53e1ddc800bb418d8200aae419d, GCModeller\core\Bio.Assembly\Assembly\ELIXIR\UniProt\XML\GetID.vb"
+﻿#Region "Microsoft.VisualBasic::608ec29f6b2a88fd5e25600c95fa05db, GCModeller\core\Bio.Assembly\Assembly\ELIXIR\UniProt\XML\GetID.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 176
+    '   Total Lines: 174
     '    Code Lines: 141
     ' Comment Lines: 8
-    '   Blank Lines: 27
-    '     File Size: 6.61 KB
+    '   Blank Lines: 25
+    '     File Size: 6.43 KB
 
 
     '     Module GetIDs
@@ -60,8 +60,6 @@
     ' /********************************************************************************/
 
 #End Region
-
-
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel
@@ -237,4 +235,3 @@ Namespace Assembly.Uniprot.XML
         End Function
     End Module
 End Namespace
-

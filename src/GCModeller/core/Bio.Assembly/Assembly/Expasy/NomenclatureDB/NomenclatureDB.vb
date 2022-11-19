@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::65d335106637a85a46132d6c4cd7241e, GCModeller\core\Bio.Assembly\Assembly\Expasy\NomenclatureDB\NomenclatureDB.vb"
+﻿#Region "Microsoft.VisualBasic::c0defafa1460e1df0414e0bd395e9409, GCModeller\core\Bio.Assembly\Assembly\Expasy\NomenclatureDB\NomenclatureDB.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,18 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 113
-    '    Code Lines: 77
+    '   Total Lines: 118
+    '    Code Lines: 80
     ' Comment Lines: 24
-    '   Blank Lines: 12
-    '     File Size: 5.79 KB
+    '   Blank Lines: 14
+    '     File Size: 5.73 KB
 
 
     '     Class NomenclatureDB
     ' 
     '         Properties: Copyright, Enzymes, Release
     ' 
-    '         Function: CreateObject, GetSwissProtEntries, TryExportUniprotFasta
+    '         Function: CreateObject, GetSwissProtEntries, ParseFileLines, TryExportUniprotFasta
     ' 
     '         Sub: Export
     ' 

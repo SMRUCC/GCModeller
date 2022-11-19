@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e41aed43a3150089e03107515e968cac, GCModeller\data\GO_gene-ontology\GeneOntology\My Project\AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::74234655fc7946cad498af331914966e, GCModeller\data\GO_gene-ontology\GeneOntology\My Project\AssemblyInfo.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 15
     ' Comment Lines: 15
     '   Blank Lines: 6
-    '     File Size: 1.18 KB
+    '     File Size: 1.15 KB
 
 
     ' 

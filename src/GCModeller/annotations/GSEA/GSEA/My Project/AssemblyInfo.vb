@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dc3338a1f1def01ac2b46b4fa49fd3ac, GCModeller\annotations\GSEA\GSEA\My Project\AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::62c6c0f60ce377d5a30043b54ccab9aa, GCModeller\annotations\GSEA\GSEA\My Project\AssemblyInfo.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 15
     ' Comment Lines: 15
     '   Blank Lines: 6
-    '     File Size: 1.25 KB
+    '     File Size: 1.22 KB
 
 
     ' 

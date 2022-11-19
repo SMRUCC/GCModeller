@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::01637805e16b9425f07b86d277e9654d, GCModeller\analysis\SequenceToolkit\DNA_Comparative\DeltaSimilarity1998\CAI\XML\CodonAdaptationIndex.vb"
+﻿#Region "Microsoft.VisualBasic::e42e902967ead72d43dc9fe560732460, GCModeller\analysis\SequenceToolkit\DNA_Comparative\DeltaSimilarity1998\CAI\XML\CodonAdaptationIndex.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 48
     ' Comment Lines: 8
     '   Blank Lines: 7
-    '     File Size: 2.19 KB
+    '     File Size: 2.13 KB
 
 
     '     Class CodonAdaptationIndex

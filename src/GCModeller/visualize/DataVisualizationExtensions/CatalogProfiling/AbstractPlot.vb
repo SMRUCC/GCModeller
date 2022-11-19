@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2ed41df59b44de28d515beebe459e109, GCModeller\visualize\DataVisualizationExtensions\CatalogProfiling\AbstractPlot.vb"
+﻿#Region "Microsoft.VisualBasic::4bf3ca1199ee4a4df06a6a181edaa3b2, GCModeller\visualize\DataVisualizationExtensions\CatalogProfiling\AbstractPlot.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 106
     ' Comment Lines: 3
     '   Blank Lines: 14
-    '     File Size: 5.45 KB
+    '     File Size: 5.33 KB
 
 
     '     Class MultipleCategoryProfiles

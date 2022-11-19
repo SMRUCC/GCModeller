@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bf8c539d67388294b90cc877359bba61, GCModeller\analysis\SequenceToolkit\SequencePatterns.Abstract\Patterns\Ranges.vb"
+﻿#Region "Microsoft.VisualBasic::c1dc1bdfbc462e5fbf776411a7ce0502, GCModeller\analysis\SequenceToolkit\SequencePatterns.Abstract\Patterns\Ranges.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 30
     ' Comment Lines: 0
     '   Blank Lines: 7
-    '     File Size: 1.24 KB
+    '     File Size: 1.20 KB
 
 
     '     Class Ranges

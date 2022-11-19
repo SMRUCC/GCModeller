@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d92dc2e02af7f52a5a7fd8cfdce2ab23, GCModeller\annotations\GSEA\GSEA\My Project\Settings.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::b93af4304901f22e6575ad16c970e3eb, GCModeller\annotations\GSEA\GSEA\My Project\Settings.Designer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 53
     ' Comment Lines: 9
     '   Blank Lines: 12
-    '     File Size: 3.04 KB
+    '     File Size: 2.97 KB
 
 
     '     Class MySettings

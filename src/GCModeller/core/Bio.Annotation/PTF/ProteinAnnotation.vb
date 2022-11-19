@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::139d909787996cd077ef51f72f31ba62, GCModeller\core\Bio.Annotation\PTF\ProteinAnnotation.vb"
+﻿#Region "Microsoft.VisualBasic::ef4a42dc352b286af4494d3426e705fd, GCModeller\core\Bio.Annotation\PTF\ProteinAnnotation.vb"
 
     ' Author:
     ' 
@@ -34,16 +34,17 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 62
-    '    Code Lines: 33
+    '   Total Lines: 63
+    '    Code Lines: 34
     ' Comment Lines: 21
     '   Blank Lines: 8
-    '     File Size: 2.01 KB
+    '     File Size: 2.05 KB
 
 
     '     Class ProteinAnnotation
     ' 
     '         Properties: attributes, description, geneId, geneName, locus_id
+    '                     sequence
     ' 
     '         Function: [get], has, ToString
     ' 

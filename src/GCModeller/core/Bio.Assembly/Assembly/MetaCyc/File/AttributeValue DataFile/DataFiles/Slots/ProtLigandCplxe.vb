@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::289a1e072a6ed90b96be5c1ef3c021da, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Slots\ProtLigandCplxe.vb"
+﻿#Region "Microsoft.VisualBasic::dc3d23797233a4d7790fe888bff1ad03, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Slots\ProtLigandCplxe.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 27
     ' Comment Lines: 32
     '   Blank Lines: 14
-    '     File Size: 3.83 KB
+    '     File Size: 3.76 KB
 
 
     '     Class ProtLigandCplxe

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e3f1a272afaf5de81c56bc0ca5cf56b5, GCModeller\models\BIOM\BIOM\v1.5.vb"
+﻿#Region "Microsoft.VisualBasic::747246b3a6a4d7a1cd9e4ac7f727766b, GCModeller\models\BIOM\BIOM\v1.5.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 17
     ' Comment Lines: 3
     '   Blank Lines: 4
-    '     File Size: 793 B
+    '     File Size: 770 B
 
 
     '     Module CDF

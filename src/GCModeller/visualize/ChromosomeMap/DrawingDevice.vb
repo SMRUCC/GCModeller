@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d1ed3f982c85f6cd0127442f09b43679, GCModeller\visualize\ChromosomeMap\DrawingDevice.vb"
+﻿#Region "Microsoft.VisualBasic::cdd7540241532da4e165b75048939770, GCModeller\visualize\ChromosomeMap\DrawingDevice.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 319
     ' Comment Lines: 47
     '   Blank Lines: 78
-    '     File Size: 17.35 KB
+    '     File Size: 16.91 KB
 
 
     ' Class DrawingDevice

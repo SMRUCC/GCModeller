@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ff6cdfd422fab5e0e9a3f72e865ad463, GCModeller\analysis\SequenceToolkit\MotifFinder\SeedCluster.vb"
+﻿#Region "Microsoft.VisualBasic::4a8bfcb7ca75d48348bad18a85c7a322, GCModeller\analysis\SequenceToolkit\MotifFinder\SeedCluster.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 122
     ' Comment Lines: 27
     '   Blank Lines: 23
-    '     File Size: 5.91 KB
+    '     File Size: 5.74 KB
 
 
     ' Module SeedCluster

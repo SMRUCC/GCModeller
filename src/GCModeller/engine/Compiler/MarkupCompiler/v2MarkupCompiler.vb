@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4e4181b8ce0060d3179b75bd9914ad68, GCModeller\engine\Compiler\MarkupCompiler\v2MarkupCompiler.vb"
+﻿#Region "Microsoft.VisualBasic::e51b46143362b94c7af530c297cde4ae, GCModeller\engine\Compiler\MarkupCompiler\v2MarkupCompiler.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 10
     ' Comment Lines: 0
     '   Blank Lines: 3
-    '     File Size: 445 B
+    '     File Size: 433 B
 
 
     '     Class v2MarkupCompiler

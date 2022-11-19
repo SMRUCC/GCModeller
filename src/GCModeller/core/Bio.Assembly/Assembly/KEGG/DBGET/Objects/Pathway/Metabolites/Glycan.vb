@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ff803b94c61b017a0a84762a55e69bc8, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\Glycan.vb"
+﻿#Region "Microsoft.VisualBasic::2b7249cb86a11e2dea23f45ff30c344d, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\Glycan.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 103
-    '    Code Lines: 79
-    ' Comment Lines: 10
-    '   Blank Lines: 14
-    '     File Size: 3.75 KB
+    '   Total Lines: 76
+    '    Code Lines: 61
+    ' Comment Lines: 4
+    '   Blank Lines: 11
+    '     File Size: 2.55 KB
 
 
     '     Class Glycan
@@ -46,7 +46,7 @@
     '         Properties: Composition, CompoundId, Mass, Orthology
     ' 
     '         Constructor: (+2 Overloads) Sub New
-    '         Function: Download, DownloadFrom, GetCompoundId, GetLinkDbRDF, ToCompound
+    '         Function: GetCompoundId, ToCompound
     ' 
     ' 
     ' /********************************************************************************/

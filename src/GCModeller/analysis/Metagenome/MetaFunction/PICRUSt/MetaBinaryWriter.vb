@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9451546cac058bf3df0642c5ebfefa53, GCModeller\analysis\Metagenome\MetaFunction\PICRUSt\MetaBinaryWriter.vb"
+﻿#Region "Microsoft.VisualBasic::eee10062820d9bc965da25cd2b96ff99, GCModeller\analysis\Metagenome\MetaFunction\PICRUSt\MetaBinaryWriter.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 157
     ' Comment Lines: 26
     '   Blank Lines: 45
-    '     File Size: 8.43 KB
+    '     File Size: 8.21 KB
 
 
     '     Class MetaBinaryWriter

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::382b26cf0140fc9a3a743e99075af9cd, GCModeller\visualize\DataVisualizationExtensions\My Project\AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::1919249e98d6ee5b95db94819b07b6d4, GCModeller\visualize\DataVisualizationExtensions\My Project\AssemblyInfo.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 15
     ' Comment Lines: 15
     '   Blank Lines: 6
-    '     File Size: 1.35 KB
+    '     File Size: 1.32 KB
 
 
     ' 

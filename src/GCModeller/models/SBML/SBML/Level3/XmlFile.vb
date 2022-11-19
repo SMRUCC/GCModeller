@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4a89e97b80056df9cae316520f56feb1, GCModeller\models\SBML\SBML\Level3\XmlFile.vb"
+﻿#Region "Microsoft.VisualBasic::6bc30ba5c2c2fa260a08ae0ff4984caa, GCModeller\models\SBML\SBML\Level3\XmlFile.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 64
-    '    Code Lines: 49
+    '   Total Lines: 80
+    '    Code Lines: 61
     ' Comment Lines: 0
-    '   Blank Lines: 15
-    '     File Size: 2.46 KB
+    '   Blank Lines: 19
+    '     File Size: 2.95 KB
 
 
     '     Class XmlFile
@@ -55,7 +55,9 @@
     ' 
     '     Class functionDefinition
     ' 
-    '         Properties: math
+    '         Properties: expression, math, sboTerm
+    ' 
+    '         Function: ToString
     ' 
     '     Class compartment
     ' 

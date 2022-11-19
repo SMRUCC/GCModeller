@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4ce6e58d914f3b2ae0eafac657a37451, GCModeller\engine\Compiler\AssemblyScript\Script\Tokens.vb"
+﻿#Region "Microsoft.VisualBasic::762a10f9965ead4c385381acc7ab8f84, GCModeller\engine\Compiler\AssemblyScript\Script\Tokens.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 18
     ' Comment Lines: 27
     '   Blank Lines: 4
-    '     File Size: 1014 B
+    '     File Size: 966 B
 
 
     '     Enum Tokens

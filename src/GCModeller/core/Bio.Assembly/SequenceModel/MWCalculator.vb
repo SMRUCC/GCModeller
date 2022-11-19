@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3bb2453a5007580b085f1e29e6a2a44a, GCModeller\core\Bio.Assembly\SequenceModel\MWCalculator.vb"
+﻿#Region "Microsoft.VisualBasic::f4e8576cda1e437e77dd488beef99f72, GCModeller\core\Bio.Assembly\SequenceModel\MWCalculator.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 60
     ' Comment Lines: 16
     '   Blank Lines: 7
-    '     File Size: 3.23 KB
+    '     File Size: 3.14 KB
 
 
     '     Module MolecularWeightCalculator

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cd1939bb1dbdbba11cae0eca810d5d56, GCModeller\analysis\SequenceToolkit\ClusterMatrix\My Project\Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::18a33db6e370dab540b40f0ade611636, GCModeller\analysis\SequenceToolkit\ClusterMatrix\My Project\Resources.Designer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 32
     ' Comment Lines: 23
     '   Blank Lines: 8
-    '     File Size: 2.82 KB
+    '     File Size: 2.75 KB
 
 
     '     Module Resources

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::45e38427e9867f2ec76defaa295812f2, GCModeller\core\Bio.Annotation\GFF\Features.vb"
+﻿#Region "Microsoft.VisualBasic::f58d756341bf08585306732418fbe2b8, GCModeller\core\Bio.Annotation\GFF\Features.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 12
     ' Comment Lines: 0
     '   Blank Lines: 1
-    '     File Size: 240 B
+    '     File Size: 228 B
 
 
     '     Enum Features

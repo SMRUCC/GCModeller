@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::07435ca85cf5b1565d781715bcfc65e4, GCModeller\annotations\KEGG\Reconstruct\UniqueRank.vb"
+﻿#Region "Microsoft.VisualBasic::fa5d25d9c95c44a196c7cb96b9dff800, GCModeller\annotations\KEGG\Reconstruct\UniqueRank.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 105
-    '    Code Lines: 78
+    '   Total Lines: 107
+    '    Code Lines: 80
     ' Comment Lines: 15
     '   Blank Lines: 12
-    '     File Size: 4.50 KB
+    '     File Size: 4.54 KB
 
 
     ' Module UniqueRank

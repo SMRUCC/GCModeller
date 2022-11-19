@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::648c9143e62c75798c9fcb066a944187, GCModeller\sub-system\PLAS.NET\SSystem\System\Kernel.vb"
+﻿#Region "Microsoft.VisualBasic::965501ef23153ff98521aad07df701be, GCModeller\sub-system\PLAS.NET\SSystem\System\Kernel.vb"
 
     ' Author:
     ' 
@@ -34,16 +34,16 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 196
-    '    Code Lines: 108
+    '   Total Lines: 198
+    '    Code Lines: 109
     ' Comment Lines: 64
-    '   Blank Lines: 24
-    '     File Size: 6.89 KB
+    '   Blank Lines: 25
+    '     File Size: 6.94 KB
 
 
     '     Class Kernel
     ' 
-    '         Properties: finalTime, precision, RuntimeTicks, Vars
+    '         Properties: finalTime, precision, RuntimeTicks, strict, Vars
     ' 
     '         Constructor: (+2 Overloads) Sub New
     ' 

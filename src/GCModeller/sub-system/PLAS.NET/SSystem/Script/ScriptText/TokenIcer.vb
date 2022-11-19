@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::061cabebbc64c5b6319eeba62fa863a4, GCModeller\sub-system\PLAS.NET\SSystem\Script\ScriptText\TokenIcer.vb"
+﻿#Region "Microsoft.VisualBasic::e48d4c7f48ff1d9a0d4b68ea3934ac87, GCModeller\sub-system\PLAS.NET\SSystem\Script\ScriptText\TokenIcer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 40
     ' Comment Lines: 5
     '   Blank Lines: 10
-    '     File Size: 1.74 KB
+    '     File Size: 1.69 KB
 
 
     '     Module TokenIcer

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::be568b2998d0d64a3bf4dc1b93b26c25, GCModeller\core\Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\Web\REST.vb"
+﻿#Region "Microsoft.VisualBasic::a47c7c0ee12f81134c7b7cd75984eacd, GCModeller\core\Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\Web\REST.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 34
     ' Comment Lines: 0
     '   Blank Lines: 8
-    '     File Size: 1.67 KB
+    '     File Size: 1.63 KB
 
 
     '     Structure REST

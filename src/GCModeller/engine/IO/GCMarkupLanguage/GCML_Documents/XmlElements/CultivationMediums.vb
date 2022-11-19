@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::73174065388fb8b864e8863a1c78978b, GCModeller\engine\IO\GCMarkupLanguage\GCML_Documents\XmlElements\CultivationMediums.vb"
+﻿#Region "Microsoft.VisualBasic::0bbd60710245af08f226b2de0f805303, GCModeller\engine\IO\GCMarkupLanguage\GCML_Documents\XmlElements\CultivationMediums.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 25
     ' Comment Lines: 10
     '   Blank Lines: 8
-    '     File Size: 1.68 KB
+    '     File Size: 1.64 KB
 
 
     ' Class I_SubstrateRefx

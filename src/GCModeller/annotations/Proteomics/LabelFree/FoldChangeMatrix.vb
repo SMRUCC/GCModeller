@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7da7e681b4c7cafc5873730da6faf398, GCModeller\annotations\Proteomics\LabelFree\FoldChangeMatrix.vb"
+﻿#Region "Microsoft.VisualBasic::f63b69ad8a0930450948e55bae91ada2, GCModeller\annotations\Proteomics\LabelFree\FoldChangeMatrix.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 114
     ' Comment Lines: 29
     '   Blank Lines: 17
-    '     File Size: 6.76 KB
+    '     File Size: 6.61 KB
 
 
     ' Module FoldChangeMatrix

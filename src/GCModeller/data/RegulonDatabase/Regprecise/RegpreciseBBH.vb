@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::70e07b03be37a95ca1c23600f8330959, GCModeller\data\RegulonDatabase\Regprecise\RegpreciseBBH.vb"
+﻿#Region "Microsoft.VisualBasic::9e1332ac14a26615739a0f814464ac11, GCModeller\data\RegulonDatabase\Regprecise\RegpreciseBBH.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 117
     ' Comment Lines: 25
     '   Blank Lines: 27
-    '     File Size: 6.63 KB
+    '     File Size: 6.46 KB
 
 
     '     Class RegpreciseBBH

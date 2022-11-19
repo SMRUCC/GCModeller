@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::da1b9bed2e9e8165cb3220170ba700da, GCModeller\core\Bio.Assembly\SequenceModel\NucleicAcid\Objects\SegmentObject.vb"
+﻿#Region "Microsoft.VisualBasic::a93cca2ec581fb2349f514d5b63fa76e, GCModeller\core\Bio.Assembly\SequenceModel\NucleicAcid\Objects\SegmentObject.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 87
     ' Comment Lines: 36
     '   Blank Lines: 20
-    '     File Size: 5.17 KB
+    '     File Size: 5.02 KB
 
 
     '     Class SegmentObject

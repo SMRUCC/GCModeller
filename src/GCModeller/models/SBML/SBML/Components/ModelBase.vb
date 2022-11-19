@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::585a921da556c33339111320e7585cc5, GCModeller\models\SBML\SBML\Components\ModelBase.vb"
+﻿#Region "Microsoft.VisualBasic::67344733743e528d2956322c6d27285a, GCModeller\models\SBML\SBML\Components\ModelBase.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 23
-    '    Code Lines: 14
+    '   Total Lines: 27
+    '    Code Lines: 17
     ' Comment Lines: 4
-    '   Blank Lines: 5
-    '     File Size: 710 B
+    '   Blank Lines: 6
+    '     File Size: 813 B
 
 
     '     Class ModelBase
@@ -48,6 +48,8 @@
     '     Class IPartsBase
     ' 
     '         Properties: id, name
+    ' 
+    '         Function: ToString
     ' 
     ' 
     ' /********************************************************************************/

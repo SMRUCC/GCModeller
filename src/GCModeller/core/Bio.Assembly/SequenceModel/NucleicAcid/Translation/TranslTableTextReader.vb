@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0e5e7af68ce2087ae06b8e4bd906be2c, GCModeller\core\Bio.Assembly\SequenceModel\NucleicAcid\Translation\TranslTableTextReader.vb"
+﻿#Region "Microsoft.VisualBasic::52885ba9fd208324ba7d84e55f6e49b7, GCModeller\core\Bio.Assembly\SequenceModel\NucleicAcid\Translation\TranslTableTextReader.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 77
     ' Comment Lines: 4
     '   Blank Lines: 15
-    '     File Size: 4.34 KB
+    '     File Size: 4.24 KB
 
 
     '     Module TranslTableTextReader

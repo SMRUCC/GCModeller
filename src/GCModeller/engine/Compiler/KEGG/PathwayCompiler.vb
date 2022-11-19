@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5faa5945a10c1ff502707811110a18a1, GCModeller\engine\Compiler\KEGG\PathwayCompiler.vb"
+﻿#Region "Microsoft.VisualBasic::393cb946f8d7397d0d2f35660349d33f, GCModeller\engine\Compiler\KEGG\PathwayCompiler.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 85
     ' Comment Lines: 4
     '   Blank Lines: 10
-    '     File Size: 4.48 KB
+    '     File Size: 4.35 KB
 
 
     ' Module PathwayCompiler

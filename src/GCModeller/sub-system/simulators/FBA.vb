@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6cb3f27e2f01f4ad1e5ce25acefea07b, GCModeller\sub-system\simulators\FBA.vb"
+﻿#Region "Microsoft.VisualBasic::07e96498224e8b76e7473485ffeb8762, GCModeller\sub-system\simulators\FBA.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 127
     ' Comment Lines: 14
     '   Blank Lines: 25
-    '     File Size: 6.00 KB
+    '     File Size: 5.83 KB
 
 
     ' Module FBA

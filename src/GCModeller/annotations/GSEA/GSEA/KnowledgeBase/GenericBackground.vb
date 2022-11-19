@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::151495050dbcde581858d94c0508810f, GCModeller\annotations\GSEA\GSEA\KnowledgeBase\GenericBackground.vb"
+﻿#Region "Microsoft.VisualBasic::cab4100aeab5e2081dae3bf756b2c37c, GCModeller\annotations\GSEA\GSEA\KnowledgeBase\GenericBackground.vb"
 
     ' Author:
     ' 
@@ -34,17 +34,16 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 107
-    '    Code Lines: 91
-    ' Comment Lines: 7
-    '   Blank Lines: 9
-    '     File Size: 3.87 KB
+    '   Total Lines: 56
+    '    Code Lines: 46
+    ' Comment Lines: 6
+    '   Blank Lines: 4
+    '     File Size: 1.88 KB
 
 
     ' Module GenericBackground
     ' 
-    '     Function: CreateGOGeneric, CreateKOGeneric, createTermGenericGene, enumerateAllTerms, (+2 Overloads) ImportsTree
-    '               simpleTerm
+    '     Function: CreateGOGeneric, CreateKOGeneric, createTermGenericGene
     ' 
     ' /********************************************************************************/
 

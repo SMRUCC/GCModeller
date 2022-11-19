@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::452460015960038ed3b2d2158a3058ff, GCModeller\visualize\ChromosomeMap\Configuration\Config.vb"
+﻿#Region "Microsoft.VisualBasic::de5ae8e7ada6428a84991c7d05508c1c, GCModeller\visualize\ChromosomeMap\Configuration\Config.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 194
     ' Comment Lines: 16
     '   Blank Lines: 34
-    '     File Size: 12.46 KB
+    '     File Size: 12.22 KB
 
 
     '     Class Config

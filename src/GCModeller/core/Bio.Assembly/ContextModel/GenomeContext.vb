@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::37baa66c45b7dcc49a61a8de199a8876, GCModeller\core\Bio.Assembly\ContextModel\GenomeContext.vb"
+﻿#Region "Microsoft.VisualBasic::c3d90bad4c08d6622e9858cef2a96de0, GCModeller\core\Bio.Assembly\ContextModel\GenomeContext.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 129
     ' Comment Lines: 37
     '   Blank Lines: 21
-    '     File Size: 6.91 KB
+    '     File Size: 6.72 KB
 
 
     '     Class GenomeContext

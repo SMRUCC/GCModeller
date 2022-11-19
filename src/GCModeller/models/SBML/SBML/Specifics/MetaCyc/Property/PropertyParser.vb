@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3ee53c5da44463e8b4cdc3d5bf80efc6, GCModeller\models\SBML\SBML\Specifics\MetaCyc\Property\PropertyParser.vb"
+﻿#Region "Microsoft.VisualBasic::a9fedf8a6a6225ee139a4af0a94a83fd, GCModeller\models\SBML\SBML\Specifics\MetaCyc\Property\PropertyParser.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 60
     ' Comment Lines: 12
     '   Blank Lines: 8
-    '     File Size: 2.69 KB
+    '     File Size: 2.61 KB
 
 
     '     Enum FluxProperties

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ac4ae48f7b8971f09a2fdeecf3473329, GCModeller\analysis\SequenceToolkit\DNA_Comparative\DeltaSimilarity1998\SimilarDiscriptions.vb"
+﻿#Region "Microsoft.VisualBasic::8889041a641b129eed0948ed8b8ecd47, GCModeller\analysis\SequenceToolkit\DNA_Comparative\DeltaSimilarity1998\SimilarDiscriptions.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 17
     ' Comment Lines: 28
     '   Blank Lines: 8
-    '     File Size: 2.33 KB
+    '     File Size: 2.27 KB
 
 
     '     Enum SimilarDiscriptions

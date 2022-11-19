@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::707991f58e8ea0ae499bb630e93aec95, GCModeller\core\Bio.Assembly\SequenceModel\NucleicAcid\Objects\NucleicAcid.vb"
+﻿#Region "Microsoft.VisualBasic::0d5e71754ba8578122447c7b04dfb961, GCModeller\core\Bio.Assembly\SequenceModel\NucleicAcid\Objects\NucleicAcid.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 226
     ' Comment Lines: 95
     '   Blank Lines: 58
-    '     File Size: 14.53 KB
+    '     File Size: 14.15 KB
 
 
     '     Class NucleicAcid

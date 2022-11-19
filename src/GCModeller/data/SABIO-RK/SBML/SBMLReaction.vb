@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ca1c7fb8bc9384196afa7b6d123069b6, GCModeller\data\SABIO-RK\SBML\SBMLReaction.vb"
+﻿#Region "Microsoft.VisualBasic::755b2db1ecef5e7c7393bce00adec796, GCModeller\data\SABIO-RK\SBML\SBMLReaction.vb"
 
     ' Author:
     ' 
@@ -34,16 +34,16 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 15
-    '    Code Lines: 8
+    '   Total Lines: 40
+    '    Code Lines: 29
     ' Comment Lines: 4
-    '   Blank Lines: 3
-    '     File Size: 368 B
+    '   Blank Lines: 7
+    '     File Size: 1.24 KB
 
 
     '     Class SBMLReaction
     ' 
-    '         Properties: kineticLaw
+    '         Properties: ec_number, kineticLaw, kineticLawID
     ' 
     ' 
     ' /********************************************************************************/

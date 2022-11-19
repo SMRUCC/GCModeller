@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3ba7f24b3d754b9d3c1493f2879db5a6, GCModeller\analysis\HTS_matrix\My Project\Settings.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::06eab2834ea85c36a0b4135c16514660, GCModeller\analysis\HTS_matrix\My Project\Settings.Designer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 53
     ' Comment Lines: 9
     '   Blank Lines: 12
-    '     File Size: 3.05 KB
+    '     File Size: 2.98 KB
 
 
     '     Class MySettings

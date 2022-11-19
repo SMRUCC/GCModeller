@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5b0c767bb7599c7c295b1fff776a8e46, GCModeller\engine\BootstrapLoader\Engine\MassTable.vb"
+﻿#Region "Microsoft.VisualBasic::5baabc990894f499f279ef8fa42a7358, GCModeller\engine\BootstrapLoader\Engine\MassTable.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 107
     ' Comment Lines: 9
     '   Blank Lines: 24
-    '     File Size: 6.28 KB
+    '     File Size: 6.14 KB
 
 
     '     Class MassTable

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ebc5cd8c4387cdd345db34f1c8e98ee2, GCModeller\analysis\SequenceToolkit\DNA_Comparative\My Project\Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::28baaf6f7b75c7bda1b8c831ba066928, GCModeller\analysis\SequenceToolkit\DNA_Comparative\My Project\Resources.Designer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 32
     ' Comment Lines: 23
     '   Blank Lines: 8
-    '     File Size: 2.82 KB
+    '     File Size: 2.76 KB
 
 
     '     Module Resources

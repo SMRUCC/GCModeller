@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3556c40d362fb8d62a4137cf120a7012, GCModeller\core\Bio.Assembly\Assembly\DOOR\Models\OperonLDM.vb"
+﻿#Region "Microsoft.VisualBasic::c5aec8ef0bebe726d1de161b0a4be4df, GCModeller\core\Bio.Assembly\Assembly\DOOR\Models\OperonLDM.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 11
     ' Comment Lines: 24
     '   Blank Lines: 3
-    '     File Size: 1.16 KB
+    '     File Size: 1.12 KB
 
 
     '     Class Operon

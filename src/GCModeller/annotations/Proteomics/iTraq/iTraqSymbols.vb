@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::45a4806c0f8d58f0f23df2b29f5d9ebe, GCModeller\annotations\Proteomics\iTraq\iTraqSymbols.vb"
+﻿#Region "Microsoft.VisualBasic::301335295ffb41b5029b6b58db55508f, GCModeller\annotations\Proteomics\iTraq\iTraqSymbols.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 11
     ' Comment Lines: 15
     '   Blank Lines: 3
-    '     File Size: 933 B
+    '     File Size: 905 B
 
 
     ' Class iTraqSymbols

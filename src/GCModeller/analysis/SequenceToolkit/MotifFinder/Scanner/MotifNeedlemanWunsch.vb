@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::721dc50f6e3c5dca3e841decf0972af9, GCModeller\analysis\SequenceToolkit\MotifFinder\Scanner\MotifNeedlemanWunsch.vb"
+﻿#Region "Microsoft.VisualBasic::8a9ce150178ffbccf7811a7e88ca63f6, GCModeller\analysis\SequenceToolkit\MotifFinder\Scanner\MotifNeedlemanWunsch.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 41
     ' Comment Lines: 1
     '   Blank Lines: 8
-    '     File Size: 1.82 KB
+    '     File Size: 1.77 KB
 
 
     ' Class MotifNeedlemanWunsch

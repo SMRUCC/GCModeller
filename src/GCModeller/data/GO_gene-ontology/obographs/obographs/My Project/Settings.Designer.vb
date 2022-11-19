@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4615b5d8370f24118393e9164645ae84, GCModeller\data\GO_gene-ontology\obographs\obographs\My Project\Settings.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::e315b9ada0436d9f92a83d4b300fa8b3, GCModeller\data\GO_gene-ontology\obographs\obographs\My Project\Settings.Designer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 53
     ' Comment Lines: 9
     '   Blank Lines: 12
-    '     File Size: 3.06 KB
+    '     File Size: 2.99 KB
 
 
     '     Class MySettings

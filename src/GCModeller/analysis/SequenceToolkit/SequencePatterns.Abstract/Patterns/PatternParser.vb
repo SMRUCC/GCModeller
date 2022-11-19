@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8a2cada3a73d2a7de8c94b96b5a4885d, GCModeller\analysis\SequenceToolkit\SequencePatterns.Abstract\Patterns\PatternParser.vb"
+﻿#Region "Microsoft.VisualBasic::bfa21634ed7d9338ab96436c051d5826, GCModeller\analysis\SequenceToolkit\SequencePatterns.Abstract\Patterns\PatternParser.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 119
     ' Comment Lines: 19
     '   Blank Lines: 22
-    '     File Size: 6.41 KB
+    '     File Size: 6.25 KB
 
 
     '     Module PatternParser

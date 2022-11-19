@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f988711a32d722dd0e849e0abc691369, GCModeller\core\Bio.Assembly\ProteinModel\Chou-Fasman\ChouFasmanAPI.vb"
+﻿#Region "Microsoft.VisualBasic::190c49d4307260a1cd38b79bb3e83024, GCModeller\core\Bio.Assembly\ProteinModel\Chou-Fasman\ChouFasmanAPI.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 49
     ' Comment Lines: 20
     '   Blank Lines: 13
-    '     File Size: 3.77 KB
+    '     File Size: 3.69 KB
 
 
     '     Module ChouFasman

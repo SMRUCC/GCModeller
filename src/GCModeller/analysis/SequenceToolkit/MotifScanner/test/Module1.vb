@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d6ab406b8d7787ed7795936c85a1d3f0, GCModeller\analysis\SequenceToolkit\MotifScanner\test\Module1.vb"
+﻿#Region "Microsoft.VisualBasic::ad4dca7118197f366b33107efc09a910, GCModeller\analysis\SequenceToolkit\MotifScanner\test\Module1.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 48
     ' Comment Lines: 0
     '   Blank Lines: 22
-    '     File Size: 1.80 KB
+    '     File Size: 1.73 KB
 
 
     ' Module Module1

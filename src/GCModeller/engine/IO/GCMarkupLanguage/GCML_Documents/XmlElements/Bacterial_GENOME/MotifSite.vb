@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9edade0d91ddeeb0a58a7f87d97b55ab, GCModeller\engine\IO\GCMarkupLanguage\GCML_Documents\XmlElements\Bacterial_GENOME\MotifSite.vb"
+﻿#Region "Microsoft.VisualBasic::d7aee2a53f0987b6d62cab1e0b678d3e, GCModeller\engine\IO\GCMarkupLanguage\GCML_Documents\XmlElements\Bacterial_GENOME\MotifSite.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 15
     ' Comment Lines: 12
     '   Blank Lines: 5
-    '     File Size: 1.12 KB
+    '     File Size: 1.09 KB
 
 
     '     Class MotifSite

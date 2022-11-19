@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::39ea133488a8feef3a2dfe0fe81f5b86, GCModeller\annotations\GO\My Project\AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::fda1813442244e544903db02ee23aa37, GCModeller\annotations\GO\My Project\AssemblyInfo.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 15
     ' Comment Lines: 15
     '   Blank Lines: 6
-    '     File Size: 1.17 KB
+    '     File Size: 1.13 KB
 
 
     ' 

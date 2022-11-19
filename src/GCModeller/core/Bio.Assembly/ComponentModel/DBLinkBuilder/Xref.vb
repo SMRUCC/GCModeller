@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3024ca76ea977bc51ca42978ab1f9612, GCModeller\core\Bio.Assembly\ComponentModel\DBLinkBuilder\Xref.vb"
+﻿#Region "Microsoft.VisualBasic::c7cc7add67ac957c1a21c806b357cdd2, GCModeller\core\Bio.Assembly\ComponentModel\DBLinkBuilder\Xref.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 48
     ' Comment Lines: 0
     '   Blank Lines: 10
-    '     File Size: 2.39 KB
+    '     File Size: 2.33 KB
 
 
     '     Class XrefAttribute

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6ef6d3c349d362bd33428f2657dc5078, GCModeller\data\GO_gene-ontology\GeneOntology\Files\OWL\Ontology.vb"
+﻿#Region "Microsoft.VisualBasic::15fb881d8a434710272f969aadb83a1f, GCModeller\data\GO_gene-ontology\GeneOntology\Files\OWL\Ontology.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 15
     ' Comment Lines: 0
     '   Blank Lines: 4
-    '     File Size: 738 B
+    '     File Size: 720 B
 
 
     '     Class Ontology

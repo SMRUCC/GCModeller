@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4263774d2da0976489ca9f509696b5d6, GCModeller\engine\IO\GCMarkupLanguage\GCML_Documents\XmlElements\ComponentModels\Compartment.vb"
+﻿#Region "Microsoft.VisualBasic::83f3c9e6f9da3cc4d540dac226e97acb, GCModeller\engine\IO\GCMarkupLanguage\GCML_Documents\XmlElements\ComponentModels\Compartment.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 47
     ' Comment Lines: 6
     '   Blank Lines: 11
-    '     File Size: 2.63 KB
+    '     File Size: 2.57 KB
 
 
     '     Class Compartment

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fda0312e4b78705eae3a3e4f365e159d, GCModeller\engine\Dynamics\Core\Kinetics\KineticsFactor.vb"
+﻿#Region "Microsoft.VisualBasic::d624c0def52c3a963ae9e01f265e7e8e, GCModeller\engine\Dynamics\Core\Kinetics\KineticsFactor.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 74
     ' Comment Lines: 4
     '   Blank Lines: 28
-    '     File Size: 3.42 KB
+    '     File Size: 3.32 KB
 
 
     '     Class KineticsFactor

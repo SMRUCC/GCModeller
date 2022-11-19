@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cf431648ce78c289af19eb9b61ad824c, GCModeller\engine\Compiler\MarkupCompiler\BioCyc\v2Compiler.vb"
+﻿#Region "Microsoft.VisualBasic::e88a645a217ffe8b9cdff34d9103f34f, GCModeller\engine\Compiler\MarkupCompiler\BioCyc\v2Compiler.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 174
     ' Comment Lines: 3
     '   Blank Lines: 26
-    '     File Size: 8.12 KB
+    '     File Size: 7.91 KB
 
 
     '     Class v2Compiler

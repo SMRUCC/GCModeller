@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::af6e2c5ac631a774d2e226c0a3fccc59, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Reflection\Loader.vb"
+﻿#Region "Microsoft.VisualBasic::9693d618ac81a88e5c6a3aca5773b84e, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Reflection\Loader.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 4
     ' Comment Lines: 0
     '   Blank Lines: 2
-    '     File Size: 116 B
+    '     File Size: 111 B
 
 
     '     Module LoaderAPI

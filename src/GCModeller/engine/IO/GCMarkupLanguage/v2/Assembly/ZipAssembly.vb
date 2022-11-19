@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::22fc160f1d802c0b4f4c5f53848239e5, GCModeller\engine\IO\GCMarkupLanguage\v2\Assembly\ZipAssembly.vb"
+﻿#Region "Microsoft.VisualBasic::a515dfdd5c14d61f2ca0a31ba403234c, GCModeller\engine\IO\GCMarkupLanguage\v2\Assembly\ZipAssembly.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 57
     ' Comment Lines: 5
     '   Blank Lines: 9
-    '     File Size: 3.35 KB
+    '     File Size: 3.28 KB
 
 
     '     Class ZipAssembly

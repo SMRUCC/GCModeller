@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::55f8d745558c7c35c927c3690191d03c, GCModeller\engine\GCModeller.Framework.Kernel_Driver\Driver\KernelDriver\DataAdapter\MySQL.vb"
+﻿#Region "Microsoft.VisualBasic::f66af4e6b7df34f0aca18cb4c59acecd, GCModeller\engine\GCModeller.Framework.Kernel_Driver\Driver\KernelDriver\DataAdapter\MySQL.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 8
     ' Comment Lines: 0
     '   Blank Lines: 2
-    '     File Size: 464 B
+    '     File Size: 455 B
 
 
     ' Class MySQLService

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3aa987de88b2dbfb61677c3891f7a683, GCModeller\core\Bio.Assembly\Assembly\KEGG\Archives\Xml\Nodes\EC_Mapping.vb"
+﻿#Region "Microsoft.VisualBasic::29c5755fa4b96b8433f7c5a9073b058f, GCModeller\core\Bio.Assembly\Assembly\KEGG\Archives\Xml\Nodes\EC_Mapping.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 126
-    '    Code Lines: 93
+    '   Total Lines: 125
+    '    Code Lines: 92
     ' Comment Lines: 15
     '   Blank Lines: 18
-    '     File Size: 5.56 KB
+    '     File Size: 5.39 KB
 
 
     '     Class ReactionMaps

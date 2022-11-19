@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::acd2d557e7687c4bb5760ddcb55cd70e, GCModeller\analysis\SequenceToolkit\MotifScanner\My Project\Settings.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::48bdbbabd8860410799f896f272693c6, GCModeller\analysis\SequenceToolkit\MotifScanner\My Project\Settings.Designer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 53
     ' Comment Lines: 9
     '   Blank Lines: 12
-    '     File Size: 3.10 KB
+    '     File Size: 3.02 KB
 
 
     '     Class MySettings

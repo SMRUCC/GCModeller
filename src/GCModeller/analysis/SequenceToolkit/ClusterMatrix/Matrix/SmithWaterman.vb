@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::52e259889348124bf916dd61da47f6cd, GCModeller\analysis\SequenceToolkit\ClusterMatrix\Matrix\SmithWaterman.vb"
+﻿#Region "Microsoft.VisualBasic::b77d9bb9dbd903840704ad63e0bf41e6, GCModeller\analysis\SequenceToolkit\ClusterMatrix\Matrix\SmithWaterman.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 22
     ' Comment Lines: 0
     '   Blank Lines: 3
-    '     File Size: 924 B
+    '     File Size: 900 B
 
 
     ' Module Matrix

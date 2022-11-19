@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f0fe26bc0c0512fb771a3d8bf679e933, GCModeller\analysis\SequenceToolkit\ClusterMatrix\Matrix\Matrix.vb"
+﻿#Region "Microsoft.VisualBasic::76f5cc15aeba289d90ee3ba1c64f8dba, GCModeller\analysis\SequenceToolkit\ClusterMatrix\Matrix\Matrix.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 6
     ' Comment Lines: 3
     '   Blank Lines: 1
-    '     File Size: 207 B
+    '     File Size: 198 B
 
 
     ' Module Matrix

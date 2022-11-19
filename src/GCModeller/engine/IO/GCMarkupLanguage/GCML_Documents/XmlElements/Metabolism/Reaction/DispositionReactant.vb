@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0b4978370a739627759bfa93be3e8f22, GCModeller\engine\IO\GCMarkupLanguage\GCML_Documents\XmlElements\Metabolism\Reaction\DispositionReactant.vb"
+﻿#Region "Microsoft.VisualBasic::f1a7946f226f1abe9af79c271c7db726, GCModeller\engine\IO\GCMarkupLanguage\GCML_Documents\XmlElements\Metabolism\Reaction\DispositionReactant.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 13
     ' Comment Lines: 6
     '   Blank Lines: 6
-    '     File Size: 961 B
+    '     File Size: 937 B
 
 
     '     Class DispositionReactant

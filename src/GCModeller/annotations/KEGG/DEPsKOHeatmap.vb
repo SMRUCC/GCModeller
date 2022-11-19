@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e171cc2970e9191f8efb1b72a9edd6e5, GCModeller\annotations\KEGG\DEPsKOHeatmap.vb"
+﻿#Region "Microsoft.VisualBasic::a7a31e4d4550a7e831d3a8cfe1f5eb30, GCModeller\annotations\KEGG\DEPsKOHeatmap.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 51
     ' Comment Lines: 20
     '   Blank Lines: 7
-    '     File Size: 3.55 KB
+    '     File Size: 3.47 KB
 
 
     ' Module DEPsKOHeatmap

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7db3c3a6b53273b2e2273640eb22f034, GCModeller\sub-system\FBA\FBA.Core\KEGGMatrix.vb"
+﻿#Region "Microsoft.VisualBasic::98fdf2c07fb8657d5d5af20282b174c4, GCModeller\sub-system\FBA\FBA.Core\KEGGMatrix.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 37
     ' Comment Lines: 0
     '   Blank Lines: 4
-    '     File Size: 1.61 KB
+    '     File Size: 1.57 KB
 
 
     ' Module KEGGMatrix

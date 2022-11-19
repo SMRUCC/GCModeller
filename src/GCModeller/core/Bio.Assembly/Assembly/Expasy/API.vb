@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::164530d0cc9c93ed4820d8e8865e98ba, GCModeller\core\Bio.Assembly\Assembly\Expasy\API.vb"
+﻿#Region "Microsoft.VisualBasic::8ce9d3ac3bdc3f341fa5fc6a4fc25c9e, GCModeller\core\Bio.Assembly\Assembly\Expasy\API.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 123
     ' Comment Lines: 32
     '   Blank Lines: 18
-    '     File Size: 9.56 KB
+    '     File Size: 9.39 KB
 
 
     '     Module API

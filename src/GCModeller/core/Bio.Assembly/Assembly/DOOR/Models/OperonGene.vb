@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::88c7c0bc83c59ffc8d23e73eeedcb397, GCModeller\core\Bio.Assembly\Assembly\DOOR\Models\OperonGene.vb"
+﻿#Region "Microsoft.VisualBasic::9a35e5db95fadc496fb9983dbf1969d5, GCModeller\core\Bio.Assembly\Assembly\DOOR\Models\OperonGene.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 47
     ' Comment Lines: 17
     '   Blank Lines: 8
-    '     File Size: 2.77 KB
+    '     File Size: 2.70 KB
 
 
     '     Class OperonGene

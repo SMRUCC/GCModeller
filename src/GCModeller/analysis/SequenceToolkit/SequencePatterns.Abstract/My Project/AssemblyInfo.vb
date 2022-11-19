@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7986879eac7fc07891626bfca7faf5bd, GCModeller\analysis\SequenceToolkit\SequencePatterns.Abstract\My Project\AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::97c6b57b8c4dcc8c39ad4618f0797dc8, GCModeller\analysis\SequenceToolkit\SequencePatterns.Abstract\My Project\AssemblyInfo.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 15
     ' Comment Lines: 15
     '   Blank Lines: 6
-    '     File Size: 1.21 KB
+    '     File Size: 1.18 KB
 
 
     ' 

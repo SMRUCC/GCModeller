@@ -1,54 +1,54 @@
-﻿#Region "Microsoft.VisualBasic::d1f9749f36915c1efd6d8102f9c04177, GCModeller\data\SABIO-RK\SBML\SbmlDocument.vb"
+﻿#Region "Microsoft.VisualBasic::6e6ccd7f26ca68266f8f19ed51c60fae, GCModeller\data\SABIO-RK\SBML\SbmlDocument.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 38
-'    Code Lines: 31
-' Comment Lines: 0
-'   Blank Lines: 7
-'     File Size: 1.49 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Class SbmlDocument
-' 
-'         Properties: mathML, sbml
-' 
-'         Function: LoadDocument
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 61
+    '    Code Lines: 48
+    ' Comment Lines: 1
+    '   Blank Lines: 12
+    '     File Size: 2.45 KB
+
+
+    '     Class SbmlDocument
+    ' 
+    '         Properties: mathML, sbml
+    ' 
+    '         Function: getLambda, LoadDocument
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

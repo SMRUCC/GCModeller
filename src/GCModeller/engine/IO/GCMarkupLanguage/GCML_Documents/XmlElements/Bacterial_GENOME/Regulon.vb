@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::df2209217adbfd738c7596300375dfc5, GCModeller\engine\IO\GCMarkupLanguage\GCML_Documents\XmlElements\Bacterial_GENOME\Regulon.vb"
+﻿#Region "Microsoft.VisualBasic::b1d50384652344273f00e764dcda3ebc, GCModeller\engine\IO\GCMarkupLanguage\GCML_Documents\XmlElements\Bacterial_GENOME\Regulon.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 32
     ' Comment Lines: 16
     '   Blank Lines: 6
-    '     File Size: 2.22 KB
+    '     File Size: 2.17 KB
 
 
     '     Class Regulon

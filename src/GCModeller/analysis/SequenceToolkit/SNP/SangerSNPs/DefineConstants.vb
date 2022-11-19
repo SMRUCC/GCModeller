@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::74e622be31c2ee848cd0309893520292, GCModeller\analysis\SequenceToolkit\SNP\SangerSNPs\DefineConstants.vb"
+﻿#Region "Microsoft.VisualBasic::603813f6d8a47723ecc1762401d0fedd, GCModeller\analysis\SequenceToolkit\SNP\SangerSNPs\DefineConstants.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 26
     ' Comment Lines: 0
     '   Blank Lines: 5
-    '     File Size: 1007 B
+    '     File Size: 977 B
 
 
     '     Module DefineConstants

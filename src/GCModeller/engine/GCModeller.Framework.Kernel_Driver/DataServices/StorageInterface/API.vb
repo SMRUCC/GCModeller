@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b737bddf8556e465bb8b2bf5ceb46592, GCModeller\engine\GCModeller.Framework.Kernel_Driver\DataServices\StorageInterface\API.vb"
+﻿#Region "Microsoft.VisualBasic::3a6a3c7eb98c5e4e3d7c44c8a6da74eb, GCModeller\engine\GCModeller.Framework.Kernel_Driver\DataServices\StorageInterface\API.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 56
     ' Comment Lines: 17
     '   Blank Lines: 8
-    '     File Size: 3.48 KB
+    '     File Size: 3.40 KB
 
 
     '     Module Extensions

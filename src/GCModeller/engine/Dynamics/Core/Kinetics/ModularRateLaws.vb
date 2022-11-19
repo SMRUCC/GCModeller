@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7e7e78f215f265bf36783c4f092b3019, GCModeller\engine\Dynamics\Core\Kinetics\ModularRateLaws.vb"
+﻿#Region "Microsoft.VisualBasic::e61cc4d25402a35e0cf037c71f0f64b0, GCModeller\engine\Dynamics\Core\Kinetics\ModularRateLaws.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 61
     ' Comment Lines: 12
     '   Blank Lines: 8
-    '     File Size: 6.16 KB
+    '     File Size: 6.08 KB
 
 
     '     Module ModularRateLaws

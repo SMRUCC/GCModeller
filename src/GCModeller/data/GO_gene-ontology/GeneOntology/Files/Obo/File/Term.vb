@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1fdca6a18f45eda4ac39baeb489ba297, GCModeller\data\GO_gene-ontology\GeneOntology\Files\Obo\File\Term.vb"
+﻿#Region "Microsoft.VisualBasic::dd7eefa0223b0c11c35dbec22ea818c6, GCModeller\data\GO_gene-ontology\GeneOntology\Files\Obo\File\Term.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 27
     ' Comment Lines: 76
     '   Blank Lines: 5
-    '     File Size: 6.21 KB
+    '     File Size: 6.11 KB
 
 
     '     Class Term

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bc6a11bfdeabf7435d7de1acefb3b080, GCModeller\engine\IO\GCMarkupLanguage\GCML_Documents\XmlElements\ComponentModels\SystemVariables.vb"
+﻿#Region "Microsoft.VisualBasic::077da4c165fdaa4343358189627a7bfb, GCModeller\engine\IO\GCMarkupLanguage\GCML_Documents\XmlElements\ComponentModels\SystemVariables.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 44
     ' Comment Lines: 4
     '   Blank Lines: 9
-    '     File Size: 3.44 KB
+    '     File Size: 3.38 KB
 
 
     '     Module SystemVariables

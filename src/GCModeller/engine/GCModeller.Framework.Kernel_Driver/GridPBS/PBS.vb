@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0786ba6fedcc2b121b5dbaa4542bee76, GCModeller\engine\GCModeller.Framework.Kernel_Driver\GridPBS\PBS.vb"
+﻿#Region "Microsoft.VisualBasic::dccca976cd5372de80fffb317ccd63db, GCModeller\engine\GCModeller.Framework.Kernel_Driver\GridPBS\PBS.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 10
     ' Comment Lines: 11
     '   Blank Lines: 3
-    '     File Size: 2.02 KB
+    '     File Size: 1.99 KB
 
 
     '     Class PBS

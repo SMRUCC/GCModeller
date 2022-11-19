@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3503e92f460f1908613cfaa634dba434, GCModeller\core\Bio.Assembly\ComponentModel\Locus\LociSites\TagSite.vb"
+﻿#Region "Microsoft.VisualBasic::2d450d7663cfc2c40cf6713fa529d8a2, GCModeller\core\Bio.Assembly\ComponentModel\Locus\LociSites\TagSite.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 52
     ' Comment Lines: 19
     '   Blank Lines: 15
-    '     File Size: 3.35 KB
+    '     File Size: 3.26 KB
 
 
     '     Interface ITagSite

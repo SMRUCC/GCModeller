@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c904d1ad9c6ee837e7b1a0fe3ca42924, GCModeller\models\Networks\Microbiome\Enzyme.vb"
+﻿#Region "Microsoft.VisualBasic::4aed952438bf24e89657f0cdda11b420, GCModeller\models\Networks\Microbiome\Enzyme.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 24
     ' Comment Lines: 5
     '   Blank Lines: 4
-    '     File Size: 1.11 KB
+    '     File Size: 1.08 KB
 
 
     ' Class Enzyme

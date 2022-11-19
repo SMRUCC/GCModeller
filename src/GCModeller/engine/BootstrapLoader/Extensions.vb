@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b7ece50a430d061b498b6d57541d71e6, GCModeller\engine\BootstrapLoader\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::0d1cf5f1c0576b702a4142fedfe4b07b, GCModeller\engine\BootstrapLoader\Extensions.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 16
     ' Comment Lines: 0
     '   Blank Lines: 2
-    '     File Size: 684 B
+    '     File Size: 667 B
 
 
     ' Module Extensions

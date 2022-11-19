@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8c3edeff98a6595cb3ca708b98b07391, GCModeller\data\SABIO-RK\docuRESTfulWeb\docuRESTfulWeb.vb"
+﻿#Region "Microsoft.VisualBasic::d15467c75785d65eb6a8ece9fdf24ce3, GCModeller\data\SABIO-RK\docuRESTfulWeb\docuRESTfulWeb.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 52
-    '    Code Lines: 28
+    '   Total Lines: 56
+    '    Code Lines: 31
     ' Comment Lines: 17
-    '   Blank Lines: 7
-    '     File Size: 2.01 KB
+    '   Blank Lines: 8
+    '     File Size: 2.12 KB
 
 
     ' Module docuRESTfulWeb

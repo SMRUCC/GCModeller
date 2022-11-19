@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::69081868ec4dfdb361f549f9f896b8c6, GCModeller\core\Bio.Assembly\Test\chebiTest.vb"
+﻿#Region "Microsoft.VisualBasic::f6c3412449759186df256186e22dd6c6, GCModeller\core\Bio.Assembly\Test\chebiTest.vb"
 
     ' Author:
     ' 
@@ -38,12 +38,12 @@
     '    Code Lines: 18
     ' Comment Lines: 0
     '   Blank Lines: 9
-    '     File Size: 896 B
+    '     File Size: 897 B
 
 
     ' Module chebiTest
     ' 
-    '     Sub: Main
+    '     Sub: Main1
     ' 
     ' /********************************************************************************/
 

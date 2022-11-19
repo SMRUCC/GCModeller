@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3df99bda3492b84a6b500d78cd18b26e, GCModeller\core\Bio.Assembly\ComponentModel\Annotation\PathwayBrief.vb"
+﻿#Region "Microsoft.VisualBasic::889571c654009346d2a2dc828fcea484, GCModeller\core\Bio.Assembly\ComponentModel\Annotation\PathwayBrief.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 24
     ' Comment Lines: 9
     '   Blank Lines: 6
-    '     File Size: 1.45 KB
+    '     File Size: 1.41 KB
 
 
     '     Class PathwayBrief

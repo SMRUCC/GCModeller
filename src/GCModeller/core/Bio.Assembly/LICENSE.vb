@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::46b826914608685e054d9c2d7f482980, GCModeller\core\Bio.Assembly\LICENSE.vb"
+﻿#Region "Microsoft.VisualBasic::52ffb48dc4f913408bec6a64d01d6cdc, GCModeller\core\Bio.Assembly\LICENSE.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 48
     ' Comment Lines: 59
     '   Blank Lines: 12
-    '     File Size: 4.58 KB
+    '     File Size: 4.47 KB
 
 
     ' Module LICENSE

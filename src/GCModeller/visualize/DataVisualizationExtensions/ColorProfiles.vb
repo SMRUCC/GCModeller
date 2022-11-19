@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::de6c6c5769e653c7b71c92b93ea7187e, GCModeller\visualize\DataVisualizationExtensions\ColorProfiles.vb"
+﻿#Region "Microsoft.VisualBasic::bae101c1e85db5784f34855b3913c06e, GCModeller\visualize\DataVisualizationExtensions\ColorProfiles.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 23
     ' Comment Lines: 0
     '   Blank Lines: 8
-    '     File Size: 1007 B
+    '     File Size: 977 B
 
 
     ' Class ColorProfiles

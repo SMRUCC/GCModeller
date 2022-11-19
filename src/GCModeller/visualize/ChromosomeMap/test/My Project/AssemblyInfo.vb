@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f0cf2ea35e5b1dec83862b0dbd3178b0, GCModeller\visualize\ChromosomeMap\test\My Project\AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::57463d499ff50aa9f68bf886f11ed505, GCModeller\visualize\ChromosomeMap\test\My Project\AssemblyInfo.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 13
     ' Comment Lines: 15
     '   Blank Lines: 7
-    '     File Size: 1.04 KB
+    '     File Size: 1009 B
 
 
     ' 

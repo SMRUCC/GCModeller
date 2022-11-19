@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::edbb3cacebfd65da335da8ff7ffac7b6, GCModeller\analysis\SequenceToolkit\SequenceLogo\SequenceLogo\Residue.vb"
+﻿#Region "Microsoft.VisualBasic::2bac4c50075808a5bb91ed55494498e6, GCModeller\analysis\SequenceToolkit\SequenceLogo\SequenceLogo\Residue.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 37
     ' Comment Lines: 36
     '   Blank Lines: 10
-    '     File Size: 3.00 KB
+    '     File Size: 2.92 KB
 
 
     '     Class Residue

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::508e0b817f61b246d2dd25e5e767e584, GCModeller\analysis\SequenceToolkit\SNP\Test\My Project\Settings.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::da09ca3633e341afc9f45e1fde3b3be7, GCModeller\analysis\SequenceToolkit\SNP\Test\My Project\Settings.Designer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 51
     ' Comment Lines: 9
     '   Blank Lines: 13
-    '     File Size: 2.95 KB
+    '     File Size: 2.88 KB
 
 
     '     Class MySettings

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d871d722b5268f28cfc4b540aba60e83, GCModeller\models\BioCyc\Models\pathways.vb"
+﻿#Region "Microsoft.VisualBasic::e5a8e02b80ff7535e4fcb85dcc99f0e4, GCModeller\models\BioCyc\Models\pathways.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 25
     ' Comment Lines: 4
     '   Blank Lines: 10
-    '     File Size: 1.11 KB
+    '     File Size: 1.07 KB
 
 
     ' Class pathways
