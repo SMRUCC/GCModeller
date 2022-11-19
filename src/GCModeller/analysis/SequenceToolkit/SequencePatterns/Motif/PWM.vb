@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::37810c02fac67a78b51808a957ef82fe, GCModeller\analysis\SequenceToolkit\SequencePatterns\Motif\PWM.vb"
+﻿#Region "Microsoft.VisualBasic::e77296f5b9bbc5ee66c28369b06071a5, GCModeller\analysis\SequenceToolkit\SequencePatterns\Motif\PWM.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 54
     ' Comment Lines: 18
     '   Blank Lines: 11
-    '     File Size: 3.22 KB
+    '     File Size: 3.13 KB
 
 
     '     Class MotifPWM

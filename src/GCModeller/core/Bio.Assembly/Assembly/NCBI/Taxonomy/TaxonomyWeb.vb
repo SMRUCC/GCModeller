@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2777d8522a96c05eaed340ed0792675b, GCModeller\core\Bio.Assembly\Assembly\NCBI\Taxonomy\TaxonomyWeb.vb"
+﻿#Region "Microsoft.VisualBasic::9a4d32dbfd5705569359ab9f59044dea, GCModeller\core\Bio.Assembly\Assembly\NCBI\Taxonomy\TaxonomyWeb.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 5
     ' Comment Lines: 12
     '   Blank Lines: 2
-    '     File Size: 853 B
+    '     File Size: 835 B
 
 
     '     Module TaxonomyWeb

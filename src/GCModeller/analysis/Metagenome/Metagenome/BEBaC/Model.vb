@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8b4c46fc4096e00e9c316a45e6d0541a, GCModeller\analysis\Metagenome\Metagenome\BEBaC\Model.vb"
+﻿#Region "Microsoft.VisualBasic::5833c9a6b3f08fd837f37eef9264e58c, GCModeller\analysis\Metagenome\Metagenome\BEBaC\Model.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 26
     ' Comment Lines: 0
     '   Blank Lines: 6
-    '     File Size: 977 B
+    '     File Size: 946 B
 
 
     '     Class I3merVector

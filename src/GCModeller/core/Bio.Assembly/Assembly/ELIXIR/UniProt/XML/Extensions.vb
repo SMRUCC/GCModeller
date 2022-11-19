@@ -1,54 +1,54 @@
-﻿#Region "Microsoft.VisualBasic::ee11c44e062901fcf764fc777046d42c, GCModeller\core\Bio.Assembly\Assembly\ELIXIR\UniProt\XML\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::f9470b9a28094b7060ac133500029277, GCModeller\core\Bio.Assembly\Assembly\ELIXIR\UniProt\XML\Extensions.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 252
-'    Code Lines: 186
-' Comment Lines: 37
-'   Blank Lines: 29
-'     File Size: 9.42 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Module Extensions
-' 
-'         Function: DbReferenceId, ECNumberList, EnumerateAllIDs, GetDomainData, GO
-'                   KO, NCBITaxonomyId, ORF, OrganismScientificName, proteinFullName
-'                   ProteinSequence, SubCellularLocations, Summary, Term2Gene
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 279
+    '    Code Lines: 209
+    ' Comment Lines: 37
+    '   Blank Lines: 33
+    '     File Size: 10.03 KB
+
+
+    '     Module Extensions
+    ' 
+    '         Function: DbReferenceId, ECNumberList, EnumerateAllIDs, GetDomainData, GO
+    '                   KO, NCBITaxonomyId, ORF, OrganismScientificName, proteinFullName
+    '                   ProteinSequence, SubCellularLocations, Summary, Term2Gene
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

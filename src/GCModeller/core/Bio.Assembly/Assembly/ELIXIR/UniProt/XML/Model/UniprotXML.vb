@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::95a8ab10b338afa8067cf2daccba0ab7, GCModeller\core\Bio.Assembly\Assembly\ELIXIR\UniProt\XML\Model\UniprotXML.vb"
+﻿#Region "Microsoft.VisualBasic::1c7708acc5e6f014c03397379a1bfb02, GCModeller\core\Bio.Assembly\Assembly\ELIXIR\UniProt\XML\Model\UniprotXML.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 91
     ' Comment Lines: 42
     '   Blank Lines: 18
-    '     File Size: 6.95 KB
+    '     File Size: 6.80 KB
 
 
     '     Class UniProtXML

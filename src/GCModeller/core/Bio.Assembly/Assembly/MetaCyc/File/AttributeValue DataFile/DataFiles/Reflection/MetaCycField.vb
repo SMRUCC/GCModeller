@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7fdb266659f274a0b46b77dea11348a0, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Reflection\MetaCycField.vb"
+﻿#Region "Microsoft.VisualBasic::d38284d3de8fe73f98ab6e02873e82a3, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Reflection\MetaCycField.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 16
     ' Comment Lines: 33
     '   Blank Lines: 4
-    '     File Size: 1.85 KB
+    '     File Size: 1.80 KB
 
 
     '     Class MetaCycField

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3c4804628d8311da2307c2e3b39f15f8, GCModeller\core\Bio.Assembly\Assembly\NCBI\Taxonomy\Tree\NcbiTaxonomyTree.vb"
+﻿#Region "Microsoft.VisualBasic::131c90f060cf68017992e467fac35bd2, GCModeller\core\Bio.Assembly\Assembly\NCBI\Taxonomy\Tree\NcbiTaxonomyTree.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 302
     ' Comment Lines: 269
     '   Blank Lines: 85
-    '     File Size: 27.47 KB
+    '     File Size: 26.82 KB
 
 
     '     Class NcbiTaxonomyTree

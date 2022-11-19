@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d03bc7e6983900cfd3dcb85dad5c4a6b, GCModeller\core\Bio.Assembly\Test\gbTest.vb"
+﻿#Region "Microsoft.VisualBasic::520436457114201d207fa4da069ffdc5, GCModeller\core\Bio.Assembly\Test\gbTest.vb"
 
     ' Author:
     ' 
@@ -38,12 +38,12 @@
     '    Code Lines: 16
     ' Comment Lines: 0
     '   Blank Lines: 4
-    '     File Size: 759 B
+    '     File Size: 760 B
 
 
     ' Module gbTest
     ' 
-    '     Sub: dbXref2LocationGuid, Main
+    '     Sub: dbXref2LocationGuid, Main1
     ' 
     ' /********************************************************************************/
 

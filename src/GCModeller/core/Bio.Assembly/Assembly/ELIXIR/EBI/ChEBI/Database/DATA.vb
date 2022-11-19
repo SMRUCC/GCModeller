@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::857b3d61259c8c9a3d3255a16ffa281c, GCModeller\core\Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\Database\DATA.vb"
+﻿#Region "Microsoft.VisualBasic::10e21a79ca88039904a5817a932341ba, GCModeller\core\Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\Database\DATA.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 116
     ' Comment Lines: 38
     '   Blank Lines: 25
-    '     File Size: 7.34 KB
+    '     File Size: 7.17 KB
 
 
     '     Module DATA

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::092859cc52d2a0b5f2367e236eb90040, GCModeller\core\Bio.Assembly\SequenceModel\Patterns\Clustal\Clustal.vb"
+﻿#Region "Microsoft.VisualBasic::f96f7a560896f4ed1c099866776b7af6, GCModeller\core\Bio.Assembly\SequenceModel\Patterns\Clustal\Clustal.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 76
     ' Comment Lines: 12
     '   Blank Lines: 16
-    '     File Size: 4.20 KB
+    '     File Size: 4.10 KB
 
 
     '     Class Clustal

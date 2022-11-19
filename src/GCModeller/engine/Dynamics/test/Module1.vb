@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d2bf5efb225709ad6ac5c0ddf7a91e71, GCModeller\engine\Dynamics\test\Module1.vb"
+﻿#Region "Microsoft.VisualBasic::6d91374495dd6bc590e2cf6854f6dd0a, GCModeller\engine\Dynamics\test\Module1.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 112
     ' Comment Lines: 5
     '   Blank Lines: 19
-    '     File Size: 5.65 KB
+    '     File Size: 5.52 KB
 
 
     ' Module Module1

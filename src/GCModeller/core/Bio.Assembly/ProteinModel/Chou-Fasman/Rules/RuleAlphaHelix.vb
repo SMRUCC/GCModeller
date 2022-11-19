@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2ba7b4d4bee7a2d5afedf9075649e4ff, GCModeller\core\Bio.Assembly\ProteinModel\Chou-Fasman\Rules\RuleAlphaHelix.vb"
+﻿#Region "Microsoft.VisualBasic::0e5c10f59a8132b9e7e7193dd0e5b843, GCModeller\core\Bio.Assembly\ProteinModel\Chou-Fasman\Rules\RuleAlphaHelix.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 79
     ' Comment Lines: 6
     '   Blank Lines: 15
-    '     File Size: 4.79 KB
+    '     File Size: 4.70 KB
 
 
     '     Module RuleAlphaHelix

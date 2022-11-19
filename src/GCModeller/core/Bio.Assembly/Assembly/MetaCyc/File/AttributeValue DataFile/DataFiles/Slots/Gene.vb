@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b9fca9c93059e9a39765ba13f473bfcc, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Slots\Gene.vb"
+﻿#Region "Microsoft.VisualBasic::b79ca46748d9608a69a7784f9882e272, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Slots\Gene.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 31
     ' Comment Lines: 75
     '   Blank Lines: 17
-    '     File Size: 6.59 KB
+    '     File Size: 6.47 KB
 
 
     '     Class Gene

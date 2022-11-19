@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1288d88cd11a9cac40a3beb50fdcb937, GCModeller\data\GO_gene-ontology\GeneOntology\OntologyRelations.vb"
+﻿#Region "Microsoft.VisualBasic::d220cfbded039e2b18aa7e2f8cd839e7, GCModeller\data\GO_gene-ontology\GeneOntology\OntologyRelations.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 14
     ' Comment Lines: 86
     '   Blank Lines: 3
-    '     File Size: 5.37 KB
+    '     File Size: 5.27 KB
 
 
     ' Enum OntologyRelations

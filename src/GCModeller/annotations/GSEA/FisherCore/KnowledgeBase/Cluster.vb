@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2a243015f699e62b1445302cb6d546a7, GCModeller\annotations\GSEA\FisherCore\KnowledgeBase\Cluster.vb"
+﻿#Region "Microsoft.VisualBasic::606f0b64fd6666ecf2cfc20daf536bde, GCModeller\annotations\GSEA\FisherCore\KnowledgeBase\Cluster.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 57
     ' Comment Lines: 19
     '   Blank Lines: 10
-    '     File Size: 3.17 KB
+    '     File Size: 3.08 KB
 
 
     ' Class Cluster

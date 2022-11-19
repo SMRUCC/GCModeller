@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fdd30e20065d4bf73322446598311efe, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\FileSystem\PGDB.vb"
+﻿#Region "Microsoft.VisualBasic::bda5fbeca583cced26384c4db46677a6, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\FileSystem\PGDB.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 205
     ' Comment Lines: 75
     '   Blank Lines: 45
-    '     File Size: 22.23 KB
+    '     File Size: 21.91 KB
 
 
     '     Class PGDB

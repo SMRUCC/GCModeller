@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8aed57f1f49b1c75e77d5e3152ab80ce, GCModeller\visualize\ChromosomeMap\FootPrintMap\ColorProfiles.vb"
+﻿#Region "Microsoft.VisualBasic::b70ea160354626df7a8a5296f9ca3afc, GCModeller\visualize\ChromosomeMap\FootPrintMap\ColorProfiles.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 44
     ' Comment Lines: 12
     '   Blank Lines: 14
-    '     File Size: 2.54 KB
+    '     File Size: 2.47 KB
 
 
     '     Class DrawingDevice

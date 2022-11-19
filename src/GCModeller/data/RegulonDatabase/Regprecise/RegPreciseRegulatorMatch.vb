@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::53b243eee14a98c49c6756b4b7b3d8c0, GCModeller\data\RegulonDatabase\Regprecise\RegPreciseRegulatorMatch.vb"
+﻿#Region "Microsoft.VisualBasic::dee37b1814b86590e5391f42220fb093, GCModeller\data\RegulonDatabase\Regprecise\RegPreciseRegulatorMatch.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 49
     ' Comment Lines: 45
     '   Blank Lines: 14
-    '     File Size: 3.82 KB
+    '     File Size: 3.71 KB
 
 
     '     Class RegPreciseRegulatorMatch

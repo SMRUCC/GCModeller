@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::190c24146775887f6ff299c969430284, GCModeller\core\Bio.Assembly\Query\NamespaceDoc.vb"
+﻿#Region "Microsoft.VisualBasic::e33396bdc50e2e31cde903fa4fcb32ad, GCModeller\core\Bio.Assembly\Query\NamespaceDoc.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 4
     ' Comment Lines: 3
     '   Blank Lines: 1
-    '     File Size: 165 B
+    '     File Size: 158 B
 
 
     '     Module NamespaceDoc

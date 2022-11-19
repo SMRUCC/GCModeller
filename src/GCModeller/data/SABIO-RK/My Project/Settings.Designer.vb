@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6fe9a729593587cce75d538419a674bf, GCModeller\data\SABIO-RK\My Project\Settings.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::11ef7920c9ead0a9ffed35a394eaa555, GCModeller\data\SABIO-RK\My Project\Settings.Designer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 53
     ' Comment Lines: 9
     '   Blank Lines: 12
-    '     File Size: 3.03 KB
+    '     File Size: 2.96 KB
 
 
     '     Class MySettings

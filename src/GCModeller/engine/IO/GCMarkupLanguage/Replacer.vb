@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::70b181cfeba8e759b8a5a86376090c10, GCModeller\engine\IO\GCMarkupLanguage\Replacer.vb"
+﻿#Region "Microsoft.VisualBasic::8fabb026e0e05d8d1087e321045fcb67, GCModeller\engine\IO\GCMarkupLanguage\Replacer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 17
     ' Comment Lines: 0
     '   Blank Lines: 5
-    '     File Size: 900 B
+    '     File Size: 879 B
 
 
     ' Class Replacer

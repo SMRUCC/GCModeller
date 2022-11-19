@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::22fea2c90f15171dec7a7d650be9ccd8, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Files\Terminators.vb"
+﻿#Region "Microsoft.VisualBasic::8417f2204e18f51a31ad13eb60bce31d, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Files\Terminators.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 18
     ' Comment Lines: 0
     '   Blank Lines: 3
-    '     File Size: 895 B
+    '     File Size: 875 B
 
 
     '     Class Terminators

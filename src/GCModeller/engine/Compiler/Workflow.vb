@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::50f1ee271ede61baa63119d7ae4083bd, GCModeller\engine\Compiler\Workflow.vb"
+﻿#Region "Microsoft.VisualBasic::b755d82e906ca761b1c17c6552e70acf, GCModeller\engine\Compiler\Workflow.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 233
     ' Comment Lines: 41
     '   Blank Lines: 34
-    '     File Size: 13.39 KB
+    '     File Size: 13.08 KB
 
 
     ' Module Workflow

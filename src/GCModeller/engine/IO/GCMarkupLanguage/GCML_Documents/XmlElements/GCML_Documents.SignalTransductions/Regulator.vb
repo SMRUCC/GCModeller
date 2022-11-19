@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f8ed9cb88156b3dabfddc7a6cb79eae2, GCModeller\engine\IO\GCMarkupLanguage\GCML_Documents\XmlElements\GCML_Documents.SignalTransductions\Regulator.vb"
+﻿#Region "Microsoft.VisualBasic::614d3f71644a0ddaa9199395bda2fb95, GCModeller\engine\IO\GCMarkupLanguage\GCML_Documents\XmlElements\GCML_Documents.SignalTransductions\Regulator.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 76
     ' Comment Lines: 70
     '   Blank Lines: 19
-    '     File Size: 8.71 KB
+    '     File Size: 8.55 KB
 
 
     '     Class Regulator

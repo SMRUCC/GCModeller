@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8ad779fb38713ae0f7e8cb4e53be8ad5, GCModeller\core\Bio.Assembly\ComponentModel\Locus\ExtensionMethods.vb"
+﻿#Region "Microsoft.VisualBasic::1f880bac0b280584ffc406ddc4563339, GCModeller\core\Bio.Assembly\ComponentModel\Locus\ExtensionMethods.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 113
     ' Comment Lines: 29
     '   Blank Lines: 24
-    '     File Size: 7.52 KB
+    '     File Size: 7.36 KB
 
 
     '     Module LociAPI

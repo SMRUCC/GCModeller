@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1bb03c2dd2b3ae10f283c655c3dd3a0a, GCModeller\analysis\SequenceToolkit\ClustalOmega\My Project\Settings.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::b7ce9733d28a5c8cd4702cf6a1fd86a2, GCModeller\analysis\SequenceToolkit\ClustalOmega\My Project\Settings.Designer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 51
     ' Comment Lines: 9
     '   Blank Lines: 13
-    '     File Size: 3.02 KB
+    '     File Size: 2.94 KB
 
 
     '     Class MySettings

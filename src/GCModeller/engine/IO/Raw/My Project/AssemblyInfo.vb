@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c29a42081e4c3a0ac9c2661899fcf125, GCModeller\engine\IO\Raw\My Project\AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::f52d24132b0e6204e24acbcd5dbbc4f5, GCModeller\engine\IO\Raw\My Project\AssemblyInfo.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 15
     ' Comment Lines: 15
     '   Blank Lines: 8
-    '     File Size: 1.17 KB
+    '     File Size: 1.14 KB
 
 
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0f28e2e0e9939fa9246be1670ec2f2d5, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\Schemas\Reaction\Reaction.vb"
+﻿#Region "Microsoft.VisualBasic::b5b0cbfe3818a90e92031734b7d8da91, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\Schemas\Reaction\Reaction.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 34
     ' Comment Lines: 0
     '   Blank Lines: 10
-    '     File Size: 2.31 KB
+    '     File Size: 2.27 KB
 
 
     '     Class Compound

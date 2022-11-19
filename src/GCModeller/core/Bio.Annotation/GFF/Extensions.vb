@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::847b1e58494296e19d659d3f83d0049a, GCModeller\core\Bio.Annotation\GFF\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::dc8b3ce397af43ba22b8bd893fdbddd7, GCModeller\core\Bio.Annotation\GFF\Extensions.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 122
     ' Comment Lines: 7
     '   Blank Lines: 17
-    '     File Size: 6.56 KB
+    '     File Size: 6.41 KB
 
 
     '     Module Extensions

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9e504899a885eb633249aad2448ee196, GCModeller\core\Bio.Assembly\ProteinModel\Chou-Fasman\AminoAcid.vb"
+﻿#Region "Microsoft.VisualBasic::545e439184de3f340e7bd0c980042014, GCModeller\core\Bio.Assembly\ProteinModel\Chou-Fasman\AminoAcid.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 43
     ' Comment Lines: 12
     '   Blank Lines: 12
-    '     File Size: 2.32 KB
+    '     File Size: 2.26 KB
 
 
     '     Class AminoAcid

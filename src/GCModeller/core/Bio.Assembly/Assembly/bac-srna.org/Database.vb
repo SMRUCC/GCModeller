@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1304cb72150dade303e3084920214cc7, GCModeller\core\Bio.Assembly\Assembly\bac-srna.org\Database.vb"
+﻿#Region "Microsoft.VisualBasic::60fb9a045c13d42fca84004a8733eba3, GCModeller\core\Bio.Assembly\Assembly\bac-srna.org\Database.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 42
     ' Comment Lines: 0
     '   Blank Lines: 7
-    '     File Size: 2.31 KB
+    '     File Size: 2.26 KB
 
 
     '     Class Database

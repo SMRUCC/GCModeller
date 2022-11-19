@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::41e6325c06f045b4bd08f4a4248c4853, GCModeller\data\RegulonDatabase\Regprecise\WebServices\WebParser\RegulonAPI.vb"
+﻿#Region "Microsoft.VisualBasic::da1f30c9f6492b5c1f86cad4213d7d29, GCModeller\data\RegulonDatabase\Regprecise\WebServices\WebParser\RegulonAPI.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 201
     ' Comment Lines: 28
     '   Blank Lines: 18
-    '     File Size: 12.52 KB
+    '     File Size: 12.27 KB
 
 
     '     Module RegulonAPI

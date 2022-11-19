@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::25043a816b7accb9a9365fe9db37d280, GCModeller\analysis\SequenceToolkit\MSA\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::9c9564ec0aaea157e402fa96786faca5, GCModeller\analysis\SequenceToolkit\MSA\Extensions.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 15
     ' Comment Lines: 0
     '   Blank Lines: 3
-    '     File Size: 692 B
+    '     File Size: 675 B
 
 
     ' Module Extensions

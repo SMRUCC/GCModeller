@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d0692928296e8261372a513b3eb02426, GCModeller\data\GO_gene-ontology\GeneOntology\My Project\Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::b3c9334ba5dac0831fdcd36ed291c91c, GCModeller\data\GO_gene-ontology\GeneOntology\My Project\Resources.Designer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 32
     ' Comment Lines: 23
     '   Blank Lines: 8
-    '     File Size: 2.80 KB
+    '     File Size: 2.74 KB
 
 
     '     Module Resources

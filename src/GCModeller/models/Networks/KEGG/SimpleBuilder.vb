@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6760f72e8961361015d0db7e48d377d0, GCModeller\models\Networks\KEGG\SimpleBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::be9a22c3faf754b9ac45eef8901fc724, GCModeller\models\Networks\KEGG\SimpleBuilder.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 53
     ' Comment Lines: 0
     '   Blank Lines: 13
-    '     File Size: 3.18 KB
+    '     File Size: 3.12 KB
 
 
     ' Module SimpleBuilder

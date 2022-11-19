@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0e83d94c696e106a041de76c994b2a2a, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\ModsBrite.vb"
+﻿#Region "Microsoft.VisualBasic::c7dde386b9bfb3dac351469738c0bae1, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\ModsBrite.vb"
 
     ' Author:
     ' 
@@ -38,13 +38,13 @@
     '    Code Lines: 64
     ' Comment Lines: 21
     '   Blank Lines: 14
-    '     File Size: 3.48 KB
+    '     File Size: 3.38 KB
 
 
     '     Class ModsBrite
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: [GetType], __modsBrite, __pathwaysBrite, (+2 Overloads) __toValue, GetCategory
+    '         Function: __modsBrite, __pathwaysBrite, (+2 Overloads) __toValue, [GetType], GetCategory
     '                   GetClass
     ' 
     ' 

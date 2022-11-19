@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::540e3756be19cf4808872171644f5119, GCModeller\analysis\Microarray\Enrichment\KOBAS\EnrichmentTerm.vb"
+﻿#Region "Microsoft.VisualBasic::186692a263436e0d4498f8df6c42fd2d, GCModeller\analysis\Microarray\Enrichment\KOBAS\EnrichmentTerm.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 26
     ' Comment Lines: 39
     '   Blank Lines: 11
-    '     File Size: 2.52 KB
+    '     File Size: 2.44 KB
 
 
     '     Class EnrichmentTerm

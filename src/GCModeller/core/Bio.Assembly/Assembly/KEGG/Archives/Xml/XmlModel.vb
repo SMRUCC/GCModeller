@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::82673a33e74b4e7799259e546a4aa720, GCModeller\core\Bio.Assembly\Assembly\KEGG\Archives\Xml\XmlModel.vb"
+﻿#Region "Microsoft.VisualBasic::c4a7d63a3fabd944fa64f26066c13e1c, GCModeller\core\Bio.Assembly\Assembly\KEGG\Archives\Xml\XmlModel.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 82
     ' Comment Lines: 27
     '   Blank Lines: 15
-    '     File Size: 4.60 KB
+    '     File Size: 4.47 KB
 
 
     '     Class XmlModel

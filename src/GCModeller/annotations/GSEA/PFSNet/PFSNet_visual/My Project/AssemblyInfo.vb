@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7bf414eb6bf55c5001024ac262c2b323, GCModeller\annotations\GSEA\PFSNet\PFSNet_visual\My Project\AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::99cafb65a751db3cb7b191699e13a1e1, GCModeller\annotations\GSEA\PFSNet\PFSNet_visual\My Project\AssemblyInfo.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 15
     ' Comment Lines: 15
     '   Blank Lines: 6
-    '     File Size: 1.06 KB
+    '     File Size: 1.03 KB
 
 
     ' 

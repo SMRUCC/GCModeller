@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7b4e16394ff0f9fc7978aca742d38e2b, GCModeller\visualize\DataVisualizationExtensions\CatalogProfiling\Heatmap\MultipleCatalogHeatmap.vb"
+﻿#Region "Microsoft.VisualBasic::885eaad17c213e45057186ffc952be88, GCModeller\visualize\DataVisualizationExtensions\CatalogProfiling\Heatmap\MultipleCatalogHeatmap.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 47
     ' Comment Lines: 0
     '   Blank Lines: 11
-    '     File Size: 2.37 KB
+    '     File Size: 2.32 KB
 
 
     '     Class MultipleCatalogHeatmap

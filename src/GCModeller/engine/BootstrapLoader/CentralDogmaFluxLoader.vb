@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d5c170102553c7a2bcf8d759a32a12a7, GCModeller\engine\BootstrapLoader\CentralDogmaFluxLoader.vb"
+﻿#Region "Microsoft.VisualBasic::8935da571bcf5f70f7e47cd4c2cdb187, GCModeller\engine\BootstrapLoader\CentralDogmaFluxLoader.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 219
     ' Comment Lines: 43
     '   Blank Lines: 43
-    '     File Size: 14.31 KB
+    '     File Size: 14.01 KB
 
 
     '     Class CentralDogmaFluxLoader

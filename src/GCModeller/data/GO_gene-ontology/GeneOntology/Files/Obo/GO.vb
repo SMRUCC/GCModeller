@@ -1,57 +1,57 @@
-﻿#Region "Microsoft.VisualBasic::56dba3e0429f8d2cf2407c6adabc24a9, GCModeller\data\GO_gene-ontology\GeneOntology\Files\Obo\GO.vb"
+﻿#Region "Microsoft.VisualBasic::e2dd8d55a5c3d6536d159d563806d6e8, GCModeller\data\GO_gene-ontology\GeneOntology\Files\Obo\GO.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 128
-'    Code Lines: 82
-' Comment Lines: 27
-'   Blank Lines: 19
-'     File Size: 4.73 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Class GO_OBO
-' 
-'         Properties: headers, terms, typedefs
-' 
-'         Function: GenericEnumerator, GetEnumerator, LoadDocument, Open, ParseHeader
-'                   ReadTerms, Save, ToString
-' 
-'         Sub: SaveTable
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 143
+    '    Code Lines: 93
+    ' Comment Lines: 27
+    '   Blank Lines: 23
+    '     File Size: 5.36 KB
+
+
+    '     Class GO_OBO
+    ' 
+    '         Properties: headers, terms, typedefs
+    ' 
+    '         Function: GenericEnumerator, GetEnumerator, LoadDocument, Open, ParseHeader
+    '                   ReadTerms, Save, ToString
+    ' 
+    '         Sub: Save, SaveTable
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

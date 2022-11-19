@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::73bd57eec84573f6c17059c8c0a576f6, GCModeller\analysis\HTS_matrix\My Project\AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::e7332d075617d2ddacd9ca1b4af7348e, GCModeller\analysis\HTS_matrix\My Project\AssemblyInfo.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 15
     ' Comment Lines: 15
     '   Blank Lines: 6
-    '     File Size: 1.18 KB
+    '     File Size: 1.15 KB
 
 
     ' 

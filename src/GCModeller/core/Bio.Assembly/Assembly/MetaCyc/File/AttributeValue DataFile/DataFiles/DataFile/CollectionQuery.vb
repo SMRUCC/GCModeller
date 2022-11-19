@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::72e05abe1c712b9eefbb92015e80fa30, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\DataFile\CollectionQuery.vb"
+﻿#Region "Microsoft.VisualBasic::41da619369e0fb01aa63cab7e00ea34b, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\DataFile\CollectionQuery.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 45
     ' Comment Lines: 31
     '   Blank Lines: 8
-    '     File Size: 3.79 KB
+    '     File Size: 3.71 KB
 
 
     '     Class DataFile

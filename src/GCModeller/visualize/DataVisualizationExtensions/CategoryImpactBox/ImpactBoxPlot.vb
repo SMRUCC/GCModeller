@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a23bdd20f98864b1c10d5a631f9222e4, GCModeller\visualize\DataVisualizationExtensions\CategoryImpactBox\ImpactBoxPlot.vb"
+﻿#Region "Microsoft.VisualBasic::dfff9903d6f2eb0a4567df2836cc8b17, GCModeller\visualize\DataVisualizationExtensions\CategoryImpactBox\ImpactBoxPlot.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 14
     ' Comment Lines: 0
     '   Blank Lines: 5
-    '     File Size: 577 B
+    '     File Size: 559 B
 
 
     ' Class ImpactBoxPlot

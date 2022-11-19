@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fcb61571c12d6502ed2c96609cb081f7, GCModeller\analysis\HTS_matrix\My Project\Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::934461b9ab0c3ef0e03f32eb58b81a69, GCModeller\analysis\HTS_matrix\My Project\Resources.Designer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 32
     ' Comment Lines: 23
     '   Blank Lines: 8
-    '     File Size: 2.80 KB
+    '     File Size: 2.74 KB
 
 
     '     Module Resources

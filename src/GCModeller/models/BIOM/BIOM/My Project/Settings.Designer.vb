@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::21f33581cb33d24ede76aa9540756d82, GCModeller\models\BIOM\BIOM\My Project\Settings.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::cb46a6dc25afd21316a50cd281bc8852, GCModeller\models\BIOM\BIOM\My Project\Settings.Designer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 53
     ' Comment Lines: 9
     '   Blank Lines: 13
-    '     File Size: 3.04 KB
+    '     File Size: 2.96 KB
 
 
     '     Class MySettings

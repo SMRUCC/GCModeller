@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::54d88e6f8d02c9776b6326221d7511f2, GCModeller\analysis\SequenceToolkit\SequencePatterns\DNAOrigami\Project.vb"
+﻿#Region "Microsoft.VisualBasic::bffa1aad611fae72465dee064acd6d07, GCModeller\analysis\SequenceToolkit\SequencePatterns\DNAOrigami\Project.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 20
     ' Comment Lines: 12
     '   Blank Lines: 9
-    '     File Size: 1.16 KB
+    '     File Size: 1.11 KB
 
 
     '     Class Project

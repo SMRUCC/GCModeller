@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4cfed4a52de3353d876172d4c5735b32, GCModeller\analysis\Microarray\My Project\Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::82f4e9515431f1c2800f02766966183f, GCModeller\analysis\Microarray\My Project\Resources.Designer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 32
     ' Comment Lines: 23
     '   Blank Lines: 8
-    '     File Size: 2.80 KB
+    '     File Size: 2.74 KB
 
 
     '     Module Resources

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a216edef62e1cd448883081509d12a4c, GCModeller\models\Networks\Microbiome\UniProtExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::5c13415b2a710c950b245932a2b1a0e0, GCModeller\models\Networks\Microbiome\UniProtExtensions.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 27
     ' Comment Lines: 9
     '   Blank Lines: 4
-    '     File Size: 1.52 KB
+    '     File Size: 1.48 KB
 
 
     ' Module UniProtExtensions

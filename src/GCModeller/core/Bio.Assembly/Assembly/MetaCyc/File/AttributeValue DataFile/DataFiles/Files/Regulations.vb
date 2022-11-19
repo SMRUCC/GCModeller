@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::793b23194136dddeb9e8c304ed0aa1ca, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Files\Regulations.vb"
+﻿#Region "Microsoft.VisualBasic::84eb5afb2f274d9137de6504f83ef7a8, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Files\Regulations.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 37
     ' Comment Lines: 10
     '   Blank Lines: 6
-    '     File Size: 2.57 KB
+    '     File Size: 2.52 KB
 
 
     '     Class Regulations

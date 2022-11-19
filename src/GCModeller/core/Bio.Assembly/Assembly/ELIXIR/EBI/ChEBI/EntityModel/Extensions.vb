@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8bb87f779dbafdd20b4782760c141204, GCModeller\core\Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\EntityModel\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::18d53aabbefabce46a47a0fa60b9f85c, GCModeller\core\Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\EntityModel\Extensions.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 77
     ' Comment Lines: 42
     '   Blank Lines: 19
-    '     File Size: 5.32 KB
+    '     File Size: 5.18 KB
 
 
     '     Module Extensions

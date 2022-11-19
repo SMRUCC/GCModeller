@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fc202110fe0d90b0b8316cd8f28de619, GCModeller\foundation\OBO_Foundry\IO\Reflection\Reflector.vb"
+﻿#Region "Microsoft.VisualBasic::b826b9679cfc49ef0bd2fed1872aa9bf, GCModeller\foundation\OBO_Foundry\IO\Reflection\Reflector.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 60
     ' Comment Lines: 6
     '   Blank Lines: 12
-    '     File Size: 3.14 KB
+    '     File Size: 3.06 KB
 
 
     '     Module Reflector

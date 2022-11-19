@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8bd551c982257c3ad8b3589078bc0697, GCModeller\core\Bio.Assembly\ComponentModel\Annotation\COG.vb"
+﻿#Region "Microsoft.VisualBasic::0c530b6ff2eb415a2673257bc826222f, GCModeller\core\Bio.Assembly\ComponentModel\Annotation\COG.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 2
     ' Comment Lines: 0
     '   Blank Lines: 1
-    '     File Size: 52 B
+    '     File Size: 50 B
 
 
     ' 

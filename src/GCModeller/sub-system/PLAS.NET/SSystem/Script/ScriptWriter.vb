@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::401dcd2270a3aa7502d6abeb7146f59a, GCModeller\sub-system\PLAS.NET\SSystem\Script\ScriptWriter.vb"
+﻿#Region "Microsoft.VisualBasic::276e0f9232b1f6a5b622f63574590760, GCModeller\sub-system\PLAS.NET\SSystem\Script\ScriptWriter.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 26
     ' Comment Lines: 12
     '   Blank Lines: 8
-    '     File Size: 1.39 KB
+    '     File Size: 1.34 KB
 
 
     '     Module ScriptWriter

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::58e15627c98f0c4a2414e83df83a7ee6, GCModeller\models\BIOM\BIOM\My Project\Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::efb2c58709630b7f5f94df66edab969d, GCModeller\models\BIOM\BIOM\My Project\Resources.Designer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 32
     ' Comment Lines: 23
     '   Blank Lines: 8
-    '     File Size: 2.80 KB
+    '     File Size: 2.73 KB
 
 
     '     Module Resources

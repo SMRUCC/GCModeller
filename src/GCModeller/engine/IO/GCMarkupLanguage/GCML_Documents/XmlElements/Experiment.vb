@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5f09ad6677ca9c451161e628d3ac89f9, GCModeller\engine\IO\GCMarkupLanguage\GCML_Documents\XmlElements\Experiment.vb"
+﻿#Region "Microsoft.VisualBasic::eb82d9115eb1a324d4e377a896c46024, GCModeller\engine\IO\GCMarkupLanguage\GCML_Documents\XmlElements\Experiment.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 27
     ' Comment Lines: 13
     '   Blank Lines: 8
-    '     File Size: 1.55 KB
+    '     File Size: 1.50 KB
 
 
     '     Class Experiment

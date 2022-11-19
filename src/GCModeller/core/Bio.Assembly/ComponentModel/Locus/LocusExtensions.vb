@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::caabd6dc3cf11d963f5c87ad23402985, GCModeller\core\Bio.Assembly\ComponentModel\Locus\LocusExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::32d81392c1a86bf28714352b278fddb1, GCModeller\core\Bio.Assembly\ComponentModel\Locus\LocusExtensions.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 132
     ' Comment Lines: 56
     '   Blank Lines: 25
-    '     File Size: 8.81 KB
+    '     File Size: 8.60 KB
 
 
     '     Module LocusExtensions

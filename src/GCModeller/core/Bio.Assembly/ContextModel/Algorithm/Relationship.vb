@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::893a47261f91a9c1c20b8bd6d9fe7f2c, GCModeller\core\Bio.Assembly\ContextModel\Algorithm\Relationship.vb"
+﻿#Region "Microsoft.VisualBasic::5b2ddab44c39b7064157077dbecd14de, GCModeller\core\Bio.Assembly\ContextModel\Algorithm\Relationship.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 47
     ' Comment Lines: 17
     '   Blank Lines: 11
-    '     File Size: 2.33 KB
+    '     File Size: 2.26 KB
 
 
     '     Class Relationship

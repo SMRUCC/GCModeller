@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::511f958996e1edb3be56219b1c0b7bcb, GCModeller\analysis\SequenceToolkit\SmithWaterman\Matrix\BlosumParser.vb"
+﻿#Region "Microsoft.VisualBasic::aecfaefd7fd661bd961c0b5933052a33, GCModeller\analysis\SequenceToolkit\SmithWaterman\Matrix\BlosumParser.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 38
     ' Comment Lines: 15
     '   Blank Lines: 6
-    '     File Size: 2.16 KB
+    '     File Size: 2.10 KB
 
 
     ' Module BlosumParser

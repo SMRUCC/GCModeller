@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::375b22ce2d48d638584afdeb4e348313, GCModeller\analysis\SequenceToolkit\SmithWaterman\Extension\Output.vb"
+﻿#Region "Microsoft.VisualBasic::ce0f20e94ae5be33286ccb84c4a7311a, GCModeller\analysis\SequenceToolkit\SmithWaterman\Extension\Output.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 69
     ' Comment Lines: 26
     '   Blank Lines: 13
-    '     File Size: 4.21 KB
+    '     File Size: 4.11 KB
 
 
     ' Class Output

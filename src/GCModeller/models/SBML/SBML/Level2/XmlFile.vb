@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bc64394ba7dfc9fd1e3d02fee5afbe11, GCModeller\models\SBML\SBML\Level2\XmlFile.vb"
+﻿#Region "Microsoft.VisualBasic::c194f5431cf2354d5e650e25de5146cc, GCModeller\models\SBML\SBML\Level2\XmlFile.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 58
     ' Comment Lines: 15
     '   Blank Lines: 14
-    '     File Size: 3.45 KB
+    '     File Size: 3.37 KB
 
 
     '     Class XmlFile

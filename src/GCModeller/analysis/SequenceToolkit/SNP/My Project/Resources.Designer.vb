@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4631ad64dc5a90a317d7fae98ad7198a, GCModeller\analysis\SequenceToolkit\SNP\My Project\Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::ed004757354463ef2ab5d80a43828af1, GCModeller\analysis\SequenceToolkit\SNP\My Project\Resources.Designer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 32
     ' Comment Lines: 23
     '   Blank Lines: 8
-    '     File Size: 2.81 KB
+    '     File Size: 2.75 KB
 
 
     '     Module Resources

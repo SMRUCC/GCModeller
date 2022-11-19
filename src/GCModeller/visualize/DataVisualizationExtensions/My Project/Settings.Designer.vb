@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1bb3b392d47f1dde974184c686bd97f4, GCModeller\visualize\DataVisualizationExtensions\My Project\Settings.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::3cab97cd8ad0ebc861edf4247159ac2f, GCModeller\visualize\DataVisualizationExtensions\My Project\Settings.Designer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 53
     ' Comment Lines: 9
     '   Blank Lines: 12
-    '     File Size: 3.03 KB
+    '     File Size: 2.95 KB
 
 
     '     Class MySettings

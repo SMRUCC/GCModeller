@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::15de7425b5cc9d3a8fd4ad9450b1929e, GCModeller\engine\IO\GCMarkupLanguage\GCML_Documents\XmlElements\SequenceModel.vb"
+﻿#Region "Microsoft.VisualBasic::799ab25a347be1b70e30abe62a9c9c51, GCModeller\engine\IO\GCMarkupLanguage\GCML_Documents\XmlElements\SequenceModel.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 14
     ' Comment Lines: 10
     '   Blank Lines: 4
-    '     File Size: 974 B
+    '     File Size: 947 B
 
 
     '     Interface ISequenceModel

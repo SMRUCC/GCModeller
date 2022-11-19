@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::10c9ba2e9b63f4c96c78552d4e81a326, GCModeller\core\Bio.Assembly\SequenceModel\NucleicAcid\Objects\SimpleSegment.vb"
+﻿#Region "Microsoft.VisualBasic::fc3a97d2ed2a6047ae937fe81b5eca15, GCModeller\core\Bio.Assembly\SequenceModel\NucleicAcid\Objects\SimpleSegment.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 84
     ' Comment Lines: 26
     '   Blank Lines: 20
-    '     File Size: 4.46 KB
+    '     File Size: 4.33 KB
 
 
     '     Class SimpleSegment

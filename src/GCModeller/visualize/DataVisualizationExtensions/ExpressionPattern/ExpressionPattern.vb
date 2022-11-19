@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::61b91baca17da519ca579801fc7e4c3e, GCModeller\visualize\DataVisualizationExtensions\ExpressionPattern\ExpressionPattern.vb"
+﻿#Region "Microsoft.VisualBasic::d3e7da818eca31b7a5ef847f1d6a2e54, GCModeller\visualize\DataVisualizationExtensions\ExpressionPattern\ExpressionPattern.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 210
-    '    Code Lines: 174
+    '   Total Lines: 209
+    '    Code Lines: 173
     ' Comment Lines: 10
     '   Blank Lines: 26
-    '     File Size: 8.86 KB
+    '     File Size: 8.81 KB
 
 
     '     Class ExpressionPattern

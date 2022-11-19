@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ecb4ae39ca1d881b402019c77c5be2dc, GCModeller\annotations\GSEA\GSEA\KnowledgeBase\KEGG.vb"
+﻿#Region "Microsoft.VisualBasic::7be653583dc448869e921f2532a84e55, GCModeller\annotations\GSEA\GSEA\KnowledgeBase\KEGG.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 46
     ' Comment Lines: 0
     '   Blank Lines: 3
-    '     File Size: 2.25 KB
+    '     File Size: 2.21 KB
 
 
     ' Module KEGG

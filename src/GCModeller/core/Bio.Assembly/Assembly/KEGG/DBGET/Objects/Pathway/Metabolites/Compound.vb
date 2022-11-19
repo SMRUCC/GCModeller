@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4d44bab80239717dbfa3223d60c0499f, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\Compound.vb"
+﻿#Region "Microsoft.VisualBasic::84c594fbb462021f5a4606d0608a1228, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\Compound.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 120
-    '    Code Lines: 80
+    '   Total Lines: 111
+    '    Code Lines: 72
     ' Comment Lines: 21
-    '   Blank Lines: 19
-    '     File Size: 4.28 KB
+    '   Blank Lines: 18
+    '     File Size: 3.85 KB
 
 
     '     Class Compound
@@ -48,8 +48,7 @@
     '                     molWeight, pathway, reactionId, remarks
     ' 
     '         Constructor: (+2 Overloads) Sub New
-    '         Function: GetDBLinkManager, GetDBLinks, GetLinkDbRDF, GetModules, GetPathways
-    '                   ToString
+    '         Function: GetDBLinkManager, GetDBLinks, GetModules, GetPathways, ToString
     ' 
     ' 
     ' /********************************************************************************/

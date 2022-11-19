@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a693b533d7f29ca250d49a67caf8c8f8, GCModeller\analysis\SequenceToolkit\ClusterMatrix\Matrix\NeedlemanWunsch.vb"
+﻿#Region "Microsoft.VisualBasic::0d158399b6faf24ec59efba95fb9544e, GCModeller\analysis\SequenceToolkit\ClusterMatrix\Matrix\NeedlemanWunsch.vb"
 
     ' Author:
     ' 
@@ -38,12 +38,12 @@
     '    Code Lines: 63
     ' Comment Lines: 0
     '   Blank Lines: 11
-    '     File Size: 2.73 KB
+    '     File Size: 2.66 KB
 
 
     ' Module Matrix
     ' 
-    '     Function: [As], __needlemanWunsch, NeedlemanWunsch
+    '     Function: __needlemanWunsch, [As], NeedlemanWunsch
     ' 
     ' /********************************************************************************/
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::feea753bf6566173154cc2e01da641cc, GCModeller\analysis\Metagenome\MetaFunction\AntibioticResistance.vb"
+﻿#Region "Microsoft.VisualBasic::f799c2524e01774e0f4b57aaabf9c078, GCModeller\analysis\Metagenome\MetaFunction\AntibioticResistance.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 60
     ' Comment Lines: 7
     '   Blank Lines: 9
-    '     File Size: 3.06 KB
+    '     File Size: 2.99 KB
 
 
     ' Module AntibioticResistance

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::db624dbf80fb266732c4201d0282b198, GCModeller\annotations\Proteomics\RSDPdensity.vb"
+﻿#Region "Microsoft.VisualBasic::66d1728b46524645100d2cbfea065b54, GCModeller\annotations\Proteomics\RSDPdensity.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 76
     ' Comment Lines: 24
     '   Blank Lines: 10
-    '     File Size: 4.39 KB
+    '     File Size: 4.29 KB
 
 
     ' Module RSDPdensity

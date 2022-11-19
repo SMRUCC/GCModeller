@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::01ca0ad96f5d604a11bf9ae65a7796e4, GCModeller\analysis\SequenceToolkit\DNA_Comparative\DeltaSimilarity1998\CAI\CodonBiasVector.vb"
+﻿#Region "Microsoft.VisualBasic::e4876bf21b6729c6602462a18307aefb, GCModeller\analysis\SequenceToolkit\DNA_Comparative\DeltaSimilarity1998\CAI\CodonBiasVector.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 14
     ' Comment Lines: 4
     '   Blank Lines: 5
-    '     File Size: 685 B
+    '     File Size: 663 B
 
 
     '     Structure CodonBiasVector

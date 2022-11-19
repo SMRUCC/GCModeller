@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fbf53f11413813026ad884d09796d3c7, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\Schemas\Mappings\CompoundsMapping.vb"
+﻿#Region "Microsoft.VisualBasic::645a4b1f2f5adbdb271b8f905e8f5220, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\Schemas\Mappings\CompoundsMapping.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 0
     ' Comment Lines: 177
     '   Blank Lines: 34
-    '     File Size: 8.66 KB
+    '     File Size: 8.45 KB
 
 
     ' 

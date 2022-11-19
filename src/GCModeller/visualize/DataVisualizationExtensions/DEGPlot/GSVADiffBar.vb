@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::86281cb672db747da81971985a461c92, GCModeller\visualize\DataVisualizationExtensions\DEGPlot\GSVADiffBar.vb"
+﻿#Region "Microsoft.VisualBasic::a9b0bf33378d00f9972ff3dfdfc283c5, GCModeller\visualize\DataVisualizationExtensions\DEGPlot\GSVADiffBar.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 95
     ' Comment Lines: 7
     '   Blank Lines: 14
-    '     File Size: 4.36 KB
+    '     File Size: 4.25 KB
 
 
     ' Class GSVADiffBar

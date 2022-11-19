@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::20199a35fdb5297b7b043a23787e5f21, GCModeller\data\GO_gene-ontology\GeneOntology\DAG\Fields.vb"
+﻿#Region "Microsoft.VisualBasic::a08ce0b9af5e93a5ce164c79fee1bbc2, GCModeller\data\GO_gene-ontology\GeneOntology\DAG\Fields.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 36
     ' Comment Lines: 0
     '   Blank Lines: 11
-    '     File Size: 1.46 KB
+    '     File Size: 1.41 KB
 
 
     '     Structure def

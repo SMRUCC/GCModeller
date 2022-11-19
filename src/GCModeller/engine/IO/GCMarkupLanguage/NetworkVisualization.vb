@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4bf205d921088d860287b9008cb1975f, GCModeller\engine\IO\GCMarkupLanguage\NetworkVisualization.vb"
+﻿#Region "Microsoft.VisualBasic::c7b4d1d5dfb337cb8ea413d1dd386720, GCModeller\engine\IO\GCMarkupLanguage\NetworkVisualization.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 65
     ' Comment Lines: 1
     '   Blank Lines: 10
-    '     File Size: 3.20 KB
+    '     File Size: 3.12 KB
 
 
     ' Module NetworkVisualization

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0e6eb4bec40dd079b0cc40d1400e22bf, GCModeller\models\BioCyc\Reader\AttrDataCollection.vb"
+﻿#Region "Microsoft.VisualBasic::96c072a4f7aae3bf1539fe2cc40b5f2d, GCModeller\models\BioCyc\Reader\AttrDataCollection.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 35
     ' Comment Lines: 0
     '   Blank Lines: 9
-    '     File Size: 1.52 KB
+    '     File Size: 1.48 KB
 
 
     ' Class AttrDataCollection

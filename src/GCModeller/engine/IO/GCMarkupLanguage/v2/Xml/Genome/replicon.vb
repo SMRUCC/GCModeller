@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f6690d41c98ef26561b00ddda0ed7931, GCModeller\engine\IO\GCMarkupLanguage\v2\Xml\Genome\replicon.vb"
+﻿#Region "Microsoft.VisualBasic::a33e8be50e9b0ee69c7367a16d894716, GCModeller\engine\IO\GCMarkupLanguage\v2\Xml\Genome\replicon.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 51
     ' Comment Lines: 11
     '   Blank Lines: 15
-    '     File Size: 2.45 KB
+    '     File Size: 2.38 KB
 
 
     '     Class replicon

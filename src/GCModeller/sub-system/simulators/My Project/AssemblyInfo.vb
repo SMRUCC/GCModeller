@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::18b022378370d65f5ae85959d78d0edd, GCModeller\sub-system\simulators\My Project\AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::002824777f5b38d0d28b7e99f565ce8c, GCModeller\sub-system\simulators\My Project\AssemblyInfo.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 16
     ' Comment Lines: 15
     '   Blank Lines: 6
-    '     File Size: 1.22 KB
+    '     File Size: 1.19 KB
 
 
     ' 

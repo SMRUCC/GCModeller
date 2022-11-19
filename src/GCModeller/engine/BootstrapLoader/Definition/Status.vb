@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a0653bdd71379d1191c73b6c321449a6, GCModeller\engine\BootstrapLoader\Definition\Status.vb"
+﻿#Region "Microsoft.VisualBasic::3efc92beba64f0a2777802275297aad4, GCModeller\engine\BootstrapLoader\Definition\Status.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 27
     ' Comment Lines: 17
     '   Blank Lines: 8
-    '     File Size: 1.99 KB
+    '     File Size: 1.94 KB
 
 
     '     Class Status

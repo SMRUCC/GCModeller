@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4ee1c9c5e2eb69e0f6c79e66fa3aeb68, GCModeller\data\RegulonDatabase\Regprecise\WebServices\WebParser\Regulator\RegulatorQuery.vb"
+﻿#Region "Microsoft.VisualBasic::7c02a715f720d69fb42126ab67165abc, GCModeller\data\RegulonDatabase\Regprecise\WebServices\WebParser\Regulator\RegulatorQuery.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 121
     ' Comment Lines: 6
     '   Blank Lines: 29
-    '     File Size: 6.79 KB
+    '     File Size: 6.63 KB
 
 
     '     Class RegulatorQuery

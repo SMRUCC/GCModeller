@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2836546b1f5aaf287b6b848f4da8b59f, GCModeller\analysis\Microarray\My Project\AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::72ce0f67127d2c6b0cf457686b01e8a4, GCModeller\analysis\Microarray\My Project\AssemblyInfo.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 15
     ' Comment Lines: 15
     '   Blank Lines: 6
-    '     File Size: 1.18 KB
+    '     File Size: 1.15 KB
 
 
     ' 

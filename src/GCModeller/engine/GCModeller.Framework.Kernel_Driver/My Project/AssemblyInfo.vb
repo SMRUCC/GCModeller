@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9601ab8efc2c72e8f106ea5dda8e055c, GCModeller\engine\GCModeller.Framework.Kernel_Driver\My Project\AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::5e2b771de66855b51bdfb6ecfe7f50c1, GCModeller\engine\GCModeller.Framework.Kernel_Driver\My Project\AssemblyInfo.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 13
     ' Comment Lines: 15
     '   Blank Lines: 7
-    '     File Size: 1.23 KB
+    '     File Size: 1.20 KB
 
 
     ' 

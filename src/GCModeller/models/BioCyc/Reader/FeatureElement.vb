@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8d1058a3f5f71ab13762d9658016374f, GCModeller\models\BioCyc\Reader\FeatureElement.vb"
+﻿#Region "Microsoft.VisualBasic::6b559292feebaa4e8b7bb941502c74c7, GCModeller\models\BioCyc\Reader\FeatureElement.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 95
     ' Comment Lines: 1
     '   Blank Lines: 22
-    '     File Size: 3.94 KB
+    '     File Size: 3.83 KB
 
 
     ' Class FeatureElement

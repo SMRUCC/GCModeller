@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::698be716fdb1407a6a34bce994e20459, GCModeller\analysis\SequenceToolkit\MotifScanner\MotifTree.vb"
+﻿#Region "Microsoft.VisualBasic::36caa8a325cdc58bd0b870ce1c542335, GCModeller\analysis\SequenceToolkit\MotifScanner\MotifTree.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 132
     ' Comment Lines: 50
     '   Blank Lines: 22
-    '     File Size: 8.12 KB
+    '     File Size: 7.92 KB
 
 
     ' Module MotifTree

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9c53a9498ad11d150da752b3dfcf5779, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\PathwayMap\PathwayMapDownloads.vb"
+﻿#Region "Microsoft.VisualBasic::f7862c31903d3dfd4f5b482f485d1ce2, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\PathwayMap\PathwayMapDownloads.vb"
 
     ' Author:
     ' 
@@ -34,16 +34,14 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 153
-    '    Code Lines: 121
-    ' Comment Lines: 9
-    '   Blank Lines: 23
-    '     File Size: 7.33 KB
+    '   Total Lines: 21
+    '    Code Lines: 16
+    ' Comment Lines: 0
+    '   Blank Lines: 5
+    '     File Size: 602 B
 
 
     '     Module PathwayMapDownloads
-    ' 
-    '         Function: DownloadAll, mapParserInternal, SolveEntries
     ' 
     '         Sub: SetMapImage
     ' 

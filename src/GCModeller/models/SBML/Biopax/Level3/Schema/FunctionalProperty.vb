@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::92e7817502de893f631be7ad503917b6, GCModeller\models\SBML\Biopax\Level3\Schema\FunctionalProperty.vb"
+﻿#Region "Microsoft.VisualBasic::97455e169bf9e3747573d4339dc42298, GCModeller\models\SBML\Biopax\Level3\Schema\FunctionalProperty.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 31
     ' Comment Lines: 28
     '   Blank Lines: 12
-    '     File Size: 2.52 KB
+    '     File Size: 2.44 KB
 
 
     '     Class FunctionalProperty

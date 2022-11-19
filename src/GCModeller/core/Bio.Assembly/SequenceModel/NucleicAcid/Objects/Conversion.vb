@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::38354795bd7755ca1b1188bded2be181, GCModeller\core\Bio.Assembly\SequenceModel\NucleicAcid\Objects\Conversion.vb"
+﻿#Region "Microsoft.VisualBasic::1a48240c532d92fc33a52e3c21405bde, GCModeller\core\Bio.Assembly\SequenceModel\NucleicAcid\Objects\Conversion.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 83
     ' Comment Lines: 31
     '   Blank Lines: 19
-    '     File Size: 5.03 KB
+    '     File Size: 4.89 KB
 
 
     '     Class Conversion

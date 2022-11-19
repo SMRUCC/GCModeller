@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b620d3bb68fed094b24b778e8b573852, GCModeller\data\SABIO-RK\docuRESTfulWeb\WebRequest.vb"
+﻿#Region "Microsoft.VisualBasic::6e656f373b4a04f8302c8a2f6b9a7b04, GCModeller\data\SABIO-RK\docuRESTfulWeb\WebRequest.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 49
     ' Comment Lines: 9
     '   Blank Lines: 10
-    '     File Size: 2.73 KB
+    '     File Size: 2.66 KB
 
 
     ' Module WebRequest

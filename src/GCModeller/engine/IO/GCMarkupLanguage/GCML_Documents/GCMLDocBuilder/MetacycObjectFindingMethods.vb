@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::09386dfa9c7782efff850c0b1b6a9fec, GCModeller\engine\IO\GCMarkupLanguage\GCML_Documents\GCMLDocBuilder\MetacycObjectFindingMethods.vb"
+﻿#Region "Microsoft.VisualBasic::02ca2d9ad460f73fc4807f5abe5bebea, GCModeller\engine\IO\GCMarkupLanguage\GCML_Documents\GCMLDocBuilder\MetacycObjectFindingMethods.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 69
     ' Comment Lines: 109
     '   Blank Lines: 16
-    '     File Size: 11.04 KB
+    '     File Size: 10.85 KB
 
 
     ' Module MetacycObjectFindingMethods

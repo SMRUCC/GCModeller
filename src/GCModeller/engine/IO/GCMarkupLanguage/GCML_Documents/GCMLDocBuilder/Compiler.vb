@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::268b6fb580eef7e2d36c7e7952ae8ff0, GCModeller\engine\IO\GCMarkupLanguage\GCML_Documents\GCMLDocBuilder\Compiler.vb"
+﻿#Region "Microsoft.VisualBasic::6558fd92b6e5cf26906dfe105f966528, GCModeller\engine\IO\GCMarkupLanguage\GCML_Documents\GCMLDocBuilder\Compiler.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 94
     ' Comment Lines: 16
     '   Blank Lines: 25
-    '     File Size: 6.50 KB
+    '     File Size: 6.36 KB
 
 
     '     Class Compiler

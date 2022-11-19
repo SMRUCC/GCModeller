@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a5678199907c8c10e4e2cc5607fbd8ed, GCModeller\models\SBML\Biopax\My Project\Settings.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::d84534bc15ecbbd6fa59a876cd9d0ec8, GCModeller\models\SBML\Biopax\My Project\Settings.Designer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 53
     ' Comment Lines: 9
     '   Blank Lines: 12
-    '     File Size: 3.03 KB
+    '     File Size: 2.96 KB
 
 
     '     Class MySettings

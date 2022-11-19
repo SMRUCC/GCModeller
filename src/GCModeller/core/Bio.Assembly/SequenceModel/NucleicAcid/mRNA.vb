@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c437cfd45fdcc6dcd5874e3fff2dc139, GCModeller\core\Bio.Assembly\SequenceModel\NucleicAcid\mRNA.vb"
+﻿#Region "Microsoft.VisualBasic::bceb34ed93a3a496be78128583b44cd6, GCModeller\core\Bio.Assembly\SequenceModel\NucleicAcid\mRNA.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 62
     ' Comment Lines: 9
     '   Blank Lines: 20
-    '     File Size: 3.42 KB
+    '     File Size: 3.33 KB
 
 
     '     Module mRNA

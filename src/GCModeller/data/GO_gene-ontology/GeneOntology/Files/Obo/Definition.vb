@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3da4e74e7c08816cdebc353ddbc2b816, GCModeller\data\GO_gene-ontology\GeneOntology\Files\Obo\Definition.vb"
+﻿#Region "Microsoft.VisualBasic::64675fdffd3955a5f39e4fd452b0e1ec, GCModeller\data\GO_gene-ontology\GeneOntology\Files\Obo\Definition.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 34
     ' Comment Lines: 4
     '   Blank Lines: 10
-    '     File Size: 1.53 KB
+    '     File Size: 1.49 KB
 
 
     '     Class Definition

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2a33acef2a089ba5728ea2ae75ab2bc7, GCModeller\models\Networks\KEGG\KEGGMap\PathwayMapNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::cb997405da7abd89f8530833bae0f8ad, GCModeller\models\Networks\KEGG\KEGGMap\PathwayMapNetwork.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 63
     ' Comment Lines: 12
     '   Blank Lines: 12
-    '     File Size: 3.33 KB
+    '     File Size: 3.25 KB
 
 
     ' Module PathwayMapNetwork

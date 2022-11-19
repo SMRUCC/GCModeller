@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7af913dd21c7978cc393ac7090f7b927, GCModeller\core\Bio.Assembly\SequenceModel\FASTA\Reflection\Attributes.vb"
+﻿#Region "Microsoft.VisualBasic::f26b44511a8208b7c4219b9e45be416b, GCModeller\core\Bio.Assembly\SequenceModel\FASTA\Reflection\Attributes.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 27
     ' Comment Lines: 14
     '   Blank Lines: 10
-    '     File Size: 1.81 KB
+    '     File Size: 1.76 KB
 
 
     '     Class FastaSequenceEntry

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8f065beb05839bf4b230432957552449, GCModeller\core\Bio.Assembly\Assembly\KEGG\Medical\Disease.vb"
+﻿#Region "Microsoft.VisualBasic::a7acc0f2b9d973ff0969bf78ef216c6b, GCModeller\core\Bio.Assembly\Assembly\KEGG\Medical\Disease.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 24
     ' Comment Lines: 4
     '   Blank Lines: 5
-    '     File Size: 1.21 KB
+    '     File Size: 1.18 KB
 
 
     '     Class Disease

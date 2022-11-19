@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::87137babaf096348c49a70538baa6fc8, GCModeller\engine\BootstrapLoader\Definition\FluxBaseline.vb"
+﻿#Region "Microsoft.VisualBasic::6105dc706e804d90878361c20b7d9e8b, GCModeller\engine\BootstrapLoader\Definition\FluxBaseline.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 20
     ' Comment Lines: 7
     '   Blank Lines: 9
-    '     File Size: 1.31 KB
+    '     File Size: 1.28 KB
 
 
     '     Class FluxBaseline

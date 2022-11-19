@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ee652e746c508318b8be0cdda2b00660, GCModeller\data\GO_gene-ontology\GeneOntology\DAG\Builder.vb"
+﻿#Region "Microsoft.VisualBasic::4462c1a86548f76221339a2c33c27cb9, GCModeller\data\GO_gene-ontology\GeneOntology\DAG\Builder.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 86
     ' Comment Lines: 5
     '   Blank Lines: 16
-    '     File Size: 3.81 KB
+    '     File Size: 3.71 KB
 
 
     '     Module Builder

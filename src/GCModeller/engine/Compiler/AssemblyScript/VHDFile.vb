@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6f3187030024ea820c2973027d15f4e8, GCModeller\engine\Compiler\AssemblyScript\VHDFile.vb"
+﻿#Region "Microsoft.VisualBasic::a4bda8277bfe9e2e47fcd2d470998593, GCModeller\engine\Compiler\AssemblyScript\VHDFile.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 68
     ' Comment Lines: 10
     '   Blank Lines: 11
-    '     File Size: 3.38 KB
+    '     File Size: 3.29 KB
 
 
     '     Class VHDFile

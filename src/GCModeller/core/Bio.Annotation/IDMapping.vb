@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0ec4746ba94d838a442f1c36f3a56123, GCModeller\core\Bio.Annotation\IDMapping.vb"
+﻿#Region "Microsoft.VisualBasic::fe881c8c3cc6eff0591145c42284a9e5, GCModeller\core\Bio.Annotation\IDMapping.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 51
     ' Comment Lines: 11
     '   Blank Lines: 11
-    '     File Size: 2.71 KB
+    '     File Size: 2.64 KB
 
 
     ' Module IDMapping

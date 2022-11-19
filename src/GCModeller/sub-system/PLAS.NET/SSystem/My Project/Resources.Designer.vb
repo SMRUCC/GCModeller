@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fb87dfb4a60e33388806e9e77880e3fc, GCModeller\sub-system\PLAS.NET\SSystem\My Project\Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::edcc19df4af79d893c7337aa25161b78, GCModeller\sub-system\PLAS.NET\SSystem\My Project\Resources.Designer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 32
     ' Comment Lines: 23
     '   Blank Lines: 8
-    '     File Size: 2.80 KB
+    '     File Size: 2.73 KB
 
 
     '     Module Resources

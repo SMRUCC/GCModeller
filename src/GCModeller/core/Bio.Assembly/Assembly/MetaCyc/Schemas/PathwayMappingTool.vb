@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::74c71045f61d59b5c0c5e9952cf25319, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\Schemas\PathwayMappingTool.vb"
+﻿#Region "Microsoft.VisualBasic::a3c9e0ddb2b47cc408f94ac07c8cc695, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\Schemas\PathwayMappingTool.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 49
     ' Comment Lines: 16
     '   Blank Lines: 10
-    '     File Size: 3.71 KB
+    '     File Size: 3.63 KB
 
 
     '     Class PathwayMappingTool

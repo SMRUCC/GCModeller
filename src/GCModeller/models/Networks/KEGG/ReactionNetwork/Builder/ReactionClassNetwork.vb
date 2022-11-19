@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0dddcb7c817a6490fb1bd114b892bb47, GCModeller\models\Networks\KEGG\ReactionNetwork\Builder\ReactionClassNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::6df0e3a21dd4f0c9c976501322b4f912, GCModeller\models\Networks\KEGG\ReactionNetwork\Builder\ReactionClassNetwork.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 38
     ' Comment Lines: 12
     '   Blank Lines: 10
-    '     File Size: 2.52 KB
+    '     File Size: 2.46 KB
 
 
     '     Class ReactionClassNetwork

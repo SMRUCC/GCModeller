@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::321c161cca0a079d86fc2f1f5ee4483c, GCModeller\analysis\SequenceToolkit\SmithWaterman\Matrix\Blosum.vb"
+﻿#Region "Microsoft.VisualBasic::25530678c74ac26022d1e4046e246368, GCModeller\analysis\SequenceToolkit\SmithWaterman\Matrix\Blosum.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 40
     ' Comment Lines: 57
     '   Blank Lines: 11
-    '     File Size: 4.41 KB
+    '     File Size: 4.30 KB
 
 
     ' Class Blosum

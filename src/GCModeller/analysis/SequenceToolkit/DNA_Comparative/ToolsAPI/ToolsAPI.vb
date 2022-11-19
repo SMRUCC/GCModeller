@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fab9f4d0eb913021d68eb81b43968351, GCModeller\analysis\SequenceToolkit\DNA_Comparative\ToolsAPI\ToolsAPI.vb"
+﻿#Region "Microsoft.VisualBasic::f795ef3cad50989fe9f7da542a1c0dc8, GCModeller\analysis\SequenceToolkit\DNA_Comparative\ToolsAPI\ToolsAPI.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 806
     ' Comment Lines: 137
     '   Blank Lines: 145
-    '     File Size: 56.24 KB
+    '     File Size: 55.15 KB
 
 
     ' Module ToolsAPI

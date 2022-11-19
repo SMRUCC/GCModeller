@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::35dd620611872da44adb783a7316bcfa, GCModeller\sub-system\PLAS.NET\SSystem\System\Elements\Function.vb"
+﻿#Region "Microsoft.VisualBasic::7fdb7337ef966b4f0b445336ed308dbe, GCModeller\sub-system\PLAS.NET\SSystem\System\Elements\Function.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 18
     ' Comment Lines: 9
     '   Blank Lines: 8
-    '     File Size: 1.06 KB
+    '     File Size: 1.03 KB
 
 
     '     Structure [Function]

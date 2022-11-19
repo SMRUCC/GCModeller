@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a73f9d73d1f05901b6ec3a248043a1aa, GCModeller\visualize\ChromosomeMap\FootPrintMap\RegulationMotifSite.vb"
+﻿#Region "Microsoft.VisualBasic::38bdcce9f03d20b2d3c7053b088ef897, GCModeller\visualize\ChromosomeMap\FootPrintMap\RegulationMotifSite.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 37
     ' Comment Lines: 12
     '   Blank Lines: 15
-    '     File Size: 2.70 KB
+    '     File Size: 2.64 KB
 
 
     '     Class RegulationMotifSite

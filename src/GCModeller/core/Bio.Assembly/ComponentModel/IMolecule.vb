@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8c0536d853ddd0d4d0adf9855da63af3, GCModeller\core\Bio.Assembly\ComponentModel\IMolecule.vb"
+﻿#Region "Microsoft.VisualBasic::cd053ba2d603cdaaa356bfde154e9d64, GCModeller\core\Bio.Assembly\ComponentModel\IMolecule.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 8
     ' Comment Lines: 0
     '   Blank Lines: 3
-    '     File Size: 234 B
+    '     File Size: 224 B
 
 
     '     Interface IMolecule

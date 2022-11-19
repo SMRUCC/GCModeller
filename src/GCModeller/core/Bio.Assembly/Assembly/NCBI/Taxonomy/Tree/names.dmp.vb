@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::224698ab44538149f2240387bfd305d6, GCModeller\core\Bio.Assembly\Assembly\NCBI\Taxonomy\Tree\names.dmp.vb"
+﻿#Region "Microsoft.VisualBasic::2d706f989f86fd77c30934d0cefa1df6, GCModeller\core\Bio.Assembly\Assembly\NCBI\Taxonomy\Tree\names.dmp.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 44
     ' Comment Lines: 33
     '   Blank Lines: 8
-    '     File Size: 3.16 KB
+    '     File Size: 3.08 KB
 
 
     '     Class names

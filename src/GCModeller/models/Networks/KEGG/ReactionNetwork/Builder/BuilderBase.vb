@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1d31761be3f278303cf57d7a092ebb1e, GCModeller\models\Networks\KEGG\ReactionNetwork\Builder\BuilderBase.vb"
+﻿#Region "Microsoft.VisualBasic::dee26770074d3cfc888b1264a4a92e2e, GCModeller\models\Networks\KEGG\ReactionNetwork\Builder\BuilderBase.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 171
     ' Comment Lines: 41
     '   Blank Lines: 35
-    '     File Size: 10.23 KB
+    '     File Size: 9.99 KB
 
 
     '     Class BuilderBase

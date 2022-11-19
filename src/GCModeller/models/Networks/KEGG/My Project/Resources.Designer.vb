@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a3040218a278e760706eec97b049e498, GCModeller\models\Networks\KEGG\My Project\Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::091a08c468254dcc219cdfadf6058b93, GCModeller\models\Networks\KEGG\My Project\Resources.Designer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 37
     ' Comment Lines: 90
     '   Blank Lines: 9
-    '     File Size: 4.37 KB
+    '     File Size: 4.23 KB
 
 
     '     Module Resources

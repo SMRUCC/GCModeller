@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::94ee0e0ca73075aae7e577c5d2c012f2, GCModeller\analysis\Metagenome\Metagenome\BEBaC\CrudeClustering.vb"
+﻿#Region "Microsoft.VisualBasic::e022d0a398e6e2a3a9e9b48548b74e70, GCModeller\analysis\Metagenome\Metagenome\BEBaC\CrudeClustering.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 26
     ' Comment Lines: 45
     '   Blank Lines: 5
-    '     File Size: 3.71 KB
+    '     File Size: 3.64 KB
 
 
     '     Module CrudeClustering

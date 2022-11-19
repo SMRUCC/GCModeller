@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::500384d078aa4c830aaaec68b7068a9f, GCModeller\engine\IO\Raw\vcXML\Writer.vb"
+﻿#Region "Microsoft.VisualBasic::afaf5a7dbf940d9c8ec702de5890ee9b, GCModeller\engine\IO\Raw\vcXML\Writer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 173
     ' Comment Lines: 14
     '   Blank Lines: 44
-    '     File Size: 8.75 KB
+    '     File Size: 8.52 KB
 
 
     '     Class Writer

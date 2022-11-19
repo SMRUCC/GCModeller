@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e2d968b4944e92e237821adeda93baf7, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\PTT\RNT.vb"
+﻿#Region "Microsoft.VisualBasic::5869ddfc734fbafe8b649e2a629391f4, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\PTT\RNT.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 8
     ' Comment Lines: 0
     '   Blank Lines: 2
-    '     File Size: 209 B
+    '     File Size: 200 B
 
 
     '     Class RNT

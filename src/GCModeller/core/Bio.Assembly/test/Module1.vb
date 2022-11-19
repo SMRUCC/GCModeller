@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::28bf8ab0c3cf7ac590993f110bca7dc9, GCModeller\core\Bio.Assembly\Test\Module1.vb"
+﻿#Region "Microsoft.VisualBasic::43ad3325bc82434bb2dacb44a87b1868, GCModeller\core\Bio.Assembly\Test\Module1.vb"
 
     ' Author:
     ' 
@@ -38,12 +38,12 @@
     '    Code Lines: 8
     ' Comment Lines: 0
     '   Blank Lines: 4
-    '     File Size: 244 B
+    '     File Size: 245 B
 
 
     ' Module Module1
     ' 
-    '     Sub: Main
+    '     Sub: Main1
     ' 
     ' /********************************************************************************/
 

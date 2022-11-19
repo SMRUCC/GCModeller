@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2b9cb0e2a9e6229fab6a99ea8a9d36d6, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\ExportServices\gbEntry.vb"
+﻿#Region "Microsoft.VisualBasic::c9d062ac4e9061b8418c1f2849a430de, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\ExportServices\gbEntry.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 148
     ' Comment Lines: 18
     '   Blank Lines: 26
-    '     File Size: 11.11 KB
+    '     File Size: 10.91 KB
 
 
     '     Class gbEntryBrief

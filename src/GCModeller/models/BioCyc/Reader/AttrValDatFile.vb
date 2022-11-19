@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::67f369a9784f2a8a74421b9b80cca86a, GCModeller\models\BioCyc\Reader\AttrValDatFile.vb"
+﻿#Region "Microsoft.VisualBasic::e993ececc94ad083b9205196e49ca5cb, GCModeller\models\BioCyc\Reader\AttrValDatFile.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 31
     ' Comment Lines: 46
     '   Blank Lines: 8
-    '     File Size: 3.37 KB
+    '     File Size: 3.29 KB
 
 
     ' Class AttrValDatFile

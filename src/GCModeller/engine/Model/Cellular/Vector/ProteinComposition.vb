@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::51a9d20a61b4d80112c1b6e7dcc3821c, GCModeller\engine\Model\Cellular\Vector\ProteinComposition.vb"
+﻿#Region "Microsoft.VisualBasic::f09a19abbf71fa8ecdb06c2dd46aa654, GCModeller\engine\Model\Cellular\Vector\ProteinComposition.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 61
     ' Comment Lines: 88
     '   Blank Lines: 12
-    '     File Size: 5.10 KB
+    '     File Size: 4.94 KB
 
 
     '     Class ProteinComposition

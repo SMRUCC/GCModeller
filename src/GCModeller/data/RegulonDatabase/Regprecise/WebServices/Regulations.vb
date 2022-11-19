@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e642d646029c7a794e1af32755df3475, GCModeller\data\RegulonDatabase\Regprecise\WebServices\Regulations.vb"
+﻿#Region "Microsoft.VisualBasic::89286e5526e4568afd3d5fe461c58d1a, GCModeller\data\RegulonDatabase\Regprecise\WebServices\Regulations.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 167
     ' Comment Lines: 41
     '   Blank Lines: 27
-    '     File Size: 10.49 KB
+    '     File Size: 10.25 KB
 
 
     '     Class Regulation

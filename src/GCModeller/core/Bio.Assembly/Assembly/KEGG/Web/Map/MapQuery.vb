@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2a78c6813d3c4c7859618ae7bf057f8b, GCModeller\core\Bio.Assembly\Assembly\KEGG\Web\Map\MapQuery.vb"
+﻿#Region "Microsoft.VisualBasic::c2359b2e1c1c421cc0e87522c1ef3f50, GCModeller\core\Bio.Assembly\Assembly\KEGG\Web\Map\MapQuery.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 44
     ' Comment Lines: 0
     '   Blank Lines: 8
-    '     File Size: 2.04 KB
+    '     File Size: 1.99 KB
 
 
     '     Class MapQuery

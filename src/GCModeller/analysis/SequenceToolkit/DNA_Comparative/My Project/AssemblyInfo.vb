@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::17cc6b4eba0f357499c110d95fe949b4, GCModeller\analysis\SequenceToolkit\DNA_Comparative\My Project\AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::1eae10940fafe6ad43a925605f25a210, GCModeller\analysis\SequenceToolkit\DNA_Comparative\My Project\AssemblyInfo.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 13
     ' Comment Lines: 15
     '   Blank Lines: 7
-    '     File Size: 1.32 KB
+    '     File Size: 1.29 KB
 
 
     ' 

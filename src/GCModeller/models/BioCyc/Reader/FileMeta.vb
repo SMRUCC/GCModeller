@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cc3f7048651f3318b475bc5c827e046f, GCModeller\models\BioCyc\Reader\FileMeta.vb"
+﻿#Region "Microsoft.VisualBasic::0c8afd19d37a30ddacb719446e37e83b, GCModeller\models\BioCyc\Reader\FileMeta.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 67
     ' Comment Lines: 1
     '   Blank Lines: 13
-    '     File Size: 2.89 KB
+    '     File Size: 2.81 KB
 
 
     ' Class FileMeta

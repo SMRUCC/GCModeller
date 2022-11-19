@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::65ec4f7c5ab926e8f00138fad1d8a0c0, GCModeller\data\RegulonDatabase\Regtransbase\StructureObjects\Dictionary.vb"
+﻿#Region "Microsoft.VisualBasic::608f8fb50488380d28efd70c5b266a94, GCModeller\data\RegulonDatabase\Regtransbase\StructureObjects\Dictionary.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 13
     ' Comment Lines: 27
     '   Blank Lines: 5
-    '     File Size: 1.84 KB
+    '     File Size: 1.80 KB
 
 
     '     Class Dictionary

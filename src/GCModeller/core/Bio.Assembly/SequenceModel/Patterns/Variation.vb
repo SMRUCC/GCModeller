@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5067c442a879027111035d5e2b926733, GCModeller\core\Bio.Assembly\SequenceModel\Patterns\Variation.vb"
+﻿#Region "Microsoft.VisualBasic::f970affc02c0c16542f646277584fdf9, GCModeller\core\Bio.Assembly\SequenceModel\Patterns\Variation.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 181
     ' Comment Lines: 3
     '   Blank Lines: 20
-    '     File Size: 8.14 KB
+    '     File Size: 7.93 KB
 
 
     '     Class Variation

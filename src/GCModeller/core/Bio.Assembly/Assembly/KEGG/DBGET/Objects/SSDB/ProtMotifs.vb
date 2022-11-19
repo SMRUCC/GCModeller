@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c00cec48284a07470ff76c01df8208c4, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\SSDB\ProtMotifs.vb"
+﻿#Region "Microsoft.VisualBasic::7630b30c7e4c887abbe2eb7b9fca4883, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\SSDB\ProtMotifs.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 51
     ' Comment Lines: 0
     '   Blank Lines: 15
-    '     File Size: 2.66 KB
+    '     File Size: 2.60 KB
 
 
     '     Module ProtMotifsQuery

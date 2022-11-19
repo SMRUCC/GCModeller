@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f807d571ab37f5d76c36ee1f387d3cf4, GCModeller\analysis\SequenceToolkit\SequencePatterns\Test\My Project\Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::f1cc9b2debbe814a3b688ca9e355ddd8, GCModeller\analysis\SequenceToolkit\SequencePatterns\Test\My Project\Resources.Designer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 32
     ' Comment Lines: 23
     '   Blank Lines: 8
-    '     File Size: 2.77 KB
+    '     File Size: 2.71 KB
 
 
     '     Module Resources

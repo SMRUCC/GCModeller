@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e4b2504c6ca3f5be9f317c039ff93782, GCModeller\data\RegulonDatabase\My Project\AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::afe36d43d0ae6ec16fb2291c05b7e1c8, GCModeller\data\RegulonDatabase\My Project\AssemblyInfo.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 15
     ' Comment Lines: 15
     '   Blank Lines: 6
-    '     File Size: 1.21 KB
+    '     File Size: 1.17 KB
 
 
     ' 

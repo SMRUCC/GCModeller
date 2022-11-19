@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0e88de043f6345a50b913d1698ca562b, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\File.vb"
+﻿#Region "Microsoft.VisualBasic::45af98b209c44b7195bb5ac141c448c6, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\File.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 164
     ' Comment Lines: 98
     '   Blank Lines: 33
-    '     File Size: 11.57 KB
+    '     File Size: 11.28 KB
 
 
     '     Class File

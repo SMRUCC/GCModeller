@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::05b12f6a2cd4f1c6a6be57f59c485e4b, GCModeller\analysis\SequenceToolkit\NeedlemanWunsch\Properties\AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::ca04c1de843766d5b91c66f47779f46f, GCModeller\analysis\SequenceToolkit\NeedlemanWunsch\Properties\AssemblyInfo.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 15
     ' Comment Lines: 13
     '   Blank Lines: 4
-    '     File Size: 1.05 KB
+    '     File Size: 1021 B
 
 
     ' 

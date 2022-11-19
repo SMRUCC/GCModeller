@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4e18c56bcc92c9fd3567655ee7c65eb3, GCModeller\data\RegulonDatabase\Regprecise\Compiler.vb"
+﻿#Region "Microsoft.VisualBasic::02ccb0013f44fadce0dae0054d8b3c4d, GCModeller\data\RegulonDatabase\Regprecise\Compiler.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 213
     ' Comment Lines: 21
     '   Blank Lines: 32
-    '     File Size: 15.22 KB
+    '     File Size: 14.95 KB
 
 
     '     Module Compiler

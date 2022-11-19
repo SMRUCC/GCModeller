@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::71dfa12d7ee4eb22d3892f5b8f748760, GCModeller\data\SABIO-RK\SBML\kineticLaw.vb"
+﻿#Region "Microsoft.VisualBasic::7f2b817ea185769751ce47f5a7458421, GCModeller\data\SABIO-RK\SBML\kineticLaw.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 73
-    '    Code Lines: 58
+    '   Total Lines: 102
+    '    Code Lines: 73
     ' Comment Lines: 0
-    '   Blank Lines: 15
-    '     File Size: 2.76 KB
+    '   Blank Lines: 29
+    '     File Size: 3.44 KB
 
 
     '     Class kineticLaw
@@ -50,22 +50,31 @@
     '         Properties: RDF, sabiork
     ' 
     '         Constructor: (+1 Overloads) Sub New
+    '         Function: ToString
     ' 
     '     Class sabiorkAnnotation
     ' 
     '         Properties: experimentalConditions, kineticLawID
     ' 
+    '         Function: ToString
+    ' 
     '     Class experimentalConditions
     ' 
     '         Properties: buffer, pHValue, temperature
+    ' 
+    '         Function: ToString
     ' 
     '     Class temperature
     ' 
     '         Properties: startValueTemperature, temperatureUnit
     ' 
+    '         Function: ToString
+    ' 
     '     Class pH
     ' 
     '         Properties: startValuepH
+    ' 
+    '         Function: ToString
     ' 
     '     Class localParameter
     ' 

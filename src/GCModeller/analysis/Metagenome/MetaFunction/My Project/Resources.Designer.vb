@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ead7d7043a69819e5e928f3c3e3a90af, GCModeller\analysis\Metagenome\MetaFunction\My Project\Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::49bdd61d68b2a985d82f7c623ff15573, GCModeller\analysis\Metagenome\MetaFunction\My Project\Resources.Designer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 32
     ' Comment Lines: 23
     '   Blank Lines: 8
-    '     File Size: 2.81 KB
+    '     File Size: 2.75 KB
 
 
     '     Module Resources

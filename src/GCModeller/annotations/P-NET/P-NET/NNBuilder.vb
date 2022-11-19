@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::eff1eb5d3c0af2974767d95f46de03fa, GCModeller\annotations\P-NET\P-NET\NNBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::0e73468c41a768497b75a8860ba03801, GCModeller\annotations\P-NET\P-NET\NNBuilder.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 2
     ' Comment Lines: 0
     '   Blank Lines: 1
-    '     File Size: 35 B
+    '     File Size: 33 B
 
 
     ' Class NNBuilder

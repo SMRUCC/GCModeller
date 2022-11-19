@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::97568352e7c5052a719001ba5d3e01f1, GCModeller\core\Bio.Assembly\SequenceModel\Polypeptides\AminoAcid.vb"
+﻿#Region "Microsoft.VisualBasic::a0a06bea8fba0d0b003ca438ed3f78a3, GCModeller\core\Bio.Assembly\SequenceModel\Polypeptides\AminoAcid.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 27
     ' Comment Lines: 95
     '   Blank Lines: 24
-    '     File Size: 3.26 KB
+    '     File Size: 3.12 KB
 
 
     '     Enum AminoAcid

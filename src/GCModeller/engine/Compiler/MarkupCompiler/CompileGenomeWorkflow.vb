@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f2a5f07b076a3771cb7a93f25f31d716, GCModeller\engine\Compiler\MarkupCompiler\CompileGenomeWorkflow.vb"
+﻿#Region "Microsoft.VisualBasic::4b79de49e0b7a257cbcd651283474400, GCModeller\engine\Compiler\MarkupCompiler\CompileGenomeWorkflow.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 51
     ' Comment Lines: 8
     '   Blank Lines: 9
-    '     File Size: 2.87 KB
+    '     File Size: 2.80 KB
 
 
     '     Class CompileGenomeWorkflow

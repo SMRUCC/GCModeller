@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c1c6dd333f2a71ca2367d5119b485c10, GCModeller\analysis\SequenceToolkit\ClusterMatrix\My Project\AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::9529857e7ba4d29fd2bf83b9476a769c, GCModeller\analysis\SequenceToolkit\ClusterMatrix\My Project\AssemblyInfo.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 13
     ' Comment Lines: 15
     '   Blank Lines: 7
-    '     File Size: 1.23 KB
+    '     File Size: 1.20 KB
 
 
     ' 

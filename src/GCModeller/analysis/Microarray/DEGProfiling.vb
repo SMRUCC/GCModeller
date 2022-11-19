@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::89305fa9d44d117be96106d05e2396b5, GCModeller\analysis\Microarray\DEGProfiling.vb"
+﻿#Region "Microsoft.VisualBasic::e02ea3ef09aaa2f3269321f211068d78, GCModeller\analysis\Microarray\DEGProfiling.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 59
     ' Comment Lines: 14
     '   Blank Lines: 12
-    '     File Size: 3.32 KB
+    '     File Size: 3.23 KB
 
 
     ' Module DEGProfiling

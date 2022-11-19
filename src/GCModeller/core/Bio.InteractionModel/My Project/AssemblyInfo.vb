@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::24d6cf7db0f00dfa8e2224cab5cbe450, GCModeller\core\Bio.InteractionModel\My Project\AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::5a6f5c078bbc747857351d17c76fc00f, GCModeller\core\Bio.InteractionModel\My Project\AssemblyInfo.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 15
     ' Comment Lines: 15
     '   Blank Lines: 6
-    '     File Size: 1.28 KB
+    '     File Size: 1.24 KB
 
 
     ' 

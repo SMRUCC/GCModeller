@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6a754adf102b900a13d9bbbc6a7db53b, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\EnzymaticReaction.vb"
+﻿#Region "Microsoft.VisualBasic::3a8ceedcbffdad5484fb47f1177fb807, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\EnzymaticReaction.vb"
 
     ' Author:
     ' 
@@ -34,23 +34,19 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 182
-    '    Code Lines: 126
-    ' Comment Lines: 29
-    '   Blank Lines: 27
-    '     File Size: 7.21 KB
+    '   Total Lines: 104
+    '    Code Lines: 66
+    ' Comment Lines: 23
+    '   Blank Lines: 15
+    '     File Size: 3.82 KB
 
 
     '     Class EnzymaticReaction
     ' 
     '         Properties: [Class], Category, EC, Entry, SubCategory
     ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: Build, doLongFileNameTrim, DownloadReactions, getCategorySaveDirectory, KEGGrxns
-    '                   LoadFile, LoadFromResource, loadSource, ToString
-    ' 
-    '         Sub: downloaderInternal
+    '         Function: Build, KEGGrxns, LoadFile, LoadFromResource, loadSource
+    '                   ToString
     ' 
     ' 
     ' /********************************************************************************/

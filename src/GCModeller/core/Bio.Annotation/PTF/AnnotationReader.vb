@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::164e5c632f40b75572869d0ce21aec9d, GCModeller\core\Bio.Annotation\PTF\AnnotationReader.vb"
+﻿#Region "Microsoft.VisualBasic::4b7d9d7dc94661b29c3d71a19d7d4bc5, GCModeller\core\Bio.Annotation\PTF\AnnotationReader.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 24
     ' Comment Lines: 0
     '   Blank Lines: 5
-    '     File Size: 916 B
+    '     File Size: 888 B
 
 
     '     Class AnnotationReader

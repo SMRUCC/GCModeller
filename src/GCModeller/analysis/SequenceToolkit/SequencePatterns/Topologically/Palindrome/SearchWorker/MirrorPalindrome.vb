@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7e038ac4a09ad86b488103e330297586, GCModeller\analysis\SequenceToolkit\SequencePatterns\Topologically\Palindrome\SearchWorker\MirrorPalindrome.vb"
+﻿#Region "Microsoft.VisualBasic::637794fb2940d7498a0822df60ce95c1, GCModeller\analysis\SequenceToolkit\SequencePatterns\Topologically\Palindrome\SearchWorker\MirrorPalindrome.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 47
     ' Comment Lines: 18
     '   Blank Lines: 12
-    '     File Size: 3.06 KB
+    '     File Size: 2.99 KB
 
 
     '     Class MirrorPalindrome

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::69bf8ec4e4fdc0b161a3c09bca960139, GCModeller\analysis\SequenceToolkit\SequencePatterns\Topologically\Exactly\Repeats\Files\RepeatsLoci.vb"
+﻿#Region "Microsoft.VisualBasic::d1044ad0127d8b3be5b0d4a2ccfa104f, GCModeller\analysis\SequenceToolkit\SequencePatterns\Topologically\Exactly\Repeats\Files\RepeatsLoci.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 96
     ' Comment Lines: 43
     '   Blank Lines: 16
-    '     File Size: 5.96 KB
+    '     File Size: 5.81 KB
 
 
     '     Class ReverseRepeats

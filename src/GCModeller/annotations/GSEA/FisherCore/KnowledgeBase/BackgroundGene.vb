@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7df5a8dcf879f284d482cc281558a1e1, GCModeller\annotations\GSEA\FisherCore\KnowledgeBase\BackgroundGene.vb"
+﻿#Region "Microsoft.VisualBasic::c3302d350087f9fd9930659781e21c62, GCModeller\annotations\GSEA\FisherCore\KnowledgeBase\BackgroundGene.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 14
     ' Comment Lines: 4
     '   Blank Lines: 5
-    '     File Size: 599 B
+    '     File Size: 577 B
 
 
     ' Class BackgroundGene

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2683c5333862dea2a90fb8ce3d517bd7, GCModeller\core\Bio.Assembly\Assembly\ELIXIR\UniProt\XML\Model\Data.vb"
+﻿#Region "Microsoft.VisualBasic::e2e571942df3b547f15ca9f0553fe424, GCModeller\core\Bio.Assembly\Assembly\ELIXIR\UniProt\XML\Model\Data.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 475
-    '    Code Lines: 289
+    '   Total Lines: 484
+    '    Code Lines: 295
     ' Comment Lines: 122
-    '   Blank Lines: 64
-    '     File Size: 16.58 KB
+    '   Blank Lines: 67
+    '     File Size: 16.32 KB
 
 
     '     Class sequence
@@ -80,10 +80,14 @@
     ' 
     '     Class feature
     ' 
-    '         Properties: description, evidence, location, original, status
-    '                     type, value, variation
+    '         Properties: description, evidence, ligand, location, original
+    '                     status, type, value, variation
     ' 
     '         Function: ToString
+    ' 
+    '     Class ligand
+    ' 
+    '         Properties: dbReference, label, name
     ' 
     '     Class location
     ' 

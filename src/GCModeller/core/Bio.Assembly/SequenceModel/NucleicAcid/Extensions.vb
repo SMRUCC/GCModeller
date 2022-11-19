@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a03a79b042b12082abfcd3540c9a7424, GCModeller\core\Bio.Assembly\SequenceModel\NucleicAcid\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::1502224efacd6bca0366ce8c0631b4e4, GCModeller\core\Bio.Assembly\SequenceModel\NucleicAcid\Extensions.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 164
     ' Comment Lines: 54
     '   Blank Lines: 54
-    '     File Size: 9.83 KB
+    '     File Size: 9.56 KB
 
 
     '     Module Extensions

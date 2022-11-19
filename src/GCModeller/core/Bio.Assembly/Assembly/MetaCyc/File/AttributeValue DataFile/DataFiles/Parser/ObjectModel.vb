@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1ec474561aaa50d41dd31795cda6d353, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Parser\ObjectModel.vb"
+﻿#Region "Microsoft.VisualBasic::3d34c441e302e1acd3fe6ba841187829, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Parser\ObjectModel.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 41
     ' Comment Lines: 3
     '   Blank Lines: 10
-    '     File Size: 2.07 KB
+    '     File Size: 2.01 KB
 
 
     '     Class ObjectModel

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a443c8c2dea5b4d9dd5349c58f428100, GCModeller\analysis\SequenceToolkit\SequencePatterns\Topologically\Similarity\Repeats.vb"
+﻿#Region "Microsoft.VisualBasic::3d65178f89e4e7f817bbc9e0e3c10332, GCModeller\analysis\SequenceToolkit\SequencePatterns\Topologically\Similarity\Repeats.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 181
     ' Comment Lines: 47
     '   Blank Lines: 33
-    '     File Size: 13.38 KB
+    '     File Size: 13.12 KB
 
 
     '     Module Repeats

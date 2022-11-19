@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::afc74e22b37007028fa22ba1dd0cfb21, GCModeller\analysis\SequenceToolkit\SequencePatterns\DNAOrigami\ScaffoldOrthogonality.vb"
+﻿#Region "Microsoft.VisualBasic::2367c82287ac669bc0b6dac1e04b96d1, GCModeller\analysis\SequenceToolkit\SequencePatterns\DNAOrigami\ScaffoldOrthogonality.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 76
     ' Comment Lines: 16
     '   Blank Lines: 17
-    '     File Size: 4.33 KB
+    '     File Size: 4.22 KB
 
 
     '     Module ScaffoldOrthogonality

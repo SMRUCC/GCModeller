@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::42f5ec7cc53f591fb206ebe1fcdf1e94, GCModeller\engine\IO\GCMarkupLanguage\GCML_Documents\XmlElements\Metabolism\Pathway.vb"
+﻿#Region "Microsoft.VisualBasic::908527b375ca90aee6fabbcaed8bcfdb, GCModeller\engine\IO\GCMarkupLanguage\GCML_Documents\XmlElements\Metabolism\Pathway.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 19
     ' Comment Lines: 8
     '   Blank Lines: 6
-    '     File Size: 1.20 KB
+    '     File Size: 1.16 KB
 
 
     '     Class Pathway

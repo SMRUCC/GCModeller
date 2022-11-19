@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e6ebc3b59ed7ad6c41625bfaa79aaaea, GCModeller\sub-system\simulators\zzz.vb"
+﻿#Region "Microsoft.VisualBasic::9f6a8c0bae1023512544f08cf9bb0c72, GCModeller\sub-system\simulators\zzz.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 4
     ' Comment Lines: 0
     '   Blank Lines: 3
-    '     File Size: 100 B
+    '     File Size: 94 B
 
 
     ' Class zzz

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1cd03dc56e0e1b747feda9958d55d62f, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\COG\COGs\ProtFasta.vb"
+﻿#Region "Microsoft.VisualBasic::d23e521ed91717dbf8304e2d8b5148b3, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\COG\COGs\ProtFasta.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 35
     ' Comment Lines: 11
     '   Blank Lines: 9
-    '     File Size: 2.12 KB
+    '     File Size: 2.06 KB
 
 
     '     Class ProtFasta

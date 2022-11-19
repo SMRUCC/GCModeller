@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::34d32264bdeea690d7539fdd93e387dc, GCModeller\data\RegulonDatabase\Regtransbase\StructureObjects\ExpArticle.vb"
+﻿#Region "Microsoft.VisualBasic::cb2835fd5d1881c9790940d3456eedd6, GCModeller\data\RegulonDatabase\Regtransbase\StructureObjects\ExpArticle.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 21
     ' Comment Lines: 49
     '   Blank Lines: 1
-    '     File Size: 2.76 KB
+    '     File Size: 2.69 KB
 
 
     '     Class ExpArticle

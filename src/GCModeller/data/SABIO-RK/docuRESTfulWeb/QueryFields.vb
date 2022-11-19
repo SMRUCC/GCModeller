@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::357db2e3ebbdc92fbbbd0dfcb72bb3c6, GCModeller\data\SABIO-RK\docuRESTfulWeb\QueryFields.vb"
+﻿#Region "Microsoft.VisualBasic::0b6844cc04a7ae6c2cc70c6bc15bff19, GCModeller\data\SABIO-RK\docuRESTfulWeb\QueryFields.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 56
     ' Comment Lines: 27
     '   Blank Lines: 1
-    '     File Size: 2.31 KB
+    '     File Size: 2.23 KB
 
 
     ' Enum QueryFields

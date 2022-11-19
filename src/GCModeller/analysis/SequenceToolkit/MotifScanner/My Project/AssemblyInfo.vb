@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e477ad0f2a7ba867d2ac1823ca5c6c4c, GCModeller\analysis\SequenceToolkit\MotifScanner\My Project\AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::704f968f2fb4f0aca5bf16b5c577d59f, GCModeller\analysis\SequenceToolkit\MotifScanner\My Project\AssemblyInfo.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 15
     ' Comment Lines: 15
     '   Blank Lines: 6
-    '     File Size: 1.19 KB
+    '     File Size: 1.15 KB
 
 
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::de2e5bb65be6c903323e0d364341bab2, GCModeller\models\BioCyc\Models\compounds.vb"
+﻿#Region "Microsoft.VisualBasic::d9a335d29b0f4c0e4e1e95e91a868efc, GCModeller\models\BioCyc\Models\compounds.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 26
     ' Comment Lines: 0
     '   Blank Lines: 3
-    '     File Size: 1015 B
+    '     File Size: 987 B
 
 
     ' Class compounds

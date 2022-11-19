@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::703b199f9c0115ce40642c3308151d2d, GCModeller\core\Bio.Annotation\GFF\Region.vb"
+﻿#Region "Microsoft.VisualBasic::cdd7c4e0bea22da81b775f4ecdf4feb9, GCModeller\core\Bio.Annotation\GFF\Region.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 26
     ' Comment Lines: 6
     '   Blank Lines: 6
-    '     File Size: 1.34 KB
+    '     File Size: 1.30 KB
 
 
     '     Class SeqRegion

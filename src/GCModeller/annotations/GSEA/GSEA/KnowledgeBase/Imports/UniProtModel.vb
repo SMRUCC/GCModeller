@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6db46661463f89da201fee946f8bddff, GCModeller\annotations\GSEA\GSEA\KnowledgeBase\Imports\UniProtModel.vb"
+﻿#Region "Microsoft.VisualBasic::f800b51c20dc4f602d1830ed6ef8fe8d, GCModeller\annotations\GSEA\GSEA\KnowledgeBase\Imports\UniProtModel.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 125
     ' Comment Lines: 3
     '   Blank Lines: 20
-    '     File Size: 5.44 KB
+    '     File Size: 5.29 KB
 
 
     ' Module UniProtModel

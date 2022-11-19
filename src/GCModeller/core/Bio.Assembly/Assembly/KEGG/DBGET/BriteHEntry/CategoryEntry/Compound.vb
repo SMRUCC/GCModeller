@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::77ffd444edc3d35fc0a2a4b533132e12, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\Compound.vb"
+﻿#Region "Microsoft.VisualBasic::af130ec25c29200e9db049038f15a91c, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\Compound.vb"
 
     ' Author:
     ' 
@@ -34,20 +34,18 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 254
-    '    Code Lines: 141
-    ' Comment Lines: 80
-    '   Blank Lines: 33
-    '     File Size: 10.94 KB
+    '   Total Lines: 165
+    '    Code Lines: 90
+    ' Comment Lines: 54
+    '   Blank Lines: 21
+    '     File Size: 6.74 KB
 
 
     '     Module CompoundBrite
     ' 
-    '         Function: BioactivePeptides, Carcinogens, CompoundsWithBiologicalRoles, DownloadCompounds, EndocrineDisruptingCompounds
-    '                   GetAllCompoundResources, GetAllPubchemMapCompound, Glycosides, Lipids, LoadFile
-    '                   NaturalToxins, Pesticides, PhytochemicalCompounds, TargetbasedClassificationOfCompounds
-    ' 
-    '         Sub: DownloadFromResource, DownloadOthers
+    '         Function: BioactivePeptides, Carcinogens, CompoundsWithBiologicalRoles, EndocrineDisruptingCompounds, GetAllCompoundResources
+    '                   GetAllPubchemMapCompound, Glycosides, Lipids, LoadFile, NaturalToxins
+    '                   Pesticides, PhytochemicalCompounds, TargetbasedClassificationOfCompounds
     ' 
     ' 
     ' /********************************************************************************/

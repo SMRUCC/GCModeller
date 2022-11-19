@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::af5b7867c226cc93979bcf2d085691bb, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Files\tRNA.vb"
+﻿#Region "Microsoft.VisualBasic::3bf95384be532f793b822570bad7fa45, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Files\tRNA.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 12
     ' Comment Lines: 0
     '   Blank Lines: 3
-    '     File Size: 505 B
+    '     File Size: 491 B
 
 
     '     Class tRNA

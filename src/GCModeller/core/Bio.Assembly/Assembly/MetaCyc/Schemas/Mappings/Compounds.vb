@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cf005bba5153a7e852918d1ccd3a9ebc, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\Schemas\Mappings\Compounds.vb"
+﻿#Region "Microsoft.VisualBasic::33d94de942a8286d09a125256b33a0b0, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\Schemas\Mappings\Compounds.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 18
     ' Comment Lines: 4
     '   Blank Lines: 7
-    '     File Size: 896 B
+    '     File Size: 868 B
 
 
     '     Class EffectorMap

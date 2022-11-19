@@ -1,60 +1,64 @@
-﻿#Region "Microsoft.VisualBasic::a4c472066a3866a5eb80db68a22e5662, GCModeller\core\Bio.Assembly\ComponentModel\Equations\DefaultTypes.vb"
+﻿#Region "Microsoft.VisualBasic::2c8f0dcb73d97a9bc63825ab1bbd60e6, GCModeller\core\Bio.Assembly\ComponentModel\Equations\DefaultTypes.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 105
-'    Code Lines: 80
-' Comment Lines: 8
-'   Blank Lines: 17
-'     File Size: 4.07 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Class CompoundSpecieReference
-' 
-'         Properties: Compartment, ID, StoiChiometry
-' 
-'         Constructor: (+2 Overloads) Sub New
-'         Function: AsFactor, Equals, ToString
-' 
-'     Class Equation
-' 
-'         Constructor: (+3 Overloads) Sub New
-'         Function: __equals, GetCoEfficient, TryParse
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 167
+    '    Code Lines: 127
+    ' Comment Lines: 13
+    '   Blank Lines: 27
+    '     File Size: 6.67 KB
+
+
+    '     Class CompoundSpecieReference
+    ' 
+    '         Properties: Compartment, ID, StoiChiometry
+    ' 
+    '         Constructor: (+2 Overloads) Sub New
+    '         Function: AsFactor, Equals, ToString
+    ' 
+    '     Class Equation
+    ' 
+    '         Constructor: (+3 Overloads) Sub New
+    ' 
+    '         Function: __equals, GetBuffer, GetCoEfficient, ParseBuffer, ReadMetabolite
+    '                   TryParse
+    ' 
+    '         Sub: SaveMetabolite
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

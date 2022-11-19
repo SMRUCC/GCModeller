@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e42ad86ec1fa95844b7152ceaa92bd22, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\KEGGOrganism\Defines.vb"
+﻿#Region "Microsoft.VisualBasic::def65d5caddeb0a569f3191071dc1a4a, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\KEGGOrganism\Defines.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 119
     ' Comment Lines: 32
     '   Blank Lines: 33
-    '     File Size: 6.34 KB
+    '     File Size: 6.16 KB
 
 
     '     Class Organism

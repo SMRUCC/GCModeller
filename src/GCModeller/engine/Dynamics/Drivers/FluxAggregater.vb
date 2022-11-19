@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::99da6a58e920530fd260cd71a432fac8, GCModeller\engine\Dynamics\Drivers\FluxAggregater.vb"
+﻿#Region "Microsoft.VisualBasic::2c7d5196f3b0a29c8df72310ddec4dbd, GCModeller\engine\Dynamics\Drivers\FluxAggregater.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 22
     ' Comment Lines: 0
     '   Blank Lines: 5
-    '     File Size: 932 B
+    '     File Size: 906 B
 
 
     '     Class FluxAggregater

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8bca526b78a3eb9052d233ac3e3354b8, GCModeller\engine\IO\GCMarkupLanguage\v2\NamespaceDoc.vb"
+﻿#Region "Microsoft.VisualBasic::f07d4cf26cafe34e4d370889f029c999, GCModeller\engine\IO\GCMarkupLanguage\v2\NamespaceDoc.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 4
     ' Comment Lines: 5
     '   Blank Lines: 1
-    '     File Size: 387 B
+    '     File Size: 378 B
 
 
     '     Module NamespaceDoc

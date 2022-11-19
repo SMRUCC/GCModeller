@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <RootNamespace>vcellkit</RootNamespace>
-	  <TargetFrameworks>net6.0;net5.0;net48</TargetFrameworks>
+    <TargetFrameworks>net6.0-windows;net6.0</TargetFrameworks>
     <AssemblyName>vcellkit</AssemblyName>
     <Platforms>AnyCPU;x64</Platforms>
     <Configurations>Debug;Release;LipidSearch;mzkit;NPSearch;Rsharp_app_release</Configurations>

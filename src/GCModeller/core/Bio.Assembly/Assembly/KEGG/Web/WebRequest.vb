@@ -1,58 +1,58 @@
-﻿#Region "Microsoft.VisualBasic::97837eb575a987400f60d54726fa5dac, GCModeller\core\Bio.Assembly\Assembly\KEGG\Web\WebRequest.vb"
+﻿#Region "Microsoft.VisualBasic::48d76b71e1b67b5d6b45e21254f64fb3, GCModeller\core\Bio.Assembly\Assembly\KEGG\Web\WebRequest.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 372
-'    Code Lines: 210
-' Comment Lines: 112
-'   Blank Lines: 50
-'     File Size: 16.18 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Module WebRequest
-' 
-'         Function: GetText
-'         Delegate Function
-' 
-'             Function: __downloadDirect, BatchQuery, doParseQueryEntry, Download16S_rRNA, Downloads
-'                       DownloadsBatch, DownloadSequence, downloadWithCache, (+2 Overloads) FetchNt, (+2 Overloads) FetchSeq
-'                       GetQueryEntry, GetSpCode, (+2 Overloads) HandleQuery
-' 
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 377
+    '    Code Lines: 214
+    ' Comment Lines: 112
+    '   Blank Lines: 51
+    '     File Size: 16.36 KB
+
+
+    '     Module WebRequest
+    ' 
+    '         Function: GetText
+    '         Delegate Function
+    ' 
+    '             Function: __downloadDirect, BatchQuery, doParseQueryEntry, Download16S_rRNA, Downloads
+    '                       DownloadsBatch, DownloadSequence, downloadWithCache, (+2 Overloads) FetchNt, (+2 Overloads) FetchSeq
+    '                       GetQueryEntry, GetSpCode, (+2 Overloads) HandleQuery, QueryURL
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

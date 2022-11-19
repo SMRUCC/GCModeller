@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ca8b4df2feaa1752bc8202a225e4086d, GCModeller\data\RegulonDatabase\Regprecise\AnalysisResult\RegPreciseOperon.vb"
+﻿#Region "Microsoft.VisualBasic::6e29b96e49a6c5fc1488e1901c9e7c3d, GCModeller\data\RegulonDatabase\Regprecise\AnalysisResult\RegPreciseOperon.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 61
     ' Comment Lines: 40
     '   Blank Lines: 11
-    '     File Size: 3.84 KB
+    '     File Size: 3.73 KB
 
 
     '     Class RegPreciseOperon

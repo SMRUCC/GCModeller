@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8bf64d94bf34fa0e1ea7c45a97f690c1, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Abstract.vb"
+﻿#Region "Microsoft.VisualBasic::3ec36872347058407e093000d884f18d, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Abstract.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 5
     ' Comment Lines: 8
     '   Blank Lines: 2
-    '     File Size: 443 B
+    '     File Size: 429 B
 
 
     '     Class IgbComponent

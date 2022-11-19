@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ebc026f8741786ef997fde490c6158a1, GCModeller\core\Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\Database\IO.StreamProviders\TSV.vb"
+﻿#Region "Microsoft.VisualBasic::da9ad99983edb2dc1c4b97cb0d4ab6a7, GCModeller\core\Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\Database\IO.StreamProviders\TSV.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 76
     ' Comment Lines: 33
     '   Blank Lines: 15
-    '     File Size: 5.46 KB
+    '     File Size: 5.34 KB
 
 
     '     Class TSVTables

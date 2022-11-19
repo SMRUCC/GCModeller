@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1016f84413c82343b0ce7104ef72a4ec, GCModeller\engine\BootstrapLoader\My Project\AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::0b0d260e185296c11f6efcddff84dc13, GCModeller\engine\BootstrapLoader\My Project\AssemblyInfo.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 15
     ' Comment Lines: 15
     '   Blank Lines: 6
-    '     File Size: 1.19 KB
+    '     File Size: 1.16 KB
 
 
     ' 

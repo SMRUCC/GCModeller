@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f5510a1b61a1a5f73797fc4b28e33fa0, GCModeller\engine\Compiler\AssemblyScript\Environment.vb"
+﻿#Region "Microsoft.VisualBasic::e6cd5e476b282babb50b21acc39704cc, GCModeller\engine\Compiler\AssemblyScript\Environment.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 8
     ' Comment Lines: 7
     '   Blank Lines: 6
-    '     File Size: 552 B
+    '     File Size: 532 B
 
 
     '     Class Environment

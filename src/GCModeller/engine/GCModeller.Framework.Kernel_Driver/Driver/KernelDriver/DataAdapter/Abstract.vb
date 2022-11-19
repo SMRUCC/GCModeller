@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aed0007e39517925e1314776c09189e9, GCModeller\engine\GCModeller.Framework.Kernel_Driver\Driver\KernelDriver\DataAdapter\Abstract.vb"
+﻿#Region "Microsoft.VisualBasic::6088e30ea13b6cbfeca76b73c20c54d4, GCModeller\engine\GCModeller.Framework.Kernel_Driver\Driver\KernelDriver\DataAdapter\Abstract.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 29
     ' Comment Lines: 9
     '   Blank Lines: 12
-    '     File Size: 1.74 KB
+    '     File Size: 1.69 KB
 
 
     ' Interface IDriver_DataSource_Adapter

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c4e9d8bdc26bb6f7f87121b0959bae1f, GCModeller\analysis\Metagenome\Metagenome\Enterotype.vb"
+﻿#Region "Microsoft.VisualBasic::fb319455f48c75233efac87892332caa, GCModeller\analysis\Metagenome\Metagenome\Enterotype.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 46
     ' Comment Lines: 9
     '   Blank Lines: 5
-    '     File Size: 2.49 KB
+    '     File Size: 2.43 KB
 
 
     ' Module Enterotype

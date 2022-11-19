@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fd466f6d8cd3f30f7aa94831346a4b80, GCModeller\engine\GCModeller.Framework.Kernel_Driver\Driver\KernelDriver\DataAdapter\CsvSheet.vb"
+﻿#Region "Microsoft.VisualBasic::092a9f49476d7ad7cb66952a3668e70b, GCModeller\engine\GCModeller.Framework.Kernel_Driver\Driver\KernelDriver\DataAdapter\CsvSheet.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 37
     ' Comment Lines: 5
     '   Blank Lines: 10
-    '     File Size: 2.19 KB
+    '     File Size: 2.13 KB
 
 
     ' Class MsCsvChunkBuffer

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e2b53e8daa526106924bc3da3121fc9b, GCModeller\models\Networks\Microbiome\My Project\AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::5fbb567a1e80eb9cc0924046ef6c7f42, GCModeller\models\Networks\Microbiome\My Project\AssemblyInfo.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 15
     ' Comment Lines: 15
     '   Blank Lines: 6
-    '     File Size: 1.30 KB
+    '     File Size: 1.27 KB
 
 
     ' 

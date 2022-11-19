@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::371dd9058d2fdce99667d8bdfdba329e, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\FileSystem\Classes.vb"
+﻿#Region "Microsoft.VisualBasic::b3f83defa8b7e4ee07aa029a4f370568, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\FileSystem\Classes.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 9
     ' Comment Lines: 5
     '   Blank Lines: 1
-    '     File Size: 376 B
+    '     File Size: 362 B
 
 
     '     Enum Classes

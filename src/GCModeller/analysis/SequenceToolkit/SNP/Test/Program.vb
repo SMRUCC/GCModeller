@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ed56d12e10bdd3121cd87377426b31f1, GCModeller\analysis\SequenceToolkit\SNP\Test\Program.vb"
+﻿#Region "Microsoft.VisualBasic::bde903b4ffc0d37f5173d0ca744f875b, GCModeller\analysis\SequenceToolkit\SNP\Test\Program.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 11
     ' Comment Lines: 2
     '   Blank Lines: 8
-    '     File Size: 883 B
+    '     File Size: 863 B
 
 
     ' Module Program

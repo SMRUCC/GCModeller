@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b89f9e625ef16ebe6b3a460acee32a2d, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Reaction\Reaction.vb"
+﻿#Region "Microsoft.VisualBasic::a974eae747a8e09acd0571bae730e600, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Reaction\Reaction.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 96
     ' Comment Lines: 54
     '   Blank Lines: 21
-    '     File Size: 6.04 KB
+    '     File Size: 5.87 KB
 
 
     '     Class Reaction

@@ -1,53 +1,54 @@
-﻿#Region "Microsoft.VisualBasic::ee489a3f1a23e3da1a84218ab467d3e3, GCModeller\data\SABIO-RK\SBML\SBMLInternalIndexer.vb"
+﻿#Region "Microsoft.VisualBasic::bd2439106b6fa11d2ae51808a990c080, GCModeller\data\SABIO-RK\SBML\SBMLInternalIndexer.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 92
-'    Code Lines: 71
-' Comment Lines: 5
-'   Blank Lines: 16
-'     File Size: 3.79 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Class SBMLInternalIndexer
-' 
-'         Constructor: (+1 Overloads) Sub New
-'         Function: getEnzymes, getFormula, getKEGGCompoundId, getKEGGreactions, getSpecies
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 138
+    '    Code Lines: 109
+    ' Comment Lines: 5
+    '   Blank Lines: 24
+    '     File Size: 5.83 KB
+
+
+    '     Class SBMLInternalIndexer
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: factorString, getCompartmentName, getEnzymes, getFormula, getKEGGCompoundId
+    '                   GetKeggReactionId, getKEGGreactions, getSpecies, ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

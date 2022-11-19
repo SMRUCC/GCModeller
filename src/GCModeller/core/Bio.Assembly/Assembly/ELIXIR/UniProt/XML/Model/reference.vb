@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7a4a93f20c87c77cd3a737161420b066, GCModeller\core\Bio.Assembly\Assembly\ELIXIR\UniProt\XML\Model\reference.vb"
+﻿#Region "Microsoft.VisualBasic::4973b849ebba24cf91dd9a824dbe55fb, GCModeller\core\Bio.Assembly\Assembly\ELIXIR\UniProt\XML\Model\reference.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 41
     ' Comment Lines: 8
     '   Blank Lines: 12
-    '     File Size: 1.81 KB
+    '     File Size: 1.75 KB
 
 
     '     Class reference

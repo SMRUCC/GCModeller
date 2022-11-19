@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::da0fb94164e12ada8d21bfcbf950d1f3, GCModeller\core\Bio.Assembly\ContextModel\Promoter\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::9427346b084ef2c9676d4529adcea390, GCModeller\core\Bio.Assembly\ContextModel\Promoter\Extensions.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 52
     ' Comment Lines: 22
     '   Blank Lines: 9
-    '     File Size: 3.49 KB
+    '     File Size: 3.41 KB
 
 
     '     Module Extensions
