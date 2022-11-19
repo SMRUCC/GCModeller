@@ -51,7 +51,6 @@
 #End Region
 
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Serialization.BinaryDumping
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Topologically.Seeding
@@ -65,11 +64,13 @@ Namespace Topologically.Seeding
         End Function
 
         Public Function Save(path As String) As Boolean
-            Return Serialize(path)
+            Return Seeds.SaveTo(path)
         End Function
 
         Public Shared Function Load(path As String) As SeedData
-            Return path.Load(Of SeedData)
+            Return New SeedData With {
+                .Seeds = path.ReadAllLines
+            }
         End Function
 
         Public Shared Function Initialize(chars As Char(), max As Integer) As SeedData
