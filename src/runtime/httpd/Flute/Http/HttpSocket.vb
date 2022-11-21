@@ -33,7 +33,15 @@ Namespace Core
         End Sub
 
         Public Overrides Sub handleOtherMethod(p As HttpProcessor)
-            Call app(New HttpRequest(p), New HttpResponse(p.outputStream, AddressOf p.writeFailure))
+            Dim req As New HttpRequest(p)
+            Dim response As New HttpResponse(p.outputStream, AddressOf p.writeFailure)
+
+            If req.HTTPMethod = "OPTIONS" AndAlso req.URL.path.Trim("/"c) = "ctrl/kill" Then
+                Call response.WriteHTML("OK!")
+                Call Me.Shutdown()
+            Else
+                Call app(req, response)
+            End If
         End Sub
 
         Protected Overrides Function getHttpProcessor(client As TcpClient, bufferSize As Integer) As HttpProcessor
