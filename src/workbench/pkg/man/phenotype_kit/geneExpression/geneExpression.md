@@ -30,3 +30,4 @@ the gene expression matrix data toolkit
 + [geneId](geneExpression/geneId.1) get gene Id list
 + [as.deg](geneExpression/as.deg.1) create gene expression DEG model
 + [deg.class](geneExpression/deg.class.1) 
++ [joinSample](geneExpression/joinSample.1) do matrix join by samples
