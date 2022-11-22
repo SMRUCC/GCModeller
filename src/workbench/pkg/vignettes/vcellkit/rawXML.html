@@ -41,205 +41,44 @@
     </p>
     <p></p>
     <div id="main-wrapper">
-                           <div>
-  <h2 id="open.vcellXml">
+      <table>
+        <thead>
+          <tr>
+            <th>function</th>
+            <th>description</th>
+          </tr>
+        </thead>
+        <tbody><tr>
+  <td id="open.vcellXml">
     <a href="./rawXML/open.vcellXml.html">open.vcellXml</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>open gcXML raw data file for read/write</p>  
-                
-                    <pre><p>let <code>open.vcellXml</code> as function(<code>file</code> as string, 
-<code>mode</code> as string = "read", 
-..., 
-[<code>&lt;Environment&gt;</code>]) -> <code>any</code> {
-    #
-    # .NET API information
-    #
-    # module: vcellkit.RawXmlKit
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: vcellkit.dll
-    # package: "rawXML"
-    #
-    return call <code>R&#35;.interop_[RawXmlKit::xmlWriter]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>file$</code>: -
-                </li>
-<li>
-  <code>mode$</code>: -
-                </li>
-<li>
-  <code>args</code>: -
-                </li>
-<li>
-  <code>env</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="frame.index">
+  </td>
+  <td><p>open gcXML raw data file for read/write</p></td>
+</tr>
+<tr>
+  <td id="frame.index">
     <a href="./rawXML/frame.index.html">frame.index</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>[debug api]</p>  
-                
-                    <pre><p>let <code>frame.index</code> as function(<code>raw</code> as <generic> Reader) -> <code>&lt;generic&gt; offset[]</code> {
-    #
-    # .NET API information
-    #
-    # module: vcellkit.RawXmlKit
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: vcellkit.dll
-    # package: "rawXML"
-    #
-    return call <code>R&#35;.interop_[RawXmlKit::getOffsetIndex]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>raw</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="entity.names">
+  </td>
+  <td><p>[debug api]</p></td>
+</tr>
+<tr>
+  <td id="entity.names">
     <a href="./rawXML/entity.names.html">entity.names</a>
-  </h2>
-  <hr />
-  <p>
-                      
-                
-                    <pre><p>let <code>entity.names</code> as function(<code>raw</code> as <generic> Reader, ..., [<code>&lt;Environment&gt;</code>]) -> <code>any</code> {
-    #
-    # .NET API information
-    #
-    # module: vcellkit.RawXmlKit
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: vcellkit.dll
-    # package: "rawXML"
-    #
-    return call <code>R&#35;.interop_[RawXmlKit::getEntityNames]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>raw</code>: -
-                </li>
-<li>
-  <code>stream</code>: module descripting of the stream content to read, should be a list of content type mapping:<br />
- list element name could be: "transcriptome", "proteome", "metabolome"<br />
- element content type could be: mass_profile, activity, flux_size
-                </li>
-<li>
-  <code>env</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="frame.matrix">
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="frame.matrix">
     <a href="./rawXML/frame.matrix.html">frame.matrix</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>get a frame matrix for compares between different samples.</p>  
-                
-                    <pre><p>let <code>frame.matrix</code> as function(<code>raw</code> as string, 
-<code>tick</code> as integer, 
-..., 
-[<code>&lt;Environment&gt;</code>]) -> <code>any</code> {
-    #
-    # .NET API information
-    #
-    # module: vcellkit.RawXmlKit
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: vcellkit.dll
-    # package: "rawXML"
-    #
-    return call <code>R&#35;.interop_[RawXmlKit::extractFrameMatrix]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>raw</code>: -
-                </li>
-<li>
-  <code>tick</code>: -
-                </li>
-<li>
-  <code>stream</code>: -
-                </li>
-<li>
-  <code>env</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="time.frames">
+  </td>
+  <td><p>get a frame matrix for compares between different samples.</p></td>
+</tr>
+<tr>
+  <td id="time.frames">
     <a href="./rawXML/time.frames.html">time.frames</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>Get a sample matrix data in a timeline.</p>  
-                
-                    <pre><p>let <code>time.frames</code> as function(<code>raw</code> as <generic> Reader, ..., [<code>&lt;Environment&gt;</code>]) -> <code>&lt;generic&gt; Matrix</code> {
-    #
-    # .NET API information
-    #
-    # module: vcellkit.RawXmlKit
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: vcellkit.dll
-    # package: "rawXML"
-    #
-    return call <code>R&#35;.interop_[RawXmlKit::timeFrames]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>raw</code>: -
-                </li>
-<li>
-  <code>stream</code>: -
-                </li>
-<li>
-  <code>env</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div>
-                       </div>
+  </td>
+  <td><p>Get a sample matrix data in a timeline.</p></td>
+</tr></tbody>
+      </table>
+    </div>
   </body>
 </html>

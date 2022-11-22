@@ -41,98 +41,32 @@
     </p>
     <p></p>
     <div id="main-wrapper">
-                           <div>
-  <h2 id="GO.enrichment.profile">
+      <table>
+        <thead>
+          <tr>
+            <th>function</th>
+            <th>description</th>
+          </tr>
+        </thead>
+        <tbody><tr>
+  <td id="GO.enrichment.profile">
     <a href="./profiles/GO.enrichment.profile.html">GO.enrichment.profile</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>Create catalog profiles data for GO enrichment result its data visualization.</p>  
-                
-                    <pre><p>let <code>GO.enrichment.profile</code> as function(<code>enrichments</code> as <generic> EnrichmentTerm[], <code>goDb</code> as <generic> GO_OBO, <code>top</code> as integer = 10) -> <code>&lt;generic&gt; CatalogProfiles</code> {
-    #
-    # .NET API information
-    #
-    # module: gseakit.profiles
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: gseakit.dll
-    # package: "profiles"
-    #
-    return call <code>R&#35;.interop_[profiles::GOEnrichmentProfiles]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>enrichments</code>: -
-                </li>
-<li>
-  <code>goDb</code>: -
-                </li>
-<li>
-  <code>top</code>: display the top n enriched GO terms.
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="KEGG.enrichment.profile">
+  </td>
+  <td><p>Create catalog profiles data for GO enrichment result its data visualization.</p></td>
+</tr>
+<tr>
+  <td id="KEGG.enrichment.profile">
     <a href="./profiles/KEGG.enrichment.profile.html">KEGG.enrichment.profile</a>
-  </h2>
-  <hr />
-  <p>
-                      
-                
-                    <pre><p>let <code>KEGG.enrichment.profile</code> as function(<code>enrichments</code> as <generic> EnrichmentTerm[], <code>top</code> as integer = 10) -> <code>&lt;generic&gt; CatalogProfiles</code> {
-    #
-    # .NET API information
-    #
-    # module: gseakit.profiles
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: gseakit.dll
-    # package: "profiles"
-    #
-    return call <code>R&#35;.interop_[profiles::KEGGEnrichmentProfiles]</code>(...);
-}</p></pre>
-
-                    
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="no_catagory_profile">
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="no_catagory_profile">
     <a href="./profiles/no_catagory_profile.html">no_catagory_profile</a>
-  </h2>
-  <hr />
-  <p>
-                      
-                
-                    <pre><p>let <code>no_catagory_profile</code> as function(<code>enrichments</code> as <generic> Array, 
-<code>name</code> as string, 
-<code>top</code> as integer = 30, 
-[<code>&lt;Environment&gt;</code>]) -> <code>&lt;generic&gt; CatalogProfiles</code> {
-    #
-    # .NET API information
-    #
-    # module: gseakit.profiles
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: gseakit.dll
-    # package: "profiles"
-    #
-    return call <code>R&#35;.interop_[profiles::NoCatagoryProfile]</code>(...);
-}</p></pre>
-
-                    
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div>
-                       </div>
+  </td>
+  <td></td>
+</tr></tbody>
+      </table>
+    </div>
   </body>
 </html>

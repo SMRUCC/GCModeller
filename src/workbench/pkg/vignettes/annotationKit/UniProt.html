@@ -41,82 +41,32 @@
     </p>
     <p></p>
     <div id="main-wrapper">
-                           <div>
-  <h2 id="ECnumber_pack">
+      <table>
+        <thead>
+          <tr>
+            <th>function</th>
+            <th>description</th>
+          </tr>
+        </thead>
+        <tbody><tr>
+  <td id="ECnumber_pack">
     <a href="./UniProt/ECnumber_pack.html">ECnumber_pack</a>
-  </h2>
-  <hr />
-  <p>
-                      
-                
-                    <pre><p>let <code>ECnumber_pack</code> as function(<code>file</code> as string, <code>create_new</code> as boolean = FALSE) -> <code>&lt;generic&gt; ECNumberWriter|&lt;generic&gt; ECNumberReader</code> {
-    #
-    # .NET API information
-    #
-    # module: annotationKit.UniProt
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: annotationKit.dll
-    # package: "UniProt"
-    #
-    return call <code>R&#35;.interop_[UniProt::OpenOrCreateEnzymeSequencePack]</code>(...);
-}</p></pre>
-
-                    
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="add_ecNumbers">
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="add_ecNumbers">
     <a href="./UniProt/add_ecNumbers.html">add_ecNumbers</a>
-  </h2>
-  <hr />
-  <p>
-                      
-                
-                    <pre><p>let <code>add_ecNumbers</code> as function(<code>pack</code> as <generic> ECNumberWriter, <code>uniprot</code> as any, [<code>&lt;Environment&gt;</code>]) -> <code>any</code> {
-    #
-    # .NET API information
-    #
-    # module: annotationKit.UniProt
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: annotationKit.dll
-    # package: "UniProt"
-    #
-    return call <code>R&#35;.interop_[UniProt::Addnumbers]</code>(...);
-}</p></pre>
-
-                    
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="extract_fasta">
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="extract_fasta">
     <a href="./UniProt/extract_fasta.html">extract_fasta</a>
-  </h2>
-  <hr />
-  <p>
-                      
-                
-                    <pre><p>let <code>extract_fasta</code> as function(<code>pack</code> as <generic> ECNumberReader, <code>enzyme</code> as boolean = TRUE) -> <code>&lt;generic&gt; FastaFile</code> {
-    #
-    # .NET API information
-    #
-    # module: annotationKit.UniProt
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: annotationKit.dll
-    # package: "UniProt"
-    #
-    return call <code>R&#35;.interop_[UniProt::ExtractFasta]</code>(...);
-}</p></pre>
-
-                    
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div>
-                       </div>
+  </td>
+  <td></td>
+</tr></tbody>
+      </table>
+    </div>
   </body>
 </html>

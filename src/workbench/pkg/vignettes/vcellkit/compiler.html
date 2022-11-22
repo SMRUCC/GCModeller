@@ -41,280 +41,56 @@
     </p>
     <p></p>
     <div id="main-wrapper">
-                           <div>
-  <h2 id="kegg">
+      <table>
+        <thead>
+          <tr>
+            <th>function</th>
+            <th>description</th>
+          </tr>
+        </thead>
+        <tbody><tr>
+  <td id="kegg">
     <a href="./compiler/kegg.html">kegg</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>create kegg repository arguments</p>  
-                
-                    <pre><p>let <code>kegg</code> as function(<code>compounds</code> as string, 
-<code>maps</code> as string, 
-<code>reactions</code> as string, 
-<code>glycan2Cpd</code> as list[string]) -> <code>&lt;generic&gt; RepositoryArguments</code> {
-    #
-    # .NET API information
-    #
-    # module: vcellkit.Compiler
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: vcellkit.dll
-    # package: "compiler"
-    #
-    return call <code>R&#35;.interop_[Compiler::kegg]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>compounds</code>: A directory path which the folder contains the compounds data models.
-                </li>
-<li>
-  <code>maps</code>: A directory path which the folder contains the kegg reference map data.
-                </li>
-<li>
-  <code>reactions</code>: -
-                </li>
-<li>
-  <code>glycan2Cpd</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="geneKO.maps">
+  </td>
+  <td><p>create kegg repository arguments</p></td>
+</tr>
+<tr>
+  <td id="geneKO.maps">
     <a href="./compiler/geneKO.maps.html">geneKO.maps</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>create a list that map gene id to KO id.</p>  
-                
-                    <pre><p>let <code>geneKO.maps</code> as function(<code>data</code> as any, 
-<code>KOcol</code> as string = "KO", 
-<code>geneIDcol</code> as string = "ID", 
-[<code>&lt;Environment&gt;</code>]) -> <code>list</code> {
-    #
-    # .NET API information
-    #
-    # module: vcellkit.Compiler
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: vcellkit.dll
-    # package: "compiler"
-    #
-    return call <code>R&#35;.interop_[Compiler::load_geneKOMapping]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>data</code>: any kind of dataframe dataset.
-                </li>
-<li>
-  <code>KOcol</code>: the column name for get KO term id
-                </li>
-<li>
-  <code>geneIDcol</code>: the column name for get gene id
-                </li>
-<li>
-  <code>env</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="assembling.genome">
+  </td>
+  <td><p>create a list that map gene id to KO id.</p></td>
+</tr>
+<tr>
+  <td id="assembling.genome">
     <a href="./compiler/assembling.genome.html">assembling.genome</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>create genome framework for the virtual cell model</p>  
-                
-                    <pre><p>let <code>assembling.genome</code> as function(<code>replicons</code> as list[<generic> File], <code>geneKO</code> as list[string], <code>lociAsLocus_tag</code> as boolean = FALSE) -> <code>&lt;generic&gt; CellularModule</code> {
-    #
-    # .NET API information
-    #
-    # module: vcellkit.Compiler
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: vcellkit.dll
-    # package: "compiler"
-    #
-    return call <code>R&#35;.interop_[Compiler::AssemblingGenomeInformation]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>replicons</code>: -
-                </li>
-<li>
-  <code>geneKO</code>: -
-                </li>
-<li>
-  <code>lociAsLocus_tag</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="assembling.metabolic">
+  </td>
+  <td><p>create genome framework for the virtual cell model</p></td>
+</tr>
+<tr>
+  <td id="assembling.metabolic">
     <a href="./compiler/assembling.metabolic.html">assembling.metabolic</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>add metabolism network information for the virtual cell model</p>  
-                
-                    <pre><p>let <code>assembling.metabolic</code> as function(<code>cell</code> as <generic> CellularModule, <code>geneKO</code> as list[string], <code>repo</code> as <generic> RepositoryArguments) -> <code>&lt;generic&gt; CellularModule</code> {
-    #
-    # .NET API information
-    #
-    # module: vcellkit.Compiler
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: vcellkit.dll
-    # package: "compiler"
-    #
-    return call <code>R&#35;.interop_[Compiler::AssemblingMetabolicNetwork]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>cell</code>: -
-                </li>
-<li>
-  <code>geneKO</code>: -
-                </li>
-<li>
-  <code>repo</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="assembling.TRN">
+  </td>
+  <td><p>add metabolism network information for the virtual cell model</p></td>
+</tr>
+<tr>
+  <td id="assembling.TRN">
     <a href="./compiler/assembling.TRN.html">assembling.TRN</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>add transcription regulation network information for the virtual cell model</p>  
-                
-                    <pre><p>let <code>assembling.TRN</code> as function(<code>model</code> as <generic> CellularModule, <code>regulations</code> as <generic> RegulationFootprint[]) -> <code>&lt;generic&gt; CellularModule</code> {
-    #
-    # .NET API information
-    #
-    # module: vcellkit.Compiler
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: vcellkit.dll
-    # package: "compiler"
-    #
-    return call <code>R&#35;.interop_[Compiler::AssemblingRegulationNetwork]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>model</code>: -
-                </li>
-<li>
-  <code>regulations</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="vcell.markup">
+  </td>
+  <td><p>add transcription regulation network information for the virtual cell model</p></td>
+</tr>
+<tr>
+  <td id="vcell.markup">
     <a href="./compiler/vcell.markup.html">vcell.markup</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>Save the virtual cell data model in XML file format.</p>  
-                
-                    <pre><p>let <code>vcell.markup</code> as function(<code>model</code> as <generic> CellularModule, 
-<code>genomes</code> as list[<generic> File], 
-<code>KEGG</code> as <generic> RepositoryArguments, 
-<code>regulations</code> as <generic> RegulationFootprint[], 
-<code>lociAsLocus_tag</code> as boolean = FALSE, 
-<code>logfile</code> as string = <code>&lt;NULL&gt;</code>) -> <code>&lt;generic&gt; VirtualCell</code> {
-    #
-    # .NET API information
-    #
-    # module: vcellkit.Compiler
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: vcellkit.dll
-    # package: "compiler"
-    #
-    return call <code>R&#35;.interop_[Compiler::ToMarkup]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>model</code>: -
-                </li>
-<li>
-  <code>genomes</code>: -
-                </li>
-<li>
-  <code>KEGG</code>: -
-                </li>
-<li>
-  <code>regulations</code>: -
-                </li>
-<li>
-  <code>lociAsLocus_tag</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="compile.biocyc">
+  </td>
+  <td><p>Save the virtual cell data model in XML file format.</p></td>
+</tr>
+<tr>
+  <td id="compile.biocyc">
     <a href="./compiler/compile.biocyc.html">compile.biocyc</a>
-  </h2>
-  <hr />
-  <p>
-                      
-                
-                    <pre><p>let <code>compile.biocyc</code> as function(<code>biocyc</code> as <generic> Workspace, <code>genomes</code> as list[<generic> File], <code>logfile</code> as string = "./gcc.log") -> <code>&lt;generic&gt; VirtualCell</code> {
-    #
-    # .NET API information
-    #
-    # module: vcellkit.Compiler
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: vcellkit.dll
-    # package: "compiler"
-    #
-    return call <code>R&#35;.interop_[Compiler::compileBiocyc]</code>(...);
-}</p></pre>
-
-                    
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div>
-                       </div>
+  </td>
+  <td></td>
+</tr></tbody>
+      </table>
+    </div>
   </body>
 </html>

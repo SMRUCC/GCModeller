@@ -41,175 +41,44 @@
     </p>
     <p></p>
     <div id="main-wrapper">
-                           <div>
-  <h2 id="blosum">
+      <table>
+        <thead>
+          <tr>
+            <th>function</th>
+            <th>description</th>
+          </tr>
+        </thead>
+        <tbody><tr>
+  <td id="blosum">
     <a href="./bioseq.blast/blosum.html">blosum</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>Parse blosum from the given file data</p>  
-                
-                    <pre><p>let <code>blosum</code> as function(<code>file</code> as string = "Blosum-62") -> <code>&lt;generic&gt; Blosum</code> {
-    #
-    # .NET API information
-    #
-    # module: seqtoolkit.Blast
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: seqtoolkit.dll
-    # package: "bioseq.blast"
-    #
-    return call <code>R&#35;.interop_[Blast::ParseBlosumMatrix]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>file</code>: The blosum text data or text file path.
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="align.smith_waterman">
+  </td>
+  <td><p>Parse blosum from the given file data</p></td>
+</tr>
+<tr>
+  <td id="align.smith_waterman">
     <a href="./bioseq.blast/align.smith_waterman.html">align.smith_waterman</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>Do sequence pairwise alignment</p>  
-                
-                    <pre><p>let <code>align.smith_waterman</code> as function(<code>query</code> as <generic> FastaSeq, <code>ref</code> as <generic> FastaSeq, <code>blosum</code> as <generic> Blosum = <code>&lt;NULL&gt;</code>) -> <code>&lt;generic&gt; SmithWaterman</code> {
-    #
-    # .NET API information
-    #
-    # module: seqtoolkit.Blast
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: seqtoolkit.dll
-    # package: "bioseq.blast"
-    #
-    return call <code>R&#35;.interop_[Blast::doAlign]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>query</code>: -
-                </li>
-<li>
-  <code>ref</code>: -
-                </li>
-<li>
-  <code>blosum</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="HSP">
+  </td>
+  <td><p>Do sequence pairwise alignment</p></td>
+</tr>
+<tr>
+  <td id="HSP">
     <a href="./bioseq.blast/HSP.html">HSP</a>
-  </h2>
-  <hr />
-  <p>
-                      
-                
-                    <pre><p>let <code>HSP</code> as function(<code>align</code> as <generic> SmithWaterman, <code>cutoff</code> as double, <code>minW</code> as integer) -> <code>any</code> {
-    #
-    # .NET API information
-    #
-    # module: seqtoolkit.Blast
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: seqtoolkit.dll
-    # package: "bioseq.blast"
-    #
-    return call <code>R&#35;.interop_[Blast::HSP_hits]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>align</code>: -
-                </li>
-<li>
-  <code>cutoff</code>: [0,1] threshold
-                </li>
-<li>
-  <code>minW</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="align.needleman_wunsch">
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="align.needleman_wunsch">
     <a href="./bioseq.blast/align.needleman_wunsch.html">align.needleman_wunsch</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>Do sequence global pairwise alignment</p>  
-                
-                    <pre><p>let <code>align.needleman_wunsch</code> as function(<code>query</code> as <generic> FastaSeq, <code>ref</code> as <generic> FastaSeq) -> <code>&lt;generic&gt; FactorValue`2</code> {
-    #
-    # .NET API information
-    #
-    # module: seqtoolkit.Blast
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: seqtoolkit.dll
-    # package: "bioseq.blast"
-    #
-    return call <code>R&#35;.interop_[Blast::RunGlobalNeedlemanWunsch]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>query</code>: -
-                </li>
-<li>
-  <code>ref</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="align.gwANI">
+  </td>
+  <td><p>Do sequence global pairwise alignment</p></td>
+</tr>
+<tr>
+  <td id="align.gwANI">
     <a href="./bioseq.blast/align.gwANI.html">align.gwANI</a>
-  </h2>
-  <hr />
-  <p>
-                      
-                
-                    <pre><p>let <code>align.gwANI</code> as function(<code>multipleSeq</code> as <generic> FastaFile) -> <code>&lt;generic&gt; DataSet[]</code> {
-    #
-    # .NET API information
-    #
-    # module: seqtoolkit.Blast
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: seqtoolkit.dll
-    # package: "bioseq.blast"
-    #
-    return call <code>R&#35;.interop_[Blast::gwANIMultipleAlignment]</code>(...);
-}</p></pre>
-
-                    
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div>
-                       </div>
+  </td>
+  <td></td>
+</tr></tbody>
+      </table>
+    </div>
   </body>
 </html>

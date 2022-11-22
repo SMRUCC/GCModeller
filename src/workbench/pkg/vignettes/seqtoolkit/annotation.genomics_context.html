@@ -41,232 +41,50 @@
     </p>
     <p></p>
     <div id="main-wrapper">
-                           <div>
-  <h2 id="strand.filter">
+      <table>
+        <thead>
+          <tr>
+            <th>function</th>
+            <th>description</th>
+          </tr>
+        </thead>
+        <tbody><tr>
+  <td id="strand.filter">
     <a href="./annotation.genomics_context/strand.filter.html">strand.filter</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>filter genes by given strand direction</p>  
-                
-                    <pre><p>let <code>strand.filter</code> as function(<code>genes</code> as any, <code>strand</code> as any = "+", [<code>&lt;Environment&gt;</code>]) -> <code>any</code> {
-    #
-    # .NET API information
-    #
-    # module: seqtoolkit.context
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: seqtoolkit.dll
-    # package: "annotation.genomics_context"
-    #
-    return call <code>R&#35;.interop_[context::strandFilter]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>genes</code>: -
-                </li>
-<li>
-  <code>strand</code>: -
-                </li>
-<li>
-  <code>env</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="location">
+  </td>
+  <td><p>filter genes by given strand direction</p></td>
+</tr>
+<tr>
+  <td id="location">
     <a href="./annotation.genomics_context/location.html">location</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>create a new nucleotide location object</p>  
-                
-                    <pre><p>let <code>location</code> as function(<code>left</code> as integer, <code>right</code> as integer, <code>strand</code> as any = <code>&lt;NULL&gt;</code>) -> <code>any</code> {
-    #
-    # .NET API information
-    #
-    # module: seqtoolkit.context
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: seqtoolkit.dll
-    # package: "annotation.genomics_context"
-    #
-    return call <code>R&#35;.interop_[context::location]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>left</code>: -
-                </li>
-<li>
-  <code>right</code>: -
-                </li>
-<li>
-  <code>strand</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="is.forward">
+  </td>
+  <td><p>create a new nucleotide location object</p></td>
+</tr>
+<tr>
+  <td id="is.forward">
     <a href="./annotation.genomics_context/is.forward.html">is.forward</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>the given nucleotide location is in forward direction</p>  
-                
-                    <pre><p>let <code>is.forward</code> as function(<code>loci</code> as <generic> NucleotideLocation) -> <code>boolean</code> {
-    #
-    # .NET API information
-    #
-    # module: seqtoolkit.context
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: seqtoolkit.dll
-    # package: "annotation.genomics_context"
-    #
-    return call <code>R&#35;.interop_[context::isForward]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>loci</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="offset">
+  </td>
+  <td><p>the given nucleotide location is in forward direction</p></td>
+</tr>
+<tr>
+  <td id="offset">
     <a href="./annotation.genomics_context/offset.html">offset</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>do offset of the given location</p>  
-                
-                    <pre><p>let <code>offset</code> as function(<code>loci</code> as <generic> NucleotideLocation, <code>offset</code> as integer) -> <code>&lt;generic&gt; NucleotideLocation</code> {
-    #
-    # .NET API information
-    #
-    # module: seqtoolkit.context
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: seqtoolkit.dll
-    # package: "annotation.genomics_context"
-    #
-    return call <code>R&#35;.interop_[context::offsetLocation]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>loci</code>: -
-                </li>
-<li>
-  <code>offset</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="context">
+  </td>
+  <td><p>do offset of the given location</p></td>
+</tr>
+<tr>
+  <td id="context">
     <a href="./annotation.genomics_context/context.html">context</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>Create a new context model of a specific genomics feature site.</p>  
-                
-                    <pre><p>let <code>context</code> as function(<code>loci</code> as any, 
-<code>distance</code> as integer, 
-<code>note</code> as string = <code>&lt;NULL&gt;</code>, 
-[<code>&lt;Environment&gt;</code>]) -> <code>&lt;generic&gt; Context</code> {
-    #
-    # .NET API information
-    #
-    # module: seqtoolkit.context
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: seqtoolkit.dll
-    # package: "annotation.genomics_context"
-    #
-    return call <code>R&#35;.interop_[context::context]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>loci</code>: -
-                </li>
-<li>
-  <code>distance</code>: -
-                </li>
-<li>
-  <code>note</code>: -
-                </li>
-<li>
-  <code>env</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="relationship">
+  </td>
+  <td><p>Create a new context model of a specific genomics feature site.</p></td>
+</tr>
+<tr>
+  <td id="relationship">
     <a href="./annotation.genomics_context/relationship.html">relationship</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>get the segment relationship of two location</p>  
-                
-                    <pre><p>let <code>relationship</code> as function(<code>a</code> as any, <code>b</code> as any, [<code>&lt;Environment&gt;</code>]) -> <code>&lt;integer&gt; SegmentRelationships</code> {
-    #
-    # .NET API information
-    #
-    # module: seqtoolkit.context
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: seqtoolkit.dll
-    # package: "annotation.genomics_context"
-    #
-    return call <code>R&#35;.interop_[context::relationship]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>a</code>: -
-                </li>
-<li>
-  <code>b</code>: -
-                </li>
-<li>
-  <code>env</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div>
-                       </div>
+  </td>
+  <td><p>get the segment relationship of two location</p></td>
+</tr></tbody>
+      </table>
+    </div>
   </body>
 </html>
