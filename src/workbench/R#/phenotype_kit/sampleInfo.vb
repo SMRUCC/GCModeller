@@ -78,7 +78,7 @@ Imports Rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 <RTypeExport("sample_info", GetType(SampleInfo))>
 Module DEGSample
 
-    Sub New()
+    Sub Main()
         Call printer.AttachConsoleFormatter(Of SampleInfo)(AddressOf print)
         Call Internal.Object.Converts.makeDataframe.addHandler(GetType(SampleInfo()), AddressOf sampleinfoTable)
     End Sub
