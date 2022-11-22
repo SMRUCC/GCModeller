@@ -3,14 +3,15 @@
 .SH NAME
 volcano \- volcano plot of the different expression result
 .SH SYNOPSIS
-\fIvolcano(\fBgenes\fR as <generic> DEP_iTraq[], 
+\fIvolcano(\fBgenes\fR as any, 
 \fBsize\fR as any = "2400,2700", 
 \fBpadding\fR as any = "padding:250px 150px 300px 300px;", 
 \fBbg\fR as any = "white", 
 \fBcolors\fR as any = CALL "LIST"("UP" <- "RED", "DOWN" <- "GREEN", "OTHER" <- "BLACK"), 
 \fBpvalue\fR as double = 0.05, 
 \fBlevel\fR as double = 1.5, 
-\fBtitle\fR as string = "volcano plot");\fR
+\fBtitle\fR as string = "volcano plot", 
+[\fB<Environment>\fR]);\fR
 .SH DESCRIPTION
 .PP
 volcano plot of the different expression result

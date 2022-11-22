@@ -10,8 +10,8 @@
     <meta name="keywords" content="GCModeller; Xanthomonas; Artificial Life" />
     <meta name="generator" content="https://github.com/xieguigang/xDoc" />
     <meta name="theme-color" content="#333" />
-    <meta name="last-update" content="2022-11-22" />
-    <meta name="description" content="A software system aim at Artificial Life system design and analysis." />
+    <meta name="last-update" content="2022-11-23" />
+    <meta name="description" content="" />
     <meta class="foundation-data-attribute-namespace" />
     <meta class="foundation-mq-xxlarge" />
     <meta class="foundation-mq-xlarge" />
@@ -31,134 +31,54 @@
     </table>
     <h1>sabiork</h1>
     <hr />
+    <p>
+      <code>
+        <span style="color: blue;">imports</span>
+        <span style="color: brown"> "sabiork"</span>
+        <span style="color: blue;"> from</span>
+        <span style="color: brown"> "vcellkit"</span>
+      </code>
+    </p>
     <p></p>
     <div id="main-wrapper">
-                           <div>
-  <h2 id="new">
+      <table>
+        <thead>
+          <tr>
+            <th>function</th>
+            <th>description</th>
+          </tr>
+        </thead>
+        <tbody><tr>
+  <td id="new">
     <a href="./sabiork/new.html">new</a>
-  </h2>
-  <hr />
-  <p>
-                      
-                
-                    <pre><p>let <code>new</code> as function(<code>file</code> as string) -> <code>&lt;generic&gt; SabiorkRepository</code> {
-    #
-    # .NET API information
-    #
-    # module: vcellkit.sabiork_repository
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: vcellkit.dll
-    # package: "sabiork"
-    #
-    return call <code>R&#35;.interop_[sabiork_repository::createNewRepository]</code>(...);
-}</p></pre>
-
-                    
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="open">
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="open">
     <a href="./sabiork/open.html">open</a>
-  </h2>
-  <hr />
-  <p>
-                      
-                
-                    <pre><p>let <code>open</code> as function(<code>file</code> as string) -> <code>&lt;generic&gt; SabiorkRepository</code> {
-    #
-    # .NET API information
-    #
-    # module: vcellkit.sabiork_repository
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: vcellkit.dll
-    # package: "sabiork"
-    #
-    return call <code>R&#35;.interop_[sabiork_repository::openRepository]</code>(...);
-}</p></pre>
-
-                    
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="query">
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="query">
     <a href="./sabiork/query.html">query</a>
-  </h2>
-  <hr />
-  <p>
-                      
-                
-                    <pre><p>let <code>query</code> as function(<code>ec_number</code> as string, <code>cache</code> as <generic> SabiorkRepository) -> <code>any</code> {
-    #
-    # .NET API information
-    #
-    # module: vcellkit.sabiork_repository
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: vcellkit.dll
-    # package: "sabiork"
-    #
-    return call <code>R&#35;.interop_[sabiork_repository::query]</code>(...);
-}</p></pre>
-
-                    
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="get_kineticis">
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="get_kineticis">
     <a href="./sabiork/get_kineticis.html">get_kineticis</a>
-  </h2>
-  <hr />
-  <p>
-                      
-                
-                    <pre><p>let <code>get_kineticis</code> as function(<code>cache</code> as <generic> SabiorkRepository, <code>ec_number</code> as string) -> <code>any</code> {
-    #
-    # .NET API information
-    #
-    # module: vcellkit.sabiork_repository
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: vcellkit.dll
-    # package: "sabiork"
-    #
-    return call <code>R&#35;.interop_[sabiork_repository::getKineticis]</code>(...);
-}</p></pre>
-
-                    
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="parseSbml">
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="parseSbml">
     <a href="./sabiork/parseSbml.html">parseSbml</a>
-  </h2>
-  <hr />
-  <p>
-                      
-                
-                    <pre><p>let <code>parseSbml</code> as function(<code>data</code> as string) -> <code>&lt;generic&gt; SbmlDocument</code> {
-    #
-    # .NET API information
-    #
-    # module: vcellkit.sabiork_repository
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: vcellkit.dll
-    # package: "sabiork"
-    #
-    return call <code>R&#35;.interop_[sabiork_repository::parseSbml]</code>(...);
-}</p></pre>
-
-                    
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div>
-                       </div>
+  </td>
+  <td></td>
+</tr></tbody>
+      </table>
+    </div>
   </body>
 </html>

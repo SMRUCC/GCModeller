@@ -25,6 +25,7 @@ the gene expression matrix data toolkit
 + [savePattern](geneExpression/savePattern.1) 
 + [readPattern](geneExpression/readPattern.1) 
 + [cmeans_matrix](geneExpression/cmeans_matrix.1) get cluster membership matrix
++ [split.cmeans_clusters](geneExpression/split.cmeans_clusters.1) 
 + [peakCMeans](geneExpression/peakCMeans.1) This function performs clustering analysis of time course data
 + [deg.t.test](geneExpression/deg.t.test.1) 
 + [geneId](geneExpression/geneId.1) get gene Id list

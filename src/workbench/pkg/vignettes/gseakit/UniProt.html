@@ -10,8 +10,8 @@
     <meta name="keywords" content="GCModeller; Xanthomonas; Artificial Life" />
     <meta name="generator" content="https://github.com/xieguigang/xDoc" />
     <meta name="theme-color" content="#333" />
-    <meta name="last-update" content="2022-11-22" />
-    <meta name="description" content="A software system aim at Artificial Life system design and analysis." />
+    <meta name="last-update" content="2022-11-23" />
+    <meta name="description" content="" />
     <meta class="foundation-data-attribute-namespace" />
     <meta class="foundation-mq-xxlarge" />
     <meta class="foundation-mq-xlarge" />
@@ -31,108 +31,43 @@
     </table>
     <h1>UniProt</h1>
     <hr />
+    <p>
+      <code>
+        <span style="color: blue;">imports</span>
+        <span style="color: brown"> "UniProt"</span>
+        <span style="color: blue;"> from</span>
+        <span style="color: brown"> "gseakit"</span>
+      </code>
+    </p>
     <p></p>
     <div id="main-wrapper">
-                           <div>
-  <h2 id="subcellular_location">
+      <table>
+        <thead>
+          <tr>
+            <th>function</th>
+            <th>description</th>
+          </tr>
+        </thead>
+        <tbody><tr>
+  <td id="subcellular_location">
     <a href="./UniProt/subcellular_location.html">subcellular_location</a>
-  </h2>
-  <hr />
-  <p>
-                      
-                
-                    <pre><p>let <code>subcellular_location</code> as function(<code>uniprot</code> as any, [<code>&lt;Environment&gt;</code>]) -> <code>&lt;generic&gt; Background</code> {
-    #
-    # .NET API information
-    #
-    # module: gseakit.UniProt
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: gseakit.dll
-    # package: "UniProt"
-    #
-    return call <code>R&#35;.interop_[UniProt::SubcellularLocation]</code>(...);
-}</p></pre>
-
-                    
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="uniprot_keywords">
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="uniprot_keywords">
     <a href="./UniProt/uniprot_keywords.html">uniprot_keywords</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>Create a gsea background model for uniprot keywords based<br />
- on the given uniprot database assembly data</p>  
-                
-                    <pre><p>let <code>uniprot_keywords</code> as function(<code>uniprot</code> as any, [<code>&lt;Environment&gt;</code>]) -> <code>&lt;generic&gt; Background</code> {
-    #
-    # .NET API information
-    #
-    # module: gseakit.UniProt
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: gseakit.dll
-    # package: "UniProt"
-    #
-    return call <code>R&#35;.interop_[UniProt::uniprotKeywords]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>uniprot</code>: -
-                </li>
-<li>
-  <code>env</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="keyword_profiles">
+  </td>
+  <td><p>Create a gsea background model for uniprot keywords based<br />
+ on the given uniprot database assembly data</p></td>
+</tr>
+<tr>
+  <td id="keyword_profiles">
     <a href="./UniProt/keyword_profiles.html">keyword_profiles</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>create uniprot keyword ontology result</p>  
-                
-                    <pre><p>let <code>keyword_profiles</code> as function(<code>enrichment</code> as <generic> EnrichmentResult[], <code>keywords</code> as <generic> dataframe, <code>top</code> as integer = 4) -> <code>&lt;generic&gt; CatalogProfiles</code> {
-    #
-    # .NET API information
-    #
-    # module: gseakit.UniProt
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: gseakit.dll
-    # package: "UniProt"
-    #
-    return call <code>R&#35;.interop_[UniProt::keywordsProfiles]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>enrichment</code>: -
-                </li>
-<li>
-  <code>keywords</code>: -
-                </li>
-<li>
-  <code>top</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div>
-                       </div>
+  </td>
+  <td><p>create uniprot keyword ontology result</p></td>
+</tr></tbody>
+      </table>
+    </div>
   </body>
 </html>

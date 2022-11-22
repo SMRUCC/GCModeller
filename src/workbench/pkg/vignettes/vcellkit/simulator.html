@@ -10,8 +10,8 @@
     <meta name="keywords" content="GCModeller; Xanthomonas; Artificial Life" />
     <meta name="generator" content="https://github.com/xieguigang/xDoc" />
     <meta name="theme-color" content="#333" />
-    <meta name="last-update" content="2022-11-22" />
-    <meta name="description" content="A software system aim at Artificial Life system design and analysis." />
+    <meta name="last-update" content="2022-11-23" />
+    <meta name="description" content="" />
     <meta class="foundation-data-attribute-namespace" />
     <meta class="foundation-mq-xxlarge" />
     <meta class="foundation-mq-xlarge" />
@@ -31,282 +31,78 @@
     </table>
     <h1>simulator</h1>
     <hr />
+    <p>
+      <code>
+        <span style="color: blue;">imports</span>
+        <span style="color: brown"> "simulator"</span>
+        <span style="color: blue;"> from</span>
+        <span style="color: brown"> "vcellkit"</span>
+      </code>
+    </p>
     <p></p>
     <div id="main-wrapper">
-                           <div>
-  <h2 id="vcell.mass.kegg">
+      <table>
+        <thead>
+          <tr>
+            <th>function</th>
+            <th>description</th>
+          </tr>
+        </thead>
+        <tbody><tr>
+  <td id="vcell.mass.kegg">
     <a href="./simulator/vcell.mass.kegg.html">vcell.mass.kegg</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>Create a new status profile data object with unify mass contents.</p>  
-                
-                    <pre><p>let <code>vcell.mass.kegg</code> as function(<code>vcell</code> as <generic> VirtualCell, <code>mass</code> as double = 5000) -> <code>&lt;generic&gt; Definition</code> {
-    #
-    # .NET API information
-    #
-    # module: vcellkit.Simulator
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: vcellkit.dll
-    # package: "simulator"
-    #
-    return call <code>R&#35;.interop_[Simulator::CreateUnifyDefinition]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>vcell</code>: -
-                </li>
-<li>
-  <code>mass#</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="mass0">
+  </td>
+  <td><p>Create a new status profile data object with unify mass contents.</p></td>
+</tr>
+<tr>
+  <td id="mass0">
     <a href="./simulator/mass0.html">mass0</a>
-  </h2>
-  <hr />
-  <p>
-                      
-                
-                    <pre><p>let <code>mass0</code> as function(<code>vcell</code> as <generic> VirtualCell) -> <code>&lt;generic&gt; Definition</code> {
-    #
-    # .NET API information
-    #
-    # module: vcellkit.Simulator
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: vcellkit.dll
-    # package: "simulator"
-    #
-    return call <code>R&#35;.interop_[Simulator::mass0]</code>(...);
-}</p></pre>
-
-                    
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="vcell.model">
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="vcell.model">
     <a href="./simulator/vcell.model.html">vcell.model</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>create a generic vcell object model from a loaded vcell xml file model</p>  
-                
-                    <pre><p>let <code>vcell.model</code> as function(<code>vcell</code> as <generic> VirtualCell) -> <code>&lt;generic&gt; CellularModule</code> {
-    #
-    # .NET API information
-    #
-    # module: vcellkit.Simulator
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: vcellkit.dll
-    # package: "simulator"
-    #
-    return call <code>R&#35;.interop_[Simulator::CreateObjectModel]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>vcell</code>: the file model data of the GCModeller vcell
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="vcell.mass.index">
+  </td>
+  <td><p>create a generic vcell object model from a loaded vcell xml file model</p></td>
+</tr>
+<tr>
+  <td id="vcell.mass.index">
     <a href="./simulator/vcell.mass.index.html">vcell.mass.index</a>
-  </h2>
-  <hr />
-  <p>
-                      
-                
-                    <pre><p>let <code>vcell.mass.index</code> as function(<code>vcell</code> as <generic> CellularModule) -> <code>&lt;generic&gt; OmicsTuple`1</code> {
-    #
-    # .NET API information
-    #
-    # module: vcellkit.Simulator
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: vcellkit.dll
-    # package: "simulator"
-    #
-    return call <code>R&#35;.interop_[Simulator::MassIndex]</code>(...);
-}</p></pre>
-
-                    
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="vcell.flux.index">
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="vcell.flux.index">
     <a href="./simulator/vcell.flux.index.html">vcell.flux.index</a>
-  </h2>
-  <hr />
-  <p>
-                      
-                
-                    <pre><p>let <code>vcell.flux.index</code> as function(<code>vcell</code> as <generic> CellularModule) -> <code>&lt;generic&gt; OmicsTuple`1</code> {
-    #
-    # .NET API information
-    #
-    # module: vcellkit.Simulator
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: vcellkit.dll
-    # package: "simulator"
-    #
-    return call <code>R&#35;.interop_[Simulator::FluxIndex]</code>(...);
-}</p></pre>
-
-                    
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="engine.load">
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="engine.load">
     <a href="./simulator/engine.load.html">engine.load</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>create a new virtual cell engine</p>  
-                
-                    <pre><p>let <code>engine.load</code> as function(<code>vcell</code> as <generic> CellularModule, 
-<code>inits</code> as <generic> Definition = <code>&lt;NULL&gt;</code>, 
-<code>iterations</code> as integer = 100, 
-<code>time_resolutions</code> as integer = 10000, 
-<code>deletions</code> as string = <code>&lt;NULL&gt;</code>, 
-<code>dynamics</code> as <generic> FluxBaseline = <code>&lt;NULL&gt;</code>, 
-<code>showProgress</code> as boolean = TRUE) -> <code>&lt;generic&gt; Engine</code> {
-    #
-    # .NET API information
-    #
-    # module: vcellkit.Simulator
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: vcellkit.dll
-    # package: "simulator"
-    #
-    return call <code>R&#35;.interop_[Simulator::CreateVCellEngine]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>inits</code>: -
-                </li>
-<li>
-  <code>vcell</code>: -
-                </li>
-<li>
-  <code>iterations%</code>: -
-                </li>
-<li>
-  <code>time_resolutions%</code>: -
-                </li>
-<li>
-  <code>deletions$</code>: -
-                </li>
-<li>
-  <code>dynamics</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="dynamics.default">
+  </td>
+  <td><p>create a new virtual cell engine</p></td>
+</tr>
+<tr>
+  <td id="dynamics.default">
     <a href="./simulator/dynamics.default.html">dynamics.default</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>Create the default cell dynamics parameters</p>  
-                
-                    <pre><p>let <code>dynamics.default</code> as function() -> <code>&lt;generic&gt; FluxBaseline</code> {
-    #
-    # .NET API information
-    #
-    # module: vcellkit.Simulator
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: vcellkit.dll
-    # package: "simulator"
-    #
-    return call <code>R&#35;.interop_[Simulator::GetDefaultDynamics]</code>(...);
-}</p></pre>
-
-                    
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="apply.module_profile">
+  </td>
+  <td><p>Create the default cell dynamics parameters</p></td>
+</tr>
+<tr>
+  <td id="apply.module_profile">
     <a href="./simulator/apply.module_profile.html">apply.module_profile</a>
-  </h2>
-  <hr />
-  <p>
-                      
-                
-                    <pre><p>let <code>apply.module_profile</code> as function(<code>engine</code> as <generic> Engine, <code>profile</code> as list[double], <code>system</code> as <integer> ModuleSystemLevels = [Transcriptome]) -> <code>&lt;generic&gt; Engine</code> {
-    #
-    # .NET API information
-    #
-    # module: vcellkit.Simulator
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: vcellkit.dll
-    # package: "simulator"
-    #
-    return call <code>R&#35;.interop_[Simulator::ApplyModuleProfile]</code>(...);
-}</p></pre>
-
-                    
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="vcell.snapshot">
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="vcell.snapshot">
     <a href="./simulator/vcell.snapshot.html">vcell.snapshot</a>
-  </h2>
-  <hr />
-  <p>
-                      
-                
-                    <pre><p>let <code>vcell.snapshot</code> as function(<code>engine</code> as <generic> Engine, 
-<code>massIndex</code> as <generic> OmicsTuple<code>1, 
-``fluxIndex`` as &lt;generic&gt; OmicsTuple</code>1, 
-<code>save</code> as string) -> <code>any</code> {
-    #
-    # .NET API information
-    #
-    # module: vcellkit.Simulator
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: vcellkit.dll
-    # package: "simulator"
-    #
-    return call <code>R&#35;.interop_[Simulator::TakeStatusSnapshot]</code>(...);
-}</p></pre>
-
-                    
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div>
-                       </div>
+  </td>
+  <td></td>
+</tr></tbody>
+      </table>
+    </div>
   </body>
 </html>

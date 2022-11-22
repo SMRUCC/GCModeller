@@ -10,8 +10,8 @@
     <meta name="keywords" content="GCModeller; Xanthomonas; Artificial Life" />
     <meta name="generator" content="https://github.com/xieguigang/xDoc" />
     <meta name="theme-color" content="#333" />
-    <meta name="last-update" content="2022-11-22" />
-    <meta name="description" content="A software system aim at Artificial Life system design and analysis." />
+    <meta name="last-update" content="2022-11-23" />
+    <meta name="description" content="" />
     <meta class="foundation-data-attribute-namespace" />
     <meta class="foundation-mq-xxlarge" />
     <meta class="foundation-mq-xlarge" />
@@ -31,430 +31,102 @@
     </table>
     <h1>taxonomy_kit</h1>
     <hr />
+    <p>
+      <code>
+        <span style="color: blue;">imports</span>
+        <span style="color: brown"> "taxonomy_kit"</span>
+        <span style="color: blue;"> from</span>
+        <span style="color: brown"> "metagenomics_kit"</span>
+      </code>
+    </p>
     <p></p>
     <div id="main-wrapper">
-                           <div>
-  <h2 id="biom.string">
+      <table>
+        <thead>
+          <tr>
+            <th>function</th>
+            <th>description</th>
+          </tr>
+        </thead>
+        <tbody><tr>
+  <td id="biom.string">
     <a href="./taxonomy_kit/biom.string.html">biom.string</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>cast taxonomy object to biom style taxonomy string</p>  
-                
-                    <pre><p>let <code>biom.string</code> as function(<code>taxonomy</code> as any, <code>trim_genusName</code> as boolean = FALSE, [<code>&lt;Environment&gt;</code>]) -> <code>string</code> {
-    #
-    # .NET API information
-    #
-    # module: metagenomics_kit.TaxonomyKit
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: metagenomics_kit.dll
-    # package: "taxonomy_kit"
-    #
-    return call <code>R&#35;.interop_[TaxonomyKit::TaxonomyBIOMString]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>taxonomy</code>: -
-                </li>
-<li>
-  <code>trim_genusName</code>: removes the genus name from the species name?
-                </li>
-<li>
-  <code>env</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="biom_string.parse">
+  </td>
+  <td><p>cast taxonomy object to biom style taxonomy string</p></td>
+</tr>
+<tr>
+  <td id="biom_string.parse">
     <a href="./taxonomy_kit/biom_string.parse.html">biom_string.parse</a>
-  </h2>
-  <hr />
-  <p>
-                      
-                
-                    <pre><p>let <code>biom_string.parse</code> as function(<code>taxonomy</code> as any, [<code>&lt;Environment&gt;</code>]) -> <code>any</code> {
-    #
-    # .NET API information
-    #
-    # module: metagenomics_kit.TaxonomyKit
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: metagenomics_kit.dll
-    # package: "taxonomy_kit"
-    #
-    return call <code>R&#35;.interop_[TaxonomyKit::ParseBIOMString]</code>(...);
-}</p></pre>
-
-                    
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="unique_taxonomy">
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="unique_taxonomy">
     <a href="./taxonomy_kit/unique_taxonomy.html">unique_taxonomy</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>make taxonomy object unique</p>  
-                
-                    <pre><p>let <code>unique_taxonomy</code> as function(<code>taxonomy</code> as any, [<code>&lt;Environment&gt;</code>]) -> <code>any</code> {
-    #
-    # .NET API information
-    #
-    # module: metagenomics_kit.TaxonomyKit
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: metagenomics_kit.dll
-    # package: "taxonomy_kit"
-    #
-    return call <code>R&#35;.interop_[TaxonomyKit::uniqueTaxonomy]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>taxonomy</code>: -
-                </li>
-<li>
-  <code>env</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="Ncbi.taxonomy_tree">
+  </td>
+  <td><p>make taxonomy object unique</p></td>
+</tr>
+<tr>
+  <td id="Ncbi.taxonomy_tree">
     <a href="./taxonomy_kit/Ncbi.taxonomy_tree.html">Ncbi.taxonomy_tree</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>load ncbi taxonomy tree model from the given data files</p>  
-                
-                    <pre><p>let <code>Ncbi.taxonomy_tree</code> as function(<code>repo</code> as string) -> <code>&lt;generic&gt; NcbiTaxonomyTree</code> {
-    #
-    # .NET API information
-    #
-    # module: metagenomics_kit.TaxonomyKit
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: metagenomics_kit.dll
-    # package: "taxonomy_kit"
-    #
-    return call <code>R&#35;.interop_[TaxonomyKit::LoadNcbiTaxonomyTree]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>repo</code>: a directory folder path which contains the NCBI taxonomy <br />
- tree data files: <code>nodes.dmp</code> and <code>names.dmp</code>.
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: block"><h4>Details</h4><blockquote><p>Builds the following dictionnary from NCBI taxonomy <code>nodes.dmp</code> and <code>names.dmp</code><br />
- files </p>
-
-<p></p>
-
-<pre><code class="json">{ Taxid namedtuple('Node', ['name', 'rank', 'parent', 'children']
- } 
-</code></pre>
-
-<p><br />
- + <a href="https://www.biostars.org/p/13452/">https://www.biostars.org/p/13452/</a> <br />
- + <a href="https://pythonhosted.org/ete2/tutorial/tutorial_ncbitaxonomy.html">https://pythonhosted.org/ete2/tutorial/tutorial_ncbitaxonomy.html</a></p></blockquote></span></p>
-</div><br /><div>
-  <h2 id="taxonomy.filter">
+  </td>
+  <td><p>load ncbi taxonomy tree model from the given data files</p></td>
+</tr>
+<tr>
+  <td id="taxonomy.filter">
     <a href="./taxonomy_kit/taxonomy.filter.html">taxonomy.filter</a>
-  </h2>
-  <hr />
-  <p>
-                      
-                
-                    <pre><p>let <code>taxonomy.filter</code> as function(<code>tree</code> as <generic> NcbiTaxonomyTree, <code>range</code> as string, <code>taxid</code> as integer = <code>&lt;NULL&gt;</code>) -> <code>&lt;generic&gt; Taxonomy|&lt;generic&gt; Predicate`1</code> {
-    #
-    # .NET API information
-    #
-    # module: metagenomics_kit.TaxonomyKit
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: metagenomics_kit.dll
-    # package: "taxonomy_kit"
-    #
-    return call <code>R&#35;.interop_[TaxonomyKit::Filters]</code>(...);
-}</p></pre>
-
-                    
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="lineage">
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="lineage">
     <a href="./taxonomy_kit/lineage.html">lineage</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>get taxonomy lineage model from the ncbi taxonomy tree by given taxonomy id</p>  
-                
-                    <pre><p>let <code>lineage</code> as function(<code>tree</code> as <generic> NcbiTaxonomyTree, <code>tax</code> as string, <code>fullName</code> as boolean = FALSE) -> <code>&lt;generic&gt; Taxonomy[]</code> {
-    #
-    # .NET API information
-    #
-    # module: metagenomics_kit.TaxonomyKit
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: metagenomics_kit.dll
-    # package: "taxonomy_kit"
-    #
-    return call <code>R&#35;.interop_[TaxonomyKit::Lineage]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>tree</code>: the ncbi taxonomy tree model
-                </li>
-<li>
-  <code>tax</code>: the ncbi taxonomy id or taxonomy string in BIOM style.
-                </li>
-<li>
-  <code>fullName</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="as.taxonomy.tree">
+  </td>
+  <td><p>get taxonomy lineage model from the ncbi taxonomy tree by given taxonomy id</p></td>
+</tr>
+<tr>
+  <td id="as.taxonomy.tree">
     <a href="./taxonomy_kit/as.taxonomy.tree.html">as.taxonomy.tree</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>build taxonomy tree based on a given collection of taxonomy object.</p>  
-                
-                    <pre><p>let <code>as.taxonomy.tree</code> as function(<code>taxonomy</code> as <generic> Taxonomy[]) -> <code>&lt;generic&gt; TaxonomyTree</code> {
-    #
-    # .NET API information
-    #
-    # module: metagenomics_kit.TaxonomyKit
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: metagenomics_kit.dll
-    # package: "taxonomy_kit"
-    #
-    return call <code>R&#35;.interop_[TaxonomyKit::buildTree]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>taxonomy</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="consensus">
+  </td>
+  <td><p>build taxonomy tree based on a given collection of taxonomy object.</p></td>
+</tr>
+<tr>
+  <td id="consensus">
     <a href="./taxonomy_kit/consensus.html">consensus</a>
-  </h2>
-  <hr />
-  <p>
-                      
-                
-                    <pre><p>let <code>consensus</code> as function(<code>tree</code> as <generic> TaxonomyTree, <code>rank</code> as <integer> TaxonomyRanks) -> <code>&lt;generic&gt; Taxonomy[]</code> {
-    #
-    # .NET API information
-    #
-    # module: metagenomics_kit.TaxonomyKit
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: metagenomics_kit.dll
-    # package: "taxonomy_kit"
-    #
-    return call <code>R&#35;.interop_[TaxonomyKit::Consensus]</code>(...);
-}</p></pre>
-
-                    
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="read.mothurTree">
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="read.mothurTree">
     <a href="./taxonomy_kit/read.mothurTree.html">read.mothurTree</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>Parse the result output from mothur command <code>summary.tax</code>.</p>  
-                
-                    <pre><p>let <code>read.mothurTree</code> as function(<code>file</code> as string) -> <code>&lt;generic&gt; MothurRankTree</code> {
-    #
-    # .NET API information
-    #
-    # module: metagenomics_kit.TaxonomyKit
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: metagenomics_kit.dll
-    # package: "taxonomy_kit"
-    #
-    return call <code>R&#35;.interop_[TaxonomyKit::loadMothurTree]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>file</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="as.OTU_table">
+  </td>
+  <td><p>Parse the result output from mothur command <code>summary.tax</code>.</p></td>
+</tr>
+<tr>
+  <td id="as.OTU_table">
     <a href="./taxonomy_kit/as.OTU_table.html">as.OTU_table</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>convert the mothur rank tree as the OTU table</p>  
-                
-                    <pre><p>let <code>as.OTU_table</code> as function(<code>tree</code> as <generic> MothurRankTree) -> <code>&lt;generic&gt; OTUTable[]</code> {
-    #
-    # .NET API information
-    #
-    # module: metagenomics_kit.TaxonomyKit
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: metagenomics_kit.dll
-    # package: "taxonomy_kit"
-    #
-    return call <code>R&#35;.interop_[TaxonomyKit::asOTUTable]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>tree</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="as.OTUtable">
+  </td>
+  <td><p>convert the mothur rank tree as the OTU table</p></td>
+</tr>
+<tr>
+  <td id="as.OTUtable">
     <a href="./taxonomy_kit/as.OTUtable.html">as.OTUtable</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>convert the mothur rank tree as the OTU table</p>  
-                
-                    <pre><p>let <code>as.OTUtable</code> as function(<code>table</code> as <generic> dataframe, 
-<code>id</code> as string = "OTU_num", 
-<code>taxonomy</code> as string = "taxonomy", 
-[<code>&lt;Environment&gt;</code>]) -> <code>&lt;generic&gt; OTUTable[]</code> {
-    #
-    # .NET API information
-    #
-    # module: metagenomics_kit.TaxonomyKit
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: metagenomics_kit.dll
-    # package: "taxonomy_kit"
-    #
-    return call <code>R&#35;.interop_[TaxonomyKit::asOTUTable]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>tree</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="read.OTUtable">
+  </td>
+  <td><p>convert the mothur rank tree as the OTU table</p></td>
+</tr>
+<tr>
+  <td id="read.OTUtable">
     <a href="./taxonomy_kit/read.OTUtable.html">read.OTUtable</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>read 16s OTU table</p>  
-                
-                    <pre><p>let <code>read.OTUtable</code> as function(<code>file</code> as string, <code>sumDuplicated</code> as boolean = TRUE) -> <code>&lt;generic&gt; OTUTable[]</code> {
-    #
-    # .NET API information
-    #
-    # module: metagenomics_kit.TaxonomyKit
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: metagenomics_kit.dll
-    # package: "taxonomy_kit"
-    #
-    return call <code>R&#35;.interop_[TaxonomyKit::readOTUTable]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>file</code>: -
-                </li>
-<li>
-  <code>sumDuplicated</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="taxonomy_range">
+  </td>
+  <td><p>read 16s OTU table</p></td>
+</tr>
+<tr>
+  <td id="taxonomy_range">
     <a href="./taxonomy_kit/taxonomy_range.html">taxonomy_range</a>
-  </h2>
-  <hr />
-  <p>
-                      
-                
-                    <pre><p>let <code>taxonomy_range</code> as function(<code>tax</code> as <generic> Taxonomy, <code>rank</code> as <integer> TaxonomyRanks) -> <code>&lt;generic&gt; Taxonomy</code> {
-    #
-    # .NET API information
-    #
-    # module: metagenomics_kit.TaxonomyKit
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: metagenomics_kit.dll
-    # package: "taxonomy_kit"
-    #
-    return call <code>R&#35;.interop_[TaxonomyKit::TaxonomyRange]</code>(...);
-}</p></pre>
-
-                    
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div>
-                       </div>
+  </td>
+  <td></td>
+</tr></tbody>
+      </table>
+    </div>
   </body>
 </html>

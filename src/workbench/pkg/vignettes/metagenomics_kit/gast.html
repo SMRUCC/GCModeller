@@ -10,8 +10,8 @@
     <meta name="keywords" content="GCModeller; Xanthomonas; Artificial Life" />
     <meta name="generator" content="https://github.com/xieguigang/xDoc" />
     <meta name="theme-color" content="#333" />
-    <meta name="last-update" content="2022-11-22" />
-    <meta name="description" content="A software system aim at Artificial Life system design and analysis." />
+    <meta name="last-update" content="2022-11-23" />
+    <meta name="description" content="" />
     <meta class="foundation-data-attribute-namespace" />
     <meta class="foundation-mq-xxlarge" />
     <meta class="foundation-mq-xlarge" />
@@ -31,103 +31,42 @@
     </table>
     <h1>gast</h1>
     <hr />
+    <p>
+      <code>
+        <span style="color: blue;">imports</span>
+        <span style="color: brown"> "gast"</span>
+        <span style="color: blue;"> from</span>
+        <span style="color: brown"> "metagenomics_kit"</span>
+      </code>
+    </p>
     <p></p>
     <div id="main-wrapper">
-                           <div>
-  <h2 id="OTU.taxonomy">
+      <table>
+        <thead>
+          <tr>
+            <th>function</th>
+            <th>description</th>
+          </tr>
+        </thead>
+        <tbody><tr>
+  <td id="OTU.taxonomy">
     <a href="./gast/OTU.taxonomy.html">OTU.taxonomy</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>assign OTU its taxonomy result</p>  
-                
-                    <pre><p>let <code>OTU.taxonomy</code> as function(<code>blastn</code> as any, 
-<code>OTUs</code> as list, 
-<code>taxonomy</code> as list, 
-<code>min_pct</code> as double = 0.97, 
-<code>gast_consensus</code> as boolean = FALSE, 
-[<code>&lt;Environment&gt;</code>]) -> <code>&lt;generic&gt; pipeline</code> {
-    #
-    # .NET API information
-    #
-    # module: metagenomics_kit.gastTools
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: metagenomics_kit.dll
-    # package: "gast"
-    #
-    return call <code>R&#35;.interop_[gastTools::OTUgreengenesTaxonomy]</code>(...);
-}</p></pre>
-
-                    
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="parse.greengenes_tax">
+  </td>
+  <td><p>assign OTU its taxonomy result</p></td>
+</tr>
+<tr>
+  <td id="parse.greengenes_tax">
     <a href="./gast/parse.greengenes_tax.html">parse.greengenes_tax</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>Parse the greengenes taxonomy file</p>  
-                
-                    <pre><p>let <code>parse.greengenes_tax</code> as function(<code>tax</code> as string) -> <code>list</code> {
-    #
-    # .NET API information
-    #
-    # module: metagenomics_kit.gastTools
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: metagenomics_kit.dll
-    # package: "gast"
-    #
-    return call <code>R&#35;.interop_[gastTools::ParseGreengenesTaxonomy]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>tax</code>: the file path of the greengenes taxonomy mapping file.
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="parse.mothur_OTUs">
+  </td>
+  <td><p>Parse the greengenes taxonomy file</p></td>
+</tr>
+<tr>
+  <td id="parse.mothur_OTUs">
     <a href="./gast/parse.mothur_OTUs.html">parse.mothur_OTUs</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>parse the OTU data file</p>  
-                
-                    <pre><p>let <code>parse.mothur_OTUs</code> as function(<code>OTU_rep_fasta</code> as string, <code>removes_lt</code> as double = 0.0001) -> <code>list</code> {
-    #
-    # .NET API information
-    #
-    # module: metagenomics_kit.gastTools
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: metagenomics_kit.dll
-    # package: "gast"
-    #
-    return call <code>R&#35;.interop_[gastTools::ParseMothurOTUs]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>OTU_rep_fasta</code>: <code>OTU.rep.fasta</code> query source comes from the mothur workflow.
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div>
-                       </div>
+  </td>
+  <td><p>parse the OTU data file</p></td>
+</tr></tbody>
+      </table>
+    </div>
   </body>
 </html>

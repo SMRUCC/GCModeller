@@ -10,8 +10,8 @@
     <meta name="keywords" content="GCModeller; Xanthomonas; Artificial Life" />
     <meta name="generator" content="https://github.com/xieguigang/xDoc" />
     <meta name="theme-color" content="#333" />
-    <meta name="last-update" content="2022-11-22" />
-    <meta name="description" content="A software system aim at Artificial Life system design and analysis." />
+    <meta name="last-update" content="2022-11-23" />
+    <meta name="description" content="" />
     <meta class="foundation-data-attribute-namespace" />
     <meta class="foundation-mq-xxlarge" />
     <meta class="foundation-mq-xlarge" />
@@ -31,109 +31,48 @@
     </table>
     <h1>kegg_api</h1>
     <hr />
+    <p>
+      <code>
+        <span style="color: blue;">imports</span>
+        <span style="color: brown"> "kegg_api"</span>
+        <span style="color: blue;"> from</span>
+        <span style="color: brown"> "kegg_kit"</span>
+      </code>
+    </p>
     <p></p>
     <div id="main-wrapper">
-                           <div>
-  <h2 id="listing">
+      <table>
+        <thead>
+          <tr>
+            <th>function</th>
+            <th>description</th>
+          </tr>
+        </thead>
+        <tbody><tr>
+  <td id="listing">
     <a href="./kegg_api/listing.html">listing</a>
-  </h2>
-  <hr />
-  <p>
-                      
-                
-                    <pre><p>let <code>listing</code> as function(<code>database</code> as string, <code>option</code> as string = <code>&lt;NULL&gt;</code>, <code>cache</code> as <generic> IHttpGet = <code>&lt;NULL&gt;</code>) -> <code>any</code> {
-    #
-    # .NET API information
-    #
-    # module: kegg_kit.kegg_api
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: kegg_kit.dll
-    # package: "kegg_api"
-    #
-    return call <code>R&#35;.interop_[kegg_api::listing]</code>(...);
-}</p></pre>
-
-                    
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="get">
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="get">
     <a href="./kegg_api/get.html">get</a>
-  </h2>
-  <hr />
-  <p>
-                      
-                
-                    <pre><p>let <code>get</code> as function(<code>id</code> as string, <code>cache</code> as <generic> IHttpGet = <code>&lt;NULL&gt;</code>) -> <code>string</code> {
-    #
-    # .NET API information
-    #
-    # module: kegg_kit.kegg_api
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: kegg_kit.dll
-    # package: "kegg_api"
-    #
-    return call <code>R&#35;.interop_[kegg_api::get]</code>(...);
-}</p></pre>
-
-                    
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="parseForm">
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="parseForm">
     <a href="./kegg_api/parseForm.html">parseForm</a>
-  </h2>
-  <hr />
-  <p>
-                      
-                
-                    <pre><p>let <code>parseForm</code> as function(<code>text</code> as string) -> <code>&lt;generic&gt; WebForm</code> {
-    #
-    # .NET API information
-    #
-    # module: kegg_kit.kegg_api
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: kegg_kit.dll
-    # package: "kegg_api"
-    #
-    return call <code>R&#35;.interop_[kegg_api::parseWebForm]</code>(...);
-}</p></pre>
-
-                    
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="as.pathway">
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="as.pathway">
     <a href="./kegg_api/as.pathway.html">as.pathway</a>
-  </h2>
-  <hr />
-  <p>
-                      
-                
-                    <pre><p>let <code>as.pathway</code> as function(<code>form</code> as <generic> WebForm) -> <code>&lt;generic&gt; Pathway</code> {
-    #
-    # .NET API information
-    #
-    # module: kegg_kit.kegg_api
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: kegg_kit.dll
-    # package: "kegg_api"
-    #
-    return call <code>R&#35;.interop_[kegg_api::convertToPathway]</code>(...);
-}</p></pre>
-
-                    
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div>
-                       </div>
+  </td>
+  <td></td>
+</tr></tbody>
+      </table>
+    </div>
   </body>
 </html>

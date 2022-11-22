@@ -10,8 +10,8 @@
     <meta name="keywords" content="GCModeller; Xanthomonas; Artificial Life" />
     <meta name="generator" content="https://github.com/xieguigang/xDoc" />
     <meta name="theme-color" content="#333" />
-    <meta name="last-update" content="2022-11-22" />
-    <meta name="description" content="A software system aim at Artificial Life system design and analysis." />
+    <meta name="last-update" content="2022-11-23" />
+    <meta name="description" content="" />
     <meta class="foundation-data-attribute-namespace" />
     <meta class="foundation-mq-xxlarge" />
     <meta class="foundation-mq-xlarge" />
@@ -31,188 +31,55 @@
     </table>
     <h1>metabolism</h1>
     <hr />
+    <p>
+      <code>
+        <span style="color: blue;">imports</span>
+        <span style="color: brown"> "metabolism"</span>
+        <span style="color: blue;"> from</span>
+        <span style="color: brown"> "kegg_kit"</span>
+      </code>
+    </p>
     <p></p>
     <div id="main-wrapper">
-                           <div>
-  <h2 id="load.reaction.cacheIndex">
+      <table>
+        <thead>
+          <tr>
+            <th>function</th>
+            <th>description</th>
+          </tr>
+        </thead>
+        <tbody><tr>
+  <td id="load.reaction.cacheIndex">
     <a href="./metabolism/load.reaction.cacheIndex.html">load.reaction.cacheIndex</a>
-  </h2>
-  <hr />
-  <p>
-                      
-                
-                    <pre><p>let <code>load.reaction.cacheIndex</code> as function(<code>file</code> as string) -> <code>&lt;generic&gt; MapCache</code> {
-    #
-    # .NET API information
-    #
-    # module: kegg_kit.metabolism
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: kegg_kit.dll
-    # package: "metabolism"
-    #
-    return call <code>R&#35;.interop_[metabolism::loadReactionCacheIndex]</code>(...);
-}</p></pre>
-
-                    
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="related.compounds">
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="related.compounds">
     <a href="./metabolism/related.compounds.html">related.compounds</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>Get compounds kegg id which is related to the given KO id list</p>  
-                
-                    <pre><p>let <code>related.compounds</code> as function(<code>enzymes</code> as string, <code>reactions</code> as <generic> ReactionRepository) -> <code>string</code> {
-    #
-    # .NET API information
-    #
-    # module: kegg_kit.metabolism
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: kegg_kit.dll
-    # package: "metabolism"
-    #
-    return call <code>R&#35;.interop_[metabolism::GetAllCompounds]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>enzymes</code>: KO id list
-                </li>
-<li>
-  <code>reactions</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="filter.invalid_keggIds">
+  </td>
+  <td><p>Get compounds kegg id which is related to the given KO id list</p></td>
+</tr>
+<tr>
+  <td id="filter.invalid_keggIds">
     <a href="./metabolism/filter.invalid_keggIds.html">filter.invalid_keggIds</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>Removes invalid kegg compound id</p>  
-                
-                    <pre><p>let <code>filter.invalid_keggIds</code> as function(<code>identified</code> as string) -> <code>string</code> {
-    #
-    # .NET API information
-    #
-    # module: kegg_kit.metabolism
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: kegg_kit.dll
-    # package: "metabolism"
-    #
-    return call <code>R&#35;.interop_[metabolism::filterInvalidCompoundIds]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>identified</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="kegg.reconstruction">
+  </td>
+  <td><p>Removes invalid kegg compound id</p></td>
+</tr>
+<tr>
+  <td id="kegg.reconstruction">
     <a href="./metabolism/kegg.reconstruction.html">kegg.reconstruction</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>do kegg pathway reconstruction by given protein annotation data</p>  
-                
-                    <pre><p>let <code>kegg.reconstruction</code> as function(<code>reference</code> as any, 
-<code>reactions</code> as any, 
-<code>annotations</code> as any, 
-<code>min_cov</code> as double = 0.3, 
-[<code>&lt;Environment&gt;</code>]) -> <code>&lt;generic&gt; pipeline</code> {
-    #
-    # .NET API information
-    #
-    # module: kegg_kit.metabolism
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: kegg_kit.dll
-    # package: "metabolism"
-    #
-    return call <code>R&#35;.interop_[metabolism::KEGGReconstruction]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>reference</code>: the kegg reference maps
-                </li>
-<li>
-  <code>reactions</code>: a list of the kegg reaction data models
-                </li>
-<li>
-  <code>annotations</code>: -
-                </li>
-<li>
-  <code>min_cov</code>: -
-                </li>
-<li>
-  <code>env</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="pickNetwork">
+  </td>
+  <td><p>do kegg pathway reconstruction by given protein annotation data</p></td>
+</tr>
+<tr>
+  <td id="pickNetwork">
     <a href="./metabolism/pickNetwork.html">pickNetwork</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>pick the reaction list from the kegg reaction<br />
- network repository by KO id terms</p>  
-                
-                    <pre><p>let <code>pickNetwork</code> as function(<code>reactions</code> as <generic> ReactionRepository, <code>terms</code> as any, [<code>&lt;Environment&gt;</code>]) -> <code>any</code> {
-    #
-    # .NET API information
-    #
-    # module: kegg_kit.metabolism
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: kegg_kit.dll
-    # package: "metabolism"
-    #
-    return call <code>R&#35;.interop_[metabolism::PickNetwork]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>reactions</code>: -
-                </li>
-<li>
-  <code>terms</code>: the KO id terms
-                </li>
-<li>
-  <code>env</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div>
-                       </div>
+  </td>
+  <td><p>pick the reaction list from the kegg reaction<br />
+ network repository by KO id terms</p></td>
+</tr></tbody>
+      </table>
+    </div>
   </body>
 </html>

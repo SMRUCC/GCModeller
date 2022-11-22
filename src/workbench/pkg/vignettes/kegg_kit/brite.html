@@ -10,8 +10,8 @@
     <meta name="keywords" content="GCModeller; Xanthomonas; Artificial Life" />
     <meta name="generator" content="https://github.com/xieguigang/xDoc" />
     <meta name="theme-color" content="#333" />
-    <meta name="last-update" content="2022-11-22" />
-    <meta name="description" content="A software system aim at Artificial Life system design and analysis." />
+    <meta name="last-update" content="2022-11-23" />
+    <meta name="description" content="" />
     <meta class="foundation-data-attribute-namespace" />
     <meta class="foundation-mq-xxlarge" />
     <meta class="foundation-mq-xlarge" />
@@ -31,174 +31,54 @@
     </table>
     <h1>brite</h1>
     <hr />
+    <p>
+      <code>
+        <span style="color: blue;">imports</span>
+        <span style="color: brown"> "brite"</span>
+        <span style="color: blue;"> from</span>
+        <span style="color: brown"> "kegg_kit"</span>
+      </code>
+    </p>
     <p></p>
     <div id="main-wrapper">
-                           <div>
-  <h2 id="brite.as.table">
+      <table>
+        <thead>
+          <tr>
+            <th>function</th>
+            <th>description</th>
+          </tr>
+        </thead>
+        <tbody><tr>
+  <td id="brite.as.table">
     <a href="./brite/brite.as.table.html">brite.as.table</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>Convert the kegg brite htext tree to plant table</p>  
-                
-                    <pre><p>let <code>brite.as.table</code> as function(<code>htext</code> as any, <code>entryId_pattern</code> as string = "[a-z]+\d+", [<code>&lt;Environment&gt;</code>]) -> <code>any</code> {
-    #
-    # .NET API information
-    #
-    # module: kegg_kit.britekit
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: kegg_kit.dll
-    # package: "brite"
-    #
-    return call <code>R&#35;.interop_[britekit::BriteTable]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>htext</code>: a htex object
-                </li>
-<li>
-  <code>entryId_pattern</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="parse">
+  </td>
+  <td><p>Convert the kegg brite htext tree to plant table</p></td>
+</tr>
+<tr>
+  <td id="parse">
     <a href="./brite/parse.html">parse</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>Do parse of the kegg brite text file.</p>  
-                
-                    <pre><p>let <code>parse</code> as function(<code>file</code> as string, [<code>&lt;Environment&gt;</code>]) -> <code>&lt;generic&gt; htext</code> {
-    #
-    # .NET API information
-    #
-    # module: kegg_kit.britekit
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: kegg_kit.dll
-    # package: "brite"
-    #
-    return call <code>R&#35;.interop_[britekit::ParseBriteTree]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>file</code>: The file text content, brite id or its file path
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="brite.parseJSON">
+  </td>
+  <td><p>Do parse of the kegg brite text file.</p></td>
+</tr>
+<tr>
+  <td id="brite.parseJSON">
     <a href="./brite/brite.parseJSON.html">brite.parseJSON</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>Do parse of the kegg brite json file.</p>  
-                
-                    <pre><p>let <code>brite.parseJSON</code> as function(<code>file</code> as string, [<code>&lt;Environment&gt;</code>]) -> <code>any</code> {
-    #
-    # .NET API information
-    #
-    # module: kegg_kit.britekit
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: kegg_kit.dll
-    # package: "brite"
-    #
-    return call <code>R&#35;.interop_[britekit::ParseBriteJson]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>file</code>: the htext json file path
-                </li>
-<li>
-  <code>env</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="KO.geneNames">
+  </td>
+  <td><p>Do parse of the kegg brite json file.</p></td>
+</tr>
+<tr>
+  <td id="KO.geneNames">
     <a href="./brite/KO.geneNames.html">KO.geneNames</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>Parse gene names for each KO number from the default internal htext resource.</p>  
-                
-                    <pre><p>let <code>KO.geneNames</code> as function() -> <code>list[string]</code> {
-    #
-    # .NET API information
-    #
-    # module: kegg_kit.britekit
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: kegg_kit.dll
-    # package: "brite"
-    #
-    return call <code>R&#35;.interop_[britekit::KOgeneNames]</code>(...);
-}</p></pre>
-
-                    
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="briteMaps">
+  </td>
+  <td><p>Parse gene names for each KO number from the default internal htext resource.</p></td>
+</tr>
+<tr>
+  <td id="briteMaps">
     <a href="./brite/briteMaps.html">briteMaps</a>
-  </h2>
-  <hr />
-  <p>
-                      
-                
-                    <pre><p>let <code>briteMaps</code> as function(<code>htext</code> as <generic> htext, <code>geneId</code> as string, <code>level</code> as string = "class") -> <code>string</code> {
-    #
-    # .NET API information
-    #
-    # module: kegg_kit.britekit
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: kegg_kit.dll
-    # package: "brite"
-    #
-    return call <code>R&#35;.interop_[britekit::briteMaps]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>htext</code>: -
-                </li>
-<li>
-  <code>geneId</code>: -
-                </li>
-<li>
-  <code>level</code>: class|category|subcategory
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div>
-                       </div>
+  </td>
+  <td></td>
+</tr></tbody>
+      </table>
+    </div>
   </body>
 </html>

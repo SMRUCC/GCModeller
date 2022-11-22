@@ -10,8 +10,8 @@
     <meta name="keywords" content="GCModeller; Xanthomonas; Artificial Life" />
     <meta name="generator" content="https://github.com/xieguigang/xDoc" />
     <meta name="theme-color" content="#333" />
-    <meta name="last-update" content="2022-11-22" />
-    <meta name="description" content="A software system aim at Artificial Life system design and analysis." />
+    <meta name="last-update" content="2022-11-23" />
+    <meta name="description" content="" />
     <meta class="foundation-data-attribute-namespace" />
     <meta class="foundation-mq-xxlarge" />
     <meta class="foundation-mq-xlarge" />
@@ -31,287 +31,72 @@
     </table>
     <h1>report.utils</h1>
     <hr />
+    <p>
+      <code>
+        <span style="color: blue;">imports</span>
+        <span style="color: brown"> "report.utils"</span>
+        <span style="color: blue;"> from</span>
+        <span style="color: brown"> "kegg_kit"</span>
+      </code>
+    </p>
     <p></p>
     <div id="main-wrapper">
-                           <div>
-  <h2 id="loadMap">
+      <table>
+        <thead>
+          <tr>
+            <th>function</th>
+            <th>description</th>
+          </tr>
+        </thead>
+        <tbody><tr>
+  <td id="loadMap">
     <a href="./report.utils/loadMap.html">loadMap</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>load a blank kegg pathway map template object from a given file object.</p>  
-                
-                    <pre><p>let <code>loadMap</code> as function(<code>file</code> as any, [<code>&lt;Environment&gt;</code>]) -> <code>&lt;generic&gt; Map</code> {
-    #
-    # .NET API information
-    #
-    # module: kegg_kit.report
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: kegg_kit.dll
-    # package: "report.utils"
-    #
-    return call <code>R&#35;.interop_[report::loadMap]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>file</code>: a given file object, it can be a file path or a file input stream.
-                </li>
-<li>
-  <code>env</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="map.local_render">
+  </td>
+  <td><p>load a blank kegg pathway map template object from a given file object.</p></td>
+</tr>
+<tr>
+  <td id="map.local_render">
     <a href="./report.utils/map.local_render.html">map.local_render</a>
-  </h2>
-  <hr />
-  <p>
-                      
-                
-                    <pre><p>let <code>map.local_render</code> as function(<code>maps</code> as list[<generic> Map]) -> <code>&lt;generic&gt; LocalRender</code> {
-    #
-    # .NET API information
-    #
-    # module: kegg_kit.report
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: kegg_kit.dll
-    # package: "report.utils"
-    #
-    return call <code>R&#35;.interop_[report::MapRender]</code>(...);
-}</p></pre>
-
-                    
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="nodes.colorAs">
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="nodes.colorAs">
     <a href="./report.utils/nodes.colorAs.html">nodes.colorAs</a>
-  </h2>
-  <hr />
-  <p>
-                      
-                
-                    <pre><p>let <code>nodes.colorAs</code> as function(<code>nodes</code> as string, <code>color</code> as string) -> <code>&lt;generic&gt; NamedValue`1[]</code> {
-    #
-    # .NET API information
-    #
-    # module: kegg_kit.report
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: kegg_kit.dll
-    # package: "report.utils"
-    #
-    return call <code>R&#35;.interop_[report::singleColor]</code>(...);
-}</p></pre>
-
-                    
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="keggMap.highlights">
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="keggMap.highlights">
     <a href="./report.utils/keggMap.highlights.html">keggMap.highlights</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>generate the kegg pathway map highlight image render result</p>  
-                
-                    <pre><p>let <code>keggMap.highlights</code> as function(<code>map</code> as <generic> Map, 
-<code>highlights</code> as any, 
-<code>text_color</code> as string = "white", 
-[<code>&lt;Environment&gt;</code>]) -> <code>any</code> {
-    #
-    # .NET API information
-    #
-    # module: kegg_kit.report
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: kegg_kit.dll
-    # package: "report.utils"
-    #
-    return call <code>R&#35;.interop_[report::renderMapHighlights]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>map</code>: the blank template of the kegg map
-                </li>
-<li>
-  <code>highlights</code>: a list of object with color highlights, or url
-                </li>
-<li>
-  <code>env</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="keggMap.reportHtml">
+  </td>
+  <td><p>generate the kegg pathway map highlight image render result</p></td>
+</tr>
+<tr>
+  <td id="keggMap.reportHtml">
     <a href="./report.utils/keggMap.reportHtml.html">keggMap.reportHtml</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>generate the kegg pathway map highlight html report</p>  
-                
-                    <pre><p>let <code>keggMap.reportHtml</code> as function(<code>map</code> as <generic> Map, 
-<code>highlights</code> as any, 
-<code>text_color</code> as string = "white", 
-[<code>&lt;Environment&gt;</code>]) -> <code>any</code> {
-    #
-    # .NET API information
-    #
-    # module: kegg_kit.report
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: kegg_kit.dll
-    # package: "report.utils"
-    #
-    return call <code>R&#35;.interop_[report::showReportHtml]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>map</code>: the blank template of the kegg map
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="map.intersects">
+  </td>
+  <td><p>generate the kegg pathway map highlight html report</p></td>
+</tr>
+<tr>
+  <td id="map.intersects">
     <a href="./report.utils/map.intersects.html">map.intersects</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>check object id that intersect with the current given map object.</p>  
-                
-                    <pre><p>let <code>map.intersects</code> as function(<code>map</code> as <generic> Map, <code>list</code> as string) -> <code>string</code> {
-    #
-    # .NET API information
-    #
-    # module: kegg_kit.report
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: kegg_kit.dll
-    # package: "report.utils"
-    #
-    return call <code>R&#35;.interop_[report::checkIntersection]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>map</code>: a given kegg pathway map object model
-                </li>
-<li>
-  <code>list</code>: an object id list
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="keggMap.url">
+  </td>
+  <td><p>check object id that intersect with the current given map object.</p></td>
+</tr>
+<tr>
+  <td id="keggMap.url">
     <a href="./report.utils/keggMap.url.html">keggMap.url</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>generate the url that used for view the highlight result on kegg website.</p>  
-                
-                    <pre><p>let <code>keggMap.url</code> as function(<code>mapId</code> as string, <code>highlights</code> as any, [<code>&lt;Environment&gt;</code>]) -> <code>string</code> {
-    #
-    # .NET API information
-    #
-    # module: kegg_kit.report
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: kegg_kit.dll
-    # package: "report.utils"
-    #
-    return call <code>R&#35;.interop_[report::url]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>mapId</code>: the id of the map object.
-                </li>
-<li>
-  <code>highlights</code>: a list of object with color highlight specifics
-                </li>
-<li>
-  <code>env</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="parseKeggUrl">
+  </td>
+  <td><p>generate the url that used for view the highlight result on kegg website.</p></td>
+</tr>
+<tr>
+  <td id="parseKeggUrl">
     <a href="./report.utils/parseKeggUrl.html">parseKeggUrl</a>
-  </h2>
-  <hr />
-  <p>
-                      
-                
-                    <pre><p>let <code>parseKeggUrl</code> as function(<code>url</code> as string, 
-<code>compound</code> as string = "blue", 
-<code>gene</code> as string = "red", 
-<code>reaction</code> as string = "green") -> <code>list</code> {
-    #
-    # .NET API information
-    #
-    # module: kegg_kit.report
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: kegg_kit.dll
-    # package: "report.utils"
-    #
-    return call <code>R&#35;.interop_[report::parseUrl]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>url</code>: -
-                </li>
-<li>
-  <code>compound</code>: the default color string for kegg compounds
-                </li>
-<li>
-  <code>gene</code>: the default color string for KO/gene
-                </li>
-<li>
-  <code>reaction</code>: the default color string for kegg reactions
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div>
-                       </div>
+  </td>
+  <td></td>
+</tr></tbody>
+      </table>
+    </div>
   </body>
 </html>

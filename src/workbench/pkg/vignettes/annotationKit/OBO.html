@@ -10,8 +10,8 @@
     <meta name="keywords" content="GCModeller; Xanthomonas; Artificial Life" />
     <meta name="generator" content="https://github.com/xieguigang/xDoc" />
     <meta name="theme-color" content="#333" />
-    <meta name="last-update" content="2022-11-22" />
-    <meta name="description" content="A software system aim at Artificial Life system design and analysis." />
+    <meta name="last-update" content="2022-11-23" />
+    <meta name="description" content="" />
     <meta class="foundation-data-attribute-namespace" />
     <meta class="foundation-mq-xxlarge" />
     <meta class="foundation-mq-xlarge" />
@@ -31,116 +31,48 @@
     </table>
     <h1>OBO</h1>
     <hr />
+    <p>
+      <code>
+        <span style="color: blue;">imports</span>
+        <span style="color: brown"> "OBO"</span>
+        <span style="color: blue;"> from</span>
+        <span style="color: brown"> "annotationKit"</span>
+      </code>
+    </p>
     <p></p>
     <div id="main-wrapper">
-                           <div>
-  <h2 id="read.obo">
+      <table>
+        <thead>
+          <tr>
+            <th>function</th>
+            <th>description</th>
+          </tr>
+        </thead>
+        <tbody><tr>
+  <td id="read.obo">
     <a href="./OBO/read.obo.html">read.obo</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>parse the obo file</p>  
-                
-                    <pre><p>let <code>read.obo</code> as function(<code>path</code> as string) -> <code>&lt;generic&gt; GO_OBO</code> {
-    #
-    # .NET API information
-    #
-    # module: annotationKit.OBO_DAG
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: annotationKit.dll
-    # package: "OBO"
-    #
-    return call <code>R&#35;.interop_[OBO_DAG::readOboDAG]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>path</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="filter.is_obsolete">
+  </td>
+  <td><p>parse the obo file</p></td>
+</tr>
+<tr>
+  <td id="filter.is_obsolete">
     <a href="./OBO/filter.is_obsolete.html">filter.is_obsolete</a>
-  </h2>
-  <hr />
-  <p>
-                      
-                
-                    <pre><p>let <code>filter.is_obsolete</code> as function(<code>obo</code> as <generic> GO_OBO) -> <code>&lt;generic&gt; GO_OBO</code> {
-    #
-    # .NET API information
-    #
-    # module: annotationKit.OBO_DAG
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: annotationKit.dll
-    # package: "OBO"
-    #
-    return call <code>R&#35;.interop_[OBO_DAG::filterObsolete]</code>(...);
-}</p></pre>
-
-                    
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="filter_properties">
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="filter_properties">
     <a href="./OBO/filter_properties.html">filter_properties</a>
-  </h2>
-  <hr />
-  <p>
-                      
-                
-                    <pre><p>let <code>filter_properties</code> as function(<code>obo</code> as <generic> GO_OBO, <code>excludes</code> as string) -> <code>&lt;generic&gt; GO_OBO</code> {
-    #
-    # .NET API information
-    #
-    # module: annotationKit.OBO_DAG
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: annotationKit.dll
-    # package: "OBO"
-    #
-    return call <code>R&#35;.interop_[OBO_DAG::filterProperty]</code>(...);
-}</p></pre>
-
-                    
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="write.obo">
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="write.obo">
     <a href="./OBO/write.obo.html">write.obo</a>
-  </h2>
-  <hr />
-  <p>
-                      
-                
-                    <pre><p>let <code>write.obo</code> as function(<code>obo</code> as <generic> GO_OBO, <code>path</code> as string, <code>excludes</code> as string = <code>&lt;NULL&gt;</code>) -> <code>boolean</code> {
-    #
-    # .NET API information
-    #
-    # module: annotationKit.OBO_DAG
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: annotationKit.dll
-    # package: "OBO"
-    #
-    return call <code>R&#35;.interop_[OBO_DAG::saveObo]</code>(...);
-}</p></pre>
-
-                    
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div>
-                       </div>
+  </td>
+  <td></td>
+</tr></tbody>
+      </table>
+    </div>
   </body>
 </html>

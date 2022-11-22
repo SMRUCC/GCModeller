@@ -10,8 +10,8 @@
     <meta name="keywords" content="GCModeller; Xanthomonas; Artificial Life" />
     <meta name="generator" content="https://github.com/xieguigang/xDoc" />
     <meta name="theme-color" content="#333" />
-    <meta name="last-update" content="2022-11-22" />
-    <meta name="description" content="A software system aim at Artificial Life system design and analysis." />
+    <meta name="last-update" content="2022-11-23" />
+    <meta name="description" content="" />
     <meta class="foundation-data-attribute-namespace" />
     <meta class="foundation-mq-xxlarge" />
     <meta class="foundation-mq-xlarge" />
@@ -31,103 +31,42 @@
     </table>
     <h1>GSVA</h1>
     <hr />
+    <p>
+      <code>
+        <span style="color: blue;">imports</span>
+        <span style="color: brown"> "GSVA"</span>
+        <span style="color: blue;"> from</span>
+        <span style="color: brown"> "gseakit"</span>
+      </code>
+    </p>
     <p></p>
     <div id="main-wrapper">
-                           <div>
-  <h2 id="gsva">
+      <table>
+        <thead>
+          <tr>
+            <th>function</th>
+            <th>description</th>
+          </tr>
+        </thead>
+        <tbody><tr>
+  <td id="gsva">
     <a href="./GSVA/gsva.html">gsva</a>
-  </h2>
-  <hr />
-  <p>
-                      
-                
-                    <pre><p>let <code>gsva</code> as function(<code>expr</code> as any, <code>geneSet</code> as any, <code>env</code> as <generic> Environment = <code>&lt;NULL&gt;</code>) -> <code>&lt;generic&gt; Matrix</code> {
-    #
-    # .NET API information
-    #
-    # module: gseakit.GSVA
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: gseakit.dll
-    # package: "GSVA"
-    #
-    return call <code>R&#35;.interop_[GSVA::gsva]</code>(...);
-}</p></pre>
-
-                    
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="diff">
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="diff">
     <a href="./GSVA/diff.html">diff</a>
-  </h2>
-  <hr />
-  <p>
-                      
-                
-                    <pre><p>let <code>diff</code> as function(<code>gsva</code> as <generic> Matrix, <code>compares</code> as <generic> DataAnalysis) -> <code>&lt;generic&gt; GSVADiff[]</code> {
-    #
-    # .NET API information
-    #
-    # module: gseakit.GSVA
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: gseakit.dll
-    # package: "GSVA"
-    #
-    return call <code>R&#35;.interop_[GSVA::diff]</code>(...);
-}</p></pre>
-
-                    
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="matrix_to_diff">
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="matrix_to_diff">
     <a href="./GSVA/matrix_to_diff.html">matrix_to_diff</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>convert to diff data from dataframe</p>  
-                
-                    <pre><p>let <code>matrix_to_diff</code> as function(<code>diff</code> as <generic> dataframe, 
-<code>pathId</code> as string = "pathNames", 
-<code>t</code> as string = "t", 
-<code>pvalue</code> as string = "pvalue") -> <code>&lt;generic&gt; GSVADiff[]</code> {
-    #
-    # .NET API information
-    #
-    # module: gseakit.GSVA
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: gseakit.dll
-    # package: "GSVA"
-    #
-    return call <code>R&#35;.interop_[GSVA::matrixToDiff]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>diff</code>: -
-                </li>
-<li>
-  <code>pathId</code>: -
-                </li>
-<li>
-  <code>t</code>: -
-                </li>
-<li>
-  <code>pvalue</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div>
-                       </div>
+  </td>
+  <td><p>convert to diff data from dataframe</p></td>
+</tr></tbody>
+      </table>
+    </div>
   </body>
 </html>
