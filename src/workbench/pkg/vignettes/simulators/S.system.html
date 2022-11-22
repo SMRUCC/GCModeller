@@ -11,7 +11,7 @@
     <meta name="generator" content="https://github.com/xieguigang/xDoc" />
     <meta name="theme-color" content="#333" />
     <meta name="last-update" content="2022-11-22" />
-    <meta name="description" content="A software system aim at Artificial Life system design and analysis." />
+    <meta name="description" content="" />
     <meta class="foundation-data-attribute-namespace" />
     <meta class="foundation-mq-xxlarge" />
     <meta class="foundation-mq-xlarge" />
@@ -31,253 +31,66 @@
     </table>
     <h1>S.system</h1>
     <hr />
+    <p>
+      <code>
+        <span style="color: blue;">imports</span>
+        <span style="color: brown"> "S.system"</span>
+        <span style="color: blue;"> from</span>
+        <span style="color: brown"> "simulators"</span>
+      </code>
+    </p>
     <p></p>
     <div id="main-wrapper">
-                           <div>
-  <h2 id="S.script">
+      <table>
+        <thead>
+          <tr>
+            <th>function</th>
+            <th>description</th>
+          </tr>
+        </thead>
+        <tbody><tr>
+  <td id="S.script">
     <a href="./S.system/S.script.html">S.script</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>create a new empty model for run S-system simulation</p>  
-                
-                    <pre><p>let <code>S.script</code> as function(<code>title</code> as string = "unnamed model", <code>description</code> as string = "") -> <code>&lt;generic&gt; Model</code> {
-    #
-    # .NET API information
-    #
-    # module: simulators.SSystemKit
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: simulators.dll
-    # package: "S.system"
-    #
-    return call <code>R&#35;.interop_[SSystemKit::script]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>title$</code>: -
-                </li>
-<li>
-  <code>description$</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="kernel">
+  </td>
+  <td><p>create a new empty model for run S-system simulation</p></td>
+</tr>
+<tr>
+  <td id="kernel">
     <a href="./S.system/kernel.html">kernel</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>create a new S-system dynamics kernel module</p>  
-                
-                    <pre><p>let <code>kernel</code> as function(<code>snapshot</code> as <generic> DataSnapshot, <code>model</code> as <generic> Model = <code>&lt;NULL&gt;</code>, <code>strict</code> as boolean = TRUE) -> <code>&lt;generic&gt; Kernel</code> {
-    #
-    # .NET API information
-    #
-    # module: simulators.SSystemKit
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: simulators.dll
-    # package: "S.system"
-    #
-    return call <code>R&#35;.interop_[SSystemKit::createKernel]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>snapshot</code>: -
-                </li>
-<li>
-  <code>model</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="environment">
+  </td>
+  <td><p>create a new S-system dynamics kernel module</p></td>
+</tr>
+<tr>
+  <td id="environment">
     <a href="./S.system/environment.html">environment</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>config the symbol environment for S-system kernel</p>  
-                
-                    <pre><p>let <code>environment</code> as function(<code>kernel</code> as <generic> Kernel, ..., [<code>&lt;Environment&gt;</code>]) -> <code>&lt;generic&gt; Kernel</code> {
-    #
-    # .NET API information
-    #
-    # module: simulators.SSystemKit
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: simulators.dll
-    # package: "S.system"
-    #
-    return call <code>R&#35;.interop_[SSystemKit::ConfigEnvironment]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>kernel</code>: -
-                </li>
-<li>
-  <code>symbols</code>: -
-                </li>
-<li>
-  <code>env</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="bounds">
+  </td>
+  <td><p>config the symbol environment for S-system kernel</p></td>
+</tr>
+<tr>
+  <td id="bounds">
     <a href="./S.system/bounds.html">bounds</a>
-  </h2>
-  <hr />
-  <p>
-                      
-                
-                    <pre><p>let <code>bounds</code> as function(<code>kernel</code> as <generic> Kernel, ..., [<code>&lt;Environment&gt;</code>]) -> <code>&lt;generic&gt; Kernel</code> {
-    #
-    # .NET API information
-    #
-    # module: simulators.SSystemKit
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: simulators.dll
-    # package: "S.system"
-    #
-    return call <code>R&#35;.interop_[SSystemKit::setBounds]</code>(...);
-}</p></pre>
-
-                    
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="s.system">
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="s.system">
     <a href="./S.system/s.system.html">s.system</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>load S-system into the dynamics simulators kernel module</p>  
-                
-                    <pre><p>let <code>s.system</code> as function(<code>kernel</code> as <generic> Kernel, <code>ssystem</code> as any, [<code>&lt;Environment&gt;</code>]) -> <code>&lt;generic&gt; Kernel</code> {
-    #
-    # .NET API information
-    #
-    # module: simulators.SSystemKit
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: simulators.dll
-    # package: "S.system"
-    #
-    return call <code>R&#35;.interop_[SSystemKit::ConfigSSystem]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>kernel</code>: -
-                </li>
-<li>
-  <code>ssystem</code>: -
-                </li>
-<li>
-  <code>env</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="run">
+  </td>
+  <td><p>load S-system into the dynamics simulators kernel module</p></td>
+</tr>
+<tr>
+  <td id="run">
     <a href="./S.system/run.html">run</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>run simulator</p>  
-                
-                    <pre><p>let <code>run</code> as function(<code>kernel</code> as <generic> Kernel, <code>ticks</code> as integer = 100, <code>resolution</code> as double = 0.1) -> <code>&lt;generic&gt; Kernel</code> {
-    #
-    # .NET API information
-    #
-    # module: simulators.SSystemKit
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: simulators.dll
-    # package: "S.system"
-    #
-    return call <code>R&#35;.interop_[SSystemKit::RunKernel]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>kernel</code>: -
-                </li>
-<li>
-  <code>ticks</code>: -
-                </li>
-<li>
-  <code>resolution</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="snapshot">
+  </td>
+  <td><p>run simulator</p></td>
+</tr>
+<tr>
+  <td id="snapshot">
     <a href="./S.system/snapshot.html">snapshot</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>create a symbol data snapshot device for write data into file</p>  
-                
-                    <pre><p>let <code>snapshot</code> as function(<code>file</code> as string = <code>&lt;NULL&gt;</code>, <code>symbols</code> as string = <code>&lt;NULL&gt;</code>) -> <code>&lt;generic&gt; DataSnapshot</code> {
-    #
-    # .NET API information
-    #
-    # module: simulators.SSystemKit
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: simulators.dll
-    # package: "S.system"
-    #
-    return call <code>R&#35;.interop_[SSystemKit::GetSnapshotsDriver]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>file</code>: -
-                </li>
-<li>
-  <code>symbols</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div>
-                       </div>
+  </td>
+  <td><p>create a symbol data snapshot device for write data into file</p></td>
+</tr></tbody>
+      </table>
+    </div>
   </body>
 </html>

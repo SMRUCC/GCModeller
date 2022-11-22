@@ -11,7 +11,7 @@
     <meta name="generator" content="https://github.com/xieguigang/xDoc" />
     <meta name="theme-color" content="#333" />
     <meta name="last-update" content="2022-11-22" />
-    <meta name="description" content="A software system aim at Artificial Life system design and analysis." />
+    <meta name="description" content="" />
     <meta class="foundation-data-attribute-namespace" />
     <meta class="foundation-mq-xxlarge" />
     <meta class="foundation-mq-xlarge" />
@@ -31,70 +31,36 @@
     </table>
     <h1>network</h1>
     <hr />
+    <p>
+      <code>
+        <span style="color: blue;">imports</span>
+        <span style="color: brown"> "network"</span>
+        <span style="color: blue;"> from</span>
+        <span style="color: brown"> "kegg_kit"</span>
+      </code>
+    </p>
     <p></p>
     <div id="main-wrapper">
-                           <div>
-  <h2 id="fromCompounds">
+      <table>
+        <thead>
+          <tr>
+            <th>function</th>
+            <th>description</th>
+          </tr>
+        </thead>
+        <tbody><tr>
+  <td id="fromCompounds">
     <a href="./network/fromCompounds.html">fromCompounds</a>
-  </h2>
-  <hr />
-  <p>
-                      
-                
-                    <pre><p>let <code>fromCompounds</code> as function(<code>compoundsId</code> as string, 
-<code>graph</code> as <generic> Reaction[], 
-<code>compounds</code> as <generic> CompoundRepository = <code>&lt;NULL&gt;</code>, 
-<code>enzymeBridged</code> as boolean = TRUE) -> <code>&lt;generic&gt; NetworkGraph</code> {
-    #
-    # .NET API information
-    #
-    # module: kegg_kit.network
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: kegg_kit.dll
-    # package: "network"
-    #
-    return call <code>R&#35;.interop_[network::fromCompoundId]</code>(...);
-}</p></pre>
-
-                    
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="assignKeggClass">
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="assignKeggClass">
     <a href="./network/assignKeggClass.html">assignKeggClass</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>assign kegg class to the graph nodes</p>  
-                
-                    <pre><p>let <code>assignKeggClass</code> as function(<code>g</code> as <generic> NetworkGraph) -> <code>&lt;generic&gt; NetworkGraph</code> {
-    #
-    # .NET API information
-    #
-    # module: kegg_kit.network
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: kegg_kit.dll
-    # package: "network"
-    #
-    return call <code>R&#35;.interop_[network::assignKeggClass]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>g</code>: a network graph data model, with nodes label id must <br />
- be the kegg pathway id and compounds id or kegg KO id
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div>
-                       </div>
+  </td>
+  <td><p>assign kegg class to the graph nodes</p></td>
+</tr></tbody>
+      </table>
+    </div>
   </body>
 </html>

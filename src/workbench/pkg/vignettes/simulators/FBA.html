@@ -11,7 +11,7 @@
     <meta name="generator" content="https://github.com/xieguigang/xDoc" />
     <meta name="theme-color" content="#333" />
     <meta name="last-update" content="2022-11-22" />
-    <meta name="description" content="A software system aim at Artificial Life system design and analysis." />
+    <meta name="description" content="" />
     <meta class="foundation-data-attribute-namespace" />
     <meta class="foundation-mq-xxlarge" />
     <meta class="foundation-mq-xlarge" />
@@ -31,126 +31,48 @@
     </table>
     <h1>FBA</h1>
     <hr />
+    <p>
+      <code>
+        <span style="color: blue;">imports</span>
+        <span style="color: brown"> "FBA"</span>
+        <span style="color: blue;"> from</span>
+        <span style="color: brown"> "simulators"</span>
+      </code>
+    </p>
     <p></p>
     <div id="main-wrapper">
-                           <div>
-  <h2 id="matrix">
+      <table>
+        <thead>
+          <tr>
+            <th>function</th>
+            <th>description</th>
+          </tr>
+        </thead>
+        <tbody><tr>
+  <td id="matrix">
     <a href="./FBA/matrix.html">matrix</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>create FBA model matrix</p>  
-                
-                    <pre><p>let <code>matrix</code> as function(<code>model</code> as any, <code>terms</code> as string = <code>&lt;NULL&gt;</code>, [<code>&lt;Environment&gt;</code>]) -> <code>&lt;generic&gt; Matrix</code> {
-    #
-    # .NET API information
-    #
-    # module: simulators.FBA
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: simulators.dll
-    # package: "FBA"
-    #
-    return call <code>R&#35;.interop_[FBA::Matrix]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>model</code>: -
-                </li>
-<li>
-  <code>env</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="objective">
+  </td>
+  <td><p>create FBA model matrix</p></td>
+</tr>
+<tr>
+  <td id="objective">
     <a href="./FBA/objective.html">objective</a>
-  </h2>
-  <hr />
-  <p>
-                      
-                
-                    <pre><p>let <code>objective</code> as function(<code>matrix</code> as <generic> Matrix, <code>target</code> as any, [<code>&lt;Environment&gt;</code>]) -> <code>&lt;generic&gt; Matrix</code> {
-    #
-    # .NET API information
-    #
-    # module: simulators.FBA
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: simulators.dll
-    # package: "FBA"
-    #
-    return call <code>R&#35;.interop_[FBA::SetObjective]</code>(...);
-}</p></pre>
-
-                    
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="lppModel">
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="lppModel">
     <a href="./FBA/lppModel.html">lppModel</a>
-  </h2>
-  <hr />
-  <p>
-                      
-                
-                    <pre><p>let <code>lppModel</code> as function(<code>model</code> as <generic> Matrix, <code>name</code> as string = "Flux Balance Analysis LppModel") -> <code>&lt;generic&gt; LPPModel</code> {
-    #
-    # .NET API information
-    #
-    # module: simulators.FBA
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: simulators.dll
-    # package: "FBA"
-    #
-    return call <code>R&#35;.interop_[FBA::GetLppModel]</code>(...);
-}</p></pre>
-
-                    
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="lpsolve">
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="lpsolve">
     <a href="./FBA/lpsolve.html">lpsolve</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>Solve a FBA matrix model</p>  
-                
-                    <pre><p>let <code>lpsolve</code> as function(<code>model</code> as <generic> Matrix) -> <code>any</code> {
-    #
-    # .NET API information
-    #
-    # module: simulators.FBA
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: simulators.dll
-    # package: "FBA"
-    #
-    return call <code>R&#35;.interop_[FBA::lpsolve]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>model</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div>
-                       </div>
+  </td>
+  <td><p>Solve a FBA matrix model</p></td>
+</tr></tbody>
+      </table>
+    </div>
   </body>
 </html>

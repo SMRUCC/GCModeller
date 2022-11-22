@@ -11,7 +11,7 @@
     <meta name="generator" content="https://github.com/xieguigang/xDoc" />
     <meta name="theme-color" content="#333" />
     <meta name="last-update" content="2022-11-22" />
-    <meta name="description" content="A software system aim at Artificial Life system design and analysis." />
+    <meta name="description" content="" />
     <meta class="foundation-data-attribute-namespace" />
     <meta class="foundation-mq-xxlarge" />
     <meta class="foundation-mq-xlarge" />
@@ -31,490 +31,117 @@
     </table>
     <h1>geneExpression</h1>
     <hr />
+    <p>
+      <code>
+        <span style="color: blue;">imports</span>
+        <span style="color: brown"> "geneExpression"</span>
+        <span style="color: blue;"> from</span>
+        <span style="color: brown"> "phenotype_kit"</span>
+      </code>
+    </p>
     <p></p>
     <div id="main-wrapper">
-                           <div>
-  <h2 id="tr">
+      <table>
+        <thead>
+          <tr>
+            <th>function</th>
+            <th>description</th>
+          </tr>
+        </thead>
+        <tbody><tr>
+  <td id="tr">
     <a href="./geneExpression/tr.html">tr</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>do matrix transpose</p>  
-                
-                    <pre><p>let <code>tr</code> as function(<code>mat</code> as <generic> Matrix) -> <code>&lt;generic&gt; Matrix</code> {
-    #
-    # .NET API information
-    #
-    # module: phenotype_kit.geneExpression
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: phenotype_kit.dll
-    # package: "geneExpression"
-    #
-    return call <code>R&#35;.interop_[geneExpression::tr]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>mat</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="dims">
+  </td>
+  <td><p>do matrix transpose</p></td>
+</tr>
+<tr>
+  <td id="dims">
     <a href="./geneExpression/dims.html">dims</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>get summary information about the HTS matrix dimensions</p>  
-                
-                    <pre><p>let <code>dims</code> as function(<code>mat</code> as <generic> Matrix) -> <code>list</code> {
-    #
-    # .NET API information
-    #
-    # module: phenotype_kit.geneExpression
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: phenotype_kit.dll
-    # package: "geneExpression"
-    #
-    return call <code>R&#35;.interop_[geneExpression::dims]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>mat</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="as.expr_list">
+  </td>
+  <td><p>get summary information about the HTS matrix dimensions</p></td>
+</tr>
+<tr>
+  <td id="as.expr_list">
     <a href="./geneExpression/as.expr_list.html">as.expr_list</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>convert the matrix into row gene list</p>  
-                
-                    <pre><p>let <code>as.expr_list</code> as function(<code>expr0</code> as <generic> Matrix) -> <code>list</code> {
-    #
-    # .NET API information
-    #
-    # module: phenotype_kit.geneExpression
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: phenotype_kit.dll
-    # package: "geneExpression"
-    #
-    return call <code>R&#35;.interop_[geneExpression::createVectorList]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>expr0</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="setTag">
+  </td>
+  <td><p>convert the matrix into row gene list</p></td>
+</tr>
+<tr>
+  <td id="setTag">
     <a href="./geneExpression/setTag.html">setTag</a>
-  </h2>
-  <hr />
-  <p>
-                      
-                
-                    <pre><p>let <code>setTag</code> as function(<code>expr0</code> as <generic> Matrix, <code>tag</code> as string) -> <code>&lt;generic&gt; Matrix</code> {
-    #
-    # .NET API information
-    #
-    # module: phenotype_kit.geneExpression
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: phenotype_kit.dll
-    # package: "geneExpression"
-    #
-    return call <code>R&#35;.interop_[geneExpression::setTag]</code>(...);
-}</p></pre>
-
-                    
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="setZero">
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="setZero">
     <a href="./geneExpression/setZero.html">setZero</a>
-  </h2>
-  <hr />
-  <p>
-                      
-                
-                    <pre><p>let <code>setZero</code> as function(<code>expr0</code> as <generic> Matrix, <code>q</code> as double = 0.1) -> <code>&lt;generic&gt; Matrix</code> {
-    #
-    # .NET API information
-    #
-    # module: phenotype_kit.geneExpression
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: phenotype_kit.dll
-    # package: "geneExpression"
-    #
-    return call <code>R&#35;.interop_[geneExpression::setZero]</code>(...);
-}</p></pre>
-
-                    
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="setFeatures">
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="setFeatures">
     <a href="./geneExpression/setFeatures.html">setFeatures</a>
-  </h2>
-  <hr />
-  <p>
-                      
-                
-                    <pre><p>let <code>setFeatures</code> as function(<code>expr0</code> as <generic> Matrix, <code>gene_ids</code> as string, [<code>&lt;Environment&gt;</code>]) -> <code>&lt;generic&gt; Matrix</code> {
-    #
-    # .NET API information
-    #
-    # module: phenotype_kit.geneExpression
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: phenotype_kit.dll
-    # package: "geneExpression"
-    #
-    return call <code>R&#35;.interop_[geneExpression::setGeneIDs]</code>(...);
-}</p></pre>
-
-                    
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="filterZeroSamples">
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="filterZeroSamples">
     <a href="./geneExpression/filterZeroSamples.html">filterZeroSamples</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>filter out all samples columns which its expression vector is ZERO!</p>  
-                
-                    <pre><p>let <code>filterZeroSamples</code> as function(<code>mat</code> as <generic> Matrix, [<code>&lt;Environment&gt;</code>]) -> <code>any</code> {
-    #
-    # .NET API information
-    #
-    # module: phenotype_kit.geneExpression
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: phenotype_kit.dll
-    # package: "geneExpression"
-    #
-    return call <code>R&#35;.interop_[geneExpression::filterZeroSamples]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>mat</code>: -
-                </li>
-<li>
-  <code>env</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="filterNaNMissing">
+  </td>
+  <td><p>filter out all samples columns which its expression vector is ZERO!</p></td>
+</tr>
+<tr>
+  <td id="filterNaNMissing">
     <a href="./geneExpression/filterNaNMissing.html">filterNaNMissing</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>set the NaN missing value to default value</p>  
-                
-                    <pre><p>let <code>filterNaNMissing</code> as function(<code>x</code> as <generic> Matrix, <code>missingDefault</code> as double = 0, [<code>&lt;Environment&gt;</code>]) -> <code>any</code> {
-    #
-    # .NET API information
-    #
-    # module: phenotype_kit.geneExpression
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: phenotype_kit.dll
-    # package: "geneExpression"
-    #
-    return call <code>R&#35;.interop_[geneExpression::filterNaN]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>x</code>: -
-                </li>
-<li>
-  <code>missingDefault</code>: -
-                </li>
-<li>
-  <code>env</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="load.expr">
+  </td>
+  <td><p>set the NaN missing value to default value</p></td>
+</tr>
+<tr>
+  <td id="load.expr">
     <a href="./geneExpression/load.expr.html">load.expr</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>load an expressin matrix data</p>  
-                
-                    <pre><p>let <code>load.expr</code> as function(<code>file</code> as any, 
-<code>exclude_samples</code> as string = <code>&lt;NULL&gt;</code>, 
-<code>rm_ZERO</code> as boolean = FALSE, 
-<code>makeNames</code> as boolean = FALSE, 
-[<code>&lt;Environment&gt;</code>]) -> <code>&lt;generic&gt; Matrix</code> {
-    #
-    # .NET API information
-    #
-    # module: phenotype_kit.geneExpression
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: phenotype_kit.dll
-    # package: "geneExpression"
-    #
-    return call <code>R&#35;.interop_[geneExpression::loadExpression]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>file</code>: -
-                </li>
-<li>
-  <code>exclude_samples</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="load.expr0">
+  </td>
+  <td><p>load an expressin matrix data</p></td>
+</tr>
+<tr>
+  <td id="load.expr0">
     <a href="./geneExpression/load.expr0.html">load.expr0</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>read the binary matrix data file</p>  
-                
-                    <pre><p>let <code>load.expr0</code> as function(<code>file</code> as any, [<code>&lt;Environment&gt;</code>]) -> <code>&lt;generic&gt; Matrix</code> {
-    #
-    # .NET API information
-    #
-    # module: phenotype_kit.geneExpression
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: phenotype_kit.dll
-    # package: "geneExpression"
-    #
-    return call <code>R&#35;.interop_[geneExpression::readBinaryMatrix]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>file</code>: -
-                </li>
-<li>
-  <code>env</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="write.expr_matrix">
+  </td>
+  <td><p>read the binary matrix data file</p></td>
+</tr>
+<tr>
+  <td id="write.expr_matrix">
     <a href="./geneExpression/write.expr_matrix.html">write.expr_matrix</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>write the gene expression data matrix file</p>  
-                
-                    <pre><p>let <code>write.expr_matrix</code> as function(<code>expr</code> as <generic> Matrix, 
-<code>file</code> as string, 
-<code>id</code> as string = "geneID", 
-<code>binary</code> as boolean = FALSE) -> <code>boolean</code> {
-    #
-    # .NET API information
-    #
-    # module: phenotype_kit.geneExpression
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: phenotype_kit.dll
-    # package: "geneExpression"
-    #
-    return call <code>R&#35;.interop_[geneExpression::writeMatrix]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>expr</code>: -
-                </li>
-<li>
-  <code>file</code>: -
-                </li>
-<li>
-  <code>id</code>: -
-                </li>
-<li>
-  <code>binary</code>: write matrix data in binary data format? default value <br />
- is False means write matrix as csv matrix file.
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="filter">
+  </td>
+  <td><p>write the gene expression data matrix file</p></td>
+</tr>
+<tr>
+  <td id="filter">
     <a href="./geneExpression/filter.html">filter</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>Filter the geneID rows</p>  
-                
-                    <pre><p>let <code>filter</code> as function(<code>HTS</code> as <generic> Matrix, <code>geneId</code> as string, <code>exclude</code> as boolean = FALSE) -> <code>&lt;generic&gt; Matrix</code> {
-    #
-    # .NET API information
-    #
-    # module: phenotype_kit.geneExpression
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: phenotype_kit.dll
-    # package: "geneExpression"
-    #
-    return call <code>R&#35;.interop_[geneExpression::filter]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>HTS</code>: -
-                </li>
-<li>
-  <code>geneId</code>: -
-                </li>
-<li>
-  <code>exclude</code>: matrix a subset of the data matrix excepts the <br />
- input <strong><code>geneId</code></strong> features or just make a subset which <br />
- just contains the input <strong><code>geneId</code></strong> features.
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="as.generic">
+  </td>
+  <td><p>Filter the geneID rows</p></td>
+</tr>
+<tr>
+  <td id="as.generic">
     <a href="./geneExpression/as.generic.html">as.generic</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>cast the HTS matrix object to the general dataset</p>  
-                
-                    <pre><p>let <code>as.generic</code> as function(<code>matrix</code> as <generic> Matrix) -> <code>&lt;generic&gt; DataSet[]</code> {
-    #
-    # .NET API information
-    #
-    # module: phenotype_kit.geneExpression
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: phenotype_kit.dll
-    # package: "geneExpression"
-    #
-    return call <code>R&#35;.interop_[geneExpression::castGenericRows]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>matrix</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="average">
+  </td>
+  <td><p>cast the HTS matrix object to the general dataset</p></td>
+</tr>
+<tr>
+  <td id="average">
     <a href="./geneExpression/average.html">average</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>calculate average value of the gene expression for<br />
+  </td>
+  <td><p>calculate average value of the gene expression for<br />
  each sample group.</p>
 
 <p>this method can be apply for reduce data size when <br />
  create some plot for visualize the gene expression<br />
- patterns across the sample groups.</p>  
-                
-                    <pre><p>let <code>average</code> as function(<code>matrix</code> as <generic> Matrix, <code>sampleinfo</code> as <generic> SampleInfo[]) -> <code>&lt;generic&gt; Matrix</code> {
-    #
-    # .NET API information
-    #
-    # module: phenotype_kit.geneExpression
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: phenotype_kit.dll
-    # package: "geneExpression"
-    #
-    return call <code>R&#35;.interop_[geneExpression::average]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>matrix</code>: -
-                </li>
-<li>
-  <code>sampleinfo</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="z_score">
+ patterns across the sample groups.</p></td>
+</tr>
+<tr>
+  <td id="z_score">
     <a href="./geneExpression/z_score.html">z_score</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>To avoid the influence of expression level to the <br />
+  </td>
+  <td><p>To avoid the influence of expression level to the <br />
  clustering analysis, z-score transformation can <br />
  be applied to covert the expression values to <br />
  z-scores by performing the following formula:</p>
@@ -529,491 +156,94 @@
  population mean (e.g., average expression value Of <br />
  a genomic feature In different conditions), σ Is the <br />
  standard deviation (e.g., standard deviation of <br />
- expression of a genomic feature in different conditions).</p>  
-                
-                    <pre><p>let <code>z_score</code> as function(<code>x</code> as <generic> Matrix) -> <code>&lt;generic&gt; Matrix</code> {
-    #
-    # .NET API information
-    #
-    # module: phenotype_kit.geneExpression
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: phenotype_kit.dll
-    # package: "geneExpression"
-    #
-    return call <code>R&#35;.interop_[geneExpression::zscore]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>x</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="pca">
+ expression of a genomic feature in different conditions).</p></td>
+</tr>
+<tr>
+  <td id="pca">
     <a href="./geneExpression/pca.html">pca</a>
-  </h2>
-  <hr />
-  <p>
-                      
-                
-                    <pre><p>let <code>pca</code> as function(<code>x</code> as <generic> Matrix, <code>npc</code> as integer = 3) -> <code>&lt;generic&gt; dataframe</code> {
-    #
-    # .NET API information
-    #
-    # module: phenotype_kit.geneExpression
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: phenotype_kit.dll
-    # package: "geneExpression"
-    #
-    return call <code>R&#35;.interop_[geneExpression::applyPCA]</code>(...);
-}</p></pre>
-
-                    
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="totalSumNorm">
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="totalSumNorm">
     <a href="./geneExpression/totalSumNorm.html">totalSumNorm</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>normalize data by sample column</p>  
-                
-                    <pre><p>let <code>totalSumNorm</code> as function(<code>matrix</code> as <generic> Matrix, <code>scale</code> as double = 10000) -> <code>&lt;generic&gt; Matrix</code> {
-    #
-    # .NET API information
-    #
-    # module: phenotype_kit.geneExpression
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: phenotype_kit.dll
-    # package: "geneExpression"
-    #
-    return call <code>R&#35;.interop_[geneExpression::totalSumNorm]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>matrix</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: block"><h4>Details</h4><blockquote><p>apply for the metabolomics data usually</p></blockquote></span></p>
-</div><br /><div>
-  <h2 id="relative">
+  </td>
+  <td><p>normalize data by sample column</p></td>
+</tr>
+<tr>
+  <td id="relative">
     <a href="./geneExpression/relative.html">relative</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>normalize data by feature rows</p>  
-                
-                    <pre><p>let <code>relative</code> as function(<code>matrix</code> as <generic> Matrix) -> <code>&lt;generic&gt; Matrix</code> {
-    #
-    # .NET API information
-    #
-    # module: phenotype_kit.geneExpression
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: phenotype_kit.dll
-    # package: "geneExpression"
-    #
-    return call <code>R&#35;.interop_[geneExpression::relative]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>matrix</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: block"><h4>Details</h4><blockquote><p>row/max(row)</p></blockquote></span></p>
-</div><br /><div>
-  <h2 id="expression.cmeans_pattern">
+  </td>
+  <td><p>normalize data by feature rows</p></td>
+</tr>
+<tr>
+  <td id="expression.cmeans_pattern">
     <a href="./geneExpression/expression.cmeans_pattern.html">expression.cmeans_pattern</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>This function performs clustering analysis of time course data. <br />
- Calculate gene expression pattern by cmeans algorithm.</p>  
-                
-                    <pre><p>let <code>expression.cmeans_pattern</code> as function(<code>matrix</code> as <generic> Matrix, 
-<code>dim</code> as any = "3,3", 
-<code>fuzzification</code> as double = 2, 
-<code>threshold</code> as double = 0.001, 
-[<code>&lt;Environment&gt;</code>]) -> <code>&lt;generic&gt; ExpressionPattern</code> {
-    #
-    # .NET API information
-    #
-    # module: phenotype_kit.geneExpression
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: phenotype_kit.dll
-    # package: "geneExpression"
-    #
-    return call <code>R&#35;.interop_[geneExpression::CmeansPattern]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>matrix</code>: the gene expression matrix object which could be generated by <br />
- @<code>M:phenotype_kit.geneExpression.loadExpression(System.Object,System.String[],System.Boolean,System.Boolean,SMRUCC.Rsharp.Runtime.Environment)</code> api.
-                </li>
-<li>
-  <code>dim</code>: the partition matrix size, it is recommended <br />
- that width should be equals to the height of the partition <br />
- matrix.
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="expression.cmeans3D">
+  </td>
+  <td><p>This function performs clustering analysis of time course data. <br />
+ Calculate gene expression pattern by cmeans algorithm.</p></td>
+</tr>
+<tr>
+  <td id="expression.cmeans3D">
     <a href="./geneExpression/expression.cmeans3D.html">expression.cmeans3D</a>
-  </h2>
-  <hr />
-  <p>
-                      
-                
-                    <pre><p>let <code>expression.cmeans3D</code> as function(<code>matrix</code> as <generic> Matrix, <code>fuzzification</code> as double = 2, <code>threshold</code> as double = 0.001) -> <code>&lt;generic&gt; ExpressionPattern</code> {
-    #
-    # .NET API information
-    #
-    # module: phenotype_kit.geneExpression
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: phenotype_kit.dll
-    # package: "geneExpression"
-    #
-    return call <code>R&#35;.interop_[geneExpression::CMeans3D]</code>(...);
-}</p></pre>
-
-                    
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="savePattern">
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="savePattern">
     <a href="./geneExpression/savePattern.html">savePattern</a>
-  </h2>
-  <hr />
-  <p>
-                      
-                
-                    <pre><p>let <code>savePattern</code> as function(<code>pattern</code> as <generic> ExpressionPattern, <code>file</code> as string) -> <code>boolean</code> {
-    #
-    # .NET API information
-    #
-    # module: phenotype_kit.geneExpression
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: phenotype_kit.dll
-    # package: "geneExpression"
-    #
-    return call <code>R&#35;.interop_[geneExpression::savePattern]</code>(...);
-}</p></pre>
-
-                    
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="readPattern">
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="readPattern">
     <a href="./geneExpression/readPattern.html">readPattern</a>
-  </h2>
-  <hr />
-  <p>
-                      
-                
-                    <pre><p>let <code>readPattern</code> as function(<code>file</code> as string) -> <code>&lt;generic&gt; ExpressionPattern</code> {
-    #
-    # .NET API information
-    #
-    # module: phenotype_kit.geneExpression
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: phenotype_kit.dll
-    # package: "geneExpression"
-    #
-    return call <code>R&#35;.interop_[geneExpression::readPattern]</code>(...);
-}</p></pre>
-
-                    
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="cmeans_matrix">
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="cmeans_matrix">
     <a href="./geneExpression/cmeans_matrix.html">cmeans_matrix</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>get cluster membership matrix</p>  
-                
-                    <pre><p>let <code>cmeans_matrix</code> as function(<code>pattern</code> as <generic> ExpressionPattern, <code>memberCutoff</code> as double = 0.8, [<code>&lt;Environment&gt;</code>]) -> <code>any</code> {
-    #
-    # .NET API information
-    #
-    # module: phenotype_kit.geneExpression
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: phenotype_kit.dll
-    # package: "geneExpression"
-    #
-    return call <code>R&#35;.interop_[geneExpression::GetCmeansPattern]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>pattern</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="peakCMeans">
+  </td>
+  <td><p>get cluster membership matrix</p></td>
+</tr>
+<tr>
+  <td id="peakCMeans">
     <a href="./geneExpression/peakCMeans.html">peakCMeans</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>This function performs clustering analysis of time course data</p>  
-                
-                    <pre><p>let <code>peakCMeans</code> as function(<code>matrix</code> as <generic> Matrix, 
-<code>nsize</code> as string = "3,3", 
-<code>threshold</code> as double = 10, 
-<code>fuzzification</code> as double = 2, 
-<code>plotSize</code> as any = "8100,5200", 
-<code>colorSet</code> as string = "Jet", 
-<code>memberCutoff</code> as double = 0.8, 
-[<code>&lt;Environment&gt;</code>]) -> <code>any</code> {
-    #
-    # .NET API information
-    #
-    # module: phenotype_kit.geneExpression
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: phenotype_kit.dll
-    # package: "geneExpression"
-    #
-    return call <code>R&#35;.interop_[geneExpression::cmeans]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>matrix</code>: -
-                </li>
-<li>
-  <code>nsize</code>: -
-                </li>
-<li>
-  <code>threshold</code>: the cmeans threshold
-                </li>
-<li>
-  <code>plotSize</code>: -
-                </li>
-<li>
-  <code>env</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    <h4>Value</h4><p>this function returns a tuple list that contains the pattern <br />
- cluster matrix and the cmeans pattern plots.</p>
-
-<ol>
-<li>'pattern' is a dataframe object that contains the object cluster patterns</li>
-<li>'image' is a bitmap image that plot based on the object cluster patterns data.</li>
-</ol>
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="deg.t.test">
+  </td>
+  <td><p>This function performs clustering analysis of time course data</p></td>
+</tr>
+<tr>
+  <td id="deg.t.test">
     <a href="./geneExpression/deg.t.test.html">deg.t.test</a>
-  </h2>
-  <hr />
-  <p>
-                      
-                
-                    <pre><p>let <code>deg.t.test</code> as function(<code>matrix</code> as <generic> Matrix, 
-<code>sampleinfo</code> as <generic> SampleInfo[], 
-<code>treatment</code> as string, 
-<code>control</code> as string, 
-<code>level</code> as double = 1.5, 
-<code>pvalue</code> as double = 0.05, 
-<code>FDR</code> as double = 0.05, 
-[<code>&lt;Environment&gt;</code>]) -> <code>&lt;generic&gt; DEP_iTraq[]</code> {
-    #
-    # .NET API information
-    #
-    # module: phenotype_kit.geneExpression
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: phenotype_kit.dll
-    # package: "geneExpression"
-    #
-    return call <code>R&#35;.interop_[geneExpression::Ttest]</code>(...);
-}</p></pre>
-
-                    
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="geneId">
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="geneId">
     <a href="./geneExpression/geneId.html">geneId</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>get gene Id list</p>  
-                
-                    <pre><p>let <code>geneId</code> as function(<code>dep</code> as <generic> DEP_iTraq[]) -> <code>string</code> {
-    #
-    # .NET API information
-    #
-    # module: phenotype_kit.geneExpression
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: phenotype_kit.dll
-    # package: "geneExpression"
-    #
-    return call <code>R&#35;.interop_[geneExpression::geneId]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>dep</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="as.deg">
+  </td>
+  <td><p>get gene Id list</p></td>
+</tr>
+<tr>
+  <td id="as.deg">
     <a href="./geneExpression/as.deg.html">as.deg</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>create gene expression DEG model</p>  
-                
-                    <pre><p>let <code>as.deg</code> as function(<code>x</code> as any, 
-<code>logFC</code> as string = "logFC", 
-<code>pvalue</code> as string = "pvalue", 
-<code>label</code> as string = "id", 
-[<code>&lt;Environment&gt;</code>]) -> <code>&lt;generic&gt; DEGModel</code> {
-    #
-    # .NET API information
-    #
-    # module: phenotype_kit.geneExpression
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: phenotype_kit.dll
-    # package: "geneExpression"
-    #
-    return call <code>R&#35;.interop_[geneExpression::createDEGModels]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>x</code>: -
-                </li>
-<li>
-  <code>logFC</code>: -
-                </li>
-<li>
-  <code>pvalue</code>: -
-                </li>
-<li>
-  <code>label</code>: -
-                </li>
-<li>
-  <code>env</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="deg.class">
+  </td>
+  <td><p>create gene expression DEG model</p></td>
+</tr>
+<tr>
+  <td id="deg.class">
     <a href="./geneExpression/deg.class.html">deg.class</a>
-  </h2>
-  <hr />
-  <p>
-                      
-                
-                    <pre><p>let <code>deg.class</code> as function(<code>deg</code> as <generic> DEGModel[], <code>classLabel</code> as any) -> <code>&lt;generic&gt; DEGModel[]</code> {
-    #
-    # .NET API information
-    #
-    # module: phenotype_kit.geneExpression
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: phenotype_kit.dll
-    # package: "geneExpression"
-    #
-    return call <code>R&#35;.interop_[geneExpression::DEGclass]</code>(...);
-}</p></pre>
-
-                    
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="joinSample">
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="joinSample">
     <a href="./geneExpression/joinSample.html">joinSample</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>do matrix join by samples</p>  
-                
-                    <pre><p>let <code>joinSample</code> as function(<code>samples</code> as <generic> Matrix[]) -> <code>&lt;generic&gt; Matrix</code> {
-    #
-    # .NET API information
-    #
-    # module: phenotype_kit.geneExpression
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: phenotype_kit.dll
-    # package: "geneExpression"
-    #
-    return call <code>R&#35;.interop_[geneExpression::joinSamples]</code>(...);
-}</p></pre>
-
-                    
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div>
-                       </div>
+  </td>
+  <td><p>do matrix join by samples</p></td>
+</tr></tbody>
+      </table>
+    </div>
   </body>
 </html>

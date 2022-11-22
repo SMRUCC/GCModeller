@@ -11,7 +11,7 @@
     <meta name="generator" content="https://github.com/xieguigang/xDoc" />
     <meta name="theme-color" content="#333" />
     <meta name="last-update" content="2022-11-22" />
-    <meta name="description" content="A software system aim at Artificial Life system design and analysis." />
+    <meta name="description" content="" />
     <meta class="foundation-data-attribute-namespace" />
     <meta class="foundation-mq-xxlarge" />
     <meta class="foundation-mq-xlarge" />
@@ -31,391 +31,87 @@
     </table>
     <h1>bioseq.patterns</h1>
     <hr />
+    <p>
+      <code>
+        <span style="color: blue;">imports</span>
+        <span style="color: brown"> "bioseq.patterns"</span>
+        <span style="color: blue;"> from</span>
+        <span style="color: brown"> "seqtoolkit"</span>
+      </code>
+    </p>
     <p></p>
     <div id="main-wrapper">
-                           <div>
-  <h2 id="view.sites">
+      <table>
+        <thead>
+          <tr>
+            <th>function</th>
+            <th>description</th>
+          </tr>
+        </thead>
+        <tbody><tr>
+  <td id="view.sites">
     <a href="./bioseq.patterns/view.sites.html">view.sites</a>
-  </h2>
-  <hr />
-  <p>
-                      
-                
-                    <pre><p>let <code>view.sites</code> as function(<code>sites</code> as any, 
-<code>seq</code> as any, 
-<code>deli</code> as string = ", ", 
-[<code>&lt;Environment&gt;</code>]) -> <code>string</code> {
-    #
-    # .NET API information
-    #
-    # module: seqtoolkit.patterns
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: seqtoolkit.dll
-    # package: "bioseq.patterns"
-    #
-    return call <code>R&#35;.interop_[patterns::viewSites]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>sites</code>: -
-                </li>
-<li>
-  <code>seq</code>: -
-                </li>
-<li>
-  <code>deli</code>: -
-                </li>
-<li>
-  <code>env</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="read.motifs">
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="read.motifs">
     <a href="./bioseq.patterns/read.motifs.html">read.motifs</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>read sequence motif json file.</p>  
-                
-                    <pre><p>let <code>read.motifs</code> as function(<code>file</code> as string) -> <code>&lt;generic&gt; SequenceMotif[]</code> {
-    #
-    # .NET API information
-    #
-    # module: seqtoolkit.patterns
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: seqtoolkit.dll
-    # package: "bioseq.patterns"
-    #
-    return call <code>R&#35;.interop_[patterns::readMotifs]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>file</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: block"><h4>Details</h4><blockquote><p>apply for search by @<code>M:seqtoolkit.patterns.matchSites(SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif.SequenceMotif,System.Object,System.Double,System.Double,System.Double,System.Boolean,SMRUCC.Rsharp.Runtime.Environment)</code></p></blockquote></span></p>
-</div><br /><div>
-  <h2 id="read.scans">
+  </td>
+  <td><p>read sequence motif json file.</p></td>
+</tr>
+<tr>
+  <td id="read.scans">
     <a href="./bioseq.patterns/read.scans.html">read.scans</a>
-  </h2>
-  <hr />
-  <p>
-                      
-                
-                    <pre><p>let <code>read.scans</code> as function(<code>file</code> as string) -> <code>&lt;generic&gt; MotifMatch[]</code> {
-    #
-    # .NET API information
-    #
-    # module: seqtoolkit.patterns
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: seqtoolkit.dll
-    # package: "bioseq.patterns"
-    #
-    return call <code>R&#35;.interop_[patterns::readSites]</code>(...);
-}</p></pre>
-
-                    
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="motif.find_sites">
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="motif.find_sites">
     <a href="./bioseq.patterns/motif.find_sites.html">motif.find_sites</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>Find target loci site based on the given motif model</p>  
-                
-                    <pre><p>let <code>motif.find_sites</code> as function(<code>motif</code> as <generic> SequenceMotif, 
-<code>target</code> as any, 
-<code>cutoff</code> as double = 0.6, 
-<code>minW</code> as double = 6, 
-<code>identities</code> as double = 0.85, 
-<code>parallel</code> as boolean = FALSE, 
-[<code>&lt;Environment&gt;</code>]) -> <code>&lt;generic&gt; MotifMatch</code> {
-    #
-    # .NET API information
-    #
-    # module: seqtoolkit.patterns
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: seqtoolkit.dll
-    # package: "bioseq.patterns"
-    #
-    return call <code>R&#35;.interop_[patterns::matchSites]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>motif</code>: -
-                </li>
-<li>
-  <code>target</code>: a collection of fasta sequence
-                </li>
-<li>
-  <code>cutoff#</code>: -
-                </li>
-<li>
-  <code>minW#</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="palindrome.mirror">
+  </td>
+  <td><p>Find target loci site based on the given motif model</p></td>
+</tr>
+<tr>
+  <td id="palindrome.mirror">
     <a href="./bioseq.patterns/palindrome.mirror.html">palindrome.mirror</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>Search mirror palindrome sites for a given seed sequence</p>  
-                
-                    <pre><p>let <code>palindrome.mirror</code> as function(<code>sequence</code> as string, <code>seed</code> as string) -> <code>&lt;generic&gt; PalindromeLoci[]</code> {
-    #
-    # .NET API information
-    #
-    # module: seqtoolkit.patterns
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: seqtoolkit.dll
-    # package: "bioseq.patterns"
-    #
-    return call <code>R&#35;.interop_[patterns::FindMirrorPalindromes]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>sequence</code>: -
-                </li>
-<li>
-  <code>seed</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="seeds">
+  </td>
+  <td><p>Search mirror palindrome sites for a given seed sequence</p></td>
+</tr>
+<tr>
+  <td id="seeds">
     <a href="./bioseq.patterns/seeds.html">seeds</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>Create seeds</p>  
-                
-                    <pre><p>let <code>seeds</code> as function(<code>size</code> as integer, <code>base</code> as string) -> <code>string</code> {
-    #
-    # .NET API information
-    #
-    # module: seqtoolkit.patterns
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: seqtoolkit.dll
-    # package: "bioseq.patterns"
-    #
-    return call <code>R&#35;.interop_[patterns::GetSeeds]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>size</code>: -
-                </li>
-<li>
-  <code>base</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="motifString">
+  </td>
+  <td><p>Create seeds</p></td>
+</tr>
+<tr>
+  <td id="motifString">
     <a href="./bioseq.patterns/motifString.html">motifString</a>
-  </h2>
-  <hr />
-  <p>
-                      
-                
-                    <pre><p>let <code>motifString</code> as function(<code>motif</code> as any, [<code>&lt;Environment&gt;</code>]) -> <code>any</code> {
-    #
-    # .NET API information
-    #
-    # module: seqtoolkit.patterns
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: seqtoolkit.dll
-    # package: "bioseq.patterns"
-    #
-    return call <code>R&#35;.interop_[patterns::MotifString]</code>(...);
-}</p></pre>
-
-                    
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="find_motifs">
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="find_motifs">
     <a href="./bioseq.patterns/find_motifs.html">find_motifs</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>find possible motifs of the given sequence collection</p>  
-                
-                    <pre><p>let <code>find_motifs</code> as function(<code>fasta</code> as any, 
-<code>minw</code> as integer = 6, 
-<code>maxw</code> as integer = 20, 
-<code>nmotifs</code> as integer = 25, 
-<code>noccurs</code> as integer = 6, 
-<code>seedingCutoff</code> as double = 0.95, 
-<code>scanMinW</code> as integer = 6, 
-<code>scanCutoff</code> as double = 0.8, 
-<code>cleanMotif</code> as double = 0.5, 
-[<code>&lt;Environment&gt;</code>]) -> <code>&lt;generic&gt; SequenceMotif[]</code> {
-    #
-    # .NET API information
-    #
-    # module: seqtoolkit.patterns
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: seqtoolkit.dll
-    # package: "bioseq.patterns"
-    #
-    return call <code>R&#35;.interop_[patterns::GetMotifs]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>fasta</code>: -
-                </li>
-<li>
-  <code>minw%</code>: -
-                </li>
-<li>
-  <code>maxw%</code>: -
-                </li>
-<li>
-  <code>nmotifs%</code>: -
-                </li>
-<li>
-  <code>noccurs%</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="plot.seqLogo">
+  </td>
+  <td><p>find possible motifs of the given sequence collection</p></td>
+</tr>
+<tr>
+  <td id="plot.seqLogo">
     <a href="./bioseq.patterns/plot.seqLogo.html">plot.seqLogo</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>Drawing the sequence logo just simply modelling this motif site <br />
- from the clustal multiple sequence alignment.</p>  
-                
-                    <pre><p>let <code>plot.seqLogo</code> as function(<code>MSA</code> as any, <code>title</code> as string = "", [<code>&lt;Environment&gt;</code>]) -> <code>&lt;generic&gt; GraphicsData</code> {
-    #
-    # .NET API information
-    #
-    # module: seqtoolkit.patterns
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: seqtoolkit.dll
-    # package: "bioseq.patterns"
-    #
-    return call <code>R&#35;.interop_[patterns::DrawLogo]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>MSA</code>: -
-                </li>
-<li>
-  <code>title</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div><br /><div>
-  <h2 id="scaffold.orthogonality">
+  </td>
+  <td><p>Drawing the sequence logo just simply modelling this motif site <br />
+ from the clustal multiple sequence alignment.</p></td>
+</tr>
+<tr>
+  <td id="scaffold.orthogonality">
     <a href="./bioseq.patterns/scaffold.orthogonality.html">scaffold.orthogonality</a>
-  </h2>
-  <hr />
-  <p>
-                    <p>analyses orthogonality of two DNA-Origami scaffold strands.<br />
+  </td>
+  <td><p>analyses orthogonality of two DNA-Origami scaffold strands.<br />
  Multiple criteria For orthogonality Of the two sequences can be specified<br />
- to determine the level of orthogonality.</p>  
-                
-                    <pre><p>let <code>scaffold.orthogonality</code> as function(<code>scaffolds</code> as any, 
-<code>segment_len</code> as integer = 7, 
-<code>is_linear</code> as boolean = FALSE, 
-<code>rev_compl</code> as boolean = FALSE, 
-[<code>&lt;Environment&gt;</code>]) -> <code>&lt;generic&gt; Output</code> {
-    #
-    # .NET API information
-    #
-    # module: seqtoolkit.patterns
-    # LibPath: D:/GCModeller/src/workbench/pkg/assembly/net6.0
-    # library: seqtoolkit.dll
-    # package: "bioseq.patterns"
-    #
-    return call <code>R&#35;.interop_[patterns::ScaffoldOrthogonality]</code>(...);
-}</p></pre>
-
-                    <div>
-  <h4>Arguments</h4>
-  <ul>
-                   <li>
-  <code>scaffolds</code>: -
-                </li>
-<li>
-  <code>segment_len</code>: segment length
-                </li>
-<li>
-  <code>is_linear</code>: scaffolds are not circular
-                </li>
-<li>
-  <code>rev_compl</code>: also count reverse complementary sequences
-                </li>
-<li>
-  <code>env</code>: -
-                </li>
-                </ul>
-</div>
-                       
-                    
-
-                    <span style="font-size:0.9em; display: none"><h4>Details</h4><blockquote></blockquote></span></p>
-</div>
-                       </div>
+ to determine the level of orthogonality.</p></td>
+</tr></tbody>
+      </table>
+    </div>
   </body>
 </html>
