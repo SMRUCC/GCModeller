@@ -5,6 +5,7 @@ the gene expression matrix data toolkit
 + [tr](geneExpression/tr.1) do matrix transpose
 + [dims](geneExpression/dims.1) get summary information about the HTS matrix dimensions
 + [as.expr_list](geneExpression/as.expr_list.1) convert the matrix into row gene list
++ [setTag](geneExpression/setTag.1) 
 + [setZero](geneExpression/setZero.1) 
 + [setFeatures](geneExpression/setFeatures.1) 
 + [filterZeroSamples](geneExpression/filterZeroSamples.1) filter out all samples columns which its expression vector is ZERO!

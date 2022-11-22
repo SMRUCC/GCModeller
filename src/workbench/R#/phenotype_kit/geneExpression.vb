@@ -183,6 +183,12 @@ Module geneExpression
         }
     End Function
 
+    <ExportAPI("setTag")>
+    Public Function setTag(expr0 As Matrix, tag As String) As Matrix
+        expr0.tag = tag
+        Return expr0
+    End Function
+
     <ExportAPI("setZero")>
     Public Function setZero(expr0 As Matrix, Optional q As Double = 0.1) As Matrix
         For Each gene As DataFrameRow In expr0.expression
