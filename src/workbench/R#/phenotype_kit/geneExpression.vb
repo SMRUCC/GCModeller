@@ -714,6 +714,25 @@ Module geneExpression
         Return kmeans
     End Function
 
+    <ExportAPI("split.cmeans_clusters")>
+    Public Function splitCMeansClusters(cmeans As EntityClusterModel()) As Object
+        Dim split = cmeans _
+            .Select(Iterator Function(c) As IEnumerable(Of EntityClusterModel)
+                        For Each id As String In c.Cluster.StringSplit(";\s*")
+                            Yield New EntityClusterModel With {
+                                .Cluster = id,
+                                .ID = c.ID,
+                                .Properties = New Dictionary(Of String, Double)(c.Properties)
+                            }
+                        Next
+                    End Function) _
+            .IteratesALL _
+            .GroupBy(Function(c) c.Cluster) _
+            .ToArray
+
+        Return split.ToDictionary(Function(a) a.Key, Function(a) a.ToArray)
+    End Function
+
     ''' <summary>
     ''' This function performs clustering analysis of time course data
     ''' </summary>
