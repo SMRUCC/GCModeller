@@ -736,10 +736,21 @@ Module geneExpression
     ''' <summary>
     ''' This function performs clustering analysis of time course data
     ''' </summary>
-    ''' <param name="matrix"></param>
-    ''' <param name="nsize"></param>
+    ''' <param name="matrix">A gene expression data matrix object</param>
+    ''' <param name="nsize">
+    ''' the layout of the cmeans clustering visualization
+    ''' </param>
     ''' <param name="threshold">the cmeans threshold</param>
-    ''' <param name="plotSize"></param>
+    ''' <param name="plotSize">the image size of the cmeans plot</param>
+    ''' <param name="colorSet">
+    ''' the color palatte name
+    ''' </param>
+    ''' <param name="fuzzification">
+    ''' cmeans fuzzification parameter
+    ''' </param>
+    ''' <param name="memberCutoff">
+    ''' the cmeans membership cutoff value for create a molecule cluster
+    ''' </param>
     ''' <param name="env"></param>
     ''' <returns>
     ''' this function returns a tuple list that contains the pattern 
@@ -758,6 +769,8 @@ Module geneExpression
                            Optional plotSize As Object = "8100,5200",
                            Optional colorSet As String = "Jet",
                            Optional memberCutoff As Double = 0.8,
+                           Optional xlab As String = "Spatial Regions",
+                           Optional ylab As String = "z-score(Normalized Intensity)",
                            Optional env As Environment = Nothing) As Object
 
         Dim println As Action(Of Object) = env.WriteLineHandler
@@ -779,8 +792,8 @@ Module geneExpression
             .DrawMatrix(
                 size:=InteropArgumentHelper.getSize(plotSize, env, "8100,5200"),
                 colorSet:=colorSet,
-                xlab:="Spatial Regions",
-                ylab:="z-score(Normalized Intensity)",
+                xlab:=xlab,
+                ylab:=ylab,
                 xAxisLabelRotate:=45,
                 padding:="padding:100px 100px 300px 100px;",
                 membershipCutoff:=memberCutoff
