@@ -89,7 +89,7 @@ Imports REnv = SMRUCC.Rsharp.Runtime
         Dim proteinIndex As Dictionary(Of String, ProteinAnnotation())
 
         Select Case from.ToLower
-            Case "geneName"
+            Case "genename", "gene_name"
                 proteinIndex = proteins _
                     .GroupBy(Function(prot) Strings.LCase(prot.geneName)) _
                     .ToDictionary(Function(prot) prot.Key,
