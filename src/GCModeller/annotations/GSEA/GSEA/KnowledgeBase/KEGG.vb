@@ -71,30 +71,35 @@ Public Module KEGG
         Return subtype.categoryItems _
             .SafeQuery _
             .Select(Function(pathway)
-                        Return New Cluster With {
-                            .ID = "map" & pathway.entryID,
-                            .description = pathway _
-                                .ToString _
-                                .Replace("[BR:ko]", "") _
-                                .Replace("[PATH:ko]", "") _
-                                .Trim,
-                            .names = pathway.description _
-                                .Replace("[BR:ko]", "") _
-                                .Replace("[PATH:ko]", "") _
-                                .Trim,
-                            .members = pathway.categoryItems _
-                                .SafeQuery _
-                                .Select(Function(ko)
-                                            Return New BackgroundGene With {
-                                                .accessionID = ko.entryID,
-                                                .[alias] = {ko.entryID},
-                                                .locus_tag = New NamedValue With {.name = ko.entryID, .text = ko.description},
-                                                .name = ko.description,
-                                                .term_id = {ko.entryID}
-                                            }
-                                        End Function) _
-                                .ToArray
-                        }
+                        Return pathway.subtypeCluster
                     End Function)
+    End Function
+
+    <Extension>
+    Private Function subtypeCluster(pathway As BriteHText) As Cluster
+        Return New Cluster With {
+            .ID = "map" & pathway.entryID,
+            .description = pathway _
+                .ToString _
+                .Replace("[BR:ko]", "") _
+                .Replace("[PATH:ko]", "") _
+                .Trim,
+            .names = pathway.description _
+                .Replace("[BR:ko]", "") _
+                .Replace("[PATH:ko]", "") _
+                .Trim,
+            .members = pathway.categoryItems _
+                .SafeQuery _
+                .Select(Function(ko)
+                            Return New BackgroundGene With {
+                                .accessionID = ko.entryID,
+                                .[alias] = {ko.entryID},
+                                .locus_tag = New NamedValue With {.name = ko.entryID, .text = ko.description},
+                                .name = ko.description,
+                                .term_id = {ko.entryID}
+                            }
+                        End Function) _
+                .ToArray
+        }
     End Function
 End Module

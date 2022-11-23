@@ -333,6 +333,11 @@ Public Module GSEABackground
         End If
     End Function
 
+    ''' <summary>
+    ''' convert the background model to a data table
+    ''' </summary>
+    ''' <param name="background"></param>
+    ''' <returns></returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <ExportAPI("KO.table")>
     Public Function KOTable(background As Background) As EntityObject()
@@ -361,7 +366,11 @@ Public Module GSEABackground
     ''' <param name="clusterName$"></param>
     ''' <returns></returns>
     <ExportAPI("gsea.cluster")>
-    Public Function CreateCluster(data As Rdataframe, clusterId$, clusterName$, Optional desc$ = "n/a", Optional id$ = "xref", Optional name$ = "name") As Cluster
+    Public Function CreateCluster(data As Rdataframe, clusterId$, clusterName$,
+                                  Optional desc$ = "n/a",
+                                  Optional id$ = "xref",
+                                  Optional name$ = "name") As Cluster
+
         Dim idvec As String() = asVector(Of String)(data.columns(id))
         Dim namevec As String() = asVector(Of String)(data.columns(name))
         Dim cluster As New Cluster With {
@@ -390,11 +399,26 @@ Public Module GSEABackground
     ''' <summary>
     ''' cast the cluster data as the enrichment background
     ''' </summary>
-    ''' <param name="clusters"></param>
-    ''' <param name="background_size%"></param>
-    ''' <param name="name$"></param>
-    ''' <param name="tax_id$"></param>
-    ''' <param name="desc$"></param>
+    ''' <param name="clusters">
+    ''' a data cluster or a collection of kegg pathway model
+    ''' </param>
+    ''' <param name="background_size">
+    ''' default value -1 or zero means auto evaluated
+    ''' </param>
+    ''' <param name="name">
+    ''' the background model name
+    ''' </param>
+    ''' <param name="tax_id">
+    ''' ncbi taxonomy id of the target organism
+    ''' </param>
+    ''' <param name="desc">
+    ''' the model description
+    ''' </param>
+    ''' <param name="is_multipleOmics">
+    ''' Create a enrichment background model for run multiple omics data analysis?
+    ''' this parameter is only works for the kegg pathway model where you are 
+    ''' speicifc via the <paramref name="clusters"/> parameter.
+    ''' </param>
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("as.background")>
@@ -404,13 +428,24 @@ Public Module GSEABackground
                                        Optional name$ = "n/a",
                                        Optional tax_id$ = "n/a",
                                        Optional desc$ = "n/a",
+                                       Optional is_multipleOmics As Boolean = False,
                                        Optional env As Environment = Nothing) As Object
 
-        Dim clusterList As pipeline = pipeline.TryCreatePipeline(Of Cluster)(clusters, env)
+        Dim clusterList As pipeline = pipeline.TryCreatePipeline(Of Cluster)(clusters, env, suppress:=True)
         Dim clusterVec As Cluster()
 
         If clusterList.isError Then
-            Return clusterList.GetType
+            clusterList = pipeline.TryCreatePipeline(Of Pathway)(clusters, env)
+
+            If clusterList.isError Then
+                Return clusterList.getError
+            Else
+                If is_multipleOmics Then
+                    Return MultipleOmics.CreateOmicsBackground(clusterList.populates(Of SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Pathway)(env))
+                Else
+                    Return clusterList.populates(Of SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Pathway)(env).CreateModel
+                End If
+            End If
         Else
             clusterVec = clusterList.populates(Of Cluster)(env).ToArray
 

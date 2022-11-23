@@ -57,7 +57,7 @@ Imports Microsoft.VisualBasic.Text.Xml.Models
 Public Module OntologyBackground
 
     ''' <summary>
-    ''' 
+    ''' Create a enrichment background based on a ontology tree model
     ''' </summary>
     ''' <typeparam name="T"></typeparam>
     ''' <param name="tree">

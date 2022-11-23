@@ -60,7 +60,8 @@ Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Organism
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 
 ''' <summary>
-''' Create background model for KEGG pathway enrichment based on the kegg metabolites, used for LC-MS metabolism data analysis.
+''' Create background model for KEGG pathway enrichment based on the kegg metabolites, 
+''' used for LC-MS metabolism data analysis.
 ''' </summary>
 Public Module KEGGCompounds
 

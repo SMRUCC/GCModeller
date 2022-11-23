@@ -1,12 +1,14 @@
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports Microsoft.VisualBasic.Linq
+Imports System.Runtime.CompilerServices
 
 ''' <summary>
 ''' helper for create enrichment background model for multiple omics data analysis
 ''' </summary>
 Public Module MultipleOmics
 
+    <Extension>
     Public Function CreateOmicsBackground(model As IEnumerable(Of Pathway)) As Background
         Dim clusters As Cluster() = model.Select(Function(m) getCluster(m)).ToArray
 
@@ -20,20 +22,13 @@ Public Module MultipleOmics
         }
     End Function
 
+    ''' <summary>
+    ''' create background model of combine genes with compounds
+    ''' </summary>
+    ''' <param name="model"></param>
+    ''' <returns></returns>
     Private Function getCluster(model As Pathway) As Cluster
-        Dim molecules As New List(Of BackgroundGene)
-
-        For Each gene As GeneName In model.genes.SafeQuery
-            molecules.Add(New BackgroundGene With {
-                .accessionID = gene.geneId,
-                .name = gene.geneName,
-                .[alias] = {gene.geneId, gene.geneName},
-                .locus_tag = New NamedValue With {.name = gene.geneId, .text = gene.description},
-                .term_id = New String() {gene.KO} _
-                    .JoinIterates(gene.EC) _
-                    .ToArray
-            })
-        Next
+        Dim molecules As New List(Of BackgroundGene)(model.GetGeneMembers)
 
         For Each compound As NamedValue In model.compound.SafeQuery
             molecules.Add(New BackgroundGene With {
