@@ -163,7 +163,9 @@
     <i>fuzzification</i> = 2,
     <i>plotSize</i> = <span style='color: brown;'><strong>"8100,5200"</strong></span>,
     <i>colorSet</i> = <span style='color: brown;'><strong>"Jet"</strong></span>,
-    <i>memberCutoff</i> = 0.8);</code></pre>
+    <i>memberCutoff</i> = 0.8,
+    <i>xlab</i> = <span style='color: brown;'><strong>"Spatial Regions"</strong></span>,
+    <i>ylab</i> = <span style='color: brown;'><strong>"z-score(Normalized Intensity)"</strong></span>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
@@ -171,11 +173,11 @@
         <table>
             
 <dt>matrix</dt>
-<dd><p><p>-</p></p></dd>
+<dd><p><p>A gene expression data matrix object</p></p></dd>
 
 
 <dt>nsize</dt>
-<dd><p><p>-</p></p></dd>
+<dd><p><p>the layout of the cmeans clustering visualization</p></p></dd>
 
 
 <dt>threshold</dt>
@@ -183,7 +185,19 @@
 
 
 <dt>plotSize</dt>
-<dd><p><p>-</p></p></dd>
+<dd><p><p>the image size of the cmeans plot</p></p></dd>
+
+
+<dt>colorSet</dt>
+<dd><p><p>the color palatte name</p></p></dd>
+
+
+<dt>fuzzification</dt>
+<dd><p><p>cmeans fuzzification parameter</p></p></dd>
+
+
+<dt>memberCutoff</dt>
+<dd><p><p>the cmeans membership cutoff value for create a molecule cluster</p></p></dd>
 
 
 <dt>env</dt>
