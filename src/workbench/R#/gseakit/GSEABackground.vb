@@ -64,6 +64,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Analysis.GO
 Imports SMRUCC.genomics.Analysis.HTS.GSEA
+Imports SMRUCC.genomics.Analysis.HTS.GSEA.KnowledgeBase
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
@@ -142,6 +143,13 @@ Public Module GSEABackground
         Return background
     End Function
 
+    ''' <summary>
+    ''' do id mapping of the members in the background cluster
+    ''' </summary>
+    ''' <param name="background"></param>
+    ''' <param name="mapping"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("background.id_mapping")>
     Public Function BackgroundIDmapping(background As Background, mapping As list, Optional env As Environment = Nothing) As Object
         Dim maps As Dictionary(Of String, String()) = mapping.AsGeneric(Of String())(env, [default]:={})
@@ -379,6 +387,16 @@ Public Module GSEABackground
         Return cluster
     End Function
 
+    ''' <summary>
+    ''' cast the cluster data as the enrichment background
+    ''' </summary>
+    ''' <param name="clusters"></param>
+    ''' <param name="background_size%"></param>
+    ''' <param name="name$"></param>
+    ''' <param name="tax_id$"></param>
+    ''' <param name="desc$"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("as.background")>
     <RApiReturn(GetType(Background))>
     Public Function assembleBackground(<RRawVectorArgument> clusters As Object,
@@ -450,30 +468,6 @@ Public Module GSEABackground
         }
     End Function
 
-    <Extension>
-    Private Function compoundCluster(map As MapIndex) As Cluster
-        Return New Cluster With {
-            .description = map.description,
-            .ID = If(map.id.IsPattern("\d+"), $"map{map.id}", map.id),
-            .names = map.Name.Replace(" - Reference pathway", ""),
-            .members = map.shapes _
-                .Select(Function(a) a.IDVector) _
-                .IteratesALL _
-                .Distinct _
-                .Where(Function(id) id.IsPattern("[CDG]\d+")) _
-                .Select(Function(cid)
-                            Return New BackgroundGene With {
-                                .accessionID = cid,
-                                .[alias] = {cid},
-                                .locus_tag = New NamedValue With {.name = cid, .text = cid},
-                                .name = cid,
-                                .term_id = {cid}
-                            }
-                        End Function) _
-                .ToArray
-        }
-    End Function
-
     ''' <summary>
     ''' create kegg maps background for the metabolism data analysis
     ''' </summary>
@@ -485,7 +479,7 @@ Public Module GSEABackground
             .SafeQuery _
             .Select(Function(id) id.Match("\d+")) _
             .Indexing
-        Dim clusters As Cluster() = kegg.Maps _
+        Dim background As Background = kegg.Maps _
             .Where(Function(map)
                        If mapIdFilter.Count > 0 Then
                            Return map.id.Match("\d+") Like mapIdFilter
@@ -493,18 +487,9 @@ Public Module GSEABackground
                            Return True
                        End If
                    End Function) _
-            .Select(Function(map)
-                        Return map.compoundCluster
-                    End Function) _
-            .ToArray
+            .CreateGeneralBackground
 
-        Return New Background With {
-            .clusters = clusters,
-            .build = Now,
-            .comments = "The KEGG compound metabolism background model",
-            .id = "kegg maps",
-            .name = "kegg maps"
-        }
+        Return background
     End Function
 
     ''' <summary>

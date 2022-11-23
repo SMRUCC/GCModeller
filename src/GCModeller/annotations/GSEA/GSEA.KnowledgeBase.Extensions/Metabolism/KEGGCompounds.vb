@@ -68,18 +68,27 @@ Public Module KEGGCompounds
     ''' Create general reference GSEA background model from LC-MS metabolism analysis result.
     ''' </summary>
     ''' <param name="maps"></param>
+    ''' <param name="KO">
+    ''' a indexer for do map selection
+    ''' </param>
     ''' <returns></returns>
     <Extension>
-    Public Function CreateGeneralBackground(maps As IEnumerable(Of Map), KO As Index(Of String)) As Background
+    Public Function CreateGeneralBackground(Of T As Map)(maps As IEnumerable(Of T), Optional KO As Index(Of String) = Nothing) As Background
         ' The total number of metabolites in background genome. 
         Dim backgroundSize% = 0
         Dim clusters As New List(Of Cluster)
         Dim names As NamedValue(Of String)()
 
-        For Each map As Map In maps
+        If KO Is Nothing Then
+            KO = New String() {}
+        End If
+
+        For Each map As T In maps
             names = map.shapes _
                 .Select(Function(a) a.Names) _
                 .IteratesALL _
+                .GroupBy(Function(n) n.Name) _
+                .Select(Function(duplicated) duplicated.First) _
                 .ToArray
 
             If Not names.Any(Function(id) id.Name Like KO) Then
@@ -92,7 +101,7 @@ Public Module KEGGCompounds
                 .ID = map.id,
                 .names = map.Name,
                 .members = names _
-                    .Where(Function(a) a.Name.IsPattern("C\d+")) _
+                    .Where(Function(a) a.Name.IsPattern("[CDG]\d+")) _
                     .Select(Function(c)
                                 Return New BackgroundGene With {
                                     .name = c.Value,
@@ -106,12 +115,7 @@ Public Module KEGGCompounds
             }
         Next
 
-        backgroundSize = clusters _
-            .Select(Function(c) c.members) _
-            .IteratesALL _
-            .Select(Function(c) c.accessionID) _
-            .Distinct _
-            .Count
+        backgroundSize = clusters.BackgroundSize
 
         Return New Background With {
             .build = Now,

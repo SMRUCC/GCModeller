@@ -60,6 +60,9 @@ Imports Microsoft.VisualBasic.Text.Xml.Models
 
 Namespace Assembly.KEGG.WebServices
 
+    ''' <summary>
+    ''' a subclass of <see cref="Map"/>
+    ''' </summary>
     Public Class MapIndex : Inherits Map
         Implements INamedValue
 
