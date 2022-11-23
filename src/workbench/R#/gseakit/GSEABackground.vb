@@ -171,31 +171,36 @@ Public Module GSEABackground
     End Function
 
     <Extension>
+    Private Function id_translation(g As BackgroundGene, maps As Dictionary(Of String, String())) As IEnumerable(Of BackgroundGene)
+        Dim multipleID As String() = maps.TryGetValue(g.accessionID)
+
+        If multipleID.IsNullOrEmpty Then
+            Return Nothing
+        End If
+
+        Return multipleID _
+            .Select(Function(mapId)
+                        Return New BackgroundGene With {
+                            .accessionID = mapId,
+                            .[alias] = g.alias _
+                                .SafeQuery _
+                                .Select(AddressOf maps.TryGetValue) _
+                                .Where(Function(id) Not id.IsNullOrEmpty) _
+                                .IteratesALL _
+                                .Distinct _
+                                .ToArray,
+                            .locus_tag = g.locus_tag,
+                            .name = g.name,
+                            .term_id = g.term_id
+                        }
+                    End Function)
+    End Function
+
+    <Extension>
     Private Function id_translation(c As Cluster, maps As Dictionary(Of String, String())) As Cluster
         Dim geneList As BackgroundGene() = c.members _
             .Select(Function(g)
-                        Dim multipleID As String() = maps.TryGetValue(g.accessionID)
-
-                        If multipleID.IsNullOrEmpty Then
-                            Return Nothing
-                        End If
-
-                        Return multipleID _
-                            .Select(Function(mapId)
-                                        Return New BackgroundGene With {
-                                            .accessionID = mapId,
-                                            .[alias] = g.alias _
-                                                .SafeQuery _
-                                                .Select(AddressOf maps.TryGetValue) _
-                                                .Where(Function(id) Not id.IsNullOrEmpty) _
-                                                .IteratesALL _
-                                                .Distinct _
-                                                .ToArray,
-                                            .locus_tag = g.locus_tag,
-                                            .name = g.name,
-                                            .term_id = g.term_id
-                                        }
-                                    End Function)
+                        Return g.id_translation(maps)
                     End Function) _
             .IteratesALL _
             .Where(Function(g)
@@ -435,7 +440,7 @@ Public Module GSEABackground
         Dim clusterVec As Cluster()
 
         If clusterList.isError Then
-            clusterList = pipeline.TryCreatePipeline(Of Pathway)(clusters, env)
+            clusterList = pipeline.TryCreatePipeline(Of SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Pathway)(clusters, env)
 
             If clusterList.isError Then
                 Return clusterList.getError
