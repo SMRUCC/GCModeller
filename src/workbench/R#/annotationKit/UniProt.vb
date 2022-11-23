@@ -45,6 +45,12 @@ Public Module UniProt
         Return Nothing
     End Function
 
+    ''' <summary>
+    ''' extract fasta data from a HDS stream database
+    ''' </summary>
+    ''' <param name="pack"></param>
+    ''' <param name="enzyme"></param>
+    ''' <returns></returns>
     <ExportAPI("extract_fasta")>
     Public Function ExtractFasta(pack As ECNumberReader, Optional enzyme As Boolean = True) As FastaFile
         Return New FastaFile(pack.QueryFasta(enzymeQuery:=enzyme))

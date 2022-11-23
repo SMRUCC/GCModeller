@@ -292,7 +292,7 @@ Module uniprot
     ''' <summary>
     ''' id unify mapping
     ''' </summary>
-    ''' <param name="uniprot"></param>
+    ''' <param name="uniprot">a uniprot dataabse pipeline stream</param>
     ''' <param name="id"></param>
     ''' <param name="target">the database name for map to</param>
     ''' <param name="env"></param>

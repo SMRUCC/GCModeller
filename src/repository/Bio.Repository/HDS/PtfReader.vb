@@ -22,6 +22,10 @@ Public Class PtfReader : Implements IDisposable
         Me.stream = stream
     End Sub
 
+    ''' <summary>
+    ''' enumerate all database name from a HDS stream
+    ''' </summary>
+    ''' <returns></returns>
     Public Function getExternalReferenceList() As String()
         Return DirectCast(stream.GetObject("/db_xref/"), StreamGroup).files _
             .Select(Function(a) a.fileName.BaseName) _
