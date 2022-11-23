@@ -294,3 +294,4 @@ src/workbench/Markdown2PDF_0.1.0.zip
 *.v5
 *.2
 src/repository/graphquery/hsa.db
+src/repository/graphquery/hsa.xml
