@@ -75,7 +75,6 @@ Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.HTS.Proteomics
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
-Imports SMRUCC.genomics.Model.SBML.Level3
 Imports SMRUCC.genomics.Visualize
 Imports SMRUCC.genomics.Visualize.ExpressionPattern
 Imports SMRUCC.Rsharp.Runtime
@@ -157,6 +156,7 @@ Module geneExpression
     ''' <param name="mat"></param>
     ''' <returns></returns>
     <ExportAPI("dims")>
+    <RApiReturn("feature_size", "feature_names", "sample_size", "sample_names")>
     Public Function dims(mat As Matrix) As list
         Return New list With {
             .slots = New Dictionary(Of String, Object) From {
@@ -184,12 +184,26 @@ Module geneExpression
         }
     End Function
 
+    ''' <summary>
+    ''' set a new tag string to the matrix
+    ''' </summary>
+    ''' <param name="expr0"></param>
+    ''' <param name="tag"></param>
+    ''' <returns></returns>
     <ExportAPI("setTag")>
     Public Function setTag(expr0 As Matrix, tag As String) As Matrix
         expr0.tag = tag
         Return expr0
     End Function
 
+    ''' <summary>
+    ''' set the expression value to zero 
+    ''' 
+    ''' if the expression value is less than a given threshold
+    ''' </summary>
+    ''' <param name="expr0"></param>
+    ''' <param name="q"></param>
+    ''' <returns></returns>
     <ExportAPI("setZero")>
     Public Function setZero(expr0 As Matrix, Optional q As Double = 0.1) As Matrix
         For Each gene As DataFrameRow In expr0.expression
@@ -206,6 +220,13 @@ Module geneExpression
         Return expr0
     End Function
 
+    ''' <summary>
+    ''' set new gene id list to the matrix rows
+    ''' </summary>
+    ''' <param name="expr0"></param>
+    ''' <param name="gene_ids"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("setFeatures")>
     <RApiReturn(GetType(Matrix))>
     Public Function setGeneIDs(expr0 As Matrix,
@@ -437,7 +458,7 @@ Module geneExpression
     ''' <summary>
     ''' cast the HTS matrix object to the general dataset
     ''' </summary>
-    ''' <param name="matrix"></param>
+    ''' <param name="matrix">a gene expression matrix</param>
     ''' <returns></returns>
     <ExportAPI("as.generic")>
     Public Function castGenericRows(matrix As Matrix) As DataSet()
@@ -469,7 +490,7 @@ Module geneExpression
     ''' create some plot for visualize the gene expression
     ''' patterns across the sample groups.
     ''' </summary>
-    ''' <param name="matrix"></param>
+    ''' <param name="matrix">a gene expression matrix</param>
     ''' <param name="sampleinfo"></param>
     ''' <returns></returns>
     <ExportAPI("average")>
@@ -494,7 +515,7 @@ Module geneExpression
     ''' standard deviation (e.g., standard deviation of 
     ''' expression of a genomic feature in different conditions).
     ''' </summary>
-    ''' <param name="x"></param>
+    ''' <param name="x">a gene expression matrix</param>
     ''' <returns></returns>
     <ExportAPI("z_score")>
     Public Function zscore(x As Matrix) As Matrix
@@ -517,6 +538,12 @@ Module geneExpression
         }
     End Function
 
+    ''' <summary>
+    ''' do PCA on a gene expressin matrix
+    ''' </summary>
+    ''' <param name="x">a gene expression matrix</param>
+    ''' <param name="npc"></param>
+    ''' <returns></returns>
     <ExportAPI("pca")>
     Public Function applyPCA(x As Matrix, Optional npc As Integer = 3) As Rdataframe
         Dim mat As Double()() = x.expression _
@@ -546,7 +573,7 @@ Module geneExpression
     ''' <summary>
     ''' normalize data by sample column
     ''' </summary>
-    ''' <param name="matrix"></param>
+    ''' <param name="matrix">a gene expression matrix</param>
     ''' <returns></returns>
     ''' <remarks>
     ''' apply for the metabolomics data usually
@@ -582,7 +609,7 @@ Module geneExpression
     ''' <summary>
     ''' normalize data by feature rows
     ''' </summary>
-    ''' <param name="matrix"></param>
+    ''' <param name="matrix">a gene expression matrix</param>
     ''' <returns></returns>
     ''' <remarks>
     ''' row/max(row)
@@ -614,6 +641,8 @@ Module geneExpression
     ''' the partition matrix size, it is recommended 
     ''' that width should be equals to the height of the partition 
     ''' matrix.</param>
+    ''' <param name="fuzzification">the cmeans fuzzification parameter</param>
+    ''' <param name="threshold">the cmeans threshold parameter</param>
     ''' <returns></returns>
     <ExportAPI("expression.cmeans_pattern")>
     Public Function CmeansPattern(matrix As Matrix,
@@ -637,17 +666,35 @@ Module geneExpression
                     End Function)
     End Function
 
+    ''' <summary>
+    ''' run cmeans clustering in 3 patterns
+    ''' </summary>
+    ''' <param name="matrix">a gene expression matrix object</param>
+    ''' <param name="fuzzification">the cmeans fuzzification parameter</param>
+    ''' <param name="threshold">the cmeans threshold parameter</param>
+    ''' <returns></returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <ExportAPI("expression.cmeans3D")>
     Public Function CMeans3D(matrix As Matrix, Optional fuzzification# = 2, Optional threshold# = 0.001) As ExpressionPattern
         Return ExpressionPattern.CMeansCluster3D(matrix, fuzzification, threshold)
     End Function
 
+    ''' <summary>
+    ''' save the cmeans expression pattern result to local file
+    ''' </summary>
+    ''' <param name="pattern"></param>
+    ''' <param name="file"></param>
+    ''' <returns></returns>
     <ExportAPI("savePattern")>
     Public Function savePattern(pattern As ExpressionPattern, file As String) As Boolean
         Return Writer.WriteExpressionPattern(pattern, file.Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False))
     End Function
 
+    ''' <summary>
+    ''' read the cmeans expression pattern result from file
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <returns></returns>
     <ExportAPI("readPattern")>
     Public Function readPattern(file As String) As ExpressionPattern
         Return Reader.ReadExpressionPattern(file.Open(FileMode.Open, doClear:=False, [readOnly]:=True))
@@ -714,6 +761,11 @@ Module geneExpression
         Return kmeans
     End Function
 
+    ''' <summary>
+    ''' split the cmeans cluster output into multiple parts based on the cluster tags
+    ''' </summary>
+    ''' <param name="cmeans"></param>
+    ''' <returns></returns>
     <ExportAPI("split.cmeans_clusters")>
     Public Function splitCMeansClusters(cmeans As EntityClusterModel()) As Object
         Dim split = cmeans _
