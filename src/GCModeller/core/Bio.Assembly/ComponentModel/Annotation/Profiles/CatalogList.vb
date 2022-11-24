@@ -59,6 +59,7 @@ Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON
 
@@ -121,6 +122,14 @@ Namespace ComponentModel.Annotation
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Intersect(targets As Index(Of String)) As IEnumerable(Of String)
             Return list.Where(Function(id) id Like targets)
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function Intersect(targets As Dictionary(Of String, Double)) As IEnumerable(Of NamedValue(Of Double))
+            Return From id As String
+                   In list
+                   Where targets.ContainsKey(id)
+                   Select New NamedValue(Of Double)(id, targets(id))
         End Function
 
         Private Sub Insert(index As Integer, item As String) Implements IList(Of String).Insert
