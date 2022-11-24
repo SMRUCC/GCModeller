@@ -56,12 +56,14 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.GO
 Imports SMRUCC.genomics.Analysis.HTS.GSEA
+Imports SMRUCC.genomics.Analysis.Microarray
 Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
 Imports SMRUCC.genomics.Assembly.KEGG
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
+Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports REnv = SMRUCC.Rsharp.Runtime
 
@@ -85,9 +87,39 @@ Public Module profiles
         Return profiles
     End Function
 
+    ''' <summary>
+    ''' A method for cast the kegg enrichment result to the 
+    ''' category profiles for run data visualization
+    ''' </summary>
+    ''' <param name="enrichments"></param>
+    ''' <param name="top%"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("KEGG.enrichment.profile")>
-    Public Function KEGGEnrichmentProfiles(enrichments As EnrichmentTerm(), Optional top% = 10) As CatalogProfiles
-        Dim profiles As Dictionary(Of String, Double) = enrichments.ToDictionary(Function(a) a.ID, Function(a) -Math.Log10(a.Pvalue))
+    <RApiReturn(GetType(CatalogProfiles))>
+    Public Function KEGGEnrichmentProfiles(<RRawVectorArgument>
+                                           enrichments As Object,
+                                           Optional top% = 10,
+                                           Optional env As Environment = Nothing) As Object
+        Dim terms As EnrichmentTerm()
+        Dim enrich As pipeline = pipeline.TryCreatePipeline(Of EnrichmentTerm)(enrichments, env, suppress:=True)
+
+        If enrich.isError Then
+            enrich = pipeline.TryCreatePipeline(Of EnrichmentResult)(enrichments, env)
+
+            If enrich.isError Then
+                Return enrich.getError
+            Else
+                terms = enrich _
+                    .populates(Of EnrichmentResult)(env) _
+                    .Converts(database:="KEGG Pathway") _
+                    .ToArray
+            End If
+        Else
+            terms = enrich.populates(Of EnrichmentTerm)(env).ToArray
+        End If
+
+        Dim profiles As Dictionary(Of String, Double) = terms.ToDictionary(Function(a) a.ID, Function(a) -Math.Log10(a.Pvalue))
         Dim result As CatalogProfiles = profiles.DoKeggProfiles(displays:=top)
 
         Return result
