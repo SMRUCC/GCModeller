@@ -418,7 +418,17 @@ Module visualPlot
     ''' <summary>
     ''' plot kegg enrichment result in bubble plot
     ''' </summary>
-    ''' <param name="profiles"></param>
+    ''' <param name="profiles">
+    ''' A dataframe object(or a set of the dataframe object in tuple list) 
+    ''' that contains the kegg pathway enrichment data, data fields is 
+    ''' required for generates the bubble data:
+    ''' 
+    ''' + ``Raw p``: pvalue of the enrichment term
+    ''' + ``Impact``: x axis value
+    ''' + ``Hits``: the molecule hits number in current enrichment term
+    ''' + ``pathway``: the kegg pathway id
+    ''' 
+    ''' </param>
     ''' <param name="size"></param>
     ''' <param name="padding"></param>
     ''' <param name="unenrichColor"></param>
@@ -459,6 +469,7 @@ Module visualPlot
         End If
 
         If isGeneric Then
+            ' plot single group
             Dim enrichment As dataframe = DirectCast(profiles, dataframe)
 
             If enrichment.nrows = 0 Then
@@ -478,7 +489,7 @@ Module visualPlot
                 serialTopn:=serialTopn
             )
         ElseIf TypeOf profiles Is list Then
-            ' multiple groups
+            ' multiple groups on multiple dataframe
             Dim multiples As New List(Of NamedValue(Of Dictionary(Of String, BubbleTerm())))
             Dim rawList = DirectCast(profiles, list)
 
