@@ -747,7 +747,13 @@ Module geneExpression
                 .Select(Function(c) c.Key) _
                 .ToArray
 
-            If tags.IsNullOrEmpty OrElse tags.Length = max.Count Then
+            If tags.IsNullOrEmpty Then
+                item.Cluster = item.Properties _
+                    .OrderByDescending(Function(c) c.Value) _
+                    .Take(1) _
+                    .Select(Function(cl) cl.Key) _
+                    .JoinBy("; ")
+            ElseIf tags.Length = max.Count Then
                 item.Cluster = item.Properties _
                     .OrderByDescending(Function(c) c.Value) _
                     .Take(3) _

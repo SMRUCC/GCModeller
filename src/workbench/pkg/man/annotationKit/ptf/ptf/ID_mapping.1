@@ -1,0 +1,36 @@
+.\" man page create by R# package system.
+.TH PTF 1 2000-01-01 "ID_mapping" "ID_mapping"
+.SH NAME
+ID_mapping \- do id mapping via the protein annotation cache
+.SH SYNOPSIS
+\fIID_mapping(\fBproteins\fR as <generic> ProteinAnnotation[], 
+\fBid\fR as string, 
+\fBfrom\fR as string, 
+\fBmapTo\fR as string);\fR
+.SH DESCRIPTION
+.PP
+do id mapping via the protein annotation cache
+.PP
+.SH OPTIONS
+.PP
+\fBproteins\fB \fR\- the protein annotation data. 
+.PP
+.PP
+\fBid\fB \fR\- a character vector that will be do mapping. 
+.PP
+.PP
+\fBmapTo\fB \fR\- 
+ external xrefs database name that the id will mapping to
+. 
+.PP
+.SH VALUE
+.PP
+A character vector of the mapping result id set, 
+ unmapped id will be leaves blank in this result.
+.PP
+.SH SEE ALSO
+ptf
+.SH FILES
+.PP
+annotationKit.dll
+.PP
