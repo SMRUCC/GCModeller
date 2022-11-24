@@ -104,9 +104,8 @@ Namespace ComponentModel.Annotation
             Return Me
         End Function
 
-        Public Function Add(name As String, value As Double)
+        Public Function Add(name As String, value As Double) As CatalogProfile
             Call profile.Add(name, value)
-
             Return Me
         End Function
 

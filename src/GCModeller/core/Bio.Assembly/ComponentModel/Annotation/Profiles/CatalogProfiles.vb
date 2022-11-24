@@ -115,6 +115,14 @@ Namespace ComponentModel.Annotation
             Next
         End Sub
 
+        Public Function GetCategory(term As String) As CatalogProfile
+            If Not catalogs.ContainsKey(term) Then
+                Call catalogs.Add(term, New CatalogProfile(data:=New NamedValue(Of Double)() {}))
+            End If
+
+            Return catalogs(term)
+        End Function
+
         Public Function OrderByValues() As CatalogProfiles
             Return New CatalogProfiles With {
                 .catalogs = catalogs _

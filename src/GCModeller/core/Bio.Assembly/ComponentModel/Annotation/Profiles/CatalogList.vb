@@ -65,6 +65,9 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace ComponentModel.Annotation
 
+    ''' <summary>
+    ''' a [term => id()] tuple data
+    ''' </summary>
     Public Class CatalogList
         Implements IGrouping(Of String, String)
         Implements IList(Of String)
