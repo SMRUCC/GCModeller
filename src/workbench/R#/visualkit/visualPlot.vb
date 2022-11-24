@@ -536,6 +536,11 @@ Module visualPlot
         End If
     End Function
 
+    ''' <summary>
+    ''' the pvalue has been transform via -log10
+    ''' </summary>
+    ''' <param name="enrichment"></param>
+    ''' <returns></returns>
     <Extension>
     Private Function toBubbles(enrichment As dataframe) As Dictionary(Of String, BubbleTerm())
         Dim rawP As stdVec = enrichment.getVector(Of Double)("Raw p").AsVector
