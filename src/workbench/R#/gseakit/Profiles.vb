@@ -109,6 +109,27 @@ Public Module profiles
         }
     End Function
 
+    <ExportAPI("cut_profiles")>
+    Public Function cutProfile(profile As CatalogProfiles, valueCut As Double) As CatalogProfiles
+        Dim profiles = profile.catalogs _
+            .ToDictionary(Function(c) c.Key,
+                          Function(c)
+                              Dim subset As CatalogProfile = c.Value
+                              Dim cut = subset.profile _
+                                 .Where(Function(k) k.Value >= valueCut) _
+                                 .ToDictionary
+
+                              Return New CatalogProfile With {
+                                  .profile = cut,
+                                  .information = subset.information
+                              }
+                          End Function)
+
+        Return New CatalogProfiles With {
+            .catalogs = profiles
+        }
+    End Function
+
     <ExportAPI("no_catagory_profile")>
     <RApiReturn(GetType(CatalogProfiles))>
     Public Function NoCatagoryProfile(enrichments As Array, name As String,
