@@ -17,6 +17,7 @@ Public Module KeggPathway
     Public Function CreateModel(models As IEnumerable(Of Pathway)) As Background
         Dim clusters As Cluster() = models _
             .Select(Function(p) p.getGeneCluster) _
+            .Where(Function(c) c.size > 0) _
             .ToArray
         Dim model As New Background With {
             .build = Now,
