@@ -92,6 +92,14 @@ Public Class Cluster : Inherits ListOf(Of BackgroundGene)
 
     Dim index As Index(Of String)
 
+    Public ReadOnly Property memberIds As String()
+        Get
+            Return members _
+                .Select(Function(gene) gene.accessionID) _
+                .ToArray
+        End Get
+    End Property
+
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function Intersect(list As IEnumerable(Of String), Optional isLocustag As Boolean = False) As IEnumerable(Of String)
         If index Is Nothing Then

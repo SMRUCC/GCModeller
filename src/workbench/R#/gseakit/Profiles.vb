@@ -74,6 +74,16 @@ Imports REnv = SMRUCC.Rsharp.Runtime
 Public Module profiles
 
     ''' <summary>
+    ''' create kegg category class model from a gsea background model
+    ''' </summary>
+    ''' <param name="background"></param>
+    ''' <returns></returns>
+    <ExportAPI("kegg_category")>
+    Public Function CreateKEGGCategory(background As Background) As ClassProfiles
+        Return KEGG.IDCategoryFromBackground(background)
+    End Function
+
+    ''' <summary>
     ''' Create catalog profiles data for GO enrichment result its data visualization.
     ''' </summary>
     ''' <param name="enrichments"></param>

@@ -82,6 +82,18 @@ Namespace ComponentModel.Annotation
             Return ""
         End Function
 
+        Public Function GetCategory(categoryId As String) As CatalogList
+            If Not SubCategory.ContainsKey(categoryId) Then
+                Call SubCategory.Add(categoryId, New CatalogList With {
+                    .Catalog = categoryId,
+                    .Description = "",
+                    .IDs = {}
+                })
+            End If
+
+            Return _SubCategory(categoryId)
+        End Function
+
         Public Overrides Function ToString() As String
             Return $"{Catalog} contains {SubCategory.Count} subcategories... {Mid(SubCategory.Keys.GetJson, 1, 20)}..."
         End Function
@@ -103,6 +115,18 @@ Namespace ComponentModel.Annotation
             Next
 
             Return ""
+        End Function
+
+        Public Function GetClass(classId As String) As CatalogProfiling
+            If Not Catalogs.ContainsKey(classId) Then
+                Call Catalogs.Add(classId, New CatalogProfiling With {
+                    .Catalog = classId,
+                    .Description = "",
+                    .SubCategory = New Dictionary(Of String, CatalogList)
+                })
+            End If
+
+            Return _Catalogs(classId)
         End Function
 
     End Class

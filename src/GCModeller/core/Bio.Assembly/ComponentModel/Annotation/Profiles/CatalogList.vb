@@ -143,7 +143,13 @@ Namespace ComponentModel.Annotation
             Call hashset.Delete(hashset.IndexOf(index))
         End Sub
 
-        Private Sub Add(item As String) Implements ICollection(Of String).Add
+        Public Sub Add(items As IEnumerable(Of String))
+            For Each str As String In items
+                Call hashset.Add(str)
+            Next
+        End Sub
+
+        Public Sub Add(item As String) Implements ICollection(Of String).Add
             Call hashset.Add(item)
         End Sub
 

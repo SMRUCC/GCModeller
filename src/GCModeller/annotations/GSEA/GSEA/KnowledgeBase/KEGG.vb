@@ -58,8 +58,30 @@ Imports SMRUCC.genomics.ComponentModel.Annotation
 Public Module KEGG
 
     Public Function IDCategoryFromBackground(background As Background) As ClassProfiles
-        Dim KO_category = PathwayProfiles.GetPathwayClass
+        Dim KO_category = PathwayProfiles.GetPathwayClass.Values _
+            .IteratesALL _
+            .GroupBy(Function(p) p.EntryId) _
+            .ToDictionary(Function(p) p.Key,
+                          Function(group)
+                              Return group.First
+                          End Function)
+        Dim [class] As New ClassProfiles With {
+            .Catalogs = New Dictionary(Of String, CatalogProfiling)
+        }
 
+        For Each cluster As Cluster In background.clusters
+            Dim pathId As String = cluster.ID.Match("\d+")
+            Dim brite As Pathway = KO_category.TryGetValue(pathId)
+
+            If Not brite Is Nothing Then
+                Call [class] _
+                    .GetClass(brite.class) _
+                    .GetCategory(brite.category) _
+                    .Add(cluster.memberIds)
+            End If
+        Next
+
+        Return [class]
     End Function
 
     <Extension>
