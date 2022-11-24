@@ -66,7 +66,7 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 Imports REnv = SMRUCC.Rsharp.Runtime
 
 <Package("profiles")>
-Module profiles
+Public Module profiles
 
     ''' <summary>
     ''' Create catalog profiles data for GO enrichment result its data visualization.
@@ -91,6 +91,22 @@ Module profiles
         Dim result As CatalogProfiles = profiles.DoKeggProfiles(displays:=top)
 
         Return result
+    End Function
+
+    <ExportAPI("sort_profiles")>
+    Public Function sortProfile(profile As CatalogProfiles, Optional top As Integer = 10) As CatalogProfiles
+        Dim profiles = profile.catalogs _
+            .ToDictionary(Function(c) c.Key,
+                          Function(c)
+                              Dim subset As CatalogProfile = c.Value
+                              Dim sort = subset.Take(top)
+
+                              Return sort
+                          End Function)
+
+        Return New CatalogProfiles With {
+            .catalogs = profiles
+        }
     End Function
 
     <ExportAPI("no_catagory_profile")>

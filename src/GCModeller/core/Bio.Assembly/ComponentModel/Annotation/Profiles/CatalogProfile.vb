@@ -109,6 +109,10 @@ Namespace ComponentModel.Annotation
             Return Me
         End Function
 
+        ''' <summary>
+        ''' just sort desc
+        ''' </summary>
+        ''' <returns></returns>
         Public Function OrderByValues() As CatalogProfile
             Return New CatalogProfile With {
                 .information = New Dictionary(Of String, String)(information),
@@ -118,6 +122,11 @@ Namespace ComponentModel.Annotation
             }
         End Function
 
+        ''' <summary>
+        ''' sort desc and then take top N
+        ''' </summary>
+        ''' <param name="topN"></param>
+        ''' <returns></returns>
         Public Function Take(topN As Integer) As CatalogProfile
             Return New CatalogProfile With {
                 .information = New Dictionary(Of String, String)(information),
