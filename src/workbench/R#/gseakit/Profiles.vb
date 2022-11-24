@@ -67,6 +67,9 @@ Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports REnv = SMRUCC.Rsharp.Runtime
 
+''' <summary>
+''' enrichment term statics helper
+''' </summary>
 <Package("profiles")>
 Public Module profiles
 
@@ -197,5 +200,44 @@ Public Module profiles
                 {name, New CatalogProfile(data:=profiles)}
             }
         }
+    End Function
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="category"></param>
+    ''' <param name="idSet"></param>
+    ''' <param name="level">level1 or level2</param>
+    ''' <returns></returns>
+    <ExportAPI("category_labels")>
+    Public Function categoryLabels(category As ClassProfiles,
+                                   idSet As String(),
+                                   Optional level As Integer = 1,
+                                   Optional env As Environment = Nothing) As Object
+        If level = 1 Then
+            Return idSet _
+                .SafeQuery _
+                .Select(Function(id)
+                            Return category.FindClass(id)
+                        End Function) _
+                .ToArray
+        Else
+            Dim subclass = category.Catalogs.Values.ToArray
+
+            Return idSet _
+                .SafeQuery _
+                .Select(Function(id)
+                            For Each [sub] In subclass
+                                Dim findClass As String = [sub].FindCategory(id)
+
+                                If Not findClass.StringEmpty Then
+                                    Return findClass
+                                End If
+                            Next
+
+                            Return ""
+                        End Function) _
+                .ToArray
+        End If
     End Function
 End Module

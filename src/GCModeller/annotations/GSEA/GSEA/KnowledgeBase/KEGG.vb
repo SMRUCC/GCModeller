@@ -53,8 +53,14 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
+Imports SMRUCC.genomics.ComponentModel.Annotation
 
 Public Module KEGG
+
+    Public Function IDCategoryFromBackground(background As Background) As ClassProfiles
+        Dim KO_category = PathwayProfiles.GetPathwayClass
+
+    End Function
 
     <Extension>
     Public Function KO_category(category As BriteHText) As IEnumerable(Of Cluster)

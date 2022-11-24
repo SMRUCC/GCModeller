@@ -137,23 +137,31 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                .ToArray
         End Function
 
-        <ExportAPI("kegg.category_profiles")>
-        <Extension>
-        Public Function KEGGCategoryProfiles(profiles As Dictionary(Of String, Double)) As Dictionary(Of String, NamedValue(Of Double)())
-            Dim brite As Dictionary(Of String, BriteHEntry.Pathway()) = BriteHEntry.Pathway _
+        ''' <summary>
+        ''' load pathway category class information from the internal database resource
+        ''' </summary>
+        ''' <returns>
+        ''' pathway entry id is integer number, zero padding may be exists
+        ''' </returns>
+        Public Function GetPathwayClass() As Dictionary(Of String, BriteHEntry.Pathway())
+            Return BriteHEntry.Pathway _
                 .LoadDictionary _
                 .GroupBy(Function(p) p.Value.class) _
                 .ToDictionary(Function(p) p.Key,
                               Function(p)
                                   Return p.Values
                               End Function)
+        End Function
 
-            profiles = profiles.ToDictionary(
-                Function(a) a.Key.Match("\d+"),
-                Function(a)
-                    Return a.Value
-                End Function)
+        <ExportAPI("kegg.category_profiles")>
+        <Extension>
+        Public Function KEGGCategoryProfiles(profiles As Dictionary(Of String, Double)) As Dictionary(Of String, NamedValue(Of Double)())
+            Dim brite As Dictionary(Of String, BriteHEntry.Pathway()) = GetPathwayClass()
 
+            profiles = profiles.ToDictionary(Function(a) a.Key.Match("\d+"),
+                                             Function(a)
+                                                 Return a.Value
+                                             End Function)
             Return brite _
                .ToDictionary(Function(p) p.Key,
                              Function(group)
