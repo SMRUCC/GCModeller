@@ -12,7 +12,7 @@ Public Module MultipleOmics
     Public Function CreateOmicsBackground(model As IEnumerable(Of Pathway)) As Background
         Dim clusters As Cluster() = model _
             .Select(Function(m) getCluster(m)) _
-            .Where(Function(c) c.size > 0) _
+            .Where(Function(c) c.size > 0 AndAlso Not c.ID.StringEmpty) _
             .ToArray
 
         Return New Background With {

@@ -452,7 +452,9 @@ Public Module GSEABackground
                 End If
             End If
         Else
-            clusterVec = clusterList.populates(Of Cluster)(env).ToArray
+            clusterVec = clusterList.populates(Of Cluster)(env) _
+                .Where(Function(c) c.size > 0 AndAlso Not c.ID.StringEmpty) _
+                .ToArray
 
             If background_size <= 0 Then
                 background_size = clusterVec.BackgroundSize
