@@ -69,9 +69,13 @@ Namespace ComponentModel.Annotation
         Public Property profile As New Dictionary(Of String, Double)
         Public Property information As New Dictionary(Of String, String)
 
+        ''' <summary>
+        ''' does the <see cref="profile"/> is empty?
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property isEmpty As Boolean
             Get
-                Return profile.Count = 0
+                Return profile.IsNullOrEmpty
             End Get
         End Property
 
