@@ -1,10 +1,30 @@
 .\" man page create by R# package system.
 .TH PROFILES 1 2000-01-01 "KEGG.enrichment.profile" "KEGG.enrichment.profile"
 .SH NAME
-KEGG.enrichment.profile \- 
+KEGG.enrichment.profile \- create the kegg pathway catagory profiles from a given
 .SH SYNOPSIS
 \fIKEGG.enrichment.profile(\fBenrichments\fR as <generic> EnrichmentTerm[], 
 \fBtop\fR as integer = 10);\fR
+.SH DESCRIPTION
+.PP
+create the kegg pathway catagory profiles from a given
+ enrichment analysis result
+.PP
+.SH OPTIONS
+.PP
+\fBenrichments\fB \fR\- -. 
+.PP
+.PP
+\fBtop\fB \fR\- 
+ get top n terms in each category when create the category profiles
+. 
+.PP
+.SH VALUE
+.PP
+A category profiles object that can be apply to do data
+ visualization plot of the given enrichment analysis
+ result terms.
+.PP
 .SH SEE ALSO
 profiles
 .SH FILES
