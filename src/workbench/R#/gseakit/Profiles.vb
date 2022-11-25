@@ -166,7 +166,7 @@ Public Module profiles
 
                               Return New CatalogProfile With {
                                   .profile = cut,
-                                  .Information = subset.information
+                                  .information = subset.information
                               }
                           End Function)
 
@@ -202,7 +202,7 @@ Public Module profiles
                         End Function) _
                 .ToArray
         Else
-            Return message.InCompatibleType(GetType(EnrichmentTerm), enrichments.GetType, env)
+            Return Message.InCompatibleType(GetType(EnrichmentTerm), enrichments.GetType, env)
         End If
 
         Return New CatalogProfiles With {
