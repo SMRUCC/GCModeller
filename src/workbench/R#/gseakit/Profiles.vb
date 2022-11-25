@@ -213,10 +213,12 @@ Public Module profiles
     End Function
 
     ''' <summary>
-    ''' 
+    ''' get category labels for a given id set
     ''' </summary>
     ''' <param name="category"></param>
-    ''' <param name="idSet"></param>
+    ''' <param name="idSet">
+    ''' a character vector of the target id set
+    ''' </param>
     ''' <param name="level">level1 or level2</param>
     ''' <returns></returns>
     <ExportAPI("category_labels")>
