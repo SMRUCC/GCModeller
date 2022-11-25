@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cd929b761972130522b58d23d103e3d1, R#\kegg_kit\My Project\AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::ba58d6f5b282e8b95941cab6475201a7, R#\kegg_kit\My Project\AssemblyInfo.vb"
 
     ' Author:
     ' 
@@ -83,4 +83,3 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 <Assembly: AssemblyVersion("1.0.0.0")>
 <Assembly: AssemblyFileVersion("1.0.0.0")>
 #end if
-

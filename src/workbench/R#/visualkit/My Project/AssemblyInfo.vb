@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2618fd36d4976ee52c010406965ef6f0, R#\visualkit\My Project\AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::6cd94677ce1120b11f9d6590d43e8f02, R#\visualkit\My Project\AssemblyInfo.vb"
 
     ' Author:
     ' 
@@ -83,4 +83,3 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 <Assembly: AssemblyVersion("1.0.0.0")>
 <Assembly: AssemblyFileVersion("1.0.0.0")>
 #end if
-

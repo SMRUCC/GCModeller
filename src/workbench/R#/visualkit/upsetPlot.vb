@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a8c18a3ff6c22561efabe39b30d06095, R#\visualkit\upsetPlot.vb"
+﻿#Region "Microsoft.VisualBasic::da0f0e0945309e6417a233937cef8dad, R#\visualkit\upsetPlot.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 160
+    '   Total Lines: 159
     '    Code Lines: 125
     ' Comment Lines: 7
-    '   Blank Lines: 28
-    '     File Size: 6.91 KB
+    '   Blank Lines: 27
+    '     File Size: 6.90 KB
 
 
     ' Module upsetPlot
@@ -51,7 +51,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
@@ -212,4 +211,3 @@ Module upsetPlot
     End Function
 
 End Module
-

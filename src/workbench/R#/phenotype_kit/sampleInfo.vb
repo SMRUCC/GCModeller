@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3e9f96f7a6b061fc48ac5c839ab55bde, R#\phenotype_kit\sampleInfo.vb"
+﻿#Region "Microsoft.VisualBasic::cf00493921b672bc80f9d07a9ab7d6fc, R#\phenotype_kit\sampleInfo.vb"
 
     ' Author:
     ' 
@@ -43,9 +43,10 @@
 
     ' Module DEGSample
     ' 
-    '     Constructor: (+1 Overloads) Sub New
     '     Function: getSampleId, guessSampleGroups, PopulateSampleInfo, print, ReadSampleInfo
     '               sampleinfoTable, sampleInfoTable, ScanForSampleInfo, WriteSampleInfo
+    ' 
+    '     Sub: Main
     ' 
     ' /********************************************************************************/
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6a24f9cb1b03f2594a7391715a2ecce9, R#\seqtoolkit\zzz.vb"
+﻿#Region "Microsoft.VisualBasic::e6ebc3b59ed7ad6c41625bfaa79aaaea, R#\seqtoolkit\zzz.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 9
+    '   Total Lines: 7
     '    Code Lines: 4
     ' Comment Lines: 0
-    '   Blank Lines: 5
-    '     File Size: 106 B
+    '   Blank Lines: 3
+    '     File Size: 100 B
 
 
     ' Class zzz
@@ -49,8 +49,6 @@
 
 #End Region
 
-
-
 Imports SMRUCC.Rsharp.Runtime.Interop
 
 <Assembly: RPackageModule>
@@ -58,4 +56,3 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 Public Class zzz
 
 End Class
-

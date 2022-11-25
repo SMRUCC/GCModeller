@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9b8646fd72142d7023e0c1d5a766b35a, R#\kegg_kit\My Project\Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::90e4e79a726b477c9689401ca069699a, R#\kegg_kit\My Project\Resources.Designer.vb"
 
     ' Author:
     ' 
@@ -113,4 +113,3 @@ Namespace My.Resources
         End Property
     End Module
 End Namespace
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::be41fac2731d36e8391f6c6d6d2a5c71, R#\visualkit\My Project\Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::2ec84983848023c303831bf09159d729, R#\visualkit\My Project\Resources.Designer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 32
     ' Comment Lines: 23
     '   Blank Lines: 8
-    '     File Size: 2.78 KB
+    '     File Size: 2.77 KB
 
 
     '     Module Resources
@@ -113,4 +113,3 @@ Namespace My.Resources
         End Property
     End Module
 End Namespace
-

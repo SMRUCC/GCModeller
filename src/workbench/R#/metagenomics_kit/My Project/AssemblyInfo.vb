@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::221da4bf293c46245e54929d3cbe7010, R#\metagenomics_kit\My Project\AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::e8b89e6b42cabf19975d6489b7a1e443, R#\metagenomics_kit\My Project\AssemblyInfo.vb"
 
     ' Author:
     ' 
@@ -83,4 +83,3 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 <Assembly: AssemblyVersion("1.0.0.0")>
 <Assembly: AssemblyFileVersion("1.0.0.0")>
 #end if 
-

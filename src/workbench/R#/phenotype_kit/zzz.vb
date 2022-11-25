@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f8017c400429072189d98f9d5cbbb1d9, R#\phenotype_kit\zzz.vb"
+﻿#Region "Microsoft.VisualBasic::7ffc74ac2bf4ab9a89a4b961530c73e5, R#\phenotype_kit\zzz.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 10
-    '    Code Lines: 7
+    '   Total Lines: 11
+    '    Code Lines: 8
     ' Comment Lines: 0
     '   Blank Lines: 3
-    '     File Size: 181 B
+    '     File Size: 212 B
 
 
     ' Class zzz
