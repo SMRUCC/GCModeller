@@ -76,8 +76,11 @@ Module profiles
     ''' <param name="top">display the top n enriched GO terms.</param>
     ''' <returns></returns>
     <ExportAPI("GO.enrichment.profile")>
-    Public Function GOEnrichmentProfiles(enrichments As EnrichmentTerm(), goDb As GO_OBO, Optional top% = 10) As CatalogProfiles
-        Dim GO_terms = goDb.AsEnumerable.ToDictionary
+    Public Function GOEnrichmentProfiles(enrichments As EnrichmentTerm(),
+                                         goDb As GO_OBO,
+                                         Optional top% = 10) As CatalogProfiles
+
+        Dim GO_terms As Dictionary(Of Term) = goDb.AsEnumerable.ToDictionary
         ' 在这里是不进行筛选的
         ' 筛选应该是发生在脚本之中
         Dim profiles = enrichments.CreateEnrichmentProfiles(GO_terms, False, top, 1)
@@ -85,9 +88,26 @@ Module profiles
         Return profiles
     End Function
 
+    ''' <summary>
+    ''' create the kegg pathway catagory profiles from a given
+    ''' enrichment analysis result
+    ''' </summary>
+    ''' <param name="enrichments"></param>
+    ''' <param name="top">
+    ''' get top n terms in each category when create the category profiles
+    ''' </param>
+    ''' <returns>
+    ''' A category profiles object that can be apply to do data
+    ''' visualization plot of the given enrichment analysis
+    ''' result terms.
+    ''' </returns>
     <ExportAPI("KEGG.enrichment.profile")>
     Public Function KEGGEnrichmentProfiles(enrichments As EnrichmentTerm(), Optional top% = 10) As CatalogProfiles
-        Dim profiles As Dictionary(Of String, Double) = enrichments.ToDictionary(Function(a) a.ID, Function(a) -Math.Log10(a.Pvalue))
+        Dim profiles As Dictionary(Of String, Double) = enrichments _
+            .ToDictionary(Function(a) a.ID,
+                          Function(a)
+                              Return -Math.Log10(a.Pvalue)
+                          End Function)
         Dim result As CatalogProfiles = profiles.DoKeggProfiles(displays:=top)
 
         Return result
