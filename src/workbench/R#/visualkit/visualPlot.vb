@@ -284,7 +284,7 @@ Module visualPlot
     ''' <param name="title$"></param>
     ''' <returns></returns>
     <ExportAPI("volcano")>
-    Public Function VolcanoPlot(genes As DEP_iTraq(),
+    Public Function VolcanoPlot(<RRawVectorArgument> genes As Object,
                                 <RRawVectorArgument> Optional size As Object = "2400,2700",
                                 <RRawVectorArgument> Optional padding As Object = g.DefaultUltraLargePadding,
                                 Optional bg As Object = "white",
@@ -292,9 +292,24 @@ Module visualPlot
                                 Optional colors As Object = "~list(up='red',down='green',other='black')",
                                 Optional pvalue As Double = 0.05,
                                 Optional level As Double = 1.5,
-                                Optional title$ = "volcano plot") As Object
+                                Optional title$ = "volcano plot",
+                                Optional env As Environment = Nothing) As Object
 
         Dim colorList As New Dictionary(Of Integer, Color)
+        Dim geneSet As IDeg()
+        Dim list As pipeline = pipeline.TryCreatePipeline(Of DEP_iTraq)(genes, env, suppress:=True)
+
+        If list.isError Then
+            list = pipeline.TryCreatePipeline(Of DEGModel)(genes, env, suppress:=False)
+
+            If list.isError Then
+                Return list.getError
+            Else
+                geneSet = list.populates(Of IDeg)(env).ToArray
+            End If
+        Else
+            geneSet = list.populates(Of IDeg)(env).ToArray
+        End If
 
         If colors Is Nothing Then
             colorList = New Dictionary(Of Integer, Color) From {
@@ -328,7 +343,7 @@ Module visualPlot
                        End Function
 
         Return Volcano.Plot(
-                genes:=genes,
+                genes:=geneSet,
                 colors:=colorList,
                 factors:=toFactor,
                 padding:="padding: 50 50 150 150",
@@ -403,7 +418,17 @@ Module visualPlot
     ''' <summary>
     ''' plot kegg enrichment result in bubble plot
     ''' </summary>
-    ''' <param name="profiles"></param>
+    ''' <param name="profiles">
+    ''' A dataframe object(or a set of the dataframe object in tuple list) 
+    ''' that contains the kegg pathway enrichment data, data fields is 
+    ''' required for generates the bubble data:
+    ''' 
+    ''' + ``Raw p``: pvalue of the enrichment term
+    ''' + ``Impact``: x axis value
+    ''' + ``Hits``: the molecule hits number in current enrichment term
+    ''' + ``pathway``: the kegg pathway id
+    ''' 
+    ''' </param>
     ''' <param name="size"></param>
     ''' <param name="padding"></param>
     ''' <param name="unenrichColor"></param>
@@ -444,6 +469,7 @@ Module visualPlot
         End If
 
         If isGeneric Then
+            ' plot single group
             Dim enrichment As dataframe = DirectCast(profiles, dataframe)
 
             If enrichment.nrows = 0 Then
@@ -463,7 +489,7 @@ Module visualPlot
                 serialTopn:=serialTopn
             )
         ElseIf TypeOf profiles Is list Then
-            ' multiple groups
+            ' multiple groups on multiple dataframe
             Dim multiples As New List(Of NamedValue(Of Dictionary(Of String, BubbleTerm())))
             Dim rawList = DirectCast(profiles, list)
 
@@ -510,6 +536,11 @@ Module visualPlot
         End If
     End Function
 
+    ''' <summary>
+    ''' the pvalue has been transform via -log10
+    ''' </summary>
+    ''' <param name="enrichment"></param>
+    ''' <returns></returns>
     <Extension>
     Private Function toBubbles(enrichment As dataframe) As Dictionary(Of String, BubbleTerm())
         Dim rawP As stdVec = enrichment.getVector(Of Double)("Raw p").AsVector

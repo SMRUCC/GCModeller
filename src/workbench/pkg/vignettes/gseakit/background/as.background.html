@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>as.background</title>
+    <title>cast the cluster data as the enrichment background</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <style rel="stylesheet" type="text/css">
@@ -148,11 +148,11 @@
             </tr>
         </table>
 
-        <h2>as.background</h2>
+        <h2>cast the cluster data as the enrichment background</h2>
 
         <h3>Description</h3>
 
-        as.background
+        
 
         <h3>Usage</h3>
 
@@ -161,13 +161,43 @@
     <i>background.size</i> = -1,
     <i>name</i> = <span style='color: brown;'><strong>"n/a"</strong></span>,
     <i>tax.id</i> = <span style='color: brown;'><strong>"n/a"</strong></span>,
-    <i>desc</i> = <span style='color: brown;'><strong>"n/a"</strong></span>);</code></pre>
+    <i>desc</i> = <span style='color: brown;'><strong>"n/a"</strong></span>,
+    <i>is.multipleOmics</i> = FALSE);</code></pre>
         </div>
 
         <h3>Arguments</h3>
 
         <table>
             
+<dt>clusters</dt>
+<dd><p><p>a data cluster or a collection of kegg pathway model</p></p></dd>
+
+
+<dt>background.size</dt>
+<dd><p><p>default value -1 or zero means auto evaluated</p></p></dd>
+
+
+<dt>name</dt>
+<dd><p><p>the background model name</p></p></dd>
+
+
+<dt>tax.id</dt>
+<dd><p><p>ncbi taxonomy id of the target organism</p></p></dd>
+
+
+<dt>desc</dt>
+<dd><p><p>the model description</p></p></dd>
+
+
+<dt>is.multipleOmics</dt>
+<dd><p><p>Create a enrichment background model for run multiple omics data analysis?<br />
+ this parameter is only works for the kegg pathway model where you are <br />
+ speicifc via the <strong><code>clusters</code></strong> parameter.</p></p></dd>
+
+
+<dt>env</dt>
+<dd><p><p>-</p></p></dd>
+
         </table>
 
 

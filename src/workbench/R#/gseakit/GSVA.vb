@@ -63,9 +63,19 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 Imports HTSMatrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 Imports REnv = SMRUCC.Rsharp.Runtime
 
+''' <summary>
+''' 
+''' </summary>
 <Package("GSVA")>
 Module GSVA
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="expr"></param>
+    ''' <param name="geneSet"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("gsva")>
     <RApiReturn(GetType(HTSMatrix))>
     Public Function gsva(expr As Object, geneSet As Object, Optional env As Environment = Nothing) As Object

@@ -137,6 +137,18 @@ Public Module [Imports]
         End With
     End Function
 
+    ''' <summary>
+    ''' a generic method for create background model
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <param name="db"></param>
+    ''' <param name="createGene"></param>
+    ''' <param name="getTerms"></param>
+    ''' <param name="define"></param>
+    ''' <param name="genomeName$"></param>
+    ''' <param name="taxonomy$"></param>
+    ''' <param name="outputAll"></param>
+    ''' <returns></returns>
     <Extension>
     Public Function CreateBackground(Of T)(db As IEnumerable(Of T),
                                            createGene As Func(Of T, String(), BackgroundGene),

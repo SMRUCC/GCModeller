@@ -345,6 +345,11 @@ Public Module repository
         Else
             If repository.ExtensionSuffix("msgpack", "messagepack") Then
                 Return KEGGPathwayPack.ReadKeggDb(repository)
+            ElseIf repository.ExtensionSuffix("db") Then
+                Dim file As Stream = repository.Open(FileMode.Open, doClear:=False, [readOnly]:=True)
+                Dim models As Pathway() = ReadKeggMaps(buffer:=file)
+
+                Return models
             Else
                 Return Internal.debug.stop(New NotImplementedException, env)
             End If

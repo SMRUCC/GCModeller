@@ -164,6 +164,14 @@ Namespace CatalogProfiling
                 profile = profile.removesNotAssign
             End If
 
+            ' the empty profile category should be removes too
+            ' when do data visualization plot
+            profile = New CatalogProfiles With {
+                .catalogs = profile.catalogs _
+                    .Where(Function(c) Not c.Value.isEmpty) _
+                    .ToDictionary
+            }
+
             Dim colors As ColorProfile = profile.GetColors(colorSchema, logarithm:=-1)
             Dim mapperValues As Double() = profile.catalogs.Values _
                 .Select(Function(c)

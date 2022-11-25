@@ -20,6 +20,11 @@ Imports REnv = SMRUCC.Rsharp.Runtime
 ''' </summary>
 <Package("ptf")> Module PTFCache
 
+    ''' <summary>
+    ''' enumerate all database name from a HDS stream
+    ''' </summary>
+    ''' <param name="ptf"></param>
+    ''' <returns></returns>
     <ExportAPI("list.xrefs")>
     Public Function getDatabaseList(ptf As StreamPack) As String()
         Return New PtfReader(ptf).getExternalReferenceList
@@ -50,6 +55,67 @@ Imports REnv = SMRUCC.Rsharp.Runtime
     <ExportAPI("load_xref")>
     Public Function loadXrefs(ptf As StreamPack, database As String) As Object
         Return New PtfReader(ptf).LoadCrossReference(key:=database)
+    End Function
+
+    ''' <summary>
+    ''' read the protein annotation database
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <returns></returns>
+    <ExportAPI("read.ptf")>
+    Public Function readPtf(file As String) As ProteinAnnotation()
+        If file.ExtensionSuffix("txt", "ptf") Then
+            Return PtfFile.Load(file).proteins
+        ElseIf file.ExtensionSuffix("db") Then
+            Throw New NotImplementedException
+        Else
+            Throw New NotImplementedException
+        End If
+    End Function
+
+    ''' <summary>
+    ''' do id mapping via the protein annotation cache
+    ''' </summary>
+    ''' <param name="proteins">the protein annotation data</param>
+    ''' <param name="id">a character vector that will be do mapping</param>
+    ''' <param name="mapTo">
+    ''' external xrefs database name that the id will mapping to
+    ''' </param>
+    ''' <returns>A character vector of the mapping result id set, 
+    ''' unmapped id will be leaves blank in this result.
+    ''' </returns>
+    <ExportAPI("ID_mapping")>
+    Public Function IDMapping(proteins As ProteinAnnotation(), id As String(), [from] As String, mapTo As String) As String()
+        Dim proteinIndex As Dictionary(Of String, ProteinAnnotation())
+
+        Select Case from.ToLower
+            Case "genename", "gene_name"
+                proteinIndex = proteins _
+                    .GroupBy(Function(prot) Strings.LCase(prot.geneName)) _
+                    .ToDictionary(Function(prot) prot.Key,
+                                  Function(prot)
+                                      Return prot.ToArray
+                                  End Function)
+            Case Else
+                Throw New NotImplementedException
+        End Select
+
+        Dim result As New List(Of String)
+
+        For Each str As String In id.Select(AddressOf Strings.LCase)
+            If Not proteinIndex.ContainsKey(str) Then
+                result.Add("")
+            Else
+                proteins = proteinIndex(str)
+                id = proteins _
+                    .Select(Function(prot) prot(mapTo)) _
+                    .Where(Function(mapId) Not mapId.StringEmpty) _
+                    .ToArray
+                result.Add(id.JoinBy("; "))
+            End If
+        Next
+
+        Return result.ToArray
     End Function
 
     <ExportAPI("loadBackgroundModel")>
@@ -94,6 +160,16 @@ Imports REnv = SMRUCC.Rsharp.Runtime
         }
     End Function
 
+    ''' <summary>
+    ''' create a protein annotation metadata file
+    ''' </summary>
+    ''' <param name="uniprot"></param>
+    ''' <param name="file"></param>
+    ''' <param name="db_xref"></param>
+    ''' <param name="cacheTaxonomy"></param>
+    ''' <param name="hds_stream"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("cache.ptf")>
     Public Function writePtfFile(<RRawVectorArgument>
                                  uniprot As Object,
