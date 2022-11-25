@@ -833,6 +833,12 @@ Module geneExpression
 
         Dim println As Action(Of Object) = env.WriteLineHandler
         Dim size As Size = InteropArgumentHelper.getSize(nsize, env).SizeParser
+
+        If matrix Is Nothing OrElse matrix.size = 0 OrElse matrix.sampleID.IsNullOrEmpty Then
+            Call env.AddMessage("The given expression matrix is empty!")
+            Return Nothing
+        End If
+
         Dim patterns As ExpressionPattern = ExpressionPattern.CMeansCluster(
             matrix:=matrix,
             [dim]:={size.Width, size.Height},
