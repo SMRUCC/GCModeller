@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b9c4139d70c339763d34783d7629583e, GCModeller\annotations\KEGG\My Project\Settings.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::ab2b04fb99ab0e2bfba65077f2f07aaf, GCModeller\annotations\KEGG\My Project\Settings.Designer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 53
     ' Comment Lines: 9
     '   Blank Lines: 12
-    '     File Size: 2.96 KB
+    '     File Size: 3.03 KB
 
 
     '     Class MySettings

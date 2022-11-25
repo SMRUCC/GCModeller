@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2e471e4397488987617c12059c0cfc1d, GCModeller\core\Bio.Assembly\Assembly\KEGG\Web\Map\MapIndex.vb"
+﻿#Region "Microsoft.VisualBasic::a6e73ae2ae10efa89da49ed12e2d18f4, GCModeller\core\Bio.Assembly\Assembly\KEGG\Web\Map\MapIndex.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 58
+    '   Total Lines: 61
     '    Code Lines: 46
-    ' Comment Lines: 4
+    ' Comment Lines: 7
     '   Blank Lines: 8
-    '     File Size: 2.02 KB
+    '     File Size: 2.15 KB
 
 
     '     Class MapIndex

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4206e99695898e5511e14492efea6b7f, GCModeller\core\Bio.Assembly\Assembly\ELIXIR\NamespaceDoc.vb"
+﻿#Region "Microsoft.VisualBasic::c6cdab20f934c384bb6977a3b90f3654, GCModeller\core\Bio.Assembly\Assembly\ELIXIR\NamespaceDoc.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 4
     ' Comment Lines: 27
     '   Blank Lines: 1
-    '     File Size: 1.62 KB
+    '     File Size: 1.66 KB
 
 
     '     Module NamespaceDoc

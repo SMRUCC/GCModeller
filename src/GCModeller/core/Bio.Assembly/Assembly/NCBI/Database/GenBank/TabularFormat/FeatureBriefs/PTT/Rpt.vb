@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d4e5cf6a271b56a461e4128b94e160f9, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\PTT\Rpt.vb"
+﻿#Region "Microsoft.VisualBasic::37497e49cd2bd79deaeb068eaa63463d, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\PTT\Rpt.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 79
     ' Comment Lines: 12
     '   Blank Lines: 13
-    '     File Size: 4.50 KB
+    '     File Size: 4.60 KB
 
 
     '     Class Rpt

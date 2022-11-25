@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0681a711d6b1fbdfcb62ac991caea233, GCModeller\analysis\SequenceToolkit\SequencePatterns\Topologically\Seeds\SeedData.vb"
+﻿#Region "Microsoft.VisualBasic::6fc8b53315efc777c8b55409a4d35124, GCModeller\analysis\SequenceToolkit\SequencePatterns\Topologically\Seeds\SeedData.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 38
-    '    Code Lines: 29
+    '   Total Lines: 39
+    '    Code Lines: 30
     ' Comment Lines: 0
     '   Blank Lines: 9
-    '     File Size: 1.19 KB
+    '     File Size: 1.23 KB
 
 
     '     Structure SeedData

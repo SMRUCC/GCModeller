@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0b8397b76533807f9c3ab5cfdfd9ce32, GCModeller\core\Bio.Assembly\Assembly\MiST2\DocArchive\Models\TwoComponent.vb"
+﻿#Region "Microsoft.VisualBasic::f92b55d1339792d1229a1f101fc7b5f5, GCModeller\core\Bio.Assembly\Assembly\MiST2\DocArchive\Models\TwoComponent.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 38
     ' Comment Lines: 30
     '   Blank Lines: 8
-    '     File Size: 2.76 KB
+    '     File Size: 2.84 KB
 
 
     '     Class TwoComponent

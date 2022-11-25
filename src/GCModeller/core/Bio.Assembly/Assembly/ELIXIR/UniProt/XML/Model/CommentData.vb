@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::37ef3af1e77ee8f0f8d0bb3071afbf53, GCModeller\core\Bio.Assembly\Assembly\ELIXIR\UniProt\XML\Model\CommentData.vb"
+﻿#Region "Microsoft.VisualBasic::3115fd35db05bb9d8374bf33686624c0, GCModeller\core\Bio.Assembly\Assembly\ELIXIR\UniProt\XML\Model\CommentData.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 53
     ' Comment Lines: 0
     '   Blank Lines: 15
-    '     File Size: 2.00 KB
+    '     File Size: 2.07 KB
 
 
     '     Class comment

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::90e87f3200f7b40d19010f94bfcc775e, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\Fasta.vb"
+﻿#Region "Microsoft.VisualBasic::e046ec5ced68c9a94114da92e1f536a1, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\Fasta.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 63
     ' Comment Lines: 12
     '   Blank Lines: 15
-    '     File Size: 3.12 KB
+    '     File Size: 3.21 KB
 
 
     '     Class Fasta

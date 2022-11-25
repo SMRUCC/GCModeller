@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b25406df1d859a5569a69167250ef6cb, GCModeller\core\Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\Database\DataModels\AccessionTypes.vb"
+﻿#Region "Microsoft.VisualBasic::973760c0c0f88c9d14d40e70de5cb5bd, GCModeller\core\Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\Database\DataModels\AccessionTypes.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 43
     ' Comment Lines: 114
     '   Blank Lines: 4
-    '     File Size: 5.17 KB
+    '     File Size: 5.33 KB
 
 
     '     Enum AccessionTypes

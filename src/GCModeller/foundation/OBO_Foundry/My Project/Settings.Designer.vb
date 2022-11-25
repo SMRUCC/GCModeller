@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::073ca08888649e3435674cbc7d9f0016, GCModeller\foundation\OBO_Foundry\My Project\Settings.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::5cfbd9a84ab3fb169f34fcbbfeddfb7b, GCModeller\foundation\OBO_Foundry\My Project\Settings.Designer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 53
     ' Comment Lines: 9
     '   Blank Lines: 12
-    '     File Size: 2.98 KB
+    '     File Size: 3.05 KB
 
 
     '     Class MySettings

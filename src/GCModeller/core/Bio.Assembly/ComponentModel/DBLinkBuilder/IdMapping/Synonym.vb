@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::17b042f40cf17e9b2b8ca40e7f16c9ae, GCModeller\core\Bio.Assembly\ComponentModel\DBLinkBuilder\IdMapping\Synonym.vb"
+﻿#Region "Microsoft.VisualBasic::88862a46bf50cc0cb7264582af7bb8a6, GCModeller\core\Bio.Assembly\ComponentModel\DBLinkBuilder\IdMapping\Synonym.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 21
     ' Comment Lines: 0
     '   Blank Lines: 7
-    '     File Size: 892 B
+    '     File Size: 919 B
 
 
     '     Class Synonym

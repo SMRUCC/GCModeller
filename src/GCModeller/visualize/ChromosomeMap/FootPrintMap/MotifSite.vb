@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8ab6ac55b427079df5535c493f3d7cf8, GCModeller\visualize\ChromosomeMap\FootPrintMap\MotifSite.vb"
+﻿#Region "Microsoft.VisualBasic::8c923ed3d19ff2fc40b13973e4c55081, GCModeller\visualize\ChromosomeMap\FootPrintMap\MotifSite.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 70
     ' Comment Lines: 23
     '   Blank Lines: 16
-    '     File Size: 4.25 KB
+    '     File Size: 4.36 KB
 
 
     '     Class MotifSite

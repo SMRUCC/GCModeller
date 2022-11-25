@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bee9a81b773f20abb79fc688056dd681, GCModeller\core\Bio.Assembly\SequenceModel\FASTA\IO\KSeq.vb"
+﻿#Region "Microsoft.VisualBasic::631b715c7e0f817fb7437e53af615f5d, GCModeller\core\Bio.Assembly\SequenceModel\FASTA\IO\KSeq.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 12
     ' Comment Lines: 28
     '   Blank Lines: 7
-    '     File Size: 1.78 KB
+    '     File Size: 1.83 KB
 
 
     '     Class KSeq

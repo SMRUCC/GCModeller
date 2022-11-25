@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::884b449a80eeb15e762b737005b4fc3b, GCModeller\core\Bio.Assembly\ComponentModel\Annotation\Profiles\CatalogProfile.vb"
+﻿#Region "Microsoft.VisualBasic::6380120ea94f60408bc6e1a070316675, GCModeller\core\Bio.Assembly\ComponentModel\Annotation\Profiles\CatalogProfile.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 110
+    '   Total Lines: 122
     '    Code Lines: 87
-    ' Comment Lines: 3
-    '   Blank Lines: 20
-    '     File Size: 3.98 KB
+    ' Comment Lines: 16
+    '   Blank Lines: 19
+    '     File Size: 4.51 KB
 
 
     '     Class CatalogProfile

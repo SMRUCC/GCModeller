@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6b6124adf9699f226883d3478369ed48, GCModeller\visualize\DataVisualizationExtensions\GCSkew.vb"
+﻿#Region "Microsoft.VisualBasic::0e7f8e6351f1052bfc2ca1a9fdd41fbd, GCModeller\visualize\DataVisualizationExtensions\GCSkew.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 74
     ' Comment Lines: 32
     '   Blank Lines: 12
-    '     File Size: 4.87 KB
+    '     File Size: 4.99 KB
 
 
     ' Module GCSkew

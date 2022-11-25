@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4d8bafecbfbdf58c1e87beafd0409865, GCModeller\analysis\SequenceToolkit\MSA\My Project\Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::fe6dad1289b08b185d6bb63f9653b3bf, GCModeller\analysis\SequenceToolkit\MSA\My Project\Resources.Designer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 37
     ' Comment Lines: 50
     '   Blank Lines: 9
-    '     File Size: 3.45 KB
+    '     File Size: 3.55 KB
 
 
     '     Module Resources

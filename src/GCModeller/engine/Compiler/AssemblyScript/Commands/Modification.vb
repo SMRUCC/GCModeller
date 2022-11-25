@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bf571ed8f2df8e1f8cca784503eb412a, GCModeller\engine\Compiler\AssemblyScript\Commands\Modification.vb"
+﻿#Region "Microsoft.VisualBasic::10b638f0ef7476964090b8f30920780d, GCModeller\engine\Compiler\AssemblyScript\Commands\Modification.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 5
     ' Comment Lines: 0
     '   Blank Lines: 3
-    '     File Size: 164 B
+    '     File Size: 171 B
 
 
     '     Class Modification

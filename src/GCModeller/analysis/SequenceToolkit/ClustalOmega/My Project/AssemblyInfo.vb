@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::45e6b6c63697d3fc083dc7591f972a9a, GCModeller\analysis\SequenceToolkit\ClustalOmega\My Project\AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::84f6e84ded2074ff972f481547639e09, GCModeller\analysis\SequenceToolkit\ClustalOmega\My Project\AssemblyInfo.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 13
     ' Comment Lines: 15
     '   Blank Lines: 7
-    '     File Size: 1.46 KB
+    '     File Size: 1.49 KB
 
 
     ' 

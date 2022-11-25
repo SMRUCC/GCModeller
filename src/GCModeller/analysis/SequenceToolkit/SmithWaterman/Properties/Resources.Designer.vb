@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::720861d9733066d39e907e380e40fccc, GCModeller\analysis\SequenceToolkit\SmithWaterman\Properties\Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::7242c8b48aded959a4dd05ab967c8e50, GCModeller\analysis\SequenceToolkit\SmithWaterman\Properties\Resources.Designer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 37
     ' Comment Lines: 35
     '   Blank Lines: 9
-    '     File Size: 3.69 KB
+    '     File Size: 3.77 KB
 
 
     '     Module Resources

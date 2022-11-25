@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c8c983af683081c1acb5c4f5a5df315d, GCModeller\visualize\DataVisualizationExtensions\ExpressionPattern\Reader.vb"
+﻿#Region "Microsoft.VisualBasic::b55c0bb570fadbf856f778540a718f49, GCModeller\visualize\DataVisualizationExtensions\ExpressionPattern\Reader.vb"
 
     ' Author:
     ' 
@@ -34,10 +34,10 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 78
+    '   Total Lines: 77
     '    Code Lines: 63
     ' Comment Lines: 0
-    '   Blank Lines: 15
+    '   Blank Lines: 14
     '     File Size: 3.05 KB
 
 
@@ -49,7 +49,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports System.IO
 Imports Microsoft.VisualBasic.Data.IO

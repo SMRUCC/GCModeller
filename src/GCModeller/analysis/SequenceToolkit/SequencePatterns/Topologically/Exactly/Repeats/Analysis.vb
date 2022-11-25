@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c3dc596d58797e9b5b55ab6635d3b0eb, GCModeller\analysis\SequenceToolkit\SequencePatterns\Topologically\Exactly\Repeats\Analysis.vb"
+﻿#Region "Microsoft.VisualBasic::bd2d324f8d78b4d98c4898906239d483, GCModeller\analysis\SequenceToolkit\SequencePatterns\Topologically\Exactly\Repeats\Analysis.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 84
     ' Comment Lines: 17
     '   Blank Lines: 16
-    '     File Size: 6.30 KB
+    '     File Size: 6.41 KB
 
 
     '     Module Analysis

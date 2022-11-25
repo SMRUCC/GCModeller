@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c1caad17760f0de514a199812fb11860, GCModeller\annotations\GSEA\GSEA\KnowledgeBase\Imports\CreateKEGGClusters.vb"
+﻿#Region "Microsoft.VisualBasic::0ac55d2b014ec1eca55e799ab84526dc, GCModeller\annotations\GSEA\GSEA\KnowledgeBase\Imports\CreateKEGGClusters.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 81
     ' Comment Lines: 5
     '   Blank Lines: 8
-    '     File Size: 4.19 KB
+    '     File Size: 4.28 KB
 
 
     ' Module CreateKEGGClusters

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aad5596756f2bb448ca09fcd0ce9c0c3, GCModeller\annotations\GSEA\FisherCore\My Project\Settings.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::c00cb9983e87f6cdfc25fd1914731a05, GCModeller\annotations\GSEA\FisherCore\My Project\Settings.Designer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 53
     ' Comment Lines: 9
     '   Blank Lines: 13
-    '     File Size: 2.97 KB
+    '     File Size: 3.04 KB
 
 
     '     Class MySettings

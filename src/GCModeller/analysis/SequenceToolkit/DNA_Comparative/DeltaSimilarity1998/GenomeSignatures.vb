@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b4f028e10ece57c721d81282b70943c9, GCModeller\analysis\SequenceToolkit\DNA_Comparative\DeltaSimilarity1998\GenomeSignatures.vb"
+﻿#Region "Microsoft.VisualBasic::37ced5fd4eed5badc66ebc77405aaafb, GCModeller\analysis\SequenceToolkit\DNA_Comparative\DeltaSimilarity1998\GenomeSignatures.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 62
     ' Comment Lines: 58
     '   Blank Lines: 8
-    '     File Size: 5.71 KB
+    '     File Size: 5.84 KB
 
 
     '     Module GenomeSignatures

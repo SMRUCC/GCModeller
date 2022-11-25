@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2f3c9d51e3cb3e356fb4f73ef1b9f333, GCModeller\models\ncbi-BioSystems\ProjectWriter.vb"
+﻿#Region "Microsoft.VisualBasic::4fc6e36de1f957b7b61c0fa1eb696282, GCModeller\models\ncbi-BioSystems\ProjectWriter.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 43
     ' Comment Lines: 11
     '   Blank Lines: 14
-    '     File Size: 2.54 KB
+    '     File Size: 2.53 KB
 
 
     ' Class ProjectWriter
@@ -118,4 +118,3 @@ Public Class ProjectWriter : Implements IDisposable
         GC.SuppressFinalize(Me)
     End Sub
 End Class
-

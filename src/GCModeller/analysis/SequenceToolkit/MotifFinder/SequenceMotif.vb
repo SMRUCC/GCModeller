@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0f2e7aaaa81486199dcc048211ba2e31, GCModeller\analysis\SequenceToolkit\MotifFinder\SequenceMotif.vb"
+﻿#Region "Microsoft.VisualBasic::38a006d21e211f39ab1237a76ebcd786, GCModeller\analysis\SequenceToolkit\MotifFinder\SequenceMotif.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 14
     ' Comment Lines: 4
     '   Blank Lines: 4
-    '     File Size: 533 B
+    '     File Size: 554 B
 
 
     ' Class SequenceMotif

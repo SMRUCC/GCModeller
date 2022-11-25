@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7194930368b013d7e2c642356c3cc03a, GCModeller\engine\Model\Cellular\Process\Regulation.vb"
+﻿#Region "Microsoft.VisualBasic::476c08a1297fa0dc010e61f3c75fb724, GCModeller\engine\Model\Cellular\Process\Regulation.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 15
     ' Comment Lines: 16
     '   Blank Lines: 6
-    '     File Size: 1.04 KB
+    '     File Size: 1.08 KB
 
 
     '     Structure Regulation

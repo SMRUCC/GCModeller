@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c221285847f318fb6c96f56dec6dbf64, GCModeller\sub-system\PLAS.NET\SSystem\System\ODEs.vb"
+﻿#Region "Microsoft.VisualBasic::a80767f1413b47ccb045c92ac949e510, GCModeller\sub-system\PLAS.NET\SSystem\System\ODEs.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 50
     ' Comment Lines: 8
     '   Blank Lines: 7
-    '     File Size: 2.77 KB
+    '     File Size: 2.83 KB
 
 
     '     Module ODEs

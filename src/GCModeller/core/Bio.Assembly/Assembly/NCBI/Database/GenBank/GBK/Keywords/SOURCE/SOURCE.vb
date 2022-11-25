@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::db64ff1d19c874b77a9ed97a0345f5f9, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\SOURCE\SOURCE.vb"
+﻿#Region "Microsoft.VisualBasic::75f7e4e05ec98d219e9e30935269adf5, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\SOURCE\SOURCE.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 23
     ' Comment Lines: 7
     '   Blank Lines: 8
-    '     File Size: 1.12 KB
+    '     File Size: 1.16 KB
 
 
     '     Class SOURCE

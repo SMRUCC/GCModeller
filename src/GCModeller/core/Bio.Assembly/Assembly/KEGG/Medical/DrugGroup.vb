@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f044034c4cb1f8fd68bff80b8b13952b, GCModeller\core\Bio.Assembly\Assembly\KEGG\Medical\DrugGroup.vb"
+﻿#Region "Microsoft.VisualBasic::7ecbe89e31b9a096d942a914ea1fabcd, GCModeller\core\Bio.Assembly\Assembly\KEGG\Medical\DrugGroup.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 19
     ' Comment Lines: 0
     '   Blank Lines: 4
-    '     File Size: 868 B
+    '     File Size: 890 B
 
 
     '     Class DrugGroup

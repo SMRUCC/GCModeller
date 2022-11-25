@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::27d826e8cffa8519823c588178da89a6, GCModeller\visualize\DataVisualizationExtensions\DEGPlot\DEGModel.vb"
+﻿#Region "Microsoft.VisualBasic::448a7f5438d9e3dfb8c5c9fcdfcb77ab, GCModeller\visualize\DataVisualizationExtensions\DEGPlot\DEGModel.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 14
     ' Comment Lines: 4
     '   Blank Lines: 2
-    '     File Size: 646 B
+    '     File Size: 665 B
 
 
     ' Structure DEGModel

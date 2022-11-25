@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::109edcd9ec4a3e43f3c3a2ff26ac83d8, GCModeller\visualize\ChromosomeMap\PlasmidMap\DrawingDevice.vb"
+﻿#Region "Microsoft.VisualBasic::6dbb305b6bec23ac4321e7835dfaee3d, GCModeller\visualize\ChromosomeMap\PlasmidMap\DrawingDevice.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 35
     ' Comment Lines: 1
     '   Blank Lines: 5
-    '     File Size: 1.84 KB
+    '     File Size: 1.88 KB
 
 
     '     Module DrawingDevice

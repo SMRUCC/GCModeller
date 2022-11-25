@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c4699477ee14c09eec8b1ea2e7a74ab0, GCModeller\models\ncbi-BioSystems\Project\ProteinSet.vb"
+﻿#Region "Microsoft.VisualBasic::1c53ee2c518cf1505dfb5edf38f924f6, GCModeller\models\ncbi-BioSystems\Project\ProteinSet.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 4
     ' Comment Lines: 0
     '   Blank Lines: 3
-    '     File Size: 156 B
+    '     File Size: 154 B
 
 
     ' Class ProteinSet
@@ -56,4 +56,3 @@ Public Class ProteinSet
     Public Property proteins As Dictionary(Of String, ProteinAnnotation)
 
 End Class
-

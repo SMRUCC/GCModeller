@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a43d8aa89ddc2a194bce686141d0fbc5, GCModeller\analysis\SequenceToolkit\NeedlemanWunsch\NeedlemanWunsch.vb"
+﻿#Region "Microsoft.VisualBasic::95e587188059ac00810023b84d503dfb, GCModeller\analysis\SequenceToolkit\NeedlemanWunsch\NeedlemanWunsch.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 20
     ' Comment Lines: 0
     '   Blank Lines: 5
-    '     File Size: 880 B
+    '     File Size: 904 B
 
 
     ' Class NeedlemanWunsch

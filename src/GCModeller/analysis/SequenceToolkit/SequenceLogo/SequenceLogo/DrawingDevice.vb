@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b7a42783917b8755a3c0b1cc7b47977c, GCModeller\analysis\SequenceToolkit\SequenceLogo\SequenceLogo\DrawingDevice.vb"
+﻿#Region "Microsoft.VisualBasic::3ede8d60aed5c8bc7b45fa277f817418, GCModeller\analysis\SequenceToolkit\SequenceLogo\SequenceLogo\DrawingDevice.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 181
     ' Comment Lines: 43
     '   Blank Lines: 43
-    '     File Size: 14.96 KB
+    '     File Size: 15.23 KB
 
 
     '     Module DrawingDevice

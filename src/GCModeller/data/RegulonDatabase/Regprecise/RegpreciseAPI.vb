@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dbabed0e6094ec23f0277e1ec89dffae, GCModeller\data\RegulonDatabase\Regprecise\RegpreciseAPI.vb"
+﻿#Region "Microsoft.VisualBasic::a79c697e8ae1c10be708fe9225df2f4f, GCModeller\data\RegulonDatabase\Regprecise\RegpreciseAPI.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 336
     ' Comment Lines: 58
     '   Blank Lines: 62
-    '     File Size: 27.70 KB
+    '     File Size: 28.16 KB
 
 
     '     Module RegpreciseAPI

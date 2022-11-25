@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2d842e20835868507e776dcaaa61ae7b, GCModeller\models\Networks\KEGG\ReactionNetwork\Models\MapCache.vb"
+﻿#Region "Microsoft.VisualBasic::bd9dbe69ad6d478cd24134a931b9fe4c, GCModeller\models\Networks\KEGG\ReactionNetwork\Models\MapCache.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 82
     ' Comment Lines: 26
     '   Blank Lines: 24
-    '     File Size: 4.42 KB
+    '     File Size: 4.55 KB
 
 
     '     Class MapCache

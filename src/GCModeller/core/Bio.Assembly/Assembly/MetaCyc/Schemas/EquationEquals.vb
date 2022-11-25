@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3e4d990ebd07204740b625976ba4a463, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\Schemas\EquationEquals.vb"
+﻿#Region "Microsoft.VisualBasic::f57074b5d39982c3d631ffe126fb643f, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\Schemas\EquationEquals.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 76
     ' Comment Lines: 24
     '   Blank Lines: 16
-    '     File Size: 5.51 KB
+    '     File Size: 5.62 KB
 
 
     '     Class EquationEquals

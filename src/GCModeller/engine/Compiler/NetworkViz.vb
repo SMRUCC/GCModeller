@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9ce6e4b97eae7eeb12c8c71f3131133c, GCModeller\engine\Compiler\NetworkViz.vb"
+﻿#Region "Microsoft.VisualBasic::24386a2132c063b0e7b95c8fdbd37f86, GCModeller\engine\Compiler\NetworkViz.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 163
     ' Comment Lines: 48
     '   Blank Lines: 11
-    '     File Size: 10.02 KB
+    '     File Size: 10.24 KB
 
 
     ' Module NetworkViz

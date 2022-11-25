@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c224e9af439c8ee15f6822be664f0708, GCModeller\data\RegulonDatabase\Regprecise\FastaReaders\Regulator.vb"
+﻿#Region "Microsoft.VisualBasic::446886c0bb2b350d4bb3f11a2c56e016, GCModeller\data\RegulonDatabase\Regprecise\FastaReaders\Regulator.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 69
     ' Comment Lines: 21
     '   Blank Lines: 13
-    '     File Size: 3.83 KB
+    '     File Size: 3.93 KB
 
 
     '     Class Regulator

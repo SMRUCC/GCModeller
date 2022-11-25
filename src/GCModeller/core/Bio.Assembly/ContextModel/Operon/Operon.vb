@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::79706ebfb7739dfd2a91f4c74c39d404, GCModeller\core\Bio.Assembly\ContextModel\Operon\Operon.vb"
+﻿#Region "Microsoft.VisualBasic::d844531e8ec920307b0a253e0056bb26, GCModeller\core\Bio.Assembly\ContextModel\Operon\Operon.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 4
     ' Comment Lines: 0
     '   Blank Lines: 2
-    '     File Size: 83 B
+    '     File Size: 88 B
 
 
     '     Class Operon

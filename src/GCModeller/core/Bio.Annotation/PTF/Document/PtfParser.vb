@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bc8155700324975734f7200aedd7551b, GCModeller\core\Bio.Annotation\PTF\Document\PtfParser.vb"
+﻿#Region "Microsoft.VisualBasic::252ff3ecb8dd9fb2cff5f8c198dd4ac4, GCModeller\core\Bio.Annotation\PTF\Document\PtfParser.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 58
     ' Comment Lines: 10
     '   Blank Lines: 8
-    '     File Size: 2.97 KB
+    '     File Size: 3.05 KB
 
 
     '     Module PtfParser

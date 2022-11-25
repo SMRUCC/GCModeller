@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d41b0cfdb4594708e430223b6231a0c3, GCModeller\visualize\DataVisualizationExtensions\CollectionSet\FactorGroup.vb"
+﻿#Region "Microsoft.VisualBasic::06aef8cb0cacf879a003a80a37a8263d, GCModeller\visualize\DataVisualizationExtensions\CollectionSet\FactorGroup.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 78
     ' Comment Lines: 9
     '   Blank Lines: 14
-    '     File Size: 3.80 KB
+    '     File Size: 3.90 KB
 
 
     '     Class FactorGroup

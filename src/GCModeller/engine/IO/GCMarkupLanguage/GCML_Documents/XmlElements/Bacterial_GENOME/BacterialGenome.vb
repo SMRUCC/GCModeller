@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::de8a969cc3dad75ff91bd9c1c8fca466, GCModeller\engine\IO\GCMarkupLanguage\GCML_Documents\XmlElements\Bacterial_GENOME\BacterialGenome.vb"
+﻿#Region "Microsoft.VisualBasic::94ab714acd987e7708d0dd02793aa6c4, GCModeller\engine\IO\GCMarkupLanguage\GCML_Documents\XmlElements\Bacterial_GENOME\BacterialGenome.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 19
     ' Comment Lines: 12
     '   Blank Lines: 6
-    '     File Size: 1.96 KB
+    '     File Size: 2.00 KB
 
 
     '     Class BacterialGenome

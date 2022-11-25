@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4c19b6652d9f445348ffda523928babd, GCModeller\engine\Compiler\AssemblyScript\Commands\Delete.vb"
+﻿#Region "Microsoft.VisualBasic::fdffd6c349b156f680798c3b748e129e, GCModeller\engine\Compiler\AssemblyScript\Commands\Delete.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 19
     ' Comment Lines: 3
     '   Blank Lines: 6
-    '     File Size: 835 B
+    '     File Size: 862 B
 
 
     '     Class Delete

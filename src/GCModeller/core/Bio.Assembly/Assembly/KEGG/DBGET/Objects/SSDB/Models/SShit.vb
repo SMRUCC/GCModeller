@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::83fbf93fd3e06f5ab2109df97e02f32a, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\SSDB\Models\SShit.vb"
+﻿#Region "Microsoft.VisualBasic::5b8425de92e59f9fd5fe56bac8c61633, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\SSDB\Models\SShit.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 114
     ' Comment Lines: 0
     '   Blank Lines: 15
-    '     File Size: 6.30 KB
+    '     File Size: 6.42 KB
 
 
     '     Class BlastnHit

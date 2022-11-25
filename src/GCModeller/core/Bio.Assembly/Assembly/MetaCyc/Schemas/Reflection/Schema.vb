@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::52455d0be5dc786403cd98ec174feb76, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\Schemas\Reflection\Schema.vb"
+﻿#Region "Microsoft.VisualBasic::7db25a759dce09f73d1a21d37b29ef8e, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\Schemas\Reflection\Schema.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 40
     ' Comment Lines: 4
     '   Blank Lines: 7
-    '     File Size: 2.94 KB
+    '     File Size: 2.99 KB
 
 
     '     Class TableSchema

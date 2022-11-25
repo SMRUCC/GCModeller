@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e1de302ae9bf195bcb1f3ffbe88b81bf, GCModeller\visualize\DataVisualizationExtensions\CategoryImpactBox\Impact.vb"
+﻿#Region "Microsoft.VisualBasic::d2091a73852dad2ecf932e43efb19249, GCModeller\visualize\DataVisualizationExtensions\CategoryImpactBox\Impact.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 27
     ' Comment Lines: 0
     '   Blank Lines: 6
-    '     File Size: 1.13 KB
+    '     File Size: 1.17 KB
 
 
     ' Class Impact

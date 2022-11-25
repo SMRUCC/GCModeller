@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b0cc2776486ac650cead3bf2dc592c98, GCModeller\data\Rhea\Compound.vb"
+﻿#Region "Microsoft.VisualBasic::88c8406b05b3e458167d27bdf8d655e0, GCModeller\data\Rhea\Compound.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 10
     ' Comment Lines: 0
     '   Blank Lines: 3
-    '     File Size: 326 B
+    '     File Size: 324 B
 
 
     ' Class Compound
@@ -64,4 +64,3 @@ Public Class Compound
     End Function
 
 End Class
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::65346abb2672071daa8c7d072e4b10e4, GCModeller\core\Bio.Assembly\Assembly\KEGG\Web\FetchSequence.vb"
+﻿#Region "Microsoft.VisualBasic::6cb995eb22e98d62cfe0dfaa020bed1c, GCModeller\core\Bio.Assembly\Assembly\KEGG\Web\FetchSequence.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 66
     ' Comment Lines: 5
     '   Blank Lines: 16
-    '     File Size: 3.27 KB
+    '     File Size: 3.36 KB
 
 
     '     Class FetchSequence

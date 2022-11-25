@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::33b87e02c1de6caf14d9ff23c978d449, GCModeller\sub-system\FBA\FBA.Core\My Project\Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::81e13fdece142d5a84bb05458077ce01, GCModeller\sub-system\FBA\FBA.Core\My Project\Resources.Designer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 32
     ' Comment Lines: 23
     '   Blank Lines: 8
-    '     File Size: 2.74 KB
+    '     File Size: 2.80 KB
 
 
     '     Module Resources

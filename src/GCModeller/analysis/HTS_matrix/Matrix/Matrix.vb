@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5d47b82e3ad8658593877f750acb5911, GCModeller\analysis\HTS_matrix\Matrix\Matrix.vb"
+﻿#Region "Microsoft.VisualBasic::d45d6427a161d6a5f1b019d00cc7cae9, GCModeller\analysis\HTS_matrix\Matrix\Matrix.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 210
     ' Comment Lines: 62
     '   Blank Lines: 37
-    '     File Size: 10.50 KB
+    '     File Size: 10.81 KB
 
 
     ' Class Matrix

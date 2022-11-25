@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9b1b81c2275430b35eaa756eab2a728e, GCModeller\engine\GCModeller.Framework.Kernel_Driver\DataServices\StorageInterface\Specialized.vb"
+﻿#Region "Microsoft.VisualBasic::4dab914858e8268bdcb36649f6ef64e8, GCModeller\engine\GCModeller.Framework.Kernel_Driver\DataServices\StorageInterface\Specialized.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 18
     ' Comment Lines: 4
     '   Blank Lines: 5
-    '     File Size: 933 B
+    '     File Size: 959 B
 
 
     '     Class CHUNK_BUFFER_TransitionStates

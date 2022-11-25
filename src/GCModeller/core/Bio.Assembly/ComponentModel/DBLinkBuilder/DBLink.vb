@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::446998e4939008e9aab961d4f3279928, GCModeller\core\Bio.Assembly\ComponentModel\DBLinkBuilder\DBLink.vb"
+﻿#Region "Microsoft.VisualBasic::783da44114f1b02ff1dec4852c589a40, GCModeller\core\Bio.Assembly\ComponentModel\DBLinkBuilder\DBLink.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 49
     ' Comment Lines: 11
     '   Blank Lines: 13
-    '     File Size: 2.51 KB
+    '     File Size: 2.58 KB
 
 
     '     Class DBLink

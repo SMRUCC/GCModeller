@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b8c353d6247dd90220e565d0232b7277, GCModeller\core\Bio.Assembly\ComponentModel\PeriodicTable.vb"
+﻿#Region "Microsoft.VisualBasic::ad680aaa9ee39f2003c31cff062ba176, GCModeller\core\Bio.Assembly\ComponentModel\PeriodicTable.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 48
     ' Comment Lines: 10
     '   Blank Lines: 9
-    '     File Size: 4.17 KB
+    '     File Size: 4.24 KB
 
 
     '     Module PeriodicTable

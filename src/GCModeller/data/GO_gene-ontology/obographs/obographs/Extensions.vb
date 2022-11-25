@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0f82c16baacaa8fadc2da1bc6c56c382, GCModeller\data\GO_gene-ontology\obographs\obographs\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::0e3da22bfe6299346ead31a96af54c4e, GCModeller\data\GO_gene-ontology\obographs\obographs\Extensions.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 10
     ' Comment Lines: 6
     '   Blank Lines: 2
-    '     File Size: 684 B
+    '     File Size: 701 B
 
 
     ' Module Extensions

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3b588756c7abd4fe024b92ee2d2132b1, GCModeller\models\BioCyc\Models\Reflection\ElementFactory.vb"
+﻿#Region "Microsoft.VisualBasic::0dea570c06dc54133168ee5dcc2aaba7, GCModeller\models\BioCyc\Models\Reflection\ElementFactory.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 14
     ' Comment Lines: 0
     '   Blank Lines: 5
-    '     File Size: 598 B
+    '     File Size: 616 B
 
 
     ' Class ElementFactory

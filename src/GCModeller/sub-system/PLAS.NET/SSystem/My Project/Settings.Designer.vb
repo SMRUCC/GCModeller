@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::33ad7f0f6247f1efc4f847a156e9d45d, GCModeller\sub-system\PLAS.NET\SSystem\My Project\Settings.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::62b36df6c53e11d702eefc816fff7866, GCModeller\sub-system\PLAS.NET\SSystem\My Project\Settings.Designer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 64
     ' Comment Lines: 9
     '   Blank Lines: 13
-    '     File Size: 3.42 KB
+    '     File Size: 3.50 KB
 
 
     '     Class MySettings

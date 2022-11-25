@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7a284d3c3390f570123c6784799e2a10, GCModeller\analysis\SequenceToolkit\NeedlemanWunsch\test\Module1.vb"
+﻿#Region "Microsoft.VisualBasic::8e2acdf58444a124a8d5c91f7a2140a5, GCModeller\analysis\SequenceToolkit\NeedlemanWunsch\test\Module1.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 29
     ' Comment Lines: 0
     '   Blank Lines: 20
-    '     File Size: 1.21 KB
+    '     File Size: 1.26 KB
 
 
     ' Module Module1

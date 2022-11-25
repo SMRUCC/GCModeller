@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e57ff24a5053063d9e78dc86f1901cfd, GCModeller\models\Networks\Microbiome\UniProt\TaxonomyIndex.vb"
+﻿#Region "Microsoft.VisualBasic::988e47053cf40aae74ec9d2ebe2b854a, GCModeller\models\Networks\Microbiome\UniProt\TaxonomyIndex.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 24
     ' Comment Lines: 9
     '   Blank Lines: 6
-    '     File Size: 1.20 KB
+    '     File Size: 1.24 KB
 
 
     ' Class TaxonomyIndex

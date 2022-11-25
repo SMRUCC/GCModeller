@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::66e9289e922d3690ab940790a6356b00, GCModeller\engine\IO\GCMarkupLanguage\FBA\API.vb"
+﻿#Region "Microsoft.VisualBasic::c2733c2b111670d4fbeef20b18a78658, GCModeller\engine\IO\GCMarkupLanguage\FBA\API.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 32
     ' Comment Lines: 0
     '   Blank Lines: 7
-    '     File Size: 1.66 KB
+    '     File Size: 1.70 KB
 
 
     '     Module API

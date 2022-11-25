@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::840693178840c5f06e98ce5b85a3853a, GCModeller\data\SABIO-RK\test\My Project\AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::24a075c52f60c10bfc45522a98662ba3, GCModeller\data\SABIO-RK\test\My Project\AssemblyInfo.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 13
     ' Comment Lines: 15
     '   Blank Lines: 7
-    '     File Size: 1.11 KB
+    '     File Size: 1.14 KB
 
 
     ' 

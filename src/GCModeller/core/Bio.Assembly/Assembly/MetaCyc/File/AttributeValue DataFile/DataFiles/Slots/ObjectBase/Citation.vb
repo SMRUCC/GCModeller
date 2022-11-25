@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::82c22e476ca6e24abd3677fe794935a1, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Slots\ObjectBase\Citation.vb"
+﻿#Region "Microsoft.VisualBasic::e44b6b2d6f276741f969f8c35d48e9fb, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Slots\ObjectBase\Citation.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 33
     ' Comment Lines: 51
     '   Blank Lines: 10
-    '     File Size: 4.16 KB
+    '     File Size: 4.25 KB
 
 
     '     Structure Citation

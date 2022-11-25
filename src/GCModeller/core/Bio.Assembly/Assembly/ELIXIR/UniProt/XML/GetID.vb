@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::608ec29f6b2a88fd5e25600c95fa05db, GCModeller\core\Bio.Assembly\Assembly\ELIXIR\UniProt\XML\GetID.vb"
+﻿#Region "Microsoft.VisualBasic::dd1c3bc04f291e37769b4228c231dfa0, GCModeller\core\Bio.Assembly\Assembly\ELIXIR\UniProt\XML\GetID.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 141
     ' Comment Lines: 8
     '   Blank Lines: 25
-    '     File Size: 6.43 KB
+    '     File Size: 6.60 KB
 
 
     '     Module GetIDs

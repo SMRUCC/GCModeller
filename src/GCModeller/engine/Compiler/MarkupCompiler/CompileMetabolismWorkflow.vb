@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7dd897916ee65615e577ab614c7cec93, GCModeller\engine\Compiler\MarkupCompiler\CompileMetabolismWorkflow.vb"
+﻿#Region "Microsoft.VisualBasic::780b4ebde69b75eb4c84f939a07217fb, GCModeller\engine\Compiler\MarkupCompiler\CompileMetabolismWorkflow.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 96
     ' Comment Lines: 0
     '   Blank Lines: 12
-    '     File Size: 4.96 KB
+    '     File Size: 5.07 KB
 
 
     '     Class CompileMetabolismWorkflow

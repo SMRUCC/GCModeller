@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::392aa293bb60da19366233cd5877c045, GCModeller\data\RegulonDatabase\Regprecise\WebServices\WebParser\Operon\OperonQuery.vb"
+﻿#Region "Microsoft.VisualBasic::261bbfe15c2ee40e054abc279593237f, GCModeller\data\RegulonDatabase\Regprecise\WebServices\WebParser\Operon\OperonQuery.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 85
     ' Comment Lines: 2
     '   Blank Lines: 17
-    '     File Size: 4.32 KB
+    '     File Size: 4.42 KB
 
 
     '     Class OperonQuery

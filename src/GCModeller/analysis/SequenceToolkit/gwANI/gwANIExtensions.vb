@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::14dcda5f3cc79440a9ead312c7817eb5, GCModeller\analysis\SequenceToolkit\gwANI\gwANIExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::4072d2af17209827501976183a04bec6, GCModeller\analysis\SequenceToolkit\gwANI\gwANIExtensions.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 26
     ' Comment Lines: 14
     '   Blank Lines: 5
-    '     File Size: 1.60 KB
+    '     File Size: 1.65 KB
 
 
     ' Module gwANIExtensions

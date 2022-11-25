@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d631b2365fb7533fffecf4c8d299c49d, GCModeller\core\Bio.Annotation\GFF\Document\FeatureParser.vb"
+﻿#Region "Microsoft.VisualBasic::82a75782e7a7f208a82c61c767bfe25c, GCModeller\core\Bio.Annotation\GFF\Document\FeatureParser.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 79
     ' Comment Lines: 33
     '   Blank Lines: 13
-    '     File Size: 4.99 KB
+    '     File Size: 5.11 KB
 
 
     '     Module FeatureParser

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b8631b31aa217b568c60c718ca14789e, GCModeller\models\SBML\SBML\Level3\unitDefinition.vb"
+﻿#Region "Microsoft.VisualBasic::f435cc180218f203b9ebcaef02068e1f, GCModeller\models\SBML\SBML\Level3\unitDefinition.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 13
     ' Comment Lines: 0
     '   Blank Lines: 7
-    '     File Size: 493 B
+    '     File Size: 512 B
 
 
     '     Class unitDefinition

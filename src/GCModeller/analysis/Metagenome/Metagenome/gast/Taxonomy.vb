@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3964a4c29d7eaed6dcf864aa2528f319, GCModeller\analysis\Metagenome\Metagenome\gast\Taxonomy.vb"
+﻿#Region "Microsoft.VisualBasic::ad05da8180a8ccd65970a058122fc6fe, GCModeller\analysis\Metagenome\Metagenome\gast\Taxonomy.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 133
     ' Comment Lines: 80
     '   Blank Lines: 32
-    '     File Size: 8.21 KB
+    '     File Size: 8.46 KB
 
 
     '     Class Taxonomy

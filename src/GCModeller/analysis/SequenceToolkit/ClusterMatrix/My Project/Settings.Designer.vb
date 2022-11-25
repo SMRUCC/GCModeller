@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::013ae913f445121982f7d0bd86d2be82, GCModeller\analysis\SequenceToolkit\ClusterMatrix\My Project\Settings.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::a6e26c5bca0d8de64cbdfe4ef4b01af1, GCModeller\analysis\SequenceToolkit\ClusterMatrix\My Project\Settings.Designer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 51
     ' Comment Lines: 9
     '   Blank Lines: 13
-    '     File Size: 2.98 KB
+    '     File Size: 3.05 KB
 
 
     '     Class MySettings

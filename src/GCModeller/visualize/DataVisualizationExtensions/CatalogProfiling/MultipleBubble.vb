@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4a61344b9d0642d3264afc38355dd9c3, GCModeller\visualize\DataVisualizationExtensions\CatalogProfiling\MultipleBubble.vb"
+﻿#Region "Microsoft.VisualBasic::91f4f9ed2c7013afcfe075ef57b07c50, GCModeller\visualize\DataVisualizationExtensions\CatalogProfiling\MultipleBubble.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 204
     ' Comment Lines: 24
     '   Blank Lines: 38
-    '     File Size: 11.77 KB
+    '     File Size: 12.04 KB
 
 
     '     Class MultipleBubble

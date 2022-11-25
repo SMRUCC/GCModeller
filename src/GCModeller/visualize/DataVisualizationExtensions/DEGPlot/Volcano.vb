@@ -1,53 +1,61 @@
-﻿#Region "Microsoft.VisualBasic::76954eb51c9be01b56ec8029e46ffd29, GCModeller\visualize\DataVisualizationExtensions\DEGPlot\Volcano.vb"
+﻿#Region "Microsoft.VisualBasic::7e9c2aaf4db8c359260849c137016567, GCModeller\visualize\DataVisualizationExtensions\DEGPlot\Volcano.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 348
-'    Code Lines: 278
-' Comment Lines: 28
-'   Blank Lines: 42
-'     File Size: 15.64 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Module Volcano
-' 
-'     Properties: PValueThreshold
-' 
-'     Function: CreateModel, GetLegends, Plot, (+2 Overloads) PlotDEGs
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 388
+    '    Code Lines: 315
+    ' Comment Lines: 28
+    '   Blank Lines: 45
+    '     File Size: 16.69 KB
+
+
+    ' Module Volcano
+    ' 
+    '     Properties: PValueThreshold
+    ' 
+    '     Function: CreateModel, GetLegends, Plot, (+2 Overloads) PlotDEGs
+    ' 
+    ' Class VolcanoPlot
+    ' 
+    '     Properties: colors, displayCount, displayLabel, factors, log2Threshold
+    '                 pvalueThreshold
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
+    '     Sub: PlotInternal
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

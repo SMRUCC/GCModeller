@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6845e0b3f26bfb4e759d071d503a4c03, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\Schemas\CompoundModelFactory.vb"
+﻿#Region "Microsoft.VisualBasic::97ad620a7a5a1de80a8f4cc11d2bd371, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\Schemas\CompoundModelFactory.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 21
     ' Comment Lines: 0
     '   Blank Lines: 7
-    '     File Size: 1020 B
+    '     File Size: 1.05 KB
 
 
     '     Module CompoundModelFactory

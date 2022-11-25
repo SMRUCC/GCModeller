@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c562caa567e371850ee26a33ee0c2198, GCModeller\core\Bio.Assembly\Assembly\NCBI\WebServiceHandler\Entrez\Protein.vb"
+﻿#Region "Microsoft.VisualBasic::74e9bf23cf56fa66f63e888efdf4d1d1, GCModeller\core\Bio.Assembly\Assembly\NCBI\WebServiceHandler\Entrez\Protein.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 82
     ' Comment Lines: 4
     '   Blank Lines: 21
-    '     File Size: 4.89 KB
+    '     File Size: 5.00 KB
 
 
     '     Class Protein

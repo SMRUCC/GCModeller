@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fe81c754d475c24a84afe7daba5a1de5, GCModeller\models\BioCyc\Models\enzrxns.vb"
+﻿#Region "Microsoft.VisualBasic::325e9a86f308122d8595d746f3c94b9d, GCModeller\models\BioCyc\Models\enzrxns.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 37
     ' Comment Lines: 0
     '   Blank Lines: 6
-    '     File Size: 1.43 KB
+    '     File Size: 1.47 KB
 
 
     ' Class enzrxns

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2da8dd5b3b0fea81286705df5fe98250, GCModeller\analysis\Microarray\My Project\Settings.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::469761e231ea6c62c0fa5dc79b254437, GCModeller\analysis\Microarray\My Project\Settings.Designer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 53
     ' Comment Lines: 9
     '   Blank Lines: 12
-    '     File Size: 2.97 KB
+    '     File Size: 3.04 KB
 
 
     '     Class MySettings

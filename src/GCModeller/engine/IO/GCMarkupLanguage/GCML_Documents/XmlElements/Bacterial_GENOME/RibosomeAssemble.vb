@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b3109463829a1385cf11fd900468ee70, GCModeller\engine\IO\GCMarkupLanguage\GCML_Documents\XmlElements\Bacterial_GENOME\RibosomeAssemble.vb"
+﻿#Region "Microsoft.VisualBasic::44988e0c23eb2220dba26a2d28b3e600, GCModeller\engine\IO\GCMarkupLanguage\GCML_Documents\XmlElements\Bacterial_GENOME\RibosomeAssemble.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 4
     ' Comment Lines: 4
     '   Blank Lines: 2
-    '     File Size: 239 B
+    '     File Size: 248 B
 
 
     '     Class RibosomeAssemble

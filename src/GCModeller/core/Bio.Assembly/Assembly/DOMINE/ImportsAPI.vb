@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d72ea865d8a714908e0e6d2db2d86941, GCModeller\core\Bio.Assembly\Assembly\DOMINE\ImportsAPI.vb"
+﻿#Region "Microsoft.VisualBasic::064f8e8a43941850e3c2529f5207596a, GCModeller\core\Bio.Assembly\Assembly\DOMINE\ImportsAPI.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 59
     ' Comment Lines: 0
     '   Blank Lines: 10
-    '     File Size: 2.85 KB
+    '     File Size: 2.92 KB
 
 
     '     Module ImportsAPI

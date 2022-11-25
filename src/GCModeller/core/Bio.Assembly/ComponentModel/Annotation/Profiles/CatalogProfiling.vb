@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d7ab0913fc37dcbf48c69b0ba3a04ba0, GCModeller\core\Bio.Assembly\ComponentModel\Annotation\Profiles\CatalogProfiling.vb"
+﻿#Region "Microsoft.VisualBasic::968f018a005a33a3de02eb9322bfcc0f, GCModeller\core\Bio.Assembly\ComponentModel\Annotation\Profiles\CatalogProfiling.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,24 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 25
-    '    Code Lines: 16
-    ' Comment Lines: 4
-    '   Blank Lines: 5
-    '     File Size: 842 B
+    '   Total Lines: 79
+    '    Code Lines: 53
+    ' Comment Lines: 10
+    '   Blank Lines: 16
+    '     File Size: 2.59 KB
 
 
     '     Class CatalogProfiling
     ' 
     '         Properties: Catalog, Description, SubCategory
     ' 
-    '         Function: ToString
+    '         Function: FindCategory, GetCategory, ToString
+    ' 
+    '     Class ClassProfiles
+    ' 
+    '         Properties: Catalogs
+    ' 
+    '         Function: FindClass, GetClass
     ' 
     ' 
     ' /********************************************************************************/

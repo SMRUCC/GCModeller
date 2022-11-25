@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6994acc64d2e3fd415a8b8c8b59b92bc, GCModeller\models\Networks\KEGG\My Project\AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::0215a752061902a54f51f3c5d988bd90, GCModeller\models\Networks\KEGG\My Project\AssemblyInfo.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 15
     ' Comment Lines: 15
     '   Blank Lines: 6
-    '     File Size: 1.30 KB
+    '     File Size: 1.34 KB
 
 
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f792d32af15050f281d4f8522b29de77, GCModeller\engine\GCModeller.Framework.Kernel_Driver\GridPBS\MetaboliteCompound.vb"
+﻿#Region "Microsoft.VisualBasic::1abc9838c0d7aef07df7c81c91d0ecc9, GCModeller\engine\GCModeller.Framework.Kernel_Driver\GridPBS\MetaboliteCompound.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 14
     ' Comment Lines: 4
     '   Blank Lines: 5
-    '     File Size: 689 B
+    '     File Size: 711 B
 
 
     '     Structure MetaboliteCompound

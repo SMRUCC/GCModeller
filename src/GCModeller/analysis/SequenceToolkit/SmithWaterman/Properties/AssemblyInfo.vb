@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ac9964795437c9b98363d707c56c8a48, GCModeller\analysis\SequenceToolkit\SmithWaterman\Properties\AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::d3ca2e8530ab552b4673de464839e3b0, GCModeller\analysis\SequenceToolkit\SmithWaterman\Properties\AssemblyInfo.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 16
     ' Comment Lines: 11
     '   Blank Lines: 6
-    '     File Size: 1.04 KB
+    '     File Size: 1.07 KB
 
 
     ' 

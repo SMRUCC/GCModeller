@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2ca3e726eff9cf72ddb7e2b44cee685d, GCModeller\core\Bio.Assembly\SequenceModel\Abstract.vb"
+﻿#Region "Microsoft.VisualBasic::03840b5020b9328053bf401db771debf, GCModeller\core\Bio.Assembly\SequenceModel\Abstract.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 24
     ' Comment Lines: 25
     '   Blank Lines: 8
-    '     File Size: 1.75 KB
+    '     File Size: 1.81 KB
 
 
     '     Enum SeqTypes

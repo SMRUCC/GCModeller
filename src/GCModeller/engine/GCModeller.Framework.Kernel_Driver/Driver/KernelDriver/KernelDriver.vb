@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9072beb1bd239587c4130145be9033d6, GCModeller\engine\GCModeller.Framework.Kernel_Driver\Driver\KernelDriver\KernelDriver.vb"
+﻿#Region "Microsoft.VisualBasic::47ee5a74a491555ea2187cdb85769547, GCModeller\engine\GCModeller.Framework.Kernel_Driver\Driver\KernelDriver\KernelDriver.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 85
     ' Comment Lines: 40
     '   Blank Lines: 25
-    '     File Size: 5.87 KB
+    '     File Size: 6.02 KB
 
 
     ' Interface IKernelDriver

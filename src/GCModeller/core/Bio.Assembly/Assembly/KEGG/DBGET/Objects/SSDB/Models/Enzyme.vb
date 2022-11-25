@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0f8154b1b0c11ba46f8174f5be738246, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\SSDB\Models\Enzyme.vb"
+﻿#Region "Microsoft.VisualBasic::0801728ddaf15f7cfb9af97c7c6ec2f9, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\SSDB\Models\Enzyme.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 16
     ' Comment Lines: 8
     '   Blank Lines: 4
-    '     File Size: 859 B
+    '     File Size: 886 B
 
 
     '     Class Enzyme

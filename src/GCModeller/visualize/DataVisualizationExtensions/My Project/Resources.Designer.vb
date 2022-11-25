@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d9111d188e5684db02ce372a97580c40, GCModeller\visualize\DataVisualizationExtensions\My Project\Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::85ea827cf9a965b7107cd4c69bb3ddf6, GCModeller\visualize\DataVisualizationExtensions\My Project\Resources.Designer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 32
     ' Comment Lines: 23
     '   Blank Lines: 8
-    '     File Size: 2.73 KB
+    '     File Size: 2.79 KB
 
 
     '     Module Resources
