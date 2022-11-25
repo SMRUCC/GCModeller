@@ -217,7 +217,6 @@ Public Module profiles
     ''' get category labels for a given id set
     ''' </summary>
     ''' <param name="category"></param>
-    ''' <param name="idSet"></param>
     ''' <param name="idSet">
     ''' a character vector of the target id set
     ''' </param>
