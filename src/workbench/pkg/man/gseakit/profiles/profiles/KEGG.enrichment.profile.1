@@ -1,29 +1,25 @@
 .\" man page create by R# package system.
 .TH PROFILES 1 2000-01-01 "KEGG.enrichment.profile" "KEGG.enrichment.profile"
 .SH NAME
-KEGG.enrichment.profile \- create the kegg pathway catagory profiles from a given
+KEGG.enrichment.profile \- A method for cast the kegg enrichment result to the
 .SH SYNOPSIS
-\fIKEGG.enrichment.profile(\fBenrichments\fR as <generic> EnrichmentTerm[], 
-\fBtop\fR as integer = 10);\fR
+\fIKEGG.enrichment.profile(\fBenrichments\fR as any, 
+\fBtop\fR as integer = 10, 
+[\fB<Environment>\fR]);\fR
 .SH DESCRIPTION
 .PP
-create the kegg pathway catagory profiles from a given
- enrichment analysis result
+A method for cast the kegg enrichment result to the 
+ category profiles for run data visualization
 .PP
 .SH OPTIONS
 .PP
 \fBenrichments\fB \fR\- -. 
 .PP
 .PP
-\fBtop\fB \fR\- 
- get top n terms in each category when create the category profiles
-. 
+\fBtop%\fB \fR\- -. 
 .PP
-.SH VALUE
 .PP
-A category profiles object that can be apply to do data
- visualization plot of the given enrichment analysis
- result terms.
+\fBenv\fB \fR\- -. 
 .PP
 .SH SEE ALSO
 profiles

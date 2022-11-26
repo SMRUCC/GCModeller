@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5bc8a273bb5ca8e105bce818dc4aebcd, GCModeller\models\BIOM\BIOM\v1.0\components.vb"
+﻿#Region "Microsoft.VisualBasic::4f6fec9cbef12a8ce9b9223be8b5926c, GCModeller\models\BIOM\BIOM\v1.0\components.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 49
     ' Comment Lines: 15
     '   Blank Lines: 14
-    '     File Size: 2.45 KB
+    '     File Size: 2.53 KB
 
 
     '     Class row

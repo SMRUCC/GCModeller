@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cf3b0898a785f27439d474670d051df0, GCModeller\visualize\DataVisualizationExtensions\CatalogProfiling\Heatmap\CatalogHeatMap.vb"
+﻿#Region "Microsoft.VisualBasic::eefc5012bb4cfca62ba3e91acfed013b, GCModeller\visualize\DataVisualizationExtensions\CatalogProfiling\Heatmap\CatalogHeatMap.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 123
     ' Comment Lines: 16
     '   Blank Lines: 20
-    '     File Size: 6.94 KB
+    '     File Size: 7.10 KB
 
 
     '     Class CatalogHeatMap

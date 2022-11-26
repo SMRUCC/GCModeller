@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fade8db7038decd9b3af09277c41d87c, GCModeller\data\Rhea\TextParser.vb"
+﻿#Region "Microsoft.VisualBasic::57ec68789208df6d31c7ab135c3e3b4f, GCModeller\data\Rhea\TextParser.vb"
 
     ' Author:
     ' 
@@ -124,4 +124,3 @@ Public Module TextParser
         Next
     End Function
 End Module
-

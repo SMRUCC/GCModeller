@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ab7ed5ba00efa6c3378cafd893713c4b, GCModeller\sub-system\FBA\FBA.Core\My Project\AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::4036f1e5fec204d4d3e66e65bac0a0fb, GCModeller\sub-system\FBA\FBA.Core\My Project\AssemblyInfo.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 15
     ' Comment Lines: 15
     '   Blank Lines: 6
-    '     File Size: 1.15 KB
+    '     File Size: 1.18 KB
 
 
     ' 

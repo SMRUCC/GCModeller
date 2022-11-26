@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5b68177ff712677d59a348bbdb7c880c, R#\kegg_kit\repository\dbget.vb"
+﻿#Region "Microsoft.VisualBasic::2ad81c001879f215f78673811532374a, R#\kegg_kit\repository\dbget.vb"
 
     ' Author:
     ' 
@@ -34,21 +34,20 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 67
-    '    Code Lines: 54
-    ' Comment Lines: 2
-    '   Blank Lines: 11
-    '     File Size: 2.74 KB
+    '   Total Lines: 66
+    '    Code Lines: 19
+    ' Comment Lines: 37
+    '   Blank Lines: 10
+    '     File Size: 2.77 KB
 
 
     ' Module dbget
     ' 
-    '     Function: DownloadPathwayMaps, ShowOrganism
+    '     Function: ShowOrganism
     ' 
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -116,4 +115,3 @@ Public Module dbget
         Return organism
     End Function
 End Module
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ee73d87f128baf83a487834dac9550b4, GCModeller\analysis\SequenceToolkit\SequencePatterns.Abstract\IScanner.vb"
+﻿#Region "Microsoft.VisualBasic::d93832c720d160e43e06a74ebd3691f4, GCModeller\analysis\SequenceToolkit\SequencePatterns.Abstract\IScanner.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 72
     ' Comment Lines: 15
     '   Blank Lines: 19
-    '     File Size: 3.51 KB
+    '     File Size: 3.61 KB
 
 
     '     Class IScanner

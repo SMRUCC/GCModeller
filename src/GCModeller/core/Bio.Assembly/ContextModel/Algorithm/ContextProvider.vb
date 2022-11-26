@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::580d6816bac0305e8e49caf93b6ca982, GCModeller\core\Bio.Assembly\ContextModel\Algorithm\ContextProvider.vb"
+﻿#Region "Microsoft.VisualBasic::d06b5aa11a1ca48153f1268423be9fd6, GCModeller\core\Bio.Assembly\ContextModel\Algorithm\ContextProvider.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 157
     ' Comment Lines: 74
     '   Blank Lines: 29
-    '     File Size: 12.99 KB
+    '     File Size: 13.25 KB
 
 
     '     Class GenomeContextProvider

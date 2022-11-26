@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::88b17e4748e26441d764127d290d1df3, GCModeller\data\MicrobesOnline\My Project\AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::7a309d93337b02035e4acdaeeeb75011, GCModeller\data\MicrobesOnline\My Project\AssemblyInfo.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 15
     ' Comment Lines: 15
     '   Blank Lines: 6
-    '     File Size: 1.17 KB
+    '     File Size: 1.21 KB
 
 
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::49686c58f7603c8bfb77bd564b118caa, GCModeller\models\BioCyc\Models\Reflection\AttributeField.vb"
+﻿#Region "Microsoft.VisualBasic::27b57f1d2cda1c8722ca5dd6cd6217ee, GCModeller\models\BioCyc\Models\Reflection\AttributeField.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 19
     ' Comment Lines: 0
     '   Blank Lines: 7
-    '     File Size: 655 B
+    '     File Size: 680 B
 
 
     ' Class AttributeField

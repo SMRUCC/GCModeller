@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6a5df5117b52cf97e46b7073feda50f7, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\Tabular DataFiles\Enzymes.vb"
+﻿#Region "Microsoft.VisualBasic::3ad03410a35a9443e41d953e35203009, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\Tabular DataFiles\Enzymes.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 18
     ' Comment Lines: 19
     '   Blank Lines: 5
-    '     File Size: 1.34 KB
+    '     File Size: 1.38 KB
 
 
     '     Class Enzymes

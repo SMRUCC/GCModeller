@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::255dbe4dad7570f1bf1bddea0db0eadb, GCModeller\core\Bio.Assembly\SequenceModel\FASTA\IO\StreamIterator.vb"
+﻿#Region "Microsoft.VisualBasic::9bf2e39c6d6b51cf3bf926f6c49d630c, GCModeller\core\Bio.Assembly\SequenceModel\FASTA\IO\StreamIterator.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 96
     ' Comment Lines: 46
     '   Blank Lines: 28
-    '     File Size: 6.51 KB
+    '     File Size: 6.68 KB
 
 
     '     Class StreamIterator

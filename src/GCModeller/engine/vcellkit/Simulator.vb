@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9d3f62bebb0bc2e4e8e317599b3d12a9, GCModeller\engine\vcellkit\Simulator.vb"
+﻿#Region "Microsoft.VisualBasic::88729d973cd60aee7b074d9887fec2d5, GCModeller\engine\vcellkit\Simulator.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 119
     ' Comment Lines: 33
     '   Blank Lines: 21
-    '     File Size: 7.11 KB
+    '     File Size: 7.29 KB
 
 
     ' Enum ModuleSystemLevels

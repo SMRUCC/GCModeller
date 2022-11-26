@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9ecc154da9351aa9ef2db27692a6cd70, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Slots\Compound.vb"
+﻿#Region "Microsoft.VisualBasic::2019c531d7a1e20d3c5e5a7ca3f0a654, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Slots\Compound.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 116
     ' Comment Lines: 12
     '   Blank Lines: 17
-    '     File Size: 5.93 KB
+    '     File Size: 6.07 KB
 
 
     '     Class Compound

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e5b02012974d3d1f5cc82f2d41b4e427, GCModeller\core\Bio.Assembly\Assembly\NCBI\WebServiceHandler\Entrez\Genbank.vb"
+﻿#Region "Microsoft.VisualBasic::9a0834b44a05368cd18b0bb22438f1f6, GCModeller\core\Bio.Assembly\Assembly\NCBI\WebServiceHandler\Entrez\Genbank.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 32
     ' Comment Lines: 12
     '   Blank Lines: 11
-    '     File Size: 1.94 KB
+    '     File Size: 2.00 KB
 
 
     '     Module Genbank

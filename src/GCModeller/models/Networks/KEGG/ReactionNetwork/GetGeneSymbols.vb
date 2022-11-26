@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dff517caadd8c39779ab6e01cec8fac6, GCModeller\models\Networks\KEGG\ReactionNetwork\GetGeneSymbols.vb"
+﻿#Region "Microsoft.VisualBasic::790a48697c2b61da0e7804284b4d9144, GCModeller\models\Networks\KEGG\ReactionNetwork\GetGeneSymbols.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 73
     ' Comment Lines: 5
     '   Blank Lines: 6
-    '     File Size: 3.53 KB
+    '     File Size: 3.61 KB
 
 
     '     Module GetGeneSymbols

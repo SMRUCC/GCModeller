@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::21f21e929419a2cc84f71050930eb699, GCModeller\engine\CompilerServices\Compiler.vb"
+﻿#Region "Microsoft.VisualBasic::b67b3c8b27af857134b8d8b788b0accc, GCModeller\engine\CompilerServices\Compiler.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 116
     ' Comment Lines: 35
     '   Blank Lines: 34
-    '     File Size: 6.41 KB
+    '     File Size: 6.59 KB
 
 
     ' Class Compiler

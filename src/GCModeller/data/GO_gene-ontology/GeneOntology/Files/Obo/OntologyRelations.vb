@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5804eb807eb5f38719f4402a12278d47, GCModeller\data\GO_gene-ontology\GeneOntology\Files\Obo\OntologyRelations.vb"
+﻿#Region "Microsoft.VisualBasic::81edf73aaa5651d4a87fcd113cdac8d5, GCModeller\data\GO_gene-ontology\GeneOntology\Files\Obo\OntologyRelations.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 56
     ' Comment Lines: 13
     '   Blank Lines: 12
-    '     File Size: 2.96 KB
+    '     File Size: 3.04 KB
 
 
     '     Class OntologyRelations

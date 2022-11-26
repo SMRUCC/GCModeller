@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0bd2fb03a271c13479e51c1a91d1c63e, GCModeller\core\Bio.Assembly\ComponentModel\ValuePair.vb"
+﻿#Region "Microsoft.VisualBasic::ec1e5fa5e35b2e54e6a59f2bcb62023e, GCModeller\core\Bio.Assembly\ComponentModel\ValuePair.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 62
     ' Comment Lines: 5
     '   Blank Lines: 14
-    '     File Size: 2.76 KB
+    '     File Size: 2.84 KB
 
 
     '     Module KeyValuePairExtensions

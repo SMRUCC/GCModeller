@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::60296d64cc5f3a0c488702599d04cf6a, GCModeller\foundation\OBO_Foundry\IO\Models\header.vb"
+﻿#Region "Microsoft.VisualBasic::e3b2629723e04fae06225dc1d0a2573a, GCModeller\foundation\OBO_Foundry\IO\Models\header.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 20
     ' Comment Lines: 3
     '   Blank Lines: 4
-    '     File Size: 1.18 KB
+    '     File Size: 1.21 KB
 
 
     '     Class header

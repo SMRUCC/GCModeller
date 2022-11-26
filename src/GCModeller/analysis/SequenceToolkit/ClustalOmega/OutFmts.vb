@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d463354a4be4cee5b77272adc87c2ce6, GCModeller\analysis\SequenceToolkit\ClustalOmega\OutFmts.vb"
+﻿#Region "Microsoft.VisualBasic::cf3704efae643f960bf1771b3b7222bc, GCModeller\analysis\SequenceToolkit\ClustalOmega\OutFmts.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 11
     ' Comment Lines: 29
     '   Blank Lines: 3
-    '     File Size: 1014 B
+    '     File Size: 1.06 KB
 
 
     ' Enum OutFmts

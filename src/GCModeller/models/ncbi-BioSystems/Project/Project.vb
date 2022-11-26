@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c9593b07293bc905992d4c45387a1737, GCModeller\models\ncbi-BioSystems\Project\Project.vb"
+﻿#Region "Microsoft.VisualBasic::1cd03461ce270225766f823f73bda745, GCModeller\models\ncbi-BioSystems\Project\Project.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 4
     ' Comment Lines: 0
     '   Blank Lines: 2
-    '     File Size: 122 B
+    '     File Size: 120 B
 
 
     ' Class Project
@@ -55,4 +55,3 @@ Public Class Project
     Public Property proteins As ProteinSet
 
 End Class
-

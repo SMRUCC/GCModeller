@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::130aacdbfb16cad1acaff80aced872d4, GCModeller\analysis\HTS_matrix\File\Reader.vb"
+﻿#Region "Microsoft.VisualBasic::2c743a2800dd765963fa769ed9112c1a, GCModeller\analysis\HTS_matrix\File\Reader.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 46
     ' Comment Lines: 0
     '   Blank Lines: 8
-    '     File Size: 1.88 KB
+    '     File Size: 1.94 KB
 
 
     ' Module Reader

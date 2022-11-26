@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::74ebd3b97cc0e586b649b4f359e6bcb9, GCModeller\engine\vcellkit\Modeller\Enzymatic.vb"
+﻿#Region "Microsoft.VisualBasic::063fe183d61f54d94a76ff6364d2fc1a, GCModeller\engine\vcellkit\Modeller\Enzymatic.vb"
 
     ' Author:
     ' 
@@ -113,4 +113,3 @@ Module Enzymatic
         Return Nothing
     End Function
 End Module
-

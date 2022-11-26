@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7f6bfda240e1d5689a6ea0baedf81c13, GCModeller\analysis\Metagenome\MetaFunction\PICRUSt\MetaBinaryReader.vb"
+﻿#Region "Microsoft.VisualBasic::4e23afbdd53bfccb895f05324137443e, GCModeller\analysis\Metagenome\MetaFunction\PICRUSt\MetaBinaryReader.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 159
     ' Comment Lines: 20
     '   Blank Lines: 47
-    '     File Size: 7.58 KB
+    '     File Size: 7.80 KB
 
 
     '     Class MetaBinaryReader

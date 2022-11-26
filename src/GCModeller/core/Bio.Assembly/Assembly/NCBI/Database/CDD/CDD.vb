@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1a58c7183919f9c261664e3573f7dfa6, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\CDD\CDD.vb"
+﻿#Region "Microsoft.VisualBasic::7d2aa88e105d3ea03aacfb24030bce8f, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\CDD\CDD.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 84
     ' Comment Lines: 10
     '   Blank Lines: 18
-    '     File Size: 3.79 KB
+    '     File Size: 3.90 KB
 
 
     '     Class DomainInfo

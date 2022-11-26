@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::95a92510e6051bd688c63547cc9b29ba, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\FileSystem\FASTA\Proteins.vb"
+﻿#Region "Microsoft.VisualBasic::e6b836253cb52a5230598814107f53d7, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\FileSystem\FASTA\Proteins.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 24
     ' Comment Lines: 0
     '   Blank Lines: 6
-    '     File Size: 830 B
+    '     File Size: 859 B
 
 
     '     Class Proteins

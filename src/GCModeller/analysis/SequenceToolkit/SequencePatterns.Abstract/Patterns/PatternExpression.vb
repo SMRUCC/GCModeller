@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::965a54a53af57be96eb93dbc2efb55eb, GCModeller\analysis\SequenceToolkit\SequencePatterns.Abstract\Patterns\PatternExpression.vb"
+﻿#Region "Microsoft.VisualBasic::35dd4f1ca998ef362369f2a621847010, GCModeller\analysis\SequenceToolkit\SequencePatterns.Abstract\Patterns\PatternExpression.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 33
     ' Comment Lines: 6
     '   Blank Lines: 9
-    '     File Size: 1.55 KB
+    '     File Size: 1.60 KB
 
 
     '     Class PatternExpression

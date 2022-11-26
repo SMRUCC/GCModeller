@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6d0ad706d621414fed562049d347454f, GCModeller\annotations\Proteomics\iTraq\iTraqTtest.vb"
+﻿#Region "Microsoft.VisualBasic::cbcc3d86a5b94a74b9cdf43f027d49bc, GCModeller\annotations\Proteomics\iTraq\iTraqTtest.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 110
     ' Comment Lines: 22
     '   Blank Lines: 21
-    '     File Size: 5.62 KB
+    '     File Size: 5.77 KB
 
 
     ' Module iTraqTtest

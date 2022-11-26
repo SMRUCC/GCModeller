@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1ec0d98939630fc712581332a7af8172, GCModeller\analysis\SequenceToolkit\gwANI\My Project\Settings.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::fcebe3c5ed045631390beea8216b0ebd, GCModeller\analysis\SequenceToolkit\gwANI\My Project\Settings.Designer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 53
     ' Comment Lines: 9
     '   Blank Lines: 12
-    '     File Size: 3.02 KB
+    '     File Size: 3.10 KB
 
 
     '     Class MySettings

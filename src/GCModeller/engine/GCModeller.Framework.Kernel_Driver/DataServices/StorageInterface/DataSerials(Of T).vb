@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d1b8d037f37fbd151f9f9f2c0b886a3e, GCModeller\engine\GCModeller.Framework.Kernel_Driver\DataServices\StorageInterface\DataSerials(Of T).vb"
+﻿#Region "Microsoft.VisualBasic::b07156651511cb6f4d7c16f948e1206e, GCModeller\engine\GCModeller.Framework.Kernel_Driver\DataServices\StorageInterface\DataSerials(Of T).vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 57
     ' Comment Lines: 19
     '   Blank Lines: 13
-    '     File Size: 4.05 KB
+    '     File Size: 4.14 KB
 
 
     '     Class DataSerials

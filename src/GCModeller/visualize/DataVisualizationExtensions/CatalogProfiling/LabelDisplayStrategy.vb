@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c73e5e769577533442d88f6fc9956bb3, GCModeller\visualize\DataVisualizationExtensions\CatalogProfiling\LabelDisplayStrategy.vb"
+﻿#Region "Microsoft.VisualBasic::57995449bab816d9aa7609068bdd944a, GCModeller\visualize\DataVisualizationExtensions\CatalogProfiling\LabelDisplayStrategy.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 59
     ' Comment Lines: 18
     '   Blank Lines: 10
-    '     File Size: 3.31 KB
+    '     File Size: 3.39 KB
 
 
     '     Class LabelDisplayStrategy

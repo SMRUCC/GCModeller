@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c067336702c70c7d00ebaa327951a8e7, GCModeller\data\SABIO-RK\Dumps\LocalParameterParser.vb"
+﻿#Region "Microsoft.VisualBasic::f75a764ec0a48cb760f4265a35dcc7b8, GCModeller\data\SABIO-RK\Dumps\LocalParameterParser.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 60
     ' Comment Lines: 42
     '   Blank Lines: 12
-    '     File Size: 6.05 KB
+    '     File Size: 6.16 KB
 
 
     '     Module LocalParameterParser

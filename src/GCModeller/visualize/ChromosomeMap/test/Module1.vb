@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::37cc820f1a9edf89a7765f6e690bcb27, GCModeller\visualize\ChromosomeMap\test\Module1.vb"
+﻿#Region "Microsoft.VisualBasic::6807cf3061bca7d401ac8d26eabed665, GCModeller\visualize\ChromosomeMap\test\Module1.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 35
     ' Comment Lines: 0
     '   Blank Lines: 3
-    '     File Size: 1.24 KB
+    '     File Size: 1.27 KB
 
 
     ' Module Module1

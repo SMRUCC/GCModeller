@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aa403189b424dd56003efc5690330caa, GCModeller\data\GO_gene-ontology\GeneOntology\Files\Obo\File\Instance.vb"
+﻿#Region "Microsoft.VisualBasic::4ec65c5c5e898aac0e376f193d881e5d, GCModeller\data\GO_gene-ontology\GeneOntology\Files\Obo\File\Instance.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 19
     ' Comment Lines: 0
     '   Blank Lines: 4
-    '     File Size: 955 B
+    '     File Size: 977 B
 
 
     '     Class Instance

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::16cd8942857121bd4ddff0f1444a036c, GCModeller\data\GO_gene-ontology\obographs\obographs\My Project\Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::af2bbe9c56a5ecf2f2c33294ed6645ef, GCModeller\data\GO_gene-ontology\obographs\obographs\My Project\Resources.Designer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 32
     ' Comment Lines: 23
     '   Blank Lines: 8
-    '     File Size: 2.75 KB
+    '     File Size: 2.81 KB
 
 
     '     Module Resources

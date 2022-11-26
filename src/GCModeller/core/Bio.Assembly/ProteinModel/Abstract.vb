@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4d227d63aa4a4dae75b33e56643e62da, GCModeller\core\Bio.Assembly\ProteinModel\Abstract.vb"
+﻿#Region "Microsoft.VisualBasic::8a9ef7b5ecdcc291230e4a3f36fbfc3d, GCModeller\core\Bio.Assembly\ProteinModel\Abstract.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 7
     ' Comment Lines: 11
     '   Blank Lines: 4
-    '     File Size: 577 B
+    '     File Size: 598 B
 
 
     '     Interface IMotifDomain

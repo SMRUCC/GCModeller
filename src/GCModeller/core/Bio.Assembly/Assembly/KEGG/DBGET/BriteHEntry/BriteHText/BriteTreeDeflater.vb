@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c8ca22531bc2c431c6fe436d21458a68, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\BriteHText\BriteTreeDeflater.vb"
+﻿#Region "Microsoft.VisualBasic::342093cde88e320f44fe862ab8a5b073, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\BriteHText\BriteTreeDeflater.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 141
     ' Comment Lines: 0
     '   Blank Lines: 19
-    '     File Size: 7.48 KB
+    '     File Size: 7.64 KB
 
 
     '     Module BriteTreeDeflater

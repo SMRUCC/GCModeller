@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::683aa3465b918ac2074ebdb639b762e4, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\FileSystem\FASTA\FastaCollection.vb"
+﻿#Region "Microsoft.VisualBasic::b2928fb9ba47253828ce7d11b471b937, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\FileSystem\FASTA\FastaCollection.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 28
     ' Comment Lines: 4
     '   Blank Lines: 8
-    '     File Size: 1.61 KB
+    '     File Size: 1.65 KB
 
 
     '     Class FastaCollection

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2638983bd86496eb0d23a46dc751ab15, GCModeller\engine\BootstrapLoader\Engine\VCell\DebuggerView.vb"
+﻿#Region "Microsoft.VisualBasic::1d6c58c251ba293d3338609d305c0181, GCModeller\engine\BootstrapLoader\Engine\VCell\DebuggerView.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 54
     ' Comment Lines: 0
     '   Blank Lines: 11
-    '     File Size: 2.13 KB
+    '     File Size: 2.20 KB
 
 
     '     Class DebuggerView

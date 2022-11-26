@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8e08258185bdd4f28543b4935aca81c1, R#\annotationKit\BioCyc.vb"
+﻿#Region "Microsoft.VisualBasic::4ff35f92948d6e3d60d444fd63af6770, R#\annotationKit\BioCyc.vb"
 
     ' Author:
     ' 
@@ -161,4 +161,3 @@ Public Module BioCycRepository
         }
     End Function
 End Module
-

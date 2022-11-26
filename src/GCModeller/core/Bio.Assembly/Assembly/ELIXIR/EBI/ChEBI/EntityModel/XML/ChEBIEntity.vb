@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2682e2cec6102bde132dcf3c75502a26, GCModeller\core\Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\EntityModel\XML\ChEBIEntity.vb"
+﻿#Region "Microsoft.VisualBasic::7011f22f637c2115ca5c9cfb70de55f9, GCModeller\core\Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\EntityModel\XML\ChEBIEntity.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 60
     ' Comment Lines: 17
     '   Blank Lines: 7
-    '     File Size: 3.16 KB
+    '     File Size: 3.24 KB
 
 
     '     Class ChEBIEntity

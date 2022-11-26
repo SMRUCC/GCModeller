@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c9e93a748051d1a7ec01415af117fa60, GCModeller\analysis\SequenceToolkit\SNP\VCF\SNPVcf.vb"
+﻿#Region "Microsoft.VisualBasic::7bcabc931c0f852b63a847577bafd85a, GCModeller\analysis\SequenceToolkit\SNP\VCF\SNPVcf.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 50
     ' Comment Lines: 7
     '   Blank Lines: 11
-    '     File Size: 2.13 KB
+    '     File Size: 2.20 KB
 
 
     '     Class SNPVcf

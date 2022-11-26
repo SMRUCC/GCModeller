@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::db83648277db8bbe2eb6b63b077a3b89, GCModeller\data\RegulonDatabase\Regprecise\AnalysisResult\Effectors.vb"
+﻿#Region "Microsoft.VisualBasic::af2a9917b044c54363748be43200f1f5, GCModeller\data\RegulonDatabase\Regprecise\AnalysisResult\Effectors.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 15
     ' Comment Lines: 0
     '   Blank Lines: 4
-    '     File Size: 531 B
+    '     File Size: 549 B
 
 
     '     Class Effectors

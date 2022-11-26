@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4c58a9d5f7b6bf48039bdd532700b5e5, GCModeller\annotations\GSEA\GSEA\KOBAS\Formats\CLS.vb"
+﻿#Region "Microsoft.VisualBasic::2716ac442b4b8218687dd2af34175b0c, GCModeller\annotations\GSEA\GSEA\KOBAS\Formats\CLS.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 28
     ' Comment Lines: 45
     '   Blank Lines: 6
-    '     File Size: 3.02 KB
+    '     File Size: 3.10 KB
 
 
     '     Class CLS

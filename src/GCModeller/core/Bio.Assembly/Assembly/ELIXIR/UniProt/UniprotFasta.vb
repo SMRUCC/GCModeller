@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c60dc1bc7fcc3c64699bd6a13f78370e, GCModeller\core\Bio.Assembly\Assembly\ELIXIR\UniProt\UniprotFasta.vb"
+﻿#Region "Microsoft.VisualBasic::f8d9c614804556f20be0527de990ec6f, GCModeller\core\Bio.Assembly\Assembly\ELIXIR\UniProt\UniprotFasta.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 79
     ' Comment Lines: 72
     '   Blank Lines: 18
-    '     File Size: 8.13 KB
+    '     File Size: 8.30 KB
 
 
     '     Class FastaHeader

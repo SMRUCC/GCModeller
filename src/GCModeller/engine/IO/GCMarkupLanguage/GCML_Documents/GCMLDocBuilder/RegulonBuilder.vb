@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1f6069e79bae518f593c6e1b0c2dadb4, GCModeller\engine\IO\GCMarkupLanguage\GCML_Documents\GCMLDocBuilder\RegulonBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::879a9c3d2f7c5e301882b0da526edcb4, GCModeller\engine\IO\GCMarkupLanguage\GCML_Documents\GCMLDocBuilder\RegulonBuilder.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 22
     ' Comment Lines: 0
     '   Blank Lines: 5
-    '     File Size: 1008 B
+    '     File Size: 1.03 KB
 
 
     '     Class RegulonBuilder

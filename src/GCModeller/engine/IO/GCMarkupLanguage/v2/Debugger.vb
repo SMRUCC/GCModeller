@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b6ee7e6869961f3bf5791fd360defd6a, GCModeller\engine\IO\GCMarkupLanguage\v2\Debugger.vb"
+﻿#Region "Microsoft.VisualBasic::3b06a90518118b508627a780812962d9, GCModeller\engine\IO\GCMarkupLanguage\v2\Debugger.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 9
     ' Comment Lines: 9
     '   Blank Lines: 4
-    '     File Size: 633 B
+    '     File Size: 654 B
 
 
     '     Module Debugger

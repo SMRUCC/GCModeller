@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f6a5e08cdb09675af329030dc3f291c0, GCModeller\data\GO_gene-ontology\GeneOntology\My Project\Settings.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::ea0645e32b0ed48dd6a565487fd402f3, GCModeller\data\GO_gene-ontology\GeneOntology\My Project\Settings.Designer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 53
     ' Comment Lines: 9
     '   Blank Lines: 12
-    '     File Size: 2.97 KB
+    '     File Size: 3.04 KB
 
 
     '     Class MySettings

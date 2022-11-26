@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7412470acbcc85bbe5b3929981d75712, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\ProteinFamily.vb"
+﻿#Region "Microsoft.VisualBasic::dee020152c34c1e1136bce7a776f7ea8, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\ProteinFamily.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 21
     ' Comment Lines: 0
     '   Blank Lines: 7
-    '     File Size: 1.15 KB
+    '     File Size: 1.17 KB
 
 
     '     Class SignalingAndCellularProcesses

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cc01de1fd02f4d1f29da16556d9ac1ff, GCModeller\core\Bio.Assembly\Assembly\Expasy\EnzymeClass.vb"
+﻿#Region "Microsoft.VisualBasic::c639cf885b60b1e1dac13f05d22d7d67, GCModeller\core\Bio.Assembly\Assembly\Expasy\EnzymeClass.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 29
     ' Comment Lines: 30
     '   Blank Lines: 10
-    '     File Size: 2.49 KB
+    '     File Size: 2.56 KB
 
 
     '     Class EnzymeClass

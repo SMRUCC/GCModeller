@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::86d4418a1ba25e0dba595290830a6adc, GCModeller\analysis\SequenceToolkit\SequencePatterns\Pattern\SegLoci.vb"
+﻿#Region "Microsoft.VisualBasic::ab0214583f63e5d7513d93ba22264070, GCModeller\analysis\SequenceToolkit\SequencePatterns\Pattern\SegLoci.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 32
     ' Comment Lines: 16
     '   Blank Lines: 7
-    '     File Size: 2.09 KB
+    '     File Size: 2.14 KB
 
 
     '     Class SegLoci

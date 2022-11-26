@@ -1,62 +1,63 @@
-﻿#Region "Microsoft.VisualBasic::2bcc5d438c9344f148f4d3e8587b0211, R#\gseakit\GSEA.vb"
+﻿#Region "Microsoft.VisualBasic::23588d85373e6e507485b38d64c78048, R#\gseakit\GSEA.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 264
-'    Code Lines: 193
-' Comment Lines: 47
-'   Blank Lines: 24
-'     File Size: 11.13 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Module GSEA
-' 
-'     Function: CreateEnrichmentObjects, CreateGOEnrichmentGraph, DrawGOEnrichmentGraph, Enrichment, enrichmentTable
-'               fisher, GOEnrichment, KOBASFormat, ReadEnrichmentTerms, SaveEnrichment
-' 
-'     Sub: Main
-' 
-' Enum EnrichmentTableFormat
-' 
-'     GCModeller, KOBAS
-' 
-'  
-' 
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 286
+    '    Code Lines: 214
+    ' Comment Lines: 47
+    '   Blank Lines: 25
+    '     File Size: 12.26 KB
+
+
+    ' Module GSEA
+    ' 
+    '     Function: CreateEnrichmentObjects, CreateGOEnrichmentGraph, DrawGOEnrichmentGraph, Enrichment, enrichmentTable
+    '               fisher, GOEnrichment, KOBASFormat, ReadEnrichmentTerms, SaveEnrichment
+    '               toEnrichmentTerms
+    ' 
+    '     Sub: Main
+    ' 
+    ' Enum EnrichmentTableFormat
+    ' 
+    '     GCModeller, KOBAS
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

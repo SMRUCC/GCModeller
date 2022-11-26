@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::26dcfb1baa9ab251326bffc8a68266c4, GCModeller\visualize\ChromosomeMap\PlasmidMap\PlasmidMap.vb"
+﻿#Region "Microsoft.VisualBasic::ab7f4086ef34f4d4de69826f5268efbf, GCModeller\visualize\ChromosomeMap\PlasmidMap\PlasmidMap.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 7
     ' Comment Lines: 3
     '   Blank Lines: 4
-    '     File Size: 377 B
+    '     File Size: 390 B
 
 
     '     Class PlasmidMapDrawingModel

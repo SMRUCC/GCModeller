@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5bd2f28f23a81f147143ca4e002e9245, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\KEGGOrganism\EntryAPI.vb"
+﻿#Region "Microsoft.VisualBasic::fd5223626c824dc3c93ecbd181afbe2f, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\KEGGOrganism\EntryAPI.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 161
     ' Comment Lines: 35
     '   Blank Lines: 30
-    '     File Size: 8.75 KB
+    '     File Size: 8.98 KB
 
 
     '     Module EntryAPI

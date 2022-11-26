@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::906d961b2e08355f476fca7d967f08bc, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\Tabular DataFiles\Pathway.vb"
+﻿#Region "Microsoft.VisualBasic::c35f9fb0f9232731994fc36b6e9db80b, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\Tabular DataFiles\Pathway.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 42
     ' Comment Lines: 22
     '   Blank Lines: 12
-    '     File Size: 2.39 KB
+    '     File Size: 2.46 KB
 
 
     '     Class Pathway

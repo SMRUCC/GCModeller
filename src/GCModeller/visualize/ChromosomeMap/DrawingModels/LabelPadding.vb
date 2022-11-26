@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2fc66999e6d45780afd26f37f9281f52, GCModeller\visualize\ChromosomeMap\DrawingModels\LabelPadding.vb"
+﻿#Region "Microsoft.VisualBasic::a0d09b248a54ac88aaad82bb7da069f2, GCModeller\visualize\ChromosomeMap\DrawingModels\LabelPadding.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 34
     ' Comment Lines: 20
     '   Blank Lines: 10
-    '     File Size: 2.63 KB
+    '     File Size: 2.70 KB
 
 
     '     Delegate Function

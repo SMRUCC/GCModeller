@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bbc36297d06950ac84c8bc14173fda7a, GCModeller\analysis\SequenceToolkit\SmithWaterman\SmithWaterman.vb"
+﻿#Region "Microsoft.VisualBasic::1d0f914ec94ec82600397ec0ddfd18f7, GCModeller\analysis\SequenceToolkit\SmithWaterman\SmithWaterman.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 31
     ' Comment Lines: 30
     '   Blank Lines: 7
-    '     File Size: 2.61 KB
+    '     File Size: 2.67 KB
 
 
     ' Class SmithWaterman

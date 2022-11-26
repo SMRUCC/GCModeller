@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::14c0d59130dce7099e18107b70fbf40f, GCModeller\annotations\KEGG\My Project\AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::f6a9e82590d7a9f5509f06d4c4cfbe70, GCModeller\annotations\KEGG\My Project\AssemblyInfo.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 15
     ' Comment Lines: 15
     '   Blank Lines: 6
-    '     File Size: 1.14 KB
+    '     File Size: 1.17 KB
 
 
     ' 

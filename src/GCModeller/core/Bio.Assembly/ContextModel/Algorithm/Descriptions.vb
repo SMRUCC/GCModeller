@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7c1f93ca1b225257d2e34d2d6519da98, GCModeller\core\Bio.Assembly\ContextModel\Algorithm\Descriptions.vb"
+﻿#Region "Microsoft.VisualBasic::140958a8c08c1cb770845a6c8b40be1a, GCModeller\core\Bio.Assembly\ContextModel\Algorithm\Descriptions.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 89
     ' Comment Lines: 41
     '   Blank Lines: 19
-    '     File Size: 6.55 KB
+    '     File Size: 6.69 KB
 
 
     '     Module LocationDescriptions

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4f9cf18b67169f1d62ed1194e1407c17, R#\seqtoolkit\My Project\Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::4a364e76c432df0a356421d88db330a8, R#\seqtoolkit\My Project\Resources.Designer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 32
     ' Comment Lines: 23
     '   Blank Lines: 8
-    '     File Size: 2.78 KB
+    '     File Size: 2.77 KB
 
 
     '     Module Resources
@@ -113,4 +113,3 @@ Namespace My.Resources
         End Property
     End Module
 End Namespace
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b842280ea8ff9e438ef3ace5729db99a, GCModeller\data\GO_gene-ontology\GeneOntology\Ontologies.vb"
+﻿#Region "Microsoft.VisualBasic::ec7d04826673fe14e21311a1a931a899, GCModeller\data\GO_gene-ontology\GeneOntology\Ontologies.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 6
     ' Comment Lines: 39
     '   Blank Lines: 2
-    '     File Size: 3.56 KB
+    '     File Size: 3.61 KB
 
 
     ' Enum Ontologies

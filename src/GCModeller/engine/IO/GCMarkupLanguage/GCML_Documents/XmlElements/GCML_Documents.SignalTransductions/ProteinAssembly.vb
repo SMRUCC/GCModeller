@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5f40e4aa7ee834fa2bf03bc36de80150, GCModeller\engine\IO\GCMarkupLanguage\GCML_Documents\XmlElements\GCML_Documents.SignalTransductions\ProteinAssembly.vb"
+﻿#Region "Microsoft.VisualBasic::e3be1c938af37d8d3ebae9482c5c3d9b, GCModeller\engine\IO\GCMarkupLanguage\GCML_Documents\XmlElements\GCML_Documents.SignalTransductions\ProteinAssembly.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 11
     ' Comment Lines: 10
     '   Blank Lines: 3
-    '     File Size: 827 B
+    '     File Size: 850 B
 
 
     '     Class ProteinAssembly

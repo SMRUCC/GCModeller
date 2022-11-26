@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::22ae3a50459ff5fb6e62ed58e6ada617, GCModeller\visualize\ChromosomeMap\DrawingModels\ChromesomeDrawingModel.vb"
+﻿#Region "Microsoft.VisualBasic::c7a984ef87110b4f5807312d18ac5c0a, GCModeller\visualize\ChromosomeMap\DrawingModels\ChromesomeDrawingModel.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 27
     ' Comment Lines: 38
     '   Blank Lines: 7
-    '     File Size: 2.61 KB
+    '     File Size: 2.68 KB
 
 
     '     Class ChromesomeDrawingModel

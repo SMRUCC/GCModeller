@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::06c40e05bd46b8006800c74f8cf7e1b9, GCModeller\analysis\SequenceToolkit\MotifScanner\Consensus\ConsensusScanner.vb"
+﻿#Region "Microsoft.VisualBasic::f2b8cc90c659b419082295018effe47e, GCModeller\analysis\SequenceToolkit\MotifScanner\Consensus\ConsensusScanner.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 83
     ' Comment Lines: 5
     '   Blank Lines: 10
-    '     File Size: 5.04 KB
+    '     File Size: 5.13 KB
 
 
     ' Class ConsensusScanner

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5b1f3435ac1f887017e9e4f292a0ed32, GCModeller\foundation\OBO_Foundry\IO\Models\RawTerm.vb"
+﻿#Region "Microsoft.VisualBasic::b157fbf2570b96b42725de04d8426604, GCModeller\foundation\OBO_Foundry\IO\Models\RawTerm.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 21
     ' Comment Lines: 12
     '   Blank Lines: 6
-    '     File Size: 1.29 KB
+    '     File Size: 1.33 KB
 
 
     '     Structure RawTerm

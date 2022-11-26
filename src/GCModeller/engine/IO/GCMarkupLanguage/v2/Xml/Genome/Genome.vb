@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::21ab573166a8c85b9e27d91a9467edd4, GCModeller\engine\IO\GCMarkupLanguage\v2\Xml\Genome\Genome.vb"
+﻿#Region "Microsoft.VisualBasic::774d40e0820fbe112a5a84fcaf12bfdc, GCModeller\engine\IO\GCMarkupLanguage\v2\Xml\Genome\Genome.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 49
     ' Comment Lines: 37
     '   Blank Lines: 20
-    '     File Size: 3.35 KB
+    '     File Size: 3.46 KB
 
 
     '     Class Genome

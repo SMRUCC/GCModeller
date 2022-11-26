@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::662ec5db83ae571f12bd22cc3e3ac904, GCModeller\analysis\Metagenome\Metagenome\gast\TaxonomyTree\TreePopulator.vb"
+﻿#Region "Microsoft.VisualBasic::6edd09c7c4f2d2d11cfe37ed453fcb79, GCModeller\analysis\Metagenome\Metagenome\gast\TaxonomyTree\TreePopulator.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 23
     ' Comment Lines: 0
     '   Blank Lines: 5
-    '     File Size: 918 B
+    '     File Size: 945 B
 
 
     '     Module TreePopulator

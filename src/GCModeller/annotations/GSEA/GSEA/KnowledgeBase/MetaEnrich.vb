@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e4589aaec56fdd606632ced449a15384, GCModeller\annotations\GSEA\GSEA\KnowledgeBase\MetaEnrich.vb"
+﻿#Region "Microsoft.VisualBasic::ca6c98daf8d7a1b21cab303a98fc2bd4, GCModeller\annotations\GSEA\GSEA\KnowledgeBase\MetaEnrich.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 43
     ' Comment Lines: 6
     '   Blank Lines: 5
-    '     File Size: 2.00 KB
+    '     File Size: 2.06 KB
 
 
     ' Module MetaEnrich

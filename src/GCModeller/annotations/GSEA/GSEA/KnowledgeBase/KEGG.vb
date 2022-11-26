@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7be653583dc448869e921f2532a84e55, GCModeller\annotations\GSEA\GSEA\KnowledgeBase\KEGG.vb"
+﻿#Region "Microsoft.VisualBasic::e628810c8532e53aa04f4c73a8f006ec, GCModeller\annotations\GSEA\GSEA\KnowledgeBase\KEGG.vb"
 
     ' Author:
     ' 
@@ -34,16 +34,16 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 49
-    '    Code Lines: 46
+    '   Total Lines: 82
+    '    Code Lines: 74
     ' Comment Lines: 0
-    '   Blank Lines: 3
-    '     File Size: 2.21 KB
+    '   Blank Lines: 8
+    '     File Size: 3.11 KB
 
 
     ' Module KEGG
     ' 
-    '     Function: KO_category, subtypeClusters
+    '     Function: IDCategoryFromBackground, KO_category, subtypeCluster, subtypeClusters
     ' 
     ' /********************************************************************************/
 

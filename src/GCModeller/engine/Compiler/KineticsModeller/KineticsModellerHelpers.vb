@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c18f02e42a92aea21444da7b8ea8358f, GCModeller\engine\Compiler\KineticsModeller\KineticsModellerHelpers.vb"
+﻿#Region "Microsoft.VisualBasic::04ec1c21023e6e41b62971a5a91986aa, GCModeller\engine\Compiler\KineticsModeller\KineticsModellerHelpers.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 68
     ' Comment Lines: 10
     '   Blank Lines: 11
-    '     File Size: 3.26 KB
+    '     File Size: 3.34 KB
 
 
     ' Module KineticsModellerHelpers

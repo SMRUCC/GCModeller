@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::79ed4e093f6085d5f6896468524500e7, GCModeller\visualize\ChromosomeMap\FootPrintMap\TSSs.vb"
+﻿#Region "Microsoft.VisualBasic::c4ced4b5b162429ddf33d23d8f5fc6fa, GCModeller\visualize\ChromosomeMap\FootPrintMap\TSSs.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 16
     ' Comment Lines: 11
     '   Blank Lines: 5
-    '     File Size: 1.32 KB
+    '     File Size: 1.35 KB
 
 
     '     Class TSSs

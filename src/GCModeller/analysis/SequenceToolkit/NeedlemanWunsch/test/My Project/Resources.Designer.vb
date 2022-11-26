@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::edaea156c0f5feeb2488757a2a39c1a2, GCModeller\analysis\SequenceToolkit\NeedlemanWunsch\test\My Project\Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::5ef0e743ca5d21766478f819ef2cf8c7, GCModeller\analysis\SequenceToolkit\NeedlemanWunsch\test\My Project\Resources.Designer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 32
     ' Comment Lines: 23
     '   Blank Lines: 8
-    '     File Size: 2.71 KB
+    '     File Size: 2.77 KB
 
 
     '     Module Resources

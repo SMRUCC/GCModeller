@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::74b8d5a87e478cf2d28689b38fb48f27, GCModeller\annotations\Proteomics\My Project\Settings.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::4cd382b0d5111e667943529dab2f8863, GCModeller\annotations\Proteomics\My Project\Settings.Designer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 53
     ' Comment Lines: 9
     '   Blank Lines: 12
-    '     File Size: 2.98 KB
+    '     File Size: 3.05 KB
 
 
     '     Class MySettings

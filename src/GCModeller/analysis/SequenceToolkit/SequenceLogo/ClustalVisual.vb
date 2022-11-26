@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d832f25bed23b4943aeab8841df8feb5, GCModeller\analysis\SequenceToolkit\SequenceLogo\ClustalVisual.vb"
+﻿#Region "Microsoft.VisualBasic::8d1e60d8d2f642f7fed36c553f312ba7, GCModeller\analysis\SequenceToolkit\SequenceLogo\ClustalVisual.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 93
     ' Comment Lines: 25
     '   Blank Lines: 22
-    '     File Size: 5.53 KB
+    '     File Size: 5.67 KB
 
 
     ' Module ClustalVisual

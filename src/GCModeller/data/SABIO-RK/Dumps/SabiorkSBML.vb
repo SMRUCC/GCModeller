@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9cb1b77a70d8e5f958f03cdfc3612244, GCModeller\data\SABIO-RK\Dumps\SabiorkSBML.vb"
+﻿#Region "Microsoft.VisualBasic::37b596bda5cd2bb2f8a9a1e481905721, GCModeller\data\SABIO-RK\Dumps\SabiorkSBML.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 20
     ' Comment Lines: 6
     '   Blank Lines: 6
-    '     File Size: 1.15 KB
+    '     File Size: 1.18 KB
 
 
     '     Class SabiorkSBML

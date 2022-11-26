@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::33a23c34b9163070b84223d692df8fe5, GCModeller\sub-system\PLAS.NET\SSystem\Script\Models\SEquation.vb"
+﻿#Region "Microsoft.VisualBasic::377a0e5a4fbbcb5eceda0142fa7da534, GCModeller\sub-system\PLAS.NET\SSystem\Script\Models\SEquation.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 25
     ' Comment Lines: 15
     '   Blank Lines: 7
-    '     File Size: 1.42 KB
+    '     File Size: 1.46 KB
 
 
     '     Class SEquation

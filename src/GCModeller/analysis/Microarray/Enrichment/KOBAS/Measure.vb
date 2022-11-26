@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::92f4053c0081b9bd29e15cab2980030e, GCModeller\analysis\Microarray\Enrichment\KOBAS\Measure.vb"
+﻿#Region "Microsoft.VisualBasic::58f680e504c0786f468cb2924cea8ebd, GCModeller\analysis\Microarray\Enrichment\KOBAS\Measure.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 49
     ' Comment Lines: 7
     '   Blank Lines: 8
-    '     File Size: 2.64 KB
+    '     File Size: 2.70 KB
 
 
     '     Module Measure

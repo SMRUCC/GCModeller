@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::faf488ad6de3a9a978f5b8fb467990e0, GCModeller\models\ncbi-BioSystems\Enzyme.vb"
+﻿#Region "Microsoft.VisualBasic::4500e82068c5bd0244109faa99540cf4, GCModeller\models\ncbi-BioSystems\Enzyme.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 9
     ' Comment Lines: 0
     '   Blank Lines: 4
-    '     File Size: 376 B
+    '     File Size: 374 B
 
 
     ' Class Enzyme
@@ -64,4 +64,3 @@ Public Class Enzyme : Implements INamedValue
     End Function
 
 End Class
-

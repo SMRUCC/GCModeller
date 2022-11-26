@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::39fba6b98275b7a9203a7ae72e6c369c, GCModeller\core\Bio.Assembly\ComponentModel\Equations\Equation.vb"
+﻿#Region "Microsoft.VisualBasic::c86829c44a9122a3d9ef34b4762ef915, GCModeller\core\Bio.Assembly\ComponentModel\Equations\Equation.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 95
     ' Comment Lines: 50
     '   Blank Lines: 23
-    '     File Size: 5.98 KB
+    '     File Size: 6.14 KB
 
 
     '     Class Equation

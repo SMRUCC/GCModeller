@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1018d72511fbacb0daaad33ca17053e4, GCModeller\core\Bio.Assembly\Assembly\KEGG\Web\Map\LocalRender.vb"
+﻿#Region "Microsoft.VisualBasic::aa1a9a04c0646ceaaefaa05414616c87, GCModeller\core\Bio.Assembly\Assembly\KEGG\Web\Map\LocalRender.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 206
     ' Comment Lines: 66
     '   Blank Lines: 39
-    '     File Size: 12.64 KB
+    '     File Size: 12.95 KB
 
 
     '     Class LocalRender

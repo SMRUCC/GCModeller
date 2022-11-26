@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::90481b955b5f24a148504da106fb8eb7, GCModeller\analysis\SequenceToolkit\MotifFinder\PopulatorParameter.vb"
+﻿#Region "Microsoft.VisualBasic::6042f0ec3d3ab44c2244d7da08d93dc6, GCModeller\analysis\SequenceToolkit\MotifFinder\PopulatorParameter.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 38
     ' Comment Lines: 16
     '   Blank Lines: 8
-    '     File Size: 1.95 KB
+    '     File Size: 2.02 KB
 
 
     ' Class PopulatorParameter

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ae00d6a6c8b0e674ba73acccc48a3813, GCModeller\engine\Model\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::ffd85abe93ebab5394aa58a84a8d5a2a, GCModeller\engine\Model\Extensions.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 56
     ' Comment Lines: 0
     '   Blank Lines: 9
-    '     File Size: 1.90 KB
+    '     File Size: 1.97 KB
 
 
     ' Module Extensions

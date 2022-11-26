@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::acf21b7cd9adc156f58072ba2ed95b97, GCModeller\engine\Dynamics\Core\Mass\MassDynamics.vb"
+﻿#Region "Microsoft.VisualBasic::b28b1ea51e3152bd9f58ab7c30f3e0b4, GCModeller\engine\Dynamics\Core\Mass\MassDynamics.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 135
     ' Comment Lines: 24
     '   Blank Lines: 27
-    '     File Size: 7.12 KB
+    '     File Size: 7.31 KB
 
 
     '     Class MassDynamics

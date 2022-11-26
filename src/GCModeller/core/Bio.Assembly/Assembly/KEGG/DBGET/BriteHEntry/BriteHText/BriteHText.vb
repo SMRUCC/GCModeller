@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6982b1d6dab284c0a85eb994ac06302f, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\BriteHText\BriteHText.vb"
+﻿#Region "Microsoft.VisualBasic::14c18efdb0ab6d76190f02f060bec265, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\BriteHText\BriteHText.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 157
     ' Comment Lines: 54
     '   Blank Lines: 38
-    '     File Size: 8.32 KB
+    '     File Size: 8.57 KB
 
 
     '     Class BriteHText

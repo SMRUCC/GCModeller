@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::294fe85726aa263b03c8dcc7d92ba816, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\Features\Location.vb"
+﻿#Region "Microsoft.VisualBasic::ac704f723c422a00ca89c0422c6b0dfb, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\Features\Location.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 102
     ' Comment Lines: 20
     '   Blank Lines: 25
-    '     File Size: 5.33 KB
+    '     File Size: 5.47 KB
 
 
     '     Class Location

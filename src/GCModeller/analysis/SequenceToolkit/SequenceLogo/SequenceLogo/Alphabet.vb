@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::71861bfca8d6c3c1faed4fe7eced9abb, GCModeller\analysis\SequenceToolkit\SequenceLogo\SequenceLogo\Alphabet.vb"
+﻿#Region "Microsoft.VisualBasic::53a4766cf1eb7a7b36d36bb0d4afdb49, GCModeller\analysis\SequenceToolkit\SequenceLogo\SequenceLogo\Alphabet.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 25
     ' Comment Lines: 25
     '   Blank Lines: 7
-    '     File Size: 1.81 KB
+    '     File Size: 1.87 KB
 
 
     '     Class Alphabet

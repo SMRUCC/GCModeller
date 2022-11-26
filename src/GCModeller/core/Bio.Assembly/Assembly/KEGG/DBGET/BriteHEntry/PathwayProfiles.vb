@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::83c2751e9b654b47541b8d1179a200d6, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\PathwayProfiles.vb"
+﻿#Region "Microsoft.VisualBasic::cd67169cb1335e17930876c93911c883, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\PathwayProfiles.vb"
 
     ' Author:
     ' 
@@ -34,16 +34,16 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 115
-    '    Code Lines: 94
-    ' Comment Lines: 12
+    '   Total Lines: 123
+    '    Code Lines: 96
+    ' Comment Lines: 18
     '   Blank Lines: 9
-    '     File Size: 5.32 KB
+    '     File Size: 5.91 KB
 
 
     '     Module PathwayProfiles
     ' 
-    '         Function: doProfiles, GetProfileMapping, KEGGCategoryProfiles
+    '         Function: doProfiles, GetPathwayClass, GetProfileMapping, KEGGCategoryProfiles
     ' 
     ' 
     ' /********************************************************************************/

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::03fe5215e857a3646b26468c8aecf0f4, GCModeller\analysis\Metagenome\Metagenome\Mothur\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::4fecba039ba3cc2cd16a8de460eeccf7, GCModeller\analysis\Metagenome\Metagenome\Mothur\Extensions.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 32
     ' Comment Lines: 0
     '   Blank Lines: 3
-    '     File Size: 1.30 KB
+    '     File Size: 1.33 KB
 
 
     ' Module Extensions

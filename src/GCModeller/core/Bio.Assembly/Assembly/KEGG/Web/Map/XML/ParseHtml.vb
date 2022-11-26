@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::92ae95df3907e3977a5ebe883ff6bd12, GCModeller\core\Bio.Assembly\Assembly\KEGG\Web\Map\XML\ParseHtml.vb"
+﻿#Region "Microsoft.VisualBasic::399a350f1a606e540781906f38670a31, GCModeller\core\Bio.Assembly\Assembly\KEGG\Web\Map\XML\ParseHtml.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 56
     ' Comment Lines: 11
     '   Blank Lines: 12
-    '     File Size: 2.94 KB
+    '     File Size: 3.01 KB
 
 
     '     Module ParseHtmlExtensions

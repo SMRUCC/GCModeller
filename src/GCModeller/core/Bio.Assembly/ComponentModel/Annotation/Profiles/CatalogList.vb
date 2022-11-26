@@ -1,57 +1,57 @@
-﻿#Region "Microsoft.VisualBasic::3318568e19b0c1fa9cd32d51fa25cfc1, GCModeller\core\Bio.Assembly\ComponentModel\Annotation\Profiles\CatalogList.vb"
+﻿#Region "Microsoft.VisualBasic::d241fd6be4113a58d629dc1714c80af3, GCModeller\core\Bio.Assembly\ComponentModel\Annotation\Profiles\CatalogList.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 115
-'    Code Lines: 83
-' Comment Lines: 12
-'   Blank Lines: 20
-'     File Size: 4.00 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Class CatalogList
-' 
-'         Properties: Catalog, Count, Description, IDs, IsReadOnly
-' 
-'         Function: Contains, GetEnumerator, IEnumerable_GetEnumerator, IndexOf, Intersect
-'                   Remove, ToString
-' 
-'         Sub: Add, Clear, CopyTo, Insert, RemoveAt
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 134
+    '    Code Lines: 97
+    ' Comment Lines: 15
+    '   Blank Lines: 22
+    '     File Size: 4.94 KB
+
+
+    '     Class CatalogList
+    ' 
+    '         Properties: Catalog, Count, Description, IDs, IsReadOnly
+    ' 
+    '         Function: Contains, GetEnumerator, IEnumerable_GetEnumerator, IndexOf, (+2 Overloads) Intersect
+    '                   Remove, ToString
+    ' 
+    '         Sub: (+2 Overloads) Add, Clear, CopyTo, Insert, RemoveAt
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

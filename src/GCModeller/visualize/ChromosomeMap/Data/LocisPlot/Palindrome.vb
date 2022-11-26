@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7ae827eb84824be578f99ab8edd8cd8a, GCModeller\visualize\ChromosomeMap\Data\LocisPlot\Palindrome.vb"
+﻿#Region "Microsoft.VisualBasic::5fb87c5695612a55b4bbf1192f87ca13, GCModeller\visualize\ChromosomeMap\Data\LocisPlot\Palindrome.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 60
     ' Comment Lines: 11
     '   Blank Lines: 16
-    '     File Size: 3.44 KB
+    '     File Size: 3.53 KB
 
 
     '     Module Palindrome

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::24e4aae5d9c75c395fe7ade89121c6ec, GCModeller\visualize\ChromosomeMap\Data\My Project\Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::2aaebbba949dde93c3c169b18c21445a, GCModeller\visualize\ChromosomeMap\Data\My Project\Resources.Designer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 32
     ' Comment Lines: 23
     '   Blank Lines: 8
-    '     File Size: 2.75 KB
+    '     File Size: 2.81 KB
 
 
     '     Module Resources

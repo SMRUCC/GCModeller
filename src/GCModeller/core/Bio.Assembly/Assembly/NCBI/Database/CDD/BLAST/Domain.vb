@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e649220b5de76f53b415ae918199ed69, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\CDD\BLAST\Domain.vb"
+﻿#Region "Microsoft.VisualBasic::b8ff7e13e98c6ecc7c5b52640bc039f0, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\CDD\BLAST\Domain.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 18
     ' Comment Lines: 30
     '   Blank Lines: 7
-    '     File Size: 1.88 KB
+    '     File Size: 1.93 KB
 
 
     '     Structure Domain

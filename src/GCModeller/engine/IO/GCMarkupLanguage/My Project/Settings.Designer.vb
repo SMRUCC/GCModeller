@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::116276e18dd817c15f1d62b6caa0529e, GCModeller\engine\IO\GCMarkupLanguage\My Project\Settings.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::8311abf239d461d45dadf761acab27a8, GCModeller\engine\IO\GCMarkupLanguage\My Project\Settings.Designer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 53
     ' Comment Lines: 9
     '   Blank Lines: 12
-    '     File Size: 3.01 KB
+    '     File Size: 3.08 KB
 
 
     '     Class MySettings

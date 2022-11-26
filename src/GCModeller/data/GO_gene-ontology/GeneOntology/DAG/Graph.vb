@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::747bd67cb3a6b6ae97db6b014f139096, GCModeller\data\GO_gene-ontology\GeneOntology\DAG\Graph.vb"
+﻿#Region "Microsoft.VisualBasic::65721af375a3540d135740fb680a7021, GCModeller\data\GO_gene-ontology\GeneOntology\DAG\Graph.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 110
     ' Comment Lines: 55
     '   Blank Lines: 28
-    '     File Size: 8.00 KB
+    '     File Size: 8.19 KB
 
 
     '     Class Graph

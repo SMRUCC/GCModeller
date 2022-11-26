@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2a3e4503b8e4f47417f0623fd94588c4, GCModeller\data\RegulonDatabase\Regtransbase\StructureObjects\ExpPackage.vb"
+﻿#Region "Microsoft.VisualBasic::0cd33aedef16973ea98062adaba4b35c, GCModeller\data\RegulonDatabase\Regtransbase\StructureObjects\ExpPackage.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 40
     ' Comment Lines: 145
     '   Blank Lines: 22
-    '     File Size: 8.94 KB
+    '     File Size: 9.15 KB
 
 
     '     Class ExpPackage

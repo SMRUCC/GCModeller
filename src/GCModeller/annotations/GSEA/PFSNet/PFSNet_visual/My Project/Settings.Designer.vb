@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9359d00ce4e8946d3dd010b1a2e4b848, GCModeller\annotations\GSEA\PFSNet\PFSNet_visual\My Project\Settings.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::02a0d882c09c0f8a8c211a7e61aca52d, GCModeller\annotations\GSEA\PFSNet\PFSNet_visual\My Project\Settings.Designer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 53
     ' Comment Lines: 9
     '   Blank Lines: 12
-    '     File Size: 2.98 KB
+    '     File Size: 3.05 KB
 
 
     '     Class MySettings

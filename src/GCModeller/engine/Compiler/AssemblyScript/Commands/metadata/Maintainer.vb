@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::13d9b1d9788c91cb52557c1bcda625a4, GCModeller\engine\Compiler\AssemblyScript\Commands\metadata\Maintainer.vb"
+﻿#Region "Microsoft.VisualBasic::383bffc475499f1d4e45e107ef6b0b43, GCModeller\engine\Compiler\AssemblyScript\Commands\metadata\Maintainer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 20
     ' Comment Lines: 3
     '   Blank Lines: 8
-    '     File Size: 903 B
+    '     File Size: 933 B
 
 
     '     Class Maintainer

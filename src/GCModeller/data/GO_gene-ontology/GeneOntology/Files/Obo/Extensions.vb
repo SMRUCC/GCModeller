@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ac19e16390b0d6dfe2f0f1a5fdfc2106, GCModeller\data\GO_gene-ontology\GeneOntology\Files\Obo\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::b30b23883780ae8c29b9a44e4626bdc0, GCModeller\data\GO_gene-ontology\GeneOntology\Files\Obo\Extensions.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 12
     ' Comment Lines: 0
     '   Blank Lines: 3
-    '     File Size: 429 B
+    '     File Size: 443 B
 
 
     '     Module Extensions

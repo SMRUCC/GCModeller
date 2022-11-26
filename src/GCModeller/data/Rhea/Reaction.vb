@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8cb81286ae0a4102262b7c2acc9c9ee5, GCModeller\data\Rhea\Reaction.vb"
+﻿#Region "Microsoft.VisualBasic::75f96305284fc9c5849c0b708cbc0985, GCModeller\data\Rhea\Reaction.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 22
     ' Comment Lines: 0
     '   Blank Lines: 8
-    '     File Size: 924 B
+    '     File Size: 922 B
 
 
     ' Class Reaction
@@ -81,4 +81,3 @@ Public Class Reaction : Implements INamedValue
     End Function
 
 End Class
-

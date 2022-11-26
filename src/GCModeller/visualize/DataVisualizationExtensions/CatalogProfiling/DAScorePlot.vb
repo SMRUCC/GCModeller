@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::57e715fa6f638c8467c15d5622275e43, GCModeller\visualize\DataVisualizationExtensions\CatalogProfiling\DAScorePlot.vb"
+﻿#Region "Microsoft.VisualBasic::564b428f2f835ab1e5a94bed9e746782, GCModeller\visualize\DataVisualizationExtensions\CatalogProfiling\DAScorePlot.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 14
     ' Comment Lines: 3
     '   Blank Lines: 4
-    '     File Size: 806 B
+    '     File Size: 826 B
 
 
     '     Class DAScorePlot

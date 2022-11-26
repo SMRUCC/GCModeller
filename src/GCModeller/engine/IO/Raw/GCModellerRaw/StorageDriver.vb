@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a28d2f7ca0530fe168ab17f8009ea1f0, GCModeller\engine\IO\Raw\GCModellerRaw\StorageDriver.vb"
+﻿#Region "Microsoft.VisualBasic::82ab903eeeb9575e953bdb55cf42a6ae, GCModeller\engine\IO\Raw\GCModellerRaw\StorageDriver.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 49
     ' Comment Lines: 17
     '   Blank Lines: 17
-    '     File Size: 3.48 KB
+    '     File Size: 3.57 KB
 
 
     '     Class StorageDriver

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a0475b86f1ec172513f1be1a98d2bedd, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\DBLINK.vb"
+﻿#Region "Microsoft.VisualBasic::e6b7c752b2253c819384b8b7ab730bf4, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\DBLINK.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 31
     ' Comment Lines: 11
     '   Blank Lines: 10
-    '     File Size: 1.70 KB
+    '     File Size: 1.75 KB
 
 
     '     Class DBLINK

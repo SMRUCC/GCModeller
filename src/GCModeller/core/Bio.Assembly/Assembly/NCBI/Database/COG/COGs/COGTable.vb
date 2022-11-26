@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::89a86d2b85728669d1e9539901540b54, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\COG\COGs\COGTable.vb"
+﻿#Region "Microsoft.VisualBasic::68bebd4b948c8fc88061feca8d046911, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\COG\COGs\COGTable.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 59
     ' Comment Lines: 63
     '   Blank Lines: 12
-    '     File Size: 5.16 KB
+    '     File Size: 5.29 KB
 
 
     '     Class COGTable

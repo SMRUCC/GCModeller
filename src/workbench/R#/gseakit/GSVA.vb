@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::92dab41a91c6640a8e628472a9a0ce97, R#\gseakit\GSVA.vb"
+﻿#Region "Microsoft.VisualBasic::7e67d318d7f156fb61b5c4f1dc973a3f, R#\gseakit\GSVA.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 126
+    '   Total Lines: 163
     '    Code Lines: 105
-    ' Comment Lines: 8
+    ' Comment Lines: 45
     '   Blank Lines: 13
-    '     File Size: 4.84 KB
+    '     File Size: 6.55 KB
 
 
     ' Module GSVA
@@ -212,4 +212,3 @@ Module GSVA
         }
     End Function
 End Module
-

@@ -1,58 +1,60 @@
-﻿#Region "Microsoft.VisualBasic::66b0667c733a82bb4cbcb7a28a76fe45, R#\phenotype_kit\geneExpression.vb"
+﻿#Region "Microsoft.VisualBasic::915fa060cab3efeba6f452e4f91f3099, R#\phenotype_kit\geneExpression.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 640
-'    Code Lines: 451
-' Comment Lines: 125
-'   Blank Lines: 64
-'     File Size: 24.98 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Module geneExpression
-' 
-'     Function: average, castGenericRows, CMeans3D, CmeansPattern, createDEGModels
-'               createVectorList, DEGclass, depDataTable, dims, expDataTable
-'               filter, filterZeroSamples, geneId, GetCmeansPattern, loadExpression
-'               loadFromDataFrame, loadFromGenericDataSet, readBinaryMatrix, relative, setGeneIDs
-'               setZero, totalSumNorm, tr, Ttest, uniqueGeneId
-'               writeMatrix, zscore
-' 
-'     Sub: Main
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 958
+    '    Code Lines: 632
+    ' Comment Lines: 232
+    '   Blank Lines: 94
+    '     File Size: 37.47 KB
+
+
+    ' Module geneExpression
+    ' 
+    '     Function: applyPCA, average, castGenericRows, cmeans, CMeans3D
+    '               CmeansPattern, createDEGModels, createVectorList, DEGclass, depDataTable
+    '               dims, expDataTable, filter, filterNaN, filterZeroSamples
+    '               geneId, GetCmeansPattern, joinSamples, loadExpression, loadFromDataFrame
+    '               loadFromGenericDataSet, mergeMultiple, readBinaryMatrix, readPattern, relative
+    '               savePattern, setGeneIDs, setTag, setZero, splitCMeansClusters
+    '               totalSumNorm, tr, Ttest, uniqueGeneId, writeMatrix
+    '               zscore
+    ' 
+    '     Sub: Main
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

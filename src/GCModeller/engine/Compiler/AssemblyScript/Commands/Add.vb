@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aa260ca39caaa6eb587243bc793057ec, GCModeller\engine\Compiler\AssemblyScript\Commands\Add.vb"
+﻿#Region "Microsoft.VisualBasic::28a9d835d7068010e324d9073dcfadca, GCModeller\engine\Compiler\AssemblyScript\Commands\Add.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 19
     ' Comment Lines: 3
     '   Blank Lines: 6
-    '     File Size: 827 B
+    '     File Size: 854 B
 
 
     '     Class Add

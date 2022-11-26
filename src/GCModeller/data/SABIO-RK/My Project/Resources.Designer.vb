@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e65d4bef78952fd2f9d8012288debe78, GCModeller\data\SABIO-RK\My Project\Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::ea8879dd11d84737726d4552335a0764, GCModeller\data\SABIO-RK\My Project\Resources.Designer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 32
     ' Comment Lines: 23
     '   Blank Lines: 8
-    '     File Size: 2.73 KB
+    '     File Size: 2.79 KB
 
 
     '     Module Resources

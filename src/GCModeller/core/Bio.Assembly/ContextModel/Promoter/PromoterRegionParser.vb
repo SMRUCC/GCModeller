@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::014db1ced01aebe645e2ae7e3a2fe1d3, GCModeller\core\Bio.Assembly\ContextModel\Promoter\PromoterRegionParser.vb"
+﻿#Region "Microsoft.VisualBasic::9b8f0a0cccf1cd82798ac03f93493d00, GCModeller\core\Bio.Assembly\ContextModel\Promoter\PromoterRegionParser.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 70
     ' Comment Lines: 23
     '   Blank Lines: 16
-    '     File Size: 4.48 KB
+    '     File Size: 4.59 KB
 
 
     '     Class PromoterRegionParser

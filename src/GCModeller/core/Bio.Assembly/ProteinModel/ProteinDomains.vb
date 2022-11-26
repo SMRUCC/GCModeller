@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7bbbf3b2fe0337d89df1027e2d4bf8ab, GCModeller\core\Bio.Assembly\ProteinModel\ProteinDomains.vb"
+﻿#Region "Microsoft.VisualBasic::e53a2763b04f8ef7ee760399c0f293c5, GCModeller\core\Bio.Assembly\ProteinModel\ProteinDomains.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 66
     ' Comment Lines: 36
     '   Blank Lines: 13
-    '     File Size: 4.90 KB
+    '     File Size: 5.01 KB
 
 
     '     Class Protein

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::54311a6d570ebeb67ce3408a8c55dffd, GCModeller\engine\Compiler\MarkupCompiler\CompilerWorkflow.vb"
+﻿#Region "Microsoft.VisualBasic::5be4dc323e269801afd54bb99b0b6b0c, GCModeller\engine\Compiler\MarkupCompiler\CompilerWorkflow.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 8
     ' Comment Lines: 0
     '   Blank Lines: 3
-    '     File Size: 254 B
+    '     File Size: 264 B
 
 
     '     Class CompilerWorkflow

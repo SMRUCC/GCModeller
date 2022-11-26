@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::242ade8f5bacdbbcaf4b75ccafb70c2a, GCModeller\core\Bio.Assembly\Assembly\NCBI\SeqDump\nt.vb"
+﻿#Region "Microsoft.VisualBasic::80929c28ebf6729f196e9dd259d8eacc, GCModeller\core\Bio.Assembly\Assembly\NCBI\SeqDump\nt.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 80
     ' Comment Lines: 8
     '   Blank Lines: 14
-    '     File Size: 3.93 KB
+    '     File Size: 4.03 KB
 
 
     '     Class Nucleotide

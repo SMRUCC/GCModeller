@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5b39dc9d9ce131cc0c055bf6abe3db86, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Files\BindRxns.vb"
+﻿#Region "Microsoft.VisualBasic::a567aa31aadf30d5ef5b18d080394514, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Files\BindRxns.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 24
     ' Comment Lines: 0
     '   Blank Lines: 4
-    '     File Size: 1.23 KB
+    '     File Size: 1.26 KB
 
 
     '     Class BindRxns

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cfdf2bc3f550574fa59fbe968bdd8b2d, GCModeller\core\Bio.Assembly\Assembly\bac-srna.org\Sequence.vb"
+﻿#Region "Microsoft.VisualBasic::69d717729fcc377116b5409eb9f54d8e, GCModeller\core\Bio.Assembly\Assembly\bac-srna.org\Sequence.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 65
     ' Comment Lines: 8
     '   Blank Lines: 13
-    '     File Size: 2.91 KB
+    '     File Size: 3.00 KB
 
 
     '     Class Sequence

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9c02d9e75b8a2a4aeaa3dc174469e889, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\Organism.vb"
+﻿#Region "Microsoft.VisualBasic::9427af3045b4ce7867205235f49198de, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\Organism.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 73
     ' Comment Lines: 10
     '   Blank Lines: 13
-    '     File Size: 3.28 KB
+    '     File Size: 3.37 KB
 
 
     '     Module Organism

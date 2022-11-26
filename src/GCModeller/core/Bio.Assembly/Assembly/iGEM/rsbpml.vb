@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0f27850f26840fc9bccb6d989b8d6cc2, GCModeller\core\Bio.Assembly\Assembly\iGEM\rsbpml.vb"
+﻿#Region "Microsoft.VisualBasic::c6b2ebcd4bab9dbd40dbe0e39c9664f5, GCModeller\core\Bio.Assembly\Assembly\iGEM\rsbpml.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 27
     ' Comment Lines: 9
     '   Blank Lines: 7
-    '     File Size: 1.53 KB
+    '     File Size: 1.57 KB
 
 
     '     Class rsbpml
