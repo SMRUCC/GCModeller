@@ -1,55 +1,14 @@
 .\" man page create by R# package system.
 .TH BACKGROUND 2 2000-01-01 "as.background" "as.background"
 .SH NAME
-as.background \- cast the cluster data as the enrichment background
+as.background \- 
 .SH SYNOPSIS
 \fIas.background(\fBclusters\fR as any, 
 \fBbackground_size\fR as integer = -1, 
 \fBname\fR as string = "n/a", 
 \fBtax_id\fR as string = "n/a", 
 \fBdesc\fR as string = "n/a", 
-\fBis_multipleOmics\fR as boolean = FALSE, 
 [\fB<Environment>\fR]);\fR
-.SH DESCRIPTION
-.PP
-cast the cluster data as the enrichment background
-.PP
-.SH OPTIONS
-.PP
-\fBclusters\fB \fR\- 
- a data cluster or a collection of kegg pathway model
-. 
-.PP
-.PP
-\fBbackground_size\fB \fR\- 
- default value -1 or zero means auto evaluated
-. 
-.PP
-.PP
-\fBname\fB \fR\- 
- the background model name
-. 
-.PP
-.PP
-\fBtax_id\fB \fR\- 
- ncbi taxonomy id of the target organism
-. 
-.PP
-.PP
-\fBdesc\fB \fR\- 
- the model description
-. 
-.PP
-.PP
-\fBis_multipleOmics\fB \fR\- 
- Create a enrichment background model for run multiple omics data analysis?
- this parameter is only works for the kegg pathway model where you are 
- speicifc via the **`clusters`** parameter.
-. 
-.PP
-.PP
-\fBenv\fB \fR\- -. 
-.PP
 .SH SEE ALSO
 background
 .SH FILES
