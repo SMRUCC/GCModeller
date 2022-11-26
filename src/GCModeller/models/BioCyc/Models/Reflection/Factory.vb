@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e4da6e5e0715b3e815b2b73977d89a6b, GCModeller\models\BioCyc\Models\Reflection\Factory.vb"
+﻿#Region "Microsoft.VisualBasic::c7f6c667eef5325504777d897873db1f, GCModeller\models\BioCyc\Models\Reflection\Factory.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 40
     ' Comment Lines: 0
     '   Blank Lines: 10
-    '     File Size: 1.65 KB
+    '     File Size: 1.69 KB
 
 
     ' Module Factory

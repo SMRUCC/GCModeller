@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::531ea3f7aabb0cf1c6a8cf6953dbd13e, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\COG\Category.vb"
+﻿#Region "Microsoft.VisualBasic::422e0514370fe9b52edabcf0c1667b03, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\COG\Category.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 33
     ' Comment Lines: 0
     '   Blank Lines: 6
-    '     File Size: 1.27 KB
+    '     File Size: 1.31 KB
 
 
     '     Class Catalog

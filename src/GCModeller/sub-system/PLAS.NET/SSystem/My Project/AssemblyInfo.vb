@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a6b31311dda33b9a6b297220a7883bbe, GCModeller\sub-system\PLAS.NET\SSystem\My Project\AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::af0dd33fb572e0a018b4324d7294e653, GCModeller\sub-system\PLAS.NET\SSystem\My Project\AssemblyInfo.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 15
     ' Comment Lines: 15
     '   Blank Lines: 6
-    '     File Size: 1.21 KB
+    '     File Size: 1.24 KB
 
 
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::19daa772c20f8944a71f4c901e1ca290, GCModeller\engine\Dynamics.Debugger\Summary.vb"
+﻿#Region "Microsoft.VisualBasic::07b2b4644db9d8aa4faad655430a5c0d, GCModeller\engine\Dynamics.Debugger\Summary.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 74
     ' Comment Lines: 6
     '   Blank Lines: 12
-    '     File Size: 3.16 KB
+    '     File Size: 3.25 KB
 
 
     ' Module Summary

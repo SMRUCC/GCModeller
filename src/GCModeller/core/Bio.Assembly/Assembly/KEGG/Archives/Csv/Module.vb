@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3f958ea2c8fc8ffb345f4c445fa7c203, GCModeller\core\Bio.Assembly\Assembly\KEGG\Archives\Csv\Module.vb"
+﻿#Region "Microsoft.VisualBasic::f1422bf711a0478493750cae9d83b900, GCModeller\core\Bio.Assembly\Assembly\KEGG\Archives\Csv\Module.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 76
     ' Comment Lines: 19
     '   Blank Lines: 16
-    '     File Size: 3.85 KB
+    '     File Size: 3.96 KB
 
 
     '     Class [Module]

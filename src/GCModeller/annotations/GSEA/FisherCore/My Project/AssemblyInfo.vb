@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9d6d1e94be5b3c935b9e59eeab4dad30, GCModeller\annotations\GSEA\FisherCore\My Project\AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::f538d0ad51ccbbe9d8b83ffb35a89261, GCModeller\annotations\GSEA\FisherCore\My Project\AssemblyInfo.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 15
     ' Comment Lines: 15
     '   Blank Lines: 6
-    '     File Size: 1.15 KB
+    '     File Size: 1.18 KB
 
 
     ' 

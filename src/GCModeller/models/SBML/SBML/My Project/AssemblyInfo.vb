@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::840a0365cefd90fd5023ec50ec8c54bc, GCModeller\models\SBML\SBML\My Project\AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::b96a342a7b23e24a0ad05115505d56bd, GCModeller\models\SBML\SBML\My Project\AssemblyInfo.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 15
     ' Comment Lines: 15
     '   Blank Lines: 6
-    '     File Size: 1.20 KB
+    '     File Size: 1.24 KB
 
 
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f65c5420239087aedcfe191f31cf6f7e, GCModeller\engine\BootstrapLoader\MetabolismNetworkLoader.vb"
+﻿#Region "Microsoft.VisualBasic::c701908b65e0dd76789e07b4a1d5d2c0, GCModeller\engine\BootstrapLoader\MetabolismNetworkLoader.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 103
     ' Comment Lines: 13
     '   Blank Lines: 19
-    '     File Size: 5.69 KB
+    '     File Size: 5.83 KB
 
 
     '     Class MetabolismNetworkLoader

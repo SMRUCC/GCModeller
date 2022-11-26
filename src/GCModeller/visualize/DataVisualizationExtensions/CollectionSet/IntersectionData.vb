@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3ba7b425e4b51f78f4dd2a73809fb15b, GCModeller\visualize\DataVisualizationExtensions\CollectionSet\IntersectionData.vb"
+﻿#Region "Microsoft.VisualBasic::ec43e9d3201958259687ec4e47f4ed3c, GCModeller\visualize\DataVisualizationExtensions\CollectionSet\IntersectionData.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 37
     ' Comment Lines: 4
     '   Blank Lines: 10
-    '     File Size: 1.63 KB
+    '     File Size: 1.68 KB
 
 
     '     Class IntersectionData

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8bd79287121cb433ae92a0aaa57569a4, GCModeller\annotations\GSEA\GSEA.KnowledgeBase.Extensions\Metabolism\KEGGCompounds.vb"
+﻿#Region "Microsoft.VisualBasic::b5d1c72d0596cc57c297e904b7cc531f, GCModeller\annotations\GSEA\GSEA.KnowledgeBase.Extensions\Metabolism\KEGGCompounds.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 121
+    '   Total Lines: 126
     '    Code Lines: 95
-    ' Comment Lines: 15
-    '   Blank Lines: 11
-    '     File Size: 4.56 KB
+    ' Comment Lines: 19
+    '   Blank Lines: 12
+    '     File Size: 4.84 KB
 
 
     ' Module KEGGCompounds
@@ -60,7 +60,8 @@ Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Organism
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 
 ''' <summary>
-''' Create background model for KEGG pathway enrichment based on the kegg metabolites, used for LC-MS metabolism data analysis.
+''' Create background model for KEGG pathway enrichment based on the kegg metabolites, 
+''' used for LC-MS metabolism data analysis.
 ''' </summary>
 Public Module KEGGCompounds
 
@@ -68,18 +69,27 @@ Public Module KEGGCompounds
     ''' Create general reference GSEA background model from LC-MS metabolism analysis result.
     ''' </summary>
     ''' <param name="maps"></param>
+    ''' <param name="KO">
+    ''' a indexer for do map selection
+    ''' </param>
     ''' <returns></returns>
     <Extension>
-    Public Function CreateGeneralBackground(maps As IEnumerable(Of Map), KO As Index(Of String)) As Background
+    Public Function CreateGeneralBackground(Of T As Map)(maps As IEnumerable(Of T), Optional KO As Index(Of String) = Nothing) As Background
         ' The total number of metabolites in background genome. 
         Dim backgroundSize% = 0
         Dim clusters As New List(Of Cluster)
         Dim names As NamedValue(Of String)()
 
-        For Each map As Map In maps
+        If KO Is Nothing Then
+            KO = New String() {}
+        End If
+
+        For Each map As T In maps
             names = map.shapes _
                 .Select(Function(a) a.Names) _
                 .IteratesALL _
+                .GroupBy(Function(n) n.Name) _
+                .Select(Function(duplicated) duplicated.First) _
                 .ToArray
 
             If Not names.Any(Function(id) id.Name Like KO) Then
@@ -92,7 +102,7 @@ Public Module KEGGCompounds
                 .ID = map.id,
                 .names = map.Name,
                 .members = names _
-                    .Where(Function(a) a.Name.IsPattern("C\d+")) _
+                    .Where(Function(a) a.Name.IsPattern("[CDG]\d+")) _
                     .Select(Function(c)
                                 Return New BackgroundGene With {
                                     .name = c.Value,
@@ -106,12 +116,7 @@ Public Module KEGGCompounds
             }
         Next
 
-        backgroundSize = clusters _
-            .Select(Function(c) c.members) _
-            .IteratesALL _
-            .Select(Function(c) c.accessionID) _
-            .Distinct _
-            .Count
+        backgroundSize = clusters.BackgroundSize
 
         Return New Background With {
             .build = Now,

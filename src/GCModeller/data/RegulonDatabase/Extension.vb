@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::36bc9b7b3b148187a5bb8c94eaf93d85, GCModeller\data\RegulonDatabase\Extension.vb"
+﻿#Region "Microsoft.VisualBasic::ee1cf95bcd79b673115df1798a31385f, GCModeller\data\RegulonDatabase\Extension.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 52
     ' Comment Lines: 10
     '   Blank Lines: 9
-    '     File Size: 2.14 KB
+    '     File Size: 2.21 KB
 
 
     ' Module Extensions

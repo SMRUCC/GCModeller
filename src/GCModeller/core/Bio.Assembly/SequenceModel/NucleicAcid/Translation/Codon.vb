@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::92ca7b1f98e6666c6fa5ce0b1d4aabf6, GCModeller\core\Bio.Assembly\SequenceModel\NucleicAcid\Translation\Codon.vb"
+﻿#Region "Microsoft.VisualBasic::f22038f08cb75f4a12fac557ee1d3d1b, GCModeller\core\Bio.Assembly\SequenceModel\NucleicAcid\Translation\Codon.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 73
     ' Comment Lines: 44
     '   Blank Lines: 17
-    '     File Size: 4.42 KB
+    '     File Size: 4.55 KB
 
 
     '     Class Codon

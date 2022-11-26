@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5fad4f8cc5210ccf7dae241df0bf4f13, GCModeller\core\Bio.Assembly\SequenceModel\ISequenceModel.vb"
+﻿#Region "Microsoft.VisualBasic::1401ec0746ce6cba53208bb0549ea513, GCModeller\core\Bio.Assembly\SequenceModel\ISequenceModel.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 30
     ' Comment Lines: 29
     '   Blank Lines: 9
-    '     File Size: 2.44 KB
+    '     File Size: 2.50 KB
 
 
     '     Class ISequenceModel

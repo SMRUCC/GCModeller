@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3947fa3e3310f6c475874af413828245, GCModeller\models\SBML\SBML\Components\Notes.vb"
+﻿#Region "Microsoft.VisualBasic::64497e0d32bd0889220b369813bf56ab, GCModeller\models\SBML\SBML\Components\Notes.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 58
     ' Comment Lines: 0
     '   Blank Lines: 15
-    '     File Size: 2.34 KB
+    '     File Size: 2.42 KB
 
 
     '     Class Notes

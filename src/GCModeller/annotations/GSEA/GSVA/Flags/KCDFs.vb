@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ea49231a2fc46a4eed827d490452df05, GCModeller\annotations\GSEA\GSVA\Flags\KCDFs.vb"
+﻿#Region "Microsoft.VisualBasic::d36498527b797304ce93911c3a2a156f, GCModeller\annotations\GSEA\GSVA\Flags\KCDFs.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 5
     ' Comment Lines: 0
     '   Blank Lines: 0
-    '     File Size: 60 B
+    '     File Size: 64 B
 
 
     ' Enum KCDFs

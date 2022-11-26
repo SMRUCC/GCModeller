@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fc8be861561cd95d71ac827362f071b8, GCModeller\analysis\SequenceToolkit\SNP\Test\My Project\AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::42a8d76b37551187a664674bd2cf1e04, GCModeller\analysis\SequenceToolkit\SNP\Test\My Project\AssemblyInfo.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 13
     ' Comment Lines: 15
     '   Blank Lines: 7
-    '     File Size: 1.11 KB
+    '     File Size: 1.15 KB
 
 
     ' 

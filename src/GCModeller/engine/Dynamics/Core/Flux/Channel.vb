@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c32fe00675b2aa33838b4bc36dcbd5fd, GCModeller\engine\Dynamics\Core\Flux\Channel.vb"
+﻿#Region "Microsoft.VisualBasic::0d3d479ef1cdb2c9177fb4011bb737d3, GCModeller\engine\Dynamics\Core\Flux\Channel.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 71
     ' Comment Lines: 37
     '   Blank Lines: 20
-    '     File Size: 4.71 KB
+    '     File Size: 4.84 KB
 
 
     '     Class Channel

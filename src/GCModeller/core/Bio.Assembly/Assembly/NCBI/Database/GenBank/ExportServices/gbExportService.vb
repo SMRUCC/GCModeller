@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4dbb89bdf9516aa4e056c9ef323f7845, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\ExportServices\gbExportService.vb"
+﻿#Region "Microsoft.VisualBasic::b54a29cd1ac8c4873eb24384ed4ddf6e, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\ExportServices\gbExportService.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 485
     ' Comment Lines: 90
     '   Blank Lines: 79
-    '     File Size: 31.68 KB
+    '     File Size: 32.33 KB
 
 
     '     Module gbExportService

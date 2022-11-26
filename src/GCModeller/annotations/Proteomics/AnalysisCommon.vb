@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::85c978fb8595c0424b4697e19813c5eb, GCModeller\annotations\Proteomics\AnalysisCommon.vb"
+﻿#Region "Microsoft.VisualBasic::ca0c3e95b3a2ab0b3b863670c201ea4e, GCModeller\annotations\Proteomics\AnalysisCommon.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 102
     ' Comment Lines: 16
     '   Blank Lines: 26
-    '     File Size: 4.91 KB
+    '     File Size: 5.05 KB
 
 
     ' Module AnalysisCommon

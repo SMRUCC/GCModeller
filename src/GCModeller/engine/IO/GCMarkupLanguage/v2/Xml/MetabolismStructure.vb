@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b27a45a3dd3a0781259736524a3489f0, GCModeller\engine\IO\GCMarkupLanguage\v2\Xml\MetabolismStructure.vb"
+﻿#Region "Microsoft.VisualBasic::5fb8554fd368dff2e1f777e4742f6377, GCModeller\engine\IO\GCMarkupLanguage\v2\Xml\MetabolismStructure.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 138
     ' Comment Lines: 69
     '   Blank Lines: 47
-    '     File Size: 8.40 KB
+    '     File Size: 8.66 KB
 
 
     '     Class MetabolismStructure

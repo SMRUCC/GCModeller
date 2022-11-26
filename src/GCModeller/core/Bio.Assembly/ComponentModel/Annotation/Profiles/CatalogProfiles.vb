@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a7c1597695f407e1a56ad683f49740b2, GCModeller\core\Bio.Assembly\ComponentModel\Annotation\Profiles\CatalogProfiles.vb"
+﻿#Region "Microsoft.VisualBasic::9394b79421c469730803961539463335, GCModeller\core\Bio.Assembly\ComponentModel\Annotation\Profiles\CatalogProfiles.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 114
-    '    Code Lines: 87
+    '   Total Lines: 122
+    '    Code Lines: 93
     ' Comment Lines: 8
-    '   Blank Lines: 19
-    '     File Size: 4.00 KB
+    '   Blank Lines: 21
+    '     File Size: 4.41 KB
 
 
     '     Class CatalogProfiles
@@ -46,8 +46,8 @@
     '         Properties: catalogs, Keys, MaxValue, TotalTerms
     ' 
     '         Constructor: (+4 Overloads) Sub New
-    '         Function: delete, GetProfiles, haveCategory, OrderByValues, Take
-    '                   ToString
+    '         Function: delete, GetCategory, GetProfiles, haveCategory, OrderByValues
+    '                   Take, ToString
     ' 
     ' 
     ' /********************************************************************************/
@@ -114,6 +114,14 @@ Namespace ComponentModel.Annotation
                 catalogs(cat.Key) = New CatalogProfile(cat.Value)
             Next
         End Sub
+
+        Public Function GetCategory(term As String) As CatalogProfile
+            If Not catalogs.ContainsKey(term) Then
+                Call catalogs.Add(term, New CatalogProfile(data:=New NamedValue(Of Double)() {}))
+            End If
+
+            Return catalogs(term)
+        End Function
 
         Public Function OrderByValues() As CatalogProfiles
             Return New CatalogProfiles With {

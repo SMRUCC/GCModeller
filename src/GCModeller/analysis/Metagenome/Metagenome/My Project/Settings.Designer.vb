@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::05eacd48fa4501ab920d717ceb945bc4, GCModeller\analysis\Metagenome\Metagenome\My Project\Settings.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::b459d2b100dc9a308ff6976f652f350e, GCModeller\analysis\Metagenome\Metagenome\My Project\Settings.Designer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 53
     ' Comment Lines: 9
     '   Blank Lines: 12
-    '     File Size: 2.97 KB
+    '     File Size: 3.04 KB
 
 
     '     Class MySettings

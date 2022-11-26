@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c985056e7496727ad59ad0df67ee93d3, GCModeller\models\ncbi-BioSystems\My Project\Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::51bbca4c74312ebd32c55200def5d47e, GCModeller\models\ncbi-BioSystems\My Project\Resources.Designer.vb"
 
     ' Author:
     ' 
@@ -1281,4 +1281,3 @@ Namespace My.Resources
         End Property
     End Module
 End Namespace
-

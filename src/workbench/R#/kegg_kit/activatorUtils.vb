@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::37387d0469715d11487b4c3e50479686, R#\kegg_kit\activatorUtils.vb"
+﻿#Region "Microsoft.VisualBasic::20e186d8f63ab77a9411ece29fd091a4, R#\kegg_kit\activatorUtils.vb"
 
     ' Author:
     ' 
@@ -34,16 +34,16 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 62
-    '    Code Lines: 56
+    '   Total Lines: 74
+    '    Code Lines: 67
     ' Comment Lines: 0
-    '   Blank Lines: 6
-    '     File Size: 2.41 KB
+    '   Blank Lines: 7
+    '     File Size: 2.85 KB
 
 
     ' Module activatorUtils
     ' 
-    '     Function: GetDbLinks, GetNameValues, GetPropertyValues, GetReference
+    '     Function: GetDbLinks, GetGeneName, GetNameValues, GetPropertyValues, GetReference
     ' 
     ' /********************************************************************************/
 

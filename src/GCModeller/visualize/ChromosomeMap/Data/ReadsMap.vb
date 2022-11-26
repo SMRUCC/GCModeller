@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::60fe6f874c5663cf76d98bbb88a14191, GCModeller\visualize\ChromosomeMap\Data\ReadsMap.vb"
+﻿#Region "Microsoft.VisualBasic::5b889bbdd4b3f62f2f011cfd9cec3c4c, GCModeller\visualize\ChromosomeMap\Data\ReadsMap.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 204
     ' Comment Lines: 35
     '   Blank Lines: 57
-    '     File Size: 12.58 KB
+    '     File Size: 12.88 KB
 
 
     ' Module ReadsMap

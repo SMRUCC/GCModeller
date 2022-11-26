@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4cc039195dc4f1555166dcf08ef25405, GCModeller\analysis\Metagenome\MetaFunction\CARD\Fasta.vb"
+﻿#Region "Microsoft.VisualBasic::59d3688348d2b43d0df83e6a2df3b747, GCModeller\analysis\Metagenome\MetaFunction\CARD\Fasta.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 40
     ' Comment Lines: 8
     '   Blank Lines: 7
-    '     File Size: 1.89 KB
+    '     File Size: 1.95 KB
 
 
     ' Class SeqHeader

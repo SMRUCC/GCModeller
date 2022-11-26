@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::389d6c0b6473cbd864b47a7e4b11c48c, R#\gseakit\zzz.vb"
+﻿#Region "Microsoft.VisualBasic::b2848a89f798c1a237bc630b9bf21c6f, R#\gseakit\zzz.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 7
     ' Comment Lines: 0
     '   Blank Lines: 4
-    '     File Size: 175 B
+    '     File Size: 173 B
 
 
     ' Class zzz
@@ -60,4 +60,3 @@ Public Class zzz
     End Sub
 
 End Class
-

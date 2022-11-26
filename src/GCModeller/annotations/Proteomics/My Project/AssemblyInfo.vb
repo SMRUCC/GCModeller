@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1522d6e168af01e31abc06acc29795dc, GCModeller\annotations\Proteomics\My Project\AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::b9085e653ba36a3eb399219aab6e59da, GCModeller\annotations\Proteomics\My Project\AssemblyInfo.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 15
     ' Comment Lines: 15
     '   Blank Lines: 6
-    '     File Size: 1.31 KB
+    '     File Size: 1.34 KB
 
 
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a308754a23d9f2e1adb61502c699f25a, GCModeller\core\Bio.Assembly\Assembly\MiST2\DocArchive\Domain.vb"
+﻿#Region "Microsoft.VisualBasic::603720ce45d10e45baa4bcf2a4e53bcd, GCModeller\core\Bio.Assembly\Assembly\MiST2\DocArchive\Domain.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 31
     ' Comment Lines: 11
     '   Blank Lines: 4
-    '     File Size: 1.77 KB
+    '     File Size: 1.82 KB
 
 
     '     Structure Domain

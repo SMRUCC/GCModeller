@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a80994a363061bb3c82762fe17a31095, GCModeller\analysis\SequenceToolkit\SNP\SangerSNPs\Vcf.vb"
+﻿#Region "Microsoft.VisualBasic::2772cd7ab68eb0d7760d72d143fcf033, GCModeller\analysis\SequenceToolkit\SNP\SangerSNPs\Vcf.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 151
     ' Comment Lines: 49
     '   Blank Lines: 48
-    '     File Size: 10.40 KB
+    '     File Size: 10.64 KB
 
 
     '     Module Vcf

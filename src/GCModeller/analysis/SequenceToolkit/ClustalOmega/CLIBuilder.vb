@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e83324d439a65cb100595813e5d3898d, GCModeller\analysis\SequenceToolkit\ClustalOmega\CLIBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::e45e099fe4f34bd99772b51c9433b5c9, GCModeller\analysis\SequenceToolkit\ClustalOmega\CLIBuilder.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 55
     ' Comment Lines: 216
     '   Blank Lines: 31
-    '     File Size: 10.97 KB
+    '     File Size: 11.27 KB
 
 
     ' Class CLIBuilder

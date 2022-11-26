@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d739fec249d6666a734f82a31aab4b16, GCModeller\core\Bio.Assembly\ComponentModel\Annotation\EC\ECNumber.vb"
+﻿#Region "Microsoft.VisualBasic::a702b3cdb037bc2cbeec1d13916a47e0, GCModeller\core\Bio.Assembly\ComponentModel\Annotation\EC\ECNumber.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 75
     ' Comment Lines: 50
     '   Blank Lines: 22
-    '     File Size: 4.58 KB
+    '     File Size: 4.73 KB
 
 
     '     Class ECNumber

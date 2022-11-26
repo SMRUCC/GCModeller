@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d7ab0913fc37dcbf48c69b0ba3a04ba0, GCModeller\core\Bio.Assembly\ComponentModel\Annotation\Profiles\CatalogProfiling.vb"
+﻿#Region "Microsoft.VisualBasic::968f018a005a33a3de02eb9322bfcc0f, GCModeller\core\Bio.Assembly\ComponentModel\Annotation\Profiles\CatalogProfiling.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,24 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 25
-    '    Code Lines: 16
-    ' Comment Lines: 4
-    '   Blank Lines: 5
-    '     File Size: 842 B
+    '   Total Lines: 79
+    '    Code Lines: 53
+    ' Comment Lines: 10
+    '   Blank Lines: 16
+    '     File Size: 2.59 KB
 
 
     '     Class CatalogProfiling
     ' 
     '         Properties: Catalog, Description, SubCategory
     ' 
-    '         Function: ToString
+    '         Function: FindCategory, GetCategory, ToString
+    ' 
+    '     Class ClassProfiles
+    ' 
+    '         Properties: Catalogs
+    ' 
+    '         Function: FindClass, GetClass
     ' 
     ' 
     ' /********************************************************************************/
@@ -54,13 +60,14 @@
 
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace ComponentModel.Annotation
 
-    Public Class CatalogProfiling
-        Implements INamedValue
+    ''' <summary>
+    ''' a level 1 class dataset
+    ''' </summary>
+    Public Class CatalogProfiling : Implements INamedValue
 
         ''' <summary>
         ''' COG/KO/GO, etc
@@ -71,8 +78,61 @@ Namespace ComponentModel.Annotation
         Public Property Description As String
         Public Property SubCategory As Dictionary(Of String, CatalogList)
 
+        Public Function FindCategory(id As String) As String
+            For Each tag As String In SubCategory.Keys
+                If SubCategory(tag).IndexOf(id) > -1 Then
+                    Return tag
+                End If
+            Next
+
+            Return ""
+        End Function
+
+        Public Function GetCategory(categoryId As String) As CatalogList
+            If Not SubCategory.ContainsKey(categoryId) Then
+                Call SubCategory.Add(categoryId, New CatalogList With {
+                    .Catalog = categoryId,
+                    .Description = "",
+                    .IDs = {}
+                })
+            End If
+
+            Return _SubCategory(categoryId)
+        End Function
+
         Public Overrides Function ToString() As String
             Return $"{Catalog} contains {SubCategory.Count} subcategories... {Mid(SubCategory.Keys.GetJson, 1, 20)}..."
+        End Function
+
+    End Class
+
+    ''' <summary>
+    ''' ID class counter 
+    ''' </summary>
+    Public Class ClassProfiles
+
+        Public Property Catalogs As New Dictionary(Of String, CatalogProfiling)
+
+        Public Function FindClass(id As String) As String
+            For Each tag As String In Catalogs.Keys
+                If Not Catalogs(tag).FindCategory(id).StringEmpty Then
+                    Return tag
+                End If
+            Next
+
+            Return ""
+        End Function
+
+        Public Function GetClass(classId As String) As CatalogProfiling
+            If Not Catalogs.ContainsKey(classId) Then
+                Call Catalogs.Add(classId, New CatalogProfiling With {
+                    .Catalog = classId,
+                    .Description = "",
+                    .SubCategory = New Dictionary(Of String, CatalogList)
+                })
+            End If
+
+            Return _Catalogs(classId)
         End Function
 
     End Class

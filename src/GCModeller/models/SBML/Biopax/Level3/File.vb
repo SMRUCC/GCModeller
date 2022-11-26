@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5b59f632ed5491b3b7bdd7d3259221c8, GCModeller\models\SBML\Biopax\Level3\File.vb"
+﻿#Region "Microsoft.VisualBasic::c1e37a79c1c48ed49be36c25c62669ac, GCModeller\models\SBML\Biopax\Level3\File.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 32
     ' Comment Lines: 5
     '   Blank Lines: 11
-    '     File Size: 2.34 KB
+    '     File Size: 2.39 KB
 
 
     '     Class DescriptionData

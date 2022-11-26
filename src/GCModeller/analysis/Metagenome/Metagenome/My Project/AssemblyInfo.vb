@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::39d479c5a40527ff81ed343c54103cc9, GCModeller\analysis\Metagenome\Metagenome\My Project\AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::e0860148a1cd7f06bbd99f421c964623, GCModeller\analysis\Metagenome\Metagenome\My Project\AssemblyInfo.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 15
     ' Comment Lines: 15
     '   Blank Lines: 6
-    '     File Size: 1.16 KB
+    '     File Size: 1.20 KB
 
 
     ' 

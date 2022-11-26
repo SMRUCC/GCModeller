@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2100573aa6f277ed25c7aea2a7b02b0e, GCModeller\models\BioCyc\Models\reactions.vb"
+﻿#Region "Microsoft.VisualBasic::d1c0ba9f45f79b5567bd0acd0b7119ff, GCModeller\models\BioCyc\Models\reactions.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 73
     ' Comment Lines: 1
     '   Blank Lines: 5
-    '     File Size: 3.06 KB
+    '     File Size: 3.14 KB
 
 
     ' Class reactions

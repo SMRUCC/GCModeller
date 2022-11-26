@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f9470b9a28094b7060ac133500029277, GCModeller\core\Bio.Assembly\Assembly\ELIXIR\UniProt\XML\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::ceaa0a4a222132cb4e3c40ab7dd4423d, GCModeller\core\Bio.Assembly\Assembly\ELIXIR\UniProt\XML\Extensions.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 209
     ' Comment Lines: 37
     '   Blank Lines: 33
-    '     File Size: 10.03 KB
+    '     File Size: 10.30 KB
 
 
     '     Module Extensions

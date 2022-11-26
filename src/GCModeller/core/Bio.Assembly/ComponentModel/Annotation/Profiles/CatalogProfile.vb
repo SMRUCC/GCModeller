@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::884b449a80eeb15e762b737005b4fc3b, GCModeller\core\Bio.Assembly\ComponentModel\Annotation\Profiles\CatalogProfile.vb"
+﻿#Region "Microsoft.VisualBasic::6380120ea94f60408bc6e1a070316675, GCModeller\core\Bio.Assembly\ComponentModel\Annotation\Profiles\CatalogProfile.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 110
+    '   Total Lines: 122
     '    Code Lines: 87
-    ' Comment Lines: 3
-    '   Blank Lines: 20
-    '     File Size: 3.98 KB
+    ' Comment Lines: 16
+    '   Blank Lines: 19
+    '     File Size: 4.51 KB
 
 
     '     Class CatalogProfile
@@ -69,9 +69,13 @@ Namespace ComponentModel.Annotation
         Public Property profile As New Dictionary(Of String, Double)
         Public Property information As New Dictionary(Of String, String)
 
+        ''' <summary>
+        ''' does the <see cref="profile"/> is empty?
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property isEmpty As Boolean
             Get
-                Return profile.Count = 0
+                Return profile.IsNullOrEmpty
             End Get
         End Property
 
@@ -104,12 +108,15 @@ Namespace ComponentModel.Annotation
             Return Me
         End Function
 
-        Public Function Add(name As String, value As Double)
+        Public Function Add(name As String, value As Double) As CatalogProfile
             Call profile.Add(name, value)
-
             Return Me
         End Function
 
+        ''' <summary>
+        ''' just sort desc
+        ''' </summary>
+        ''' <returns></returns>
         Public Function OrderByValues() As CatalogProfile
             Return New CatalogProfile With {
                 .information = New Dictionary(Of String, String)(information),
@@ -119,6 +126,11 @@ Namespace ComponentModel.Annotation
             }
         End Function
 
+        ''' <summary>
+        ''' sort desc and then take top N
+        ''' </summary>
+        ''' <param name="topN"></param>
+        ''' <returns></returns>
         Public Function Take(topN As Integer) As CatalogProfile
             Return New CatalogProfile With {
                 .information = New Dictionary(Of String, String)(information),

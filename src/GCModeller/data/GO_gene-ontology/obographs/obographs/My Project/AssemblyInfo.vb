@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b23e7bb4a69d830fd3d92c8983dc7e9f, GCModeller\data\GO_gene-ontology\obographs\obographs\My Project\AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::a5830e0d55e99e1a5194985a091b67c0, GCModeller\data\GO_gene-ontology\obographs\obographs\My Project\AssemblyInfo.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 15
     ' Comment Lines: 15
     '   Blank Lines: 6
-    '     File Size: 1.15 KB
+    '     File Size: 1.18 KB
 
 
     ' 

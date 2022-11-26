@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::997b2127ea2aea158dd0d6cacd589869, GCModeller\core\Bio.Assembly\ProteinModel\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::1ee4fb65b2d853052933e29e27ac2f71, GCModeller\core\Bio.Assembly\ProteinModel\Extensions.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 11
     ' Comment Lines: 0
     '   Blank Lines: 3
-    '     File Size: 374 B
+    '     File Size: 387 B
 
 
     '     Module Extensions

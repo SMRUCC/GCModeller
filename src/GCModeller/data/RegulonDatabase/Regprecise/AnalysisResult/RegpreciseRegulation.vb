@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::398ef9ff24bab726f3373a57d6df4429, GCModeller\data\RegulonDatabase\Regprecise\AnalysisResult\RegpreciseRegulation.vb"
+﻿#Region "Microsoft.VisualBasic::16d683b889677e83dc7ddb50baa2a150, GCModeller\data\RegulonDatabase\Regprecise\AnalysisResult\RegpreciseRegulation.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 30
     ' Comment Lines: 4
     '   Blank Lines: 9
-    '     File Size: 1.82 KB
+    '     File Size: 1.86 KB
 
 
     '     Module RegulationModels

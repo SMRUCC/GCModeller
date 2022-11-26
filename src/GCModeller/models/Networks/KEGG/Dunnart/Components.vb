@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e1c561042263c7226cd4d23ac6d96c3b, GCModeller\models\Networks\KEGG\Dunnart\Components.vb"
+﻿#Region "Microsoft.VisualBasic::340c13951bb5e68b2d202cafcd2f7cd1, GCModeller\models\Networks\KEGG\Dunnart\Components.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 32
     ' Comment Lines: 36
     '   Blank Lines: 10
-    '     File Size: 2.13 KB
+    '     File Size: 2.21 KB
 
 
     '     Class Node

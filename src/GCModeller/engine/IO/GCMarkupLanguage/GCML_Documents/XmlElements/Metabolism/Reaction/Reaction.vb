@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e9b01dedc4ff9f901c5d6d3e1091194b, GCModeller\engine\IO\GCMarkupLanguage\GCML_Documents\XmlElements\Metabolism\Reaction\Reaction.vb"
+﻿#Region "Microsoft.VisualBasic::20416ab1b0dcbcefe59d7aa2b81c087b, GCModeller\engine\IO\GCMarkupLanguage\GCML_Documents\XmlElements\Metabolism\Reaction\Reaction.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 178
     ' Comment Lines: 66
     '   Blank Lines: 38
-    '     File Size: 13.40 KB
+    '     File Size: 13.68 KB
 
 
     '     Class Reaction

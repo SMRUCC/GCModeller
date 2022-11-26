@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2303470c34bd99e9630f7afa5ae17c4f, GCModeller\annotations\GO\GoEnrichment.vb"
+﻿#Region "Microsoft.VisualBasic::3c932470eb4d17971d9a910cdd51d768, GCModeller\annotations\GO\GoEnrichment.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 116
     ' Comment Lines: 35
     '   Blank Lines: 20
-    '     File Size: 7.14 KB
+    '     File Size: 7.31 KB
 
 
     ' Module GoEnrichment

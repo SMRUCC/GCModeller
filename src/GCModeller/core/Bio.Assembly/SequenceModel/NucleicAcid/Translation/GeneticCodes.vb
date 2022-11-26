@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::95935a429a4cf5677a52816c9d0dc057, GCModeller\core\Bio.Assembly\SequenceModel\NucleicAcid\Translation\GeneticCodes.vb"
+﻿#Region "Microsoft.VisualBasic::ae29921d6deb3482dc06cd798dae8ef0, GCModeller\core\Bio.Assembly\SequenceModel\NucleicAcid\Translation\GeneticCodes.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 23
     ' Comment Lines: 57
     '   Blank Lines: 3
-    '     File Size: 2.90 KB
+    '     File Size: 2.99 KB
 
 
     '     Enum GeneticCodes

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7513b708ea90b0f95829994939ef1582, GCModeller\core\Bio.Assembly\My Project\AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::124c2bcb49632f9d8701d580ca701b51, GCModeller\core\Bio.Assembly\My Project\AssemblyInfo.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 17
     ' Comment Lines: 15
     '   Blank Lines: 8
-    '     File Size: 1.62 KB
+    '     File Size: 1.66 KB
 
 
     ' 

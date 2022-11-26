@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8ddd22c246d44a71966954ce6a3666b1, GCModeller\core\Bio.InteractionModel\My Project\Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::b4f0655ffcca8d80df0c417e2cb65891, GCModeller\core\Bio.InteractionModel\My Project\Resources.Designer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 32
     ' Comment Lines: 23
     '   Blank Lines: 8
-    '     File Size: 2.73 KB
+    '     File Size: 2.80 KB
 
 
     '     Module Resources

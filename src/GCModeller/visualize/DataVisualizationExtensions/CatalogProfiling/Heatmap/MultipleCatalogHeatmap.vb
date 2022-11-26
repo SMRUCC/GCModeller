@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::885eaad17c213e45057186ffc952be88, GCModeller\visualize\DataVisualizationExtensions\CatalogProfiling\Heatmap\MultipleCatalogHeatmap.vb"
+﻿#Region "Microsoft.VisualBasic::39936511534a319013e310ab7cabd590, GCModeller\visualize\DataVisualizationExtensions\CatalogProfiling\Heatmap\MultipleCatalogHeatmap.vb"
 
     ' Author:
     ' 
@@ -34,17 +34,17 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 58
-    '    Code Lines: 47
-    ' Comment Lines: 0
-    '   Blank Lines: 11
-    '     File Size: 2.32 KB
+    '   Total Lines: 95
+    '    Code Lines: 66
+    ' Comment Lines: 14
+    '   Blank Lines: 15
+    '     File Size: 3.72 KB
 
 
     '     Class MultipleCatalogHeatmap
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Sub: drawColorLegends
+    '         Sub: drawColorLegends, Z
     ' 
     ' 
     ' /********************************************************************************/
@@ -59,6 +59,8 @@ Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
+Imports Microsoft.VisualBasic.Math.Distributions
+Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.MIME.Html.CSS
 
 Namespace CatalogProfiling
@@ -68,6 +70,17 @@ Namespace CatalogProfiling
         Protected ReadOnly mapLevels As Integer
         Protected ReadOnly colorMissing As String
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="multiples">
+        ''' the pvalue value is already been transform by 
+        ''' ``-log10`` scale before call this constructor 
+        ''' function
+        ''' </param>
+        ''' <param name="mapLevels"></param>
+        ''' <param name="colorMissing"></param>
+        ''' <param name="theme"></param>
         Protected Sub New(multiples As IEnumerable(Of NamedValue(Of Dictionary(Of String, BubbleTerm()))),
                           mapLevels As Integer,
                           colorMissing As String,
@@ -75,6 +88,7 @@ Namespace CatalogProfiling
             )
 
             Call MyBase.New(multiples, theme)
+            Call Z()
 
             Dim orders As String() = TreeOrder.OrderByTree(Me)
 
@@ -84,14 +98,37 @@ Namespace CatalogProfiling
             Call Me.ReOrder(orders)
         End Sub
 
+        ''' <summary>
+        ''' Z_score scale of each pathway by groups
+        ''' </summary>
+        Private Sub Z()
+            For Each group As NamedValue(Of Dictionary(Of String, BubbleTerm())) In multiples
+                Dim list = group.Value
+                Dim v As New List(Of Double)
+                Dim keys As String() = list.Keys.ToArray
+                Dim bubbles As New List(Of BubbleTerm)
+
+                For Each key As String In keys
+                    bubbles.AddRange(list(key))
+                    v.AddRange(list(key).Select(Function(b) b.PValue))
+                Next
+
+                v = New Vector(v).Z.AsList
+
+                For i As Integer = 0 To v.Count - 1
+                    bubbles(i).PValue = v(i)
+                Next
+            Next
+        End Sub
+
         Protected Sub drawColorLegends(pvalues As DoubleRange, right As Double, ByRef g As IGraphics, canvas As GraphicsRegion, Optional y As Double = Double.NaN)
             Dim maps As New ColorMapLegend(palette:=theme.colorSet, mapLevels) With {
-                .Format = "F2",
+                .format = "F2",
                 .noblank = False,
                 .tickAxisStroke = Stroke.TryParse(theme.legendTickAxisStroke).GDIObject,
                 .tickFont = CSSFont.TryParse(theme.legendTickCSS).GDIObject(g.Dpi),
                 .ticks = pvalues.CreateAxisTicks,
-                .title = "-log10(pvalue)",
+                .title = "Z-score(-log10(pvalue))",
                 .titleFont = CSSFont.TryParse(theme.legendTitleCSS).GDIObject(g.Dpi),
                 .unmapColor = colorMissing,
                 .ruleOffset = 5,
@@ -101,7 +138,7 @@ Namespace CatalogProfiling
                 .X = right,
                 .Width = canvas.Padding.Right * (2 / 3),
                 .Height = canvas.PlotRegion.Height / 2,
-                .y = If(y.IsNaNImaginary, canvas.Padding.Top, y)
+                .Y = If(y.IsNaNImaginary, canvas.Padding.Top, y)
             }
 
             Call maps.Draw(g, layout)

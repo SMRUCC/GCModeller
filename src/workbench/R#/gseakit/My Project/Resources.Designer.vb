@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3fdcf76ca2dbaf6380df894ea71e100f, R#\gseakit\My Project\Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::2d11ee429817d4c40dfac8bdd44cf2de, R#\gseakit\My Project\Resources.Designer.vb"
 
     ' Author:
     ' 
@@ -113,4 +113,3 @@ Namespace My.Resources
         End Property
     End Module
 End Namespace
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::39af546f946cb257d2f82a079f22bb73, GCModeller\core\Bio.Assembly\Assembly\KEGG\Medical\DiseaseParser.vb"
+﻿#Region "Microsoft.VisualBasic::d61605d708499cb04f4fc5bc34493334, GCModeller\core\Bio.Assembly\Assembly\KEGG\Medical\DiseaseParser.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 36
     ' Comment Lines: 0
     '   Blank Lines: 5
-    '     File Size: 1.66 KB
+    '     File Size: 1.70 KB
 
 
     '     Module DiseaseParser

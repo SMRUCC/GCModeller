@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::828f149cbff637f482095dd908159ae0, GCModeller\models\Networks\Microbiome\UniProtBuilder\CacheGenerator.vb"
+﻿#Region "Microsoft.VisualBasic::82f6d0d4b9a08d339d8d906012bcc9bf, GCModeller\models\Networks\Microbiome\UniProtBuilder\CacheGenerator.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 79
     ' Comment Lines: 26
     '   Blank Lines: 17
-    '     File Size: 4.49 KB
+    '     File Size: 4.61 KB
 
 
     ' Class CacheGenerator

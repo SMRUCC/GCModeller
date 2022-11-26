@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f4afc0cf9d3610fd9e53b47e36435343, GCModeller\analysis\Metagenome\Metagenome\gast\ARGV.vb"
+﻿#Region "Microsoft.VisualBasic::25e26add7437bda756a8a6f38b103296, GCModeller\analysis\Metagenome\Metagenome\gast\ARGV.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 47
     ' Comment Lines: 88
     '   Blank Lines: 7
-    '     File Size: 5.44 KB
+    '     File Size: 5.58 KB
 
 
     '     Structure ARGV

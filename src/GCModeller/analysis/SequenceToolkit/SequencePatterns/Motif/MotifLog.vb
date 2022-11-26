@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::25b6f1a485b9f93f03dfcc5d1c8bbe46, GCModeller\analysis\SequenceToolkit\SequencePatterns\Motif\MotifLog.vb"
+﻿#Region "Microsoft.VisualBasic::3126d8237d66eeb00f22bbf93c182b1a, GCModeller\analysis\SequenceToolkit\SequencePatterns\Motif\MotifLog.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 45
     ' Comment Lines: 16
     '   Blank Lines: 8
-    '     File Size: 1.99 KB
+    '     File Size: 2.06 KB
 
 
     ' Class MotifLog

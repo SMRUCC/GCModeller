@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::82f845b19ea9534730d09aaf7be0f3ea, GCModeller\models\BioCyc\Models\Model.vb"
+﻿#Region "Microsoft.VisualBasic::520ab7b2bf7622e9c76fc6c95e08bd4f, GCModeller\models\BioCyc\Models\Model.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 22
     ' Comment Lines: 5
     '   Blank Lines: 10
-    '     File Size: 1.03 KB
+    '     File Size: 1.06 KB
 
 
     ' Class Model

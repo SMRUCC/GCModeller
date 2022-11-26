@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f81054b632a9a504274abd077445b7cb, GCModeller\sub-system\PLAS.NET\SSystem\System\DataAcquisition.vb"
+﻿#Region "Microsoft.VisualBasic::1c72f437014949d0c4bbfdd0aa6ad10f, GCModeller\sub-system\PLAS.NET\SSystem\System\DataAcquisition.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 90
     ' Comment Lines: 31
     '   Blank Lines: 31
-    '     File Size: 5.30 KB
+    '     File Size: 5.46 KB
 
 
     '     Class DataSnapshot

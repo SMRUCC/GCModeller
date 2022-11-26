@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::39f368659d793f989c13eab0a8bd0772, GCModeller\analysis\SequenceToolkit\gwANI\gwANI.vb"
+﻿#Region "Microsoft.VisualBasic::cc011e70e221d3b2d9fa2c37bc86f15b, GCModeller\analysis\SequenceToolkit\gwANI\gwANI.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 140
     ' Comment Lines: 108
     '   Blank Lines: 36
-    '     File Size: 10.96 KB
+    '     File Size: 11.24 KB
 
 
     ' Class gwANI

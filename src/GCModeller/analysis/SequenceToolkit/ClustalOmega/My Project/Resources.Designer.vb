@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5528f8b24e46ad31621ac9de5c12cb15, GCModeller\analysis\SequenceToolkit\ClustalOmega\My Project\Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::0c3097f9d330e495c33a6f4ba2667fe3, GCModeller\analysis\SequenceToolkit\ClustalOmega\My Project\Resources.Designer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 43
     ' Comment Lines: 49
     '   Blank Lines: 10
-    '     File Size: 4.15 KB
+    '     File Size: 4.25 KB
 
 
     '     Module Resources

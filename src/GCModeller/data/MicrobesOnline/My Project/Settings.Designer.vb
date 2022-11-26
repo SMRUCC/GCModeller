@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a7ebdd3ad3955c83495f1d396457f51e, GCModeller\data\MicrobesOnline\My Project\Settings.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::cfda636a76bd4800cdeb5b212d11d57e, GCModeller\data\MicrobesOnline\My Project\Settings.Designer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 53
     ' Comment Lines: 9
     '   Blank Lines: 12
-    '     File Size: 2.97 KB
+    '     File Size: 3.04 KB
 
 
     '     Class MySettings

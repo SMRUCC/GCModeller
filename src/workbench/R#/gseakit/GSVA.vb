@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::92dab41a91c6640a8e628472a9a0ce97, R#\gseakit\GSVA.vb"
+﻿#Region "Microsoft.VisualBasic::7e67d318d7f156fb61b5c4f1dc973a3f, R#\gseakit\GSVA.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 126
+    '   Total Lines: 163
     '    Code Lines: 105
-    ' Comment Lines: 8
+    ' Comment Lines: 45
     '   Blank Lines: 13
-    '     File Size: 4.84 KB
+    '     File Size: 6.55 KB
 
 
     ' Module GSVA
@@ -63,9 +63,38 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 Imports HTSMatrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 Imports REnv = SMRUCC.Rsharp.Runtime
 
+''' <summary>
+''' Gene Set Variation Analysis for microarray and RNA-seq data
+''' </summary>
 <Package("GSVA")>
 Module GSVA
 
+    ''' <summary>
+    ''' Gene Set Variation Analysis for microarray and RNA-seq data
+    ''' 
+    ''' Gene Set Variation Analysis (GSVA) is a non-parametric, unsupervised 
+    ''' method for estimating variation of gene set enrichment through the
+    ''' samples of a expression data set. GSVA performs a change in coordinate
+    ''' systems, transforming the data from a gene by sample matrix to a gene-set
+    ''' by sample matrix, thereby allowing the evaluation of pathway enrichment 
+    ''' for each sample. This new matrix of GSVA enrichment scores facilitates
+    ''' applying standard analytical methods like functional enrichment, 
+    ''' survival analysis, clustering, CNV-pathway analysis or cross-tissue 
+    ''' pathway analysis, in a pathway-centric manner.
+    ''' 
+    ''' main function of the package which estimates activity
+    ''' scores For Each given gene-Set
+    ''' </summary>
+    ''' <param name="expr">A raw gene expression data matrix object</param>
+    ''' <param name="geneSet">
+    ''' A gsea enrichment background model
+    ''' </param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    ''' <remarks>
+    ''' Hänzelmann S., Castelo R. and Guinney J. GSVA: gene set variation analysis
+    ''' for microarray and RNA-Seq data. BMC Bioinformatics, 14:7, 2013.
+    ''' </remarks>
     <ExportAPI("gsva")>
     <RApiReturn(GetType(HTSMatrix))>
     Public Function gsva(expr As Object, geneSet As Object, Optional env As Environment = Nothing) As Object
@@ -111,6 +140,14 @@ Module GSVA
         Return mat.gsva(background)
     End Function
 
+    ''' <summary>
+    ''' different analysis of the gsva result
+    ''' </summary>
+    ''' <param name="gsva">the gsva analysis result</param>
+    ''' <param name="compares">
+    ''' the analysis comparision
+    ''' </param>
+    ''' <returns></returns>
     <ExportAPI("diff")>
     Public Function diff(gsva As HTSMatrix, compares As DataAnalysis) As GSVADiff()
         If compares.size <> 2 Then
@@ -175,4 +212,3 @@ Module GSVA
         }
     End Function
 End Module
-

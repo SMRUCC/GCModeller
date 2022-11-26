@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::553a9a1fe27ac03b7d7f84fc9a423a15, GCModeller\analysis\SequenceToolkit\SequencePatterns\Topologically\Seeds\Seed.vb"
+﻿#Region "Microsoft.VisualBasic::eca150caf8182c8c033edede3c5ef6eb, GCModeller\analysis\SequenceToolkit\SequencePatterns\Topologically\Seeds\Seed.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 22
     ' Comment Lines: 3
     '   Blank Lines: 7
-    '     File Size: 778 B
+    '     File Size: 809 B
 
 
     '     Structure Seed

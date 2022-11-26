@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8fdd703e0c3f767571dbf48e832b04b2, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\PTT\PTTDbLoader.vb"
+﻿#Region "Microsoft.VisualBasic::13d81c7172f3807069a66fda89e52c53, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\PTT\PTTDbLoader.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 187
     ' Comment Lines: 58
     '   Blank Lines: 38
-    '     File Size: 12.58 KB
+    '     File Size: 12.86 KB
 
 
     '     Class PTTDbLoader

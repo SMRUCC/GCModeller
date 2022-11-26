@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2ddd8720ccaa2c031a99aa7bf6243e36, GCModeller\models\Networks\KEGG\ReactionNetwork\EnzymaticInformation.vb"
+﻿#Region "Microsoft.VisualBasic::bfd7bb9321a2fe45be89b61a4fb33a43, GCModeller\models\Networks\KEGG\ReactionNetwork\EnzymaticInformation.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 139
     ' Comment Lines: 17
     '   Blank Lines: 20
-    '     File Size: 7.66 KB
+    '     File Size: 7.84 KB
 
 
     '     Module EnzymaticInformation

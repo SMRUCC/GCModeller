@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::da2447b2e27c381bf32750676e7281a5, GCModeller\core\Bio.Assembly\Metagenomics\BIOMTaxonomy.vb"
+﻿#Region "Microsoft.VisualBasic::d7f96869c34a711b013ecd9e0c1607e0, GCModeller\core\Bio.Assembly\Metagenomics\BIOMTaxonomy.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 138
     ' Comment Lines: 61
     '   Blank Lines: 31
-    '     File Size: 10.07 KB
+    '     File Size: 10.30 KB
 
 
     '     Module BIOMTaxonomy

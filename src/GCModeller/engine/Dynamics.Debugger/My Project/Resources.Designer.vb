@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::64824f6e31f015cc8bf630c234eb4971, GCModeller\engine\Dynamics.Debugger\My Project\Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::00f31d09b99ebfb539183d54e4fd4d61, GCModeller\engine\Dynamics.Debugger\My Project\Resources.Designer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 32
     ' Comment Lines: 23
     '   Blank Lines: 8
-    '     File Size: 2.75 KB
+    '     File Size: 2.82 KB
 
 
     '     Module Resources

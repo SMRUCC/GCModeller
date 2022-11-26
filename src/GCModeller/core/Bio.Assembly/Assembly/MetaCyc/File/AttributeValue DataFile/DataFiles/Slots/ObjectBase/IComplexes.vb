@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0790d0272e62b6dd798f0becc7c8bfc0, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Slots\ObjectBase\IComplexes.vb"
+﻿#Region "Microsoft.VisualBasic::ad0999980e58682b251f8023ce8b66e1, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Slots\ObjectBase\IComplexes.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 7
     ' Comment Lines: 10
     '   Blank Lines: 2
-    '     File Size: 582 B
+    '     File Size: 600 B
 
 
     '     Interface IComplexes

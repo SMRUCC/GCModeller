@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5e8d5614e9005cc6152cf4cb8be79692, GCModeller\annotations\GSEA\GSVA\Flags\Methods.vb"
+﻿#Region "Microsoft.VisualBasic::a6f9b7bbab4285dc1579daabd784fad4, GCModeller\annotations\GSEA\GSVA\Flags\Methods.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 6
     ' Comment Lines: 0
     '   Blank Lines: 0
-    '     File Size: 69 B
+    '     File Size: 74 B
 
 
     ' Enum Methods

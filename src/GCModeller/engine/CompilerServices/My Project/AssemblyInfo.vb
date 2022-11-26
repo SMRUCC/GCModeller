@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6990abeb3f1c6fa9ab4d4b5c8709f881, GCModeller\engine\CompilerServices\My Project\AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::c0bcc020a2b75b071499f234eba43d1c, GCModeller\engine\CompilerServices\My Project\AssemblyInfo.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 15
     ' Comment Lines: 15
     '   Blank Lines: 6
-    '     File Size: 1.16 KB
+    '     File Size: 1.20 KB
 
 
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::960972af3d35cb89094a822da62d4beb, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\KOCatalog.vb"
+﻿#Region "Microsoft.VisualBasic::9a619abf020f878102ea0ef7b973d641, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\KOCatalog.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 21
     ' Comment Lines: 20
     '   Blank Lines: 5
-    '     File Size: 2.46 KB
+    '     File Size: 2.51 KB
 
 
     '     Class KOCatalog

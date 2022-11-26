@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::51ef19c87a6edf8b8c07f9c7f6b2ea01, GCModeller\engine\BootstrapLoader\My Project\Settings.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::1d8acee64731ea7e634a622e5e404181, GCModeller\engine\BootstrapLoader\My Project\Settings.Designer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 53
     ' Comment Lines: 9
     '   Blank Lines: 12
-    '     File Size: 3.02 KB
+    '     File Size: 3.09 KB
 
 
     '     Class MySettings

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ac09398fe17b752a5ec81c0b5ff944c6, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\GeneLinks.vb"
+﻿#Region "Microsoft.VisualBasic::236c04fd9b8b3324cfe8f6430ca41c81, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\GeneLinks.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 49
     ' Comment Lines: 4
     '   Blank Lines: 13
-    '     File Size: 2.32 KB
+    '     File Size: 2.39 KB
 
 
     '     Class GeneLinks

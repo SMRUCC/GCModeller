@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::72e56c53c7dc9ff32e4cb611a0434d28, GCModeller\engine\IO\GCMarkupLanguage\GCML_Documents\GCMLDocBuilder\ReactionRegulators.vb"
+﻿#Region "Microsoft.VisualBasic::e88b6bc868139b8419fd324f5f7b58f3, GCModeller\engine\IO\GCMarkupLanguage\GCML_Documents\GCMLDocBuilder\ReactionRegulators.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 40
     ' Comment Lines: 6
     '   Blank Lines: 10
-    '     File Size: 2.99 KB
+    '     File Size: 3.05 KB
 
 
     '     Class ReactionRegulators

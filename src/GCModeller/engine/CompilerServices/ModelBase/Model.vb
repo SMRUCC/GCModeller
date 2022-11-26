@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::39d48bcdfa2e01b63d59d1e723f25f9e, GCModeller\engine\CompilerServices\ModelBase\Model.vb"
+﻿#Region "Microsoft.VisualBasic::8e5550595f09c5def7d7d531063764cd, GCModeller\engine\CompilerServices\ModelBase\Model.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 30
     ' Comment Lines: 6
     '   Blank Lines: 9
-    '     File Size: 1.64 KB
+    '     File Size: 1.68 KB
 
 
     ' Class ModelBaseType

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b351ad1ba8afaaea849b60956c3349f1, GCModeller\engine\Compiler\My Project\Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::19cb6ffef76a12d3c18bb67b2ec996d0, GCModeller\engine\Compiler\My Project\Resources.Designer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 32
     ' Comment Lines: 23
     '   Blank Lines: 8
-    '     File Size: 2.74 KB
+    '     File Size: 2.80 KB
 
 
     '     Module Resources

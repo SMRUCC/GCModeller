@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::318b57966ecb29fa31074d6a8baf1361, GCModeller\core\Bio.Assembly\ProteinModel\Chou-Fasman\Rules\RuleOverlap.vb"
+﻿#Region "Microsoft.VisualBasic::992bd4f610a2d3442d0b5aa7f72e19a5, GCModeller\core\Bio.Assembly\ProteinModel\Chou-Fasman\Rules\RuleOverlap.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 63
     ' Comment Lines: 5
     '   Blank Lines: 15
-    '     File Size: 3.68 KB
+    '     File Size: 3.76 KB
 
 
     '     Module RuleOverlap

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1076428e2dfcb5718997fa9fc1e92cd0, GCModeller\engine\CompilerServices\ModelBase\Property.vb"
+﻿#Region "Microsoft.VisualBasic::f4b0df37e38e256a997f7df65d3b3a04, GCModeller\engine\CompilerServices\ModelBase\Property.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 27
     ' Comment Lines: 3
     '   Blank Lines: 6
-    '     File Size: 1.24 KB
+    '     File Size: 1.27 KB
 
 
     ' Class [Property]

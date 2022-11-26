@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9df3bf8d14e94874ef85488f46684f2b, GCModeller\visualize\ChromosomeMap\My Project\Settings.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::766a725afe1f731264091717e50c5bbd, GCModeller\visualize\ChromosomeMap\My Project\Settings.Designer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 51
     ' Comment Lines: 9
     '   Blank Lines: 13
-    '     File Size: 2.95 KB
+    '     File Size: 3.02 KB
 
 
     '     Class MySettings

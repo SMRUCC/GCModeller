@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8c9e17d4cdcbaa275cbb24fb0cd995f2, GCModeller\analysis\SequenceToolkit\DNA_Comparative\DeltaSimilarity1998\DifferenceMeasurement.vb"
+﻿#Region "Microsoft.VisualBasic::30a913ffaf7a10375e4ce2b58286a3d7, GCModeller\analysis\SequenceToolkit\DNA_Comparative\DeltaSimilarity1998\DifferenceMeasurement.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 87
     ' Comment Lines: 52
     '   Blank Lines: 22
-    '     File Size: 8.05 KB
+    '     File Size: 8.21 KB
 
 
     '     Module DifferenceMeasurement

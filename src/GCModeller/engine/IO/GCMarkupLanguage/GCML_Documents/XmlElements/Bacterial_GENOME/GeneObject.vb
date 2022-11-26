@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ce008cdf849376c6bc640cc00df40082, GCModeller\engine\IO\GCMarkupLanguage\GCML_Documents\XmlElements\Bacterial_GENOME\GeneObject.vb"
+﻿#Region "Microsoft.VisualBasic::f249248bd2e45aa5e7556ed1975cbbe2, GCModeller\engine\IO\GCMarkupLanguage\GCML_Documents\XmlElements\Bacterial_GENOME\GeneObject.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 28
     ' Comment Lines: 20
     '   Blank Lines: 8
-    '     File Size: 2.15 KB
+    '     File Size: 2.21 KB
 
 
     '     Class GeneObject

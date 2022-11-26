@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aeddf02e363a08642a10e283f322479a, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\Schemas\Reflection\PathRoute.vb"
+﻿#Region "Microsoft.VisualBasic::60fcdee20670f553e0756fcf162944c7, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\Schemas\Reflection\PathRoute.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 39
     ' Comment Lines: 18
     '   Blank Lines: 7
-    '     File Size: 3.67 KB
+    '     File Size: 3.73 KB
 
 
     '     Class PathRoute

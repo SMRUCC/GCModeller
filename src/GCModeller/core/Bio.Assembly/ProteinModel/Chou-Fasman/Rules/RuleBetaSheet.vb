@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6df0d96f589d14de463f64e18c33f640, GCModeller\core\Bio.Assembly\ProteinModel\Chou-Fasman\Rules\RuleBetaSheet.vb"
+﻿#Region "Microsoft.VisualBasic::04f4202e5547786938e22d6cc561dbb7, GCModeller\core\Bio.Assembly\ProteinModel\Chou-Fasman\Rules\RuleBetaSheet.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 57
     ' Comment Lines: 6
     '   Blank Lines: 14
-    '     File Size: 3.44 KB
+    '     File Size: 3.52 KB
 
 
     '     Module RuleBetaSheet

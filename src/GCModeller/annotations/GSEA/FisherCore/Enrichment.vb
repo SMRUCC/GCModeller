@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2d14d93b580ee88bc5137a0b75dfc26e, GCModeller\annotations\GSEA\FisherCore\Enrichment.vb"
+﻿#Region "Microsoft.VisualBasic::b3f171a091e412f76b3b75422216114b, GCModeller\annotations\GSEA\FisherCore\Enrichment.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 117
     ' Comment Lines: 33
     '   Blank Lines: 21
-    '     File Size: 6.82 KB
+    '     File Size: 6.99 KB
 
 
     ' Module Enrichment

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::235af528fd8bea64f3454cd9d3b7817b, GCModeller\sub-system\PLAS.NET\SSystem\Script\ScriptText\ModelParsers.vb"
+﻿#Region "Microsoft.VisualBasic::3fa03b02ed34f84512527acc5500da36, GCModeller\sub-system\PLAS.NET\SSystem\Script\ScriptText\ModelParsers.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 53
     ' Comment Lines: 20
     '   Blank Lines: 14
-    '     File Size: 3.00 KB
+    '     File Size: 3.09 KB
 
 
     '     Module ModelParsers

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::38209ebfe6ced9b8a97da21c1164c692, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\FileSystem\FASTA\GeneObject.vb"
+﻿#Region "Microsoft.VisualBasic::936c3b0b0f5574b856f8553448aaacaa, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\FileSystem\FASTA\GeneObject.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 70
     ' Comment Lines: 3
     '   Blank Lines: 16
-    '     File Size: 3.20 KB
+    '     File Size: 3.29 KB
 
 
     '     Class GeneObject

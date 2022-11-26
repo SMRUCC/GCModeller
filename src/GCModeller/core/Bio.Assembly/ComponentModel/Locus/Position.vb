@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a8b273efb6dc47a1579ef3f83f82e961, GCModeller\core\Bio.Assembly\ComponentModel\Locus\Position.vb"
+﻿#Region "Microsoft.VisualBasic::b0f7841ae50fc580f03390d182a5c1c1, GCModeller\core\Bio.Assembly\ComponentModel\Locus\Position.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 14
     ' Comment Lines: 3
     '   Blank Lines: 5
-    '     File Size: 553 B
+    '     File Size: 574 B
 
 
     '     Structure Position

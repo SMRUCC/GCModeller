@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5d2cfa8d9c1a3f9b99d3278f9897b5be, GCModeller\analysis\Metagenome\Metagenome\RelativeStatics.vb"
+﻿#Region "Microsoft.VisualBasic::8240666bf616bfab06a0204a16f6f6bc, GCModeller\analysis\Metagenome\Metagenome\RelativeStatics.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 77
     ' Comment Lines: 21
     '   Blank Lines: 8
-    '     File Size: 4.93 KB
+    '     File Size: 5.03 KB
 
 
     ' Module RelativeStatics

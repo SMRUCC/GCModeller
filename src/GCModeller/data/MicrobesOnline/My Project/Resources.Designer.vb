@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c3815ae9aa1124358def0f3b032a0c32, GCModeller\data\MicrobesOnline\My Project\Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::15cf4378341047612aee04d560372f8a, GCModeller\data\MicrobesOnline\My Project\Resources.Designer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 32
     ' Comment Lines: 23
     '   Blank Lines: 8
-    '     File Size: 2.74 KB
+    '     File Size: 2.80 KB
 
 
     '     Module Resources

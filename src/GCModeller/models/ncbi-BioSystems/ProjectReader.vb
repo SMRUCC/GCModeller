@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::14229746a6a7e47d791e8a00f787e8ce, GCModeller\models\ncbi-BioSystems\ProjectReader.vb"
+﻿#Region "Microsoft.VisualBasic::416bafab62145f63d7fd32af013a5cd5, GCModeller\models\ncbi-BioSystems\ProjectReader.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 64
     ' Comment Lines: 10
     '   Blank Lines: 18
-    '     File Size: 3.34 KB
+    '     File Size: 3.33 KB
 
 
     ' Class ProjectReader
@@ -147,4 +147,3 @@ Public Class ProjectReader : Implements IDisposable
         GC.SuppressFinalize(Me)
     End Sub
 End Class
-

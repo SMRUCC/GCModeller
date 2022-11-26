@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fdcd998d6c10561596ba69b982670ac8, GCModeller\core\Bio.Assembly\Query\Term\geneName.vb"
+﻿#Region "Microsoft.VisualBasic::5c6875b9f9490ac28f9ea888242cd02f, GCModeller\core\Bio.Assembly\Query\Term\geneName.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 19
     ' Comment Lines: 0
     '   Blank Lines: 4
-    '     File Size: 747 B
+    '     File Size: 769 B
 
 
     '     Module geneName

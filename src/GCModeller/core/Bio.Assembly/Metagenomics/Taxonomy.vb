@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b445bc5ed7a33ae8c3391948a46144ad, GCModeller\core\Bio.Assembly\Metagenomics\Taxonomy.vb"
+﻿#Region "Microsoft.VisualBasic::df4f313ef60f01e37de95ebe750a7e95, GCModeller\core\Bio.Assembly\Metagenomics\Taxonomy.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 229
     ' Comment Lines: 77
     '   Blank Lines: 46
-    '     File Size: 13.67 KB
+    '     File Size: 14.02 KB
 
 
     '     Class Taxonomy

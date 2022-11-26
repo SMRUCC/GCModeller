@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5e9c80e7915206d4c9878a211426a33e, GCModeller\analysis\SequenceToolkit\SequencePatterns\Topologically\Exactly\LociFilter.vb"
+﻿#Region "Microsoft.VisualBasic::d0795316573b7d1c69dee20c3731f421, GCModeller\analysis\SequenceToolkit\SequencePatterns\Topologically\Exactly\LociFilter.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 125
     ' Comment Lines: 37
     '   Blank Lines: 18
-    '     File Size: 7.24 KB
+    '     File Size: 7.41 KB
 
 
     ' Module LociFilter

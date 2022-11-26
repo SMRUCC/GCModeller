@@ -1,55 +1,55 @@
-﻿#Region "Microsoft.VisualBasic::72a5e101c1450bcea746aff59aa2e1fc, R#\gseakit\GSEABackground.vb"
+﻿#Region "Microsoft.VisualBasic::df179c4015b88e2b1119ce9ebc47c8c7, R#\gseakit\GSEABackground.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 432
-'    Code Lines: 330
-' Comment Lines: 60
-'   Blank Lines: 42
-'     File Size: 16.99 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Module GSEABackground
-' 
-'     Constructor: (+1 Overloads) Sub New
-'     Function: asGenesetList, assembleBackground, backgroundSummary, clusterIDs, ClusterIntersections
-'               compoundCluster, CreateCluster, createGene, CreateKOBackground, CreateKOReference
-'               DAGbackground, GetCluster, KOTable, metabolismBackground, MetaEnrichBackground
-'               PrintBackground, ReadBackground, WriteBackground
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 562
+    '    Code Lines: 393
+    ' Comment Lines: 118
+    '   Blank Lines: 51
+    '     File Size: 22.29 KB
+
+
+    ' Module GSEABackground
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
+    '     Function: asGenesetList, assembleBackground, BackgroundIDmapping, backgroundSummary, clusterIDs
+    '               ClusterIntersections, CreateCluster, createGene, CreateKOBackground, CreateKOReference
+    '               DAGbackground, GetCluster, (+2 Overloads) id_translation, KOTable, metabolismBackground
+    '               MetaEnrichBackground, moleculeIDs, PrintBackground, ReadBackground, WriteBackground
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -64,6 +64,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Analysis.GO
 Imports SMRUCC.genomics.Analysis.HTS.GSEA
+Imports SMRUCC.genomics.Analysis.HTS.GSEA.KnowledgeBase
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
@@ -142,6 +143,13 @@ Public Module GSEABackground
         Return background
     End Function
 
+    ''' <summary>
+    ''' do id mapping of the members in the background cluster
+    ''' </summary>
+    ''' <param name="background"></param>
+    ''' <param name="mapping"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("background.id_mapping")>
     Public Function BackgroundIDmapping(background As Background, mapping As list, Optional env As Environment = Nothing) As Object
         Dim maps As Dictionary(Of String, String()) = mapping.AsGeneric(Of String())(env, [default]:={})
@@ -163,31 +171,36 @@ Public Module GSEABackground
     End Function
 
     <Extension>
+    Private Function id_translation(g As BackgroundGene, maps As Dictionary(Of String, String())) As IEnumerable(Of BackgroundGene)
+        Dim multipleID As String() = maps.TryGetValue(g.accessionID)
+
+        If multipleID.IsNullOrEmpty Then
+            Return Nothing
+        End If
+
+        Return multipleID _
+            .Select(Function(mapId)
+                        Return New BackgroundGene With {
+                            .accessionID = mapId,
+                            .[alias] = g.alias _
+                                .SafeQuery _
+                                .Select(AddressOf maps.TryGetValue) _
+                                .Where(Function(id) Not id.IsNullOrEmpty) _
+                                .IteratesALL _
+                                .Distinct _
+                                .ToArray,
+                            .locus_tag = g.locus_tag,
+                            .name = g.name,
+                            .term_id = g.term_id
+                        }
+                    End Function)
+    End Function
+
+    <Extension>
     Private Function id_translation(c As Cluster, maps As Dictionary(Of String, String())) As Cluster
         Dim geneList As BackgroundGene() = c.members _
             .Select(Function(g)
-                        Dim multipleID As String() = maps.TryGetValue(g.accessionID)
-
-                        If multipleID.IsNullOrEmpty Then
-                            Return Nothing
-                        End If
-
-                        Return multipleID _
-                            .Select(Function(mapId)
-                                        Return New BackgroundGene With {
-                                            .accessionID = mapId,
-                                            .[alias] = g.alias _
-                                                .SafeQuery _
-                                                .Select(AddressOf maps.TryGetValue) _
-                                                .Where(Function(id) Not id.IsNullOrEmpty) _
-                                                .IteratesALL _
-                                                .Distinct _
-                                                .ToArray,
-                                            .locus_tag = g.locus_tag,
-                                            .name = g.name,
-                                            .term_id = g.term_id
-                                        }
-                                    End Function)
+                        Return g.id_translation(maps)
                     End Function) _
             .IteratesALL _
             .Where(Function(g)
@@ -325,6 +338,11 @@ Public Module GSEABackground
         End If
     End Function
 
+    ''' <summary>
+    ''' convert the background model to a data table
+    ''' </summary>
+    ''' <param name="background"></param>
+    ''' <returns></returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <ExportAPI("KO.table")>
     Public Function KOTable(background As Background) As EntityObject()
@@ -353,7 +371,11 @@ Public Module GSEABackground
     ''' <param name="clusterName$"></param>
     ''' <returns></returns>
     <ExportAPI("gsea.cluster")>
-    Public Function CreateCluster(data As Rdataframe, clusterId$, clusterName$, Optional desc$ = "n/a", Optional id$ = "xref", Optional name$ = "name") As Cluster
+    Public Function CreateCluster(data As Rdataframe, clusterId$, clusterName$,
+                                  Optional desc$ = "n/a",
+                                  Optional id$ = "xref",
+                                  Optional name$ = "name") As Cluster
+
         Dim idvec As String() = asVector(Of String)(data.columns(id))
         Dim namevec As String() = asVector(Of String)(data.columns(name))
         Dim cluster As New Cluster With {
@@ -379,6 +401,31 @@ Public Module GSEABackground
         Return cluster
     End Function
 
+    ''' <summary>
+    ''' cast the cluster data as the enrichment background
+    ''' </summary>
+    ''' <param name="clusters">
+    ''' a data cluster or a collection of kegg pathway model
+    ''' </param>
+    ''' <param name="background_size">
+    ''' default value -1 or zero means auto evaluated
+    ''' </param>
+    ''' <param name="name">
+    ''' the background model name
+    ''' </param>
+    ''' <param name="tax_id">
+    ''' ncbi taxonomy id of the target organism
+    ''' </param>
+    ''' <param name="desc">
+    ''' the model description
+    ''' </param>
+    ''' <param name="is_multipleOmics">
+    ''' Create a enrichment background model for run multiple omics data analysis?
+    ''' this parameter is only works for the kegg pathway model where you are 
+    ''' speicifc via the <paramref name="clusters"/> parameter.
+    ''' </param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("as.background")>
     <RApiReturn(GetType(Background))>
     Public Function assembleBackground(<RRawVectorArgument> clusters As Object,
@@ -386,15 +433,28 @@ Public Module GSEABackground
                                        Optional name$ = "n/a",
                                        Optional tax_id$ = "n/a",
                                        Optional desc$ = "n/a",
+                                       Optional is_multipleOmics As Boolean = False,
                                        Optional env As Environment = Nothing) As Object
 
-        Dim clusterList As pipeline = pipeline.TryCreatePipeline(Of Cluster)(clusters, env)
+        Dim clusterList As pipeline = pipeline.TryCreatePipeline(Of Cluster)(clusters, env, suppress:=True)
         Dim clusterVec As Cluster()
 
         If clusterList.isError Then
-            Return clusterList.GetType
+            clusterList = pipeline.TryCreatePipeline(Of SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Pathway)(clusters, env)
+
+            If clusterList.isError Then
+                Return clusterList.getError
+            Else
+                If is_multipleOmics Then
+                    Return MultipleOmics.CreateOmicsBackground(clusterList.populates(Of SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Pathway)(env))
+                Else
+                    Return clusterList.populates(Of SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Pathway)(env).CreateModel
+                End If
+            End If
         Else
-            clusterVec = clusterList.populates(Of Cluster)(env).ToArray
+            clusterVec = clusterList.populates(Of Cluster)(env) _
+                .Where(Function(c) c.size > 0 AndAlso Not c.ID.StringEmpty) _
+                .ToArray
 
             If background_size <= 0 Then
                 background_size = clusterVec.BackgroundSize
@@ -450,30 +510,6 @@ Public Module GSEABackground
         }
     End Function
 
-    <Extension>
-    Private Function compoundCluster(map As MapIndex) As Cluster
-        Return New Cluster With {
-            .description = map.description,
-            .ID = If(map.id.IsPattern("\d+"), $"map{map.id}", map.id),
-            .names = map.Name.Replace(" - Reference pathway", ""),
-            .members = map.shapes _
-                .Select(Function(a) a.IDVector) _
-                .IteratesALL _
-                .Distinct _
-                .Where(Function(id) id.IsPattern("[CDG]\d+")) _
-                .Select(Function(cid)
-                            Return New BackgroundGene With {
-                                .accessionID = cid,
-                                .[alias] = {cid},
-                                .locus_tag = New NamedValue With {.name = cid, .text = cid},
-                                .name = cid,
-                                .term_id = {cid}
-                            }
-                        End Function) _
-                .ToArray
-        }
-    End Function
-
     ''' <summary>
     ''' create kegg maps background for the metabolism data analysis
     ''' </summary>
@@ -485,7 +521,7 @@ Public Module GSEABackground
             .SafeQuery _
             .Select(Function(id) id.Match("\d+")) _
             .Indexing
-        Dim clusters As Cluster() = kegg.Maps _
+        Dim background As Background = kegg.Maps _
             .Where(Function(map)
                        If mapIdFilter.Count > 0 Then
                            Return map.id.Match("\d+") Like mapIdFilter
@@ -493,18 +529,9 @@ Public Module GSEABackground
                            Return True
                        End If
                    End Function) _
-            .Select(Function(map)
-                        Return map.compoundCluster
-                    End Function) _
-            .ToArray
+            .CreateGeneralBackground
 
-        Return New Background With {
-            .clusters = clusters,
-            .build = Now,
-            .comments = "The KEGG compound metabolism background model",
-            .id = "kegg maps",
-            .name = "kegg maps"
-        }
+        Return background
     End Function
 
     ''' <summary>

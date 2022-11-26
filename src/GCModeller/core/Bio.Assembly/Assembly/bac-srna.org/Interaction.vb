@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::eefa8bb91641d72c0a1b5e36c5fa8b56, GCModeller\core\Bio.Assembly\Assembly\bac-srna.org\Interaction.vb"
+﻿#Region "Microsoft.VisualBasic::b3b0b9e0b0bc767459852f900d8927fa, GCModeller\core\Bio.Assembly\Assembly\bac-srna.org\Interaction.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 21
     ' Comment Lines: 21
     '   Blank Lines: 7
-    '     File Size: 1.56 KB
+    '     File Size: 1.61 KB
 
 
     '     Structure Interaction

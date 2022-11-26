@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0ca4d8c905864b6ecdc7334d4094d6bf, GCModeller\analysis\SequenceToolkit\SequencePatterns.Abstract\Probability.vb"
+﻿#Region "Microsoft.VisualBasic::54dd19d7048794e620ad64e5977d2f4b, GCModeller\analysis\SequenceToolkit\SequencePatterns.Abstract\Probability.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 35
     ' Comment Lines: 36
     '   Blank Lines: 9
-    '     File Size: 2.59 KB
+    '     File Size: 2.67 KB
 
 
     ' Class Probability

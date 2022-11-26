@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0c31c956f4ddd4766727d78631cfa3ad, GCModeller\core\Bio.Assembly\Query\MatchContext.vb"
+﻿#Region "Microsoft.VisualBasic::c6a0d8216d119396f5b202694427b561, GCModeller\core\Bio.Assembly\Query\MatchContext.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 4
     ' Comment Lines: 0
     '   Blank Lines: 2
-    '     File Size: 83 B
+    '     File Size: 88 B
 
 
     '     Module MatchContext

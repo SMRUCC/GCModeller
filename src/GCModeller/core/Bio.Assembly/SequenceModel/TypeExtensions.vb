@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a5de13d1911b83de8d545f6bc7a6d9b7, GCModeller\core\Bio.Assembly\SequenceModel\TypeExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::b060967f0a2b4c92a027d1aabeb71951, GCModeller\core\Bio.Assembly\SequenceModel\TypeExtensions.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 30
     ' Comment Lines: 25
     '   Blank Lines: 7
-    '     File Size: 2.25 KB
+    '     File Size: 2.31 KB
 
 
     '     Module TypeExtensions

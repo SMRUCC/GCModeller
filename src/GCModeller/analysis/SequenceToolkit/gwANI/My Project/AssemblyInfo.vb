@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d6423c3f3ca8317695ee589014105111, GCModeller\analysis\SequenceToolkit\gwANI\My Project\AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::ed79cee38f299363dc8795a9dd065ca8, GCModeller\analysis\SequenceToolkit\gwANI\My Project\AssemblyInfo.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 15
     ' Comment Lines: 15
     '   Blank Lines: 6
-    '     File Size: 1.14 KB
+    '     File Size: 1.18 KB
 
 
     ' 

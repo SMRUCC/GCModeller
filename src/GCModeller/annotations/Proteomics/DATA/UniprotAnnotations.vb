@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1c5afc4c28ae858729de2d87ad3ec384, GCModeller\annotations\Proteomics\DATA\UniprotAnnotations.vb"
+﻿#Region "Microsoft.VisualBasic::e4dd432bfc49fd62b296cf7f34deaaab, GCModeller\annotations\Proteomics\DATA\UniprotAnnotations.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 16
     ' Comment Lines: 0
     '   Blank Lines: 3
-    '     File Size: 570 B
+    '     File Size: 588 B
 
 
     ' Class UniprotAnnotations

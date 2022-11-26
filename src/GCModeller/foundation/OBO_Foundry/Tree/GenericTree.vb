@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::68b2046447e9f713742b1e869dd1b577, GCModeller\foundation\OBO_Foundry\Tree\GenericTree.vb"
+﻿#Region "Microsoft.VisualBasic::f7cffee2ebf284e72cfdb3eb0c5c5d3f, GCModeller\foundation\OBO_Foundry\Tree\GenericTree.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 23
     ' Comment Lines: 17
     '   Blank Lines: 6
-    '     File Size: 1.38 KB
+    '     File Size: 1.42 KB
 
 
     '     Class GenericTree

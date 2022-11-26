@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4bf3ca1199ee4a4df06a6a181edaa3b2, GCModeller\visualize\DataVisualizationExtensions\CatalogProfiling\AbstractPlot.vb"
+﻿#Region "Microsoft.VisualBasic::8518219daf1f898b42bfeb0cdfa7572e, GCModeller\visualize\DataVisualizationExtensions\CatalogProfiling\AbstractPlot.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 123
-    '    Code Lines: 106
-    ' Comment Lines: 3
+    '   Total Lines: 118
+    '    Code Lines: 99
+    ' Comment Lines: 5
     '   Blank Lines: 14
-    '     File Size: 5.33 KB
+    '     File Size: 5.19 KB
 
 
     '     Class MultipleCategoryProfiles
@@ -51,18 +51,11 @@
 
 #End Region
 
-Imports System.Drawing
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
-Imports Microsoft.VisualBasic.Imaging
-Imports Microsoft.VisualBasic.Imaging.Drawing2D
-Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
-Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
 Namespace CatalogProfiling
@@ -71,6 +64,8 @@ Namespace CatalogProfiling
 
         ''' <summary>
         ''' the multiple groups data
+        ''' 
+        ''' [group_label => [category => term_bubbles]]
         ''' </summary>
         Protected Friend ReadOnly multiples As List(Of NamedValue(Of Dictionary(Of String, BubbleTerm())))
 

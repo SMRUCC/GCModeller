@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::56a6ef1e7db8396619a05631041f507a, GCModeller\annotations\GSEA\GSEA.KnowledgeBase.Extensions\NamespaceDoc.vb"
+﻿#Region "Microsoft.VisualBasic::3eda75519c68c40b31b7428b6780c266, GCModeller\annotations\GSEA\GSEA.KnowledgeBase.Extensions\NamespaceDoc.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 2
     ' Comment Lines: 3
     '   Blank Lines: 0
-    '     File Size: 112 B
+    '     File Size: 116 B
 
 
     ' Module NamespaceDoc

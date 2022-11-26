@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4ade1a4cdcf73d8d5e96bb22892a05b1, GCModeller\sub-system\PLAS.NET\SSystem\Compiler.vb"
+﻿#Region "Microsoft.VisualBasic::1db3519fe8d4eae9d103765c300cf18b, GCModeller\sub-system\PLAS.NET\SSystem\Compiler.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 17
     ' Comment Lines: 4
     '   Blank Lines: 5
-    '     File Size: 950 B
+    '     File Size: 975 B
 
 
     ' Module Compiler

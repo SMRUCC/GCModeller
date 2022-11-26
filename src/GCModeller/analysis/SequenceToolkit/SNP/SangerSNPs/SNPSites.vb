@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::37db59be334a3f8919d588c72a1e3b00, GCModeller\analysis\SequenceToolkit\SNP\SangerSNPs\SNPSites.vb"
+﻿#Region "Microsoft.VisualBasic::c1fc1d9e97d0e66c10b3bdfc57e12030, GCModeller\analysis\SequenceToolkit\SNP\SangerSNPs\SNPSites.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 127
     ' Comment Lines: 33
     '   Blank Lines: 22
-    '     File Size: 8.83 KB
+    '     File Size: 9.01 KB
 
 
     '     Module SNPSites

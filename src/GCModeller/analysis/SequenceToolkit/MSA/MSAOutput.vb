@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e59d9f2391130265c3f83d3c5051b1f9, GCModeller\analysis\SequenceToolkit\MSA\MSAOutput.vb"
+﻿#Region "Microsoft.VisualBasic::0553779d34cfcaafb37942725fce3a85, GCModeller\analysis\SequenceToolkit\MSA\MSAOutput.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 54
     ' Comment Lines: 0
     '   Blank Lines: 13
-    '     File Size: 1.94 KB
+    '     File Size: 2.00 KB
 
 
     ' Class MSAOutput

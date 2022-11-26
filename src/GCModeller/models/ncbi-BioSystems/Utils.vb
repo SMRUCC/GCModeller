@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d37f0b7ba6db36f53f42ce7b28148102, GCModeller\models\ncbi-BioSystems\Utils.vb"
+﻿#Region "Microsoft.VisualBasic::b1acf5ce5824932edbf3f3a009209aac, GCModeller\models\ncbi-BioSystems\Utils.vb"
 
     ' Author:
     ' 
@@ -104,4 +104,3 @@ Public Module Utils
         }
     End Function
 End Module
-

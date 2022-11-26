@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b381509a61177f195f7f37c8a21cd8d9, GCModeller\engine\GCModeller.Framework.Kernel_Driver\Driver\Abstract\Abstract.vb"
+﻿#Region "Microsoft.VisualBasic::9717af07cc7c2c8ec9664bc5dc4c1a09, GCModeller\engine\GCModeller.Framework.Kernel_Driver\Driver\Abstract\Abstract.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 20
     ' Comment Lines: 24
     '   Blank Lines: 11
-    '     File Size: 1.91 KB
+    '     File Size: 1.97 KB
 
 
     ' Interface IObjectStatus

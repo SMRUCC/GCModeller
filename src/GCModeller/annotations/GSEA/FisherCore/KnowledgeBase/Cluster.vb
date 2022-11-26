@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::606f0b64fd6666ecf2cfc20daf536bde, GCModeller\annotations\GSEA\FisherCore\KnowledgeBase\Cluster.vb"
+﻿#Region "Microsoft.VisualBasic::2548fff4df3da4f90ec23b6b45b9086b, GCModeller\annotations\GSEA\FisherCore\KnowledgeBase\Cluster.vb"
 
     ' Author:
     ' 
@@ -34,16 +34,16 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 86
-    '    Code Lines: 57
+    '   Total Lines: 94
+    '    Code Lines: 64
     ' Comment Lines: 19
-    '   Blank Lines: 10
-    '     File Size: 3.08 KB
+    '   Blank Lines: 11
+    '     File Size: 3.39 KB
 
 
     ' Class Cluster
     ' 
-    '     Properties: description, ID, members, names
+    '     Properties: description, ID, memberIds, members, names
     ' 
     '     Function: getCollection, getSize, Intersect, ToString
     ' 
@@ -91,6 +91,14 @@ Public Class Cluster : Inherits ListOf(Of BackgroundGene)
     Public Property members As BackgroundGene()
 
     Dim index As Index(Of String)
+
+    Public ReadOnly Property memberIds As String()
+        Get
+            Return members _
+                .Select(Function(gene) gene.accessionID) _
+                .ToArray
+        End Get
+    End Property
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function Intersect(list As IEnumerable(Of String), Optional isLocustag As Boolean = False) As IEnumerable(Of String)

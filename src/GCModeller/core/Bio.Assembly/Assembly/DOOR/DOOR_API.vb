@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::14331978b97494f85c7d04819e15da31, GCModeller\core\Bio.Assembly\Assembly\DOOR\DOOR_API.vb"
+﻿#Region "Microsoft.VisualBasic::aa77369081913fd11e6dd28d155b56e8, GCModeller\core\Bio.Assembly\Assembly\DOOR\DOOR_API.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 110
     ' Comment Lines: 45
     '   Blank Lines: 13
-    '     File Size: 8.23 KB
+    '     File Size: 8.40 KB
 
 
     '     Module DOOR_API

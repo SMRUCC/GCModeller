@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ce05bf1d7358e285976736de6ffc2fc0, GCModeller\core\Bio.Assembly\Assembly\KEGG\Web\Map\URLEncoder.vb"
+﻿#Region "Microsoft.VisualBasic::f9e58f2d24c10379e1e7ced4a7205868, GCModeller\core\Bio.Assembly\Assembly\KEGG\Web\Map\URLEncoder.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 96
     ' Comment Lines: 51
     '   Blank Lines: 16
-    '     File Size: 6.88 KB
+    '     File Size: 7.04 KB
 
 
     '     Module URLEncoder

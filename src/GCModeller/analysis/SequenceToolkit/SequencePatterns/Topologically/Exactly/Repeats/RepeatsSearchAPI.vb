@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::56ff195f669b885ee35459ecf20e746f, GCModeller\analysis\SequenceToolkit\SequencePatterns\Topologically\Exactly\Repeats\RepeatsSearchAPI.vb"
+﻿#Region "Microsoft.VisualBasic::b510c6e823d3a50abfa4907912d9fbb0, GCModeller\analysis\SequenceToolkit\SequencePatterns\Topologically\Exactly\Repeats\RepeatsSearchAPI.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 125
     ' Comment Lines: 35
     '   Blank Lines: 24
-    '     File Size: 9.04 KB
+    '     File Size: 9.23 KB
 
 
     '     Module RepeatsSearchAPI

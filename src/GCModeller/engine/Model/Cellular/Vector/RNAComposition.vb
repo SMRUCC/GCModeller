@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::92112102edba087e57cef4d14c29c47a, GCModeller\engine\Model\Cellular\Vector\RNAComposition.vb"
+﻿#Region "Microsoft.VisualBasic::15971589a19651f052e767859b018b17, GCModeller\engine\Model\Cellular\Vector\RNAComposition.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 41
     ' Comment Lines: 21
     '   Blank Lines: 8
-    '     File Size: 2.54 KB
+    '     File Size: 2.61 KB
 
 
     '     Class RNAComposition

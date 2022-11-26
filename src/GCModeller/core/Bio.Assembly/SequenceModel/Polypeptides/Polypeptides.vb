@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::26b136b7a03310f1410c6fab39d254a0, GCModeller\core\Bio.Assembly\SequenceModel\Polypeptides\Polypeptides.vb"
+﻿#Region "Microsoft.VisualBasic::099cfa9941a77e2823de342b0c3915c8, GCModeller\core\Bio.Assembly\SequenceModel\Polypeptides\Polypeptides.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 149
     ' Comment Lines: 36
     '   Blank Lines: 12
-    '     File Size: 7.43 KB
+    '     File Size: 7.62 KB
 
 
     '     Module Polypeptide

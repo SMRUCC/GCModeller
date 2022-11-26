@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1f7fdc9cf655d993da5598a8520201ff, GCModeller\visualize\ChromosomeMap\RegionMap.vb"
+﻿#Region "Microsoft.VisualBasic::0c61a18c2d5047625d82d7fc4cb416bc, GCModeller\visualize\ChromosomeMap\RegionMap.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 87
     ' Comment Lines: 15
     '   Blank Lines: 13
-    '     File Size: 4.68 KB
+    '     File Size: 4.79 KB
 
 
     ' Module RegionMap

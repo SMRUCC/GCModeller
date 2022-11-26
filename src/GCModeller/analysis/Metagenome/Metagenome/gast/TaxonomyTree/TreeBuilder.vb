@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::825d83e14719a6617f6fdeec4ba2e883, GCModeller\analysis\Metagenome\Metagenome\gast\TaxonomyTree\TreeBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::c7edf8eed7538412ad0efc88fdbf4377, GCModeller\analysis\Metagenome\Metagenome\gast\TaxonomyTree\TreeBuilder.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 77
     ' Comment Lines: 9
     '   Blank Lines: 17
-    '     File Size: 3.88 KB
+    '     File Size: 3.99 KB
 
 
     '     Module TreeBuilder

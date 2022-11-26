@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ec855b7652d96cb353dce7c760aff34b, R#\metagenomics_kit\TaxonomyKit.vb"
+﻿#Region "Microsoft.VisualBasic::14b5be126579d9ea48e57e383da5ad3a, R#\metagenomics_kit\TaxonomyKit.vb"
 
     ' Author:
     ' 
@@ -34,17 +34,17 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 339
-    '    Code Lines: 248
-    ' Comment Lines: 53
-    '   Blank Lines: 38
-    '     File Size: 14.48 KB
+    '   Total Lines: 397
+    '    Code Lines: 276
+    ' Comment Lines: 78
+    '   Blank Lines: 43
+    '     File Size: 16.85 KB
 
 
     ' Module TaxonomyKit
     ' 
     '     Constructor: (+1 Overloads) Sub New
-    '     Function: asOTUTable, buildTree, Consensus, filterLambda, Filters
+    '     Function: (+2 Overloads) asOTUTable, buildTree, Consensus, filterLambda, Filters
     '               getOTUDataframe, InRange, Lineage, lineageTable, loadMothurTree
     '               LoadNcbiTaxonomyTree, ParseBIOMString, printTaxonomy, RangeFilter, readOTUTable
     '               TaxonomyBIOMString, TaxonomyRange, uniqueTaxonomy

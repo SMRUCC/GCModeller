@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::75ab1e3ebb11d9be30a35a92f33f24a3, GCModeller\engine\vcellkit\Debugger\VCellNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::0088af0f26c301ed8946dc9869c337e6, GCModeller\engine\vcellkit\Debugger\VCellNetwork.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 75
     ' Comment Lines: 28
     '   Blank Lines: 6
-    '     File Size: 4.91 KB
+    '     File Size: 5.02 KB
 
 
     ' Module VCellNetwork

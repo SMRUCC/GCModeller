@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1a2b0bda00f4b75e0b537f1d064e70bb, GCModeller\core\Bio.Assembly\Assembly\iGEM\PartSeq.vb"
+﻿#Region "Microsoft.VisualBasic::7a9324dbe81bd4e07a83f0664694c434, GCModeller\core\Bio.Assembly\Assembly\iGEM\PartSeq.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 38
     ' Comment Lines: 5
     '   Blank Lines: 5
-    '     File Size: 1.86 KB
+    '     File Size: 1.91 KB
 
 
     '     Class PartSeq

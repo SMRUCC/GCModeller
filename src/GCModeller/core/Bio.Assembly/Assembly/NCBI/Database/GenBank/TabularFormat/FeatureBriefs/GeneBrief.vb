@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::954082dc6a209155dcc3dd6c52f5deb2, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\GeneBrief.vb"
+﻿#Region "Microsoft.VisualBasic::338178523f7f4fce18140982ccc677ee, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\GeneBrief.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 112
     ' Comment Lines: 56
     '   Blank Lines: 20
-    '     File Size: 7.21 KB
+    '     File Size: 7.39 KB
 
 
     '     Class GeneBrief

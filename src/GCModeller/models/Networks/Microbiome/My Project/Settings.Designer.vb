@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ce4be6aa9f95a2588f74a4cb676b257e, GCModeller\models\Networks\Microbiome\My Project\Settings.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::c95c8dde9749c73c57a02c555c6335d8, GCModeller\models\Networks\Microbiome\My Project\Settings.Designer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 53
     ' Comment Lines: 9
     '   Blank Lines: 12
-    '     File Size: 2.98 KB
+    '     File Size: 3.06 KB
 
 
     '     Class MySettings

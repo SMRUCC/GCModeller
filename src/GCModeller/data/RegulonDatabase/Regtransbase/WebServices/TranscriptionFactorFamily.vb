@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bfa0b7b07dbd85bf7d6642c02d4788d1, GCModeller\data\RegulonDatabase\Regtransbase\WebServices\TranscriptionFactorFamily.vb"
+﻿#Region "Microsoft.VisualBasic::7da01c226992a03ed326d3507e356030, GCModeller\data\RegulonDatabase\Regtransbase\WebServices\TranscriptionFactorFamily.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 298
     ' Comment Lines: 28
     '   Blank Lines: 79
-    '     File Size: 19.00 KB
+    '     File Size: 19.40 KB
 
 
     '     Class RegPreciseTFFamily

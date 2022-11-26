@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::23d709c5c11b9d0cdc7736daae08ab74, GCModeller\engine\Dynamics\Core\Flux\Directions.vb"
+﻿#Region "Microsoft.VisualBasic::849ca9e231acf37d1a523d7141677860, GCModeller\engine\Dynamics\Core\Flux\Directions.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 7
     ' Comment Lines: 6
     '   Blank Lines: 1
-    '     File Size: 292 B
+    '     File Size: 305 B
 
 
     '     Enum Directions

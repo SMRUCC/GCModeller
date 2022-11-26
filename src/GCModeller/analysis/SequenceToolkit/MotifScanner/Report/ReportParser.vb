@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2de2e7d7261c60bc53f45cdc1f94d0c4, GCModeller\analysis\SequenceToolkit\MotifScanner\Report\ReportParser.vb"
+﻿#Region "Microsoft.VisualBasic::a097e9dd605bade36e68e2103430e738, GCModeller\analysis\SequenceToolkit\MotifScanner\Report\ReportParser.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 77
     ' Comment Lines: 0
     '   Blank Lines: 13
-    '     File Size: 3.30 KB
+    '     File Size: 3.39 KB
 
 
     ' Module ReportParser

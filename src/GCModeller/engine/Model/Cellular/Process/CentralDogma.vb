@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4dfbc4a1fcb296424fea31283269aa96, GCModeller\engine\Model\Cellular\Process\CentralDogma.vb"
+﻿#Region "Microsoft.VisualBasic::16d7fca837755ac48292e9697e84acd5, GCModeller\engine\Model\Cellular\Process\CentralDogma.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 41
     ' Comment Lines: 40
     '   Blank Lines: 10
-    '     File Size: 3.30 KB
+    '     File Size: 3.39 KB
 
 
     '     Structure CentralDogma

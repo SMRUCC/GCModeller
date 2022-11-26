@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0939ae53bd92ba8147278bd6f597916c, GCModeller\core\Bio.Assembly\ComponentModel\Locus\Nucleotide\NucleotideLocation.vb"
+﻿#Region "Microsoft.VisualBasic::d4467b57b649ce143495262712243e8c, GCModeller\core\Bio.Assembly\ComponentModel\Locus\Nucleotide\NucleotideLocation.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 171
     ' Comment Lines: 143
     '   Blank Lines: 37
-    '     File Size: 14.86 KB
+    '     File Size: 15.21 KB
 
 
     '     Class NucleotideLocation

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e77c8d2bb82490fc8422557a3287c0c4, GCModeller\engine\GCModeller.Framework.Kernel_Driver\Driver\KernelDriver\DataAdapter\DataAdapter.vb"
+﻿#Region "Microsoft.VisualBasic::beefdaddc387208c83432453db637e74, GCModeller\engine\GCModeller.Framework.Kernel_Driver\Driver\KernelDriver\DataAdapter\DataAdapter.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 48
     ' Comment Lines: 18
     '   Blank Lines: 8
-    '     File Size: 3.29 KB
+    '     File Size: 3.36 KB
 
 
     ' Class DataAdapter

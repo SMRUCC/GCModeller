@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4886e00804775fc9f77b1d4b255e2490, GCModeller\analysis\SequenceToolkit\MotifScanner\My Project\Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::19cc723326584301c0e1d0c76311a26a, GCModeller\analysis\SequenceToolkit\MotifScanner\My Project\Resources.Designer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 32
     ' Comment Lines: 23
     '   Blank Lines: 8
-    '     File Size: 2.76 KB
+    '     File Size: 2.83 KB
 
 
     '     Module Resources

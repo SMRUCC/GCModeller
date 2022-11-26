@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cab7ab42e90e8ac3af6b49390830f567, GCModeller\data\GO_gene-ontology\obographs\obographs\EnrichmentVisualize.vb"
+﻿#Region "Microsoft.VisualBasic::760f45e1c7ab6fa54642b889d7c70ce5, GCModeller\data\GO_gene-ontology\obographs\obographs\EnrichmentVisualize.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 25
     ' Comment Lines: 0
     '   Blank Lines: 4
-    '     File Size: 1.07 KB
+    '     File Size: 1.09 KB
 
 
     ' Module EnrichmentVisualize

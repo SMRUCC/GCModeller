@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::22479e8a72e12a3a798330687f480072, GCModeller\visualize\ChromosomeMap\DrawingModels\SegmentObject.vb"
+﻿#Region "Microsoft.VisualBasic::4f03c4b0574146434a44c23a1b424863, GCModeller\visualize\ChromosomeMap\DrawingModels\SegmentObject.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 95
     ' Comment Lines: 29
     '   Blank Lines: 28
-    '     File Size: 5.32 KB
+    '     File Size: 5.47 KB
 
 
     '     Class SegmentObject

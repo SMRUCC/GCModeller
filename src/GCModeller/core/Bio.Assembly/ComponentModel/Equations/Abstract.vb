@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b29686a64b3123d0c7a60fe16f31c8bd, GCModeller\core\Bio.Assembly\ComponentModel\Equations\Abstract.vb"
+﻿#Region "Microsoft.VisualBasic::fc753b82c0acec5eadd7e94f835dc0eb, GCModeller\core\Bio.Assembly\ComponentModel\Equations\Abstract.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 11
     ' Comment Lines: 8
     '   Blank Lines: 3
-    '     File Size: 676 B
+    '     File Size: 697 B
 
 
     '     Interface ICompoundSpecies

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dd8749e4d0c560a6a086a56c038a9c1d, GCModeller\engine\IO\GCMarkupLanguage\GCML_Documents\XmlElements\BacterialModel.vb"
+﻿#Region "Microsoft.VisualBasic::4764975bb8f735ca73627067045b5866, GCModeller\engine\IO\GCMarkupLanguage\GCML_Documents\XmlElements\BacterialModel.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 80
     ' Comment Lines: 56
     '   Blank Lines: 17
-    '     File Size: 6.54 KB
+    '     File Size: 6.69 KB
 
 
     ' Class BacterialModel

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::57478063011f39d38e07dcd4d26958b6, GCModeller\analysis\Metagenome\Metagenome\Mothur\MothurRankTree.vb"
+﻿#Region "Microsoft.VisualBasic::690c16d3b01fdbff2be03a8f9f55eb4c, GCModeller\analysis\Metagenome\Metagenome\Mothur\MothurRankTree.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 99
     ' Comment Lines: 7
     '   Blank Lines: 23
-    '     File Size: 4.17 KB
+    '     File Size: 4.30 KB
 
 
     ' Class MothurRankTree

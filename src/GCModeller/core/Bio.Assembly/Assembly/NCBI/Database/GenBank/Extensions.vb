@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9d84d82eefae0d996210000b58cfe821, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::c63ab9c7cadc621eefbc068f4b5d9139, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\Extensions.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 215
     ' Comment Lines: 32
     '   Blank Lines: 26
-    '     File Size: 11.52 KB
+    '     File Size: 11.80 KB
 
 
     '     Module Extensions

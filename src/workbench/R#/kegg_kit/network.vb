@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8c35dc0043628e865116ee898bbbe4ba, R#\kegg_kit\network.vb"
+﻿#Region "Microsoft.VisualBasic::76c9a41afdb1b8f003a1d2a3294ffcb2, R#\kegg_kit\network.vb"
 
     ' Author:
     ' 
@@ -109,4 +109,3 @@ Module network
 
     End Function
 End Module
-

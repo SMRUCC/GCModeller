@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cb023aa43c2c042aad5a152605f302db, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\Pathway.vb"
+﻿#Region "Microsoft.VisualBasic::fa289d3c8d0c247e88381e8a5e0ec07c, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\Pathway.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 102
     ' Comment Lines: 45
     '   Blank Lines: 25
-    '     File Size: 6.04 KB
+    '     File Size: 6.21 KB
 
 
     '     Class Pathway

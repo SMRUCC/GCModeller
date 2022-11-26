@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6704bdf6d156bb205c6b323ae1a9cc0f, GCModeller\engine\BootstrapLoader\Engine\VCell\OmicsDataAdapter.vb"
+﻿#Region "Microsoft.VisualBasic::28ac001909a5c3253a1b9599180f940a, GCModeller\engine\BootstrapLoader\Engine\VCell\OmicsDataAdapter.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 68
     ' Comment Lines: 2
     '   Blank Lines: 11
-    '     File Size: 3.73 KB
+    '     File Size: 3.81 KB
 
 
     '     Class OmicsDataAdapter

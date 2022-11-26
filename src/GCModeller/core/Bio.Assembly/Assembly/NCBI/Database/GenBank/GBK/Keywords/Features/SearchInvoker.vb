@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d2f71d6b9b1f4124522ec5b45f6c9c41, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\Features\SearchInvoker.vb"
+﻿#Region "Microsoft.VisualBasic::5af241b13cf572fde83e503ae1531fa7, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\Features\SearchInvoker.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 31
     ' Comment Lines: 11
     '   Blank Lines: 9
-    '     File Size: 1.70 KB
+    '     File Size: 1.75 KB
 
 
     '     Delegate Function

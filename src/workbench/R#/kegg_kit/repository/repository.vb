@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bce8286372c15c9b23c16781f1d2d731, R#\kegg_kit\repository\repository.vb"
+﻿#Region "Microsoft.VisualBasic::0dd9e9c0775725eb43e586776d10ec5b, R#\kegg_kit\repository\repository.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 773
-    '    Code Lines: 598
+    '   Total Lines: 778
+    '    Code Lines: 601
     ' Comment Lines: 102
-    '   Blank Lines: 73
-    '     File Size: 32.34 KB
+    '   Blank Lines: 75
+    '     File Size: 32.60 KB
 
 
     ' Module repository
@@ -345,6 +345,11 @@ Public Module repository
         Else
             If repository.ExtensionSuffix("msgpack", "messagepack") Then
                 Return KEGGPathwayPack.ReadKeggDb(repository)
+            ElseIf repository.ExtensionSuffix("db") Then
+                Dim file As Stream = repository.Open(FileMode.Open, doClear:=False, [readOnly]:=True)
+                Dim models As Pathway() = ReadKeggMaps(buffer:=file)
+
+                Return models
             Else
                 Return Internal.debug.stop(New NotImplementedException, env)
             End If

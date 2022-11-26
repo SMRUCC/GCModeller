@@ -1,58 +1,60 @@
-﻿#Region "Microsoft.VisualBasic::66b0667c733a82bb4cbcb7a28a76fe45, R#\phenotype_kit\geneExpression.vb"
+﻿#Region "Microsoft.VisualBasic::915fa060cab3efeba6f452e4f91f3099, R#\phenotype_kit\geneExpression.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 640
-'    Code Lines: 451
-' Comment Lines: 125
-'   Blank Lines: 64
-'     File Size: 24.98 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Module geneExpression
-' 
-'     Function: average, castGenericRows, CMeans3D, CmeansPattern, createDEGModels
-'               createVectorList, DEGclass, depDataTable, dims, expDataTable
-'               filter, filterZeroSamples, geneId, GetCmeansPattern, loadExpression
-'               loadFromDataFrame, loadFromGenericDataSet, readBinaryMatrix, relative, setGeneIDs
-'               setZero, totalSumNorm, tr, Ttest, uniqueGeneId
-'               writeMatrix, zscore
-' 
-'     Sub: Main
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 958
+    '    Code Lines: 632
+    ' Comment Lines: 232
+    '   Blank Lines: 94
+    '     File Size: 37.47 KB
+
+
+    ' Module geneExpression
+    ' 
+    '     Function: applyPCA, average, castGenericRows, cmeans, CMeans3D
+    '               CmeansPattern, createDEGModels, createVectorList, DEGclass, depDataTable
+    '               dims, expDataTable, filter, filterNaN, filterZeroSamples
+    '               geneId, GetCmeansPattern, joinSamples, loadExpression, loadFromDataFrame
+    '               loadFromGenericDataSet, mergeMultiple, readBinaryMatrix, readPattern, relative
+    '               savePattern, setGeneIDs, setTag, setZero, splitCMeansClusters
+    '               totalSumNorm, tr, Ttest, uniqueGeneId, writeMatrix
+    '               zscore
+    ' 
+    '     Sub: Main
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -75,7 +77,6 @@ Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.HTS.Proteomics
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
-Imports SMRUCC.genomics.Model.SBML.Level3
 Imports SMRUCC.genomics.Visualize
 Imports SMRUCC.genomics.Visualize.ExpressionPattern
 Imports SMRUCC.Rsharp.Runtime
@@ -157,6 +158,7 @@ Module geneExpression
     ''' <param name="mat"></param>
     ''' <returns></returns>
     <ExportAPI("dims")>
+    <RApiReturn("feature_size", "feature_names", "sample_size", "sample_names")>
     Public Function dims(mat As Matrix) As list
         Return New list With {
             .slots = New Dictionary(Of String, Object) From {
@@ -184,12 +186,26 @@ Module geneExpression
         }
     End Function
 
+    ''' <summary>
+    ''' set a new tag string to the matrix
+    ''' </summary>
+    ''' <param name="expr0"></param>
+    ''' <param name="tag"></param>
+    ''' <returns></returns>
     <ExportAPI("setTag")>
     Public Function setTag(expr0 As Matrix, tag As String) As Matrix
         expr0.tag = tag
         Return expr0
     End Function
 
+    ''' <summary>
+    ''' set the expression value to zero 
+    ''' 
+    ''' if the expression value is less than a given threshold
+    ''' </summary>
+    ''' <param name="expr0"></param>
+    ''' <param name="q"></param>
+    ''' <returns></returns>
     <ExportAPI("setZero")>
     Public Function setZero(expr0 As Matrix, Optional q As Double = 0.1) As Matrix
         For Each gene As DataFrameRow In expr0.expression
@@ -206,6 +222,13 @@ Module geneExpression
         Return expr0
     End Function
 
+    ''' <summary>
+    ''' set new gene id list to the matrix rows
+    ''' </summary>
+    ''' <param name="expr0"></param>
+    ''' <param name="gene_ids"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("setFeatures")>
     <RApiReturn(GetType(Matrix))>
     Public Function setGeneIDs(expr0 As Matrix,
@@ -437,7 +460,7 @@ Module geneExpression
     ''' <summary>
     ''' cast the HTS matrix object to the general dataset
     ''' </summary>
-    ''' <param name="matrix"></param>
+    ''' <param name="matrix">a gene expression matrix</param>
     ''' <returns></returns>
     <ExportAPI("as.generic")>
     Public Function castGenericRows(matrix As Matrix) As DataSet()
@@ -469,7 +492,7 @@ Module geneExpression
     ''' create some plot for visualize the gene expression
     ''' patterns across the sample groups.
     ''' </summary>
-    ''' <param name="matrix"></param>
+    ''' <param name="matrix">a gene expression matrix</param>
     ''' <param name="sampleinfo"></param>
     ''' <returns></returns>
     <ExportAPI("average")>
@@ -494,7 +517,7 @@ Module geneExpression
     ''' standard deviation (e.g., standard deviation of 
     ''' expression of a genomic feature in different conditions).
     ''' </summary>
-    ''' <param name="x"></param>
+    ''' <param name="x">a gene expression matrix</param>
     ''' <returns></returns>
     <ExportAPI("z_score")>
     Public Function zscore(x As Matrix) As Matrix
@@ -517,6 +540,12 @@ Module geneExpression
         }
     End Function
 
+    ''' <summary>
+    ''' do PCA on a gene expressin matrix
+    ''' </summary>
+    ''' <param name="x">a gene expression matrix</param>
+    ''' <param name="npc"></param>
+    ''' <returns></returns>
     <ExportAPI("pca")>
     Public Function applyPCA(x As Matrix, Optional npc As Integer = 3) As Rdataframe
         Dim mat As Double()() = x.expression _
@@ -546,7 +575,7 @@ Module geneExpression
     ''' <summary>
     ''' normalize data by sample column
     ''' </summary>
-    ''' <param name="matrix"></param>
+    ''' <param name="matrix">a gene expression matrix</param>
     ''' <returns></returns>
     ''' <remarks>
     ''' apply for the metabolomics data usually
@@ -582,7 +611,7 @@ Module geneExpression
     ''' <summary>
     ''' normalize data by feature rows
     ''' </summary>
-    ''' <param name="matrix"></param>
+    ''' <param name="matrix">a gene expression matrix</param>
     ''' <returns></returns>
     ''' <remarks>
     ''' row/max(row)
@@ -614,6 +643,8 @@ Module geneExpression
     ''' the partition matrix size, it is recommended 
     ''' that width should be equals to the height of the partition 
     ''' matrix.</param>
+    ''' <param name="fuzzification">the cmeans fuzzification parameter</param>
+    ''' <param name="threshold">the cmeans threshold parameter</param>
     ''' <returns></returns>
     <ExportAPI("expression.cmeans_pattern")>
     Public Function CmeansPattern(matrix As Matrix,
@@ -637,17 +668,35 @@ Module geneExpression
                     End Function)
     End Function
 
+    ''' <summary>
+    ''' run cmeans clustering in 3 patterns
+    ''' </summary>
+    ''' <param name="matrix">a gene expression matrix object</param>
+    ''' <param name="fuzzification">the cmeans fuzzification parameter</param>
+    ''' <param name="threshold">the cmeans threshold parameter</param>
+    ''' <returns></returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <ExportAPI("expression.cmeans3D")>
     Public Function CMeans3D(matrix As Matrix, Optional fuzzification# = 2, Optional threshold# = 0.001) As ExpressionPattern
         Return ExpressionPattern.CMeansCluster3D(matrix, fuzzification, threshold)
     End Function
 
+    ''' <summary>
+    ''' save the cmeans expression pattern result to local file
+    ''' </summary>
+    ''' <param name="pattern"></param>
+    ''' <param name="file"></param>
+    ''' <returns></returns>
     <ExportAPI("savePattern")>
     Public Function savePattern(pattern As ExpressionPattern, file As String) As Boolean
         Return Writer.WriteExpressionPattern(pattern, file.Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False))
     End Function
 
+    ''' <summary>
+    ''' read the cmeans expression pattern result from file
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <returns></returns>
     <ExportAPI("readPattern")>
     Public Function readPattern(file As String) As ExpressionPattern
         Return Reader.ReadExpressionPattern(file.Open(FileMode.Open, doClear:=False, [readOnly]:=True))
@@ -700,7 +749,13 @@ Module geneExpression
                 .Select(Function(c) c.Key) _
                 .ToArray
 
-            If tags.IsNullOrEmpty OrElse tags.Length = max.Count Then
+            If tags.IsNullOrEmpty Then
+                item.Cluster = item.Properties _
+                    .OrderByDescending(Function(c) c.Value) _
+                    .Take(1) _
+                    .Select(Function(cl) cl.Key) _
+                    .JoinBy("; ")
+            ElseIf tags.Length = max.Count Then
                 item.Cluster = item.Properties _
                     .OrderByDescending(Function(c) c.Value) _
                     .Take(3) _
@@ -714,6 +769,11 @@ Module geneExpression
         Return kmeans
     End Function
 
+    ''' <summary>
+    ''' split the cmeans cluster output into multiple parts based on the cluster tags
+    ''' </summary>
+    ''' <param name="cmeans"></param>
+    ''' <returns></returns>
     <ExportAPI("split.cmeans_clusters")>
     Public Function splitCMeansClusters(cmeans As EntityClusterModel()) As Object
         Dim split = cmeans _
@@ -736,10 +796,21 @@ Module geneExpression
     ''' <summary>
     ''' This function performs clustering analysis of time course data
     ''' </summary>
-    ''' <param name="matrix"></param>
-    ''' <param name="nsize"></param>
+    ''' <param name="matrix">A gene expression data matrix object</param>
+    ''' <param name="nsize">
+    ''' the layout of the cmeans clustering visualization
+    ''' </param>
     ''' <param name="threshold">the cmeans threshold</param>
-    ''' <param name="plotSize"></param>
+    ''' <param name="plotSize">the image size of the cmeans plot</param>
+    ''' <param name="colorSet">
+    ''' the color palatte name
+    ''' </param>
+    ''' <param name="fuzzification">
+    ''' cmeans fuzzification parameter
+    ''' </param>
+    ''' <param name="memberCutoff">
+    ''' the cmeans membership cutoff value for create a molecule cluster
+    ''' </param>
     ''' <param name="env"></param>
     ''' <returns>
     ''' this function returns a tuple list that contains the pattern 
@@ -758,10 +829,18 @@ Module geneExpression
                            Optional plotSize As Object = "8100,5200",
                            Optional colorSet As String = "Jet",
                            Optional memberCutoff As Double = 0.8,
+                           Optional xlab As String = "Spatial Regions",
+                           Optional ylab As String = "z-score(Normalized Intensity)",
                            Optional env As Environment = Nothing) As Object
 
         Dim println As Action(Of Object) = env.WriteLineHandler
         Dim size As Size = InteropArgumentHelper.getSize(nsize, env).SizeParser
+
+        If matrix Is Nothing OrElse matrix.size = 0 OrElse matrix.sampleID.IsNullOrEmpty Then
+            Call env.AddMessage("The given expression matrix is empty!")
+            Return Nothing
+        End If
+
         Dim patterns As ExpressionPattern = ExpressionPattern.CMeansCluster(
             matrix:=matrix,
             [dim]:={size.Width, size.Height},
@@ -779,8 +858,8 @@ Module geneExpression
             .DrawMatrix(
                 size:=InteropArgumentHelper.getSize(plotSize, env, "8100,5200"),
                 colorSet:=colorSet,
-                xlab:="Spatial Regions",
-                ylab:="z-score(Normalized Intensity)",
+                xlab:=xlab,
+                ylab:=ylab,
                 xAxisLabelRotate:=45,
                 padding:="padding:100px 100px 300px 100px;",
                 membershipCutoff:=memberCutoff

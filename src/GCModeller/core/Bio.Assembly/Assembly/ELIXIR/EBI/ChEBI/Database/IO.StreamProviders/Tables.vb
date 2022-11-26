@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d204b442a7c2b25889386e58eb93db5d, GCModeller\core\Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\Database\IO.StreamProviders\Tables.vb"
+﻿#Region "Microsoft.VisualBasic::76ed38aa781610d639e29c70669165e8, GCModeller\core\Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\Database\IO.StreamProviders\Tables.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 101
     ' Comment Lines: 55
     '   Blank Lines: 26
-    '     File Size: 6.62 KB
+    '     File Size: 6.80 KB
 
 
     '     Class Entity

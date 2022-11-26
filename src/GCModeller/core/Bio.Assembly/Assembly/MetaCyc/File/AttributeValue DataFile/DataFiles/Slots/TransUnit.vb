@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a41f75c549a1b212a69f30f5d2f0b677, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Slots\TransUnit.vb"
+﻿#Region "Microsoft.VisualBasic::d9d75d01ffbcf710fd539d2662bc91a0, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Slots\TransUnit.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 17
     ' Comment Lines: 42
     '   Blank Lines: 9
-    '     File Size: 3.57 KB
+    '     File Size: 3.63 KB
 
 
     '     Class TransUnit

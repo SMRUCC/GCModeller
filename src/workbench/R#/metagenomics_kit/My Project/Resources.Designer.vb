@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2267de41a1ec99152424701284549e8d, R#\metagenomics_kit\My Project\Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::11c9230fbd7bd6fa29bd9c647393b0f0, R#\metagenomics_kit\My Project\Resources.Designer.vb"
 
     ' Author:
     ' 
@@ -113,4 +113,3 @@ Namespace My.Resources
         End Property
     End Module
 End Namespace
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::32a59b49aacbdaa4b81d0c7b5ab0ccd5, GCModeller\engine\vcellkit\My Project\AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::61b3364a8e736ec19dcb7553d54133a2, GCModeller\engine\vcellkit\My Project\AssemblyInfo.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 16
     ' Comment Lines: 15
     '   Blank Lines: 7
-    '     File Size: 1.35 KB
+    '     File Size: 1.39 KB
 
 
     ' 

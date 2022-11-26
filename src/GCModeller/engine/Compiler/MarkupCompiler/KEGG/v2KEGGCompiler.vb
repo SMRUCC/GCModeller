@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ebbeb9829a2e2d1b430cc4c050783431, GCModeller\engine\Compiler\MarkupCompiler\KEGG\v2KEGGCompiler.vb"
+﻿#Region "Microsoft.VisualBasic::ab4588f1d5a45c582494715a40130abc, GCModeller\engine\Compiler\MarkupCompiler\KEGG\v2KEGGCompiler.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 103
     ' Comment Lines: 13
     '   Blank Lines: 15
-    '     File Size: 5.43 KB
+    '     File Size: 5.56 KB
 
 
     '     Class v2KEGGCompiler
