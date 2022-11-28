@@ -70,7 +70,13 @@ Namespace FileSystem
             Dim fileObj As FileObject
 
             For Each file As String In ls - l - r - "*.*" <= directory
-                resourceUrl = attachTo & "/" & RelativePath(directory, file)
+                resourceUrl = attachTo & RelativePath(directory, file, appendParent:=False) _
+                    .Trim("/"c, "\"c) _
+                    .Replace("\", "/") _
+                    .Split("/"c) _
+                    .Where(Function(t) Not t.StringEmpty) _
+                    .Skip(1) _
+                    .JoinBy("/")
 
                 If cacheMode Then
                     fileObj = AddCache(resourceUrl, file)
