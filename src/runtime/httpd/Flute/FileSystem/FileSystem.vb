@@ -70,7 +70,13 @@ Namespace FileSystem
             Dim fileObj As FileObject
 
             For Each file As String In ls - l - r - "*.*" <= directory
-                resourceUrl = attachTo & "/" & RelativePath(directory, file)
+                resourceUrl = attachTo & RelativePath(directory, file, appendParent:=False) _
+                    .Trim("/"c, "\"c) _
+                    .Replace("\", "/") _
+                    .Split("/"c) _
+                    .Where(Function(t) Not t.StringEmpty) _
+                    .Skip(1) _
+                    .JoinBy("/")
 
                 If cacheMode Then
                     fileObj = AddCache(resourceUrl, file)
@@ -104,6 +110,8 @@ Namespace FileSystem
                     Return MIME.UnknownType
                 End If
             Else
+                pathRelative = pathRelative.Trim("."c, "\"c, "/"c)
+
                 ' and then test for the logical file
                 If virtualMaps.ContainsKey(pathRelative) Then
                     Return virtualMaps(pathRelative).mime
@@ -118,6 +126,8 @@ Namespace FileSystem
             If resourceUrl(pathRelative).FileExists Then
                 Return resourceUrl(pathRelative).FileLength
             Else
+                pathRelative = pathRelative.Trim("."c, "\"c, "/"c)
+
                 ' and then test for the logical file
                 If virtualMaps.ContainsKey(pathRelative) Then
                     Return virtualMaps(pathRelative).ContentLength
@@ -132,6 +142,8 @@ Namespace FileSystem
             If resourceUrl(pathRelative).FileExists Then
                 Return resourceUrl(pathRelative).Open(FileMode.Open, doClear:=False)
             Else
+                pathRelative = pathRelative.Trim("."c, "\"c, "/"c)
+
                 ' and then test for the logical file
                 If virtualMaps.ContainsKey(pathRelative) Then
                     Return virtualMaps(pathRelative).GetResource
@@ -151,6 +163,8 @@ Namespace FileSystem
             If resourceUrl(pathRelative).FileExists Then
                 Return resourceUrl(pathRelative).ReadBinary
             Else
+                pathRelative = pathRelative.Trim("."c, "\"c, "/"c)
+
                 ' and then test for the logical file
                 If virtualMaps.ContainsKey(pathRelative) Then
                     Return virtualMaps(pathRelative).GetByteBuffer
@@ -165,6 +179,8 @@ Namespace FileSystem
             If resourceUrl(pathRelative).FileExists Then
                 Return True
             Else
+                pathRelative = pathRelative.Trim("."c, "/"c, "\"c)
+
                 ' and then test for the logical file
                 If virtualMaps.ContainsKey(pathRelative) Then
                     If TypeOf virtualMaps(pathRelative) Is VirtualMappedFile Then

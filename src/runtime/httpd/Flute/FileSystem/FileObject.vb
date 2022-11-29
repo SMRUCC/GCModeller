@@ -19,7 +19,7 @@ Namespace FileSystem
             Me.fileName = fileName
             Me.mime = mime
 
-            If mime.IsEmpty Then
+            If mime Is Nothing OrElse mime.IsEmpty Then
                 Me.mime = fileName.FileMimeType
             End If
         End Sub

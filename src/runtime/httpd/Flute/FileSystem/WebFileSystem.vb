@@ -23,6 +23,8 @@ Namespace FileSystem
                 path = path & "/index.html"
             End If
 
+            response.AccessControlAllowOrigin = "*"
+
             If fs.FileExists(path) Then
                 Dim mime As ContentType = fs.GetContentType(path)
                 Dim res As Byte() = fs.GetByteBuffer(path)
