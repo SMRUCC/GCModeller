@@ -1135,30 +1135,30 @@ factorize_loop:
                 End If
                 Dim taskArray = New Task(nthreads - 1) {}
                 Dim k As Integer = n / nthreads
-                For i = 0 To nthreads - 1
-                    Dim firstIdx = i * k
-                    Dim lastIdx = If(i = nthreads - 1, n, firstIdx + k)
-                    taskArray(i) = Task.Factory.StartNew(Sub()
-                                                             If isign > 0 Then
-                                                                 For i = firstIdx To lastIdx - 1
-                                                                     Dim idx1 = 2 * i
-                                                                     Dim idx2 = idx1 + 1
-                                                                     Dim idx3 = offa + idx1
-                                                                     Dim idx4 = offa + idx2
-                                                                     ak(idx1) = a(idx3) * bk1(idx1) - a(idx4) * bk1(idx2)
-                                                                     ak(idx2) = a(idx3) * bk1(idx2) + a(idx4) * bk1(idx1)
-                                                                 Next
-                                                             Else
-                                                                 For i = firstIdx To lastIdx - 1
-                                                                     Dim idx1 = 2 * i
-                                                                     Dim idx2 = idx1 + 1
-                                                                     Dim idx3 = offa + idx1
-                                                                     Dim idx4 = offa + idx2
-                                                                     ak(idx1) = a(idx3) * bk1(idx1) + a(idx4) * bk1(idx2)
-                                                                     ak(idx2) = -a(idx3) * bk1(idx2) + a(idx4) * bk1(idx1)
-                                                                 Next
-                                                             End If
-                                                         End Sub)
+                For idx As Integer = 0 To nthreads - 1
+                    Dim firstIdx = idx * k
+                    Dim lastIdx = If(idx = nthreads - 1, n, firstIdx + k)
+                    taskArray(idx) = Task.Factory.StartNew(Sub()
+                                                               If isign > 0 Then
+                                                                   For i = firstIdx To lastIdx - 1
+                                                                       Dim idx1 = 2 * i
+                                                                       Dim idx2 = idx1 + 1
+                                                                       Dim idx3 = offa + idx1
+                                                                       Dim idx4 = offa + idx2
+                                                                       ak(idx1) = a(idx3) * bk1(idx1) - a(idx4) * bk1(idx2)
+                                                                       ak(idx2) = a(idx3) * bk1(idx2) + a(idx4) * bk1(idx1)
+                                                                   Next
+                                                               Else
+                                                                   For i = firstIdx To lastIdx - 1
+                                                                       Dim idx1 = 2 * i
+                                                                       Dim idx2 = idx1 + 1
+                                                                       Dim idx3 = offa + idx1
+                                                                       Dim idx4 = offa + idx2
+                                                                       ak(idx1) = a(idx3) * bk1(idx1) + a(idx4) * bk1(idx2)
+                                                                       ak(idx2) = -a(idx3) * bk1(idx2) + a(idx4) * bk1(idx1)
+                                                                   Next
+                                                               End If
+                                                           End Sub)
                 Next
                 Try
                     Task.WaitAll(taskArray)
@@ -1169,28 +1169,28 @@ factorize_loop:
                 cftbsub(2 * nBluestein, ak, 0, ip, nw, w)
 
                 k = nBluestein / nthreads
-                For i = 0 To nthreads - 1
-                    Dim firstIdx = i * k
-                    Dim lastIdx = If(i = nthreads - 1, nBluestein, firstIdx + k)
-                    taskArray(i) = Task.Factory.StartNew(Sub()
-                                                             If isign > 0 Then
-                                                                 For i = firstIdx To lastIdx - 1
-                                                                     Dim idx1 = 2 * i
-                                                                     Dim idx2 = idx1 + 1
-                                                                     Dim im = -ak(idx1) * bk2(idx2) + ak(idx2) * bk2(idx1)
-                                                                     ak(idx1) = ak(idx1) * bk2(idx1) + ak(idx2) * bk2(idx2)
-                                                                     ak(idx2) = im
-                                                                 Next
-                                                             Else
-                                                                 For i = firstIdx To lastIdx - 1
-                                                                     Dim idx1 = 2 * i
-                                                                     Dim idx2 = idx1 + 1
-                                                                     Dim im = ak(idx1) * bk2(idx2) + ak(idx2) * bk2(idx1)
-                                                                     ak(idx1) = ak(idx1) * bk2(idx1) - ak(idx2) * bk2(idx2)
-                                                                     ak(idx2) = im
-                                                                 Next
-                                                             End If
-                                                         End Sub)
+                For idx As Integer = 0 To nthreads - 1
+                    Dim firstIdx = idx * k
+                    Dim lastIdx = If(idx = nthreads - 1, nBluestein, firstIdx + k)
+                    taskArray(idx) = Task.Factory.StartNew(Sub()
+                                                               If isign > 0 Then
+                                                                   For i = firstIdx To lastIdx - 1
+                                                                       Dim idx1 = 2 * i
+                                                                       Dim idx2 = idx1 + 1
+                                                                       Dim im = -ak(idx1) * bk2(idx2) + ak(idx2) * bk2(idx1)
+                                                                       ak(idx1) = ak(idx1) * bk2(idx1) + ak(idx2) * bk2(idx2)
+                                                                       ak(idx2) = im
+                                                                   Next
+                                                               Else
+                                                                   For i = firstIdx To lastIdx - 1
+                                                                       Dim idx1 = 2 * i
+                                                                       Dim idx2 = idx1 + 1
+                                                                       Dim im = ak(idx1) * bk2(idx2) + ak(idx2) * bk2(idx1)
+                                                                       ak(idx1) = ak(idx1) * bk2(idx1) - ak(idx2) * bk2(idx2)
+                                                                       ak(idx2) = im
+                                                                   Next
+                                                               End If
+                                                           End Sub)
                 Next
                 Try
                     Task.WaitAll(taskArray)
@@ -1201,30 +1201,30 @@ factorize_loop:
                 cftfsub(2 * nBluestein, ak, 0, ip, nw, w)
 
                 k = n / nthreads
-                For i = 0 To nthreads - 1
-                    Dim firstIdx = i * k
-                    Dim lastIdx = If(i = nthreads - 1, n, firstIdx + k)
-                    taskArray(i) = Task.Factory.StartNew(Sub()
-                                                             If isign > 0 Then
-                                                                 For i = firstIdx To lastIdx - 1
-                                                                     Dim idx1 = 2 * i
-                                                                     Dim idx2 = idx1 + 1
-                                                                     Dim idx3 = offa + idx1
-                                                                     Dim idx4 = offa + idx2
-                                                                     a(idx3) = bk1(idx1) * ak(idx1) - bk1(idx2) * ak(idx2)
-                                                                     a(idx4) = bk1(idx2) * ak(idx1) + bk1(idx1) * ak(idx2)
-                                                                 Next
-                                                             Else
-                                                                 For i = firstIdx To lastIdx - 1
-                                                                     Dim idx1 = 2 * i
-                                                                     Dim idx2 = idx1 + 1
-                                                                     Dim idx3 = offa + idx1
-                                                                     Dim idx4 = offa + idx2
-                                                                     a(idx3) = bk1(idx1) * ak(idx1) + bk1(idx2) * ak(idx2)
-                                                                     a(idx4) = -bk1(idx2) * ak(idx1) + bk1(idx1) * ak(idx2)
-                                                                 Next
-                                                             End If
-                                                         End Sub)
+                For idx As Integer = 0 To nthreads - 1
+                    Dim firstIdx = idx * k
+                    Dim lastIdx = If(idx = nthreads - 1, n, firstIdx + k)
+                    taskArray(idx) = Task.Factory.StartNew(Sub()
+                                                               If isign > 0 Then
+                                                                   For i = firstIdx To lastIdx - 1
+                                                                       Dim idx1 = 2 * i
+                                                                       Dim idx2 = idx1 + 1
+                                                                       Dim idx3 = offa + idx1
+                                                                       Dim idx4 = offa + idx2
+                                                                       a(idx3) = bk1(idx1) * ak(idx1) - bk1(idx2) * ak(idx2)
+                                                                       a(idx4) = bk1(idx2) * ak(idx1) + bk1(idx1) * ak(idx2)
+                                                                   Next
+                                                               Else
+                                                                   For i = firstIdx To lastIdx - 1
+                                                                       Dim idx1 = 2 * i
+                                                                       Dim idx2 = idx1 + 1
+                                                                       Dim idx3 = offa + idx1
+                                                                       Dim idx4 = offa + idx2
+                                                                       a(idx3) = bk1(idx1) * ak(idx1) + bk1(idx2) * ak(idx2)
+                                                                       a(idx4) = -bk1(idx2) * ak(idx1) + bk1(idx1) * ak(idx2)
+                                                                   Next
+                                                               End If
+                                                           End Sub)
                 Next
                 Try
                     Task.WaitAll(taskArray)
@@ -1307,29 +1307,29 @@ factorize_loop:
                 End If
                 Dim taskArray = New Task(nthreads - 1) {}
                 Dim k As Integer = n / nthreads
-                For i = 0 To nthreads - 1
-                    Dim firstIdx = i * k
-                    Dim lastIdx = If(i = nthreads - 1, n, firstIdx + k)
-                    taskArray(i) = Task.Factory.StartNew(Sub()
-                                                             If isign > 0 Then
-                                                                 For i = firstIdx To lastIdx - 1
-                                                                     Dim idx1 = 2 * i
-                                                                     Dim idx2 = idx1 + 1
-                                                                     Dim idx3 = offa + i
-                                                                     ak(idx1) = a(idx3) * bk1(idx1)
-                                                                     ak(idx2) = a(idx3) * bk1(idx2)
-                                                                 Next
-                                                             Else
-                                                                 For i = firstIdx To lastIdx - 1
-                                                                     Dim idx1 = 2 * i
-                                                                     Dim idx2 = idx1 + 1
-                                                                     Dim idx3 = offa + i
-                                                                     ak(idx1) = a(idx3) * bk1(idx1)
-                                                                     ak(idx2) = -a(idx3) * bk1(idx2)
-                                                                 Next
-                                                             End If
+                For idx As Integer = 0 To nthreads - 1
+                    Dim firstIdx = idx * k
+                    Dim lastIdx = If(idx = nthreads - 1, n, firstIdx + k)
+                    taskArray(idx) = Task.Factory.StartNew(Sub()
+                                                               If isign > 0 Then
+                                                                   For i = firstIdx To lastIdx - 1
+                                                                       Dim idx1 = 2 * i
+                                                                       Dim idx2 = idx1 + 1
+                                                                       Dim idx3 = offa + i
+                                                                       ak(idx1) = a(idx3) * bk1(idx1)
+                                                                       ak(idx2) = a(idx3) * bk1(idx2)
+                                                                   Next
+                                                               Else
+                                                                   For i = firstIdx To lastIdx - 1
+                                                                       Dim idx1 = 2 * i
+                                                                       Dim idx2 = idx1 + 1
+                                                                       Dim idx3 = offa + i
+                                                                       ak(idx1) = a(idx3) * bk1(idx1)
+                                                                       ak(idx2) = -a(idx3) * bk1(idx2)
+                                                                   Next
+                                                               End If
 
-                                                         End Sub)
+                                                           End Sub)
                 Next
                 Try
                     Task.WaitAll(taskArray)
@@ -1340,28 +1340,28 @@ factorize_loop:
                 cftbsub(2 * nBluestein, ak, 0, ip, nw, w)
 
                 k = nBluestein / nthreads
-                For i = 0 To nthreads - 1
-                    Dim firstIdx = i * k
-                    Dim lastIdx = If(i = nthreads - 1, nBluestein, firstIdx + k)
-                    taskArray(i) = Task.Factory.StartNew(Sub()
-                                                             If isign > 0 Then
-                                                                 For i = firstIdx To lastIdx - 1
-                                                                     Dim idx1 = 2 * i
-                                                                     Dim idx2 = idx1 + 1
-                                                                     Dim im = -ak(idx1) * bk2(idx2) + ak(idx2) * bk2(idx1)
-                                                                     ak(idx1) = ak(idx1) * bk2(idx1) + ak(idx2) * bk2(idx2)
-                                                                     ak(idx2) = im
-                                                                 Next
-                                                             Else
-                                                                 For i = firstIdx To lastIdx - 1
-                                                                     Dim idx1 = 2 * i
-                                                                     Dim idx2 = idx1 + 1
-                                                                     Dim im = ak(idx1) * bk2(idx2) + ak(idx2) * bk2(idx1)
-                                                                     ak(idx1) = ak(idx1) * bk2(idx1) - ak(idx2) * bk2(idx2)
-                                                                     ak(idx2) = im
-                                                                 Next
-                                                             End If
-                                                         End Sub)
+                For idx As Integer = 0 To nthreads - 1
+                    Dim firstIdx = idx * k
+                    Dim lastIdx = If(idx = nthreads - 1, nBluestein, firstIdx + k)
+                    taskArray(idx) = Task.Factory.StartNew(Sub()
+                                                               If isign > 0 Then
+                                                                   For i = firstIdx To lastIdx - 1
+                                                                       Dim idx1 = 2 * i
+                                                                       Dim idx2 = idx1 + 1
+                                                                       Dim im = -ak(idx1) * bk2(idx2) + ak(idx2) * bk2(idx1)
+                                                                       ak(idx1) = ak(idx1) * bk2(idx1) + ak(idx2) * bk2(idx2)
+                                                                       ak(idx2) = im
+                                                                   Next
+                                                               Else
+                                                                   For i = firstIdx To lastIdx - 1
+                                                                       Dim idx1 = 2 * i
+                                                                       Dim idx2 = idx1 + 1
+                                                                       Dim im = ak(idx1) * bk2(idx2) + ak(idx2) * bk2(idx1)
+                                                                       ak(idx1) = ak(idx1) * bk2(idx1) - ak(idx2) * bk2(idx2)
+                                                                       ak(idx2) = im
+                                                                   Next
+                                                               End If
+                                                           End Sub)
                 Next
                 Try
                     Task.WaitAll(taskArray)
@@ -1372,27 +1372,27 @@ factorize_loop:
                 cftfsub(2 * nBluestein, ak, 0, ip, nw, w)
 
                 k = n / nthreads
-                For i = 0 To nthreads - 1
-                    Dim firstIdx = i * k
-                    Dim lastIdx = If(i = nthreads - 1, n, firstIdx + k)
-                    taskArray(i) = Task.Factory.StartNew(Sub()
-                                                             If isign > 0 Then
-                                                                 For i = firstIdx To lastIdx - 1
-                                                                     Dim idx1 = 2 * i
-                                                                     Dim idx2 = idx1 + 1
-                                                                     a(offa + idx1) = bk1(idx1) * ak(idx1) - bk1(idx2) * ak(idx2)
-                                                                     a(offa + idx2) = bk1(idx2) * ak(idx1) + bk1(idx1) * ak(idx2)
-                                                                 Next
-                                                             Else
-                                                                 For i = firstIdx To lastIdx - 1
-                                                                     Dim idx1 = 2 * i
-                                                                     Dim idx2 = idx1 + 1
-                                                                     a(offa + idx1) = bk1(idx1) * ak(idx1) + bk1(idx2) * ak(idx2)
-                                                                     a(offa + idx2) = -bk1(idx2) * ak(idx1) + bk1(idx1) * ak(idx2)
-                                                                 Next
-                                                             End If
+                For idx As Integer = 0 To nthreads - 1
+                    Dim firstIdx = idx * k
+                    Dim lastIdx = If(idx = nthreads - 1, n, firstIdx + k)
+                    taskArray(idx) = Task.Factory.StartNew(Sub()
+                                                               If isign > 0 Then
+                                                                   For i = firstIdx To lastIdx - 1
+                                                                       Dim idx1 = 2 * i
+                                                                       Dim idx2 = idx1 + 1
+                                                                       a(offa + idx1) = bk1(idx1) * ak(idx1) - bk1(idx2) * ak(idx2)
+                                                                       a(offa + idx2) = bk1(idx2) * ak(idx1) + bk1(idx1) * ak(idx2)
+                                                                   Next
+                                                               Else
+                                                                   For i = firstIdx To lastIdx - 1
+                                                                       Dim idx1 = 2 * i
+                                                                       Dim idx2 = idx1 + 1
+                                                                       a(offa + idx1) = bk1(idx1) * ak(idx1) + bk1(idx2) * ak(idx2)
+                                                                       a(offa + idx2) = -bk1(idx2) * ak(idx1) + bk1(idx1) * ak(idx2)
+                                                                   Next
+                                                               End If
 
-                                                         End Sub)
+                                                           End Sub)
                 Next
                 Try
                     Task.WaitAll(taskArray)
@@ -1469,18 +1469,18 @@ factorize_loop:
                 End If
                 Dim taskArray = New Task(nthreads - 1) {}
                 Dim k As Integer = n / nthreads
-                For i = 0 To nthreads - 1
-                    Dim firstIdx = i * k
-                    Dim lastIdx = If(i = nthreads - 1, n, firstIdx + k)
-                    taskArray(i) = Task.Factory.StartNew(Sub()
-                                                             For i = firstIdx To lastIdx - 1
-                                                                 Dim idx1 = 2 * i
-                                                                 Dim idx2 = idx1 + 1
-                                                                 Dim idx3 = offa + i
-                                                                 ak(idx1) = a(idx3) * bk1(idx1)
-                                                                 ak(idx2) = -a(idx3) * bk1(idx2)
-                                                             Next
-                                                         End Sub)
+                For idx As Integer = 0 To nthreads - 1
+                    Dim firstIdx = idx * k
+                    Dim lastIdx = If(idx = nthreads - 1, n, firstIdx + k)
+                    taskArray(idx) = Task.Factory.StartNew(Sub()
+                                                               For i = firstIdx To lastIdx - 1
+                                                                   Dim idx1 = 2 * i
+                                                                   Dim idx2 = idx1 + 1
+                                                                   Dim idx3 = offa + i
+                                                                   ak(idx1) = a(idx3) * bk1(idx1)
+                                                                   ak(idx2) = -a(idx3) * bk1(idx2)
+                                                               Next
+                                                           End Sub)
                 Next
                 Try
                     Task.WaitAll(taskArray)
@@ -1491,18 +1491,18 @@ factorize_loop:
                 cftbsub(2 * nBluestein, ak, 0, ip, nw, w)
 
                 k = nBluestein / nthreads
-                For i = 0 To nthreads - 1
-                    Dim firstIdx = i * k
-                    Dim lastIdx = If(i = nthreads - 1, nBluestein, firstIdx + k)
-                    taskArray(i) = Task.Factory.StartNew(Sub()
-                                                             For i = firstIdx To lastIdx - 1
-                                                                 Dim idx1 = 2 * i
-                                                                 Dim idx2 = idx1 + 1
-                                                                 Dim im = ak(idx1) * bk2(idx2) + ak(idx2) * bk2(idx1)
-                                                                 ak(idx1) = ak(idx1) * bk2(idx1) - ak(idx2) * bk2(idx2)
-                                                                 ak(idx2) = im
-                                                             Next
-                                                         End Sub)
+                For idx As Integer = 0 To nthreads - 1
+                    Dim firstIdx = idx * k
+                    Dim lastIdx = If(idx = nthreads - 1, nBluestein, firstIdx + k)
+                    taskArray(idx) = Task.Factory.StartNew(Sub()
+                                                               For i = firstIdx To lastIdx - 1
+                                                                   Dim idx1 = 2 * i
+                                                                   Dim idx2 = idx1 + 1
+                                                                   Dim im = ak(idx1) * bk2(idx2) + ak(idx2) * bk2(idx1)
+                                                                   ak(idx1) = ak(idx1) * bk2(idx1) - ak(idx2) * bk2(idx2)
+                                                                   ak(idx2) = im
+                                                               Next
+                                                           End Sub)
                 Next
                 Try
                     Task.WaitAll(taskArray)
@@ -1620,18 +1620,18 @@ factorize_loop:
                 End If
                 Dim taskArray = New Task(nthreads - 1) {}
                 Dim k As Integer = nBluestein / nthreads
-                For i = 0 To nthreads - 1
-                    Dim firstIdx = i * k
-                    Dim lastIdx = If(i = nthreads - 1, nBluestein, firstIdx + k)
-                    taskArray(i) = Task.Factory.StartNew(Sub()
-                                                             For i = firstIdx To lastIdx - 1
-                                                                 Dim idx1 = 2 * i
-                                                                 Dim idx2 = idx1 + 1
-                                                                 Dim im = -ak(idx1) * bk2(idx2) + ak(idx2) * bk2(idx1)
-                                                                 ak(idx1) = ak(idx1) * bk2(idx1) + ak(idx2) * bk2(idx2)
-                                                                 ak(idx2) = im
-                                                             Next
-                                                         End Sub)
+                For idx As Integer = 0 To nthreads - 1
+                    Dim firstIdx = idx * k
+                    Dim lastIdx = If(idx = nthreads - 1, nBluestein, firstIdx + k)
+                    taskArray(idx) = Task.Factory.StartNew(Sub()
+                                                               For i = firstIdx To lastIdx - 1
+                                                                   Dim idx1 = 2 * i
+                                                                   Dim idx2 = idx1 + 1
+                                                                   Dim im = -ak(idx1) * bk2(idx2) + ak(idx2) * bk2(idx1)
+                                                                   ak(idx1) = ak(idx1) * bk2(idx1) + ak(idx2) * bk2(idx2)
+                                                                   ak(idx2) = im
+                                                               Next
+                                                           End Sub)
                 Next
                 Try
                     Task.WaitAll(taskArray)
@@ -1642,16 +1642,16 @@ factorize_loop:
                 cftfsub(2 * nBluestein, ak, 0, ip, nw, w)
 
                 k = n / nthreads
-                For i = 0 To nthreads - 1
-                    Dim firstIdx = i * k
-                    Dim lastIdx = If(i = nthreads - 1, n, firstIdx + k)
-                    taskArray(i) = Task.Factory.StartNew(Sub()
-                                                             For i = firstIdx To lastIdx - 1
-                                                                 Dim idx1 = 2 * i
-                                                                 Dim idx2 = idx1 + 1
-                                                                 a(offa + i) = bk1(idx1) * ak(idx1) - bk1(idx2) * ak(idx2)
-                                                             Next
-                                                         End Sub)
+                For idx As Integer = 0 To nthreads - 1
+                    Dim firstIdx = idx * k
+                    Dim lastIdx = If(idx = nthreads - 1, n, firstIdx + k)
+                    taskArray(idx) = Task.Factory.StartNew(Sub()
+                                                               For i = firstIdx To lastIdx - 1
+                                                                   Dim idx1 = 2 * i
+                                                                   Dim idx2 = idx1 + 1
+                                                                   a(offa + i) = bk1(idx1) * ak(idx1) - bk1(idx2) * ak(idx2)
+                                                               Next
+                                                           End Sub)
                 Next
                 Try
                     Task.WaitAll(taskArray)
@@ -1688,19 +1688,19 @@ factorize_loop:
                 End If
                 Dim taskArray = New Task(nthreads - 1) {}
                 Dim k As Integer = n / nthreads
-                For i = 0 To nthreads - 1
-                    Dim firstIdx = i * k
-                    Dim lastIdx = If(i = nthreads - 1, n, firstIdx + k)
-                    taskArray(i) = Task.Factory.StartNew(Sub()
-                                                             For i = firstIdx To lastIdx - 1
-                                                                 Dim idx1 = 2 * i
-                                                                 Dim idx2 = idx1 + 1
-                                                                 Dim idx3 = offa + i
-                                                                 ak(idx1) = a(idx3) * bk1(idx1)
-                                                                 ak(idx2) = a(idx3) * bk1(idx2)
-                                                             Next
+                For idx As Integer = 0 To nthreads - 1
+                    Dim firstIdx = idx * k
+                    Dim lastIdx = If(idx = nthreads - 1, n, firstIdx + k)
+                    taskArray(idx) = Task.Factory.StartNew(Sub()
+                                                               For i = firstIdx To lastIdx - 1
+                                                                   Dim idx1 = 2 * i
+                                                                   Dim idx2 = idx1 + 1
+                                                                   Dim idx3 = offa + i
+                                                                   ak(idx1) = a(idx3) * bk1(idx1)
+                                                                   ak(idx2) = a(idx3) * bk1(idx2)
+                                                               Next
 
-                                                         End Sub)
+                                                           End Sub)
                 Next
                 Try
                     Task.WaitAll(taskArray)
@@ -1711,19 +1711,19 @@ factorize_loop:
                 cftbsub(2 * nBluestein, ak, 0, ip, nw, w)
 
                 k = nBluestein / nthreads
-                For i = 0 To nthreads - 1
-                    Dim firstIdx = i * k
-                    Dim lastIdx = If(i = nthreads - 1, nBluestein, firstIdx + k)
-                    taskArray(i) = Task.Factory.StartNew(Sub()
-                                                             For i = firstIdx To lastIdx - 1
-                                                                 Dim idx1 = 2 * i
-                                                                 Dim idx2 = idx1 + 1
-                                                                 Dim im = -ak(idx1) * bk2(idx2) + ak(idx2) * bk2(idx1)
-                                                                 ak(idx1) = ak(idx1) * bk2(idx1) + ak(idx2) * bk2(idx2)
-                                                                 ak(idx2) = im
-                                                             Next
+                For idx As Integer = 0 To nthreads - 1
+                    Dim firstIdx = idx * k
+                    Dim lastIdx = If(idx = nthreads - 1, nBluestein, firstIdx + k)
+                    taskArray(idx) = Task.Factory.StartNew(Sub()
+                                                               For i = firstIdx To lastIdx - 1
+                                                                   Dim idx1 = 2 * i
+                                                                   Dim idx2 = idx1 + 1
+                                                                   Dim im = -ak(idx1) * bk2(idx2) + ak(idx2) * bk2(idx1)
+                                                                   ak(idx1) = ak(idx1) * bk2(idx1) + ak(idx2) * bk2(idx2)
+                                                                   ak(idx2) = im
+                                                               Next
 
-                                                         End Sub)
+                                                           End Sub)
                 Next
                 Try
                     Task.WaitAll(taskArray)
@@ -2504,8 +2504,8 @@ factorize_loop:
             iw4 = iw3 + ido
 
             Dim idx0 = l1 * ido
-            For k = 0 To l1 - 1
-                Dim idx1 = k * ido
+            For k1 As Integer = 0 To l1 - 1
+                Dim idx1 = k1 * ido
                 Dim idx2 = 5 * idx1
                 Dim idx3 = idx2 + ido
                 Dim idx4 = idx3 + ido
@@ -2650,8 +2650,8 @@ factorize_loop:
             iw4 = iw3 + ido
 
             Dim idx0 = l1 * ido
-            For k = 0 To l1 - 1
-                Dim idx1 = k * ido
+            For k1 = 0 To l1 - 1
+                Dim idx1 = k1 * ido
                 Dim idx2 = 5 * idx1
                 Dim idx3 = idx2 + ido
                 Dim idx4 = idx3 + ido
