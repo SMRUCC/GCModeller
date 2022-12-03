@@ -5544,20 +5544,20 @@ factorize_loop:
 
         Private Sub cftrec4_th(n As Integer, a As Double(), offa As Integer, nw As Integer, w As Double())
             Dim i As Integer
-            Dim idiv4, m, nthreads As Integer
+            Dim idiv4, m1, nthreads As Integer
             'int idx = 0;
             nthreads = 2
             idiv4 = 0
-            m = n >> 1
+            m1 = n >> 1
             If n > TransformCore.THREADS_BEGIN_N_1D_FFT_4THREADS Then
                 nthreads = 4
                 idiv4 = 1
-                m >>= 1
+                m1 >>= 1
             End If
             Dim taskArray = New Task(nthreads - 1) {}
-            Dim mf = m
+            Dim mf = m1
             For i = 0 To nthreads - 1
-                Dim firstIdx = offa + i * m
+                Dim firstIdx = offa + i * m1
                 If i <> idiv4 Then
                     taskArray(i) = Task.Factory.StartNew(Sub()
                                                              Dim isplt, j, k, m As Integer
@@ -6612,8 +6612,8 @@ factorize_loop:
                     Dim firstIdx = offa + i * k
                     Dim lastIdx = If(i = nthreads - 1, offa + n2, firstIdx + k)
                     taskArray(i) = Task.Factory.StartNew(Sub()
-                                                             For i = firstIdx To lastIdx - 1
-                                                                 a(i) *= norm
+                                                             For idx = firstIdx To lastIdx - 1
+                                                                 a(idx) *= norm
                                                              Next
 
                                                          End Sub)
