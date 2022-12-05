@@ -297,8 +297,8 @@ Namespace IO.Linq
             If Not Me.disposedValue Then
                 If disposing Then
                     Call _fileIO.Flush()
-                    Call _fileIO.Close()
-                    Call _fileIO.Dispose()    ' TODO: dispose managed state (managed objects).
+                    ' Call _fileIO.Close()
+                    ' Call _fileIO.Dispose()    ' TODO: dispose managed state (managed objects).
                 End If
 
                 ' TODO: free unmanaged resources (unmanaged objects) and override Finalize() below.
