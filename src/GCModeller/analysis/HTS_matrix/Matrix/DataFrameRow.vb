@@ -52,13 +52,14 @@
 #End Region
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 
 ''' <summary>
 ''' The gene expression data samples file.(基因的表达数据样本)
 ''' </summary>
 ''' <remarks></remarks>
-Public Class DataFrameRow : Implements INamedValue
+Public Class DataFrameRow : Implements INamedValue, IVector
 
     Public Property geneID As String Implements INamedValue.Key
 
@@ -68,7 +69,7 @@ Public Class DataFrameRow : Implements INamedValue
     ''' <value></value>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Public Property experiments As Double()
+    Public Property experiments As Double() Implements IVector.Data
 
     Default Public ReadOnly Property Value(i As Integer) As Double
         Get
