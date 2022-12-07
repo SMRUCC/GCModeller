@@ -136,6 +136,7 @@ Public Class HTSMatrixReader : Implements IDisposable
         If Not disposedValue Then
             If disposing Then
                 ' TODO: 释放托管状态(托管对象)
+                Call file.Dispose()
             End If
 
             ' TODO: 释放未托管的资源(未托管的对象)并重写终结器

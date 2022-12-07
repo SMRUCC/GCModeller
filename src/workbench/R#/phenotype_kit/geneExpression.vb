@@ -1,60 +1,60 @@
 ﻿#Region "Microsoft.VisualBasic::915fa060cab3efeba6f452e4f91f3099, R#\phenotype_kit\geneExpression.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 958
-    '    Code Lines: 632
-    ' Comment Lines: 232
-    '   Blank Lines: 94
-    '     File Size: 37.47 KB
+' Summaries:
 
 
-    ' Module geneExpression
-    ' 
-    '     Function: applyPCA, average, castGenericRows, cmeans, CMeans3D
-    '               CmeansPattern, createDEGModels, createVectorList, DEGclass, depDataTable
-    '               dims, expDataTable, filter, filterNaN, filterZeroSamples
-    '               geneId, GetCmeansPattern, joinSamples, loadExpression, loadFromDataFrame
-    '               loadFromGenericDataSet, mergeMultiple, readBinaryMatrix, readPattern, relative
-    '               savePattern, setGeneIDs, setTag, setZero, splitCMeansClusters
-    '               totalSumNorm, tr, Ttest, uniqueGeneId, writeMatrix
-    '               zscore
-    ' 
-    '     Sub: Main
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 958
+'    Code Lines: 632
+' Comment Lines: 232
+'   Blank Lines: 94
+'     File Size: 37.47 KB
+
+
+' Module geneExpression
+' 
+'     Function: applyPCA, average, castGenericRows, cmeans, CMeans3D
+'               CmeansPattern, createDEGModels, createVectorList, DEGclass, depDataTable
+'               dims, expDataTable, filter, filterNaN, filterZeroSamples
+'               geneId, GetCmeansPattern, joinSamples, loadExpression, loadFromDataFrame
+'               loadFromGenericDataSet, mergeMultiple, readBinaryMatrix, readPattern, relative
+'               savePattern, setGeneIDs, setTag, setZero, splitCMeansClusters
+'               totalSumNorm, tr, Ttest, uniqueGeneId, writeMatrix
+'               zscore
+' 
+'     Sub: Main
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -325,15 +325,60 @@ Module geneExpression
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("load.expr0")>
-    <RApiReturn(GetType(Matrix))>
-    Public Function readBinaryMatrix(file As Object, Optional env As Environment = Nothing) As Object
+    <RApiReturn(GetType(Matrix), GetType(HTSMatrixReader))>
+    Public Function readBinaryMatrix(file As Object,
+                                     Optional lazy As Boolean = False,
+                                     Optional env As Environment = Nothing) As Object
         Dim stream = SMRUCC.Rsharp.GetFileStream(file, FileAccess.Read, env)
 
         If stream Like GetType(Message) Then
             Return stream.TryCast(Of Message)
+        ElseIf lazy Then
+            Return New HTSMatrixReader(stream.TryCast(Of Stream))
         Else
             Return BinaryMatrix.LoadStream(stream.TryCast(Of Stream))
         End If
+    End Function
+
+    ''' <summary>
+    ''' get matrix summary information
+    ''' </summary>
+    ''' <param name="file">
+    ''' could be a file path or the HTS matrix data object
+    ''' </param>
+    ''' <returns></returns>
+    <ExportAPI("matrix_info")>
+    <RApiReturn("sampleID", "geneID", "tag")>
+    Public Function getMatrixInformation(file As Object) As Object
+        If file.ExtensionSuffix("csv", "tsv", "xls") Then
+            Throw New NotImplementedException
+        ElseIf TypeOf file Is HTSMatrixReader Then
+            Return DirectCast(file, HTSMatrixReader).matrixSummary
+        ElseIf TypeOf file Is Matrix Then
+            Dim HTS As Matrix = DirectCast(file, Matrix)
+            Dim summary As New list With {.slots = New Dictionary(Of String, Object)}
+
+            summary.add("tag", HTS.tag)
+            summary.add("sampleID", HTS.sampleID.ToArray)
+            summary.add("geneID", HTS.rownames.ToArray)
+
+            Return summary
+        Else
+            Using reader As New HTSMatrixReader(file.Open(FileMode.Open, doClear:=False, [readOnly]:=True))
+                Return reader.matrixSummary
+            End Using
+        End If
+    End Function
+
+    <Extension>
+    Private Function matrixSummary(reader As HTSMatrixReader) As Object
+        Dim summary As New list With {.slots = New Dictionary(Of String, Object)}
+
+        summary.add("tag", reader.TagString)
+        summary.add("sampleID", reader.SampleIDs.ToArray)
+        summary.add("geneID", reader.FeatureIDs.ToArray)
+
+        Return summary
     End Function
 
     ''' <summary>
