@@ -831,6 +831,7 @@ Module geneExpression
                            Optional memberCutoff As Double = 0.8,
                            Optional xlab As String = "Spatial Regions",
                            Optional ylab As String = "z-score(Normalized Intensity)",
+                           Optional top_members As Double = 0.2,
                            Optional env As Environment = Nothing) As Object
 
         Dim println As Action(Of Object) = env.WriteLineHandler
@@ -862,7 +863,8 @@ Module geneExpression
                 ylab:=ylab,
                 xAxisLabelRotate:=45,
                 padding:="padding:100px 100px 300px 100px;",
-                membershipCutoff:=memberCutoff
+                membershipCutoff:=memberCutoff,
+                topMembers:=top_members
             ).AsGDIImage _
                 .DoCall(Sub(img)
                             Call output.add("image", img)
