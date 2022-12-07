@@ -1,55 +1,55 @@
 ﻿#Region "Microsoft.VisualBasic::df179c4015b88e2b1119ce9ebc47c8c7, R#\gseakit\GSEABackground.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 562
-    '    Code Lines: 393
-    ' Comment Lines: 118
-    '   Blank Lines: 51
-    '     File Size: 22.29 KB
+' Summaries:
 
 
-    ' Module GSEABackground
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: asGenesetList, assembleBackground, BackgroundIDmapping, backgroundSummary, clusterIDs
-    '               ClusterIntersections, CreateCluster, createGene, CreateKOBackground, CreateKOReference
-    '               DAGbackground, GetCluster, (+2 Overloads) id_translation, KOTable, metabolismBackground
-    '               MetaEnrichBackground, moleculeIDs, PrintBackground, ReadBackground, WriteBackground
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 562
+'    Code Lines: 393
+' Comment Lines: 118
+'   Blank Lines: 51
+'     File Size: 22.29 KB
+
+
+' Module GSEABackground
+' 
+'     Constructor: (+1 Overloads) Sub New
+'     Function: asGenesetList, assembleBackground, BackgroundIDmapping, backgroundSummary, clusterIDs
+'               ClusterIntersections, CreateCluster, createGene, CreateKOBackground, CreateKOReference
+'               DAGbackground, GetCluster, (+2 Overloads) id_translation, KOTable, metabolismBackground
+'               MetaEnrichBackground, moleculeIDs, PrintBackground, ReadBackground, WriteBackground
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -59,6 +59,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.GenericLambda(Of T)
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text.Xml.Models
@@ -305,20 +306,42 @@ Public Module GSEABackground
         If TypeOf geneSet Is Rdataframe Then
             ' the row names is the gene id set
             Dim geneId As String() = DirectCast(geneSet, Rdataframe).rownames
-            Dim genes As BackgroundGene() = geneId.Select(Function(id) background.GetBackgroundGene(id)).ToArray
-            Dim geneNames As String() = genes.Select(Function(g) If(g Is Nothing, "", g.name)).ToArray
-            Dim desc As String() = genes _
-                .Select(Function(g) If(g Is Nothing OrElse g.locus_tag Is Nothing, "", g.locus_tag.text)) _
-                .ToArray
-            Dim table As Rdataframe = DirectCast(geneSet, Rdataframe)
+            Dim append = background.geneSetAnnotation(geneId, DirectCast(geneSet, DataFrame))
 
-            Call table.add("geneName", geneNames)
-            Call table.add("description", desc)
-
-            Return table
+            Return append
         Else
+            Dim idSet As pipeline = pipeline.TryCreatePipeline(Of String)(geneSet, env)
+
+            If idSet.isError Then
+                Return idSet.getError
+            Else
+                Dim geneId As String() = idSet _
+                    .populates(Of String)(env) _
+                    .ToArray
+                Dim empty As New Rdataframe With {
+                    .rownames = geneId,
+                    .columns = New Dictionary(Of String, Array)
+                }
+
+                Return background.geneSetAnnotation(geneId, empty)
+            End If
+
             Return Internal.debug.stop(New NotImplementedException, env)
         End If
+    End Function
+
+    <Extension>
+    Private Function geneSetAnnotation(background As Background, geneSet As String(), table As Rdataframe) As Rdataframe
+        Dim genes As BackgroundGene() = geneSet.Select(Function(id) background.GetBackgroundGene(id)).ToArray
+        Dim geneNames As String() = genes.Select(Function(g) If(g Is Nothing, "", g.name)).ToArray
+        Dim desc As String() = genes _
+            .Select(Function(g) If(g Is Nothing OrElse g.locus_tag Is Nothing, "", g.locus_tag.text)) _
+            .ToArray
+
+        Call table.add("geneName", geneNames)
+        Call table.add("description", desc)
+
+        Return table
     End Function
 
     ''' <summary>
