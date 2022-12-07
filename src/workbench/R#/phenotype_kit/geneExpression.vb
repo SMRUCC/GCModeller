@@ -350,9 +350,19 @@ Module geneExpression
     <ExportAPI("matrix_info")>
     <RApiReturn("sampleID", "geneID", "tag")>
     Public Function getMatrixInformation(file As Object) As Object
-        If file.ExtensionSuffix("csv", "tsv", "xls") Then
-            Throw New NotImplementedException
-        ElseIf TypeOf file Is HTSMatrixReader Then
+        If TypeOf file Is String Then
+            Dim filepath As String = file
+
+            If filepath.ExtensionSuffix("csv", "tsv", "xls") Then
+                Throw New NotImplementedException
+            Else
+                Using reader As New HTSMatrixReader(filepath.Open(FileMode.Open, doClear:=False, [readOnly]:=True))
+                    Return reader.matrixSummary
+                End Using
+            End If
+        End If
+
+        If TypeOf file Is HTSMatrixReader Then
             Return DirectCast(file, HTSMatrixReader).matrixSummary
         ElseIf TypeOf file Is Matrix Then
             Dim HTS As Matrix = DirectCast(file, Matrix)
@@ -364,9 +374,7 @@ Module geneExpression
 
             Return summary
         Else
-            Using reader As New HTSMatrixReader(file.Open(FileMode.Open, doClear:=False, [readOnly]:=True))
-                Return reader.matrixSummary
-            End Using
+            Throw New NotImplementedException
         End If
     End Function
 
