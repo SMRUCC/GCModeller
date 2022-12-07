@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>read the binary matrix data file</title>
+    <title>get matrix summary information</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <style rel="stylesheet" type="text/css">
@@ -143,12 +143,12 @@
 
         <table style="width: 100%;">
             <tr>
-                <td>load.expr0 {geneExpression}</td>
+                <td>matrix_info {geneExpression}</td>
                 <td style="text-align: right;">R Documentation</td>
             </tr>
         </table>
 
-        <h2>read the binary matrix data file</h2>
+        <h2>get matrix summary information</h2>
 
         <h3>Description</h3>
 
@@ -157,8 +157,7 @@
         <h3>Usage</h3>
 
         <div style="width: 100%; padding-left: 3%; color: black;">
-            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>load.expr0</strong>(<i>file</i>,
-    <i>lazy</i> = FALSE);</code></pre>
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>matrix_info</strong>(<i>file</i>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
@@ -166,11 +165,7 @@
         <table>
             
 <dt>file</dt>
-<dd><p><p>-</p></p></dd>
-
-
-<dt>env</dt>
-<dd><p><p>-</p></p></dd>
+<dd><p><p>could be a file path or the HTS matrix data object</p></p></dd>
 
         </table>
 
