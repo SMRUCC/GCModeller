@@ -97,7 +97,7 @@ Namespace CatalogProfiling
         End Function
 
         Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
-            Dim pathways As String() = getPathways().Values.IteratesALL.Distinct.ToArray
+            Dim pathways As String() = getPathways(-1, 30).Values.IteratesALL.Distinct.ToArray
             Dim pathwayNameFont As Font = CSSFont.TryParse(theme.axisTickCSS).GDIObject(g.Dpi)
             Dim pad = g.MeasureString("A", pathwayNameFont)
             Dim labelSize As SizeF

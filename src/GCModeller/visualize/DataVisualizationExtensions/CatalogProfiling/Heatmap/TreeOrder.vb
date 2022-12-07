@@ -62,6 +62,11 @@ Namespace CatalogProfiling
 
     Module TreeOrder
 
+        ''' <summary>
+        ''' get data orders via binary tree clustering
+        ''' </summary>
+        ''' <param name="samples"></param>
+        ''' <returns></returns>
         <Extension>
         Public Function OrderByTree(samples As MultipleCatalogHeatmap) As String()
             Dim allSamples = samples.multiples.ToDictionary(Function(a) a.Name, Function(a) a.Value)
@@ -75,7 +80,12 @@ Namespace CatalogProfiling
                 .ToArray
 
             For Each sample In allSamples
-                Dim bubbles = sample.Value.Values.IteratesALL.ToDictionary(Function(b) b.termId)
+                Dim bubbles As Dictionary(Of String, BubbleTerm) = sample.Value _
+                    .Values _
+                    .IteratesALL _
+                    .ToDictionary(Function(b)
+                                      Return b.termId
+                                  End Function)
                 Dim [if] As Double() = allPathways _
                     .Select(Function(name)
                                 Dim b As BubbleTerm = bubbles.TryGetValue(name)
@@ -127,6 +137,11 @@ Namespace CatalogProfiling
             Next
         End Function
 
+        ''' <summary>
+        ''' reorder data via a given pathway id order
+        ''' </summary>
+        ''' <param name="samples"></param>
+        ''' <param name="orders"></param>
         <Extension>
         Public Sub ReOrder(samples As MultipleCatalogHeatmap, orders As String())
             Dim index = samples.multiples.ToDictionary(Function(a) a.Name)

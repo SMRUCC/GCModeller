@@ -449,6 +449,7 @@ Module visualPlot
                                       Optional bubbleRadius As Object = "7,40",
                                       Optional heatmap As Boolean = False,
                                       Optional bubbleStyle As Boolean = False,
+                                      Optional top_samples As Integer = 16,
                                       Optional ppi As Integer = 300,
                                       Optional env As Environment = Nothing) As Object
 
@@ -510,16 +511,19 @@ Module visualPlot
             Dim app As Plot
 
             If heatmap Then
+                multiples = MultipleBubble.TopBubbles(multiples, displays, top_samples, Function(b) b.data)
+
                 If bubbleStyle Then
-                    app = New CatalogBubbleHeatmap(MultipleBubble.TopBubbles(multiples, displays, Function(b) b.data), mapLevels:=100, bubbleSize, theme) With {
+                    app = New CatalogBubbleHeatmap(multiples, mapLevels:=100, bubbleSize, theme) With {
                         .main = "Pathway enrichment analysis"
                     }
                 Else
                     app = New CatalogHeatMap(multiples, 100, theme)
                 End If
             Else
+                multiples = MultipleBubble.TopBubbles(multiples, displays, top_samples, Function(b) b.PValue * b.Factor)
                 app = New MultipleBubble(
-                    multiples:=MultipleBubble.TopBubbles(multiples, displays, Function(b) b.PValue * b.Factor),
+                    multiples:=multiples,
                     theme:=theme,
                     radius:=bubbleSize,
                     alpha:=alpha

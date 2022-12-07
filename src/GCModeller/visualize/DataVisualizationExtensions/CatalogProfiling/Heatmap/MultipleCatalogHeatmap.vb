@@ -98,6 +98,20 @@ Namespace CatalogProfiling
             Call Me.ReOrder(orders)
         End Sub
 
+        Protected Overloads Function getPathways(groupUnions As Integer, unionAll As Integer) As Dictionary(Of String, String())
+            Dim pathwayUnions = MyBase.getPathways()
+
+            If groupUnions > 0 Then
+                ' get most variant pathway in each category
+
+            Else
+                ' get most variant pathway in all data list
+
+            End If
+
+            Return pathwayUnions
+        End Function
+
         ''' <summary>
         ''' Z_score scale of each pathway by groups
         ''' </summary>
