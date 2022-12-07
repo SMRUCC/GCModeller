@@ -59,11 +59,17 @@ Public Module Document
     ''' <summary>
     ''' 
     ''' </summary>
-    ''' <param name="file"></param>
-    ''' <param name="excludes"></param>
+    ''' <param name="file">
+    ''' table file could be csv table or tsv table file.
+    ''' </param>
+    ''' <param name="excludes">
+    ''' excludes some sample columns data which is speicifed 
+    ''' by this parameter
+    ''' </param>
     ''' <returns></returns>
     ''' <remarks>
-    ''' 因为矩阵文档是由数字构成的，所以在这里不再使用csv文件解析器来完成，直接通过分隔符进行解析来获取最好的解析性能
+    ''' 因为矩阵文档是由数字构成的，所以在这里不再使用csv文件解析器来完成，
+    ''' 直接通过分隔符进行解析来获取最好的解析性能
     ''' </remarks>
     Public Function LoadMatrixDocument(file As String, excludes As Index(Of String)) As Matrix
         Dim text As String() = file.LineIterators(strictFile:=True).ToArray

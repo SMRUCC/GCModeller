@@ -280,9 +280,19 @@ Module geneExpression
     ''' <summary>
     ''' load an expressin matrix data
     ''' </summary>
-    ''' <param name="file"></param>
-    ''' <param name="exclude_samples"></param>
+    ''' <param name="file">
+    ''' the file path or the file stream data of the target 
+    ''' expression matrix table file.
+    ''' </param>
+    ''' <param name="exclude_samples">
+    ''' will removes some sample column data from the expression
+    ''' matrix which is specificed by this parameter value.
+    ''' </param>
     ''' <returns></returns>
+    ''' <remarks>
+    ''' the table file format that handled by this function
+    ''' could be a csv table file or tsv table file.
+    ''' </remarks>
     <ExportAPI("load.expr")>
     <RApiReturn(GetType(Matrix))>
     Public Function loadExpression(file As Object,

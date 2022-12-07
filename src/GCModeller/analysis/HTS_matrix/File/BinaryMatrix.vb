@@ -148,6 +148,10 @@ Public Module BinaryMatrix
         Call file.Write(mat.rownames.GetJson)
 
         ' write each feature row data
+        ' data block is fixed size:
+        '
+        '    sizeof(double) * [sampleID length]
+        '
         For Each feature As DataFrameRow In mat.expression
             Call file.Write(bin.encode(feature.experiments))
         Next
