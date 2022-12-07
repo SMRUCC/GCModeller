@@ -305,7 +305,7 @@ Public Module GSEABackground
         If TypeOf geneSet Is Rdataframe Then
             ' the row names is the gene id set
             Dim geneId As String() = DirectCast(geneSet, Rdataframe).rownames
-            Dim append = background.geneSetAnnotation(geneId, DirectCast(geneSet, DataFrame))
+            Dim append = background.geneSetAnnotation(geneId, DirectCast(geneSet, Rdataframe))
 
             Return append
         Else
