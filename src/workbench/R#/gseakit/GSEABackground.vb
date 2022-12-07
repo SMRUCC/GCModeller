@@ -461,6 +461,10 @@ Public Module GSEABackground
     ''' this parameter is only works for the kegg pathway model where you are 
     ''' speicifc via the <paramref name="clusters"/> parameter.
     ''' </param>
+    ''' <param name="filter_compoundId">
+    ''' do compound id filtering when target model is <paramref name="is_multipleOmics"/>?
+    ''' (all of the KEGG drug id and KEGG glycan id will be removed from the cluster model)
+    ''' </param>
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("as.background")>
@@ -471,6 +475,7 @@ Public Module GSEABackground
                                        Optional tax_id$ = "n/a",
                                        Optional desc$ = "n/a",
                                        Optional is_multipleOmics As Boolean = False,
+                                       Optional filter_compoundId As Boolean = True,
                                        Optional env As Environment = Nothing) As Object
 
         Dim clusterList As pipeline = pipeline.TryCreatePipeline(Of Cluster)(clusters, env, suppress:=True)
@@ -483,7 +488,12 @@ Public Module GSEABackground
                 Return clusterList.getError
             Else
                 If is_multipleOmics Then
-                    Return MultipleOmics.CreateOmicsBackground(clusterList.populates(Of SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Pathway)(env))
+                    Dim kegg_pathways = clusterList.populates(Of SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Pathway)(env)
+
+                    Return MultipleOmics.CreateOmicsBackground(
+                        model:=kegg_pathways,
+                        filter_compoundId:=filter_compoundId
+                    )
                 Else
                     Return clusterList.populates(Of SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Pathway)(env).CreateModel
                 End If
