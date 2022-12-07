@@ -141,7 +141,7 @@ Namespace CatalogProfiling
             Dim category As String = t.First.category
             Dim rsd As Double = t _
                 .Select(Function(xi) eval(xi.bubble)) _
-                .JoinIterates(0.0.Repeats(nsamples - t.Count).Select(Function(any, i) (i + 1) * 999)) _
+                .JoinIterates(0.0.Repeats(nsamples - t.Count).Select(Function(any, i) CDbl(i + 1) * 999)) _
                 .RSD()
 
             Return New term_rank(t, category, rsd)
