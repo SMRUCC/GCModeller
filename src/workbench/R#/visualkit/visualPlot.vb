@@ -511,7 +511,7 @@ Module visualPlot
             Dim app As Plot
 
             If heatmap Then
-                multiples = MultipleBubble.TopBubbles(multiples, displays, top_samples, Function(b) b.data)
+                multiples = MultipleBubble.TopBubbles(multiples, displays, top_samples, Function(b) b.data).AsList
 
                 If bubbleStyle Then
                     app = New CatalogBubbleHeatmap(multiples, mapLevels:=100, bubbleSize, theme) With {
@@ -521,7 +521,7 @@ Module visualPlot
                     app = New CatalogHeatMap(multiples, 100, theme)
                 End If
             Else
-                multiples = MultipleBubble.TopBubbles(multiples, displays, top_samples, Function(b) b.PValue * b.Factor)
+                multiples = MultipleBubble.TopBubbles(multiples, displays, top_samples, Function(b) b.PValue * b.Factor).AsList
                 app = New MultipleBubble(
                     multiples:=multiples,
                     theme:=theme,
