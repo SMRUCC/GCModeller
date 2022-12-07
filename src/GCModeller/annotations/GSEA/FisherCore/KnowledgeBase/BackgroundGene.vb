@@ -55,6 +55,9 @@ Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 
+''' <summary>
+''' a member gene in a gsea cluster model
+''' </summary>
 <XmlType("gene")>
 Public Class BackgroundGene : Inherits Synonym
 
@@ -67,6 +70,11 @@ Public Class BackgroundGene : Inherits Synonym
 
     <XmlElement>
     Public Property term_id As String()
+
+    ''' <summary>
+    ''' a tuple data of [geneId => description] mapping
+    ''' </summary>
+    ''' <returns></returns>
     Public Property locus_tag As NamedValue
 
     Public Overrides Function ToString() As String

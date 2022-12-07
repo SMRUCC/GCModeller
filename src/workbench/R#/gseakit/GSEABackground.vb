@@ -147,11 +147,16 @@ Public Module GSEABackground
     ''' do id mapping of the members in the background cluster
     ''' </summary>
     ''' <param name="background"></param>
-    ''' <param name="mapping"></param>
+    ''' <param name="mapping">
+    ''' do id translation via this id source list
+    ''' </param>
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("background.id_mapping")>
-    Public Function BackgroundIDmapping(background As Background, mapping As list, Optional env As Environment = Nothing) As Object
+    Public Function BackgroundIDmapping(background As Background,
+                                        mapping As list,
+                                        Optional env As Environment = Nothing) As Object
+
         Dim maps As Dictionary(Of String, String()) = mapping.AsGeneric(Of String())(env, [default]:={})
         Dim newClusterList = background.clusters _
             .Select(Function(c)
@@ -282,6 +287,38 @@ Public Module GSEABackground
         End If
 
         Return data
+    End Function
+
+    ''' <summary>
+    ''' make gene set annotation via a given gsea background model
+    ''' </summary>
+    ''' <param name="background"></param>
+    ''' <param name="geneSet"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("geneSet.annotations")>
+    Public Function geneSetAnnotation(background As Background,
+                                      <RRawVectorArgument>
+                                      geneSet As Object,
+                                      Optional env As Environment = Nothing) As Object
+
+        If TypeOf geneSet Is Rdataframe Then
+            ' the row names is the gene id set
+            Dim geneId As String() = DirectCast(geneSet, Rdataframe).rownames
+            Dim genes As BackgroundGene() = geneId.Select(Function(id) background.GetBackgroundGene(id)).ToArray
+            Dim geneNames As String() = genes.Select(Function(g) If(g Is Nothing, "", g.name)).ToArray
+            Dim desc As String() = genes _
+                .Select(Function(g) If(g Is Nothing OrElse g.locus_tag Is Nothing, "", g.locus_tag.text)) _
+                .ToArray
+            Dim table As Rdataframe = DirectCast(geneSet, Rdataframe)
+
+            Call table.add("geneName", geneNames)
+            Call table.add("description", desc)
+
+            Return table
+        Else
+            Return Internal.debug.stop(New NotImplementedException, env)
+        End If
     End Function
 
     ''' <summary>

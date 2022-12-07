@@ -57,6 +57,9 @@ Imports Microsoft.VisualBasic.Linq
 
 Namespace ComponentModel.DBLinkBuilder
 
+    ''' <summary>
+    ''' data alias model
+    ''' </summary>
     <XmlType("synonym")>
     Public Class Synonym : Implements Enumeration(Of String)
 
