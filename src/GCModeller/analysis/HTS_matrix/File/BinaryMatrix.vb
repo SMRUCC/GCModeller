@@ -74,18 +74,21 @@ Public Class HTSMatrixReader : Implements IDisposable
     Public ReadOnly Property TagString As String
 
     Public ReadOnly Property SampleIDs As IEnumerable(Of String)
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
             Return sampleID
         End Get
     End Property
 
     Public ReadOnly Property FeatureIDs As IEnumerable(Of String)
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
             Return geneIDs.Objects
         End Get
     End Property
 
     Public ReadOnly Property Size As (nsample As Integer, nfeature As Integer)
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
             Return (sampleID.Length, geneIDs.Count)
         End Get
@@ -116,6 +119,11 @@ Public Class HTSMatrixReader : Implements IDisposable
             blockSize = sampleID.Length * Marshal.SizeOf(GetType(Double))
         End If
     End Sub
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Function GetSampleOrdinal(sampleID As String) As Integer
+        Return Me.sampleID.IndexOf(sampleID)
+    End Function
 
     Public Function GetGeneExpression(geneID As String) As Double()
         If geneID Like geneIDs Then
