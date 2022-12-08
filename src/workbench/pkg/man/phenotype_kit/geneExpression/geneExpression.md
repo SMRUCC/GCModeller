@@ -12,6 +12,7 @@ the gene expression matrix data toolkit
 + [filterNaNMissing](geneExpression/filterNaNMissing.1) set the NaN missing value to default value
 + [load.expr](geneExpression/load.expr.1) load an expressin matrix data
 + [load.expr0](geneExpression/load.expr0.1) read the binary matrix data file
++ [matrix_info](geneExpression/matrix_info.1) get matrix summary information
 + [write.expr_matrix](geneExpression/write.expr_matrix.1) write the gene expression data matrix file
 + [filter](geneExpression/filter.1) Filter the geneID rows
 + [as.generic](geneExpression/as.generic.1) cast the HTS matrix object to the general dataset

@@ -9,6 +9,7 @@ as.background \- cast the cluster data as the enrichment background
 \fBtax_id\fR as string = "n/a", 
 \fBdesc\fR as string = "n/a", 
 \fBis_multipleOmics\fR as boolean = FALSE, 
+\fBfilter_compoundId\fR as boolean = TRUE, 
 [\fB<Environment>\fR]);\fR
 .SH DESCRIPTION
 .PP
@@ -45,6 +46,12 @@ cast the cluster data as the enrichment background
  Create a enrichment background model for run multiple omics data analysis?
  this parameter is only works for the kegg pathway model where you are 
  speicifc via the **`clusters`** parameter.
+. 
+.PP
+.PP
+\fBfilter_compoundId\fB \fR\- 
+ do compound id filtering when target model is **`is_multipleOmics`**?
+ (all of the KEGG drug id and KEGG glycan id will be removed from the cluster model)
 . 
 .PP
 .PP

@@ -100,6 +100,17 @@ Public Class Cluster : Inherits ListOf(Of BackgroundGene)
         End Get
     End Property
 
+    Public Function GetMemberById(id As String) As BackgroundGene
+        Return members _
+            .Where(Function(g)
+                       Dim test1 = g.accessionID.TextEquals(id, null_equals:=False, empty_equals:=False)
+                       If test1 Then Return True
+                       test1 = g.locus_tag IsNot Nothing AndAlso g.locus_tag.name.TextEquals(id, null_equals:=False, empty_equals:=False)
+                       Return test1
+                   End Function) _
+            .FirstOrDefault
+    End Function
+
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function Intersect(list As IEnumerable(Of String), Optional isLocustag As Boolean = False) As IEnumerable(Of String)
         If index Is Nothing Then

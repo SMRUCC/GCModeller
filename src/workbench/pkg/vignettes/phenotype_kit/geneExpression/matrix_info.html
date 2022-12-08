@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>This function performs clustering analysis of time course data</title>
+    <title>get matrix summary information</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <style rel="stylesheet" type="text/css">
@@ -143,12 +143,12 @@
 
         <table style="width: 100%;">
             <tr>
-                <td>peakCMeans {geneExpression}</td>
+                <td>matrix_info {geneExpression}</td>
                 <td style="text-align: right;">R Documentation</td>
             </tr>
         </table>
 
-        <h2>This function performs clustering analysis of time course data</h2>
+        <h2>get matrix summary information</h2>
 
         <h3>Description</h3>
 
@@ -157,52 +157,15 @@
         <h3>Usage</h3>
 
         <div style="width: 100%; padding-left: 3%; color: black;">
-            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>peakCMeans</strong>(<i>matrix</i>,
-    <i>nsize</i> = <span style='color: brown;'><strong>"3,3"</strong></span>,
-    <i>threshold</i> = 10,
-    <i>fuzzification</i> = 2,
-    <i>plotSize</i> = <span style='color: brown;'><strong>"8100,5200"</strong></span>,
-    <i>colorSet</i> = <span style='color: brown;'><strong>"Jet"</strong></span>,
-    <i>memberCutoff</i> = 0.8,
-    <i>xlab</i> = <span style='color: brown;'><strong>"Spatial Regions"</strong></span>,
-    <i>ylab</i> = <span style='color: brown;'><strong>"z-score(Normalized Intensity)"</strong></span>,
-    <i>top.members</i> = 0.2);</code></pre>
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>matrix_info</strong>(<i>file</i>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
 
         <table>
             
-<dt>matrix</dt>
-<dd><p><p>A gene expression data matrix object</p></p></dd>
-
-
-<dt>nsize</dt>
-<dd><p><p>the layout of the cmeans clustering visualization</p></p></dd>
-
-
-<dt>threshold</dt>
-<dd><p><p>the cmeans threshold</p></p></dd>
-
-
-<dt>plotSize</dt>
-<dd><p><p>the image size of the cmeans plot</p></p></dd>
-
-
-<dt>colorSet</dt>
-<dd><p><p>the color palatte name</p></p></dd>
-
-
-<dt>fuzzification</dt>
-<dd><p><p>cmeans fuzzification parameter</p></p></dd>
-
-
-<dt>memberCutoff</dt>
-<dd><p><p>the cmeans membership cutoff value for create a molecule cluster</p></p></dd>
-
-
-<dt>env</dt>
-<dd><p><p>-</p></p></dd>
+<dt>file</dt>
+<dd><p><p>could be a file path or the HTS matrix data object</p></p></dd>
 
         </table>
 
@@ -214,13 +177,7 @@
 
         <h3>Value</h3>
 
-        <p>this function returns a tuple list that contains the pattern <br />
- cluster matrix and the cmeans pattern plots.</p>
-
-<ol>
-<li>'pattern' is a dataframe object that contains the object cluster patterns</li>
-<li>'image' is a bitmap image that plot based on the object cluster patterns data.</li>
-</ol>
+        This function has no value returns.
 
         <hr />
         <div style="text-align: center;">[Package <em>geneExpression</em> version 1.0.0.0 <a

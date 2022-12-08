@@ -86,7 +86,7 @@ Namespace CatalogProfiling
         ''' <param name="g"></param>
         ''' <param name="canvas"></param>
         Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
-            Dim pathways As Dictionary(Of String, String()) = getPathways()
+            Dim pathways As Dictionary(Of String, String()) = getPathways(10, -1)
             Dim pathwayNameFont As Font = CSSFont.TryParse(theme.axisTickCSS).GDIObject(g.Dpi)
             Dim categoryFont As Font = CSSFont.TryParse(theme.axisLabelCSS).GDIObject(g.Dpi)
             Dim labelHeight As Double = g.MeasureString("A", categoryFont).Height

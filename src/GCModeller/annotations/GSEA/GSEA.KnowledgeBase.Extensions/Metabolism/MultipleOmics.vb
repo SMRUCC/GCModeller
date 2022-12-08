@@ -60,9 +60,9 @@ Imports System.Runtime.CompilerServices
 Public Module MultipleOmics
 
     <Extension>
-    Public Function CreateOmicsBackground(model As IEnumerable(Of Pathway)) As Background
+    Public Function CreateOmicsBackground(model As IEnumerable(Of Pathway), Optional filter_compoundId As Boolean = True) As Background
         Dim clusters As Cluster() = model _
-            .Select(Function(m) getCluster(m)) _
+            .Select(Function(m) getCluster(m, filter_compoundId)) _
             .Where(Function(c) c.size > 0 AndAlso Not c.ID.StringEmpty) _
             .ToArray
 
@@ -81,11 +81,15 @@ Public Module MultipleOmics
     ''' </summary>
     ''' <param name="model"></param>
     ''' <returns></returns>
-    Private Function getCluster(model As Pathway) As Cluster
+    Private Function getCluster(model As Pathway, filter_compoundId As Boolean) As Cluster
         Dim molecules As New List(Of BackgroundGene)(model.GetGeneMembers)
 
         For Each compound As NamedValue In model.compound.SafeQuery
-            molecules.Add(New BackgroundGene With {
+            If filter_compoundId AndAlso Not compound.name.IsPattern("C\d+") Then
+                Continue For
+            End If
+
+            Call molecules.Add(New BackgroundGene With {
                 .accessionID = compound.name,
                 .[alias] = {compound.name},
                 .term_id = {compound.name},

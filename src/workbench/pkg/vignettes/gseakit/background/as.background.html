@@ -162,7 +162,8 @@
     <i>name</i> = <span style='color: brown;'><strong>"n/a"</strong></span>,
     <i>tax.id</i> = <span style='color: brown;'><strong>"n/a"</strong></span>,
     <i>desc</i> = <span style='color: brown;'><strong>"n/a"</strong></span>,
-    <i>is.multipleOmics</i> = FALSE);</code></pre>
+    <i>is.multipleOmics</i> = FALSE,
+    <i>filter.compoundId</i> = TRUE);</code></pre>
         </div>
 
         <h3>Arguments</h3>
@@ -193,6 +194,11 @@
 <dd><p><p>Create a enrichment background model for run multiple omics data analysis?<br />
  this parameter is only works for the kegg pathway model where you are <br />
  speicifc via the <strong><code>clusters</code></strong> parameter.</p></p></dd>
+
+
+<dt>filter.compoundId</dt>
+<dd><p><p>do compound id filtering when target model is <strong><code>is_multipleOmics</code></strong>?<br />
+ (all of the KEGG drug id and KEGG glycan id will be removed from the cluster model)</p></p></dd>
 
 
 <dt>env</dt>

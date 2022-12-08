@@ -100,6 +100,25 @@ Public Class Background : Inherits XmlDataModel
         }
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="geneId"></param>
+    ''' <returns>
+    ''' returns nothing if target gene is not found
+    ''' </returns>
+    Public Function GetBackgroundGene(geneId As String) As BackgroundGene
+        For Each cluster As Cluster In clusters
+            Dim gene As BackgroundGene = cluster.GetMemberById(geneId)
+
+            If Not gene Is Nothing Then
+                Return gene
+            End If
+        Next
+
+        Return Nothing
+    End Function
+
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function GetClusterTable() As Dictionary(Of String, Cluster)
         Return clusters.ToDictionary(Function(c) c.ID)

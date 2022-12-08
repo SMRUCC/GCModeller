@@ -55,6 +55,9 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Text
 Imports r = System.Text.RegularExpressions.Regex
 
+''' <summary>
+''' the parser of the matrix text document
+''' </summary>
 Module Reader
 
     Const quot$ = """.+""[,\t]"
