@@ -65,6 +65,9 @@ Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 
+''' <summary>
+''' a data matrix of samples in column and gene features in row
+''' </summary>
 Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow)
 
     ''' <summary>
@@ -101,8 +104,23 @@ Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow)
     ''' <param name="i"></param>
     ''' <returns></returns>
     Default Public ReadOnly Property gene(i As Integer) As DataFrameRow
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
             Return expression(i)
+        End Get
+    End Property
+
+    ''' <summary>
+    ''' get gene expression vector data by a specific <paramref name="geneId"/>
+    ''' </summary>
+    ''' <param name="geneId"></param>
+    ''' <returns>
+    ''' value nothing may be returned if the gene id is not exists in the matrix rows
+    ''' </returns>
+    Default Public ReadOnly Property gene(geneId As String) As DataFrameRow
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Get
+            Return expression.KeyItem(geneId)
         End Get
     End Property
 
@@ -111,6 +129,7 @@ Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow)
     ''' </summary>
     ''' <returns></returns>
     Default Public ReadOnly Property gene(flags As BooleanVector) As Matrix
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
             Return New Matrix With {
                 .sampleID = sampleID,
@@ -125,6 +144,7 @@ Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow)
     End Property
 
     Public ReadOnly Property sample(sample_id As String) As Vector
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
             Return Me.sample(IndexOf(sample_id))
         End Get
@@ -160,6 +180,7 @@ Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow)
         End Get
     End Property
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Overrides Function ToString() As String
         Return $"[{tag}] {expression.Length} genes, {sampleID.Length} samples; {sampleID.GetJson}"
     End Function
@@ -265,7 +286,9 @@ Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow)
     ''' <param name="sampleVector"></param>
     ''' <param name="reversed"></param>
     ''' <returns></returns>
-    Public Shared Iterator Function TakeSamples(data As DataFrameRow(), sampleVector As Integer(), reversed As Boolean) As IEnumerable(Of DataFrameRow)
+    Public Shared Iterator Function TakeSamples(data As DataFrameRow(),
+                                                sampleVector As Integer(),
+                                                reversed As Boolean) As IEnumerable(Of DataFrameRow)
         Dim samples As Double()
 
         For Each x As DataFrameRow In data
@@ -296,7 +319,10 @@ Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow)
     End Sub
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Shared Function LoadData(file As String, Optional excludes As Index(Of String) = Nothing, Optional trimZeros As Boolean = False) As Matrix
+    Public Shared Function LoadData(file As String,
+                                    Optional excludes As Index(Of String) = Nothing,
+                                    Optional trimZeros As Boolean = False) As Matrix
+
         Dim matrix As Matrix = Document.LoadMatrixDocument(file, excludes)
 
         Call matrix.checkMatrix()

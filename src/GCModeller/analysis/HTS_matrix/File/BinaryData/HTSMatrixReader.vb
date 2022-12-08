@@ -5,7 +5,8 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Serialization.BinaryDumping
 Imports Microsoft.VisualBasic.Serialization.JSON
 
-Public Class HTSMatrixReader : Implements IDisposable
+Public Class HTSMatrixReader : Inherits MatrixViewer
+    Implements IDisposable
 
     ReadOnly bin As New NetworkByteOrderBuffer
     ReadOnly file As BinaryReader
@@ -14,23 +15,21 @@ Public Class HTSMatrixReader : Implements IDisposable
     ReadOnly scan0 As Long
     ReadOnly blockSize As Integer
 
-    Public ReadOnly Property TagString As String
-
-    Public ReadOnly Property SampleIDs As IEnumerable(Of String)
+    Public Overrides ReadOnly Property SampleIDs As IEnumerable(Of String)
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
             Return sampleID
         End Get
     End Property
 
-    Public ReadOnly Property FeatureIDs As IEnumerable(Of String)
+    Public Overrides ReadOnly Property FeatureIDs As IEnumerable(Of String)
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
             Return geneIDs.Objects
         End Get
     End Property
 
-    Public ReadOnly Property Size As (nsample As Integer, nfeature As Integer)
+    Public Overrides ReadOnly Property Size As (nsample As Integer, nfeature As Integer)
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
             Return (sampleID.Length, geneIDs.Count)
@@ -48,7 +47,7 @@ Public Class HTSMatrixReader : Implements IDisposable
             Throw New InvalidDataException("invalid magic header string!")
         Else
             ' read tag string
-            TagString = Me.file.ReadString
+            tagString = Me.file.ReadString
             ' read nsamples
             Dim nsamples = Me.file.ReadInt32
             Dim mfeatures = Me.file.ReadInt32
@@ -64,11 +63,11 @@ Public Class HTSMatrixReader : Implements IDisposable
     End Sub
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Function GetSampleOrdinal(sampleID As String) As Integer
+    Public Overrides Function GetSampleOrdinal(sampleID As String) As Integer
         Return Me.sampleID.IndexOf(sampleID)
     End Function
 
-    Public Function GetGeneExpression(geneID As String) As Double()
+    Public Overrides Function GetGeneExpression(geneID As String) As Double()
         If geneID Like geneIDs Then
             Dim i As Integer = geneIDs.IndexOf(geneID)
             Dim offset As Long = scan0 + blockSize * i
