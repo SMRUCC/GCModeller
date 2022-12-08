@@ -382,7 +382,7 @@ Module geneExpression
     Private Function matrixSummary(reader As HTSMatrixReader) As Object
         Dim summary As New list With {.slots = New Dictionary(Of String, Object)}
 
-        summary.add("tag", reader.TagString)
+        summary.add("tag", reader.tag)
         summary.add("sampleID", reader.SampleIDs.ToArray)
         summary.add("geneID", reader.FeatureIDs.ToArray)
 
