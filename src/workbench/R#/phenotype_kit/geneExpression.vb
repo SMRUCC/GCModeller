@@ -67,6 +67,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Distributions
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
@@ -771,27 +772,20 @@ Module geneExpression
     ''' <param name="pattern"></param>
     ''' <returns></returns>
     <ExportAPI("cmeans_matrix")>
-    <Extension>
-    Public Function GetCmeansPattern(pattern As ExpressionPattern,
-                                     Optional memberCutoff As Double = 0.8,
-                                     Optional env As Environment = Nothing) As Object
+    <RApiReturn(GetType(EntityClusterModel))>
+    Public Function GetCmeansPatternA(<RRawVectorArgument>
+                                      pattern As Object,
+                                      Optional memberCutoff As Double = 0.8,
+                                      Optional empty_shared As Integer = 2,
+                                      Optional env As Environment = Nothing) As Object
 
-        Dim result As DataSet() = pattern _
-            .Patterns _
-            .Select(Function(a)
-                        Return New DataSet With {
-                            .ID = a.uid,
-                            .Properties = a.memberships _
-                                .ToDictionary(Function(c) $"#{c.Key + 1}",
-                                              Function(c)
-                                                  Return c.Value
-                                              End Function)
-                        }
-                    End Function) _
-            .ToArray
-        Dim kmeans As EntityClusterModel() = result _
-            .ToKMeansModels _
-            .ToArray
+        Dim objs = toClusters(pattern, env)
+
+        If objs Like GetType(Message) Then
+            Return objs.TryCast(Of Message)
+        End If
+
+        Dim kmeans As EntityClusterModel() = objs.TryCast(Of EntityClusterModel())
         Dim clusterId As String() = kmeans _
             .Select(Function(p) p.Properties.Keys) _
             .IteratesALL _
@@ -815,7 +809,7 @@ Module geneExpression
             If tags.IsNullOrEmpty Then
                 item.Cluster = item.Properties _
                     .OrderByDescending(Function(c) c.Value) _
-                    .Take(1) _
+                    .Take(empty_shared) _
                     .Select(Function(cl) cl.Key) _
                     .JoinBy("; ")
             ElseIf tags.Length = max.Count Then
@@ -830,6 +824,62 @@ Module geneExpression
         Next
 
         Return kmeans
+    End Function
+
+    Private Function toClusters(pattern As Object, env As Environment) As [Variant](Of EntityClusterModel(), Message)
+        If TypeOf pattern Is ExpressionPattern Then
+            Dim result As DataSet() = pattern _
+               .Patterns _
+               .Select(Function(a)
+                           Return New DataSet With {
+                               .ID = a.uid,
+                               .Properties = a.memberships _
+                                   .ToDictionary(Function(c) $"#{c.Key + 1}",
+                                                 Function(c)
+                                                     Return c.Value
+                                                 End Function)
+                           }
+                       End Function) _
+               .ToArray
+
+            Return result _
+                .ToKMeansModels _
+                .ToArray
+        ElseIf TypeOf pattern Is Rdataframe Then
+            Dim df As Rdataframe = DirectCast(pattern, Rdataframe)
+            Dim fields As String() = df.colnames _
+                .Where(Function(c) Not c.TextEquals(NameOf(EntityClusterModel.Cluster))) _
+                .ToArray
+            Dim rows = df.forEachRow(colKeys:=fields).ToArray
+            Dim colIndex = fields.SeqIterator.ToArray
+            Dim entities = rows _
+                .Select(Function(r)
+                            Return New EntityClusterModel With {
+                                .ID = r.name,
+                                .Properties = colIndex.ToDictionary(Function(i) i.value, Function(i) CDbl(r.value(i.i)))
+                            }
+                        End Function) _
+                .ToArray
+
+            Return entities
+        Else
+            Dim data As pipeline = pipeline.TryCreatePipeline(Of EntityClusterModel)(pattern, env)
+
+            If data.isError Then
+                Return data.getError
+            Else
+                Return data.populates(Of EntityClusterModel)(env).ToArray
+            End If
+        End If
+    End Function
+
+    <Extension>
+    Private Function GetCmeansPattern(pattern As ExpressionPattern,
+                                      Optional memberCutoff As Double = 0.8,
+                                      Optional empty_shared As Integer = 2,
+                                      Optional env As Environment = Nothing) As EntityClusterModel()
+
+        Return GetCmeansPatternA(pattern, memberCutoff, empty_shared, env)
     End Function
 
     ''' <summary>
@@ -892,6 +942,7 @@ Module geneExpression
                            Optional plotSize As Object = "8100,5200",
                            Optional colorSet As String = "Jet",
                            Optional memberCutoff As Double = 0.8,
+                           Optional empty_shared As Integer = 2,
                            Optional xlab As String = "Spatial Regions",
                            Optional ylab As String = "z-score(Normalized Intensity)",
                            Optional top_members As Double = 0.2,
@@ -914,7 +965,7 @@ Module geneExpression
         Dim output As New list With {
             .slots = New Dictionary(Of String, Object)
         }
-        Dim kmeans = patterns.GetCmeansPattern(memberCutoff, env)
+        Dim kmeans As EntityClusterModel() = patterns.GetCmeansPattern(memberCutoff, empty_shared, env)
 
         Call println($"membership cutoff for the cmeans patterns is: {memberCutoff}")
         Call println(patterns.ToSummaryText(memberCutoff))
