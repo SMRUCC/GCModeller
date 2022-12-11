@@ -777,6 +777,7 @@ Module geneExpression
                                       pattern As Object,
                                       Optional memberCutoff As Double = 0.8,
                                       Optional empty_shared As Integer = 2,
+                                      Optional max_cluster_shared As Integer = 3,
                                       Optional env As Environment = Nothing) As Object
 
         Dim objs = toClusters(pattern, env)
@@ -812,14 +813,10 @@ Module geneExpression
                     .Take(empty_shared) _
                     .Select(Function(cl) cl.Key) _
                     .JoinBy("; ")
-            ElseIf tags.Length = max.Count Then
-                item.Cluster = item.Properties _
-                    .OrderByDescending(Function(c) c.Value) _
-                    .Take(3) _
-                    .Select(Function(cl) cl.Key) _
-                    .JoinBy("; ")
             Else
-                item.Cluster = tags.Take(3).JoinBy("; ")
+                item.Cluster = tags _
+                    .Take(max_cluster_shared) _
+                    .JoinBy("; ")
             End If
         Next
 
@@ -877,9 +874,10 @@ Module geneExpression
     Private Function GetCmeansPattern(pattern As ExpressionPattern,
                                       Optional memberCutoff As Double = 0.8,
                                       Optional empty_shared As Integer = 2,
+                                      Optional max_cluster_shared As Integer = 3,
                                       Optional env As Environment = Nothing) As EntityClusterModel()
 
-        Return GetCmeansPatternA(pattern, memberCutoff, empty_shared, env)
+        Return GetCmeansPatternA(pattern, memberCutoff, empty_shared, max_cluster_shared, env)
     End Function
 
     ''' <summary>
@@ -943,6 +941,7 @@ Module geneExpression
                            Optional colorSet As String = "Jet",
                            Optional memberCutoff As Double = 0.8,
                            Optional empty_shared As Integer = 2,
+                           Optional max_cluster_shared As Integer = 3,
                            Optional xlab As String = "Spatial Regions",
                            Optional ylab As String = "z-score(Normalized Intensity)",
                            Optional top_members As Double = 0.2,
@@ -965,7 +964,7 @@ Module geneExpression
         Dim output As New list With {
             .slots = New Dictionary(Of String, Object)
         }
-        Dim kmeans As EntityClusterModel() = patterns.GetCmeansPattern(memberCutoff, empty_shared, env)
+        Dim kmeans As EntityClusterModel() = patterns.GetCmeansPattern(memberCutoff, empty_shared, max_cluster_shared, env)
 
         Call println($"membership cutoff for the cmeans patterns is: {memberCutoff}")
         Call println(patterns.ToSummaryText(memberCutoff))
