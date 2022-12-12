@@ -11,6 +11,11 @@ Public MustInherit Class MatrixViewer
     Protected tagString As String
 
     Public MustOverride ReadOnly Property SampleIDs As IEnumerable(Of String)
+
+    ''' <summary>
+    ''' get gene row features name
+    ''' </summary>
+    ''' <returns></returns>
     Public MustOverride ReadOnly Property FeatureIDs As IEnumerable(Of String)
 
     Public Overridable ReadOnly Property Size As (nsample As Integer, nfeature As Integer)
