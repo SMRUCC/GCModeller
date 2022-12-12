@@ -825,7 +825,7 @@ Module geneExpression
 
     Private Function toClusters(pattern As Object, env As Environment) As [Variant](Of EntityClusterModel(), Message)
         If TypeOf pattern Is ExpressionPattern Then
-            Dim result As DataSet() = pattern _
+            Dim result As DataSet() = DirectCast(pattern, ExpressionPattern) _
                .Patterns _
                .Select(Function(a)
                            Return New DataSet With {
