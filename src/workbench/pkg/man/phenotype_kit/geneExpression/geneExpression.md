@@ -29,6 +29,7 @@ the gene expression matrix data toolkit
 + [split.cmeans_clusters](geneExpression/split.cmeans_clusters.1) split the cmeans cluster output into multiple parts based on the cluster tags
 + [peakCMeans](geneExpression/peakCMeans.1) This function performs clustering analysis of time course data
 + [deg.t.test](geneExpression/deg.t.test.1) 
++ [log](geneExpression/log.1) 
 + [geneId](geneExpression/geneId.1) get gene Id list
 + [as.deg](geneExpression/as.deg.1) create gene expression DEG model
 + [deg.class](geneExpression/deg.class.1) 
