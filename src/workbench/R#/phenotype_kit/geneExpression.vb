@@ -86,6 +86,7 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 Imports Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 Imports Rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 Imports REnv = SMRUCC.Rsharp.Runtime
+Imports stdNum = System.Math
 Imports Vec = Microsoft.VisualBasic.Math.LinearAlgebra.Vector
 
 ''' <summary>
@@ -951,10 +952,15 @@ Module geneExpression
 
         Return matrix _
             .Ttest(
-                treatment:=sampleinfo.TakeGroup(treatment).SampleIDs,
-                control:=sampleinfo.TakeGroup(control).SampleIDs
+                treatment:=sampleinfo.TakeGroup(treatment).SampleIDs.ToArray,
+                control:=sampleinfo.TakeGroup(control).SampleIDs.ToArray
             ) _
             .DepFilter2(level, pvalue, FDR)
+    End Function
+
+    <ExportAPI("log")>
+    Public Function log(expr As Matrix, Optional base As Double = stdNum.E) As Matrix
+        Return expr.log(base)
     End Function
 
     ''' <summary>
