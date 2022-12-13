@@ -260,6 +260,17 @@ Module geneExpression
     End Function
 
     ''' <summary>
+    ''' removes the rows which all gene expression result is ZERO
+    ''' </summary>
+    ''' <param name="mat"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("filterZeroGenes")>
+    Public Function filterZeroGenes(mat As Matrix, Optional env As Environment = Nothing) As Object
+        Return mat.TrimZeros
+    End Function
+
+    ''' <summary>
     ''' set the NaN missing value to default value
     ''' </summary>
     ''' <param name="x"></param>
@@ -340,6 +351,11 @@ Module geneExpression
         Else
             Return BinaryMatrix.LoadStream(stream.TryCast(Of Stream))
         End If
+    End Function
+
+    <ExportAPI("load.matrixView")>
+    Public Function loadMatrixView(mat As Matrix) As HTSMatrixViewer
+        Return New HTSMatrixViewer(mat)
     End Function
 
     ''' <summary>
@@ -566,6 +582,8 @@ Module geneExpression
     End Function
 
     ''' <summary>
+    ''' Z-score normalized of the expression data matrix
+    ''' 
     ''' To avoid the influence of expression level to the 
     ''' clustering analysis, z-score transformation can 
     ''' be applied to covert the expression values to 
@@ -583,7 +601,11 @@ Module geneExpression
     ''' expression of a genomic feature in different conditions).
     ''' </summary>
     ''' <param name="x">a gene expression matrix</param>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' the HTS matrix object has been normalized in each gene 
+    ''' expression row, z-score is calculated for each gene row
+    ''' across multiple sample expression data.
+    ''' </returns>
     <ExportAPI("z_score")>
     Public Function zscore(x As Matrix) As Matrix
         Return New Matrix With {

@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Z-score normalized of the expression data matrix</title>
+    <title>load.matrixView</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <style rel="stylesheet" type="text/css">
@@ -143,35 +143,27 @@
 
         <table style="width: 100%;">
             <tr>
-                <td>z_score {geneExpression}</td>
+                <td>load.matrixView {geneExpression}</td>
                 <td style="text-align: right;">R Documentation</td>
             </tr>
         </table>
 
-        <h2>Z-score normalized of the expression data matrix</h2>
+        <h2>load.matrixView</h2>
 
         <h3>Description</h3>
 
-        <p><br /> To avoid the influence of expression level to the <br /> clustering analysis, z-score transformation can <br /> be applied to covert the expression values to <br /> z-scores by performing the following formula:<br /> <br /> </p>
-
-<pre><code class="<br /> z = (x - u) / sd<br /> ```">
-</code></pre>
-
-<p><br /> <br /> x is value to be converted (e.g., a expression value <br /> of a genomic feature in one condition), µ is the <br /> population mean (e.g., average expression value Of <br /> a genomic feature In different conditions), σ Is the <br /> standard deviation (e.g., standard deviation of <br /> expression of a genomic feature in different conditions).</p>
+        load.matrixView
 
         <h3>Usage</h3>
 
         <div style="width: 100%; padding-left: 3%; color: black;">
-            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>z_score</strong>(<i>x</i>);</code></pre>
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>load.matrixView</strong>(<i>mat</i>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
 
         <table>
             
-<dt>x</dt>
-<dd><p><p>a gene expression matrix</p></p></dd>
-
         </table>
 
 
@@ -182,9 +174,7 @@
 
         <h3>Value</h3>
 
-        <p>the HTS matrix object has been normalized in each gene <br />
- expression row, z-score is calculated for each gene row<br />
- across multiple sample expression data.</p>
+        This function has no value returns.
 
         <hr />
         <div style="text-align: center;">[Package <em>geneExpression</em> version 1.0.0.0 <a
