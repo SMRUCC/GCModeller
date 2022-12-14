@@ -56,6 +56,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\GCModeller\analysis\Microarray\Microarray.NET5.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\annotations\GSEA\FisherCore\Fisher.NET5.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\core\Bio.Annotation\annotation.NET5.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\core\Bio.InteractionModel\InteractionModel.NET5.vbproj" />
@@ -63,6 +64,7 @@
     <ProjectReference Include="..\..\..\GCModeller\data\STRING\STRING-db.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\foundation\PSICQUIC\psidev\psidev.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\models\BioCyc\BioCyc.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\models\GPML\PathVisio\GPML.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\models\Networks\KEGG\KEGGNetwork.NET5.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\models\Networks\STRING\STRING.NET5.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\models\SBML\SBML\sbml-netcore5.vbproj" />
