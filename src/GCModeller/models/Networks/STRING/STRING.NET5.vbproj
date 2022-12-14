@@ -30,6 +30,7 @@
     <ProjectReference Include="..\..\..\core\Bio.Assembly\biocore-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\core\Bio.InteractionModel\InteractionModel.NET5.vbproj" />
     <ProjectReference Include="..\..\..\data\STRING\STRING-db.vbproj" />
+    <ProjectReference Include="..\..\..\foundation\PSICQUIC\psidev\psidev.vbproj" />
   </ItemGroup>
  
 
