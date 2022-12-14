@@ -12,10 +12,17 @@ Public Class HTSMatrixReader : Inherits MatrixViewer
     ReadOnly bin As New NetworkByteOrderBuffer
     ReadOnly file As BinaryReader
     ReadOnly sampleID As String()
+    ''' <summary>
+    ''' the data reader offset is evaluated via this index object
+    ''' </summary>
     ReadOnly geneIDs As Index(Of String)
     ReadOnly scan0 As Long
     ReadOnly blockSize As Integer
 
+    ''' <summary>
+    ''' sample data id in columns
+    ''' </summary>
+    ''' <returns></returns>
     Public Overrides ReadOnly Property SampleIDs As IEnumerable(Of String)
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
@@ -23,6 +30,10 @@ Public Class HTSMatrixReader : Inherits MatrixViewer
         End Get
     End Property
 
+    ''' <summary>
+    ''' gene feature ids in rows
+    ''' </summary>
+    ''' <returns></returns>
     Public Overrides ReadOnly Property FeatureIDs As IEnumerable(Of String)
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
@@ -93,6 +104,15 @@ Public Class HTSMatrixReader : Inherits MatrixViewer
 
         Return v
     End Function
+
+    ''' <summary>
+    ''' just updates of the gene id index
+    ''' </summary>
+    ''' <param name="geneIDs"></param>
+    Public Overrides Sub SetNewGeneIDs(geneIDs() As String)
+        Call Me.geneIDs.Clear()
+        Call Me.geneIDs.Add(geneIDs).ToArray
+    End Sub
 
     Public Overrides Function GetGeneExpression(geneID As String) As Double()
         If geneID Like geneIDs Then

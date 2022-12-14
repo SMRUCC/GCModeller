@@ -43,6 +43,7 @@ Public MustInherit Class MatrixViewer
     ''' expression data is aligned with the <paramref name="geneID"/> set.
     ''' </returns>
     Public MustOverride Function GetGeneExpression(geneID As String(), sampleOrdinal As Integer) As Double()
+    Public MustOverride Sub SetNewGeneIDs(geneIDs As String())
 
     Public Overrides Function ToString() As String
         Dim size = Me.Size

@@ -69,4 +69,13 @@ Public Class HTSMatrixViewer : Inherits MatrixViewer
 
         Return v
     End Function
+
+    Public Overrides Sub SetNewGeneIDs(geneIDs() As String)
+        Me.geneIndex.Clear()
+        Me.geneIndex.Add(geneIDs).ToArray
+
+        For i As Integer = 0 To matrix.expression.Length - 1
+            matrix.expression(i).geneID = geneIDs(i)
+        Next
+    End Sub
 End Class
