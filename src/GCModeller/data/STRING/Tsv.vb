@@ -56,13 +56,11 @@
 
 #End Region
 
-Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace StringDB.Tsv
 
@@ -160,21 +158,21 @@ Namespace StringDB.Tsv
                     .protein2 = tokens(1)
                 }
 
-                If neighborhood > -1 Then link.neighborhood = tokens(neighborhood)
-                If neighborhood_transferred > -1 Then link.neighborhood_transferred = tokens(neighborhood_transferred)
-                If fusion > -1 Then link.fusion = tokens(fusion)
-                If cooccurence > -1 Then link.cooccurence = tokens(cooccurence)
-                If homology > -1 Then link.homology = tokens(homology)
-                If coexpression > -1 Then link.coexpression = tokens(coexpression)
-                If coexpression_transferred > -1 Then link.coexpression_transferred = tokens(coexpression_transferred)
-                If experiments > -1 Then link.experiments = tokens(experiments)
-                If experiments_transferred > -1 Then link.experiments_transferred = tokens(experiments_transferred)
-                If database_transferred > -1 Then link.database_transferred = tokens(database_transferred)
-                If textmining_transferred > -1 Then link.textmining_transferred = tokens(textmining_transferred)
-                If experimental > -1 Then link.experimental = tokens(experimental)
-                If database > -1 Then link.database = tokens(database)
-                If textmining > -1 Then link.textmining = tokens(textmining)
-                If combined_score > -1 Then link.combined_score = tokens(combined_score)
+                If neighborhood > -1 Then link.neighborhood = Single.Parse(tokens(neighborhood))
+                If neighborhood_transferred > -1 Then link.neighborhood_transferred = Single.Parse(tokens(neighborhood_transferred))
+                If fusion > -1 Then link.fusion = Single.Parse(tokens(fusion))
+                If cooccurence > -1 Then link.cooccurence = Single.Parse(tokens(cooccurence))
+                If homology > -1 Then link.homology = Single.Parse(tokens(homology))
+                If coexpression > -1 Then link.coexpression = Single.Parse(tokens(coexpression))
+                If coexpression_transferred > -1 Then link.coexpression_transferred = Single.Parse(tokens(coexpression_transferred))
+                If experiments > -1 Then link.experiments = Single.Parse(tokens(experiments))
+                If experiments_transferred > -1 Then link.experiments_transferred = Single.Parse(tokens(experiments_transferred))
+                If database_transferred > -1 Then link.database_transferred = Single.Parse(tokens(database_transferred))
+                If textmining_transferred > -1 Then link.textmining_transferred = Single.Parse(tokens(textmining_transferred))
+                If experimental > -1 Then link.experimental = Single.Parse(tokens(experimental))
+                If database > -1 Then link.database = Single.Parse(tokens(database))
+                If textmining > -1 Then link.textmining = Single.Parse(tokens(textmining))
+                If combined_score > -1 Then link.combined_score = Single.Parse(tokens(combined_score))
 
                 Yield link
             Next
@@ -192,7 +190,7 @@ Namespace StringDB.Tsv
                 Yield New linksDetail With {
                     .protein1 = t(0),
                     .protein2 = t(1),
-                    .combined_score = t(2)
+                    .combined_score = Single.Parse(t(2))
                 }
             Next
         End Function
@@ -226,8 +224,11 @@ Namespace StringDB.Tsv
                 Group x By x.protein2 Into Group) _
                      .ToDictionary(Function(x) x.protein2,
                                    Function(x) x.Group.ToArray)
-            Dim revMaps As Dictionary(Of String, String) =
-                maps.ToDictionary(Function(x) x.Value, Function(x) x.Key)
+            Dim revMaps As Dictionary(Of String, String) = maps _
+                .ToDictionary(Function(x) x.Value,
+                              Function(x)
+                                  Return x.Key
+                              End Function)
 
             For Each x As EntityObject In source
                 Dim key As String = x.ID
