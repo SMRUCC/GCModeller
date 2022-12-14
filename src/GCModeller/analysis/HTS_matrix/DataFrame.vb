@@ -1,6 +1,6 @@
 Imports System.Runtime.CompilerServices
 
-Public Module DataFrame
+Public Module HTSDataFrame
 
     ''' <summary>
     ''' merge multiple batches data directly
