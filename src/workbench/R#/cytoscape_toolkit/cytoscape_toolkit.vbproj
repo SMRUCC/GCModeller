@@ -45,14 +45,21 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\GCModeller\annotations\GSEA\FisherCore\Fisher.NET5.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\core\Bio.Annotation\annotation.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\core\Bio.InteractionModel\InteractionModel.NET5.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\data\GO_gene-ontology\GeneOntology\go_owl-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\data\STRING\STRING-db.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\foundation\PSICQUIC\psidev\psidev.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\models\BioCyc\BioCyc.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\models\Networks\STRING\STRING.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\models\SBML\SBML\sbml-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\R-sharp\R#\Rsharp-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\repository\Bio.Repository\repository.NET5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\BinaryData\HDSPack\HDSPack.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math.Statistics\stats-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\Math.NET5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\mime\application%rdf+xml\rdf_xml-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\mime\application%xml\xml-netcore5.vbproj" />
   </ItemGroup>
 
   <Import Project="..\Rscript_shared\Rscript_shared.projitems" Label="Shared" />
