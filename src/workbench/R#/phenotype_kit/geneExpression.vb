@@ -227,25 +227,54 @@ Module geneExpression
     ''' <summary>
     ''' set new gene id list to the matrix rows
     ''' </summary>
-    ''' <param name="expr0"></param>
-    ''' <param name="gene_ids"></param>
+    ''' <param name="x">target gene expression matrix object</param>
+    ''' <param name="gene_ids">
+    ''' a collection of the new gene ids to set to the feature
+    ''' rows of the gene expression matrix.
+    ''' </param>
     ''' <param name="env"></param>
     ''' <returns></returns>
+    ''' <remarks>
+    ''' it is kind of ``rownames`` liked function for dataframe object.
+    ''' </remarks>
     <ExportAPI("setFeatures")>
-    <RApiReturn(GetType(Matrix))>
-    Public Function setGeneIDs(expr0 As Matrix,
+    <RApiReturn(GetType(Matrix), GetType(MatrixViewer))>
+    Public Function setGeneIDs(x As Object,
                                gene_ids As String(),
                                Optional env As Environment = Nothing) As Object
 
-        If expr0.expression.Length <> gene_ids.Length Then
-            Return Internal.debug.stop({$"dimension({expr0.expression.Length} genes) of the matrix feature must be equals to the dimension({gene_ids.Length} names) of the name vector!"}, env)
+        If TypeOf x Is Matrix Then
+            Dim expr0 As Matrix = DirectCast(x, Matrix)
+
+            If expr0.expression.Length <> gene_ids.Length Then
+                Return dimensionNotAgree(expr0.expression.Length, gene_ids.Length, env)
+            Else
+                For i As Integer = 0 To gene_ids.Length - 1
+                    expr0.expression(i).geneID = gene_ids(i)
+                Next
+
+                Return expr0
+            End If
+        ElseIf TypeOf x Is MatrixViewer Then
+            Dim expr1 As MatrixViewer = DirectCast(x, MatrixViewer)
+
+            If expr1.FeatureIDs.Count <> gene_ids.Length Then
+                Return dimensionNotAgree(expr1.FeatureIDs.Count, gene_ids.Length, env)
+            Else
+                Call expr1.SetNewGeneIDs(geneIDs:=gene_ids)
+                Return expr1
+            End If
+        Else
+            Return Message.InCompatibleType(GetType(Matrix), x.GetType, env)
         End If
+    End Function
 
-        For i As Integer = 0 To gene_ids.Length - 1
-            expr0.expression(i).geneID = gene_ids(i)
-        Next
-
-        Return expr0
+    Private Function dimensionNotAgree(geneSize As Integer, geneIdSize As Integer, env As Environment) As Message
+        Return Internal.debug.stop({
+            $"dimension({geneSize} genes) of the matrix feature must be equals to the dimension({geneIdSize} names) of the name vector!",
+            $"number of genes in matrix: {geneSize}",
+            $"number of gene id: {geneIdSize}"
+        }, env)
     End Function
 
     ''' <summary>
@@ -257,6 +286,17 @@ Module geneExpression
     <ExportAPI("filterZeroSamples")>
     Public Function filterZeroSamples(mat As Matrix, Optional env As Environment = Nothing) As Object
         Return mat.T.TrimZeros.T
+    End Function
+
+    ''' <summary>
+    ''' removes the rows which all gene expression result is ZERO
+    ''' </summary>
+    ''' <param name="mat"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("filterZeroGenes")>
+    Public Function filterZeroGenes(mat As Matrix, Optional env As Environment = Nothing) As Object
+        Return mat.TrimZeros
     End Function
 
     ''' <summary>
@@ -340,6 +380,11 @@ Module geneExpression
         Else
             Return BinaryMatrix.LoadStream(stream.TryCast(Of Stream))
         End If
+    End Function
+
+    <ExportAPI("load.matrixView")>
+    Public Function loadMatrixView(mat As Matrix) As HTSMatrixViewer
+        Return New HTSMatrixViewer(mat)
     End Function
 
     ''' <summary>
@@ -566,6 +611,8 @@ Module geneExpression
     End Function
 
     ''' <summary>
+    ''' Z-score normalized of the expression data matrix
+    ''' 
     ''' To avoid the influence of expression level to the 
     ''' clustering analysis, z-score transformation can 
     ''' be applied to covert the expression values to 
@@ -583,7 +630,11 @@ Module geneExpression
     ''' expression of a genomic feature in different conditions).
     ''' </summary>
     ''' <param name="x">a gene expression matrix</param>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' the HTS matrix object has been normalized in each gene 
+    ''' expression row, z-score is calculated for each gene row
+    ''' across multiple sample expression data.
+    ''' </returns>
     <ExportAPI("z_score")>
     Public Function zscore(x As Matrix) As Matrix
         Return New Matrix With {
@@ -1086,6 +1137,10 @@ Module geneExpression
     ''' <summary>
     ''' do matrix join by samples
     ''' </summary>
+    ''' <param name="samples">
+    ''' matrix in multiple batches data should be normalized at
+    ''' first before calling this data batch merge function.
+    ''' </param>
     ''' <returns></returns>
     <ExportAPI("joinSample")>
     Public Function joinSamples(samples As Matrix()) As Matrix
@@ -1094,46 +1149,7 @@ Module geneExpression
         ElseIf samples.Length = 1 Then
             Return samples(Scan0)
         Else
-            Return mergeMultiple(samples)
+            Return MergeMultipleHTSMatrix(samples)
         End If
     End Function
-
-    Private Function mergeMultiple(multiple As Matrix()) As Matrix
-        Dim matrix As Matrix = multiple(Scan0)
-        Dim geneIndex = matrix.expression.ToDictionary(Function(g) g.geneID)
-        Dim sampleList As New List(Of String)(matrix.sampleID)
-
-        For Each append As Matrix In multiple.Skip(1)
-            For Each gene As DataFrameRow In append.expression
-                Dim v As Double() = New Double(sampleList.Count + append.sampleID.Length - 1) {}
-                Dim a As Double()
-                Dim b As Double() = gene.experiments
-
-                If geneIndex.ContainsKey(gene.geneID) Then
-                    a = geneIndex(gene.geneID).experiments
-                Else
-                    a = New Double(sampleList.Count - 1) {}
-                End If
-
-                Call Array.ConstrainedCopy(a, Scan0, v, Scan0, a.Length)
-                Call Array.ConstrainedCopy(b, Scan0, v, a.Length, b.Length)
-
-                geneIndex(gene.geneID) = New DataFrameRow With {
-                    .experiments = v,
-                    .geneID = gene.geneID
-                }
-            Next
-
-            Call sampleList.AddRange(append.sampleID)
-        Next
-
-        Return New Matrix With {
-            .expression = geneIndex.Values.ToArray,
-            .sampleID = sampleList.ToArray,
-            .tag = multiple _
-                .Select(Function(m) m.tag) _
-                .JoinBy("+")
-        }
-    End Function
-
 End Module

@@ -9,15 +9,17 @@ the gene expression matrix data toolkit
 + [setZero](geneExpression/setZero.1) set the expression value to zero 
 + [setFeatures](geneExpression/setFeatures.1) set new gene id list to the matrix rows
 + [filterZeroSamples](geneExpression/filterZeroSamples.1) filter out all samples columns which its expression vector is ZERO!
++ [filterZeroGenes](geneExpression/filterZeroGenes.1) removes the rows which all gene expression result is ZERO
 + [filterNaNMissing](geneExpression/filterNaNMissing.1) set the NaN missing value to default value
 + [load.expr](geneExpression/load.expr.1) load an expressin matrix data
 + [load.expr0](geneExpression/load.expr0.1) read the binary matrix data file
++ [load.matrixView](geneExpression/load.matrixView.1) 
 + [matrix_info](geneExpression/matrix_info.1) get matrix summary information
 + [write.expr_matrix](geneExpression/write.expr_matrix.1) write the gene expression data matrix file
 + [filter](geneExpression/filter.1) Filter the geneID rows
 + [as.generic](geneExpression/as.generic.1) cast the HTS matrix object to the general dataset
 + [average](geneExpression/average.1) calculate average value of the gene expression for
-+ [z_score](geneExpression/z_score.1) To avoid the influence of expression level to the 
++ [z_score](geneExpression/z_score.1) Z-score normalized of the expression data matrix
 + [pca](geneExpression/pca.1) do PCA on a gene expressin matrix
 + [totalSumNorm](geneExpression/totalSumNorm.1) normalize data by sample column
 + [relative](geneExpression/relative.1) normalize data by feature rows

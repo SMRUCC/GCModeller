@@ -2,6 +2,7 @@ Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Runtime.InteropServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Serialization.BinaryDumping
 Imports Microsoft.VisualBasic.Serialization.JSON
 
@@ -11,10 +12,17 @@ Public Class HTSMatrixReader : Inherits MatrixViewer
     ReadOnly bin As New NetworkByteOrderBuffer
     ReadOnly file As BinaryReader
     ReadOnly sampleID As String()
+    ''' <summary>
+    ''' the data reader offset is evaluated via this index object
+    ''' </summary>
     ReadOnly geneIDs As Index(Of String)
     ReadOnly scan0 As Long
     ReadOnly blockSize As Integer
 
+    ''' <summary>
+    ''' sample data id in columns
+    ''' </summary>
+    ''' <returns></returns>
     Public Overrides ReadOnly Property SampleIDs As IEnumerable(Of String)
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
@@ -22,6 +30,10 @@ Public Class HTSMatrixReader : Inherits MatrixViewer
         End Get
     End Property
 
+    ''' <summary>
+    ''' gene feature ids in rows
+    ''' </summary>
+    ''' <returns></returns>
     Public Overrides ReadOnly Property FeatureIDs As IEnumerable(Of String)
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
@@ -66,6 +78,41 @@ Public Class HTSMatrixReader : Inherits MatrixViewer
     Public Overrides Function GetSampleOrdinal(sampleID As String) As Integer
         Return Me.sampleID.IndexOf(sampleID)
     End Function
+
+    Public Overrides Function GetGeneExpression(geneID() As String, sampleOrdinal As Integer) As Double()
+        Dim v As Double() = New Double(geneID.Length - 1) {}
+
+        ' no target sample
+        If sampleOrdinal < 0 Then
+            Return v
+        End If
+
+        For i As Integer = 0 To v.Length - 1
+            If geneID(i) Like geneIDs Then
+                Dim blocks As Integer = geneIDs.IndexOf(geneID(i))
+                Dim offset As Long = scan0 + blockSize * blocks
+                Dim buffer As Byte() = New Byte(RawStream.DblFloat - 1) {}
+
+                Call file.BaseStream.Seek(offset + sampleOrdinal * RawStream.DblFloat, SeekOrigin.Begin)
+                Call file.BaseStream.Read(buffer, scan0, buffer.Length)
+
+                v(i) = bin.decode(buffer)(0)
+            Else
+                ' v(i) = 0.0
+            End If
+        Next
+
+        Return v
+    End Function
+
+    ''' <summary>
+    ''' just updates of the gene id index
+    ''' </summary>
+    ''' <param name="geneIDs"></param>
+    Public Overrides Sub SetNewGeneIDs(geneIDs() As String)
+        Call Me.geneIDs.Clear()
+        Call Me.geneIDs.Add(geneIDs).ToArray
+    End Sub
 
     Public Overrides Function GetGeneExpression(geneID As String) As Double()
         If geneID Like geneIDs Then

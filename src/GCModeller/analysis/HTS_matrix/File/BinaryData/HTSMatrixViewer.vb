@@ -1,8 +1,17 @@
+Imports System.Drawing
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 
 Public Class HTSMatrixViewer : Inherits MatrixViewer
 
     ReadOnly matrix As Matrix
+    ReadOnly sampleIndex As Index(Of String)
+    ReadOnly geneIndex As Index(Of String)
+
+    ''' <summary>
+    ''' [width(sample_size), height(geneset_size)]
+    ''' </summary>
+    ReadOnly dims As Size
 
     Public Overrides ReadOnly Property SampleIDs As IEnumerable(Of String)
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -21,20 +30,52 @@ Public Class HTSMatrixViewer : Inherits MatrixViewer
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Sub New(matrix As Matrix)
         Me.matrix = matrix
+        Me.sampleIndex = matrix.sampleID.Indexing
+        Me.geneIndex = matrix.rownames.Indexing
+        Me.dims = New Size(sampleIndex.Count, geneIndex.Count)
     End Sub
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Overrides Function GetSampleOrdinal(sampleID As String) As Integer
-        Return matrix.sampleID.IndexOf(sampleID)
+        Return sampleIndex.IndexOf(sampleID)
     End Function
 
     Public Overrides Function GetGeneExpression(geneID As String) As Double()
-        Dim gene As DataFrameRow = matrix.gene(geneID)
+        Dim i As Integer = geneIndex.IndexOf(geneID)
 
-        If gene Is Nothing Then
-            Return New Double(matrix.sampleID.Length - 1) {}
+        If i < 0 Then
+            Return New Double(dims.Width - 1) {}
         Else
-            Return gene.experiments
+            Return matrix.gene(i).experiments
         End If
     End Function
+
+    Public Overrides Function GetGeneExpression(geneID() As String, sampleOrdinal As Integer) As Double()
+        Dim v As Double() = New Double(geneID.Length - 1) {}
+
+        If sampleOrdinal < 0 Then
+            Return v
+        End If
+
+        For i As Integer = 0 To geneID.Length - 1
+            Dim rowId As Integer = geneIndex.IndexOf(geneID(i))
+
+            If rowId < 0 Then
+                ' v(i) = 0.0
+            Else
+                v(i) = matrix.gene(i).experiments()(sampleOrdinal)
+            End If
+        Next
+
+        Return v
+    End Function
+
+    Public Overrides Sub SetNewGeneIDs(geneIDs() As String)
+        Me.geneIndex.Clear()
+        Me.geneIndex.Add(geneIDs).ToArray
+
+        For i As Integer = 0 To matrix.expression.Length - 1
+            matrix.expression(i).geneID = geneIDs(i)
+        Next
+    End Sub
 End Class

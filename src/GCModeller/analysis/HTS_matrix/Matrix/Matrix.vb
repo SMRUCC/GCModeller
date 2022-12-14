@@ -172,11 +172,16 @@ Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow)
     ''' <summary>
     ''' get all gene id list
     ''' </summary>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' a set of gene id that keeps the same order 
+    ''' with the <see cref="expression"/> rows.
+    ''' </returns>
     Public ReadOnly Property rownames As String()
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
-            Return expression.Select(Function(g) g.geneID).ToArray
+            Return expression _
+                .Select(Function(g) g.geneID) _
+                .ToArray
         End Get
     End Property
 
