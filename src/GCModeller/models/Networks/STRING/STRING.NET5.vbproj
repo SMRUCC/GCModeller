@@ -12,9 +12,22 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="FunctionalNetwork\**" />
+    <Compile Remove="Models\**" />
     <Compile Remove="TCS\**" />
+    <EmbeddedResource Remove="FunctionalNetwork\**" />
+    <EmbeddedResource Remove="Models\**" />
     <EmbeddedResource Remove="TCS\**" />
+    <None Remove="FunctionalNetwork\**" />
+    <None Remove="Models\**" />
     <None Remove="TCS\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
