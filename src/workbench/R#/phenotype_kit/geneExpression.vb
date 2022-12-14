@@ -1137,6 +1137,10 @@ Module geneExpression
     ''' <summary>
     ''' do matrix join by samples
     ''' </summary>
+    ''' <param name="samples">
+    ''' matrix in multiple batches data should be normalized at
+    ''' first before calling this data batch merge function.
+    ''' </param>
     ''' <returns></returns>
     <ExportAPI("joinSample")>
     Public Function joinSamples(samples As Matrix()) As Matrix
