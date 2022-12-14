@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.Math.DataFrame
+﻿Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.Math.DataFrame
 Imports SMRUCC.genomics.Data.STRING.StringDB.Tsv
 
 ''' <summary>
@@ -47,7 +48,32 @@ Public Class StringIndex
         Next
     End Function
 
+    ''' <summary>
+    ''' filter correlation matrix result that: only the protein
+    ''' id tuple that exists in the string-db will create a 
+    ''' correlation graph
+    ''' </summary>
+    ''' <param name="cor"></param>
+    ''' <returns></returns>
     Public Function Intersect(cor As CorrelationMatrix) As CorrelationMatrix
+        ' set sign to zero if there is no string-db links
+        Dim sign As Double()() = cor.Sign
+        Dim geneIds As String() = cor.keys
 
+        ' matrix[j,i]
+        For j As Integer = 0 To geneIds.Length - 1
+            Dim prot2 As String = geneIds(j)
+
+            For i As Integer = 0 To geneIds.Length - 1
+                If QueryLinkDetails(geneIds(i), prot2, ignoreDirection:=True) Is Nothing Then
+                    sign(j)(i) = 0.0
+                ElseIf i = j Then
+                    ' removes self loop
+                    sign(j)(i) = 0.0
+                End If
+            Next
+        Next
+
+        Return sign * cor
     End Function
 End Class
