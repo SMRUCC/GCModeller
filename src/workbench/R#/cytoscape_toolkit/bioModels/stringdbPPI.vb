@@ -59,7 +59,7 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 Module stringdbPPI
 
     ''' <summary>
-    ''' 
+    ''' export string-db interaction result set as graph
     ''' </summary>
     ''' <param name="stringNetwork"></param>
     ''' <param name="uniprot">``STRING -> uniprot``</param>
