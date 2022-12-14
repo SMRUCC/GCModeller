@@ -12,13 +12,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="FunctionalNetwork\**" />
+ 
     <Compile Remove="Models\**" />
     <Compile Remove="TCS\**" />
-    <EmbeddedResource Remove="FunctionalNetwork\**" />
+  
     <EmbeddedResource Remove="Models\**" />
     <EmbeddedResource Remove="TCS\**" />
-    <None Remove="FunctionalNetwork\**" />
+   
     <None Remove="Models\**" />
     <None Remove="TCS\**" />
   </ItemGroup>
@@ -47,6 +47,7 @@
     <ProjectReference Include="..\..\..\data\STRING\STRING-db.vbproj" />
     <ProjectReference Include="..\..\..\foundation\PSICQUIC\psidev\psidev.vbproj" />
     <ProjectReference Include="..\..\SBML\SBML\sbml-netcore5.vbproj" />
+    <ProjectReference Include="..\KEGG\KEGGNetwork.NET5.vbproj" />
   </ItemGroup>
  
 
