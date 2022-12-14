@@ -44,6 +44,7 @@ Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math.DataFrame
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Data.STRING
@@ -113,10 +114,25 @@ Module stringdbPPI
     ''' </param>
     ''' <returns></returns>
     <ExportAPI("read.string_db")>
-    <RApiReturn(GetType(linksDetail))>
-    Public Function parseStringDb(file As String) As Object
-        Return linksDetail _
-            .LoadFile(path:=file) _
-            .DoCall(AddressOf pipeline.CreateFromPopulator)
+    <RApiReturn(GetType(linksDetail), GetType(StringIndex))>
+    Public Function parseStringDb(file As String,
+                                  Optional remove_taxonomyId As Boolean = True,
+                                  Optional link_matrix As Boolean = False) As Object
+
+        Dim links As IEnumerable(Of linksDetail) = linksDetail.LoadFile(path:=file)
+
+        If remove_taxonomyId Then
+            links = StringIndex.RemoveTaxonomyIdPrefix(links)
+        End If
+        If link_matrix Then
+            Return New StringIndex(links)
+        Else
+            Return pipeline.CreateFromPopulator(links)
+        End If
+    End Function
+
+    <ROperator("&")>
+    Public Function intersect(cor As CorrelationMatrix, stringDb As StringIndex) As CorrelationMatrix
+        Return stringDb.Intersect(cor)
     End Function
 End Module
