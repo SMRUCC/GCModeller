@@ -1,62 +1,63 @@
 ﻿#Region "Microsoft.VisualBasic::a360d21ed7dadfa783e127c5af2a7504, data\STRING\Tsv.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class LinkAction
-    ' 
-    '         Properties: a_is_acting, action, item_id_a, item_id_b, mode
-    '                     score
-    ' 
-    '         Function: LoadText
-    ' 
-    '     Class linksDetail
-    ' 
-    '         Properties: coexpression, combined_score, cooccurence, database, experimental
-    '                     fusion, neighborhood, protein1, protein2, textmining
-    ' 
-    '         Function: IteratesLinks, LoadFile, Selects, ToString
-    ' 
-    '     Class entrez_gene_id_vs_string
-    ' 
-    '         Properties: Entrez_Gene_ID, STRING_Locus_ID
-    ' 
-    '         Function: BuildMaps, BuildMapsFromFile, ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class LinkAction
+' 
+'         Properties: a_is_acting, action, item_id_a, item_id_b, mode
+'                     score
+' 
+'         Function: LoadText
+' 
+'     Class linksDetail
+' 
+'         Properties: coexpression, combined_score, cooccurence, database, experimental
+'                     fusion, neighborhood, protein1, protein2, textmining
+' 
+'         Function: IteratesLinks, LoadFile, Selects, ToString
+' 
+'     Class entrez_gene_id_vs_string
+' 
+'         Properties: Entrez_Gene_ID, STRING_Locus_ID
+' 
+'         Function: BuildMaps, BuildMapsFromFile, ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
@@ -104,9 +105,16 @@ Namespace StringDB.Tsv
         Public Property protein1 As String
         Public Property protein2 As String
         Public Property neighborhood As String
+        Public Property neighborhood_transferred As Double
         Public Property fusion As String
         Public Property cooccurence As String
+        Public Property homology As Double
         Public Property coexpression As String
+        Public Property coexpression_transferred As Double
+        Public Property experiments As Double
+        Public Property experiments_transferred As Double
+        Public Property database_transferred As Double
+        Public Property textmining_transferred As Double
         Public Property experimental As String
         Public Property database As String
         Public Property textmining As String
@@ -117,21 +125,47 @@ Namespace StringDB.Tsv
         End Function
 
         Public Shared Iterator Function LoadFile(path As String) As IEnumerable(Of linksDetail)
+            Dim headers As Index(Of String) = path.ReadFirstLine.StringSplit("\s+").Indexing
+            Dim neighborhood As Integer = headers.IndexOf(NameOf(linksDetail.neighborhood))
+            Dim neighborhood_transferred As Integer = headers.IndexOf(NameOf(linksDetail.neighborhood_transferred))
+            Dim fusion As Integer = headers.IndexOf(NameOf(linksDetail.fusion))
+            Dim cooccurence As Integer = headers.IndexOf(NameOf(linksDetail.cooccurence))
+            Dim homology As Integer = headers.IndexOf(NameOf(linksDetail.homology))
+            Dim coexpression As Integer = headers.IndexOf(NameOf(linksDetail.coexpression))
+            Dim coexpression_transferred As Integer = headers.IndexOf(NameOf(linksDetail.coexpression_transferred))
+            Dim experiments As Integer = headers.IndexOf(NameOf(linksDetail.experiments))
+            Dim experiments_transferred As Integer = headers.IndexOf(NameOf(linksDetail.experiments_transferred))
+            Dim database_transferred As Integer = headers.IndexOf(NameOf(linksDetail.database_transferred))
+            Dim textmining_transferred As Integer = headers.IndexOf(NameOf(linksDetail.textmining_transferred))
+            Dim experimental As Integer = headers.IndexOf(NameOf(linksDetail.experimental))
+            Dim database As Integer = headers.IndexOf(NameOf(linksDetail.database))
+            Dim textmining As Integer = headers.IndexOf(NameOf(linksDetail.textmining))
+            Dim combined_score As Integer = headers.IndexOf(NameOf(linksDetail.combined_score))
+
             For Each line As String In path.IterateAllLines.Skip(1)
                 Dim tokens As String() = line.Split(" "c)
-
-                Yield New linksDetail With {
+                Dim link As New linksDetail With {
                     .protein1 = tokens(0),
-                    .protein2 = tokens(1),
-                    .neighborhood = tokens(2),
-                    .fusion = tokens(3),
-                    .cooccurence = tokens(4),
-                    .coexpression = tokens(5),
-                    .experimental = tokens(6),
-                    .database = tokens(7),
-                    .textmining = tokens(8),
-                    .combined_score = tokens(9)
+                    .protein2 = tokens(1)
                 }
+
+                If neighborhood > -1 Then link.neighborhood = tokens(neighborhood)
+                If neighborhood_transferred > -1 Then link.neighborhood_transferred = tokens(neighborhood_transferred)
+                If fusion > -1 Then link.fusion = tokens(fusion)
+                If cooccurence > -1 Then link.cooccurence = tokens(cooccurence)
+                If homology > -1 Then link.homology = tokens(homology)
+                If coexpression > -1 Then link.coexpression = tokens(coexpression)
+                If coexpression_transferred > -1 Then link.coexpression_transferred = tokens(coexpression_transferred)
+                If experiments > -1 Then link.experiments = tokens(experiments)
+                If experiments_transferred > -1 Then link.experiments_transferred = tokens(experiments_transferred)
+                If database_transferred > -1 Then link.database_transferred = tokens(database_transferred)
+                If textmining_transferred > -1 Then link.textmining_transferred = tokens(textmining_transferred)
+                If experimental > -1 Then link.experimental = tokens(experimental)
+                If database > -1 Then link.database = tokens(database)
+                If textmining > -1 Then link.textmining = tokens(textmining)
+                If combined_score > -1 Then link.combined_score = tokens(combined_score)
+
+                Yield link
             Next
         End Function
 
