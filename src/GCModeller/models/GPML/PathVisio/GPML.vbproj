@@ -7,7 +7,18 @@
     <Platforms>AnyCPU;x64</Platforms>
     <Configurations>Debug;Release;Rsharp_app_release;mzkit_win32</Configurations>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Title>GPML: Graphical Pathway Markup Language for PathVisio (.gpml)</Title>
+    <Description>GPML: Graphical Pathway Markup Language for PathVisio (.gpml)</Description>
+    <PackageReleaseNotes>GPML: Graphical Pathway Markup Language for PathVisio (.gpml)</PackageReleaseNotes>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
