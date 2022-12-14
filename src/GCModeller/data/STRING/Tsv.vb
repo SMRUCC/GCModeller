@@ -124,6 +124,17 @@ Namespace StringDB.Tsv
             Return Me.GetJson
         End Function
 
+        ''' <summary>
+        ''' parse the string-db table file
+        ''' </summary>
+        ''' <param name="path">
+        ''' the string db protein links data files, example like:
+        ''' 
+        ''' 1. 9606.protein.links.v11.5.txt
+        ''' 2. 9606.protein.links.full.v11.5.txt
+        ''' 3. 9606.protein.links.detailed.v11.5.txt
+        ''' </param>
+        ''' <returns></returns>
         Public Shared Iterator Function LoadFile(path As String) As IEnumerable(Of linksDetail)
             Dim headers As Index(Of String) = path.ReadFirstLine.StringSplit("\s+").Indexing
             Dim neighborhood As Integer = headers.IndexOf(NameOf(linksDetail.neighborhood))
