@@ -5,7 +5,10 @@ Public Module DataFrame
     ''' <summary>
     ''' merge multiple batches data directly
     ''' </summary>
-    ''' <param name="batches"></param>
+    ''' <param name="batches">
+    ''' matrix in multiple batches data should be normalized at
+    ''' first before calling this data batch merge function.
+    ''' </param>
     ''' <returns></returns>
     <Extension>
     Public Function MergeMultipleHTSMatrix(batches As Matrix()) As Matrix
