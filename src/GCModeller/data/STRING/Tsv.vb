@@ -104,24 +104,24 @@ Namespace StringDB.Tsv
 
         Public Property protein1 As String
         Public Property protein2 As String
-        Public Property neighborhood As String
-        Public Property neighborhood_transferred As Double
-        Public Property fusion As String
-        Public Property cooccurence As String
-        Public Property homology As Double
-        Public Property coexpression As String
-        Public Property coexpression_transferred As Double
-        Public Property experiments As Double
-        Public Property experiments_transferred As Double
-        Public Property database_transferred As Double
-        Public Property textmining_transferred As Double
-        Public Property experimental As String
-        Public Property database As String
-        Public Property textmining As String
-        Public Property combined_score As String
+        Public Property neighborhood As Single
+        Public Property neighborhood_transferred As Single
+        Public Property fusion As Single
+        Public Property cooccurence As Single
+        Public Property homology As Single
+        Public Property coexpression As Single
+        Public Property coexpression_transferred As Single
+        Public Property experiments As Single
+        Public Property experiments_transferred As Single
+        Public Property database_transferred As Single
+        Public Property textmining_transferred As Single
+        Public Property experimental As Single
+        Public Property database As Single
+        Public Property textmining As Single
+        Public Property combined_score As Single
 
         Public Overrides Function ToString() As String
-            Return Me.GetJson
+            Return $"[{protein1} ~ {protein2}]"
         End Function
 
         ''' <summary>

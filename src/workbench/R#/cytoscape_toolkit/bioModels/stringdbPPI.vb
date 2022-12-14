@@ -117,12 +117,16 @@ Module stringdbPPI
     <RApiReturn(GetType(linksDetail), GetType(StringIndex))>
     Public Function parseStringDb(file As String,
                                   Optional remove_taxonomyId As Boolean = True,
-                                  Optional link_matrix As Boolean = False) As Object
+                                  Optional link_matrix As Boolean = False,
+                                  Optional combine_score As Single = -1) As Object
 
         Dim links As IEnumerable(Of linksDetail) = linksDetail.LoadFile(path:=file)
 
         If remove_taxonomyId Then
             links = StringIndex.RemoveTaxonomyIdPrefix(links)
+        End If
+        If combine_score > 0 Then
+            links = links.Where(Function(l) l.combined_score > combine_score)
         End If
         If link_matrix Then
             Return New StringIndex(links)
