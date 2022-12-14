@@ -65,6 +65,7 @@
     <ProjectReference Include="..\..\..\GCModeller\models\BioCyc\BioCyc.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\models\Networks\STRING\STRING.NET5.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\models\SBML\SBML\sbml-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\interops\visualize\Cytoscape\Cytoscape.Automation\Cytoscape.Automation.vbproj" />
     <ProjectReference Include="..\..\..\interops\visualize\Cytoscape\Cytoscape\Cytoscape.NET5.vbproj" />
     <ProjectReference Include="..\..\..\R-sharp\R#\Rsharp-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\repository\Bio.Repository\repository.NET5.vbproj" />
