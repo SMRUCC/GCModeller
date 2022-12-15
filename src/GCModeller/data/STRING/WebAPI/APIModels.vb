@@ -208,6 +208,10 @@ Namespace StringDB.WebAPI
             }
         }
 
+        Sub New(strData As String)
+            MyBase.strData = strData
+        End Sub
+
         Public Overrides Function GetToken() As String
             Return MyBase.strData
         End Function

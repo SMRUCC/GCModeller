@@ -1,0 +1,54 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>SMRUCC.genomics.Model.Network.STRING</RootNamespace>
+    <TargetFrameworks>net6.0-windows;net6.0;net48</TargetFrameworks>
+    <AssemblyName>SMRUCC.genomics.Model.Network.STRING-db</AssemblyName>
+    <Platforms>AnyCPU;x64</Platforms>
+    <Configurations>Debug;Release;Rsharp_app_release</Configurations>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+ 
+    <Compile Remove="Models\**" />
+    <Compile Remove="TCS\**" />
+  
+    <EmbeddedResource Remove="Models\**" />
+    <EmbeddedResource Remove="TCS\**" />
+   
+    <None Remove="Models\**" />
+    <None Remove="TCS\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data\DataFrame\dataframework-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Graph\graph-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\Math.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\imaging.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\gr\network-visualization\Datavisualization.Network\network_graph-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\gr\network-visualization\Network.IO.Extensions\network_io-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\gr\physics\physics-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\mime\application%rdf+xml\rdf_xml-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\mime\application%xml\xml-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\mime\text%html\html_netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\core\Bio.Assembly\biocore-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\core\Bio.InteractionModel\InteractionModel.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\data\STRING\STRING-db.vbproj" />
+    <ProjectReference Include="..\..\..\foundation\PSICQUIC\psidev\psidev.vbproj" />
+    <ProjectReference Include="..\..\SBML\SBML\sbml-netcore5.vbproj" />
+    <ProjectReference Include="..\KEGG\KEGGNetwork.NET5.vbproj" />
+  </ItemGroup>
+ 
+
+</Project>

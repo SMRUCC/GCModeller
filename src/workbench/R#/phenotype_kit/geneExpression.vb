@@ -67,6 +67,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Distributions
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
@@ -86,6 +87,7 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 Imports Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 Imports Rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 Imports REnv = SMRUCC.Rsharp.Runtime
+Imports stdNum = System.Math
 Imports Vec = Microsoft.VisualBasic.Math.LinearAlgebra.Vector
 
 ''' <summary>
@@ -225,25 +227,54 @@ Module geneExpression
     ''' <summary>
     ''' set new gene id list to the matrix rows
     ''' </summary>
-    ''' <param name="expr0"></param>
-    ''' <param name="gene_ids"></param>
+    ''' <param name="x">target gene expression matrix object</param>
+    ''' <param name="gene_ids">
+    ''' a collection of the new gene ids to set to the feature
+    ''' rows of the gene expression matrix.
+    ''' </param>
     ''' <param name="env"></param>
     ''' <returns></returns>
+    ''' <remarks>
+    ''' it is kind of ``rownames`` liked function for dataframe object.
+    ''' </remarks>
     <ExportAPI("setFeatures")>
-    <RApiReturn(GetType(Matrix))>
-    Public Function setGeneIDs(expr0 As Matrix,
+    <RApiReturn(GetType(Matrix), GetType(MatrixViewer))>
+    Public Function setGeneIDs(x As Object,
                                gene_ids As String(),
                                Optional env As Environment = Nothing) As Object
 
-        If expr0.expression.Length <> gene_ids.Length Then
-            Return Internal.debug.stop({$"dimension({expr0.expression.Length} genes) of the matrix feature must be equals to the dimension({gene_ids.Length} names) of the name vector!"}, env)
+        If TypeOf x Is Matrix Then
+            Dim expr0 As Matrix = DirectCast(x, Matrix)
+
+            If expr0.expression.Length <> gene_ids.Length Then
+                Return dimensionNotAgree(expr0.expression.Length, gene_ids.Length, env)
+            Else
+                For i As Integer = 0 To gene_ids.Length - 1
+                    expr0.expression(i).geneID = gene_ids(i)
+                Next
+
+                Return expr0
+            End If
+        ElseIf TypeOf x Is MatrixViewer Then
+            Dim expr1 As MatrixViewer = DirectCast(x, MatrixViewer)
+
+            If expr1.FeatureIDs.Count <> gene_ids.Length Then
+                Return dimensionNotAgree(expr1.FeatureIDs.Count, gene_ids.Length, env)
+            Else
+                Call expr1.SetNewGeneIDs(geneIDs:=gene_ids)
+                Return expr1
+            End If
+        Else
+            Return Message.InCompatibleType(GetType(Matrix), x.GetType, env)
         End If
+    End Function
 
-        For i As Integer = 0 To gene_ids.Length - 1
-            expr0.expression(i).geneID = gene_ids(i)
-        Next
-
-        Return expr0
+    Private Function dimensionNotAgree(geneSize As Integer, geneIdSize As Integer, env As Environment) As Message
+        Return Internal.debug.stop({
+            $"dimension({geneSize} genes) of the matrix feature must be equals to the dimension({geneIdSize} names) of the name vector!",
+            $"number of genes in matrix: {geneSize}",
+            $"number of gene id: {geneIdSize}"
+        }, env)
     End Function
 
     ''' <summary>
@@ -255,6 +286,17 @@ Module geneExpression
     <ExportAPI("filterZeroSamples")>
     Public Function filterZeroSamples(mat As Matrix, Optional env As Environment = Nothing) As Object
         Return mat.T.TrimZeros.T
+    End Function
+
+    ''' <summary>
+    ''' removes the rows which all gene expression result is ZERO
+    ''' </summary>
+    ''' <param name="mat"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("filterZeroGenes")>
+    Public Function filterZeroGenes(mat As Matrix, Optional env As Environment = Nothing) As Object
+        Return mat.TrimZeros
     End Function
 
     ''' <summary>
@@ -338,6 +380,11 @@ Module geneExpression
         Else
             Return BinaryMatrix.LoadStream(stream.TryCast(Of Stream))
         End If
+    End Function
+
+    <ExportAPI("load.matrixView")>
+    Public Function loadMatrixView(mat As Matrix) As HTSMatrixViewer
+        Return New HTSMatrixViewer(mat)
     End Function
 
     ''' <summary>
@@ -564,6 +611,8 @@ Module geneExpression
     End Function
 
     ''' <summary>
+    ''' Z-score normalized of the expression data matrix
+    ''' 
     ''' To avoid the influence of expression level to the 
     ''' clustering analysis, z-score transformation can 
     ''' be applied to covert the expression values to 
@@ -581,7 +630,11 @@ Module geneExpression
     ''' expression of a genomic feature in different conditions).
     ''' </summary>
     ''' <param name="x">a gene expression matrix</param>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' the HTS matrix object has been normalized in each gene 
+    ''' expression row, z-score is calculated for each gene row
+    ''' across multiple sample expression data.
+    ''' </returns>
     <ExportAPI("z_score")>
     Public Function zscore(x As Matrix) As Matrix
         Return New Matrix With {
@@ -771,27 +824,21 @@ Module geneExpression
     ''' <param name="pattern"></param>
     ''' <returns></returns>
     <ExportAPI("cmeans_matrix")>
-    <Extension>
-    Public Function GetCmeansPattern(pattern As ExpressionPattern,
-                                     Optional memberCutoff As Double = 0.8,
-                                     Optional env As Environment = Nothing) As Object
+    <RApiReturn(GetType(EntityClusterModel))>
+    Public Function GetCmeansPatternA(<RRawVectorArgument>
+                                      pattern As Object,
+                                      Optional memberCutoff As Double = 0.8,
+                                      Optional empty_shared As Integer = 2,
+                                      Optional max_cluster_shared As Integer = 3,
+                                      Optional env As Environment = Nothing) As Object
 
-        Dim result As DataSet() = pattern _
-            .Patterns _
-            .Select(Function(a)
-                        Return New DataSet With {
-                            .ID = a.uid,
-                            .Properties = a.memberships _
-                                .ToDictionary(Function(c) $"#{c.Key + 1}",
-                                              Function(c)
-                                                  Return c.Value
-                                              End Function)
-                        }
-                    End Function) _
-            .ToArray
-        Dim kmeans As EntityClusterModel() = result _
-            .ToKMeansModels _
-            .ToArray
+        Dim objs = toClusters(pattern, env)
+
+        If objs Like GetType(Message) Then
+            Return objs.TryCast(Of Message)
+        End If
+
+        Dim kmeans As EntityClusterModel() = objs.TryCast(Of EntityClusterModel())
         Dim clusterId As String() = kmeans _
             .Select(Function(p) p.Properties.Keys) _
             .IteratesALL _
@@ -815,21 +862,74 @@ Module geneExpression
             If tags.IsNullOrEmpty Then
                 item.Cluster = item.Properties _
                     .OrderByDescending(Function(c) c.Value) _
-                    .Take(1) _
-                    .Select(Function(cl) cl.Key) _
-                    .JoinBy("; ")
-            ElseIf tags.Length = max.Count Then
-                item.Cluster = item.Properties _
-                    .OrderByDescending(Function(c) c.Value) _
-                    .Take(3) _
+                    .Take(empty_shared) _
                     .Select(Function(cl) cl.Key) _
                     .JoinBy("; ")
             Else
-                item.Cluster = tags.Take(3).JoinBy("; ")
+                item.Cluster = tags _
+                    .Take(max_cluster_shared) _
+                    .JoinBy("; ")
             End If
         Next
 
         Return kmeans
+    End Function
+
+    Private Function toClusters(pattern As Object, env As Environment) As [Variant](Of EntityClusterModel(), Message)
+        If TypeOf pattern Is ExpressionPattern Then
+            Dim result As DataSet() = DirectCast(pattern, ExpressionPattern) _
+               .Patterns _
+               .Select(Function(a)
+                           Return New DataSet With {
+                               .ID = a.uid,
+                               .Properties = a.memberships _
+                                   .ToDictionary(Function(c) $"#{c.Key + 1}",
+                                                 Function(c)
+                                                     Return c.Value
+                                                 End Function)
+                           }
+                       End Function) _
+               .ToArray
+
+            Return result _
+                .ToKMeansModels _
+                .ToArray
+        ElseIf TypeOf pattern Is Rdataframe Then
+            Dim df As Rdataframe = DirectCast(pattern, Rdataframe)
+            Dim fields As String() = df.colnames _
+                .Where(Function(c) Not c.TextEquals(NameOf(EntityClusterModel.Cluster))) _
+                .ToArray
+            Dim rows = df.forEachRow(colKeys:=fields).ToArray
+            Dim colIndex = fields.SeqIterator.ToArray
+            Dim entities = rows _
+                .Select(Function(r)
+                            Return New EntityClusterModel With {
+                                .ID = r.name,
+                                .Properties = colIndex.ToDictionary(Function(i) i.value, Function(i) CDbl(r.value(i.i)))
+                            }
+                        End Function) _
+                .ToArray
+
+            Return entities
+        Else
+            Dim data As pipeline = pipeline.TryCreatePipeline(Of EntityClusterModel)(pattern, env)
+
+            If data.isError Then
+                Return data.getError
+            Else
+                Return data.populates(Of EntityClusterModel)(env).ToArray
+            End If
+        End If
+    End Function
+
+    <Extension>
+    Private Function GetCmeansPattern(pattern As ExpressionPattern,
+                                      Optional memberCutoff As Double = 0.8,
+                                      Optional empty_shared As Integer = 2,
+                                      Optional max_cluster_shared As Integer = 3,
+                                      Optional env As Environment = Nothing) As EntityClusterModel()
+
+        Return GetCmeansPatternA(pattern, memberCutoff, empty_shared, max_cluster_shared, env)
     End Function
 
     ''' <summary>
@@ -892,6 +992,8 @@ Module geneExpression
                            Optional plotSize As Object = "8100,5200",
                            Optional colorSet As String = "Jet",
                            Optional memberCutoff As Double = 0.8,
+                           Optional empty_shared As Integer = 2,
+                           Optional max_cluster_shared As Integer = 3,
                            Optional xlab As String = "Spatial Regions",
                            Optional ylab As String = "z-score(Normalized Intensity)",
                            Optional top_members As Double = 0.2,
@@ -914,7 +1016,7 @@ Module geneExpression
         Dim output As New list With {
             .slots = New Dictionary(Of String, Object)
         }
-        Dim kmeans = patterns.GetCmeansPattern(memberCutoff, env)
+        Dim kmeans As EntityClusterModel() = patterns.GetCmeansPattern(memberCutoff, empty_shared, max_cluster_shared, env)
 
         Call println($"membership cutoff for the cmeans patterns is: {memberCutoff}")
         Call println(patterns.ToSummaryText(memberCutoff))
@@ -951,10 +1053,15 @@ Module geneExpression
 
         Return matrix _
             .Ttest(
-                treatment:=sampleinfo.TakeGroup(treatment).SampleIDs,
-                control:=sampleinfo.TakeGroup(control).SampleIDs
+                treatment:=sampleinfo.TakeGroup(treatment).SampleIDs.ToArray,
+                control:=sampleinfo.TakeGroup(control).SampleIDs.ToArray
             ) _
             .DepFilter2(level, pvalue, FDR)
+    End Function
+
+    <ExportAPI("log")>
+    Public Function log(expr As Matrix, Optional base As Double = stdNum.E) As Matrix
+        Return expr.log(base)
     End Function
 
     ''' <summary>
@@ -1030,6 +1137,10 @@ Module geneExpression
     ''' <summary>
     ''' do matrix join by samples
     ''' </summary>
+    ''' <param name="samples">
+    ''' matrix in multiple batches data should be normalized at
+    ''' first before calling this data batch merge function.
+    ''' </param>
     ''' <returns></returns>
     <ExportAPI("joinSample")>
     Public Function joinSamples(samples As Matrix()) As Matrix
@@ -1038,46 +1149,7 @@ Module geneExpression
         ElseIf samples.Length = 1 Then
             Return samples(Scan0)
         Else
-            Return mergeMultiple(samples)
+            Return MergeMultipleHTSMatrix(samples)
         End If
     End Function
-
-    Private Function mergeMultiple(multiple As Matrix()) As Matrix
-        Dim matrix As Matrix = multiple(Scan0)
-        Dim geneIndex = matrix.expression.ToDictionary(Function(g) g.geneID)
-        Dim sampleList As New List(Of String)(matrix.sampleID)
-
-        For Each append As Matrix In multiple.Skip(1)
-            For Each gene As DataFrameRow In append.expression
-                Dim v As Double() = New Double(sampleList.Count + append.sampleID.Length - 1) {}
-                Dim a As Double()
-                Dim b As Double() = gene.experiments
-
-                If geneIndex.ContainsKey(gene.geneID) Then
-                    a = geneIndex(gene.geneID).experiments
-                Else
-                    a = New Double(sampleList.Count - 1) {}
-                End If
-
-                Call Array.ConstrainedCopy(a, Scan0, v, Scan0, a.Length)
-                Call Array.ConstrainedCopy(b, Scan0, v, a.Length, b.Length)
-
-                geneIndex(gene.geneID) = New DataFrameRow With {
-                    .experiments = v,
-                    .geneID = gene.geneID
-                }
-            Next
-
-            Call sampleList.AddRange(append.sampleID)
-        Next
-
-        Return New Matrix With {
-            .expression = geneIndex.Values.ToArray,
-            .sampleID = sampleList.ToArray,
-            .tag = multiple _
-                .Select(Function(m) m.tag) _
-                .JoinBy("+")
-        }
-    End Function
-
 End Module
