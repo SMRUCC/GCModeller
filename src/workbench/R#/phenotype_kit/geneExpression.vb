@@ -1067,11 +1067,27 @@ Module geneExpression
     ''' <summary>
     ''' get gene Id list
     ''' </summary>
-    ''' <param name="dep"></param>
-    ''' <returns></returns>
+    ''' <param name="dep">
+    ''' A collection of the deg/dep object or a raw HTS matrix object
+    ''' </param>
+    ''' <returns>A collection of the gene id set</returns>
     <ExportAPI("geneId")>
-    Public Function geneId(dep As DEP_iTraq()) As String()
-        Return dep.Select(Function(a) a.ID).ToArray
+    <RApiReturn(GetType(String))>
+    Public Function geneId(<RRawVectorArgument> dep As Object, Optional env As Environment = Nothing) As Object
+        If TypeOf dep Is Matrix Then
+            Return DirectCast(dep, Matrix).rownames
+        Else
+            Dim deps As pipeline = pipeline.TryCreatePipeline(Of DEP_iTraq)(dep, env)
+
+            If deps.isError Then
+                Return deps.getError
+            Else
+                Return deps _
+                    .populates(Of DEP_iTraq)(env) _
+                    .Select(Function(a) a.ID) _
+                    .ToArray
+            End If
+        End If
     End Function
 
     ''' <summary>
