@@ -7,6 +7,7 @@ the gene expression matrix data toolkit
 + [as.expr_list](geneExpression/as.expr_list.1) convert the matrix into row gene list
 + [setTag](geneExpression/setTag.1) set a new tag string to the matrix
 + [setZero](geneExpression/setZero.1) set the expression value to zero 
++ [setSamples](geneExpression/setSamples.1) set new sample id list to the matrix columns
 + [setFeatures](geneExpression/setFeatures.1) set new gene id list to the matrix rows
 + [filterZeroSamples](geneExpression/filterZeroSamples.1) filter out all samples columns which its expression vector is ZERO!
 + [filterZeroGenes](geneExpression/filterZeroGenes.1) removes the rows which all gene expression result is ZERO
