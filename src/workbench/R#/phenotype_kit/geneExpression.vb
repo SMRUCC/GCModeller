@@ -933,10 +933,15 @@ Module geneExpression
     End Function
 
     ''' <summary>
+    ''' ### split the cmeans cluster output
+    ''' 
     ''' split the cmeans cluster output into multiple parts based on the cluster tags
     ''' </summary>
-    ''' <param name="cmeans"></param>
-    ''' <returns></returns>
+    ''' <param name="cmeans">the cmeans cluster result</param>
+    ''' <returns>
+    ''' A list object that contains the input cluster result 
+    ''' data is split into multiple cluster parts.
+    ''' </returns>
     <ExportAPI("split.cmeans_clusters")>
     Public Function splitCMeansClusters(cmeans As EntityClusterModel()) As Object
         Dim split = cmeans _
@@ -957,6 +962,8 @@ Module geneExpression
     End Function
 
     ''' <summary>
+    ''' ### clustering analysis of time course data
+    ''' 
     ''' This function performs clustering analysis of time course data
     ''' </summary>
     ''' <param name="matrix">A gene expression data matrix object</param>
@@ -1041,8 +1048,20 @@ Module geneExpression
         Return output
     End Function
 
+    ''' <summary>
+    ''' do t-test across specific analysis comparision
+    ''' </summary>
+    ''' <param name="x"></param>
+    ''' <param name="sampleinfo"></param>
+    ''' <param name="treatment">group name of the treatment group</param>
+    ''' <param name="control">group name of the control group</param>
+    ''' <param name="level">log2FC cutoff level</param>
+    ''' <param name="pvalue">the t-test pvalue cutoff</param>
+    ''' <param name="FDR">the FDR cutoff</param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("deg.t.test")>
-    Public Function Ttest(matrix As Matrix,
+    Public Function Ttest(x As Matrix,
                           sampleinfo As SampleInfo(),
                           treatment$,
                           control$,
@@ -1051,14 +1070,24 @@ Module geneExpression
                           Optional FDR# = 0.05,
                           Optional env As Environment = Nothing) As DEP_iTraq()
 
-        Return matrix _
-            .Ttest(
-                treatment:=sampleinfo.TakeGroup(treatment).SampleIDs.ToArray,
-                control:=sampleinfo.TakeGroup(control).SampleIDs.ToArray
-            ) _
-            .DepFilter2(level, pvalue, FDR)
+        Dim i = sampleinfo.TakeGroup(treatment).SampleIDs.ToArray
+        Dim j = sampleinfo.TakeGroup(control).SampleIDs.ToArray
+
+        Return x _
+            .Ttest(treatment:=i, control:=j) _
+            .DepFilter2(
+                level:=level,
+                pvalue:=pvalue,
+                FDR_threshold:=FDR
+            )
     End Function
 
+    ''' <summary>
+    ''' log scale of the HTS raw matrix
+    ''' </summary>
+    ''' <param name="expr">the HTS expression matrix object</param>
+    ''' <param name="base"></param>
+    ''' <returns></returns>
     <ExportAPI("log")>
     Public Function log(expr As Matrix, Optional base As Double = stdNum.E) As Matrix
         Return expr.log(base)
