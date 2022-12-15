@@ -225,6 +225,46 @@ Module geneExpression
     End Function
 
     ''' <summary>
+    ''' set new sample id list to the matrix columns
+    ''' </summary>
+    ''' <param name="x">target gene expression matrix object</param>
+    ''' <param name="sample_ids">
+    ''' a character vector of the new sample id list for
+    ''' set to the sample columns of the gene expression 
+    ''' matrix.
+    ''' </param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    ''' <remarks>
+    ''' it is kind of ``colnames`` liked function for dataframe object.
+    ''' </remarks>
+    <ExportAPI("setSamples")>
+    <RApiReturn(GetType(Matrix), GetType(MatrixViewer))>
+    Public Function setSampleIDs(x As Object, sample_ids As String(), Optional env As Environment = Nothing) As Object
+        If TypeOf x Is Matrix Then
+            Dim expr0 As Matrix = DirectCast(x, Matrix)
+
+            If expr0.sampleID.Length <> sample_ids.Length Then
+                Return dimensionNotAgree(expr0.sampleID.Length, sample_ids.Length, "sample", env)
+            Else
+                expr0.sampleID = sample_ids.ToArray
+                Return expr0
+            End If
+        ElseIf TypeOf x Is MatrixViewer Then
+            Dim expr1 As MatrixViewer = DirectCast(x, MatrixViewer)
+
+            If expr1.SampleIDs.Count <> sample_ids.Length Then
+                Return dimensionNotAgree(expr1.SampleIDs.Count, sample_ids.Length, "sample", env)
+            Else
+                Call expr1.SetNewSampleIDs(sampleIDs:=sample_ids)
+                Return expr1
+            End If
+        Else
+            Return Message.InCompatibleType(GetType(Matrix), x.GetType, env)
+        End If
+    End Function
+
+    ''' <summary>
     ''' set new gene id list to the matrix rows
     ''' </summary>
     ''' <param name="x">target gene expression matrix object</param>
@@ -247,7 +287,7 @@ Module geneExpression
             Dim expr0 As Matrix = DirectCast(x, Matrix)
 
             If expr0.expression.Length <> gene_ids.Length Then
-                Return dimensionNotAgree(expr0.expression.Length, gene_ids.Length, env)
+                Return dimensionNotAgree(expr0.expression.Length, gene_ids.Length, "gene", env)
             Else
                 For i As Integer = 0 To gene_ids.Length - 1
                     expr0.expression(i).geneID = gene_ids(i)
@@ -259,7 +299,7 @@ Module geneExpression
             Dim expr1 As MatrixViewer = DirectCast(x, MatrixViewer)
 
             If expr1.FeatureIDs.Count <> gene_ids.Length Then
-                Return dimensionNotAgree(expr1.FeatureIDs.Count, gene_ids.Length, env)
+                Return dimensionNotAgree(expr1.FeatureIDs.Count, gene_ids.Length, "gene", env)
             Else
                 Call expr1.SetNewGeneIDs(geneIDs:=gene_ids)
                 Return expr1
@@ -269,11 +309,11 @@ Module geneExpression
         End If
     End Function
 
-    Private Function dimensionNotAgree(geneSize As Integer, geneIdSize As Integer, env As Environment) As Message
+    Private Function dimensionNotAgree(geneSize As Integer, geneIdSize As Integer, type As String, env As Environment) As Message
         Return Internal.debug.stop({
-            $"dimension({geneSize} genes) of the matrix feature must be equals to the dimension({geneIdSize} names) of the name vector!",
-            $"number of genes in matrix: {geneSize}",
-            $"number of gene id: {geneIdSize}"
+            $"dimension({geneSize} {type}) of the matrix feature must be equals to the dimension({geneIdSize} names) of the name vector!",
+            $"number of {type} in matrix: {geneSize}",
+            $"number of {type} id: {geneIdSize}"
         }, env)
     End Function
 
