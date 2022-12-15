@@ -36,3 +36,4 @@ the gene expression matrix data toolkit
 + [as.deg](geneExpression/as.deg.1) create gene expression DEG model
 + [deg.class](geneExpression/deg.class.1) 
 + [joinSample](geneExpression/joinSample.1) do matrix join by samples
++ [aggregate](geneExpression/aggregate.1) merge row or column where the tag is identical
