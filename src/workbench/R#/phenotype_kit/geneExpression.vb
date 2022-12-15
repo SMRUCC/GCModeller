@@ -1152,4 +1152,40 @@ Module geneExpression
             Return MergeMultipleHTSMatrix(samples)
         End If
     End Function
+
+    ''' <summary>
+    ''' merge row or column where the tag is identical
+    ''' </summary>
+    ''' <param name="x"></param>
+    ''' <param name="byrow"></param>
+    ''' <returns></returns>
+    <ExportAPI("aggregate")>
+    Public Function Aggregate(x As Matrix, Optional byrow As Boolean = True) As Object
+        If byrow Then
+            Dim rows As New Dictionary(Of String, Vec)
+
+            For Each gene As DataFrameRow In x.expression
+                If rows.ContainsKey(gene.geneID) Then
+                    rows(gene.geneID) += gene.experiments
+                Else
+                    rows(gene.geneID) = gene.experiments.AsVector
+                End If
+            Next
+
+            Return New Matrix With {
+                .expression = rows _
+                    .Select(Function(r)
+                                Return New DataFrameRow With {
+                                    .geneID = r.Key,
+                                    .experiments = r.Value.ToArray
+                                }
+                            End Function) _
+                    .ToArray,
+                .sampleID = x.sampleID,
+                .tag = $"aggregate({x.tag})"
+            }
+        Else
+            Throw New NotImplementedException
+        End If
+    End Function
 End Module
