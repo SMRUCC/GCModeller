@@ -28,10 +28,10 @@ the gene expression matrix data toolkit
 + [savePattern](geneExpression/savePattern.1) save the cmeans expression pattern result to local file
 + [readPattern](geneExpression/readPattern.1) read the cmeans expression pattern result from file
 + [cmeans_matrix](geneExpression/cmeans_matrix.1) get cluster membership matrix
-+ [split.cmeans_clusters](geneExpression/split.cmeans_clusters.1) split the cmeans cluster output into multiple parts based on the cluster tags
-+ [peakCMeans](geneExpression/peakCMeans.1) This function performs clustering analysis of time course data
-+ [deg.t.test](geneExpression/deg.t.test.1) 
-+ [log](geneExpression/log.1) 
++ [split.cmeans_clusters](geneExpression/split.cmeans_clusters.1) ### split the cmeans cluster output
++ [peakCMeans](geneExpression/peakCMeans.1) ### clustering analysis of time course data
++ [deg.t.test](geneExpression/deg.t.test.1) do t-test across specific analysis comparision
++ [log](geneExpression/log.1) log scale of the HTS raw matrix
 + [geneId](geneExpression/geneId.1) get gene Id list
 + [as.deg](geneExpression/as.deg.1) create gene expression DEG model
 + [deg.class](geneExpression/deg.class.1) 
