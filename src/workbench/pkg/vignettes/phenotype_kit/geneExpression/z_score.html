@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>To avoid the influence of expression level to the</title>
+    <title>Z-score normalized of the expression data matrix</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <style rel="stylesheet" type="text/css">
@@ -148,11 +148,11 @@
             </tr>
         </table>
 
-        <h2>To avoid the influence of expression level to the</h2>
+        <h2>Z-score normalized of the expression data matrix</h2>
 
         <h3>Description</h3>
 
-        <p>clustering analysis, z-score transformation can <br /> be applied to covert the expression values to <br /> z-scores by performing the following formula:<br /> <br /> </p>
+        <p><br /> To avoid the influence of expression level to the <br /> clustering analysis, z-score transformation can <br /> be applied to covert the expression values to <br /> z-scores by performing the following formula:<br /> <br /> </p>
 
 <pre><code class="<br /> z = (x - u) / sd<br /> ```">
 </code></pre>
@@ -194,7 +194,9 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a>.
+        <p>the HTS matrix object has been normalized in each gene <br />
+ expression row, z-score is calculated for each gene row<br />
+ across multiple sample expression data.</p>
 
         <hr />
         <div style="text-align: center;">[Package <em>geneExpression</em> version 1.0.0.0 <a
