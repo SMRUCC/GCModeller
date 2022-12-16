@@ -11,7 +11,7 @@ Public Class HTSMatrixReader : Inherits MatrixViewer
 
     ReadOnly bin As New NetworkByteOrderBuffer
     ReadOnly file As BinaryReader
-    ReadOnly sampleID As String()
+    ReadOnly sampleID As Index(Of String)
     ''' <summary>
     ''' the data reader offset is evaluated via this index object
     ''' </summary>
@@ -26,7 +26,7 @@ Public Class HTSMatrixReader : Inherits MatrixViewer
     Public Overrides ReadOnly Property SampleIDs As IEnumerable(Of String)
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
-            Return sampleID
+            Return sampleID.Objects
         End Get
     End Property
 
@@ -44,7 +44,7 @@ Public Class HTSMatrixReader : Inherits MatrixViewer
     Public Overrides ReadOnly Property Size As (nsample As Integer, nfeature As Integer)
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
-            Return (sampleID.Length, geneIDs.Count)
+            Return (sampleID.Count, geneIDs.Count)
         End Get
     End Property
 
@@ -66,11 +66,11 @@ Public Class HTSMatrixReader : Inherits MatrixViewer
             Dim str As String
 
             str = Me.file.ReadString
-            sampleID = str.LoadJSON(Of String())
+            sampleID = str.LoadJSON(Of String()).Indexing
             str = Me.file.ReadString
             geneIDs = New Index(Of String)(str.LoadJSON(Of String()))
             scan0 = Me.file.BaseStream.Position
-            blockSize = sampleID.Length * Marshal.SizeOf(GetType(Double))
+            blockSize = sampleID.Count * Marshal.SizeOf(GetType(Double))
         End If
     End Sub
 
@@ -105,6 +105,11 @@ Public Class HTSMatrixReader : Inherits MatrixViewer
         Return v
     End Function
 
+    Public Overrides Sub SetNewSampleIDs(sampleIDs() As String)
+        Call Me.sampleID.Clear()
+        Call Me.sampleID.Add(sampleIDs).ToArray
+    End Sub
+
     ''' <summary>
     ''' just updates of the gene id index
     ''' </summary>
@@ -125,7 +130,7 @@ Public Class HTSMatrixReader : Inherits MatrixViewer
 
             Return bin.decode(buffer)
         Else
-            Return New Double(sampleID.Length - 1) {}
+            Return New Double(sampleID.Count - 1) {}
         End If
     End Function
 

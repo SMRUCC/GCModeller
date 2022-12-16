@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>deg.t.test</title>
+    <title>do t-test across specific analysis comparision</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <style rel="stylesheet" type="text/css">
@@ -148,16 +148,16 @@
             </tr>
         </table>
 
-        <h2>deg.t.test</h2>
+        <h2>do t-test across specific analysis comparision</h2>
 
         <h3>Description</h3>
 
-        deg.t.test
+        
 
         <h3>Usage</h3>
 
         <div style="width: 100%; padding-left: 3%; color: black;">
-            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>deg.t.test</strong>(<i>matrix</i>, <i>sampleinfo</i>, <i>treatment</i>, <i>control</i>,
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>deg.t.test</strong>(<i>x</i>, <i>sampleinfo</i>, <i>treatment</i>, <i>control</i>,
     <i>level</i> = 1.5,
     <i>pvalue</i> = 0.05,
     <i>FDR</i> = 0.05);</code></pre>
@@ -167,6 +167,37 @@
 
         <table>
             
+<dt>x</dt>
+<dd><p><p>-</p></p></dd>
+
+
+<dt>sampleinfo</dt>
+<dd><p><p>-</p></p></dd>
+
+
+<dt>treatment</dt>
+<dd><p><p>group name of the treatment group</p></p></dd>
+
+
+<dt>control</dt>
+<dd><p><p>group name of the control group</p></p></dd>
+
+
+<dt>level</dt>
+<dd><p><p>log2FC cutoff level</p></p></dd>
+
+
+<dt>pvalue</dt>
+<dd><p><p>the t-test pvalue cutoff</p></p></dd>
+
+
+<dt>FDR</dt>
+<dd><p><p>the FDR cutoff</p></p></dd>
+
+
+<dt>env</dt>
+<dd><p><p>-</p></p></dd>
+
         </table>
 
 

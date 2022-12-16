@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Z-score normalized of the expression data matrix</title>
+    <title>set new sample id list to the matrix columns</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <style rel="stylesheet" type="text/css">
@@ -143,26 +143,21 @@
 
         <table style="width: 100%;">
             <tr>
-                <td>z_score {geneExpression}</td>
+                <td>setSamples {geneExpression}</td>
                 <td style="text-align: right;">R Documentation</td>
             </tr>
         </table>
 
-        <h2>Z-score normalized of the expression data matrix</h2>
+        <h2>set new sample id list to the matrix columns</h2>
 
         <h3>Description</h3>
 
-        <p><br /> To avoid the influence of expression level to the <br /> clustering analysis, z-score transformation can <br /> be applied to covert the expression values to <br /> z-scores by performing the following formula:<br /> <br /> </p>
-
-<pre><code class="<br /> z = (x - u) / sd<br /> ```">
-</code></pre>
-
-<p><br /> <br /> x is value to be converted (e.g., a expression value <br /> of a genomic feature in one condition), µ is the <br /> population mean (e.g., average expression value Of <br /> a genomic feature In different conditions), σ Is the <br /> standard deviation (e.g., standard deviation of <br /> expression of a genomic feature in different conditions).</p>
+        
 
         <h3>Usage</h3>
 
         <div style="width: 100%; padding-left: 3%; color: black;">
-            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>z_score</strong>(<i>x</i>);</code></pre>
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>setSamples</strong>(<i>x</i>, <i>sample.ids</i>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
@@ -170,33 +165,29 @@
         <table>
             
 <dt>x</dt>
-<dd><p><p>a gene expression matrix</p></p></dd>
+<dd><p><p>target gene expression matrix object</p></p></dd>
+
+
+<dt>sample.ids</dt>
+<dd><p><p>a character vector of the new sample id list for<br />
+ set to the sample columns of the gene expression <br />
+ matrix.</p></p></dd>
+
+
+<dt>env</dt>
+<dd><p><p>-</p></p></dd>
 
         </table>
 
 
         <h3 style="display: block;">Details</h3>
 
-        <h4>Standard score(z-score)</h4>
-
-<p>In statistics, the standard score is the signed number of standard deviations by which the value of <br />
- an observation or data point is above the mean value of what is being observed or measured. Observed <br />
- values above the mean have positive standard scores, while values below the mean have negative <br />
- standard scores. The standard score is a dimensionless quantity obtained by subtracting the population <br />
- mean from an individual raw score and then dividing the difference by the population standard deviation. <br />
- This conversion process is called standardizing or normalizing (however, "normalizing" can refer to <br />
- many types of ratios; see normalization for more).</p>
-
-<blockquote>
-  <p><a href="https://en.wikipedia.org/wiki/Standard_score">https://en.wikipedia.org/wiki/Standard_score</a></p>
-</blockquote>
+        <p>it is kind of <code>colnames</code> liked function for dataframe object.</p>
 
 
         <h3>Value</h3>
 
-        <p>the HTS matrix object has been normalized in each gene <br />
- expression row, z-score is calculated for each gene row<br />
- across multiple sample expression data.</p>
+        this function returns data object in these one of the listed data types: SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix, SMRUCC.genomics.Analysis.HTS.DataFrame.MatrixViewer.
 
         <hr />
         <div style="text-align: center;">[Package <em>geneExpression</em> version 1.0.0.0 <a

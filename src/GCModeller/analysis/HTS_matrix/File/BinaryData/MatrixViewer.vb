@@ -44,6 +44,7 @@ Public MustInherit Class MatrixViewer
     ''' </returns>
     Public MustOverride Function GetGeneExpression(geneID As String(), sampleOrdinal As Integer) As Double()
     Public MustOverride Sub SetNewGeneIDs(geneIDs As String())
+    Public MustOverride Sub SetNewSampleIDs(sampleIDs As String())
 
     Public Overrides Function ToString() As String
         Dim size = Me.Size
