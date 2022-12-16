@@ -78,4 +78,9 @@ Public Class HTSMatrixViewer : Inherits MatrixViewer
             matrix.expression(i).geneID = geneIDs(i)
         Next
     End Sub
+
+    Public Overrides Sub SetNewSampleIDs(sampleIDs() As String)
+        Me.sampleIndex.Clear()
+        Me.sampleIndex.Add(sampleIDs).ToArray
+    End Sub
 End Class

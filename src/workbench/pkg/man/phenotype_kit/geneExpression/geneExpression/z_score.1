@@ -1,12 +1,14 @@
 .\" man page create by R# package system.
 .TH GENEEXPRESSION 1 2000-01-01 "z_score" "z_score"
 .SH NAME
-z_score \- To avoid the influence of expression level to the
+z_score \- Z-score normalized of the expression data matrix
 .SH SYNOPSIS
 \fIz_score(\fBx\fR as <generic> Matrix);\fR
 .SH DESCRIPTION
 .PP
-To avoid the influence of expression level to the 
+Z-score normalized of the expression data matrix
+ 
+ To avoid the influence of expression level to the 
  clustering analysis, z-score transformation can 
  be applied to covert the expression values to 
  z-scores by performing the following formula:
@@ -25,6 +27,26 @@ To avoid the influence of expression level to the
 .SH OPTIONS
 .PP
 \fBx\fB \fR\- a gene expression matrix. 
+.PP
+.SH VALUE
+.PP
+the HTS matrix object has been normalized in each gene 
+ expression row, z-score is calculated for each gene row
+ across multiple sample expression data.
+.PP
+.SH DETAILS
+.PP
+#### Standard score(z-score)
+ 
+ In statistics, the standard score is the signed number of standard deviations by which the value of 
+ an observation or data point is above the mean value of what is being observed or measured. Observed 
+ values above the mean have positive standard scores, while values below the mean have negative 
+ standard scores. The standard score is a dimensionless quantity obtained by subtracting the population 
+ mean from an individual raw score and then dividing the difference by the population standard deviation. 
+ This conversion process is called standardizing or normalizing (however, "normalizing" can refer to 
+ many types of ratios; see normalization for more).
+ 
+ > https://en.wikipedia.org/wiki/Standard_score
 .PP
 .SH SEE ALSO
 geneExpression

@@ -3,14 +3,21 @@
 .SH NAME
 geneId \- get gene Id list
 .SH SYNOPSIS
-\fIgeneId(\fBdep\fR as <generic> DEP_iTraq[]);\fR
+\fIgeneId(\fBdep\fR as any, 
+[\fB<Environment>\fR]);\fR
 .SH DESCRIPTION
 .PP
 get gene Id list
 .PP
 .SH OPTIONS
 .PP
-\fBdep\fB \fR\- -. 
+\fBdep\fB \fR\- 
+ A collection of the deg/dep object or a raw HTS matrix object
+. 
+.PP
+.SH VALUE
+.PP
+A collection of the gene id set
 .PP
 .SH SEE ALSO
 geneExpression

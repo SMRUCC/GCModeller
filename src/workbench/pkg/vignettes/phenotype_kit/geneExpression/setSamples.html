@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>clustering analysis of time course data</title>
+    <title>set new sample id list to the matrix columns</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <style rel="stylesheet" type="text/css">
@@ -143,62 +143,35 @@
 
         <table style="width: 100%;">
             <tr>
-                <td>peakCMeans {geneExpression}</td>
+                <td>setSamples {geneExpression}</td>
                 <td style="text-align: right;">R Documentation</td>
             </tr>
         </table>
 
-        <h2>clustering analysis of time course data</h2>
+        <h2>set new sample id list to the matrix columns</h2>
 
         <h3>Description</h3>
 
-        <p><br /> This function performs clustering analysis of time course data</p>
+        
 
         <h3>Usage</h3>
 
         <div style="width: 100%; padding-left: 3%; color: black;">
-            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>peakCMeans</strong>(<i>matrix</i>,
-    <i>nsize</i> = <span style='color: brown;'><strong>"3,3"</strong></span>,
-    <i>threshold</i> = 10,
-    <i>fuzzification</i> = 2,
-    <i>plotSize</i> = <span style='color: brown;'><strong>"8100,5200"</strong></span>,
-    <i>colorSet</i> = <span style='color: brown;'><strong>"Jet"</strong></span>,
-    <i>memberCutoff</i> = 0.8,
-    <i>xlab</i> = <span style='color: brown;'><strong>"Spatial Regions"</strong></span>,
-    <i>ylab</i> = <span style='color: brown;'><strong>"z-score(Normalized Intensity)"</strong></span>,
-    <i>top.members</i> = 0.2);</code></pre>
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>setSamples</strong>(<i>x</i>, <i>sample.ids</i>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
 
         <table>
             
-<dt>matrix</dt>
-<dd><p><p>A gene expression data matrix object</p></p></dd>
+<dt>x</dt>
+<dd><p><p>target gene expression matrix object</p></p></dd>
 
 
-<dt>nsize</dt>
-<dd><p><p>the layout of the cmeans clustering visualization</p></p></dd>
-
-
-<dt>threshold</dt>
-<dd><p><p>the cmeans threshold</p></p></dd>
-
-
-<dt>plotSize</dt>
-<dd><p><p>the image size of the cmeans plot</p></p></dd>
-
-
-<dt>colorSet</dt>
-<dd><p><p>the color palatte name</p></p></dd>
-
-
-<dt>fuzzification</dt>
-<dd><p><p>cmeans fuzzification parameter</p></p></dd>
-
-
-<dt>memberCutoff</dt>
-<dd><p><p>the cmeans membership cutoff value for create a molecule cluster</p></p></dd>
+<dt>sample.ids</dt>
+<dd><p><p>a character vector of the new sample id list for<br />
+ set to the sample columns of the gene expression <br />
+ matrix.</p></p></dd>
 
 
 <dt>env</dt>
@@ -207,20 +180,14 @@
         </table>
 
 
-        <h3 style="display: none;">Details</h3>
+        <h3 style="display: block;">Details</h3>
 
-        
+        <p>it is kind of <code>colnames</code> liked function for dataframe object.</p>
 
 
         <h3>Value</h3>
 
-        <p>this function returns a tuple list that contains the pattern <br />
- cluster matrix and the cmeans pattern plots.</p>
-
-<ol>
-<li>'pattern' is a dataframe object that contains the object cluster patterns</li>
-<li>'image' is a bitmap image that plot based on the object cluster patterns data.</li>
-</ol>
+        this function returns data object in these one of the listed data types: SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix, SMRUCC.genomics.Analysis.HTS.DataFrame.MatrixViewer.
 
         <hr />
         <div style="text-align: center;">[Package <em>geneExpression</em> version 1.0.0.0 <a
