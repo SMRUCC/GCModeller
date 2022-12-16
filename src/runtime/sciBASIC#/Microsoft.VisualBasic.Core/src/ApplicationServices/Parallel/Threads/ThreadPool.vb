@@ -104,7 +104,7 @@ Namespace Parallel.Threads
                 Dim n As Integer
 
                 For Each t In threads
-                    If t.Tasks > 0 Then
+                    If t.Tasks > 0 OrElse t.RunningTask Then
                         n += 1
                     End If
                 Next
@@ -294,12 +294,14 @@ Namespace Parallel.Threads
         Private Function GetAvaliableThread() As TaskQueue(Of Long)
             Dim [short] As TaskQueue(Of Long) = threads.First
 
-            If [short].Tasks = 0 Then
+            If Not [short].RunningTask Then
                 Return [short]
             End If
 
             For Each t As TaskQueue(Of Long) In threads
-                If t.Tasks = 0 OrElse Not t.RunningTask Then
+                If Not t.RunningTask Then
+                    Return t
+                ElseIf t.Tasks = 0 Then
                     Return t
                 ElseIf t.MaximumQueue Then
                     Continue For
