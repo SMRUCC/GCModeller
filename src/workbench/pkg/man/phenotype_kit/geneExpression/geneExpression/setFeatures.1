@@ -3,7 +3,7 @@
 .SH NAME
 setFeatures \- set new gene id list to the matrix rows
 .SH SYNOPSIS
-\fIsetFeatures(\fBx\fR as any, 
+\fIsetFeatures(\fBexpr0\fR as <generic> Matrix, 
 \fBgene_ids\fR as string, 
 [\fB<Environment>\fR]);\fR
 .SH DESCRIPTION
@@ -12,20 +12,13 @@ set new gene id list to the matrix rows
 .PP
 .SH OPTIONS
 .PP
-\fBx\fB \fR\- target gene expression matrix object. 
+\fBexpr0\fB \fR\- -. 
 .PP
 .PP
-\fBgene_ids\fB \fR\- 
- a collection of the new gene ids to set to the feature
- rows of the gene expression matrix.
-. 
+\fBgene_ids\fB \fR\- -. 
 .PP
 .PP
 \fBenv\fB \fR\- -. 
-.PP
-.SH DETAILS
-.PP
-it is kind of \fBrownames\fR liked function for dataframe object.
 .PP
 .SH SEE ALSO
 geneExpression

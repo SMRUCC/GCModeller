@@ -1,14 +1,12 @@
 .\" man page create by R# package system.
 .TH GENEEXPRESSION 1 2000-01-01 "z_score" "z_score"
 .SH NAME
-z_score \- Z-score normalized of the expression data matrix
+z_score \- To avoid the influence of expression level to the
 .SH SYNOPSIS
 \fIz_score(\fBx\fR as <generic> Matrix);\fR
 .SH DESCRIPTION
 .PP
-Z-score normalized of the expression data matrix
- 
- To avoid the influence of expression level to the 
+To avoid the influence of expression level to the 
  clustering analysis, z-score transformation can 
  be applied to covert the expression values to 
  z-scores by performing the following formula:
@@ -27,12 +25,6 @@ Z-score normalized of the expression data matrix
 .SH OPTIONS
 .PP
 \fBx\fB \fR\- a gene expression matrix. 
-.PP
-.SH VALUE
-.PP
-the HTS matrix object has been normalized in each gene 
- expression row, z-score is calculated for each gene row
- across multiple sample expression data.
 .PP
 .SH SEE ALSO
 geneExpression
