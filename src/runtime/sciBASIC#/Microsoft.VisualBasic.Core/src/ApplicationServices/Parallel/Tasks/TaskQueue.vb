@@ -97,7 +97,7 @@ Namespace Parallel.Tasks
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 SyncLock __tasks
-                    Return __tasks.Count
+                    Return __tasks.Count + If(RunningTask, 1, 0)
                 End SyncLock
             End Get
         End Property
