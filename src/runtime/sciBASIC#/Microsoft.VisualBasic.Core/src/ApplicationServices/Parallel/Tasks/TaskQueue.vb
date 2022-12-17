@@ -151,7 +151,7 @@ Namespace Parallel.Tasks
 
         Public Overrides Function ToString() As String
             If worker IsNot Nothing AndAlso worker.progress >= 0 Then
-                Return $"[{uid}{task_name}] {If(RunningTask, "running", "stop")}, queue {Tasks} tasks. [current '{worker.ToString}' {worker.progress}%]"
+                Return $"[{uid}{task_name}] {If(RunningTask, "running", "stop")}, queue {Tasks} tasks. [current '{worker.ToString}' {worker.progress.ToString("F2")}%]"
             Else
                 Return $"[{uid}{task_name}] {If(RunningTask, "running", "stop")}, queue {Tasks} tasks."
             End If
