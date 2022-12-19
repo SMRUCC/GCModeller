@@ -7,6 +7,7 @@ the gene expression matrix data toolkit
 + [as.expr_list](geneExpression/as.expr_list.1) convert the matrix into row gene list
 + [setTag](geneExpression/setTag.1) set a new tag string to the matrix
 + [setZero](geneExpression/setZero.1) set the expression value to zero 
++ [setSamples](geneExpression/setSamples.1) set new sample id list to the matrix columns
 + [setFeatures](geneExpression/setFeatures.1) set new gene id list to the matrix rows
 + [filterZeroSamples](geneExpression/filterZeroSamples.1) filter out all samples columns which its expression vector is ZERO!
 + [filterZeroGenes](geneExpression/filterZeroGenes.1) removes the rows which all gene expression result is ZERO
@@ -28,11 +29,12 @@ the gene expression matrix data toolkit
 + [savePattern](geneExpression/savePattern.1) save the cmeans expression pattern result to local file
 + [readPattern](geneExpression/readPattern.1) read the cmeans expression pattern result from file
 + [cmeans_matrix](geneExpression/cmeans_matrix.1) get cluster membership matrix
-+ [split.cmeans_clusters](geneExpression/split.cmeans_clusters.1) split the cmeans cluster output into multiple parts based on the cluster tags
-+ [peakCMeans](geneExpression/peakCMeans.1) This function performs clustering analysis of time course data
-+ [deg.t.test](geneExpression/deg.t.test.1) 
-+ [log](geneExpression/log.1) 
++ [split.cmeans_clusters](geneExpression/split.cmeans_clusters.1) ### split the cmeans cluster output
++ [peakCMeans](geneExpression/peakCMeans.1) ### clustering analysis of time course data
++ [deg.t.test](geneExpression/deg.t.test.1) do t-test across specific analysis comparision
++ [log](geneExpression/log.1) log scale of the HTS raw matrix
 + [geneId](geneExpression/geneId.1) get gene Id list
 + [as.deg](geneExpression/as.deg.1) create gene expression DEG model
 + [deg.class](geneExpression/deg.class.1) 
 + [joinSample](geneExpression/joinSample.1) do matrix join by samples
++ [aggregate](geneExpression/aggregate.1) merge row or column where the tag is identical

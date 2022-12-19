@@ -225,6 +225,46 @@ Module geneExpression
     End Function
 
     ''' <summary>
+    ''' set new sample id list to the matrix columns
+    ''' </summary>
+    ''' <param name="x">target gene expression matrix object</param>
+    ''' <param name="sample_ids">
+    ''' a character vector of the new sample id list for
+    ''' set to the sample columns of the gene expression 
+    ''' matrix.
+    ''' </param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    ''' <remarks>
+    ''' it is kind of ``colnames`` liked function for dataframe object.
+    ''' </remarks>
+    <ExportAPI("setSamples")>
+    <RApiReturn(GetType(Matrix), GetType(MatrixViewer))>
+    Public Function setSampleIDs(x As Object, sample_ids As String(), Optional env As Environment = Nothing) As Object
+        If TypeOf x Is Matrix Then
+            Dim expr0 As Matrix = DirectCast(x, Matrix)
+
+            If expr0.sampleID.Length <> sample_ids.Length Then
+                Return dimensionNotAgree(expr0.sampleID.Length, sample_ids.Length, "sample", env)
+            Else
+                expr0.sampleID = sample_ids.ToArray
+                Return expr0
+            End If
+        ElseIf TypeOf x Is MatrixViewer Then
+            Dim expr1 As MatrixViewer = DirectCast(x, MatrixViewer)
+
+            If expr1.SampleIDs.Count <> sample_ids.Length Then
+                Return dimensionNotAgree(expr1.SampleIDs.Count, sample_ids.Length, "sample", env)
+            Else
+                Call expr1.SetNewSampleIDs(sampleIDs:=sample_ids)
+                Return expr1
+            End If
+        Else
+            Return Message.InCompatibleType(GetType(Matrix), x.GetType, env)
+        End If
+    End Function
+
+    ''' <summary>
     ''' set new gene id list to the matrix rows
     ''' </summary>
     ''' <param name="x">target gene expression matrix object</param>
@@ -247,7 +287,7 @@ Module geneExpression
             Dim expr0 As Matrix = DirectCast(x, Matrix)
 
             If expr0.expression.Length <> gene_ids.Length Then
-                Return dimensionNotAgree(expr0.expression.Length, gene_ids.Length, env)
+                Return dimensionNotAgree(expr0.expression.Length, gene_ids.Length, "gene", env)
             Else
                 For i As Integer = 0 To gene_ids.Length - 1
                     expr0.expression(i).geneID = gene_ids(i)
@@ -259,7 +299,7 @@ Module geneExpression
             Dim expr1 As MatrixViewer = DirectCast(x, MatrixViewer)
 
             If expr1.FeatureIDs.Count <> gene_ids.Length Then
-                Return dimensionNotAgree(expr1.FeatureIDs.Count, gene_ids.Length, env)
+                Return dimensionNotAgree(expr1.FeatureIDs.Count, gene_ids.Length, "gene", env)
             Else
                 Call expr1.SetNewGeneIDs(geneIDs:=gene_ids)
                 Return expr1
@@ -269,11 +309,11 @@ Module geneExpression
         End If
     End Function
 
-    Private Function dimensionNotAgree(geneSize As Integer, geneIdSize As Integer, env As Environment) As Message
+    Private Function dimensionNotAgree(geneSize As Integer, geneIdSize As Integer, type As String, env As Environment) As Message
         Return Internal.debug.stop({
-            $"dimension({geneSize} genes) of the matrix feature must be equals to the dimension({geneIdSize} names) of the name vector!",
-            $"number of genes in matrix: {geneSize}",
-            $"number of gene id: {geneIdSize}"
+            $"dimension({geneSize} {type}) of the matrix feature must be equals to the dimension({geneIdSize} names) of the name vector!",
+            $"number of {type} in matrix: {geneSize}",
+            $"number of {type} id: {geneIdSize}"
         }, env)
     End Function
 
@@ -635,6 +675,19 @@ Module geneExpression
     ''' expression row, z-score is calculated for each gene row
     ''' across multiple sample expression data.
     ''' </returns>
+    ''' <remarks>
+    ''' #### Standard score(z-score)
+    ''' 
+    ''' In statistics, the standard score is the signed number of standard deviations by which the value of 
+    ''' an observation or data point is above the mean value of what is being observed or measured. Observed 
+    ''' values above the mean have positive standard scores, while values below the mean have negative 
+    ''' standard scores. The standard score is a dimensionless quantity obtained by subtracting the population 
+    ''' mean from an individual raw score and then dividing the difference by the population standard deviation. 
+    ''' This conversion process is called standardizing or normalizing (however, "normalizing" can refer to 
+    ''' many types of ratios; see normalization for more).
+    ''' 
+    ''' > https://en.wikipedia.org/wiki/Standard_score
+    ''' </remarks>
     <ExportAPI("z_score")>
     Public Function zscore(x As Matrix) As Matrix
         Return New Matrix With {
@@ -933,10 +986,15 @@ Module geneExpression
     End Function
 
     ''' <summary>
+    ''' ### split the cmeans cluster output
+    ''' 
     ''' split the cmeans cluster output into multiple parts based on the cluster tags
     ''' </summary>
-    ''' <param name="cmeans"></param>
-    ''' <returns></returns>
+    ''' <param name="cmeans">the cmeans cluster result</param>
+    ''' <returns>
+    ''' A list object that contains the input cluster result 
+    ''' data is split into multiple cluster parts.
+    ''' </returns>
     <ExportAPI("split.cmeans_clusters")>
     Public Function splitCMeansClusters(cmeans As EntityClusterModel()) As Object
         Dim split = cmeans _
@@ -957,6 +1015,8 @@ Module geneExpression
     End Function
 
     ''' <summary>
+    ''' ### clustering analysis of time course data
+    ''' 
     ''' This function performs clustering analysis of time course data
     ''' </summary>
     ''' <param name="matrix">A gene expression data matrix object</param>
@@ -1041,8 +1101,20 @@ Module geneExpression
         Return output
     End Function
 
+    ''' <summary>
+    ''' do t-test across specific analysis comparision
+    ''' </summary>
+    ''' <param name="x"></param>
+    ''' <param name="sampleinfo"></param>
+    ''' <param name="treatment">group name of the treatment group</param>
+    ''' <param name="control">group name of the control group</param>
+    ''' <param name="level">log2FC cutoff level</param>
+    ''' <param name="pvalue">the t-test pvalue cutoff</param>
+    ''' <param name="FDR">the FDR cutoff</param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("deg.t.test")>
-    Public Function Ttest(matrix As Matrix,
+    Public Function Ttest(x As Matrix,
                           sampleinfo As SampleInfo(),
                           treatment$,
                           control$,
@@ -1051,14 +1123,24 @@ Module geneExpression
                           Optional FDR# = 0.05,
                           Optional env As Environment = Nothing) As DEP_iTraq()
 
-        Return matrix _
-            .Ttest(
-                treatment:=sampleinfo.TakeGroup(treatment).SampleIDs.ToArray,
-                control:=sampleinfo.TakeGroup(control).SampleIDs.ToArray
-            ) _
-            .DepFilter2(level, pvalue, FDR)
+        Dim i = sampleinfo.TakeGroup(treatment).SampleIDs.ToArray
+        Dim j = sampleinfo.TakeGroup(control).SampleIDs.ToArray
+
+        Return x _
+            .Ttest(treatment:=i, control:=j) _
+            .DepFilter2(
+                level:=level,
+                pvalue:=pvalue,
+                FDR_threshold:=FDR
+            )
     End Function
 
+    ''' <summary>
+    ''' log scale of the HTS raw matrix
+    ''' </summary>
+    ''' <param name="expr">the HTS expression matrix object</param>
+    ''' <param name="base"></param>
+    ''' <returns></returns>
     <ExportAPI("log")>
     Public Function log(expr As Matrix, Optional base As Double = stdNum.E) As Matrix
         Return expr.log(base)
@@ -1067,11 +1149,27 @@ Module geneExpression
     ''' <summary>
     ''' get gene Id list
     ''' </summary>
-    ''' <param name="dep"></param>
-    ''' <returns></returns>
+    ''' <param name="dep">
+    ''' A collection of the deg/dep object or a raw HTS matrix object
+    ''' </param>
+    ''' <returns>A collection of the gene id set</returns>
     <ExportAPI("geneId")>
-    Public Function geneId(dep As DEP_iTraq()) As String()
-        Return dep.Select(Function(a) a.ID).ToArray
+    <RApiReturn(GetType(String))>
+    Public Function geneId(<RRawVectorArgument> dep As Object, Optional env As Environment = Nothing) As Object
+        If TypeOf dep Is Matrix Then
+            Return DirectCast(dep, Matrix).rownames
+        Else
+            Dim deps As pipeline = pipeline.TryCreatePipeline(Of DEP_iTraq)(dep, env)
+
+            If deps.isError Then
+                Return deps.getError
+            Else
+                Return deps _
+                    .populates(Of DEP_iTraq)(env) _
+                    .Select(Function(a) a.ID) _
+                    .ToArray
+            End If
+        End If
     End Function
 
     ''' <summary>
@@ -1150,6 +1248,42 @@ Module geneExpression
             Return samples(Scan0)
         Else
             Return MergeMultipleHTSMatrix(samples)
+        End If
+    End Function
+
+    ''' <summary>
+    ''' merge row or column where the tag is identical
+    ''' </summary>
+    ''' <param name="x"></param>
+    ''' <param name="byrow"></param>
+    ''' <returns></returns>
+    <ExportAPI("aggregate")>
+    Public Function Aggregate(x As Matrix, Optional byrow As Boolean = True) As Object
+        If byrow Then
+            Dim rows As New Dictionary(Of String, Vec)
+
+            For Each gene As DataFrameRow In x.expression
+                If rows.ContainsKey(gene.geneID) Then
+                    rows(gene.geneID) += gene.experiments
+                Else
+                    rows(gene.geneID) = gene.experiments.AsVector
+                End If
+            Next
+
+            Return New Matrix With {
+                .expression = rows _
+                    .Select(Function(r)
+                                Return New DataFrameRow With {
+                                    .geneID = r.Key,
+                                    .experiments = r.Value.ToArray
+                                }
+                            End Function) _
+                    .ToArray,
+                .sampleID = x.sampleID,
+                .tag = $"aggregate({x.tag})"
+            }
+        Else
+            Throw New NotImplementedException
         End If
     End Function
 End Module
