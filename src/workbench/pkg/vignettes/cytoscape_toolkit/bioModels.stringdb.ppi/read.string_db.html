@@ -157,7 +157,10 @@
         <h3>Usage</h3>
 
         <div style="width: 100%; padding-left: 3%; color: black;">
-            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>read.string_db</strong>(<i>file</i>);</code></pre>
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>read.string_db</strong>(<i>file</i>,
+    <i>remove.taxonomyId</i> = <span style='color: blue;'>TRUE</span>,
+    <i>link.matrix</i> = <span style='color: blue;'>FALSE</span>,
+    <i>combine.score</i> = -1);</code></pre>
         </div>
 
         <h3>Arguments</h3>
@@ -183,7 +186,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object in type SMRUCC.genomics.Data.STRING.StringDB.Tsv.linksDetail.
+        this function returns data object in these one of the listed data types: <a href="/clr/SMRUCC/genomics/Data/STRING/StringDB/Tsv/linksDetail.html">linksDetail</a>, <a href="/clr/SMRUCC/genomics/Data/STRING/StringIndex.html">StringIndex</a>.
 
         <hr />
         <div style="text-align: center;">[Package <em>bioModels.stringdb.ppi</em> version 1.0.0.0 <a
