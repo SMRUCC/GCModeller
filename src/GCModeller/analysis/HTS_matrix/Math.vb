@@ -135,7 +135,10 @@ Public Module Math
         Dim group_maxs = groups.ToDictionary(Function(g) g.Key, Function(g) max(g.Value).AsVector)
         Dim group_zero = groups.ToDictionary(Function(g) g.Key,
                                              Function(g)
-                                                 Return Replicate(0.0, g.Value.Length).ToArray
+                                                 Dim v = Replicate(0.0, g.Value.Length).ToArray
+                                                 ' fix of the possible t.test constant error
+                                                 v(0) = 0.0000000001
+                                                 Return New Vector(v)
                                              End Function)
 
         For Each gene As DataFrameRow In expr.expression
@@ -146,8 +149,9 @@ Public Module Math
                 Dim index As Integer() = group.Value
                 Dim group_max As Vector = group_maxs(group.Key)
                 Dim group_val As Vector = gene(index).AsVector
-                Dim trank As Vector = group_val - group_max
-                Dim test As TwoSampleResult = t.Test(trank, group_zero(group.Key))
+                Dim zero As Vector = group_zero(group.Key)
+                Dim trank As Vector = group_val / group_max + zero
+                Dim test As TwoSampleResult = t.Test(trank, zero)
 
                 pvalue.Add(group.Key, test.Pvalue)
                 ranking.Add(group.Key, trank.Average)
