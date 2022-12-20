@@ -106,6 +106,14 @@ Public Module Math
         Return logMat
     End Function
 
+    ''' <summary>
+    ''' evaluated expression ranking value
+    ''' </summary>
+    ''' <param name="expr">
+    ''' data must be normalized!
+    ''' </param>
+    ''' <param name="sampleinfo"></param>
+    ''' <returns></returns>
     <Extension>
     Public Iterator Function TRanking(expr As Matrix, sampleinfo As SampleInfo()) As IEnumerable(Of Ranking)
         Dim groups = sampleinfo _
@@ -124,7 +132,7 @@ Public Module Math
         Dim max As Vector = expr.sampleID _
             .Select(Function(id) expr.sample(id).Max) _
             .AsVector
-        Dim group_maxs = groups.ToDictionary(Function(g) g.Key, Function(g) max(g.Value))
+        Dim group_maxs = groups.ToDictionary(Function(g) g.Key, Function(g) max(g.Value).AsVector)
         Dim group_zero = groups.ToDictionary(Function(g) g.Key,
                                              Function(g)
                                                  Return Replicate(0.0, g.Value.Length).ToArray
@@ -137,7 +145,7 @@ Public Module Math
             For Each group In groups
                 Dim index As Integer() = group.Value
                 Dim group_max As Vector = group_maxs(group.Key)
-                Dim group_val As Vector = gene(index)
+                Dim group_val As Vector = gene(index).AsVector
                 Dim trank As Vector = group_val - group_max
                 Dim test As TwoSampleResult = t.Test(trank, group_zero(group.Key))
 
@@ -159,5 +167,9 @@ Public Class Ranking
     Public Property geneID As String
     Public Property ranking As Dictionary(Of String, Double)
     Public Property pvalue As Dictionary(Of String, Double)
+
+    Public Overrides Function ToString() As String
+        Return geneID
+    End Function
 
 End Class
