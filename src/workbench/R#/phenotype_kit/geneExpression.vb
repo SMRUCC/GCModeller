@@ -1101,6 +1101,11 @@ Module geneExpression
         Return output
     End Function
 
+    <ExportAPI("expr_ranking")>
+    Public Function ranking(x As Matrix, sampleinfo As SampleInfo()) As Ranking()
+        Return x.TRanking(sampleinfo).ToArray
+    End Function
+
     ''' <summary>
     ''' do t-test across specific analysis comparision
     ''' </summary>

@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>creates the final metagenome functional predictions. It</title>
+    <title>expr_ranking</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <style rel="stylesheet" type="text/css">
@@ -143,30 +143,27 @@
 
         <table style="width: 100%;">
             <tr>
-                <td>predict_metagenomes {microbiome}</td>
+                <td>expr_ranking {geneExpression}</td>
                 <td style="text-align: right;">R Documentation</td>
             </tr>
         </table>
 
-        <h2>creates the final metagenome functional predictions. It</h2>
+        <h2>expr_ranking</h2>
 
         <h3>Description</h3>
 
-        <p>multiplies each normalized OTU abundance by each predicted <br /> functional trait abundance to produce a table of functions <br /> (rows) by samples (columns).</p>
+        expr_ranking
 
         <h3>Usage</h3>
 
         <div style="width: 100%; padding-left: 3%; color: black;">
-            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>predict_metagenomes</strong>(<i>PICRUSt</i>, <i>table</i>);</code></pre>
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>expr_ranking</strong>(<i>x</i>, <i>sampleinfo</i>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
 
         <table>
             
-<dt>table</dt>
-<dd><p><p>-</p></p></dd>
-
         </table>
 
 
@@ -177,11 +174,11 @@
 
         <h3>Value</h3>
 
-        this function returns data object in type SMRUCC.genomics.Metagenomics.OTUData`1[[System.Double, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]][].
+        this function returns data object in type SMRUCC.genomics.Analysis.HTS.DataFrame.Ranking[].
 
         <hr />
-        <div style="text-align: center;">[Package <em>microbiome</em> version 1.0.0.0 <a
-                href="../microbiome.html">Index</a>]
+        <div style="text-align: center;">[Package <em>geneExpression</em> version 1.0.0.0 <a
+                href="../geneExpression.html">Index</a>]
         </div>
     </div>
 </body>

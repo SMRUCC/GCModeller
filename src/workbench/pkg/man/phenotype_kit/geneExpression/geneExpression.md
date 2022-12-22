@@ -31,6 +31,7 @@ the gene expression matrix data toolkit
 + [cmeans_matrix](geneExpression/cmeans_matrix.1) get cluster membership matrix
 + [split.cmeans_clusters](geneExpression/split.cmeans_clusters.1) ### split the cmeans cluster output
 + [peakCMeans](geneExpression/peakCMeans.1) ### clustering analysis of time course data
++ [expr_ranking](geneExpression/expr_ranking.1) 
 + [deg.t.test](geneExpression/deg.t.test.1) do t-test across specific analysis comparision
 + [log](geneExpression/log.1) log scale of the HTS raw matrix
 + [geneId](geneExpression/geneId.1) get gene Id list
