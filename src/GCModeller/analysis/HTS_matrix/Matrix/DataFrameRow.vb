@@ -77,6 +77,11 @@ Public Class DataFrameRow : Implements INamedValue, IVector
         End Get
     End Property
 
+    ''' <summary>
+    ''' get subset of the vector by a specific sample id offsets
+    ''' </summary>
+    ''' <param name="i"></param>
+    ''' <returns></returns>
     Default Public ReadOnly Property Value(i As Integer()) As Double()
         Get
             Return i _
