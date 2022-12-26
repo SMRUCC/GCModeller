@@ -173,6 +173,7 @@ Imports REnv = SMRUCC.Rsharp.Runtime
             result = proteinIndex.ToDictionary(Function(prot) prot.Key,
                                                Function(prot) As Object
                                                    Return prot.Value _
+                                                      .Where(Function(p) p.has(mapTo)) _
                                                       .Select(Function(p) p.attributes(mapTo)) _
                                                       .IteratesALL _
                                                       .Distinct _
