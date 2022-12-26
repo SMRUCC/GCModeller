@@ -143,13 +143,20 @@ Imports REnv = SMRUCC.Rsharp.Runtime
         Select Case from.ToLower
             Case "genename", "gene_name"
                 proteinIndex = proteins _
+                    .Where(Function(prot) Not prot.geneName.StringEmpty) _
                     .GroupBy(Function(prot) Strings.LCase(prot.geneName)) _
                     .ToDictionary(Function(prot) prot.Key,
                                   Function(prot)
                                       Return prot.ToArray
                                   End Function)
             Case Else
-                Throw New NotImplementedException
+                proteinIndex = proteins _
+                    .Where(Function(prot) prot.has(from)) _
+                    .GroupBy(Function(prot) prot.attr(from)) _
+                    .ToDictionary(Function(prot) prot.Key,
+                                  Function(prot)
+                                      Return prot.ToArray
+                                  End Function)
         End Select
 
         Dim result As New List(Of String)
