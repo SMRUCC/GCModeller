@@ -103,7 +103,7 @@ Namespace Ptf
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function has(attrName As String) As Boolean
-            Return attributes.ContainsKey(attrName)
+            Return attributes.ContainsKey(attrName) AndAlso Not _attributes(attrName).IsNullOrEmpty
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

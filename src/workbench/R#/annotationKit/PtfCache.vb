@@ -129,7 +129,9 @@ Imports REnv = SMRUCC.Rsharp.Runtime
     ''' do id mapping via the protein annotation cache
     ''' </summary>
     ''' <param name="proteins">the protein annotation data</param>
-    ''' <param name="id">a character vector that will be do mapping</param>
+    ''' <param name="id">a character vector that will be do mapping,
+    ''' this parameter will make id subset of the id mapping result,
+    ''' nothing means no subset</param>
     ''' <param name="mapTo">
     ''' external xrefs database name that the id will mapping to
     ''' </param>
@@ -137,37 +139,66 @@ Imports REnv = SMRUCC.Rsharp.Runtime
     ''' unmapped id will be leaves blank in this result.
     ''' </returns>
     <ExportAPI("ID_mapping")>
-    Public Function IDMapping(proteins As ProteinAnnotation(), id As String(), [from] As String, mapTo As String) As String()
+    <RApiReturn(GetType(list))>
+    Public Function IDMapping(proteins As ProteinAnnotation(),
+                              [from] As String,
+                              mapTo As String,
+                              Optional id As String() = Nothing) As Object
+
         Dim proteinIndex As Dictionary(Of String, ProteinAnnotation())
 
         Select Case from.ToLower
             Case "genename", "gene_name"
                 proteinIndex = proteins _
+                    .Where(Function(prot) Not prot.geneName.StringEmpty) _
                     .GroupBy(Function(prot) Strings.LCase(prot.geneName)) _
                     .ToDictionary(Function(prot) prot.Key,
                                   Function(prot)
                                       Return prot.ToArray
                                   End Function)
             Case Else
-                Throw New NotImplementedException
+                proteinIndex = proteins _
+                    .Where(Function(prot) prot.has(from)) _
+                    .GroupBy(Function(prot) prot.attr(from)) _
+                    .ToDictionary(Function(prot) prot.Key,
+                                  Function(prot)
+                                      Return prot.ToArray
+                                  End Function)
         End Select
 
-        Dim result As New List(Of String)
+        Dim result As New Dictionary(Of String, Object)
+        Dim maps As String()
 
-        For Each str As String In id.Select(AddressOf Strings.LCase)
-            If Not proteinIndex.ContainsKey(str) Then
-                result.Add("")
-            Else
-                proteins = proteinIndex(str)
-                id = proteins _
-                    .Select(Function(prot) prot(mapTo)) _
-                    .Where(Function(mapId) Not mapId.StringEmpty) _
-                    .ToArray
-                result.Add(id.JoinBy("; "))
-            End If
-        Next
+        If id.IsNullOrEmpty Then
+            result = proteinIndex.ToDictionary(Function(prot) prot.Key,
+                                               Function(prot) As Object
+                                                   Return prot.Value _
+                                                      .Where(Function(p) p.has(mapTo)) _
+                                                      .Select(Function(p) p.attributes(mapTo)) _
+                                                      .IteratesALL _
+                                                      .Distinct _
+                                                      .ToArray
+                                               End Function)
+        Else
+            For i As Integer = 0 To id.Length - 1
+                Dim str As String = Strings.LCase(id(i))
 
-        Return result.ToArray
+                If Not proteinIndex.ContainsKey(str) Then
+                    result.Add(id(i), Nothing)
+                Else
+                    proteins = proteinIndex(str)
+                    maps = proteins _
+                        .Select(Function(prot) prot(mapTo)) _
+                        .Where(Function(mapId) Not mapId.StringEmpty) _
+                        .ToArray
+                    result.Add(id(i), maps)
+                End If
+            Next
+        End If
+
+        Return New list With {
+            .slots = result
+        }
     End Function
 
     <ExportAPI("loadBackgroundModel")>
