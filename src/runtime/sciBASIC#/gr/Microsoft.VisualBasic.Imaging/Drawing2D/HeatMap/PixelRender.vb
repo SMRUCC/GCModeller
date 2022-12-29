@@ -76,12 +76,16 @@ Namespace Drawing2D.HeatMap
             End If
         End Sub
 
+        Public Function ScalePixels(allPixels As Pixel()) As IEnumerable(Of Pixel)
+            Return ScalePixels(allPixels, indexRange)
+        End Function
+
         ''' <summary>
         ''' scale raw data into <see cref="indexRange"/> for get 
         ''' corresponding color data.
         ''' </summary>
         ''' <returns></returns>
-        Public Iterator Function ScalePixels(allPixels As Pixel()) As IEnumerable(Of Pixel)
+        Public Shared Iterator Function ScalePixels(allPixels As Pixel(), indexRange As DoubleRange) As IEnumerable(Of Pixel)
             Dim range As DoubleRange = allPixels _
                 .Select(Function(p) p.Scale) _
                 .ToArray
@@ -125,7 +129,14 @@ Namespace Drawing2D.HeatMap
             ' 20220525 set pixels is not working on the linux server platform
             '
             If fillRect Then
-                Call FillRectangles(g, raster, cw:=1, ch:=1)
+                Call FillRectangles(
+                    g:=g,
+                    raster:=raster,
+                    cw:=1,
+                    ch:=1,
+                    colors:=colors,
+                    defaultColor:=defaultColor
+                )
             Else
                 Call SetPixels(raw, raster)
             End If
@@ -152,14 +163,21 @@ Namespace Drawing2D.HeatMap
             End Using
         End Sub
 
-        Private Sub FillRectangles(g As IGraphics, raster As Pixel(), cw As Double, ch As Double)
+        Public Shared Sub FillRectangles(g As IGraphics,
+                                         raster As Pixel(),
+                                         colors As Color(),
+                                         defaultColor As Color,
+                                         cw As Double,
+                                         ch As Double)
+
             Dim solids As SolidBrush() = colors _
                 .Select(Function(c) New SolidBrush(c)) _
                 .ToArray
             Dim paint As SolidBrush
             Dim defaultPaint As New SolidBrush(defaultColor)
+            Dim indexRange As New DoubleRange(0, solids.Length - 1)
 
-            For Each point As Pixel In ScalePixels(raster)
+            For Each point As Pixel In ScalePixels(raster, indexRange)
                 Dim level = CInt(point.Scale)
                 Dim pixel As RectangleF
 
