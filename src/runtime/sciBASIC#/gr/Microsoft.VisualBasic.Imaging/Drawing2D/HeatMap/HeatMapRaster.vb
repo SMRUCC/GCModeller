@@ -56,6 +56,8 @@
 
 #End Region
 
+Imports System.Drawing
+Imports Microsoft.VisualBasic.Imaging.Math2D
 Imports stdNum = System.Math
 
 Namespace Drawing2D.HeatMap
@@ -162,13 +164,18 @@ Namespace Drawing2D.HeatMap
             Return wKernel
         End Function
 
+        Public Function SetDatas(datas As IEnumerable(Of T)) As HeatMapRaster(Of T)
+            Return SetDataInternal(datas.ToArray)
+        End Function
+
         ''' <summary>
         ''' set imaging raster pixels data to generate heatmap matrix
         ''' </summary>
         ''' <param name="datas"></param>
-        Public Function SetDatas(datas As List(Of T)) As HeatMapRaster(Of T)
-            Dim hField As Integer = datas.Select(Function(p) p.Y).Max
-            Dim wField As Integer = datas.Select(Function(p) p.X).Max
+        Private Function SetDataInternal(datas As T()) As HeatMapRaster(Of T)
+            Dim poly As New Polygon2D(datas.Select(Function(p) New PointF(p.X, p.Y)).ToArray)
+            Dim hField As Integer = poly.ypoints.Max
+            Dim wField As Integer = poly.xpoints.Max
 
             ' 初始化高斯累加图
             m_heatMatrix = New Double(hField - 1, wField - 1) {}
@@ -214,7 +221,7 @@ Namespace Drawing2D.HeatMap
             Return Me
         End Function
 
-        Public Shared Iterator Function PopulateDenseRasterMatrix(datas As List(Of T), w As Integer, h As Integer) As IEnumerable(Of Pixel)
+        Public Shared Iterator Function PopulateDenseRasterMatrix(datas As IEnumerable(Of T), w As Integer, h As Integer) As IEnumerable(Of Pixel)
             Dim matrix = datas _
                 .GroupBy(Function(a) a.X) _
                 .ToDictionary(Function(x) x.Key,

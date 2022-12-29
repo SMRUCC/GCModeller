@@ -119,7 +119,7 @@ Namespace Drawing2D.HeatMap
             Dim full As New Rectangle(0, 0, raw.Width, raw.Height)
             Dim g As IGraphics = raw.CreateCanvas2D(directAccess:=True)
             Dim raster As Pixel() = New HeatMapRaster(Of T)() _
-                .SetDatas(pixels.ToList) _
+                .SetDatas(pixels) _
                 .GetRasterPixels _
                 .ToArray
 

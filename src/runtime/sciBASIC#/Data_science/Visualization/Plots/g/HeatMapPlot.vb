@@ -21,6 +21,10 @@ Namespace Graphic
             Return Designer.GetBrushes(theme.colorSet, n:=mapLevels)
         End Function
 
+        Protected Function GetColors() As Color()
+            Return Designer.GetColors(theme.colorSet, n:=mapLevels)
+        End Function
+
         Public Shared Iterator Function Z(scatter As IEnumerable(Of PixelData)) As IEnumerable(Of PixelData)
             Dim allSpots As PixelData() = scatter.ToArray
             Dim v As Double() = allSpots _
