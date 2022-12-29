@@ -125,8 +125,8 @@ Namespace Drawing2D.HeatMap
 
             Call g.Clear(defaultColor)
 
-            '
-            ' 20220525 set pixels is not working on the linux server platform
+            ' 20220525 set pixels is not working on the
+            ' linux server platform
             '
             If fillRect Then
                 Call FillRectangles(
