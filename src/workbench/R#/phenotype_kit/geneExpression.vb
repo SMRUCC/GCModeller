@@ -103,6 +103,13 @@ Module geneExpression
         REnv.Internal.ConsolePrinter.AttachConsoleFormatter(Of DEGModel)(Function(a) a.ToString)
     End Sub
 
+    ''' <summary>
+    ''' as.data.frame of the HTS matrix
+    ''' </summary>
+    ''' <param name="exp"></param>
+    ''' <param name="args"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     Private Function expDataTable(exp As Matrix, args As list, env As Environment) As Rdataframe
         Dim table As New Rdataframe With {.columns = New Dictionary(Of String, Array)}
 
