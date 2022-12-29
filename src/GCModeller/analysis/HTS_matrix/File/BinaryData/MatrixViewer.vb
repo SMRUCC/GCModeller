@@ -1,5 +1,9 @@
 Imports System.Runtime.CompilerServices
 
+''' <summary>
+''' the abstract viewer model of the in-memory matrix object and the
+''' huge binary matrix file
+''' </summary>
 Public MustInherit Class MatrixViewer
 
     Public ReadOnly Property tag As String
