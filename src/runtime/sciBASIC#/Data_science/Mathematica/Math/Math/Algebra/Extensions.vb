@@ -153,5 +153,40 @@ Namespace LinearAlgebra
 
             Return New NumericMatrix(weights.ToArray)
         End Function
+
+        Public Function jaccard_coeff_parallel(idx As Integer()(), Optional symmetrize As Boolean = True) As GeneralMatrix
+            Dim nrow As Integer = idx.Length
+            Dim div As Double = If(symmetrize, 2, 1)
+            Dim weights = Enumerable.Range(0, nrow) _
+                .AsParallel _
+                .Select(Function(i)
+                            Return idx(i).jaccard_row(i, idx, div)
+                        End Function) _
+                .IteratesALL
+
+            Return New NumericMatrix(weights.ToArray)
+        End Function
+
+        <Extension>
+        Private Iterator Function jaccard_row(nodei As Integer(), i As Integer, idx As Integer()(), div As Double) As IEnumerable(Of Double())
+            For Each k As Integer In idx(i)
+                If k < 0 OrElse i = k Then
+                    ' removes no links
+                    ' or selfloop
+                    Continue For
+                End If
+
+                Dim nodej As Integer() = idx(k)
+                Dim u As Integer = nodei.Intersect(nodej).Count
+
+                If u > 0 Then
+                    ' symmetrize the graph
+                    ' u is the intersect of the i and j
+                    ' so nodei size is greater than u always
+                    ' weight value no negative value
+                    Yield {i, k, u / (2.0 * nodei.Length - u) / div}
+                End If
+            Next
+        End Function
     End Module
 End Namespace
