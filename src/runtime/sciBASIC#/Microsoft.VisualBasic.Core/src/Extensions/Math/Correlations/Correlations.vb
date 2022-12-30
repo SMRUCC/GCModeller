@@ -1,67 +1,67 @@
 ﻿#Region "Microsoft.VisualBasic::12b5a8d0054957b19b566a20290ad405, sciBASIC#\Microsoft.VisualBasic.Core\src\Extensions\Math\Correlations\Correlations.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 501
-    '    Code Lines: 301
-    ' Comment Lines: 123
-    '   Blank Lines: 77
-    '     File Size: 19.43 KB
+' Summaries:
 
 
-    '     Module Correlations
-    ' 
-    '         Properties: PearsonDefault
-    ' 
-    '         Function: (+2 Overloads) GetPearson, JaccardIndex, JSD, kendallTauBeta, KLD
-    '                   KLDi, rankKendallTauBeta, SW
-    '         Structure Pearson
-    ' 
-    '             Properties: P
-    ' 
-    '             Function: Measure, RankPearson, ToString
-    ' 
-    '         Delegate Function
-    ' 
-    '             Function: CorrelationMatrix, rankingOrder, Spearman
-    ' 
-    '             Sub: throwNotAgree
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 501
+'    Code Lines: 301
+' Comment Lines: 123
+'   Blank Lines: 77
+'     File Size: 19.43 KB
+
+
+'     Module Correlations
+' 
+'         Properties: PearsonDefault
+' 
+'         Function: (+2 Overloads) GetPearson, JaccardIndex, JSD, kendallTauBeta, KLD
+'                   KLDi, rankKendallTauBeta, SW
+'         Structure Pearson
+' 
+'             Properties: P
+' 
+'             Function: Measure, RankPearson, ToString
+' 
+'         Delegate Function
+' 
+'             Function: CorrelationMatrix, rankingOrder, Spearman
+' 
+'             Sub: throwNotAgree
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -508,67 +508,61 @@ Namespace Math.Correlations
         ''' checked!
         ''' </remarks>
         '''
-        Public Function Spearman(X#(), Y#()) As Double
-            If X.Length <> Y.Length Then
-                Call throwNotAgree(X, Y)
-            ElseIf X.Length = 1 Then
-                Throw New DataException(UnableMeasures)
-            End If
+        Public Function Spearman(x As Double(), y As Double()) As Double
+            Dim x_n = x.Length
+            Dim y_n = y.Length
+            Dim x_rank = New Double(x_n - 1) {}
+            Dim y_rank = New Double(y_n - 1) {}
 
-            ' size n
-            Dim n As Integer = X.Length
-            Dim Xx As RankOrder(Of Double)() = rankingOrder(X)
-            Dim Yy As RankOrder(Of Double)() = rankingOrder(Y)
-
-            Dim deltaSum# = Aggregate i As Integer
-                            In n.Sequence
-                            Into Sum((Xx(i).rank - Yy(i).rank) ^ 2)
-
-            Dim spcc = 1 - 6 * deltaSum / (n ^ 3 - n)
-
-            Return spcc
-        End Function
-
-        Const UnableMeasures$ = "Samples number just equals 1, the function unable to measure the correlation!!!"
-
-        Private Function rankingOrder(samples#()) As RankOrder(Of Double)()
-            ' 从小到大排序
-            Dim dat = (From i As RankOrder(Of Double)
-                       In RankOrder(Of Double).Input(samples)
-                       Order By i.value Ascending).ToArray
-            Dim buf = RankOrder(Of Double).Ranking(dat) _
-                .GroupBy(Function(spcc) spcc.value) _
-                .ToDictionary(Function(x) x.Key,
-                              Function(x)
-                                  Return x.ToArray
-                              End Function)
-
-            Dim rankList As New List(Of RankOrder(Of Double))
-
-            For Each item As RankOrder(Of Double)() In buf.Values
-                If item.Length = 1 Then
-                    Call rankList.Add(item(Scan0))
-                Else
-                    Dim rank As Double = item.Select(Function(x) x.rank).Average
-                    Dim array As RankOrder(Of Double)() = item _
-                        .Select(Function(x)
-                                    Return New RankOrder(Of Double) With {
-                                        .rank = rank,
-                                        .i = x.i,
-                                        .value = x.value
-                                    }
-                                End Function) _
-                        .ToArray
-
-                    Call rankList.AddRange(array)
+            Dim sorted As New Dictionary(Of Double?, HashSet(Of Integer?))()
+            For i = 0 To x_n - 1
+                Dim v = x(i)
+                If sorted.ContainsKey(v) = False Then
+                    sorted(v) = New HashSet(Of Integer?)()
                 End If
+                sorted(v).Add(i)
             Next
 
-            ' 重新按照原有的顺序返回
-            Return (From x As RankOrder(Of Double)
-                    In rankList
-                    Select x
-                    Order By x.i Ascending).ToArray
+            Dim c = 1
+            For Each v As Double In sorted.Keys.OrderByDescending(Function(xi) xi)
+                Dim r As Double = 0
+                For Each i As Integer In sorted(v)
+                    r += c
+                    c += 1
+                Next
+
+                r /= sorted(v).Count
+
+                For Each i As Integer In sorted(v)
+                    x_rank(i) = r
+                Next
+            Next
+
+            sorted.Clear()
+            For i = 0 To y_n - 1
+                Dim v = y(i)
+                If sorted.ContainsKey(v) = False Then
+                    sorted(v) = New HashSet(Of Integer?)()
+                End If
+                sorted(v).Add(i)
+            Next
+
+            c = 1
+            For Each v As Double In sorted.Keys.OrderByDescending(Function(xi) xi)
+                Dim r As Double = 0
+                For Each i As Integer In sorted(v)
+                    r += c
+                    c += 1
+                Next
+
+                r /= sorted(v).Count
+
+                For Each i As Integer In sorted(v)
+                    y_rank(i) = r
+                Next
+            Next
+
+            Return GetPearson(x_rank, y_rank)
         End Function
 
         ''' <summary>
