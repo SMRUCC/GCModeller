@@ -505,64 +505,50 @@ Namespace Math.Correlations
         ''' <returns></returns>
         ''' <remarks>
         ''' https://en.wikipedia.org/wiki/Spearman%27s_rank_correlation_coefficient
-        ''' checked!
+        ''' spearman rho checked!
         ''' </remarks>
         '''
         Public Function Spearman(x As Double(), y As Double()) As Double
-            Dim x_n = x.Length
-            Dim y_n = y.Length
-            Dim x_rank = New Double(x_n - 1) {}
-            Dim y_rank = New Double(y_n - 1) {}
-
-            Dim sorted As New Dictionary(Of Double?, HashSet(Of Integer?))()
-            For i = 0 To x_n - 1
-                Dim v = x(i)
-                If sorted.ContainsKey(v) = False Then
-                    sorted(v) = New HashSet(Of Integer?)()
-                End If
-                sorted(v).Add(i)
-            Next
-
-            Dim c = 1
-            For Each v As Double In sorted.Keys.OrderByDescending(Function(xi) xi)
-                Dim r As Double = 0
-                For Each i As Integer In sorted(v)
-                    r += c
-                    c += 1
-                Next
-
-                r /= sorted(v).Count
-
-                For Each i As Integer In sorted(v)
-                    x_rank(i) = r
-                Next
-            Next
-
-            sorted.Clear()
-            For i = 0 To y_n - 1
-                Dim v = y(i)
-                If sorted.ContainsKey(v) = False Then
-                    sorted(v) = New HashSet(Of Integer?)()
-                End If
-                sorted(v).Add(i)
-            Next
-
-            c = 1
-            For Each v As Double In sorted.Keys.OrderByDescending(Function(xi) xi)
-                Dim r As Double = 0
-                For Each i As Integer In sorted(v)
-                    r += c
-                    c += 1
-                Next
-
-                r /= sorted(v).Count
-
-                For Each i As Integer In sorted(v)
-                    y_rank(i) = r
-                Next
-            Next
+            Dim x_rank As Double() = x.sortRanking
+            Dim y_rank As Double() = y.sortRanking
 
             Return GetPearson(x_rank, y_rank)
+        End Function
+
+        <Extension>
+        Private Function sortRanking(x As Double()) As Double()
+            Dim sorted As New Dictionary(Of Double?, HashSet(Of Integer?))()
+            Dim size As Integer = x.Length
+            Dim ranks As Double() = New Double(size - 1) {}
+            Dim v As Double
+            Dim c As Double = 1
+
+            For i As Integer = 0 To size - 1
+                v = x(i)
+
+                If sorted.ContainsKey(v) = False Then
+                    sorted(v) = New HashSet(Of Integer?)()
+                End If
+
+                Call sorted(v).Add(i)
+            Next
+
+            For Each vi As Double In sorted.Keys.OrderByDescending(Function(xi) xi)
+                Dim r As Double = 0
+
+                For Each i As Integer In sorted(vi)
+                    r += c
+                    c += 1
+                Next
+
+                r /= sorted(vi).Count
+
+                For Each i As Integer In sorted(vi)
+                    ranks(i) = r
+                Next
+            Next
+
+            Return ranks
         End Function
 
         ''' <summary>
