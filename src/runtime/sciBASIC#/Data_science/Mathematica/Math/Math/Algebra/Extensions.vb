@@ -157,14 +157,12 @@ Namespace LinearAlgebra
         Public Function jaccard_coeff_parallel(idx As Integer()(), Optional symmetrize As Boolean = True) As GeneralMatrix
             Dim nrow As Integer = idx.Length
             Dim div As Double = If(symmetrize, 2, 1)
-            Dim weights = Enumerable.Range(0, nrow) _
-                .AsParallel _
-                .Select(Function(i)
-                            Return idx(i).jaccard_row(i, idx, div)
-                        End Function) _
-                .IteratesALL
+            Dim weightMatrixFold = (From i As Integer
+                                    In Enumerable.Range(0, nrow).AsParallel
+                                    Let node = idx(i).ToArray
+                                    Select node.jaccard_row(i, idx, div).ToArray).ToArray
 
-            Return New NumericMatrix(weights.ToArray)
+            Return New NumericMatrix(weightMatrixFold.IteratesALL.ToArray)
         End Function
 
         <Extension>
