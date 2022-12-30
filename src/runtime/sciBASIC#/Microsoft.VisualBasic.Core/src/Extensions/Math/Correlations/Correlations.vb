@@ -100,7 +100,10 @@ Namespace Math.Correlations
         ''' <param name="b"></param>
         ''' <param name="equal"></param>
         ''' <returns></returns>
-        Public Function JaccardIndex(Of T)(a As IEnumerable(Of T), b As IEnumerable(Of T), Optional equal As Func(Of Object, Object, Boolean) = Nothing) As Double
+        Public Function JaccardIndex(Of T)(a As IEnumerable(Of T),
+                                           b As IEnumerable(Of T),
+                                           Optional equal As Func(Of Object, Object, Boolean) = Nothing) As Double
+
             Dim setA As New [Set](a, equal Or objectEquals)
             Dim setB As New [Set](b, equal Or objectEquals)
 
@@ -117,7 +120,8 @@ Namespace Math.Correlations
         End Function
 
         ''' <summary>
-        ''' Sandelin-Wasserman similarity function.(假若所有的元素都是0-1之间的话，结果除以2可以得到相似度)
+        ''' Sandelin-Wasserman similarity function.
+        ''' (假若所有的元素都是0-1之间的话，结果除以2可以得到相似度)
         ''' </summary>
         ''' <param name="x"></param>
         ''' <param name="y"></param>
@@ -254,7 +258,7 @@ Namespace Math.Correlations
         ''' <remarks>
         ''' https://github.com/felipebravom/RankCorrelation
         ''' </remarks>
-        Public Function kendallTauBeta(x As Double(), y As Double()) As Double
+        Private Function kendallTauBeta(x As Double(), y As Double()) As Double
             Dim c As Integer = 0
             Dim d As Integer = 0
             Dim xTies As New Dictionary(Of Double?, HashSet(Of Integer?))()
@@ -360,19 +364,41 @@ Namespace Math.Correlations
                 pcc = 1
             End If
 
-            ' fisher's z trasnformation
-            z = 0.5 * stdNum.Log((1.0 + pcc + TINY) / (1.0 - pcc + TINY))
-
-            ' student's t probability
-            df = n - 2
-            t = pcc * stdNum.Sqrt(df / ((1.0 - pcc + TINY) * (1.0 + pcc + TINY)))
-
-            prob = Beta.betai(0.5 * df, 0.5, df / (df + t ^ 2), throwMaxIterError)
-            ' for a large n
-            prob2 = Beta.erfcc(stdNum.Abs(z * stdNum.Sqrt(n - 1.0)) / 1.4142136)
+            Call TestStats(pcc, n, z, prob, prob2, t, df, throwMaxIterError)
 
             Return pcc
         End Function
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="cor"></param>
+        ''' <param name="n">should be the length of x or y vector</param>
+        ''' <param name="z#"></param>
+        ''' <param name="pvalue#"></param>
+        ''' <param name="prob2#"></param>
+        ''' <param name="t#"></param>
+        ''' <param name="df#"></param>
+        ''' <param name="throwMaxIterError"></param>
+        Public Sub TestStats(cor As Double, n As Integer,
+                             ByRef z#,
+                             ByRef pvalue#,
+                             ByRef prob2#,
+                             ByRef t#,
+                             ByRef df#,
+                             Optional throwMaxIterError As Boolean = True)
+
+            ' fisher's z trasnformation
+            z = 0.5 * stdNum.Log((1.0 + cor + TINY) / (1.0 - cor + TINY))
+
+            ' student's t probability
+            df = n - 2
+            t = cor * stdNum.Sqrt(df / ((1.0 - cor + TINY) * (1.0 + cor + TINY)))
+
+            pvalue = Beta.betai(0.5 * df, 0.5, df / (df + t ^ 2), throwMaxIterError)
+            ' for a large n
+            prob2 = Beta.erfcc(stdNum.Abs(z * stdNum.Sqrt(n - 1.0)) / 1.4142136)
+        End Sub
 
         Public Structure Pearson
             Dim pearson#
