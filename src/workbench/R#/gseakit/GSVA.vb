@@ -208,7 +208,7 @@ Module GSVA
                 .name = name,
                 .text = name
             },
-            .term_id = {name}
+            .term_id = BackgroundGene.UnknownTerms(name).ToArray
         }
     End Function
 End Module

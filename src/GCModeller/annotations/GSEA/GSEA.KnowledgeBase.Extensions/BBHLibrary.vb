@@ -97,8 +97,8 @@ Public Module BBHLibrary
                     .locus_tag = New NamedValue With {
                         .name = gene.QueryName
                     },
-                    .term_id = {gene.HitName},
-                    .name = gene.Description
+                    .term_id = BackgroundGene.UnknownTerms(gene.HitName).ToArray,
+                    .name = gene.description
                 }
             Next
         Next
