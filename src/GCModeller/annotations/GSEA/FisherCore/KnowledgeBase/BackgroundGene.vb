@@ -69,16 +69,25 @@ Public Class BackgroundGene : Inherits Synonym
     Public Property name As String
 
     <XmlElement>
-    Public Property term_id As String()
+    Public Property term_id As NamedValue()
 
     ''' <summary>
-    ''' a tuple data of [geneId => description] mapping
+    ''' a tuple data of ``[geneId => description]`` mapping.
     ''' </summary>
     ''' <returns></returns>
     Public Property locus_tag As NamedValue
 
     Public Overrides Function ToString() As String
         Return $"{MyBase.ToString}  [{locus_tag.text}]"
+    End Function
+
+    Public Shared Iterator Function UnknownTerms(ParamArray term_ids As String()) As IEnumerable(Of NamedValue)
+        For Each id As String In term_ids
+            Yield New NamedValue With {
+                .name = "Unknown",
+                .text = id
+            }
+        Next
     End Function
 
 End Class

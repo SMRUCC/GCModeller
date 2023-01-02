@@ -413,7 +413,7 @@ Public Module GSEABackground
                         Return New EntityObject With {
                             .ID = gene.Key,
                             .Properties = New Dictionary(Of String, String) From {
-                                {"KO", gene.First.term_id(Scan0)}
+                                {"KO", gene.First.term_id(Scan0).text}
                             }
                         }
                     End Function) _
@@ -451,7 +451,7 @@ Public Module GSEABackground
                                     .text = namevec(i)
                                 },
                                 .name = namevec(i),
-                                .term_id = {idstr}
+                                .term_id = BackgroundGene.UnknownTerms(idstr).ToArray
                             }
                         End Function) _
                 .ToArray
@@ -680,7 +680,7 @@ Public Module GSEABackground
                 .text = gene.Value
             },
             .name = gene.Name,
-            .term_id = terms
+            .term_id = BackgroundGene.UnknownTerms(terms).ToArray
         }
     End Function
 End Module
