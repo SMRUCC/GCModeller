@@ -86,7 +86,7 @@ Public Module GenericBackground
                 .text = term
             },
             .name = term,
-            .term_id = terms
+            .term_id = BackgroundGene.UnknownTerms(terms).ToArray
         }
     End Function
 

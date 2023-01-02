@@ -176,7 +176,7 @@ Public Module UniProtModel
             .[alias] = protein.accessions.JoinIterates(dbxref).ToArray,
             .locus_tag = protein.proteinLocusTag(.accessionID),
             .name = protein.name,
-            .term_id = terms
+            .term_id = BackgroundGene.UnknownTerms(terms).ToArray
         }
     End Function
 

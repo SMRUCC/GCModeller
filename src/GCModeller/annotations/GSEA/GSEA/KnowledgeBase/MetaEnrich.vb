@@ -100,7 +100,7 @@ Public Module MetaEnrich
                                     .text = id
                                 },
                                 .name = id,
-                                .term_id = {id}
+                                .term_id = BackgroundGene.UnknownTerms(id).ToArray
                             }
                         End Function) _
                 .ToArray
