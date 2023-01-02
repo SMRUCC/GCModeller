@@ -94,7 +94,7 @@ Namespace CatalogProfiling
                 .Select(Function(v) v.Value.Values) _
                 .IteratesALL _
                 .IteratesALL _
-                .Select(Function(b) b.PValue) _
+                .Select(Function(b) If(b.PValue.IsNaNImaginary, 1, b.PValue)) _
                 .Range
             Dim impacts As DoubleRange = multiples _
                 .Select(Function(v) v.Value.Values) _
@@ -165,7 +165,7 @@ Namespace CatalogProfiling
                     x = region.Left
 
                     For Each sample In samples
-                        If (Not sample.Value.IsNullOrEmpty) AndAlso sample.Value.ContainsKey(id) Then
+                        If (Not sample.Value.IsNullOrEmpty) AndAlso sample.Value.ContainsKey(id) AndAlso Not sample.Value(id).PValue.IsNaNImaginary Then
                             Dim bubble As BubbleTerm = sample.Value(id)
                             Dim index As Integer = pvalues.ScaleMapping(bubble.PValue, indexRange)
                             Dim paint As Brush = colors(index)
