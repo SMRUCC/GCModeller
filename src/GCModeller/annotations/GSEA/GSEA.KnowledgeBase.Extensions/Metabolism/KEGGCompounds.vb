@@ -109,7 +109,7 @@ Public Module KEGGCompounds
                                     .accessionID = c.Name,
                                     .[alias] = {c.Name},
                                     .locus_tag = New NamedValue(c),
-                                    .term_id = {c.Name}
+                                    .term_id = BackgroundGene.UnknownTerms(c.Name).ToArray
                                 }
                             End Function) _
                     .ToArray
@@ -151,7 +151,7 @@ Public Module KEGGCompounds
                                     .accessionID = c.name,
                                     .[alias] = {c.name},
                                     .locus_tag = c,
-                                    .term_id = {c.name}
+                                    .term_id = BackgroundGene.UnknownTerms(c.name).ToArray
                                 }
                             End Function) _
                     .ToArray

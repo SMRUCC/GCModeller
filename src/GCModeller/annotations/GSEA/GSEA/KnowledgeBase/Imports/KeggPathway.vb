@@ -100,9 +100,9 @@ Public Module KeggPathway
                 .name = gene.geneName,
                 .[alias] = {gene.geneId, gene.geneName},
                 .locus_tag = New NamedValue With {.name = gene.geneId, .text = gene.description},
-                .term_id = New String() {gene.KO} _
+                .term_id = BackgroundGene.UnknownTerms(New String() {gene.KO} _
                     .JoinIterates(gene.EC) _
-                    .ToArray
+                    .ToArray).ToArray
             }
         Next
     End Function

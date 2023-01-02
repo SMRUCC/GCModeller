@@ -104,7 +104,7 @@ Public Module Extensions
                     .text = id
                 },
                 .name = id,
-                .term_id = {id}
+                .term_id = BackgroundGene.UnknownTerms(id).ToArray
             }
         Next
     End Function

@@ -92,7 +92,7 @@ Public Module MultipleOmics
             Call molecules.Add(New BackgroundGene With {
                 .accessionID = compound.name,
                 .[alias] = {compound.name},
-                .term_id = {compound.name},
+                .term_id = BackgroundGene.UnknownTerms(compound.name).ToArray,
                 .name = compound.text,
                 .locus_tag = compound
             })
