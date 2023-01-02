@@ -59,6 +59,12 @@ Imports System.Runtime.CompilerServices
 ''' </summary>
 Public Module MultipleOmics
 
+    ''' <summary>
+    ''' GSEA background model of kegg compound + genes
+    ''' </summary>
+    ''' <param name="model"></param>
+    ''' <param name="filter_compoundId"></param>
+    ''' <returns></returns>
     <Extension>
     Public Function CreateOmicsBackground(model As IEnumerable(Of Pathway), Optional filter_compoundId As Boolean = True) As Background
         Dim clusters As Cluster() = model _
@@ -83,16 +89,22 @@ Public Module MultipleOmics
     ''' <returns></returns>
     Private Function getCluster(model As Pathway, filter_compoundId As Boolean) As Cluster
         Dim molecules As New List(Of BackgroundGene)(model.GetGeneMembers)
+        Dim cid As NamedValue
 
         For Each compound As NamedValue In model.compound.SafeQuery
             If filter_compoundId AndAlso Not compound.name.IsPattern("C\d+") Then
                 Continue For
+            Else
+                cid = New NamedValue With {
+                    .name = "compound",
+                    .text = compound.name
+                }
             End If
 
             Call molecules.Add(New BackgroundGene With {
                 .accessionID = compound.name,
                 .[alias] = {compound.name},
-                .term_id = BackgroundGene.UnknownTerms(compound.name).ToArray,
+                .term_id = {cid},
                 .name = compound.text,
                 .locus_tag = compound
             })
