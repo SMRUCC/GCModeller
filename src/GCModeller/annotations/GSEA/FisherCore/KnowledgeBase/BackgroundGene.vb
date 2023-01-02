@@ -81,4 +81,13 @@ Public Class BackgroundGene : Inherits Synonym
         Return $"{MyBase.ToString}  [{locus_tag.text}]"
     End Function
 
+    Public Shared Iterator Function UnknownTerms(ParamArray term_ids As String()) As IEnumerable(Of NamedValue)
+        For Each id As String In term_ids
+            Yield New NamedValue With {
+                .name = "Unknown",
+                .text = id
+            }
+        Next
+    End Function
+
 End Class
