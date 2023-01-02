@@ -66,9 +66,11 @@ Public Module MultipleOmics
     ''' <param name="filter_compoundId"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function CreateOmicsBackground(model As IEnumerable(Of Pathway), Optional filter_compoundId As Boolean = True) As Background
+    Public Function CreateOmicsBackground(model As IEnumerable(Of Pathway),
+                                          Optional filter_compoundId As Boolean = True,
+                                          Optional kegg_code As String = Nothing) As Background
         Dim clusters As Cluster() = model _
-            .Select(Function(m) getCluster(m, filter_compoundId)) _
+            .Select(Function(m) getCluster(m, filter_compoundId, kegg_code)) _
             .Where(Function(c) c.size > 0 AndAlso Not c.ID.StringEmpty) _
             .ToArray
 
@@ -87,8 +89,8 @@ Public Module MultipleOmics
     ''' </summary>
     ''' <param name="model"></param>
     ''' <returns></returns>
-    Private Function getCluster(model As Pathway, filter_compoundId As Boolean) As Cluster
-        Dim molecules As New List(Of BackgroundGene)(model.GetGeneMembers)
+    Private Function getCluster(model As Pathway, filter_compoundId As Boolean, kegg_code As String) As Cluster
+        Dim molecules As New List(Of BackgroundGene)(model.GetGeneMembers(kegg_code))
         Dim cid As NamedValue
 
         For Each compound As NamedValue In model.compound.SafeQuery

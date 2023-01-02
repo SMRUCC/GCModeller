@@ -143,6 +143,44 @@ Public Module GSEABackground
         Return background
     End Function
 
+    <ExportAPI("append.id_terms")>
+    Public Function appendIdTerms(background As Background, term_name As String, terms As list, Optional env As Environment = Nothing) As Object
+        Dim termList = terms.AsGeneric(Of String())(env)
+
+        For Each cluster As Cluster In background.clusters
+            For Each gene As BackgroundGene In cluster.members
+                Dim termIds As String() = Nothing
+
+                If termList.ContainsKey(gene.accessionID) Then
+                    termIds = termList(gene.accessionID)
+                ElseIf termList.ContainsKey(gene.locus_tag.name) Then
+                    termIds = termList(gene.locus_tag.name)
+                Else
+                    For Each id As String In gene.alias.JoinIterates(gene.term_id.Select(Function(t) t.text))
+                        If termList.ContainsKey(id) Then
+                            termIds = termList(id)
+                            Exit For
+                        End If
+                    Next
+                End If
+
+                If Not termIds.IsNullOrEmpty Then
+                    gene.term_id = termIds _
+                        .Select(Function(id)
+                                    Return New NamedValue With {
+                                        .name = term_name,
+                                        .text = id
+                                    }
+                                End Function) _
+                        .JoinIterates(gene.term_id) _
+                        .ToArray
+                End If
+            Next
+        Next
+
+        Return background
+    End Function
+
     ''' <summary>
     ''' do id mapping of the members in the background cluster
     ''' </summary>
@@ -487,6 +525,10 @@ Public Module GSEABackground
     ''' do compound id filtering when target model is <paramref name="is_multipleOmics"/>?
     ''' (all of the KEGG drug id and KEGG glycan id will be removed from the cluster model)
     ''' </param>
+    ''' <param name="kegg_code">
+    ''' the kegg organism code when the given <paramref name="clusters"/> collection is
+    ''' a collection of the pathway object.
+    ''' </param>
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("as.background")>
@@ -498,6 +540,7 @@ Public Module GSEABackground
                                        Optional desc$ = "n/a",
                                        Optional is_multipleOmics As Boolean = False,
                                        Optional filter_compoundId As Boolean = True,
+                                       Optional kegg_code As String = Nothing,
                                        Optional env As Environment = Nothing) As Object
 
         Dim clusterList As pipeline = pipeline.TryCreatePipeline(Of Cluster)(clusters, env, suppress:=True)
@@ -514,7 +557,8 @@ Public Module GSEABackground
 
                     Return MultipleOmics.CreateOmicsBackground(
                         model:=kegg_pathways,
-                        filter_compoundId:=filter_compoundId
+                        filter_compoundId:=filter_compoundId,
+                        kegg_code:=kegg_code
                     )
                 Else
                     Return clusterList.populates(Of SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Pathway)(env).CreateModel

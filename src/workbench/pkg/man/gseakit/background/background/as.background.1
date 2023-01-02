@@ -10,6 +10,7 @@ as.background \- cast the cluster data as the enrichment background
 \fBdesc\fR as string = "n/a", 
 \fBis_multipleOmics\fR as boolean = FALSE, 
 \fBfilter_compoundId\fR as boolean = TRUE, 
+\fBkegg_code\fR as string = \fB<NULL>\fR, 
 [\fB<Environment>\fR]);\fR
 .SH DESCRIPTION
 .PP
@@ -52,6 +53,12 @@ cast the cluster data as the enrichment background
 \fBfilter_compoundId\fB \fR\- 
  do compound id filtering when target model is **`is_multipleOmics`**?
  (all of the KEGG drug id and KEGG glycan id will be removed from the cluster model)
+. 
+.PP
+.PP
+\fBkegg_code\fB \fR\- 
+ the kegg organism code when the given **`clusters`** collection is
+ a collection of the pathway object.
 . 
 .PP
 .PP

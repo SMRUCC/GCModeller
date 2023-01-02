@@ -6,6 +6,7 @@ tools for handling GSEA background model.
 + [moleculeIDs](background/moleculeIDs.1) get all of the molecule id set from the given background model object
 + [meta_background](background/meta_background.1) 
 + [dag.background](background/dag.background.1) create gsea background from a given obo ontology file data.
++ [append.id_terms](background/append.id_terms.1) 
 + [background.id_mapping](background/background.id_mapping.1) do id mapping of the members in the background cluster
 + [read.background](background/read.background.1) Load GSEA background model from a xml file.
 + [write.background](background/write.background.1) Save GSEA background model as xml file

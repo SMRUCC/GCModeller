@@ -93,7 +93,7 @@ Public Module KeggPathway
     End Function
 
     <Extension>
-    Public Iterator Function GetGeneMembers(model As Pathway) As IEnumerable(Of BackgroundGene)
+    Public Iterator Function GetGeneMembers(model As Pathway, Optional kegg_code As String = Nothing) As IEnumerable(Of BackgroundGene)
         Dim term_populate As IEnumerable(Of NamedValue)
 
         For Each gene As GeneName In model.genes.SafeQuery
@@ -111,7 +111,10 @@ Public Module KeggPathway
             Yield New BackgroundGene With {
                 .accessionID = gene.geneId,
                 .name = gene.geneName,
-                .[alias] = {gene.geneId, gene.geneName},
+                .[alias] = {
+                    If(kegg_code.StringEmpty, gene.geneId, $"{kegg_code}:{gene.geneId}"),
+                    gene.geneName
+                },
                 .locus_tag = New NamedValue With {
                     .name = gene.geneId,
                     .text = gene.description
