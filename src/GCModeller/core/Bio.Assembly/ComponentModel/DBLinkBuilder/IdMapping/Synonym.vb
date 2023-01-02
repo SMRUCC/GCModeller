@@ -58,18 +58,31 @@ Imports Microsoft.VisualBasic.Linq
 Namespace ComponentModel.DBLinkBuilder
 
     ''' <summary>
-    ''' data alias model
+    ''' data alias model, a mapping of the main accession id to 
+    ''' a collection of the secondary accession id.
     ''' </summary>
     <XmlType("synonym")>
     Public Class Synonym : Implements Enumeration(Of String)
 
+        ''' <summary>
+        ''' the main accession id
+        ''' </summary>
+        ''' <returns></returns>
         <XmlAttribute> Public Property accessionID As String
+        ''' <summary>
+        ''' the secondary accession id or the alias id in other database.
+        ''' </summary>
+        ''' <returns></returns>
         <XmlElement> Public Property [alias] As String()
 
         Public Overrides Function ToString() As String
             Return accessionID
         End Function
 
+        ''' <summary>
+        ''' get all accession id union
+        ''' </summary>
+        ''' <returns></returns>
         Public Iterator Function GenericEnumerator() As IEnumerator(Of String) Implements Enumeration(Of String).GenericEnumerator
             Yield accessionID
 

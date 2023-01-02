@@ -69,10 +69,10 @@ Public Class BackgroundGene : Inherits Synonym
     Public Property name As String
 
     <XmlElement>
-    Public Property term_id As String()
+    Public Property term_id As NamedValue()
 
     ''' <summary>
-    ''' a tuple data of [geneId => description] mapping
+    ''' a tuple data of ``[geneId => description]`` mapping.
     ''' </summary>
     ''' <returns></returns>
     Public Property locus_tag As NamedValue
