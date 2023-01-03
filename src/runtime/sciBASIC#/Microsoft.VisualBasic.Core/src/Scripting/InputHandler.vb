@@ -146,6 +146,15 @@ Namespace Scripting
             ElseIf target Is GetType(String) Then
                 ' target is a string array
                 Return expression.ToArray
+            ElseIf target.IsArray Then
+                target = target.GetElementType
+
+                If target Is Nothing Then
+                    ' object()
+                    Return expression _
+                        .Select(Function(str) CObj(str)) _
+                        .ToArray
+                End If
             End If
 
             Dim allStrs As String() = expression.ToArray
