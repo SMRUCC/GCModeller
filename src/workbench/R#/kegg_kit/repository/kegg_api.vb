@@ -110,5 +110,13 @@ Public Module kegg_api
     Public Function convertToPathway(form As WebForm) As Pathway
         Return PathwayTextParser.ParsePathway(form)
     End Function
+
+    <ExportAPI("as.compound")>
+    Public Function convertToCompound(form As WebForm) As Compound
+        Return New Compound With {
+            .entry = form!ENTRY.Split(" "c).First,
+            .pathway = form.GetXmlTuples("PATHWAY").ToArray
+        }
+    End Function
 End Module
 
