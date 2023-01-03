@@ -70,6 +70,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports Microsoft.VisualBasic.Serialization
 Imports CLI = Microsoft.VisualBasic.CommandLine.CommandLine
@@ -88,7 +89,7 @@ Namespace Scripting
         ''' </summary>
         ''' <remarks></remarks>
         Public ReadOnly Property CasterString As New Dictionary(Of Type, LoadObject) From {
- _
+                                                                                           _
             {GetType(String), Function(s$) s},
             {GetType(Char), AddressOf Casting.CastChar},
             {GetType(Integer), AddressOf Casting.CastInteger},
@@ -136,6 +137,25 @@ Namespace Scripting
             Else
                 Return DateTime.Parse(s)
             End If
+        End Function
+
+        <Extension>
+        Public Function CTypeDynamic(expression As IEnumerable(Of String), target As Type) As Array
+            If expression Is Nothing Then
+                Return Nothing
+            ElseIf target Is GetType(String) Then
+                ' target is a string array
+                Return expression.ToArray
+            End If
+
+            Dim allStrs As String() = expression.ToArray
+            Dim vec As Array = Array.CreateInstance(target, allStrs.Length)
+
+            For i As Integer = 0 To vec.Length - 1
+                vec(i) = CTypeDynamic(allStrs(i), target)
+            Next
+
+            Return vec
         End Function
 
         ''' <summary>
