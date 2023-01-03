@@ -143,7 +143,7 @@ Namespace Scripting
         Public Function CTypeDynamic(expression As IEnumerable(Of String), target As Type) As Array
             If expression Is Nothing Then
                 Return Nothing
-            ElseIf target Is GetType(String) Then
+            ElseIf target Is GetType(String) OrElse target Is GetType(String()) Then
                 ' target is a string array
                 Return expression.ToArray
             ElseIf target.IsArray Then
