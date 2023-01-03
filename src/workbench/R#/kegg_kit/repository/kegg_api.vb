@@ -101,8 +101,8 @@ Public Module kegg_api
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <ExportAPI("parseForm")>
-    Public Function parseWebForm(text As String) As WebForm
-        Return New WebForm(text)
+    Public Function parseWebForm(text As String, Optional unsafe As Boolean = False) As WebForm
+        Return New WebForm(text, unsafe)
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
