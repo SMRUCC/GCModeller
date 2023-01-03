@@ -1,0 +1,29 @@
+.\" man page create by R# package system.
+.TH BIOMODELS.STRINGDB.PPI 1 2000-01-01 "read.string_db" "read.string_db"
+.SH NAME
+read.string_db \- parse the string-db table file
+.SH SYNOPSIS
+\fIread.string_db(\fBfile\fR as string, 
+\fBremove_taxonomyId\fR as boolean = TRUE, 
+\fBlink_matrix\fR as boolean = FALSE, 
+\fBcombine_score\fR as double = -1);\fR
+.SH DESCRIPTION
+.PP
+parse the string-db table file
+.PP
+.SH OPTIONS
+.PP
+\fBfile\fB \fR\- 
+ the string db protein links data files, example like:
+ 
+ 1. 9606.protein.links.v11.5.txt
+ 2. 9606.protein.links.full.v11.5.txt
+ 3. 9606.protein.links.detailed.v11.5.txt
+. 
+.PP
+.SH SEE ALSO
+bioModels.stringdb.ppi
+.SH FILES
+.PP
+cytoscape_toolkit.dll
+.PP

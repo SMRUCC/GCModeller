@@ -154,7 +154,11 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
             Loop
 
             If list > 0 AndAlso Not key.StringEmpty Then
-                Call _strData.Add(key, list.PopAll)
+                If unsafe Then
+                    _strData.Add(key, list.PopAll)
+                Else
+                    _strData(key) = list.PopAll
+                End If
             End If
 
             Return refs.ToArray
