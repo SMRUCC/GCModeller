@@ -111,32 +111,38 @@ Public Class Cluster : Inherits ListOf(Of BackgroundGene)
             .FirstOrDefault
     End Function
 
+    Private Sub loadIndex(is_locus_tag As Boolean)
+        If Not is_locus_tag Then
+            ' create id index from all id dataset
+            index = members _
+                .Select(Function(name) name.EnumerateAllIds) _
+                .IteratesALL _
+                .Where(Function(str) Not str.StringEmpty) _
+                .Distinct _
+                .ToArray
+        Else
+            ' create id index just from the locus tag data
+            index = members _
+                .Select(Function(name)
+                            If name.locus_tag Is Nothing OrElse name.locus_tag.name.StringEmpty Then
+                                Return ""
+                            Else
+                                Return Strings _
+                                    .Trim(name.locus_tag.name) _
+                                    .Split(":"c) _
+                                    .Last
+                            End If
+                        End Function) _
+                .Where(Function(str) Not str.StringEmpty) _
+                .Distinct _
+                .ToArray
+        End If
+    End Sub
+
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function Intersect(list As IEnumerable(Of String), Optional isLocustag As Boolean = False) As IEnumerable(Of String)
         If index Is Nothing Then
-            If Not isLocustag Then
-                index = members _
-                    .Select(Function(name) name.AsEnumerable) _
-                    .IteratesALL _
-                    .Where(Function(str) Not str.StringEmpty) _
-                    .Distinct _
-                    .ToArray
-            Else
-                index = members _
-                    .Select(Function(name)
-                                If name.locus_tag Is Nothing OrElse name.locus_tag.name.StringEmpty Then
-                                    Return ""
-                                Else
-                                    Return Strings _
-                                        .Trim(name.locus_tag.name) _
-                                        .Split(":"c) _
-                                        .Last
-                                End If
-                            End Function) _
-                    .Where(Function(str) Not str.StringEmpty) _
-                    .Distinct _
-                    .ToArray
-            End If
+            Call loadIndex(isLocustag)
         End If
 
         Return index.Intersect(collection:=list)

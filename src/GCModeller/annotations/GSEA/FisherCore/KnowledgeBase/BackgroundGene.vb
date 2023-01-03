@@ -52,6 +52,7 @@
 #End Region
 
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 
@@ -79,6 +80,22 @@ Public Class BackgroundGene : Inherits Synonym
 
     Public Overrides Function ToString() As String
         Return $"{MyBase.ToString}  [{locus_tag.text}]"
+    End Function
+
+    Public Iterator Function EnumerateAllIds() As IEnumerable(Of String)
+        Yield accessionID
+
+        For Each id As String In [alias].SafeQuery
+            Yield id
+        Next
+
+        If Not locus_tag Is Nothing Then
+            Yield locus_tag.name
+        End If
+
+        For Each term In term_id.SafeQuery
+            Yield term.text
+        Next
     End Function
 
     Public Shared Iterator Function UnknownTerms(ParamArray term_ids As String()) As IEnumerable(Of NamedValue)

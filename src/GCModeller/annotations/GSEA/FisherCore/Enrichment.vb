@@ -113,6 +113,10 @@ Public Module Enrichment
         Dim termResult As New Value(Of EnrichmentResult)
         Dim genes As Integer
 
+        If list Is Nothing Then
+            Return
+        End If
+
         If doProgress Is Nothing Then
             If showProgress Then
                 Dim tick As ProgressProvider
