@@ -1,0 +1,72 @@
+.\" man page create by R# package system.
+.TH BACKGROUND 2 2000-01-01 "as.background" "as.background"
+.SH NAME
+as.background \- cast the cluster data as the enrichment background
+.SH SYNOPSIS
+\fIas.background(\fBclusters\fR as any, 
+\fBbackground_size\fR as integer = -1, 
+\fBname\fR as string = "n/a", 
+\fBtax_id\fR as string = "n/a", 
+\fBdesc\fR as string = "n/a", 
+\fBis_multipleOmics\fR as boolean = FALSE, 
+\fBfilter_compoundId\fR as boolean = TRUE, 
+\fBkegg_code\fR as string = \fB<NULL>\fR, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+cast the cluster data as the enrichment background
+.PP
+.SH OPTIONS
+.PP
+\fBclusters\fB \fR\- 
+ a data cluster or a collection of kegg pathway model
+. 
+.PP
+.PP
+\fBbackground_size\fB \fR\- 
+ default value -1 or zero means auto evaluated
+. 
+.PP
+.PP
+\fBname\fB \fR\- 
+ the background model name
+. 
+.PP
+.PP
+\fBtax_id\fB \fR\- 
+ ncbi taxonomy id of the target organism
+. 
+.PP
+.PP
+\fBdesc\fB \fR\- 
+ the model description
+. 
+.PP
+.PP
+\fBis_multipleOmics\fB \fR\- 
+ Create a enrichment background model for run multiple omics data analysis?
+ this parameter is only works for the kegg pathway model where you are 
+ speicifc via the **`clusters`** parameter.
+. 
+.PP
+.PP
+\fBfilter_compoundId\fB \fR\- 
+ do compound id filtering when target model is **`is_multipleOmics`**?
+ (all of the KEGG drug id and KEGG glycan id will be removed from the cluster model)
+. 
+.PP
+.PP
+\fBkegg_code\fB \fR\- 
+ the kegg organism code when the given **`clusters`** collection is
+ a collection of the pathway object.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- -. 
+.PP
+.SH SEE ALSO
+background
+.SH FILES
+.PP
+gseakit.dll
+.PP
