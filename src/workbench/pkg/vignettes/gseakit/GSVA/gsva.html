@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Gene Set Variation Analysis for microarray and RNA-seq data</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <style rel="stylesheet" type="text/css">
+        @media screen {
+            .container {
+                padding-right: 10px;
+                padding-left: 10px;
+                margin-right: auto;
+                margin-left: auto;
+                max-width: 900px;
+            }
+        }
+
+        .rimage img {
+            /* from knitr - for examples and demos */
+            width: 96%;
+            margin-left: 2%;
+        }
+
+        .katex {
+            font-size: 1.1em;
+        }
+
+        code {
+            color: rgb(194, 42, 42);
+            background: inherit;
+            font-style:italic;
+            font-weight: bold;
+        }
+
+        body {
+            line-height: 1.4;
+            background: white;
+            color: black;
+        }
+
+        a:link {
+            background: white;
+            color: blue;
+        }
+
+        a:visited {
+            background: white;
+            color: rgb(50%, 0%, 50%);
+        }
+
+        h1 {
+            background: white;
+            color: rgb(55%, 55%, 55%);
+            font-family: monospace;
+            font-size: 1.4em;
+            /* x-large; */
+            text-align: center;
+        }
+
+        h2 {
+            background: white;
+            color: rgb(40%, 40%, 40%);
+            font-family: monospace;
+            font-size: 1.2em;
+            /* large; */
+            text-align: center;
+        }
+
+        h3 {
+            background: white;
+            color: rgb(40%, 40%, 40%);
+            font-family: monospace;
+            font-size: 1.2em;
+            /* large; */
+        }
+
+        h4 {
+            background: white;
+            color: rgb(40%, 40%, 40%);
+            font-family: monospace;
+            font-style: italic;
+            font-size: 1.2em;
+            /* large; */
+        }
+
+        h5 {
+            background: white;
+            color: rgb(40%, 40%, 40%);
+            font-family: monospace;
+        }
+
+        h6 {
+            background: white;
+            color: rgb(40%, 40%, 40%);
+            font-family: monospace;
+            font-style: italic;
+        }
+
+        img.toplogo {
+            width: 4em;
+            vertical-align: middle;
+        }
+
+        img.arrow {
+            width: 30px;
+            height: 30px;
+            border: 0;
+        }
+
+        span.acronym {
+            font-size: small;
+        }
+
+        span.env {
+            font-family: monospace;
+        }
+
+        span.file {
+            font-family: monospace;
+        }
+
+        span.option {
+            font-family: monospace;
+        }
+
+        span.pkg {
+            font-weight: bold;
+        }
+
+        span.samp {
+            font-family: monospace;
+        }
+
+        div.vignettes a:hover {
+            background: rgb(85%, 85%, 85%);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>gsva {GSVA}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>Gene Set Variation Analysis for microarray and RNA-seq data</h2>
+
+        <h3>Description</h3>
+
+        <p><br /> Gene Set Variation Analysis (GSVA) is a non-parametric, unsupervised <br /> method for estimating variation of gene set enrichment through the<br /> samples of a expression data set. GSVA performs a change in coordinate<br /> systems, transforming the data from a gene by sample matrix to a gene-set<br /> by sample matrix, thereby allowing the evaluation of pathway enrichment <br /> for each sample. This new matrix of GSVA enrichment scores facilitates<br /> applying standard analytical methods like functional enrichment, <br /> survival analysis, clustering, CNV-pathway analysis or cross-tissue <br /> pathway analysis, in a pathway-centric manner.<br /> <br /> main function of the package which estimates activity<br /> scores For Each given gene-Set</p>
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>gsva</strong>(<i>expr</i>, <i>geneSet</i>,
+    <i>env</i> = <span style='color: blue;'>NULL</span>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>expr</dt>
+<dd><p><p>A raw gene expression data matrix object</p></p></dd>
+
+
+<dt>geneSet</dt>
+<dd><p><p>A gsea enrichment background model</p></p></dd>
+
+
+<dt>env</dt>
+<dd><p><p>-</p></p></dd>
+
+        </table>
+
+
+        <h3 style="display: block;">Details</h3>
+
+        <p>Hänzelmann S., Castelo R. and Guinney J. GSVA: gene set variation analysis<br />
+ for microarray and RNA-Seq data. BMC Bioinformatics, 14:7, 2013.</p>
+
+
+        <h3>Value</h3>
+
+        this function returns data object of type <a href="/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a>.
+
+        <hr />
+        <div style="text-align: center;">[Package <em>GSVA</em> version 1.0.0.0 <a
+                href="../GSVA.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+</html>

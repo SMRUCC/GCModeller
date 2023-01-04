@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>cast the cluster data as the enrichment background</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <style rel="stylesheet" type="text/css">
+        @media screen {
+            .container {
+                padding-right: 10px;
+                padding-left: 10px;
+                margin-right: auto;
+                margin-left: auto;
+                max-width: 900px;
+            }
+        }
+
+        .rimage img {
+            /* from knitr - for examples and demos */
+            width: 96%;
+            margin-left: 2%;
+        }
+
+        .katex {
+            font-size: 1.1em;
+        }
+
+        code {
+            color: rgb(194, 42, 42);
+            background: inherit;
+            font-style:italic;
+            font-weight: bold;
+        }
+
+        body {
+            line-height: 1.4;
+            background: white;
+            color: black;
+        }
+
+        a:link {
+            background: white;
+            color: blue;
+        }
+
+        a:visited {
+            background: white;
+            color: rgb(50%, 0%, 50%);
+        }
+
+        h1 {
+            background: white;
+            color: rgb(55%, 55%, 55%);
+            font-family: monospace;
+            font-size: 1.4em;
+            /* x-large; */
+            text-align: center;
+        }
+
+        h2 {
+            background: white;
+            color: rgb(40%, 40%, 40%);
+            font-family: monospace;
+            font-size: 1.2em;
+            /* large; */
+            text-align: center;
+        }
+
+        h3 {
+            background: white;
+            color: rgb(40%, 40%, 40%);
+            font-family: monospace;
+            font-size: 1.2em;
+            /* large; */
+        }
+
+        h4 {
+            background: white;
+            color: rgb(40%, 40%, 40%);
+            font-family: monospace;
+            font-style: italic;
+            font-size: 1.2em;
+            /* large; */
+        }
+
+        h5 {
+            background: white;
+            color: rgb(40%, 40%, 40%);
+            font-family: monospace;
+        }
+
+        h6 {
+            background: white;
+            color: rgb(40%, 40%, 40%);
+            font-family: monospace;
+            font-style: italic;
+        }
+
+        img.toplogo {
+            width: 4em;
+            vertical-align: middle;
+        }
+
+        img.arrow {
+            width: 30px;
+            height: 30px;
+            border: 0;
+        }
+
+        span.acronym {
+            font-size: small;
+        }
+
+        span.env {
+            font-family: monospace;
+        }
+
+        span.file {
+            font-family: monospace;
+        }
+
+        span.option {
+            font-family: monospace;
+        }
+
+        span.pkg {
+            font-weight: bold;
+        }
+
+        span.samp {
+            font-family: monospace;
+        }
+
+        div.vignettes a:hover {
+            background: rgb(85%, 85%, 85%);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>as.background {background}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>cast the cluster data as the enrichment background</h2>
+
+        <h3>Description</h3>
+
+        
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>as.background</strong>(<i>clusters</i>,
+    <i>background.size</i> = -1,
+    <i>name</i> = <span style='color: brown;'><strong>"n/a"</strong></span>,
+    <i>tax.id</i> = <span style='color: brown;'><strong>"n/a"</strong></span>,
+    <i>desc</i> = <span style='color: brown;'><strong>"n/a"</strong></span>,
+    <i>is.multipleOmics</i> = <span style='color: blue;'>FALSE</span>,
+    <i>filter.compoundId</i> = <span style='color: blue;'>TRUE</span>,
+    <i>kegg.code</i> = <span style='color: blue;'>NULL</span>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>clusters</dt>
+<dd><p><p>a data cluster or a collection of kegg pathway model</p></p></dd>
+
+
+<dt>background.size</dt>
+<dd><p><p>default value -1 or zero means auto evaluated</p></p></dd>
+
+
+<dt>name</dt>
+<dd><p><p>the background model name</p></p></dd>
+
+
+<dt>tax.id</dt>
+<dd><p><p>ncbi taxonomy id of the target organism</p></p></dd>
+
+
+<dt>desc</dt>
+<dd><p><p>the model description</p></p></dd>
+
+
+<dt>is.multipleOmics</dt>
+<dd><p><p>Create a enrichment background model for run multiple omics data analysis?<br />
+ this parameter is only works for the kegg pathway model where you are <br />
+ speicifc via the <strong><code>clusters</code></strong> parameter.</p></p></dd>
+
+
+<dt>filter.compoundId</dt>
+<dd><p><p>do compound id filtering when target model is <strong><code>is_multipleOmics</code></strong>?<br />
+ (all of the KEGG drug id and KEGG glycan id will be removed from the cluster model)</p></p></dd>
+
+
+<dt>kegg.code</dt>
+<dd><p><p>the kegg organism code when the given <strong><code>clusters</code></strong> collection is<br />
+ a collection of the pathway object.</p></p></dd>
+
+
+<dt>env</dt>
+<dd><p><p>-</p></p></dd>
+
+        </table>
+
+
+        <h3 style="display: none;">Details</h3>
+
+        
+
+
+        <h3>Value</h3>
+
+        this function returns data object of type <a href="/clr/SMRUCC/genomics/Analysis/HTS/GSEA/Background.html">Background</a>.
+
+        <hr />
+        <div style="text-align: center;">[Package <em>background</em> version 1.0.0.0 <a
+                href="../background.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+</html>

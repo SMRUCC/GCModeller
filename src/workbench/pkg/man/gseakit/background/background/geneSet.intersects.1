@@ -1,0 +1,43 @@
+.\" man page create by R# package system.
+.TH BACKGROUND 2 2000-01-01 "geneSet.intersects" "geneSet.intersects"
+.SH NAME
+geneSet.intersects \- get an intersection id list between the background
+.SH SYNOPSIS
+\fIgeneSet.intersects(\fBcluster\fR as any, 
+\fBgeneSet\fR as string, 
+\fBisLocusTag\fR as boolean = FALSE, 
+\fBget_clusterID\fR as boolean = FALSE, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+get an intersection id list between the background
+ model and the given gene id list.
+.PP
+.SH OPTIONS
+.PP
+\fBcluster\fB \fR\- 
+ A gene cluster model or gsea background model object.
+. 
+.PP
+.PP
+\fBgeneSet\fB \fR\- -. 
+.PP
+.PP
+\fBisLocusTag\fB \fR\- -. 
+.PP
+.PP
+\fBget_clusterID\fB \fR\- 
+ this function will returns a set of mapping cluster id if this 
+ parameter value is set to value TRUE, otherwise this function
+ returns a set of intersected geneID list by default.
+ 
+ this parameter only works when the cluster object is a 
+ gsea background model object.
+. 
+.PP
+.SH SEE ALSO
+background
+.SH FILES
+.PP
+gseakit.dll
+.PP

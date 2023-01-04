@@ -1,0 +1,24 @@
+﻿.TH COMPOUNDNETWORK 1 2023-01-04 "" "Create kegg compound network"
+.SH NAME
+CompoundNetwork \- CompoundNetwork(compoundsId,
+    <i>make.pathway.cluster</i> = <span style='color: blue;'>TRUE</span>)
+.SH SYNOPSIS
+\fICompoundNetwork(compoundsId,
+    <i>make.pathway.cluster</i> = <span style='color: blue;'>TRUE</span>)\fR
+.SH OPTIONS
+.PP
+\fBcompoundsId\fB \fR\- . a ``dataframe`` object that contains the kegg compound cid as the node item in the network graph data. there are fields in this dataframe that must be included: 1. kegg_id: is the kegg compound cid 2. weight: apply for measure the node size
+.PP
+.PP
+\fBmake.pathway.cluster\fB \fR\- TRUE. 
+.PP
+.SH VALUE
+.PP
+a network graph object model, which can be export as table file or run network visualization rendering in the downstream data analysis.
+.PP
+.SH FILES
+.PP
+SMRUCC/R#.declare_function.CompoundNetwork at kegg_graph.R:line 20
+.PP
+.SH COPYRIGHT
+Copyright © xieguigang, GPL3 Licensed 2023
