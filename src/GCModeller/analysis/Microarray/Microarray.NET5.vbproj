@@ -45,6 +45,7 @@
     <ProjectReference Include="..\..\..\workbench\modules\ExperimentDesigner\designer-netcore5.vbproj" />
     <ProjectReference Include="..\..\annotations\GSEA\GSEA\gsea-netcore5.vbproj" />
     <ProjectReference Include="..\..\core\Bio.Annotation\annotation.NET5.vbproj" />
+    <ProjectReference Include="..\HTS_matrix\HTS_matrix-netcore5.vbproj" />
   </ItemGroup>
 
 </Project>
