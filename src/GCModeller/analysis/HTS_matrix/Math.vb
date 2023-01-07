@@ -152,7 +152,7 @@ Public Module Math
                 Dim group_val As Vector = gene(index).AsVector
                 Dim zero As Vector = group_zero(group.Key)
                 Dim trank As Vector = group_val / group_max + zero
-                Dim test As TwoSampleResult = t.Test(trank, zero, Hypothesis.Greater)
+                Dim test As TwoSampleResult = t.Test(trank, zero, Hypothesis.Less)
 
                 exprVals.Add(group.Key, group_val.Average)
                 pvalue.Add(group.Key, test.Pvalue)
