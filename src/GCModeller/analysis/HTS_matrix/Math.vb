@@ -144,6 +144,7 @@ Public Module Math
         For Each gene As DataFrameRow In expr.expression
             Dim ranking As New Dictionary(Of String, Double)
             Dim pvalue As New Dictionary(Of String, Double)
+            Dim exprVals As New Dictionary(Of String, Double)
 
             For Each group In groups
                 Dim index As Integer() = group.Value
@@ -151,8 +152,9 @@ Public Module Math
                 Dim group_val As Vector = gene(index).AsVector
                 Dim zero As Vector = group_zero(group.Key)
                 Dim trank As Vector = group_val / group_max + zero
-                Dim test As TwoSampleResult = t.Test(trank, zero)
+                Dim test As TwoSampleResult = t.Test(trank, zero, Hypothesis.Less)
 
+                exprVals.Add(group.Key, group_val.Average)
                 pvalue.Add(group.Key, test.Pvalue)
                 ranking.Add(group.Key, trank.Average)
             Next
@@ -160,7 +162,8 @@ Public Module Math
             Yield New Ranking With {
                 .geneID = gene.geneID,
                 .pvalue = pvalue,
-                .ranking = ranking
+                .ranking = ranking,
+                .expression = exprVals
             }
         Next
     End Function
@@ -171,6 +174,7 @@ Public Class Ranking
     Public Property geneID As String
     Public Property ranking As Dictionary(Of String, Double)
     Public Property pvalue As Dictionary(Of String, Double)
+    Public Property expression As Dictionary(Of String, Double)
 
     Public Overrides Function ToString() As String
         Return geneID
