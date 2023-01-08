@@ -461,26 +461,59 @@ Public Module GSEABackground
     ''' <summary>
     ''' Create a cluster for gsea background
     ''' </summary>
-    ''' <param name="data">
-    ''' id, name data fields should be exists in current dataframe object
+    ''' <param name="x">
+    ''' id, name data fields should be exists in current dataframe object, 
+    ''' other data fields will be used as the gene member terms
     ''' </param>
-    ''' <param name="clusterId$"></param>
-    ''' <param name="clusterName$"></param>
+    ''' <param name="clusterId">id of the cluster</param>
+    ''' <param name="clusterName">display name of the cluster model</param>
+    ''' <param name="desc">
+    ''' the description of the cluster model 
+    ''' </param>
+    ''' <param name="id">
+    ''' the field column name for get gene members id
+    ''' </param>
+    ''' <param name="name">
+    ''' the field column name for get gene members name
+    ''' </param>
     ''' <returns></returns>
     <ExportAPI("gsea.cluster")>
-    Public Function CreateCluster(data As Rdataframe, clusterId$, clusterName$,
+    Public Function CreateCluster(x As Rdataframe, clusterId$, clusterName$,
                                   Optional desc$ = "n/a",
                                   Optional id$ = "xref",
                                   Optional name$ = "name") As Cluster
 
-        Dim idvec As String() = asVector(Of String)(data.columns(id))
-        Dim namevec As String() = asVector(Of String)(data.columns(name))
+        Dim fields As Dictionary(Of String, String()) = x.columns _
+            .ToDictionary(Function(a) a.Key,
+                          Function(a)
+                              Return DirectCast(asVector(Of String)(a.Value), String())
+                          End Function)
+        Dim idvec As String() = asVector(Of String)(fields(id))
+        Dim namevec As String() = asVector(Of String)(fields(name))
+
+        Call fields.Remove(id)
+        Call fields.Remove(name)
+
         Dim cluster As New Cluster With {
             .ID = clusterId,
             .description = desc.TrimNewLine().StringReplace("\s{2,}", " "),
             .names = clusterName.TrimNewLine().StringReplace("\s{2,}", " "),
             .members = idvec _
                 .Select(Function(idstr, i)
+                            Dim terms As Dictionary(Of String, String) = fields _
+                                .ToDictionary(Function(a) a.Key,
+                                              Function(a)
+                                                  Return a.Value(i)
+                                              End Function)
+                            Dim termList As New List(Of NamedValue)
+
+                            For Each tuple As KeyValuePair(Of String, String) In terms
+                                termList.Add(New NamedValue With {
+                                    .name = tuple.Key,
+                                    .text = tuple.Value
+                                })
+                            Next
+
                             Return New BackgroundGene With {
                                 .accessionID = idstr,
                                 .[alias] = {idstr},
@@ -489,7 +522,7 @@ Public Module GSEABackground
                                     .text = namevec(i)
                                 },
                                 .name = namevec(i),
-                                .term_id = BackgroundGene.UnknownTerms(idstr).ToArray
+                                .term_id = termList.ToArray
                             }
                         End Function) _
                 .ToArray
