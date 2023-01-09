@@ -501,6 +501,7 @@ Public Module GSEABackground
             .members = idvec _
                 .Select(Function(idstr, i)
                             Dim terms As Dictionary(Of String, String) = fields _
+                                .Where(Function(a) Not a.Value(i).StringEmpty) _
                                 .ToDictionary(Function(a) a.Key,
                                               Function(a)
                                                   Return a.Value(i)
