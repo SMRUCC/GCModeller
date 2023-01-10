@@ -1,0 +1,49 @@
+.\" man page create by R# package system.
+.TH BACKGROUND 2 2000-01-01 "gsea.cluster" "gsea.cluster"
+.SH NAME
+gsea.cluster \- Create a cluster for gsea background
+.SH SYNOPSIS
+\fIgsea.cluster(\fBx\fR as <generic> dataframe, 
+\fBclusterId\fR as string, 
+\fBclusterName\fR as string, 
+\fBdesc\fR as string = "n/a", 
+\fBid\fR as string = "xref", 
+\fBname\fR as string = "name");\fR
+.SH DESCRIPTION
+.PP
+Create a cluster for gsea background
+.PP
+.SH OPTIONS
+.PP
+\fBx\fB \fR\- 
+ id, name data fields should be exists in current dataframe object, 
+ other data fields will be used as the gene member terms
+. 
+.PP
+.PP
+\fBclusterId\fB \fR\- id of the cluster. 
+.PP
+.PP
+\fBclusterName\fB \fR\- display name of the cluster model. 
+.PP
+.PP
+\fBdesc\fB \fR\- 
+ the description of the cluster model 
+. 
+.PP
+.PP
+\fBid\fB \fR\- 
+ the field column name for get gene members id
+. 
+.PP
+.PP
+\fBname\fB \fR\- 
+ the field column name for get gene members name
+. 
+.PP
+.SH SEE ALSO
+background
+.SH FILES
+.PP
+gseakit.dll
+.PP

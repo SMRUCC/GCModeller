@@ -1,0 +1,28 @@
+.\" man page create by R# package system.
+.TH REPOSITORY 1 2000-01-01 "fetch.kegg_organism" "fetch.kegg_organism"
+.SH NAME
+fetch.kegg_organism \- Fetch the kegg organism table data from a given resource
+.SH SYNOPSIS
+\fIfetch.kegg_organism(\fBresource\fR as string = "http://www.kegg.jp/kegg/catalog/org_list.html", 
+\fBtype\fR as <integer> OrganismTypes = [all]);\fR
+.SH DESCRIPTION
+.PP
+Fetch the kegg organism table data from a given resource
+.PP
+.SH OPTIONS
+.PP
+\fBresource\fB \fR\- the kegg organism data resource, by default is the kegg online page data.. 
+.PP
+.PP
+\fBtype\fB \fR\- 
+ 0. all
+ 1. prokaryote
+ 2. eukaryotes
+. 
+.PP
+.SH SEE ALSO
+repository
+.SH FILES
+.PP
+kegg_kit.dll
+.PP

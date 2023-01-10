@@ -1,0 +1,32 @@
+.\" man page create by R# package system.
+.TH CYTOSCAPE.KEGG 2 2000-01-01 "compounds.network" "compounds.network"
+.SH NAME
+compounds.network \- Create kegg metabolism network based on the given metabolite compound data.
+.SH SYNOPSIS
+\fIcompounds.network(\fBreactions\fR as <generic> ReactionTable[], 
+\fBcompounds\fR as string, 
+\fBenzymes\fR as list[string] = \fB<NULL>\fR, 
+\fBfilterByEnzymes\fR as boolean = FALSE, 
+\fBextended\fR as boolean = FALSE, 
+\fBstrictReactionNetwork\fR as boolean = FALSE, 
+\fBenzymeBridged\fR as boolean = TRUE, 
+\fBrandom_layout\fR as boolean = TRUE);\fR
+.SH DESCRIPTION
+.PP
+Create kegg metabolism network based on the given metabolite compound data.
+.PP
+.SH OPTIONS
+.PP
+\fBreactions\fB \fR\- The kegg \fBbr08201\fR reaction database.. 
+.PP
+.PP
+\fBcompounds\fB \fR\- Kegg compound id list. 
+.PP
+.SH SEE ALSO
+cytoscape.kegg
+.SH FILES
+.PP
+cytoscape_toolkit.dll
+.PP
+.SH AUTHOR
+Written by \fBxie.guigang@gcmodeller.org\fR

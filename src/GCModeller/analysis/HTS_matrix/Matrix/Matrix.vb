@@ -381,7 +381,8 @@ Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow)
 
         Return New Matrix With {
             .sampleID = groups.Keys,
-            .expression = genes
+            .expression = genes,
+            .tag = $"average({matrix.tag})"
         }
     End Function
 
