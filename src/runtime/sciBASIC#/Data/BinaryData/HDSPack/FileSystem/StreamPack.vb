@@ -249,6 +249,10 @@ Namespace FileSystem
             End If
         End Sub
 
+        Public Overrides Function ToString() As String
+            Return buffer.ToString
+        End Function
+
         Private Function ParseTree() As StreamGroup
             ' verify data at first
             Dim magic As Byte() = New Byte(StreamPack.Magic.Length - 1) {}
