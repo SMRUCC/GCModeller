@@ -250,7 +250,13 @@ Namespace FileSystem
         End Sub
 
         Public Overrides Function ToString() As String
-            Return buffer.ToString
+            If TypeOf buffer Is FileStream Then
+                Return DirectCast(buffer, FileStream).Name.FileName
+            ElseIf TypeOf buffer Is MemoryStream Then
+                Return $"memory://{buffer.GetHashCode}<size={StringFormats.Lanudry(buffer.Length)}>"
+            Else
+                Return buffer.ToString
+            End If
         End Function
 
         Private Function ParseTree() As StreamGroup
