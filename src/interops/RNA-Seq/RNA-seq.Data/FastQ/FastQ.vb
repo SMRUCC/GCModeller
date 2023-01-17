@@ -134,6 +134,20 @@ Namespace FQ
         End Function
 
         ''' <summary>
+        ''' 测序质量，每个字符对应第2行每个碱基，第四行每个字符对应的ASCII值减去33，
+        ''' 即为该碱基的测序质量值，比如@对应的ASCII值为64，那么其对应的碱基质量值是31。
+        ''' 从Illumina GA Pipeline v1.8开始（目前为v1.9），碱基质量值范围为0到41。
+        ''' </summary>
+        ''' <param name="q"></param>
+        ''' <returns></returns>
+        ''' 
+        Public Shared Iterator Function GetQualityOrder(q As String) As IEnumerable(Of Integer)
+            For Each c As Char In q
+                Yield Asc(q) - 33
+            Next
+        End Function
+
+        ''' <summary>
         ''' 
         ''' </summary>
         ''' <param name="str"></param>
