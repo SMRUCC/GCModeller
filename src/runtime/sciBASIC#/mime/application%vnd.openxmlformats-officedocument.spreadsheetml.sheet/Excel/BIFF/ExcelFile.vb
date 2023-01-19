@@ -1,4 +1,6 @@
 Imports System.IO
+Imports Microsoft.VisualBasic.Serialization.BinaryDumping
+
 ''' <summary>
 ''' Class file for writing Microsoft Excel BIFF 2.1 files.
 '''
@@ -24,220 +26,6 @@ Public Class BiffWriter
     'value to a 2-byte string value to write to the file. (used by the Horizontal
     'Page Break function).
     Private Declare Sub CopyMemory Lib "KERNEL32" Alias "RtlMoveMemory" (lpvDest As Object, lpvSource As Object, ByVal cbCopy As Long)
-
-    'enum to handle the various types of values that can be written
-    'to the excel file.
-    Public Enum ValueTypes
-        xlsinteger = 0
-        xlsnumber = 1
-        xlsText = 2
-    End Enum
-
-    'enum to hold cell alignment
-    Public Enum CellAlignment
-        xlsGeneralAlign = 0
-        xlsLeftAlign = 1
-        xlsCentreAlign = 2
-        xlsrightAlign = 3
-        xlsFillCell = 4
-        xlsLeftBorder = 8
-        xlsRightBorder = 16
-        xlsTopBorder = 32
-        xlsBottomBorder = 64
-        xlsShaded = 128
-    End Enum
-
-    'enum to handle selecting the font for the cell
-    Public Enum CellFont
-        'used by rgbAttr2
-        'bits 0-5 handle the *picture* formatting, not bold/underline etc...
-        'bits 6-7 handle the font number
-        xlsFont0 = 0
-        xlsFont1 = 64
-        xlsFont2 = 128
-        xlsFont3 = 192
-    End Enum
-
-    Public Enum CellHiddenLocked
-        'used by rgbAttr1
-        'bits 0-5 must be zero
-        'bit 6 locked/unlocked
-        'bit 7 hidden/not hidden
-        xlsNormal = 0
-        xlsLocked = 64
-        xlsHidden = 128
-    End Enum
-
-
-    'set up variables to hold the spreadsheet's layout
-    Public Enum MarginTypes
-        xlsLeftMargin = 38
-        xlsRightMargin = 39
-        xlsTopMargin = 40
-        xlsBottomMargin = 41
-    End Enum
-
-
-    Public Enum FontFormatting
-        'add these enums together. For example: xlsBold + xlsUnderline
-        xlsNoFormat = 0
-        xlsBold = 1
-        xlsItalic = 2
-        xlsUnderline = 4
-        xlsStrikeout = 8
-    End Enum
-
-    Private Structure FONT_RECORD
-        Dim opcode As Integer  '49
-        Dim length As Integer  '5+len(fontname)
-        Dim FontHeight As Integer
-
-        'bit0 bold, bit1 italic, bit2 underline, bit3 strikeout, bit4-7 reserved
-        Dim FontAttributes1 As Byte
-
-        Dim FontAttributes2 As Byte  'reserved - always 0
-
-        Dim FontNameLength As Byte
-    End Structure
-
-
-    Private Structure PASSWORD_RECORD
-        Dim opcode As Integer  '47
-        Dim length As Integer  'len(password)
-    End Structure
-
-
-    Private Structure HEADER_FOOTER_RECORD
-        Dim opcode As Integer  '20 Header, 21 Footer
-        Dim length As Integer  '1+len(text)
-        Dim TextLength As Byte
-    End Structure
-
-
-    Private Structure PROTECT_SPREADSHEET_RECORD
-        Dim opcode As Integer  '18
-        Dim length As Integer  '2
-        Dim Protect As Integer
-    End Structure
-
-    Private Structure FORMAT_COUNT_RECORD
-        Dim opcode As Integer  '1f
-        Dim length As Integer '2
-        Dim Count As Integer
-    End Structure
-
-    Private Structure FORMAT_RECORD
-        Dim opcode As Integer  '1e
-        Dim length As Integer  '1+len(format)
-        Dim FormatLenght As Byte 'len(format)
-    End Structure '+ followed by the Format-Picture
-
-
-
-    Private Structure COLWIDTH_RECORD
-        Dim opcode As Integer  '36
-        Dim length As Integer  '4
-        Dim col1 As Byte       'first column
-        Dim col2 As Byte       'last column
-        Dim ColumnWidth As Integer   'at 1/256th of a character
-    End Structure
-
-    'Beginning Of File record
-    Private Structure BEG_FILE_RECORD
-        Dim opcode As Integer
-        Dim length As Integer
-        Dim version As Integer
-        Dim ftype As Integer
-    End Structure
-
-    'End Of File record
-    Private Structure END_FILE_RECORD
-        Dim opcode As Integer
-        Dim length As Integer
-    End Structure
-
-    'true/false to print gridlines
-    Private Structure PRINT_GRIDLINES_RECORD
-        Dim opcode As Integer
-        Dim length As Integer
-        Dim PrintFlag As Integer
-    End Structure
-
-    'Integer record
-    Private Structure tInteger
-        Dim opcode As Integer
-        Dim length As Integer
-        Dim Row As Integer     'unsigned integer
-        Dim col As Integer
-
-        'rgbAttr1 handles whether cell is hidden and/or locked
-        Dim rgbAttr1 As Byte
-
-        'rgbAttr2 handles the Font# and Formatting assigned to this cell
-        Dim rgbAttr2 As Byte
-
-        'rgbAttr3 handles the Cell Alignment/borders/shading
-        Dim rgbAttr3 As Byte
-
-        Dim intValue As Integer  'the actual integer value
-    End Structure
-
-    'Number record
-    Private Structure tNumber
-        Dim opcode As Integer
-        Dim length As Integer
-        Dim Row As Integer
-        Dim col As Integer
-        Dim rgbAttr1 As Byte
-        Dim rgbAttr2 As Byte
-        Dim rgbAttr3 As Byte
-        Dim NumberValue As Double  '8 Bytes
-    End Structure
-
-    'Label (Text) record
-    Private Structure tText
-        Dim opcode As Integer
-        Dim length As Integer
-        Dim Row As Integer
-        Dim col As Integer
-        Dim rgbAttr1 As Byte
-        Dim rgbAttr2 As Byte
-        Dim rgbAttr3 As Byte
-        Dim TextLength As Byte
-    End Structure
-
-    Private Structure MARGIN_RECORD_LAYOUT
-        Dim opcode As Integer
-        Dim length As Integer
-        Dim MarginValue As Double  '8 bytes
-    End Structure
-
-    Private Structure HPAGE_BREAK_RECORD
-        Dim opcode As Integer
-        Dim length As Integer
-        Dim NumPageBreaks As Integer
-    End Structure
-
-    Private Structure DEF_ROWHEIGHT_RECORD
-        Dim opcode As Integer
-        Dim length As Integer
-        Dim RowHeight As Integer
-    End Structure
-
-    Private Structure ROW_HEIGHT_RECORD
-        Dim opcode As Integer  '08
-        Dim length As Integer  'should always be 16 bytes
-        Dim RowNumber As Integer
-        Dim FirstColumn As Integer
-        Dim LastColumn As Integer
-        Dim RowHeight As Integer  'written to file as 1/20ths of a point
-        Dim internal As Integer
-        Dim DefaultAttributes As Byte  'set to zero for no default attributes
-        Dim FileOffset As Integer
-        Dim rgbAttr1 As Byte
-        Dim rgbAttr2 As Byte
-        Dim rgbAttr3 As Byte
-    End Structure
 
     Private FileNumber As BinaryWriter
     Private BEG_FILE_MARKER As BEG_FILE_RECORD
@@ -296,22 +84,23 @@ Public Class BiffWriter
                 .length = 2 + (NumHorizPageBreaks * 2)
                 .NumPageBreaks = NumHorizPageBreaks
             End With
-            Put #FileNumber, , HORIZ_PAGE_BREAK
+            Put(FileNumber, HORIZ_PAGE_BREAK)
 
-        'now write the actual page break values
+            'now write the actual page break values
             'the MKI$ function is standard in other versions of BASIC but
             'VisualBasic does not have it. A KnowledgeBase article explains
             'how to recreate it (albeit using 16-bit API, I switched it
             'to 32-bit).
             For x% = 1 To UBound(HorizPageBreakRows)
-                Put #FileNumber, , MKI$(HorizPageBreakRows(x%))
-        Next
+                Put(FileNumber, MKI$(HorizPageBreakRows(x%)))
+            Next
         End If
 
-        Put #FileNumber, , END_FILE_MARKER
-    Close #FileNumber
+        Put(FileNumber, END_FILE_MARKER)
+        FileNumber.Flush()
+        FileNumber.Dispose()
 
-    CloseFile = 0  'return with no error code
+        CloseFile = 0  'return with no error code
 
         Exit Function
 
@@ -321,7 +110,9 @@ Write_Error:
 
     End Function
 
-
+    ''' <summary>
+    ''' create a new excel xls file biff writer
+    ''' </summary>
     Sub New()
 
         'Set up default values for records
@@ -368,14 +159,29 @@ Page_Break_Error:
 
     End Function
 
+    Private Shared Sub Put(Of T As Structure)(file As BinaryWriter, struct As T)
+        Call file.Write(struct)
+    End Sub
 
+    Private Shared Sub Put(file As BinaryWriter, b As Byte)
+        Call file.Write(b)
+    End Sub
 
-    Public Function WriteValue(ValueType As ValueTypes, CellFontUsed As CellFont, Alignment As CellAlignment, HiddenLocked As CellHiddenLocked, lrow As Long, lcol As Long, value As Variant, Optional CellFormat As Long = 0) As Integer
+    Public Function WriteValue(ValueType As ValueTypes,
+                               CellFontUsed As CellFont,
+                               Alignment As CellAlignment,
+                               HiddenLocked As CellHiddenLocked,
+                               lrow As Long,
+                               lcol As Long,
+                               value As Object,
+                               Optional CellFormat As Long = 0) As Integer
 
         On Error GoTo Write_Error
 
         'the row and column values are written to the excel file as
         'unsigned integers. Therefore, must convert the longs to integer.
+        Dim Row As Integer
+        Dim col As Integer
 
         If lrow > 32767 Then
             Row% = CInt(lrow - 65536)
@@ -403,10 +209,10 @@ Page_Break_Error:
                     .rgbAttr3 = CByte(Alignment)
                     .intValue = CInt(value)
                 End With
-                Put #FileNumber, , INTEGER_RECORD
+                Put(FileNumber, INTEGER_RECORD)
 
 
-      Case ValueTypes.xlsnumber
+            Case ValueTypes.xlsnumber
                 Dim NUMBER_RECORD As tNumber
                 With NUMBER_RECORD
                     .opcode = 3
@@ -418,13 +224,13 @@ Page_Break_Error:
                     .rgbAttr3 = CByte(Alignment)
                     .NumberValue = CDbl(value)
                 End With
-                Put #FileNumber, , NUMBER_RECORD
+                Put(FileNumber, NUMBER_RECORD)
 
 
-      Case ValueTypes.xlsText
+            Case ValueTypes.xlsText
                 Dim b As Byte
-                st$ = CStr(value)
-                l% = Len(st$)
+                Dim st$ = CStr(value)
+                Dim l% = Len(st$)
 
                 Dim TEXT_RECORD As tText
                 With TEXT_RECORD
@@ -444,13 +250,13 @@ Page_Break_Error:
                     .rgbAttr3 = CByte(Alignment)
 
                     'Put record header
-                    Put #FileNumber, , TEXT_RECORD
+                    Put(FileNumber, TEXT_RECORD)
 
-          'Then the actual string data
+                    'Then the actual string data
                     For a = 1 To l%
                         b = Asc(Mid$(st$, a, 1))
-                        Put #FileNumber, , b
-          Next
+                        Put(FileNumber, b)
+                    Next
                 End With
 
         End Select
@@ -478,9 +284,9 @@ Write_Error:
             .length = 8
             .MarginValue = MarginValue 'in inches
         End With
-        Put #FileNumber, , MarginRecord
+        Put(FileNumber, MarginRecord)
 
-    SetMargin = 0
+        SetMargin = 0
 
         Exit Function
 
@@ -504,9 +310,9 @@ Write_Error:
             .col2 = LastColumn - 1
             .ColumnWidth = WidthValue * 256  'values are specified as 1/256 of a character
         End With
-        Put #FileNumber, , COLWIDTH
+        Put(FileNumber, COLWIDTH)
 
-    SetColumnWidth = 0
+        SetColumnWidth = 0
 
         Exit Function
 
@@ -525,8 +331,7 @@ Write_Error:
         'as a Text or Number you can specify one of the 4 fonts (numbered 0 to 3)
 
         Dim FONTNAME_RECORD As FONT_RECORD
-
-        l% = Len(FontName)
+        Dim l% = Len(FontName)
 
         With FONTNAME_RECORD
             .opcode = 49
@@ -536,14 +341,14 @@ Write_Error:
             .FontAttributes2 = CByte(0) 'reserved-always zero!!
             .FontNameLength = CByte(Len(FontName))
         End With
-        Put #FileNumber, , FONTNAME_RECORD
+        Put(FileNumber, FONTNAME_RECORD)
 
-    'Then the actual font name data
+        'Then the actual font name data
         Dim b As Byte
         For a = 1 To l%
             b = Asc(Mid$(FontName, a, 1))
-            Put #FileNumber, , b
-    Next
+            Put(FileNumber, b)
+        Next
 
         SetFont = 0
 
@@ -562,22 +367,21 @@ Write_Error:
         On Error GoTo Write_Error
 
         Dim HEADER_RECORD As HEADER_FOOTER_RECORD
-
-        l% = Len(HeaderText)
+        Dim l% = Len(HeaderText)
 
         With HEADER_RECORD
             .opcode = 20
             .length = 1 + l%
             .TextLength = CByte(Len(HeaderText))
         End With
-        Put #FileNumber, , HEADER_RECORD
+        Put(FileNumber, HEADER_RECORD)
 
-    'Then the actual Header text
+        'Then the actual Header text
         Dim b As Byte
         For a = 1 To l%
             b = Asc(Mid$(HeaderText, a, 1))
-            Put #FileNumber, , b
-    Next
+            Put(FileNumber, b)
+        Next
 
         SetHeader = 0
 
@@ -596,22 +400,21 @@ Write_Error:
         On Error GoTo Write_Error
 
         Dim FOOTER_RECORD As HEADER_FOOTER_RECORD
-
-        l% = Len(FooterText)
+        Dim l% = Len(FooterText)
 
         With FOOTER_RECORD
             .opcode = 21
             .length = 1 + l%
             .TextLength = CByte(Len(FooterText))
         End With
-        Put #FileNumber, , FOOTER_RECORD
+        Put(FileNumber, FOOTER_RECORD)
 
-    'Then the actual Header text
+        'Then the actual Header text
         Dim b As Byte
         For a = 1 To l%
             b = Asc(Mid$(FooterText, a, 1))
-            Put #FileNumber, , b
-    Next
+            Put(FileNumber, b)
+        Next
 
         SetFooter = 0
 
@@ -630,21 +433,20 @@ Write_Error:
         On Error GoTo Write_Error
 
         Dim FILE_PASSWORD_RECORD As PASSWORD_RECORD
-
-        l% = Len(PasswordText)
+        Dim l% = Len(PasswordText)
 
         With FILE_PASSWORD_RECORD
             .opcode = 47
             .length = l%
         End With
-        Put #FileNumber, , FILE_PASSWORD_RECORD
+        Put(FileNumber, FILE_PASSWORD_RECORD)
 
-    'Then the actual Password text
+        'Then the actual Password text
         Dim b As Byte
         For a = 1 To l%
             b = Asc(Mid$(PasswordText, a, 1))
-            Put #FileNumber, , b
-    Next
+            Put(FileNumber, b)
+        Next
 
         SetFilePassword = 0
 
@@ -656,62 +458,63 @@ Write_Error:
 
     End Function
 
+    Public Property PrintGridLines As Boolean
+        Get
 
+        End Get
+        Set(newvalue As Boolean)
+            On Error GoTo Write_Error
 
+            Dim GRIDLINES_RECORD As PRINT_GRIDLINES_RECORD
 
-    Public Property Let PrintGridLines(ByVal newvalue As Boolean)
+            With GRIDLINES_RECORD
+                .opcode = 43
+                .length = 2
+                If newvalue = True Then
+                    .PrintFlag = 1
+                Else
+                    .PrintFlag = 0
+                End If
 
-    On Error GoTo Write_Error
+            End With
+            Put(FileNumber, GRIDLINES_RECORD)
 
-    Dim GRIDLINES_RECORD As PRINT_GRIDLINES_RECORD
-
-    With GRIDLINES_RECORD
-    .opcode = 43
-    .length = 2
-    If newvalue = True Then
-    .PrintFlag = 1
-    Else
-    .PrintFlag = 0
-    End If
-
-    End With
-    Put #FileNumber, , GRIDLINES_RECORD
-
-Exit Property
+            Exit Property
 
 Write_Error:
-    Exit Property
-
-
+            Exit Property
+        End Set
     End Property
 
 
 
 
-    Public Property Let ProtectSpreadsheet(ByVal newvalue As Boolean)
+    Public Property ProtectSpreadsheet As Boolean
+        Get
 
-    On Error GoTo Write_Error
+        End Get
+        Set(newvalue As Boolean)
+            On Error GoTo Write_Error
 
-    Dim PROTECT_RECORD As PROTECT_SPREADSHEET_RECORD
+            Dim PROTECT_RECORD As PROTECT_SPREADSHEET_RECORD
 
-    With PROTECT_RECORD
-    .opcode = 18
-    .length = 2
-    If newvalue = True Then
-    .Protect = 1
-    Else
-    .Protect = 0
-    End If
+            With PROTECT_RECORD
+                .opcode = 18
+                .length = 2
+                If newvalue = True Then
+                    .Protect = 1
+                Else
+                    .Protect = 0
+                End If
 
-    End With
-    Put #FileNumber, , PROTECT_RECORD
+            End With
+            Put(FileNumber, PROTECT_RECORD)
 
-Exit Property
+            Exit Property
 
 Write_Error:
-    Exit Property
-
-
+            Exit Property
+        End Set
     End Property
 
 
@@ -723,7 +526,7 @@ Write_Error:
         Dim aFormat(0 To 23) As String
         Dim l As Long
         Dim q As String
-        q = Chr$(34)
+        q = Chr(34)
 
         aFormat(0) = "General"
         aFormat(1) = "0"
@@ -755,23 +558,23 @@ Write_Error:
             .length = &H2
             .Count = CInt(UBound(aFormat))
         End With
-        Put #FileNumber, , cFORMAT_COUNT_RECORD
+        Put(FileNumber, cFORMAT_COUNT_RECORD)
 
-    For lIndex = LBound(aFormat) To UBound(aFormat)
+        For lIndex = LBound(aFormat) To UBound(aFormat)
             l = Len(aFormat(lIndex))
             With cFORMAT_RECORD
                 .opcode = &H1E
                 .length = CInt(l + 1)
                 .FormatLenght = CInt(l)
             End With
-            Put #FileNumber, , cFORMAT_RECORD
+            Put(FileNumber, cFORMAT_RECORD)
 
-        'Then the actual format
+            'Then the actual format
             Dim b As Byte, a As Long
             For a = 1 To l
                 b = Asc(Mid$(aFormat(lIndex), a, 1))
-                Put #FileNumber, , b
-        Next
+                Put(FileNumber, b)
+            Next
         Next lIndex
 
         Exit Function
@@ -781,9 +584,9 @@ Write_Error:
 
     Function MKI$(x As Integer)
         'used for writing integer array values to the disk file
-        temp$ = Space$(2)
-        CopyMemory ByVal temp$, x%, 2
-   MKI$ = temp$
+        Dim temp$ = Space$(2)
+        CopyMemory(temp$, x%, 2)
+        MKI$ = temp$
     End Function
 
 
@@ -802,9 +605,9 @@ Write_Error:
             .length = 2
             .RowHeight = HeightValue * 20  'convert points to 1/20ths of point
         End With
-        Put #FileNumber, , DEFHEIGHT
+        Put(FileNumber, DEFHEIGHT)
 
-    SetDefaultRowHeight = 0
+        SetDefaultRowHeight = 0
 
         Exit Function
 
@@ -821,6 +624,7 @@ Write_Error:
 
         'the row and column values are written to the excel file as
         'unsigned integers. Therefore, must convert the longs to integer.
+        Dim Row As Integer
 
         If lrow > 32767 Then
             Row% = CInt(lrow - 65536)
@@ -849,9 +653,9 @@ Write_Error:
             .rgbAttr2 = 0
             .rgbAttr3 = 0
         End With
-        Put #FileNumber, , ROWHEIGHTREC
+        Put(FileNumber, ROWHEIGHTREC)
 
-    SetRowHeight = 0
+        SetRowHeight = 0
 
         Exit Function
 
@@ -860,6 +664,4 @@ Write_Error:
         Exit Function
 
     End Function
-
-
 End Class
