@@ -2,8 +2,11 @@
 Imports Microsoft.VisualBasic.DataStorage.HDSPack
 Imports Microsoft.VisualBasic.DataStorage.HDSPack.FileSystem
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Text.Xml.Models
+Imports SMRUCC.genomics.Analysis.HTS
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.HTS.GSEA
+Imports SMRUCC.genomics.Analysis.HTS.GSVA
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 
 Public Module ArabidopsisThalianaTest
@@ -13,8 +16,15 @@ Public Module ArabidopsisThalianaTest
     Sub Main()
         Dim expr As Matrix = Matrix.LoadData($"{base}/ath_norm.csv")
         Dim kegg As New Background With {
-            .clusters = LoadKEGG.ToArray
+            .clusters = LoadKEGG.ToArray,
+            .name = "Arabidopsis Thaliana",
+            .id = "ath"
         }
+        Dim scores = GSVA.gsva(expr, kegg)
+
+        Call scores.SaveMatrix($"{base}/gsva.csv", "kegg_pathways")
+
+        Pause()
     End Sub
 
     Private Iterator Function LoadKEGG() As IEnumerable(Of Cluster)
@@ -49,7 +59,9 @@ Public Module ArabidopsisThalianaTest
                                     Return New BackgroundGene With {
                                         .accessionID = g.geneId,
                                         .[alias] = {},
-                                        .locus_tag = New namedvalue
+                                        .locus_tag = New NamedValue With {.name = g.geneId, .text = g.geneName},
+                                        .name = g.geneName,
+                                        .term_id = BackgroundGene.UnknownTerms(g.KO).ToArray
                                     }
                                 End Function) _
                         .ToArray
