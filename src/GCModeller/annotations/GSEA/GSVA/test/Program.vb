@@ -68,8 +68,8 @@ Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.HTS.GSEA
 Imports SMRUCC.genomics.Analysis.HTS.GSVA
 
-Module Program
-    Sub Main(args As String())
+Module Program22222
+    Sub Main2(args As String())
         Dim expr As Matrix = Matrix.LoadData("E:\GCModeller\src\GCModeller\annotations\GSEA\data\HTS\metabolome.csv")
         Dim background = "E:\GCModeller\src\GCModeller\annotations\GSEA\data\HTS\kegg_enrichment.xls".LoadTsv(Of enrichment)().ToArray
         Dim maps = "E:\GCModeller\src\GCModeller\annotations\GSEA\data\HTS\metainfo.csv" _
