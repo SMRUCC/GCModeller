@@ -50,7 +50,7 @@ Public Module ArabidopsisThalianaTest
                 Dim pathway As Pathway = xml.LoadFromXml(Of Pathway)()
 
                 Yield New Cluster With {
-                    .ID = pathway.briteID,
+                    .ID = pathway.name,
                     .description = pathway.description,
                     .names = pathway.name,
                     .members = pathway.genes _
