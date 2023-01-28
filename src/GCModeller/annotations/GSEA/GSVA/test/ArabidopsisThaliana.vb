@@ -1,7 +1,10 @@
 ﻿Imports System.IO
+Imports Microsoft.VisualBasic.DataStorage.HDSPack
 Imports Microsoft.VisualBasic.DataStorage.HDSPack.FileSystem
+Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.HTS.GSEA
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 
 Public Module ArabidopsisThalianaTest
 
@@ -17,10 +20,41 @@ Public Module ArabidopsisThalianaTest
     Private Iterator Function LoadKEGG() As IEnumerable(Of Cluster)
         Using file = $"{base}/ath.db".Open(FileMode.Open, doClear:=False, [readOnly]:=True)
             Using pack As New StreamPack(file, [readonly]:=True)
+                Dim pathways As StreamGroup = pack.GetObject("/pathways/")
 
-
-
+                For Each cl In LoadKEGG(pack, pathways)
+                    Yield cl
+                Next
             End Using
         End Using
+    End Function
+
+    Private Iterator Function LoadKEGG(pack As StreamPack, dir As StreamGroup) As IEnumerable(Of Cluster)
+        For Each file As StreamObject In dir.files
+            If TypeOf file Is StreamGroup Then
+                For Each cl In LoadKEGG(pack, file)
+                    Yield cl
+                Next
+            Else
+                Dim xml As String = pack.ReadText(file.referencePath.ToString)
+                Dim pathway As Pathway = xml.LoadFromXml(Of Pathway)()
+
+                Yield New Cluster With {
+                    .ID = pathway.briteID,
+                    .description = pathway.description,
+                    .names = pathway.name,
+                    .members = pathway.genes _
+                        .SafeQuery _
+                        .Select(Function(g)
+                                    Return New BackgroundGene With {
+                                        .accessionID = g.geneId,
+                                        .[alias] = {},
+                                        .locus_tag = New namedvalue
+                                    }
+                                End Function) _
+                        .ToArray
+                }
+            End If
+        Next
     End Function
 End Module
