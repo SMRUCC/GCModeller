@@ -40,7 +40,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\GCModeller\analysis\HTS_matrix\HTS_matrix-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\analysis\Metagenome\MetaFunction\MetaFunction.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\analysis\Metagenome\Metagenome\Metagenome.NET5.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\annotations\GSEA\PFSNet\PFSNet\PFSNet.NET5.vbproj" />

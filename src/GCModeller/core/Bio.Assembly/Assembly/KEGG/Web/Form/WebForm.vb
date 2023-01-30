@@ -101,17 +101,17 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
         ''' 这个构造函数同时支持url或者文本内容
         ''' </summary>
         ''' <param name="resource"></param>
-        Sub New(resource As String)
+        Sub New(resource As String, Optional unsafe As Boolean = False)
             Dim lines As New Pointer(Of String)(resource.SolveStream.LineTokens)
 
             If lines.Length = 1 AndAlso lines.Current.StringEmpty Then
                 References = {}
             Else
-                References = doFormParse(lines)
+                References = doFormParse(lines, unsafe)
             End If
         End Sub
 
-        Private Function doFormParse(lines As Pointer(Of String)) As bGetObject.Reference()
+        Private Function doFormParse(lines As Pointer(Of String), unsafe As Boolean) As bGetObject.Reference()
             ' fix size 12 chars
             Dim key As String = Nothing
             Dim name As String = Nothing
@@ -130,7 +130,11 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
                     Exit Do
                 Else
                     If list > 0 Then
-                        Call _strData.Add(key, list.PopAll)
+                        If unsafe Then
+                            _strData.Add(key, list.PopAll)
+                        Else
+                            _strData(key) = list.PopAll
+                        End If
                     End If
 
                     list += value
@@ -150,7 +154,11 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
             Loop
 
             If list > 0 AndAlso Not key.StringEmpty Then
-                Call _strData.Add(key, list.PopAll)
+                If unsafe Then
+                    _strData.Add(key, list.PopAll)
+                Else
+                    _strData(key) = list.PopAll
+                End If
             End If
 
             Return refs.ToArray

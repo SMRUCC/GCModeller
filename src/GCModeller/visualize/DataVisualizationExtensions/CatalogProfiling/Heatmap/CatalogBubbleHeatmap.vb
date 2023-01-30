@@ -105,7 +105,7 @@ Namespace CatalogProfiling
                 .Select(Function(v) v.Value.Values) _
                 .IteratesALL _
                 .IteratesALL _
-                .Select(Function(b) b.PValue) _
+                .Select(Function(b) If(b.PValue.IsNaNImaginary, 1, b.PValue)) _
                 .Range
             Dim impacts As DoubleRange = multiples _
                 .Select(Function(v) v.Value.Values) _
@@ -159,7 +159,7 @@ Namespace CatalogProfiling
                 For Each sample In matrix
                     Dim bubble As BubbleTerm = sample.Value.TryGetValue(pid)
 
-                    If Not bubble Is Nothing Then
+                    If Not bubble Is Nothing AndAlso Not bubble.PValue.IsNaNImaginary Then
                         Dim color As SolidBrush = paints(CInt(pvalues.ScaleMapping(bubble.PValue, colorIndex)))
                         Dim radius As Double = impacts.ScaleMapping(bubble.data, cellRange)
 

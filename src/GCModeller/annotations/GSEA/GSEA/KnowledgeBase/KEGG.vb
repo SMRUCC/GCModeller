@@ -124,7 +124,7 @@ Public Module KEGG
                                 .[alias] = {ko.entryID},
                                 .locus_tag = New NamedValue With {.name = ko.entryID, .text = ko.description},
                                 .name = ko.description,
-                                .term_id = {ko.entryID}
+                                .term_id = BackgroundGene.UnknownTerms(ko.entryID).ToArray
                             }
                         End Function) _
                 .ToArray

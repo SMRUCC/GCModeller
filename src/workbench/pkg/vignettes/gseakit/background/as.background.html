@@ -163,7 +163,8 @@
     <i>tax.id</i> = <span style='color: brown;'><strong>"n/a"</strong></span>,
     <i>desc</i> = <span style='color: brown;'><strong>"n/a"</strong></span>,
     <i>is.multipleOmics</i> = <span style='color: blue;'>FALSE</span>,
-    <i>filter.compoundId</i> = <span style='color: blue;'>TRUE</span>);</code></pre>
+    <i>filter.compoundId</i> = <span style='color: blue;'>TRUE</span>,
+    <i>kegg.code</i> = <span style='color: blue;'>NULL</span>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
@@ -199,6 +200,11 @@
 <dt>filter.compoundId</dt>
 <dd><p><p>do compound id filtering when target model is <strong><code>is_multipleOmics</code></strong>?<br />
  (all of the KEGG drug id and KEGG glycan id will be removed from the cluster model)</p></p></dd>
+
+
+<dt>kegg.code</dt>
+<dd><p><p>the kegg organism code when the given <strong><code>clusters</code></strong> collection is<br />
+ a collection of the pathway object.</p></p></dd>
 
 
 <dt>env</dt>

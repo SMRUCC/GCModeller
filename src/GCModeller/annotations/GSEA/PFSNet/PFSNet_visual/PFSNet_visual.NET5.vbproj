@@ -42,7 +42,6 @@
     <ProjectReference Include="..\..\..\..\..\runtime\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\imaging.NET5.vbproj" />
     <ProjectReference Include="..\..\..\..\..\runtime\sciBASIC#\gr\network-visualization\Visualizer\networkVisualizer.NET5.vbproj" />
     <ProjectReference Include="..\..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
-    <ProjectReference Include="..\..\..\..\analysis\HTS_matrix\HTS_matrix-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\..\core\Bio.Assembly\biocore-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\..\models\Networks\KEGG\KEGGNetwork.NET5.vbproj" />
     <ProjectReference Include="..\PFSNet\PFSNet.NET5.vbproj" />

@@ -143,6 +143,44 @@ Public Module GSEABackground
         Return background
     End Function
 
+    <ExportAPI("append.id_terms")>
+    Public Function appendIdTerms(background As Background, term_name As String, terms As list, Optional env As Environment = Nothing) As Object
+        Dim termList = terms.AsGeneric(Of String())(env)
+
+        For Each cluster As Cluster In background.clusters
+            For Each gene As BackgroundGene In cluster.members
+                Dim termIds As String() = Nothing
+
+                If termList.ContainsKey(gene.accessionID) Then
+                    termIds = termList(gene.accessionID)
+                ElseIf termList.ContainsKey(gene.locus_tag.name) Then
+                    termIds = termList(gene.locus_tag.name)
+                Else
+                    For Each id As String In gene.alias.JoinIterates(gene.term_id.Select(Function(t) t.text))
+                        If termList.ContainsKey(id) Then
+                            termIds = termList(id)
+                            Exit For
+                        End If
+                    Next
+                End If
+
+                If Not termIds.IsNullOrEmpty Then
+                    gene.term_id = termIds _
+                        .Select(Function(id)
+                                    Return New NamedValue With {
+                                        .name = term_name,
+                                        .text = id
+                                    }
+                                End Function) _
+                        .JoinIterates(gene.term_id) _
+                        .ToArray
+                End If
+            Next
+        Next
+
+        Return background
+    End Function
+
     ''' <summary>
     ''' do id mapping of the members in the background cluster
     ''' </summary>
@@ -413,7 +451,7 @@ Public Module GSEABackground
                         Return New EntityObject With {
                             .ID = gene.Key,
                             .Properties = New Dictionary(Of String, String) From {
-                                {"KO", gene.First.term_id(Scan0)}
+                                {"KO", gene.First.term_id(Scan0).text}
                             }
                         }
                     End Function) _
@@ -423,26 +461,60 @@ Public Module GSEABackground
     ''' <summary>
     ''' Create a cluster for gsea background
     ''' </summary>
-    ''' <param name="data">
-    ''' id, name data fields should be exists in current dataframe object
+    ''' <param name="x">
+    ''' id, name data fields should be exists in current dataframe object, 
+    ''' other data fields will be used as the gene member terms
     ''' </param>
-    ''' <param name="clusterId$"></param>
-    ''' <param name="clusterName$"></param>
+    ''' <param name="clusterId">id of the cluster</param>
+    ''' <param name="clusterName">display name of the cluster model</param>
+    ''' <param name="desc">
+    ''' the description of the cluster model 
+    ''' </param>
+    ''' <param name="id">
+    ''' the field column name for get gene members id
+    ''' </param>
+    ''' <param name="name">
+    ''' the field column name for get gene members name
+    ''' </param>
     ''' <returns></returns>
     <ExportAPI("gsea.cluster")>
-    Public Function CreateCluster(data As Rdataframe, clusterId$, clusterName$,
+    Public Function CreateCluster(x As Rdataframe, clusterId$, clusterName$,
                                   Optional desc$ = "n/a",
                                   Optional id$ = "xref",
                                   Optional name$ = "name") As Cluster
 
-        Dim idvec As String() = asVector(Of String)(data.columns(id))
-        Dim namevec As String() = asVector(Of String)(data.columns(name))
+        Dim fields As Dictionary(Of String, String()) = x.columns _
+            .ToDictionary(Function(a) a.Key,
+                          Function(a)
+                              Return DirectCast(asVector(Of String)(a.Value), String())
+                          End Function)
+        Dim idvec As String() = asVector(Of String)(fields(id))
+        Dim namevec As String() = asVector(Of String)(fields(name))
+
+        Call fields.Remove(id)
+        Call fields.Remove(name)
+
         Dim cluster As New Cluster With {
             .ID = clusterId,
             .description = desc.TrimNewLine().StringReplace("\s{2,}", " "),
             .names = clusterName.TrimNewLine().StringReplace("\s{2,}", " "),
             .members = idvec _
                 .Select(Function(idstr, i)
+                            Dim terms As Dictionary(Of String, String) = fields _
+                                .Where(Function(a) Not a.Value(i).StringEmpty) _
+                                .ToDictionary(Function(a) a.Key,
+                                              Function(a)
+                                                  Return a.Value(i)
+                                              End Function)
+                            Dim termList As New List(Of NamedValue)
+
+                            For Each tuple As KeyValuePair(Of String, String) In terms
+                                termList.Add(New NamedValue With {
+                                    .name = tuple.Key,
+                                    .text = tuple.Value
+                                })
+                            Next
+
                             Return New BackgroundGene With {
                                 .accessionID = idstr,
                                 .[alias] = {idstr},
@@ -451,7 +523,7 @@ Public Module GSEABackground
                                     .text = namevec(i)
                                 },
                                 .name = namevec(i),
-                                .term_id = {idstr}
+                                .term_id = termList.ToArray
                             }
                         End Function) _
                 .ToArray
@@ -487,6 +559,10 @@ Public Module GSEABackground
     ''' do compound id filtering when target model is <paramref name="is_multipleOmics"/>?
     ''' (all of the KEGG drug id and KEGG glycan id will be removed from the cluster model)
     ''' </param>
+    ''' <param name="kegg_code">
+    ''' the kegg organism code when the given <paramref name="clusters"/> collection is
+    ''' a collection of the pathway object.
+    ''' </param>
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("as.background")>
@@ -498,6 +574,7 @@ Public Module GSEABackground
                                        Optional desc$ = "n/a",
                                        Optional is_multipleOmics As Boolean = False,
                                        Optional filter_compoundId As Boolean = True,
+                                       Optional kegg_code As String = Nothing,
                                        Optional env As Environment = Nothing) As Object
 
         Dim clusterList As pipeline = pipeline.TryCreatePipeline(Of Cluster)(clusters, env, suppress:=True)
@@ -514,7 +591,8 @@ Public Module GSEABackground
 
                     Return MultipleOmics.CreateOmicsBackground(
                         model:=kegg_pathways,
-                        filter_compoundId:=filter_compoundId
+                        filter_compoundId:=filter_compoundId,
+                        kegg_code:=kegg_code
                     )
                 Else
                     Return clusterList.populates(Of SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Pathway)(env).CreateModel
@@ -680,7 +758,7 @@ Public Module GSEABackground
                 .text = gene.Value
             },
             .name = gene.Name,
-            .term_id = terms
+            .term_id = BackgroundGene.UnknownTerms(terms).ToArray
         }
     End Function
 End Module

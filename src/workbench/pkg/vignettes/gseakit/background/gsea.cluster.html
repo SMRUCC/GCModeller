@@ -157,7 +157,7 @@
         <h3>Usage</h3>
 
         <div style="width: 100%; padding-left: 3%; color: black;">
-            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>gsea.cluster</strong>(<i>data</i>, <i>clusterId</i>, <i>clusterName</i>,
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>gsea.cluster</strong>(<i>x</i>, <i>clusterId</i>, <i>clusterName</i>,
     <i>desc</i> = <span style='color: brown;'><strong>"n/a"</strong></span>,
     <i>id</i> = <span style='color: brown;'><strong>"xref"</strong></span>,
     <i>name</i> = <span style='color: brown;'><strong>"name"</strong></span>);</code></pre>
@@ -167,16 +167,29 @@
 
         <table>
             
-<dt>data</dt>
-<dd><p><p>id, name data fields should be exists in current dataframe object</p></p></dd>
+<dt>x</dt>
+<dd><p><p>id, name data fields should be exists in current dataframe object, <br />
+ other data fields will be used as the gene member terms</p></p></dd>
 
 
-<dt>clusterId$</dt>
-<dd><p><p>-</p></p></dd>
+<dt>clusterId</dt>
+<dd><p><p>id of the cluster</p></p></dd>
 
 
-<dt>clusterName$</dt>
-<dd><p><p>-</p></p></dd>
+<dt>clusterName</dt>
+<dd><p><p>display name of the cluster model</p></p></dd>
+
+
+<dt>desc</dt>
+<dd><p><p>the description of the cluster model </p></p></dd>
+
+
+<dt>id</dt>
+<dd><p><p>the field column name for get gene members id</p></p></dd>
+
+
+<dt>name</dt>
+<dd><p><p>the field column name for get gene members name</p></p></dd>
 
         </table>
 

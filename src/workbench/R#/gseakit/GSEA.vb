@@ -133,6 +133,7 @@ Module GSEA
                                Optional outputAll As Boolean = True,
                                Optional resize As Integer = -1,
                                Optional showProgress As Boolean = False) As EnrichmentResult()
+
         Return background.Enrichment(
             list:=geneSet,
             outputAll:=outputAll,

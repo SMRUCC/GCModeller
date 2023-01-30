@@ -1,51 +1,51 @@
 ﻿#Region "Microsoft.VisualBasic::518954bd06afb4cfd7b3cf378cb126fc, GCModeller\annotations\GSEA\GSEA\KnowledgeBase\Imports\KeggPathway.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 58
-    '    Code Lines: 45
-    ' Comment Lines: 8
-    '   Blank Lines: 5
-    '     File Size: 2.04 KB
+' Summaries:
 
 
-    ' Module KeggPathway
-    ' 
-    '     Function: CreateModel, getGeneCluster, GetGeneMembers
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 58
+'    Code Lines: 45
+' Comment Lines: 8
+'   Blank Lines: 5
+'     File Size: 2.04 KB
+
+
+' Module KeggPathway
+' 
+'     Function: CreateModel, getGeneCluster, GetGeneMembers
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -93,16 +93,33 @@ Public Module KeggPathway
     End Function
 
     <Extension>
-    Public Iterator Function GetGeneMembers(model As Pathway) As IEnumerable(Of BackgroundGene)
+    Public Iterator Function GetGeneMembers(model As Pathway, Optional kegg_code As String = Nothing) As IEnumerable(Of BackgroundGene)
+        Dim term_populate As IEnumerable(Of NamedValue)
+
         For Each gene As GeneName In model.genes.SafeQuery
+            term_populate = Iterator Function() As IEnumerable(Of NamedValue)
+                                If Not gene.KO.StringEmpty Then
+                                    Yield New NamedValue With {.name = "KO", .text = gene.KO}
+                                End If
+                                If Not gene.EC.IsNullOrEmpty Then
+                                    For Each id As String In gene.EC
+                                        Yield New NamedValue With {.name = "ECNumber", .text = id}
+                                    Next
+                                End If
+                            End Function()
+
             Yield New BackgroundGene With {
                 .accessionID = gene.geneId,
                 .name = gene.geneName,
-                .[alias] = {gene.geneId, gene.geneName},
-                .locus_tag = New NamedValue With {.name = gene.geneId, .text = gene.description},
-                .term_id = New String() {gene.KO} _
-                    .JoinIterates(gene.EC) _
-                    .ToArray
+                .[alias] = {
+                    If(kegg_code.StringEmpty, gene.geneId, $"{kegg_code}:{gene.geneId}"),
+                    gene.geneName
+                },
+                .locus_tag = New NamedValue With {
+                    .name = gene.geneId,
+                    .text = gene.description
+                },
+                .term_id = term_populate.ToArray
             }
         Next
     End Function

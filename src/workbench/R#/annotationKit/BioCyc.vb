@@ -139,7 +139,7 @@ Public Module BioCycRepository
                 Dim cpd As New BackgroundGene With {
                     .accessionID = c.ID,
                     .name = If(name, c.ID),
-                    .term_id = {c.ID},
+                    .term_id = BackgroundGene.UnknownTerms(c.ID).ToArray,
                     .[alias] = {c.ID},
                     .locus_tag = New NamedValue With {
                         .name = c.ID,
