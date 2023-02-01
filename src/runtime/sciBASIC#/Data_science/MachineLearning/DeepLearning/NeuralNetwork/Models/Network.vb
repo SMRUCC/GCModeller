@@ -162,7 +162,7 @@ Namespace NeuralNetwork
             Me.Activations = activations.GetXmlModels
             Me.LearnRateDecay = 0.00000001
 
-            InputLayer = New Layer(inputSize, activations.input, weightInit, guid:=guid)
+            InputLayer = New Layer(inputSize, Nothing, weightInit, guid:=guid)
             HiddenLayer = New HiddenLayers(InputLayer, hiddenSize, weightInit, activations.hiddens, guid)
             OutputLayer = New Layer(outputSize, activations.output, weightInit, input:=HiddenLayer.Output, guid:=guid)
         End Sub
@@ -203,6 +203,9 @@ Namespace NeuralNetwork
         ''' 神经网路的输入层的输入数据,应该都是被归一化为[0,1]或者[-1,1]这两个区间内了的
         ''' </param>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' this function just calculate the network value
+        ''' </remarks>
         Public Function ForwardPropagate(inputs As Double(), parallel As Boolean) As Layer
             Call InputLayer.Input(data:=inputs)
             Call HiddenLayer.ForwardPropagate(parallel, Truncate)
@@ -212,7 +215,7 @@ Namespace NeuralNetwork
         End Function
 
         ''' <summary>
-        ''' 反向传播
+        ''' adjust neuron weight based on the error.(反向传播)
         ''' </summary>
         ''' <param name="targets"></param>
         ''' <remarks>
