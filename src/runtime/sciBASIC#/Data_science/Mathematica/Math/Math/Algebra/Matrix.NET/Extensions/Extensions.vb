@@ -113,7 +113,7 @@ Namespace LinearAlgebra.Matrix
         ''' </summary>
         <Extension> Public Function CenterNormalize(m As GeneralMatrix) As GeneralMatrix
             Dim input = m.ArrayPack
-            Dim out As Double()() = MAT(Of Double)(input.Length, input(0).Length)
+            Dim out As Double()() = RectangularArray.Matrix(Of Double)(input.Length, input(0).Length)
 
             For i As Integer = 0 To input.Length - 1
                 Dim meanValue As Double = input(i).Average
@@ -132,7 +132,7 @@ Namespace LinearAlgebra.Matrix
         <Extension>
         Public Function Covariance(matrix As GeneralMatrix) As GeneralMatrix
             Dim length As Integer = matrix.RowDimension
-            Dim out As Double()() = MAT(Of Double)(length, length)
+            Dim out As Double()() = RectangularArray.Matrix(Of Double)(length, length)
             Dim array = matrix.ArrayPack
 
             For i As Integer = 0 To out.Length - 1
