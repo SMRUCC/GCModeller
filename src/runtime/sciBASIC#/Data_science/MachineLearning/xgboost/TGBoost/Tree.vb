@@ -309,15 +309,16 @@ Namespace train
                 Next
 
                 For Each node As TreeNode In nodes
-                    Dim catvalue_GdivH As Double()() = RectangularArray.Matrix(Of Double)(node.cat_feature_col_value_GH.GetValueOrNull(colkey).Count, 4)
+                    Dim node_GH = node.cat_feature_col_value_GH.GetValueOrNull(colkey)
+                    Dim catvalue_GdivH As Double()() = RectangularArray.Matrix(Of Double)(node_GH.Count, 4)
                     Dim i = 0
                     Dim catkey As String
 
-                    For Each catvalue As Integer In node.cat_feature_col_value_GH.GetValueOrNull(colkey).Keys
+                    For Each catvalue As String In node_GH.Keys
                         catkey = catvalue.ToString
                         catvalue_GdivH(i)(0) = catvalue
-                        catvalue_GdivH(i)(1) = node.cat_feature_col_value_GH.GetValueOrNull(colkey)(catkey)(0)
-                        catvalue_GdivH(i)(2) = node.cat_feature_col_value_GH.GetValueOrNull(colkey)(catkey)(1)
+                        catvalue_GdivH(i)(1) = node_GH(catkey)(0)
+                        catvalue_GdivH(i)(2) = node_GH(catkey)(1)
                         catvalue_GdivH(i)(3) = catvalue_GdivH(i)(1) / catvalue_GdivH(i)(2)
                         i += 1
                     Next

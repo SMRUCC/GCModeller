@@ -27,11 +27,15 @@ Namespace NeuralNetwork
         Private m_bias As Double()()
         Private biasIsAlive As Boolean()()
 
-        Public Sub New(inputNeurons As Integer, hiddenNeurons As Integer, hiddenLayers As Integer, outputNeurons As Integer)
+        Dim m_activate As Func(Of Double, Double) = AddressOf Sigmoid.doCall
+
+        Public Sub New(inputNeurons As Integer, hiddenNeurons As Integer, hiddenLayers As Integer, outputNeurons As Integer, activate As Func(Of Double, Double))
             m_HIDDENLAYERCOUNT = hiddenLayers
             m_INPUTNEURONCOUNT = inputNeurons
             m_HIDDENNEURONCOUNT = hiddenNeurons
             m_OUTPUTNEURONCOUNT = outputNeurons
+            m_activate = activate
+
             MAXNEURONCOUNT = If(m_HIDDENNEURONCOUNT > m_INPUTNEURONCOUNT, m_HIDDENNEURONCOUNT, m_INPUTNEURONCOUNT)
 
             m_neurons = RectangularArray.Matrix(Of Double)(m_HIDDENLAYERCOUNT + 2, MAXNEURONCOUNT) '[Layer][Neuron]
@@ -108,7 +112,7 @@ Namespace NeuralNetwork
                         sum += m_neurons(i - 1)(k) * m_weights(i - 1)(k)(j)
                     Next
 
-                    m_neurons(i)(j) = Sigmoid.doCall(sum + m_bias(i)(j))
+                    m_neurons(i)(j) = m_activate(sum + m_bias(i)(j))
                 Next
             Next
         End Sub
@@ -191,7 +195,7 @@ Namespace NeuralNetwork
                     For j = 0 To m_weights(i).Length - 1
                         For k = 0 To m_weights(i)(j).Length - 1
                             If weightsIsAlive(i)(j)(k) Then
-                                allWeights.Add(2 * Sigmoid.doCall(m_weights(i)(j)(k)) - 1)
+                                allWeights.Add(2 * m_activate(m_weights(i)(j)(k)) - 1)
                             End If
                         Next
                     Next
