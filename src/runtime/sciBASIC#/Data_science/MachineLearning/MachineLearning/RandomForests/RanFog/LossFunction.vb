@@ -1,4 +1,5 @@
-﻿Imports System
+﻿Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports stdNum = System.Math
 
 ''' <summary>
 ''' This class provides a method to calculate the Loss function of a given attribute.
@@ -39,7 +40,7 @@ Public Class LossFunction
                 Next
                 For i = 0 To 1
                     If nIO(i) > 0 Then
-                        IO = IO - nIO(i) / CSng(a.list.Count) * (Math.Log(nIO(i) / CSng(a.list.Count)) / Math.Log(2))
+                        IO = IO - nIO(i) / CSng(a.list.Count) * (stdNum.Log(nIO(i) / CSng(a.list.Count)) / stdNum.Log(2))
                     End If
                 Next
                 LF_val = IO
@@ -61,7 +62,7 @@ Public Class LossFunction
                 mean = a.getMean(phenotype)
                 'Calculate huber loss function
                 For i = 0 To a.list.Count - 1
-                    LF_val = LF_val + Math.Log(Math.Cosh(phenotype(a.list(i)) - mean))
+                    LF_val = LF_val + stdNum.Log(stdNum.Cosh(phenotype(a.list(i)) - mean))
                     nn += 1
                 Next
                 LF_val = LF_val / CSng(nn)
@@ -115,9 +116,7 @@ Public Class LossFunction
             Case 1 'Information gain
                 LF_val = 0
                 Dim IO As Double = 0, Ij As Double = 0
-                'JAVA TO C# CONVERTER CRACKED BY X-CRACKER NOTE: The following call to the 'RectangularArrays' helper class reproduces the rectangular array initialization that is automatic in Java:
-                'ORIGINAL LINE: int[][] nIG = new int [3][3]; //nIG[genotype_group][phenotype_group]
-                Dim nIG = ReturnRectangularIntArray(3, 3) 'nIG[genotype_group][phenotype_group]
+                Dim nIG = RectangularArray.Matrix(Of Integer)(3, 3) 'nIG[genotype_group][phenotype_group]
                 IO = 0
                 Dim nIO = New Integer(1) {}
                 For i = 0 To a.list.Count - 1
@@ -125,7 +124,7 @@ Public Class LossFunction
                 Next
                 For i = 0 To 1
                     If nIO(i) > 0 Then
-                        IO = IO - nIO(i) / CSng(a.list.Count) * (Math.Log(nIO(i) / CSng(a.list.Count)) / Math.Log(2))
+                        IO = IO - nIO(i) / CSng(a.list.Count) * (stdNum.Log(nIO(i) / CSng(a.list.Count)) / stdNum.Log(2))
                     End If
                 Next
                 '	Calculate Information gain for SNP j
@@ -136,13 +135,13 @@ Public Class LossFunction
                 For i = 0 To 2
                     Ij = 0.0R
                     If nIG(i)(0) <> 0 Then
-                        Ij = Ij - nIG(i)(0) / CSng(nIG(i)(0) + nIG(i)(1) + nIG(i)(2)) * (Math.Log(nIG(i)(0) / CSng(nIG(i)(0) + nIG(i)(1) + nIG(i)(2))) / Math.Log(2))
+                        Ij = Ij - nIG(i)(0) / CSng(nIG(i)(0) + nIG(i)(1) + nIG(i)(2)) * (stdNum.Log(nIG(i)(0) / CSng(nIG(i)(0) + nIG(i)(1) + nIG(i)(2))) / stdNum.Log(2))
                     End If
                     If nIG(i)(1) <> 0 Then
-                        Ij = Ij - nIG(i)(1) / CSng(nIG(i)(0) + nIG(i)(1) + nIG(i)(2)) * (Math.Log(nIG(i)(1) / CSng(nIG(i)(0) + nIG(i)(1) + nIG(i)(2))) / Math.Log(2))
+                        Ij = Ij - nIG(i)(1) / CSng(nIG(i)(0) + nIG(i)(1) + nIG(i)(2)) * (stdNum.Log(nIG(i)(1) / CSng(nIG(i)(0) + nIG(i)(1) + nIG(i)(2))) / stdNum.Log(2))
                     End If
                     If nIG(i)(2) <> 0 Then
-                        Ij = Ij - nIG(i)(2) / CSng(nIG(i)(0) + nIG(i)(1) + nIG(i)(2)) * (Math.Log(nIG(i)(2) / CSng(nIG(i)(0) + nIG(i)(1) + nIG(i)(2))) / Math.Log(2))
+                        Ij = Ij - nIG(i)(2) / CSng(nIG(i)(0) + nIG(i)(1) + nIG(i)(2)) * (stdNum.Log(nIG(i)(2) / CSng(nIG(i)(0) + nIG(i)(1) + nIG(i)(2))) / stdNum.Log(2))
                     End If
                     Ij = Ij * (nIG(i)(0) + nIG(i)(1) + nIG(i)(2)) / CSng(a.list.Count)
                     LF_val = LF_val - Ij
@@ -217,11 +216,11 @@ Public Class LossFunction
                 For i = 0 To a.list.Count - 1
                     If Genotype(a.list(i))(snp) <= mean Then
                         temp = phenotype(a.list(i))
-                        LF_val = LF_val + Math.Log(Math.Cosh(temp - mean_right))
+                        LF_val = LF_val + stdNum.Log(stdNum.Cosh(temp - mean_right))
                         nn += 1
                     ElseIf Genotype(a.list(i))(snp) > mean Then
                         temp = phenotype(a.list(i))
-                        LF_val = LF_val + Math.Log(Math.Cosh(temp - mean_left))
+                        LF_val = LF_val + stdNum.Log(stdNum.Cosh(temp - mean_left))
                         nn += 1
                     End If
                 Next
@@ -254,8 +253,8 @@ Public Class LossFunction
                         n_left += 1
                     End If
                 Next
-                mean_right = Math.Round(mean_right / n_right)
-                mean_left = Math.Round(mean_left / n_left)
+                mean_right = stdNum.Round(mean_right / n_right)
+                mean_left = stdNum.Round(mean_left / n_left)
                 'Calculate cost function for SNP j
                 Dim nn = 0
                 Dim temp = 0.0R
@@ -275,9 +274,7 @@ Public Class LossFunction
                 'read the IG for each SNPs in the sequences
                 LF_val = 0
                 Dim GI As Double = 0, i_left As Double = 0, i_right As Double = 0
-                'JAVA TO C# CONVERTER CRACKED BY X-CRACKER NOTE: The following call to the 'RectangularArrays' helper class reproduces the rectangular array initialization that is automatic in Java:
-                'ORIGINAL LINE: int[][] nGI = new int [3][2]; //nIG[phenotype_group][child_node]
-                Dim nGI = ReturnRectangularIntArray(3, 2) 'nIG[phenotype_group][child_node]
+                Dim nGI = RectangularArray.Matrix(Of Integer)(3, 2) 'nIG[phenotype_group][child_node]
                 n_right = 0
                 n_left = 0
                 'Calculate mean for SNP j
@@ -320,7 +317,7 @@ Public Class LossFunction
                 Next
                 For i = 0 To 1
                     If nIO(i) > 0 Then
-                        IO = IO - nIO(i) / CSng(a.list.Count) * (Math.Log(nIO(i) / CSng(a.list.Count)) / Math.Log(2))
+                        IO = IO - nIO(i) / CSng(a.list.Count) * (stdNum.Log(nIO(i) / CSng(a.list.Count)) / stdNum.Log(2))
                     End If
                 Next
                 LF_val = IO
@@ -336,7 +333,7 @@ Public Class LossFunction
                 LF_val = 0
                 'Calculate huber loss function
                 For i = 0 To a.list.Count - 1
-                    LF_val = LF_val + Math.Log(Math.Cosh(phenotype(a.list(i)) - yhat))
+                    LF_val = LF_val + stdNum.Log(stdNum.Cosh(phenotype(a.list(i)) - yhat))
                 Next
             Case 4 'False Positive and False Negative cost function
                 'read the IG for each SNPs in the sequences
