@@ -309,7 +309,7 @@ Namespace train
                 Next
 
                 For Each node As TreeNode In nodes
-                    Dim catvalue_GdivH As Double()() = MAT(Of Double)(node.cat_feature_col_value_GH.GetValueOrNull(colkey).Count, 4)
+                    Dim catvalue_GdivH As Double()() = RectangularArray.Matrix(Of Double)(node.cat_feature_col_value_GH.GetValueOrNull(colkey).Count, 4)
                     Dim i = 0
                     Dim catkey As String
 
