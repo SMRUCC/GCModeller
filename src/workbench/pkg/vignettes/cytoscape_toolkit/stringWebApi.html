@@ -7,10 +7,21 @@
     <title>stringWebApi</title>
     <meta name="author" content="xie.guigang@gcmodeller.org" />
     <meta name="copyright" content="SMRUCC genomics Copyright (c) 2022" />
-    <meta name="keywords" content="GCModeller; Xanthomonas; Artificial Life" />
+    <meta name="keywords" content="R#; stringWebApi; cytoscape_toolkit" />
     <meta name="generator" content="https://github.com/rsharp-lang" />
     <meta name="theme-color" content="#333" />
-    <meta name="description" content="" />
+    <meta name="description" content="<p>STRING has an application programming interface (API) which enables you to get the data without using the <br />
+ graphical user interface of the web page. The API is convenient if you need to programmatically access some <br />
+ information but still do not want to download the entire dataset. There are several scenarios when it is <br />
+ practical to use it. For example, you might need to access some interaction from your own scripts or want to <br />
+ incorporate some information in STRING to a web page.</p>
+
+<p>We currently provide an implementation using HTTP, where the database information is accessed by HTTP requests. <br />
+ Due to implementation and licensing reasons, The API provide methods to query individual items only, similar to <br />
+ the web site. If you need access to bulk data, you can download the entire dataset by signing the academic <br />
+ license agreement.</p>
+
+<p><a href="http://[database]/[access]/[format]/[request]?[parameter]=[value]">http://[database]/[access]/[format]/[request]?[parameter]=[value]</a></p>" />
     <meta class="foundation-data-attribute-namespace" />
     <meta class="foundation-mq-xxlarge" />
     <meta class="foundation-mq-xlarge" />
@@ -32,13 +43,42 @@
     <hr />
     <p>
       <code>
-        <span style="color: blue;">imports</span>
-        <span style="color: brown"> "stringWebApi"</span>
-        <span style="color: blue;"> from</span>
-        <span style="color: brown"> "cytoscape_toolkit"</span>;
+        <span style="color: blue;">require</span>(<span style="color: black; font-weight: bold;">GCModeller</span>);
+                               <br /><br /><span style="color: green;">#' STRING has an application programming interface (API) which enables you to get the data without using the 
+#' 
+ graphical user interface of the web page. The API is convenient if you need to programmatically access some 
+#' 
+ information but still do not want to download the entire dataset. There are several scenarios when it is 
+#' 
+ practical to use it. For example, you might need to access some interaction from your own scripts or want to 
+#' 
+ incorporate some information in STRING to a web page.
+
+We currently provide an implementation using HTTP, where the database information is accessed by HTTP requests. 
+#' 
+ Due to implementation and licensing reasons, The API provide methods to query individual items only, similar to 
+#' 
+ the web site. If you need access to bulk data, you can download the entire dataset by signing the academic 
+#' 
+ license agreement.
+
+http://[database]/[access]/[format]/[request]?[parameter]=[value]</span><br /><span style="color: blue;">imports</span><span style="color: brown"> "stringWebApi"</span><span style="color: blue;"> from</span><span style="color: brown"> "cytoscape_toolkit"</span>;
                            </code>
     </p>
-    <p></p>
+    <br />
+    <p><p>STRING has an application programming interface (API) which enables you to get the data without using the <br />
+ graphical user interface of the web page. The API is convenient if you need to programmatically access some <br />
+ information but still do not want to download the entire dataset. There are several scenarios when it is <br />
+ practical to use it. For example, you might need to access some interaction from your own scripts or want to <br />
+ incorporate some information in STRING to a web page.</p>
+
+<p>We currently provide an implementation using HTTP, where the database information is accessed by HTTP requests. <br />
+ Due to implementation and licensing reasons, The API provide methods to query individual items only, similar to <br />
+ the web site. If you need access to bulk data, you can download the entire dataset by signing the academic <br />
+ license agreement.</p>
+
+<p><a href="http://[database]/[access]/[format]/[request]?[parameter]=[value]">http://[database]/[access]/[format]/[request]?[parameter]=[value]</a></p></p>
+    <p style="font-style: italic; font-size: 0.9em;"></p>
     <div id="main-wrapper">
       <table>
         <tbody><tr>
