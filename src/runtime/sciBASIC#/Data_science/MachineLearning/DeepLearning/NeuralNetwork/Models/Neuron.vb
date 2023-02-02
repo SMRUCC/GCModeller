@@ -271,6 +271,14 @@ Namespace NeuralNetwork
 
             Dim dfdt = activation.CalculateDerivative(Value)
 
+            If Double.IsNegativeInfinity(Gradient) Then
+                Gradient = -100000
+            ElseIf Double.IsPositiveInfinity(Gradient) Then
+                Gradient = 100000
+            ElseIf Gradient.IsNaNImaginary Then
+                Gradient = 1
+            End If
+
             If Gradient = 0R OrElse dfdt = 0R Then
                 Gradient = 0
             Else

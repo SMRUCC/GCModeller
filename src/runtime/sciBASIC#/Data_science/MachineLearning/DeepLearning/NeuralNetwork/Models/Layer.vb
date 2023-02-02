@@ -219,7 +219,7 @@ Namespace NeuralNetwork
         End Sub
 
         Public Overrides Function ToString() As String
-            Dim n = Output
+            Dim n As Double() = Output
             Dim summary$
 
             If n.Length > 20 Then
