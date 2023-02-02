@@ -319,10 +319,18 @@ Namespace NeuralNetwork
                 BiasDelta = learnRate * Gradient
             End If
 
+            If truncate > 0 Then
+                BiasDelta = ValueTruncate(BiasDelta, truncate)
+            End If
+
             If oldDelta = 0R Then
                 Bias += BiasDelta
             Else
                 Bias += BiasDelta + momentum * oldDelta
+            End If
+
+            If truncate > 0 Then
+                Bias = ValueTruncate(Bias, truncate)
             End If
 
             If doDropOut Then
