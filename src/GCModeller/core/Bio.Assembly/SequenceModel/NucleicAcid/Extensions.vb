@@ -110,7 +110,7 @@ Namespace SequenceModel.NucleotideModels
                 Return n
             End If
 
-            d = MAT(Of Integer)(n + 1, m + 1)
+            d = RectangularArray.Matrix(Of Integer)(n + 1, m + 1)
 
             ' ========> Step 2
 

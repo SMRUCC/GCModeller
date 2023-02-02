@@ -68,7 +68,7 @@ Namespace C
                                          n_genes As Integer,
                                          rnaseq As Boolean) As Double()()
 
-            Dim R As Double()() = MAT(Of Double)(dims.n, dims.m)
+            Dim R As Double()() = RectangularArray.Matrix(Of Double)(dims.n, dims.m)
 
             For j As Integer = 0 To n_genes - 1
                 'Dim offset_density = j * n_density_samples
