@@ -1,6 +1,6 @@
 ﻿Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.MachineLearning.ComponentModel.Activations
-Imports stdNum = System.Math
+Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
 Namespace NeuralNetwork
 
@@ -10,7 +10,7 @@ Namespace NeuralNetwork
     ''' <remarks>
     ''' https://github.com/brokkoli71/NeuralNetwork
     ''' </remarks>
-    Public Class Netz
+    Public Class Netz : Inherits Model
 
         Public LERNRATE As Double = 0.01
         Private ReadOnly m_HIDDENLAYERCOUNT As Integer
@@ -22,9 +22,9 @@ Namespace NeuralNetwork
         Private m_neurons As Double()()
         Private neuronsIsAlive As Boolean()()
         Private deltas As Double()()
-        Private weightsField As Double()()()
+        Private m_weights As Double()()()
         Private weightsIsAlive As Boolean()()()
-        Private biasField As Double()()
+        Private m_bias As Double()()
         Private biasIsAlive As Boolean()()
 
         Public Sub New(inputNeurons As Integer, hiddenNeurons As Integer, hiddenLayers As Integer, outputNeurons As Integer)
@@ -38,15 +38,15 @@ Namespace NeuralNetwork
             neuronsIsAlive = RectangularArray.Matrix(Of Boolean)(m_HIDDENLAYERCOUNT + 2, MAXNEURONCOUNT) '[Layer][Neuron]
             deltas = RectangularArray.Matrix(Of Double)(m_HIDDENLAYERCOUNT + 2, MAXNEURONCOUNT)
 
-            weightsField = RectangularArray.Cubic(Of Double)(m_HIDDENLAYERCOUNT + 1, MAXNEURONCOUNT, MAXNEURONCOUNT) '[FromHiddenLayer][FromHiddenNeuron][ToHiddenNeuron]
+            m_weights = RectangularArray.Cubic(Of Double)(m_HIDDENLAYERCOUNT + 1, MAXNEURONCOUNT, MAXNEURONCOUNT) '[FromHiddenLayer][FromHiddenNeuron][ToHiddenNeuron]
             weightsIsAlive = RectangularArray.Cubic(Of Boolean)(m_HIDDENLAYERCOUNT + 1, MAXNEURONCOUNT, MAXNEURONCOUNT) '[FromHiddenLayer][FromHiddenNeuron][ToHiddenNeuron]
 
-            biasField = RectangularArray.Matrix(Of Double)(m_HIDDENLAYERCOUNT + 2, MAXNEURONCOUNT) '[Layer][Neuron]
+            m_bias = RectangularArray.Matrix(Of Double)(m_HIDDENLAYERCOUNT + 2, MAXNEURONCOUNT) '[Layer][Neuron]
             biasIsAlive = RectangularArray.Matrix(Of Boolean)(m_HIDDENLAYERCOUNT + 2, MAXNEURONCOUNT) '[Neuron]
 
             For i = 0 To m_INPUTNEURONCOUNT - 1
                 For j = 0 To m_HIDDENNEURONCOUNT - 1
-                    weightsField(0)(i)(j) = ((New Random()).NextDouble() * 2) - 1
+                    m_weights(0)(i)(j) = (randf.NextDouble() * 2) - 1
                     weightsIsAlive(0)(i)(j) = True
                 Next
             Next
@@ -54,7 +54,7 @@ Namespace NeuralNetwork
             For i = 1 To m_HIDDENLAYERCOUNT - 1
                 For j = 0 To m_HIDDENNEURONCOUNT - 1
                     For k = 0 To m_HIDDENNEURONCOUNT - 1
-                        weightsField(i)(j)(k) = ((New Random()).NextDouble() * 2) - 1
+                        m_weights(i)(j)(k) = (randf.NextDouble() * 2) - 1
                         weightsIsAlive(i)(j)(k) = True
                     Next
                 Next
@@ -62,20 +62,20 @@ Namespace NeuralNetwork
 
             For i = 0 To m_HIDDENNEURONCOUNT - 1
                 For j = 0 To m_OUTPUTNEURONCOUNT - 1
-                    weightsField(m_HIDDENLAYERCOUNT)(i)(j) = ((New Random()).NextDouble() * 2) - 1
+                    m_weights(m_HIDDENLAYERCOUNT)(i)(j) = (randf.NextDouble() * 2) - 1
                     weightsIsAlive(m_HIDDENLAYERCOUNT)(i)(j) = True
                 Next
             Next
 
             For i = 1 To m_HIDDENLAYERCOUNT + 1 - 1
                 For j = 0 To m_HIDDENNEURONCOUNT - 1
-                    biasField(i)(j) = ((New Random()).NextDouble() * 2) - 1
+                    m_bias(i)(j) = (randf.NextDouble() * 2) - 1
                     biasIsAlive(i)(j) = True
                 Next
             Next
 
             For i = 0 To m_OUTPUTNEURONCOUNT - 1
-                biasField(m_HIDDENLAYERCOUNT + 1)(i) = ((New Random()).NextDouble() * 2) - 1
+                m_bias(m_HIDDENLAYERCOUNT + 1)(i) = (randf.NextDouble() * 2) - 1
                 biasIsAlive(m_HIDDENLAYERCOUNT + 1)(i) = True
             Next
 
@@ -105,10 +105,10 @@ Namespace NeuralNetwork
                     Dim sum As Double = 0
 
                     For k = 0 To If(i = 1, m_INPUTNEURONCOUNT, m_HIDDENNEURONCOUNT) - 1
-                        sum += m_neurons(i - 1)(k) * weightsField(i - 1)(k)(j)
+                        sum += m_neurons(i - 1)(k) * m_weights(i - 1)(k)(j)
                     Next
 
-                    m_neurons(i)(j) = Sigmoid.doCall(sum + biasField(i)(j))
+                    m_neurons(i)(j) = Sigmoid.doCall(sum + m_bias(i)(j))
                 Next
             Next
         End Sub
@@ -144,7 +144,7 @@ Namespace NeuralNetwork
                     If neuronsIsAlive(i)(j) Then
                         deltas(i)(j) = 0
                         For k = 0 To MAXNEURONCOUNT - 1
-                            deltas(i)(j) += deltas(i + 1)(k) * weightsField(i)(j)(k)
+                            deltas(i)(j) += deltas(i + 1)(k) * m_weights(i)(j)(k)
                         Next
                         deltas(i)(j) *= m_neurons(i)(j) * (1 - m_neurons(i)(j))
                     End If
@@ -157,11 +157,11 @@ Namespace NeuralNetwork
                 For k = 0 To m_HIDDENNEURONCOUNT - 1 'toNeuron
                     For j = 0 To If(i = 0, m_INPUTNEURONCOUNT, m_HIDDENNEURONCOUNT) - 1 'fromNeuron
                         If weightsIsAlive(i)(j)(k) Then
-                            weightsField(i)(j)(k) += LERNRATE * deltas(i + 1)(k) * m_neurons(i)(j)
+                            m_weights(i)(j)(k) += LERNRATE * deltas(i + 1)(k) * m_neurons(i)(j)
                         End If
                     Next
                     If biasIsAlive(i + 1)(k) Then 'toNeuron
-                        biasField(i + 1)(k) += LERNRATE * deltas(i + 1)(k)
+                        m_bias(i + 1)(k) += LERNRATE * deltas(i + 1)(k)
                     End If
                 Next
             Next
@@ -187,11 +187,11 @@ Namespace NeuralNetwork
             Get
                 Dim allWeights As List(Of Double) = New List(Of Double)()
 
-                For i = 0 To weightsField.Length - 1
-                    For j = 0 To weightsField(i).Length - 1
-                        For k = 0 To weightsField(i)(j).Length - 1
+                For i = 0 To m_weights.Length - 1
+                    For j = 0 To m_weights(i).Length - 1
+                        For k = 0 To m_weights(i)(j).Length - 1
                             If weightsIsAlive(i)(j)(k) Then
-                                allWeights.Add(2 * Sigmoid.doCall(weightsField(i)(j)(k)) - 1)
+                                allWeights.Add(2 * Sigmoid.doCall(m_weights(i)(j)(k)) - 1)
                             End If
                         Next
                     Next
@@ -220,10 +220,10 @@ Namespace NeuralNetwork
             Get
                 Dim allBias As List(Of Double) = New List(Of Double)()
 
-                For i = 0 To biasField.Length - 1
-                    For j = 0 To biasField(i).Length - 1
+                For i = 0 To m_bias.Length - 1
+                    For j = 0 To m_bias(i).Length - 1
                         If biasIsAlive(i)(j) Then
-                            allBias.Add(biasField(i)(j))
+                            allBias.Add(m_bias(i)(j))
                         End If
                     Next
                 Next
