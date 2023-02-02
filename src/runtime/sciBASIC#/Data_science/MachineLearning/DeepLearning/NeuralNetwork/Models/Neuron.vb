@@ -308,7 +308,7 @@ Namespace NeuralNetwork
         ''' <param name="learnRate"></param>
         ''' <param name="momentum"></param>
         ''' <returns></returns>
-        Public Function UpdateWeights(learnRate#, momentum#, doDropOut As Boolean) As Integer
+        Public Function UpdateWeights(learnRate#, momentum#, truncate As Double, doDropOut As Boolean) As Integer
             Dim oldDelta As Double = BiasDelta
             Dim edges As IEnumerable(Of Synapse)
 
