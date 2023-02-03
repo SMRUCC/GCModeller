@@ -152,7 +152,7 @@ Namespace v10
         Public Function ToDenseMatrix(Of T)(table As T()(), shape As Integer()) As T()()
             Dim rows = shape(Scan0)
             Dim columns = shape(1)
-            Dim matrix As T()() = MAT(Of T)(rows, columns)
+            Dim matrix As T()() = RectangularArray.Matrix(Of T)(rows, columns)
             Dim i, j As Integer
 
             For Each row As T() In table

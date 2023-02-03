@@ -177,7 +177,7 @@ Namespace Assembly.NCBI.Taxonomy
                         Exit For
                     Else
                         Call list.Remove(accessionId.Name)
-                        Call n.SetValue(n + 1)
+                        Call n.InlineCopy(n + 1)
 
                         If debug Then
                             Call accessionId.Description.__DEBUG_ECHO
