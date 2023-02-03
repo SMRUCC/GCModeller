@@ -148,7 +148,7 @@ Namespace Raw
                 Else
                     ' offset chain block
                     Call stream.Seek(offset, SeekOrigin.Begin)
-                    Call offset.SetValue(stream.ReadInt64)
+                    Call offset.InlineCopy(stream.ReadInt64)
                 End If
             Loop
 
