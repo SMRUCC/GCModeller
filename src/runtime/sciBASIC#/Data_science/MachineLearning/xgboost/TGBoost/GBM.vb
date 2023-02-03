@@ -127,6 +127,13 @@ Namespace train
         Public Sub New()
         End Sub
 
+        ''' <summary>
+        ''' load model from file
+        ''' </summary>
+        ''' <param name="trees"></param>
+        ''' <param name="loss"></param>
+        ''' <param name="first_round_pred"></param>
+        ''' <param name="eta"></param>
         Public Sub New(trees As List(Of Tree), loss As Loss, first_round_pred As Double, eta As Double)
             _trees = trees
             _loss = loss
