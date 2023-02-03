@@ -177,6 +177,10 @@ Namespace train
             ElseIf loss.Equals("squareloss") Then
                 _loss = New SquareLoss()
                 _first_round_pred = class_list.label.Average
+
+                If eval_metric = Metrics.mse Then
+                    GBM.logger.info("Going to solve a regression model!")
+                End If
             End If
 
             class_list.initialize_pred(_first_round_pred)
