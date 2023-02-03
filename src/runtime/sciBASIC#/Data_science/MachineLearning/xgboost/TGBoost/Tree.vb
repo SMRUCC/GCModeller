@@ -310,6 +310,11 @@ Namespace train
 
                 For Each node As TreeNode In nodes
                     Dim node_GH = node.cat_feature_col_value_GH.GetValueOrNull(colkey)
+
+                    If node_GH Is Nothing Then
+                        node_GH = New Dictionary(Of String, Double())
+                    End If
+
                     Dim catvalue_GdivH As Double()() = RectangularArray.Matrix(Of Double)(node_GH.Count, 4)
                     Dim i = 0
                     Dim catkey As String
@@ -331,7 +336,7 @@ Namespace train
                     Dim H_nan As Double = node.Hess_missing(col)
                     Dim G_left As Double = 0
                     Dim H_left As Double = 0
-                    Dim best_split = -1
+                    Dim best_split As Integer = -1
                     Dim best_gain = -Double.MaxValue
                     Dim best_nan_go_to As Double = -1
 
