@@ -1,8 +1,8 @@
 imports "package_utils" from "devkit";
 imports "http" from "webKit";
 
-package_utils::attach("D:\\GCModeller\\src\\workbench\\pkg");
-package_utils::attach("D:\\GCModeller\\src\\repository\\graphquery\\kegg");
+# package_utils::attach("D:\\GCModeller\\src\\workbench\\pkg");
+# package_utils::attach("D:\\GCModeller\\src\\repository\\graphquery\\kegg");
 
 require(kegg_graphquery);
 require(HDS);
