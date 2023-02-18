@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8d0ec3e377c55ea1b27c8f218a6d65a6, sciBASIC#\Data_science\MachineLearning\MachineLearning\SVM\Procedures.vb"
+﻿#Region "Microsoft.VisualBasic::ae0f2733324a23d71959d9b3e7692625, sciBASIC#\Data_science\MachineLearning\MachineLearning\SVM\Procedures.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,18 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 1426
-    '    Code Lines: 1045
+    '   Total Lines: 1451
+    '    Code Lines: 1067
     ' Comment Lines: 100
-    '   Blank Lines: 281
-    '     File Size: 52.23 KB
+    '   Blank Lines: 284
+    '     File Size: 51.43 KB
 
 
     '     Module Procedures
     ' 
-    '         Function: sigmoid_predict, svm_check_parameter, svm_check_probability_model, svm_get_nr_class, svm_get_nr_sv
-    '                   svm_get_svm_type, svm_get_svr_probability, svm_predict, svm_predict_probability, svm_predict_values
-    '                   svm_svr_probability, svm_train, svm_train_one
+    '         Function: sigmoid_predict, svc_predict, svm_check_parameter, svm_check_probability_model, svm_get_nr_class
+    '                   svm_get_nr_sv, svm_get_svm_type, svm_get_svr_probability, svm_predict, svm_predict_probability
+    '                   svm_predict_values, svm_svr_probability, svm_train, svm_train_one, svr_predict
     ' 
     '         Sub: multiclass_probability, multipleClassification, oneClassSvm, setRandomSeed, sigmoid_train
     '              solve_c_svc, solve_epsilon_svr, solve_nu_svc, solve_nu_svr, solve_one_class
@@ -660,7 +660,8 @@ Namespace SVM
             Next
 
             mae /= prob.count - count
-            Logging.info("Prob. model for test data: target value = predicted value + z," & ASCII.LF & "z: Laplace distribution e^(-|z|/sigma)/(2sigma),sigma=" & mae & ASCII.LF)
+            Logging.info("Prob. model for test data: target value = predicted value + z," & ASCII.LF &
+                         "z: Laplace distribution e^(-|z|/sigma)/(2sigma),sigma=" & mae & ASCII.LF)
 
             Return mae
         End Function
@@ -774,6 +775,9 @@ Namespace SVM
         ''' <param name="param"></param>
         <Extension>
         Private Sub oneClassSvm(ByRef model As Model, prob As Problem, param As Parameter)
+            Dim nSV = 0
+            Dim i As Integer
+
             ' regression or one-class-svm
             model.numberOfClasses = 2
             model.classLabels = Nothing
@@ -788,10 +792,9 @@ Namespace SVM
             End If
 
             Dim f = svm_train_one(prob, param, 0, 0)
+
             model.rho = New Double(0) {}
             model.rho(0) = f.rho
-            Dim nSV = 0
-            Dim i As Integer
 
             For i = 0 To prob.count - 1
                 If stdNum.Abs(f.alpha(i)) > 0 Then
@@ -824,8 +827,7 @@ Namespace SVM
         ''' <param name="param"></param>
         <Extension>
         Private Sub multipleClassification(ByRef model As Model, prob As Problem, param As Parameter)
-            ' classification
-            Dim l = prob.count
+            Dim l As Integer = prob.count
             Dim nr_class As Integer
             Dim label As Integer() = Nothing
             Dim start As Integer() = Nothing
@@ -892,12 +894,12 @@ Namespace SVM
 
                     For k = 0 To ci - 1
                         sub_prob.X(k) = x(si + k)
-                        sub_prob.Y(k) = New ColorClass With {.enumInt = +1, .name = "temp", .color = "n/a"}
+                        sub_prob.Y(k) = New ColorClass With {.factor = +1, .name = "temp", .color = "n/a"}
                     Next
 
                     For k = 0 To cj - 1
                         sub_prob.X(ci + k) = x(sj + k)
-                        sub_prob.Y(ci + k) = New ColorClass With {.enumInt = -1, .name = "temp", .color = "n/a"}
+                        sub_prob.Y(ci + k) = New ColorClass With {.factor = -1, .name = "temp", .color = "n/a"}
                     Next
 
                     If param.probability Then
@@ -1234,93 +1236,116 @@ Namespace SVM
             End If
         End Function
 
-        Public Function svm_predict_values(model As Model, x As Node(), dec_values As Double()) As SVMPrediction
-            Dim i As Integer
+        Private Function svr_predict(model As Model, x As Node(), dec_values As Double()) As SVMPrediction
+            Dim sv_coef = model.supportVectorCoefficients(0)
+            Dim sum As Double = 0
 
-            If model.parameter.svmType = SvmType.ONE_CLASS OrElse model.parameter.svmType = SvmType.EPSILON_SVR OrElse model.parameter.svmType = SvmType.NU_SVR Then
-                Dim sv_coef = model.supportVectorCoefficients(0)
-                Dim sum As Double = 0
+            For i As Integer = 0 To model.supportVectorCount - 1
+                sum += sv_coef(i) * Kernel.KernelFunction(x, model.supportVectors(i), model.parameter)
+            Next
 
-                For i = 0 To model.supportVectorCount - 1
-                    sum += sv_coef(i) * Kernel.KernelFunction(x, model.supportVectors(i), model.parameter)
-                Next
+            sum -= model.rho(0)
+            dec_values(0) = sum
 
-                sum -= model.rho(0)
-                dec_values(0) = sum
-
-                If model.parameter.svmType = SvmType.ONE_CLASS Then
-                    Return New SVMPrediction With {.[class] = If(sum > 0, 1, -1), .score = sum, .unifyValue = .class}
-                Else
-                    Return New SVMPrediction With {.[class] = Integer.MinValue, .score = sum, .unifyValue = sum}
-                End If
-            Else
-                Dim nr_class = model.numberOfClasses
-                Dim l = model.supportVectorCount
-                Dim kvalue = New Double(l - 1) {}
-
-                For i = 0 To l - 1
-                    kvalue(i) = Kernel.KernelFunction(x, model.supportVectors(i), model.parameter)
-                Next
-
-                Dim start = New Integer(nr_class - 1) {}
-                start(0) = 0
-
-                For i = 1 To nr_class - 1
-                    start(i) = start(i - 1) + model.numberOfSVPerClass(i - 1)
-                Next
-
-                Dim vote = New Integer(nr_class - 1) {}
-
-                For i = 0 To nr_class - 1
-                    vote(i) = 0
-                Next
-
-                Dim p = 0
-
-                For i = 0 To nr_class - 1
-
-                    For j = i + 1 To nr_class - 1
-                        Dim sum As Double = 0
-                        Dim si = start(i)
-                        Dim sj = start(j)
-                        Dim ci = model.numberOfSVPerClass(i)
-                        Dim cj = model.numberOfSVPerClass(j)
-                        Dim k As Integer
-                        Dim coef1 = model.supportVectorCoefficients(j - 1)
-                        Dim coef2 = model.supportVectorCoefficients(i)
-
-                        For k = 0 To ci - 1
-                            sum += coef1(si + k) * kvalue(si + k)
-                        Next
-
-                        For k = 0 To cj - 1
-                            sum += coef2(sj + k) * kvalue(sj + k)
-                        Next
-
-                        sum -= model.rho(p)
-                        dec_values(p) = sum
-
-                        If dec_values(p) > 0 Then
-                            vote(i) += 1
-                        Else
-                            vote(j) += 1
-                        End If
-
-                        p += 1
-                    Next
-                Next
-
-                Dim vote_max_idx = 0
-
-                For i = 1 To nr_class - 1
-                    If vote(i) > vote(vote_max_idx) Then vote_max_idx = i
-                Next
-
+            If model.parameter.svmType = SvmType.ONE_CLASS Then
                 Return New SVMPrediction With {
-                    .[class] = model.classLabels(vote_max_idx),
-                    .score = vote(vote_max_idx),
+                    .[class] = If(sum > 0, 1, -1),
+                    .score = sum,
                     .unifyValue = .class
                 }
+            Else
+                ' sum is the regression value
+                Return New SVMPrediction With {
+                    .[class] = Integer.MinValue,
+                    .score = sum,
+                    .unifyValue = sum
+                }
+            End If
+        End Function
+
+        Private Function svc_predict(model As Model, x As Node(), dec_values As Double()) As SVMPrediction
+            Dim nr_class = model.numberOfClasses
+            Dim l = model.supportVectorCount
+            Dim kvalue = New Double(l - 1) {}
+
+            For i As Integer = 0 To l - 1
+                kvalue(i) = Kernel.KernelFunction(x, model.supportVectors(i), model.parameter)
+            Next
+
+            Dim start = New Integer(nr_class - 1) {}
+            start(0) = 0
+
+            For i As Integer = 1 To nr_class - 1
+                start(i) = start(i - 1) + model.numberOfSVPerClass(i - 1)
+            Next
+
+            Dim vote = New Integer(nr_class - 1) {}
+            Dim voteSum = New Double(nr_class - 1) {}
+
+            For i As Integer = 0 To nr_class - 1
+                vote(i) = 0
+            Next
+
+            Dim p = 0
+
+            For i As Integer = 0 To nr_class - 1
+                For j As Integer = i + 1 To nr_class - 1
+                    Dim sum As Double = 0
+                    Dim si = start(i)
+                    Dim sj = start(j)
+                    Dim ci = model.numberOfSVPerClass(i)
+                    Dim cj = model.numberOfSVPerClass(j)
+                    Dim k As Integer
+                    Dim coef1 = model.supportVectorCoefficients(j - 1)
+                    Dim coef2 = model.supportVectorCoefficients(i)
+
+                    For k = 0 To ci - 1
+                        sum += coef1(si + k) * kvalue(si + k)
+                    Next
+
+                    For k = 0 To cj - 1
+                        sum += coef2(sj + k) * kvalue(sj + k)
+                    Next
+
+                    sum -= model.rho(p)
+                    dec_values(p) = sum
+
+                    If dec_values(p) > 0 Then
+                        vote(i) += 1
+                        voteSum(i) += sum
+                    Else
+                        vote(j) += 1
+                        voteSum(j) -= sum
+                    End If
+
+                    p += 1
+                Next
+            Next
+
+            Dim vote_max_idx = 0
+
+            For i As Integer = 1 To nr_class - 1
+                If vote(i) > vote(vote_max_idx) Then
+                    vote_max_idx = i
+                End If
+            Next
+
+            Return New SVMPrediction With {
+                .[class] = model.classLabels(vote_max_idx),
+                .score = vote(vote_max_idx),
+                .unifyValue = .class,
+                .vote = voteSum
+            }
+        End Function
+
+        Public Function svm_predict_values(model As Model, x As Node(), dec_values As Double()) As SVMPrediction
+            If model.parameter.svmType = SvmType.ONE_CLASS OrElse
+                model.parameter.svmType = SvmType.EPSILON_SVR OrElse
+                model.parameter.svmType = SvmType.NU_SVR Then
+
+                Return svr_predict(model, x, dec_values)
+            Else
+                Return svc_predict(model, x, dec_values)
             End If
         End Function
 

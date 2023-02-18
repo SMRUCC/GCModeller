@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::219e449fc2483d6b0073c6fc5fa11524, sciBASIC#\Data_science\DataMining\DataMining\Evaluation\Validate.vb"
+﻿#Region "Microsoft.VisualBasic::d0b77250564abb52ce7fc40e1741e987, sciBASIC#\Data_science\DataMining\DataMining\Evaluation\Validate.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 80
+    '   Total Lines: 89
     '    Code Lines: 61
-    ' Comment Lines: 7
+    ' Comment Lines: 16
     '   Blank Lines: 12
-    '     File Size: 3.09 KB
+    '     File Size: 3.41 KB
 
 
     '     Structure Validate
@@ -97,6 +97,15 @@ Namespace Evaluation
             Return $"|{actuals.JoinBy(", ")} - {predicts.JoinBy(", ")}| = {err}"
         End Function
 
+        ''' <summary>
+        ''' populate ROC validation for each output labels
+        ''' </summary>
+        ''' <param name="data"></param>
+        ''' <param name="threshold"></param>
+        ''' <param name="outputLabels">
+        ''' tag the output names
+        ''' </param>
+        ''' <returns></returns>
         Public Shared Iterator Function ROC(data As IEnumerable(Of Validate),
                                             Optional threshold As Sequence = Nothing,
                                             Optional outputLabels$() = Nothing) As IEnumerable(Of NamedCollection(Of Validation))

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4ca8c6f86888bd5b378cd871757d549b, sciBASIC#\Data_science\MachineLearning\MachineLearning\ComponentModel\ActiveFunctions\Functions\Sigmoid.vb"
+﻿#Region "Microsoft.VisualBasic::bc86142007a57b354b7a51163b3ac00b, sciBASIC#\Data_science\MachineLearning\MachineLearning\ComponentModel\ActiveFunctions\Functions\Sigmoid.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 120
+    '   Total Lines: 125
     '    Code Lines: 39
-    ' Comment Lines: 69
+    ' Comment Lines: 74
     '   Blank Lines: 12
-    '     File Size: 3.98 KB
+    '     File Size: 4.19 KB
 
 
     '     Class Sigmoid
@@ -121,6 +121,9 @@ Namespace ComponentModel.Activations
         ''' <summary>
         ''' Initializes a new instance of the <see cref="Sigmoid"/> class.
         ''' </summary>
+        ''' <remarks>
+        ''' subclass of <see cref="IActivationFunction"/>
+        ''' </remarks>
         Public Sub New()
         End Sub
 
@@ -129,7 +132,9 @@ Namespace ComponentModel.Activations
         ''' </summary>
         ''' 
         ''' <param name="alpha">Sigmoid's alpha value.</param>
-        ''' 
+        ''' <remarks>
+        ''' subclass of <see cref="IActivationFunction"/>
+        ''' </remarks>
         Public Sub New(alpha As Double)
             Me._Alpha = alpha
         End Sub
@@ -150,7 +155,7 @@ Namespace ComponentModel.Activations
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Shared Function doCall(x#, alpha#) As Double
+        Public Shared Function doCall(x#, Optional alpha# = 1.0) As Double
             Return (1 / (1 + stdNum.Exp(-alpha * x)))
         End Function
 

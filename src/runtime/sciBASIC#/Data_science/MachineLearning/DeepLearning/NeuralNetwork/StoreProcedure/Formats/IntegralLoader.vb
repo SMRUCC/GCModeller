@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::41cf58fef3378bdaa3fda0af7cd5ec56, sciBASIC#\Data_science\MachineLearning\DeepLearning\NeuralNetwork\StoreProcedure\Formats\IntegralLoader.vb"
+﻿#Region "Microsoft.VisualBasic::1f508cc4340c1c63b84f5a462dd9546e, sciBASIC#\Data_science\MachineLearning\DeepLearning\NeuralNetwork\StoreProcedure\Formats\IntegralLoader.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 132
     ' Comment Lines: 22
     '   Blank Lines: 25
-    '     File Size: 7.64 KB
+    '     File Size: 7.63 KB
 
 
     '     Module IntegralLoader
@@ -116,7 +116,7 @@ Namespace NeuralNetwork.StoreProcedure
             Call "Start to create neuron nodes...".__DEBUG_ECHO(mute:=mute)
 
             Dim inputLayer As Dictionary(Of String, Neuron) = model.inputlayer _
-                .createNeurons(activations.input, neuronDataTable) _
+                .createNeurons(Nothing, neuronDataTable) _
                 .ToDictionary(Function(n) n.Name,
                               Function(n) n.Value)
             Dim outputLayer As Dictionary(Of String, Neuron) = model.outputlayer _

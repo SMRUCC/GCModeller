@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1a5a9dff440155d514c4aafcb36f2518, sciBASIC#\mime\application%xml\MathML\contentBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::3066a2f79b0bf842e2ea90586865e071, sciBASIC#\mime\application%xml\MathML\contentBuilder.vb"
 
     ' Author:
     ' 
@@ -34,15 +34,16 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 181
-    '    Code Lines: 145
-    ' Comment Lines: 11
-    '   Blank Lines: 25
-    '     File Size: 7.22 KB
+    '   Total Lines: 193
+    '    Code Lines: 154
+    ' Comment Lines: 12
+    '   Blank Lines: 27
+    '     File Size: 7.67 KB
 
 
     '     Module ContentBuilder
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: ExpressionComponent, getTextSymbol, parseInternal, ParseXml, safeGetOperator
     '                   SimplyOperator, ToString, TrimWhitespace
     ' 
@@ -61,8 +62,20 @@ Namespace MathML
 
     Public Module ContentBuilder
 
-        ReadOnly operators As Dictionary(Of String, mathOperators) = Enums(Of mathOperators).ToDictionary(Function(t) t.ToString)
+        ReadOnly operators As Dictionary(Of String, mathOperators)
 
+        Sub New()
+            operators = Enums(Of mathOperators).ToDictionary(Function(t) t.ToString)
+
+            ' add simples
+            Call operators.Add("^", mathOperators.power)
+            Call operators.Add("+", mathOperators.plus)
+            Call operators.Add("-", mathOperators.minus)
+            Call operators.Add("*", mathOperators.times)
+            Call operators.Add("/", mathOperators.divide)
+        End Sub
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function SimplyOperator(text As String) As String
             Return operators(text).Description
         End Function
@@ -146,7 +159,7 @@ Namespace MathML
         ''' <summary>
         ''' a list of standard math function
         ''' </summary>
-        ReadOnly stdMathFunc As Index(Of String) = {"abs", "cos", "sin", "tan", "max", "min", "exp"}
+        ReadOnly stdMathFunc As Index(Of String) = {"abs", "cos", "sin", "tan", "max", "min", "exp", "log", "ln"}
 
         <Extension>
         Private Function parseInternal(apply As XmlElement) As MathExpression

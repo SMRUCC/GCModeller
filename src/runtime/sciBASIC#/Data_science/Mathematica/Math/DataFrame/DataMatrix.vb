@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0a98a3186142ac3780ce39b1bdfaa079, sciBASIC#\Data_science\Mathematica\Math\DataFrame\DataMatrix.vb"
+﻿#Region "Microsoft.VisualBasic::6367c5bc07bb8fb1ea90ad1578b00851, sciBASIC#\Data_science\Mathematica\Math\DataFrame\DataMatrix.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 111
     ' Comment Lines: 9
     '   Blank Lines: 23
-    '     File Size: 4.84 KB
+    '     File Size: 4.88 KB
 
 
     ' Class DataMatrix
@@ -102,7 +102,7 @@ Public Class DataMatrix : Implements IBucketVector
 
     Sub New(names As IEnumerable(Of String))
         Me.names = names.Indexing
-        Me.matrix = MAT(Of Double)(Me.names.Count, Me.names.Count)
+        Me.matrix = RectangularArray.Matrix(Of Double)(Me.names.Count, Me.names.Count)
     End Sub
 
     Sub New(names As Index(Of String), matrix As Double()())
@@ -115,7 +115,7 @@ Public Class DataMatrix : Implements IBucketVector
     End Sub
 
     Sub New(M%, N%)
-        Me.matrix = MAT(Of Double)(M, N)
+        Me.matrix = RectangularArray.Matrix(Of Double)(M, N)
         Me.names = New Index(Of String)
     End Sub
 

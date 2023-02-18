@@ -357,3 +357,8 @@ src/runtime/enigma/assembly/net6.0/Microsoft.VisualBasic.Runtime.xml
 src/runtime/enigma/assembly/net6.0/REnv.dll.config
 src/runtime/enigma/assembly/net6.0/REnv.xml
 src/workbench/R\#/demo/HTS/GSVA/ath - Copy.db.mzpack
+
+src/repository/graphquery/ko.db
+src/GCModeller/annotations/GSEA/.vs/ProjectEvaluation/gsva.metadata.v6.1
+src/GCModeller/annotations/GSEA/.vs/ProjectEvaluation/gsva.projects.v6.1
+

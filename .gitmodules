@@ -16,3 +16,6 @@
 [submodule "src/workbench/win32_desktop"]
 	path = src/workbench/win32_desktop
 	url = https://github.com/SMRUCC/GCModeller-workbench.git
+[submodule "src/runtime/enigma"]
+	path = src/runtime/enigma
+	url = https://github.com/rsharp-lang/enigma.git

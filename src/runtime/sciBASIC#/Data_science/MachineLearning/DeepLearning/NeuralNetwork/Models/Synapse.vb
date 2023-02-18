@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::70cc8652c2f4e1ccd9554dc861e87910, sciBASIC#\Data_science\MachineLearning\DeepLearning\NeuralNetwork\Models\Synapse.vb"
+﻿#Region "Microsoft.VisualBasic::b78b6b0a9c2c51dbd2b10710dab1d892, sciBASIC#\Data_science\MachineLearning\DeepLearning\NeuralNetwork\Models\Synapse.vb"
 
     ' Author:
     ' 
@@ -82,7 +82,7 @@ Namespace NeuralNetwork
         Public ReadOnly Property Value As Double
             Get
                 ' 在这里为了防止出现 0 * Inf = NaN 的情况出现
-                If Weight = 0R OrElse InputNeuron.Value = 0 Then
+                If Weight = 0R OrElse InputNeuron.Value = 0R Then
                     Return 0
                 Else
                     Return Weight * InputNeuron.Value

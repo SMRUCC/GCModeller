@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4ab8299998078471f08da3aaa9a66160, sciBASIC#\www\Microsoft.VisualBasic.NETProtocol\Persistent\Socket\ServicesSocket.vb"
+﻿#Region "Microsoft.VisualBasic::c5c2f8a6713d3da7553af66b004f0728, sciBASIC#\www\Microsoft.VisualBasic.NETProtocol\Persistent\Socket\ServicesSocket.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 159
     ' Comment Lines: 98
     '   Blank Lines: 45
-    '     File Size: 12.18 KB
+    '     File Size: 11.89 KB
 
 
     '     Class ServicesSocket
@@ -216,8 +216,8 @@ Namespace Tcp.Persistent.Socket
             )
 
             Call _socketListener.Bind(localEndPoint)
-            Call _socketListener.ReceiveBufferSize.SetValue(4096)
-            Call _socketListener.SendBufferSize.SetValue(4096)
+            Call _socketListener.ReceiveBufferSize.InlineCopy(4096)
+            Call _socketListener.SendBufferSize.InlineCopy(4096)
             Call _socketListener.Listen(backlog:=100)
         End Sub
 

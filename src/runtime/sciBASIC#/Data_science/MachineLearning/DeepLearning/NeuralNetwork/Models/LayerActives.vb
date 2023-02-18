@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4fda38dda69d21f4c91eadee44b8109e, sciBASIC#\Data_science\MachineLearning\DeepLearning\NeuralNetwork\Models\LayerActives.vb"
+﻿#Region "Microsoft.VisualBasic::8dec2add5428ea139aa339ba2bac9138, sciBASIC#\Data_science\MachineLearning\DeepLearning\NeuralNetwork\Models\LayerActives.vb"
 
     ' Author:
     ' 
@@ -34,16 +34,16 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 63
-    '    Code Lines: 37
+    '   Total Lines: 58
+    '    Code Lines: 32
     ' Comment Lines: 19
     '   Blank Lines: 7
-    '     File Size: 2.27 KB
+    '     File Size: 2.01 KB
 
 
     '     Class LayerActives
     ' 
-    '         Properties: hiddens, input, output
+    '         Properties: hiddens, output
     ' 
     '         Constructor: (+1 Overloads) Sub New
     '         Function: FromXmlModel, GetDefaultConfig, GetXmlModels
@@ -56,7 +56,6 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.MachineLearning.ComponentModel.Activations
-Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.StoreProcedure
 
 Namespace NeuralNetwork.Activations
 
@@ -72,7 +71,6 @@ Namespace NeuralNetwork.Activations
     ''' </remarks>
     Public Class LayerActives
 
-        Public Property input As IActivationFunction
         ''' <summary>
         ''' 隐藏层都公用同一种激活函数?
         ''' </summary>
@@ -86,7 +84,6 @@ Namespace NeuralNetwork.Activations
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetXmlModels() As Dictionary(Of String, ActiveFunction)
             Return New Dictionary(Of String, ActiveFunction) From {
-                {NameOf(input), input.Store},
                 {NameOf(hiddens), hiddens.Store},
                 {NameOf(output), output.Store}
             }
@@ -96,7 +93,6 @@ Namespace NeuralNetwork.Activations
         Public Shared Function FromXmlModel(functions As Dictionary(Of String, ActiveFunction)) As LayerActives
             Return New LayerActives With {
                 .hiddens = functions!hiddens.Function,
-                .input = functions!input.Function,
                 .output = functions!output.Function
             }
         End Function
@@ -109,7 +105,6 @@ Namespace NeuralNetwork.Activations
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function GetDefaultConfig() As [Default](Of LayerActives)
             Return New LayerActives With {
-                .input = New Sigmoid,
                 .hiddens = New SigmoidFunction,
                 .output = New Sigmoid
             }

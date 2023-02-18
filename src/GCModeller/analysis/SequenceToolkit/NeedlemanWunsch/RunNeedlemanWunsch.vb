@@ -83,7 +83,7 @@ Public Module RunNeedlemanWunsch
 
         ' run algorithm
         Call nw.compute()
-        Call score.SetValue(nw.Score)
+        Call score.InlineCopy(nw.Score)
 
         Return nw.PopulateAlignments.ToArray
     End Function

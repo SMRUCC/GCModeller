@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c316aa2bb97ca9994b952a80be8e5293, sciBASIC#\Microsoft.VisualBasic.Core\src\Language\Value\Variant.vb"
+﻿#Region "Microsoft.VisualBasic::8caf1d295046ae2bf88c32ac737c1423, sciBASIC#\Microsoft.VisualBasic.Core\src\Language\Value\Variant.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 169
-    '    Code Lines: 115
-    ' Comment Lines: 34
-    '   Blank Lines: 20
-    '     File Size: 5.88 KB
+    '   Total Lines: 208
+    '    Code Lines: 138
+    ' Comment Lines: 44
+    '   Blank Lines: 26
+    '     File Size: 7.42 KB
 
 
     '     Class [Variant]
@@ -46,7 +46,11 @@
     '         Properties: VA, VB
     ' 
     '         Constructor: (+3 Overloads) Sub New
+    ' 
     '         Function: [TryCast], GetUnderlyingType
+    ' 
+    '         Sub: (+2 Overloads) Dispose, TryDispose
+    ' 
     '         Operators: (+2 Overloads) <>, (+2 Overloads) =, (+2 Overloads) Like
     ' 
     ' 
@@ -55,6 +59,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Emit.Delegates
 
 Namespace Language
 
@@ -64,6 +69,9 @@ Namespace Language
     ''' <typeparam name="A"></typeparam>
     ''' <typeparam name="B"></typeparam>
     Public Class [Variant](Of A, B) : Inherits Value(Of Object)
+        Implements IDisposable
+
+        Private disposedValue As Boolean
 
         ''' <summary>
         ''' <see cref="System.Void"/> will be returns if the value data is nothing!
@@ -136,7 +144,17 @@ Namespace Language
             If Value Is Nothing Then
                 Return Nothing
             Else
-                Return DirectCast(Value, T)
+                Try
+                    Return DirectCast(Value, T)
+                Catch ex As Exception
+                    ' 20230214
+                    '
+                    ' ignores of the try cast error
+                    ' when type can not be cast to 
+                    ' target type T
+                    ' just returns nothing
+                    Return Nothing
+                End Try
             End If
         End Function
 
@@ -221,5 +239,40 @@ Namespace Language
                 Return var.GetUnderlyingType Is type
             End If
         End Operator
+
+        Private Shared Sub TryDispose(obj As Object)
+            If Not obj Is Nothing Then
+                If obj.GetType.ImplementInterface(Of IDisposable) Then
+                    Call DirectCast(obj, IDisposable).Dispose()
+                End If
+            End If
+        End Sub
+
+        Protected Overridable Sub Dispose(disposing As Boolean)
+            If Not disposedValue Then
+                If disposing Then
+                    ' TODO: 释放托管状态(托管对象)
+                    Call TryDispose(VA)
+                    Call TryDispose(VB)
+                End If
+
+                ' TODO: 释放未托管的资源(未托管的对象)并重写终结器
+                ' TODO: 将大型字段设置为 null
+                disposedValue = True
+            End If
+        End Sub
+
+        ' ' TODO: 仅当“Dispose(disposing As Boolean)”拥有用于释放未托管资源的代码时才替代终结器
+        ' Protected Overrides Sub Finalize()
+        '     ' 不要更改此代码。请将清理代码放入“Dispose(disposing As Boolean)”方法中
+        '     Dispose(disposing:=False)
+        '     MyBase.Finalize()
+        ' End Sub
+
+        Public Sub Dispose() Implements IDisposable.Dispose
+            ' 不要更改此代码。请将清理代码放入“Dispose(disposing As Boolean)”方法中
+            Dispose(disposing:=True)
+            GC.SuppressFinalize(Me)
+        End Sub
     End Class
 End Namespace

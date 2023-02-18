@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3aabfbced4acc3b50141e900bb2d0500, sciBASIC#\Microsoft.VisualBasic.Core\src\ApplicationServices\App.vb"
+﻿#Region "Microsoft.VisualBasic::7dc8fd6230e54e12a2c52dab2c7f910c, sciBASIC#\Microsoft.VisualBasic.Core\src\ApplicationServices\App.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 1508
-    '    Code Lines: 729
-    ' Comment Lines: 607
+    '   Total Lines: 1512
+    '    Code Lines: 732
+    ' Comment Lines: 608
     '   Blank Lines: 172
-    '     File Size: 65.48 KB
+    '     File Size: 65.61 KB
 
 
     ' Module App
@@ -1403,10 +1403,15 @@ Public Module App
                           Optional ioRedirect As Boolean = False,
                           Optional debug As Boolean = False) As IIORedirectAbstract
 
+#If NETCOREAPP Then
+        Const PLATFORM As String = "dotnet"
+#Else
+        Const PLATFORM As String = "mono"
+#End If
         If Not IsMicrosoftPlatform Then
             If CLR Then
                 Dim process As New ProcessEx With {
-                    .Bin = "mono",
+                    .Bin = PLATFORM,
                     .CLIArguments = app.CLIPath & " " & CLI
                 }
                 Return process

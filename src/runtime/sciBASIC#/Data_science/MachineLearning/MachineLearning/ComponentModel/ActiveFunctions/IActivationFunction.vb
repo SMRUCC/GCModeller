@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3b0696dd308c2615cb22392317d4696c, sciBASIC#\Data_science\MachineLearning\MachineLearning\ComponentModel\ActiveFunctions\IActivationFunction.vb"
+﻿#Region "Microsoft.VisualBasic::1c8a41089346408b120fa95d6e422980, sciBASIC#\Data_science\MachineLearning\MachineLearning\ComponentModel\ActiveFunctions\IActivationFunction.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 81
-    '    Code Lines: 30
+    '   Total Lines: 93
+    '    Code Lines: 40
     ' Comment Lines: 39
-    '   Blank Lines: 12
-    '     File Size: 2.84 KB
+    '   Blank Lines: 14
+    '     File Size: 3.17 KB
 
 
     '     Class IActivationFunction
@@ -81,7 +81,7 @@ Namespace ComponentModel.Activations
         ''' 所以可以利用这个值来限制求导之后的结果最大值
         ''' </summary>
         ''' <returns></returns>
-        Public Property Truncate As Double = 100
+        Public Property Truncate As Double = 10000
 
         Default Public ReadOnly Property Evaluate(x As Double) As Double
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -98,10 +98,22 @@ Namespace ComponentModel.Activations
         End Property
 
         Public Overridable Function CalculateDerivative(x As Double) As Double
+            Dim val As Double
+
             If Truncate > 0 Then
-                Return ValueTruncate(Derivative(x), Truncate)
+                val = ValueTruncate(Derivative(x), Truncate)
             Else
-                Return Derivative(x)
+                val = Derivative(x)
+            End If
+
+            If Double.IsPositiveInfinity(val) Then
+                Return 100000
+            ElseIf Double.IsNegativeInfinity(val) Then
+                Return -100000
+            ElseIf val.IsNaNImaginary Then
+                Return 1
+            Else
+                Return val
             End If
         End Function
 

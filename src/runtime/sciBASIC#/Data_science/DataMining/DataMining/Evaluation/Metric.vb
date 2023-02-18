@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ba344fe9d780ab3fd1b2383749c28d5b, sciBASIC#\Data_science\DataMining\DataMining\Evaluation\Metric.vb"
+﻿#Region "Microsoft.VisualBasic::56caaaed13fc8170e7d29409e3c11962, sciBASIC#\Data_science\DataMining\DataMining\Evaluation\Metric.vb"
 
     ' Author:
     ' 
@@ -58,7 +58,7 @@
     '         Constructor: (+1 Overloads) Sub New
     '         Function: [error], accuracy, auc, GetMetric, mean_absolute_error
     '                   mean_square_error, Parse
-    '         Class ComparatorAnonymousInnerClass
+    '         Class labelComparer
     ' 
     '             Constructor: (+1 Overloads) Sub New
     '             Function: compare
@@ -79,23 +79,23 @@ Namespace Evaluation
     Public Enum Metrics
         none
         ''' <summary>
-        ''' Metric.accuracy(pred, label)
+        ''' <see cref="Metric.accuracy"/> 
         ''' </summary>
         acc
         ''' <summary>
-        ''' Metric.error(pred, label)
+        ''' <see cref="Metric.error"/> 
         ''' </summary>
         [error]
         ''' <summary>
-        ''' Metric.mean_square_error(pred, label)
+        ''' <see cref="Metric.mean_square_error"/> 
         ''' </summary>
         mse
         ''' <summary>
-        ''' Metric.mean_absolute_error(pred, label)
+        ''' <see cref="Metric.mean_absolute_error"/> 
         ''' </summary>
         mae
         ''' <summary>
-        ''' Metric.auc(pred, label)
+        ''' <see cref="Metric.auc"/> 
         ''' </summary>
         auc
     End Enum
@@ -176,14 +176,14 @@ Namespace Evaluation
             Next
 
             Dim n_neg = pred.Length - n_pos
-            Dim label_pred As Double()() = MAT(Of Double)(pred.Length, 2)
+            Dim label_pred As Double()() = RectangularArray.Matrix(Of Double)(pred.Length, 2)
 
             For i = 0 To pred.Length - 1
                 label_pred(i)(0) = label(i)
                 label_pred(i)(1) = pred(i)
             Next
 
-            Array.Sort(label_pred, New Metric.ComparatorAnonymousInnerClass())
+            Array.Sort(label_pred, New Metric.labelComparer())
             Dim accumulated_neg As Double = 0
             Dim satisfied_pair As Double = 0
 
@@ -199,7 +199,7 @@ Namespace Evaluation
             Return satisfied_pair / n_neg / n_pos
         End Function
 
-        Private Class ComparatorAnonymousInnerClass : Implements IComparer(Of Double())
+        Private Class labelComparer : Implements IComparer(Of Double())
 
             Public Sub New()
             End Sub

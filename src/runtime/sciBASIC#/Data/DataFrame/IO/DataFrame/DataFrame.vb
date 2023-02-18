@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bab8a019df472f18bbed66a6d1baecf4, sciBASIC#\Data\DataFrame\IO\DataFrame\DataFrame.vb"
+﻿#Region "Microsoft.VisualBasic::cae7aae50883509aca21736cf51b4420, sciBASIC#\Data\DataFrame\IO\DataFrame\DataFrame.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 677
-    '    Code Lines: 437
+    '   Total Lines: 685
+    '    Code Lines: 445
     ' Comment Lines: 135
     '   Blank Lines: 105
-    '     File Size: 27.13 KB
+    '     File Size: 27.42 KB
 
 
     '     Class DataFrame
@@ -342,11 +342,19 @@ Namespace IO
             Return CreateObject(file)
         End Function
 
-        Public Overloads Shared Function Load(stream As Stream, Optional encoding As Encoding = Nothing) As DataFrame
+        Public Overloads Shared Function Load(stream As Stream,
+                                              Optional encoding As Encoding = Nothing,
+                                              Optional isTsv As Boolean = False) As DataFrame
             Dim file As New File With {
-                ._innerTable = File.loads(stream, If(encoding, Encoding.Default), trimBlanks:=False, skipWhile:=Nothing)
+                ._innerTable = File.loads(
+                    file:=stream,
+                    encoding:=If(encoding, Encoding.Default),
+                    trimBlanks:=False,
+                    skipWhile:=Nothing,
+                    isTsv:=isTsv
+                )
             }
-            Dim table = CreateObject(file)
+            Dim table As DataFrame = CreateObject(file)
 
             Return table
         End Function

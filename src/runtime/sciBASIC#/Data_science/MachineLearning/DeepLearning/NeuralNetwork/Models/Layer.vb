@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ff21cdba907267fd6ac47e0d089645de, sciBASIC#\Data_science\MachineLearning\DeepLearning\NeuralNetwork\Models\Layer.vb"
+﻿#Region "Microsoft.VisualBasic::0b731818afb9b41869a018d6cf6c4438, sciBASIC#\Data_science\MachineLearning\DeepLearning\NeuralNetwork\Models\Layer.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 177
+    '   Total Lines: 187
     '    Code Lines: 113
-    ' Comment Lines: 43
+    ' Comment Lines: 53
     '   Blank Lines: 21
-    '     File Size: 7.02 KB
+    '     File Size: 7.42 KB
 
 
     '     Class Layer
@@ -97,6 +97,16 @@ Namespace NeuralNetwork
             Me.Neurons = neurons
         End Sub
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="size"></param>
+        ''' <param name="active">
+        ''' the activate function for the input layer could be nothing
+        ''' </param>
+        ''' <param name="weight"></param>
+        ''' <param name="input"></param>
+        ''' <param name="guid"></param>
         Sub New(size%, active As IActivationFunction, weight As Func(Of Double),
                 Optional input As Layer = Nothing,
                 Optional guid As i32 = Nothing)
@@ -133,15 +143,15 @@ Namespace NeuralNetwork
         ''' <param name="learnRate#"></param>
         ''' <param name="momentum#"></param>
         ''' <param name="parallel"></param>
-        Public Sub UpdateWeights(learnRate#, momentum#, Optional parallel As Boolean = False)
+        Public Sub UpdateWeights(learnRate#, momentum#, truncate As Double, Optional parallel As Boolean = False)
             If Not parallel Then
                 For Each neuron As Neuron In allActiveNodes()
-                    Call neuron.UpdateWeights(learnRate, momentum, doDropOutMode)
+                    Call neuron.UpdateWeights(learnRate, momentum, truncate, doDropOutMode)
                 Next
             Else
                 With Aggregate neuron As Neuron
                      In allActiveNodes.AsParallel
-                     Let run = neuron.UpdateWeights(learnRate, momentum, doDropOutMode)
+                     Let run = neuron.UpdateWeights(learnRate, momentum, truncate, doDropOutMode)
                      Into Sum(run)
                 End With
             End If
@@ -209,7 +219,7 @@ Namespace NeuralNetwork
         End Sub
 
         Public Overrides Function ToString() As String
-            Dim n = Output
+            Dim n As Double() = Output
             Dim summary$
 
             If n.Length > 20 Then

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::50cce4113236c5eb88dcb58f76ad547e, sciBASIC#\Data_science\Mathematica\Math\Math\Algebra\Matrix.NET\Extensions\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::a39c29e0a56cfeb6aa1a6c5c7b757b73, sciBASIC#\Data_science\Mathematica\Math\Math\Algebra\Matrix.NET\Extensions\Extensions.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 131
-    '    Code Lines: 85
+    '   Total Lines: 132
+    '    Code Lines: 86
     ' Comment Lines: 27
     '   Blank Lines: 19
-    '     File Size: 4.66 KB
+    '     File Size: 4.71 KB
 
 
     '     Module Extensions
@@ -111,9 +111,10 @@ Namespace LinearAlgebra.Matrix
         ''' Centers each column of the data matrix at its mean.
         ''' Normalizes the input matrix so that each column is centered at 0.
         ''' </summary>
-        <Extension> Public Function CenterNormalize(m As GeneralMatrix) As GeneralMatrix
+        <Extension>
+        Public Function CenterNormalize(m As GeneralMatrix) As GeneralMatrix
             Dim input = m.ArrayPack
-            Dim out As Double()() = MAT(Of Double)(input.Length, input(0).Length)
+            Dim out As Double()() = RectangularArray.Matrix(Of Double)(input.Length, input(0).Length)
 
             For i As Integer = 0 To input.Length - 1
                 Dim meanValue As Double = input(i).Average
@@ -132,7 +133,7 @@ Namespace LinearAlgebra.Matrix
         <Extension>
         Public Function Covariance(matrix As GeneralMatrix) As GeneralMatrix
             Dim length As Integer = matrix.RowDimension
-            Dim out As Double()() = MAT(Of Double)(length, length)
+            Dim out As Double()() = RectangularArray.Matrix(Of Double)(length, length)
             Dim array = matrix.ArrayPack
 
             For i As Integer = 0 To out.Length - 1

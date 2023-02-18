@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::80b00269897cf25bfc9c4af956777825, sciBASIC#\gr\network-visualization\Datavisualization.Network\Layouts\Cola\Layout3D\layout3d.vb"
+﻿#Region "Microsoft.VisualBasic::f81e7eb358336f0315d4cd6e174c7219, sciBASIC#\gr\network-visualization\Datavisualization.Network\Layouts\Cola\Layout3D\layout3d.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 80
     ' Comment Lines: 6
     '   Blank Lines: 20
-    '     File Size: 4.32 KB
+    '     File Size: 4.23 KB
 
 
     '     Class Layout3D
@@ -74,7 +74,7 @@ Namespace Layouts.Cola
         Public idealLinkLength As Double = 1
 
         Public Sub New(nodes As Node3D(), links As Link(Of Integer)(), Optional idealLinkLength As Double = 1)
-            Me.result = MAT(Of Double)(Layout3D.k, nodes.Length)
+            Me.result = RectangularArray.Matrix(Of Double)(Layout3D.k, nodes.Length)
             Me.nodes = nodes
             Me.links = links
             Me.idealLinkLength = idealLinkLength

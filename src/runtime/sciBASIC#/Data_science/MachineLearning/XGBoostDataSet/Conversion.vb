@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c7e5dc03c7fd40029a75b1996b0c0869, sciBASIC#\Data_science\MachineLearning\XGBoostDataSet\Conversion.vb"
+﻿#Region "Microsoft.VisualBasic::3805dfc96b451aa657abfc9aeeeae703, sciBASIC#\Data_science\MachineLearning\XGBoostDataSet\Conversion.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 90
     ' Comment Lines: 0
     '   Blank Lines: 22
-    '     File Size: 4.23 KB
+    '     File Size: 4.18 KB
 
 
     ' Module Conversion
@@ -94,10 +94,10 @@ Public Module Conversion
         For i As Integer = 0 To data.feature_dim - 1
             Dim cnt = data.missing_count(i)
             data.missing_index(i) = New Integer(cnt - 1) {}
-            data.feature_value_index(i) = MAT(Of Single)(data.dataset_size - cnt, 2)
+            data.feature_value_index(i) = RectangularArray.Matrix(Of Single)(data.dataset_size - cnt, 2)
         Next
 
-        data.origin_feature = MAT(Of Single)(data.dataset_size, data.feature_dim)
+        data.origin_feature = RectangularArray.Matrix(Of Single)(data.dataset_size, data.feature_dim)
 
         Dim cur_index = New Integer(data.feature_dim - 1) {}
         Dim cur_missing_index = New Integer(data.feature_dim - 1) {}
@@ -134,7 +134,7 @@ Public Module Conversion
         data.feature_dim = matrix(Scan0).Value.Length
         data.dataset_size = matrix.Length
         data.label = New Double(data.dataset_size - 1) {}
-        data.origin_feature = MAT(Of Single)(data.dataset_size, data.feature_dim)
+        data.origin_feature = RectangularArray.Matrix(Of Single)(data.dataset_size, data.feature_dim)
 
         For row = 0 To data.dataset_size - 1
             rowLine = matrix(row).Value

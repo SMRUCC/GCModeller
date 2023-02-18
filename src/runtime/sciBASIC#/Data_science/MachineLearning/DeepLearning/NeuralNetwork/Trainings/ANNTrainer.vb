@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d8b439993678cddd4d9cf9735d24b066, sciBASIC#\Data_science\MachineLearning\DeepLearning\NeuralNetwork\Trainings\ANNTrainer.vb"
+﻿#Region "Microsoft.VisualBasic::29bebd17eb49bdc094f135af5087a499, sciBASIC#\Data_science\MachineLearning\DeepLearning\NeuralNetwork\Trainings\ANNTrainer.vb"
 
     ' Author:
     ' 
@@ -34,24 +34,24 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 448
-    '    Code Lines: 296
-    ' Comment Lines: 88
-    '   Blank Lines: 64
-    '     File Size: 17.37 KB
+    '   Total Lines: 449
+    '    Code Lines: 288
+    ' Comment Lines: 95
+    '   Blank Lines: 66
+    '     File Size: 17.24 KB
 
 
     '     Class ANNTrainer
     ' 
-    '         Properties: dropOutRate, MinError, NeuronNetwork, Selective, TrainingSet
-    '                     TrainingType, Truncate, XP
+    '         Properties: dropOutRate, ErrorThreshold, MinError, NeuronNetwork, Selective
+    '                     TrainingSet, TrainingType, Truncate, XP
     ' 
     '         Constructor: (+2 Overloads) Sub New
     ' 
     '         Function: CalculateError, errorSum, SetDropOut, SetLayerNormalize, SetOutputNames
     '                   SetSelective, SetSnapshotLocation, trainingImpl
     ' 
-    '         Sub: (+2 Overloads) Add, (+2 Overloads) Corrects, RemoveLast, (+3 Overloads) Train
+    '         Sub: (+2 Overloads) Add, (+2 Overloads) Corrects, RemoveLast, (+3 Overloads) Train, TrainInternal
     ' 
     ' 
     ' /********************************************************************************/
@@ -97,6 +97,7 @@ Namespace NeuralNetwork
         ''' </summary>
         ''' <returns></returns>
         Public Property Selective As Boolean = True
+        Public Property ErrorThreshold As Double = 0.01
         ''' <summary>
         ''' [0,1]之间,建议设置一个[0.3,0.6]之间的值, 这个参数表示被随机删除的节点的数量百分比,值越高,则剩下的神经元节点越少
         ''' </summary>
@@ -185,6 +186,13 @@ Namespace NeuralNetwork
             Return Me
         End Function
 
+        ''' <summary>
+        ''' set a directory path for save the model xml files
+        ''' </summary>
+        ''' <param name="save">
+        ''' a directory path for save model file
+        ''' </param>
+        ''' <returns></returns>
         Public Function SetSnapshotLocation(save As String) As ANNTrainer
             snapshotSaveLocation = save
             Return Me
@@ -275,9 +283,7 @@ Namespace NeuralNetwork
         Public Overloads Sub Train(numEpochs As Integer, Optional parallel As Boolean = False)
             Using progress As New ProgressBar("Training ANN...")
                 Dim tick As New ProgressProvider(progress, numEpochs)
-                Dim msg$
-                Dim ETA$
-                Dim break As Boolean = False
+                Dim break As Value(Of Boolean) = False
                 Dim cancelSignal As UserTaskCancelAction = Nothing
                 Dim saveSignal As UserTaskSaveAction = Nothing
 
@@ -285,45 +291,12 @@ Namespace NeuralNetwork
                     cancelSignal = New UserTaskCancelAction(
                         Sub()
                             Call "User cancel of the training loop...".__DEBUG_ECHO
-                            break = True
+                            break.Value = True
                         End Sub)
                     saveSignal = New UserTaskSaveAction(AddressOf SaveSnapshot)
                 End If
 
-                For i As Integer = 0 To numEpochs - 1
-                    errors = runTraining(parallel)
-
-                    ETA = $"ETA: {tick.ETA().FormatTime}"
-                    msg = $"Iterations: [{i}/{numEpochs}], errors={errors.Average}{vbTab}learn_rate={network.LearnRate} {ETA}"
-#If UNIX Then
-                    Call msg.__INFO_ECHO
-#Else
-                    If App.IsMicrosoftPlatform Then
-                        Call progress.SetProgress(tick.StepProgress, msg)
-                    Else
-                        Call tick.StepProgress()
-                        Call msg.__INFO_ECHO
-
-                        If outputNames.IsNullOrEmpty Then
-                            Call $"[{errors.Select(Function(e) e.ToString("F3")).JoinBy(", ")}]".__DEBUG_ECHO
-                        Else
-                            For index As Integer = 0 To outputNames.Length - 1
-                                Call $"    {outputNames(index)} = {errors(index).ToString("F4")}".__INFO_ECHO
-                            Next
-                        End If
-                    End If
-#End If
-                    If errors.Average < 0.0001 Then
-                        Selective = False
-                    End If
-
-                    If Not reporter Is Nothing Then
-                        Call reporter(i, errors.Average, network)
-                    End If
-                    If break Then
-                        Exit For
-                    End If
-                Next
+                Call TrainInternal(numEpochs, parallel, tick, break, progress)
 
                 If Not cancelSignal Is Nothing Then
                     Call cancelSignal.Dispose()
@@ -332,6 +305,34 @@ Namespace NeuralNetwork
                     Call saveSignal.Dispose()
                 End If
             End Using
+        End Sub
+
+        Private Sub TrainInternal(numEpochs As Integer, parallel As Boolean, tick As ProgressProvider, break As Value(Of Boolean), progress As ProgressBar)
+            Dim msg$
+            Dim ETA$
+            Dim muErr As Double
+
+            For i As Integer = 0 To numEpochs - 1
+                errors = runTraining(parallel)
+                ETA = $"ETA: {tick.ETA.FormatTime}"
+                muErr = errors.Average
+                msg = $"Iterations: [{i}/{numEpochs}], errors={muErr}{vbTab}learn_rate={network.LearnRate} {ETA}"
+
+                If muErr < ErrorThreshold Then
+                    Exit For
+                ElseIf muErr < ErrorThreshold * 2 Then
+                    Selective = False
+                Else
+
+                End If
+
+                If Not reporter Is Nothing Then
+                    Call reporter(i, muErr, network)
+                End If
+                If break.Value Then
+                    Exit For
+                End If
+            Next
         End Sub
 
         ''' <summary>

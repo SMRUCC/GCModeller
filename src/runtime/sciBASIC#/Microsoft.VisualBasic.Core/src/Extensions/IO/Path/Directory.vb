@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bcba3293fe8cc99b62c8e4af0f16a2d1, sciBASIC#\Microsoft.VisualBasic.Core\src\Extensions\IO\Path\Directory.vb"
+﻿#Region "Microsoft.VisualBasic::6a22d7552749a986b1dbb8aab187343f, sciBASIC#\Microsoft.VisualBasic.Core\src\Extensions\IO\Path\Directory.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 186
-    '    Code Lines: 99
-    ' Comment Lines: 60
-    '   Blank Lines: 27
-    '     File Size: 7.51 KB
+    '   Total Lines: 198
+    '    Code Lines: 107
+    ' Comment Lines: 61
+    '   Blank Lines: 30
+    '     File Size: 7.74 KB
 
 
     '     Class Directory
@@ -48,8 +48,8 @@
     '         Constructor: (+1 Overloads) Sub New
     ' 
     '         Function: CopyTo, DeleteFile, Exists, FileExists, FileSize
-    '                   GetFullPath, GetRelativePath, GetSubDirectories, IsAbsolutePath, OpenFile
-    '                   ReadAllText, ToString, WriteText
+    '                   FromLocalFileSystem, GetFullPath, GetRelativePath, GetSubDirectories, IsAbsolutePath
+    '                   OpenFile, ReadAllText, ToString, WriteText
     ' 
     '         Sub: Close, CreateDirectory, Delete, Flush
     ' 
@@ -77,7 +77,9 @@ Namespace FileIO
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property folder As String
+
         Public ReadOnly Property [readonly] As Boolean Implements IFileSystemEnvironment.readonly
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return False
             End Get
@@ -87,9 +89,16 @@ Namespace FileIO
         ''' Construct a directory object from the specific Dir path value.
         ''' </summary>
         ''' <param name="directory">Target directory path</param>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Sub New(directory As String)
             Me.folder = FileSystem.GetDirectoryInfo(directory).FullName
         End Sub
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function FromLocalFileSystem(dir As String) As Directory
+            Return New Directory(dir)
+        End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetSubDirectories() As IEnumerable(Of String)
@@ -135,7 +144,10 @@ Namespace FileIO
         ''' </summary>
         ''' <param name="target">The directory path of target folder.</param>
         ''' <returns></returns>
-        Public Function CopyTo(target$, Optional progress As Progress(Of String) = Nothing, Optional includeSrc As Boolean = False) As IEnumerable(Of String)
+        Public Function CopyTo(target$,
+                               Optional progress As Progress(Of String) = Nothing,
+                               Optional includeSrc As Boolean = False) As IEnumerable(Of String)
+
             Dim list As New List(Of String)
             Dim action = Sub(path$)
                              If Not progress Is Nothing Then
@@ -239,7 +251,7 @@ Namespace FileIO
             Return fullPath.ReadAllText
         End Function
 
-        Public Sub Flush() Implements IFileSystemEnvironment.Flush
+        Private Sub Flush() Implements IFileSystemEnvironment.Flush
             ' do nothing
         End Sub
     End Class

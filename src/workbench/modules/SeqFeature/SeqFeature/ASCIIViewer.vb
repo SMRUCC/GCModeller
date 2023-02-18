@@ -111,7 +111,7 @@ Public Module ASCIIViewer
                         Dim delta% = lefts(j) - left
 
                         Call .Write(New String(" "c, delta - 1) & "|")
-                        Call left.SetValue(lefts(j))
+                        Call left.InlineCopy(lefts(j))
                     Next
                 End If
 

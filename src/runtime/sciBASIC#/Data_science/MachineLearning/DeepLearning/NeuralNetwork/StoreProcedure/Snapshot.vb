@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ccedd05656189d28ebde27ba02975e7b, sciBASIC#\Data_science\MachineLearning\DeepLearning\NeuralNetwork\StoreProcedure\Snapshot.vb"
+﻿#Region "Microsoft.VisualBasic::a71f8244283f87c3bc32878830edc2eb, sciBASIC#\Data_science\MachineLearning\DeepLearning\NeuralNetwork\StoreProcedure\Snapshot.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 154
-    '    Code Lines: 110
+    '   Total Lines: 155
+    '    Code Lines: 111
     ' Comment Lines: 19
     '   Blank Lines: 25
-    '     File Size: 6.00 KB
+    '     File Size: 6.07 KB
 
 
     '     Class Snapshot
@@ -55,6 +55,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.FileIO
 Imports Microsoft.VisualBasic.Linq
 Imports Connector = Microsoft.VisualBasic.MachineLearning.NeuralNetwork.Synapse
 
@@ -197,8 +198,8 @@ Namespace NeuralNetwork.StoreProcedure
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function WriteScatteredParts(directory As String) As Boolean
-            Return snapshot.ScatteredStore(store:=directory)
+        Public Function WriteScatteredParts(dir As String) As Boolean
+            Return snapshot.ScatteredStore(store:=Directory.FromLocalFileSystem(dir))
         End Function
 
         Public Overrides Function ToString() As String

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e1e0b4a6a52a0c6fdb30750ff3b7a62f, sciBASIC#\Data_science\Graph\Model\Abstract\Graph.vb"
+﻿#Region "Microsoft.VisualBasic::33331bfd618242a24b1aad4f54692029, sciBASIC#\Data_science\Graph\Model\Abstract\Graph.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 188
     ' Comment Lines: 115
     '   Blank Lines: 43
-    '     File Size: 11.84 KB
+    '     File Size: 11.86 KB
 
 
     ' Class Graph
@@ -78,7 +78,7 @@ Public MustInherit Class Graph(Of V As {New, TV}, Edge As {New, Edge(Of V)}, G A
     Dim edges As New List(Of Edge)
 
     ''' <summary>
-    ''' 
+    ''' directed edge index
     ''' </summary>
     Protected ReadOnly linkIndex As New Dictionary(Of String, Dictionary(Of String, Edge))
 

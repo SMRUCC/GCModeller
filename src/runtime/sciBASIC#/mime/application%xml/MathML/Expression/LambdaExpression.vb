@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d5f8d4cf07579e2dfbfd3a6183cf753a, sciBASIC#\mime\application%xml\MathML\Expression\LambdaExpression.vb"
+﻿#Region "Microsoft.VisualBasic::57a6d00e6b220b9ecbaed37a203c9e4e, sciBASIC#\mime\application%xml\MathML\Expression\LambdaExpression.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 26
-    '    Code Lines: 17
-    ' Comment Lines: 3
-    '   Blank Lines: 6
-    '     File Size: 704 B
+    '   Total Lines: 40
+    '    Code Lines: 21
+    ' Comment Lines: 12
+    '   Blank Lines: 7
+    '     File Size: 1.28 KB
 
 
     '     Class LambdaExpression
@@ -52,26 +52,40 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
+
 Namespace MathML
 
     ''' <summary>
+    ''' A lambda expression that consist with the 
+    ''' <see cref="parameters"/> and <see cref="lambda"/>
+    ''' body.
     ''' 
+    ''' example as: ``f(x) = x ^ 2``
     ''' </summary>
     Public Class LambdaExpression
 
         Public Property parameters As String()
         Public Property lambda As MathExpression
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function ToString() As String
             Return $"function({parameters.JoinBy(", ")}) {{
     return {lambda};
 }}"
         End Function
 
+        ''' <summary>
+        ''' lambda expression parsed from the given xml text
+        ''' </summary>
+        ''' <param name="xmlText"></param>
+        ''' <returns></returns>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function FromMathML(xmlText As String) As LambdaExpression
             Return XmlParser.ParseXml(xmlText).ParseXml
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function FromMathML(xml As XmlElement) As LambdaExpression
             Return xml.ParseXml
         End Function

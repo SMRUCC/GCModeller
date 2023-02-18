@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3fe5a2ec4d4e77ef97a6a5a09b63dba0, sciBASIC#\Data_science\DataMining\DynamicProgramming\NeedlemanWunsch\GNW.vb"
+﻿#Region "Microsoft.VisualBasic::b8354bff7ce9943f95c5a0e038d9ad82, sciBASIC#\Data_science\DataMining\DynamicProgramming\NeedlemanWunsch\GNW.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 103
     ' Comment Lines: 66
     '   Blank Lines: 28
-    '     File Size: 8.39 KB
+    '     File Size: 8.24 KB
 
 
     '     Class NeedlemanWunsch
@@ -176,8 +176,8 @@ Namespace NeedlemanWunsch
             Dim seq2 As T() = Me.Sequence2
 
             ' Set up the score- and the traceback-matrix
-            matrix = MAT(Of Integer)(rows, columns)
-            tracebackMatrix = MAT(Of Integer)(rows, columns)
+            matrix = RectangularArray.Matrix(Of Integer)(rows, columns)
+            tracebackMatrix = RectangularArray.Matrix(Of Integer)(rows, columns)
 
             ' fill the first row and first column of matrix and tracebackMatrix
             For i As Integer = 0 To rows - 1

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::37bce7f261b597873b85b42512b405d5, sciBASIC#\Microsoft.VisualBasic.Core\src\Extensions\Math\Random\RandomExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::8d1b1bbe2fe22e965762bfdd046306b8, sciBASIC#\Microsoft.VisualBasic.Core\src\Extensions\Math\Random\RandomExtensions.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 314
-    '    Code Lines: 148
-    ' Comment Lines: 129
-    '   Blank Lines: 37
-    '     File Size: 12.37 KB
+    '   Total Lines: 346
+    '    Code Lines: 165
+    ' Comment Lines: 143
+    '   Blank Lines: 38
+    '     File Size: 13.26 KB
 
 
     '     Delegate Function
@@ -51,7 +51,7 @@
     ' 
     '         Properties: seeds
     ' 
-    '         Function: [Next], GetNextBetween, (+2 Overloads) GetRandomValue, (+2 Overloads) NextBoolean, (+4 Overloads) NextDouble
+    '         Function: (+2 Overloads) [Next], GetNextBetween, (+2 Overloads) GetRandomValue, (+2 Overloads) NextBoolean, (+4 Overloads) NextDouble
     '                   (+2 Overloads) NextGaussian, NextInteger, NextNumber, NextTriangular, Permutation
     '                   randf, RandomSingle, Seed
     ' 
@@ -95,8 +95,15 @@ Namespace Math
     Public Module RandomExtensions
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <DebuggerStepThrough>
         Public Function [Next](Of T)(array As T()) As T
             Return array(seeds.Next(0, array.Length))
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <DebuggerStepThrough>
+        Public Function [Next](upbound As Integer) As Integer
+            Return seeds.Next(upbound)
         End Function
 
         ''' <summary>
@@ -120,6 +127,7 @@ Namespace Math
         ''' <returns></returns>
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <DebuggerStepThrough>
         Public Function Seed() As Integer
             Return stdNum.Abs(CInt(stdNum.Log10(Rnd() * Now.ToBinary + 1) + 1) * (100 + 10000 * Rnd()))
         End Function
@@ -128,6 +136,9 @@ Namespace Math
         ''' re-initialize of the random <see cref="seeds"/> object
         ''' </summary>
         ''' <param name="seed"></param>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <DebuggerStepThrough>
         Public Sub SetSeed(seed As Integer)
             _seeds = New Random(seed)
         End Sub
@@ -140,6 +151,7 @@ Namespace Math
         ''' <returns></returns>
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <DebuggerStepThrough>
         Public Function randf(min As Double, max As Double) As Double
             Return seeds.NextDouble(min, max)
         End Function
@@ -158,10 +170,25 @@ Namespace Math
         Public ReadOnly Property seeds As New Random(Now.Millisecond * Now.Second + 1)
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <DebuggerStepThrough>
         Public Function RandomSingle() As Double
             Return seeds.NextDouble()
         End Function
 
+        ''' <summary>
+        ''' Returns a random floating-point number that is greater than or equal to 0.0,
+        ''' and less than 1.0.
+        ''' </summary>
+        ''' <returns>
+        ''' A double-precision floating point number that is greater than or equal to 0.0,
+        ''' and less than 1.0.
+        ''' </returns>
+        ''' <remarks>
+        ''' <see cref="System.Random.NextDouble()"/>
+        ''' </remarks>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <DebuggerStepThrough>
         Public Function NextDouble() As Double
             Return seeds.NextDouble
         End Function
@@ -177,18 +204,35 @@ Namespace Math
         ''' that is, the range of return values ordinarily includes 0 but not maxValue. However,
         ''' if maxValue equals 0, maxValue is returned.
         ''' </returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <DebuggerStepThrough>
         Public Function NextInteger(upper As Integer) As Integer
             SyncLock seeds
                 Return seeds.Next(upper)
             End SyncLock
         End Function
 
+        ''' <summary>
+        ''' Returns a random floating-point number that is greater than or equal to min of the range,
+        ''' and less than the max of the range.
+        ''' </summary>
+        ''' <param name="r"></param>
+        ''' <param name="min#"></param>
+        ''' <param name="max#"></param>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function GetNextBetween(r As Random, min#, max#) As Double
             Return (max - min) * r.NextDouble + min
         End Function
 
+        ''' <summary>
+        ''' Returns a random floating-point number that is greater than or equal to min of the range,
+        ''' and less than the max of the range.
+        ''' </summary>
+        ''' <param name="rng"></param>
+        ''' <returns></returns>
         <Extension>
         Public Function GetRandomValue(rng As DoubleRange) As Double
             SyncLock seeds
@@ -297,6 +341,8 @@ Namespace Math
             Return r.[Next](2) > 0 ' 1 > 0 OR 0 > 0
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <DebuggerStepThrough>
         Public Function NextBoolean() As Boolean
             Return seeds.[Next](2) > 0 ' 1 > 0 OR 0 > 0
         End Function

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8fba2651654a566bbbd177f52c4dfec2, sciBASIC#\Data_science\DataMining\DataMining\Evaluation\LabelEvaluate\RankPair.vb"
+﻿#Region "Microsoft.VisualBasic::9595bde639194e052d862dfe194e2033, sciBASIC#\Data_science\DataMining\DataMining\Evaluation\LabelEvaluate\RankPair.vb"
 
     ' Author:
     ' 
@@ -83,7 +83,7 @@ Namespace Evaluation
 #Region "IComparable<RankPair> Members"
 
         ''' <summary>
-        ''' Compares this pair to another.  It will end up in a sorted list in decending score order.
+        ''' Compares this pair to another.  It will end up in a sorted list in descending score order.
         ''' </summary>
         ''' <param name="other">The pair to compare to</param>
         ''' <returns>Whether this should come before or after the argument</returns>

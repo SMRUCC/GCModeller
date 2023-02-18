@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2b4a81e6ba7a1941a9f8044763d8e4a5, sciBASIC#\Data_science\MachineLearning\MachineLearning\SVM\Kernel\Kernel.vb"
+﻿#Region "Microsoft.VisualBasic::de4c720e9f789a03427e2d8fb5fb8683, sciBASIC#\Data_science\MachineLearning\MachineLearning\SVM\Kernel\Kernel.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 208
+    '   Total Lines: 209
     '    Code Lines: 178
     ' Comment Lines: 0
-    '   Blank Lines: 30
-    '     File Size: 7.07 KB
+    '   Blank Lines: 31
+    '     File Size: 7.06 KB
 
 
     '     Class Kernel
@@ -68,14 +68,15 @@ Namespace SVM
         Private _degree As Integer
         Private _gamma As Double
         Private _coef0 As Double
+
         Public MustOverride Function GetQ(column As Integer, len As Integer) As Single() Implements IQMatrix.GetQ
         Public MustOverride Function GetQD() As Double() Implements IQMatrix.GetQD
 
         Public Overridable Sub SwapIndex(i As Integer, j As Integer) Implements IQMatrix.SwapIndex
-            _x.SwapIndex(i, j)
+            _x.Swap(i, j)
 
             If _xSquare IsNot Nothing Then
-                _xSquare.SwapIndex(i, j)
+                _xSquare.Swap(i, j)
             End If
         End Sub
 

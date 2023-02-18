@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::55f8bc0aefaaa491af04a0a8f3595cb4, sciBASIC#\mime\application%vnd.openxmlformats-officedocument.spreadsheetml.sheet\Excel\My Project\Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::35599630eff601d0bedf5f433fb99266, sciBASIC#\mime\application%vnd.openxmlformats-officedocument.spreadsheetml.sheet\Excel\My Project\Resources.Designer.vb"
 
     ' Author:
     ' 
@@ -74,7 +74,7 @@ Namespace My.Resources
     '''<summary>
     '''  A strongly-typed resource class, for looking up localized strings, etc.
     '''</summary>
-    <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0"),  _
+    <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0"),  _
      Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
      Global.System.Runtime.CompilerServices.CompilerGeneratedAttribute(),  _
      Global.Microsoft.VisualBasic.HideModuleNameAttribute()>  _
@@ -117,9 +117,10 @@ Namespace My.Resources
         '''</summary>
         Friend ReadOnly Property _New() As Byte()
             Get
-                Dim obj As Object = ResourceManager.GetObject("_New", resourceCulture)
+                Dim obj As Object = ResourceManager.GetObject("New", resourceCulture)
                 Return CType(obj,Byte())
             End Get
         End Property
     End Module
 End Namespace
+

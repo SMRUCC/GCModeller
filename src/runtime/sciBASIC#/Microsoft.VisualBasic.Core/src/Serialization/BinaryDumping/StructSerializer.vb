@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::29053b400a3a14f972760567b564efce, sciBASIC#\Microsoft.VisualBasic.Core\src\Serialization\BinaryDumping\StructSerializer.vb"
+﻿#Region "Microsoft.VisualBasic::893a5c33e1b46ac7efb326b40986298e, sciBASIC#\Microsoft.VisualBasic.Core\src\Serialization\BinaryDumping\StructSerializer.vb"
 
     ' Author:
     ' 
@@ -34,22 +34,23 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 94
-    '    Code Lines: 32
-    ' Comment Lines: 56
-    '   Blank Lines: 6
-    '     File Size: 5.05 KB
+    '   Total Lines: 109
+    '    Code Lines: 39
+    ' Comment Lines: 63
+    '   Blank Lines: 7
+    '     File Size: 5.62 KB
 
 
     '     Module StructSerializer
     ' 
-    '         Function: ByteToStructure, StructureToByte
+    '         Function: ByteToStructure, StructureToByte, Write
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Runtime.InteropServices
 
@@ -106,6 +107,20 @@ Namespace Serialization.BinaryDumping
         '  at EasyDocument.Program.Main() 
 
         ' These two function will not works, prefer to the extensions in StructFormatter Module
+
+        ''' <summary>
+        ''' write any structure into file/stream
+        ''' </summary>
+        ''' <typeparam name="T"></typeparam>
+        ''' <param name="buffer"></param>
+        ''' <param name="obj"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function Write(Of T As Structure)(buffer As BinaryWriter, obj As T) As Integer
+            Dim bytes As Byte() = StructureToByte(obj)
+            Call buffer.Write(bytes, Scan0, bytes.Length)
+            Return bytes.Length
+        End Function
 
         ''' <summary>
         ''' 由结构体转换为byte数组(字符串类型以及Class类型都将会被序列化为内存指针，所以这个函数只适合于值类型的)

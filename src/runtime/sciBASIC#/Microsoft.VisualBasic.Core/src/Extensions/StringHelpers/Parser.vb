@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4af62fe352c359257b4f402e952e6296, sciBASIC#\Microsoft.VisualBasic.Core\src\Extensions\StringHelpers\Parser.vb"
+﻿#Region "Microsoft.VisualBasic::f3dd0616a44b1855534d15e5816cfbd9, sciBASIC#\Microsoft.VisualBasic.Core\src\Extensions\StringHelpers\Parser.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 359
-    '    Code Lines: 221
+    '   Total Lines: 364
+    '    Code Lines: 225
     ' Comment Lines: 94
-    '   Blank Lines: 44
-    '     File Size: 11.11 KB
+    '   Blank Lines: 45
+    '     File Size: 11.00 KB
 
 
     ' Module PrimitiveParser
@@ -106,7 +106,7 @@ Public Module PrimitiveParser
     End Function
 
     ''' <summary>
-    ''' 这个函数相较于<see cref="IsNumeric(String, Boolean)"/>，仅仅做简单的数值格式判断
+    ''' 这个函数相较于<see cref="PrimitiveParser.IsNumeric"/>，仅仅做简单的数值格式判断
     ''' </summary>
     ''' <returns></returns>
     ''' 
@@ -123,13 +123,18 @@ Public Module PrimitiveParser
     ''' 这个函数会判断科学计数法等格式
     ''' </remarks>
     <Extension>
-    Public Function IsNumeric(num As String, Optional includesNaNFactor As Boolean = False) As Boolean
+    Public Function IsNumeric(num As String,
+                              Optional includesNaNFactor As Boolean = False,
+                              Optional includesInteger As Boolean = False) As Boolean
+
         Dim dotCheck As Boolean = False
         Dim c As Char
         Dim offset As Integer = 0
 
         If String.IsNullOrEmpty(num) Then
             Return False
+        ElseIf includesInteger AndAlso num.IsInteger Then
+            Return True
         Else
             c = num(Scan0)
         End If

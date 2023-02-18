@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2f31b6ea8f28b5caae54474a0503a066, sciBASIC#\Microsoft.VisualBasic.Core\src\Extensions\Collection\Matrix.vb"
+﻿#Region "Microsoft.VisualBasic::5fe5cf94dad7ab2a4913d654e6e4210b, sciBASIC#\Microsoft.VisualBasic.Core\src\Extensions\Collection\Matrix.vb"
 
     ' Author:
     ' 
@@ -34,27 +34,24 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 271
-    '    Code Lines: 161
-    ' Comment Lines: 65
-    '   Blank Lines: 45
-    '     File Size: 9.67 KB
+    '   Total Lines: 251
+    '    Code Lines: 147
+    ' Comment Lines: 64
+    '   Blank Lines: 40
+    '     File Size: 9.09 KB
 
 
     '     Module MatrixExtensions
     ' 
     '         Function: DATA, DimensionSizeOf, GetCol, GetRow, GetSize
-    '                   MAT, (+2 Overloads) Matrix, Rectangle, RowIterator, SetCol
-    '                   SetRow, ToFloatMatrix, ToMatrix, ToVectorList
+    '                   (+2 Overloads) Matrix, Rectangle, RowIterator, SetCol, SetRow
+    '                   ToFloatMatrix, ToMatrix, ToVectorList
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-#If netcore5 = 1 Then
-Imports System.Data
-#End If
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
@@ -147,32 +144,15 @@ Namespace ComponentModel.Collection
         End Function
 
         ''' <summary>
-        ''' Create an empty matrix with m row and n cols.
-        ''' (生成一个有m行n列的矩阵，但是是使用数组来表示的)
+        ''' An extension method shortcut to the function <see cref="RectangularArray.Matrix"/>.
         ''' </summary>
-        ''' <typeparam name="T"></typeparam>
-        ''' <param name="m">m Rows</param>
-        ''' <param name="n">n Cols</param>
+        ''' <param name="type"></param>
+        ''' <param name="m%"></param>
+        ''' <param name="n%"></param>
         ''' <returns></returns>
-        Public Function MAT(Of T)(m%, n%) As T()()
-            Dim newMAT As T()() = New T(m - 1)() {}
-
-            For i As Integer = 0 To m - 1
-                newMAT(i) = New T(n - 1) {}
-            Next
-
-            Return newMAT
-        End Function
-
         <Extension>
         Public Function Rectangle(type As Type, m%, n%) As Array
-            Dim newMatrix As Array = Array.CreateInstance(type.MakeArrayType, m)
-
-            For i As Integer = 0 To m - 1
-                Call newMatrix.SetValue(Array.CreateInstance(type, n), i)
-            Next
-
-            Return newMatrix
+            Return RectangularArray.Matrix(type, m, n)
         End Function
 
         ''' <summary>

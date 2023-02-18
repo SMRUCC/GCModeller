@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::03d467e517d8dd2a322bcc7c11dee9cc, sciBASIC#\Microsoft.VisualBasic.Core\src\Extensions\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::6617b991a65b75308c236722fcb50603, sciBASIC#\Microsoft.VisualBasic.Core\src\Extensions\Extensions.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 791
     ' Comment Lines: 491
     '   Blank Lines: 132
-    '     File Size: 50.83 KB
+    '     File Size: 50.84 KB
 
 
     ' Module Extensions
@@ -48,11 +48,11 @@
     ' 
     '     Function: [Set], Add, (+4 Overloads) AddRange, AsRange, (+2 Overloads) Average
     '               CheckDuplicated, Constrain, DateToString, DriverRun, FuzzyMatching
-    '               IndexOf, InsertOrUpdate, Invoke, InvokeSet, Is_NA_UHandle
-    '               (+2 Overloads) IsNaNImaginary, (+2 Overloads) JoinBy, (+2 Overloads) LongSeq, MatrixToUltraLargeVector, MatrixTranspose
-    '               MatrixTransposeIgnoredDimensionAgreement, MD5, ModifyValue, (+2 Overloads) Offset, Range
-    '               Remove, RemoveDuplicates, RemoveFirst, (+2 Overloads) RemoveLast, RunDriver
-    '               Second, SeqRandom, (+3 Overloads) Sequence, (+2 Overloads) SetValue, (+11 Overloads) ShadowCopy
+    '               IndexOf, (+2 Overloads) InlineCopy, InsertOrUpdate, Invoke, InvokeSet
+    '               Is_NA_UHandle, (+2 Overloads) IsNaNImaginary, (+2 Overloads) JoinBy, (+2 Overloads) LongSeq, MatrixToUltraLargeVector
+    '               MatrixTranspose, MatrixTransposeIgnoredDimensionAgreement, MD5, ModifyValue, (+2 Overloads) Offset
+    '               Range, Remove, RemoveDuplicates, RemoveFirst, (+2 Overloads) RemoveLast
+    '               RunDriver, Second, SeqRandom, (+3 Overloads) Sequence, (+11 Overloads) ShadowCopy
     '               Shell, Shuffles, Slice, (+2 Overloads) SplitMV, ToArray
     '               ToBoolean, ToDictionary, ToNormalizedPathString, ToString, ToStringArray
     '               ToVector, (+3 Overloads) TrimNull, TryCount, Unlist, WriteAddress
@@ -544,14 +544,14 @@ Public Module Extensions
     ''' <remarks></remarks>
     ''' 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    <Extension> Public Function SetValue(Of T)(ByRef var As T, value As T) As T
+    <Extension> Public Function InlineCopy(Of T)(ByRef var As T, value As T) As T
         var = value
         Return value
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
-    Public Function SetValue(Of T)(ByRef var As T, value As Func(Of T, T)) As T
+    Public Function InlineCopy(Of T)(ByRef var As T, value As Func(Of T, T)) As T
         var = value(arg:=var)
         Return var
     End Function

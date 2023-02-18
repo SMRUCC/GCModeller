@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9ec095615af5f3cffcafd746f3a97767, sciBASIC#\Data_science\Mathematica\Math\Math\Scripting\Expression\ExpressionEngine.vb"
+﻿#Region "Microsoft.VisualBasic::6c0ebab13b66be5cb391d297588da2d6, sciBASIC#\Data_science\Mathematica\Math\Math\Scripting\Expression\ExpressionEngine.vb"
 
     ' Author:
     ' 
@@ -34,22 +34,24 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 116
-    '    Code Lines: 89
+    '   Total Lines: 128
+    '    Code Lines: 100
     ' Comment Lines: 9
-    '   Blank Lines: 18
-    '     File Size: 5.03 KB
+    '   Blank Lines: 19
+    '     File Size: 5.67 KB
 
 
     '     Class ExpressionEngine
     ' 
-    '         Function: AddFunction, (+2 Overloads) Evaluate, GetFunction, GetSymbolValue, (+2 Overloads) SetSymbol
+    '         Function: AddFunction, (+2 Overloads) Evaluate, GetFunction, GetSymbolValue, Parse
+    '                   (+2 Overloads) SetSymbol
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Scripting.MathExpression.Impl
 Imports stdNum = System.Math
@@ -69,7 +71,7 @@ Namespace Scripting.MathExpression
         ''' </summary>
         ''' <remarks></remarks>
         ReadOnly functions As New Dictionary(Of String, Func(Of Double(), Double)) From {
- _
+                                                                                         _
             {"abs", Function(args) stdNum.Abs(args(Scan0))},
             {"acos", Function(args) stdNum.Acos(args(Scan0))},
             {"asin", Function(args) stdNum.Asin(args(Scan0))},
@@ -135,10 +137,12 @@ Namespace Scripting.MathExpression
             Return Me
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetSymbolValue(name As String) As Double
             Return symbols(name)
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetFunction(name As String) As Func(Of Double(), Double)
             Return functions(name)
         End Function
@@ -153,6 +157,7 @@ Namespace Scripting.MathExpression
             Return Me
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Evaluate(expression As Expression) As Double
             Return expression.Evaluate(env:=Me)
         End Function
@@ -163,6 +168,14 @@ Namespace Scripting.MathExpression
             Dim result As Double = exp.Evaluate(Me)
 
             Return result
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function Parse(expression As String) As Expression
+            Return New ExpressionTokenIcer(expression) _
+                .GetTokens _
+                .ToArray _
+                .DoCall(AddressOf BuildExpression)
         End Function
     End Class
 End Namespace

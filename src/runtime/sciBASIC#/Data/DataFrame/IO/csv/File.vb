@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::af17144d315a49bd331a575e6da55419, sciBASIC#\Data\DataFrame\IO\csv\File.vb"
+﻿#Region "Microsoft.VisualBasic::b661d95955291c067cee2486486ddde8, sciBASIC#\Data\DataFrame\IO\csv\File.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 954
-    '    Code Lines: 574
-    ' Comment Lines: 256
-    '   Blank Lines: 124
-    '     File Size: 38.30 KB
+    '   Total Lines: 960
+    '    Code Lines: 577
+    ' Comment Lines: 258
+    '   Blank Lines: 125
+    '     File Size: 37.60 KB
 
 
     '     Class File
@@ -781,10 +781,14 @@ B21,B22,B23,...
             Return result
         End Function
 
-        Protected Shared Function loads(file As Stream, encoding As Encoding, trimBlanks As Boolean, skipWhile As NamedValue(Of Func(Of String, Boolean))) As List(Of RowObject)
+        Protected Shared Function loads(file As Stream, encoding As Encoding,
+                                        trimBlanks As Boolean,
+                                        skipWhile As NamedValue(Of Func(Of String, Boolean)),
+                                        isTsv As Boolean) As List(Of RowObject)
+
             Using reader As New StreamReader(file, encoding)
                 Dim allLines As String() = reader.IteratesStream.ToArray
-                Dim data = FileLoader.Load(allLines, trimBlanks, skipWhile)
+                Dim data = FileLoader.Load(allLines, trimBlanks, skipWhile, isTsv)
 
                 Return data
             End Using

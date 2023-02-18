@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::76bfe7b27af8509f2a092e4c00766691, sciBASIC#\Microsoft.VisualBasic.Core\src\ApplicationServices\Terminal\Utility\UnixMan\UnixManPage.vb"
+﻿#Region "Microsoft.VisualBasic::0adad75b7efa70e95bbb85d67786cb8c, sciBASIC#\Microsoft.VisualBasic.Core\src\ApplicationServices\Terminal\Utility\UnixMan\UnixManPage.vb"
 
     ' Author:
     ' 
@@ -34,9 +34,9 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 160
+    '   Total Lines: 163
     '    Code Lines: 98
-    ' Comment Lines: 43
+    ' Comment Lines: 46
     '   Blank Lines: 19
     '     File Size: 6.08 KB
 
@@ -67,6 +67,9 @@ Imports Microsoft.VisualBasic.Linq
 
 Namespace ApplicationServices.Terminal.Utility
 
+    ''' <summary>
+    ''' the document index
+    ''' </summary>
     Public Class Index
 
         Public Property index As String
@@ -76,7 +79,7 @@ Namespace ApplicationServices.Terminal.Utility
         Public Property title As String
 
         Public Overrides Function ToString() As String
-            Return $".TH {Strings.UCase(index)} {category} {[date].Year}-{[date].Month.ToString.PadLeft(2, "0"c)}-{[date].Day.ToString.PadLeft(2, "0")} ""{keyword}"" ""{title}"""
+            Return $".TH {Strings.UCase(index)} {category} {[date].ToString("yyyy-MMM")} ""{keyword}"" ""{title}"""
         End Function
 
     End Class

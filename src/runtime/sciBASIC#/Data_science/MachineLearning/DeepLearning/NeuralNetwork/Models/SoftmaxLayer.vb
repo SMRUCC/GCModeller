@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::572c8d6f27f591132930c7e4ff2a6807, sciBASIC#\Data_science\MachineLearning\DeepLearning\NeuralNetwork\Models\SoftmaxLayer.vb"
+﻿#Region "Microsoft.VisualBasic::8e9f8850ac6b59d1ddaf06444a16310a, sciBASIC#\Data_science\MachineLearning\DeepLearning\NeuralNetwork\Models\SoftmaxLayer.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 60
-    '    Code Lines: 39
-    ' Comment Lines: 10
-    '   Blank Lines: 11
-    '     File Size: 2.21 KB
+    '   Total Lines: 68
+    '    Code Lines: 44
+    ' Comment Lines: 11
+    '   Blank Lines: 13
+    '     File Size: 2.45 KB
 
 
     '     Class SoftmaxLayer
@@ -106,8 +106,16 @@ Namespace NeuralNetwork
 
         Public Shared Function Softmax(V As Double()) As Double()
             Dim EVj As Double = Aggregate Vj As Double In V Into Sum(stdNum.Exp(Vj))
+
+            If EVj.IsNaNImaginary Then
+                ' x / inf = 0
+                Return New Double(V.Length - 1) {}
+            End If
+
             Dim smax As Double() = V _
-                .Select(Function(Vi) stdNum.Exp(Vi) / EVj) _
+                .Select(Function(Vi)
+                            Return If(Vi.IsNaNImaginary, 0, stdNum.Exp(Vi) / EVj)
+                        End Function) _
                 .ToArray
 
             Return smax

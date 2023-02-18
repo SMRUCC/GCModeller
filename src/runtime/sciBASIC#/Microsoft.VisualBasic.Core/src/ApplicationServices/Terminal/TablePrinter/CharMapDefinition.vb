@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3d5a2f5af4447a2a3673b21a39b43899, sciBASIC#\Microsoft.VisualBasic.Core\src\ApplicationServices\Terminal\TablePrinter\CharMapDefinition.vb"
+﻿#Region "Microsoft.VisualBasic::6734a8870378a74e0658638690091cb8, sciBASIC#\Microsoft.VisualBasic.Core\src\ApplicationServices\Terminal\TablePrinter\CharMapDefinition.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 39
     ' Comment Lines: 0
     '   Blank Lines: 1
-    '     File Size: 2.05 KB
+    '     File Size: 1.97 KB
 
 
     '     Class CharMapDefinition
@@ -54,7 +54,7 @@ Imports Microsoft.VisualBasic.ApplicationServices.Terminal.TablePrinter.Flags
 
 Namespace ApplicationServices.Terminal.TablePrinter
     Public Class CharMapDefinition
-        Public Shared FramePipDefinition As Dictionary(Of CharMapPositions, Char) = New Dictionary(Of CharMapPositions, Char) From {
+        Public Shared FramePipDefinition As New Dictionary(Of CharMapPositions, Char) From {
             {CharMapPositions.TopLeft, "┌"c},
             {CharMapPositions.TopCenter, "┬"c},
             {CharMapPositions.TopRight, "┐"c},
@@ -71,7 +71,7 @@ Namespace ApplicationServices.Terminal.TablePrinter
             {CharMapPositions.DividerY, "│"c},
             {CharMapPositions.DividerX, "─"c}
         }
-        Public Shared FrameDoublePipDefinition As Dictionary(Of CharMapPositions, Char) = New Dictionary(Of CharMapPositions, Char) From {
+        Public Shared FrameDoublePipDefinition As New Dictionary(Of CharMapPositions, Char) From {
             {CharMapPositions.TopLeft, "╔"c},
             {CharMapPositions.TopCenter, "╤"c},
             {CharMapPositions.TopRight, "╗"c},

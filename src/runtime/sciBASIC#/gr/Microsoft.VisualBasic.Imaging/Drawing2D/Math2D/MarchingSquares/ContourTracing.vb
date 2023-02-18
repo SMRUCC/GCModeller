@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4075835f42422db82e9c6b48a26f0b9e, sciBASIC#\gr\Microsoft.VisualBasic.Imaging\Drawing2D\Math2D\MarchingSquares\ContourTracing.vb"
+﻿#Region "Microsoft.VisualBasic::eb1d3dee7c18f18d93d183568639bf29, sciBASIC#\gr\Microsoft.VisualBasic.Imaging\Drawing2D\Math2D\MarchingSquares\ContourTracing.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 198
     ' Comment Lines: 120
     '   Blank Lines: 43
-    '     File Size: 14.62 KB
+    '     File Size: 14.28 KB
 
 
     '     Module ContourTracing
@@ -209,7 +209,7 @@ Namespace Drawing2D.Math2D.MarchingSquares
             Dim rows = bits.Length
             Dim cols = bits(Scan0).Length
             ' Add a border of 1 bit to prevent out-of-bounds error
-            Dim contours = MAT(Of Integer)(rows + 2, cols + 2)
+            Dim contours = RectangularArray.Matrix(Of Integer)(rows + 2, cols + 2)
 
             For r As Integer = 0 To rows - 1
                 For c As Integer = 0 To cols - 1
