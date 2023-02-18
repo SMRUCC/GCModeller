@@ -87,12 +87,17 @@ Module Program
                     End Function).ToArray
         Dim scores = GSVA.gsva(expr, New Background With {.clusters = geneset})
 
-
         Pause()
     End Sub
 
     Private Function createGene(name As String) As BackgroundGene
-        Return New BackgroundGene With {.accessionID = name, .name = name, .[alias] = {name}, .locus_tag = New NamedValue With {.name = name, .text = name}, .term_id = {name}}
+        Return New BackgroundGene With {
+            .accessionID = name,
+            .name = name,
+            .[alias] = {name},
+            .locus_tag = New NamedValue With {.name = name, .text = name},
+            .term_id = BackgroundGene.UnknownTerms(name)
+        }
     End Function
 End Module
 
