@@ -127,7 +127,7 @@ Public Module LabelFreeTtest
 
             Yield New DEP_iTraq With {
                 .ID = protein.ID,
-                .FCavg = foldChange,
+                .foldchange = foldChange,
                 .log2FC = log2FC,
                 .pvalue = tResult.Pvalue,
                 .Properties = protein _
@@ -152,7 +152,7 @@ Public Module LabelFreeTtest
         For i As Integer = 0 To proteins.Length - 1
             Yield New DEP_iTraq With {
                 .ID = proteins(i).ID,
-                .FCavg = foldChanges(i),
+                .foldchange = foldChanges(i),
                 .log2FC = log2FC(i),
                 .pvalue = pvalue(i),
                 .Properties = proteins(i) _

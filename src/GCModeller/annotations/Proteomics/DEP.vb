@@ -67,7 +67,7 @@ Public Class DEP_iTraq : Inherits EntityObject
 
     Public Overrides Property ID As String Implements IDeg.label
 
-    <Column("FC.avg")> Public Property FCavg As Double
+    <Column("FC.avg")> Public Property foldchange As Double
     <Column("p.value")> Public Property pvalue As Double Implements IDeg.pvalue
     <Column("is.DEP")> Public Property isDEP As Boolean
     <Column("log2FC")> Public Property log2FC As Double Implements IDeg.log2FC

@@ -82,7 +82,7 @@ Public Module AnalysisCommon
             If a.All(Function(x) x = 0.0) AndAlso b.All(Function(x) x = 0.0) Then
                 result += New DEP_iTraq With {
                     .ID = data(i).geneID,
-                    .FCavg = 1,
+                    .foldchange = 1,
                     .log2FC = 0,
                     .pvalue = 1,
                     .Properties = data(i).ToDataSet(labels).AsCharacter
@@ -90,8 +90,8 @@ Public Module AnalysisCommon
             Else
                 result += New DEP_iTraq With {
                     .ID = data(i).geneID,
-                    .FCavg = a.Average / b.Average,
-                    .log2FC = Math.Log(.FCavg, 2),
+                    .foldchange = a.Average / b.Average,
+                    .log2FC = Math.Log(.foldchange, 2),
                     .pvalue = t.Test(treatmentData(i).experiments, controlData(i).experiments).Pvalue,
                     .Properties = data(i).ToDataSet(labels).AsCharacter
                 }

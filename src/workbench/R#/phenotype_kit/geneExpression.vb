@@ -136,7 +136,7 @@ Module geneExpression
             .columns = New Dictionary(Of String, Array)
         }
 
-        table.columns("FC.avg") = dep.Select(Function(p) p.FCavg).ToArray
+        table.columns("FC.avg") = dep.Select(Function(p) p.foldchange).ToArray
         table.columns(NameOf(DEP_iTraq.log2FC)) = dep.Select(Function(p) p.log2FC).ToArray
         table.columns("p.value") = dep.Select(Function(p) p.pvalue).ToArray
         table.columns(NameOf(DEP_iTraq.FDR)) = dep.Select(Function(p) p.FDR).ToArray
