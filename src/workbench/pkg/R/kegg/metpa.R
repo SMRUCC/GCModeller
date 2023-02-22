@@ -11,7 +11,20 @@ const metpa_background = function(metpa) {
 #' Create metpa background model from the .NET CLR object
 #' 
 const .cast_CLR_metpa = function(metpa) {
-    
+    {
+        # summary information
+        uniq.count: [metpa]::unique_count,
+
+        # pathway network information
+        path.ids: .write_pathIds([metpa]::pathIds),        
+        path.smps: .write_pathSmps([metpa]::pathSmps),
+        graph.list: .write_graphList([metpa]::graphList),
+
+        # molecules cluster information
+        mset.list: .write_msetList([metpa]::msetList),
+        rbc.list: .write_rbcList([metpa]::rbcList),        
+        dgr.list: .write_dgrlist([metpa]::dgrList)        
+    };
 }
 
 const .write_dgr = function(dgr) {
