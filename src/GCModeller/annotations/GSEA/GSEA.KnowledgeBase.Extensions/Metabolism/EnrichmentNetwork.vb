@@ -129,7 +129,7 @@ Namespace Metabolism
             Dim graphs As NamedValue(Of NetworkGraph)() = models _
                 .Populate(Not VBDebugger.debugMode) _
                 .Select(Function(model)
-                            Return model.createPathwayNetworkGraph(keggId, multipleOmics, reactions)
+                            Return model.PathwayNetworkGraph(keggId, multipleOmics, reactions)
                         End Function) _
                 .ToArray
 
@@ -194,7 +194,7 @@ Namespace Metabolism
         End Function
 
         <Extension>
-        Private Function createPathwayNetworkGraph(model As Pathway,
+        Private Function PathwayNetworkGraph(model As Pathway,
                                                    keggId$, multipleOmics As Boolean,
                                                    reactions As Dictionary(Of String, ReactionTable())) As NamedValue(Of NetworkGraph)
 
