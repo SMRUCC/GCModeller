@@ -4,7 +4,7 @@
 
 + [write.msgpack](repository/write.msgpack.1) a generic method for write kegg data stream as messagepack
 + [load.compounds](repository/load.compounds.1) load repository of kegg @``T:SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Compound``.
-+ [load.reactions](repository/load.reactions.1) load reaction data from the given kegg reaction data repository
++ [load.reactions](repository/load.reactions.1) ### load kegg reaction data repository
 + [load.maps](repository/load.maps.1) load list of kegg reference @``T:SMRUCC.genomics.Assembly.KEGG.WebServices.Map``.
 + [load.pathways](repository/load.pathways.1) load kegg pathway maps from a given repository data directory.
 + [reactions.table](repository/reactions.table.1) load kegg reaction table from a given repository model or resource file on your filesystem.
