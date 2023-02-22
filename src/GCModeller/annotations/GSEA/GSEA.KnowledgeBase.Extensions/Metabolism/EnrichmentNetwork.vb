@@ -142,6 +142,7 @@ Namespace Metabolism
             Dim rbc As New rbcList With {.list = rbcList.calcRbc(graphs, multipleOmics)}
             Dim dgr As New dgrList With {.pathways = dgrList.calcDgr(graphs, multipleOmics)}
             Dim graphSet = graphs _
+                .Where(Function(g) g.Value.graphEdges.Any) _
                 .ToDictionary(Function(map) map.Name,
                               Function(map)
                                   Return graph.Create(map.Value, map.Name)
