@@ -49,15 +49,11 @@
 
 #End Region
 
-Imports System.ComponentModel
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.CommandLine
-Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis
-Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
@@ -164,15 +160,12 @@ Namespace Metabolism
         ''' <param name="classList"></param>
         ''' <param name="out"></param>
         ''' <returns></returns>
-        Public Function CreateGSEASet(ptf As String, compoundList As String, reactionList As String, maps As String, classList As String, out As String) As Integer
-            Dim proteins = PtfFile.Load(ptf)
-            Call proteins.ToString.__DEBUG_ECHO
+        Public Function CreateGSEASet(proteins As PtfFile,
+                                      compounds As Dictionary(Of String, String),
+                                      reactions As Dictionary(Of String, ReactionTable()),
+                                      maps As String,
+                                      classTable As Dictionary(Of String, ReactionClassTable())) As (Metpa.metpa, DataSet())
             Dim keggId As String = proteins.AsEnumerable.Where(Function(a) a.attributes.ContainsKey("kegg")).First!kegg.Split(":"c).First
-            Dim classTable As Dictionary(Of String, ReactionClassTable()) = classList _
-                .LoadCsv(Of ReactionClassTable) _
-                .DoCall(AddressOf ReactionClassTable.ReactionIndex)
-            Dim compounds As Dictionary(Of String, String) = compoundList.LoadJSON(Of Dictionary(Of String, String))
-            Dim reactions = ReactionTable.Load(reactionList).CreateIndex
             Dim models As Pathway() = MapRepository _
                 .GetMapsAuto(maps) _
                 .KEGGReconstruction(proteins.AsEnumerable, 0) _
@@ -188,16 +181,14 @@ Namespace Metabolism
                                        Return a.compound.Length
                                    End Function) _
                 .ToArray
-
-            Call models _
+            Dim ranks = models _
                 .EvaluateCompoundUniqueRank _
                 .Transpose _
-                .ToArray _
-                .SaveTo($"{out.TrimSuffix}.compound_unique.csv", metaBlank:="0")
+                .ToArray
 
             models = models.UniquePathwayCompounds.ToArray
 
-            Return models.buildModels(keggId, reactions).GetJson.SaveTo(out)
+            Return (models.buildModels(keggId, reactions), ranks)
         End Function
 
         <Extension>
