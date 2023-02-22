@@ -184,7 +184,10 @@ Namespace ReactionNetwork
         ''' <summary>
         ''' 利用代谢反应的摘要数据构建出代谢物的互作网络
         ''' </summary>
-        ''' <param name="br08901">代谢反应数据</param>
+        ''' <param name="br08901">Metabolic links which is represented via the kegg 
+        ''' reaction model data. A metabolic network will be build based on this 
+        ''' reaction data.
+        ''' (代谢反应数据)</param>
         ''' <param name="compounds">KEGG化合物编号，``{kegg_id => compound name}``</param>
         ''' <param name="extended">是否对结果进行进一步的拓展，以获取得到一个连通性更加多的大网络？默认不进行拓展</param>
         ''' <param name="enzymes">
@@ -194,7 +197,9 @@ Namespace ReactionNetwork
         ''' 是否只使用酶促反应进行网络的构建
         ''' </param>
         ''' <param name="filterByEnzymes">
-        ''' 是否只使用<paramref name="enzymes"/>的KO编号相关的反应来构建代谢网络
+        ''' Just re-construct a kegg metabolic network which its all reaction 
+        ''' is related with the input <paramref name="enzymes"/> list?
+        ''' (是否只使用<paramref name="enzymes"/>的KO编号相关的反应来构建代谢网络)
         ''' </param>
         ''' <returns></returns>
         <Extension>
@@ -211,6 +216,9 @@ Namespace ReactionNetwork
             Dim source As ReactionTable()
 
             If filterByEnzymes Then
+                ' required of filter by enzymes
+                ' but the given enzyme set is empty
+                ' so no network could be re-constructed!
                 If enzymes.Count = 0 Then
                     Return Nothing
                 Else
@@ -223,6 +231,12 @@ Namespace ReactionNetwork
             Else
                 source = br08901.ToArray
             End If
+
+            ' do reaction links uniques
+            source = source _
+                .GroupBy(Function(r) r.entry) _
+                .Select(Function(r) r.First) _
+                .ToArray
 
             Dim builderSession As New ReactionNetworkBuilder(
                 br08901:=source,
@@ -242,10 +256,12 @@ Namespace ReactionNetwork
         End Function
 
         ''' <summary>
-        ''' 
+        ''' Pull out all of the pathway related reactions data
         ''' </summary>
         ''' <param name="pathway"></param>
-        ''' <param name="reactions"></param>
+        ''' <param name="reactions">
+        ''' A repository for the kegg reaction data models
+        ''' </param>
         ''' <returns></returns>
         ''' <remarks>
         ''' we are not going to add the non-enzymics reaction into each pathway map

@@ -180,12 +180,19 @@ Namespace Metabolism
             Dim allCompoundNames = model.compound _
                 .Select(Function(a) New NamedValue(Of String)(a.name, a.text)) _
                 .ToArray
+            Dim enzymes = model.genes _
+                .Where(Function(gene) Not (gene.KO.StringEmpty OrElse gene.geneId.StringEmpty)) _
+                .GroupBy(Function(gene) gene.KO) _
+                .ToDictionary(Function(enzyme) enzyme.Key,
+                              Function(enzyme)
+                                  Return enzyme.Select(Function(gene) gene.geneId).ToArray
+                              End Function)
             Dim g As NetworkGraph = model _
                 .GetReactions(reactions, non_enzymatic:=True) _
                 .BuildModel(
                     compounds:=allCompoundNames,
                     extended:=False,
-                    enzymes:=Nothing,
+                    enzymes:=enzymes,
                     enzymaticRelated:=False,
                     filterByEnzymes:=False,
                     ignoresCommonList:=False,
