@@ -61,6 +61,8 @@ Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.Analysis.HTS.GSEA.KnowledgeBase.Metabolism.Metpa
 Imports SMRUCC.genomics.Analysis.KEGG
 Imports SMRUCC.genomics.Annotation.Ptf
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
@@ -82,17 +84,10 @@ Namespace Metabolism
         ''' <summary>
         ''' 直接基于已有的物种KEGG数据信息进行富集计算数据集的创建
         ''' </summary>
-        ''' <param name="args"></param>
         ''' <returns></returns>
-        <ExportAPI("/kegg_models")>
-        <Usage("/kegg_models /maps <repository_directory> /reactions <br08201.csv> [/ko_ref /out <gsea.rda>]")>
-        Public Function KEGGModels(args As CommandLine) As Integer
-            Dim in$ = args <= "/maps"
-            Dim isKo_ref As Boolean = args("/ko_ref")
-            Dim out$ = args("/out") Or $"{If(isKo_ref, [in].ParentPath & "/ko", [in].TrimDIR)}.rda"
+        Public Function KEGGModels(in$, isKo_ref As Boolean, out As String, reactionList As String, orgName As String) As Integer
             Dim models As Pathway()
-            Dim reactions As Dictionary(Of String, ReactionTable()) = ReactionTable.Load(args <= "/reactions").CreateIndex
-            Dim orgName As String = $"{[in]}/index.txt".ReadFirstLine
+            Dim reactions As Dictionary(Of String, ReactionTable()) = ReactionTable.Load(reactionList).CreateIndex
 
             If isKo_ref Then
                 models = (ls - l - r - "*.xml" <= [in]).Select(Function(file) file.LoadXml(Of PathwayMap).ToPathway).ToArray
@@ -106,11 +101,11 @@ Namespace Metabolism
                 Next
             End If
 
-            Return models.buildModels(If(isKo_ref, "map", ""), reactions).save(out).CLICode
+            Return models.buildModels(If(isKo_ref, "map", ""), reactions).GetJson.SaveTo(out)
         End Function
 
         <Extension>
-        Private Function buildModels(models As Pathway(), keggId As String, reactions As Dictionary(Of String, ReactionTable())) As metpa
+        Private Function buildModels(models As Pathway(), keggId As String, reactions As Dictionary(Of String, ReactionTable())) As Metpa.metpa
             Dim pathIds As New pathIds With {
                 .ids = models.Select(Function(m) If(keggId.StringEmpty, m.EntryId, keggId & m.briteID)).ToArray,
                 .pathwayNames = models.Select(Function(m) m.name.Replace(" - Reference pathway", "")).ToArray
@@ -123,16 +118,14 @@ Namespace Metabolism
 
             Dim msetList As New msetList With {
                 .list = models _
-                     .Select(Function(a)
-                                 Dim nameId As String = If(keggId.StringEmpty, a.EntryId, keggId & a.briteID)
-                                 Dim mset As New mset With {
+                     .ToDictionary(Function(a) If(keggId.StringEmpty, a.EntryId, keggId & a.briteID), Function(a)
+                                                                                                          Dim mset As New mset With {
                                     .kegg_id = a.compound.Select(Function(c) c.name).ToArray,
                                     .metaboliteNames = a.compound.Select(Function(c) c.text).ToArray
                                  }
 
-                                 Return New NamedValue(Of mset)(nameId, mset)
-                             End Function) _
-                     .ToArray
+                                                                                                          Return mset
+                                                                                                      End Function)
             }
 
             VBDebugger.Mute = True
@@ -148,35 +141,40 @@ Namespace Metabolism
                 graphs = graphs.OrderBy(Function(g) .IndexOf(g.Name)).ToArray
             End With
 
-            Dim rbc As New rbcList With {.list = graphs.Select(AddressOf calcRbc).ToArray}
-            Dim dgr As New dgrList With {.pathways = graphs.Select(AddressOf calcDgr).ToArray}
+            Dim rbc As New rbcList With {.list = graphs.Select(AddressOf rbcList.calcRbc).ToDictionary(Function(map) map.Name, Function(map) map.Value)}
+            Dim dgr As New dgrList With {.pathways = graphs.Select(AddressOf dgrList.calcDgr).ToDictionary(Function(map) map.Name, Function(map) map.Value)}
 
-            Return New metpa() _
-                .write(pathIds) _
-                .write(uniqueCompounds) _
-                .write(msetList) _
-                .write(rbc) _
-                .write(dgr)
+            Return New Metpa.metpa() With {
+                .dgrList = dgr,
+                .rbcList = rbc,
+                .graphList = New graphList With {.graphs = graphs.ToDictionary(Function(map) map.Name, Function(map) New graph(map.Value))},
+                .msetList = msetList,
+                .pathIds = pathIds,
+                .unique_count = uniqueCompounds
+            }
         End Function
 
-        <ExportAPI("/gsea_set")>
-        <Usage("/gsea_set /ptf <taxonomy.ptf> /maps <br08901_pathwayMaps> /reactions <br08201.csv> /compounds <compoundNames.json> [/class <reactionclasstable.csv> /out <gsea.rda>]")>
-        <Description("reconstruct of the kegg pathway and then create gsea background dataset for biodeep package.")>
-        Public Function CreateGSEASet(args As CommandLine) As Integer
-            Dim ptf As String = args <= "/ptf"
+        ''' <summary>
+        ''' reconstruct of the kegg pathway and then create gsea background dataset for biodeep package.
+        ''' </summary>
+        ''' <param name="ptf"></param>
+        ''' <param name="compoundList"></param>
+        ''' <param name="reactionList"></param>
+        ''' <param name="maps"></param>
+        ''' <param name="classList"></param>
+        ''' <param name="out"></param>
+        ''' <returns></returns>
+        Public Function CreateGSEASet(ptf As String, compoundList As String, reactionList As String, maps As String, classList As String, out As String) As Integer
             Dim proteins = PtfFile.Load(ptf)
-
             Call proteins.ToString.__DEBUG_ECHO
-
             Dim keggId As String = proteins.AsEnumerable.Where(Function(a) a.attributes.ContainsKey("kegg")).First!kegg.Split(":"c).First
-            Dim out$ = args("/out") Or $"{ptf.ParentPath}/{keggId}.rda"
-            Dim classTable As Dictionary(Of String, ReactionClassTable()) = args("/class") _
+            Dim classTable As Dictionary(Of String, ReactionClassTable()) = classList _
                 .LoadCsv(Of ReactionClassTable) _
                 .DoCall(AddressOf ReactionClassTable.ReactionIndex)
-            Dim compounds As Dictionary(Of String, String) = args("/compounds").LoadJson(Of Dictionary(Of String, String))
-            Dim reactions = ReactionTable.Load(args <= "/reactions").CreateIndex
+            Dim compounds As Dictionary(Of String, String) = compoundList.LoadJSON(Of Dictionary(Of String, String))
+            Dim reactions = ReactionTable.Load(reactionList).CreateIndex
             Dim models As Pathway() = MapRepository _
-                .GetMapsAuto(args <= "/maps") _
+                .GetMapsAuto(maps) _
                 .KEGGReconstruction(proteins.AsEnumerable, 0) _
                 .Select(Function(pathway)
                             Return pathway.AssignCompounds(
@@ -199,7 +197,7 @@ Namespace Metabolism
 
             models = models.UniquePathwayCompounds.ToArray
 
-            Return models.buildModels(keggId, reactions).save(out).CLICode
+            Return models.buildModels(keggId, reactions).GetJson.SaveTo(out)
         End Function
 
         <Extension>

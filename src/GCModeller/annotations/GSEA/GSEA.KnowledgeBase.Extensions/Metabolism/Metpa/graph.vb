@@ -6,6 +6,13 @@ Namespace Metabolism.Metpa
 
         Public Property g As NetworkGraph
 
+        Sub New()
+        End Sub
+
+        Sub New(g As NetworkGraph)
+            Me.g = g
+        End Sub
+
     End Class
 
     Public Class graphList
