@@ -64,3 +64,22 @@ const .write_pathIds = function(pathIds) {
 
     vec;
 }
+
+const .write_rbc = function(rbc) {
+    const vec = [rbc]::data;
+
+    if (!is.null(vec)) {
+        names(vec) = [rbc]::kegg_id;
+    }
+
+    vec;
+}
+
+const .write_rbcList = function(rbcList) {
+    const rbclist = lapply([rbcList]::list, map -> .write_rbc(rbc = map));
+
+    print("view of the pathway network relative betweeness data:");
+    str(rbclist);
+
+    rbclist;
+}
