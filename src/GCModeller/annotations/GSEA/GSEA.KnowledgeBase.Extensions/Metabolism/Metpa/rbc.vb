@@ -1,6 +1,7 @@
 ﻿Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
+Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports SMRUCC.genomics.Model.Network.KEGG.ReactionNetwork
 
 Namespace Metabolism.Metpa
@@ -37,14 +38,14 @@ Namespace Metabolism.Metpa
                        End Function) _
                 .ToArray
             Dim cid = vlist.Select(Function(c) c.label).ToArray
-            Dim rbcVal As Double() = vlist _
+            Dim rbcVal As Vector = vlist _
                 .Select(Function(c)
                             Return c.data(NamesOf.REFLECTION_ID_MAPPING_RELATIVE_BETWEENESS_CENTRALITY)
                         End Function) _
                 .Select(AddressOf Val) _
                 .ToArray
             Dim rbc As New rbc With {
-                .data = rbcVal,
+                .data = rbcVal / rbcVal.Sum,
                 .kegg_id = cid,
                 .network_id = a.Name
             }
