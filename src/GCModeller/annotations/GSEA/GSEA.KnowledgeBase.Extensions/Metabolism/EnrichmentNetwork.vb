@@ -92,7 +92,14 @@ Namespace Metabolism
                 Next
             End If
 
-            Return models.buildModels(If(isKo_ref, "map", ""), multipleOmics, reactions)
+            Dim tcode As String = models _
+                .Select(Function(pwy) pwy.EntryId.Match("[a-z]+")) _
+                .GroupBy(Function(tag) tag) _
+                .OrderByDescending(Function(tag) tag.Count) _
+                .First _
+                .Key
+
+            Return models.buildModels(If(isKo_ref, "map", tcode), multipleOmics, reactions)
         End Function
 
         <Extension>
@@ -130,8 +137,8 @@ Namespace Metabolism
                 graphs = graphs.OrderBy(Function(g) .IndexOf(g.Name)).ToArray
             End With
 
-            Dim rbc As New rbcList With {.list = rbcList.calcRbc(graphs)}
-            Dim dgr As New dgrList With {.pathways = dgrList.calcDgr(graphs)}
+            Dim rbc As New rbcList With {.list = rbcList.calcRbc(graphs, multipleOmics)}
+            Dim dgr As New dgrList With {.pathways = dgrList.calcDgr(graphs, multipleOmics)}
             Dim graphSet = graphs _
                 .ToDictionary(Function(map) map.Name,
                               Function(map)

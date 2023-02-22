@@ -1,6 +1,7 @@
 ﻿Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
+Imports SMRUCC.genomics.Model.Network.KEGG.ReactionNetwork
 
 Namespace Metabolism.Metpa
 
@@ -16,19 +17,23 @@ Namespace Metabolism.Metpa
 
         Public Property pathways As Dictionary(Of String, dgr)
 
-        Public Shared Function calcDgr(graphs As NamedValue(Of NetworkGraph)()) As Dictionary(Of String, dgr)
+        Public Shared Function calcDgr(graphs As NamedValue(Of NetworkGraph)(), multipleOmics As Boolean) As Dictionary(Of String, dgr)
             Return graphs _
-                .Select(AddressOf dgrList.calcDgr) _
+                .Select(Function(g) dgrList.calcDgr(g, multipleOmics)) _
                 .ToDictionary(Function(map) map.Name,
                               Function(map)
                                   Return map.Value
                               End Function)
         End Function
 
-        Public Shared Function calcDgr(a As NamedValue(Of NetworkGraph)) As NamedValue(Of dgr)
+        Public Shared Function calcDgr(a As NamedValue(Of NetworkGraph), multipleOmics As Boolean) As NamedValue(Of dgr)
             Dim cnodes As Node() = a.Value.vertex _
                 .Where(Function(c)
-                           Return c.data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE) = "KEGG Compound"
+                           If multipleOmics Then
+                               Return True
+                           Else
+                               Return c.data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE) = CompoundNodeTable.KEGGCompoundNodeType
+                           End If
                        End Function) _
                 .ToArray
             Dim cid = cnodes.Select(Function(c) c.label).ToArray

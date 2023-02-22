@@ -81,7 +81,15 @@ Namespace ReactionNetwork
             End Get
         End Property
 
-        Sub New(compounds As IEnumerable(Of NamedValue(Of String)), cpdGroups As Dictionary(Of String, String()), ignores As Index(Of String), g As NetworkGraph, color As Brush, randomLayout As Boolean)
+        Public Const KEGGCompoundNodeType As String = "KEGG Compound"
+
+        Sub New(compounds As IEnumerable(Of NamedValue(Of String)),
+                cpdGroups As Dictionary(Of String, String()),
+                ignores As Index(Of String),
+                g As NetworkGraph,
+                color As Brush,
+                randomLayout As Boolean)
+
             nodes = compounds _
                 .Where(Function(cpd) Not cpd.Name Like ignores) _
                 .GroupBy(Function(a) a.Name) _
@@ -116,7 +124,7 @@ Namespace ReactionNetwork
                     .color = color,
                     .Properties = New Dictionary(Of String, String) From {
                         {"common_name", cpd.Value},
-                        {NamesOf.REFLECTION_ID_MAPPING_NODETYPE, "KEGG Compound"},
+                        {NamesOf.REFLECTION_ID_MAPPING_NODETYPE, KEGGCompoundNodeType},
                         {"related", type},
                         {"kegg", cpd.Name}
                     },
