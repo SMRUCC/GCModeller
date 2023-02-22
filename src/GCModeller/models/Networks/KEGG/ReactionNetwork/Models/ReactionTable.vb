@@ -1,55 +1,55 @@
 ﻿#Region "Microsoft.VisualBasic::1883cce7c553cf13898fcc874b6b0020, GCModeller\models\Networks\KEGG\ReactionNetwork\Models\ReactionTable.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 157
-    '    Code Lines: 101
-    ' Comment Lines: 39
-    '   Blank Lines: 17
-    '     File Size: 6.18 KB
+' Summaries:
 
 
-    '     Class ReactionTable
-    ' 
-    '         Properties: definition, EC, entry, geneNames, KO
-    '                     name, products, substrates
-    ' 
-    '         Function: creates, (+3 Overloads) Load, loadXmls, ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 157
+'    Code Lines: 101
+' Comment Lines: 39
+'   Blank Lines: 17
+'     File Size: 6.18 KB
+
+
+'     Class ReactionTable
+' 
+'         Properties: definition, EC, entry, geneNames, KO
+'                     name, products, substrates
+' 
+'         Function: creates, (+3 Overloads) Load, loadXmls, ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -155,6 +155,11 @@ Namespace ReactionNetwork
             Next
         End Function
 
+        ''' <summary>
+        ''' convert from reaction model to current reaction table model
+        ''' </summary>
+        ''' <param name="repo"></param>
+        ''' <returns></returns>
         Public Shared Function Load(repo As IEnumerable(Of Reaction)) As IEnumerable(Of ReactionTable)
             Dim KOnames As Dictionary(Of String, BriteHText) = DefaultKOTable()
             Dim table = repo.Select(Function(r) creates(r, KOnames))
@@ -173,6 +178,7 @@ Namespace ReactionNetwork
             Dim eq As DefaultTypes.Equation = xml.ReactionModel
             Dim rxnName$ = xml.CommonNames.SafeQuery.FirstOrDefault Or xml.Definition.AsDefault
             Dim KOlist$() = xml.Orthology?.Terms.SafeQuery.Keys
+            Dim enzymes = xml.Enzyme
             Dim geneNames As String() = KOlist _
                 .Select(Function(id)
                             If KOnames.ContainsKey(id) Then
@@ -185,17 +191,23 @@ Namespace ReactionNetwork
                         End Function) _
                 .ToArray
 
+            If Not enzymes Is Nothing Then
+                enzymes = enzymes _
+                    .Where(Function(str) Not str.StringEmpty) _
+                    .ToArray
+            End If
+
             If geneNames.IsNullOrEmpty Then
-                If xml.Enzyme.IsNullOrEmpty Then
+                If enzymes.IsNullOrEmpty Then
                     geneNames = {xml.ID}
                 Else
-                    geneNames = {$"{xml.ID} [{xml.Enzyme.JoinBy(", ")}]"}
+                    geneNames = {$"{xml.ID} [{enzymes.JoinBy(", ")}]"}
                 End If
             End If
 
             Return New ReactionTable With {
                 .definition = xml.Definition,
-                .EC = xml.Enzyme,
+                .EC = enzymes,
                 .entry = xml.ID,
                 .name = rxnName,
                 .products = eq.Products _
