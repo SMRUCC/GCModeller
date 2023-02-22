@@ -95,7 +95,7 @@ Namespace ReactionNetwork
                 .GroupBy(Function(a) a.Name) _
                 .Select(Function(a) a.First) _
                 .Select(Function(cpd As NamedValue(Of String))
-                            Return createCompoundNode(cpd, cpdGroups, color, randomLayout)
+                            Return CompoundNode(cpd, cpdGroups, color, randomLayout)
                         End Function) _
                 .ToDictionary
             nodes.Values _
@@ -109,7 +109,7 @@ Namespace ReactionNetwork
             Return nodes.ContainsKey(nodeLabelId)
         End Function
 
-        Private Shared Function createCompoundNode(cpd As NamedValue(Of String), cpdGroups As Dictionary(Of String, String()), color As Brush, randomLayout As Boolean) As Node
+        Private Shared Function CompoundNode(cpd As NamedValue(Of String), cpdGroups As Dictionary(Of String, String()), color As Brush, randomLayout As Boolean) As Node
             Dim type$ = "n/a"
 
             If cpdGroups.ContainsKey(cpd.Name) Then
@@ -120,7 +120,7 @@ Namespace ReactionNetwork
                 .label = cpd.Name,
                 .data = New NodeData With {
                     .label = cpd.Name,
-                    .origID = cpd.Value,
+                    .origID = If(cpd.Value, .label),
                     .color = color,
                     .Properties = New Dictionary(Of String, String) From {
                         {"common_name", cpd.Value},
