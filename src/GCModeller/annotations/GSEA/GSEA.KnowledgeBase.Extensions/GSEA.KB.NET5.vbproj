@@ -43,9 +43,14 @@
     <ProjectReference Include="..\..\..\..\interops\localblast\LocalBLAST\localblast.NET5.vbproj" />
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data\BinaryData\SQLite3\SQLite3.vbproj" />
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Graph\graph-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\gr\network-visualization\Datavisualization.Network\network_graph-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\gr\physics\physics-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+    <ProjectReference Include="..\..\..\core\Bio.Annotation\annotation.NET5.vbproj" />
     <ProjectReference Include="..\..\..\core\Bio.Assembly\biocore-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\data\GO_gene-ontology\GeneOntology\go_owl-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\models\Networks\KEGG\KEGGNetwork.NET5.vbproj" />
+    <ProjectReference Include="..\..\KEGG\KEGGAnalysis.NET5.vbproj" />
     <ProjectReference Include="..\FisherCore\Fisher.NET5.vbproj" />
     <ProjectReference Include="..\GSEA\gsea-netcore5.vbproj" />
   </ItemGroup>
