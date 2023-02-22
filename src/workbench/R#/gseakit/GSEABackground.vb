@@ -579,7 +579,7 @@ Public Module GSEABackground
         Return EnrichmentNetwork.KEGGModels(
             models:=pathways.populates(Of Pathway)(env).ToArray,
             isKo_ref:=is_ko_ref,
-            reactions:=reactionList.populates(Of ReactionTable)(env).CreateIndex,
+            reactions:=reactionList.populates(Of ReactionTable)(env).CreateIndex(indexByCompounds:=True),
             orgName:=org_name
         )
     End Function

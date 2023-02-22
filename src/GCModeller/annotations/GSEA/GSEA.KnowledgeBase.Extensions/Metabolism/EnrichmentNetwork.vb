@@ -181,7 +181,7 @@ Namespace Metabolism
                 .Select(Function(a) New NamedValue(Of String)(a.name, a.text)) _
                 .ToArray
             Dim g As NetworkGraph = model _
-                .GetReactions(reactions) _
+                .GetReactions(reactions, non_enzymatic:=True) _
                 .BuildModel(
                     compounds:=allCompoundNames,
                     extended:=False,

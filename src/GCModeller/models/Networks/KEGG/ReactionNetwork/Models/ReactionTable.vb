@@ -53,6 +53,7 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
@@ -113,6 +114,11 @@ Namespace ReactionNetwork
 
         Public Overrides Function ToString() As String
             Return name
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function MatchAllCompoundsId(targetSet As Index(Of String)) As Boolean
+            Return substrates.All(Function(cid) targetSet.IndexOf(cid) > -1) AndAlso products.All(Function(cid) targetSet.IndexOf(cid) > -1)
         End Function
 
         ''' <summary>

@@ -1,64 +1,65 @@
 ﻿#Region "Microsoft.VisualBasic::da19cc85d45f1a3ee39ad9bbe8b157c6, GCModeller\models\Networks\KEGG\ReactionNetwork\Builder\ReactionNetwork.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 225
-    '    Code Lines: 148
-    ' Comment Lines: 53
-    '   Blank Lines: 24
-    '     File Size: 9.55 KB
+' Summaries:
 
 
-    '     Class ReactionNetworkBuilder
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: compoundEdge, enzymeBridgedEdges
-    ' 
-    '         Sub: createEdges
-    ' 
-    '     Module Extensions
-    ' 
-    '         Function: BuildModel, GetReactions
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 225
+'    Code Lines: 148
+' Comment Lines: 53
+'   Blank Lines: 24
+'     File Size: 9.55 KB
+
+
+'     Class ReactionNetworkBuilder
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'         Function: compoundEdge, enzymeBridgedEdges
+' 
+'         Sub: createEdges
+' 
+'     Module Extensions
+' 
+'         Function: BuildModel, GetReactions
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
@@ -252,10 +253,13 @@ Namespace ReactionNetwork
         ''' similar compound profile which is bring by all of the non-enzymics reactions.
         ''' </remarks>
         <Extension>
-        Public Iterator Function GetReactions(pathway As Pathway, reactions As Dictionary(Of String, ReactionTable())) As IEnumerable(Of ReactionTable)
+        Public Iterator Function GetReactions(pathway As Pathway,
+                                              reactions As Dictionary(Of String, ReactionTable()),
+                                              Optional non_enzymatic As Boolean = False) As IEnumerable(Of ReactionTable)
+
             For Each ko As NamedValue In pathway.KOpathway.JoinIterates(pathway.modules)
                 If reactions.ContainsKey(ko.name) Then
-                    For Each item In reactions(ko.name)
+                    For Each item As ReactionTable In reactions(ko.name)
                         Yield item
                     Next
                 End If
@@ -265,21 +269,55 @@ Namespace ReactionNetwork
                 Dim ko As String = gene.KO
 
                 If Not ko.StringEmpty AndAlso reactions.ContainsKey(ko) Then
-                    For Each item In reactions(ko)
+                    For Each item As ReactionTable In reactions(ko)
                         Yield item
+                    Next
+                End If
+
+                If reactions.ContainsKey(gene.geneId) Then
+                    For Each item As ReactionTable In reactions(gene.geneId)
+                        Yield item
+                    Next
+                End If
+                If reactions.ContainsKey(gene.geneName) Then
+                    For Each item As ReactionTable In reactions(gene.geneName)
+                        Yield item
+                    Next
+                End If
+
+                If Not gene.EC Is Nothing Then
+                    For Each id As String In gene.EC
+                        If Not id.StringEmpty AndAlso reactions.ContainsKey(id) Then
+                            For Each item As ReactionTable In reactions(id)
+                                Yield item
+                            Next
+                        End If
                     Next
                 End If
             Next
 
-            'For Each item As ReactionTable In reactions.Values _
-            '    .IteratesALL _
-            '    .GroupBy(Function(a) a.entry) _
-            '    .Select(Function(a) a.First)
+            If non_enzymatic AndAlso Not pathway.compound Is Nothing Then
+                Dim compounds As Index(Of String) = pathway.compound _
+                    .Select(Function(c) c.name) _
+                    .Indexing
 
-            '    If item.EC.IsNullOrEmpty AndAlso item.KO.IsNullOrEmpty Then
-            '        Yield item
-            '    End If
-            'Next
+                ' populate out all current pathway related
+                ' non-enzymatic reactions
+                For Each item As ReactionTable In reactions.Values _
+                    .IteratesALL _
+                    .GroupBy(Function(a) a.entry) _
+                    .Select(Function(a) a.First)
+
+                    If item.geneNames.IsNullOrEmpty AndAlso
+                        item.EC.IsNullOrEmpty AndAlso
+                        item.KO.IsNullOrEmpty Then
+
+                        If item.MatchAllCompoundsId(compounds) Then
+                            Yield item
+                        End If
+                    End If
+                Next
+            End If
         End Function
     End Module
 End Namespace

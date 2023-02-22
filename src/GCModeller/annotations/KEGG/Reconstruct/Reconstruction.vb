@@ -64,18 +64,31 @@ Imports SMRUCC.genomics.Model.Network.KEGG.ReactionNetwork
 
 Public Module Reconstruction
 
+    <Extension>
+    Private Iterator Function PopulateIdSet(r As ReactionTable, indexByCompounds As Boolean) As IEnumerable(Of String())
+        Yield {r.entry}
+        Yield r.EC
+        Yield r.KO
+        Yield r.geneNames
+
+        If indexByCompounds Then
+            Yield r.products
+            Yield r.substrates
+        End If
+    End Function
+
     ''' <summary>
     ''' create kegg reaction index by kegg reaction id/KO/ECnumber
     ''' </summary>
     ''' <param name="reactions"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function CreateIndex(reactions As IEnumerable(Of ReactionTable)) As Dictionary(Of String, ReactionTable())
+    Public Function CreateIndex(reactions As IEnumerable(Of ReactionTable), Optional indexByCompounds As Boolean = False) As Dictionary(Of String, ReactionTable())
         Return reactions _
             .Select(Function(r)
-                        Return {r.entry} _
-                            .JoinIterates(r.KO) _
-                            .JoinIterates(r.EC) _
+                        Return r.PopulateIdSet(indexByCompounds) _
+                            .IteratesALL _
+                            .Distinct _
                             .Select(Function(id) (id, r))
                     End Function) _
             .IteratesALL _
