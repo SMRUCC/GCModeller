@@ -555,7 +555,7 @@ Public Module GSEABackground
                           <RRawVectorArgument> reactions As Object,
                           Optional org_name As String = Nothing,
                           Optional is_ko_ref As Boolean = False,
-                          Optional multipleOmics As Boolean = True,
+                          Optional multipleOmics As Boolean = False,
                           Optional env As Environment = Nothing) As Object
 
         Dim pathways As pipeline = pipeline.TryCreatePipeline(Of Pathway)(kegg, env)

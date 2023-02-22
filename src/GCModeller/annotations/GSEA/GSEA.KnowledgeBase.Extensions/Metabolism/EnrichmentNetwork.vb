@@ -134,7 +134,9 @@ Namespace Metabolism
                 .ToArray
 
             With pathIds.ids.Indexing
-                graphs = graphs.OrderBy(Function(g) .IndexOf(g.Name)).ToArray
+                graphs = graphs _
+                    .OrderBy(Function(g) .IndexOf(g.Name)) _
+                    .ToArray
             End With
 
             Dim rbc As New rbcList With {.list = rbcList.calcRbc(graphs, multipleOmics)}
@@ -142,7 +144,7 @@ Namespace Metabolism
             Dim graphSet = graphs _
                 .ToDictionary(Function(map) map.Name,
                               Function(map)
-                                  Return New graph(map.Value)
+                                  Return graph.Create(map.Value, map.Name)
                               End Function)
 
             Return New Metpa.metpa() With {
@@ -195,8 +197,9 @@ Namespace Metabolism
 
         <Extension>
         Private Function PathwayNetworkGraph(model As Pathway,
-                                                   keggId$, multipleOmics As Boolean,
-                                                   reactions As Dictionary(Of String, ReactionTable())) As NamedValue(Of NetworkGraph)
+                                             keggId$,
+                                             multipleOmics As Boolean,
+                                             reactions As Dictionary(Of String, ReactionTable())) As NamedValue(Of NetworkGraph)
 
             Dim allCompoundNames = model.compound _
                 .Select(Function(a) New NamedValue(Of String)(a.name, a.text)) _
