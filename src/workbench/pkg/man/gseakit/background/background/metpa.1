@@ -1,0 +1,37 @@
+.\" man page create by R# package system.
+.TH BACKGROUND 2 2000-Jan "metpa" "metpa"
+.SH NAME
+metpa \- Create the gsea background model for metabolism analysis
+.SH SYNOPSIS
+\fImetpa(\fBkegg\fR as any, 
+\fBreactions\fR as any, 
+\fBorg_name\fR as string = \fB<NULL>\fR, 
+\fBis_ko_ref\fR as boolean = FALSE, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Create the gsea background model for metabolism analysis
+.PP
+.SH OPTIONS
+.PP
+\fBkegg\fB \fR\- the kegg @\fBT:SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Pathway\fR model collection of current organism. 
+.PP
+.PP
+\fBreactions\fB \fR\- A collection of the reference @\fBT:SMRUCC.genomics.Model.Network.KEGG.ReactionNetwork.ReactionTable\fR model 
+ data for build the metabolism network. 
+.PP
+.PP
+\fBorg_name\fB \fR\- -. 
+.PP
+.PP
+\fBis_ko_ref\fB \fR\- -. 
+.PP
+.PP
+\fBenv\fB \fR\- -. 
+.PP
+.SH SEE ALSO
+background
+.SH FILES
+.PP
+gseakit.dll
+.PP
