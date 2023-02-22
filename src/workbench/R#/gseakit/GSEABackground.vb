@@ -68,6 +68,7 @@ Imports SMRUCC.genomics.Analysis.HTS.GSEA.KnowledgeBase
 Imports SMRUCC.genomics.Analysis.HTS.GSEA.KnowledgeBase.Metabolism
 Imports SMRUCC.genomics.Analysis.HTS.GSEA.KnowledgeBase.Metabolism.Metpa
 Imports SMRUCC.genomics.Analysis.KEGG
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
@@ -557,12 +558,22 @@ Public Module GSEABackground
                           Optional env As Environment = Nothing) As Object
 
         Dim pathways As pipeline = pipeline.TryCreatePipeline(Of Pathway)(kegg, env)
-        Dim reactionList As pipeline = pipeline.TryCreatePipeline(Of ReactionTable)(reactions, env)
+        Dim reactionList As pipeline = pipeline.TryCreatePipeline(Of ReactionTable)(reactions, env, suppress:=True)
 
         If pathways.isError Then
             Return pathways.getError
         ElseIf reactionList.isError Then
-            Return reactionList.getError
+            reactionList = pipeline.TryCreatePipeline(Of Reaction)(reactions, env)
+
+            If reactionList.isError Then
+                Return reactionList.getError
+            End If
+
+            reactionList = reactionList _
+                .populates(Of Reaction)(env) _
+                .DoCall(AddressOf ReactionTable.Load) _
+                .ToArray _
+                .DoCall(AddressOf pipeline.CreateFromPopulator)
         End If
 
         Return EnrichmentNetwork.KEGGModels(

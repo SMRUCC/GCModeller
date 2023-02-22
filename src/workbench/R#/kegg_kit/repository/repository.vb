@@ -86,6 +86,7 @@ Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports any = Microsoft.VisualBasic.Scripting
 Imports REnv = SMRUCC.Rsharp.Runtime.Internal
 Imports Rs = SMRUCC.Rsharp.Runtime
@@ -240,9 +241,18 @@ Public Module repository
     End Function
 
     ''' <summary>
-    ''' load reaction data from the given kegg reaction data repository
+    ''' ### load kegg reaction data repository
+    ''' 
+    ''' load reaction data from the given kegg reaction data 
+    ''' repository.
     ''' </summary>
-    ''' <param name="repository"></param>
+    ''' <param name="repository">Could be a data pack file or a directory
+    ''' path that contains multiple reaction model data files.
+    ''' </param>
+    ''' <param name="raw">
+    ''' this function will just returns a vector of the kegg reaction data if
+    ''' this parameter value is set to TRUE.
+    ''' </param>
     ''' <returns></returns>
     <ExportAPI("load.reactions")>
     <RApiReturn(GetType(ReactionRepository), GetType(Reaction))>
@@ -256,7 +266,7 @@ Public Module repository
                 Return KEGGReactionPack.ReadKeggDb(file)
             End Using
         Else
-            Dim resource As String() = Rs.asVector(Of String)(repository)
+            Dim resource As String() = CLRVector.asCharacter(repository)
 
             If resource.Length = 1 Then
                 Dim handle As String = resource(Scan0)
