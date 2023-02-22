@@ -1,3 +1,4 @@
+require(igraph);
 
 #' Create metpa background model for LCMS analysis
 #' 
@@ -15,11 +16,51 @@ const .write_dgr = function(dgr) {
     vec;
 }
 
+const .write_graph = function(graph) {
+
+}
+
+const .write_graphList = function(graphList) {
+    lapply([graphList]::graphs, g -> .write_graph(graph = g));
+}
+
 const .write_dgrlist = function(dgrList) {
-    const dgrlist = lapply([dgrList]::pathways, map -> .write_dgr([map]::Value));
+    const dgrlist = lapply([dgrList]::pathways, map -> .write_dgr(dgr = map));
 
     print("view of the pathway network degree data:");
     str(dgrlist);
 
     dgrlist;
+}
+
+const .write_mset = function(mset) {
+    const setdata = [mset]::kegg_id;
+
+    if (!is.null(setdata)) {
+        names(setdata) = [mset]::metaboliteNames;
+    }
+
+    setdata;
+}
+
+const .write_msetList = function(msetList) {
+    const msetlist = lapply([msetList]::list, map -> .write_mset(mset = map));
+
+    print("view of the pathway compounds list data:");
+    str(msetlist);
+
+    msetlist;
+}
+
+const .write_pathIds = function(pathIds) {
+    const vec = [pathIds]::ids;
+
+    if (!is.null(vec)) {
+        names(vec) = [pathIds]::pathwayNames;
+    }
+
+    print("view of the pathway id and names data:");
+    str(vec);
+
+    vec;
 }

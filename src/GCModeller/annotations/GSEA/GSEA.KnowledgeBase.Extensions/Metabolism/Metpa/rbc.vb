@@ -6,8 +6,8 @@ Namespace Metabolism.Metpa
 
     Public Class rbc
 
-        Public data As Double()
-        Public kegg_id As String()
+        Public Property data As Double()
+        Public Property kegg_id As String()
 
         Public Function write() As String
             Dim rbc As String = base.c(data:=data)
@@ -24,7 +24,7 @@ Namespace Metabolism.Metpa
 
     Public Class rbcList
 
-        Public list As NamedValue(Of rbc)()
+        Public Property list As Dictionary(Of String, rbc)
 
         Public Function write() As String
             Dim list As New var(base.list)

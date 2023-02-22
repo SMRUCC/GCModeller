@@ -1,8 +1,4 @@
-﻿Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports RDotNET.Extensions.VisualBasic
-Imports RDotNET.Extensions.VisualBasic.API
-
-Namespace Metabolism.Metpa
+﻿Namespace Metabolism.Metpa
 
     Public Class dgr
 
@@ -13,7 +9,7 @@ Namespace Metabolism.Metpa
 
     Public Class dgrList
 
-        Public Property pathways As NamedValue(Of dgr)()
+        Public Property pathways As Dictionary(Of String, dgr)
 
     End Class
 End Namespace
