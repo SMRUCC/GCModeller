@@ -11,7 +11,7 @@
     <AssemblyName>test</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Console</MyType>
-    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -120,6 +120,7 @@
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
       <DependentUpon>Application.myapp</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="My Project\Resources.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -153,53 +154,69 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data\BinaryData\BinaryData\BinaryData.vbproj">
-      <Project>{487d7c92-d05a-4908-bf81-e6baba0bf592}</Project>
-      <Name>BinaryData</Name>
+    <ProjectReference Include="..\..\..\..\interops\localblast\LocalBLAST\localblast.NET5.vbproj">
+      <Project>{7a75957e-4066-46ba-a034-33aa1a2907f4}</Project>
+      <Name>localblast.NET5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data\DataFrame\47_dotnet_ms-vb_data.framework.vbproj">
-      <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
-      <Name>47_dotnet_ms-vb_data.framework</Name>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data\BinaryData\BinaryData\binarydata-netcore5.vbproj">
+      <Project>{c148dfff-cc64-4f55-b4d4-37e5bc977b83}</Project>
+      <Name>binarydata-netcore5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math.Statistics\Math.Statistics.vbproj">
-      <Project>{3e195df1-9feb-44d5-904b-15626bbe74d7}</Project>
-      <Name>Math.Statistics</Name>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data\BinaryData\SQLite3\SQLite3.vbproj">
+      <Project>{1cae2fe9-45cf-4686-9a4f-30733b0146a1}</Project>
+      <Name>SQLite3</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\math-core.vbproj">
-      <Project>{e3367b88-5d0c-495a-8273-331656d4b5aa}</Project>
-      <Name>math-core</Name>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data\DataFrame\dataframework-netcore5.vbproj">
+      <Project>{d8414666-2af9-45af-9676-37c2c285d135}</Project>
+      <Name>dataframework-netcore5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\47-dotnet_Microsoft.VisualBasic.vbproj">
-      <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
-      <Name>47-dotnet_Microsoft.VisualBasic</Name>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Graph\graph-netcore5.vbproj">
+      <Project>{572d527e-70f7-4a90-97fc-a33b9a3b5555}</Project>
+      <Name>graph-netcore5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\mime\application%25rdf+xml\application.rdf_xml.vbproj">
-      <Project>{20912ff3-ce68-497c-854d-21e372f11d7c}</Project>
-      <Name>application.rdf_xml</Name>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math.Statistics\stats-netcore5.vbproj">
+      <Project>{7d5cd74d-a8b4-434a-b056-af25c8b2588d}</Project>
+      <Name>stats-netcore5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
-      <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
-      <Name>Bio.Assembly</Name>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\Math.NET5.vbproj">
+      <Project>{05ae9e14-1518-4127-95b1-97aa2281fe8f}</Project>
+      <Name>Math.NET5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\data\GO_gene-ontology\GeneOntology\GO_OWL.vbproj">
-      <Project>{755078c9-f421-4ed0-a64b-161a69e86bcb}</Project>
-      <Name>GO_OWL</Name>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj">
+      <Project>{3d3efadf-cc2e-4bcc-bdd0-c0844e2493c1}</Project>
+      <Name>Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\foundation\OBO_Foundry\OBO_Foundry.vbproj">
-      <Project>{327a0323-5469-45c1-b95b-4a0336cf27c2}</Project>
-      <Name>OBO_Foundry</Name>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\mime\application%25rdf+xml\rdf_xml-netcore5.vbproj">
+      <Project>{d527b56f-909c-4867-9fa2-c5a7faa75c30}</Project>
+      <Name>rdf_xml-netcore5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\models\SBML\Biopax\Biopax.vbproj">
-      <Project>{b2e4bb6d-ce7c-47ae-b06d-9cdc10851b77}</Project>
-      <Name>Biopax</Name>
+    <ProjectReference Include="..\..\..\core\Bio.Assembly\biocore-netcore5.vbproj">
+      <Project>{086af5ec-5ce8-48cd-9197-87c5db9ab0af}</Project>
+      <Name>biocore-netcore5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\models\SBML\SBML\SBML.vbproj">
-      <Project>{169ae739-df7c-4dda-ad0b-d7ba447825eb}</Project>
-      <Name>SBML</Name>
+    <ProjectReference Include="..\..\..\data\GO_gene-ontology\GeneOntology\go_owl-netcore5.vbproj">
+      <Project>{4503d014-7498-4e7f-ac74-5c8fa87e8213}</Project>
+      <Name>go_owl-netcore5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GSEA\GSEA.vbproj">
-      <Project>{db374d72-08f4-4b27-8168-b90785f71bdc}</Project>
-      <Name>GSEA</Name>
+    <ProjectReference Include="..\..\..\foundation\OBO_Foundry\obo_foundry-netcore5.vbproj">
+      <Project>{015cedce-06ad-472c-aa9f-4a0655ebb54c}</Project>
+      <Name>obo_foundry-netcore5</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\models\SBML\Biopax\biopax-netcore5.vbproj">
+      <Project>{93459166-a694-4046-9038-edc2fcebe901}</Project>
+      <Name>biopax-netcore5</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FisherCore\Fisher.NET5.vbproj">
+      <Project>{0cc1b66b-41a7-4bb6-9a9c-24930febc3e6}</Project>
+      <Name>Fisher.NET5</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GSEA.KnowledgeBase.Extensions\GSEA.KB.NET5.vbproj">
+      <Project>{3270e2d3-928b-4e40-a0d5-63af7ee8ec3a}</Project>
+      <Name>GSEA.KB.NET5</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GSEA\gsea-netcore5.vbproj">
+      <Project>{6e42456b-170f-4fe9-b1a0-1683f476b7ff}</Project>
+      <Name>gsea-netcore5</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
