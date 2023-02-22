@@ -15,6 +15,15 @@ Namespace Metabolism.Metpa
 
         Public Property list As Dictionary(Of String, rbc)
 
+        Public Shared Function calcRbc(graphs As NamedValue(Of NetworkGraph)()) As Dictionary(Of String, rbc)
+            Return graphs _
+                .Select(AddressOf rbcList.calcRbc) _
+                .ToDictionary(Function(map) map.Name,
+                              Function(map)
+                                  Return map.Value
+                              End Function)
+        End Function
+
         Public Shared Function calcRbc(a As NamedValue(Of NetworkGraph)) As NamedValue(Of rbc)
             Dim cnodes As Node() = a.Value.vertex _
                 .Where(Function(c)

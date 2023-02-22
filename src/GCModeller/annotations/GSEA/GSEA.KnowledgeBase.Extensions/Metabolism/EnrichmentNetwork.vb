@@ -51,13 +51,10 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
-Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Analysis.HTS.GSEA.KnowledgeBase.Metabolism.Metpa
 Imports SMRUCC.genomics.Analysis.KEGG
 Imports SMRUCC.genomics.Annotation.Ptf
@@ -77,52 +74,38 @@ Namespace Metabolism
     ''' </remarks>
     Public Module EnrichmentNetwork
 
+        ' Dim reactions As Dictionary(Of String, ReactionTable()) = ReactionTable.Load(reactionList).CreateIndex
+
         ''' <summary>
         ''' 直接基于已有的物种KEGG数据信息进行富集计算数据集的创建
         ''' </summary>
         ''' <returns></returns>
-        Public Function KEGGModels(in$, isKo_ref As Boolean, out As String, reactionList As String, orgName As String) As Integer
-            Dim models As Pathway()
-            Dim reactions As Dictionary(Of String, ReactionTable()) = ReactionTable.Load(reactionList).CreateIndex
-
-            If isKo_ref Then
-                models = (ls - l - r - "*.xml" <= [in]).Select(Function(file) file.LoadXml(Of PathwayMap).ToPathway).ToArray
-            Else
-                models = (ls - l - r - "*.xml" <= [in]).Select(Function(file) file.LoadXml(Of Pathway)).ToArray
-            End If
-
+        Public Function KEGGModels(models As Pathway(), isKo_ref As Boolean, reactions As Dictionary(Of String, ReactionTable()), orgName As String) As Metpa.metpa
             If Not orgName.StringEmpty Then
                 For Each pathway As Pathway In models
                     pathway.name = pathway.name.Replace(orgName, "").Trim(" "c, "-"c)
                 Next
             End If
 
-            Return models.buildModels(If(isKo_ref, "map", ""), reactions).GetJson.SaveTo(out)
+            Return models.buildModels(If(isKo_ref, "map", ""), reactions)
         End Function
 
         <Extension>
         Private Function buildModels(models As Pathway(), keggId As String, reactions As Dictionary(Of String, ReactionTable())) As Metpa.metpa
-            Dim pathIds As New pathIds With {
-                .ids = models.Select(Function(m) If(keggId.StringEmpty, m.EntryId, keggId & m.briteID)).ToArray,
-                .pathwayNames = models.Select(Function(m) m.name.Replace(" - Reference pathway", "")).ToArray
-            }
-            Dim uniqueCompounds As Integer = models _
-                .Select(Function(a) a.compound) _
-                .IteratesALL _
-                .GroupBy(Function(a) a.name) _
-                .Count
-
+            Dim pathIds As pathIds = pathIds.FromPathways(models)
             Dim msetList As New msetList With {
                 .list = models _
-                     .ToDictionary(Function(a) If(keggId.StringEmpty, a.EntryId, keggId & a.briteID), Function(a)
-                                                                                                          Dim mset As New mset With {
-                                    .kegg_id = a.compound.Select(Function(c) c.name).ToArray,
-                                    .metaboliteNames = a.compound.Select(Function(c) c.text).ToArray
-                                 }
+                     .ToDictionary(Function(a) If(keggId.StringEmpty, a.EntryId, keggId & a.briteID),
+                                   Function(a)
+                                       Dim mset As New mset With {
+                                           .kegg_id = a.compound.Select(Function(c) c.name).ToArray,
+                                           .metaboliteNames = a.compound.Select(Function(c) c.text).ToArray
+                                       }
 
-                                                                                                          Return mset
-                                                                                                      End Function)
+                                       Return mset
+                                   End Function)
             }
+            Dim uniqueCompounds As Integer = msetList.CountUnique(models)
 
             VBDebugger.Mute = True
 
@@ -137,13 +120,18 @@ Namespace Metabolism
                 graphs = graphs.OrderBy(Function(g) .IndexOf(g.Name)).ToArray
             End With
 
-            Dim rbc As New rbcList With {.list = graphs.Select(AddressOf rbcList.calcRbc).ToDictionary(Function(map) map.Name, Function(map) map.Value)}
-            Dim dgr As New dgrList With {.pathways = graphs.Select(AddressOf dgrList.calcDgr).ToDictionary(Function(map) map.Name, Function(map) map.Value)}
+            Dim rbc As New rbcList With {.list = rbcList.calcRbc(graphs)}
+            Dim dgr As New dgrList With {.pathways = dgrList.calcDgr(graphs)}
+            Dim graphSet = graphs _
+                .ToDictionary(Function(map) map.Name,
+                              Function(map)
+                                  Return New graph(map.Value)
+                              End Function)
 
             Return New Metpa.metpa() With {
                 .dgrList = dgr,
                 .rbcList = rbc,
-                .graphList = New graphList With {.graphs = graphs.ToDictionary(Function(map) map.Name, Function(map) New graph(map.Value))},
+                .graphList = New graphList With {.graphs = graphSet},
                 .msetList = msetList,
                 .pathIds = pathIds,
                 .unique_count = uniqueCompounds

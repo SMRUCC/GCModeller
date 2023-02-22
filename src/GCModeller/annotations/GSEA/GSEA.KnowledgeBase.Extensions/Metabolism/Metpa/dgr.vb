@@ -15,6 +15,15 @@ Namespace Metabolism.Metpa
 
         Public Property pathways As Dictionary(Of String, dgr)
 
+        Public Shared Function calcDgr(graphs As NamedValue(Of NetworkGraph)()) As Dictionary(Of String, dgr)
+            Return graphs _
+                .Select(AddressOf dgrList.calcDgr) _
+                .ToDictionary(Function(map) map.Name,
+                              Function(map)
+                                  Return map.Value
+                              End Function)
+        End Function
+
         Public Shared Function calcDgr(a As NamedValue(Of NetworkGraph)) As NamedValue(Of dgr)
             Dim cnodes As Node() = a.Value.vertex _
                 .Where(Function(c)
