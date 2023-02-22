@@ -2,8 +2,16 @@ require(igraph);
 
 #' Create metpa background model for LCMS analysis
 #' 
-const metpa_background = function() {
+#' @details 
+#' 
+const metpa_background = function(metpa) {
 
+}
+
+#' Create metpa background model from the .NET CLR object
+#' 
+const .cast_CLR_metpa = function(metpa) {
+    
 }
 
 const .write_dgr = function(dgr) {
