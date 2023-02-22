@@ -80,18 +80,27 @@ Namespace Metabolism
         ''' 直接基于已有的物种KEGG数据信息进行富集计算数据集的创建
         ''' </summary>
         ''' <returns></returns>
-        Public Function KEGGModels(models As Pathway(), isKo_ref As Boolean, reactions As Dictionary(Of String, ReactionTable()), orgName As String) As Metpa.metpa
+        Public Function KEGGModels(models As Pathway(),
+                                   isKo_ref As Boolean,
+                                   reactions As Dictionary(Of String, ReactionTable()),
+                                   orgName As String,
+                                   multipleOmics As Boolean) As Metpa.metpa
+
             If Not orgName.StringEmpty Then
                 For Each pathway As Pathway In models
                     pathway.name = pathway.name.Replace(orgName, "").Trim(" "c, "-"c)
                 Next
             End If
 
-            Return models.buildModels(If(isKo_ref, "map", ""), reactions)
+            Return models.buildModels(If(isKo_ref, "map", ""), multipleOmics, reactions)
         End Function
 
         <Extension>
-        Private Function buildModels(models As Pathway(), keggId As String, reactions As Dictionary(Of String, ReactionTable())) As Metpa.metpa
+        Private Function buildModels(models As Pathway(),
+                                     keggId As String,
+                                     multipleOmics As Boolean,
+                                     reactions As Dictionary(Of String, ReactionTable())) As Metpa.metpa
+
             Dim pathIds As pathIds = pathIds.FromPathways(models)
             Dim msetList As New msetList With {
                 .list = models.ToDictionary(
@@ -113,7 +122,7 @@ Namespace Metabolism
             Dim graphs As NamedValue(Of NetworkGraph)() = models _
                 .Populate(Not VBDebugger.debugMode) _
                 .Select(Function(model)
-                            Return model.createPathwayNetworkGraph(keggId, reactions)
+                            Return model.createPathwayNetworkGraph(keggId, multipleOmics, reactions)
                         End Function) _
                 .ToArray
 
@@ -148,7 +157,9 @@ Namespace Metabolism
                                       compounds As Dictionary(Of String, String),
                                       reactions As Dictionary(Of String, ReactionTable()),
                                       maps As String,
+                                      multipleOmics As Boolean,
                                       classTable As Dictionary(Of String, ReactionClassTable())) As (Metpa.metpa, DataSet())
+
             Dim keggId As String = proteins.AsEnumerable.Where(Function(a) a.attributes.ContainsKey("kegg")).First!kegg.Split(":"c).First
             Dim models As Pathway() = MapRepository _
                 .GetMapsAuto(maps) _
@@ -172,11 +183,14 @@ Namespace Metabolism
 
             models = models.UniquePathwayCompounds.ToArray
 
-            Return (models.buildModels(keggId, reactions), ranks)
+            Return (models.buildModels(keggId, multipleOmics, reactions), ranks)
         End Function
 
         <Extension>
-        Private Function createPathwayNetworkGraph(model As Pathway, keggId$, reactions As Dictionary(Of String, ReactionTable())) As NamedValue(Of NetworkGraph)
+        Private Function createPathwayNetworkGraph(model As Pathway,
+                                                   keggId$, multipleOmics As Boolean,
+                                                   reactions As Dictionary(Of String, ReactionTable())) As NamedValue(Of NetworkGraph)
+
             Dim allCompoundNames = model.compound _
                 .Select(Function(a) New NamedValue(Of String)(a.name, a.text)) _
                 .ToArray
@@ -196,7 +210,7 @@ Namespace Metabolism
                     enzymaticRelated:=False,
                     filterByEnzymes:=False,
                     ignoresCommonList:=False,
-                    enzymeBridged:=False,
+                    enzymeBridged:=multipleOmics,
                     strictReactionNetwork:=True
                 )
             Dim nameId As String = keggId & model.briteID

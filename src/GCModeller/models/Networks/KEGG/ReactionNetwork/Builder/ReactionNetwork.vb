@@ -85,6 +85,12 @@ Namespace ReactionNetwork
         ''' </summary>
         ''' <param name="br08901">代谢反应数据</param>
         ''' <param name="compounds">KEGG化合物编号，``{kegg_id => compound name}``</param>
+        ''' <param name="enzymeBridged">
+        ''' This option will affects the network connected style:
+        ''' 
+        ''' + true:   compound -- enzyme -- compound
+        ''' + false:  compound -- compound
+        ''' </param>
         Sub New(br08901 As IEnumerable(Of ReactionTable),
                 compounds As IEnumerable(Of NamedValue(Of String)),
                 Optional ignoresCommonList As Boolean = True,
@@ -113,6 +119,13 @@ Namespace ReactionNetwork
             End If
         End Sub
 
+        ''' <summary>
+        ''' two compound is connected via a reaction link, the link id is the reaction id
+        ''' </summary>
+        ''' <param name="commons"></param>
+        ''' <param name="a"></param>
+        ''' <param name="b"></param>
+        ''' <returns></returns>
         Private Function compoundEdge(commons As String(), a As Node, b As Node) As Edge
             Return New Edge With {
                 .U = a,
@@ -126,6 +139,13 @@ Namespace ReactionNetwork
             }
         End Function
 
+        ''' <summary>
+        ''' tow compound is connected via a enzyme gene node
+        ''' </summary>
+        ''' <param name="commons"></param>
+        ''' <param name="a"></param>
+        ''' <param name="b"></param>
+        ''' <returns></returns>
         Private Iterator Function enzymeBridgedEdges(commons As String(), a As Node, b As Node) As IEnumerable(Of Edge)
             ' each enzyme is an edge
             ' For Each rid As String In commons
@@ -200,6 +220,15 @@ Namespace ReactionNetwork
         ''' Just re-construct a kegg metabolic network which its all reaction 
         ''' is related with the input <paramref name="enzymes"/> list?
         ''' (是否只使用<paramref name="enzymes"/>的KO编号相关的反应来构建代谢网络)
+        ''' </param>
+        ''' <param name="enzymeBridged">
+        ''' This option will affects the network connected style:
+        ''' 
+        ''' + true:   compound -- enzyme -- compound
+        ''' + false:  compound -- compound
+        ''' 
+        ''' set this parameter value to TRUE could create a metabolic network 
+        ''' that used for run multiple omics data analysis.
         ''' </param>
         ''' <returns></returns>
         <Extension>

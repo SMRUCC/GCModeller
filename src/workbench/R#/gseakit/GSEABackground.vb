@@ -555,6 +555,7 @@ Public Module GSEABackground
                           <RRawVectorArgument> reactions As Object,
                           Optional org_name As String = Nothing,
                           Optional is_ko_ref As Boolean = False,
+                          Optional multipleOmics As Boolean = True,
                           Optional env As Environment = Nothing) As Object
 
         Dim pathways As pipeline = pipeline.TryCreatePipeline(Of Pathway)(kegg, env)
@@ -580,7 +581,8 @@ Public Module GSEABackground
             models:=pathways.populates(Of Pathway)(env).ToArray,
             isKo_ref:=is_ko_ref,
             reactions:=reactionList.populates(Of ReactionTable)(env).CreateIndex(indexByCompounds:=True),
-            orgName:=org_name
+            orgName:=org_name,
+            multipleOmics:=multipleOmics
         )
     End Function
 
