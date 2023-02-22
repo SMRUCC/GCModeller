@@ -9,6 +9,16 @@ Namespace Metabolism.Metpa
         Public Property metaboliteNames As String()
         Public Property kegg_id As String()
 
+        ''' <summary>
+        ''' the pathway id
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property clusterId As String
+
+        Public Overrides Function ToString() As String
+            Return $"[{clusterId}] has {kegg_id.Length} compounds. ({metaboliteNames.Take(3).JoinBy("; ")}...)"
+        End Function
+
     End Class
 
     Public Class msetList

@@ -8,6 +8,7 @@ Namespace Metabolism.Metpa
 
         Public Property data As Double()
         Public Property kegg_id As String()
+        Public Property network_id As String
 
     End Class
 
@@ -39,7 +40,8 @@ Namespace Metabolism.Metpa
                 .ToArray
             Dim rbc As New rbc With {
                 .data = rbcVal,
-                .kegg_id = cid
+                .kegg_id = cid,
+                .network_id = a.Name
             }
 
             Return New NamedValue(Of rbc)(a.Name, rbc)

@@ -94,16 +94,17 @@ Namespace Metabolism
         Private Function buildModels(models As Pathway(), keggId As String, reactions As Dictionary(Of String, ReactionTable())) As Metpa.metpa
             Dim pathIds As pathIds = pathIds.FromPathways(models)
             Dim msetList As New msetList With {
-                .list = models _
-                     .ToDictionary(Function(a) If(keggId.StringEmpty, a.EntryId, keggId & a.briteID),
-                                   Function(a)
-                                       Dim mset As New mset With {
-                                           .kegg_id = a.compound.Select(Function(c) c.name).ToArray,
-                                           .metaboliteNames = a.compound.Select(Function(c) c.text).ToArray
-                                       }
+                .list = models.ToDictionary(
+                    Function(a) If(keggId.StringEmpty, a.EntryId, keggId & a.briteID),
+                    Function(a)
+                        Dim mset As New mset With {
+                            .kegg_id = a.compound.Select(Function(c) c.name).ToArray,
+                            .metaboliteNames = a.compound.Select(Function(c) c.text).ToArray,
+                            .clusterId = a.name
+                        }
 
-                                       Return mset
-                                   End Function)
+                        Return mset
+                    End Function)
             }
             Dim uniqueCompounds As Integer = msetList.CountUnique(models)
 
@@ -141,12 +142,7 @@ Namespace Metabolism
         ''' <summary>
         ''' reconstruct of the kegg pathway and then create gsea background dataset for biodeep package.
         ''' </summary>
-        ''' <param name="ptf"></param>
-        ''' <param name="compoundList"></param>
-        ''' <param name="reactionList"></param>
         ''' <param name="maps"></param>
-        ''' <param name="classList"></param>
-        ''' <param name="out"></param>
         ''' <returns></returns>
         Public Function CreateGSEASet(proteins As PtfFile,
                                       compounds As Dictionary(Of String, String),
