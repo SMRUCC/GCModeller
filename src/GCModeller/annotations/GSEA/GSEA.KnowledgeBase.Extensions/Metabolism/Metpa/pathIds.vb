@@ -1,20 +1,23 @@
 ﻿Imports RDotNET.Extensions.VisualBasic.API
 
-Public Class pathIds
+Namespace Metabolism.Metpa
 
-    Public pathwayNames As String()
-    Public ids As String()
+    Public Class pathIds
 
-    Public Function write() As String
-        Dim vec As String = base.c(ids, stringVector:=True)
+        Public pathwayNames As String()
+        Public ids As String()
 
-        If vec = "NULL" Then
+        Public Function write() As String
+            Dim vec As String = base.c(ids, stringVector:=True)
+
+            If vec = "NULL" Then
+                Return vec
+            Else
+                names(vec) = pathwayNames
+            End If
+
             Return vec
-        Else
-            names(vec) = pathwayNames
-        End If
+        End Function
 
-        Return vec
-    End Function
-
-End Class
+    End Class
+End Namespace

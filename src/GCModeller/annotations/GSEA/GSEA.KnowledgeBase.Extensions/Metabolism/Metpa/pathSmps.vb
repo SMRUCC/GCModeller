@@ -1,21 +1,24 @@
 ﻿Imports RDotNet.Extensions.VisualBasic.API
 
-Public Class pathSmps
+Namespace Metabolism.Metpa
 
-    Public Smps As String()()
-    Public ids As String()
+    Public Class pathSmps
 
-    Public Function write() As String
-        Dim vec As String = base.c(ids, stringVector:=True)
+        Public Smps As String()()
+        Public ids As String()
 
-        If vec = "NULL" Then
-            Return vec
-        Else
-            names(vec) = Smps _
+        Public Function write() As String
+            Dim vec As String = base.c(ids, stringVector:=True)
+
+            If vec = "NULL" Then
+                Return vec
+            Else
+                names(vec) = Smps _
                 .Select(Function(a) a.JoinBy("; ")) _
                 .ToArray
-        End If
+            End If
 
-        Return vec
-    End Function
-End Class
+            Return vec
+        End Function
+    End Class
+End Namespace

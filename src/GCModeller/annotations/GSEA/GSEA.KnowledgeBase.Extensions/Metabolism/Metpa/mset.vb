@@ -2,36 +2,39 @@
 Imports RDotNET.Extensions.VisualBasic
 Imports RDotNET.Extensions.VisualBasic.API
 
-Public Class mset
+Namespace Metabolism.Metpa
 
-    Public Property metaboliteNames As String()
-    Public Property kegg_id As String()
+    Public Class mset
 
-    Public Function write() As String
-        Dim mset As String = base.c(kegg_id, stringVector:=True)
+        Public Property metaboliteNames As String()
+        Public Property kegg_id As String()
 
-        If mset = "NULL" Then
+        Public Function write() As String
+            Dim mset As String = base.c(kegg_id, stringVector:=True)
+
+            If mset = "NULL" Then
+                Return mset
+            Else
+                names(mset) = metaboliteNames
+            End If
+
             Return mset
-        Else
-            names(mset) = metaboliteNames
-        End If
+        End Function
+    End Class
 
-        Return mset
-    End Function
-End Class
+    Public Class msetList
 
-Public Class msetList
+        Public list As NamedValue(Of mset)()
 
-    Public list As NamedValue(Of mset)()
+        Public Function write() As String
+            Dim list As New var(base.list)
 
-    Public Function write() As String
-        Dim list As New var(base.list)
+            For Each map In Me.list
+                list(map.Name) = map.Value.write
+            Next
 
-        For Each map In Me.list
-            list(map.Name) = map.Value.write
-        Next
+            Return list
+        End Function
 
-        Return list
-    End Function
-
-End Class
+    End Class
+End Namespace

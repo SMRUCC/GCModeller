@@ -3,26 +3,29 @@ Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports RDotNet.Extensions.VisualBasic
 Imports RDotNet.Extensions.VisualBasic.API
 
-Public Class graph
+Namespace Metabolism.Metpa
 
-    Public g As NetworkGraph
+    Public Class graph
 
-    Public Function write() As String
+        Public g As NetworkGraph
 
-    End Function
-End Class
+        Public Function write() As String
 
-Public Class graphList
+        End Function
+    End Class
 
-    Public graphs As NamedValue(Of graph)()
+    Public Class graphList
 
-    Public Function write() As String
-        Dim list As New var(base.list)
+        Public graphs As NamedValue(Of graph)()
 
-        For Each map In graphs
-            list(map.Name) = map.Value.write
-        Next
+        Public Function write() As String
+            Dim list As New var(base.list)
 
-        Return list
-    End Function
-End Class
+            For Each map In graphs
+                list(map.Name) = map.Value.write
+            Next
+
+            Return list
+        End Function
+    End Class
+End Namespace

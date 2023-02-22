@@ -2,35 +2,38 @@
 Imports RDotNET.Extensions.VisualBasic.API
 Imports RDotNET.Extensions.VisualBasic
 
-Public Class rbc
+Namespace Metabolism.Metpa
 
-    Public data As Double()
-    Public kegg_id As String()
+    Public Class rbc
 
-    Public Function write() As String
-        Dim rbc As String = base.c(data:=data)
+        Public data As Double()
+        Public kegg_id As String()
 
-        If rbc = "NULL" Then
+        Public Function write() As String
+            Dim rbc As String = base.c(data:=data)
+
+            If rbc = "NULL" Then
+                Return rbc
+            Else
+                names(rbc) = kegg_id
+            End If
+
             Return rbc
-        Else
-            names(rbc) = kegg_id
-        End If
+        End Function
+    End Class
 
-        Return rbc
-    End Function
-End Class
+    Public Class rbcList
 
-Public Class rbcList
+        Public list As NamedValue(Of rbc)()
 
-    Public list As NamedValue(Of rbc)()
+        Public Function write() As String
+            Dim list As New var(base.list)
 
-    Public Function write() As String
-        Dim list As New var(base.list)
+            For Each map In Me.list
+                list(map.Name) = map.Value.write
+            Next
 
-        For Each map In Me.list
-            list(map.Name) = map.Value.write
-        Next
-
-        Return list
-    End Function
-End Class
+            Return list
+        End Function
+    End Class
+End Namespace
