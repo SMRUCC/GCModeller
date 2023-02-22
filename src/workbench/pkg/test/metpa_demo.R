@@ -15,4 +15,10 @@ let pathways = buf
 
 let metpa = metpa_background(pathways, taxonomy_name = NULL, raw = TRUE);
 
-print(json_encode(metpa));
+# print(json_encode(metpa));
+
+metpa 
+|> json_encode()
+|> writeLines(
+    con = `${@dir}/hsa_metpa.json`
+);
