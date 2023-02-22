@@ -83,3 +83,18 @@ const .write_rbcList = function(rbcList) {
 
     rbclist;
 }
+
+#' write HMDB pathway data
+#' 
+const .write_pathSmps = function(pathSmps) {
+    const vec = [pathSmps]::ids;
+
+    if (!is.null(vec)) {
+        names(vec) = sapply([pathSmps]::Smps, idset -> paste(idset, sep = "; "));
+    }
+
+    print("View of the pathway names:");
+    str(vec);
+
+    vec;
+}

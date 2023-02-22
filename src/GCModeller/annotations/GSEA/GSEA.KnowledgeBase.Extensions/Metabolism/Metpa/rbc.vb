@@ -1,8 +1,4 @@
-﻿Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports RDotNET.Extensions.VisualBasic.API
-Imports RDotNET.Extensions.VisualBasic
-
-Namespace Metabolism.Metpa
+﻿Namespace Metabolism.Metpa
 
     Public Class rbc
 
