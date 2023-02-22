@@ -85,6 +85,7 @@
 
 Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph.Abstract
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts
@@ -95,12 +96,6 @@ Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML.File
 Imports SMRUCC.genomics.Visualize.Cytoscape.Tables
 Imports graphNode = Microsoft.VisualBasic.Data.visualize.Network.Graph.Node
-
-#If NET48 Then
-Imports System.Web.Script.Serialization
-#Else
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-#End If
 
 Namespace CytoscapeGraphView.Cyjs
 
