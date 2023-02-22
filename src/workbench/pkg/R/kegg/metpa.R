@@ -16,17 +16,10 @@ const .write_dgr = function(dgr) {
 }
 
 const .write_dgrlist = function(dgrList) {
-    const list = list();
-
-    for(map in [dgrList]::pathways) {
-        const map_id = [map]::Name;
-        const dgr = .write_dgr([map]::Value);
-
-        list[[map_id]] = dgr;
-    }
+    const dgrlist = lapply([dgrList]::pathways, map -> .write_dgr([map]::Value));
 
     print("view of the pathway network degree data:");
-    str(list);
+    str(dgrlist);
 
-    list;
+    dgrlist;
 }
