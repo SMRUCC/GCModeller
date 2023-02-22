@@ -6,8 +6,8 @@ Namespace Metabolism.Metpa
 
     Public Class dgr
 
-        Public kegg_id As String()
-        Public dgr As Double()
+        Public Property kegg_id As String()
+        Public Property dgr As Double()
 
         Public Function write() As String
             Dim vec As String = base.c(data:=dgr)
