@@ -110,7 +110,6 @@ Public Module ObjectSerializer
         Dim valueType As Type
         Dim json As New JsonObject
         Dim valObj As Object
-        Dim graph As ObjectSchema = ObjectSchema.GetSchema(schema)
         Dim jsonVal As JsonElement
         Dim isNullable As Boolean = False
 
