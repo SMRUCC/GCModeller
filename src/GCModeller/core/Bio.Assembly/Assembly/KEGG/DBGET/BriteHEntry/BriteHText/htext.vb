@@ -219,20 +219,19 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             Dim resource$ = Nothing
 
             If resourceName.IsPattern(Patterns.Identifer, RegexICSng) Then
-#If NET48 Then
-                resource = getResourceCache.GetString(resourceName)
-#Else
+                '#If NET48 Then
+                '                resource = getResourceCache.GetString(resourceName)
+                '#Else
                 resource = GetInternalResourceText(resourceName)
-#End If
-
+                '#End If
             ElseIf resourceName.IsURLPattern Then
                 With resourceName.Split("?"c).Last.Match("[0-9a-zA-Z_]+\.keg")
                     If Not .StringEmpty Then
-#If NET48 Then
-                        resource = getResourceCache.GetString(.Replace(".keg", ""))
-#Else
+                        '#If NET48 Then
+                        '                        resource = getResourceCache.GetString(.Replace(".keg", ""))
+                        '#Else
                         Throw New NotImplementedException
-#End If
+                        '#End If
                     End If
                 End With
 
