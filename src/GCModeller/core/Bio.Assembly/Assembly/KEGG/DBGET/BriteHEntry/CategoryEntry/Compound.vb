@@ -198,6 +198,10 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             Return BriteTerm.GetInformation(cpd_br08010, CompoundIDPattern)
         End Function
 
+        ''' <summary>
+        ''' get all 10 compound class from the internal kegg database
+        ''' </summary>
+        ''' <returns></returns>
         Public Iterator Function GetAllCompoundResources() As IEnumerable(Of NamedValue(Of BriteTerm()))
             Yield New NamedValue(Of BriteTerm())("Compounds with biological roles", CompoundsWithBiologicalRoles)
             Yield New NamedValue(Of BriteTerm())("Lipids", Lipids)
