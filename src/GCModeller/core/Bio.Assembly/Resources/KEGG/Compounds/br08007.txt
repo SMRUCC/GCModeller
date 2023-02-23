@@ -1,5 +1,5 @@
 +D
-#<h2><a href="/kegg/kegg2.html"><img src="/Fig/bget/kegg3.gif" align="middle" border=0></a>&nbsp; Pesticides</h2>
+#<h2><a href="/kegg/brite.html"><img src="/Fig/bget/kegg3.gif" align="middle" border=0></a>&nbsp; Pesticides</h2>
 !
 A<b>Pesticides</b>
 B  Fungicides
@@ -1062,6 +1062,6 @@ D      C19145  Propyl isome
 D      C19146  Sesamex
 !
 #<hr>
-#<b>[ <a href="/kegg/drug/">DRUG</a> | <a href="/kegg/brite.html">BRITE</a> | <a href="/kegg/kegg2.html">KEGG2</a> | <a href="/kegg/">KEGG</a> ]</b><br>
+#[ <a href="/kegg/drug/">DRUG</a> | <a href="/kegg/brite.html">BRITE</a> | <a href="/kegg/kegg2.html">KEGG2</a> | <a href="/kegg/">KEGG</a> ]<br>
 #Last updated: January 30, 2019
-#<br><br><a href="/kegg-bin/get_htext?jp08007.keg">&raquo; Japanese version</a>
+#<br><br><a href="/brite/jp08007">&raquo; Japanese version</a>

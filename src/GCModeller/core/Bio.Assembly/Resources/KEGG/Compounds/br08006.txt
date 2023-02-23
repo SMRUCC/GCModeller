@@ -1,5 +1,5 @@
 +C	Environmental compound
-#<h2><a href="/kegg/kegg2.html"><img src="/Fig/bget/kegg3.gif" align="middle" border=0></a> &nbsp; Endocrine Disrupting Compounds</h2>
+#<h2><a href="/kegg/brite.html"><img src="/Fig/bget/kegg3.gif" align="middle" border=0></a> &nbsp; Endocrine Disrupting Compounds</h2>
 !
 A<b>Pesticides and herbicides</b>
 B  Carbamate pesticides
@@ -120,6 +120,6 @@ C    C18122  2,3',4,4',5,5'-Hexachlorobiphenyl (PCB 167)
 C    C18123  2,3,3',4,4',5,5'-Heptachlorobiphenyl (PCB 189)
 !
 #<hr>
-#<b>[ <a href="/kegg/brite.html">BRITE</a> | <a href="/kegg/kegg2.html">KEGG2</a> | <a href="/kegg/">KEGG</a> ]</b><br>
+#[ <a href="/kegg/brite.html">BRITE</a> | <a href="/kegg/kegg2.html">KEGG2</a> | <a href="/kegg/">KEGG</a> ]<br>
 #Last updated: November 17, 2010
-#<br><br><a href="/kegg-bin/get_htext?jp08006.keg">&raquo; Japanese version</a>
+#<br><br><a href="/brite/jp08006">&raquo; Japanese version</a>

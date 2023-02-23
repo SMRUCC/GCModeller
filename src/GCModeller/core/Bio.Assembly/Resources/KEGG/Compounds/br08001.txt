@@ -1,5 +1,5 @@
 +D	Biochemical compound
-#<h2><a href="/kegg/kegg2.html"><img src="/Fig/bget/kegg3.gif" align="middle" border=0></a>&nbsp; Compounds with Biological Roles</h2>
+#<h2><a href="/kegg/brite.html"><img src="/Fig/bget/kegg3.gif" align="middle" border=0></a>&nbsp; Compounds with Biological Roles</h2>
 !
 A<b>Organic acids</b>
 B  Carboxylic acids [Fig]
@@ -430,7 +430,7 @@ D      C00483  Tyramine
 D      C05332  Phenethylamine
 D      C01137  S-Adenosylmethioninamine
 #
-A<b>Vitamins and Cofactors</b>
+A<b>Vitamins and cofactors</b>
 B  Vitamins
 C    Fat-soluble vitamins [Fig]
 D      C00473  Retinol (Vitamin A)
@@ -718,10 +718,11 @@ D      C03917  Dihydrotestosterone
 D      C04555  Dehydroepiandrosterone sulfate
 D      C05294  19-Hydroxytestosterone
 C    Estrogens
-D      C00468  Estrone
-D      C00951  Estradiol-17beta
+D      C00468  Estrone (E1)
+D      C00951  Estradiol-17beta (E2)
+D      C05141  Estriol (E3)
+D      C22548  Estetrol (E4)
 D      C02538  Estrone 3-sulfate
-D      C05141  Estriol
 D      C05300  16alpha-Hydroxyestrone
 C    Progestagens
 D      C00410  Progesterone
@@ -857,6 +858,6 @@ C    Cyclic lactones
 D      C06695  2-Oxazolidinone
 !
 #<hr>
-#<b>[ <a href="/kegg/brite.html">BRITE</a> | <a href="/kegg/kegg2.html">KEGG2</a> | <a href="/kegg/">KEGG</a> ]</b><br>
-#Last updated: May 22, 2015
-#<br><br><a href="/kegg-bin/get_htext?jp08001.keg">&raquo; Japanese version</a>
+#[ <a href="/kegg/brite.html">BRITE</a> | <a href="/kegg/kegg2.html">KEGG2</a> | <a href="/kegg/">KEGG</a> ]<br>
+#Last updated: September 18, 2022
+#<br><br><a href="/brite/jp08001">&raquo; Japanese version</a>

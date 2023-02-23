@@ -1,5 +1,5 @@
 +C	Peptide
-#<h2><a href="/kegg/kegg2.html"><img src="/Fig/bget/kegg3.gif" align="middle" border=0></a>&nbsp; Bioactive Peptides</h2>
+#<h2><a href="/kegg/brite.html"><img src="/Fig/bget/kegg3.gif" align="middle" border=0></a>&nbsp; Bioactive Peptides</h2>
 !
 A<b>Neuropeptides</b>
 B  Tachykinin
@@ -236,5 +236,5 @@ C    C15922  Indolicidin
 C    C15921  Histatin 5
 !
 #<hr>
-#<b>[ <a href="/kegg/brite.html">BRITE</a> | <a href="/kegg/kegg2.html">KEGG2</a> | <a href="/kegg/">KEGG</a> ]</b><br>
+#[ <a href="/kegg/brite.html">BRITE</a> | <a href="/kegg/kegg2.html">KEGG2</a> | <a href="/kegg/">KEGG</a> ]<br>
 #Last updated: January 21, 2019
