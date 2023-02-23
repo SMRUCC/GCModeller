@@ -122,7 +122,7 @@ Namespace Assembly.NCBI.GenBank.GBFF
             Dim Sw As Stopwatch = Stopwatch.StartNew
             Dim gb As New File
 
-#If netcore5 = 0 Then
+#If NET48 Then
             Dim ReadThread As Action(Of File, String()) = AddressOf __readOrigin
             Dim ReadThreadResult As IAsyncResult = ReadThread.BeginInvoke(gb, innerBufs, Nothing, Nothing)
 #End If
@@ -150,7 +150,7 @@ Namespace Assembly.NCBI.GenBank.GBFF
 
             Call gb.Features.LinkEntry()
 
-#If netcore5 = 0 Then
+#If NET48 Then
             Call ReadThread.EndInvoke(ReadThreadResult)
 #Else
             Call __readOrigin(gb, innerBufs)
