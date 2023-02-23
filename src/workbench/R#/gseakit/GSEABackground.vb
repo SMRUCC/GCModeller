@@ -736,6 +736,20 @@ Public Module GSEABackground
     End Function
 
     ''' <summary>
+    ''' get kegg compound class brite background model
+    ''' </summary>
+    ''' <returns></returns>
+    ''' <remarks>
+    ''' this function generates a background model from the internal
+    ''' kegg resource database, the generated background model which 
+    ''' could be used for the compound class category annotation.
+    ''' </remarks>
+    <ExportAPI("compoundBrite")>
+    Public Function KEGGCompoundBriteClassBackground() As Background
+        Return KEGG.CompoundBriteBackground
+    End Function
+
+    ''' <summary>
     ''' create kegg background model
     ''' </summary>
     ''' <param name="genes"></param>
