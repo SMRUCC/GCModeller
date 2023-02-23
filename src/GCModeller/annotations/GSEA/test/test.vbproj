@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{EEC5AB0C-67F9-40CC-85AB-CCC8CBD86D1C}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <StartupObject>test.Module1</StartupObject>
+    <StartupObject>test.kegg_compound_class_model</StartupObject>
     <RootNamespace>test</RootNamespace>
     <AssemblyName>test</AssemblyName>
     <FileAlignment>512</FileAlignment>
@@ -114,6 +114,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="kegg_compound_class_model.vb" />
     <Compile Include="Module1.vb" />
     <Compile Include="KOBASTest.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
