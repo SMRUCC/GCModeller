@@ -144,9 +144,9 @@ Public Module KEGG
                 Dim info = setB.First
 
                 cluster = New Cluster With {
-                    .ID = Strings.Trim(setB.Key).NormalizePathString,
-                    .description = setB.Key,
-                    .names = $"[{setA.Name}] {info.class.Replace("/"c, "_"c)}/{info.category}",
+                    .ID = setA.Description & ":" & Strings.Trim(setB.Key).Replace("[Fig]", "").Trim.Replace(" ", "_"),
+                    .names = setB.Key,
+                    .description = $"[{setA.Name}] {info.class.Replace("/"c, "_"c)}/{info.category}",
                     .members = setB _
                         .GroupBy(Function(c) c.kegg_id) _
                         .Select(Function(c) c.First) _
@@ -168,7 +168,8 @@ Public Module KEGG
         Return New Background With {
             .clusters = clusters.ToArray,
             .id = "CompoundBrite",
-            .name = "CompoundBrite Background"
+            .name = "CompoundBrite Background",
+            .size = .clusters.BackgroundSize
         }
     End Function
 End Module
