@@ -81,13 +81,21 @@ Namespace ReactionNetwork
             End Get
         End Property
 
-        Sub New(compounds As IEnumerable(Of NamedValue(Of String)), cpdGroups As Dictionary(Of String, String()), ignores As Index(Of String), g As NetworkGraph, color As Brush, randomLayout As Boolean)
+        Public Const KEGGCompoundNodeType As String = "KEGG Compound"
+
+        Sub New(compounds As IEnumerable(Of NamedValue(Of String)),
+                cpdGroups As Dictionary(Of String, String()),
+                ignores As Index(Of String),
+                g As NetworkGraph,
+                color As Brush,
+                randomLayout As Boolean)
+
             nodes = compounds _
                 .Where(Function(cpd) Not cpd.Name Like ignores) _
                 .GroupBy(Function(a) a.Name) _
                 .Select(Function(a) a.First) _
                 .Select(Function(cpd As NamedValue(Of String))
-                            Return createCompoundNode(cpd, cpdGroups, color, randomLayout)
+                            Return CompoundNode(cpd, cpdGroups, color, randomLayout)
                         End Function) _
                 .ToDictionary
             nodes.Values _
@@ -101,7 +109,7 @@ Namespace ReactionNetwork
             Return nodes.ContainsKey(nodeLabelId)
         End Function
 
-        Private Shared Function createCompoundNode(cpd As NamedValue(Of String), cpdGroups As Dictionary(Of String, String()), color As Brush, randomLayout As Boolean) As Node
+        Private Shared Function CompoundNode(cpd As NamedValue(Of String), cpdGroups As Dictionary(Of String, String()), color As Brush, randomLayout As Boolean) As Node
             Dim type$ = "n/a"
 
             If cpdGroups.ContainsKey(cpd.Name) Then
@@ -112,11 +120,11 @@ Namespace ReactionNetwork
                 .label = cpd.Name,
                 .data = New NodeData With {
                     .label = cpd.Name,
-                    .origID = cpd.Value,
+                    .origID = If(cpd.Value, .label),
                     .color = color,
                     .Properties = New Dictionary(Of String, String) From {
                         {"common_name", cpd.Value},
-                        {NamesOf.REFLECTION_ID_MAPPING_NODETYPE, "KEGG Compound"},
+                        {NamesOf.REFLECTION_ID_MAPPING_NODETYPE, KEGGCompoundNodeType},
                         {"related", type},
                         {"kegg", cpd.Name}
                     },

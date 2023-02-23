@@ -57,6 +57,9 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 
+''' <summary>
+''' data source is comes from the annotation metadata inside the uniprot database <see cref="entry"/>
+''' </summary>
 Public Module UniProtModel
 
     Public Iterator Function UniprotGoHits(uniprot As IEnumerable(Of entry)) As IEnumerable(Of BackgroundGene)

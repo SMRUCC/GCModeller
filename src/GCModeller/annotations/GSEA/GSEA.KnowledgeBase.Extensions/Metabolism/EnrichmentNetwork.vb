@@ -1,57 +1,247 @@
 ﻿#Region "Microsoft.VisualBasic::310e9901e55bd5ee81673623af435fef, GCModeller\annotations\GSEA\GSEA.KnowledgeBase.Extensions\Metabolism\EnrichmentNetwork.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 6
-    '    Code Lines: 2
-    ' Comment Lines: 3
-    '   Blank Lines: 1
-    '     File Size: 122 B
+' Summaries:
 
 
-    ' Class EnrichmentNetwork
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 6
+'    Code Lines: 2
+' Comment Lines: 3
+'   Blank Lines: 1
+'     File Size: 122 B
+
+
+' Class EnrichmentNetwork
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
-''' <summary>
-''' Model of network based enrichment analysis
-''' </summary>
-Public Class EnrichmentNetwork
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis
+Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
+Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.Analysis.HTS.GSEA.KnowledgeBase.Metabolism.Metpa
+Imports SMRUCC.genomics.Analysis.KEGG
+Imports SMRUCC.genomics.Annotation.Ptf
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports SMRUCC.genomics.Model.Network.KEGG.ReactionNetwork
 
-End Class
+Namespace Metabolism
+
+    ''' <summary>
+    ''' Model of network based enrichment analysis(KEGG pathway targetted)
+    ''' </summary>
+    ''' <remarks>
+    ''' factors for the enrichment data analysis includes the network 
+    ''' topology impact factors, example likes: degree centroid/relative 
+    ''' betweeness, etc
+    ''' </remarks>
+    Public Module EnrichmentNetwork
+
+        ' Dim reactions As Dictionary(Of String, ReactionTable()) = ReactionTable.Load(reactionList).CreateIndex
+
+        ''' <summary>
+        ''' 直接基于已有的物种KEGG数据信息进行富集计算数据集的创建
+        ''' </summary>
+        ''' <returns></returns>
+        Public Function KEGGModels(models As Pathway(),
+                                   isKo_ref As Boolean,
+                                   reactions As Dictionary(Of String, ReactionTable()),
+                                   orgName As String,
+                                   multipleOmics As Boolean) As Metpa.metpa
+
+            If Not orgName.StringEmpty Then
+                For Each pathway As Pathway In models
+                    pathway.name = pathway.name.Replace(orgName, "").Trim(" "c, "-"c)
+                Next
+            End If
+
+            Dim tcode As String = models _
+                .Select(Function(pwy) pwy.EntryId.Match("[a-z]+")) _
+                .GroupBy(Function(tag) tag) _
+                .OrderByDescending(Function(tag) tag.Count) _
+                .First _
+                .Key
+
+            Return models.buildModels(If(isKo_ref, "map", tcode), multipleOmics, reactions)
+        End Function
+
+        <Extension>
+        Private Function buildModels(models As Pathway(),
+                                     keggId As String,
+                                     multipleOmics As Boolean,
+                                     reactions As Dictionary(Of String, ReactionTable())) As Metpa.metpa
+
+            ' models collection may contains empty data
+            ' or duplicated data
+            ' needs to do data filter at here at first!
+            models = (From pwy As Pathway
+                      In models
+                      Where Not pwy.EntryId.StringEmpty
+                      Group By pwy.EntryId Into Group
+                      Select Group.First()).ToArray
+
+            Dim pathIds As pathIds = pathIds.FromPathways(models)
+            Dim msetList As New msetList With {
+                .list = models.ToDictionary(
+                    Function(a) If(keggId.StringEmpty, a.EntryId, keggId & a.briteID),
+                    Function(a)
+                        Dim mset As New mset With {
+                            .kegg_id = a.compound.Select(Function(c) c.name).ToArray,
+                            .metaboliteNames = a.compound.Select(Function(c) c.text).ToArray,
+                            .clusterId = a.name
+                        }
+
+                        Return mset
+                    End Function)
+            }
+            Dim uniqueCompounds As Integer = msetList.CountUnique(models)
+
+            VBDebugger.Mute = True
+
+            Dim graphs As NamedValue(Of NetworkGraph)() = models _
+                .Populate(Not VBDebugger.debugMode) _
+                .Select(Function(model)
+                            Return model.PathwayNetworkGraph(keggId, multipleOmics, reactions)
+                        End Function) _
+                .ToArray
+
+            With pathIds.ids.Indexing
+                graphs = graphs _
+                    .OrderBy(Function(g) .IndexOf(g.Name)) _
+                    .ToArray
+            End With
+
+            Dim rbc As New rbcList With {.list = rbcList.calcRbc(graphs, multipleOmics)}
+            Dim dgr As New dgrList With {.pathways = dgrList.calcDgr(graphs, multipleOmics)}
+            Dim graphSet = graphs _
+                .Where(Function(g) g.Value.graphEdges.Any) _
+                .ToDictionary(Function(map) map.Name,
+                              Function(map)
+                                  Return graph.Create(map.Value, map.Name)
+                              End Function)
+
+            Return New Metpa.metpa() With {
+                .dgrList = dgr,
+                .rbcList = rbc,
+                .graphList = New graphList With {.graphs = graphSet},
+                .msetList = msetList,
+                .pathIds = pathIds,
+                .unique_count = uniqueCompounds
+            }
+        End Function
+
+        ''' <summary>
+        ''' reconstruct of the kegg pathway and then create gsea background dataset for biodeep package.
+        ''' </summary>
+        ''' <param name="maps"></param>
+        ''' <returns></returns>
+        Public Function CreateGSEASet(proteins As PtfFile,
+                                      compounds As Dictionary(Of String, String),
+                                      reactions As Dictionary(Of String, ReactionTable()),
+                                      maps As String,
+                                      multipleOmics As Boolean,
+                                      classTable As Dictionary(Of String, ReactionClassTable())) As (Metpa.metpa, DataSet())
+
+            Dim keggId As String = proteins.AsEnumerable.Where(Function(a) a.attributes.ContainsKey("kegg")).First!kegg.Split(":"c).First
+            Dim models As Pathway() = MapRepository _
+                .GetMapsAuto(maps) _
+                .KEGGReconstruction(proteins.AsEnumerable, 0) _
+                .Select(Function(pathway)
+                            Return pathway.AssignCompounds(
+                                reactions:=reactions,
+                                names:=compounds,
+                                classes:=classTable
+                            )
+                        End Function) _
+                .Where(Function(a) Not a.compound.IsNullOrEmpty) _
+                .OrderByDescending(Function(a)
+                                       Return a.compound.Length
+                                   End Function) _
+                .ToArray
+            Dim ranks = models _
+                .EvaluateCompoundUniqueRank _
+                .Transpose _
+                .ToArray
+
+            models = models.UniquePathwayCompounds.ToArray
+
+            Return (models.buildModels(keggId, multipleOmics, reactions), ranks)
+        End Function
+
+        <Extension>
+        Private Function PathwayNetworkGraph(model As Pathway,
+                                             keggId$,
+                                             multipleOmics As Boolean,
+                                             reactions As Dictionary(Of String, ReactionTable())) As NamedValue(Of NetworkGraph)
+
+            Dim allCompoundNames = model.compound _
+                .Select(Function(a) New NamedValue(Of String)(a.name, a.text)) _
+                .ToArray
+            Dim enzymes = model.genes _
+                .Where(Function(gene) Not (gene.KO.StringEmpty OrElse gene.geneId.StringEmpty)) _
+                .GroupBy(Function(gene) gene.KO) _
+                .ToDictionary(Function(enzyme) enzyme.Key,
+                              Function(enzyme)
+                                  Return enzyme.Select(Function(gene) gene.geneId).ToArray
+                              End Function)
+            Dim g As NetworkGraph = model _
+                .GetReactions(reactions, non_enzymatic:=True) _
+                .BuildModel(
+                    compounds:=allCompoundNames,
+                    extended:=False,
+                    enzymes:=enzymes,
+                    enzymaticRelated:=False,
+                    filterByEnzymes:=False,
+                    ignoresCommonList:=False,
+                    enzymeBridged:=multipleOmics,
+                    strictReactionNetwork:=True
+                )
+            Dim nameId As String = keggId & model.briteID
+
+            Call g.ComputeBetweennessCentrality(base:=1)
+            Call g.ComputeNodeDegrees(base:=1)
+
+            Return New NamedValue(Of NetworkGraph) With {
+                .Name = nameId,
+                .Value = g
+            }
+        End Function
+    End Module
+End Namespace

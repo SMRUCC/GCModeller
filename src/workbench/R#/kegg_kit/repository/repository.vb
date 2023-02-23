@@ -1,64 +1,64 @@
 ﻿#Region "Microsoft.VisualBasic::0dd9e9c0775725eb43e586776d10ec5b, R#\kegg_kit\repository\repository.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 778
-    '    Code Lines: 601
-    ' Comment Lines: 102
-    '   Blank Lines: 75
-    '     File Size: 32.60 KB
+' Summaries:
 
 
-    ' Module repository
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: createCompound, FetchKEGGOrganism, getCompoundsId, getReactionsId, keggMap
-    '               LoadCompoundRepo, loadMapRepository, LoadPathways, loadReactionClassRaw, loadReactionClassTable
-    '               LoadReactionRepo, pathway, reaction, reaction_class, ReadKEGGOrganism
-    '               readKEGGpathway, SaveKEGGOrganism, SaveKEGGPathway, shapeAreas, showMapTable
-    '               showTable, TableOfReactions, writeMessagePack
-    ' 
-    ' Enum OrganismTypes
-    ' 
-    '     all, eukaryotes, prokaryote
-    ' 
-    '  
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 778
+'    Code Lines: 601
+' Comment Lines: 102
+'   Blank Lines: 75
+'     File Size: 32.60 KB
+
+
+' Module repository
+' 
+'     Constructor: (+1 Overloads) Sub New
+'     Function: createCompound, FetchKEGGOrganism, getCompoundsId, getReactionsId, keggMap
+'               LoadCompoundRepo, loadMapRepository, LoadPathways, loadReactionClassRaw, loadReactionClassTable
+'               LoadReactionRepo, pathway, reaction, reaction_class, ReadKEGGOrganism
+'               readKEGGpathway, SaveKEGGOrganism, SaveKEGGPathway, shapeAreas, showMapTable
+'               showTable, TableOfReactions, writeMessagePack
+' 
+' Enum OrganismTypes
+' 
+'     all, eukaryotes, prokaryote
+' 
+'  
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -86,17 +86,18 @@ Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports any = Microsoft.VisualBasic.Scripting
 Imports REnv = SMRUCC.Rsharp.Runtime.Internal
-Imports Rs = SMRUCC.Rsharp.Runtime
 
 ''' <summary>
 ''' 
 ''' </summary>
 <Package("repository", Category:=APICategories.SoftwareTools)>
+<RTypeExport("kegg_pathway", GetType(Pathway))>
 Public Module repository
 
-    Sub New()
+    Friend Sub Main()
         Call REnv.ConsolePrinter.AttachConsoleFormatter(Of ReactionTable())(AddressOf showTable)
         Call REnv.Object.Converts.makeDataframe.addHandler(GetType(Map()), AddressOf showMapTable)
     End Sub
@@ -240,9 +241,18 @@ Public Module repository
     End Function
 
     ''' <summary>
-    ''' load reaction data from the given kegg reaction data repository
+    ''' ### load kegg reaction data repository
+    ''' 
+    ''' load reaction data from the given kegg reaction data 
+    ''' repository.
     ''' </summary>
-    ''' <param name="repository"></param>
+    ''' <param name="repository">Could be a data pack file or a directory
+    ''' path that contains multiple reaction model data files.
+    ''' </param>
+    ''' <param name="raw">
+    ''' this function will just returns a vector of the kegg reaction data if
+    ''' this parameter value is set to TRUE.
+    ''' </param>
     ''' <returns></returns>
     <ExportAPI("load.reactions")>
     <RApiReturn(GetType(ReactionRepository), GetType(Reaction))>
@@ -256,7 +266,7 @@ Public Module repository
                 Return KEGGReactionPack.ReadKeggDb(file)
             End Using
         Else
-            Dim resource As String() = Rs.asVector(Of String)(repository)
+            Dim resource As String() = CLRVector.asCharacter(repository)
 
             If resource.Length = 1 Then
                 Dim handle As String = resource(Scan0)

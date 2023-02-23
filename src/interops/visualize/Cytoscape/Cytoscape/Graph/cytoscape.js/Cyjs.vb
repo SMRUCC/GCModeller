@@ -84,12 +84,8 @@
 #End Region
 
 Imports System.Text
-#If netcore5 = 0 Then
-Imports System.Web.Script.Serialization
-#Else
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-#End If
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph.Abstract
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts

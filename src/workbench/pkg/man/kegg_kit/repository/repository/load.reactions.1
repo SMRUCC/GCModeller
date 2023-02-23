@@ -1,18 +1,29 @@
 .\" man page create by R# package system.
 .TH REPOSITORY 1 2000-Jan "load.reactions" "load.reactions"
 .SH NAME
-load.reactions \- load reaction data from the given kegg reaction data repository
+load.reactions \- load kegg reaction data repository
 .SH SYNOPSIS
 \fIload.reactions(\fBrepository\fR as any, 
 \fBraw\fR as boolean = TRUE, 
 [\fB<Environment>\fR]);\fR
 .SH DESCRIPTION
 .PP
-load reaction data from the given kegg reaction data repository
+load kegg reaction data repository
+ 
+ load reaction data from the given kegg reaction data 
+ repository.
 .PP
 .SH OPTIONS
 .PP
-\fBrepository\fB \fR\- -. 
+\fBrepository\fB \fR\- Could be a data pack file or a directory
+ path that contains multiple reaction model data files.
+. 
+.PP
+.PP
+\fBraw\fB \fR\- 
+ this function will just returns a vector of the kegg reaction data if
+ this parameter value is set to TRUE.
+. 
 .PP
 .SH SEE ALSO
 repository

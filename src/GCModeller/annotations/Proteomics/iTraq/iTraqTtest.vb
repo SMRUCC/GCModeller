@@ -74,10 +74,10 @@ Public Module iTraqTtest
 
         For Each protein As DataFrameRow In proteins
             result += New DEP_iTraq With {
-                .FCavg = protein.experiments.Average,
+                .foldchange = protein.experiments.Average,
                 .ID = protein.geneID,
                 .pvalue = t.Test(protein.experiments.Select(Function(x) Math.Log(x, 2)).ToArray, zero).Pvalue,
-                .log2FC = Math.Log(.FCavg, 2)
+                .log2FC = Math.Log(.foldchange, 2)
             }
         Next
 
@@ -142,10 +142,10 @@ Public Module iTraqTtest
                 ' 但是这种情况可能是实验A之中没有表达量，但是在实验B之中被检测到了表达
 
                 If includesZERO Then
-                    value.FCavg = 0
+                    value.foldchange = 0
                     value.pvalue = 0 ' 所有的实验重复都是这种情况，则重复性很好，pvalue非常非常小？？
                 Else
-                    value.FCavg = Double.NaN
+                    value.foldchange = Double.NaN
                     value.pvalue = Double.NaN
                 End If
 
@@ -157,8 +157,8 @@ Public Module iTraqTtest
                     .Select(Function(x) x Or NA) _
                     .AsVector
 
-                value.FCavg = v.Average
-                value.log2FC = Math.Log(value.FCavg, 2)
+                value.foldchange = v.Average
+                value.log2FC = Math.Log(value.foldchange, 2)
                 value.pvalue = t.Test(a:=Vector.Log(v, 2), b:=ZERO, varEqual:=True).Pvalue
             End If
 
@@ -192,7 +192,7 @@ Public Module iTraqTtest
         Return New DEP_iTraq With {
             .ID = protein.ID,
             .log2FC = log2FC,
-            .FCavg = FC,
+            .foldchange = FC,
             .FDR = 0,
             .pvalue = 0,
             .Properties = protein _

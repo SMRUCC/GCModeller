@@ -204,6 +204,17 @@ Namespace Drawing3D
             y = y * factor + viewHeight / 2
         End Sub
 
+        Public Shared Function Parse(data As String) As Point3D
+            Dim xyz As String() = data.Matches("[-]?\d+(\.\d+)?").ToArray
+            Dim p As Double() = xyz.Select(AddressOf Double.Parse).ToArray
+
+            If p.Length = 0 Then
+                Return Nothing
+            Else
+                Return New Point3D(p)
+            End If
+        End Function
+
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Operator -(p3D As Point3D, offset As Point3D) As Point3D
             Return New Point3D(

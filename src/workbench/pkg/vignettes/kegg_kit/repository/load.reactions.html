@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>load reaction data from the given kegg reaction data repository</title>
+    <title>load kegg reaction data repository</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <style rel="stylesheet" type="text/css">
@@ -148,11 +148,11 @@
             </tr>
         </table>
 
-        <h2>load reaction data from the given kegg reaction data repository</h2>
+        <h2>load kegg reaction data repository</h2>
 
         <h3>Description</h3>
 
-        
+        <p><br /> load reaction data from the given kegg reaction data <br /> repository.</p>
 
         <h3>Usage</h3>
 
@@ -166,7 +166,13 @@
         <table>
             
 <dt>repository</dt>
-<dd><p><p>-</p></p></dd>
+<dd><p><p>Could be a data pack file or a directory<br />
+ path that contains multiple reaction model data files.</p></p></dd>
+
+
+<dt>raw</dt>
+<dd><p><p>this function will just returns a vector of the kegg reaction data if<br />
+ this parameter value is set to TRUE.</p></p></dd>
 
         </table>
 

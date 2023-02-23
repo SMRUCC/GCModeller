@@ -65,15 +65,22 @@ Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Analysis.GO
 Imports SMRUCC.genomics.Analysis.HTS.GSEA
 Imports SMRUCC.genomics.Analysis.HTS.GSEA.KnowledgeBase
+Imports SMRUCC.genomics.Analysis.HTS.GSEA.KnowledgeBase.Metabolism
+Imports SMRUCC.genomics.Analysis.HTS.GSEA.KnowledgeBase.Metabolism.Metpa
+Imports SMRUCC.genomics.Analysis.KEGG
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
+Imports SMRUCC.genomics.Model.Network.KEGG.ReactionNetwork
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports any = Microsoft.VisualBasic.Scripting
 Imports GSEATools = SMRUCC.genomics.Analysis.HTS.GSEA
+Imports Pathway = SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Pathway
 Imports Rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 Imports REnv = SMRUCC.Rsharp.Runtime.Internal.ConsolePrinter
 
@@ -486,10 +493,10 @@ Public Module GSEABackground
         Dim fields As Dictionary(Of String, String()) = x.columns _
             .ToDictionary(Function(a) a.Key,
                           Function(a)
-                              Return DirectCast(asVector(Of String)(a.Value), String())
+                              Return CLRVector.asCharacter(a.Value)
                           End Function)
-        Dim idvec As String() = asVector(Of String)(fields(id))
-        Dim namevec As String() = asVector(Of String)(fields(name))
+        Dim idvec As String() = CLRVector.asCharacter(fields(id))
+        Dim namevec As String() = CLRVector.asCharacter(fields(name))
 
         Call fields.Remove(id)
         Call fields.Remove(name)
@@ -530,6 +537,53 @@ Public Module GSEABackground
         }
 
         Return cluster
+    End Function
+
+    ''' <summary>
+    ''' Create the gsea background model for metabolism analysis
+    ''' </summary>
+    ''' <param name="kegg">the kegg <see cref="Pathway"/> model collection of current organism</param>
+    ''' <param name="reactions">A collection of the reference <see cref="ReactionTable"/> model 
+    ''' data for build the metabolism network</param>
+    ''' <param name="org_name"></param>
+    ''' <param name="is_ko_ref"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("metpa")>
+    <RApiReturn(GetType(metpa))>
+    Public Function metpa(<RRawVectorArgument> kegg As Object,
+                          <RRawVectorArgument> reactions As Object,
+                          Optional org_name As String = Nothing,
+                          Optional is_ko_ref As Boolean = False,
+                          Optional multipleOmics As Boolean = False,
+                          Optional env As Environment = Nothing) As Object
+
+        Dim pathways As pipeline = pipeline.TryCreatePipeline(Of Pathway)(kegg, env)
+        Dim reactionList As pipeline = pipeline.TryCreatePipeline(Of ReactionTable)(reactions, env, suppress:=True)
+
+        If pathways.isError Then
+            Return pathways.getError
+        ElseIf reactionList.isError Then
+            reactionList = pipeline.TryCreatePipeline(Of Reaction)(reactions, env)
+
+            If reactionList.isError Then
+                Return reactionList.getError
+            End If
+
+            reactionList = reactionList _
+                .populates(Of Reaction)(env) _
+                .DoCall(AddressOf ReactionTable.Load) _
+                .ToArray _
+                .DoCall(AddressOf pipeline.CreateFromPopulator)
+        End If
+
+        Return EnrichmentNetwork.KEGGModels(
+            models:=pathways.populates(Of Pathway)(env).ToArray,
+            isKo_ref:=is_ko_ref,
+            reactions:=reactionList.populates(Of ReactionTable)(env).CreateIndex(indexByCompounds:=True),
+            orgName:=org_name,
+            multipleOmics:=multipleOmics
+        )
     End Function
 
     ''' <summary>

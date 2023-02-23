@@ -17,7 +17,7 @@ require(igraph);
 #' @return a network graph object model, which can be export as table file or
 #'    run network visualization rendering in the downstream data analysis.
 #'  
-const CompoundNetwork as function(compoundsId, make.pathway_cluster = TRUE) {
+const CompoundNetwork = function(compoundsId, make.pathway_cluster = TRUE) {
     const compounds = GCModeller::kegg_compounds();
     const reactions = GCModeller::kegg_reactions();
     const graph     = network::fromCompounds(
