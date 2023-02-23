@@ -6,6 +6,21 @@
     <AssemblyName>SMRUCC.genomics.Core</AssemblyName>
     <Platforms>AnyCPU;x64</Platforms>
     <Configurations>Debug;Release;LipidSearch;mzkit;NPSearch;Rsharp_app_release;mzkit_win32;gcmodeller_desktop</Configurations>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>Assembly file I/O stream for the common biological database and common biological data models</Title>
+    <Description>Bio.Assembly: assembly file i/o stream for the common biological database and the common biological data models. This is the core library for the genome annotation in GCModeller.</Description>
+    <Product>GCModeller</Product>
+    <Company>Southern Microbial Resources Utilization Centre Of China</Company>
+    <Authors>SMRUCC genomics</Authors>
+    <Version>6.3.256.3655</Version>
+    <Copyright>Copyright © SMRUCC genomics 2023</Copyright>
+    <PackageProjectUrl>https://gcmodeller.org/</PackageProjectUrl>
+    <PackageIcon>logo.png</PackageIcon>
+    <RepositoryUrl>https://github.com/SMRUCC/GCModeller.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>gcmodeller;bioinformatics;genomics</PackageTags>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -137,6 +152,17 @@
 
   <ItemGroup>
     <Import Include="System.Data" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\..\images\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\..\..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

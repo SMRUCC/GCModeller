@@ -78,6 +78,11 @@ Public Module Enrichment
         }
     End Function
 
+    ''' <summary>
+    ''' evaluate the unique idset size in the given cluster background model
+    ''' </summary>
+    ''' <param name="clusters"></param>
+    ''' <returns></returns>
     <Extension>
     Public Function BackgroundSize(clusters As IEnumerable(Of Cluster)) As Integer
         Return clusters _

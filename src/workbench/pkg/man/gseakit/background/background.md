@@ -21,4 +21,5 @@ tools for handling GSEA background model.
 + [KO_reference](background/KO_reference.1) gene/protein KO id background
 + [as.geneSet](background/as.geneSet.1) 
 + [metabolism.background](background/metabolism.background.1) create kegg maps background for the metabolism data analysis
++ [compoundBrite](background/compoundBrite.1) get kegg compound class brite background model
 + [KO.background](background/KO.background.1) create kegg background model

@@ -1,5 +1,5 @@
 +D
-#<h2><a href="/kegg/kegg2.html"><img src="/Fig/bget/kegg3.gif" align="middle" border=0></a>&nbsp; Phytochemical Compounds</h2>
+#<h2><a href="/kegg/brite.html"><img src="/Fig/bget/kegg3.gif" align="middle" border=0></a>&nbsp; Phytochemical Compounds</h2>
 !
 A<b>Alkaloids</b>
 B  Alkaloids derived from ornithine
@@ -1816,6 +1816,7 @@ D      C17953  (5S)-Albaflavenol
 D      C17955  (5R)-Albaflavenol
 D      C16028  Amorpha-4,11-diene
 D      C09621  (-)-alpha-Bisabolol
+D      C20479  (+)-epi-alpha-Bisabolol
 D      C19749  (E)-alpha-Bisabolene
 D      C16775  (S)-beta-Bisabolene
 D      C16814  gamma-Bisabolene
@@ -3074,5 +3075,5 @@ D      C08280  Hypoglycin B
 D      C10839  Urushiol III
 !
 #<hr>
-#<b>[ <a href="/kegg/brite.html">BRITE</a> | <a href="/kegg/kegg2.html">KEGG2</a> | <a href="/kegg/">KEGG</a> ]</b><br>
-#Last updated: December 20, 2018
+#[ <a href="/kegg/brite.html">BRITE</a> | <a href="/kegg/kegg2.html">KEGG2</a> | <a href="/kegg/">KEGG</a> ]<br>
+#Last updated: November 17, 2021
