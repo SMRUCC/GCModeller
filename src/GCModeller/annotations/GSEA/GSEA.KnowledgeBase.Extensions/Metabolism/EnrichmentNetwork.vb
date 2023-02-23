@@ -108,6 +108,15 @@ Namespace Metabolism
                                      multipleOmics As Boolean,
                                      reactions As Dictionary(Of String, ReactionTable())) As Metpa.metpa
 
+            ' models collection may contains empty data
+            ' or duplicated data
+            ' needs to do data filter at here at first!
+            models = (From pwy As Pathway
+                      In models
+                      Where Not pwy.EntryId.StringEmpty
+                      Group By pwy.EntryId Into Group
+                      Select Group.First()).ToArray
+
             Dim pathIds As pathIds = pathIds.FromPathways(models)
             Dim msetList As New msetList With {
                 .list = models.ToDictionary(
