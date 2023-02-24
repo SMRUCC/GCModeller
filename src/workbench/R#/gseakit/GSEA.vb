@@ -61,7 +61,6 @@
 
 #End Region
 
-Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
@@ -86,9 +85,20 @@ Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports REnv = SMRUCC.Rsharp.Runtime
 
 ''' <summary>
-''' The GCModeller GSEA toolkit
+''' ### The GCModeller GSEA toolkit
+''' 
+''' ##### Gene set enrichment analysis
+''' 
+''' Gene Set enrichment analysis (GSEA) (also called functional enrichment 
+''' analysis Or pathway enrichment analysis) Is a method To identify classes
+''' Of genes Or proteins that are over-represented In a large Set Of genes 
+''' Or proteins, And may have an association With disease phenotypes. The
+''' method uses statistical approaches To identify significantly enriched 
+''' Or depleted groups Of genes. Transcriptomics technologies And proteomics 
+''' results often identify thousands Of genes which are used For the analysis.
 ''' </summary>
 <Package("GSEA", Category:=APICategories.ResearchTools)>
+<RTypeExport("enrich", GetType(EnrichmentResult))>
 Module GSEA
 
     Sub Main()
@@ -201,13 +211,19 @@ Module GSEA
     ''' </summary>
     ''' <param name="list"></param>
     ''' <param name="geneSet"></param>
-    ''' <param name="background"></param>
+    ''' <param name="background">
+    ''' the background size information, it could be an integer value to 
+    ''' indicates that the total unique size of the enrichment background 
+    ''' or a unique id character vector that contains all member 
+    ''' information of the background.
+    ''' </param>
     ''' <returns></returns>
     <ExportAPI("fisher")>
     Public Function fisher(list As String(),
                            geneSet As String(),
-                           background As String(),
-                           Optional term As String = "unknown") As EnrichmentResult
+                           <RRawVectorArgument> background As Object,
+                           Optional term As String = "unknown",
+                           Optional env As Environment = Nothing) As EnrichmentResult
 
         Dim info As New Cluster With {
             .ID = term,
@@ -215,10 +231,18 @@ Module GSEA
             .names = term,
             .members = New BackgroundGene(geneSet.Length - 1) {}
         }
+        Dim backgroundSize As Integer
+
+        If REnv.isVector(Of String)(background) Then
+            backgroundSize = CLRVector.asCharacter(background).Distinct.Count
+        Else
+            backgroundSize = CLRVector.asInteger(background).FirstOrDefault
+        End If
+
         Dim enrich As EnrichmentResult = info.calcResult(
             enriched:=list,
             inputSize:=list.Length,
-            genes:=background.Length,
+            genes:=backgroundSize,
             outputAll:=True
         )
 
