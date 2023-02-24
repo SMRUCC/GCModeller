@@ -124,10 +124,27 @@ Module GSEA
     End Function
 
     ''' <summary>
-    ''' do GSEA enrichment analysis
+    ''' ### do GSEA enrichment analysis
+    ''' 
+    ''' Gene set enrichment analysis (GSEA) (also called functional 
+    ''' enrichment analysis or pathway enrichment analysis) is a 
+    ''' method to identify classes of genes or proteins that are 
+    ''' over-represented in a large set of genes or proteins, and 
+    ''' may have an association with disease phenotypes. The method 
+    ''' uses statistical approaches to identify significantly enriched 
+    ''' or depleted groups of genes. Transcriptomics technologies 
+    ''' and proteomics results often identify thousands of genes 
+    ''' which are used for the analysis.
     ''' </summary>
     ''' <param name="background">a background model or metpa model</param>
     ''' <param name="geneSet">a given geneset id list</param>
+    ''' <param name="args">
+    ''' the additional argument list that may be used, 
+    ''' 
+    ''' for metpa background model, ``topo`` parameter will be used for 
+    ''' specific the network topology impact score source, value of the
+    ''' ``topo`` parameter could be ``dgr`` or ``rbc``.
+    ''' </param>
     ''' <returns></returns>
     <ExportAPI("enrichment")>
     <RApiReturn(GetType(EnrichmentResult))>
