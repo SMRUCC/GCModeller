@@ -53,4 +53,6 @@ Imports Microsoft.VisualBasic.MIME.application.rdf_xml
 
 Public MustInherit Class OwlOntology : Inherits RDFEntity
 
+    Const owl As String = "http://www.w3.org/2002/07/owl#"
+
 End Class

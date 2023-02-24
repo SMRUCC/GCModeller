@@ -1,7 +1,11 @@
 Imports System
+Imports SMRUCC.genomics.Model.Biopax.Level3
 
 Module Program
     Sub Main(args As String())
-        Console.WriteLine("Hello World!")
+        Dim docs = "D:\GCModeller\src\GCModeller\models\SBML\data\smpdb_PW000266.owl"
+        Dim pathway = File.LoadDoc(docs)
+
+        Pause()
     End Sub
 End Module

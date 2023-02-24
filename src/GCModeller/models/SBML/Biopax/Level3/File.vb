@@ -73,13 +73,12 @@ Namespace Level3
     ''' &lt;rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bp="http://www.biopax.org/release/biopax-level3.owl#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:owl="http://www.w3.org/2002/07/owl#" xmlns:xsd="http://www.w3.org/2001/XMLSchema#" xml:base="http://www.reactome.org/biopax/56/159879#">
     ''' </summary>
     ''' 
-    <XmlType("RDF", [Namespace]:=RDFEntity.XmlnsNamespace)>
+    <XmlRoot("RDF", [Namespace]:="http://smpdb.ca/pathways/#")>
     Public Class File : Inherits RDF(Of DescriptionData)
 
-        <XmlElement("Ontology")> Public Property Owl As OwlOntology
+        <XmlElement("Ontology")> Public Property OwlOntology As OwlOntology
         <XmlElement("SmallMolecule")> Public Property SmallMolecules As SmallMolecule()
         <XmlElement> Public Property BiochemicalReaction As BiochemicalReaction()
-
         <XmlElement> Public Property CellularLocationVocabulary As CellularLocationVocabulary()
         <XmlElement> Public Property SmallMoleculeReference As SmallMoleculeReference()
         <XmlElement> Public Property UnificationXref As UnificationXref()
@@ -92,18 +91,23 @@ Namespace Level3
         <XmlElement> Public Property SequenceInterval As SequenceInterval()
         <XmlElement> Public Property SequenceSite As SequenceSite()
         <XmlElement> Public Property Stoichiometry As Stoichiometry()
-
-
         <XmlElement> Public Property Catalysis As Catalysis()
         <XmlElement> Public Property RelationshipXref As RelationshipXref()
         <XmlElement> Public Property RelationshipTypeVocabulary As RelationshipTypeVocabulary()
-
         <XmlElement> Public Property PublicationXref As PublicationXref()
-
         <XmlElement> Public Property PhysicalEntity As PhysicalEntity()
 
+        Const bp As String = "http://www.biopax.org/release/biopax-level3.owl#"
+        Const owl As String = "http://www.w3.org/2002/07/owl#"
+
+        Sub New()
+            Call MyBase.New
+            Call xmlns.Add("bp", bp)
+            Call xmlns.Add("owl", owl)
+        End Sub
+
         Public Shared Function LoadDoc(path As String) As File
-            Return path.LoadXml(Of File)
+            Return New FileReader(path).GetObject
         End Function
     End Class
 End Namespace
