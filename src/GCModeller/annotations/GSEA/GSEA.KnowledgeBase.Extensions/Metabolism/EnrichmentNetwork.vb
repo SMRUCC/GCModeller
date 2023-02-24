@@ -148,8 +148,18 @@ Namespace Metabolism
                     .ToArray
             End With
 
+            ' 20230223
+            '
+            ' if there is no graph edges exists in the graph object
+            ' then all of the dgr/rbc topology factor value will
+            ' be the same
+            '
+            ' which means the nodes in the graph shares the same weight
+            ' or impact to the enrichment result
+            '
             Dim rbc As New rbcList With {.list = rbcList.calcRbc(graphs, multipleOmics)}
             Dim dgr As New dgrList With {.pathways = dgrList.calcDgr(graphs, multipleOmics)}
+            ' removes empty graph set
             Dim graphSet = graphs _
                 .Where(Function(g) g.Value.graphEdges.Any) _
                 .ToDictionary(Function(map) map.Name,
