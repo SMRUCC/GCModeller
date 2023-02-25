@@ -1,66 +1,68 @@
 ﻿#Region "Microsoft.VisualBasic::c1e37a79c1c48ed49be36c25c62669ac, GCModeller\models\SBML\Biopax\Level3\File.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 48
-    '    Code Lines: 32
-    ' Comment Lines: 5
-    '   Blank Lines: 11
-    '     File Size: 2.39 KB
+' Summaries:
 
 
-    '     Class DescriptionData
-    ' 
-    ' 
-    ' 
-    '     Class File
-    ' 
-    '         Properties: BiochemicalReaction, BioSource, Catalysis, CellularLocationVocabulary, Complex
-    '                     FragmentFeature, Owl, PhysicalEntity, Protein, ProteinReference
-    '                     Provenance, PublicationXref, RelationshipTypeVocabulary, RelationshipXref, SequenceInterval
-    '                     SequenceSite, SmallMoleculeReference, SmallMolecules, Stoichiometry, UnificationXref
-    ' 
-    '         Function: LoadDoc
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 48
+'    Code Lines: 32
+' Comment Lines: 5
+'   Blank Lines: 11
+'     File Size: 2.39 KB
+
+
+'     Class DescriptionData
+' 
+' 
+' 
+'     Class File
+' 
+'         Properties: BiochemicalReaction, BioSource, Catalysis, CellularLocationVocabulary, Complex
+'                     FragmentFeature, Owl, PhysicalEntity, Protein, ProteinReference
+'                     Provenance, PublicationXref, RelationshipTypeVocabulary, RelationshipXref, SequenceInterval
+'                     SequenceSite, SmallMoleculeReference, SmallMolecules, Stoichiometry, UnificationXref
+' 
+'         Function: LoadDoc
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.MIME.application.rdf_xml
+Imports Microsoft.VisualBasic.MIME.application.xml
 
 Namespace Level3
 
@@ -102,12 +104,14 @@ Namespace Level3
 
         Sub New()
             Call MyBase.New
+
             Call xmlns.Add("bp", bp)
             Call xmlns.Add("owl", owl)
         End Sub
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function LoadDoc(path As String) As File
-            Return New FileReader(path).GetObject
+            Return GraphWriter.LoadXml(Of File)(path)
         End Function
     End Class
 End Namespace
