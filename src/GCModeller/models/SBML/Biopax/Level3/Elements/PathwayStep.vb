@@ -2,7 +2,7 @@
 Imports Microsoft.VisualBasic.MIME.application.rdf_xml
 Imports SMRUCC.genomics.Model.Biopax.EntityProperties
 
-Public Class Transport
+Public Class Transport : Inherits RDFEntity
     Public Property participantStoichiometry As participantStoichiometry()
     Public Property displayName As displayName
     Public Property right As right()
@@ -17,7 +17,7 @@ Public Class TransportWithBiochemicalReaction : Inherits Transport
 
 End Class
 
-Public Class PathwayStep
+Public Class PathwayStep : Inherits RDFEntity
 
     Public Property stepProcess As stepProcess
 End Class
@@ -35,7 +35,7 @@ Public Class stepProcess : Inherits EntityProperty
 
 End Class
 
-Public Class Pathway
+Public Class Pathway : Inherits RDFEntity
     <XmlElement> Public Property pathwayOrder As pathwayOrder()
     <XmlElement> Public Property pathwayComponent As pathwayComponent()
     <XmlElement> Public Property xref As xref()
@@ -52,7 +52,7 @@ Public Class pathwayOrder : Inherits EntityProperty
 
 End Class
 
-Public Class Interaction
+Public Class Interaction : Inherits RDFEntity
     Public Property displayName As displayName
     Public Property name As name()
     Public Property participant As participant()
