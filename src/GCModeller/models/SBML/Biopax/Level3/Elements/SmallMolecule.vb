@@ -210,7 +210,8 @@ End Class
 
 Public Class Protein : Inherits RDFEntity
     Public Property displayName As displayName
-    Public Property name As name
+    <XmlElement>
+    Public Property name As name()
     Public Property cellularLocation As cellularLocation
     Public Property entityReference As entityReference
     Public Property feature As feature
@@ -280,8 +281,10 @@ End Class
 
 
 Public Class PhysicalEntity : Inherits RDFEntity
+    <XmlElement> Public Property name As name()
     <XmlElement> Public Property displayName As displayName
     <XmlElement> Public Property cellularLocation As cellularLocation
     <XmlElement> Public Property xref As xref()
     <XmlElement> Public Property dataSource As dataSource
+    <XmlElement> Public Property memberPhysicalEntity As memberPhysicalEntity()
 End Class

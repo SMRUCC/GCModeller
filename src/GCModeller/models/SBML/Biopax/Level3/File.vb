@@ -78,6 +78,9 @@ Namespace Level3
     <XmlRoot("RDF", [Namespace]:="http://smpdb.ca/pathways/#")>
     Public Class File : Inherits RDF(Of DescriptionData)
 
+        <XmlAttribute("base")>
+        Public Property base As String
+
         <XmlElement("Ontology")> Public Property OwlOntology As OwlOntology
         <XmlElement("SmallMolecule")> Public Property SmallMolecules As SmallMolecule()
         <XmlElement> Public Property BiochemicalReaction As BiochemicalReaction()
