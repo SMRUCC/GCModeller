@@ -1,131 +1,131 @@
 ﻿#Region "Microsoft.VisualBasic::5118eac13e2ef1544ba3dad9ed94a775, GCModeller\models\SBML\Biopax\Level3\Elements\SmallMolecule.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 137
-    '    Code Lines: 112
-    ' Comment Lines: 0
-    '   Blank Lines: 25
-    '     File Size: 4.77 KB
+' Summaries:
 
 
-    ' Class SmallMolecule
-    ' 
-    '     Properties: cellularLocation, dataSource, displayName, entityReference, names
-    '                 standardName, xrefs
-    ' 
-    ' Class BiochemicalReaction
-    ' 
-    '     Properties: conversionDirection, dataSource, displayName, eCNumber, left
-    '                 right, xref
-    ' 
-    ' Class CellularLocationVocabulary
-    ' 
-    '     Properties: term, xref
-    ' 
-    ' Class ChemicalStructure
-    ' 
-    '     Properties: structureData, structureFormat
-    ' 
-    ' Class SmallMoleculeReference
-    ' 
-    '     Properties: molecularWeight, name, xref
-    ' 
-    ' Class UnificationXref
-    ' 
-    '     Properties: db, id, idVersion
-    ' 
-    ' Class Provenance
-    ' 
-    '     Properties: name
-    ' 
-    ' Class Complex
-    ' 
-    '     Properties: cellularLocation, componentStoichiometry, dataSource, displayName, xref
-    ' 
-    ' Class Protein
-    ' 
-    '     Properties: cellularLocation, dataSource, displayName, entityReference, feature
-    '                 xref
-    ' 
-    ' Class ProteinReference
-    ' 
-    '     Properties: name, organism, xref
-    ' 
-    ' Class BioSource
-    ' 
-    '     Properties: name, xref
-    ' 
-    ' Class FragmentFeature
-    ' 
-    '     Properties: featureLocation
-    ' 
-    ' Class SequenceInterval
-    ' 
-    '     Properties: sequenceIntervalBegin, sequenceIntervalEnd
-    ' 
-    ' Class SequenceSite
-    ' 
-    '     Properties: positionStatus, sequencePosition
-    ' 
-    ' Class Stoichiometry
-    ' 
-    '     Properties: physicalEntity, stoichiometricCoefficient
-    ' 
-    ' Class Catalysis
-    ' 
-    '     Properties: controlled, controller, controlType, dataSource, xref
-    ' 
-    ' Class RelationshipXref
-    ' 
-    '     Properties: db, id, relationshipType
-    ' 
-    ' Class RelationshipTypeVocabulary
-    ' 
-    '     Properties: term, xref
-    ' 
-    ' Class PublicationXref
-    ' 
-    '     Properties: author, db, id, source, title
-    '                 year
-    ' 
-    ' Class PhysicalEntity
-    ' 
-    '     Properties: cellularLocation, dataSource, displayName, xref
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 137
+'    Code Lines: 112
+' Comment Lines: 0
+'   Blank Lines: 25
+'     File Size: 4.77 KB
+
+
+' Class SmallMolecule
+' 
+'     Properties: cellularLocation, dataSource, displayName, entityReference, names
+'                 standardName, xrefs
+' 
+' Class BiochemicalReaction
+' 
+'     Properties: conversionDirection, dataSource, displayName, eCNumber, left
+'                 right, xref
+' 
+' Class CellularLocationVocabulary
+' 
+'     Properties: term, xref
+' 
+' Class ChemicalStructure
+' 
+'     Properties: structureData, structureFormat
+' 
+' Class SmallMoleculeReference
+' 
+'     Properties: molecularWeight, name, xref
+' 
+' Class UnificationXref
+' 
+'     Properties: db, id, idVersion
+' 
+' Class Provenance
+' 
+'     Properties: name
+' 
+' Class Complex
+' 
+'     Properties: cellularLocation, componentStoichiometry, dataSource, displayName, xref
+' 
+' Class Protein
+' 
+'     Properties: cellularLocation, dataSource, displayName, entityReference, feature
+'                 xref
+' 
+' Class ProteinReference
+' 
+'     Properties: name, organism, xref
+' 
+' Class BioSource
+' 
+'     Properties: name, xref
+' 
+' Class FragmentFeature
+' 
+'     Properties: featureLocation
+' 
+' Class SequenceInterval
+' 
+'     Properties: sequenceIntervalBegin, sequenceIntervalEnd
+' 
+' Class SequenceSite
+' 
+'     Properties: positionStatus, sequencePosition
+' 
+' Class Stoichiometry
+' 
+'     Properties: physicalEntity, stoichiometricCoefficient
+' 
+' Class Catalysis
+' 
+'     Properties: controlled, controller, controlType, dataSource, xref
+' 
+' Class RelationshipXref
+' 
+'     Properties: db, id, relationshipType
+' 
+' Class RelationshipTypeVocabulary
+' 
+'     Properties: term, xref
+' 
+' Class PublicationXref
+' 
+'     Properties: author, db, id, source, title
+'                 year
+' 
+' Class PhysicalEntity
+' 
+'     Properties: cellularLocation, dataSource, displayName, xref
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -168,11 +168,16 @@ Public Class ChemicalStructure : Inherits RDFEntity
     Public Property structureData As structureData
 End Class
 
+<XmlType("SmallMoleculeReference", [Namespace]:=Level3.File.bp)>
 Public Class SmallMoleculeReference : Inherits RDFEntity
     <XmlElement> Public Property name As name()
     <XmlElement> Public Property xref As xref()
     Public Property molecularWeight As molecularWeight
+    Public Property chemicalFormula As chemicalFormula
+    Public Property displayName As displayName
+    Public Property [structure] As [structure]
 End Class
+
 Public Class UnificationXref : Inherits RDFEntity
     Public Property db As db
     Public Property id As id

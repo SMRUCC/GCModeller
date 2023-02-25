@@ -99,8 +99,8 @@ Namespace Level3
         <XmlElement> Public Property PublicationXref As PublicationXref()
         <XmlElement> Public Property PhysicalEntity As PhysicalEntity()
 
-        Const bp As String = "http://www.biopax.org/release/biopax-level3.owl#"
-        Const owl As String = "http://www.w3.org/2002/07/owl#"
+        Public Const bp As String = "http://www.biopax.org/release/biopax-level3.owl#"
+        Public Const owl As String = "http://www.w3.org/2002/07/owl#"
 
         Sub New()
             Call MyBase.New
