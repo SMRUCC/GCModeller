@@ -156,6 +156,14 @@ Public Class BiochemicalReaction : Inherits RDFEntity
     Public Property displayName As displayName
     <XmlElement> Public Property xref As xref()
     Public Property dataSource As dataSource
+    <XmlElement>
+    Public Property participantStoichiometry As participantStoichiometry()
+    Public Property spontaneous As spontaneous
+    Public Property name As name
+End Class
+
+Public Class spontaneous : Inherits EntityProperty
+
 End Class
 
 Public Class CellularLocationVocabulary : Inherits RDFEntity
@@ -191,15 +199,18 @@ End Class
 Public Class Complex : Inherits RDFEntity
     Public Property displayName As displayName
     Public Property cellularLocation As cellularLocation
-    Public Property componentStoichiometry As componentStoichiometry
+    <XmlElement> Public Property componentStoichiometry As componentStoichiometry()
     <XmlElement> Public Property xref As xref()
     Public Property dataSource As dataSource
+    <XmlElement> Public Property component As component()
+    Public Property name As name
 End Class
 
 
 
 Public Class Protein : Inherits RDFEntity
     Public Property displayName As displayName
+    Public Property name As name
     Public Property cellularLocation As cellularLocation
     Public Property entityReference As entityReference
     Public Property feature As feature
@@ -208,11 +219,13 @@ Public Class Protein : Inherits RDFEntity
 End Class
 Public Class ProteinReference : Inherits RDFEntity
     Public Property organism As organism
+    Public Property displayName As displayName
     <XmlElement> Public Property name As name()
     <XmlElement> Public Property xref As xref()
 End Class
 Public Class BioSource : Inherits RDFEntity
     Public Property name As name
+    Public Property displayName As displayName
     <XmlElement> Public Property xref As xref()
 End Class
 
@@ -242,6 +255,7 @@ Public Class Catalysis : Inherits RDFEntity
     Public Property controlType As controlType
     <XmlElement> Public Property xref As xref()
     Public Property dataSource As dataSource
+    Public Property displayName As displayName
 End Class
 Public Class RelationshipXref : Inherits RDFEntity
     Public Property db As db

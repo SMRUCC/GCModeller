@@ -98,6 +98,13 @@ Namespace Level3
         <XmlElement> Public Property RelationshipTypeVocabulary As RelationshipTypeVocabulary()
         <XmlElement> Public Property PublicationXref As PublicationXref()
         <XmlElement> Public Property PhysicalEntity As PhysicalEntity()
+        <XmlElement> Public Property PathwayStep As PathwayStep()
+        <XmlElement> Public Property Pathway As pathway()
+        <XmlElement> Public Property BiochemicalPathwayStep As BiochemicalPathwayStep()
+        <XmlElement> Public Property ChemicalStructure As ChemicalStructure()
+        <XmlElement> Public Property Interaction As Interaction()
+        <XmlElement> Public Property Transport As Transport()
+        <XmlElement> Public Property TransportWithBiochemicalReaction As TransportWithBiochemicalReaction()
 
         Public Const bp As String = "http://www.biopax.org/release/biopax-level3.owl#"
         Public Const owl As String = "http://www.w3.org/2002/07/owl#"
