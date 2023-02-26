@@ -10,5 +10,9 @@ Namespace MetabolicModel
         Public Property metabolites As MetabolicCompound()
         Public Property metabolicNetwork As MetabolicReaction()
 
+        Public Overrides Function ToString() As String
+            Return name
+        End Function
+
     End Class
 End Namespace
