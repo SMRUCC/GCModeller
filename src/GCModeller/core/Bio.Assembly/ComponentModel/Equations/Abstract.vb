@@ -58,8 +58,24 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 
 Namespace ComponentModel.EquaionModel
 
+    ''' <summary>
+    ''' A metabolite compound abstract model which contains 
+    ''' the unique reference id of the metabolite and the
+    ''' chemical factor to current equation
+    ''' </summary>
     Public Interface ICompoundSpecies : Inherits INamedValue
-        Property StoiChiometry As Double
+
+        ''' <summary>
+        ''' stoichiometry, in chemistry, the determination of the 
+        ''' proportions in which elements or compounds react with 
+        ''' one another. The rules followed in the determination 
+        ''' of stoichiometric relationships are based on the laws 
+        ''' of conservation of mass and energy and the law of 
+        ''' combining weights or volumes.
+        ''' </summary>
+        ''' <returns></returns>
+        Property Stoichiometry As Double
+
     End Interface
 
     Public Interface IEquation(Of TCompound As ICompoundSpecies)

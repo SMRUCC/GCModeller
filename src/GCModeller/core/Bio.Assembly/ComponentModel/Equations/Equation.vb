@@ -159,9 +159,9 @@ Namespace ComponentModel.EquaionModel
             End If
 
             If leftTable.ContainsKey(ID) Then
-                Return -1 * leftTable(ID).Select(Function(x) x.StoiChiometry).Sum
+                Return -1 * leftTable(ID).Select(Function(x) x.Stoichiometry).Sum
             ElseIf rightTable.ContainsKey(ID) Then
-                Return rightTable(ID).Select(Function(x) x.StoiChiometry).Sum
+                Return rightTable(ID).Select(Function(x) x.Stoichiometry).Sum
             Else
                 Return 0
             End If
