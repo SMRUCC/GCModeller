@@ -150,8 +150,8 @@ End Class
 
 Public Class BiochemicalReaction : Inherits RDFEntity
     Public Property conversionDirection As conversionDirection
-    <XmlElement> Public Property left As left()
-    <XmlElement> Public Property right As right()
+    <XmlElement> Public Property left As EntityProperty()
+    <XmlElement> Public Property right As EntityProperty()
     Public Property eCNumber As eCNumber
     Public Property displayName As displayName
     <XmlElement> Public Property xref As xref()

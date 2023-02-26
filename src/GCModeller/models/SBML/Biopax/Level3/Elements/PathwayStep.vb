@@ -5,8 +5,8 @@ Imports SMRUCC.genomics.Model.Biopax.EntityProperties
 Public Class Transport : Inherits RDFEntity
     Public Property participantStoichiometry As participantStoichiometry()
     Public Property displayName As displayName
-    Public Property right As right()
-    Public Property left As left()
+    Public Property right As EntityProperty()
+    Public Property left As EntityProperty()
     Public Property name As name
     Public Property spontaneous As spontaneous
     Public Property conversionDirection As conversionDirection

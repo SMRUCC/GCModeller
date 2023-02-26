@@ -303,14 +303,6 @@ Namespace EntityProperties
 
     End Class
 
-    Public Class left : Inherits EntityProperty
-
-    End Class
-
-    Public Class right : Inherits EntityProperty
-
-    End Class
-
     Public Class eCNumber : Inherits EntityProperty
 
     End Class
