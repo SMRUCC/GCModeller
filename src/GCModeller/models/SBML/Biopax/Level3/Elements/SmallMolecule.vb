@@ -134,15 +134,11 @@ Imports Microsoft.VisualBasic.MIME.application.rdf_xml
 Imports SMRUCC.genomics.Model.Biopax.EntityProperties
 
 <XmlType("SmallMolecule")>
-Public Class SmallMolecule : Inherits RDFEntity
+Public Class SmallMolecule : Inherits Molecule
 
     Public Property standardName As standardName
-    Public Property displayName As displayName
-
-    <XmlElement("name")> Public Property names As name()
-    Public Property cellularLocation As cellularLocation
-    Public Property entityReference As entityReference
-    <XmlElement("xref")> Public Property xrefs As xref()
+    <XmlElement("xref")>
+    Public Property xrefs As xref()
     Public Property dataSource As dataSource
 
 End Class
@@ -196,24 +192,19 @@ Public Class Provenance : Inherits RDFEntity
 End Class
 
 
-Public Class Complex : Inherits RDFEntity
-    Public Property displayName As displayName
-    Public Property cellularLocation As cellularLocation
+Public Class Complex : Inherits Molecule
+
     <XmlElement> Public Property componentStoichiometry As componentStoichiometry()
     <XmlElement> Public Property xref As xref()
     Public Property dataSource As dataSource
     <XmlElement> Public Property component As component()
-    Public Property name As name
+
 End Class
 
 
 
-Public Class Protein : Inherits RDFEntity
-    Public Property displayName As displayName
-    <XmlElement>
-    Public Property name As name()
-    Public Property cellularLocation As cellularLocation
-    Public Property entityReference As entityReference
+Public Class Protein : Inherits Molecule
+
     Public Property feature As feature
     <XmlElement> Public Property xref As xref()
     Public Property dataSource As dataSource
@@ -252,7 +243,13 @@ Public Class Stoichiometry : Inherits RDFEntity
     End Function
 End Class
 
-
+Public MustInherit Class Molecule : Inherits RDFEntity
+    Public Property displayName As displayName
+    <XmlElement>
+    Public Property name As name()
+    Public Property cellularLocation As cellularLocation
+    Public Property entityReference As entityReference
+End Class
 
 Public Class Catalysis : Inherits RDFEntity
     Public Property controller As controller
