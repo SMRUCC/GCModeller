@@ -190,7 +190,11 @@ Public Class EntityProperty
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Narrowing Operator CType(res As EntityProperty) As Boolean
-        Return Boolean.Parse(res.value)
+        If res Is Nothing Then
+            Return False
+        Else
+            Return Boolean.Parse(res.value)
+        End If
     End Operator
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>

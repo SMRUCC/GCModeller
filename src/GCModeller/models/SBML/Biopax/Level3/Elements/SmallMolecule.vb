@@ -245,7 +245,11 @@ End Class
 
 Public Class Stoichiometry : Inherits RDFEntity
     Public Property stoichiometricCoefficient As stoichiometricCoefficient
-    Public Property physicalEntity As PhysicalEntity
+    Public Property physicalEntity As EntityProperty
+
+    Public Overrides Function ToString() As String
+        Return $"{RDFId} [{physicalEntity}]"
+    End Function
 End Class
 
 
