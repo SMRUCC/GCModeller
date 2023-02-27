@@ -39,22 +39,28 @@ const localRenderMap = function(KEGG_maps, pathwayList,
         #'
         #'    will be parsed as {id: color1, id: color2}
         #'
-        const highlights = url |> report.utils::parseKeggUrl(compound = compoundcolors, gene = gene_highights);
+        const highlights = url |> report.utils::parseKeggUrl(
+            compound = compoundcolors, 
+            gene     = gene_highights
+        );
 
         print(`'${mapId}' contains ${length(highlights$objects)} objects.`);
         # str(highlights);
 
         if (length(highlights$objects) >= 3) {
-            KEGG_maps[[mapId]]
-            |> keggMap.reportHtml(highlights$objects)
-            # print html text to std_out device
-            |> writeLines(con = `${outputdir}/${mapId}.html`)
-            ;
+            try({
 
-            # just render image file
-            bitmap(file = `${outputdir}/${mapId}.png`) {
-                keggMap.highlights(KEGG_maps[[mapId]], highlights$objects);
-            }
+                KEGG_maps[[mapId]]
+                |> keggMap.reportHtml(highlights$objects)
+                # print html text to std_out device
+                |> writeLines(con = `${outputdir}/${mapId}.html`)
+                ;
+
+                # just render image file
+                bitmap(file = `${outputdir}/${mapId}.png`) {
+                    keggMap.highlights(KEGG_maps[[mapId]], highlights$objects);
+                }
+            });
         }
     }
 }
