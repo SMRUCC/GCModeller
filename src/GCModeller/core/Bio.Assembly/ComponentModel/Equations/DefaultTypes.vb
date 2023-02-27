@@ -1,64 +1,64 @@
 ﻿#Region "Microsoft.VisualBasic::2c8f0dcb73d97a9bc63825ab1bbd60e6, GCModeller\core\Bio.Assembly\ComponentModel\Equations\DefaultTypes.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 167
-    '    Code Lines: 127
-    ' Comment Lines: 13
-    '   Blank Lines: 27
-    '     File Size: 6.67 KB
+' Summaries:
 
 
-    '     Class CompoundSpecieReference
-    ' 
-    '         Properties: Compartment, ID, StoiChiometry
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    '         Function: AsFactor, Equals, ToString
-    ' 
-    '     Class Equation
-    ' 
-    '         Constructor: (+3 Overloads) Sub New
-    ' 
-    '         Function: __equals, GetBuffer, GetCoEfficient, ParseBuffer, ReadMetabolite
-    '                   TryParse
-    ' 
-    '         Sub: SaveMetabolite
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 167
+'    Code Lines: 127
+' Comment Lines: 13
+'   Blank Lines: 27
+'     File Size: 6.67 KB
+
+
+'     Class CompoundSpecieReference
+' 
+'         Properties: Compartment, ID, StoiChiometry
+' 
+'         Constructor: (+2 Overloads) Sub New
+'         Function: AsFactor, Equals, ToString
+' 
+'     Class Equation
+' 
+'         Constructor: (+3 Overloads) Sub New
+' 
+'         Function: __equals, GetBuffer, GetCoEfficient, ParseBuffer, ReadMetabolite
+'                   TryParse
+' 
+'         Sub: SaveMetabolite
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -77,7 +77,7 @@ Namespace ComponentModel.EquaionModel.DefaultTypes
         ''' 化学计量数
         ''' </summary>
         ''' <returns></returns>
-        <XmlAttribute> Public Property StoiChiometry As Double Implements ICompoundSpecies.StoiChiometry
+        <XmlAttribute> Public Property Stoichiometry As Double Implements ICompoundSpecies.Stoichiometry
         <XmlText> Public Property ID As String Implements ICompoundSpecies.Key
         <XmlAttribute> Public Property Compartment As String
 
@@ -85,7 +85,7 @@ Namespace ComponentModel.EquaionModel.DefaultTypes
         End Sub
 
         Sub New(ref As ICompoundSpecies)
-            StoiChiometry = ref.StoiChiometry
+            Stoichiometry = ref.Stoichiometry
             ID = ref.Key
         End Sub
 
@@ -96,14 +96,14 @@ Namespace ComponentModel.EquaionModel.DefaultTypes
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function AsFactor() As FactorString(Of Double)
             Return New FactorString(Of Double) With {
-                .factor = StoiChiometry,
+                .factor = Stoichiometry,
                 .text = ID
             }
         End Function
 
         Public Overrides Function ToString() As String
-            If StoiChiometry > 1 Then
-                Return String.Format("{0} {1}", StoiChiometry, ID)
+            If Stoichiometry > 1 Then
+                Return String.Format("{0} {1}", Stoichiometry, ID)
             Else
                 Return ID
             End If
@@ -134,7 +134,7 @@ Namespace ComponentModel.EquaionModel.DefaultTypes
                 .Select(Function(x)
                             Return New CompoundSpecieReference With {
                                 .ID = idMaps(x.Key),
-                                .StoiChiometry = x.StoiChiometry
+                                .Stoichiometry = x.Stoichiometry
                             }
                         End Function) _
                 .ToArray
@@ -142,7 +142,7 @@ Namespace ComponentModel.EquaionModel.DefaultTypes
                 .Select(Function(x)
                             Return New CompoundSpecieReference With {
                                 .ID = idMaps(x.Key),
-                                .StoiChiometry = x.StoiChiometry
+                                .Stoichiometry = x.Stoichiometry
                             }
                         End Function) _
                 .ToArray
@@ -194,7 +194,7 @@ Namespace ComponentModel.EquaionModel.DefaultTypes
                 Call ms.Write(CByte(0))
                 Call ms.Write(Encoding.ASCII.GetBytes(If(factor.Compartment, "")))
                 Call ms.Write(CByte(0))
-                Call ms.Write(factor.StoiChiometry)
+                Call ms.Write(factor.Stoichiometry)
                 Call ms.Write(CByte(0))
             Next
         End Sub
@@ -212,7 +212,7 @@ Namespace ComponentModel.EquaionModel.DefaultTypes
                 Yield New CompoundSpecieReference With {
                     .Compartment = compartment,
                     .ID = id,
-                    .StoiChiometry = factor
+                    .Stoichiometry = factor
                 }
             Next
         End Function

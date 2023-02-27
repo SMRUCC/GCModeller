@@ -159,14 +159,14 @@ Namespace ComponentModel.EquaionModel
                     ' 如果不是ID编号的话，则代谢物名字中间可能会包含有空格
                     ' 所以在这里代谢物名称为tokens跳过第一个数字之后的
                     ' 所有token的链接结果字符串
-                    compound.StoiChiometry = Scripting.CTypeDynamic(Of Double)(tokens(Scan0))
+                    compound.Stoichiometry = Scripting.CTypeDynamic(Of Double)(tokens(Scan0))
                     compound.Key = tokens.Skip(1).JoinBy(" ")
                 Else
-                    compound.StoiChiometry = 1
+                    compound.Stoichiometry = 1
                     compound.Key = token.Trim
                 End If
             Else
-                compound.StoiChiometry = Val(SC.Trim)
+                compound.Stoichiometry = Val(SC.Trim)
                 compound.Key = Mid(token, SC.Length + 1).Trim
             End If
 
@@ -233,7 +233,7 @@ Namespace ComponentModel.EquaionModel
         End Sub
 
         Private Sub AppendSides(sBuilder As StringBuilder, Compounds As ICompoundSpecies())
-            Call Compounds.__appendSide(sBuilder, Function(x) x.StoiChiometry, Function(x) x.Key)
+            Call Compounds.__appendSide(sBuilder, Function(x) x.Stoichiometry, Function(x) x.Key)
         End Sub
     End Module
 End Namespace
