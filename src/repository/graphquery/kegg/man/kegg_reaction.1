@@ -1,15 +1,20 @@
-﻿.TH KEGG_REACTION 1 2023-Mar "" "Query of kegg reaction data"
+﻿.TH KEGG_REACTION 1 2023-Mar "" "kegg_reaction"
 .SH NAME
-kegg_reaction \- kegg_reaction(url)
+kegg_reaction \- kegg_reaction(id,
+    <i>cache</i> = <span style='color: blue;'>NULL</span>)
 .SH SYNOPSIS
-\fIkegg_reaction(url)\fR
+\fIkegg_reaction(id,
+    <i>cache</i> = <span style='color: blue;'>NULL</span>)\fR
 .SH OPTIONS
 .PP
-\fBurl\fB \fR\- . the resource url on remote server or local file path for debug
+\fBid\fB \fR\- . 
+.PP
+.PP
+\fBcache\fB \fR\- NULL. 
 .PP
 .SH FILES
 .PP
-SMRUCC/R#.declare_function.kegg_reaction at reaction.R:line 7
+SMRUCC/R#.declare_function.kegg_reaction at get.R:line 12
 .PP
 .SH COPYRIGHT
 Copyright © xieguigang, MIT Licensed 2023
