@@ -122,7 +122,7 @@ Public Module kegg_api
     Public Function convertToReaction(form As WebForm) As Reaction
         Return New Reaction With {
             .ID = form!ENTRY.Split(" "c).First,
-            .Enzyme = form!ENZYME.StringSplit("\s*"),
+            .Enzyme = form!ENZYME.StringSplit("\s+"),
             .Equation = form!EQUATION,
             .Definition = form!DEFINITION,
             .CommonNames = {form!NAME},

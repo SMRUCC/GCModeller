@@ -118,6 +118,17 @@ Public Module repository
         Return mapTable
     End Function
 
+    <ExportAPI("enzyme_description")>
+    Public Function getEnzymeClassDescription() As Object
+        Return New list With {
+            .slots = ECNumberReader.rootNames _
+                .ToDictionary(Function(e) e.Key,
+                              Function(e)
+                                  Return CObj(e.Value)
+                              End Function)
+        }
+    End Function
+
     ''' <summary>
     ''' a generic method for write kegg data stream as messagepack 
     ''' </summary>
