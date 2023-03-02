@@ -1,31 +1,17 @@
 require(kegg_graphquery);
+require(HDS);
+require(GCModeller);
 
-options(http.cache_dir = ?"--cache" || `${dirname(@script)}/.cache/`);
+imports "package_utils" from "devkit";
+imports "http" from "webKit";
 
-const all_category = as.data.frame(reaction_category());
+const cache_dir = [?"--cache" || stop("No data cahce file!")] 
+|> HDS::openStream(allowCreate = TRUE)
+|> http::http.cache()
+;
+const reactions = "https://rest.kegg.jp/list/reaction"
+|> requests.get()
+|> toString()
+;
 
-str(all_category);
-
-const repoDir = enumeratePath(all_category);
-const id      = all_category[, "entry"];
-const url     = "https://www.kegg.jp/dbget-bin/www_bget?rn:%s";
-
-for(i in 1:nrow(all_category)) {
-	const category = repoDir(i);
-
-	if (!file.exists(`${category}.XML`)) {
-		const class = kegg_reaction(url = sprintf(url, id[i]));
-	
-		print("reaction class item:");
-		print(category);
-
-		if (!is.null(class)) {
-			class
-			|> xml
-			|> writeLines(con = `${category}.XML`)
-			;
-		} else {
-			print(`invalid query result of '${category}'`);
-		}
-	}    
-}
+print(reactions);
