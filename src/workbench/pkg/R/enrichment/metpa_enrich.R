@@ -63,22 +63,15 @@ const metpa_enrich = function(data, metpa, log2FC = "log2(FC)", id = "kegg") {
 const .url_encode = function(enrich, data, log2FC = "log2(FC)", id = "kegg") {
     if (log2FC in data) {
         # do colorful encode of the url
-        id     = data[, id];
-        i      = (id != "") && (id != "NULL");  
-        log2FC = data[, log2FC];
-        id     = id[i];
-        log2FC = log2FC[i];
-        log2FC = as.list(ifelse(log2FC > 0, "red", "blue"), names = id);
+        const encode_url = kegg_colors(
+            id = data[, id], 
+            log2FC = data[, log2FC]
+        );
 
-        # http://www.kegg.jp/pathway/map01230/C00037/red/C00049/blue
-        const encode_colors = function(set) {
-            set 
-            |> sapply(id -> `${id}/${log2FC[[id]]}`)
-            |> paste("/")
-            ;
-        }
-
-        enrich[, "links"] = sprintf("http://www.kegg.jp/pathway/%s+%s", rownames(enrich), sapply(enrich$geneIDs, set -> encode_colors(set)));
+        enrich[, "links"] = encode_url(
+            map_id = rownames(enrich), 
+            idset = enrich$geneIDs
+        );
     } else {
         # just do normal map url encode
         # http://www.kegg.jp/pathway/map01230+C00037+C00049+C00082+C00188
@@ -86,4 +79,33 @@ const .url_encode = function(enrich, data, log2FC = "log2(FC)", id = "kegg") {
     }
 
     enrich;
+}
+
+#' generate color map for do colorful encode of the kegg map url
+#' 
+const kegg_colors = function(id, log2FC, up = "red", down = "blue") {
+    let i  = (id != "") && (id != "NULL");  
+
+    id     = id[i];
+    log2FC = log2FC[i];
+    log2FC = as.list(ifelse(log2FC > 0, up, down), names = id);
+
+    # http://www.kegg.jp/pathway/map01230/C00037/red/C00049/blue
+    const encode_colors = function(set) {
+        set 
+        |> sapply(function(id) {
+            if (id in log2FC) {
+                `${id}/${log2FC[[id]]}`;
+            } else {
+                `${id}/green`;
+            }
+        })
+        |> paste("/")
+        ;
+    }
+    const encode_url = function(map_id, idset) {
+        sprintf("http://www.kegg.jp/pathway/%s+%s", map_id, sapply(idset, set -> encode_colors(set)));
+    }
+
+    encode_url;
 }
