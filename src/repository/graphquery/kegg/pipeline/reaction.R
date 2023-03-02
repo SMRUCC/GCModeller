@@ -9,9 +9,6 @@ const cache_dir = [?"--cache" || stop("No data cahce file!")]
 |> HDS::openStream(allowCreate = TRUE)
 |> http::http.cache()
 ;
-const reactions = "https://rest.kegg.jp/list/reaction"
-|> requests.get()
-|> toString()
-;
+const reactions = loadReactionIDs();
 
 print(reactions);
