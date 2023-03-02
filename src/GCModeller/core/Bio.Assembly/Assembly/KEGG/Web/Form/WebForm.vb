@@ -64,6 +64,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
+Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 
 Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
 
@@ -217,6 +218,20 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
         Public Iterator Function GetXmlTuples(key As String) As IEnumerable(Of NamedValue)
             For Each line As String In GetValue(key)
                 Yield New NamedValue(line.GetTagValue(" ", trim:=True, failureNoName:=False))
+            Next
+        End Function
+
+        Public Iterator Function GetDBLinks() As IEnumerable(Of DBLink)
+            For Each line As String In GetValue("DBLINKS").SafeQuery
+                Dim tag = line.GetTagValue(":", trim:=True)
+                Dim idset = tag.Value.Split
+
+                For Each id As String In idset
+                    Yield New DBLink With {
+                        .DBName = tag.Name,
+                        .entry = id
+                    }
+                Next
             Next
         End Function
 
