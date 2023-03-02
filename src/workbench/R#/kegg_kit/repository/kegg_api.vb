@@ -52,7 +52,6 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Emit.Delegates
-Imports Microsoft.VisualBasic.FileIO
 Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Serialization
@@ -116,6 +115,23 @@ Public Module kegg_api
         Return New Compound With {
             .entry = form!ENTRY.Split(" "c).First,
             .pathway = form.GetXmlTuples("PATHWAY").ToArray
+        }
+    End Function
+
+    <ExportAPI("as.reaction")>
+    Public Function convertToReaction(form As WebForm) As Reaction
+        Return New Reaction With {
+            .ID = form!ENTRY.Split(" "c).First,
+            .Enzyme = form!ENZYME.StringSplit("\s+"),
+            .Equation = form!EQUATION,
+            .Definition = form!DEFINITION,
+            .CommonNames = {form!NAME},
+            .Comments = form!COMMENT,
+            .[Class] = form.GetXmlTuples("RCLASS").ToArray,
+            .Pathway = form.GetXmlTuples("PATHWAY").ToArray,
+            .[Module] = form.GetXmlTuples("MODULE").ToArray,
+            .Orthology = OrthologyTerms.FromTerms(form.GetXmlTuples("ORTHOLOGY")),
+            .DBLink = form.GetDBLinks.ToArray
         }
     End Function
 End Module
