@@ -1,3 +1,5 @@
+#' obtain a list of entry identifiers and associated definition of KEGG reactions
+#' 
 const loadReactionIDs = function() {
     const data = "https://rest.kegg.jp/list/reaction"
     |> requests.get()
