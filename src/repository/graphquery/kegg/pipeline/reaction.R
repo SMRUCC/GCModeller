@@ -12,3 +12,23 @@ const cache_dir = [?"--cache" || stop("No data cahce file!")]
 const reactions = kegg_api::listing("reaction", cache = cache_dir);
 
 str(reactions);
+
+for(id in names(reactions)) {
+    const reaction = kegg_reaction(id, cache = cache_dir);
+    
+    for(ec_number in [reaction]::Enzyme) {
+        reaction
+        |> xml()
+        |> writeLines(
+            con = `/reactions/${gsub(ec_number, ".", "/")}/${id}.xml`, 
+            fs = [cache_dir]::fs
+        )
+        ;
+
+        print(ec_number);
+    }
+
+    print(reactions[[id]]);
+}
+
+close([cache_dir]::fs);
