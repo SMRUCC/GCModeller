@@ -2,6 +2,7 @@
 
 
 
++ [enzyme_description](repository/enzyme_description.1) 
 + [write.msgpack](repository/write.msgpack.1) a generic method for write kegg data stream as messagepack
 + [load.compounds](repository/load.compounds.1) load repository of kegg @``T:SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Compound``.
 + [load.reactions](repository/load.reactions.1) ### load kegg reaction data repository
