@@ -370,3 +370,4 @@ src/workbench/pkg/test/hsa_metpa.json
 src/repository/Bio.Repository/.vs/ProjectEvaluation/repository.net5.metadata.v6.1
 src/repository/Bio.Repository/.vs/ProjectEvaluation/repository.net5.projects.v6.1
 src/repository/graphquery/kegg_reactions.db
+src/repository/graphquery/kegg_maps.db
