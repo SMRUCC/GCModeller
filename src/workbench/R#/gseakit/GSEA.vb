@@ -1,67 +1,66 @@
 ﻿#Region "Microsoft.VisualBasic::23588d85373e6e507485b38d64c78048, R#\gseakit\GSEA.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 286
-    '    Code Lines: 214
-    ' Comment Lines: 47
-    '   Blank Lines: 25
-    '     File Size: 12.26 KB
+' Summaries:
 
 
-    ' Module GSEA
-    ' 
-    '     Function: CreateEnrichmentObjects, CreateGOEnrichmentGraph, DrawGOEnrichmentGraph, Enrichment, enrichmentTable
-    '               fisher, GOEnrichment, KOBASFormat, ReadEnrichmentTerms, SaveEnrichment
-    '               toEnrichmentTerms
-    ' 
-    '     Sub: Main
-    ' 
-    ' Enum EnrichmentTableFormat
-    ' 
-    '     GCModeller, KOBAS
-    ' 
-    '  
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 286
+'    Code Lines: 214
+' Comment Lines: 47
+'   Blank Lines: 25
+'     File Size: 12.26 KB
+
+
+' Module GSEA
+' 
+'     Function: CreateEnrichmentObjects, CreateGOEnrichmentGraph, DrawGOEnrichmentGraph, Enrichment, enrichmentTable
+'               fisher, GOEnrichment, KOBASFormat, ReadEnrichmentTerms, SaveEnrichment
+'               toEnrichmentTerms
+' 
+'     Sub: Main
+' 
+' Enum EnrichmentTableFormat
+' 
+'     GCModeller, KOBAS
+' 
+'  
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
-Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
@@ -72,20 +71,34 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.GO
 Imports SMRUCC.genomics.Analysis.HTS.GSEA
+Imports SMRUCC.genomics.Analysis.HTS.GSEA.KnowledgeBase.Metabolism.Metpa
 Imports SMRUCC.genomics.Analysis.Microarray
 Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
 Imports SMRUCC.genomics.Data.GeneOntology
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
 Imports SMRUCC.genomics.Data.GeneOntology.obographs
 Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports REnv = SMRUCC.Rsharp.Runtime
 
 ''' <summary>
-''' The GCModeller GSEA toolkit
+''' ### The GCModeller GSEA toolkit
+''' 
+''' ##### Gene set enrichment analysis
+''' 
+''' Gene Set enrichment analysis (GSEA) (also called functional enrichment 
+''' analysis Or pathway enrichment analysis) Is a method To identify classes
+''' Of genes Or proteins that are over-represented In a large Set Of genes 
+''' Or proteins, And may have an association With disease phenotypes. The
+''' method uses statistical approaches To identify significantly enriched 
+''' Or depleted groups Of genes. Transcriptomics technologies And proteomics 
+''' results often identify thousands Of genes which are used For the analysis.
 ''' </summary>
 <Package("GSEA", Category:=APICategories.ResearchTools)>
+<RTypeExport("enrich", GetType(EnrichmentResult))>
 Module GSEA
 
     Sub Main()
@@ -121,28 +134,76 @@ Module GSEA
     End Function
 
     ''' <summary>
-    ''' do GSEA enrichment analysis
+    ''' ### do GSEA enrichment analysis
+    ''' 
+    ''' Gene set enrichment analysis (GSEA) (also called functional 
+    ''' enrichment analysis or pathway enrichment analysis) is a 
+    ''' method to identify classes of genes or proteins that are 
+    ''' over-represented in a large set of genes or proteins, and 
+    ''' may have an association with disease phenotypes. The method 
+    ''' uses statistical approaches to identify significantly enriched 
+    ''' or depleted groups of genes. Transcriptomics technologies 
+    ''' and proteomics results often identify thousands of genes 
+    ''' which are used for the analysis.
     ''' </summary>
-    ''' <param name="background"></param>
+    ''' <param name="background">a background model or metpa model</param>
     ''' <param name="geneSet">a given geneset id list</param>
+    ''' <param name="args">
+    ''' the additional argument list that may be used, 
+    ''' 
+    ''' for metpa background model, ``topo`` parameter will be used for 
+    ''' specific the network topology impact score source, value of the
+    ''' ``topo`` parameter could be ``dgr`` or ``rbc``.
+    ''' </param>
     ''' <returns></returns>
     <ExportAPI("enrichment")>
-    Public Function Enrichment(background As Background,
-                               geneSet$(),
+    <RApiReturn(GetType(EnrichmentResult))>
+    Public Function Enrichment(background As Object, <RRawVectorArgument> geneSet As Object,
                                Optional cut_size As Integer = 3,
                                Optional outputAll As Boolean = True,
                                Optional resize As Integer = -1,
-                               Optional showProgress As Boolean = False) As EnrichmentResult()
+                               Optional showProgress As Boolean = False,
+                               <RListObjectArgument>
+                               Optional args As list = Nothing,
+                               Optional env As Environment = Nothing) As Object
 
-        Return background.Enrichment(
-            list:=geneSet,
-            outputAll:=outputAll,
-            showProgress:=showProgress,
-            resize:=resize,
-            cutSize:=cut_size
-        ).FDRCorrection _
-        .OrderBy(Function(e) e.FDR) _
-        .ToArray
+        Dim enrich As IEnumerable(Of EnrichmentResult)
+        Dim inputIdset As String() = CLRVector.asCharacter(geneSet)
+
+        If background Is Nothing Then
+            Return Internal.debug.stop("the required gsea background model could not be nothing!", env)
+        End If
+
+        If TypeOf background Is Background Then
+            enrich = DirectCast(background, Background).Enrichment(
+                list:=inputIdset,
+                outputAll:=outputAll,
+                showProgress:=showProgress,
+                resize:=resize,
+                cutSize:=cut_size
+            )
+        ElseIf TypeOf background Is metpa Then
+            Dim topo As Topologys = [Enum].Parse(
+                enumType:=GetType(Topologys),
+                value:=args.getValue({"topo", "topology", "impacts", "impact"}, env, [default]:="rbc")
+            )
+
+            enrich = DirectCast(background, metpa).Enrichment(
+                idset:=inputIdset,
+                topo:=topo,
+                resize:=resize,
+                cutSize:=cut_size,
+                outputAll:=outputAll,
+                showProgress:=showProgress
+            )
+        Else
+            Return Message.InCompatibleType(GetType(Background), background.GetType, env)
+        End If
+
+        Return enrich _
+            .FDRCorrection _
+            .OrderBy(Function(e) e.FDR) _
+            .ToArray
     End Function
 
     ''' <summary>
@@ -150,13 +211,19 @@ Module GSEA
     ''' </summary>
     ''' <param name="list"></param>
     ''' <param name="geneSet"></param>
-    ''' <param name="background"></param>
+    ''' <param name="background">
+    ''' the background size information, it could be an integer value to 
+    ''' indicates that the total unique size of the enrichment background 
+    ''' or a unique id character vector that contains all member 
+    ''' information of the background.
+    ''' </param>
     ''' <returns></returns>
     <ExportAPI("fisher")>
     Public Function fisher(list As String(),
                            geneSet As String(),
-                           background As String(),
-                           Optional term As String = "unknown") As EnrichmentResult
+                           <RRawVectorArgument> background As Object,
+                           Optional term As String = "unknown",
+                           Optional env As Environment = Nothing) As EnrichmentResult
 
         Dim info As New Cluster With {
             .ID = term,
@@ -164,10 +231,18 @@ Module GSEA
             .names = term,
             .members = New BackgroundGene(geneSet.Length - 1) {}
         }
+        Dim backgroundSize As Integer
+
+        If REnv.isVector(Of String)(background) Then
+            backgroundSize = CLRVector.asCharacter(background).Distinct.Count
+        Else
+            backgroundSize = CLRVector.asInteger(background).FirstOrDefault
+        End If
+
         Dim enrich As EnrichmentResult = info.calcResult(
             enriched:=list,
             inputSize:=list.Length,
-            genes:=background.Length,
+            genes:=backgroundSize,
             outputAll:=True
         )
 

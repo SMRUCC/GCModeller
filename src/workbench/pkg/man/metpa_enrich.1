@@ -1,0 +1,32 @@
+﻿.TH METPA_ENRICH 1 2023-Mar "" "Do enrichment based on metpa background model"
+.SH NAME
+metpa_enrich \- metpa_enrich(data, metpa,
+    <i>log2FC</i> = log2(FC),
+    <i>id</i> = kegg)
+.SH SYNOPSIS
+\fImetpa_enrich(data, metpa,
+    <i>log2FC</i> = log2(FC),
+    <i>id</i> = kegg)\fR
+.SH OPTIONS
+.PP
+\fBdata\fB \fR\- . a given set of the target for do enrichment analysis, this parameter value could be a character vector which is stands for the kegg id character vector or a dataframe object that contains the data annotation fields and the log2fc value.
+.PP
+.PP
+\fBmetpa\fB \fR\- . the metabolic network pathway model for used as the enrichment background data to run enrichment analysis. this parameter value should be a CLR object that read from file.
+.PP
+.PP
+\fBlog2FC\fB \fR\- log2(FC). the field name for get the log2FC value, the log2FC value will be used for do colorful url encoded. And this parameter option only works when the input data is a dataframe object.
+.PP
+.PP
+\fBid\fB \fR\- kegg. the field name for get the target idset data for run the enrichment analysis. And this parameter option only works when the input data is a dataframe object.
+.PP
+.SH VALUE
+.PP
+A dataframe object that contains the enrichment analysis result
+.PP
+.SH FILES
+.PP
+SMRUCC/R#.declare_function.metpa_enrich at metpa_enrich.R:line 30
+.PP
+.SH COPYRIGHT
+Copyright © xieguigang, GPL3 Licensed 2023

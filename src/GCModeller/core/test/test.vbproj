@@ -194,17 +194,21 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\47-dotnet_Microsoft.VisualBasic.vbproj">
-      <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
-      <Name>47-dotnet_Microsoft.VisualBasic</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Bio.Assembly\Bio.Assembly.vbproj">
-      <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
-      <Name>Bio.Assembly</Name>
-    </ProjectReference>
+    <Content Include="hsa05034.html" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="hsa05034.html" />
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj">
+      <Project>{f258b8fd-f5e5-49bd-a31b-a20b39704318}</Project>
+      <Name>Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bio.Annotation\annotation.NET5.vbproj">
+      <Project>{dc9b37da-7f35-4467-870c-07e942c2520e}</Project>
+      <Name>annotation.NET5</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bio.Assembly\biocore-netcore5.vbproj">
+      <Project>{e2dca944-98ef-4483-a530-b3971649cbd5}</Project>
+      <Name>biocore-netcore5</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

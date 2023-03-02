@@ -125,7 +125,7 @@ Namespace Assembly.MetaCyc.Schema
                 End If
             End Function
 
-            Public Property StoiChiometry As Double Implements ComponentModel.EquaionModel.ICompoundSpecies.StoiChiometry
+            Public Property Stoichiometry As Double Implements ComponentModel.EquaionModel.ICompoundSpecies.Stoichiometry
         End Class
 
 #Region "Shadows Property"
@@ -174,11 +174,11 @@ Namespace Assembly.MetaCyc.Schema
                                                         Return String.Format("{0} [^COMPARTMENT - {1}]", item.Identifier, item.Compartment)
                                                     End If
                                                 End Function
-                              Select New CompoundSpecieReference With {.ID = GetUniqueId(), .StoiChiometry = item.StoiChiometry}).ToArray,
+                              Select New CompoundSpecieReference With {.ID = GetUniqueId(), .Stoichiometry = item.Stoichiometry}).ToArray,
                 .Products = (From x As CompoundSpecies In _Right
                              Select New CompoundSpecieReference With {
                                   .ID = GetUniqueId(x),
-                                  .StoiChiometry = x.StoiChiometry}).ToArray,
+                                  .Stoichiometry = x.Stoichiometry}).ToArray,
                                   .Reversible = Reversible
             }
             Return EquationBuilder.ToString(Model)
