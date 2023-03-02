@@ -1,4 +1,4 @@
-require(kegg_graphquery);
+require(kegg_api);
 require(HDS);
 require(GCModeller);
 
@@ -9,6 +9,6 @@ const cache_dir = [?"--cache" || stop("No data cahce file!")]
 |> HDS::openStream(allowCreate = TRUE)
 |> http::http.cache()
 ;
-const reactions = loadReactionIDs();
+const reactions = kegg_api::listing("reaction", cache = cache_dir);
 
-print(reactions);
+str(reactions);
