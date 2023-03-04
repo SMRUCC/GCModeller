@@ -34,14 +34,14 @@ const .cast_CLR_metpa = function(metpa) {
         uniq.count: [metpa]::unique_count,
 
         # pathway network information
-        path.ids: .write_pathIds([metpa]::pathIds),        
-        path.smps: .write_pathSmps([metpa]::pathSmps),
+        path.ids:   .write_pathIds([metpa]::pathIds),        
+        path.smps:  .write_pathSmps([metpa]::pathSmps),
         graph.list: .write_graphList([metpa]::graphList),
 
         # molecules cluster information
         mset.list: .write_msetList([metpa]::msetList),
-        rbc.list: .write_rbcList([metpa]::rbcList),        
-        dgr.list: .write_dgrlist([metpa]::dgrList)        
+        rbc.list:  .write_rbcList([metpa]::rbcList),        
+        dgr.list:  .write_dgrlist([metpa]::dgrList)        
     };
 }
 

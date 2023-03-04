@@ -10,7 +10,7 @@ Public Class ECNumberReader : Implements IDisposable
     Private disposedValue As Boolean
     Private ReadOnly stream As StreamPack
 
-    ReadOnly rootNames As Dictionary(Of String, String) = Enums(Of EnzymeClasses) _
+    Public Shared ReadOnly rootNames As IReadOnlyDictionary(Of String, String) = Enums(Of EnzymeClasses) _
         .ToDictionary(Function(c) CInt(c).ToString & "." & c.Description,
                       Function(c)
                           Return CInt(c).ToString

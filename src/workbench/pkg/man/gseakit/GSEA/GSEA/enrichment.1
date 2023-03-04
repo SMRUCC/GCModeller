@@ -3,22 +3,43 @@
 .SH NAME
 enrichment \- do GSEA enrichment analysis
 .SH SYNOPSIS
-\fIenrichment(\fBbackground\fR as <generic> Background, 
-\fBgeneSet\fR as string, 
+\fIenrichment(\fBbackground\fR as any, 
+\fBgeneSet\fR as any, 
 \fBcut_size\fR as integer = 3, 
 \fBoutputAll\fR as boolean = TRUE, 
 \fBresize\fR as integer = -1, 
-\fBshowProgress\fR as boolean = FALSE);\fR
+\fBshowProgress\fR as boolean = FALSE, 
+..., 
+[\fB<Environment>\fR]);\fR
 .SH DESCRIPTION
 .PP
 do GSEA enrichment analysis
+ 
+ Gene set enrichment analysis (GSEA) (also called functional 
+ enrichment analysis or pathway enrichment analysis) is a 
+ method to identify classes of genes or proteins that are 
+ over-represented in a large set of genes or proteins, and 
+ may have an association with disease phenotypes. The method 
+ uses statistical approaches to identify significantly enriched 
+ or depleted groups of genes. Transcriptomics technologies 
+ and proteomics results often identify thousands of genes 
+ which are used for the analysis.
 .PP
 .SH OPTIONS
 .PP
-\fBbackground\fB \fR\- -. 
+\fBbackground\fB \fR\- a background model or metpa model. 
 .PP
 .PP
 \fBgeneSet\fB \fR\- a given geneset id list. 
+.PP
+.PP
+\fBargs\fB \fR\- 
+ the additional argument list that may be used, 
+ 
+ for metpa background model, \fBtopo\fR parameter will be used for 
+ specific the network topology impact score source, value of the
+ \fBtopo\fR parameter could be \fBdgr\fR or \fBrbc\fR.
+. 
 .PP
 .SH SEE ALSO
 GSEA

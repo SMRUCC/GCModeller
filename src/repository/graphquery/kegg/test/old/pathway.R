@@ -1,16 +1,5 @@
 imports "repository" from "kegg_kit";
 
-#' Query of kegg pathway
-#'
-#' @param id the pathway entry id in kegg database
-#'
-const kegg_pathway = function(id, cache = NULL) {
-   kegg_api::get(id, cache)
-   |> parseForm()
-   |> as.pathway()
-   ;
-}
-
 #' Parse organism kegg code
 #'
 #' @return this function returns a list with ``code`` and ``name``.
