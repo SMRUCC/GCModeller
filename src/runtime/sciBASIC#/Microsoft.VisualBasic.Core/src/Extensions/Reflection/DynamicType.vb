@@ -53,6 +53,8 @@ Public Class DynamicType
         Next
 
         _GeneratedType = dynamicType.CreateType()
+
+        Return Me
     End Function
 
     Private Shared Sub AddProperty(typeBuilder As TypeBuilder, propertyName As String, propertyType As Type, desc As String, display As String)
@@ -114,7 +116,7 @@ Public Class DynamicType
         Dim properties As New List(Of PropertyInfo)
 
         For Each meta In metadata
-            Dim symbol As String = meta.Key.NormalizePathString()
+            Dim symbol As String = meta.Key.NormalizePathString().StringReplace("\s+", "_")
             Dim type As Type
             Dim value As Object = meta.Value
 
