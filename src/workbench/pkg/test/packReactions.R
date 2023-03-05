@@ -3,7 +3,7 @@ require(HDS);
 
 imports "repository" from "kegg_kit";
 
-let raw = HDS::openStream("E:\kegg_reactions.db", readonly = TRUE);
+let raw = HDS::openStream("D:\GCModeller\src\workbench\pkg\test\kegg_reactions.db", readonly = TRUE);
 let files = raw |> files(dir = "/reactions/", excludes_dir = TRUE);
 let reactions = files 
 |> lapply(f -> HDS::getData(raw, f) |> loadXml(typeof = "kegg_reaction"))
@@ -13,5 +13,5 @@ let reactions = files
 
 reactions
 |> write.msgpack(
-	file = "E:\GCModeller\src\workbench\pkg\data\kegg\reactions.msgpack"
+	file = "D:\GCModeller\src\workbench\pkg\data\kegg\reactions.msgpack"
 );

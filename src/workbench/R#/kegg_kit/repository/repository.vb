@@ -62,10 +62,7 @@
 
 #End Region
 
-#If netcore5 = 1 Then
 Imports System.Data
-#End If
-
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal
