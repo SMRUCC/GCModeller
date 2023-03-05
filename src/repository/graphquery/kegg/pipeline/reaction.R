@@ -18,23 +18,34 @@ str(class_labels);
 
 for(id in names(reactions)) {
     const reaction = kegg_reaction(id, cache = cache_dir);
-    
-    for(ec_number in [reaction]::Enzyme) {
-        const tokens = unlist(strsplit(ec_number, ".", fixed = TRUE));        
+    const ec_numbers = [reaction]::Enzyme;
 
-        if (`EC_${tokens[1]}` in class_labels) {
-            tokens[1] = class_labels[[`EC_${tokens[1]}`]];
+    if (length(ec_numbers) > 0) {
+        for(ec_number in ec_numbers) {
+            const tokens = unlist(strsplit(ec_number, ".", fixed = TRUE));        
+
+            if (`EC_${tokens[1]}` in class_labels) {
+                tokens[1] = class_labels[[`EC_${tokens[1]}`]];
+            }
+
+            reaction
+            |> xml()
+            |> writeLines(
+                con = `/reactions/${paste(tokens, "/")}/${id}.xml`, 
+                fs = [cache_dir]::fs
+            )
+            ;
+
+            print(paste(tokens, "."));
         }
-
+    } else {
         reaction
         |> xml()
         |> writeLines(
-            con = `/reactions/${paste(tokens, "/")}/${id}.xml`, 
+            con = `/reactions/no_class/${id}.xml`, 
             fs = [cache_dir]::fs
         )
         ;
-
-        print(paste(tokens, "."));
     }
 
     print(reactions[[id]]);
