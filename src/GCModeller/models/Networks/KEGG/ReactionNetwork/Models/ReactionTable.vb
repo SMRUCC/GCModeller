@@ -168,7 +168,12 @@ Namespace ReactionNetwork
         ''' <returns></returns>
         Public Shared Function Load(repo As IEnumerable(Of Reaction)) As IEnumerable(Of ReactionTable)
             Dim KOnames As Dictionary(Of String, BriteHText) = DefaultKOTable()
-            Dim table = repo.Select(Function(r) creates(r, KOnames))
+            Dim table = repo _
+                .Where(Function(r) Not r.ID.StringEmpty) _
+                .Where(Function(r) Not r.Equation.StringEmpty) _
+                .Select(Function(r)
+                            Return creates(r, KOnames)
+                        End Function)
 
             Return table
         End Function
