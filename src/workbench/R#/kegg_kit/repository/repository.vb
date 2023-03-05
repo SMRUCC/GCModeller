@@ -95,6 +95,7 @@ Imports REnv = SMRUCC.Rsharp.Runtime.Internal
 ''' </summary>
 <Package("repository", Category:=APICategories.SoftwareTools)>
 <RTypeExport("kegg_pathway", GetType(Pathway))>
+<RTypeExport("kegg_reaction", GetType(Reaction))>
 Public Module repository
 
     Friend Sub Main()
@@ -562,7 +563,7 @@ Public Module repository
         End If
 
         If TypeOf repo Is String OrElse TypeOf repo Is String() Then
-            Dim resource As String = DirectCast(RVectorExtensions.asVector(Of String)(repo), String())(Scan0)
+            Dim resource As String = CLRVector.asCharacter(repo)(Scan0)
 
             If resource.DirectoryExists Then
                 Return ReactionClassTable.ScanRepository(repo:=resource).ToArray
