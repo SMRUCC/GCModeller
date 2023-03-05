@@ -96,6 +96,7 @@ Imports REnv = SMRUCC.Rsharp.Runtime.Internal
 <Package("repository", Category:=APICategories.SoftwareTools)>
 <RTypeExport("kegg_pathway", GetType(Pathway))>
 <RTypeExport("kegg_reaction", GetType(Reaction))>
+<RTypeExport("kegg_compound", GetType(Compound))>
 Public Module repository
 
     Friend Sub Main()
