@@ -372,3 +372,4 @@ src/repository/Bio.Repository/.vs/ProjectEvaluation/repository.net5.projects.v6.
 src/repository/graphquery/kegg_reactions.db
 src/repository/graphquery/kegg_maps.db
 src/workbench/pkg/data/kegg/reactions.msgpack
+src/workbench/pkg/data/kegg/compounds.msgpack
