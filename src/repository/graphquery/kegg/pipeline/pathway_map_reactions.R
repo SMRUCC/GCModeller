@@ -1,22 +1,31 @@
+require(GCModeller);
 require(kegg_api);
 require(HDS);
-require(GCModeller);
 
 imports "package_utils" from "devkit";
 imports "http" from "webKit";
+
+maps = kegg_maps(raw = TRUE);
+shapes = unlist([maps]::shapes);
+idset = unlist([shapes]::IDVector) |> unique();
+
+str(shapes);
+
+
+print(idset);
+
+reactions = idset[idset == $"R\d+"];
+
+print(reactions);
 
 const cache_dir = [?"--cache" || stop("No data cahce file!")] 
 |> HDS::openStream(allowCreate = TRUE)
 |> http::http.cache()
 ;
-const reactions = kegg_api::listing("reaction", cache = cache_dir);
 const enzyme_class = enzyme_description();
 const class_labels = as.list(names(enzyme_class), names = `EC_${unlist(enzyme_class)}`);
 
-str(reactions);
-str(class_labels);
-
-for(id in names(reactions)) {
+for(id in reactions) {
     const reaction = kegg_reaction(id, cache = cache_dir);
     const ec_numbers = [reaction]::Enzyme;
 
@@ -48,7 +57,7 @@ for(id in names(reactions)) {
         ;
     }
 
-    print(reactions[[id]]);
+    print(id);
 }
 
 close([cache_dir]::fs);
