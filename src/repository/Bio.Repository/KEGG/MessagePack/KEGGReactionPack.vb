@@ -109,15 +109,16 @@ Namespace KEGG.Metabolism
         ''' <summary>
         ''' 
         ''' </summary>
-        ''' <param name="cpds"></param>
+        ''' <param name="rxns"></param>
         ''' <param name="file"></param>
         ''' <returns></returns>
         ''' <remarks>
-        ''' data will be auto flush to <paramref name="file"/>.
+        ''' data will be auto flush to <paramref name="file"/>. and the reaction data
+        ''' will be make unqiue automatically in this function.
         ''' </remarks>
-        Public Shared Function WriteKeggDb(cpds As IEnumerable(Of Reaction), file As Stream) As Boolean
+        Public Shared Function WriteKeggDb(rxns As IEnumerable(Of Reaction), file As Stream) As Boolean
             Try
-                Call MsgPackSerializer.SerializeObject(cpds.ToArray, file)
+                Call MsgPackSerializer.SerializeObject(rxns.GroupBy(Function(r) r.ID).Select(Function(r) r.First).ToArray, file)
                 Call file.Flush()
             Catch ex As Exception
                 Call App.LogException(ex)
