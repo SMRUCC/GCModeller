@@ -62,10 +62,7 @@
 
 #End Region
 
-#If netcore5 = 1 Then
 Imports System.Data
-#End If
-
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal
@@ -96,6 +93,7 @@ Imports REnv = SMRUCC.Rsharp.Runtime.Internal
 <Package("repository", Category:=APICategories.SoftwareTools)>
 <RTypeExport("kegg_pathway", GetType(Pathway))>
 <RTypeExport("kegg_reaction", GetType(Reaction))>
+<RTypeExport("kegg_compound", GetType(Compound))>
 Public Module repository
 
     Friend Sub Main()

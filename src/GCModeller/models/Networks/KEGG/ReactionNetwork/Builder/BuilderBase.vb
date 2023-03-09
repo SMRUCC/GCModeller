@@ -54,6 +54,7 @@
 
 #End Region
 
+Imports System.Data
 Imports System.Drawing
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
@@ -63,10 +64,6 @@ Imports Microsoft.VisualBasic.Data.visualize.Network.Graph.Abstract
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-
-#If NETCOREAPP Then
-Imports System.Data
-#End If
 
 Namespace ReactionNetwork
 
