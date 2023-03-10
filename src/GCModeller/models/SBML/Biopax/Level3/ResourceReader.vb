@@ -56,19 +56,24 @@ Namespace Level3
 
             For Each compound As Molecule In compounds.Values
                 Dim metadata = moleculeReference.TryGetValue(compound.GetEntityResourceId)
-                Dim dbLinks As DBLink() = metadata.xref _
-                    .Select(Function(xr)
-                                Dim xrKey As String = xr.resource.Trim("#"c)
-                                Dim xrData = unificationXrefs(xrKey)
-                                Dim link As New DBLink With {
-                                    .DBName = xrData.db,
-                                    .entry = xrData.id,
-                                    .link = xr.resource
-                                }
+                Dim dbLinks As DBLink() = Nothing
 
-                                Return link
-                            End Function) _
-                    .ToArray
+                If metadata IsNot Nothing Then
+                    dbLinks = metadata.xref _
+                        .Select(Function(xr)
+                                    Dim xrKey As String = xr.resource.Trim("#"c)
+                                    Dim xrData = unificationXrefs(xrKey)
+                                    Dim link As New DBLink With {
+                                        .DBName = xrData.db,
+                                        .entry = xrData.id,
+                                        .link = xr.resource
+                                    }
+
+                                    Return link
+                                End Function) _
+                        .ToArray
+                End If
+
                 Dim formula As String = Nothing
                 Dim mw As Double = 0
 
