@@ -45,6 +45,15 @@ Namespace Level3
             Next
         End Function
 
+        Public Iterator Function GetAllCompounds() As IEnumerable(Of MetabolicCompound)
+            For Each compound As Molecule In compounds.Values
+                Yield New MetabolicCompound With {
+                    .name = compound.displayName,
+                    .synonym = compound.name.SafeQuery.Select(Function(name) CStr(name)).ToArray
+                }
+            Next
+        End Function
+
         Public Iterator Function GetAllReactions() As IEnumerable(Of MetabolicReaction)
             For Each reaction As BiochemicalReaction In raw.BiochemicalReaction.SafeQuery
                 Dim ecNumbers As String() = Nothing
