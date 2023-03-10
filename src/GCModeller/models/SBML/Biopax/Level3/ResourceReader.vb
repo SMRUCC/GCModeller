@@ -1,6 +1,7 @@
 ﻿Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.application.rdf_xml
+Imports Microsoft.VisualBasic.Text.Xml
 Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 Imports SMRUCC.genomics.MetabolicModel
@@ -114,7 +115,7 @@ Namespace Level3
 
                 Yield New MetabolicReaction With {
                     .id = reaction.RDFId,
-                    .description = desc,
+                    .description = desc.UnescapeHTML,
                     .is_spontaneous = reaction.spontaneous,
                     .name = .description,
                     .is_reversible = reaction.conversionDirection = "REVERSIBLE",
