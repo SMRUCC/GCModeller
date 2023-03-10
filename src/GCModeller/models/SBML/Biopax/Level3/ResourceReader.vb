@@ -47,11 +47,16 @@ Namespace Level3
         End Function
 
         Public Iterator Function GetAllCompounds() As IEnumerable(Of MetabolicCompound)
-            Dim smallMoleculeReference = raw.SmallMoleculeReference.ToDictionary(Function(sm) "#" & sm.RDFId)
+            Dim moleculeReference = raw.SmallMoleculeReference _
+                .Select(Function(sm) DirectCast(sm, MoleculeReference)) _
+                .JoinIterates(raw.ProteinReference) _
+                .ToDictionary(Function(sm)
+                                  Return "#" & sm.RDFId
+                              End Function)
 
             For Each compound As Molecule In compounds.Values
-                Dim metadata = smallMoleculeReference(compound.entityReference.resource)
-                Dim dblinks As DBLink() = metadata.xref _
+                Dim metadata = moleculeReference.TryGetValue(compound.GetEntityResourceId)
+                Dim dbLinks As DBLink() = metadata.xref _
                     .Select(Function(xr)
                                 Dim xrKey As String = xr.resource.Trim("#"c)
                                 Dim xrData = unificationXrefs(xrKey)
@@ -64,14 +69,21 @@ Namespace Level3
                                 Return link
                             End Function) _
                     .ToArray
+                Dim formula As String = Nothing
+                Dim mw As Double = 0
+
+                If TypeOf metadata Is SmallMoleculeReference Then
+                    formula = DirectCast(metadata, SmallMoleculeReference).chemicalFormula
+                    mw = DirectCast(metadata, SmallMoleculeReference).molecularWeight
+                End If
 
                 Yield New MetabolicCompound With {
                     .name = compound.displayName,
                     .synonym = compound.name.SafeQuery.Select(Function(name) CStr(name)).ToArray,
-                    .formula = metadata.chemicalFormula,
-                    .moleculeWeight = metadata.molecularWeight,
+                    .formula = formula,
+                    .moleculeWeight = mw,
                     .id = compound.RDFId,
-                    .xref = dblinks
+                    .xref = dbLinks
                 }
             Next
         End Function

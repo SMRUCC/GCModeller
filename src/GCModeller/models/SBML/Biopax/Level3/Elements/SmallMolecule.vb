@@ -247,11 +247,20 @@ Public Class Stoichiometry : Inherits RDFEntity
 End Class
 
 Public MustInherit Class Molecule : Inherits RDFEntity
+
     Public Property displayName As displayName
     <XmlElement>
     Public Property name As name()
     Public Property cellularLocation As cellularLocation
     Public Property entityReference As entityReference
+
+    Public Function GetEntityResourceId() As String
+        If entityReference Is Nothing OrElse entityReference.resource Is Nothing Then
+            Return ""
+        Else
+            Return entityReference.resource
+        End If
+    End Function
 End Class
 
 Public Class Catalysis : Inherits RDFEntity
