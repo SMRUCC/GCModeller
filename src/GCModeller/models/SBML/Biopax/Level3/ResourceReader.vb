@@ -1,6 +1,7 @@
 ﻿Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.application.rdf_xml
+Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 Imports SMRUCC.genomics.MetabolicModel
 
@@ -46,10 +47,31 @@ Namespace Level3
         End Function
 
         Public Iterator Function GetAllCompounds() As IEnumerable(Of MetabolicCompound)
+            Dim smallMoleculeReference = raw.SmallMoleculeReference.ToDictionary(Function(sm) "#" & sm.RDFId)
+
             For Each compound As Molecule In compounds.Values
+                Dim metadata = smallMoleculeReference(compound.entityReference.resource)
+                Dim dblinks As DBLink() = metadata.xref _
+                    .Select(Function(xr)
+                                Dim xrKey As String = xr.resource.Trim("#"c)
+                                Dim xrData = unificationXrefs(xrKey)
+                                Dim link As New DBLink With {
+                                    .DBName = xrData.db,
+                                    .entry = xrData.id,
+                                    .link = xr.resource
+                                }
+
+                                Return link
+                            End Function) _
+                    .ToArray
+
                 Yield New MetabolicCompound With {
                     .name = compound.displayName,
-                    .synonym = compound.name.SafeQuery.Select(Function(name) CStr(name)).ToArray
+                    .synonym = compound.name.SafeQuery.Select(Function(name) CStr(name)).ToArray,
+                    .formula = metadata.chemicalFormula,
+                    .moleculeWeight = metadata.molecularWeight,
+                    .id = compound.RDFId,
+                    .xref = dblinks
                 }
             Next
         End Function
