@@ -9,6 +9,7 @@ Namespace MetabolicModel
 
         Public Property id As String Implements IKeyedEntity(Of String).Key, IMolecule.EntryId
         Public Property name As String Implements IMolecule.Name
+        Public Property synonym As String()
         Public Property formula As String Implements IMolecule.Formula
         Public Property moleculeWeight As Double Implements IMolecule.Mass
         Public Property xref As DBLink()

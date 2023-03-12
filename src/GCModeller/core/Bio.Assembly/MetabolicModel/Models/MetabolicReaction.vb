@@ -29,5 +29,9 @@ Namespace MetabolicModel
         Public Property is_spontaneous As Boolean
         Public Property ECNumbers As String()
 
+        Public Overrides Function ToString() As String
+            Return $"[{id}] {name}"
+        End Function
+
     End Class
 End Namespace

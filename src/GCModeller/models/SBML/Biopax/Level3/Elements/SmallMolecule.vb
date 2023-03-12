@@ -173,13 +173,18 @@ Public Class ChemicalStructure : Inherits RDFEntity
 End Class
 
 <XmlType("SmallMoleculeReference", [Namespace]:=Level3.File.bp)>
-Public Class SmallMoleculeReference : Inherits RDFEntity
-    <XmlElement> Public Property name As name()
-    <XmlElement> Public Property xref As xref()
+Public Class SmallMoleculeReference : Inherits MoleculeReference
     Public Property molecularWeight As molecularWeight
     Public Property chemicalFormula As chemicalFormula
-    Public Property displayName As displayName
     Public Property [structure] As [structure]
+End Class
+
+Public MustInherit Class MoleculeReference : Inherits RDFEntity
+
+    Public Property displayName As displayName
+
+    <XmlElement> Public Property name As name()
+    <XmlElement> Public Property xref As xref()
 End Class
 
 Public Class UnificationXref : Inherits RDFEntity
@@ -201,20 +206,18 @@ Public Class Complex : Inherits Molecule
 
 End Class
 
-
-
 Public Class Protein : Inherits Molecule
 
     Public Property feature As feature
-    <XmlElement> Public Property xref As xref()
+    <XmlElement>
+    Public Property xref As xref()
     Public Property dataSource As dataSource
 End Class
-Public Class ProteinReference : Inherits RDFEntity
+
+Public Class ProteinReference : Inherits MoleculeReference
     Public Property organism As organism
-    Public Property displayName As displayName
-    <XmlElement> Public Property name As name()
-    <XmlElement> Public Property xref As xref()
 End Class
+
 Public Class BioSource : Inherits RDFEntity
     Public Property name As name
     Public Property displayName As displayName
@@ -244,11 +247,20 @@ Public Class Stoichiometry : Inherits RDFEntity
 End Class
 
 Public MustInherit Class Molecule : Inherits RDFEntity
+
     Public Property displayName As displayName
     <XmlElement>
     Public Property name As name()
     Public Property cellularLocation As cellularLocation
     Public Property entityReference As entityReference
+
+    Public Function GetEntityResourceId() As String
+        If entityReference Is Nothing OrElse entityReference.resource Is Nothing Then
+            Return ""
+        Else
+            Return entityReference.resource
+        End If
+    End Function
 End Class
 
 Public Class Catalysis : Inherits RDFEntity
@@ -259,6 +271,7 @@ Public Class Catalysis : Inherits RDFEntity
     Public Property dataSource As dataSource
     Public Property displayName As displayName
 End Class
+
 Public Class RelationshipXref : Inherits RDFEntity
     Public Property db As db
     Public Property id As id
@@ -269,7 +282,6 @@ Public Class RelationshipTypeVocabulary : Inherits RDFEntity
     Public Property xref As xref
 End Class
 
-
 Public Class PublicationXref : Inherits RDFEntity
     Public Property id As id
     Public Property db As db
@@ -278,8 +290,6 @@ Public Class PublicationXref : Inherits RDFEntity
     <XmlElement> Public Property author As author()
     Public Property source As source
 End Class
-
-
 
 Public Class PhysicalEntity : Inherits RDFEntity
     <XmlElement> Public Property name As name()

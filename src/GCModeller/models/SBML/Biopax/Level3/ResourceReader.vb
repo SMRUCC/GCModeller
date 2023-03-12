@@ -1,6 +1,8 @@
 ﻿Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.application.rdf_xml
+Imports Microsoft.VisualBasic.Text.Xml
+Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 Imports SMRUCC.genomics.MetabolicModel
 
@@ -45,6 +47,53 @@ Namespace Level3
             Next
         End Function
 
+        Public Iterator Function GetAllCompounds() As IEnumerable(Of MetabolicCompound)
+            Dim moleculeReference = raw.SmallMoleculeReference _
+                .Select(Function(sm) DirectCast(sm, MoleculeReference)) _
+                .JoinIterates(raw.ProteinReference) _
+                .ToDictionary(Function(sm)
+                                  Return "#" & sm.RDFId
+                              End Function)
+
+            For Each compound As Molecule In compounds.Values
+                Dim metadata = moleculeReference.TryGetValue(compound.GetEntityResourceId)
+                Dim dbLinks As DBLink() = Nothing
+
+                If metadata IsNot Nothing Then
+                    dbLinks = metadata.xref _
+                        .Select(Function(xr)
+                                    Dim xrKey As String = xr.resource.Trim("#"c)
+                                    Dim xrData = unificationXrefs(xrKey)
+                                    Dim link As New DBLink With {
+                                        .DBName = xrData.db,
+                                        .entry = xrData.id,
+                                        .link = xr.resource
+                                    }
+
+                                    Return link
+                                End Function) _
+                        .ToArray
+                End If
+
+                Dim formula As String = Nothing
+                Dim mw As Double = 0
+
+                If TypeOf metadata Is SmallMoleculeReference Then
+                    formula = DirectCast(metadata, SmallMoleculeReference).chemicalFormula
+                    mw = DirectCast(metadata, SmallMoleculeReference).molecularWeight
+                End If
+
+                Yield New MetabolicCompound With {
+                    .name = compound.displayName,
+                    .synonym = compound.name.SafeQuery.Select(Function(name) CStr(name)).ToArray,
+                    .formula = formula,
+                    .moleculeWeight = mw,
+                    .id = compound.RDFId,
+                    .xref = dbLinks
+                }
+            Next
+        End Function
+
         Public Iterator Function GetAllReactions() As IEnumerable(Of MetabolicReaction)
             For Each reaction As BiochemicalReaction In raw.BiochemicalReaction.SafeQuery
                 Dim ecNumbers As String() = Nothing
@@ -66,7 +115,7 @@ Namespace Level3
 
                 Yield New MetabolicReaction With {
                     .id = reaction.RDFId,
-                    .description = desc,
+                    .description = desc.UnescapeHTML,
                     .is_spontaneous = reaction.spontaneous,
                     .name = .description,
                     .is_reversible = reaction.conversionDirection = "REVERSIBLE",
