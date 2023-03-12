@@ -104,7 +104,7 @@ const kegg_colors = function(id, log2FC, up = "red", down = "blue") {
         ;
     }
     const encode_url = function(map_id, idset) {
-        sprintf("http://www.kegg.jp/pathway/%s+%s", map_id, sapply(idset, set -> encode_colors(set)));
+        sprintf("http://www.kegg.jp/pathway/%s/%s", map_id, sapply(idset, set -> encode_colors(set)));
     }
 
     encode_url;
