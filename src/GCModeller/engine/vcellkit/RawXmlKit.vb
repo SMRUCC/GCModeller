@@ -64,6 +64,7 @@ Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports HTS_Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 Imports REnv = SMRUCC.Rsharp.Runtime
 Imports XmlOffset = SMRUCC.genomics.GCModeller.ModellingEngine.IO.vcXML.XML.offset
@@ -150,7 +151,7 @@ Module RawXmlKit
             End If
         Next
 
-        Dim contentType$ = REnv.asVector(Of String)(args.getByName(moduleName)).GetValue(Scan0)
+        Dim contentType$ = CLRVector.asCharacter(args.getByName(moduleName)).GetValue(Scan0)
         Dim names As String() = raw.getStreamEntities(moduleName, contentType)
 
         Return names
@@ -187,7 +188,7 @@ Module RawXmlKit
             End If
         Next
 
-        Dim contentType$ = REnv.asVector(Of String)(args.getByName(moduleName)).GetValue(Scan0)
+        Dim contentType$ = CLRVector.asCharacter(args.getByName(moduleName)).GetValue(Scan0)
         Dim matrix As New Dictionary(Of String, DataSet)
 
         For Each file As String In raw

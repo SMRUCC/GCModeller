@@ -67,6 +67,7 @@ Imports SMRUCC.genomics.Metagenomics
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 Imports REnv = SMRUCC.Rsharp.Runtime
 Imports Taxonomy = SMRUCC.genomics.Metagenomics.Taxonomy
@@ -175,7 +176,7 @@ Module TaxonomyKit
 
     <ExportAPI("biom_string.parse")>
     Public Function ParseBIOMString(<RRawVectorArgument> taxonomy As Object, Optional env As Environment = Nothing) As Object
-        Dim strings As String() = REnv.asVector(Of String)(taxonomy)
+        Dim strings As String() = CLRVector.asCharacter(taxonomy)
         Dim taxlist As Taxonomy() = strings _
             .Select(AddressOf BIOMTaxonomyParser.Parse) _
             .ToArray
@@ -365,8 +366,8 @@ Module TaxonomyKit
                                Optional taxonomy As String = "taxonomy",
                                Optional env As Environment = Nothing) As OTUTable()
 
-        Dim unique_id As String() = REnv.asVector(Of String)(table.getColumnVector(id))
-        Dim taxonomyStr As Taxonomy() = DirectCast(REnv.asVector(Of String)(table.getColumnVector(taxonomy)), String()) _
+        Dim unique_id As String() = CLRVector.asCharacter(table.getColumnVector(id))
+        Dim taxonomyStr As Taxonomy() = CLRVector.asCharacter(table.getColumnVector(taxonomy)) _
             .Select(Function(str) New Taxonomy(BIOMTaxonomy.TaxonomyParser(str))) _
             .ToArray
 

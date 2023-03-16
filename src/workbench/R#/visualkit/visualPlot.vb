@@ -94,6 +94,7 @@ Imports SMRUCC.Rsharp.Runtime.Internal.Invokes.LinqPipeline
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Internal.Object.Linq
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports any = Microsoft.VisualBasic.Scripting
 Imports Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 Imports RDataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
@@ -394,7 +395,7 @@ Module visualPlot
             profile = DirectCast(profiles, list).slots _
                 .ToDictionary(Function(a) a.Key,
                               Function(a)
-                                  Return CDbl(REnv.asVector(Of Double)(a.Value).GetValue(Scan0))
+                                  Return CLRVector.asNumeric(a.Value).ElementAtOrDefault(Scan0)
                               End Function) _
                 .DoKeggProfiles(top)
         ElseIf TypeOf profiles Is CatalogProfiles Then
