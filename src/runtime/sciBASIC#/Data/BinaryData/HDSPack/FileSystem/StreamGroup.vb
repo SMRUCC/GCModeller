@@ -106,6 +106,7 @@ Namespace FileSystem
             Get
                 Return tree.Values _
                     .Where(Function(f) TypeOf f Is StreamGroup) _
+                    .Select(Function(f) DirectCast(f, StreamGroup)) _
                     .ToArray
             End Get
         End Property
