@@ -68,6 +68,7 @@ Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports RDataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 Imports REnv = SMRUCC.Rsharp.Runtime
 
@@ -152,7 +153,7 @@ Module profiles
     <ExportAPI("flux.map.profiles")>
     Public Function FluxMapProfiles(flux As Object, maps As MapRepository, Optional env As Environment = Nothing) As Object
         If TypeOf flux Is RDataframe Then
-            Dim activity As Double() = REnv.asVector(Of Double)(DirectCast(flux, RDataframe).getColumnVector("activity"))
+            Dim activity As Double() = CLRVector.asNumeric(DirectCast(flux, RDataframe).getColumnVector("activity"))
             Dim rId As String()
             Dim flags = activity.Select(Function(a) a > 0).ToArray
             Dim data As RDataframe = DirectCast(flux, RDataframe).sliceByRow(flags, env)
@@ -164,8 +165,8 @@ Module profiles
                                   Return p.Values
                               End Function)
 
-            rId = REnv.asVector(Of String)(data.getColumnVector("RID"))
-            activity = REnv.asVector(Of Double)(data.getColumnVector("activity"))
+            rId = CLRVector.asCharacter(data.getColumnVector("RID"))
+            activity = CLRVector.asNumeric(data.getColumnVector("activity"))
 
             Dim fluxData = rId.SeqIterator.ToDictionary(Function(r) r.value, Function(i) activity(i))
             Dim profiles As New CatalogProfiles
