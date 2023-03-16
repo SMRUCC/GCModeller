@@ -401,9 +401,9 @@ Module GSEA
     <ExportAPI("to_enrichment_terms")>
     Public Function toEnrichmentTerms(x As dataframe, Optional env As Environment = Nothing) As EnrichmentResult()
         Dim terms As String() = x.getRowNames
-        Dim name As String() = REnv.asVector(Of String)(x.getColumnVector("name"))
-        Dim pvalue As Double() = REnv.asVector(Of Double)(x.getColumnVector("pvalue"))
-        Dim geneIDs As String() = REnv.asVector(Of String)(x.getColumnVector("geneIDs"))
+        Dim name As String() = CLRVector.asCharacter(x.getColumnVector("name"))
+        Dim pvalue As Double() = CLRVector.asNumeric(x.getColumnVector("pvalue"))
+        Dim geneIDs As String() = CLRVector.asCharacter(x.getColumnVector("geneIDs"))
         Dim geneList As New list With {
             .slots = terms _
                 .Select(Function(id, i)

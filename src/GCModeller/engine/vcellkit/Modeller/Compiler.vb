@@ -66,6 +66,7 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports gccWorkflow = SMRUCC.genomics.GCModeller.Compiler.Workflow
 Imports Rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 
@@ -122,8 +123,8 @@ Module Compiler
                 Return Internal.debug.stop($"NO KEGG id column data which is named: '{KOcol}'!", env)
             End If
 
-            Dim geneID As String() = asVector(Of String)(DirectCast(data, Rdataframe).getColumnVector(geneIDcol))
-            Dim KO As String() = asVector(Of String)(DirectCast(data, Rdataframe).getColumnVector(KOcol))
+            Dim geneID As String() = CLRVector.asCharacter(DirectCast(data, Rdataframe).getColumnVector(geneIDcol))
+            Dim KO As String() = CLRVector.asCharacter(DirectCast(data, Rdataframe).getColumnVector(KOcol))
 
             Return geneID _
                 .SeqIterator _
