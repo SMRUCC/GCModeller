@@ -82,7 +82,9 @@ Namespace Turtle
             For i As Integer = 1 To tokens.Length - 1
                 Dim t = tokens(i).StringSplit("(\t)|(\s,\s)")
                 Dim predicate As String = t(0)
-                Dim objs As String() = t.Skip(1).ToArray
+                Dim objs As String() = t.Skip(1) _
+                    .Select(Function(si) si.Trim(""""c)) _
+                    .ToArray
 
                 rels(i - 1) = New Relation With {
                     .predicate = predicate,
