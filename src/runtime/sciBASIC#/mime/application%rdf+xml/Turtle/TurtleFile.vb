@@ -76,18 +76,20 @@ Namespace Turtle
         End Function
 
         Private Function ParseTriple(line As String) As Triple
-            Dim tokens As String() = line.Trim("."c, " "c).StringSplit("\s;\s")
-            Dim subj As String = tokens(0)
-            Dim rels As Relation() = New Relation(tokens.Length - 2) {}
+            Dim tuple = line.GetTagValue(vbTab, trim:=True)
+            Dim tokens As String() = tuple.Value.Trim("."c, " "c).StringSplit("\s;\s")
+            Dim subj As String = tuple.Name
+            Dim rels As Relation() = New Relation(tokens.Length - 1) {}
 
-            For i As Integer = 1 To tokens.Length - 1
-                Dim t = tokens(i).StringSplit("(\t)|(\s,\s)")
+            For i As Integer = 0 To tokens.Length - 1
+                Dim t = tokens(i).StringSplit("(\t)|(\s,\s)", trimTrailingEmptyStrings:=True)
                 Dim predicate As String = t(0)
                 Dim objs As String() = t.Skip(1) _
+                    .Where(Function(si) Not si.IsPattern("\s+,\s+")) _
                     .Select(Function(si) si.Trim(""""c)) _
                     .ToArray
 
-                rels(i - 1) = New Relation With {
+                rels(i) = New Relation With {
                     .predicate = predicate,
                     .objs = objs
                 }
