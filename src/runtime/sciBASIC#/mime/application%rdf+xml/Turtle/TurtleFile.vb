@@ -1,5 +1,6 @@
 ﻿Imports System.IO
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Text
 
 Namespace Turtle
 
@@ -101,7 +102,7 @@ Namespace Turtle
         Private Sub ParsePrefix(line As String)
             Dim data = line.GetTagValue(":", trim:=True)
             Dim prefix As String = data.Name.Substring(8).Trim
-            Dim url As String = data.Value.Trim("."c, "<"c, ">"c, " "c)
+            Dim url As String = data.Value.Trim("."c, "<"c, ">"c, " "c, ASCII.TAB)
 
             ' The Turtle language originally permitted only the syntax including the '@'
             ' character for writing prefix and base directives. The case-insensitive 
