@@ -88,8 +88,4 @@
     <ProjectReference Include="..\..\Microsoft.VisualBasic.Core\src\Core.vbproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Turtle\" />
-  </ItemGroup>
-
 </Project>
