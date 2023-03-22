@@ -36,7 +36,7 @@ Namespace Turtle
                 data = line.GetTagValue(vbTab, trim:=False)
                 subj = data.Name
                 data = data.Value.GetTagValue(vbTab)
-                value = data.Value.Trim("."c, " "c, ASCII.TAB, """"c)
+                value = data.Value.Trim("."c, " "c, ASCII.TAB)
 
                 Yield New ttl_property With {
                     .subject = subj,
