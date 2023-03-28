@@ -12,6 +12,8 @@ const localRenderMap = function(KEGG_maps, pathwayList,
                                 gene_highights = "blue",
                                 outputdir      = "./") {
 
+    # key name is the kegg pathway map id
+    # key value is the kegg pathway map url
     const pathwayId as string = `map${$"\d+"(names(pathwayList))
         |> unlist()
         |> as.integer()
