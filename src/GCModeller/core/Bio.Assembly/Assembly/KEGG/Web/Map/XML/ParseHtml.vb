@@ -86,6 +86,17 @@ Namespace Assembly.KEGG.WebServices
 
         Const mapImageURL$ = "<img src="".+?"" .*?id=""pathwayimage"".* usemap=""#mapdata"".+?/>"
 
+        Private Function parseShapes(map As String) As Area()
+            Dim lines = map.LineTokens
+            Dim areas = lines.Skip(1).ToArray
+            Dim shapes = areas _
+                .Take(areas.Length - 1) _
+                .Select(AddressOf Area.Parse) _
+                .ToArray
+
+            Return shapes
+        End Function
+
         ''' <summary>
         ''' 
         ''' </summary>
@@ -94,15 +105,11 @@ Namespace Assembly.KEGG.WebServices
         ''' <returns></returns>
         Public Function ParseHTML(html As String, Optional url$ = Nothing) As Map
             Dim map$ = r.Match(html, data, RegexICSng).Value
-            Dim areas = map.LineTokens.Skip(1).ToArray
             Dim img = r.Match(html, mapImageURL, RegexICSng).Value
             Dim tmp$ = TempFileSystem.GetAppSysTempFile(".png", "mapFetchs_" & App.PID, "kegg_map_")
             Dim info As NamedValue(Of String) = GetEntryInfo(html)
-            Dim shapes = areas _
-                .Take(areas.Length - 1) _
-                .Select(AddressOf Area.Parse) _
-                .ToArray
-            Dim desc As String = r.Match(html, "<div .*id[=]""description"".+?</div>", RegexICSng).Value.GetValue
+            Dim shapes As Area() = parseShapes(map)
+            Dim desc As String = r.Match(html, "<div id[=]""description"".+?</div>", RegexICSng).Value.GetValue
 
             With "http://www.genome.jp/" & img.src
                 Call .DownloadFile(tmp)

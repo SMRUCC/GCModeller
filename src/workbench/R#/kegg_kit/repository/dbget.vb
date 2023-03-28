@@ -66,6 +66,7 @@ Public Module dbget
     ''' <param name="env"></param>
     ''' <returns></returns>
     ''' 
+    <ExportAPI("getMap")>
     <RApiReturn(GetType(Map))>
     Public Function getMap(id As String, Optional env As Environment = Nothing) As Object
         Return Map.ParseFromUrl($"https://www.kegg.jp/pathway/{id}")
