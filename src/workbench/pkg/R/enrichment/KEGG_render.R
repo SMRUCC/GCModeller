@@ -4,14 +4,20 @@
 #' @param enrich the csv file path of the kegg pathway map enrichment
 #'    result or the dataframe value it self
 #' 
-const KEGG_MapRender = function(enrich, map_id = "KEGG",
+const KEGG_MapRender = function(enrich, 
+        map_id = "KEGG",
         pathway_links = "pathway_links",
-          outputdir = "./") {
+        outputdir = "./") {
 
     const KEGG_maps = kegg_maps(rawMaps = FALSE);
 
     if (is.character(enrich)) {
-        enrich = read.csv(enrich, row.names = NULL, check.names = FALSE);
+        enrich = read.csv(
+            file = enrich, 
+            row.names = NULL, 
+            check.names = FALSE, 
+            tsv = file.ext(enrich) != "csv"
+        );
     }
 
     map_id = enrich[, map_id];
