@@ -126,8 +126,8 @@ C    00906  Carotenoid biosynthesis
 C    00905  Brassinosteroid biosynthesis
 C    00981  Insect hormone biosynthesis
 C    00908  Zeatin biosynthesis
-C    00903  Limonene and pinene degradation
-C    00281  Geraniol degradation
+C    00903  Limonene degradation
+C    00907  Pinene, camphor and geraniol degradation
 C    01052  Type I polyketide structures
 C    00522  Biosynthesis of 12-, 14- and 16-membered macrolides
 C    01051  Biosynthesis of ansamycins
@@ -146,6 +146,7 @@ C    00941  Flavonoid biosynthesis
 C    00944  Flavone and flavonol biosynthesis
 C    00942  Anthocyanin biosynthesis
 C    00943  Isoflavonoid biosynthesis
+C    00946  Degradation of flavonoids
 C    00901  Indole alkaloid biosynthesis
 C    00403  Indole diterpene alkaloid biosynthesis
 C    00950  Isoquinoline alkaloid biosynthesis
@@ -234,6 +235,7 @@ C    03230  Viral genome structure
 C    03240  Viral replication
 C    03250  Viral life cycle - HIV-1
 C    03260  Virion - Human immunodeficiency virus
+C    03262  Virion - Coronavirus
 C    03261  Virion - Influenza A virus
 C    03263  Virion - Enterovirus
 C    03264  Virion - Flavivirus
@@ -628,5 +630,5 @@ C    07114  Naphthalene family
 C    07117  Benzodiazepine family
 !
 #
-#Last updated: November 10, 2022
+#Last updated: March 6, 2023
 #&raquo; Japanese version
