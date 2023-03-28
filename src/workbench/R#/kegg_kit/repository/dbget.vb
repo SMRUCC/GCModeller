@@ -62,6 +62,9 @@ Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Interop
 
+''' <summary>
+''' toolkit for download kegg dataset
+''' </summary>
 <Package("dbget")>
 Public Module dbget
 
@@ -121,7 +124,7 @@ Public Module dbget
                 .entry = New NamedValue With {.name = row.ID, .text = row!name}
             }
             Dim map As Map = q.Query(Of Map)(refer, cacheType:=".html")
-            Dim path As String = $"/{refer.class}/{refer.category}/map{row.ID}.xml"
+            Dim path As String = $"/KEGG_maps/{refer.class}/{refer.category}/map{row.ID}.xml"
 
             Call q.FileSystem.WriteText(map.GetXml, path)
         Next
