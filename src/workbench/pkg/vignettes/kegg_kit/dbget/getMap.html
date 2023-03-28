@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Do parse of the kegg brite text file.</title>
+    <title>get kegg map from the kegg web server</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <style rel="stylesheet" type="text/css">
@@ -143,12 +143,12 @@
 
         <table style="width: 100%;">
             <tr>
-                <td>parse {brite}</td>
+                <td>getMap {dbget}</td>
                 <td style="text-align: right;">R Documentation</td>
             </tr>
         </table>
 
-        <h2>Do parse of the kegg brite text file.</h2>
+        <h2>get kegg map from the kegg web server</h2>
 
         <h3>Description</h3>
 
@@ -157,20 +157,19 @@
         <h3>Usage</h3>
 
         <div style="width: 100%; padding-left: 3%; color: black;">
-            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>parse</strong>(<i>file</i>);</code></pre>
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>getMap</strong>(<i>id</i>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
 
         <table>
             
-<dt>file</dt>
-<dd><p><p>The file text content, brite id or its file path, example as:</p>
+<dt>id</dt>
+<dd><p><p>-</p></p></dd>
 
-<ol>
-<li><code>br08901</code> could be used at here as the kegg pathway map <br />
-brite id, which is parsed from the internal resource data</li>
-</ol></p></dd>
+
+<dt>env</dt>
+<dd><p><p>-</p></p></dd>
 
         </table>
 
@@ -182,11 +181,11 @@ brite id, which is parsed from the internal resource data</li>
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/clr/SMRUCC/genomics/Assembly/KEGG/DBGET/BriteHEntry/htext.html">htext</a>.
+        this function returns data object of type <a href="/clr/SMRUCC/genomics/Assembly/KEGG/WebServices/Map.html">Map</a>.
 
         <hr />
-        <div style="text-align: center;">[Package <em>brite</em> version 1.0.0.0 <a
-                href="../brite.html">Index</a>]
+        <div style="text-align: center;">[Package <em>dbget</em> version 1.0.0.0 <a
+                href="../dbget.html">Index</a>]
         </div>
     </div>
 </body>

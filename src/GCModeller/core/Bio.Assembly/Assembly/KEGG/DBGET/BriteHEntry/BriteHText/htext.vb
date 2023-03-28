@@ -129,7 +129,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             Dim header$() = lines(Scan0).Split(ASCII.TAB)
             Dim title As String = lines(1)
             Dim defs As New List(Of String)
-            Dim i As i32 = 2
+            Dim i As i32 = 0
 
             Do While lines(i) <> "!"
                 Call defs.Add(lines(++i))
@@ -200,6 +200,9 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' KEGG pathway maps
         ''' </summary>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' https://rest.kegg.jp/get/br:br08901
+        ''' </remarks>
         Public Shared Function br08901() As htext
             Return StreamParser(My.Resources.br08901)
         End Function
