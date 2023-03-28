@@ -51,14 +51,25 @@
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic.Serialization.JSON
-Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Organism
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Interop
 
 <Package("dbget")>
 Public Module dbget
+
+    ''' <summary>
+    ''' get kegg map from the kegg web server
+    ''' </summary>
+    ''' <param name="id"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    ''' 
+    <RApiReturn(GetType(Map))>
+    Public Function getMap(id As String, Optional env As Environment = Nothing) As Object
+        Return Map.ParseFromUrl($"https://www.kegg.jp/pathway/{id}")
+    End Function
 
     '<ExportAPI("fetch.pathwayMaps")>
     'Public Function DownloadPathwayMaps(sp As String,
