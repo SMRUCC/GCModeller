@@ -57,6 +57,7 @@ Public Class zzz
 
     Public Shared Sub onLoad()
         Call GSEA.Main()
+        Call GSEABackground.Main()
     End Sub
 
 End Class

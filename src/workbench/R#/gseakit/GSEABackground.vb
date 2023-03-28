@@ -92,7 +92,7 @@ Imports REnv = SMRUCC.Rsharp.Runtime.Internal.ConsolePrinter
 <RTypeExport("gsea_background", GetType(Background))>
 Public Module GSEABackground
 
-    Sub New()
+    Sub Main()
         Call REnv.AttachConsoleFormatter(Of Background)(AddressOf PrintBackground)
     End Sub
 
