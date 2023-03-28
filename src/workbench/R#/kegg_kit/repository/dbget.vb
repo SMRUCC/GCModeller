@@ -52,6 +52,7 @@
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.DataStorage.HDSPack.FileSystem
 Imports Microsoft.VisualBasic.Emit.Delegates
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text.Xml.Models
@@ -85,6 +86,7 @@ Public Module dbget
     Public Function getMaps(cache As Object, Optional env As Environment = Nothing) As Object
         Dim q As MapQuery
         Dim br08901 As EntityObject() = britekit.BriteTable(htext.br08901)
+        Dim println = env.WriteLineHandler
 
         '               class                   category subcategory    order    entry                                           name
         ' ----------------------------------------------------------------------------------------------------------------------------
@@ -127,6 +129,8 @@ Public Module dbget
             Dim path As String = $"/KEGG_maps/{refer.class}/{refer.category}/map{row.ID}.xml"
 
             Call q.FileSystem.WriteText(map.GetXml, path)
+            Call q.FileSystem.Flush()
+            Call println($"[{row!name}] {path}")
         Next
 
         Return True
