@@ -515,7 +515,7 @@ Public Module repository
         End If
 
         If TypeOf repo Is String OrElse TypeOf repo Is String() Then
-            Dim repoStr As String() = RVectorExtensions.asVector(Of String)(repo)
+            Dim repoStr As String() = CLRVector.asCharacter(repo)
 
             If repoStr.Length = 0 Then
                 Return Internal.debug.stop("the required repository source can not be empty!", env)

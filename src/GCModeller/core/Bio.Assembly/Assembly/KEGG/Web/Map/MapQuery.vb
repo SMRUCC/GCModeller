@@ -59,8 +59,18 @@ Imports r = System.Text.RegularExpressions.Regex
 
 Namespace Assembly.KEGG.WebServices
 
+    ''' <summary>
+    ''' web query module for the kegg pathway map
+    ''' </summary>
     Public Class MapQuery : Inherits WebQueryModule(Of PathwayEntry)
 
+        Public ReadOnly Property FileSystem As IFileSystemEnvironment
+            Get
+                Return cache
+            End Get
+        End Property
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub New(<CallerMemberName>
                        Optional cache As String = Nothing,
                        Optional interval As Integer = -1,
@@ -73,6 +83,7 @@ Namespace Assembly.KEGG.WebServices
             )
         End Sub
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Sub New(cacheFs As IFileSystemEnvironment,
                 Optional interval% = -1,
                 Optional offline As Boolean = False)
@@ -91,16 +102,25 @@ Namespace Assembly.KEGG.WebServices
             End If
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Protected Overrides Function doParseUrl(context As PathwayEntry) As String
             Return $"https://www.kegg.jp/pathway/{getID(context)}"
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Protected Overrides Function doParseObject(html As String, schema As Type) As Object
             Return ParseHtmlExtensions.ParseHTML(html)
         End Function
 
         Protected Overrides Function doParseGuid(context As PathwayEntry) As String
-            Return context.EntryId.MD5
+            If TypeOf cache Is IFileSystemEnvironment Then
+                Dim md5 As String = context.EntryId.MD5
+                Dim prefix As String = "/.cache/" & md5.Substring(7, 2) & "/" & md5
+
+                Return prefix
+            Else
+                Return context.EntryId.MD5
+            End If
         End Function
     End Class
 End Namespace

@@ -111,10 +111,13 @@ Namespace FileSystem
         End Property
 
         ''' <summary>
-        ''' 
+        ''' open or create new stream pack data object
         ''' </summary>
         ''' <param name="filepath"></param>
         ''' <param name="init_size"></param>
+        ''' <param name="meta_size">
+        ''' default 1MB for save the header data
+        ''' </param>
         Sub New(filepath As String,
                 Optional init_size As Integer = 1024,
                 Optional meta_size As Long = 1024 * 1024,
