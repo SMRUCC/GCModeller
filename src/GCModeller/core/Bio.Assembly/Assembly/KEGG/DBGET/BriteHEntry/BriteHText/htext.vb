@@ -200,6 +200,9 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' KEGG pathway maps
         ''' </summary>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' https://rest.kegg.jp/get/br:br08901
+        ''' </remarks>
         Public Shared Function br08901() As htext
             Return StreamParser(My.Resources.br08901)
         End Function
