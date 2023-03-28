@@ -109,7 +109,7 @@ Namespace Assembly.KEGG.WebServices
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Protected Overrides Function doParseObject(html As String, schema As Type) As Object
-            Return ParseHtmlExtensions.ParseHTML(html)
+            Return ParseHtmlExtensions.ParseHTML(html, fs:=cache)
         End Function
 
         Protected Overrides Function doParseGuid(context As PathwayEntry) As String
