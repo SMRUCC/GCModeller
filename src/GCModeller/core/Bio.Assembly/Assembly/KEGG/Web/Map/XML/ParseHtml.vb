@@ -50,8 +50,11 @@
 
 #End Region
 
+Imports System.Drawing
+Imports System.IO
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.FileIO
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Net.Http
@@ -59,6 +62,7 @@ Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports r = System.Text.RegularExpressions.Regex
+Imports dirFs = Microsoft.VisualBasic.FileIO.Directory
 
 Namespace Assembly.KEGG.WebServices
 
@@ -96,38 +100,58 @@ Namespace Assembly.KEGG.WebServices
             Return shapes
         End Function
 
+        Private Function HttpGetPathwayMapImage(id As String, fs As IFileSystemEnvironment) As String
+            Dim url As String = $"https://rest.kegg.jp/get/{id}/image"
+            Dim img As String
+            Dim cachePath As String = $"/images/{id}.png"
+            Dim tmp$ = TempFileSystem.GetAppSysTempFile(".png", "mapFetchs_" & App.PID.ToHexString, "kegg_map_")
+
+            If Not fs.FileExists(cachePath) Then
+                ' download pathway map image to local cache
+                Call url.DownloadFile(save:=tmp)
+                Call fs.DeleteFile(cachePath)
+
+                Using file As Stream = fs.OpenFile(cachePath, FileMode.CreateNew, FileAccess.Write)
+                    Dim buf As Byte() = tmp.ReadBinary
+
+                    Call file.Write(buf, Scan0, buf.Length)
+                    Call file.Flush()
+                End Using
+
+                Call fs.Flush()
+            End If
+
+            img = fs.OpenFile(cachePath, FileMode.Open).LoadImage(throwEx:=False).ToBase64String
+            img = FastaSeq.SequenceLineBreak(200, img)
+            img = vbLf & img _
+                .LineTokens _
+                .Select(Function(s) New String(" ", 4) & s) _
+                .JoinBy(ASCII.LF) & vbLf
+
+            Return img
+        End Function
+
         ''' <summary>
         ''' 
         ''' </summary>
         ''' <param name="html"></param>
         ''' <param name="url">The original source url of this map data</param>
         ''' <returns></returns>
-        Public Function ParseHTML(html As String, Optional url$ = Nothing) As Map
+        Public Function ParseHTML(html As String, Optional url$ = Nothing, Optional fs As IFileSystemEnvironment = Nothing) As Map
             Dim map$ = r.Match(html, data, RegexICSng).Value
-            Dim img = r.Match(html, mapImageURL, RegexICSng).Value
-            Dim tmp$ = TempFileSystem.GetAppSysTempFile(".png", "mapFetchs_" & App.PID, "kegg_map_")
             Dim info As NamedValue(Of String) = GetEntryInfo(html)
             Dim shapes As Area() = parseShapes(map)
             Dim desc As String = r.Match(html, "<div id[=]""description"".+?</div>", RegexICSng) _
                 .Value _
                 .GetValue _
                 .Trim(" "c, ASCII.TAB, ASCII.CR, ASCII.LF)
+            Dim cache_temp As String = App.ProductSharedTemp & "/kegg_maps/"
 
-            With "http://www.genome.jp/" & img.src
-                Call .DownloadFile(tmp)
+            If fs Is Nothing Then
+                fs = dirFs.FromLocalFileSystem(cache_temp)
+            End If
 
-                If (Not tmp.FileExists) OrElse tmp.LoadImage(throwEx:=False) Is Nothing Then
-                    img = $"https://www.genome.jp/kegg/pathway/map/{info.Name}.png"
-                    img.DownloadFile(tmp)
-                End If
-
-                img = tmp.LoadImage.ToBase64String
-                img = FastaSeq.SequenceLineBreak(200, img)
-                img = vbLf & img _
-                    .LineTokens _
-                    .Select(Function(s) New String(" ", 4) & s) _
-                    .JoinBy(ASCII.LF) & vbLf
-            End With
+            Dim img As String = HttpGetPathwayMapImage(info.Name, fs)
 
             Return New Map With {
                 .PathwayImage = img,
