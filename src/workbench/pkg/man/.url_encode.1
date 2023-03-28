@@ -1,10 +1,12 @@
 ﻿.TH .URL_ENCODE 1 2023-Mar "" ".url_encode"
 .SH NAME
-.url_encode \- .url_encode(enrich, data,
+.url_encode \- .url_encode(enrich,
+    <i>data</i> = <span style='color: blue;'>NULL</span>,
     <i>log2FC</i> = log2(FC),
     <i>id</i> = kegg)
 .SH SYNOPSIS
-\fI.url_encode(enrich, data,
+\fI.url_encode(enrich,
+    <i>data</i> = <span style='color: blue;'>NULL</span>,
     <i>log2FC</i> = log2(FC),
     <i>id</i> = kegg)\fR
 .SH OPTIONS
@@ -12,7 +14,7 @@
 \fBenrich\fB \fR\- . 
 .PP
 .PP
-\fBdata\fB \fR\- . 
+\fBdata\fB \fR\- NULL. 
 .PP
 .PP
 \fBlog2FC\fB \fR\- log2(FC). 
@@ -22,7 +24,7 @@
 .PP
 .SH FILES
 .PP
-SMRUCC/R#.declare_function..url_encode at metpa_enrich.R:line 63
+SMRUCC/R#.declare_function..url_encode at metpa_enrich.R:line 64
 .PP
 .SH COPYRIGHT
 Copyright © xieguigang, GPL3 Licensed 2023

@@ -56,12 +56,20 @@ const metpa_enrich = function(data, metpa, log2FC = "log2(FC)", id = "kegg") {
             showProgress = FALSE
         )
         |> as.data.frame()
+        |> .url_encode()
         ;
     }
 }
 
-const .url_encode = function(enrich, data, log2FC = "log2(FC)", id = "kegg") {
-    if (log2FC in data) {
+const .url_encode = function(enrich, data = NULL, log2FC = "log2(FC)", id = "kegg") {
+    let has_data  = !is.null(data);
+    let has_logfc = log2FC in data;
+
+    if (length(has_logfc) == 0) {
+        has_logfc = FALSE;
+    }
+
+    if (has_data && has_logfc) {
         # do colorful encode of the url
         const encode_url = kegg_colors(
             id = data[, id], 
