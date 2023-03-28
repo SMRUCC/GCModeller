@@ -90,7 +90,7 @@ const .url_encode = function(enrich, data = NULL, log2FC = "log2(FC)", id = "keg
 }
 
 const __parseIdvector = function(set) {
-    unlist(strsplit(set, ";\s+"));
+    unlist(strsplit(set, ";\s*"));
 }
 
 #' generate color map for do colorful encode of the kegg map url
