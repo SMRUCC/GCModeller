@@ -45,6 +45,8 @@ def render(enrich_df,
     else:
         enrich_df.to_csv(enrich_file)
 
+    outputdir = os.path.abspath(outputdir)
+    enrich_file = os.path.abspath(enrich_file)
     args = {
         "map_id": map_id,
         "pathway_links": pathway_links,
