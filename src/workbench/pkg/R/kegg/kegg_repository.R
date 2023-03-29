@@ -16,11 +16,15 @@ const kegg_compounds = function(rawList = FALSE) {
 #'    or a indexed map repository object if set the parameter value
 #'    to value ``FALSE``.
 #' 
-const kegg_maps = function(rawMaps = TRUE) {
-    using file as .readZipStream(
-        zipfile = system.file("data/kegg/KEGG_maps.zip", package = "GCModeller")
-    ) {
-        repository::load.maps(file, rawMaps = rawMaps);
+const kegg_maps = function(rawMaps = TRUE, repo = system.file("data/kegg/KEGG_maps.zip", package = "GCModeller")) {
+    if (file.ext(repo) == "zip") {
+        print(`repository file(${repo}) is a zip package.`);
+
+        using file as .readZipStream(zipfile = repo) {
+            repository::load.maps(file, rawMaps = rawMaps);
+        }
+    } else {
+        repo |> repository::load.maps(rawMaps = rawMaps);
     }
 }
 

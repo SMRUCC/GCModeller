@@ -3,12 +3,14 @@
 KEGG_MapRender \- KEGG_MapRender(enrich,
     <i>map.id</i> = KEGG,
     <i>pathway.links</i> = pathway_links,
-    <i>outputdir</i> = ./)
+    <i>outputdir</i> = ./,
+    <i>kegg.maps</i> = <span style='color: blue;'>NULL</span>)
 .SH SYNOPSIS
 \fIKEGG_MapRender(enrich,
     <i>map.id</i> = KEGG,
     <i>pathway.links</i> = pathway_links,
-    <i>outputdir</i> = ./)\fR
+    <i>outputdir</i> = ./,
+    <i>kegg.maps</i> = <span style='color: blue;'>NULL</span>)\fR
 .SH OPTIONS
 .PP
 \fBenrich\fB \fR\- . the csv file path of the kegg pathway map enrichment result or the dataframe value it self
@@ -21,6 +23,9 @@ KEGG_MapRender \- KEGG_MapRender(enrich,
 .PP
 .PP
 \fBoutputdir\fB \fR\- ./. 
+.PP
+.PP
+\fBkegg.maps\fB \fR\- NULL. 
 .PP
 .SH FILES
 .PP

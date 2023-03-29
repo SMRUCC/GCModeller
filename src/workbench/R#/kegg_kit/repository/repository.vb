@@ -301,7 +301,7 @@ Public Module repository
     End Function
 
     Private Function parseMapsFromFile(fileHandle As String, rawMaps As Boolean) As Object
-        If fileHandle.ExtensionSuffix("msgpack") Then
+        If fileHandle.ExtensionSuffix("msgpack", "pack", "hds") Then
             Using file As Stream = fileHandle.Open(FileMode.Open, doClear:=False, [readOnly]:=True)
                 If rawMaps Then
                     Return KEGGMapPack.ReadKeggDb(file)
