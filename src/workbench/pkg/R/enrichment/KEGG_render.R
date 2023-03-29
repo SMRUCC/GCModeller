@@ -7,9 +7,16 @@
 const KEGG_MapRender = function(enrich, 
         map_id = "KEGG",
         pathway_links = "pathway_links",
-        outputdir = "./") {
+        outputdir = "./",
+        kegg_maps = NULL) {
 
-    const KEGG_maps = kegg_maps(rawMaps = FALSE);
+    const KEGG_maps = GCModeller::kegg_maps(rawMaps = FALSE, repo = {
+        if (file.exists(kegg_maps)) {
+            kegg_maps;
+        } else {
+            system.file("data/kegg/KEGG_maps.zip", package = "GCModeller");
+        }
+    });
 
     if (is.character(enrich)) {
         enrich = read.csv(

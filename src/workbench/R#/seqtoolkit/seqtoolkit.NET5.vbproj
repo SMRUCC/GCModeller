@@ -65,6 +65,10 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
+  </ItemGroup>
+
   <Import Project="..\Rscript_shared\Rscript_shared.projitems" Label="Shared" />
 
 </Project>

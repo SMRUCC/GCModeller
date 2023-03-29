@@ -304,7 +304,7 @@ Project("{778DAE3C-4631-46EA-AA77-85C1314464D9}") = "Network.Regulons", "..\..\G
 EndProject
 Project("{778DAE3C-4631-46EA-AA77-85C1314464D9}") = "HTS_matrix-netcore5", "..\..\GCModeller\analysis\HTS_matrix\HTS_matrix-netcore5.vbproj", "{E06F8BFA-816F-4D1F-AFA2-88FA15E1C3B9}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "rnaseq", "rnaseq\rnaseq.vbproj", "{CACA6ECA-DADF-4C7D-A99E-E1AA8AFEFFA9}"
+Project("{778DAE3C-4631-46EA-AA77-85C1314464D9}") = "rnaseq", "rnaseq\rnaseq.vbproj", "{CACA6ECA-DADF-4C7D-A99E-E1AA8AFEFFA9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
