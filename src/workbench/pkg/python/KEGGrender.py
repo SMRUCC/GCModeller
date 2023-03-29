@@ -115,3 +115,14 @@ def run_docker(image_id, app, arguments, argv, run_debug = False):
     print("")
 
     return shell
+
+
+if __name__ == "__main__":
+
+    render("./associate_mt.xls", 
+           outputdir = "./test_map/", 
+           map_id = "KEGG",
+           pathway_links = "pathway_links",
+           image = "dotnet:gcmodeller_20230401",
+           kegg_maps = "/opt/biodeep/kegg/KEGG_maps.pack",
+           run_debug = False)
