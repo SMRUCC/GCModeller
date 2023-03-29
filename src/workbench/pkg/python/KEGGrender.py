@@ -5,9 +5,14 @@ import os
 import sys
 
 from pathlib import Path
-import pandas as pd
 import random
 import hashlib
+
+try:
+    import pandas as pd
+except:
+    # do nothing
+    print("enrich_df parameter should be a file path.")
 
 def render(enrich_df, 
            outputdir = "./", 
