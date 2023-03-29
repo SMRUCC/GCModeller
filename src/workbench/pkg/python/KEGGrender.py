@@ -14,6 +14,7 @@ def render(enrich_df,
            map_id = "KEGG",
            pathway_links = "pathway_links",
            image = "dotnet:gcmodeller_20230401",
+           kegg_maps = "/opt/biodeep/kegg/KEGG_maps.pack",
            run_debug = False):
     """
     Do KEGG pathway map rendering locally
@@ -34,7 +35,8 @@ def render(enrich_df,
         "map_id": map_id,
         "pathway_links": pathway_links,
         "outputdir": outputdir,
-        "enrich": enrich_file
+        "enrich": enrich_file,
+        "kegg_maps": kegg_maps
     }
 
     # setup the r_lambda environment variables
