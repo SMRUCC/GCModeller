@@ -59,7 +59,7 @@ def render(enrich_df,
     setup_renvironment(args, outputdir)
 
     RSCRIPT_HOST   = "/usr/local/bin/Rscript.dll"    
-    RSCRIPT_LAMBDA = "--lambda gcmodeller::KEGG_MapRender --SetDllDirectory /usr/local/bin/"
+    RSCRIPT_LAMBDA = "--lambda GCModeller::KEGG_MapRender --SetDllDirectory /usr/local/bin/"
 
     # run docker pipeline shell command
     exit_code = run_docker(
