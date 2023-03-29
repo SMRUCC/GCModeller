@@ -18,6 +18,8 @@ const kegg_compounds = function(rawList = FALSE) {
 #' 
 const kegg_maps = function(rawMaps = TRUE, repo = system.file("data/kegg/KEGG_maps.zip", package = "GCModeller")) {
     if (file.ext(repo) == "zip") {
+        print(`repository file(${repo}) is a zip package.`);
+
         using file as .readZipStream(zipfile = repo) {
             repository::load.maps(file, rawMaps = rawMaps);
         }

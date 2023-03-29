@@ -88,7 +88,7 @@ Namespace KEGG.Metabolism
         End Function
 
         ''' <summary>
-        ''' 
+        ''' load binary data repository with format auto checked
         ''' </summary>
         ''' <param name="file">
         ''' a stream data of kegg pathway maps in messagepack or HDS stream pack format
