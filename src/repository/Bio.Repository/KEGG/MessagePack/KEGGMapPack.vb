@@ -105,19 +105,7 @@ Namespace KEGG.Metabolism
 
                 If StreamPack.TestMagic(magic_hds) Then
                     ' is in HDS stream pack format
-                    Dim pack As New StreamPack(file)
-                    Dim KEGG_maps As StreamGroup = pack.GetObject("/KEGG_maps/")
-                    ' fetch all xml files
-                    Dim xmlfiles = KEGG_maps.ListFiles _
-                        .Where(Function(f) TypeOf f Is StreamBlock) _
-                        .Select(Function(f) DirectCast(f, StreamBlock)) _
-                        .Where(Function(f) f.referencePath.ExtensionSuffix("xml")) _
-                        .ToArray
-                    Dim maps As Map() = xmlfiles _
-                        .Select(Function(f) pack.ReadText(f).LoadXml(Of Map)) _
-                        .ToArray
-
-                    Return maps
+                    Return loadHdsPack(file)
                 Else
                     ' is in messagepack format
                     Return MsgPackSerializer.Deserialize(Of Map())(file)
@@ -126,6 +114,22 @@ Namespace KEGG.Metabolism
                 ' messagepack format parser by default
                 Return MsgPackSerializer.Deserialize(Of Map())(file)
             End If
+        End Function
+
+        Private Shared Function loadHdsPack(file As Stream) As Map()
+            Dim pack As New StreamPack(file)
+            Dim KEGG_maps As StreamGroup = pack.GetObject("/KEGG_maps/")
+            ' fetch all xml files
+            Dim xmlfiles = KEGG_maps.ListFiles _
+                .Where(Function(f) TypeOf f Is StreamBlock) _
+                .Select(Function(f) DirectCast(f, StreamBlock)) _
+                .Where(Function(f) f.referencePath.ExtensionSuffix("xml")) _
+                .ToArray
+            Dim maps As Map() = xmlfiles _
+                .Select(Function(f) pack.ReadText(f).LoadFromXml(Of Map)) _
+                .ToArray
+
+            Return maps
         End Function
 
         ''' <summary>
