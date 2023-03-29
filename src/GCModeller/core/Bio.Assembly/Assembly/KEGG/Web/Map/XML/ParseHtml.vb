@@ -50,19 +50,17 @@
 
 #End Region
 
-Imports System.Drawing
 Imports System.IO
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.FileIO
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
 Imports SMRUCC.genomics.SequenceModel.FASTA
-Imports r = System.Text.RegularExpressions.Regex
 Imports dirFs = Microsoft.VisualBasic.FileIO.Directory
+Imports r = System.Text.RegularExpressions.Regex
 
 Namespace Assembly.KEGG.WebServices
 
@@ -87,8 +85,6 @@ Namespace Assembly.KEGG.WebServices
                 .Value = definition
             }
         End Function
-
-        Const mapImageURL$ = "<img src="".+?"" .*?id=""pathwayimage"".* usemap=""#mapdata"".+?/>"
 
         Private Function parseShapes(map As String) As Area()
             Dim areas = map.LineTokens.Select(Function(si) si.Trim(" "c, ASCII.TAB, ASCII.CR, ASCII.LF)).ToArray
