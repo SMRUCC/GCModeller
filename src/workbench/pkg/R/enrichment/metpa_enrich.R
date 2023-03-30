@@ -25,7 +25,8 @@ const _unique_idset = function(id) {
 #'    enrichment analysis. And this parameter option only works when
 #'    the input data is a dataframe object.
 #' 
-#' @return A dataframe object that contains the enrichment analysis result 
+#' @return A dataframe object that contains the enrichment analysis result,
+#'    value nothing will be return if the given kegg idset is empty. 
 #'
 const metpa_enrich = function(data, metpa, log2FC = "log2(FC)", id = "kegg") {
     if (is.data.frame(data)) {
@@ -62,28 +63,30 @@ const metpa_enrich = function(data, metpa, log2FC = "log2(FC)", id = "kegg") {
 }
 
 const .url_encode = function(enrich, data = NULL, log2FC = "log2(FC)", id = "kegg") {
-    let has_data  = !is.null(data);
-    let has_logfc = log2FC in data;
+    if (!is.null(enrich)) {
+        let has_data  = !is.null(data);
+        let has_logfc = log2FC in data;
 
-    if (length(has_logfc) == 0) {
-        has_logfc = FALSE;
-    }
+        if (length(has_logfc) == 0) {
+            has_logfc = FALSE;
+        }
 
-    if (has_data && has_logfc) {
-        # do colorful encode of the url
-        const encode_url = kegg_colors(
-            id = data[, id], 
-            log2FC = data[, log2FC]
-        );
+        if (has_data && has_logfc) {
+            # do colorful encode of the url
+            const encode_url = kegg_colors(
+                id = data[, id], 
+                log2FC = data[, log2FC]
+            );
 
-        enrich[, "links"] = encode_url(
-            map_id = rownames(enrich), 
-            idset = enrich$geneIDs
-        );
-    } else {
-        # just do normal map url encode
-        # http://www.kegg.jp/pathway/map01230+C00037+C00049+C00082+C00188
-        enrich[, "links"] = sprintf("http://www.kegg.jp/pathway/%s+%s", rownames(enrich), sapply(enrich$geneIDs, set -> paste(__parseIdvector(set), "+")));
+            enrich[, "links"] = encode_url(
+                map_id = rownames(enrich), 
+                idset = enrich$geneIDs
+            );
+        } else {
+            # just do normal map url encode
+            # http://www.kegg.jp/pathway/map01230+C00037+C00049+C00082+C00188
+            enrich[, "links"] = sprintf("http://www.kegg.jp/pathway/%s+%s", rownames(enrich), sapply(enrich$geneIDs, set -> paste(__parseIdvector(set), "+")));
+        }
     }
 
     enrich;
