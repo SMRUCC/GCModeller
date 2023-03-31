@@ -838,6 +838,8 @@ Public Module PathExtensions
 
         If isUNCpath Then
             Return parent.Replace("/", "\")
+        ElseIf parent = "" Then
+            Return "/"
         Else
             Return parent
         End If
