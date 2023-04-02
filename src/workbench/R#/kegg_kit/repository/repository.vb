@@ -300,6 +300,26 @@ Public Module repository
         End If
     End Function
 
+    Private Function parseMapsFromFile(fileHandle As String, rawMaps As Boolean) As Object
+        If fileHandle.ExtensionSuffix("msgpack", "pack", "hds") Then
+            Using file As Stream = fileHandle.Open(FileMode.Open, doClear:=False, [readOnly]:=True)
+                If rawMaps Then
+                    Return KEGGMapPack.ReadKeggDb(file)
+                Else
+                    Return KEGGMapPack.ReadKeggDb(file).DoCall(AddressOf MapRepository.BuildRepository)
+                End If
+            End Using
+        ElseIf fileHandle.ExtensionSuffix("xml") Then
+            Return fileHandle.LoadXml(Of Map)
+        End If
+
+        If rawMaps Then
+            Return MapRepository.GetMapsAuto(fileHandle).ToArray
+        Else
+            Return MapRepository.BuildRepository(fileHandle)
+        End If
+    End Function
+
     ''' <summary>
     ''' load list of kegg reference <see cref="Map"/>.
     ''' </summary>
@@ -323,25 +343,7 @@ Public Module repository
                 End If
             End Using
         Else
-            Dim fileHandle As String = any.ToString(repository)
-
-            If fileHandle.ExtensionSuffix("msgpack") Then
-                Using file As Stream = fileHandle.Open(FileMode.Open, doClear:=False, [readOnly]:=True)
-                    If rawMaps Then
-                        Return KEGGMapPack.ReadKeggDb(file)
-                    Else
-                        Return KEGGMapPack.ReadKeggDb(file).DoCall(AddressOf MapRepository.BuildRepository)
-                    End If
-                End Using
-            ElseIf fileHandle.ExtensionSuffix("xml") Then
-                Return fileHandle.LoadXml(Of Map)
-            End If
-
-            If rawMaps Then
-                Return MapRepository.GetMapsAuto(fileHandle).ToArray
-            Else
-                Return MapRepository.BuildRepository(fileHandle)
-            End If
+            Return parseMapsFromFile(fileHandle:=any.ToString(repository), rawMaps)
         End If
     End Function
 
@@ -515,7 +517,7 @@ Public Module repository
         End If
 
         If TypeOf repo Is String OrElse TypeOf repo Is String() Then
-            Dim repoStr As String() = RVectorExtensions.asVector(Of String)(repo)
+            Dim repoStr As String() = CLRVector.asCharacter(repo)
 
             If repoStr.Length = 0 Then
                 Return Internal.debug.stop("the required repository source can not be empty!", env)

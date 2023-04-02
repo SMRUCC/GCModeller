@@ -446,7 +446,20 @@ AAGCGAACAAATGTTCTATA"
             End If
         End Sub
 
+        ''' <summary>
+        ''' break the input sequence string into multiple lines
+        ''' </summary>
+        ''' <param name="lineBreak"></param>
+        ''' <param name="sequence"></param>
+        ''' <returns>
+        ''' this function will returns empty string always if the given 
+        ''' input <paramref name="sequence"/> is empty or nothing.
+        ''' </returns>
         Public Shared Function SequenceLineBreak(lineBreak%, sequence$) As String
+            If sequence.StringEmpty Then
+                Return ""
+            End If
+
             With New StringBuilder
                 FastaSeq.SequenceLineBreak(.ByRef, lineBreak, sequence)
                 Return .ToString

@@ -88,9 +88,11 @@ Imports REnv = SMRUCC.Rsharp.Runtime.Internal.ConsolePrinter
 ''' tools for handling GSEA background model.
 ''' </summary>
 <Package("background", Category:=APICategories.ResearchTools)>
+<RTypeExport("metpa", GetType(metpa))>
+<RTypeExport("gsea_background", GetType(Background))>
 Public Module GSEABackground
 
-    Sub New()
+    Sub Main()
         Call REnv.AttachConsoleFormatter(Of Background)(AddressOf PrintBackground)
     End Sub
 
@@ -551,12 +553,12 @@ Public Module GSEABackground
     ''' <returns></returns>
     <ExportAPI("metpa")>
     <RApiReturn(GetType(metpa))>
-    Public Function metpa(<RRawVectorArgument> kegg As Object,
-                          <RRawVectorArgument> reactions As Object,
-                          Optional org_name As String = Nothing,
-                          Optional is_ko_ref As Boolean = False,
-                          Optional multipleOmics As Boolean = False,
-                          Optional env As Environment = Nothing) As Object
+    Public Function create_metpa(<RRawVectorArgument> kegg As Object,
+                                 <RRawVectorArgument> reactions As Object,
+                                 Optional org_name As String = Nothing,
+                                 Optional is_ko_ref As Boolean = False,
+                                 Optional multipleOmics As Boolean = False,
+                                 Optional env As Environment = Nothing) As Object
 
         Dim pathways As pipeline = pipeline.TryCreatePipeline(Of Pathway)(kegg, env)
         Dim reactionList As pipeline = pipeline.TryCreatePipeline(Of ReactionTable)(reactions, env, suppress:=True)

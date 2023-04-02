@@ -374,3 +374,4 @@ src/repository/graphquery/kegg_maps.db
 src/workbench/pkg/data/kegg/reactions.msgpack
 src/workbench/pkg/data/kegg/compounds.msgpack
 src/workbench/pkg/test/kegg_reactions.db
+src/workbench/pkg/pipeline/KEGG_maps.pack

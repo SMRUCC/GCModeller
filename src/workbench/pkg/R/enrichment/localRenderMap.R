@@ -12,6 +12,8 @@ const localRenderMap = function(KEGG_maps, pathwayList,
                                 gene_highights = "blue",
                                 outputdir      = "./") {
 
+    # key name is the kegg pathway map id
+    # key value is the kegg pathway map url
     const pathwayId as string = `map${$"\d+"(names(pathwayList))
         |> unlist()
         |> as.integer()
@@ -45,11 +47,9 @@ const localRenderMap = function(KEGG_maps, pathwayList,
         );
 
         print(`'${mapId}' contains ${length(highlights$objects)} objects.`);
-        # str(highlights);
 
         if (length(highlights$objects) >= 3) {
-            try({
-
+            try(ex -> {
                 KEGG_maps[[mapId]]
                 |> keggMap.reportHtml(highlights$objects)
                 # print html text to std_out device
@@ -60,7 +60,11 @@ const localRenderMap = function(KEGG_maps, pathwayList,
                 bitmap(file = `${outputdir}/${mapId}.png`) {
                     keggMap.highlights(KEGG_maps[[mapId]], highlights$objects);
                 }
-            });
+            }) {
+                print(`found error while rendering ${mapId}:`);
+                print([ex]::error);
+                str(highlights);
+            };
         }
     }
 }
