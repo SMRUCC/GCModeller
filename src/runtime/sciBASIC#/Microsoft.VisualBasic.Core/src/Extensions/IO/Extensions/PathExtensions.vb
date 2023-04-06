@@ -839,7 +839,8 @@ Public Module PathExtensions
         End If
 
         If isUNCpath Then
-            Return parent.Replace("/", "\")
+            ' the windows UNC path needs append a \ prefix symbol
+            Return "\" & parent.Replace("/", "\")
         ElseIf parent = "" Then
             ' the parent path of the dir /dir is /
             Return "/"
@@ -868,11 +869,13 @@ Public Module PathExtensions
     ''' <param name="pcFrom">生成相对路径的参考文件夹</param>
     ''' <param name="pcTo">所需要生成相对路径的目标文件系统对象的绝对路径或者相对路径</param>
     ''' <param name="appendParent">是否将父目录的路径也添加进入相对路径之中？默认是</param>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' The relative path string of pcTo file object reference to directory pcFrom
+    ''' </returns>
     <ExportAPI(NameOf(RelativePath))>
     Public Function RelativePath(pcFrom$, pcTo$,
                                  Optional appendParent As Boolean = True,
-                                 Optional fixZipPath As Boolean = False) As <FunctionReturns("The relative path string of pcTo file object reference to directory pcFrom")> String
+                                 Optional fixZipPath As Boolean = False) As String
 
         Dim lcRelativePath As String = Nothing
         Dim lcFrom As String = (If(pcFrom Is Nothing, "", pcFrom.Trim().Replace("\", "/")))
