@@ -56,6 +56,8 @@ Imports System.Drawing.Imaging
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Imaging.BitmapImage
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math
+Imports stdNum = System.Math
 
 Namespace Drawing2D.Colors
 
@@ -156,13 +158,33 @@ Namespace Drawing2D.Colors
             }
         End Function
 
+        Public Shared Function Order(colors As IEnumerable(Of Color)) As Color()
+            Return (From c As Color
+                    In colors
+                    Order By stdNum.Sqrt(c.A ^ 2 + c.R ^ 2 + c.G ^ 2 + c.B ^ 2)
+                   ) _
+                    .ToArray
+        End Function
+
+        Private Shared Function IsWhiteColor(c As Color, threshold As Byte) As Boolean
+            Return c.R > threshold AndAlso c.G > threshold AndAlso c.B > threshold
+        End Function
+
+        Private Shared Function IsBlackColor(c As Color, threshold As Byte) As Boolean
+            Return c.R < threshold AndAlso c.G < threshold AndAlso c.B < threshold
+        End Function
+
         ''' <summary>
         ''' extract the theme colors from the given bitmap image
         ''' </summary>
         ''' <param name="src"></param>
         ''' <param name="topN"></param>
         ''' <returns></returns>
-        Public Shared Iterator Function ExtractThemeColors(src As Bitmap, Optional topN As Integer = 6) As IEnumerable(Of Color)
+        Public Shared Iterator Function ExtractThemeColors(src As Bitmap,
+                                                           Optional topN As Integer = 6,
+                                                           Optional tolerance As Double = 9,
+                                                           Optional excludeWhite As Byte = 230,
+                                                           Optional excludeBlack As Byte = 50) As IEnumerable(Of Color)
             ' get all colors at first
             Dim size As Size = src.Size
             Dim copy As New Bitmap(size.Width, size.Height, format:=PixelFormat.Format32bppArgb)
@@ -170,19 +192,19 @@ Namespace Drawing2D.Colors
             Call g.DrawImageUnscaled(src, New Point)
             Call g.Flush()
             Dim buffer As BitmapBuffer = BitmapBuffer.FromBitmap(copy, ImageLockMode.ReadOnly)
-            Dim allColors = buffer.GetARGBStream
+            Dim allColors = buffer.GetPixelsAll.ToArray
             ' group all colors
             Dim colorGroups = allColors _
-                .GroupBy(Function(c) c) _
-                .OrderByDescending(Function(c) c.Count) _
+                .Where(Function(c) Not IsWhiteColor(c, excludeWhite)) _
+                .Where(Function(c) Not IsBlackColor(c, excludeBlack)) _
+                .GroupBy(Function(c) stdNum.Sqrt(c.A ^ 2 + c.R ^ 2 + c.G ^ 2 + c.B ^ 2), offsets:=tolerance) _
+                .OrderByDescending(Function(c) c.Length) _
+                .Select(Function(c) c.Average) _
                 .ToArray
 
             For i As Integer = 0 To topN - 1
                 If i < colorGroups.Length Then
-                    Dim ci As UInteger = colorGroups(i).Key
-                    Dim color As Color = BitmapBuffer.GetColor(ci)
-
-                    Yield color
+                    Yield colorGroups(i)
                 End If
             Next
         End Function
