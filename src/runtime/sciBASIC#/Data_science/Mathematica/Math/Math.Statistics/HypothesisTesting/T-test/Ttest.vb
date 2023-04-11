@@ -200,11 +200,11 @@ Namespace Hypothesis
         Public Function Pvalue(t#, v#, Optional hyp As Hypothesis = Hypothesis.TwoSided) As Double
             Select Case hyp
                 Case Hypothesis.Less
-                    Return 1 - Tcdf(t, v)
+                    Return 1.0 - Tcdf(t, v)
                 Case Hypothesis.Greater
                     Return Tcdf(t, v)
                 Case Else
-                    Return 2 * (1 - Tcdf(stdNum.Abs(t), v))
+                    Return 2.0 * (1.0 - Tcdf(stdNum.Abs(t), v))
             End Select
         End Function
 
@@ -226,7 +226,7 @@ Namespace Hypothesis
         ''' </remarks>
         Public Function Tcdf(t#, v#) As Double
             Dim x# = v / (v + t ^ 2)
-            Dim inc = SpecialFunctions.RegularizedIncompleteBetaFunction(v / 2, 0.5, x)
+            Dim inc = SpecialFunctions.RegularizedIncompleteBetaFunction(v / 2.0, 0.5, x)
             Dim halfInc As Double = inc / 2.0
             ' there is a bug about the precision in small number
             ' this probelm case the pvalue zero
