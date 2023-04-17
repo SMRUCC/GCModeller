@@ -20,6 +20,16 @@ Namespace Scripting.TokenIcer
             End Get
         End Property
 
+        Public ReadOnly Property PeekLast As (index As Integer, token As CodeToken(Of Tokens))
+            Get
+                If stack.Count = 0 Then
+                    Return Nothing
+                End If
+
+                Return stack.Peek
+            End Get
+        End Property
+
         Public Overrides Function ToString() As String
             Return stack.Select(Function(t) t.token.text).JoinBy(" -> ")
         End Function
@@ -73,6 +83,10 @@ Namespace Scripting.TokenIcer
 
         Public Function GetRange(Of T)(data As IEnumerable(Of T)) As IEnumerable(Of T)
             Return data.Skip(Range.Min).Take(Range.Length + 1)
+        End Function
+
+        Public Function Left(Of T)(data As IEnumerable(Of T)) As T
+            Return data.ElementAtOrDefault(Range.Min - 1)
         End Function
     End Class
 End Namespace
