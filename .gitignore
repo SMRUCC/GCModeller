@@ -375,3 +375,4 @@ src/workbench/pkg/data/kegg/reactions.msgpack
 src/workbench/pkg/data/kegg/compounds.msgpack
 src/workbench/pkg/test/kegg_reactions.db
 src/workbench/pkg/pipeline/KEGG_maps.pack
+.vs/GCModeller/v17/.wsuo
