@@ -1,66 +1,67 @@
 ﻿#Region "Microsoft.VisualBasic::b2c26c4d7ba492eb6c8445f3badcfb78, sciBASIC#\Microsoft.VisualBasic.Core\src\Serialization\BinaryDumping\ObjectVisitor.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 124
-    '    Code Lines: 75
-    ' Comment Lines: 25
-    '   Blank Lines: 24
-    '     File Size: 4.73 KB
+' Summaries:
 
 
-    '     Delegate Sub
-    ' 
-    ' 
-    '     Class ObjectVisitor
-    ' 
-    '         Properties: VisitOnlyFields
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: GetAllFields
-    ' 
-    '         Sub: DoVisitArray, doVisitFields, DoVisitObject, DoVisitObjectFields, doVisitProperties
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 124
+'    Code Lines: 75
+' Comment Lines: 25
+'   Blank Lines: 24
+'     File Size: 4.73 KB
+
+
+'     Delegate Sub
+' 
+' 
+'     Class ObjectVisitor
+' 
+'         Properties: VisitOnlyFields
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'         Function: GetAllFields
+' 
+'         Sub: DoVisitArray, doVisitFields, DoVisitObject, DoVisitObjectFields, doVisitProperties
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Reflection
+Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
@@ -142,7 +143,41 @@ Namespace Serialization.BinaryDumping
             Dim isVisited As Boolean = False
             Dim isValueType As Boolean = False
 
+            Static special_clr_type As Index(Of Type) = {
+                GetType(Type),
+                GetType(TypeInfo),
+                GetType(System.Reflection.Pointer),
+                GetType(System.IntPtr)
+            }
+
+            ' handling some special type in clr runtime
             If obj Is Nothing Then
+                Return
+            ElseIf TypeOf obj Is String Then
+                ' utf8 getbytes
+                Call visit(obj, GetType(String), Nothing, False, isValueType:=True)
+                Return
+            ElseIf obj.GetType.IsEnum Then
+                Call visit(obj, obj.GetType, Nothing, isVisited:=False, isValueType:=True)
+                Return
+
+                ' 20230418 the obj is a clr object value, due to the reason of type/typeinfo is
+                ' also could be a clr object value, so we should test for the class object instance
+                ' at first, and then test for the clr type which is extract via gettype from the
+                ' object instance
+                '
+            ElseIf obj Is GetType(Type) OrElse
+                obj Is GetType(TypeInfo) OrElse
+                obj.GetType Like special_clr_type Then
+
+                ' the clr type object is a kind of memory location,
+                ' created in the compiler time,
+                ' an integer constant value
+#If X86 Then
+                Call visit(0, GetType(Integer), Nothing, isVisited:=False, isValueType:=True)
+#Else
+                Call visit(0, GetType(Long), Nothing, isVisited:=False, isValueType:=True)
+#End If
                 Return
             End If
 
