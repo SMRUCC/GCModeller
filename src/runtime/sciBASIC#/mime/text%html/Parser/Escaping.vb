@@ -57,6 +57,10 @@ Namespace Language
         Public [string] As Boolean
         Public quote As Char
         Public tagOpen As Boolean
+        ''' <summary>
+        ''' the html script tag is a special tag 
+        ''' </summary>
+        Public scriptOpen As Boolean
 
     End Class
 End Namespace

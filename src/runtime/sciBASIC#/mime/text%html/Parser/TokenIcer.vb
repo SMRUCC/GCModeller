@@ -61,6 +61,7 @@ Namespace Language
         Dim buf As New CharBuffer
         Dim text As CharPtr
         Dim escape As New Escaping
+        Dim lastToken As Token
 
         Sub New(document As CharPtr)
             Me.text = document
@@ -70,6 +71,7 @@ Namespace Language
             Do While text
                 For Each t As Token In WalkChar(++text)
                     If Not t Is Nothing Then
+                        lastToken = t
                         Yield t
                     End If
                 Next
