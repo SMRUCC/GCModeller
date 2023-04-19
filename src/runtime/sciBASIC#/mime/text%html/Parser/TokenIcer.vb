@@ -161,7 +161,7 @@ Namespace Language
         End Function
 
         Private Function MeasureToken(text As String) As Token
-            If lastToken IsNot Nothing AndAlso text.TextEquals("script") Then
+            If lastToken IsNot Nothing AndAlso lastToken = (HtmlTokens.openTag, "<") AndAlso text.TextEquals("script") Then
                 escape.scriptOpen = True
             End If
 
