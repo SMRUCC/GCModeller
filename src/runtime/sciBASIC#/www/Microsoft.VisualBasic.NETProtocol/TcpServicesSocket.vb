@@ -252,17 +252,17 @@ Namespace Tcp
 
                     If nreads > 0 Then
                         received.Write(chunk, Scan0, nreads)
+                    End If
+
+                    ' has no data reads
+                    ' start to processing the request 
+                    Dim requestData As New RequestStream(received.ToArray)
+
+                    If requestData.FullRead Then
+                        Call HandleRequest(s.Client.RemoteEndPoint, response, requestData)
+                        Exit Do
                     Else
-                        ' has no data reads
-                        ' start to processing the request 
-                        Dim requestData As New RequestStream(received.ToArray)
 
-                        If requestData.FullRead Then
-                            Call HandleRequest(s.Client.RemoteEndPoint, response, requestData)
-                            Exit Do
-                        Else
-
-                        End If
                     End If
 
                     Call Thread.Sleep(1)
