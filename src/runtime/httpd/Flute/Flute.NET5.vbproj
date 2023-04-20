@@ -147,6 +147,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+    <ProjectReference Include="..\..\sciBASIC#\www\Microsoft.VisualBasic.NETProtocol\network-netcore5.vbproj" />
   </ItemGroup>
 
 </Project>
