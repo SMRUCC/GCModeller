@@ -75,6 +75,7 @@ Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.ConsolePrinter
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports REnv = SMRUCC.Rsharp.Runtime
 
 ''' <summary>
@@ -472,7 +473,7 @@ Module Fasta
                 End If
             End With
         Else
-            With REnv.asVector(Of Long)(loci)
+            With CLRVector.asLong(loci)
                 left = .GetValue(0)
                 right = .GetValue(1)
                 getAttrs = Function(fa) {fa.Headers.JoinBy("|") & " " & $"[{left}, {right}]"}

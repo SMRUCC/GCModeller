@@ -174,6 +174,8 @@ Module genomics
 
         If genomics Is Nothing Then
             Return Internal.debug.stop("the required genomics context data can not be nothing!", env)
+        ElseIf TypeOf genomics Is GBFF.File Then
+            genomics = DirectCast(genomics, GBFF.File).GbffToPTT(ORF:=False)
         End If
 
         If TypeOf genomics Is PTT Then
