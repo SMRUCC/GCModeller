@@ -87,20 +87,32 @@ Namespace Metabolism
                                    orgName As String,
                                    multipleOmics As Boolean) As Metpa.metpa
 
+            Dim tcode As String = models.getTCode
+
             If Not orgName.StringEmpty Then
                 For Each pathway As Map In models
-                    pathway.Name = pathway.Name.Replace(orgName, "").Trim(" "c, "-"c)
+                    pathway.name = pathway.name.Replace(orgName, "").Trim(" "c, "-"c)
                 Next
             End If
 
-            Dim tcode As String = models _
+            Return models.buildModels(If(isKo_ref, "map", tcode), multipleOmics, reactions)
+        End Function
+
+        <Extension>
+        Private Function getTCode(Of T As PathwayBrief)(models As T()) As String
+            Dim group_code As IGrouping(Of String, String) = models _
                 .Select(Function(pwy) pwy.EntryId.Match("[a-z]+")) _
                 .GroupBy(Function(tag) tag) _
                 .OrderByDescending(Function(tag) tag.Count) _
-                .First _
-                .Key
+                .First
+            Dim tcode As String = group_code.Key
 
-            Return models.buildModels(If(isKo_ref, "map", tcode), multipleOmics, reactions)
+            If tcode = "" Then
+                ' is the reference map
+                Return "map"
+            Else
+                Return tcode
+            End If
         End Function
 
         ''' <summary>
@@ -113,18 +125,13 @@ Namespace Metabolism
                                    orgName As String,
                                    multipleOmics As Boolean) As Metpa.metpa
 
+            Dim tcode As String = models.getTCode
+
             If Not orgName.StringEmpty Then
                 For Each pathway As Pathway In models
                     pathway.name = pathway.name.Replace(orgName, "").Trim(" "c, "-"c)
                 Next
             End If
-
-            Dim tcode As String = models _
-                .Select(Function(pwy) pwy.EntryId.Match("[a-z]+")) _
-                .GroupBy(Function(tag) tag) _
-                .OrderByDescending(Function(tag) tag.Count) _
-                .First _
-                .Key
 
             Return models.buildModels(If(isKo_ref, "map", tcode), multipleOmics, reactions)
         End Function
