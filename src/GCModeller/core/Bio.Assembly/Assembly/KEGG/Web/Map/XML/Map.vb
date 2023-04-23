@@ -58,6 +58,7 @@ Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Serialization.JSON
@@ -135,12 +136,12 @@ Namespace Assembly.KEGG.WebServices
             Yield GenericEnumerator()
         End Function
 
-        Public Overrides Function GetPathwayGenes() As String()
-            Return GetMembers _
-                .Where(Function(id)
-                           Return Not (id.IsPattern("[CDGR]\d+") OrElse id.IsPattern("map\d+"))
-                       End Function) _
-                .ToArray
+        Public Overrides Function GetPathwayGenes() As IEnumerable(Of NamedValue(Of String))
+            Throw New NotImplementedException()
+        End Function
+
+        Public Overrides Function GetCompoundSet() As IEnumerable(Of NamedValue(Of String))
+            Throw New NotImplementedException()
         End Function
     End Class
 End Namespace

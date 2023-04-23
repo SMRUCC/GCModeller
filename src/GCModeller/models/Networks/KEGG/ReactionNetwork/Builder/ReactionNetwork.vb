@@ -303,6 +303,59 @@ Namespace ReactionNetwork
                                               reactions As Dictionary(Of String, ReactionTable()),
                                               Optional non_enzymatic As Boolean = False) As IEnumerable(Of ReactionTable)
 
+            For Each id As String In pathway.GetMembers.Where(Function(si) si.IsPattern("K\d+"))
+                If reactions.ContainsKey(id) Then
+                    For Each item As ReactionTable In reactions(id)
+                        Yield item
+                    Next
+                End If
+            Next
+
+            For Each gene As NamedValue(Of String) In pathway.GetPathwayGenes
+                Dim ko As String = gene.Value
+
+                If Not ko.StringEmpty AndAlso reactions.ContainsKey(ko) Then
+                    For Each item As ReactionTable In reactions(ko)
+                        Yield item
+                    Next
+                End If
+
+                If reactions.ContainsKey(gene.Name) Then
+                    For Each item As ReactionTable In reactions(gene.Name)
+                        Yield item
+                    Next
+                End If
+                If reactions.ContainsKey(gene.Description) Then
+                    For Each item As ReactionTable In reactions(gene.Description)
+                        Yield item
+                    Next
+                End If
+            Next
+
+            If non_enzymatic Then
+                Dim compounds As Index(Of String) = pathway.GetCompoundSet _
+                    .Select(Function(c) c.Name) _
+                    .Indexing
+
+                If compounds.Count > 0 Then
+                    ' populate out all current pathway related
+                    ' non-enzymatic reactions
+                    For Each item As ReactionTable In reactions.Values _
+                        .IteratesALL _
+                        .GroupBy(Function(a) a.entry) _
+                        .Select(Function(a) a.First)
+
+                        If item.geneNames.IsNullOrEmpty AndAlso
+                            item.EC.IsNullOrEmpty AndAlso
+                            item.KO.IsNullOrEmpty Then
+
+                            If item.MatchAllCompoundsId(compounds) Then
+                                Yield item
+                            End If
+                        End If
+                    Next
+                End If
+            End If
         End Function
 
         ''' <summary>

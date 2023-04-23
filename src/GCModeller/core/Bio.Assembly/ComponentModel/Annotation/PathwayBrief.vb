@@ -76,7 +76,11 @@ Namespace ComponentModel.Annotation
         ''' <summary>
         ''' Gets the pathway related genes.
         ''' </summary>
-        ''' <returns></returns>
+        ''' <returns>
+        ''' name - gene id
+        ''' value - ontology id, example as KO
+        ''' description - gene name or function description
+        ''' </returns>
         Public MustOverride Function GetPathwayGenes() As IEnumerable(Of NamedValue(Of String))
         Public MustOverride Function GetCompoundSet() As IEnumerable(Of NamedValue(Of String))
 

@@ -727,7 +727,7 @@ Public Module GSEABackground
         Dim background As Background = kegg.Maps _
             .Where(Function(map)
                        If mapIdFilter.Count > 0 Then
-                           Return map.id.Match("\d+") Like mapIdFilter
+                           Return map.EntryId.Match("\d+") Like mapIdFilter
                        Else
                            Return True
                        End If
