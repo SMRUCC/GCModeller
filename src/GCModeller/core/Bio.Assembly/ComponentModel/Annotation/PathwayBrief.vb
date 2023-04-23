@@ -69,7 +69,7 @@ Namespace ComponentModel.Annotation
         ''' <summary>
         ''' The map title display name
         ''' </summary>
-        ''' <returns></returns>
+        ''' <returns>The name value of this pathway object</returns>
         Public Property name As String
         Public Property description As String Implements IKeyValuePairObject(Of String, String).Value
 
