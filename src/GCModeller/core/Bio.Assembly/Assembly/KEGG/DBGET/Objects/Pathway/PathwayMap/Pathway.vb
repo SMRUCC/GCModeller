@@ -57,8 +57,10 @@
 
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
@@ -73,14 +75,6 @@ Namespace Assembly.KEGG.DBGET.bGetObject
     <XmlType("pathway", Namespace:="http://www.genome.jp/kegg/pathway.html")>
     Public Class Pathway : Inherits PathwayBrief
 
-        ''' <summary>
-        ''' The name value of this pathway object
-        ''' </summary>
-        ''' <value></value>
-        ''' <returns></returns>
-        ''' <remarks></remarks>
-        <XmlElement>
-        Public Property name As String
         Public Property [class] As String()
         ''' <summary>
         ''' The module entry collection data in this pathway.
@@ -163,7 +157,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             End If
 
             Dim find = LinqAPI.DefaultFirst(Of NamedValue)() <=
- _
+                                                               _
                 From comp As NamedValue
                 In compound
                 Where String.Equals(comp.name, KEGGCompound)
@@ -187,7 +181,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 Return False
             End If
             Dim LQuery As KeyValuePair = LinqAPI.DefaultFirst(Of KeyValuePair) <=
- _
+                                                                                 _
                 From [mod] As NamedValue
                 In modules
                 Where String.Equals([mod].name, ModuleId)
@@ -210,7 +204,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             Next
 
             Return LinqAPI.Exec(Of String) <=
- _
+                                             _
                 From sId As String
                 In out
                 Where Not String.IsNullOrEmpty(sId)
@@ -227,7 +221,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' <returns></returns>
         Public Shared Function GetCompoundCollection(ImportsDIR As String) As String()
             Dim LQuery As IEnumerable(Of Pathway) =
- _
+                                                   _
                 From xml As String
                 In ls - l - r - wildcards("*.xml") <= ImportsDIR
                 Select xml.LoadXml(Of Pathway)()
@@ -239,17 +233,17 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' 获取这个代谢途径之中的所有的基因。这个是安全的函数，当出现空值的基因集合的时候函数会返回一个空集合而非空值
         ''' </summary>
         ''' <returns></returns>
-        Public Overrides Function GetPathwayGenes() As String()
+        Public Overrides Function GetPathwayGenes() As IEnumerable(Of NamedValue(Of String))
             If genes.IsNullOrEmpty Then
                 Call $"{EntryId} gene set is Null!".__DEBUG_ECHO
                 Return {}
             End If
 
-            Dim LQuery As String() = genes _
-                .Select(Function(g) g.geneName) _
-                .ToArray
-            Return LQuery
+            Return genes.Select(Function(g) New NamedValue(Of String)(g.geneId, g.KO, g.geneName))
         End Function
 
+        Public Overrides Function GetCompoundSet() As IEnumerable(Of NamedValue(Of String))
+            Return compound.SafeQuery.Select(Function(ci) New NamedValue(Of String)(ci.name, ci.text))
+        End Function
     End Class
 End Namespace
