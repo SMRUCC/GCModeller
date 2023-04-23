@@ -152,8 +152,8 @@ Namespace Assembly.KEGG.WebServices
             Return New Map With {
                 .PathwayImage = img,
                 .shapes = shapes,
-                .id = info.Name,
-                .Name = info.Value,
+                .EntryId = info.Name,
+                .name = info.Value,
                 .URL = url,
                 .description = desc
             }
