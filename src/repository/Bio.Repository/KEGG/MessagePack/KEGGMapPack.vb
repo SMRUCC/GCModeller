@@ -63,8 +63,8 @@ Namespace KEGG.Metabolism
 
         Private Shared Function GetMapSchema() As Dictionary(Of String, NilImplication)
             Return New Dictionary(Of String, NilImplication) From {
-                {NameOf(Map.id), NilImplication.MemberDefault},
-                {NameOf(Map.Name), NilImplication.MemberDefault},
+                {NameOf(Map.EntryId), NilImplication.MemberDefault},
+                {NameOf(Map.name), NilImplication.MemberDefault},
                 {NameOf(Map.URL), NilImplication.MemberDefault},
                 {NameOf(Map.description), NilImplication.MemberDefault},
                 {NameOf(Map.PathwayImage), NilImplication.MemberDefault},

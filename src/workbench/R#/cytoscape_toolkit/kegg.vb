@@ -1,43 +1,43 @@
 ﻿#Region "Microsoft.VisualBasic::a7d70797982cab15880a55bd28de9d90, R#\cytoscape_toolkit\kegg.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module kegg
-    ' 
-    '     Function: assignPathwayClass, compoundNetwork, topMaps
-    ' 
-    '     Sub: assignEdgeClass, assignNodeClass
-    ' 
-    ' /********************************************************************************/
+' Module kegg
+' 
+'     Function: assignPathwayClass, compoundNetwork, topMaps
+' 
+'     Sub: assignEdgeClass, assignNodeClass
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -113,7 +113,7 @@ Module kegg
 
         If excludesGlobalAndOverviewMaps Then
             maps = maps _
-                .Where(Function(a) Not a.id.Match("\d+") Like overviews) _
+                .Where(Function(a) Not a.EntryId.Match("\d+") Like overviews) _
                 .ToArray
         End If
 
@@ -148,7 +148,7 @@ Module kegg
         For Each map As Map In maps
             For Each id As String In map.GetMembers
                 If assignments.ContainsKey(id) Then
-                    Call assignments(id).Add(map.id)
+                    Call assignments(id).Add(map.EntryId)
                 End If
             Next
         Next
@@ -156,13 +156,13 @@ Module kegg
         Dim firstMapHits = assignments.topMaps(1000)
 
         For Each block In firstMapHits
-            Dim mapHit As Map = maps.First(Function(a) a.id = block.Key)
+            Dim mapHit As Map = maps.First(Function(a) a.EntryId = block.Key)
 
             For Each id As String In block.Select(Function(a) a.cid)
                 For Each edge In edgeIndex(id)
                     If Not edge.data.HasProperty("map") Then
-                        edge.data("map") = mapHit.id
-                        edge.data("mapName") = mapHit.Name
+                        edge.data("map") = mapHit.EntryId
+                        edge.data("mapName") = mapHit.name
                     End If
                 Next
             Next
@@ -210,7 +210,7 @@ Module kegg
         For Each map As Map In maps
             For Each id As String In map.GetMembers
                 If assignments.ContainsKey(id) Then
-                    assignments(id).Add(map.id)
+                    assignments(id).Add(map.EntryId)
                 End If
             Next
         Next
@@ -219,12 +219,12 @@ Module kegg
             Dim firstMapHits = assignments.topMaps(3)
 
             For Each block In firstMapHits
-                Dim mapHit As Map = maps.First(Function(a) a.id = block.Key)
+                Dim mapHit As Map = maps.First(Function(a) a.EntryId = block.Key)
 
                 For Each id As String In block.Select(Function(a) a.cid)
                     If Not nodeIndex(id).data.HasProperty("map") Then
-                        nodeIndex(id).data("map") = mapHit.id
-                        nodeIndex(id).data("mapName") = mapHit.Name
+                        nodeIndex(id).data("map") = mapHit.EntryId
+                        nodeIndex(id).data("mapName") = mapHit.name
                     End If
                 Next
             Next

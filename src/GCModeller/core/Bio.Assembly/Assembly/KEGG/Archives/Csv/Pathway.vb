@@ -54,6 +54,7 @@
 
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
@@ -69,10 +70,6 @@ Namespace Assembly.KEGG.Archives.Csv
     ''' <remarks></remarks>
     Public Class Pathway : Inherits PathwayBrief
         Implements IKeyValuePairObject(Of String, String())
-
-        Public Overrides Function GetPathwayGenes() As String()
-            Return PathwayGenes
-        End Function
 
         ''' <summary>
         ''' Pathway object KEGG database entry id.
@@ -165,6 +162,13 @@ Namespace Assembly.KEGG.Archives.Csv
         Public Shared Function CreateObjects(Model As KEGG.Archives.Xml.XmlModel) As Pathway()
             Dim Pathways = Model.GetAllPathways
             Return CreateObjects(Pathways, Model.spCode)
+        End Function
+
+        Public Overrides Function GetPathwayGenes() As IEnumerable(Of NamedValue(Of String))
+            Return PathwayGenes.Select(Function(id) New NamedValue(Of String)(id))
+        End Function
+
+        Public Overrides Iterator Function GetCompoundSet() As IEnumerable(Of NamedValue(Of String))
         End Function
     End Class
 End Namespace

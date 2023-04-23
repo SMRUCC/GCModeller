@@ -60,17 +60,17 @@ Public Module CreateKEGGClusters
 
     <Extension>
     Public Function KEGGClusters(maps As IEnumerable(Of MapIndex)) As GetClusterTerms
-        Dim mapsList As Dictionary(Of String, MapIndex) = maps.ToDictionary(Function(m) m.id)
+        Dim mapsList As Dictionary(Of String, MapIndex) = maps.ToDictionary(Function(m) m.EntryId)
         Dim clusters = mapsList.Values _
             .Select(Function(map)
-                        Return map.KOIndex.Objects.Select(Function(ko) (ko, map.id))
+                        Return map.KOIndex.Objects.Select(Function(ko) (ko, map.EntryId))
                     End Function) _
             .IteratesALL _
             .GroupBy(Function(ko) ko.ko) _
             .ToDictionary(Function(ko) ko.Key,
                           Function(map)
                               Return maps _
-                                  .Select(Function(a) a.id) _
+                                  .Select(Function(a) a.EntryId) _
                                   .Distinct _
                                   .ToArray
                           End Function)
@@ -123,7 +123,7 @@ Public Module CreateKEGGClusters
 
     <Extension>
     Public Function KEGGClusters(maps As IEnumerable(Of Map)) As GetClusterTerms
-        Dim mapsList = maps.ToDictionary(Function(m) m.id)
+        Dim mapsList = maps.ToDictionary(Function(m) m.EntryId)
         Dim clusters = mapsList.Values.KEGGMapRelation
 
         Return Function(id)

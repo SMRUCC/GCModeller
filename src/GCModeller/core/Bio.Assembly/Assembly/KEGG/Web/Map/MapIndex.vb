@@ -108,7 +108,7 @@ Namespace Assembly.KEGG.WebServices
         End Function
 
         Public Overrides Function ToString() As String
-            Return ID
+            Return EntryId
         End Function
     End Class
 

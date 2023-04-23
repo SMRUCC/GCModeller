@@ -1,52 +1,52 @@
 ﻿#Region "Microsoft.VisualBasic::d90cb48b432272d4543b259c8cb30c13, R#\kegg_kit\profiles.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 232
-    '    Code Lines: 184
-    ' Comment Lines: 19
-    '   Blank Lines: 29
-    '     File Size: 10.08 KB
+' Summaries:
 
 
-    ' Module profiles
-    ' 
-    '     Function: CompoundPathwayIndex, CompoundPathwayProfiles, FluxMapProfiles, GetProfileMapping, KEGGCategoryProfiles
-    '               KOpathwayProfiles, MapCategory
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 232
+'    Code Lines: 184
+' Comment Lines: 19
+'   Blank Lines: 29
+'     File Size: 10.08 KB
+
+
+' Module profiles
+' 
+'     Function: CompoundPathwayIndex, CompoundPathwayProfiles, FluxMapProfiles, GetProfileMapping, KEGGCategoryProfiles
+'               KOpathwayProfiles, MapCategory
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -105,7 +105,7 @@ Module profiles
         If Not pathwayMaps.isError Then
             Return pathwayMaps _
                 .populates(Of Map)(env) _
-                .GroupBy(Function(m) m.id) _
+                .GroupBy(Function(m) m.EntryId) _
                 .ToDictionary(Function(m) m.Key,
                               Function(m)
                                   Return m.First.shapes _
@@ -179,7 +179,7 @@ Module profiles
                     Dim total As Double = Aggregate id As String In map.GetMembers Where fluxData.ContainsKey(id) Into Sum(fluxData(id))
 
                     If total > 0 Then
-                        catProfiles.Add(map.Name.Replace(" - Reference pathway", "").Trim, total)
+                        catProfiles.Add(map.name.Replace(" - Reference pathway", "").Trim, total)
                     End If
                 Next
 
