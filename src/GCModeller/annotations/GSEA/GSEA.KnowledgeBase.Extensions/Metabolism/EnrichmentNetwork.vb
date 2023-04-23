@@ -95,7 +95,10 @@ Namespace Metabolism
                 Next
             End If
 
-            Return models.buildModels(If(isKo_ref, "map", tcode), multipleOmics, reactions)
+            Return models _
+                .getUniqueModels _
+                .ToArray _
+                .buildModels(If(isKo_ref, "map", tcode), multipleOmics, reactions)
         End Function
 
         <Extension>
@@ -133,7 +136,27 @@ Namespace Metabolism
                 Next
             End If
 
-            Return models.buildModels(If(isKo_ref, "map", tcode), multipleOmics, reactions)
+            Return models _
+                .getUniqueModels _
+                .ToArray _
+                .buildModels(If(isKo_ref, "map", tcode), multipleOmics, reactions)
+        End Function
+
+        ''' <summary>
+        ''' models collection may contains empty data
+        ''' or duplicated data,
+        ''' needs to do data filter at here at first!
+        ''' </summary>
+        ''' <typeparam name="T"></typeparam>
+        ''' <returns></returns>
+        ''' 
+        <Extension>
+        Private Function getUniqueModels(Of T As PathwayBrief)(models As T()) As IEnumerable(Of T)
+            Return From pwy As T
+                   In models
+                   Where Not pwy.EntryId.StringEmpty
+                   Group By pwy.EntryId Into Group
+                   Select Group.First()
         End Function
 
         <Extension>
@@ -141,15 +164,6 @@ Namespace Metabolism
                                                            keggId As String,
                                                            multipleOmics As Boolean,
                                                            reactions As Dictionary(Of String, ReactionTable())) As Metpa.metpa
-
-            ' models collection may contains empty data
-            ' or duplicated data
-            ' needs to do data filter at here at first!
-            models = (From pwy As T
-                      In models
-                      Where Not pwy.EntryId.StringEmpty
-                      Group By pwy.EntryId Into Group
-                      Select Group.First()).ToArray
 
             Dim pathIds As pathIds = pathIds.FromPathways(models)
             Dim msetList As New msetList With {
