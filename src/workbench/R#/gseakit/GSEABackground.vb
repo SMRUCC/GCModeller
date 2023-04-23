@@ -60,6 +60,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math.Statistics.Hypothesis.Mantel
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Analysis.GO
@@ -564,7 +565,11 @@ Public Module GSEABackground
         Dim reactionList As pipeline = pipeline.TryCreatePipeline(Of ReactionTable)(reactions, env, suppress:=True)
 
         If pathways.isError Then
-            Return pathways.getError
+            pathways = pipeline.TryCreatePipeline(Of Map)(kegg, env)
+
+            If pathways.isError Then
+                Return pathways.getError
+            End If
         ElseIf reactionList.isError Then
             reactionList = pipeline.TryCreatePipeline(Of Reaction)(reactions, env)
 
@@ -579,13 +584,25 @@ Public Module GSEABackground
                 .DoCall(AddressOf pipeline.CreateFromPopulator)
         End If
 
-        Return EnrichmentNetwork.KEGGModels(
-            models:=pathways.populates(Of Pathway)(env).ToArray,
-            isKo_ref:=is_ko_ref,
-            reactions:=reactionList.populates(Of ReactionTable)(env).CreateIndex(indexByCompounds:=True),
-            orgName:=org_name,
-            multipleOmics:=multipleOmics
-        )
+        If pathways.elementType Like GetType(Map) Then
+            Return EnrichmentNetwork.KEGGModels(
+                models:=pathways.populates(Of Map)(env).ToArray,
+                isKo_ref:=is_ko_ref,
+                reactions:=reactionList.populates(Of ReactionTable)(env).CreateIndex(indexByCompounds:=True),
+                orgName:=org_name,
+                multipleOmics:=multipleOmics
+            )
+        ElseIf pathways.elementType Like GetType(Pathway) Then
+            Return EnrichmentNetwork.KEGGModels(
+                models:=pathways.populates(Of Pathway)(env).ToArray,
+                isKo_ref:=is_ko_ref,
+                reactions:=reactionList.populates(Of ReactionTable)(env).CreateIndex(indexByCompounds:=True),
+                orgName:=org_name,
+                multipleOmics:=multipleOmics
+            )
+        Else
+            Return Internal.debug.stop(New NotImplementedException(pathways.elementType.ToString), env)
+        End If
     End Function
 
     ''' <summary>
