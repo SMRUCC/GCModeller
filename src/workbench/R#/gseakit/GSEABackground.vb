@@ -510,36 +510,41 @@ Public Module GSEABackground
             .names = clusterName.TrimNewLine().StringReplace("\s{2,}", " "),
             .members = idvec _
                 .Select(Function(idstr, i)
-                            Dim terms As Dictionary(Of String, String) = fields _
-                                .Where(Function(a) Not a.Value(i).StringEmpty) _
-                                .ToDictionary(Function(a) a.Key,
-                                              Function(a)
-                                                  Return a.Value(i)
-                                              End Function)
-                            Dim termList As New List(Of NamedValue)
-
-                            For Each tuple As KeyValuePair(Of String, String) In terms
-                                termList.Add(New NamedValue With {
-                                    .name = tuple.Key,
-                                    .text = tuple.Value
-                                })
-                            Next
-
-                            Return New BackgroundGene With {
-                                .accessionID = idstr,
-                                .[alias] = {idstr},
-                                .locus_tag = New NamedValue With {
-                                    .name = idstr,
-                                    .text = namevec(i)
-                                },
-                                .name = namevec(i),
-                                .term_id = termList.ToArray
-                            }
+                            Return fields.getMemberItem(idstr, i, namevec)
                         End Function) _
                 .ToArray
         }
 
         Return cluster
+    End Function
+
+    <Extension>
+    Private Function getMemberItem(fields As Dictionary(Of String, String()), idStr As String, i As Integer, namevec As String()) As BackgroundGene
+        Dim terms As Dictionary(Of String, String) = fields _
+            .Where(Function(a) Not a.Value(i).StringEmpty) _
+            .ToDictionary(Function(a) a.Key,
+                          Function(a)
+                              Return a.Value(i)
+                          End Function)
+        Dim termList As New List(Of NamedValue)
+
+        For Each tuple As KeyValuePair(Of String, String) In terms
+            Call termList.Add(New NamedValue With {
+                .name = tuple.Key,
+                .text = tuple.Value
+            })
+        Next
+
+        Return New BackgroundGene With {
+            .accessionID = idStr,
+            .[alias] = {idStr},
+            .locus_tag = New NamedValue With {
+                .name = idStr,
+                .text = namevec(i)
+            },
+            .name = namevec(i),
+            .term_id = termList.ToArray
+        }
     End Function
 
     ''' <summary>
