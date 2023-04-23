@@ -84,7 +84,7 @@ Namespace PathwayMaps
                             Return New NamedValue(Of String) With {
                                 .Name = c.Name,
                                 .Value = c.Value,
-                                .Description = map.id
+                                .Description = map.EntryId
                             }
                         End Function)
         End Function
