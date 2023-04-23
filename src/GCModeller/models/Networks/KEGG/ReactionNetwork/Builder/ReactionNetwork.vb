@@ -70,6 +70,7 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports SMRUCC.genomics.ComponentModel.Annotation
 
 Namespace ReactionNetwork
 
@@ -325,36 +326,46 @@ Namespace ReactionNetwork
                         Yield item
                     Next
                 End If
-                If reactions.ContainsKey(gene.Description) Then
-                    For Each item As ReactionTable In reactions(gene.Description)
-                        Yield item
-                    Next
+
+                If Not gene.Description.StringEmpty Then
+                    If reactions.ContainsKey(gene.Description) Then
+                        For Each item As ReactionTable In reactions(gene.Description)
+                            Yield item
+                        Next
+                    End If
                 End If
             Next
 
             If non_enzymatic Then
-                Dim compounds As Index(Of String) = pathway.GetCompoundSet _
-                    .Select(Function(c) c.Name) _
-                    .Indexing
+                For Each rxn As ReactionTable In pathway.MatchesNonEnzymatics(reactions)
+                    Yield rxn
+                Next
+            End If
+        End Function
 
-                If compounds.Count > 0 Then
-                    ' populate out all current pathway related
-                    ' non-enzymatic reactions
-                    For Each item As ReactionTable In reactions.Values _
-                        .IteratesALL _
-                        .GroupBy(Function(a) a.entry) _
-                        .Select(Function(a) a.First)
+        <Extension>
+        Public Iterator Function MatchesNonEnzymatics(pathway As PathwayBrief, reactions As Dictionary(Of String, ReactionTable())) As IEnumerable(Of ReactionTable)
+            Dim compounds As Index(Of String) = pathway.GetCompoundSet _
+                .Select(Function(c) c.Name) _
+                .Indexing
 
-                        If item.geneNames.IsNullOrEmpty AndAlso
-                            item.EC.IsNullOrEmpty AndAlso
-                            item.KO.IsNullOrEmpty Then
+            If compounds.Count > 0 Then
+                ' populate out all current pathway related
+                ' non-enzymatic reactions
+                For Each item As ReactionTable In reactions.Values _
+                    .IteratesALL _
+                    .GroupBy(Function(a) a.entry) _
+                    .Select(Function(a) a.First)
 
-                            If item.MatchAllCompoundsId(compounds) Then
-                                Yield item
-                            End If
+                    If item.geneNames.IsNullOrEmpty AndAlso
+                        item.EC.IsNullOrEmpty AndAlso
+                        item.KO.IsNullOrEmpty Then
+
+                        If item.MatchAllCompoundsId(compounds) Then
+                            Yield item
                         End If
-                    Next
-                End If
+                    End If
+                Next
             End If
         End Function
 
@@ -416,25 +427,8 @@ Namespace ReactionNetwork
             Next
 
             If non_enzymatic AndAlso Not pathway.compound Is Nothing Then
-                Dim compounds As Index(Of String) = pathway.compound _
-                    .Select(Function(c) c.name) _
-                    .Indexing
-
-                ' populate out all current pathway related
-                ' non-enzymatic reactions
-                For Each item As ReactionTable In reactions.Values _
-                    .IteratesALL _
-                    .GroupBy(Function(a) a.entry) _
-                    .Select(Function(a) a.First)
-
-                    If item.geneNames.IsNullOrEmpty AndAlso
-                        item.EC.IsNullOrEmpty AndAlso
-                        item.KO.IsNullOrEmpty Then
-
-                        If item.MatchAllCompoundsId(compounds) Then
-                            Yield item
-                        End If
-                    End If
+                For Each rxn As ReactionTable In pathway.MatchesNonEnzymatics(reactions)
+                    Yield rxn
                 Next
             End If
         End Function
