@@ -136,8 +136,16 @@ Namespace Assembly.KEGG.WebServices
             Yield GenericEnumerator()
         End Function
 
-        Public Overrides Function GetPathwayGenes() As IEnumerable(Of NamedValue(Of String))
-            Throw New NotImplementedException()
+        Public Overrides Iterator Function GetPathwayGenes() As IEnumerable(Of NamedValue(Of String))
+            For Each shape As Area In shapes
+                Dim list = shape.Names.ToArray
+
+                For Each id As NamedValue(Of String) In list
+                    If Not id.Name.IsPattern("[CDGRM]\d+") Then
+                        Yield id
+                    End If
+                Next
+            Next
         End Function
 
         Public Overrides Iterator Function GetCompoundSet() As IEnumerable(Of NamedValue(Of String))

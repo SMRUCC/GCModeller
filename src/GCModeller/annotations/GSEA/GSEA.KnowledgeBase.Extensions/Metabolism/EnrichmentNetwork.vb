@@ -270,10 +270,9 @@ Namespace Metabolism
                                                                    multipleOmics As Boolean,
                                                                    reactions As Dictionary(Of String, ReactionTable())) As NamedValue(Of NetworkGraph)
 
-            Dim allCompoundNames = model.GetCompoundSet _
-                .Select(Function(a) New NamedValue(Of String)(a.Name, a.Value)) _
-                .ToArray
-            Dim enzymes = model.GetPathwayGenes _
+            Dim allCompoundNames As NamedValue(Of String)() = model.GetCompoundSet.ToArray
+            Dim enzymes As Dictionary(Of String, String()) = model _
+                .GetPathwayGenes _
                 .Where(Function(gene) Not (gene.Value.StringEmpty OrElse gene.Name.StringEmpty)) _
                 .GroupBy(Function(gene) gene.Value) _
                 .ToDictionary(Function(enzyme) enzyme.Key,
