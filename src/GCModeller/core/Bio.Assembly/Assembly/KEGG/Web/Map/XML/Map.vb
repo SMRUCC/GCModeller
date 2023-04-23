@@ -140,8 +140,16 @@ Namespace Assembly.KEGG.WebServices
             Throw New NotImplementedException()
         End Function
 
-        Public Overrides Function GetCompoundSet() As IEnumerable(Of NamedValue(Of String))
-            Throw New NotImplementedException()
+        Public Overrides Iterator Function GetCompoundSet() As IEnumerable(Of NamedValue(Of String))
+            For Each shape As Area In shapes
+                Dim list = shape.Names.ToArray
+
+                For Each id As NamedValue(Of String) In list
+                    If id.Name.IsPattern("C\d+") Then
+                        Yield id
+                    End If
+                Next
+            Next
         End Function
     End Class
 End Namespace
