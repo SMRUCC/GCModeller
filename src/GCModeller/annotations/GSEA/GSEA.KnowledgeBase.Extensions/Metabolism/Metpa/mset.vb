@@ -1,6 +1,7 @@
-﻿Imports Microsoft.VisualBasic.Linq
+﻿Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.Xml.Models
-Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
+Imports SMRUCC.genomics.ComponentModel.Annotation
 
 Namespace Metabolism.Metpa
 
@@ -49,10 +50,10 @@ Namespace Metabolism.Metpa
 
         Public Property list As Dictionary(Of String, mset)
 
-        Public Shared Function CountUnique(models As Pathway()) As Integer
-            Return Aggregate cpd As NamedValue
-                   In models.Select(Function(a) a.compound).IteratesALL
-                   Group By cpd.name Into Group
+        Public Shared Function CountUnique(Of T As PathwayBrief)(models As T()) As Integer
+            Return Aggregate cpd As NamedValue(Of String)
+                   In models.Select(Function(a) a.GetCompoundSet).IteratesALL
+                   Group By cpd.Name Into Group
                    Into Count
         End Function
 

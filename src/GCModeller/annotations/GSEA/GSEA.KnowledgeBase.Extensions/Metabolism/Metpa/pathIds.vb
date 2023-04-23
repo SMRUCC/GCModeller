@@ -1,4 +1,4 @@
-﻿Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
+﻿Imports SMRUCC.genomics.ComponentModel.Annotation
 
 Namespace Metabolism.Metpa
 
@@ -11,7 +11,7 @@ Namespace Metabolism.Metpa
             Return $"has {ids.Length} pathways..."
         End Function
 
-        Public Shared Function FromPathways(pathways As Pathway(), Optional keggId As String = Nothing) As pathIds
+        Public Shared Function FromPathways(Of T As PathwayBrief)(pathways As T(), Optional keggId As String = Nothing) As pathIds
             Dim ids = pathways.Select(Function(m) If(keggId.StringEmpty, m.EntryId, keggId & m.briteID)).ToArray
             Dim pathwayNames = pathways.Select(Function(m) m.name.Replace(" - Reference pathway", "")).ToArray
 

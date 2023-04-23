@@ -544,7 +544,7 @@ Public Module GSEABackground
     ''' <summary>
     ''' Create the gsea background model for metabolism analysis
     ''' </summary>
-    ''' <param name="kegg">the kegg <see cref="Pathway"/> model collection of current organism</param>
+    ''' <param name="kegg">the kegg <see cref="Pathway"/> model collection of current organism or the KEGG <see cref="Map"/> data collection.</param>
     ''' <param name="reactions">A collection of the reference <see cref="ReactionTable"/> model 
     ''' data for build the metabolism network</param>
     ''' <param name="org_name"></param>

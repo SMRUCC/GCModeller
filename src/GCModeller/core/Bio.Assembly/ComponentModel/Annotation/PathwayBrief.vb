@@ -56,6 +56,7 @@ Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 
 Namespace ComponentModel.Annotation
 
@@ -65,13 +66,19 @@ Namespace ComponentModel.Annotation
 
         <XmlAttribute("id")>
         Public Overridable Property EntryId As String Implements INamedValue.Key, IKeyValuePairObject(Of String, String).Key
+        ''' <summary>
+        ''' The map title display name
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property name As String
         Public Property description As String Implements IKeyValuePairObject(Of String, String).Value
 
         ''' <summary>
         ''' Gets the pathway related genes.
         ''' </summary>
         ''' <returns></returns>
-        Public MustOverride Function GetPathwayGenes() As String()
+        Public MustOverride Function GetPathwayGenes() As IEnumerable(Of NamedValue(Of String))
+        Public MustOverride Function GetCompoundSet() As IEnumerable(Of NamedValue(Of String))
 
         ''' <summary>
         ''' 和具体的物种的编号无关的在KEGG数据库之中的参考对象的编号

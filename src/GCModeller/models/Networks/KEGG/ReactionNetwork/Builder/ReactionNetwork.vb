@@ -69,6 +69,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 
 Namespace ReactionNetwork
 
@@ -282,6 +283,26 @@ Namespace ReactionNetwork
             )
 
             Return g
+        End Function
+
+        ''' <summary>
+        ''' Pull out all of the pathway related reactions data
+        ''' </summary>
+        ''' <param name="pathway"></param>
+        ''' <param name="reactions">
+        ''' A repository for the kegg reaction data models
+        ''' </param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' we are not going to add the non-enzymics reaction into each pathway map
+        ''' because this operation will caused all of the pathway map contains the 
+        ''' similar compound profile which is bring by all of the non-enzymics reactions.
+        ''' </remarks>
+        <Extension>
+        Public Iterator Function GetReactions(pathway As Map,
+                                              reactions As Dictionary(Of String, ReactionTable()),
+                                              Optional non_enzymatic As Boolean = False) As IEnumerable(Of ReactionTable)
+
         End Function
 
         ''' <summary>
