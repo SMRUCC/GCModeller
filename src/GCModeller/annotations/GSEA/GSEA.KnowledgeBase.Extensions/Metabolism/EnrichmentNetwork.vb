@@ -277,7 +277,10 @@ Namespace Metabolism
                 .GroupBy(Function(gene) gene.Value) _
                 .ToDictionary(Function(enzyme) enzyme.Key,
                               Function(enzyme)
-                                  Return enzyme.Select(Function(gene) gene.Name).ToArray
+                                  Return enzyme _
+                                      .Select(Function(gene) gene.Name) _
+                                      .Distinct _
+                                      .ToArray
                               End Function)
             Dim pull As IEnumerable(Of ReactionTable)
 
