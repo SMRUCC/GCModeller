@@ -575,7 +575,8 @@ Public Module GSEABackground
             If pathways.isError Then
                 Return pathways.getError
             End If
-        ElseIf reactionList.isError Then
+        End If
+        If reactionList.isError Then
             reactionList = pipeline.TryCreatePipeline(Of Reaction)(reactions, env)
 
             If reactionList.isError Then
