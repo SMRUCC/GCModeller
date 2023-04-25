@@ -160,6 +160,58 @@ Namespace Hypothesis
             Catch ex As Exception
                 Dim debug As String = $"x = {va.GetJson}; y = {vb.GetJson}"
 
+                ' 20230425
+                '
+                '  Error in <globalEnvironment> -> InitializeEnvironment -> using(pool) -> for_loop_[[1]: "./FD20221200635-negative"] -> for_loop_[[137]: "E:\spectrum-taxonomy\test\blood_pool_20230426\FD20221200635-nega..."] -> "addPool"(&data, "biosample" <- "blood", "...) -> addPool
+                '   1. OverflowException: Value was either too large or too small for a Decimal.
+                '   2. stackFrames:
+                '    at System.Number.ThrowOverflowException(TypeCode type)
+                '    at System.Decimal.DecCalc.VarDecFromR8(Double input, DecCalc& result)
+                '    at Microsoft.VisualBasic.Math.Statistics.Hypothesis.t.Tcdf(Double t, Double v) 
+                '    at Microsoft.VisualBasic.Math.Statistics.Hypothesis.t.Pvalue(Double t, Double v, Hypothesis hyp) 
+                '    at Microsoft.VisualBasic.Math.Statistics.Hypothesis.t.Test(IEnumerable`1 a, IEnumerable`1 b, Hypothesis alternative, Double mu, Double alpha, Boolean varEqual) 
+                '    at BioNovoGene.Analytical.MassSpectrometry.Math.MoleculeNetworking.PoolData.SpectrumPool.Add(PeakMs2 spectrum) 
+                '    at BioNovoGene.Analytical.MassSpectrometry.Math.MoleculeNetworking.PoolData.SpectrumPool.Add(PeakMs2 spectrum) 
+                '    at BioNovoGene.Analytical.MassSpectrometry.Math.MoleculeNetworking.PoolData.SpectrumPool.Add(PeakMs2 spectrum) 
+                '    at BioNovoGene.Analytical.MassSpectrometry.Math.MoleculeNetworking.PoolData.SpectrumPool.Add(PeakMs2 spectrum) 
+                '    at BioNovoGene.Analytical.MassSpectrometry.Math.MoleculeNetworking.PoolData.SpectrumPool.Add(PeakMs2 spectrum) 
+                '    at BioNovoGene.Analytical.MassSpectrometry.Math.MoleculeNetworking.PoolData.SpectrumPool.Add(PeakMs2 spectrum) 
+                '    at BioNovoGene.Analytical.MassSpectrometry.Math.MoleculeNetworking.PoolData.SpectrumPool.Add(PeakMs2 spectrum) 
+                '    at BioNovoGene.Analytical.MassSpectrometry.Math.MoleculeNetworking.PoolData.SpectrumPool.Add(PeakMs2 spectrum) 
+                '    at BioNovoGene.Analytical.MassSpectrometry.Math.MoleculeNetworking.PoolData.SpectrumPool.Add(PeakMs2 spectrum) 
+                '    at BioNovoGene.Analytical.MassSpectrometry.Math.MoleculeNetworking.PoolData.SpectrumPool.Add(PeakMs2 spectrum) 
+                '    at BioNovoGene.Analytical.MassSpectrometry.Math.MoleculeNetworking.PoolData.SpectrumPool.Add(PeakMs2 spectrum) 
+                '    at BioNovoGene.Analytical.MassSpectrometry.Math.MoleculeNetworking.PoolData.SpectrumPool.Add(PeakMs2 spectrum) 
+                '    at BioNovoGene.Analytical.MassSpectrometry.Math.MoleculeNetworking.PoolData.SpectrumPool.Add(PeakMs2 spectrum) 
+                '    at BioNovoGene.Analytical.MassSpectrometry.Math.MoleculeNetworking.PoolData.SpectrumPool.Add(PeakMs2 spectrum) 
+                '    at BioNovoGene.Analytical.MassSpectrometry.Math.MoleculeNetworking.PoolData.SpectrumPool.Add(PeakMs2 spectrum) 
+                '    at BioNovoGene.Analytical.MassSpectrometry.Math.MoleculeNetworking.PoolData.SpectrumPool.Add(PeakMs2 spectrum) 
+                '    at BioNovoGene.Analytical.MassSpectrometry.Math.MoleculeNetworking.PoolData.SpectrumPool.Add(PeakMs2 spectrum) 
+                '    at BioNovoGene.Analytical.MassSpectrometry.Math.MoleculeNetworking.PoolData.SpectrumPool.Add(PeakMs2 spectrum) 
+                '    at BioNovoGene.Analytical.MassSpectrometry.Math.MoleculeNetworking.PoolData.SpectrumPool.Add(PeakMs2 spectrum) 
+                '    at BioNovoGene.Analytical.MassSpectrometry.Math.MoleculeNetworking.PoolData.SpectrumPool.Add(PeakMs2 spectrum) 
+                '    at BioNovoGene.Analytical.MassSpectrometry.Math.MoleculeNetworking.PoolData.SpectrumPool.Add(PeakMs2 spectrum) 
+                '    at BioNovoGene.Analytical.MassSpectrometry.Math.MoleculeNetworking.PoolData.SpectrumPool.Add(PeakMs2 spectrum) 
+                '    at BioNovoGene.Analytical.MassSpectrometry.Math.MoleculeNetworking.PoolData.SpectrumPool.Add(PeakMs2 spectrum) 
+                '    at BioNovoGene.Analytical.MassSpectrometry.Math.MoleculeNetworking.PoolData.SpectrumPool.Add(PeakMs2 spectrum) 
+                '    at BioNovoGene.Analytical.MassSpectrometry.Math.MoleculeNetworking.PoolData.SpectrumPool.Add(PeakMs2 spectrum) 
+                '    at BioNovoGene.Analytical.MassSpectrometry.Math.MoleculeNetworking.PoolData.SpectrumPool.Add(PeakMs2 spectrum) 
+                '    at BioNovoGene.Analytical.MassSpectrometry.Math.MoleculeNetworking.PoolData.SpectrumPool.Add(PeakMs2 spectrum) 
+                '    at BioNovoGene.Analytical.MassSpectrometry.Math.MoleculeNetworking.PoolData.SpectrumPool.Add(PeakMs2 spectrum) 
+                '    at BioNovoGene.Analytical.MassSpectrometry.Math.MoleculeNetworking.PoolData.SpectrumPool.Add(PeakMs2 spectrum) 
+                '    at mzkit.MolecularSpectrumPool.add(SpectrumPool pool, Object x, String biosample, String organism, String project, String instrument, String file, Environment env) 
+
+                '    Call "addPool"(&pool, &data, "biosample" <- "blood", "organism" <- "Homo sapiens", "project" <- &proj_id, "file" <- Call "basename"(&file), "instrument" <- "Thermo Scientific Q Exactive")
+                '    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+                ' spectrumPool.R#_interop::.addPool at mzDIA.dll:line <unknown>
+                ' SMRUCC/R#.call_function."addPool"(&data, "biosample" <- "blood", "...) at http_human_blood-neg.R:line 32
+                ' SMRUCC/R#.forloop.for_loop_[[137]: "E:\spectrum-taxonomy\test\blood_pool_20230426\FD20221200635-nega..."] at http_human_blood-neg.R:line 28
+                ' SMRUCC/R#.forloop.for_loop_[[1]: "./FD20221200635-negative"] at http_human_blood-neg.R:line 19
+                ' SMRUCC/R#.using_closure.using(pool) at http_human_blood-neg.R:line 16
+                ' SMRUCC/R#.n/a.InitializeEnvironment at http_human_blood-neg.R:line 0
+                ' SMRUCC/R#.global.<globalEnvironment> at <globalEnvironment>:line n/a
+
                 If strict Then
                     Throw New InvalidProgramException(debug, ex)
                 Else
