@@ -59,7 +59,6 @@ Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -90,18 +89,7 @@ Module Fasta
         Call printer.AttachConsoleFormatter(Of FastaSeq)(AddressOf viewFasta)
         Call printer.AttachConsoleFormatter(Of FastaFile)(AddressOf viewFasta)
         Call printer.AttachConsoleFormatter(Of MSAOutput)(AddressOf viewMSA)
-        Call printer.AttachConsoleFormatter(Of AssembleResult)(AddressOf viewAssembles)
     End Sub
-
-    Private Function viewAssembles(asm As AssembleResult) As String
-        Dim sb As New StringBuilder
-
-        Using text As New StringWriter(sb)
-            Call asm.alignments.TableView(asm.GetAssembledSequence, text)
-        End Using
-
-        Return sb.ToString
-    End Function
 
     Private Function viewMSA(msa As MSAOutput) As String
         Dim sb As New StringBuilder
@@ -132,47 +120,6 @@ Module Fasta
                 End With
             Case Else
                 Throw New NotImplementedException
-        End Select
-    End Function
-
-    ''' <summary>
-    ''' 返回空值表示类型错误
-    ''' </summary>
-    ''' <param name="a"></param>
-    ''' <returns></returns>
-    Public Function GetFastaSeq(a As Object, env As Environment) As IEnumerable(Of FastaSeq)
-        If a Is Nothing Then
-            Return {}
-        ElseIf TypeOf a Is vector Then
-            a = DirectCast(a, vector).data
-        End If
-
-        Dim type As Type = a.GetType
-
-        Select Case type
-            Case GetType(FastaSeq)
-                Return {DirectCast(a, FastaSeq)}
-            Case GetType(FastaFile)
-                Return DirectCast(a, FastaFile)
-            Case GetType(FastaSeq())
-                Return a
-            Case Else
-                If type.IsArray AndAlso REnv.MeasureArrayElementType(a) Is GetType(FastaSeq) Then
-                    Dim populator As IEnumerable(Of FastaSeq) =
-                        Iterator Function() As IEnumerable(Of FastaSeq)
-                            Dim vec As Array = DirectCast(a, Array)
-
-                            For i As Integer = 0 To vec.Length - 1
-                                Yield DirectCast(vec.GetValue(i), FastaSeq)
-                            Next
-                        End Function()
-
-                    Return populator
-                ElseIf type Is GetType(pipeline) AndAlso DirectCast(a, pipeline).elementType Like GetType(FastaSeq) Then
-                    Return DirectCast(a, pipeline).populates(Of FastaSeq)(env)
-                Else
-                    Return Nothing
-                End If
         End Select
     End Function
 
@@ -425,23 +372,6 @@ Module Fasta
             .Headers = attrs,
             .SequenceData = seq
         }
-    End Function
-
-    ''' <summary>
-    ''' Do short reads assembling
-    ''' </summary>
-    ''' <param name="reads"></param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
-    <ExportAPI("Assemble.of")>
-    Public Function SequenceAssembler(<RRawVectorArgument> reads As Object, Optional env As Environment = Nothing) As Object
-        Dim readSeqs As FastaSeq() = GetFastaSeq(reads, env).ToArray
-        Dim data As String() = readSeqs _
-            .Select(Function(fa) fa.SequenceData) _
-            .ToArray
-        Dim result = data.ShortestCommonSuperString
-
-        Return New AssembleResult(result)
     End Function
 
     <ExportAPI("cut_seq.linear")>

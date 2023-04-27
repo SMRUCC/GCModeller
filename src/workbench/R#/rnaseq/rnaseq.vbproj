@@ -24,4 +24,6 @@
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
   </ItemGroup>
 
+  <Import Project="..\Rscript_shared\Rscript_shared.projitems" Label="Shared" />
+
 </Project>
