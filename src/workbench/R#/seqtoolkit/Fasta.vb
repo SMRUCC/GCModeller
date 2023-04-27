@@ -1,60 +1,61 @@
 ﻿#Region "Microsoft.VisualBasic::77a488daa8099cfa7dee55ffa8942895, R#\seqtoolkit\Fasta.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 464
-    '    Code Lines: 349
-    ' Comment Lines: 63
-    '   Blank Lines: 52
-    '     File Size: 18.86 KB
+' Summaries:
 
 
-    ' Module Fasta
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    ' 
-    '     Function: CutSequenceLinear, fasta, GetFastaSeq, MSA, openFasta
-    '               readFasta, readSeq, SequenceAssembler, sizeof, Tofasta
-    '               Translates, viewAssembles, viewFasta, viewMSA, writeFasta
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 464
+'    Code Lines: 349
+' Comment Lines: 63
+'   Blank Lines: 52
+'     File Size: 18.86 KB
+
+
+' Module Fasta
+' 
+'     Constructor: (+1 Overloads) Sub New
+' 
+'     Function: CutSequenceLinear, fasta, GetFastaSeq, MSA, openFasta
+'               readFasta, readSeq, SequenceAssembler, sizeof, Tofasta
+'               Translates, viewAssembles, viewFasta, viewMSA, writeFasta
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.IO
+Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.CommandLine.Reflection
@@ -263,6 +264,29 @@ Module Fasta
         End If
     End Function
 
+    <Extension>
+    Private Function translateSingleNtSeq(translTable As TranslTable,
+                                          nt As FastaSeq,
+                                          table As GeneticCodes,
+                                          bypassStop As Boolean,
+                                          checkNt As Boolean) As FastaSeq
+
+        If table = GeneticCodes.Auto Then
+            Dim fa = TranslationTable.Translate(nt)
+            fa.Headers = nt.Headers.Join(fa.Headers).ToArray
+            Return fa
+        Else
+            Return New FastaSeq With {
+                .Headers = nt.Headers.ToArray,
+                .SequenceData = translTable.Translate(
+                    nucleicAcid:=nt.SequenceData,
+                    bypassStop:=bypassStop,
+                    checkNt:=checkNt
+                )
+            }
+        End If
+    End Function
+
     ''' <summary>
     ''' Do translation of the nt sequence to protein sequence
     ''' </summary>
@@ -285,16 +309,7 @@ Module Fasta
         If nt Is Nothing Then
             Return Nothing
         ElseIf TypeOf nt Is FastaSeq Then
-            If table = GeneticCodes.Auto Then
-                Dim prot = TranslationTable.Translate(DirectCast(nt, FastaSeq))
-                prot.Headers = DirectCast(nt, FastaSeq).Headers.Join(prot.Headers).ToArray
-                Return prot
-            Else
-                Return New FastaSeq With {
-                    .Headers = DirectCast(nt, FastaSeq).Headers.ToArray,
-                    .SequenceData = translTable.Translate(DirectCast(nt, FastaSeq), bypassStop, checkNt)
-                }
-            End If
+            Return translTable.translateSingleNtSeq(DirectCast(nt, FastaSeq), table, bypassStop, checkNt)
         Else
             Dim collection As IEnumerable(Of FastaSeq) = GetFastaSeq(nt, env)
 
@@ -306,19 +321,7 @@ Module Fasta
                 Dim checkInvalids As New List(Of String)
 
                 For Each ntSeq As FastaSeq In collection
-                    If table = GeneticCodes.Auto Then
-                        fa = TranslationTable.Translate(ntSeq)
-                        fa.Headers = ntSeq.Headers.Join(fa.Headers).ToArray
-                    Else
-                        fa = New FastaSeq With {
-                            .Headers = ntSeq.Headers.ToArray,
-                            .SequenceData = translTable.Translate(
-                                nucleicAcid:=ntSeq.SequenceData,
-                                bypassStop:=bypassStop,
-                                checkNt:=checkNt
-                            )
-                        }
-                    End If
+                    fa = translTable.translateSingleNtSeq(ntSeq, table, bypassStop, checkNt)
 
                     If bypassStop Then
                         If fa.SequenceData.Any(Function(c) c = TranslTable.SymbolStopCoden) Then
