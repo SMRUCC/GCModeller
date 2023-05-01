@@ -13,4 +13,8 @@ Public Module Builder
     Public Function PolypeptideGraph(seq As FastaSeq) As SequenceGraph
 
     End Function
+
+    Public Function SequenceGraph(seq As String, components As String) As SequenceGraph
+
+    End Function
 End Module
