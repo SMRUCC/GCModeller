@@ -1,4 +1,5 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Public Module Builder
@@ -18,7 +19,7 @@ Public Module Builder
         Return SequenceGraph(seq.SequenceData, SequenceModel.AA)
     End Function
 
-    Public Function SequenceGraph(seq As String, components As IEnumerable(Of Char)) As SequenceGraph
-
+    Public Function SequenceGraph(seq As String, components As IReadOnlyCollection(Of Char)) As SequenceGraph
+        Dim c = ISequenceModel.GetCompositionVector(seq, components)
     End Function
 End Module

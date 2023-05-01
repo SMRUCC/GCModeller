@@ -108,16 +108,34 @@ Namespace SequenceModel
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Shared Function GetCompositionVector(seq As IPolymerSequenceModel, compositions As IReadOnlyCollection(Of Char)) As Integer()
+            Return GetCompositionVector(seq.SequenceData, compositions)
+        End Function
+
+        ''' <summary>
+        ''' Get the composition vector for a sequence model using a specific composition description.
+        ''' </summary>
+        ''' <param name="seq"></param>
+        ''' <param name="compositions">
+        ''' This always should be the constant string of <see cref="TypeExtensions.AA_CHARS_ALL">amino acid
+        ''' </see>
+        ''' or <see cref="TypeExtensions.NA_CHARS_ALL">nucleotide</see>.</param>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
+        Public Shared Function GetCompositionVector(seq As String, compositions As IReadOnlyCollection(Of Char)) As Integer()
             Dim nsize As Integer = compositions.Count
             Dim composition%() = New Integer(nsize - 1) {}
             Dim i As Integer = Scan0
 
-            With seq.SequenceData.ToUpper()
-                For Each c As Char In compositions
-                    composition(i) = .Count(c)
-                    i += 1
-                Next
-            End With
+            If Not (seq Is Nothing OrElse seq = "") Then
+                With seq.ToUpper()
+                    For Each c As Char In compositions
+                        composition(i) = .Count(c)
+                        i += 1
+                    Next
+                End With
+            Else
+                ' sequence is empty
+            End If
 
             Return composition
         End Function
