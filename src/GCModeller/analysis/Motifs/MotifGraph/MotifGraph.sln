@@ -92,8 +92,8 @@ Global
 		{B6689BD4-C4FC-4544-B916-F8C8A0645AA2}.Release|x86.Build.0 = Release|Any CPU
 		{B6689BD4-C4FC-4544-B916-F8C8A0645AA2}.Rsharp_app_release|Any CPU.ActiveCfg = Release|Any CPU
 		{B6689BD4-C4FC-4544-B916-F8C8A0645AA2}.Rsharp_app_release|Any CPU.Build.0 = Release|Any CPU
-		{B6689BD4-C4FC-4544-B916-F8C8A0645AA2}.Rsharp_app_release|x64.ActiveCfg = Release|Any CPU
-		{B6689BD4-C4FC-4544-B916-F8C8A0645AA2}.Rsharp_app_release|x64.Build.0 = Release|Any CPU
+		{B6689BD4-C4FC-4544-B916-F8C8A0645AA2}.Rsharp_app_release|x64.ActiveCfg = Rsharp_app_release|x64
+		{B6689BD4-C4FC-4544-B916-F8C8A0645AA2}.Rsharp_app_release|x64.Build.0 = Rsharp_app_release|x64
 		{B6689BD4-C4FC-4544-B916-F8C8A0645AA2}.Rsharp_app_release|x86.ActiveCfg = Release|Any CPU
 		{B6689BD4-C4FC-4544-B916-F8C8A0645AA2}.Rsharp_app_release|x86.Build.0 = Release|Any CPU
 		{AA21AA83-2F37-43DE-957C-72ECD6CF508D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
