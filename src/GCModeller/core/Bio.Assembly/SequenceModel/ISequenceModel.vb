@@ -53,7 +53,6 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Language
 
 Namespace SequenceModel
 
@@ -107,6 +106,8 @@ Namespace SequenceModel
         ''' or <see cref="TypeExtensions.NA_CHARS_ALL">nucleotide</see>.</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function GetCompositionVector(seq As IPolymerSequenceModel, compositions As IReadOnlyCollection(Of Char)) As Integer()
             Return GetCompositionVector(seq.SequenceData, compositions)
         End Function
