@@ -5,22 +5,17 @@
 Public Class SequenceGraph
 
     Public Property Compositions As Dictionary(Of Char, Double)
-    Public Property PrefixGraph As Dictionary(Of Char, Dictionary(Of Char, Double))
-    Public Property SuffixGraph As Dictionary(Of Char, Dictionary(Of Char, Double))
+    Public Property Graph As Dictionary(Of Char, Dictionary(Of Char, Double))
 
     Public Function GetVector(components As IReadOnlyCollection(Of Char)) As Double()
         Dim v As New List(Of Double)
-        Dim f As Dictionary(Of Char, Double)
-        Dim s As Dictionary(Of Char, Double)
+        Dim g As Dictionary(Of Char, Double)
 
         Call v.AddRange(components.Select(Function(ci) Compositions(ci)))
 
         For Each key As Char In components
-            f = PrefixGraph(key)
-            s = SuffixGraph(key)
-
-            Call v.AddRange(components.Select(Function(ci) f(ci)))
-            Call v.AddRange(components.Select(Function(ci) s(ci)))
+            g = Graph(key)
+            v.AddRange(components.Select(Function(ci) g(ci)))
         Next
 
         Return v.ToArray

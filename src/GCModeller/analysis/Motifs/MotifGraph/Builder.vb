@@ -34,4 +34,12 @@ Public Module Builder
 
         Return New SequenceGraph With {.Compositions = cv}
     End Function
+
+    Private Iterator Function Graph(components As IReadOnlyCollection(Of Char)) As IEnumerable(Of String)
+        For Each ci As Char In components
+            For Each cj As Char In components
+                Yield New String({ci, cj})
+            Next
+        Next
+    End Function
 End Module
