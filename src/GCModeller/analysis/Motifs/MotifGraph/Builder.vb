@@ -24,22 +24,26 @@ Public Module Builder
         Dim c As New Vector(integers:=ISequenceModel.GetCompositionVector(seq, components))
         Dim cv As New Dictionary(Of Char, Double)
         Dim i As Integer = Scan0
+        Dim g As New Dictionary(Of Char, Dictionary(Of Char, Double))
+        Dim nsize As Integer = seq.Length
 
-        c = c / c.Max
+        c = c / nsize
 
         For Each ci As Char In components
             cv.Add(ci, c(i))
             i += 1
         Next
 
-        Return New SequenceGraph With {.Compositions = cv}
-    End Function
-
-    Private Iterator Function Graph(components As IReadOnlyCollection(Of Char)) As IEnumerable(Of String)
         For Each ci As Char In components
+            Dim gi As New Dictionary(Of Char, Double)
+
             For Each cj As Char In components
-                Yield New String({ci, cj})
+                gi.Add(cj, seq.Count(New String({ci, cj})) / (nsize / 2))
             Next
+
+            Call g.Add(ci, gi)
         Next
+
+        Return New SequenceGraph With {.Compositions = cv, .Graph = g}
     End Function
 End Module
