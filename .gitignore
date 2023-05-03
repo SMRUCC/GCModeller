@@ -376,3 +376,4 @@ src/workbench/pkg/data/kegg/compounds.msgpack
 src/workbench/pkg/test/kegg_reactions.db
 src/workbench/pkg/pipeline/KEGG_maps.pack
 .vs/GCModeller/v17/.wsuo
+src/GCModeller/analysis/Motifs/.vs/Motifs/v17/.wsuo
