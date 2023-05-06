@@ -1,59 +1,58 @@
 ﻿#Region "Microsoft.VisualBasic::1401ec0746ce6cba53208bb0549ea513, GCModeller\core\Bio.Assembly\SequenceModel\ISequenceModel.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 68
-    '    Code Lines: 30
-    ' Comment Lines: 29
-    '   Blank Lines: 9
-    '     File Size: 2.50 KB
+' Summaries:
 
 
-    '     Class ISequenceModel
-    ' 
-    '         Properties: IsProtSource, Length, SequenceData
-    ' 
-    '         Function: GetCompositionVector
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 68
+'    Code Lines: 30
+' Comment Lines: 29
+'   Blank Lines: 9
+'     File Size: 2.50 KB
+
+
+'     Class ISequenceModel
+' 
+'         Properties: IsProtSource, Length, SequenceData
+' 
+'         Function: GetCompositionVector
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Language
 
 Namespace SequenceModel
 
@@ -107,14 +106,37 @@ Namespace SequenceModel
         ''' or <see cref="TypeExtensions.NA_CHARS_ALL">nucleotide</see>.</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Shared Function GetCompositionVector(seq As IPolymerSequenceModel, compositions As Char()) As Integer()
-            Dim composition%() = New Integer(compositions.Length - 1) {}
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function GetCompositionVector(seq As IPolymerSequenceModel, compositions As IReadOnlyCollection(Of Char)) As Integer()
+            Return GetCompositionVector(seq.SequenceData, compositions)
+        End Function
 
-            With seq.SequenceData.ToUpper()
-                For i As Integer = 0 To compositions.Length - 1
-                    composition(i) = .Count(compositions(i))
-                Next
-            End With
+        ''' <summary>
+        ''' Get the composition vector for a sequence model using a specific composition description.
+        ''' </summary>
+        ''' <param name="seq"></param>
+        ''' <param name="compositions">
+        ''' This always should be the constant string of <see cref="TypeExtensions.AA_CHARS_ALL">amino acid
+        ''' </see>
+        ''' or <see cref="TypeExtensions.NA_CHARS_ALL">nucleotide</see>.</param>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
+        Public Shared Function GetCompositionVector(seq As String, compositions As IReadOnlyCollection(Of Char)) As Integer()
+            Dim nsize As Integer = compositions.Count
+            Dim composition%() = New Integer(nsize - 1) {}
+            Dim i As Integer = Scan0
+
+            If Not (seq Is Nothing OrElse seq = "") Then
+                With seq.ToUpper()
+                    For Each c As Char In compositions
+                        composition(i) = .Count(c)
+                        i += 1
+                    Next
+                End With
+            Else
+                ' sequence is empty
+            End If
 
             Return composition
         End Function
