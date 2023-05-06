@@ -60,6 +60,7 @@ Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 Imports SMRUCC.genomics.Visualize
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports HTSMatrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 Imports REnv = SMRUCC.Rsharp.Runtime
 
@@ -109,7 +110,7 @@ Module GSVA
                     .Select(Function(r)
                                 Return New DataFrameRow With {
                                     .geneID = r.name,
-                                    .experiments = REnv.asVector(Of Double)(r.ToArray)
+                                    .experiments = CLRVector.asNumeric(r.ToArray)
                                 }
                             End Function) _
                     .ToArray
@@ -126,7 +127,7 @@ Module GSVA
                                     .ID = c.Key,
                                     .description = c.Key,
                                     .names = c.Key,
-                                    .members = DirectCast(REnv.asVector(Of String)(c.Value), String()) _
+                                    .members = CLRVector.asCharacter(c.Value) _
                                         .Select(AddressOf createGene) _
                                         .ToArray
                                 }
@@ -184,9 +185,9 @@ Module GSVA
                                  Optional t As String = "t",
                                  Optional pvalue As String = "pvalue") As GSVADiff()
 
-        Dim pathNames As String() = REnv.asVector(Of String)(diff(pathId))
-        Dim testVal As Double() = REnv.asVector(Of Double)(diff(t))
-        Dim pVal As Double() = REnv.asVector(Of Double)(diff(pvalue))
+        Dim pathNames As String() = CLRVector.asCharacter(diff(pathId))
+        Dim testVal As Double() = CLRVector.asNumeric(diff(t))
+        Dim pVal As Double() = CLRVector.asNumeric(diff(pvalue))
 
         Return pathNames _
             .Select(Function(ref, i)

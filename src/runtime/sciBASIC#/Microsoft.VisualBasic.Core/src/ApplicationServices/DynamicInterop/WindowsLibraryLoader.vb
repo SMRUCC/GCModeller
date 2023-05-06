@@ -71,11 +71,18 @@ Namespace ApplicationServices.DynamicInterop
             Dim handle = Win32.LoadLibrary(filename)
 
             If handle = IntPtr.Zero Then
-                Dim [error] = New Win32Exception(Marshal.GetLastWin32Error()).Message
-                Console.WriteLine([error])
+                Dim ex As New Win32Exception(Marshal.GetLastWin32Error())
+                Dim [error] = ex.Message
+
+                App.LogException(ex)
+                VBDebugger.EchoLine([error])
             End If
 
             Return handle
+        End Function
+
+        Public Overrides Function ToString() As String
+            Return "WIN32<kernel32.dll>"
         End Function
 
         Public Function GetLastError() As String Implements IDynamicLibraryLoader.GetLastError

@@ -87,6 +87,9 @@ Namespace CommandLine.InteropService.Pipeline
         ''' parameter could be in multiple line
         ''' </param>
         ''' <param name="workdir"></param>
+        ''' <remarks>
+        ''' the commandline <paramref name="arguments"/> could be in multiple lines
+        ''' </remarks>
         Sub New(app$, arguments$, Optional workdir As String = Nothing)
             Me.app = app
             Me.Arguments = arguments
@@ -146,8 +149,8 @@ Namespace CommandLine.InteropService.Pipeline
         End Sub
 
         Public Shared Sub SendMessage(message As String)
-            Call VBDebugger.WaitOutput()
-            Call Console.WriteLine($"[SET_MESSAGE] {message}")
+            ' Call VBDebugger.WaitOutput()
+            Call VBDebugger.EchoLine($"[SET_MESSAGE] {message}")
         End Sub
 
         Shared m_hookProgress As SetProgressEventHandler
@@ -157,8 +160,8 @@ Namespace CommandLine.InteropService.Pipeline
         End Sub
 
         Public Shared Sub SendProgress(percentage As Double, message As String)
-            Call VBDebugger.WaitOutput()
-            Call Console.WriteLine($"[SET_PROGRESS] {percentage} {message}")
+            ' Call VBDebugger.WaitOutput()
+            Call VBDebugger.EchoLine($"[SET_PROGRESS] {percentage} {message}")
 
             If Not m_hookProgress Is Nothing Then
                 Call m_hookProgress(percentage, message)

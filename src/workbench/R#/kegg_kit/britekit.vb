@@ -139,7 +139,11 @@ Module britekit
     ''' Do parse of the kegg brite text file.
     ''' </summary>
     ''' <param name="file">
-    ''' The file text content, brite id or its file path
+    ''' The file text content, brite id or its file path, example as:
+    ''' 
+    ''' 1. ``br08901`` could be used at here as the kegg pathway map 
+    '''    brite id, which is parsed from the internal resource data
+    '''    
     ''' </param>
     ''' <returns></returns>
     <ExportAPI("parse")>

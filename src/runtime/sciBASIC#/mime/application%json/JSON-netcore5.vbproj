@@ -197,12 +197,16 @@
 
   <ItemGroup>
     <Compile Remove="JSONtest\**" />
+    <Compile Remove="SoapGraph\**" />
     <EmbeddedResource Remove="JSONtest\**" />
+    <EmbeddedResource Remove="SoapGraph\**" />
     <None Remove="JSONtest\**" />
+    <None Remove="SoapGraph\**" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Microsoft.VisualBasic.Core\src\Core.vbproj" />
   </ItemGroup>
+
 
 </Project>

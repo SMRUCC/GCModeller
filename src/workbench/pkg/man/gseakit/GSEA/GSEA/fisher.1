@@ -5,8 +5,9 @@ fisher \- fisher enrichment test
 .SH SYNOPSIS
 \fIfisher(\fBlist\fR as string, 
 \fBgeneSet\fR as string, 
-\fBbackground\fR as string, 
-\fBterm\fR as string = "unknown");\fR
+\fBbackground\fR as any, 
+\fBterm\fR as string = "unknown", 
+[\fB<Environment>\fR]);\fR
 .SH DESCRIPTION
 .PP
 fisher enrichment test
@@ -19,7 +20,12 @@ fisher enrichment test
 \fBgeneSet\fB \fR\- -. 
 .PP
 .PP
-\fBbackground\fB \fR\- -. 
+\fBbackground\fB \fR\- 
+ the background size information, it could be an integer value to 
+ indicates that the total unique size of the enrichment background 
+ or a unique id character vector that contains all member 
+ information of the background.
+. 
 .PP
 .SH SEE ALSO
 GSEA

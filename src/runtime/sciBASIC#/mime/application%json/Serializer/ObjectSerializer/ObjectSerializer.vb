@@ -59,10 +59,6 @@ Imports Microsoft.VisualBasic.MIME.application.json.Javascript
 Imports Microsoft.VisualBasic.ValueTypes
 Imports any = Microsoft.VisualBasic.Scripting
 
-#If NET48 Then
-Imports System.Web.Script.Serialization
-#End If
-
 Public Module ObjectSerializer
 
     <Extension>
@@ -179,7 +175,8 @@ Public Module ObjectSerializer
                     jsonVal = JsonValue.NULL
                 ElseIf Not (valueType Is GetType(Type) OrElse
                     valueType Is GetType(TypeInfo) OrElse
-                    valueType.FullName = "System.RuntimeType") Then
+                    valueType.FullName = "System.RuntimeType" OrElse
+                    valueType.FullName = "System.Reflection.RuntimeAssembly") Then
 
                     jsonVal = valueType.GetJsonElement(valObj, opt)
                 Else

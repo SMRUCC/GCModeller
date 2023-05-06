@@ -68,7 +68,7 @@ Public Module PathwayNetwork
         Dim maps As Map() = ref.ToArray
 
         For Each map As Map In maps
-            Call nodeValue(graph.CreateNode(map.ID))
+            Call nodeValue(graph.CreateNode(map.EntryId))
         Next
 
         For Each A As Map In maps
@@ -77,15 +77,15 @@ Public Module PathwayNetwork
                 .Where(Function(id) id.IsPattern("C\d+")) _
                 .ToArray
 
-            For Each B In maps.Where(Function(bb) Not A Is bb)
+            For Each B As Map In maps.Where(Function(bb) Not A Is bb)
                 With B.GetMembers _
                     .Where(Function(id) id.IsPattern("C\d+")) _
                     .Intersect(compoundsA) _
                     .ToArray
 
                     If Not .IsNullOrEmpty Then
-                        Dim edge As Edge = graph.CreateEdge(A.ID, B.ID)
-                        edge.Weight = .Length
+                        Dim edge As Edge = graph.CreateEdge(A.EntryId, B.EntryId)
+                        edge.weight = .Length
                     End If
                 End With
             Next

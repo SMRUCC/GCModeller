@@ -88,7 +88,7 @@ Public Module [Imports]
                                    .Where(Function(id) id.IsPattern("K\d+")) _
                                    .Distinct _
                                    .Select(Function(id)
-                                               Return (mapID:=m.ID, KO:=id)
+                                               Return (mapID:=m.entryID, KO:=id)
                                            End Function)
                            End Function) _
                    .IteratesALL _

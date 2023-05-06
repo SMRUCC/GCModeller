@@ -3,10 +3,9 @@
 SET R_HOME=../../../../R-sharp\App\net6.0
 SET Rscript="%R_HOME%\Rscript.exe"
 SET REnv="%R_HOME%\R#.exe"
+SET pkg=kegg_api.zip
 
-%Rscript% --build /src ../ /save ./kegg_graphquery.zip
-%REnv% --install.packages "./kegg_graphquery.zip"
+%Rscript% --build /src ../ /save ./%pkg%
+%REnv% --install.packages "./%pkg%"
 
 pause
-
-            

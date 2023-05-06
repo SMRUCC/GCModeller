@@ -224,7 +224,13 @@ Namespace EntityProperties
     Public Class structureData : Inherits EntityProperty
 
     End Class
+    Public Class [structure] : Inherits EntityProperty
+
+    End Class
     Public Class molecularWeight : Inherits EntityProperty
+
+    End Class
+    Public Class chemicalFormula : Inherits EntityProperty
 
     End Class
     Public Class standardName : Inherits EntityProperty
@@ -294,14 +300,6 @@ Namespace EntityProperties
     End Class
 
     Public Class participantStoichiometry : Inherits EntityProperty
-
-    End Class
-
-    Public Class left : Inherits EntityProperty
-
-    End Class
-
-    Public Class right : Inherits EntityProperty
 
     End Class
 

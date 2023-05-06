@@ -687,7 +687,7 @@ Public Module App
     ''' <summary>
     ''' java <see cref="printf"/> + <see cref="Console.WriteLine(String)"/>
     ''' </summary>
-    ''' <param name="s$"></param>
+    ''' <param name="s"></param>
     ''' <param name="args"></param>
     Public Sub println(s$, ParamArray args As Object())
         If Not args.IsNullOrEmpty Then
@@ -696,10 +696,7 @@ Public Module App
             s = CLangStringFormatProvider.ReplaceMetaChars(s)
         End If
 
-        Call My.InnerQueue.AddToQueue(
-            Sub()
-                Call Console.WriteLine(s)
-            End Sub)
+        Call VBDebugger.EchoLine(s)
     End Sub
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -884,6 +881,9 @@ Public Module App
     ''' <param name="ex"></param>
     ''' <param name="trace">调用函数的位置，这个参数一般为空，编译器会自动生成Trace位点参数</param>
     ''' <returns>这个函数总是返回空值的</returns>
+    ''' <remarks>
+    ''' this debug logging function will returns nothing always!
+    ''' </remarks>
     <ExportAPI("LogException")>
     Public Function LogException(ex As Exception, <CallerMemberName> Optional ByRef trace$ = "") As Object
         Try

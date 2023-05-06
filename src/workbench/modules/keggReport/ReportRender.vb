@@ -129,8 +129,8 @@ Public Class ReportRender
             !map_base64 = New DataURI(rendering).ToString
             !image_width = rendering.Width
             !keggLink = New NamedCollection(Of NamedValue(Of String))() With {
-                .name = If(map.id.IsPattern("\d+"), $"map{map.id}", map.id),
-                .description = map.Name,
+                .name = If(map.EntryId.IsPattern("\d+"), $"map{map.EntryId}", map.EntryId),
+                .description = map.name,
                 .value = objectList
             }.KEGGURLEncode
 

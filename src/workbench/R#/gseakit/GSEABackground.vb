@@ -60,6 +60,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math.Statistics.Hypothesis.Mantel
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Analysis.GO
@@ -88,9 +89,11 @@ Imports REnv = SMRUCC.Rsharp.Runtime.Internal.ConsolePrinter
 ''' tools for handling GSEA background model.
 ''' </summary>
 <Package("background", Category:=APICategories.ResearchTools)>
+<RTypeExport("metpa", GetType(metpa))>
+<RTypeExport("gsea_background", GetType(Background))>
 Public Module GSEABackground
 
-    Sub New()
+    Sub Main()
         Call REnv.AttachConsoleFormatter(Of Background)(AddressOf PrintBackground)
     End Sub
 
@@ -507,31 +510,7 @@ Public Module GSEABackground
             .names = clusterName.TrimNewLine().StringReplace("\s{2,}", " "),
             .members = idvec _
                 .Select(Function(idstr, i)
-                            Dim terms As Dictionary(Of String, String) = fields _
-                                .Where(Function(a) Not a.Value(i).StringEmpty) _
-                                .ToDictionary(Function(a) a.Key,
-                                              Function(a)
-                                                  Return a.Value(i)
-                                              End Function)
-                            Dim termList As New List(Of NamedValue)
-
-                            For Each tuple As KeyValuePair(Of String, String) In terms
-                                termList.Add(New NamedValue With {
-                                    .name = tuple.Key,
-                                    .text = tuple.Value
-                                })
-                            Next
-
-                            Return New BackgroundGene With {
-                                .accessionID = idstr,
-                                .[alias] = {idstr},
-                                .locus_tag = New NamedValue With {
-                                    .name = idstr,
-                                    .text = namevec(i)
-                                },
-                                .name = namevec(i),
-                                .term_id = termList.ToArray
-                            }
+                            Return fields.getMemberItem(idstr, i, namevec)
                         End Function) _
                 .ToArray
         }
@@ -539,10 +518,39 @@ Public Module GSEABackground
         Return cluster
     End Function
 
+    <Extension>
+    Private Function getMemberItem(fields As Dictionary(Of String, String()), idStr As String, i As Integer, namevec As String()) As BackgroundGene
+        Dim terms As Dictionary(Of String, String) = fields _
+            .Where(Function(a) Not a.Value(i).StringEmpty) _
+            .ToDictionary(Function(a) a.Key,
+                          Function(a)
+                              Return a.Value(i)
+                          End Function)
+        Dim termList As New List(Of NamedValue)
+
+        For Each tuple As KeyValuePair(Of String, String) In terms
+            Call termList.Add(New NamedValue With {
+                .name = tuple.Key,
+                .text = tuple.Value
+            })
+        Next
+
+        Return New BackgroundGene With {
+            .accessionID = idStr,
+            .[alias] = {idStr},
+            .locus_tag = New NamedValue With {
+                .name = idStr,
+                .text = namevec(i)
+            },
+            .name = namevec(i),
+            .term_id = termList.ToArray
+        }
+    End Function
+
     ''' <summary>
     ''' Create the gsea background model for metabolism analysis
     ''' </summary>
-    ''' <param name="kegg">the kegg <see cref="Pathway"/> model collection of current organism</param>
+    ''' <param name="kegg">the kegg <see cref="Pathway"/> model collection of current organism or the KEGG <see cref="Map"/> data collection.</param>
     ''' <param name="reactions">A collection of the reference <see cref="ReactionTable"/> model 
     ''' data for build the metabolism network</param>
     ''' <param name="org_name"></param>
@@ -551,19 +559,24 @@ Public Module GSEABackground
     ''' <returns></returns>
     <ExportAPI("metpa")>
     <RApiReturn(GetType(metpa))>
-    Public Function metpa(<RRawVectorArgument> kegg As Object,
-                          <RRawVectorArgument> reactions As Object,
-                          Optional org_name As String = Nothing,
-                          Optional is_ko_ref As Boolean = False,
-                          Optional multipleOmics As Boolean = False,
-                          Optional env As Environment = Nothing) As Object
+    Public Function create_metpa(<RRawVectorArgument> kegg As Object,
+                                 <RRawVectorArgument> reactions As Object,
+                                 Optional org_name As String = Nothing,
+                                 Optional is_ko_ref As Boolean = False,
+                                 Optional multipleOmics As Boolean = False,
+                                 Optional env As Environment = Nothing) As Object
 
         Dim pathways As pipeline = pipeline.TryCreatePipeline(Of Pathway)(kegg, env)
         Dim reactionList As pipeline = pipeline.TryCreatePipeline(Of ReactionTable)(reactions, env, suppress:=True)
 
         If pathways.isError Then
-            Return pathways.getError
-        ElseIf reactionList.isError Then
+            pathways = pipeline.TryCreatePipeline(Of Map)(kegg, env)
+
+            If pathways.isError Then
+                Return pathways.getError
+            End If
+        End If
+        If reactionList.isError Then
             reactionList = pipeline.TryCreatePipeline(Of Reaction)(reactions, env)
 
             If reactionList.isError Then
@@ -577,13 +590,25 @@ Public Module GSEABackground
                 .DoCall(AddressOf pipeline.CreateFromPopulator)
         End If
 
-        Return EnrichmentNetwork.KEGGModels(
-            models:=pathways.populates(Of Pathway)(env).ToArray,
-            isKo_ref:=is_ko_ref,
-            reactions:=reactionList.populates(Of ReactionTable)(env).CreateIndex(indexByCompounds:=True),
-            orgName:=org_name,
-            multipleOmics:=multipleOmics
-        )
+        If pathways.elementType Like GetType(Map) Then
+            Return EnrichmentNetwork.KEGGModels(
+                models:=pathways.populates(Of Map)(env).ToArray,
+                isKo_ref:=is_ko_ref,
+                reactions:=reactionList.populates(Of ReactionTable)(env).CreateIndex(indexByCompounds:=True),
+                orgName:=org_name,
+                multipleOmics:=multipleOmics
+            )
+        ElseIf pathways.elementType Like GetType(Pathway) Then
+            Return EnrichmentNetwork.KEGGModels(
+                models:=pathways.populates(Of Pathway)(env).ToArray,
+                isKo_ref:=is_ko_ref,
+                reactions:=reactionList.populates(Of ReactionTable)(env).CreateIndex(indexByCompounds:=True),
+                orgName:=org_name,
+                multipleOmics:=multipleOmics
+            )
+        Else
+            Return Internal.debug.stop(New NotImplementedException(pathways.elementType.ToString), env)
+        End If
     End Function
 
     ''' <summary>
@@ -725,7 +750,7 @@ Public Module GSEABackground
         Dim background As Background = kegg.Maps _
             .Where(Function(map)
                        If mapIdFilter.Count > 0 Then
-                           Return map.id.Match("\d+") Like mapIdFilter
+                           Return map.EntryId.Match("\d+") Like mapIdFilter
                        Else
                            Return True
                        End If

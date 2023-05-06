@@ -12,9 +12,19 @@ Namespace Metabolism.Metpa
         Public Property kegg_id As String()
         Public Property network_id As String
 
+        Public Function GetImpacts() As Dictionary(Of String, Double)
+            Dim impact As New Dictionary(Of String, Double)
+
+            For i As Integer = 0 To kegg_id.Length - 1
+                impact.Add(kegg_id(i), data(i))
+            Next
+
+            Return impact
+        End Function
+
     End Class
 
-    Public Class rbcList
+    Public Class rbcList : Implements TopologyScoreProvider
 
         Public Property list As Dictionary(Of String, rbc)
 
@@ -51,6 +61,10 @@ Namespace Metabolism.Metpa
             }
 
             Return New NamedValue(Of rbc)(a.Name, rbc)
+        End Function
+
+        Public Function GetScoreImpacts(mapid As String) As Dictionary(Of String, Double) Implements TopologyScoreProvider.GetScoreImpacts
+            Return list(mapid).GetImpacts
         End Function
     End Class
 End Namespace

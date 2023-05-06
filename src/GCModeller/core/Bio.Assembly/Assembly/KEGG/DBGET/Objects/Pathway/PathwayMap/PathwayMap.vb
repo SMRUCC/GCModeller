@@ -56,9 +56,9 @@
 #End Region
 
 Imports System.Drawing
-Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Text.Xml.Models
@@ -71,14 +71,6 @@ Namespace Assembly.KEGG.DBGET.bGetObject
     ''' (相对于<see cref="Pathway"/>而言，这个对象是参考用的，并非某个特定的物种的)
     ''' </summary>
     Public Class PathwayMap : Inherits PathwayBrief
-
-        ''' <summary>
-        ''' The name value of this pathway object
-        ''' </summary>
-        ''' <value></value>
-        ''' <returns></returns>
-        ''' <remarks></remarks>
-        Public Property name As String
 
         Public Property KOpathway As String
         Public Property disease As NamedValue()
@@ -128,11 +120,6 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             xmlnsImports.Add("KO", OrthologyTerms.Xmlns)
         End Sub
 
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Overrides Function GetPathwayGenes() As String()
-            Return KEGGOrthology.EntityList
-        End Function
-
         Public Function GetCompounds(Optional includesGlycan As Boolean = True) As Index(Of String)
             Dim cids As New List(Of String)(KEGGCompound.SafeQuery.Select(Function(c) c.name))
 
@@ -173,6 +160,14 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             Dim path$ = String.Format("{0}/{1}{2}.png", EXPORT, sp, entry)
 
             Return wget.Download(url, save:=path)
+        End Function
+
+        Public Overrides Function GetPathwayGenes() As IEnumerable(Of NamedValue(Of String))
+            Return KEGGOrthology.Terms.Select(Function(term) New NamedValue(Of String)(term.name, term.value, term.comment))
+        End Function
+
+        Public Overrides Function GetCompoundSet() As IEnumerable(Of NamedValue(Of String))
+            Return KEGGCompound.Select(Function(ni) New NamedValue(Of String)(ni.name, ni.text))
         End Function
     End Class
 End Namespace

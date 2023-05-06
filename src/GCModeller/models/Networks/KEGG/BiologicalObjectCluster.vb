@@ -70,7 +70,7 @@ Public Module BiologicalObjectCluster
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function CompoundsMap(map As Map) As NamedCollection(Of String)
         Return New NamedCollection(Of String) With {
-            .name = map.id,
+            .name = map.EntryId,
             .value = map.shapes _
                 .Select(Function(a) a.IDVector) _
                 .IteratesALL _
@@ -83,7 +83,7 @@ Public Module BiologicalObjectCluster
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function ReactionMap(map As Map) As NamedCollection(Of String)
         Return New NamedCollection(Of String) With {
-            .name = map.id,
+            .name = map.EntryId,
             .value = map.shapes _
                 .Select(Function(a) a.IDVector) _
                 .IteratesALL _

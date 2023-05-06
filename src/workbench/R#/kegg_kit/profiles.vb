@@ -1,52 +1,52 @@
 ﻿#Region "Microsoft.VisualBasic::d90cb48b432272d4543b259c8cb30c13, R#\kegg_kit\profiles.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 232
-    '    Code Lines: 184
-    ' Comment Lines: 19
-    '   Blank Lines: 29
-    '     File Size: 10.08 KB
+' Summaries:
 
 
-    ' Module profiles
-    ' 
-    '     Function: CompoundPathwayIndex, CompoundPathwayProfiles, FluxMapProfiles, GetProfileMapping, KEGGCategoryProfiles
-    '               KOpathwayProfiles, MapCategory
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 232
+'    Code Lines: 184
+' Comment Lines: 19
+'   Blank Lines: 29
+'     File Size: 10.08 KB
+
+
+' Module profiles
+' 
+'     Function: CompoundPathwayIndex, CompoundPathwayProfiles, FluxMapProfiles, GetProfileMapping, KEGGCategoryProfiles
+'               KOpathwayProfiles, MapCategory
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -68,6 +68,7 @@ Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports RDataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 Imports REnv = SMRUCC.Rsharp.Runtime
 
@@ -104,7 +105,7 @@ Module profiles
         If Not pathwayMaps.isError Then
             Return pathwayMaps _
                 .populates(Of Map)(env) _
-                .GroupBy(Function(m) m.id) _
+                .GroupBy(Function(m) m.EntryId) _
                 .ToDictionary(Function(m) m.Key,
                               Function(m)
                                   Return m.First.shapes _
@@ -152,7 +153,7 @@ Module profiles
     <ExportAPI("flux.map.profiles")>
     Public Function FluxMapProfiles(flux As Object, maps As MapRepository, Optional env As Environment = Nothing) As Object
         If TypeOf flux Is RDataframe Then
-            Dim activity As Double() = REnv.asVector(Of Double)(DirectCast(flux, RDataframe).getColumnVector("activity"))
+            Dim activity As Double() = CLRVector.asNumeric(DirectCast(flux, RDataframe).getColumnVector("activity"))
             Dim rId As String()
             Dim flags = activity.Select(Function(a) a > 0).ToArray
             Dim data As RDataframe = DirectCast(flux, RDataframe).sliceByRow(flags, env)
@@ -164,8 +165,8 @@ Module profiles
                                   Return p.Values
                               End Function)
 
-            rId = REnv.asVector(Of String)(data.getColumnVector("RID"))
-            activity = REnv.asVector(Of Double)(data.getColumnVector("activity"))
+            rId = CLRVector.asCharacter(data.getColumnVector("RID"))
+            activity = CLRVector.asNumeric(data.getColumnVector("activity"))
 
             Dim fluxData = rId.SeqIterator.ToDictionary(Function(r) r.value, Function(i) activity(i))
             Dim profiles As New CatalogProfiles
@@ -178,7 +179,7 @@ Module profiles
                     Dim total As Double = Aggregate id As String In map.GetMembers Where fluxData.ContainsKey(id) Into Sum(fluxData(id))
 
                     If total > 0 Then
-                        catProfiles.Add(map.Name.Replace(" - Reference pathway", "").Trim, total)
+                        catProfiles.Add(map.name.Replace(" - Reference pathway", "").Trim, total)
                     End If
                 Next
 

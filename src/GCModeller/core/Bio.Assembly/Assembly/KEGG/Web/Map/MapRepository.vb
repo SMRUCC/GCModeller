@@ -81,7 +81,7 @@ Namespace Assembly.KEGG.WebServices
             End Get
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Set(value As MapIndex())
-                table = value.ToDictionary(Function(map) map.id)
+                table = value.ToDictionary(Function(map) map.EntryId.Match("\d+"))
             End Set
         End Property
 
@@ -123,6 +123,8 @@ Namespace Assembly.KEGG.WebServices
                 Next
             Next
         End Function
+
+        ' key.Match("\d+") means ignores the kegg organism prefix
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Exists(key As String) As Boolean Implements IRepositoryRead(Of String, MapIndex).Exists
@@ -176,7 +178,7 @@ Namespace Assembly.KEGG.WebServices
             End If
 
             Return New MapIndex With {
-                .id = map.id,
+                .EntryId = map.EntryId,
                 .KeyVector = New TermsVector With {
                     .terms = map _
                         .shapes _
@@ -187,7 +189,7 @@ Namespace Assembly.KEGG.WebServices
                         .ToArray
                 },
                 .shapes = map.shapes,
-                .Name = map.Name,
+                .name = map.name,
                 .PathwayImage = map.PathwayImage,
                 .URL = map.URL
             }

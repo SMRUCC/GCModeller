@@ -21,4 +21,5 @@ metpa
 |> json_encode()
 |> writeLines(
     con = `${@dir}/hsa_metpa.json`
-);
+)
+;

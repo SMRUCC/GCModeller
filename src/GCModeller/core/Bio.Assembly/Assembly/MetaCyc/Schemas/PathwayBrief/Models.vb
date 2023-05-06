@@ -61,6 +61,7 @@
 
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles
 Imports SMRUCC.genomics.ComponentModel
@@ -125,14 +126,6 @@ Namespace Assembly.MetaCyc.Schema.PathwayBrief
             End Get
         End Property
 
-        Public Overrides Function ToString() As String
-            Return String.Format("{0}  [{1}]", Me.EntryId, String.Join("; ", PathwayGenes))
-        End Function
-
-        Public Overrides Function GetPathwayGenes() As String()
-            Return PathwayGenes
-        End Function
-
         Public Overrides Property EntryId As String Implements IKeyValuePairObject(Of String, String()).Key
             Get
                 Return MyBase.EntryId
@@ -143,5 +136,16 @@ Namespace Assembly.MetaCyc.Schema.PathwayBrief
         End Property
 
         Public Property PathwayGenes As String() Implements IKeyValuePairObject(Of String, String()).Value
+
+        Public Overrides Function ToString() As String
+            Return String.Format("{0}  [{1}]", Me.EntryId, String.Join("; ", PathwayGenes))
+        End Function
+
+        Public Overrides Function GetPathwayGenes() As IEnumerable(Of NamedValue(Of String))
+            Return PathwayGenes.Select(Function(id) New NamedValue(Of String)(id))
+        End Function
+
+        Public Overrides Iterator Function GetCompoundSet() As IEnumerable(Of NamedValue(Of String))
+        End Function
     End Class
 End Namespace

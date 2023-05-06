@@ -149,7 +149,7 @@ Namespace Assembly.MetaCyc.Schema
                 If MetaCycItem Is Nothing Then
                     Return False
                 Else
-                    If MetaCycItem.StoiChiometry <> item.Key.StoiChiometry Then
+                    If MetaCycItem.Stoichiometry <> item.Key.Stoichiometry Then
                         Return False
                     End If
                 End If

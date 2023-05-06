@@ -62,10 +62,7 @@
 
 #End Region
 
-#If netcore5 = 1 Then
 Imports System.Data
-#End If
-
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal
@@ -95,6 +92,8 @@ Imports REnv = SMRUCC.Rsharp.Runtime.Internal
 ''' </summary>
 <Package("repository", Category:=APICategories.SoftwareTools)>
 <RTypeExport("kegg_pathway", GetType(Pathway))>
+<RTypeExport("kegg_reaction", GetType(Reaction))>
+<RTypeExport("kegg_compound", GetType(Compound))>
 Public Module repository
 
     Friend Sub Main()
@@ -109,13 +108,24 @@ Public Module repository
     Private Function showMapTable(table As Map(), args As list, env As Environment) As dataframe
         Dim mapTable As New dataframe With {.columns = New Dictionary(Of String, Array)}
 
-        mapTable.columns(NameOf(Map.id)) = table.Select(Function(t) t.id).ToArray
-        mapTable.columns(NameOf(Map.Name)) = table.Select(Function(t) t.Name.TrimNewLine).ToArray
+        mapTable.columns("id") = table.Select(Function(t) t.EntryId).ToArray
+        mapTable.columns("Name") = table.Select(Function(t) t.name.TrimNewLine).ToArray
         mapTable.columns(NameOf(Map.URL)) = table.Select(Function(t) t.URL).ToArray
         mapTable.columns(NameOf(Map.description)) = table.Select(Function(t) t.description.TrimNewLine).ToArray
         mapTable.columns(NameOf(Map.shapes)) = table.Select(Function(t) t.shapes.TryCount).ToArray
 
         Return mapTable
+    End Function
+
+    <ExportAPI("enzyme_description")>
+    Public Function getEnzymeClassDescription() As Object
+        Return New list With {
+            .slots = ECNumberReader.rootNames _
+                .ToDictionary(Function(e) e.Key,
+                              Function(e)
+                                  Return CObj(e.Value)
+                              End Function)
+        }
     End Function
 
     ''' <summary>
@@ -290,6 +300,26 @@ Public Module repository
         End If
     End Function
 
+    Private Function parseMapsFromFile(fileHandle As String, rawMaps As Boolean) As Object
+        If fileHandle.ExtensionSuffix("msgpack", "pack", "hds") Then
+            Using file As Stream = fileHandle.Open(FileMode.Open, doClear:=False, [readOnly]:=True)
+                If rawMaps Then
+                    Return KEGGMapPack.ReadKeggDb(file)
+                Else
+                    Return KEGGMapPack.ReadKeggDb(file).DoCall(AddressOf MapRepository.BuildRepository)
+                End If
+            End Using
+        ElseIf fileHandle.ExtensionSuffix("xml") Then
+            Return fileHandle.LoadXml(Of Map)
+        End If
+
+        If rawMaps Then
+            Return MapRepository.GetMapsAuto(fileHandle).ToArray
+        Else
+            Return MapRepository.BuildRepository(fileHandle)
+        End If
+    End Function
+
     ''' <summary>
     ''' load list of kegg reference <see cref="Map"/>.
     ''' </summary>
@@ -298,7 +328,7 @@ Public Module repository
     ''' </param>
     ''' <returns>
     ''' a kegg reference map object vector, which can be indexed 
-    ''' via <see cref="Map.id"/>.
+    ''' via <see cref="Map.EntryId"/>.
     ''' </returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <ExportAPI("load.maps")>
@@ -313,25 +343,7 @@ Public Module repository
                 End If
             End Using
         Else
-            Dim fileHandle As String = any.ToString(repository)
-
-            If fileHandle.ExtensionSuffix("msgpack") Then
-                Using file As Stream = fileHandle.Open(FileMode.Open, doClear:=False, [readOnly]:=True)
-                    If rawMaps Then
-                        Return KEGGMapPack.ReadKeggDb(file)
-                    Else
-                        Return KEGGMapPack.ReadKeggDb(file).DoCall(AddressOf MapRepository.BuildRepository)
-                    End If
-                End Using
-            ElseIf fileHandle.ExtensionSuffix("xml") Then
-                Return fileHandle.LoadXml(Of Map)
-            End If
-
-            If rawMaps Then
-                Return MapRepository.GetMapsAuto(fileHandle).ToArray
-            Else
-                Return MapRepository.BuildRepository(fileHandle)
-            End If
+            Return parseMapsFromFile(fileHandle:=any.ToString(repository), rawMaps)
         End If
     End Function
 
@@ -505,7 +517,7 @@ Public Module repository
         End If
 
         If TypeOf repo Is String OrElse TypeOf repo Is String() Then
-            Dim repoStr As String() = RVectorExtensions.asVector(Of String)(repo)
+            Dim repoStr As String() = CLRVector.asCharacter(repo)
 
             If repoStr.Length = 0 Then
                 Return Internal.debug.stop("the required repository source can not be empty!", env)
@@ -551,7 +563,7 @@ Public Module repository
         End If
 
         If TypeOf repo Is String OrElse TypeOf repo Is String() Then
-            Dim resource As String = DirectCast(RVectorExtensions.asVector(Of String)(repo), String())(Scan0)
+            Dim resource As String = CLRVector.asCharacter(repo)(Scan0)
 
             If resource.DirectoryExists Then
                 Return ReactionClassTable.ScanRepository(repo:=resource).ToArray
@@ -835,8 +847,8 @@ Public Module repository
                             area As Area()) As Map
 
         Return New Map With {
-            .id = id,
-            .Name = name,
+            .EntryId = id,
+            .name = name,
             .PathwayImage = img,
             .shapes = area,
             .URL = url,

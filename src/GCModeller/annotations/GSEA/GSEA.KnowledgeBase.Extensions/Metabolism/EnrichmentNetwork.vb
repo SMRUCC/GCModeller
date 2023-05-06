@@ -60,6 +60,7 @@ Imports SMRUCC.genomics.Analysis.KEGG
 Imports SMRUCC.genomics.Annotation.Ptf
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.Model.Network.KEGG.ReactionNetwork
 
 Namespace Metabolism
@@ -80,11 +81,54 @@ Namespace Metabolism
         ''' 直接基于已有的物种KEGG数据信息进行富集计算数据集的创建
         ''' </summary>
         ''' <returns></returns>
+        Public Function KEGGModels(models As Map(),
+                                   isKo_ref As Boolean,
+                                   reactions As Dictionary(Of String, ReactionTable()),
+                                   orgName As String,
+                                   multipleOmics As Boolean) As Metpa.metpa
+
+            Dim tcode As String = models.getTCode
+
+            If Not orgName.StringEmpty Then
+                For Each pathway As Map In models
+                    pathway.name = pathway.name.Replace(orgName, "").Trim(" "c, "-"c)
+                Next
+            End If
+
+            Return models _
+                .getUniqueModels _
+                .ToArray _
+                .buildModels(If(isKo_ref, "map", tcode), multipleOmics, reactions)
+        End Function
+
+        <Extension>
+        Private Function getTCode(Of T As PathwayBrief)(models As T()) As String
+            Dim group_code As IGrouping(Of String, String) = models _
+                .Select(Function(pwy) pwy.EntryId.Match("[a-z]+")) _
+                .GroupBy(Function(tag) tag) _
+                .OrderByDescending(Function(tag) tag.Count) _
+                .First
+            Dim tcode As String = group_code.Key
+
+            If tcode = "" Then
+                ' is the reference map
+                Return "map"
+            Else
+                Return tcode
+            End If
+        End Function
+
+        ''' <summary>
+        ''' 直接基于已有的物种KEGG数据信息进行富集计算数据集的创建
+        ''' </summary>
+        ''' <returns></returns>
         Public Function KEGGModels(models As Pathway(),
                                    isKo_ref As Boolean,
                                    reactions As Dictionary(Of String, ReactionTable()),
                                    orgName As String,
                                    multipleOmics As Boolean) As Metpa.metpa
+
+            Dim tcode As String = models.getTCode
 
             If Not orgName.StringEmpty Then
                 For Each pathway As Pathway In models
@@ -92,39 +136,44 @@ Namespace Metabolism
                 Next
             End If
 
-            Dim tcode As String = models _
-                .Select(Function(pwy) pwy.EntryId.Match("[a-z]+")) _
-                .GroupBy(Function(tag) tag) _
-                .OrderByDescending(Function(tag) tag.Count) _
-                .First _
-                .Key
+            Return models _
+                .getUniqueModels _
+                .ToArray _
+                .buildModels(If(isKo_ref, "map", tcode), multipleOmics, reactions)
+        End Function
 
-            Return models.buildModels(If(isKo_ref, "map", tcode), multipleOmics, reactions)
+        ''' <summary>
+        ''' models collection may contains empty data
+        ''' or duplicated data,
+        ''' needs to do data filter at here at first!
+        ''' </summary>
+        ''' <typeparam name="T"></typeparam>
+        ''' <returns></returns>
+        ''' 
+        <Extension>
+        Private Function getUniqueModels(Of T As PathwayBrief)(models As T()) As IEnumerable(Of T)
+            Return From pwy As T
+                   In models
+                   Where Not pwy.EntryId.StringEmpty
+                   Group By pwy.EntryId Into Group
+                   Select Group.First()
         End Function
 
         <Extension>
-        Private Function buildModels(models As Pathway(),
-                                     keggId As String,
-                                     multipleOmics As Boolean,
-                                     reactions As Dictionary(Of String, ReactionTable())) As Metpa.metpa
-
-            ' models collection may contains empty data
-            ' or duplicated data
-            ' needs to do data filter at here at first!
-            models = (From pwy As Pathway
-                      In models
-                      Where Not pwy.EntryId.StringEmpty
-                      Group By pwy.EntryId Into Group
-                      Select Group.First()).ToArray
+        Private Function buildModels(Of T As PathwayBrief)(models As T(),
+                                                           keggId As String,
+                                                           multipleOmics As Boolean,
+                                                           reactions As Dictionary(Of String, ReactionTable())) As Metpa.metpa
 
             Dim pathIds As pathIds = pathIds.FromPathways(models)
             Dim msetList As New msetList With {
                 .list = models.ToDictionary(
                     Function(a) If(keggId.StringEmpty, a.EntryId, keggId & a.briteID),
                     Function(a)
+                        Dim compounds = a.GetCompoundSet.ToArray
                         Dim mset As New mset With {
-                            .kegg_id = a.compound.Select(Function(c) c.name).ToArray,
-                            .metaboliteNames = a.compound.Select(Function(c) c.text).ToArray,
+                            .kegg_id = compounds.Select(Function(c) c.Name).ToArray,
+                            .metaboliteNames = compounds.Select(Function(c) c.Value).ToArray,
                             .clusterId = a.name
                         }
 
@@ -216,23 +265,34 @@ Namespace Metabolism
         End Function
 
         <Extension>
-        Private Function PathwayNetworkGraph(model As Pathway,
-                                             keggId$,
-                                             multipleOmics As Boolean,
-                                             reactions As Dictionary(Of String, ReactionTable())) As NamedValue(Of NetworkGraph)
+        Private Function PathwayNetworkGraph(Of T As PathwayBrief)(model As T,
+                                                                   keggId$,
+                                                                   multipleOmics As Boolean,
+                                                                   reactions As Dictionary(Of String, ReactionTable())) As NamedValue(Of NetworkGraph)
 
-            Dim allCompoundNames = model.compound _
-                .Select(Function(a) New NamedValue(Of String)(a.name, a.text)) _
-                .ToArray
-            Dim enzymes = model.genes _
-                .Where(Function(gene) Not (gene.KO.StringEmpty OrElse gene.geneId.StringEmpty)) _
-                .GroupBy(Function(gene) gene.KO) _
+            Dim allCompoundNames As NamedValue(Of String)() = model.GetCompoundSet.ToArray
+            Dim enzymes As Dictionary(Of String, String()) = model _
+                .GetPathwayGenes _
+                .Where(Function(gene) Not (gene.Value.StringEmpty OrElse gene.Name.StringEmpty)) _
+                .GroupBy(Function(gene) gene.Value) _
                 .ToDictionary(Function(enzyme) enzyme.Key,
                               Function(enzyme)
-                                  Return enzyme.Select(Function(gene) gene.geneId).ToArray
+                                  Return enzyme _
+                                      .Select(Function(gene) gene.Name) _
+                                      .Distinct _
+                                      .ToArray
                               End Function)
-            Dim g As NetworkGraph = model _
-                .GetReactions(reactions, non_enzymatic:=True) _
+            Dim pull As IEnumerable(Of ReactionTable)
+
+            If TypeOf model Is Map Then
+                pull = DirectCast(CObj(model), Map).GetReactions(reactions, non_enzymatic:=True)
+            ElseIf TypeOf model Is Pathway Then
+                pull = DirectCast(CObj(model), Pathway).GetReactions(reactions, non_enzymatic:=True)
+            Else
+                Throw New NotImplementedException(model.GetType.FullName)
+            End If
+
+            Dim g As NetworkGraph = pull _
                 .BuildModel(
                     compounds:=allCompoundNames,
                     extended:=False,

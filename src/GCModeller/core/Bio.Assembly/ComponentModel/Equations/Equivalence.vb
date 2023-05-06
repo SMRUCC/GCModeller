@@ -60,7 +60,7 @@ Namespace ComponentModel.EquaionModel
 
         <Extension>
         Public Function Equals(Of T As ICompoundSpecies)(a As T, b As T, strict As Boolean) As Boolean
-            If a.StoiChiometry <> b.StoiChiometry Then
+            If a.Stoichiometry <> b.Stoichiometry Then
                 If strict Then
                     Return False
                 End If

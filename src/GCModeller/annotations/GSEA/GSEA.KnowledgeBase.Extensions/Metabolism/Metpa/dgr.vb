@@ -12,9 +12,19 @@ Namespace Metabolism.Metpa
         Public Property dgr As Double()
         Public Property network_id As String
 
+        Public Function GetImpacts() As Dictionary(Of String, Double)
+            Dim impact As New Dictionary(Of String, Double)
+
+            For i As Integer = 0 To kegg_id.Length - 1
+                impact.Add(kegg_id(i), dgr(i))
+            Next
+
+            Return impact
+        End Function
+
     End Class
 
-    Public Class dgrList
+    Public Class dgrList : Implements TopologyScoreProvider
 
         Public Property pathways As Dictionary(Of String, dgr)
 
@@ -28,7 +38,7 @@ Namespace Metabolism.Metpa
         End Function
 
         Public Shared Function calcDgr(a As NamedValue(Of NetworkGraph), multipleOmics As Boolean) As NamedValue(Of dgr)
-            Dim cnodes As Node() = a.Value.vertex _
+            Dim vlist As Node() = a.Value.vertex _
                 .Where(Function(c)
                            If multipleOmics Then
                                Return True
@@ -37,8 +47,8 @@ Namespace Metabolism.Metpa
                            End If
                        End Function) _
                 .ToArray
-            Dim cid = cnodes.Select(Function(c) c.label).ToArray
-            Dim dgrVal As Vector = cnodes _
+            Dim cid = vlist.Select(Function(c) c.label).ToArray
+            Dim dgrVal As Vector = vlist _
                 .Select(Function(c)
                             Return c.data(NamesOf.REFLECTION_ID_MAPPING_RELATIVE_DEGREE_CENTRALITY)
                         End Function) _
@@ -51,6 +61,10 @@ Namespace Metabolism.Metpa
             }
 
             Return New NamedValue(Of dgr)(a.Name, dgr)
+        End Function
+
+        Public Function GetScoreImpacts(mapid As String) As Dictionary(Of String, Double) Implements TopologyScoreProvider.GetScoreImpacts
+            Return pathways(mapid).GetImpacts
         End Function
     End Class
 End Namespace

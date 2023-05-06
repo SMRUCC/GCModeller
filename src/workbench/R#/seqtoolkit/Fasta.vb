@@ -1,64 +1,64 @@
 ﻿#Region "Microsoft.VisualBasic::77a488daa8099cfa7dee55ffa8942895, R#\seqtoolkit\Fasta.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 464
-    '    Code Lines: 349
-    ' Comment Lines: 63
-    '   Blank Lines: 52
-    '     File Size: 18.86 KB
+' Summaries:
 
 
-    ' Module Fasta
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    ' 
-    '     Function: CutSequenceLinear, fasta, GetFastaSeq, MSA, openFasta
-    '               readFasta, readSeq, SequenceAssembler, sizeof, Tofasta
-    '               Translates, viewAssembles, viewFasta, viewMSA, writeFasta
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 464
+'    Code Lines: 349
+' Comment Lines: 63
+'   Blank Lines: 52
+'     File Size: 18.86 KB
+
+
+' Module Fasta
+' 
+'     Constructor: (+1 Overloads) Sub New
+' 
+'     Function: CutSequenceLinear, fasta, GetFastaSeq, MSA, openFasta
+'               readFasta, readSeq, SequenceAssembler, sizeof, Tofasta
+'               Translates, viewAssembles, viewFasta, viewMSA, writeFasta
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.IO
+Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -75,6 +75,7 @@ Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.ConsolePrinter
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports REnv = SMRUCC.Rsharp.Runtime
 
 ''' <summary>
@@ -88,18 +89,7 @@ Module Fasta
         Call printer.AttachConsoleFormatter(Of FastaSeq)(AddressOf viewFasta)
         Call printer.AttachConsoleFormatter(Of FastaFile)(AddressOf viewFasta)
         Call printer.AttachConsoleFormatter(Of MSAOutput)(AddressOf viewMSA)
-        Call printer.AttachConsoleFormatter(Of AssembleResult)(AddressOf viewAssembles)
     End Sub
-
-    Private Function viewAssembles(asm As AssembleResult) As String
-        Dim sb As New StringBuilder
-
-        Using text As New StringWriter(sb)
-            Call asm.alignments.TableView(asm.GetAssembledSequence, text)
-        End Using
-
-        Return sb.ToString
-    End Function
 
     Private Function viewMSA(msa As MSAOutput) As String
         Dim sb As New StringBuilder
@@ -130,47 +120,6 @@ Module Fasta
                 End With
             Case Else
                 Throw New NotImplementedException
-        End Select
-    End Function
-
-    ''' <summary>
-    ''' 返回空值表示类型错误
-    ''' </summary>
-    ''' <param name="a"></param>
-    ''' <returns></returns>
-    Public Function GetFastaSeq(a As Object, env As Environment) As IEnumerable(Of FastaSeq)
-        If a Is Nothing Then
-            Return {}
-        ElseIf TypeOf a Is vector Then
-            a = DirectCast(a, vector).data
-        End If
-
-        Dim type As Type = a.GetType
-
-        Select Case type
-            Case GetType(FastaSeq)
-                Return {DirectCast(a, FastaSeq)}
-            Case GetType(FastaFile)
-                Return DirectCast(a, FastaFile)
-            Case GetType(FastaSeq())
-                Return a
-            Case Else
-                If type.IsArray AndAlso REnv.MeasureArrayElementType(a) Is GetType(FastaSeq) Then
-                    Dim populator As IEnumerable(Of FastaSeq) =
-                        Iterator Function() As IEnumerable(Of FastaSeq)
-                            Dim vec As Array = DirectCast(a, Array)
-
-                            For i As Integer = 0 To vec.Length - 1
-                                Yield DirectCast(vec.GetValue(i), FastaSeq)
-                            Next
-                        End Function()
-
-                    Return populator
-                ElseIf type Is GetType(pipeline) AndAlso DirectCast(a, pipeline).elementType Like GetType(FastaSeq) Then
-                    Return DirectCast(a, pipeline).populates(Of FastaSeq)(env)
-                Else
-                    Return Nothing
-                End If
         End Select
     End Function
 
@@ -262,6 +211,29 @@ Module Fasta
         End If
     End Function
 
+    <Extension>
+    Private Function translateSingleNtSeq(translTable As TranslTable,
+                                          nt As FastaSeq,
+                                          table As GeneticCodes,
+                                          bypassStop As Boolean,
+                                          checkNt As Boolean) As FastaSeq
+
+        If table = GeneticCodes.Auto Then
+            Dim fa = TranslationTable.Translate(nt)
+            fa.Headers = nt.Headers.Join(fa.Headers).ToArray
+            Return fa
+        Else
+            Return New FastaSeq With {
+                .Headers = nt.Headers.ToArray,
+                .SequenceData = translTable.Translate(
+                    nucleicAcid:=nt.SequenceData,
+                    bypassStop:=bypassStop,
+                    checkNt:=checkNt
+                )
+            }
+        End If
+    End Function
+
     ''' <summary>
     ''' Do translation of the nt sequence to protein sequence
     ''' </summary>
@@ -284,16 +256,7 @@ Module Fasta
         If nt Is Nothing Then
             Return Nothing
         ElseIf TypeOf nt Is FastaSeq Then
-            If table = GeneticCodes.Auto Then
-                Dim prot = TranslationTable.Translate(DirectCast(nt, FastaSeq))
-                prot.Headers = DirectCast(nt, FastaSeq).Headers.Join(prot.Headers).ToArray
-                Return prot
-            Else
-                Return New FastaSeq With {
-                    .Headers = DirectCast(nt, FastaSeq).Headers.ToArray,
-                    .SequenceData = translTable.Translate(DirectCast(nt, FastaSeq), bypassStop, checkNt)
-                }
-            End If
+            Return translTable.translateSingleNtSeq(DirectCast(nt, FastaSeq), table, bypassStop, checkNt)
         Else
             Dim collection As IEnumerable(Of FastaSeq) = GetFastaSeq(nt, env)
 
@@ -305,19 +268,7 @@ Module Fasta
                 Dim checkInvalids As New List(Of String)
 
                 For Each ntSeq As FastaSeq In collection
-                    If table = GeneticCodes.Auto Then
-                        fa = TranslationTable.Translate(ntSeq)
-                        fa.Headers = ntSeq.Headers.Join(fa.Headers).ToArray
-                    Else
-                        fa = New FastaSeq With {
-                            .Headers = ntSeq.Headers.ToArray,
-                            .SequenceData = translTable.Translate(
-                                nucleicAcid:=ntSeq.SequenceData,
-                                bypassStop:=bypassStop,
-                                checkNt:=checkNt
-                            )
-                        }
-                    End If
+                    fa = translTable.translateSingleNtSeq(ntSeq, table, bypassStop, checkNt)
 
                     If bypassStop Then
                         If fa.SequenceData.Any(Function(c) c = TranslTable.SymbolStopCoden) Then
@@ -423,23 +374,6 @@ Module Fasta
         }
     End Function
 
-    ''' <summary>
-    ''' Do short reads assembling
-    ''' </summary>
-    ''' <param name="reads"></param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
-    <ExportAPI("Assemble.of")>
-    Public Function SequenceAssembler(<RRawVectorArgument> reads As Object, Optional env As Environment = Nothing) As Object
-        Dim readSeqs As FastaSeq() = GetFastaSeq(reads, env).ToArray
-        Dim data As String() = readSeqs _
-            .Select(Function(fa) fa.SequenceData) _
-            .ToArray
-        Dim result = data.ShortestCommonSuperString
-
-        Return New AssembleResult(result)
-    End Function
-
     <ExportAPI("cut_seq.linear")>
     Public Function CutSequenceLinear(<RRawVectorArgument> seq As Object,
                                       <RRawVectorArgument> loci As Object,
@@ -472,7 +406,7 @@ Module Fasta
                 End If
             End With
         Else
-            With REnv.asVector(Of Long)(loci)
+            With CLRVector.asLong(loci)
                 left = .GetValue(0)
                 right = .GetValue(1)
                 getAttrs = Function(fa) {fa.Headers.JoinBy("|") & " " & $"[{left}, {right}]"}

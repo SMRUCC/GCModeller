@@ -183,11 +183,24 @@ Public Module PrimitiveParser
 
     ReadOnly numbers As Index(Of Char) = {"0"c, "1"c, "2"c, "3"c, "4"c, "5"c, "6"c, "7"c, "8"c, "9"c}
 
+    ''' <summary>
+    ''' test the given string is in integer pattern?
+    ''' </summary>
+    ''' <param name="num"></param>
+    ''' <param name="offset"></param>
+    ''' <returns>
+    ''' this function will returns true if all of the char in 
+    ''' the <paramref name="num"/> string is number.
+    ''' </returns>
     <Extension>
     Public Function IsInteger(num As String, Optional offset As Integer = 0) As Boolean
         Dim c As Char
 
         If num Is Nothing OrElse num = "" Then
+            Return False
+        ElseIf num.Last = "E" OrElse num.Last = "e" OrElse offset >= num.Length Then
+            ' 4E -> offset = 2
+            ' 3545e -> offset = 5
             Return False
         Else
             c = num(offset)
@@ -327,10 +340,13 @@ Public Module PrimitiveParser
     ''' Convert the string value into the boolean value, this is useful to the text format configuration file into data model.
     ''' (请注意，空值字符串为False，如果字符串不存在与单词表之中，则也是False)
     ''' </summary>
-    ''' <param name="str"></param>
-    ''' <returns></returns>
-    ''' <remarks></remarks>
-    <ExportAPI("ParseBoolean")>
+    ''' <param name="str">
+    ''' the string literal of the target boolean value to convert.
+    ''' </param>
+    ''' <returns>
+    ''' The boolean value which is parsed from the string literal
+    ''' </returns>
+    ''' <remarks>the empty string input will be treated as FALSE.</remarks>
     <Extension>
     Public Function ParseBoolean(str As String) As Boolean
         If String.IsNullOrEmpty(str) Then
@@ -349,6 +365,11 @@ Public Module PrimitiveParser
         End If
     End Function
 
+    ''' <summary>
+    ''' Convert the logical char literal to boolean value
+    ''' </summary>
+    ''' <param name="ch"></param>
+    ''' <returns></returns>
     <ExportAPI("ParseBoolean")>
     <Extension>
     Public Function ParseBoolean(ch As Char) As Boolean

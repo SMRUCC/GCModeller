@@ -82,6 +82,7 @@ Namespace Assembly.KEGG.WebServices
         ''' + https://www.kegg.jp/pathway/map00121+C00695%09blue+C01921%09blue+C05466%09blue+C07880%09blue
         ''' + http://www.kegg.jp/pathway/mmu04140+C00035+C00044
         ''' + http://www.kegg.jp/pathway/map01230/C00037/red/C00049/blue
+        ''' + http://www.kegg.jp/pathway/hsa00860/C00430/blue/C06416/blue
         ''' </param>
         ''' <returns></returns>
         Public Function URLParser(urlStr$) As NamedCollection(Of NamedValue(Of String))
@@ -154,7 +155,23 @@ Namespace Assembly.KEGG.WebServices
         ''' <param name="url">http://www.kegg.jp/pathway/map01230/C00037/red/C00049/blue</param>
         ''' <returns></returns>
         Private Function URLParser2(url As String) As NamedCollection(Of NamedValue(Of String))
-            Throw New NotImplementedException(url)
+            Dim tokens As String() = url.Split("/"c)
+            Dim pid As String = tokens(0)
+            Dim components = tokens.Skip(1).Split(2)
+            Dim colors = components _
+                .Select(Function(t)
+                            Return New NamedValue(Of String)(
+                                name:=t(0),
+                                value:=t.ElementAtOrDefault(1, [default]:="black")
+                            )
+                        End Function) _
+                .ToArray
+
+            Return New NamedCollection(Of NamedValue(Of String)) With {
+                .name = pid,
+                .description = url,
+                .value = colors
+            }
         End Function
 
         ''' <summary>
