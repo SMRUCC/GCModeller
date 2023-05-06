@@ -1,50 +1,52 @@
 ﻿#Region "Microsoft.VisualBasic::97d91a19bfcd7de7ac1ddcb75afb9e22, R#\Rscript_shared\pipHelper.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module pipHelper
-    ' 
-    '     Function: getUniprotData
-    ' 
-    ' /********************************************************************************/
+' Module pipHelper
+' 
+'     Function: getUniprotData
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
+Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
+Imports REnv = SMRUCC.Rsharp.Runtime
 
 Module pipHelper
 
@@ -62,5 +64,46 @@ Module pipHelper
         Else
             Return Internal.debug.stop($"invalid data source input: {uniprot.GetType.FullName}!", env)
         End If
+    End Function
+
+    ''' <summary>
+    ''' 返回空值表示类型错误
+    ''' </summary>
+    ''' <param name="a"></param>
+    ''' <returns></returns>
+    Public Function GetFastaSeq(a As Object, env As Environment) As IEnumerable(Of FastaSeq)
+        If a Is Nothing Then
+            Return {}
+        ElseIf TypeOf a Is vector Then
+            a = DirectCast(a, vector).data
+        End If
+
+        Dim type As Type = a.GetType
+
+        Select Case type
+            Case GetType(FastaSeq)
+                Return {DirectCast(a, FastaSeq)}
+            Case GetType(FastaFile)
+                Return DirectCast(a, FastaFile)
+            Case GetType(FastaSeq())
+                Return a
+            Case Else
+                If type.IsArray AndAlso REnv.MeasureArrayElementType(a) Is GetType(FastaSeq) Then
+                    Dim populator As IEnumerable(Of FastaSeq) =
+                        Iterator Function() As IEnumerable(Of FastaSeq)
+                            Dim vec As Array = DirectCast(a, Array)
+
+                            For i As Integer = 0 To vec.Length - 1
+                                Yield DirectCast(vec.GetValue(i), FastaSeq)
+                            Next
+                        End Function()
+
+                    Return populator
+                ElseIf type Is GetType(pipeline) AndAlso DirectCast(a, pipeline).elementType Like GetType(FastaSeq) Then
+                    Return DirectCast(a, pipeline).populates(Of FastaSeq)(env)
+                Else
+                    Return Nothing
+                End If
+        End Select
     End Function
 End Module

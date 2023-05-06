@@ -1,15 +1,74 @@
+Imports System.IO
+Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.FQ
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
+Imports SMRUCC.Rsharp.Runtime.Internal.ConsolePrinter
 Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
 Imports SMRUCC.Rsharp.Runtime.Interop
 
+''' <summary>
+''' FastQ toolkit
+''' </summary>
+''' <remarks>
+''' FASTQ format Is a text-based format For storing both a biological sequence 
+''' (usually nucleotide sequence) And its corresponding quality scores. Both 
+''' the sequence letter And quality score are Each encoded With a Single ASCII 
+''' character For brevity. It was originally developed at the Wellcome Trust 
+''' Sanger Institute To bundle a FASTA formatted sequence And its quality data, 
+''' but has recently become the de facto standard For storing the output Of 
+''' high-throughput sequencing instruments such As the Illumina Genome 
+''' Analyzer.
+''' </remarks>
 <Package("FastQ")>
 Public Module FastQ
 
+    Sub New()
+        Call printer.AttachConsoleFormatter(Of AssembleResult)(AddressOf viewAssembles)
+    End Sub
+
+    Private Function viewAssembles(asm As AssembleResult) As String
+        Dim sb As New StringBuilder
+
+        Using text As New StringWriter(sb)
+            Call asm.alignments.TableView(asm.GetAssembledSequence, text)
+        End Using
+
+        Return sb.ToString
+    End Function
+
+    ''' <summary>
+    ''' Do short reads assembling
+    ''' </summary>
+    ''' <param name="reads"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("Assemble.of")>
+    Public Function SequenceAssembler(<RRawVectorArgument> reads As Object, Optional env As Environment = Nothing) As Object
+        Dim readSeqs As FastaSeq() = GetFastaSeq(reads, env).ToArray
+        Dim data As String() = readSeqs _
+            .Select(Function(fa) fa.SequenceData) _
+            .ToArray
+        Dim result = data.ShortestCommonSuperString
+
+        Return New AssembleResult(result)
+    End Function
+
+    ''' <summary>
+    ''' In FASTQ files, quality scores are encoded into a compact form, 
+    ''' which uses only 1 byte per quality value. In this encoding, the 
+    ''' quality score is represented as the character with an ASCII 
+    ''' code equal to its value + 33.
+    ''' </summary>
+    ''' <param name="q"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("quality_score")>
     <RApiReturn(GetType(Double))>
     Public Function GetQualityScore(q As Object, Optional env As Environment = Nothing) As Object
