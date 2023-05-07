@@ -49,7 +49,7 @@ Public Module FastQ
     ''' <param name="reads"></param>
     ''' <param name="env"></param>
     ''' <returns></returns>
-    <ExportAPI("Assemble.of")>
+    <ExportAPI("assemble")>
     Public Function SequenceAssembler(<RRawVectorArgument> reads As Object, Optional env As Environment = Nothing) As Object
         Dim readSeqs As FastaSeq() = GetFastaSeq(reads, env).ToArray
         Dim data As String() = readSeqs _
