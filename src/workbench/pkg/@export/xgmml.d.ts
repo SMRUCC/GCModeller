@@ -1,6 +1,6 @@
 ﻿// export R# package module type define for javascript/typescript language
 //
-// ref=cytoscape_toolkit.xgmmlToolkit
+// ref=cytoscape_toolkit.xgmmlToolkit@cytoscape_toolkit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 
 /**
  * 
@@ -8,21 +8,43 @@
 declare namespace xgmml {
    module read {
       /**
+       * read cytoscape xgmml file
+       * 
+       * 
+        * @param file -
       */
-      function xgmml(file:string): any;
+      function xgmml(file:string): object;
    }
    module xgmml {
       /**
-        * @param size default value is ``'10(A0)'``.
-        * @param convexHull default value is ``null``.
-        * @param edgeBends default value is ``false``.
-        * @param altStyle default value is ``false``.
-        * @param rewriteGroupCategoryColors default value is ``'TSF'``.
-        * @param enzymeColorSchema default value is ``'Set1:c8'``.
-        * @param compoundColorSchema default value is ``'Clusters'``.
-        * @param reactionKOMapping default value is ``null``.
-        * @param compoundNames default value is ``null``.
+       * render the cytoscape network graph model as image
+       * 
+       * 
+        * @param model the network graph object or the cytoscape network model
+        * @param size the size of the output image
+        * 
+        * + default value Is ``'10(A0)'``.
+        * @param convexHull 
+        * + default value Is ``null``.
+        * @param edgeBends -
+        * 
+        * + default value Is ``false``.
+        * @param altStyle -
+        * 
+        * + default value Is ``false``.
+        * @param rewriteGroupCategoryColors 
+        * + default value Is ``'TSF'``.
+        * @param enzymeColorSchema 
+        * + default value Is ``'Set1:c8'``.
+        * @param compoundColorSchema 
+        * + default value Is ``'Clusters'``.
+        * @param reactionKOMapping -
+        * 
+        * + default value Is ``null``.
+        * @param compoundNames -
+        * 
+        * + default value Is ``null``.
       */
-      function render(model:any, size?:string, convexHull?:string, edgeBends?:boolean, altStyle?:boolean, rewriteGroupCategoryColors?:string, enzymeColorSchema?:string, compoundColorSchema?:string, reactionKOMapping?:object, compoundNames?:object): any;
+      function render(model:any, size?:string, convexHull?:string, edgeBends?:boolean, altStyle?:boolean, rewriteGroupCategoryColors?:string, enzymeColorSchema?:string, compoundColorSchema?:string, reactionKOMapping?:object, compoundNames?:object): object;
    }
 }

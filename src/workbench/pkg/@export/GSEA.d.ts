@@ -1,6 +1,6 @@
 ﻿// export R# package module type define for javascript/typescript language
 //
-// ref=gseakit.GSEA
+// ref=gseakit.GSEA@gseakit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 
 /**
  * ### The GCModeller GSEA toolkit
@@ -19,53 +19,94 @@
 declare namespace GSEA {
    module read {
       /**
+       * read the enrichment result table
+       * 
+       * 
+        * @param file -
       */
-      function enrichment(file:string): any;
+      function enrichment(file:string): object;
    }
    module enrichment {
       /**
-        * @param showProgress default value is ``true``.
-        * @param env default value is ``null``.
+       * do GO GSEA enrichment analysis
+       * 
+       * 
+        * @param background -
+        * @param geneSet -
+        * @param go the go database object can be the raw go obo data or the DAG graph model.
+        * @param showProgress 
+        * + default value Is ``true``.
+        * @param env 
+        * + default value Is ``null``.
       */
-      function go(background:object, geneSet:string, go:any, showProgress?:boolean, env?:object): any;
+      function go(background:object, geneSet:string, go:any, showProgress?:boolean, env?:object): object;
       /**
+       * Create network graph data for Cytoscape
+       * 
+       * 
+        * @param go_enrichment -
+        * @param go -
       */
-      function go_dag(go_enrichment:object, go:object): any;
+      function go_dag(go_enrichment:object, go:object): object;
       module draw {
          /**
          */
-         function go_dag(go_enrichment:object, go:object): any;
+         function go_dag(go_enrichment:object, go:object): object;
       }
    }
    /**
-     * @param term default value is ``'unknown'``.
-     * @param env default value is ``null``.
+    * fisher enrichment test
+    * 
+    * 
+     * @param list -
+     * @param geneSet -
+     * @param background the background size information, it could be an integer value to 
+     *  indicates that the total unique size of the enrichment background 
+     *  or a unique id character vector that contains all member 
+     *  information of the background.
+     * @param term 
+     * + default value Is ``'unknown'``.
+     * @param env 
+     * + default value Is ``null``.
    */
-   function fisher(list:string, geneSet:string, background:any, term?:string, env?:object): any;
+   function fisher(list:string, geneSet:string, background:any, term?:string, env?:object): object;
    module write {
       /**
-        * @param format default value is ``null``.
-        * @param env default value is ``null``.
+       * save the enrichment analysis result
+       * 
+       * 
+        * @param enrichment -
+        * @param file -
+        * @param format -
+        * 
+        * + default value Is ``null``.
+        * @param env 
+        * + default value Is ``null``.
       */
-      function enrichment(enrichment:any, file:string, format?:object, env?:object): any;
+      function enrichment(enrichment:any, file:string, format?:object, env?:object): boolean;
    }
    module as {
       /**
-        * @param database default value is ``'n/a'``.
+       * Convert GSEA enrichment result from GCModeller output format to KOBAS output format
+       * 
+       * 
+        * @param enrichment -
+        * @param database 
+        * + default value Is ``'n/a'``.
       */
-      function KOBAS_terms(enrichment:object, database?:string): any;
+      function KOBAS_terms(enrichment:object, database?:string): object;
    }
    /**
-     * @param desc default value is ``null``.
-     * @param score default value is ``null``.
-     * @param fdr default value is ``null``.
-     * @param cluster default value is ``null``.
-     * @param enriched default value is ``null``.
-     * @param env default value is ``null``.
+     * @param desc default value Is ``null``.
+     * @param score default value Is ``null``.
+     * @param fdr default value Is ``null``.
+     * @param cluster default value Is ``null``.
+     * @param enriched default value Is ``null``.
+     * @param env default value Is ``null``.
    */
-   function cast_enrichs(term:string, name:string, pvalue:number, geneIDs:object, desc?:string, score?:number, fdr?:number, cluster?:object, enriched?:string, env?:object): any;
+   function cast_enrichs(term:string, name:string, pvalue:number, geneIDs:object, desc?:string, score?:number, fdr?:number, cluster?:object, enriched?:string, env?:object): object;
    /**
-     * @param env default value is ``null``.
+     * @param env default value Is ``null``.
    */
-   function to_enrichment_terms(x:object, env?:object): any;
+   function to_enrichment_terms(x:object, env?:object): object;
 }

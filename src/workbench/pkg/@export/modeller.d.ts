@@ -1,6 +1,6 @@
 ﻿// export R# package module type define for javascript/typescript language
 //
-// ref=vcellkit.vcellModeller
+// ref=vcellkit.vcellModeller@vcellkit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 
 /**
  * virtual cell network kinetics modeller
@@ -9,35 +9,56 @@
 declare namespace modeller {
    module apply {
       /**
-        * @param cache default value is ``'./.cache'``.
+       * apply the kinetics parameters from the sabio-rk database.
+       * 
+       * 
+        * @param vcell -
+        * @param cache 
+        * + default value Is ``'./.cache'``.
       */
-      function kinetics(vcell:object, cache?:string): any;
+      function kinetics(vcell:object, cache?:string): object;
    }
    module cacheOf {
       /**
-        * @param export default value is ``'./'``.
-        * @param ko01000 default value is ``'ko01000'``.
+       * create data repository from the sabio-rk database
+       * 
+       * 
+        * @param export 
+        * + default value Is ``'./'``.
+        * @param ko01000 
+        * + default value Is ``'ko01000'``.
       */
-      function enzyme_kinetics(export?:string, ko01000?:string): any;
+      function enzyme_kinetics(export?:string, ko01000?:string): ;
    }
    module read {
       /**
+       * read the virtual cell model file
+       * 
+       * 
+        * @param path -
       */
-      function vcell(path:string): any;
+      function vcell(path:string): object;
    }
    /**
    */
-   function zip(vcell:object, file:string): any;
+   function zip(vcell:object, file:string): boolean;
    /**
-     * @param env default value is ``null``.
+    * create dynamics kinetics
+    * 
+    * 
+     * @param expr -
+     * @param parameters -
+     * @param env -
+     * 
+     * + default value Is ``null``.
    */
-   function kinetics(expr:string, parameters:object, env?:object): any;
+   function kinetics(expr:string, parameters:object, env?:object): object;
    /**
    */
-   function kinetics_lambda(kinetics:object): any;
+   function kinetics_lambda(kinetics:object): object;
    /**
-     * @param args default value is ``null``.
-     * @param env default value is ``null``.
+     * @param args default value Is ``null``.
+     * @param env default value Is ``null``.
    */
-   function eval_lambda(kinetics:object, args?:object, env?:object): any;
+   function eval_lambda(kinetics:object, args?:object, env?:object): number;
 }

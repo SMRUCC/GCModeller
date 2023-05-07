@@ -1,6 +1,6 @@
 ﻿// export R# package module type define for javascript/typescript language
 //
-// ref=kegg_kit.repository
+// ref=kegg_kit.repository@kegg_kit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 
 /**
  * 
@@ -11,96 +11,186 @@ declare namespace repository {
    function enzyme_description(): any;
    module write {
       /**
-        * @param env default value is ``null``.
+       * a generic method for write kegg data stream as messagepack
+       * 
+       * 
+        * @param data -
+        * @param file -
+        * @param env -
+        * 
+        * + default value Is ``null``.
       */
-      function msgpack(data:any, file:any, env?:object): any;
+      function msgpack(data:any, file:any, env?:object): boolean;
    }
    module load {
       /**
-        * @param rawList default value is ``false``.
-        * @param ignoreGlycan default value is ``false``.
-        * @param env default value is ``null``.
+       * load repository of kegg @``T:SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Compound``.
+       * 
+       * 
+        * @param repository -
+        * @param rawList 
+        * + default value Is ``false``.
+        * @param ignoreGlycan 
+        * + default value Is ``false``.
+        * @param env 
+        * + default value Is ``null``.
       */
-      function compounds(repository:any, rawList?:boolean, ignoreGlycan?:boolean, env?:object): any;
+      function compounds(repository:any, rawList?:boolean, ignoreGlycan?:boolean, env?:object): object|object;
       /**
-        * @param raw default value is ``true``.
-        * @param env default value is ``null``.
+       * ### load kegg reaction data repository
+       *  
+       *  load reaction data from the given kegg reaction data 
+       *  repository.
+       * 
+       * 
+        * @param repository Could be a data pack file or a directory
+        *  path that contains multiple reaction model data files.
+        * @param raw this function will just returns a vector of the kegg reaction data if
+        *  this parameter value is set to TRUE.
+        * 
+        * + default value Is ``true``.
+        * @param env 
+        * + default value Is ``null``.
       */
-      function reactions(repository:any, raw?:boolean, env?:object): any;
+      function reactions(repository:any, raw?:boolean, env?:object): object|object;
       /**
-        * @param rawMaps default value is ``true``.
+       * load list of kegg reference @``T:SMRUCC.genomics.Assembly.KEGG.WebServices.Map``.
+       * 
+       * 
+        * @param repository a directory of repository data for kegg reference @``T:SMRUCC.genomics.Assembly.KEGG.WebServices.Map``.
+        * @param rawMaps 
+        * + default value Is ``true``.
+        * @return a kegg reference map object vector, which can be indexed 
+        *  via @``P:SMRUCC.genomics.ComponentModel.Annotation.PathwayBrief.EntryId``.
       */
-      function maps(repository:any, rawMaps?:boolean): any;
+      function maps(repository:any, rawMaps?:boolean): object|object;
       /**
-        * @param referenceMap default value is ``true``.
-        * @param env default value is ``null``.
+       * load kegg pathway maps from a given repository data directory.
+       * 
+       * 
+        * @param repository -
+        * @param referenceMap 
+        * + default value Is ``true``.
+        * @param env 
+        * + default value Is ``null``.
       */
-      function pathways(repository:string, referenceMap?:boolean, env?:object): any;
+      function pathways(repository:string, referenceMap?:boolean, env?:object): object|object;
    }
    module reactions {
       /**
-        * @param env default value is ``null``.
+       * load kegg reaction table from a given repository model or resource file on your filesystem.
+       * 
+       * 
+        * @param repo -
+        * @param env -
+        * 
+        * + default value Is ``null``.
       */
       function table(repo:any, env?:object): any;
    }
    /**
-     * @param env default value is ``null``.
+     * @param env default value Is ``null``.
    */
    function reactionsId(repo:any, env?:object): any;
    /**
-     * @param env default value is ``null``.
+    * get a vector of kegg compound id from the kegg reaction_class/pathway maps data repository
+    * 
+    * 
+     * @param repo -
+     * @param env -
+     * 
+     * + default value Is ``null``.
    */
    function compoundsId(repo:any, env?:object): any;
    module reaction_class {
       /**
-        * @param env default value is ``null``.
+       * load stream of the reaction_class data model from kegg data repository.
+       * 
+       * 
+        * @param repo -
+        * @param env -
+        * 
+        * + default value Is ``null``.
       */
-      function repo(repo:any, env?:object): any;
+      function repo(repo:any, env?:object): object;
       /**
-        * @param env default value is ``null``.
+       * load reaction class data from a repository data source.
+       * 
+       * 
+        * @param repo -
+        * @param env -
+        * 
+        * + default value Is ``null``.
       */
-      function table(repo:any, env?:object): any;
+      function table(repo:any, env?:object): object;
    }
    module fetch {
       /**
-        * @param resource default value is ``'http://www.kegg.jp/kegg/catalog/org_list.html'``.
-        * @param type default value is ``null``.
+       * Fetch the kegg organism table data from a given resource
+       * 
+       * 
+        * @param resource the kegg organism data resource, by default is the kegg online page data.
+        * 
+        * + default value Is ``'http://www.kegg.jp/kegg/catalog/org_list.html'``.
+        * @param type 0. all
+        *  1. prokaryote
+        *  2. eukaryotes
+        * 
+        * + default value Is ``null``.
       */
-      function kegg_organism(resource?:string, type?:object): any;
+      function kegg_organism(resource?:string, type?:object): object;
    }
    module save {
       /**
-        * @param env default value is ``null``.
+       * save the kegg pathway annotation result data.
+       * 
+       * 
+        * @param pathway -
+        * @param env -
+        * 
+        * + default value Is ``null``.
       */
       function KEGG_pathway(pathway:any, file:string, env?:object): any;
       /**
-        * @param env default value is ``null``.
+       * save the kegg organism data as data table file.
+       * 
+       * 
+        * @param organism -
+        * @param env -
+        * 
+        * + default value Is ``null``.
       */
-      function kegg_organism(organism:object, file:string, env?:object): any;
+      function kegg_organism(organism:object, file:string, env?:object): boolean;
    }
    module read {
       /**
-        * @param env default value is ``null``.
+       * read the kegg pathway annotation result data.
+       * 
+       * 
+        * @param file -
+        * @param env -
+        * 
+        * + default value Is ``null``.
       */
-      function KEGG_pathway(file:string, env?:object): any;
+      function KEGG_pathway(file:string, env?:object): object;
       /**
       */
-      function kegg_organism(file:string): any;
+      function kegg_organism(file:string): object;
    }
    /**
    */
-   function compound(entry:string, name:string, formula:string, exactMass:number, reaction:string, enzyme:string, remarks:string, KCF:string, DBLinks:object, pathway:object, modules:object): any;
+   function compound(entry:string, name:string, formula:string, exactMass:number, reaction:string, enzyme:string, remarks:string, KCF:string, DBLinks:object, pathway:object, modules:object): object;
    /**
-     * @param env default value is ``null``.
+     * @param env default value Is ``null``.
    */
-   function pathway(id:string, name:string, description:string, modules:object, DBLinks:object, KO_pathway:string, references:object, compounds:object, drugs:object, genes:object, organism:object, disease:object, env?:object): any;
-   /**
-   */
-   function reaction(id:string, name:string, definition:string, equation:string, comment:string, reaction_class:object, enzyme:string, pathways:object, modules:object, KO:object, links:object): any;
+   function pathway(id:string, name:string, description:string, modules:object, DBLinks:object, KO_pathway:string, references:object, compounds:object, drugs:object, genes:object, organism:object, disease:object, env?:object): object;
    /**
    */
-   function shapeAreas(data:object): any;
+   function reaction(id:string, name:string, definition:string, equation:string, comment:string, reaction_class:object, enzyme:string, pathways:object, modules:object, KO:object, links:object): object;
    /**
    */
-   function keggMap(id:string, name:string, description:string, img:string, url:string, area:object): any;
+   function shapeAreas(data:object): object;
+   /**
+   */
+   function keggMap(id:string, name:string, description:string, img:string, url:string, area:object): object;
 }

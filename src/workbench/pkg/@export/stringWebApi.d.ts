@@ -1,6 +1,6 @@
 ﻿// export R# package module type define for javascript/typescript language
 //
-// ref=cytoscape_toolkit.stringWebApi
+// ref=cytoscape_toolkit.stringWebApi@cytoscape_toolkit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 
 /**
  * STRING has an application programming interface (API) which enables you to get the data without using the 
@@ -21,15 +21,26 @@ declare namespace stringWebApi {
    module downloads {
       module gene_ids {
          /**
-           * @param EXPORT default value is ``'./'``.
+          * 
+          * > http://string-db.org/api/psi-mi/interactions?identifier=XC_1184
+          * 
+           * @param idList -
+           * @param EXPORT 
+           * + default value Is ``'./'``.
+           * @return 返回成功的个数
          */
-         function interaction(idList:object, EXPORT?:string): any;
+         function interaction(idList:object, EXPORT?:string): object;
       }
       module genomics {
          /**
-           * @param EXPORT default value is ``'./'``.
+          * 
+          * > http://string-db.org/api/psi-mi/interactions?identifier=XC_1184
+          * 
+           * @param EXPORT 
+           * + default value Is ``'./'``.
+           * @return 返回成功的个数
          */
-         function interactions(PTT:object, EXPORT?:string): any;
+         function interactions(PTT:object, EXPORT?:string): object;
       }
    }
 }

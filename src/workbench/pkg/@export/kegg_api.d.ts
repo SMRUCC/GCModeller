@@ -1,6 +1,6 @@
 ﻿// export R# package module type define for javascript/typescript language
 //
-// ref=kegg_kit.kegg_api
+// ref=kegg_kit.kegg_api@kegg_kit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 
 /**
  * KEGG API is a REST-style Application Programming Interface to the KEGG database resource.
@@ -8,28 +8,28 @@
 */
 declare namespace kegg_api {
    /**
-     * @param option default value is ``null``.
-     * @param cache default value is ``null``.
+     * @param option default value Is ``null``.
+     * @param cache default value Is ``null``.
    */
    function listing(database:string, option?:string, cache?:object): any;
    /**
-     * @param cache default value is ``null``.
-     * @param env default value is ``null``.
+     * @param cache default value Is ``null``.
+     * @param env default value Is ``null``.
    */
-   function get(id:string, cache?:any, env?:object): any;
+   function get(id:string, cache?:any, env?:object): string;
    /**
-     * @param unsafe default value is ``false``.
+     * @param unsafe default value Is ``false``.
    */
-   function parseForm(text:string, unsafe?:boolean): any;
+   function parseForm(text:string, unsafe?:boolean): object;
    module as {
       /**
       */
-      function pathway(form:object): any;
+      function pathway(form:object): object;
       /**
       */
-      function compound(form:object): any;
+      function compound(form:object): object;
       /**
       */
-      function reaction(form:object): any;
+      function reaction(form:object): object;
    }
 }

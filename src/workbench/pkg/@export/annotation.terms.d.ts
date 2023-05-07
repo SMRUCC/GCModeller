@@ -1,21 +1,32 @@
 ﻿// export R# package module type define for javascript/typescript language
 //
-// ref=seqtoolkit.terms
+// ref=seqtoolkit.terms@seqtoolkit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 
 /**
  * 
 */
 declare namespace annotation.terms {
    /**
+    * try parse gene names from the product description strings
+    * 
+    * 
+     * @param descriptions the gene functional product description strings.
    */
-   function geneNames(descriptions:any): any;
+   function geneNames(descriptions:any): object;
    module assign {
       /**
-        * @param env default value is ``null``.
+       * do KO number assign based on the bbh alignment result.
+       * 
+       * 
+        * @param forward -
+        * @param reverse -
+        * @param env -
+        * 
+        * + default value Is ``null``.
       */
-      function KO(forward:object, reverse:object, env?:object): any;
+      function KO(forward:object, reverse:object, env?:object): object;
       /**
-        * @param env default value is ``null``.
+        * @param env default value Is ``null``.
       */
       function COG(alignment:any, env?:object): any;
       /**
@@ -28,19 +39,24 @@ declare namespace annotation.terms {
    module write {
       /**
       */
-      function id_maps(maps:object, file:string): any;
+      function id_maps(maps:object, file:string): boolean;
    }
    module read {
       /**
       */
-      function MyvaCOG(file:string): any;
+      function MyvaCOG(file:string): object;
       /**
-        * @param skip2ndMaps default value is ``false``.
+       * 
+       * 
+        * @param file -
+        * @param skip2ndMaps set this parameter value to ``true`` for fixed for build the ``kegg2go`` mapping model.
+        * 
+        * + default value Is ``false``.
       */
-      function id_maps(file:string, skip2ndMaps?:boolean): any;
+      function id_maps(file:string, skip2ndMaps?:boolean): object;
    }
    /**
-     * @param excludeNull default value is ``false``.
+     * @param excludeNull default value Is ``false``.
    */
-   function synonym(idlist:string, idmap:object, excludeNull?:boolean): any;
+   function synonym(idlist:string, idmap:object, excludeNull?:boolean): object;
 }
