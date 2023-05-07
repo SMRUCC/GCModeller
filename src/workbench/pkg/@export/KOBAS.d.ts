@@ -1,4 +1,10 @@
-﻿declare namespace KOBAS {
+﻿// export R# package module type define for javascript/typescript language
+//
+// ref=gseakit.KOBAS
+
+/**
+*/
+declare namespace KOBAS {
    module read {
       /**
       */

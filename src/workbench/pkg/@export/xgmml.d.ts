@@ -1,4 +1,11 @@
-﻿declare namespace xgmml {
+﻿// export R# package module type define for javascript/typescript language
+//
+// ref=cytoscape_toolkit.xgmmlToolkit
+
+/**
+ * 
+*/
+declare namespace xgmml {
    module read {
       /**
       */

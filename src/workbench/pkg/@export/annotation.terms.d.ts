@@ -1,4 +1,11 @@
-﻿declare namespace annotation.terms {
+﻿// export R# package module type define for javascript/typescript language
+//
+// ref=seqtoolkit.terms
+
+/**
+ * 
+*/
+declare namespace annotation.terms {
    /**
    */
    function geneNames(descriptions:any): any;

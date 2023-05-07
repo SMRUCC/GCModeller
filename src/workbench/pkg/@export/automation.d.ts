@@ -1,4 +1,11 @@
-﻿declare namespace automation {
+﻿// export R# package module type define for javascript/typescript language
+//
+// ref=cytoscape_toolkit.automation
+
+/**
+ * 
+*/
+declare namespace automation {
    /**
      * @param version default value is ``'v1'``.
      * @param port default value is ``1234``.

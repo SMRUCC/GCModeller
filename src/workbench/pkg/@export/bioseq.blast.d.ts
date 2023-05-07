@@ -1,4 +1,12 @@
-﻿declare namespace bioseq.blast {
+﻿// export R# package module type define for javascript/typescript language
+//
+// ref=seqtoolkit.Blast
+
+/**
+ * Blast search tools
+ * 
+*/
+declare namespace bioseq.blast {
    /**
      * @param file default value is ``'Blosum-62'``.
    */

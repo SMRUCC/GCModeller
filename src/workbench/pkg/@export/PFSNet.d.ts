@@ -1,4 +1,11 @@
-﻿declare namespace PFSNet {
+﻿// export R# package module type define for javascript/typescript language
+//
+// ref=phenotype_kit.PFSNetAnalysis
+
+/**
+ * 
+*/
+declare namespace PFSNet {
    module load {
       /**
       */

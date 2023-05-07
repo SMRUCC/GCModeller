@@ -1,4 +1,12 @@
-﻿declare namespace OBO {
+﻿// export R# package module type define for javascript/typescript language
+//
+// ref=annotationKit.OBO_DAG
+
+/**
+ * The Open Biological And Biomedical Ontology (OBO) Foundry
+ * 
+*/
+declare namespace OBO {
    module read {
       /**
       */

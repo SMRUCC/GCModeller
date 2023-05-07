@@ -1,4 +1,12 @@
-﻿declare namespace FBA {
+﻿// export R# package module type define for javascript/typescript language
+//
+// ref=simulators.FBA
+
+/**
+ * Flux Balance Analysis
+ * 
+*/
+declare namespace FBA {
    /**
      * @param terms default value is ``null``.
      * @param env default value is ``null``.

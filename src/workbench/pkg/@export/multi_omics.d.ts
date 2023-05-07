@@ -1,4 +1,10 @@
-﻿declare namespace multi_omics {
+﻿// export R# package module type define for javascript/typescript language
+//
+// ref=phenotype_kit.multiOmics
+
+/**
+*/
+declare namespace multi_omics {
    module omics {
       /**
         * @param xlab default value is ``'X'``.

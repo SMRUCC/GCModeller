@@ -1,4 +1,12 @@
-﻿declare namespace analysis {
+﻿// export R# package module type define for javascript/typescript language
+//
+// ref=vcellkit.Analysis
+
+/**
+ * GCModeller virtual cell analysis toolkit.
+ * 
+*/
+declare namespace analysis {
    module union {
       /**
         * @param setName default value is ``'mass\metabolome.json'``.

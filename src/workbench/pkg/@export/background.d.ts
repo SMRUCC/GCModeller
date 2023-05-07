@@ -1,4 +1,12 @@
-﻿declare namespace background {
+﻿// export R# package module type define for javascript/typescript language
+//
+// ref=gseakit.GSEABackground
+
+/**
+ * tools for handling GSEA background model.
+ * 
+*/
+declare namespace background {
    /**
    */
    function clusterIDs(background:object): any;

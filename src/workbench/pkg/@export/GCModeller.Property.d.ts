@@ -1,4 +1,10 @@
-﻿declare namespace GCModeller.Property {
+﻿// export R# package module type define for javascript/typescript language
+//
+// ref=vcellkit.API
+
+/**
+*/
+declare namespace GCModeller.Property {
    module Write {
       /**
       */

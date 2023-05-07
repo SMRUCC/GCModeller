@@ -1,4 +1,10 @@
-﻿declare namespace sabiork {
+﻿// export R# package module type define for javascript/typescript language
+//
+// ref=vcellkit.sabiork_repository
+
+/**
+*/
+declare namespace sabiork {
    /**
    */
    function new(file:string): any;

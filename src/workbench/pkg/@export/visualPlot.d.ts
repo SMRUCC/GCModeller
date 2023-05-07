@@ -1,4 +1,12 @@
-﻿declare namespace visualPlot {
+﻿// export R# package module type define for javascript/typescript language
+//
+// ref=visualkit.visualPlot
+
+/**
+ * package module for biological analysis data visualization
+ * 
+*/
+declare namespace visualPlot {
    module dem {
       /**
         * @param upName default value is ``'up'``.

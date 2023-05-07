@@ -1,4 +1,12 @@
-﻿declare namespace BIOM_kit {
+﻿// export R# package module type define for javascript/typescript language
+//
+// ref=metagenomics_kit.BIOMkit
+
+/**
+ * the BIOM file toolkit
+ * 
+*/
+declare namespace BIOM_kit {
    module read {
       /**
         * @param denseMatrix default value is ``true``.

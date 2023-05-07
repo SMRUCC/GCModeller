@@ -1,4 +1,12 @@
-﻿declare namespace models {
+﻿// export R# package module type define for javascript/typescript language
+//
+// ref=cytoscape_toolkit.models
+
+/**
+ * api for create network graph model for cytoscape
+ * 
+*/
+declare namespace models {
    /**
    */
    function sif(source:any, interaction:any, target:any): any;

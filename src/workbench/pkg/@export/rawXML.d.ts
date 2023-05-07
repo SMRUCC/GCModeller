@@ -1,4 +1,11 @@
-﻿declare namespace rawXML {
+﻿// export R# package module type define for javascript/typescript language
+//
+// ref=vcellkit.RawXmlKit
+
+/**
+ * 
+*/
+declare namespace rawXML {
    module open {
       /**
         * @param mode default value is ``'read'``.

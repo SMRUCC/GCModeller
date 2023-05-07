@@ -1,4 +1,11 @@
-﻿declare namespace debugger {
+﻿// export R# package module type define for javascript/typescript language
+//
+// ref=vcellkit.Debugger
+
+/**
+ * 
+*/
+declare namespace debugger {
    module vcell {
       /**
       */

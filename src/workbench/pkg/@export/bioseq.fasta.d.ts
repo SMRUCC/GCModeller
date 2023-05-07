@@ -1,4 +1,12 @@
-﻿declare namespace bioseq.fasta {
+﻿// export R# package module type define for javascript/typescript language
+//
+// ref=seqtoolkit.Fasta
+
+/**
+ * Fasta sequence toolkit
+ * 
+*/
+declare namespace bioseq.fasta {
    /**
    */
    function size(fa:object): any;

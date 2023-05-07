@@ -1,4 +1,12 @@
-﻿declare namespace microbiome {
+﻿// export R# package module type define for javascript/typescript language
+//
+// ref=metagenomics_kit.microbiomeKit
+
+/**
+ * tools for metagenomics and microbiome
+ * 
+*/
+declare namespace microbiome {
    module parse {
       /**
       */

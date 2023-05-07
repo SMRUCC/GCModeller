@@ -1,4 +1,12 @@
-﻿declare namespace cytoscape.kegg {
+﻿// export R# package module type define for javascript/typescript language
+//
+// ref=cytoscape_toolkit.kegg
+
+/**
+ * The KEGG metabolism pathway network data R# scripting plugin for cytoscape software
+ * 
+*/
+declare namespace cytoscape.kegg {
    module compounds {
       /**
         * @param enzymes default value is ``null``.

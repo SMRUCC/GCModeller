@@ -1,4 +1,12 @@
-﻿declare namespace GSVA {
+﻿// export R# package module type define for javascript/typescript language
+//
+// ref=gseakit.GSVA
+
+/**
+ * Gene Set Variation Analysis for microarray and RNA-seq data
+ * 
+*/
+declare namespace GSVA {
    /**
      * @param env default value is ``null``.
    */

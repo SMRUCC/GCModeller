@@ -1,4 +1,12 @@
-﻿declare namespace metabolism {
+﻿// export R# package module type define for javascript/typescript language
+//
+// ref=kegg_kit.metabolism
+
+/**
+ * The kegg metabolism model toolkit
+ * 
+*/
+declare namespace metabolism {
    module load {
       module reaction {
          /**

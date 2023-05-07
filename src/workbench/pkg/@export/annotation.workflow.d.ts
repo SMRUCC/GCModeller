@@ -1,4 +1,13 @@
-﻿declare namespace annotation.workflow {
+﻿// export R# package module type define for javascript/typescript language
+//
+// ref=seqtoolkit.workflows
+
+/**
+ * A pipeline collection for proteins' biological function 
+ *  annotation based on the sequence alignment.
+ * 
+*/
+declare namespace annotation.workflow {
    module read {
       /**
         * @param type default value is ``'nucl'``.

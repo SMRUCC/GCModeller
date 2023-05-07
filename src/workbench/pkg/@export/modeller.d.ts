@@ -1,4 +1,12 @@
-﻿declare namespace modeller {
+﻿// export R# package module type define for javascript/typescript language
+//
+// ref=vcellkit.vcellModeller
+
+/**
+ * virtual cell network kinetics modeller
+ * 
+*/
+declare namespace modeller {
    module apply {
       /**
         * @param cache default value is ``'./.cache'``.

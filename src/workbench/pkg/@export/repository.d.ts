@@ -1,4 +1,11 @@
-﻿declare namespace repository {
+﻿// export R# package module type define for javascript/typescript language
+//
+// ref=kegg_kit.repository
+
+/**
+ * 
+*/
+declare namespace repository {
    /**
    */
    function enzyme_description(): any;

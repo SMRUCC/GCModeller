@@ -1,4 +1,12 @@
-﻿declare namespace uniprot {
+﻿// export R# package module type define for javascript/typescript language
+//
+// ref=seqtoolkit.uniprot
+
+/**
+ * The Universal Protein Resource (UniProt)
+ * 
+*/
+declare namespace uniprot {
    module open {
       /**
         * @param isUniParc default value is ``false``.

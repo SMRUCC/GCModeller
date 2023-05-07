@@ -1,4 +1,11 @@
-﻿declare namespace simulator {
+﻿// export R# package module type define for javascript/typescript language
+//
+// ref=vcellkit.Simulator
+
+/**
+ * 
+*/
+declare namespace simulator {
    module vcell {
       module mass {
          /**

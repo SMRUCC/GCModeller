@@ -1,4 +1,11 @@
-﻿declare namespace annotation.genomics_context {
+﻿// export R# package module type define for javascript/typescript language
+//
+// ref=seqtoolkit.context
+
+/**
+ * 
+*/
+declare namespace annotation.genomics_context {
    module strand {
       /**
         * @param strand default value is ``'+'``.

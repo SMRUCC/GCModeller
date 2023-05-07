@@ -1,4 +1,12 @@
-﻿declare namespace bioseq.patterns {
+﻿// export R# package module type define for javascript/typescript language
+//
+// ref=seqtoolkit.patterns
+
+/**
+ * Tools for sequence patterns
+ * 
+*/
+declare namespace bioseq.patterns {
    module view {
       /**
         * @param deli default value is ``', '``.

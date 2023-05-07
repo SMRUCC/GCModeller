@@ -1,4 +1,19 @@
-﻿declare namespace blast+ {
+﻿// export R# package module type define for javascript/typescript language
+//
+// ref=seqtoolkit.blastPlusInterop
+
+/**
+ * Basic Local Alignment Search Tool
+ *  
+ *  NCBI blast+ wrapper
+ *  
+ *  BLAST finds regions Of similarity between biological 
+ *  sequences. The program compares nucleotide Or protein 
+ *  sequences To sequence databases And calculates the 
+ *  statistical significance.
+ * 
+*/
+declare namespace blast_ {
    /**
      * @param dbtype default value is ``["nucl","prot"]``.
      * @param env default value is ``null``.

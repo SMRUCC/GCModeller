@@ -1,4 +1,12 @@
-﻿declare namespace enzymatic {
+﻿// export R# package module type define for javascript/typescript language
+//
+// ref=vcellkit.Enzymatic
+
+/**
+ * enzymatic reaction network modeller
+ * 
+*/
+declare namespace enzymatic {
    /**
      * @param cache default value is ``'./.cache/'``.
    */

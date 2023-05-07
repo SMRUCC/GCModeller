@@ -1,4 +1,11 @@
-﻿declare namespace BioCyc {
+﻿// export R# package module type define for javascript/typescript language
+//
+// ref=annotationKit.BioCycRepository
+
+/**
+ * 
+*/
+declare namespace BioCyc {
    module open {
       /**
       */

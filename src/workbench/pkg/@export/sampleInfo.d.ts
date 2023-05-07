@@ -1,4 +1,12 @@
-﻿declare namespace sampleInfo {
+﻿// export R# package module type define for javascript/typescript language
+//
+// ref=phenotype_kit.DEGSample
+
+/**
+ * GCModeller DEG experiment analysis designer toolkit
+ * 
+*/
+declare namespace sampleInfo {
    module guess {
       /**
         * @param maxDepth default value is ``false``.

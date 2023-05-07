@@ -1,4 +1,10 @@
-﻿declare namespace dunnart {
+﻿// export R# package module type define for javascript/typescript language
+//
+// ref=cytoscape_toolkit.dunnart
+
+/**
+*/
+declare namespace dunnart {
    module as {
       /**
         * @param colorSet default value is ``'Paired:c12'``.

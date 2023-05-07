@@ -1,4 +1,12 @@
-﻿declare namespace compiler {
+﻿// export R# package module type define for javascript/typescript language
+//
+// ref=vcellkit.Compiler
+
+/**
+ * The GCModeller virtual cell model creator
+ * 
+*/
+declare namespace compiler {
    /**
    */
    function kegg(compounds:string, maps:string, reactions:string, glycan2Cpd:object): any;

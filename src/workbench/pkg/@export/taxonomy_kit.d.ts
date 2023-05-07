@@ -1,4 +1,12 @@
-﻿declare namespace taxonomy_kit {
+﻿// export R# package module type define for javascript/typescript language
+//
+// ref=metagenomics_kit.TaxonomyKit
+
+/**
+ * toolkit for process ncbi taxonomy tree data
+ * 
+*/
+declare namespace taxonomy_kit {
    module biom {
       /**
         * @param trim_genusName default value is ``false``.

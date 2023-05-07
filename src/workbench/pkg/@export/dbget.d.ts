@@ -1,4 +1,12 @@
-﻿declare namespace dbget {
+﻿// export R# package module type define for javascript/typescript language
+//
+// ref=kegg_kit.dbget
+
+/**
+ * toolkit for download kegg dataset
+ * 
+*/
+declare namespace dbget {
    /**
      * @param env default value is ``null``.
    */

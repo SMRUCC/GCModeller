@@ -1,4 +1,12 @@
-﻿declare namespace GenBank {
+﻿// export R# package module type define for javascript/typescript language
+//
+// ref=seqtoolkit.genbankKit
+
+/**
+ * NCBI genbank assembly file I/O toolkit
+ * 
+*/
+declare namespace GenBank {
    module read {
       /**
         * @param repliconTable default value is ``false``.

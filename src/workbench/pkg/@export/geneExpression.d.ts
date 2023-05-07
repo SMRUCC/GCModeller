@@ -1,4 +1,12 @@
-﻿declare namespace geneExpression {
+﻿// export R# package module type define for javascript/typescript language
+//
+// ref=phenotype_kit.geneExpression
+
+/**
+ * the gene expression matrix data toolkit
+ * 
+*/
+declare namespace geneExpression {
    /**
    */
    function tr(mat:object): any;

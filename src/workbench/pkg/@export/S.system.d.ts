@@ -1,4 +1,12 @@
-﻿declare namespace S.system {
+﻿// export R# package module type define for javascript/typescript language
+//
+// ref=simulators.SSystemKit
+
+/**
+ * S-system toolkit
+ * 
+*/
+declare namespace S.system {
    module S {
       /**
         * @param title default value is ``'unnamed model'``.

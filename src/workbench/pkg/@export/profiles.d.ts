@@ -1,4 +1,14 @@
-﻿declare namespace profiles {
+﻿// export R# package module type define for javascript/typescript language
+//
+// ref=gseakit.profiles
+// ref=kegg_kit.profiles
+
+/**
+ * enrichment term statics helper
+ * 
+ * 
+*/
+declare namespace profiles {
    /**
    */
    function kegg_category(background:object): any;

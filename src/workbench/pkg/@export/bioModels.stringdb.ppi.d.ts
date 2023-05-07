@@ -1,4 +1,12 @@
-﻿declare namespace bioModels.stringdb.ppi {
+﻿// export R# package module type define for javascript/typescript language
+//
+// ref=cytoscape_toolkit.stringdbPPI
+
+/**
+ * protein-protein interaction network model from string-db
+ * 
+*/
+declare namespace bioModels.stringdb.ppi {
    module as {
       /**
         * @param coordinates default value is ``null``.

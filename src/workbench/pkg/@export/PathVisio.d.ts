@@ -1,4 +1,10 @@
-﻿declare namespace PathVisio {
+﻿// export R# package module type define for javascript/typescript language
+//
+// ref=cytoscape_toolkit.PathVisio
+
+/**
+*/
+declare namespace PathVisio {
    module read {
       /**
         * @param env default value is ``null``.

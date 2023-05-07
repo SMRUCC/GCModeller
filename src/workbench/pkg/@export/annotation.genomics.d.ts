@@ -1,4 +1,10 @@
-﻿declare namespace annotation.genomics {
+﻿// export R# package module type define for javascript/typescript language
+//
+// ref=seqtoolkit.genomics
+
+/**
+*/
+declare namespace annotation.genomics {
    module read {
       /**
       */

@@ -1,4 +1,12 @@
-﻿declare namespace report.utils {
+﻿// export R# package module type define for javascript/typescript language
+//
+// ref=kegg_kit.report
+
+/**
+ * the kegg pathway map report helper tool
+ * 
+*/
+declare namespace report.utils {
    /**
      * @param env default value is ``null``.
    */

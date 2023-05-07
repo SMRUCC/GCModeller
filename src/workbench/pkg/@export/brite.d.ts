@@ -1,4 +1,12 @@
-﻿declare namespace brite {
+﻿// export R# package module type define for javascript/typescript language
+//
+// ref=kegg_kit.britekit
+
+/**
+ * Toolkit for process the kegg brite text file
+ * 
+*/
+declare namespace brite {
    module brite {
       module as {
          /**

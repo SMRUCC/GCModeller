@@ -1,4 +1,12 @@
-﻿declare namespace gast {
+﻿// export R# package module type define for javascript/typescript language
+//
+// ref=metagenomics_kit.gastTools
+
+/**
+ * gast 16s data analysis tools, combine with the mothur workflow
+ * 
+*/
+declare namespace gast {
    module OTU {
       /**
         * @param min_pct default value is ``0.97``.

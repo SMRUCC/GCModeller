@@ -1,4 +1,12 @@
-﻿declare namespace ptf {
+﻿// export R# package module type define for javascript/typescript language
+//
+// ref=annotationKit.PTFCache
+
+/**
+ * The protein annotation metadata
+ * 
+*/
+declare namespace ptf {
    module list {
       /**
       */
