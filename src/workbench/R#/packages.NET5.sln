@@ -26163,6 +26163,7 @@ Global
 		..\..\R-sharp\studio\Rstudio.common\Rstudio.common.projitems*{b0421d6a-508a-4f25-bd54-bd1b9bd1f290}*SharedItemsImports = 5
 		..\..\runtime\sciBASIC#\www\Microsoft.VisualBasic.NETProtocol\TcpRequest\TcpRequest.projitems*{b0421d6a-508a-4f25-bd54-bd1b9bd1f290}*SharedItemsImports = 5
 		..\..\R-sharp\Library\shares\JsonHelper\JsonHelper.projitems*{b2ae1422-d7da-4053-a386-eb2ea9326d68}*SharedItemsImports = 13
+		Rscript_shared\Rscript_shared.projitems*{caca6eca-dadf-4c7d-a99e-e1aa8afeffa9}*SharedItemsImports = 5
 		Rscript_shared\Rscript_shared.projitems*{e2d629cc-31b1-4bd6-97fa-e3714537d3a6}*SharedItemsImports = 5
 		Rscript_shared\Rscript_shared.projitems*{e7667b64-69f4-47af-834b-4013e2ec7f31}*SharedItemsImports = 5
 		..\..\Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{e8cabde9-5471-4eb6-8abc-54c95d3b1512}*SharedItemsImports = 13

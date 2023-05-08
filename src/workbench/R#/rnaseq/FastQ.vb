@@ -1,5 +1,3 @@
-Imports System.IO
-Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming
 Imports Microsoft.VisualBasic.Linq
@@ -30,18 +28,8 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 Public Module FastQ
 
     Sub New()
-        Call printer.AttachConsoleFormatter(Of AssembleResult)(AddressOf viewAssembles)
+        Call printer.AttachConsoleFormatter(Of AssembleResult)(AddressOf AssembleResult.viewAssembles)
     End Sub
-
-    Private Function viewAssembles(asm As AssembleResult) As String
-        Dim sb As New StringBuilder
-
-        Using text As New StringWriter(sb)
-            Call asm.alignments.TableView(asm.GetAssembledSequence, text)
-        End Using
-
-        Return sb.ToString
-    End Function
 
     ''' <summary>
     ''' Do short reads assembling
@@ -49,7 +37,7 @@ Public Module FastQ
     ''' <param name="reads"></param>
     ''' <param name="env"></param>
     ''' <returns></returns>
-    <ExportAPI("Assemble.of")>
+    <ExportAPI("assemble")>
     Public Function SequenceAssembler(<RRawVectorArgument> reads As Object, Optional env As Environment = Nothing) As Object
         Dim readSeqs As FastaSeq() = GetFastaSeq(reads, env).ToArray
         Dim data As String() = readSeqs _
