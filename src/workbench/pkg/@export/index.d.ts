@@ -3,7 +3,7 @@
 // package_source=GCModeller
 
 declare namespace GCModeller {
-   module  {
+   module _ {
       /**
       */
       function onLoad(): object;
