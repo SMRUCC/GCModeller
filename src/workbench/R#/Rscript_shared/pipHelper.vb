@@ -46,6 +46,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
+Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports REnv = SMRUCC.Rsharp.Runtime
 
 Module pipHelper
@@ -88,22 +89,43 @@ Module pipHelper
             Case GetType(FastaSeq())
                 Return a
             Case Else
-                If type.IsArray AndAlso REnv.MeasureArrayElementType(a) Is GetType(FastaSeq) Then
-                    Dim populator As IEnumerable(Of FastaSeq) =
-                        Iterator Function() As IEnumerable(Of FastaSeq)
-                            Dim vec As Array = DirectCast(a, Array)
+                If type.IsArray Then
+                    If REnv.MeasureArrayElementType(a) Is GetType(FastaSeq) Then
+                        Return Iterator Function() As IEnumerable(Of FastaSeq)
+                                   Dim vec As Array = DirectCast(a, Array)
 
-                            For i As Integer = 0 To vec.Length - 1
-                                Yield DirectCast(vec.GetValue(i), FastaSeq)
-                            Next
-                        End Function()
+                                   For i As Integer = 0 To vec.Length - 1
+                                       Yield DirectCast(vec.GetValue(i), FastaSeq)
+                                   Next
+                               End Function()
+                    ElseIf REnv.MeasureArrayElementType(a) Is GetType(String) Then
+                        Return fastaFromStrings(a)
+                    End If
+                ElseIf type Is GetType(pipeline) Then
+                    Dim pip As pipeline = DirectCast(a, pipeline)
 
-                    Return populator
-                ElseIf type Is GetType(pipeline) AndAlso DirectCast(a, pipeline).elementType Like GetType(FastaSeq) Then
-                    Return DirectCast(a, pipeline).populates(Of FastaSeq)(env)
+                    If pip.elementType Like GetType(FastaSeq) Then
+                        Return pip.populates(Of FastaSeq)(env)
+                    ElseIf pip.elementType Like GetType(String) Then
+                        Return fastaFromStrings(a)
+                    Else
+                        Return Nothing
+                    End If
                 Else
                     Return Nothing
                 End If
         End Select
+    End Function
+
+    Private Iterator Function fastaFromStrings(a As Object) As IEnumerable(Of FastaSeq)
+        Dim strs As String() = CLRVector.asCharacter(a)
+        Dim i As i32 = 1
+
+        For Each str As String In strs
+            Yield New FastaSeq With {
+                .Headers = {$"seq_{++i}"},
+                .SequenceData = str
+            }
+        Next
     End Function
 End Module

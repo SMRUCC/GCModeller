@@ -67,6 +67,9 @@ Namespace SequenceModel
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property NT As IReadOnlyCollection(Of Char) = {"A"c, "T"c, "G"c, "C"c}
+
+        Public ReadOnly Property RNA As IReadOnlyCollection(Of Char) = {"A"c, "U"c, "G"c, "C"c}
+
         ''' <summary>
         ''' Enumeration for amino acid.
         ''' </summary>
