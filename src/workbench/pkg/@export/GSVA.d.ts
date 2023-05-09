@@ -32,7 +32,7 @@ declare namespace GSVA {
      * 
      * + default value Is ``null``.
    */
-   function gsva(expr:any, geneSet:any, env?:object): object;
+   function gsva(expr: any, geneSet: any, env?: object): object;
    /**
     * different analysis of the gsva result
     * 
@@ -40,7 +40,7 @@ declare namespace GSVA {
      * @param gsva the gsva analysis result
      * @param compares the analysis comparision
    */
-   function diff(gsva:object, compares:object): object;
+   function diff(gsva: object, compares: object): object;
    /**
     * convert to diff data from dataframe
     * 
@@ -56,5 +56,5 @@ declare namespace GSVA {
      * 
      * + default value Is ``'pvalue'``.
    */
-   function matrix_to_diff(diff:object, pathId?:string, t?:string, pvalue?:string): object;
+   function matrix_to_diff(diff: object, pathId?: string, t?: string, pvalue?: string): object;
 }

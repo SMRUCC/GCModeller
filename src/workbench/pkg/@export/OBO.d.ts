@@ -14,20 +14,20 @@ declare namespace OBO {
        * 
         * @param path -
       */
-      function obo(path:string): object;
+      function obo(path: string): object;
    }
    module filter {
       /**
       */
-      function is_obsolete(obo:object): object;
+      function is_obsolete(obo: object): object;
    }
    /**
    */
-   function filter_properties(obo:object, excludes:string): object;
+   function filter_properties(obo: object, excludes: string): object;
    module write {
       /**
         * @param excludes default value Is ``null``.
       */
-      function obo(obo:object, path:string, excludes?:string): boolean;
+      function obo(obo: object, path: string, excludes?: string): boolean;
    }
 }

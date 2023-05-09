@@ -16,13 +16,13 @@ declare namespace dbget {
      * 
      * + default value Is ``null``.
    */
-   function getMap(id:string, env?:object): object;
+   function getMap(id: string, env?: object): object;
    /**
      * @param env default value Is ``null``.
    */
-   function fetch_kegg_maps(cache:any, env?:object): any;
+   function fetch_kegg_maps(cache: any, env?: object): any;
    /**
      * @param env default value Is ``null``.
    */
-   function show_organism(code:string, env?:object): object;
+   function show_organism(code: string, env?: object): object;
 }

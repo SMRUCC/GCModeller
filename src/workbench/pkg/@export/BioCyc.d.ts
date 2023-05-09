@@ -13,19 +13,19 @@ declare namespace BioCyc {
        * 
         * @param repo -
       */
-      function biocyc(repo:string): object;
+      function biocyc(repo: string): object;
    }
    /**
    */
-   function getCompounds(repo:object): object;
+   function getCompounds(repo: object): object;
    /**
    */
-   function formula(meta:object): string;
+   function formula(meta: object): string;
    /**
     * Create pathway background model
     * 
     * 
      * @param biocyc -
    */
-   function createBackground(biocyc:object): object;
+   function createBackground(biocyc: object): object;
 }

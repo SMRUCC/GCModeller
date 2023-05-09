@@ -16,7 +16,7 @@ declare namespace modeller {
         * @param cache 
         * + default value Is ``'./.cache'``.
       */
-      function kinetics(vcell:object, cache?:string): object;
+      function kinetics(vcell: object, cache?: string): object;
    }
    module cacheOf {
       /**
@@ -28,7 +28,7 @@ declare namespace modeller {
         * @param ko01000 
         * + default value Is ``'ko01000'``.
       */
-      function enzyme_kinetics(export?:string, ko01000?:string): ;
+      function enzyme_kinetics(export?: string, ko01000?: string): ;
    }
    module read {
       /**
@@ -37,11 +37,11 @@ declare namespace modeller {
        * 
         * @param path -
       */
-      function vcell(path:string): object;
+      function vcell(path: string): object;
    }
    /**
    */
-   function zip(vcell:object, file:string): boolean;
+   function zip(vcell: object, file: string): boolean;
    /**
     * create dynamics kinetics
     * 
@@ -52,13 +52,13 @@ declare namespace modeller {
      * 
      * + default value Is ``null``.
    */
-   function kinetics(expr:string, parameters:object, env?:object): object;
+   function kinetics(expr: string, parameters: object, env?: object): object;
    /**
    */
-   function kinetics_lambda(kinetics:object): object;
+   function kinetics_lambda(kinetics: object): object;
    /**
      * @param args default value Is ``null``.
      * @param env default value Is ``null``.
    */
-   function eval_lambda(kinetics:object, args?:object, env?:object): number;
+   function eval_lambda(kinetics: object, args?: object, env?: object): number;
 }

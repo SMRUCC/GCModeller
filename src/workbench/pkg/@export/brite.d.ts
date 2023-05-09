@@ -20,7 +20,7 @@ declare namespace brite {
            * @param env 
            * + default value Is ``null``.
          */
-         function table(htext:any, entryId_pattern?:string, env?:object): any;
+         function table(htext: any, entryId_pattern?: string, env?: object): any;
       }
       /**
        * Do parse of the kegg brite json file.
@@ -31,7 +31,7 @@ declare namespace brite {
         * 
         * + default value Is ``null``.
       */
-      function parseJSON(file:string, env?:object): any;
+      function parseJSON(file: string, env?: object): any;
    }
    /**
     * Do parse of the kegg brite text file.
@@ -44,7 +44,7 @@ declare namespace brite {
      * @param env 
      * + default value Is ``null``.
    */
-   function parse(file:string, env?:object): object;
+   function parse(file: string, env?: object): object;
    module KO {
       /**
        * Parse gene names for each KO number from the default internal htext resource.
@@ -62,5 +62,5 @@ declare namespace brite {
      * 
      * + default value Is ``'class'``.
    */
-   function briteMaps(htext:object, geneId:string, level?:string): string;
+   function briteMaps(htext: object, geneId: string, level?: string): string;
 }

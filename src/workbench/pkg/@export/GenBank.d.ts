@@ -20,13 +20,13 @@ declare namespace GenBank {
         * 
         * + default value Is ``null``.
       */
-      function genbank(file:string, repliconTable?:boolean, env?:object): any;
+      function genbank(file: string, repliconTable?: boolean, env?: object): any;
    }
    module is {
       /**
         * @param env default value Is ``null``.
       */
-      function plasmid(gb:any, env?:object): boolean;
+      function plasmid(gb: any, env?: object): boolean;
    }
    module populate {
       /**
@@ -41,7 +41,7 @@ declare namespace GenBank {
         * 
         * + default value Is ``null``.
       */
-      function genbank(files:any, autoClose?:boolean, env?:object): object;
+      function genbank(files: any, autoClose?: boolean, env?: object): object;
    }
    module write {
       /**
@@ -54,7 +54,7 @@ declare namespace GenBank {
         * 
         * + default value Is ``null``.
       */
-      function genbank(gb:object, file:string, env?:object): any;
+      function genbank(gb: object, file: string, env?: object): any;
    }
    module as {
       /**
@@ -66,7 +66,7 @@ declare namespace GenBank {
         * 
         * + default value Is ``null``.
       */
-      function genbank(x:any, env?:object): object;
+      function genbank(x: any, env?: object): object;
    }
    /**
     * create new feature site
@@ -78,16 +78,16 @@ declare namespace GenBank {
      * 
      * + default value Is ``null``.
    */
-   function feature(keyName:string, location:object, data:object, env?:object): object;
+   function feature(keyName: string, location: object, data: object, env?: object): object;
    module add {
       /**
       */
-      function feature(gb:object, feature:object): object;
+      function feature(gb: object, feature: object): object;
       module RNA {
          /**
            * @param env default value Is ``null``.
          */
-         function gene(gb:object, RNA:any, env?:object): any;
+         function gene(gb: object, RNA: any, env?: object): any;
       }
    }
    /**
@@ -96,19 +96,19 @@ declare namespace GenBank {
     * 
      * @param gb a NCBI genbank database object
    */
-   function enumerateFeatures(gb:object): object;
+   function enumerateFeatures(gb: object): object;
    /**
      * @param env default value Is ``null``.
    */
-   function featureKeys(features:any, env?:object): string;
+   function featureKeys(features: any, env?: object): string;
    /**
      * @param env default value Is ``null``.
    */
-   function featureMeta(features:any, attrName:string, env?:object): string;
+   function featureMeta(features: any, attrName: string, env?: object): string;
    /**
      * @param env default value Is ``null``.
    */
-   function addMeta(feature:object, meta:object, env?:object): object;
+   function addMeta(feature: object, meta: object, env?: object): object;
    module origin {
       /**
        * get, add or replace the genome origin fasta sequence in the given genbank assembly file.
@@ -127,7 +127,7 @@ declare namespace GenBank {
         *  the api will change from the getted fasta sequence to 
         *  the modified genbank assembly object.
       */
-      function fasta(gb:object, nt?:object, mol_type?:string): object|object;
+      function fasta(gb: object, nt?: object, mol_type?: string): object|object;
    }
    module getRNA {
       /**
@@ -136,7 +136,7 @@ declare namespace GenBank {
        * 
         * @param gb -
       */
-      function fasta(gb:object): object;
+      function fasta(gb: object): object;
    }
    module protein {
       /**
@@ -151,6 +151,6 @@ declare namespace GenBank {
         * 
         * + default value Is ``null``.
       */
-      function fasta(gb:object, proteins?:any, env?:object): object;
+      function fasta(gb: object, proteins?: any, env?: object): object;
    }
 }

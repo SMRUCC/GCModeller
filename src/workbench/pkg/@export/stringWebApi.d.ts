@@ -29,7 +29,7 @@ declare namespace stringWebApi {
            * + default value Is ``'./'``.
            * @return 返回成功的个数
          */
-         function interaction(idList:object, EXPORT?:string): object;
+         function interaction(idList: object, EXPORT?: string): object;
       }
       module genomics {
          /**
@@ -40,7 +40,7 @@ declare namespace stringWebApi {
            * + default value Is ``'./'``.
            * @return 返回成功的个数
          */
-         function interactions(PTT:object, EXPORT?:string): object;
+         function interactions(PTT: object, EXPORT?: string): object;
       }
    }
 }

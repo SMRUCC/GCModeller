@@ -15,7 +15,7 @@ declare namespace profiles {
     * 
      * @param background -
    */
-   function kegg_category(background:object): object;
+   function kegg_category(background: object): object;
    module GO {
       module enrichment {
          /**
@@ -28,7 +28,7 @@ declare namespace profiles {
            * 
            * + default value Is ``10``.
          */
-         function profile(enrichments:object, goDb:object, top?:object): object;
+         function profile(enrichments: object, goDb: object, top?: object): object;
       }
    }
    module KEGG {
@@ -45,21 +45,21 @@ declare namespace profiles {
            * 
            * + default value Is ``null``.
          */
-         function profile(enrichments:any, top?:object, env?:object): object;
+         function profile(enrichments: any, top?: object, env?: object): object;
       }
    }
    /**
      * @param top default value Is ``10``.
    */
-   function sort_profiles(profile:object, top?:object): object;
+   function sort_profiles(profile: object, top?: object): object;
    /**
    */
-   function cut_profiles(profile:object, valueCut:number): object;
+   function cut_profiles(profile: object, valueCut: number): object;
    /**
      * @param top default value Is ``30``.
      * @param env default value Is ``null``.
    */
-   function no_catagory_profile(enrichments:object, name:string, top?:object, env?:object): object;
+   function no_catagory_profile(enrichments: object, name: string, top?: object, env?: object): object;
    /**
     * get category labels for a given id set
     * 
@@ -72,13 +72,13 @@ declare namespace profiles {
      * @param env 
      * + default value Is ``null``.
    */
-   function category_labels(category:object, idSet:string, level?:object, env?:object): any;
+   function category_labels(category: object, idSet: string, level?: object, env?: object): any;
    module compounds {
       module pathway {
          /**
            * @param env default value Is ``null``.
          */
-         function index(pathways:any, env?:object): object;
+         function index(pathways: any, env?: object): object;
          /**
           * Do statistics of the KEGG pathway profiles based on the given kegg id
           * 
@@ -86,19 +86,19 @@ declare namespace profiles {
            * @param pathways The pathway compound reference index data
            * @param compounds The kegg compound id
          */
-         function profiles(pathways:object, compounds:string): object;
+         function profiles(pathways: object, compounds: string): object;
       }
    }
    /**
      * @param env default value Is ``null``.
    */
-   function getProfileMapping(map:object, mapping:object, env?:object): any;
+   function getProfileMapping(map: object, mapping: object, env?: object): any;
    module flux {
       module map {
          /**
            * @param env default value Is ``null``.
          */
-         function profiles(flux:any, maps:object, env?:object): any;
+         function profiles(flux: any, maps: object, env?: object): any;
       }
    }
    module KO {
@@ -112,7 +112,7 @@ declare namespace profiles {
            * 
            * + default value Is ``null``.
          */
-         function profiles(KO:any, env?:object): object;
+         function profiles(KO: any, env?: object): object;
       }
    }
    module kegg {
@@ -122,7 +122,7 @@ declare namespace profiles {
        * 
         * @param profiles -
       */
-      function category_profiles(profiles:object): object;
+      function category_profiles(profiles: object): object;
    }
    /**
    */

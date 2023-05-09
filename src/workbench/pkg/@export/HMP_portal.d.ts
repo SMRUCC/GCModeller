@@ -17,11 +17,11 @@ declare namespace HMP_portal {
      * 
      * + default value Is ``null``.
    */
-   function fetch(files:any, outputdir:string, env?:object): any;
+   function fetch(files: any, outputdir: string, env?: object): any;
    module read {
       /**
         * @param env default value Is ``null``.
       */
-      function manifest(file:string, env?:object): object;
+      function manifest(file: string, env?: object): object;
    }
 }

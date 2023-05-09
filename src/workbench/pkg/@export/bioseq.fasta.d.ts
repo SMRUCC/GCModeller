@@ -9,7 +9,7 @@
 declare namespace bioseq.fasta {
    /**
    */
-   function size(fa:object): object;
+   function size(fa: object): object;
    module read {
       /**
        * Read a single fasta sequence file
@@ -19,7 +19,7 @@ declare namespace bioseq.fasta {
         * @param env 
         * + default value Is ``null``.
       */
-      function seq(file:string, env?:object): object;
+      function seq(file: string, env?: object): object;
       /**
        * read a fasta sequence collection file
        * 
@@ -28,13 +28,13 @@ declare namespace bioseq.fasta {
         * @param lazyStream 
         * + default value Is ``false``.
       */
-      function fasta(file:string, lazyStream?:boolean): object;
+      function fasta(file: string, lazyStream?: boolean): object;
    }
    module open {
       /**
         * @param env default value Is ``null``.
       */
-      function fasta(file:string, env?:object): any;
+      function fasta(file: string, env?: object): any;
    }
    module write {
       /**
@@ -54,7 +54,7 @@ declare namespace bioseq.fasta {
         * @param env 
         * + default value Is ``null``.
       */
-      function fasta(seq:any, file:string, lineBreak?:object, delimiter?:string, encoding?:object, env?:object): boolean;
+      function fasta(seq: any, file: string, lineBreak?: object, delimiter?: string, encoding?: object, env?: object): boolean;
    }
    /**
     * Do translation of the nt sequence to protein sequence
@@ -72,7 +72,7 @@ declare namespace bioseq.fasta {
      * @param env 
      * + default value Is ``null``.
    */
-   function translate(nt:any, table?:object, bypassStop?:boolean, checkNt?:boolean, env?:object): any;
+   function translate(nt: any, table?: object, bypassStop?: boolean, checkNt?: boolean, env?: object): any;
    module MSA {
       /**
        * Do multiple sequence alignment
@@ -82,7 +82,7 @@ declare namespace bioseq.fasta {
         * @param env 
         * + default value Is ``null``.
       */
-      function of(seqs:any, env?:object): object;
+      function of(seqs: any, env?: object): object;
    }
    module as {
       /**
@@ -94,7 +94,7 @@ declare namespace bioseq.fasta {
         * 
         * + default value Is ``null``.
       */
-      function fasta(x:any, env?:object): object;
+      function fasta(x: any, env?: object): object;
    }
    /**
     * Create a new fasta sequence objects
@@ -103,12 +103,12 @@ declare namespace bioseq.fasta {
      * @param seq -
      * @param attrs -
    */
-   function fasta(seq:string, attrs:string): any;
+   function fasta(seq: string, attrs: string): any;
    module cut_seq {
       /**
         * @param doNtAutoReverse default value Is ``false``.
         * @param env default value Is ``null``.
       */
-      function linear(seq:any, loci:any, doNtAutoReverse?:boolean, env?:object): any;
+      function linear(seq: any, loci: any, doNtAutoReverse?: boolean, env?: object): any;
    }
 }

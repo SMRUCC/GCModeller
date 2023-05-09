@@ -17,7 +17,7 @@ declare namespace automation {
      * @param host 
      * + default value Is ``'localhost'``.
    */
-   function layouts(version?:string, port?:object, host?:string): string;
+   function layouts(version?: string, port?: object, host?: string): string;
    /**
      * @param collection default value Is ``null``.
      * @param title default value Is ``null``.
@@ -26,7 +26,7 @@ declare namespace automation {
      * @param host default value Is ``'localhost'``.
      * @param env default value Is ``null``.
    */
-   function put_network(network:any, collection?:string, title?:string, version?:string, port?:object, host?:string, env?:object): object;
+   function put_network(network: any, collection?: string, title?: string, version?: string, port?: object, host?: string, env?: object): object;
    /**
      * @param algorithmName default value Is ``'force-directed'``.
      * @param version default value Is ``'v1'``.
@@ -34,32 +34,32 @@ declare namespace automation {
      * @param host default value Is ``'localhost'``.
      * @param env default value Is ``null``.
    */
-   function layout(networkId:any, algorithmName?:string, version?:string, port?:object, host?:string, env?:object): any;
+   function layout(networkId: any, algorithmName?: string, version?: string, port?: object, host?: string, env?: object): any;
    module session {
       /**
         * @param version default value Is ``'v1'``.
         * @param port default value Is ``1234``.
         * @param host default value Is ``'localhost'``.
       */
-      function save(file:string, version?:string, port?:object, host?:string): any;
+      function save(file: string, version?: string, port?: object, host?: string): any;
    }
    /**
      * @param version default value Is ``'v1'``.
      * @param port default value Is ``1234``.
      * @param host default value Is ``'localhost'``.
    */
-   function view(version?:string, port?:object, host?:string): object;
+   function view(version?: string, port?: object, host?: string): object;
    /**
      * @param version default value Is ``'v1'``.
      * @param port default value Is ``1234``.
      * @param host default value Is ``'localhost'``.
      * @param env default value Is ``null``.
    */
-   function networkView(networkId:any, viewId:any, version?:string, port?:object, host?:string, env?:object): object;
+   function networkView(networkId: any, viewId: any, version?: string, port?: object, host?: string, env?: object): object;
    /**
      * @param version default value Is ``'v1'``.
      * @param port default value Is ``1234``.
      * @param host default value Is ``'localhost'``.
    */
-   function finalize(version?:string, port?:object, host?:string): ;
+   function finalize(version?: string, port?: object, host?: string): ;
 }

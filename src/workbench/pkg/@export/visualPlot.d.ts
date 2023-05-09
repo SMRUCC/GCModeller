@@ -45,7 +45,7 @@ declare namespace visualPlot {
         * 
         * + default value Is ``null``.
       */
-      function barplot(sample:any, upName?:string, downName?:string, size?:any, padding?:any, title?:string, headN?:object, ppi?:object, env?:object): any;
+      function barplot(sample: any, upName?: string, downName?: string, size?: any, padding?: any, title?: string, headN?: object, ppi?: object, env?: object): any;
    }
    module classchange {
       /**
@@ -80,7 +80,7 @@ declare namespace visualPlot {
         * 
         * + default value Is ``null``.
       */
-      function plot(genes:any, size?:any, padding?:any, bg?:any, colorSet?:any, showLabel?:boolean, radius?:any, xlab?:string, orderByClass?:object, env?:object): any;
+      function plot(genes: any, size?: any, padding?: any, bg?: any, colorSet?: any, showLabel?: boolean, radius?: any, xlab?: string, orderByClass?: object, env?: object): any;
    }
    /**
     * volcano plot of the different expression result
@@ -110,7 +110,7 @@ declare namespace visualPlot {
      * @param env 
      * + default value Is ``null``.
    */
-   function volcano(genes:any, size?:any, padding?:any, bg?:any, colors?:any, pvalue?:number, level?:number, title?:string, env?:object): any;
+   function volcano(genes: any, size?: any, padding?: any, bg?: any, colors?: any, pvalue?: number, level?: number, title?: string, env?: object): any;
    module kegg {
       /**
        * Create catalog profiles data for KEGG pathway 
@@ -129,7 +129,7 @@ declare namespace visualPlot {
         * 
         * + default value Is ``null``.
       */
-      function category_profile(profiles:any, top?:object, sort?:boolean, valueCut?:number, env?:object): object;
+      function category_profile(profiles: any, top?: object, sort?: boolean, valueCut?: number, env?: object): object;
       module enrichment {
          /**
           * plot kegg enrichment result in bubble plot
@@ -175,12 +175,12 @@ declare namespace visualPlot {
            * 
            * + default value Is ``null``.
          */
-         function bubbles(profiles:any, size?:any, padding?:any, unenrichColor?:string, themeColors?:string, alpha?:number, displays?:object, serialTopn?:boolean, bubbleRadius?:any, heatmap?:boolean, bubbleStyle?:boolean, top_samples?:object, ppi?:object, env?:object): any;
+         function bubbles(profiles: any, size?: any, padding?: any, unenrichColor?: string, themeColors?: string, alpha?: number, displays?: object, serialTopn?: boolean, bubbleRadius?: any, heatmap?: boolean, bubbleStyle?: boolean, top_samples?: object, ppi?: object, env?: object): any;
       }
    }
    /**
    */
-   function erase(profiles:object, catalogs:string): object;
+   function erase(profiles: object, catalogs: string): object;
    module go {
       module enrichment {
          /**
@@ -202,7 +202,7 @@ declare namespace visualPlot {
            * 
            * + default value Is ``'10,50'``.
          */
-         function bubbles(profiles:object, goDb:object, size?:string, pvalue?:number, topN?:object, R?:string): any;
+         function bubbles(profiles: object, goDb: object, size?: string, pvalue?: number, topN?: object, R?: string): any;
       }
    }
    module category_profiles {
@@ -233,7 +233,7 @@ declare namespace visualPlot {
         * @param env 
         * + default value Is ``null``.
       */
-      function plot(profiles:object, title?:string, axis_title?:string, size?:any, tick?:number, colors?:any, dpi?:object, format?:string, env?:object): object;
+      function plot(profiles: object, title?: string, axis_title?: string, size?: any, tick?: number, colors?: any, dpi?: object, format?: string, env?: object): object;
    }
    module sample {
       /**
@@ -241,7 +241,7 @@ declare namespace visualPlot {
         * @param sampleNames default value Is ``null``.
         * @param labelFontCSS default value Is ``'font-style: normal; font-size: 16; font-family: Bookman Old Style;'``.
       */
-      function color_bend(g:object, layout:object, geneExpression:object, horizontal?:boolean, sampleNames?:string, labelFontCSS?:string): ;
+      function color_bend(g: object, layout: object, geneExpression: object, horizontal?: boolean, sampleNames?: string, labelFontCSS?: string): ;
    }
    /**
     * map gene expressin data to color bends
@@ -256,7 +256,7 @@ declare namespace visualPlot {
      * @param env 
      * + default value Is ``null``.
    */
-   function color_bends(matrix:object, colorSet?:string, levels?:object, env?:object): object;
+   function color_bends(matrix: object, colorSet?: string, levels?: object, env?: object): object;
    module plot {
       /**
        * Visualize of the gene expression patterns across different sample groups.
@@ -294,7 +294,7 @@ declare namespace visualPlot {
         * @param env 
         * + default value Is ``null``.
       */
-      function expression_patterns(matrix:object, size?:any, padding?:any, bg?:any, colorSet?:string, levels?:object, clusterLabelStyle?:string, legendTitleStyle?:string, legendTickStyle?:string, axisTickCSS?:string, axisLabelCSS?:string, driver?:object, ppi?:object, env?:object): any;
+      function expression_patterns(matrix: object, size?: any, padding?: any, bg?: any, colorSet?: string, levels?: object, clusterLabelStyle?: string, legendTitleStyle?: string, legendTickStyle?: string, axisTickCSS?: string, axisLabelCSS?: string, driver?: object, ppi?: object, env?: object): any;
       /**
        * 
        * 
@@ -333,6 +333,6 @@ declare namespace visualPlot {
         * @param env 
         * + default value Is ``null``.
       */
-      function cmeans3D(matrix:object, kmeans_n?:object, size?:any, padding?:any, bg?:any, colorSet?:string, viewAngle?:any, viewDistance?:number, qDisplay?:number, prefix?:string, axisFormat?:string, showHull?:boolean, hullAlpha?:object, hullBspline?:number, env?:object): any;
+      function cmeans3D(matrix: object, kmeans_n?: object, size?: any, padding?: any, bg?: any, colorSet?: string, viewAngle?: any, viewDistance?: number, qDisplay?: number, prefix?: string, axisFormat?: string, showHull?: boolean, hullAlpha?: object, hullBspline?: number, env?: object): any;
    }
 }

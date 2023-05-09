@@ -16,11 +16,11 @@ declare namespace report.utils {
      * 
      * + default value Is ``null``.
    */
-   function loadMap(file:any, env?:object): object;
+   function loadMap(file: any, env?: object): object;
    module map {
       /**
       */
-      function local_render(maps:object): object;
+      function local_render(maps: object): object;
       /**
        * check object id that intersect with the current given map object.
        * 
@@ -28,12 +28,12 @@ declare namespace report.utils {
         * @param map a given kegg pathway map object model
         * @param list an object id list
       */
-      function intersects(map:object, list:string): string;
+      function intersects(map: object, list: string): string;
    }
    module nodes {
       /**
       */
-      function colorAs(nodes:string, color:string): object;
+      function colorAs(nodes: string, color: string): object;
    }
    module keggMap {
       /**
@@ -48,7 +48,7 @@ declare namespace report.utils {
         * 
         * + default value Is ``null``.
       */
-      function highlights(map:object, highlights:any, text_color?:string, env?:object): any;
+      function highlights(map: object, highlights: any, text_color?: string, env?: object): any;
       /**
        * generate the kegg pathway map highlight html report
        * 
@@ -59,7 +59,7 @@ declare namespace report.utils {
         * @param env 
         * + default value Is ``null``.
       */
-      function reportHtml(map:object, highlights:any, text_color?:string, env?:object): any;
+      function reportHtml(map: object, highlights: any, text_color?: string, env?: object): any;
       /**
        * generate the url that used for view the highlight result on kegg website.
        * 
@@ -70,7 +70,7 @@ declare namespace report.utils {
         * 
         * + default value Is ``null``.
       */
-      function url(mapId:string, highlights:any, env?:object): string;
+      function url(mapId: string, highlights: any, env?: object): string;
    }
    /**
     * 
@@ -86,5 +86,5 @@ declare namespace report.utils {
      * 
      * + default value Is ``'green'``.
    */
-   function parseKeggUrl(url:string, compound?:string, gene?:string, reaction?:string): object;
+   function parseKeggUrl(url: string, compound?: string, gene?: string, reaction?: string): object;
 }

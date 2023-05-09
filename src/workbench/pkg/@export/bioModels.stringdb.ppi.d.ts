@@ -21,15 +21,15 @@ declare namespace bioModels.stringdb.ppi {
         * 
         * + default value Is ``null``.
       */
-      function network(stringNetwork:object, uniprot:any, coordinates?:object, env?:object): object;
+      function network(stringNetwork: object, uniprot: any, coordinates?: object, env?: object): object;
    }
    module read {
       /**
       */
-      function string_interactions(string_interactions:string): object;
+      function string_interactions(string_interactions: string): object;
       /**
       */
-      function coordinates(string_network_coordinates:string): object;
+      function coordinates(string_network_coordinates: string): object;
       /**
        * parse the string-db table file
        * 
@@ -46,6 +46,6 @@ declare namespace bioModels.stringdb.ppi {
         * @param combine_score 
         * + default value Is ``-1``.
       */
-      function string_db(file:string, remove_taxonomyId?:boolean, link_matrix?:boolean, combine_score?:number): object|object;
+      function string_db(file: string, remove_taxonomyId?: boolean, link_matrix?: boolean, combine_score?: number): object|object;
    }
 }

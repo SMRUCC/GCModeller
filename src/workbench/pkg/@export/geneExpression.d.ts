@@ -13,14 +13,14 @@ declare namespace geneExpression {
     * 
      * @param mat -
    */
-   function tr(mat:object): object;
+   function tr(mat: object): object;
    /**
     * get summary information about the HTS matrix dimensions
     * 
     * 
      * @param mat -
    */
-   function dims(mat:object): object;
+   function dims(mat: object): object;
    module as {
       /**
        * convert the matrix into row gene list
@@ -28,14 +28,14 @@ declare namespace geneExpression {
        * 
         * @param expr0 -
       */
-      function expr_list(expr0:object): object;
+      function expr_list(expr0: object): object;
       /**
        * cast the HTS matrix object to the general dataset
        * 
        * 
         * @param matrix a gene expression matrix
       */
-      function generic(matrix:object): object;
+      function generic(matrix: object): object;
       /**
        * create gene expression DEG model
        * 
@@ -54,7 +54,7 @@ declare namespace geneExpression {
         * 
         * + default value Is ``null``.
       */
-      function deg(x:any, logFC?:string, pvalue?:string, label?:string, env?:object): object;
+      function deg(x: any, logFC?: string, pvalue?: string, label?: string, env?: object): object;
    }
    /**
     * set a new tag string to the matrix
@@ -63,7 +63,7 @@ declare namespace geneExpression {
      * @param expr0 -
      * @param tag -
    */
-   function setTag(expr0:object, tag:string): object;
+   function setTag(expr0: object, tag: string): object;
    /**
     * set the expression value to zero 
     *  
@@ -75,7 +75,7 @@ declare namespace geneExpression {
      * 
      * + default value Is ``0.1``.
    */
-   function setZero(expr0:object, q?:number): object;
+   function setZero(expr0: object, q?: number): object;
    /**
     * set new sample id list to the matrix columns
     * 
@@ -89,7 +89,7 @@ declare namespace geneExpression {
      * 
      * + default value Is ``null``.
    */
-   function setSamples(x:any, sample_ids:string, env?:object): object|object;
+   function setSamples(x: any, sample_ids: string, env?: object): object|object;
    /**
     * set new gene id list to the matrix rows
     * 
@@ -102,7 +102,7 @@ declare namespace geneExpression {
      * 
      * + default value Is ``null``.
    */
-   function setFeatures(x:any, gene_ids:string, env?:object): object|object;
+   function setFeatures(x: any, gene_ids: string, env?: object): object|object;
    /**
     * filter out all samples columns which its expression vector is ZERO!
     * 
@@ -112,7 +112,7 @@ declare namespace geneExpression {
      * 
      * + default value Is ``null``.
    */
-   function filterZeroSamples(mat:object, env?:object): any;
+   function filterZeroSamples(mat: object, env?: object): any;
    /**
     * removes the rows which all gene expression result is ZERO
     * 
@@ -122,7 +122,7 @@ declare namespace geneExpression {
      * 
      * + default value Is ``null``.
    */
-   function filterZeroGenes(mat:object, env?:object): any;
+   function filterZeroGenes(mat: object, env?: object): any;
    /**
     * set the NaN missing value to default value
     * 
@@ -135,7 +135,7 @@ declare namespace geneExpression {
      * 
      * + default value Is ``null``.
    */
-   function filterNaNMissing(x:object, missingDefault?:number, env?:object): any;
+   function filterNaNMissing(x: object, missingDefault?: number, env?: object): any;
    module load {
       /**
        * load an expressin matrix data
@@ -156,7 +156,7 @@ declare namespace geneExpression {
         * @param env 
         * + default value Is ``null``.
       */
-      function expr(file:any, exclude_samples?:string, rm_ZERO?:boolean, makeNames?:boolean, env?:object): object;
+      function expr(file: any, exclude_samples?: string, rm_ZERO?: boolean, makeNames?: boolean, env?: object): object;
       /**
        * read the binary matrix data file
        * 
@@ -168,10 +168,10 @@ declare namespace geneExpression {
         * 
         * + default value Is ``null``.
       */
-      function expr0(file:any, lazy?:boolean, env?:object): object|object;
+      function expr0(file: any, lazy?: boolean, env?: object): object|object;
       /**
       */
-      function matrixView(mat:object): object;
+      function matrixView(mat: object): object;
    }
    /**
     * get matrix summary information
@@ -179,7 +179,7 @@ declare namespace geneExpression {
     * 
      * @param file could be a file path or the HTS matrix data object
    */
-   function matrix_info(file:any): object;
+   function matrix_info(file: any): object;
    module write {
       /**
        * write the gene expression data matrix file
@@ -195,7 +195,7 @@ declare namespace geneExpression {
         * 
         * + default value Is ``false``.
       */
-      function expr_matrix(expr:object, file:string, id?:string, binary?:boolean): boolean;
+      function expr_matrix(expr: object, file: string, id?: string, binary?: boolean): boolean;
    }
    /**
     * Filter the geneID rows
@@ -209,7 +209,7 @@ declare namespace geneExpression {
      * 
      * + default value Is ``false``.
    */
-   function filter(HTS:object, geneId:string, exclude?:boolean): object;
+   function filter(HTS: object, geneId: string, exclude?: boolean): object;
    /**
     * calculate average value of the gene expression for
     *  each sample group.
@@ -222,7 +222,7 @@ declare namespace geneExpression {
      * @param matrix a gene expression matrix
      * @param sampleinfo -
    */
-   function average(matrix:object, sampleinfo:object): object;
+   function average(matrix: object, sampleinfo: object): object;
    /**
     * Z-score normalized of the expression data matrix
     *  
@@ -259,7 +259,7 @@ declare namespace geneExpression {
      *  expression row, z-score is calculated for each gene row
      *  across multiple sample expression data.
    */
-   function z_score(x:object): object;
+   function z_score(x: object): object;
    /**
     * do PCA on a gene expressin matrix
     * 
@@ -269,7 +269,7 @@ declare namespace geneExpression {
      * 
      * + default value Is ``3``.
    */
-   function pca(x:object, npc?:object): object;
+   function pca(x: object, npc?: object): object;
    /**
     * normalize data by sample column
     * 
@@ -279,7 +279,7 @@ declare namespace geneExpression {
      * @param scale 
      * + default value Is ``10000``.
    */
-   function totalSumNorm(matrix:object, scale?:number): object;
+   function totalSumNorm(matrix: object, scale?: number): object;
    /**
     * normalize data by feature rows
     * 
@@ -287,7 +287,7 @@ declare namespace geneExpression {
     * 
      * @param matrix a gene expression matrix
    */
-   function relative(matrix:object): object;
+   function relative(matrix: object): object;
    module expression {
       /**
        * This function performs clustering analysis of time course data. 
@@ -310,7 +310,7 @@ declare namespace geneExpression {
         * @param env 
         * + default value Is ``null``.
       */
-      function cmeans_pattern(matrix:object, dim?:any, fuzzification?:number, threshold?:number, env?:object): object;
+      function cmeans_pattern(matrix: object, dim?: any, fuzzification?: number, threshold?: number, env?: object): object;
       /**
        * run cmeans clustering in 3 patterns
        * 
@@ -323,7 +323,7 @@ declare namespace geneExpression {
         * 
         * + default value Is ``0.001``.
       */
-      function cmeans3D(matrix:object, fuzzification?:number, threshold?:number): object;
+      function cmeans3D(matrix: object, fuzzification?: number, threshold?: number): object;
    }
    /**
     * save the cmeans expression pattern result to local file
@@ -332,14 +332,14 @@ declare namespace geneExpression {
      * @param pattern -
      * @param file -
    */
-   function savePattern(pattern:object, file:string): boolean;
+   function savePattern(pattern: object, file: string): boolean;
    /**
     * read the cmeans expression pattern result from file
     * 
     * 
      * @param file -
    */
-   function readPattern(file:string): object;
+   function readPattern(file: string): object;
    /**
     * get cluster membership matrix
     * 
@@ -354,7 +354,7 @@ declare namespace geneExpression {
      * @param env 
      * + default value Is ``null``.
    */
-   function cmeans_matrix(pattern:any, memberCutoff?:number, empty_shared?:object, max_cluster_shared?:object, env?:object): object;
+   function cmeans_matrix(pattern: any, memberCutoff?: number, empty_shared?: object, max_cluster_shared?: object, env?: object): object;
    module split {
       /**
        * ### split the cmeans cluster output
@@ -366,7 +366,7 @@ declare namespace geneExpression {
         * @return A list object that contains the input cluster result 
         *  data is split into multiple cluster parts.
       */
-      function cmeans_clusters(cmeans:object): any;
+      function cmeans_clusters(cmeans: object): any;
    }
    /**
     * ### clustering analysis of time course data
@@ -412,10 +412,10 @@ declare namespace geneExpression {
      *  1. 'pattern' is a dataframe object that contains the object cluster patterns
      *  2. 'image' is a bitmap image that plot based on the object cluster patterns data.
    */
-   function peakCMeans(matrix:object, nsize?:string, threshold?:number, fuzzification?:number, plotSize?:any, colorSet?:string, memberCutoff?:number, empty_shared?:object, max_cluster_shared?:object, xlab?:string, ylab?:string, top_members?:number, env?:object): any;
+   function peakCMeans(matrix: object, nsize?: string, threshold?: number, fuzzification?: number, plotSize?: any, colorSet?: string, memberCutoff?: number, empty_shared?: object, max_cluster_shared?: object, xlab?: string, ylab?: string, top_members?: number, env?: object): any;
    /**
    */
-   function expr_ranking(x:object, sampleinfo:object): object;
+   function expr_ranking(x: object, sampleinfo: object): object;
    module deg {
       module t {
          /**
@@ -439,11 +439,11 @@ declare namespace geneExpression {
            * 
            * + default value Is ``null``.
          */
-         function test(x:object, sampleinfo:object, treatment:string, control:string, level?:number, pvalue?:number, FDR?:number, env?:object): object;
+         function test(x: object, sampleinfo: object, treatment: string, control: string, level?: number, pvalue?: number, FDR?: number, env?: object): object;
       }
       /**
       */
-      function class(deg:object, classLabel:any): object;
+      function class(deg: object, classLabel: any): object;
    }
    /**
     * log scale of the HTS raw matrix
@@ -454,7 +454,7 @@ declare namespace geneExpression {
      * 
      * + default value Is ``2.718281828459045``.
    */
-   function log(expr:object, base?:number): object;
+   function log(expr: object, base?: number): object;
    /**
     * get gene Id list
     * 
@@ -464,7 +464,7 @@ declare namespace geneExpression {
      * + default value Is ``null``.
      * @return A collection of the gene id set
    */
-   function geneId(dep:any, env?:object): string;
+   function geneId(dep: any, env?: object): string;
    /**
     * do matrix join by samples
     * 
@@ -472,7 +472,7 @@ declare namespace geneExpression {
      * @param samples matrix in multiple batches data should be normalized at
      *  first before calling this data batch merge function.
    */
-   function joinSample(samples:object): object;
+   function joinSample(samples: object): object;
    /**
     * merge row or column where the tag is identical
     * 
@@ -482,5 +482,5 @@ declare namespace geneExpression {
      * 
      * + default value Is ``true``.
    */
-   function aggregate(x:object, byrow?:boolean): any;
+   function aggregate(x: object, byrow?: boolean): any;
 }

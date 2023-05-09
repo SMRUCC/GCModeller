@@ -20,7 +20,7 @@ declare namespace sampleInfo {
         * 
         * + default value Is ``true``.
       */
-      function sample_groups(sample_names:object, maxDepth?:boolean, raw_list?:boolean): object|object;
+      function sample_groups(sample_names: object, maxDepth?: boolean, raw_list?: boolean): object|object;
    }
    module read {
       /**
@@ -28,12 +28,12 @@ declare namespace sampleInfo {
         * @param exclude_groups default value Is ``null``.
         * @param id_makenames default value Is ``false``.
       */
-      function sampleinfo(file:string, tsv?:boolean, exclude_groups?:string, id_makenames?:boolean): object;
+      function sampleinfo(file: string, tsv?: boolean, exclude_groups?: string, id_makenames?: boolean): object;
    }
    module write {
       /**
       */
-      function sampleinfo(sampleinfo:object, file:string): boolean;
+      function sampleinfo(sampleinfo: object, file: string): boolean;
    }
    /**
     * create ``sample_info`` data table
@@ -45,11 +45,11 @@ declare namespace sampleInfo {
      * @param env 
      * + default value Is ``null``.
    */
-   function sampleInfo(ID:string, sample_name:string, sample_info:string, env?:object): object;
+   function sampleInfo(ID: string, sample_name: string, sample_info: string, env?: object): object;
    /**
      * @param env default value Is ``null``.
    */
-   function sampleId(sampleinfo:any, groups:string, env?:object): string;
+   function sampleId(sampleinfo: any, groups: string, env?: object): string;
    module sampleinfo {
       module text {
          /**
@@ -58,7 +58,7 @@ declare namespace sampleInfo {
           * 
            * @param dir -
          */
-         function groups(dir:string): object;
+         function groups(dir: string): object;
       }
    }
 }

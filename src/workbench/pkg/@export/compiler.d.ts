@@ -16,7 +16,7 @@ declare namespace compiler {
      * @param reactions -
      * @param glycan2Cpd -
    */
-   function kegg(compounds:string, maps:string, reactions:string, glycan2Cpd:object): object;
+   function kegg(compounds: string, maps: string, reactions: string, glycan2Cpd: object): object;
    module geneKO {
       /**
        * create a list that map gene id to KO id.
@@ -33,7 +33,7 @@ declare namespace compiler {
         * 
         * + default value Is ``null``.
       */
-      function maps(data:any, KOcol?:string, geneIDcol?:string, env?:object): object;
+      function maps(data: any, KOcol?: string, geneIDcol?: string, env?: object): object;
    }
    module assembling {
       /**
@@ -46,7 +46,7 @@ declare namespace compiler {
         * 
         * + default value Is ``false``.
       */
-      function genome(replicons:object, geneKO:object, lociAsLocus_tag?:boolean): object;
+      function genome(replicons: object, geneKO: object, lociAsLocus_tag?: boolean): object;
       /**
        * add metabolism network information for the virtual cell model
        * 
@@ -55,7 +55,7 @@ declare namespace compiler {
         * @param geneKO -
         * @param repo -
       */
-      function metabolic(cell:object, geneKO:object, repo:object): object;
+      function metabolic(cell: object, geneKO: object, repo: object): object;
       /**
        * add transcription regulation network information for the virtual cell model
        * 
@@ -63,7 +63,7 @@ declare namespace compiler {
         * @param model -
         * @param regulations -
       */
-      function TRN(model:object, regulations:object): object;
+      function TRN(model: object, regulations: object): object;
    }
    module vcell {
       /**
@@ -80,12 +80,12 @@ declare namespace compiler {
         * @param logfile 
         * + default value Is ``null``.
       */
-      function markup(model:object, genomes:object, KEGG:object, regulations:object, lociAsLocus_tag?:boolean, logfile?:string): object;
+      function markup(model: object, genomes: object, KEGG: object, regulations: object, lociAsLocus_tag?: boolean, logfile?: string): object;
    }
    module compile {
       /**
         * @param logfile default value Is ``'./gcc.log'``.
       */
-      function biocyc(biocyc:object, genomes:object, logfile?:string): object;
+      function biocyc(biocyc: object, genomes: object, logfile?: string): object;
    }
 }

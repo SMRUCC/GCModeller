@@ -27,7 +27,7 @@ declare namespace cytoscape.kegg {
         * @param random_layout 
         * + default value Is ``true``.
       */
-      function network(reactions:object, compounds:string, enzymes?:object, filterByEnzymes?:boolean, extended?:boolean, strictReactionNetwork?:boolean, enzymeBridged?:boolean, random_layout?:boolean): object;
+      function network(reactions: object, compounds: string, enzymes?: object, filterByEnzymes?: boolean, extended?: boolean, strictReactionNetwork?: boolean, enzymeBridged?: boolean, random_layout?: boolean): object;
    }
    /**
     * assign pathway map id to the nodes in the given network graph
@@ -42,5 +42,5 @@ declare namespace cytoscape.kegg {
      * @param excludesGlobalAndOverviewMaps 
      * + default value Is ``true``.
    */
-   function pathway_class(graph:object, maps:object, top3?:boolean, excludesGlobalAndOverviewMaps?:boolean): object;
+   function pathway_class(graph: object, maps: object, top3?: boolean, excludesGlobalAndOverviewMaps?: boolean): object;
 }

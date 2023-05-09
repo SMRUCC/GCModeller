@@ -14,6 +14,6 @@ declare namespace multi_omics {
         * @param ptSize default value Is ``10``.
         * @param env default value Is ``null``.
       */
-      function 2D_scatter(x:any, y:any, xlab?:string, ylab?:string, size?:any, padding?:any, ptSize?:number, env?:object): any;
+      function 2D_scatter(x: any, y: any, xlab?: string, ylab?: string, size?: any, padding?: any, ptSize?: number, env?: object): any;
    }
 }

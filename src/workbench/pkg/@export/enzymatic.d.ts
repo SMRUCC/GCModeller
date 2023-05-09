@@ -10,19 +10,19 @@ declare namespace enzymatic {
    /**
      * @param cache default value Is ``'./.cache/'``.
    */
-   function query_reaction(reaction:object, cache?:any): any;
+   function query_reaction(reaction: object, cache?: any): any;
    module read {
       /**
       */
-      function rhea(file:string): any;
+      function rhea(file: string): any;
    }
    module open {
       /**
       */
-      function rhea(repo:string): any;
+      function rhea(repo: string): any;
    }
    /**
      * @param env default value Is ``null``.
    */
-   function imports_rhea(rhea:any, repo:string, env?:object): any;
+   function imports_rhea(rhea: any, repo: string, env?: object): any;
 }

@@ -18,20 +18,20 @@ declare namespace FBA {
      * 
      * + default value Is ``null``.
    */
-   function matrix(model:any, terms?:string, env?:object): object;
+   function matrix(model: any, terms?: string, env?: object): object;
    /**
      * @param env default value Is ``null``.
    */
-   function objective(matrix:object, target:any, env?:object): object;
+   function objective(matrix: object, target: any, env?: object): object;
    /**
      * @param name default value Is ``'Flux Balance Analysis LppModel'``.
    */
-   function lppModel(model:object, name?:string): object;
+   function lppModel(model: object, name?: string): object;
    /**
     * Solve a FBA matrix model
     * 
     * 
      * @param model -
    */
-   function lpsolve(model:object): any;
+   function lpsolve(model: object): any;
 }

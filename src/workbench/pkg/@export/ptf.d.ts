@@ -14,16 +14,16 @@ declare namespace ptf {
        * 
         * @param ptf -
       */
-      function xrefs(ptf:object): string;
+      function xrefs(ptf: object): string;
    }
    module summary {
       /**
       */
-      function xrefs(ptf:object, xrefs:string): any;
+      function xrefs(ptf: object, xrefs: string): any;
    }
    /**
    */
-   function load_xref(ptf:object, database:string): any;
+   function load_xref(ptf: object, database: string): any;
    module read {
       /**
        * read the protein annotation database
@@ -31,7 +31,7 @@ declare namespace ptf {
        * 
         * @param file -
       */
-      function ptf(file:string): object;
+      function ptf(file: string): object;
    }
    /**
     * do id mapping via the protein annotation cache
@@ -47,10 +47,10 @@ declare namespace ptf {
      * @return A character vector of the mapping result id set, 
      *  unmapped id will be leaves blank in this result.
    */
-   function ID_mapping(proteins:object, from:string, mapTo:string, id?:string): object;
+   function ID_mapping(proteins: object, from: string, mapTo: string, id?: string): object;
    /**
    */
-   function loadBackgroundModel(ptf:object, database:string): object;
+   function loadBackgroundModel(ptf: object, database: string): object;
    module cache {
       /**
        * create a protein annotation metadata file
@@ -71,6 +71,6 @@ declare namespace ptf {
         * 
         * + default value Is ``null``.
       */
-      function ptf(uniprot:any, file:any, db_xref?:any, cacheTaxonomy?:boolean, hds_stream?:boolean, env?:object): any;
+      function ptf(uniprot: any, file: any, db_xref?: any, cacheTaxonomy?: boolean, hds_stream?: boolean, env?: object): any;
    }
 }

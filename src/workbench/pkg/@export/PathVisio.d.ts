@@ -9,16 +9,16 @@ declare namespace PathVisio {
       /**
         * @param env default value Is ``null``.
       */
-      function gpml(file:string, env?:object): object;
+      function gpml(file: string, env?: object): object;
    }
    module nodes {
       /**
       */
-      function table(pathway:object): object;
+      function table(pathway: object): object;
    }
    module as {
       /**
       */
-      function graph(pathway:object): object;
+      function graph(pathway: object): object;
    }
 }

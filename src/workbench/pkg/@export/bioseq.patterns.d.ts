@@ -20,7 +20,7 @@ declare namespace bioseq.patterns {
         * 
         * + default value Is ``null``.
       */
-      function sites(sites:any, seq:any, deli?:string, env?:object): string;
+      function sites(sites: any, seq: any, deli?: string, env?: object): string;
    }
    module read {
       /**
@@ -30,17 +30,10 @@ declare namespace bioseq.patterns {
        * 
         * @param file -
       */
-      function motifs(file:string): object;
+      function motifs(file: string): object;
       /**
       */
-      function scans(file:string): object;
-   }
-   module as {
-      /**
-        * @param mol_type default value Is ``null``.
-        * @param env default value Is ``null``.
-      */
-      function seq_graph(fasta:any, mol_type?:object, env?:object): any;
+      function scans(file: string): object;
    }
    module motif {
       /**
@@ -60,7 +53,7 @@ declare namespace bioseq.patterns {
         * @param env 
         * + default value Is ``null``.
       */
-      function find_sites(motif:object, target:any, cutoff?:number, minW?:number, identities?:number, parallel?:boolean, env?:object): object;
+      function find_sites(motif: object, target: any, cutoff?: number, minW?: number, identities?: number, parallel?: boolean, env?: object): object;
    }
    module palindrome {
       /**
@@ -70,7 +63,7 @@ declare namespace bioseq.patterns {
         * @param sequence -
         * @param seed -
       */
-      function mirror(sequence:string, seed:string): object;
+      function mirror(sequence: string, seed: string): object;
    }
    /**
     * Create seeds
@@ -79,11 +72,11 @@ declare namespace bioseq.patterns {
      * @param size -
      * @param base -
    */
-   function seeds(size:object, base:string): string;
+   function seeds(size: object, base: string): string;
    /**
      * @param env default value Is ``null``.
    */
-   function motifString(motif:any, env?:object): any;
+   function motifString(motif: any, env?: object): any;
    /**
     * find possible motifs of the given sequence collection
     * 
@@ -108,7 +101,7 @@ declare namespace bioseq.patterns {
      * @param env 
      * + default value Is ``null``.
    */
-   function find_motifs(fasta:any, minw?:object, maxw?:object, nmotifs?:object, noccurs?:object, seedingCutoff?:number, scanMinW?:object, scanCutoff?:number, cleanMotif?:number, env?:object): object;
+   function find_motifs(fasta: any, minw?: object, maxw?: object, nmotifs?: object, noccurs?: object, seedingCutoff?: number, scanMinW?: object, scanCutoff?: number, cleanMotif?: number, env?: object): object;
    module plot {
       /**
        * Drawing the sequence logo just simply modelling this motif site 
@@ -122,7 +115,7 @@ declare namespace bioseq.patterns {
         * @param env 
         * + default value Is ``null``.
       */
-      function seqLogo(MSA:any, title?:string, env?:object): object;
+      function seqLogo(MSA: any, title?: string, env?: object): object;
    }
    module scaffold {
       /**
@@ -145,6 +138,6 @@ declare namespace bioseq.patterns {
         * 
         * + default value Is ``null``.
       */
-      function orthogonality(scaffolds:any, segment_len?:object, is_linear?:boolean, rev_compl?:boolean, env?:object): object;
+      function orthogonality(scaffolds: any, segment_len?: object, is_linear?: boolean, rev_compl?: boolean, env?: object): object;
    }
 }

@@ -25,7 +25,7 @@ declare namespace blast_ {
      * 
      * + default value Is ``null``.
    */
-   function makeblastdb(in:string, dbtype?:any, env?:object): any;
+   function makeblastdb(in: string, dbtype?: any, env?: object): any;
    /**
     * Protein-Protein BLAST
     * 
@@ -37,7 +37,7 @@ declare namespace blast_ {
      * @param env 
      * + default value Is ``null``.
    */
-   function blastp(query:string, subject:string, output:string, evalue?:number, n_threads?:object, env?:object): any;
+   function blastp(query: string, subject: string, output: string, evalue?: number, n_threads?: object, env?: object): any;
    /**
    */
    function blastn(): any;
