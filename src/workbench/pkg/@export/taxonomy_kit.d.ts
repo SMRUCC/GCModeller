@@ -7,6 +7,36 @@
  * 
 */
 declare namespace taxonomy_kit {
+   module as {
+      /**
+       * convert the mothur rank tree as the OTU table
+       * 
+       * 
+        * @param tree -
+      */
+      function OTU_table(tree:object): object;
+      /**
+       * convert the mothur rank tree as the OTU table
+       * 
+       * 
+        * @param id 
+        * + default value Is ``'OTU_num'``.
+        * @param taxonomy 
+        * + default value Is ``'taxonomy'``.
+        * @param env 
+        * + default value Is ``null``.
+      */
+      function OTUtable(table:object, id?:string, taxonomy?:string, env?:object): object;
+      module taxonomy {
+         /**
+          * build taxonomy tree based on a given collection of taxonomy object.
+          * 
+          * 
+           * @param taxonomy -
+         */
+         function tree(taxonomy:object): object;
+      }
+   }
    module biom {
       /**
        * cast taxonomy object to biom style taxonomy string
@@ -29,15 +59,19 @@ declare namespace taxonomy_kit {
       function parse(taxonomy:any, env?:object): any;
    }
    /**
-    * make taxonomy object unique
-    * 
-    * 
-     * @param taxonomy -
-     * @param env -
-     * 
-     * + default value Is ``null``.
    */
-   function unique_taxonomy(taxonomy:any, env?:object): any;
+   function consensus(tree:object, rank:object): object;
+   /**
+    * get taxonomy lineage model from the ncbi taxonomy tree by given taxonomy id
+    * 
+    * 
+     * @param tree the ncbi taxonomy tree model
+     * @param tax the ncbi taxonomy id or taxonomy string in BIOM style.
+     * @param fullName -
+     * 
+     * + default value Is ``false``.
+   */
+   function lineage(tree:object, tax:string, fullName?:boolean): object;
    module Ncbi {
       /**
        * load ncbi taxonomy tree model from the given data files
@@ -57,56 +91,6 @@ declare namespace taxonomy_kit {
       */
       function taxonomy_tree(repo:string): object;
    }
-   module taxonomy {
-      /**
-        * @param taxid default value Is ``null``.
-      */
-      function filter(tree:object, range:string, taxid?:object): object|object;
-   }
-   /**
-    * get taxonomy lineage model from the ncbi taxonomy tree by given taxonomy id
-    * 
-    * 
-     * @param tree the ncbi taxonomy tree model
-     * @param tax the ncbi taxonomy id or taxonomy string in BIOM style.
-     * @param fullName -
-     * 
-     * + default value Is ``false``.
-   */
-   function lineage(tree:object, tax:string, fullName?:boolean): object;
-   module as {
-      module taxonomy {
-         /**
-          * build taxonomy tree based on a given collection of taxonomy object.
-          * 
-          * 
-           * @param taxonomy -
-         */
-         function tree(taxonomy:object): object;
-      }
-      /**
-       * convert the mothur rank tree as the OTU table
-       * 
-       * 
-        * @param tree -
-      */
-      function OTU_table(tree:object): object;
-      /**
-       * convert the mothur rank tree as the OTU table
-       * 
-       * 
-        * @param id 
-        * + default value Is ``'OTU_num'``.
-        * @param taxonomy 
-        * + default value Is ``'taxonomy'``.
-        * @param env 
-        * + default value Is ``null``.
-      */
-      function OTUtable(table:object, id?:string, taxonomy?:string, env?:object): object;
-   }
-   /**
-   */
-   function consensus(tree:object, rank:object): object;
    module read {
       /**
        * Parse the result output from mothur command ``summary.tax``.
@@ -126,7 +110,23 @@ declare namespace taxonomy_kit {
       */
       function OTUtable(file:string, sumDuplicated?:boolean): object;
    }
+   module taxonomy {
+      /**
+        * @param taxid default value Is ``null``.
+      */
+      function filter(tree:object, range:string, taxid?:object): object|object;
+   }
    /**
    */
    function taxonomy_range(tax:object, rank:object): object;
+   /**
+    * make taxonomy object unique
+    * 
+    * 
+     * @param taxonomy -
+     * @param env -
+     * 
+     * + default value Is ``null``.
+   */
+   function unique_taxonomy(taxonomy:any, env?:object): any;
 }

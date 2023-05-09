@@ -17,16 +17,32 @@
  * 
 */
 declare namespace GSEA {
-   module read {
+   module as {
       /**
-       * read the enrichment result table
+       * Convert GSEA enrichment result from GCModeller output format to KOBAS output format
        * 
        * 
-        * @param file -
+        * @param enrichment -
+        * @param database 
+        * + default value Is ``'n/a'``.
       */
-      function enrichment(file:string): object;
+      function KOBAS_terms(enrichment:object, database?:string): object;
    }
+   /**
+     * @param desc default value Is ``null``.
+     * @param score default value Is ``null``.
+     * @param fdr default value Is ``null``.
+     * @param cluster default value Is ``null``.
+     * @param enriched default value Is ``null``.
+     * @param env default value Is ``null``.
+   */
+   function cast_enrichs(term:string, name:string, pvalue:number, geneIDs:object, desc?:string, score?:number, fdr?:number, cluster?:object, enriched?:string, env?:object): object;
    module enrichment {
+      module draw {
+         /**
+         */
+         function go_dag(go_enrichment:object, go:object): object;
+      }
       /**
        * do GO GSEA enrichment analysis
        * 
@@ -48,11 +64,6 @@ declare namespace GSEA {
         * @param go -
       */
       function go_dag(go_enrichment:object, go:object): object;
-      module draw {
-         /**
-         */
-         function go_dag(go_enrichment:object, go:object): object;
-      }
    }
    /**
     * fisher enrichment test
@@ -70,6 +81,19 @@ declare namespace GSEA {
      * + default value Is ``null``.
    */
    function fisher(list:string, geneSet:string, background:any, term?:string, env?:object): object;
+   module read {
+      /**
+       * read the enrichment result table
+       * 
+       * 
+        * @param file -
+      */
+      function enrichment(file:string): object;
+   }
+   /**
+     * @param env default value Is ``null``.
+   */
+   function to_enrichment_terms(x:object, env?:object): object;
    module write {
       /**
        * save the enrichment analysis result
@@ -85,28 +109,4 @@ declare namespace GSEA {
       */
       function enrichment(enrichment:any, file:string, format?:object, env?:object): boolean;
    }
-   module as {
-      /**
-       * Convert GSEA enrichment result from GCModeller output format to KOBAS output format
-       * 
-       * 
-        * @param enrichment -
-        * @param database 
-        * + default value Is ``'n/a'``.
-      */
-      function KOBAS_terms(enrichment:object, database?:string): object;
-   }
-   /**
-     * @param desc default value Is ``null``.
-     * @param score default value Is ``null``.
-     * @param fdr default value Is ``null``.
-     * @param cluster default value Is ``null``.
-     * @param enriched default value Is ``null``.
-     * @param env default value Is ``null``.
-   */
-   function cast_enrichs(term:string, name:string, pvalue:number, geneIDs:object, desc?:string, score?:number, fdr?:number, cluster?:object, enriched?:string, env?:object): object;
-   /**
-     * @param env default value Is ``null``.
-   */
-   function to_enrichment_terms(x:object, env?:object): object;
 }

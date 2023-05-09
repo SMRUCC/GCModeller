@@ -7,34 +7,6 @@
  * 
 */
 declare namespace report.utils {
-   /**
-    * load a blank kegg pathway map template object from a given file object.
-    * 
-    * 
-     * @param file a given file object, it can be a file path or a file input stream.
-     * @param env -
-     * 
-     * + default value Is ``null``.
-   */
-   function loadMap(file:any, env?:object): object;
-   module map {
-      /**
-      */
-      function local_render(maps:object): object;
-      /**
-       * check object id that intersect with the current given map object.
-       * 
-       * 
-        * @param map a given kegg pathway map object model
-        * @param list an object id list
-      */
-      function intersects(map:object, list:string): string;
-   }
-   module nodes {
-      /**
-      */
-      function colorAs(nodes:string, color:string): object;
-   }
    module keggMap {
       /**
        * generate the kegg pathway map highlight image render result
@@ -71,6 +43,34 @@ declare namespace report.utils {
         * + default value Is ``null``.
       */
       function url(mapId:string, highlights:any, env?:object): string;
+   }
+   /**
+    * load a blank kegg pathway map template object from a given file object.
+    * 
+    * 
+     * @param file a given file object, it can be a file path or a file input stream.
+     * @param env -
+     * 
+     * + default value Is ``null``.
+   */
+   function loadMap(file:any, env?:object): object;
+   module map {
+      /**
+       * check object id that intersect with the current given map object.
+       * 
+       * 
+        * @param map a given kegg pathway map object model
+        * @param list an object id list
+      */
+      function intersects(map:object, list:string): string;
+      /**
+      */
+      function local_render(maps:object): object;
+   }
+   module nodes {
+      /**
+      */
+      function colorAs(nodes:string, color:string): object;
    }
    /**
     * 

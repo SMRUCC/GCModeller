@@ -7,181 +7,12 @@
  * 
 */
 declare namespace background {
-   /**
-    * get all of the cluster id set from the given background model object
-    * 
-    * 
-     * @param background -
-   */
-   function clusterIDs(background:object): string;
-   /**
-    * get all of the molecule id set from the given background model object
-    * 
-    * 
-     * @param background -
-   */
-   function moleculeIDs(background:object): string;
-   /**
-   */
-   function meta_background(enrich:object, graphQuery:object): any;
-   module dag {
-      /**
-       * create gsea background from a given obo ontology file data.
-       * 
-       * 
-        * @param dag -
-      */
-      function background(dag:object): object;
-   }
    module append {
       /**
         * @param env default value Is ``null``.
       */
       function id_terms(background:object, term_name:string, terms:object, env?:object): any;
    }
-   module background {
-      /**
-       * do id mapping of the members in the background cluster
-       * 
-       * 
-        * @param background -
-        * @param mapping do id translation via this id source list
-        * @param env -
-        * 
-        * + default value Is ``null``.
-      */
-      function id_mapping(background:object, mapping:object, env?:object): any;
-   }
-   module read {
-      /**
-       * Load GSEA background model from a xml file.
-       * 
-       * 
-        * @param file -
-      */
-      function background(file:string): object;
-   }
-   module write {
-      /**
-       * Save GSEA background model as xml file
-       * 
-       * 
-        * @param background -
-      */
-      function background(background:object, file:string): boolean;
-   }
-   /**
-   */
-   function background_summary(background:object): object;
-   /**
-    * get cluster info data table
-    * 
-    * 
-     * @param background -
-     * @param clusterId -
-   */
-   function clusterInfo(background:object, clusterId:string): object;
-   module geneSet {
-      /**
-       * make gene set annotation via a given gsea background model
-       * 
-       * 
-        * @param background -
-        * @param geneSet -
-        * @param env -
-        * 
-        * + default value Is ``null``.
-      */
-      function annotations(background:object, geneSet:any, env?:object): any;
-      /**
-       * get an intersection id list between the background
-       *  model and the given gene id list.
-       * 
-       * 
-        * @param cluster A gene cluster model or gsea background model object.
-        * @param geneSet -
-        * @param isLocusTag -
-        * 
-        * + default value Is ``false``.
-        * @param get_clusterID this function will returns a set of mapping cluster id if this 
-        *  parameter value is set to value TRUE, otherwise this function
-        *  returns a set of intersected geneID list by default.
-        *  
-        *  this parameter only works when the cluster object is a 
-        *  gsea background model object.
-        * 
-        * + default value Is ``false``.
-        * @param env 
-        * + default value Is ``null``.
-      */
-      function intersects(cluster:any, geneSet:string, isLocusTag?:boolean, get_clusterID?:boolean, env?:object): string;
-   }
-   module KO {
-      /**
-       * convert the background model to a data table
-       * 
-       * 
-        * @param background -
-      */
-      function table(background:object): object;
-      /**
-       * create kegg background model
-       * 
-       * 
-        * @param genes -
-        * @param maps -
-        * @param size 
-        * + default value Is ``-1``.
-        * @param genomeName 
-        * + default value Is ``'unknown'``.
-        * @param id_map 
-        * + default value Is ``null``.
-        * @param env 
-        * + default value Is ``null``.
-      */
-      function background(genes:any, maps:any, size?:object, genomeName?:string, id_map?:any, env?:object): object;
-   }
-   module gsea {
-      /**
-       * Create a cluster for gsea background
-       * 
-       * 
-        * @param x id, name data fields should be exists in current dataframe object, 
-        *  other data fields will be used as the gene member terms
-        * @param clusterId id of the cluster
-        * @param clusterName display name of the cluster model
-        * @param desc the description of the cluster model
-        * 
-        * + default value Is ``'n/a'``.
-        * @param id the field column name for get gene members id
-        * 
-        * + default value Is ``'xref'``.
-        * @param name the field column name for get gene members name
-        * 
-        * + default value Is ``'name'``.
-      */
-      function cluster(x:object, clusterId:string, clusterName:string, desc?:string, id?:string, name?:string): object;
-   }
-   /**
-    * Create the gsea background model for metabolism analysis
-    * 
-    * 
-     * @param kegg the kegg @``T:SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Pathway`` model collection of current organism or the KEGG @``T:SMRUCC.genomics.Assembly.KEGG.WebServices.Map`` data collection.
-     * @param reactions A collection of the reference @``T:SMRUCC.genomics.Model.Network.KEGG.ReactionNetwork.ReactionTable`` model 
-     *  data for build the metabolism network
-     * @param org_name -
-     * 
-     * + default value Is ``null``.
-     * @param is_ko_ref -
-     * 
-     * + default value Is ``false``.
-     * @param multipleOmics 
-     * + default value Is ``false``.
-     * @param env -
-     * 
-     * + default value Is ``null``.
-   */
-   function metpa(kegg:any, reactions:any, org_name?:string, is_ko_ref?:boolean, multipleOmics?:boolean, env?:object): object;
    module as {
       /**
        * cast the cluster data as the enrichment background
@@ -222,12 +53,145 @@ declare namespace background {
       */
       function geneSet(background:object): object;
    }
+   module background {
+      /**
+       * do id mapping of the members in the background cluster
+       * 
+       * 
+        * @param background -
+        * @param mapping do id translation via this id source list
+        * @param env -
+        * 
+        * + default value Is ``null``.
+      */
+      function id_mapping(background:object, mapping:object, env?:object): any;
+   }
+   /**
+   */
+   function background_summary(background:object): object;
+   /**
+    * get all of the cluster id set from the given background model object
+    * 
+    * 
+     * @param background -
+   */
+   function clusterIDs(background:object): string;
+   /**
+    * get cluster info data table
+    * 
+    * 
+     * @param background -
+     * @param clusterId -
+   */
+   function clusterInfo(background:object, clusterId:string): object;
+   /**
+    * get kegg compound class brite background model
+    * 
+    * > this function generates a background model from the internal
+    * >  kegg resource database, the generated background model which 
+    * >  could be used for the compound class category annotation.
+    * 
+   */
+   function compoundBrite(): object;
+   module dag {
+      /**
+       * create gsea background from a given obo ontology file data.
+       * 
+       * 
+        * @param dag -
+      */
+      function background(dag:object): object;
+   }
+   module geneSet {
+      /**
+       * make gene set annotation via a given gsea background model
+       * 
+       * 
+        * @param background -
+        * @param geneSet -
+        * @param env -
+        * 
+        * + default value Is ``null``.
+      */
+      function annotations(background:object, geneSet:any, env?:object): any;
+      /**
+       * get an intersection id list between the background
+       *  model and the given gene id list.
+       * 
+       * 
+        * @param cluster A gene cluster model or gsea background model object.
+        * @param geneSet -
+        * @param isLocusTag -
+        * 
+        * + default value Is ``false``.
+        * @param get_clusterID this function will returns a set of mapping cluster id if this 
+        *  parameter value is set to value TRUE, otherwise this function
+        *  returns a set of intersected geneID list by default.
+        *  
+        *  this parameter only works when the cluster object is a 
+        *  gsea background model object.
+        * 
+        * + default value Is ``false``.
+        * @param env 
+        * + default value Is ``null``.
+      */
+      function intersects(cluster:any, geneSet:string, isLocusTag?:boolean, get_clusterID?:boolean, env?:object): string;
+   }
+   module gsea {
+      /**
+       * Create a cluster for gsea background
+       * 
+       * 
+        * @param x id, name data fields should be exists in current dataframe object, 
+        *  other data fields will be used as the gene member terms
+        * @param clusterId id of the cluster
+        * @param clusterName display name of the cluster model
+        * @param desc the description of the cluster model
+        * 
+        * + default value Is ``'n/a'``.
+        * @param id the field column name for get gene members id
+        * 
+        * + default value Is ``'xref'``.
+        * @param name the field column name for get gene members name
+        * 
+        * + default value Is ``'name'``.
+      */
+      function cluster(x:object, clusterId:string, clusterName:string, desc?:string, id?:string, name?:string): object;
+   }
+   module KO {
+      /**
+       * create kegg background model
+       * 
+       * 
+        * @param genes -
+        * @param maps -
+        * @param size 
+        * + default value Is ``-1``.
+        * @param genomeName 
+        * + default value Is ``'unknown'``.
+        * @param id_map 
+        * + default value Is ``null``.
+        * @param env 
+        * + default value Is ``null``.
+      */
+      function background(genes:any, maps:any, size?:object, genomeName?:string, id_map?:any, env?:object): object;
+      /**
+       * convert the background model to a data table
+       * 
+       * 
+        * @param background -
+      */
+      function table(background:object): object;
+   }
    /**
     * gene/protein KO id background
     * 
     * 
    */
    function KO_reference(): object;
+   /**
+   */
+   function meta_background(enrich:object, graphQuery:object): any;
    module metabolism {
       /**
        * create kegg maps background for the metabolism data analysis
@@ -240,12 +204,48 @@ declare namespace background {
       function background(kegg:object, filter?:string): object;
    }
    /**
-    * get kegg compound class brite background model
+    * Create the gsea background model for metabolism analysis
     * 
-    * > this function generates a background model from the internal
-    * >  kegg resource database, the generated background model which 
-    * >  could be used for the compound class category annotation.
     * 
+     * @param kegg the kegg @``T:SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Pathway`` model collection of current organism or the KEGG @``T:SMRUCC.genomics.Assembly.KEGG.WebServices.Map`` data collection.
+     * @param reactions A collection of the reference @``T:SMRUCC.genomics.Model.Network.KEGG.ReactionNetwork.ReactionTable`` model 
+     *  data for build the metabolism network
+     * @param org_name -
+     * 
+     * + default value Is ``null``.
+     * @param is_ko_ref -
+     * 
+     * + default value Is ``false``.
+     * @param multipleOmics 
+     * + default value Is ``false``.
+     * @param env -
+     * 
+     * + default value Is ``null``.
    */
-   function compoundBrite(): object;
+   function metpa(kegg:any, reactions:any, org_name?:string, is_ko_ref?:boolean, multipleOmics?:boolean, env?:object): object;
+   /**
+    * get all of the molecule id set from the given background model object
+    * 
+    * 
+     * @param background -
+   */
+   function moleculeIDs(background:object): string;
+   module read {
+      /**
+       * Load GSEA background model from a xml file.
+       * 
+       * 
+        * @param file -
+      */
+      function background(file:string): object;
+   }
+   module write {
+      /**
+       * Save GSEA background model as xml file
+       * 
+       * 
+        * @param background -
+      */
+      function background(background:object, file:string): boolean;
+   }
 }

@@ -7,13 +7,6 @@
  * 
 */
 declare namespace models {
-   /**
-   */
-   function sif(source:any, interaction:any, target:any): object;
-   /**
-     * @param env default value Is ``null``.
-   */
-   function cyjs(network:any, env?:object): object;
    module as {
       /**
        * convert the cytoscape cyjs/xgmml file to network graph model.
@@ -28,6 +21,25 @@ declare namespace models {
       */
       function graph(model:any, propertyNames?:any, env?:object): object;
    }
+   /**
+     * @param env default value Is ``null``.
+   */
+   function cyjs(network:any, env?:object): object;
+   module get {
+      /**
+        * @param collection default value Is ``null``.
+        * @param name default value Is ``null``.
+      */
+      function network_graph(cys:object, collection?:string, name?:string): object;
+      /**
+      */
+      function sessionInfo(cys:object): object;
+   }
+   module list {
+      /**
+      */
+      function networks(cys:object): object;
+   }
    module open {
       /**
        * open a new cytoscape session file reader
@@ -37,19 +49,7 @@ declare namespace models {
       */
       function cys(cys:string): object;
    }
-   module get {
-      /**
-      */
-      function sessionInfo(cys:object): object;
-      /**
-        * @param collection default value Is ``null``.
-        * @param name default value Is ``null``.
-      */
-      function network_graph(cys:object, collection?:string, name?:string): object;
-   }
-   module list {
-      /**
-      */
-      function networks(cys:object): object;
-   }
+   /**
+   */
+   function sif(source:any, interaction:any, target:any): object;
 }

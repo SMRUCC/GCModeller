@@ -7,16 +7,18 @@
  * 
 */
 declare namespace bioseq.blast {
-   /**
-    * Parse blosum from the given file data
-    * 
-    * 
-     * @param file The blosum text data or text file path.
-     * 
-     * + default value Is ``'Blosum-62'``.
-   */
-   function blosum(file?:string): object;
    module align {
+      /**
+      */
+      function gwANI(multipleSeq:object): object;
+      /**
+       * Do sequence global pairwise alignment
+       * 
+       * 
+        * @param query -
+        * @param ref -
+      */
+      function needleman_wunsch(query:object, ref:object): object;
       /**
        * Do sequence pairwise alignment
        * 
@@ -28,18 +30,16 @@ declare namespace bioseq.blast {
         * + default value Is ``null``.
       */
       function smith_waterman(query:object, ref:object, blosum?:object): object;
-      /**
-       * Do sequence global pairwise alignment
-       * 
-       * 
-        * @param query -
-        * @param ref -
-      */
-      function needleman_wunsch(query:object, ref:object): object;
-      /**
-      */
-      function gwANI(multipleSeq:object): object;
    }
+   /**
+    * Parse blosum from the given file data
+    * 
+    * 
+     * @param file The blosum text data or text file path.
+     * 
+     * + default value Is ``'Blosum-62'``.
+   */
+   function blosum(file?:string): object;
    /**
     * 
     * 

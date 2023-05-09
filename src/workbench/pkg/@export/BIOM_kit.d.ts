@@ -7,6 +7,16 @@
  * 
 */
 declare namespace BIOM_kit {
+   module biom {
+      /**
+        * @param env default value Is ``null``.
+      */
+      function taxonomy(biom:any, env?:object): object;
+      /**
+        * @param env default value Is ``null``.
+      */
+      function union(tables:any, env?:object): object;
+   }
    module read {
       /**
        * read matrix data from a given BIOM file.
@@ -22,15 +32,5 @@ declare namespace BIOM_kit {
         * + default value Is ``null``.
       */
       function matrix(file:any, denseMatrix?:boolean, suppressErr?:boolean, env?:object): object;
-   }
-   module biom {
-      /**
-        * @param env default value Is ``null``.
-      */
-      function taxonomy(biom:any, env?:object): object;
-      /**
-        * @param env default value Is ``null``.
-      */
-      function union(tables:any, env?:object): object;
    }
 }

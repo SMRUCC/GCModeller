@@ -8,6 +8,14 @@
 */
 declare namespace GSVA {
    /**
+    * different analysis of the gsva result
+    * 
+    * 
+     * @param gsva the gsva analysis result
+     * @param compares the analysis comparision
+   */
+   function diff(gsva:object, compares:object): object;
+   /**
     * Gene Set Variation Analysis for microarray and RNA-seq data
     *  
     *  Gene Set Variation Analysis (GSVA) is a non-parametric, unsupervised 
@@ -33,14 +41,6 @@ declare namespace GSVA {
      * + default value Is ``null``.
    */
    function gsva(expr:any, geneSet:any, env?:object): object;
-   /**
-    * different analysis of the gsva result
-    * 
-    * 
-     * @param gsva the gsva analysis result
-     * @param compares the analysis comparision
-   */
-   function diff(gsva:object, compares:object): object;
    /**
     * convert to diff data from dataframe
     * 

@@ -7,6 +7,14 @@
  * 
 */
 declare namespace OBO {
+   module filter {
+      /**
+      */
+      function is_obsolete(obo:object): object;
+   }
+   /**
+   */
+   function filter_properties(obo:object, excludes:string): object;
    module read {
       /**
        * parse the obo file
@@ -16,14 +24,6 @@ declare namespace OBO {
       */
       function obo(path:string): object;
    }
-   module filter {
-      /**
-      */
-      function is_obsolete(obo:object): object;
-   }
-   /**
-   */
-   function filter_properties(obo:object, excludes:string): object;
    module write {
       /**
         * @param excludes default value Is ``null``.

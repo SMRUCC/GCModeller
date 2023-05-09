@@ -30,18 +30,11 @@ declare namespace modeller {
       */
       function enzyme_kinetics(export?:string, ko01000?:string): ;
    }
-   module read {
-      /**
-       * read the virtual cell model file
-       * 
-       * 
-        * @param path -
-      */
-      function vcell(path:string): object;
-   }
    /**
+     * @param args default value Is ``null``.
+     * @param env default value Is ``null``.
    */
-   function zip(vcell:object, file:string): boolean;
+   function eval_lambda(kinetics:object, args?:object, env?:object): number;
    /**
     * create dynamics kinetics
     * 
@@ -56,9 +49,16 @@ declare namespace modeller {
    /**
    */
    function kinetics_lambda(kinetics:object): object;
+   module read {
+      /**
+       * read the virtual cell model file
+       * 
+       * 
+        * @param path -
+      */
+      function vcell(path:string): object;
+   }
    /**
-     * @param args default value Is ``null``.
-     * @param env default value Is ``null``.
    */
-   function eval_lambda(kinetics:object, args?:object, env?:object): number;
+   function zip(vcell:object, file:string): boolean;
 }

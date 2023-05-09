@@ -6,40 +6,20 @@
  * 
 */
 declare namespace simulator {
-   module vcell {
-      module mass {
-         /**
-          * Create a new status profile data object with unify mass contents.
-          * 
-          * 
-           * @param vcell -
-           * @param mass 
-           * + default value Is ``5000``.
-         */
-         function kegg(vcell:object, mass?:number): object;
-         /**
-         */
-         function index(vcell:object): object;
-      }
+   module apply {
       /**
-       * create a generic vcell object model from a loaded vcell xml file model
-       * 
-       * 
-        * @param vcell the file model data of the GCModeller vcell
+        * @param system default value Is ``null``.
       */
-      function model(vcell:object): object;
-      module flux {
-         /**
-         */
-         function index(vcell:object): object;
-      }
-      /**
-      */
-      function snapshot(engine:object, massIndex:object, fluxIndex:object, save:string): ;
+      function module_profile(engine:object, profile:object, system?:object): object;
    }
-   /**
-   */
-   function mass0(vcell:object): object;
+   module dynamics {
+      /**
+       * Create the default cell dynamics parameters
+       * 
+       * 
+      */
+      function default(): object;
+   }
    module engine {
       /**
        * create a new virtual cell engine
@@ -63,18 +43,38 @@ declare namespace simulator {
       */
       function load(vcell:object, inits?:object, iterations?:object, time_resolutions?:object, deletions?:string, dynamics?:object, showProgress?:boolean): object;
    }
-   module dynamics {
+   /**
+   */
+   function mass0(vcell:object): object;
+   module vcell {
+      module flux {
+         /**
+         */
+         function index(vcell:object): object;
+      }
+      module mass {
+         /**
+         */
+         function index(vcell:object): object;
+         /**
+          * Create a new status profile data object with unify mass contents.
+          * 
+          * 
+           * @param vcell -
+           * @param mass 
+           * + default value Is ``5000``.
+         */
+         function kegg(vcell:object, mass?:number): object;
+      }
       /**
-       * Create the default cell dynamics parameters
+       * create a generic vcell object model from a loaded vcell xml file model
        * 
        * 
+        * @param vcell the file model data of the GCModeller vcell
       */
-      function default(): object;
-   }
-   module apply {
+      function model(vcell:object): object;
       /**
-        * @param system default value Is ``null``.
       */
-      function module_profile(engine:object, profile:object, system?:object): object;
+      function snapshot(engine:object, massIndex:object, fluxIndex:object, save:string): ;
    }
 }

@@ -5,20 +5,20 @@
 /**
 */
 declare namespace PathVisio {
-   module read {
+   module as {
       /**
-        * @param env default value Is ``null``.
       */
-      function gpml(file:string, env?:object): object;
+      function graph(pathway:object): object;
    }
    module nodes {
       /**
       */
       function table(pathway:object): object;
    }
-   module as {
+   module read {
       /**
+        * @param env default value Is ``null``.
       */
-      function graph(pathway:object): object;
+      function gpml(file:string, env?:object): object;
    }
 }

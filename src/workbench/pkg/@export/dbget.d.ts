@@ -8,6 +8,10 @@
 */
 declare namespace dbget {
    /**
+     * @param env default value Is ``null``.
+   */
+   function fetch_kegg_maps(cache:any, env?:object): any;
+   /**
     * get kegg map from the kegg web server
     * 
     * 
@@ -17,10 +21,6 @@ declare namespace dbget {
      * + default value Is ``null``.
    */
    function getMap(id:string, env?:object): object;
-   /**
-     * @param env default value Is ``null``.
-   */
-   function fetch_kegg_maps(cache:any, env?:object): any;
    /**
      * @param env default value Is ``null``.
    */

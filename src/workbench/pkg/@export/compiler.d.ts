@@ -7,34 +7,6 @@
  * 
 */
 declare namespace compiler {
-   /**
-    * create kegg repository arguments
-    * 
-    * 
-     * @param compounds A directory path which the folder contains the compounds data models.
-     * @param maps A directory path which the folder contains the kegg reference map data.
-     * @param reactions -
-     * @param glycan2Cpd -
-   */
-   function kegg(compounds:string, maps:string, reactions:string, glycan2Cpd:object): object;
-   module geneKO {
-      /**
-       * create a list that map gene id to KO id.
-       * 
-       * 
-        * @param data any kind of dataframe dataset.
-        * @param KOcol the column name for get KO term id
-        * 
-        * + default value Is ``'KO'``.
-        * @param geneIDcol the column name for get gene id
-        * 
-        * + default value Is ``'ID'``.
-        * @param env -
-        * 
-        * + default value Is ``null``.
-      */
-      function maps(data:any, KOcol?:string, geneIDcol?:string, env?:object): object;
-   }
    module assembling {
       /**
        * create genome framework for the virtual cell model
@@ -65,6 +37,40 @@ declare namespace compiler {
       */
       function TRN(model:object, regulations:object): object;
    }
+   module compile {
+      /**
+        * @param logfile default value Is ``'./gcc.log'``.
+      */
+      function biocyc(biocyc:object, genomes:object, logfile?:string): object;
+   }
+   module geneKO {
+      /**
+       * create a list that map gene id to KO id.
+       * 
+       * 
+        * @param data any kind of dataframe dataset.
+        * @param KOcol the column name for get KO term id
+        * 
+        * + default value Is ``'KO'``.
+        * @param geneIDcol the column name for get gene id
+        * 
+        * + default value Is ``'ID'``.
+        * @param env -
+        * 
+        * + default value Is ``null``.
+      */
+      function maps(data:any, KOcol?:string, geneIDcol?:string, env?:object): object;
+   }
+   /**
+    * create kegg repository arguments
+    * 
+    * 
+     * @param compounds A directory path which the folder contains the compounds data models.
+     * @param maps A directory path which the folder contains the kegg reference map data.
+     * @param reactions -
+     * @param glycan2Cpd -
+   */
+   function kegg(compounds:string, maps:string, reactions:string, glycan2Cpd:object): object;
    module vcell {
       /**
        * Save the virtual cell data model in XML file format.
@@ -81,11 +87,5 @@ declare namespace compiler {
         * + default value Is ``null``.
       */
       function markup(model:object, genomes:object, KEGG:object, regulations:object, lociAsLocus_tag?:boolean, logfile?:string): object;
-   }
-   module compile {
-      /**
-        * @param logfile default value Is ``'./gcc.log'``.
-      */
-      function biocyc(biocyc:object, genomes:object, logfile?:string): object;
    }
 }

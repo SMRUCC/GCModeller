@@ -7,8 +7,8 @@
 declare namespace OTU_table {
    /**
    */
-   function relative_abundance(x:object): object;
+   function filter(x:object, relative_abundance:number): object;
    /**
    */
-   function filter(x:object, relative_abundance:number): object;
+   function relative_abundance(x:object): object;
 }

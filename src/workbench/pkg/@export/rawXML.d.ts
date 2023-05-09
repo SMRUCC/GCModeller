@@ -6,21 +6,19 @@
  * 
 */
 declare namespace rawXML {
-   module open {
+   module entity {
       /**
-       * open gcXML raw data file for read/write
        * 
        * 
-        * @param mode 
-        * + default value Is ``'read'``.
-        * @param args -
-        * 
-        * + default value Is ``null``.
+        * @param raw -
+        * @param stream module descripting of the stream content to read, should be a list of content type mapping:
+        *  list element name could be: "transcriptome", "proteome", "metabolome"
+        *  element content type could be: mass_profile, activity, flux_size
         * @param env -
         * 
         * + default value Is ``null``.
       */
-      function vcellXml(file:string, mode?:string, args?:any, env?:object): any;
+      function names(raw:object, stream:any, env?:object): any;
    }
    module frame {
       /**
@@ -43,19 +41,21 @@ declare namespace rawXML {
       */
       function matrix(raw:string, tick:object, stream:any, env?:object): any;
    }
-   module entity {
+   module open {
       /**
+       * open gcXML raw data file for read/write
        * 
        * 
-        * @param raw -
-        * @param stream module descripting of the stream content to read, should be a list of content type mapping:
-        *  list element name could be: "transcriptome", "proteome", "metabolome"
-        *  element content type could be: mass_profile, activity, flux_size
+        * @param mode 
+        * + default value Is ``'read'``.
+        * @param args -
+        * 
+        * + default value Is ``null``.
         * @param env -
         * 
         * + default value Is ``null``.
       */
-      function names(raw:object, stream:any, env?:object): any;
+      function vcellXml(file:string, mode?:string, args?:any, env?:object): any;
    }
    module time {
       /**

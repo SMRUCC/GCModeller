@@ -30,22 +30,6 @@ declare namespace sampleInfo {
       */
       function sampleinfo(file:string, tsv?:boolean, exclude_groups?:string, id_makenames?:boolean): object;
    }
-   module write {
-      /**
-      */
-      function sampleinfo(sampleinfo:object, file:string): boolean;
-   }
-   /**
-    * create ``sample_info`` data table
-    * 
-    * 
-     * @param ID -
-     * @param sample_name -
-     * @param sample_info -
-     * @param env 
-     * + default value Is ``null``.
-   */
-   function sampleInfo(ID:string, sample_name:string, sample_info:string, env?:object): object;
    /**
      * @param env default value Is ``null``.
    */
@@ -60,5 +44,21 @@ declare namespace sampleInfo {
          */
          function groups(dir:string): object;
       }
+   }
+   /**
+    * create ``sample_info`` data table
+    * 
+    * 
+     * @param ID -
+     * @param sample_name -
+     * @param sample_info -
+     * @param env 
+     * + default value Is ``null``.
+   */
+   function sampleInfo(ID:string, sample_name:string, sample_info:string, env?:object): object;
+   module write {
+      /**
+      */
+      function sampleinfo(sampleinfo:object, file:string): boolean;
    }
 }

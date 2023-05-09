@@ -7,23 +7,6 @@
  * 
 */
 declare namespace metabolism {
-   module load {
-      module reaction {
-         /**
-         */
-         function cacheIndex(file:string): object;
-      }
-   }
-   module related {
-      /**
-       * Get compounds kegg id which is related to the given KO id list
-       * 
-       * 
-        * @param enzymes KO id list
-        * @param reactions -
-      */
-      function compounds(enzymes:string, reactions:object): string;
-   }
    module filter {
       /**
        * Removes invalid kegg compound id
@@ -50,6 +33,13 @@ declare namespace metabolism {
       */
       function reconstruction(reference:any, reactions:any, annotations:any, min_cov?:number, env?:object): object;
    }
+   module load {
+      module reaction {
+         /**
+         */
+         function cacheIndex(file:string): object;
+      }
+   }
    /**
     * pick the reaction list from the kegg reaction
     *  network repository by KO id terms
@@ -62,4 +52,14 @@ declare namespace metabolism {
      * + default value Is ``null``.
    */
    function pickNetwork(reactions:object, terms:any, env?:object): any;
+   module related {
+      /**
+       * Get compounds kegg id which is related to the given KO id list
+       * 
+       * 
+        * @param enzymes KO id list
+        * @param reactions -
+      */
+      function compounds(enzymes:string, reactions:object): string;
+   }
 }

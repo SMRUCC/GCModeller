@@ -6,10 +6,16 @@
  * 
 */
 declare namespace debugger {
-   module vcell {
+   module flux {
+      /**
+        * @param time default value Is ``50``.
+        * @param resolution default value Is ``10000``.
+        * @param showProgress default value Is ``true``.
+      */
+      function dynamics(core:object, time?:object, resolution?:object, showProgress?:boolean): object;
       /**
       */
-      function summary(inits:object, model:object, dir:string): ;
+      function load_driver(core:object, mass:object, flux:object): object;
    }
    module map {
       /**
@@ -24,17 +30,6 @@ declare namespace debugger {
       */
       function flux(map:object, reactions:object, init?:number): object;
    }
-   module flux {
-      /**
-        * @param time default value Is ``50``.
-        * @param resolution default value Is ``10000``.
-        * @param showProgress default value Is ``true``.
-      */
-      function dynamics(core:object, time?:object, resolution?:object, showProgress?:boolean): object;
-      /**
-      */
-      function load_driver(core:object, mass:object, flux:object): object;
-   }
    /**
     * run network dynamics
     * 
@@ -46,4 +41,9 @@ declare namespace debugger {
      * + default value Is ``null``.
    */
    function test_network(network:any, init0:object, env?:object): object;
+   module vcell {
+      /**
+      */
+      function summary(inits:object, model:object, dir:string): ;
+   }
 }

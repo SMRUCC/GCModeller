@@ -7,6 +7,24 @@
  * 
 */
 declare namespace uniprot {
+   /**
+    * id unify mapping
+    * 
+    * 
+     * @param uniprot a uniprot dataabse pipeline stream
+     * @param id -
+     * @param target the database name for map to
+     * 
+     * + default value Is ``null``.
+     * @param env -
+     * 
+     * + default value Is ``null``.
+   */
+   function id_unify(uniprot:any, id:any, target?:string, env?:object): any;
+   /**
+     * @param env default value Is ``null``.
+   */
+   function metaboliteSet(uniprot:any, env?:object): any;
    module open {
       /**
        * open a uniprot database file
@@ -27,16 +45,6 @@ declare namespace uniprot {
    /**
    */
    function parseUniProt(xml:string): object;
-   /**
-    * export protein annotation data as data frame.
-    * 
-    * 
-     * @param uniprot -
-     * @param env -
-     * 
-     * + default value Is ``null``.
-   */
-   function proteinTable(uniprot:any, env?:object): any;
    module protein {
       /**
        * populate all protein fasta sequence from the given uniprot database reader
@@ -55,21 +63,13 @@ declare namespace uniprot {
       function seqs(uniprot:any, extractAll?:boolean, KOseq?:boolean, env?:object): object;
    }
    /**
-    * id unify mapping
+    * export protein annotation data as data frame.
     * 
     * 
-     * @param uniprot a uniprot dataabse pipeline stream
-     * @param id -
-     * @param target the database name for map to
-     * 
-     * + default value Is ``null``.
+     * @param uniprot -
      * @param env -
      * 
      * + default value Is ``null``.
    */
-   function id_unify(uniprot:any, id:any, target?:string, env?:object): any;
-   /**
-     * @param env default value Is ``null``.
-   */
-   function metaboliteSet(uniprot:any, env?:object): any;
+   function proteinTable(uniprot:any, env?:object): any;
 }

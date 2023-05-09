@@ -7,29 +7,29 @@
  * 
 */
 declare namespace kegg_api {
-   /**
-     * @param option default value Is ``null``.
-     * @param cache default value Is ``null``.
-   */
-   function listing(database:string, option?:string, cache?:object): any;
+   module as {
+      /**
+      */
+      function compound(form:object): object;
+      /**
+      */
+      function pathway(form:object): object;
+      /**
+      */
+      function reaction(form:object): object;
+   }
    /**
      * @param cache default value Is ``null``.
      * @param env default value Is ``null``.
    */
    function get(id:string, cache?:any, env?:object): string;
    /**
+     * @param option default value Is ``null``.
+     * @param cache default value Is ``null``.
+   */
+   function listing(database:string, option?:string, cache?:object): any;
+   /**
      * @param unsafe default value Is ``false``.
    */
    function parseForm(text:string, unsafe?:boolean): object;
-   module as {
-      /**
-      */
-      function pathway(form:object): object;
-      /**
-      */
-      function compound(form:object): object;
-      /**
-      */
-      function reaction(form:object): object;
-   }
 }

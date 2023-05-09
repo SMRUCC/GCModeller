@@ -7,18 +7,21 @@
  * 
 */
 declare namespace S.system {
-   module S {
-      /**
-       * create a new empty model for run S-system simulation
-       * 
-       * 
-        * @param title 
-        * + default value Is ``'unnamed model'``.
-        * @param description 
-        * + default value Is ``''``.
-      */
-      function script(title?:string, description?:string): object;
-   }
+   /**
+     * @param env default value Is ``null``.
+   */
+   function bounds(kernel:object, bounds:object, env?:object): object;
+   /**
+    * config the symbol environment for S-system kernel
+    * 
+    * 
+     * @param kernel -
+     * @param symbols -
+     * @param env -
+     * 
+     * + default value Is ``null``.
+   */
+   function environment(kernel:object, symbols:any, env?:object): object;
    /**
     * create a new S-system dynamics kernel module
     * 
@@ -32,20 +35,18 @@ declare namespace S.system {
    */
    function kernel(snapshot:object, model?:object, strict?:boolean): object;
    /**
-    * config the symbol environment for S-system kernel
+    * run simulator
     * 
     * 
      * @param kernel -
-     * @param symbols -
-     * @param env -
+     * @param ticks -
      * 
-     * + default value Is ``null``.
+     * + default value Is ``100``.
+     * @param resolution -
+     * 
+     * + default value Is ``0.1``.
    */
-   function environment(kernel:object, symbols:any, env?:object): object;
-   /**
-     * @param env default value Is ``null``.
-   */
-   function bounds(kernel:object, bounds:object, env?:object): object;
+   function run(kernel:object, ticks?:object, resolution?:number): object;
    module s {
       /**
        * load S-system into the dynamics simulators kernel module
@@ -59,19 +60,18 @@ declare namespace S.system {
       */
       function system(kernel:object, ssystem:any, env?:object): object;
    }
-   /**
-    * run simulator
-    * 
-    * 
-     * @param kernel -
-     * @param ticks -
-     * 
-     * + default value Is ``100``.
-     * @param resolution -
-     * 
-     * + default value Is ``0.1``.
-   */
-   function run(kernel:object, ticks?:object, resolution?:number): object;
+   module S {
+      /**
+       * create a new empty model for run S-system simulation
+       * 
+       * 
+        * @param title 
+        * + default value Is ``'unnamed model'``.
+        * @param description 
+        * + default value Is ``''``.
+      */
+      function script(title?:string, description?:string): object;
+   }
    /**
     * create a symbol data snapshot device for write data into file
     * 

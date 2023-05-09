@@ -26,9 +26,6 @@ declare namespace bioModels.stringdb.ppi {
    module read {
       /**
       */
-      function string_interactions(string_interactions:string): object;
-      /**
-      */
       function coordinates(string_network_coordinates:string): object;
       /**
        * parse the string-db table file
@@ -47,5 +44,8 @@ declare namespace bioModels.stringdb.ppi {
         * + default value Is ``-1``.
       */
       function string_db(file:string, remove_taxonomyId?:boolean, link_matrix?:boolean, combine_score?:number): object|object;
+      /**
+      */
+      function string_interactions(string_interactions:string): object;
    }
 }

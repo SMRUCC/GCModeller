@@ -7,33 +7,13 @@
  * 
 */
 declare namespace microbiome {
-   module parse {
-      /**
-      */
-      function otu_taxonomy(file:object): object;
+   module compounds {
+      module origin {
+         /**
+         */
+         function profile(taxonomy:object, organism:string): object;
+      }
    }
-   module save {
-      /**
-      */
-      function PICRUSt_matrix(ggtax:object, ko_13_5_precalculated:object, save:object): boolean;
-   }
-   module read {
-      /**
-      */
-      function PICRUSt_matrix(file:object): object;
-   }
-   /**
-    * creates the final metagenome functional predictions. It 
-    *  multiplies each normalized OTU abundance by each predicted 
-    *  functional trait abundance to produce a table of functions 
-    *  (rows) by samples (columns).
-    * 
-    * 
-     * @param table -
-     * @param env 
-     * + default value Is ``null``.
-   */
-   function predict_metagenomes(PICRUSt:object, table:object, env?:object): object;
    module diff {
       /**
        * evaluate the similarity of two taxonomy data vector
@@ -50,11 +30,31 @@ declare namespace microbiome {
       */
       function entropy(v1:object, v2:object, rank?:object, env?:object): number;
    }
-   module compounds {
-      module origin {
-         /**
-         */
-         function profile(taxonomy:object, organism:string): object;
-      }
+   module parse {
+      /**
+      */
+      function otu_taxonomy(file:object): object;
+   }
+   /**
+    * creates the final metagenome functional predictions. It 
+    *  multiplies each normalized OTU abundance by each predicted 
+    *  functional trait abundance to produce a table of functions 
+    *  (rows) by samples (columns).
+    * 
+    * 
+     * @param table -
+     * @param env 
+     * + default value Is ``null``.
+   */
+   function predict_metagenomes(PICRUSt:object, table:object, env?:object): object;
+   module read {
+      /**
+      */
+      function PICRUSt_matrix(file:object): object;
+   }
+   module save {
+      /**
+      */
+      function PICRUSt_matrix(ggtax:object, ko_13_5_precalculated:object, save:object): boolean;
    }
 }

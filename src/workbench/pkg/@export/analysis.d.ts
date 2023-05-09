@@ -7,6 +7,16 @@
  * 
 */
 declare namespace analysis {
+   module compound {
+      /**
+       * set compound names for the kegg metabolites
+       * 
+       * 
+        * @param metabolites -
+        * @param names -
+      */
+      function names(metabolites:object, names:object): object;
+   }
    module union {
       /**
        * union of the profile snapshot list to a matrix dataset.
@@ -21,16 +31,6 @@ declare namespace analysis {
         * + default value Is ``true``.
       */
       function matrix(result:string, setName?:string, trim?:boolean): object;
-   }
-   module compound {
-      /**
-       * set compound names for the kegg metabolites
-       * 
-       * 
-        * @param metabolites -
-        * @param names -
-      */
-      function names(metabolites:object, names:object): object;
    }
    module vcell {
       module mass {

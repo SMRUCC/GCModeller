@@ -15,17 +15,8 @@
 */
 declare namespace blast_ {
    /**
-    * Application to create BLAST databases
-    * 
-    * 
-     * @param dbtype Molecule type of target db
-     * 
-     * + default value Is ``["nucl","prot"]``.
-     * @param env -
-     * 
-     * + default value Is ``null``.
    */
-   function makeblastdb(in:string, dbtype?:any, env?:object): any;
+   function blastn(): any;
    /**
     * Protein-Protein BLAST
     * 
@@ -40,8 +31,17 @@ declare namespace blast_ {
    function blastp(query:string, subject:string, output:string, evalue?:number, n_threads?:object, env?:object): any;
    /**
    */
-   function blastn(): any;
-   /**
-   */
    function blastx(): any;
+   /**
+    * Application to create BLAST databases
+    * 
+    * 
+     * @param dbtype Molecule type of target db
+     * 
+     * + default value Is ``["nucl","prot"]``.
+     * @param env -
+     * 
+     * + default value Is ``null``.
+   */
+   function makeblastdb(in:string, dbtype?:any, env?:object): any;
 }

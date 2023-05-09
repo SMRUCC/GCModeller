@@ -10,57 +10,6 @@
 */
 declare namespace profiles {
    /**
-    * create kegg category class model from a gsea background model
-    * 
-    * 
-     * @param background -
-   */
-   function kegg_category(background:object): object;
-   module GO {
-      module enrichment {
-         /**
-          * Create catalog profiles data for GO enrichment result its data visualization.
-          * 
-          * 
-           * @param enrichments -
-           * @param goDb -
-           * @param top display the top n enriched GO terms.
-           * 
-           * + default value Is ``10``.
-         */
-         function profile(enrichments:object, goDb:object, top?:object): object;
-      }
-   }
-   module KEGG {
-      module enrichment {
-         /**
-          * A method for cast the kegg enrichment result to the 
-          *  category profiles for run data visualization
-          * 
-          * 
-           * @param enrichments -
-           * @param top 
-           * + default value Is ``10``.
-           * @param env -
-           * 
-           * + default value Is ``null``.
-         */
-         function profile(enrichments:any, top?:object, env?:object): object;
-      }
-   }
-   /**
-     * @param top default value Is ``10``.
-   */
-   function sort_profiles(profile:object, top?:object): object;
-   /**
-   */
-   function cut_profiles(profile:object, valueCut:number): object;
-   /**
-     * @param top default value Is ``30``.
-     * @param env default value Is ``null``.
-   */
-   function no_catagory_profile(enrichments:object, name:string, top?:object, env?:object): object;
-   /**
     * get category labels for a given id set
     * 
     * 
@@ -90,9 +39,8 @@ declare namespace profiles {
       }
    }
    /**
-     * @param env default value Is ``null``.
    */
-   function getProfileMapping(map:object, mapping:object, env?:object): any;
+   function cut_profiles(profile:object, valueCut:number): object;
    module flux {
       module map {
          /**
@@ -101,6 +49,58 @@ declare namespace profiles {
          function profiles(flux:any, maps:object, env?:object): any;
       }
    }
+   /**
+     * @param env default value Is ``null``.
+   */
+   function getProfileMapping(map:object, mapping:object, env?:object): any;
+   module GO {
+      module enrichment {
+         /**
+          * Create catalog profiles data for GO enrichment result its data visualization.
+          * 
+          * 
+           * @param enrichments -
+           * @param goDb -
+           * @param top display the top n enriched GO terms.
+           * 
+           * + default value Is ``10``.
+         */
+         function profile(enrichments:object, goDb:object, top?:object): object;
+      }
+   }
+   module kegg {
+      /**
+       * create kegg catalog profiles data table
+       * 
+       * 
+        * @param profiles -
+      */
+      function category_profiles(profiles:object): object;
+   }
+   module KEGG {
+      module enrichment {
+         /**
+          * A method for cast the kegg enrichment result to the 
+          *  category profiles for run data visualization
+          * 
+          * 
+           * @param enrichments -
+           * @param top 
+           * + default value Is ``10``.
+           * @param env -
+           * 
+           * + default value Is ``null``.
+         */
+         function profile(enrichments:any, top?:object, env?:object): object;
+      }
+   }
+   /**
+    * create kegg category class model from a gsea background model
+    * 
+    * 
+     * @param background -
+   */
+   function kegg_category(background:object): object;
    module KO {
       module map {
          /**
@@ -115,16 +115,16 @@ declare namespace profiles {
          function profiles(KO:any, env?:object): object;
       }
    }
-   module kegg {
-      /**
-       * create kegg catalog profiles data table
-       * 
-       * 
-        * @param profiles -
-      */
-      function category_profiles(profiles:object): object;
-   }
    /**
    */
    function map_category(): object;
+   /**
+     * @param top default value Is ``30``.
+     * @param env default value Is ``null``.
+   */
+   function no_catagory_profile(enrichments:object, name:string, top?:object, env?:object): object;
+   /**
+     * @param top default value Is ``10``.
+   */
+   function sort_profiles(profile:object, top?:object): object;
 }

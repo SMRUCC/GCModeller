@@ -5,23 +5,6 @@
 /**
 */
 declare namespace GCModeller.Property {
-   module Write {
-      /**
-      */
-      function Name(model:object, value:string): object;
-      /**
-      */
-      function Comment(model:object, value:string): object;
-      /**
-      */
-      function Species(model:object, value:string): object;
-      /**
-      */
-      function Title(model:object, value:string): object;
-      /**
-      */
-      function DBLinks(model:object, value:object): object;
-   }
    module Author {
       /**
       */
@@ -32,19 +15,36 @@ declare namespace GCModeller.Property {
       */
       function Add(model:object, value:string): object;
    }
-   module Reversion {
-      /**
-      */
-      function Plus(model:object): object;
-   }
    module Publication {
       /**
       */
       function Add(model:object, value:string): object;
    }
+   module Reversion {
+      /**
+      */
+      function Plus(model:object): object;
+   }
    module Url {
       /**
       */
       function Add(model:object, value:string): object;
+   }
+   module Write {
+      /**
+      */
+      function Comment(model:object, value:string): object;
+      /**
+      */
+      function DBLinks(model:object, value:object): object;
+      /**
+      */
+      function Name(model:object, value:string): object;
+      /**
+      */
+      function Species(model:object, value:string): object;
+      /**
+      */
+      function Title(model:object, value:string): object;
    }
 }

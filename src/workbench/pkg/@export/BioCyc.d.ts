@@ -6,6 +6,19 @@
  * 
 */
 declare namespace BioCyc {
+   /**
+    * Create pathway background model
+    * 
+    * 
+     * @param biocyc -
+   */
+   function createBackground(biocyc:object): object;
+   /**
+   */
+   function formula(meta:object): string;
+   /**
+   */
+   function getCompounds(repo:object): object;
    module open {
       /**
        * open a directory path as the biocyc workspace
@@ -15,17 +28,4 @@ declare namespace BioCyc {
       */
       function biocyc(repo:string): object;
    }
-   /**
-   */
-   function getCompounds(repo:object): object;
-   /**
-   */
-   function formula(meta:object): string;
-   /**
-    * Create pathway background model
-    * 
-    * 
-     * @param biocyc -
-   */
-   function createBackground(biocyc:object): object;
 }

@@ -5,12 +5,13 @@
 /**
 */
 declare namespace annotation.genomics {
-   module read {
+   module as {
       /**
       */
-      function gtf(file:string): object;
-   }
-   module as {
+      function geneTable(PTT:object): object;
+      /**
+      */
+      function PTT(gb:object): object;
       /**
         * @param title default value Is ``'n/a'``.
         * @param size default value Is ``0``.
@@ -18,24 +19,23 @@ declare namespace annotation.genomics {
         * @param env default value Is ``null``.
       */
       function tabular(genes:object, title?:string, size?:object, format?:string, env?:object): any;
-      /**
-      */
-      function geneTable(PTT:object): object;
-      /**
-      */
-      function PTT(gb:object): object;
    }
-   /**
-     * @param length default value Is ``200``.
-     * @param isRelativeOffset default value Is ``false``.
-   */
-   function upstream(context:object, length?:object, isRelativeOffset?:boolean): object;
    module genome {
       /**
         * @param env default value Is ``null``.
       */
       function genes(genome:any, env?:object): object;
    }
+   module read {
+      /**
+      */
+      function gtf(file:string): object;
+   }
+   /**
+     * @param length default value Is ``200``.
+     * @param isRelativeOffset default value Is ``false``.
+   */
+   function upstream(context:object, length?:object, isRelativeOffset?:boolean): object;
    module write {
       /**
         * @param file default value Is ``null``.

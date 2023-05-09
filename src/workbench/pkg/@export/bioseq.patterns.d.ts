@@ -7,34 +7,6 @@
  * 
 */
 declare namespace bioseq.patterns {
-   module view {
-      /**
-       * 
-       * 
-        * @param sites -
-        * @param seq -
-        * @param deli -
-        * 
-        * + default value Is ``', '``.
-        * @param env -
-        * 
-        * + default value Is ``null``.
-      */
-      function sites(sites:any, seq:any, deli?:string, env?:object): string;
-   }
-   module read {
-      /**
-       * read sequence motif json file.
-       * 
-       * > apply for search by @``M:seqtoolkit.patterns.matchSites(SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif.SequenceMotif,System.Object,System.Double,System.Double,System.Double,System.Boolean,SMRUCC.Rsharp.Runtime.Environment)``
-       * 
-        * @param file -
-      */
-      function motifs(file:string): object;
-      /**
-      */
-      function scans(file:string): object;
-   }
    module as {
       /**
         * @param mol_type default value Is ``null``.
@@ -42,48 +14,6 @@ declare namespace bioseq.patterns {
       */
       function seq_graph(fasta:any, mol_type?:object, env?:object): any;
    }
-   module motif {
-      /**
-       * Find target loci site based on the given motif model
-       * 
-       * 
-        * @param motif -
-        * @param target a collection of fasta sequence
-        * @param cutoff 
-        * + default value Is ``0.6``.
-        * @param minW 
-        * + default value Is ``6``.
-        * @param identities 
-        * + default value Is ``0.85``.
-        * @param parallel 
-        * + default value Is ``false``.
-        * @param env 
-        * + default value Is ``null``.
-      */
-      function find_sites(motif:object, target:any, cutoff?:number, minW?:number, identities?:number, parallel?:boolean, env?:object): object;
-   }
-   module palindrome {
-      /**
-       * Search mirror palindrome sites for a given seed sequence
-       * 
-       * 
-        * @param sequence -
-        * @param seed -
-      */
-      function mirror(sequence:string, seed:string): object;
-   }
-   /**
-    * Create seeds
-    * 
-    * 
-     * @param size -
-     * @param base -
-   */
-   function seeds(size:object, base:string): string;
-   /**
-     * @param env default value Is ``null``.
-   */
-   function motifString(motif:any, env?:object): any;
    /**
     * find possible motifs of the given sequence collection
     * 
@@ -109,6 +39,40 @@ declare namespace bioseq.patterns {
      * + default value Is ``null``.
    */
    function find_motifs(fasta:any, minw?:object, maxw?:object, nmotifs?:object, noccurs?:object, seedingCutoff?:number, scanMinW?:object, scanCutoff?:number, cleanMotif?:number, env?:object): object;
+   module motif {
+      /**
+       * Find target loci site based on the given motif model
+       * 
+       * 
+        * @param motif -
+        * @param target a collection of fasta sequence
+        * @param cutoff 
+        * + default value Is ``0.6``.
+        * @param minW 
+        * + default value Is ``6``.
+        * @param identities 
+        * + default value Is ``0.85``.
+        * @param parallel 
+        * + default value Is ``false``.
+        * @param env 
+        * + default value Is ``null``.
+      */
+      function find_sites(motif:object, target:any, cutoff?:number, minW?:number, identities?:number, parallel?:boolean, env?:object): object;
+   }
+   /**
+     * @param env default value Is ``null``.
+   */
+   function motifString(motif:any, env?:object): any;
+   module palindrome {
+      /**
+       * Search mirror palindrome sites for a given seed sequence
+       * 
+       * 
+        * @param sequence -
+        * @param seed -
+      */
+      function mirror(sequence:string, seed:string): object;
+   }
    module plot {
       /**
        * Drawing the sequence logo just simply modelling this motif site 
@@ -123,6 +87,19 @@ declare namespace bioseq.patterns {
         * + default value Is ``null``.
       */
       function seqLogo(MSA:any, title?:string, env?:object): object;
+   }
+   module read {
+      /**
+       * read sequence motif json file.
+       * 
+       * > apply for search by @``M:seqtoolkit.patterns.matchSites(SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif.SequenceMotif,System.Object,System.Double,System.Double,System.Double,System.Boolean,SMRUCC.Rsharp.Runtime.Environment)``
+       * 
+        * @param file -
+      */
+      function motifs(file:string): object;
+      /**
+      */
+      function scans(file:string): object;
    }
    module scaffold {
       /**
@@ -146,5 +123,28 @@ declare namespace bioseq.patterns {
         * + default value Is ``null``.
       */
       function orthogonality(scaffolds:any, segment_len?:object, is_linear?:boolean, rev_compl?:boolean, env?:object): object;
+   }
+   /**
+    * Create seeds
+    * 
+    * 
+     * @param size -
+     * @param base -
+   */
+   function seeds(size:object, base:string): string;
+   module view {
+      /**
+       * 
+       * 
+        * @param sites -
+        * @param seq -
+        * @param deli -
+        * 
+        * + default value Is ``', '``.
+        * @param env -
+        * 
+        * + default value Is ``null``.
+      */
+      function sites(sites:any, seq:any, deli?:string, env?:object): string;
    }
 }
