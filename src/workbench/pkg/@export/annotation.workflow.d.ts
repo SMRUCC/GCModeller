@@ -23,7 +23,7 @@ declare namespace annotation.workflow {
         * 
         * + default value Is ``null``.
       */
-      function blast(file:string, type?:string, fastMode?:boolean, env?:object): object;
+      function blast(file: string, type?: string, fastMode?: boolean, env?: object): object;
    }
    module blastn {
       /**
@@ -37,7 +37,7 @@ declare namespace annotation.workflow {
         * 
         * + default value Is ``null``.
       */
-      function maphit(query:object, top_best?:boolean, env?:object): object;
+      function maphit(query: object, top_best?: boolean, env?: object): object;
    }
    module blasthit {
       /**
@@ -61,25 +61,25 @@ declare namespace annotation.workflow {
         * 
         * + default value Is ``null``.
       */
-      function sbh(query:object, idetities?:number, coverage?:number, topBest?:boolean, keepsRawName?:boolean, env?:object): object;
+      function sbh(query: object, idetities?: number, coverage?: number, topBest?: boolean, keepsRawName?: boolean, env?: object): object;
       /**
         * @param algorithm default value Is ``null``.
         * @param env default value Is ``null``.
       */
-      function bbh(forward:object, reverse:object, algorithm?:object, env?:object): object;
+      function bbh(forward: object, reverse: object, algorithm?: object, env?: object): object;
    }
    module grep {
       /**
         * @param applyOnHits default value Is ``false``.
         * @param env default value Is ``null``.
       */
-      function names(query:object, operators:any, applyOnHits?:boolean, env?:object): object;
+      function names(query: object, operators: any, applyOnHits?: boolean, env?: object): object;
    }
    module stream {
       /**
         * @param env default value Is ``null``.
       */
-      function flush(data:object, stream:any, env?:object): any;
+      function flush(data: object, stream: any, env?: object): any;
    }
    module besthit {
       /**
@@ -88,7 +88,7 @@ declare namespace annotation.workflow {
         * @param pickTop default value Is ``false``.
         * @param env default value Is ``null``.
       */
-      function filter(besthits:object, evalue?:number, delNohits?:boolean, pickTop?:boolean, env?:object): object;
+      function filter(besthits: object, evalue?: number, delNohits?: boolean, pickTop?: boolean, env?: object): object;
    }
    module open {
       /**
@@ -108,6 +108,6 @@ declare namespace annotation.workflow {
         * 
         * + default value Is ``null``.
       */
-      function stream(file:string, type?:object, encoding?:object, ioRead?:boolean, env?:object): any;
+      function stream(file: string, type?: object, encoding?: object, ioRead?: boolean, env?: object): any;
    }
 }

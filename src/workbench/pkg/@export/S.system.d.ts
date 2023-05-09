@@ -17,7 +17,7 @@ declare namespace S.system {
         * @param description 
         * + default value Is ``''``.
       */
-      function script(title?:string, description?:string): object;
+      function script(title?: string, description?: string): object;
    }
    /**
     * create a new S-system dynamics kernel module
@@ -30,7 +30,7 @@ declare namespace S.system {
      * @param strict 
      * + default value Is ``true``.
    */
-   function kernel(snapshot:object, model?:object, strict?:boolean): object;
+   function kernel(snapshot: object, model?: object, strict?: boolean): object;
    /**
     * config the symbol environment for S-system kernel
     * 
@@ -41,11 +41,11 @@ declare namespace S.system {
      * 
      * + default value Is ``null``.
    */
-   function environment(kernel:object, symbols:any, env?:object): object;
+   function environment(kernel: object, symbols: any, env?: object): object;
    /**
      * @param env default value Is ``null``.
    */
-   function bounds(kernel:object, bounds:object, env?:object): object;
+   function bounds(kernel: object, bounds: object, env?: object): object;
    module s {
       /**
        * load S-system into the dynamics simulators kernel module
@@ -57,7 +57,7 @@ declare namespace S.system {
         * 
         * + default value Is ``null``.
       */
-      function system(kernel:object, ssystem:any, env?:object): object;
+      function system(kernel: object, ssystem: any, env?: object): object;
    }
    /**
     * run simulator
@@ -71,7 +71,7 @@ declare namespace S.system {
      * 
      * + default value Is ``0.1``.
    */
-   function run(kernel:object, ticks?:object, resolution?:number): object;
+   function run(kernel: object, ticks?: object, resolution?: number): object;
    /**
     * create a symbol data snapshot device for write data into file
     * 
@@ -83,5 +83,5 @@ declare namespace S.system {
      * 
      * + default value Is ``null``.
    */
-   function snapshot(file?:string, symbols?:string): object;
+   function snapshot(file?: string, symbols?: string): object;
 }

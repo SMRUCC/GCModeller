@@ -22,11 +22,11 @@ declare namespace uniprot {
         * + default value Is ``null``.
         * @return this function returns a pipeline stream of the uniprot protein entries.
       */
-      function uniprot(files:any, isUniParc?:boolean, ignoreError?:boolean, env?:object): any;
+      function uniprot(files: any, isUniParc?: boolean, ignoreError?: boolean, env?: object): any;
    }
    /**
    */
-   function parseUniProt(xml:string): object;
+   function parseUniProt(xml: string): object;
    /**
     * export protein annotation data as data frame.
     * 
@@ -36,7 +36,7 @@ declare namespace uniprot {
      * 
      * + default value Is ``null``.
    */
-   function proteinTable(uniprot:any, env?:object): any;
+   function proteinTable(uniprot: any, env?: object): any;
    module protein {
       /**
        * populate all protein fasta sequence from the given uniprot database reader
@@ -52,7 +52,7 @@ declare namespace uniprot {
         * 
         * + default value Is ``null``.
       */
-      function seqs(uniprot:any, extractAll?:boolean, KOseq?:boolean, env?:object): object;
+      function seqs(uniprot: any, extractAll?: boolean, KOseq?: boolean, env?: object): object;
    }
    /**
     * id unify mapping
@@ -67,9 +67,9 @@ declare namespace uniprot {
      * 
      * + default value Is ``null``.
    */
-   function id_unify(uniprot:any, id:any, target?:string, env?:object): any;
+   function id_unify(uniprot: any, id: any, target?: string, env?: object): any;
    /**
      * @param env default value Is ``null``.
    */
-   function metaboliteSet(uniprot:any, env?:object): any;
+   function metaboliteSet(uniprot: any, env?: object): any;
 }

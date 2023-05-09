@@ -8,6 +8,6 @@ declare namespace KOBAS {
    module read {
       /**
       */
-      function KEGGpathway(file:string): object;
+      function KEGGpathway(file: string): object;
    }
 }

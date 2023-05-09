@@ -11,6 +11,6 @@ declare namespace bioModels.TRN {
       /**
         * @param cutoff default value Is ``0.65``.
       */
-      function connections(fpkm:object, cutoff?:number): object;
+      function connections(fpkm: object, cutoff?: number): object;
    }
 }

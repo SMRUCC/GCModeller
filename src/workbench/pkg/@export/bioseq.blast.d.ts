@@ -15,7 +15,7 @@ declare namespace bioseq.blast {
      * 
      * + default value Is ``'Blosum-62'``.
    */
-   function blosum(file?:string): object;
+   function blosum(file?: string): object;
    module align {
       /**
        * Do sequence pairwise alignment
@@ -27,7 +27,7 @@ declare namespace bioseq.blast {
         * 
         * + default value Is ``null``.
       */
-      function smith_waterman(query:object, ref:object, blosum?:object): object;
+      function smith_waterman(query: object, ref: object, blosum?: object): object;
       /**
        * Do sequence global pairwise alignment
        * 
@@ -35,10 +35,10 @@ declare namespace bioseq.blast {
         * @param query -
         * @param ref -
       */
-      function needleman_wunsch(query:object, ref:object): object;
+      function needleman_wunsch(query: object, ref: object): object;
       /**
       */
-      function gwANI(multipleSeq:object): object;
+      function gwANI(multipleSeq: object): object;
    }
    /**
     * 
@@ -47,5 +47,5 @@ declare namespace bioseq.blast {
      * @param cutoff [0,1] threshold
      * @param minW -
    */
-   function HSP(align:object, cutoff:number, minW:object): any;
+   function HSP(align: object, cutoff: number, minW: object): any;
 }

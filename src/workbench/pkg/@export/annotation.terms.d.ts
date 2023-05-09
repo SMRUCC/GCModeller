@@ -12,7 +12,7 @@ declare namespace annotation.terms {
     * 
      * @param descriptions the gene functional product description strings.
    */
-   function geneNames(descriptions:any): object;
+   function geneNames(descriptions: any): object;
    module assign {
       /**
        * do KO number assign based on the bbh alignment result.
@@ -24,11 +24,11 @@ declare namespace annotation.terms {
         * 
         * + default value Is ``null``.
       */
-      function KO(forward:object, reverse:object, env?:object): object;
+      function KO(forward: object, reverse: object, env?: object): object;
       /**
         * @param env default value Is ``null``.
       */
-      function COG(alignment:any, env?:object): any;
+      function COG(alignment: any, env?: object): any;
       /**
       */
       function Pfam(): any;
@@ -39,12 +39,12 @@ declare namespace annotation.terms {
    module write {
       /**
       */
-      function id_maps(maps:object, file:string): boolean;
+      function id_maps(maps: object, file: string): boolean;
    }
    module read {
       /**
       */
-      function MyvaCOG(file:string): object;
+      function MyvaCOG(file: string): object;
       /**
        * 
        * 
@@ -53,10 +53,10 @@ declare namespace annotation.terms {
         * 
         * + default value Is ``false``.
       */
-      function id_maps(file:string, skip2ndMaps?:boolean): object;
+      function id_maps(file: string, skip2ndMaps?: boolean): object;
    }
    /**
      * @param excludeNull default value Is ``false``.
    */
-   function synonym(idlist:string, idmap:object, excludeNull?:boolean): object;
+   function synonym(idlist: string, idmap: object, excludeNull?: boolean): object;
 }

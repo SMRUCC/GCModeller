@@ -13,17 +13,17 @@ declare namespace background {
     * 
      * @param background -
    */
-   function clusterIDs(background:object): string;
+   function clusterIDs(background: object): string;
    /**
     * get all of the molecule id set from the given background model object
     * 
     * 
      * @param background -
    */
-   function moleculeIDs(background:object): string;
+   function moleculeIDs(background: object): string;
    /**
    */
-   function meta_background(enrich:object, graphQuery:object): any;
+   function meta_background(enrich: object, graphQuery: object): any;
    module dag {
       /**
        * create gsea background from a given obo ontology file data.
@@ -31,13 +31,13 @@ declare namespace background {
        * 
         * @param dag -
       */
-      function background(dag:object): object;
+      function background(dag: object): object;
    }
    module append {
       /**
         * @param env default value Is ``null``.
       */
-      function id_terms(background:object, term_name:string, terms:object, env?:object): any;
+      function id_terms(background: object, term_name: string, terms: object, env?: object): any;
    }
    module background {
       /**
@@ -50,7 +50,7 @@ declare namespace background {
         * 
         * + default value Is ``null``.
       */
-      function id_mapping(background:object, mapping:object, env?:object): any;
+      function id_mapping(background: object, mapping: object, env?: object): any;
    }
    module read {
       /**
@@ -59,7 +59,7 @@ declare namespace background {
        * 
         * @param file -
       */
-      function background(file:string): object;
+      function background(file: string): object;
    }
    module write {
       /**
@@ -68,11 +68,11 @@ declare namespace background {
        * 
         * @param background -
       */
-      function background(background:object, file:string): boolean;
+      function background(background: object, file: string): boolean;
    }
    /**
    */
-   function background_summary(background:object): object;
+   function background_summary(background: object): object;
    /**
     * get cluster info data table
     * 
@@ -80,7 +80,7 @@ declare namespace background {
      * @param background -
      * @param clusterId -
    */
-   function clusterInfo(background:object, clusterId:string): object;
+   function clusterInfo(background: object, clusterId: string): object;
    module geneSet {
       /**
        * make gene set annotation via a given gsea background model
@@ -92,7 +92,7 @@ declare namespace background {
         * 
         * + default value Is ``null``.
       */
-      function annotations(background:object, geneSet:any, env?:object): any;
+      function annotations(background: object, geneSet: any, env?: object): any;
       /**
        * get an intersection id list between the background
        *  model and the given gene id list.
@@ -114,7 +114,7 @@ declare namespace background {
         * @param env 
         * + default value Is ``null``.
       */
-      function intersects(cluster:any, geneSet:string, isLocusTag?:boolean, get_clusterID?:boolean, env?:object): string;
+      function intersects(cluster: any, geneSet: string, isLocusTag?: boolean, get_clusterID?: boolean, env?: object): string;
    }
    module KO {
       /**
@@ -123,7 +123,7 @@ declare namespace background {
        * 
         * @param background -
       */
-      function table(background:object): object;
+      function table(background: object): object;
       /**
        * create kegg background model
        * 
@@ -139,7 +139,7 @@ declare namespace background {
         * @param env 
         * + default value Is ``null``.
       */
-      function background(genes:any, maps:any, size?:object, genomeName?:string, id_map?:any, env?:object): object;
+      function background(genes: any, maps: any, size?: object, genomeName?: string, id_map?: any, env?: object): object;
    }
    module gsea {
       /**
@@ -160,7 +160,7 @@ declare namespace background {
         * 
         * + default value Is ``'name'``.
       */
-      function cluster(x:object, clusterId:string, clusterName:string, desc?:string, id?:string, name?:string): object;
+      function cluster(x: object, clusterId: string, clusterName: string, desc?: string, id?: string, name?: string): object;
    }
    /**
     * Create the gsea background model for metabolism analysis
@@ -181,7 +181,7 @@ declare namespace background {
      * 
      * + default value Is ``null``.
    */
-   function metpa(kegg:any, reactions:any, org_name?:string, is_ko_ref?:boolean, multipleOmics?:boolean, env?:object): object;
+   function metpa(kegg: any, reactions: any, org_name?: string, is_ko_ref?: boolean, multipleOmics?: boolean, env?: object): object;
    module as {
       /**
        * cast the cluster data as the enrichment background
@@ -217,10 +217,10 @@ declare namespace background {
         * 
         * + default value Is ``null``.
       */
-      function background(clusters:any, background_size?:object, name?:string, tax_id?:string, desc?:string, is_multipleOmics?:boolean, filter_compoundId?:boolean, kegg_code?:string, env?:object): object;
+      function background(clusters: any, background_size?: object, name?: string, tax_id?: string, desc?: string, is_multipleOmics?: boolean, filter_compoundId?: boolean, kegg_code?: string, env?: object): object;
       /**
       */
-      function geneSet(background:object): object;
+      function geneSet(background: object): object;
    }
    /**
     * gene/protein KO id background
@@ -237,7 +237,7 @@ declare namespace background {
         * @param filter 
         * + default value Is ``null``.
       */
-      function background(kegg:object, filter?:string): object;
+      function background(kegg: object, filter?: string): object;
    }
    /**
     * get kegg compound class brite background model

@@ -11,5 +11,5 @@ declare namespace magnitude {
      * @param base default value Is ``null``.
      * @param env default value Is ``null``.
    */
-   function profiles(selector:string, foldchange:number, base?:object, env?:object): any;
+   function profiles(selector: string, foldchange: number, base?: object, env?: object): any;
 }

@@ -20,13 +20,13 @@ declare namespace taxonomy_kit {
         * 
         * + default value Is ``null``.
       */
-      function string(taxonomy:any, trim_genusName?:boolean, env?:object): string;
+      function string(taxonomy: any, trim_genusName?: boolean, env?: object): string;
    }
    module biom_string {
       /**
         * @param env default value Is ``null``.
       */
-      function parse(taxonomy:any, env?:object): any;
+      function parse(taxonomy: any, env?: object): any;
    }
    /**
     * make taxonomy object unique
@@ -37,7 +37,7 @@ declare namespace taxonomy_kit {
      * 
      * + default value Is ``null``.
    */
-   function unique_taxonomy(taxonomy:any, env?:object): any;
+   function unique_taxonomy(taxonomy: any, env?: object): any;
    module Ncbi {
       /**
        * load ncbi taxonomy tree model from the given data files
@@ -55,13 +55,13 @@ declare namespace taxonomy_kit {
         * @param repo a directory folder path which contains the NCBI taxonomy 
         *  tree data files: ``nodes.dmp`` and ``names.dmp``.
       */
-      function taxonomy_tree(repo:string): object;
+      function taxonomy_tree(repo: string): object;
    }
    module taxonomy {
       /**
         * @param taxid default value Is ``null``.
       */
-      function filter(tree:object, range:string, taxid?:object): object|object;
+      function filter(tree: object, range: string, taxid?: object): object|object;
    }
    /**
     * get taxonomy lineage model from the ncbi taxonomy tree by given taxonomy id
@@ -73,7 +73,7 @@ declare namespace taxonomy_kit {
      * 
      * + default value Is ``false``.
    */
-   function lineage(tree:object, tax:string, fullName?:boolean): object;
+   function lineage(tree: object, tax: string, fullName?: boolean): object;
    module as {
       module taxonomy {
          /**
@@ -82,7 +82,7 @@ declare namespace taxonomy_kit {
           * 
            * @param taxonomy -
          */
-         function tree(taxonomy:object): object;
+         function tree(taxonomy: object): object;
       }
       /**
        * convert the mothur rank tree as the OTU table
@@ -90,7 +90,7 @@ declare namespace taxonomy_kit {
        * 
         * @param tree -
       */
-      function OTU_table(tree:object): object;
+      function OTU_table(tree: object): object;
       /**
        * convert the mothur rank tree as the OTU table
        * 
@@ -102,11 +102,11 @@ declare namespace taxonomy_kit {
         * @param env 
         * + default value Is ``null``.
       */
-      function OTUtable(table:object, id?:string, taxonomy?:string, env?:object): object;
+      function OTUtable(table: object, id?: string, taxonomy?: string, env?: object): object;
    }
    /**
    */
-   function consensus(tree:object, rank:object): object;
+   function consensus(tree: object, rank: object): object;
    module read {
       /**
        * Parse the result output from mothur command ``summary.tax``.
@@ -114,7 +114,7 @@ declare namespace taxonomy_kit {
        * 
         * @param file -
       */
-      function mothurTree(file:string): object;
+      function mothurTree(file: string): object;
       /**
        * read 16s OTU table
        * 
@@ -124,9 +124,9 @@ declare namespace taxonomy_kit {
         * 
         * + default value Is ``true``.
       */
-      function OTUtable(file:string, sumDuplicated?:boolean): object;
+      function OTUtable(file: string, sumDuplicated?: boolean): object;
    }
    /**
    */
-   function taxonomy_range(tax:object, rank:object): object;
+   function taxonomy_range(tax: object, rank: object): object;
 }

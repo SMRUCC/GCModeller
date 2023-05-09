@@ -15,6 +15,6 @@ declare namespace upsetPlot {
         * @param desc default value Is ``true``.
         * @param intersectionCut default value Is ``0``.
       */
-      function upsetData(vennSet:object, desc?:boolean, intersectionCut?:object): object;
+      function upsetData(vennSet: object, desc?: boolean, intersectionCut?: object): object;
    }
 }

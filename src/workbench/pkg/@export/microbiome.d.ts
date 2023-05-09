@@ -10,17 +10,17 @@ declare namespace microbiome {
    module parse {
       /**
       */
-      function otu_taxonomy(file:object): object;
+      function otu_taxonomy(file: object): object;
    }
    module save {
       /**
       */
-      function PICRUSt_matrix(ggtax:object, ko_13_5_precalculated:object, save:object): boolean;
+      function PICRUSt_matrix(ggtax: object, ko_13_5_precalculated: object, save: object): boolean;
    }
    module read {
       /**
       */
-      function PICRUSt_matrix(file:object): object;
+      function PICRUSt_matrix(file: object): object;
    }
    /**
     * creates the final metagenome functional predictions. It 
@@ -33,7 +33,7 @@ declare namespace microbiome {
      * @param env 
      * + default value Is ``null``.
    */
-   function predict_metagenomes(PICRUSt:object, table:object, env?:object): object;
+   function predict_metagenomes(PICRUSt: object, table: object, env?: object): object;
    module diff {
       /**
        * evaluate the similarity of two taxonomy data vector
@@ -48,13 +48,13 @@ declare namespace microbiome {
         * @param env 
         * + default value Is ``null``.
       */
-      function entropy(v1:object, v2:object, rank?:object, env?:object): number;
+      function entropy(v1: object, v2: object, rank?: object, env?: object): number;
    }
    module compounds {
       module origin {
          /**
          */
-         function profile(taxonomy:object, organism:string): object;
+         function profile(taxonomy: object, organism: string): object;
       }
    }
 }

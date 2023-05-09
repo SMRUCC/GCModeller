@@ -20,7 +20,7 @@ declare namespace rawXML {
         * 
         * + default value Is ``null``.
       */
-      function vcellXml(file:string, mode?:string, args?:any, env?:object): any;
+      function vcellXml(file: string, mode?: string, args?: any, env?: object): any;
    }
    module frame {
       /**
@@ -29,7 +29,7 @@ declare namespace rawXML {
        * 
         * @param raw -
       */
-      function index(raw:object): object;
+      function index(raw: object): object;
       /**
        * get a frame matrix for compares between different samples.
        * 
@@ -41,7 +41,7 @@ declare namespace rawXML {
         * 
         * + default value Is ``null``.
       */
-      function matrix(raw:string, tick:object, stream:any, env?:object): any;
+      function matrix(raw: string, tick: object, stream: any, env?: object): any;
    }
    module entity {
       /**
@@ -55,7 +55,7 @@ declare namespace rawXML {
         * 
         * + default value Is ``null``.
       */
-      function names(raw:object, stream:any, env?:object): any;
+      function names(raw: object, stream: any, env?: object): any;
    }
    module time {
       /**
@@ -68,6 +68,6 @@ declare namespace rawXML {
         * 
         * + default value Is ``null``.
       */
-      function frames(raw:object, stream:any, env?:object): object;
+      function frames(raw: object, stream: any, env?: object): object;
    }
 }

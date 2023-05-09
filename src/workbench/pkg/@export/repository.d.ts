@@ -20,7 +20,7 @@ declare namespace repository {
         * 
         * + default value Is ``null``.
       */
-      function msgpack(data:any, file:any, env?:object): boolean;
+      function msgpack(data: any, file: any, env?: object): boolean;
    }
    module load {
       /**
@@ -35,7 +35,7 @@ declare namespace repository {
         * @param env 
         * + default value Is ``null``.
       */
-      function compounds(repository:any, rawList?:boolean, ignoreGlycan?:boolean, env?:object): object|object;
+      function compounds(repository: any, rawList?: boolean, ignoreGlycan?: boolean, env?: object): object|object;
       /**
        * ### load kegg reaction data repository
        *  
@@ -52,7 +52,7 @@ declare namespace repository {
         * @param env 
         * + default value Is ``null``.
       */
-      function reactions(repository:any, raw?:boolean, env?:object): object|object;
+      function reactions(repository: any, raw?: boolean, env?: object): object|object;
       /**
        * load list of kegg reference @``T:SMRUCC.genomics.Assembly.KEGG.WebServices.Map``.
        * 
@@ -63,7 +63,7 @@ declare namespace repository {
         * @return a kegg reference map object vector, which can be indexed 
         *  via @``P:SMRUCC.genomics.ComponentModel.Annotation.PathwayBrief.EntryId``.
       */
-      function maps(repository:any, rawMaps?:boolean): object|object;
+      function maps(repository: any, rawMaps?: boolean): object|object;
       /**
        * load kegg pathway maps from a given repository data directory.
        * 
@@ -74,7 +74,7 @@ declare namespace repository {
         * @param env 
         * + default value Is ``null``.
       */
-      function pathways(repository:string, referenceMap?:boolean, env?:object): object|object;
+      function pathways(repository: string, referenceMap?: boolean, env?: object): object|object;
    }
    module reactions {
       /**
@@ -86,12 +86,12 @@ declare namespace repository {
         * 
         * + default value Is ``null``.
       */
-      function table(repo:any, env?:object): any;
+      function table(repo: any, env?: object): any;
    }
    /**
      * @param env default value Is ``null``.
    */
-   function reactionsId(repo:any, env?:object): any;
+   function reactionsId(repo: any, env?: object): any;
    /**
     * get a vector of kegg compound id from the kegg reaction_class/pathway maps data repository
     * 
@@ -101,7 +101,7 @@ declare namespace repository {
      * 
      * + default value Is ``null``.
    */
-   function compoundsId(repo:any, env?:object): any;
+   function compoundsId(repo: any, env?: object): any;
    module reaction_class {
       /**
        * load stream of the reaction_class data model from kegg data repository.
@@ -112,7 +112,7 @@ declare namespace repository {
         * 
         * + default value Is ``null``.
       */
-      function repo(repo:any, env?:object): object;
+      function repo(repo: any, env?: object): object;
       /**
        * load reaction class data from a repository data source.
        * 
@@ -122,7 +122,7 @@ declare namespace repository {
         * 
         * + default value Is ``null``.
       */
-      function table(repo:any, env?:object): object;
+      function table(repo: any, env?: object): object;
    }
    module fetch {
       /**
@@ -138,7 +138,7 @@ declare namespace repository {
         * 
         * + default value Is ``null``.
       */
-      function kegg_organism(resource?:string, type?:object): object;
+      function kegg_organism(resource?: string, type?: object): object;
    }
    module save {
       /**
@@ -150,7 +150,7 @@ declare namespace repository {
         * 
         * + default value Is ``null``.
       */
-      function KEGG_pathway(pathway:any, file:string, env?:object): any;
+      function KEGG_pathway(pathway: any, file: string, env?: object): any;
       /**
        * save the kegg organism data as data table file.
        * 
@@ -160,7 +160,7 @@ declare namespace repository {
         * 
         * + default value Is ``null``.
       */
-      function kegg_organism(organism:object, file:string, env?:object): boolean;
+      function kegg_organism(organism: object, file: string, env?: object): boolean;
    }
    module read {
       /**
@@ -172,25 +172,25 @@ declare namespace repository {
         * 
         * + default value Is ``null``.
       */
-      function KEGG_pathway(file:string, env?:object): object;
+      function KEGG_pathway(file: string, env?: object): object;
       /**
       */
-      function kegg_organism(file:string): object;
+      function kegg_organism(file: string): object;
    }
    /**
    */
-   function compound(entry:string, name:string, formula:string, exactMass:number, reaction:string, enzyme:string, remarks:string, KCF:string, DBLinks:object, pathway:object, modules:object): object;
+   function compound(entry: string, name: string, formula: string, exactMass: number, reaction: string, enzyme: string, remarks: string, KCF: string, DBLinks: object, pathway: object, modules: object): object;
    /**
      * @param env default value Is ``null``.
    */
-   function pathway(id:string, name:string, description:string, modules:object, DBLinks:object, KO_pathway:string, references:object, compounds:object, drugs:object, genes:object, organism:object, disease:object, env?:object): object;
+   function pathway(id: string, name: string, description: string, modules: object, DBLinks: object, KO_pathway: string, references: object, compounds: object, drugs: object, genes: object, organism: object, disease: object, env?: object): object;
    /**
    */
-   function reaction(id:string, name:string, definition:string, equation:string, comment:string, reaction_class:object, enzyme:string, pathways:object, modules:object, KO:object, links:object): object;
+   function reaction(id: string, name: string, definition: string, equation: string, comment: string, reaction_class: object, enzyme: string, pathways: object, modules: object, KO: object, links: object): object;
    /**
    */
-   function shapeAreas(data:object): object;
+   function shapeAreas(data: object): object;
    /**
    */
-   function keggMap(id:string, name:string, description:string, img:string, url:string, area:object): object;
+   function keggMap(id: string, name: string, description: string, img: string, url: string, area: object): object;
 }

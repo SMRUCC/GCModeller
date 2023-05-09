@@ -21,16 +21,16 @@ declare namespace BIOM_kit {
         * 
         * + default value Is ``null``.
       */
-      function matrix(file:any, denseMatrix?:boolean, suppressErr?:boolean, env?:object): object;
+      function matrix(file: any, denseMatrix?: boolean, suppressErr?: boolean, env?: object): object;
    }
    module biom {
       /**
         * @param env default value Is ``null``.
       */
-      function taxonomy(biom:any, env?:object): object;
+      function taxonomy(biom: any, env?: object): object;
       /**
         * @param env default value Is ``null``.
       */
-      function union(tables:any, env?:object): object;
+      function union(tables: any, env?: object): object;
    }
 }

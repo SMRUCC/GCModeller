@@ -16,10 +16,10 @@ declare namespace simulator {
            * @param mass 
            * + default value Is ``5000``.
          */
-         function kegg(vcell:object, mass?:number): object;
+         function kegg(vcell: object, mass?: number): object;
          /**
          */
-         function index(vcell:object): object;
+         function index(vcell: object): object;
       }
       /**
        * create a generic vcell object model from a loaded vcell xml file model
@@ -27,19 +27,19 @@ declare namespace simulator {
        * 
         * @param vcell the file model data of the GCModeller vcell
       */
-      function model(vcell:object): object;
+      function model(vcell: object): object;
       module flux {
          /**
          */
-         function index(vcell:object): object;
+         function index(vcell: object): object;
       }
       /**
       */
-      function snapshot(engine:object, massIndex:object, fluxIndex:object, save:string): ;
+      function snapshot(engine: object, massIndex: object, fluxIndex: object, save: string): ;
    }
    /**
    */
-   function mass0(vcell:object): object;
+   function mass0(vcell: object): object;
    module engine {
       /**
        * create a new virtual cell engine
@@ -61,7 +61,7 @@ declare namespace simulator {
         * @param showProgress 
         * + default value Is ``true``.
       */
-      function load(vcell:object, inits?:object, iterations?:object, time_resolutions?:object, deletions?:string, dynamics?:object, showProgress?:boolean): object;
+      function load(vcell: object, inits?: object, iterations?: object, time_resolutions?: object, deletions?: string, dynamics?: object, showProgress?: boolean): object;
    }
    module dynamics {
       /**
@@ -75,6 +75,6 @@ declare namespace simulator {
       /**
         * @param system default value Is ``null``.
       */
-      function module_profile(engine:object, profile:object, system?:object): object;
+      function module_profile(engine: object, profile: object, system?: object): object;
    }
 }

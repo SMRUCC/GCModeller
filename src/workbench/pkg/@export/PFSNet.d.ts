@@ -9,19 +9,19 @@ declare namespace PFSNet {
    module load {
       /**
       */
-      function pathway_network(file:string): object;
+      function pathway_network(file: string): object;
    }
    module build {
       /**
         * @param env default value Is ``null``.
       */
-      function pathway_network(maps:object, reactions:any, env?:object): object;
+      function pathway_network(maps: object, reactions: any, env?: object): object;
    }
    module save {
       /**
         * @param env default value Is ``null``.
       */
-      function pathway_network(ggi:any, file:any, env?:object): boolean;
+      function pathway_network(ggi: any, file: any, env?: object): boolean;
    }
    /**
     * Finding consistent disease subnetworks using PFSNet
@@ -43,7 +43,7 @@ declare namespace PFSNet {
      * 
      * + default value Is ``1000``.
    */
-   function pfsnet(expr1o:any, expr2o:any, ggi:object, b?:number, t1?:number, t2?:number, n?:object): object;
+   function pfsnet(expr1o: any, expr2o: any, ggi: object, b?: number, t1?: number, t2?: number, n?: object): object;
    module read {
       /**
        * 
@@ -55,6 +55,6 @@ declare namespace PFSNet {
         * @param env 
         * + default value Is ``null``.
       */
-      function pfsnet_result(file:string, format?:object, env?:object): object;
+      function pfsnet_result(file: string, format?: object, env?: object): object;
    }
 }

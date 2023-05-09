@@ -10,7 +10,7 @@ declare namespace network {
      * @param compounds default value Is ``null``.
      * @param enzymeBridged default value Is ``true``.
    */
-   function fromCompounds(compoundsId:string, graph:object, compounds?:object, enzymeBridged?:boolean): object;
+   function fromCompounds(compoundsId: string, graph: object, compounds?: object, enzymeBridged?: boolean): object;
    /**
     * assign kegg class to the graph nodes
     * 
@@ -18,5 +18,5 @@ declare namespace network {
      * @param g a network graph data model, with nodes label id must 
      *  be the kegg pathway id and compounds id or kegg KO id
    */
-   function assignKeggClass(g:object): object;
+   function assignKeggClass(g: object): object;
 }

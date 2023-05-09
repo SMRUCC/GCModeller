@@ -11,7 +11,7 @@ declare namespace metabolism {
       module reaction {
          /**
          */
-         function cacheIndex(file:string): object;
+         function cacheIndex(file: string): object;
       }
    }
    module related {
@@ -22,7 +22,7 @@ declare namespace metabolism {
         * @param enzymes KO id list
         * @param reactions -
       */
-      function compounds(enzymes:string, reactions:object): string;
+      function compounds(enzymes: string, reactions: object): string;
    }
    module filter {
       /**
@@ -31,7 +31,7 @@ declare namespace metabolism {
        * 
         * @param identified -
       */
-      function invalid_keggIds(identified:string): string;
+      function invalid_keggIds(identified: string): string;
    }
    module kegg {
       /**
@@ -48,7 +48,7 @@ declare namespace metabolism {
         * 
         * + default value Is ``null``.
       */
-      function reconstruction(reference:any, reactions:any, annotations:any, min_cov?:number, env?:object): object;
+      function reconstruction(reference: any, reactions: any, annotations: any, min_cov?: number, env?: object): object;
    }
    /**
     * pick the reaction list from the kegg reaction
@@ -61,5 +61,5 @@ declare namespace metabolism {
      * 
      * + default value Is ``null``.
    */
-   function pickNetwork(reactions:object, terms:any, env?:object): any;
+   function pickNetwork(reactions: object, terms: any, env?: object): any;
 }

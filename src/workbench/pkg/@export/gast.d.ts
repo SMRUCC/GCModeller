@@ -19,7 +19,7 @@ declare namespace gast {
         * @param env 
         * + default value Is ``null``.
       */
-      function taxonomy(blastn:any, OTUs:object, taxonomy:object, min_pct?:number, gast_consensus?:boolean, env?:object): object;
+      function taxonomy(blastn: any, OTUs: object, taxonomy: object, min_pct?: number, gast_consensus?: boolean, env?: object): object;
    }
    module parse {
       /**
@@ -28,7 +28,7 @@ declare namespace gast {
        * 
         * @param tax the file path of the greengenes taxonomy mapping file.
       */
-      function greengenes_tax(tax:string): object;
+      function greengenes_tax(tax: string): object;
       /**
        * parse the OTU data file
        * 
@@ -37,6 +37,6 @@ declare namespace gast {
         * @param removes_lt 
         * + default value Is ``0.0001``.
       */
-      function mothur_OTUs(OTU_rep_fasta:string, removes_lt?:number): object;
+      function mothur_OTUs(OTU_rep_fasta: string, removes_lt?: number): object;
    }
 }

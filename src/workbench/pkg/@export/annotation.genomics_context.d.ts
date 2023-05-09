@@ -19,7 +19,7 @@ declare namespace annotation.genomics_context {
         * 
         * + default value Is ``null``.
       */
-      function filter(genes:any, strand?:any, env?:object): any;
+      function filter(genes: any, strand?: any, env?: object): any;
    }
    /**
     * create a new nucleotide location object
@@ -31,7 +31,7 @@ declare namespace annotation.genomics_context {
      * 
      * + default value Is ``null``.
    */
-   function location(left:object, right:object, strand?:any): any;
+   function location(left: object, right: object, strand?: any): any;
    module is {
       /**
        * the given nucleotide location is in forward direction
@@ -39,7 +39,7 @@ declare namespace annotation.genomics_context {
        * 
         * @param loci -
       */
-      function forward(loci:object): boolean;
+      function forward(loci: object): boolean;
    }
    /**
     * do offset of the given location
@@ -48,7 +48,7 @@ declare namespace annotation.genomics_context {
      * @param loci -
      * @param offset -
    */
-   function offset(loci:object, offset:object): object;
+   function offset(loci: object, offset: object): object;
    /**
     * Create a new context model of a specific genomics feature site.
     * 
@@ -62,7 +62,7 @@ declare namespace annotation.genomics_context {
      * 
      * + default value Is ``null``.
    */
-   function context(loci:any, distance:object, note?:string, env?:object): object;
+   function context(loci: any, distance: object, note?: string, env?: object): object;
    /**
     * get the segment relationship of two location
     * 
@@ -73,5 +73,5 @@ declare namespace annotation.genomics_context {
      * 
      * + default value Is ``null``.
    */
-   function relationship(a:any, b:any, env?:object): object;
+   function relationship(a: any, b: any, env?: object): object;
 }

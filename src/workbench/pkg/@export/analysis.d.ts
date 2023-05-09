@@ -20,7 +20,7 @@ declare namespace analysis {
         * 
         * + default value Is ``true``.
       */
-      function matrix(result:string, setName?:string, trim?:boolean): object;
+      function matrix(result: string, setName?: string, trim?: boolean): object;
    }
    module compound {
       /**
@@ -30,14 +30,14 @@ declare namespace analysis {
         * @param metabolites -
         * @param names -
       */
-      function names(metabolites:object, names:object): object;
+      function names(metabolites: object, names: object): object;
    }
    module vcell {
       module mass {
          /**
            * @param env default value Is ``null``.
          */
-         function graph(vcell:any, env?:object): object;
+         function graph(vcell: any, env?: object): object;
       }
    }
 }

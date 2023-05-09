@@ -24,7 +24,7 @@ declare namespace GSEA {
        * 
         * @param file -
       */
-      function enrichment(file:string): object;
+      function enrichment(file: string): object;
    }
    module enrichment {
       /**
@@ -39,7 +39,7 @@ declare namespace GSEA {
         * @param env 
         * + default value Is ``null``.
       */
-      function go(background:object, geneSet:string, go:any, showProgress?:boolean, env?:object): object;
+      function go(background: object, geneSet: string, go: any, showProgress?: boolean, env?: object): object;
       /**
        * Create network graph data for Cytoscape
        * 
@@ -47,11 +47,11 @@ declare namespace GSEA {
         * @param go_enrichment -
         * @param go -
       */
-      function go_dag(go_enrichment:object, go:object): object;
+      function go_dag(go_enrichment: object, go: object): object;
       module draw {
          /**
          */
-         function go_dag(go_enrichment:object, go:object): object;
+         function go_dag(go_enrichment: object, go: object): object;
       }
    }
    /**
@@ -69,7 +69,7 @@ declare namespace GSEA {
      * @param env 
      * + default value Is ``null``.
    */
-   function fisher(list:string, geneSet:string, background:any, term?:string, env?:object): object;
+   function fisher(list: string, geneSet: string, background: any, term?: string, env?: object): object;
    module write {
       /**
        * save the enrichment analysis result
@@ -83,7 +83,7 @@ declare namespace GSEA {
         * @param env 
         * + default value Is ``null``.
       */
-      function enrichment(enrichment:any, file:string, format?:object, env?:object): boolean;
+      function enrichment(enrichment: any, file: string, format?: object, env?: object): boolean;
    }
    module as {
       /**
@@ -94,7 +94,7 @@ declare namespace GSEA {
         * @param database 
         * + default value Is ``'n/a'``.
       */
-      function KOBAS_terms(enrichment:object, database?:string): object;
+      function KOBAS_terms(enrichment: object, database?: string): object;
    }
    /**
      * @param desc default value Is ``null``.
@@ -104,9 +104,9 @@ declare namespace GSEA {
      * @param enriched default value Is ``null``.
      * @param env default value Is ``null``.
    */
-   function cast_enrichs(term:string, name:string, pvalue:number, geneIDs:object, desc?:string, score?:number, fdr?:number, cluster?:object, enriched?:string, env?:object): object;
+   function cast_enrichs(term: string, name: string, pvalue: number, geneIDs: object, desc?: string, score?: number, fdr?: number, cluster?: object, enriched?: string, env?: object): object;
    /**
      * @param env default value Is ``null``.
    */
-   function to_enrichment_terms(x:object, env?:object): object;
+   function to_enrichment_terms(x: object, env?: object): object;
 }

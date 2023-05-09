@@ -13,7 +13,7 @@ declare namespace xgmml {
        * 
         * @param file -
       */
-      function xgmml(file:string): object;
+      function xgmml(file: string): object;
    }
    module xgmml {
       /**
@@ -45,6 +45,6 @@ declare namespace xgmml {
         * 
         * + default value Is ``null``.
       */
-      function render(model:any, size?:string, convexHull?:string, edgeBends?:boolean, altStyle?:boolean, rewriteGroupCategoryColors?:string, enzymeColorSchema?:string, compoundColorSchema?:string, reactionKOMapping?:object, compoundNames?:object): object;
+      function render(model: any, size?: string, convexHull?: string, edgeBends?: boolean, altStyle?: boolean, rewriteGroupCategoryColors?: string, enzymeColorSchema?: string, compoundColorSchema?: string, reactionKOMapping?: object, compoundNames?: object): object;
    }
 }
