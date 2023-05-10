@@ -35,6 +35,13 @@ declare namespace bioseq.patterns {
       */
       function scans(file: string): object;
    }
+   module as {
+      /**
+        * @param mol_type default value Is ``null``.
+        * @param env default value Is ``null``.
+      */
+      function seq_graph(fasta: any, mol_type?: object, env?: object): any;
+   }
    module motif {
       /**
        * Find target loci site based on the given motif model
