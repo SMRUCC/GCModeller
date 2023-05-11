@@ -45,7 +45,7 @@ Public Module FastQ
             .ToArray
         Dim result = data.ShortestCommonSuperString
 
-        Return New AssembleResult(result)
+        Return New AssembleResult(result, data)
     End Function
 
     ''' <summary>

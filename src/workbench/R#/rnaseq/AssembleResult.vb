@@ -55,17 +55,20 @@ Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop.[CType]
+Imports Microsoft.VisualBasic.Linq
 
 Public Class AssembleResult : Implements ICTypeDataframe
 
-    Friend alignments As String()
+    Dim assembly As String
+    Dim reads As String()
 
-    Sub New(result As String())
-        alignments = result
+    Sub New(result As String, reads As String())
+        Me.reads = reads
+        Me.assembly = result
     End Sub
 
     Public Function GetAssembledSequence() As String
-        Return alignments(Scan0)
+        Return assembly
     End Function
 
     Public Function toDataframe() As dataframe Implements ICTypeDataframe.toDataframe
@@ -76,7 +79,13 @@ Public Class AssembleResult : Implements ICTypeDataframe
             .LineTokens _
             .Skip(2) _
             .ToArray
-        df.add("AssembleResult", view)
+
+        view = New String() {GetAssembledSequence()} _
+            .JoinIterates(view) _
+            .ToArray
+
+        Call df.add("AssembleResult", view)
+
         Return df
     End Function
 
@@ -84,7 +93,7 @@ Public Class AssembleResult : Implements ICTypeDataframe
         Dim sb As New StringBuilder
 
         Using text As New StringWriter(sb)
-            Call asm.alignments.TableView(asm.GetAssembledSequence, text)
+            Call asm.reads.TableView(asm.GetAssembledSequence, text)
         End Using
 
         Return sb.ToString
