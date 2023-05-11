@@ -62,7 +62,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Text
 Imports stdNum = System.Math
 
-Namespace SVG
+Namespace SVG.PathHelper
 
     ''' <summary>
     ''' gdi+ object to svg model convertor
@@ -98,6 +98,10 @@ Namespace SVG
         End Function
 
         ''' <summary>
+        ''' Translate the gdi+ graphic path object to the svg path data
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks>
         ''' 下面的命令可用于路径数据：
         ''' 
         ''' + ``M`` = moveto(``M X,Y``)
@@ -112,8 +116,7 @@ Namespace SVG
         ''' + ``Z`` = closepath()
         ''' 
         ''' 注释：以上所有命令均允许小写字母。大写表示绝对定位，小写表示相对定位。
-        ''' </summary>
-        ''' <returns></returns>
+        ''' </remarks>
         <Extension>
         Public Function SVGPathData(path As GraphicsPath) As String
             Dim points = path.PathData _
@@ -244,7 +247,7 @@ Namespace SVG
                         parameters(++i),
                         parameters(++i),
                         parameters(++i),
- _
+                                        _
                         relative:=True
                     )
 
@@ -281,7 +284,7 @@ Namespace SVG
                         parameters(++i),
                         parameters(++i),
                         parameters(++i),
- _
+                                        _
                         relative:=True
                     )
 
