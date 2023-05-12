@@ -9,6 +9,9 @@
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <Title>COMPARATIVE DNA ANALYSIS ACROSS DIVERSE GENOMES</Title>
+    <Description>COMPARATIVE DNA ANALYSIS ACROSS DIVERSE GENOMES</Description>
+    <Copyright>Copyright © xie.guigang@gmail.com 2023</Copyright>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
