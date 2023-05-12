@@ -53,9 +53,9 @@
 Imports System.IO
 Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming
+Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop.[CType]
-Imports Microsoft.VisualBasic.Linq
 
 Public Class AssembleResult : Implements ICTypeDataframe
 
