@@ -11,4 +11,5 @@ Fasta sequence toolkit
 + [MSA.of](bioseq.fasta/MSA.of.1) Do multiple sequence alignment
 + [as.fasta](bioseq.fasta/as.fasta.1) Create a fasta sequence collection object from any given sequence collection.
 + [fasta](bioseq.fasta/fasta.1) Create a new fasta sequence objects
++ [fasta.headers](bioseq.fasta/fasta.headers.1) get/set the fasta headers title
 + [cut_seq.linear](bioseq.fasta/cut_seq.linear.1) 
