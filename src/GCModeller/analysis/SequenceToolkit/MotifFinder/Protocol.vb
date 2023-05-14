@@ -90,25 +90,6 @@ Public Module Protocol
     End Class
 
     ''' <summary>
-    ''' create seeds via pairwise alignment, use 
-    ''' the smith-waterman HSP as motif seeds.
-    ''' </summary>
-    ''' <param name="regions"></param>
-    ''' <param name="q"></param>
-    ''' <param name="param"></param>
-    ''' <returns></returns>
-    <Extension>
-    Private Function seeding(regions As IEnumerable(Of FastaSeq), q As FastaSeq, param As PopulatorParameter) As IEnumerable(Of HSP)
-        Dim seeds As New List(Of HSP)
-
-        For Each s As FastaSeq In regions.Where(Function(seq) Not seq Is q)
-            seeds += pairwiseSeeding(q, s, param)
-        Next
-
-        Return seeds
-    End Function
-
-    ''' <summary>
     ''' Motif motif finding workflow start from here
     ''' </summary>
     ''' <param name="inputs"></param>
@@ -120,7 +101,8 @@ Public Module Protocol
     Public Iterator Function PopulateMotifs(inputs As IEnumerable(Of FastaSeq),
                                             Optional leastN% = 5,
                                             Optional cleanMotif As Double = 0.5,
-                                            Optional param As PopulatorParameter = Nothing) As IEnumerable(Of SequenceMotif)
+                                            Optional param As PopulatorParameter = Nothing,
+                                            Optional debug As Boolean = False) As IEnumerable(Of SequenceMotif)
 
         Dim regions As FastaSeq() = inputs.ToArray
 
@@ -140,7 +122,7 @@ Public Module Protocol
         ' 先进行两两局部最优比对，得到最基本的种子
         ' 2018-3-2 在这里应该选取的是短的高相似度的序列
         Dim seeds As List(Of HSP) = payloads _
-            .AsParallel _
+            .Populate(parallel:=Not debug) _
             .Select(Function(q)
                         Return q.Select(Function(qi) qi.Seeding).IteratesALL.ToArray
                     End Function) _
@@ -251,13 +233,6 @@ Public Module Protocol
         }
 
         Return motif
-    End Function
-
-    Public Function pairwiseSeeding(q As FastaSeq, s As FastaSeq, param As PopulatorParameter) As IEnumerable(Of HSP)
-        Dim smithWaterman As New SmithWaterman(q.SequenceData, s.SequenceData, New DNAMatrix)
-        Call smithWaterman.BuildMatrix()
-        Dim result = smithWaterman.GetOutput(param.seedingCutoff, param.minW)
-        Return result.HSP.Where(Function(seed) seed.LengthHit <= param.maxW)
     End Function
 
     ''' <summary>

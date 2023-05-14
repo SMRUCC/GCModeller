@@ -292,6 +292,7 @@ Module patterns
                               Optional scanMinW As Integer = 6,
                               Optional scanCutoff As Double = 0.8,
                               Optional cleanMotif As Double = 0.5,
+                              Optional debug As Boolean = False,
                               Optional env As Environment = Nothing) As SequenceMotif()
 
         Dim param As New PopulatorParameter With {
@@ -306,7 +307,8 @@ Module patterns
             .PopulateMotifs(
                 leastN:=noccurs,
                 param:=param,
-                cleanMotif:=cleanMotif
+                cleanMotif:=cleanMotif,
+                debug:=debug
             ) _
             .OrderByDescending(Function(m) m.score / m.seeds.MSA.Length) _
             .Take(nmotifs) _
