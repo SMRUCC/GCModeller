@@ -1,4 +1,6 @@
 
+Imports SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.DeltaSimilarity1998.CAI
+
 ''' <summary>
 ''' A machine learning vector model for motif analysis
 ''' </summary>
@@ -19,12 +21,8 @@ Public Class SequenceGraph
             v.AddRange(components.Select(Function(ci) g(ci)))
         Next
 
-        For Each i As Char In components
-            For Each j As Char In components
-                For Each k As Char In components
-                    Call v.Add(Triple.TryGetValue(New String({i, j, k})))
-                Next
-            Next
+        For Each t As String In CodonBiasVector.PopulateTriples(components)
+            Call v.Add(Triple.TryGetValue(t))
         Next
 
         Return v.ToArray
