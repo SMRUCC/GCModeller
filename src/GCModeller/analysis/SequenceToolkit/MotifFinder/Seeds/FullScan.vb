@@ -5,14 +5,10 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 ''' <summary>
 ''' Create seeds via pairwise alignment between all sequence input
 ''' </summary>
-Public Class FullScan
+Public Class FullScan : Inherits SeedScanner
 
-    ReadOnly param As PopulatorParameter
-    ReadOnly debug As Boolean
-
-    Sub New(param As PopulatorParameter, debug As Boolean)
-        Me.param = param
-        Me.debug = debug
+    Public Sub New(param As PopulatorParameter, debug As Boolean)
+        MyBase.New(param, debug)
     End Sub
 
     Public Iterator Function GetSeeds(regions As FastaSeq()) As IEnumerable(Of HSP)
