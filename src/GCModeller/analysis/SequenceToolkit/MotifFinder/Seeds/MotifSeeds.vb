@@ -16,7 +16,10 @@ Module MotifSeeds
     Friend Function seeding(regions As IEnumerable(Of FastaSeq), q As FastaSeq, param As PopulatorParameter) As IEnumerable(Of HSP)
         Dim seeds As New List(Of HSP)
 
-        For Each s As FastaSeq In regions.Where(Function(seq) Not seq Is q)
+        ' the object reference is breaked at parallel
+        ' use the title for test equals instead of test equals via hashcode
+        ' at here
+        For Each s As FastaSeq In regions.Where(Function(seq) Not seq.Title = q.Title)
             seeds += pairwiseSeeding(q, s, param)
         Next
 
