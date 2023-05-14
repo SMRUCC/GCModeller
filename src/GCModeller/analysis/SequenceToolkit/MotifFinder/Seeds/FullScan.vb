@@ -56,7 +56,7 @@ Friend Class TaskPayload
     End Sub
 
     Public Function Seeding() As HSP()
-        Return regions.seeding(q, param).ToArray
+        Return regions.LocalSeeding(q, param).ToArray
     End Function
 
 End Class

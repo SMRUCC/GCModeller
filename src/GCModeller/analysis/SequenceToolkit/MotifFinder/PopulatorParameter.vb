@@ -62,17 +62,17 @@ Imports any = Microsoft.VisualBasic.Scripting
 Public Class PopulatorParameter
 
     ''' <summary>
-    ''' <see cref="MotifSeeds.pairwiseSeeding(FastaSeq, FastaSeq, PopulatorParameter)"/>
+    ''' <see cref="MotifSeeds.PairwiseSeeding(FastaSeq, FastaSeq, PopulatorParameter)"/>
     ''' </summary>
     ''' <returns></returns>
     Public Property minW As Integer
     ''' <summary>
-    ''' <see cref="MotifSeeds.pairwiseSeeding(FastaSeq, FastaSeq, PopulatorParameter)"/>
+    ''' <see cref="MotifSeeds.PairwiseSeeding(FastaSeq, FastaSeq, PopulatorParameter)"/>
     ''' </summary>
     ''' <returns></returns>
     Public Property maxW As Integer
     ''' <summary>
-    ''' <see cref="MotifSeeds.pairwiseSeeding(FastaSeq, FastaSeq, PopulatorParameter)"/>
+    ''' <see cref="MotifSeeds.PairwiseSeeding(FastaSeq, FastaSeq, PopulatorParameter)"/>
     ''' </summary>
     ''' <returns></returns>
     Public Property seedingCutoff As Double
