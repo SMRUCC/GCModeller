@@ -9,6 +9,8 @@ Module Program
         Dim graph = Builder.DNAGraph(dna)
 
         Call Console.WriteLine(graph.GetVector(SequenceModel.NT).GetJson)
+        Call Console.WriteLine()
+        Call Console.WriteLine(graph.GetJson)
 
         Pause()
     End Sub

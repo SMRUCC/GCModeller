@@ -6,23 +6,23 @@ Imports SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.DeltaSimilarity19
 ''' </summary>
 Public Class SequenceGraph
 
-    Public Property Compositions As Dictionary(Of Char, Double)
-    Public Property Graph As Dictionary(Of Char, Dictionary(Of Char, Double))
-    Public Property Triple As Dictionary(Of String, Double)
+    Public Property composition As Dictionary(Of Char, Double)
+    Public Property graph As Dictionary(Of Char, Dictionary(Of Char, Double))
+    Public Property triple As Dictionary(Of String, Double)
 
     Public Function GetVector(components As IReadOnlyCollection(Of Char)) As Double()
         Dim v As New List(Of Double)
         Dim g As Dictionary(Of Char, Double)
 
-        Call v.AddRange(components.Select(Function(ci) Compositions(ci)))
+        Call v.AddRange(components.Select(Function(ci) composition(ci)))
 
         For Each key As Char In components
-            g = Graph(key)
+            g = graph(key)
             v.AddRange(components.Select(Function(ci) g(ci)))
         Next
 
         For Each t As String In CodonBiasVector.PopulateTriples(components)
-            Call v.Add(Triple.TryGetValue(t))
+            Call v.Add(triple.TryGetValue(t))
         Next
 
         Return v.ToArray

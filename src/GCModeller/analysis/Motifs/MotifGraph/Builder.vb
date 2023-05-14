@@ -50,6 +50,10 @@ Public Module Builder
             Call triples.Add(t, seq.Count(t) / (nsize / 3))
         Next
 
-        Return New SequenceGraph With {.Compositions = cv, .Graph = g}
+        Return New SequenceGraph With {
+            .composition = cv,
+            .graph = g,
+            .triple = triples
+        }
     End Function
 End Module
