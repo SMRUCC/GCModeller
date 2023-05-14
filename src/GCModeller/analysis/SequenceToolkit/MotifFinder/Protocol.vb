@@ -84,7 +84,8 @@ Public Module Protocol
                                             Optional debug As Boolean = False) As IEnumerable(Of SequenceMotif)
 
         Dim regions As FastaSeq() = inputs.ToArray
-        Dim seeds As HSP()
+        Dim scanner As SeedScanner = Activator.CreateInstance(type:=param.GetScanner, param, debug)
+        Dim seeds As HSP() = scanner.GetSeeds(regions).ToArray
 
         Call param.logText($"create {seeds.Length} seeds...")
         Call param.logText("create motif cluster tree!")

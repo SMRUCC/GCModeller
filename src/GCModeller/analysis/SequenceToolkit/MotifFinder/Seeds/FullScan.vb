@@ -11,7 +11,7 @@ Public Class FullScan : Inherits SeedScanner
         MyBase.New(param, debug)
     End Sub
 
-    Public Iterator Function GetSeeds(regions As FastaSeq()) As IEnumerable(Of HSP)
+    Public Overrides Iterator Function GetSeeds(regions As FastaSeq()) As IEnumerable(Of HSP)
         Call param.logText("create parallel task payload...")
 
         Dim payloads As TaskPayload()() = regions _

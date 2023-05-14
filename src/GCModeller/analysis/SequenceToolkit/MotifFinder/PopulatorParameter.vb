@@ -62,17 +62,17 @@ Imports any = Microsoft.VisualBasic.Scripting
 Public Class PopulatorParameter
 
     ''' <summary>
-    ''' <see cref="Protocol.pairwiseSeeding(FastaSeq, FastaSeq, PopulatorParameter)"/>
+    ''' <see cref="MotifSeeds.pairwiseSeeding(FastaSeq, FastaSeq, PopulatorParameter)"/>
     ''' </summary>
     ''' <returns></returns>
     Public Property minW As Integer
     ''' <summary>
-    ''' <see cref="Protocol.pairwiseSeeding(FastaSeq, FastaSeq, PopulatorParameter)"/>
+    ''' <see cref="MotifSeeds.pairwiseSeeding(FastaSeq, FastaSeq, PopulatorParameter)"/>
     ''' </summary>
     ''' <returns></returns>
     Public Property maxW As Integer
     ''' <summary>
-    ''' <see cref="Protocol.pairwiseSeeding(FastaSeq, FastaSeq, PopulatorParameter)"/>
+    ''' <see cref="MotifSeeds.pairwiseSeeding(FastaSeq, FastaSeq, PopulatorParameter)"/>
     ''' </summary>
     ''' <returns></returns>
     Public Property seedingCutoff As Double
@@ -81,6 +81,7 @@ Public Class PopulatorParameter
     ''' </summary>
     ''' <returns></returns>
     Public Property seedOccurances As Double
+    Public Property seedScanner As Scanners = Scanners.TreeScan
     Public Property ScanMinW As Integer
     Public Property ScanCutoff As Double
 
@@ -107,6 +108,15 @@ Public Class PopulatorParameter
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Overrides Function ToString() As String
         Return Me.GetJson
+    End Function
+
+    Public Function GetScanner() As Type
+        Select Case seedScanner
+            Case Scanners.TreeScan : Return GetType(TreeScan)
+            Case Scanners.FullScan : Return GetType(FullScan)
+            Case Else
+                Throw New NotImplementedException(seedScanner.Description)
+        End Select
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
