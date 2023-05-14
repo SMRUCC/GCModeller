@@ -378,3 +378,5 @@ src/workbench/pkg/pipeline/KEGG_maps.pack
 .vs/GCModeller/v17/.wsuo
 src/GCModeller/analysis/Motifs/.vs/Motifs/v17/.wsuo
 .vs/GCModeller/v17/Preview/Browse.VC.db
+src/GCModeller/analysis/Motifs/MotifGraph/.vs/ProjectEvaluation/motifgraph.metadata.v6.1
+src/GCModeller/analysis/Motifs/MotifGraph/.vs/ProjectEvaluation/motifgraph.projects.v6.1
