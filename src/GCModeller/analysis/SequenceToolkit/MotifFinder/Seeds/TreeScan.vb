@@ -6,6 +6,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 Public Class TreeScan : Inherits SeedScanner
 
     ReadOnly hsp As New List(Of HSP)
+    ReadOnly t0 As Date = Now
 
     Public Sub New(param As PopulatorParameter, debug As Boolean)
         MyBase.New(param, debug)
@@ -47,7 +48,10 @@ Public Class TreeScan : Inherits SeedScanner
             Call tree.Add(key:=seq)
 
             If ++i Mod d = 0 Then
-                Call param.logText($"[{i}/{regions.Length}] {(i / regions.Length * 100).ToString("F0")}% {seq.Title}")
+                Dim dt As TimeSpan = Now - t0
+                Dim speed As String = (CInt(i) / dt.TotalSeconds).ToString("F2")
+
+                Call param.logText($"[{i}/{regions.Length}, {dt.FormatTime} | {speed}sequence/sec] {(i / regions.Length * 100).ToString("F0")}% {hsp.Count} seeds | {seq.Title}")
             End If
         Next
 
