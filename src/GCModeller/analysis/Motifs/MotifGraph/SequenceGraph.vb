@@ -9,6 +9,7 @@ Public Class SequenceGraph
     Public Property composition As Dictionary(Of Char, Double)
     Public Property graph As Dictionary(Of Char, Dictionary(Of Char, Double))
     Public Property triple As Dictionary(Of String, Double)
+    Public Property tuple_distance As Dictionary(Of String, Double)
 
     Public Function GetVector(components As IReadOnlyCollection(Of Char)) As Double()
         Dim v As New List(Of Double)
