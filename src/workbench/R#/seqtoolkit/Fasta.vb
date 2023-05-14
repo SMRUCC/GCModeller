@@ -394,6 +394,16 @@ Module Fasta
         Return fa.Headers
     End Function
 
+    ''' <summary>
+    ''' get the fasta titles from a collection of fasta sequence
+    ''' </summary>
+    ''' <param name="fa"></param>
+    ''' <returns></returns>
+    <ExportAPI("fasta.titles")>
+    Public Function fastaTitles(<RRawVectorArgument> fa As Object, Optional env As Environment = Nothing) As String()
+        Return GetFastaSeq(fa, env).Select(Function(a) a.Title)
+    End Function
+
     <ExportAPI("cut_seq.linear")>
     Public Function CutSequenceLinear(<RRawVectorArgument> seq As Object,
                                       <RRawVectorArgument> loci As Object,

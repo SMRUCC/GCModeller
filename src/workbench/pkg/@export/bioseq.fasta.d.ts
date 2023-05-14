@@ -37,6 +37,15 @@ declare namespace bioseq.fasta {
         * + default value Is ``null``.
       */
       function headers(fa: object, headers?: string): string;
+      /**
+       * get the fasta titles from a collection of fasta sequence
+       * 
+       * 
+        * @param fa -
+        * @param env 
+        * + default value Is ``null``.
+      */
+      function titles(fa: any, env?: object): string;
    }
    module MSA {
       /**
