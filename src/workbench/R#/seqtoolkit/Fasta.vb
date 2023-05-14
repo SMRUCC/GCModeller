@@ -401,7 +401,9 @@ Module Fasta
     ''' <returns></returns>
     <ExportAPI("fasta.titles")>
     Public Function fastaTitles(<RRawVectorArgument> fa As Object, Optional env As Environment = Nothing) As String()
-        Return GetFastaSeq(fa, env).Select(Function(a) a.Title)
+        Return GetFastaSeq(fa, env) _
+            .Select(Function(a) a.Title) _
+            .ToArray
     End Function
 
     <ExportAPI("cut_seq.linear")>
