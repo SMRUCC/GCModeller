@@ -224,12 +224,14 @@ Module patterns
         If target Is Nothing Then
             Return Internal.debug.stop("sequence target can not be nothing!", env)
         ElseIf TypeOf target Is FastaSeq Then
+            ' scan a simple single sequence
             Return motif.region _
                 .ScanSites(DirectCast(target, FastaSeq), cutoff, minW, identities) _
                 .ToArray
         Else
             Dim seqs = GetFastaSeq(target, env)
 
+            ' scan multiple sequence
             If seqs Is Nothing Then
                 Return Internal.debug.stop($"invalid sequence collection type: {target.GetType.FullName}", env)
             Else
@@ -274,7 +276,7 @@ Module patterns
     ''' <summary>
     ''' find possible motifs of the given sequence collection
     ''' </summary>
-    ''' <param name="fasta"></param>
+    ''' <param name="fasta">should contains multiple sequence</param>
     ''' <param name="minw%"></param>
     ''' <param name="maxw%"></param>
     ''' <param name="nmotifs%"></param>

@@ -108,6 +108,14 @@ Public Module Protocol
         Return seeds
     End Function
 
+    ''' <summary>
+    ''' Motif motif finding workflow start from here
+    ''' </summary>
+    ''' <param name="inputs"></param>
+    ''' <param name="leastN%"></param>
+    ''' <param name="cleanMotif"></param>
+    ''' <param name="param"></param>
+    ''' <returns></returns>
     <Extension>
     Public Iterator Function PopulateMotifs(inputs As IEnumerable(Of FastaSeq),
                                             Optional leastN% = 5,
