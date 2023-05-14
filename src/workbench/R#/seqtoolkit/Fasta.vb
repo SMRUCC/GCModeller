@@ -379,6 +379,21 @@ Module Fasta
         }
     End Function
 
+    ''' <summary>
+    ''' get/set the fasta headers title
+    ''' </summary>
+    ''' <param name="fa"></param>
+    ''' <param name="headers"></param>
+    ''' <returns></returns>
+    <ExportAPI("fasta.headers")>
+    Public Function fastaTitle(fa As FastaSeq, <RByRefValueAssign> Optional headers As String() = Nothing) As String()
+        If Not headers.IsNullOrEmpty Then
+            fa.Headers = headers
+        End If
+
+        Return fa.Headers
+    End Function
+
     <ExportAPI("cut_seq.linear")>
     Public Function CutSequenceLinear(<RRawVectorArgument> seq As Object,
                                       <RRawVectorArgument> loci As Object,

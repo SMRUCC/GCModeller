@@ -88,16 +88,12 @@ Module pipHelper
                 Return DirectCast(a, FastaFile)
             Case GetType(FastaSeq())
                 Return a
+            Case GetType(list)
+                Return fastaFromCollection(DirectCast(a, list).data)
             Case Else
                 If type.IsArray Then
                     If REnv.MeasureArrayElementType(a) Is GetType(FastaSeq) Then
-                        Return Iterator Function() As IEnumerable(Of FastaSeq)
-                                   Dim vec As Array = DirectCast(a, Array)
-
-                                   For i As Integer = 0 To vec.Length - 1
-                                       Yield DirectCast(vec.GetValue(i), FastaSeq)
-                                   Next
-                               End Function()
+                        Return fastaFromCollection(a)
                     ElseIf REnv.MeasureArrayElementType(a) Is GetType(String) Then
                         Return fastaFromStrings(a)
                     End If
@@ -115,6 +111,20 @@ Module pipHelper
                     Return Nothing
                 End If
         End Select
+    End Function
+
+    Private Iterator Function fastaFromCollection(a As Object) As IEnumerable(Of FastaSeq)
+        Dim vec As Array
+
+        If a.GetType.IsArray Then
+            vec = DirectCast(a, Array)
+        Else
+            vec = REnv.asVector(Of Object)(a)
+        End If
+
+        For i As Integer = 0 To vec.Length - 1
+            Yield DirectCast(vec.GetValue(i), FastaSeq)
+        Next
     End Function
 
     Private Iterator Function fastaFromStrings(a As Object) As IEnumerable(Of FastaSeq)
