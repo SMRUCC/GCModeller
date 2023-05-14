@@ -20,7 +20,7 @@ declare namespace bioseq.patterns {
     * 
      * @param fasta should contains multiple sequence
      * @param minw 
-     * + default value Is ``6``.
+     * + default value Is ``8``.
      * @param maxw 
      * + default value Is ``20``.
      * @param nmotifs 
@@ -35,12 +35,14 @@ declare namespace bioseq.patterns {
      * + default value Is ``0.8``.
      * @param cleanMotif 
      * + default value Is ``0.5``.
+     * @param significant_sites 
+     * + default value Is ``4``.
      * @param debug 
      * + default value Is ``false``.
      * @param env 
      * + default value Is ``null``.
    */
-   function find_motifs(fasta: any, minw?: object, maxw?: object, nmotifs?: object, noccurs?: object, seedingCutoff?: number, scanMinW?: object, scanCutoff?: number, cleanMotif?: number, debug?: boolean, env?: object): object;
+   function find_motifs(fasta: any, minw?: object, maxw?: object, nmotifs?: object, noccurs?: object, seedingCutoff?: number, scanMinW?: object, scanCutoff?: number, cleanMotif?: number, significant_sites?: object, debug?: boolean, env?: object): object;
    module motif {
       /**
        * Find target loci site based on the given motif model
@@ -51,7 +53,7 @@ declare namespace bioseq.patterns {
         * @param cutoff 
         * + default value Is ``0.6``.
         * @param minW 
-        * + default value Is ``6``.
+        * + default value Is ``8``.
         * @param identities 
         * + default value Is ``0.85``.
         * @param parallel 
