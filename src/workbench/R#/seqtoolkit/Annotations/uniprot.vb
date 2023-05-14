@@ -59,6 +59,7 @@ Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports REnv = SMRUCC.Rsharp.Runtime
 
 ''' <summary>
@@ -309,7 +310,7 @@ Module uniprot
             Return uniprotData
         End If
 
-        Dim rawIdList As String() = REnv.asVector(Of String)(id)
+        Dim rawIdList As String() = CLRVector.asCharacter(id)
         Dim mapId As Func(Of String, String) = GetIDs.IdMapping(uniprotData.populates(Of entry)(env), target)
 
         Return rawIdList _

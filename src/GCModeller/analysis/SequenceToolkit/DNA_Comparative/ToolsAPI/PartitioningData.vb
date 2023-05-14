@@ -114,7 +114,7 @@ Public Class PartitioningData : Implements IAbstractFastaToken
     ''' <value></value>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    <Ignored> Public Property SequenceData As String Implements IPolymerSequenceModel.SequenceData
+    Public Property SequenceData As String Implements IPolymerSequenceModel.SequenceData
 
     Public Property Headers As String() Implements IAbstractFastaToken.headers
 
