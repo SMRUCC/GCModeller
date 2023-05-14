@@ -14,6 +14,7 @@ Public Class SequenceGraph
     Public Function GetVector(components As IReadOnlyCollection(Of Char)) As Double()
         Dim v As New List(Of Double)
         Dim g As Dictionary(Of Char, Double)
+        Dim tuple_graph As String() = DistanceGraph.GetTuples(components).ToArray
 
         Call v.AddRange(components.Select(Function(ci) composition(ci)))
 
@@ -24,6 +25,14 @@ Public Class SequenceGraph
 
         For Each t As String In CodonBiasVector.PopulateTriples(components)
             Call v.Add(triple.TryGetValue(t))
+        Next
+
+        For Each t1 As String In tuple_graph
+            For Each t2 As String In tuple_graph
+                If t1 <> t2 Then
+                    Call v.Add(tuple_distance.TryGetValue($"{t1}|{t2}"))
+                End If
+            Next
         Next
 
         Return v.ToArray

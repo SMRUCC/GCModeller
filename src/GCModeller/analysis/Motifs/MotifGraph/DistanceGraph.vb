@@ -38,4 +38,27 @@
             Return pos.Average
         End If
     End Function
+
+    Public Function TupleDistanceGraph(seq As String, components As IReadOnlyCollection(Of Char)) As Dictionary(Of String, Double)
+        Dim graph As New Dictionary(Of String, Double)
+        Dim tuples As String() = GetTuples(components).ToArray
+
+        For Each t1 As String In tuples
+            For Each t2 As String In tuples
+                If t1 <> t2 Then
+                    Call graph.Add($"{t1}|{t2}", MeasureAverageDistance(seq, t1, t2))
+                End If
+            Next
+        Next
+
+        Return graph
+    End Function
+
+    Friend Iterator Function GetTuples(components As IReadOnlyCollection(Of Char)) As IEnumerable(Of String)
+        For Each i As Char In components
+            For Each j As Char In components
+                Yield New String({i, j})
+            Next
+        Next
+    End Function
 End Module

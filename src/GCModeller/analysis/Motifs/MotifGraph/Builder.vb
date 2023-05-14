@@ -28,6 +28,7 @@ Public Module Builder
         Dim g As New Dictionary(Of Char, Dictionary(Of Char, Double))
         Dim nsize As Integer = seq.Length
         Dim triples As New Dictionary(Of String, Double)
+        Dim distance As Dictionary(Of String, Double) = DistanceGraph.TupleDistanceGraph(seq, components)
 
         c = c / nsize
 
@@ -53,7 +54,8 @@ Public Module Builder
         Return New SequenceGraph With {
             .composition = cv,
             .graph = g,
-            .triple = triples
+            .triple = triples,
+            .tuple_distance = distance
         }
     End Function
 End Module
