@@ -92,6 +92,12 @@ Public Structure Residue
         End Get
     End Property
 
+    Public ReadOnly Property isConserved As Boolean
+        Get
+            Return frequency.Values.Max > 0.65
+        End Get
+    End Property
+
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Overrides Function ToString() As String
         Dim max As Double = -99999

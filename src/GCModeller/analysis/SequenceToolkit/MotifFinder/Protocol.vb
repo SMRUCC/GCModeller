@@ -110,7 +110,7 @@ Public Module Protocol
 
             motif = motif.Cleanup(cutoff:=cleanMotif)
 
-            If motif.score > 0 Then
+            If motif.score > 0 AndAlso motif.SignificantSites >= param.significant_sites Then
                 Yield motif
             End If
         Next
@@ -120,13 +120,13 @@ Public Module Protocol
     Private Function motif(group As BinaryTree(Of String, String), regions As FastaSeq(), param As PopulatorParameter) As SequenceMotif
         Dim members As List(Of String) = group!values
         Dim MSA As MSAOutput = members _
-                .Select(Function(seq)
-                            Return New FastaSeq With {
-                                .SequenceData = seq,
-                                .Headers = {""}
-                            }
-                        End Function) _
-                .MultipleAlignment(Nothing)
+            .Select(Function(seq)
+                        Return New FastaSeq With {
+                            .SequenceData = seq,
+                            .Headers = {""}
+                        }
+                    End Function) _
+            .MultipleAlignment(Nothing)
         Dim PWM As SequenceMotif = MSA.PWM(members:=regions, param:=param)
 
         Return PWM

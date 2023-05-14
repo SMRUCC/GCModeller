@@ -84,6 +84,7 @@ Public Class PopulatorParameter
     Public Property seedScanner As Scanners = Scanners.TreeScan
     Public Property ScanMinW As Integer
     Public Property ScanCutoff As Double
+    Public Property significant_sites As Integer = 4
 
     Public Property log As Action(Of Object)
 
@@ -128,7 +129,9 @@ Public Class PopulatorParameter
             .ScanCutoff = 0.6,
             .ScanMinW = 6,
             .seedOccurances = 0.6,
-            .log = Sub(msg) Call any.ToString(msg).__DEBUG_ECHO
+            .log = Sub(msg) Call any.ToString(msg).__DEBUG_ECHO,
+            .significant_sites = 4,
+            .seedScanner = Scanners.TreeScan
         }
     End Function
 

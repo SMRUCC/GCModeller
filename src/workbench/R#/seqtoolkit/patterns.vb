@@ -86,6 +86,7 @@ Module patterns
         Call REnv.Internal.ConsolePrinter.AttachConsoleFormatter(Of PalindromeLoci)(AddressOf PalindromeToString)
         Call REnv.Internal.Object.Converts.makeDataframe.addHandler(GetType(MotifMatch()), AddressOf matchTableOutput)
         Call REnv.Internal.generic.add("plot", GetType(SequenceMotif), AddressOf plotMotif)
+        Call REnv.Internal.ConsolePrinter.AttachConsoleFormatter(Of SequenceMotif)(Function(m) DirectCast(m, SequenceMotif).patternString)
     End Sub
 
     Private Function plotMotif(motif As SequenceMotif, args As list, env As Environment) As Object
@@ -216,7 +217,7 @@ Module patterns
                                <RRawVectorArgument>
                                target As Object,
                                Optional cutoff# = 0.6,
-                               Optional minW# = 6,
+                               Optional minW# = 8,
                                Optional identities As Double = 0.85,
                                Optional parallel As Boolean = False,
                                Optional env As Environment = Nothing) As Object
@@ -284,7 +285,7 @@ Module patterns
     ''' <returns></returns>
     <ExportAPI("find_motifs")>
     Public Function GetMotifs(<RRawVectorArgument> fasta As Object,
-                              Optional minw% = 6,
+                              Optional minw% = 8,
                               Optional maxw% = 20,
                               Optional nmotifs% = 25,
                               Optional noccurs% = 6,
@@ -292,6 +293,7 @@ Module patterns
                               Optional scanMinW As Integer = 6,
                               Optional scanCutoff As Double = 0.8,
                               Optional cleanMotif As Double = 0.5,
+                              Optional significant_sites As Integer = 4,
                               Optional debug As Boolean = False,
                               Optional env As Environment = Nothing) As SequenceMotif()
 
@@ -301,7 +303,10 @@ Module patterns
             .seedingCutoff = seedingCutoff,
             .ScanMinW = scanMinW,
             .ScanCutoff = scanCutoff,
-            .log = env.WriteLineHandler
+            .log = env.WriteLineHandler,
+            .seedScanner = Scanners.TreeScan,
+            .significant_sites = significant_sites,
+            .seedOccurances = 6
         }
         Dim motifs As SequenceMotif() = GetFastaSeq(fasta, env) _
             .PopulateMotifs(
