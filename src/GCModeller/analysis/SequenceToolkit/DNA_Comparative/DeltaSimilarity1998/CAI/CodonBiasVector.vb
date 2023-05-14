@@ -52,11 +52,15 @@
 
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Math.Correlations
+Imports SMRUCC.genomics.SequenceModel
 
 Namespace DeltaSimilarity1998.CAI
 
     Public Structure CodonBiasVector
 
+        ''' <summary>
+        ''' 三联体密码子
+        ''' </summary>
         <XmlAttribute> Dim Codon As String
         <XmlAttribute> Dim XY#, YZ#, XZ#
 
@@ -70,6 +74,23 @@ Namespace DeltaSimilarity1998.CAI
 
         Public Overrides Function ToString() As String
             Return $"{Codon} -> (pXY={XY}, pYZ={YZ}, pXZ={XZ})"
+        End Function
+
+        ''' <summary>
+        ''' 简单的产生三个残基单元产生的Triple片段对象
+        ''' </summary>
+        ''' <param name="seq"></param>
+        ''' <returns></returns>
+        Public Shared Iterator Function PopulateTriples(seq As SeqTypes) As IEnumerable(Of String)
+            Dim vec As IReadOnlyCollection(Of Char) = seq.GetVector
+
+            For Each i As Char In vec
+                For Each j As Char In vec
+                    For Each k As Char In vec
+                        Yield New String({i, j, k})
+                    Next
+                Next
+            Next
         End Function
     End Structure
 End Namespace
