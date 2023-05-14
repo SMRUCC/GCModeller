@@ -118,16 +118,16 @@ Public Module Protocol
 
         param = param Or PopulatorParameter.DefaultParameter
 
-        Call param.log()("create parallel task payload...")
+        Call param.logText("create parallel task payload...")
 
         Dim payloads As TaskPayload()() = regions _
             .Select(Function(q) New TaskPayload(q, regions, param)) _
             .Split(partitionSize:=regions.Length / (App.CPUCoreNumbers * 2)) _
             .ToArray
 
-        Call param.log()($"run task on {payloads.Length} parallel process!")
-        Call param.log()($"there are {Aggregate x In payloads Into Average(x.Length)} task in each parallel process.")
-        Call param.log()("seeding...")
+        Call param.logText($"run task on {payloads.Length} parallel process!")
+        Call param.logText($"there are {Aggregate x In payloads Into Average(x.Length)} task in each parallel process.")
+        Call param.logText("seeding...")
 
         ' 先进行两两局部最优比对，得到最基本的种子
         ' 2018-3-2 在这里应该选取的是短的高相似度的序列
@@ -140,8 +140,8 @@ Public Module Protocol
             .IteratesALL _
             .AsList
 
-        Call param.log()($"create {seeds.Count} seeds...")
-        Call param.log()("create motif cluster tree!")
+        Call param.logText($"create {seeds.Count} seeds...")
+        Call param.logText("create motif cluster tree!")
 
         ' 构建出二叉树
         ' 每一个node都是一个cluster
@@ -150,7 +150,7 @@ Public Module Protocol
             .Select(Function(q) New NamedValue(Of String)(q.Query, q.Query)) _
             .BuildAVLTreeCluster(param.seedingCutoff)
 
-        Call param.log()("populate motifs...")
+        Call param.logText("populate motifs...")
 
         ' 对聚类簇进行多重序列比对得到概率矩阵
         For Each motif As SequenceMotif In tree _

@@ -65,9 +65,13 @@ Namespace SequenceModel
         ''' <summary>
         ''' Enumeration for nucleotide residues
         ''' </summary>
-        ''' <returns></returns>
+        ''' <returns>[ATGC]</returns>
         Public ReadOnly Property NT As IReadOnlyCollection(Of Char) = {"A"c, "T"c, "G"c, "C"c}
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <returns>[AUGC]</returns>
         Public ReadOnly Property RNA As IReadOnlyCollection(Of Char) = {"A"c, "U"c, "G"c, "C"c}
 
         ''' <summary>
