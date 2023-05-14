@@ -1,5 +1,6 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.BinaryTree
+Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Public Class TreeScan : Inherits SeedScanner
@@ -26,7 +27,7 @@ Public Class TreeScan : Inherits SeedScanner
             Return 0
         End If
 
-        Dim seeds As HSP() = MotifSeeds.pairwiseSeeding(a, b, param).ToArray
+        Dim seeds As HSP() = MotifSeeds.PairwiseSeeding(a, b, param).ToArray
 
         Call hsp.AddRange(seeds)
 
@@ -39,9 +40,15 @@ Public Class TreeScan : Inherits SeedScanner
 
     Public Overrides Function GetSeeds(regions() As FastaSeq) As IEnumerable(Of HSP)
         Dim tree = CreateTree()
+        Dim i As i32 = Scan0
+        Dim d As Integer = regions.Length / 100
 
         For Each seq As FastaSeq In regions
             Call tree.Add(key:=seq)
+
+            If ++i Mod d = 0 Then
+                Call param.logText($"[{i}/{regions.Length}] {(i / regions.Length * 100).ToString("F0")}% {seq.Title}")
+            End If
         Next
 
         Return hsp
