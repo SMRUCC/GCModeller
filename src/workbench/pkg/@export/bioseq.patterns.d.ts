@@ -23,8 +23,12 @@ declare namespace bioseq.patterns {
      * + default value Is ``8``.
      * @param maxw 
      * + default value Is ``20``.
-     * @param nmotifs 
-     * + default value Is ``25``.
+     * @param nmotifs A number for limit the number of motif outputs:
+     *  
+     *  + negative integer/zero: no limits[default]
+     *  + positive value: top motifs with score desc
+     * 
+     * + default value Is ``-1``.
      * @param noccurs 
      * + default value Is ``6``.
      * @param seedingCutoff 

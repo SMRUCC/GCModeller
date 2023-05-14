@@ -50,8 +50,9 @@ Public Class TreeScan : Inherits SeedScanner
             If ++i Mod d = 0 Then
                 Dim dt As TimeSpan = Now - t0
                 Dim speed As String = (CInt(i) / dt.TotalSeconds).ToString("F2")
+                Dim speed2 As String = (hsp.Count / dt.TotalSeconds).ToString("F2")
 
-                Call param.logText($"[{i}/{regions.Length}, {dt.FormatTime} | {speed}sequence/sec] {(i / regions.Length * 100).ToString("F0")}% {hsp.Count} seeds | {seq.Title}")
+                Call param.logText($"[{i}/{regions.Length}, {dt.FormatTime} | {speed}sequence/sec | {speed2}seeds/sec] {(i / regions.Length * 100).ToString("F0")}% {hsp.Count} seeds | {seq.Title}")
             End If
         Next
 

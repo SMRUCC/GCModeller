@@ -6,7 +6,7 @@ find_motifs \- find possible motifs of the given sequence collection
 \fIfind_motifs(\fBfasta\fR as any, 
 \fBminw\fR as integer = 8, 
 \fBmaxw\fR as integer = 20, 
-\fBnmotifs\fR as integer = 25, 
+\fBnmotifs\fR as integer = -1, 
 \fBnoccurs\fR as integer = 6, 
 \fBseedingCutoff\fR as double = 0.95, 
 \fBscanMinW\fR as integer = 6, 
@@ -30,7 +30,12 @@ find possible motifs of the given sequence collection
 \fBmaxw%\fB \fR\- -. 
 .PP
 .PP
-\fBnmotifs%\fB \fR\- -. 
+\fBnmotifs\fB \fR\- 
+ A number for limit the number of motif outputs:
+ 
+ + negative integer/zero: no limits[default]
+ + positive value: top motifs with score desc
+. 
 .PP
 .PP
 \fBnoccurs%\fB \fR\- -. 

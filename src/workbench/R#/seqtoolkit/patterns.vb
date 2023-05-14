@@ -280,14 +280,19 @@ Module patterns
     ''' <param name="fasta">should contains multiple sequence</param>
     ''' <param name="minw%"></param>
     ''' <param name="maxw%"></param>
-    ''' <param name="nmotifs%"></param>
+    ''' <param name="nmotifs">
+    ''' A number for limit the number of motif outputs:
+    ''' 
+    ''' + negative integer/zero: no limits[default]
+    ''' + positive value: top motifs with score desc
+    ''' </param>
     ''' <param name="noccurs%"></param>
     ''' <returns></returns>
     <ExportAPI("find_motifs")>
     Public Function GetMotifs(<RRawVectorArgument> fasta As Object,
                               Optional minw% = 8,
                               Optional maxw% = 20,
-                              Optional nmotifs% = 25,
+                              Optional nmotifs% = -1,
                               Optional noccurs% = 6,
                               Optional seedingCutoff As Double = 0.95,
                               Optional scanMinW As Integer = 6,
@@ -316,10 +321,13 @@ Module patterns
                 debug:=debug
             ) _
             .OrderByDescending(Function(m) m.score / m.seeds.MSA.Length) _
-            .Take(nmotifs) _
             .ToArray
 
-        Return motifs
+        If nmotifs > 0 Then
+            Return motifs.Take(nmotifs).ToArray
+        Else
+            Return motifs
+        End If
     End Function
 
     ''' <summary>

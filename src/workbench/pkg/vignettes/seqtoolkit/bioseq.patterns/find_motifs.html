@@ -160,7 +160,7 @@
             <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>find_motifs</strong>(<i>fasta</i>,
     <i>minw</i> = 8,
     <i>maxw</i> = 20,
-    <i>nmotifs</i> = 25,
+    <i>nmotifs</i> = -1,
     <i>noccurs</i> = 6,
     <i>seedingCutoff</i> = 0.95,
     <i>scanMinW</i> = 6,
@@ -186,8 +186,13 @@
 <dd><p><p>-</p></p></dd>
 
 
-<dt>nmotifs%</dt>
-<dd><p><p>-</p></p></dd>
+<dt>nmotifs</dt>
+<dd><p><p>A number for limit the number of motif outputs:</p>
+
+<ul>
+<li>negative integer/zero: no limits[default]</li>
+<li>positive value: top motifs with score desc</li>
+</ul></p></dd>
 
 
 <dt>noccurs%</dt>
