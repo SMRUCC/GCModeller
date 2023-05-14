@@ -193,6 +193,7 @@ Module Fasta
                                Optional env As Environment = Nothing) As Boolean
 
         If TypeOf seq Is pipeline Then
+            ' save a huge bundle of the fasta sequence collection
             Using buffer As New StreamWriter(file.Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False))
                 For Each fa As FastaSeq In DirectCast(seq, pipeline).populates(Of FastaSeq)(env)
                     Call buffer.WriteLine(fa.GenerateDocument(
@@ -207,7 +208,11 @@ Module Fasta
 
             Return True
         Else
-            Return New FastaFile(GetFastaSeq(seq, env)).Save(lineBreak, file, encoding)
+            ' save a collection of the fasta sequence
+            Dim seqs = GetFastaSeq(seq, env).ToArray
+            Dim fasta As New FastaFile(seqs)
+
+            Return fasta.Save(lineBreak, file, encoding)
         End If
     End Function
 

@@ -18,7 +18,7 @@ declare namespace bioseq.patterns {
     * find possible motifs of the given sequence collection
     * 
     * 
-     * @param fasta -
+     * @param fasta should contains multiple sequence
      * @param minw 
      * + default value Is ``6``.
      * @param maxw 
