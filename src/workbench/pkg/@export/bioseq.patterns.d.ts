@@ -35,10 +35,12 @@ declare namespace bioseq.patterns {
      * + default value Is ``0.8``.
      * @param cleanMotif 
      * + default value Is ``0.5``.
+     * @param debug 
+     * + default value Is ``false``.
      * @param env 
      * + default value Is ``null``.
    */
-   function find_motifs(fasta: any, minw?: object, maxw?: object, nmotifs?: object, noccurs?: object, seedingCutoff?: number, scanMinW?: object, scanCutoff?: number, cleanMotif?: number, env?: object): object;
+   function find_motifs(fasta: any, minw?: object, maxw?: object, nmotifs?: object, noccurs?: object, seedingCutoff?: number, scanMinW?: object, scanCutoff?: number, cleanMotif?: number, debug?: boolean, env?: object): object;
    module motif {
       /**
        * Find target loci site based on the given motif model
