@@ -69,19 +69,22 @@ Public Module SeedCluster
     ''' <summary>
     ''' 将任意的两条序列转换为得分向量用以进行相似度的比较
     ''' </summary>
-    ''' <param name="compares"></param>
+    ''' <param name="compares">
+    ''' q/s可能不是等长的序列字符串
+    ''' </param>
     ''' <returns></returns>
     <Extension>
     Public Function ScoreVector(compares As (q$, s$)) As (q As Vector, s As Vector)
-        ' 先进行全局比对，将qs序列都变为等长序列
         Dim query As New FastaSeq With {.SequenceData = compares.q.ToUpper, .Headers = {"query"}}
         Dim subject As New FastaSeq With {.SequenceData = compares.s.ToUpper, .Headers = {"subject"}}
+        ' 先进行全局比对，将q/s序列都变为等长序列
         Dim globalAlign As GlobalAlign(Of Char) = RunNeedlemanWunsch.RunAlign(query, subject, 0).First
         Dim q = globalAlign.query.AsEnumerable
         Dim s = globalAlign.subject.AsEnumerable
         Dim a As New List(Of Double)
         Dim b As New List(Of Double)
 
+        ' 将全局比对得分字符串结果转换为得分向量
         For Each nt As SeqValue(Of (q As Char, s As Char)) In (q, s).SeqTuple
             With nt.value.ScoreTuple
                 a.Add(.a)
