@@ -17,7 +17,10 @@ Public Class ScanFile : Implements IDisposable
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Sub AddSeed(name As String, seed As HSP)
-        Call pack.WriteText(seed.GetJson, fileName:=$"/seeds/{Mid(name, 1, 2)}/{name}.json")
+        Dim path = $"/seeds/{Mid(name, 1, 2)}/{name}.json"
+
+        Call pack.Delete(path)
+        Call pack.WriteText(seed.GetJson, fileName:=path)
     End Sub
 
     Protected Overridable Sub Dispose(disposing As Boolean)

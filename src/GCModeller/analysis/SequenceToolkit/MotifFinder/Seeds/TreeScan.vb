@@ -6,7 +6,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 Public Class TreeScan : Inherits SeedScanner
 
     Dim counter As Integer = 0
-    Dim temp As HSP()
+    Dim temp As New List(Of HSP)
 
     ReadOnly t0 As Date = Now
 
@@ -28,14 +28,16 @@ Public Class TreeScan : Inherits SeedScanner
     Private Function Compares(a As FastaSeq, b As FastaSeq) As Integer
         If a.SequenceData = b.SequenceData Then
             Return 0
-        Else
-            temp = MotifSeeds _
-                .PairwiseSeeding(a, b, param) _
-                .ToArray
-            counter += temp.Length
         End If
 
-        If temp.Length = 0 Then
+        Dim seeds = MotifSeeds _
+            .PairwiseSeeding(a, b, param) _
+            .ToArray
+
+        temp.AddRange(seeds)
+        counter += seeds.Length
+
+        If seeds.Length = 0 Then
             Return -1
         Else
             Return 1
@@ -53,6 +55,8 @@ Public Class TreeScan : Inherits SeedScanner
             For Each seed As HSP In temp
                 Yield seed
             Next
+
+            Call temp.Clear()
 
             If ++i Mod d = 0 Then
                 Dim dt As TimeSpan = Now - t0
