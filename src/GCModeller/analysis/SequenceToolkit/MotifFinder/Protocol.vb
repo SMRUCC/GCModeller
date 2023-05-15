@@ -147,9 +147,10 @@ Public Module Protocol
     <Extension>
     Private Iterator Function motif(group As BinaryTree(Of String, String), param As PopulatorParameter) As IEnumerable(Of SequenceMotif)
         Dim members As List(Of String) = group!values
+        Dim top As Integer = 50
 
-        If members.Count > 30 Then
-            For Each sample As SeqValue(Of String()) In Bootstraping.Samples(members, 30, members.Count / 6)
+        If members.Count > top Then
+            For Each sample As SeqValue(Of String()) In Bootstraping.Samples(members, top, members.Count / top + 3)
                 Yield sample.value.BuildMotifPWM(param)
             Next
         Else
@@ -229,7 +230,7 @@ Public Module Protocol
             scores(0) += 0.0000001
         End If
 
-        Dim pvalue# = t.Test(scores, Vector.Zero(Dim:=scores.Length), Hypothesis.Less).Pvalue
+        Dim pvalue# = t.Test(scores, Vector.Zero(Dim:=scores.Length), Hypothesis.Less, strict:=False).Pvalue
         Dim motif As New SequenceMotif With {
             .region = residues,
             .pvalue = pvalue,

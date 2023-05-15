@@ -45,7 +45,7 @@ declare namespace bioseq.patterns {
      * @param noccurs 
      * + default value Is ``6``.
      * @param seedingCutoff 
-     * + default value Is ``0.95``.
+     * + default value Is ``0.99``.
      * @param scanMinW 
      * + default value Is ``6``.
      * @param scanCutoff 
@@ -61,7 +61,7 @@ declare namespace bioseq.patterns {
      * @param env 
      * + default value Is ``null``.
    */
-   function find_motifs(fasta: any, minw?: object, maxw?: object, nmotifs?: object, noccurs?: object, seedingCutoff?: number, scanMinW?: object, scanCutoff?: number, cleanMotif?: number, significant_sites?: object, seeds?: object, debug?: boolean, env?: object): object;
+   function find_motifs(fasta: any, minw?: object, maxw?: object, nmotifs?: object, noccurs?: object, seedingCutoff?: number, scanMinW?: object, scanCutoff?: number, cleanMotif?: number, significant_sites?: object, seeds?: any, debug?: boolean, env?: object): object;
    module motif {
       /**
        * Find target loci site based on the given motif model
