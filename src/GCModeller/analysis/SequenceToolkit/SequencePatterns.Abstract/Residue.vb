@@ -94,7 +94,7 @@ Public Structure Residue
 
     Public ReadOnly Property isConserved As Boolean
         Get
-            Return frequency.Values.Max > 0.65
+            Return frequency.Values.Max > 0.5
         End Get
     End Property
 

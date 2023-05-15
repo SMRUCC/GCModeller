@@ -92,7 +92,8 @@ Module TrimMotif
             .region = motif.region _
                 .Skip(start) _
                 .Take(ends - start) _
-                .ToArray
+                .ToArray,
+            .alignments = motif.alignments
         }
     End Function
 
