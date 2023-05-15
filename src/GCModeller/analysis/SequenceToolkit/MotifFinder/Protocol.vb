@@ -59,6 +59,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.BinaryTree
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Data.Repository
 Imports Microsoft.VisualBasic.DataMining.DynamicProgramming.NeedlemanWunsch
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
@@ -154,7 +155,7 @@ Public Module Protocol
             .Select(Function(seq)
                         Return New FastaSeq With {
                             .SequenceData = seq,
-                            .Headers = {""}
+                            .Headers = {FNV1a.GetDeterministicHashCode(seq).ToString}
                         }
                     End Function) _
             .ToArray
@@ -218,7 +219,8 @@ Public Module Protocol
             .region = residues,
             .pvalue = pvalue,
             .score = scores.Sum,
-            .seeds = alignment
+            .seeds = alignment,
+            .alignments = scores.ToArray
         }
 
         Return motif

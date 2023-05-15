@@ -54,6 +54,7 @@
 #End Region
 
 Imports System.IO
+Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
@@ -61,6 +62,8 @@ Public Class MSAOutput
 
     Public Property names As String()
     Public Property MSA As String()
+
+    <XmlAttribute>
     Public Property cost As Double
 
     Public ReadOnly Property size As Integer
