@@ -185,7 +185,7 @@ Public Module ProbabilityScanner
         Return seq _
             .SequenceData _
             .Select(Function(base)
-                        Dim frq As New Dictionary(Of Char, Double)
+                        Dim frq As New Dictionary(Of String, Double)
 
                         For Each b As Char In NT
                             If base = b Then

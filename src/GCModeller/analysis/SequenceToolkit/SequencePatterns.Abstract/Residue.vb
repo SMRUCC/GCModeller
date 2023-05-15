@@ -59,7 +59,7 @@ Imports Microsoft.VisualBasic.Math.Information
 
 Public Structure Residue
 
-    Public Property frequency As Dictionary(Of Char, Double)
+    Public Property frequency As Dictionary(Of String, Double)
     Public Property index As Integer
 
     Public ReadOnly Property topChar As Char
@@ -121,7 +121,7 @@ Public Structure Residue
 
     Public Shared Function GetEmpty() As Residue
         Return New Residue With {
-            .frequency = New Dictionary(Of Char, Double),
+            .frequency = New Dictionary(Of String, Double),
             .index = -1
         }
     End Function

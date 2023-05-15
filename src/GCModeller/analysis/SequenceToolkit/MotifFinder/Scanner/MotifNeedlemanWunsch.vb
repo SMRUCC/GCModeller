@@ -70,9 +70,7 @@ Public Class MotifNeedlemanWunsch : Inherits NeedlemanWunsch(Of Residue)
             similarity:=Function(a, b) score.Cos(a, b),
             toChar:=Function(x) x.topChar,
             empty:=Function()
-                       Return New Residue With {
-                           .frequency = New Dictionary(Of Char, Double)
-                       }
+                       Return Residue.GetEmpty
                    End Function
         )
     End Function

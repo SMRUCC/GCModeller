@@ -183,7 +183,7 @@ Public Module Protocol
     <Extension>
     Private Function PWM(alignment As MSAOutput, members As FastaSeq(), param As PopulatorParameter) As SequenceMotif
         Dim residues As New List(Of Residue)
-        Dim nt = {"A"c, "T"c, "G"c, "C"c}
+        Dim nt As String() = SequenceModel.NT.Select(Function(c) CStr(c)).ToArray
         Dim MSA As String() = alignment.MSA
 
         For i As Integer = 0 To MSA(Scan0).Length - 1
@@ -191,7 +191,7 @@ Public Module Protocol
             Dim P = MSA _
                 .Select(Function(seq) seq(index)) _
                 .GroupBy(Function(c) c) _
-                .ToDictionary(Function(c) c.Key,
+                .ToDictionary(Function(c) c.Key.ToString,
                               Function(g)
                                   Return g.Count / MSA.Length
                               End Function)
