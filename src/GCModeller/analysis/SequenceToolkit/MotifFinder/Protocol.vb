@@ -128,6 +128,10 @@ Public Module Protocol
             .Select(Function(group) group.motif(param)) _
             .IteratesALL
 
+            If motif Is Nothing Then
+                Continue For
+            End If
+
             motif = motif.Cleanup(cutoff:=cleanMotif)
 
             If motif Is Nothing Then
@@ -218,7 +222,14 @@ Public Module Protocol
                         End If
                     End Function) _
             .AsVector
-        Dim pvalue# = t.Test(scores, Vector.Zero(Dim:=scores.Length), Hypothesis.TwoSided).Pvalue
+
+        If scores.All(Function(xi) xi = 0.0) Then
+            Return Nothing
+        Else
+            scores(0) += 0.0000001
+        End If
+
+        Dim pvalue# = t.Test(scores, Vector.Zero(Dim:=scores.Length), Hypothesis.Greater).Pvalue
         Dim motif As New SequenceMotif With {
             .region = residues,
             .pvalue = pvalue,
