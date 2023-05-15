@@ -91,12 +91,11 @@ Public Module Protocol
         Call param.logText($"create {seeds.Length} seeds...")
         Call param.logText("create motif cluster tree!")
 
-        Return seeds.PopulateMotifs(regions, param, leastN, cleanMotif, debug)
+        Return seeds.PopulateMotifs(param, leastN, cleanMotif, debug)
     End Function
 
     <Extension>
     Public Iterator Function PopulateMotifs(seeds As IEnumerable(Of HSP),
-                                            regions As FastaSeq(),
                                             param As PopulatorParameter,
                                             Optional leastN% = 5,
                                             Optional cleanMotif As Double = 0.5,
@@ -125,7 +124,7 @@ Public Module Protocol
         ' 对聚类簇进行多重序列比对得到概率矩阵
         For Each motif As SequenceMotif In filterGroups _
             .Populate(parallel:=Not debug) _
-            .Select(Function(group) group.motif(regions, param)) _
+            .Select(Function(group) group.motif(param)) _
             .IteratesALL
 
             motif = motif.Cleanup(cutoff:=cleanMotif)
@@ -137,28 +136,29 @@ Public Module Protocol
     End Function
 
     <Extension>
-    Private Iterator Function motif(group As BinaryTree(Of String, String), regions As FastaSeq(), param As PopulatorParameter) As IEnumerable(Of SequenceMotif)
+    Private Iterator Function motif(group As BinaryTree(Of String, String), param As PopulatorParameter) As IEnumerable(Of SequenceMotif)
         Dim members As List(Of String) = group!values
 
         If members.Count > 30 Then
             For Each sample As SeqValue(Of String()) In Bootstraping.Samples(members, 30, members.Count / 6)
-                Yield sample.value.BuildMotifPWM(regions, param)
+                Yield sample.value.BuildMotifPWM(param)
             Next
         Else
-            Yield members.BuildMotifPWM(regions, param)
+            Yield members.BuildMotifPWM(param)
         End If
     End Function
 
     <Extension>
-    Private Function BuildMotifPWM(members As IEnumerable(Of String), regions As FastaSeq(), param As PopulatorParameter) As SequenceMotif
-        Dim MSA As MSAOutput = members _
+    Private Function BuildMotifPWM(members As IEnumerable(Of String), param As PopulatorParameter) As SequenceMotif
+        Dim regions As FastaSeq() = members _
             .Select(Function(seq)
                         Return New FastaSeq With {
                             .SequenceData = seq,
                             .Headers = {""}
                         }
                     End Function) _
-            .MultipleAlignment(Nothing)
+            .ToArray
+        Dim MSA As MSAOutput = regions.MultipleAlignment(Nothing)
         Dim PWM As SequenceMotif = MSA.PWM(members:=regions, param:=param)
 
         Return PWM

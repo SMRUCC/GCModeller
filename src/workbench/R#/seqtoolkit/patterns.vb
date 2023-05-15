@@ -392,7 +392,6 @@ Module patterns
             End If
 
             motifs = seedsList.PopulateMotifs(
-                regions:=seqInputs,
                 param:=param,
                 leastN:=noccurs,
                 cleanMotif:=cleanMotif,
