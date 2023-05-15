@@ -62,6 +62,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.DataMining.DynamicProgramming.NeedlemanWunsch
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math.Distributions
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.Statistics.Hypothesis
 Imports SMRUCC.genomics.Analysis.SequenceTools.MSA
@@ -116,12 +117,17 @@ Public Module Protocol
         Dim filterGroups = tree _
             .PopulateNodes _
             .Where(Function(group) group.MemberSize >= leastN) _
+            .OrderByDescending(Function(g) g.MemberSize) _
             .ToArray
 
         Call param.logText("build PWM!")
 
         ' 对聚类簇进行多重序列比对得到概率矩阵
-        For Each motif As SequenceMotif In filterGroups.AsParallel.Select(Function(group) group.motif(regions, param))
+        For Each motif As SequenceMotif In filterGroups _
+            .Populate(parallel:=Not debug) _
+            .Select(Function(group) group.motif(regions, param)) _
+            .IteratesALL
+
             motif = motif.Cleanup(cutoff:=cleanMotif)
 
             If motif.score > 0 AndAlso motif.SignificantSites >= param.significant_sites Then
@@ -131,8 +137,20 @@ Public Module Protocol
     End Function
 
     <Extension>
-    Private Function motif(group As BinaryTree(Of String, String), regions As FastaSeq(), param As PopulatorParameter) As SequenceMotif
+    Private Iterator Function motif(group As BinaryTree(Of String, String), regions As FastaSeq(), param As PopulatorParameter) As IEnumerable(Of SequenceMotif)
         Dim members As List(Of String) = group!values
+
+        If members.Count > 30 Then
+            For Each sample As SeqValue(Of String()) In Bootstraping.Samples(members, 30, members.Count / 6)
+                Yield sample.value.BuildMotifPWM(regions, param)
+            Next
+        Else
+            Yield members.BuildMotifPWM(regions, param)
+        End If
+    End Function
+
+    <Extension>
+    Private Function BuildMotifPWM(members As IEnumerable(Of String), regions As FastaSeq(), param As PopulatorParameter) As SequenceMotif
         Dim MSA As MSAOutput = members _
             .Select(Function(seq)
                         Return New FastaSeq With {

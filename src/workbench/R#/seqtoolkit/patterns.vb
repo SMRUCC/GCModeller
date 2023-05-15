@@ -345,7 +345,7 @@ Module patterns
                               Optional maxw% = 20,
                               Optional nmotifs% = -1,
                               Optional noccurs% = 6,
-                              Optional seedingCutoff As Double = 0.95,
+                              Optional seedingCutoff As Double = 0.99,
                               Optional scanMinW As Integer = 6,
                               Optional scanCutoff As Double = 0.8,
                               Optional cleanMotif As Double = 0.5,
