@@ -86,6 +86,7 @@ Module patterns
         Call REnv.Internal.ConsolePrinter.AttachConsoleFormatter(Of PalindromeLoci)(AddressOf PalindromeToString)
         Call REnv.Internal.Object.Converts.makeDataframe.addHandler(GetType(MotifMatch()), AddressOf matchTableOutput)
         Call REnv.Internal.generic.add("plot", GetType(SequenceMotif), AddressOf plotMotif)
+        Call REnv.Internal.ConsolePrinter.AttachConsoleFormatter(Of SequenceMotif)(Function(m) DirectCast(m, SequenceMotif).patternString)
     End Sub
 
     Private Function plotMotif(motif As SequenceMotif, args As list, env As Environment) As Object
@@ -216,7 +217,7 @@ Module patterns
                                <RRawVectorArgument>
                                target As Object,
                                Optional cutoff# = 0.6,
-                               Optional minW# = 6,
+                               Optional minW# = 8,
                                Optional identities As Double = 0.85,
                                Optional parallel As Boolean = False,
                                Optional env As Environment = Nothing) As Object
@@ -224,12 +225,14 @@ Module patterns
         If target Is Nothing Then
             Return Internal.debug.stop("sequence target can not be nothing!", env)
         ElseIf TypeOf target Is FastaSeq Then
+            ' scan a simple single sequence
             Return motif.region _
                 .ScanSites(DirectCast(target, FastaSeq), cutoff, minW, identities) _
                 .ToArray
         Else
             Dim seqs = GetFastaSeq(target, env)
 
+            ' scan multiple sequence
             If seqs Is Nothing Then
                 Return Internal.debug.stop($"invalid sequence collection type: {target.GetType.FullName}", env)
             Else
@@ -274,22 +277,29 @@ Module patterns
     ''' <summary>
     ''' find possible motifs of the given sequence collection
     ''' </summary>
-    ''' <param name="fasta"></param>
+    ''' <param name="fasta">should contains multiple sequence</param>
     ''' <param name="minw%"></param>
     ''' <param name="maxw%"></param>
-    ''' <param name="nmotifs%"></param>
+    ''' <param name="nmotifs">
+    ''' A number for limit the number of motif outputs:
+    ''' 
+    ''' + negative integer/zero: no limits[default]
+    ''' + positive value: top motifs with score desc
+    ''' </param>
     ''' <param name="noccurs%"></param>
     ''' <returns></returns>
     <ExportAPI("find_motifs")>
     Public Function GetMotifs(<RRawVectorArgument> fasta As Object,
-                              Optional minw% = 6,
+                              Optional minw% = 8,
                               Optional maxw% = 20,
-                              Optional nmotifs% = 25,
+                              Optional nmotifs% = -1,
                               Optional noccurs% = 6,
                               Optional seedingCutoff As Double = 0.95,
                               Optional scanMinW As Integer = 6,
                               Optional scanCutoff As Double = 0.8,
                               Optional cleanMotif As Double = 0.5,
+                              Optional significant_sites As Integer = 4,
+                              Optional debug As Boolean = False,
                               Optional env As Environment = Nothing) As SequenceMotif()
 
         Dim param As New PopulatorParameter With {
@@ -298,19 +308,26 @@ Module patterns
             .seedingCutoff = seedingCutoff,
             .ScanMinW = scanMinW,
             .ScanCutoff = scanCutoff,
-            .log = env.WriteLineHandler
+            .log = env.WriteLineHandler,
+            .seedScanner = Scanners.TreeScan,
+            .significant_sites = significant_sites,
+            .seedOccurances = 6
         }
         Dim motifs As SequenceMotif() = GetFastaSeq(fasta, env) _
             .PopulateMotifs(
                 leastN:=noccurs,
                 param:=param,
-                cleanMotif:=cleanMotif
+                cleanMotif:=cleanMotif,
+                debug:=debug
             ) _
             .OrderByDescending(Function(m) m.score / m.seeds.MSA.Length) _
-            .Take(nmotifs) _
             .ToArray
 
-        Return motifs
+        If nmotifs > 0 Then
+            Return motifs.Take(nmotifs).ToArray
+        Else
+            Return motifs
+        End If
     End Function
 
     ''' <summary>

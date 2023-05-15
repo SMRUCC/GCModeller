@@ -70,4 +70,15 @@ Public Class SequenceMotif : Inherits Probability
             Return score / seeds.MSA.Length
         End Get
     End Property
+
+    ''' <summary>
+    ''' get number of the conserved sites
+    ''' </summary>
+    ''' <returns></returns>
+    Public ReadOnly Property SignificantSites As Integer
+        Get
+            Return region.Where(Function(r) r.isConserved).Count
+        End Get
+    End Property
+
 End Class

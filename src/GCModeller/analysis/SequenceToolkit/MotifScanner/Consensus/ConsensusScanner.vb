@@ -1,55 +1,55 @@
 ﻿#Region "Microsoft.VisualBasic::f2b8cc90c659b419082295018effe47e, GCModeller\analysis\SequenceToolkit\MotifScanner\Consensus\ConsensusScanner.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 98
-    '    Code Lines: 83
-    ' Comment Lines: 5
-    '   Blank Lines: 10
-    '     File Size: 5.13 KB
+' Summaries:
 
 
-    ' Class ConsensusScanner
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    ' 
-    '     Function: (+2 Overloads) PopulateMotifs
-    ' 
-    '     Sub: DumpSequence
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 98
+'    Code Lines: 83
+' Comment Lines: 5
+'   Blank Lines: 10
+'     File Size: 5.13 KB
+
+
+' Class ConsensusScanner
+' 
+'     Constructor: (+1 Overloads) Sub New
+' 
+'     Function: (+2 Overloads) PopulateMotifs
+' 
+'     Sub: DumpSequence
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -71,54 +71,64 @@ Public Class ConsensusScanner
 
     Sub New(genomes As IEnumerable(Of genomic), Optional length As PrefixLength = PrefixLength.L300)
         With genomes.ToArray
-            Dim upstreams = .Select(Function(g) g.GetUpstreams(length)) _
-                            .Select(Function(up)
-                                        Return up.ToDictionary(Function(g) g.Key.ToUpper,
-                                                               Function(g)
-                                                                   Return g.Value
-                                                               End Function)
-                                    End Function) _
-                            .ToArray
+            Dim upstreams = .Select(Function(g) ParseUpstream(g, length)).ToArray
 
-            KO = .Select(Function(genome)
-                             Return genome.organism _
-                                 .genome _
-                                 .Select(Function(pathway) pathway.genes) _
-                                 .IteratesALL _
-                                 .Where(Function(g)
-                                            Return Not g.KO.StringEmpty
-                                        End Function)
-                         End Function) _
-                 .IteratesALL _
-                 .GroupBy(Function(gene) gene.KO) _
-                 .ToDictionary(Function(id) id.Key,
-                               Function(genes)
-                                   ' KEGG之中的基因编号都会存在一个物种缩写的前缀
-                                   ' 在这里移除掉
-                                   Return genes.Select(Function(g) g.geneId).ToArray
-                               End Function)
+            KO = .DoCall(AddressOf GetKOMaps)
             KOUpstream = KO.ToDictionary(Function(id) id.Key,
                                          Function(consensus)
-                                             Dim geneIDs$() = consensus.Value
-                                             Dim upstream = geneIDs _
-                                                 .Select(Function(ID)
-                                                             Dim selected = upstreams _
-                                                                 .Where(Function(genome) genome.ContainsKey(ID)) _
-                                                                 .FirstOrDefault
-
-                                                             If selected Is Nothing Then
-                                                                 Console.WriteLine(ID)
-                                                                 Return Nothing
-                                                             Else
-                                                                 Return selected(ID)
-                                                             End If
-                                                         End Function) _
-                                                 .Where(Function(seq) Not seq Is Nothing) _
-                                                 .ToArray
-                                             Return upstream
+                                             Return GetKOUpstream(upstreams, consensus)
                                          End Function)
         End With
     End Sub
+
+    Private Shared Function GetKOUpstream(upstreams As Dictionary(Of String, FastaSeq)(), consensus As KeyValuePair(Of String, String())) As FastaSeq()
+        Dim geneIDs$() = consensus.Value
+        Dim upstream = geneIDs _
+            .Select(Function(ID)
+                        Dim selected = upstreams _
+                            .Where(Function(genome) genome.ContainsKey(ID)) _
+                            .FirstOrDefault
+
+                        If selected Is Nothing Then
+                            Console.WriteLine(ID)
+                            Return Nothing
+                        Else
+                            Return selected(ID)
+                        End If
+                    End Function) _
+            .Where(Function(seq) Not seq Is Nothing) _
+            .ToArray
+        Return upstream
+    End Function
+
+    Private Shared Function GetKOMaps(genomes As genomic()) As Dictionary(Of String, String())
+        Return genomes.Select(Function(genome)
+                                  Return genome.organism _
+                                    .genome _
+                                    .Select(Function(pathway) pathway.genes) _
+                                    .IteratesALL _
+                                    .Where(Function(g)
+                                               Return Not g.KO.StringEmpty
+                                           End Function)
+                              End Function) _
+            .IteratesALL _
+            .GroupBy(Function(gene) gene.KO) _
+            .ToDictionary(Function(id) id.Key,
+                        Function(genes)
+                            ' KEGG之中的基因编号都会存在一个物种缩写的前缀
+                            ' 在这里移除掉
+                            Return genes.Select(Function(g) g.geneId).ToArray
+                        End Function)
+    End Function
+
+    Private Shared Function ParseUpstream(genomic As genomic, length As PrefixLength) As Dictionary(Of String, FastaSeq)
+        Dim up = genomic.GetUpstreams(length)
+
+        Return up.ToDictionary(Function(g) g.Key.ToUpper,
+                               Function(g)
+                                   Return g.Value
+                               End Function)
+    End Function
 
     Public Iterator Function PopulateMotifs(Optional leastN% = 10,
                                             Optional cleanMotif As Double = 0.5,
@@ -148,6 +158,6 @@ Public Class ConsensusScanner
                                    Optional cleanMotif As Double = 0.5,
                                    Optional param As PopulatorParameter = Nothing) As IEnumerable(Of SequenceMotif)
 
-        Return KOUpstream(KO).PopulateMotifs(leastN, cleanMotif, param)
+        Return KOUpstream(KO).PopulateMotifs(param Or PopulatorParameter.DefaultParameter, leastN, cleanMotif)
     End Function
 End Class

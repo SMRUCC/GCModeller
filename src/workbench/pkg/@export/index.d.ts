@@ -89,11 +89,6 @@ declare namespace GCModeller {
      * @param raw default value Is ``true``.
    */
    function kegg_reactions(raw?: boolean): object;
-   module list {
-      /**
-      */
-      function taxonomic_group(): object;
-   }
    /**
      * @param compoundcolors default value Is ``red``.
      * @param gene_highights default value Is ``blue``.

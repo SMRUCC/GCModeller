@@ -1,5 +1,6 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.DeltaSimilarity1998.CAI
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
@@ -26,6 +27,8 @@ Public Module Builder
         Dim i As Integer = Scan0
         Dim g As New Dictionary(Of Char, Dictionary(Of Char, Double))
         Dim nsize As Integer = seq.Length
+        Dim triples As New Dictionary(Of String, Double)
+        Dim distance As Dictionary(Of String, Double) = DistanceGraph.TupleDistanceGraph(seq, components)
 
         c = c / nsize
 
@@ -44,6 +47,15 @@ Public Module Builder
             Call g.Add(ci, gi)
         Next
 
-        Return New SequenceGraph With {.Compositions = cv, .Graph = g}
+        For Each t As String In CodonBiasVector.PopulateTriples(components)
+            Call triples.Add(t, seq.Count(t) / (nsize / 3))
+        Next
+
+        Return New SequenceGraph With {
+            .composition = cv,
+            .graph = g,
+            .triple = triples,
+            .tuple_distance = distance
+        }
     End Function
 End Module

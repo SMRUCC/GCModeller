@@ -26,14 +26,27 @@ declare namespace bioseq.fasta {
       */
       function linear(seq: any, loci: any, doNtAutoReverse?: boolean, env?: object): any;
    }
-   /**
-    * Create a new fasta sequence objects
-    * 
-    * 
-     * @param seq -
-     * @param attrs -
-   */
-   function fasta(seq: string, attrs: string): any;
+   module fasta {
+      /**
+       * get/set the fasta headers title
+       * 
+       * 
+        * @param fa -
+        * @param headers -
+        * 
+        * + default value Is ``null``.
+      */
+      function headers(fa: object, headers?: string): string;
+      /**
+       * get the fasta titles from a collection of fasta sequence
+       * 
+       * 
+        * @param fa -
+        * @param env 
+        * + default value Is ``null``.
+      */
+      function titles(fa: any, env?: object): string;
+   }
    module MSA {
       /**
        * Do multiple sequence alignment

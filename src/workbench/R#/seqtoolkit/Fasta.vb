@@ -193,6 +193,7 @@ Module Fasta
                                Optional env As Environment = Nothing) As Boolean
 
         If TypeOf seq Is pipeline Then
+            ' save a huge bundle of the fasta sequence collection
             Using buffer As New StreamWriter(file.Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False))
                 For Each fa As FastaSeq In DirectCast(seq, pipeline).populates(Of FastaSeq)(env)
                     Call buffer.WriteLine(fa.GenerateDocument(
@@ -207,7 +208,11 @@ Module Fasta
 
             Return True
         Else
-            Return New FastaFile(GetFastaSeq(seq, env)).Save(lineBreak, file, encoding)
+            ' save a collection of the fasta sequence
+            Dim seqs = GetFastaSeq(seq, env).ToArray
+            Dim fasta As New FastaFile(seqs)
+
+            Return fasta.Save(lineBreak, file, encoding)
         End If
     End Function
 
@@ -372,6 +377,33 @@ Module Fasta
             .Headers = attrs,
             .SequenceData = seq
         }
+    End Function
+
+    ''' <summary>
+    ''' get/set the fasta headers title
+    ''' </summary>
+    ''' <param name="fa"></param>
+    ''' <param name="headers"></param>
+    ''' <returns></returns>
+    <ExportAPI("fasta.headers")>
+    Public Function fastaTitle(fa As FastaSeq, <RByRefValueAssign> Optional headers As String() = Nothing) As String()
+        If Not headers.IsNullOrEmpty Then
+            fa.Headers = headers
+        End If
+
+        Return fa.Headers
+    End Function
+
+    ''' <summary>
+    ''' get the fasta titles from a collection of fasta sequence
+    ''' </summary>
+    ''' <param name="fa"></param>
+    ''' <returns></returns>
+    <ExportAPI("fasta.titles")>
+    Public Function fastaTitles(<RRawVectorArgument> fa As Object, Optional env As Environment = Nothing) As String()
+        Return GetFastaSeq(fa, env) _
+            .Select(Function(a) a.Title) _
+            .ToArray
     End Function
 
     <ExportAPI("cut_seq.linear")>

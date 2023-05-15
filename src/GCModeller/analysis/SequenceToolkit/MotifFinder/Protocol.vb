@@ -69,79 +69,26 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Public Module Protocol
 
-    Private Class TaskPayload
-
-        Public q As FastaSeq
-        Public regions As FastaSeq()
-        Public param As PopulatorParameter
-
-        Sub New(q As FastaSeq, regions As IEnumerable(Of FastaSeq), param As PopulatorParameter)
-            Me.q = New FastaSeq With {.Headers = q.Headers, .SequenceData = q.SequenceData}
-            Me.regions = regions.ToArray
-            '.Select(Function(qi) New FastaSeq(fa:=qi)) _
-            '.ToArray
-            Me.param = New PopulatorParameter(param)
-        End Sub
-
-        Public Function Seeding() As HSP()
-            Return regions.seeding(q, param).ToArray
-        End Function
-
-    End Class
-
     ''' <summary>
-    ''' create seeds via pairwise alignment, use 
-    ''' the smith-waterman HSP as motif seeds.
+    ''' Motif motif finding workflow start from here
     ''' </summary>
-    ''' <param name="regions"></param>
-    ''' <param name="q"></param>
+    ''' <param name="inputs"></param>
+    ''' <param name="leastN%"></param>
+    ''' <param name="cleanMotif"></param>
     ''' <param name="param"></param>
     ''' <returns></returns>
     <Extension>
-    Private Function seeding(regions As IEnumerable(Of FastaSeq), q As FastaSeq, param As PopulatorParameter) As IEnumerable(Of HSP)
-        Dim seeds As New List(Of HSP)
-
-        For Each s As FastaSeq In regions.Where(Function(seq) Not seq Is q)
-            seeds += pairwiseSeeding(q, s, param)
-        Next
-
-        Return seeds
-    End Function
-
-    <Extension>
-    Public Iterator Function PopulateMotifs(inputs As IEnumerable(Of FastaSeq),
+    Public Iterator Function PopulateMotifs(inputs As IEnumerable(Of FastaSeq), param As PopulatorParameter,
                                             Optional leastN% = 5,
                                             Optional cleanMotif As Double = 0.5,
-                                            Optional param As PopulatorParameter = Nothing) As IEnumerable(Of SequenceMotif)
+                                            Optional debug As Boolean = False) As IEnumerable(Of SequenceMotif)
 
         Dim regions As FastaSeq() = inputs.ToArray
+        Dim scanner As SeedScanner = Activator.CreateInstance(type:=param.GetScanner, param, debug)
+        Dim seeds As HSP() = scanner.GetSeeds(regions).ToArray
 
-        param = param Or PopulatorParameter.DefaultParameter
-
-        Call param.log()("create parallel task payload...")
-
-        Dim payloads As TaskPayload()() = regions _
-            .Select(Function(q) New TaskPayload(q, regions, param)) _
-            .Split(partitionSize:=regions.Length / (App.CPUCoreNumbers * 2)) _
-            .ToArray
-
-        Call param.log()($"run task on {payloads.Length} parallel process!")
-        Call param.log()($"there are {Aggregate x In payloads Into Average(x.Length)} task in each parallel process.")
-        Call param.log()("seeding...")
-
-        ' 先进行两两局部最优比对，得到最基本的种子
-        ' 2018-3-2 在这里应该选取的是短的高相似度的序列
-        Dim seeds As List(Of HSP) = payloads _
-            .AsParallel _
-            .Select(Function(q)
-                        Return q.Select(Function(qi) qi.Seeding).IteratesALL.ToArray
-                    End Function) _
-            .ToArray _
-            .IteratesALL _
-            .AsList
-
-        Call param.log()($"create {seeds.Count} seeds...")
-        Call param.log()("create motif cluster tree!")
+        Call param.logText($"create {seeds.Length} seeds...")
+        Call param.logText("create motif cluster tree!")
 
         ' 构建出二叉树
         ' 每一个node都是一个cluster
@@ -150,7 +97,7 @@ Public Module Protocol
             .Select(Function(q) New NamedValue(Of String)(q.Query, q.Query)) _
             .BuildAVLTreeCluster(param.seedingCutoff)
 
-        Call param.log()("populate motifs...")
+        Call param.logText("populate motifs...")
 
         ' 对聚类簇进行多重序列比对得到概率矩阵
         For Each motif As SequenceMotif In tree _
@@ -163,7 +110,7 @@ Public Module Protocol
 
             motif = motif.Cleanup(cutoff:=cleanMotif)
 
-            If motif.score > 0 Then
+            If motif.score > 0 AndAlso motif.SignificantSites >= param.significant_sites Then
                 Yield motif
             End If
         Next
@@ -173,13 +120,13 @@ Public Module Protocol
     Private Function motif(group As BinaryTree(Of String, String), regions As FastaSeq(), param As PopulatorParameter) As SequenceMotif
         Dim members As List(Of String) = group!values
         Dim MSA As MSAOutput = members _
-                .Select(Function(seq)
-                            Return New FastaSeq With {
-                                .SequenceData = seq,
-                                .Headers = {""}
-                            }
-                        End Function) _
-                .MultipleAlignment(Nothing)
+            .Select(Function(seq)
+                        Return New FastaSeq With {
+                            .SequenceData = seq,
+                            .Headers = {""}
+                        }
+                    End Function) _
+            .MultipleAlignment(Nothing)
         Dim PWM As SequenceMotif = MSA.PWM(members:=regions, param:=param)
 
         Return PWM
@@ -243,13 +190,6 @@ Public Module Protocol
         }
 
         Return motif
-    End Function
-
-    Public Function pairwiseSeeding(q As FastaSeq, s As FastaSeq, param As PopulatorParameter) As IEnumerable(Of HSP)
-        Dim smithWaterman As New SmithWaterman(q.SequenceData, s.SequenceData, New DNAMatrix)
-        Call smithWaterman.BuildMatrix()
-        Dim result = smithWaterman.GetOutput(param.seedingCutoff, param.minW)
-        Return result.HSP.Where(Function(seed) seed.LengthHit <= param.maxW)
     End Function
 
     ''' <summary>
