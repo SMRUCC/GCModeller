@@ -146,7 +146,7 @@ Public Module SeedCluster
 
     <Extension>
     Public Function BuildAVLTreeCluster(seeds As IEnumerable(Of NamedValue(Of String)), Optional cutoff# = 0.95) As BinaryTree(Of String, String)
-        Dim divid# = cutoff / 2
+        Dim divid# = cutoff * (2 / 3)
         Dim cluster As New AVLTree(Of String, String)(
             Function(q, s)
                 Dim SSM# = SeedCluster.Compare(q, s)
