@@ -23,6 +23,16 @@ Public Class ScanFile : Implements IDisposable
         Call pack.WriteText(seed.GetJson, fileName:=path)
     End Sub
 
+    Public Iterator Function LoadAllSeeds() As IEnumerable(Of HSP)
+        Dim folder As StreamGroup = pack.GetObject("/seeds/")
+
+        For Each file As StreamObject In folder.ListFiles
+            If TypeOf file Is StreamBlock Then
+                Yield New StreamReader(pack.OpenBlock(file)).ReadToEnd.LoadJSON(Of HSP)
+            End If
+        Next
+    End Function
+
     Protected Overridable Sub Dispose(disposing As Boolean)
         If Not disposedValue Then
             If disposing Then

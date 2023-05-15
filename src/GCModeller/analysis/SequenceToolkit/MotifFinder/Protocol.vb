@@ -78,10 +78,10 @@ Public Module Protocol
     ''' <param name="param"></param>
     ''' <returns></returns>
     <Extension>
-    Public Iterator Function PopulateMotifs(inputs As IEnumerable(Of FastaSeq), param As PopulatorParameter,
-                                            Optional leastN% = 5,
-                                            Optional cleanMotif As Double = 0.5,
-                                            Optional debug As Boolean = False) As IEnumerable(Of SequenceMotif)
+    Public Function PopulateMotifs(inputs As IEnumerable(Of FastaSeq), param As PopulatorParameter,
+                                   Optional leastN% = 5,
+                                   Optional cleanMotif As Double = 0.5,
+                                   Optional debug As Boolean = False) As IEnumerable(Of SequenceMotif)
 
         Dim regions As FastaSeq() = inputs.ToArray
         Dim scanner As SeedScanner = Activator.CreateInstance(type:=param.GetScanner, param, debug)
@@ -90,12 +90,26 @@ Public Module Protocol
         Call param.logText($"create {seeds.Length} seeds...")
         Call param.logText("create motif cluster tree!")
 
+        Return seeds.PopulateMotifs(regions, param, leastN, cleanMotif, debug)
+    End Function
+
+    <Extension>
+    Public Iterator Function PopulateMotifs(seeds As IEnumerable(Of HSP),
+                                            regions As FastaSeq(),
+                                            param As PopulatorParameter,
+                                            Optional leastN% = 5,
+                                            Optional cleanMotif As Double = 0.5,
+                                            Optional debug As Boolean = False) As IEnumerable(Of SequenceMotif)
         ' 构建出二叉树
         ' 每一个node都是一个cluster
         ' 可以按照成员的数量至少要满足多少条来取cluster的结果
-        Dim tree = seeds _
-            .Select(Function(q) New NamedValue(Of String)(q.Query, q.Query)) _
-            .BuildAVLTreeCluster(param.seedingCutoff)
+        Dim pullSeeds As IEnumerable(Of NamedValue(Of String)) = seeds _
+            .Select(Iterator Function(q) As IEnumerable(Of NamedValue(Of String))
+                        Yield New NamedValue(Of String)(q.Query, q.Query)
+                        Yield New NamedValue(Of String)(q.Subject, q.Subject)
+                    End Function) _
+            .IteratesALL
+        Dim tree = pullSeeds.BuildAVLTreeCluster(param.seedingCutoff)
 
         Call param.logText("populate motifs...")
 

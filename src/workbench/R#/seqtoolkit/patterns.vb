@@ -140,6 +140,11 @@ Module patterns
         Return New ScanFile(filesave.TryCast(Of Stream))
     End Function
 
+    <ExportAPI("pull.all_seeds")>
+    Public Function pullAllSeeds(seed As ScanFile) As HSP()
+        Return seed.LoadAllSeeds.ToArray
+    End Function
+
     ''' <summary>
     ''' 
     ''' </summary>
