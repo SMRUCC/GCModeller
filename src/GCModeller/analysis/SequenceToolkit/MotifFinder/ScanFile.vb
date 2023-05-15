@@ -1,4 +1,5 @@
 ﻿Imports System.IO
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.DataStorage.HDSPack
 Imports Microsoft.VisualBasic.DataStorage.HDSPack.FileSystem
 Imports Microsoft.VisualBasic.Serialization.JSON
@@ -9,12 +10,14 @@ Public Class ScanFile : Implements IDisposable
 
     Private disposedValue As Boolean
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Sub New(file As Stream)
         pack = New StreamPack(file)
     End Sub
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Sub AddSeed(name As String, seed As HSP)
-        Call pack.WriteText(seed.GetJson, fileName:=$"/seeds/{name.First}/{name}.json")
+        Call pack.WriteText(seed.GetJson, fileName:=$"/seeds/{Mid(name, 1, 2)}/{name}.json")
     End Sub
 
     Protected Overridable Sub Dispose(disposing As Boolean)

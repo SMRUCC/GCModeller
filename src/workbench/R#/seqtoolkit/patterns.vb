@@ -61,6 +61,8 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.Analysis.SequenceTools
+Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.DNAOrigami
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.SequenceLogo
@@ -72,6 +74,7 @@ Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.Rsharp
 Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports REnv = SMRUCC.Rsharp.Runtime
@@ -124,6 +127,17 @@ Module patterns
         Else
             Throw New NotImplementedException(obj.GetType.FullName)
         End If
+    End Function
+
+    <ExportAPI("open.seedFile")>
+    Public Function openSeedFile(<RRawVectorArgument> file As Object, Optional env As Environment = Nothing) As Object
+        Dim filesave = SMRUCC.Rsharp.GetFileStream(file, FileAccess.ReadWrite, env)
+
+        If filesave Like GetType(Message) Then
+            Return filesave.TryCast(Of Message)
+        End If
+
+        Return New ScanFile(filesave.TryCast(Of Stream))
     End Function
 
     ''' <summary>
@@ -274,6 +288,37 @@ Module patterns
         Return env.EvaluateFramework(Of SequenceMotif, String)(motif, Function(m) m.patternString())
     End Function
 
+    <ExportAPI("create.seeds")>
+    Public Function createSeeds(<RRawVectorArgument> fasta As Object, saveto As ScanFile,
+                                Optional minw% = 8,
+                                Optional maxw% = 20,
+                                Optional seedingCutoff As Double = 0.95,
+                                Optional scanMinW As Integer = 6,
+                                Optional scanCutoff As Double = 0.8,
+                                Optional significant_sites As Integer = 4,
+                                Optional debug As Boolean = False,
+                                Optional env As Environment = Nothing) As Object
+
+        Dim param As New PopulatorParameter With {
+          .maxW = maxw,
+          .minW = minw,
+          .seedingCutoff = seedingCutoff,
+          .ScanMinW = scanMinW,
+          .ScanCutoff = scanCutoff,
+          .log = env.WriteLineHandler,
+          .seedScanner = Scanners.TreeScan,
+          .significant_sites = significant_sites,
+          .seedOccurances = 6
+        }
+        Dim scan As New TreeScan(param, debug)
+
+        For Each seed As HSP In scan.GetSeeds(GetFastaSeq(fasta, env))
+            Call saveto.AddSeed($"{seed.Query}+{seed.Subject}".MD5, seed)
+        Next
+
+        Return saveto
+    End Function
+
     ''' <summary>
     ''' find possible motifs of the given sequence collection
     ''' </summary>
@@ -372,7 +417,7 @@ Module patterns
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("scaffold.orthogonality")>
-    <RApiReturn(GetType(Output))>
+    <RApiReturn(GetType(DNAOrigami.Output))>
     Public Function ScaffoldOrthogonality(<RRawVectorArgument>
                                           scaffolds As Object,
                                           Optional segment_len% = 7,
@@ -391,7 +436,7 @@ Module patterns
         End If
 
         Dim seqs As FastaSeq() = data.ToArray
-        Dim outputs As New List(Of Output)
+        Dim outputs As New List(Of DNAOrigami.Output)
         Dim args As New Project With {
             .n = segment_len,
             .is_linear = is_linear,
