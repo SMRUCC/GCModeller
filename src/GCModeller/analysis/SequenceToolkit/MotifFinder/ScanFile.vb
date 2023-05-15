@@ -12,7 +12,7 @@ Public Class ScanFile : Implements IDisposable
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Sub New(file As Stream)
-        pack = New StreamPack(file)
+        pack = New StreamPack(file, meta_size:=1024 * 1024 * 32)
     End Sub
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
