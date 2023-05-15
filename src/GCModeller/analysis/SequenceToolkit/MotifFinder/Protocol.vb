@@ -229,7 +229,7 @@ Public Module Protocol
             scores(0) += 0.0000001
         End If
 
-        Dim pvalue# = t.Test(scores, Vector.Zero(Dim:=scores.Length), Hypothesis.Greater).Pvalue
+        Dim pvalue# = t.Test(scores, Vector.Zero(Dim:=scores.Length), Hypothesis.Less).Pvalue
         Dim motif As New SequenceMotif With {
             .region = residues,
             .pvalue = pvalue,
