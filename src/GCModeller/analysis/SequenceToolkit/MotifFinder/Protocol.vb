@@ -130,6 +130,10 @@ Public Module Protocol
 
             motif = motif.Cleanup(cutoff:=cleanMotif)
 
+            If motif Is Nothing Then
+                Continue For
+            End If
+
             If motif.score > 0 AndAlso motif.SignificantSites >= param.significant_sites Then
                 Yield motif
             End If

@@ -81,6 +81,10 @@ Module TrimMotif
             End If
         Next
 
+        If ends <= start Then
+            Return Nothing
+        End If
+
         Return New SequenceMotif With {
             .seeds = motif.seeds.Cleanup(start, ends),
             .pvalue = motif.pvalue,
