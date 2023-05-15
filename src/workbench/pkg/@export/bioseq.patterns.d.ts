@@ -54,12 +54,14 @@ declare namespace bioseq.patterns {
      * + default value Is ``0.5``.
      * @param significant_sites 
      * + default value Is ``4``.
+     * @param seeds 
+     * + default value Is ``null``.
      * @param debug 
      * + default value Is ``false``.
      * @param env 
      * + default value Is ``null``.
    */
-   function find_motifs(fasta: any, minw?: object, maxw?: object, nmotifs?: object, noccurs?: object, seedingCutoff?: number, scanMinW?: object, scanCutoff?: number, cleanMotif?: number, significant_sites?: object, debug?: boolean, env?: object): object;
+   function find_motifs(fasta: any, minw?: object, maxw?: object, nmotifs?: object, noccurs?: object, seedingCutoff?: number, scanMinW?: object, scanCutoff?: number, cleanMotif?: number, significant_sites?: object, seeds?: object, debug?: boolean, env?: object): object;
    module motif {
       /**
        * Find target loci site based on the given motif model
@@ -114,6 +116,11 @@ declare namespace bioseq.patterns {
         * + default value Is ``null``.
       */
       function seqLogo(MSA: any, title?: string, env?: object): object;
+   }
+   module pull {
+      /**
+      */
+      function all_seeds(seed: object): object;
    }
    module read {
       /**
