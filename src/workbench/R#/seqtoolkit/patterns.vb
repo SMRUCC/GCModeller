@@ -349,6 +349,7 @@ Module patterns
                               Optional scanCutoff As Double = 0.8,
                               Optional cleanMotif As Double = 0.5,
                               Optional significant_sites As Integer = 4,
+                              Optional seeds As HSP() = Nothing,
                               Optional debug As Boolean = False,
                               Optional env As Environment = Nothing) As SequenceMotif()
 
@@ -363,13 +364,27 @@ Module patterns
             .significant_sites = significant_sites,
             .seedOccurances = 6
         }
-        Dim motifs As SequenceMotif() = GetFastaSeq(fasta, env) _
-            .PopulateMotifs(
+        Dim seqInputs = GetFastaSeq(fasta, env).ToArray
+        Dim motifs As SequenceMotif()
+
+        If seeds.IsNullOrEmpty Then
+            motifs = seqInputs.PopulateMotifs(
                 leastN:=noccurs,
                 param:=param,
                 cleanMotif:=cleanMotif,
                 debug:=debug
-            ) _
+            ).ToArray
+        Else
+            motifs = seeds.PopulateMotifs(
+                regions:=seqInputs,
+                param:=param,
+                leastN:=noccurs,
+                cleanMotif:=cleanMotif,
+                debug:=debug
+            ).ToArray
+        End If
+
+        motifs = motifs _
             .OrderByDescending(Function(m) m.score / m.seeds.MSA.Length) _
             .ToArray
 
