@@ -109,19 +109,19 @@ Public Module Protocol
                         Yield New NamedValue(Of String)(q.Subject, q.Subject)
                     End Function) _
             .IteratesALL
-        Dim tree = pullSeeds.BuildAVLTreeCluster(param.seedingCutoff)
 
         Call param.logText("populate motifs...")
-
-        ' 对聚类簇进行多重序列比对得到概率矩阵
-        For Each motif As SequenceMotif In tree _
+        Dim tree = pullSeeds.BuildAVLTreeCluster(param.seedingCutoff)
+        Call param.logText("filter motif groups...")
+        Dim filterGroups = tree _
             .PopulateNodes _
             .Where(Function(group) group.MemberSize >= leastN) _
-            .AsParallel _
-            .Select(Function(group)
-                        Return group.motif(regions, param)
-                    End Function)
+            .ToArray
 
+        Call param.logText("build PWM!")
+
+        ' 对聚类簇进行多重序列比对得到概率矩阵
+        For Each motif As SequenceMotif In filterGroups.AsParallel.Select(Function(group) group.motif(regions, param))
             motif = motif.Cleanup(cutoff:=cleanMotif)
 
             If motif.score > 0 AndAlso motif.SignificantSites >= param.significant_sites Then
