@@ -339,6 +339,7 @@ Module patterns
     ''' <param name="noccurs%"></param>
     ''' <returns></returns>
     <ExportAPI("find_motifs")>
+    <RApiReturn(GetType(SequenceMotif))>
     Public Function GetMotifs(<RRawVectorArgument> fasta As Object,
                               Optional minw% = 8,
                               Optional maxw% = 20,
@@ -349,9 +350,10 @@ Module patterns
                               Optional scanCutoff As Double = 0.8,
                               Optional cleanMotif As Double = 0.5,
                               Optional significant_sites As Integer = 4,
-                              Optional seeds As HSP() = Nothing,
+                              <RRawVectorArgument>
+                              Optional seeds As Object = Nothing,
                               Optional debug As Boolean = False,
-                              Optional env As Environment = Nothing) As SequenceMotif()
+                              Optional env As Environment = Nothing) As Object
 
         Dim param As New PopulatorParameter With {
             .maxW = maxw,
@@ -367,7 +369,7 @@ Module patterns
         Dim seqInputs = GetFastaSeq(fasta, env).ToArray
         Dim motifs As SequenceMotif()
 
-        If seeds.IsNullOrEmpty Then
+        If seeds Is Nothing Then
             motifs = seqInputs.PopulateMotifs(
                 leastN:=noccurs,
                 param:=param,
@@ -375,7 +377,21 @@ Module patterns
                 debug:=debug
             ).ToArray
         Else
-            motifs = seeds.PopulateMotifs(
+            Dim seedsList As HSP()
+
+            If TypeOf seeds Is ScanFile Then
+                seedsList = DirectCast(seeds, ScanFile).LoadAllSeeds.ToArray
+            Else
+                Dim pop = pipeline.TryCreatePipeline(Of HSP)(seeds, env)
+
+                If pop.isError Then
+                    Return pop.getError
+                Else
+                    seedsList = pop.populates(Of HSP)(env).ToArray
+                End If
+            End If
+
+            motifs = seedsList.PopulateMotifs(
                 regions:=seqInputs,
                 param:=param,
                 leastN:=noccurs,
