@@ -5,7 +5,9 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Public Class TreeScan : Inherits SeedScanner
 
-    ReadOnly hsp As New List(Of HSP)
+    Dim counter As Integer = 0
+    Dim temp As HSP()
+
     ReadOnly t0 As Date = Now
 
     Public Sub New(param As PopulatorParameter, debug As Boolean)
@@ -26,20 +28,21 @@ Public Class TreeScan : Inherits SeedScanner
     Private Function Compares(a As FastaSeq, b As FastaSeq) As Integer
         If a.SequenceData = b.SequenceData Then
             Return 0
+        Else
+            temp = MotifSeeds _
+                .PairwiseSeeding(a, b, param) _
+                .ToArray
+            counter += temp.Length
         End If
 
-        Dim seeds As HSP() = MotifSeeds.PairwiseSeeding(a, b, param).ToArray
-
-        Call hsp.AddRange(seeds)
-
-        If seeds.Length = 0 Then
+        If temp.Length = 0 Then
             Return -1
         Else
             Return 1
         End If
     End Function
 
-    Public Overrides Function GetSeeds(regions() As FastaSeq) As IEnumerable(Of HSP)
+    Public Overrides Iterator Function GetSeeds(regions() As FastaSeq) As IEnumerable(Of HSP)
         Dim tree = CreateTree()
         Dim i As i32 = Scan0
         Dim d As Integer = regions.Length / 100
@@ -47,15 +50,17 @@ Public Class TreeScan : Inherits SeedScanner
         For Each seq As FastaSeq In regions
             Call tree.Add(key:=seq)
 
+            For Each seed As HSP In temp
+                Yield seed
+            Next
+
             If ++i Mod d = 0 Then
                 Dim dt As TimeSpan = Now - t0
                 Dim speed As String = (CInt(i) / dt.TotalSeconds).ToString("F2")
-                Dim speed2 As String = (hsp.Count / dt.TotalSeconds).ToString("F2")
+                Dim speed2 As String = (counter / dt.TotalSeconds).ToString("F2")
 
-                Call param.logText($"[{i}/{regions.Length}, {dt.FormatTime} | {speed}sequence/sec | {speed2}seeds/sec] {(i / regions.Length * 100).ToString("F0")}% {hsp.Count} seeds | {seq.Title}")
+                Call param.logText($"[{i}/{regions.Length}, {dt.FormatTime} | {speed}sequence/sec | {speed2}seeds/sec] {(i / regions.Length * 100).ToString("F0")}% {counter} seeds | {seq.Title}")
             End If
         Next
-
-        Return hsp
     End Function
 End Class
