@@ -344,7 +344,7 @@ Module patterns
                               Optional minw% = 8,
                               Optional maxw% = 20,
                               Optional nmotifs% = -1,
-                              Optional noccurs% = 6,
+                              Optional noccurs% = 12,
                               Optional seedingCutoff As Double = 0.65,
                               Optional scanMinW As Integer = 6,
                               Optional scanCutoff As Double = 0.8,
