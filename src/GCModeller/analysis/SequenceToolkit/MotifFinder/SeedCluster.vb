@@ -66,23 +66,35 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 ''' </summary>
 Public Module SeedCluster
 
-    <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    <Extension>
-    Public Function Compare(q$, s$) As Double
-        Dim g1 = Builder.SequenceGraph(q, SequenceModel.NT).GetVector(SequenceModel.NT)
-        Dim g2 = Builder.SequenceGraph(s, SequenceModel.NT).GetVector(SequenceModel.NT)
-        Dim score As Double = SSM(New Vector(g1), New Vector(g2))
+    Private Class VectorCompares
 
-        Return score
-    End Function
+        ReadOnly cache As New Dictionary(Of String, Vector)
+
+        Public Function Compare(q$, s$) As Double
+            Dim g1 = GetVector(q)
+            Dim g2 = GetVector(s)
+            Dim score As Double = SSM(g1, g2)
+
+            Return score
+        End Function
+
+        Private Function GetVector(s As String) As Vector
+            If Not cache.ContainsKey(s) Then
+                cache.Add(s, Builder.SequenceGraph(s, SequenceModel.NT).GetVector(SequenceModel.NT))
+            End If
+
+            Return cache(s)
+        End Function
+    End Class
 
     <Extension>
     Public Function BuildAVLTreeCluster(seeds As IEnumerable(Of NamedValue(Of String)),
                                         Optional cutoff# = 0.95) As BinaryTree(Of String, String)
         Dim divid# = cutoff * (2 / 3)
+        Dim align As New VectorCompares
         Dim cluster As New AVLTree(Of String, String)(
             Function(q, s)
-                Dim SSM# = SeedCluster.Compare(q, s)
+                Dim SSM# = align.Compare(q, s)
 
                 If SSM >= cutoff Then
                     Return 0
