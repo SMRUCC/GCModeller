@@ -57,8 +57,6 @@ Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
-Imports Microsoft.VisualBasic.Math.LinearAlgebra
-Imports SMRUCC.genomics.Model.MotifGraph
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 ''' <summary>
@@ -66,30 +64,18 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 ''' </summary>
 Public Module SeedCluster
 
-    Private Class VectorCompares
-
-        ReadOnly cache As New Dictionary(Of String, Vector)
-
-        Public Function Compare(q$, s$) As Double
-            Dim g1 = GetVector(q)
-            Dim g2 = GetVector(s)
-            Dim score As Double = SSM(g1, g2)
-
-            Return score
-        End Function
-
-        Private Function GetVector(s As String) As Vector
-            If Not cache.ContainsKey(s) Then
-                cache.Add(s, Builder.SequenceGraph(s, SequenceModel.NT).GetVector(SequenceModel.NT))
-            End If
-
-            Return cache(s)
-        End Function
-    End Class
-
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="seeds">
+    ''' value in this tuple object should be the sequence data
+    ''' </param>
+    ''' <param name="cutoff">
+    ''' cos cutoff of the two sequence graph vector
+    ''' </param>
+    ''' <returns></returns>
     <Extension>
-    Public Function BuildAVLTreeCluster(seeds As IEnumerable(Of NamedValue(Of String)),
-                                        Optional cutoff# = 0.95) As BinaryTree(Of String, String)
+    Public Function BuildAVLTreeCluster(seeds As IEnumerable(Of NamedValue(Of String)), Optional cutoff# = 0.95) As BinaryTree(Of String, String)
         Dim divid# = cutoff * (2 / 3)
         Dim align As New VectorCompares
         Dim cluster As New AVLTree(Of String, String)(

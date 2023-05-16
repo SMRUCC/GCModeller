@@ -305,17 +305,17 @@ Module patterns
                                 Optional env As Environment = Nothing) As Object
 
         Dim param As New PopulatorParameter With {
-          .maxW = maxw,
-          .minW = minw,
-          .seedingCutoff = seedingCutoff,
-          .ScanMinW = scanMinW,
-          .ScanCutoff = scanCutoff,
-          .log = env.WriteLineHandler,
-          .seedScanner = Scanners.TreeScan,
-          .significant_sites = significant_sites,
-          .seedOccurances = 6
+           .maxW = maxw,
+           .minW = minw,
+           .seedingCutoff = seedingCutoff,
+           .ScanMinW = scanMinW,
+           .ScanCutoff = scanCutoff,
+           .log = env.WriteLineHandler,
+           .seedScanner = Scanners.GraphScan,
+           .significant_sites = significant_sites,
+           .seedOccurances = 6
         }
-        Dim scan As New TreeScan(param, debug)
+        Dim scan As SeedScanner = Activator.CreateInstance(param.GetScanner, param, debug)
 
         For Each seed As HSP In scan.GetSeeds(GetFastaSeq(fasta, env))
             Call saveto.AddSeed($"{seed.Query}+{seed.Subject}".MD5, seed)
@@ -362,7 +362,7 @@ Module patterns
             .ScanMinW = scanMinW,
             .ScanCutoff = scanCutoff,
             .log = env.WriteLineHandler,
-            .seedScanner = Scanners.TreeScan,
+            .seedScanner = Scanners.GraphScan,
             .significant_sites = significant_sites,
             .seedOccurances = 6
         }
