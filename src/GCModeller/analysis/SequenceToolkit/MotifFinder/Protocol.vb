@@ -147,7 +147,7 @@ Public Module Protocol
     <Extension>
     Private Iterator Function motif(group As BinaryTree(Of String, String), param As PopulatorParameter) As IEnumerable(Of SequenceMotif)
         Dim members As List(Of String) = group!values
-        Dim top As Integer = 50
+        Dim top As Integer = Integer.MaxValue - 1
 
         If members.Count > top Then
             For Each sample As SeqValue(Of String()) In Bootstraping.Samples(members, top, members.Count / top + 3)
