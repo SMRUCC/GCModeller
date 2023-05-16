@@ -52,6 +52,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports SMRUCC.genomics.SequenceModel.Patterns
 
@@ -61,8 +62,9 @@ Imports SMRUCC.genomics.SequenceModel.Patterns
 Public Class Probability
 
     Public Property region As Residue()
-    Public Property pvalue As Double
-    Public Property score As Double
+
+    <XmlAttribute> Public Property pvalue As Double
+    <XmlAttribute> Public Property score As Double
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Overrides Function ToString() As String

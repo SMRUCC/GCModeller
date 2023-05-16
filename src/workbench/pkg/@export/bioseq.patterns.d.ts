@@ -14,6 +14,19 @@ declare namespace bioseq.patterns {
       */
       function seq_graph(fasta: any, mol_type?: object, env?: object): any;
    }
+   module create {
+      /**
+        * @param minw default value Is ``8``.
+        * @param maxw default value Is ``20``.
+        * @param seedingCutoff default value Is ``0.95``.
+        * @param scanMinW default value Is ``6``.
+        * @param scanCutoff default value Is ``0.8``.
+        * @param significant_sites default value Is ``4``.
+        * @param debug default value Is ``false``.
+        * @param env default value Is ``null``.
+      */
+      function seeds(fasta: any, saveto: object, minw?: object, maxw?: object, seedingCutoff?: number, scanMinW?: object, scanCutoff?: number, significant_sites?: object, debug?: boolean, env?: object): any;
+   }
    /**
     * find possible motifs of the given sequence collection
     * 
@@ -32,7 +45,7 @@ declare namespace bioseq.patterns {
      * @param noccurs 
      * + default value Is ``6``.
      * @param seedingCutoff 
-     * + default value Is ``0.95``.
+     * + default value Is ``0.99``.
      * @param scanMinW 
      * + default value Is ``6``.
      * @param scanCutoff 
@@ -41,12 +54,14 @@ declare namespace bioseq.patterns {
      * + default value Is ``0.5``.
      * @param significant_sites 
      * + default value Is ``4``.
+     * @param seeds 
+     * + default value Is ``null``.
      * @param debug 
      * + default value Is ``false``.
      * @param env 
      * + default value Is ``null``.
    */
-   function find_motifs(fasta: any, minw?: object, maxw?: object, nmotifs?: object, noccurs?: object, seedingCutoff?: number, scanMinW?: object, scanCutoff?: number, cleanMotif?: number, significant_sites?: object, debug?: boolean, env?: object): object;
+   function find_motifs(fasta: any, minw?: object, maxw?: object, nmotifs?: object, noccurs?: object, seedingCutoff?: number, scanMinW?: object, scanCutoff?: number, cleanMotif?: number, significant_sites?: object, seeds?: any, debug?: boolean, env?: object): object;
    module motif {
       /**
        * Find target loci site based on the given motif model
@@ -71,6 +86,12 @@ declare namespace bioseq.patterns {
      * @param env default value Is ``null``.
    */
    function motifString(motif: any, env?: object): any;
+   module open {
+      /**
+        * @param env default value Is ``null``.
+      */
+      function seedFile(file: any, env?: object): any;
+   }
    module palindrome {
       /**
        * Search mirror palindrome sites for a given seed sequence
@@ -95,6 +116,11 @@ declare namespace bioseq.patterns {
         * + default value Is ``null``.
       */
       function seqLogo(MSA: any, title?: string, env?: object): object;
+   }
+   module pull {
+      /**
+      */
+      function all_seeds(seed: object): object;
    }
    module read {
       /**

@@ -59,9 +59,11 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.BinaryTree
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Data.Repository
 Imports Microsoft.VisualBasic.DataMining.DynamicProgramming.NeedlemanWunsch
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math.Distributions
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.Statistics.Hypothesis
 Imports SMRUCC.genomics.Analysis.SequenceTools.MSA
@@ -78,10 +80,10 @@ Public Module Protocol
     ''' <param name="param"></param>
     ''' <returns></returns>
     <Extension>
-    Public Iterator Function PopulateMotifs(inputs As IEnumerable(Of FastaSeq), param As PopulatorParameter,
-                                            Optional leastN% = 5,
-                                            Optional cleanMotif As Double = 0.5,
-                                            Optional debug As Boolean = False) As IEnumerable(Of SequenceMotif)
+    Public Function PopulateMotifs(inputs As IEnumerable(Of FastaSeq), param As PopulatorParameter,
+                                   Optional leastN% = 5,
+                                   Optional cleanMotif As Double = 0.5,
+                                   Optional debug As Boolean = False) As IEnumerable(Of SequenceMotif)
 
         Dim regions As FastaSeq() = inputs.ToArray
         Dim scanner As SeedScanner = Activator.CreateInstance(type:=param.GetScanner, param, debug)
@@ -90,25 +92,51 @@ Public Module Protocol
         Call param.logText($"create {seeds.Length} seeds...")
         Call param.logText("create motif cluster tree!")
 
+        Return seeds.PopulateMotifs(param, leastN, cleanMotif, debug)
+    End Function
+
+    <Extension>
+    Public Iterator Function PopulateMotifs(seeds As IEnumerable(Of HSP),
+                                            param As PopulatorParameter,
+                                            Optional leastN% = 5,
+                                            Optional cleanMotif As Double = 0.5,
+                                            Optional debug As Boolean = False) As IEnumerable(Of SequenceMotif)
         ' 构建出二叉树
         ' 每一个node都是一个cluster
         ' 可以按照成员的数量至少要满足多少条来取cluster的结果
-        Dim tree = seeds _
-            .Select(Function(q) New NamedValue(Of String)(q.Query, q.Query)) _
-            .BuildAVLTreeCluster(param.seedingCutoff)
+        Dim pullSeeds As IEnumerable(Of NamedValue(Of String)) = seeds _
+            .Select(Iterator Function(q) As IEnumerable(Of NamedValue(Of String))
+                        Yield New NamedValue(Of String)(q.Query, q.Query)
+                        Yield New NamedValue(Of String)(q.Subject, q.Subject)
+                    End Function) _
+            .IteratesALL
 
         Call param.logText("populate motifs...")
-
-        ' 对聚类簇进行多重序列比对得到概率矩阵
-        For Each motif As SequenceMotif In tree _
+        Dim tree = pullSeeds.BuildAVLTreeCluster(param.seedingCutoff)
+        Call param.logText("filter motif groups...")
+        Dim filterGroups = tree _
             .PopulateNodes _
             .Where(Function(group) group.MemberSize >= leastN) _
-            .AsParallel _
-            .Select(Function(group)
-                        Return group.motif(regions, param)
-                    End Function)
+            .OrderByDescending(Function(g) g.MemberSize) _
+            .ToArray
+
+        Call param.logText("build PWM!")
+
+        ' 对聚类簇进行多重序列比对得到概率矩阵
+        For Each motif As SequenceMotif In filterGroups _
+            .Populate(parallel:=Not debug) _
+            .Select(Function(group) group.motif(param)) _
+            .IteratesALL
+
+            If motif Is Nothing Then
+                Continue For
+            End If
 
             motif = motif.Cleanup(cutoff:=cleanMotif)
+
+            If motif Is Nothing Then
+                Continue For
+            End If
 
             If motif.score > 0 AndAlso motif.SignificantSites >= param.significant_sites Then
                 Yield motif
@@ -117,16 +145,30 @@ Public Module Protocol
     End Function
 
     <Extension>
-    Private Function motif(group As BinaryTree(Of String, String), regions As FastaSeq(), param As PopulatorParameter) As SequenceMotif
+    Private Iterator Function motif(group As BinaryTree(Of String, String), param As PopulatorParameter) As IEnumerable(Of SequenceMotif)
         Dim members As List(Of String) = group!values
-        Dim MSA As MSAOutput = members _
+        Dim top As Integer = 50
+
+        If members.Count > top Then
+            For Each sample As SeqValue(Of String()) In Bootstraping.Samples(members, top, members.Count / top + 3)
+                Yield sample.value.BuildMotifPWM(param)
+            Next
+        Else
+            Yield members.BuildMotifPWM(param)
+        End If
+    End Function
+
+    <Extension>
+    Private Function BuildMotifPWM(members As IEnumerable(Of String), param As PopulatorParameter) As SequenceMotif
+        Dim regions As FastaSeq() = members _
             .Select(Function(seq)
                         Return New FastaSeq With {
                             .SequenceData = seq,
-                            .Headers = {""}
+                            .Headers = {FNV1a.GetDeterministicHashCode(seq).ToString}
                         }
                     End Function) _
-            .MultipleAlignment(Nothing)
+            .ToArray
+        Dim MSA As MSAOutput = regions.MultipleAlignment(Nothing)
         Dim PWM As SequenceMotif = MSA.PWM(members:=regions, param:=param)
 
         Return PWM
@@ -141,7 +183,7 @@ Public Module Protocol
     <Extension>
     Private Function PWM(alignment As MSAOutput, members As FastaSeq(), param As PopulatorParameter) As SequenceMotif
         Dim residues As New List(Of Residue)
-        Dim nt = {"A"c, "T"c, "G"c, "C"c}
+        Dim nt As String() = SequenceModel.NT.Select(Function(c) CStr(c)).ToArray
         Dim MSA As String() = alignment.MSA
 
         For i As Integer = 0 To MSA(Scan0).Length - 1
@@ -149,7 +191,7 @@ Public Module Protocol
             Dim P = MSA _
                 .Select(Function(seq) seq(index)) _
                 .GroupBy(Function(c) c) _
-                .ToDictionary(Function(c) c.Key,
+                .ToDictionary(Function(c) c.Key.ToString,
                               Function(g)
                                   Return g.Count / MSA.Length
                               End Function)
@@ -181,12 +223,20 @@ Public Module Protocol
                         End If
                     End Function) _
             .AsVector
-        Dim pvalue# = t.Test(scores, Vector.Zero(Dim:=scores.Length), Hypothesis.TwoSided).Pvalue
+
+        If scores.All(Function(xi) xi = 0.0) Then
+            Return Nothing
+        Else
+            scores(0) += 0.0000001
+        End If
+
+        Dim pvalue# = t.Test(scores, Vector.Zero(Dim:=scores.Length), Hypothesis.Less, strict:=False).Pvalue
         Dim motif As New SequenceMotif With {
             .region = residues,
             .pvalue = pvalue,
             .score = scores.Sum,
-            .seeds = alignment
+            .seeds = alignment,
+            .alignments = scores.ToArray
         }
 
         Return motif
