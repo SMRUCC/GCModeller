@@ -1,4 +1,6 @@
-﻿''' <summary>
+﻿Imports randf2 = Microsoft.VisualBasic.Math.RandomExtensions
+
+''' <summary>
 ''' Gibb's Sampling Steps:<br>
 ''' 
 ''' 1. Set every variable to a random value.<br>
@@ -36,8 +38,9 @@ Public Class Gibbs
     '''            A HashTable containing the sequence as a key, and the random
     '''            integer to be used as the value. </param>
     Private Sub sample()
+        Dim rand As Random = randf2.seeds
+
         For j = 0 To 1999
-            Dim rand As Random = New Random()
             Dim chosenSeqIndex = rand.Next(Gibbs.sequences.Count)
             Dim chosenSequence As String = Gibbs.sequences(chosenSeqIndex)
             Dim scores As List(Of Double?) = New List(Of Double?)()
@@ -129,7 +132,7 @@ Public Class Gibbs
     ''' <returns> A double of the probability of a letter randomly selected. </returns>
     Private Function calculateP(ByVal tempMotif As String, ByVal chosenSeqIndex As Integer) As Double
         Dim p As Double = 1
-        For Each c In tempMotif.ToCharArray()
+        For Each c As Char In tempMotif.ToCharArray()
             Dim sameLetters As Double = 0
             Dim totalLength As Double = 0
             For Each s As String In Gibbs.sequences
@@ -156,8 +159,8 @@ Public Class Gibbs
     ''' <returns> A HashTable containing the sequence as a key, and the random
     '''         integer to be used as the value. </returns>
     Private Function generateRandomValue() As Dictionary(Of String, Integer?)
-        Dim rand As Random = New Random()
-        Dim randomValues As Dictionary(Of String, Integer?) = New Dictionary(Of String, Integer?)()
+        Dim rand As Random = randf2.seeds
+        Dim randomValues As New Dictionary(Of String, Integer?)()
         For Each seq As String In Gibbs.sequences
             Dim randomVal = rand.Next(seq.Length - motifLength)
             randomValues(seq) = randomVal
