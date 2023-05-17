@@ -1,17 +1,19 @@
-﻿Imports randf2 = Microsoft.VisualBasic.Math.RandomExtensions
+﻿Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports randf2 = Microsoft.VisualBasic.Math.RandomExtensions
 
 Public Class Score
 
-    Public Property p As Double
-    Public Property q As Double
-    Public Property seq As String
-    Public Property start As Integer
+    Public Property p As Double()
+    Public Property q As Double()
 
-    Public ReadOnly Property score As Double
+    Public ReadOnly Property score As Vector
         Get
-            Return q / p
+            Return New Vector(q) / New Vector(p)
         End Get
     End Property
+
+    Public Property seq As String
+    Public Property start As Integer
 
 End Class
 
@@ -73,6 +75,7 @@ Public Class Gibbs
 
             Dim random As Double = rand.NextDouble()
             Dim dubsum As Double = 0
+
             For Each d As Double In scores
                 dubsum += d
                 If random = dubsum Then
