@@ -1,5 +1,20 @@
 ﻿Imports randf2 = Microsoft.VisualBasic.Math.RandomExtensions
 
+Public Class Score
+
+    Public Property p As Double
+    Public Property q As Double
+    Public Property seq As String
+    Public Property start As Integer
+
+    Public ReadOnly Property score As Double
+        Get
+            Return q / p
+        End Get
+    End Property
+
+End Class
+
 ''' <summary>
 ''' Gibb's Sampling Steps:<br>
 ''' 
@@ -12,7 +27,6 @@
 Public Class Gibbs
 
     Dim sequences As String()
-    Dim start As Dictionary(Of String, Integer)
     Dim motifLength As Integer
 
     ''' <summary>
@@ -26,7 +40,6 @@ Public Class Gibbs
     Public Sub New(ByVal seqArray As String(), ByVal motifLength As Integer)
         Me.sequences = seqArray
         Me.motifLength = motifLength
-        Me.start = generateRandomValue()
     End Sub
 
     ''' <summary>
@@ -35,26 +48,27 @@ Public Class Gibbs
     ''' <paramname="start">
     '''            A HashTable containing the sequence as a key, and the random
     '''            integer to be used as the value. </param>
-    Public Function sample() As Dictionary(Of String, Integer)
+    Public Function sample(Optional MAXIT As Integer = 1999) As Score()
         Dim rand As Random = randf2.seeds
+        Dim start = generateRandomValue()
 
-        For j = 0 To 1999
+        For j As Integer = 0 To MAXIT
             Dim chosenSeqIndex = rand.Next(sequences.Length)
             Dim chosenSequence As String = sequences(chosenSeqIndex)
             Dim scores As New List(Of Double)()
             ' i = possibleStart
-            For i = 0 To chosenSequence.Length - motifLength + 1 - 1
+            For i As Integer = 0 To chosenSequence.Length - motifLength
                 Dim tempMotif = chosenSequence.Substring(i, motifLength)
                 Dim p = calculateP(tempMotif, chosenSeqIndex)
                 Dim q = calculateQ(tempMotif, chosenSeqIndex, i)
-                scores.Add(q / p)
+
+                Call scores.Add(q / p)
             Next
-            Dim sum As Double = 0
-            For Each d As Double In scores
-                sum += d
-            Next
-            For i = 0 To scores.Count - 1
-                scores(0) = scores(i) / sum
+
+            Dim sum As Double = scores.Sum
+
+            For i As Integer = 0 To scores.Count - 1
+                scores(i) = scores(i) / sum
             Next
 
             Dim random As Double = rand.NextDouble()
@@ -62,12 +76,12 @@ Public Class Gibbs
             For Each d As Double In scores
                 dubsum += d
                 If random = dubsum Then
-                    start(chosenSequence) = scores.IndexOf(d)
+                    start(chosenSequence).start = scores.IndexOf(d)
                 End If
             Next
         Next
 
-        Return start
+        Return start.Values.ToArray
     End Function
 
     ''' <summary>
@@ -157,12 +171,12 @@ Public Class Gibbs
     ''' </summary>
     ''' <returns> A HashTable containing the sequence as a key, and the random
     '''         integer to be used as the value. </returns>
-    Private Function generateRandomValue() As Dictionary(Of String, Integer)
+    Private Function generateRandomValue() As Dictionary(Of String, Score)
         Dim rand As Random = randf2.seeds
-        Dim randomValues As New Dictionary(Of String, Integer)()
+        Dim randomValues As New Dictionary(Of String, Score)()
         For Each seq As String In sequences
             Dim randomVal = rand.Next(seq.Length - motifLength)
-            randomValues(seq) = randomVal
+            randomValues(seq) = New Score With {.start = randomVal, .seq = seq}
         Next
         Return randomValues
     End Function

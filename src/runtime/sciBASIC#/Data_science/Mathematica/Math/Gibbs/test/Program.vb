@@ -10,7 +10,7 @@ Module Program
     End Sub
 
     Public Sub gibbsTest()
-        Dim data = New String() {"ABCDAAAABDB", "AAAADCBBCA", "DDBCABAAAACBBD", "AABAAAACCDD"}
+        Dim data = New String() {"ABCDAAAABDB", "AAAADCBBCA", "DDBCABAAAACBBD", "AABAAAACCDD", "ABCBDBDDDDDBCBBCBC", "ABAAAACBBDAABAAAACC", "CDAAAABDBAA", "AADCBBCADDB"}
         Dim length = 4
         Dim gibbs As Gibbs = New Gibbs(data, length)
 
