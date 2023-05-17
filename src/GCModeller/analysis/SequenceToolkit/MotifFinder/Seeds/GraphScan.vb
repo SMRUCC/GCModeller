@@ -20,14 +20,16 @@ Public Class GraphScan : Inherits SeedScanner
 
     Public Overrides Iterator Function GetSeeds(regions() As FastaSeq) As IEnumerable(Of HSP)
         Dim source = GetSequenceIndex(regions)
-        Dim tree = SeedCluster.BuildAVLTreeCluster(regions.Select(Function(f) New NamedValue(Of String)(f.Title, f.SequenceData)), cutoff:=0.5)
-        Dim groups = tree.PopulateNodes.ToArray
+        Dim tree = SeedCluster.BuildAVLTreeCluster(regions.Select(Function(f) New NamedValue(Of String)(f.Title, f.SequenceData)), cutoff:=0.7)
+        Dim groups = tree.PopulateNodes.Select(Function(t, i) New NamedCollection(Of String)((i + 1).ToString, t.Members)).ToArray
         Dim full As New FullScan(param, debug)
 
-        For Each group As BinaryTree(Of String, String) In groups
-            Dim seqs = group.Members
+        Call param.logText($"get total {groups.Length} sequence groups!")
 
-            If seqs.Length >= 3 Then
+        For Each seqs As NamedCollection(Of String) In groups
+            Call param.logText($"> processing sequence group with {seqs.Length} sequence.")
+
+            If seqs.Length >= 2 Then
                 For Each seed As HSP In full.GetSeeds(seqs.Select(Function(i) source(i)).ToArray)
                     Yield seed
                 Next
