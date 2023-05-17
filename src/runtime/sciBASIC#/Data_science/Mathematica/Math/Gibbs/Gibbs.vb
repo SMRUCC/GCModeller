@@ -11,9 +11,9 @@
 ''' </summary>  
 Public Class Gibbs
 
-    Private Shared sequences As List(Of String) = New List(Of String)()
-    Friend start As Dictionary(Of String, Integer?)
-    Private motifLength As Integer
+    Dim sequences As String()
+    Dim start As Dictionary(Of String, Integer)
+    Dim motifLength As Integer
 
     ''' <summary>
     ''' Constructs and performs Gibb's Sampling in order to find repeated motifs.
@@ -24,11 +24,9 @@ Public Class Gibbs
     '''            An Integer that shows the length of the motif or pattern we
     '''            are trying to find, this value is given. </param>
     Public Sub New(ByVal seqArray As String(), ByVal motifLength As Integer)
-        Gibbs.sequences.AddRange(seqArray)
+        Me.sequences = seqArray
         Me.motifLength = motifLength
-        start = generateRandomValue()
-        sample()
-        Console.WriteLine(start)
+        Me.start = generateRandomValue()
     End Sub
 
     ''' <summary>
@@ -37,13 +35,13 @@ Public Class Gibbs
     ''' <paramname="start">
     '''            A HashTable containing the sequence as a key, and the random
     '''            integer to be used as the value. </param>
-    Private Sub sample()
+    Public Function sample() As Dictionary(Of String, Integer)
         Dim rand As Random = randf2.seeds
 
         For j = 0 To 1999
-            Dim chosenSeqIndex = rand.Next(Gibbs.sequences.Count)
-            Dim chosenSequence As String = Gibbs.sequences(chosenSeqIndex)
-            Dim scores As List(Of Double?) = New List(Of Double?)()
+            Dim chosenSeqIndex = rand.Next(sequences.Length)
+            Dim chosenSequence As String = sequences(chosenSeqIndex)
+            Dim scores As New List(Of Double)()
             ' i = possibleStart
             For i = 0 To chosenSequence.Length - motifLength + 1 - 1
                 Dim tempMotif = chosenSequence.Substring(i, motifLength)
@@ -69,7 +67,8 @@ Public Class Gibbs
             Next
         Next
 
-    End Sub
+        Return start
+    End Function
 
     ''' <summary>
     ''' Calculates the probability of a letter in this position.
@@ -85,10 +84,10 @@ Public Class Gibbs
         Dim q As Double = 1
         Dim start = possibleStart
         Dim [end] = possibleStart + tempMotif.Length
-        Dim denominator As Double = Gibbs.sequences.Count - 1
-        For Each s As String In Gibbs.sequences
+        Dim denominator As Double = sequences.Length - 1
+        For Each s As String In sequences
             Dim numerator As Double = 0
-            If s.Equals(Gibbs.sequences(chosenSeqIndex)) Then
+            If s = sequences(chosenSeqIndex) Then
                 Continue For
             End If
             If [end] > s.Length Then
@@ -135,8 +134,8 @@ Public Class Gibbs
         For Each c As Char In tempMotif.ToCharArray()
             Dim sameLetters As Double = 0
             Dim totalLength As Double = 0
-            For Each s As String In Gibbs.sequences
-                If s.Equals(Gibbs.sequences(chosenSeqIndex)) Then
+            For Each s As String In sequences
+                If s = sequences(chosenSeqIndex) Then
                     Continue For
                 End If
                 Dim seqLetters As Char() = s.ToCharArray()
@@ -158,20 +157,13 @@ Public Class Gibbs
     ''' </summary>
     ''' <returns> A HashTable containing the sequence as a key, and the random
     '''         integer to be used as the value. </returns>
-    Private Function generateRandomValue() As Dictionary(Of String, Integer?)
+    Private Function generateRandomValue() As Dictionary(Of String, Integer)
         Dim rand As Random = randf2.seeds
-        Dim randomValues As New Dictionary(Of String, Integer?)()
-        For Each seq As String In Gibbs.sequences
+        Dim randomValues As New Dictionary(Of String, Integer)()
+        For Each seq As String In sequences
             Dim randomVal = rand.Next(seq.Length - motifLength)
             randomValues(seq) = randomVal
         Next
         Return randomValues
     End Function
-
-    Public Shared Sub Main(ByVal args As String())
-        Dim data = New String() {"ABCDAAAABDB", "AAAADCBBCA", "DDBCABAAAACBBD", "AABAAAACCDD"}
-        Dim length = 4
-        Dim gibbs As Gibbs = New Gibbs(data, length)
-    End Sub
-
 End Class

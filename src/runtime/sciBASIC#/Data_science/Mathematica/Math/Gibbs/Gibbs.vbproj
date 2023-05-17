@@ -8,8 +8,14 @@
     <AssemblyName>Microsoft.VisualBasic.Math.GibbsSampling</AssemblyName>
     <RootNamespace>Microsoft.VisualBasic.Math.GibbsSampling</RootNamespace>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <Optimize>False</Optimize>
+    <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <DebugType>full</DebugType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Optimize>False</Optimize>
     <RemoveIntegerChecks>True</RemoveIntegerChecks>
     <DebugType>full</DebugType>
@@ -18,10 +24,17 @@
     <RemoveIntegerChecks>True</RemoveIntegerChecks>
     <DebugType>full</DebugType>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <DebugType>full</DebugType>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Remove="imgs\**" />
+    <Compile Remove="test\**" />
     <EmbeddedResource Remove="imgs\**" />
+    <EmbeddedResource Remove="test\**" />
     <None Remove="imgs\**" />
+    <None Remove="test\**" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="README.md" />
