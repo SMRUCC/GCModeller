@@ -37,6 +37,7 @@
     <None Remove="test\**" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="data.txt" />
     <None Remove="README.md" />
   </ItemGroup>
   <ItemGroup>
