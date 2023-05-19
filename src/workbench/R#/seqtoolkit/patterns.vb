@@ -157,9 +157,13 @@ Module patterns
     End Function
 
     <ExportAPI("gibbs_scan")>
-    Public Function gibbs_scans(<RRawVectorArgument> seqs As Object, Optional env As Environment = Nothing) As Object
+    Public Function gibbs_scans(<RRawVectorArgument>
+                                seqs As Object,
+                                Optional width As Integer = 12,
+                                Optional env As Environment = Nothing) As Object
+
         Dim fa As FastaSeq() = GetFastaSeq(seqs, env).ToArray
-        Dim gibbs As New Gibbs(fa.Select(Function(si) si.SequenceData).ToArray, 8)
+        Dim gibbs As New Gibbs(fa.Select(Function(si) si.SequenceData).ToArray, width)
         Dim motif As Score() = gibbs.sample
 
         Return motif
