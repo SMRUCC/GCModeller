@@ -44,13 +44,21 @@ Public Module FileName
         Next
 
         For Each node As ClusterKey(Of GraphSeed) In tree
-            Yield New NamedCollection(Of GraphSeed)("", node.ToArray)
+            If node.NumberOfKey > 2 Then
+                Yield New NamedCollection(Of GraphSeed)("", node.ToArray)
+            End If
         Next
     End Function
 
     <Extension>
     Public Function CreateMotifs(node As NamedCollection(Of GraphSeed), param As PopulatorParameter) As SequenceMotif
-        Return node.Select(Function(a) a.part).BuildMotifPWM(param)
+        Dim pwm = node.Select(Function(a) a.part).BuildMotifPWM(param)
+
+        If Not pwm Is Nothing Then
+            Return pwm.Cleanup
+        Else
+            Return Nothing
+        End If
     End Function
 
 End Module
