@@ -43,9 +43,9 @@ declare namespace bioseq.patterns {
      * 
      * + default value Is ``-1``.
      * @param noccurs 
-     * + default value Is ``6``.
+     * + default value Is ``12``.
      * @param seedingCutoff 
-     * + default value Is ``0.99``.
+     * + default value Is ``0.65``.
      * @param scanMinW 
      * + default value Is ``6``.
      * @param scanCutoff 

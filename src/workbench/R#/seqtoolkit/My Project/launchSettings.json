@@ -6,7 +6,7 @@
     "Profile 1": {
       "commandName": "Executable",
       "executablePath": "F:\\GCModeller\\src\\R-sharp\\App\\net6.0\\R#.exe",
-      "commandLineArgs": "E:\\GCA_000005845.2_ASM584v2_genomic\\workflow\\find_motifs.R"
+      "commandLineArgs": "\"E:\\GCA_000005845.2_ASM584v2_genomic\\workflow\\motif_seeds.R\""
     }
   }
 }

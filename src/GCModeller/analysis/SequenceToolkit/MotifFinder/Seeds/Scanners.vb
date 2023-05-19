@@ -1,5 +1,6 @@
 ﻿Public Enum Scanners
 
+    GraphScan
     TreeScan
     FullScan
 

@@ -115,6 +115,7 @@ Public Class PopulatorParameter
         Select Case seedScanner
             Case Scanners.TreeScan : Return GetType(TreeScan)
             Case Scanners.FullScan : Return GetType(FullScan)
+            Case Scanners.GraphScan : Return GetType(GraphScan)
             Case Else
                 Throw New NotImplementedException(seedScanner.Description)
         End Select
