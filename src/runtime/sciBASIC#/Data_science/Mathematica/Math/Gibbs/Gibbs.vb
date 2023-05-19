@@ -49,7 +49,7 @@ Public Class Gibbs
     ''' <paramname="motifLength">
     '''            An Integer that shows the length of the motif or pattern we
     '''            are trying to find, this value is given. </param>
-    Public Sub New(ByVal seqArray As String(), ByVal motifLength As Integer)
+    Public Sub New(seqArray As String(), motifLength As Integer)
         Me.sequences = seqArray
         Me.motifLength = motifLength
     End Sub
@@ -90,11 +90,14 @@ Public Class Gibbs
 
             For Each d As Double In scores
                 dubsum += d
+
                 If random < dubsum Then
                     start(chosenSequence).start = scores.IndexOf(d)
                     start(chosenSequence).p = pv
                     start(chosenSequence).q = qv
                     start(chosenSequence).len = motifLength
+
+                    Exit For
                 End If
             Next
         Next
@@ -112,7 +115,9 @@ Public Class Gibbs
     '''            useful for skipping all of this sequences calculations and
     '''            focusing on the other ones. </param>
     ''' <returns> A double of the probability of a letter in this position. </returns>
-    Private Function calculateQ(ByVal tempMotif As String, ByVal chosenSeqIndex As Integer, ByVal possibleStart As Integer) As Double
+    Private Function calculateQ(tempMotif As String,
+                                chosenSeqIndex As Integer,
+                                possibleStart As Integer) As Double
         Dim q As Double = 1
         Dim start = possibleStart
         Dim [end] = possibleStart + tempMotif.Length
@@ -161,7 +166,7 @@ Public Class Gibbs
     '''            useful for skipping all of this sequences calculations and
     '''            focusing on the other ones. </param>
     ''' <returns> A double of the probability of a letter randomly selected. </returns>
-    Private Function calculateP(ByVal tempMotif As String, ByVal chosenSeqIndex As Integer) As Double
+    Private Function calculateP(tempMotif As String, chosenSeqIndex As Integer) As Double
         Dim p As Double = 1
         For Each c As Char In tempMotif.ToCharArray()
             Dim sameLetters As Double = 0

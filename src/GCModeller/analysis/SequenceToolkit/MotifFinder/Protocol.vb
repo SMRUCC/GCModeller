@@ -159,7 +159,7 @@ Public Module Protocol
     End Function
 
     <Extension>
-    Private Function BuildMotifPWM(members As IEnumerable(Of String), param As PopulatorParameter) As SequenceMotif
+    Public Function BuildMotifPWM(members As IEnumerable(Of String), param As PopulatorParameter) As SequenceMotif
         Dim regions As FastaSeq() = members _
             .Select(Function(seq)
                         Return New FastaSeq With {

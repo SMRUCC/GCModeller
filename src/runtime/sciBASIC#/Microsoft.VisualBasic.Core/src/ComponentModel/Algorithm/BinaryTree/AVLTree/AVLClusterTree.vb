@@ -123,6 +123,10 @@ Namespace ComponentModel.Algorithm.BinaryTree
             End If
         End Function
 
+        Public Function ToArray() As K()
+            Return members.ToArray
+        End Function
+
         ''' <summary>
         ''' 在这里应该是多个key比较一个query
         ''' </summary>

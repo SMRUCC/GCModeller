@@ -55,6 +55,7 @@
 Imports System.IO
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
@@ -160,11 +161,12 @@ Module patterns
     Public Function gibbs_scans(<RRawVectorArgument>
                                 seqs As Object,
                                 Optional width As Integer = 12,
+                                Optional maxitr As Integer = 1000,
                                 Optional env As Environment = Nothing) As Object
 
-        Dim fa As FastaSeq() = GetFastaSeq(seqs, env).ToArray
+        Dim fa As FastaSeq() = GetFastaSeq(seqs, env).Take(10).ToArray
         Dim gibbs As New Gibbs(fa.Select(Function(si) si.SequenceData).ToArray, width)
-        Dim motif As Score() = gibbs.sample
+        Dim motif As Score() = gibbs.sample(MAXIT:=maxitr)
 
         Return motif
     End Function
@@ -394,12 +396,16 @@ Module patterns
         Dim motifs As SequenceMotif()
 
         If seeds Is Nothing Then
-            motifs = seqInputs.PopulateMotifs(
-                leastN:=noccurs,
-                param:=param,
-                cleanMotif:=cleanMotif,
-                debug:=debug
-            ).ToArray
+            'motifs = seqInputs.PopulateMotifs(
+            '    leastN:=noccurs,
+            '    param:=param,
+            '    cleanMotif:=cleanMotif,
+            '    debug:=debug
+            ').ToArray
+            Dim seedList = seqInputs.RandomSeed(20, New IntRange(6, 16)).ToArray
+            Dim clusters = FileName.Cluster(seedList, 0.8).ToArray
+
+            motifs = clusters.Select(Function(c) c.CreateMotifs(param)).ToArray
         Else
             Dim seedsList As HSP()
 
