@@ -89,8 +89,6 @@ Module pipHelper
                 Return DirectCast(a, FastaFile)
             Case GetType(FastaSeq())
                 Return a
-            Case GetType(MSAOutput)
-                Return DirectCast(a, MSAOutput).PopulateAlignment
             Case GetType(list)
                 Return fastaFromCollection(DirectCast(a, list).data)
             Case Else
