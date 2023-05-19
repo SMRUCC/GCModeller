@@ -105,11 +105,9 @@ Module patterns
         Return df
     End Function
 
-    Private Function plotMotif(motif As SequenceMotif, args As list, env As Environment) As Object
-        Dim data As IEnumerable(Of FastaSeq) = DirectCast(motif, SequenceMotif).seeds.ToFasta
-        Dim title As String = args.getValue(Of String)("title", env, [default]:="")
-
-        Return DrawingDevice.DrawFrequency(New FastaFile(data), title)
+    Private Function plotMotif(motif As Object, args As list, env As Environment) As Object
+        Dim title As String = args.getValue("title", env, [default]:="")
+        Return DrawLogo(motif, title, env)
     End Function
 
     Private Function matchTableOutput(scans As MotifMatch(), args As list, env As Environment) As dataframe
