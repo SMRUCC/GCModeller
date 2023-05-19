@@ -91,7 +91,7 @@ Module patterns
         Call REnv.Internal.Object.Converts.makeDataframe.addHandler(GetType(MotifMatch()), AddressOf matchTableOutput)
         Call REnv.Internal.generic.add("plot", GetType(SequenceMotif), AddressOf plotMotif)
         Call REnv.Internal.ConsolePrinter.AttachConsoleFormatter(Of SequenceMotif)(Function(m) DirectCast(m, SequenceMotif).patternString)
-        Call REnv.Internal.Object.Converts.makeDataframe.addHandler(GetType(Score), AddressOf gibbs_table)
+        Call REnv.Internal.Object.Converts.makeDataframe.addHandler(GetType(Score()), AddressOf gibbs_table)
     End Sub
 
     Private Function gibbs_table(score As Score(), args As list, env As Environment) As dataframe
