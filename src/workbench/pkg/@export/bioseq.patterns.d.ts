@@ -62,6 +62,10 @@ declare namespace bioseq.patterns {
      * + default value Is ``null``.
    */
    function find_motifs(fasta: any, minw?: object, maxw?: object, nmotifs?: object, noccurs?: object, seedingCutoff?: number, scanMinW?: object, scanCutoff?: number, cleanMotif?: number, significant_sites?: object, seeds?: any, debug?: boolean, env?: object): object;
+   /**
+     * @param env default value Is ``null``.
+   */
+   function gibbs_scan(seqs: any, env?: object): any;
    module motif {
       /**
        * Find target loci site based on the given motif model
