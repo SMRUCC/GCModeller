@@ -90,7 +90,7 @@ Public Class Gibbs
 
             For Each d As Double In scores
                 dubsum += d
-                If random = dubsum Then
+                If random < dubsum Then
                     start(chosenSequence).start = scores.IndexOf(d)
                     start(chosenSequence).p = pv
                     start(chosenSequence).q = qv

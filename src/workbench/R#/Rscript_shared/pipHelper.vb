@@ -41,6 +41,7 @@
 
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.Analysis.SequenceTools.MSA
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.Rsharp.Runtime
@@ -88,6 +89,8 @@ Module pipHelper
                 Return DirectCast(a, FastaFile)
             Case GetType(FastaSeq())
                 Return a
+            Case GetType(MSAOutput)
+                Return DirectCast(a, MSAOutput).PopulateAlignment
             Case GetType(list)
                 Return fastaFromCollection(DirectCast(a, list).data)
             Case Else
@@ -111,6 +114,8 @@ Module pipHelper
                     Return Nothing
                 End If
         End Select
+
+        Return Nothing
     End Function
 
     Private Iterator Function fastaFromCollection(a As Object) As IEnumerable(Of FastaSeq)

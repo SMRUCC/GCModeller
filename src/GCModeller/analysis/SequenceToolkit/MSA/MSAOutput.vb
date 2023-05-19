@@ -1,59 +1,60 @@
 ﻿#Region "Microsoft.VisualBasic::0553779d34cfcaafb37942725fce3a85, GCModeller\analysis\SequenceToolkit\MSA\MSAOutput.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 67
-    '    Code Lines: 54
-    ' Comment Lines: 0
-    '   Blank Lines: 13
-    '     File Size: 2.00 KB
+' Summaries:
 
 
-    ' Class MSAOutput
-    ' 
-    '     Properties: cost, MSA, names, size
-    ' 
-    '     Function: ToFasta, ToString
-    ' 
-    '     Sub: Print
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 67
+'    Code Lines: 54
+' Comment Lines: 0
+'   Blank Lines: 13
+'     File Size: 2.00 KB
+
+
+' Class MSAOutput
+' 
+'     Properties: cost, MSA, names, size
+' 
+'     Function: ToFasta, ToString
+' 
+'     Sub: Print
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.IO
+Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -79,17 +80,20 @@ Public Class MSAOutput
         End With
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function ToFasta() As FastaFile
-        Dim MSA = Me.MSA
-        Dim seqs = names _
-            .Select(Function(name, i)
-                        Return New FastaSeq With {
-                            .Headers = {name},
-                            .SequenceData = MSA(i)
-                        }
-                    End Function)
+        Return New FastaFile(PopulateAlignment)
+    End Function
 
-        Return New FastaFile(seqs)
+    Public Iterator Function PopulateAlignment() As IEnumerable(Of FastaSeq)
+        Dim MSA As String() = Me.MSA
+
+        For i As Integer = 0 To MSA.Length - 1
+            Yield New FastaSeq With {
+                .Headers = {names.ElementAtOrDefault(i, $"seq_{i + 1}")},
+                .SequenceData = MSA(i)
+            }
+        Next
     End Function
 
     Public Sub Print(Optional maxNameWidth% = 10, Optional dev As TextWriter = Nothing)
