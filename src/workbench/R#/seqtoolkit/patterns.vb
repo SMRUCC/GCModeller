@@ -59,6 +59,7 @@ Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math.GibbsSampling
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Analysis.SequenceTools
@@ -143,6 +144,15 @@ Module patterns
     <ExportAPI("pull.all_seeds")>
     Public Function pullAllSeeds(seed As ScanFile) As HSP()
         Return seed.LoadAllSeeds.ToArray
+    End Function
+
+    <ExportAPI("gibbs_scan")>
+    Public Function gibbs_scans(<RRawVectorArgument> seqs As Object, Optional env As Environment = Nothing) As Object
+        Dim fa As FastaSeq() = GetFastaSeq(seqs, env).ToArray
+        Dim gibbs As New Gibbs(fa.Select(Function(si) si.SequenceData).ToArray, 8)
+        Dim motif As Score() = gibbs.sample
+
+        Return motif
     End Function
 
     ''' <summary>
