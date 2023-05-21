@@ -112,10 +112,17 @@ Public Class GraphSeed
     End Function
 
     Public Shared Iterator Function UMAP(seeds As GraphSeed(), ndims As Integer) As IEnumerable(Of GraphSeed)
-        Dim manifold As New Umap(dimensions:=ndims)
+        Dim manifold As New Umap(AddressOf DistanceFunctions.CosineForNormalizedVectors, dimensions:=ndims)
         Dim x As Double()() = seeds.Select(Function(a) a.graph).ToArray
+        Dim nloops As Integer
 
-        Call manifold.InitializeFit(x)
-        Call manifold.Step()
+        nloops = manifold.InitializeFit(x)
+        manifold = manifold.Step(nloops)
+        x = manifold.GetEmbedding
+
+        For i As Integer = 0 To seeds.Length - 1
+            seeds(i).embedding = x(i)
+            Yield seeds(i)
+        Next
     End Function
 End Class
