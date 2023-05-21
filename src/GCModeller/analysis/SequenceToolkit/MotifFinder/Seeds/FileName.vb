@@ -78,14 +78,26 @@ Public Module FileName
         If Not pwm Is Nothing Then
             pwm = pwm.Cleanup
 
-            If pwm.score > 0 AndAlso pwm.SignificantSites >= param.significant_sites Then
-                Return pwm
+            If pwm Is Nothing Then
+                Return Nothing
+            End If
+
+            Dim nsig = pwm.SignificantSites
+
+            If pwm.score > 0 AndAlso nsig >= param.significant_sites Then
+                If nsig / pwm.width > 0.35 Then
+                    If nsig / pwm.width <= 0.8 Then
+                        Return pwm
+                    End If
+                End If
             Else
                 Return Nothing
             End If
         Else
             Return Nothing
         End If
+
+        Return Nothing
     End Function
 
 End Module
