@@ -74,14 +74,12 @@ Public Class GraphSeed
     Public Property graph As Double()
 
     Public Shared Function GetCompares(cluster As Double) As Comparison(Of GraphSeed)
-        Dim right As Double = cluster / 2
-
         Return Function(a, b)
                    Dim score As Double = SSM(a.graph, b.graph)
 
                    If score >= cluster Then
                        Return 0
-                   ElseIf score >= right Then
+                   ElseIf score > 0 Then
                        Return 1
                    Else
                        Return -1
