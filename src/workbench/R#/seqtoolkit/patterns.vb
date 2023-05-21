@@ -404,9 +404,12 @@ Module patterns
             ').ToArray
             Dim seedList = seqInputs.RandomSeed(50, New IntRange(6, 20)).ToArray
             ' seedList = GraphSeed.UMAP(seedList, 30).ToArray
-            Dim clusters = FileName.Cluster(seedList, 0.3).ToArray
+            Dim clusters = FileName.Cluster(seedList, 0.8).ToArray
 
-            motifs = clusters.Select(Function(c) c.CreateMotifs(param)).Where(Function(m) Not m Is Nothing).ToArray
+            motifs = clusters _
+                .Select(Function(c) c.CreateMotifs(param)) _
+                .Where(Function(m) Not m Is Nothing) _
+                .ToArray
         Else
             Dim seedsList As HSP()
 
