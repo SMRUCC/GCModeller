@@ -402,9 +402,11 @@ Module patterns
             '    cleanMotif:=cleanMotif,
             '    debug:=debug
             ').ToArray
-            Dim seedList = seqInputs.RandomSeed(50, New IntRange(6, 20)).ToArray
+            Dim seedList = seqInputs.RandomSeed(100, New IntRange(6, 20)).ToArray
             ' seedList = GraphSeed.UMAP(seedList, 30).ToArray
-            Dim clusters = FileName.Cluster(seedList, 0.8).ToArray
+            Dim clusters = FileName.Cluster(seedList, 0.5).ToArray
+
+            Call VBDebugger.EchoLine($"create motifs for {clusters.Length} seeds clusters!")
 
             motifs = clusters _
                 .Select(Function(c) c.CreateMotifs(param)) _

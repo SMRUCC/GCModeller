@@ -54,6 +54,8 @@ Public Module FileName
         Dim i As i32 = Scan0
         Dim t0 As Date = Now
 
+        Call VBDebugger.EchoLine($"run debug for {allSeeds.Length} data seeds!")
+
         For Each seed As GraphSeed In allSeeds
             Call tree.Add(seed)
 
@@ -74,7 +76,13 @@ Public Module FileName
         Dim pwm = node.Select(Function(a) a.part).BuildMotifPWM(param)
 
         If Not pwm Is Nothing Then
-            Return pwm.Cleanup
+            pwm = pwm.Cleanup
+
+            If pwm.score > 0 AndAlso pwm.SignificantSites >= param.significant_sites Then
+                Return pwm
+            Else
+                Return Nothing
+            End If
         Else
             Return Nothing
         End If
