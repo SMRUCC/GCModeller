@@ -2,6 +2,7 @@
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.BinaryTree
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
+Imports Microsoft.VisualBasic.DataMining.UMAP
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
 Imports SMRUCC.genomics.Model.MotifGraph
@@ -80,7 +81,16 @@ Public Class GraphSeed
     ''' <returns></returns>
     Public Property part As String
     Public Property start As Integer
+    ''' <summary>
+    ''' the raw graph data
+    ''' </summary>
+    ''' <returns></returns>
     Public Property graph As Double()
+    ''' <summary>
+    ''' the raw <see cref="graph"/> vector umap embedding data result
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property embedding As Double()
     Public Property source As String
 
     Public Overrides Function ToString() As String
@@ -89,7 +99,7 @@ Public Class GraphSeed
 
     Public Shared Function GetCompares(cluster As Double) As Comparison(Of GraphSeed)
         Return Function(a, b)
-                   Dim score As Double = SSM(a.graph, b.graph)
+                   Dim score As Double = SSM(a.embedding, b.embedding)
 
                    If score >= cluster Then
                        Return 0
@@ -99,5 +109,13 @@ Public Class GraphSeed
                        Return -1
                    End If
                End Function
+    End Function
+
+    Public Shared Iterator Function UMAP(seeds As GraphSeed(), ndims As Integer) As IEnumerable(Of GraphSeed)
+        Dim manifold As New Umap(dimensions:=ndims)
+        Dim x As Double()() = seeds.Select(Function(a) a.graph).ToArray
+
+        Call manifold.InitializeFit(x)
+        Call manifold.Step()
     End Function
 End Class

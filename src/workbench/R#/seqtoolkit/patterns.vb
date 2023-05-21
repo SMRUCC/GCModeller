@@ -403,6 +403,7 @@ Module patterns
             '    debug:=debug
             ').ToArray
             Dim seedList = seqInputs.RandomSeed(50, New IntRange(6, 20)).ToArray
+            seedList = GraphSeed.UMAP(seedList, 30).ToArray
             Dim clusters = FileName.Cluster(seedList, 0.3).ToArray
 
             motifs = clusters.Select(Function(c) c.CreateMotifs(param)).Where(Function(m) Not m Is Nothing).ToArray

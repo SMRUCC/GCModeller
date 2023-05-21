@@ -404,6 +404,18 @@ Public NotInheritable Class Umap : Inherits IDataEmbedding
         _optimizationState.Dim = [dim]
     End Sub
 
+    Public Function [Step](nEpochs As Integer) As Umap
+        For i As Integer = 0 To nEpochs - 1
+            Call [Step]()
+
+            If (100 * i / nEpochs) Mod 5 = 0 Then
+                Call VBDebugger.EchoLine($"- Completed {i + 1} of {nEpochs} [{CInt(100 * i / nEpochs)}%]")
+            End If
+        Next
+
+        Return Me
+    End Function
+
     ''' <summary>
     ''' Manually step through the optimization process one epoch at a time
     ''' </summary>
