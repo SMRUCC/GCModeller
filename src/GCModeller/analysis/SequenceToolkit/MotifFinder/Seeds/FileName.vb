@@ -22,7 +22,7 @@ Public Module FileName
         Dim seqtitle As String = seq.Title
         Dim seqdata As String = seq.SequenceData
 
-        Call VBDebugger.Echo(seq.Title)
+        Call VBDebugger.EchoLine(seq.Title)
 
         For i As Integer = 0 To n
             Dim klen As Integer = randf.GetNextBetween(range)
