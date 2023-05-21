@@ -52,12 +52,13 @@ Public Module FileName
         Dim allSeeds As GraphSeed() = seeds.ToArray
         Dim d As Integer = allSeeds.Length / 100
         Dim i As i32 = Scan0
+        Dim t0 As Date = Now
 
         For Each seed As GraphSeed In allSeeds
             Call tree.Add(seed)
 
             If ++i Mod d = 1 Then
-                Call VBDebugger.EchoLine($"[{i}/{allSeeds.Length}] {i / allSeeds.Length * 100}% [{seed.part}] {seed.source}")
+                Call VBDebugger.EchoLine($"[{i}/{allSeeds.Length}  #{(Now - t0).FormatTime}] {(i / allSeeds.Length * 100).ToString("F1")}% [{seed.part}] {seed.source}")
             End If
         Next
 
