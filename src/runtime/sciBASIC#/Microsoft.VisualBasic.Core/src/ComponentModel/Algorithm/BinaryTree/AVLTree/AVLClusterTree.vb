@@ -176,6 +176,8 @@ Namespace ComponentModel.Algorithm.BinaryTree
         ReadOnly avltree As AVLTree(Of ClusterKey(Of K), K)
         ReadOnly views As Func(Of K, String)
 
+        Dim totals As Integer
+
         Sub New(compares As Comparison(Of K),
                 Optional views As Func(Of K, String) = Nothing,
                 Optional prefer As ComparisonDirectionPrefers = ComparisonDirectionPrefers.Left)
@@ -196,11 +198,17 @@ Namespace ComponentModel.Algorithm.BinaryTree
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub Add(key As K)
             Call avltree.Add(New ClusterKey(Of K)(key, views), key, Sub(node, null) node.Key.Add(key))
+            totals += 1
         End Sub
 
         Public Sub Clear()
             Call avltree.Clear()
+            totals = 0
         End Sub
+
+        Public Overrides Function ToString() As String
+            Return $"Total {totals} members and {avltree.root.GetNodeCounts} clusters"
+        End Function
 
         Public Iterator Function GetEnumerator() As IEnumerator(Of ClusterKey(Of K)) Implements IEnumerable(Of ClusterKey(Of K)).GetEnumerator
             For Each cluster In avltree.root.PopulateNodes
