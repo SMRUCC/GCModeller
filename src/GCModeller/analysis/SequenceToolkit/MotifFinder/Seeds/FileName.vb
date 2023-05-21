@@ -3,6 +3,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Algorithm.BinaryTree
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.DataMining.UMAP
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
 Imports SMRUCC.genomics.Model.MotifGraph
@@ -48,9 +49,16 @@ Public Module FileName
 
     Public Iterator Function Cluster(seeds As IEnumerable(Of GraphSeed), member As Double) As IEnumerable(Of NamedCollection(Of GraphSeed))
         Dim tree As New AVLClusterTree(Of GraphSeed)(GraphSeed.GetCompares(cluster:=member), views:=Function(a) a.part)
+        Dim allSeeds As GraphSeed() = seeds.ToArray
+        Dim d As Integer = allSeeds.Length / 100
+        Dim i As i32 = Scan0
 
-        For Each seed As GraphSeed In seeds
+        For Each seed As GraphSeed In allSeeds
             Call tree.Add(seed)
+
+            If ++i Mod d = 1 Then
+                Call VBDebugger.EchoLine($"[{i}/{allSeeds.Length}] {i / allSeeds.Length * 100}% [{seed.part}] {seed.source}")
+            End If
         Next
 
         For Each node As ClusterKey(Of GraphSeed) In tree
