@@ -18,21 +18,28 @@ Public Module FileName
     ''' <param name="range"></param>
     ''' <returns></returns>
     Public Iterator Function RandomSeed(seq As FastaSeq, n As Integer, range As IntRange) As IEnumerable(Of GraphSeed)
+        Dim seqtitle As String = seq.Title
+        Dim seqdata As String = seq.SequenceData
+
         Call VBDebugger.Echo(seq.Title)
 
         For i As Integer = 0 To n
             Dim klen As Integer = randf.GetNextBetween(range)
             Dim left As Integer = randf.NextInteger(seq.Length - klen)
-            Dim part As String = seq.SequenceData.Substring(left, klen)
+            Dim part As String = seqdata.Substring(left, klen)
 
             Yield New GraphSeed With {
                 .part = part,
                 .start = left,
-                .graph = Builder.SequenceGraph(part, SequenceModel.NT).GetVector(SequenceModel.NT)
+                .graph = Builder _
+                    .SequenceGraph(part, SequenceModel.NT) _
+                    .GetVector(SequenceModel.NT),
+                .source = seqtitle
             }
         Next
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function RandomSeed(seqs As IEnumerable(Of FastaSeq), n As Integer, range As IntRange) As IEnumerable(Of GraphSeed)
         Return seqs.Select(Function(fa) RandomSeed(fa, n, range)).IteratesALL
@@ -74,6 +81,7 @@ Public Class GraphSeed
     Public Property part As String
     Public Property start As Integer
     Public Property graph As Double()
+    Public Property source As String
 
     Public Overrides Function ToString() As String
         Return part

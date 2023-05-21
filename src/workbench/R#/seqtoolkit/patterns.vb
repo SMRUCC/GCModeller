@@ -402,7 +402,7 @@ Module patterns
             '    cleanMotif:=cleanMotif,
             '    debug:=debug
             ').ToArray
-            Dim seedList = seqInputs.RandomSeed(20, New IntRange(6, 16)).ToArray
+            Dim seedList = seqInputs.RandomSeed(50, New IntRange(6, 20)).ToArray
             Dim clusters = FileName.Cluster(seedList, 0.3).ToArray
 
             motifs = clusters.Select(Function(c) c.CreateMotifs(param)).Where(Function(m) Not m Is Nothing).ToArray
