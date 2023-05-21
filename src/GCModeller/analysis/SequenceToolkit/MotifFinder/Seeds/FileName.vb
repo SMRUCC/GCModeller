@@ -99,7 +99,7 @@ Public Class GraphSeed
 
     Public Shared Function GetCompares(cluster As Double) As Comparison(Of GraphSeed)
         Return Function(a, b)
-                   Dim score As Double = SSM(a.embedding, b.embedding)
+                   Dim score As Double = SSM(a.graph, b.graph)
 
                    If score >= cluster Then
                        Return 0
