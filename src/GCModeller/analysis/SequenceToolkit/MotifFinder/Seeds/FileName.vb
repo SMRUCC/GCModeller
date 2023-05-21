@@ -17,11 +17,13 @@ Public Module FileName
     ''' <param name="n"></param>
     ''' <param name="range"></param>
     ''' <returns></returns>
-    Public Iterator Function RandomSeed(seq As String, n As Integer, range As IntRange) As IEnumerable(Of GraphSeed)
+    Public Iterator Function RandomSeed(seq As FastaSeq, n As Integer, range As IntRange) As IEnumerable(Of GraphSeed)
+        Call VBDebugger.Echo(seq.Title)
+
         For i As Integer = 0 To n
             Dim klen As Integer = randf.GetNextBetween(range)
             Dim left As Integer = randf.NextInteger(seq.Length - klen)
-            Dim part As String = seq.Substring(left, klen)
+            Dim part As String = seq.SequenceData.Substring(left, klen)
 
             Yield New GraphSeed With {
                 .part = part,
@@ -33,7 +35,7 @@ Public Module FileName
 
     <Extension>
     Public Function RandomSeed(seqs As IEnumerable(Of FastaSeq), n As Integer, range As IntRange) As IEnumerable(Of GraphSeed)
-        Return seqs.Select(Function(fa) RandomSeed(fa.SequenceData, n, range)).IteratesALL
+        Return seqs.Select(Function(fa) RandomSeed(fa, n, range)).IteratesALL
     End Function
 
     Public Iterator Function Cluster(seeds As IEnumerable(Of GraphSeed), member As Double) As IEnumerable(Of NamedCollection(Of GraphSeed))
@@ -72,6 +74,10 @@ Public Class GraphSeed
     Public Property part As String
     Public Property start As Integer
     Public Property graph As Double()
+
+    Public Overrides Function ToString() As String
+        Return part
+    End Function
 
     Public Shared Function GetCompares(cluster As Double) As Comparison(Of GraphSeed)
         Return Function(a, b)
