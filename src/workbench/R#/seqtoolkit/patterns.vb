@@ -436,7 +436,7 @@ Module patterns
         End If
 
         motifs = motifs _
-            .OrderByDescending(Function(m) m.score / m.seeds.MSA.Length) _
+            .OrderByDescending(Function(m) m.AverageScore) _
             .ToArray
 
         If nmotifs > 0 Then
