@@ -80,6 +80,7 @@ Namespace ExpressionPattern
                     .entityVector = {},
                     .MarkClusterCenter = Color.Black,
                     .memberships = gene.Properties _
+                        .Where(Function(si) Not si.Key = "Cluster") _
                         .ToDictionary(Function(si) Integer.Parse(si.Key.Match("\d+")),
                                       Function(si)
                                           Return si.Value

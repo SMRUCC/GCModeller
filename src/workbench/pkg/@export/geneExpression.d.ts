@@ -332,8 +332,10 @@ declare namespace geneExpression {
    /**
     * read the cmeans expression pattern result from file
     * 
+    * > this function can also read the csv matrix file and 
+    * >  then cast as the expression pattern data object.
     * 
-     * @param file -
+     * @param file a binary data pack file that contains the expression pattern raw data
    */
    function readPattern(file: string): object;
    /**
