@@ -84,6 +84,7 @@ Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 Imports Rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 Imports REnv = SMRUCC.Rsharp.Runtime
@@ -1203,9 +1204,9 @@ Module geneExpression
 
         If TypeOf x Is Rdataframe Then
             Dim table As Rdataframe = DirectCast(x, Rdataframe)
-            Dim foldchanges As Double() = REnv.asVector(Of Double)(table(logFC))
-            Dim pvalues As Double() = REnv.asVector(Of Double)(table(pvalue))
-            Dim labels As String() = REnv.asVector(Of String)(table(label))
+            Dim foldchanges As Double() = CLRVector.asNumeric(table(logFC))
+            Dim pvalues As Double() = CLRVector.asNumeric(table(pvalue))
+            Dim labels As String() = CLRVector.asCharacter(table(label))
 
             Return foldchanges _
                 .Select(Function(fc, i)
@@ -1223,7 +1224,7 @@ Module geneExpression
 
     <ExportAPI("deg.class")>
     Public Function DEGclass(deg As DEGModel(), <RRawVectorArgument> classLabel As Object) As DEGModel()
-        Dim classList As String() = REnv.asVector(Of String)(classLabel)
+        Dim classList As String() = CLRVector.asCharacter(classLabel)
         Dim getClass As Func(Of Integer, String)
 
         If classList.Length = 1 Then
