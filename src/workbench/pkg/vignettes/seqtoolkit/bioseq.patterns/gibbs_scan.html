@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>measuring the homogeneity property using a specific rule</title>
+    <title>gibbs_scan</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <style rel="stylesheet" type="text/css">
@@ -143,36 +143,29 @@
 
         <table style="width: 100%;">
             <tr>
-                <td>Measure.Homogeneity {sigma_difference}</td>
+                <td>gibbs_scan {bioseq.patterns}</td>
                 <td style="text-align: right;">R Documentation</td>
             </tr>
         </table>
 
-        <h2>measuring the homogeneity property using a specific rule</h2>
+        <h2>gibbs_scan</h2>
 
         <h3>Description</h3>
 
-        <p>sequence between the dnaA and gyrB gene in batch.<br /> <br /> (批量计算比较基因组序列之间的同质性)</p>
+        gibbs_scan
 
         <h3>Usage</h3>
 
         <div style="width: 100%; padding-left: 3%; color: black;">
-            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>Measure.Homogeneity</strong>(<i>PartitionData</i>, <i>Rule</i>, <i>St</i>, <i>Sp</i>);</code></pre>
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>gibbs_scan</strong>(<i>seqs</i>,
+    <i>width</i> = 12,
+    <i>maxitr</i> = 1000);</code></pre>
         </div>
 
         <h3>Arguments</h3>
 
         <table>
             
-<dt>PartitionData</dt>
-<dd><p><p>-</p></p></dd>
-
-
-<dt>RuleSource</dt>
-<dd><p><p>The original GenBank dowunload data directory which should contains the *.ptt <br />
- file for parsing the rule sequence between dnaA and gyrB gene and the *.fna file for parsing the <br />
- genome nt fasta sequence.</p></p></dd>
-
         </table>
 
 
@@ -183,11 +176,11 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/clr/Microsoft/VisualBasic/Data/csv/IO/DataFrame.html">DataFrame</a>.
+        this function returns data object of type <i>any</i> kind.
 
         <hr />
-        <div style="text-align: center;">[Package <em>sigma_difference</em> version 1.0.0.0 <a
-                href="../sigma_difference.html">Index</a>]
+        <div style="text-align: center;">[Package <em>bioseq.patterns</em> version 1.0.0.0 <a
+                href="../bioseq.patterns.html">Index</a>]
         </div>
     </div>
 </body>

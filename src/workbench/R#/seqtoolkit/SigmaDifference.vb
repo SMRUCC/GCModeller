@@ -24,6 +24,7 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.Tasks.Models
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels.NucleicAcid
+Imports SMRUCC.Rsharp.Runtime.Interop
 Imports ObjectQuery = SMRUCC.genomics.ObjectQuery
 
 <Package("sigma_difference",
@@ -55,6 +56,7 @@ Prokaryotic Cells
 Species Specificity",
       DOI:="10.1146/annurev.genet.32.1.185", ISSN:="0066-4197 (Print)
 0066-4197 (Linking)", Issue:="", Volume:=32, Year:=1998)>
+<RTypeExport("partitioning_data", GetType(PartitioningData))>
 Module SigmaDifference
 
     ''' <summary>
@@ -288,15 +290,13 @@ Module SigmaDifference
     ''' (批量计算比较基因组序列之间的同质性)
     ''' </summary>
     ''' <param name="PartitionData"></param>
-    ''' <param name="RuleSource"></param>
+    ''' <param name="RuleSource">
+    ''' The original GenBank dowunload data directory which should contains the *.ptt 
+    ''' file for parsing the rule sequence between dnaA and gyrB gene and the *.fna file for parsing the 
+    ''' genome nt fasta sequence.
+    ''' </param>
     ''' <returns></returns>
-    Public Function MeasureHomogeneity(PartitionData As IEnumerable(Of PartitioningData),
-                                       <Parameter("Dir.Rule.Source",
-                                                  "The original GenBank dowunload data directory which should contains the *.ptt " &
-                                                  "file for parsing the rule sequence between dnaA and gyrB gene and the *.fna file for parsing the " &
-                                                  "genome nt fasta sequence.")>
-                                       RuleSource As String) As IO.DataFrame
-
+    Public Function MeasureHomogeneity(PartitionData As IEnumerable(Of PartitioningData), RuleSource As String) As IO.DataFrame
         Dim Df = IO.DataFrame.CreateObject(PartitionData.ToCsvDoc(False))
         Call Df.AppendLine({"GC%"})
         Dim Ddf = Df.CreateDataSource
@@ -805,7 +805,7 @@ Module SigmaDifference
     ''' <returns></returns>
     ''' <remarks></remarks>
     <ExportAPI("Partition.Similarity.Calculates")>
-    Public Function PartitionSimilarity(<Parameter("Partitioning.Data")> data As IEnumerable(Of PartitioningData)) As <FunctionReturns("")> IO.File
+    Public Function PartitionSimilarity(data As IEnumerable(Of PartitioningData)) As IO.File
         Dim DF As DataFrame = IO.DataFrame.CreateObject(data.ToCsvDoc(False))
         Dim DataSource = DF.CreateDataSource
         Dim DeltaLQuery = (From i As Integer
@@ -828,11 +828,11 @@ Module SigmaDifference
     End Function
 
     <ExportAPI("Partitions.Creates")>
-    Public Function PartionDataCreates(<Parameter("Raw.Partitions")> PartitionRaw As IO.DataFrame,
-                                       <Parameter("Column.Tag")> TagCol As String,
-                                       <Parameter("Column.Start")> StartTag As String,
-                                       <Parameter("Column.Stop")> StopTag As String,
-                                       <Parameter("Nt.Source")> Nt As FastaSeq) As PartitioningData()
+    Public Function PartionDataCreates(PartitionRaw As IO.DataFrame,
+                                       TagCol As String,
+                                       StartTag As String,
+                                       StopTag As String,
+                                       Nt As FastaSeq) As PartitioningData()
 
         Dim LQuery As PartitioningData() =
             LinqAPI.Exec(Of PartitioningData) <= From row As DynamicObjectLoader
@@ -893,7 +893,7 @@ Module SigmaDifference
     ''' <param name="St">标尺片段的起始位置</param>
     <ExportAPI("Measure.Homogeneity")>
     Public Function MeasureHomogeneity(PartitionData As IEnumerable(Of PartitioningData),
-                                       <Parameter("With.Rule")> Rule As FastaSeq,
+                                       Rule As FastaSeq,
                                        St As Integer,
                                        Sp As Integer) As IO.DataFrame
         Dim Reader As IPolymerSequenceModel = Rule

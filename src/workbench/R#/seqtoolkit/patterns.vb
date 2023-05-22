@@ -55,13 +55,16 @@
 Imports System.IO
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math.GibbsSampling
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Analysis.SequenceTools
+Imports SMRUCC.genomics.Analysis.SequenceTools.MSA
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.DNAOrigami
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
@@ -89,14 +92,23 @@ Module patterns
         Call REnv.Internal.ConsolePrinter.AttachConsoleFormatter(Of PalindromeLoci)(AddressOf PalindromeToString)
         Call REnv.Internal.Object.Converts.makeDataframe.addHandler(GetType(MotifMatch()), AddressOf matchTableOutput)
         Call REnv.Internal.generic.add("plot", GetType(SequenceMotif), AddressOf plotMotif)
+        Call REnv.Internal.generic.add("plot", GetType(MSAOutput), AddressOf plotMotif)
         Call REnv.Internal.ConsolePrinter.AttachConsoleFormatter(Of SequenceMotif)(Function(m) DirectCast(m, SequenceMotif).patternString)
+        Call REnv.Internal.Object.Converts.makeDataframe.addHandler(GetType(Score()), AddressOf gibbs_table)
     End Sub
 
-    Private Function plotMotif(motif As SequenceMotif, args As list, env As Environment) As Object
-        Dim data As IEnumerable(Of FastaSeq) = DirectCast(motif, SequenceMotif).seeds.ToFasta
-        Dim title As String = args.getValue(Of String)("title", env, [default]:="")
+    Private Function gibbs_table(score As Score(), args As list, env As Environment) As dataframe
+        Dim df As New dataframe With {.columns = New Dictionary(Of String, Array)}
 
-        Return DrawingDevice.DrawFrequency(New FastaFile(data), title)
+        df.add("motif", score.Select(Function(s) s.pwm))
+        df.add("score", score.Select(Function(s) s.score.Average))
+
+        Return df
+    End Function
+
+    Private Function plotMotif(motif As Object, args As list, env As Environment) As Object
+        Dim title As String = args.getValue("title", env, [default]:="")
+        Return DrawLogo(motif, title, env)
     End Function
 
     Private Function matchTableOutput(scans As MotifMatch(), args As list, env As Environment) As dataframe
@@ -143,6 +155,20 @@ Module patterns
     <ExportAPI("pull.all_seeds")>
     Public Function pullAllSeeds(seed As ScanFile) As HSP()
         Return seed.LoadAllSeeds.ToArray
+    End Function
+
+    <ExportAPI("gibbs_scan")>
+    Public Function gibbs_scans(<RRawVectorArgument>
+                                seqs As Object,
+                                Optional width As Integer = 12,
+                                Optional maxitr As Integer = 1000,
+                                Optional env As Environment = Nothing) As Object
+
+        Dim fa As FastaSeq() = GetFastaSeq(seqs, env).Take(10).ToArray
+        Dim gibbs As New Gibbs(fa.Select(Function(si) si.SequenceData).ToArray, width)
+        Dim motif As Score() = gibbs.sample(MAXIT:=maxitr)
+
+        Return motif
     End Function
 
     ''' <summary>
@@ -305,17 +331,17 @@ Module patterns
                                 Optional env As Environment = Nothing) As Object
 
         Dim param As New PopulatorParameter With {
-          .maxW = maxw,
-          .minW = minw,
-          .seedingCutoff = seedingCutoff,
-          .ScanMinW = scanMinW,
-          .ScanCutoff = scanCutoff,
-          .log = env.WriteLineHandler,
-          .seedScanner = Scanners.TreeScan,
-          .significant_sites = significant_sites,
-          .seedOccurances = 6
+           .maxW = maxw,
+           .minW = minw,
+           .seedingCutoff = seedingCutoff,
+           .ScanMinW = scanMinW,
+           .ScanCutoff = scanCutoff,
+           .log = env.WriteLineHandler,
+           .seedScanner = Scanners.GraphScan,
+           .significant_sites = significant_sites,
+           .seedOccurances = 6
         }
-        Dim scan As New TreeScan(param, debug)
+        Dim scan As SeedScanner = Activator.CreateInstance(param.GetScanner, param, debug)
 
         For Each seed As HSP In scan.GetSeeds(GetFastaSeq(fasta, env))
             Call saveto.AddSeed($"{seed.Query}+{seed.Subject}".MD5, seed)
@@ -344,8 +370,8 @@ Module patterns
                               Optional minw% = 8,
                               Optional maxw% = 20,
                               Optional nmotifs% = -1,
-                              Optional noccurs% = 6,
-                              Optional seedingCutoff As Double = 0.99,
+                              Optional noccurs% = 12,
+                              Optional seedingCutoff As Double = 0.65,
                               Optional scanMinW As Integer = 6,
                               Optional scanCutoff As Double = 0.8,
                               Optional cleanMotif As Double = 0.5,
@@ -362,7 +388,7 @@ Module patterns
             .ScanMinW = scanMinW,
             .ScanCutoff = scanCutoff,
             .log = env.WriteLineHandler,
-            .seedScanner = Scanners.TreeScan,
+            .seedScanner = Scanners.GraphScan,
             .significant_sites = significant_sites,
             .seedOccurances = 6
         }
@@ -370,12 +396,22 @@ Module patterns
         Dim motifs As SequenceMotif()
 
         If seeds Is Nothing Then
-            motifs = seqInputs.PopulateMotifs(
-                leastN:=noccurs,
-                param:=param,
-                cleanMotif:=cleanMotif,
-                debug:=debug
-            ).ToArray
+            'motifs = seqInputs.PopulateMotifs(
+            '    leastN:=noccurs,
+            '    param:=param,
+            '    cleanMotif:=cleanMotif,
+            '    debug:=debug
+            ').ToArray
+            Dim seedList = seqInputs.RandomSeed(100, New IntRange(6, 20)).ToArray
+            ' seedList = GraphSeed.UMAP(seedList, 30).ToArray
+            Dim clusters = FileName.Cluster(seedList, 0.5).ToArray
+
+            Call VBDebugger.EchoLine($"create motifs for {clusters.Length} seeds clusters!")
+
+            motifs = clusters _
+                .Select(Function(c) c.CreateMotifs(param)) _
+                .Where(Function(m) Not m Is Nothing) _
+                .ToArray
         Else
             Dim seedsList As HSP()
 
@@ -400,7 +436,7 @@ Module patterns
         End If
 
         motifs = motifs _
-            .OrderByDescending(Function(m) m.score / m.seeds.MSA.Length) _
+            .OrderByDescending(Function(m) m.AverageScore) _
             .ToArray
 
         If nmotifs > 0 Then
@@ -432,6 +468,8 @@ Module patterns
             Select Case type
                 Case GetType(SequenceMotif)
                     data = DirectCast(MSA, SequenceMotif).seeds.ToFasta
+                Case GetType(MSAOutput)
+                    data = DirectCast(MSA, MSAOutput).PopulateAlignment
                 Case Else
                     Return REnv.Internal.debug.stop(New InvalidProgramException, env)
             End Select
