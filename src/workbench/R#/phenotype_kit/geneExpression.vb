@@ -114,6 +114,13 @@ Module geneExpression
         Dim cutoff As Double = args.getValue("cutoff", env, [default]:=0.6)
         Dim top As Integer = args.getValue("top", env, [default]:=300)
         Dim parts = DirectCast(x, ExpressionPattern).GetPartitionMatrix(cutoff, top).IteratesALL.ToArray
+        Dim pop As New list With {.slots = New Dictionary(Of String, Object)}
+
+        For Each block As Matrix In parts
+            Call pop.add("#" & block.tag, block.rownames)
+        Next
+
+        Return pop
     End Function
 
     ''' <summary>
@@ -884,11 +891,19 @@ Module geneExpression
     ''' <summary>
     ''' read the cmeans expression pattern result from file
     ''' </summary>
-    ''' <param name="file"></param>
+    ''' <param name="file">a binary data pack file that contains the expression pattern raw data</param>
     ''' <returns></returns>
+    ''' <remarks>
+    ''' this function can also read the csv matrix file and 
+    ''' then cast as the expression pattern data object.
+    ''' </remarks>
     <ExportAPI("readPattern")>
     Public Function readPattern(file As String) As ExpressionPattern
-        Return Reader.ReadExpressionPattern(file.Open(FileMode.Open, doClear:=False, [readOnly]:=True))
+        If file.ExtensionSuffix("csv") Then
+            Return DataSet.LoadDataSet(file).ToArray.CastAsPatterns
+        Else
+            Return Reader.ReadExpressionPattern(file.Open(FileMode.Open, doClear:=False, [readOnly]:=True))
+        End If
     End Function
 
     ''' <summary>
