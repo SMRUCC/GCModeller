@@ -87,13 +87,13 @@ Module TrimMotif
 
         Return New SequenceMotif With {
             .seeds = motif.seeds.Cleanup(start, ends),
+            .alignments = motif.alignments.Skip(start).Take(ends - start).ToArray,
             .pvalue = motif.pvalue,
-            .score = motif.score,
+            .score = .alignments.Sum,
             .region = motif.region _
                 .Skip(start) _
                 .Take(ends - start) _
-                .ToArray,
-            .alignments = motif.alignments
+                .ToArray
         }
     End Function
 

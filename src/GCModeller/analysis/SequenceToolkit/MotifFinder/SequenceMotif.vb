@@ -57,6 +57,10 @@ Public Class SequenceMotif : Inherits Probability
 
     Public Property seeds As MSAOutput
 
+    ''' <summary>
+    ''' the alignment score vector of current motif PWM with the source seeds
+    ''' </summary>
+    ''' <returns></returns>
     <XmlAttribute>
     Public Property alignments As Double()
 
@@ -76,6 +80,10 @@ Public Class SequenceMotif : Inherits Probability
         End Get
     End Property
 
+    ''' <summary>
+    ''' score / motif with
+    ''' </summary>
+    ''' <returns></returns>
     Public ReadOnly Property AverageScore As Double
         Get
             Return score / seeds.MSA.Length

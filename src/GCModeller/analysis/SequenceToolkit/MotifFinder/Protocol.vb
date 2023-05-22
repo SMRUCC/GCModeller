@@ -159,7 +159,7 @@ Public Module Protocol
     End Function
 
     <Extension>
-    Private Function BuildMotifPWM(members As IEnumerable(Of String), param As PopulatorParameter) As SequenceMotif
+    Public Function BuildMotifPWM(members As IEnumerable(Of String), param As PopulatorParameter) As SequenceMotif
         Dim regions As FastaSeq() = members _
             .Select(Function(seq)
                         Return New FastaSeq With {
@@ -218,13 +218,15 @@ Public Module Protocol
 
                         If best Is Nothing Then
                             Return 0
-                        Else
+                        ElseIf best.identities > param.ScanCutoff Then
                             Return best.identities
+                        Else
+                            Return 0
                         End If
                     End Function) _
             .AsVector
 
-        If scores.All(Function(xi) xi = 0.0) Then
+        If scores.All(Function(xi) xi = 0.0) OrElse (scores > 0).Sum / scores.Length < 0.85 Then
             Return Nothing
         Else
             scores(0) += 0.0000001
