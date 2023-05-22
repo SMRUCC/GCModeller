@@ -242,7 +242,7 @@ Namespace ExpressionPattern
                                                     topMembers As Integer,
                                                     sampleNames As String()) As Matrix
             Dim membership = cmeans _
-                .Select(Function(v) New NamedValue(Of Double)(v.uid, v.memberships(patternId))) _
+                .Select(Function(v) New NamedValue(Of Double)(v.uid, v.memberships(key:=patternId))) _
                 .ToArray
             Dim max As Double = membership.Select(Function(v) v.Value).Max
             Dim filter As Index(Of String) = membership _
