@@ -102,7 +102,19 @@ Module geneExpression
         REnv.Internal.Object.Converts.makeDataframe.addHandler(GetType(DEP_iTraq()), AddressOf depDataTable)
         REnv.Internal.Object.Converts.makeDataframe.addHandler(GetType(Matrix), AddressOf expDataTable)
         REnv.Internal.ConsolePrinter.AttachConsoleFormatter(Of DEGModel)(Function(a) a.ToString)
+
+        Call REnv.Internal.generic.add(
+            name:="as.list",
+            x:=GetType(ExpressionPattern),
+            [overloads]:=AddressOf getFuzzyPatternMembers
+        )
     End Sub
+
+    Private Function getFuzzyPatternMembers(x As Object, args As list, env As Environment) As Object
+        Dim cutoff As Double = args.getValue("cutoff", env, [default]:=0.6)
+        Dim top As Integer = args.getValue("top", env, [default]:=300)
+        Dim parts = DirectCast(x, ExpressionPattern).GetPartitionMatrix(cutoff, top).IteratesALL.ToArray
+    End Function
 
     ''' <summary>
     ''' as.data.frame of the HTS matrix
