@@ -900,7 +900,9 @@ Module geneExpression
     <ExportAPI("readPattern")>
     Public Function readPattern(file As String) As ExpressionPattern
         If file.ExtensionSuffix("csv") Then
-            Return DataSet.LoadDataSet(file).ToArray.CastAsPatterns
+            Return DataSet.LoadDataSet(file, silent:=True) _
+                .ToArray _
+                .CastAsPatterns
         Else
             Return Reader.ReadExpressionPattern(file.Open(FileMode.Open, doClear:=False, [readOnly]:=True))
         End If
