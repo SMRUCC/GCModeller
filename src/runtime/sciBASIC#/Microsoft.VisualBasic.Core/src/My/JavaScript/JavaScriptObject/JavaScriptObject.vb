@@ -61,6 +61,8 @@ Imports System.Reflection
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Scripting
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace My.JavaScript
@@ -68,7 +70,9 @@ Namespace My.JavaScript
     ''' <summary>
     ''' javascript object
     ''' </summary>
-    Public Class JavaScriptObject : Implements IEnumerable(Of String), IEnumerable(Of NamedValue(Of Object)), IJavaScriptObjectAccessor
+    Public Class JavaScriptObject : Implements IEnumerable(Of String),
+            IEnumerable(Of NamedValue(Of Object)),
+            IJavaScriptObjectAccessor
 
         Dim members As New Dictionary(Of String, JavaScriptValue)
 
@@ -256,6 +260,57 @@ Namespace My.JavaScript
                 GetType(Double),
                 GetType(Boolean)
             })
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function CreateObject(Of T As Class)() As T
+            Return CreateObject(GetType(T))
+        End Function
+
+        Public Function CreateObject(type As Type) As Object
+            Dim propWriter As Dictionary(Of String, PropertyInfo) = type _
+                .GetProperties(PublicProperty) _
+                .Where(Function(p) p.GetIndexParameters.IsNullOrEmpty) _
+                .ToDictionary(Function(p)
+                                  Return p.Name
+                              End Function)
+            Dim obj As Object = Activator.CreateInstance(type)
+
+            For Each name As String In Me
+                Dim value As Object = Me(name)
+
+                If Not propWriter.ContainsKey(name) Then
+                    Continue For
+                End If
+
+                Dim target As PropertyInfo = propWriter(name)
+
+                If DataFramework.IsPrimitive(target.PropertyType) Then
+                    value = Conversion.CTypeDynamic(value, target.PropertyType)
+                ElseIf target.PropertyType.IsArray Then
+                    If DataFramework.IsPrimitive(target.PropertyType.GetElementType) Then
+                        value = DirectCast(value, Array).CTypeDynamic(target.PropertyType)
+                    Else
+                        Dim template As Type = target.PropertyType.GetElementType
+                        Dim src As JavaScriptObject() = DirectCast(value, Array).DirectCast(GetType(JavaScriptObject))
+                        Dim vec As Array = Array.CreateInstance(template, src.Length)
+
+                        For i As Integer = 0 To src.Length - 1
+                            vec.SetValue(src(i).CreateObject(template), i)
+                        Next
+
+                        value = vec
+                    End If
+                ElseIf TypeOf value Is JavaScriptObject Then
+                    value = DirectCast(value, JavaScriptObject).CreateObject(target.GetType)
+                Else
+                    value = Nothing
+                End If
+
+                Call target.SetValue(obj, value)
+            Next
+
+            Return obj
         End Function
     End Class
 End Namespace
