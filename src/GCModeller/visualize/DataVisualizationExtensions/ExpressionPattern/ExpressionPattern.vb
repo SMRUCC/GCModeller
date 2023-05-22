@@ -217,6 +217,10 @@ Namespace ExpressionPattern
                 .Distinct _
                 .ToArray
 
+            If [dim].IsNullOrEmpty Then
+                [dim] = {1, 1}
+            End If
+
             For Each patternId As Integer In allPatterns
                 row += extractPatternBlock(
                     cmeans:=cmeans,
