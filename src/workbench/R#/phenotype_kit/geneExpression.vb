@@ -1023,6 +1023,35 @@ Module geneExpression
     End Function
 
     ''' <summary>
+    ''' get the top n representatives genes in each expression pattern
+    ''' </summary>
+    ''' <param name="pattern"></param>
+    ''' <param name="top">top n cmeans membership items</param>
+    ''' <returns></returns>
+    <ExportAPI("pattern_representatives")>
+    Public Function representatives(pattern As ExpressionPattern, Optional top As Integer = 3) As Object
+        Dim allPatterns As Integer() = pattern.Patterns _
+            .Select(Function(c) c.memberships.Keys) _
+            .IteratesALL _
+            .Distinct _
+            .ToArray
+        Dim tops As New list With {.slots = New Dictionary(Of String, Object)}
+        Dim topId As String()
+
+        For Each patternKey As Integer In allPatterns
+            topId = pattern.Patterns _
+                .OrderByDescending(Function(p) p.memberships(key:=patternKey)) _
+                .Take(top) _
+                .Select(Function(a) a.uid) _
+                .ToArray
+
+            Call tops.add("#" & patternKey, topId)
+        Next
+
+        Return tops
+    End Function
+
+    ''' <summary>
     ''' ### split the cmeans cluster output
     ''' 
     ''' split the cmeans cluster output into multiple parts based on the cluster tags
