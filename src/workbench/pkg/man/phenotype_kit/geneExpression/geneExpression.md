@@ -29,6 +29,7 @@ the gene expression matrix data toolkit
 + [savePattern](geneExpression/savePattern.1) save the cmeans expression pattern result to local file
 + [readPattern](geneExpression/readPattern.1) read the cmeans expression pattern result from file
 + [cmeans_matrix](geneExpression/cmeans_matrix.1) get cluster membership matrix
++ [pattern_representatives](geneExpression/pattern_representatives.1) get the top n representatives genes in each expression pattern
 + [split.cmeans_clusters](geneExpression/split.cmeans_clusters.1) ### split the cmeans cluster output
 + [peakCMeans](geneExpression/peakCMeans.1) ### clustering analysis of time course data
 + [expr_ranking](geneExpression/expr_ranking.1) 

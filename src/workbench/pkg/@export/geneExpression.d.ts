@@ -275,6 +275,16 @@ declare namespace geneExpression {
    */
    function matrix_info(file: any): object;
    /**
+    * get the top n representatives genes in each expression pattern
+    * 
+    * 
+     * @param pattern -
+     * @param top top n cmeans membership items
+     * 
+     * + default value Is ``3``.
+   */
+   function pattern_representatives(pattern: object, top?: object): any;
+   /**
     * do PCA on a gene expressin matrix
     * 
     * 
