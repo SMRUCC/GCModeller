@@ -58,12 +58,18 @@
 
 Namespace CommandLine.InteropService.Pipeline
 
+    ''' <summary>
+    ''' wrapper for run a background task process
+    ''' </summary>
     Public Class RunSlavePipeline
 
         Public Event SetProgress(percentage As Integer, details As String)
         Public Event SetMessage(message As String)
         Public Event Finish(exitCode As Integer)
 
+        ''' <summary>
+        ''' the file full path to the target executable application file
+        ''' </summary>
         ReadOnly app As String
         ReadOnly workdir As String
 
@@ -75,6 +81,10 @@ Namespace CommandLine.InteropService.Pipeline
             End Get
         End Property
 
+        ''' <summary>
+        ''' the commandline argument of the target background task
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property Arguments As String
         Public Property Shell As Boolean = False
 
