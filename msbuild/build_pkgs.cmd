@@ -74,6 +74,14 @@ SET jump=ggplot
 CALL :exec_msbuild %gcmodeller_src%\runtime\ggplot ggplot.NET5.sln
 :ggplot
 
+SET jump=enigma
+CALL :exec_msbuild %gcmodeller_src%\runtime\enigma\src Enigma.sln
+:enigma
+
+SET jump=markdown2pdf
+CALL :exec_msbuild %gcmodeller_src%\workbench\markdown2pdf\src reportKit.NET5.sln
+:markdown2pdf
+
 echo "do msbuild of the .net 6.0 clr assembly success!"
 
 :jump_to_build_Rpackages
@@ -126,6 +134,20 @@ CALL :exec_rscript_build "%gcmodeller_src%\workbench\pkg\GCModeller.Rproj" GCMod
 SET jump=pkg_ggplot
 CALL :exec_rscript_build "%gcmodeller_src%\runtime\ggplot\ggplot.Rproj" ggplot.zip
 :pkg_ggplot
+
+SET jump=pkg_markdown2pdf
+CALL :exec_rscript_build "%gcmodeller_src%\workbench\markdown2pdf\Markdown2PDF.Rproj" Markdown2PDF.zip
+:pkg_markdown2pdf
+
+SET jump=pkg_enigma
+CALL :exec_rscript_build "%gcmodeller_src%\runtime\enigma\enigma.Rproj" enigma.zip
+:pkg_enigma
+
+echo "copy R# files to release dir..."
+echo "from: %R_HOME%"
+echo "copy to: %pkg_release%/r_bin"
+
+xcopy %R_HOME% %pkg_release%/r_bin /u
 
 echo "build packages job done!"
 
