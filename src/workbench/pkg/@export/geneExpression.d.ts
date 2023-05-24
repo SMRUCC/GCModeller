@@ -275,6 +275,16 @@ declare namespace geneExpression {
    */
    function matrix_info(file: any): object;
    /**
+    * get the top n representatives genes in each expression pattern
+    * 
+    * 
+     * @param pattern -
+     * @param top top n cmeans membership items
+     * 
+     * + default value Is ``3``.
+   */
+   function pattern_representatives(pattern: object, top?: object): any;
+   /**
     * do PCA on a gene expressin matrix
     * 
     * 
@@ -332,8 +342,10 @@ declare namespace geneExpression {
    /**
     * read the cmeans expression pattern result from file
     * 
+    * > this function can also read the csv matrix file and 
+    * >  then cast as the expression pattern data object.
     * 
-     * @param file -
+     * @param file a binary data pack file that contains the expression pattern raw data
    */
    function readPattern(file: string): object;
    /**

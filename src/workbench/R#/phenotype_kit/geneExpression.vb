@@ -84,6 +84,7 @@ Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 Imports Rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 Imports REnv = SMRUCC.Rsharp.Runtime
@@ -101,7 +102,26 @@ Module geneExpression
         REnv.Internal.Object.Converts.makeDataframe.addHandler(GetType(DEP_iTraq()), AddressOf depDataTable)
         REnv.Internal.Object.Converts.makeDataframe.addHandler(GetType(Matrix), AddressOf expDataTable)
         REnv.Internal.ConsolePrinter.AttachConsoleFormatter(Of DEGModel)(Function(a) a.ToString)
+
+        Call REnv.Internal.generic.add(
+            name:="as.list",
+            x:=GetType(ExpressionPattern),
+            [overloads]:=AddressOf getFuzzyPatternMembers
+        )
     End Sub
+
+    Private Function getFuzzyPatternMembers(x As Object, args As list, env As Environment) As Object
+        Dim cutoff As Double = args.getValue("cutoff", env, [default]:=0.6)
+        Dim top As Integer = args.getValue("top", env, [default]:=300)
+        Dim parts = DirectCast(x, ExpressionPattern).GetPartitionMatrix(cutoff, top).IteratesALL.ToArray
+        Dim pop As New list With {.slots = New Dictionary(Of String, Object)}
+
+        For Each block As Matrix In parts
+            Call pop.add("#" & block.tag, block.rownames)
+        Next
+
+        Return pop
+    End Function
 
     ''' <summary>
     ''' as.data.frame of the HTS matrix
@@ -871,11 +891,21 @@ Module geneExpression
     ''' <summary>
     ''' read the cmeans expression pattern result from file
     ''' </summary>
-    ''' <param name="file"></param>
+    ''' <param name="file">a binary data pack file that contains the expression pattern raw data</param>
     ''' <returns></returns>
+    ''' <remarks>
+    ''' this function can also read the csv matrix file and 
+    ''' then cast as the expression pattern data object.
+    ''' </remarks>
     <ExportAPI("readPattern")>
     Public Function readPattern(file As String) As ExpressionPattern
-        Return Reader.ReadExpressionPattern(file.Open(FileMode.Open, doClear:=False, [readOnly]:=True))
+        If file.ExtensionSuffix("csv") Then
+            Return DataSet.LoadDataSet(file, silent:=True) _
+                .ToArray _
+                .CastAsPatterns
+        Else
+            Return Reader.ReadExpressionPattern(file.Open(FileMode.Open, doClear:=False, [readOnly]:=True))
+        End If
     End Function
 
     ''' <summary>
@@ -990,6 +1020,35 @@ Module geneExpression
                                       Optional env As Environment = Nothing) As EntityClusterModel()
 
         Return GetCmeansPatternA(pattern, memberCutoff, empty_shared, max_cluster_shared, env)
+    End Function
+
+    ''' <summary>
+    ''' get the top n representatives genes in each expression pattern
+    ''' </summary>
+    ''' <param name="pattern"></param>
+    ''' <param name="top">top n cmeans membership items</param>
+    ''' <returns></returns>
+    <ExportAPI("pattern_representatives")>
+    Public Function representatives(pattern As ExpressionPattern, Optional top As Integer = 3) As Object
+        Dim allPatterns As Integer() = pattern.Patterns _
+            .Select(Function(c) c.memberships.Keys) _
+            .IteratesALL _
+            .Distinct _
+            .ToArray
+        Dim tops As New list With {.slots = New Dictionary(Of String, Object)}
+        Dim topId As String()
+
+        For Each patternKey As Integer In allPatterns
+            topId = pattern.Patterns _
+                .OrderByDescending(Function(p) p.memberships(key:=patternKey)) _
+                .Take(top) _
+                .Select(Function(a) a.uid) _
+                .ToArray
+
+            Call tops.add("#" & patternKey, topId)
+        Next
+
+        Return tops
     End Function
 
     ''' <summary>
@@ -1203,9 +1262,9 @@ Module geneExpression
 
         If TypeOf x Is Rdataframe Then
             Dim table As Rdataframe = DirectCast(x, Rdataframe)
-            Dim foldchanges As Double() = REnv.asVector(Of Double)(table(logFC))
-            Dim pvalues As Double() = REnv.asVector(Of Double)(table(pvalue))
-            Dim labels As String() = REnv.asVector(Of String)(table(label))
+            Dim foldchanges As Double() = CLRVector.asNumeric(table(logFC))
+            Dim pvalues As Double() = CLRVector.asNumeric(table(pvalue))
+            Dim labels As String() = CLRVector.asCharacter(table(label))
 
             Return foldchanges _
                 .Select(Function(fc, i)
@@ -1223,7 +1282,7 @@ Module geneExpression
 
     <ExportAPI("deg.class")>
     Public Function DEGclass(deg As DEGModel(), <RRawVectorArgument> classLabel As Object) As DEGModel()
-        Dim classList As String() = REnv.asVector(Of String)(classLabel)
+        Dim classList As String() = CLRVector.asCharacter(classLabel)
         Dim getClass As Func(Of Integer, String)
 
         If classList.Length = 1 Then

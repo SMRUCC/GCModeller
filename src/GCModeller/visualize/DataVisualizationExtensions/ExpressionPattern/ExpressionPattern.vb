@@ -1,54 +1,54 @@
 ﻿#Region "Microsoft.VisualBasic::d3e7da818eca31b7a5ef847f1d6a2e54, GCModeller\visualize\DataVisualizationExtensions\ExpressionPattern\ExpressionPattern.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 209
-    '    Code Lines: 173
-    ' Comment Lines: 10
-    '   Blank Lines: 26
-    '     File Size: 8.81 KB
+' Summaries:
 
 
-    '     Class ExpressionPattern
-    ' 
-    '         Properties: [dim], centers, Patterns, sampleNames
-    ' 
-    '         Function: (+2 Overloads) CMeansCluster, CMeansCluster3D, GetPartitionMatrix, populatePartitions, ToSummaryText
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 209
+'    Code Lines: 173
+' Comment Lines: 10
+'   Blank Lines: 26
+'     File Size: 8.81 KB
+
+
+'     Class ExpressionPattern
+' 
+'         Properties: [dim], centers, Patterns, sampleNames
+' 
+'         Function: (+2 Overloads) CMeansCluster, CMeansCluster3D, GetPartitionMatrix, populatePartitions, ToSummaryText
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -109,6 +109,15 @@ Namespace ExpressionPattern
             Return sb.ToString
         End Function
 
+        ''' <summary>
+        ''' function for split current expression pattern matrix as the membership blocks
+        ''' </summary>
+        ''' <param name="membershipCutoff"></param>
+        ''' <param name="topMembers"></param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' the tag value in the generated expression matrix object is the pattern id
+        ''' </remarks>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetPartitionMatrix(membershipCutoff As Double, topMembers As Integer) As IEnumerable(Of Matrix())
             Return populatePartitions(
@@ -208,47 +217,18 @@ Namespace ExpressionPattern
                 .Distinct _
                 .ToArray
 
+            If [dim].IsNullOrEmpty Then
+                [dim] = {1, 1}
+            End If
+
             For Each patternId As Integer In allPatterns
-                Dim membership = cmeans _
-                    .Select(Function(v) New NamedValue(Of Double)(v.uid, v.memberships(patternId))) _
-                    .ToArray
-                Dim max As Double = membership.Select(Function(v) v.Value).Max
-                Dim filter As Index(Of String) = membership _
-                    .Where(Function(v) v.Value / max > membershipCutoff) _
-                    .Select(Function(v) v.Name) _
-                    .Indexing
-                Dim features As DataFrameRow()
-
-                If filter.Count < topMembers Then
-                    features = cmeans _
-                        .OrderByDescending(Function(v) v.memberships(key:=patternId)) _
-                        .Take(topMembers) _
-                        .Select(Function(a)
-                                    Return New DataFrameRow With {
-                                        .geneID = a.uid,
-                                        .experiments = a.entityVector
-                                    }
-                                End Function) _
-                        .ToArray
-                Else
-                    features = cmeans _
-                        .Where(Function(v) v.uid Like filter) _
-                        .Select(Function(a)
-                                    Return New DataFrameRow With {
-                                        .geneID = a.uid,
-                                        .experiments = a.entityVector
-                                    }
-                                End Function) _
-                        .ToArray
-                End If
-
-                Dim matrix = New Matrix With {
-                    .sampleID = sampleNames,
-                    .expression = features,
-                    .tag = patternId
-                }
-
-                row += matrix
+                row += extractPatternBlock(
+                    cmeans:=cmeans,
+                    patternId:=patternId,
+                    membershipCutoff:=membershipCutoff,
+                    topMembers:=topMembers,
+                    sampleNames:=sampleNames
+                )
 
                 If row = [dim](1) Then
                     Yield row.PopAll
@@ -258,6 +238,51 @@ Namespace ExpressionPattern
             If row > 0 Then
                 Yield row.PopAll
             End If
+        End Function
+
+        Private Shared Function extractPatternBlock(cmeans As FuzzyCMeansEntity(),
+                                                    patternId As Integer,
+                                                    membershipCutoff As Double,
+                                                    topMembers As Integer,
+                                                    sampleNames As String()) As Matrix
+            Dim membership = cmeans _
+                .Select(Function(v) New NamedValue(Of Double)(v.uid, v.memberships(key:=patternId))) _
+                .ToArray
+            Dim max As Double = membership.Select(Function(v) v.Value).Max
+            Dim filter As Index(Of String) = membership _
+                .Where(Function(v) v.Value / max > membershipCutoff) _
+                .Select(Function(v) v.Name) _
+                .Indexing
+            Dim features As DataFrameRow()
+
+            If filter.Count < topMembers Then
+                features = cmeans _
+                    .OrderByDescending(Function(v) v.memberships(key:=patternId)) _
+                    .Take(topMembers) _
+                    .Select(Function(a)
+                                Return New DataFrameRow With {
+                                    .geneID = a.uid,
+                                    .experiments = a.entityVector
+                                }
+                            End Function) _
+                    .ToArray
+            Else
+                features = cmeans _
+                    .Where(Function(v) v.uid Like filter) _
+                    .Select(Function(a)
+                                Return New DataFrameRow With {
+                                    .geneID = a.uid,
+                                    .experiments = a.entityVector
+                                }
+                            End Function) _
+                    .ToArray
+            End If
+
+            Return New Matrix With {
+                .sampleID = sampleNames,
+                .expression = features,
+                .tag = patternId
+            }
         End Function
     End Class
 End Namespace
