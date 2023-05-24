@@ -147,6 +147,7 @@ echo "copy R# files to release dir..."
 echo "from: %R_HOME%"
 echo "copy to: %pkg_release%/r_bin"
 
+mkdir %pkg_release%/r_bin
 xcopy %R_HOME% %pkg_release%/r_bin /u
 
 echo "build packages job done!"
