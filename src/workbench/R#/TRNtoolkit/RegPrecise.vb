@@ -180,4 +180,9 @@ Public Module RegPrecise
     Public Function readRegulators(file As String) As RegpreciseBBH()
         Return file.LoadCsv(Of RegpreciseBBH)
     End Function
+
+    <ExportAPI("read.operon")>
+    Public Function readOperon(file As String) As Operon()
+        Return RegulateGraph.ParseStream(file.SolveListStream).ToArray
+    End Function
 End Module
