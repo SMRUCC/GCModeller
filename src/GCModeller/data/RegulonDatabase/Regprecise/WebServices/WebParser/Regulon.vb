@@ -125,7 +125,7 @@ Namespace Regprecise
             Return __parser(tokens)
         End Function
 
-        Private Shared Function __parser(s As String) As RegulatedGene
+        Friend Shared Function __parser(s As String) As RegulatedGene
             Dim Tokens As String() = Strings.Split(s, vbTab)
             Dim gene As New RegulatedGene With {
                 .vimssId = Tokens.ElementAtOrDefault(Scan0),

@@ -72,6 +72,9 @@ Namespace Regprecise
         <XmlElement("member")>
         Public Property members As RegulatedGene()
 
+        <XmlText>
+        Public Property note As String
+
         Public Overrides Function ToString() As String
             With members _
                 .Where(Function(g)
