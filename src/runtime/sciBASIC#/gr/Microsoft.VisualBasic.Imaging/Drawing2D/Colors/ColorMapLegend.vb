@@ -62,6 +62,9 @@ Imports System.Drawing
 
 Namespace Drawing2D.Colors
 
+    ''' <summary>
+    ''' a continues numeric scaler legend bar
+    ''' </summary>
     Public Class ColorMapLegend
 
         Public ReadOnly Property designer As SolidBrush()
@@ -79,6 +82,12 @@ Namespace Drawing2D.Colors
 
         Sub New(palette As String, Optional mapLevels As Integer = 30)
             designer = GetColors(palette, mapLevels) _
+                .Select(Function(c) New SolidBrush(c)) _
+                .ToArray
+        End Sub
+
+        Sub New(palette As String(), Optional mapLevels As Integer = 30)
+            designer = CubicSpline(palette.Select(Function(c) c.TranslateColor), mapLevels) _
                 .Select(Function(c) New SolidBrush(c)) _
                 .ToArray
         End Sub
