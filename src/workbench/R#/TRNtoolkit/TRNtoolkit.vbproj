@@ -40,28 +40,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\GCModeller\analysis\Microarray\Microarray.NET5.vbproj" />
-    <ProjectReference Include="..\..\..\GCModeller\annotations\GSEA\GSEA\gsea-netcore5.vbproj" />
-    <ProjectReference Include="..\..\..\GCModeller\annotations\Proteomics\Proteomics.NET5.vbproj" />
-    <ProjectReference Include="..\..\..\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj" />
-    <ProjectReference Include="..\..\..\GCModeller\data\GO_gene-ontology\GeneOntology\go_owl-netcore5.vbproj" />
-    <ProjectReference Include="..\..\..\GCModeller\data\GO_gene-ontology\obographs\obographs\obographs.NET5.vbproj" />
-    <ProjectReference Include="..\..\..\GCModeller\foundation\OBO_Foundry\obo_foundry-netcore5.vbproj" />
-    <ProjectReference Include="..\..\..\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj" />
-    <ProjectReference Include="..\..\..\R-sharp\R#\Rsharp-netcore5.vbproj" />
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Graph\graph-netcore5.vbproj" />
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\Math.NET5.vbproj" />
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Visualization\Plots\plots-netcore5.vbproj" />
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Visualization\Visualization\data_visualize-netcore5.vbproj" />
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\imaging.NET5.vbproj" />
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\gr\network-visualization\Datavisualization.Network\network_graph-netcore5.vbproj" />
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\gr\network-visualization\Network.IO.Extensions\network_io-netcore5.vbproj" />
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\gr\network-visualization\Visualizer\networkVisualizer.NET5.vbproj" />
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\mime\text%html\html_netcore5.vbproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="..\..\..\..\LICENSE">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
@@ -72,8 +50,17 @@
     <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
   </ItemGroup>
 
-
-
-  <Import Project="..\..\..\R-sharp\Library\shares\R_graphic.interop\R_graphic.interop.projitems" Label="Shared" />
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\GCModeller\analysis\RNA-Seq\WGCNA\WGCNA.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\analysis\SequenceToolkit\SequencePatterns.Abstract\SequencePatterns.Abstract.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\analysis\SequenceToolkit\SequencePatterns\SequencePatterns.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\data\RegulonDatabase\RegulonDatabase.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\R-sharp\R#\Rsharp-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame\dataframework-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Graph\graph-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\gr\network-visualization\Datavisualization.Network\network_graph-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+  </ItemGroup>
 
 </Project>

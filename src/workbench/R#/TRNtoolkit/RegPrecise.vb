@@ -126,17 +126,17 @@ Public Module RegPrecise
         Return xml.LoadXml(Of BacteriaRegulome)
     End Function
 
-    <ExportAPI("loadScanner")>
-    <RApiReturn(GetType(RegPreciseScan))>
-    Public Function LoadScanner(<RRawVectorArgument> regDb As Object, Optional env As Environment = Nothing) As Object
-        Dim genomes As pipeline = pipeline.TryCreatePipeline(Of BacteriaRegulome)(regDb, env)
+    '<ExportAPI("loadScanner")>
+    '<RApiReturn(GetType(RegPreciseScan))>
+    'Public Function LoadScanner(<RRawVectorArgument> regDb As Object, Optional env As Environment = Nothing) As Object
+    '    Dim genomes As pipeline = pipeline.TryCreatePipeline(Of BacteriaRegulome)(regDb, env)
 
-        If genomes.isError Then
-            Return genomes.getError
-        End If
+    '    If genomes.isError Then
+    '        Return genomes.getError
+    '    End If
 
-        Return RegPreciseScan.CreateFromRegPrecise(genomes.populates(Of BacteriaRegulome)(env))
-    End Function
+    '    Return RegPreciseScan.CreateFromRegPrecise(genomes.populates(Of BacteriaRegulome)(env))
+    'End Function
 
     <ExportAPI("regulators")>
     Public Function FromGenome(regulome As BacteriaRegulome, info As list, Optional env As Environment = Nothing) As RegulatorTable()
