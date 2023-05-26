@@ -26785,6 +26785,7 @@ Global
 		..\..\R-sharp\Library\shares\R_graphic.interop\R_graphic.interop.projitems*{193ee8cb-3597-49db-86b9-f03b9cb2cfe2}*SharedItemsImports = 5
 		Rscript_shared\Rscript_shared.projitems*{28a18d47-5f41-43cd-a0a7-c8dd9e731bd3}*SharedItemsImports = 13
 		..\..\Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{36ee8dc2-3d23-45b7-8ce4-1942916a02aa}*SharedItemsImports = 13
+		..\..\R-sharp\Library\shares\R_graphic.interop\R_graphic.interop.projitems*{39e79cad-3b89-48ae-9cb9-5f0d41f0449b}*SharedItemsImports = 5
 		..\..\Settings\Shared\InternalApps_CLI\InternalApps_CLI.projitems*{3d1fb85c-c35b-4ae8-bc0a-36fce222551e}*SharedItemsImports = 13
 		..\..\R-sharp\Library\shares\R_graphic.interop\R_graphic.interop.projitems*{42ab5b8d-6be1-4c81-820e-2cb83e252589}*SharedItemsImports = 5
 		..\..\R-sharp\studio\Rstudio.common\Rstudio.common.projitems*{4e4e76b9-eee7-4257-98be-413bf9c8504b}*SharedItemsImports = 5
