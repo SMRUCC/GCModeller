@@ -123,6 +123,11 @@ Module Fasta
         End Select
     End Function
 
+    ''' <summary>
+    ''' get the sequence length
+    ''' </summary>
+    ''' <param name="fa"></param>
+    ''' <returns></returns>
     <ExportAPI("size")>
     Public Function sizeof(fa As FastaSeq) As Integer
         If fa Is Nothing Then

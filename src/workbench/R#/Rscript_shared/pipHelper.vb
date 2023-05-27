@@ -78,6 +78,8 @@ Module pipHelper
             Return {}
         ElseIf TypeOf a Is vector Then
             a = DirectCast(a, vector).data
+        ElseIf TypeOf a Is dataframe Then
+            Return fastaFromDataframe(a)
         End If
 
         Dim type As Type = a.GetType
@@ -114,6 +116,24 @@ Module pipHelper
         End Select
 
         Return Nothing
+    End Function
+
+    Private Iterator Function fastaFromDataframe(df As dataframe) As IEnumerable(Of FastaSeq)
+        If Not (df.hasName("name") OrElse df.hasName("title")) Then
+            Return
+        ElseIf Not df.hasName("sequence") Then
+            Return
+        End If
+
+        Dim title As String() = CLRVector.asCharacter(If(df("name"), df("title")))
+        Dim seq As String() = CLRVector.asCharacter(df("sequence"))
+
+        For i As Integer = 0 To seq.Length - 1
+            Yield New FastaSeq With {
+                .Headers = {title(i)},
+                .SequenceData = seq(i)
+            }
+        Next
     End Function
 
     Private Iterator Function fastaFromCollection(a As Object) As IEnumerable(Of FastaSeq)
