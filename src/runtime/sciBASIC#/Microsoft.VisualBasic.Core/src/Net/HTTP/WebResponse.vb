@@ -58,6 +58,7 @@
 #End Region
 
 Imports System.Net
+Imports System.Runtime.CompilerServices
 
 Namespace Net.Http
 
@@ -71,6 +72,11 @@ Namespace Net.Http
         Public Property headers As ResponseHeaders
         Public Property timespan As Long
         Public Property url As String
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Overrides Function ToString() As String
+            Return html
+        End Function
 
     End Class
 
@@ -100,18 +106,27 @@ Namespace Net.Http
         Private Sub New()
         End Sub
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function Header404NotFound() As ResponseHeaders
             Return New ResponseHeaders
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function Header500InternalServerError() As ResponseHeaders
+            Return New ResponseHeaders
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function Header200() As ResponseHeaders
             Return New ResponseHeaders
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function TryGetValue(header As HttpHeaderName) As String
             Return headers.TryGetValue(header)
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function TryGetValue(header As String) As String
             Return stringIndex.TryGetValue(Strings.LCase(header))
         End Function
