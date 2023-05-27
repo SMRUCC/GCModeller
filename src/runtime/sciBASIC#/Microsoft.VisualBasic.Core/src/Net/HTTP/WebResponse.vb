@@ -73,6 +73,7 @@ Namespace Net.Http
         Public Property headers As ResponseHeaders
         Public Property timespan As Long
         Public Property url As String
+        Public Property payload As String
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function ToString() As String
