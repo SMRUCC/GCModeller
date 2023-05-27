@@ -133,6 +133,15 @@ Namespace Net.Http
             }
         End Function
 
+        Public Shared Function HttpRequestError(err As Integer) As ResponseHeaders
+            Return New ResponseHeaders With {
+                .headers = New Dictionary(Of HttpHeaderName, String) From {
+                    {HttpHeaderName.ContentType, MIME.Text}
+                },
+                .code = err
+            }
+        End Function
+
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function Header200() As ResponseHeaders
             Return New ResponseHeaders With {
