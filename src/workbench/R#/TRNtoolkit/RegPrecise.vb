@@ -183,11 +183,11 @@ Public Module RegPrecise
 
     <ExportAPI("read.operon")>
     Public Function readOperon(file As String) As Operon()
-        Return RegulateGraph.ParseStream(file.SolveListStream).ToArray
+        Return RegulateGraph.ParseStream(file.LineIterators).ToArray
     End Function
 
     <ExportAPI("read.motifs")>
     Public Function readMotifSites(file As String) As Regulator()
-        Return RegulateGraph.ParseMotifSites(file.SolveListStream).ToArray
+        Return RegulateGraph.ParseMotifSites(file.LineIterators).ToArray
     End Function
 End Module
