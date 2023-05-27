@@ -478,7 +478,7 @@ Namespace Regtransbase.WebServices
 
             FastaObject.SequenceData = DownloadedFastaObject.SequenceData
             FastaObject.bacteria = Bacateria
-            FastaObject.bacteria = Mid(FastaObject.bacteria, 2, Len(FastaObject.bacteria) - 2)
+            FastaObject.bacteria = Mid(FastaObject.bacteria, 2, Len(FastaObject.bacteria) - 2).Replace("|"c, " "c).Trim(" "c)
             FastaObject.position = Val(Position.Split(CChar("=")).Last)
             FastaObject.score = Val(Score.Split(CChar("=")).Last)
 
@@ -486,7 +486,7 @@ Namespace Regtransbase.WebServices
             FastaObject.name = Regex.Match(LocusTag, "\(.+?\)").Value
             FastaObject.name = If(Not String.IsNullOrEmpty(FastaObject.name), Mid(FastaObject.name, 2, Len(FastaObject.name) - 2).Trim, "")
             LocusTag = Regex.Replace(LocusTag, "\(.+?\)", "")
-            FastaObject.locus_tag = LocusTag.Replace(">", "").Trim
+            FastaObject.locus_tag = LocusTag.Replace(">", "").Trim(" "c, "|"c)
 
             Return FastaObject
         End Function

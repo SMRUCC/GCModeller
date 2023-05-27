@@ -73,7 +73,8 @@ Namespace Regprecise
                     End If
 
                     With line.GetTagValue("-", trim:=True)
-                        type = .Name
+                        type = .Name.Trim(" "c, "#"c)
+
                         With .Value.GetTagValue(":", trim:=True)
                             family = .Name
                             regulator_id = .Value
