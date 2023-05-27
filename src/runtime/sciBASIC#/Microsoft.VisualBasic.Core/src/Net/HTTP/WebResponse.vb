@@ -59,6 +59,7 @@
 
 Imports System.Net
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Net.Protocols.ContentTypes
 
 Namespace Net.Http
 
@@ -108,17 +109,29 @@ Namespace Net.Http
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function Header404NotFound() As ResponseHeaders
-            Return New ResponseHeaders
+            Return New ResponseHeaders With {
+                .headers = New Dictionary(Of HttpHeaderName, String) From {
+                    {HttpHeaderName.ContentType, MIME.Text}
+                }
+            }
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function Header500InternalServerError() As ResponseHeaders
-            Return New ResponseHeaders
+            Return New ResponseHeaders With {
+                .headers = New Dictionary(Of HttpHeaderName, String) From {
+                    {HttpHeaderName.ContentType, MIME.Text}
+                }
+            }
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function Header200() As ResponseHeaders
-            Return New ResponseHeaders
+            Return New ResponseHeaders With {
+                .headers = New Dictionary(Of HttpHeaderName, String) From {
+                    {HttpHeaderName.ContentType, MIME.Text}
+                }
+            }
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

@@ -89,6 +89,7 @@ Namespace Net.Protocols.ContentTypes
         Public Const Png As String = "image/png"
         Public Const Xml As String = "text/xml"
         Public Const Html As String = "text/html"
+        Public Const Text As String = "plain/text"
 
         ''' <summary>
         ''' ``application/octet-stream``
