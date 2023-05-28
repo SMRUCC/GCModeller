@@ -55,6 +55,7 @@
 Imports System.IO
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Imaging.Driver
@@ -63,6 +64,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.GibbsSampling
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics
 Imports SMRUCC.genomics.Analysis.SequenceTools
 Imports SMRUCC.genomics.Analysis.SequenceTools.MSA
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
@@ -81,8 +83,6 @@ Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports REnv = SMRUCC.Rsharp.Runtime
-Imports SMRUCC.genomics
-Imports Microsoft.VisualBasic.ComponentModel.Collection
 
 ''' <summary>
 ''' Tools for sequence patterns
@@ -90,7 +90,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 <Package("bioseq.patterns", Category:=APICategories.ResearchTools)>
 Module patterns
 
-    Sub New()
+    Friend Sub Main()
         Call REnv.Internal.ConsolePrinter.AttachConsoleFormatter(Of PalindromeLoci)(AddressOf PalindromeToString)
         Call REnv.Internal.Object.Converts.makeDataframe.addHandler(GetType(MotifMatch()), AddressOf matchTableOutput)
         Call REnv.Internal.generic.add("plot", GetType(SequenceMotif), AddressOf plotMotif)
