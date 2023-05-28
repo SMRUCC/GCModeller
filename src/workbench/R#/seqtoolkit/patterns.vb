@@ -82,6 +82,7 @@ Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports REnv = SMRUCC.Rsharp.Runtime
 Imports SMRUCC.genomics
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 
 ''' <summary>
 ''' Tools for sequence patterns
@@ -102,7 +103,20 @@ Module patterns
     Private Function seqgraph_df(graphs As SequenceGraph(), args As list, env As Environment) As dataframe
         Dim type As String = args.getValue({"seq_type", "type", "mol_type"}, env, [default]:="DNA")
         Dim charset As Char() = SequenceModel.GetVector(SequenceModel.ParseSeqType(type)).ToArray
+        Dim matrix = graphs.Select(Function(si) si.GetVector(charset)).ToArray
+        Dim df As New dataframe With {
+            .rownames = graphs.Keys.ToArray,
+            .columns = New Dictionary(Of String, Array)
+        }
+        Dim size As Integer = matrix(0).Length
 
+        For i As Integer = 0 To size - 1
+#Disable Warning
+            Call df.add($"v{i + 1}", matrix.Select(Function(a) a(i)))
+#Enable Warning
+        Next
+
+        Return df
     End Function
 
     Private Function gibbs_table(score As Score(), args As list, env As Environment) As dataframe
