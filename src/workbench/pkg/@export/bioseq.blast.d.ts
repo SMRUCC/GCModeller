@@ -1,5 +1,7 @@
 ﻿// export R# package module type define for javascript/typescript language
 //
+//    imports "bioseq.blast" from "seqtoolkit"
+//
 // ref=seqtoolkit.Blast@seqtoolkit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 
 /**

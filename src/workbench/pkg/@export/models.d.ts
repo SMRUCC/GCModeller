@@ -1,5 +1,7 @@
 ﻿// export R# package module type define for javascript/typescript language
 //
+//    imports "models" from "cytoscape_toolkit"
+//
 // ref=cytoscape_toolkit.models@cytoscape_toolkit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 
 /**

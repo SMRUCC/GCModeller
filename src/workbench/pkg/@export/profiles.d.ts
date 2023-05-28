@@ -1,5 +1,8 @@
 ﻿// export R# package module type define for javascript/typescript language
 //
+//    imports "profiles" from "gseakit"
+//    imports "profiles" from "kegg_kit"
+//
 // ref=gseakit.profiles@gseakit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 // ref=kegg_kit.profiles@kegg_kit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 

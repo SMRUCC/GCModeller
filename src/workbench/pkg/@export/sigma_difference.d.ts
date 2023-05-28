@@ -1,5 +1,7 @@
 ﻿// export R# package module type define for javascript/typescript language
 //
+//    imports "sigma_difference" from "seqtoolkit"
+//
 // ref=seqtoolkit.SigmaDifference@seqtoolkit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 
 /**

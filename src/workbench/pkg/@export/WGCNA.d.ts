@@ -1,5 +1,7 @@
 ﻿// export R# package module type define for javascript/typescript language
 //
+//    imports "WGCNA" from "TRNtoolkit"
+//
 // ref=TRNtoolkit.WGCNA@TRNtoolkit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 
 /**
