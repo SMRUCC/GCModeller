@@ -1,6 +1,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.DeltaSimilarity1998.CAI
 
 ''' <summary>
@@ -32,25 +33,39 @@ Public Class SequenceGraph : Implements INamedValue
         Dim v As New List(Of Double)
         Dim g As Dictionary(Of Char, Double)
         Dim tuple_graph As String() = DistanceGraph.GetTuples(components).ToArray
+        Dim tmp As New List(Of Double)
 
         Call v.AddRange(components.Select(Function(ci) composition(ci)))
+        Call tmp.Clear()
 
+        ' tuple
         For Each key As Char In components
             g = graph(key)
-            v.AddRange(components.Select(Function(ci) g(ci)))
+            tmp.AddRange(components.Select(Function(ci) g(ci)))
         Next
 
+        Const eps As Double = 0.00000000000001
+
+        Call v.AddRange(New Vector(tmp) / (tmp.Max + eps))
+        Call tmp.Clear()
+
         For Each t As String In CodonBiasVector.PopulateTriples(components)
-            Call v.Add(triple.TryGetValue(t))
+            Call tmp.Add(triple.TryGetValue(t))
         Next
+
+        Call v.AddRange(New Vector(tmp) / (tmp.Max + eps))
+        Call tmp.Clear()
 
         For Each t1 As String In tuple_graph
             For Each t2 As String In tuple_graph
                 If t1 <> t2 Then
-                    Call v.Add(tuple_distance.TryGetValue($"{t1}|{t2}"))
+                    Call tmp.Add(tuple_distance.TryGetValue($"{t1}|{t2}"))
                 End If
             Next
         Next
+
+        Call v.AddRange(New Vector(tmp) / (tmp.Max + eps))
+        Call tmp.Clear()
 
         Return v.ToArray
     End Function
