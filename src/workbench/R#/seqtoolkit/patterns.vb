@@ -81,6 +81,7 @@ Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports REnv = SMRUCC.Rsharp.Runtime
+Imports SMRUCC.genomics
 
 ''' <summary>
 ''' Tools for sequence patterns
@@ -95,7 +96,14 @@ Module patterns
         Call REnv.Internal.generic.add("plot", GetType(MSAOutput), AddressOf plotMotif)
         Call REnv.Internal.ConsolePrinter.AttachConsoleFormatter(Of SequenceMotif)(Function(m) DirectCast(m, SequenceMotif).patternString)
         Call REnv.Internal.Object.Converts.makeDataframe.addHandler(GetType(Score()), AddressOf gibbs_table)
+        Call REnv.Internal.Object.Converts.makeDataframe.addHandler(GetType(SequenceGraph()), AddressOf seqgraph_df)
     End Sub
+
+    Private Function seqgraph_df(graphs As SequenceGraph(), args As list, env As Environment) As dataframe
+        Dim type As String = args.getValue({"seq_type", "type", "mol_type"}, env, [default]:="DNA")
+        Dim charset As Char() = SequenceModel.GetVector(SequenceModel.ParseSeqType(type)).ToArray
+
+    End Function
 
     Private Function gibbs_table(score As Score(), args As list, env As Environment) As dataframe
         Dim df As New dataframe With {.columns = New Dictionary(Of String, Array)}
