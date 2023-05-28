@@ -102,8 +102,9 @@ Module patterns
 
     Private Function seqgraph_df(graphs As SequenceGraph(), args As list, env As Environment) As dataframe
         Dim type As String = args.getValue({"seq_type", "type", "mol_type"}, env, [default]:="DNA")
+        Dim norm As Boolean = args.getValue({"norm"}, env, [default]:=False)
         Dim charset As Char() = SequenceModel.GetVector(SequenceModel.ParseSeqType(type)).ToArray
-        Dim matrix = graphs.Select(Function(si) si.GetVector(charset)).ToArray
+        Dim matrix = graphs.Select(Function(si) si.GetVector(charset, norm)).ToArray
         Dim df As New dataframe With {
             .rownames = graphs.Keys.ToArray,
             .columns = New Dictionary(Of String, Array)

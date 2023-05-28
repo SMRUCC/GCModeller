@@ -25,11 +25,11 @@ Public Class SequenceGraph : Implements INamedValue
     ''' <returns></returns>
     ''' 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Function GetVector() As Double()
-        Return GetVector(components:=composition.Keys)
+    Public Function GetVector(Optional norm As Boolean = False) As Double()
+        Return GetVector(components:=composition.Keys, norm)
     End Function
 
-    Public Function GetVector(components As IReadOnlyCollection(Of Char)) As Double()
+    Public Function GetVector(components As IReadOnlyCollection(Of Char), Optional norm As Boolean = False) As Double()
         Dim v As New List(Of Double)
         Dim g As Dictionary(Of Char, Double)
         Dim tuple_graph As String() = DistanceGraph.GetTuples(components).ToArray
@@ -46,14 +46,24 @@ Public Class SequenceGraph : Implements INamedValue
 
         Const eps As Double = 0.00000000000001
 
-        Call v.AddRange(New Vector(tmp) / (tmp.Max + eps))
+        If norm Then
+            Call v.AddRange(New Vector(tmp) / (tmp.Max + eps))
+        Else
+            Call v.AddRange(tmp)
+        End If
+
         Call tmp.Clear()
 
         For Each t As String In CodonBiasVector.PopulateTriples(components)
             Call tmp.Add(triple.TryGetValue(t))
         Next
 
-        Call v.AddRange(New Vector(tmp) / (tmp.Max + eps))
+        If norm Then
+            Call v.AddRange(New Vector(tmp) / (tmp.Max + eps))
+        Else
+            Call v.AddRange(tmp)
+        End If
+
         Call tmp.Clear()
 
         For Each t1 As String In tuple_graph
@@ -64,7 +74,12 @@ Public Class SequenceGraph : Implements INamedValue
             Next
         Next
 
-        Call v.AddRange(New Vector(tmp) / (tmp.Max + eps))
+        If norm Then
+            Call v.AddRange(New Vector(tmp) / (tmp.Max + eps))
+        Else
+            Call v.AddRange(tmp)
+        End If
+
         Call tmp.Clear()
 
         Return v.ToArray
