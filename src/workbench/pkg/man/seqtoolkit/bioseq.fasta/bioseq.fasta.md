@@ -6,6 +6,7 @@ Fasta sequence toolkit
 + [read.seq](bioseq.fasta/read.seq.1) Read a single fasta sequence file
 + [read.fasta](bioseq.fasta/read.fasta.1) read a fasta sequence collection file
 + [open.fasta](bioseq.fasta/open.fasta.1) 
++ [parse.fasta](bioseq.fasta/parse.fasta.1) parse the fasta sequence object from the given text data
 + [write.fasta](bioseq.fasta/write.fasta.1) write a fasta sequence or a collection of fasta sequence object
 + [translate](bioseq.fasta/translate.1) Do translation of the nt sequence to protein sequence
 + [MSA.of](bioseq.fasta/MSA.of.1) Do multiple sequence alignment

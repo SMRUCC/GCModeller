@@ -64,6 +64,15 @@ declare namespace bioseq.fasta {
       */
       function fasta(file: string, env?: object): any;
    }
+   module parse {
+      /**
+       * parse the fasta sequence object from the given text data
+       * 
+       * 
+        * @param x -
+      */
+      function fasta(x: any): object;
+   }
    module read {
       /**
        * read a fasta sequence collection file

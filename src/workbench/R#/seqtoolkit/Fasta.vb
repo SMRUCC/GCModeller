@@ -181,6 +181,19 @@ Module Fasta
     End Function
 
     ''' <summary>
+    ''' parse the fasta sequence object from the given text data
+    ''' </summary>
+    ''' <param name="x"></param>
+    ''' <returns></returns>
+    <ExportAPI("parse.fasta")>
+    <RApiReturn(GetType(FastaSeq))>
+    Public Function parseFasta(x As Object) As Object
+        Dim txt As String = CLRVector.asCharacter(x).JoinBy(vbCrLf)
+        Dim fasta = FastaFile.DocParser(txt.LineTokens).ToArray
+        Return fasta
+    End Function
+
+    ''' <summary>
     ''' write a fasta sequence or a collection of fasta sequence object
     ''' </summary>
     ''' <param name="seq"></param>
