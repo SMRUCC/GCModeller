@@ -1,6 +1,6 @@
 ﻿// export R# package module type define for javascript/typescript language
 //
-//    imports "bioseq.fasta" from "seqtoolkit"
+//    imports "bioseq.fasta" from "seqtoolkit";
 //
 // ref=seqtoolkit.Fasta@seqtoolkit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 

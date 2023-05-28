@@ -1,6 +1,6 @@
 ﻿// export R# package module type define for javascript/typescript language
 //
-//    imports "ptf" from "annotationKit"
+//    imports "ptf" from "annotationKit";
 //
 // ref=annotationKit.PTFCache@annotationKit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 

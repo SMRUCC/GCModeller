@@ -1,6 +1,6 @@
 ﻿// export R# package module type define for javascript/typescript language
 //
-//    imports "BioCyc" from "annotationKit"
+//    imports "BioCyc" from "annotationKit";
 //
 // ref=annotationKit.BioCycRepository@annotationKit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 

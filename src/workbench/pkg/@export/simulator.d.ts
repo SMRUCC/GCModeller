@@ -1,6 +1,6 @@
 ﻿// export R# package module type define for javascript/typescript language
 //
-//    imports "simulator" from "vcellkit"
+//    imports "simulator" from "vcellkit";
 //
 // ref=vcellkit.Simulator@vcellkit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 

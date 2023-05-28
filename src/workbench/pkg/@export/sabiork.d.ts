@@ -1,6 +1,6 @@
 ﻿// export R# package module type define for javascript/typescript language
 //
-//    imports "sabiork" from "vcellkit"
+//    imports "sabiork" from "vcellkit";
 //
 // ref=vcellkit.sabiork_repository@vcellkit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 

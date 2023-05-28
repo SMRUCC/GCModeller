@@ -1,6 +1,6 @@
 ﻿// export R# package module type define for javascript/typescript language
 //
-//    imports "blast+" from "seqtoolkit"
+//    imports "blast+" from "seqtoolkit";
 //
 // ref=seqtoolkit.blastPlusInterop@seqtoolkit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 

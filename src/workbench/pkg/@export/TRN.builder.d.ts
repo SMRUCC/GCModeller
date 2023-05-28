@@ -1,6 +1,6 @@
 ﻿// export R# package module type define for javascript/typescript language
 //
-//    imports "TRN.builder" from "TRNtoolkit"
+//    imports "TRN.builder" from "TRNtoolkit";
 //
 // ref=TRNtoolkit.TRNBuilder@TRNtoolkit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 

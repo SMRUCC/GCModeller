@@ -1,6 +1,6 @@
 ﻿// export R# package module type define for javascript/typescript language
 //
-//    imports "PFSNet" from "phenotype_kit"
+//    imports "PFSNet" from "phenotype_kit";
 //
 // ref=phenotype_kit.PFSNetAnalysis@phenotype_kit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 

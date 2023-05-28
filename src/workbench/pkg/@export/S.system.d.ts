@@ -1,6 +1,6 @@
 ﻿// export R# package module type define for javascript/typescript language
 //
-//    imports "S.system" from "simulators"
+//    imports "S.system" from "simulators";
 //
 // ref=simulators.SSystemKit@simulators, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 

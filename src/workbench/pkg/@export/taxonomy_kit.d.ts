@@ -1,6 +1,6 @@
 ﻿// export R# package module type define for javascript/typescript language
 //
-//    imports "taxonomy_kit" from "metagenomics_kit"
+//    imports "taxonomy_kit" from "metagenomics_kit";
 //
 // ref=metagenomics_kit.TaxonomyKit@metagenomics_kit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 

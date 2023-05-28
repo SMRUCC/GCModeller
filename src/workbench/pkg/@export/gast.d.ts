@@ -1,6 +1,6 @@
 ﻿// export R# package module type define for javascript/typescript language
 //
-//    imports "gast" from "metagenomics_kit"
+//    imports "gast" from "metagenomics_kit";
 //
 // ref=metagenomics_kit.gastTools@metagenomics_kit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 

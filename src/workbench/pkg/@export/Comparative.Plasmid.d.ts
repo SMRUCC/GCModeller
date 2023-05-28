@@ -1,6 +1,6 @@
 ﻿// export R# package module type define for javascript/typescript language
 //
-//    imports "Comparative.Plasmid" from "seqtoolkit"
+//    imports "Comparative.Plasmid" from "seqtoolkit";
 //
 // ref=seqtoolkit.PlasmidComparative@seqtoolkit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 

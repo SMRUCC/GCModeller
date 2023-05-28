@@ -1,6 +1,6 @@
 ﻿// export R# package module type define for javascript/typescript language
 //
-//    imports "background" from "gseakit"
+//    imports "background" from "gseakit";
 //
 // ref=gseakit.GSEABackground@gseakit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 
