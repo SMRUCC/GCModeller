@@ -49,6 +49,11 @@ Namespace Regprecise
             End If
         End Function
 
+        ''' <summary>
+        ''' Parse the motif site fasta data
+        ''' </summary>
+        ''' <param name="data"></param>
+        ''' <returns></returns>
         <Extension>
         Public Iterator Function ParseMotifSites(data As IEnumerable(Of String)) As IEnumerable(Of Regulator)
             Dim type As String = Nothing

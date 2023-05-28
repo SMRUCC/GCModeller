@@ -85,6 +85,10 @@ declare namespace bioseq.fasta {
       function seq(file: string, env?: object): object;
    }
    /**
+    * get the sequence length
+    * 
+    * 
+     * @param fa -
    */
    function size(fa: object): object;
    /**

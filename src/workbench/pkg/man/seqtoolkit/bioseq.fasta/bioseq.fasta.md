@@ -2,7 +2,7 @@
 
 Fasta sequence toolkit
 
-+ [size](bioseq.fasta/size.1) 
++ [size](bioseq.fasta/size.1) get the sequence length
 + [read.seq](bioseq.fasta/read.seq.1) Read a single fasta sequence file
 + [read.fasta](bioseq.fasta/read.fasta.1) read a fasta sequence collection file
 + [open.fasta](bioseq.fasta/open.fasta.1) 

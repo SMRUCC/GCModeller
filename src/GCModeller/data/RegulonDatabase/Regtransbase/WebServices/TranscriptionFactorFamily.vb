@@ -467,30 +467,30 @@ Namespace Regtransbase.WebServices
             Return String.Format(">{0} : {1}", locus_tag, SequenceData)
         End Function
 
-        Const REAL As String = "-?\d+(\.\d+)?"
+        Protected Friend Shared Function [New](fa As FastaSeq) As MotifFasta
+            Dim title As String = fa.Title
+            Dim motif_site As New MotifFasta
+            Dim score As String = Regex.Match(title, "Score=" & SimpleNumberPattern, RegexOptions.IgnoreCase).Value
+            Dim position As String = Regex.Match(title, "Pos=" & SimpleNumberPattern, RegexOptions.IgnoreCase).Value
+            Dim bacateria As String = Regex.Match(title, "\[.+\]").Value
 
-        Protected Friend Shared Function [New](DownloadedFastaObject As FastaSeq) As MotifFasta
-            Dim Title As String = DownloadedFastaObject.Title
-            Dim FastaObject As MotifFasta = New MotifFasta
-            Dim Score As String = Regex.Match(Title, "Score=" & REAL, RegexOptions.IgnoreCase).Value
-            Dim Position As String = Regex.Match(Title, "Pos=" & REAL, RegexOptions.IgnoreCase).Value
-            Dim Bacateria As String = Regex.Match(Title, "\[.+\]").Value
+            motif_site.SequenceData = fa.SequenceData
+            motif_site.bacteria = bacateria
+            motif_site.bacteria = Mid(motif_site.bacteria, 2, Len(motif_site.bacteria) - 2).Replace("|"c, " "c).Trim(" "c)
+            motif_site.position = Val(position.Split(CChar("=")).Last)
+            motif_site.score = Val(score.Split(CChar("=")).Last)
 
-            FastaObject.SequenceData = DownloadedFastaObject.SequenceData
-            FastaObject.bacteria = Bacateria
-            FastaObject.bacteria = Mid(FastaObject.bacteria, 2, Len(FastaObject.bacteria) - 2).Replace("|"c, " "c).Trim(" "c)
-            FastaObject.position = Val(Position.Split(CChar("=")).Last)
-            FastaObject.score = Val(Score.Split(CChar("=")).Last)
+            Dim locus_tag As String = title.Replace(score, "").Replace(position, "").Replace(bacateria, "").Trim
+            motif_site.name = Regex.Match(locus_tag, "\(.+?\)").Value
+            motif_site.name = If(Not String.IsNullOrEmpty(motif_site.name), Mid(motif_site.name, 2, Len(motif_site.name) - 2).Trim, "")
+            locus_tag = Regex.Replace(locus_tag, "\(.+?\)", "")
+            locus_tag = locus_tag.Replace(")", "")
+            motif_site.locus_tag = locus_tag.Replace(">", "").Trim(" "c, "|"c)
 
-            Dim LocusTag As String = Title.Replace(Score, "").Replace(Position, "").Replace(Bacateria, "").Trim
-            FastaObject.name = Regex.Match(LocusTag, "\(.+?\)").Value
-            FastaObject.name = If(Not String.IsNullOrEmpty(FastaObject.name), Mid(FastaObject.name, 2, Len(FastaObject.name) - 2).Trim, "")
-            LocusTag = Regex.Replace(LocusTag, "\(.+?\)", "")
-            FastaObject.locus_tag = LocusTag.Replace(">", "").Trim(" "c, "|"c)
-
-            Return FastaObject
+            Return motif_site
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Private Function GetSequenceData() As String Implements ISequenceProvider.GetSequenceData
             Return SequenceData
         End Function
