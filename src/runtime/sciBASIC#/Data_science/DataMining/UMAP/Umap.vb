@@ -390,7 +390,7 @@ Public NotInheritable Class Umap : Inherits IDataEmbedding
         ' 2019-06-21 DWR: If we need to support other spread, minDist values then we might 
         ' be able to use the LM implementation in Accord.NET but I'll hard code values that 
         ' relate to the default configuration for now
-        If spread <> 1 OrElse minDist <> 0.1F Then
+        If spread <> 1.0 OrElse minDist <> 0.1F Then
             Throw New ArgumentException($"Currently, the {NameOf(FindABParams)} method only supports spread, minDist values of 1, 0.1 (the Levenberg-Marquardt algorithm is required to process other values")
         End If
 
