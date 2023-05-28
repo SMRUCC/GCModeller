@@ -150,6 +150,11 @@ Public NotInheritable Class Umap : Inherits IDataEmbedding
                    Optional customNumberOfEpochs As Integer? = Nothing,
                    Optional customMapCutoff As Double? = Nothing,
                    Optional kdTreeKNNEngine As Boolean = False,
+                   Optional setOpMixRatio As Double = 1,
+                   Optional minDist As Double = 0.1F,
+                   Optional spread As Double = 1,
+                   Optional learningRate As Double = 1.0F,
+                   Optional repulsionStrength As Double = 1,
                    Optional progressReporter As RunSlavePipeline.SetProgressEventHandler = Nothing)
 
         If customNumberOfEpochs IsNot Nothing AndAlso customNumberOfEpochs <= 0 Then
@@ -158,6 +163,11 @@ Public NotInheritable Class Umap : Inherits IDataEmbedding
             KNNArguments = New KNNArguments(numberOfNeighbors, localConnectivity, KnnIter, bandwidth)
         End If
 
+        _setOpMixRatio = setOpMixRatio
+        _minDist = minDist
+        _spread = spread
+        _repulsionStrength = repulsionStrength
+        _learningRate = learningRate
         _kdTreeKNNEngine = kdTreeKNNEngine
         _customMapCutoff = customMapCutoff
         _distanceFn = If(distance, AddressOf DistanceFunctions.Cosine)
