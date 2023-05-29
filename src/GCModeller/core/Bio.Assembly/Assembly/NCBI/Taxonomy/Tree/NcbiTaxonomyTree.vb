@@ -1,61 +1,61 @@
 ﻿#Region "Microsoft.VisualBasic::3c4804628d8311da2307c2e3b39f15f8, GCModeller\core\Bio.Assembly\Assembly\NCBI\Taxonomy\Tree\NcbiTaxonomyTree.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 656
-    '    Code Lines: 302
-    ' Comment Lines: 269
-    '   Blank Lines: 85
-    '     File Size: 27.47 KB
+' Summaries:
 
 
-    '     Class NcbiTaxonomyTree
-    ' 
-    '         Properties: Taxonomy
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    ' 
-    '         Function: __ascendantsWithRanksAndNames, __descendants, __preorderTraversal, __preorderTraversalOnlyLeaves, flatten
-    '                   (+2 Overloads) GetAscendantsWithRanksAndNames, GetChildren, GetDescendants, GetDescendantsWithRanksAndNames, GetLeaves
-    '                   GetLeavesWithRanksAndNames, GetName, GetParent, GetRank, GetTaxidsAtRank
-    '                   preorderTraversal
-    ' 
-    '         Sub: loadTree
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 656
+'    Code Lines: 302
+' Comment Lines: 269
+'   Blank Lines: 85
+'     File Size: 27.47 KB
+
+
+'     Class NcbiTaxonomyTree
+' 
+'         Properties: Taxonomy
+' 
+'         Constructor: (+2 Overloads) Sub New
+' 
+'         Function: __ascendantsWithRanksAndNames, __descendants, __preorderTraversal, __preorderTraversalOnlyLeaves, flatten
+'                   (+2 Overloads) GetAscendantsWithRanksAndNames, GetChildren, GetDescendants, GetDescendantsWithRanksAndNames, GetLeaves
+'                   GetLeavesWithRanksAndNames, GetName, GetParent, GetRank, GetTaxidsAtRank
+'                   preorderTraversal
+' 
+'         Sub: loadTree
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -255,13 +255,15 @@ Namespace Assembly.NCBI.Taxonomy
                 If taxonomy.ContainsKey(parent_taxid) Then
                     taxonomy(parent_taxid).children.Add(taxid)
                 Else
+                    ' create a new parent node
                     taxonomy(parent_taxid) = New TaxonomyNode With {
                         .name = taxid2name(parent_taxid),
                         .rank = Nothing,
                         .parent = Nothing,
                         .children = New List(Of Integer) From {
                             taxid
-                        }
+                        },
+                        .taxid = parent_taxid
                     }
                     Call taxid2name.Remove(parent_taxid)
                 End If
@@ -425,7 +427,7 @@ Namespace Assembly.NCBI.Taxonomy
 
             If only_std_ranks Then
                 Dim std_lineage = LinqAPI.MakeList(Of TaxonomyNode) _
- _
+                                                                    _
                     () <= From lvl As TaxonomyNode
                           In lineage
                           Where lvl.rank Like stdranks
@@ -455,7 +457,7 @@ Namespace Assembly.NCBI.Taxonomy
             If Not children.IsNullOrEmpty Then
 
                 result = LinqAPI.MakeList(Of Integer) _
- _
+                                                      _
                     () <= From child As Integer
                           In children
                           Select __descendants(child)
@@ -517,7 +519,7 @@ Namespace Assembly.NCBI.Taxonomy
 
             For Each taxid In taxids
                 result(taxid) = LinqAPI.Exec(Of TaxonomyNode) <=
- _
+                                                                _
                     From descendant As Integer
                     In __descendants(taxid)
                     Select New TaxonomyNode With {
@@ -555,7 +557,7 @@ Namespace Assembly.NCBI.Taxonomy
             End If
 
             Dim out = LinqAPI.Exec(Of Integer) _
- _
+                                               _
                 () <= From child As Integer
                       In children'.AsParallel
                       Select GetLeaves(child) ' Else taxid
@@ -580,7 +582,7 @@ Namespace Assembly.NCBI.Taxonomy
             '"""
             '   Node = namedtuple('Node', ['taxid', 'rank', 'name'])                            
             Dim result As TaxonomyNode() = LinqAPI.Exec(Of TaxonomyNode) <=
- _
+                                                                           _
                 From leaf As Integer
                 In GetLeaves(taxid)
                 Select New TaxonomyNode With {
@@ -653,7 +655,7 @@ Namespace Assembly.NCBI.Taxonomy
 
             If children IsNot Nothing Then
                 result = LinqAPI.Exec(Of Integer) _
- _
+                                                  _
                     () <= From child As Integer
                           In children
                           Select __preorderTraversal(child) ', taxid )
@@ -674,7 +676,7 @@ Namespace Assembly.NCBI.Taxonomy
             End If
 
             Dim result%() = LinqAPI.Exec(Of Integer) _
- _
+                                                     _
                 () <= From child As Integer
                       In children
                       Select __preorderTraversalOnlyLeaves(child) 'for] if children else taxid
