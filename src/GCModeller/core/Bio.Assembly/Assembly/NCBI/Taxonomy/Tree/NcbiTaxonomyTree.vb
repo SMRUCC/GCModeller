@@ -615,14 +615,14 @@ Namespace Assembly.NCBI.Taxonomy
             '    [2, 2157, 2759, 10239, 12884]
             '""" 
             Dim LQuery = LinqAPI.Exec(Of MapNode) _
- _
+                                                  _
                 () <= From node As MapNode
-                      In Taxonomy
+                      In Taxonomy.AsParallel
                       Where node.Value.rank = rank
                       Select node
 
-            Dim out = LQuery.Select(Function(x) x.Key).ToArray
-            Return out
+            Dim taxid = LQuery.Select(Function(x) x.Key).ToArray
+            Return taxid
         End Function
 
         ''' <summary>
