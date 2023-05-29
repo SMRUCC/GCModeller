@@ -81,7 +81,7 @@ Namespace Assembly.NCBI.Taxonomy
         ''' </summary>
         ''' <returns></returns>
         Public Property parent As String
-        Public Property children As List(Of Integer)
+        Public Property children As List(Of String)
 
         ''' <summary>
         ''' get size of list <see cref="children"/>

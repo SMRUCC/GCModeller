@@ -109,7 +109,7 @@ Module TaxonomyKit
         Dim taxonomy = tree.Taxonomy.Keys _
             .Select(Function(id)
                         Return tree _
-                            .GetAscendantsWithRanksAndNames(id, True) _
+                            .GetAscendantsWithRanksAndNames(Integer.Parse(id), True) _
                             .DoCall(Function(line)
                                         Return New Taxonomy(line) With {
                                             .ncbi_taxid = id
