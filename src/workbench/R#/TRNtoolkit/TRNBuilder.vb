@@ -60,10 +60,10 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 <Package("TRN.builder")>
 Module TRNBuilder
 
-    <ExportAPI("as.promoter.models")>
-    Public Function ParsePromoterReport(text As String) As GeneReport()
-        Return ReportParser.ParseReport(text).ToArray
-    End Function
+    '<ExportAPI("as.promoter.models")>
+    'Public Function ParsePromoterReport(text As String) As GeneReport()
+    '    Return ReportParser.ParseReport(text).ToArray
+    'End Function
 
     ''' <summary>
     ''' read a footprint site model data file
@@ -115,48 +115,48 @@ Module TRNBuilder
         End If
     End Function
 
-    <ExportAPI("regulations")>
-    <RApiReturn(GetType(RegulationFootprint))>
-    Public Function RegulationFootprints(regDb As RegPreciseScan,
-                                         <RRawVectorArgument> factors As Object,
-                                         <RRawVectorArgument> tfbs As Object,
-                                         seqs As list,
-                                         Optional env As Environment = Nothing) As Object
+    '<ExportAPI("regulations")>
+    '<RApiReturn(GetType(RegulationFootprint))>
+    'Public Function RegulationFootprints(regDb As RegPreciseScan,
+    '                                     <RRawVectorArgument> factors As Object,
+    '                                     <RRawVectorArgument> tfbs As Object,
+    '                                     seqs As list,
+    '                                     Optional env As Environment = Nothing) As Object
 
-        Dim TF As pipeline = pipeline.TryCreatePipeline(Of RegpreciseBBH)(factors, env)
-        Dim TFBSlist As pipeline = pipeline.TryCreatePipeline(Of MotifMatch)(tfbs, env)
-        Dim seqList As Dictionary(Of String, String) = seqs.AsGeneric(Of String)(env)
+    '    Dim TF As pipeline = pipeline.TryCreatePipeline(Of RegpreciseBBH)(factors, env)
+    '    Dim TFBSlist As pipeline = pipeline.TryCreatePipeline(Of MotifMatch)(tfbs, env)
+    '    Dim seqList As Dictionary(Of String, String) = seqs.AsGeneric(Of String)(env)
 
-        If TF.isError Then
-            Return TF.getError
-        ElseIf TFBSlist.isError Then
-            Return TFBSlist.getError
-        End If
+    '    If TF.isError Then
+    '        Return TF.getError
+    '    ElseIf TFBSlist.isError Then
+    '        Return TFBSlist.getError
+    '    End If
 
-        Return regDb.CreateFootprints(
-            regulators:=TF.populates(Of RegpreciseBBH)(env),
-            tfbs:=TFBSlist.populates(Of MotifMatch)(env)
-        ) _
-            .Select(Function(r)
-                        r.distance = -(seqList(r.regulated).Length - seqList(r.regulated).IndexOf(r.sequenceData)) + 1
-                        Return r
-                    End Function) _
-            .Where(Function(r) r.distance <> -seqList(r.regulated).Length) _
-            .ToArray
-    End Function
+    '    Return regDb.CreateFootprints(
+    '        regulators:=TF.populates(Of RegpreciseBBH)(env),
+    '        tfbs:=TFBSlist.populates(Of MotifMatch)(env)
+    '    ) _
+    '        .Select(Function(r)
+    '                    r.distance = -(seqList(r.regulated).Length - seqList(r.regulated).IndexOf(r.sequenceData)) + 1
+    '                    Return r
+    '                End Function) _
+    '        .Where(Function(r) r.distance <> -seqList(r.regulated).Length) _
+    '        .ToArray
+    'End Function
 
-    <ExportAPI("TRN")>
-    Public Function TRN(<RRawVectorArgument> footprints As Object, Optional env As Environment = Nothing) As Object
-        Dim network As pipeline = pipeline.TryCreatePipeline(Of RegulationFootprint)(footprints, env)
+    '<ExportAPI("TRN")>
+    'Public Function TRN(<RRawVectorArgument> footprints As Object, Optional env As Environment = Nothing) As Object
+    '    Dim network As pipeline = pipeline.TryCreatePipeline(Of RegulationFootprint)(footprints, env)
 
-        If network.isError Then
-            Return network.getError
-        Else
-            Return network _
-                .populates(Of RegulationFootprint)(env) _
-                .RegulationFootprintTRN
-        End If
-    End Function
+    '    If network.isError Then
+    '        Return network.getError
+    '    Else
+    '        Return network _
+    '            .populates(Of RegulationFootprint)(env) _
+    '            .RegulationFootprintTRN
+    '    End If
+    'End Function
 
     <ExportAPI("regulation.footprint")>
     Public Function RegulationFootprint(<RRawVectorArgument>

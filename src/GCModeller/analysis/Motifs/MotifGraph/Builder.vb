@@ -8,20 +8,20 @@ Public Module Builder
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function DNAGraph(seq As FastaSeq) As SequenceGraph
-        Return SequenceGraph(seq.SequenceData, SequenceModel.NT)
+        Return SequenceGraph(seq.SequenceData, SequenceModel.NT, id:=seq.Title)
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function RNAGraph(seq As FastaSeq) As SequenceGraph
-        Return SequenceGraph(seq.SequenceData, SequenceModel.RNA)
+        Return SequenceGraph(seq.SequenceData, SequenceModel.RNA, id:=seq.Title)
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function PolypeptideGraph(seq As FastaSeq) As SequenceGraph
-        Return SequenceGraph(seq.SequenceData, SequenceModel.AA)
+        Return SequenceGraph(seq.SequenceData, SequenceModel.AA, id:=seq.Title)
     End Function
 
-    Public Function SequenceGraph(seq As String, components As IReadOnlyCollection(Of Char)) As SequenceGraph
+    Public Function SequenceGraph(seq As String, components As IReadOnlyCollection(Of Char), Optional id As String = "unknown") As SequenceGraph
         Dim c As New Vector(integers:=ISequenceModel.GetCompositionVector(seq, components))
         Dim cv As New Dictionary(Of Char, Double)
         Dim i As Integer = Scan0
@@ -32,7 +32,7 @@ Public Module Builder
 
         c = c / nsize
 
-        For Each ci As Char In components
+        For Each ci As Char In components.OrderBy(Function(a) a)
             cv.Add(ci, c(i))
             i += 1
         Next
@@ -41,7 +41,7 @@ Public Module Builder
             Dim gi As New Dictionary(Of Char, Double)
 
             For Each cj As Char In components
-                gi.Add(cj, seq.Count(New String({ci, cj})) / (nsize / 2))
+                Call gi.Add(cj, seq.Count(New String({ci, cj})) / (nsize / 2))
             Next
 
             Call g.Add(ci, gi)
@@ -55,7 +55,8 @@ Public Module Builder
             .composition = cv,
             .graph = g,
             .triple = triples,
-            .tuple_distance = distance
+            .tuple_distance = distance,
+            .id = id
         }
     End Function
 End Module

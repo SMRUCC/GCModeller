@@ -120,7 +120,10 @@ Namespace SequenceModel
         ''' This always should be the constant string of <see cref="TypeExtensions.AA_CHARS_ALL">amino acid
         ''' </see>
         ''' or <see cref="TypeExtensions.NA_CHARS_ALL">nucleotide</see>.</param>
-        ''' <returns></returns>
+        ''' <returns>
+        ''' the generated vector size is always equals to the char set in the <paramref name="compositions"/>
+        ''' missing value from the input char set will be set to ZERO.
+        ''' </returns>
         ''' <remarks></remarks>
         Public Shared Function GetCompositionVector(seq As String, compositions As IReadOnlyCollection(Of Char)) As Integer()
             Dim nsize As Integer = compositions.Count

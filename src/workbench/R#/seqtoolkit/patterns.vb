@@ -55,6 +55,7 @@
 Imports System.IO
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Imaging.Driver
@@ -63,6 +64,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.GibbsSampling
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics
 Imports SMRUCC.genomics.Analysis.SequenceTools
 Imports SMRUCC.genomics.Analysis.SequenceTools.MSA
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
@@ -88,14 +90,35 @@ Imports REnv = SMRUCC.Rsharp.Runtime
 <Package("bioseq.patterns", Category:=APICategories.ResearchTools)>
 Module patterns
 
-    Sub New()
+    Friend Sub Main()
         Call REnv.Internal.ConsolePrinter.AttachConsoleFormatter(Of PalindromeLoci)(AddressOf PalindromeToString)
         Call REnv.Internal.Object.Converts.makeDataframe.addHandler(GetType(MotifMatch()), AddressOf matchTableOutput)
         Call REnv.Internal.generic.add("plot", GetType(SequenceMotif), AddressOf plotMotif)
         Call REnv.Internal.generic.add("plot", GetType(MSAOutput), AddressOf plotMotif)
         Call REnv.Internal.ConsolePrinter.AttachConsoleFormatter(Of SequenceMotif)(Function(m) DirectCast(m, SequenceMotif).patternString)
         Call REnv.Internal.Object.Converts.makeDataframe.addHandler(GetType(Score()), AddressOf gibbs_table)
+        Call REnv.Internal.Object.Converts.makeDataframe.addHandler(GetType(SequenceGraph()), AddressOf seqgraph_df)
     End Sub
+
+    Private Function seqgraph_df(graphs As SequenceGraph(), args As list, env As Environment) As dataframe
+        Dim type As String = args.getValue({"seq_type", "type", "mol_type"}, env, [default]:="DNA")
+        Dim norm As Boolean = args.getValue({"norm"}, env, [default]:=False)
+        Dim charset As Char() = SequenceModel.GetVector(SequenceModel.ParseSeqType(type)).ToArray
+        Dim matrix = graphs.Select(Function(si) si.GetVector(charset, norm)).ToArray
+        Dim df As New dataframe With {
+            .rownames = graphs.Keys.ToArray,
+            .columns = New Dictionary(Of String, Array)
+        }
+        Dim size As Integer = matrix(0).Length
+
+        For i As Integer = 0 To size - 1
+#Disable Warning
+            Call df.add($"v{i + 1}", matrix.Select(Function(a) a(i)))
+#Enable Warning
+        Next
+
+        Return df
+    End Function
 
     Private Function gibbs_table(score As Score(), args As list, env As Environment) As dataframe
         Dim df As New dataframe With {.columns = New Dictionary(Of String, Array)}

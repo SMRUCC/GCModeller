@@ -1,5 +1,7 @@
 ﻿// export R# package module type define for javascript/typescript language
 //
+//    imports "bioseq.fasta" from "seqtoolkit";
+//
 // ref=seqtoolkit.Fasta@seqtoolkit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 
 /**
@@ -64,6 +66,15 @@ declare namespace bioseq.fasta {
       */
       function fasta(file: string, env?: object): any;
    }
+   module parse {
+      /**
+       * parse the fasta sequence object from the given text data
+       * 
+       * 
+        * @param x -
+      */
+      function fasta(x: any): object;
+   }
    module read {
       /**
        * read a fasta sequence collection file
@@ -85,6 +96,10 @@ declare namespace bioseq.fasta {
       function seq(file: string, env?: object): object;
    }
    /**
+    * get the sequence length
+    * 
+    * 
+     * @param fa -
    */
    function size(fa: object): object;
    /**

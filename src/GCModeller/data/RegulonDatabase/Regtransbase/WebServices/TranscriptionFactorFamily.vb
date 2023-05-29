@@ -1,93 +1,93 @@
 ﻿#Region "Microsoft.VisualBasic::7da01c226992a03ed326d3507e356030, GCModeller\data\RegulonDatabase\Regtransbase\WebServices\TranscriptionFactorFamily.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 405
-    '    Code Lines: 298
-    ' Comment Lines: 28
-    '   Blank Lines: 79
-    '     File Size: 19.40 KB
+' Summaries:
 
 
-    '     Class RegPreciseTFFamily
-    ' 
-    '         Properties: Family
-    ' 
-    '         Function: Download, Export, FindAtRegulog, ToString
-    ' 
-    '         Sub: Export
-    ' 
-    '     Class TranscriptionFactorFamily
-    ' 
-    '         Properties: Family, Genomes, Regulogs, TFBindingSites, TFRegulons
-    '                     Url
-    ' 
-    '         Function: Parse, ToString
-    ' 
-    '     Class Regulogs
-    ' 
-    '         Properties: Counts, Description, Logs
-    ' 
-    '         Function: Export, GetDescription, GetUniqueIds, TrimText
-    ' 
-    '         Sub: Parse
-    '         Class Item
-    ' 
-    '             Properties: Phylum, Regulog, TFBSs, TFRegulons
-    ' 
-    '             Function: Parse, ParseLog, ToString
-    ' 
-    ' 
-    ' 
-    '     Class Regulator
-    ' 
-    '         Properties: BiologicalProcess, Effector, Family, RegulationMode, Regulog
-    '                     TFBSs
-    ' 
-    '         Function: [Select], ExportMotifs, GetUniqueId, GetValue, Parse
-    '                   ParseLog, (+2 Overloads) SequenceTrimming
-    ' 
-    '     Class MotifFasta
-    ' 
-    '         Properties: bacteria, Headers, locus_tag, name, position
-    '                     score, SequenceData, Title, UniqueId
-    ' 
-    '         Function: [New], GetSequenceData, Parse, ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 405
+'    Code Lines: 298
+' Comment Lines: 28
+'   Blank Lines: 79
+'     File Size: 19.40 KB
+
+
+'     Class RegPreciseTFFamily
+' 
+'         Properties: Family
+' 
+'         Function: Download, Export, FindAtRegulog, ToString
+' 
+'         Sub: Export
+' 
+'     Class TranscriptionFactorFamily
+' 
+'         Properties: Family, Genomes, Regulogs, TFBindingSites, TFRegulons
+'                     Url
+' 
+'         Function: Parse, ToString
+' 
+'     Class Regulogs
+' 
+'         Properties: Counts, Description, Logs
+' 
+'         Function: Export, GetDescription, GetUniqueIds, TrimText
+' 
+'         Sub: Parse
+'         Class Item
+' 
+'             Properties: Phylum, Regulog, TFBSs, TFRegulons
+' 
+'             Function: Parse, ParseLog, ToString
+' 
+' 
+' 
+'     Class Regulator
+' 
+'         Properties: BiologicalProcess, Effector, Family, RegulationMode, Regulog
+'                     TFBSs
+' 
+'         Function: [Select], ExportMotifs, GetUniqueId, GetValue, Parse
+'                   ParseLog, (+2 Overloads) SequenceTrimming
+' 
+'     Class MotifFasta
+' 
+'         Properties: bacteria, Headers, locus_tag, name, position
+'                     score, SequenceData, Title, UniqueId
+' 
+'         Function: [New], GetSequenceData, Parse, ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -443,7 +443,7 @@ Namespace Regtransbase.WebServices
         End Property
 
         <XmlIgnore>
-        Public ReadOnly Property Title As String Implements IFastaProvider.Title
+        Public ReadOnly Property Title As String Implements IFastaProvider.title
             Get
                 Return $"{UniqueId} {bacteria}"
             End Get
@@ -467,30 +467,35 @@ Namespace Regtransbase.WebServices
             Return String.Format(">{0} : {1}", locus_tag, SequenceData)
         End Function
 
-        Const REAL As String = "-?\d+(\.\d+)?"
+        Protected Friend Shared Function [New](fa As FastaSeq) As MotifFasta
+            Dim title As String = fa.Title
+            Dim motif_site As New MotifFasta
+            Dim score As String = Regex.Match(title, "Score=" & SimpleNumberPattern, RegexOptions.IgnoreCase).Value
+            Dim position As String = Regex.Match(title, "Pos=" & SimpleNumberPattern, RegexOptions.IgnoreCase).Value
+            Dim bacateria As String = Regex.Match(title, "\[.+\]").Value
 
-        Protected Friend Shared Function [New](DownloadedFastaObject As FastaSeq) As MotifFasta
-            Dim Title As String = DownloadedFastaObject.Title
-            Dim FastaObject As MotifFasta = New MotifFasta
-            Dim Score As String = Regex.Match(Title, "Score=" & REAL, RegexOptions.IgnoreCase).Value
-            Dim Position As String = Regex.Match(Title, "Pos=" & REAL, RegexOptions.IgnoreCase).Value
-            Dim Bacateria As String = Regex.Match(Title, "\[.+\]").Value
+            motif_site.SequenceData = fa.SequenceData
+            motif_site.bacteria = bacateria
+            motif_site.bacteria = Mid(motif_site.bacteria, 2, Len(motif_site.bacteria) - 2).Replace("|"c, " "c).Trim(" "c)
+            motif_site.position = Val(position.Split(CChar("=")).Last)
+            motif_site.score = Val(score.Split(CChar("=")).Last)
 
-            FastaObject.SequenceData = DownloadedFastaObject.SequenceData
-            FastaObject.bacteria = Bacateria
-            FastaObject.bacteria = Mid(FastaObject.bacteria, 2, Len(FastaObject.bacteria) - 2)
-            FastaObject.position = Val(Position.Split(CChar("=")).Last)
-            FastaObject.score = Val(Score.Split(CChar("=")).Last)
+            Dim locus_tag As String = title.Replace(score, "").Replace(position, "").Replace(bacateria, "").Trim
+            motif_site.name = Regex.Match(locus_tag, "\(.+?\)").Value
+            motif_site.name = If(Not String.IsNullOrEmpty(motif_site.name), Mid(motif_site.name, 2, Len(motif_site.name) - 2).Trim, "")
 
-            Dim LocusTag As String = Title.Replace(Score, "").Replace(Position, "").Replace(Bacateria, "").Trim
-            FastaObject.name = Regex.Match(LocusTag, "\(.+?\)").Value
-            FastaObject.name = If(Not String.IsNullOrEmpty(FastaObject.name), Mid(FastaObject.name, 2, Len(FastaObject.name) - 2).Trim, "")
-            LocusTag = Regex.Replace(LocusTag, "\(.+?\)", "")
-            FastaObject.locus_tag = LocusTag.Replace(">", "").Trim
+            If InStr(motif_site.name, "(") > 0 Then
+                motif_site.name = motif_site.name & ")"
+            End If
 
-            Return FastaObject
+            locus_tag = Regex.Replace(locus_tag, "\(.+?\)", "")
+            locus_tag = locus_tag.Replace(")", "")
+            motif_site.locus_tag = locus_tag.Replace(">", "").Trim(" "c, "|"c)
+
+            Return motif_site
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Private Function GetSequenceData() As String Implements ISequenceProvider.GetSequenceData
             Return SequenceData
         End Function

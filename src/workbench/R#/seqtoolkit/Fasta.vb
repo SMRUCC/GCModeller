@@ -123,6 +123,11 @@ Module Fasta
         End Select
     End Function
 
+    ''' <summary>
+    ''' get the sequence length
+    ''' </summary>
+    ''' <param name="fa"></param>
+    ''' <returns></returns>
     <ExportAPI("size")>
     Public Function sizeof(fa As FastaSeq) As Integer
         If fa Is Nothing Then
@@ -173,6 +178,19 @@ Module Fasta
     <ExportAPI("open.fasta")>
     Public Function openFasta(file As String, Optional env As Environment = Nothing)
         Return StreamIterator.SeqSource(file).DoCall(AddressOf pipeline.CreateFromPopulator)
+    End Function
+
+    ''' <summary>
+    ''' parse the fasta sequence object from the given text data
+    ''' </summary>
+    ''' <param name="x"></param>
+    ''' <returns></returns>
+    <ExportAPI("parse.fasta")>
+    <RApiReturn(GetType(FastaSeq))>
+    Public Function parseFasta(x As Object) As Object
+        Dim txt As String = CLRVector.asCharacter(x).JoinBy(vbCrLf)
+        Dim fasta = FastaFile.DocParser(txt.LineTokens).ToArray
+        Return fasta
     End Function
 
     ''' <summary>

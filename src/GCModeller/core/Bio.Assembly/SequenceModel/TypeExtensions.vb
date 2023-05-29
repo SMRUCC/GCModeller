@@ -99,6 +99,25 @@ Namespace SequenceModel
         Public Const NA_CHARS_ALL As String = "ATGCU"
 #End Region
 
+        ReadOnly type_parser As New Dictionary(Of String, SeqTypes)
+
+        Sub New()
+            For Each type As SeqTypes In Enums(Of SeqTypes)()
+                type_parser(type.ToString) = type
+                type_parser(type.ToString.ToLower) = type
+                type_parser(type.Description) = type
+                type_parser(CInt(type).ToString) = type
+            Next
+        End Sub
+
+        Public Function ParseSeqType(desc As String, Optional [default] As SeqTypes = SeqTypes.Generic) As SeqTypes
+            If type_parser.ContainsKey(desc) Then
+                Return type_parser(desc)
+            Else
+                Return [default]
+            End If
+        End Function
+
         ''' <summary>
         ''' Get composition vector by sequence type flag
         ''' </summary>
