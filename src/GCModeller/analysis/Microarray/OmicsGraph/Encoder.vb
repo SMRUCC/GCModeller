@@ -64,6 +64,7 @@ Public Module Encoder
         Return encodes
     End Function
 
+    <Extension>
     Public Iterator Function AsSequenceSet(mat As Matrix, encodes As Dictionary(Of String, Char)) As IEnumerable(Of FastaSeq)
         Dim features = mat.rownames
 
