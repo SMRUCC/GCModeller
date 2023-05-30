@@ -21,7 +21,7 @@ let manifold = umap(view, dimension = 3);
 let map = as.data.frame(manifold$umap, labels = manifold$labels, dimension = ["x","y","z"]);
 
 let labels = rownames(map);
-let groups = guess.sample_groups(labels);
+let groups = guess.sample_groups(labels, maxDepth = TRUE);
 
 map[, "class"] = as.character(sapply(labels, function(lb) {
     for(group_id in names(groups)) {
