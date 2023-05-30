@@ -4,7 +4,7 @@ package_utils::attach(`${@dir}/../../`);
 
 options(http.cache_dir = @dir);
 
-tax = taxonomy_search("Leuconostoc mesenteroides subsp. mesenteroides ATCC 8293");
+tax = taxonomy_search("Magnetospirillum magneticum AMB-1");
 
 str(tax);
 
