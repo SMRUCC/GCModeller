@@ -1,13 +1,10 @@
 ﻿// export R# package module type define for javascript/typescript language
 //
+//    imports "upsetPlot" from "visualkit";
+//
 // ref=visualkit.upsetPlot@visualkit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 
 /**
- * UpSet plot provides an efficient way to 
- *  visualize intersections of multiple sets 
- *  compared to the traditional approaches, 
- *  i.e. the Venn Diagram.
- * 
 */
 declare namespace upsetPlot {
    module as {

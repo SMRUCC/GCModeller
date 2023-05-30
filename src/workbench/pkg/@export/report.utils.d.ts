@@ -1,5 +1,7 @@
 ﻿// export R# package module type define for javascript/typescript language
 //
+//    imports "report.utils" from "kegg_kit";
+//
 // ref=kegg_kit.report@kegg_kit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 
 /**

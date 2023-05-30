@@ -1,5 +1,7 @@
 ﻿// export R# package module type define for javascript/typescript language
 //
+//    imports "xgmml" from "cytoscape_toolkit";
+//
 // ref=cytoscape_toolkit.xgmmlToolkit@cytoscape_toolkit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 
 /**
