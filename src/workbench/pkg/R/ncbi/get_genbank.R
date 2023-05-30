@@ -42,5 +42,5 @@ const reference_genome = function(ncbi_taxid) {
     const url  = sprintf(fetch_reference_genome, ncbi_taxid);
     const list = REnv::getJSON(url, interval = 0);
 
-    return(list);
+    return(list$assemblies);
 }
