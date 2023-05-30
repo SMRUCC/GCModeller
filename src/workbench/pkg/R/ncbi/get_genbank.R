@@ -12,5 +12,21 @@ const fetch_genbank = function(accession_id, annotations = genbank_annotation_fl
     wget(url, save = temp);
     unzip(temp);
 
-    
+    stop(temp);
+}
+
+const fetch_reference_genome = "https://api.ncbi.nlm.nih.gov/datasets/v1/genome/taxon/%s?page_size=100&filters.reference_only=true";
+
+#' get genbank reference genome accession id 
+#' 
+#' @param ncbi_taxid mapping the genbank accession id from this given ncbi
+#'    taxonomy id
+#' 
+#' @return a list of the reference assembly data list
+#' 
+const reference_genome = function(ncbi_taxid) {
+    const url  = sprintf(fetch_reference_genome, ncbi_taxid);
+    const list = REnv::getJSON(url, interval = 0);
+
+    return(list);
 }
