@@ -25,7 +25,9 @@ const fetch_genbank = function(accession_id,
 
     print(`fetch: ${url}`);
     # download the target ncbi dataset package
-    wget(url, saveAs = temp);
+    if (!file.exists(temp)) {
+        wget(url, saveAs = temp);
+    }    
     # and then extract the zip dataset package at temp location
     unzip(temp, exdir = temp_dir);
 
