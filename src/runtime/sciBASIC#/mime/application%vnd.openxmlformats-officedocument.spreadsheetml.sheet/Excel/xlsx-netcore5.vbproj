@@ -10,6 +10,13 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseExpression>GPL3</PackageLicenseExpression>
+    <Title>XLSX Transitional (Office Open XML), ISO 29500:2008-2016, ECMA-376, Editions 1-5</Title>
+    <Authors>i@xieguigang.me</Authors>
+    <Company>sciBASIC</Company>
+    <Description>XLSX Transitional (Office Open XML), ISO 29500:2008-2016, ECMA-376, Editions 1-5</Description>
+    <Copyright>xieguigang</Copyright>
+    <IncludeSymbols>True</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -107,16 +114,19 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="BIFF\obj\**" />
+    <Compile Remove="XLS\BIFF\bin\**" />
+    <Compile Remove="XLS\BIFF\obj\**" />
     <Compile Remove="test\**" />
-    <EmbeddedResource Remove="BIFF\obj\**" />
+    <EmbeddedResource Remove="XLS\BIFF\bin\**" />
+    <EmbeddedResource Remove="XLS\BIFF\obj\**" />
     <EmbeddedResource Remove="test\**" />
-    <None Remove="BIFF\obj\**" />
+    <None Remove="XLS\BIFF\bin\**" />
+    <None Remove="XLS\BIFF\obj\**" />
     <None Remove="test\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="BIFF\Form1.vb" />
+    <Compile Remove="XLS\BIFF\Form1.vb" />
   </ItemGroup>
 
   <ItemGroup>
