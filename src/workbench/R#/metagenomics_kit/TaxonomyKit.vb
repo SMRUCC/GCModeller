@@ -69,7 +69,6 @@ Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
-Imports REnv = SMRUCC.Rsharp.Runtime
 Imports Taxonomy = SMRUCC.genomics.Metagenomics.Taxonomy
 
 ''' <summary>
@@ -110,7 +109,7 @@ Module TaxonomyKit
         Dim taxonomy = tree.Taxonomy.Keys _
             .Select(Function(id)
                         Return tree _
-                            .GetAscendantsWithRanksAndNames(id, True) _
+                            .GetAscendantsWithRanksAndNames(Integer.Parse(id), True) _
                             .DoCall(Function(line)
                                         Return New Taxonomy(line) With {
                                             .ncbi_taxid = id
