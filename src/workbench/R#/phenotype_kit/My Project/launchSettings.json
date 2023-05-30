@@ -6,7 +6,7 @@
     "配置文件 1": {
       "commandName": "Executable",
       "executablePath": "\\GCModeller\\src\\R-sharp\\App\\net6.0\\R#.exe",
-      "commandLineArgs": "D:\\biodeep\\biodeepdb_v3\\spatial\\MSI_analysis-3.0\\test\\pattern_test\\plot.R"
+      "commandLineArgs": "D:\\GCModeller\\src\\workbench\\R#\\demo\\HTS\\test11111.R --attach D:\\GCModeller\\src\\workbench\\pkg"
     }
   }
 }
