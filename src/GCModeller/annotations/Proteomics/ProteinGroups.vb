@@ -67,7 +67,7 @@ Imports SMRUCC.genomics.Assembly.Uniprot.Web
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports csv = Microsoft.VisualBasic.Data.csv.IO.File
 Imports uniprotProteomics = SMRUCC.genomics.Assembly.Uniprot.XML.UniProtXML
-Imports Xlsx = Microsoft.VisualBasic.MIME.Office.Excel.File
+Imports Xlsx = Microsoft.VisualBasic.MIME.Office.Excel.XLSX.File
 
 ''' <summary>
 ''' Label Free/iTraq/TMT结果注释数据处理
