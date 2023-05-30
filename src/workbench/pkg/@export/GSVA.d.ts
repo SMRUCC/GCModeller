@@ -1,7 +1,5 @@
 ﻿// export R# package module type define for javascript/typescript language
 //
-//    imports "GSVA" from "gseakit";
-//
 // ref=gseakit.GSVA@gseakit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 
 /**

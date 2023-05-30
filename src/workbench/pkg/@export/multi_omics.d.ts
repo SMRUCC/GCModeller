@@ -1,7 +1,5 @@
 ﻿// export R# package module type define for javascript/typescript language
 //
-//    imports "multi_omics" from "phenotype_kit";
-//
 // ref=phenotype_kit.multiOmics@phenotype_kit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 
 /**

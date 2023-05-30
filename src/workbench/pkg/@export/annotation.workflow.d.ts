@@ -1,7 +1,5 @@
 ﻿// export R# package module type define for javascript/typescript language
 //
-//    imports "annotation.workflow" from "seqtoolkit";
-//
 // ref=seqtoolkit.workflows@seqtoolkit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 
 /**

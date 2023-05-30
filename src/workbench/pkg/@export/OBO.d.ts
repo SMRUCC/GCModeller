@@ -1,7 +1,5 @@
 ﻿// export R# package module type define for javascript/typescript language
 //
-//    imports "OBO" from "annotationKit";
-//
 // ref=annotationKit.OBO_DAG@annotationKit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 
 /**

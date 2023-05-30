@@ -62,6 +62,13 @@ declare namespace GCModeller {
    */
    function CompoundNetwork(compoundsId: any, make.pathway_cluster?: boolean): object;
    /**
+     * @param annotations default value Is ``&genbank_annotation_flags``.
+   */
+   function fetch_genbank(accession_id: any, annotations?: any): object;
+   fetch_genbank_api: string;
+   fetch_reference_genome: string;
+   genbank_annotation_flags: string;
+   /**
    */
    function hsa_pathways(): object;
    /**
@@ -105,4 +112,7 @@ declare namespace GCModeller {
      * @param id default value Is ``kegg``.
    */
    function metpa_enrich(data: any, metpa: any, log2FC?: string, id?: string): object;
+   /**
+   */
+   function reference_genome(ncbi_taxid: any): object;
 }

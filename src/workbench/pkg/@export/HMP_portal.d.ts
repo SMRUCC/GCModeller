@@ -1,7 +1,5 @@
 ﻿// export R# package module type define for javascript/typescript language
 //
-//    imports "HMP_portal" from "metagenomics_kit";
-//
 // ref=metagenomics_kit.HMP@metagenomics_kit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 
 /**

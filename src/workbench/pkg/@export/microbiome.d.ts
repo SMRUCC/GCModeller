@@ -1,7 +1,5 @@
 ﻿// export R# package module type define for javascript/typescript language
 //
-//    imports "microbiome" from "metagenomics_kit";
-//
 // ref=metagenomics_kit.microbiomeKit@metagenomics_kit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 
 /**

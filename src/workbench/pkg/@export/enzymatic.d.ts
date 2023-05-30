@@ -1,7 +1,5 @@
 ﻿// export R# package module type define for javascript/typescript language
 //
-//    imports "enzymatic" from "vcellkit";
-//
 // ref=vcellkit.Enzymatic@vcellkit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 
 /**

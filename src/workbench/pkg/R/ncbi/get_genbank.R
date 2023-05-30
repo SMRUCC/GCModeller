@@ -1,5 +1,7 @@
 imports "GenBank" from "seqtoolkit";
 
+# https://www.ncbi.nlm.nih.gov/datasets/taxonomy/511145/
+
 const genbank_annotation_flags = ["GENOME_FASTA","GENOME_GFF","RNA_FASTA","CDS_FASTA","PROT_FASTA","SEQUENCE_REPORT"];
 const fetch_genbank_api = "https://api.ncbi.nlm.nih.gov/datasets/v2alpha/genome/accession/%s/download?include_annotation_type=%s&filename=%s.zip";
 
