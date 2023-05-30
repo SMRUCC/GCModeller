@@ -24,6 +24,7 @@ const fetch_genbank = function(accession_id,
     const gbff_file = `${temp_dir}/ncbi_dataset/data/${accession_id}/genomic.gbff`;
 
     print(`fetch: ${url}`);
+    
     # download the target ncbi dataset package
     if (!file.exists(temp)) {
         wget(url, saveAs = temp);
