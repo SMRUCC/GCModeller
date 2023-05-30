@@ -62,7 +62,7 @@ declare namespace GCModeller {
    */
    function CompoundNetwork(compoundsId: any, make.pathway_cluster?: boolean): object;
    /**
-     * @param annotations default value Is ``["GENOME_FASTA", "GENOME_GFF", "RNA_FASTA", "CDS_FASTA", "PROT_FASTA", "SEQUENCE_REPORT"]``.
+     * @param annotations default value Is ``["GENOME_GBFF", "GENOME_FASTA", "GENOME_GFF", "RNA_FASTA", "CDS_FASTA", "PROT_FASTA", "SEQUENCE_REPORT"]``.
    */
    function fetch_genbank(accession_id: any, annotations?: any): object;
    fetch_genbank_api: string;
