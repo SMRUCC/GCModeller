@@ -10,7 +10,6 @@ ncbi_taxid css('eSearchResult', *)
            [
                text()
            ]
-
 ";
 
 const url.search_taxonomy = function(name) {
@@ -21,7 +20,10 @@ const taxonomy_search = function(name) {
     const url   = url.search_taxonomy(name);
     const xml   = REnv::getHtml(url, interval = 0);
     const list  = Html::parse(xml); 
-    const taxid = graphquery::query(list, graphquery::parseQuery(taxonomy_query)); 
+    const taxid = graphquery::query(
+        document   = list, 
+        graphquery = graphquery::parseQuery(taxonomy_query)
+    );
 
     print("get ncbi taxonomy id mapping for:");
     print(name);
