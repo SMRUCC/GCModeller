@@ -9,12 +9,24 @@ const fetch_genbank = function(accession_id, annotations = genbank_annotation_fl
     const url = sprintf(fetch_genbank_api, accession_id, paste(annotations, ","), accession_id);
     const http.cache_dir = getOption("http.cache_dir") || stop("You should set of the 'http.cache_dir' option at first!");
     const key = md5(accession_id);
-    const temp = `${http.cache_dir}/${substr(key, 3,2)}/${accession_id}.zip`;
+    const temp_dir = `${http.cache_dir}/${substr(key, 3,2)}/${accession_id}/`;
+    const temp = `${temp_dir}/ncbi_download.zip`;
+    const gbff_file = `${temp_dir}/ncbi_dataset/data/${accession_id}/genomic.gbff`;
 
+    # download the target ncbi dataset package
     wget(url, save = temp);
+    # and then extract the zip dataset package at temp location
     unzip(temp);
 
-    stop(temp);
+    if (!file.exists(gbff_file)) {
+        stop([
+            "Missing target genomics genbank file in the result ncbi dataset!", 
+            `You can check of the temp location: ${temp_dir}`
+        ]);
+    }    
+
+    # return the genbank dataset
+    read.genbank(file = gbff_file);
 }
 
 const fetch_reference_genome = "https://api.ncbi.nlm.nih.gov/datasets/v1/genome/taxon/%s?page_size=100&filters.reference_only=true";
