@@ -79,7 +79,7 @@ Namespace ReactionNetwork
                               Function(mapList)
                                   Return mapList _
                                       .Select(Function(l) l.Item2) _
-                                      .Select(Function(map) $"[{map.id}] {map.Name}") _
+                                      .Select(Function(map) $"[{map.EntryId}] {map.name}") _
                                       .ToArray
                               End Function)
 

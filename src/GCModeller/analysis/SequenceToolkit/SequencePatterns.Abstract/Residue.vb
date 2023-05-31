@@ -59,7 +59,7 @@ Imports Microsoft.VisualBasic.Math.Information
 
 Public Structure Residue
 
-    Public Property frequency As Dictionary(Of Char, Double)
+    Public Property frequency As Dictionary(Of String, Double)
     Public Property index As Integer
 
     Public ReadOnly Property topChar As Char
@@ -92,6 +92,12 @@ Public Structure Residue
         End Get
     End Property
 
+    Public ReadOnly Property isConserved As Boolean
+        Get
+            Return frequency.Values.Max > 0.5
+        End Get
+    End Property
+
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Overrides Function ToString() As String
         Dim max As Double = -99999
@@ -115,7 +121,7 @@ Public Structure Residue
 
     Public Shared Function GetEmpty() As Residue
         Return New Residue With {
-            .frequency = New Dictionary(Of Char, Double),
+            .frequency = New Dictionary(Of String, Double),
             .index = -1
         }
     End Function

@@ -86,7 +86,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                                     .ToArray
                              End Function)
             Dim mapIndex As Dictionary(Of String, String()) = maps _
-                .GroupBy(Function(m) m.id.Match("\d+")) _
+                .GroupBy(Function(m) m.EntryId.Match("\d+")) _
                 .ToDictionary(Function(m) m.Key,
                               Function(m)
                                   Return m _

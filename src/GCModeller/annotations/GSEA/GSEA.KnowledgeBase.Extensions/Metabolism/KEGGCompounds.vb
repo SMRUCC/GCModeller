@@ -1,51 +1,51 @@
 ﻿#Region "Microsoft.VisualBasic::b5d1c72d0596cc57c297e904b7cc531f, GCModeller\annotations\GSEA\GSEA.KnowledgeBase.Extensions\Metabolism\KEGGCompounds.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 126
-    '    Code Lines: 95
-    ' Comment Lines: 19
-    '   Blank Lines: 12
-    '     File Size: 4.84 KB
+' Summaries:
 
 
-    ' Module KEGGCompounds
-    ' 
-    '     Function: CreateBackground, CreateGeneralBackground
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 126
+'    Code Lines: 95
+' Comment Lines: 19
+'   Blank Lines: 12
+'     File Size: 4.84 KB
+
+
+' Module KEGGCompounds
+' 
+'     Function: CreateBackground, CreateGeneralBackground
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -93,14 +93,14 @@ Public Module KEGGCompounds
                 .ToArray
 
             If Not names.Any(Function(id) id.Name Like KO) Then
-                Call $"Skip {map.Name}".__INFO_ECHO
+                Call $"Skip {map.name}".__INFO_ECHO
                 Continue For
             End If
 
             clusters += New Cluster With {
-                .description = map.Name,
-                .ID = map.id,
-                .names = map.Name,
+                .description = map.name,
+                .ID = map.EntryId,
+                .names = map.name,
                 .members = names _
                     .Where(Function(a) a.Name.IsPattern("[CDG]\d+")) _
                     .Select(Function(c)

@@ -53,7 +53,6 @@
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
@@ -67,7 +66,6 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 Public Class IdentityResult : Implements INamedValue
 
     Public Property SeqId As String Implements INamedValue.Key
-    <Meta>
     Public Property Identities As Dictionary(Of String, Double)
 
     Public Overrides Function ToString() As String

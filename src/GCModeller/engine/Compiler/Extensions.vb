@@ -51,7 +51,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
-Imports Excel = Microsoft.VisualBasic.MIME.Office.Excel.File
+Imports Excel = Microsoft.VisualBasic.MIME.Office.Excel.XLSX.File
 
 <HideModuleName>
 Public Module Extensions

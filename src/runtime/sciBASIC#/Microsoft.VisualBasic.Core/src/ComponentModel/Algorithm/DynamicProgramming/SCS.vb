@@ -112,14 +112,14 @@ Namespace ComponentModel.Algorithm.DynamicProgramming
         End Function
 
         ''' <summary>
-        ''' Solve using Greedy. Forf all string find the max common prefix/suffix. Merge those two strings
+        ''' Solve using Greedy. For all string find the max common prefix/suffix. Merge those two strings
         ''' and continue it.
         ''' </summary>
         ''' <remarks>
         ''' 当这个函数遇到完全没有重叠的序列片段的时候，是会直接将这个不重叠的片段接到SCS的最末尾的
         ''' </remarks>
         <Extension>
-        Public Function ShortestCommonSuperString(strs As IEnumerable(Of String)) As String()
+        Public Function ShortestCommonSuperString(strs As IEnumerable(Of String)) As String
             Dim seqs As String() = strs.ToArray
             Dim l As Integer = seqs.Length
             Dim p As Integer
@@ -135,7 +135,7 @@ Namespace ComponentModel.Algorithm.DynamicProgramming
                 seqs(q) = seqs(l)
             Loop
 
-            Return seqs
+            Return seqs.ElementAtOrDefault(Scan0)
         End Function
 
         Private Function runIteration(l As Integer, seqs As String(), ByRef p%, ByRef q%) As String

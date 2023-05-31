@@ -1,51 +1,51 @@
 ﻿#Region "Microsoft.VisualBasic::d3b88ce3f897c2bd04b833deeafe9ba1, GCModeller\analysis\SequenceToolkit\MotifFinder\Scanner\ProbabilityScanner.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 155
-    '    Code Lines: 113
-    ' Comment Lines: 21
-    '   Blank Lines: 21
-    '     File Size: 6.07 KB
+' Summaries:
 
 
-    ' Module ProbabilityScanner
-    ' 
-    '     Function: Compare, pairwiseIdentities, RefLoci, (+2 Overloads) ScanSites, ToResidues
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 155
+'    Code Lines: 113
+' Comment Lines: 21
+'   Blank Lines: 21
+'     File Size: 6.07 KB
+
+
+' Module ProbabilityScanner
+' 
+'     Function: Compare, pairwiseIdentities, RefLoci, (+2 Overloads) ScanSites, ToResidues
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -162,7 +162,7 @@ Public Module ProbabilityScanner
     End Function
 
     Private Function Compare(prob As Residue, base As Residue) As Double
-        For Each b As Char In nt
+        For Each b As Char In NT
             ' 如果当前的碱基是b的时候
             If base.frequency(b) = 1.0R Then
                 ' 则比较的得分就是当前的碱基b在motif模型中
@@ -175,21 +175,19 @@ Public Module ProbabilityScanner
         ' 当前的序列位点为N任意碱基的时候
         ' 则取最大的出现频率的得分
         With prob.frequency.ToArray
-            Return .ByRef(Which.Min(.Values)) _
+            Return .ByRef(which.Min(.Values)) _
                    .Value * 10
         End With
     End Function
-
-    ReadOnly nt As Char() = {"A"c, "T"c, "G"c, "C"c}
 
     <Extension>
     Public Function ToResidues(seq As FastaSeq) As Residue()
         Return seq _
             .SequenceData _
             .Select(Function(base)
-                        Dim frq As New Dictionary(Of Char, Double)
+                        Dim frq As New Dictionary(Of String, Double)
 
-                        For Each b In nt
+                        For Each b As Char In NT
                             If base = b Then
                                 frq(b) = 1
                             Else

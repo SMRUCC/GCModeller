@@ -1,0 +1,35 @@
+.\" man page create by R# package system.
+.TH SIGMA_DIFFERENCE 1 2000-Jan "Measure.Homogeneity" "Measure.Homogeneity"
+.SH NAME
+Measure.Homogeneity \- measuring the homogeneity property using a specific rule
+.SH SYNOPSIS
+\fIMeasure.Homogeneity(\fBPartitionData\fR as <generic> IEnumerable`1, 
+\fBRule\fR as <generic> FastaSeq, 
+\fBSt\fR as integer, 
+\fBSp\fR as integer);\fR
+.SH DESCRIPTION
+.PP
+measuring the homogeneity property using a specific rule 
+ sequence between the dnaA and gyrB gene in batch.
+ 
+ (批量计算比较基因组序列之间的同质性)
+.PP
+.SH OPTIONS
+.PP
+\fBPartitionData\fB \fR\- -. 
+.PP
+.PP
+\fBRuleSource\fB \fR\- 
+ The original GenBank dowunload data directory which should contains the *.ptt 
+ file for parsing the rule sequence between dnaA and gyrB gene and the *.fna file for parsing the 
+ genome nt fasta sequence.
+. 
+.PP
+.SH SEE ALSO
+sigma_difference
+.SH FILES
+.PP
+seqtoolkit.dll
+.PP
+.SH AUTHOR
+Written by \fBxie.guigang@gcmodeller.org\fR

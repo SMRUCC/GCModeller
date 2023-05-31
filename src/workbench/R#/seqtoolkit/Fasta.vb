@@ -1,64 +1,64 @@
 ﻿#Region "Microsoft.VisualBasic::77a488daa8099cfa7dee55ffa8942895, R#\seqtoolkit\Fasta.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 464
-    '    Code Lines: 349
-    ' Comment Lines: 63
-    '   Blank Lines: 52
-    '     File Size: 18.86 KB
+' Summaries:
 
 
-    ' Module Fasta
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    ' 
-    '     Function: CutSequenceLinear, fasta, GetFastaSeq, MSA, openFasta
-    '               readFasta, readSeq, SequenceAssembler, sizeof, Tofasta
-    '               Translates, viewAssembles, viewFasta, viewMSA, writeFasta
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 464
+'    Code Lines: 349
+' Comment Lines: 63
+'   Blank Lines: 52
+'     File Size: 18.86 KB
+
+
+' Module Fasta
+' 
+'     Constructor: (+1 Overloads) Sub New
+' 
+'     Function: CutSequenceLinear, fasta, GetFastaSeq, MSA, openFasta
+'               readFasta, readSeq, SequenceAssembler, sizeof, Tofasta
+'               Translates, viewAssembles, viewFasta, viewMSA, writeFasta
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.IO
+Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -89,18 +89,7 @@ Module Fasta
         Call printer.AttachConsoleFormatter(Of FastaSeq)(AddressOf viewFasta)
         Call printer.AttachConsoleFormatter(Of FastaFile)(AddressOf viewFasta)
         Call printer.AttachConsoleFormatter(Of MSAOutput)(AddressOf viewMSA)
-        Call printer.AttachConsoleFormatter(Of AssembleResult)(AddressOf viewAssembles)
     End Sub
-
-    Private Function viewAssembles(asm As AssembleResult) As String
-        Dim sb As New StringBuilder
-
-        Using text As New StringWriter(sb)
-            Call asm.alignments.TableView(asm.GetAssembledSequence, text)
-        End Using
-
-        Return sb.ToString
-    End Function
 
     Private Function viewMSA(msa As MSAOutput) As String
         Dim sb As New StringBuilder
@@ -135,46 +124,10 @@ Module Fasta
     End Function
 
     ''' <summary>
-    ''' 返回空值表示类型错误
+    ''' get the sequence length
     ''' </summary>
-    ''' <param name="a"></param>
+    ''' <param name="fa"></param>
     ''' <returns></returns>
-    Public Function GetFastaSeq(a As Object, env As Environment) As IEnumerable(Of FastaSeq)
-        If a Is Nothing Then
-            Return {}
-        ElseIf TypeOf a Is vector Then
-            a = DirectCast(a, vector).data
-        End If
-
-        Dim type As Type = a.GetType
-
-        Select Case type
-            Case GetType(FastaSeq)
-                Return {DirectCast(a, FastaSeq)}
-            Case GetType(FastaFile)
-                Return DirectCast(a, FastaFile)
-            Case GetType(FastaSeq())
-                Return a
-            Case Else
-                If type.IsArray AndAlso REnv.MeasureArrayElementType(a) Is GetType(FastaSeq) Then
-                    Dim populator As IEnumerable(Of FastaSeq) =
-                        Iterator Function() As IEnumerable(Of FastaSeq)
-                            Dim vec As Array = DirectCast(a, Array)
-
-                            For i As Integer = 0 To vec.Length - 1
-                                Yield DirectCast(vec.GetValue(i), FastaSeq)
-                            Next
-                        End Function()
-
-                    Return populator
-                ElseIf type Is GetType(pipeline) AndAlso DirectCast(a, pipeline).elementType Like GetType(FastaSeq) Then
-                    Return DirectCast(a, pipeline).populates(Of FastaSeq)(env)
-                Else
-                    Return Nothing
-                End If
-        End Select
-    End Function
-
     <ExportAPI("size")>
     Public Function sizeof(fa As FastaSeq) As Integer
         If fa Is Nothing Then
@@ -228,6 +181,19 @@ Module Fasta
     End Function
 
     ''' <summary>
+    ''' parse the fasta sequence object from the given text data
+    ''' </summary>
+    ''' <param name="x"></param>
+    ''' <returns></returns>
+    <ExportAPI("parse.fasta")>
+    <RApiReturn(GetType(FastaSeq))>
+    Public Function parseFasta(x As Object) As Object
+        Dim txt As String = CLRVector.asCharacter(x).JoinBy(vbCrLf)
+        Dim fasta = FastaFile.DocParser(txt.LineTokens).ToArray
+        Return fasta
+    End Function
+
+    ''' <summary>
     ''' write a fasta sequence or a collection of fasta sequence object
     ''' </summary>
     ''' <param name="seq"></param>
@@ -245,6 +211,7 @@ Module Fasta
                                Optional env As Environment = Nothing) As Boolean
 
         If TypeOf seq Is pipeline Then
+            ' save a huge bundle of the fasta sequence collection
             Using buffer As New StreamWriter(file.Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False))
                 For Each fa As FastaSeq In DirectCast(seq, pipeline).populates(Of FastaSeq)(env)
                     Call buffer.WriteLine(fa.GenerateDocument(
@@ -259,7 +226,34 @@ Module Fasta
 
             Return True
         Else
-            Return New FastaFile(GetFastaSeq(seq, env)).Save(lineBreak, file, encoding)
+            ' save a collection of the fasta sequence
+            Dim seqs = GetFastaSeq(seq, env).ToArray
+            Dim fasta As New FastaFile(seqs)
+
+            Return fasta.Save(lineBreak, file, encoding)
+        End If
+    End Function
+
+    <Extension>
+    Private Function translateSingleNtSeq(translTable As TranslTable,
+                                          nt As FastaSeq,
+                                          table As GeneticCodes,
+                                          bypassStop As Boolean,
+                                          checkNt As Boolean) As FastaSeq
+
+        If table = GeneticCodes.Auto Then
+            Dim fa = TranslationTable.Translate(nt)
+            fa.Headers = nt.Headers.Join(fa.Headers).ToArray
+            Return fa
+        Else
+            Return New FastaSeq With {
+                .Headers = nt.Headers.ToArray,
+                .SequenceData = translTable.Translate(
+                    nucleicAcid:=nt.SequenceData,
+                    bypassStop:=bypassStop,
+                    checkNt:=checkNt
+                )
+            }
         End If
     End Function
 
@@ -285,16 +279,7 @@ Module Fasta
         If nt Is Nothing Then
             Return Nothing
         ElseIf TypeOf nt Is FastaSeq Then
-            If table = GeneticCodes.Auto Then
-                Dim prot = TranslationTable.Translate(DirectCast(nt, FastaSeq))
-                prot.Headers = DirectCast(nt, FastaSeq).Headers.Join(prot.Headers).ToArray
-                Return prot
-            Else
-                Return New FastaSeq With {
-                    .Headers = DirectCast(nt, FastaSeq).Headers.ToArray,
-                    .SequenceData = translTable.Translate(DirectCast(nt, FastaSeq), bypassStop, checkNt)
-                }
-            End If
+            Return translTable.translateSingleNtSeq(DirectCast(nt, FastaSeq), table, bypassStop, checkNt)
         Else
             Dim collection As IEnumerable(Of FastaSeq) = GetFastaSeq(nt, env)
 
@@ -306,19 +291,7 @@ Module Fasta
                 Dim checkInvalids As New List(Of String)
 
                 For Each ntSeq As FastaSeq In collection
-                    If table = GeneticCodes.Auto Then
-                        fa = TranslationTable.Translate(ntSeq)
-                        fa.Headers = ntSeq.Headers.Join(fa.Headers).ToArray
-                    Else
-                        fa = New FastaSeq With {
-                            .Headers = ntSeq.Headers.ToArray,
-                            .SequenceData = translTable.Translate(
-                                nucleicAcid:=ntSeq.SequenceData,
-                                bypassStop:=bypassStop,
-                                checkNt:=checkNt
-                            )
-                        }
-                    End If
+                    fa = translTable.translateSingleNtSeq(ntSeq, table, bypassStop, checkNt)
 
                     If bypassStop Then
                         If fa.SequenceData.Any(Function(c) c = TranslTable.SymbolStopCoden) Then
@@ -425,20 +398,30 @@ Module Fasta
     End Function
 
     ''' <summary>
-    ''' Do short reads assembling
+    ''' get/set the fasta headers title
     ''' </summary>
-    ''' <param name="reads"></param>
-    ''' <param name="env"></param>
+    ''' <param name="fa"></param>
+    ''' <param name="headers"></param>
     ''' <returns></returns>
-    <ExportAPI("Assemble.of")>
-    Public Function SequenceAssembler(<RRawVectorArgument> reads As Object, Optional env As Environment = Nothing) As Object
-        Dim readSeqs As FastaSeq() = GetFastaSeq(reads, env).ToArray
-        Dim data As String() = readSeqs _
-            .Select(Function(fa) fa.SequenceData) _
-            .ToArray
-        Dim result = data.ShortestCommonSuperString
+    <ExportAPI("fasta.headers")>
+    Public Function fastaTitle(fa As FastaSeq, <RByRefValueAssign> Optional headers As String() = Nothing) As String()
+        If Not headers.IsNullOrEmpty Then
+            fa.Headers = headers
+        End If
 
-        Return New AssembleResult(result)
+        Return fa.Headers
+    End Function
+
+    ''' <summary>
+    ''' get the fasta titles from a collection of fasta sequence
+    ''' </summary>
+    ''' <param name="fa"></param>
+    ''' <returns></returns>
+    <ExportAPI("fasta.titles")>
+    Public Function fastaTitles(<RRawVectorArgument> fa As Object, Optional env As Environment = Nothing) As String()
+        Return GetFastaSeq(fa, env) _
+            .Select(Function(a) a.Title) _
+            .ToArray
     End Function
 
     <ExportAPI("cut_seq.linear")>

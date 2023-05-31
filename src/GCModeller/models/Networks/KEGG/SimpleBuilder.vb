@@ -1,51 +1,51 @@
 ﻿#Region "Microsoft.VisualBasic::6760f72e8961361015d0db7e48d377d0, GCModeller\models\Networks\KEGG\SimpleBuilder.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 66
-    '    Code Lines: 53
-    ' Comment Lines: 0
-    '   Blank Lines: 13
-    '     File Size: 3.18 KB
+' Summaries:
 
 
-    ' Module SimpleBuilder
-    ' 
-    '     Function: GraphQueryByCompoundList
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 66
+'    Code Lines: 53
+' Comment Lines: 0
+'   Blank Lines: 13
+'     File Size: 3.18 KB
+
+
+' Module SimpleBuilder
+' 
+'     Function: GraphQueryByCompoundList
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -96,8 +96,8 @@ Public Module SimpleBuilder
                             If map.FilterAll(tuple) Then
                                 Dim KO = link.orthology.Where(Function(KOid) map.hasAny(KOid.name)).Select(Function(k) k.name).ToArray
 
-                                If g.GetElementByID(map.id) Is Nothing Then
-                                    g.CreateNode(map.id)
+                                If g.GetElementByID(map.EntryId) Is Nothing Then
+                                    g.CreateNode(map.EntryId)
                                 End If
 
                                 For Each id As String In KO
@@ -105,17 +105,17 @@ Public Module SimpleBuilder
                                         g.CreateNode(id)
                                     End If
 
-                                    If Not g.GetEdges(g.GetElementByID(map.id), g.GetElementByID(id)).Any Then
-                                        g.CreateEdge(map.id, id)
+                                    If Not g.GetEdges(g.GetElementByID(map.EntryId), g.GetElementByID(id)).Any Then
+                                        g.CreateEdge(map.EntryId, id)
                                     End If
                                 Next
 
-                                If Not g.GetEdges(g.GetElementByID(map.id), g.GetElementByID(transform.from)).Any Then
-                                    g.CreateEdge(map.id, transform.from)
+                                If Not g.GetEdges(g.GetElementByID(map.EntryId), g.GetElementByID(transform.from)).Any Then
+                                    g.CreateEdge(map.EntryId, transform.from)
                                 End If
 
-                                If Not g.GetEdges(g.GetElementByID(map.id), g.GetElementByID(transform.to)).Any Then
-                                    g.CreateEdge(map.id, transform.to)
+                                If Not g.GetEdges(g.GetElementByID(map.EntryId), g.GetElementByID(transform.to)).Any Then
+                                    g.CreateEdge(map.EntryId, transform.to)
                                 End If
                             End If
                         Next

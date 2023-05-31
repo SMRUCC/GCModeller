@@ -85,6 +85,10 @@ Public Module PrimitiveParser
     ''' 这个表达式并不用于<see cref="IsNumeric"/>, 但是其他的模块的代码可能会需要这个通用的表达式来做一些判断
     ''' </remarks>
     Public Const NumericPattern$ = SimpleNumberPattern & "([eE][+-]?\d*)?"
+
+    ''' <summary>
+    ''' just a pattern for the simple number, without the scientific notation pattern
+    ''' </summary>
     Public Const SimpleNumberPattern$ = "[-]?\d*(\.\d+)?"
 
 #Region "text token pattern assert"
@@ -183,11 +187,24 @@ Public Module PrimitiveParser
 
     ReadOnly numbers As Index(Of Char) = {"0"c, "1"c, "2"c, "3"c, "4"c, "5"c, "6"c, "7"c, "8"c, "9"c}
 
+    ''' <summary>
+    ''' test the given string is in integer pattern?
+    ''' </summary>
+    ''' <param name="num"></param>
+    ''' <param name="offset"></param>
+    ''' <returns>
+    ''' this function will returns true if all of the char in 
+    ''' the <paramref name="num"/> string is number.
+    ''' </returns>
     <Extension>
     Public Function IsInteger(num As String, Optional offset As Integer = 0) As Boolean
         Dim c As Char
 
         If num Is Nothing OrElse num = "" Then
+            Return False
+        ElseIf num.Last = "E" OrElse num.Last = "e" OrElse offset >= num.Length Then
+            ' 4E -> offset = 2
+            ' 3545e -> offset = 5
             Return False
         Else
             c = num(offset)

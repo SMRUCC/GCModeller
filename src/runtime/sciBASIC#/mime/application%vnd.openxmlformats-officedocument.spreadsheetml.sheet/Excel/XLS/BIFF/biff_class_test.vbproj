@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>biff_class</RootNamespace>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Platforms>AnyCPU;x64</Platforms>
+    <OutputType>Exe</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="EnumConstants.vb" />
+    <Compile Remove="ExcelFile.vb" />
+    <Compile Remove="SheetObject.vb" />
+    <Compile Remove="VB6.vb" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\Data\DataFrame\dataframework-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\..\..\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+    <ProjectReference Include="..\..\xlsx-netcore5.vbproj" />
+  </ItemGroup>
+
+</Project>

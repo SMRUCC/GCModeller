@@ -174,8 +174,13 @@ Namespace Assembly.KEGG.WebServices
                 If title.StringEmpty Then
                     Return {}
                 Else
+                    ' the delimiter between the tokens is seperated via
+                    ' a command,blankspace combination
+                    ' due to the reason of compound name may contains the
+                    ' comma symbol, so we use the string split function at
+                    ' here for avoid the name parser error
                     terms = title _
-                        .Split(","c) _
+                        .StringSplit(", ") _
                         .Select(AddressOf Trim) _
                         .Select(Function(s)
                                     Dim nameTerm = s.GetTagValue(" ")

@@ -158,14 +158,17 @@
 
         <div style="width: 100%; padding-left: 3%; color: black;">
             <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>find_motifs</strong>(<i>fasta</i>,
-    <i>minw</i> = 6,
+    <i>minw</i> = 8,
     <i>maxw</i> = 20,
-    <i>nmotifs</i> = 25,
-    <i>noccurs</i> = 6,
-    <i>seedingCutoff</i> = 0.95,
+    <i>nmotifs</i> = -1,
+    <i>noccurs</i> = 12,
+    <i>seedingCutoff</i> = 0.65,
     <i>scanMinW</i> = 6,
     <i>scanCutoff</i> = 0.8,
-    <i>cleanMotif</i> = 0.5);</code></pre>
+    <i>cleanMotif</i> = 0.5,
+    <i>significant.sites</i> = 4,
+    <i>seeds</i> = <span style='color: blue;'>NULL</span>,
+    <i>debug</i> = <span style='color: blue;'>FALSE</span>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
@@ -173,7 +176,7 @@
         <table>
             
 <dt>fasta</dt>
-<dd><p><p>-</p></p></dd>
+<dd><p><p>should contains multiple sequence</p></p></dd>
 
 
 <dt>minw%</dt>
@@ -184,8 +187,13 @@
 <dd><p><p>-</p></p></dd>
 
 
-<dt>nmotifs%</dt>
-<dd><p><p>-</p></p></dd>
+<dt>nmotifs</dt>
+<dd><p><p>A number for limit the number of motif outputs:</p>
+
+<ul>
+<li>negative integer/zero: no limits[default]</li>
+<li>positive value: top motifs with score desc</li>
+</ul></p></dd>
 
 
 <dt>noccurs%</dt>
@@ -201,7 +209,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/clr/SMRUCC/genomics/Analysis/SequenceTools/SequencePatterns/Motif/SequenceMotif[].html">SequenceMotif[]</a>.
+        this function returns data object of type <a href="/clr/SMRUCC/genomics/Analysis/SequenceTools/SequencePatterns/Motif/SequenceMotif.html">SequenceMotif</a>.
 
         <hr />
         <div style="text-align: center;">[Package <em>bioseq.patterns</em> version 1.0.0.0 <a

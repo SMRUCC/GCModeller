@@ -84,7 +84,12 @@ Namespace Imaging.Math2D
         ''' </summary>
         Protected Friend bounds2 As Vector2D = Nothing
 
+        ''' <summary>
+        ''' max y - min y
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property height As Double
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 If ypoints.Length = 0 Then
                     Return 0
@@ -94,7 +99,12 @@ Namespace Imaging.Math2D
             End Get
         End Property
 
+        ''' <summary>
+        ''' max x - min x
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property width As Double
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 If xpoints.Length = 0 Then
                     Return 0
@@ -155,6 +165,14 @@ Namespace Imaging.Math2D
             Call Me.New(
                 x:=points.Select(Function(p) p.X).ToArray,
                 y:=points.Select(Function(p) p.Y).ToArray
+            )
+        End Sub
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Sub New(pixels As RasterPixel())
+            Call Me.New(
+                x:=pixels.Select(Function(p) CDbl(p.X)).ToArray,
+                y:=pixels.Select(Function(p) CDbl(p.Y)).ToArray
             )
         End Sub
 
@@ -327,6 +345,7 @@ Namespace Imaging.Math2D
             If length = 0 Then
                 Return False
             End If
+
             If Not boundingInside(x, y) Then
                 Return False
             Else
@@ -346,8 +365,38 @@ Namespace Imaging.Math2D
             Return GetShoelaceArea(xpoints, ypoints)
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetRectangle() As RectangleF
             Return New RectangleF(xpoints.Min, ypoints.Min, width, height)
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function GetSizeF() As SizeF
+            Return New SizeF(width, height)
+        End Function
+
+        ''' <summary>
+        ''' get the polygon rectangle size
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' width and height is generated from the rectangle width and height
+        ''' </remarks>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function GetSize() As Size
+            ' delta value between the max - min from the x,y
+            Return New Size(width, height)
+        End Function
+
+        ''' <summary>
+        ''' get the dimension size via the max x and max y
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' the meaning of <see cref="GetDimension()"/> is different with <see cref="GetSize()"/>
+        ''' </remarks>
+        Public Function GetDimension() As Size
+            Return New Size(xpoints.Max, ypoints.Max)
         End Function
 
         ''' <summary>

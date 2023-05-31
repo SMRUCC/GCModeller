@@ -67,6 +67,7 @@ Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports REnv = SMRUCC.Rsharp.Runtime
 
 <Package("annotation.terms", Category:=APICategories.ResearchTools, Publisher:="xie.guigang@gcmodeller.org")>
@@ -118,8 +119,7 @@ Module terms
     ''' <returns></returns>
     <ExportAPI("geneNames")>
     Public Function geneNames(<RRawVectorArgument> descriptions As Object) As vector
-        Return REnv.asVector(Of String)(descriptions) _
-            .AsObjectEnumerator(Of String) _
+        Return CLRVector.asCharacter(descriptions) _
             .Select(AddressOf ObjectQuery.geneName.TryParseGeneName) _
             .DoCall(AddressOf vector.asVector)
     End Function

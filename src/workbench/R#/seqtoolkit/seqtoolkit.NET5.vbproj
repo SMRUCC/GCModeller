@@ -41,6 +41,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\GCModeller\analysis\Motifs\MotifGraph\MotifGraph.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\analysis\SequenceToolkit\DNA_Comparative\DNA_Comparative.netcoreapp.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\analysis\SequenceToolkit\gwANI\gwANI.NET5.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\analysis\SequenceToolkit\MotifFinder\MotifFinder.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\analysis\SequenceToolkit\MotifScanner\MotifScanner.NET5.vbproj" />

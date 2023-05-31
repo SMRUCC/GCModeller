@@ -4,14 +4,17 @@
 find_motifs \- find possible motifs of the given sequence collection
 .SH SYNOPSIS
 \fIfind_motifs(\fBfasta\fR as any, 
-\fBminw\fR as integer = 6, 
+\fBminw\fR as integer = 8, 
 \fBmaxw\fR as integer = 20, 
-\fBnmotifs\fR as integer = 25, 
-\fBnoccurs\fR as integer = 6, 
-\fBseedingCutoff\fR as double = 0.95, 
+\fBnmotifs\fR as integer = -1, 
+\fBnoccurs\fR as integer = 12, 
+\fBseedingCutoff\fR as double = 0.65, 
 \fBscanMinW\fR as integer = 6, 
 \fBscanCutoff\fR as double = 0.8, 
 \fBcleanMotif\fR as double = 0.5, 
+\fBsignificant_sites\fR as integer = 4, 
+\fBseeds\fR as any = \fB<NULL>\fR, 
+\fBdebug\fR as boolean = FALSE, 
 [\fB<Environment>\fR]);\fR
 .SH DESCRIPTION
 .PP
@@ -19,7 +22,7 @@ find possible motifs of the given sequence collection
 .PP
 .SH OPTIONS
 .PP
-\fBfasta\fB \fR\- -. 
+\fBfasta\fB \fR\- should contains multiple sequence. 
 .PP
 .PP
 \fBminw%\fB \fR\- -. 
@@ -28,7 +31,12 @@ find possible motifs of the given sequence collection
 \fBmaxw%\fB \fR\- -. 
 .PP
 .PP
-\fBnmotifs%\fB \fR\- -. 
+\fBnmotifs\fB \fR\- 
+ A number for limit the number of motif outputs:
+ 
+ + negative integer/zero: no limits[default]
+ + positive value: top motifs with score desc
+. 
 .PP
 .PP
 \fBnoccurs%\fB \fR\- -. 

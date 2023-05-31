@@ -54,6 +54,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Text.Xml.Models
@@ -81,9 +82,6 @@ Namespace Assembly.KEGG.Archives.Csv
 
         Public Property PathwayGenes As String() Implements IKeyValuePairObject(Of String, String()).Value
 
-        Public Overrides Function GetPathwayGenes() As String()
-            Return PathwayGenes
-        End Function
 
 #Region "Brite Infomation"
 
@@ -106,7 +104,6 @@ Namespace Assembly.KEGG.Archives.Csv
         Public Property Category As String
 #End Region
 
-        Public Property Name As String
         Public Property Reactions As String()
 
         Public Overrides ReadOnly Property briteID As String
@@ -118,7 +115,7 @@ Namespace Assembly.KEGG.Archives.Csv
         Public Shared Function GenerateObject(XmlModel As KEGG.DBGET.bGetObject.Module) As [Module]
             Dim ReactionIdlist As String()
 
-            If XmlModel.Reaction.IsNullOrEmpty Then
+            If XmlModel.reaction.IsNullOrEmpty Then
                 ReactionIdlist = New String() {}
             Else
                 ReactionIdlist = LinqAPI.Exec(Of String) <= From rxn As NamedValue
@@ -129,9 +126,9 @@ Namespace Assembly.KEGG.Archives.Csv
 
             Return New [Module] With {
                 .EntryId = XmlModel.EntryId,
-                .description = XmlModel.Description,
+                .description = XmlModel.description,
                 .PathwayGenes = XmlModel.GetPathwayGenes,
-                .Name = XmlModel.Name,
+                .name = XmlModel.name,
                 .Reactions = ReactionIdlist
             }
         End Function
@@ -157,6 +154,13 @@ Namespace Assembly.KEGG.Archives.Csv
             Next
 
             Return mods
+        End Function
+
+        Public Overrides Function GetPathwayGenes() As IEnumerable(Of NamedValue(Of String))
+            Return PathwayGenes.Select(Function(id) New NamedValue(Of String)(id))
+        End Function
+
+        Public Overrides Iterator Function GetCompoundSet() As IEnumerable(Of NamedValue(Of String))
         End Function
     End Class
 End Namespace

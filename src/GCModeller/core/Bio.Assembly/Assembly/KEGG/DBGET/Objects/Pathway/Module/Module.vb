@@ -54,6 +54,7 @@
 #End Region
 
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.Xml.Models
@@ -150,7 +151,6 @@ Namespace Assembly.KEGG.DBGET.bGetObject
     <XmlRoot("KEGG.MODULE", Namespace:="http://www.genome.jp/dbget-bin/get_linkdb?-t+module+genome")>
     Public Class [Module] : Inherits PathwayBrief
 
-        Public Property name As String
         Public Property pathway As NamedValue()
         Public Property compound As NamedValue()
         Public Property reaction As NamedValue()
@@ -216,16 +216,16 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             Return (From strId As String In buf Select strId Distinct).ToArray
         End Function
 
+        Public Overrides Function GetCompoundSet() As IEnumerable(Of NamedValue(Of String))
+            Return compound.SafeQuery.Select(Function(ci) New NamedValue(Of String)(ci.name, ci.text))
+        End Function
+
         ''' <summary>
         ''' 得到当前的模块之中的基因的编号的列表，这是个安全的函数，不会返回空值
         ''' </summary>
         ''' <returns></returns>
-        Public Overrides Function GetPathwayGenes() As String()
-            If PathwayGenes.IsNullOrEmpty Then
-                Return New String() {}
-            End If
-
-            Return PathwayGenes.Select(Function(x) x.name).ToArray
+        Public Overrides Function GetPathwayGenes() As IEnumerable(Of NamedValue(Of String))
+            Return pathwayGenes.SafeQuery.Select(Function(gi) New NamedValue(Of String)(gi.name, gi.text))
         End Function
     End Class
 End Namespace

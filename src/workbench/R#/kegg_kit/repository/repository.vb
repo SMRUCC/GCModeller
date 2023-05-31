@@ -108,8 +108,8 @@ Public Module repository
     Private Function showMapTable(table As Map(), args As list, env As Environment) As dataframe
         Dim mapTable As New dataframe With {.columns = New Dictionary(Of String, Array)}
 
-        mapTable.columns(NameOf(Map.id)) = table.Select(Function(t) t.id).ToArray
-        mapTable.columns(NameOf(Map.Name)) = table.Select(Function(t) t.Name.TrimNewLine).ToArray
+        mapTable.columns("id") = table.Select(Function(t) t.EntryId).ToArray
+        mapTable.columns("Name") = table.Select(Function(t) t.name.TrimNewLine).ToArray
         mapTable.columns(NameOf(Map.URL)) = table.Select(Function(t) t.URL).ToArray
         mapTable.columns(NameOf(Map.description)) = table.Select(Function(t) t.description.TrimNewLine).ToArray
         mapTable.columns(NameOf(Map.shapes)) = table.Select(Function(t) t.shapes.TryCount).ToArray
@@ -328,7 +328,7 @@ Public Module repository
     ''' </param>
     ''' <returns>
     ''' a kegg reference map object vector, which can be indexed 
-    ''' via <see cref="Map.id"/>.
+    ''' via <see cref="Map.EntryId"/>.
     ''' </returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <ExportAPI("load.maps")>
@@ -847,8 +847,8 @@ Public Module repository
                             area As Area()) As Map
 
         Return New Map With {
-            .id = id,
-            .Name = name,
+            .EntryId = id,
+            .name = name,
             .PathwayImage = img,
             .shapes = area,
             .URL = url,
