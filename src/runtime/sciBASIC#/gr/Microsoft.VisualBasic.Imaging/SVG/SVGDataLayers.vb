@@ -59,14 +59,12 @@
 
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Imaging.SVG.CSS
 Imports Microsoft.VisualBasic.Imaging.SVG.XML
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Html
-Imports Microsoft.VisualBasic.MIME.Html.CSS
 
 Namespace SVG
 
@@ -75,7 +73,7 @@ Namespace SVG
     ''' </summary>
     Public Class SVGDataLayers : Implements Enumeration(Of g)
 
-        Protected layers As New HashList(Of g)
+        Protected layers As New List(Of g)
 
         Protected Friend bg$
         Protected Friend Size As Size
@@ -275,7 +273,7 @@ Namespace SVG
                 .bg = data.bg,
                 .layers = data.layers _
                               .Select(Function(l) l + offset) _
-                              .AsHashList,
+                              .AsList,
                 ._GetLastLayer = data.GetLastLayer
             }
         End Operator
