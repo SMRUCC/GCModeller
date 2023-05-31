@@ -1,0 +1,24 @@
+﻿################################################################################
+# 這個 .gitignore 檔案由 Microsoft(R) Visual Studio 自動建立。
+################################################################################
+
+*.suo
+*.sqlite
+
+obj
+bin
+App
+
+test/ncbi/GCF_000009985.1/
+
+node_modules
+*.lock
+*.ide
+*.ide-shm
+*.ide-wal
+*.sqlite-journal
+/R#/demo/kegg/KEGG_maps.zip
+R#/demo/cytoscape/automation/result.cys
+R#/demo/cngb/bacterials.csv
+
+pkg/assembly
