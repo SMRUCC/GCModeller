@@ -69,6 +69,9 @@ Namespace SequenceModel
 
     Public Enum SeqTypes As Integer
         Generic = 0
+        ''' <summary>
+        ''' ATGC
+        ''' </summary>
         DNA
         RNA
         Protein

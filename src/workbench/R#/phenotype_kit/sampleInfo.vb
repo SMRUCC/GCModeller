@@ -71,6 +71,7 @@ Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports REnv = SMRUCC.Rsharp.Runtime
 Imports Rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
+Imports SMRUCC.Rsharp.Runtime.Vectorization
 
 ''' <summary>
 ''' GCModeller DEG experiment analysis designer toolkit
@@ -116,8 +117,7 @@ Module DEGSample
                                       Optional maxDepth As Boolean = False,
                                       Optional raw_list As Boolean = True) As Object
 
-        Return REnv.asVector(Of String)(sample_names) _
-            .AsObjectEnumerator(Of String) _
+        Return CLRVector.asCharacter(sample_names) _
             .GuessPossibleGroups(maxDepth) _
             .ToDictionary(Function(group) group.name,
                           Function(group)

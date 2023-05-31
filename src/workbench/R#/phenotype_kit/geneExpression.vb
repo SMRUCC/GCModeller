@@ -413,7 +413,10 @@ Module geneExpression
         Dim ignores As Index(Of String) = If(exclude_samples, {})
 
         If TypeOf file Is String Then
-            Return Matrix.LoadData(DirectCast(file, String), ignores, rm_ZERO).uniqueGeneId(makeNames)
+            Dim filepath As String = DirectCast(file, String)
+            Dim mat As Matrix = Matrix.LoadData(filepath, ignores, rm_ZERO)
+
+            Return mat.uniqueGeneId(makeNames)
         ElseIf TypeOf file Is Rdataframe Then
             Return DirectCast(file, Rdataframe) _
                 .loadFromDataFrame(rm_ZERO, ignores) _
