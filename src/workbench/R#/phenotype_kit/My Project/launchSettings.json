@@ -3,10 +3,10 @@
     "phenotype_kit.NET5": {
       "commandName": "Project"
     },
-    "配置文件 1": {
+    "run_dll": {
       "commandName": "Executable",
       "executablePath": "\\GCModeller\\src\\R-sharp\\App\\net6.0\\R#.exe",
-      "commandLineArgs": "D:\\GCModeller\\src\\workbench\\R#\\demo\\HTS\\test11111.R --attach D:\\GCModeller\\src\\workbench\\pkg"
+      "commandLineArgs": "D:\\biodeep\\biodeepdb_v3\\spatial\\MSI_analysis-3.0\\test\\graph_cluster\\spatial_graph_test.R --attach D:\\GCModeller\\src\\workbench\\pkg --debug"
     }
   }
 }
