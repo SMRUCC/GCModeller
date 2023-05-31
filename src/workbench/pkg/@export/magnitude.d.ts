@@ -9,9 +9,13 @@
  * 
 */
 declare namespace magnitude {
-   /**
-     * @param base default value Is ``null``.
-     * @param env default value Is ``null``.
-   */
-   function profiles(selector: string, foldchange: number, base?: object, env?: object): any;
+   module encode {
+      /**
+       * tag samples in matrix as sequence profiles
+       * 
+       * 
+        * @param mat -
+      */
+      function seqPack(mat: object): any;
+   }
 }

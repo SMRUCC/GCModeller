@@ -61,6 +61,7 @@ declare namespace GCModeller {
      * @param make.pathway_cluster default value Is ``true``.
    */
    function CompoundNetwork(compoundsId: any, make.pathway_cluster?: boolean): object;
+   eutils: string;
    /**
      * @param annotations default value Is ``["GENOME_GBFF", "GENOME_FASTA", "GENOME_GFF", "RNA_FASTA", "CDS_FASTA", "PROT_FASTA", "SEQUENCE_REPORT"]``.
    */
@@ -115,4 +116,13 @@ declare namespace GCModeller {
    /**
    */
    function reference_genome(ncbi_taxid: any): object;
+   taxonomy_query: string;
+   /**
+   */
+   function taxonomy_search(name: any): object;
+   module url {
+      /**
+      */
+      function search_taxonomy(name: any): object;
+   }
 }

@@ -2,4 +2,4 @@
 
 HTS expression data simulating for analysis test
 
-+ [profiles](magnitude/profiles.1) 
++ [encode.seqPack](magnitude/encode.seqPack.1) tag samples in matrix as sequence profiles
