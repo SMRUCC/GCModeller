@@ -4,6 +4,7 @@
     <RootNamespace>SMRUCC.genomics.Interops.NCBI.ParallelTask</RootNamespace>
     <TargetFramework>net6.0</TargetFramework>
     <AssemblyName>SMRUCC.genomics.Interops.NCBI.ParallelTask</AssemblyName>
+    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
