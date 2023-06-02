@@ -68,38 +68,38 @@ Imports csvReflection = Microsoft.VisualBasic.Data.csv.Extensions
 
 Partial Module CLI
 
-    ''' <summary>
-    ''' 
-    ''' </summary>
-    ''' <param name="args"></param>
-    ''' <returns></returns>
-    <ExportAPI("/Blastp.BBH.Query",
-               Info:="Using query fasta invoke blastp against the fasta files in a directory.
-               * This command tools required of NCBI blast+ suite, you must config the blast bin path by using ``settings.exe`` before running this command.",
-               Usage:="/Blastp.BBH.Query /query <query.fasta> /hit <hit.source> [/out <outDIR> /overrides /num_threads <-1>]")>
-    <ArgumentAttribute("/query", False, CLITypes.File,
-              AcceptTypes:={GetType(FastaFile)},
-              Description:="The protein query fasta file.")>
-    <ArgumentAttribute("/hit", False, CLITypes.File,
-              AcceptTypes:={GetType(FastaFile)},
-              Description:="A directory contains the protein sequence fasta files which will be using for bbh search.")>
-    <Group(CLIGrouping.BBHTools)>
-    Public Function BlastpBBHQuery(args As CommandLine) As Integer
-        Dim [in] As String = args("/query")
-        Dim subject As String = args("/hit")
-        Dim out As String = args.GetValue("/out", [in].TrimSuffix & "-" & subject.BaseName & ".BBH_OUT/")
-        Dim localBlast As New Programs.BLASTPlus(GCModeller.FileSystem.GetLocalblast)
-        Dim blastp As BlastInvoker = localBlast.CreateInvokeHandle
-        Dim [overrides] As Boolean = args.GetBoolean("/overrides")
-        Dim nt As Integer = args.GetValue("/num_threads", -1)
+    '''' <summary>
+    '''' 
+    '''' </summary>
+    '''' <param name="args"></param>
+    '''' <returns></returns>
+    '<ExportAPI("/Blastp.BBH.Query",
+    '           Info:="Using query fasta invoke blastp against the fasta files in a directory.
+    '           * This command tools required of NCBI blast+ suite, you must config the blast bin path by using ``settings.exe`` before running this command.",
+    '           Usage:="/Blastp.BBH.Query /query <query.fasta> /hit <hit.source> [/out <outDIR> /overrides /num_threads <-1>]")>
+    '<ArgumentAttribute("/query", False, CLITypes.File,
+    '          AcceptTypes:={GetType(FastaFile)},
+    '          Description:="The protein query fasta file.")>
+    '<ArgumentAttribute("/hit", False, CLITypes.File,
+    '          AcceptTypes:={GetType(FastaFile)},
+    '          Description:="A directory contains the protein sequence fasta files which will be using for bbh search.")>
+    '<Group(CLIGrouping.BBHTools)>
+    'Public Function BlastpBBHQuery(args As CommandLine) As Integer
+    '    Dim [in] As String = args("/query")
+    '    Dim subject As String = args("/hit")
+    '    Dim out As String = args.GetValue("/out", [in].TrimSuffix & "-" & subject.BaseName & ".BBH_OUT/")
+    '    Dim localBlast As New Programs.BLASTPlus(GCModeller.FileSystem.GetLocalblast)
+    '    Dim blastp As BlastInvoker = localBlast.CreateInvokeHandle
+    '    Dim [overrides] As Boolean = args.GetBoolean("/overrides")
+    '    Dim nt As Integer = args.GetValue("/num_threads", -1)
 
-        Call "Start [query ==> {Hits}] direction...".__DEBUG_ECHO
-        Call ParallelTaskAPI.BatchBlastp(blastp, [in], subject, out, 10, [overrides], numThreads:=nt)
-        Call "Start [{Hits} ==> query] direction...".__DEBUG_ECHO
-        Call ParallelTaskAPI.BatchBlastpRev(localBlast, subject, [in], out, 10, [overrides], True, numThreads:=nt)
+    '    Call "Start [query ==> {Hits}] direction...".__DEBUG_ECHO
+    '    Call ParallelTaskAPI.BatchBlastp(blastp, [in], subject, out, 10, [overrides], numThreads:=nt)
+    '    Call "Start [{Hits} ==> query] direction...".__DEBUG_ECHO
+    '    Call ParallelTaskAPI.BatchBlastpRev(localBlast, subject, [in], out, 10, [overrides], True, numThreads:=nt)
 
-        Return 0
-    End Function
+    '    Return 0
+    'End Function
 
     <ExportAPI("/Select.Meta", Usage:="/Select.Meta /in <meta.Xml> /bbh <bbh.csv> [/out <out.csv>]")>
     <Group(CLIGrouping.BBHTools)>
@@ -384,25 +384,25 @@ Partial Module CLI
         Return entryList.__exportBBH(isAll, coverage, identities, "", outDIR:=out & "/BBH_OUT/")
     End Function
 
-    <ExportAPI("/venn.BBH",
-               Info:="2. Build venn table And bbh data from the blastp result out Or sbh data cache.",
-               Usage:="/venn.BBH /imports <blastp_out.DIR> [/skip-load /query <queryName> /all /coverage <0.6> /identities <0.3> /out <outDIR>]")>
-    <ArgumentAttribute("/skip-load", True,
-                   Description:="If the data source in the imports directory Is already the sbh data source, then using this parameter to skip the blastp file parsing.")>
-    <Group(CLIGrouping.BBHTools)>
-    Public Function VennBBH(args As CommandLine) As Integer
-        Dim importsDIR As String = args("/imports")
-        Dim all As Boolean = args.GetBoolean("/all")
-        Dim coverage As Double = args.GetValue("/coverage", 0.6)
-        Dim identities As Double = args.GetValue("/identities", 0.3)
-        Dim out As String = args.GetValue("/out", importsDIR & ".vennBBH/")
-        Dim skipLoads As Boolean = args.GetBoolean("/skip-load")
-        Dim sbhEntries As AlignEntry() = If(Not skipLoads, ExportLogData(importsDIR.LoadEntries, out & "/sbh/"), importsDIR.LoadEntries("*.csv"))
-        Dim vennModel = ExportBidirectionalBesthit(sbhEntries, out & "/venn/")  ' 导出的是Top数据,  all的不好做
-        Dim query As String = args.GetValue("/query", "")
-        Dim VennTable As IO.File = DeltaMove(vennModel, query)
-        Return VennTable > (out & "/Venn.Csv")
-    End Function
+    '<ExportAPI("/venn.BBH",
+    '           Info:="2. Build venn table And bbh data from the blastp result out Or sbh data cache.",
+    '           Usage:="/venn.BBH /imports <blastp_out.DIR> [/skip-load /query <queryName> /all /coverage <0.6> /identities <0.3> /out <outDIR>]")>
+    '<ArgumentAttribute("/skip-load", True,
+    '               Description:="If the data source in the imports directory Is already the sbh data source, then using this parameter to skip the blastp file parsing.")>
+    '<Group(CLIGrouping.BBHTools)>
+    'Public Function VennBBH(args As CommandLine) As Integer
+    '    Dim importsDIR As String = args("/imports")
+    '    Dim all As Boolean = args.GetBoolean("/all")
+    '    Dim coverage As Double = args.GetValue("/coverage", 0.6)
+    '    Dim identities As Double = args.GetValue("/identities", 0.3)
+    '    Dim out As String = args.GetValue("/out", importsDIR & ".vennBBH/")
+    '    Dim skipLoads As Boolean = args.GetBoolean("/skip-load")
+    '    Dim sbhEntries As AlignEntry() = If(Not skipLoads, ExportLogData(importsDIR.LoadEntries, out & "/sbh/"), importsDIR.LoadEntries("*.csv"))
+    '    Dim vennModel = ExportBidirectionalBesthit(sbhEntries, out & "/venn/")  ' 导出的是Top数据,  all的不好做
+    '    Dim query As String = args.GetValue("/query", "")
+    '    Dim VennTable As IO.File = DeltaMove(vennModel, query)
+    '    Return VennTable > (out & "/Venn.Csv")
+    'End Function
 
     ''' <summary>
     ''' 导出单项最佳比对数据的工作线程

@@ -12,15 +12,30 @@
     <Configurations>Debug;Release;Rsharp_app_release;mzkit_win32;gcmodeller_desktop</Configurations>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(Configuration)|$(TargetFramework)' == 'gcmodeller_desktop|net6.0' ">
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <OutputPath>../../../../GCModeller/bin</OutputPath>
+  </PropertyGroup>
+
   <ItemGroup>
     <Content Include="ncbi.ico" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\GCModeller\core\Bio.Annotation\annotation.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\runtime\Darwinism\Parallel\parallel-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame\dataframework-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
     <ProjectReference Include="..\LocalBLAST\localblast.NET5.vbproj" />
     <ProjectReference Include="..\ParallelTask\ParallelTask.vbproj" />
   </ItemGroup>
+
+  <Import Project="..\..\..\Settings\Shared\InternalApps_CLI\InternalApps_CLI.projitems" Label="Shared" />
+
+  <Import Project="..\..\..\Settings\Shared\RepositoryCommon\RepositoryCommon.projitems" Label="Shared" />
+
+  <Import Project="..\..\..\Settings\Shared\Settings.Configuration\Settings.Configuration.projitems" Label="Shared" />
+
+  <Import Project="..\..\..\Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems" Label="Shared" />
 
 </Project>

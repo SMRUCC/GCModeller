@@ -193,29 +193,29 @@ Partial Module CLI
             }) >> out.FileOpen
     End Function
 
-    <ExportAPI("/install.cog2003-2014")>
-    <Description("Config the ``prot2003-2014.fasta`` database for GCModeller localblast tools. This database will be using for the COG annotation. 
-               This command required of the blast+ install first.")>
-    <Usage("/install.cog2003-2014 /db <prot2003-2014.fasta>")>
-    <Example("/install.cog2003-2014 /db /data/fasta/prot2003-2014.fasta")>
-    <Group(CLIGrouping.COGTools)>
-    <ArgumentAttribute("/db", False, CLITypes.File,
-              AcceptTypes:={GetType(FastaFile)},
-              Description:="The fasta database using for COG annotation, which can be download from NCBI ftp: 
-              > ftp://ftp.ncbi.nlm.nih.gov/pub/COG/COG2014/data/prot2003-2014.fa.gz")>
-    Public Function InstallCOGDatabase(args As CommandLine) As Integer
-        Dim localblast As New BLASTPlus(
-            bin:=GCModeller.FileSystem.GetLocalblast)
-        Dim db$ = args("/db")
+    '<ExportAPI("/install.cog2003-2014")>
+    '<Description("Config the ``prot2003-2014.fasta`` database for GCModeller localblast tools. This database will be using for the COG annotation. 
+    '           This command required of the blast+ install first.")>
+    '<Usage("/install.cog2003-2014 /db <prot2003-2014.fasta>")>
+    '<Example("/install.cog2003-2014 /db /data/fasta/prot2003-2014.fasta")>
+    '<Group(CLIGrouping.COGTools)>
+    '<ArgumentAttribute("/db", False, CLITypes.File,
+    '          AcceptTypes:={GetType(FastaFile)},
+    '          Description:="The fasta database using for COG annotation, which can be download from NCBI ftp: 
+    '          > ftp://ftp.ncbi.nlm.nih.gov/pub/COG/COG2014/data/prot2003-2014.fa.gz")>
+    'Public Function InstallCOGDatabase(args As CommandLine) As Integer
+    '    Dim localblast As New BLASTPlus(
+    '        bin:=GCModeller.FileSystem.GetLocalblast)
+    '    Dim db$ = args("/db")
 
-        ' 保存并格式化数据库，则后面的分析就可以直接使用了
-        Settings.SettingsFile.COG2003_2014 = db.GetFullPath
-        Settings.Save()
+    '    ' 保存并格式化数据库，则后面的分析就可以直接使用了
+    '    Settings.SettingsFile.COG2003_2014 = db.GetFullPath
+    '    Settings.Save()
 
-        Return localblast _
-            .FormatDb(db, localblast.MolTypeProtein) _
-            .Run()
-    End Function
+    '    Return localblast _
+    '        .FormatDb(db, localblast.MolTypeProtein) _
+    '        .Run()
+    'End Function
 
     <ExportAPI("/query.cog2003-2014")>
     <Description("Protein COG annotation by using NCBI cog2003-2014.fasta database.")>
