@@ -8,10 +8,19 @@
     <Title>NCBI localblast+</Title>
     <ApplicationIcon>ncbi.ico</ApplicationIcon>
     <AssemblyName>localblast</AssemblyName>
+    <Platforms>AnyCPU;x64</Platforms>
+    <Configurations>Debug;Release;Rsharp_app_release;mzkit_win32;gcmodeller_desktop</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
     <Content Include="ncbi.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame\dataframework-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+    <ProjectReference Include="..\LocalBLAST\localblast.NET5.vbproj" />
+    <ProjectReference Include="..\ParallelTask\ParallelTask.vbproj" />
   </ItemGroup>
 
 </Project>
