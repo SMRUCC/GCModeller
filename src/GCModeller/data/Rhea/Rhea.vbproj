@@ -4,7 +4,7 @@
     <RootNamespace>SMRUCC.genomics.Data.Rhea</RootNamespace>
     <TargetFrameworks>net6.0-windows;net6.0;net48</TargetFrameworks>
     <Platforms>AnyCPU;x64</Platforms>
-    <Configurations>Debug;Release;Rsharp_app_release</Configurations>
+    <Configurations>Debug;Release;Rsharp_app_release;mzkit_win32;gcmodeller_desktop</Configurations>
     <AssemblyName>SMRUCC.genomics.Data.Rhea</AssemblyName>
   </PropertyGroup>
 

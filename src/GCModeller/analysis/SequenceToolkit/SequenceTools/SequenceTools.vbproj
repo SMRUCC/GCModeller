@@ -11,6 +11,7 @@
     <ApplicationIcon>DNA.ico</ApplicationIcon>
     <OutputPath>../../../../../GCModeller/bin</OutputPath>
     <Platforms>AnyCPU;x64</Platforms>
+    <Configurations>Debug;Release;Rsharp_app_release;mzkit_win32;gcmodeller_desktop</Configurations>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(TargetFramework)' == 'mzkit_win32|net6.0-windows' ">

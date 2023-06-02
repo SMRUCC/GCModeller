@@ -139,8 +139,8 @@ Global
 		{BD268211-881F-4176-8220-3CA450ADB2D7}.gcmodeller_desktop|Any CPU.Build.0 = Release|Any CPU
 		{BD268211-881F-4176-8220-3CA450ADB2D7}.gcmodeller_desktop|ARM32.ActiveCfg = Release|Any CPU
 		{BD268211-881F-4176-8220-3CA450ADB2D7}.gcmodeller_desktop|ARM32.Build.0 = Release|Any CPU
-		{BD268211-881F-4176-8220-3CA450ADB2D7}.gcmodeller_desktop|x64.ActiveCfg = Release|Any CPU
-		{BD268211-881F-4176-8220-3CA450ADB2D7}.gcmodeller_desktop|x64.Build.0 = Release|Any CPU
+		{BD268211-881F-4176-8220-3CA450ADB2D7}.gcmodeller_desktop|x64.ActiveCfg = Release|x64
+		{BD268211-881F-4176-8220-3CA450ADB2D7}.gcmodeller_desktop|x64.Build.0 = Release|x64
 		{BD268211-881F-4176-8220-3CA450ADB2D7}.gcmodeller_desktop|x86.ActiveCfg = Release|Any CPU
 		{BD268211-881F-4176-8220-3CA450ADB2D7}.gcmodeller_desktop|x86.Build.0 = Release|Any CPU
 		{BD268211-881F-4176-8220-3CA450ADB2D7}.LipidSearch|Any CPU.ActiveCfg = Release|Any CPU
@@ -2443,8 +2443,8 @@ Global
 		{8970E7CF-0B7E-4823-9AD7-D7AA436354AD}.gcmodeller_desktop|Any CPU.Build.0 = Debug|Any CPU
 		{8970E7CF-0B7E-4823-9AD7-D7AA436354AD}.gcmodeller_desktop|ARM32.ActiveCfg = Debug|Any CPU
 		{8970E7CF-0B7E-4823-9AD7-D7AA436354AD}.gcmodeller_desktop|ARM32.Build.0 = Debug|Any CPU
-		{8970E7CF-0B7E-4823-9AD7-D7AA436354AD}.gcmodeller_desktop|x64.ActiveCfg = Debug|x64
-		{8970E7CF-0B7E-4823-9AD7-D7AA436354AD}.gcmodeller_desktop|x64.Build.0 = Debug|x64
+		{8970E7CF-0B7E-4823-9AD7-D7AA436354AD}.gcmodeller_desktop|x64.ActiveCfg = Rsharp_app_release|x64
+		{8970E7CF-0B7E-4823-9AD7-D7AA436354AD}.gcmodeller_desktop|x64.Build.0 = Rsharp_app_release|x64
 		{8970E7CF-0B7E-4823-9AD7-D7AA436354AD}.gcmodeller_desktop|x86.ActiveCfg = Debug|Any CPU
 		{8970E7CF-0B7E-4823-9AD7-D7AA436354AD}.gcmodeller_desktop|x86.Build.0 = Debug|Any CPU
 		{8970E7CF-0B7E-4823-9AD7-D7AA436354AD}.LipidSearch|Any CPU.ActiveCfg = LipidSearch|Any CPU
