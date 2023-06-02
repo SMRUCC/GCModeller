@@ -177,7 +177,7 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
         Dim pattern As String = argvs("-p").Replace("N", "[ATGCU]")
 
         If String.IsNullOrEmpty(OutputFolder) Then
-            OutputFolder = My.Computer.FileSystem.SpecialDirectories.Desktop
+            OutputFolder = Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
         End If
 
         If String.IsNullOrEmpty(Format) OrElse String.Equals("fsa", Format, StringComparison.OrdinalIgnoreCase) Then 'fasta sequence
@@ -276,7 +276,7 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
         Dim inFile As String = args("/in")
         Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".png")
         Dim aln As New FASTA.FastaFile(inFile)
-        Call ClustalVisual.SetDotSize(args.GetValue("/dot.size", 10))
+        ClustalVisual.DotSize = args("/dot.size") Or 10
         Dim res As Image = ClustalVisual.InvokeDrawing(aln)
         Return res.SaveAs(out, ImageFormats.Png)
     End Function

@@ -80,7 +80,7 @@ Public Module ClustalVisual
     ''' 一个点默认占据10个像素
     ''' </summary>
     ''' <remarks></remarks>
-    <DataFrameColumn("MLA.DotSize")> Dim DotSize As Integer = 10
+    <DataFrameColumn("MLA.DotSize")> Public DotSize As Integer = 10
     <DataFrameColumn("MLA.FontSize")> Dim FontSize As Integer = 12
 
     ''' <summary>
