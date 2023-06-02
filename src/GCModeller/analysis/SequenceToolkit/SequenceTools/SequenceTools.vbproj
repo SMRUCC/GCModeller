@@ -9,6 +9,12 @@
     <Description>Sequence search tools and sequence operation tools</Description>
     <Copyright>Copyright © xie.guigang@gcmodeller.org 2023</Copyright>
     <ApplicationIcon>DNA.ico</ApplicationIcon>
+    <OutputPath>../../../../../GCModeller/bin</OutputPath>
+    <Platforms>AnyCPU;x64</Platforms>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(TargetFramework)' == 'mzkit_win32|net6.0-windows' ">
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
 
   <ItemGroup>
