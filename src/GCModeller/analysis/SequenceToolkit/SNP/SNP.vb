@@ -1,61 +1,60 @@
 ﻿#Region "Microsoft.VisualBasic::4390af87de7fa23466762ebeab219102, GCModeller\analysis\SequenceToolkit\SNP\SNP.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 111
-    '    Code Lines: 64
-    ' Comment Lines: 38
-    '   Blank Lines: 9
-    '     File Size: 3.48 KB
+' Summaries:
 
 
-    ' Class SNP
-    ' 
-    '     Properties: AminoAcidChange, CDS, CDSInterval, CDSPosition, Change
-    '                 CodonChange, CodonNumber, Coverage, gene, Intervals
-    '                 Left, Length, Name, note, PolymorphismType
-    '                 PositionWithinCodon, product, protein_id, ProteinEffect, ReferenceFrequency
-    '                 ReferenceNucleotides, Right, SignificantStrandBias, Site, StrandBias
-    '                 TotalLength, VariantFrequency, VariantNucleotides, VariantRawFrequency, VariantSequences
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 111
+'    Code Lines: 64
+' Comment Lines: 38
+'   Blank Lines: 9
+'     File Size: 3.48 KB
+
+
+' Class SNP
+' 
+'     Properties: AminoAcidChange, CDS, CDSInterval, CDSPosition, Change
+'                 CodonChange, CodonNumber, Coverage, gene, Intervals
+'                 Left, Length, Name, note, PolymorphismType
+'                 PositionWithinCodon, product, protein_id, ProteinEffect, ReferenceFrequency
+'                 ReferenceNucleotides, Right, SignificantStrandBias, Site, StrandBias
+'                 TotalLength, VariantFrequency, VariantNucleotides, VariantRawFrequency, VariantSequences
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
-Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.ComponentModel.Loci
 
 ''' <summary>
@@ -128,7 +127,7 @@ Public Class SNP
     Public Property product As String
     <Column("Protein Effect")>
     Public Property ProteinEffect As String
-    Public Property protein_id As String Implements IMotifSite.Name
+    Public Property protein_id As String Implements IMotifSite.name
 
     ''' <summary>
     ''' 这个SNP位点可能引起的氨基酸序列上面的残基的变化
@@ -153,14 +152,14 @@ Public Class SNP
     <Column("Codon Change")>
     Public Property CodonChange As String
 
-    Private Property Site As Location Implements IMotifSite.Site
+    Private Property Site As Location Implements IMotifSite.site
         Get
             Return New Location(Left, Right)
         End Get
         Set(value As Location)
             With value
-                Left = .Left
-                Right = .Right
+                Left = .left
+                Right = .right
             End With
         End Set
     End Property

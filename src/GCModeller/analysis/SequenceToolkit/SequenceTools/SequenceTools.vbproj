@@ -21,9 +21,12 @@
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\Math.NET5.vbproj" />
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
     <ProjectReference Include="..\..\..\core\Bio.Assembly\biocore-netcore5.vbproj" />
+    <ProjectReference Include="..\DNA_Comparative\DNA_Comparative.netcoreapp.vbproj" />
     <ProjectReference Include="..\NeedlemanWunsch\NeedlemanWunsch.NET5.vbproj" />
     <ProjectReference Include="..\SequencePatterns.Abstract\SequencePatterns.Abstract.NET5.vbproj" />
     <ProjectReference Include="..\SequencePatterns\SequencePatterns.NET5.vbproj" />
+    <ProjectReference Include="..\SmithWaterman\SmithWaterman.NET5.vbproj" />
+    <ProjectReference Include="..\SNP\SNP.vbproj" />
   </ItemGroup>
 
 </Project>
