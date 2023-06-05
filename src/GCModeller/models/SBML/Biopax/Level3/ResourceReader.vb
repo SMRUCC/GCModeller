@@ -120,10 +120,10 @@ Namespace Level3
                 End If
 
                 Yield New MetabolicReaction With {
-                    .id = reaction.RDFId,
+                    .id = If(reaction.about, reaction.RDFId),
                     .description = desc.UnescapeHTML,
                     .is_spontaneous = reaction.spontaneous,
-                    .name = .description,
+                    .name = reaction.displayName,
                     .is_reversible = reaction.conversionDirection = "REVERSIBLE",
                     .ECNumbers = ecNumbers,
                     .left = GetCompoundResource(reaction.left, participantStoichiometry).ToArray,
