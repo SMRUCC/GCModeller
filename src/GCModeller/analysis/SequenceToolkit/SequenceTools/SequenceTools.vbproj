@@ -1,421 +1,68 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{6B8153AC-5CA3-4A8E-B841-6DF82373D03B}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <StartupObject>seqtools.Program</StartupObject>
     <RootNamespace>seqtools</RootNamespace>
+    <TargetFramework>net6.0</TargetFramework>
     <AssemblyName>seqtools</AssemblyName>
-    <FileAlignment>512</FileAlignment>
-    <MyType>Console</MyType>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <TargetFrameworkProfile />
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <DefineDebug>true</DefineDebug>
-    <DefineTrace>true</DefineTrace>
-    <OutputPath>./bin</OutputPath>
-    <DocumentationFile>seqtools.xml</DocumentationFile>
-    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
-    <Prefer32Bit>false</Prefer32Bit>
-    <WarningsAsErrors>
-    </WarningsAsErrors>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <DefineDebug>false</DefineDebug>
-    <DefineTrace>true</DefineTrace>
-    <Optimize>true</Optimize>
-    <OutputPath>./bin</OutputPath>
-    <DocumentationFile>seqtools.xml</DocumentationFile>
-    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
-    <Prefer32Bit>false</Prefer32Bit>
-    <WarningsAsErrors>
-    </WarningsAsErrors>
-  </PropertyGroup>
-  <PropertyGroup>
-    <OptionExplicit>On</OptionExplicit>
-  </PropertyGroup>
-  <PropertyGroup>
-    <OptionCompare>Binary</OptionCompare>
-  </PropertyGroup>
-  <PropertyGroup>
-    <OptionStrict>Off</OptionStrict>
-  </PropertyGroup>
-  <PropertyGroup>
-    <OptionInfer>On</OptionInfer>
-  </PropertyGroup>
-  <PropertyGroup>
+    <Title>Sequence search tools and sequence operation tools</Title>
+    <Description>Sequence search tools and sequence operation tools</Description>
+    <Copyright>Copyright © xie.guigang@gcmodeller.org 2023</Copyright>
     <ApplicationIcon>DNA.ico</ApplicationIcon>
+    
+    <Platforms>AnyCPU;x64</Platforms>
+    <Configurations>Debug;Release;Rsharp_app_release;mzkit_win32;gcmodeller_desktop</Configurations>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <DebugSymbols>true</DebugSymbols>
-    <DefineDebug>true</DefineDebug>
-    <DefineTrace>true</DefineTrace>
-    <OutputPath>..\..\..\..\..\GCModeller\bin\</OutputPath>
-    <DocumentationFile>seqtools.xml</DocumentationFile>
-    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
-    <WarningsAsErrors>
-    </WarningsAsErrors>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(TargetFramework)' == 'gcmodeller_desktop|net6.0' ">
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <OutputPath>../../../../../GCModeller/bin</OutputPath>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <DefineTrace>true</DefineTrace>
-    <OutputPath>./bin</OutputPath>
-    <DocumentationFile>seqtools.xml</DocumentationFile>
-    <Optimize>true</Optimize>
-    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <WarningsAsErrors>
-    </WarningsAsErrors>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish|AnyCPU'">
-    <DefineTrace>true</DefineTrace>
-    <OutputPath>./bin</OutputPath>
-    <DocumentationFile>seqtools.xml</DocumentationFile>
-    <Optimize>true</Optimize>
-    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <WarningsAsErrors>
-    </WarningsAsErrors>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish|x64'">
-    <DefineTrace>true</DefineTrace>
-    <OutputPath>./bin</OutputPath>
-    <DocumentationFile>seqtools.xml</DocumentationFile>
-    <Optimize>true</Optimize>
-    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
-    <WarningsAsErrors>
-    </WarningsAsErrors>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
-    <DebugSymbols>true</DebugSymbols>
-    <DefineDebug>true</DefineDebug>
-    <DefineTrace>true</DefineTrace>
-    <OutputPath>./bin</OutputPath>
-    <DocumentationFile>seqtools.xml</DocumentationFile>
-    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <WarningsAsErrors>
-    </WarningsAsErrors>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <DefineTrace>true</DefineTrace>
-    <OutputPath>..\..\..\..\..\GCModeller\bin\</OutputPath>
-    <DocumentationFile>seqtools.xml</DocumentationFile>
-    <Optimize>true</Optimize>
-    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <WarningsAsErrors>
-    </WarningsAsErrors>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish|x86'">
-    <DefineTrace>true</DefineTrace>
-    <OutputPath>./bin</OutputPath>
-    <DocumentationFile>seqtools.xml</DocumentationFile>
-    <Optimize>true</Optimize>
-    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
-    <WarningsAsErrors>
-    </WarningsAsErrors>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'docs|AnyCPU'">
-    <DefineTrace>true</DefineTrace>
-    <OutputPath>./bin</OutputPath>
-    <DocumentationFile>seqtools.xml</DocumentationFile>
-    <Optimize>true</Optimize>
-    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <WarningsAsErrors>
-    </WarningsAsErrors>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'docs|x64'">
-    <DefineTrace>true</DefineTrace>
-    <OutputPath>./bin</OutputPath>
-    <DocumentationFile>seqtools.xml</DocumentationFile>
-    <Optimize>true</Optimize>
-    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
-    <WarningsAsErrors>
-    </WarningsAsErrors>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'docs|x86'">
-    <DefineTrace>true</DefineTrace>
-    <OutputPath>./bin</OutputPath>
-    <DocumentationFile>seqtools.xml</DocumentationFile>
-    <Optimize>true</Optimize>
-    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
-    <WarningsAsErrors>
-    </WarningsAsErrors>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28UNIX-Release_X64%29|AnyCPU'">
-    <OutputPath>./bin</OutputPath>
-    <DocumentationFile>seqtools.xml</DocumentationFile>
-    <WarningsAsErrors>
-    </WarningsAsErrors>
-    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28UNIX-Release_X64%29|x64'">
-    <OutputPath>..\..\..\..\..\GCModeller\bin\</OutputPath>
-    <DocumentationFile>seqtools.xml</DocumentationFile>
-    <WarningsAsErrors>
-    </WarningsAsErrors>
-    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
-    <Prefer32Bit>false</Prefer32Bit>
-    <PlatformTarget>x64</PlatformTarget>
-    <RemoveIntegerChecks>true</RemoveIntegerChecks>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <DefineTrace>true</DefineTrace>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28UNIX-Release_X64%29|x86'">
-    <OutputPath>./bin</OutputPath>
-    <DocumentationFile>seqtools.xml</DocumentationFile>
-    <WarningsAsErrors>
-    </WarningsAsErrors>
-    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28Release_X64%29|AnyCPU'">
-    <DefineTrace>true</DefineTrace>
-    <OutputPath>./bin</OutputPath>
-    <DocumentationFile>seqtools.xml</DocumentationFile>
-    <Optimize>true</Optimize>
-    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <WarningsAsErrors>
-    </WarningsAsErrors>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28Release_X64%29|x64'">
-    <DefineTrace>true</DefineTrace>
-    <OutputPath>..\..\..\..\..\GCModeller\bin\</OutputPath>
-    <DocumentationFile>seqtools.xml</DocumentationFile>
-    <Optimize>false</Optimize>
-    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
-    <WarningsAsErrors>
-    </WarningsAsErrors>
-    <DebugSymbols>true</DebugSymbols>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28Release_X64%29|x86'">
-    <DefineTrace>true</DefineTrace>
-    <OutputPath>./bin</OutputPath>
-    <DocumentationFile>seqtools.xml</DocumentationFile>
-    <Optimize>true</Optimize>
-    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
-    <WarningsAsErrors>
-    </WarningsAsErrors>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Data.Entity" />
-    <Reference Include="System.Data.Linq" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.XML" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Xml.Serialization" />
-  </ItemGroup>
-  <ItemGroup>
-    <Import Include="Microsoft.VisualBasic" />
-    <Import Include="System" />
-    <Import Include="System.Collections" />
-    <Import Include="System.Collections.Generic" />
-    <Import Include="System.Data" />
-    <Import Include="System.Diagnostics" />
-    <Import Include="System.Linq" />
-    <Import Include="System.Xml.Linq" />
-    <Import Include="System.Threading.Tasks" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="CLIGrouping.vb" />
-    <Compile Include="CLI\Aligner.vb" />
-    <Compile Include="CLI\DNA_Comparative.vb" />
-    <Compile Include="CLI\Debugger.vb" />
-    <Compile Include="CLI\SNP\SNP.vb" />
-    <Compile Include="CLI\LociFeatures\PalindromeBatch.vb" />
-    <Compile Include="CLI\NTProps.vb" />
-    <Compile Include="CLI\LociFeatures\Repeats.vb" />
-    <Compile Include="CLI\FastaTools.vb" />
-    <Compile Include="CLI\LociFeatures\Palindrome.vb" />
-    <Compile Include="CLI\ORF.vb" />
-    <Compile Include="CLI\SNP\calcFst.vb" />
-    <Compile Include="ShellScriptAPI.vb" />
-    <Compile Include="CLI\Utilities.vb" />
-    <Compile Include="Program.vb" />
-    <Compile Include="My Project\AssemblyInfo.vb" />
-    <Compile Include="My Project\Application.Designer.vb">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Application.myapp</DependentUpon>
-    </Compile>
-    <Compile Include="My Project\Resources.Designer.vb">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="My Project\Settings.Designer.vb">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="My Project\Resources.resx">
-      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
-      <CustomToolNamespace>My.Resources</CustomToolNamespace>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="SequenceTools.Designer.cd" />
-    <None Include="My Project\Application.myapp">
-      <Generator>MyApplicationCodeGenerator</Generator>
-      <LastGenOutput>Application.Designer.vb</LastGenOutput>
-    </None>
-    <None Include="My Project\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <CustomToolNamespace>My</CustomToolNamespace>
-      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
-    </None>
-    <None Include="App.config" />
-  </ItemGroup>
+
   <ItemGroup>
     <Content Include="DNA.ico" />
   </ItemGroup>
+
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\R.Bioconductor\RDotNet.Extensions.Bioinformatics\RDotNet.Extensions.Bioinformatics.vbproj">
-      <Project>{485965CD-DA31-4517-86F6-94DFD28379C1}</Project>
-      <Name>RDotNet.Extensions.Bioinformatics</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\R.Bioconductor\RDotNET.Extensions.VisualBasic\RDotNET.Extensions.VisualBasic.vbproj">
-      <Project>{ab6e71b0-1be2-4418-ab4b-91d5554cf5a1}</Project>
-      <Name>RDotNET.Extensions.VisualBasic</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\Darwinism\Parallel\Parallel.vbproj">
-      <Project>{085171CA-6A65-494C-9B4A-477D35BCBC90}</Project>
-      <Name>Parallel</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data\DataFrame\47_dotnet_ms-vb_data.framework.vbproj">
-      <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
-      <Name>47_dotnet_ms-vb_data.framework</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\DataMining\DynamicProgramming\DynamicProgramming.vbproj">
-      <Project>{A903B744-C08D-4869-BC35-3DD25E36AA16}</Project>
-      <Name>DynamicProgramming</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\math-core.vbproj">
-      <Project>{E3367B88-5D0C-495A-8273-331656D4B5AA}</Project>
-      <Name>math-core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\Microsoft.VisualBasic.Imaging.vbproj">
-      <Project>{85E71B4B-9276-4EC8-AADC-C849205F1EA8}</Project>
-      <Name>Microsoft.VisualBasic.Imaging</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\47-dotnet_Microsoft.VisualBasic.vbproj">
-      <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
-      <Name>47-dotnet_Microsoft.VisualBasic</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\core\Bio.Annotation\Bio.Annotation.vbproj">
-      <Project>{E5AD6940-D449-471D-9539-65B4E457E6E3}</Project>
-      <Name>Bio.Annotation</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
-      <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
-      <Name>Bio.Assembly</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DNA_Comparative\DNA_Comparative.vbproj">
-      <Project>{e54c3dc8-66a0-4617-aff8-d89457569723}</Project>
-      <Name>DNA_Comparative</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\gwANI\gwANI.vbproj">
-      <Project>{303eba88-ddba-4eb2-afb4-f392a0e8a25e}</Project>
-      <Name>gwANI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MotifScanner\MotifScanner.vbproj">
-      <Project>{e71c120a-76cb-4312-af93-6a559d3ba062}</Project>
-      <Name>MotifScanner</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MSA\MSA.vbproj">
-      <Project>{099D156F-13A1-4A1F-868E-5E67F9B99D54}</Project>
-      <Name>MSA</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NeedlemanWunsch\NeedlemanWunsch.vbproj">
-      <Project>{7d48b4ef-34d4-488c-8fc4-2cbc0b92bd9c}</Project>
-      <Name>NeedlemanWunsch</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SequenceLogo\SequenceLogo.vbproj">
-      <Project>{1ae6b8da-1a79-4dc7-a291-a8ae75ce07ba}</Project>
-      <Name>SequenceLogo</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SequencePatterns.Abstract\SequencePatterns.Abstract.vbproj">
-      <Project>{49219B69-7958-4BDB-B72B-9B72D7902A28}</Project>
-      <Name>SequencePatterns.Abstract</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SequencePatterns\SequencePatterns.vbproj">
-      <Project>{abdce82b-700e-4f70-a2f1-86b8054d0c8e}</Project>
-      <Name>SequencePatterns</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SmithWaterman\SmithWaterman.vbproj">
-      <Project>{96973118-8964-49c4-b34f-086c4f9e2cdf}</Project>
-      <Name>SmithWaterman</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SNP\SNP.vbproj">
-      <Project>{b43c4103-91b0-40d2-9b2b-c4124deb8d2f}</Project>
-      <Name>SNP</Name>
-    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\interops\localblast\LocalBLAST\localblast.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\..\repository\Bio.Repository\repository.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\Darwinism\Parallel\parallel-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data\BinaryData\BinaryData\binarydata-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data\BinaryData\HDSPack\HDSPack.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data\BinaryData\msgpack\msgpack-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data\DataFrame\dataframework-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\DataMining\DataMining\DataMining.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\DataMining\DynamicProgramming\DynamicProgramming.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\DataMining\UMAP\UMAP.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Graph\graph-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Gibbs\Gibbs.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math.Statistics\stats-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\Math.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Randomizer\randomizer-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\imaging.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\mime\application%json\JSON-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\mime\application%rdf+xml\rdf_xml-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\mime\application%xml\xml-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\mime\text%html\html_netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\www\Microsoft.VisualBasic.NETProtocol\network-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\core\Bio.Annotation\annotation.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\core\Bio.Assembly\biocore-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\data\Rhea\Rhea.vbproj" />
+    <ProjectReference Include="..\..\..\data\SABIO-RK\SABIO-RK.NET.vbproj" />
+    <ProjectReference Include="..\..\..\models\SBML\SBML\sbml-netcore5.vbproj" />
+    <ProjectReference Include="..\..\Motifs\MotifGraph\MotifGraph.vbproj" />
+    <ProjectReference Include="..\DNA_Comparative\DNA_Comparative.netcoreapp.vbproj" />
+    <ProjectReference Include="..\gwANI\gwANI.NET5.vbproj" />
+    <ProjectReference Include="..\MotifFinder\MotifFinder.vbproj" />
+    <ProjectReference Include="..\MotifScanner\MotifScanner.NET5.vbproj" />
+    <ProjectReference Include="..\MSA\MSA.NET5.vbproj" />
+    <ProjectReference Include="..\NeedlemanWunsch\NeedlemanWunsch.NET5.vbproj" />
+    <ProjectReference Include="..\SequenceLogo\SequenceLogo.NET5.vbproj" />
+    <ProjectReference Include="..\SequencePatterns.Abstract\SequencePatterns.Abstract.NET5.vbproj" />
+    <ProjectReference Include="..\SequencePatterns\SequencePatterns.NET5.vbproj" />
+    <ProjectReference Include="..\SmithWaterman\SmithWaterman.NET5.vbproj" />
+    <ProjectReference Include="..\SNP\SNP.vbproj" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+
 </Project>

@@ -1,50 +1,51 @@
 ﻿#Region "Microsoft.VisualBasic::3d0491f47e5ad537aff230da6b87422f, localblast\ParallelTask\NCBILocalBlast.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module NCBILocalBlast
-    ' 
-    '     Function: __blastn, __blastX, __integrity, (+2 Overloads) Blastn, Blastp
-    '               (+2 Overloads) BlastX, CreateSession, (+2 Overloads) Export_BidirBesthit, ExportBesthit, ExportBesthits
-    '               ExportOverviewCsv, FastCheckIntegrityProvider, Grephits, GrepQuery, LoadBesthitCsv
-    '               LoadBiDirBh, LoadBlastOutput, LoadBlastXOutput, LoadOverview, LoadUltraLargeSizeBlastOutput
-    '               MyvaCogClassify, ParseScore, ReadMyvaCOG, SaveBBH, Version
-    '               WriteBesthit
-    ' 
-    ' /********************************************************************************/
+' Module NCBILocalBlast
+' 
+'     Function: __blastn, __blastX, __integrity, (+2 Overloads) Blastn, Blastp
+'               (+2 Overloads) BlastX, CreateSession, (+2 Overloads) Export_BidirBesthit, ExportBesthit, ExportBesthits
+'               ExportOverviewCsv, FastCheckIntegrityProvider, Grephits, GrepQuery, LoadBesthitCsv
+'               LoadBiDirBh, LoadBlastOutput, LoadBlastXOutput, LoadOverview, LoadUltraLargeSizeBlastOutput
+'               MyvaCogClassify, ParseScore, ReadMyvaCOG, SaveBBH, Version
+'               WriteBesthit
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.Extensions
@@ -79,7 +80,7 @@ Public Module NCBILocalBlast
     ''' <remarks></remarks>
     <Extension> Public Function FastCheckIntegrityProvider(query As FASTA.FastaFile, path$) As Boolean
         Dim queries$() = LinqAPI.Exec(Of String) _
- _
+                                                 _
             () <= From line As String
                   In path.IterateAllLines
                   Let entry As String = r.Match(line, "Query\s*=\s*.+").Value
@@ -318,7 +319,7 @@ Public Module NCBILocalBlast
     <ExportAPI("blastp")>
     Public Function Blastp(session As LocalBLAST.InteropService.InteropService, Query As String, Db As String, Evalue As String, BlastOutput As String) As String
         If String.IsNullOrEmpty(BlastOutput) Then
-            BlastOutput = My.Computer.FileSystem.SpecialDirectories.Temp & "/blast_output.log"
+            BlastOutput = App.AppSystemTemp & "/blast_output.log"
         Else
             Call FileIO.FileSystem.CreateDirectory(FileIO.FileSystem.GetParentPath(BlastOutput))
         End If
