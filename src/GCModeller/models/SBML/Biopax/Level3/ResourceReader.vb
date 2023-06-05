@@ -39,9 +39,15 @@ Namespace Level3
                     stoichiometryValue = stoichiometry.stoichiometricCoefficient
                 End If
 
+                Dim cellularLocation As EntityProperties.term = Nothing
+
+                If location IsNot Nothing Then
+                    cellularLocation = cellularLocations(location).term
+                End If
+
                 Yield New CompoundSpecieReference With {
                     .Stoichiometry = stoichiometryValue,
-                    .Compartment = cellularLocations(location).term,
+                    .Compartment = cellularLocation,
                     .ID = compound.displayName
                 }
             Next
