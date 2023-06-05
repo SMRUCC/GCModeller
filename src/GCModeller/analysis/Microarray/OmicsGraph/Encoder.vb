@@ -93,10 +93,12 @@ Public Module Encoder
 
     <Extension>
     Private Function encodeRange4(charSet As String, z As Vector, features As String()) As Dictionary(Of String, Char)
-        Dim range1 As New DoubleRange(z.Min, z.Min / 2)
-        Dim range2 As New DoubleRange(z.Min / 2, 0)
-        Dim range3 As New DoubleRange(0, z.Max / 2)
-        Dim range4 As New DoubleRange(z.Max / 2, z.Max)
+        Dim neg = z.Where(Function(zi) zi < 0).GKQuantile
+        Dim pos = z.Where(Function(zi) zi >= 0).GKQuantile
+        Dim range1 As New DoubleRange(z.Min, neg.Query(0.5))
+        Dim range2 As New DoubleRange(neg.Query(0.5), 0)
+        Dim range3 As New DoubleRange(0, pos.Query(0.5))
+        Dim range4 As New DoubleRange(pos.Query(0.5), z.Max)
 
         Dim encodes As New Dictionary(Of String, Char)
 
