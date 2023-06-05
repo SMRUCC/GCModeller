@@ -123,6 +123,7 @@
     <ProjectReference Include="..\..\data\Rhea\Rhea.vbproj" />
     <ProjectReference Include="..\..\data\SABIO-RK\SABIO-RK.NET.vbproj" />
     <ProjectReference Include="..\..\models\BioCyc\BioCyc.vbproj" />
+    <ProjectReference Include="..\..\models\SBML\Biopax\biopax-netcore5.vbproj" />
     <ProjectReference Include="..\BootstrapLoader\BootstrapLoader.NET5.vbproj" />
     <ProjectReference Include="..\CompilerServices\CompilerServices.NET5.vbproj" />
     <ProjectReference Include="..\Compiler\Compiler.NET5.vbproj" />
