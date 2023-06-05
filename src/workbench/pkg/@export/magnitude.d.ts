@@ -15,7 +15,9 @@ declare namespace magnitude {
        * 
        * 
         * @param mat -
+        * @param briefSet 
+        * + default value Is ``true``.
       */
-      function seqPack(mat: object): any;
+      function seqPack(mat: object, briefSet?: boolean): any;
    }
 }
