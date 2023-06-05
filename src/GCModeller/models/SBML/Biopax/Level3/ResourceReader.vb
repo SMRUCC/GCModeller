@@ -133,13 +133,13 @@ Namespace Level3
             }
 
             Call reader.compounds _
-                .AddRange(file.SmallMolecules, Function(m) m.RDFId) _
-                .AddRange(file.Protein, Function(m) m.RDFId) _
-                .AddRange(file.Complex, Function(m) m.RDFId)
+                .AddRange(file.SmallMolecules, Function(m) If(m.RDFId, m.about)) _
+                .AddRange(file.Protein, Function(m) If(m.RDFId, m.about)) _
+                .AddRange(file.Complex, Function(m) If(m.RDFId, m.about))
 
-            reader.cellularLocations = file.CellularLocationVocabulary.ToDictionary(Function(c) c.RDFId)
-            reader.stoichiometry = file.Stoichiometry.ToDictionary(Function(c) c.RDFId)
-            reader.unificationXrefs = file.UnificationXref.ToDictionary(Function(x) x.RDFId)
+            reader.cellularLocations = file.CellularLocationVocabulary.ToDictionary(Function(c) If(c.RDFId, c.about))
+            reader.stoichiometry = file.Stoichiometry.ToDictionary(Function(c) If(c.RDFId, c.about))
+            reader.unificationXrefs = file.UnificationXref.ToDictionary(Function(x) If(x.RDFId, x.about))
 
             Return reader
         End Function
