@@ -258,14 +258,15 @@ Module patterns
     Public Function seqGraph(<RRawVectorArgument>
                              fasta As Object,
                              Optional mol_type As SeqTypes = SeqTypes.DNA,
+                             Optional parallel As Boolean = False,
                              Optional env As Environment = Nothing) As Object
 
         Dim seqList = GetFastaSeq(fasta, env).ToArray
 
         Select Case mol_type
-            Case SeqTypes.DNA : Return env.EvaluateFramework(Of FastaSeq, SequenceGraph)(seqList, AddressOf Builder.DNAGraph)
-            Case SeqTypes.Protein : Return env.EvaluateFramework(Of FastaSeq, SequenceGraph)(seqList, AddressOf Builder.PolypeptideGraph)
-            Case SeqTypes.RNA : Return env.EvaluateFramework(Of FastaSeq, SequenceGraph)(seqList, AddressOf Builder.RNAGraph)
+            Case SeqTypes.DNA : Return env.EvaluateFramework(Of FastaSeq, SequenceGraph)(seqList, AddressOf Builder.DNAGraph, parallel:=parallel)
+            Case SeqTypes.Protein : Return env.EvaluateFramework(Of FastaSeq, SequenceGraph)(seqList, AddressOf Builder.PolypeptideGraph, parallel:=parallel)
+            Case SeqTypes.RNA : Return env.EvaluateFramework(Of FastaSeq, SequenceGraph)(seqList, AddressOf Builder.RNAGraph, parallel:=parallel)
             Case Else
                 Return Internal.debug.stop("general is not allowed!", env)
         End Select

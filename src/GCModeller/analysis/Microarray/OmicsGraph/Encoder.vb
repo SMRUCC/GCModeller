@@ -22,6 +22,8 @@ Public Module Encoder
         Dim samples As String() = mat.sampleID
         Dim norms As New List(Of Double())
 
+        Call VBDebugger.EchoLine("do matrix normalization...")
+
         For Each sample As String In samples
             Dim v As Vector = mat.sample(sample)
             v = v / v.Sum
@@ -32,6 +34,8 @@ Public Module Encoder
         Dim ranking As Double() = New Double(features.Length - 1) {}
         Dim index As Integer
 
+        Call VBDebugger.EchoLine("evaluate average ranking...")
+
         For i As Integer = 0 To ranking.Length - 1
             index = i
             ranking(i) = Aggregate sample As Double()
@@ -41,6 +45,8 @@ Public Module Encoder
 
         ' z-score standard
         Dim z As Vector = New Vector(ranking).Z
+
+        Call VBDebugger.EchoLine("make charSet encoder...")
 
         If charSet.Length = 4 Then
             Return charSet.encodeRange4(z, features)
