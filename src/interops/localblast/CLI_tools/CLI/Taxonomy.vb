@@ -90,7 +90,7 @@ Partial Module CLI
               Description:="This input data should have a column named ``taxid`` for the taxonomy information.")>
     <ArgumentAttribute("/fill.empty", True, AcceptTypes:={GetType(Boolean)},
               Description:="If this options is true, then this function will only fill the rows which have an empty ``Taxonomy`` field column.")>
-    <ArgumentAttribute("/OTU", False, AcceptTypes:={GetType(OTUData)})>
+    <ArgumentAttribute("/OTU", False, AcceptTypes:={GetType(OTUData(Of Double))})>
     <Group(CLIGrouping.TaxonomyTools)>
     Public Function ReadsOTU_Taxonomy(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
@@ -101,7 +101,7 @@ Partial Module CLI
             "/out",
             [in].TrimSuffix & "-" & OTU.BaseName & $".Taxonomy{If(fillEmpty, ".fillEmpty", "")}.csv")
         Dim maps = [in].LoadCsv(Of BlastnMapping)
-        Dim data = OTU.LoadCsv(Of OTUData)
+        Dim data = OTU.LoadCsv(Of OTUData(Of Double))
         Dim taxonomy As New NcbiTaxonomyTree(tax)
         Dim readsTable = (From x As BlastnMapping
                           In maps
@@ -109,10 +109,10 @@ Partial Module CLI
                           Group x By x.ReadQuery Into Group) _
             .ToDictionary(Function(x) x.ReadQuery,
                           Function(x) x.Group.ToArray)
-        Dim output As New List(Of OTUData)
+        Dim output As New List(Of OTUData(Of Double))
         Dim diff As New List(Of String)
 
-        For Each r As OTUData In data
+        For Each r As OTUData(Of Double) In data
             If fillEmpty Then
                 If Not String.IsNullOrEmpty(r.data.TryGetValue("Taxonomy")) Then
                     ' 包含有这个值，则不进行关联，直接添加进入输出数据之中
@@ -130,7 +130,7 @@ Partial Module CLI
             End If
 
             For Each o As BlastnMapping In reads
-                Dim copy As New OTUData(r)
+                Dim copy As New OTUData(Of Double)(r)
                 Dim taxid% = CInt(o.Extensions("taxid"))
                 Dim nodes = taxonomy.GetAscendantsWithRanksAndNames(taxid, True)
                 copy.data("taxid") = taxid

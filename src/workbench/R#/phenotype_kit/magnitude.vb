@@ -51,6 +51,7 @@
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics
 Imports SMRUCC.genomics.Analysis.Microarray
 Imports Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 
@@ -66,8 +67,14 @@ Module magnitude
     ''' <param name="mat"></param>
     ''' <returns></returns>
     <ExportAPI("encode.seqPack")>
-    Public Function encode_seqPack(mat As Matrix) As Object
-        Dim charSet = mat.EncodeMatrix
+    Public Function encode_seqPack(mat As Matrix, Optional briefSet As Boolean = True) As Object
+        Dim charSet = mat.EncodeMatrix(
+            charSet:=If(
+                briefSet,
+                SequenceModel.NT.JoinBy(""),
+                SequenceModel.AA.JoinBy("")
+            )
+        )
         Dim pack = mat.AsSequenceSet(charSet).ToArray
 
         Return pack

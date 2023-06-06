@@ -60,12 +60,20 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 
 Namespace ComponentModel.Annotation
 
+    ''' <summary>
+    ''' An abstract biological pathway model
+    ''' </summary>
     Public MustInherit Class PathwayBrief : Inherits XmlDataModel
         Implements IKeyValuePairObject(Of String, String)
         Implements INamedValue
 
+        ''' <summary>
+        ''' the reference id of the current pathway object
+        ''' </summary>
+        ''' <returns></returns>
         <XmlAttribute("id")>
         Public Overridable Property EntryId As String Implements INamedValue.Key, IKeyValuePairObject(Of String, String).Key
+
         ''' <summary>
         ''' The map title display name
         ''' </summary>
@@ -73,6 +81,10 @@ Namespace ComponentModel.Annotation
         <XmlElement>
         Public Property name As String
 
+        ''' <summary>
+        ''' the function description text of the current pathway object
+        ''' </summary>
+        ''' <returns></returns>
         Public Property description As String Implements IKeyValuePairObject(Of String, String).Value
 
         ''' <summary>
@@ -84,6 +96,10 @@ Namespace ComponentModel.Annotation
         ''' description - gene name or function description
         ''' </returns>
         Public MustOverride Function GetPathwayGenes() As IEnumerable(Of NamedValue(Of String))
+        ''' <summary>
+        ''' Gets the pathway related metabolite compounds.
+        ''' </summary>
+        ''' <returns></returns>
         Public MustOverride Function GetCompoundSet() As IEnumerable(Of NamedValue(Of String))
 
         ''' <summary>

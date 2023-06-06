@@ -12,9 +12,10 @@ declare namespace bioseq.patterns {
    module as {
       /**
         * @param mol_type default value Is ``null``.
+        * @param parallel default value Is ``false``.
         * @param env default value Is ``null``.
       */
-      function seq_graph(fasta: any, mol_type?: object, env?: object): any;
+      function seq_graph(fasta: any, mol_type?: object, parallel?: boolean, env?: object): any;
    }
    module create {
       /**

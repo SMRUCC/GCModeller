@@ -51,6 +51,9 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 
 Namespace Pipeline.COG
 
+    ''' <summary>
+    ''' ftp://ftp.ncbi.nih.gov/pub/COG/COG2020/data
+    ''' </summary>
     Public Module COG2014
 
         <Extension>
