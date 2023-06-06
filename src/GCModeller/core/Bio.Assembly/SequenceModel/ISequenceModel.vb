@@ -53,6 +53,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 
 Namespace SequenceModel
 
@@ -62,6 +63,7 @@ Namespace SequenceModel
     ''' <remarks></remarks>
     Public MustInherit Class ISequenceModel
         Implements IPolymerSequenceModel
+        Implements ISequenceData(Of Char, String)
 
 #Region "Object properties"
 
@@ -71,7 +73,7 @@ Namespace SequenceModel
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Overridable Property SequenceData As String Implements IPolymerSequenceModel.SequenceData
+        Public Overridable Property SequenceData As String Implements IPolymerSequenceModel.SequenceData, ISequenceData(Of Char, String).SequenceData
 
         ''' <summary>
         ''' This sequence is a protein type sequence?(判断这条序列是否为蛋白质序列)
