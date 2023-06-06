@@ -68,7 +68,13 @@ Module magnitude
     ''' <returns></returns>
     <ExportAPI("encode.seqPack")>
     Public Function encode_seqPack(mat As Matrix, Optional briefSet As Boolean = True) As Object
-        Dim charSet = mat.EncodeMatrix(charSet:=If(briefSet, SequenceModel.NT.JoinBy(""), SequenceModel.AA.JoinBy("")))
+        Dim charSet = mat.EncodeMatrix(
+            charSet:=If(
+                briefSet,
+                SequenceModel.NT.JoinBy(""),
+                SequenceModel.AA.JoinBy("")
+            )
+        )
         Dim pack = mat.AsSequenceSet(charSet).ToArray
 
         Return pack

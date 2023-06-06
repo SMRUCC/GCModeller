@@ -22,6 +22,8 @@ Public Module Encoder
         Dim samples As String() = mat.sampleID
         Dim norms As New List(Of Double())
 
+        Call VBDebugger.EchoLine("do matrix normalization...")
+
         For Each sample As String In samples
             Dim v As Vector = mat.sample(sample)
             v = v / v.Sum
@@ -32,6 +34,8 @@ Public Module Encoder
         Dim ranking As Double() = New Double(features.Length - 1) {}
         Dim index As Integer
 
+        Call VBDebugger.EchoLine("evaluate average ranking...")
+
         For i As Integer = 0 To ranking.Length - 1
             index = i
             ranking(i) = Aggregate sample As Double()
@@ -41,6 +45,8 @@ Public Module Encoder
 
         ' z-score standard
         Dim z As Vector = New Vector(ranking).Z
+
+        Call VBDebugger.EchoLine("make charSet encoder...")
 
         If charSet.Length = 4 Then
             Return charSet.encodeRange4(z, features)
@@ -87,10 +93,12 @@ Public Module Encoder
 
     <Extension>
     Private Function encodeRange4(charSet As String, z As Vector, features As String()) As Dictionary(Of String, Char)
-        Dim range1 As New DoubleRange(z.Min, z.Min / 2)
-        Dim range2 As New DoubleRange(z.Min / 2, 0)
-        Dim range3 As New DoubleRange(0, z.Max / 2)
-        Dim range4 As New DoubleRange(z.Max / 2, z.Max)
+        Dim neg = z.Where(Function(zi) zi < 0).GKQuantile
+        Dim pos = z.Where(Function(zi) zi >= 0).GKQuantile
+        Dim range1 As New DoubleRange(z.Min, neg.Query(0.5))
+        Dim range2 As New DoubleRange(neg.Query(0.5), 0)
+        Dim range3 As New DoubleRange(0, pos.Query(0.5))
+        Dim range4 As New DoubleRange(pos.Query(0.5), z.Max)
 
         Dim encodes As New Dictionary(Of String, Char)
 
