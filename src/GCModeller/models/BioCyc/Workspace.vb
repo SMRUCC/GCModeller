@@ -55,6 +55,9 @@
 Imports System.IO
 Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 
+''' <summary>
+''' A work directory object for read the biocyc database
+''' </summary>
 Public Class Workspace
 
     ReadOnly dir As String
