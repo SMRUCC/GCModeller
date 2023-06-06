@@ -73,7 +73,8 @@ Namespace SequenceModel
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Overridable Property SequenceData As String Implements IPolymerSequenceModel.SequenceData, ISequenceData(Of Char, String).SequenceData
+        Public Overridable Property SequenceData As String Implements IPolymerSequenceModel.SequenceData,
+            ISequenceData(Of Char, String).SequenceData
 
         ''' <summary>
         ''' This sequence is a protein type sequence?(判断这条序列是否为蛋白质序列)
