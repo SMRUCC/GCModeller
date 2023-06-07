@@ -142,23 +142,18 @@ Public Module BioCycRepository
         If meta.chemicalFormula.IsNullOrEmpty Then
             Return ""
         Else
-            Return meta.chemicalFormula _
-                .Select(Function(d)
-                            Return d.Trim(" "c, "("c, ")"c).Replace(" ", "")
-                        End Function) _
-                .JoinBy("")
+            Return compounds.FormulaString(meta)
         End If
     End Function
 
     ''' <summary>
-    ''' Create pathway background model 
+    ''' Create pathway enrichment background model 
     ''' </summary>
     ''' <param name="biocyc"></param>
     ''' <returns></returns>
     <ExportAPI("createBackground")>
     Public Function createBackground(biocyc As Workspace) As Background
-        Dim pathways As Cluster() = biocyc.pathways _
-            .features _
+        Dim pathways As Cluster() = biocyc.pathways.features _
             .Select(Function(pwy)
                         Return biocyc.createBackground(pwy)
                     End Function) _

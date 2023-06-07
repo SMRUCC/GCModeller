@@ -81,6 +81,14 @@ Public Class compounds : Inherits Model
     <AttributeField("COMPONENT-OF")>
     Public Property componentOf As String()
 
+    Public Shared Function FormulaString(meta As compounds) As String
+        Return meta.chemicalFormula _
+            .Select(Function(d)
+                        Return d.Trim(" "c, "("c, ")"c).Replace(" ", "")
+                    End Function) _
+            .JoinBy("")
+    End Function
+
     Public Shared Function OpenFile(fullName As String) As AttrDataCollection(Of compounds)
         Using file As Stream = fullName.Open(FileMode.Open, doClear:=False, [readOnly]:=True)
             Return AttrDataCollection(Of compounds).LoadFile(file)
