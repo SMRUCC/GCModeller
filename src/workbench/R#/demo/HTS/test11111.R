@@ -2,7 +2,7 @@ imports ["geneExpression", "sampleInfo"] from "phenotype_kit";
 imports "magnitude" from "phenotype_kit";
 imports "bioseq.patterns" from "seqtoolkit";
 imports "umap" from "MLkit";
-
+imports "datasetKit" from "MLkit";
 
 setwd(@dir);
 
@@ -10,10 +10,12 @@ let raw = geneExpression::load.expr(file = "./all_counts.csv");
 
 str(dims(raw));
 
-let pack = encode.seqPack(raw);
-let graph = as.seq_graph(pack);
+let sgt   = SGT();
+let pack  = encode.seqPack(raw, briefSet = FALSE);
+# let graph = as.seq_graph(pack);
+# let view = as.data.frame(graph);
 
-let view = as.data.frame(graph);
+let view = fit(sgt, pack, df = TRUE);
 
 print(view);
 
