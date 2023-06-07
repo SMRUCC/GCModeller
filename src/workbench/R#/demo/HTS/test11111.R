@@ -67,7 +67,7 @@ bitmap(file = `./counts_UMAP3d.png`, size = [2800, 2100]) {
 	# create ggplot layers and tweaks via ggplot style options
 	ggplot(data, aes(x = "x", y = "y" , z = "z")
     , padding = "padding:250px 500px 100px 100px;")
-	+ geom_point(aes(color = "class"), color = "paper", shape = "triangle", size = 80)
+	+ geom_point(aes(color = "class"), color = "paper", shape = "circle", size = 10)
 	# + view_camera(angle = [31.5,65,125], fov = 100000)
 	+ ggtitle("Scatter UMAP 3D")
 	# + theme_default()
@@ -99,7 +99,7 @@ bitmap(file = `./counts_UMAP2d.png`, size = [2800, 2100]) {
 	# create ggplot layers and tweaks via ggplot style options
 	ggplot(data, aes(x = "x", y = "y")
     , padding = "padding:250px 500px 100px 100px;")
-	+ geom_point(aes(color = "class"), color = "paper", shape = "triangle", size = 80)
+	+ geom_point(aes(color = "class"), color = "paper", shape = "triangle", size = 30)
 	# + view_camera(angle = [31.5,65,125], fov = 100000)
 	+ ggtitle("Scatter UMAP 2D")
 	# + theme_default()
