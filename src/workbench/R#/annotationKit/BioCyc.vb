@@ -79,6 +79,11 @@ Public Module BioCycRepository
         Call df.add("ID", compounds.Select(Function(c) c.uniqueId))
         Call df.add("name", compounds.Select(Function(c) c.commonName))
         Call df.add("formula", compounds.Select(Function(c) formulaString(c)))
+        Call df.add("exactMass", compounds.Select(Function(c) c.exactMass))
+        Call df.add("SMILES", compounds.Select(Function(c) c.SMILES))
+        Call df.add("InChIKey", compounds.Select(Function(c) c.InChIKey))
+        Call df.add("InChI", compounds.Select(Function(c) c.InChI))
+        Call df.add("synonyms", compounds.Select(Function(c) c.synonyms.JoinBy("; ")))
 
         Return df
     End Function
