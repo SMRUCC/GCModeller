@@ -17,7 +17,7 @@ let pack  = encode.seqPack(raw, briefSet = FALSE);
 # let graph = as.seq_graph(pack);
 # let view = as.data.frame(graph);
 
-let view = fit(sgt, seqs = pack, df = TRUE);
+let view = fit(sgt, seqs = pack, df = TRUE, par = TRUE);
 
 print(view);
 
