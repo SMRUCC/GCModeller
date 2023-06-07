@@ -200,6 +200,10 @@ Namespace v2
         ''' <returns></returns>
         <XmlAttribute> Public Property mass0 As Double = 1000
 
+        Public Overrides Function ToString() As String
+            Return $"[{ID}] {name}"
+        End Function
+
     End Class
 
     <XmlType("reaction", [Namespace]:=VirtualCell.GCMarkupLanguage)>
