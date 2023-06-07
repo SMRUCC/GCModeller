@@ -13,7 +13,7 @@ let raw = geneExpression::load.expr(file = "./all_counts.csv");
 str(dims(raw));
 
 let sgt   = SGT(full = FALSE,  kappa = 3);
-let pack  = encode.seqPack(raw, briefSet = TRUE);
+let pack  = encode.seqPack(raw, briefSet = FALSE);
 # let graph = as.seq_graph(pack);
 # let view = as.data.frame(graph);
 
