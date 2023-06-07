@@ -217,7 +217,9 @@ Namespace MarkupCompiler.BioCyc
 
         Private Function createReactions() As ReactionGroup
             Dim reactions = biocyc.reactions
-            Dim enzymatic = reactions.features.Where(Function(rxn) Not rxn.ec_number Is Nothing).ToArray
+            Dim enzymatic = reactions.features _
+                .Where(Function(rxn) rxn.ec_number IsNot Nothing OrElse Not rxn.enzymaticReaction.IsNullOrEmpty) _
+                .ToArray
             Dim non_enzymatic = reactions.features _
                 .Where(Function(rxn)
                            Return rxn.ec_number Is Nothing AndAlso rxn.enzymaticReaction.IsNullOrEmpty
