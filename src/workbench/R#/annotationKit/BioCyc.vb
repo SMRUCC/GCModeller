@@ -98,6 +98,15 @@ Public Module BioCycRepository
         Return New Workspace(repo)
     End Function
 
+    ''' <summary>
+    ''' get compounds list data from a given biocyc workspace context
+    ''' </summary>
+    ''' <param name="repo">
+    ''' this repository data could be a opened biocyc workspace, target
+    ''' file path, or text content of the compounds data
+    ''' </param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("getCompounds")>
     <RApiReturn(GetType(compounds))>
     Public Function getCompounds(repo As Object, Optional env As Environment = Nothing) As Object
