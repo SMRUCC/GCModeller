@@ -1,3 +1,5 @@
+require(GCModeller);
+
 imports ["geneExpression", "sampleInfo"] from "phenotype_kit";
 imports "magnitude" from "phenotype_kit";
 imports "bioseq.patterns" from "seqtoolkit";
@@ -15,7 +17,7 @@ let pack  = encode.seqPack(raw, briefSet = FALSE);
 # let graph = as.seq_graph(pack);
 # let view = as.data.frame(graph);
 
-let view = fit(sgt, pack, df = TRUE);
+let view = fit(sgt, seqs = pack, df = TRUE);
 
 print(view);
 
