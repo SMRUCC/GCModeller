@@ -24,6 +24,10 @@ declare namespace enzymatic {
    function query_reaction(reaction: object, cache?: any): any;
    module read {
       /**
+       * read the rhea database file
+       * 
+       * 
+        * @param file -
       */
       function rhea(file: string): any;
    }
