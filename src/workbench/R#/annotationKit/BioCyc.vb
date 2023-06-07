@@ -60,10 +60,28 @@ Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 Imports SMRUCC.genomics.Data.BioCyc
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
+Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
 Imports SMRUCC.Rsharp.Runtime.Interop
 
 <Package("BioCyc")>
 Public Module BioCycRepository
+
+    Sub New()
+        Call Internal.Object.Converts.makeDataframe.addHandler(GetType(compounds), AddressOf getCompoundsTable)
+    End Sub
+
+    Private Function getCompoundsTable(compounds As compounds(), args As list, env As Environment) As dataframe
+        Dim df As New dataframe With {
+            .columns = New Dictionary(Of String, Array),
+            .rownames = compounds.Select(Function(c) c.uniqueId).ToArray
+        }
+
+        Call df.add("ID", compounds.Select(Function(c) c.uniqueId))
+        Call df.add("name", compounds.Select(Function(c) c.commonName))
+        Call df.add("formula", compounds.Select(Function(c) formulaString(c)))
+
+        Return df
+    End Function
 
     ''' <summary>
     ''' open a directory path as the biocyc workspace
