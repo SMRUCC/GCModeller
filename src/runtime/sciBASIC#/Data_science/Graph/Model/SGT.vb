@@ -147,6 +147,21 @@ Public Class SequenceGraphTransform
     End Function
 
     Private Shared Function CombinePartial(U As Integer(), V As Integer()) As IEnumerable(Of (i As Integer, j As Integer))
+        If U.Length = 0 Then
+            Return {}
+        End If
+
+        Dim minU As Integer = U.First
+
+        ' offset the V vector
+        ' for makes j always greater than i
+        For i As Integer = 0 To V.Length - 1
+            If V(i) > minU Then
+                V = V.Skip(i).ToArray
+                Exit For
+            End If
+        Next
+
         Return U.Zip(V, Function(i, j) (i, j)).Where(Function(ij) ij.j > ij.i)
     End Function
 
