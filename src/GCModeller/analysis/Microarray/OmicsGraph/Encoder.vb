@@ -52,9 +52,9 @@ Public Module Encoder
     <Extension>
     Private Function encodeCharSet(charSet As String, ranking As Double(), features As String()) As Dictionary(Of String, Char)
         Dim d As Double = 1 / charSet.Length
-        Dim q As Double() = ranking.QuantileLevels(steps:=d)
+        Dim q As Double() = ranking.QuantileLevels(steps:=d).AsVector * charSet.Length
         Dim chars As Char() = q _
-            .Select(Function(qi) charSet(CInt(charSet.Length * qi))) _
+            .Select(Function(i) charSet(CInt(i))) _
             .ToArray
         Dim map As New Dictionary(Of String, Char)
 
@@ -68,6 +68,8 @@ Public Module Encoder
     <Extension>
     Public Iterator Function AsSequenceSet(mat As Matrix, encodes As Dictionary(Of String, Char)) As IEnumerable(Of FastaSeq)
         Dim features As String() = mat.rownames
+
+        Call VBDebugger.WriteLine("encode the expression matrix as sequence pack!")
 
         For Each sample As String In mat.sampleID
             Dim v As Vector = mat.sample(sample)
