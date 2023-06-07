@@ -85,7 +85,10 @@ Public Module Encoder
 
         For Each sample As String In mat.sampleID
             Dim v As Vector = mat.sample(sample)
-            Dim tag = v.Zip(features, Function(x, y) (x, y)).OrderBy(Function(a) a.x).ToArray
+            Dim tag = v.Zip(features, Function(x, y) (x, y)) _
+                .Where(Function(t) t.x > 0) _
+                .OrderBy(Function(a) a.x) _
+                .ToArray
             Dim seq As New String(tag.Select(Function(ti) encodes(ti.y)).ToArray)
 
             Yield New FastaSeq With {
