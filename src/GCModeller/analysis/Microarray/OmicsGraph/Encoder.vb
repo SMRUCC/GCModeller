@@ -53,7 +53,9 @@ Public Module Encoder
     Private Function encodeCharSet(charSet As String, ranking As Double(), features As String()) As Dictionary(Of String, Char)
         Dim d As Double = 1 / charSet.Length
         Dim q As Double() = ranking.QuantileLevels(steps:=d)
-        Dim chars As Char() = q.Select(Function(qi) charSet(CInt(qi))).ToArray
+        Dim chars As Char() = q _
+            .Select(Function(qi) charSet(CInt(charSet.Length * qi))) _
+            .ToArray
         Dim map As New Dictionary(Of String, Char)
 
         For i As Integer = 0 To features.Length - 1
