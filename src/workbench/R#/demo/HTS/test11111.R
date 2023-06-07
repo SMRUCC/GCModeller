@@ -12,12 +12,12 @@ let raw = geneExpression::load.expr(file = "./all_counts.csv");
 
 str(dims(raw));
 
-let sgt   = SGT();
-let pack  = encode.seqPack(raw, briefSet = FALSE);
+let sgt   = SGT(full = FALSE);
+let pack  = encode.seqPack(raw, briefSet = TRUE);
 # let graph = as.seq_graph(pack);
 # let view = as.data.frame(graph);
 
-let view = fit(sgt, seqs = pack, df = TRUE, par = TRUE);
+let view = fit(sgt, seqs = pack, df = TRUE, par = FALSE);
 
 print(view);
 
