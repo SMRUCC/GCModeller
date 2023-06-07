@@ -2,7 +2,7 @@ imports ["geneExpression", "sampleInfo"] from "phenotype_kit";
 imports "magnitude" from "phenotype_kit";
 imports "bioseq.patterns" from "seqtoolkit";
 imports "umap" from "MLkit";
-imports "datasetKit" from "MLkit";
+imports "dataset" from "MLkit";
 
 setwd(@dir);
 
