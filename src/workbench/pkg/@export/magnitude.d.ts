@@ -20,4 +20,16 @@ declare namespace magnitude {
       */
       function seqPack(mat: object, briefSet?: boolean): any;
    }
+   module TrIQ {
+      /**
+       * Apply TrIQ cutoff for each sample
+       * 
+       * 
+        * @param mat -
+        * @param q -
+        * 
+        * + default value Is ``0.8``.
+      */
+      function apply(mat: object, q?: number): object;
+   }
 }

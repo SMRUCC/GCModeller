@@ -1,11 +1,23 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Math.Correlations
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.Quantile
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Public Module Encoder
+
+    <Extension>
+    Public Function EncodeRanking(mat As Matrix) As Matrix
+        Call VBDebugger.WriteLine("encode expression matrix with global ranking...")
+
+        For Each gene As DataFrameRow In mat.expression
+            gene.experiments = gene.experiments.Ranking(Strategies.FractionalRanking, desc:=True)
+        Next
+
+        Return mat
+    End Function
 
     ''' <summary>
     ''' 
