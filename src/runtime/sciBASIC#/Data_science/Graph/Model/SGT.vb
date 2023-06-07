@@ -146,6 +146,12 @@ Public Class SequenceGraphTransform
                Select (i:=ai, j:=bj)
     End Function
 
+    ''' <summary>
+    ''' for save the memory and make the algorithm faster when deal with a long sequence data
+    ''' </summary>
+    ''' <param name="U"></param>
+    ''' <param name="V"></param>
+    ''' <returns></returns>
     Private Shared Function CombinePartial(U As Integer(), V As Integer()) As IEnumerable(Of (i As Integer, j As Integer))
         If U.Length = 0 Then
             Return {}
