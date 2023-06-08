@@ -276,7 +276,9 @@ Public Module Scatter
             plot = New Plots.LinePlot2D(data:=c, theme:=theme, fill:=fill) With {
                 .xlabel = Xlabel,
                 .ylabel = Ylabel,
-                .main = title
+                .main = title,
+                .xlim = xlim,
+                .ylim = ylim
             }
         Else
             plot = New Plots.Scatter2D(

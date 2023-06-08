@@ -84,6 +84,9 @@ Namespace Plots
         ReadOnly fillPie As Boolean
         ReadOnly interplot As Splines
 
+        Friend xlim As Double = -1
+        Friend ylim As Double = -1
+
         Public Sub New(data As IEnumerable(Of SerialData), theme As Theme,
                        Optional fill As Boolean = False,
                        Optional fillPie As Boolean = True,
@@ -285,8 +288,8 @@ Namespace Plots
             '        YTicks = AxisScalling.GetAxisByTick(YTicks, tick:=ticksY)
             '    End If
 
-            XTicks = array.Select(Function(s) s.pts).IteratesALL.Select(Function(p) CDbl(p.pt.X)).Range.CreateAxisTicks
-            YTicks = array.Select(Function(s) s.pts).IteratesALL.Select(Function(p) CDbl(p.pt.Y)).Range.CreateAxisTicks
+            XTicks = array.Select(Function(s) s.pts).IteratesALL.Select(Function(p) CDbl(p.pt.X))
+            YTicks = array.Select(Function(s) s.pts).IteratesALL.Select(Function(p) CDbl(p.pt.Y))
 
             Dim X As Scaler
             Dim Y As LinearScale
@@ -314,12 +317,21 @@ Namespace Plots
                         .domain(allTermLabels) _
                         .range(integers:={region.Left, region.Right})
                 Else
+                    If (Not xlim.IsNaNImaginary) AndAlso xlim > 0 Then
+                        XTicks = XTicks.JoinIterates({xlim}).ToArray
+                    End If
+                    If (Not ylim.IsNaNImaginary) AndAlso ylim > 0 Then
+                        YTicks = YTicks.JoinIterates({ylim}).ToArray
+                    End If
+
+                    XTicks = XTicks.Range.CreateAxisTicks
                     X = d3js.scale _
                         .linear(reverse:=theme.xAxisReverse) _
                         .domain(values:=XTicks) _
                         .range(integers:={region.Left, region.Right})
                 End If
 
+                YTicks = YTicks.Range.CreateAxisTicks
                 Y = d3js.scale.linear.domain(values:=YTicks).range(integers:={region.Bottom, region.Top})
             End If
 
