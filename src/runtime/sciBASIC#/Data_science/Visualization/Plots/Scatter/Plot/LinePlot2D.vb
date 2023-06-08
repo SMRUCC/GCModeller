@@ -288,8 +288,8 @@ Namespace Plots
             '        YTicks = AxisScalling.GetAxisByTick(YTicks, tick:=ticksY)
             '    End If
 
-            XTicks = array.Select(Function(s) s.pts).IteratesALL.Select(Function(p) CDbl(p.pt.X))
-            YTicks = array.Select(Function(s) s.pts).IteratesALL.Select(Function(p) CDbl(p.pt.Y))
+            XTicks = array.Select(Function(s) s.pts).IteratesALL.Select(Function(p) CDbl(p.pt.X)).ToArray
+            YTicks = array.Select(Function(s) s.pts).IteratesALL.Select(Function(p) CDbl(p.pt.Y)).ToArray
 
             Dim X As Scaler
             Dim Y As LinearScale
