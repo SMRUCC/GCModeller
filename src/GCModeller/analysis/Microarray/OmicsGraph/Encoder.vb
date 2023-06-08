@@ -71,7 +71,13 @@ Public Module Encoder
         Dim d As Double = 1 / charSet.Length
         Dim q As Double() = ranking.QuantileLevels(steps:=d).AsVector * charSet.Length
         Dim chars As Char() = q _
-            .Select(Function(i) charSet(CInt(i))) _
+            .Select(Function(i)
+                        Dim index As Integer = CInt(i)
+                        If index >= charSet.Length Then
+                            index = charSet.Length - 1
+                        End If
+                        Return charSet(index)
+                    End Function) _
             .ToArray
         Dim map As New Dictionary(Of String, Char)
 
