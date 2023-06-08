@@ -65,6 +65,7 @@ Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports REnv = SMRUCC.Rsharp.Runtime
 
 ''' <summary>
@@ -264,7 +265,7 @@ Imports REnv = SMRUCC.Rsharp.Runtime
                                  Optional env As Environment = Nothing) As Object
 
         Dim source = getUniprotData(uniprot, env)
-        Dim keys As String() = REnv.asVector(Of String)(db_xref)
+        Dim keys As String() = CLRVector.asCharacter(db_xref)
 
         If source Like GetType(Message) Then
             Return source.TryCast(Of Message)
