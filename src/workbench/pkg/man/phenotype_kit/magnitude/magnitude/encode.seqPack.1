@@ -4,7 +4,8 @@
 encode.seqPack \- tag samples in matrix as sequence profiles
 .SH SYNOPSIS
 \fIencode.seqPack(\fBmat\fR as <generic> Matrix, 
-\fBbriefSet\fR as boolean = TRUE);\fR
+\fBbriefSet\fR as boolean = TRUE, 
+\fBcustom\fR as string = \fB<NULL>\fR);\fR
 .SH DESCRIPTION
 .PP
 tag samples in matrix as sequence profiles
@@ -12,6 +13,12 @@ tag samples in matrix as sequence profiles
 .SH OPTIONS
 .PP
 \fBmat\fB \fR\- -. 
+.PP
+.PP
+\fBcustom\fB \fR\- 
+ use the custom charset, then the generated sequence
+ data can only be processed via the SGT algorithm
+. 
 .PP
 .SH SEE ALSO
 magnitude

@@ -50,6 +50,8 @@
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors.Scaler.TrIQ
+Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics
 Imports SMRUCC.genomics.Analysis.Microarray
@@ -65,18 +67,57 @@ Module magnitude
     ''' tag samples in matrix as sequence profiles
     ''' </summary>
     ''' <param name="mat"></param>
+    ''' <param name="custom">
+    ''' use the custom charset, then the generated sequence
+    ''' data can only be processed via the SGT algorithm
+    ''' </param>
     ''' <returns></returns>
     <ExportAPI("encode.seqPack")>
-    Public Function encode_seqPack(mat As Matrix, Optional briefSet As Boolean = True) As Object
-        Dim charSet = mat.EncodeMatrix(
-            charSet:=If(
-                briefSet,
-                SequenceModel.NT.JoinBy(""),
-                SequenceModel.AA.JoinBy("")
-            )
+    Public Function encode_seqPack(mat As Matrix,
+                                   Optional briefSet As Boolean = True,
+                                   Optional custom As String = Nothing) As Object
+
+        Dim charSet As String = If(
+            briefSet,
+            SequenceModel.NT.JoinBy(""),
+            SequenceModel.AA.JoinBy("")
         )
-        Dim pack = mat.AsSequenceSet(charSet).ToArray
+
+        If Not custom.StringEmpty Then
+            charSet = custom
+        End If
+
+        Dim charMap = mat.EncodeRanking.EncodeMatrix(
+            charSet:=charSet
+        )
+        Dim pack = mat.AsSequenceSet(charMap).ToArray
 
         Return pack
+    End Function
+
+    ''' <summary>
+    ''' Apply TrIQ cutoff for each sample
+    ''' </summary>
+    ''' <param name="mat"></param>
+    ''' <param name="q"></param>
+    ''' <returns></returns>
+    <ExportAPI("TrIQ.apply")>
+    Public Function triq(mat As Matrix, Optional q As Double = 0.8) As Matrix
+        For Each sample_id As String In mat.sampleID
+            Dim v As Vector = mat.sample(sample_id)
+            Dim cut As Double = v.FindThreshold(q)
+            Dim i As Integer = mat.sampleID.IndexOf(sample_id)
+
+            v(v > cut) = Vector.Scalar(cut)
+
+            For j As Integer = 0 To mat.expression.Length - 1
+                Dim gene = mat.expression(j)
+                Dim u = gene.experiments
+
+                u(i) = v(j)
+            Next
+        Next
+
+        Return mat
     End Function
 End Module

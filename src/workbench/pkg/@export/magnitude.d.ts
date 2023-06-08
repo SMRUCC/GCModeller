@@ -17,7 +17,23 @@ declare namespace magnitude {
         * @param mat -
         * @param briefSet 
         * + default value Is ``true``.
+        * @param custom use the custom charset, then the generated sequence
+        *  data can only be processed via the SGT algorithm
+        * 
+        * + default value Is ``null``.
       */
-      function seqPack(mat: object, briefSet?: boolean): any;
+      function seqPack(mat: object, briefSet?: boolean, custom?: string): any;
+   }
+   module TrIQ {
+      /**
+       * Apply TrIQ cutoff for each sample
+       * 
+       * 
+        * @param mat -
+        * @param q -
+        * 
+        * + default value Is ``0.8``.
+      */
+      function apply(mat: object, q?: number): object;
    }
 }

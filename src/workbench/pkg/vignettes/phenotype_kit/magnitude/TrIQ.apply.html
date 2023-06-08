@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>tag samples in matrix as sequence profiles</title>
+    <title>Apply TrIQ cutoff for each sample</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <style rel="stylesheet" type="text/css">
@@ -143,12 +143,12 @@
 
         <table style="width: 100%;">
             <tr>
-                <td>encode.seqPack {magnitude}</td>
+                <td>TrIQ.apply {magnitude}</td>
                 <td style="text-align: right;">R Documentation</td>
             </tr>
         </table>
 
-        <h2>tag samples in matrix as sequence profiles</h2>
+        <h2>Apply TrIQ cutoff for each sample</h2>
 
         <h3>Description</h3>
 
@@ -157,9 +157,8 @@
         <h3>Usage</h3>
 
         <div style="width: 100%; padding-left: 3%; color: black;">
-            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>encode.seqPack</strong>(<i>mat</i>,
-    <i>briefSet</i> = <span style='color: blue;'>TRUE</span>,
-    <i>custom</i> = <span style='color: blue;'>NULL</span>);</code></pre>
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>TrIQ.apply</strong>(<i>mat</i>,
+    <i>q</i> = 0.8);</code></pre>
         </div>
 
         <h3>Arguments</h3>
@@ -170,9 +169,8 @@
 <dd><p><p>-</p></p></dd>
 
 
-<dt>custom</dt>
-<dd><p><p>use the custom charset, then the generated sequence<br />
- data can only be processed via the SGT algorithm</p></p></dd>
+<dt>q</dt>
+<dd><p><p>-</p></p></dd>
 
         </table>
 
@@ -184,7 +182,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <i>any</i> kind.
+        this function returns data object of type <a href="/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a>.
 
         <hr />
         <div style="text-align: center;">[Package <em>magnitude</em> version 1.0.0.0 <a
