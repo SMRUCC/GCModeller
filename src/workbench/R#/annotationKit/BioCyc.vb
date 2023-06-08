@@ -67,7 +67,7 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 Public Module BioCycRepository
 
     Sub New()
-        Call Internal.Object.Converts.makeDataframe.addHandler(GetType(compounds), AddressOf getCompoundsTable)
+        Call Internal.Object.Converts.makeDataframe.addHandler(GetType(compounds()), AddressOf getCompoundsTable)
     End Sub
 
     Private Function getCompoundsTable(compounds As compounds(), args As list, env As Environment) As dataframe
