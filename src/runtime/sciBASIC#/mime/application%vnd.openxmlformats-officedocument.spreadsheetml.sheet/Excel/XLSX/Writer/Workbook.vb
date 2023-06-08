@@ -6,15 +6,11 @@
 ' 
 
 Imports System.IO
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.MIME.Office.Excel.XLSX.FileIO
 Imports Microsoft.VisualBasic.MIME.Office.Excel.XLSX.Writer.Style
 
 Namespace XLSX.Writer
-
-    ''' <summary>
-    ''' PicoXLSX is a library to generate XLSX files in an easy and native way
-    ''' </summary>
-    Friend Class NamespaceDoc ' This class is only for documentation purpose (Sandcastle)
-    End Class
 
     ''' <summary>
     ''' Class representing a workbook
@@ -30,11 +26,6 @@ Namespace XLSX.Writer
         ''' Defines the filename
         ''' </summary>
         Private filenameField As String
-
-        ''' <summary>
-        ''' Defines the worksheets
-        ''' </summary>
-        Private worksheetsField As List(Of Worksheet)
 
         ''' <summary>
         ''' Defines the currentWorksheet
@@ -175,11 +166,7 @@ Namespace XLSX.Writer
         ''' <summary>
         ''' Gets the list of worksheets in the workbook
         ''' </summary>
-        Public ReadOnly Property Worksheets As List(Of Worksheet)
-            Get
-                Return worksheetsField
-            End Get
-        End Property
+        Public ReadOnly Property Worksheets As New List(Of Worksheet)
 
         ''' <summary>
         ''' Gets or sets a value indicating whether Hidden
@@ -306,7 +293,7 @@ Namespace XLSX.Writer
         ''' </summary>
         ''' <param name="name">Name of the new worksheet.</param>
         Public Sub AddWorksheet(name As String)
-            For Each item In worksheetsField
+            For Each item In Worksheets
                 If Equals(item.SheetName, name) Then
                     Throw New WorksheetException("The worksheet with the name '" & name & "' already exists.")
                 End If
@@ -314,7 +301,7 @@ Namespace XLSX.Writer
             Dim number As Integer = GetNextWorksheetId()
             Dim newWs As Worksheet = New Worksheet(name, number, Me)
             currentWorksheetField = newWs
-            worksheetsField.Add(newWs)
+            Worksheets.Add(newWs)
             shortenerField.SetCurrentWorksheetInternal(currentWorksheetField)
         End Sub
 
@@ -353,15 +340,15 @@ Namespace XLSX.Writer
                 If String.IsNullOrEmpty(worksheet.SheetName) Then
                     Throw New WorksheetException("The name of the passed worksheet is null or empty.")
                 End If
-                For i = 0 To worksheetsField.Count - 1
-                    If Equals(worksheetsField(i).SheetName, worksheet.SheetName) Then
+                For i = 0 To Worksheets.Count - 1
+                    If Equals(Worksheets.Item(i).SheetName, worksheet.SheetName) Then
                         Throw New WorksheetException("The worksheet with the name '" & worksheet.SheetName & "' already exists.")
                     End If
                 Next
             End If
             worksheet.SheetID = GetNextWorksheetId()
             currentWorksheetField = worksheet
-            worksheetsField.Add(worksheet)
+            Worksheets.Add(worksheet)
             worksheet.WorkbookReference = Me
         End Sub
 
@@ -414,11 +401,11 @@ Namespace XLSX.Writer
         ''' </summary>
         ''' <param name="name">Name of the worksheet.</param>
         Public Sub RemoveWorksheet(name As String)
-            Dim worksheetToRemove = worksheetsField.FindLast(Function(w) Equals(w.SheetName, name))
+            Dim worksheetToRemove = Worksheets.FindLast(Function(w) Equals(w.SheetName, name))
             If worksheetToRemove Is Nothing Then
                 Throw New WorksheetException("The worksheet with the name '" & name & "' does not exist.")
             End If
-            Dim index = worksheetsField.IndexOf(worksheetToRemove)
+            Dim index = Worksheets.IndexOf(worksheetToRemove)
             Dim resetCurrentWorksheet = worksheetToRemove Is currentWorksheetField
             RemoveWorksheet(index, resetCurrentWorksheet)
         End Sub
@@ -429,10 +416,10 @@ Namespace XLSX.Writer
         ''' </summary>
         ''' <param name="index">Index within the worksheets list.</param>
         Public Sub RemoveWorksheet(index As Integer)
-            If index < 0 OrElse index >= worksheetsField.Count Then
+            If index < 0 OrElse index >= Worksheets.Count Then
                 Throw New WorksheetException("The worksheet index " & index.ToString() & " is out of range")
             End If
-            Dim resetCurrentWorksheet = worksheetsField(index) Is currentWorksheetField
+            Dim resetCurrentWorksheet = Worksheets.Item(index) Is currentWorksheetField
             RemoveWorksheet(index, resetCurrentWorksheet)
         End Sub
 
@@ -441,26 +428,28 @@ Namespace XLSX.Writer
         ''' This is an internal method. There is no need to use it
         ''' </summary>
         Friend Sub ResolveMergedCells()
-            For Each worksheet In worksheetsField
-                worksheet.ResolveMergedCells()
+            For Each worksheet As Worksheet In Worksheets
+                Call worksheet.ResolveMergedCells()
             Next
         End Sub
 
         ''' <summary>
         ''' Saves the workbook
         ''' </summary>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub Save()
-            Dim l As LowLevel = New LowLevel(Me)
-            l.Save()
+            Call New LowLevel(Me).Save()
         End Sub
 
         ''' <summary>
         ''' Saves the workbook asynchronous
         ''' </summary>
         ''' <returns>Task object (void).</returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Async Function SaveAsync() As Task
-            Dim l As LowLevel = New LowLevel(Me)
-            Await l.SaveAsync()
+            Await New LowLevel(Me).SaveAsync()
         End Function
 
         ''' <summary>
@@ -494,8 +483,7 @@ Namespace XLSX.Writer
         ''' <param name="stream">Writable stream.</param>
         ''' <param name="leaveOpen">Optional parameter to keep the stream open after writing (used for MemoryStreams; default is false).</param>
         Public Sub SaveAsStream(stream As Stream, Optional leaveOpen As Boolean = False)
-            Dim l As LowLevel = New LowLevel(Me)
-            l.SaveAsStream(stream, leaveOpen)
+            Call New LowLevel(Me).SaveAsStream(stream, leaveOpen)
         End Sub
 
         ''' <summary>
@@ -505,8 +493,7 @@ Namespace XLSX.Writer
         ''' <param name="leaveOpen">Optional parameter to keep the stream open after writing (used for MemoryStreams; default is false).</param>
         ''' <returns>Task object (void).</returns>
         Public Async Function SaveAsStreamAsync(stream As Stream, Optional leaveOpen As Boolean = False) As Task
-            Dim l As LowLevel = New LowLevel(Me)
-            Await l.SaveAsStreamAsync(stream, leaveOpen)
+            Await New LowLevel(Me).SaveAsStreamAsync(stream, leaveOpen)
         End Function
 
         ''' <summary>
@@ -515,7 +502,7 @@ Namespace XLSX.Writer
         ''' <param name="name">Name of the worksheet.</param>
         ''' <returns>Returns the current worksheet.</returns>
         Public Function SetCurrentWorksheet(name As String) As Worksheet
-            currentWorksheetField = worksheetsField.FirstOrDefault(Function(w) Equals(w.SheetName, name))
+            currentWorksheetField = Worksheets.FirstOrDefault(Function(w) Equals(w.SheetName, name))
             If currentWorksheetField Is Nothing Then
                 Throw New WorksheetException("The worksheet with the name '" & name & "' does not exist.")
             End If
@@ -529,10 +516,10 @@ Namespace XLSX.Writer
         ''' <param name="worksheetIndex">Zero-based worksheet index.</param>
         ''' <returns>Returns the current worksheet.</returns>
         Public Function SetCurrentWorksheet(worksheetIndex As Integer) As Worksheet
-            If worksheetIndex < 0 OrElse worksheetIndex > worksheetsField.Count - 1 Then
+            If worksheetIndex < 0 OrElse worksheetIndex > Worksheets.Count - 1 Then
                 Throw New RangeException("OutOfRangeException", "The worksheet index " & worksheetIndex.ToString() & " is out of range")
             End If
-            currentWorksheetField = worksheetsField(worksheetIndex)
+            currentWorksheetField = Worksheets.Item(worksheetIndex)
             shortenerField.SetCurrentWorksheetInternal(currentWorksheetField)
             Return currentWorksheetField
         End Function
@@ -542,11 +529,11 @@ Namespace XLSX.Writer
         ''' </summary>
         ''' <param name="worksheet">Worksheet object (must be in the collection of worksheets).</param>
         Public Sub SetCurrentWorksheet(worksheet As Worksheet)
-            Dim index = worksheetsField.IndexOf(worksheet)
+            Dim index = Worksheets.IndexOf(worksheet)
             If index < 0 Then
                 Throw New WorksheetException("The passed worksheet object is not in the worksheet collection.")
             End If
-            currentWorksheetField = worksheetsField(index)
+            currentWorksheetField = Worksheets.Item(index)
             shortenerField.SetCurrentWorksheetInternal(worksheet)
         End Sub
 
@@ -555,7 +542,7 @@ Namespace XLSX.Writer
         ''' </summary>
         ''' <param name="name">Name of the worksheet.</param>
         Public Sub SetSelectedWorksheet(name As String)
-            selectedWorksheetField = worksheetsField.FindIndex(Function(w) Equals(w.SheetName, name))
+            selectedWorksheetField = Worksheets.FindIndex(Function(w) Equals(w.SheetName, name))
             If selectedWorksheetField < 0 Then
                 Throw New WorksheetException("The worksheet with the name '" & name & "' does not exist.")
             End If
@@ -567,7 +554,7 @@ Namespace XLSX.Writer
         ''' </summary>
         ''' <param name="worksheetIndex">Zero-based worksheet index.</param>
         Public Sub SetSelectedWorksheet(worksheetIndex As Integer)
-            If worksheetIndex < 0 OrElse worksheetIndex > worksheetsField.Count - 1 Then
+            If worksheetIndex < 0 OrElse worksheetIndex > Worksheets.Count - 1 Then
                 Throw New RangeException("OutOfRangeException", "The worksheet index " & worksheetIndex.ToString() & " is out of range")
             End If
             selectedWorksheetField = worksheetIndex
@@ -579,7 +566,7 @@ Namespace XLSX.Writer
         ''' </summary>
         ''' <param name="worksheet">Worksheet object (must be in the collection of worksheets).</param>
         Public Sub SetSelectedWorksheet(worksheet As Worksheet)
-            selectedWorksheetField = worksheetsField.IndexOf(worksheet)
+            selectedWorksheetField = Worksheets.IndexOf(worksheet)
             If selectedWorksheetField < 0 Then
                 Throw New WorksheetException("The passed worksheet object is not in the worksheet collection.")
             End If
@@ -592,11 +579,11 @@ Namespace XLSX.Writer
         ''' <param name="name">Name of the worksheet.</param>
         ''' <returns>Worksheet with the passed name.</returns>
         Public Function GetWorksheet(name As String) As Worksheet
-            Dim index = worksheetsField.FindIndex(Function(w) Equals(w.SheetName, name))
+            Dim index = Worksheets.FindIndex(Function(w) w.SheetName = name)
             If index < 0 Then
                 Throw New WorksheetException("No worksheet with the name '" & name & "' was found in this workbook.")
             End If
-            Return worksheetsField(index)
+            Return Worksheets.Item(index)
         End Function
 
         ''' <summary>
@@ -605,10 +592,10 @@ Namespace XLSX.Writer
         ''' <param name="index">Index of the worksheet.</param>
         ''' <returns>Worksheet with the passed index.</returns>
         Public Function GetWorksheet(index As Integer) As Worksheet
-            If index < 0 OrElse index > worksheetsField.Count - 1 Then
+            If index < 0 OrElse index > Worksheets.Count - 1 Then
                 Throw New RangeException("OutOfRangeException", "The worksheet index " & index.ToString() & " is out of range")
             End If
-            Return worksheetsField(index)
+            Return Worksheets.Item(index)
         End Function
 
         ''' <summary>
@@ -673,7 +660,11 @@ Namespace XLSX.Writer
         ''' <param name="targetWorkbook">Workbook to copy the worksheet into.</param>
         ''' <param name="sanitizeSheetName">If true, the new name will be automatically sanitized if a name collision occurs.</param>
         ''' <returns>Copied worksheet.</returns>
-        Public Function CopyWorksheetTo(sourceWorksheetName As String, newWorksheetName As String, targetWorkbook As Workbook, Optional sanitizeSheetName As Boolean = True) As Worksheet
+        Public Function CopyWorksheetTo(sourceWorksheetName As String,
+                                        newWorksheetName As String,
+                                        targetWorkbook As Workbook,
+                                        Optional sanitizeSheetName As Boolean = True) As Worksheet
+
             Dim sourceWorksheet = GetWorksheet(sourceWorksheetName)
             Return CopyWorksheetTo(sourceWorksheet, newWorksheetName, targetWorkbook, sanitizeSheetName)
         End Function
@@ -686,7 +677,11 @@ Namespace XLSX.Writer
         ''' <param name="targetWorkbook">Workbook to copy the worksheet into.</param>
         ''' <param name="sanitizeSheetName">If true, the new name will be automatically sanitized if a name collision occurs.</param>
         ''' <returns>Copied worksheet.</returns>
-        Public Function CopyWorksheetTo(sourceWorksheetIndex As Integer, newWorksheetName As String, targetWorkbook As Workbook, Optional sanitizeSheetName As Boolean = True) As Worksheet
+        Public Function CopyWorksheetTo(sourceWorksheetIndex As Integer,
+                                        newWorksheetName As String,
+                                        targetWorkbook As Workbook,
+                                        Optional sanitizeSheetName As Boolean = True) As Worksheet
+
             Dim sourceWorksheet = GetWorksheet(sourceWorksheetIndex)
             Return CopyWorksheetTo(sourceWorksheet, newWorksheetName, targetWorkbook, sanitizeSheetName)
         End Function
@@ -699,7 +694,11 @@ Namespace XLSX.Writer
         ''' <param name="targetWorkbook">Workbook to copy the worksheet into.</param>
         ''' <param name="sanitizeSheetName">If true, the new name will be automatically sanitized if a name collision occurs.</param>
         ''' <returns>Copied worksheet.</returns>
-        Public Shared Function CopyWorksheetTo(sourceWorksheet As Worksheet, newWorksheetName As String, targetWorkbook As Workbook, Optional sanitizeSheetName As Boolean = True) As Worksheet
+        Public Shared Function CopyWorksheetTo(sourceWorksheet As Worksheet,
+                                               newWorksheetName As String,
+                                               targetWorkbook As Workbook,
+                                               Optional sanitizeSheetName As Boolean = True) As Worksheet
+
             If targetWorkbook Is Nothing Then
                 Throw New WorksheetException("The target workbook cannot be null")
             End If
@@ -722,12 +721,12 @@ Namespace XLSX.Writer
         ''' If one of the conditions is not met, an exception is thrown
         ''' </summary>
         Friend Sub ValidateWorksheets()
-            Dim woksheetCount = worksheetsField.Count
+            Dim woksheetCount = Worksheets.Count
             If woksheetCount = 0 Then
                 Throw New WorksheetException("The workbook must contain at least one worksheet")
             End If
             For i = 0 To woksheetCount - 1
-                If worksheetsField(i).Hidden Then
+                If Worksheets.Item(i).Hidden Then
                     If i = selectedWorksheetField Then
                         Throw New WorksheetException("The worksheet with the index " & selectedWorksheetField.ToString() & " cannot be set as selected, since it is set hidden")
                     End If
@@ -741,16 +740,16 @@ Namespace XLSX.Writer
         ''' <param name="index">Index within the worksheets list.</param>
         ''' <param name="resetCurrentWorksheet">If true, the current worksheet will be relocated to the last worksheet in the list.</param>
         Private Sub RemoveWorksheet(index As Integer, resetCurrentWorksheet As Boolean)
-            worksheetsField.RemoveAt(index)
-            If worksheetsField.Count > 0 Then
-                For i = 0 To worksheetsField.Count - 1
-                    worksheetsField(i).SheetID = i + 1
+            Worksheets.RemoveAt(index)
+            If Worksheets.Count > 0 Then
+                For i = 0 To Worksheets.Count - 1
+                    Worksheets.Item(i).SheetID = i + 1
                 Next
                 If resetCurrentWorksheet Then
-                    currentWorksheetField = worksheetsField(worksheetsField.Count - 1)
+                    currentWorksheetField = Worksheets.Item(Worksheets.Count - 1)
                 End If
-                If selectedWorksheetField = index OrElse selectedWorksheetField > worksheetsField.Count - 1 Then
-                    selectedWorksheetField = worksheetsField.Count - 1
+                If selectedWorksheetField = index OrElse selectedWorksheetField > Worksheets.Count - 1 Then
+                    selectedWorksheetField = Worksheets.Count - 1
                 End If
             Else
                 currentWorksheetField = Nothing
@@ -764,17 +763,17 @@ Namespace XLSX.Writer
         ''' </summary>
         ''' <returns>Worksheet ID.</returns>
         Private Function GetNextWorksheetId() As Integer
-            If worksheetsField.Count = 0 Then
+            If Worksheets.Count = 0 Then
                 Return 1
             End If
-            Return worksheetsField.Max(Function(w) w.SheetID) + 1
+            Return Worksheets.Max(Function(w) w.SheetID) + 1
         End Function
 
         ''' <summary>
         ''' Init method called in the constructors
         ''' </summary>
         Private Sub Init()
-            worksheetsField = New List(Of Worksheet)()
+            _Worksheets = New List(Of Worksheet)()
             workbookMetadataField = New Metadata()
             shortenerField = New Shortener(Me)
         End Sub
