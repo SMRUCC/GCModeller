@@ -67,17 +67,30 @@ Module magnitude
     ''' tag samples in matrix as sequence profiles
     ''' </summary>
     ''' <param name="mat"></param>
+    ''' <param name="custom">
+    ''' use the custom charset, then the generated sequence
+    ''' data can only be processed via the SGT algorithm
+    ''' </param>
     ''' <returns></returns>
     <ExportAPI("encode.seqPack")>
-    Public Function encode_seqPack(mat As Matrix, Optional briefSet As Boolean = True) As Object
-        Dim charSet = mat.EncodeRanking.EncodeMatrix(
-            charSet:=If(
-                briefSet,
-                SequenceModel.NT.JoinBy(""),
-                SequenceModel.AA.JoinBy("")
-            )
+    Public Function encode_seqPack(mat As Matrix,
+                                   Optional briefSet As Boolean = True,
+                                   Optional custom As String = Nothing) As Object
+
+        Dim charSet As String = If(
+            briefSet,
+            SequenceModel.NT.JoinBy(""),
+            SequenceModel.AA.JoinBy("")
         )
-        Dim pack = mat.AsSequenceSet(charSet).ToArray
+
+        If Not custom.StringEmpty Then
+            charSet = custom
+        End If
+
+        Dim charMap = mat.EncodeRanking.EncodeMatrix(
+            charSet:=charSet
+        )
+        Dim pack = mat.AsSequenceSet(charMap).ToArray
 
         Return pack
     End Function

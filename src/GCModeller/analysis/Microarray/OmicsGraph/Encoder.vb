@@ -8,6 +8,11 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Public Module Encoder
 
+    ''' <summary>
+    ''' Translate the expression data to the global ranking data
+    ''' </summary>
+    ''' <param name="mat"></param>
+    ''' <returns></returns>
     <Extension>
     Public Function EncodeRanking(mat As Matrix) As Matrix
         Call VBDebugger.WriteLine("encode expression matrix with global ranking...")
