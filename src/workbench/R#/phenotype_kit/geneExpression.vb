@@ -171,6 +171,12 @@ Module geneExpression
         Return table
     End Function
 
+    <ExportAPI("exp")>
+    <ROperator("^")>
+    Public Function exp(x As Matrix, p As Double) As Matrix
+        Return Matrix.Exp(x, p)
+    End Function
+
     ''' <summary>
     ''' do matrix transpose
     ''' </summary>

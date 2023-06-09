@@ -270,6 +270,21 @@ Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow)
         }
     End Function
 
+    Public Shared Function Exp(x As Matrix, p As Double) As Matrix
+        Return New Matrix With {
+            .sampleID = x.sampleID,
+            .tag = $"exp({x.tag}, {p})",
+            .expression = x.expression _
+                .Select(Function(gene)
+                            Return New DataFrameRow With {
+                                .geneID = gene.geneID,
+                                .experiments = New Vector(gene.experiments) ^ p
+                            }
+                        End Function) _
+                .ToArray
+        }
+    End Function
+
     ''' <summary>
     ''' removes the rows which all gene expression result is ZERO
     ''' </summary>
