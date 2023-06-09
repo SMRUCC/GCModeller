@@ -53,12 +53,14 @@
 #End Region
 
 Imports System.IO
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Linq
 
 Public Class AttrDataCollection(Of T As Model)
 
     Public ReadOnly Property fileMeta As FileMeta
     Public ReadOnly Property features As IEnumerable(Of T)
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
             Return models.Values
         End Get
@@ -67,6 +69,7 @@ Public Class AttrDataCollection(Of T As Model)
     Protected ReadOnly models As Dictionary(Of String, T)
 
     Default Public ReadOnly Property getFeature(i As String) As T
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
             Return models.TryGetValue(i)
         End Get
@@ -77,12 +80,18 @@ Public Class AttrDataCollection(Of T As Model)
         models = objects.ToDictionary(Function(o) o.uniqueId)
     End Sub
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Overrides Function ToString() As String
         Return fileMeta.ToString
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Function LoadFile(file As Stream) As AttrDataCollection(Of T)
-        Dim dataFile As AttrValDatFile = AttrValDatFile.ParseFile(New StreamReader(file))
+        Return LoadFile(New StreamReader(file))
+    End Function
+
+    Public Shared Function LoadFile(file As TextReader) As AttrDataCollection(Of T)
+        Dim dataFile As AttrValDatFile = AttrValDatFile.ParseFile(file)
         Dim writer As ObjectWriter = ObjectWriter.LoadSchema(Of T)
         Dim data As T() = (From a As SeqValue(Of FeatureElement)
                            In dataFile.features _

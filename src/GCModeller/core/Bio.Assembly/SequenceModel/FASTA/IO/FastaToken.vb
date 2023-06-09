@@ -573,15 +573,15 @@ AAGCGAACAAATGTTCTATA"
         ''' </summary>
         Const InvalidComplementSource As String = "Data type miss match: the sequence information is a protein sequence, can not get complement sequence."
 
-        ''' <summary>
-        ''' Generate the document text value for this fasta object.
-        ''' </summary>
-        ''' <param name="obj"></param>
-        ''' <returns></returns>
-        ''' <remarks></remarks>
-        Public Shared Shadows Narrowing Operator CType(obj As FastaSeq) As String
-            Return obj.GenerateDocument(lineBreak:=60)
-        End Operator
+        '''' <summary>
+        '''' Generate the document text value for this fasta object.
+        '''' </summary>
+        '''' <param name="obj"></param>
+        '''' <returns></returns>
+        '''' <remarks></remarks>
+        'Public Shared Shadows Narrowing Operator CType(obj As FastaSeq) As String
+        '    Return obj.GenerateDocument(lineBreak:=60)
+        'End Operator
 
         <ExportAPI("ToDoc")>
         Public Shared Function GenerateDocumentText(FastaObject As IAbstractFastaToken) As String

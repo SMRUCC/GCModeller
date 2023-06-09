@@ -9,7 +9,7 @@
 */
 declare namespace BioCyc {
    /**
-    * Create pathway background model
+    * Create pathway enrichment background model
     * 
     * 
      * @param biocyc -
@@ -19,8 +19,16 @@ declare namespace BioCyc {
    */
    function formula(meta: object): string;
    /**
+    * get compounds list data from a given biocyc workspace context
+    * 
+    * 
+     * @param repo this repository data could be a opened biocyc workspace, target
+     *  file path, or text content of the compounds data
+     * @param env -
+     * 
+     * + default value Is ``null``.
    */
-   function getCompounds(repo: object): object;
+   function getCompounds(repo: any, env?: object): object;
    module open {
       /**
        * open a directory path as the biocyc workspace

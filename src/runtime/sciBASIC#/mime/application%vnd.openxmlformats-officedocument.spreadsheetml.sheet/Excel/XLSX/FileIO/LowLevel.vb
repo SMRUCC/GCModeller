@@ -10,14 +10,16 @@ Imports System.IO
 Imports System.IO.Packaging
 Imports System.Text
 Imports System.Xml
+Imports Microsoft.VisualBasic.MIME.Office.Excel.XLSX.Writer
 Imports stdNum = System.Math
 
-Namespace XLSX.Writer
+Namespace XLSX.FileIO
 
     ''' <summary>
     ''' Class for low level handling (XML, formatting, packing)
     ''' </summary>
     Friend Class LowLevel
+
         ''' <summary>
         ''' Defines the WORKBOOK
         ''' </summary>
@@ -131,12 +133,12 @@ Namespace XLSX.Writer
         ''' <summary>
         ''' Defines the workbook
         ''' </summary>
-        Private ReadOnly workbookField As Workbook
+        Private ReadOnly m_workbook As Workbook
 
         ''' <summary>
         ''' Defines the styles
         ''' </summary>
-        Private stylesField As StyleManager
+        Private m_styles As StyleManager
 
         ''' <summary>
         ''' Defines the sharedStrings
@@ -154,7 +156,7 @@ Namespace XLSX.Writer
         ''' <param name="workbook">Workbook to process.</param>
         Public Sub New(workbook As Workbook)
             culture = INVARIANT_CULTURE
-            workbookField = workbook
+            m_workbook = workbook
             sharedStrings = New SortedMap()
             sharedStringsTotalCount = 0
         End Sub
@@ -164,7 +166,7 @@ Namespace XLSX.Writer
         ''' </summary>
         ''' <returns>Raw XML string.</returns>
         Private Function CreateAppPropertiesDocument() As String
-            Dim sb As StringBuilder = New StringBuilder()
+            Dim sb As New StringBuilder()
             sb.Append("<Properties xmlns=""http://schemas.openxmlformats.org/officeDocument/2006/extended-properties"" xmlns:vt=""http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes"">")
             sb.Append(CreateAppString())
             sb.Append("</Properties>")
@@ -176,7 +178,7 @@ Namespace XLSX.Writer
         ''' </summary>
         ''' <returns>Raw XML string.</returns>
         Private Function CreateCorePropertiesDocument() As String
-            Dim sb As StringBuilder = New StringBuilder()
+            Dim sb As New StringBuilder()
             sb.Append("<cp:coreProperties xmlns:cp=""http://schemas.openxmlformats.org/package/2006/metadata/core-properties"" xmlns:dc=""http://purl.org/dc/elements/1.1/"" xmlns:dcterms=""http://purl.org/dc/terms/"" xmlns:dcmitype=""http://purl.org/dc/dcmitype/"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"">")
             sb.Append(CreateCorePropertiesString())
             sb.Append("</cp:coreProperties>")
@@ -188,7 +190,7 @@ Namespace XLSX.Writer
         ''' </summary>
         ''' <returns>Raw XML string.</returns>
         Private Function CreateSharedStringsDocument() As String
-            Dim sb As StringBuilder = New StringBuilder()
+            Dim sb As New StringBuilder()
             sb.Append("<sst xmlns=""http://schemas.openxmlformats.org/spreadsheetml/2006/main"" count=""")
             sb.Append(sharedStringsTotalCount.ToString("G", culture))
             sb.Append(""" uniqueCount=""")
@@ -228,11 +230,11 @@ Namespace XLSX.Writer
         ''' <param name="value">Input value.</param>
         ''' <returns>Normalized value.</returns>
         Private Function NormalizeNewLines(value As String) As String
-            If Equals(value, Nothing) OrElse Not value.Contains(Microsoft.VisualBasic.Strings.ChrW(10)) AndAlso Not value.Contains(Microsoft.VisualBasic.Strings.ChrW(13)) Then
+            If value Is Nothing OrElse Not value.Contains(ChrW(10)) AndAlso Not value.Contains(ChrW(13)) Then
                 Return value
             End If
-            Dim normalized = value.Replace(CStr(Microsoft.VisualBasic.Constants.vbCrLf), CStr(Microsoft.VisualBasic.Constants.vbLf)).Replace(Microsoft.VisualBasic.Constants.vbCr, Microsoft.VisualBasic.Constants.vbLf)
-            Return normalized.Replace(Microsoft.VisualBasic.Constants.vbLf, Microsoft.VisualBasic.Constants.vbCrLf)
+            Dim normalized = value.Replace(CStr(vbCrLf), CStr(vbLf)).Replace(vbCr, vbLf)
+            Return normalized.Replace(vbLf, vbCrLf)
         End Function
 
         ''' <summary>
@@ -246,13 +248,13 @@ Namespace XLSX.Writer
             Dim numberFormatsString As String = CreateStyleNumberFormatString()
             Dim xfsStings As String = CreateStyleXfsString()
             Dim mruColorString As String = CreateMruColorsString()
-            Dim fontCount As Integer = stylesField.GetFontStyleNumber()
-            Dim fillCount As Integer = stylesField.GetFillStyleNumber()
-            Dim styleCount As Integer = stylesField.GetStyleNumber()
-            Dim borderCount As Integer = stylesField.GetBorderStyleNumber()
+            Dim fontCount As Integer = m_styles.GetFontStyleNumber()
+            Dim fillCount As Integer = m_styles.GetFillStyleNumber()
+            Dim styleCount As Integer = m_styles.GetStyleNumber()
+            Dim borderCount As Integer = m_styles.GetBorderStyleNumber()
             Dim sb As StringBuilder = New StringBuilder()
             sb.Append("<styleSheet xmlns=""http://schemas.openxmlformats.org/spreadsheetml/2006/main"" xmlns:mc=""http://schemas.openxmlformats.org/markup-compatibility/2006"" mc:Ignorable=""x14ac"" xmlns:x14ac=""http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac"">")
-            Dim numFormatCount As Integer = stylesField.GetNumberFormatStyleNumber()
+            Dim numFormatCount As Integer = m_styles.GetNumberFormatStyleNumber()
             If numFormatCount > 0 Then
                 sb.Append("<numFmts count=""").Append(numFormatCount.ToString("G", culture)).Append(""">")
                 sb.Append(numberFormatsString & "</numFmts>")
@@ -279,24 +281,24 @@ Namespace XLSX.Writer
         ''' </summary>
         ''' <returns>Raw XML string.</returns>
         Private Function CreateWorkbookDocument() As String
-            If workbookField.Worksheets.Count = 0 Then
+            If m_workbook.Worksheets.Count = 0 Then
                 Throw New RangeException("OutOfRangeException", "The workbook can not be created because no worksheet was defined.")
             End If
             Dim sb As StringBuilder = New StringBuilder()
             sb.Append("<workbook xmlns=""http://schemas.openxmlformats.org/spreadsheetml/2006/main"" xmlns:r=""http://schemas.openxmlformats.org/officeDocument/2006/relationships"">")
-            If workbookField.SelectedWorksheet > 0 OrElse workbookField.Hidden Then
+            If m_workbook.SelectedWorksheet > 0 OrElse m_workbook.Hidden Then
                 sb.Append("<bookViews><workbookView ")
-                If workbookField.Hidden Then
+                If m_workbook.Hidden Then
                     sb.Append("visibility=""hidden""")
                 Else
-                    sb.Append("activeTab=""").Append(workbookField.SelectedWorksheet.ToString("G", culture)).Append("""")
+                    sb.Append("activeTab=""").Append(m_workbook.SelectedWorksheet.ToString("G", culture)).Append("""")
                 End If
                 sb.Append("/></bookViews>")
             End If
             CreateWorkbookProtectionString(sb)
             sb.Append("<sheets>")
-            If workbookField.Worksheets.Count > 0 Then
-                For Each item In workbookField.Worksheets
+            If m_workbook.Worksheets.Count > 0 Then
+                For Each item In m_workbook.Worksheets
                     sb.Append("<sheet r:id=""rId").Append(item.SheetID.ToString()).Append(""" sheetId=""").Append(item.SheetID.ToString()).Append(""" name=""").Append(EscapeXmlAttributeChars(item.SheetName)).Append("""")
                     If item.Hidden Then
                         sb.Append(" state=""hidden""")
@@ -317,17 +319,17 @@ Namespace XLSX.Writer
         ''' </summary>
         ''' <param name="sb">reference to the stringbuilder.</param>
         Private Sub CreateWorkbookProtectionString(sb As StringBuilder)
-            If workbookField.UseWorkbookProtection Then
+            If m_workbook.UseWorkbookProtection Then
                 sb.Append("<workbookProtection")
-                If workbookField.LockWindowsIfProtected Then
+                If m_workbook.LockWindowsIfProtected Then
                     sb.Append(" lockWindows=""1""")
                 End If
-                If workbookField.LockStructureIfProtected Then
+                If m_workbook.LockStructureIfProtected Then
                     sb.Append(" lockStructure=""1""")
                 End If
-                If Not String.IsNullOrEmpty(workbookField.WorkbookProtectionPassword) Then
+                If Not String.IsNullOrEmpty(m_workbook.WorkbookProtectionPassword) Then
                     sb.Append(" workbookPassword=""")
-                    sb.Append(workbookField.WorkbookProtectionPasswordHash)
+                    sb.Append(m_workbook.WorkbookProtectionPasswordHash)
                     sb.Append("""")
                 End If
                 sb.Append("/>")
@@ -352,7 +354,8 @@ Namespace XLSX.Writer
             End If
             sb.Append("<sheetFormatPr")
             If Not HasPaneSplitting(worksheet) Then
-                ' TODO: Find the right calculation to compensate baseColWidth when using pane splitting
+                ' TODO: Find the right calculation to compensate
+                ' baseColWidth when using pane splitting
                 sb.Append(" defaultColWidth=""").Append(worksheet.DefaultColumnWidth.ToString("G", culture)).Append("""")
             End If
             sb.Append(" defaultRowHeight=""").Append(worksheet.DefaultRowHeight.ToString("G", culture)).Append(""" baseColWidth=""").Append(worksheet.DefaultColumnWidth.ToString("G", culture)).Append(""" x14ac:dyDescent=""0.25""/>")
@@ -409,7 +412,7 @@ Namespace XLSX.Writer
         ''' <param name="sb">reference to the stringbuilder.</param>
         Private Sub CreateSheetViewString(worksheet As Worksheet, sb As StringBuilder)
             sb.Append("<sheetViews><sheetView workbookViewId=""0""")
-            If workbookField.SelectedWorksheet = worksheet.SheetID - 1 AndAlso Not worksheet.Hidden Then
+            If m_workbook.SelectedWorksheet = worksheet.SheetID - 1 AndAlso Not worksheet.Hidden Then
                 sb.Append(" tabSelected=""1""")
             End If
             sb.Append(">")
@@ -478,13 +481,13 @@ Namespace XLSX.Writer
             End If
             If applyXSplit AndAlso applyYSplit Then
                 Select Case worksheet.ActivePane.Value
-                    Case Worksheet.WorksheetPane.bottomLeft
+                    Case WorksheetPane.bottomLeft
                         sb.Append(" activePane=""bottomLeft""")
-                    Case Worksheet.WorksheetPane.bottomRight
+                    Case WorksheetPane.bottomRight
                         sb.Append(" activePane=""bottomRight""")
-                    Case Worksheet.WorksheetPane.topLeft
+                    Case WorksheetPane.topLeft
                         sb.Append(" activePane=""topLeft""")
-                    Case Worksheet.WorksheetPane.topRight
+                    Case WorksheetPane.topRight
                         sb.Append(" activePane=""topRight""")
                 End Select
             End If
@@ -541,7 +544,7 @@ Namespace XLSX.Writer
         ''' Method to save the workbook
         ''' </summary>
         Public Sub Save()
-            Using fs As FileStream = New FileStream(workbookField.Filename, FileMode.Create)
+            Using fs As FileStream = New FileStream(m_workbook.Filename, FileMode.Create)
                 Call SaveAsStream(fs)
             End Using
         End Sub
@@ -560,80 +563,82 @@ Namespace XLSX.Writer
         ''' <param name="stream">Writable stream as target.</param>
         ''' <param name="leaveOpen">Optional parameter to keep the stream open after writing (used for MemoryStreams; default is false).</param>
         Public Sub SaveAsStream(stream As Stream, Optional leaveOpen As Boolean = False)
-            workbookField.ResolveMergedCells()
-            stylesField = StyleManager.GetManagedStyles(workbookField) ' After this point, styles must not be changed anymore
+            m_workbook.ResolveMergedCells()
+            m_styles = StyleManager.GetManagedStyles(m_workbook) ' After this point, styles must not be changed anymore
+
+            Using p = Package.Open(stream, FileMode.Create)
+                Call SaveAsStreamInternal(p)
+
+                p.Flush()
+                p.Close()
+
+                If Not leaveOpen Then
+                    stream.Close()
+                End If
+            End Using
+        End Sub
+
+        Private Sub SaveAsStreamInternal(p As Package)
+            Dim workbookUri As Uri = New Uri(WORKBOOK.GetFullPath(), UriKind.Relative)
+            Dim stylesheetUri As Uri = New Uri(STYLES.GetFullPath(), UriKind.Relative)
+            Dim appPropertiesUri As Uri = New Uri(APP_PROPERTIES.GetFullPath(), UriKind.Relative)
+            Dim corePropertiesUri As Uri = New Uri(CORE_PROPERTIES.GetFullPath(), UriKind.Relative)
+            Dim sharedStringsUri As Uri = New Uri(SHARED_STRINGS.GetFullPath(), UriKind.Relative)
             Dim sheetPath As DocumentPath
-            Dim sheetURIs As List(Of Uri) = New List(Of Uri)()
-            Try
-                Using p = Package.Open(stream, FileMode.Create)
-                    Dim workbookUri As Uri = New Uri(WORKBOOK.GetFullPath(), UriKind.Relative)
-                    Dim stylesheetUri As Uri = New Uri(STYLES.GetFullPath(), UriKind.Relative)
-                    Dim appPropertiesUri As Uri = New Uri(APP_PROPERTIES.GetFullPath(), UriKind.Relative)
-                    Dim corePropertiesUri As Uri = New Uri(CORE_PROPERTIES.GetFullPath(), UriKind.Relative)
-                    Dim sharedStringsUri As Uri = New Uri(SHARED_STRINGS.GetFullPath(), UriKind.Relative)
+            Dim sheetURIs As New List(Of Uri)()
+            Dim pp = p.CreatePart(workbookUri, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml", CompressionOption.Normal)
+            p.CreateRelationship(pp.Uri, TargetMode.Internal, "http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument", "rId1")
+            p.CreateRelationship(corePropertiesUri, TargetMode.Internal, "http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties", "rId2") '!
+            p.CreateRelationship(appPropertiesUri, TargetMode.Internal, "http://schemas.openxmlformats.org/officeDocument/2006/relationships/extended-properties", "rId3") '!
 
-                    Dim pp = p.CreatePart(workbookUri, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml", CompressionOption.Normal)
-                    p.CreateRelationship(pp.Uri, TargetMode.Internal, "http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument", "rId1")
-                    p.CreateRelationship(corePropertiesUri, TargetMode.Internal, "http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties", "rId2") '!
-                    p.CreateRelationship(appPropertiesUri, TargetMode.Internal, "http://schemas.openxmlformats.org/officeDocument/2006/relationships/extended-properties", "rId3") '!
+            AppendXmlToPackagePart(CreateWorkbookDocument(), pp)
+            Dim idCounter As Integer
+            If m_workbook.Worksheets.Count > 0 Then
+                idCounter = m_workbook.Worksheets.Count + 1
+            Else
+                '  Fallback on empty workbook
+                idCounter = 2
+            End If
+            pp.CreateRelationship(stylesheetUri, TargetMode.Internal, "http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles", "rId" & idCounter.ToString())
+            pp.CreateRelationship(sharedStringsUri, TargetMode.Internal, "http://schemas.openxmlformats.org/officeDocument/2006/relationships/sharedStrings", "rId" & (idCounter + 1).ToString())
 
-                    AppendXmlToPackagePart(CreateWorkbookDocument(), pp)
-                    Dim idCounter As Integer
-                    If workbookField.Worksheets.Count > 0 Then
-                        idCounter = workbookField.Worksheets.Count + 1
-                    Else
-                        '  Fallback on empty workbook
-                        idCounter = 2
-                    End If
-                    pp.CreateRelationship(stylesheetUri, TargetMode.Internal, "http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles", "rId" & idCounter.ToString())
-                    pp.CreateRelationship(sharedStringsUri, TargetMode.Internal, "http://schemas.openxmlformats.org/officeDocument/2006/relationships/sharedStrings", "rId" & (idCounter + 1).ToString())
+            If m_workbook.Worksheets.Count > 0 Then
+                For Each item As Worksheet In m_workbook.Worksheets
+                    sheetPath = New DocumentPath("sheet" & item.SheetID.ToString() & ".xml", "xl/worksheets")
+                    sheetURIs.Add(New Uri(sheetPath.GetFullPath(), UriKind.Relative))
+                    pp.CreateRelationship(sheetURIs(sheetURIs.Count - 1), TargetMode.Internal, "http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet", "rId" & item.SheetID.ToString())
+                Next
+            Else
+                '  Fallback on empty workbook
+                sheetPath = New DocumentPath("sheet1.xml", "xl/worksheets")
+                sheetURIs.Add(New Uri(sheetPath.GetFullPath(), UriKind.Relative))
+                pp.CreateRelationship(sheetURIs(sheetURIs.Count - 1), TargetMode.Internal, "http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet", "rId1")
+            End If
 
-                    If workbookField.Worksheets.Count > 0 Then
-                        For Each item In workbookField.Worksheets
-                            sheetPath = New DocumentPath("sheet" & item.SheetID.ToString() & ".xml", "xl/worksheets")
-                            sheetURIs.Add(New Uri(sheetPath.GetFullPath(), UriKind.Relative))
-                            pp.CreateRelationship(sheetURIs(sheetURIs.Count - 1), TargetMode.Internal, "http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet", "rId" & item.SheetID.ToString())
-                        Next
-                    Else
-                        '  Fallback on empty workbook
-                        sheetPath = New DocumentPath("sheet1.xml", "xl/worksheets")
-                        sheetURIs.Add(New Uri(sheetPath.GetFullPath(), UriKind.Relative))
-                        pp.CreateRelationship(sheetURIs(sheetURIs.Count - 1), TargetMode.Internal, "http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet", "rId1")
-                    End If
+            pp = p.CreatePart(stylesheetUri, "application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml", CompressionOption.Normal)
+            AppendXmlToPackagePart(CreateStyleSheetDocument(), pp)
 
-                    pp = p.CreatePart(stylesheetUri, "application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml", CompressionOption.Normal)
-                    AppendXmlToPackagePart(CreateStyleSheetDocument(), pp)
+            Dim i = 0
+            If m_workbook.Worksheets.Count > 0 Then
+                For Each item In m_workbook.Worksheets
+                    pp = p.CreatePart(sheetURIs(i), "application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml", CompressionOption.Normal)
+                    i += 1
+                    AppendXmlToPackagePart(CreateWorksheetPart(item), pp)
+                Next
+            Else
+                pp = p.CreatePart(sheetURIs(i), "application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml", CompressionOption.Normal)
+                i += 1
+                AppendXmlToPackagePart(CreateWorksheetPart(New Worksheet("sheet1")), pp)
+            End If
+            pp = p.CreatePart(sharedStringsUri, "application/vnd.openxmlformats-officedocument.spreadsheetml.sharedStrings+xml", CompressionOption.Normal)
+            AppendXmlToPackagePart(CreateSharedStringsDocument(), pp)
 
-                    Dim i = 0
-                    If workbookField.Worksheets.Count > 0 Then
-                        For Each item In workbookField.Worksheets
-                            pp = p.CreatePart(sheetURIs(i), "application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml", CompressionOption.Normal)
-                            i += 1
-                            AppendXmlToPackagePart(CreateWorksheetPart(item), pp)
-                        Next
-                    Else
-                        pp = p.CreatePart(sheetURIs(i), "application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml", CompressionOption.Normal)
-                        i += 1
-                        AppendXmlToPackagePart(CreateWorksheetPart(New Worksheet("sheet1")), pp)
-                    End If
-                    pp = p.CreatePart(sharedStringsUri, "application/vnd.openxmlformats-officedocument.spreadsheetml.sharedStrings+xml", CompressionOption.Normal)
-                    AppendXmlToPackagePart(CreateSharedStringsDocument(), pp)
-
-                    If workbookField.WorkbookMetadata IsNot Nothing Then
-                        pp = p.CreatePart(appPropertiesUri, "application/vnd.openxmlformats-officedocument.extended-properties+xml", CompressionOption.Normal)
-                        AppendXmlToPackagePart(CreateAppPropertiesDocument(), pp)
-                        pp = p.CreatePart(corePropertiesUri, "application/vnd.openxmlformats-package.core-properties+xml", CompressionOption.Normal)
-                        AppendXmlToPackagePart(CreateCorePropertiesDocument(), pp)
-                    End If
-                    p.Flush()
-                    p.Close()
-                    If Not leaveOpen Then
-                        stream.Close()
-                    End If
-                End Using
-            Catch e As Exception
-                Throw New IOException("An error occurred while saving. See inner exception for details: " & e.Message, e)
-            End Try
+            If m_workbook.WorkbookMetadata IsNot Nothing Then
+                pp = p.CreatePart(appPropertiesUri, "application/vnd.openxmlformats-officedocument.extended-properties+xml", CompressionOption.Normal)
+                AppendXmlToPackagePart(CreateAppPropertiesDocument(), pp)
+                pp = p.CreatePart(corePropertiesUri, "application/vnd.openxmlformats-package.core-properties+xml", CompressionOption.Normal)
+                AppendXmlToPackagePart(CreateCorePropertiesDocument(), pp)
+            End If
         End Sub
 
         ''' <summary>
@@ -683,23 +688,19 @@ Namespace XLSX.Writer
         ''' <param name="doc">document as raw XML string.</param>
         ''' <param name="pp">Package part to append the XML data.</param>
         Private Sub AppendXmlToPackagePart(doc As String, pp As PackagePart)
-            Try
-                Using ms As MemoryStream = New MemoryStream() ' Write workbook.xml
-                    If Not ms.CanWrite Then
-                        Return
-                    End If
-                    Using writer = XmlWriter.Create(ms)
-                        writer.WriteProcessingInstruction("xml", "version=""1.0"" encoding=""UTF-8"" standalone=""yes""")
-                        writer.WriteRaw(doc)
-                        writer.Flush()
-                        ms.Position = 0
-                        ms.CopyTo(pp.GetStream())
-                        ms.Flush()
-                    End Using
+            Using ms As MemoryStream = New MemoryStream() ' Write workbook.xml
+                If Not ms.CanWrite Then
+                    Return
+                End If
+                Using writer = XmlWriter.Create(ms)
+                    writer.WriteProcessingInstruction("xml", "version=""1.0"" encoding=""UTF-8"" standalone=""yes""")
+                    writer.WriteRaw(doc)
+                    writer.Flush()
+                    ms.Position = 0
+                    ms.CopyTo(pp.GetStream())
+                    ms.Flush()
                 End Using
-            Catch e As Exception
-                Throw New IOException("The XML document could not be saved into the memory stream", e)
-            End Try
+            End Using
         End Sub
 
         ''' <summary>
@@ -707,10 +708,10 @@ Namespace XLSX.Writer
         ''' </summary>
         ''' <returns>String with formatted XML data.</returns>
         Private Function CreateAppString() As String
-            If workbookField.WorkbookMetadata Is Nothing Then
+            If m_workbook.WorkbookMetadata Is Nothing Then
                 Return String.Empty
             End If
-            Dim md = workbookField.WorkbookMetadata
+            Dim md = m_workbook.WorkbookMetadata
             Dim sb As StringBuilder = New StringBuilder()
             AppendXmlTag(sb, "0", "TotalTime", Nothing)
             AppendXmlTag(sb, md.Application, "Application", Nothing)
@@ -761,10 +762,10 @@ Namespace XLSX.Writer
         ''' </summary>
         ''' <returns>String with formatted XML data.</returns>
         Private Function CreateCorePropertiesString() As String
-            If workbookField.WorkbookMetadata Is Nothing Then
+            If m_workbook.WorkbookMetadata Is Nothing Then
                 Return String.Empty
             End If
-            Dim md = workbookField.WorkbookMetadata
+            Dim md = m_workbook.WorkbookMetadata
             Dim sb As StringBuilder = New StringBuilder()
             AppendXmlTag(sb, md.Title, "title", "dc")
             AppendXmlTag(sb, md.Subject, "subject", "dc")
@@ -931,62 +932,64 @@ Namespace XLSX.Writer
             If Not sheet.UseSheetProtection Then
                 Return String.Empty
             End If
-            Dim actualLockingValues As Dictionary(Of Worksheet.SheetProtectionValue, Integer) = New Dictionary(Of Worksheet.SheetProtectionValue, Integer)()
+            Dim actualLockingValues As Dictionary(Of SheetProtectionValue, Integer) = New Dictionary(Of SheetProtectionValue, Integer)()
             If sheet.SheetProtectionValues.Count = 0 Then
-                actualLockingValues.Add(Worksheet.SheetProtectionValue.selectLockedCells, 1)
-                actualLockingValues.Add(Worksheet.SheetProtectionValue.selectUnlockedCells, 1)
+                actualLockingValues.Add(SheetProtectionValue.selectLockedCells, 1)
+                actualLockingValues.Add(SheetProtectionValue.selectUnlockedCells, 1)
             End If
-            If Not sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.objects) Then
-                actualLockingValues.Add(Worksheet.SheetProtectionValue.objects, 1)
+            If Not sheet.SheetProtectionValues.Contains(SheetProtectionValue.objects) Then
+                actualLockingValues.Add(SheetProtectionValue.objects, 1)
             End If
-            If Not sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.scenarios) Then
-                actualLockingValues.Add(Worksheet.SheetProtectionValue.scenarios, 1)
+            If Not sheet.SheetProtectionValues.Contains(SheetProtectionValue.scenarios) Then
+                actualLockingValues.Add(SheetProtectionValue.scenarios, 1)
             End If
-            If Not sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.selectLockedCells) AndAlso Not actualLockingValues.ContainsKey(Worksheet.SheetProtectionValue.selectLockedCells) Then
-                actualLockingValues.Add(Worksheet.SheetProtectionValue.selectLockedCells, 1)
+            If Not sheet.SheetProtectionValues.Contains(SheetProtectionValue.selectLockedCells) AndAlso Not actualLockingValues.ContainsKey(SheetProtectionValue.selectLockedCells) Then
+                actualLockingValues.Add(SheetProtectionValue.selectLockedCells, 1)
             End If
-            If (Not sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.selectUnlockedCells) OrElse Not sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.selectLockedCells)) AndAlso Not actualLockingValues.ContainsKey(Worksheet.SheetProtectionValue.selectUnlockedCells) Then
-                actualLockingValues.Add(Worksheet.SheetProtectionValue.selectUnlockedCells, 1)
+            If (Not sheet.SheetProtectionValues.Contains(SheetProtectionValue.selectUnlockedCells) OrElse Not sheet.SheetProtectionValues.Contains(SheetProtectionValue.selectLockedCells)) AndAlso Not actualLockingValues.ContainsKey(SheetProtectionValue.selectUnlockedCells) Then
+                actualLockingValues.Add(SheetProtectionValue.selectUnlockedCells, 1)
             End If
-            If sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.formatCells) Then
-                actualLockingValues.Add(Worksheet.SheetProtectionValue.formatCells, 0)
+            If sheet.SheetProtectionValues.Contains(SheetProtectionValue.formatCells) Then
+                actualLockingValues.Add(SheetProtectionValue.formatCells, 0)
             End If
-            If sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.formatColumns) Then
-                actualLockingValues.Add(Worksheet.SheetProtectionValue.formatColumns, 0)
+            If sheet.SheetProtectionValues.Contains(SheetProtectionValue.formatColumns) Then
+                actualLockingValues.Add(SheetProtectionValue.formatColumns, 0)
             End If
-            If sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.formatRows) Then
-                actualLockingValues.Add(Worksheet.SheetProtectionValue.formatRows, 0)
+            If sheet.SheetProtectionValues.Contains(SheetProtectionValue.formatRows) Then
+                actualLockingValues.Add(SheetProtectionValue.formatRows, 0)
             End If
-            If sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.insertColumns) Then
-                actualLockingValues.Add(Worksheet.SheetProtectionValue.insertColumns, 0)
+            If sheet.SheetProtectionValues.Contains(SheetProtectionValue.insertColumns) Then
+                actualLockingValues.Add(SheetProtectionValue.insertColumns, 0)
             End If
-            If sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.insertRows) Then
-                actualLockingValues.Add(Worksheet.SheetProtectionValue.insertRows, 0)
+            If sheet.SheetProtectionValues.Contains(SheetProtectionValue.insertRows) Then
+                actualLockingValues.Add(SheetProtectionValue.insertRows, 0)
             End If
-            If sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.insertHyperlinks) Then
-                actualLockingValues.Add(Worksheet.SheetProtectionValue.insertHyperlinks, 0)
+            If sheet.SheetProtectionValues.Contains(SheetProtectionValue.insertHyperlinks) Then
+                actualLockingValues.Add(SheetProtectionValue.insertHyperlinks, 0)
             End If
-            If sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.deleteColumns) Then
-                actualLockingValues.Add(Worksheet.SheetProtectionValue.deleteColumns, 0)
+            If sheet.SheetProtectionValues.Contains(SheetProtectionValue.deleteColumns) Then
+                actualLockingValues.Add(SheetProtectionValue.deleteColumns, 0)
             End If
-            If sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.deleteRows) Then
-                actualLockingValues.Add(Worksheet.SheetProtectionValue.deleteRows, 0)
+            If sheet.SheetProtectionValues.Contains(SheetProtectionValue.deleteRows) Then
+                actualLockingValues.Add(SheetProtectionValue.deleteRows, 0)
             End If
-            If sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.sort) Then
-                actualLockingValues.Add(Worksheet.SheetProtectionValue.sort, 0)
+            If sheet.SheetProtectionValues.Contains(SheetProtectionValue.sort) Then
+                actualLockingValues.Add(SheetProtectionValue.sort, 0)
             End If
-            If sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.autoFilter) Then
-                actualLockingValues.Add(Worksheet.SheetProtectionValue.autoFilter, 0)
+            If sheet.SheetProtectionValues.Contains(SheetProtectionValue.autoFilter) Then
+                actualLockingValues.Add(SheetProtectionValue.autoFilter, 0)
             End If
-            If sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.pivotTables) Then
-                actualLockingValues.Add(Worksheet.SheetProtectionValue.pivotTables, 0)
+            If sheet.SheetProtectionValues.Contains(SheetProtectionValue.pivotTables) Then
+                actualLockingValues.Add(SheetProtectionValue.pivotTables, 0)
             End If
             Dim sb As StringBuilder = New StringBuilder()
             sb.Append("<sheetProtection")
             Dim temp As String
             For Each item In actualLockingValues
                 Try
-                    temp = [Enum].GetName(GetType(Worksheet.SheetProtectionValue), item.Key) ' Note! If the enum names differs from the OOXML definitions, this method will cause invalid OOXML entries
+                    ' Note! If the enum names differs from the OOXML definitions,
+                    ' this method will cause invalid OOXML entries
+                    temp = [Enum].GetName(GetType(SheetProtectionValue), item.Key)
                     sb.Append(" ").Append(temp).Append("=""").Append(item.Value.ToString("G", culture)).Append("""")
                 Catch
                     ' no-op
@@ -1005,7 +1008,7 @@ Namespace XLSX.Writer
         ''' </summary>
         ''' <returns>String with formatted XML data.</returns>
         Private Function CreateStyleBorderString() As String
-            Dim borderStyles As Style.Border() = stylesField.GetBorders()
+            Dim borderStyles As Style.Border() = m_styles.GetBorders()
             Dim sb As StringBuilder = New StringBuilder()
             For Each item In borderStyles
                 If item.DiagonalDown AndAlso Not item.DiagonalUp Then
@@ -1084,7 +1087,7 @@ Namespace XLSX.Writer
         ''' </summary>
         ''' <returns>String with formatted XML data.</returns>
         Private Function CreateStyleFontString() As String
-            Dim fontStyles As Style.Font() = stylesField.GetFonts()
+            Dim fontStyles As Style.Font() = m_styles.GetFonts()
             Dim sb As StringBuilder = New StringBuilder()
             For Each item In fontStyles
                 sb.Append("<font>")
@@ -1141,7 +1144,7 @@ Namespace XLSX.Writer
         ''' </summary>
         ''' <returns>String with formatted XML data.</returns>
         Private Function CreateStyleFillString() As String
-            Dim fillStyles As Style.Fill() = stylesField.GetFills()
+            Dim fillStyles As Style.Fill() = m_styles.GetFills()
             Dim sb As StringBuilder = New StringBuilder()
             For Each item In fillStyles
                 sb.Append("<fill>")
@@ -1171,7 +1174,7 @@ Namespace XLSX.Writer
         ''' </summary>
         ''' <returns>String with formatted XML data.</returns>
         Private Function CreateStyleNumberFormatString() As String
-            Dim numberFormatStyles As Style.NumberFormat() = stylesField.GetNumberFormats()
+            Dim numberFormatStyles As Style.NumberFormat() = m_styles.GetNumberFormats()
             Dim sb As StringBuilder = New StringBuilder()
             For Each item In numberFormatStyles
                 If item.IsCustomFormat Then
@@ -1191,7 +1194,7 @@ Namespace XLSX.Writer
         ''' </summary>
         ''' <returns>String with formatted XML data.</returns>
         Private Function CreateStyleXfsString() As String
-            Dim styleItems As Style() = stylesField.GetStyles()
+            Dim styleItems As Style() = m_styles.GetStyles()
             Dim sb As StringBuilder = New StringBuilder()
             Dim sb2 As StringBuilder = New StringBuilder()
             Dim alignmentString, protectionString As String
@@ -1319,8 +1322,8 @@ Namespace XLSX.Writer
         ''' </summary>
         ''' <returns>String with formatted XML data.</returns>
         Private Function CreateMruColorsString() As String
-            Dim fonts As Style.Font() = stylesField.GetFonts()
-            Dim fills As Style.Fill() = stylesField.GetFills()
+            Dim fonts As Style.Font() = m_styles.GetFonts()
+            Dim fills As Style.Fill() = m_styles.GetFills()
             Dim sb As StringBuilder = New StringBuilder()
             Dim tempColors As List(Of String) = New List(Of String)()
             For Each item In fonts
@@ -1594,151 +1597,5 @@ Namespace XLSX.Writer
             Return stdNum.Floor(SPLIT_POINT_DIVIDER * height + SPLIT_HEIGHT_POINT_OFFSET)
         End Function
 
-        ''' <summary>
-        ''' Class representing a row that is either empty or containing cells. Empty rows can also carry information about height or visibility
-        ''' </summary>
-        Private Class DynamicRow
-            ''' <summary>
-            ''' Defines the cellDefinitions
-            ''' </summary>
-            Private cellDefinitionsField As List(Of Cell)
-
-            ''' <summary>
-            ''' Gets or sets the row number (zero-based)
-            ''' </summary>
-            Public Property RowNumber As Integer
-
-            ''' <summary>
-            ''' Gets the List of cells if not empty
-            ''' </summary>
-            Public ReadOnly Property CellDefinitions As List(Of Cell)
-                Get
-                    Return cellDefinitionsField
-                End Get
-            End Property
-
-            ''' <summary>
-            ''' Initializes a new instance of the <see cref="DynamicRow"/> class
-            ''' </summary>
-            Public Sub New()
-                cellDefinitionsField = New List(Of Cell)()
-            End Sub
-        End Class
-
-        ''' <summary>
-        ''' Class to manage key value pairs (string / string). The entries are in the order how they were added
-        ''' </summary>
-        Public Class SortedMap
-            ''' <summary>
-            ''' Defines the count
-            ''' </summary>
-            Private countField As Integer
-
-            ''' <summary>
-            ''' Defines the keyEntries
-            ''' </summary>
-            Private ReadOnly keyEntries As List(Of String)
-
-            ''' <summary>
-            ''' Defines the valueEntries
-            ''' </summary>
-            Private ReadOnly valueEntries As List(Of String)
-
-            ''' <summary>
-            ''' Defines the index
-            ''' </summary>
-            Private ReadOnly index As Dictionary(Of String, Integer)
-
-            ''' <summary>
-            ''' Gets the Count
-            ''' Number of map entries
-            ''' </summary>
-            Public ReadOnly Property Count As Integer
-                Get
-                    Return countField
-                End Get
-            End Property
-
-            ''' <summary>
-            ''' Gets the keys of the map as list
-            ''' </summary>
-            Public ReadOnly Property Keys As List(Of String)
-                Get
-                    Return keyEntries
-                End Get
-            End Property
-
-            ''' <summary>
-            ''' Initializes a new instance of the <see cref="SortedMap"/> class
-            ''' </summary>
-            Public Sub New()
-                keyEntries = New List(Of String)()
-                valueEntries = New List(Of String)()
-                index = New Dictionary(Of String, Integer)()
-                countField = 0
-            End Sub
-
-            ''' <summary>
-            ''' Method to add a key value pair
-            ''' </summary>
-            ''' <param name="key">Key as string.</param>
-            ''' <param name="value">Value as string.</param>
-            ''' <returns>Returns the resolved string (either added or returned from an existing entry).</returns>
-            Public Function Add(key As String, value As String) As String
-                If index.ContainsKey(key) Then
-                    Return valueEntries(index(key))
-                End If
-                index.Add(key, countField)
-                countField += 1
-                keyEntries.Add(key)
-                valueEntries.Add(value)
-                Return value
-            End Function
-        End Class
-
-        ''' <summary>
-        ''' Class to manage XML document paths
-        ''' </summary>
-        Friend Class DocumentPath
-            ''' <summary>
-            ''' Gets or sets the Filename
-            ''' File name of the document
-            ''' </summary>
-            Public Property Filename As String
-
-            ''' <summary>
-            ''' Gets or sets the Path
-            ''' Path of the document
-            ''' </summary>
-            Public Property Path As String
-
-            ''' <summary>
-            ''' Initializes a new instance of the <see cref="DocumentPath"/> class
-            ''' </summary>
-            Public Sub New()
-            End Sub
-
-            ''' <summary>
-            ''' Initializes a new instance of the <see cref="DocumentPath"/> class
-            ''' </summary>
-            ''' <param name="filename">File name of the document.</param>
-            ''' <param name="path">Path of the document.</param>
-            Public Sub New(filename As String, path As String)
-                Me.Filename = filename
-                Me.Path = path
-            End Sub
-
-            ''' <summary>
-            ''' Method to return the full path of the document
-            ''' </summary>
-            ''' <returns>Full path.</returns>
-            Public Function GetFullPath() As String
-                If Path(Path.Length - 1) = IO.Path.AltDirectorySeparatorChar OrElse Path(Path.Length - 1) = IO.Path.DirectorySeparatorChar Then
-                    Return IO.Path.AltDirectorySeparatorChar.ToString() & Path & Filename
-                Else
-                    Return IO.Path.AltDirectorySeparatorChar.ToString() & Path & IO.Path.AltDirectorySeparatorChar.ToString() & Filename
-                End If
-            End Function
-        End Class
     End Class
 End Namespace

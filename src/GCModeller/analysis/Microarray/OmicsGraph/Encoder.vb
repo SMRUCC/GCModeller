@@ -1,13 +1,28 @@
 ﻿Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Imaging
-Imports Microsoft.VisualBasic.Math.Distributions
+Imports Microsoft.VisualBasic.Math.Correlations
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.Quantile
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Public Module Encoder
+
+    ''' <summary>
+    ''' Translate the expression data to the global ranking data
+    ''' </summary>
+    ''' <param name="mat"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function EncodeRanking(mat As Matrix) As Matrix
+        Call VBDebugger.WriteLine("encode expression matrix with global ranking...")
+
+        For Each gene As DataFrameRow In mat.expression
+            gene.experiments = gene.experiments.Ranking(Strategies.FractionalRanking, desc:=True)
+        Next
+
+        Return mat
+    End Function
 
     ''' <summary>
     ''' 
@@ -44,88 +59,47 @@ Public Module Encoder
         Next
 
         ' z-score standard
-        Dim z As Vector = New Vector(ranking).Z
+        ' Dim z As Vector = New Vector(ranking).Z
 
         Call VBDebugger.EchoLine("make charSet encoder...")
 
-        If charSet.Length = 4 Then
-            Return charSet.encodeRange4(z, features)
-        Else
-            Return charSet.encodeRange20(z, features)
-        End If
+        Return charSet.encodeCharSet(ranking, features)
     End Function
 
     <Extension>
-    Private Function encodeRange20(charSet As String, z As Vector, features As String()) As Dictionary(Of String, Char)
-        Dim neg = z.Where(Function(zi) zi < 0).GKQuantile
-        Dim pos = z.Where(Function(zi) zi >= 0).GKQuantile
-        Dim rangeNeg10 As New List(Of DoubleRange)
-        Dim rangePos10 As New List(Of DoubleRange)
-
-        For d As Double = 0.0 To 1.0 Step 0.1
-            Call rangeNeg10.Add(New DoubleRange(neg.Query(d), neg.Query(d + 0.1)))
-            Call rangePos10.Add(New DoubleRange(pos.Query(d), pos.Query(d + 0.1)))
-        Next
-
-        Dim encodes As New Dictionary(Of String, Char)
-
-        For i As Integer = 0 To features.Length - 1
-            Dim x As Double = z.Item(i)
-            Dim index As Integer = 0
-
-            For index = 0 To rangeNeg10.Count - 1
-                If rangeNeg10(index).IsInside(x) Then
-                    Call encodes.Add(features(i), charSet(index))
-                    Exit For
-                ElseIf rangePos10(index).IsInside(x) Then
-                    Call encodes.Add(features(i), charSet(10 + index))
-                    Exit For
-                End If
-            Next
-
-            If encodes.Count < i + 1 Then
-                encodes.Add(features(i), "-")
-            End If
-        Next
-
-        Return encodes
-    End Function
-
-    <Extension>
-    Private Function encodeRange4(charSet As String, z As Vector, features As String()) As Dictionary(Of String, Char)
-        Dim neg = z.Where(Function(zi) zi < 0).GKQuantile
-        Dim pos = z.Where(Function(zi) zi >= 0).GKQuantile
-        Dim range1 As New DoubleRange(z.Min, neg.Query(0.5))
-        Dim range2 As New DoubleRange(neg.Query(0.5), 0)
-        Dim range3 As New DoubleRange(0, pos.Query(0.5))
-        Dim range4 As New DoubleRange(pos.Query(0.5), z.Max)
-
-        Dim encodes As New Dictionary(Of String, Char)
+    Private Function encodeCharSet(charSet As String, ranking As Double(), features As String()) As Dictionary(Of String, Char)
+        Dim d As Double = 1 / charSet.Length
+        Dim q As Double() = ranking.QuantileLevels(steps:=d).AsVector * charSet.Length
+        Dim chars As Char() = q _
+            .Select(Function(i)
+                        Dim index As Integer = CInt(i)
+                        If index >= charSet.Length Then
+                            index = charSet.Length - 1
+                        End If
+                        Return charSet(index)
+                    End Function) _
+            .ToArray
+        Dim map As New Dictionary(Of String, Char)
 
         For i As Integer = 0 To features.Length - 1
-            Dim x As Double = z.Item(i)
-
-            If range1.IsInside(x) Then
-                Call encodes.Add(features(i), charSet(0))
-            ElseIf range2.IsInside(x) Then
-                Call encodes.Add(features(i), charSet(1))
-            ElseIf range3.IsInside(x) Then
-                Call encodes.Add(features(i), charSet(2))
-            Else
-                Call encodes.Add(features(i), charSet(3))
-            End If
+            Call map.Add(features(i), chars(i))
         Next
 
-        Return encodes
+        Return map
     End Function
 
     <Extension>
     Public Iterator Function AsSequenceSet(mat As Matrix, encodes As Dictionary(Of String, Char)) As IEnumerable(Of FastaSeq)
         Dim features As String() = mat.rownames
 
+        Call VBDebugger.WriteLine("encode the expression matrix as sequence pack!")
+
         For Each sample As String In mat.sampleID
             Dim v As Vector = mat.sample(sample)
-            Dim tag = v.Zip(features, Function(x, y) (x, y)).OrderBy(Function(a) a.x).ToArray
+            Dim tag = v.Zip(features, Function(x, y) (x, y)) _
+                .Where(Function(t) t.x > 0) _
+                .OrderBy(Function(a) a.x) _
+                .ToArray
             Dim seq As New String(tag.Select(Function(ti) encodes(ti.y)).ToArray)
 
             Yield New FastaSeq With {
