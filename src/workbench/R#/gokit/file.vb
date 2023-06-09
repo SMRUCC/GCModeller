@@ -131,8 +131,8 @@ Public Module file
                 .ToArray
         End If
 
-        Call df.add("xref", links.Select(Function(a) a.Name))
-        Call df.add("desc", links.Select(Function(a) a.Value))
+        Call df.add("db_name", links.Select(Function(a) a.Name))
+        Call df.add("xref_id", links.Select(Function(a) a.Value))
 
         Return df
     End Function
