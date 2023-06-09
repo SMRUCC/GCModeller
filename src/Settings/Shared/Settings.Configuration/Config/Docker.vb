@@ -44,6 +44,8 @@ Imports System.Runtime.InteropServices
 
 Namespace Settings
 
+#Disable Warning
+
     ''' <summary>
     ''' The configuration model of the GCModeller docker environment.
     ''' </summary>

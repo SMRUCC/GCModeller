@@ -59,6 +59,8 @@ Imports Microsoft.VisualBasic.Text
 
 Namespace Settings
 
+#Disable Warning
+
     <ClassInterface(ClassInterfaceType.AutoDual)>
     <ComVisible(True)>
     <XmlRoot("Settings.File", Namespace:="https://settings.gcmodeller.org/file/")>
