@@ -54,6 +54,7 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors.Scaler.TrIQ
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics
+Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.Microarray
 Imports Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 
@@ -102,21 +103,32 @@ Module magnitude
     ''' <param name="q"></param>
     ''' <returns></returns>
     <ExportAPI("TrIQ.apply")>
-    Public Function triq(mat As Matrix, Optional q As Double = 0.8) As Matrix
-        For Each sample_id As String In mat.sampleID
-            Dim v As Vector = mat.sample(sample_id)
-            Dim cut As Double = v.FindThreshold(q)
-            Dim i As Integer = mat.sampleID.IndexOf(sample_id)
+    Public Function triq(mat As Matrix, Optional q As Double = 0.8, Optional axis As Integer = 1) As Matrix
+        If axis = 1 Then
+            For Each sample_id As String In mat.sampleID
+                Dim v As Vector = mat.sample(sample_id)
+                Dim cut As Double = v.FindThreshold(q)
+                Dim i As Integer = mat.sampleID.IndexOf(sample_id)
 
-            v(v > cut) = Vector.Scalar(cut)
+                v(v > cut) = Vector.Scalar(cut)
 
-            For j As Integer = 0 To mat.expression.Length - 1
-                Dim gene = mat.expression(j)
-                Dim u = gene.experiments
+                For j As Integer = 0 To mat.expression.Length - 1
+                    Dim gene = mat.expression(j)
+                    Dim u = gene.experiments
 
-                u(i) = v(j)
+                    u(i) = v(j)
+                Next
             Next
-        Next
+        Else
+            For Each gene As DataFrameRow In mat.expression
+                Dim v As Vector = gene.experiments
+                Dim cut As Double = v.FindThreshold(q)
+
+                v(v > cut) = Vector.Scalar(cut)
+
+                gene.experiments = v.ToArray
+            Next
+        End If
 
         Return mat
     End Function
