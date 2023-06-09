@@ -140,6 +140,8 @@ Namespace Level3
     Public Class compartment : Inherits Components.Compartment
         <XmlAttribute("size")> Public Property Size As Integer
         <XmlAttribute("constant")> Public Property Constant As Boolean
+
+        Public Property annotation As annotation
     End Class
 
     <XmlType("species", Namespace:=sbmlXmlns)>
@@ -148,7 +150,7 @@ Namespace Level3
         <XmlAttribute> Public Property constant As Boolean
         <XmlAttribute> Public Property metaid As String
         <XmlAttribute> Public Property initialConcentration As Double
-
+        Public Property notes As Notes
         Public Property annotation As annotation
     End Class
 End Namespace

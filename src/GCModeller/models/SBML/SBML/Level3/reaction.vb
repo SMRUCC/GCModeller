@@ -76,6 +76,7 @@ Namespace Level3
 
         <XmlAttribute> Public Property reversible As Boolean
         <XmlAttribute> Public Property fast As Boolean
+        <XmlAttribute> Public Property compartment As String
 
         Public Property notes As Notes
         Public Property annotation As annotation
