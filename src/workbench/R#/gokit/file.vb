@@ -91,6 +91,31 @@ Public Module file
         Return df
     End Function
 
+    <ExportAPI("synonym")>
+    Public Function synonym(<RRawVectorArgument> x As Object, Optional env As Environment = Nothing) As dataframe
+        Dim names As synonym() = Nothing
+        Dim df As New dataframe With {.columns = New Dictionary(Of String, Array)}
+
+        If TypeOf x Is Term Then
+            names = DirectCast(x, Term).synonym _
+                .SafeQuery _
+                .Select(Function(si) New synonym(si)) _
+                .ToArray
+        Else
+            names = CLRVector.asCharacter(x) _
+                .SafeQuery _
+                .Select(Function(si) New synonym(si)) _
+                .ToArray
+        End If
+
+        Call df.add("name", names.Select(Function(a) a.name))
+        Call df.add("type", names.Select(Function(a) a.type))
+        Call df.add("id", names.Select(Function(a) a.synonym.Name))
+        Call df.add("term", names.Select(Function(a) a.synonym.Value))
+
+        Return df
+    End Function
+
     <ExportAPI("DAG")>
     Public Function DAG(goDb As GO_OBO) As DAG.Graph
         Return New DAG.Graph(goDb.terms)
