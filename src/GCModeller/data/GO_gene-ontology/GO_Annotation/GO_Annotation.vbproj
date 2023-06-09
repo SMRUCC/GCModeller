@@ -9,8 +9,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\interops\localblast\LocalBLAST\localblast.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data\DataFrame\dataframework-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
     <ProjectReference Include="..\..\..\core\Bio.Assembly\biocore-netcore5.vbproj" />
+    <ProjectReference Include="..\..\Xfam\Pfam\Pfam.vbproj" />
   </ItemGroup>
 
 </Project>
