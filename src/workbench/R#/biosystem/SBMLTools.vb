@@ -1,6 +1,7 @@
 ﻿
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Model.SBML
 
 <Package("SBML")>
 Module SBMLTools
@@ -11,7 +12,7 @@ Module SBMLTools
     ''' <param name="file"></param>
     ''' <returns></returns>
     <ExportAPI("read.sbml")>
-    Public Function readSBML(file As String)
-
+    Public Function readSBML(file As String) As Object
+        Return Level3.LoadSBML(file)
     End Function
 End Module
