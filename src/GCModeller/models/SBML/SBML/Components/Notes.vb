@@ -69,6 +69,7 @@ Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.Text
 
 Namespace Components
 
@@ -102,7 +103,7 @@ Namespace Components
                 Call Passage.DoEach(AddressOf sb.AppendLine)
             End If
 
-            Return sb.ToString
+            Return sb.ToString.Trim(" "c, ASCII.TAB, ASCII.CR, ASCII.LF)
         End Function
 
         Public Overrides Function ToString() As String
