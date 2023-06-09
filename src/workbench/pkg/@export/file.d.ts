@@ -23,4 +23,8 @@ declare namespace file {
      * @param env default value Is ``null``.
    */
    function synonym(x: any, env?: object): object;
+   /**
+     * @param env default value Is ``null``.
+   */
+   function term_xrefs(x: any, env?: object): object;
 }
