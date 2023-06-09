@@ -184,7 +184,9 @@ Module geneExpression
     ''' <summary>
     ''' get summary information about the HTS matrix dimensions
     ''' </summary>
-    ''' <param name="mat"></param>
+    ''' <param name="mat">
+    ''' a HTS data matrix of samples in column and gene features in row
+    ''' </param>
     ''' <returns></returns>
     <ExportAPI("dims")>
     <RApiReturn("feature_size", "feature_names", "sample_size", "sample_names")>
@@ -397,7 +399,9 @@ Module geneExpression
     ''' will removes some sample column data from the expression
     ''' matrix which is specificed by this parameter value.
     ''' </param>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' a HTS data matrix of samples in column and gene features in row
+    ''' </returns>
     ''' <remarks>
     ''' the table file format that handled by this function
     ''' could be a csv table file or tsv table file.
@@ -435,7 +439,9 @@ Module geneExpression
     ''' </summary>
     ''' <param name="file"></param>
     ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' a HTS data matrix of samples in column and gene features in row
+    ''' </returns>
     <ExportAPI("load.expr0")>
     <RApiReturn(GetType(Matrix), GetType(HTSMatrixReader))>
     Public Function readBinaryMatrix(file As Object,
@@ -452,6 +458,11 @@ Module geneExpression
         End If
     End Function
 
+    ''' <summary>
+    ''' Load the HTS matrix into a lazy matrix viewer
+    ''' </summary>
+    ''' <param name="mat"></param>
+    ''' <returns></returns>
     <ExportAPI("load.matrixView")>
     Public Function loadMatrixView(mat As Matrix) As HTSMatrixViewer
         Return New HTSMatrixViewer(mat)

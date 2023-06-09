@@ -101,6 +101,10 @@ Module magnitude
     ''' </summary>
     ''' <param name="mat"></param>
     ''' <param name="q"></param>
+    ''' <param name="axis">
+    ''' default value ``1`` means apply the cutoff for each sample column data,
+    ''' alternative value ``2`` means apply the cutoff for each gene data row. 
+    ''' </param>
     ''' <returns></returns>
     <ExportAPI("TrIQ.apply")>
     Public Function triq(mat As Matrix, Optional q As Double = 0.8, Optional axis As Integer = 1) As Matrix
