@@ -71,7 +71,7 @@ Imports Microsoft.VisualBasic.Linq.Extensions
 
 Namespace Components
 
-    <XmlType("notes")> Public Class Notes
+    <XmlType("notes")> Public Class Notes : Inherits Body
 
         <XmlElement("body", [Namespace]:="http://www.w3.org/1999/xhtml")>
         Public Property body As Body
@@ -101,6 +101,9 @@ Namespace Components
         End Function
     End Class
 
+    ''' <summary>
+    ''' A note document body
+    ''' </summary>
     <XmlType("body", [Namespace]:="http://www.w3.org/1999/xhtml")> Public Class Body
 
         <XmlElement("p")> Public Property Passage As String()
