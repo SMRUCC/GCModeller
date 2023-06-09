@@ -40,9 +40,15 @@
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Data.GeneOntology
+Imports SMRUCC.genomics.Data.GeneOntology.DAG
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
+Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
+Imports SMRUCC.Rsharp.Runtime.Interop
+Imports SMRUCC.Rsharp.Runtime.Vectorization
 
 <Package("file")>
 Public Module file
@@ -55,6 +61,34 @@ Public Module file
     <ExportAPI("read.go_obo")>
     Public Function ReadGoObo(goDb As String) As GO_OBO
         Return GO_OBO.LoadDocument(path:=goDb)
+    End Function
+
+    ''' <summary>
+    ''' parse the term is_a relationship
+    ''' </summary>
+    ''' <param name="term"></param>
+    ''' <returns></returns>
+    <ExportAPI("is_a")>
+    Public Function is_a(<RRawVectorArgument> x As Object, Optional env As Environment = Nothing) As dataframe
+        Dim links As is_a() = Nothing
+        Dim df As New dataframe With {.columns = New Dictionary(Of String, Array)}
+
+        If TypeOf x Is Term Then
+            links = DirectCast(x, Term).is_a _
+                .SafeQuery _
+                .Select(Function(si) New is_a(si)) _
+                .ToArray
+        Else
+            links = CLRVector.asCharacter(x) _
+                .SafeQuery _
+                .Select(Function(si) New is_a(si)) _
+                .ToArray
+        End If
+
+        Call df.add("id", links.Select(Function(a) a.term_id))
+        Call df.add("name", links.Select(Function(a) a.name))
+
+        Return df
     End Function
 
     <ExportAPI("DAG")>
