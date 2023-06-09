@@ -67,6 +67,7 @@
 #End Region
 
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.application.rdf_xml
 
 Namespace Level3
@@ -111,6 +112,24 @@ Namespace Level3
         Sub New()
             xmlns.Add("rdf", RDFEntity.XmlnsNamespace)
         End Sub
+
+        Public Iterator Function GetIdMappings() As IEnumerable(Of String)
+            If RDF Is Nothing Then
+                Return
+            End If
+
+            If RDF.description Is Nothing Then
+                Return
+            End If
+
+            For Each map As [is] In RDF.description.is.SafeQuery
+                If Not map.Bag Is Nothing Then
+                    For Each item As li In map.Bag.list
+                        Yield item.resource.Split("/"c).Last
+                    Next
+                End If
+            Next
+        End Function
     End Class
 
     <XmlType("annoinfo", [Namespace]:=RDFEntity.XmlnsNamespace)>
