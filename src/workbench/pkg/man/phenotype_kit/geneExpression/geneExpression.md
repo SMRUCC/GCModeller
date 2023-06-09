@@ -2,6 +2,7 @@
 
 the gene expression matrix data toolkit
 
++ [exp](geneExpression/exp.1) 
 + [tr](geneExpression/tr.1) do matrix transpose
 + [dims](geneExpression/dims.1) get summary information about the HTS matrix dimensions
 + [as.expr_list](geneExpression/as.expr_list.1) convert the matrix into row gene list

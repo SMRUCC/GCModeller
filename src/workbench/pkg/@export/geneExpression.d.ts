@@ -120,6 +120,9 @@ declare namespace geneExpression {
    function dims(mat: object): object;
    /**
    */
+   function exp(x: object, p: number): object;
+   /**
+   */
    function expr_ranking(x: object, sampleinfo: object): object;
    module expression {
       /**
