@@ -40,6 +40,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Data.GeneOntology
@@ -112,6 +113,26 @@ Public Module file
         Call df.add("type", names.Select(Function(a) a.type))
         Call df.add("id", names.Select(Function(a) a.synonym.Name))
         Call df.add("term", names.Select(Function(a) a.synonym.Value))
+
+        Return df
+    End Function
+
+    <ExportAPI("term_xrefs")>
+    Public Function xrefs(<RRawVectorArgument> x As Object, Optional env As Environment = Nothing) As dataframe
+        Dim links As NamedValue(Of String)()
+        Dim df As New dataframe With {.columns = New Dictionary(Of String, Array)}
+
+        If TypeOf x Is Term Then
+            links = DirectCast(x, Term).GetTermXrefs
+        Else
+            links = CLRVector.asCharacter(x) _
+                .SafeQuery _
+                .Select(Function(si) TermXrefParser(si)) _
+                .ToArray
+        End If
+
+        Call df.add("xref", links.Select(Function(a) a.Name))
+        Call df.add("desc", links.Select(Function(a) a.Value))
 
         Return df
     End Function
