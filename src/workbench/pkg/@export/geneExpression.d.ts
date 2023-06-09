@@ -115,7 +115,7 @@ declare namespace geneExpression {
     * get summary information about the HTS matrix dimensions
     * 
     * 
-     * @param mat -
+     * @param mat a HTS data matrix of samples in column and gene features in row
    */
    function dims(mat: object): object;
    /**
@@ -241,6 +241,7 @@ declare namespace geneExpression {
         * + default value Is ``false``.
         * @param env 
         * + default value Is ``null``.
+        * @return a HTS data matrix of samples in column and gene features in row
       */
       function expr(file: any, exclude_samples?: string, rm_ZERO?: boolean, makeNames?: boolean, env?: object): object;
       /**
@@ -253,9 +254,14 @@ declare namespace geneExpression {
         * @param env -
         * 
         * + default value Is ``null``.
+        * @return a HTS data matrix of samples in column and gene features in row
       */
       function expr0(file: any, lazy?: boolean, env?: object): object|object;
       /**
+       * Load the HTS matrix into a lazy matrix viewer
+       * 
+       * 
+        * @param mat -
       */
       function matrixView(mat: object): object;
    }
