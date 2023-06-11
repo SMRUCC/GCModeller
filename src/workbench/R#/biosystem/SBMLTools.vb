@@ -39,4 +39,24 @@ Module SBMLTools
             Return Message.InCompatibleType(GetType(Level3.XmlFile(Of Level3.Reaction)), sbml.GetType, env)
         End If
     End Function
+
+    <ExportAPI("extract_compounds")>
+    Public Function extract_compounds(sbml As Object, Optional env As Environment = Nothing) As Object
+        If sbml Is Nothing Then
+            Return Nothing
+        End If
+
+        If TypeOf sbml Is Level3.XmlFile(Of Level3.Reaction) Then
+            Dim xml As Level3.XmlFile(Of Level3.Reaction) = sbml
+            Dim list = xml.model.listOfSpecies.ToArray
+            Dim df As New dataframe With {.columns = New Dictionary(Of String, Array)}
+
+            Call df.add("name", list.Select(Function(c) c.name))
+            Call df.add("is", list.Select(Function(c) If(c.annotation Is Nothing, "", c.annotation.GetIdMappings.Distinct.JoinBy("; "))))
+
+            Return df
+        Else
+            Return Message.InCompatibleType(GetType(Level3.XmlFile(Of Level3.Reaction)), sbml.GetType, env)
+        End If
+    End Function
 End Module

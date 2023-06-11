@@ -107,10 +107,26 @@ Namespace Level3
 
         <XmlElement("notes")> Public Property notes As Notes
 
+        ''' <summary>
+        ''' subcellular location list
+        ''' </summary>
+        ''' <returns></returns>
         Public Property listOfCompartments As compartment()
+        ''' <summary>
+        ''' compound and metabolite list
+        ''' </summary>
+        ''' <returns></returns>
         Public Property listOfSpecies As species()
+        ''' <summary>
+        ''' reaction list
+        ''' </summary>
+        ''' <returns></returns>
         Public Property listOfReactions As T()
         Public Property listOfUnitDefinitions As unitDefinition()
+        ''' <summary>
+        ''' the enzyme kinetics list
+        ''' </summary>
+        ''' <returns></returns>
         Public Property listOfFunctionDefinitions As functionDefinition()
 
     End Class

@@ -7,6 +7,12 @@
 /**
 */
 declare namespace SBML {
+   module extract {
+      /**
+        * @param env default value Is ``null``.
+      */
+      function compartments(sbml: any, env?: object): any;
+   }
    module read {
       /**
       */
