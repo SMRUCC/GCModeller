@@ -20,6 +20,28 @@ Module SBMLTools
         Return Level3.LoadSBML(file)
     End Function
 
+    <ExportAPI("extract.pathway_model")>
+    Public Function extract_pathwayModel(sbml As Object, Optional env As Environment = Nothing) As Object
+        If sbml Is Nothing Then
+            Return Nothing
+        End If
+
+        If TypeOf sbml Is Level3.XmlFile(Of Level3.Reaction) Then
+            Dim xml As Level3.XmlFile(Of Level3.Reaction) = sbml
+            Dim model = xml.model
+
+            Return New list With {
+                .slots = New Dictionary(Of String, Object) From {
+                    {"id", Long.Parse(model.id.Match("\d+"))},
+                    {"name", model.name},
+                    {"notes", model.notes.GetText}
+                }
+            }
+        Else
+            Return Message.InCompatibleType(GetType(Level3.XmlFile(Of Level3.Reaction)), sbml.GetType, env)
+        End If
+    End Function
+
     <ExportAPI("extract.compartments")>
     Public Function extract_compartments(sbml As Object,
                                          Optional json As Boolean = False,
@@ -142,6 +164,7 @@ Module SBMLTools
                 For Each cpd As Level3.species In list
                     array.slots(cpd.id) = New list With {
                         .slots = New Dictionary(Of String, Object) From {
+                            {"id", Long.Parse(cpd.id.Match("\d+"))},
                             {"name", cpd.name},
                             {"is", If(cpd.annotation Is Nothing, New String() {}, cpd.annotation.GetIdMappings.Distinct.ToArray)},
                             {"type", cpd.sboTerm},

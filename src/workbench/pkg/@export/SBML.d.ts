@@ -13,6 +13,10 @@ declare namespace SBML {
         * @param env default value Is ``null``.
       */
       function compartments(sbml: any, json?: boolean, env?: object): any;
+      /**
+        * @param env default value Is ``null``.
+      */
+      function pathway_model(sbml: any, env?: object): any;
    }
    /**
      * @param json default value Is ``false``.
