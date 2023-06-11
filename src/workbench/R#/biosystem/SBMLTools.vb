@@ -85,6 +85,7 @@ Module SBMLTools
                         .slots = New Dictionary(Of String, Object) From {
                             {"name", rxn.name},
                             {"is", If(rxn.annotation Is Nothing, New String() {}, rxn.annotation.GetIdMappings.Distinct.ToArray)},
+                            {"compartment", rxn.compartment},
                             {"reversible", rxn.reversible},
                             {"fast", rxn.fast},
                             {"reactants", rxn.listOfReactants.ToDictionary(Function(a) a.species, Function(a) a.stoichiometry)},
@@ -106,6 +107,7 @@ Module SBMLTools
 
                 Call df.add("name", list.Select(Function(c) c.name))
                 Call df.add("is", list.Select(Function(c) If(c.annotation Is Nothing, "", c.annotation.GetIdMappings.Distinct.JoinBy("; "))))
+                Call df.add("compartment", list.Select(Function(c) c.compartment))
                 Call df.add("reversible", list.Select(Function(c) c.reversible))
                 Call df.add("fast", list.Select(Function(c) c.fast))
                 Call df.add("reactants", list.Select(Function(c) c.listOfReactants.Select(Function(a) $"{a.stoichiometry} {a.species}").JoinBy("; ")))
