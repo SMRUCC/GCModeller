@@ -38,6 +38,7 @@ Module SBMLTools
                 For Each loc As Level3.compartment In list
                     array.slots(loc.id) = New list With {
                         .slots = New Dictionary(Of String, Object) From {
+                            {"id", Long.Parse(loc.id.Match("\d+"))},
                             {"name", loc.name},
                             {"is", If(loc.annotation Is Nothing, New String() {}, loc.annotation.GetIdMappings.Distinct.ToArray)},
                             {"type", loc.sboTerm}
