@@ -154,10 +154,13 @@ Namespace Level3
 
     <XmlType("compartment", Namespace:="http://www.sbml.org/sbml/level3/version1/core")>
     Public Class compartment : Inherits Components.Compartment
+
         <XmlAttribute("size")> Public Property Size As Integer
         <XmlAttribute("constant")> Public Property Constant As Boolean
+        <XmlAttribute> Public Property sboTerm As String
 
         Public Property annotation As annotation
+
     End Class
 
     <XmlType("species", Namespace:=sbmlXmlns)>

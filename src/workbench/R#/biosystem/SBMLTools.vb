@@ -29,10 +29,16 @@ Module SBMLTools
         If TypeOf sbml Is Level3.XmlFile(Of Level3.Reaction) Then
             Dim xml As Level3.XmlFile(Of Level3.Reaction) = sbml
             Dim list = xml.model.listOfCompartments.SafeQuery.ToArray
-            Dim df As New dataframe With {.columns = New Dictionary(Of String, Array)}
+            Dim df As New dataframe With {
+                .columns = New Dictionary(Of String, Array),
+                .rownames = list _
+                    .Select(Function(c) c.id) _
+                    .ToArray
+            }
 
             Call df.add("name", list.Select(Function(c) c.name))
             Call df.add("is", list.Select(Function(c) If(c.annotation Is Nothing, "", c.annotation.GetIdMappings.Distinct.JoinBy("; "))))
+            Call df.add("type", list.Select(Function(c) c.sboTerm))
 
             Return df
         Else
@@ -49,11 +55,18 @@ Module SBMLTools
         If TypeOf sbml Is Level3.XmlFile(Of Level3.Reaction) Then
             Dim xml As Level3.XmlFile(Of Level3.Reaction) = sbml
             Dim list = xml.model.listOfSpecies.ToArray
-            Dim df As New dataframe With {.columns = New Dictionary(Of String, Array)}
+            Dim df As New dataframe With {
+                .columns = New Dictionary(Of String, Array),
+                .rownames = list _
+                    .Select(Function(c) c.id) _
+                    .ToArray
+            }
 
             Call df.add("name", list.Select(Function(c) c.name))
             Call df.add("is", list.Select(Function(c) If(c.annotation Is Nothing, "", c.annotation.GetIdMappings.Distinct.JoinBy("; "))))
             Call df.add("type", list.Select(Function(c) c.sboTerm))
+            Call df.add("components", list.Select(Function(c) If(c.annotation Is Nothing, "", c.annotation.GetIdComponents.Distinct.JoinBy("; "))))
+            Call df.add("homolog", list.Select(Function(c) If(c.annotation Is Nothing, "", c.annotation.GetIdHomolog.Distinct.JoinBy("; "))))
             Call df.add("notes", list.Select(Function(c) c.notes.GetText.TrimNewLine))
 
             Return df
