@@ -53,6 +53,8 @@ Module SBMLTools
 
             Call df.add("name", list.Select(Function(c) c.name))
             Call df.add("is", list.Select(Function(c) If(c.annotation Is Nothing, "", c.annotation.GetIdMappings.Distinct.JoinBy("; "))))
+            Call df.add("type", list.Select(Function(c) c.sboTerm))
+            Call df.add("notes", list.Select(Function(c) c.notes.GetText.TrimNewLine))
 
             Return df
         Else
