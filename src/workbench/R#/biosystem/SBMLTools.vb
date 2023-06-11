@@ -83,6 +83,7 @@ Module SBMLTools
                 For Each rxn As Level3.Reaction In list
                     array.slots(rxn.id) = New list With {
                         .slots = New Dictionary(Of String, Object) From {
+                            {"id", Long.Parse(rxn.id.Match("\d+"))},
                             {"name", rxn.name},
                             {"is", If(rxn.annotation Is Nothing, New String() {}, rxn.annotation.GetIdMappings.Distinct.ToArray)},
                             {"compartment", rxn.compartment},
