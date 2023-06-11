@@ -46,6 +46,37 @@ Module SBMLTools
         End If
     End Function
 
+    <ExportAPI("extract_reactions")>
+    Public Function extract_reactions(sbml As Object, Optional env As Environment = Nothing) As Object
+        If sbml Is Nothing Then
+            Return Nothing
+        End If
+
+        If TypeOf sbml Is Level3.XmlFile(Of Level3.Reaction) Then
+            Dim xml As Level3.XmlFile(Of Level3.Reaction) = sbml
+            Dim list = xml.model.listOfReactions.SafeQuery.ToArray
+            Dim df As New dataframe With {
+                .columns = New Dictionary(Of String, Array),
+                .rownames = list _
+                    .Select(Function(c) c.id) _
+                    .ToArray
+            }
+
+            Call df.add("name", list.Select(Function(c) c.name))
+            Call df.add("is", list.Select(Function(c) If(c.annotation Is Nothing, "", c.annotation.GetIdMappings.Distinct.JoinBy("; "))))
+            Call df.add("reversible", list.Select(Function(c) c.reversible))
+            Call df.add("fast", list.Select(Function(c) c.fast))
+            Call df.add("reactants", list.Select(Function(c) c.listOfReactants.Select(Function(a) $"{a.stoichiometry} {a.species}").JoinBy("; ")))
+            Call df.add("products", list.Select(Function(c) c.listOfProducts.Select(Function(a) $"{a.stoichiometry} {a.species}").JoinBy("; ")))
+            Call df.add("modifiers", list.Select(Function(c) c.listOfModifiers.Select(Function(a) a.species).JoinBy("; ")))
+            Call df.add("notes", list.Select(Function(c) c.notes.GetText))
+
+            Return df
+        Else
+            Return Message.InCompatibleType(GetType(Level3.XmlFile(Of Level3.Reaction)), sbml.GetType, env)
+        End If
+    End Function
+
     <ExportAPI("extract_compounds")>
     Public Function extract_compounds(sbml As Object, Optional env As Environment = Nothing) As Object
         If sbml Is Nothing Then
