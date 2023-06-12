@@ -89,7 +89,7 @@ Public Module Encoder
             q = ranking.QuantileLevels(steps:=1 / charSet.Length).AsVector * charSet.Length
         Else
             q = ranking.Ranking(Strategies.OrdinalRanking)
-            q = (New Vector(ranking) / ranking.Max) * charSet.Length
+            q = (New Vector(q) / q.Max) * charSet.Length
         End If
 
         Dim chars As Char() = q _
