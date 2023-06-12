@@ -40,9 +40,16 @@
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Data.GeneOntology
+Imports SMRUCC.genomics.Data.GeneOntology.DAG
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
+Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
+Imports SMRUCC.Rsharp.Runtime.Interop
+Imports SMRUCC.Rsharp.Runtime.Vectorization
 
 <Package("file")>
 Public Module file
@@ -55,6 +62,79 @@ Public Module file
     <ExportAPI("read.go_obo")>
     Public Function ReadGoObo(goDb As String) As GO_OBO
         Return GO_OBO.LoadDocument(path:=goDb)
+    End Function
+
+    ''' <summary>
+    ''' parse the term is_a relationship
+    ''' </summary>
+    ''' <param name="term"></param>
+    ''' <returns></returns>
+    <ExportAPI("is_a")>
+    Public Function is_a(<RRawVectorArgument> x As Object, Optional env As Environment = Nothing) As dataframe
+        Dim links As is_a() = Nothing
+        Dim df As New dataframe With {.columns = New Dictionary(Of String, Array)}
+
+        If TypeOf x Is Term Then
+            links = DirectCast(x, Term).is_a _
+                .SafeQuery _
+                .Select(Function(si) New is_a(si)) _
+                .ToArray
+        Else
+            links = CLRVector.asCharacter(x) _
+                .SafeQuery _
+                .Select(Function(si) New is_a(si)) _
+                .ToArray
+        End If
+
+        Call df.add("id", links.Select(Function(a) a.term_id))
+        Call df.add("name", links.Select(Function(a) a.name))
+
+        Return df
+    End Function
+
+    <ExportAPI("synonym")>
+    Public Function synonym(<RRawVectorArgument> x As Object, Optional env As Environment = Nothing) As dataframe
+        Dim names As synonym() = Nothing
+        Dim df As New dataframe With {.columns = New Dictionary(Of String, Array)}
+
+        If TypeOf x Is Term Then
+            names = DirectCast(x, Term).synonym _
+                .SafeQuery _
+                .Select(Function(si) New synonym(si)) _
+                .ToArray
+        Else
+            names = CLRVector.asCharacter(x) _
+                .SafeQuery _
+                .Select(Function(si) New synonym(si)) _
+                .ToArray
+        End If
+
+        Call df.add("name", names.Select(Function(a) a.name))
+        Call df.add("type", names.Select(Function(a) a.type))
+        Call df.add("id", names.Select(Function(a) a.synonym.Name))
+        Call df.add("term", names.Select(Function(a) a.synonym.Value))
+
+        Return df
+    End Function
+
+    <ExportAPI("term_xrefs")>
+    Public Function xrefs(<RRawVectorArgument> x As Object, Optional env As Environment = Nothing) As dataframe
+        Dim links As NamedValue(Of String)()
+        Dim df As New dataframe With {.columns = New Dictionary(Of String, Array)}
+
+        If TypeOf x Is Term Then
+            links = DirectCast(x, Term).GetTermXrefs
+        Else
+            links = CLRVector.asCharacter(x) _
+                .SafeQuery _
+                .Select(Function(si) TermXrefParser(si)) _
+                .ToArray
+        End If
+
+        Call df.add("db_name", links.Select(Function(a) a.Name))
+        Call df.add("xref_id", links.Select(Function(a) a.Value))
+
+        Return df
     End Function
 
     <ExportAPI("DAG")>

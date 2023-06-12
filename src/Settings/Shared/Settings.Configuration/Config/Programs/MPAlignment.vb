@@ -53,6 +53,8 @@ Imports Microsoft.VisualBasic.Parallel.Linq
 
 Namespace Settings.Programs
 
+#Disable Warning
+
     <ClassInterface(ClassInterfaceType.AutoDual)>
     <ComVisible(True)>
     Public Class MPAlignment : Implements IProfile
