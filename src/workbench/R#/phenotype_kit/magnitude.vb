@@ -80,6 +80,7 @@ Module magnitude
     Public Function encode_seqPack(mat As Matrix,
                                    Optional briefSet As Boolean = True,
                                    Optional custom As String = Nothing,
+                                   Optional quantile_encoder As Boolean = True,
                                    Optional env As Environment = Nothing) As Object
 
         Dim charSet As String = If(
@@ -93,7 +94,8 @@ Module magnitude
         End If
 
         Dim charMap = mat.EncodeRanking.EncodeMatrix(
-            charSet:=charSet
+            charSet:=charSet,
+            quantile_encoder:=quantile_encoder
         )
         Dim pack = mat.AsSequenceSet(charMap).ToArray
         Dim println = env.WriteLineHandler
@@ -106,6 +108,8 @@ Module magnitude
 
         Call println("inspect the charset distribution:")
         Call env.globalEnvironment.Rscript.Inspect(dist)
+        Call println("encoder.gk_quantile:")
+        Call env.globalEnvironment.Rscript.Inspect(quantile_encoder)
 
         Return pack
     End Function

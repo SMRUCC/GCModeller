@@ -21,8 +21,10 @@ declare namespace magnitude {
         *  data can only be processed via the SGT algorithm
         * 
         * + default value Is ``null``.
+        * @param env 
+        * + default value Is ``null``.
       */
-      function seqPack(mat: object, briefSet?: boolean, custom?: string): any;
+      function seqPack(mat: object, briefSet?: boolean, custom?: string, env?: object): any;
    }
    module TrIQ {
       /**
