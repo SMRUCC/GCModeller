@@ -47,9 +47,14 @@ Public Module Builder
             Call g.Add(ci, gi)
         Next
 
-        For Each t As String In CodonBiasVector.PopulateTriples(components)
-            Call triples.Add(t, seq.Count(t) / (nsize / 3))
-        Next
+        If c.Dim <= 5 Then
+            ' skip triple pattern for protein sequence
+            ' or the result matrix will be ultra large
+            ' comsume too much memory
+            For Each t As String In CodonBiasVector.PopulateTriples(components)
+                Call triples.Add(t, seq.Count(t) / (nsize / 3))
+            Next
+        End If
 
         Return New SequenceGraph With {
             .composition = cv,
