@@ -49,13 +49,16 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors.Scaler.TrIQ
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.Microarray
+Imports SMRUCC.Rsharp.Runtime
 Imports Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 
 ''' <summary>
@@ -76,7 +79,8 @@ Module magnitude
     <ExportAPI("encode.seqPack")>
     Public Function encode_seqPack(mat As Matrix,
                                    Optional briefSet As Boolean = True,
-                                   Optional custom As String = Nothing) As Object
+                                   Optional custom As String = Nothing,
+                                   Optional env As Environment = Nothing) As Object
 
         Dim charSet As String = If(
             briefSet,
@@ -92,6 +96,16 @@ Module magnitude
             charSet:=charSet
         )
         Dim pack = mat.AsSequenceSet(charMap).ToArray
+        Dim println = env.WriteLineHandler
+        Dim dist = charMap _
+            .GroupBy(Function(c) c.Value) _
+            .ToDictionary(Function(c) c.Key.ToString,
+                          Function(c)
+                              Return c.Select(Function(f) f.Key).Distinct.ToArray
+                          End Function)
+
+        Call println("inspect the charset distribution:")
+        Call env.globalEnvironment.Rscript.Inspect(dist)
 
         Return pack
     End Function
@@ -109,30 +123,44 @@ Module magnitude
     <ExportAPI("TrIQ.apply")>
     Public Function triq(mat As Matrix, Optional q As Double = 0.8, Optional axis As Integer = 1) As Matrix
         If axis = 1 Then
-            For Each sample_id As String In mat.sampleID
-                Dim v As Vector = mat.sample(sample_id)
-                Dim cut As Double = v.FindThreshold(q)
-                Dim i As Integer = mat.sampleID.IndexOf(sample_id)
-
-                v(v > cut) = Vector.Scalar(cut)
-
-                For j As Integer = 0 To mat.expression.Length - 1
-                    Dim gene = mat.expression(j)
-                    Dim u = gene.experiments
-
-                    u(i) = v(j)
-                Next
-            Next
+            Return mat.applySample(q)
         Else
-            For Each gene As DataFrameRow In mat.expression
-                Dim v As Vector = gene.experiments
-                Dim cut As Double = v.FindThreshold(q)
-
-                v(v > cut) = Vector.Scalar(cut)
-
-                gene.experiments = v.ToArray
-            Next
+            Return mat.applyFeature(q)
         End If
+
+        Return mat
+    End Function
+
+    <Extension>
+    Private Function applyFeature(mat As Matrix, q As Double) As Matrix
+        For Each gene As DataFrameRow In mat.expression
+            Dim v As Vector = gene.experiments
+            Dim cut As Double = v.FindThreshold(q)
+
+            v(v > cut) = Vector.Scalar(cut)
+
+            gene.experiments = v.ToArray
+        Next
+
+        Return mat
+    End Function
+
+    <Extension>
+    Private Function applySample(mat As Matrix, q As Double) As Matrix
+        For Each sample_id As String In mat.sampleID
+            Dim v As Vector = mat.sample(sample_id)
+            Dim cut As Double = v.FindThreshold(q)
+            Dim i As Integer = mat.sampleID.IndexOf(sample_id)
+
+            v(v > cut) = Vector.Scalar(cut)
+
+            For j As Integer = 0 To mat.expression.Length - 1
+                Dim gene = mat.expression(j)
+                Dim u = gene.experiments
+
+                u(i) = v(j)
+            Next
+        Next
 
         Return mat
     End Function
