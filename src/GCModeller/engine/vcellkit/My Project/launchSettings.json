@@ -7,6 +7,11 @@
       "commandName": "Executable",
       "executablePath": "F:\\GCModeller\\src\\R-sharp\\App\\net6.0\\R#.exe",
       "commandLineArgs": "F:\\cell-render\\test\\run_simple.R"
+    },
+    "biocyc_compiler": {
+      "commandName": "Executable",
+      "executablePath": "F:\\GCModeller\\src\\R-sharp\\App\\net6.0\\R#.exe",
+      "commandLineArgs": "F:\\cell-render\\test\\ecocyc.R --attach F:\\GCModeller\\src\\workbench\\pkg"
     }
   }
 }

@@ -54,7 +54,6 @@
 
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports SMRUCC.genomics.Model.SBML.FLuxBalanceModel
 Imports SMRUCC.genomics.Model.SBML.Specifics.MetaCyc
 
 Namespace Components
@@ -70,6 +69,8 @@ Namespace Components
         Public Overridable Property compartmentId As String
         <XmlAttribute()>
         Public Property boundaryCondition As Boolean
+        <XmlAttribute>
+        Public Property sboTerm As String
 
         Public Overrides Function ToString() As String
             Return String.Format("[{0}]{1} [{2}]", id, name, compartmentId)

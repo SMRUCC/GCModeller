@@ -124,10 +124,7 @@ Namespace DAG
                 .SafeQuery _
                 .Select(Function(s) New synonym(s$)) _
                 .ToArray
-            Dim xrefValues = term.xref _
-                .SafeQuery _
-                .Select(AddressOf xrefParser) _
-                .ToArray
+            Dim xrefValues = term.GetTermXrefs
 
             Return New TermNode With {
                 .id = term.id,
@@ -140,7 +137,7 @@ Namespace DAG
             }
         End Function
 
-        Private Function xrefParser(s As String) As NamedValue(Of String)
+        Public Function TermXrefParser(s As String) As NamedValue(Of String)
             Dim tokens$() = CommandLine.GetTokens(s$)
             Dim id$() = tokens(Scan0).Split(":"c)
 
@@ -149,6 +146,15 @@ Namespace DAG
                 .Value = id(1%),
                 .Description = tokens.ElementAtOrDefault(1%)
             }
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function GetTermXrefs(term As Term) As NamedValue(Of String)()
+            Return term.xref _
+                .SafeQuery _
+                .Select(AddressOf TermXrefParser) _
+                .ToArray
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

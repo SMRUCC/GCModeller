@@ -60,7 +60,6 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Scripting.MathExpression
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
-Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 Imports SMRUCC.genomics.Data.BioCyc
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
 Imports SMRUCC.genomics.GCModeller.CompilerServices
@@ -107,8 +106,7 @@ Namespace MarkupCompiler.BioCyc
                 .Indexing
 
             ' join enzyme kinetics compounds
-            Dim missing = m_compiledModel.metabolismStructure _
-                .enzymes _
+            Dim missing = m_compiledModel.metabolismStructure.enzymes _
                 .Select(Function(enz) enz.catalysis) _
                 .IteratesALL _
                 .Select(Function(cat) cat.parameter) _

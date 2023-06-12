@@ -46,6 +46,8 @@ Imports Microsoft.VisualBasic.ComponentModel.Settings
 
 Namespace Settings.Programs
 
+#Disable Warning
+
     <ClassInterface(ClassInterfaceType.AutoDual)>
     <ComVisible(True)>
     Public Class C2

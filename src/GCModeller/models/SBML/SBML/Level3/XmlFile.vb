@@ -107,10 +107,26 @@ Namespace Level3
 
         <XmlElement("notes")> Public Property notes As Notes
 
+        ''' <summary>
+        ''' subcellular location list
+        ''' </summary>
+        ''' <returns></returns>
         Public Property listOfCompartments As compartment()
+        ''' <summary>
+        ''' compound and metabolite list
+        ''' </summary>
+        ''' <returns></returns>
         Public Property listOfSpecies As species()
+        ''' <summary>
+        ''' reaction list
+        ''' </summary>
+        ''' <returns></returns>
         Public Property listOfReactions As T()
         Public Property listOfUnitDefinitions As unitDefinition()
+        ''' <summary>
+        ''' the enzyme kinetics list
+        ''' </summary>
+        ''' <returns></returns>
         Public Property listOfFunctionDefinitions As functionDefinition()
 
     End Class
@@ -138,8 +154,13 @@ Namespace Level3
 
     <XmlType("compartment", Namespace:="http://www.sbml.org/sbml/level3/version1/core")>
     Public Class compartment : Inherits Components.Compartment
+
         <XmlAttribute("size")> Public Property Size As Integer
         <XmlAttribute("constant")> Public Property Constant As Boolean
+        <XmlAttribute> Public Property sboTerm As String
+
+        Public Property annotation As annotation
+
     End Class
 
     <XmlType("species", Namespace:=sbmlXmlns)>
@@ -148,7 +169,7 @@ Namespace Level3
         <XmlAttribute> Public Property constant As Boolean
         <XmlAttribute> Public Property metaid As String
         <XmlAttribute> Public Property initialConcentration As Double
-
+        Public Property notes As Notes
         Public Property annotation As annotation
     End Class
 End Namespace
