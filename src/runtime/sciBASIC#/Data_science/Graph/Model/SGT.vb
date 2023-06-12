@@ -170,7 +170,7 @@ Public Class SequenceGraphTransform
 
         'Return U.Zip(V, Function(i, j) (i, j)).Where(Function(ij) ij.j > ij.i)
 
-        ' just find for pattern AB
+        ' just find for pattern AB in current tuple graph
         Return From ai In U
                From bj In V
                Where bj = ai + 1
