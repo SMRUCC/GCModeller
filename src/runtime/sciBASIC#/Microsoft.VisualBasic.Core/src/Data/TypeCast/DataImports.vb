@@ -56,6 +56,11 @@ Namespace ComponentModel.DataSourceModel.TypeCast
 
     Public Module DataImports
 
+        ''' <summary>
+        ''' Sampling column data for test data type
+        ''' </summary>
+        ''' <param name="column"></param>
+        ''' <returns></returns>
         Public Function SampleForType(column As IReadOnlyCollection(Of String)) As Type
             Dim typeHits As New Dictionary(Of Type, Integer)
 
@@ -102,6 +107,12 @@ Namespace ComponentModel.DataSourceModel.TypeCast
                 .Key
         End Function
 
+        ''' <summary>
+        ''' Measuring the data type automatically, and then try to parse the given
+        ''' string vector as the array of result data type
+        ''' </summary>
+        ''' <param name="column"></param>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function ParseVector(column As String()) As Array
             Return ParseVector(column, SampleForType(column))
@@ -118,6 +129,7 @@ Namespace ComponentModel.DataSourceModel.TypeCast
                 Case GetType(Date)
                     Return column.Select(Function(str) str.ParseDate).ToArray
                 Case Else
+                    ' do nothing for string vector type
                     Return column
             End Select
         End Function
