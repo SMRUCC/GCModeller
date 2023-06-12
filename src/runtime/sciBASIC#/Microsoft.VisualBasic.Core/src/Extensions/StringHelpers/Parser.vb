@@ -309,6 +309,12 @@ Public Module PrimitiveParser
     Public Function ParseDate(s As String) As Date
         Dim d As Date = Nothing
 
+        Static empty_output As Index(Of String) = {"false", "na", "null", "n/a", "nan"}
+
+        If s.ToLower Like empty_output Then
+            Return Nothing
+        End If
+
         If Date.TryParse(Trim(s), d) Then
             Return d
         Else
