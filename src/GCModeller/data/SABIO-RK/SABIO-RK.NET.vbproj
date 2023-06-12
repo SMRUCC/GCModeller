@@ -8,9 +8,12 @@
     <Configurations>Debug;Release;Rsharp_app_release;mzkit_win32;gcmodeller_desktop</Configurations>
     <PackageIcon>logo.png</PackageIcon>
     <PackageIconUrl />
-    <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Title>SABIO-RK kinetic-laws parameter database</Title>
+    <Description>SABIO-RK kinetic-laws parameter database</Description>
+    <Copyright>Copyright © SMRUCC/GCModeller 2023</Copyright>
+    <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
+
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

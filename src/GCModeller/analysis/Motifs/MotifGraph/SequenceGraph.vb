@@ -15,6 +15,10 @@ Public Class SequenceGraph : Implements INamedValue
     ''' <returns></returns>
     Public Property id As String Implements INamedValue.Key
     Public Property composition As Dictionary(Of Char, Double)
+    ''' <summary>
+    ''' A tuple graph
+    ''' </summary>
+    ''' <returns></returns>
     Public Property graph As Dictionary(Of Char, Dictionary(Of Char, Double))
     Public Property triple As Dictionary(Of String, Double)
     Public Property tuple_distance As Dictionary(Of String, Double)
@@ -52,16 +56,19 @@ Public Class SequenceGraph : Implements INamedValue
             Call v.AddRange(tmp)
         End If
 
-        Call tmp.Clear()
+        If Not triple.IsNullOrEmpty Then
+            ' protein sequence is empty for triple data
+            Call tmp.Clear()
 
-        For Each t As String In CodonBiasVector.PopulateTriples(components)
-            Call tmp.Add(triple.TryGetValue(t))
-        Next
+            For Each t As String In CodonBiasVector.PopulateTriples(components)
+                Call tmp.Add(triple.TryGetValue(t))
+            Next
 
-        If norm Then
-            Call v.AddRange(New Vector(tmp) / (tmp.Max + eps))
-        Else
-            Call v.AddRange(tmp)
+            If norm Then
+                Call v.AddRange(New Vector(tmp) / (tmp.Max + eps))
+            Else
+                Call v.AddRange(tmp)
+            End If
         End If
 
         Call tmp.Clear()
