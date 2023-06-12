@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>load an expressin matrix data</title>
+    <title>exp</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <style rel="stylesheet" type="text/css">
@@ -143,51 +143,38 @@
 
         <table style="width: 100%;">
             <tr>
-                <td>load.expr {geneExpression}</td>
+                <td>exp {geneExpression}</td>
                 <td style="text-align: right;">R Documentation</td>
             </tr>
         </table>
 
-        <h2>load an expressin matrix data</h2>
+        <h2>exp</h2>
 
         <h3>Description</h3>
 
-        
+        exp
 
         <h3>Usage</h3>
 
         <div style="width: 100%; padding-left: 3%; color: black;">
-            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>load.expr</strong>(<i>file</i>,
-    <i>exclude.samples</i> = <span style='color: blue;'>NULL</span>,
-    <i>rm.ZERO</i> = <span style='color: blue;'>FALSE</span>,
-    <i>makeNames</i> = <span style='color: blue;'>FALSE</span>);</code></pre>
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>exp</strong>(<i>x</i>, <i>p</i>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
 
         <table>
             
-<dt>file</dt>
-<dd><p><p>the file path or the file stream data of the target <br />
- expression matrix table file.</p></p></dd>
-
-
-<dt>exclude.samples</dt>
-<dd><p><p>will removes some sample column data from the expression<br />
- matrix which is specificed by this parameter value.</p></p></dd>
-
         </table>
 
 
-        <h3 style="display: block;">Details</h3>
+        <h3 style="display: none;">Details</h3>
 
-        <p>the table file format that handled by this function<br />
- could be a csv table file or tsv table file.</p>
+        
 
 
         <h3>Value</h3>
 
-        <p>a HTS data matrix of samples in column and gene features in row</p>
+        this function returns data object of type <a href="/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a>.
 
         <hr />
         <div style="text-align: center;">[Package <em>geneExpression</em> version 1.0.0.0 <a

@@ -4,7 +4,8 @@
 TrIQ.apply \- Apply TrIQ cutoff for each sample
 .SH SYNOPSIS
 \fITrIQ.apply(\fBmat\fR as <generic> Matrix, 
-\fBq\fR as double = 0.8);\fR
+\fBq\fR as double = 0.8, 
+\fBaxis\fR as integer = 1);\fR
 .SH DESCRIPTION
 .PP
 Apply TrIQ cutoff for each sample
@@ -15,6 +16,12 @@ Apply TrIQ cutoff for each sample
 .PP
 .PP
 \fBq\fB \fR\- -. 
+.PP
+.PP
+\fBaxis\fB \fR\- 
+ default value \fB1\fR means apply the cutoff for each sample column data,
+ alternative value \fB2\fR means apply the cutoff for each gene data row. 
+. 
 .PP
 .SH SEE ALSO
 magnitude

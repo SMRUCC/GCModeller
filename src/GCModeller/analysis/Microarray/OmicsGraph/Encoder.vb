@@ -1,6 +1,8 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors.Scaler
 Imports Microsoft.VisualBasic.Math.Correlations
+Imports Microsoft.VisualBasic.Math.Distributions
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.Quantile
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
@@ -15,10 +17,17 @@ Public Module Encoder
     ''' <returns></returns>
     <Extension>
     Public Function EncodeRanking(mat As Matrix) As Matrix
+        Dim z As Vector
+        Dim q As Double
+
         Call VBDebugger.WriteLine("encode expression matrix with global ranking...")
 
         For Each gene As DataFrameRow In mat.expression
-            gene.experiments = gene.experiments.Ranking(Strategies.FractionalRanking, desc:=True)
+            Z = New Vector(gene.experiments).Z
+            z(z < 0) = Vector.Zero
+            q = z.FindThreshold(0.8)
+            z(z > q) = Vector.Scalar(q)
+            gene.experiments = z.Ranking(Strategies.FractionalRanking, desc:=True)
         Next
 
         Return mat

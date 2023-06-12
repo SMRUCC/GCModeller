@@ -33,7 +33,11 @@ declare namespace magnitude {
         * @param q -
         * 
         * + default value Is ``0.8``.
+        * @param axis default value ``1`` means apply the cutoff for each sample column data,
+        *  alternative value ``2`` means apply the cutoff for each gene data row.
+        * 
+        * + default value Is ``1``.
       */
-      function apply(mat: object, q?: number): object;
+      function apply(mat: object, q?: number, axis?: object): object;
    }
 }
