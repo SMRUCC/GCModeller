@@ -98,15 +98,18 @@ for(i in 1:length(pathwayId)) {
 
     cat(`process ${map_id}, has ${length(compounds) + length(genes) + length(proteins)} objects for highlights...`);
 
-    kegg_map
-    |> html(compounds = compounds, genes = genes, proteins = proteins)
-    |> writeLines(
-        con = `${outputdir}/${map_id}.html`
-    );
+    try({
+        # do pathway map highlights rendering
+        kegg_map
+        |> html(compounds = compounds, genes = genes, proteins = proteins)
+        |> writeLines(
+            con = `${outputdir}/${map_id}.html`
+        );
 
-    bitmap(file = `${outputdir}/${map_id}.png`) {
-        plot(kegg_map, compounds = compounds, genes = genes, proteins = proteins);
-    }
+        bitmap(file = `${outputdir}/${map_id}.png`) {
+            plot(kegg_map, compounds = compounds, genes = genes, proteins = proteins);
+        }
+    });
 
     cat("  ~ done!\n");
 }
