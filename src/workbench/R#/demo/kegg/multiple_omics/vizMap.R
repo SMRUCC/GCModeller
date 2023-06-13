@@ -37,17 +37,25 @@ const inputs = {
 print("Peeks of the input kegg pathway map highlights dataset:");
 print(inputs);
 
+#' Parse a single color highlight token
+#'
+const parse_color = function(hl) {
+    let parse = strsplit(hl, "\s*[:]\s*");
+    let highlight = list(id = parse[1], color = parse[2]);
+
+    highlight;
+}
+
 const get_highlights = function(fd_name) {
     if (fd_name in inputs) {
-        strsplit(inputs[, fd_name], "\s*,\s*")
-        |> unlist()
+        inputs[, fd_name] 
+        |> strsplit("\s*[,;]\s*")        
         |> lapply(function(hl) {
-            let parse = strsplit(hl, "\s*[:]\s*");
-            let highlight = list(id = parse[1], color = parse[2]);
-
-            highlight;
-        })
-        |> lapply(hl -> hl$color, names = hl -> hl$id)
+            hl 
+            |> lapply(x -> parse_color)
+            |> lapply(hl -> hl$color, names = hl -> hl$id)
+            ;
+        }, names = rownames(inputs))
         ;
     } else {
         return(NULL);
