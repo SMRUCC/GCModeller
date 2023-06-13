@@ -1,4 +1,4 @@
 KEGG,pathway_Description,Compounds_KO,Genes_KO,Proteins_KO,pathway_links
-ko04974,Protein digestion and absorption,"C00197:red,C18319:blue,C00078:red","K06238:red,K14211:green",K06238:red,http://www.genome.jp/kegg-bin/show_pathway?ko04974/K06238%09red/K14211%09blue/
+ko04974,Protein digestion and absorption,"C00197:red,C18319:blue,C00078:red","K06238:red,K14211:green",K06238:blue,http://www.genome.jp/kegg-bin/show_pathway?ko04974/K06238%09red/K14211%09blue/
 ko05165,Human papillomavirus infection,"C00197:red,C18319:blue, C00078:blue","K06238:blue, K14211:blue",K14211:yellow,http://www.genome.jp/kegg-bin/show_pathway?ko05165/K02373%09blue/K06588%09red/
 ko05162,Measles,"C00197:red, C18319:blue, C00078:green","K06238:red, K14211:red",K06238:red,http://www.genome.jp/kegg-bin/show_pathway?ko05162/K02373%09blueK14216%09red/

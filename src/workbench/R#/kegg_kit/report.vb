@@ -74,6 +74,8 @@ Imports REnv = SMRUCC.Rsharp.Runtime
 Module report
 
     Sub Main()
+        Call REnv.Internal.htmlPrinter.AttachHtmlFormatter(Of MapIndex)(AddressOf renderMapHtml)
+        Call REnv.Internal.generic.add("plot", GetType(MapIndex), AddressOf plotKEGGMap)
         Call REnv.Internal.htmlPrinter.AttachHtmlFormatter(Of Map)(AddressOf renderMapHtml)
         Call REnv.Internal.generic.add("plot", GetType(Map), AddressOf plotKEGGMap)
     End Sub
