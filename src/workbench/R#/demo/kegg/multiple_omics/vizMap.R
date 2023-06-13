@@ -15,7 +15,10 @@ const fd_compounds = ?"--compounds"    || "Compounds_KO";
 const fd_genes     = ?"--genes"        || "Genes_KO";
 [@info "The field name for gets the protein highlights."]
 const fd_proteins  = ?"--proteins"     || "Proteins_KO";
-
+[@info "the file path to the kegg pathway map bunddle file."]
+const map_repo     = ?"--kegg_maps"    || "/opt/biodeep/kegg/KEGG_maps.pack";
+[@info "A directory folder path for export the kegg pathway maps highlight result files."]
+const outputdir    = ?"--outputdir"    || `${dirname(associate_mt)}/${basename(associate_mt)}_KEGGMaps/`;
 const inputs = {
     if (file.ext(associate_mt) == "xlsx") {
         read.xlsx(
@@ -45,7 +48,11 @@ const parse_color = function(hl) {
 
     highlight;
 }
-
+const pathwayId as string = `map${$"\d+"(rownames(inputs))
+    |> unlist()
+    |> as.integer()
+    |> str_pad(5, "left", "0")}`
+;
 const get_highlights = function(fd_name) {
     if (fd_name in inputs) {
         inputs[, fd_name] 
@@ -55,16 +62,53 @@ const get_highlights = function(fd_name) {
             |> lapply(x -> parse_color(hl = x))
             |> lapply(hl -> hl$color, names = hl -> hl$id)
             ;
-        }, names = rownames(inputs))
+        }, names = pathwayId)
         ;
     } else {
         return(NULL);
     }
 };
 const hl_compounds = get_highlights(fd_compounds);
-const hl_genes = get_highlights(fd_genes);
-const hl_proteins = get_highlights(fd_proteins);
+const hl_genes     = get_highlights(fd_genes);
+const hl_proteins  = get_highlights(fd_proteins);
 
-str(hl_compounds);
-str(hl_genes);
-str(hl_proteins);
+print("Do kegg pathway map highlights for:");
+print(pathwayId);
+print("inspect of the object highlights data:");
+str(list(
+    compounds = hl_compounds, 
+    genes     = hl_genes, 
+    proteins  = hl_proteins
+));
+
+const KEGG_maps = GCModeller::kegg_maps(rawMaps = FALSE, repo = {
+    if (file.exists(map_repo)) {
+        map_repo;
+    } else {
+        system.file("data/kegg/KEGG_maps.zip", package = "GCModeller");
+    }
+});
+
+for(i in 1:length(pathwayId)) {
+    const map_id    = pathwayId[i];
+    const compounds = hl_compounds[[map_id]];
+    const genes     = hl_genes[[map_id]];
+    const proteins  = hl_proteins[[map_id]];
+    const kegg_map  = KEGG_maps[[map_id]];
+
+    cat(`process ${map_id}, has ${length(compounds) + length(genes) + length(proteins)} objects for highlights...`);
+
+    kegg_map
+    |> html(compounds = compounds, genes = genes, proteins = proteins)
+    |> writeLines(
+        con = `${outputdir}/${map_id}.html`
+    );
+
+    bitmap(file = `${outputdir}/${map_id}.png`) {
+        plot(kegg_map, compounds = compounds, genes = genes, proteins = proteins);
+    }
+
+    cat("  ~ done!\n");
+}
+
+print("highlight rendering for all kegg pathway map job done!");

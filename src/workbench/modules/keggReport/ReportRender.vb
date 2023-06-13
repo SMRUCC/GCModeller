@@ -108,6 +108,17 @@ Public Class ReportRender
         }
     End Function
 
+    Public Shared Function Render(map As Map,
+                                  compounds As NamedValue(Of String)(),
+                                  genes As NamedValue(Of String)(),
+                                  proteins As NamedValue(Of String)(),
+                                  Optional text_color As String = "white") As String
+
+        Dim mapjson As MapShape() = map.shapes _
+            .Select(AddressOf CreateMap) _
+            .ToArray
+    End Function
+
     ''' <summary>
     ''' 
     ''' </summary>
