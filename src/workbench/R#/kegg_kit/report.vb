@@ -55,6 +55,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
@@ -74,6 +75,7 @@ Module report
 
     Sub Main()
         Call REnv.Internal.htmlPrinter.AttachHtmlFormatter(Of Map)(AddressOf renderMapHtml)
+        Call REnv.Internal.generic.add("plot", GetType(Map), AddressOf plotKEGGMap)
     End Sub
 
     Private Function renderMapHtml(map As Map, args As list, env As Environment) As Object
@@ -92,6 +94,29 @@ Module report
             genes:=genes,
             proteins:=proteins,
             text_color:=text_color
+        )
+    End Function
+
+    Private Function plotKEGGMap(map As Map, args As list, env As Environment) As Object
+        Dim compounds = getHighlightObjects(args.getBySynonyms("compounds", "compound", "metabolites", "metabolite"), env)
+        Dim genes = getHighlightObjects(args.getBySynonyms("genes", "gene", "Genes", "Gene"), env)
+        Dim proteins = getHighlightObjects(args.getBySynonyms("proteins", "protein", "Proteins", "Protein"), env)
+        Dim text_color As String = args.getValue({"text_color", "text.color"}, env, "white")
+
+        If compounds Like GetType(Message) Then Return compounds.TryCast(Of Message)
+        If genes Like GetType(Message) Then Return genes.TryCast(Of Message)
+        If proteins Like GetType(Message) Then Return proteins.TryCast(Of Message)
+
+        Dim highlightObjs As New MapHighlights With {
+            .compounds = compounds,
+            .genes = genes,
+            .proteins = proteins
+        }
+
+        Return LocalRender.Rendering(
+            pathway:=map,
+            nodes:=highlightObjs,
+            textColor:=text_color
         )
     End Function
 
@@ -153,7 +178,11 @@ Module report
         If highlightObjs Like GetType(Message) Then
             Return highlightObjs.TryCast(Of Message)
         Else
-            Return LocalRender.Rendering(map, highlightObjs.TryCast(Of NamedValue(Of String)()), textColor:=text_color)
+            Return LocalRender.Rendering(
+                pathway:=map,
+                nodes:=highlightObjs.TryCast(Of NamedValue(Of String)()).DoCall(AddressOf MapHighlights.CreateAuto),
+                textColor:=text_color
+            )
         End If
     End Function
 
