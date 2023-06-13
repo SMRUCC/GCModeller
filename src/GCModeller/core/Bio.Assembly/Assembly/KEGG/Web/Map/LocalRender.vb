@@ -56,6 +56,7 @@
 #End Region
 
 Imports System.Drawing
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Imaging
@@ -73,6 +74,11 @@ Namespace Assembly.KEGG.WebServices
         Public Property compounds As NamedValue(Of String)() = {}
         Public Property genes As NamedValue(Of String)() = {}
         Public Property proteins As NamedValue(Of String)() = {}
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function PopulateAllHighlights() As IEnumerable(Of NamedValue(Of String))
+            Return compounds.JoinIterates(genes).JoinIterates(proteins)
+        End Function
 
         Public Iterator Function GetGeneProteinTuples() As IEnumerable(Of NamedValue(Of (gene_color$, protein_color$)))
             Dim geneSet = genes.GroupBy(Function(a) a.Name).ToDictionary(Function(a) a.Key, Function(a) a.First.Value)
