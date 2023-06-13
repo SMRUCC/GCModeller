@@ -52,7 +52,7 @@ const get_highlights = function(fd_name) {
         |> strsplit("\s*[,;]\s*")        
         |> lapply(function(hl) {
             hl 
-            |> lapply(x -> parse_color)
+            |> lapply(x -> parse_color)# (hl = x))
             |> lapply(hl -> hl$color, names = hl -> hl$id)
             ;
         }, names = rownames(inputs))
