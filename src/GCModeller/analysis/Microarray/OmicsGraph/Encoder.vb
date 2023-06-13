@@ -23,7 +23,7 @@ Public Module Encoder
         Call VBDebugger.WriteLine("encode expression matrix with global ranking...")
 
         For Each gene As DataFrameRow In mat.expression
-            Z = New Vector(gene.experiments).Z
+            z = New Vector(gene.experiments).Z
             z(z < 0) = Vector.Zero
             q = z.FindThreshold(0.8)
             z(z > q) = Vector.Scalar(q)
@@ -40,7 +40,10 @@ Public Module Encoder
     ''' <param name="charSet"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function EncodeMatrix(mat As Matrix, Optional charSet As String = "ATGC") As Dictionary(Of String, Char)
+    Public Function EncodeMatrix(mat As Matrix,
+                                 Optional charSet As String = "ATGC",
+                                 Optional quantile_encoder As Boolean = True) As Dictionary(Of String, Char)
+
         ' total sum normalize at first, for each sample
         Dim features As String() = mat.rownames
         Dim samples As String() = mat.sampleID
@@ -72,13 +75,23 @@ Public Module Encoder
 
         Call VBDebugger.EchoLine("make charSet encoder...")
 
-        Return charSet.encodeCharSet(ranking, features)
+        Return charSet.encodeCharSet(ranking, features, quantile_encoder)
     End Function
 
     <Extension>
-    Private Function encodeCharSet(charSet As String, ranking As Double(), features As String()) As Dictionary(Of String, Char)
-        Dim d As Double = 1 / charSet.Length
-        Dim q As Double() = ranking.QuantileLevels(steps:=d).AsVector * charSet.Length
+    Private Function encodeCharSet(charSet As String,
+                                   ranking As Double(),
+                                   features As String(),
+                                   quantile_encoder As Boolean) As Dictionary(Of String, Char)
+        Dim q As Double()
+
+        If quantile_encoder Then
+            q = ranking.QuantileLevels(steps:=1 / charSet.Length).AsVector * charSet.Length
+        Else
+            q = ranking.Ranking(Strategies.OrdinalRanking)
+            q = (New Vector(q) / q.Max) * charSet.Length
+        End If
+
         Dim chars As Char() = q _
             .Select(Function(i)
                         Dim index As Integer = CInt(i)
