@@ -76,7 +76,7 @@ Namespace ComponentModel.DataSourceModel.TypeCast
 
                 If r.IsInteger Then
                     integers += 1
-                ElseIf IsBooleanFactor(r) Then
+                ElseIf IsBooleanFactor(r, extendedLiteral:=False) Then
                     booleans += 1
                 ElseIf r.IsNumeric(includesNaNFactor:=True) Then
                     doubles += 1
@@ -117,12 +117,14 @@ Namespace ComponentModel.DataSourceModel.TypeCast
             If integers > 0 Then
                 Return GetType(Integer)
             End If
-            If booleans Then
+            If booleans > 0 Then
                 Return GetType(Boolean)
             End If
-            If dates Then
+            If dates > 0 Then
                 Return GetType(Date)
             End If
+
+            Return GetType(String)
         End Function
 
         ''' <summary>
