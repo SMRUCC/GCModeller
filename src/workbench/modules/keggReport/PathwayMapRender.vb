@@ -1,51 +1,51 @@
 ﻿#Region "Microsoft.VisualBasic::cb7f2c62bbb4ffa55b729a114e7ef664, modules\keggReport\PathwayMapRender.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 112
-    '    Code Lines: 79
-    ' Comment Lines: 19
-    '   Blank Lines: 14
-    '     File Size: 4.79 KB
+' Summaries:
 
 
-    ' Module PathwayMapRender
-    ' 
-    '     Function: (+4 Overloads) QueryMaps, RenderMaps
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 112
+'    Code Lines: 79
+' Comment Lines: 19
+'   Blank Lines: 14
+'     File Size: 4.79 KB
+
+
+' Module PathwayMapRender
+' 
+'     Function: (+4 Overloads) QueryMaps, RenderMaps
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -120,16 +120,16 @@ Public Module PathwayMapRender
 
         ' 首先查找出化合物在哪些map之中出现，然后生成绘图查询数据
         For Each foundResult As NamedValue(Of String()) In render.IteratesMapNames(keggList.Keys, 3)
-            Dim nodes = foundResult _
-                .Value _
+            Dim nodes As NamedValue(Of String)() = foundResult.Value _
                 .Select(Function(x) idTable(x)) _
                 .ToArray
+            Dim highlights As MapHighlights = MapHighlights.CreateAuto(nodes)
 
             Try
                 Yield New NamedValue(Of Image) With {
                     .Name = foundResult.Name,
                     .Value = render _
-                        .Rendering(.Name, nodes,, scale:=scale),
+                        .Rendering(.Name, highlights,, scale:=scale),
                     .Description = foundResult _
                         .Value _
                         .JoinBy("|")
