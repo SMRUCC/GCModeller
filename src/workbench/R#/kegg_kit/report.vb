@@ -1,52 +1,52 @@
 ﻿#Region "Microsoft.VisualBasic::1c64d4528d6f89e10eadfba83d781f5c, R#\kegg_kit\report.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 233
-    '    Code Lines: 167
-    ' Comment Lines: 43
-    '   Blank Lines: 23
-    '     File Size: 9.86 KB
+' Summaries:
 
 
-    ' Module report
-    ' 
-    '     Function: checkIntersection, fromTable, getHighlightObjects, loadMap, MapRender
-    '               parseUrl, renderMapHighlights, showReportHtml, singleColor, url
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 233
+'    Code Lines: 167
+' Comment Lines: 43
+'   Blank Lines: 23
+'     File Size: 9.86 KB
+
+
+' Module report
+' 
+'     Function: checkIntersection, fromTable, getHighlightObjects, loadMap, MapRender
+'               parseUrl, renderMapHighlights, showReportHtml, singleColor, url
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -55,6 +55,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
@@ -71,6 +72,55 @@ Imports REnv = SMRUCC.Rsharp.Runtime
 ''' </summary>
 <Package("report.utils")>
 Module report
+
+    Sub Main()
+        Call REnv.Internal.htmlPrinter.AttachHtmlFormatter(Of MapIndex)(AddressOf renderMapHtml)
+        Call REnv.Internal.generic.add("plot", GetType(MapIndex), AddressOf plotKEGGMap)
+        Call REnv.Internal.htmlPrinter.AttachHtmlFormatter(Of Map)(AddressOf renderMapHtml)
+        Call REnv.Internal.generic.add("plot", GetType(Map), AddressOf plotKEGGMap)
+    End Sub
+
+    Private Function renderMapHtml(map As Map, args As list, env As Environment) As Object
+        Dim compounds = getHighlightObjects(args.getBySynonyms("compounds", "compound", "metabolites", "metabolite"), env)
+        Dim genes = getHighlightObjects(args.getBySynonyms("genes", "gene", "Genes", "Gene"), env)
+        Dim proteins = getHighlightObjects(args.getBySynonyms("proteins", "protein", "Proteins", "Protein"), env)
+        Dim text_color As String = args.getValue({"text_color", "text.color"}, env, "white")
+
+        If compounds Like GetType(Message) Then Return compounds.TryCast(Of Message)
+        If genes Like GetType(Message) Then Return genes.TryCast(Of Message)
+        If proteins Like GetType(Message) Then Return proteins.TryCast(Of Message)
+
+        Return ReportRender.Render(
+            map:=map,
+            compounds:=compounds,
+            genes:=genes,
+            proteins:=proteins,
+            text_color:=text_color
+        )
+    End Function
+
+    Private Function plotKEGGMap(map As Map, args As list, env As Environment) As Object
+        Dim compounds = getHighlightObjects(args.getBySynonyms("compounds", "compound", "metabolites", "metabolite"), env)
+        Dim genes = getHighlightObjects(args.getBySynonyms("genes", "gene", "Genes", "Gene"), env)
+        Dim proteins = getHighlightObjects(args.getBySynonyms("proteins", "protein", "Proteins", "Protein"), env)
+        Dim text_color As String = args.getValue({"text_color", "text.color"}, env, "white")
+
+        If compounds Like GetType(Message) Then Return compounds.TryCast(Of Message)
+        If genes Like GetType(Message) Then Return genes.TryCast(Of Message)
+        If proteins Like GetType(Message) Then Return proteins.TryCast(Of Message)
+
+        Dim highlightObjs As New MapHighlights With {
+            .compounds = compounds,
+            .genes = genes,
+            .proteins = proteins
+        }
+
+        Return LocalRender.Rendering(
+            pathway:=map,
+            nodes:=highlightObjs,
+            textColor:=text_color
+        )
+    End Function
 
     ''' <summary>
     ''' load a blank kegg pathway map template object from a given file object.
@@ -130,7 +180,11 @@ Module report
         If highlightObjs Like GetType(Message) Then
             Return highlightObjs.TryCast(Of Message)
         Else
-            Return LocalRender.Rendering(map, highlightObjs.TryCast(Of NamedValue(Of String)()), textColor:=text_color)
+            Return LocalRender.Rendering(
+                pathway:=map,
+                nodes:=highlightObjs.TryCast(Of NamedValue(Of String)()).DoCall(AddressOf MapHighlights.CreateAuto),
+                textColor:=text_color
+            )
         End If
     End Function
 
@@ -146,7 +200,19 @@ Module report
                 }).ToArray
     End Function
 
+    ''' <summary>
+    ''' A common function for get highlight objects which 
+    ''' will be used for rendering on the kegg pathway map.
+    ''' </summary>
+    ''' <param name="highlights"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     Private Function getHighlightObjects(highlights As Object, env As Environment) As [Variant](Of Message, NamedValue(Of String)())
+        If highlights Is Nothing Then
+            ' no target for do highlights, just output a
+            ' blank reference kegg pathway map
+            Return New NamedValue(Of String)() {}
+        End If
         If TypeOf highlights Is vector Then
             highlights = DirectCast(highlights, vector).data
         End If
@@ -179,7 +245,7 @@ Module report
                 .ToArray
 
         ElseIf TypeOf highlights Is String() OrElse TypeOf highlights Is String Then
-            Return URLEncoder.URLParser(renv.GetFirst(highlights)).value
+            Return URLEncoder.URLParser(REnv.getFirst(highlights)).value
         Else
             Return Internal.debug.stop(New InvalidCastException(highlights.GetType.FullName), env)
         End If

@@ -57,5 +57,6 @@ Public Class zzz
 
     Public Shared Sub onLoad()
         Call repository.Main()
+        Call report.Main()
     End Sub
 End Class

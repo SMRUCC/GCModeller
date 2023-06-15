@@ -1,61 +1,62 @@
 ﻿#Region "Microsoft.VisualBasic::aa1a9a04c0646ceaaefaa05414616c87, GCModeller\core\Bio.Assembly\Assembly\KEGG\Web\Map\LocalRender.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 311
-    '    Code Lines: 206
-    ' Comment Lines: 66
-    '   Blank Lines: 39
-    '     File Size: 12.95 KB
+' Summaries:
 
 
-    '     Class LocalRender
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    ' 
-    '         Function: FromRepository, getAreas, GetEnumerator, GetTitle, IEnumerable_GetEnumerator
-    '                   IteratesMapNames, (+3 Overloads) Rendering
-    ' 
-    '         Sub: CompoundShapeDrawing, renderCompound, renderGenes
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 311
+'    Code Lines: 206
+' Comment Lines: 66
+'   Blank Lines: 39
+'     File Size: 12.95 KB
+
+
+'     Class LocalRender
+' 
+'         Constructor: (+2 Overloads) Sub New
+' 
+'         Function: FromRepository, getAreas, GetEnumerator, GetTitle, IEnumerable_GetEnumerator
+'                   IteratesMapNames, (+3 Overloads) Rendering
+' 
+'         Sub: CompoundShapeDrawing, renderCompound, renderGenes
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Drawing
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Imaging
@@ -67,6 +68,69 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.Runtime
 
 Namespace Assembly.KEGG.WebServices
+
+    Public Class MapHighlights
+
+        Public Property compounds As NamedValue(Of String)() = {}
+        Public Property genes As NamedValue(Of String)() = {}
+        Public Property proteins As NamedValue(Of String)() = {}
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function PopulateAllHighlights() As IEnumerable(Of NamedValue(Of String))
+            Return compounds.JoinIterates(genes).JoinIterates(proteins)
+        End Function
+
+        Public Iterator Function GetGeneProteinTuples() As IEnumerable(Of NamedValue(Of (gene_color$, protein_color$)))
+            Dim geneSet = genes.GroupBy(Function(a) a.Name).ToDictionary(Function(a) a.Key, Function(a) a.First.Value)
+            Dim protSet = proteins.GroupBy(Function(a) a.Name).ToDictionary(Function(a) a.Key, Function(a) a.First.Value)
+            Dim unionIdSet As String() = geneSet.Keys.JoinIterates(protSet.Keys).Distinct.ToArray
+
+            For Each id As String In unionIdSet
+                If geneSet.ContainsKey(id) AndAlso protSet.ContainsKey(id) Then
+                    Yield New NamedValue(Of (gene_color As String, protein_color As String))(id, (geneSet(id), protSet(id)))
+                End If
+            Next
+        End Function
+
+        Public Shared Function CreateCompounds(list As IEnumerable(Of NamedValue(Of String))) As MapHighlights
+            Return New MapHighlights With {.compounds = list.ToArray}
+        End Function
+
+        Public Shared Function CreateGenes(list As IEnumerable(Of NamedValue(Of String))) As MapHighlights
+            Return New MapHighlights With {.genes = list.ToArray}
+        End Function
+
+        Public Shared Function CreateProteins(list As IEnumerable(Of NamedValue(Of String))) As MapHighlights
+            Return New MapHighlights With {.proteins = list.ToArray}
+        End Function
+
+        ''' <summary>
+        ''' check highlights automatically via kegg id prefix
+        ''' </summary>
+        ''' <param name="list"></param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' can not determine the gene/proteins at here
+        ''' </remarks>
+        Public Shared Function CreateAuto(list As IEnumerable(Of NamedValue(Of String))) As MapHighlights
+            Dim compounds As New List(Of NamedValue(Of String))
+            Dim genes As New List(Of NamedValue(Of String))
+
+            For Each node As NamedValue(Of String) In list
+                If node.Name.IsPattern(KEGGCompoundIDPatterns) Then
+                    compounds.Add(node)
+                Else
+                    genes.Add(node)
+                End If
+            Next
+
+            Return New MapHighlights With {
+                .compounds = compounds.ToArray,
+                .genes = genes.ToArray
+            }
+        End Function
+
+    End Class
 
     ''' <summary>
     ''' KEGG pathway map local rendering engine
@@ -178,7 +242,7 @@ Namespace Assembly.KEGG.WebServices
         ''' <returns></returns>
         Public Function Rendering(url$, Optional font As Font = Nothing, Optional textColor$ = "white", Optional scale$ = "1,1") As Image
             With URLEncoder.URLParser(url)
-                Return Rendering(.name, .value, font, textColor, scale)
+                Return Rendering(.name, MapHighlights.CreateAuto(.value), font, textColor, scale)
             End With
         End Function
 
@@ -192,7 +256,7 @@ Namespace Assembly.KEGG.WebServices
         ''' <param name="scale$"></param>
         ''' <returns></returns>
         Public Function Rendering(mapName$,
-                                  nodes As IEnumerable(Of NamedValue(Of String)),
+                                  nodes As MapHighlights,
                                   Optional font As Font = Nothing,
                                   Optional textColor$ = "white",
                                   Optional scale$ = "1,1") As Image
@@ -200,7 +264,7 @@ Namespace Assembly.KEGG.WebServices
             Return Rendering(mapTable(mapName), nodes, font, textColor, scale)
         End Function
 
-        Public Shared Function Rendering(pathway As Map, nodes As IEnumerable(Of NamedValue(Of String)),
+        Public Shared Function Rendering(pathway As Map, nodes As MapHighlights,
                                          Optional font As Font = Nothing,
                                          Optional textColor$ = "white",
                                          Optional scale$ = "1,1") As Image
@@ -215,7 +279,7 @@ Namespace Assembly.KEGG.WebServices
                 .CreateCanvas2D(directAccess:=True)
 
                 Call renderGenes(g, font Or SimSum, pen, pathway, scaleFactor, nodes)
-                Call renderCompound(g, font Or SimSum, pathway, scaleFactor, nodes)
+                Call renderCompound(g, font Or SimSum, pathway, scaleFactor, nodes.compounds)
 
                 Return g
             End Using
@@ -227,10 +291,18 @@ Namespace Assembly.KEGG.WebServices
         ''' <param name="g"></param>
         ''' <param name="map"></param>
         ''' <param name="list"></param>
-        Private Shared Sub renderGenes(ByRef g As Graphics2D, font As Font, pen As Brush, map As Map, scale As SizeF, list As NamedValue(Of String)())
+        Private Shared Sub renderGenes(ByRef g As Graphics2D, font As Font, pen As Brush, map As Map, scale As SizeF, list As MapHighlights)
             Dim shapes = getAreas(map, "Gene")
+            ' rendering the shape of gene/protein tuple
+            Dim cooccurs = list.GetGeneProteinTuples.ToArray
+            Dim tupleSet = cooccurs.Select(Function(a) a.Name).Indexing
+            ' then rendering the shape of gene or protein nodes
+            Dim singles = list.genes _
+                .JoinIterates(list.proteins) _
+                .Where(Function(a) Not a.Name Like tupleSet) _
+                .ToArray
 
-            For Each id As NamedValue(Of String) In list
+            For Each id As NamedValue(Of String) In singles
                 If Not shapes.ContainsKey(id.Name) Then
                     Continue For
                 End If
@@ -246,6 +318,33 @@ Namespace Assembly.KEGG.WebServices
 
                         g.FillRectangle(brush, rect)
                         g.DrawRectangle(Pens.Black, rect)
+                        g.DrawString(name, font, pen, rect.CenterAlign(strSize))
+                    Next
+                End With
+            Next
+
+            For Each tuple As NamedValue(Of (gene_color$, protein_color$)) In cooccurs
+                If Not shapes.ContainsKey(tuple.Name) Then
+                    Continue For
+                End If
+
+                Dim geneBrush = tuple.Value.gene_color.GetBrush
+                Dim protBrush = tuple.Value.protein_color.GetBrush
+
+                With shapes(tuple.Name)
+                    Dim name As String = .Name
+                    Dim strSize = g.MeasureString(name, font)
+
+                    For Each shape As Area In .Value
+                        Dim rect As RectangleF = shape.Rectangle.Scale(scale)
+                        Dim w As Double = rect.Width / 2
+                        Dim rect_left As New RectangleF(rect.Left, rect.Top, w, rect.Height)
+                        Dim rect_right As New RectangleF(rect.Left + w, rect.Top, w, rect.Height)
+
+                        g.FillRectangle(geneBrush, rect_left)
+                        g.DrawRectangle(Pens.Black, rect_left)
+                        g.FillRectangle(protBrush, rect_right)
+                        g.DrawRectangle(Pens.Black, rect_right)
                         g.DrawString(name, font, pen, rect.CenterAlign(strSize))
                     Next
                 End With
