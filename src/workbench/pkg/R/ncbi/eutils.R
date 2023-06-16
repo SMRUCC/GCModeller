@@ -1,5 +1,5 @@
 imports "http" from "webKit";
-imports ["Html", "graphquery"] from "webkit";
+imports ["Html", "graphquery"] from "webKit";
 
 const eutils = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi";
 const taxonomy_query = "

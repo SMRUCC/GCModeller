@@ -56,6 +56,7 @@
 #End Region
 
 Imports System.Drawing
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Scripting.SymbolBuilder
@@ -108,6 +109,42 @@ Public Class ReportRender
         }
     End Function
 
+    Public Shared Function Render(map As Map,
+                                  compounds As NamedValue(Of String)(),
+                                  genes As NamedValue(Of String)(),
+                                  proteins As NamedValue(Of String)(),
+                                  Optional text_color As String = "white") As String
+
+        Dim highlights As New MapHighlights With {
+            .compounds = compounds,
+            .genes = genes,
+            .proteins = proteins
+        }
+
+        Return Render(map, highlights, text_color)
+    End Function
+
+    Public Shared Function Render(map As Map, highlights As MapHighlights, Optional text_color As String = "white") As String
+        Dim mapjson As MapShape() = map.shapes _
+            .Select(AddressOf CreateMap) _
+            .ToArray
+        Dim rendering As Image = LocalRender.Rendering(map, highlights, textColor:=text_color)
+
+        With New ScriptBuilder(My.Resources.map_template)
+            !title = map.name
+            !map_json = mapjson.GetJson(indent:=True)
+            !map_base64 = New DataURI(rendering).ToString
+            !image_width = rendering.Width
+            !keggLink = New NamedCollection(Of NamedValue(Of String))() With {
+                .name = If(map.EntryId.IsPattern("\d+"), $"map{map.EntryId}", map.EntryId),
+                .description = map.name,
+                .value = highlights.PopulateAllHighlights.ToArray
+            }.KEGGURLEncode
+
+            Return .ToString
+        End With
+    End Function
+
     ''' <summary>
     ''' 
     ''' </summary>
@@ -116,26 +153,10 @@ Public Class ReportRender
     ''' a collection of ``[kegg_id => color]`` tuples.
     ''' </param>
     ''' <returns></returns>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Function Render(map As Map, highlights As IEnumerable(Of NamedValue(Of String)), Optional text_color As String = "white") As String
-        Dim mapjson As MapShape() = map.shapes _
-            .Select(AddressOf CreateMap) _
-            .ToArray
-        Dim objectList As NamedValue(Of String)() = highlights.ToArray
-        Dim rendering As Image = LocalRender.Rendering(map, objectList, textColor:=text_color)
-
-        With New ScriptBuilder(My.Resources.map_template)
-            !title = map.Name
-            !map_json = mapjson.GetJson(indent:=True)
-            !map_base64 = New DataURI(rendering).ToString
-            !image_width = rendering.Width
-            !keggLink = New NamedCollection(Of NamedValue(Of String))() With {
-                .name = If(map.EntryId.IsPattern("\d+"), $"map{map.EntryId}", map.EntryId),
-                .description = map.name,
-                .value = objectList
-            }.KEGGURLEncode
-
-            Return .ToString
-        End With
+        Return Render(map, MapHighlights.CreateAuto(highlights), text_color)
     End Function
 End Class
 

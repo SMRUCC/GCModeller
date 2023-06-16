@@ -61,6 +61,7 @@
 
 Imports System.Data
 Imports System.IO
+Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
@@ -101,6 +102,7 @@ Namespace FileSystem
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property files As StreamBlock()
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return superBlock _
                     .ListFiles _
@@ -262,6 +264,7 @@ Namespace FileSystem
             End If
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function TestMagic(magic As Byte()) As Boolean
             Return Encoding.ASCII.GetString(magic) = StreamPack.Magic
         End Function
@@ -325,15 +328,27 @@ Namespace FileSystem
         ''' <returns>
         ''' returns nothing if object is not found!
         ''' </returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetObject(fileName As String) As StreamObject
             Return superBlock.GetObject(New FilePath(fileName))
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function OpenBlock(block As StreamBlock) As Stream
             Return New SubStream(buffer, block.offset, block.size)
         End Function
 
-        Public Function FileExists(path As String) As Boolean Implements IFileSystemEnvironment.FileExists
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="path"></param>
+        ''' <param name="ZERO_Nonexists">
+        ''' this parameter is not working at here
+        ''' </param>
+        ''' <returns></returns>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function FileExists(path As String, Optional ZERO_Nonexists As Boolean = False) As Boolean Implements IFileSystemEnvironment.FileExists
             Return superBlock.BlockExists(FilePath.Parse(path))
         End Function
 
@@ -415,6 +430,7 @@ Namespace FileSystem
             End If
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function CreateNewStream(filepath As String,
                                                Optional init_size As Integer = 1024,
                                                Optional meta_size As Integer = 4096 * 1024) As StreamPack
@@ -481,6 +497,10 @@ Namespace FileSystem
             GC.SuppressFinalize(Me)
         End Sub
 
+        ''' <summary>
+        ''' Save the file tree and close the file stream
+        ''' </summary>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub Close() Implements IFileSystemEnvironment.Close
             Call Me.Dispose()
         End Sub
@@ -510,10 +530,12 @@ Namespace FileSystem
             Return Extensions.WriteText(Me, text, path)
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Private Function ReadAllText(path As String) As String Implements IFileSystemEnvironment.ReadAllText
             Return Extensions.ReadText(Me, path)
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Private Sub Flush() Implements IFileSystemEnvironment.Flush
             Call flushStreamPack()
         End Sub
