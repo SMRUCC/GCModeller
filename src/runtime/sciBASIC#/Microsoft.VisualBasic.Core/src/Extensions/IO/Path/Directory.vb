@@ -229,11 +229,16 @@ Namespace FileIO
             Return fullPath.DeleteFile
         End Function
 
-        Public Function FileExists(path As String) As Boolean Implements IFileSystemEnvironment.FileExists
+        Public Function FileExists(path As String, Optional ZERO_Nonexists As Boolean = False) As Boolean Implements IFileSystemEnvironment.FileExists
             Dim fullPath As String = $"{folder}/{path}"
-            Return fullPath.FileExists(ZERO_Nonexists:=True)
+            Dim check = fullPath.FileExists(ZERO_Nonexists:=ZERO_Nonexists)
+
+            Return check
         End Function
 
+        ''' <summary>
+        ''' Just do nothing for local filesystem
+        ''' </summary>
         Public Sub Close() Implements IFileSystemEnvironment.Close
             ' do nothing
         End Sub
