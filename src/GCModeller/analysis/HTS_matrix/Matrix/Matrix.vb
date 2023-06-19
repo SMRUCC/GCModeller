@@ -143,6 +143,11 @@ Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow)
         End Get
     End Property
 
+    ''' <summary>
+    ''' get sample column as vector by sample id
+    ''' </summary>
+    ''' <param name="sample_id"></param>
+    ''' <returns></returns>
     Public ReadOnly Property sample(sample_id As String) As Vector
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
