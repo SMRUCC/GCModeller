@@ -287,7 +287,7 @@ Namespace Net.Http
 
                 ' andalso treated the empty web response as 
                 ' the 404 error as well?
-                If is404 OrElse cache.FileSize(cache_path) <= 0 Then
+                If is404 OrElse cache.FileSize(cache_path) <= 8 Then
                     url404 += url
 
                     Call Write404CacheList()
