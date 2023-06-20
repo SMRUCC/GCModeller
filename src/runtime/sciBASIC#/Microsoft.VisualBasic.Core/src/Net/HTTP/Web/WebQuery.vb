@@ -285,6 +285,8 @@ Namespace Net.Http
                 Call cache.Flush()
                 Call Thread.Sleep(sleepInterval)
 
+                ' andalso treated the empty web response as 
+                ' the 404 error as well?
                 If is404 OrElse cache.FileSize(cache_path) <= 0 Then
                     url404 += url
 

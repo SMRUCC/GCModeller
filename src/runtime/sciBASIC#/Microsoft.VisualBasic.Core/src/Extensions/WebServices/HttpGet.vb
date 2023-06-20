@@ -159,6 +159,7 @@ Re0:
             GoTo Re0
 
         Catch ex As Exception
+            is404 = InStr(ex.Message, "(404) Not Found") > 0
             ex = New Exception(url, ex)
             ex.PrintException
 
