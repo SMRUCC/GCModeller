@@ -199,6 +199,7 @@ Namespace Net.Http
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Private Sub Write404CacheList()
             Call cache.WriteText(text:=url404.Objects.JoinBy(vbCrLf), path:="/__404.txt")
+            Call cache.Flush()
         End Sub
 
         ''' <summary>
@@ -284,7 +285,7 @@ Namespace Net.Http
                 Call cache.Flush()
                 Call Thread.Sleep(sleepInterval)
 
-                If is404 Then
+                If is404 OrElse cache.FileSize(cache_path) <= 0 Then
                     url404 += url
 
                     Call Write404CacheList()
