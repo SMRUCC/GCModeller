@@ -13,6 +13,8 @@ declare namespace magnitude {
       /**
        * tag samples in matrix as sequence profiles
        * 
+       * > the input matrix should be in format of samples 
+       * >  in column and molecule features in rows.
        * 
         * @param mat -
         * @param briefSet 
