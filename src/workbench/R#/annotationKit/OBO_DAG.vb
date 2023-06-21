@@ -91,9 +91,8 @@ Module OBO_DAG
                 node = index(term.id)
             Else
                 node = New TermTree(Of Term) With {.Data = term, .label = term.name, .Childs = New Dictionary(Of String, Tree(Of Term, String))}
+                index.Add(term.id, node)
             End If
-
-            Call index.Add(term.id, node)
 
             For Each link As is_a In is_a
                 If Not index.ContainsKey(link.term_id) Then
