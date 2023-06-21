@@ -75,9 +75,7 @@ Module OBO_DAG
 
     <ExportAPI("ontologyTree")>
     Public Function ontologyTree(obo As GO_OBO) As TermTree(Of Term)
-        Dim ontology As New TermTree(Of Term)
         Dim hash = obo.CreateTermTable
-        Dim walk As TermTree(Of Term) = ontology
         Dim index As New Dictionary(Of String, TermTree(Of Term))
 
         For Each term As Term In hash.Values
@@ -104,14 +102,23 @@ Module OBO_DAG
             Next
         Next
 
+        Dim ontology As TermTree(Of Term)
+
+        If index.Count > 0 Then
+            ontology = TermTree(Of Term).FindRoot(index.Values.First)
+        Else
+            ontology = Nothing
+        End If
+
         Return ontology
     End Function
 
     <ExportAPI("ontologyLeafs")>
     Public Function ontologyLeafs(tree As TermTree(Of Term)) As TermTree(Of Term)()
         Dim leafs As New List(Of TermTree(Of Term))
+        Dim popAllNodes = tree.EnumerateChilds(popAll:=True).ToArray
 
-        For Each term As TermTree(Of Term) In tree.EnumerateChilds(popAll:=True)
+        For Each term As TermTree(Of Term) In popAllNodes
             If term.IsLeaf Then
                 Call leafs.Add(term)
             End If
