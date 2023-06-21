@@ -56,7 +56,7 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 Public Class zzz
 
     Public Shared Sub onLoad()
-
+        Call OBO_DAG.Main()
     End Sub
 End Class
 
