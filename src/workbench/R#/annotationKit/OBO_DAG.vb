@@ -138,6 +138,13 @@ Module OBO_DAG
         Return ontology
     End Function
 
+    <ExportAPI("ontologyNodes")>
+    Public Function ontologyNodes(tree As TermTree(Of Term)) As TermTree(Of Term)()
+        Return tree.EnumerateChilds(popAll:=True) _
+            .Select(Function(a) DirectCast(a, TermTree(Of Term))) _
+            .ToArray
+    End Function
+
     <ExportAPI("ontologyLeafs")>
     Public Function ontologyLeafs(tree As TermTree(Of Term)) As TermTree(Of Term)()
         Dim leafs As New List(Of TermTree(Of Term))
