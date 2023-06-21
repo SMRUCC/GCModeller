@@ -55,6 +55,7 @@ Imports Microsoft.VisualBasic.Data.GraphTheory
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
+Imports SMRUCC.genomics.Data.GeneOntology
 Imports SMRUCC.genomics.Data.GeneOntology.DAG
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
 Imports SMRUCC.Rsharp.Runtime
@@ -162,9 +163,13 @@ Module OBO_DAG
             node = node.Parent
         Loop
 
-        lineage.Add(node.Data)
-        data.add("def", Strings.Trim(term.Data.def).Trim("'"c, """"c, " "c, ASCII.TAB, ASCII.CR, ASCII.LF))
-        data.add("lineage", lineage.ToArray)
+        Call lineage.Add(node.Data)
+        Call lineage.Reverse()
+        Call data.add("id", term.Data.id)
+        Call data.add("name", term.Data.name)
+        Call data.add("namespace", term.Data.namespace)
+        Call data.add("def", term.Data.def)
+        Call data.add("lineage", lineage.ToArray)
 
         Return data
     End Function
