@@ -75,6 +75,10 @@ Module magnitude
     ''' use the custom charset, then the generated sequence
     ''' data can only be processed via the SGT algorithm
     ''' </param>
+    ''' <remarks>
+    ''' the input matrix should be in format of samples 
+    ''' in column and molecule features in rows.
+    ''' </remarks>
     ''' <returns></returns>
     <ExportAPI("encode.seqPack")>
     Public Function encode_seqPack(mat As Matrix,
