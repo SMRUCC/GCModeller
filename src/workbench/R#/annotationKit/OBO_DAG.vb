@@ -51,7 +51,10 @@
 
 Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Data.GraphTheory
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Data.GeneOntology.DAG
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
 
 ''' <summary>
@@ -68,6 +71,54 @@ Module OBO_DAG
     <ExportAPI("read.obo")>
     Public Function readOboDAG(path As String) As GO_OBO
         Return GO_OBO.LoadDocument(path)
+    End Function
+
+    <ExportAPI("ontologyTree")>
+    Public Function ontologyTree(obo As GO_OBO) As TermTree(Of Term)
+        Dim ontology As New TermTree(Of Term)
+        Dim hash = obo.CreateTermTable
+        Dim walk As TermTree(Of Term) = ontology
+        Dim index As New Dictionary(Of String, TermTree(Of Term))
+
+        For Each term As Term In hash.Values
+            Dim is_a As is_a() = term.is_a _
+                .SafeQuery _
+                .Select(Function(si) New is_a(si)) _
+                .ToArray
+            Dim node As TermTree(Of Term)
+
+            If index.ContainsKey(term.id) Then
+                node = index(term.id)
+            Else
+                node = New TermTree(Of Term) With {.Data = term, .label = term.name, .Childs = New Dictionary(Of String, Tree(Of Term, String))}
+            End If
+
+            Call index.Add(term.id, node)
+
+            For Each link As is_a In is_a
+                If Not index.ContainsKey(link.term_id) Then
+                    index.Add(link.term_id, New TermTree(Of Term) With {.label = link.name, .Childs = New Dictionary(Of String, Tree(Of Term, String))})
+                End If
+
+                node.Parent = index(link.term_id)
+                index(link.term_id).Childs.Add(term.id, node)
+            Next
+        Next
+
+        Return ontology
+    End Function
+
+    <ExportAPI("ontologyLeafs")>
+    Public Function ontologyLeafs(tree As TermTree(Of Term)) As TermTree(Of Term)()
+        Dim leafs As New List(Of TermTree(Of Term))
+
+        For Each term As TermTree(Of Term) In tree.EnumerateChilds(popAll:=True)
+            If term.IsLeaf Then
+                Call leafs.Add(term)
+            End If
+        Next
+
+        Return leafs.ToArray
     End Function
 
     <ExportAPI("filter.is_obsolete")>
