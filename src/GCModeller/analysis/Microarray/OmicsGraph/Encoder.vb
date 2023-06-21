@@ -15,6 +15,10 @@ Public Module Encoder
     ''' </summary>
     ''' <param name="mat"></param>
     ''' <returns></returns>
+    ''' <remarks>
+    ''' the input matrix should be in format of samples 
+    ''' in column and molecule features in rows.
+    ''' </remarks>
     <Extension>
     Public Function EncodeRanking(mat As Matrix) As Matrix
         Dim z As Vector
@@ -39,6 +43,10 @@ Public Module Encoder
     ''' <param name="mat"></param>
     ''' <param name="charSet"></param>
     ''' <returns></returns>
+    ''' <remarks>
+    ''' the input matrix should be in format of samples 
+    ''' in column and molecule features in rows.
+    ''' </remarks>
     <Extension>
     Public Function EncodeMatrix(mat As Matrix,
                                  Optional charSet As String = "ATGC",
