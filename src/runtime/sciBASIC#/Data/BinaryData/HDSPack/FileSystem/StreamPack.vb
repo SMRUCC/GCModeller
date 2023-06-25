@@ -431,6 +431,15 @@ Namespace FileSystem
                 ' create a new data object
                 block = superBlock.AddDataBlock(path)
 
+                ' create file block with pre-allocated location region 
+                ' if the buffer size is already known
+                If buffer_size > 0 Then
+                    With Allocate(buffer_size)
+                        block.offset = .position
+                        block.size = .size
+                    End With
+                End If
+
                 Return New StreamBuffer(buffer, block, init_size)
             End If
         End Function
