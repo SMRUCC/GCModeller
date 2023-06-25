@@ -473,7 +473,7 @@ Namespace FileSystem
                 Dim p0 As BufferRegion = files(i).GetRegion
                 Dim p1 As BufferRegion = files(i + 1).GetRegion
 
-                If p1.position - p0.position > buffer_size Then
+                If p1.position - p0.nextBlock > buffer_size Then
                     Return AllocateNext(p0, buffer_size)
                 End If
             Next
