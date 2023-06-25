@@ -1,64 +1,87 @@
 ﻿#Region "Microsoft.VisualBasic::e5586f868a26d1f3b15b925d518ca59b, R#\annotationKit\OBO_DAG.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 71
-    '    Code Lines: 53
-    ' Comment Lines: 8
-    '   Blank Lines: 10
-    '     File Size: 2.37 KB
+' Summaries:
 
 
-    ' Module OBO_DAG
-    ' 
-    '     Function: filterObsolete, filterProperty, readOboDAG, saveObo
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 71
+'    Code Lines: 53
+' Comment Lines: 8
+'   Blank Lines: 10
+'     File Size: 2.37 KB
+
+
+' Module OBO_DAG
+' 
+'     Function: filterObsolete, filterProperty, readOboDAG, saveObo
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Data.GraphTheory
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Text
+Imports SMRUCC.genomics.Data.GeneOntology
+Imports SMRUCC.genomics.Data.GeneOntology.DAG
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
+Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Internal.Object
 
 ''' <summary>
 ''' The Open Biological And Biomedical Ontology (OBO) Foundry
 ''' </summary>
 <Package("OBO")>
 Module OBO_DAG
+
+    Sub Main()
+        Call Internal.Object.Converts.makeDataframe.addHandler(GetType(Term()), AddressOf termTable)
+    End Sub
+
+    Private Function termTable(terms As Term(), args As list, env As Environment) As Object
+        Dim df As New dataframe With {
+            .columns = New Dictionary(Of String, Array),
+            .rownames = terms.Select(Function(t) t.id).ToArray
+        }
+
+        Call df.add("name", terms.Select(Function(t) t.name))
+        Call df.add("def", terms.Select(Function(t) t.def))
+
+        Return df
+    End Function
 
     ''' <summary>
     ''' parse the obo file 
@@ -68,6 +91,94 @@ Module OBO_DAG
     <ExportAPI("read.obo")>
     Public Function readOboDAG(path As String) As GO_OBO
         Return GO_OBO.LoadDocument(path)
+    End Function
+
+    <ExportAPI("ontologyTree")>
+    Public Function ontologyTree(obo As GO_OBO) As TermTree(Of Term)
+        Dim hash = obo.CreateTermTable
+        Dim index As New Dictionary(Of String, TermTree(Of Term))
+
+        For Each term As Term In hash.Values
+            Dim is_a As is_a() = term.is_a _
+                .SafeQuery _
+                .Select(Function(si) New is_a(si)) _
+                .ToArray
+            Dim node As TermTree(Of Term)
+
+            If index.ContainsKey(term.id) Then
+                node = index(term.id)
+                node.Data = term
+            Else
+                node = New TermTree(Of Term) With {
+                    .Data = term,
+                    .label = term.name,
+                    .Childs = New Dictionary(Of String, Tree(Of Term, String))
+                }
+                index.Add(term.id, node)
+            End If
+
+            For Each link As is_a In is_a
+                If Not index.ContainsKey(link.term_id) Then
+                    index.Add(link.term_id, New TermTree(Of Term) With {.label = link.name, .Childs = New Dictionary(Of String, Tree(Of Term, String))})
+                End If
+
+                node.Parent = index(link.term_id)
+                index(link.term_id).Childs.Add(term.id, node)
+            Next
+        Next
+
+        Dim ontology As TermTree(Of Term)
+
+        If index.Count > 0 Then
+            ontology = TermTree(Of Term).FindRoot(index.Values.First)
+        Else
+            ontology = Nothing
+        End If
+
+        Return ontology
+    End Function
+
+    <ExportAPI("ontologyNodes")>
+    Public Function ontologyNodes(tree As TermTree(Of Term)) As TermTree(Of Term)()
+        Return tree.EnumerateChilds(popAll:=True) _
+            .Select(Function(a) DirectCast(a, TermTree(Of Term))) _
+            .ToArray
+    End Function
+
+    <ExportAPI("ontologyLeafs")>
+    Public Function ontologyLeafs(tree As TermTree(Of Term)) As TermTree(Of Term)()
+        Dim leafs As New List(Of TermTree(Of Term))
+        Dim popAllNodes = tree.EnumerateChilds(popAll:=True).ToArray
+
+        For Each term As TermTree(Of Term) In popAllNodes
+            If term.IsLeaf Then
+                Call leafs.Add(term)
+            End If
+        Next
+
+        Return leafs.ToArray
+    End Function
+
+    <ExportAPI("lineage_term")>
+    Public Function lineage_term(term As TermTree(Of Term)) As list
+        Dim data As New list With {.slots = New Dictionary(Of String, Object)}
+        Dim lineage As New List(Of Term)
+        Dim node As TermTree(Of Term) = term
+
+        Do While node.Parent IsNot Nothing
+            lineage.Add(node.Data)
+            node = node.Parent
+        Loop
+
+        Call lineage.Add(node.Data)
+        Call lineage.Reverse()
+        Call data.add("id", term.Data.id)
+        Call data.add("name", term.Data.name)
+        Call data.add("namespace", term.Data.namespace)
+        Call data.add("def", term.Data.def)
+        Call data.add("lineage", lineage.ToArray)
+
+        Return data
     End Function
 
     <ExportAPI("filter.is_obsolete")>
