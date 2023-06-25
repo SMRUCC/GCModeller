@@ -483,8 +483,12 @@ Namespace FileSystem
 
         Private Shared Function AllocateNext(scan0 As BufferRegion, buffer_size As Integer) As BufferRegion
             Dim pNext As Long = scan0.nextBlock
-            pNext += 1
-            pNext += pNext Mod 8
+
+            ' 20230625 do not do ofset padding at here
+            ' otherwise the offset position after padding + buffer size will
+            ' exceded the start position of the next block!
+            ' pNext += 1
+            ' pNext += pNext Mod 8
 
             Return New BufferRegion(pNext, buffer_size)
         End Function
