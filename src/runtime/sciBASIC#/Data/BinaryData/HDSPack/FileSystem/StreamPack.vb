@@ -490,6 +490,12 @@ Namespace FileSystem
             ' pNext += 1
             ' pNext += pNext Mod 8
 
+            ' raw
+            ' --+---------+-----
+            '             |
+            ' -----+------|---+-
+            ' result after offset padding may corrupt the data of next block
+
             Return New BufferRegion(pNext, buffer_size)
         End Function
 
