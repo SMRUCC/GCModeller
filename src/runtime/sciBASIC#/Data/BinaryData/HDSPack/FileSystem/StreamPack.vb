@@ -84,6 +84,9 @@ Namespace FileSystem
         Public ReadOnly Property globalAttributes As New LazyAttribute
         Public ReadOnly Property is_readonly As Boolean Implements IFileSystemEnvironment.readonly
 
+        ''' <summary>
+        ''' usually be the underlying local file stream for read/write pack data
+        ''' </summary>
         ReadOnly buffer As Stream
         ReadOnly init_size As Integer
 
@@ -388,6 +391,7 @@ Namespace FileSystem
         ''' <param name="fileName">
         ''' the dir object its file name must be ends with the symbol '\' or '/'
         ''' </param>
+        ''' <param name="buffer_size">options for write data only</param>
         ''' <returns>
         ''' this function returns two type of the stream:
         ''' 
@@ -396,7 +400,7 @@ Namespace FileSystem
         ''' 
         ''' based on the target file object is existsed or not
         ''' </returns>
-        Public Function OpenBlock(fileName As String) As Stream
+        Public Function OpenBlock(fileName As String, Optional buffer_size As Integer = -1) As Stream
             Dim path As New FilePath("/" & fileName)
             Dim block As StreamBlock
 
@@ -437,7 +441,11 @@ Namespace FileSystem
         ''' <param name="buffer_size"></param>
         ''' <returns></returns>
         Public Function Allocate(buffer_size As Integer) As BufferRegion
-            Dim files = superBlock.ListFiles.OfType(Of StreamBlock).OrderBy(Function(f) f.offset).ToArray
+            Dim files As StreamBlock() = superBlock _
+                .ListFiles _
+                .OfType(Of StreamBlock) _
+                .OrderBy(Function(f) f.offset) _
+                .ToArray
 
             If files.Length = 0 Then
                 Return New BufferRegion(Me.buffer.Length, buffer_size)
