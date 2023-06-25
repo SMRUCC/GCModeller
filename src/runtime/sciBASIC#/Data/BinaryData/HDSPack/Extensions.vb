@@ -95,15 +95,20 @@ Public Module Extensions
                               fileName As String,
                               Optional encoding As Encodings = Encodings.UTF8) As Boolean
 
-        Dim buffer As Stream = pack.OpenBlock(fileName)
-        Dim bin As New StreamWriter(buffer, encoding.CodePage)
+        Using buffer As New MemoryStream
+            Dim bin As New StreamWriter(buffer, encoding.CodePage)
 
-        Call bin.WriteLine(text)
-        Call bin.Flush()
+            Call bin.WriteLine(text)
+            Call bin.Flush()
 
-        If TypeOf buffer Is StreamBuffer Then
-            Call buffer.Dispose()
-        End If
+            Dim writeBin = pack.OpenBlock(fileName, buffer_size:=buffer.Length)
+            writeBin.Write(buffer.ToArray, Scan0, buffer.Length)
+            writeBin.Flush()
+
+            If TypeOf writeBin Is StreamBuffer Then
+                Call writeBin.Dispose()
+            End If
+        End Using
 
         Return True
     End Function
