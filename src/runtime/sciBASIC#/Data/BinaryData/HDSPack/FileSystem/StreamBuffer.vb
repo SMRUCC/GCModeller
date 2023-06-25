@@ -151,6 +151,7 @@ Namespace FileSystem
             Me.block = block
             Me.basefile = buffer
             Me.buffer = New MemoryStream(capacity:=buffer_size)
+            Me.buffer.Seek(Scan0, SeekOrigin.Begin)
         End Sub
 
         ''' <inheritdoc />
