@@ -428,16 +428,23 @@ Namespace FileSystem
             ElseIf is_readonly Then
                 Throw New ReadOnlyException($"can not create data block for the missing file '{path.ToString}' due to the reason of target stream is set readonly!")
             Else
-                ' create a new data object
-                block = superBlock.AddDataBlock(path)
-
                 ' create file block with pre-allocated location region 
                 ' if the buffer size is already known
                 If buffer_size > 0 Then
                     With Allocate(buffer_size)
+                        ' create a new empty data object
+                        '
+                        ' 20230625 IMPORTANT NOTE: the duplicated code show below is 
+                        ' necessary!
+                        ' do not add new data block before the allocate function
+                        ' or the invalid offset will be produce!
+                        block = superBlock.AddDataBlock(path)
                         block.offset = .position
                         block.size = .size
                     End With
+                Else
+                    ' just create a new data object
+                    block = superBlock.AddDataBlock(path)
                 End If
 
                 Return New StreamBuffer(buffer, block, init_size)
