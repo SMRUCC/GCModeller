@@ -68,6 +68,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.IO
 Imports Microsoft.VisualBasic.FileIO.Path
+Imports Microsoft.VisualBasic.Language.LinqAPIHelpers
 Imports Microsoft.VisualBasic.My.FrameworkInternal
 Imports Microsoft.VisualBasic.Net.Http
 
@@ -428,6 +429,40 @@ Namespace FileSystem
 
                 Return New StreamBuffer(buffer, block, init_size)
             End If
+        End Function
+
+        ''' <summary>
+        ''' try allocate a free block inside the file, not append to it
+        ''' </summary>
+        ''' <param name="buffer_size"></param>
+        ''' <returns></returns>
+        Public Function Allocate(buffer_size As Integer) As BufferRegion
+            Dim files = superBlock.ListFiles.OfType(Of StreamBlock).OrderBy(Function(f) f.offset).ToArray
+
+            If files.Length = 0 Then
+                Return New BufferRegion(Me.buffer.Length, buffer_size)
+            ElseIf files.Length = 1 Then
+                Return AllocateNext(files(Scan0).GetRegion, buffer_size)
+            End If
+
+            For i As Integer = 0 To files.Length - 2
+                Dim p0 As BufferRegion = files(i).GetRegion
+                Dim p1 As BufferRegion = files(i + 1).GetRegion
+
+                If p1.position - p0.position > buffer_size Then
+                    Return AllocateNext(p0, buffer_size)
+                End If
+            Next
+
+            Return AllocateNext(files.Last.GetRegion, buffer_size)
+        End Function
+
+        Private Shared Function AllocateNext(scan0 As BufferRegion, buffer_size As Integer) As BufferRegion
+            Dim pNext As Long = scan0.nextBlock
+            pNext += 1
+            pNext += pNext Mod 8
+
+            Return New BufferRegion(pNext, buffer_size)
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
