@@ -17,6 +17,18 @@ declare namespace OBO {
    /**
    */
    function filter_properties(obo: object, excludes: string): object;
+   /**
+   */
+   function lineage_term(term: object): object;
+   /**
+   */
+   function ontologyLeafs(tree: object): object;
+   /**
+   */
+   function ontologyNodes(tree: object): object;
+   /**
+   */
+   function ontologyTree(obo: object): object;
    module read {
       /**
        * parse the obo file
