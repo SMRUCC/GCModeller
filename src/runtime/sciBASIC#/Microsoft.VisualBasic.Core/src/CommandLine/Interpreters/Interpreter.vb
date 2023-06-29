@@ -281,7 +281,10 @@ Namespace CommandLine
                 Else
                     ' run program with max stack size configuration from the
                     ' framework environment variable
-                    Call New Thread(exec, maxStackSize:=Unit.ParseByteSize(max_stack_size_configuration)) With {
+                    Call New Thread(
+                        start:=exec,
+                        maxStackSize:=Unit.ParseByteSize(max_stack_size_configuration)
+                    ) With {
                         .Name = MethodBase.GetCurrentMethod.Name
                     }.Start()
                 End If
