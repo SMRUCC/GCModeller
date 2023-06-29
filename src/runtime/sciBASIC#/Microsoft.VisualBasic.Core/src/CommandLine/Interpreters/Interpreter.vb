@@ -73,6 +73,7 @@ Imports Microsoft.VisualBasic.ApplicationServices.Debugging
 Imports Microsoft.VisualBasic.CommandLine.ManView
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.CommandLine.Reflection.EntryPoints
+Imports Microsoft.VisualBasic.ComponentModel.Ranges
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
@@ -274,7 +275,12 @@ Namespace CommandLine
                 Call New Thread(exec) With {.Name = MethodBase.GetCurrentMethod.Name}.Start()
                 Call mut.WaitOne()
             Else
-                Call New Thread(exec, maxStackSize:=) With {.Name = MethodBase.GetCurrentMethod.Name}.Start()
+                ' run program with max stack size configuration from the
+                ' framework environment variable
+                Call New Thread(exec, maxStackSize:=Unit.ParseByteSize(max_stack_size_configuration)) With {
+                    .Name = MethodBase.GetCurrentMethod.Name
+                }.Start()
+
                 Call mut.WaitOne()
             End If
 
