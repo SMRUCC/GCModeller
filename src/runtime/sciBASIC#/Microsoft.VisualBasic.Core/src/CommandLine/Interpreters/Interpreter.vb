@@ -269,6 +269,7 @@ Namespace CommandLine
                     exit_code = ExecuteFile()(path:=filename, args:=argv)
                     mutex.Set()
                 End Sub
+            ' /STACK:64MB
             Dim max_stack_size_configuration As String = App.GetVariable("max_stack_size")
 
             If debug Then
