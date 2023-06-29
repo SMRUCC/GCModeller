@@ -271,17 +271,21 @@ Namespace CommandLine
                 End Sub
             Dim max_stack_size_configuration As String = App.GetVariable("max_stack_size")
 
-            Call mutex.Reset()
-
-            If max_stack_size_configuration.StringEmpty Then
-                Call New Thread(exec) With {.Name = MethodBase.GetCurrentMethod.Name}.Start()
-                Call mutex.WaitOne()
+            If debug Then
+                exit_code = ExecuteFile()(path:=filename, args:=argv)
             Else
-                ' run program with max stack size configuration from the
-                ' framework environment variable
-                Call New Thread(exec, maxStackSize:=Unit.ParseByteSize(max_stack_size_configuration)) With {
-                    .Name = MethodBase.GetCurrentMethod.Name
-                }.Start()
+                Call mutex.Reset()
+
+                If max_stack_size_configuration.StringEmpty Then
+                    Call New Thread(exec) With {.Name = MethodBase.GetCurrentMethod.Name}.Start()
+                Else
+                    ' run program with max stack size configuration from the
+                    ' framework environment variable
+                    Call New Thread(exec, maxStackSize:=Unit.ParseByteSize(max_stack_size_configuration)) With {
+                        .Name = MethodBase.GetCurrentMethod.Name
+                    }.Start()
+                End If
+
                 Call mutex.WaitOne()
             End If
 
