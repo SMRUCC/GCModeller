@@ -146,8 +146,6 @@ Namespace CommandLine
             If Not args.IsNullOrEmpty Then
                 Dim i As Integer = apiInvoke(args.Name, {args}, args.Parameters)
 #If DEBUG Then
-
-#Else
                 If Stack.TextEquals("Main") Then
                     If DebuggerArgs.AutoPaused Then
                         Call Pause()
