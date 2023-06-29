@@ -238,11 +238,11 @@ Namespace CommandLine
             App.InputFile = filename
 
             If argv.IsTrue("--debug") Then
-                Return exec_shell_script_internal(filename, argv)
+                Return exec_shell_script_internal(filename, argv, debug:=True)
             End If
 
             Try
-                Return exec_shell_script_internal(filename, argv)
+                Return exec_shell_script_internal(filename, argv, debug:=False)
             Catch ex As Exception
                 ex = New Exception("Execute file failure!", ex)
                 ex = New Exception(argv.ToString, ex)
@@ -261,27 +261,28 @@ Namespace CommandLine
         ''' <param name="filename"></param>
         ''' <param name="argv"></param>
         ''' <returns></returns>
-        Private Function exec_shell_script_internal(filename As String, argv As CommandLine) As Integer
+        Private Function exec_shell_script_internal(filename As String, argv As CommandLine, debug As Boolean) As Integer
             Dim exit_code As Integer = 0
-            Dim mut As New Mutex()
+            Dim mutex As New ManualResetEvent(initialState:=False)
             Dim exec As ThreadStart =
                 Sub()
                     exit_code = ExecuteFile()(path:=filename, args:=argv)
-                    mut.ReleaseMutex()
+                    mutex.Set()
                 End Sub
             Dim max_stack_size_configuration As String = App.GetVariable("max_stack_size")
 
+            Call mutex.Reset()
+
             If max_stack_size_configuration.StringEmpty Then
                 Call New Thread(exec) With {.Name = MethodBase.GetCurrentMethod.Name}.Start()
-                Call mut.WaitOne()
+                Call mutex.WaitOne()
             Else
                 ' run program with max stack size configuration from the
                 ' framework environment variable
                 Call New Thread(exec, maxStackSize:=Unit.ParseByteSize(max_stack_size_configuration)) With {
                     .Name = MethodBase.GetCurrentMethod.Name
                 }.Start()
-
-                Call mut.WaitOne()
+                Call mutex.WaitOne()
             End If
 
             Return exit_code
