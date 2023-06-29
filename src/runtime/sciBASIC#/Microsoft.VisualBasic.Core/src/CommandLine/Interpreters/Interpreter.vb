@@ -1,70 +1,71 @@
 ﻿#Region "Microsoft.VisualBasic::c7aad64e5bc0f948b6bd738050ff874d, sciBASIC#\Microsoft.VisualBasic.Core\src\CommandLine\Interpreters\Interpreter.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 668
-    '    Code Lines: 381
-    ' Comment Lines: 201
-    '   Blank Lines: 86
-    '     File Size: 29.19 KB
+' Summaries:
 
 
-    '     Class Interpreter
-    ' 
-    '         Properties: APIList, APINameList, Count, ExecuteEmptyCli, ExecuteFile
-    '                     ExecuteNotFound, ExecuteQuery, Info, IsReadOnly, ListCommandInfo
-    '                     Stack, Type
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: __getsAllCommands, apiInvoke, apiInvokeEtc, Contains, CreateEmptyCLIObject
-    '                   (+3 Overloads) CreateInstance, doExecuteNonCLIInput, doLoadApiInternal, (+3 Overloads) Execute, ExistsCommand
-    '                   GetAllCommands, getAPI, GetEnumerator, GetEnumerator1, GetPossibleCommand
-    '                   Help, ListingRelated, (+2 Overloads) Remove, SDKdocs, ToDictionary
-    '                   ToString, TryGetValue
-    ' 
-    '         Sub: (+2 Overloads) Add, AddCommand, Clear, CopyTo, (+2 Overloads) Dispose
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 668
+'    Code Lines: 381
+' Comment Lines: 201
+'   Blank Lines: 86
+'     File Size: 29.19 KB
+
+
+'     Class Interpreter
+' 
+'         Properties: APIList, APINameList, Count, ExecuteEmptyCli, ExecuteFile
+'                     ExecuteNotFound, ExecuteQuery, Info, IsReadOnly, ListCommandInfo
+'                     Stack, Type
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'         Function: __getsAllCommands, apiInvoke, apiInvokeEtc, Contains, CreateEmptyCLIObject
+'                   (+3 Overloads) CreateInstance, doExecuteNonCLIInput, doLoadApiInternal, (+3 Overloads) Execute, ExistsCommand
+'                   GetAllCommands, getAPI, GetEnumerator, GetEnumerator1, GetPossibleCommand
+'                   Help, ListingRelated, (+2 Overloads) Remove, SDKdocs, ToDictionary
+'                   ToString, TryGetValue
+' 
+'         Sub: (+2 Overloads) Add, AddCommand, Clear, CopyTo, (+2 Overloads) Dispose
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.ComponentModel
 Imports System.Reflection
 Imports System.Runtime.CompilerServices
+Imports System.Threading
 #If DEBUG Then
 #Else
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging
@@ -232,29 +233,58 @@ Namespace CommandLine
             Return 0
         End Function
 
+        Private Function runShellScriptFile(filename As String, argv As CommandLine) As Integer
+            App.InputFile = filename
+
+            If argv.IsTrue("--debug") Then
+                Return exec_shell_script_internal(filename, argv)
+            End If
+
+            Try
+                Return exec_shell_script_internal(filename, argv)
+            Catch ex As Exception
+                ex = New Exception("Execute file failure!", ex)
+                ex = New Exception(argv.ToString, ex)
+
+                Call App.LogException(ex)
+                Call ex.PrintException(enableRedirect:=False)
+                Call VBDebugger.WaitOutput()
+
+                Return 500
+            End Try
+        End Function
+
+        ''' <summary>
+        ''' Some magic tweaks will be made in this function call
+        ''' </summary>
+        ''' <param name="filename"></param>
+        ''' <param name="argv"></param>
+        ''' <returns></returns>
+        Private Function exec_shell_script_internal(filename As String, argv As CommandLine) As Integer
+            Dim exit_code As Integer = 0
+            Dim mut As New Mutex()
+            Dim exec As ThreadStart =
+                Sub()
+                    exit_code = ExecuteFile()(path:=filename, args:=argv)
+                    mut.ReleaseMutex()
+                End Sub
+            Dim max_stack_size_configuration As String = App.GetVariable("max_stack_size")
+
+            If max_stack_size_configuration.StringEmpty Then
+                Call New Thread(exec) With {.Name = MethodBase.GetCurrentMethod.Name}.Start()
+                Call mut.WaitOne()
+            Else
+                Call New Thread(exec, maxStackSize:=) With {.Name = MethodBase.GetCurrentMethod.Name}.Start()
+                Call mut.WaitOne()
+            End If
+
+            Return exit_code
+        End Function
+
         Private Function apiInvokeEtc(commandName$, cli As CommandLine) As Integer
             ' 命令行的名称和上面的都不符合，但是可以在文件系统之中找得到一个相应的文件，则执行文件句柄
             If (commandName.FileExists OrElse commandName.DirectoryExists) AndAlso Not Me.ExecuteFile Is Nothing Then
-                App.InputFile = commandName
-
-                If cli.IsTrue("--debug") Then
-                    Return ExecuteFile()(path:=commandName, args:=cli)
-                Else
-                    Try
-                        Return ExecuteFile()(path:=commandName, args:=cli)
-                    Catch ex As Exception
-                        ex = New Exception("Execute file failure!", ex)
-                        ex = New Exception(cli.ToString, ex)
-
-                        Call App.LogException(ex)
-                        Call ex.PrintException(enableRedirect:=False)
-                        Call VBDebugger.WaitOutput()
-
-                        Return 500
-                    End Try
-                End If
-
-                Return i
+                Return runShellScriptFile(commandName, cli)
             ElseIf Not ExecuteNotFound Is Nothing Then
                 Try
                     Return ExecuteNotFound()(cli)
@@ -423,7 +453,7 @@ Namespace CommandLine
             Dim methods As MethodInfo() = type.GetMethods(BindingFlags.Public Or BindingFlags.Static)
             Dim commandAttribute As Type = GetType(ExportAPIAttribute)
             Dim commandsInfo = LinqAPI.MakeList(Of APIEntryPoint) <=
- _
+                                                                    _
                 From methodInfo As MethodInfo
                 In methods
                 Let commandInfo As APIEntryPoint =
@@ -545,7 +575,7 @@ Namespace CommandLine
             Dim assembly As Assembly = Assembly.LoadFrom(assmPath)
             Dim dllMain As Type = GetType(RunDllEntryPoint)
             Dim main As Type = LinqAPI.DefaultFirst(Of Type) _
- _
+                                                             _
                 () <= From [mod] As Type
                       In assembly.DefinedTypes
                       Let attributes As Object() = [mod].GetCustomAttributes(dllMain, inherit:=False)
