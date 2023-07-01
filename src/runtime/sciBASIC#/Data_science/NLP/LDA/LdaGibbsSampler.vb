@@ -284,7 +284,7 @@ Namespace LDA
             For n As Integer = 0 To z(zi).Length - 1
                 ' (z_i = z[m][n])
                 ' sample from p(z_i|z_-i, w)
-                z(zi)(n) = SampleFullConditional(zi, n)
+                z(zi)(n) = sample_fullConditional(topic:=z(zi)(n), zi, n)
             Next
             ' Next
 
@@ -358,11 +358,9 @@ Namespace LDA
         ''' </summary>
         ''' <param name="m"> document </param>
         ''' <param name="n"> word </param> 
-        Private Function SampleFullConditional(m As Integer, n As Integer) As Integer
+        Private Function sample_fullConditional(topic As Integer, m As Integer, n As Integer) As Integer
             ' remove z_i from the count variables
             ' 先将这个词从计数器中抹掉
-            Dim topic As Integer = z(m)(n)
-
             nw(documents(m)(n))(topic) -= 1
             nd(m)(topic) -= 1
             nwsum(topic) -= 1
