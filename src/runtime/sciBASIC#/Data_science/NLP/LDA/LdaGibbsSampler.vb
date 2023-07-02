@@ -212,7 +212,7 @@ Namespace LDA
             Me.println = log
 
             If log Is Nothing Then
-                Me.println = AddressOf Console.WriteLine
+                Me.println = AddressOf VBDebugger.EchoLine
             End If
         End Sub
 
@@ -280,11 +280,12 @@ Namespace LDA
         ''' <param name="zi"></param>
         ''' <returns></returns>
         Private Function Sampling(zi As Integer) As Integer
-            ' For m As Integer = 0 To z.Length - 1
-            For n As Integer = 0 To z(zi).Length - 1
+            Dim v As Integer() = z(zi)
+
+            For n As Integer = 0 To v.Length - 1
                 ' (z_i = z[m][n])
                 ' sample from p(z_i|z_-i, w)
-                z(zi)(n) = sample_fullConditional(topic:=z(zi)(n), zi, n)
+                v(n) = sample_fullConditional(topic:=v(n), zi, n)
             Next
             ' Next
 
@@ -322,7 +323,7 @@ Namespace LDA
             For i As Integer = 0 To ITERATIONS - 1
                 ' for all z_i
                 Call (From m As Integer
-                      In zIndex
+                      In zIndex'.AsParallel
                       Select Sampling(zi:=m)).ToArray
 
                 If i < BURN_IN AndAlso i Mod THIN_INTERVAL = 0 Then
