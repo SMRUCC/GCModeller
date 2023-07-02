@@ -111,7 +111,7 @@ Namespace LDA
         ''' number of topics
         ''' 主题数目
         ''' </summary> 
-        Friend K As Integer
+        Public ReadOnly Property K As Integer
 
         ''' <summary>
         ''' Dirichlet parameter (document--topic associations)
