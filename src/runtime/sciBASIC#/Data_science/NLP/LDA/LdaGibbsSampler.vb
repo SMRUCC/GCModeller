@@ -201,6 +201,62 @@ Namespace LDA
         ReadOnly println As Action(Of Object)
 
         ''' <summary>
+        ''' Retrieve estimated document--topic associations. If sample lag > 0 then
+        ''' the mean value of all sampled statistics for theta[][] is taken.
+        ''' 获取文档——主题矩阵
+        ''' </summary>
+        ''' <returns> theta multinomial mixture of document topics (M x K) </returns>
+        Public Overridable ReadOnly Property Theta As Double()()
+            Get
+                Dim lTheta = RectangularArray.Matrix(Of Double)(documents.Length, K)
+
+                If SAMPLE_LAG > 0 Then
+                    For m = 0 To documents.Length - 1
+                        For K As Integer = 0 To Me.K - 1
+                            lTheta(m)(K) = thetasum(m)(K) / numstats
+                        Next
+                    Next
+                Else
+                    For m = 0 To documents.Length - 1
+                        For K As Integer = 0 To Me.K - 1
+                            lTheta(m)(K) = (nd(m)(K) + alpha) / (ndsum(m) + Me.K * alpha)
+                        Next
+                    Next
+                End If
+
+                Return lTheta
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' Retrieve estimated topic--word associations. If sample lag > 0 then the
+        ''' mean value of all sampled statistics for phi[][] is taken.
+        ''' 获取主题——词语矩阵
+        ''' </summary>
+        ''' <returns> phi multinomial mixture of topic words (K x V) </returns>
+        Public Overridable ReadOnly Property Phi As Double()()
+            Get
+                Dim lPhi = RectangularArray.Matrix(Of Double)(K, V)
+
+                If SAMPLE_LAG > 0 Then
+                    For K As Integer = 0 To Me.K - 1
+                        For w = 0 To V - 1
+                            lPhi(K)(w) = phisum(K)(w) / numstats
+                        Next
+                    Next
+                Else
+                    For K As Integer = 0 To Me.K - 1
+                        For w = 0 To V - 1
+                            lPhi(K)(w) = (nw(w)(K) + beta) / (nwsum(K) + V * beta)
+                        Next
+                    Next
+                End If
+
+                Return lPhi
+            End Get
+        End Property
+
+        ''' <summary>
         ''' Initialise the Gibbs sampler with data.
         ''' 用数据初始化采样器
         ''' </summary>
@@ -282,12 +338,13 @@ Namespace LDA
         Private Function Sampling(zi As Integer) As Integer
             Dim v As Integer() = z(zi)
 
-            For n As Integer = 0 To v.Length - 1
-                ' (z_i = z[m][n])
-                ' sample from p(z_i|z_-i, w)
-                v(n) = sample_fullConditional(topic:=v(n), zi, n)
-            Next
-            ' Next
+            SyncLock v
+                For n As Integer = 0 To v.Length - 1
+                    ' (z_i = z[m][n])
+                    ' sample from p(z_i|z_-i, w)
+                    v(n) = sample_fullConditional(topic:=v(n), zi, n)
+                Next
+            End SyncLock
 
             Return zi
         End Function
@@ -423,62 +480,6 @@ Namespace LDA
             numstats += 1
             println($"update_params[{(Now - t0).FormatTime}]")
         End Sub
-
-        ''' <summary>
-        ''' Retrieve estimated document--topic associations. If sample lag > 0 then
-        ''' the mean value of all sampled statistics for theta[][] is taken.
-        ''' 获取文档——主题矩阵
-        ''' </summary>
-        ''' <returns> theta multinomial mixture of document topics (M x K) </returns>
-        Public Overridable ReadOnly Property Theta As Double()()
-            Get
-                Dim lTheta = RectangularArray.Matrix(Of Double)(documents.Length, K)
-
-                If SAMPLE_LAG > 0 Then
-                    For m = 0 To documents.Length - 1
-                        For K As Integer = 0 To Me.K - 1
-                            lTheta(m)(K) = thetasum(m)(K) / numstats
-                        Next
-                    Next
-                Else
-                    For m = 0 To documents.Length - 1
-                        For K As Integer = 0 To Me.K - 1
-                            lTheta(m)(K) = (nd(m)(K) + alpha) / (ndsum(m) + Me.K * alpha)
-                        Next
-                    Next
-                End If
-
-                Return lTheta
-            End Get
-        End Property
-
-        ''' <summary>
-        ''' Retrieve estimated topic--word associations. If sample lag > 0 then the
-        ''' mean value of all sampled statistics for phi[][] is taken.
-        ''' 获取主题——词语矩阵
-        ''' </summary>
-        ''' <returns> phi multinomial mixture of topic words (K x V) </returns>
-        Public Overridable ReadOnly Property Phi As Double()()
-            Get
-                Dim lPhi = RectangularArray.Matrix(Of Double)(K, V)
-
-                If SAMPLE_LAG > 0 Then
-                    For K As Integer = 0 To Me.K - 1
-                        For w = 0 To V - 1
-                            lPhi(K)(w) = phisum(K)(w) / numstats
-                        Next
-                    Next
-                Else
-                    For K As Integer = 0 To Me.K - 1
-                        For w = 0 To V - 1
-                            lPhi(K)(w) = (nw(w)(K) + beta) / (nwsum(K) + V * beta)
-                        Next
-                    Next
-                End If
-
-                Return lPhi
-            End Get
-        End Property
 
         ''' <summary>
         ''' Configure the gibbs sampler
