@@ -379,8 +379,8 @@ Namespace Analysis.Louvain
                 Dim deltaP As Integer = maxLoop / 25
                 Dim p As Integer = Scan0
 
-                Call Console.WriteLine()
-                Call Console.Write($" [loop_{count}] Progress: ")
+                Call VBDebugger.EchoLine("")
+                Call VBDebugger.EchoLine($" [loop_{count}] Progress: ")
 
                 Do
                     Dim i As Integer = order(point)
@@ -403,7 +403,7 @@ Namespace Analysis.Louvain
                         If p = deltaP Then
                             p = 0
 
-                            Console.Write(vbTab & $"{CInt(100 * (max - maxLoop) / max)}%")
+                            VBDebugger.EchoLine(vbTab & $"{CInt(100 * (max - maxLoop) / max)}%")
                         End If
                     End If
                 Loop While enum_time < n
