@@ -117,7 +117,7 @@ Namespace DATA
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function ToHTMLTable(Of T As Class)(source As IEnumerable(Of T),
+        Public Shared Function ToHTMLTable(Of T As Class)(source As IEnumerable(Of T),
             Optional className$ = "",
             Optional tableID$ = Nothing,
             Optional width$ = "",
