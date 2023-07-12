@@ -58,42 +58,6 @@ Namespace KMeans.CompleteLinkage
 
     Public Module ClusterAPI
 
-        Public Function completeLinkageDistance(Of T As Point)(c1 As Cluster(Of T), c2 As Cluster(Of T)) As Double
-
-            Dim points1 As List(Of T) = c1.m_innerList
-            Dim points2 As List(Of T) = c2.m_innerList
-
-            Dim numPointsInC1 As Integer = points1.Count
-            Dim numPointsInC2 As Integer = points2.Count
-
-            Dim maxDistance As Double = Double.MinValue
-
-            For i1 As Integer = 0 To numPointsInC1 - 1
-                For i2 As Integer = 0 To numPointsInC2 - 1
-                    maxDistance = stdNum.Max(points1(i1).distanceToOtherPoint(points2(i2)), maxDistance)
-                Next i2
-            Next i1
-
-            Return maxDistance
-        End Function
-
-        Public Function mergeClusters(Of T As Point)(c1 As Cluster(Of T), c2 As Cluster(Of T)) As Cluster(Of T)
-            Dim mergedCluster As New Cluster(Of T)(New List(Of T))
-            Dim pointsC1 As List(Of T) = c1.m_innerList
-
-            For i As Integer = 0 To pointsC1.Count - 1
-                mergedCluster.Add(pointsC1(i))
-            Next i
-
-            Dim pointsC2 As List(Of T) = c2.m_innerList
-
-            For i As Integer = 0 To pointsC2.Count - 1
-                mergedCluster.Add(pointsC2(i))
-            Next i
-
-            Return mergedCluster
-        End Function
-
         Public Function HammingDistance(completeLinkageClusteredPoints As List(Of Point), lloydsMethodClusteredPoints As List(Of Point)) As Double
             If completeLinkageClusteredPoints.Count <> lloydsMethodClusteredPoints.Count Then
                 Throw New ArgumentException("Lists of different sizes cannot be passed here")

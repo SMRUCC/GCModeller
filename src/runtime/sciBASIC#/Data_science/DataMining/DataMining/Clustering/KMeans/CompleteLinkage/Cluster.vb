@@ -53,9 +53,14 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.DataMining.ComponentModel
+Imports stdNum = System.Math
 
 Namespace KMeans.CompleteLinkage
 
+    ''' <summary>
+    ''' A collection of the target entity object will be a cluster
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
     Public Class Cluster(Of T As EntityBase(Of Double))
 
         Protected Friend ReadOnly m_innerList As New List(Of T)
@@ -77,5 +82,49 @@ Namespace KMeans.CompleteLinkage
         Public Overridable Sub Add(p As T)
             Call m_innerList.Add(p)
         End Sub
+
+        Public Function CompleteLinkageDistance(c2 As Cluster(Of T)) As Double
+            Dim c1 = Me
+            Dim points1 As List(Of T) = c1.m_innerList
+            Dim points2 As List(Of T) = c2.m_innerList
+            Dim numPointsInC1 As Integer = points1.Count
+            Dim numPointsInC2 As Integer = points2.Count
+            Dim maxDistance As Double = Double.MinValue
+            Dim dist As Double
+
+            For i1 As Integer = 0 To numPointsInC1 - 1
+                For i2 As Integer = 0 To numPointsInC2 - 1
+                    dist = DistanceBetweenPoints(points1(i1), points2(i2))
+                    maxDistance = stdNum.Max(dist, maxDistance)
+                Next
+            Next
+
+            Return maxDistance
+        End Function
+
+        ''' <summary>
+        ''' merge two cluster to populate a new cluster
+        ''' </summary>
+        ''' <param name="c1"></param>
+        ''' <param name="c2"></param>
+        ''' <returns></returns>
+        Public Shared Operator +(c1 As Cluster(Of T), c2 As Cluster(Of T)) As Cluster(Of T)
+            Dim mergedCluster As New Cluster(Of T)
+            Dim pointsC1 As List(Of T) = c1.m_innerList
+
+            ' due to the reason of add method is overridable
+            ' do we can not use the inner list to add directly
+            For i As Integer = 0 To pointsC1.Count - 1
+                mergedCluster.Add(pointsC1(i))
+            Next
+
+            Dim pointsC2 As List(Of T) = c2.m_innerList
+
+            For i As Integer = 0 To pointsC2.Count - 1
+                mergedCluster.Add(pointsC2(i))
+            Next
+
+            Return mergedCluster
+        End Operator
     End Class
 End Namespace

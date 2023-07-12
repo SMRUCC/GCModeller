@@ -64,7 +64,8 @@ Namespace KMeans
     ''' <summary>
     ''' A class containing a group of data with similar characteristics (cluster), KMeans Cluster
     ''' </summary>
-    <Serializable> Public Class KMeansCluster(Of T As EntityBase(Of Double)) : Inherits CompleteLinkage.Cluster(Of T)
+    <Serializable>
+    Public Class KMeansCluster(Of T As EntityBase(Of Double)) : Inherits CompleteLinkage.Cluster(Of T)
         Implements IEnumerable(Of T)
 
         ''' <summary>

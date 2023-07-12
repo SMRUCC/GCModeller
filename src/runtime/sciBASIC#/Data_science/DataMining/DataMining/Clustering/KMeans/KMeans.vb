@@ -237,8 +237,8 @@ Namespace KMeans
                 End If
 
                 If i <> j Then
-                    Dim x = stableClusters._innerList(i)
-                    Dim y = stableClusters._innerList(j)
+                    Dim x = stableClusters.m_innerList(i)
+                    Dim y = stableClusters.m_innerList(j)
 
                     For r As Integer = 0 To 3
                         i = randf.NextInteger(x.NumOfEntity)
