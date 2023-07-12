@@ -53,6 +53,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.DataMining.ComponentModel
+Imports Microsoft.VisualBasic.Math.Correlations
 Imports stdNum = System.Math
 
 Namespace KMeans.CompleteLinkage
@@ -94,7 +95,7 @@ Namespace KMeans.CompleteLinkage
 
             For i1 As Integer = 0 To numPointsInC1 - 1
                 For i2 As Integer = 0 To numPointsInC2 - 1
-                    dist = DistanceBetweenPoints(points1(i1), points2(i2))
+                    dist = points1(i1).entityVector.EuclideanDistance(points2(i2).entityVector)
                     maxDistance = stdNum.Max(dist, maxDistance)
                 Next
             Next

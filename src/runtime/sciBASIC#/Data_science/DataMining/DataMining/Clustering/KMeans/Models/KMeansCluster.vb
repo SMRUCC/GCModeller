@@ -57,6 +57,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.DataMining.ComponentModel
 Imports Microsoft.VisualBasic.DataMining.KMeans.CompleteLinkage
+Imports Microsoft.VisualBasic.Math.Correlations
 Imports stdNum = System.Math
 
 Namespace KMeans
@@ -111,7 +112,7 @@ Namespace KMeans
             Dim kMeansCost As Double = 0
             Dim distanceBetweenPoints As Double = 0
             For pointIndex As Integer = 0 To m_innerList.Count - 1
-                distanceBetweenPoints = m_innerList(pointIndex).DistanceBetweenPoints(Center)
+                distanceBetweenPoints = m_innerList(pointIndex).entityVector.EuclideanDistance(Center.entityVector)
                 kMeansCost += stdNum.Pow(distanceBetweenPoints, 2)
             Next
             Return kMeansCost

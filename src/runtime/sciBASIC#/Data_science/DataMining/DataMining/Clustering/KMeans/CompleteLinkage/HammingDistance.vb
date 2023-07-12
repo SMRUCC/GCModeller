@@ -51,7 +51,7 @@
 #End Region
 Namespace KMeans.CompleteLinkage
 
-    Public Module ClusterAPI
+    Public Module HammingDistance
 
         Public Function HammingDistance(completeLinkageClusteredPoints As List(Of Point),
                                         lloydsMethodClusteredPoints As List(Of Point)) As Double
