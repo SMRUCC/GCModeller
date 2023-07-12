@@ -248,7 +248,7 @@ Namespace KMeans
                             Continue For
                         End If
 
-                        Call x._innerList(i).Swap(y._innerList(j))
+                        Call x.m_innerList(i).Swap(y.m_innerList(j))
                     Next
                 End If
             Next

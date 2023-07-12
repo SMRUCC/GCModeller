@@ -60,8 +60,8 @@ Namespace KMeans.CompleteLinkage
 
         Public Function completeLinkageDistance(Of T As Point)(c1 As Cluster(Of T), c2 As Cluster(Of T)) As Double
 
-            Dim points1 As List(Of T) = c1._innerList
-            Dim points2 As List(Of T) = c2._innerList
+            Dim points1 As List(Of T) = c1.m_innerList
+            Dim points2 As List(Of T) = c2.m_innerList
 
             Dim numPointsInC1 As Integer = points1.Count
             Dim numPointsInC2 As Integer = points2.Count
@@ -79,13 +79,13 @@ Namespace KMeans.CompleteLinkage
 
         Public Function mergeClusters(Of T As Point)(c1 As Cluster(Of T), c2 As Cluster(Of T)) As Cluster(Of T)
             Dim mergedCluster As New Cluster(Of T)(New List(Of T))
-            Dim pointsC1 As List(Of T) = c1._innerList
+            Dim pointsC1 As List(Of T) = c1.m_innerList
 
             For i As Integer = 0 To pointsC1.Count - 1
                 mergedCluster.Add(pointsC1(i))
             Next i
 
-            Dim pointsC2 As List(Of T) = c2._innerList
+            Dim pointsC2 As List(Of T) = c2.m_innerList
 
             For i As Integer = 0 To pointsC2.Count - 1
                 mergedCluster.Add(pointsC2(i))
