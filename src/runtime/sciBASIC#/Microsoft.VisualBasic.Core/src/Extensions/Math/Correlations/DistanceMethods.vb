@@ -206,7 +206,7 @@ Namespace Math.Correlations
             Dim sum As Double = 0.0
 
             For i As Integer = 0 To count - 1
-                sum += stdNum.Pow(stdNum.Abs(X(i) - Y(i)), 2)
+                sum += (X(i) - Y(i)) ^ 2
             Next
 
             Dim distance As Double = stdNum.Sqrt(sum)

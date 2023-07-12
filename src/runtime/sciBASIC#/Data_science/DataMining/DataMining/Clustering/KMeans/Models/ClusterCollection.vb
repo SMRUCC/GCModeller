@@ -108,8 +108,8 @@ Namespace KMeans
         End Function
 
         Public Iterator Function GetEnumerator() As IEnumerator(Of KMeansCluster(Of T)) Implements IEnumerable(Of KMeansCluster(Of T)).GetEnumerator
-            For Each x As KMeansCluster(Of T) In m_innerList
-                Yield x
+            For Each xi As KMeansCluster(Of T) In m_innerList
+                Yield xi
             Next
         End Function
     End Class

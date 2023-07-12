@@ -113,7 +113,7 @@ Namespace KMeans
             For pointIndex As Integer = 0 To m_innerList.Count - 1
                 distanceBetweenPoints = m_innerList(pointIndex).DistanceBetweenPoints(Center)
                 kMeansCost += stdNum.Pow(distanceBetweenPoints, 2)
-            Next pointIndex
+            Next
             Return kMeansCost
         End Function
 
