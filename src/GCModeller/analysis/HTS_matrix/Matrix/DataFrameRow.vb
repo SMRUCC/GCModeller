@@ -153,6 +153,10 @@ Public Class DataFrameRow : Implements INamedValue, IVector
         Return $"{geneID} -> {experiments.Select(Function(a) a.ToString("F3")).JoinBy(", ")}"
     End Function
 
+    Public Function Max() As Double
+        Return experiments.Max
+    End Function
+
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Operator -(gene As DataFrameRow, x As Double) As Vector
         Return gene.CreateVector - x
