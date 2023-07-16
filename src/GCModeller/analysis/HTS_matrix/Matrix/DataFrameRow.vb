@@ -127,6 +127,10 @@ Public Class DataFrameRow : Implements INamedValue, IVector
         Return experiments.AsVector
     End Function
 
+    Public Function Sum() As Double
+        Return experiments.Sum
+    End Function
+
     Public Overrides Function ToString() As String
         Return $"{geneID} -> {experiments.Select(Function(a) a.ToString("F3")).JoinBy(", ")}"
     End Function
