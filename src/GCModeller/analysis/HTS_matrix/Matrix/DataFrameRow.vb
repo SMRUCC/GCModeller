@@ -62,6 +62,10 @@ Imports Microsoft.VisualBasic.Math.LinearAlgebra
 ''' <remarks></remarks>
 Public Class DataFrameRow : Implements INamedValue, IVector
 
+    ''' <summary>
+    ''' The unique reference id of current expression data vector
+    ''' </summary>
+    ''' <returns></returns>
     Public Property geneID As String Implements INamedValue.Key
 
     ''' <summary>
@@ -72,6 +76,11 @@ Public Class DataFrameRow : Implements INamedValue, IVector
     ''' <remarks></remarks>
     Public Property experiments As Double() Implements IVector.Data
 
+    ''' <summary>
+    ''' Get the sample expression value via a given index
+    ''' </summary>
+    ''' <param name="i"></param>
+    ''' <returns></returns>
     Default Public ReadOnly Property Value(i As Integer) As Double
         Get
             Return _experiments(i)
@@ -123,10 +132,19 @@ Public Class DataFrameRow : Implements INamedValue, IVector
         Return table
     End Function
 
+    ''' <summary>
+    ''' Cast current expression vector as the standard math <see cref="Vector"/> object.
+    ''' </summary>
+    ''' <returns></returns>
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function CreateVector() As Vector
         Return experiments.AsVector
     End Function
 
+    ''' <summary>
+    ''' get sum of current expression vector
+    ''' </summary>
+    ''' <returns></returns>
     Public Function Sum() As Double
         Return experiments.Sum
     End Function
