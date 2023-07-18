@@ -1351,9 +1351,27 @@ Namespace Text
             Else
                 Dim sb As New List(Of String)
                 Dim chs As Char() = str.ToCharArray()
+                Dim tmp As New List(Of Char)
+                Dim zero As Char = Chr(0)
+                Dim max As Char = Chr(255)
 
                 For Each c As Char In chs
-                    Call sb.Add(PinYin(c))
+                    If c > zero AndAlso c <= max Then
+                        ' is ascii char
+                        Call tmp.Add(c)
+                    ElseIf c = ASCII.TAB OrElse c = " "c Then
+                        If tmp.Count > 0 Then
+                            Call sb.Add(New String(tmp.ToArray))
+                            Call tmp.Clear()
+                        End If
+                    Else
+                        If tmp.Count > 0 Then
+                            Call sb.Add(New String(tmp.ToArray))
+                            Call tmp.Clear()
+                        End If
+
+                        Call sb.Add(PinYin(c))
+                    End If
                 Next
 
                 Return sb.JoinBy(sep)
