@@ -212,7 +212,7 @@ Module DEGSample
                 .sample_name = si.sample_name,
                 .shape = si.shape
             })
-            Call removePending.AddRange(from_groups)
+            Call removePending.AddRange(from_groups.TryCast(Of String()))
         Next
 
         For Each label As String In removePending.Distinct
