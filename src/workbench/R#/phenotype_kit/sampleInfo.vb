@@ -66,6 +66,8 @@ Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
+Imports SMRUCC.Rsharp.Interpreter.ExecuteEngine
+Imports SMRUCC.Rsharp.Interpreter.ExecuteEngine.ExpressionSymbols.DataSets
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.ConsolePrinter
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
@@ -186,11 +188,18 @@ Module DEGSample
         Dim removePending As New List(Of String)
 
         For Each design In designs.slots
-            Dim new_groupID As String
-            Dim from_groups As String()
+            Dim new_groupID As String = design.Key
+            Dim from_groups = FormulaExpression.GetSymbols(DirectCast(design.Value, Expression))
             Dim currents As New List(Of SampleInfo)
 
-            For Each label As String In from_groups
+            If from_groups Like GetType(Exception) Then
+                Return Internal.debug.stop({
+                    $"invalid expression for the formula: {from_groups.TryCast(Of Exception).ToString}",
+                    $"new group label: {new_groupID}"
+                }, env)
+            End If
+
+            For Each label As String In from_groups.TryCast(Of String())
                 Call currents.AddRange(samplegroups(label))
             Next
 
