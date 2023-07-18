@@ -1,57 +1,58 @@
 ﻿#Region "Microsoft.VisualBasic::cf00493921b672bc80f9d07a9ab7d6fc, R#\phenotype_kit\sampleInfo.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 251
-    '    Code Lines: 195
-    ' Comment Lines: 22
-    '   Blank Lines: 34
-    '     File Size: 10.07 KB
+' Summaries:
 
 
-    ' Module DEGSample
-    ' 
-    '     Function: getSampleId, guessSampleGroups, PopulateSampleInfo, print, ReadSampleInfo
-    '               sampleinfoTable, sampleInfoTable, ScanForSampleInfo, WriteSampleInfo
-    ' 
-    '     Sub: Main
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 251
+'    Code Lines: 195
+' Comment Lines: 22
+'   Blank Lines: 34
+'     File Size: 10.07 KB
+
+
+' Module DEGSample
+' 
+'     Function: getSampleId, guessSampleGroups, PopulateSampleInfo, print, ReadSampleInfo
+'               sampleinfoTable, sampleInfoTable, ScanForSampleInfo, WriteSampleInfo
+' 
+'     Sub: Main
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection
@@ -65,13 +66,15 @@ Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
+Imports SMRUCC.Rsharp.Interpreter.ExecuteEngine
+Imports SMRUCC.Rsharp.Interpreter.ExecuteEngine.ExpressionSymbols.DataSets
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.ConsolePrinter
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
-Imports REnv = SMRUCC.Rsharp.Runtime
-Imports Rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 Imports SMRUCC.Rsharp.Runtime.Vectorization
+Imports Rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
+Imports REnv = SMRUCC.Rsharp.Runtime
 
 ''' <summary>
 ''' GCModeller DEG experiment analysis designer toolkit
@@ -152,6 +155,83 @@ Module DEGSample
         Next
     End Function
 
+    ' design(sampleinfo,  A = B+C+D );
+
+    ''' <summary>
+    ''' Create new analysis design sample info via formula
+    ''' </summary>
+    ''' <param name="sampleinfo"></param>
+    ''' <param name="designs"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("design")>
+    <RApiReturn(GetType(SampleInfo))>
+    Public Function DesignAnalysis(<RRawVectorArgument> sampleinfo As Object,
+                                   <RListObjectArgument>
+                                   <RLazyExpression>
+                                   Optional designs As list = Nothing,
+                                   Optional env As Environment = Nothing) As Object
+
+        Dim sampleinfos As pipeline = pipeline.TryCreatePipeline(Of SampleInfo)(sampleinfo, env)
+
+        If sampleinfos.isError Then
+            Return sampleinfos.getError
+        End If
+
+        Dim samplegroups = sampleinfos.populates(Of SampleInfo)(env) _
+            .GroupBy(Function(si) si.sample_info) _
+            .ToDictionary(Function(a) a.Key,
+                          Function(a)
+                              Return a.ToArray
+                          End Function)
+        Dim new_groups As New List(Of SampleInfo)
+        Dim removePending As New List(Of String)
+
+        For Each design In designs.slots
+            Dim new_groupID As String = design.Key
+            Dim from_groups = FormulaExpression.GetSymbols(DirectCast(design.Value, Expression))
+            Dim currents As New List(Of SampleInfo)
+
+            If from_groups Like GetType(Exception) Then
+                Return Internal.debug.stop({
+                    $"invalid expression for the formula: {from_groups.TryCast(Of Exception).ToString}",
+                    $"new group label: {new_groupID}"
+                }, env)
+            End If
+
+            For Each label As String In from_groups.TryCast(Of String())
+                Call currents.AddRange(samplegroups(label))
+            Next
+
+            Call new_groups.AddRange(From si In currents Select New SampleInfo With {
+                .batch = si.batch,
+                .color = si.color,
+                .ID = si.ID,
+                .injectionOrder = si.injectionOrder,
+                .sample_info = new_groupID,
+                .sample_name = si.sample_name,
+                .shape = si.shape
+            })
+            Call removePending.AddRange(from_groups)
+        Next
+
+        For Each label As String In removePending.Distinct
+            Call samplegroups.Remove(label)
+        Next
+
+        Call new_groups.AddRange(samplegroups.Values.IteratesALL)
+
+        Return new_groups.ToArray
+    End Function
+
+    ''' <summary>
+    ''' Read the sampleinfo data table from a given csv file
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <param name="tsv"></param>
+    ''' <param name="exclude_groups"></param>
+    ''' <param name="id_makenames"></param>
+    ''' <returns></returns>
     <ExportAPI("read.sampleinfo")>
     Public Function ReadSampleInfo(file As String,
                                    Optional tsv As Boolean = False,
@@ -199,7 +279,17 @@ Module DEGSample
         Return samples
     End Function
 
+    ''' <summary>
+    ''' save sampleinfo data as csv file
+    ''' </summary>
+    ''' <param name="sampleinfo"></param>
+    ''' <param name="file"></param>
+    ''' <returns></returns>
+    ''' <remarks>
+    ''' You also can save the sampleinfo data directly via the ``write.csv`` function.
+    ''' </remarks>
     <ExportAPI("write.sampleinfo")>
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function WriteSampleInfo(sampleinfo As SampleInfo(), file$) As Boolean
         Return sampleinfo.SaveTo(file)
     End Function
@@ -256,9 +346,20 @@ Module DEGSample
         Return list.ToArray
     End Function
 
+    ''' <summary>
+    ''' Get sample id collection from a speicifc sample data groups
+    ''' </summary>
+    ''' <param name="sampleinfo"></param>
+    ''' <param name="groups"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("sampleId")>
     <RApiReturn(GetType(String))>
-    Public Function getSampleId(<RRawVectorArgument> sampleinfo As Object, groups As String(), Optional env As Environment = Nothing) As Object
+    Public Function getSampleId(<RRawVectorArgument>
+                                sampleinfo As Object,
+                                groups As String(),
+                                Optional env As Environment = Nothing) As Object
+
         Dim info As pipeline = pipeline.TryCreatePipeline(Of SampleInfo)(sampleinfo, env)
 
         If info.isError Then
