@@ -1,3 +1,5 @@
+require(GCModeller);
+
 imports "sampleInfo" from "phenotype_kit";
 
 let new1 = sampleInfo::design(
