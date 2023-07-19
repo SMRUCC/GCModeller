@@ -137,7 +137,7 @@ Module DEGSample
 
     Private Iterator Function PopulateSampleInfo(list As Dictionary(Of String, Object)) As IEnumerable(Of SampleInfo)
         Dim colors As LoopArray(Of String) = Designer _
-            .GetColors("Set1:c8", list.Count) _
+            .GetColors("Paper", list.Count) _
             .Select(Function(c) c.ToHtmlColor) _
             .ToArray
 
@@ -153,6 +153,51 @@ Module DEGSample
                 }
             Next
         Next
+    End Function
+
+    ''' <summary>
+    ''' get/set the group colors
+    ''' </summary>
+    ''' <param name="sampleinfo"></param>
+    ''' <param name="colorSet"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("group.colors")>
+    Public Function groupColors(sampleinfo As SampleInfo(),
+                                <RByRefValueAssign>
+                                Optional colorSet As Object = Nothing,
+                                Optional env As Environment = Nothing) As Object
+
+        If colorSet Is Nothing Then
+            ' just get colorset
+            Return New list With {
+                .slots = sampleinfo _
+                    .GroupBy(Function(a) a.sample_info) _
+                    .ToDictionary(Function(a) a.Key,
+                                  Function(a)
+                                      Return CObj(a.First.color)
+                                  End Function)
+            }
+        Else
+            ' set colors to the sample group
+            Dim groups = sampleinfo _
+                .GroupBy(Function(a) a.sample_info) _
+                .ToArray
+            Dim colors As LoopArray(Of String) = Designer _
+                .GetColors(RColorPalette.getColorSet(colorSet, [default]:="paper")) _
+                .Select(Function(c) c.ToHtmlColor) _
+                .ToArray
+
+            For Each grp In groups
+                Dim htmlCode As String = ++colors
+
+                For Each sample In grp
+                    sample.color = htmlCode
+                Next
+            Next
+
+            Return sampleinfo
+        End If
     End Function
 
     ' design(sampleinfo,  A = B+C+D );
@@ -212,7 +257,7 @@ Module DEGSample
                 .sample_name = si.sample_name,
                 .shape = si.shape
             })
-            Call removePending.AddRange(from_groups)
+            Call removePending.AddRange(from_groups.TryCast(Of String()))
         Next
 
         For Each label As String In removePending.Distinct
