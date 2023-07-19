@@ -22,6 +22,21 @@ declare namespace sampleInfo {
      * + default value Is ``null``.
    */
    function design(sampleinfo: any, designs?: object, env?: object): object;
+   module group {
+      /**
+       * get/set the group colors
+       * 
+       * 
+        * @param sampleinfo -
+        * @param colorSet -
+        * 
+        * + default value Is ``null``.
+        * @param env -
+        * 
+        * + default value Is ``null``.
+      */
+      function colors(sampleinfo: object, colorSet?: any, env?: object): any;
+   }
    module guess {
       /**
        * try to parse the sampleInfo data from the
