@@ -70,7 +70,7 @@ Imports REnv = SMRUCC.Rsharp.Runtime
 Imports XmlOffset = SMRUCC.genomics.GCModeller.ModellingEngine.IO.vcXML.XML.offset
 
 ''' <summary>
-''' 
+''' the virtual cell raw data
 ''' </summary>
 <Package("rawXML", Category:=APICategories.UtilityTools, Publisher:="gg.xie@bionovogene.com")>
 Module RawXmlKit
