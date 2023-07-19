@@ -9,6 +9,34 @@
  * 
 */
 declare namespace sampleInfo {
+   /**
+    * Create new analysis design sample info via formula
+    * 
+    * 
+     * @param sampleinfo -
+     * @param designs -
+     * 
+     * + default value Is ``null``.
+     * @param env -
+     * 
+     * + default value Is ``null``.
+   */
+   function design(sampleinfo: any, designs?: object, env?: object): object;
+   module group {
+      /**
+       * get/set the group colors
+       * 
+       * 
+        * @param sampleinfo -
+        * @param colorSet -
+        * 
+        * + default value Is ``null``.
+        * @param env -
+        * 
+        * + default value Is ``null``.
+      */
+      function colors(sampleinfo: object, colorSet?: any, env?: object): any;
+   }
    module guess {
       /**
        * try to parse the sampleInfo data from the
@@ -26,14 +54,31 @@ declare namespace sampleInfo {
    }
    module read {
       /**
-        * @param tsv default value Is ``false``.
-        * @param exclude_groups default value Is ``null``.
-        * @param id_makenames default value Is ``false``.
+       * Read the sampleinfo data table from a given csv file
+       * 
+       * 
+        * @param file -
+        * @param tsv -
+        * 
+        * + default value Is ``false``.
+        * @param exclude_groups -
+        * 
+        * + default value Is ``null``.
+        * @param id_makenames -
+        * 
+        * + default value Is ``false``.
       */
       function sampleinfo(file: string, tsv?: boolean, exclude_groups?: string, id_makenames?: boolean): object;
    }
    /**
-     * @param env default value Is ``null``.
+    * Get sample id collection from a speicifc sample data groups
+    * 
+    * 
+     * @param sampleinfo -
+     * @param groups -
+     * @param env -
+     * 
+     * + default value Is ``null``.
    */
    function sampleId(sampleinfo: any, groups: string, env?: object): string;
    module sampleinfo {
@@ -60,6 +105,12 @@ declare namespace sampleInfo {
    function sampleInfo(ID: string, sample_name: string, sample_info: string, env?: object): object;
    module write {
       /**
+       * save sampleinfo data as csv file
+       * 
+       * > You also can save the sampleinfo data directly via the ``write.csv`` function.
+       * 
+        * @param sampleinfo -
+        * @param file -
       */
       function sampleinfo(sampleinfo: object, file: string): boolean;
    }
