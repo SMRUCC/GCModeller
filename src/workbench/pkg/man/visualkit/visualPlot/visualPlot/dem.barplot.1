@@ -12,6 +12,44 @@ dem.barplot \-
 \fBheadN\fR as integer = 60, 
 \fBppi\fR as integer = 300, 
 [\fB<Environment>\fR]);\fR
+.SH OPTIONS
+.PP
+\fBsample\fB \fR\- 
+ DAM data between sample group comparisions, this parameter 
+ has two data format:
+ 
+ 1. dataframe - should contains at least two data fields: up and down, 
+    field values of up and down is the DAM counts number. row data in
+    dataframe is the sample comparision groups
+ 2. list - elements in the list is the sample comparision groups and 
+    each element slot values should be a tuple list which contains the 
+    DAM id vector, and each id vector is named up and down.
+. 
+.PP
+.PP
+\fBupName\fB \fR\- -. 
+.PP
+.PP
+\fBdownName\fB \fR\- -. 
+.PP
+.PP
+\fBsize\fB \fR\- -. 
+.PP
+.PP
+\fBpadding\fB \fR\- -. 
+.PP
+.PP
+\fBtitle\fB \fR\- -. 
+.PP
+.PP
+\fBheadN\fB \fR\- -. 
+.PP
+.PP
+\fBppi\fB \fR\- -. 
+.PP
+.PP
+\fBenv\fB \fR\- -. 
+.PP
 .SH SEE ALSO
 visualPlot
 .SH FILES
