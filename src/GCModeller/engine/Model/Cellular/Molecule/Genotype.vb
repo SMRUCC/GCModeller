@@ -56,12 +56,12 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Vector
 Namespace Cellular.Molecule
 
     ''' <summary>
-    ''' 目标细胞模型的基因组模型
+    ''' The genome information, contains the gene expression information.(目标细胞模型的基因组模型)
     ''' </summary>
     Public Structure Genotype : Implements IEnumerable(Of CentralDogma)
 
         ''' <summary>
-        ''' 假设基因组之中的基因型定义信息全部都是由中心法则来构成的
+        ''' The gene expression event model.(假设基因组之中的基因型定义信息全部都是由中心法则来构成的)
         ''' </summary>
         ''' <remarks>
         ''' 请注意，当前的模块之中所定义的计算模型和GCMarkup之类的数据模型在看待基因组的构成上面的角度是有一些差异的：
@@ -74,7 +74,13 @@ Namespace Cellular.Molecule
         ''' </remarks>
         Dim centralDogmas As CentralDogma()
 
+        ''' <summary>
+        ''' The RNA molecule compositions
+        ''' </summary>
         Dim RNAMatrix As RNAComposition()
+        ''' <summary>
+        ''' The protein molecule compositions
+        ''' </summary>
         Dim ProteinMatrix As ProteinComposition()
 
         Public Overrides Function ToString() As String

@@ -74,10 +74,13 @@ Namespace Cellular
     ''' </remarks>
     Public Structure CellularModule
 
+        ''' <summary>
+        ''' The organism taxonomy information
+        ''' </summary>
         Public Taxonomy As Taxonomy
 
         ''' <summary>
-        ''' Genome
+        ''' Genome information
         ''' </summary>
         Public Genotype As Genotype
         ''' <summary>
