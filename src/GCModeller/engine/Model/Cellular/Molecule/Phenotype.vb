@@ -67,7 +67,7 @@ Namespace Cellular.Molecule
         Public enzymes As String()
 
         ''' <summary>
-        ''' 
+        ''' A cellular network graph consist of collection of the biological reactions
         ''' </summary>
         Public fluxes As Reaction()
 

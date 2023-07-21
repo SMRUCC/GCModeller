@@ -80,11 +80,11 @@ Namespace Cellular
         Public Taxonomy As Taxonomy
 
         ''' <summary>
-        ''' Genome information
+        ''' Genome information, usually be the gene expression event data
         ''' </summary>
         Public Genotype As Genotype
         ''' <summary>
-        ''' Metabolome
+        ''' Metabolome, usually be the cellular chemical reaction data
         ''' </summary>
         Public Phenotype As Phenotype
         ''' <summary>
