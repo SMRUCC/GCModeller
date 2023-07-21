@@ -107,7 +107,7 @@ Namespace Engine
                             Return flux.products.AsList + flux.substrates
                         End Function) _
                 .IteratesALL _
-                .Select(Function(mass) mass.text) _
+                .Select(Function(mass) mass.result) _
                 .Distinct _
                 .ToArray
 
