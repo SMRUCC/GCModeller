@@ -5,6 +5,7 @@
 // ref=vcellkit.RawXmlKit@vcellkit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 
 /**
+ * the virtual cell raw data
  * 
 */
 declare namespace rawXML {
@@ -44,6 +45,12 @@ declare namespace rawXML {
       function matrix(raw: string, tick: object, stream: any, env?: object): any;
    }
    module open {
+      /**
+        * @param mode default value Is ``'read'``.
+        * @param args default value Is ``null``.
+        * @param env default value Is ``null``.
+      */
+      function vcellPack(file: string, mode?: string, args?: any, env?: object): any;
       /**
        * open gcXML raw data file for read/write
        * 
