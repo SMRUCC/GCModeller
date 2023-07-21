@@ -82,13 +82,13 @@ Namespace Raw
         ''' </summary>
         Dim offsets As New List(Of (time#, moduleName$, offset&))
 
-        Sub New(loader As Loader, model As CellularModule, output As Stream)
+        Sub New(model As CellularModule, output As Stream)
             stream = New StreamPack(output, meta_size:=32 * 1024 * 1024)
 
-            MyBase.mRNAId = loader.GetCentralDogmaFluxLoader.mRNA
-            MyBase.RNAId = loader.GetCentralDogmaFluxLoader.componentRNA
-            MyBase.Polypeptide = loader.GetProteinMatureFluxLoader.polypeptides
-            MyBase.Proteins = loader.GetProteinMatureFluxLoader.proteinComplex
+            MyBase.mRNAId = model.Genotype.centralDogmas.Where(Function(g) g.RNA.Value = RNATypes.mRNA).Select(Function(c) c.RNAName).Indexing
+            MyBase.RNAId = model.Genotype.centralDogmas.Where(Function(g) g.RNA.Value <> RNATypes.mRNA).Select(Function(c) c.RNAName).Indexing
+            MyBase.Polypeptide = model.Genotype.centralDogmas.Where(Function(g) g.RNA.Value = RNATypes.mRNA).Select(Function(c) c.polypeptide).Indexing
+            MyBase.Proteins = model.Phenotype.proteins.Select(Function(p) p.ProteinID).Indexing
             MyBase.Metabolites = model.Phenotype.fluxes _
                 .Select(Function(r) r.AllCompounds) _
                 .IteratesALL _
