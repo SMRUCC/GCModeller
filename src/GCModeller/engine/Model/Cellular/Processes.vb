@@ -57,7 +57,7 @@
 Namespace Cellular
 
     ''' <summary>
-    ''' 过程类型
+    ''' The enumeration of all biological process category.(枚举出所有生物学过程类型信息)
     ''' </summary>
     Public Enum Processes
         ''' <summary>
