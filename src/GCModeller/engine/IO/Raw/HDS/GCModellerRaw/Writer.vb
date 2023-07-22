@@ -63,6 +63,7 @@ Imports Microsoft.VisualBasic.Data.IO
 Imports Microsoft.VisualBasic.DataStorage.HDSPack
 Imports Microsoft.VisualBasic.DataStorage.HDSPack.FileSystem
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
 
 Namespace Raw
@@ -78,6 +79,7 @@ Namespace Raw
 
         Sub New(model As CellularModule, output As Stream)
             stream = New StreamPack(output, meta_size:=32 * 1024 * 1024)
+            stream.Clear(32 * 1024 * 1024)
 
             MyBase.mRNAId = model.Genotype.centralDogmas.Where(Function(g) g.RNA.Value = RNATypes.mRNA).Select(Function(c) c.RNAName).Indexing
             MyBase.RNAId = model.Genotype.centralDogmas.Where(Function(g) g.RNA.Value <> RNATypes.mRNA).Select(Function(c) c.RNAName).Indexing
@@ -91,6 +93,18 @@ Namespace Raw
             MyBase.Reactions = model.Phenotype.fluxes _
                 .Select(Function(r) r.ID) _
                 .ToArray
+
+            Call stream.WriteText(
+                {
+                    New Dictionary(Of String, Integer) From {
+                        {NameOf(mRNAId), mRNAId.Count},
+                        {NameOf(RNAId), RNAId.Count},
+                        {NameOf(Polypeptide), Polypeptide.Count},
+                        {NameOf(Proteins), Proteins.Count},
+                        {NameOf(Metabolites), Metabolites.Count},
+                        {NameOf(Reactions), Reactions.Count}
+                    }.GetJson
+                }, "/.etc/count.json")
         End Sub
 
         ''' <summary>
@@ -110,7 +124,7 @@ Namespace Raw
                 Dim list$() = index.Objects
 
                 Call nameMaps.Add([module].Value.Name, name)
-                Call stream.WriteText(list.JoinBy(vbCrLf), $"/modules/{name}.txt")
+                Call stream.WriteText(list.JoinBy(vbCrLf), $"/dynamics/{[module].Value.Name}/index.txt")
                 Call Me.modules.Add(name, index)
                 Call Me.moduleIndex.Add(name)
             Next
@@ -129,7 +143,7 @@ Namespace Raw
         Public Function Write(module$, time#, snapshot As Dictionary(Of String, Double)) As Writer
             Dim index As Index(Of String) = modules(nameMaps([module]))
             Dim v As Double() = snapshot.Takes(index.Objects).ToArray
-            Dim path As String = $"/{[module]}/frames/{time}.dat"
+            Dim path As String = $"/dynamics/{[module]}/frames/{time}.dat"
 
             Call stream.Delete(path)
 
