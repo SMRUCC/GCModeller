@@ -58,12 +58,10 @@ Imports System.IO
 Imports System.Reflection
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
-Imports Microsoft.VisualBasic.ComponentModel.Ranges
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.IO
 Imports Microsoft.VisualBasic.DataStorage.HDSPack
 Imports Microsoft.VisualBasic.DataStorage.HDSPack.FileSystem
-Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 
 Namespace Raw
@@ -71,106 +69,50 @@ Namespace Raw
     Public Class Reader : Inherits CellularModules
 
         ReadOnly stream As StreamPack
+        ReadOnly tick_counts As Integer
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function AllTimePoints() As IEnumerable(Of Double)
-            Dim file As Stream = stream.OpenFile("/.etc/count.json", FileMode.Open, FileAccess.Read)
+            Dim file As Stream = stream.OpenFile("/.etc/ticks.dat", FileMode.Open, FileAccess.Read)
             Dim buf As New BinaryDataReader(file, byteOrder:=ByteOrder.BigEndian)
-            Dim count As Integer = Strings.Trim(stream.ReadText("/.etc/ticks.txt")).DoCall(AddressOf Integer.Parse)
 
-            Return buf.ReadDoubles(count)
+            Return buf.ReadDoubles(tick_counts)
         End Function
 
         Sub New(input As Stream)
-            stream = New BinaryDataReader(input)
+            stream = New StreamPack(input)
+            tick_counts = Strings.Trim(stream.ReadText("/.etc/ticks.txt")).DoCall(AddressOf Integer.Parse)
         End Sub
+
+        Public Function GetMoleculeIdList() As Dictionary(Of String, String())
+            Return modules.ToDictionary(Function(m) m.Key, Function(m) m.Value.Objects)
+        End Function
 
         Public Function LoadIndex() As Reader
             Dim modules As Dictionary(Of String, PropertyInfo) = Me.GetModuleReader
+            Dim root As StreamGroup = stream.GetObject(fileName:="/dynamics/")
 
-            Call stream.Seek(0, SeekOrigin.Begin)
-            Call moduleIndex.Clear()
-            Call Me.modules.Clear()
+            For Each file As StreamBlock In root.ListFiles().Where(Function(f) f.referencePath.FileName = "index.txt")
+                Dim moduName As String = file.referencePath.DirectoryPath.BaseName
+                Dim list As String() = Strings.Trim(stream.ReadText(file)).LineTokens
 
-            If stream.ReadString(Magic.Length) <> Magic Then
-                Throw New InvalidDataException("Invalid magic string!")
-            Else
-                ' read headers
-                For i As Integer = 0 To modules.Count - 1
-                    Dim name = stream.ReadDwordLenString
-                    Dim n = stream.ReadInt32
-                    Dim list As New Index(Of String)
-
-                    For j As Integer = 0 To n - 1
-                        Call list.Add(stream.ReadString(BinaryStringFormat.ZeroTerminated))
-                    Next
-
-                    Call moduleIndex.Add(name)
-                    Call modules(name).SetValue(Me, list)
-                Next
-
-                Call stream.Seek(stream.Length - 8, SeekOrigin.Begin)
-                Call readIndex()
-            End If
+                Me.modules.Add(moduName, list)
+                modules(moduName).SetValue(Me, list.Indexing)
+            Next
 
             Return Me
         End Function
 
-        Private Sub readIndex()
-            ' read index
-            Dim offset& = stream.ReadInt64
-            Dim indexSelector As New List(Of NumericTagged(Of Dictionary(Of String, Long)))
-
-            ' 索引按照time降序排序，结构为
-            ' 
-            ' - double time
-            ' - integer index，从零开始的索引号
-            ' - long() 按照modules顺序排序的offset值的集合
-            ' - long 当前数据块的起始的offset偏移
-            '
-            Call stream.Seek(offset, SeekOrigin.Begin)
-
-            Do While True
-                Dim time As Double = stream.ReadDouble
-                Dim index% = stream.ReadInt32
-                Dim offsets&() = stream.ReadInt64s(moduleIndex.Count)
-
-                indexSelector += New NumericTagged(Of Dictionary(Of String, Long)) With {
-                    .tag = time,
-                    .value = moduleIndex _
-                        .ToDictionary(Function(m) m.value,
-                                      Function(i)
-                                          Return offsets(i)
-                                      End Function)
-                }
-                offset = offset - 8
-
-                If index = 0 Then
-                    Exit Do
-                Else
-                    ' offset chain block
-                    Call stream.Seek(offset, SeekOrigin.Begin)
-                    Call offset.InlineCopy(stream.ReadInt64)
-                End If
-            Loop
-
-            offsetIndex = New OrderSelector(Of NumericTagged(Of Dictionary(Of String, Long)))(indexSelector)
-        End Sub
-
         Public Function Read(time#, module$) As Dictionary(Of String, Double)
-            Dim index = offsetIndex.Find(time, Function(t) t.tag)
-            Dim offset As Long = index.value([module])
+            Dim index = $"/dynamics/{[module]}/frames/{time}.dat"
+            Dim offset As Stream = stream.OpenBlock(index)
+            Dim buf As New BinaryDataReader(offset, byteOrder:=ByteOrder.BigEndian)
 
-            Return ReadModule(offset).data
+            Return ReadModule(module$, buf)
         End Function
 
-        Public Function ReadModule(offset As Long) As (time#, data As Dictionary(Of String, Double))
-            ' - double time 时间值
-            ' - byte 在header之中的module的索引号
-            ' - double() data块，每一个值的顺序是和header之中的id排布顺序是一样的，长度和header之中的id列表保持一致
-            Dim time As Double = stream.ReadDouble
-            Dim moduleIndex As Integer = stream.ReadByte
-            Dim list As Index(Of String) = modules(Me.moduleIndex(index:=moduleIndex))
+        Public Function ReadModule(module$, stream As BinaryDataReader) As Dictionary(Of String, Double)
+            Dim list As Index(Of String) = modules([module])
             Dim data#() = stream.ReadDoubles(list.Count)
             Dim values As Dictionary(Of String, Double) = list _
                 .ToDictionary(Function(id) id.value,
@@ -178,26 +120,11 @@ Namespace Raw
                                   Return data(i)
                               End Function)
 
-            Return (time, values)
+            Return values
         End Function
 
         Public Iterator Function PopulateFrames() As IEnumerable(Of (time#, frame As Dictionary(Of DataSet)))
-            For Each timeFrame In offsetIndex
-                Dim time# = timeFrame.tag
-                Dim frame As New Dictionary(Of DataSet)
 
-                For Each [module] As String In moduleIndex.Objects
-                    Dim offset& = timeFrame.value([module])
-                    Dim data = ReadModule(offset).data
-
-                    frame([module]) = New DataSet With {
-                        .ID = [module],
-                        .Properties = data
-                    }
-                Next
-
-                Yield (time, frame)
-            Next
         End Function
     End Class
 End Namespace
