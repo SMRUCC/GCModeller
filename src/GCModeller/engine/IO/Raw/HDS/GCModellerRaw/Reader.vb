@@ -63,6 +63,7 @@ Imports Microsoft.VisualBasic.Data.IO
 Imports Microsoft.VisualBasic.DataStorage.HDSPack
 Imports Microsoft.VisualBasic.DataStorage.HDSPack.FileSystem
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Raw
 
@@ -83,6 +84,11 @@ Namespace Raw
             stream = New StreamPack(input)
             tick_counts = Strings.Trim(stream.ReadText("/.etc/ticks.txt")).DoCall(AddressOf Integer.Parse)
         End Sub
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function GetIdCounts() As Dictionary(Of String, Integer)
+            Return stream.ReadText("/.etc/count.json").LoadJSON(Of Dictionary(Of String, Integer))
+        End Function
 
         Public Function GetMoleculeIdList() As Dictionary(Of String, String())
             Return modules.ToDictionary(Function(m) m.Key, Function(m) m.Value.Objects)
