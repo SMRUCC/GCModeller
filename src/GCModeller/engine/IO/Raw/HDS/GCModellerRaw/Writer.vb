@@ -135,8 +135,8 @@ Namespace Raw
         ''' <summary>
         ''' 
         ''' </summary>
-        ''' <param name="module$"></param>
-        ''' <param name="time#"></param>
+        ''' <param name="module">the molecule data types</param>
+        ''' <param name="time">the time tick point</param>
         ''' <param name="snapshot">The snapshot value after the loop cycle in <paramref name="time"/> point</param>
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

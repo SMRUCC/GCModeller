@@ -50,6 +50,7 @@
 
 #End Region
 
+Imports System.IO
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv.IO
@@ -85,7 +86,7 @@ Module RawXmlKit
         Dim arguments As list = Internal.Invokes.base.Rlist(args, env)
 
         If LCase(mode) = "read" Then
-            Return New vcXML.Reader(file)
+            Return New Raw.Reader(file.Open(FileMode.Open, doClear:=False, [readOnly]:=True))
         ElseIf LCase(mode) = "write" Then
             Dim vcell As Engine = arguments.getValue(Of Engine)("vcell", env)
 
