@@ -1,56 +1,56 @@
 ﻿#Region "Microsoft.VisualBasic::bc5c43abef65a72bcfa0dc687855cc79, GCModeller\engine\IO\Raw\GCModellerRaw\Reader.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 145
-    '    Code Lines: 102
-    ' Comment Lines: 16
-    '   Blank Lines: 27
-    '     File Size: 5.66 KB
+' Summaries:
 
 
-    '     Class Reader
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: AllTimePoints, LoadIndex, PopulateFrames, Read, ReadModule
-    ' 
-    '         Sub: readIndex
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 145
+'    Code Lines: 102
+' Comment Lines: 16
+'   Blank Lines: 27
+'     File Size: 5.66 KB
+
+
+'     Class Reader
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'         Function: AllTimePoints, LoadIndex, PopulateFrames, Read, ReadModule
+' 
+'         Sub: readIndex
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -61,22 +61,24 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Ranges
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.IO
+Imports Microsoft.VisualBasic.DataStorage.HDSPack
+Imports Microsoft.VisualBasic.DataStorage.HDSPack.FileSystem
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 
 Namespace Raw
 
     Public Class Reader : Inherits CellularModules
 
-        ReadOnly stream As BinaryDataReader
-
-        ''' <summary>
-        ''' 按照时间升序排序的
-        ''' </summary>
-        Dim offsetIndex As OrderSelector(Of NumericTagged(Of Dictionary(Of String, Long)))
+        ReadOnly stream As StreamPack
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function AllTimePoints() As IEnumerable(Of Double)
-            Return offsetIndex.Select(Function(t) t.tag)
+            Dim file As Stream = stream.OpenFile("/.etc/count.json", FileMode.Open, FileAccess.Read)
+            Dim buf As New BinaryDataReader(file, byteOrder:=ByteOrder.BigEndian)
+            Dim count As Integer = Strings.Trim(stream.ReadText("/.etc/ticks.txt")).DoCall(AddressOf Integer.Parse)
+
+            Return buf.ReadDoubles(count)
         End Function
 
         Sub New(input As Stream)

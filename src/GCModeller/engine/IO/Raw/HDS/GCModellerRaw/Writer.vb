@@ -76,6 +76,7 @@ Namespace Raw
 
         ReadOnly stream As StreamPack
         ReadOnly nameMaps As New Dictionary(Of String, String)
+        ReadOnly ticks As New List(Of Double)
 
         Sub New(model As CellularModule, output As Stream)
             stream = New StreamPack(output, meta_size:=32 * 1024 * 1024)
@@ -117,6 +118,7 @@ Namespace Raw
             Call Me.modules.Clear()
             Call Me.moduleIndex.Clear()
             Call Me.nameMaps.Clear()
+            Call Me.ticks.Clear()
 
             For Each [module] As NamedValue(Of PropertyInfo) In modules.NamedValues
                 Dim name$ = [module].Name
@@ -146,6 +148,7 @@ Namespace Raw
             Dim path As String = $"/dynamics/{[module]}/frames/{time}.dat"
 
             Call stream.Delete(path)
+            Call ticks.Add(time)
 
             Using file As Stream = stream.OpenFile(path, FileMode.OpenOrCreate, FileAccess.Write)
                 Call New BinaryDataWriter(file, ByteOrder.BigEndian).Write(v)
@@ -155,6 +158,14 @@ Namespace Raw
         End Function
 
         Protected Overrides Sub Dispose(disposing As Boolean)
+            Dim ticks = Me.ticks.Distinct.OrderBy(Function(ti) ti).ToArray
+
+            Using file As Stream = stream.OpenFile("/.etc/ticks.dat", FileMode.OpenOrCreate, FileAccess.Write)
+                Call New BinaryDataWriter(file, byteOrder:=ByteOrder.BigEndian).Write(ticks)
+            End Using
+
+            Call stream.WriteText({ticks.Length.ToString}, "/.etc/ticks.txt")
+
             Call stream.Close()
             Call stream.Dispose()
 
