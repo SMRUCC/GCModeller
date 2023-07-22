@@ -128,8 +128,10 @@ Namespace Raw
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Write(module$, time#, snapshot As Dictionary(Of String, Double)) As Writer
             Dim index As Index(Of String) = modules(nameMaps([module]))
-            Dim v As Double() = snapshot.Takes(index).ToArray
+            Dim v As Double() = snapshot.Takes(index.Objects).ToArray
             Dim path As String = $"/{[module]}/frames/{time}.dat"
+
+            Call stream.Delete(path)
 
             Using file As Stream = stream.OpenFile(path, FileMode.OpenOrCreate, FileAccess.ReadWrite)
                 Call New BinaryDataWriter(file, ByteOrder.BigEndian).Write(v)
