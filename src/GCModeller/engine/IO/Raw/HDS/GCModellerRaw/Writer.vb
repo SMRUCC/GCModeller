@@ -62,7 +62,6 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.IO
 Imports Microsoft.VisualBasic.DataStorage.HDSPack
 Imports Microsoft.VisualBasic.DataStorage.HDSPack.FileSystem
-Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
 
@@ -75,11 +74,7 @@ Namespace Raw
     Public Class Writer : Inherits CellularModules
 
         ReadOnly stream As StreamPack
-
-        ''' <summary>
-        ''' 写在文件最末尾的，用于建立二叉树索引？
-        ''' </summary>
-        Dim offsets As New List(Of (time#, moduleName$, offset&))
+        ReadOnly nameMaps As New Dictionary(Of String, String)
 
         Sub New(model As CellularModule, output As Stream)
             stream = New StreamPack(output, meta_size:=32 * 1024 * 1024)
@@ -107,12 +102,14 @@ Namespace Raw
 
             Call Me.modules.Clear()
             Call Me.moduleIndex.Clear()
+            Call Me.nameMaps.Clear()
 
             For Each [module] As NamedValue(Of PropertyInfo) In modules.NamedValues
                 Dim name$ = [module].Name
                 Dim index As Index(Of String) = [module].Value.GetValue(Me)
                 Dim list$() = index.Objects
 
+                Call nameMaps.Add([module].Value.Name, name)
                 Call stream.WriteText(list.JoinBy(vbCrLf), $"/modules/{name}.txt")
                 Call Me.modules.Add(name, index)
                 Call Me.moduleIndex.Add(name)
@@ -130,7 +127,8 @@ Namespace Raw
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Write(module$, time#, snapshot As Dictionary(Of String, Double)) As Writer
-            Dim v As Double() = snapshot.Takes(modules([module]).Objects).ToArray
+            Dim index As Index(Of String) = modules(nameMaps([module]))
+            Dim v As Double() = snapshot.Takes(index).ToArray
             Dim path As String = $"/{[module]}/frames/{time}.dat"
 
             Using file As Stream = stream.OpenFile(path, FileMode.OpenOrCreate, FileAccess.ReadWrite)
