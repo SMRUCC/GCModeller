@@ -133,7 +133,7 @@ Namespace Raw
 
             Call stream.Delete(path)
 
-            Using file As Stream = stream.OpenFile(path, FileMode.OpenOrCreate, FileAccess.ReadWrite)
+            Using file As Stream = stream.OpenFile(path, FileMode.OpenOrCreate, FileAccess.Write)
                 Call New BinaryDataWriter(file, ByteOrder.BigEndian).Write(v)
             End Using
 
