@@ -369,6 +369,7 @@ Namespace BarPlot
             Dim xsz As SizeF
             Dim xpos As PointF
             Dim xlabel$
+            Dim round As Integer = 0
 
             For Each part As Signal In query
                 For Each o As (x#, value#) In part.signals
@@ -385,6 +386,7 @@ Namespace BarPlot
                         xpos = New PointF(rect.Left + (rect.Width - xsz.Width) / 2, rect.Top - xsz.Height)
                         text = New TextRectangle(xlabel, New RectangleF(xpos, xsz))
                         move = False
+                        round = 0
 
                         Call textCloud.add_label(text)
 
@@ -402,6 +404,12 @@ Namespace BarPlot
                                 text = New TextRectangle(xlabel, New RectangleF(nextPos, xsz))
                                 xpos = nextPos
                                 Call textCloud.add_label(text)
+                            End If
+
+                            If round > 100 Then
+                                Exit Do
+                            Else
+                                round += 1
                             End If
                         Loop
 
@@ -435,6 +443,7 @@ Namespace BarPlot
                         xpos = New PointF(rect.Left + (rect.Width - xsz.Width) / 2, rect.Bottom + 3)
                         text = New TextRectangle(xlabel, New RectangleF(xpos, xsz))
                         move = False
+                        round = 0
 
                         Call textCloud.add_label(text)
 
@@ -452,6 +461,12 @@ Namespace BarPlot
                                 text = New TextRectangle(xlabel, New RectangleF(nextPos, xsz))
                                 xpos = nextPos
                                 Call textCloud.add_label(text)
+                            End If
+
+                            If round > 100 Then
+                                Exit Do
+                            Else
+                                round += 1
                             End If
                         Loop
 
