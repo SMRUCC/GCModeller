@@ -119,10 +119,10 @@ Namespace Engine
         Public Function variables(compounds As IEnumerable(Of FactorString(Of Double)), templates As Index(Of String)) As IEnumerable(Of Variable)
             Return compounds _
                 .Select(Function(cpd)
-                            If cpd.text Like templates Then
-                                Return Me.template(cpd.text)
+                            If cpd.result Like templates Then
+                                Return Me.template(cpd.result)
                             Else
-                                Return Me.variable(cpd.text, cpd.factor)
+                                Return Me.variable(cpd.result, cpd.factor)
                             End If
                         End Function)
         End Function

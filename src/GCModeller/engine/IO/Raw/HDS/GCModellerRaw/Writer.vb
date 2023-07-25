@@ -62,9 +62,8 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.IO
 Imports Microsoft.VisualBasic.DataStorage.HDSPack
 Imports Microsoft.VisualBasic.DataStorage.HDSPack.FileSystem
-Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.ModelLoader
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
 
 Namespace Raw
@@ -76,19 +75,17 @@ Namespace Raw
     Public Class Writer : Inherits CellularModules
 
         ReadOnly stream As StreamPack
+        ReadOnly nameMaps As New Dictionary(Of String, String)
+        ReadOnly ticks As New List(Of Double)
 
-        ''' <summary>
-        ''' 写在文件最末尾的，用于建立二叉树索引？
-        ''' </summary>
-        Dim offsets As New List(Of (time#, moduleName$, offset&))
-
-        Sub New(loader As Loader, model As CellularModule, output As Stream)
+        Sub New(model As CellularModule, output As Stream)
             stream = New StreamPack(output, meta_size:=32 * 1024 * 1024)
+            stream.Clear(32 * 1024 * 1024)
 
-            MyBase.mRNAId = loader.GetCentralDogmaFluxLoader.mRNA
-            MyBase.RNAId = loader.GetCentralDogmaFluxLoader.componentRNA
-            MyBase.Polypeptide = loader.GetProteinMatureFluxLoader.polypeptides
-            MyBase.Proteins = loader.GetProteinMatureFluxLoader.proteinComplex
+            MyBase.mRNAId = model.Genotype.centralDogmas.Where(Function(g) g.RNA.Value = RNATypes.mRNA).Select(Function(c) c.RNAName).Indexing
+            MyBase.RNAId = model.Genotype.centralDogmas.Where(Function(g) g.RNA.Value <> RNATypes.mRNA).Select(Function(c) c.RNAName).Indexing
+            MyBase.Polypeptide = model.Genotype.centralDogmas.Where(Function(g) g.RNA.Value = RNATypes.mRNA).Select(Function(c) c.polypeptide).Indexing
+            MyBase.Proteins = model.Phenotype.proteins.Select(Function(p) p.ProteinID).Indexing
             MyBase.Metabolites = model.Phenotype.fluxes _
                 .Select(Function(r) r.AllCompounds) _
                 .IteratesALL _
@@ -97,6 +94,18 @@ Namespace Raw
             MyBase.Reactions = model.Phenotype.fluxes _
                 .Select(Function(r) r.ID) _
                 .ToArray
+
+            Call stream.WriteText(
+                {
+                    New Dictionary(Of String, Integer) From {
+                        {NameOf(mRNAId), mRNAId.Count},
+                        {NameOf(RNAId), RNAId.Count},
+                        {NameOf(Polypeptide), Polypeptide.Count},
+                        {NameOf(Proteins), Proteins.Count},
+                        {NameOf(Metabolites), Metabolites.Count},
+                        {NameOf(Reactions), Reactions.Count}
+                    }.GetJson
+                }, "/.etc/count.json")
         End Sub
 
         ''' <summary>
@@ -108,13 +117,16 @@ Namespace Raw
 
             Call Me.modules.Clear()
             Call Me.moduleIndex.Clear()
+            Call Me.nameMaps.Clear()
+            Call Me.ticks.Clear()
 
             For Each [module] As NamedValue(Of PropertyInfo) In modules.NamedValues
                 Dim name$ = [module].Name
                 Dim index As Index(Of String) = [module].Value.GetValue(Me)
                 Dim list$() = index.Objects
 
-                Call stream.WriteText(list.JoinBy(vbCrLf), $"/modules/{name}.txt")
+                Call nameMaps.Add([module].Value.Name, name)
+                Call stream.WriteText(list.JoinBy(vbCrLf), $"/dynamics/{[module].Value.Name}/index.txt")
                 Call Me.modules.Add(name, index)
                 Call Me.moduleIndex.Add(name)
             Next
@@ -125,16 +137,20 @@ Namespace Raw
         ''' <summary>
         ''' 
         ''' </summary>
-        ''' <param name="module$"></param>
-        ''' <param name="time#"></param>
+        ''' <param name="module">the molecule data types</param>
+        ''' <param name="time">the time tick point</param>
         ''' <param name="snapshot">The snapshot value after the loop cycle in <paramref name="time"/> point</param>
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Write(module$, time#, snapshot As Dictionary(Of String, Double)) As Writer
-            Dim v As Double() = snapshot.Takes(modules([module]).Objects).ToArray
-            Dim path As String = $"/{[module]}/frames/{time}.dat"
+            Dim index As Index(Of String) = modules(nameMaps([module]))
+            Dim v As Double() = snapshot.Takes(index.Objects).ToArray
+            Dim path As String = $"/dynamics/{[module]}/frames/{time}.dat"
 
-            Using file As Stream = stream.OpenFile(path, FileMode.OpenOrCreate, FileAccess.ReadWrite)
+            Call stream.Delete(path)
+            Call ticks.Add(time)
+
+            Using file As Stream = stream.OpenFile(path, FileMode.OpenOrCreate, FileAccess.Write)
                 Call New BinaryDataWriter(file, ByteOrder.BigEndian).Write(v)
             End Using
 
@@ -142,6 +158,14 @@ Namespace Raw
         End Function
 
         Protected Overrides Sub Dispose(disposing As Boolean)
+            Dim ticks = Me.ticks.Distinct.OrderBy(Function(ti) ti).ToArray
+
+            Using file As Stream = stream.OpenFile("/.etc/ticks.dat", FileMode.OpenOrCreate, FileAccess.Write)
+                Call New BinaryDataWriter(file, byteOrder:=ByteOrder.BigEndian).Write(ticks)
+            End Using
+
+            Call stream.WriteText({ticks.Length.ToString}, "/.etc/ticks.txt")
+
             Call stream.Close()
             Call stream.Dispose()
 

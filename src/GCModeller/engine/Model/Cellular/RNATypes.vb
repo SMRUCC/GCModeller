@@ -58,8 +58,17 @@ Imports System.ComponentModel
 
 Namespace Cellular
 
+    ''' <summary>
+    ''' Enumerates the data types of the RNA molecules
+    ''' </summary>
     Public Enum RNATypes As Byte
+        ''' <summary>
+        ''' Could be translate to protein pipetide
+        ''' </summary>
         mRNA = 0
+        ''' <summary>
+        ''' Helper rna molecule for the protein transaltion
+        ''' </summary>
         tRNA
 
         ''' <summary>
