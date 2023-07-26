@@ -64,6 +64,10 @@ Namespace Cellular.Molecule
         Dim polypeptides As String()
         Dim compounds As String()
 
+        ''' <summary>
+        ''' the unique id of current protein complex
+        ''' </summary>
+        ''' <returns></returns>
         Public Property ProteinID As String
 
         ''' <summary>

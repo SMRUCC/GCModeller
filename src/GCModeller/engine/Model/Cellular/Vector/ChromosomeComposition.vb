@@ -56,6 +56,9 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 
 Namespace Cellular.Vector
 
+    ''' <summary>
+    ''' the composition data of the genome DNA
+    ''' </summary>
     Public Class ChromosomeComposition : Implements IEnumerable(Of NamedValue(Of Double))
 
         Public Property repliconId As String

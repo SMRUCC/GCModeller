@@ -69,7 +69,8 @@ Namespace v2
     Public Module ModelExtensions
 
         ''' <summary>
-        ''' 将所加载的XML模型文件转换为统一的数据模型
+        ''' Load model file as the unify data model for run the downstream simulation analysis.
+        ''' (将所加载的XML模型文件转换为统一的数据模型)
         ''' </summary>
         ''' <param name="model"></param>
         ''' <returns></returns>

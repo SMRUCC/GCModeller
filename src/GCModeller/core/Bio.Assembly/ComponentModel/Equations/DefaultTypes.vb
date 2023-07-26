@@ -97,7 +97,7 @@ Namespace ComponentModel.EquaionModel.DefaultTypes
         Public Function AsFactor() As FactorString(Of Double)
             Return New FactorString(Of Double) With {
                 .factor = Stoichiometry,
-                .text = ID
+                .result = ID
             }
         End Function
 

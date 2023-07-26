@@ -74,14 +74,17 @@ Namespace Cellular
     ''' </remarks>
     Public Structure CellularModule
 
+        ''' <summary>
+        ''' The organism taxonomy information
+        ''' </summary>
         Public Taxonomy As Taxonomy
 
         ''' <summary>
-        ''' Genome
+        ''' Genome information, usually be the gene expression event data
         ''' </summary>
         Public Genotype As Genotype
         ''' <summary>
-        ''' Metabolome
+        ''' Metabolome, usually be the cellular chemical reaction data
         ''' </summary>
         Public Phenotype As Phenotype
         ''' <summary>

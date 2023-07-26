@@ -53,6 +53,10 @@
 
 Namespace Engine
 
+    ''' <summary>
+    ''' A triple of the omics data in general three levels
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
     Public Class OmicsTuple(Of T)
 
         Public ReadOnly transcriptome As T

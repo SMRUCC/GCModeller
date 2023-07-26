@@ -219,10 +219,10 @@ Public Module Workflow
     Private Function glycan2Cpd(factors As IEnumerable(Of FactorString(Of Double)), glycan2CpdMaps As Dictionary(Of String, String)) As FactorString(Of Double)()
         Return factors _
             .Select(Function(factor)
-                        If glycan2CpdMaps.ContainsKey(factor.text) Then
+                        If glycan2CpdMaps.ContainsKey(factor.result) Then
                             Return New FactorString(Of Double) With {
                                 .factor = factor.factor,
-                                .text = glycan2CpdMaps(factor.text)
+                                .result = glycan2CpdMaps(factor.result)
                             }
                         Else
                             Return factor

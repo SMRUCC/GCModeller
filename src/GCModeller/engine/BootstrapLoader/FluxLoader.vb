@@ -58,6 +58,9 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
 
 Namespace ModelLoader
 
+    ''' <summary>
+    ''' Helper module for convert the cellular module as the dynamics channels
+    ''' </summary>
     Public MustInherit Class FluxLoader
 
         Public ReadOnly Property MassTable As MassTable
