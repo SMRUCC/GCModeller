@@ -1,57 +1,61 @@
 ﻿#Region "Microsoft.VisualBasic::ecc3ad4be77e068590879110b2a5054e, GCModeller\engine\IO\Raw\Extensions.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 27
-    '    Code Lines: 18
-    ' Comment Lines: 5
-    '   Blank Lines: 4
-    '     File Size: 782 B
+' Summaries:
 
 
-    ' Module Extensions
-    ' 
-    '     Function: GetMatrix, LoadCDF
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 27
+'    Code Lines: 18
+' Comment Lines: 5
+'   Blank Lines: 4
+'     File Size: 782 B
+
+
+' Module Extensions
+' 
+'     Function: GetMatrix, LoadCDF
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.csv.IO
-Imports Microsoft.VisualBasic.DataStorage.netCDF
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.Analysis.HTS.DataFrame
+Imports HTS_Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
+Imports XmlOffset = SMRUCC.genomics.GCModeller.ModellingEngine.IO.vcXML.XML.offset
 
 <HideModuleName>
 Public Module Extensions
@@ -66,13 +70,57 @@ Public Module Extensions
         Next
     End Function
 
+    Public Function GetTimeFrames(raw As Raw.Reader, modu As String) As HTS_Matrix
+
+    End Function
+
     ''' <summary>
     ''' 读取netCDF格式的模拟计算结果数据文件
     ''' </summary>
-    ''' <param name="cdf"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function LoadCDF(cdf As netCDFReader)
+    Public Function GetTimeFrames(raw As vcXML.Reader, modu As String, type As String) As HTS_Matrix
+        ' get offset index for read data from raw data xml file
+        Dim index As XmlOffset() = raw.getStreamIndex(modu)(type) _
+            .OrderBy(Function(p) p.id) _
+            .ToArray
+        ' each row is feature item
+        ' and the column value is the time stream data
+        Dim entities As DataSet() = raw _
+            .getStreamEntities(index(Scan0).module, index(Scan0).content_type) _
+            .Select(Function(id)
+                        Return New DataSet With {
+                            .ID = id,
+                            .Properties = New Dictionary(Of String, Double)
+                        }
+                    End Function) _
+            .ToArray
+        Dim vector As Double()
 
+        For Each offset As XmlOffset In index
+            vector = raw.getFrameVector(offset.offset)
+
+            For i As Integer = 0 To vector.Length - 1
+                entities(i).Add(offset.id, vector(i))
+            Next
+        Next
+
+        Dim timeTicks As String() = index _
+            .Select(Function(o) o.id.ToString) _
+            .ToArray
+        Dim matrix As New HTS_Matrix With {
+            .sampleID = timeTicks,
+            .tag = raw.ToString,
+            .expression = entities _
+                .Select(Function(v)
+                            Return New DataFrameRow With {
+                                .geneID = v.ID,
+                                .experiments = v(timeTicks)
+                            }
+                        End Function) _
+                .ToArray
+        }
+
+        Return matrix
     End Function
 End Module

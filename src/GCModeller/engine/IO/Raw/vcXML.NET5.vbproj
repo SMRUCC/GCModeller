@@ -206,6 +206,7 @@
 	  <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data\BinaryData\netCDF\netCDF.vbproj" />
 	  <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data\DataFrame\dataframework-netcore5.vbproj" />
 	  <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+	  <ProjectReference Include="..\..\..\analysis\HTS_matrix\HTS_matrix-netcore5.vbproj" />
 	  <ProjectReference Include="..\..\BootstrapLoader\BootstrapLoader.NET5.vbproj" />
 	  <ProjectReference Include="..\..\Dynamics\Dynamics.NET5.vbproj" />
 	  <ProjectReference Include="..\..\Model\Model.Core.NET5.vbproj" />
