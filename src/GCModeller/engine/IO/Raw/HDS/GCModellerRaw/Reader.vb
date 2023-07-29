@@ -70,7 +70,17 @@ Namespace Raw
     Public Class Reader : Inherits CellularModules
 
         ReadOnly stream As StreamPack
+
+        ''' <summary>
+        ''' total time tick count
+        ''' </summary>
         ReadOnly tick_counts As Integer
+
+        Default Public ReadOnly Property ModuleIdSet(name As String) As Index(Of String)
+            Get
+                Return modules.TryGetValue(name)
+            End Get
+        End Property
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function AllTimePoints() As IEnumerable(Of Double)
@@ -117,12 +127,17 @@ Namespace Raw
             Return Me
         End Function
 
-        Public Function Read(time#, module$) As Dictionary(Of String, Double)
-            Dim index = $"/dynamics/{[module]}/frames/{time}.dat"
+        Public Function GetFrameFile(modu As String, time As Double) As BinaryDataReader
+            Dim index = $"/dynamics/{[modu]}/frames/{time}.dat"
             Dim offset As Stream = stream.OpenBlock(index)
             Dim buf As New BinaryDataReader(offset, byteOrder:=ByteOrder.BigEndian)
 
-            Return ReadModule(module$, buf)
+            Return buf
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function Read(time#, module$) As Dictionary(Of String, Double)
+            Return ReadModule(module$, stream:=GetFrameFile([module], time))
         End Function
 
         Public Function ReadModule(module$, stream As BinaryDataReader) As Dictionary(Of String, Double)
