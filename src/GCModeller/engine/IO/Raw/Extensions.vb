@@ -70,8 +70,26 @@ Public Module Extensions
         Next
     End Function
 
+    <Extension>
     Public Function GetTimeFrames(raw As Raw.Reader, modu As String) As HTS_Matrix
+        Dim list As String() = raw.ModuleIdSet(modu).Objects
+        Dim t As Double() = raw.AllTimePoints.ToArray
+        Dim ticks As New List(Of DataFrameRow)
+        Dim ds As Dictionary(Of String, Double)
 
+        For Each ti As Double In t
+            ds = raw.Read(time:=ti, modu)
+            ticks.Add(New DataFrameRow With {
+                .geneID = ti,
+                .experiments = list.Select(Function(i) ds(i)).ToArray
+            })
+        Next
+
+        Return New HTS_Matrix With {
+            .expression = ticks.ToArray,
+            .sampleID = list,
+            .tag = NameOf(GetTimeFrames)
+        }
     End Function
 
     ''' <summary>

@@ -299,11 +299,13 @@ Module RawXmlKit
 
             Return DirectCast(raw, vcXML.Reader).GetTimeFrames(modu, content_type)
         ElseIf TypeOf raw Is Raw.Reader Then
-            Dim read As Raw.Reader
+            Dim read As Raw.Reader = DirectCast(raw, Raw.Reader).LoadIndex
 
             If args.hasName("module") Then
                 Dim modu As String = args.getValue(Of String)("module", env)
+                Dim m As HTS_Matrix = read.GetTimeFrames(modu)
 
+                Return m
             Else
                 ' export all molecules
 
