@@ -94,16 +94,24 @@ Namespace Raw
             Return modules.ToDictionary(Function(m) m.Key, Function(m) m.Value.Objects)
         End Function
 
+        ''' <summary>
+        ''' load data visitor index
+        ''' </summary>
+        ''' <returns></returns>
         Public Function LoadIndex() As Reader
             Dim modules As Dictionary(Of String, PropertyInfo) = Me.GetModuleReader
             Dim root As StreamGroup = stream.GetObject(fileName:="/dynamics/")
+
+            For Each modu In modules.Values.ToArray
+                modules(modu.Name) = modu
+            Next
 
             For Each file As StreamBlock In root.ListFiles().Where(Function(f) f.referencePath.FileName = "index.txt")
                 Dim moduName As String = file.referencePath.DirectoryPath.BaseName
                 Dim list As String() = Strings.Trim(stream.ReadText(file)).LineTokens
 
-                Me.modules.Add(moduName, list)
-                modules(moduName).SetValue(Me, list.Indexing)
+                Call Me.modules.Add(moduName, list)
+                Call modules(moduName).SetValue(Me, list.Indexing)
             Next
 
             Return Me
