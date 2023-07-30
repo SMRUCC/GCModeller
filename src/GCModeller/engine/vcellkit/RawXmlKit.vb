@@ -279,15 +279,15 @@ Module RawXmlKit
                                Optional env As Environment = Nothing) As Object
 
         Dim args As list = Internal.Invokes.base.Rlist(stream, env)
-        Dim message As Message = checkStreamRef(args, env)
-
-        If Not message Is Nothing Then
-            Return message
-        End If
 
         If TypeOf raw Is vcXML.Reader Then
             Dim modu As String = Nothing
             Dim content_type As String = Nothing
+            Dim message As Message = checkStreamRef(args, env)
+
+            If Not message Is Nothing Then
+                Return message
+            End If
 
             For Each name As String In {"transcriptome", "proteome", "metabolome"}
                 If args.hasName(name) Then
