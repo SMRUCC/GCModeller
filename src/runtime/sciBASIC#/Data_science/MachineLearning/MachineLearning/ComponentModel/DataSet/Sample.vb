@@ -68,7 +68,7 @@ Imports Microsoft.VisualBasic.Net.Http
 Namespace ComponentModel.StoreProcedure
 
     ''' <summary>
-    ''' The training dataset
+    ''' The training dataset, a data point with known label
     ''' </summary>
     Public Class Sample : Implements INamedValue
 
@@ -101,6 +101,10 @@ Namespace ComponentModel.StoreProcedure
         <XmlAttribute>
         Public Property target As Double()
 
+        ''' <summary>
+        ''' sample features data
+        ''' </summary>
+        ''' <returns></returns>
         <XmlIgnore>
         Public ReadOnly Property vector As Double()
             Get
