@@ -73,10 +73,12 @@ declare namespace rawXML {
        * 
         * @param raw -
         * @param stream -
+        * 
+        * + default value Is ``null``.
         * @param env -
         * 
         * + default value Is ``null``.
       */
-      function frames(raw: object, stream: any, env?: object): object;
+      function frames(raw: any, stream?: any, env?: object): object;
    }
 }
