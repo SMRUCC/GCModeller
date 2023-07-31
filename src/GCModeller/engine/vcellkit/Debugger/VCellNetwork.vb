@@ -57,6 +57,11 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 
 Module VCellNetwork
 
+    ''' <summary>
+    ''' export the graph network component from the virtual cell simulation engine
+    ''' </summary>
+    ''' <param name="vcell"></param>
+    ''' <returns></returns>
     <Extension>
     Public Function CreateGraph(vcell As Vessel) As NetworkGraph
         Dim g As New NetworkGraph
