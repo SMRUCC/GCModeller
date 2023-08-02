@@ -231,7 +231,7 @@ Namespace ExpressionPattern
                     ' 聚类有时会出现一个成员元素的结果？
                     i = colors.Length - 1
                 Else
-                    i = CInt(levels.Value.ScaleMapping(patternsIndex(gene.geneID).memberships(clusterTagId), {0, colors.Length - 1}))
+                    i = CInt(levels.Value.ScaleMapping(patternsIndex(gene.geneID).memberships(clusterTagId), New Double() {0, colors.Length - 1}))
                 End If
 
                 Yield New SerialData With {
