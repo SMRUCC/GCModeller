@@ -5,6 +5,6 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 Public Class zzz
 
     Public Shared Sub onLoad()
-
+        Call pubmed.Main()
     End Sub
 End Class
