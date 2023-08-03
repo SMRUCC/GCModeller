@@ -10,7 +10,7 @@ Namespace Model
     ''' </summary>
     Public Class SentenceCharWalker
 
-        ReadOnly buf As CharBuffer
+        ReadOnly buf As New CharBuffer
         ReadOnly str As CharPtr
         ReadOnly url_protocols As New Regex("[a-zA-Z0-9]+[:]//")
         ReadOnly stackOpen As New Stack(Of Char)
