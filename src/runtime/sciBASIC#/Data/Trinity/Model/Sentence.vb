@@ -53,6 +53,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Text.Parser
 
 Namespace Model
 
@@ -102,12 +103,46 @@ Namespace Model
             Return tokens.JoinBy(" ")
         End Function
 
-        Friend Shared Function Parse(line As String) As Sentence
+        Friend Shared Function Parse(line As String, chemicalNameRule As Boolean) As Sentence
+            Dim tokens As String() = New SentenceCharWalker(line) _
+                .GetTokens _
+                .ToArray
+
+            If chemicalNameRule Then
+                tokens = Sentence.ChemicalNameRule(tokens).ToArray
+            End If
+
             Return New Sentence With {
-               .tokens = New SentenceCharWalker(line) _
-                   .GetTokens _
-                   .ToArray
+               .tokens = tokens
             }
+        End Function
+
+        ''' <summary>
+        ''' try to fix of the un-expected token split for the chemical name
+        ''' </summary>
+        ''' <param name="tokens"></param>
+        ''' <returns></returns>
+        Private Shared Iterator Function ChemicalNameRule(tokens As String()) As IEnumerable(Of String)
+            Dim open As Boolean = False
+            Dim buf As New CharBuffer
+
+            For Each si As String In tokens
+                If open Then
+                    buf.Add(" "c)
+                    buf.Add(si)
+
+                    If si.Count("("c) = 0 AndAlso si.Count(")"c) > 0 Then
+                        open = False
+                        Yield New String(buf.PopAllChars)
+                    End If
+                End If
+                If si.Count("("c) > 0 AndAlso si.Count(")"c) = 0 Then
+                    open = True
+                    buf.Add(si)
+                Else
+                    Yield si
+                End If
+            Next
         End Function
 
         Friend Function Trim() As Sentence
