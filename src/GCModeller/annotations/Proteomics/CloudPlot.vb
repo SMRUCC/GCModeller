@@ -109,7 +109,7 @@ Public Module CloudPlot
                             Return P
                         End If
                     End Function) _
-            .RangeTransform({0, levels - 1}) _
+            .RangeTransform(New Double() {0, levels - 1}) _
             .Select(Function(x) CInt(x)) _
             .ToArray
         Dim radius#() = foldChanges _
