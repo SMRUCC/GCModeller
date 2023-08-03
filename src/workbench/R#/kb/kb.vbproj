@@ -8,4 +8,10 @@
     <OutputPath>../../pkg/assembly/</OutputPath>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\R-sharp\R#\Rsharp-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+    <ProjectReference Include="..\..\modules\Knowledge_base\Knowledge_base\kb.NET5.vbproj" />
+  </ItemGroup>
+
 </Project>
