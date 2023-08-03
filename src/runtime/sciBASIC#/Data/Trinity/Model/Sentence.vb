@@ -143,6 +143,10 @@ Namespace Model
                     Yield si
                 End If
             Next
+
+            If buf > 0 Then
+                Yield New String(buf.PopAllChars)
+            End If
         End Function
 
         Friend Function Trim() As Sentence
