@@ -71,7 +71,7 @@ Public Module SampleColorBend
     <Extension>
     Public Iterator Function GetColors(matrix As Matrix, Optional colorSet$ = "RdYlGn:c8", Optional levels As Integer = 25) As IEnumerable(Of NamedCollection(Of Color))
         Dim colors As Color() = Designer.GetColors(colorSet, n:=levels)
-        Dim indexRange As DoubleRange = {0, colors.Length - 1}
+        Dim indexRange As DoubleRange = New Double() {0, colors.Length - 1}
 
         For Each gene As DataFrameRow In matrix.expression
             Dim levelRange As New DoubleRange(gene.experiments)

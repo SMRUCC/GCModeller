@@ -57,7 +57,6 @@ Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Engine
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.IO
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.IO.Raw
@@ -273,62 +272,43 @@ Module RawXmlKit
     ''' <returns></returns>
     <RApiReturn(GetType(HTS_Matrix))>
     <ExportAPI("time.frames")>
-    Public Function timeFrames(raw As vcXML.Reader, <RListObjectArgument> stream As Object, Optional env As Environment = Nothing) As Object
+    Public Function timeFrames(raw As Object,
+                               <RListObjectArgument>
+                               Optional stream As Object = Nothing,
+                               Optional env As Environment = Nothing) As Object
+
         Dim args As list = Internal.Invokes.base.Rlist(stream, env)
-        Dim index As XmlOffset() = {}
-        Dim message As Message = checkStreamRef(args, env)
 
-        If Not message Is Nothing Then
-            Return message
-        End If
+        If TypeOf raw Is vcXML.Reader Then
+            Dim modu As String = Nothing
+            Dim content_type As String = Nothing
+            Dim message As Message = checkStreamRef(args, env)
 
-        For Each name As String In {"transcriptome", "proteome", "metabolome"}
-            If args.hasName(name) Then
-                ' get offset index for read data from raw data xml file
-                index = raw.getStreamIndex(name)(args.getValue(Of String)(name, env)) _
-                    .OrderBy(Function(p) p.id) _
-                    .ToArray
-                Exit For
+            If Not message Is Nothing Then
+                Return message
             End If
-        Next
 
-        ' each row is feature item
-        ' and the column value is the time stream data
-        Dim entities As DataSet() = raw _
-            .getStreamEntities(index(Scan0).module, index(Scan0).content_type) _
-            .Select(Function(id)
-                        Return New DataSet With {
-                            .ID = id,
-                            .Properties = New Dictionary(Of String, Double)
-                        }
-                    End Function) _
-            .ToArray
-        Dim vector As Double()
-
-        For Each offset As XmlOffset In index
-            vector = raw.getFrameVector(offset.offset)
-
-            For i As Integer = 0 To vector.Length - 1
-                entities(i).Add(offset.id, vector(i))
+            For Each name As String In {"transcriptome", "proteome", "metabolome"}
+                If args.hasName(name) Then
+                    modu = name
+                    content_type = args.getValue(Of String)(name, env)
+                    Exit For
+                End If
             Next
-        Next
 
-        Dim timeTicks As String() = index _
-            .Select(Function(o) o.id.ToString) _
-            .ToArray
-        Dim matrix As New HTS_Matrix With {
-            .sampleID = timeTicks,
-            .tag = raw.ToString,
-            .expression = entities _
-                .Select(Function(v)
-                            Return New DataFrameRow With {
-                                .geneID = v.ID,
-                                .experiments = v(timeTicks)
-                            }
-                        End Function) _
-                .ToArray
-        }
+            Return DirectCast(raw, vcXML.Reader).GetTimeFrames(modu, content_type)
+        ElseIf TypeOf raw Is Raw.Reader Then
+            Dim read As Raw.Reader = DirectCast(raw, Raw.Reader).LoadIndex
 
-        Return matrix
+            If args.hasName("module") Then
+                Dim modu As String = args.getValue(Of String)("module", env)
+                Dim m As HTS_Matrix = read.GetTimeFrames(modu)
+
+                Return m
+            Else
+                ' export all molecules
+
+            End If
+        End If
     End Function
 End Module

@@ -356,7 +356,7 @@ Namespace FileSystem
         End Function
 
         ''' <summary>
-        ''' a more advanced wrapper for <see cref="OpenBlock(String)"/> function
+        ''' a more advanced wrapper for <see cref="OpenBlock(String, Integer)"/> function
         ''' </summary>
         ''' <param name="path"></param>
         ''' <param name="mode">this parameter is no use in streampack</param>
@@ -401,8 +401,8 @@ Namespace FileSystem
         ''' <returns>
         ''' this function returns two type of the stream:
         ''' 
-        ''' 1. <see cref="SubStream"/> for readonly
-        ''' 2. <see cref="StreamBuffer"/> for writeonly
+        ''' 1. <see cref="SubStream"/> for readonly, this kind of stream should not call the dispose method, or the based file stream will be closed too!
+        ''' 2. <see cref="StreamBuffer"/> for writeonly, this kind of stream must be use the dispose method for commit data to based file stream
         ''' 
         ''' based on the target file object is existsed or not
         ''' </returns>
