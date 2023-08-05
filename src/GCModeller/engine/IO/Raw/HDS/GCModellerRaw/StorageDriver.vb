@@ -95,6 +95,10 @@ Namespace Raw
             ' write nodes
             For Each metabo As Node In graph.vertex
                 Using file As Stream = s.OpenBlock($"/graph/mass/{metabo.label}.dat")
+                    If Not file.CanWrite Then
+                        Continue For
+                    End If
+
                     Dim sb As New BinaryDataWriter(file, byteOrder:=ByteOrder.BigEndian)
 
                     Call sb.Write(metabo.ID)
@@ -121,6 +125,10 @@ Namespace Raw
                 End If
 
                 Using file As Stream = s.OpenBlock($"/graph/links/{metabo}/{react}.dat")
+                    If Not file.CanWrite Then
+                        Continue For
+                    End If
+
                     Dim sb As New BinaryDataWriter(file, byteOrder:=ByteOrder.BigEndian)
 
                     Call sb.Write(link.data.label, BinaryStringFormat.DwordLengthPrefix)
