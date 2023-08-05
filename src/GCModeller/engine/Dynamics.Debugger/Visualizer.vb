@@ -70,6 +70,10 @@ Public Module Visualizer
         Dim reactionMass#
 
         For Each reaction As Channel In cell.Channels
+            If Not g.GetElementByID(reaction.ID) Is Nothing Then
+                Continue For
+            End If
+
             If flux Is Nothing Then
                 reactionMass = reaction.direct * (reaction.GetReactants.AsList + reaction.GetProducts) _
                     .Select(Function(m) m.mass.Value) _
