@@ -70,10 +70,10 @@ Public Module NetworkFileIO
     ''' <remarks></remarks>
     ''' 
     <Extension>
-    Public Function Save(Of T_Node As Node, T_Edge As NetworkEdge)(network As Network(Of T_Node, T_Edge),
-                                                                   output$,
-                                                                   Optional encoding As Encoding = Nothing,
-                                                                   Optional silent As Boolean = True) As Boolean
+    Public Function Save(Of V As Node, E As NetworkEdge)(network As Network(Of V, E),
+                                                         output$,
+                                                         Optional encoding As Encoding = Nothing,
+                                                         Optional silent As Boolean = True) As Boolean
         With output Or App.CurrentDirectory.AsDefault
             Call network.nodes.SaveTo($"{ .ByRef}/nodes.csv", False, encoding Or UTF8, silent:=silent)
             Call network.edges.SaveTo($"{ .ByRef}/network-edges.csv", False, encoding Or UTF8, silent:=silent)
@@ -84,10 +84,10 @@ Public Module NetworkFileIO
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Function Load(Of T_Node As Node, T_Edge As NetworkEdge)(directory As String, Optional silent As Boolean = True) As Network(Of T_Node, T_Edge)
-        Return New Network(Of T_Node, T_Edge) With {
-            .edges = $"{directory}/network-edges.csv".LoadCsv(Of T_Edge)(mute:=silent),
-            .nodes = $"{directory}/nodes.csv".LoadCsv(Of T_Node)(mute:=silent),
+    Public Function Load(Of V As Node, E As NetworkEdge)(directory As String, Optional silent As Boolean = True) As Network(Of V, E)
+        Return New Network(Of V, E) With {
+            .edges = $"{directory}/network-edges.csv".LoadCsv(Of E)(mute:=silent),
+            .nodes = $"{directory}/nodes.csv".LoadCsv(Of V)(mute:=silent),
             .meta = loadMetaJson(directory)
         }
     End Function
