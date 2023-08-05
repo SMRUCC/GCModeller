@@ -56,6 +56,7 @@ Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 Imports gNode = Microsoft.VisualBasic.Data.visualize.Network.Graph.Node
 
@@ -139,6 +140,14 @@ Public Module Visualizer
 
     <Extension>
     Private Sub ConstructCellularGraph(g As NetworkGraph, reaction As Channel)
+        ' metadata for web view
+        Dim metadata As New Dictionary(Of String, String())
+
+        metadata.Add("reactants", reaction.GetReactants.Select(Function(a) a.mass.ID).ToArray)
+        metadata.Add("products", reaction.GetProducts.Select(Function(a) a.mass.ID).ToArray)
+
+        Dim json As String = metadata.GetJson
+
         For Each left As Variable In reaction.GetReactants
             Call g.CreateEdge(
                 g.GetElementByID(left.mass.ID),
@@ -148,7 +157,8 @@ Public Module Visualizer
                     .label = $"{left.mass.ID}->{reaction.ID}",
                     .length = left.coefficient,
                     .Properties = New Dictionary(Of String, String) From {
-                        {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, "reactant"}
+                        {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, "reactant"},
+                        {"graph", json}
                     }
                 })
         Next
@@ -162,7 +172,8 @@ Public Module Visualizer
                     .label = $"{reaction.ID}->{right.mass.ID}",
                     .length = right.coefficient,
                     .Properties = New Dictionary(Of String, String) From {
-                        {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, "product"}
+                        {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, "product"},
+                        {"graph", json}
                     }
                 })
         Next
@@ -171,20 +182,24 @@ Public Module Visualizer
         If TypeOf reaction.forward Is AdditiveControls Then
             With DirectCast(reaction.forward, AdditiveControls)
                 If Not reaction.forward Is Nothing Then
-                    Call g.addRegulations(reaction.ID, .activation, "forward_active")
-                    Call g.addRegulations(reaction.ID, .inhibition, "forward_inhibit")
+                    Call g.addRegulations(reaction.ID, .activation, "forward_active", json)
+                    Call g.addRegulations(reaction.ID, .inhibition, "forward_inhibit", json)
                 End If
+            End With
+        End If
 
+        If TypeOf reaction.reverse Is AdditiveControls Then
+            With DirectCast(reaction.reverse, AdditiveControls)
                 If Not reaction.reverse Is Nothing Then
-                    Call g.addRegulations(reaction.ID, .activation, "reverse_active")
-                    Call g.addRegulations(reaction.ID, .inhibition, "reverse_inhibit")
+                    Call g.addRegulations(reaction.ID, .activation, "reverse_active", json)
+                    Call g.addRegulations(reaction.ID, .inhibition, "reverse_inhibit", json)
                 End If
             End With
         End If
     End Sub
 
     <Extension>
-    Private Sub addRegulations(g As NetworkGraph, reactionID$, regulations As Variable(), type$)
+    Private Sub addRegulations(g As NetworkGraph, reactionID$, regulations As Variable(), type$, json As String)
         For Each factor As Variable In regulations.SafeQuery
             Call g.CreateEdge(
                 g.GetElementByID(factor.mass.ID),
@@ -193,7 +208,8 @@ Public Module Visualizer
                 data:=New EdgeData With {
                     .label = $"{type} ({factor.mass.ID} ~ {reactionID})",
                     .Properties = New Dictionary(Of String, String) From {
-                        {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, type}
+                        {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, type},
+                        {"graph", json}
                     }
                 })
         Next
