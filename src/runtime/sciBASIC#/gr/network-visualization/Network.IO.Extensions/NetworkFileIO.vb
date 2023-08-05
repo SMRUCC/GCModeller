@@ -99,7 +99,6 @@ Public Module NetworkFileIO
     Public Function Save(Of V As Node, E As NetworkEdge)(g As Network(Of V, E), output As IFileSystemEnvironment,
                                                          Optional encoding As Encoding = Nothing,
                                                          Optional silent As Boolean = True) As Boolean
-
         Dim args As New Write_csv.Arguments With {
             .strict = False,
             .encoding = encoding Or UTF8,
@@ -118,16 +117,16 @@ Public Module NetworkFileIO
         Return New Network(Of V, E) With {
             .edges = $"{directory}/network-edges.csv".LoadCsv(Of E)(mute:=silent),
             .nodes = $"{directory}/nodes.csv".LoadCsv(Of V)(mute:=silent),
-            .meta = loadMetaJson(directory)
+            .meta = loadMetaJson(localDir.FromLocalFileSystem(directory))
         }
     End Function
 
-    Private Function loadMetaJson(directory As String) As MetaData
-        Dim metaJson = $"{directory}/meta.json"
+    Private Function loadMetaJson(directory As IFileSystemEnvironment) As MetaData
+        Dim metaJson = directory.ReadAllText($"/meta.json")
         Dim meta As MetaData
 
-        If metaJson.FileExists Then
-            meta = metaJson.LoadJSON(Of MetaData) Or (New MetaData).AsDefault
+        If Not metaJson.StringEmpty Then
+            meta = Strings.Trim(metaJson).LoadJSON(Of MetaData) Or (New MetaData).AsDefault
         Else
             meta = New MetaData
         End If
@@ -149,7 +148,7 @@ Public Module NetworkFileIO
             Return New NetworkTables With {
                 .edges = tables.edges.LoadCsv(Of NetworkEdge),
                 .nodes = tables.nodes.LoadCsv(Of Node),
-                .meta = loadMetaJson(DIR)
+                .meta = loadMetaJson(localDir.FromLocalFileSystem(DIR))
             }
         End If
     End Function
