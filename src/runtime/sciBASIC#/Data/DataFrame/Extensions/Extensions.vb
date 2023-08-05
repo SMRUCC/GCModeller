@@ -554,94 +554,15 @@ Public Module Extensions
     ''' 数据源
     ''' </param>
     ''' <returns></returns>
-    <Extension> Public Function LoadStream(Of T As Class)(source As IEnumerable(Of String),
-                                                          Optional explicit As Boolean = True,
-                                                          Optional trimBlanks As Boolean = False,
-                                                          Optional isTsv As Boolean = False) As IEnumerable(Of T)
+    <Extension>
+    Public Function LoadStream(Of T As Class)(source As IEnumerable(Of String),
+                                              Optional explicit As Boolean = True,
+                                              Optional trimBlanks As Boolean = False,
+                                              Optional isTsv As Boolean = False) As IEnumerable(Of T)
 
         Return FileLoader.Load(source.ToArray, trimBlanks, isTsv:=isTsv) _
             .DoCall(Function(rs) New File(rs)) _
             .AsDataSource(Of T)(Not explicit)
-    End Function
-
-    ''' <summary>
-    ''' Save the object collection data dump into a csv file.
-    ''' (将一个对象数组之中的对象保存至一个Csv文件之中，请注意:
-    ''' + 这个方法仅仅会保存简单的基本数据类型的属性值
-    ''' + 并且这个方法仅适用于小型数据集, 如果需要保存大型数据集, 请使用Linq版本的拓展函数)
-    ''' </summary>
-    ''' <typeparam name="T"></typeparam>
-    ''' <param name="source">应该是List, Array或者Collection, 不应该是一个Linq拓展表达式</param>
-    ''' <param name="path"></param>
-    ''' <param name="strict">
-    ''' If true then all of the simple data type property its value will be save to the data file,
-    ''' if not then only save the property with the <see cref="ColumnAttribute"></see>
-    ''' </param>
-    ''' <param name="encoding"></param>
-    ''' <param name="maps">``{meta_define -> custom}``</param>
-    ''' <param name="layout">可以通过这个参数来进行列顺序的重排，值越小表示排在越前面</param>
-    ''' <returns></returns>
-    ''' <remarks></remarks>
-    <Extension>
-    Public Function SaveTo(Of T)(source As IEnumerable(Of T),
-                                 path$,
-                                 Optional strict As Boolean = False,
-                                 Optional encoding As Encoding = Nothing,
-                                 Optional metaBlank As String = "",
-                                 Optional nonParallel As Boolean = False,
-                                 Optional maps As Dictionary(Of String, String) = Nothing,
-                                 Optional reorderKeys As Integer = 0,
-                                 Optional layout As Dictionary(Of String, Integer) = Nothing,
-                                 Optional tsv As Boolean = False,
-                                 Optional transpose As Boolean = False,
-                                 Optional silent As Boolean = False) As Boolean
-        Try
-            path = FileIO.FileSystem.GetFileInfo(path).FullName
-        Catch ex As Exception
-            Throw New Exception("Probably invalid path value: " & path, ex)
-        End Try
-
-        Dim objSeq As Object() = source _
-            .Select(Function(o) DirectCast(o, Object)) _
-            .ToArray
-
-        If Not silent Then
-            Call EchoLine($"[CSV.Reflector::{GetType(T).FullName}]")
-            Call EchoLine($"Save data to file:///{path}")
-            Call EchoLine($"[CSV.Reflector] Reflector have {objSeq.Length} lines of data to write.")
-        End If
-
-        Dim csv As IEnumerable(Of RowObject) = Reflector.GetsRowData(
-            source:=objSeq,
-            type:=GetType(T),
-            strict:=strict,
-            maps:=maps,
-            parallel:=Not nonParallel,
-            metaBlank:=metaBlank,
-            reorderKeys:=reorderKeys,
-            layout:=layout
-        )
-
-        If transpose Then
-            csv = csv _
-                .Select(Function(r) r.ToArray) _
-                .MatrixTranspose _
-                .Select(Function(r) New RowObject(r)) _
-                .ToArray
-        End If
-
-        Dim success = csv.SaveDataFrame(
-            path:=path,
-            encoding:=encoding,
-            tsv:=tsv,
-            silent:=silent
-        )
-
-        If success AndAlso Not silent Then
-            Call "CSV saved!".EchoLine
-        End If
-
-        Return success
     End Function
 
     ''' <summary>
@@ -705,12 +626,13 @@ Public Module Extensions
     ''' <param name="metaBlank">对于字典对象之中，空缺下来的域键名的值使用什么来替代？默认使用空白字符串</param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    <Extension> Public Function ToCsvDoc(Of T)(source As IEnumerable(Of T),
-                                               Optional strict As Boolean = False,
-                                               Optional maps As Dictionary(Of String, String) = Nothing,
-                                               Optional metaBlank$ = "",
-                                               Optional reorderKeys% = 0,
-                                               Optional numFormat$ = Nothing) As File
+    <Extension>
+    Public Function ToCsvDoc(Of T)(source As IEnumerable(Of T),
+                                   Optional strict As Boolean = False,
+                                   Optional maps As Dictionary(Of String, String) = Nothing,
+                                   Optional metaBlank$ = "",
+                                   Optional reorderKeys% = 0,
+                                   Optional numFormat$ = Nothing) As File
         Return Reflector.Save(
             source, strict,
             maps:=maps,
@@ -753,7 +675,8 @@ Public Module Extensions
         Return data
     End Function
 
-    <Extension> Public Sub Cable(Of T)(method As LoadObject(Of T))
+    <Extension>
+    Public Sub Cable(Of T)(method As LoadObject(Of T))
         Dim type As Type = GetType(T)
         Dim name As String = type.FullName
         Dim helper As New __loadHelper(Of T) With {
