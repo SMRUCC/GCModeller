@@ -8,7 +8,6 @@
 		<Company>sciBASIC.NET</Company>
 		<Version>5.0.1.2389</Version>
 
-		<AssemblyVersion>5.33.*</AssemblyVersion>
 		<Deterministic>false</Deterministic>
 
 		<Copyright>GPL3</Copyright>
