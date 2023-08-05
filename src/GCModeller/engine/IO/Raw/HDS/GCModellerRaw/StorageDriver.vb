@@ -58,6 +58,10 @@
 
 Imports System.IO
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.Data.IO
+Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
+Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine
@@ -80,8 +84,55 @@ Namespace Raw
 
             Me.output = New Writer(model, output.Open(FileMode.OpenOrCreate, doClear:=True)).Init
             Me.mass = New OmicsTuple(Of String())(transcriptome, proteome, metabolome)
+
+            Call WriteCellularGraph(graph:=core.ToGraph)
         End Sub
 
+        Private Sub WriteCellularGraph(graph As NetworkGraph)
+            Dim s = output.GetStream
+            Dim metaboIndex As New Index(Of String)
+
+            ' write nodes
+            For Each metabo As Node In graph.vertex
+                Using file As Stream = s.OpenBlock($"/graph/mass/{metabo.label}.dat")
+                    Dim sb As New BinaryDataWriter(file, byteOrder:=ByteOrder.BigEndian)
+
+                    Call sb.Write(metabo.ID)
+                    Call sb.Write(metabo.label, BinaryStringFormat.DwordLengthPrefix)
+                    Call sb.Write(metabo.data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE), BinaryStringFormat.DwordLengthPrefix)
+
+                    Call sb.Flush()
+                End Using
+
+                Call metaboIndex.Add(metabo.label)
+            Next
+
+            ' write graph network
+            For Each link As Edge In graph.graphEdges
+                Dim metabo As String
+                Dim react As String
+
+                If link.U.label Like metaboIndex Then
+                    metabo = link.U.label
+                    react = link.V.label
+                Else
+                    metabo = link.V.label
+                    react = link.U.label
+                End If
+
+                Using file As Stream = s.OpenBlock($"/graph/links/{metabo}/{react}.dat")
+                    Dim sb As New BinaryDataWriter(file, byteOrder:=ByteOrder.BigEndian)
+
+                    Call sb.Write(link.data.label, BinaryStringFormat.DwordLengthPrefix)
+                    Call sb.Write(link.data.length)
+                    Call sb.Write(link.data(NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE), BinaryStringFormat.DwordLengthPrefix)
+
+                    Call sb.Flush()
+                End Using
+            Next
+        End Sub
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Private Function transcriptome() As String()
             Return output.mRNAId.Objects.AsList + output.RNAId.Objects
         End Function
