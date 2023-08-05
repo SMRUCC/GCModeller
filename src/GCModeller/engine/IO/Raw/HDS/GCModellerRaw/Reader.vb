@@ -95,6 +95,21 @@ Namespace Raw
             tick_counts = Strings.Trim(stream.ReadText("/.etc/ticks.txt")).DoCall(AddressOf Integer.Parse)
         End Sub
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="id">id of the metabolite</param>
+        ''' <returns></returns>
+        Public Iterator Function GetRelatedReactions(id As String) As IEnumerable(Of String)
+            Dim dir As StreamGroup = stream.GetObject($"/graph/links/{id}/")
+
+            For Each file In dir.ListFiles
+                If TypeOf file Is StreamBlock Then
+                    Yield file.referencePath.ToString.BaseName
+                End If
+            Next
+        End Function
+
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetIdCounts() As Dictionary(Of String, Integer)
             Return stream.ReadText("/.etc/count.json").LoadJSON(Of Dictionary(Of String, Integer))
