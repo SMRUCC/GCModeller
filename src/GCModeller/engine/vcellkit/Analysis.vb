@@ -57,6 +57,7 @@ Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Engine
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Interop
@@ -157,6 +158,6 @@ Public Module Analysis
             Return Internal.debug.stop($"invalid model type: {vcell.GetType.FullName}!", env)
         End If
 
-        Return VCellNetwork.CreateGraph(DirectCast(vcell, Vessel))
+        Return DirectCast(vcell, Vessel).ToGraph
     End Function
 End Module
