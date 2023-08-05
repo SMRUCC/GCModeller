@@ -140,7 +140,13 @@ Public Module Analysis
         Return metabolites
     End Function
 
-    <ExportAPI("vcell.mass.graph")>
+    ''' <summary>
+    ''' Export the cellular graph data from the virtual cell simulation engine
+    ''' </summary>
+    ''' <param name="vcell"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("vcell.graph")>
     <RApiReturn(GetType(NetworkGraph))>
     Public Function vcellGraph(vcell As Object, Optional env As Environment = Nothing) As Object
         If vcell Is Nothing Then

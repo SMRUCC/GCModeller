@@ -155,7 +155,7 @@ Public Module Simulator
     ''' create a new virtual cell engine
     ''' </summary>
     ''' <param name="inits"></param>
-    ''' <param name="vcell"></param>
+    ''' <param name="vcell">The virtual cell object model, contains the definition of the cellular network graph data</param>
     ''' <param name="iterations%"></param>
     ''' <param name="time_resolutions%"></param>
     ''' <param name="deletions$"></param>
