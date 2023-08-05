@@ -49,15 +49,16 @@
 
 #End Region
 
+Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
-Imports Microsoft.VisualBasic.FileIO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports localDir = Microsoft.VisualBasic.FileIO.Directory
 
 Public Module NetworkFileIO
 
@@ -77,7 +78,7 @@ Public Module NetworkFileIO
                                                          Optional encoding As Encoding = Nothing,
                                                          Optional silent As Boolean = True) As Boolean
 
-        Dim fs As IFileSystemEnvironment = Directory.FromLocalFileSystem(
+        Dim fs As IFileSystemEnvironment = localDir.FromLocalFileSystem(
             dir:=output Or App.CurrentDirectory.AsDefault
         )
 
@@ -99,9 +100,15 @@ Public Module NetworkFileIO
                                                          Optional encoding As Encoding = Nothing,
                                                          Optional silent As Boolean = True) As Boolean
 
-        Call g.nodes.SaveTo($"{ .ByRef}/nodes.csv", False, encoding Or UTF8, silent:=silent)
-        Call g.edges.SaveTo($"{ .ByRef}/network-edges.csv", False, encoding Or UTF8, silent:=silent)
-        Call g.meta.GetJson(indent:=True).SaveTo($"{ .ByRef}/meta.json", UTF8)
+        Dim args As New Write_csv.Arguments With {
+            .strict = False,
+            .encoding = encoding Or UTF8,
+            .silent = silent
+        }
+
+        Call g.nodes.SaveTo(file:=output.OpenFile($"/nodes.csv", FileMode.OpenOrCreate, FileAccess.ReadWrite), args)
+        Call g.edges.SaveTo(file:=output.OpenFile($"/network-edges.csv", FileMode.OpenOrCreate, FileAccess.ReadWrite), args)
+        Call output.WriteText(g.meta.GetJson(indent:=True), $"/meta.json")
 
         Return True
     End Function
