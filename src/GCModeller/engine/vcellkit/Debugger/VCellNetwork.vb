@@ -57,6 +57,96 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 
 Module VCellNetwork
 
+    <Extension>
+    Private Sub AddProcess(process As Channel, g As NetworkGraph)
+        Dim processNode = g.AddNode(New Node With {.label = process.ID})
+
+        For Each mass In process.GetReactants
+            Call New Edge With {
+                .U = g.GetElementByID(mass.mass.ID),
+                .V = processNode,
+                .weight = mass.coefficient,
+                .ID = $"{process.ID}.reactant"，
+                .data = New EdgeData With {
+                    .Properties = New Dictionary(Of String, String) From {
+                        {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, "reaction"}
+                    },
+                    .label = process.ID
+                }
+            }.DoCall(AddressOf g.AddEdge)
+        Next
+        For Each mass In process.GetProducts
+            Call New Edge With {
+                .U = processNode,
+                .V = g.GetElementByID(mass.mass.ID),
+                .weight = mass.coefficient,
+                .ID = $"{process.ID}.product"，
+                .data = New EdgeData With {
+                    .Properties = New Dictionary(Of String, String) From {
+                        {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, "reaction"}
+                    },
+                    .label = process.ID
+                }
+            }.DoCall(AddressOf g.AddEdge)
+        Next
+        'For Each factor In process.forward.activation
+        '    Call New Edge With {
+        '        .U = g.GetElementByID(factor.mass.ID),
+        '        .V = processNode,
+        '        .weight = factor.coefficient,
+        '        .ID = $"{process.ID}.forward.activedBy.{factor.mass.ID}"，
+        '        .data = New EdgeData With {
+        '            .Properties = New Dictionary(Of String, String) From {
+        '                {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, "forward.activation"}
+        '            },
+        '            .label = process.ID
+        '        }
+        '    }.DoCall(AddressOf g.AddEdge)
+        'Next
+        For Each factor In process.forward.inhibition
+            Call New Edge With {
+                .U = g.GetElementByID(factor.mass.ID),
+                .V = processNode,
+                .weight = factor.coefficient,
+                .ID = $"{process.ID}.forward.inhibitedBy.{factor.mass.ID}"，
+                .data = New EdgeData With {
+                    .Properties = New Dictionary(Of String, String) From {
+                        {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, "forward.inhibition"}
+                    },
+                    .label = process.ID
+                }
+            }.DoCall(AddressOf g.AddEdge)
+        Next
+        'For Each factor In process.reverse.activation
+        '    Call New Edge With {
+        '        .U = g.GetElementByID(factor.mass.ID),
+        '        .V = processNode,
+        '        .weight = factor.coefficient,
+        '        .ID = $"{process.ID}.reverse.activedBy.{factor.mass.ID}"，
+        '        .data = New EdgeData With {
+        '            .Properties = New Dictionary(Of String, String) From {
+        '                {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, "reverse.activation"}
+        '            },
+        '            .label = process.ID
+        '        }
+        '    }.DoCall(AddressOf g.AddEdge)
+        'Next
+        For Each factor In process.reverse.inhibition
+            Call New Edge With {
+                .U = g.GetElementByID(factor.mass.ID),
+                .V = processNode,
+                .weight = factor.coefficient,
+                .ID = $"{process.ID}.reverse.inhibitedBy.{factor.mass.ID}"，
+                .data = New EdgeData With {
+                    .Properties = New Dictionary(Of String, String) From {
+                        {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, "reverse.inhibition"}
+                    },
+                    .label = process.ID
+                }
+            }.DoCall(AddressOf g.AddEdge)
+        Next
+    End Sub
+
     ''' <summary>
     ''' export the graph network component from the virtual cell simulation engine
     ''' </summary>
@@ -65,99 +155,13 @@ Module VCellNetwork
     <Extension>
     Public Function CreateGraph(vcell As Vessel) As NetworkGraph
         Dim g As New NetworkGraph
-        Dim processNode As Node
 
         For Each mass As Factor In vcell.MassEnvironment
             g.AddNode(New Node With {.label = mass.ID})
         Next
 
         For Each process As Channel In vcell.Channels
-            processNode = g.AddNode(New Node With {.label = process.ID})
-
-            For Each mass In process.GetReactants
-                Call New Edge With {
-                    .U = g.GetElementByID(mass.mass.ID),
-                    .V = processNode,
-                    .weight = mass.coefficient,
-                    .ID = $"{process.ID}.reactant"，
-                    .data = New EdgeData With {
-                        .Properties = New Dictionary(Of String, String) From {
-                            {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, "reaction"}
-                        },
-                        .label = process.ID
-                    }
-                }.DoCall(AddressOf g.AddEdge)
-            Next
-            For Each mass In process.GetProducts
-                Call New Edge With {
-                    .U = processNode,
-                    .V = g.GetElementByID(mass.mass.ID),
-                    .weight = mass.coefficient,
-                    .ID = $"{process.ID}.product"，
-                    .data = New EdgeData With {
-                        .Properties = New Dictionary(Of String, String) From {
-                            {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, "reaction"}
-                        },
-                        .label = process.ID
-                    }
-                }.DoCall(AddressOf g.AddEdge)
-            Next
-            'For Each factor In process.forward.activation
-            '    Call New Edge With {
-            '        .U = g.GetElementByID(factor.mass.ID),
-            '        .V = processNode,
-            '        .weight = factor.coefficient,
-            '        .ID = $"{process.ID}.forward.activedBy.{factor.mass.ID}"，
-            '        .data = New EdgeData With {
-            '            .Properties = New Dictionary(Of String, String) From {
-            '                {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, "forward.activation"}
-            '            },
-            '            .label = process.ID
-            '        }
-            '    }.DoCall(AddressOf g.AddEdge)
-            'Next
-            For Each factor In process.forward.inhibition
-                Call New Edge With {
-                    .U = g.GetElementByID(factor.mass.ID),
-                    .V = processNode,
-                    .weight = factor.coefficient,
-                    .ID = $"{process.ID}.forward.inhibitedBy.{factor.mass.ID}"，
-                    .data = New EdgeData With {
-                        .Properties = New Dictionary(Of String, String) From {
-                            {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, "forward.inhibition"}
-                        },
-                        .label = process.ID
-                    }
-                }.DoCall(AddressOf g.AddEdge)
-            Next
-            'For Each factor In process.reverse.activation
-            '    Call New Edge With {
-            '        .U = g.GetElementByID(factor.mass.ID),
-            '        .V = processNode,
-            '        .weight = factor.coefficient,
-            '        .ID = $"{process.ID}.reverse.activedBy.{factor.mass.ID}"，
-            '        .data = New EdgeData With {
-            '            .Properties = New Dictionary(Of String, String) From {
-            '                {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, "reverse.activation"}
-            '            },
-            '            .label = process.ID
-            '        }
-            '    }.DoCall(AddressOf g.AddEdge)
-            'Next
-            For Each factor In process.reverse.inhibition
-                Call New Edge With {
-                    .U = g.GetElementByID(factor.mass.ID),
-                    .V = processNode,
-                    .weight = factor.coefficient,
-                    .ID = $"{process.ID}.reverse.inhibitedBy.{factor.mass.ID}"，
-                    .data = New EdgeData With {
-                        .Properties = New Dictionary(Of String, String) From {
-                            {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, "reverse.inhibition"}
-                        },
-                        .label = process.ID
-                    }
-                }.DoCall(AddressOf g.AddEdge)
-            Next
+            Call process.AddProcess(g)
         Next
 
         Return g
