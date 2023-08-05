@@ -827,7 +827,7 @@ Module visualPlot
                         }
                     End Function) _
             .ToArray
-        Dim normRange As DoubleRange = {0, 100}
+        Dim normRange As DoubleRange = New Double() {0, 100}
         Dim clusterNMembers As Integer = clusterData.Length
 
         For Each project As String In clusterData _

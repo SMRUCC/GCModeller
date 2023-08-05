@@ -123,7 +123,7 @@ Namespace CatalogProfiling
             Dim dataRange As DoubleRange = enrichResults _
                 .Select(Function(gene) gene.PValue) _
                 .Range
-            Dim indexRange As DoubleRange = {0, colors.Length - 1}
+            Dim indexRange As DoubleRange = New Double() {0, colors.Length - 1}
 
             If dataRange.Length = 0 Then
                 colorIndex = enrichResults _

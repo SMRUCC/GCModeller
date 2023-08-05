@@ -218,7 +218,7 @@ Public Module FunctionalEnrichmentNetwork
             .Skip(56) _
             .Select(Function(c) c.ToHtmlColor) _
             .ToArray
-        Dim colorIndex As DoubleRange = {0, 199}
+        Dim colorIndex As DoubleRange = New Double() {0, 199}
         Dim upRange As DoubleRange = DEGs.up.Values.Range
         Dim downRange As DoubleRange = DEGs.down.Values.Range
 
