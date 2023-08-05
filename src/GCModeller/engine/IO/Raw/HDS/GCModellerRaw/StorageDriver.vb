@@ -134,6 +134,7 @@ Namespace Raw
                     Call sb.Write(link.data.label, BinaryStringFormat.DwordLengthPrefix)
                     Call sb.Write(link.data.length)
                     Call sb.Write(link.data(NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE), BinaryStringFormat.DwordLengthPrefix)
+                    Call sb.Write(link.data!graph, BinaryStringFormat.DwordLengthPrefix)
 
                     Call sb.Flush()
                 End Using
