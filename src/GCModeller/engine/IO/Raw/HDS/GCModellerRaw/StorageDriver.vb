@@ -62,6 +62,8 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.IO
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
+Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine
@@ -99,12 +101,14 @@ Namespace Raw
                         Continue For
                     End If
 
-                    Dim sb As New BinaryDataWriter(file, byteOrder:=ByteOrder.BigEndian)
+                    Dim metadata As New Dictionary(Of String, String) From {
+                        {"id", metabo.ID},
+                        {"label", metabo.label},
+                        {"group", metabo.data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE)}
+                    }
+                    Dim sb As New StreamWriter(file, encoding:=Encodings.UTF8WithoutBOM.CodePage)
 
-                    Call sb.Write(metabo.ID)
-                    Call sb.Write(metabo.label, BinaryStringFormat.DwordLengthPrefix)
-                    Call sb.Write(metabo.data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE), BinaryStringFormat.DwordLengthPrefix)
-
+                    Call sb.WriteLine(metadata.GetJson)
                     Call sb.Flush()
                 End Using
 
@@ -131,13 +135,15 @@ Namespace Raw
                         Continue For
                     End If
 
-                    Dim sb As New BinaryDataWriter(file, byteOrder:=ByteOrder.BigEndian)
+                    Dim metadata As New Dictionary(Of String, String) From {
+                        {"label", link.data.label},
+                        {"weight", link.data.length},
+                        {"type", link.data(NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE)},
+                        {"graph", link.data!graph}
+                    }
+                    Dim sb As New StreamWriter(file, encoding:=Encodings.UTF8WithoutBOM.CodePage)
 
-                    Call sb.Write(link.data.label, BinaryStringFormat.DwordLengthPrefix)
-                    Call sb.Write(link.data.length)
-                    Call sb.Write(link.data(NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE), BinaryStringFormat.DwordLengthPrefix)
-                    Call sb.Write(link.data!graph, BinaryStringFormat.DwordLengthPrefix)
-
+                    Call sb.WriteLine(metadata.GetJson)
                     Call sb.Flush()
                 End Using
             Next
