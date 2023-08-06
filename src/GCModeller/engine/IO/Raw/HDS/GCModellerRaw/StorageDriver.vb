@@ -108,7 +108,9 @@ Namespace Raw
                     Call sb.Flush()
                 End Using
 
-                Call metaboIndex.Add(metabo.label)
+                If metabo.data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE) <> "reaction" Then
+                    Call metaboIndex.Add(metabo.label)
+                End If
             Next
 
             ' write graph network
