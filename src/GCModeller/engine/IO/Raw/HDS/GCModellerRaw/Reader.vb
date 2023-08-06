@@ -110,6 +110,21 @@ Namespace Raw
             Next
         End Function
 
+        Public Function GetGraphData(metabo As String, rxn As String) As Dictionary(Of String, String())
+            Dim path As String = $"/graph/links/{metabo}/{rxn}.dat"
+            Dim s As Stream = stream.OpenFile(path, FileMode.Open, FileAccess.Read)
+            Dim buf As New BinaryDataReader(s, byteOrder:=ByteOrder.BigEndian)
+
+            buf.ReadString(BinaryStringFormat.DwordLengthPrefix)
+            buf.ReadDouble()
+            buf.ReadString(BinaryStringFormat.DwordLengthPrefix)
+
+            Dim json As String = buf.ReadString(BinaryStringFormat.DwordLengthPrefix)
+            Dim metadata As Dictionary(Of String, String()) = json.LoadJSON(Of Dictionary(Of String, String()))
+
+            Return metadata
+        End Function
+
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetIdCounts() As Dictionary(Of String, Integer)
             Return stream.ReadText("/.etc/count.json").LoadJSON(Of Dictionary(Of String, Integer))
