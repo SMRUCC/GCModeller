@@ -108,6 +108,11 @@ Namespace Raw
                 }, "/.etc/count.json")
         End Sub
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function GetStream() As StreamPack
+            Return stream
+        End Function
+
         ''' <summary>
         ''' 将编号列表写入的原始文件之中
         ''' </summary>

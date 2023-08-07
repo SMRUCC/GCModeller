@@ -64,6 +64,7 @@ Imports Microsoft.VisualBasic.DataStorage.HDSPack
 Imports Microsoft.VisualBasic.DataStorage.HDSPack.FileSystem
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Microsoft.VisualBasic.Text
 
 Namespace Raw
 
@@ -94,6 +95,32 @@ Namespace Raw
             stream = New StreamPack(input)
             tick_counts = Strings.Trim(stream.ReadText("/.etc/ticks.txt")).DoCall(AddressOf Integer.Parse)
         End Sub
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="id">id of the metabolite</param>
+        ''' <returns></returns>
+        Public Iterator Function GetRelatedReactions(id As String) As IEnumerable(Of String)
+            Dim dir As StreamGroup = stream.GetObject($"/graph/links/{id}/")
+
+            For Each file In dir.ListFiles
+                If TypeOf file Is StreamBlock Then
+                    Yield file.referencePath.ToString.BaseName
+                End If
+            Next
+        End Function
+
+        Public Function GetGraphData(metabo As String, rxn As String) As Dictionary(Of String, String())
+            Dim path As String = $"/graph/links/{metabo}/{rxn}.dat"
+            Dim s As Stream = stream.OpenFile(path, FileMode.Open, FileAccess.Read)
+            Dim buf As New StreamReader(s, encoding:=Encodings.UTF8WithoutBOM.CodePage)
+            Dim str As String = buf.ReadToEnd
+            Dim json As String = str.LoadJSON(Of Dictionary(Of String, String))!graph
+            Dim metadata As Dictionary(Of String, String()) = json.LoadJSON(Of Dictionary(Of String, String()))
+
+            Return metadata
+        End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetIdCounts() As Dictionary(Of String, Integer)

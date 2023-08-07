@@ -92,7 +92,7 @@ Module RawXmlKit
             If vcell Is Nothing Then
                 Return Internal.debug.stop("missing vcell engine argument value!", env)
             Else
-                Return New StorageDriver(file, vcell.model)
+                Return New StorageDriver(file, vcell)
             End If
         Else
             Return Internal.debug.stop($"unknown I/O mode: {mode}...", env)

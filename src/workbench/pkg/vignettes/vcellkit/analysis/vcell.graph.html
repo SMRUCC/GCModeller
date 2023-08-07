@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>create a new virtual cell engine</title>
+    <title>Export the cellular graph data from the virtual cell simulation engine</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <style rel="stylesheet" type="text/css">
@@ -143,12 +143,12 @@
 
         <table style="width: 100%;">
             <tr>
-                <td>engine.load {simulator}</td>
+                <td>vcell.graph {analysis}</td>
                 <td style="text-align: right;">R Documentation</td>
             </tr>
         </table>
 
-        <h2>create a new virtual cell engine</h2>
+        <h2>Export the cellular graph data from the virtual cell simulation engine</h2>
 
         <h3>Description</h3>
 
@@ -157,40 +157,18 @@
         <h3>Usage</h3>
 
         <div style="width: 100%; padding-left: 3%; color: black;">
-            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>engine.load</strong>(<i>vcell</i>,
-    <i>inits</i> = <span style='color: blue;'>NULL</span>,
-    <i>iterations</i> = 100,
-    <i>time.resolutions</i> = 10000,
-    <i>deletions</i> = <span style='color: blue;'>NULL</span>,
-    <i>dynamics</i> = <span style='color: blue;'>NULL</span>,
-    <i>showProgress</i> = <span style='color: blue;'>TRUE</span>);</code></pre>
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>vcell.graph</strong>(<i>vcell</i>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
 
         <table>
             
-<dt>inits</dt>
-<dd><p><p>-</p></p></dd>
-
-
 <dt>vcell</dt>
-<dd><p><p>The virtual cell object model, contains the definition of the cellular network graph data</p></p></dd>
-
-
-<dt>iterations%</dt>
 <dd><p><p>-</p></p></dd>
 
 
-<dt>time.resolutions%</dt>
-<dd><p><p>-</p></p></dd>
-
-
-<dt>deletions$</dt>
-<dd><p><p>-</p></p></dd>
-
-
-<dt>dynamics</dt>
+<dt>env</dt>
 <dd><p><p>-</p></p></dd>
 
         </table>
@@ -203,11 +181,11 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/clr/SMRUCC/genomics/GCModeller/ModellingEngine/BootstrapLoader/Engine/Engine.html">Engine</a>.
+        this function returns data object of type <a href="/clr/Microsoft/VisualBasic/Data/visualize/Network/Graph/NetworkGraph.html">NetworkGraph</a>.
 
         <hr />
-        <div style="text-align: center;">[Package <em>simulator</em> version 1.0.0.0 <a
-                href="../simulator.html">Index</a>]
+        <div style="text-align: center;">[Package <em>analysis</em> version 1.0.0.0 <a
+                href="../analysis.html">Index</a>]
         </div>
     </div>
 </body>
