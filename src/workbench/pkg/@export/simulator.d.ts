@@ -27,7 +27,7 @@ declare namespace simulator {
        * create a new virtual cell engine
        * 
        * 
-        * @param vcell -
+        * @param vcell The virtual cell object model, contains the definition of the cellular network graph data
         * @param inits -
         * 
         * + default value Is ``null``.

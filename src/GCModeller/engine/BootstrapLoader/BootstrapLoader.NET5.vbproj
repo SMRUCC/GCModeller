@@ -8,7 +8,6 @@
 		<Company>sciBASIC.NET</Company>
 		<Version>5.0.1.2389</Version>
 
-		<AssemblyVersion>5.33.*</AssemblyVersion>
 		<Deterministic>false</Deterministic>
 
 		<Copyright>GPL3</Copyright>
@@ -17,7 +16,7 @@
 		<PackageIcon>logo.png</PackageIcon>
 		<RepositoryUrl>https://github.com/xieguigang/sciBASIC</RepositoryUrl>
 		<Platforms>AnyCPU;x64</Platforms>
-		<Configurations>Debug;Release;Rsharp_app_release;LipidSearch;PlantMAT;mzkit;NPSearch</Configurations>
+		<Configurations>Debug;Release;Rsharp_app_release;LipidSearch;PlantMAT;mzkit;NPSearch;gcmodeller_desktop</Configurations>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 		<Description>The core runtime module of sciBASIC# scientific computing project.</Description>
@@ -81,7 +80,7 @@
 		<DocumentationFile>SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.xml</DocumentationFile>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='gcmodeller_desktop|x64'">
 		<DocumentationFile>SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.xml</DocumentationFile>
 		<DefineConstants>netcore5=1,UNIX=0</DefineConstants>
 		<RemoveIntegerChecks>true</RemoveIntegerChecks>
@@ -89,6 +88,7 @@
 		<DebugSymbols>true</DebugSymbols>
 		<DebugType>full</DebugType>
 		<DefineDebug>false</DefineDebug>
+    <OutputPath>../../../workbench/win32_desktop\Apps\Rstudio\host\</OutputPath>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='mzkit|x64'">
