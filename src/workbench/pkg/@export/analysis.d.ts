@@ -35,11 +35,15 @@ declare namespace analysis {
       function matrix(result: string, setName?: string, trim?: boolean): object;
    }
    module vcell {
-      module mass {
-         /**
-           * @param env default value Is ``null``.
-         */
-         function graph(vcell: any, env?: object): object;
-      }
+      /**
+       * Export the cellular graph data from the virtual cell simulation engine
+       * 
+       * 
+        * @param vcell -
+        * @param env -
+        * 
+        * + default value Is ``null``.
+      */
+      function graph(vcell: any, env?: object): object;
    }
 }
