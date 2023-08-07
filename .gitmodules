@@ -4,7 +4,7 @@
 [submodule "src/runtime/Darwinism"]
 	path = src/runtime/Darwinism
 	url = https://github.com/xieguigang/Darwinism.git
-	ignore=all
+	ignore = all
 [submodule "src/runtime/ggplot"]
 	path = src/runtime/ggplot
 	url = https://github.com/rsharp-lang/ggplot.git
