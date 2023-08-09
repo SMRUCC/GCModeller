@@ -12,7 +12,7 @@ Public Class Decoder
     Sub New(latent_dims As Integer)
         linear1 = New Linear(latent_dims, 512)
         linear2 = New Linear(512, 784)
-        t1 = NumericMatrix.One(784, 512)
+        t1 = NumericMatrix.Gauss(784, 512)
     End Sub
 
     Public Function forward(z As Vector) As Vector

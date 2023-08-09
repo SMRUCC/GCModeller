@@ -8,8 +8,7 @@ Public Class VariationalEncoder
     Dim linear1 As Linear
     Dim linear2 As Linear
     Dim linear3 As Linear
-    Dim t2 As NumericMatrix
-    Dim t3 As NumericMatrix
+    Dim t1 As NumericMatrix
 
     Public ReadOnly Property kl As Double
 
@@ -17,8 +16,7 @@ Public Class VariationalEncoder
         linear1 = New Linear(784, 512)
         linear2 = New Linear(512, latent_dims)
         linear3 = New Linear(512, latent_dims)
-        t2 = NumericMatrix.One(784, 512)
-        t3 = NumericMatrix.One(784, 512)
+        t1 = NumericMatrix.Gauss(100, 512)
     End Sub
 
     Public Function forward(x As Vector) As Vector
@@ -36,8 +34,8 @@ Public Class VariationalEncoder
     End Function
 
     Public Sub backward(loss As Vector)
-        Call linear1.backward(loss)
-        Call linear2.backward(t2.DotMultiply(loss))
-        Call linear3.backward(t3.DotMultiply(loss))
+        Call linear1.backward(t1.DotMultiply(loss))
+        Call linear2.backward(loss)
+        Call linear3.backward(loss)
     End Sub
 End Class
