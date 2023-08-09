@@ -1,9 +1,6 @@
 [submodule "src/R-sharp"]
 	path = src/R-sharp
 	url = https://github.com/SMRUCC/R-sharp.git
-[submodule "src/runtime/Darwinism"]
-	path = src/runtime/Darwinism
-	url = https://github.com/xieguigang/Darwinism.git
 [submodule "src/runtime/ggplot"]
 	path = src/runtime/ggplot
 	url = https://github.com/rsharp-lang/ggplot.git
@@ -19,3 +16,6 @@
 [submodule "src/runtime/enigma"]
 	path = src/runtime/enigma
 	url = https://github.com/rsharp-lang/enigma.git
+[submodule "src/runtime/Darwinism"]
+	path = src/runtime/Darwinism
+	url = https://gitee.com/xieguigang/Darwinism.git
