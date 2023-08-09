@@ -14,8 +14,14 @@ Namespace Math
 
         Sub New(in_features As Integer, out_features As Integer, Optional bias As Boolean = True)
             Me.bias = bias
-            Me.w = New NumericMatrix(out_features, in_features)
+            Me.w = New NumericMatrix(gauss(in_features, out_features))
         End Sub
+
+        Private Iterator Function gauss(in_features As Integer, out_features As Integer) As IEnumerable(Of Vector)
+            For i As Integer = 0 To out_features - 1
+                Yield Vector.rand(in_features)
+            Next
+        End Function
 
         Public Function Fit(x As Vector) As Vector
             Return w.DotMultiply(x) + b
