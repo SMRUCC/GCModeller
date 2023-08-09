@@ -66,6 +66,7 @@
 
 #End Region
 
+Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Runtime.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection
@@ -1209,6 +1210,8 @@ Namespace LinearAlgebra.Matrix
                 Next
 
                 Return New NumericMatrix(rows)
+            Else
+                Throw New InvalidDataException
             End If
         End Operator
 
