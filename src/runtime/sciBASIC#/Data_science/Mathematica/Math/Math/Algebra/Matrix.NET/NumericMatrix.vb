@@ -66,6 +66,7 @@
 
 #End Region
 
+Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Runtime.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection
@@ -74,6 +75,7 @@ Imports Microsoft.VisualBasic.Language.Vectorization
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports stdNum = System.Math
+Imports randf2 = Microsoft.VisualBasic.Math.RandomExtensions
 
 Namespace LinearAlgebra.Matrix
 
@@ -1114,6 +1116,18 @@ Namespace LinearAlgebra.Matrix
             End If
         End Function
 
+        Public Function DotMultiply(v As Vector) As Vector
+            Dim out As Double() = New Double(Me.RowDimension - 1) {}
+            Dim i As Integer = 0
+
+            For Each row As Vector In Me.RowVectors
+                out(i) = (row * v).Sum
+                i += 1
+            Next
+
+            Return New Vector(out)
+        End Function
+
         ''' <summary>Multiply a matrix by a scalar in place, A = s*A</summary>
         ''' <param name="s">   
         ''' scalar
@@ -1178,6 +1192,32 @@ Namespace LinearAlgebra.Matrix
         ''' <returns></returns>
         Public Shared Operator +(m1 As NumericMatrix, m2 As GeneralMatrix) As GeneralMatrix
             Return m1.Add(m2)
+        End Operator
+
+        Public Shared Operator -(m As NumericMatrix, v As Vector) As NumericMatrix
+            Return m + (-v)
+        End Operator
+
+        Public Shared Operator +(m As NumericMatrix, v As Vector) As NumericMatrix
+            If m.ColumnDimension = v.Dim Then
+                Return New NumericMatrix(m.RowVectors.Select(Function(ri) ri + v))
+            ElseIf m.RowDimension = v.Dim Then
+                Dim cols As New List(Of Double())
+
+                For i As Integer = 0 To m.ColumnDimension - 1
+                    cols.Add(m.ColumnVector(i) + v)
+                Next
+
+                Dim rows As New List(Of Vector)
+
+                For i As Integer = 0 To m.RowDimension - 1
+                    rows.Add(cols.Select(Function(j) j(i)).AsVector)
+                Next
+
+                Return New NumericMatrix(rows)
+            Else
+                Throw New InvalidDataException
+            End If
         End Operator
 
         Public Shared Operator +(x As Double, m1 As NumericMatrix) As NumericMatrix
@@ -1643,6 +1683,19 @@ Namespace LinearAlgebra.Matrix
             For i As Integer = 0 To rowDimension - 1
                 For j As Integer = 0 To columnDimension - 1
                     x(i)(j) = 1
+                Next
+            Next
+
+            Return m
+        End Function
+
+        Public Shared Function Gauss(columnDimension As Integer, rowDimension As Integer) As NumericMatrix
+            Dim m As New NumericMatrix(rowDimension, columnDimension)
+            Dim x = m.Array
+
+            For i As Integer = 0 To rowDimension - 1
+                For j As Integer = 0 To columnDimension - 1
+                    x(i)(j) = randf2.NextGaussian(mu:=0, sigma:=1)
                 Next
             Next
 
