@@ -26,7 +26,7 @@ Public Class VariationalEncoder
         Dim sigma = linear3.Fit(x)
 
         sigma(sigma < 0) = Vector.Scalar(0.0001)
-        sigma = sigma.Log
+        sigma = sigma.Exp
 
         Dim z = mu + sigma * Vector.norm(size:=mu.Length, mu:=0, sigma:=1)
         _kl = (sigma ^ 2 + mu ^ 2 - sigma.Log - 1 / 2).Sum

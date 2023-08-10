@@ -23,9 +23,17 @@ Public Class Trainer
 
     Private Sub backward(x As Vector, xi As Vector, learning_rate As Double)
         Dim loss = ((x - xi) ^ 2) * autoencoder.encoder.kl * learning_rate
+
+        loss(loss > 0.5) = Vector.Scalar(0.5)
+        loss(loss < -0.5) = Vector.Scalar(-0.5)
+
         Call autoencoder.decoder.backward(loss)
 
         loss = ((autoencoder.encoder.forward(x) - autoencoder.encoder.forward(xi)) ^ 2) * autoencoder.encoder.kl * learning_rate
+
+        loss(loss > 0.5) = Vector.Scalar(0.5)
+        loss(loss < -0.5) = Vector.Scalar(-0.5)
+
         Call autoencoder.encoder.backward(loss)
     End Sub
 End Class
