@@ -412,6 +412,9 @@ Module geneExpression
     ''' the table file format that handled by this function
     ''' could be a csv table file or tsv table file.
     ''' </remarks>
+    ''' <example>
+    ''' load.expr(file = "./rawdata.csv")
+    ''' </example>
     <ExportAPI("load.expr")>
     <RApiReturn(GetType(Matrix))>
     Public Function loadExpression(file As Object,
