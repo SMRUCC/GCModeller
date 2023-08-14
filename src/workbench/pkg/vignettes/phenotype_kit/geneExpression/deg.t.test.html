@@ -29,8 +29,13 @@
         code {
             color: rgb(194, 42, 42);
             background: inherit;
-            font-style:italic;
+            font-style: italic;
             font-weight: bold;
+        }
+
+        pre code {
+            color: rgb(54, 54, 54);
+            font-style: normal;
         }
 
         body {
@@ -158,9 +163,9 @@
 
         <div style="width: 100%; padding-left: 3%; color: black;">
             <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>deg.t.test</strong>(<i>x</i>, <i>sampleinfo</i>, <i>treatment</i>, <i>control</i>,
-    <i>level</i> = 1.5,
-    <i>pvalue</i> = 0.05,
-    <i>FDR</i> = 0.05);</code></pre>
+    <i>level</i> = <span style='color: green;'>1.5</span>,
+    <i>pvalue</i> = <span style='color: green;'>0.05</span>,
+    <i>FDR</i> = <span style='color: green;'>0.05</span>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
@@ -209,6 +214,10 @@
         <h3>Value</h3>
 
         this function returns data object of type <a href="/clr/SMRUCC/genomics/Analysis/HTS/Proteomics/DEP_iTraq[].html">DEP_iTraq[]</a>.
+
+        <h3 style="display: none;">Examples</h3>
+
+        
 
         <hr />
         <div style="text-align: center;">[Package <em>geneExpression</em> version 1.0.0.0 <a
