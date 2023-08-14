@@ -88,6 +88,19 @@ Public Class SampleInfo : Inherits SampleGroup
     ''' <returns></returns>
     Public Property shape As String
 
+    Sub New()
+    End Sub
+
+    Sub New(copy As SampleInfo)
+        Me.ID = copy.ID
+        Me.injectionOrder = copy.injectionOrder
+        Me.batch = copy.batch
+        Me.color = copy.color
+        Me.sample_info = copy.sample_info
+        Me.sample_name = copy.sample_name
+        Me.shape = copy.shape
+    End Sub
+
     Public Shared Iterator Function FromTagGroup(tags As NamedCollection(Of String),
                                                  Optional color As String = "#FF0000",
                                                  Optional shape As String = "21") As IEnumerable(Of SampleInfo)
