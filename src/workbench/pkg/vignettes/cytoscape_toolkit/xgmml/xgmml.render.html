@@ -29,8 +29,13 @@
         code {
             color: rgb(194, 42, 42);
             background: inherit;
-            font-style:italic;
+            font-style: italic;
             font-weight: bold;
+        }
+
+        pre code {
+            color: rgb(54, 54, 54);
+            font-style: normal;
         }
 
         body {
@@ -159,14 +164,14 @@
         <div style="width: 100%; padding-left: 3%; color: black;">
             <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>xgmml.render</strong>(<i>model</i>,
     <i>size</i> = <span style='color: brown;'><strong>"10(A0)"</strong></span>,
-    <i>convexHull</i> = <span style='color: blue;'>NULL</span>,
-    <i>edgeBends</i> = <span style='color: blue;'>FALSE</span>,
-    <i>altStyle</i> = <span style='color: blue;'>FALSE</span>,
+    <i>convexHull</i> = <span style='color: blue !important;'>NULL</span>,
+    <i>edgeBends</i> = <span style='color: blue !important;'>FALSE</span>,
+    <i>altStyle</i> = <span style='color: blue !important;'>FALSE</span>,
     <i>rewriteGroupCategoryColors</i> = <span style='color: brown;'><strong>"TSF"</strong></span>,
     <i>enzymeColorSchema</i> = <span style='color: brown;'><strong>"Set1:c8"</strong></span>,
     <i>compoundColorSchema</i> = <span style='color: brown;'><strong>"Clusters"</strong></span>,
-    <i>reactionKOMapping</i> = <span style='color: blue;'>NULL</span>,
-    <i>compoundNames</i> = <span style='color: blue;'>NULL</span>);</code></pre>
+    <i>reactionKOMapping</i> = <span style='color: blue !important;'>NULL</span>,
+    <i>compoundNames</i> = <span style='color: blue !important;'>NULL</span>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
@@ -223,6 +228,10 @@
         <h3>Value</h3>
 
         this function returns data object of type <a href="/clr/Microsoft/VisualBasic/Imaging/Driver/GraphicsData.html">GraphicsData</a>.
+
+        <h3 style="display: none;">Examples</h3>
+
+        
 
         <hr />
         <div style="text-align: center;">[Package <em>xgmml</em> version 1.0.0.0 <a

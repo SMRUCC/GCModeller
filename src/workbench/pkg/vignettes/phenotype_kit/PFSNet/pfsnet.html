@@ -29,8 +29,13 @@
         code {
             color: rgb(194, 42, 42);
             background: inherit;
-            font-style:italic;
+            font-style: italic;
             font-weight: bold;
+        }
+
+        pre code {
+            color: rgb(54, 54, 54);
+            font-style: normal;
         }
 
         body {
@@ -158,10 +163,10 @@
 
         <div style="width: 100%; padding-left: 3%; color: black;">
             <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>pfsnet</strong>(<i>expr1o</i>, <i>expr2o</i>, <i>ggi</i>,
-    <i>b</i> = 0.5,
-    <i>t1</i> = 0.95,
-    <i>t2</i> = 0.85,
-    <i>n</i> = 1000);</code></pre>
+    <i>b</i> = <span style='color: green;'>0.5</span>,
+    <i>t1</i> = <span style='color: green;'>0.95</span>,
+    <i>t2</i> = <span style='color: green;'>0.85</span>,
+    <i>n</i> = <span style='color: green;'>1000</span>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
@@ -206,6 +211,10 @@
         <h3>Value</h3>
 
         this function returns data object of type <a href="/clr/SMRUCC/genomics/Analysis/PFSNet/DataStructure/PFSNetResultOut.html">PFSNetResultOut</a>.
+
+        <h3 style="display: none;">Examples</h3>
+
+        
 
         <hr />
         <div style="text-align: center;">[Package <em>PFSNet</em> version 1.0.0.0 <a

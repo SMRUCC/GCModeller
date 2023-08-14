@@ -29,8 +29,13 @@
         code {
             color: rgb(194, 42, 42);
             background: inherit;
-            font-style:italic;
+            font-style: italic;
             font-weight: bold;
+        }
+
+        pre code {
+            color: rgb(54, 54, 54);
+            font-style: normal;
         }
 
         body {
@@ -159,16 +164,16 @@
         <div style="width: 100%; padding-left: 3%; color: black;">
             <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>peakCMeans</strong>(<i>matrix</i>,
     <i>nsize</i> = <span style='color: brown;'><strong>"3,3"</strong></span>,
-    <i>threshold</i> = 10,
-    <i>fuzzification</i> = 2,
+    <i>threshold</i> = <span style='color: green;'>10</span>,
+    <i>fuzzification</i> = <span style='color: green;'>2</span>,
     <i>plotSize</i> = <span style='color: brown;'><strong>"8100,5200"</strong></span>,
     <i>colorSet</i> = <span style='color: brown;'><strong>"Jet"</strong></span>,
-    <i>memberCutoff</i> = 0.8,
-    <i>empty.shared</i> = 2,
-    <i>max.cluster.shared</i> = 3,
+    <i>memberCutoff</i> = <span style='color: green;'>0.8</span>,
+    <i>empty.shared</i> = <span style='color: green;'>2</span>,
+    <i>max.cluster.shared</i> = <span style='color: green;'>3</span>,
     <i>xlab</i> = <span style='color: brown;'><strong>"Spatial Regions"</strong></span>,
     <i>ylab</i> = <span style='color: brown;'><strong>"z-score(Normalized Intensity)"</strong></span>,
-    <i>top.members</i> = 0.2);</code></pre>
+    <i>top.members</i> = <span style='color: green;'>0.2</span>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
@@ -223,6 +228,10 @@
 <li>'pattern' is a dataframe object that contains the object cluster patterns</li>
 <li>'image' is a bitmap image that plot based on the object cluster patterns data.</li>
 </ol>
+
+        <h3 style="display: none;">Examples</h3>
+
+        
 
         <hr />
         <div style="text-align: center;">[Package <em>geneExpression</em> version 1.0.0.0 <a

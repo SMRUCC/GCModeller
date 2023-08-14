@@ -29,8 +29,13 @@
         code {
             color: rgb(194, 42, 42);
             background: inherit;
-            font-style:italic;
+            font-style: italic;
             font-weight: bold;
+        }
+
+        pre code {
+            color: rgb(54, 54, 54);
+            font-style: normal;
         }
 
         body {
@@ -161,9 +166,9 @@
     <i>title</i> = <span style='color: brown;'><strong>"KEGG Orthology Profiling"</strong></span>,
     <i>axis.title</i> = <span style='color: brown;'><strong>"Number Of Proteins"</strong></span>,
     <i>size</i> = <span style='color: brown;'><strong>"2300,2000"</strong></span>,
-    <i>tick</i> = -1,
+    <i>tick</i> = <span style='color: green;'>-1</span>,
     <i>colors</i> = <span style='color: #E41A1C;'><strong>"#E41A1C,#377EB8,#4DAF4A,#984EA3,#FF7F00,#CECE00"</strong></span>,
-    <i>dpi</i> = 300,
+    <i>dpi</i> = <span style='color: green;'>300</span>,
     <i>format</i> = <span style='color: brown;'><strong>"F2"</strong></span>);</code></pre>
         </div>
 
@@ -182,6 +187,10 @@
         <h3>Value</h3>
 
         this function returns data object of type <a href="/clr/Microsoft/VisualBasic/Imaging/Driver/GraphicsData.html">GraphicsData</a>.
+
+        <h3 style="display: none;">Examples</h3>
+
+        
 
         <hr />
         <div style="text-align: center;">[Package <em>visualPlot</em> version 1.0.0.0 <a

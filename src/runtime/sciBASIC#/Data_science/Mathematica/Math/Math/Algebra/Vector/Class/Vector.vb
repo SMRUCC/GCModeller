@@ -1,65 +1,65 @@
 ﻿#Region "Microsoft.VisualBasic::659a94d94229bba47bde56ace0459a7e, sciBASIC#\Data_science\Mathematica\Math\Math\Algebra\Vector\Class\Vector.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 1008
-    '    Code Lines: 514
-    ' Comment Lines: 353
-    '   Blank Lines: 141
-    '     File Size: 34.82 KB
+' Summaries:
 
 
-    '     Class Vector
-    ' 
-    '         Properties: [Mod], Data, Inf, IsNumeric, NAN
-    '                     Range, SumMagnitude, Unit, Zero
-    ' 
-    '         Constructor: (+12 Overloads) Sub New
-    ' 
-    '         Function: Abs, AsSparse, CumSum, DotProduct, Ones
-    '                   Order, Product, (+2 Overloads) rand, Scalar, ScaleToRange
-    '                   seq, slice, SumMagnitudes, (+2 Overloads) ToString
-    ' 
-    '         Sub: (+3 Overloads) CopyTo
-    ' 
-    '         Operators: (+4 Overloads) -, (+6 Overloads) *, (+3 Overloads) /, (+3 Overloads) ^, (+4 Overloads) +
-    '                    <, (+3 Overloads) <=, (+2 Overloads) <>, (+2 Overloads) =, >
-    '                    (+3 Overloads) >=, (+2 Overloads) Or, (+2 Overloads) Xor
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 1008
+'    Code Lines: 514
+' Comment Lines: 353
+'   Blank Lines: 141
+'     File Size: 34.82 KB
+
+
+'     Class Vector
+' 
+'         Properties: [Mod], Data, Inf, IsNumeric, NAN
+'                     Range, SumMagnitude, Unit, Zero
+' 
+'         Constructor: (+12 Overloads) Sub New
+' 
+'         Function: Abs, AsSparse, CumSum, DotProduct, Ones
+'                   Order, Product, (+2 Overloads) rand, Scalar, ScaleToRange
+'                   seq, slice, SumMagnitudes, (+2 Overloads) ToString
+' 
+'         Sub: (+3 Overloads) CopyTo
+' 
+'         Operators: (+4 Overloads) -, (+6 Overloads) *, (+3 Overloads) /, (+3 Overloads) ^, (+4 Overloads) +
+'                    <, (+3 Overloads) <=, (+2 Overloads) <>, (+2 Overloads) =, >
+'                    (+3 Overloads) >=, (+2 Overloads) Or, (+2 Overloads) Xor
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -387,13 +387,17 @@ Namespace LinearAlgebra
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Overloads Shared Operator +(v1 As Vector, v2 As Vector) As Vector
+            Dim output As Double()
+
             If v1.Length = 1 Then
-                Return v1(Scan0) + v2
+                output = SIMD.Add.f64_op_add_f64_scalar(v2.buffer, v1(Scan0))
             ElseIf v2.Length = 1 Then
-                Return v1 + v2(Scan0)
+                output = SIMD.Add.f64_op_add_f64_scalar(v1.buffer, v2(Scan0))
             Else
-                Return New Vector(SIMD.Add.f64_op_add_f64(v1.buffer, v2.buffer))
+                output = SIMD.Add.f64_op_add_f64(v1.buffer, v2.buffer)
             End If
+
+            Return New Vector(output)
         End Operator
 
         ''' <summary>
@@ -470,7 +474,7 @@ Namespace LinearAlgebra
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overloads Shared Operator *(v1 As Vector, v2 As Vector) As Vector
-            Return v1 * v2.buffer
+            Return New Vector(SIMD.Multiply.f64_op_multiply_f64(v1.buffer, v2.buffer))
         End Operator
 
         ''' <summary>
@@ -522,6 +526,8 @@ Namespace LinearAlgebra
         ''' <param name="a"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overloads Shared Operator -(v1 As Vector, a#) As Vector
             ''向量数加算符重载
             'Dim N0 As Integer = v1.[Dim] ' 获取变量维数
@@ -542,6 +548,8 @@ Namespace LinearAlgebra
         ''' <param name="a"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overloads Shared Operator *(v1 As Vector, a#) As Vector
             'Dim N0 As Integer = v1.[Dim] ' 获取变量维数
             'Dim v2 As New Vector(N0)
@@ -566,6 +574,8 @@ Namespace LinearAlgebra
         ''' <param name="a"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Operator /(v1 As Vector, a#) As Vector
             'Dim N0 As Integer = v1.[Dim]         '获取变量维数
             'Dim v2 As New Vector(N0)
@@ -1014,13 +1024,13 @@ Namespace LinearAlgebra
         ''' </summary>
         ''' <returns></returns>
         Public Overrides Function ToString() As String
-            Return "[" & Me.ToString("G6").JoinBy(", ") & "]"
+            Return $"<dims: {[Dim]}> [" & Me.ToString("G6").Take(20).JoinBy(", ") & "...]"
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overloads Function ToString(format$) As String()
             Return Me _
-                .Select(Function(x) x.ToString(format)) _
+                .Select(Function(xi) xi.ToString(format)) _
                 .ToArray
         End Function
 
@@ -1093,6 +1103,16 @@ Namespace LinearAlgebra
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function rand(min#, max#, size%) As Vector
             Return Extensions.rand(size, {min, max})
+        End Function
+
+        Public Shared Function norm(size As Integer, Optional mu As Double = 0.0, Optional sigma As Double = 1.0) As Vector
+            Dim v As Double() = New Double(size - 1) {}
+
+            For i As Integer = 0 To v.Length - 1
+                v(i) = randf2.NextGaussian(mu, sigma)
+            Next
+
+            Return New Vector(v)
         End Function
     End Class
 End Namespace

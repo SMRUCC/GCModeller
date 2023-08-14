@@ -29,8 +29,13 @@
         code {
             color: rgb(194, 42, 42);
             background: inherit;
-            font-style:italic;
+            font-style: italic;
             font-weight: bold;
+        }
+
+        pre code {
+            color: rgb(54, 54, 54);
+            font-style: normal;
         }
 
         body {
@@ -162,7 +167,7 @@
     <i>padding</i> = <span style='color: brown;'><strong>"padding:250px 150px 300px 300px;"</strong></span>,
     <i>bg</i> = <span style='color: #FFFFFF;'><strong>"white"</strong></span>,
     <i>colorSet</i> = <span style='color: brown;'><strong>"Set1:c9"</strong></span>,
-    <i>showLabel</i> = <span style='color: blue;'>FALSE</span>,
+    <i>showLabel</i> = <span style='color: blue !important;'>FALSE</span>,
     <i>radius</i> = <span style='color: brown;'><strong>"15,50"</strong></span>,
     <i>xlab</i> = <span style='color: brown;'><strong>"X"</strong></span>,
     <i>orderByClass</i> = none);</code></pre>
@@ -183,6 +188,10 @@
         <h3>Value</h3>
 
         this function returns data object of type <i>any</i> kind.
+
+        <h3 style="display: none;">Examples</h3>
+
+        
 
         <hr />
         <div style="text-align: center;">[Package <em>visualPlot</em> version 1.0.0.0 <a
