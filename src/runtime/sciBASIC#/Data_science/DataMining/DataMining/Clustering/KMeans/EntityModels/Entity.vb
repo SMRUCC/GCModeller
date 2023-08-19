@@ -64,8 +64,13 @@ Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Namespace KMeans
 
     ''' <summary>
-    ''' 计算所使用的对象实例实体模型
+    ''' A tagged numeric vector
     ''' </summary>
+    ''' <remarks>
+    ''' uid -- feature_vector
+    ''' 
+    ''' (计算所使用的对象实例实体模型)
+    ''' </remarks>
     Public Class ClusterEntity : Inherits EntityBase(Of Double)
         Implements INamedValue
 

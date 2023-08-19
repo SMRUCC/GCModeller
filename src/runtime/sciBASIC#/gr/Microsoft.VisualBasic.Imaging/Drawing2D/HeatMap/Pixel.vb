@@ -78,6 +78,9 @@ Namespace Drawing2D.HeatMap
 
     End Interface
 
+    ''' <summary>
+    ''' A pixel spot object associate [x,y] with intensity scale data
+    ''' </summary>
     Public Structure PixelData : Implements Pixel
 
         Public Property X As Integer Implements Pixel.X
@@ -89,6 +92,10 @@ Namespace Drawing2D.HeatMap
                 Return X = 0 AndAlso Y = 0 AndAlso Scale = 0.0
             End Get
         End Property
+
+        Sub New(raster As RasterPixel, data As Double)
+            Call Me.New(raster.X, raster.Y, data)
+        End Sub
 
         Sub New(p As Point, data As Double)
             X = p.X

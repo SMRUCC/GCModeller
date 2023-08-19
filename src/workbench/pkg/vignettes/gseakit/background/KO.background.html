@@ -29,8 +29,13 @@
         code {
             color: rgb(194, 42, 42);
             background: inherit;
-            font-style:italic;
+            font-style: italic;
             font-weight: bold;
+        }
+
+        pre code {
+            color: rgb(54, 54, 54);
+            font-style: normal;
         }
 
         body {
@@ -158,9 +163,9 @@
 
         <div style="width: 100%; padding-left: 3%; color: black;">
             <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>KO.background</strong>(<i>genes</i>, <i>maps</i>,
-    <i>size</i> = -1,
+    <i>size</i> = <span style='color: green;'>-1</span>,
     <i>genomeName</i> = <span style='color: brown;'><strong>"unknown"</strong></span>,
-    <i>id.map</i> = <span style='color: blue;'>NULL</span>);</code></pre>
+    <i>id.map</i> = <span style='color: blue !important;'>NULL</span>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
@@ -193,6 +198,10 @@
         <h3>Value</h3>
 
         this function returns data object of type <a href="/clr/SMRUCC/genomics/Analysis/HTS/GSEA/Background.html">Background</a>.
+
+        <h3 style="display: none;">Examples</h3>
+
+        
 
         <hr />
         <div style="text-align: center;">[Package <em>background</em> version 1.0.0.0 <a

@@ -29,8 +29,13 @@
         code {
             color: rgb(194, 42, 42);
             background: inherit;
-            font-style:italic;
+            font-style: italic;
             font-weight: bold;
+        }
+
+        pre code {
+            color: rgb(54, 54, 54);
+            font-style: normal;
         }
 
         body {
@@ -158,8 +163,8 @@
 
         <div style="width: 100%; padding-left: 3%; color: black;">
             <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>gibbs_scan</strong>(<i>seqs</i>,
-    <i>width</i> = 12,
-    <i>maxitr</i> = 1000);</code></pre>
+    <i>width</i> = <span style='color: green;'>12</span>,
+    <i>maxitr</i> = <span style='color: green;'>1000</span>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
@@ -177,6 +182,10 @@
         <h3>Value</h3>
 
         this function returns data object of type <i>any</i> kind.
+
+        <h3 style="display: none;">Examples</h3>
+
+        
 
         <hr />
         <div style="text-align: center;">[Package <em>bioseq.patterns</em> version 1.0.0.0 <a

@@ -29,8 +29,13 @@
         code {
             color: rgb(194, 42, 42);
             background: inherit;
-            font-style:italic;
+            font-style: italic;
             font-weight: bold;
+        }
+
+        pre code {
+            color: rgb(54, 54, 54);
+            font-style: normal;
         }
 
         body {
@@ -158,17 +163,17 @@
 
         <div style="width: 100%; padding-left: 3%; color: black;">
             <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>find_motifs</strong>(<i>fasta</i>,
-    <i>minw</i> = 8,
-    <i>maxw</i> = 20,
-    <i>nmotifs</i> = -1,
-    <i>noccurs</i> = 12,
-    <i>seedingCutoff</i> = 0.65,
-    <i>scanMinW</i> = 6,
-    <i>scanCutoff</i> = 0.8,
-    <i>cleanMotif</i> = 0.5,
-    <i>significant.sites</i> = 4,
-    <i>seeds</i> = <span style='color: blue;'>NULL</span>,
-    <i>debug</i> = <span style='color: blue;'>FALSE</span>);</code></pre>
+    <i>minw</i> = <span style='color: green;'>8</span>,
+    <i>maxw</i> = <span style='color: green;'>20</span>,
+    <i>nmotifs</i> = <span style='color: green;'>-1</span>,
+    <i>noccurs</i> = <span style='color: green;'>12</span>,
+    <i>seedingCutoff</i> = <span style='color: green;'>0.65</span>,
+    <i>scanMinW</i> = <span style='color: green;'>6</span>,
+    <i>scanCutoff</i> = <span style='color: green;'>0.8</span>,
+    <i>cleanMotif</i> = <span style='color: green;'>0.5</span>,
+    <i>significant.sites</i> = <span style='color: green;'>4</span>,
+    <i>seeds</i> = <span style='color: blue !important;'>NULL</span>,
+    <i>debug</i> = <span style='color: blue !important;'>FALSE</span>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
@@ -210,6 +215,10 @@
         <h3>Value</h3>
 
         this function returns data object of type <a href="/clr/SMRUCC/genomics/Analysis/SequenceTools/SequencePatterns/Motif/SequenceMotif.html">SequenceMotif</a>.
+
+        <h3 style="display: none;">Examples</h3>
+
+        
 
         <hr />
         <div style="text-align: center;">[Package <em>bioseq.patterns</em> version 1.0.0.0 <a
