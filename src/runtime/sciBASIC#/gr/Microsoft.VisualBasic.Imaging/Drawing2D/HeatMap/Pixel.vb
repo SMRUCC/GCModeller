@@ -127,6 +127,13 @@ Namespace Drawing2D.HeatMap
             Return $"[{X},{Y} = {Scale.ToString("G4")}]"
         End Function
 
+        Public Shared Function ParseStream(data As Byte()) As IEnumerable(Of PixelData)
+            Using ms As New MemoryStream(data)
+                ms.Seek(Scan0, SeekOrigin.Begin)
+                Return ParseStream(ms)
+            End Using
+        End Function
+
         Public Shared Iterator Function ParseStream(data As Stream) As IEnumerable(Of PixelData)
             Dim bytes As Byte() = New Byte(RawStream.INT32 - 1) {}
             data.Read(bytes, Scan0, bytes.Length)
