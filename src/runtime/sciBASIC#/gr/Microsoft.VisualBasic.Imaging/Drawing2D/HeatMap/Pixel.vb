@@ -145,7 +145,7 @@ Namespace Drawing2D.HeatMap
                 Array.ConstrainedCopy(x, i * RawStream.INT32, xbytes, Scan0, RawStream.INT32)
                 Array.ConstrainedCopy(y, i * RawStream.INT32, ybytes, Scan0, RawStream.INT32)
 
-                Yield New PixelData(BitConverter.ToInt32(x), BitConverter.ToInt32(y), z(i))
+                Yield New PixelData(BitConverter.ToInt32(x, Scan0), BitConverter.ToInt32(y, Scan0), z(i))
             Next
         End Function
 
