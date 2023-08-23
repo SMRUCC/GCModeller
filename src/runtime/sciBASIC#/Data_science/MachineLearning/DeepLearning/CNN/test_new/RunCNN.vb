@@ -16,7 +16,7 @@ Namespace CNN
             builder.addLayer(Layer.buildConvLayer(12, New Size(5, 5)))
             builder.addLayer(Layer.buildSampLayer(New Size(2, 2)))
             builder.addLayer(Layer.buildOutputLayer(output_width))
-            Dim cnn As CNN = New CNN(builder, 50, output_width)
+            Dim cnn As CNN = New CNN(builder, 50)
 
             Dim fileName = "\GCModeller\src\R-sharp\test\demo\machineLearning\umap\NIST-text\train.format"
             Dim dataset As ds = ds.load(fileName, ",", 784)

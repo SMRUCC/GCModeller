@@ -12,16 +12,15 @@ Namespace CNN
         Private layers As IList(Of Layer)
         Private layerNum As Integer
         Private batchSize As Integer
-        Private [end] As Integer
         Private divide_batchSize As [Operator]
         Private multiply_alpha As [Operator]
         Private multiply_lambda As [Operator]
 
-        Public Sub New(layerBuilder As LayerBuilder, batchSize As Integer, classNumber As Integer)
+        Public Sub New(layerBuilder As LayerBuilder, batchSize As Integer)
             layers = layerBuilder.mLayers
             layerNum = layers.Count
             Me.batchSize = batchSize
-            Me.end = classNumber
+
             setup(batchSize)
             initPerator()
         End Sub
@@ -178,7 +177,7 @@ Namespace CNN
             Dim errors = layer.Errors
             Dim mapNum = layer.OutMapNum
 
-            For j = start To [end] - 1
+            For j = start To mapNum - 1
                 Dim [error] = Util.sum(errors, j)
                 ' ����ƫ��
                 Dim deltaBias = Util.sum([error]) / batchSize
@@ -193,7 +192,7 @@ Namespace CNN
             Dim mapNum = layer.OutMapNum
             Dim lastMapNum = lastLayer.OutMapNum
 
-            For j = start To [end] - 1
+            For j = start To mapNum - 1
                 For i = 0 To lastMapNum - 1
                     Dim deltaKernel As Double()() = Nothing
                     For r = 0 To batchSize - 1
@@ -233,7 +232,7 @@ Namespace CNN
             Dim mapNum = layer.OutMapNum
             Dim nextMapNum = nextLayer.OutMapNum
 
-            For i = start To [end] - 1
+            For i = start To mapNum - 1
                 Dim sum As Double()() = Nothing
                 For j = 0 To nextMapNum - 1
                     Dim nextError = nextLayer.getError(j)
@@ -253,7 +252,7 @@ Namespace CNN
         Private Sub setConvErrors(layer As Layer, nextLayer As Layer)
             Dim mapNum = layer.OutMapNum
 
-            For m = start To [end] - 1
+            For m = start To mapNum - 1
                 Dim scale = nextLayer.ScaleSize
                 Dim nextError = nextLayer.getError(m)
                 Dim map = layer.getMap(m)
@@ -339,7 +338,7 @@ Namespace CNN
             Dim mapNum = layer.OutMapNum
             Dim lastMapNum = lastLayer.OutMapNum
 
-            For j = start To [end] - 1
+            For j = start To mapNum - 1
                 Dim sum As Double()() = Nothing
                 For i = 0 To lastMapNum - 1
                     Dim lastMap = lastLayer.getMap(i)
@@ -362,7 +361,7 @@ Namespace CNN
         Private Sub setSampOutput(layer As Layer, lastLayer As Layer)
             Dim lastMapNum = lastLayer.OutMapNum
 
-            For i = start To [end] - 1
+            For i = start To lastMapNum - 1
                 Dim lastMap = lastLayer.getMap(i)
                 Dim scaleSize = layer.ScaleSize
                 Dim sampMatrix = Util.scaleMatrix(lastMap, scaleSize)
