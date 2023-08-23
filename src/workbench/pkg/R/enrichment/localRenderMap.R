@@ -62,7 +62,7 @@ const localRenderMap = function(KEGG_maps, pathwayList,
                 }
             }) {
                 print(`found error while rendering ${mapId}:`);
-                print([ex]::error);
+                # print([ex]::error);
                 str(highlights);
             };
         }
