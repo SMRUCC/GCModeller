@@ -20,7 +20,7 @@ Namespace CNN
 
             Dim fileName = "\GCModeller\src\R-sharp\test\demo\machineLearning\umap\NIST-text\train.format"
             Dim dataset As ds = ds.load(fileName, ",", 784)
-            cnn.train(dataset, 3)
+            cnn.train(dataset, 5)
             Dim modelName = "model/model.cnn"
             cnn.saveModel(modelName)
             dataset.clear()

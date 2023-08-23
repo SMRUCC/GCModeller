@@ -1,4 +1,5 @@
 ﻿Imports System.IO
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.MachineLearning.CNN.Dataset
 Imports Microsoft.VisualBasic.MachineLearning.CNN.Util
 Imports std = System.Math
@@ -43,6 +44,9 @@ Namespace CNN
                 Call Log.i(t.ToString() & "th iter epochsNum:" & epochsNum.ToString())
                 Dim right = 0
                 Dim count = 0
+                Dim d As Integer = epochsNum / 25
+                Dim t0 = Now
+
                 For i = 0 To epochsNum - 1
                     Dim randPerm As Integer() = Util.randomPerm(trainset.size(), batchSize)
                     Call Layer.prepareForNewBatch()
@@ -57,11 +61,9 @@ Namespace CNN
                     Next
 
                     updateParas()
-                    If i Mod 50 = 0 Then
-                        Console.Write("..")
-                        If i + 50 > epochsNum Then
-                            Console.WriteLine()
-                        End If
+
+                    If i Mod d = 0 Then
+                        Call VBDebugger.EchoLine($"[{i + 1}/{epochsNum}] {(i / epochsNum * 100).ToString("F1")}% ...... {(Now - t0).FormatTime(False)}")
                     End If
                 Next
                 Dim p = 1.0 * right / count
@@ -103,7 +105,7 @@ Namespace CNN
             Log.i("begin predict")
             Try
                 Dim max = layers(layerNum - 1).ClassNum
-                Dim writer As StreamWriter = New StreamWriter(File.OpenRead(fileName))
+                Dim writer As StreamWriter = New StreamWriter(fileName.Open(FileMode.OpenOrCreate, doClear:=True))
                 Call Layer.prepareForNewBatch()
                 Dim iter As IEnumerator(Of Record) = testset.iter()
                 While iter.MoveNext()
@@ -123,7 +125,7 @@ Namespace CNN
                     ' if (lable >= max)
                     ' lable = lable - (1 << (out.length -
                     ' 1));
-                    writer.WriteLine(lable.ToString() & vbLf)
+                    writer.WriteLine(lable.ToString())
                 End While
                 writer.Flush()
                 writer.Close()
