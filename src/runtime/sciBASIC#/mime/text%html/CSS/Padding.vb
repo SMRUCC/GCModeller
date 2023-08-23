@@ -127,6 +127,10 @@ Namespace CSS
             End Get
         End Property
 
+        ''' <summary>
+        ''' all padding value is ZERO then it means empty
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property IsEmpty As Boolean
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
@@ -179,6 +183,13 @@ Namespace CSS
         ''' </summary>
         ''' <param name="layoutVector%"><see cref="LayoutVector"/></param>
         Sub New(layoutVector%())
+            Top = layoutVector(0)
+            Right = layoutVector(1)
+            Bottom = layoutVector(2)
+            Left = layoutVector(3)
+        End Sub
+
+        Sub New(layoutVector As Double())
             Top = layoutVector(0)
             Right = layoutVector(1)
             Bottom = layoutVector(2)
