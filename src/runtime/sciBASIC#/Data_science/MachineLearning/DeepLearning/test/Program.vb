@@ -1,5 +1,4 @@
 Imports Microsoft.VisualBasic.MachineLearning.CNN
-Imports Microsoft.VisualBasic.MachineLearning.CNN.CNN
 Imports ds = Microsoft.VisualBasic.MachineLearning.CNN.Dataset.Dataset
 
 Public Class RunCNN
@@ -8,12 +7,12 @@ Public Class RunCNN
         Dim builder As LayerBuilder = New LayerBuilder()
         Dim output_width = 10
 
-        builder.addLayer(Layer.buildInputLayer(New Size(28, 28)))
-        builder.addLayer(Layer.buildConvLayer(6, New Size(5, 5)))
-        builder.addLayer(Layer.buildSampLayer(New Size(2, 2)))
-        builder.addLayer(Layer.buildConvLayer(12, New Size(5, 5)))
-        builder.addLayer(Layer.buildSampLayer(New Size(2, 2)))
-        builder.addLayer(Layer.buildOutputLayer(output_width))
+        builder.buildInputLayer(New Size(28, 28))
+        builder.buildConvLayer(6, New Size(5, 5))
+        builder.buildSampLayer(New Size(2, 2))
+        builder.buildConvLayer(12, New Size(5, 5))
+        builder.buildSampLayer(New Size(2, 2))
+        builder.buildOutputLayer(output_width)
         Dim cnn As CNN = New CNN(builder, 50)
 
         Dim fileName = "\GCModeller\src\R-sharp\test\demo\machineLearning\umap\NIST-text\train.format"

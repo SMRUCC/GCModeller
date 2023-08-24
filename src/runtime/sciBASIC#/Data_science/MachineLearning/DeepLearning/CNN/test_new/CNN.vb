@@ -3,6 +3,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.MachineLearning.CNN.Dataset
 Imports Microsoft.VisualBasic.MachineLearning.CNN.Util
 Imports layerTypes = Microsoft.VisualBasic.MachineLearning.Convolutional.LayerTypes
+Imports Microsoft.VisualBasic.MachineLearning.ComponentModel.Activations
 
 Namespace CNN
 
@@ -278,7 +279,8 @@ Namespace CNN
         End Function
 
         Private Sub forward(record As Record)
-            InLayerOutput = record
+            Call setInLayerOutput(record)
+
             For l = 1 To layers.Count - 1
                 Dim layer = layers(l)
                 Dim lastLayer = layers(l - 1)
@@ -294,21 +296,19 @@ Namespace CNN
             Next
         End Sub
 
-        Private WriteOnly Property InLayerOutput As Record
-            Set(value As Record)
-                Dim inputLayer = layers(0)
-                Dim mapSize = inputLayer.MapSize
-                Dim attr = value.Attrs
-                If attr.Length <> mapSize.x * mapSize.y Then
-                    Throw New Exception()
-                End If
-                For i = 0 To mapSize.x - 1
-                    For j = 0 To mapSize.y - 1
-                        inputLayer.setMapValue(0, i, j, attr(mapSize.x * i + j))
-                    Next
+        Private Sub setInLayerOutput(value As Record)
+            Dim inputLayer = layers(0)
+            Dim mapSize = inputLayer.MapSize
+            Dim attr = value.Attrs
+            If attr.Length <> mapSize.x * mapSize.y Then
+                Throw New Exception()
+            End If
+            For i = 0 To mapSize.x - 1
+                For j = 0 To mapSize.y - 1
+                    inputLayer.setMapValue(0, i, j, attr(mapSize.x * i + j))
                 Next
-            End Set
-        End Property
+            Next
+        End Sub
 
         Private Sub setConvOutput(layer As Layer, lastLayer As Layer)
             Dim mapNum = layer.OutMapNum
@@ -328,10 +328,9 @@ Namespace CNN
 
                 Dim bias = layer.getBias(j)
 
-                sum = Util.matrixOp(sum, Function(value) Util.sigmod(value + bias))
+                sum = Util.matrixOp(sum, Function(value) Sigmoid.doCall(value + bias))
                 layer.setMapValue(j, sum)
             Next
-
         End Sub
 
         Private Sub setSampOutput(layer As Layer, lastLayer As Layer)
@@ -343,7 +342,6 @@ Namespace CNN
                 Dim sampMatrix = Util.scaleMatrix(lastMap, scaleSize)
                 layer.setMapValue(i, sampMatrix)
             Next
-
         End Sub
 
         Public Overridable Sub setup(batchSize As Integer)
