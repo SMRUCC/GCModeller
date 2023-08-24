@@ -1,24 +1,34 @@
 ﻿Imports System.IO
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MachineLearning.CNN.Dataset
 Imports Microsoft.VisualBasic.MachineLearning.CNN.Util
-Imports layerTypes = Microsoft.VisualBasic.MachineLearning.Convolutional.LayerTypes
 Imports Microsoft.VisualBasic.MachineLearning.ComponentModel.Activations
+Imports Microsoft.VisualBasic.MachineLearning.ComponentModel.StoreProcedure
+Imports layerTypes = Microsoft.VisualBasic.MachineLearning.Convolutional.LayerTypes
 
 Namespace CNN
 
     Public Class CNN
 
-        Private Shared ALPHA As Double = 0.85
-        Protected Friend Const LAMBDA As Double = 0
+        Protected Friend ALPHA As Double = 0.85
+        Protected Friend LAMBDA As Double = 0
+
         Private layers As List(Of Layer)
-        Private layerNum As Integer
-        Private batchSize As Integer
         Private divide_batchSize As [Operator]
         Private multiply_alpha As [Operator]
         Private multiply_lambda As [Operator]
 
         Dim log As Action(Of String) = AddressOf VBDebugger.EchoLine
+
+        Public ReadOnly Property batchSize As Integer
+        Public ReadOnly Property layerNum As Integer
+
+        Default Public ReadOnly Property Layer(i As Integer) As Layer
+            Get
+                Return layers(i)
+            End Get
+        End Property
 
         Public Sub New(layerBuilder As LayerBuilder, batchSize As Integer)
             Me.layers = layerBuilder
@@ -30,131 +40,39 @@ Namespace CNN
         End Sub
 
         Private Sub initPerator()
-            divide_batchSize = Function(value) value / batchSize
+            divide_batchSize = Function(value) value / _batchSize
             multiply_alpha = Function(value) value * ALPHA
             multiply_lambda = Function(value) value * (1 - LAMBDA * ALPHA)
         End Sub
 
-        Public Overridable Sub train(trainset As Dataset.Dataset, repeat As Integer)
-            Dim t = 0
+        Public Function predict(record As SampleData) As Double()
+            Dim outputLayer = layers(layerNum - 1)
+            Dim mapNum = outputLayer.OutMapNum
+            Dim out = New Double(mapNum - 1) {}
+            Dim outmap As Double()()
 
-            While t < repeat AndAlso Not stopTrain
-                Dim epochsNum As Integer = trainset.size() / batchSize
+            Call forward(record)
 
-                If trainset.size() Mod batchSize <> 0 Then
-                    epochsNum += 1
-                End If
+            For m = 0 To mapNum - 1
+                outmap = outputLayer.getMap(m)
+                out(m) = outmap(0)(0)
+            Next
 
-                Call log("")
-                Call log(t.ToString() & "th iter epochsNum:" & epochsNum.ToString())
-
-                Dim right = 0
-                Dim count = 0
-                Dim d As Integer = epochsNum / 25
-                Dim t0 = Now
-
-                For i = 0 To epochsNum - 1
-                    Dim randPerm As Integer() = Util.randomPerm(trainset.size(), batchSize)
-                    Call Layer.prepareForNewBatch()
-
-                    For Each index In randPerm
-                        Dim isRight = train(trainset.getRecord(index))
-                        If isRight Then
-                            right += 1
-                        End If
-                        count += 1
-                        Call Layer.prepareForNewRecord()
-                    Next
-
-                    updateParas()
-
-                    If i Mod d = 0 Then
-                        Call VBDebugger.EchoLine($"[{i + 1}/{epochsNum}] {(i / epochsNum * 100).ToString("F1")}% ...... {(Now - t0).FormatTime(False)}")
-                    End If
-                Next
-                Dim p = 1.0 * right / count
-                If t Mod 10 = 1 AndAlso p > 0.96 Then
-                    ALPHA = 0.001 + ALPHA * 0.9
-                    Call log("Set alpha = " & ALPHA.ToString())
-                End If
-                Call log("precision " & right.ToString() & "/" & count.ToString() & "=" & p.ToString())
-                t += 1
-            End While
-        End Sub
-
-        Private Shared stopTrain As Boolean
-
-        Public Overridable Function test(trainset As Dataset.Dataset) As Double
-            Call Layer.prepareForNewBatch()
-            Dim iter As IEnumerator(Of Record) = trainset.iter()
-            Dim right = 0
-            While iter.MoveNext()
-                Dim record = iter.Current
-                forward(record)
-                Dim outputLayer = layers(layerNum - 1)
-                Dim mapNum = outputLayer.OutMapNum
-                Dim out = New Double(mapNum - 1) {}
-                For m = 0 To mapNum - 1
-                    Dim outmap = outputLayer.getMap(m)
-                    out(m) = outmap(0)(0)
-                Next
-                If record.Lable.Value = Util.getMaxIndex(out) Then
-                    right += 1
-                End If
-            End While
-            Dim p As Double = 1.0 * right / trainset.size()
-            Call log("precision: " & p.ToString() & "")
-            Return p
+            Return out
         End Function
 
-        Public Overridable Sub predict(testset As Dataset.Dataset, fileName As String)
-            log("begin predict")
-            Try
-                Dim max = layers(layerNum - 1).ClassNum
-                Dim writer As StreamWriter = New StreamWriter(fileName.Open(FileMode.OpenOrCreate, doClear:=True))
-                Call Layer.prepareForNewBatch()
-                Dim iter As IEnumerator(Of Record) = testset.iter()
-                While iter.MoveNext()
-                    Dim record = iter.Current
-                    forward(record)
-                    Dim outputLayer = layers(layerNum - 1)
-
-                    Dim mapNum = outputLayer.OutMapNum
-                    Dim out = New Double(mapNum - 1) {}
-                    For m = 0 To mapNum - 1
-                        Dim outmap = outputLayer.getMap(m)
-                        out(m) = outmap(0)(0)
-                    Next
-                    ' int lable =
-                    ' Util.binaryArray2int(out);
-                    Dim lable = Util.getMaxIndex(out)
-                    ' if (lable >= max)
-                    ' lable = lable - (1 << (out.length -
-                    ' 1));
-                    writer.WriteLine(lable.ToString())
-                End While
-                writer.Flush()
-                writer.Close()
-            Catch e As IOException
-                ' throw new Exception(e);
-            End Try
-            log("end predict")
-        End Sub
-
-        Private Function train(record As Record) As Boolean
+        Friend Function train(record As SampleData) As Boolean
             forward(record)
-            Dim result = backPropagation(record)
-            Return result
-            ' System.exit(0);
+            Return backPropagation(record)
         End Function
 
-        Private Function backPropagation(record As Record) As Boolean
+        Private Function backPropagation(record As SampleData) As Boolean
             Dim result = setOutLayerErrors(record)
             setHiddenLayerErrors()
             Return result
         End Function
 
-        Private Sub updateParas()
+        Friend Sub updateParas()
             For l = 1 To layerNum - 1
                 Dim layer = layers(l)
                 Dim lastLayer = layers(l - 1)
@@ -175,13 +93,12 @@ Namespace CNN
 
             For j = start To mapNum - 1
                 Dim [error] = Util.sum(errors, j)
-                Dim deltaBias = Util.sum([error]) / batchSize
+                Dim deltaBias = Util.sum([error]) / _batchSize
                 Dim bias = layer.getBias(j) + ALPHA * deltaBias
 
                 layer.setBias(j, bias)
             Next
         End Sub
-
 
         Private Sub updateKernels(layer As Layer, lastLayer As Layer)
             Dim mapNum = layer.OutMapNum
@@ -191,7 +108,7 @@ Namespace CNN
                 For i = 0 To lastMapNum - 1
                     Dim deltaKernel As Double()() = Nothing
 
-                    For r = 0 To batchSize - 1
+                    For r = 0 To _batchSize - 1
                         Dim [error] = layer.getError(r, j)
                         If deltaKernel Is Nothing Then
                             deltaKernel = Util.convnValid(lastLayer.getMap(r, i), [error])
@@ -259,7 +176,7 @@ Namespace CNN
 
         End Sub
 
-        Private Function setOutLayerErrors(record As Record) As Boolean
+        Private Function setOutLayerErrors(record As SampleData) As Boolean
             Dim outputLayer = layers(layerNum - 1)
             Dim mapNum = outputLayer.OutMapNum
             Dim target = New Double(mapNum - 1) {}
@@ -269,16 +186,16 @@ Namespace CNN
                 outmaps(m) = outmap(0)(0)
 
             Next
-            Dim lable As Integer = record.Lable.Value
+            Dim lable As Integer = record.labels(0)
             target(lable) = 1
 
             For m = 0 To mapNum - 1
                 outputLayer.setError(m, 0, 0, outmaps(m) * (1 - outmaps(m)) * (target(m) - outmaps(m)))
             Next
-            Return lable = Util.getMaxIndex(outmaps)
+            Return lable = which.Max(outmaps)
         End Function
 
-        Private Sub forward(record As Record)
+        Private Sub forward(record As SampleData)
             Call setInLayerOutput(record)
 
             For l = 1 To layers.Count - 1
@@ -296,10 +213,10 @@ Namespace CNN
             Next
         End Sub
 
-        Private Sub setInLayerOutput(value As Record)
+        Private Sub setInLayerOutput(value As SampleData)
             Dim inputLayer = layers(0)
             Dim mapSize = inputLayer.MapSize
-            Dim attr = value.Attrs
+            Dim attr = value.features
             If attr.Length <> mapSize.x * mapSize.y Then
                 Throw New Exception()
             End If
