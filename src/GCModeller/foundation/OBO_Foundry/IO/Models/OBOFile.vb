@@ -57,6 +57,7 @@
 #End Region
 
 Imports System.IO
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
@@ -250,6 +251,15 @@ Namespace IO.Models
             Call parseHeader()
         End Sub
 
+        Sub New(file As Stream, Optional encoding As Encodings = Encodings.UTF8)
+            If TypeOf file Is FileStream Then
+                Me.file = DirectCast(file, FileStream).Name
+            End If
+
+            reader = New StreamReader(file, encoding.CodePage)
+            parseHeader()
+        End Sub
+
         Private Sub parseHeader()
             Dim str As New Value(Of String)
             Dim bufs As New List(Of String)
@@ -261,6 +271,7 @@ Namespace IO.Models
             header = bufs.LoadData(Of header)()
         End Sub
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function ToString() As String
             Return file.ToFileURL
         End Function

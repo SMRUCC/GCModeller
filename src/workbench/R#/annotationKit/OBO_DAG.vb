@@ -58,8 +58,11 @@ Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Data.GeneOntology
 Imports SMRUCC.genomics.Data.GeneOntology.DAG
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
+Imports SMRUCC.genomics.foundation.OBO_Foundry.IO.Models
 Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
+Imports SMRUCC.Rsharp.Runtime.Interop
 
 ''' <summary>
 ''' The Open Biological And Biomedical Ontology (OBO) Foundry
@@ -81,6 +84,18 @@ Module OBO_DAG
         Call df.add("def", terms.Select(Function(t) t.def))
 
         Return df
+    End Function
+
+    <ExportAPI("open.obo")>
+    <RApiReturn(GetType(OBOFile))>
+    Public Function openOboFile(<RRawVectorArgument> file As Object, Optional env As Environment = Nothing) As Object
+        Dim buf = SMRUCC.Rsharp.GetFileStream(file, FileAccess.Read, env)
+
+        If buf Like GetType(Message) Then
+            Return buf.TryCast(Of Message)
+        End If
+
+        Return New OBOFile(buf.TryCast(Of Stream), encoding:=Encodings.UTF8)
     End Function
 
     ''' <summary>
