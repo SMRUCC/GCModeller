@@ -53,6 +53,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Serialization.JSON
 
@@ -62,6 +63,12 @@ Namespace IO.Models
 
         Public Const Key_relationship$ = "relationship"
         Public Const Key_is_a$ = "is_a"
+        Public Const Key_xref As String = "xref"
+        Public Const Key_name As String = "name"
+        Public Const Key_id As String = "id"
+        Public Const Key_def As String = "def"
+        Public Const Key_synonym As String = "synonym"
+        Public Const Key_property_value As String = "property_value"
 
         ''' <summary>
         ''' Example: ``[Term]``
@@ -84,6 +91,13 @@ Namespace IO.Models
                                      Function(x)
                                          Return x.Value
                                      End Function)
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function GetValueSet() As Dictionary(Of NamedCollection(Of String))
+            Return data _
+                .Select(Function(v) New NamedCollection(Of String)(v)) _
+                .ToDictionary
         End Function
 
         Public Overrides Function ToString() As String

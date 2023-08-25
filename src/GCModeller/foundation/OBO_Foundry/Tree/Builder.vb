@@ -69,7 +69,7 @@ Namespace Tree
             Dim vertex As Dictionary(Of String, GenericTree) = terms.vertexTable
 
             For Each v As GenericTree In vertex.Values
-                If Not v.data.ContainsKey("is_a") Then
+                If Not v.data.ContainsKey(RawTerm.Key_is_a) Then
                     v.is_a = {}
                 Else
                     Dim is_a = v.data!is_a _
