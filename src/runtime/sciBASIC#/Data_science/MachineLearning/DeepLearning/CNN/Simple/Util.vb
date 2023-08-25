@@ -1,6 +1,5 @@
-﻿Imports System.Text
+﻿Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.MachineLearning.CNN.Layer
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 Imports std = System.Math
 
@@ -24,15 +23,6 @@ Namespace CNN
         Public Shared multiply As OperatorOnTwo = Function(a, b) a * b
 
         Public Shared minus As OperatorOnTwo = Function(a, b) a - b
-
-        Public Shared Sub printMatrix(matrix As Double()())
-            For i = 0 To matrix.Length - 1
-                Dim line = String.Join(", ", matrix(i))
-                line = line.Replace(", ", vbTab)
-                Console.WriteLine(line)
-            Next
-            Console.WriteLine()
-        End Sub
 
         Public Shared Function rot180(matrix As Double()()) As Double()()
             matrix = cloneMatrix(matrix)
@@ -58,7 +48,7 @@ Namespace CNN
         End Function
 
         Public Shared Function randomMatrix(x As Integer, y As Integer, b As Boolean) As Double()()
-            Dim matrix = ReturnRectangularDoubleArray(x, y)
+            Dim matrix = RectangularArray.Matrix(Of Double)(x, y)
             Dim tag = 1
             For i = 0 To x - 1
                 For j = 0 To y - 1
@@ -71,15 +61,6 @@ Namespace CNN
             Next
             ' printMatrix(matrix);
             Return matrix
-        End Function
-
-        Public Shared Function randomArray(len As Integer) As Double()
-            Dim data = New Double(len - 1) {}
-            For i = 0 To len - 1
-                ' data[i] = r.nextDouble() / 10 - 0.05;
-                data(i) = 0
-            Next
-            Return data
         End Function
 
         Public Shared Function randomPerm(size As Integer, batchSize As Integer) As Integer()
@@ -98,7 +79,7 @@ Namespace CNN
         Public Shared Function cloneMatrix(matrix As Double()()) As Double()()
             Dim m = matrix.Length
             Dim n = matrix(0).Length
-            Dim outMatrix = ReturnRectangularDoubleArray(m, n)
+            Dim outMatrix = RectangularArray.Matrix(Of Double)(m, n)
 
             For i = 0 To m - 1
                 For j = 0 To n - 1
@@ -111,13 +92,14 @@ Namespace CNN
         Public Shared Function matrixOp(ma As Double()(), [operator] As [Operator]) As Double()()
             Dim m = ma.Length
             Dim n = ma(0).Length
+
             For i = 0 To m - 1
                 For j = 0 To n - 1
                     ma(i)(j) = [operator](ma(i)(j))
                 Next
             Next
-            Return ma
 
+            Return ma
         End Function
 
         Public Shared Function matrixOp(ma As Double()(),
@@ -127,6 +109,7 @@ Namespace CNN
                                         [operator] As OperatorOnTwo) As Double()()
             Dim m = ma.Length
             Dim n = ma(0).Length
+
             If m <> mb.Length OrElse n <> mb(0).Length Then
                 Throw New Exception("ma.length:" & ma.Length.ToString() & "  mb.length:" & mb.Length.ToString())
             End If
@@ -147,10 +130,10 @@ Namespace CNN
             Return mb
         End Function
 
-        Public Shared Function kronecker(matrix As Double()(), scale As Size) As Double()()
+        Public Shared Function kronecker(matrix As Double()(), scale As Dimension) As Double()()
             Dim m = matrix.Length
             Dim n = matrix(0).Length
-            Dim outMatrix = ReturnRectangularDoubleArray(m * scale.x, n * scale.y)
+            Dim outMatrix = RectangularArray.Matrix(Of Double)(m * scale.x, n * scale.y)
 
             For i = 0 To m - 1
                 For j = 0 To n - 1
@@ -164,16 +147,19 @@ Namespace CNN
             Return outMatrix
         End Function
 
-        Public Shared Function scaleMatrix(matrix As Double()(), scale As Size) As Double()()
+        Public Shared Function scaleMatrix(matrix As Double()(), scale As Dimension) As Double()()
             Dim m = matrix.Length
             Dim n = matrix(0).Length
             Dim sm As Integer = m / scale.x
             Dim sn As Integer = n / scale.y
-            Dim outMatrix = ReturnRectangularDoubleArray(sm, sn)
+            Dim outMatrix = RectangularArray.Matrix(Of Double)(sm, sn)
+
             If sm * scale.x <> m OrElse sn * scale.y <> n Then
-                Throw New Exception("scale��������matrix")
+                Call $"scale is mis-matched with matrix?".Warning
             End If
+
             Dim size = scale.x * scale.y
+
             For i = 0 To sm - 1
                 For j = 0 To sn - 1
                     Dim sum = 0.0
@@ -185,6 +171,7 @@ Namespace CNN
                     outMatrix(i)(j) = sum / size
                 Next
             Next
+
             Return outMatrix
         End Function
 
@@ -193,7 +180,7 @@ Namespace CNN
             Dim n = matrix(0).Length
             Dim km = kernel.Length
             Dim kn = kernel(0).Length
-            Dim extendMatrix = ReturnRectangularDoubleArray(m + 2 * (km - 1), n + 2 * (kn - 1))
+            Dim extendMatrix = RectangularArray.Matrix(Of Double)(m + 2 * (km - 1), n + 2 * (kn - 1))
             For i = 0 To m - 1
                 For j = 0 To n - 1
                     extendMatrix(i + km - 1)(j + kn - 1) = matrix(i)(j)
@@ -206,15 +193,11 @@ Namespace CNN
             'kernel = rot180(kernel);
             Dim m = matrix.Length
             Dim n = matrix(0).Length
-
             Dim km = kernel.Length
-
             Dim kn = kernel(0).Length
             Dim kns = n - kn + 1
-
             Dim kms = m - km + 1
-
-            Dim outMatrix = ReturnRectangularDoubleArray(kms, kns)
+            Dim outMatrix = RectangularArray.Matrix(Of Double)(kms, kns)
 
             For i = 0 To kms - 1
                 For j = 0 To kns - 1
@@ -225,11 +208,10 @@ Namespace CNN
                         Next
                     Next
                     outMatrix(i)(j) = sum
-
                 Next
             Next
-            Return outMatrix
 
+            Return outMatrix
         End Function
 
         Public Shared Function convnValid(matrix As Double()()()(), mapNoX As Integer, kernel As Double()()()(), mapNoY As Integer) As Double()()
@@ -242,11 +224,13 @@ Namespace CNN
             Dim kms = m - km + 1
             Dim kns = n - kn + 1
             Dim khs = h - kh + 1
+
             If matrix.Length <> kernel.Length Then
-                Throw New Exception("�����������ڵ�һά�ϲ�ͬ")
+                Throw New Exception($"the size of matrix should equals to the kernel size!")
             End If
 
-            Dim outMatrix = ReturnRectangularDoubleArray(kms, kns, khs)
+            Dim outMatrix = RectangularArray.Cubic(Of Double)(kms, kns, khs)
+
             For i = 0 To kms - 1
                 For j = 0 To kns - 1
                     For k = 0 To khs - 1
@@ -265,10 +249,6 @@ Namespace CNN
             Return outMatrix(0)
         End Function
 
-        Public Shared Function sigmod(x As Double) As Double
-            Return 1 / (1 + std.Pow(std.E, -x))
-        End Function
-
         Public Shared Function sum([error] As Double()()) As Double
             Dim m = [error].Length
             Dim n = [error](0).Length
@@ -284,7 +264,7 @@ Namespace CNN
         Public Shared Function sum(errors As Double()()()(), j As Integer) As Double()()
             Dim m = errors(0)(j).Length
             Dim n = errors(0)(j)(0).Length
-            Dim result = ReturnRectangularDoubleArray(m, n)
+            Dim result = RectangularArray.Matrix(Of Double)(m, n)
             For mi = 0 To m - 1
                 For nj = 0 To n - 1
                     Dim lSum As Double = 0
@@ -296,44 +276,5 @@ Namespace CNN
             Next
             Return result
         End Function
-
-        Public Shared Function binaryArray2int(array As Double()) As Integer
-            Dim d = New Integer(array.Length - 1) {}
-            For i = 0 To d.Length - 1
-                If array(i) >= 0.500000001 Then
-                    d(i) = 1
-                Else
-                    d(i) = 0
-                End If
-            Next
-            Dim s = String.Join(", ", d)
-            Dim binary = s.Substring(1, s.Length - 1 - 1).Replace(", ", "")
-            Dim data = Convert.ToInt32(binary, 2)
-            Return data
-
-        End Function
-
-        Public Shared Function getMaxIndex(out As Double()) As Integer
-            Dim max = out(0)
-            Dim index = 0
-            For i = 1 To out.Length - 1
-                If out(i) > max Then
-                    max = out(i)
-                    index = i
-                End If
-            Next
-            Return index
-        End Function
-
-        Public Shared Function fomart(data As Double()) As String
-            Dim sb As StringBuilder = New StringBuilder("[")
-            For Each [each] In data
-                sb.Append(String.Format("{0,4:F},", [each]))
-            Next
-            sb.Append("]")
-            Return sb.ToString()
-        End Function
-
     End Class
-
 End Namespace
