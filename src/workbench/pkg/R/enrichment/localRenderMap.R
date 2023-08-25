@@ -10,7 +10,8 @@ imports ["repository", "metabolism", "report.utils"] from "kegg_kit";
 const localRenderMap = function(KEGG_maps, pathwayList,
                                 compoundcolors = "red",
                                 gene_highights = "blue",
-                                outputdir      = "./") {
+                                outputdir      = "./", 
+                                min_objects    = 0) {
 
     # key name is the kegg pathway map id
     # key value is the kegg pathway map url
@@ -47,8 +48,8 @@ const localRenderMap = function(KEGG_maps, pathwayList,
         print(`'${mapId}' contains ${length(highlights$objects)} objects.`);
         print(url);
 
-        if (length(highlights$objects) >= 3) {
-            # try(ex -> {
+        if (length(highlights$objects) >= min_objects) {
+            try(ex -> {
                 KEGG_maps[[mapId]]
                 |> keggMap.reportHtml(highlights$objects)
                 # print html text to std_out device
@@ -59,11 +60,13 @@ const localRenderMap = function(KEGG_maps, pathwayList,
                 bitmap(file = `${outputdir}/${mapId}.png`) {
                     keggMap.highlights(KEGG_maps[[mapId]], highlights$objects);
                 }
-            # }) {
+            }) {
                 print(`found error while rendering ${mapId}:`);
                 # print([ex]::error);
                 str(highlights);
-            # };
+            };
+        } else {
+            print("skip rendering plot due to the reason of too less object.");
         }
     }
 }

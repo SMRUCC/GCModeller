@@ -6,4 +6,4 @@ print(data);
 
 GCModeller::KEGG_MapRender(data, map_id = "pathway",
         pathway_links = "links",
-        outputdir = "C:\Users\Administrator\Desktop");
+        outputdir = "C:\Users\Administrator\Desktop", min_objects = 0);

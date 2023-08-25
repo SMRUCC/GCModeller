@@ -8,6 +8,7 @@ const KEGG_MapRender = function(enrich,
         map_id = "KEGG",
         pathway_links = "pathway_links",
         outputdir = "./",
+        min_objects = 0,
         kegg_maps = NULL) {
 
     const KEGG_maps = GCModeller::kegg_maps(rawMaps = FALSE, repo = {
@@ -36,6 +37,7 @@ const KEGG_MapRender = function(enrich,
     GCModeller::localRenderMap(KEGG_maps, pathwayList = pathway_links,
                                 compoundcolors = "red",
                                 gene_highights = "blue",
-                                outputdir      = outputdir
+                                outputdir      = outputdir,
+                                min_objects    = min_objects
                             );
 }
