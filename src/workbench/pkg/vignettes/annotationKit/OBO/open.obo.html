@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>parse the gene ontology obo file</title>
+    <title>open the ontology obo file reader</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <style rel="stylesheet" type="text/css">
@@ -148,12 +148,12 @@
 
         <table style="width: 100%;">
             <tr>
-                <td>read.obo {OBO}</td>
+                <td>open.obo {OBO}</td>
                 <td style="text-align: right;">R Documentation</td>
             </tr>
         </table>
 
-        <h2>parse the gene ontology obo file</h2>
+        <h2>open the ontology obo file reader</h2>
 
         <h3>Description</h3>
 
@@ -162,27 +162,32 @@
         <h3>Usage</h3>
 
         <div style="width: 100%; padding-left: 3%; color: black;">
-            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>read.obo</strong>(<i>path</i>);</code></pre>
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>open.obo</strong>(<i>file</i>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
 
         <table>
             
-<dt>path</dt>
+<dt>file</dt>
+<dd><p><p>-</p></p></dd>
+
+
+<dt>env</dt>
 <dd><p><p>-</p></p></dd>
 
         </table>
 
 
-        <h3 style="display: none;">Details</h3>
+        <h3 style="display: block;">Details</h3>
 
-        
+        <p>This obo file reader object could be used as the data source for read <br />
+ other database</p>
 
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/clr/SMRUCC/genomics/Data/GeneOntology/OBO/GO_OBO.html">GO_OBO</a>.
+        this function returns data object of type <a href="/clr/SMRUCC/genomics/foundation/OBO_Foundry/IO/Models/OBOFile.html">OBOFile</a>.
 
         <h3 style="display: none;">Examples</h3>
 
