@@ -31,6 +31,8 @@ const KEGG_MapRender = function(enrich,
     pathway_links = enrich[, pathway_links];
     pathway_links = as.list(pathway_links, names = map_id);
 
+    str(pathway_links);
+
     GCModeller::localRenderMap(KEGG_maps, pathwayList = pathway_links,
                                 compoundcolors = "red",
                                 gene_highights = "blue",

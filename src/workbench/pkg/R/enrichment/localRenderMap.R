@@ -24,6 +24,7 @@ const localRenderMap = function(KEGG_maps, pathwayList,
     print("script will render target objects on kegg map:");
     print(pathwayId);
     print(outputdir);
+    print(urlLinks);
 
     print("start rendering for each KEGG maps:");
 
@@ -47,7 +48,7 @@ const localRenderMap = function(KEGG_maps, pathwayList,
         print(url);
 
         if (length(highlights$objects) >= 3) {
-            try(ex -> {
+            # try(ex -> {
                 KEGG_maps[[mapId]]
                 |> keggMap.reportHtml(highlights$objects)
                 # print html text to std_out device
@@ -58,11 +59,11 @@ const localRenderMap = function(KEGG_maps, pathwayList,
                 bitmap(file = `${outputdir}/${mapId}.png`) {
                     keggMap.highlights(KEGG_maps[[mapId]], highlights$objects);
                 }
-            }) {
+            # }) {
                 print(`found error while rendering ${mapId}:`);
                 # print([ex]::error);
                 str(highlights);
-            };
+            # };
         }
     }
 }
