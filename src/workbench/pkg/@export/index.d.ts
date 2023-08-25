@@ -15,6 +15,9 @@ declare namespace GCModeller {
       */
       function readZipStream(zipfile: any, entryName?: any): object;
       /**
+      */
+      function safe_kegg_url_parser(url: any, compoundcolors: any, gene_highights: any): object;
+      /**
         * @param data default value Is ``null``.
         * @param log2FC default value Is ``log2(FC)``.
         * @param id default value Is ``kegg``.

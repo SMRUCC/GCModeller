@@ -41,12 +41,10 @@ const localRenderMap = function(KEGG_maps, pathwayList,
         #'
         #'    will be parsed as {id: color1, id: color2}
         #'
-        const highlights = url |> report.utils::parseKeggUrl(
-            compound = compoundcolors, 
-            gene     = gene_highights
-        );
+        const highlights = .safe_kegg_url_parser(url, compoundcolors, gene_highights);
 
         print(`'${mapId}' contains ${length(highlights$objects)} objects.`);
+        print(url);
 
         if (length(highlights$objects) >= 3) {
             try(ex -> {
@@ -62,9 +60,31 @@ const localRenderMap = function(KEGG_maps, pathwayList,
                 }
             }) {
                 print(`found error while rendering ${mapId}:`);
-                print([ex]::error);
+                # print([ex]::error);
                 str(highlights);
             };
         }
     }
+}
+
+const .safe_kegg_url_parser = function(url, compoundcolors, gene_highights) {
+    let URL_kegg = NULL;
+
+    try({
+        URL_kegg <- url |> report.utils::parseKeggUrl(
+            compound = compoundcolors, 
+            gene     = gene_highights
+        );
+    });
+
+    if (is.null(URL_kegg)) {
+        # error while parse the url string
+        warning(`error while parse the kegg map highlight url: "${toString(url)}"!`);
+        # generates a fake empty url object
+        URL_kegg = {
+            objects: list()
+        };
+    } 
+
+    URL_kegg;
 }
