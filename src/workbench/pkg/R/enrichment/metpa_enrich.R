@@ -85,7 +85,7 @@ const .url_encode = function(enrich, data = NULL, log2FC = "log2(FC)", id = "keg
         } else {
             # just do normal map url encode
             # http://www.kegg.jp/pathway/map01230+C00037+C00049+C00082+C00188
-            enrich[, "links"] = sprintf("http://www.kegg.jp/pathway/%s+%s", rownames(enrich), sapply(enrich$geneIDs, set -> paste(__parseIdvector(set), "+")));
+            enrich[, "links"] = sprintf("http://www.kegg.jp/pathway/%s+%s", rownames(enrich), sapply(enrich$geneIDs, set -> paste(__parseIdvector(set), sep = "+")));
         }
     }
 
@@ -115,7 +115,7 @@ const kegg_colors = function(id, log2FC, up = "red", down = "blue") {
                 `${id}/green`;
             }
         })
-        |> paste("/")
+        |> paste(sep = "/")
         ;
     }
     const encode_url = function(map_id, idset) {

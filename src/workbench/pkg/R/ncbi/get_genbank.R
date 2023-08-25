@@ -16,7 +16,7 @@ const fetch_genbank = function(accession_id,
                                    "SEQUENCE_REPORT"
                                ]) {
 
-    const url = sprintf(fetch_genbank_api, accession_id, paste(annotations, ","), accession_id);
+    const url = sprintf(fetch_genbank_api, accession_id, paste(annotations, sep = ","), accession_id);
     const http.cache_dir = getOption("http.cache_dir") || stop("You should set of the 'http.cache_dir' option at first!");
     const key       = md5(accession_id);
     const temp_dir  = `${http.cache_dir}/${substr(key, 3,2)}/${accession_id}/`;

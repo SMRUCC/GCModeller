@@ -44,13 +44,23 @@ Namespace CNN
             Return Me
         End Function
 
-        Public Function buildSampLayer(scaleSize As Dimension) As LayerBuilder
-            m_layers.Add(Layer.buildSampLayer(scaleSize))
+        Public Function buildPoolLayer(scaleSize As Dimension) As LayerBuilder
+            m_layers.Add(Layer.buildPoolLayer(scaleSize))
             Return Me
         End Function
 
         Public Function buildOutputLayer(classNum As Integer) As LayerBuilder
             m_layers.Add(Layer.buildOutputLayer(classNum))
+            Return Me
+        End Function
+
+        Public Function buildReLULayer() As LayerBuilder
+            m_layers.Add(Layer.buildReLULayer())
+            Return Me
+        End Function
+
+        Public Function buildSoftmaxLayer() As LayerBuilder
+            m_layers.Add(Layer.buildSoftmaxLayer())
             Return Me
         End Function
 
@@ -83,9 +93,19 @@ Namespace CNN
             Return layer
         End Function
 
-        Friend Shared Function buildSampLayer(scaleSize As Dimension) As Layer
+        Friend Shared Function buildReLULayer() As Layer
+            Dim layer As New Layer With {._Type = LayerTypes.ReLU}
+            Return layer
+        End Function
+
+        Friend Shared Function buildSoftmaxLayer() As Layer
+            Dim layer As New Layer With {._Type = LayerTypes.SoftMax}
+            Return layer
+        End Function
+
+        Friend Shared Function buildPoolLayer(scaleSize As Dimension) As Layer
             Dim layer As Layer = New Layer()
-            layer._Type = LayerTypes.samp
+            layer._Type = LayerTypes.Pool
             layer._ScaleSize = scaleSize
             Return layer
         End Function
