@@ -86,6 +86,16 @@ Module OBO_DAG
         Return df
     End Function
 
+    ''' <summary>
+    ''' open the ontology obo file reader
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    ''' <remarks>
+    ''' This obo file reader object could be used as the data source for read 
+    ''' other database
+    ''' </remarks>
     <ExportAPI("open.obo")>
     <RApiReturn(GetType(OBOFile))>
     Public Function openOboFile(<RRawVectorArgument> file As Object, Optional env As Environment = Nothing) As Object
@@ -99,7 +109,7 @@ Module OBO_DAG
     End Function
 
     ''' <summary>
-    ''' parse the obo file 
+    ''' parse the gene ontology obo file 
     ''' </summary>
     ''' <param name="path"></param>
     ''' <returns></returns>
