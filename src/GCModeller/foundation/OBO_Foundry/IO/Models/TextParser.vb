@@ -21,6 +21,8 @@ Namespace IO.Models
                               End Function)
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
         Public Function ParsePropertyValues(str As IEnumerable(Of String)) As Dictionary(Of String, NamedValue())
             Return str.SafeQuery _
                 .Select(Function(si)

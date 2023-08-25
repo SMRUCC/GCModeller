@@ -53,6 +53,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Serialization.JSON
 
@@ -90,6 +91,13 @@ Namespace IO.Models
                                      Function(x)
                                          Return x.Value
                                      End Function)
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function GetValueSet() As Dictionary(Of NamedCollection(Of String))
+            Return data _
+                .Select(Function(v) New NamedCollection(Of String)(v)) _
+                .ToDictionary
         End Function
 
         Public Overrides Function ToString() As String
