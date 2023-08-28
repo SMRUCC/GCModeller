@@ -28,6 +28,20 @@ Namespace CNN.layers
         Private filters As IList(Of DataBlock)
         Private biases As DataBlock
 
+        Public Overridable ReadOnly Property BackPropagationResult As IList(Of BackPropResult) Implements Layer.BackPropagationResult
+            Get
+
+                Dim results As IList(Of BackPropResult) = New List(Of BackPropResult)()
+
+                For i = 0 To out_depth - 1
+                    results.Add(New BackPropResult(filters(i).Weights, filters(i).Gradients, l2_decay_mul, l1_decay_mul))
+                Next
+                results.Add(New BackPropResult(biases.Weights, biases.Gradients, 0.0, 0.0))
+
+                Return results
+            End Get
+        End Property
+
         Public Sub New(def As OutputDefinition, sx As Integer, filters As Integer, stride As Integer, padding As Integer)
             ' required
             out_depth = filters
@@ -61,8 +75,9 @@ Namespace CNN.layers
         End Sub
 
         Public Overridable Function forward(db As DataBlock, training As Boolean) As DataBlock Implements Layer.forward
-            in_act = db
             Dim lA As DataBlock = New DataBlock(out_sx, out_sy, out_depth, 0.0)
+
+            in_act = db
 
             Dim V_sx = in_sx
             Dim V_sy = in_sy
@@ -153,19 +168,9 @@ Namespace CNN.layers
             Next
         End Sub
 
-        Public Overridable ReadOnly Property BackPropagationResult As IList(Of BackPropResult) Implements Layer.BackPropagationResult
-            Get
-
-                Dim results As IList(Of BackPropResult) = New List(Of BackPropResult)()
-
-                For i = 0 To out_depth - 1
-                    results.Add(New BackPropResult(filters(i).Weights, filters(i).Gradients, l2_decay_mul, l1_decay_mul))
-                Next
-                results.Add(New BackPropResult(biases.Weights, biases.Gradients, 0.0, 0.0))
-
-                Return results
-            End Get
-        End Property
+        Public Overrides Function ToString() As String
+            Return "conv()"
+        End Function
     End Class
 
 End Namespace

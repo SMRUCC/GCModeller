@@ -11,12 +11,19 @@ Namespace CNN.layers
     ''' </summary>
     Public Class DropoutLayer
         Implements Layer
+
         Private out_depth, out_sx, out_sy As Integer
 
         Private in_act, out_act As DataBlock
 
         Private ReadOnly drop_prob As Double = 0.5
         Private dropped As Boolean()
+
+        Public Overridable ReadOnly Property BackPropagationResult As IList(Of BackPropResult) Implements Layer.BackPropagationResult
+            Get
+                Return New List(Of BackPropResult)()
+            End Get
+        End Property
 
         Public Sub New(def As OutputDefinition)
             ' computed
@@ -64,11 +71,9 @@ Namespace CNN.layers
             Next
         End Sub
 
-        Public Overridable ReadOnly Property BackPropagationResult As IList(Of BackPropResult) Implements Layer.BackPropagationResult
-            Get
-                Return New List(Of BackPropResult)()
-            End Get
-        End Property
+        Public Overrides Function ToString() As String
+            Return "dropout()"
+        End Function
     End Class
 
 End Namespace

@@ -84,6 +84,10 @@ Namespace CNN
             Next
             Return loss
         End Function
+
+        Public Overrides Function ToString() As String
+            Return $"{m_layers.Count} CNN layers: {m_layers.JoinBy(" -> ")}"
+        End Function
     End Class
 
 End Namespace

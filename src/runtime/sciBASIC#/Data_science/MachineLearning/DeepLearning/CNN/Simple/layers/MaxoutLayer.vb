@@ -21,6 +21,12 @@ Namespace CNN.layers
         Private ReadOnly group_size As Integer = 2
         Private switches As Integer()
 
+        Public Overridable ReadOnly Property BackPropagationResult As IList(Of BackPropResult) Implements Layer.BackPropagationResult
+            Get
+                Return New List(Of BackPropResult)()
+            End Get
+        End Property
+
         Public Sub New(def As OutputDefinition)
             ' computed
             out_sx = def.OutX
@@ -108,11 +114,9 @@ Namespace CNN.layers
             End If
         End Sub
 
-        Public Overridable ReadOnly Property BackPropagationResult As IList(Of BackPropResult) Implements Layer.BackPropagationResult
-            Get
-                Return New List(Of BackPropResult)()
-            End Get
-        End Property
+        Public Overrides Function ToString() As String
+            Return "maxout()"
+        End Function
     End Class
 
 End Namespace

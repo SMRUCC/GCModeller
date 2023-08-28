@@ -24,6 +24,12 @@ Namespace CNN.layers
 
         Private in_act, out_act As DataBlock
 
+        Public Overridable ReadOnly Property BackPropagationResult As IList(Of BackPropResult) Implements Layer.BackPropagationResult
+            Get
+                Return New List(Of BackPropResult)()
+            End Get
+        End Property
+
         Public Sub New(def As OutputDefinition, sx As Integer, stride As Integer, padding As Integer)
             Me.sx = sx
             Me.stride = stride
@@ -134,11 +140,9 @@ Namespace CNN.layers
             Next
         End Sub
 
-        Public Overridable ReadOnly Property BackPropagationResult As IList(Of BackPropResult) Implements Layer.BackPropagationResult
-            Get
-                Return New List(Of BackPropResult)()
-            End Get
-        End Property
+        Public Overrides Function ToString() As String
+            Return "pooling()"
+        End Function
     End Class
 
 End Namespace
