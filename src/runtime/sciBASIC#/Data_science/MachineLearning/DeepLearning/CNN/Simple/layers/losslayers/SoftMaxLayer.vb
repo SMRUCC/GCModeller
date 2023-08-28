@@ -79,5 +79,9 @@ Namespace CNN.losslayers
             ' loss is the class negative log likelihood
             Return -std.Log(es(y))
         End Function
+
+        Public Overrides Function ToString() As String
+            Return "softmax()"
+        End Function
     End Class
 End Namespace
