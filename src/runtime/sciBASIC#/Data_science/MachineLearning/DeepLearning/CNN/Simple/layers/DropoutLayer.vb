@@ -27,9 +27,9 @@ Namespace CNN.layers
 
         Public Sub New(def As OutputDefinition)
             ' computed
-            out_sx = def.OutX
-            out_sy = def.OutY
-            out_depth = def.Depth
+            out_sx = def.outX
+            out_sy = def.outY
+            out_depth = def.depth
 
             dropped = New Boolean(out_sx * out_sy * out_depth - 1) {}
         End Sub

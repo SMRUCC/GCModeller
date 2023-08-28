@@ -27,14 +27,14 @@ Namespace CNN.losslayers
 
         Public Sub New(def As OutputDefinition)
             ' computed
-            num_inputs = def.OutY * def.OutX * def.Depth
+            num_inputs = def.outY * def.outX * def.depth
             out_depth = num_inputs
             out_sx = 1
             out_sy = 1
 
-            def.OutX = out_sx
-            def.OutY = out_sy
-            def.Depth = out_depth
+            def.outX = out_sx
+            def.outY = out_sy
+            def.depth = out_depth
         End Sub
 
         Public Overridable Sub backward() Implements Layer.backward

@@ -41,7 +41,7 @@ Namespace CNN.layers
             out_depth = num_neurons
 
             ' computed
-            num_inputs = def.OutX * def.OutY * def.Depth
+            num_inputs = def.outX * def.outY * def.depth
             out_sx = 1
             out_sy = 1
 
@@ -53,9 +53,9 @@ Namespace CNN.layers
             Next
             biases = New DataBlock(1, 1, out_depth, bias)
 
-            def.OutX = out_sx
-            def.OutY = out_sy
-            def.Depth = out_depth
+            def.outX = out_sx
+            def.outY = out_sy
+            def.depth = out_depth
         End Sub
 
         Public Overridable Function forward(db As DataBlock, training As Boolean) As DataBlock Implements Layer.forward

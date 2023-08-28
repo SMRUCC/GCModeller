@@ -34,9 +34,9 @@ Namespace CNN.layers
             Me.sx = sx
             Me.stride = stride
 
-            in_depth = def.Depth
-            in_sx = def.OutX
-            in_sy = def.OutY
+            in_depth = def.depth
+            in_sx = def.outX
+            in_sy = def.outY
 
             ' optional
             sy = Me.sx
@@ -53,9 +53,9 @@ Namespace CNN.layers
             switchx.fill(0)
             switchy.fill(0)
 
-            def.OutX = out_sx
-            def.OutY = out_sy
-            def.Depth = out_depth
+            def.outX = out_sx
+            def.outY = out_sy
+            def.depth = out_depth
         End Sub
 
         Public Overridable Function forward(db As DataBlock, training As Boolean) As DataBlock Implements Layer.forward

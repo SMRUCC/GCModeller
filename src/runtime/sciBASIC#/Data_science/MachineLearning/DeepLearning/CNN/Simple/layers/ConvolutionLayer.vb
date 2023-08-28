@@ -46,9 +46,9 @@ Namespace CNN.layers
             ' required
             out_depth = filters
             Me.sx = sx ' filter size. Should be odd if possible, it's cleaner.
-            in_depth = def.Depth
-            in_sx = def.OutX
-            in_sy = def.OutY
+            in_depth = def.depth
+            in_sx = def.outX
+            in_sy = def.outY
 
             ' optional
             sy = Me.sx
@@ -69,9 +69,9 @@ Namespace CNN.layers
             Next
             biases = New DataBlock(1, 1, out_depth, BIAS_PREF)
 
-            def.OutX = out_sx
-            def.OutY = out_sy
-            def.Depth = out_depth
+            def.outX = out_sx
+            def.outY = out_sy
+            def.depth = out_depth
         End Sub
 
         Public Overridable Function forward(db As DataBlock, training As Boolean) As DataBlock Implements Layer.forward
