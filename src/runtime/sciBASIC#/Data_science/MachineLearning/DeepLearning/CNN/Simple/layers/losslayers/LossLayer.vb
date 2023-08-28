@@ -9,7 +9,7 @@ Namespace CNN.losslayers
     ''' </summary>
     Public MustInherit Class LossLayer
         Implements Layer
-        Public MustOverride Function forward(db As DataBlock, training As Boolean) As DataBlock Implements Layer.forward
+
         Protected Friend num_inputs, out_depth, out_sx, out_sy As Integer
         Protected Friend in_act, out_act As DataBlock
 
@@ -40,7 +40,7 @@ Namespace CNN.losslayers
         Public Overridable Sub backward() Implements Layer.backward
         End Sub
         Public MustOverride Function backward(y As Integer) As Double
-
+        Public MustOverride Function forward(db As DataBlock, training As Boolean) As DataBlock Implements Layer.forward
 
     End Class
 
