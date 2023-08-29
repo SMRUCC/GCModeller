@@ -1,4 +1,5 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.Language.Java
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MachineLearning.CNN.data
@@ -63,11 +64,11 @@ Namespace CNN.trainers
             Return Me
         End Function
 
-        Public Overridable Function train(x As DataBlock, y As Integer) As TrainResult
+        Public Overridable Function train(x As DataBlock, y As Integer, checkpoints As PerformanceCounter) As TrainResult
             ' also set the flag that lets the net know we're just training
-            Call net.forward(x, True)
+            Call net.forward(x, checkpoints)
 
-            Dim cost_loss = net.backward(y)
+            Dim cost_loss = net.backward(y, checkpoints)
             Dim l2_decay_loss = 0.0
             Dim l1_decay_loss = 0.0
 
@@ -75,6 +76,7 @@ Namespace CNN.trainers
 
             If k Mod batch_size = 0 Then
                 Call adjustWeights(l2_decay_loss, l1_decay_loss)
+                Call checkpoints.Mark("adjust_weights")
             End If
 
             ' appending softmax_loss for backwards compatibility, but from now on we will always use cost_loss

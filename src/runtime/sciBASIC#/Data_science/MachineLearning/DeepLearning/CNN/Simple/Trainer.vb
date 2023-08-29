@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.Language
+﻿Imports Microsoft.VisualBasic.ApplicationServices
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MachineLearning.CNN.data
 Imports Microsoft.VisualBasic.MachineLearning.CNN.layers
@@ -31,6 +32,7 @@ Namespace CNN
             Dim tr As TrainResult = Nothing
             Dim img As SampleData
             Dim loss As New List(Of Double)
+            Dim cpu As New PerformanceCounter
 
             right = 0
             count = 0
@@ -45,7 +47,7 @@ Namespace CNN
                 For Each index As Integer In randPerm
                     img = trainset(index)
                     data.addImageData(img.features, img.features.Max)
-                    tr = alg.train(data, img.labels(0))
+                    tr = alg.train(data, img.labels(0), checkpoints:=cpu.Set)
                     loss += tr.Loss
 
                     If img.labels(0) = which.Max(alg.get_output) Then
