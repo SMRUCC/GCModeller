@@ -31,16 +31,18 @@ Namespace CNN.losslayers
             Return db
         End Function
 
-        Public Overridable Overloads Function backward(y As Double()) As Double
+        Public Overrides Function backward(y As Double()) As Double()
             ' compute and accumulate gradient wrt weights and bias of this layer
-            Dim x = in_act
-            x.clearGradient() ' zero out the gradient of input Vol
-            Dim loss = 0.0
-            For i = 0 To out_depth - 1
+            Dim x = in_act.clearGradient() ' zero out the gradient of input Vol
+            Dim loss As Double() = New Double(y.Length - 1) {}
+
+            For i As Integer = 0 To out_depth - 1
                 Dim dy = x.getWeight(i) - y(i)
+
                 x.setGradient(i, dy)
-                loss += 0.5 * dy * dy
+                loss(i) = 0.5 * dy * dy
             Next
+
             Return loss
         End Function
 

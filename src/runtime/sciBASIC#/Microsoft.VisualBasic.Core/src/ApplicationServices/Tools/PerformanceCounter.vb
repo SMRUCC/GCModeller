@@ -10,7 +10,7 @@ Namespace ApplicationServices
 
         Public ReadOnly Property Top As Counter()
             Get
-                Return spans.OrderByDescending(Function(t) t.span0).ToArray
+                Return spans.OrderByDescending(Function(t) t.span1).ToArray
             End Get
         End Property
 
