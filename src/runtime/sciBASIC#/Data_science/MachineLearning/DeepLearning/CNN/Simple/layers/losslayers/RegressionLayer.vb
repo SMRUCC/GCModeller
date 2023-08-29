@@ -48,12 +48,11 @@ Namespace CNN.losslayers
 
         Public Overrides Function backward(y As Integer) As Double
             ' compute and accumulate gradient wrt weights and bias of this layer
-            Dim x = in_act
-            x.clearGradient() ' zero out the gradient of input Vol
+            Dim x = in_act.clearGradient() ' zero out the gradient of input Vol
             Dim loss = 0.0
-
             ' lets hope that only one number is being regressed
             Dim dy = x.getWeight(0) - y
+
             x.setGradient(0, dy)
             loss += 0.5 * dy * dy
 
