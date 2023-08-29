@@ -103,7 +103,6 @@ Namespace CNN.trainers
             If gsum.Count = 0 AndAlso momentum > 0.0 Then
                 For i As Integer = 0 To pglist.Length - 1
                     Dim newGsumArr = New Double(pglist(i).Weights.Length - 1) {}
-                    newGsumArr.fill(0)
                     gsum.Add(newGsumArr)
                     initTrainData(pglist(i))
                 Next

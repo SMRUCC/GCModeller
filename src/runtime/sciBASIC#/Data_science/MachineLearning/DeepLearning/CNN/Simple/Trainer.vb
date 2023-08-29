@@ -6,6 +6,7 @@ Imports Microsoft.VisualBasic.MachineLearning.CNN.layers
 Imports Microsoft.VisualBasic.MachineLearning.CNN.trainers
 Imports Microsoft.VisualBasic.MachineLearning.ComponentModel.StoreProcedure
 Imports Microsoft.VisualBasic.Math
+Imports std = System.Math
 
 Namespace CNN
 
@@ -55,7 +56,7 @@ Namespace CNN
                     loss += tr.Loss
 
                     If is_generative Then
-                        If SIMD.Subtract.f64_op_subtract_f64(img.labels, alg.get_output).Average < 0.2 Then
+                        If SIMD.Subtract.f64_op_subtract_f64(img.labels, alg.get_output).Select(Function(dd) std.Abs(dd)).Average < 0.2 Then
                             right += 1
                         End If
                     Else
@@ -68,7 +69,7 @@ Namespace CNN
                 Next
 
                 If i Mod d = 0 Then
-                    log($"[{i + 1}/{epochsNum};  {(Now - ti).Lanudry}] {(i / epochsNum * 100).ToString("F1")}% mean_loss={loss.Average}...... {(Now - t0).FormatTime(False)}")
+                    log($"[{i + 1}/{epochsNum};  {(Now - ti).Lanudry}] {(i / epochsNum * 100).ToString("F1")}% mean_loss={loss.Where(Function(a) Not a.IsNaNImaginary).Average}...... {(Now - t0).FormatTime(False)}")
                     ti = Now
                 End If
             Next
