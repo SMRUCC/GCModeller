@@ -3,7 +3,6 @@ Imports Microsoft.VisualBasic.MachineLearning.CNN.data
 Imports Microsoft.VisualBasic.MachineLearning.Convolutional
 Imports std = System.Math
 
-
 Namespace CNN.layers
 
     ''' <summary>
