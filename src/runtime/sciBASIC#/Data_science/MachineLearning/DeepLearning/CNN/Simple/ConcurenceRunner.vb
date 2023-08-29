@@ -5,14 +5,14 @@ Namespace CNN
     ''' <summary>
     ''' the parallel task helper
     ''' </summary>
-    Public MustInherit Class VectorTask
+    Friend MustInherit Class VectorTask
 
         Dim workLen As Integer
 
         Public Shared n_threads As Integer = 4
 
         Sub New(nsize As Integer)
-            ThreadPool.SetMaxThreads(n_threads, n_threads)
+            ThreadPool.SetMaxThreads(n_threads, 8)
             ThreadPool.SetMinThreads(n_threads, 2)
 
             workLen = nsize

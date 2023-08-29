@@ -154,6 +154,14 @@ Namespace CNN
             Return loss
         End Function
 
+        Public Shared Sub SetThreads(n As Integer)
+            VectorTask.n_threads = n
+        End Sub
+
+        Public Shared Function GetThreads() As Integer
+            Return VectorTask.n_threads
+        End Function
+
         Public Overrides Function ToString() As String
             Return $"{m_layers.Count} CNN layers: {m_layers.JoinBy(" -> ")}"
         End Function
