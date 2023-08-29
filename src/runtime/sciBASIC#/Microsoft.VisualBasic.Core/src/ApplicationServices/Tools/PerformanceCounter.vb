@@ -17,6 +17,7 @@ Namespace ApplicationServices
         Public Function [Set]() As PerformanceCounter
             t0 = Now
             checkpoint = Now
+            spans.Clear()
             Return Me
         End Function
 
@@ -33,6 +34,10 @@ Namespace ApplicationServices
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetCounters() As IEnumerable(Of Counter)
             Return spans.AsEnumerable
+        End Function
+
+        Public Overrides Function ToString() As String
+            Return $"{spans.Count} samples, total time {StringFormats.ReadableElapsedTime(spans.Last.span0.TotalMilliseconds)}"
         End Function
     End Class
 

@@ -95,14 +95,41 @@ Namespace CNN
             Dim flag As Boolean = Not training Is Nothing
             Dim act = m_layers(0).forward(db, training:=flag)
 
-            Call training.Mark("[forward]" & m_layers(0).ToString)
+            If Not training Is Nothing Then
+                Call training.Mark("[forward]" & m_layers(0).ToString)
+            End If
 
             For i As Integer = 1 To m_layers.Length - 1
                 act = m_layers(i).forward(act, training:=flag)
-                training.Mark("[forward]" & m_layers(i).ToString)
+
+                If Not training Is Nothing Then
+                    Call training.Mark("[forward]" & m_layers(i).ToString)
+                End If
             Next
 
             Return act
+        End Function
+
+        ''' <summary>
+        ''' Backprop: compute gradients wrt all parameters
+        ''' </summary>
+        Public Overridable Function backward(y As Double(), training As PerformanceCounter) As Double()
+            Dim N = m_layers.Length
+            Dim loss = output.backward(y)
+
+            If Not training Is Nothing Then
+                Call training.Mark("[backward]" & output.ToString)
+            End If
+
+            For i As Integer = N - 2 To 0 Step -1 ' first layer assumed input
+                Call m_layers(i).backward()
+
+                If Not training Is Nothing Then
+                    Call training.Mark("[backward]" & m_layers(i).ToString)
+                End If
+            Next
+
+            Return loss
         End Function
 
         ''' <summary>
@@ -112,11 +139,16 @@ Namespace CNN
             Dim N = m_layers.Length
             Dim loss = output.backward(y)
 
-            Call training.Mark("[backward]" & output.ToString)
+            If Not training Is Nothing Then
+                Call training.Mark("[backward]" & output.ToString)
+            End If
 
             For i As Integer = N - 2 To 0 Step -1 ' first layer assumed input
                 Call m_layers(i).backward()
-                Call training.Mark("[backward]" & m_layers(i).ToString)
+
+                If Not training Is Nothing Then
+                    Call training.Mark("[backward]" & m_layers(i).ToString)
+                End If
             Next
 
             Return loss

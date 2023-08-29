@@ -1,4 +1,4 @@
-﻿Imports Microsoft.VisualBasic.Parallel.Threads
+﻿Imports System.Threading
 
 Namespace CNN
 
@@ -8,11 +8,13 @@ Namespace CNN
     Public MustInherit Class VectorTask
 
         Dim workLen As Integer
-        Dim worker As New ThreadPool(n_threads)
 
         Public Shared n_threads As Integer = 4
 
         Sub New(nsize As Integer)
+            ThreadPool.SetMaxThreads(n_threads, n_threads)
+            ThreadPool.SetMinThreads(n_threads, 2)
+
             workLen = nsize
         End Sub
 
@@ -20,7 +22,9 @@ Namespace CNN
 
         Public Sub Run()
             Dim span_size As Integer = workLen / n_threads
-
+#If NET48 Then
+            span_size = 0
+#End If
             If span_size < 1 Then
                 ' run in sequence
                 Call Solve(0, workLen - 1)
@@ -33,8 +37,16 @@ Namespace CNN
                         ends = workLen - 1
                     End If
 
-                    Call worker.RunTask(Sub() Solve(start, ends))
+                    ThreadPool.QueueUserWorkItem(Sub() Solve(start, ends))
                 Next
+
+#If NETCOREAPP Then
+                Do While ThreadPool.PendingWorkItemCount > 0
+                    Thread.Sleep(1)
+                Loop
+#Else
+                Throw New NotImplementedException
+#End If
             End If
         End Sub
 

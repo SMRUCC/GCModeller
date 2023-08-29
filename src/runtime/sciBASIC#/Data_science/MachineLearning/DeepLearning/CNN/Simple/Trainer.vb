@@ -47,7 +47,7 @@ Namespace CNN
                 For Each index As Integer In randPerm
                     img = trainset(index)
                     data.addImageData(img.features, img.features.Max)
-                    tr = alg.train(data, img.labels(0), checkpoints:=cpu.Set)
+                    tr = alg.train(data, img.labels, checkpoints:=cpu.Set)
                     loss += tr.Loss
 
                     If img.labels(0) = which.Max(alg.get_output) Then
