@@ -1,4 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.MachineLearning.CNN.data
+Imports Microsoft.VisualBasic.MachineLearning.Convolutional
 
 Namespace CNN.layers
 
@@ -14,22 +15,53 @@ Namespace CNN.layers
     ''' @author Daniel Persson (mailto.woden@gmail.com)
     ''' </summary>
     <Serializable>
-    Public Class InputLayer
+    Public Class InputLayer : Inherits DataLink
         Implements Layer
 
-        Private in_act As DataBlock
-        Private out_act As DataBlock
+        ''' <summary>
+        ''' the image data size dimension [width, height]
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property dims As Dimension
 
-        Public Overridable ReadOnly Property BackPropagationResult As IList(Of BackPropResult) Implements Layer.BackPropagationResult
+        ''' <summary>
+        ''' the image data channels, example as color rgb channels, brightness, etc
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property out_depth As Integer
+
+        Public Overridable ReadOnly Iterator Property BackPropagationResult As IEnumerable(Of BackPropResult) Implements Layer.BackPropagationResult
             Get
-                Return New List(Of BackPropResult)()
+                ' no data
             End Get
         End Property
 
-        Public Sub New(def As OutputDefinition, out_sx As Integer, out_sy As Integer, out_depth As Integer)
+        Public ReadOnly Property Type As LayerTypes Implements Layer.Type
+            Get
+                Return LayerTypes.Input
+            End Get
+        End Property
+
+        Sub New()
+        End Sub
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="def"></param>
+        ''' <param name="out_sx">image width</param>
+        ''' <param name="out_sy">image height</param>
+        ''' <param name="out_depth">
+        ''' usually be one channel, color brightness, this parameter value could 
+        ''' be greater than 1, example value 3 probabilty for rgb channels
+        ''' </param>
+        Public Sub New(def As OutputDefinition, out_sx As Integer, out_sy As Integer, Optional out_depth As Integer = 1)
             def.outX = out_sx
             def.outY = out_sy
             def.depth = out_depth
+
+            Me.dims = New Dimension(out_sx, out_sy)
+            Me.out_depth = out_depth
         End Sub
 
         Public Overridable Function forward(db As DataBlock, training As Boolean) As DataBlock Implements Layer.forward
@@ -43,7 +75,7 @@ Namespace CNN.layers
         End Sub
 
         Public Overrides Function ToString() As String
-            Return "input()"
+            Return $"input(dims: {dims})"
         End Function
     End Class
 

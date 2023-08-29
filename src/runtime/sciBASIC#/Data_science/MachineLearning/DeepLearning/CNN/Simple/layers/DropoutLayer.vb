@@ -1,4 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.MachineLearning.CNN.data
+Imports Microsoft.VisualBasic.MachineLearning.Convolutional
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
 Namespace CNN.layers
@@ -9,38 +10,47 @@ Namespace CNN.layers
     ''' 
     ''' @author Daniel Persson (mailto.woden@gmail.com)
     ''' </summary>
-    Public Class DropoutLayer
+    Public Class DropoutLayer : Inherits DataLink
         Implements Layer
 
         Private out_depth, out_sx, out_sy As Integer
-
-        Private in_act, out_act As DataBlock
-
         Private ReadOnly drop_prob As Double = 0.5
         Private dropped As Boolean()
 
-        Public Overridable ReadOnly Property BackPropagationResult As IList(Of BackPropResult) Implements Layer.BackPropagationResult
+        Public Overridable ReadOnly Iterator Property BackPropagationResult As IEnumerable(Of BackPropResult) Implements Layer.BackPropagationResult
             Get
-                Return New List(Of BackPropResult)()
+                ' no data
             End Get
         End Property
 
-        Public Sub New(def As OutputDefinition)
+        Public ReadOnly Property Type As LayerTypes Implements Layer.Type
+            Get
+                Return LayerTypes.Dropout
+            End Get
+        End Property
+
+        Sub New()
+        End Sub
+
+        Public Sub New(def As OutputDefinition, drop_prob As Double)
             ' computed
             out_sx = def.outX
             out_sy = def.outY
             out_depth = def.depth
 
-            dropped = New Boolean(out_sx * out_sy * out_depth - 1) {}
+            Me.dropped = New Boolean(out_sx * out_sy * out_depth - 1) {}
+            Me.drop_prob = drop_prob
         End Sub
 
         Public Overridable Function forward(db As DataBlock, training As Boolean) As DataBlock Implements Layer.forward
-            in_act = db
             Dim V2 As DataBlock = db.clone()
             Dim N = db.Weights.Length
+
+            in_act = db
+
             If training Then
                 ' do dropout
-                For i = 0 To N - 1
+                For i As Integer = 0 To N - 1
                     If randf.NextDouble() < drop_prob Then
                         V2.setWeight(i, 0)
                         dropped(i) = True
@@ -51,22 +61,29 @@ Namespace CNN.layers
                 Next
             Else
                 ' scale the activations during prediction
-                For i = 0 To N - 1
-                    V2.mulGradient(i, drop_prob)
-                Next
+                V2.mulGradient(drop_prob)
             End If
+
             out_act = V2
-            Return out_act ' dummy identity function for now
+
+            ' dummy identity function for now
+            Return out_act
         End Function
 
         Public Overridable Sub backward() Implements Layer.backward
             Dim V = in_act ' we need to set dw of this
             Dim chain_grad = out_act
             Dim N = V.Weights.Length
+
             V.clearGradient() ' zero out gradient wrt data
-            For i = 0 To N - 1
+
+            Dim V_dw = V.Gradients
+            Dim chain_dw = chain_grad.Gradients
+
+            For i As Integer = 0 To N - 1
                 If Not dropped(i) Then
-                    V.setGradient(i, chain_grad.getGradient(i)) ' copy over the gradient
+                    ' copy over the gradient
+                    V_dw(i) = chain_dw(i)
                 End If
             Next
         End Sub

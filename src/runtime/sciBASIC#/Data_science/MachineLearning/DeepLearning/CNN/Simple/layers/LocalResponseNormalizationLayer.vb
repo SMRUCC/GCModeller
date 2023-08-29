@@ -1,4 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.MachineLearning.CNN.data
+Imports Microsoft.VisualBasic.MachineLearning.Convolutional
 Imports std = System.Math
 
 Namespace CNN.layers
@@ -18,8 +19,7 @@ Namespace CNN.layers
     ''' 
     ''' @author Daniel Persson (mailto.woden@gmail.com)
     ''' </summary>
-    <Serializable>
-    Public Class LocalResponseNormalizationLayer
+    Public Class LocalResponseNormalizationLayer : Inherits DataLink
         Implements Layer
 
         ' 
@@ -35,19 +35,30 @@ Namespace CNN.layers
         Private ReadOnly alpha As Double = 0.0001
         Private ReadOnly beta As Double = 0.75
 
-        Private in_act, out_act, S_cache_ As DataBlock
+        Dim S_cache_ As DataBlock
 
-        Public Overridable ReadOnly Property BackPropagationResult As IList(Of BackPropResult) Implements Layer.BackPropagationResult
+        Public Overridable ReadOnly Iterator Property BackPropagationResult As IEnumerable(Of BackPropResult) Implements Layer.BackPropagationResult
             Get
-                Return New List(Of BackPropResult)()
+                ' no data
             End Get
         End Property
 
-        Public Sub New()
+        Public ReadOnly Property Type As LayerTypes Implements Layer.Type
+            Get
+                Return LayerTypes.LRN
+            End Get
+        End Property
+
+        Sub New()
+        End Sub
+
+        Public Sub New(n As Integer)
             ' checks
             If n Mod 2 = 0 Then
                 VBDebugger.EchoLine("WARNING: n should be odd for LRN layer")
             End If
+
+            Me.n = n
         End Sub
 
         Public Overridable Function forward(db As DataBlock, training As Boolean) As DataBlock Implements Layer.forward
@@ -114,7 +125,7 @@ Namespace CNN.layers
         End Sub
 
         Public Overrides Function ToString() As String
-            Return $"local_response_norm()"
+            Return $"LRN()"
         End Function
     End Class
 

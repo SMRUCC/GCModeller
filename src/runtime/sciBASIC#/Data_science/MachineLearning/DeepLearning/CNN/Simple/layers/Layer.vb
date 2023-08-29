@@ -1,4 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.MachineLearning.CNN.data
+Imports Microsoft.VisualBasic.MachineLearning.Convolutional
 
 Namespace CNN.layers
 
@@ -9,9 +10,16 @@ Namespace CNN.layers
     ''' @author Daniel Persson (mailto.woden@gmail.com)
     ''' </summary>
     Public Interface Layer
+
+        ReadOnly Property BackPropagationResult As IEnumerable(Of BackPropResult)
+        ReadOnly Property Type As LayerTypes
+
         Function forward(db As DataBlock, training As Boolean) As DataBlock
+        ''' <summary>
+        ''' compute and accumulate gradient wrt weights and bias of this layer
+        ''' </summary>
         Sub backward()
-        ReadOnly Property BackPropagationResult As IList(Of BackPropResult)
+
     End Interface
 
 End Namespace

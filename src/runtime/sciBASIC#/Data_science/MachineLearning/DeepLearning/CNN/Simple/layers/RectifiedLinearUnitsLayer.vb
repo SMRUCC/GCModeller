@@ -1,4 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.MachineLearning.CNN.data
+Imports Microsoft.VisualBasic.MachineLearning.Convolutional
 
 Namespace CNN.layers
 
@@ -10,27 +11,42 @@ Namespace CNN.layers
     ''' 
     ''' @author Daniel Persson (mailto.woden@gmail.com)
     ''' </summary>
-    Public Class RectifiedLinearUnitsLayer
+    ''' <remarks>
+    ''' ReLU
+    ''' </remarks>
+    Public Class RectifiedLinearUnitsLayer : Inherits DataLink
         Implements Layer
-        Private in_act, out_act As DataBlock
 
-        Public Overridable ReadOnly Property BackPropagationResult As IList(Of BackPropResult) Implements Layer.BackPropagationResult
+        Public Overridable ReadOnly Iterator Property BackPropagationResult As IEnumerable(Of BackPropResult) Implements Layer.BackPropagationResult
             Get
-                Return New List(Of BackPropResult)()
+                ' no data
             End Get
         End Property
 
+        Public ReadOnly Property Type As LayerTypes Implements Layer.Type
+            Get
+                Return LayerTypes.ReLU
+            End Get
+        End Property
+
+        Sub New()
+        End Sub
+
         Public Overridable Function forward(db As DataBlock, training As Boolean) As DataBlock Implements Layer.forward
-            in_act = db
             Dim V2 As DataBlock = db.clone()
             Dim N = db.Weights.Length
             Dim V2w = V2.Weights
-            For i = 0 To N - 1
+
+            in_act = db
+
+            For i As Integer = 0 To N - 1
                 If V2w(i) < 0 Then
                     V2.setGradient(i, 0) ' threshold at 0
                 End If
             Next
+
             out_act = V2
+
             Return out_act
         End Function
 
@@ -49,7 +65,7 @@ Namespace CNN.layers
         End Sub
 
         Public Overrides Function ToString() As String
-            Return $"rectified_linear()"
+            Return $"ReLU()"
         End Function
     End Class
 

@@ -1,4 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.MachineLearning.CNN.data
+Imports Microsoft.VisualBasic.MachineLearning.Convolutional
 
 Namespace CNN.layers
 
@@ -10,13 +11,11 @@ Namespace CNN.layers
     ''' 
     ''' @author Daniel Persson (mailto.woden@gmail.com)
     ''' </summary>
-    Public Class FullyConnectedLayer
+    Public Class FullyConnectedLayer : Inherits DataLink
         Implements Layer
+
         Private l1_decay_mul As Double = 0.0
         Private l2_decay_mul As Double = 1.0
-
-        Private in_act As DataBlock
-        Private out_act As DataBlock
 
         Private ReadOnly BIAS_PREF As Single = 0.0F
 
@@ -25,17 +24,24 @@ Namespace CNN.layers
         Private filters As IList(Of DataBlock)
         Private biases As DataBlock
 
-        Public Overridable ReadOnly Property BackPropagationResult As IList(Of BackPropResult) Implements Layer.BackPropagationResult
+        Public Overridable ReadOnly Iterator Property BackPropagationResult As IEnumerable(Of BackPropResult) Implements Layer.BackPropagationResult
             Get
-                Dim results As IList(Of BackPropResult) = New List(Of BackPropResult)()
-                For i = 0 To out_depth - 1
-                    results.Add(New BackPropResult(filters(i).Weights, filters(i).Gradients, l1_decay_mul, l2_decay_mul))
+                For i As Integer = 0 To out_depth - 1
+                    Yield New BackPropResult(filters(i).Weights, filters(i).Gradients, l1_decay_mul, l2_decay_mul)
                 Next
-                results.Add(New BackPropResult(biases.Weights, biases.Gradients, 0.0, 0.0))
 
-                Return results
+                Yield New BackPropResult(biases.Weights, biases.Gradients, 0.0, 0.0)
             End Get
         End Property
+
+        Public ReadOnly Property Type As LayerTypes Implements Layer.Type
+            Get
+                Return LayerTypes.FullyConnected
+            End Get
+        End Property
+
+        Sub New()
+        End Sub
 
         Public Sub New(def As OutputDefinition, num_neurons As Integer)
             out_depth = num_neurons
@@ -59,9 +65,11 @@ Namespace CNN.layers
         End Sub
 
         Public Overridable Function forward(db As DataBlock, training As Boolean) As DataBlock Implements Layer.forward
-            in_act = db
             Dim lA As DataBlock = New DataBlock(1, 1, out_depth, 0.0)
             Dim Vw = db.Weights
+
+            in_act = db
+
             For i = 0 To out_depth - 1
                 Dim a = 0.0
                 Dim wi = filters(i).Weights

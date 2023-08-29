@@ -1,4 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.MachineLearning.CNN.data
+Imports Microsoft.VisualBasic.MachineLearning.Convolutional
 Imports std = System.Math
 
 Namespace CNN.layers
@@ -9,15 +10,23 @@ Namespace CNN.layers
     ''' 
     ''' @author Daniel Persson (mailto.woden@gmail.com)
     ''' </summary>
-    Public Class TanhLayer
+    Public Class TanhLayer : Inherits DataLink
         Implements Layer
-        Private in_act, out_act As DataBlock
 
-        Public Overridable ReadOnly Property BackPropagationResult As IList(Of BackPropResult) Implements Layer.BackPropagationResult
+        Public Overridable ReadOnly Iterator Property BackPropagationResult As IEnumerable(Of BackPropResult) Implements Layer.BackPropagationResult
             Get
-                Return New List(Of BackPropResult)()
+                ' no data
             End Get
         End Property
+
+        Public ReadOnly Property Type As LayerTypes Implements Layer.Type
+            Get
+                Return LayerTypes.Tanh
+            End Get
+        End Property
+
+        Sub New()
+        End Sub
 
         Public Overridable Function forward(db As DataBlock, training As Boolean) As DataBlock Implements Layer.forward
             in_act = db

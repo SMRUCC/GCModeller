@@ -1,4 +1,6 @@
-﻿Imports Microsoft.VisualBasic.Language.Java
+﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Language.Java
+Imports Microsoft.VisualBasic.Math
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 Imports std = System.Math
 
@@ -13,29 +15,66 @@ Namespace CNN.data
     ''' </summary>
     Public Class DataBlock
 
-        Private w As Double()
-        Private dw As Double()
-
         Public Overridable ReadOnly Property SX As Integer
         Public Overridable ReadOnly Property SY As Integer
         Public Overridable ReadOnly Property Depth As Integer
 
+        ''' <summary>
+        ''' the multiple class classify probability weight
+        ''' (or the prediction result) 
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks>get <see cref="w"/></remarks>
         Public Overridable ReadOnly Property Weights As Double()
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return w
             End Get
         End Property
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks>get <see cref="dw"/></remarks>
         Public Overridable ReadOnly Property Gradients As Double()
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return dw
             End Get
         End Property
 
+        ''' <summary>
+        ''' backend of <see cref="Weights"/>
+        ''' </summary>
+        Friend w As Double()
+        ''' <summary>
+        ''' backend of <see cref="Gradients"/>
+        ''' </summary>
+        Friend dw As Double()
+
+        Sub New()
+        End Sub
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub New(sx As Integer, sy As Integer, depth As Integer)
             Me.New(sx, sy, depth, -1.0)
         End Sub
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Sub New(dims As Dimension, depth As Integer, c As Double)
+            Call Me.New(dims.x, dims.y, depth, c)
+        End Sub
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="sx"></param>
+        ''' <param name="sy"></param>
+        ''' <param name="depth"></param>
+        ''' <param name="c">use for initialize the weight vector: 
+        ''' weight vector will be filled with the value of this parameter.
+        ''' </param>
         Public Sub New(sx As Integer, sy As Integer, depth As Integer, c As Double)
             Dim n = sx * sy * depth
 
@@ -47,7 +86,7 @@ Namespace CNN.data
             dw = New Double(n - 1) {}
 
             If c <> -1.0 Then
-                w.fill(c)
+                Call w.fill(c)
             Else
                 Dim scale = std.Sqrt(1.0 / n)
 
@@ -55,16 +94,51 @@ Namespace CNN.data
                     w(i) = randf.NextDouble() * scale
                 Next
             End If
-            dw.fill(0)
         End Sub
 
-        Public Overridable Sub addImageData(imgData As Integer(), maxvalue As Integer)
-            ' prepare the input: get pixels and normalize them
+        ''' <summary>
+        ''' prepare the input: get pixels and normalize them
+        ''' </summary>
+        ''' <param name="imgData"></param>
+        ''' <param name="maxvalue"></param>
+        Public Overridable Sub addImageData(imgData As Byte(), maxvalue As Byte)
+            Dim max As Double = maxvalue
+
             For i = 0 To imgData.Length - 1
-                w(i) = imgData(i) / CSng(maxvalue) - 0.5 ' normalize image pixels to [-0.5, 0.5]
+                w(i) = imgData(i) / max - 0.5 ' normalize image pixels to [-0.5, 0.5]
             Next
         End Sub
 
+        ''' <summary>
+        ''' prepare the input: get pixels and normalize them
+        ''' </summary>
+        ''' <param name="imgData"></param>
+        ''' <param name="maxvalue"></param>
+        Public Overridable Sub addImageData(imgData As Double(), maxvalue As Double)
+            For i = 0 To imgData.Length - 1
+                w(i) = imgData(i) / maxvalue - 0.5 ' normalize image pixels to [-0.5, 0.5]
+            Next
+        End Sub
+
+        ''' <summary>
+        ''' prepare the input: get pixels and normalize them
+        ''' </summary>
+        ''' <param name="imgData"></param>
+        ''' <param name="maxvalue"></param>
+        Public Overridable Sub addImageData(imgData As Integer(), maxvalue As Integer)
+            Dim max As Double = maxvalue
+
+            For i = 0 To imgData.Length - 1
+                w(i) = imgData(i) / max - 0.5 ' normalize image pixels to [-0.5, 0.5]
+            Next
+        End Sub
+
+        ''' <summary>
+        ''' set <see cref="w"/>
+        ''' </summary>
+        ''' <param name="ix"></param>
+        ''' <returns></returns>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overridable Function getWeight(ix As Integer) As Double
             Return w(ix)
         End Function
@@ -74,6 +148,12 @@ Namespace CNN.data
             Return w(ix)
         End Function
 
+        ''' <summary>
+        ''' get <see cref="w"/>
+        ''' </summary>
+        ''' <param name="ix"></param>
+        ''' <param name="val"></param>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overridable Sub setWeight(ix As Integer, val As Double)
             w(ix) = val
         End Sub
@@ -93,6 +173,15 @@ Namespace CNN.data
             Return getGradient(ix)
         End Function
 
+        ''' <summary>
+        ''' get <see cref="Gradients"/>
+        ''' </summary>
+        ''' <param name="ix"></param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' get element value from <see cref="dw"/>
+        ''' </remarks>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overridable Function getGradient(ix As Integer) As Double
             Return dw(ix)
         End Function
@@ -102,53 +191,83 @@ Namespace CNN.data
             setGradient(ix, val)
         End Sub
 
+        ''' <summary>
+        ''' set element value to <see cref="Gradients"/>
+        ''' </summary>
+        ''' <param name="ix"></param>
+        ''' <param name="val"></param>
+        ''' <remarks>
+        ''' set value to <see cref="dw"/>
+        ''' </remarks>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overridable Sub setGradient(ix As Integer, val As Double)
             dw(ix) = val
         End Sub
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Sub setGradient(val As Double())
+            Array.ConstrainedCopy(val, Scan0, dw, Scan0, dw.Length)
+        End Sub
 
         Public Overridable Sub addGradient(x As Integer, y As Integer, depth As Integer, val As Double)
             Dim ix = (_SX * y + x) * _Depth + depth
             addGradient(ix, val)
         End Sub
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overridable Sub addGradient(ix As Integer, val As Double)
             dw(ix) += val
         End Sub
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overridable Sub subGradient(ix As Integer, val As Double)
             dw(ix) -= val
         End Sub
 
-        Public Overridable Sub mulGradient(ix As Integer, val As Double)
-            dw(ix) *= val
+        ''' <summary>
+        ''' <paramref name="val"/> * <see cref="Gradients"/>
+        ''' </summary>
+        ''' <param name="val"></param>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Overridable Sub mulGradient(val As Double)
+            dw = SIMD.Multiply.f64_scalar_op_multiply_f64(val, dw)
         End Sub
 
-
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overridable Function cloneAndZero() As DataBlock
             Return New DataBlock(_SX, _SY, _Depth, 0.0)
         End Function
 
+        ''' <summary>
+        ''' make a copy of <see cref="w"/> or <see cref="Weights"/>
+        ''' </summary>
+        ''' <returns></returns>
         Public Overridable Function clone() As DataBlock
-            Dim db As DataBlock = New DataBlock(_SX, _SY, _Depth, 0.0)
-            For i = 0 To w.Length - 1
+            Dim db As New DataBlock(_SX, _SY, _Depth, 0.0)
+
+            For i As Integer = 0 To w.Length - 1
                 db.w(i) = w(i)
             Next
+
             Return db
         End Function
 
-        Public Overridable Sub clearGradient()
-            dw.fill(0)
-        End Sub
+        ''' <summary>
+        ''' set <see cref="dw"/> vector to zero
+        ''' </summary>
+        Public Function clearGradient() As DataBlock
+            Call dw.fill(0)
+            Return Me
+        End Function
 
         Public Overridable Sub addFrom(db As DataBlock)
-            For i = 0 To w.Length - 1
+            For i As Integer = 0 To w.Length - 1
                 w(i) = db.w(i)
             Next
         End Sub
 
         Public Overridable Sub addFromScaled(db As DataBlock, a As Double)
-            For i = 0 To w.Length - 1
+            For i As Integer = 0 To w.Length - 1
                 w(i) = db.w(i) * a
             Next
         End Sub

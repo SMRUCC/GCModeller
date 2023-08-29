@@ -1,4 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.MachineLearning.CNN.data
+Imports Microsoft.VisualBasic.MachineLearning.Convolutional
 
 Namespace CNN.losslayers
 
@@ -9,11 +10,19 @@ Namespace CNN.losslayers
     ''' 
     ''' @author Daniel Persson (mailto.woden@gmail.com)
     ''' </summary>
-    Public Class RegressionLayer
-        Inherits LossLayer
+    Public Class RegressionLayer : Inherits LossLayer
+
+        Public Overrides ReadOnly Property Type As LayerTypes
+            Get
+                Return LayerTypes.Regression
+            End Get
+        End Property
 
         Public Sub New(def As OutputDefinition)
             MyBase.New(def)
+        End Sub
+
+        Sub New()
         End Sub
 
         Public Overrides Function forward(db As DataBlock, training As Boolean) As DataBlock

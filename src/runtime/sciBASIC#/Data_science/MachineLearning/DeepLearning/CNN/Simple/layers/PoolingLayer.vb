@@ -1,5 +1,6 @@
 ﻿Imports Microsoft.VisualBasic.Language.Java
 Imports Microsoft.VisualBasic.MachineLearning.CNN.data
+Imports Microsoft.VisualBasic.MachineLearning.Convolutional
 Imports std = System.Math
 
 
@@ -12,9 +13,9 @@ Namespace CNN.layers
     ''' 
     ''' @author Daniel Persson (mailto.woden@gmail.com)
     ''' </summary>
-    <Serializable>
-    Public Class PoolingLayer
+    Public Class PoolingLayer : Inherits DataLink
         Implements Layer
+
         Private in_depth, in_sx, in_sy As Integer
         Private out_depth, out_sx, out_sy As Integer
         Private sx, sy, stride, padding As Integer
@@ -22,13 +23,20 @@ Namespace CNN.layers
         Private switchx As Integer()
         Private switchy As Integer()
 
-        Private in_act, out_act As DataBlock
-
-        Public Overridable ReadOnly Property BackPropagationResult As IList(Of BackPropResult) Implements Layer.BackPropagationResult
+        Public Overridable ReadOnly Iterator Property BackPropagationResult As IEnumerable(Of BackPropResult) Implements Layer.BackPropagationResult
             Get
-                Return New List(Of BackPropResult)()
+                ' no data
             End Get
         End Property
+
+        Public ReadOnly Property Type As LayerTypes Implements Layer.Type
+            Get
+                Return LayerTypes.Pool
+            End Get
+        End Property
+
+        Sub New()
+        End Sub
 
         Public Sub New(def As OutputDefinition, sx As Integer, stride As Integer, padding As Integer)
             Me.sx = sx
@@ -59,12 +67,12 @@ Namespace CNN.layers
         End Sub
 
         Public Overridable Function forward(db As DataBlock, training As Boolean) As DataBlock Implements Layer.forward
+            Dim lA As DataBlock = New DataBlock(out_sx, out_sy, out_depth, 0.0)
+            Dim n As Integer = 0 ' a counter for switches
+
             in_act = db
 
-            Dim lA As DataBlock = New DataBlock(out_sx, out_sy, out_depth, 0.0)
-
-            Dim n = 0 ' a counter for switches
-            For d = 0 To out_depth - 1
+            For d As Integer = 0 To out_depth - 1
                 Dim x = -padding
                 Dim ax = 0
 
@@ -73,11 +81,11 @@ Namespace CNN.layers
                     Dim ay = 0
 
                     While ay < out_sy
-
                         ' convolve centered at this particular location
                         Dim a As Double = -99999 ' hopefully small enough ;\
                         Dim winx = -1
                         Dim winy = -1
+
                         For fx = 0 To sx - 1
                             For fy = 0 To sy - 1
                                 Dim oy = y + fy
@@ -95,6 +103,7 @@ Namespace CNN.layers
                                 End If
                             Next
                         Next
+
                         switchx(n) = winx
                         switchy(n) = winy
                         n += 1
@@ -107,7 +116,9 @@ Namespace CNN.layers
                     ax += 1
                 End While
             Next
+
             out_act = lA
+
             Return out_act
         End Function
 

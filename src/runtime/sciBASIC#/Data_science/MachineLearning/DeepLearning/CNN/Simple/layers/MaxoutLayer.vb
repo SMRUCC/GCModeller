@@ -1,5 +1,6 @@
 ﻿Imports Microsoft.VisualBasic.Language.Java
 Imports Microsoft.VisualBasic.MachineLearning.CNN.data
+Imports Microsoft.VisualBasic.MachineLearning.Convolutional
 Imports std = System.Math
 
 Namespace CNN.layers
@@ -12,20 +13,27 @@ Namespace CNN.layers
     ''' @author Daniel Persson (mailto.woden@gmail.com)
     ''' </summary>
     <Serializable>
-    Public Class MaxoutLayer
+    Public Class MaxoutLayer : Inherits DataLink
         Implements Layer
+
         Private out_depth, out_sx, out_sy As Integer
-
-        Private in_act, out_act As DataBlock
-
         Private ReadOnly group_size As Integer = 2
         Private switches As Integer()
 
-        Public Overridable ReadOnly Property BackPropagationResult As IList(Of BackPropResult) Implements Layer.BackPropagationResult
+        Public Overridable ReadOnly Iterator Property BackPropagationResult As IEnumerable(Of BackPropResult) Implements Layer.BackPropagationResult
             Get
-                Return New List(Of BackPropResult)()
+                ' no data
             End Get
         End Property
+
+        Public ReadOnly Property Type As LayerTypes Implements Layer.Type
+            Get
+                Return LayerTypes.Maxout
+            End Get
+        End Property
+
+        Sub New()
+        End Sub
 
         Public Sub New(def As OutputDefinition)
             ' computed
