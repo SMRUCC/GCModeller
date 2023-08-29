@@ -1,4 +1,4 @@
-﻿Imports Microsoft.VisualBasic.Language.Java
+﻿﻿Imports Microsoft.VisualBasic.Language.Java
 Imports Microsoft.VisualBasic.MachineLearning.CNN.data
 Imports Microsoft.VisualBasic.MachineLearning.Convolutional
 Imports std = System.Math
@@ -58,8 +58,8 @@ Namespace CNN.layers
             ' store switches for x,y coordinates for where the max comes from, for each output neuron
             switchx = New Integer(out_sx * out_sy * out_depth - 1) {}
             switchy = New Integer(out_sx * out_sy * out_depth - 1) {}
-            switchx.fill(0)
-            switchy.fill(0)
+            switchx.Fill(0)
+            switchy.Fill(0)
 
             def.outX = out_sx
             def.outY = out_sy
@@ -68,122 +68,88 @@ Namespace CNN.layers
 
         Public Overridable Function forward(db As DataBlock, training As Boolean) As DataBlock Implements Layer.forward
             Dim lA As DataBlock = New DataBlock(out_sx, out_sy, out_depth, 0.0)
+            Dim n As Integer = 0 ' a counter for switches
 
             in_act = db
-            out_act = lA
 
-            Call New ForwardTask(Me, lA, db).Run()
+            For d As Integer = 0 To out_depth - 1
+                Dim x = -padding
+                Dim ax = 0
+
+                While ax < out_sx
+                    Dim y = -padding
+                    Dim ay = 0
+
+                    While ay < out_sy
+                        ' convolve centered at this particular location
+                        Dim a As Double = -99999 ' hopefully small enough ;\
+                        Dim winx = -1
+                        Dim winy = -1
+
+                        For fx = 0 To sx - 1
+                            For fy = 0 To sy - 1
+                                Dim oy = y + fy
+                                Dim ox = x + fx
+                                If oy >= 0 AndAlso oy < db.SY AndAlso ox >= 0 AndAlso ox < db.SX Then
+                                    Dim v = db.getWeight(ox, oy, d)
+                                    ' perform max pooling and store pointers to where
+                                    ' the max came from. This will speed up backprop
+                                    ' and can help make nice visualizations in future
+                                    If v > a Then
+                                        a = v
+                                        winx = ox
+                                        winy = oy
+                                    End If
+                                End If
+                            Next
+                        Next
+
+                        switchx(n) = winx
+                        switchy(n) = winy
+                        n += 1
+                        lA.setWeight(ax, ay, d, a)
+                        y += stride
+                        ay += 1
+                    End While
+
+                    x += stride
+                    ax += 1
+                End While
+            Next
+
+            out_act = lA
 
             Return out_act
         End Function
 
-        Private Class ForwardTask : Inherits VectorTask
-
-            Dim layer As PoolingLayer
-            ''' <summary>
-            ''' a counter for switches
-            ''' </summary>
-            Dim n As Integer = 0
-            Dim lA As DataBlock
-            Dim db As DataBlock
-
-            Public Sub New(layer As PoolingLayer, lA As DataBlock, db As DataBlock)
-                MyBase.New(layer.out_depth)
-                Me.db = db
-                Me.lA = lA
-                Me.layer = layer
-            End Sub
-
-            Protected Overrides Sub Solve(start As Integer, ends As Integer)
-                For d As Integer = start To ends
-                    Dim x = -layer.padding
-                    Dim ax = 0
-
-                    While ax < layer.out_sx
-                        Dim y = -layer.padding
-                        Dim ay = 0
-
-                        While ay < layer.out_sy
-                            ' convolve centered at this particular location
-                            Dim a As Double = -99999 ' hopefully small enough ;\
-                            Dim winx = -1
-                            Dim winy = -1
-
-                            For fx = 0 To layer.sx - 1
-                                For fy = 0 To layer.sy - 1
-                                    Dim oy = y + fy
-                                    Dim ox = x + fx
-                                    If oy >= 0 AndAlso oy < db.SY AndAlso ox >= 0 AndAlso ox < db.SX Then
-                                        Dim v = db.getWeight(ox, oy, d)
-                                        ' perform max pooling and store pointers to where
-                                        ' the max came from. This will speed up backprop
-                                        ' and can help make nice visualizations in future
-                                        If v > a Then
-                                            a = v
-                                            winx = ox
-                                            winy = oy
-                                        End If
-                                    End If
-                                Next
-                            Next
-
-                            layer.switchx(n) = winx
-                            layer.switchy(n) = winy
-                            n += 1
-                            lA.setWeight(ax, ay, d, a)
-                            y += layer.stride
-                            ay += 1
-                        End While
-
-                        x += layer.stride
-                        ax += 1
-                    End While
-                Next
-            End Sub
-        End Class
-
         Public Overridable Sub backward() Implements Layer.backward
             ' pooling layers have no parameters, so simply compute
             ' gradient wrt data here
-            ' zero out gradient wrt data
-            Call New BackwardTask(Me, v:=in_act.clearGradient()).Run()
-        End Sub
+            Dim V = in_act
+            V.clearGradient() ' zero out gradient wrt data
 
-        Private Class BackwardTask : Inherits VectorTask
+            Dim n = 0
+            For d = 0 To out_depth - 1
+                Dim x = -padding
+                Dim ax = 0
 
-            Dim layer As PoolingLayer
-            Dim v As DataBlock
-            Dim n As Integer = 0
+                While ax < out_sx
+                    Dim y = -padding
+                    Dim ay = 0
 
-            Public Sub New(layer As PoolingLayer, v As DataBlock)
-                MyBase.New(layer.out_depth)
-                Me.v = v
-                Me.layer = layer
-            End Sub
-
-            Protected Overrides Sub Solve(start As Integer, ends As Integer)
-                For d As Integer = start To ends
-                    Dim x = -layer.padding
-                    Dim ax = 0
-
-                    While ax < layer.out_sx
-                        Dim y = -layer.padding
-                        Dim ay = 0
-
-                        While ay < layer.out_sy
-                            Dim chain_grad = layer.out_act.getGradient(ax, ay, d)
-                            v.addGradient(layer.switchx(n), layer.switchy(n), d, chain_grad)
-                            n += 1
-                            y += layer.stride
-                            ay += 1
-                        End While
-
-                        x += layer.stride
-                        ax += 1
+                    While ay < out_sy
+                        Dim chain_grad = out_act.getGradient(ax, ay, d)
+                        V.addGradient(switchx(n), switchy(n), d, chain_grad)
+                        n += 1
+                        y += stride
+                        ay += 1
                     End While
-                Next
-            End Sub
-        End Class
+
+                    x += stride
+                    ax += 1
+                End While
+            Next
+        End Sub
 
         Public Overrides Function ToString() As String
             Return "pooling()"
