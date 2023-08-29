@@ -14,6 +14,7 @@ Namespace ApplicationServices
             End Get
         End Property
 
+        <DebuggerStepThrough>
         Public Function [Set]() As PerformanceCounter
             t0 = Now
             checkpoint = Now
