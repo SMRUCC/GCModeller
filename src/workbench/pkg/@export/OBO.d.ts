@@ -29,9 +29,23 @@ declare namespace OBO {
    /**
    */
    function ontologyTree(obo: object): object;
+   module open {
+      /**
+       * open the ontology obo file reader
+       * 
+       * > This obo file reader object could be used as the data source for read 
+       * >  other database
+       * 
+        * @param file -
+        * @param env -
+        * 
+        * + default value Is ``null``.
+      */
+      function obo(file: any, env?: object): object;
+   }
    module read {
       /**
-       * parse the obo file
+       * parse the gene ontology obo file
        * 
        * 
         * @param path -
