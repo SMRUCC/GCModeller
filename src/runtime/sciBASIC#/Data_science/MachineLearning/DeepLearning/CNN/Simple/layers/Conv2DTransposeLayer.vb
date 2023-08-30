@@ -8,7 +8,9 @@ Namespace CNN.layers
 
         Public ReadOnly Iterator Property BackPropagationResult As IEnumerable(Of BackPropResult) Implements Layer.BackPropagationResult
             Get
-
+                For i As Integer = 0 To out_depth - 1
+                    Yield New BackPropResult(filters(i).Weights, filters(i).Gradients, l2_decay_mul, l1_decay_mul)
+                Next
             End Get
         End Property
 
@@ -23,11 +25,11 @@ Namespace CNN.layers
         Friend sx, sy As Integer
         Friend stride, padding As Integer
         Friend filters As DataBlock()
-        Friend biases As DataBlock
-        Friend BIAS_PREF As Single = 0.1F
+        Friend l1_decay_mul As Double = 0.0
+        Friend l2_decay_mul As Double = 1.0
 
-        Public Sub New(def As OutputDefinition, sx As Integer, filters As Integer, stride As Integer, padding As Integer)
-            Me.out_depth = filters
+        Public Sub New(def As OutputDefinition, sx As Integer, stride As Integer, padding As Integer)
+            Me.out_depth = def.depth
             Me.in_depth = def.depth
             Me.in_sx = def.outX
             Me.in_sy = def.outY
@@ -46,7 +48,7 @@ Namespace CNN.layers
                 Me.filters(i) = New DataBlock(Me.sx, sy, in_depth)
             Next
 
-            biases = New DataBlock(1, 1, out_depth, BIAS_PREF)
+            ' biases = New DataBlock(1, 1, out_depth, BIAS_PREF)
 
             def.outX = out_sx
             def.outY = out_sy
@@ -54,7 +56,28 @@ Namespace CNN.layers
         End Sub
 
         Public Sub backward() Implements Layer.backward
+            Dim db = in_act.clearGradient
+            Dim V_sx = db.SX
+            Dim V_sy = db.SY
 
+            For d As Integer = 0 To out_depth - 1
+                Dim f = filters(d)
+
+                For i As Integer = 0 To out_sx
+                    Dim i_prime = i * stride
+                    For j As Integer = 0 To out_sy
+                        Dim j_prime = j * stride
+                        Dim chain_grad = out_act.getGradient(i, j, d)
+
+                        For k_row As Integer = 0 To f.SX
+                            For k_col As Integer = 0 To f.SY
+                                f.addGradient(k_row, k_col, d, in_act.getWeight(i, j, d) * chain_grad)
+                                in_act.addGradient(i_prime + k_row, j_prime + k_col, d, f.getWeight(k_row, k_col, d) * chain_grad)
+                            Next
+                        Next
+                    Next
+                Next
+            Next
         End Sub
 
         Public Function forward(db As DataBlock, training As Boolean) As DataBlock Implements Layer.forward
@@ -69,8 +92,8 @@ Namespace CNN.layers
                     Dim i_prime = i * stride
                     For j As Integer = 0 To out_sy
                         Dim j_prime = j * stride
-                        For k_row As Integer = 0 To f.SX
-                            For k_col As Integer = 0 To f.SY
+                        For k_row As Integer = 0 To f.SX - 1
+                            For k_col As Integer = 0 To f.SY - 1
                                 wi = out_act.getWeight(i, j, d) + f.getWeight(k_row, k_col, d) * in_act.getWeight(i, j, d)
                                 out_act.setWeight(i_prime + k_row, j_prime + k_col, d, wi)
                             Next
