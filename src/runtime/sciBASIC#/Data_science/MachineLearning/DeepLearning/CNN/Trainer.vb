@@ -15,14 +15,19 @@ Namespace CNN
         Dim log As Action(Of String) = AddressOf VBDebugger.EchoLine
         Dim alg As TrainerAlgorithm
         Dim is_generative As Boolean = False
+        Dim action As Action(Of Integer, ConvolutionalNN)
 
         <DebuggerStepThrough>
-        Sub New(alg As TrainerAlgorithm, Optional log As Action(Of String) = Nothing)
+        Sub New(alg As TrainerAlgorithm,
+                Optional log As Action(Of String) = Nothing,
+                Optional action As Action(Of Integer, ConvolutionalNN) = Nothing)
+
             If Not log Is Nothing Then
                 Me.log = log
             End If
 
             Me.alg = alg
+            Me.action = action
         End Sub
 
         Private Sub TrainEpochs(trainset As SampleData(), epochsNum As Integer, ByRef right As Integer, ByRef count As Integer)
@@ -116,6 +121,10 @@ Namespace CNN
                 Call log(t.ToString() & "th iter epochsNum: " & epochsNum.ToString())
                 Call TrainEpochs(trainset, epochsNum, right, count)
                 Call log("precision " & right.ToString() & "/" & count.ToString() & $"={(100 * right / count).ToString("F2")}%")
+
+                If Not action Is Nothing Then
+                    Call action(t, cnn)
+                End If
 
                 t += 1
             End While
