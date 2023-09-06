@@ -18,7 +18,7 @@ Namespace CNN
         Dim verbose As Integer = 25
 
         <DebuggerStepThrough>
-        Sub New(alg As TrainerAlgorithm, Optional log As Action(Of String) = Nothing, Optional verbose As Boolean = 25)
+        Sub New(alg As TrainerAlgorithm, Optional log As Action(Of String) = Nothing, Optional verbose As Integer = 25)
             If Not log Is Nothing Then
                 Me.log = log
             End If
