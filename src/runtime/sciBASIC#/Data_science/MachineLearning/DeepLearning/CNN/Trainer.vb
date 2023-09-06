@@ -15,23 +15,26 @@ Namespace CNN
         Dim log As Action(Of String) = AddressOf VBDebugger.EchoLine
         Dim alg As TrainerAlgorithm
         Dim is_generative As Boolean = False
+        Dim verbose As Integer = 25
         Dim action As Action(Of Integer, ConvolutionalNN)
 
         <DebuggerStepThrough>
         Sub New(alg As TrainerAlgorithm,
                 Optional log As Action(Of String) = Nothing,
-                Optional action As Action(Of Integer, ConvolutionalNN) = Nothing)
+                Optional action As Action(Of Integer, ConvolutionalNN) = Nothing,
+                Optional verbose As Integer = 25)
 
             If Not log Is Nothing Then
                 Me.log = log
             End If
 
             Me.alg = alg
+            Me.verbose = verbose
             Me.action = action
         End Sub
 
         Private Sub TrainEpochs(trainset As SampleData(), epochsNum As Integer, ByRef right As Integer, ByRef count As Integer)
-            Dim d As Integer = epochsNum / 25
+            Dim d As Integer = epochsNum / verbose
             Dim t0 = Now
             Dim randPerm As Integer()
             Dim ti As Date = Now
