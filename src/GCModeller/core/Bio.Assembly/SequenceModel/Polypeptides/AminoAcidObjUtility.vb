@@ -2,21 +2,21 @@
     Public Module AminoAcidObjUtility
 
 
-        Public Function IsAAEqual(ByVal letter1 As Char, ByVal letter2 As Char) As Boolean
+        Public Function IsAAEqual(letter1 As Char, letter2 As Char) As Boolean
             If letter1 = "J"c AndAlso (letter2 = "J"c OrElse letter2 = "L"c OrElse letter2 = "I"c) Then Return True
             If letter2 = "J"c AndAlso (letter1 = "J"c OrElse letter1 = "L"c OrElse letter1 = "I"c) Then Return True
             If letter1 = letter2 Then Return True
             Return False
         End Function
 
-        Public Function IsAAEqual(ByVal letter1 As String, ByVal letter2 As String) As Boolean
+        Public Function IsAAEqual(letter1 As String, letter2 As String) As Boolean
             If Equals(letter1, "J") AndAlso (Equals(letter2, "J") OrElse Equals(letter2, "L") OrElse Equals(letter2, "I")) Then Return True
             If Equals(letter2, "J") AndAlso (Equals(letter1, "J") OrElse Equals(letter1, "L") OrElse Equals(letter1, "I")) Then Return True
             If Equals(letter1, letter2) Then Return True
             Return False
         End Function
 
-        Public Function IsAAEqual(ByVal letter1 As Char, ByVal letter2 As String) As Boolean
+        Public Function IsAAEqual(letter1 As Char, letter2 As String) As Boolean
             If letter1 = "J"c AndAlso (Equals(letter2, "J") OrElse Equals(letter2, "L") OrElse Equals(letter2, "I")) Then Return True
             If Equals(letter2, "J") AndAlso (letter1 = "J"c OrElse letter1 = "L"c OrElse letter1 = "I"c) Then Return True
             If Equals(letter1.ToString(), letter2) Then Return True
