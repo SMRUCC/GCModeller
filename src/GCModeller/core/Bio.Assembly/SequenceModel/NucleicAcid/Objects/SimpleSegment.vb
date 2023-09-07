@@ -97,7 +97,7 @@ Namespace SequenceModel.NucleotideModels
         End Property
 
         ''' <summary>
-        ''' 获取得到当前的序列片段的长度，这个序列片段的长度值应该是和<see cref="NucleotideLocation.Length"/>值相等的
+        ''' 获取得到当前的序列片段的长度，这个序列片段的长度值应该是和<see cref="NucleotideLocation.Interval"/>值相等的
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property Length As Integer
