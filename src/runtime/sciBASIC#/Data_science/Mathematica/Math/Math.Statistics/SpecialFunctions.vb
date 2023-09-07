@@ -129,7 +129,6 @@ Public Module SpecialFunctions
     End Function
 
     Public Function BinomialCoefficient(ByVal n As Integer, ByVal k As Integer) As ULong
-        Dim coefficient As ULong
         If k = 0 Then
             Return 1
         ElseIf n = k Then
