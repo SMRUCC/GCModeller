@@ -292,7 +292,7 @@ Public Class VolcanoPlot : Inherits Plot
     Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
         ' 下面分别得到了log2fc的对称range，以及pvalue范围
         Dim xRange As DoubleRange = DEG_matrix _
-            .Select(Function(d) Math.Abs(d.logFC)) _
+            .Select(Function(d) std.Abs(d.logFC)) _
             .Where(Function(n) Not n.IsNaNImaginary) _
             .Max _
             .SymmetricalRange
@@ -365,7 +365,7 @@ Public Class VolcanoPlot : Inherits Plot
         Call g.DrawString(main, titleFont, New SolidBrush(Color.Black), point)
 
         ' 分别绘制出log2(level)和pvalue的4条threshold虚线条
-        log2Threshold = Log2(Math.Abs(log2Threshold))
+        log2Threshold = Log2(std.Abs(log2Threshold))
 
         left = x(log2Threshold)
         Call g.DrawLine(thresholdPen, New Point(left, plotRegion.Top), New Point(left, plotRegion.Bottom))
