@@ -54,6 +54,7 @@
 
 Imports System.Drawing
 Imports System.Drawing.Drawing2D
+Imports std = System.Math
 
 ''' <summary>
 ''' 绘图模型的通用基本类型结构
