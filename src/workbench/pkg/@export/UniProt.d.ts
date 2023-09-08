@@ -1,71 +1,53 @@
 ﻿// export R# package module type define for javascript/typescript language
 //
-//    imports "uniprot" from "seqtoolkit";
+//    imports "UniProt" from "annotationKit";
+//    imports "UniProt" from "gseakit";
 //
-// ref=seqtoolkit.uniprot@seqtoolkit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+// ref=annotationKit.UniProt@annotationKit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+// ref=gseakit.UniProt@gseakit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 
 /**
- * The Universal Protein Resource (UniProt)
+ * 
+ * The uniprot background model handler
  * 
 */
-declare namespace uniprot {
-   /**
-    * id unify mapping
-    * 
-    * 
-     * @param uniprot a uniprot dataabse pipeline stream
-     * @param id -
-     * @param target the database name for map to
-     * 
-     * + default value Is ``null``.
-     * @param env -
-     * 
-     * + default value Is ``null``.
-   */
-   function id_unify(uniprot: any, id: any, target?: string, env?: object): any;
+declare namespace UniProt {
    /**
      * @param env default value Is ``null``.
    */
-   function metaboliteSet(uniprot: any, env?: object): any;
-   module open {
-      /**
-       * open a uniprot database file
-       * 
-       * 
-        * @param files -
-        * @param isUniParc -
-        * 
-        * + default value Is ``false``.
-        * @param ignoreError 
-        * + default value Is ``true``.
-        * @param env 
-        * + default value Is ``null``.
-        * @return this function returns a pipeline stream of the uniprot protein entries.
-      */
-      function uniprot(files: any, isUniParc?: boolean, ignoreError?: boolean, env?: object): any;
-   }
+   function add_ecNumbers(pack: object, uniprot: any, env?: object): any;
    /**
+     * @param create_new default value Is ``false``.
    */
-   function parseUniProt(xml: string): object;
-   module protein {
-      /**
-       * populate all protein fasta sequence from the given uniprot database reader
-       * 
-       * 
-        * @param uniprot -
-        * @param extractAll -
-        * 
-        * + default value Is ``false``.
-        * @param KOseq 
-        * + default value Is ``false``.
-        * @param env -
-        * 
-        * + default value Is ``null``.
-      */
-      function seqs(uniprot: any, extractAll?: boolean, KOseq?: boolean, env?: object): object;
-   }
+   function ECnumber_pack(file: string, create_new?: boolean): object|object;
    /**
-    * export protein annotation data as data frame.
+    * extract fasta data from a HDS stream database
+    * 
+    * 
+     * @param pack -
+     * @param enzyme -
+     * 
+     * + default value Is ``true``.
+   */
+   function extract_fasta(pack: object, enzyme?: boolean): object;
+   /**
+    * create uniprot keyword ontology result
+    * 
+    * 
+     * @param enrichment -
+     * @param keywords -
+     * @param top -
+     * 
+     * + default value Is ``4``.
+   */
+   function keyword_profiles(enrichment: object, keywords: object, top?: object): object;
+   /**
+     * @param env default value Is ``null``.
+   */
+   function subcellular_location(uniprot: any, env?: object): object;
+   /**
+    * Create a gsea background model for uniprot keywords based
+    *  on the given uniprot database assembly data
     * 
     * 
      * @param uniprot -
@@ -73,5 +55,5 @@ declare namespace uniprot {
      * 
      * + default value Is ``null``.
    */
-   function proteinTable(uniprot: any, env?: object): any;
+   function uniprot_keywords(uniprot: any, env?: object): object;
 }
