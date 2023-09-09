@@ -22,6 +22,10 @@ for(map in as.list(df, byrow = TRUE)) {
     HDS::writeText(cache_fs, `${dir}/map.xml`, xml(pwy));
     HDS::flush(cache_fs);
 
+    let modules = as.data.frame([pwy]::modules);
+
+    print(modules);
+
     str(pwy);
     str(map);
 
