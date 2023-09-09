@@ -24,7 +24,19 @@ for(map in as.list(df, byrow = TRUE)) {
 
     let modules = as.data.frame([pwy]::modules);
 
-    print(modules);
+    print(modules, max.print = 6);
+
+    for(mid in as.list(modules, byrow = TRUE)) {
+        let mod = kegg_api::kegg_module(mid$name, cache = cache_dir);
+        let mdir = `${dir}/modules/${mid$name} - ${mid$text}/`;
+
+        HDS::writeText(cache_fs, `${mdir}/module.xml`, xml(mod));
+        HDS::flush(cache_fs);
+
+        str(mod);
+
+        stop();
+    }
 
     str(pwy);
     str(map);

@@ -159,7 +159,12 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             End Get
             Set
                 reactions = Value
-                rnTable = KeyValuePair.ToDictionary(Value)
+                rnTable = Value _
+                    .GroupBy(Function(t) t.name) _
+                    .ToDictionary(Function(t) t.Key,
+                                  Function(t)
+                                      Return t.First.text
+                                  End Function)
             End Set
         End Property
 
