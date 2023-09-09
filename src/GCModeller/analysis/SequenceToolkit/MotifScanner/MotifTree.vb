@@ -1,52 +1,52 @@
 ﻿#Region "Microsoft.VisualBasic::698be716fdb1407a6a34bce994e20459, GCModeller\analysis\SequenceToolkit\MotifScanner\MotifTree.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 204
-    '    Code Lines: 132
-    ' Comment Lines: 50
-    '   Blank Lines: 22
-    '     File Size: 8.12 KB
+' Summaries:
 
 
-    ' Module MotifTree
-    ' 
-    '     Function: BuildTree, compares, ExtractSites, (+2 Overloads) FilterMotifs, FilterMotifsQuantile
-    '               getLoci
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 204
+'    Code Lines: 132
+' Comment Lines: 50
+'   Blank Lines: 22
+'     File Size: 8.12 KB
+
+
+' Module MotifTree
+' 
+'     Function: BuildTree, compares, ExtractSites, (+2 Overloads) FilterMotifs, FilterMotifsQuantile
+'               getLoci
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -57,6 +57,7 @@ Imports Microsoft.VisualBasic.Math.Quantile
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.NtMapping
+Imports SMRUCC.genomics.SequenceModel
 
 Public Module MotifTree
 
@@ -85,8 +86,8 @@ Public Module MotifTree
     Private Function compares(a As Location, b As Location) As Integer
         If Not a.IsOverlapping(b) Then
 NOT_EQUALS:
-            Dim xa = (a.Left + a.Right) / 2
-            Dim xb = (b.Left + b.Right) / 2
+            Dim xa = (a.left + a.right) / 2
+            Dim xb = (b.left + b.right) / 2
 
             If xa < xb Then
                 Return -1
@@ -98,8 +99,8 @@ NOT_EQUALS:
             ' |---------|
             '     |-----------|
             '           b
-            Dim d1 = a.Right - b.Left
-            Dim d2 = b.Right - a.Left
+            Dim d1 = a.right - b.left
+            Dim d2 = b.right - a.left
 
             If Math.Min(d1, d2) / Math.Max(a.Length, b.Length) >= 0.5 Then
                 Return 0
@@ -248,8 +249,8 @@ NOT_EQUALS:
         Dim sites As NucleotideLocation() = locations.ToArray
         Dim topStrain = sites.Select(Function(l) l.Strand).TopMostFrequent
         Dim locis = sites.Where(Function(l) l.Strand = topStrain).ToArray
-        Dim left% = locis.Select(Function(l) l.Left).Average
-        Dim right% = locis.Select(Function(l) l.Right).Average
+        Dim left% = locis.Select(Function(l) l.left).Average
+        Dim right% = locis.Select(Function(l) l.right).Average
 
         Return New NucleotideLocation(left, right, topStrain)
     End Function
