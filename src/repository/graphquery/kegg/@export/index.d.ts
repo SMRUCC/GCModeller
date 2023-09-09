@@ -11,6 +11,10 @@ declare namespace kegg_api {
    /**
      * @param cache default value Is ``null``.
    */
+   function kegg_compound(id: any, cache?: any): object;
+   /**
+     * @param cache default value Is ``null``.
+   */
    function kegg_module(id: any, cache?: any): object;
    /**
      * @param cache default value Is ``null``.

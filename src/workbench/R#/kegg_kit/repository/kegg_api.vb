@@ -119,7 +119,16 @@ Public Module kegg_api
     Public Function convertToCompound(form As WebForm) As Compound
         Return New Compound With {
             .entry = form!ENTRY.Split(" "c).First,
-            .pathway = form.GetXmlTuples("PATHWAY").ToArray
+            .pathway = form.GetXmlTuples("PATHWAY").ToArray,
+            .commonNames = Strings.Trim(form!NAME).StringSplit(";\s*"),
+            .formula = form!FORMULA,
+            .exactMass = Val(form!EXACT_MASS),
+            .remarks = {form!REMARK},
+            .reactionId = Strings.Trim(form!REACTION).StringSplit("\s+"),
+            .[Module] = form.GetXmlTuples("MODULE").ToArray,
+            .enzyme = Strings.Trim(form!ENZYME).StringSplit("\s+"),
+            .molWeight = Val(form!MOL_WEIGHT),
+            .DbLinks = form.GetDBLinks.ToArray
         }
     End Function
 
