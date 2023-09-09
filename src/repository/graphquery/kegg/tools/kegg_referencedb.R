@@ -48,6 +48,7 @@ for(map in as.list(df, byrow = TRUE)) {
             # str(rxn);
 
             # stop();
+            NULL;
         }
 
         let compounds = as.data.frame([mod]::compound);
@@ -62,13 +63,19 @@ for(map in as.list(df, byrow = TRUE)) {
 
             HDS::writeText(cache_fs, cfile, xml(cpd));
             HDS::flush(cache_fs);
+
+            NULL;
         }
 
-        stop();
+        # stop();
     }
 
     str(pwy);
     str(map);
 
-    stop();
+    # stop();
+
+    NULL;
 }
+
+HDS::flush(cache_fs);
