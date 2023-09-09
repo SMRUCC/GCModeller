@@ -12,6 +12,7 @@
     <PackageProjectUrl>https://gcmodeller.org</PackageProjectUrl>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <UseApplicationFramework>True</UseApplicationFramework>
+    <Title>KEGG database toolkit</Title>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

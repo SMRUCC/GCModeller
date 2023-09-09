@@ -56,6 +56,9 @@ Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports any = Microsoft.VisualBasic.Scripting
 
+''' <summary>
+''' module code for construct the data objects
+''' </summary>
 Module activatorUtils
 
     <Extension>

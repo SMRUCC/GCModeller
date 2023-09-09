@@ -100,6 +100,12 @@ Module britekit
     ''' <param name="htext">a htex object</param>
     ''' <param name="entryId_pattern"></param>
     ''' <returns></returns>
+    ''' <example>
+    ''' let brite = brite::parse("ko00001");
+    ''' let df = brite.as.table(brite);
+    ''' 
+    ''' print(df, max.print = 6);
+    ''' </example>
     <ExportAPI("brite.as.table")>
     Public Function BriteTable(htext As Object, Optional entryId_pattern$ = "[a-z]+\d+", Optional env As Environment = Nothing) As Object
         Dim terms As IEnumerable(Of BriteTerm)
@@ -143,7 +149,9 @@ Module britekit
     ''' 
     ''' 1. ``br08901`` could be used at here as the kegg pathway map 
     '''    brite id, which is parsed from the internal resource data
-    '''    
+    ''' 2. this parameter value could also be a text file its file path 
+    '''    of the kegg brite database file.  
+    ''' 
     ''' </param>
     ''' <returns></returns>
     <ExportAPI("parse")>
@@ -238,7 +246,10 @@ Module britekit
         Dim prefix As String = geneId.getIdPrefix
         Dim table = htext.Deflate($"{prefix}\d+") _
             .GroupBy(Function(gene) gene.entry.Key) _
-            .ToDictionary(Function(gene) gene.Key, elementSelector:=MapCategoryTerm(level))
+            .ToDictionary(Function(gene)
+                              Return gene.Key
+                          End Function,
+                          elementSelector:=MapCategoryTerm(level))
 
         Return geneId _
             .Select(Function(id)
