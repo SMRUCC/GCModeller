@@ -15,6 +15,9 @@ declare namespace kegg_api {
       function compound(form: object): object;
       /**
       */
+      function module(form: object): object;
+      /**
+      */
       function pathway(form: object): object;
       /**
       */
