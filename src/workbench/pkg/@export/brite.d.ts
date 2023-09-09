@@ -61,6 +61,8 @@ declare namespace brite {
      *  
      *  1. ``br08901`` could be used at here as the kegg pathway map 
      *     brite id, which is parsed from the internal resource data
+     *  2. this parameter value could also be a text file its file path 
+     *     of the kegg brite database file.
      * @param env 
      * + default value Is ``null``.
    */
