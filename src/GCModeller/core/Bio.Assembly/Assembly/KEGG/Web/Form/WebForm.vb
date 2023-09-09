@@ -215,9 +215,17 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
             End If
         End Function
 
-        Public Iterator Function GetXmlTuples(key As String) As IEnumerable(Of NamedValue)
+        Public Iterator Function GetXmlTuples(key As String, Optional split As Boolean = False) As IEnumerable(Of NamedValue)
             For Each line As String In GetValue(key)
-                Yield New NamedValue(line.GetTagValue(" ", trim:=True, failureNoName:=False))
+                Dim tuple = line.GetTagValue(" ", trim:=True, failureNoName:=False)
+
+                If split Then
+                    For Each id As String In tuple.Name.Split(","c)
+                        Yield New NamedValue(id, tuple.Value)
+                    Next
+                Else
+                    Yield New NamedValue(tuple)
+                End If
             Next
         End Function
 

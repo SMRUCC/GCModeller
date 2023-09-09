@@ -104,6 +104,11 @@ Public Module kegg_api
         Return New WebForm(text, unsafe)
     End Function
 
+    <ExportAPI("as.module")>
+    Public Function convertModule(form As WebForm) As [Module]
+        Return PathwayTextParser.ParsePathwayModule(form)
+    End Function
+
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <ExportAPI("as.pathway")>
     Public Function convertToPathway(form As WebForm) As Pathway
