@@ -175,6 +175,22 @@ Public Class SequenceGraphTransform
             _feature_names = __set_feature_name(alphabets)
         End If
 
+        Dim sgtv As Double() = fitInternal(sequence)
+        Dim map As New Dictionary(Of String, Double)
+
+        For i As Integer = 0 To feature_names.Length - 1
+            Call map.Add(feature_names(i), sgtv(i))
+        Next
+
+        Return map
+    End Function
+
+    Public Function fitVector(sequence As String) As Double()
+        If alphabets.IsNullOrEmpty Then
+            _alphabets = estimate_alphabets(sequence)
+            _feature_names = __set_feature_name(alphabets)
+        End If
+
         Return fitInternal(sequence)
     End Function
 
@@ -249,7 +265,7 @@ Public Class SequenceGraphTransform
         Return m
     End Function
 
-    Private Function fitInternal(sequence As String) As Dictionary(Of String, Double)
+    Private Function fitInternal(sequence As String) As Double()
         Dim size = alphabets.Length
         Dim l = 0
         Dim W0 As NumericMatrix = NumericMatrix.Zero(size, size)
@@ -301,12 +317,7 @@ Public Class SequenceGraphTransform
 
         Dim sgt = (Wk / W0) ^ (1 / kappa)
         Dim sgtv As Double() = sgt.ArrayPack.IteratesALL.ToArray
-        Dim map As New Dictionary(Of String, Double)
 
-        For i As Integer = 0 To feature_names.Length - 1
-            Call map.Add(feature_names(i), sgtv(i))
-        Next
-
-        Return map
+        Return sgtv
     End Function
 End Class

@@ -1,4 +1,5 @@
 Imports System.Drawing
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.GraphTheory
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -13,6 +14,7 @@ Public Class CreateMatrix
     ''' </summary>
     ''' <returns>The CNN input size</returns>
     Public ReadOnly Property dimension As Size
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
             Return New Size(sgt.alphabets.Length, sgt.alphabets.Length)
         End Get
@@ -34,6 +36,11 @@ Public Class CreateMatrix
         Dim m = sgt.TranslateMatrix(v)
 
         Return m
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Function ToVector(prot As FastaSeq) As Double()
+        Return sgt.fitVector(prot.SequenceData)
     End Function
 
 End Class
