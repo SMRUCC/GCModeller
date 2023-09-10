@@ -39,10 +39,16 @@ Public Class SequenceGraphTransform
     End Enum
 
     Public ReadOnly Property alphabets As Char()
+
+    ''' <summary>
+    ''' the feature name is the combination of <see cref="alphabets"/>
+    ''' </summary>
+    ''' <returns></returns>
     Public ReadOnly Property feature_names As String()
 
     Dim kappa As Double
     Dim lengthsensitive As Boolean
+    Dim graph_matrix As String()()
 
     ''' <summary>
     ''' algorithm applied for check position
@@ -121,9 +127,24 @@ Public Class SequenceGraphTransform
         _alphabets = estimate_alphabets(corpus)
         _feature_names = __set_feature_name(alphabets)
 
+        graph_matrix = alphabets _
+            .Select(Function(c)
+                        Return alphabets _
+                            .Select(Function(c2) New String({c, ","c, c2})) _
+                            .ToArray
+                    End Function) _
+            .ToArray
+
         Return Me
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="alphabets"></param>
+    ''' <returns>
+    ''' returns an array of x,y combination result
+    ''' </returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Private Function __set_feature_name(alphabets As Char()) As String()
         Return CombinationExtensions.FullCombination(alphabets) _
@@ -202,6 +223,21 @@ Public Class SequenceGraphTransform
     End Function
 
     Private Delegate Function Combine(U As Integer(), V As Integer()) As IEnumerable(Of (i As Integer, j As Integer))
+
+    Public Function TranslateMatrix(v As Dictionary(Of String, Double)) As Double()()
+        Dim m As Double()() = New Double(alphabets.Length - 1)() {}
+
+        For i As Integer = 0 To graph_matrix.Length - 1
+            Dim row_i = graph_matrix(i)
+            Dim vr As Double() = row_i _
+                .Select(Function(c) v.TryGetValue(c)) _
+                .ToArray
+
+            m(i) = vr
+        Next
+
+        Return m
+    End Function
 
     Private Function fitInternal(sequence As String) As Dictionary(Of String, Double)
         Dim size = alphabets.Length
