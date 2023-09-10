@@ -123,6 +123,16 @@ Public Class SequenceGraphTransform
             .ToArray
     End Function
 
+    ''' <summary>
+    ''' set the alphabet data
+    ''' </summary>
+    ''' <param name="corpus"></param>
+    ''' <returns></returns>
+    ''' <remarks>
+    ''' 1. set the alphabet vector
+    ''' 2. then set the feature names for the transformation output
+    ''' 3. finally create the graph matrix index in this function
+    ''' </remarks>
     Public Function set_alphabets(corpus As String()) As SequenceGraphTransform
         _alphabets = estimate_alphabets(corpus)
         _feature_names = __set_feature_name(alphabets)
