@@ -1,3 +1,4 @@
+Imports System.Drawing
 Imports Microsoft.VisualBasic.Data.GraphTheory
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -6,6 +7,16 @@ Imports SMRUCC.genomics.SequenceModel.Polypeptides
 Public Class CreateMatrix
 
     Dim sgt As SequenceGraphTransform
+
+    ''' <summary>
+    ''' get the dimension size of the generated protein matrix via the function <see cref="ToMatrix(FastaSeq)"/>
+    ''' </summary>
+    ''' <returns>The CNN input size</returns>
+    Public ReadOnly Property dimension As Size
+        Get
+            Return New Size(sgt.alphabets.Length, sgt.alphabets.Length)
+        End Get
+    End Property
 
     Sub New()
         Dim allChars As String() = AminoAcidObjUtility _
