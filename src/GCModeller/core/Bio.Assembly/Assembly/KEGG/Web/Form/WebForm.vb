@@ -219,6 +219,10 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
             For Each line As String In GetValue(key)
                 Dim tuple = line.GetTagValue(" ", trim:=True, failureNoName:=False)
 
+                If line.StringEmpty OrElse tuple.Name.StringEmpty Then
+                    Continue For
+                End If
+
                 If split Then
                     For Each id As String In tuple.Name.Split(","c)
                         Yield New NamedValue(id, tuple.Value)

@@ -52,6 +52,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Emit.Delegates
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Serialization
@@ -120,7 +121,16 @@ Public Module kegg_api
         Return New Compound With {
             .entry = form!ENTRY.Split(" "c).First,
             .pathway = form.GetXmlTuples("PATHWAY").ToArray,
-            .commonNames = Strings.Trim(form!NAME).StringSplit(";\s*"),
+            .commonNames = form.GetValue("NAME") _
+                .SafeQuery _
+                .Select(Function(str)
+                            Return Strings.Trim(str) _
+                                .StringSplit(";\s*") _
+                                .Where(Function(si) Not si.StringEmpty)
+                        End Function
+                ).IteratesALL _
+                 .Distinct _
+                 .ToArray,
             .formula = form!FORMULA,
             .exactMass = Val(form!EXACT_MASS),
             .remarks = {form!REMARK},
