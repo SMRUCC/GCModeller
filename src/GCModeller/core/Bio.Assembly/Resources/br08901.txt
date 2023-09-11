@@ -230,6 +230,9 @@ C    03430  Mismatch repair
 C    03440  Homologous recombination
 C    03450  Non-homologous end-joining
 C    03460  Fanconi anemia pathway
+B  Chromosome
+C    03082  ATP-dependent chromatin remodeling
+C    03083  Polycomb repressive complex
 B  Information processing in viruses
 C    03230  Viral genome structure
 C    03240  Viral replication
@@ -326,6 +329,7 @@ C    02026  Biofilm formation - Escherichia coli
 B  Cell motility
 C    02030  Bacterial chemotaxis
 C    02040  Flagellar assembly
+C    04814  Motor proteins
 C    04810  Regulation of actin cytoskeleton
 AOrganismal Systems
 B  Immune system
@@ -630,5 +634,5 @@ C    07114  Naphthalene family
 C    07117  Benzodiazepine family
 !
 #
-#Last updated: March 6, 2023
+#Last updated: July 10, 2023
 #&raquo; Japanese version

@@ -55,7 +55,7 @@
 
 Imports System.ComponentModel
 
-Namespace Convolutional
+Namespace CNN
 
     Public Enum LayerTypes As Integer
 
@@ -74,5 +74,18 @@ Namespace Convolutional
         <Description("pool")> Pool
         <Description("relu")> ReLU
         <Description("softmax")> SoftMax
+        <Description("sigmoid")> Sigmoid
+        <Description("tanh")> Tanh
+        <Description("maxout")> Maxout
+        <Description("lrn")> LRN
+        <Description("dropout")> Dropout
+        <Description("fully_connect")> FullyConnected
+        <Description("regression")> Regression
+        <Description("svm")> SVM
+        <Description("conv_transpose")> Conv2DTranspose
+        <Description("fourier_feature")> FourierFeature
+        <Description("leaky_relu")> LeakyReLU
+        <Description("gaussian")> Gaussian
+
     End Enum
 End Namespace

@@ -51,6 +51,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel
@@ -62,6 +63,11 @@ Namespace SequenceModel
     ''' Cut sequence for DNA/protein
     ''' </summary>
     Public Module CutSequence
+
+        <Extension>
+        Public Function Length(range As IntRange) As Integer
+            Return range.Max - range.Min + 1
+        End Function
 
         ''' <summary>
         ''' 核酸分子和蛋白质分子都适用

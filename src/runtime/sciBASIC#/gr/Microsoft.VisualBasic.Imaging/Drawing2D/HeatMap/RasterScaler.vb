@@ -58,17 +58,31 @@ Imports System.Drawing
 Imports System.Drawing.Imaging
 Imports Microsoft.VisualBasic.Imaging.BitmapImage
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.HeatMap.hqx
+Imports Microsoft.VisualBasic.Math.LinearAlgebra
 
 Namespace Drawing2D.HeatMap
 
     ''' <summary>
     ''' do image size scaling
     ''' </summary>
+    ''' <remarks>
+    ''' A internal image data readonly matrix object
+    ''' </remarks>
     Public Class RasterScaler : Implements IDisposable
 
         Dim disposedValue As Boolean
         Dim buffer As BitmapBuffer
         Dim formula As Func(Of Color, Single)
+
+        ''' <summary>
+        ''' the dimension size of the bitmap buffer data
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property size As Size
+            Get
+                Return buffer.Size
+            End Get
+        End Property
 
         ''' <summary>
         ''' 
@@ -98,28 +112,62 @@ Namespace Drawing2D.HeatMap
             Call Scale(g, region.Size, region.Location)
         End Sub
 
+        Public Function GetPixel(x As Integer, y As Integer) As Color
+            Return buffer.GetPixel(x, y)
+        End Function
+
         ''' <summary>
         ''' Get grayscale raster data
         ''' </summary>
         ''' <returns></returns>
-        Public Iterator Function GetRasterData() As IEnumerable(Of PixelData)
+        ''' <remarks>
+        ''' default scale value of each <see cref="PixelData"/> is the color brightness
+        ''' </remarks>
+        Public Iterator Function GetRasterData(Optional byrow As Boolean = True) As IEnumerable(Of PixelData)
             Dim w = buffer.Width
             Dim h = buffer.Height
             Dim c As Color
             Dim l As Double
 
-            For x As Integer = 0 To buffer.Width - 1
+            If byrow Then
                 For y As Integer = 0 To buffer.Height - 1
-                    c = buffer.GetPixel(x, y)
-                    l = formula(c)
+                    For x As Integer = 0 To buffer.Width - 1
+                        c = buffer.GetPixel(x, y)
+                        l = formula(c)
 
-                    Yield New PixelData With {
-                        .Scale = l,
-                        .X = x + 1,
-                        .Y = y + 1
-                    }
+                        Yield New PixelData With {
+                            .Scale = l,
+                            .X = x + 1,
+                            .Y = y + 1
+                        }
+                    Next
                 Next
-            Next
+            Else
+                ' bycol
+                For x As Integer = 0 To buffer.Width - 1
+                    For y As Integer = 0 To buffer.Height - 1
+                        c = buffer.GetPixel(x, y)
+                        l = formula(c)
+
+                        Yield New PixelData With {
+                            .Scale = l,
+                            .X = x + 1,
+                            .Y = y + 1
+                        }
+                    Next
+                Next
+            End If
+        End Function
+
+        Public Shared Function ToRasterVector(img As Image, Optional resize As Integer() = Nothing) As Vector
+            If Not resize.IsNullOrEmpty Then
+                img = img.ResizeScaled(resize)
+            End If
+
+            Return New RasterScaler(img) _
+                .GetRasterData(byrow:=True) _
+                .Select(Function(i) i.Scale) _
+                .AsVector
         End Function
 
         Public Function Scale(newWidth As Integer, newHeight As Integer) As Bitmap

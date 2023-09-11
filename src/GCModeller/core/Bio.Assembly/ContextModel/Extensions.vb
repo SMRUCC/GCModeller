@@ -73,7 +73,7 @@ Namespace ContextModel
                 .ToArray
             Dim title$ = genome.Title & " - region of " & region.ToString
             Dim data As GeneBrief() = If(offset, genes.Offsets(region.Left), genes)
-            Dim subset As New PTT(data, title, region.Length)
+            Dim subset As New PTT(data, title, region.Interval)
             Return subset
         End Function
 

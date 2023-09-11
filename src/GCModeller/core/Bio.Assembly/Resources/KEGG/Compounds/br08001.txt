@@ -1,7 +1,6 @@
 +D	Biochemical compound
-#<h2><a href="/kegg/brite.html"><img src="/Fig/bget/kegg3.gif" align="middle" border=0></a>&nbsp; Compounds with Biological Roles</h2>
 !
-A<b>Organic acids</b>
+AOrganic acids
 B  Carboxylic acids [Fig]
 C    Monocarboxylic acids
 D      C00058  Formate; Methanoate
@@ -50,8 +49,7 @@ D      C00149  Malate; (S)-2-Hydroxybutanediate
 D      C01013  3-Hydroxypropanoate
 D      C01089  (R)-3-Hydroxybutanoate
 D      C00989  4-Hydroxybutanoate
-#
-A<b>Lipids</b>
+ALipids
 B  Fatty acids [Fig]
 C    Saturated fatty acids
 D      C00246  Butyric acid (4:0)
@@ -147,8 +145,7 @@ C    Thromboxanes
 D      C02198  Thromboxane A2
 D      C05963  Thromboxane B2
 D      C05964  11-Dehydro-thromboxane B2
-#
-A<b>Carbohydrates</b>
+ACarbohydrates
 B  Monosaccharides
 C    Aldoses [Fig]
 D      C00577  D-Glyceraldehyde
@@ -281,8 +278,7 @@ D      G11624  4-O-Methylglucuronoarabinoxylran
 D      G11334  Chondroitin
 D      G10505  Hyaluronic acid
 D      G10593  Alginic acid
-#
-A<b>Nucleic acids</b>
+ANucleic acids
 B  Bases [Fig]
 C    Purines
 D      C00147  Adenine (Ade)
@@ -346,8 +342,7 @@ D      C02353  2',3'-Cyclic AMP
 D      C06194  2',3'-Cyclic GMP
 D      C02354  2',3'-Cyclic CMP
 D      C02355  2',3'-Cyclic UMP
-#
-A<b>Peptides</b>
+APeptides
 B  Peptides
 C    Dipeptides [Fig]
 D      C01262  Anserine
@@ -429,8 +424,7 @@ D      C00780  Serotonin
 D      C00483  Tyramine
 D      C05332  Phenethylamine
 D      C01137  S-Adenosylmethioninamine
-#
-A<b>Vitamins and cofactors</b>
+AVitamins and cofactors
 B  Vitamins
 C    Fat-soluble vitamins [Fig]
 D      C00473  Retinol (Vitamin A)
@@ -482,8 +476,7 @@ D      C00120  Biotin
 D      C00725  Lipoate
 D      C18237  Molybdenum cofactor
 D      C00113  PQQ
-#
-A<b>Steroids</b>
+ASteroids
 B  18-Carbon atoms
 C    Estrane derivatives [Fig]
 D      C02537  Estradiol-17alpha
@@ -593,8 +586,7 @@ C    Gorgostane derivatives [Fig]
 D      C19657  Acanthasterol
 D      C19655  Gorgosterol
 D      C19656  Sarcoaldesterol A
-#
-A<b>Hormones and transmitters</b>
+AHormones and transmitters
 B  Peptide hormones
 C    Prolactin-releasing peptide [KO:K05269]
 D      C16086  Prolactin-releasing peptide-31
@@ -773,8 +765,7 @@ D      C00788  Epinephrine; Adrenaline
 D      C00547  Norepinephrine; Noradrenaline
 D      C00780  Serotonin
 D      C00388  Histamine
-#
-A<b>Antibiotics</b>
+AAntibiotics
 B  beta-Lactams [Fig]
 C    Penams
 D      C05551  Penicillin G
@@ -857,7 +848,7 @@ D      C06681  Mitomycin
 C    Cyclic lactones
 D      C06695  2-Oxazolidinone
 !
-#<hr>
-#[ <a href="/kegg/brite.html">BRITE</a> | <a href="/kegg/kegg2.html">KEGG2</a> | <a href="/kegg/">KEGG</a> ]<br>
+#
+#[ BRITE | KEGG2 | KEGG ]
 #Last updated: September 18, 2022
-#<br><br><a href="/brite/jp08001">&raquo; Japanese version</a>
+#&raquo; Japanese version

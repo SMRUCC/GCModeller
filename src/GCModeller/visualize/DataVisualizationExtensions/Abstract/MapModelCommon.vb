@@ -54,6 +54,7 @@
 
 Imports System.Drawing
 Imports System.Drawing.Drawing2D
+Imports std = System.Math
 
 ''' <summary>
 ''' 绘图模型的通用基本类型结构
@@ -105,7 +106,7 @@ Public MustInherit Class MapModelCommon
     ''' <remarks></remarks>
     Public Overridable ReadOnly Property HeadLength As Integer
         Get
-            Dim Length As Integer = Math.Abs(Left - Right)
+            Dim Length As Integer = std.Abs(Left - Right)
             Dim n = Length * 0.45
 
             ' 如果长度过小，则直接将基因对象画为一个三角形
@@ -129,7 +130,7 @@ Public MustInherit Class MapModelCommon
     ''' <remarks></remarks>
     Protected Overridable ReadOnly Property Length As Integer
         Get
-            Return Math.Abs(Left - Right) * ConvertFactor
+            Return std.Abs(Left - Right) * ConvertFactor
         End Get
     End Property
 

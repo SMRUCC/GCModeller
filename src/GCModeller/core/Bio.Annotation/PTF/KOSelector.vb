@@ -60,7 +60,7 @@ Namespace Ptf
         ''' <param name="selector">the selector expression string</param>
         ''' <returns></returns>
         Public Function SelectMaps(selector As String) As String()
-
+            Throw New NotImplementedException
         End Function
     End Module
 End Namespace

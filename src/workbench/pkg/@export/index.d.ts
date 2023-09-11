@@ -88,9 +88,10 @@ declare namespace GCModeller {
      * @param map_id default value Is ``KEGG``.
      * @param pathway_links default value Is ``pathway_links``.
      * @param outputdir default value Is ``./``.
+     * @param min_objects default value Is ``0``.
      * @param kegg_maps default value Is ``null``.
    */
-   function KEGG_MapRender(enrich: any, map_id?: any, pathway_links?: any, outputdir?: any, kegg_maps?: any): object;
+   function KEGG_MapRender(enrich: any, map_id?: any, pathway_links?: any, outputdir?: any, min_objects?: any, kegg_maps?: any): object;
    /**
      * @param rawMaps default value Is ``true``.
      * @param repo default value Is ``Call "system.file"("data/kegg/KEGG_maps.zip", "package" <- "GCModeller")``.
@@ -104,8 +105,9 @@ declare namespace GCModeller {
      * @param compoundcolors default value Is ``red``.
      * @param gene_highights default value Is ``blue``.
      * @param outputdir default value Is ``./``.
+     * @param min_objects default value Is ``0``.
    */
-   function localRenderMap(KEGG_maps: any, pathwayList: any, compoundcolors?: any, gene_highights?: any, outputdir?: any): object;
+   function localRenderMap(KEGG_maps: any, pathwayList: any, compoundcolors?: any, gene_highights?: any, outputdir?: any, min_objects?: any): object;
    /**
      * @param taxonomy_name default value Is ``null``.
      * @param raw default value Is ``true``.

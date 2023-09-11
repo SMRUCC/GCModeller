@@ -77,5 +77,18 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 .related_pathways = form.GetXmlTuples("REL_PATHWAY").ToArray
             }
         End Function
+
+        <Extension>
+        Public Function ParsePathwayModule(form As WebForm) As [Module]
+            Return New [Module] With {
+                .EntryId = form!ENTRY.Split(" "c).First,
+                .name = form!NAME,
+                .description = form!DEFINITION,
+                .compound = form.GetXmlTuples("COMPOUND").ToArray,
+                .reaction = form.GetXmlTuples("REACTION", split:=True).ToArray,
+                .pathway = form.GetXmlTuples("PATHWAY").ToArray,
+                .pathwayGenes = form.GetXmlTuples("ORTHOLOGY", split:=True).ToArray
+            }
+        End Function
     End Module
 End Namespace

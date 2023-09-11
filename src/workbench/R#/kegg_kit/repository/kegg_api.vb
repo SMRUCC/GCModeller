@@ -52,6 +52,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Emit.Delegates
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Serialization
@@ -104,6 +105,11 @@ Public Module kegg_api
         Return New WebForm(text, unsafe)
     End Function
 
+    <ExportAPI("as.module")>
+    Public Function convertModule(form As WebForm) As [Module]
+        Return PathwayTextParser.ParsePathwayModule(form)
+    End Function
+
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <ExportAPI("as.pathway")>
     Public Function convertToPathway(form As WebForm) As Pathway
@@ -114,7 +120,25 @@ Public Module kegg_api
     Public Function convertToCompound(form As WebForm) As Compound
         Return New Compound With {
             .entry = form!ENTRY.Split(" "c).First,
-            .pathway = form.GetXmlTuples("PATHWAY").ToArray
+            .pathway = form.GetXmlTuples("PATHWAY").ToArray,
+            .commonNames = form.GetValue("NAME") _
+                .SafeQuery _
+                .Select(Function(str)
+                            Return Strings.Trim(str) _
+                                .StringSplit(";\s*") _
+                                .Where(Function(si) Not si.StringEmpty)
+                        End Function
+                ).IteratesALL _
+                 .Distinct _
+                 .ToArray,
+            .formula = form!FORMULA,
+            .exactMass = Val(form!EXACT_MASS),
+            .remarks = {form!REMARK},
+            .reactionId = Strings.Trim(form!REACTION).StringSplit("\s+"),
+            .[Module] = form.GetXmlTuples("MODULE").ToArray,
+            .enzyme = Strings.Trim(form!ENZYME).StringSplit("\s+"),
+            .molWeight = Val(form!MOL_WEIGHT),
+            .DbLinks = form.GetDBLinks.ToArray
         }
     End Function
 

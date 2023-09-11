@@ -15,3 +15,17 @@ const kegg_reaction = function(id, cache = NULL) {
     |> as.reaction()
     ;
 }
+
+const kegg_module = function(id, cache = NULL) {
+    kegg_api::get(id, cache = cache_dir)
+    |> parseForm()
+    |> as.module()
+    ;
+}
+
+const kegg_compound = function(id, cache = NULL) {
+    kegg_api::get(id, cache = cache_dir)
+    |> parseForm()
+    |> as.compound()
+    ;
+}
