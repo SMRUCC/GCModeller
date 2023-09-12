@@ -9,5 +9,5 @@
 declare namespace pubmed {
    /**
    */
-   function parse(text: any): any;
+   function parse(text: any): object;
 }
