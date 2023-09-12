@@ -7,6 +7,9 @@ Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
 
+''' <summary>
+''' 
+''' </summary>
 <Package("pubmed")>
 Module pubmed
 
@@ -24,8 +27,14 @@ Module pubmed
         Return df
     End Function
 
+    ''' <summary>
+    ''' parse the text data as the article information
+    ''' </summary>
+    ''' <param name="text">text data in pubmed format</param>
+    ''' <returns></returns>
     <ExportAPI("parse")>
-    Public Function ParsePubmed(<RRawVectorArgument> text As Object)
+    <RApiReturn(GetType(PubmedArticle))>
+    Public Function ParsePubmed(<RRawVectorArgument> text As Object) As Object
         Return CLRVector.asCharacter(text) _
             .Select(Function(si) PubMedServicesExtensions.ParseArticles(si)) _
             .IteratesALL _
