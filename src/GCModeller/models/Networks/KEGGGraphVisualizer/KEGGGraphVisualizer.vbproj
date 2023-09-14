@@ -1,8 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <RootNamespace>KEGGGraphVisualizer</RootNamespace>
+    <RootNamespace>SMRUCC.genomics.Model.Network.KEGG.GraphVisualizer</RootNamespace>
     <TargetFramework>net6.0</TargetFramework>
+    <AssemblyName>SMRUCC.genomics.Model.Network.KEGGGraphVisualizer</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
