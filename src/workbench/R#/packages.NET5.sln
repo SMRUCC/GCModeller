@@ -27866,8 +27866,8 @@ Global
 		{EFC9598A-47BE-4660-B541-DAC7F3D40CFB}.Rsharp_app_release|Any CPU.Build.0 = Release|Any CPU
 		{EFC9598A-47BE-4660-B541-DAC7F3D40CFB}.Rsharp_app_release|ARM32.ActiveCfg = Release|Any CPU
 		{EFC9598A-47BE-4660-B541-DAC7F3D40CFB}.Rsharp_app_release|ARM32.Build.0 = Release|Any CPU
-		{EFC9598A-47BE-4660-B541-DAC7F3D40CFB}.Rsharp_app_release|x64.ActiveCfg = Release|Any CPU
-		{EFC9598A-47BE-4660-B541-DAC7F3D40CFB}.Rsharp_app_release|x64.Build.0 = Release|Any CPU
+		{EFC9598A-47BE-4660-B541-DAC7F3D40CFB}.Rsharp_app_release|x64.ActiveCfg = Rsharp_app_release|x64
+		{EFC9598A-47BE-4660-B541-DAC7F3D40CFB}.Rsharp_app_release|x64.Build.0 = Rsharp_app_release|x64
 		{EFC9598A-47BE-4660-B541-DAC7F3D40CFB}.Rsharp_app_release|x86.ActiveCfg = Release|Any CPU
 		{EFC9598A-47BE-4660-B541-DAC7F3D40CFB}.Rsharp_app_release|x86.Build.0 = Release|Any CPU
 		{EFC9598A-47BE-4660-B541-DAC7F3D40CFB}.Surveillance-of-infectious-diseases|Any CPU.ActiveCfg = Debug|Any CPU
@@ -28282,8 +28282,8 @@ Global
 		{8AB21F5F-95C5-4A5F-8829-54118DA02A74}.Rsharp_app_release|Any CPU.Build.0 = Release|Any CPU
 		{8AB21F5F-95C5-4A5F-8829-54118DA02A74}.Rsharp_app_release|ARM32.ActiveCfg = Release|Any CPU
 		{8AB21F5F-95C5-4A5F-8829-54118DA02A74}.Rsharp_app_release|ARM32.Build.0 = Release|Any CPU
-		{8AB21F5F-95C5-4A5F-8829-54118DA02A74}.Rsharp_app_release|x64.ActiveCfg = Release|Any CPU
-		{8AB21F5F-95C5-4A5F-8829-54118DA02A74}.Rsharp_app_release|x64.Build.0 = Release|Any CPU
+		{8AB21F5F-95C5-4A5F-8829-54118DA02A74}.Rsharp_app_release|x64.ActiveCfg = Rsharp_app_release|x64
+		{8AB21F5F-95C5-4A5F-8829-54118DA02A74}.Rsharp_app_release|x64.Build.0 = Rsharp_app_release|x64
 		{8AB21F5F-95C5-4A5F-8829-54118DA02A74}.Rsharp_app_release|x86.ActiveCfg = Release|Any CPU
 		{8AB21F5F-95C5-4A5F-8829-54118DA02A74}.Rsharp_app_release|x86.Build.0 = Release|Any CPU
 		{8AB21F5F-95C5-4A5F-8829-54118DA02A74}.Surveillance-of-infectious-diseases|Any CPU.ActiveCfg = Debug|Any CPU
