@@ -60,6 +60,12 @@ Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 
+''' <summary>
+''' A helper module for pathway map graph object
+''' 
+''' pathway as node and the edge link in this graph model is 
+''' based on the KO term intersection result.
+''' </summary>
 Public Module PathwayMapNetwork
 
     Const delimiter$ = "|"
@@ -84,7 +90,7 @@ Public Module PathwayMapNetwork
             Call processPathwayEdgeLinks(a, g)
         Next
 
-        Dim edges = g.graphEdges.ToArray
+        Dim edges As Edge() = g.graphEdges.ToArray
         Dim ranks As Vector = edges _
             .Select(Function(x) x.weight) _
             .RangeTransform(New Double() {0, 100}) _
@@ -97,6 +103,11 @@ Public Module PathwayMapNetwork
         Return g
     End Function
 
+    ''' <summary>
+    ''' the graph edge is generated via the shared KO iteraction result
+    ''' </summary>
+    ''' <param name="a"></param>
+    ''' <param name="g"></param>
     Private Sub processPathwayEdgeLinks(a As Node, g As NetworkGraph)
         Dim edgeData As EdgeData
         Dim KO As Index(Of String) = Strings.Split(a.data!KO, delimiter).Indexing
@@ -134,7 +145,7 @@ Public Module PathwayMapNetwork
         ' 直接使用name作为键名会和cytoscape网络模型之中的name产生冲突
         ' 所以下面的节点属性中
         ' 使用pathway.name来存储代谢途径的名称
-        Dim nodeData = New NodeData With {
+        Dim nodeData As New NodeData With {
             .origID = pathwayMap.EntryId,
             .label = pathwayMap.name,
             .Properties = New Dictionary(Of String, String) From {
@@ -147,7 +158,7 @@ Public Module PathwayMapNetwork
                 {"KO.counts", pathwayMap.KEGGOrthology.size}
             }
         }
-        Dim node = New Node(pathwayMap.EntryId, nodeData)
+        Dim node As New Node(pathwayMap.EntryId, nodeData)
 
         Call g.AddNode(node, assignId:=True)
     End Sub
