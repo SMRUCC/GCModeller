@@ -76,8 +76,6 @@ Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 
 Public Module FunctionalNetwork
 
-    Public Const Delimiter$ = " == "
-
     ''' <summary>
     ''' Using for the group values inforamtion for <see cref="BuildModel"/> function.
     ''' </summary>

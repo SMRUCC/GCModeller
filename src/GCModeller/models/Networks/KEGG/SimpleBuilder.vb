@@ -57,6 +57,8 @@ Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 
 Public Module SimpleBuilder
 
+    Public Const Delimiter$ = " == "
+
     ''' <summary>
     ''' Build a network based on a given compound id set
     ''' </summary>

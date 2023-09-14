@@ -518,7 +518,7 @@ Namespace PathwayMaps
         ''' <see cref="MapRepository.ScanMaps(String)"/>
         ''' </param>
         ''' <param name="reactions">
-        ''' <see cref="ReactionTable.Load(String)"/>
+        ''' <see cref="ReactionTable.LoadXmls(String)"/>
         ''' </param>
         ''' <returns></returns>
         Public Function BuildNetworkModel(maps As IEnumerable(Of Map), reactions As IEnumerable(Of ReactionTable),
