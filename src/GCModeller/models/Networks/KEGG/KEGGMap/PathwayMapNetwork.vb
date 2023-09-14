@@ -49,6 +49,7 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Ranges
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
@@ -70,6 +71,41 @@ Public Module PathwayMapNetwork
 
     Const delimiter$ = "|"
 
+
+    ''' <summary>
+    ''' 这个函数所产生的模型是以代谢途径为主体对象的
+    ''' 
+    ''' 在这个函数里面产生的也是代谢途径与代谢途径之间的相互作用的概览图
+    ''' </summary>
+    ''' <returns></returns>
+    ''' 
+    <Extension>
+    Public Function BuildModel(source As IEnumerable(Of PathwayMap), Optional filter_size As Integer = -1) As NetworkGraph
+        Dim g As New NetworkGraph
+
+        For Each map As PathwayMap In source
+            Call processPathwayNode(g, pathwayMap:=map)
+        Next
+
+        For Each a As Node In g.vertex
+            Call processPathwayEdgeLinks(a, g)
+        Next
+
+        If filter_size > 0 Then
+            Dim edges As Edge() = g.graphEdges.ToArray
+            Dim ranks As Vector = edges _
+                .Select(Function(x) x.weight) _
+                .RangeTransform(New Double() {0, 100}) _
+                .AsVector
+
+            For Each i As Integer In which(ranks < 3)
+                Call g.RemoveEdge(edges(i))
+            Next
+        End If
+
+        Return g
+    End Function
+
     ''' <summary>
     ''' 这个函数所产生的模型是以代谢途径为主体对象的
     ''' 
@@ -79,28 +115,10 @@ Public Module PathwayMapNetwork
     ''' <see cref="PathwayMap"/>
     ''' </param>
     ''' <returns></returns>
-    Public Function BuildModel(br08901 As String) As NetworkGraph
-        Dim g As New NetworkGraph
-
-        For Each xml As String In ls - l - r - "*.XML" <= br08901
-            Call processPathwayNode(g, pathwayMap:=xml.LoadXml(Of PathwayMap))
-        Next
-
-        For Each a As Node In g.vertex
-            Call processPathwayEdgeLinks(a, g)
-        Next
-
-        Dim edges As Edge() = g.graphEdges.ToArray
-        Dim ranks As Vector = edges _
-            .Select(Function(x) x.weight) _
-            .RangeTransform(New Double() {0, 100}) _
-            .AsVector
-
-        For Each i As Integer In which(ranks < 3)
-            Call g.RemoveEdge(edges(i))
-        Next
-
-        Return g
+    Public Function BuildModel(br08901 As String, Optional filter_size As Integer = -1) As NetworkGraph
+        Return (ls - l - r - "*.XML" <= br08901) _
+            .Select(Function(path) path.LoadXml(Of PathwayMap)) _
+            .BuildModel(filter_size)
     End Function
 
     ''' <summary>
