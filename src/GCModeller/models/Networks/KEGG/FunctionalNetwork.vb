@@ -114,10 +114,10 @@ Public Module FunctionalNetwork
     ''' <summary>
     ''' 这个函数需要编写一个网络布局生成函数的参数配置文件
     ''' </summary>
-    ''' <param name="model"></param>
+    ''' <param name="graph"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function VisualizeKEGG(model As NetworkTables,
+    Public Function VisualizeKEGG(graph As NetworkGraph,
                                   Optional layouts As ILayoutCoordinate() = Nothing,
                                   Optional size$ = "10000,7000",
                                   Optional colorSchema$ = "Set1:c9",
@@ -130,13 +130,7 @@ Public Module FunctionalNetwork
                                   Optional polygonStroke$ = Stroke.AxisGridStroke,
                                   Optional ppi As Integer = 100) As Image
 
-        Dim graph As NetworkGraph = model _
-            .CreateGraph(
-                nodeColor:=Function(n)
-                               Return (n!color).GetBrush
-                           End Function)
-
-        Call graph.ApplyAnalysis
+        Call graph.ApplyAnalysis()
 
         For Each node In graph.vertex
             node.data.size = {Val(node.data(NamesOf.REFLECTION_ID_MAPPING_DEGREE))}
@@ -157,10 +151,10 @@ Public Module FunctionalNetwork
         End If
 
         Dim graphNodes As Dictionary(Of Graph.Node) = graph.vertex.ToDictionary
-        Dim nodeGroups = model.nodes _
+        Dim nodeGroups = graph.vertex _
             .Select(Function(n)
                         Return Strings _
-                            .Split(n.NodeType, delimiter) _
+                            .Split(n.data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE), delimiter) _
                             .Select(Function(path)
                                         Return (path, n)
                                     End Function)
