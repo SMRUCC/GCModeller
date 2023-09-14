@@ -60,6 +60,19 @@ Public Module SimpleBuilder
     Public Const Delimiter$ = " == "
 
     ''' <summary>
+    ''' Using for the group values inforamtion for <see cref="BuildModel"/> function.
+    ''' </summary>
+    ''' <returns></returns>
+    Public Function KOGroupTable() As Dictionary(Of String, String)
+        Return PathwayMapping _
+            .DefaultKOTable _
+            .ToDictionary(Function(KO) KO.Key,
+                          Function(KO)
+                              Return KO.Value.parent.description
+                          End Function)
+    End Function
+
+    ''' <summary>
     ''' Build a network based on a given compound id set
     ''' </summary>
     ''' <param name="compoundIds"></param>
