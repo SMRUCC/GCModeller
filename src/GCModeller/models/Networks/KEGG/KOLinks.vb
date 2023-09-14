@@ -52,6 +52,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.Language.UnixBash
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB
 
@@ -77,14 +78,8 @@ Public Class KOLinks
     ''' <see cref="Orthology"/>
     ''' </param>
     ''' <returns></returns>
-    Public Shared Iterator Function Build(ko00001 As String) As IEnumerable(Of KOLinks)
-        For Each path As String In ls - l - r - "*.XML" <= ko00001
-            Dim xml As Orthology = path.LoadXml(Of Orthology)
-
-            If xml.pathway.IsNullOrEmpty Then
-                Continue For
-            End If
-
+    Public Shared Iterator Function Build(ko00001 As IEnumerable(Of Orthology)) As IEnumerable(Of KOLinks)
+        For Each xml As Orthology In ko00001.SafeQuery.Where(Function(o) Not o.pathway.IsNullOrEmpty)
             Dim reactions$() = xml.xref.Terms _
                 .Where(Function(l) l.name = "RN") _
                 .Select(Function(x) x.comment) _
@@ -103,5 +98,18 @@ Public Class KOLinks
                 .reactions = reactions
             }
         Next
+    End Function
+
+    ''' <summary>
+    ''' 使用这个函数直接从KEGG的直系同源注释数据转换
+    ''' </summary>
+    ''' <param name="ko00001">
+    ''' <see cref="Orthology"/>
+    ''' </param>
+    ''' <returns></returns>
+    Public Shared Function Build(ko00001 As String) As IEnumerable(Of KOLinks)
+        Return (ls - l - r - "*.XML" <= ko00001) _
+            .Select(Function(file) file.LoadXml(Of Orthology)) _
+            .DoCall(AddressOf Build)
     End Function
 End Class
