@@ -51,7 +51,8 @@
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Ranges
-Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
+Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
+Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
@@ -72,8 +73,10 @@ Public Module PathwayMapNetwork
     ''' <see cref="PathwayMap"/>
     ''' </param>
     ''' <returns></returns>
-    Public Function BuildModel(br08901 As String) As NetworkTables
-        Dim nodes As New List(Of Node)
+    Public Function BuildModel(br08901 As String) As NetworkGraph
+        Dim g As New NetworkGraph
+        Dim node As Node
+        Dim nodeData As NodeData, edgeData As EdgeData
         Dim pathwayMap As PathwayMap
 
         For Each xml As String In ls - l - r - "*.XML" <= br08901
@@ -81,58 +84,61 @@ Public Module PathwayMapNetwork
             ' 直接使用name作为键名会和cytoscape网络模型之中的name产生冲突
             ' 所以下面的节点属性中
             ' 使用pathway.name来存储代谢途径的名称
-            nodes += New Node(pathwayMap.EntryId) With {
-                .NodeType = pathwayMap.brite?.class,
+            nodeData = New NodeData With {
+                .origID = pathwayMap.EntryId,
+                .label = pathwayMap.name,
                 .Properties = New Dictionary(Of String, String) From {
+                    {NamesOf.REFLECTION_ID_MAPPING_NODETYPE, pathwayMap.brite?.class},
                     {"KO", pathwayMap.KEGGOrthology _
                         .Terms _
                         .SafeQuery _
                         .Select(Function(x) x.name) _
-                        .JoinBy(PathwayMapNetwork.delimiter)
-                    },
-                    {"KO.counts", pathwayMap.KEGGOrthology.size},
-                    {"pathway.name", pathwayMap.name}
+                        .JoinBy(PathwayMapNetwork.delimiter)},
+                    {"KO.counts", pathwayMap.KEGGOrthology.size}
                 }
             }
+            node = New Node(pathwayMap.EntryId, nodeData)
+
+            Call g.AddNode(node, assignId:=True)
         Next
 
-        Dim edges As New List(Of NetworkEdge)
+        For Each a As Node In g.vertex
+            Dim KO As Index(Of String) = Strings.Split(a.data!KO, delimiter).Indexing
 
-        For Each a As Node In nodes
-            Dim KO As Index(Of String) = Strings.Split(a!KO, delimiter).Indexing
-
-            For Each b As Node In nodes.Where(Function(node) node.ID <> a.ID)
-                Dim kb = Strings.Split(b!KO, delimiter)
+            For Each b As Node In g.vertex.Where(Function(vi) vi.ID <> a.ID)
+                Dim kb = Strings.Split(b.data!KO, delimiter)
                 Dim n = kb.Where(Function(id) KO(id) > -1).AsList
                 Dim type$
 
-                If a.NodeType = b.NodeType Then
+                If a.data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE) = b.data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE) Then
                     type = "module internal"
                 Else
                     type = "module outbounds"
                 End If
 
                 If Not n = 0 Then
-                    edges += New NetworkEdge With {
-                        .interaction = type,
-                        .fromNode = a.ID,
-                        .toNode = b.ID,
-                        .value = n.Count,
+                    edgeData = New EdgeData With {
+                        .length = n.Count,
                         .Properties = New Dictionary(Of String, String) From {
-                            {"intersets", n.JoinBy(delimiter)}
+                            {"intersets", n.JoinBy(delimiter)},
+                            {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, type}
                         }
                     }
+                    g.CreateEdge(g.GetElementByID(a.label), g.GetElementByID(b.label), n.Count, edgeData)
                 End If
             Next
         Next
 
+        Dim edges = g.graphEdges.ToArray
         Dim ranks As Vector = edges _
-            .Select(Function(x) x.value) _
+            .Select(Function(x) x.weight) _
             .RangeTransform(New Double() {0, 100}) _
             .AsVector
 
-        edges = edges(Which.IsTrue(ranks >= 3))
+        For Each i As Integer In which(ranks < 3)
+            Call g.RemoveEdge(edges(i))
+        Next
 
-        Return New NetworkTables(edges, nodes)
+        Return g
     End Function
 End Module
