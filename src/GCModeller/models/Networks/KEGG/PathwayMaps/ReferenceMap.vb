@@ -53,6 +53,7 @@
 
 #End Region
 
+Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
@@ -419,10 +420,11 @@ Namespace PathwayMaps
                                     reactionCluster As NamedCollection(Of String)(),
                                     coverageCutoff As Double,
                                     categoryLevel2 As Boolean,
-                                    topMaps As String())
+                                    topMaps As String(),
+                                    groupColors As Color())
 
-            Dim compoundsId = nodes.Where(Function(n) n.NodeType <> "flux").Keys
-            Dim reactionsId = nodes.Where(Function(n) n.NodeType = "flux").Keys
+            Dim compoundsId = nodes.Where(Function(n) n.data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE) <> "flux").Keys
+            Dim reactionsId = nodes.Where(Function(n) n.data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE) = "flux").Keys
             Dim compoundsAssignment = MapAssignment.MapAssignmentByCoverage(
                 objects:=compoundsId,
                 maps:=compoundCluster,
@@ -440,17 +442,17 @@ Namespace PathwayMaps
             Call "Do node map assignment.".__DEBUG_ECHO
 
             For Each node As Node In nodes
-                If node.NodeType = "flux" Then
+                If node.data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE) = "flux" Then
                     If reactionsAssignment.ContainsKey(node.ID) Then
-                        node("group") = reactionsAssignment(node.ID)
+                        node.data("group") = reactionsAssignment(node.ID)
                     Else
-                        node("group") = "NA"
+                        node.data("group") = "NA"
                     End If
                 Else
                     If compoundsAssignment.ContainsKey(node.ID) Then
-                        node("group") = compoundsAssignment(node.ID)
+                        node.data("group") = compoundsAssignment(node.ID)
                     Else
-                        node("group") = "NA"
+                        node.data("group") = "NA"
                     End If
                 End If
             Next
@@ -463,19 +465,19 @@ Namespace PathwayMaps
             End If
 
             For Each node As Node In nodes
-                If node("group") <> "NA" Then
-                    map = mapCategories(node("group").Match("\d+"))
+                If node.data("group") <> "NA" Then
+                    map = mapCategories(node.data("group").Match("\d+"))
 
-                    node("group.class") = map.class
-                    node("group.category") = If(categoryLevel2, map.entry.text, map.category)
+                    node.data("group.class") = map.class
+                    node.data("group.category") = If(categoryLevel2, map.entry.text, map.category)
                 End If
             Next
 
             Dim category As Dictionary(Of String, String) = nodes _
-                .Where(Function(n) n("group") <> "NA") _
-                .ToDictionary(Function(n) n.ID,
+                .Where(Function(n) n.data("group") <> "NA") _
+                .ToDictionary(Function(n) n.label,
                               Function(n)
-                                  Return n("group.category")
+                                  Return n.data("group.category")
                               End Function)
             Dim categoryColors As New CategoryColorProfile(
                 category:=category,
@@ -483,8 +485,8 @@ Namespace PathwayMaps
             )
 
             For Each node As Node In nodes
-                If node("group") <> "NA" Then
-                    node("group.category.color") = categoryColors.GetColor(node.ID).ToHtmlColor
+                If node.data("group") <> "NA" Then
+                    node.data("group.category.color") = categoryColors.GetColor(node.ID).ToHtmlColor
                 End If
             Next
         End Sub
