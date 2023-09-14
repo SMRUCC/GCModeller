@@ -1,55 +1,55 @@
 ﻿#Region "Microsoft.VisualBasic::ace5fbf8bf94db31bd3e2384fd9c01f6, GCModeller\models\Networks\KEGG\PathwayMaps\ReferenceMap.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 533
-    '    Code Lines: 432
-    ' Comment Lines: 39
-    '   Blank Lines: 62
-    '     File Size: 24.72 KB
+' Summaries:
 
 
-    '     Module ReferenceMap
-    ' 
-    '         Function: (+2 Overloads) BuildNetworkModel, buildNetworkModelInternal, createNodeTable, getCompoundClassCategory, getCompoundIndex
-    '                   (+2 Overloads) getCompoundsInMap, getKOlist, reactionKOFilter
-    ' 
-    '         Sub: doMapAssignment, edgesFromClassFilter, edgesFromNoneClassFilter, removesUnmapped
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 533
+'    Code Lines: 432
+' Comment Lines: 39
+'   Blank Lines: 62
+'     File Size: 24.72 KB
+
+
+'     Module ReferenceMap
+' 
+'         Function: (+2 Overloads) BuildNetworkModel, buildNetworkModelInternal, createNodeTable, getCompoundClassCategory, getCompoundIndex
+'                   (+2 Overloads) getCompoundsInMap, getKOlist, reactionKOFilter
+' 
+'         Sub: doMapAssignment, edgesFromClassFilter, edgesFromNoneClassFilter, removesUnmapped
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -60,6 +60,8 @@ Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
 Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
+Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
+Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
@@ -122,27 +124,30 @@ Namespace PathwayMaps
         End Function
 
         <Extension>
-        Private Function createNodeTable(compounds As IGrouping(Of String, NamedValue(Of String))(), compoundsWithBiologicalRoles As Dictionary(Of String, String)) As Dictionary(Of String, Node)
-            Dim nodes As New Dictionary(Of String, Node)
-            Dim node As Node
-            Dim mapList$
+        Private Function createNodeTable(compounds As IGrouping(Of String, NamedValue(Of String))(),
+                                         compoundsWithBiologicalRoles As Dictionary(Of String, String)) As NetworkGraph
 
-            For Each compound In compounds
+            Dim node As Node, data As NodeData
+            Dim mapList$
+            Dim g As New NetworkGraph
+
+            For Each compound As IGrouping(Of String, NamedValue(Of String)) In compounds
                 mapList = compound.Select(Function(map) map.Description).JoinBy("|")
-                node = New Node With {
-                    .ID = compound.Key,
-                    .NodeType = "compound",
+                data = New NodeData With {
+                    .label = compound.Key,
+                    .origID = compound.Key,
                     .Properties = New Dictionary(Of String, String) From {
-                        {"label", compound.First.Value},
                         {"maps", mapList},
-                        {"class", compoundsWithBiologicalRoles.TryGetValue(compound.Key, [default]:="NA")}
+                        {"class", compoundsWithBiologicalRoles.TryGetValue(compound.Key, [default]:="NA")},
+                        {NamesOf.REFLECTION_ID_MAPPING_NODETYPE, "compound"}
                     }
                 }
+                node = New Node(compound.Key, data)
 
-                Call nodes.Add(compound.Key, node)
+                Call g.AddNode(node)
             Next
 
-            Return nodes
+            Return g
         End Function
 
         ''' <summary>
@@ -194,7 +199,7 @@ Namespace PathwayMaps
                                           Optional doRemoveUnmmaped As Boolean = False,
                                           Optional coverageCutoff As Double = 0,
                                           Optional categoryLevel2 As Boolean = False,
-                                          Optional topMaps As String() = Nothing) As NetworkTables
+                                          Optional topMaps As String() = Nothing) As NetworkGraph
             Dim mapsVector = maps.ToArray
             Dim reactionVector As ReactionTable() = reactions.ToArray
             Dim compounds = mapsVector _
@@ -233,13 +238,12 @@ Namespace PathwayMaps
                                                    doRemoveUnmmaped As Boolean,
                                                    coverageCutoff As Double,
                                                    categoryLevel2 As Boolean,
-                                                   topMaps As String()) As NetworkTables
+                                                   topMaps As String()) As NetworkGraph
 
             Dim reactantIndex = reactionVector.getCompoundIndex(Function(r) r.substrates)
             Dim productIndex = reactionVector.getCompoundIndex(Function(r) r.products)
             Dim compoundsWithBiologicalRoles = getCompoundClassCategory()
-            Dim nodes As Dictionary(Of String, Node) = compounds.createNodeTable(compoundsWithBiologicalRoles)
-            Dim edges As New List(Of NetworkEdge)
+            Dim g As NetworkGraph = compounds.createNodeTable(compoundsWithBiologicalRoles)
 
             ' 下面的两个for循环产生的是从reactant a到products b的反应过程边连接
             For Each a As IGrouping(Of String, NamedValue(Of String)) In compounds
@@ -329,7 +333,7 @@ Namespace PathwayMaps
                     Dim edge1 As New NetworkEdge With {
                         .fromNode = aId,
                         .toNode = flux.entry,
-                        .interaction = "substrate",
+                        .Interaction = "substrate",
                         .Properties = New Dictionary(Of String, String) From {
                             {"compound.name", aName},
                             {"flux.name", flux.EC.FirstOrDefault}
@@ -338,7 +342,7 @@ Namespace PathwayMaps
                     Dim edge2 As New NetworkEdge With {
                         .fromNode = flux.entry,
                         .toNode = transform.to,
-                        .interaction = "product",
+                        .Interaction = "product",
                         .Properties = New Dictionary(Of String, String) From {
                             {"compound.name", bName},
                             {"flux.name", flux.EC.FirstOrDefault}
@@ -366,9 +370,9 @@ Namespace PathwayMaps
         Private Sub edgesFromNoneClassFilter(producs As Dictionary(Of String, ReactionTable()),
                                              a As IGrouping(Of String, NamedValue(Of String)),
                                              compounds As IGrouping(Of String, NamedValue(Of String))(),
-                                             ByRef nodes As Dictionary(Of String, Node),
-                                             ByRef edges As List(Of NetworkEdge),
+                                             g As NetworkGraph,
                                              aName$)
+            Dim data1, data2 As EdgeData
 
             For Each b In compounds.Where(Function(c) c.Key <> a.Key AndAlso producs.ContainsKey(c.Key))
                 Dim bName$ = b.First.Value
@@ -376,38 +380,35 @@ Namespace PathwayMaps
                 ' reactant -> reaction
                 ' reaction -> product
                 For Each flux As ReactionTable In producs(b.Key)
-                    Dim edge1 As New NetworkEdge With {
-                        .fromNode = a.Key,
-                        .toNode = flux.entry,
-                        .interaction = "substrate",
-                        .Properties = New Dictionary(Of String, String) From {
-                            {"compound.name", aName},
-                            {"flux.name", flux.EC.FirstOrDefault}
-                        }
-                    }
-                    Dim edge2 As New NetworkEdge With {
-                        .fromNode = flux.entry,
-                        .toNode = b.Key,
-                        .interaction = "product",
-                        .Properties = New Dictionary(Of String, String) From {
-                            {"compound.name", bName},
-                            {"flux.name", flux.EC.FirstOrDefault}
-                        }
-                    }
-
-                    edges = edges + edge1 + edge2
-
-                    If Not nodes.ContainsKey(flux.entry) Then
-                        Dim fluxNode As New Node With {
-                            .ID = flux.entry,
-                            .NodeType = "flux",
-                            .Properties = New Dictionary(Of String, String) From {
-                                {"label", flux.EC.JoinBy("+") Or flux.name.AsDefault}
+                    If g.GetElementByID(flux.entry) Is Nothing Then
+                        Dim fluxNode As New Node(flux.entry) With {
+                            .data = New NodeData With {
+                                .Properties = New Dictionary(Of String, String) From {
+                                    {"label", flux.EC.JoinBy("+") Or flux.name.AsDefault},
+                                    {NamesOf.REFLECTION_ID_MAPPING_NODETYPE, "flux"}
+                                }
                             }
                         }
 
-                        Call nodes.Add(flux.entry, fluxNode)
+                        Call g.AddNode(fluxNode)
                     End If
+
+                    data1 = New EdgeData With {
+                        .Properties = New Dictionary(Of String, String) From {
+                            {"compound.name", aName},
+                            {"flux.name", flux.EC.FirstOrDefault},
+                            {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, "substrate"}
+                        }
+                    }
+                    g.CreateEdge(a.Key, flux.entry,, data1)
+                    data2 = New EdgeData With {
+                        .Properties = New Dictionary(Of String, String) From {
+                            {"compound.name", bName},
+                            {"flux.name", flux.EC.FirstOrDefault},
+                            {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, "product"}
+                        }
+                    }
+                    g.CreateEdge(flux.entry, b.Key,, data2)
                 Next
             Next
         End Sub
