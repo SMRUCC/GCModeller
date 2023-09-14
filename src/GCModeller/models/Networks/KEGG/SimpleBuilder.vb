@@ -99,43 +99,57 @@ Public Module SimpleBuilder
     <Extension>
     Private Sub loopCompoundNode(g As NetworkGraph, links As ReactionClass(), compoundIndex As Index(Of String), maps As MapRepository)
         For Each link As ReactionClass In links
-            For Each transform In link.reactantPairs
-                If transform.from Like compoundIndex AndAlso transform.to Like compoundIndex Then
-                    If Not g.GetEdges(g.GetElementByID(transform.from), g.GetElementByID(transform.to)).Any Then
-                        Dim tuple As String() = {transform.from, transform.to}
+            Call link.processReactionClassLink(g, compoundIndex, maps)
+        Next
+    End Sub
 
-                        g.CreateEdge(transform.from, transform.to, data:=New EdgeData With {.label = link.definition})
-
-                        For Each map As MapIndex In maps.QueryMapsByMembers(tuple)
-                            If map.FilterAll(tuple) Then
-                                Dim KO = link.orthology.Where(Function(KOid) map.hasAny(KOid.name)).Select(Function(k) k.name).ToArray
-
-                                If g.GetElementByID(map.EntryId) Is Nothing Then
-                                    g.CreateNode(map.EntryId)
-                                End If
-
-                                For Each id As String In KO
-                                    If g.GetElementByID(id) Is Nothing Then
-                                        g.CreateNode(id)
-                                    End If
-
-                                    If Not g.GetEdges(g.GetElementByID(map.EntryId), g.GetElementByID(id)).Any Then
-                                        g.CreateEdge(map.EntryId, id)
-                                    End If
-                                Next
-
-                                If Not g.GetEdges(g.GetElementByID(map.EntryId), g.GetElementByID(transform.from)).Any Then
-                                    g.CreateEdge(map.EntryId, transform.from)
-                                End If
-
-                                If Not g.GetEdges(g.GetElementByID(map.EntryId), g.GetElementByID(transform.to)).Any Then
-                                    g.CreateEdge(map.EntryId, transform.to)
-                                End If
-                            End If
-                        Next
-                    End If
+    <Extension>
+    Private Sub processReactionClassLink(link As ReactionClass, g As NetworkGraph, compoundIndex As Index(Of String), maps As MapRepository)
+        For Each transform As ReactionCompoundTransform In link.reactantPairs
+            If transform.from Like compoundIndex AndAlso transform.to Like compoundIndex Then
+                If Not g.GetEdges(g.GetElementByID(transform.from), g.GetElementByID(transform.to)).Any Then
+                    Call transform.processCompoundLink(link, g, maps)
                 End If
-            Next
+            End If
+        Next
+    End Sub
+
+    <Extension>
+    Private Sub processCompoundLink(transform As ReactionCompoundTransform, link As ReactionClass, g As NetworkGraph, maps As MapRepository)
+        Dim tuple As String() = {transform.from, transform.to}
+        Dim linkdata As New EdgeData With {.label = link.definition}
+
+        g.CreateEdge(transform.from, transform.to, data:=linkdata)
+
+        For Each map As MapIndex In maps.QueryMapsByMembers(tuple)
+            If map.FilterAll(tuple) Then
+                Dim KO As String() = link.orthology _
+                    .Where(Function(KOid) map.hasAny(KOid.name)) _
+                    .Select(Function(k) k.name) _
+                    .ToArray
+
+                If g.GetElementByID(map.EntryId) Is Nothing Then
+                    g.CreateNode(map.EntryId)
+                End If
+
+                For Each id As String In KO
+                    If g.GetElementByID(id) Is Nothing Then
+                        g.CreateNode(id)
+                    End If
+
+                    If Not g.GetEdges(g.GetElementByID(map.EntryId), g.GetElementByID(id)).Any Then
+                        g.CreateEdge(map.EntryId, id)
+                    End If
+                Next
+
+                If Not g.GetEdges(g.GetElementByID(map.EntryId), g.GetElementByID(transform.from)).Any Then
+                    g.CreateEdge(map.EntryId, transform.from)
+                End If
+
+                If Not g.GetEdges(g.GetElementByID(map.EntryId), g.GetElementByID(transform.to)).Any Then
+                    g.CreateEdge(map.EntryId, transform.to)
+                End If
+            End If
         Next
     End Sub
 End Module
