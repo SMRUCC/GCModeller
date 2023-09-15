@@ -105,6 +105,13 @@ Public Class Trie(Of T)
         Return [next]
     End Function
 
+    Public Function Find(key As String) As (child As CharacterNode(Of T), success As Boolean)
+        Dim chars As New Pointer(Of Char)(key.SafeQuery)
+        Dim q = FindByPrefix(chars)
+
+        Return q
+    End Function
+
     Private Function FindByPrefix(chars As Pointer(Of Char)) As (child As CharacterNode(Of T), success As Boolean)
         Dim child As CharacterNode(Of T) = Root
         Dim c As Char
