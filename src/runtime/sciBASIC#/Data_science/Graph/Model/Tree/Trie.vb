@@ -70,6 +70,14 @@ Public Class Trie(Of T)
 
     Public ReadOnly Property Root As New CharacterNode(Of T)("*")
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Sub New(root As CharacterNode(Of T))
+        Me.Root = root
+    End Sub
+
+    Sub New()
+    End Sub
+
     ''' <summary>
     ''' 建立字典树
     ''' </summary>
