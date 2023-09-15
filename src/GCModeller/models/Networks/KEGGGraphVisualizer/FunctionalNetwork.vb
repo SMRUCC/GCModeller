@@ -1,51 +1,51 @@
 ﻿#Region "Microsoft.VisualBasic::e392cb9db741a783f1bfd9dcdd95ecb4, GCModeller\models\Networks\KEGG\FunctionalNetwork.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 236
-    '    Code Lines: 182
-    ' Comment Lines: 19
-    '   Blank Lines: 35
-    '     File Size: 9.91 KB
+' Summaries:
 
 
-    ' Module FunctionalNetwork
-    ' 
-    '     Function: applyLayout, KOGroupTable, VisualizeKEGG
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 236
+'    Code Lines: 182
+' Comment Lines: 19
+'   Blank Lines: 35
+'     File Size: 9.91 KB
+
+
+' Module FunctionalNetwork
+' 
+'     Function: applyLayout, KOGroupTable, VisualizeKEGG
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -72,24 +72,8 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.Scripting.Runtime
-Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 
 Public Module FunctionalNetwork
-
-    Public Const Delimiter$ = " == "
-
-    ''' <summary>
-    ''' Using for the group values inforamtion for <see cref="BuildModel"/> function.
-    ''' </summary>
-    ''' <returns></returns>
-    Public Function KOGroupTable() As Dictionary(Of String, String)
-        Return PathwayMapping _
-            .DefaultKOTable _
-            .ToDictionary(Function(KO) KO.Key,
-                          Function(KO)
-                              Return KO.Value.parent.description
-                          End Function)
-    End Function
 
     ''' <summary>
     ''' 直接使用所提供的布局信息
@@ -114,10 +98,10 @@ Public Module FunctionalNetwork
     ''' <summary>
     ''' 这个函数需要编写一个网络布局生成函数的参数配置文件
     ''' </summary>
-    ''' <param name="model"></param>
+    ''' <param name="graph"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function VisualizeKEGG(model As NetworkTables,
+    Public Function VisualizeKEGG(graph As NetworkGraph,
                                   Optional layouts As ILayoutCoordinate() = Nothing,
                                   Optional size$ = "10000,7000",
                                   Optional colorSchema$ = "Set1:c9",
@@ -126,17 +110,11 @@ Public Module FunctionalNetwork
                                   Optional margin% = 100,
                                   Optional groupLowerBounds% = 3,
                                   Optional quantile# = 0.5,
-                                  Optional delimiter$ = FunctionalNetwork.Delimiter,
+                                  Optional delimiter$ = SimpleBuilder.Delimiter,
                                   Optional polygonStroke$ = Stroke.AxisGridStroke,
                                   Optional ppi As Integer = 100) As Image
 
-        Dim graph As NetworkGraph = model _
-            .CreateGraph(
-                nodeColor:=Function(n)
-                               Return (n!color).GetBrush
-                           End Function)
-
-        Call graph.ApplyAnalysis
+        Call graph.ApplyAnalysis()
 
         For Each node In graph.vertex
             node.data.size = {Val(node.data(NamesOf.REFLECTION_ID_MAPPING_DEGREE))}
@@ -157,10 +135,10 @@ Public Module FunctionalNetwork
         End If
 
         Dim graphNodes As Dictionary(Of Graph.Node) = graph.vertex.ToDictionary
-        Dim nodeGroups = model.nodes _
+        Dim nodeGroups = graph.vertex _
             .Select(Function(n)
                         Return Strings _
-                            .Split(n.NodeType, delimiter) _
+                            .Split(n.data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE), delimiter) _
                             .Select(Function(path)
                                         Return (path, n)
                                     End Function)

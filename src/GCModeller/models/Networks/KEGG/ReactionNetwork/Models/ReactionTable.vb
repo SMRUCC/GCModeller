@@ -57,7 +57,6 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
@@ -65,7 +64,6 @@ Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.ComponentModel.EquaionModel
-Imports SMRUCC.genomics.Data
 
 Namespace ReactionNetwork
 
@@ -121,22 +119,22 @@ Namespace ReactionNetwork
             Return substrates.All(Function(cid) targetSet.IndexOf(cid) > -1) AndAlso products.All(Function(cid) targetSet.IndexOf(cid) > -1)
         End Function
 
-        ''' <summary>
-        ''' load network table data in auto detection mode 
-        ''' </summary>
-        ''' <param name="br08201">
-        ''' <see cref="Reaction"/>
-        ''' </param>
-        ''' <returns></returns>
-        Public Shared Function Load(br08201 As String) As IEnumerable(Of ReactionTable)
-            If br08201.FileExists AndAlso br08201.ExtensionSuffix("csv") Then
-                Return br08201.LoadCsv(Of ReactionTable)
-            Else
-                Return br08201.DoCall(AddressOf loadXmls)
-            End If
-        End Function
+        '''' <summary>
+        '''' load network table data in auto detection mode 
+        '''' </summary>
+        '''' <param name="br08201">
+        '''' <see cref="Reaction"/>
+        '''' </param>
+        '''' <returns></returns>
+        'Public Shared Function Load(br08201 As String) As IEnumerable(Of ReactionTable)
+        '    If br08201.FileExists AndAlso br08201.ExtensionSuffix("csv") Then
+        '        Return br08201.LoadCsv(Of ReactionTable)
+        '    Else
+        '        Return br08201.DoCall(AddressOf loadXmls)
+        '    End If
+        'End Function
 
-        Private Shared Iterator Function loadXmls(br08201 As String) As IEnumerable(Of ReactionTable)
+        Public Shared Iterator Function LoadXmls(br08201 As String) As IEnumerable(Of ReactionTable)
             Dim proc As New SwayBar
             Dim model As ReactionTable = Nothing
             Dim KOnames As Dictionary(Of String, BriteHText) = DefaultKOTable()
