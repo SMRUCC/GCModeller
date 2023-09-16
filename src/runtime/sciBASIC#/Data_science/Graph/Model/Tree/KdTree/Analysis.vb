@@ -139,6 +139,8 @@ Namespace KdTree
             Sub New(allData As TagVector(), knn As Integer)
                 Call MyBase.New(allData.Length)
 
+                Me.allData = allData
+
                 k = knn
                 result = New(index As Integer, nn2 As KdNodeHeapItem(Of TagVector)())(allData.Length - 1) {}
                 tree = New KdTree(Of TagVector)(allData, RowMetric(ncols:=allData(Scan0).size))
