@@ -106,12 +106,30 @@ Namespace Imaging.BitmapImage
             Return PutOnCanvas(image, width, height, Color.White)
         End Function
 
+        ''' <summary>
+        ''' resize image based on the <see cref="Graphics.DrawImage(Image, Rectangle)"/>
+        ''' </summary>
+        ''' <param name="image"></param>
+        ''' <param name="newSize"></param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' this aspect ratio of the given <paramref name="image"/> will not be keeped.
+        ''' </remarks>
         <Extension>
-        Public Function ResizeScaled(image As Image, newSize As Integer()) As Image
-            Using g As Graphics2D = New Size(newSize(0), newSize(1)).CreateGDIDevice
-                Call g.DrawImage(image, New RectangleF(New PointF, g.Size))
+        Public Function ResizeScaled(image As Image, newSize As Size) As Image
+            Using g As Graphics2D = newSize.CreateGDIDevice
+                g.CompositingQuality = CompositingQuality.HighQuality
+                g.InterpolationMode = InterpolationMode.HighQualityBicubic
+                g.DrawImage(image, New RectangleF(New PointF, g.Size))
+
                 Return g.ImageResource
             End Using
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function ResizeScaled(image As Image, newSize As Integer()) As Image
+            Return image.ResizeScaled(New Size(newSize(0), newSize(1)))
         End Function
 
         ''' <summary>
