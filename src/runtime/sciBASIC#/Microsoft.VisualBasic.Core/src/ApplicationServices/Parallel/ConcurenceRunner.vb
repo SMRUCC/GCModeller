@@ -1,12 +1,12 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports System.Threading
 
-Namespace CNN
+Namespace Parallel
 
     ''' <summary>
     ''' the parallel task helper
     ''' </summary>
-    Friend MustInherit Class VectorTask
+    Public MustInherit Class VectorTask
 
         Protected workLen As Integer
         ''' <summary>
