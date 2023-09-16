@@ -17,6 +17,7 @@ Namespace CNN
         Dim is_generative As Boolean = False
         Dim verbose As Integer = 25
         Dim action As Action(Of Integer, ConvolutionalNN)
+        Dim precision_cutoff As Double = 0.05
 
         <DebuggerStepThrough>
         Sub New(alg As TrainerAlgorithm,
@@ -71,7 +72,7 @@ Namespace CNN
                             .Select(Function(dd) std.Abs(dd)) _
                             .Average
 
-                        If mean_errors < 0.01 Then
+                        If mean_errors < precision_cutoff Then
                             right += 1
                         End If
                     Else
