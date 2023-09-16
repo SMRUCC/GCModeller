@@ -25,12 +25,20 @@ Namespace Parallel
 
         Protected MustOverride Sub Solve(start As Integer, ends As Integer)
 
+        ''' <summary>
+        ''' Run in sequence
+        ''' </summary>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Solve() As VectorTask
             Call Solve(0, workLen - 1)
             Return Me
         End Function
 
+        ''' <summary>
+        ''' Run in parallel
+        ''' </summary>
+        ''' <returns></returns>
         Public Function Run() As VectorTask
             Dim span_size As Integer = workLen / n_threads
 #If NET48 Then
