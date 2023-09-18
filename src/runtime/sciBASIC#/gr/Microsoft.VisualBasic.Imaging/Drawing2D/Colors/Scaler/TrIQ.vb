@@ -88,6 +88,15 @@ Namespace Drawing2D.Colors.Scaler
             Return p
         End Function
 
+        ''' <summary>
+        ''' trim the head intensity data by a given cutoff threshold 
+        ''' which is evaluated via the TrIQ algorithm.
+        ''' </summary>
+        ''' <param name="data"></param>
+        ''' <param name="q"></param>
+        ''' <param name="N"></param>
+        ''' <param name="eps"></param>
+        ''' <returns></returns>
         <Extension>
         Public Function CutThreshold(data As IEnumerable(Of Double), q As Double,
                                      Optional N As Integer = 100,
