@@ -63,7 +63,7 @@ Namespace ReactionNetwork
     Public Module Styles
 
         <Extension>
-        Public Sub AssignNodeClassFromPathwayMaps(net As NetworkGraph, maps As Map(), Optional delimiter$ = FunctionalNetwork.Delimiter)
+        Public Sub AssignNodeClassFromPathwayMaps(net As NetworkGraph, maps As Map(), Optional delimiter$ = SimpleBuilder.Delimiter)
             ' 生成了 compound => maps 的包含关系
             Dim compoundIndex As Dictionary(Of String, String()) = maps _
                 .Select(Function(pathway)
@@ -98,7 +98,7 @@ Namespace ReactionNetwork
         ''' <param name="net"></param>
         ''' <param name="ko0001"></param>
         <Extension>
-        Public Sub AssignNodeClassFromReactionLinks(net As NetworkGraph, ko0001 As KOLinks(), Optional delimiter$ = FunctionalNetwork.Delimiter)
+        Public Sub AssignNodeClassFromReactionLinks(net As NetworkGraph, ko0001 As KOLinks(), Optional delimiter$ = SimpleBuilder.Delimiter)
             ' 生成了reaction => pathway的对应关系
             Dim index As Dictionary(Of String, KOLinks()) = ko0001 _
                 .Where(Function(ko) Not ko.reactions.IsNullOrEmpty) _

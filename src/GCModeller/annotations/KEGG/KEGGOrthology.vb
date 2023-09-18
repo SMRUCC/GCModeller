@@ -80,7 +80,9 @@ Public Module KEGGOrthology
     ''' <param name="level$">统计的等级</param>
     ''' <returns></returns>
     <Extension>
-    Public Function CatalogProfiling(Of T As Map(Of String, String).IMap)(mappings As IEnumerable(Of T), KO As KO_gene(), Optional level$ = "A") As Dictionary(Of String, NamedValue(Of Integer)())
+    Public Function CatalogProfiling(Of T As Map(Of String, String).IMap)(mappings As IEnumerable(Of T),
+                                                                          KO As KO_gene(),
+                                                                          Optional level$ = "A") As Dictionary(Of String, NamedValue(Of Integer)())
         Dim htext As htext = htext.ko00001
         Dim noMapping As Integer
         Dim out As New Dictionary(Of String, NamedValue(Of Integer)())

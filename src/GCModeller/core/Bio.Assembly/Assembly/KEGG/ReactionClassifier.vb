@@ -47,6 +47,9 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 
+''' <summary>
+''' the reaction class data helper, make index of the <see cref="ReactionClass"/> data
+''' </summary>
 Public Class ReactionClassifier
 
     Dim classes As ReactionClass()

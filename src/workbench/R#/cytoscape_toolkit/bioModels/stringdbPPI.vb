@@ -41,7 +41,6 @@
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.DataFrame
@@ -50,6 +49,7 @@ Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Data.STRING
 Imports SMRUCC.genomics.Data.[STRING].StringDB.Tsv
 Imports SMRUCC.genomics.Model.Network.KEGG
+Imports SMRUCC.genomics.Model.Network.KEGG.GraphVisualizer
 Imports SMRUCC.genomics.Model.Network.STRING
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
@@ -82,8 +82,7 @@ Module stringdbPPI
         End If
 
         Dim annotations = uniprotDb.populates(Of entry)(env).StringUniprot
-        Dim model As NetworkTables = stringNetwork.BuildModel(uniprot:=annotations, groupValues:=FunctionalNetwork.KOGroupTable)
-        Dim graph = model.CreateGraph
+        Dim graph As NetworkGraph = stringNetwork.BuildModel(uniprot:=annotations, groupValues:=SimpleBuilder.KOGroupTable)
 
         If Not coordinates.IsNullOrEmpty Then
             Return graph.applyLayout(coordinates)
