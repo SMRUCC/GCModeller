@@ -105,6 +105,8 @@ Namespace FileSystem
         Public Iterator Function AttachFolder(fs As IFileSystemEnvironment, Optional attachTo As String = "/") As IEnumerable(Of NamedValue(Of FileObject))
             Dim resourceUrl$
             Dim fileObj As FileObject
+            Dim s As Stream
+            Dim buf As MemoryStream
 
             For Each file As String In fs.GetFiles
                 resourceUrl = attachTo & file _
@@ -113,7 +115,12 @@ Namespace FileSystem
                     .Split("/"c) _
                     .Where(Function(t) Not t.StringEmpty) _
                     .JoinBy("/")
-                fileObj = AddCache(resourceUrl, file)
+                s = fs.OpenFile(file, FileMode.Open, FileAccess.Read)
+                s.Seek(0, SeekOrigin.Begin)
+                buf = New MemoryStream
+                s.CopyTo(buf)
+                buf.Flush()
+                fileObj = AddCache(resourceUrl, buf.ToArray, Nothing)
 
                 Yield New NamedValue(Of FileObject) With {
                     .Name = resourceUrl,
