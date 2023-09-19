@@ -1,4 +1,5 @@
 ﻿Imports System.IO
+Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Net.Protocols.ContentTypes
@@ -83,6 +84,37 @@ Namespace FileSystem
                 Else
                     fileObj = AddMapping(resourceUrl, file)
                 End If
+
+                Yield New NamedValue(Of FileObject) With {
+                    .Name = resourceUrl,
+                    .Description = file,
+                    .Value = fileObj
+                }
+            Next
+        End Function
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="fs"></param>
+        ''' <param name="attachTo"></param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' attach the contents from a archive file, always running in cache mode
+        ''' </remarks>
+        Public Iterator Function AttachFolder(fs As IFileSystemEnvironment, Optional attachTo As String = "/") As IEnumerable(Of NamedValue(Of FileObject))
+            Dim resourceUrl$
+            Dim fileObj As FileObject
+
+            For Each file As String In fs.GetFiles
+                resourceUrl = (attachTo & file) _
+                    .Trim("/"c, "\"c) _
+                    .Replace("\", "/") _
+                    .Split("/"c) _
+                    .Where(Function(t) Not t.StringEmpty) _
+                    .Skip(1) _
+                    .JoinBy("/")
+                fileObj = AddCache(resourceUrl, file)
 
                 Yield New NamedValue(Of FileObject) With {
                     .Name = resourceUrl,
