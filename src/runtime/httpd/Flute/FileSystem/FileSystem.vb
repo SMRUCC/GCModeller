@@ -107,12 +107,11 @@ Namespace FileSystem
             Dim fileObj As FileObject
 
             For Each file As String In fs.GetFiles
-                resourceUrl = (attachTo & file) _
+                resourceUrl = attachTo & file _
                     .Trim("/"c, "\"c) _
                     .Replace("\", "/") _
                     .Split("/"c) _
                     .Where(Function(t) Not t.StringEmpty) _
-                    .Skip(1) _
                     .JoinBy("/")
                 fileObj = AddCache(resourceUrl, file)
 
