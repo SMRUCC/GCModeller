@@ -1,4 +1,5 @@
 ﻿Imports System.IO
+Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Net.Protocols.ContentTypes
@@ -68,6 +69,7 @@ Namespace FileSystem
                                               Optional cacheMode As Boolean = False) As IEnumerable(Of NamedValue(Of FileObject))
             Dim resourceUrl$
             Dim fileObj As FileObject
+            Dim type As ContentType
 
             For Each file As String In ls - l - r - "*.*" <= directory
                 resourceUrl = attachTo & RelativePath(directory, file, appendParent:=False) _
@@ -77,12 +79,52 @@ Namespace FileSystem
                     .Where(Function(t) Not t.StringEmpty) _
                     .Skip(1) _
                     .JoinBy("/")
+                type = Utils.FileMimeType(file)
 
                 If cacheMode Then
-                    fileObj = AddCache(resourceUrl, file)
+                    fileObj = AddCache(resourceUrl, file, mime:=type)
                 Else
-                    fileObj = AddMapping(resourceUrl, file)
+                    fileObj = AddMapping(resourceUrl, file, mime:=type)
                 End If
+
+                Yield New NamedValue(Of FileObject) With {
+                    .Name = resourceUrl,
+                    .Description = file,
+                    .Value = fileObj
+                }
+            Next
+        End Function
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="fs"></param>
+        ''' <param name="attachTo"></param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' attach the contents from a archive file, always running in cache mode
+        ''' </remarks>
+        Public Iterator Function AttachFolder(fs As IFileSystemEnvironment, Optional attachTo As String = "/") As IEnumerable(Of NamedValue(Of FileObject))
+            Dim resourceUrl$
+            Dim fileObj As FileObject
+            Dim s As Stream
+            Dim buf As MemoryStream
+            Dim type As ContentType
+
+            For Each file As String In fs.GetFiles
+                resourceUrl = attachTo & file _
+                    .Trim("/"c, "\"c) _
+                    .Replace("\", "/") _
+                    .Split("/"c) _
+                    .Where(Function(t) Not t.StringEmpty) _
+                    .JoinBy("/")
+                s = fs.OpenFile(file, FileMode.Open, FileAccess.Read)
+                s.Seek(0, SeekOrigin.Begin)
+                buf = New MemoryStream
+                s.CopyTo(buf)
+                buf.Flush()
+                type = Utils.FileMimeType(file)
+                fileObj = AddCache(resourceUrl, buf.ToArray, mime:=type)
 
                 Yield New NamedValue(Of FileObject) With {
                     .Name = resourceUrl,
