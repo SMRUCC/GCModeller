@@ -69,6 +69,7 @@ Namespace FileSystem
                                               Optional cacheMode As Boolean = False) As IEnumerable(Of NamedValue(Of FileObject))
             Dim resourceUrl$
             Dim fileObj As FileObject
+            Dim type As ContentType
 
             For Each file As String In ls - l - r - "*.*" <= directory
                 resourceUrl = attachTo & RelativePath(directory, file, appendParent:=False) _
@@ -78,11 +79,12 @@ Namespace FileSystem
                     .Where(Function(t) Not t.StringEmpty) _
                     .Skip(1) _
                     .JoinBy("/")
+                type = Utils.FileMimeType(file)
 
                 If cacheMode Then
-                    fileObj = AddCache(resourceUrl, file)
+                    fileObj = AddCache(resourceUrl, file, mime:=type)
                 Else
-                    fileObj = AddMapping(resourceUrl, file)
+                    fileObj = AddMapping(resourceUrl, file, mime:=type)
                 End If
 
                 Yield New NamedValue(Of FileObject) With {
@@ -107,6 +109,7 @@ Namespace FileSystem
             Dim fileObj As FileObject
             Dim s As Stream
             Dim buf As MemoryStream
+            Dim type As ContentType
 
             For Each file As String In fs.GetFiles
                 resourceUrl = attachTo & file _
@@ -120,7 +123,8 @@ Namespace FileSystem
                 buf = New MemoryStream
                 s.CopyTo(buf)
                 buf.Flush()
-                fileObj = AddCache(resourceUrl, buf.ToArray, Nothing)
+                type = Utils.FileMimeType(file)
+                fileObj = AddCache(resourceUrl, buf.ToArray, mime:=type)
 
                 Yield New NamedValue(Of FileObject) With {
                     .Name = resourceUrl,
