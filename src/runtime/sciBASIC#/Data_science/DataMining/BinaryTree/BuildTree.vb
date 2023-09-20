@@ -54,6 +54,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Algorithm.BinaryTree
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.DataFrame
 
 Public Module BuildTree
@@ -70,6 +71,23 @@ Public Module BuildTree
         Next
 
         Return BTreeCluster.GetClusters(btree)
+    End Function
+
+    <Extension>
+    Public Function BTreeClusterVector(Of T As {INamedValue, IVector})(data As IEnumerable(Of T),
+                                                                       Optional equals As Double = 0.9,
+                                                                       Optional gt As Double = 0.7) As BTreeCluster
+        Dim list = data _
+            .Select(Function(d) New NamedCollection(Of Double)(d.Key, d.Data)) _
+            .ToArray
+        Dim compares As New AlignmentComparison(list, equals, gt)
+        Dim btree As New AVLTree(Of String, String)(compares.GetComparer, Function(str) str)
+
+        For Each id As String In list.Keys
+            Call btree.Add(id, id, valueReplace:=False)
+        Next
+
+        Return BinaryTree.BTreeCluster.GetClusters(btree)
     End Function
 
     <Extension>
