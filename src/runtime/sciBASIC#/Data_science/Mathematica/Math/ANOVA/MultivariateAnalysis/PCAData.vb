@@ -1,0 +1,45 @@
+﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Language
+Imports df = Microsoft.VisualBasic.Math.DataFrame.DataFrame
+
+''' <summary>
+''' contribution, score, loading
+''' </summary>
+Public Module PCAData
+
+    <Extension>
+    Public Function GetPCAScore(mvar As MultivariateAnalysisResult) As df
+        Dim score As New df
+        Dim filesize = mvar.StatisticsObject.YLabels.Count
+        Dim compSize = mvar.Contributions.Count
+        Dim labels = mvar.StatisticsObject.YLabels
+
+        For i = 0 To filesize - 1
+            Dim tList = New List(Of Double)()
+            For j = 0 To compSize - 1
+                tList.Add(mvar.TPreds(j)(i))
+            Next
+            score.add(labels(i), tList.ToArray)
+        Next
+
+        Return score
+    End Function
+
+    <Extension>
+    Public Function GetPCALoading(mvar As MultivariateAnalysisResult) As df
+        Dim loading As New df
+        Dim metsize = mvar.StatisticsObject.XLabels.Count
+        Dim compSize = mvar.Contributions.Count
+        Dim labels = mvar.StatisticsObject.XLabels
+
+        For i As Integer = 0 To metsize - 1
+            Dim pList = New List(Of Double)()
+            For j = 0 To compSize - 1
+                pList.Add(mvar.PPreds(j)(i))
+            Next
+            loading.add(labels(i), pList.ToArray)
+        Next
+
+        Return loading
+    End Function
+End Module
