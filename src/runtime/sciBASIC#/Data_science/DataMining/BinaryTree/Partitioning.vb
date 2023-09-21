@@ -53,8 +53,14 @@ Imports System.Runtime.CompilerServices
 
 Public Module Partitioning
 
+    ''' <summary>
+    ''' do tree cut
+    ''' </summary>
+    ''' <param name="btree"></param>
+    ''' <param name="depth"></param>
+    ''' <returns></returns>
     <Extension>
-    Public Function CreateClusterPartitions(btree As BTreeCluster, Optional depth As Integer = 3)
-
+    Public Iterator Function CreateClusterPartitions(btree As BTreeCluster, Optional depth As Integer = 3) As IEnumerable(Of BTreeCluster)
+        Throw New NotImplementedException
     End Function
 End Module
