@@ -77,7 +77,7 @@ Public Class BTreeCluster : Implements INamedValue
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Shared Function GetClusters(btree As AVLTree(Of String, String)) As BTreeCluster
+    Friend Shared Function GetClusters(btree As AVLTree(Of String, String)) As BTreeCluster
         Return GetClusters(btree.root)
     End Function
 
