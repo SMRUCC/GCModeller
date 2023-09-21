@@ -30,6 +30,10 @@ Public Module PCAData
             score.add(labels(i), tList.ToArray)
         Next
 
+        score.rownames = mvar.Contributions _
+            .Select(Function(c, i) $"PC{i + 1}") _
+            .ToArray
+
         Return score
     End Function
 
@@ -48,6 +52,10 @@ Public Module PCAData
             loading.add(labels(i), pList.ToArray)
         Next
 
-        Return loading
+        loading.rownames = mvar.Contributions _
+            .Select(Function(c, i) $"PC{i + 1}") _
+            .ToArray
+
+        Return loading.transpose
     End Function
 End Module
