@@ -5,11 +5,16 @@ Imports std = System.Math
 Public Module PCA
 
     <Extension>
-    Public Function PrincipalComponentAnalysis(statObject As StatisticsObject, Optional maxPC As Integer = 5) As MultivariateAnalysisResult
+    Public Function PrincipalComponentAnalysis(statObject As StatisticsObject,
+                                               Optional maxPC As Integer = 5,
+                                               Optional cutoff As Double = 0.00001) As MultivariateAnalysisResult
         Dim dataArray = statObject.XScaled
         Dim rowSize = dataArray.GetLength(0)
         Dim columnSize = dataArray.GetLength(1)
-        If rowSize < maxPC Then maxPC = rowSize
+
+        If rowSize < maxPC Then
+            maxPC = rowSize
+        End If
 
         'PrincipalComponentAnalysisResult pcaBean = new PrincipalComponentAnalysisResult() {
         '    ScoreIdCollection = statObject.YIndexes,
@@ -29,7 +34,7 @@ Public Module PCA
         Dim scores = New ObservableCollection(Of Double())()
         Dim loadings = New ObservableCollection(Of Double())()
 
-        For i = 0 To maxPC - 1
+        For i As Integer = 0 To maxPC - 1
             mean = New Double(columnSize - 1) {}
             var = New Double(columnSize - 1) {}
             scoreOld = New Double(rowSize - 1) {}
@@ -51,7 +56,10 @@ Public Module PCA
                 Next
                 var(j) = sum / (rowSize - 1)
             Next
-            If i = 0 Then contributionOriginal = var.Sum
+
+            If i = 0 Then
+                contributionOriginal = var.Sum
+            End If
 
             maxVar = var.Max
             maxVarID = Array.IndexOf(var, maxVar)
@@ -61,7 +69,7 @@ Public Module PCA
             Next
 
             threshold = Double.MaxValue
-            While threshold > 0.00000001
+            While threshold > cutoff
                 scoreScalar = BasicMathematics.SumOfSquare(scoreOld)
                 For j = 0 To columnSize - 1
                     sum = 0
