@@ -72,6 +72,7 @@ Public Class DataMatrix : Implements IBucketVector
     Protected Friend ReadOnly matrix As Double()()
 
     Default Public Overridable Property dist(a$, b$) As Double
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
             Return Me(names(a), names(b))
         End Get
@@ -81,6 +82,7 @@ Public Class DataMatrix : Implements IBucketVector
     End Property
 
     Default Public Overridable Property dist(i%, j%) As Double
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
             Return matrix(j)(i)
         End Get
@@ -90,12 +92,14 @@ Public Class DataMatrix : Implements IBucketVector
     End Property
 
     Public ReadOnly Property keys As String()
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
             Return names.Objects
         End Get
     End Property
 
     Public ReadOnly Property size As Integer
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
             Return matrix.Length
         End Get
@@ -194,10 +198,12 @@ Public Class DataMatrix : Implements IBucketVector
         End If
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Narrowing Operator CType(mat As DataMatrix) As NumericMatrix
         Return New NumericMatrix(mat.matrix)
     End Operator
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function GetVector() As IEnumerable Implements IBucketVector.GetVector
         Return PopulateRows.IteratesALL.ToArray
     End Function

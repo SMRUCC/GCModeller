@@ -54,6 +54,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.BinaryTree
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.Linq
 
 ''' <summary>
 ''' Clustering data via binary tree
@@ -72,25 +73,34 @@ Public Class BTreeCluster : Implements INamedValue
     Public Property members As String()
     Public Property data As Dictionary(Of String, Object)
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Overrides Function ToString() As String
         Return $"[{uuid}] ({members.Length} members) {members.JoinBy(", ")}"
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Friend Shared Function GetClusters(btree As AVLTree(Of String, String)) As BTreeCluster
-        Return GetClusters(btree.root)
+    Friend Shared Function GetClusters(btree As AVLTree(Of String, String), Optional compares As ComparisonProvider = Nothing) As BTreeCluster
+        Return GetClusters(btree.root, compares)
     End Function
 
-    Private Shared Function GetClusters(btree As BinaryTree(Of String, String)) As BTreeCluster
+    Private Shared Function GetClusters(btree As BinaryTree(Of String, String), compares As ComparisonProvider) As BTreeCluster
+        Dim data As Dictionary(Of String, Object) = Nothing
+
         If btree Is Nothing Then
             Return Nothing
-        Else
-            Return New BTreeCluster With {
-                .uuid = btree.Key,
-                .members = btree.Members,
-                .left = GetClusters(btree.Left),
-                .right = GetClusters(btree.Right)
-            }
         End If
+
+        If Not compares Is Nothing Then
+            data = New Dictionary(Of String, Object) From {{btree.Key, compares.GetObject(btree.Key)}}
+            btree.Members.SafeQuery.DoEach(Function(id) data(id) = compares.GetObject(id))
+        End If
+
+        Return New BTreeCluster With {
+            .uuid = btree.Key,
+            .members = btree.Members,
+            .left = GetClusters(btree.Left, compares),
+            .right = GetClusters(btree.Right, compares),
+            .data = data
+        }
     End Function
 End Class

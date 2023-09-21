@@ -90,6 +90,7 @@ Namespace KMeans
             entityVector = data
         End Sub
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function ToString() As String
             Return $"[{entityVector.Select(Function(x) x.ToString("G3")).JoinBy(", ")}]"
         End Function
