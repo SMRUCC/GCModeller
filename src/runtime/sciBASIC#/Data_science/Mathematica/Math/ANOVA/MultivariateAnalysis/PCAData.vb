@@ -10,9 +10,17 @@ Public Module PCAData
     <Extension>
     Public Function GetPCAScore(mvar As MultivariateAnalysisResult) As df
         Dim score As New df
-        Dim filesize = mvar.StatisticsObject.YLabels.Count
+        Dim filesize = mvar.StatisticsObject.YIndexes.Count
         Dim compSize = mvar.Contributions.Count
         Dim labels = mvar.StatisticsObject.YLabels
+
+        If labels Is Nothing OrElse labels.Count = 0 Then
+            labels = New ObjectModel.ObservableCollection(Of String)
+
+            For Each i As Integer In mvar.StatisticsObject.YIndexes
+                labels.Add(i + 1)
+            Next
+        End If
 
         For i = 0 To filesize - 1
             Dim tList = New List(Of Double)()
