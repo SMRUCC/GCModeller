@@ -1,5 +1,6 @@
 ﻿Imports System.Collections.ObjectModel
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Parallel
 Imports std = System.Math
 
 Public Module PCA
@@ -29,10 +30,18 @@ Public Module PCA
         Dim contributions = New ObservableCollection(Of Double)()
         Dim scores = New ObservableCollection(Of Double())()
         Dim loadings = New ObservableCollection(Of Double())()
+        Dim t0 As Date
+        Dim t1 As Date
+        Dim ticks As Integer
 
         For i As Integer = 0 To maxPC - 1
             Call VBDebugger.EchoLine($"Calculate component {i + 1}...")
-            Call dataArray.CalculateComponent(i, columnSize, rowSize, cutoff, tpMatrix, contributions, scores, loadings)
+
+            t0 = Now
+            ticks = dataArray.CalculateComponent(i, columnSize, rowSize, cutoff, tpMatrix, contributions, scores, loadings)
+            t1 = Now
+
+            Call VBDebugger.EchoLine($"Cost {StringFormats.ReadableElapsedTime((t1 - t0).TotalMilliseconds)} and run {ticks} loop")
         Next
 
         Dim maResult = New MultivariateAnalysisResult() With {
@@ -94,19 +103,32 @@ Public Module PCA
         Next
 
         Dim threshold = Double.MaxValue
+        Dim loadingVector As New LoadingTask(columnSize, rowSize) With {
+            .dataArray = dataArray,
+            .loading = loading,
+            .scoreOld = scoreOld
+        }
+        Dim scoreVector As New ScoreTask(rowSize, columnSize) With {
+            .dataArray = dataArray,
+            .loading = loading,
+            .scoreNew = scoreNew
+        }
 
         i = 0
 
         While threshold > cutoff
             Dim scoreScalar = BasicMathematics.SumOfSquare(scoreOld)
 
-            For j = 0 To columnSize - 1
-                sum = 0
-                For k = 0 To rowSize - 1
-                    sum += dataArray(k, j) * scoreOld(k)
-                Next
-                loading(j) = sum / scoreScalar
-            Next
+            loadingVector.scoreScalar = scoreScalar
+            loadingVector.Run()
+
+            'For j = 0 To columnSize - 1
+            '    sum = 0
+            '    For k = 0 To rowSize - 1
+            '        sum += dataArray(k, j) * scoreOld(k)
+            '    Next
+            '    loading(j) = sum / scoreScalar
+            'Next
 
             Dim loadingScalar = BasicMathematics.RootSumOfSquare(loading)
 
@@ -114,13 +136,15 @@ Public Module PCA
                 loading(j) = loading(j) / loadingScalar
             Next
 
-            For j = 0 To rowSize - 1
-                sum = 0
-                For k = 0 To columnSize - 1
-                    sum += dataArray(j, k) * loading(k)
-                Next
-                scoreNew(j) = sum
-            Next
+            Call scoreVector.Run()
+
+            'For j = 0 To rowSize - 1
+            '    sum = 0
+            '    For k = 0 To columnSize - 1
+            '        sum += dataArray(j, k) * loading(k)
+            '    Next
+            '    scoreNew(j) = sum
+            'Next
 
             threshold = BasicMathematics.RootSumOfSquare(scoreNew, scoreOld)
 
@@ -146,4 +170,57 @@ Public Module PCA
 
         Return i
     End Function
+
+    Private Class LoadingTask : Inherits VectorTask
+
+        ReadOnly rowSize As Integer
+
+        Public loading As Double()
+        Public dataArray As Double(,)
+        Public scoreScalar As Double
+        Public scoreOld As Double()
+
+        Sub New(columnSize As Integer, rowSize As Integer)
+            Call MyBase.New(columnSize)
+            Me.rowSize = rowSize
+        End Sub
+
+        Protected Overrides Sub Solve(start As Integer, ends As Integer)
+            Dim sum As Double
+
+            For j As Integer = start To ends
+                sum = 0
+                For k = 0 To rowSize - 1
+                    sum += dataArray(k, j) * scoreOld(k)
+                Next
+                loading(j) = sum / scoreScalar
+            Next
+        End Sub
+    End Class
+
+    Private Class ScoreTask : Inherits VectorTask
+
+        ReadOnly columnSize As Integer
+
+        Public dataArray As Double(,)
+        Public loading As Double()
+        Public scoreNew As Double()
+
+        Sub New(rowSize As Integer, columnSize As Integer)
+            Call MyBase.New(rowSize)
+            Me.columnSize = columnSize
+        End Sub
+
+        Protected Overrides Sub Solve(start As Integer, ends As Integer)
+            Dim sum As Double
+
+            For j As Integer = start To ends
+                sum = 0
+                For k = 0 To columnSize - 1
+                    sum += dataArray(j, k) * loading(k)
+                Next
+                scoreNew(j) = sum
+            Next
+        End Sub
+    End Class
 End Module
