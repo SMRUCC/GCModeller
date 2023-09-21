@@ -8,7 +8,7 @@ Public Module PCA
     <Extension>
     Public Function PrincipalComponentAnalysis(statObject As StatisticsObject,
                                                Optional maxPC As Integer = 5,
-                                               Optional cutoff As Double = 0.00001) As MultivariateAnalysisResult
+                                               Optional cutoff As Double = 0.0000001) As MultivariateAnalysisResult
         Dim dataArray = statObject.XScaled
         Dim rowSize = dataArray.GetLength(0)
         Dim columnSize = dataArray.GetLength(1)
