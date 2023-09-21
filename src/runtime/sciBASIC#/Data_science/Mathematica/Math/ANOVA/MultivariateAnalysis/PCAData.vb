@@ -1,5 +1,6 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Math.DataFrame
 Imports df = Microsoft.VisualBasic.Math.DataFrame.DataFrame
 
 ''' <summary>
@@ -34,7 +35,7 @@ Public Module PCAData
             .Select(Function(c, i) $"PC{i + 1}") _
             .ToArray
 
-        Return score
+        Return score.Transpose
     End Function
 
     <Extension>
@@ -56,6 +57,6 @@ Public Module PCAData
             .Select(Function(c, i) $"PC{i + 1}") _
             .ToArray
 
-        Return loading.transpose
+        Return loading.Transpose
     End Function
 End Module
