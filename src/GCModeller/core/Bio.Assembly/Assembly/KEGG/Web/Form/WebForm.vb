@@ -295,7 +295,7 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
 #End Region
 
         Public Overrides Function ToString() As String
-            Return _strData.Keys.GetJson
+            Return $"ENTRY: {Me!ENTRY}  -- " & _strData.Keys.ToArray.GetJson
         End Function
 
 #Region "IDisposable Support"

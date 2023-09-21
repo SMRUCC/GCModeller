@@ -22,6 +22,24 @@ for(map in as.list(df, byrow = TRUE)) {
     HDS::writeText(cache_fs, `${dir}/map.xml`, xml(pwy));
     HDS::flush(cache_fs);
 
+    let compoundList = as.data.frame([pwy]::compound);
+
+    print(compoundList);
+
+    # compound inside pathway root
+    for(cid in as.list(compoundList, byrow = TRUE)) {
+        let cpd = kegg_api::kegg_compound(cid$name, cache = cache_dir);
+        let cfile = `${dir}/compounds/${cid$name} - ${cid$text}.xml`;
+
+        # str(cpd);
+        print(cfile);
+
+        HDS::writeText(cache_fs, cfile, xml(cpd));
+        HDS::flush(cache_fs);
+
+        NULL;
+    }
+
     let modules = as.data.frame([pwy]::modules);
 
     print(modules, max.print = 6);
@@ -33,7 +51,7 @@ for(map in as.list(df, byrow = TRUE)) {
         HDS::writeText(cache_fs, `${mdir}/module.xml`, xml(mod));
         HDS::flush(cache_fs);
 
-        str(mod);
+        # str(mod);
         let reactions = as.data.frame([mod]::reaction);
 
         print(reactions, max.print = 6);
@@ -55,11 +73,13 @@ for(map in as.list(df, byrow = TRUE)) {
 
         print(compounds, max.print = 6);
 
+        # compounds inside the pathway module
         for(cid in as.list(compounds, byrow = TRUE)) {
             let cpd = kegg_api::kegg_compound(cid$name, cache = cache_dir);
             let cfile = `${mdir}/compounds/${cid$name} - ${cid$text}.xml`;
 
-            str(cpd);
+            # str(cpd);
+            print(cfile);
 
             HDS::writeText(cache_fs, cfile, xml(cpd));
             HDS::flush(cache_fs);
@@ -70,8 +90,8 @@ for(map in as.list(df, byrow = TRUE)) {
         # stop();
     }
 
-    str(pwy);
-    str(map);
+    # str(pwy);
+    # str(map);
 
     # stop();
 
