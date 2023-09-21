@@ -62,6 +62,7 @@ Option Strict Off
 Imports Microsoft.VisualBasic.Emit.Marshal
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
@@ -292,6 +293,10 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
         End Function
 
 #End Region
+
+        Public Overrides Function ToString() As String
+            Return _strData.Keys.GetJson
+        End Function
 
 #Region "IDisposable Support"
         Private disposedValue As Boolean ' To detect redundant calls
