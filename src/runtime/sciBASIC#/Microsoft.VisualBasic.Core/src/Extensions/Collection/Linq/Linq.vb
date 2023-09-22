@@ -445,7 +445,8 @@ Namespace Linq
         ''' If the sequence is nothing or contains no elements, then this default value will be returned.
         ''' </param>
         ''' <returns>default(TSource) if source is empty; otherwise, the first element in source.</returns>
-        <Extension> Public Function FirstOrDefault(Of TSource)(source As IEnumerable(Of TSource), [default] As TSource) As TSource
+        <Extension>
+        Public Function FirstOrDefault(Of TSource)(source As IEnumerable(Of TSource), [default] As TSource) As TSource
             Dim value As TSource = source.FirstOrDefault
 
             If value Is Nothing Then
@@ -475,7 +476,8 @@ Namespace Linq
         ''' If the sequence is nothing or contains no elements, then this default value will be returned.
         ''' </param>
         ''' <returns>default(TSource) if source is empty; otherwise, the first element in source.</returns>
-        <Extension> Public Function DefaultFirst(Of T)(source As IEnumerable(Of T), Optional [default] As T = Nothing) As T
+        <Extension>
+        Public Function DefaultFirst(Of T)(source As IEnumerable(Of T), Optional [default] As T = Nothing) As T
             If source Is Nothing OrElse Not source.Any Then
                 Return [default]
             Else
