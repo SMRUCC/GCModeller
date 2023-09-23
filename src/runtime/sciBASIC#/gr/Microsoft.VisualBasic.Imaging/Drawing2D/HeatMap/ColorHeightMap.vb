@@ -41,9 +41,13 @@ Namespace Drawing2D.HeatMap
             Return CSng(which.Min(v))
         End Function
 
+        ''' <summary>
+        ''' use for html view in R# scripting
+        ''' </summary>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetVector() As IEnumerable Implements IBucketVector.GetVector
-            Return ruler.AsEnumerable
+            Return ruler.Select(Function(c) c.ToHtmlColor)
         End Function
     End Class
 End Namespace
