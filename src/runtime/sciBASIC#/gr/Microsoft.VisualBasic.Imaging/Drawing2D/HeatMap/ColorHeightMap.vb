@@ -1,14 +1,17 @@
 ﻿Imports System.Drawing
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Linq
 
 Namespace Drawing2D.HeatMap
 
-    Public Class ColorHeightMap
+    Public Class ColorHeightMap : Implements IBucketVector
 
         Dim ruler As Color()
 
         Public ReadOnly Property Levels As Integer
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return ruler.Length
             End Get
@@ -36,6 +39,11 @@ Namespace Drawing2D.HeatMap
             Next
 
             Return CSng(which.Min(v))
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function GetVector() As IEnumerable Implements IBucketVector.GetVector
+            Return ruler.AsEnumerable
         End Function
     End Class
 End Namespace
