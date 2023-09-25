@@ -29,6 +29,15 @@ Namespace Imaging.BitmapImage
             Return bp
         End Function
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="bpBuffer"></param>
+        ''' <param name="bp"></param>
+        ''' <param name="stride"></param>
+        ''' <param name="W"></param>
+        ''' <param name="sigma"></param>
+        ''' <returns></returns>
         <Extension>
         Public Function RTCPGrayGlobalWeightIndex(bpBuffer() As Byte, bp As Size, stride As Integer, W As List(Of Vector3), Optional sigma As Single = 0.05) As Integer
             Dim sigma_pow As Double = sigma ^ 2
@@ -171,7 +180,12 @@ Namespace Imaging.BitmapImage
             Marshal.Copy(bpData.Scan0, bpBuffer, 0, bpBuffer.Length)
             bp.UnlockBits(bpData)
 
+            Call VBDebugger.EchoLine($"image_src_dims: [{inBitmap.Width},{inBitmap.Height}]")
+            Call VBDebugger.EchoLine($"image_copy_dims: [{bp.Width},{bp.Height}]")
+
             Dim index = bpBuffer.RTCPGrayGlobalWeightIndex(New Size(bp.Width, bp.Height), stride, W, sigma)
+
+            Call VBDebugger.EchoLine($"global_weight: [r:{W(index).X},g:{W(index).Y},b:{W(index).Z}]")
 
             bp = inBitmap.Clone
             bpData = bp.LockBits(New Rectangle(0, 0, bp.Width, bp.Height), ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb)
