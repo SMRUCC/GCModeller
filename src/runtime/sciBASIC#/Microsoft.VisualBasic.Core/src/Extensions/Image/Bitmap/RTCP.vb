@@ -21,7 +21,7 @@ Namespace Imaging.BitmapImage
         ''' <param name="inBitmap"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function RTCPGray(ByVal inBitmap As Bitmap) As Bitmap
+        Public Function RTCPGray(inBitmap As Bitmap) As Bitmap
             '-----缩放64*64-----
             Dim scale As Single = 64 / std.Sqrt(inBitmap.Width * inBitmap.Height)
             Dim bp As New Bitmap(CInt(inBitmap.Width * scale), CInt(inBitmap.Height * scale))
