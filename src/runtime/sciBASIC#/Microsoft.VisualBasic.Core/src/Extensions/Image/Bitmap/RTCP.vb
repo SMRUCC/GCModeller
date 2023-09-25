@@ -189,16 +189,20 @@ Namespace Imaging.BitmapImage
 
             bp = inBitmap.Clone
             bpData = bp.LockBits(New Rectangle(0, 0, bp.Width, bp.Height), ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb)
-            ReDim bpBuffer(std.Abs(bpData.Stride) * bpData.Height - 1)
-            Marshal.Copy(bpData.Scan0, bpBuffer, 0, bpBuffer.Length)
-            For i = 0 To bpBuffer.Length - 1 Step 4
-                Dim gray = W(index).X * bpBuffer(i + 2) + W(index).Y * bpBuffer(i + 1) + W(index).Z * bpBuffer(i)
-                bpBuffer(i) = gray
-                bpBuffer(i + 1) = gray
-                bpBuffer(i + 2) = gray
-            Next
-            Marshal.Copy(bpBuffer, 0, bpData.Scan0, bpBuffer.Length)
+
+            Using rgbValues As Emit.Marshal.Byte = New Emit.Marshal.Byte(bpData.Scan0, std.Abs(bpData.Stride) * bpData.Height)
+
+                Dim wr = W(index).X
+                Dim wg = W(index).Y
+                Dim wb = W(index).Z
+
+                ' Calls unmanaged memory write when this 
+                ' memory pointer was disposed
+                Call rgbValues.scanInternal(wr, wg, wb)
+            End Using
+
             bp.UnlockBits(bpData)
+
             Return bp
         End Function
     End Module
