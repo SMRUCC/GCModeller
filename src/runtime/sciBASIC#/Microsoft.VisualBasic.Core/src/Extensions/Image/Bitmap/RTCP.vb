@@ -152,13 +152,7 @@ Namespace Imaging.BitmapImage
             Return index
         End Function
 
-        ''' <summary>
-        ''' .NET Implement of Real-time Contrast Preserving Decolorization
-        ''' </summary>
-        ''' <param name="inBitmap"></param>
-        ''' <returns></returns>
-        ''' <remarks></remarks>
-        Public Function RTCPGray(inBitmap As Bitmap, Optional sigma As Single = 0.05!) As Bitmap
+        Public Function MeasureGlobalWeight(inBitmap As Bitmap, Optional sigma As Single = 0.05!) As (r As Single, g As Single, b As Single)
             '-----灰度权重-----
             Dim sigma_pow As Single = sigma ^ 2
             Dim W As New List(Of Vector3)
@@ -187,21 +181,32 @@ Namespace Imaging.BitmapImage
 
             Call VBDebugger.EchoLine($"global_weight: [r:{W(index).X},g:{W(index).Y},b:{W(index).Z}]")
 
-            bp = inBitmap.Clone
-            bpData = bp.LockBits(New Rectangle(0, 0, bp.Width, bp.Height), ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb)
+            With W(index)
+                Return (.X, .Y, .Z)
+            End With
+        End Function
 
-            Using rgbValues As Emit.Marshal.Byte = New Emit.Marshal.Byte(bpData.Scan0, std.Abs(bpData.Stride) * bpData.Height)
+        ''' <summary>
+        ''' .NET Implement of Real-time Contrast Preserving Decolorization
+        ''' </summary>
+        ''' <param name="inBitmap"></param>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
+        Public Function RTCPGray(inBitmap As Bitmap, Optional sigma As Single = 0.05!) As Bitmap
+            Dim bp As Bitmap = inBitmap.Clone
+            Dim bpData = bp.LockBits(New Rectangle(0, 0, bp.Width, bp.Height), ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb)
+            Dim w = MeasureGlobalWeight(inBitmap, sigma)
 
-                Dim wr = W(index).X
-                Dim wg = W(index).Y
-                Dim wb = W(index).Z
-
+            Using rgbValues As Emit.Marshal.Byte = New Emit.Marshal.Byte(
+                p:=bpData.Scan0,
+                chunkSize:=std.Abs(bpData.Stride) * bpData.Height
+            )
                 ' Calls unmanaged memory write when this 
                 ' memory pointer was disposed
-                Call rgbValues.scanInternal(wr, wg, wb)
+                Call rgbValues.scanInternal(w.r, w.g, w.b)
             End Using
 
-            bp.UnlockBits(bpData)
+            Call bp.UnlockBits(bpData)
 
             Return bp
         End Function
