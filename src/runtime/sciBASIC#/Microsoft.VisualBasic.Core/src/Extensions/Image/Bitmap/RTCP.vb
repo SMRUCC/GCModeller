@@ -1,10 +1,11 @@
 ﻿Imports System.Drawing
-Imports System.Numerics
 Imports System.Drawing.Drawing2D
 Imports System.Drawing.Imaging
-Imports System.Runtime.InteropServices
-Imports std = System.Math
+Imports System.Numerics
 Imports System.Runtime.CompilerServices
+Imports System.Runtime.InteropServices
+Imports ran = Microsoft.VisualBasic.Math.RandomExtensions
+Imports std = System.Math
 
 Namespace Imaging.BitmapImage
 
@@ -33,16 +34,17 @@ Namespace Imaging.BitmapImage
             Dim sigma_pow As Double = sigma ^ 2
 
             '-----打乱像素-----
-            Dim ran As Random
             Dim temp(bpBuffer.Length / 4 - 1) As Integer
 
             For i = 0 To temp.Length - 1
                 temp(i) = i
             Next
+
             Dim shuffleBuffer(bpBuffer.Length - 1) As Byte
+
             For i = 0 To temp.Length - 1
-                ran = New Random
-                Dim pos = ran.Next(0, temp.Length - i)
+                Dim pos As Integer = ran.NextInteger(0, temp.Length - i)
+
                 shuffleBuffer(i * 4) = bpBuffer(temp(pos) * 4)
                 shuffleBuffer(i * 4 + 1) = bpBuffer(temp(pos) * 4 + 1)
                 shuffleBuffer(i * 4 + 2) = bpBuffer(temp(pos) * 4 + 2)
