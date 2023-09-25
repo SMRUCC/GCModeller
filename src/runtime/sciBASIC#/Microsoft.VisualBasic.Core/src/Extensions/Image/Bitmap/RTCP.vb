@@ -4,6 +4,7 @@ Imports System.Drawing.Drawing2D
 Imports System.Drawing.Imaging
 Imports System.Runtime.InteropServices
 Imports std = System.Math
+Imports System.Runtime.CompilerServices
 
 Namespace Imaging.BitmapImage
 
@@ -15,13 +16,7 @@ Namespace Imaging.BitmapImage
     ''' </remarks>
     Public Module RTCP
 
-        ''' <summary>
-        ''' .NET Implement of Real-time Contrast Preserving Decolorization
-        ''' </summary>
-        ''' <param name="inBitmap"></param>
-        ''' <returns></returns>
-        ''' <remarks></remarks>
-        Public Function RTCPGray(inBitmap As Bitmap) As Bitmap
+        Private Function copy(inBitmap As Bitmap) As Bitmap
             '-----缩放64*64-----
             Dim scale As Single = 64 / std.Sqrt(inBitmap.Width * inBitmap.Height)
             Dim bp As New Bitmap(CInt(inBitmap.Width * scale), CInt(inBitmap.Height * scale))
@@ -30,29 +25,17 @@ Namespace Imaging.BitmapImage
             g.DrawImage(inBitmap, New Rectangle(0, 0, bp.Width, bp.Height))
             g.Dispose()
 
-            '-----灰度权重-----
-            Dim sigma = 0.05!
-            Dim sigma_pow As Single = sigma ^ 2
-            Dim W As New List(Of Vector3)
-            For i = 0 To 10
-                For j = 0 To 10 - i
-                    Dim k = 10 - i - j
-                    W.Add(New Vector3(i / 10.0!, j / 10.0!, k / 10.0!))
-                Next
-            Next
+            Return bp
+        End Function
 
-            Dim bpData As BitmapData
-            Dim bpBuffer() As Byte
-            Dim stride As Integer
-            bpData = bp.LockBits(New Rectangle(0, 0, bp.Width, bp.Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb)
-            stride = std.Abs(bpData.Stride)
-            ReDim bpBuffer(stride * bpData.Height - 1)
-            Marshal.Copy(bpData.Scan0, bpBuffer, 0, bpBuffer.Length)
-            bp.UnlockBits(bpData)
+        <Extension>
+        Public Function RTCPGrayGlobalWeightIndex(bpBuffer() As Byte, bp As Size, stride As Integer, W As List(Of Vector3), Optional sigma As Single = 0.05) As Integer
+            Dim sigma_pow As Double = sigma ^ 2
 
             '-----打乱像素-----
             Dim ran As Random
             Dim temp(bpBuffer.Length / 4 - 1) As Integer
+
             For i = 0 To temp.Length - 1
                 temp(i) = i
             Next
@@ -147,12 +130,46 @@ Namespace Imaging.BitmapImage
 
             Dim maxE As Single = E(0)
             Dim index As Integer = 0
+
             For i = 1 To E.Length - 1
                 If maxE < E(i) Then
                     maxE = E(i)
                     index = i
                 End If
             Next
+
+            Return index
+        End Function
+
+        ''' <summary>
+        ''' .NET Implement of Real-time Contrast Preserving Decolorization
+        ''' </summary>
+        ''' <param name="inBitmap"></param>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
+        Public Function RTCPGray(inBitmap As Bitmap, Optional sigma As Single = 0.05!) As Bitmap
+            '-----灰度权重-----
+            Dim sigma_pow As Single = sigma ^ 2
+            Dim W As New List(Of Vector3)
+
+            For i As Integer = 0 To 10
+                For j As Integer = 0 To 10 - i
+                    Dim k = 10 - i - j
+                    W.Add(New Vector3(i / 10.0!, j / 10.0!, k / 10.0!))
+                Next
+            Next
+
+            Dim bpData As BitmapData
+            Dim bpBuffer() As Byte
+            Dim stride As Integer
+            Dim bp As Bitmap = copy(inBitmap)
+            bpData = bp.LockBits(New Rectangle(0, 0, bp.Width, bp.Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb)
+            stride = std.Abs(bpData.Stride)
+            ReDim bpBuffer(stride * bpData.Height - 1)
+            Marshal.Copy(bpData.Scan0, bpBuffer, 0, bpBuffer.Length)
+            bp.UnlockBits(bpData)
+
+            Dim index = bpBuffer.RTCPGrayGlobalWeightIndex(New Size(bp.Width, bp.Height), stride, W, sigma)
 
             bp = inBitmap.Clone
             bpData = bp.LockBits(New Rectangle(0, 0, bp.Width, bp.Height), ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb)
