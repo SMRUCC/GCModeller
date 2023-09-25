@@ -333,8 +333,12 @@ Namespace Imaging.BitmapImage
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
-        Public Function GrayScale(c As Color) As Integer
-            Return GrayScale(c.R, c.G, c.B)
+        Public Function GrayScale(c As Color,
+                                  Optional wr As Single = 0.3,
+                                  Optional wg As Single = 0.59,
+                                  Optional wb As Single = 0.11) As Integer
+
+            Return GrayScale(c.R, c.G, c.B, wr, wg, wb)
         End Function
 
         ''' <summary>
