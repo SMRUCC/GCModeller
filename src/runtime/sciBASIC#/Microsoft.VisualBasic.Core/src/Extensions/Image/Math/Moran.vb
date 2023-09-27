@@ -60,7 +60,7 @@ Namespace Imaging.Math2D
             Dim up = (N * (((N ^ 2) - 3 * N + 3) * S1 - N * S2 + 3 * (w ^ 2)) - k * (N * (N - 1) * S1 - 2 * N * S2 + 6 * (w ^ 2)))
             Dim down = ((N - 1) * (N - 2) * (N - 3) * (w ^ 2))
             Dim sd2 = up / down - (ei ^ 2)
-            Dim sd = std.Sqrt(If(sd2 < 0, 0, sd2))
+            Dim sd = std.Sqrt(std.Abs(sd2))
             Dim moran = (N / w) * (num / denom)
 
             Return (moran, ei, sd)
