@@ -59,7 +59,9 @@ Namespace Hypothesis
             End If
 
             If pv < 0 Then
-                pv = 1 / Double.MaxValue
+                pv = 1 / Single.MaxValue
+            ElseIf pv.IsNaNImaginary Then
+                pv = 1
             End If
 
             Return New MoranTest With {
