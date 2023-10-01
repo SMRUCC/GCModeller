@@ -367,6 +367,7 @@ Namespace LDA
             Call initialState(K)
             Call println($"Sampling {ITERATIONS} iterations with burn-in of {BURN_IN} unique temp var.")
             Call println($"gibbs run with {VectorTask.n_threads} CPU threads!")
+            Call println($"z_index size={z.Length}")
 
             ' z is initialized after initialState is called
             Dim zIndex As Integer() = z.Sequence.ToArray
