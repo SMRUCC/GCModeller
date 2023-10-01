@@ -58,6 +58,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.Parallel
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
 '  (C) Copyright 2005, Gregor Heinrich (gregor :: arbylon : net) (This file is
@@ -334,20 +335,34 @@ Namespace LDA
         ''' do chain data sampling
         ''' </summary>
         ''' <param name="zi"></param>
-        ''' <returns></returns>
-        Private Function sampling(zi As Integer) As Integer
+        Private Sub sampling(zi As Integer)
             Dim v As Integer() = z(zi)
+            Dim gibbs As New SamplingTask(v, zi, Me)
 
-            SyncLock v
-                For n As Integer = 0 To v.Length - 1
+            Call gibbs.Run()
+        End Sub
+
+        Private Class SamplingTask : Inherits VectorTask
+
+            ReadOnly v As Integer()
+            ReadOnly zi As Integer
+            ReadOnly gibbs As LdaGibbsSampler
+
+            Sub New(v As Integer(), zi As Integer, gibbs As LdaGibbsSampler)
+                Call MyBase.New(v.Length)
+                Me.v = v
+                Me.zi = zi
+                Me.gibbs = gibbs
+            End Sub
+
+            Protected Overrides Sub Solve(start As Integer, ends As Integer)
+                For n As Integer = start To ends
                     ' (z_i = z[m][n])
                     ' sample from p(z_i|z_-i, w)
-                    v(n) = sample_fullConditional(topic:=v(n), zi, n)
+                    v(n) = gibbs.sample_fullConditional(topic:=v(n), zi, n)
                 Next
-            End SyncLock
-
-            Return zi
-        End Function
+            End Sub
+        End Class
 
         ''' <summary>
         ''' Main method: Select initial state ? Repeat a large number of times: 1.
@@ -429,11 +444,17 @@ Namespace LDA
             For K As Integer = 0 To Me.K - 1
                 p(K) = (nw(documents(m)(n))(K) + beta) / (nwsum(K) + V * beta) * (nd(m)(K) + alpha) / (ndsum(m) + Me.K * alpha)
             Next
+
+            Call counter.Mark("pK sampling")
+
             ' cumulate multinomial parameters
             ' 累加多项式分布的参数
             For K As Integer = 1 To p.Length - 1
                 p(K) += p(K - 1)
             Next
+
+            Call counter.Mark("pK CDF")
+
             ' scaled sample because of unnormalised p[] 正则化
             Dim u = randf.NextDouble * p(K - 1)
 
