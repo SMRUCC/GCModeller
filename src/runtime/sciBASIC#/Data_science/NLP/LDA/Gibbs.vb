@@ -26,10 +26,10 @@ Namespace LDA
         End Sub
 
         Protected Overrides Sub Solve(start As Integer, ends As Integer)
-            Dim nw As Integer()
-            Dim nd As Integer()
-            Dim nwsum As Integer()
-            Dim ndsum As Integer()
+            Dim nw As Integer() = New Integer(K - 1) {}
+            Dim nd As Integer() = New Integer(K - 1) {}
+            Dim nwsum As Integer() = New Integer(K - 1) {}
+            Dim ndsum As Integer() = New Integer(gibbs.ndsum.Length - 1) {}
             Dim topic As Integer
 
             For n As Integer = start To ends
@@ -41,7 +41,8 @@ Namespace LDA
 
                 ' (z_i = z[m][n])
                 ' sample from p(z_i|z_-i, w)
-                v(n) = sample_fullConditional(topic, zi, n, nw, nd, nwsum, ndsum)
+                topic = sample_fullConditional(topic, zi, n, nw, nd, nwsum, ndsum)
+                v(n) = topic
 
                 ' add newly estimated z_i to count variables
                 ' 将重新估计的该词语加入计数器

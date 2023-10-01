@@ -58,6 +58,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.Parallel
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
 '  (C) Copyright 2005, Gregor Heinrich (gregor :: arbylon : net) (This file is
@@ -338,7 +339,7 @@ Namespace LDA
             Dim v As Integer() = z(zi)
             Dim gibbs As New GibbsSamplingTask(v, zi, Me)
 
-            Call gibbs.Solve()
+            Call gibbs.Run()
         End Sub
 
         ''' <summary>
@@ -364,7 +365,8 @@ Namespace LDA
 
             ' initial state of the Markov chain:
             Call initialState(K)
-            Call println("Sampling " & ITERATIONS & " iterations with burn-in of " & BURN_IN & " unique temp var.")
+            Call println($"Sampling {ITERATIONS} iterations with burn-in of {BURN_IN} unique temp var.")
+            Call println($"gibbs run with {VectorTask.n_threads} CPU threads!")
 
             ' z is initialized after initialState is called
             Dim zIndex As Integer() = z.Sequence.ToArray
