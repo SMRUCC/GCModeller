@@ -32,12 +32,13 @@ Namespace LDA
             Dim ndsum As Integer() = New Integer(gibbs.ndsum.Length - 1) {}
             Dim topic As Integer
 
+            Array.ConstrainedCopy(gibbs.nwsum, Scan0, nwsum, Scan0, nwsum.Length)
+            Array.ConstrainedCopy(gibbs.ndsum, Scan0, ndsum, Scan0, ndsum.Length)
+            Array.ConstrainedCopy(gibbs.nd(zi), Scan0, nd, Scan0, nd.Length)
+
             For n As Integer = start To ends
                 topic = v(n)
                 Array.ConstrainedCopy(gibbs.nw(gibbs.documents(zi)(n)), Scan0, nw, Scan0, nw.Length)
-                Array.ConstrainedCopy(gibbs.nd(zi), Scan0, nd, Scan0, nd.Length)
-                Array.ConstrainedCopy(gibbs.nwsum, Scan0, nwsum, Scan0, nwsum.Length)
-                Array.ConstrainedCopy(gibbs.ndsum, Scan0, ndsum, Scan0, ndsum.Length)
 
                 ' (z_i = z[m][n])
                 ' sample from p(z_i|z_-i, w)
