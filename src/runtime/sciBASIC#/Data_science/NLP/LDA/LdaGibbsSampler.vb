@@ -1,58 +1,58 @@
 ﻿#Region "Microsoft.VisualBasic::32f622bc40d333f476b1570343b5090b, sciBASIC#\Data_science\NLP\LDA\LdaGibbsSampler.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 443
-    '    Code Lines: 193
-    ' Comment Lines: 189
-    '   Blank Lines: 61
-    '     File Size: 16.29 KB
+' Summaries:
 
 
-    '     Class LdaGibbsSampler
-    ' 
-    '         Properties: Phi, Theta
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: configure, SampleFullConditional, Sampling
-    ' 
-    '         Sub: (+2 Overloads) gibbs, initialState, UpdateParams
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 443
+'    Code Lines: 193
+' Comment Lines: 189
+'   Blank Lines: 61
+'     File Size: 16.29 KB
+
+
+'     Class LdaGibbsSampler
+' 
+'         Properties: Phi, Theta
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'         Function: configure, SampleFullConditional, Sampling
+' 
+'         Sub: (+2 Overloads) gibbs, initialState, UpdateParams
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -196,9 +196,9 @@ Namespace LDA
         ''' 最后的模型个数（取收敛后的n个迭代的参数做平均可以使得模型质量更高）
         ''' </summary>
         Private Shared SAMPLE_LAG As Integer = 10
-        Private Shared dispcol As Integer = 0
 
         ReadOnly println As Action(Of Object)
+        ReadOnly counter As New ApplicationServices.PerformanceCounter
 
         ''' <summary>
         ''' Retrieve estimated document--topic associations. If sample lag > 0 then
@@ -335,7 +335,7 @@ Namespace LDA
         ''' </summary>
         ''' <param name="zi"></param>
         ''' <returns></returns>
-        Private Function Sampling(zi As Integer) As Integer
+        Private Function sampling(zi As Integer) As Integer
             Dim v As Integer() = z(zi)
 
             SyncLock v
@@ -376,34 +376,33 @@ Namespace LDA
 
             ' z is initialized after initialState is called
             Dim zIndex As Integer() = z.Sequence.ToArray
+            Dim t0 As Date = Now
+            Dim t1 As Date = Now
 
             For i As Integer = 0 To ITERATIONS - 1
+                Call counter.Set()
+
                 ' for all z_i
-                Call (From m As Integer
-                      In zIndex'.AsParallel
-                      Select Sampling(zi:=m)).ToArray
+                For Each m As Integer In zIndex '.AsParallel
+                    Call sampling(zi:=m)
+                Next
+
+                Call counter.Mark("sampling")
 
                 If i < BURN_IN AndAlso i Mod THIN_INTERVAL = 0 Then
-                    dispcol += 1
-                    println($"[{i}/{ITERATIONS}] BURN_IN")
+                    t1 = Now
+                    println($"[{i}/{ITERATIONS}] BURN_IN ...... {StringFormats.ReadableElapsedTime((t1 - t0).TotalMilliseconds)}")
                 End If
                 ' display progress
                 If i > BURN_IN AndAlso i Mod THIN_INTERVAL = 0 Then
-                    dispcol += 1
-                    println($"[{i}/{ITERATIONS}] ...")
+                    println($"[{i}/{ITERATIONS}] ... {StringFormats.ReadableElapsedTime((t1 - t0).TotalMilliseconds)}")
                 End If
                 ' get statistics after burn-in
                 If i > BURN_IN AndAlso SAMPLE_LAG > 0 AndAlso i Mod SAMPLE_LAG = 0 Then
-                    Call UpdateParams()
-                    Call println($"[{i}/{ITERATIONS}] get statistics after burn-in!")
-
-                    If i Mod THIN_INTERVAL <> 0 Then
-                        dispcol += 1
-                    End If
-                End If
-
-                If dispcol >= 100 Then
-                    dispcol = 0
+                    Call counter.Mark("...")
+                    Call update_params()
+                    Call counter.Mark("update_pars")
+                    Call println($"[{i}/{ITERATIONS}] get statistics after burn-in! {StringFormats.ReadableElapsedTime((t1 - t0).TotalMilliseconds)}")
                 End If
             Next
         End Sub
@@ -462,7 +461,7 @@ Namespace LDA
         ''' Add to the statistics the values of theta and phi for the current state.
         ''' 更新参数
         ''' </summary>
-        Private Sub UpdateParams()
+        Private Sub update_params()
             Dim t0 = Now
 
             For m As Integer = 0 To documents.Length - 1
