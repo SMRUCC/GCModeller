@@ -37,6 +37,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\repository\Bio.Repository\repository.NET5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame\dataframework-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\Math.NET5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Visualization\Plots-statistics\plots_extensions-netcore5.vbproj" />
@@ -49,6 +50,7 @@
     <ProjectReference Include="..\..\analysis\Microarray\Microarray.NET5.vbproj" />
     <ProjectReference Include="..\..\core\Bio.Assembly\biocore-netcore5.vbproj" />
     <ProjectReference Include="..\..\models\Networks\KEGG\KEGGNetwork.NET5.vbproj" />
+    <ProjectReference Include="..\..\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj" />
     <ProjectReference Include="..\GSEA\GSEA\gsea-netcore5.vbproj" />
   </ItemGroup>
 

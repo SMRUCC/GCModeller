@@ -47,6 +47,7 @@
     <ProjectReference Include="..\..\..\data\STRING\STRING-db.vbproj" />
     <ProjectReference Include="..\..\..\foundation\PSICQUIC\psidev\psidev.vbproj" />
     <ProjectReference Include="..\..\SBML\SBML\sbml-netcore5.vbproj" />
+    <ProjectReference Include="..\KEGGGraphVisualizer\KEGGGraphVisualizer.vbproj" />
     <ProjectReference Include="..\KEGG\KEGGNetwork.NET5.vbproj" />
   </ItemGroup>
  

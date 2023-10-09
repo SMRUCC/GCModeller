@@ -1,55 +1,56 @@
 ﻿#Region "Microsoft.VisualBasic::e6515685c3c13a560eaa944eee6b277d, GCModeller\models\Networks\KEGG\Dunnart\Builder.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 204
-    '    Code Lines: 165
-    ' Comment Lines: 9
-    '   Blank Lines: 30
-    '     File Size: 8.19 KB
+' Summaries:
 
 
-    '     Module Extensions
-    ' 
-    '         Function: CreateModel, FromNetwork, OptmizeGraph
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 204
+'    Code Lines: 165
+' Comment Lines: 9
+'   Blank Lines: 30
+'     File Size: 8.19 KB
+
+
+'     Module Extensions
+' 
+'         Function: CreateModel, FromNetwork, OptmizeGraph
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
@@ -57,7 +58,6 @@ Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts
 Imports Microsoft.VisualBasic.Imaging
-Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
@@ -77,8 +77,7 @@ Namespace Dunnart
         ''' <param name="lighten"></param>
         ''' <returns></returns>
         <Extension>
-        Public Function FromNetwork(network As NetworkGraph,
-                                    Optional colorSet As String = "Paired:c12",
+        Public Function FromNetwork(network As NetworkGraph, colorSet As Color(),
                                     Optional groupKey As String = "map",
                                     Optional fillOpacity As Double = 0.5,
                                     Optional lighten As Double = 0.1) As GraphObject
@@ -108,10 +107,7 @@ Namespace Dunnart
                 links += New Link With {.source = link.U.ID, .target = link.V.ID}
             Next
 
-            Dim colors As LoopArray(Of String) = Designer _
-                .GetColors(colorSet) _
-                .Select(Function(c) c.ToHtmlColor) _
-                .ToArray
+            Dim colors As LoopArray(Of String) = colorSet.Select(Function(c) c.ToHtmlColor).ToArray
             Dim color As Value(Of String) = ""
             Dim style As String
 
@@ -153,9 +149,8 @@ Namespace Dunnart
         End Function
 
         <Extension>
-        Public Function CreateModel(template As NetworkGraph, maps As Pathway(),
+        Public Function CreateModel(template As NetworkGraph, maps As Pathway(), colorSet As Color(),
                                     Optional desc As Boolean = False,
-                                    Optional colorSet As String = "Paired:c12",
                                     Optional fillOpacity As Double = 0.5,
                                     Optional lighten As Double = 0.1,
                                     Optional isConnected As Boolean = True) As GraphObject

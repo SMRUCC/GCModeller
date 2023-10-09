@@ -1,41 +1,41 @@
 ﻿#Region "Microsoft.VisualBasic::d0bb8ea6a94cfe2c28626746425f61a8, models\Networks\STRING\FunctionalNetwork\AnalysisAPI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module AnalysisAPI
-    ' 
-    '     Function: NetworkVisualize, Uniprot2STRING
-    ' 
-    ' /********************************************************************************/
+' Module AnalysisAPI
+' 
+'     Function: NetworkVisualize, Uniprot2STRING
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -43,13 +43,14 @@ Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis
+Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Data.STRING
 Imports SMRUCC.genomics.Model.Network.KEGG
-Imports NetworkTables = Microsoft.VisualBasic.Data.visualize.Network.FileStream.NetworkTables
+Imports SMRUCC.genomics.Model.Network.KEGG.GraphVisualizer
 
 ''' <summary>
 ''' Functional network analysis based on the ``STRING-db``.
@@ -62,12 +63,12 @@ Public Module AnalysisAPI
                                      DEGs As (UP As Dictionary(Of String, Double), down As Dictionary(Of String, Double)),
                                      Optional layouts As IEnumerable(Of Coordinates) = Nothing,
                                      Optional radius$ = "5,30",
-                                     Optional canvasSize$ = "1920,1080") As (model As NetworkTables, image As Image)
+                                     Optional canvasSize$ = "1920,1080") As (model As NetworkGraph, image As Image)
 
         Dim colorLevels = (up:=ColorBrewer.SequentialSchemes.RdPu9, down:=ColorBrewer.SequentialSchemes.YlGnBu9)
-        Dim model = stringNetwork _
+        Dim model As NetworkGraph = stringNetwork _
             .BuildModel(uniprot:=annotations,
-                        groupValues:=FunctionalNetwork.KOGroupTable
+                        groupValues:=SimpleBuilder.KOGroupTable
             )
         Call model.ComputeNodeDegrees
         Call model.RenderDEGsColorSchema(DEGs, colorLevels,)

@@ -1,3 +1,3 @@
-Public Class KEGGOntology
+Public Module KEGGOntology
 
-End Class
+End Module
