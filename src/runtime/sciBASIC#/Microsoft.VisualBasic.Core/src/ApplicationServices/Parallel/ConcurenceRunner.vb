@@ -31,7 +31,7 @@ Namespace Parallel
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Solve() As VectorTask
-            Call Solve(0, workLen - 1)
+            Solve(0, workLen - 1)
             Return Me
         End Function
 
@@ -41,38 +41,78 @@ Namespace Parallel
         ''' <returns></returns>
         Public Function Run() As VectorTask
             Dim span_size As Integer = workLen / n_threads
-#If NET48 Then
-            span_size = 0
-#End If
+            '#If NET48 Then
+            '            span_size = 0
+            '#End If
             If sequenceMode OrElse span_size < 1 Then
                 ' run in sequence
-                Call Solve(0, workLen - 1)
+                Call Solve()
             Else
-                For cpu As Integer = 0 To n_threads
-                    Dim start As Integer = cpu * span_size
-                    Dim ends As Integer = start + span_size - 1
-
-                    If start >= workLen Then
-                        Exit For
-                    End If
-                    If ends >= workLen Then
-                        ends = workLen - 1
-                    End If
-
-                    ThreadPool.QueueUserWorkItem(Sub() Solve(start, ends))
-                Next
-
-#If NETCOREAPP Then
-                Do While ThreadPool.PendingWorkItemCount > 0
-                    Thread.Sleep(1)
-                Loop
-#Else
-                Throw New NotImplementedException
-#End If
+                Call ParallelFor(span_size)
             End If
 
             Return Me
         End Function
+
+        Private Sub ParallelFor(span_size As Integer)
+            Dim flags As New List(Of Boolean)
+            Dim err As Boolean = False
+            Dim exp As Exception = Nothing
+
+            For cpu As Integer = 0 To n_threads
+                Dim start As Integer = cpu * span_size
+                Dim ends As Integer = start + span_size - 1
+                Dim thread_id As Integer = cpu
+
+                If start >= workLen Then
+                    Exit For
+                End If
+                If ends >= workLen Then
+                    ends = workLen - 1
+                End If
+
+                Call flags.Add(False)
+                Call ThreadPool.QueueUserWorkItem(
+                    Sub()
+                        Try
+                            Call Solve(start, ends)
+                        Catch ex As Exception
+                            ' just ignores of this error, or the task
+                            ' flag check code will be a dead loop
+                            exp = New Exception($"Error while execute the ParallelFor task in range from {start} to {ends}. (thread offset {thread_id})", ex)
+                        End Try
+
+                        Try
+                            ' set flag for task complete
+                            SyncLock flags
+                                flags(thread_id) = True
+                            End SyncLock
+                        Catch ex As Exception
+                            ' try to avoid the possible dead loop
+                            err = True
+                        End Try
+                    End Sub)
+            Next
+
+            '#If NETCOREAPP Then
+            '                Do While ThreadPool.PendingWorkItemCount > 0
+            '                    Thread.Sleep(1)
+            '                Loop
+            '#Else
+            '                Throw New NotImplementedException
+            '#End If
+            Do While flags.Any(Function(b) b = False)
+                Call Thread.Sleep(1)
+
+                If err Then
+                    Exit Do
+                End If
+            Loop
+
+            If Not exp Is Nothing Then
+                Throw exp
+            End If
+        End Sub
 
         Public Shared Function CopyMemory(Of T)(v As T(), start As Integer, ends As Integer) As T()
             Dim copy As T() = New T(start - ends - 1) {}
