@@ -199,11 +199,13 @@ declare namespace background {
        * create kegg maps background for the metabolism data analysis
        * 
        * 
-        * @param kegg -
+        * @param kegg Should be a collection of the kegg map object
         * @param filter 
         * + default value Is ``null``.
+        * @param env 
+        * + default value Is ``null``.
       */
-      function background(kegg: object, filter?: string): object;
+      function background(kegg: any, filter?: string, env?: object): object;
    }
    /**
     * Create the gsea background model for metabolism analysis
