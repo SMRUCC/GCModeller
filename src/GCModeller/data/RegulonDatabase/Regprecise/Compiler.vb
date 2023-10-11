@@ -226,12 +226,12 @@ Namespace Regprecise
 #End Region
 
         ''' <summary>
-        ''' 生成meme计算所需要的调控位点的fasta文件（按照家族分类）
+        ''' Category export the motif fasta sites into file system.
+        ''' (生成meme计算所需要的调控位点的fasta文件（按照家族分类）)
         ''' </summary>
         ''' <param name="repositoryDIR">为了保持简洁性，没有引用配置项目。。。需要手动设定数据源</param>
         ''' <param name="genomePartitioning">当一个家族里面的序列数太多的时候是否需要按照基因组进行分组，默认不分组</param>
         ''' 
-        <ExportAPI("Sites.Category.ByFamily", Info:="Category export the motif fasta sites into file system.")>
         Public Sub SitesFamilyCategory(repositoryDIR As String, Optional genomePartitioning As Boolean = False)
             Dim Regulons = (From xmlFile As String
                             In FileIO.FileSystem.GetFiles(repositoryDIR & "/regulons/", FileIO.SearchOption.SearchTopLevelOnly, "*.xml")
