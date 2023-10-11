@@ -92,7 +92,10 @@ Public Module KEGGCompounds
                 .Select(Function(a) a.Names) _
                 .IteratesALL _
                 .GroupBy(Function(n) n.Name) _
-                .Select(Function(duplicated) duplicated.First) _
+                .Select(Function(duplicated)
+                            ' the id data has been removes duplicated at here
+                            Return duplicated.First
+                        End Function) _
                 .ToArray
 
             If KO.Count > 0 AndAlso Not names.Any(Function(id) id.Name Like KO) Then

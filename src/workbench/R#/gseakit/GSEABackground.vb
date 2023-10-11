@@ -232,6 +232,7 @@ Public Module GSEABackground
         End If
 
         Return multipleID _
+            .Distinct _
             .Select(Function(mapId)
                         Return New BackgroundGene With {
                             .accessionID = mapId,
