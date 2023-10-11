@@ -188,7 +188,5 @@ Namespace ComponentModel.DBLinkBuilder
                     _PDB_CCD Is Nothing
             End Get
         End Property
-
-        Private ReadOnly Property IsEmpty_IsEmpty As Boolean Implements IsEmpty.IsEmpty
     End Class
 End Namespace
