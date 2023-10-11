@@ -62,11 +62,16 @@ declare namespace background {
        * 
         * @param background -
         * @param mapping do id translation via this id source list
+        * @param subset only the cluster which has the member gene id exists in this
+        *  collection then the cluster will be keeps from the result
+        *  background if this parameter is not null or empty.
+        * 
+        * + default value Is ``null``.
         * @param env -
         * 
         * + default value Is ``null``.
       */
-      function id_mapping(background: object, mapping: object, env?: object): any;
+      function id_mapping(background: object, mapping: object, subset?: string, env?: object): any;
    }
    /**
    */
