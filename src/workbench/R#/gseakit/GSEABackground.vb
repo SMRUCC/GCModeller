@@ -60,7 +60,6 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Math.Statistics.Hypothesis.Mantel
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Analysis.GO
@@ -72,6 +71,7 @@ Imports SMRUCC.genomics.Analysis.KEGG
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
 Imports SMRUCC.genomics.Model.Network.KEGG.ReactionNetwork
 Imports SMRUCC.Rsharp.Runtime
@@ -142,13 +142,34 @@ Public Module GSEABackground
     ''' create gsea background from a given obo ontology file data.
     ''' </summary>
     ''' <param name="dag"></param>
+    ''' <param name="flat">
+    ''' Flat the ontology tree into cluster via the ``is_a`` relationship?
+    ''' 
+    ''' default false, required of the ``enrichment.go`` function for run enrichment analysis
+    ''' value true, will flat the ontology tree into cluster, then the enrichment analysis could be
+    ''' applied via the ``enrichment`` function.
+    ''' </param>
     ''' <returns></returns>
     <ExportAPI("dag.background")>
-    Public Function DAGbackground(dag As GO_OBO) As Background
+    Public Function DAGbackground(dag As GO_OBO, Optional flat As Boolean = False) As Background
         Dim getCluster = dag.terms.GOClusters
         Dim background = dag.terms _
             .Select(Function(t) t.id) _
             .CreateGOGeneric(getCluster, dag.terms.Length)
+
+        If flat Then
+            Dim ontology As New GeneOntology.DAG.Graph(DirectCast(dag, GO_OBO).AsEnumerable)
+            Dim index = background.GetClusterTable
+            Dim clusters As New List(Of Cluster)
+
+            For Each cluster As Cluster In background.clusters
+                cluster = cluster.PullOntologyTerms(ontology, index)
+                clusters.Add(cluster)
+            Next
+
+            background.clusters = clusters.ToArray
+            background.size = background.clusters.BackgroundSize
+        End If
 
         Return background
     End Function
