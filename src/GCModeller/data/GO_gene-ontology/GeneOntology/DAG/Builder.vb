@@ -60,6 +60,17 @@ Namespace DAG
 
     Public Module Builder
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Friend Function UniqueNodes(cluster As KeyValuePair(Of String, List(Of TermNode))) As TermNode()
+            Return cluster.Value _
+                .GroupBy(Function(t) t.id) _
+                .Select(Function(c)
+                            Return c.First
+                        End Function) _
+                .ToArray
+        End Function
+
         <Extension>
         Public Function CreateClusterMembers(tree As Graph) As Dictionary(Of String, List(Of TermNode))
             Dim clusters As New Dictionary(Of String, List(Of TermNode))
