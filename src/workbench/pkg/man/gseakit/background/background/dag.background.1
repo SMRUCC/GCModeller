@@ -3,7 +3,9 @@
 .SH NAME
 dag.background \- create gsea background from a given obo ontology file data.
 .SH SYNOPSIS
-\fIdag.background(\fBdag\fR as <generic> GO_OBO);\fR
+\fIdag.background(\fBdag\fR as <generic> GO_OBO, 
+\fBflat\fR as boolean = FALSE, 
+[\fB<Environment>\fR]);\fR
 .SH DESCRIPTION
 .PP
 create gsea background from a given obo ontology file data.
@@ -11,6 +13,15 @@ create gsea background from a given obo ontology file data.
 .SH OPTIONS
 .PP
 \fBdag\fB \fR\- -. 
+.PP
+.PP
+\fBflat\fB \fR\- 
+ Flat the ontology tree into cluster via the \fBis_a\fR relationship?
+ 
+ default false, required of the \fBenrichment.go\fR function for run enrichment analysis
+ value true, will flat the ontology tree into cluster, then the enrichment analysis could be
+ applied via the \fBenrichment\fR function.
+. 
 .PP
 .SH SEE ALSO
 background

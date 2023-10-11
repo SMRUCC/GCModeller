@@ -5,6 +5,8 @@
     <TargetFramework>net6.0</TargetFramework>
     <Title>Protein Matrix Generator</Title>
     <Description>Generates the protein matrix data for run the CNN learning.</Description>
+    <Platforms>AnyCPU;x64</Platforms>
+    <Configurations>Debug;Release;Rsharp_app_release</Configurations>
   </PropertyGroup>
 
   <ItemGroup>

@@ -56,11 +56,13 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.[Default]
 
 Namespace ComponentModel.DBLinkBuilder
 
     Public MustInherit Class DBLinksManager(Of TLink As IDBLink)
         Implements IReadOnlyCollection(Of TLink)
+        Implements IsEmpty
 
         Public Shared ReadOnly Property PrefixDB As String() = New String() {
             "ChEBI", "3DMET", "HMDB",
@@ -167,6 +169,6 @@ Namespace ComponentModel.DBLinkBuilder
             Yield GetEnumerator()
         End Function
 
-        Public MustOverride ReadOnly Property IsEmpty As Boolean
+        Public MustOverride ReadOnly Property IsEmpty As Boolean Implements [Default].IsEmpty.IsEmpty
     End Class
 End Namespace

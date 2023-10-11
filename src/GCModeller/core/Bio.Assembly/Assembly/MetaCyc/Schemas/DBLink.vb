@@ -1,71 +1,71 @@
 ﻿#Region "Microsoft.VisualBasic::67633229b7a2d575c4925d8acfdfe8ae, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\Schemas\DBLink.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 180
-    '    Code Lines: 120
-    ' Comment Lines: 30
-    '   Blank Lines: 30
-    '     File Size: 8.39 KB
+' Summaries:
 
 
-    '     Class DBLinkManager
-    ' 
-    '         Properties: CHEBI, IsEmpty, PUBCHEM
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    '         Function: CreateFromMetaCycFormat, CreateObject, ToString
-    '         Class DBLink
-    ' 
-    '             Properties: AccessionId, attributes, DBName
-    ' 
-    '             Function: CreateObject, GetFormatValue, GetMetaCycFormatValue, GetUniprotId, ToString
-    '                       TryParse, TryParseMetaCycDBLink
-    ' 
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 180
+'    Code Lines: 120
+' Comment Lines: 30
+'   Blank Lines: 30
+'     File Size: 8.39 KB
+
+
+'     Class DBLinkManager
+' 
+'         Properties: CHEBI, IsEmpty, PUBCHEM
+' 
+'         Constructor: (+2 Overloads) Sub New
+'         Function: CreateFromMetaCycFormat, CreateObject, ToString
+'         Class DBLink
+' 
+'             Properties: AccessionId, attributes, DBName
+' 
+'             Function: CreateObject, GetFormatValue, GetMetaCycFormatValue, GetUniprotId, ToString
+'                       TryParse, TryParseMetaCycDBLink
+' 
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
-Imports System.Text.RegularExpressions
 Imports System.Text
-Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
-Imports Microsoft.VisualBasic
+Imports System.Text.RegularExpressions
+Imports Microsoft.VisualBasic.Language.[Default]
 Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 
 Namespace Assembly.MetaCyc.Schema
 
@@ -74,6 +74,7 @@ Namespace Assembly.MetaCyc.Schema
     ''' </summary>
     ''' <remarks></remarks>
     Public Class DBLinkManager : Inherits DBLinksManager(Of DBLink)
+        Implements IsEmpty
 
         ''' <summary>
         ''' 与其他的数据库之间的外键链接
@@ -234,7 +235,7 @@ Namespace Assembly.MetaCyc.Schema
             End Get
         End Property
 
-        Public Overrides ReadOnly Property IsEmpty As Boolean
+        Public Overrides ReadOnly Property IsEmpty As Boolean Implements Language.Default.IsEmpty.IsEmpty
             Get
                 Return _CheBI.IsNullOrEmpty AndAlso _PubChem Is Nothing
             End Get

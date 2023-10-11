@@ -119,6 +119,10 @@ Public Class Background : Inherits XmlDataModel
         Return Nothing
     End Function
 
+    ''' <summary>
+    ''' Make a dictionary index of the <see cref="clusters"/>, via the <see cref="Cluster.ID"/> as key.
+    ''' </summary>
+    ''' <returns></returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function GetClusterTable() As Dictionary(Of String, Cluster)
         Return clusters.ToDictionary(Function(c) c.ID)

@@ -55,12 +55,13 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Text
+Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Math.Statistics.Hypothesis.Mantel
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Analysis.GO
@@ -72,6 +73,7 @@ Imports SMRUCC.genomics.Analysis.KEGG
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
 Imports SMRUCC.genomics.Model.Network.KEGG.ReactionNetwork
 Imports SMRUCC.Rsharp.Runtime
@@ -142,19 +144,59 @@ Public Module GSEABackground
     ''' create gsea background from a given obo ontology file data.
     ''' </summary>
     ''' <param name="dag"></param>
+    ''' <param name="flat">
+    ''' Flat the ontology tree into cluster via the ``is_a`` relationship?
+    ''' 
+    ''' default false, required of the ``enrichment.go`` function for run enrichment analysis
+    ''' value true, will flat the ontology tree into cluster, then the enrichment analysis could be
+    ''' applied via the ``enrichment`` function.
+    ''' </param>
     ''' <returns></returns>
     <ExportAPI("dag.background")>
-    Public Function DAGbackground(dag As GO_OBO) As Background
+    Public Function DAGbackground(dag As GO_OBO, Optional flat As Boolean = False, Optional env As Environment = Nothing) As Background
         Dim getCluster = dag.terms.GOClusters
         Dim background = dag.terms _
             .Select(Function(t) t.id) _
             .CreateGOGeneric(getCluster, dag.terms.Length)
 
+        If flat Then
+            Dim ontology As New GeneOntology.DAG.Graph(DirectCast(dag, GO_OBO).AsEnumerable)
+            Dim index = background.GetClusterTable
+            Dim clusters As New List(Of Cluster)
+            Dim n As Integer = background.clusters.Length
+            Dim d As Integer = n / 20
+            Dim pc As New PerformanceCounter
+            Dim i As i32 = 0
+            Dim println = env.WriteLineHandler
+
+            Call pc.Set()
+
+            For Each cluster As Cluster In background.clusters
+                cluster = cluster.PullOntologyTerms(ontology, index)
+                clusters.Add(cluster)
+
+                If ++i Mod d = 0 Then
+                    Call println(pc.Mark($"({i}/{n})  extract DAG graph ... {(i / n * 100).ToString("F1")}% {cluster.names}").ToString)
+                End If
+            Next
+
+            background.clusters = clusters.ToArray
+            background.size = background.clusters.BackgroundSize
+        End If
+
+        background.name = dag.headers.Ontology
+        background.id = background.name
+        background.comments = dag.ToString
+
         Return background
     End Function
 
     <ExportAPI("append.id_terms")>
-    Public Function appendIdTerms(background As Background, term_name As String, terms As list, Optional env As Environment = Nothing) As Object
+    Public Function appendIdTerms(background As Background,
+                                  term_name As String,
+                                  terms As list,
+                                  Optional env As Environment = Nothing) As Object
+
         Dim termList = terms.AsGeneric(Of String())(env)
 
         For Each cluster As Cluster In background.clusters
@@ -198,14 +240,20 @@ Public Module GSEABackground
     ''' <param name="mapping">
     ''' do id translation via this id source list
     ''' </param>
+    ''' <param name="subset">
+    ''' only the cluster which has the member gene id exists in this
+    ''' collection then the cluster will be keeps from the result
+    ''' background if this parameter is not null or empty.
+    ''' </param>
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("background.id_mapping")>
-    Public Function BackgroundIDmapping(background As Background,
-                                        mapping As list,
+    Public Function BackgroundIDmapping(background As Background, mapping As list,
+                                        Optional subset As String() = Nothing,
                                         Optional env As Environment = Nothing) As Object
 
         Dim maps As Dictionary(Of String, String()) = mapping.AsGeneric(Of String())(env, [default]:={})
+        Dim filterIndex As Index(Of String) = subset.Indexing
         Dim newClusterList = background.clusters _
             .Select(Function(c)
                         Return c.id_translation(maps)
@@ -213,16 +261,30 @@ Public Module GSEABackground
             .Where(Function(c) c.members.Length > 0) _
             .ToArray
 
+        If filterIndex > 0 Then
+            newClusterList = newClusterList _
+                .Where(Function(c)
+                           Return c.memberIds.Any(Function(id) id Like filterIndex)
+                       End Function) _
+                .ToArray
+        End If
+
         Return New Background With {
             .build = Now,
             .clusters = newClusterList,
             .comments = background.comments,
             .id = background.id,
             .name = background.name,
-            .size = -1
+            .size = .clusters.BackgroundSize
         }
     End Function
 
+    ''' <summary>
+    ''' Do translation of the <see cref="BackgroundGene.accessionID"/>
+    ''' </summary>
+    ''' <param name="g"></param>
+    ''' <param name="maps"></param>
+    ''' <returns></returns>
     <Extension>
     Private Function id_translation(g As BackgroundGene, maps As Dictionary(Of String, String())) As IEnumerable(Of BackgroundGene)
         Dim multipleID As String() = maps.TryGetValue(g.accessionID)
@@ -232,6 +294,7 @@ Public Module GSEABackground
         End If
 
         Return multipleID _
+            .Distinct _
             .Select(Function(mapId)
                         Return New BackgroundGene With {
                             .accessionID = mapId,
@@ -249,6 +312,13 @@ Public Module GSEABackground
                     End Function)
     End Function
 
+    ''' <summary>
+    ''' Create the id translation of the <see cref="BackgroundGene"/> inside 
+    ''' the given <see cref="Cluster"/> model <paramref name="c"/>.
+    ''' </summary>
+    ''' <param name="c"></param>
+    ''' <param name="maps"></param>
+    ''' <returns></returns>
     <Extension>
     Private Function id_translation(c As Cluster, maps As Dictionary(Of String, String())) As Cluster
         Dim geneList As BackgroundGene() = c.members _
@@ -739,15 +809,36 @@ Public Module GSEABackground
     ''' <summary>
     ''' create kegg maps background for the metabolism data analysis
     ''' </summary>
-    ''' <param name="kegg"></param>
+    ''' <param name="kegg">Should be a collection of the kegg map object</param>
     ''' <returns></returns>
     <ExportAPI("metabolism.background")>
-    Public Function metabolismBackground(kegg As MapRepository, Optional filter As String() = Nothing) As Background
+    <RApiReturn(GetType(Background))>
+    Public Function metabolismBackground(<RRawVectorArgument>
+                                         kegg As Object,
+                                         Optional filter As String() = Nothing,
+                                         Optional env As Environment = Nothing) As Object
+
         Dim mapIdFilter As Index(Of String) = filter _
             .SafeQuery _
             .Select(Function(id) id.Match("\d+")) _
             .Indexing
-        Dim background As Background = kegg.Maps _
+        Dim maps As Map()
+
+        If TypeOf kegg Is MapRepository Then
+            maps = DirectCast(kegg, MapRepository).Maps _
+                .Select(Function(m) DirectCast(m, Map)) _
+                .ToArray
+        Else
+            Dim pull As pipeline = pipeline.TryCreatePipeline(Of Map)(kegg, env)
+
+            If pull.isError Then
+                Return pull.getError
+            End If
+
+            maps = pull.populates(Of Map)(env).ToArray
+        End If
+
+        Dim background As Background = maps _
             .Where(Function(map)
                        If mapIdFilter.Count > 0 Then
                            Return map.EntryId.Match("\d+") Like mapIdFilter

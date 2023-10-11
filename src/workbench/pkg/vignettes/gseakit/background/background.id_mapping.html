@@ -162,7 +162,8 @@
         <h3>Usage</h3>
 
         <div style="width: 100%; padding-left: 3%; color: black;">
-            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>background.id_mapping</strong>(<i>background</i>, <i>mapping</i>);</code></pre>
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>background.id_mapping</strong>(<i>background</i>, <i>mapping</i>,
+    <i>subset</i> = <span style='color: blue !important;'>NULL</span>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
@@ -175,6 +176,12 @@
 
 <dt>mapping</dt>
 <dd><p><p>do id translation via this id source list</p></p></dd>
+
+
+<dt>subset</dt>
+<dd><p><p>only the cluster which has the member gene id exists in this<br />
+ collection then the cluster will be keeps from the result<br />
+ background if this parameter is not null or empty.</p></p></dd>
 
 
 <dt>env</dt>
