@@ -219,7 +219,7 @@ Public Module GSEABackground
             .comments = background.comments,
             .id = background.id,
             .name = background.name,
-            .size = -1
+            .size = .clusters.BackgroundSize
         }
     End Function
 
