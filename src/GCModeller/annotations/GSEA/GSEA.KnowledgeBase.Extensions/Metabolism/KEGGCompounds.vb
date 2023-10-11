@@ -70,7 +70,9 @@ Public Module KEGGCompounds
     ''' </summary>
     ''' <param name="maps"></param>
     ''' <param name="KO">
-    ''' a indexer for do map selection
+    ''' a indexer for do map selection, which means only the KEGG maps 
+    ''' that contains the symbols of these KO id then will be selected 
+    ''' for create the background cluster model.
     ''' </param>
     ''' <returns></returns>
     <Extension>
@@ -92,7 +94,7 @@ Public Module KEGGCompounds
                 .Select(Function(duplicated) duplicated.First) _
                 .ToArray
 
-            If Not names.Any(Function(id) id.Name Like KO) Then
+            If KO.Count > 0 AndAlso Not names.Any(Function(id) id.Name Like KO) Then
                 Call $"Skip {map.name}".__INFO_ECHO
                 Continue For
             End If
