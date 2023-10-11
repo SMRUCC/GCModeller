@@ -55,10 +55,12 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Text
+Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text.Xml.Models
@@ -151,7 +153,7 @@ Public Module GSEABackground
     ''' </param>
     ''' <returns></returns>
     <ExportAPI("dag.background")>
-    Public Function DAGbackground(dag As GO_OBO, Optional flat As Boolean = False) As Background
+    Public Function DAGbackground(dag As GO_OBO, Optional flat As Boolean = False, Optional env As Environment = Nothing) As Background
         Dim getCluster = dag.terms.GOClusters
         Dim background = dag.terms _
             .Select(Function(t) t.id) _
@@ -161,10 +163,21 @@ Public Module GSEABackground
             Dim ontology As New GeneOntology.DAG.Graph(DirectCast(dag, GO_OBO).AsEnumerable)
             Dim index = background.GetClusterTable
             Dim clusters As New List(Of Cluster)
+            Dim n As Integer = background.clusters.Length
+            Dim d As Integer = n / 20
+            Dim pc As New PerformanceCounter
+            Dim i As i32 = 0
+            Dim println = env.WriteLineHandler
+
+            Call pc.Set()
 
             For Each cluster As Cluster In background.clusters
                 cluster = cluster.PullOntologyTerms(ontology, index)
                 clusters.Add(cluster)
+
+                If ++i Mod d = 0 Then
+                    Call println(pc.Mark($"[{i}/{n}]  extract DAG graph ... {cluster.names}").ToString)
+                End If
             Next
 
             background.clusters = clusters.ToArray
@@ -179,7 +192,11 @@ Public Module GSEABackground
     End Function
 
     <ExportAPI("append.id_terms")>
-    Public Function appendIdTerms(background As Background, term_name As String, terms As list, Optional env As Environment = Nothing) As Object
+    Public Function appendIdTerms(background As Background,
+                                  term_name As String,
+                                  terms As list,
+                                  Optional env As Environment = Nothing) As Object
+
         Dim termList = terms.AsGeneric(Of String())(env)
 
         For Each cluster As Cluster In background.clusters
