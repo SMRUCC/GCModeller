@@ -223,20 +223,34 @@ Public Module GSEABackground
     ''' <param name="mapping">
     ''' do id translation via this id source list
     ''' </param>
+    ''' <param name="subset">
+    ''' only the cluster which has the member gene id exists in this
+    ''' collection then the cluster will be keeps from the result
+    ''' background if this parameter is not null or empty.
+    ''' </param>
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("background.id_mapping")>
-    Public Function BackgroundIDmapping(background As Background,
-                                        mapping As list,
+    Public Function BackgroundIDmapping(background As Background, mapping As list,
+                                        Optional subset As String() = Nothing,
                                         Optional env As Environment = Nothing) As Object
 
         Dim maps As Dictionary(Of String, String()) = mapping.AsGeneric(Of String())(env, [default]:={})
+        Dim filterIndex As Index(Of String) = subset.Indexing
         Dim newClusterList = background.clusters _
             .Select(Function(c)
                         Return c.id_translation(maps)
                     End Function) _
             .Where(Function(c) c.members.Length > 0) _
             .ToArray
+
+        If filterIndex > 0 Then
+            newClusterList = newClusterList _
+                .Where(Function(c)
+                           Return c.memberIds.Any(Function(id) id Like filterIndex)
+                       End Function) _
+                .ToArray
+        End If
 
         Return New Background With {
             .build = Now,
@@ -248,6 +262,12 @@ Public Module GSEABackground
         }
     End Function
 
+    ''' <summary>
+    ''' Do translation of the <see cref="BackgroundGene.accessionID"/>
+    ''' </summary>
+    ''' <param name="g"></param>
+    ''' <param name="maps"></param>
+    ''' <returns></returns>
     <Extension>
     Private Function id_translation(g As BackgroundGene, maps As Dictionary(Of String, String())) As IEnumerable(Of BackgroundGene)
         Dim multipleID As String() = maps.TryGetValue(g.accessionID)
@@ -275,6 +295,13 @@ Public Module GSEABackground
                     End Function)
     End Function
 
+    ''' <summary>
+    ''' Create the id translation of the <see cref="BackgroundGene"/> inside 
+    ''' the given <see cref="Cluster"/> model <paramref name="c"/>.
+    ''' </summary>
+    ''' <param name="c"></param>
+    ''' <param name="maps"></param>
+    ''' <returns></returns>
     <Extension>
     Private Function id_translation(c As Cluster, maps As Dictionary(Of String, String())) As Cluster
         Dim geneList As BackgroundGene() = c.members _
