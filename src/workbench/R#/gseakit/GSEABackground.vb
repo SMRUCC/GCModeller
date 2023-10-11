@@ -176,7 +176,7 @@ Public Module GSEABackground
                 clusters.Add(cluster)
 
                 If ++i Mod d = 0 Then
-                    Call println(pc.Mark($"[{i}/{n}]  extract DAG graph ... {cluster.names}").ToString)
+                    Call println(pc.Mark($"({i}/{n})  extract DAG graph ... {(i / n * 100).ToString("F1")}% {cluster.names}").ToString)
                 End If
             Next
 
