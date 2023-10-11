@@ -120,7 +120,7 @@ Namespace CytoscapeGraphView
                 }
 
                 Call nodeIndex.Add(xgmmlNode.label, node)
-                Call g.AddNode(node)
+                Call g.AddNode(node, assignId:=False)
             Next
 
             Dim index As New GraphIndex(graph)

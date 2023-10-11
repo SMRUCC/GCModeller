@@ -348,9 +348,9 @@ Namespace Graph
         End Sub
 
         Public Function CreateNode(data As NodeData) As Node
-            Dim tNewNode As New Node(_nextNodeId.ToString(), data)
+            Dim tNewNode As New Node(_nextNodeId.ToString(), data) With {.ID = _nextNodeId}
             _nextNodeId += 1
-            AddNode(tNewNode)
+            AddNode(tNewNode, assignId:=False)
             Return tNewNode
         End Function
 
@@ -538,8 +538,8 @@ Namespace Graph
             Dim fromNode, toNode As Node
 
             For Each n As Node In another.vertex
-                mergeNode = New Node(_nextNodeId.ToString(), n.data)
-                AddNode(mergeNode)
+                mergeNode = New Node(_nextNodeId.ToString(), n.data) With {.ID = _nextNodeId}
+                AddNode(mergeNode, assignId:=False)
                 _nextNodeId += 1
                 mergeNode.data.origID = n.label
             Next
