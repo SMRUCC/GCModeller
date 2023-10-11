@@ -101,8 +101,15 @@ declare namespace background {
        * 
        * 
         * @param dag -
+        * @param flat Flat the ontology tree into cluster via the ``is_a`` relationship?
+        *  
+        *  default false, required of the ``enrichment.go`` function for run enrichment analysis
+        *  value true, will flat the ontology tree into cluster, then the enrichment analysis could be
+        *  applied via the ``enrichment`` function.
+        * 
+        * + default value Is ``false``.
       */
-      function background(dag: object): object;
+      function background(dag: object, flat?: boolean): object;
    }
    module geneSet {
       /**

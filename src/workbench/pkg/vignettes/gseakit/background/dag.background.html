@@ -162,7 +162,8 @@
         <h3>Usage</h3>
 
         <div style="width: 100%; padding-left: 3%; color: black;">
-            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>dag.background</strong>(<i>dag</i>);</code></pre>
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>dag.background</strong>(<i>dag</i>,
+    <i>flat</i> = <span style='color: blue !important;'>FALSE</span>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
@@ -171,6 +172,14 @@
             
 <dt>dag</dt>
 <dd><p><p>-</p></p></dd>
+
+
+<dt>flat</dt>
+<dd><p><p>Flat the ontology tree into cluster via the <code>is_a</code> relationship?</p>
+
+<p>default false, required of the <code>enrichment.go</code> function for run enrichment analysis<br />
+ value true, will flat the ontology tree into cluster, then the enrichment analysis could be<br />
+ applied via the <code>enrichment</code> function.</p></p></dd>
 
         </table>
 
