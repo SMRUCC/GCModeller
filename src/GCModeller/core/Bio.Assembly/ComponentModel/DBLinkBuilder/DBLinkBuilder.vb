@@ -56,11 +56,13 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.[Default]
 Imports Microsoft.VisualBasic.Text.Xml.Models
 
 Namespace ComponentModel.DBLinkBuilder
 
     Public Class DBLinks : Inherits DBLinksManager(Of DBLink)
+        Implements IsEmpty
 
         Dim _CheBI As DBLink(), _PubChem As DBLink
         Dim __3DMET, _HMDB, _KNApSAcK, _MASSBANK, _NIKKAJI, _PDB_CCD As DBLink
@@ -78,7 +80,7 @@ Namespace ComponentModel.DBLinkBuilder
         End Sub
 
         Sub New(links As IEnumerable(Of NamedValue))
-            Call Initialize(links.Select(Function(link) New DBLink With {.DBName = link.name, .Entry = link.text}))
+            Call Initialize(links.Select(Function(link) New DBLink With {.DBName = link.name, .entry = link.text}))
         End Sub
 
         'Private Shared Iterator Function KeggParserPatched(xref As IEnumerable(Of DBLink)) As IEnumerable(Of DBLink)
@@ -174,7 +176,7 @@ Namespace ComponentModel.DBLinkBuilder
             End Get
         End Property
 
-        Public Overrides ReadOnly Property IsEmpty As Boolean
+        Public Overrides ReadOnly Property IsEmpty As Boolean Implements IsEmpty.IsEmpty
             Get
                 Return _CheBI.IsNullOrEmpty AndAlso
                     _PubChem Is Nothing AndAlso
@@ -186,5 +188,7 @@ Namespace ComponentModel.DBLinkBuilder
                     _PDB_CCD Is Nothing
             End Get
         End Property
+
+        Private ReadOnly Property IsEmpty_IsEmpty As Boolean Implements IsEmpty.IsEmpty
     End Class
 End Namespace

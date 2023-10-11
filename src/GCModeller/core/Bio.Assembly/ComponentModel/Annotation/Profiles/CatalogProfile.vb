@@ -56,6 +56,7 @@
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Language.[Default]
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 
@@ -64,7 +65,7 @@ Namespace ComponentModel.Annotation
     ''' <summary>
     ''' a wrapper of <see cref="Dictionary(Of String, Double)"/>
     ''' </summary>
-    Public Class CatalogProfile : Implements Enumeration(Of NamedValue(Of Double))
+    Public Class CatalogProfile : Implements Enumeration(Of NamedValue(Of Double)), IsEmpty
 
         Public Property profile As New Dictionary(Of String, Double)
         Public Property information As New Dictionary(Of String, String)
@@ -73,7 +74,7 @@ Namespace ComponentModel.Annotation
         ''' does the <see cref="profile"/> is empty?
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property isEmpty As Boolean
+        Public ReadOnly Property isEmpty As Boolean Implements Language.Default.IsEmpty.IsEmpty
             Get
                 Return profile.IsNullOrEmpty
             End Get

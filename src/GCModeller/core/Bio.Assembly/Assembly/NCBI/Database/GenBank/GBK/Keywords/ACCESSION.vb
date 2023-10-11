@@ -73,6 +73,7 @@
 #End Region
 
 Imports System.Text
+Imports Microsoft.VisualBasic.Language.[Default]
 
 Namespace Assembly.NCBI.GenBank.GBFF.Keywords
 
@@ -167,12 +168,13 @@ RETURN_EMPTY:   Return New ACCESSION With {
     End Class
 
     Public Class VERSION : Inherits KeyWord
+        Implements IsEmpty
 
         Public Property Ver As String
         Public Property AccessionID As String
         Public Property GI As String
 
-        Public ReadOnly Property IsEmpty As Boolean
+        Public ReadOnly Property IsEmpty As Boolean Implements Language.Default.IsEmpty.IsEmpty
             Get
                 Return String.IsNullOrEmpty(Ver) AndAlso
                     String.IsNullOrEmpty(AccessionID) AndAlso
