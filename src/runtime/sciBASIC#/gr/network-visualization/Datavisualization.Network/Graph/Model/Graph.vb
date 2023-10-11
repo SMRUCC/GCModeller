@@ -371,7 +371,11 @@ Namespace Graph
                 .ID = _nextNodeId
             }
             _nextNodeId += 1
-            AddNode(tNewNode)
+
+            ' the id of the new node already been assigned
+            ' via the nextNodeId, no needs for assign it again
+            Call AddNode(tNewNode, assignId:=False)
+
             Return tNewNode
         End Function
 
