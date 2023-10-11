@@ -1,52 +1,52 @@
 ﻿#Region "Microsoft.VisualBasic::ee652e746c508318b8be0cdda2b00660, GCModeller\data\GO_gene-ontology\GeneOntology\DAG\Builder.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 107
-    '    Code Lines: 86
-    ' Comment Lines: 5
-    '   Blank Lines: 16
-    '     File Size: 3.81 KB
+' Summaries:
 
 
-    '     Module Builder
-    ' 
-    '         Function: (+2 Overloads) BuildTree, ConstructNode, CreateClusterMembers, xrefParser
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 107
+'    Code Lines: 86
+' Comment Lines: 5
+'   Blank Lines: 16
+'     File Size: 3.81 KB
+
+
+'     Module Builder
+' 
+'         Function: (+2 Overloads) BuildTree, ConstructNode, CreateClusterMembers, xrefParser
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -63,10 +63,15 @@ Namespace DAG
         <Extension>
         Public Function CreateClusterMembers(tree As Graph) As Dictionary(Of String, List(Of TermNode))
             Dim clusters As New Dictionary(Of String, List(Of TermNode))
-            Dim family As Graph.InheritsChain()
+            Dim familyLineage As (term As TermNode, family As Graph.InheritsChain())() = (
+                From term As TermNode
+                In tree.DAG.Values.ToArray.AsParallel
+                Let family = tree.Family(term.id).ToArray
+                Select (term, family)).ToArray
 
-            For Each term As TermNode In tree.DAG.Values
-                family = tree.Family(term.id).ToArray
+            For Each i In familyLineage
+                Dim family As Graph.InheritsChain() = i.family
+                Dim term As TermNode = i.term
 
                 For Each node As Graph.InheritsChain In family
                     For Each parent In node.Route
@@ -86,8 +91,11 @@ Namespace DAG
         Public Function BuildTree(file As IEnumerable(Of Term)) As Dictionary(Of TermNode)
             Dim tree As New Dictionary(Of TermNode)
 
-            For Each x As Term In file
-                tree += x.ConstructNode
+            ' parse the vectex node data in parallel
+            For Each v As TermNode In (From ti As Term
+                                       In file.ToArray.AsParallel
+                                       Select ti.ConstructNode)
+                Call tree.Add(v)
             Next
 
             For Each node As TermNode In tree.Values
@@ -111,7 +119,8 @@ Namespace DAG
         ''' </summary>
         ''' <param name="term"></param>
         ''' <returns></returns>
-        <Extension> Public Function ConstructNode(term As Term) As TermNode
+        <Extension>
+        Public Function ConstructNode(term As Term) As TermNode
             Dim is_a = term.is_a _
                 .SafeQuery _
                 .Select(Function(s) New is_a(s$)) _
