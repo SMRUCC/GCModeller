@@ -81,6 +81,7 @@ Public Module KEGGCompounds
         Dim backgroundSize% = 0
         Dim clusters As New List(Of Cluster)
         Dim names As NamedValue(Of String)()
+        Dim members As BackgroundGene()
 
         If KO Is Nothing Then
             KO = New String() {}
@@ -97,13 +98,8 @@ Public Module KEGGCompounds
             If KO.Count > 0 AndAlso Not names.Any(Function(id) id.Name Like KO) Then
                 Call $"Skip {map.name}".__INFO_ECHO
                 Continue For
-            End If
-
-            clusters += New Cluster With {
-                .description = map.name,
-                .ID = map.EntryId,
-                .names = map.name,
-                .members = names _
+            Else
+                members = names _
                     .Where(Function(a) a.Name.IsPattern("[CDG]\d+")) _
                     .Select(Function(c)
                                 Return New BackgroundGene With {
@@ -115,6 +111,18 @@ Public Module KEGGCompounds
                                 }
                             End Function) _
                     .ToArray
+
+                ' skip of the empty cluster?
+                If members.IsNullOrEmpty Then
+                    Continue For
+                End If
+            End If
+
+            clusters += New Cluster With {
+                .description = map.name,
+                .ID = map.EntryId,
+                .names = map.name,
+                .members = members
             }
         Next
 
