@@ -74,13 +74,15 @@ Namespace DAG
         <Extension>
         Public Function CreateClusterMembers(tree As Graph) As Dictionary(Of String, List(Of TermNode))
             Dim clusters As New Dictionary(Of String, List(Of TermNode))
-            Dim familyLineage As (term As TermNode, family As Graph.InheritsChain())() = (
+            Dim familyLineage As IEnumerable(Of (term As TermNode, family As Graph.InheritsChain())) =
                 From term As TermNode
                 In tree.DAG.Values.ToArray.AsParallel
                 Let family = tree.Family(term.id).ToArray
-                Select (term, family)).ToArray
+                Select (term, family)
 
-            For Each i In familyLineage
+            Call VBDebugger.EchoLine("Extract the family lineage relationship data...")
+
+            For Each i In familyLineage.ToArray
                 Dim family As Graph.InheritsChain() = i.family
                 Dim term As TermNode = i.term
 
@@ -101,6 +103,8 @@ Namespace DAG
         <Extension>
         Public Function BuildTree(file As IEnumerable(Of Term)) As Dictionary(Of TermNode)
             Dim tree As New Dictionary(Of TermNode)
+
+            Call VBDebugger.EchoLine("Parse the ontology lineage information and build DAG tree...")
 
             ' parse the vectex node data in parallel
             For Each v As TermNode In (From ti As Term
