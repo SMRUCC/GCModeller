@@ -113,8 +113,10 @@ declare namespace background {
         *  applied via the ``enrichment`` function.
         * 
         * + default value Is ``false``.
+        * @param env 
+        * + default value Is ``null``.
       */
-      function background(dag: object, flat?: boolean): object;
+      function background(dag: object, flat?: boolean, env?: object): object;
    }
    module geneSet {
       /**
