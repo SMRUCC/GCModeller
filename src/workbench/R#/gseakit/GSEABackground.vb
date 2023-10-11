@@ -171,6 +171,10 @@ Public Module GSEABackground
             background.size = background.clusters.BackgroundSize
         End If
 
+        background.name = dag.headers.Ontology
+        background.id = background.name
+        background.comments = dag.ToString
+
         Return background
     End Function
 
