@@ -219,7 +219,7 @@ Public Module GSEABackground
             .comments = background.comments,
             .id = background.id,
             .name = background.name,
-            .size = -1
+            .size = .clusters.BackgroundSize
         }
     End Function
 
@@ -739,15 +739,36 @@ Public Module GSEABackground
     ''' <summary>
     ''' create kegg maps background for the metabolism data analysis
     ''' </summary>
-    ''' <param name="kegg"></param>
+    ''' <param name="kegg">Should be a collection of the kegg map object</param>
     ''' <returns></returns>
     <ExportAPI("metabolism.background")>
-    Public Function metabolismBackground(kegg As MapRepository, Optional filter As String() = Nothing) As Background
+    <RApiReturn(GetType(Background))>
+    Public Function metabolismBackground(<RRawVectorArgument>
+                                         kegg As Object,
+                                         Optional filter As String() = Nothing,
+                                         Optional env As Environment = Nothing) As Object
+
         Dim mapIdFilter As Index(Of String) = filter _
             .SafeQuery _
             .Select(Function(id) id.Match("\d+")) _
             .Indexing
-        Dim background As Background = kegg.Maps _
+        Dim maps As Map()
+
+        If TypeOf kegg Is MapRepository Then
+            maps = DirectCast(kegg, MapRepository).Maps _
+                .Select(Function(m) DirectCast(m, Map)) _
+                .ToArray
+        Else
+            Dim pull As pipeline = pipeline.TryCreatePipeline(Of Map)(kegg, env)
+
+            If pull.isError Then
+                Return pull.getError
+            End If
+
+            maps = pull.populates(Of Map)(env).ToArray
+        End If
+
+        Dim background As Background = maps _
             .Where(Function(map)
                        If mapIdFilter.Count > 0 Then
                            Return map.EntryId.Match("\d+") Like mapIdFilter

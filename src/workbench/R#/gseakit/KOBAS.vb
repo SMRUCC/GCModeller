@@ -57,6 +57,11 @@ Imports Microsoft.VisualBasic.Linq
 <Package("KOBAS")>
 Module KOBAS
 
+    ''' <summary>
+    ''' Read KOBAS enrichment output result table file
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <returns></returns>
     <ExportAPI("read.KEGGpathway")>
     Public Function KEGGPathway(file As String) As EnrichmentTerm()
         Return file.SplitTable _
