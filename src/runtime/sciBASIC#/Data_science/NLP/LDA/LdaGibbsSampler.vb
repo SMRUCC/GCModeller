@@ -327,7 +327,7 @@ Namespace LDA
         ''' <param name="K"></param>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub gibbs(K As Integer)
-            gibbs(K, 2.0, 0.5)
+            Call gibbs(K, 2.0, 0.5)
         End Sub
 
         ''' <summary>
@@ -339,7 +339,7 @@ Namespace LDA
             Dim v As Integer() = z(zi)
             Dim gibbs As New GibbsSamplingTask(v, zi, Me)
 
-            Call gibbs.Run()
+            Call gibbs.Solve()
         End Sub
 
         ''' <summary>
