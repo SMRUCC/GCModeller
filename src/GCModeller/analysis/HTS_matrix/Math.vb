@@ -50,6 +50,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.Statistics.Hypothesis
@@ -60,6 +61,17 @@ Imports stdNum = System.Math
 ''' math helper for HTS matrix
 ''' </summary>
 Public Module Math
+
+    <Extension>
+    Public Function Sum(expr As IEnumerable(Of DataFrameRow)) As Vector
+        Dim v As Vector = Nothing
+
+        For Each gene As DataFrameRow In expr.SafeQuery
+            v = v + gene.CreateVector
+        Next
+
+        Return v
+    End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
