@@ -172,15 +172,16 @@
         <table>
             
 <dt>expr</dt>
-<dd><p><p>-</p></p></dd>
+<dd><p><p>The gene expression matrix object</p></p></dd>
 
 
 <dt>file</dt>
-<dd><p><p>-</p></p></dd>
+<dd><p><p>The file path to a csv matrix file that used <br />
+ for export the given <strong><code>expr</code></strong> matrix data.</p></p></dd>
 
 
 <dt>id</dt>
-<dd><p><p>-</p></p></dd>
+<dd><p><p>The string content inside the first cell</p></p></dd>
 
 
 <dt>binary</dt>
@@ -197,11 +198,12 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type boolean.
+        <p>A logical vector for indicates that the expression <br />
+ matrix save success or not.</p>
 
-        <h3 style="display: none;">Examples</h3>
+        <h3 style="display: block;">Examples</h3>
 
-        
+        <pre><code>geneExpression::write.expr_matrix(expr_mat, file = "/path/to/matrix.csv", id = "gene_id");</code></pre>
 
         <hr />
         <div style="text-align: center;">[Package <em>geneExpression</em> version 1.0.0.0 <a
