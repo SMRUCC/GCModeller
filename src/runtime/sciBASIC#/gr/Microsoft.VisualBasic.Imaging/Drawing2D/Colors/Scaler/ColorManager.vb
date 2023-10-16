@@ -65,10 +65,9 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
-Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports std = System.Math
 
-Namespace Graphic
+Namespace Drawing2D.Colors.Scaler
 
     Public MustInherit Class ColorProfile
 
