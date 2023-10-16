@@ -12,16 +12,21 @@ Filter the geneID rows
 .PP
 .SH OPTIONS
 .PP
-\fBHTS\fB \fR\- -. 
+\fBHTS\fB \fR\- A gene expression matrix object. 
 .PP
 .PP
-\fBgeneId\fB \fR\- -. 
+\fBgeneId\fB \fR\- A character vector for run the matrix feature row filter. 
 .PP
 .PP
 \fBexclude\fB \fR\- matrix a subset of the data matrix excepts the 
  input **`geneId`** features or just make a subset which 
  just contains the input **`geneId`** features.
 . 
+.PP
+.SH VALUE
+.PP
+A new expression matrix object that consist with gene feature
+ rows subset from the original matrix input.
 .PP
 .SH SEE ALSO
 geneExpression

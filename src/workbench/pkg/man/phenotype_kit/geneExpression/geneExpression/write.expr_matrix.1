@@ -13,19 +13,25 @@ write the gene expression data matrix file
 .PP
 .SH OPTIONS
 .PP
-\fBexpr\fB \fR\- -. 
+\fBexpr\fB \fR\- The gene expression matrix object. 
 .PP
 .PP
-\fBfile\fB \fR\- -. 
+\fBfile\fB \fR\- The file path to a csv matrix file that used 
+ for export the given **`expr`** matrix data.. 
 .PP
 .PP
-\fBid\fB \fR\- -. 
+\fBid\fB \fR\- The string content inside the first cell. 
 .PP
 .PP
 \fBbinary\fB \fR\- 
  write matrix data in binary data format? default value 
  is False means write matrix as csv matrix file.
 . 
+.PP
+.SH VALUE
+.PP
+A logical vector for indicates that the expression 
+ matrix save success or not.
 .PP
 .SH SEE ALSO
 geneExpression
