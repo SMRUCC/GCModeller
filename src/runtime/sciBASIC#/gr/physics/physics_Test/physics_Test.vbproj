@@ -107,6 +107,12 @@
     <Compile Include="Form2.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Form3.Designer.vb">
+      <DependentUpon>Form3.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form3.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Program.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -133,6 +139,9 @@
     <EmbeddedResource Include="Form2.resx">
       <DependentUpon>Form2.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Form3.resx">
+      <DependentUpon>Form3.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
@@ -153,6 +162,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Data_science\Graph\graph-netcore5.vbproj">
+      <Project>{3db1da39-ef73-4bf4-bb20-0e9aedc4a900}</Project>
+      <Name>graph-netcore5</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Data_science\Mathematica\Math\Math\Math.NET5.vbproj">
       <Project>{fa06c326-92cd-4a8b-bb50-ed7d4a7da016}</Project>
       <Name>Math.NET5</Name>
