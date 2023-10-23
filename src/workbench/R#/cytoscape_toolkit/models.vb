@@ -55,6 +55,7 @@ Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports REnv = SMRUCC.Rsharp.Runtime
 Imports stdNum = System.Math
 
@@ -74,9 +75,9 @@ Module models
 
     <ExportAPI("sif")>
     Public Function sif(<RRawVectorArgument> source As Object, <RRawVectorArgument> interaction As Object, <RRawVectorArgument> target As Object) As SIF()
-        Dim U As String() = REnv.asVector(Of String)(source)
-        Dim type As String() = REnv.asVector(Of String)(interaction)
-        Dim V As String() = REnv.asVector(Of String)(target)
+        Dim U As String() = CLRVector.asCharacter(source)
+        Dim type As String() = CLRVector.asCharacter(interaction)
+        Dim V As String() = CLRVector.asCharacter(target)
 
         Return Iterator Function() As IEnumerable(Of SIF)
                    Dim n As Integer = stdNum.Max(U.Length, V.Length)
