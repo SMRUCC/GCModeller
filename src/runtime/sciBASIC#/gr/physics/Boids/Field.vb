@@ -1,6 +1,6 @@
-﻿Imports System
-Imports System.Collections.Generic
-Imports System.Linq
+﻿Imports Microsoft.VisualBasic.Data.GraphTheory.GridGraph
+Imports Microsoft.VisualBasic.Parallel
+Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
 Namespace Boids
 
@@ -10,44 +10,91 @@ Namespace Boids
     ''' <remarks>
     ''' https://github.com/swharden/Csharp-Data-Visualization/tree/main/dev/old/drawing/boids
     ''' </remarks>
-    Public Class Field
-        Public ReadOnly Width As Double
-        Public ReadOnly Height As Double
-        Public ReadOnly Boids As List(Of Boid) = New List(Of Boid)()
-        Private ReadOnly Rand As Random = New Random()
+    Public Class Field : Implements IContainer(Of Boid)
+
+        Public ReadOnly Property Width As Double Implements IContainer(Of Boid).Width
+        Public ReadOnly Property Height As Double Implements IContainer(Of Boid).Height
+        Public ReadOnly Property Entity As IReadOnlyCollection(Of Boid) Implements IContainer(Of Boid).Entity
+            Get
+                Return Boids
+            End Get
+        End Property
+
+        Public ReadOnly Property MaxSpeed As Double = 6
+
+        Default Public ReadOnly Property Item(i As Integer) As Boid
+            Get
+                Return Boids(i)
+            End Get
+        End Property
+
+        Dim Boids As New List(Of Boid)
+        Dim grid As Grid(Of Boid())
+        Dim radius As Single = 15
 
         Public Sub New(width As Double, height As Double, Optional boidCount As Integer = 100)
             Call (width, height).Set(Me.Width, Me.Height)
 
             For i = 0 To boidCount - 1
-                Boids.Add(New Boid(Rand, width, height))
+                Boids.Add(New Boid(randf.seeds, width, height))
             Next
+
+            VectorTask.n_threads = App.CPUCoreNumbers
+            task = New PhysicTask(Me)
         End Sub
 
-        Public Sub Advance(Optional bounceOffWalls As Boolean = True, Optional wrapAroundEdges As Boolean = False)
-            Dim flockXvel As Double = Nothing, flockYvel As Double = Nothing, alignXvel As Double = Nothing, alignYvel As Double = Nothing, avoidXvel As Double = Nothing, avoidYvel As Double = Nothing, predXvel As Double = Nothing, predYval As Double = Nothing
-            ' update void speed and direction (velocity) based on rules
-            For Each boid In Boids
-                Flock(boid, 50, 0.0003).Set(flockXvel, flockYvel)
-                Align(boid, 50, 0.01).Set(alignXvel, alignYvel)
-                Avoid(boid, 20, 0.001).Set(avoidXvel, avoidYvel)
-                Predator(boid, 150, 0.00005).Set(predXvel, predYval)
+        Dim task As PhysicTask
 
-                boid.Xvel += flockXvel + avoidXvel + alignXvel + predXvel
-                boid.Yvel += flockYvel + avoidYvel + alignYvel + predYval
-            Next
+        Public Sub Advance(Optional bounceOffWalls As Boolean = True, Optional wrapAroundEdges As Boolean = False)
+            grid = Me.EncodeGrid(radius)
+            task.Run()
 
             ' move all boids forward in time
+            ' just update the fields of each boid
             For Each boid In Boids
-                boid.MoveForward()
+                boid.MoveForward(maxSpeed:=MaxSpeed)
                 If bounceOffWalls Then Me.BounceOffWalls(boid)
                 If wrapAroundEdges Then WrapAround(boid)
             Next
         End Sub
 
-        Private Function Flock(boid As Boid, distance As Double, power As Double) As (Double, Double)
+        Private Class PhysicTask : Inherits VectorTask
+
+            ReadOnly field As Field
+            ReadOnly boids As List(Of Boid)
+
+            Sub New(field As Field)
+                Call MyBase.New(field.Boids.Count)
+                Me.field = field
+                Me.boids = field.Boids
+            End Sub
+
+            Protected Overrides Sub Solve(start As Integer, ends As Integer)
+                Dim flockXvel As Double = Nothing, flockYvel As Double = Nothing,
+               alignXvel As Double = Nothing, alignYvel As Double = Nothing,
+               avoidXvel As Double = Nothing, avoidYvel As Double = Nothing,
+               predXvel As Double = Nothing, predYval As Double = Nothing
+
+                Const distance As Double = 50
+
+                ' update void speed and direction (velocity) based on rules
+                For i As Integer = start To ends
+                    Dim boid As Boid = boids(i)
+                    Dim neighbors As Boid() = field.grid.SpatialLookup(boid, field.radius).Where(Function(x) x.GetDistance(boid) < distance).ToArray
+
+                    field.Flock(boid, neighbors, 0.0003).Set(flockXvel, flockYvel)
+                    field.Align(boid, neighbors, 0.01).Set(alignXvel, alignYvel)
+                    field.Avoid(boid, 20, 0.001).Set(avoidXvel, avoidYvel)
+                    field.Predator(boid, 150, 0.00005).Set(predXvel, predYval)
+
+                    boid.Xvel += flockXvel + avoidXvel + alignXvel + predXvel
+                    boid.Yvel += flockYvel + avoidYvel + alignYvel + predYval
+                Next
+            End Sub
+        End Class
+
+        Private Function Flock(boid As Boid, neighbors As Boid(), power As Double) As (Double, Double)
             ' point toward the center of the flock (mean flock boid position)
-            Dim neighbors = Boids.Where(Function(x) x.GetDistance(boid) < distance)
             Dim meanX As Double = neighbors.Sum(Function(x) x.x) / neighbors.Count()
             Dim meanY As Double = neighbors.Sum(Function(x) x.y) / neighbors.Count()
             Dim deltaCenterX = meanX - boid.x
@@ -57,10 +104,10 @@ Namespace Boids
 
         Private Function Avoid(boid As Boid, distance As Double, power As Double) As (Double, Double)
             ' point away as boids get close
-            Dim neighbors = Boids.Where(Function(x) x.GetDistance(boid) < distance)
+            Dim neighbors = grid.SpatialLookup(boid, radius).Where(Function(x) x.GetDistance(boid) < distance)
             Dim sumClosenessX As Double = Nothing, sumClosenessY As Double = Nothing
 
-            For Each neighbor In neighbors
+            For Each neighbor As Boid In neighbors
                 Dim closeness = distance - boid.GetDistance(neighbor)
                 sumClosenessX += (boid.x - neighbor.x) * closeness
                 sumClosenessY += (boid.y - neighbor.y) * closeness
@@ -68,12 +115,13 @@ Namespace Boids
             Return (sumClosenessX * power, sumClosenessY * power)
         End Function
 
-        Public PredatorCount As Integer = 3
+        Public PredatorCount As Integer = 6
+
         Private Function Predator(boid As Boid, distance As Double, power As Double) As (Double, Double)
             ' point away as predators get close
             Dim sumClosenessX As Double = Nothing, sumClosenessY As Double = Nothing
 
-            For i = 0 To PredatorCount - 1
+            For i As Integer = 0 To PredatorCount - 1
                 Dim lPredator = Boids(i)
                 Dim distanceAway = boid.GetDistance(lPredator)
                 If distanceAway < distance Then
@@ -85,9 +133,9 @@ Namespace Boids
             Return (sumClosenessX * power, sumClosenessY * power)
         End Function
 
-        Private Function Align(boid As Boid, distance As Double, power As Double) As (Double, Double)
+        Private Function Align(boid As Boid, neighbors As Boid(), power As Double) As (Double, Double)
             ' point toward the center of the flock (mean flock boid position)
-            Dim neighbors = Boids.Where(Function(x) x.GetDistance(boid) < distance)
+            ' Dim neighbors = grid.SpatialLookup(boid, radius).Where(Function(x) x.GetDistance(boid) < distance).ToArray
             Dim meanXvel As Double = neighbors.Sum(Function(x) x.Xvel) / neighbors.Count()
             Dim meanYvel As Double = neighbors.Sum(Function(x) x.Yvel) / neighbors.Count()
             Dim dXvel = meanXvel - boid.Xvel
