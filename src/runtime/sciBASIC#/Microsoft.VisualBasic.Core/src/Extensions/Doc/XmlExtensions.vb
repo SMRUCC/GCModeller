@@ -376,7 +376,7 @@ Public Module XmlExtensions
                 xml = Mid(xml, 1, 512) & "..."
             End If
 
-            ex = New Exception($"class_name: {schema.Name}, and the xml fragment: {xml}")
+            ex = New Exception($"class_name: {schema.Name}, and the xml fragment: {xml}", ex)
 
             App.LogException(ex, curMethod)
 
