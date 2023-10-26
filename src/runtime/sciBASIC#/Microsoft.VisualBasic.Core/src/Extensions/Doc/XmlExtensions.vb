@@ -372,9 +372,11 @@ Public Module XmlExtensions
         Catch ex As Exception
             Dim curMethod As String = MethodBase.GetCurrentMethod.GetFullName
 
-            If Len(xml) <= 4096 * 100 Then
-                ex = New Exception(xml, ex)
+            If Len(xml) > 512 Then
+                xml = Mid(xml, 1, 512) & "..."
             End If
+
+            ex = New Exception($"class_name: {schema.Name}, and the xml fragment: {xml}")
 
             App.LogException(ex, curMethod)
 
