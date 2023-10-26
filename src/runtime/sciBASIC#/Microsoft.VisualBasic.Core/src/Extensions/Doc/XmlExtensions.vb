@@ -412,7 +412,11 @@ Public Module XmlExtensions
     ''' <typeparam name="T"></typeparam>
     ''' <param name="xml">是Xml文件的文件内容而非文件路径</param>
     ''' <returns></returns>
-    ''' <remarks></remarks>
+    ''' <remarks>
+    ''' the input <paramref name="xml"/> probably has no namespace attribute data
+    ''' inside the xml root tag, so the <see cref="NamespaceIgnorantXmlTextReader"/>
+    ''' will be used for parse the xml in this helper function?
+    ''' </remarks>
     ''' 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
@@ -428,7 +432,7 @@ Public Module XmlExtensions
 
         Try
             Using s As New StringReader(s:=xmlDoc)
-                Return DirectCast(New XmlSerializer(GetType(T)).Deserialize(s), T)
+                Return DirectCast(New XmlSerializer(GetType(T)).Deserialize(New NamespaceIgnorantXmlTextReader(s)), T)
             End Using
         Catch ex As Exception
             Dim root$ = xml.GetBetween("<", ">").Split.First
@@ -439,6 +443,20 @@ Public Module XmlExtensions
             Throw New Exception("Details at file dump: " & file, ex)
         End Try
     End Function
+
+    ' helper class to ignore namespaces when de-serializing
+    Public Class NamespaceIgnorantXmlTextReader : Inherits XmlTextReader
+
+        Public Overrides ReadOnly Property NamespaceURI As String
+            Get
+                Return ""
+            End Get
+        End Property
+
+        Sub New(reader As TextReader)
+            Call MyBase.New(reader)
+        End Sub
+    End Class
 
     ''' <summary>
     ''' Write a xml content as text into the target file data
