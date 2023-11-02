@@ -22,3 +22,7 @@
 [submodule "src/runtime/Darwinism"]
 	path = src/runtime/Darwinism
 	url = https://gitee.com/xieguigang/Darwinism.git
+[submodule "src/runtime/GNUplot"]
+	path = src/runtime/GNUplot
+	url = https://github.com/xieguigang/GNUplot.git
+	ignore = all
