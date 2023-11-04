@@ -53,6 +53,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 
@@ -82,6 +83,7 @@ Public Class DataFrameRow : Implements INamedValue, IVector
     ''' <param name="i"></param>
     ''' <returns></returns>
     Default Public ReadOnly Property Value(i As Integer) As Double
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
             Return _experiments(i)
         End Get
@@ -93,6 +95,7 @@ Public Class DataFrameRow : Implements INamedValue, IVector
     ''' <param name="i"></param>
     ''' <returns></returns>
     Default Public ReadOnly Property Value(i As Integer()) As Double()
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
             Return i _
                 .Select(Function(idx) _experiments(idx)) _
@@ -115,6 +118,14 @@ Public Class DataFrameRow : Implements INamedValue, IVector
             End If
         End Get
     End Property
+
+    Sub New()
+    End Sub
+
+    Sub New(sample As NamedCollection(Of Double))
+        Me.geneID = sample.name
+        Me.experiments = sample.value
+    End Sub
 
     Public Function ToDataSet(labels As String()) As Dictionary(Of String, Double)
         Dim table As New Dictionary(Of String, Double)
@@ -145,6 +156,8 @@ Public Class DataFrameRow : Implements INamedValue, IVector
     ''' get sum of current expression vector
     ''' </summary>
     ''' <returns></returns>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function Sum() As Double
         Return experiments.Sum
     End Function
@@ -153,6 +166,7 @@ Public Class DataFrameRow : Implements INamedValue, IVector
         Return $"{geneID} -> {experiments.Select(Function(a) a.ToString("F3")).JoinBy(", ")}"
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function Max() As Double
         Return experiments.Max
     End Function
