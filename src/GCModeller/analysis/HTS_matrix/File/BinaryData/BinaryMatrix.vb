@@ -123,6 +123,12 @@ Public Module BinaryMatrix
         Loop
     End Function
 
+    ''' <summary>
+    ''' save the HTS matrix object as binary file
+    ''' </summary>
+    ''' <param name="mat"></param>
+    ''' <param name="file"></param>
+    ''' <returns></returns>
     <Extension>
     Public Function Save(mat As Matrix, file As Stream) As Boolean
         Using writer As New BinaryWriter(file, Encoding.UTF8)

@@ -457,7 +457,8 @@ Module geneExpression
     ''' </returns>
     <ExportAPI("load.expr0")>
     <RApiReturn(GetType(Matrix), GetType(HTSMatrixReader))>
-    Public Function readBinaryMatrix(file As Object,
+    Public Function readBinaryMatrix(<RRawVectorArgument>
+                                     file As Object,
                                      Optional lazy As Boolean = False,
                                      Optional env As Environment = Nothing) As Object
         Dim stream = SMRUCC.Rsharp.GetFileStream(file, FileAccess.Read, env)

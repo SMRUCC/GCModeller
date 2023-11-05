@@ -6,6 +6,9 @@ Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Serialization.BinaryDumping
 Imports Microsoft.VisualBasic.Serialization.JSON
 
+''' <summary>
+''' the matrix shape dimension is features in rows and the sample observation in columns
+''' </summary>
 Public Class HTSMatrixReader : Inherits MatrixViewer
     Implements IDisposable
 
@@ -41,6 +44,14 @@ Public Class HTSMatrixReader : Inherits MatrixViewer
         End Get
     End Property
 
+    ''' <summary>
+    ''' the matrix shape dimension is features in rows and 
+    ''' the sample observation in columns:
+    ''' 
+    ''' 1. nsamples: the matrix column width
+    ''' 2. nfeature: the matrix row height
+    ''' </summary>
+    ''' <returns></returns>
     Public Overrides ReadOnly Property Size As (nsample As Integer, nfeature As Integer)
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
@@ -137,25 +148,25 @@ Public Class HTSMatrixReader : Inherits MatrixViewer
     Protected Overridable Sub Dispose(disposing As Boolean)
         If Not disposedValue Then
             If disposing Then
-                ' TODO: ÊÍ·ÅÍÐ¹Ü×´Ì¬(ÍÐ¹Ü¶ÔÏó)
+                ' TODO: ï¿½Í·ï¿½ï¿½Ð¹ï¿½×´Ì¬(ï¿½Ð¹Ü¶ï¿½ï¿½ï¿½)
                 Call file.Dispose()
             End If
 
-            ' TODO: ÊÍ·ÅÎ´ÍÐ¹ÜµÄ×ÊÔ´(Î´ÍÐ¹ÜµÄ¶ÔÏó)²¢ÖØÐ´ÖÕ½áÆ÷
-            ' TODO: ½«´óÐÍ×Ö¶ÎÉèÖÃÎª null
+            ' TODO: ï¿½Í·ï¿½Î´ï¿½Ð¹Üµï¿½ï¿½ï¿½Ô´(Î´ï¿½Ð¹ÜµÄ¶ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½Ð´ï¿½Õ½ï¿½ï¿½ï¿½
+            ' TODO: ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¶ï¿½ï¿½ï¿½ï¿½ï¿½Îª null
             disposedValue = True
         End If
     End Sub
 
-    ' ' TODO: ½öµ±¡°Dispose(disposing As Boolean)¡±ÓµÓÐÓÃÓÚÊÍ·ÅÎ´ÍÐ¹Ü×ÊÔ´µÄ´úÂëÊ±²ÅÌæ´úÖÕ½áÆ÷
+    ' ' TODO: ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Dispose(disposing As Boolean)ï¿½ï¿½Óµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í·ï¿½Î´ï¿½Ð¹ï¿½ï¿½ï¿½Ô´ï¿½Ä´ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ½ï¿½ï¿½ï¿½
     ' Protected Overrides Sub Finalize()
-    '     ' ²»Òª¸ü¸Ä´Ë´úÂë¡£Çë½«ÇåÀí´úÂë·ÅÈë¡°Dispose(disposing As Boolean)¡±·½·¨ÖÐ
+    '     ' ï¿½ï¿½Òªï¿½ï¿½ï¿½Ä´Ë´ï¿½ï¿½ë¡£ï¿½ë½«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ë¡°Dispose(disposing As Boolean)ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     '     Dispose(disposing:=False)
     '     MyBase.Finalize()
     ' End Sub
 
     Public Sub Dispose() Implements IDisposable.Dispose
-        ' ²»Òª¸ü¸Ä´Ë´úÂë¡£Çë½«ÇåÀí´úÂë·ÅÈë¡°Dispose(disposing As Boolean)¡±·½·¨ÖÐ
+        ' ï¿½ï¿½Òªï¿½ï¿½ï¿½Ä´Ë´ï¿½ï¿½ë¡£ï¿½ë½«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ë¡°Dispose(disposing As Boolean)ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         Dispose(disposing:=True)
         GC.SuppressFinalize(Me)
     End Sub
