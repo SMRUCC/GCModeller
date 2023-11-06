@@ -1,8 +1,12 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Algorithm.BinaryTree
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.GraphTheory.KdTree
 Imports Microsoft.VisualBasic.DataMining.KMeans
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Math.Correlations
+Imports Microsoft.VisualBasic.Math.LinearAlgebra
 
 Public Class KNNGraph
 
@@ -36,9 +40,23 @@ Public Class KNNGraph
     ''' 2. build cluster tree
     ''' 3. metric via the jaccard index between the node via in tree construction.
     ''' </remarks>
-    Public Function GetGraph(k As Integer, Optional jaccard_cutoff As Double = 0.85) As ClusterTree
+    Public Function GetGraph(k As Integer,
+                             Optional jaccard_cutoff As Double = 0.85,
+                             Optional div_factor As Double = 2) As BTreeCluster
+
         Dim knn = Me.KNN(k).ToArray
-        Dim tree As New 
+        Dim metric As New JaccardAlignment(
+            knn, raw,
+            equals:=jaccard_cutoff,
+            gt:=jaccard_cutoff / div_factor
+        )
+        Dim btree As New AVLTree(Of String, String)(metric.GetComparer, Function(str) str)
+
+        For Each id As String In list.Keys
+            Call btree.Add(id, id, valueReplace:=False)
+        Next
+
+        Return BTreeCluster.GetClusters(btree, metric)
     End Function
 
     ''' <summary>
@@ -58,6 +76,39 @@ Public Class KNNGraph
             }
         Next
     End Function
+
+    Private Class JaccardAlignment : Inherits ComparisonProvider
+
+        ReadOnly linkSet As Dictionary(Of String, String())
+        ReadOnly rawdata As Dictionary(Of String, ClusterEntity)
+
+        Sub New(knn As IEnumerable(Of NamedCollection(Of String)),
+                raw As IEnumerable(Of ClusterEntity),
+                equals As Double,
+                gt As Double)
+
+            Call MyBase.New(equals, gt)
+
+            rawdata = raw.ToDictionary(Function(a) a.uid)
+            linkSet = knn _
+                .ToDictionary(Function(a) a.name,
+                              Function(a)
+                                  Return a.value
+                              End Function)
+        End Sub
+
+        Public Overrides Function GetSimilarity(x As String, y As String) As Double
+            Dim vx As String() = linkSet(x)
+            Dim vy As String() = linkSet(y)
+            Dim j As Double = vx.jaccard_coeff(vy)
+            Return j
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Overrides Function GetObject(id As String) As Object
+            Return rawdata(id)
+        End Function
+    End Class
 
     Private Class NodeVisits : Inherits KdNodeAccessor(Of ClusterEntity)
 
