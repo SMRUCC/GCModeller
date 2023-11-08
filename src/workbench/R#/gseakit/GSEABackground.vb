@@ -641,6 +641,7 @@ Public Module GSEABackground
 
         Dim pathways As pipeline = pipeline.TryCreatePipeline(Of Pathway)(kegg, env)
         Dim reactionList As pipeline = pipeline.TryCreatePipeline(Of ReactionTable)(reactions, env, suppress:=True)
+        Dim ignoreEnzymes As Boolean = False
 
         If pathways.isError Then
             pathways = pipeline.TryCreatePipeline(Of Map)(kegg, env)
@@ -650,6 +651,7 @@ Public Module GSEABackground
                     ' a tuple list of the idset
                     ' convert to a pathway collection object
                     pathways = pipeline.CreateFromPopulator(ParsePathwayObject(kegg))
+                    ignoreEnzymes = True
                 Else
                     Return pathways.getError
                 End If
@@ -675,7 +677,8 @@ Public Module GSEABackground
                 isKo_ref:=is_ko_ref,
                 reactions:=reactionList.populates(Of ReactionTable)(env).CreateIndex(indexByCompounds:=True),
                 orgName:=org_name,
-                multipleOmics:=multipleOmics
+                multipleOmics:=multipleOmics,
+                ignoreEnzymes:=ignoreEnzymes
             )
         ElseIf pathways.elementType Like GetType(Pathway) Then
             Return EnrichmentNetwork.KEGGModels(
@@ -683,7 +686,8 @@ Public Module GSEABackground
                 isKo_ref:=is_ko_ref,
                 reactions:=reactionList.populates(Of ReactionTable)(env).CreateIndex(indexByCompounds:=True),
                 orgName:=org_name,
-                multipleOmics:=multipleOmics
+                multipleOmics:=multipleOmics,
+                ignoreEnzymes:=ignoreEnzymes
             )
         Else
             Return Internal.debug.stop(New NotImplementedException(pathways.elementType.ToString), env)

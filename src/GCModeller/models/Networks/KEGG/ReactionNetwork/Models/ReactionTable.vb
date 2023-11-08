@@ -114,6 +114,13 @@ Namespace ReactionNetwork
             Return name
         End Function
 
+        ''' <summary>
+        ''' does current reaction model matches with the given 
+        ''' compound id set with any <see cref="substrates"/> 
+        ''' hits or <see cref="products"/> hits?
+        ''' </summary>
+        ''' <param name="targetSet"></param>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function MatchAllCompoundsId(targetSet As Index(Of String)) As Boolean
             Return substrates.All(Function(cid) targetSet.IndexOf(cid) > -1) AndAlso products.All(Function(cid) targetSet.IndexOf(cid) > -1)

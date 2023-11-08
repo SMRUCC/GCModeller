@@ -85,7 +85,8 @@ Namespace Metabolism
                                    isKo_ref As Boolean,
                                    reactions As Dictionary(Of String, ReactionTable()),
                                    orgName As String,
-                                   multipleOmics As Boolean) As Metpa.metpa
+                                   multipleOmics As Boolean,
+                                   ignoreEnzymes As Boolean) As Metpa.metpa
 
             Dim tcode As String = models.getTCode
 
@@ -98,7 +99,7 @@ Namespace Metabolism
             Return models _
                 .getUniqueModels _
                 .ToArray _
-                .buildModels(If(isKo_ref, "map", tcode), multipleOmics, reactions)
+                .buildModels(If(isKo_ref, "map", tcode), multipleOmics, ignoreEnzymes, reactions)
         End Function
 
         <Extension>
@@ -126,7 +127,8 @@ Namespace Metabolism
                                    isKo_ref As Boolean,
                                    reactions As Dictionary(Of String, ReactionTable()),
                                    orgName As String,
-                                   multipleOmics As Boolean) As Metpa.metpa
+                                   multipleOmics As Boolean,
+                                   ignoreEnzymes As Boolean) As Metpa.metpa
 
             Dim tcode As String = models.getTCode
 
@@ -139,7 +141,7 @@ Namespace Metabolism
             Return models _
                 .getUniqueModels _
                 .ToArray _
-                .buildModels(If(isKo_ref, "map", tcode), multipleOmics, reactions)
+                .buildModels(If(isKo_ref, "map", tcode), multipleOmics, ignoreEnzymes, reactions)
         End Function
 
         ''' <summary>
@@ -163,6 +165,7 @@ Namespace Metabolism
         Private Function buildModels(Of T As PathwayBrief)(models As T(),
                                                            keggId As String,
                                                            multipleOmics As Boolean,
+                                                           ignoreEnzymes As Boolean,
                                                            reactions As Dictionary(Of String, ReactionTable())) As Metpa.metpa
 
             Dim pathIds As pathIds = pathIds.FromPathways(models)
@@ -187,7 +190,7 @@ Namespace Metabolism
             Dim graphs As NamedValue(Of NetworkGraph)() = models _
                 .Populate(Not VBDebugger.debugMode) _
                 .Select(Function(model)
-                            Return model.PathwayNetworkGraph(keggId, multipleOmics, reactions)
+                            Return model.PathwayNetworkGraph(keggId, multipleOmics, ignoreEnzymes, reactions)
                         End Function) _
                 .ToArray
 
@@ -236,6 +239,7 @@ Namespace Metabolism
                                       reactions As Dictionary(Of String, ReactionTable()),
                                       maps As String,
                                       multipleOmics As Boolean,
+                                      ignoreEnzymes As Boolean,
                                       classTable As Dictionary(Of String, ReactionClassTable())) As (Metpa.metpa, DataSet())
 
             Dim keggId As String = proteins.AsEnumerable.Where(Function(a) a.attributes.ContainsKey("kegg")).First!kegg.Split(":"c).First
@@ -261,13 +265,14 @@ Namespace Metabolism
 
             models = models.UniquePathwayCompounds.ToArray
 
-            Return (models.buildModels(keggId, multipleOmics, reactions), ranks)
+            Return (models.buildModels(keggId, multipleOmics, ignoreEnzymes, reactions), ranks)
         End Function
 
         <Extension>
         Private Function PathwayNetworkGraph(Of T As PathwayBrief)(model As T,
                                                                    keggId$,
                                                                    multipleOmics As Boolean,
+                                                                   ignoreEnzymes As Boolean,
                                                                    reactions As Dictionary(Of String, ReactionTable())) As NamedValue(Of NetworkGraph)
 
             Dim allCompoundNames As NamedValue(Of String)() = model.GetCompoundSet.ToArray
@@ -287,7 +292,11 @@ Namespace Metabolism
             If TypeOf model Is Map Then
                 pull = DirectCast(CObj(model), Map).GetReactions(reactions, non_enzymatic:=True)
             ElseIf TypeOf model Is Pathway Then
-                pull = DirectCast(CObj(model), Pathway).GetReactions(reactions, non_enzymatic:=True)
+                If ignoreEnzymes Then
+                    pull = DirectCast(CObj(model), Pathway).GetReactionsIgnoreEnzymes(reactions)
+                Else
+                    pull = DirectCast(CObj(model), Pathway).GetReactions(reactions, non_enzymatic:=True)
+                End If
             Else
                 Throw New NotImplementedException(model.GetType.FullName)
             End If
