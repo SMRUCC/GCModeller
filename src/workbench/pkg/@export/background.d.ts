@@ -225,7 +225,9 @@ declare namespace background {
     * Create the gsea background model for metabolism analysis
     * 
     * 
-     * @param kegg the kegg @``T:SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Pathway`` model collection of current organism or the KEGG @``T:SMRUCC.genomics.Assembly.KEGG.WebServices.Map`` data collection.
+     * @param kegg the kegg @``T:SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Pathway`` model collection of current organism or 
+     *  the KEGG @``T:SMRUCC.genomics.Assembly.KEGG.WebServices.Map`` data collection.
+     *  andalso could be a tuple list of the idset.
      * @param reactions A collection of the reference @``T:SMRUCC.genomics.Model.Network.KEGG.ReactionNetwork.ReactionTable`` model 
      *  data for build the metabolism network
      * @param org_name -
