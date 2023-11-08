@@ -159,6 +159,11 @@ Namespace ReactionNetwork
             Next
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function LoadFolder(dir As String) As IEnumerable(Of ReactionTable)
+            Return Load((ls - l - r - {"*.xml", "*.XML"} <= dir).Select(AddressOf Reaction.LoadXml))
+        End Function
+
         ''' <summary>
         ''' convert from reaction model to current reaction table model
         ''' </summary>

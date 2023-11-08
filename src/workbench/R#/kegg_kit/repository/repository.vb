@@ -393,7 +393,7 @@ Public Module repository
             Dim resource As String = DirectCast(repo, String)
 
             If resource.DirectoryExists Then
-                Return ReactionTable.Load(resource).ToArray
+                Return ReactionTable.LoadFolder(resource).ToArray
             ElseIf resource.FileExists Then
                 Return resource.LoadCsv(Of ReactionTable).ToArray
             Else
