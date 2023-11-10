@@ -620,7 +620,10 @@ Public Module GSEABackground
     ''' <summary>
     ''' Create the gsea background model for metabolism analysis
     ''' </summary>
-    ''' <param name="kegg">the kegg <see cref="Pathway"/> model collection of current organism or the KEGG <see cref="Map"/> data collection.</param>
+    ''' <param name="kegg">the kegg <see cref="Pathway"/> model collection of current organism or 
+    ''' the KEGG <see cref="Map"/> data collection.
+    ''' andalso could be a tuple list of the idset.
+    ''' </param>
     ''' <param name="reactions">A collection of the reference <see cref="ReactionTable"/> model 
     ''' data for build the metabolism network</param>
     ''' <param name="org_name"></param>
@@ -638,12 +641,20 @@ Public Module GSEABackground
 
         Dim pathways As pipeline = pipeline.TryCreatePipeline(Of Pathway)(kegg, env)
         Dim reactionList As pipeline = pipeline.TryCreatePipeline(Of ReactionTable)(reactions, env, suppress:=True)
+        Dim ignoreEnzymes As Boolean = False
 
         If pathways.isError Then
             pathways = pipeline.TryCreatePipeline(Of Map)(kegg, env)
 
             If pathways.isError Then
-                Return pathways.getError
+                If TypeOf kegg Is list Then
+                    ' a tuple list of the idset
+                    ' convert to a pathway collection object
+                    pathways = pipeline.CreateFromPopulator(ParsePathwayObject(kegg))
+                    ignoreEnzymes = True
+                Else
+                    Return pathways.getError
+                End If
             End If
         End If
         If reactionList.isError Then
@@ -666,7 +677,8 @@ Public Module GSEABackground
                 isKo_ref:=is_ko_ref,
                 reactions:=reactionList.populates(Of ReactionTable)(env).CreateIndex(indexByCompounds:=True),
                 orgName:=org_name,
-                multipleOmics:=multipleOmics
+                multipleOmics:=multipleOmics,
+                ignoreEnzymes:=ignoreEnzymes
             )
         ElseIf pathways.elementType Like GetType(Pathway) Then
             Return EnrichmentNetwork.KEGGModels(
@@ -674,11 +686,33 @@ Public Module GSEABackground
                 isKo_ref:=is_ko_ref,
                 reactions:=reactionList.populates(Of ReactionTable)(env).CreateIndex(indexByCompounds:=True),
                 orgName:=org_name,
-                multipleOmics:=multipleOmics
+                multipleOmics:=multipleOmics,
+                ignoreEnzymes:=ignoreEnzymes
             )
         Else
             Return Internal.debug.stop(New NotImplementedException(pathways.elementType.ToString), env)
         End If
+    End Function
+
+    ''' <summary>
+    ''' parse the tuple list as the pathway object
+    ''' </summary>
+    ''' <param name="idset">An id collection</param>
+    ''' <returns></returns>
+    Private Iterator Function ParsePathwayObject(idset As list) As IEnumerable(Of Pathway)
+        For Each name As String In idset.getNames
+            Dim id As String() = CLRVector.asCharacter(idset.slots(name))
+            Dim compounds As NamedValue() = id _
+                .Select(Function(si) New NamedValue(si, si)) _
+                .ToArray
+
+            Yield New Pathway With {
+                .name = name,
+                .compound = compounds,
+                .description = name,
+                .EntryId = name
+            }
+        Next
     End Function
 
     ''' <summary>

@@ -6,6 +6,7 @@ imports "background" from "gseakit";
 #' 
 #' @details the reaction data is loaded from the package internal resource file
 #' 
+#' @param pathways 
 #' @param raw if this parameter value is set to TRUE, then a raw CLR object 
 #'    will be returns, otherwise a converted list object will be generated 
 #'    from the raw CLR object. 
@@ -26,23 +27,26 @@ const metpa_background = function(pathways, taxonomy_name = NULL, raw = TRUE) {
     }    
 }
 
-#' Create metpa background model from the .NET CLR object
+#' Create metpa background model from the .NET clr object
+#' 
+#' @param metpa A GCModeller metpa clr object which is generated 
+#'    from the ``background::metpa`` function.
 #' 
 const .cast_CLR_metpa = function(metpa) {
-    {
+    return({
         # summary information
         uniq.count: [metpa]::unique_count,
 
         # pathway network information
-        path.ids:   .write_pathIds([metpa]::pathIds),        
-        path.smps:  .write_pathSmps([metpa]::pathSmps),
+          path.ids: .write_pathIds([metpa]::pathIds),        
+         path.smps: .write_pathSmps([metpa]::pathSmps),
         graph.list: .write_graphList([metpa]::graphList),
 
         # molecules cluster information
-        mset.list: .write_msetList([metpa]::msetList),
-        rbc.list:  .write_rbcList([metpa]::rbcList),        
-        dgr.list:  .write_dgrlist([metpa]::dgrList)        
-    };
+         mset.list: .write_msetList([metpa]::msetList),
+          rbc.list: .write_rbcList([metpa]::rbcList),        
+          dgr.list: .write_dgrlist([metpa]::dgrList)        
+    });
 }
 
 const .write_dgr = function(dgr) {
