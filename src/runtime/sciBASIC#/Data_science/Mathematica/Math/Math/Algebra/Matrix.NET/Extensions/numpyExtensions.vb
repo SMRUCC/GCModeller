@@ -1,64 +1,64 @@
 ﻿#Region "Microsoft.VisualBasic::73774cd933f6d8e81ca1fe76597e6f32, sciBASIC#\Data_science\Mathematica\Math\Math\Algebra\Matrix.NET\Extensions\numpyExtensions.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 160
-    '    Code Lines: 106
-    ' Comment Lines: 39
-    '   Blank Lines: 15
-    '     File Size: 6.67 KB
+' Summaries:
 
 
-    '     Enum ApplyOnAxis
-    ' 
-    ' 
-    '  
-    ' 
-    ' 
-    ' 
-    '     Class Numpy
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: array
-    ' 
-    '     Module NumpyExtensions
-    ' 
-    '         Function: Apply, Mean, Sort, Std, Sum
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 160
+'    Code Lines: 106
+' Comment Lines: 39
+'   Blank Lines: 15
+'     File Size: 6.67 KB
+
+
+'     Enum ApplyOnAxis
+' 
+' 
+'  
+' 
+' 
+' 
+'     Class Numpy
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: array
+' 
+'     Module NumpyExtensions
+' 
+'         Function: Apply, Mean, Sort, Std, Sum
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -84,9 +84,82 @@ Namespace LinearAlgebra.Matrix
             Return New Vector(data:=v)
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function power(v As IEnumerable(Of Double), pow As Double) As Vector
+            Return New Vector(SIMD.Exponent.f64_op_exponent_f64_scalar(v.ToArray, pow))
+        End Function
+
+        Public Shared Function eye(n As Integer) As Double()()
+            Dim rows As Double()() = New Double(n - 1)() {}
+
+            For i As Integer = 0 To n - 1
+                rows(i) = New Double(n - 1) {}
+                rows(i)(i) = 1
+            Next
+
+            Return rows
+        End Function
+
+        ''' <summary>
+        ''' Perform an indirect sort along the given axis using the algorithm specified
+            ''' by the `kind` keyword. It returns an array Of indices Of the same shape As
+            ''' `a` that index data along the given axis in sorted order.
+        ''' </summary>
+        ''' <param name="data"></param>
+        ''' <returns>Returns the indices that would sort an array.</returns>
+        ''' <example>
+        ''' x = np.array([3, 1, 2])
+        ''' np.argsort(x)
+        ''' array([1, 2, 0])
+        ''' </example>
+        ''' 
+        Public Shared Function argsort(data As IEnumerable(Of Double)) As Integer()
+            Dim sort = From x In data.SeqIterator Select x Order By x.value
+            Dim index = sort.Select(Function(x) x.i).ToArray
+
+            Return index
+        End Function
     End Class
 
     <HideModuleName> Public Module NumpyExtensions
+
+        ''' <summary>
+        ''' Create column vector matrix
+        ''' </summary>
+        ''' <param name="v"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function t(v As IEnumerable(Of Double)) As NumericMatrix
+            Dim column As Double()() = v _
+                .Select(Function(xi) New Double() {xi}) _
+                .ToArray
+            Dim cm As New NumericMatrix(column)
+
+            Return cm
+        End Function
+
+        ''' <summary>
+        ''' Create row vector matrix
+        ''' </summary>
+        ''' <param name="v"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function r(v As IEnumerable(Of Double)) As NumericMatrix
+            Dim rows As Double()() = New Double()() {v.ToArray}
+            Dim rm As New NumericMatrix(rows)
+
+            Return rm
+        End Function
+
+        <Extension>
+        Public Function flatten(nd As Vector) As Vector
+            Return nd
+        End Function
+
+        <Extension>
+        Public Function shape(m As GeneralMatrix) As Integer()
+            Return {m.RowDimension, m.ColumnDimension}
+        End Function
 
         ''' <summary>
         ''' Returns the average of the array elements. The average is taken over the 
@@ -167,6 +240,11 @@ Namespace LinearAlgebra.Matrix
         <Extension>
         Public Function Sum(matrix As IEnumerable(Of Vector), Optional axis% = -1) As Vector
             Return matrix.Apply(Function(x) x.Sum, axis:=axis, aggregate:=AddressOf NumericsVector.AsVector)
+        End Function
+
+        <Extension>
+        Public Function sum(matrix As GeneralMatrix, Optional axis% = -1) As Vector
+            Return matrix.RowVectors.Sum(axis)
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
