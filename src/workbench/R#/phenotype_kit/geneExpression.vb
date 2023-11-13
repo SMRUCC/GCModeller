@@ -88,7 +88,7 @@ Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 Imports Rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 Imports REnv = SMRUCC.Rsharp.Runtime
-Imports stdNum = System.Math
+Imports std = System.Math
 Imports Vec = Microsoft.VisualBasic.Math.LinearAlgebra.Vector
 
 ''' <summary>
@@ -1267,7 +1267,7 @@ Module geneExpression
     ''' <param name="base"></param>
     ''' <returns></returns>
     <ExportAPI("log")>
-    Public Function log(expr As Matrix, Optional base As Double = stdNum.E) As Matrix
+    Public Function log(expr As Matrix, Optional base As Double = std.E) As Matrix
         Return expr.log(base)
     End Function
 
