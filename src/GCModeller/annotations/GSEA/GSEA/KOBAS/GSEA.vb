@@ -64,7 +64,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
-Imports np = Microsoft.VisualBasic.Math.LinearAlgebra.Vector
+Imports np = Microsoft.VisualBasic.Math.LinearAlgebra.Matrix.Numpy
 
 Namespace KOBAS
 
@@ -259,10 +259,11 @@ Please check the threshold and ceil of gene set size (values of min_size and max
 
 
         Public Function normalized(es As Vector, es_null As Vector)
-
             Dim def_mean_pos = Function(x As Vector) x(x >= 0).Average
             Dim def_mean_neg = Function(x As Vector) Vector.Abs(x(x <= 0)).Average
-            Dim def_nor = Function(x As Vector) np.Where(x.slice(, -2) >= 0, x.slice(, -2) / x(-2), x.slice(, -2) / x(-1))
+            Dim def_nor = Function(x As Vector)
+                              Return np.Where(x.slice(, -2) >= 0, x.slice(, -2) / x(-2), x.slice(, -2) / x(-1))
+                          End Function
 
             Dim mean_p As Vector = es_null.Select(def_mean_pos)
             ' mean_p = mean_p.reshape(Len(mean_p), 1)          ' shape=(m,1)

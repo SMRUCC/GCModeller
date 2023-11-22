@@ -1,5 +1,4 @@
 ﻿Imports System.Runtime.CompilerServices
-Imports System.Threading
 
 Namespace Parallel
 
@@ -20,16 +19,31 @@ Namespace Parallel
         Protected ReadOnly cpu_count As Integer = n_threads
 
         Dim opt As ParallelOptions
+        Dim is_verbose As Boolean = False
 
         Public Shared n_threads As Integer = 4
 
-        Sub New(nsize As Integer)
+        ''' <summary>
+        ''' construct a new parallel task executator
+        ''' </summary>
+        ''' <param name="nsize"></param>
+        ''' <remarks>
+        ''' the thread count for run the parallel task is configed
+        ''' via the <see cref="n_threads"/> by default.
+        ''' </remarks>
+        Sub New(nsize As Integer, Optional verbose As Boolean = False)
             workLen = nsize
             cpu_count = n_threads
             opt = New ParallelOptions With {.MaxDegreeOfParallelism = n_threads}
+            is_verbose = verbose
         End Sub
 
-        Protected MustOverride Sub Solve(start As Integer, ends As Integer)
+        ''' <summary>
+        ''' solve a sub task
+        ''' </summary>
+        ''' <param name="start"></param>
+        ''' <param name="ends"></param>
+        Protected MustOverride Sub Solve(start As Integer, ends As Integer, cpu_id As Integer)
 
         ''' <summary>
         ''' Run in sequence
@@ -38,7 +52,7 @@ Namespace Parallel
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Solve() As VectorTask
             sequenceMode = True
-            Solve(0, workLen - 1)
+            Solve(0, workLen - 1, 0)
             Return Me
         End Function
 
@@ -55,7 +69,7 @@ Namespace Parallel
             Else
                 System.Threading.Tasks.Parallel.For(
                     fromInclusive:=0,
-                    toExclusive:=cpu_count + 1,
+                    toExclusive:=cpu_count + 3,
                     parallelOptions:=opt,
                     body:=Sub(i) ParallelFor(i, span_size)
                 )
@@ -65,9 +79,28 @@ Namespace Parallel
         End Function
 
         ''' <summary>
+        ''' allocate the result output memory data
+        ''' </summary>
+        ''' <typeparam name="TOut"></typeparam>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' element count problem see the dev comments about the 
+        ''' parameter ``thread_id`` from function 
+        ''' <see cref="ParallelFor"/>
+        ''' </remarks>
+        Protected Function Allocate(Of TOut)() As TOut()
+            Return New TOut(cpu_count) {}
+        End Function
+
+        ''' <summary>
         ''' implements the parallel for use the thread pool
         ''' </summary>
         ''' <param name="span_size"></param>
+        ''' <param name="thread_id">
+        ''' the thread id is start from based ZERO, but the upper index of 
+        ''' the thread id is equals to the <see cref="cpu_count"/>, so 
+        ''' group result vector should has value with ``<see cref="cpu_count"/> + 1`` elements.
+        ''' </param>
         Private Sub ParallelFor(thread_id As Integer, span_size As Integer)
             Dim start As Integer = thread_id * span_size
             Dim ends As Integer = start + span_size - 1
@@ -79,7 +112,11 @@ Namespace Parallel
                 ends = workLen - 1
             End If
 
-            Call Solve(start, ends)
+            If is_verbose Then
+                Call VBDebugger.EchoLine($"[{Me.GetType.Name}$t_{thread_id}] {start}...{ends}@total={workLen}")
+            End If
+
+            Call Solve(start, ends, cpu_id:=thread_id)
         End Sub
 
         Public Shared Function CopyMemory(Of T)(v As T(), start As Integer, ends As Integer) As T()
