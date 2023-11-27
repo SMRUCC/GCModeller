@@ -1,6 +1,7 @@
 +C	Map number
+#<h2><a href="/kegg/brite.html"><img src="/Fig/bget/kegg3.gif" align="middle" border=0></a>&nbsp; KEGG Pathway Maps</h2>
 !
-AMetabolism
+A<b>Metabolism</b>
 B  Global and overview maps
 C    01100  Metabolic pathways
 C    01110  Biosynthesis of secondary metabolites
@@ -203,7 +204,8 @@ C    01064  Biosynthesis of alkaloids derived from ornithine, lysine and nicotin
 C    01065  Biosynthesis of alkaloids derived from histidine and purine
 C    01066  Biosynthesis of alkaloids derived from terpenoid and polyketide
 C    01070  Biosynthesis of plant hormones
-AGenetic Information Processing
+#
+A<b>Genetic Information Processing</b>
 B  Transcription
 C    03020  RNA polymerase
 C    03022  Basal transcription factors
@@ -246,7 +248,11 @@ C    03265  Virion - Lyssavirus
 C    03266  Virion - Herpesvirus
 C    03268  Virion - Orthopoxvirus
 C    03267  Virion - Adenovirus
-AEnvironmental Information Processing
+C    03269  Virion - Bacteriophage T4
+C    03259  Virion - Bacteriophage T7
+C    03258  Virion - Bacteriophage lambda
+#
+A<b>Environmental Information Processing</b>
 B  Membrane transport
 C    02010  ABC transporters
 C    02060  Phosphotransferase system (PTS)
@@ -291,7 +297,8 @@ C    04060  Cytokine-cytokine receptor interaction
 C    04061  Viral protein interaction with cytokine and cytokine receptor
 C    04512  ECM-receptor interaction
 C    04514  Cell adhesion molecules
-ACellular Processes
+#
+A<b>Cellular Processes</b>
 B  Transport and catabolism
 C    04144  Endocytosis
 C    04145  Phagosome
@@ -302,6 +309,7 @@ C    04138  Autophagy - yeast
 C    04136  Autophagy - other
 C    04137  Mitophagy - animal
 C    04139  Mitophagy - yeast
+C    04148  Efferocytosis
 B  Cell growth and death
 C    04110  Cell cycle
 C    04111  Cell cycle - yeast
@@ -331,7 +339,8 @@ C    02030  Bacterial chemotaxis
 C    02040  Flagellar assembly
 C    04814  Motor proteins
 C    04810  Regulation of actin cytoskeleton
-AOrganismal Systems
+#
+A<b>Organismal Systems</b>
 B  Immune system
 C    04640  Hematopoietic cell lineage
 C    04610  Complement and coagulation cascades
@@ -433,7 +442,8 @@ C    04711  Circadian rhythm - fly
 C    04712  Circadian rhythm - plant
 C    04714  Thermogenesis
 C    04626  Plant-pathogen interaction
-AHuman Diseases
+#
+A<b>Human Diseases</b>
 B  Cancer: overview
 C    05200  Pathways in cancer
 C    05202  Transcriptional misregulation in cancer
@@ -545,7 +555,8 @@ C    01521  EGFR tyrosine kinase inhibitor resistance
 C    01524  Platinum drug resistance
 C    01523  Antifolate resistance
 C    01522  Endocrine resistance
-ADrug Development
+#
+A<b>Drug Development</b>
 B  Chronology: Antiinfectives
 C    07011  Penicillins
 C    07012  Cephalosporins - parenteral agents
@@ -633,6 +644,6 @@ C    07112  1,2-Diphenyl substitution family
 C    07114  Naphthalene family
 C    07117  Benzodiazepine family
 !
-#
-#Last updated: July 10, 2023
-#&raquo; Japanese version
+#<hr>
+#Last updated: October 30, 2023
+#<br><br><a href="/brite/jp08901">&raquo; Japanese version</a>

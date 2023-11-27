@@ -1,12 +1,15 @@
 +C	Br number
+#<h2><a href="/kegg/brite.html"><img src="/Fig/bget/kegg3.gif" align="middle" border=0></a>&nbsp; BRITE Hierarchy Files</h2>
 !
-APathway and Brite
+A<b>Pathway and Brite</b>
 B  Pathway maps
 C    br08901  KEGG pathway maps
 B  Brite files
 C    br08902  BRITE hierarchy files
 C    br08904  BRITE table files
-AGenes and Proteins
+C    br08906  BRITE binary relation files
+#
+A<b>Genes and Proteins</b>
 B  Orthologs, modules and networks
 C    ko00001  KEGG Orthology (KO)
 C    ko00002  KEGG modules
@@ -73,7 +76,8 @@ C    ko03200  Viral proteins
 C    ko03210  Viral fusion proteins
 B  RNA family
 C    ko03100  Non-coding RNAs
-ACompounds and Reactions
+#
+A<b>Compounds and Reactions</b>
 B  Compounds
 C    br08001  Compounds with biological roles
 C    br08002  Lipids
@@ -83,17 +87,19 @@ C    br08006  Endocrine disrupting compounds
 C    br08007  Pesticides
 C    br08009  Natural toxins
 C    br08021  Glycosides
+B  Glycans
+C    br08120  O-antigens
 B  Reactions
 C    br08201  Enzymatic reactions
 C    br08202  IUBMB reaction hierarchy
 C    br08204  Reaction class
 C    br08203  Glycosyltransferase reactions
-ADrugs
+#
+A<b>Drugs</b>
 B  Drug classifications
 C    br08303  Anatomical Therapeutic Chemical (ATC) classification
 C    br08302  USP drug classification
 C    br08301  Therapeutic category of drugs in Japan
-C    br08303_ndc  Anatomical Therapeutic Chemical (ATC) classification + Product (NDC)
 C    br08313  Classification of Japanese OTC drugs
 C    br08312  Risk category of Japanese OTC drugs
 C    br08304  Traditional Chinese Medicine in Japan
@@ -106,17 +112,17 @@ C    br08310  Target-based classification of drugs
 C    br08307  Antimicrobials
 C    br08327  Antimicrobials abbreviations
 C    br08311  Drugs listed in the Japanese Pharmacopoeia
-ADiseases
+#
+A<b>Diseases</b>
 B  Human diseases
-C    br08402  Human diseases
-C    br08401  Infectious diseases
-C    br08402_gene  Human diseases + Genes
-C    br08401_genome  Infectious diseases + Genomes
 C    br08403  Human diseases in ICD-11 classification
+C    br08402  Pathway-based classification of diseases
+C    br08401  Genome-based classification of infectious diseases
 C    br08411  ICD-11 International Classification of Diseases
 C    br08410  ICD-10 International Classification of Diseases
 C    br08420  ICD-O-3 International Classification of Diseases for Oncology
-AOrganisms and Viruses
+#
+A<b>Organisms and Viruses</b>
 B  Taxonomy
 C    br08601  KEGG organisms
 C    br08610  KEGG organisms in the NCBI taxonomy
@@ -130,6 +136,6 @@ C    br08621  KEGG viruses in taxonomic ranks
 B  Organism information
 C    br08605  Plant pathogens
 !
-#
-#Last updated: July 15, 2022
-#&raquo; Japanese version
+#<hr>
+#Last updated: July 10, 2023
+#<br><br><a href="/brite/jp08902">&raquo; Japanese version</a>

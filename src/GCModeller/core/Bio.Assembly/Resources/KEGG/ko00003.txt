@@ -1,7 +1,9 @@
 +E	RModule
+#<h2><a href="/kegg/brite.html"><img src="/Fig/bget/kegg3.gif" align="middle" border=0></a>&nbsp; KEGG Reaction Modules</h2>
 !
-AReaction modules
-B  Carboxylic acid metabolism
+A<b>Reaction modules</b>
+B
+B  <b>Carboxylic acid metabolism</b>
 C    2-Oxocarboxylic acid chain extension
 D      RM001  2-Oxocarboxylic acid chain extension by tricarboxylic acid pathway
 E        M00010  Citrate cycle, first carbon oxidation, oxaloacetate => 2-oxoglutarate
@@ -42,7 +44,8 @@ D      RM019  Acyl-CoA conversion via dicarboxylate semialdehyde
 E        M00013  Malonate semialdehyde pathway, propanoyl-CoA => Acetyl-CoA
 E        M00375  Hydroxypropionate-hydroxybutylate cycle
 E        M00376  3-Hydroxypropionate bi-cycle
-B  Nucleotide sugar metabolism
+B
+B  <b>Nucleotide sugar metabolism</b>
 C    Nucleotide sugar biosynthesis
 D      RM022  Nucleotide sugar biosynthesis, type 1
 D      RM023  Nucleotide sugar biosynthesis, type 2
@@ -75,7 +78,8 @@ E        M00802  dTDP-D-forosamine biosynthesis
 C    Sugar conversion
 D      RM040  Sugar activation and nucleotide sugar interconversion
 D      RM041  Inversion of the carbon chain
-B  Aromatics degradation
+B
+B  <b>Aromatics degradation</b>
 C    Methyl to carboxyl conversion on aromatic ring
 D      RM003  Methyl to carboxyl conversion on aromatic ring
 E        M00538  Toluene degradation, toluene => benzoate
@@ -113,10 +117,12 @@ D      RM012  Dihydroxylation and meta-cleavage of aromatic ring, type 3a
 E        M00533  Homoprotocatechuate degradation, homoprotocatechuate => 2-oxohept-3-enedioate
 D      RM014  Ring removal from polycyclic aromatic ring
 E        M00534  Naphthalene degradation, naphthalene => salicylate
-B  Other
+B
+B  <b>Other</b>
 C    Amino acid metabolism
 D      RM025  Conversion of amino acid moiety to carboxyl group (biogenic amine metabolism)
 C    Nucleotide metabolism
+D      RM045  Conversion of base / nucleoside / nucleotide
 D      RM024  Pyrimidine degradation
 C    Sugar metabolism
 D      RM034  Sugar degradation to aldehyde and pyruvate
@@ -128,6 +134,6 @@ D      RM028  Flavonoid synthesis
 D      RM029  Pterocarpan synthesis
 D      RM031  Oxime to acetate conversion
 !
-#
-#[ RMODULE | BRITE | PATHWAY | KEGG2 | KEGG ]
-#Last updated: August 31, 2023
+#<hr>
+#[ <a href="/kegg/reaction/rmodule.html">RMODULE</a> | <a href="/kegg/brite.html">BRITE</a> | <a href="/kegg/pathway.html">PATHWAY</a> | <a href="/kegg/kegg2.html">KEGG2</a> | <a href="/kegg/">KEGG</a> ]<br>
+#Last updated: September 20, 2023

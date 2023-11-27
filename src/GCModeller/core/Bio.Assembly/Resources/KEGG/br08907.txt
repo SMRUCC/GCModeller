@@ -1,228 +1,1486 @@
-+D	Network	Indent
-#<h2><a href="/kegg/kegg2.html"><img src="/Fig/bget/kegg3.gif" align="middle" border=0></a>&nbsp; KEGG Networks</h2>
-%<style type="text/css"><!--#grid{table-layout:fixed;font-family:monospace;position:relative;color:black;width:1000px;}.col1{position:relative;background:white;z-index:1;overflow:hidden;width:600px;}.col2{position:relative;background:white;z-index:2;padding-left:10px;}--></style>
++D	Network
+%<!-- w=600,100 -->
+#<h2><a href="/kegg/brite.html"><img src="/Fig/bget/kegg3.gif" align="middle" border=0></a>&nbsp; KEGG Networks</h2>
 !
-A06200 Cancer network
-B  06201 Signaling network
-C    06210 MAPK (ERK) signaling
+A<b>Pathway view</b>
+B  Carbohydrate metabolism
+C    06031 Citrate cycle and pyruvate metabolism
+D      N01603  Pyruvate oxidation
+D      N01609  Citrate cycle, second carbon oxidation 1
+D      N01616  Dihydrolipoamide dehydrogenase
+D      N01604  Citrate cycle, first carbon oxidation
+D      N01617  Citrate cycle, second carbon oxidation 2
+D      N01606  Glycolysis
+D      N01605  Gluconeogenesis
+C    06017 Glycogen metabolism
+D      N00713  Glycogen biosynthesis
+D      N00718  Glycogen degradation
+D      N00816  Transport of glucose 6-phosphate
+D      N00818  Transport of glucose
+D      N00720  Glycogen degradation (amylase)
+D      N00731  Glycolysis
+C    06023 Galactose degradation
+D      N00847  Galactose degradation
+B  Lipid/glycolipid metabolism
+C    06020 beta-Oxidation in mitochondria
+D      N00812  Transport of carnitine
+D      N00814  Transport of L-palmitoylcarnitine
+D      N00765  beta-Oxidation, acyl-CoA synthesis
+D      N00804  beta-Oxidation
+C    06021 beta-Oxidation in peroxisome
+D      N00776  beta-Oxidation, peroxisome, VLCFA
+D      N00779  beta-Oxidation, peroxisome, bile acid
+C    06034 Cholesterol biosynthesis
+D      N01635  Mevalonate pathway
+D      N01624  Cholesterol biosynthesis
+D      N01626  Cholecalciferol biosynthesis
+C    06019 Steroid hormone biosynthesis
+D      N00759  Steroid hormone biosynthesis, cholesterol to pregnenolone/progesterone
+D      N00338  Steroid hormone biosynthesis, progesterone to cortisol/cortisone
+D      N00309  Cortisone reduction
+D      N00311  NADPH generation
+D      N00313  Transport of cortisol
+D      N00339  Steroid hormone biosynthesis, progesterone to aldosterone
+D      N01541  Testosterone biosynthesis
+D      N01540  Estrogen biosynthesis
+C    06022 Bile acid biosynthesis
+D      N00805  Bile acid biosynthesis
+C    06014 Sphingolipid degradation
+D      N01710  Hydrolysis of ganglioside
+D      N01713  GM2A activation of HEXA and HEXB
+D      N01714  Loss of GM2A activation
+D      N01711  Hydrolysis of GA1
+D      N01709  Hydrolysis of globoside
+D      N00640  Hydrolysis of lactosylceramide
+D      N00679  Glucosylceramide synthesis in GBA deficiency
+D      N00642  Saposin stimulation of GBA and GALC
+D      N00643  Loss of saposin stimulation
+D      N00644  Hydrolysis of galabiosylceramide
+D      N01712  Hydrolysis of psychosine
+D      N00647  Hydrolysis of galactosylceramide sulfate
+D      N00649  Hydrolysis of sphingomyelin
+B  Nucleotide metabolism
+C    06027 Purine salvage pathway
+D      N01418  Purine salvage pathway, adenine to AMP
+D      N01419  APRT deficiency in purine salvage pathway
+D      N01420  APRT deficiency in adenine metabolism
+D      N01421  Purine salvage pathway, hypoxanthine/guanine to IMP/GMP
+D      N01422  HPRT1 deficiency in purine salvage pathway
+D      N01423  HPRT1 deficiency in hypoxanthine metabolism
+D      N01424  HPRT1 deficiency in guanine metabolism
+B  Amino acid metabolism
+C    06033 Glycine, serine and arginine metabolism
+D      N01613  Glycine cleavage system, Gly to MTHF
+D      N01610  Dihydrolipoamide dehydrogenase
+D      N01611  Glycine cleavage system
+D      N01608  Serine biosynthesis
+D      N01612  Creatine pathway
+D      N01615  Transport of creatine
+D      N01618  Proline biosynthesis, Orn to Pro
+D      N01622  Proline degradation
+D      N01623  Spermine biosynthesis
+C    06030 Methionine metabolism
+D      N01607  Methionine degradation
+D      N01627  Adenosine phosphorylation
+D      N01628  Cysteine biosynthesis
+D      N01629  Remethylation, THF to 5-MTHF
+D      N01630  Remethylation, Hcy to Met
+C    06024 Valine, leucine and isoleucine degradation
+D      N00832  Branched-chain amino acids degradation 1
+D      N01619  Branched-chain amino acids degradation 2
+D      N01616  Dihydrolipoamide dehydrogenase
+D      N00851  Leucine degradation
+D      N00852  Valine degradation
+D      N00856  Isoleucine degradation
+D      N00842  Propanoyl-CoA metabolism
+C    06036 Lysine degradation
+D      N01685  Lysine degradation 1
+D      N01724  NAD+ phosphorylation
+D      N01686  Lysine degradation 2
+D      N01687  Lysine degradation 3
+D      N01723  NAD biosynthesis
+C    06010 Urea cycle
+D      N00593  Urea cycle
+D      N00599  Obligate allosteric activation of CPS1 by NAG
+D      N00600  NAGS deficiency in urea cycle
+C    06037 Histidine metabolism
+D      N01727  Histidine degradation 1
+D      N01728  Histidine degradation 2
+D      N01725  Tetrahydrofolate biosynthesis
+D      N01726  Folate cycle
+D      N01729  Histamine biosynthesis
+C    06016 Phenylalanine and tyrosine metabolism
+D      N00700  Tyrosine biosynthesis
+D      N00702  Tetrahydrobiopterin biosynthesis, GTP to BH4
+D      N00705  Tetrahydrobiopterin biosynthesis, BH4OH to BH4
+D      N00708  Tyrosine degradation
+C    06028 Dopamine and serotonin metabolism
+D      N01530  Dopamine metabolism
+D      N01037  Mutation-caused aberrant SNCA to L-DOPA generation
+D      N01039  Mutation-inactivated PRKN to DOPAL generation
+D      N01040  Transport of dopamine to synaptic vesicle
+D      N01041  Mutation-caused aberrant SNCA to transport of dopamine
+D      N01790  Transport of dopamine into the neuron
+D      N01550  Adrenaline metabolism
+D      N01551  Serotonin metabolism
+D      N01552  Eumelanin biosynthesis
+D      N00702  Tetrahydrobiopterin biosynthesis, GTP to BH4
+C    06026 Glutathione biosynthesis
+D      N00899  5-Oxoproline metabolism
+D      N01589  Glutathione biosynthesis
+D      N00904  Glutathione reduction
+D      N00905  NADP+ reduction
+B  Glycan/glycoprotein metabolism
+C    06015 N-Glycan biosynthesis
+D      N00675  N-Glycan precursor biosynthesis, farnesy-PP to P-Dol
+D      N00653  N-Glycan precursor biosynthesis, ALG7 to ALG11
+D      N00667  N-Glycan precursor biosynthesis, Glc-6P to Man-P-Dol
+D      N00830  Transport of Man5GlcNAc2-PP-dolichol
+D      N00680  N-Glycan precursor biosynthesis, ALG3 to ALG9
+D      N00673  N-Glycan precursor biosynthesis, Glc-6P to UDP-Glu
+D      N00682  N-Glycan precursor biosynthesis, P-Dol to Glc-P-Dol
+D      N00681  N-Glycan precursor biosynthesis, ALG6 to OST
+D      N00820  N-Glycan biosynthesis
+D      N00824  Transport of GDP-fucose
+D      N00826  Transport of UDP-galactose
+D      N00828  Transport of CMP-N-acetylneuraminate
+C    06013 O-Glycan biosynthesis
+D      N00627  Mannose type O-glycan biosynthesis, POMT to POMK
+D      N00698  Mannose type O-glycan biosynthesis, Rib-ol-5P to CDP-Rib-ol
+D      N00699  Mannose type O-glycan biosynthesis, FKTN to LARGE
+C    06029 Glycosaminoglycan biosynthesis
+D      N01574  Glycosaminoglycan biosynthesis, linkage tetrasaccharide
+D      N01580  Chondroitin sulfate biosynthesis
+D      N01581  Dermatan sulfate biosynthesis
+D      N01582  Heparan sulfate biosynthesis
+C    06012 Glycosaminoglycan degradation
+D      N00610  Dermatan sulfate degradation
+D      N00615  Heparan sulfate degradation
+D      N00623  Keratan sulfate degradation
+C    06018 GPI-anchor biosynthesis
+D      N00748  GPI-anchor biosynthesis
+C    06035 Blood group carbohydrate antigen biosynthesis
+D      N01651  Blood group H (O) antigen type 1 biosynthesis
+D      N01689  FUT2 nonsecretor
+D      N01652  Blood group A antigen type 1 biosynthesis
+D      N01653  Blood group B antigen type 1 biosynthesis
+D      N01664  Blood group A/B Lewis b antigen biosynthesis
+D      N01659  Lewis b antigen biosynthesis
+D      N01660  Lewis a antigen biosynthesis
+D      N01661  Sialyl lewis a antigen biosynthesis
+D      N01700  Lewis negative, Le (a-b-)
+D      N01666  Blood group H (O) antigen type 2 biosynthesis
+D      N01683  Oh (Bombay), deficiency of ABH antigens
+D      N01667  Blood group A antigen type 2 biosynthesis
+D      N01668  Blood group B antigen type 2 biosynthesis
+D      N01669  Blood group A/B Lewis y antigen biosynthesis
+D      N01670  Blood group antigen type 3 biosynthesis
+D      N01673  Lewis y antigen biosynthesis
+D      N01672  Lewis x antigen biosynthesis
+D      N01674  Sialyl lewis x antigen biosynthesis
+D      N00824  Transport of GDP-fucose
+D      N01675  SID blood group Sd(a) antigen biosynthesis
+D      N01702  Sd(a) negative
+D      N01678  Ii blood group antigen biosynthesis
+D      N01704  I negative (adult i)
+D      N01676  P1 antigen biosynthesis
+D      N01699  P1 negative
+D      N01677  PX2 antigen biosynthesis
+D      N01679  Pk and P antigens biosynthesis
+D      N01654  Forssman blood group antigen biosynthesis
+D      N01680  NOR antigen biosynthesis
+D      N01698  P1/Pk/P/NOR all negative (P null)
+D      N01697  P/PX2 negative, Pk positive
+D      N01690  Blood group H antigen type 4 (Globo-H) biosynthesis
+D      N01682  Blood group A antigen type 4 (Globo-A) biosynthesis
+D      N01703  Blood group B antigen type 4 (Globo-B) biosynthesis
+B  Cofactor/vitamin metabolism
+C    06032 Lipoic acid metabolism
+D      N01684  Lipoic acid biosynthesis
+D      N01610  Dihydrolipoamide dehydrogenase
+D      N01616  Dihydrolipoamide dehydrogenase
+D      N01603  Pyruvate oxidation
+D      N01609  Citrate cycle, second carbon oxidation 1
+D      N01619  Branched-chain amino acids degradation 2
+D      N01613  Glycine cleavage system, Gly to MTHF
+D      N01686  Lysine degradation 2
+C    06025 Molybdenum cofactor biosynthesis
+D      N00888  Hypoxanthine oxidation
+D      N00890  Molybdenum cofactor biosynthesis
+C    06011 Heme biosynthesis
+D      N00601  Heme biosynthesis
+B  Replication and repair
+C    06509 DNA replication
+D      N01468  DNA replication licensing
+D      N01469  Cdt1 downregulation
+D      N01470  Pre-IC formation
+D      N01471  Origin unwinding and elongation
+D      N01472  Okazaki fragment maturation
+D      N01473  DNA replication termination
+D      N01474  TRAIP-dependent replisome disassembly
+C    06510 Telomere length regulation
+D      N01475  Telomerase RNA maturation
+D      N01476  Assembly and trafficking of telomerase
+D      N01477  Telomere elongation
+C    06504 Base excision repair
+D      N01433  Base excision and strand cleavage by monofunctional glycosylase
+D      N01434  Base excision and strand cleavage by bifunctional glycosylase
+D      N01435  Base excision and strand cleavage by NEIL glycosylase
+D      N01436  Long patch BER
+D      N01437  Short patch BER
+D      N01438  Mitochondrial BER
+C    06502 Nucleotide excision repair
+D      N01425  Global genome NER
+D      N01430  Transcription-coupled NER
+D      N01431  Core NER reaction
+C    06503 Mismatch repair
+D      N01432  Mismatch repair
+C    06506 Double-strand break repair
+D      N01439  Double-strand break signaling
+D      N01636  Loading of the SMC5-SMC6 complex
+D      N01446  DNA end resection and RPA loading
+D      N01451  ATR signaling
+D      N01452  Homologous recombination
+D      N01447  Double Holliday junction dissolution
+D      N01448  Double Holliday junction resolution
+D      N01449  Synthesis-dependent strand annealing
+D      N01450  Break induced replication
+D      N01445  Non-homologous end-joining
+D      N01467  V(D)J recombination
+C    06508 Interstrand crosslink repair
+D      N01464  Fanconi anemia pathway
+D      N01465  Lesion bypass by TLS and DSB formation
+D      N01466  Homologous recombination in ICLR
+D      N01539  RAD51 -dsDNA destabilization
+B  Signal transduction
+C    06526 MAPK signaling
+D      N01592  GF-RTK-RAS-ERK signaling pathway
+D      N01599  Regulation of GF-RTK-RAS-ERK signaling, ubiquitination of RTK by CBL
+D      N01595  Regulation of GF-RTK-RAS-ERK signaling pathway, adaptor proteins
+D      N01596  Regulation of GF-RTK-RAS-ERK signaling, RAS ubiquitination by CUL3 complex
+D      N01597  Regulation of GF-RTK-RAS-ERK signaling, SPRED and NF1
+D      N01600  Regulation of GF-RTK-RAS-ERK signaling, RasGAP
+D      N01598  Regulation of GF-RTK-RAS-ERK signaling, MRAS-SHOC2-PP1 holophosphatase
+D      N01593  Regulation of GF-RTK-RAS-ERK signaling, PTP
+D      N01601  ERK-RSK signaling
+D      N01602  ERK-MYC signaling pathway
+D      N01594  MLK-JNK signaling pathway
+D      N00186  IL1-IL1R-p38 signaling pathway
+D      N00187  KSHV Kaposin B to p38 signaling pathway
+D      N00542  EGF-EGFR-RAS-JNK signaling pathway
+D      N00188  IL1-IL1R-JNK signaling pathway
+C    06530 PI3K signaling
+D      N01656  GF-RTK-PI3K signaling pathway
+D      N00220  PTEN-PIP3-AKT signaling pathway
+D      N00355  PP2A-AKT signaling pathway
+D      N01658  GF-RTK-RAS-PI3K signaling pathway
+D      N01657  GPCR-PI3K signaling pathway
+D      N01163  NRG-ERBB4-PI3K signaling pathway
+C    06505 WNT signaling
+D      N00056  Wnt signaling pathway
+D      N00175  KSHV LANA to Wnt signaling pathway
+D      N01124  Salmonella AvrA to beta-catenin signaling pathway
+D      N01443  Wnt signaling modulation, Wnt acylation
+D      N01442  Wnt signaling modulation, Wnt inhibitor
+D      N01441  Wnt signaling modulation, SOST/LRP4
+D      N01440  Wnt signaling modulation, LGR/RSPO
+D      N01427  WNT5A-ROR signaling pathway
+D      N01444  NXN mutation to WNT5A-ROR signaling pathway
+C    06511 NOTCH signaling
+D      N00086  Notch signaling pathway
+D      N00380  HPV E6 to Notch signaling pathway
+D      N00381  HPV E6 to Notch signaling pathway
+D      N00382  HPV E6 to Notch signaling pathway
+D      N01478  Notch proteolytic activation
+D      N01479  Notch ligand ubiquitylation
+D      N01480  Notch-HES7 signaling
+D      N01481  Notch-MESP2 signaling
+C    06501 HH signaling
+D      N00062  Hedgehog signaling pathway
+D      N01537  Hedgehog signaling pathway, HH ligand secretion
+D      N01538  Hedgehog signaling pathway, PTCH coreceptor
+C    06507 TGFB signaling
+D      N00063  TGF-beta signaling pathway
+D      N00531  HBV HBx to TGF-beta signaling pathway
+D      N00507  HTLV-1 Tax to TGF-beta signaling pathway
+D      N01460  Plasmin mediated activation of latent TGF-beta
+D      N01456  Activin signaling pathway
+D      N01459  Nodal signaling pathway
+D      N01453  BMP signaling pathway
+D      N01428  BMP signaling pathway, BMP antagonist
+D      N01458  BMP-HAMP signaling pathway
+D      N01461  BMP-HAMP signaling pathway, auxiliary factor
+D      N01426  BMP9/10 signaling pathway
+D      N01462  BMP9/10 signaling pathway, BMP9/10 coreceptor
+D      N01455  BMP15 signaling pathway
+D      N01454  AMH signaling pathway
+D      N01457  Myostatin signaling pathway
+C    06518 JAK-STAT signaling
+D      N01554  IL2 family to Jak-STAT signaling pathway
+D      N00491  HTLV-1 p12 to Jak-STAT signaling pathway
+D      N00486  EBV LMP1 to Jak-STAT signaling pathway
+D      N01556  IL6 family to Jak-STAT signaling pathway
+D      N00181  KSHV vIL-6 to Jak-STAT signaling pathway
+D      N00548  HBV HBx to Jak-STAT signaling pathway
+D      N00415  IL10 family to Jak-STAT signaling pathway
+D      N00416  HCMV vIL10 to IL10-JAK-STAT signaling pathway
+D      N01557  IL12/23 to Jak-STAT signaling pathway
+D      N01555  Hormone-like-cytokine to Jak-STAT signaling pathway
+D      N01558  Type I interferon to Jak-STAT signaling pathway
+D      N01560  Regulation of type I interferon to Jak-STAT signaling pathway, USP18
+D      N01559  Type II interferon to Jak-STAT signaling pathway
+C    06516 TNF signaling
+D      N00446  TNF-JNK signaling pathway
+D      N01125  Salmonella AvrA to TNF-JNK signaling pathway
+D      N00447  HIV Vpr/Tat to TNF-JNK signaling pathway
+D      N00930  Escherichia NleD to TNF-JNK signaling pathway
+D      N00503  HTLV-1 Tax to TNF-JNK signaling pathway
+D      N00444  TNF-p38 signaling pathway
+D      N00445  HIV Tat/Nef to TNF-p38 signaling pathway
+D      N00931  Escherichia NleD to TNF-p38 signaling pathway
+D      N00151  TNF-NFKB signaling pathway
+D      N00441  HIV gp120 to TNF-NFKB signaling pathway
+D      N01114  Salmonella SseK3 to TNF-NFKB signaling pathway
+D      N00442  HIV Nef to TNF-NFKB signaling pathway
+D      N01113  Salmonella SseK1 to TNF-NFKB signaling pathway
+D      N00173  KSHV K15 to TNF-NFKB signaling pathway
+D      N00265  EBV LMP1 to NFKB signaling pathway
+D      N00525  HCV NS5A to TNF-NFKB signaling pathway
+D      N00928  Escherichia NleB to TNF-NFKB signaling pathway
+D      N00944  Shigella OspI to TNF-NFKB signaling pathway
+D      N00945  Shigella IpaH1.4/2.5 to TNF-NFKB signaling pathway
+D      N00927  Escherichia/Shigella NleE/OspZ to TNF-NFKB signaling pathway
+D      N00171  KSHV vFLIP to NFKB signaling pathway
+D      N00504  HTLV-1 Tax to NFKB signaling pathway
+D      N00397  HCMV UL26 to NFKB signaling pathway
+D      N00942  Shigella OspG to TNF-NFKB signaling pathway
+D      N01117  Salmonella GogB to TNF-NFKB signaling pathway
+D      N01116  Salmonella SseL to TNF-NFKB signaling pathway
+D      N01123  Salmonella AvrA to TNF-NFKB signaling pathway
+D      N01118  Salmonella SpvD to TNF-NFKB signaling pathway
+D      N00398  HCMV IE2-86 to TNF-NFKB signaling pathway
+D      N00389  HCMV IE1-72 to transcription
+D      N00269  HCV core to TNF-NFKB signaling pathway
+D      N00443  HIV Vpr/Nef/Tat to TNF-NFKB signaling pathway
+D      N00932  Escherichia NleH1 to TNF-NFKB signaling pathway
+D      N00929  Escherichia NleC to TNF-NFKB signaling pathway
+D      N00943  Shigella IpaH4.5 to TNF-NFKB signaling pathway
+D      N01122  Salmonella PipA/GogA/GtgA to TNF-NFKB signaling pathway
+D      N01545  Regulation of TNF-NFKB signaling pathway, LUBAC-mediated linear ubiquitination
+D      N01546  Regulation of TNF-NFKB signaling pathway, OTULIN/TNFAIP3-mediated deubiquitination
+D      N00145  Extrinsic apoptotic pathway
+D      N01583  Regulation of extrinsic apoptotic pathway, XIAP
+D      N00374  TNF-IRF1 signaling pathway
+D      N00375  HPV E7 to TNF-IRF1 signaling pathway
+D      N00505  CD40-NFKB signaling pathway
+D      N00506  HTLV-1 Tax to CD40-NFKB signaling pathway
+D      N00559  LIGHT-HVEM-NFKB signaling pathway
+D      N00560  HSV gD to HVEM-NFKB signaling pathway
+C    06528 Calcium signaling
+D      N01638  Skeletal-type VGCC-RYR signaling
+D      N01282  Regulation of CAV1.1
+D      N01639  Cardiac-type VGCC-RYR signaling
+D      N01637  Ca2+ entry, Voltage-gated Ca2+ channel
+D      N01642  Ca2+ entry, Ligand-gated Ca2+ channel
+D      N01643  Ca2+ entry, Store-operated Ca2+ channel
+D      N01640  GPCR-PLCB-ITPR signaling pathway
+D      N01641  RTK-PLCG-ITPR signaling pathway
+D      N01655  Ca2+-PLCD-ITPR signaling pathway
+D      N01644  Lysosomal Ca2+ release
+D      N01645  Cytosolic Ca2+ removal, SERCA
+D      N01646  Regulation of SERCA
+D      N01429  Cytosolic Ca2+ removal, PMCA
+D      N01647  Ca2+/CAM-CN signaling pathway
+D      N01648  Ca2+/CAM-CAMK signaling pathway
+D      N01649  Ca2+/CAM-VGCC/RYR signaling pathway
+D      N01741  Ca2+/TRPC3 signaling pathway
+D      N00953  mGluR1-TRPC3 signaling pathway
+D      N00984  mGluR5-Ca2+ -apoptotic pathway
+D      N01000  mAChR-Ca2+ -apoptotic pathway
+C    06522 mTOR signaling
+D      N01576  STRAD/STK11- TSC signaling pathway
+D      N01575  TSC1/2-mTORC1 signaling pathway
+D      N00388  HCMV UL38 to MTOR signaling pathway
+D      N00357  HPV E6 to MTOR signaling pathway
+D      N00584  HSV US3 to MTOR signaling pathway
+D      N01578  GATOR1-mTORC1 signaling pathway
+D      N01584  FLCN-mTORC1 signaling pathway
+B  Cellular process
+C    06523 Epigenetic regulation by Polycomb complexes
+D      N01577  Gene silencing by methylation of H3K27 and ubiquitination of H2AK119
+D      N01585  Deubiquitination of H2AK119
+D      N01586  Activation of PRC2.2 by ubiquitination of H2AK119
+D      N01614  Activation of PRC2.2 by ubiquitination of H2AK119 in germline genes
+D      N01620  Blocking ubiquitination of H2AK119 by CK2
+D      N01701  Transcriptional activation by acetylation of H3K27
+C    06512 Chromosome cohesion and segregation
+D      N01482  Cohesin loading
+D      N01483  Cohesin acetylation
+D      N01484  Establishment of cohesion
+D      N01485  Cohesin dissociation in prophase
+D      N01486  Cohesin dissociation in anaphase
+D      N01497  Condensin loading
+D      N01498  Inhibition of condensin II association
+D      N01499  Modifying of condensin II subunits
+D      N01500  Modifying of condensin I subunits
+D      N01501  Inactivation of condensin I
+C    06515 Regulation of kinetochore-microtubule interactions
+D      N01525  Organization of the inner kinetochore
+D      N01526  Organization of the outer kinetochore
+D      N01532  Kinetochore targeting of MAD1-MAD2
+D      N01529  Recruitment and formation of the MCC
+D      N01533  Disassembly of MCC
+D      N01536  Dephosphorylation of kinetochore
+D      N01531  CENPE interaction with NDC80 complex
+D      N01534  Dynein recruitment to the kinetochore
+D      N01535  Kinetochore microtubule attachment
+D      N01544  Microtubule nucleation
+D      N01549  Branching microtubule nucleation
+D      N01547  Kinetochore fiber organization
+D      N01548  Kinetochore-fiber stabilization
+D      N01553  Promotion of microtubule growth
+D      N01561  Microtubule depolymerization
+D      N01562  Microtubule depolymerization at the minus ends
+D      N01563  Inhibition of Kif2A
+C    06534 Unfolded protein response
+D      N01009  PERK-ATF4 signaling pathway
+D      N01010  Mutation-caused aberrant PSEN1 to PERK-ATF4 signaling pathway
+D      N01035  Mutation-caused aberrant SNCA to PERK-ATF4 signaling pathway
+D      N01149  Mutation-caused aberrant SOD1 to PERK-ATF4 signaling pathway
+D      N01198  Scrapie conformation PrPSc to PERK-ATF4 signaling pathway
+D      N01011  IRE1a-XBP1 signaling pathway
+D      N01012  Mutation-caused aberrant PSEN1 to IRE1a-XBP1 signaling pathway
+D      N01034  Mutation-caused aberrant SNCA to IRE1a-XBP1 signaling pathway
+D      N01148  Mutation-caused aberrant SOD1 to IRE1a-XBP1 signaling pathway
+D      N01013  IRE1a-JNK signaling pathway
+D      N01014  Mutation-caused aberrant Abeta to IRE1a-JNK signaling pathway
+D      N01015  ATF6-mediated transcription
+D      N01016  Mutation-caused aberrant PSEN1 to ATF6-mediated transcription
+D      N01150  Mutation-inactivated VAPB to ATF6-mediated transcription
+D      N01033  Mutation-caused aberrant SNCA to ATF6-mediated transcription
+D      N01147  Mutation-caused aberrant SOD1 to ATF6-mediated transcription
+C    06532 Autophagy
+D      N00155  Autophagy-vesicle nucleation/elongation/maturation, mTORC1-PI3KC3-C1
+D      N00177  KSHV vBCL2 to autophagy-vesicle nucleation
+D      N01717  Regulation of autophagy-vesicle nucleation/elongation/maturation, ATXN3
+D      N01715  Autophagy-vesicle nucleation/elongation/maturation, PI3P synthesis by PI3KC3-C1
+D      N01142  C9orf72-mediated autophagy initiation
+D      N00156  Autophagy-vesicle nucleation/elongation/maturation, LC3-II formation
+D      N00176  KSHV vFLIP to autophagy-vesicle elongation
+D      N01284  Shigella IcsP to Autophagy-vesicle elongation
+D      N01716  Autophagy-vesicle nucleation/elongation/maturation, sequestosome-1-like receptor
+D      N01718  Autophagy-vesicle nucleation/elongation/maturation, PACER-RUBCN-PI3KC3-C2
+D      N01719  Autophagy-vesicle nucleation/elongation/maturation, E3 ubiquitin-ligase Malin
+D      N01720  Autophagosome and lysosome fusion, trans-SNARE
+D      N01721  Autophagosome and lysosome fusion, tethering factor
+D      N01722  Autophagosome and lysosome fusion, tethering factor, GRASP55
+C    06536 Mitophagy
+D      N01756  PINK-Parkin-independent ubiquitin-mediated mitophagy
+D      N01757  PINK-Parkin-independent ubiquitin-mediated mitophagy, ubiquitin E3 ligase
+D      N01140  TBK1-mediated autophagosome formation
+D      N01759  INK1-Parkin-mediated MFN2 degradation, VCP-OPA1
+D      N01760  Endosomal Rab cycles
+C    06535 Efferocytosis
+D      N01747  Find-me signal (nucleotide)
+D      N01748  Find-me signal (LPC)
+D      N01749  Find-me signal (CX3CL1)
+D      N01750  Find-me signal (S1P)
+D      N01751  Macrophage EPO signaling
+D      N01752  Translocation of phosphatidylserine to the inner leaflet
+D      N01753  Exposure of phosphatidylserine to the outer leaflet
+D      N01754  Activation of XKR8
+D      N01761  Activation of CRK-DOCK-Rac1 pathway
+D      N01762  MERTK-mediated recognition and engulfment
+D      N01763  MEGF10-mediated recognition and engulfment
+D      N01764  Calreticulin-LRP1 mediated recognition and engulfment
+D      N01772  Induction of the PTGS2
+D      N01773  PTGS2-PGE2-TGFB1 pathway
+D      N01774  ERK-DUSP4 negative feedback pathway
+D      N01775  Inactivation of CaMKII by inducing SERCA2
+D      N01776  CaMK2-p38-MK2-ALOX5 pathway
+D      N01780  Hydrolyzing AC-derived cholesterol esters in the lysosome
+D      N01781  Activation of LXRs by oxysterols
+D      N01777  Efferocytosis-induced NAD production
+D      N01778  Production of IL10 via the Sirtuin1 signaling cascade
+D      N01779  Continual efferocytosis enhanced by the AC-derived arginine and ornithine
+D      N01784  Glucose uptake and lactate release induced by efferocytosis
+D      N01785  Don't eat me signal (CD47)
+D      N01786  Don't eat me signal (CD24)
+C    06524 Apoptosis
+D      N00145  Extrinsic apoptotic pathway
+D      N00524  HCV NS5A to extrinsic apoptotic pathway
+D      N00936  Escherichia NleB1 to crosstalk between extrinsic and intrinsic apoptotic pathways
+D      N00528  HCV core to extrinsic apoptotic pathway
+D      N00352  HPV E6 to extrinsic apoptotic pathway
+D      N00579  HSV ICP6 to extrinsic apoptotic pathway
+D      N00937  Escherichia NleF to extrinsic apoptotic pathway
+D      N00146  Crosstalk between extrinsic and intrinsic apoptotic pathways
+D      N00448  HIV Tat/Nef to crosstalk between extrinsic and intrinsic apoptotic pathways
+D      N00527  HCV Core to crosstalk between extrinsic and intrinsic apoptotic pathways
+D      N00425  HCMV UL36 to crosstalk between extrinsic and intrinsic apoptotic pathways
+D      N00166  KSHV vFLIP to crosstalk between extrinsic and intrinsic apoptotic pathways
+D      N00526  HCV NS3 to crosstalk between extrinsic and intrinsic apoptotic pathways
+D      N00477  EBV BHRF1 to crosstalk between extrinsic and intrinsic apoptotic pathways
+D      N00164  KSHV vBCL2 to crosstalk between extrinsic and intrinsic apoptotic pathways
+D      N00426  HCMV UL37x1 to crosstalk between extrinsic and intrinsic apoptotic pathways
+D      N00534  HBV HBx to Crosstalk between extrinsic and intrinsic apoptotic pathways
+D      N00950  Shigella FimA to crosstalk between extrinsic and intrinsic apoptotic pathways
+D      N00165  KSHV vIAP to crosstalk between extrinsic and intrinsic apoptotic pathways
+D      N00580  HSV ICP0 to crosstalk between extrinsic and intrinsic apoptotic pathways
+D      N00098  Intrinsic apoptotic pathway
+D      N00262  EBV EBNA3C to intrinsic apoptotic pathway
+D      N00585  HSV US3 to intrinsic apoptotic pathway
+D      N00452  HIV Nef to intrinsic apoptotic pathway
+D      N00475  EBV BHRF1 to intrinsic apoptotic pathway
+D      N00453  HIV Vpr to intrinsic apoptotic pathway
+D      N00383  HPV E6 to intrinsic apoptotic pathway
+D      N00450  HIV Tat to intrinsic apoptotic pathway
+D      N00938  Escherichia NleH to intrinsic apoptotic pathway
+D      N00745  IAV PB1-F2 to intrinsic apoptotic pathway
+D      N00939  Escherichia EspF to intrinsic apoptotic pathway
+D      N01056  FAS-JNK signaling pathway
+C    06525 Ferroptosis
+D      N01589  Glutathione biosynthesis
+D      N01590  Arachidonate/Adrenic acid metabolism
+D      N01587  Fe-TF transport
+D      N01591  Fe2+ Ferroportin transport
+D      N01588  Fe3+ Ferritin transport
+C    06527 Necroptosis
+D      N01621  TNF-RIPK1/3 signaling pathway
+D      N01583  Regulation of extrinsic apoptotic pathway, XIAP
+D      N01631  TNFSF10-RIPK1/3 signaling pathway
+D      N01632  FASLG-RIPK1/3 signaling pathway
+D      N01625  CYLD regulation of RIPK1/3
+D      N01663  CASP8 regulation of RIPK1/3
+D      N01650  SQSTM1 regulation of RIPK1/3
+D      N01662  IFN-RIPK1/3 signaling pathway
+D      N01634  TLR4-RIPK3 signaling pathway
+D      N01633  TLR3-RIPK3 signaling pathway
+C    06529 Thermogenesis
+D      N01688  ADRB3-UCP1 signaling pathway
+D      N01691  mitochondrial complex - UCP1 in Thermogenesis
+B  Immune system
+C    06513 Complement cascade
+D      N01487  Classical pathway of complement cascade, C4/C2 to C3 convertase formation
+D      N01314  SARS-CoV-2 S to classical pathway of complement cascade
+D      N00213  KSHV Kaposin to alternative pathway of complement cascade
+D      N01491  Lectin pathway of complement cascade, C4/C2 to C3 convertase formation
+D      N01312  SARS-CoV-2 S to lectin pathway of complement cascade
+D      N01489  Classical/Lectin pathway of complement cascade, C5 convertase formation
+D      N00589  HSV gC to alternative pathway of complement cascade
+D      N01493  Alternative pathway of complement cascade, C3 convertase formation
+D      N01494  Alternative pathway of complement cascade, C3/5 convertase formation
+D      N01490  Common pathway of complement cascade, MAC formation
+D      N01505  Regulation of complement cascade, MAC inhibition
+D      N01495  Classical/Lectin pathway of complement cascade, C4b breakdown
+D      N01527  KSHV Kaposin to classical/Lectin pathway of complement cascade, C4b breakdown
+D      N01496  Alternative pathway of complement cascade, C3b breakdown
+D      N01528  KSHV Kaposin to alternative pathway of complement cascade, C3b breakdown
+D      N01504  Regulation of complement cascade, CFHR
+D      N01520  Regulation of fibrinolytic system, C1INH
+C    06514 Coagulation cascade
+D      N01506  Intrinsic pathway of coagulation cascade, F12 activation
+D      N01507  Intrinsic pathway of coagulation cascade, F11 activation
+D      N01508  Intrinsic pathway of coagulation cascade, F9 activation
+D      N01509  Intrinsic pathway of coagulation cascade, F8 activation
+D      N01503  Extrinsic pathway of coagulation cascade, F7 activation
+D      N01510  Common pathway of coagulation cascade, F10 activation
+D      N01511  Common pathway of coagulation cascade, F5 activation
+D      N01512  Common pathway of coagulation cascade, prothrombin activation
+D      N01513  Common pathway of coagulation cascade, fibrinogen to fibrin
+D      N01514  Common pathway of coagulation cascade, F13 activation
+D      N01521  Regulation of coagulation cascade, HCF2
+D      N01518  Fibrinolytic system
+D      N01524  Regulation of fibrinolytic system, PAI
+D      N01522  Regulation of fibrinolytic system, AAP
+D      N01523  Regulation of fibrinolytic system, AAT
+D      N01515  Regulation of coagulation cascade, protein C system
+D      N01516  Kallikrein-kinin system, prekallikrein activation
+D      N01517  Kallikrein-kinin system, HMWK to bradykinin
+D      N01520  Regulation of fibrinolytic system, C1INH
+D      N01519  Regulation of coagulation cascade, AT3
+C    06517 TLR signaling
+D      N00435  TLR1/2/4-NFKB signaling pathway
+D      N00556  HBV HBe to TLR2/4-NFKB signaling pathway
+D      N00561  HSV ICP0 to TLR2/4-NFKB signaling pathway
+D      N00692  MV P to TLR2/4-NFKB signaling pathway
+D      N00466  EBV BPLF1 to TLR2/4-NFKB signaling pathway
+D      N00562  HSV US3 to TLR2/4-NFKB signaling pathway
+D      N00859  Yersinia YopP/J to TLR2/4-NFKB signaling pathway
+D      N00436  HIV Tat to TLR2/4-NFKB signaling pathway
+D      N01543  TLR7/8/9-IRF5 signaling pathway
+D      N00690  TLR7/9-IRF7 signaling pathway
+D      N00691  MV V to TLR7/9-IRF7 signaling pathway
+D      N00438  TLR2/4-MAPK signaling pathway
+D      N00926  Escherichia Tir to TLR2/4-MAPK signaling pathway
+D      N00862  Yersinia YopP/J to TLR2/4-MAPK signaling pathway
+D      N00439  HIV Nef to TLR2/4-MAPK signaling pathway
+D      N00551  HBV HBs to TLR2/4-MAPK signaling pathway
+D      N01283  Shigella OspF to TLR2/4-MAPK signaling pathway
+D      N00553  TLR4-IRF3/7 signaling pathway
+D      N00554  HBV HBe to TLR4-IRF3/7 signaling pathway
+D      N00149  TLR3-IRF3 signaling pathway
+D      N00516  HCV NS3/4A to TLR3-IRF3 signaling pathway
+D      N00552  HBV pol to TLR3-IRF3 signaling pathway
+D      N00161  KSHV vIRF1/2 to TLR3-IRF3 signaling pathway
+D      N00346  HPV E6 to TLR-IRF3 signaling pathway
+D      N00148  TLR3-IRF7 signaling pathway
+D      N00162  KSHV vIRF3 to TLR3-IRF7 signaling pathway
+D      N00163  KSHV KIE1/2 to TLR3-IRF7 signaling pathway
+D      N01566  TLR5-NFKB signaling pathway
+D      N00150  Type I IFN signaling pathway
+D      N00471  EBV LMP2A/2B to IFN signaling pathway
+D      N00577  HSV UL41 to IFN signaling pathway
+D      N00693  MV V/P to IFN signaling pathway
+D      N00472  EBV LMP1 to IFN signaling pathway
+D      N00377  HPV E6 to IFN signaling pathway
+D      N00738  IAV NS1 to IFN signaling pathway
+D      N00694  MV V/P/C to IFN signaling pathway
+D      N00473  EBV BGLF4 to IFN signaling pathway
+D      N00261  KSHV vIRF2 to IFN signaling pathway
+D      N00575  HSV ICP27 to IFN signaling pathway
+D      N00379  HPV E7 to IFN signaling pathway
+D      N00270  HCV Core to IFN signaling pathway
+D      N00558  HBV pol to IFN signaling pathway
+D      N01321  SARS-CoV-2 nsp1/6/13, ORF3a/6/7b and M to IFN signaling pathway
+D      N01322  SARS-CoV-2 nsp6/13 and ORF7a/7b to IFN signaling pathway
+C    06521 NLR signaling
+D      N00940  NOD-NFKB signaling pathway
+D      N00941  Shigella IpaH9.8 to NOD-NFKB signaling pathway
+D      N01112  Salmonella SopE/E2 to NOD-NFKB signaling pathway
+D      N01567  NLRP1 inflammasome signaling pathway
+D      N00742  NLRP3 inflammasome signaling pathway
+D      N00743  IAV NS1 to NLRP3 inflammasome signaling pathway
+D      N00864  Yersinia YopK to NLRP3 Inflammasome signaling pathway
+D      N00933  Escherichia NleA to NLRP3 inflammasome signaling pathway
+D      N00948  Shigella IpaH7.8 to NLRP3 Inflammasome signaling pathway
+D      N01127  Salmonella SopE to Inflammasome signaling pathway
+D      N01126  Salmonella SipB to Inflammasome signaling pathway
+D      N00863  Yersinia YopM to NLRP3 Inflammasome signaling pathway
+D      N01568  Regulation of NLRP3 inflammasome signaling pathway, NLRP3 inhibition
+D      N01569  NALP12 inflammasome signaling pathway
+D      N00867  NLRC4 inflammasome signaling pathway
+D      N00865  Yersinia YopK to NLRC4 Inflammasome signaling pathway
+D      N00949  Shigella IpaB to NLRC4 Inflammasome signaling pathway
+D      N00868  Pyrin inflammasome signaling pathway
+D      N01570  Regulation of Pyrin inflammasome signaling pathway, PSTPIP1
+D      N00866  Yersinia YopM to Pyrin Inflammasome signaling pathway
+D      N00934  Non-canonical inflammasome signaling pathway
+D      N00935  Escherichia NleF to non-canonical inflammasome signaling pathway
+D      N00515  Oligoadenylate synthetase (OAS)/RNase L pathway
+D      N00273  HCV NS5A to oligoadenylate synthetase (OAS)/RNase L pathway
+D      N00574  HSV US11 to oligoadenylate synthetase (OAS)/RNase L pathway
+D      N00724  IAV NS1 to oligoadenylate synthetase (OAS)/RNase L pathway
+C    06519 RLR signaling
+D      N00469  RIG-I-IRF7/3 signaling pathway
+D      N00728  IAV NS1 to RIG-I-like receptor signaling pathway
+D      N00565  HSV US11 to RIG-I-like receptor signaling pathway
+D      N00685  MV V to RIG-I-IRF7/3 signaling pathway
+D      N00271  HCV NS3/4A to RIG-I-like receptor signaling pathway
+D      N00268  HBV HBx to RIG-I-like receptor signaling pathway
+D      N00732  IAV PB1-F2/PB2 to RIG-I-like receptor signaling pathway
+D      N00566  HSV UL36USP to RIG-I-like receptor signaling pathway
+D      N00567  HSV ICP34.5 to TBK1 signaling pathway
+D      N00734  IAV PB1-F2/PB2 to RIG-I-like receptor signaling pathway
+D      N01310  SARS-CoV-2 nsp13 to RIG-I-IRF7/3 signaling pathway
+D      N01320  SARS-CoV-2 nsp3 to RIG-I-IRF7/3 signaling pathway
+D      N00686  MV N to RIG-I-IRF7/3 signaling pathway
+D      N00568  HSV US3 to IRF3 signaling pathway
+D      N00470  EBV BGLF4 to RIG-I-like receptor signaling pathway
+D      N00687  MV V/C to RIG-I-IRF7/3 signaling pathway
+D      N01319  SARS-CoV-2 nsp6 and ORF6 to RIG-I-IRF7/3 signaling pathway
+D      N01308  MDA5-IRF7/3 signaling pathway
+D      N01309  SARS-CoV-2 nsp3 to MDA5-IRF7/3 signaling pathway
+D      N00688  RIG-I-NFKB signaling pathway
+D      N00689  MV V/P/C to RIG-I-NFKB signaling pathway
+D      N00730  IAV NS1 to RIG-I-like receptor signaling pathway
+D      N01564  Post-translational modifications of RIG-I and MDA5
+D      N01565  Adenosine-to-inosine RNA editing by ADAR
+C    06520 CGAS-STING signaling
+D      N00395  cGAS-STING signaling pathway
+D      N00569  HSV UL41 to cGAS-STING signaling pathway
+D      N00570  HSV ICP0 to cGAS-STING signaling pathway
+D      N00396  HCMV UL82 to cGAS-STING signaling pathway
+D      N00946  Shigella IpaJ to cGAS-STING signaling pathway
+D      N00947  Shigella Ipa4.5 to cGAS-STING signaling pathway
+D      N00440  HIV Vpu/Vif/Vpr to cGAS-STING signaling pathway
+D      N01571  DNA degradation by extracellular/endolysosomal DNAse
+D      N01572  RNASEH2-mediated RNA degradation in RNA-DNA hybrids
+D      N01573  SAMHD1-mediated dNTP degradation
+C    06537 TCR/BCR signaling
+D      N01106  TCR-PLCG-ITPR signaling pathway
+D      N01107  Yersinia YopH to TCR-NFAT signaling pathway
+D      N01108  Yersinia YopH to TCR-NFAT signaling pathway
+D      N01696  ICOSLG/ICOS-PI3K signaling pathway
+D      N00683  CD80/CD86-CD28-PI3K signaling pathway
+D      N00684  MV F/H to CD28-PI3K signaling pathway
+D      N01165  PDL/PD1-SHP-PI3K signaling pathway
+D      N01579  CD80/CD86-CTLA4-PP2A signaling pathway
+D      N00487  BCR-PLCG-Calcineurin signaling pathway
+D      N00488  EBV LMP2A to BCR signaling pathway
+D      N00490  HTLV-1 p12 to calcineurin signaling pathway
+D      N01695  BCR-BCAP/CD19-PI3K signaling pathway
+C    06533 Chemokine signaling
+D      N01765  CXCR4-GNAQ-PLCB/G signaling pathway
+D      N00432  HIV gp120 to CXCR4-GNAQ-PLCB/G-calcineurin
+D      N00402  HCMV US28 to GNAQ-PLCB/G-calcineurin signaling pathway
+D      N00407  HCMV UL33 to GNAQ-PLCB/G-calcineurin signaling pathway
+D      N01766  CX3CR1-GNAI-AC signaling pathway
+D      N00404  HCMV US28 to GNAI-AC-PKA signaling pathway
+D      N00412  HCMV UL33 to GNAI-AC-PKA signaling pathway
+D      N01767  CXCR4-GNAI-Src signaling pathway
+D      N00431  HIV gp120 to CXCR4-GNAI-PI3K-BAD signaling pathway
+D      N01768  CXCR4-GNA12/13 signaling pathway
+D      N00406  HCMV US28 to GNA12/13-Rho signaling pathway
+D      N01746  CCR/CXCR-GNB/G-PI3K signaling pathway
+D      N00427  HCMV vCXCL to CXCR-GNB/G-PI3K-AKT signaling pathway
+D      N00462  KSHV vCCL1/2/3 to CCR signaling pathway
+D      N00212  KSHV vCCL2 to CCR signaling pathway
+D      N00157  KSHV vGPCR to GNB/G-ERK signaling pathway
+D      N01769  CCR5-GNB/G-PLCB/G signaling pathway
+D      N00429  HCMV UL22A to CCR5-GNB/G-PLCB/G-PKC signaling pathway
+D      N00409  HCMV UL33 to GNB/G-Rho signaling pathway
+D      N01770  CCR2-GNB/G-PI3K signaling pathway
+D      N00400  HCMV US28 to GNB/G-PI3K-NFKB signaling pathway
+D      N01771  CXCR4-GNB/G signaling pathway
+D      N00434  HIV gp120 to CXCR4-GNB/G-RAC signaling pathway
+B  Endocrine system
+C    06310 CRH-ACTH-cortisol signaling
+D      N00324  CRHR-PKA-ACTH signaling pathway
+D      N00325  Mutation-inactivated RASD1 to CRHR-PKA-ACTH signaling pathway
+D      N01542  PKA holoenzyme
+D      N00297  ACTH-cortisol signaling pathway
+D      N00323  Mutation-inactivated PDE11A/PDE8B to ACTH-cortisol signaling pathway
+D      N00298  CYP11B1-CYP11B2 fusion to ACTH-cortisol signaling pathway
+D      N01542  PKA holoenzyme
+D      N00924  Glucocorticoid receptor signaling pathway
+D      N00318  EGFR-ERK-ACTH signaling pathway
+D      N00319  Mutation-activated USP8 to EGFR-ERK-ACTH signaling pathway
+D      N00306  SF-1-mediated transcription
+C    06322 TRH-TSH-TH signaling
+D      N00918  TRH-TRHR-PLCB-PKC signaling pathway
+D      N00782  TSH-TG signaling pathway
+D      N00793  TSH-DUOX2-TG signaling pathway
+D      N00795  DUOX2-generated H2O2 production
+D      N00786  Transport of iodide
+D      N00803  Iodide organification/coupling reactions
+D      N00789  Mutation-inactivated TPO to iodide organification/coupling reactions
+D      N00791  Deiodination of MIT and DIT
+D      N00798  Thyroid hormone signaling pathway
+C    06323 KISS1-GnRH-LH/FSH-E2 signaling
+D      N00869  KISS1-KISS1R-PLCB-PKC signaling pathway
+D      N00882  TAC3-TACR3-PLC-PKC signaling pathway
+D      N00873  GnRH-GnRHR-PLCB-PKC signaling pathway
+D      N00885  LHCGR-GNAS-PKA signaling pathway
+D      N00922  FSHR-GNAS-PKA signaling pathway
+D      N00286  Nuclear-initiated estrogen signaling pathway
+C    06324 GHRH-GH-IGF signaling
+D      N00910  GHRHR-PKA-GH signaling pathway
+D      N00907  GH-Jak-STAT signaling pathway
+D      N00233  IGF-IGF1R-RAS-ERK signaling pathway
+D      N01782  GHRL-GHSR signaling
+C    06318 CaSR-PTH signaling
+D      N00291  CaSR-PTH signaling pathway
+D      N00288  PTH-PTH1R-PKA signaling pathway
+D      N00293  GCM2-mediated transcription
+C    06316 Renin-angiotensin-aldosterone signaling
+D      N01743  Renin-angiotensin signaling pathway
+D      N00301  Angiotensin-aldosterone signaling pathway
+D      N00302  Mutation-activated CACNA1D/H to angiotensin-aldosterone signaling pathway
+D      N00303  Mutation-activated KCNJ5 to angiotensin-aldosterone signaling pathway
+D      N00304  Mutation-inactivated ATP1A1 to angiotensin-aldosterone signaling pathway
+D      N00305  Mutation-inactivated ATP2B3 to angiotensin-aldosterone signaling pathway
+C    06325 Hormone/cytokine signaling
+D      N00920  PRL-JAK-STAT signaling pathway
+D      N00915  AVP-V2R-PKA signaling pathway
+D      N00879  PROK-PRKR-Gi-ERK signaling pathway
+D      N01783  NPPA-NPR1 signaling
+D      N01787  NPPC-NPR2 signaling
+C    06320 APOB-LDLR signaling
+D      N00332  Vesicular uptake of lipoproteins
+D      N00336  PCSK9-mediated LDLR degradation
+#
+A<b>Disease view</b>
+B  Cancer
+C    06260 Colorectal cancer
 D      N00001  EGF-EGFR-RAS-ERK signaling pathway
-D      N00014  Mutation-activated EGFR to RAS-ERK signaling pathway	1
-D      N00006  Amplified EGFR to RAS-ERK signaling pathway	1
-D      N00041  EGFR-overexpression to RAS-ERK signaling pathway	1
+D      N00276  EGF-overexpression to RAS-ERK signaling pathway
 D      N00229  TGFA-EGFR-RAS-ERK signaling pathway
 D      N00230  TGFA-overexpression to RAS-ERK signaling pathway
+D      N00277  EREG-EGFR-RAS-ERK signaling pathway
+D      N00278  EREG-overexpression to RAS-ERK signaling pathway
+D      N00279  AREG-EGFR-RAS-ERK signaling pathway
+D      N00280  AREG-overexpression to RAS-ERK signaling pathway
+D      N00041  EGFR-overexpression to RAS-ERK signaling pathway
+D      N00012  Mutation-activated KRAS/NRAS to ERK signaling pathway
+D      N00033  EGF-EGFR-PI3K signaling pathway
+D      N00281  EGF-overexpression to PI3K signaling pathway
+D      N00231  TGFA-EGFR-PI3K signaling pathway
+D      N00232  TGFA-overexpression to PI3K signaling pathway
+D      N00282  EREG-EGFR-PI3K signaling pathway
+D      N00283  EREG-overexpression to PI3K signaling pathway
+D      N00284  AREG-EGFR-PI3K signaling pathway
+D      N00285  AREG-overexpression to PI3K signaling pathway
+D      N00042  EGFR-overexpression to PI3K signaling pathway
+D      N00030  EGF-EGFR-RAS-PI3K signaling pathway
+D      N00032  Mutation-activated KRAS/NRAS to PI3K signaling pathway
+D      N00103  EGF-EGFR-RAS-RalGDS signaling pathway
+D      N00104  Mutation-activated KRAS to RalGDS signaling pathway
+D      N00056  Wnt signaling pathway
+D      N00057  Mutation-inactivated APC to Wnt signaling pathway
+D      N00058  Mutation-activated CTNNB1 to Wnt signaling pathway
+D      N00063  TGF-beta signaling pathway
+D      N00064  Mutation-inactivated TGFBR2 to TGF-beta signaling pathway
+D      N00065  Mutation-inactivated SMAD2 to TGF-beta signaling pathway
+D      N00098  Intrinsic apoptotic pathway
+D      N00099  Mutation-inactivated BAX to apoptotic pathway
+D      N00101  DCC-apoptotic pathway
+D      N00102  Loss of DCC to DCC-apoptotic pathway
+D      N00115  Mutation-inactivated TP53 to transcription
+C    06261 Gastric cancer
+D      N00021  EGF-ERBB2-RAS-ERK signaling pathway
+D      N00252  Amplified ERBB2 to RAS-ERK signaling pathway
+D      N00019  FGF-FGFR-RAS-ERK signaling pathway
+D      N00020  Amplified FGFR to RAS-ERK signaling pathway
+D      N00216  HGF-MET-RAS-ERK signaling pathway
+D      N00259  Amplified MET to RAS-ERK signaling pathway
+D      N00012  Mutation-activated KRAS/NRAS to ERK signaling pathway
+D      N00284  AREG-EGFR-PI3K signaling pathway
+D      N00253  Amplified ERBB2 to PI3K signaling pathway
+D      N00037  FGF-FGFR-PI3K signaling pathway
+D      N00038  Amplified FGFR to PI3K signaling pathway
+D      N00043  HGF-MET-PI3K signaling pathway
+D      N00260  Amplified MET to PI3K signaling pathway
+D      N00056  Wnt signaling pathway
+D      N00057  Mutation-inactivated APC to Wnt signaling pathway
+D      N00257  Loss of CDH1 to beta-catenin signaling pathway
+D      N00258  Mutation-inactivated CDH1 to beta-catenin signaling pathway
+D      N00063  TGF-beta signaling pathway
+D      N00256  TGFBR1-reduced expression to TGF-beta signaling pathway
+D      N00091  p27-Cell cycle G1/S
+D      N00254  CDKN1B-reduced expression to p27-cell cycle G1/S
+D      N00255  Amplified CCNE to cell cycle G1/S
+D      N00239  Telomerase activity
+D      N00240  TERT-overexpression to telomerase activity
+D      N00115  Mutation-inactivated TP53 to transcription
+D      N00250  CDX2-overexpression to transcriptional activation
+D      N00251  CDX2-overexpression to transcriptional repression
+C    06262 Pancreatic cancer
+D      N00216  HGF-MET-RAS-ERK signaling pathway
+D      N00012  Mutation-activated KRAS/NRAS to ERK signaling pathway
+D      N00103  EGF-EGFR-RAS-RalGDS signaling pathway
+D      N00104  Mutation-activated KRAS to RalGDS signaling pathway
+D      N00284  AREG-EGFR-PI3K signaling pathway
+D      N00034  ERBB2-overexpression to PI3K signaling pathway
+D      N00218  FLT3LG-FLT3-RAS-PI3K signaling pathway
+D      N00032  Mutation-activated KRAS/NRAS to PI3K signaling pathway
+D      N00094  EGF-Jak-STAT signaling pathway
+D      N00095  ERBB2-overexpression to EGF-Jak-STAT signaling pathway
+D      N00069  p16-Cell cycle G1/S
+D      N00070  Mutation-inactivated p16(INK4a) to p16-cell cycle G1/S
+D      N00071  Deleted p16(INK4a) to p16-cell cycle G1/S
+D      N00115  Mutation-inactivated TP53 to transcription
+C    06263 Hepatocellular carcinoma
+D      N00001  EGF-EGFR-RAS-ERK signaling pathway
+D      N00540  HBV HBx to RAS-ERK signaling pathway
+D      N00274  HCV NS5A to RAS-ERK signaling pathway
+D      N00518  HCV Core to ERK signaling pathway
+D      N00519  HCV Core to ERK signaling pathway
+D      N00229  TGFA-EGFR-RAS-ERK signaling pathway
+D      N00230  TGFA-overexpression to RAS-ERK signaling pathway
+D      N00233  IGF-IGF1R-RAS-ERK signaling pathway
+D      N00235  IGF2-overexpression to RAS-ERK signaling pathway
+D      N00237  IGF1R-overexpression to RAS-ERK signaling pathway
+D      N00216  HGF-MET-RAS-ERK signaling pathway
+D      N00246  HGF-overexpression to RAS-ERK signaling pathway
+D      N00005  Mutation-activated MET to RAS-ERK signaling pathway
+D      N00248  MET-overexpression to RAS-ERK signaling pathway
+D      N00541  HBV HBx to RAS-ERK signaling pathway
+D      N00545  HBV HBx to ERK signaling pathway
+D      N00542  EGF-EGFR-RAS-JNK signaling pathway
+D      N00543  HBV HBx to JNK signaling pathway
+D      N00538  Ca2+-PYK2-RAS-ERK signaling pathway
+D      N00539  HBV HBx to Ca2+-PYK2-RAS-ERK signaling pathway
+D      N00033  EGF-EGFR-PI3K signaling pathway
+D      N00267  HBV HBx to PI3K signaling pathway
+D      N00272  HCV NS5A to PI3K signaling pathway
+D      N00049  Mutation-activated PI3K to PI3K signaling pathway
+D      N00231  TGFA-EGFR-PI3K signaling pathway
+D      N00232  TGFA-overexpression to PI3K signaling pathway
+D      N00234  IGF2-IGF1R-PI3K signaling pathway
+D      N00238  IGF1R-overexpression to PI3K signaling pathway
+D      N00236  IGF2-overexpression to PI3K signaling pathway
+D      N00043  HGF-MET-PI3K signaling pathway
+D      N00247  HGF-overexpression to PI3K signaling pathway
+D      N00044  Mutation-activated MET to PI3K signaling pathway
+D      N00249  MET-overexpression to PI3K signaling pathway
+D      N00220  PTEN-PIP3-AKT signaling pathway
+D      N00052  Mutation-inactivated PTEN to PI3K signaling pathway
+D      N00056  Wnt signaling pathway
+D      N00059  FZD7-overexpression to Wnt signaling pathway
+D      N00242  Mutation-inactivated AXIN to Wnt signaling pathway
+D      N00058  Mutation-activated CTNNB1 to Wnt signaling pathway
+D      N00063  TGF-beta signaling pathway
+D      N00531  HBV HBx to TGF-beta signaling pathway
+D      N00241  TGFBR2-reduced expression to TGF-beta signaling pathway
+D      N00227  TGFA-EGFR-PLCG-PKC signaling pathway
+D      N00228  TGFA-overexpression to PLCG-PKC signaling pathway
+D      N00053  Cytokine-Jak-STAT signaling pathway
+D      N00548  HBV HBx to Jak-STAT signaling pathway
+D      N00435  TLR1/2/4-NFKB signaling pathway
+D      N00556  HBV HBe to TLR2/4-NFKB signaling pathway
+D      N00557  HBV HBe to TLR2/4-NFKB signaling pathway
+D      N00549  HBV HBeAg to TLR2/4-NFKB signaling pathway
+D      N00550  HBV HBeAg to TLR2/4-NFKB signaling pathway
+D      N00269  HCV core to TNF-NFKB signaling pathway
+D      N00438  TLR2/4-MAPK signaling pathway
+D      N00551  HBV HBs to TLR2/4-MAPK signaling pathway
+D      N00553  TLR4-IRF3/7 signaling pathway
+D      N00554  HBV HBe to TLR4-IRF3/7 signaling pathway
+D      N00555  HBV HBe to TLR4-IRF3/7 signaling pathway
+D      N00149  TLR3-IRF3 signaling pathway
+D      N00516  HCV NS3/4A to TLR3-IRF3 signaling pathway
+D      N00552  HBV pol to TLR3-IRF3 signaling pathway
+D      N00469  RIG-I-IRF7/3 signaling pathway
+D      N00271  HCV NS3/4A to RIG-I-like receptor signaling pathway
+D      N00268  HBV HBx to RIG-I-like receptor signaling pathway
+D      N00515  Oligoadenylate synthetase (OAS)/RNase L pathway
+D      N00273  HCV NS5A to oligoadenylate synthetase (OAS)/RNase L pathway
+D      N00150  Type I IFN signaling pathway
+D      N00270  HCV Core to IFN signaling pathway
+D      N00558  HBV pol to IFN signaling pathway
+D      N00151  TNF-NFKB signaling pathway
+D      N00525  HCV NS5A to TNF-NFKB signaling pathway
+D      N00269  HCV core to TNF-NFKB signaling pathway
+D      N00145  Extrinsic apoptotic pathway
+D      N00524  HCV NS5A to extrinsic apoptotic pathway
+D      N00528  HCV core to extrinsic apoptotic pathway
+D      N00546  CXCL12-CXCR4-PKC-ERK signaling pathaway
+D      N00547  HBV LHBs to PKC-ERK signaling pathway
+D      N00243  KEAP1-NRF2 signaling pathway
+D      N00244  Mutation-inactivated KEAP1 to KEAP1-NRF2 signaling pathway
+D      N00245  Mutation-activated NRF2 to KEAP1-NRF2 signaling pathway
+D      N00066  MDM2-p21-Cell cycle G1/S
+D      N00521  HCV Core to p21-cell cycle G1/S
+D      N00520  HCV NS5A to p21-cell cycle G1/S
+D      N00522  HCV NS3 to p21-cell cycle G1/S
+D      N00523  HCV Core to p21-cell cycle G1/S
+D      N00071  Deleted p16(INK4a) to p16-cell cycle G1/S
+D      N00074  Loss of RB1 to cell cycle G1/S
+D      N00536  MDM2-p21-Cell cycle G1/S
+D      N00537  HBV HBx to cell cycle G1/S
+D      N00146  Crosstalk between extrinsic and intrinsic apoptotic pathways
+D      N00527  HCV Core to crosstalk between extrinsic and intrinsic apoptotic pathways
+D      N00526  HCV NS3 to crosstalk between extrinsic and intrinsic apoptotic pathways
+D      N00534  HBV HBx to Crosstalk between extrinsic and intrinsic apoptotic pathways
+D      N00533  HBV HBx to Crosstalk between extrinsic and intrinsic apoptotic pathways
+D      N00239  Telomerase activity
+D      N00240  TERT-overexpression to telomerase activity
+D      N00115  Mutation-inactivated TP53 to transcription
+D      N00535  HBV HBx to p53-mediated transcription
+D      N00532  HBV HBx to Egr-mediated transcription
+D      N00544  HBV HBx to CREB-mediated transcription
+D      N00529  HCV core to RXRA/PPARA-mediated transcription
+D      N00530  HCV core to RXRA/LXRA-mediated transcription
+C    06264 Renal cell carcinoma
+D      N00216  HGF-MET-RAS-ERK signaling pathway
+D      N00005  Mutation-activated MET to RAS-ERK signaling pathway
+D      N00043  HGF-MET-PI3K signaling pathway
+D      N00044  Mutation-activated MET to PI3K signaling pathway
+D      N00079  HIF-1 signaling pathway
+D      N00081  Mutation-inactivated VHL to HIF-1 signaling pathway
+D      N00080  Loss of VHL to HIF-1 signaling pathway
+D      N00127  PRCC-TFE3 fusion to transcriptional activation
+C    06265 Bladder cancer
+D      N00001  EGF-EGFR-RAS-ERK signaling pathway
+D      N00006  Amplified EGFR to RAS-ERK signaling pathway
+D      N00041  EGFR-overexpression to RAS-ERK signaling pathway
+D      N00021  EGF-ERBB2-RAS-ERK signaling pathway
+D      N00022  ERBB2-overexpression to RAS-ERK signaling pathway
+D      N00019  FGF-FGFR-RAS-ERK signaling pathway
+D      N00011  Mutation-activated FGFR3 to RAS-ERK signaling pathway
+D      N00077  HRAS-overexpression to ERK signaling pathway
+D      N00078  Mutation-activated HRAS to ERK signaling pathway
+D      N00066  MDM2-p21-Cell cycle G1/S
+D      N00067  Deleted p14(ARF) to p21-cell cycle G1/S
+D      N00069  p16-Cell cycle G1/S
+D      N00071  Deleted p16(INK4a) to p16-cell cycle G1/S
+D      N00074  Loss of RB1 to cell cycle G1/S
+D      N00075  Mutation-inactivated RB1 to cell cycle G1/S
+D      N00115  Mutation-inactivated TP53 to transcription
+C    06266 Non-small cell lung cancer
+D      N00001  EGF-EGFR-RAS-ERK signaling pathway
+D      N00014  Mutation-activated EGFR to RAS-ERK signaling pathway
+D      N00041  EGFR-overexpression to RAS-ERK signaling pathway
+D      N00022  ERBB2-overexpression to RAS-ERK signaling pathway
+D      N00008  RET fusion kinase to RAS-ERK signaling pathway
+D      N00007  EML4-ALK fusion kinase to RAS-ERK signaling pathway
+D      N00012  Mutation-activated KRAS/NRAS to ERK signaling pathway
+D      N00216  HGF-MET-RAS-ERK signaling pathway
+D      N01062  Mutation-activated MET to RAS-ERK signaling pathway
+D      N00023  EGF-EGFR-PLCG-ERK signaling pathway
+D      N00024  Mutation-activated EGFR to PLCG-ERK signaling pathway
+D      N00025  EML4-ALK fusion kinase to PLCG-ERK signaling pathway
+D      N00033  EGF-EGFR-PI3K signaling pathway
+D      N00036  Mutation-activated EGFR to PI3K signaling pathway
+D      N00047  EML4-ALK fusion kinase to PI3K signaling pathway
+D      N00032  Mutation-activated KRAS/NRAS to PI3K signaling pathway
+D      N00043  HGF-MET-PI3K signaling pathway
+D      N01063  Mutation-activated MET to PI3K signaling pathway
+D      N00096  EGF-EGFR-RAS-RASSF1 signaling pathway
+D      N00097  Loss of RASSF1 to RAS-RASSF1 signaling pathway
+D      N00053  Cytokine-Jak-STAT signaling pathway
+D      N00105  EML4-ALK fusion kinase to Jak-STAT signaling pathway
+D      N00066  MDM2-p21-Cell cycle G1/S
+D      N00070  Mutation-inactivated p16(INK4a) to p16-cell cycle G1/S
+D      N00115  Mutation-inactivated TP53 to transcription
+C    06267 Small cell lung cancer
+D      N00220  PTEN-PIP3-AKT signaling pathway
+D      N00051  Deleted PTEN to PI3K signaling pathway
+D      N00052  Mutation-inactivated PTEN to PI3K signaling pathway
+D      N00090  p15-Cell cycle G1/S
+D      N00088  Amplified MYC to p15-cell cycle G1/S
+D      N00089  Amplified MYC to cell cycle G1/S
+D      N00091  p27-Cell cycle G1/S
+D      N00092  Amplified MYC to p27-cell cycle G1/S
+D      N00074  Loss of RB1 to cell cycle G1/S
+D      N00075  Mutation-inactivated RB1 to cell cycle G1/S
+D      N00098  Intrinsic apoptotic pathway
+D      N00100  BCL2-overexpression to intrinsic apoptotic pathway
+D      N00115  Mutation-inactivated TP53 to transcription
+C    06268 Melanoma
+D      N00001  EGF-EGFR-RAS-ERK signaling pathway
+D      N00012  Mutation-activated KRAS/NRAS to ERK signaling pathway
+D      N00013  Mutation-activated BRAF to ERK signaling pathway
+D      N00220  PTEN-PIP3-AKT signaling pathway
+D      N00051  Deleted PTEN to PI3K signaling pathway
+D      N00052  Mutation-inactivated PTEN to PI3K signaling pathway
+D      N00030  EGF-EGFR-RAS-PI3K signaling pathway
+D      N00032  Mutation-activated KRAS/NRAS to PI3K signaling pathway
+D      N00066  MDM2-p21-Cell cycle G1/S
+D      N00067  Deleted p14(ARF) to p21-cell cycle G1/S
+D      N00076  Mutation-inactivated p14(ARF) to p21-cell cycle G1/S
+D      N00069  p16-Cell cycle G1/S
+D      N00070  Mutation-inactivated p16(INK4a) to p16-cell cycle G1/S
+D      N00071  Deleted p16(INK4a) to p16-cell cycle G1/S
+D      N00073  Mutation-activated CDK4 to cell cycle G1/S
+D      N00115  Mutation-inactivated TP53 to transcription
+C    06269 Basal cell carcinoma
+D      N00062  Hedgehog signaling pathway
+D      N00010  Mutation-inactivated PTCH1 to Hedgehog signaling pathway
+D      N00017  Mutation-activated SMO to Hedgehog signaling pathway
+D      N00115  Mutation-inactivated TP53 to transcription
+C    06270 Breast cancer
+D      N00001  EGF-EGFR-RAS-ERK signaling pathway
+D      N00041  EGFR-overexpression to RAS-ERK signaling pathway
+D      N00021  EGF-ERBB2-RAS-ERK signaling pathway
+D      N00022  ERBB2-overexpression to RAS-ERK signaling pathway
+D      N00019  FGF-FGFR-RAS-ERK signaling pathway
+D      N00020  Amplified FGFR to RAS-ERK signaling pathway
+D      N00033  EGF-EGFR-PI3K signaling pathway
+D      N00042  EGFR-overexpression to PI3K signaling pathway
+D      N00034  ERBB2-overexpression to PI3K signaling pathway
+D      N00037  FGF-FGFR-PI3K signaling pathway
+D      N00038  Amplified FGFR to PI3K signaling pathway
+D      N00049  Mutation-activated PI3K to PI3K signaling pathway
+D      N00050  Amplified PI3K to PI3K signaling pathway
+D      N00220  PTEN-PIP3-AKT signaling pathway
+D      N00052  Mutation-inactivated PTEN to PI3K signaling pathway
+D      N00056  Wnt signaling pathway
+D      N00059  FZD7-overexpression to Wnt signaling pathway
+D      N00060  LRP6-overexpression to Wnt signaling pathway
+D      N00086  Notch signaling pathway
+D      N00087  NOTCH-overexpression to Notch signaling pathway
+D      N00066  MDM2-p21-Cell cycle G1/S
+D      N00275  Amplified CCND1 to cell cycle G1/S
+D      N00286  Nuclear-initiated estrogen signaling pathway
+D      N00287  ESR1-positive to nuclear-initiated estrogen signaling pathway
+D      N00115  Mutation-inactivated TP53 to transcription
+C    06271 Endometrial cancer
+D      N00001  EGF-EGFR-RAS-ERK signaling pathway
+D      N00012  Mutation-activated KRAS/NRAS to ERK signaling pathway
+D      N00220  PTEN-PIP3-AKT signaling pathway
+D      N00052  Mutation-inactivated PTEN to PI3K signaling pathway
+D      N00056  Wnt signaling pathway
+D      N00058  Mutation-activated CTNNB1 to Wnt signaling pathway
+D      N00115  Mutation-inactivated TP53 to transcription
+C    06272 Prostate cancer
+D      N00220  PTEN-PIP3-AKT signaling pathway
+D      N00052  Mutation-inactivated PTEN to PI3K signaling pathway
+D      N00082  Loss of NKX3-1 to PI3K signaling pathway
+D      N00083  Androgen receptor signaling pathway
+D      N00085  Mutation-activated AR to androgen receptor signaling pathway
+D      N00084  Amplified AR to androgen receptor signaling pathway
+D      N00091  p27-Cell cycle G1/S
+D      N00093  Loss of CDKN1B to p27-cell cycle G1/S
+D      N00128  TMPRSS2-ERG fusion to transcriptional activation
+D      N00129  TMPRSS2-ERG fusion to transcriptional repression
+D      N00130  TMPRSS2-ETV5 fusion to transcriptional activation
+C    06273 Glioma
+D      N00001  EGF-EGFR-RAS-ERK signaling pathway
+D      N00513  Mutation-activated EGFR to RAS-ERK signaling pathway
+D      N00006  Amplified EGFR to RAS-ERK signaling pathway
+D      N00041  EGFR-overexpression to RAS-ERK signaling pathway
+D      N00015  PDGF-PDGFR-RAS-ERK signaling pathway
+D      N00016  PDGF-overexpression to RAS-ERK signaling pathway
+D      N00018  Amplified PDGFR to RAS-ERK signaling pathway
+D      N00033  EGF-EGFR-PI3K signaling pathway
+D      N00514  Mutation-activated EGFR to PI3K signaling pathway
+D      N00035  Amplified EGFR to PI3K signaling pathway
+D      N00042  EGFR-overexpression to PI3K signaling pathway
+D      N00039  PDGF-PDGFR-PI3K signaling pathway
+D      N00040  Amplified PDGFR to PI3K signaling pathway
+D      N00220  PTEN-PIP3-AKT signaling pathway
+D      N00051  Deleted PTEN to PI3K signaling pathway
+D      N00052  Mutation-inactivated PTEN to PI3K signaling pathway
+D      N00026  EGF-EGFR-PLCG-CAMK signaling pathway
+D      N00027  Amplified EGFR to PLCG-CAMK signaling pathway
+D      N00028  PDGF-PDGFR-PLCG-CAMK signaling pathway
+D      N00029  Amplified PDGFR to PLCG-CAMK signaling pathway
+D      N00066  MDM2-p21-Cell cycle G1/S
+D      N00067  Deleted p14(ARF) to p21-cell cycle G1/S
+D      N00068  Amplified MDM2 to p21-cell cycle G1/S
+D      N00069  p16-Cell cycle G1/S
+D      N00071  Deleted p16(INK4a) to p16-cell cycle G1/S
+D      N00072  Amplified CDK4 to cell cycle G1/S
+D      N00074  Loss of RB1 to cell cycle G1/S
+D      N00115  Mutation-inactivated TP53 to transcription
+C    06274 Thyroid cancer
+D      N00001  EGF-EGFR-RAS-ERK signaling pathway
+D      N00009  TRK fusion kinase to RAS-ERK signaling pathway
+D      N00008  RET fusion kinase to RAS-ERK signaling pathway
+D      N00012  Mutation-activated KRAS/NRAS to ERK signaling pathway
+D      N00013  Mutation-activated BRAF to ERK signaling pathway
+D      N00056  Wnt signaling pathway
+D      N00061  CDH1-reduced expression to beta-catenin signaling pathway
+D      N00115  Mutation-inactivated TP53 to transcription
+D      N00126  PAX8-PPARG fusion to PPARG-mediated transcription
+C    06275 Acute myeloid leukemia
+D      N00215  KITLG-KIT-RAS-ERK signaling pathway
+D      N00003  Mutation-activated KIT to RAS-ERK signaling pathway
+D      N00217  FLT3LG-FLT3-RAS-ERK signaling pathway
+D      N00004  Duplication or mutation-activated FLT3 to RAS-ERK signaling pathway
+D      N00012  Mutation-activated KRAS/NRAS to ERK signaling pathway
+D      N00045  KITLG-KIT-PI3K signaling pathway
+D      N00046  Mutation-activated KIT to PI3K signaling pathway
+D      N00218  FLT3LG-FLT3-RAS-PI3K signaling pathway
+D      N00031  Duplication or mutation-activated FLT3 to RAS-PI3K signaling pathway
+D      N00032  Mutation-activated KRAS/NRAS to PI3K signaling pathway
+D      N00219  FLT3LG-FLT3-STAT5 signaling pathway
+D      N00054  Duplication or mutation-activated FLT3 to Jak-STAT signaling pathway
+D      N00116  Mutation-inactivated RUNX1 to transcription
+D      N00111  AML1-ETO fusion to CEBPA-mediated transcription
+D      N00112  AML1-ETO fusion to PU.1-mediated transcription
+D      N00108  AML1-ETO fusion to transcriptional activtion
+D      N00109  PML-RARA fusion to transcriptional activtion
+D      N00113  PML-RARA fusion to transcriptional repression
+D      N00110  PLZF-RARA fusion to transcriptional activtion
+D      N00114  PLZF-RARA fusion to transcriptional repression
+C    06276 Chronic myeloid leukemia
+D      N00001  EGF-EGFR-RAS-ERK signaling pathway
+D      N00002  BCR-ABL fusion kinase to RAS-ERK signaling pathway
+D      N00033  EGF-EGFR-PI3K signaling pathway
+D      N00048  BCR-ABL fusion kinase to PI3K signaling pathway
+D      N00063  TGF-beta signaling pathway
+D      N00106  AML1-EVI1 fusion to TGF-beta signaling pathway
+D      N00107  EVI-1 overexpression to TGF-beta signaling pathway
+D      N00053  Cytokine-Jak-STAT signaling pathway
+D      N00055  BCR-ABL fusion kinase to Jak-STAT signaling pathway
+D      N00066  MDM2-p21-Cell cycle G1/S
+D      N00067  Deleted p14(ARF) to p21-cell cycle G1/S
+D      N00070  Mutation-inactivated p16(INK4a) to p16-cell cycle G1/S
+D      N00074  Loss of RB1 to cell cycle G1/S
+D      N00115  Mutation-inactivated TP53 to transcription
+B  Cancer signaling
+C    06210 ERK signaling (cancer)
+D      N00001  EGF-EGFR-RAS-ERK signaling pathway
+D      N00276  EGF-overexpression to RAS-ERK signaling pathway
+D      N00229  TGFA-EGFR-RAS-ERK signaling pathway
+D      N00230  TGFA-overexpression to RAS-ERK signaling pathway
+D      N00277  EREG-EGFR-RAS-ERK signaling pathway
+D      N00278  EREG-overexpression to RAS-ERK signaling pathway
+D      N00279  AREG-EGFR-RAS-ERK signaling pathway
+D      N00280  AREG-overexpression to RAS-ERK signaling pathway
+D      N01354  BPA to RAS-ERK signaling pathway
+D      N00014  Mutation-activated EGFR to RAS-ERK signaling pathway
+D      N00513  Mutation-activated EGFR to RAS-ERK signaling pathway
+D      N00006  Amplified EGFR to RAS-ERK signaling pathway
+D      N00041  EGFR-overexpression to RAS-ERK signaling pathway
 D      N00021  EGF-ERBB2-RAS-ERK signaling pathway
 D      N00022  ERBB2-overexpression to RAS-ERK signaling pathway
 D      N00252  Amplified ERBB2 to RAS-ERK signaling pathway
 D      N00015  PDGF-PDGFR-RAS-ERK signaling pathway
 D      N00016  PDGF-overexpression to RAS-ERK signaling pathway
-D      N00018  Amplified PDGFR to RAS-ERK signaling pathway	1
+D      N00018  Amplified PDGFR to RAS-ERK signaling pathway
 D      N00215  KITLG-KIT-RAS-ERK signaling pathway
-D      N00003  Mutation-activated KIT to RAS-ERK signaling pathway	1
+D      N00003  Mutation-activated KIT to RAS-ERK signaling pathway
 D      N00019  FGF-FGFR-RAS-ERK signaling pathway
-D      N00020  Amplified FGFR1 to RAS-ERK signaling pathway	1
-D      N00011  Mutation-activated FGFR3 to RAS-ERK signaling pathway	1
+D      N00020  Amplified FGFR to RAS-ERK signaling pathway
+D      N00011  Mutation-activated FGFR3 to RAS-ERK signaling pathway
 D      N00217  FLT3LG-FLT3-RAS-ERK signaling pathway
-D      N00004  Duplication-activated FLT3 to RAS-ERK signaling pathway	1
-D      N00233  IGF2-IGF1R-RAS-ERK signaling pathway
+D      N00004  Duplication or mutation-activated FLT3 to RAS-ERK signaling pathway
+D      N00233  IGF-IGF1R-RAS-ERK signaling pathway
 D      N00235  IGF2-overexpression to RAS-ERK signaling pathway
 D      N00237  IGF1R-overexpression to RAS-ERK signaling pathway
 D      N00216  HGF-MET-RAS-ERK signaling pathway
 D      N00246  HGF-overexpression to RAS-ERK signaling pathway
-D      N00005  Mutation-activated MET to RAS-ERK signaling pathway	1
-D      N00259  Amplified MET to RAS-ERK signaling pathway	1
-D      N00248  MET-overexpression to RAS-ERK signaling pathway	1
-D      N00002  BCR-ABL fusion kinase to RAS-ERK signaling pathway	1
-D      N00009  TRK fusion kinase to RAS-ERK signaling pathway	3
-D      N00007  EML4-ALK fusion kinase to RAS-ERK signaling pathway	3
-D      N00008  RET-PTC fusion kinase to RAS-ERK signaling pathway	3
-D      N00077  HRAS-overexpression to RAS-ERK signaling pathway	4
-D      N00078  Mutation-activated HRAS to RAS-ERK signaling pathway	4
-D      N00012  Mutation-activated KRAS/NRAS to ERK signaling pathway	4
-D      N00160  KSHV K1 to RAS-ERK signaling pathway	4
-D      N00013  Mutation-activated BRAF to ERK signaling pathway	5
-D      N00023  EGF-EGFR-PLCG-ERK signaling pathway	1
-D      N00024  Mutation-activated EGFR to PLCG-ERK signaling pathway	2
-D      N00025  EML4-ALK fusion kinase to PLCG-ERK signaling pathway	2
-C    06211 MAPK (JNK) signaling
-D      N00188  IL1-IL1R-JNK signaling pathway
-D      N00189  KSHV K15 to JNK signaling pathway	6
-C    06212 MAPK (p38) signaling
-D      N00186  IL1-IL1R-p38 signaling pathway
-D      N00187  KSHV Kaposin B to p38 signaling pathway	8
-C    06213 Other RAS signaling
-D      N00096  EGF-EGFR-RAS-RASSF1 signaling pathway
-D      N00097  Loss of RASSF1 to EGF-EGFR-RAS-RASSF1 signaling pathway	4
-D      N00103  EGF-EGFR-RAS-RalGDS signaling pathway
-D      N00104  Mutation-activated KRAS to RalGDS signaling pathway	4
-C    06214 PI3K signaling
-D      N00033  EGF-EGFR-PI3K signaling pathway	3
-D      N00036  Mutation-activated EGFR to PI3K signaling pathway	4
-D      N00035  Amplified EGFR to PI3K signaling pathway	4
-D      N00042  EGFR-overexpression to PI3K signaling pathway	4
-D      N00231  TGFA-EGFR-PI3K signaling pathway	3
-D      N00232  TGFA-overexpression to PI3K signaling pathway	3
-D      N00034  ERBB2-overexpression to PI3K signaling pathway	3
-D      N00253  Amplified ERBB2 to PI3K signaling pathway	3
-D      N00039  PDGF-PDGFR-PI3K signaling pathway	3
-D      N00040  Amplified PDGFR to PI3K signaling pathway	4
-D      N00045  KITLG-KIT-PI3K signaling pathway	3
-D      N00046  Mutation-activated KIT to PI3K signaling pathway	4
-D      N00037  FGF-FGFR-PI3K signaling pathway	3
-D      N00038  Amplified FGFR1 to PI3K signaling pathway	3
-D      N00182  IGF-IGFR-PI3K-NFKB signaling pathway	3
-D      N00179  KSHV K1 to PI3K-NFKB signaling pathway	4
-D      N00234  IGF2-IGF1R-PI3K signaling pathway	3
-D      N00236  IGF2-overexpression to PI3K signaling pathway	3
-D      N00238  IGF1R-overexpression to PI3K signaling pathway	3
-D      N00047  EML4-ALK fusion kinase to PI3K signaling pathway	4
-D      N00043  HGF-MET-PI3K signaling pathway	2
-D      N00247  HGF-overexpression to PI3K signaling pathway	2
-D      N00044  Mutation-activated MET to PI3K signaling pathway	3
-D      N00260  Amplified MET to PI3K signaling pathway	3
-D      N00249  MET-overexpression to PI3K signaling pathway	3
-D      N00048  BCR-ABL fusion kinase to PI3K signaling pathway	3
-D      N00049  Mutation-activated PI3K to PI3K signaling pathway	5
-D      N00050  Amplified PI3K to PI3K signaling pathway	5
-D      N00220  PTEN-PI3K-AKT signaling pathway	5
-D      N00051  Deleted PTEN to PI3K signaling pathway	5
-D      N00052  Mutation-inactivated PTEN to PI3K signaling pathway	5
-D      N00082  Loss of NKX3-1 to PI3K signaling pathway	6
+D      N00005  Mutation-activated MET to RAS-ERK signaling pathway
+D      N00259  Amplified MET to RAS-ERK signaling pathway
+D      N00248  MET-overexpression to RAS-ERK signaling pathway
+D      N01062  Mutation-activated MET to RAS-ERK signaling pathway
+D      N00002  BCR-ABL fusion kinase to RAS-ERK signaling pathway
+D      N00274  HCV NS5A to RAS-ERK signaling pathway
+D      N01408  Metals to RAS-ERK signaling pathway
+D      N00009  TRK fusion kinase to RAS-ERK signaling pathway
+D      N01064  Mutation-activated RET to RAS-ERK signaling pathway
+D      N00008  RET fusion kinase to RAS-ERK signaling pathway
+D      N00007  EML4-ALK fusion kinase to RAS-ERK signaling pathway
+D      N00160  KSHV K1 to RAS-ERK signaling pathway
+D      N00077  HRAS-overexpression to ERK signaling pathway
+D      N00078  Mutation-activated HRAS to ERK signaling pathway
+D      N00012  Mutation-activated KRAS/NRAS to ERK signaling pathway
+D      N00013  Mutation-activated BRAF to ERK signaling pathway
+D      N01360  P4-PR-RAS-ERK signaling pathway
+D      N01361  P4/MPA to PR-RAS-ERK signaling pathway
+D      N01351  E2-ER-RAS-ERK signaling pathway
+D      N01353  E2 to RAS-ERK signaling pathway
+D      N01352  BPA to RAS-ERK signaling pathway
+D      N01343  ACH-CHRN-RAS-ERK signaling pathway
+D      N01344  NNK/NNN to RAS-ERK signaling pathway
+C    06214 PI3K signaling (cancer)
+D      N00033  EGF-EGFR-PI3K signaling pathway
+D      N00281  EGF-overexpression to PI3K signaling pathway
+D      N00231  TGFA-EGFR-PI3K signaling pathway
+D      N00232  TGFA-overexpression to PI3K signaling pathway
+D      N00282  EREG-EGFR-PI3K signaling pathway
+D      N00283  EREG-overexpression to PI3K signaling pathway
+D      N00284  AREG-EGFR-PI3K signaling pathway
+D      N00285  AREG-overexpression to PI3K signaling pathway
+D      N01355  Arsenic to PI3K signaling pathway
+D      N00036  Mutation-activated EGFR to PI3K signaling pathway
+D      N00514  Mutation-activated EGFR to PI3K signaling pathway
+D      N00035  Amplified EGFR to PI3K signaling pathway
+D      N00042  EGFR-overexpression to PI3K signaling pathway
+D      N00034  ERBB2-overexpression to PI3K signaling pathway
+D      N00253  Amplified ERBB2 to PI3K signaling pathway
+D      N00039  PDGF-PDGFR-PI3K signaling pathway
+D      N00040  Amplified PDGFR to PI3K signaling pathway
+D      N00045  KITLG-KIT-PI3K signaling pathway
+D      N00046  Mutation-activated KIT to PI3K signaling pathway
+D      N00037  FGF-FGFR-PI3K signaling pathway
+D      N00038  Amplified FGFR to PI3K signaling pathway
+D      N00234  IGF2-IGF1R-PI3K signaling pathway
+D      N00236  IGF2-overexpression to PI3K signaling pathway
+D      N00238  IGF1R-overexpression to PI3K signaling pathway
+D      N00043  HGF-MET-PI3K signaling pathway
+D      N00247  HGF-overexpression to PI3K signaling pathway
+D      N00044  Mutation-activated MET to PI3K signaling pathway
+D      N00260  Amplified MET to PI3K signaling pathway
+D      N00249  MET-overexpression to PI3K signaling pathway
+D      N01063  Mutation-activated MET to PI3K signaling pathway
+D      N00048  BCR-ABL fusion kinase to PI3K signaling pathway
+D      N01065  Mutation-activated RET to PI3K signaling pathway
+D      N00047  EML4-ALK fusion kinase to PI3K signaling pathway
+D      N00159  KSHV K1 to PI3K signaling pathway
+D      N00267  HBV HBx to PI3K signaling pathway
+D      N00272  HCV NS5A to PI3K signaling pathway
+D      N00049  Mutation-activated PI3K to PI3K signaling pathway
+D      N00050  Amplified PI3K to PI3K signaling pathway
+D      N00390  EGF-EGFR-PI3K-NFKB signaling pathway
+D      N00182  IGF-IGFR-PI3K-NFKB signaling pathway
+D      N00179  KSHV K1 to PI3K-NFKB signaling pathway
+D      N00501  HTLV-1 Tax to EGFR-PI3K-NFKB signaling pathway
+D      N00220  PTEN-PIP3-AKT signaling pathway
+D      N01409  Metals to PI3K signaling pathway
+D      N00051  Deleted PTEN to PI3K signaling pathway
+D      N00052  Mutation-inactivated PTEN to PI3K signaling pathway
+D      N00082  Loss of NKX3-1 to PI3K signaling pathway
+D      N00502  HTLV-1 Tax to PTEN-PIP3-AKT signaling pathway
+D      N01356  Membrane-initiated progesterone signaling pathway
+D      N01357  P4/MPA to membrane-initiated progesterone signaling pathway
+D      N01358  P4-PR-PI3K signaling pathway
+D      N01359  P4/MPA to PR-PI3K signaling pathway
+D      N01347  EP/NE-ADRB-PI3K signaling pathway
+D      N01348  Nicotine/NNK to PI3K signaling pathway
+D      N01338  ACH-CHRN-PI3K signaling pathway
+D      N01339  NNK/NNN to PI3K signaling pathway
+D      N01349  ACH-CHRN-PI3K signaling pathway
+D      N01350  NNK/NNN to PI3K signaling pathway
 D      N00030  EGF-EGFR-RAS-PI3K signaling pathway
-D      N00159  KSHV K1 to PI3K signaling pathway	4
 D      N00218  FLT3LG-FLT3-RAS-PI3K signaling pathway
-D      N00031  Duplication-activated FLT3 to RAS-PI3K signaling pathway	1
-D      N00032  Mutation-activated KRAS/NRAS to PI3K signaling pathway	4
-C    06215 WNT signaling
+D      N00031  Duplication or mutation-activated FLT3 to RAS-PI3K signaling pathway
+D      N00032  Mutation-activated KRAS/NRAS to PI3K signaling pathway
+C    06213 Other RAS signaling (cancer)
+D      N00096  EGF-EGFR-RAS-RASSF1 signaling pathway
+D      N00097  Loss of RASSF1 to RAS-RASSF1 signaling pathway
+D      N00103  EGF-EGFR-RAS-RalGDS signaling pathway
+D      N00104  Mutation-activated KRAS to RalGDS signaling pathway
+C    06211 Other MAPK signaling (cancer)
+D      N00188  IL1-IL1R-JNK signaling pathway
+D      N01407  Metals to JNK signaling pathway
+D      N00189  KSHV K15 to JNK signaling pathway
+D      N00186  IL1-IL1R-p38 signaling pathway
+D      N00187  KSHV Kaposin B to p38 signaling pathway
+C    06215 WNT signaling (cancer)
 D      N00056  Wnt signaling pathway
 D      N00059  FZD7-overexpression to Wnt signaling pathway
 D      N00060  LRP6-overexpression to Wnt signaling pathway
-D      N00175  KSHV LANA to Wnt signaling pathway	2
-D      N00242  Mutation-inactivated AXIN to Wnt signaling pathway	2
-D      N00057  Mutation-inactivated APC to Wnt signaling pathway	2
-D      N00058  Mutation-activated CTNNB1 to Wnt signaling pathway	3
-D      N00061  CDH1-reduced expression to Wnt signaling pathway	3
-D      N00257  Loss of CDH1 to Wnt signaling pathway	3
-D      N00258  Mutation-inactivated CDH1 to Wnt signaling pathway	3
-C    06216 NOTCH signaling
+D      N00175  KSHV LANA to Wnt signaling pathway
+D      N00242  Mutation-inactivated AXIN to Wnt signaling pathway
+D      N00057  Mutation-inactivated APC to Wnt signaling pathway
+D      N00058  Mutation-activated CTNNB1 to Wnt signaling pathway
+D      N00061  CDH1-reduced expression to beta-catenin signaling pathway
+D      N00257  Loss of CDH1 to beta-catenin signaling pathway
+D      N00258  Mutation-inactivated CDH1 to beta-catenin signaling pathway
+C    06216 NOTCH signaling (cancer)
 D      N00086  Notch signaling pathway
 D      N00087  NOTCH-overexpression to Notch signaling pathway
-C    06217 HH signaling
+C    06217 HH signaling (cancer)
 D      N00062  Hedgehog signaling pathway
-D      N00010  Mutation-inactivated PTCH1 to Hedgehog signaling pathway	1
-D      N00017  Mutation-activated SMO to Hedgehog signaling pathway	2
-C    06218 TGFB signaling
+D      N00010  Mutation-inactivated PTCH1 to Hedgehog signaling pathway
+D      N00017  Mutation-activated SMO to Hedgehog signaling pathway
+C    06218 TGFB signaling (cancer)
 D      N00063  TGF-beta signaling pathway
-D      N00241  TGFBR2-reduced expression to TGF-beta signaling pathway	1
-D      N00064  Mutation-inactivated TGFBR2 to TGF-beta signaling pathway	1
-D      N00256  TGFBR1-reduced expression to TGF-beta signaling pathway	1
-D      N00106  AML1-EVI1 fusion to TGF-beta signaling pathway	1
-D      N00107  EVI-1 overexpression to TGF-beta signaling pathway	1
-D      N00065  Mutation-inactivated SMAD2 to TGF-beta signaling pathway	1
-C    06219 JAK-STAT signaling
+D      N00241  TGFBR2-reduced expression to TGF-beta signaling pathway
+D      N00064  Mutation-inactivated TGFBR2 to TGF-beta signaling pathway
+D      N00256  TGFBR1-reduced expression to TGF-beta signaling pathway
+D      N00106  AML1-EVI1 fusion to TGF-beta signaling pathway
+D      N00107  EVI-1 overexpression to TGF-beta signaling pathway
+D      N00065  Mutation-inactivated SMAD2 to TGF-beta signaling pathway
+D      N00507  HTLV-1 Tax to TGF-beta signaling pathway
+C    06219 JAK-STAT signaling (cancer)
 D      N00053  Cytokine-Jak-STAT signaling pathway
 D      N00181  KSHV vIL-6 to Jak-STAT signaling pathway
-D      N00105  EML4-ALK fusion kinase to Jak-STAT signaling pathway	1
-D      N00055  BCR-ABL fusion kinase to Jak-STAT signaling pathway	2
-D      N00219  FLT3LG-FLT3-STAT5 signaling pathway	1
-D      N00054  Duplication-activated FLT3 to Jak-STAT signaling pathway	2
+D      N00491  HTLV-1 p12 to Jak-STAT signaling pathway
 D      N00094  EGF-Jak-STAT signaling pathway
 D      N00095  ERBB2-overexpression to EGF-Jak-STAT signaling pathway
-C    06220 Calcium signaling
+D      N00105  EML4-ALK fusion kinase to Jak-STAT signaling pathway
+D      N00055  BCR-ABL fusion kinase to Jak-STAT signaling pathway
+D      N00219  FLT3LG-FLT3-STAT5 signaling pathway
+D      N00054  Duplication or mutation-activated FLT3 to Jak-STAT signaling pathway
+D      N01340  ACH-CHRN-JAK-STAT signaling pathway
+D      N01341  NNK/NNN to Jak-STAT signaling pathway
+D      N01342  Nicotine to Jak-STAT signaling pathway
+C    06220 Calcium signaling (cancer)
 D      N00026  EGF-EGFR-PLCG-CAMK signaling pathway
-D      N00027  Amplified EGFR to PLCG-CAMK signaling pathway	1
+D      N00027  Amplified EGFR to PLCG-CAMK signaling pathway
 D      N00028  PDGF-PDGFR-PLCG-CAMK signaling pathway
-D      N00029  Amplified PDGFR to PLCG-CAMK signaling pathway	1
+D      N00029  Amplified PDGFR to PLCG-CAMK signaling pathway
 D      N00147  EGF-EGFR-PLCG-calcineurin signaling pathway
-D      N00180  KSHV K1 to PLCG-calcineurin signaling pathway	1
-D      N00172  KSHV K15 to PLCG-calcineurin signaling pathway	1
+D      N00180  KSHV K1 to PLCG-calcineurin signaling pathway
+D      N00172  KSHV K15 to PLCG-calcineurin signaling pathway
+D      N00487  BCR-PLCG-Calcineurin signaling pathway
+D      N00490  HTLV-1 p12 to calcineurin signaling pathway
 D      N00227  TGFA-EGFR-PLCG-PKC signaling pathway
 D      N00228  TGFA-overexpression to PLCG-PKC signaling pathway
-C    06221 TLR signaling
-D      N00148  TLR3-IRF7 signaling pathway
-D      N00162  KSHV vIRF3 to TLR3-IRF7 signaling pathway	3
-D      N00163  KSHV KIE1/2 to TLR3-IRF7 signaling pathway	3
-D      N00149  TLR3-IRF3 signaling pathway
-D      N00161  KSHV vIRF1/2 to TLR3-IRF3 signaling pathway	3
-C    06222 IFN signaling
+D      N00023  EGF-EGFR-PLCG-ERK signaling pathway
+D      N00024  Mutation-activated EGFR to PLCG-ERK signaling pathway
+D      N00025  EML4-ALK fusion kinase to PLCG-ERK signaling pathway
+C    06234 cAMP signaling (cancer)
+D      N01345  EP/NE-ADRB-cAMP signaling pathway
+D      N01346  Nicotine/NNK to cAMP signaling pathway
+C    06222 IFN signaling (cancer)
 D      N00150  Type I IFN signaling pathway
-D      N00261  KSHV vIRF2 to IFN signaling pathway	2
-C    06223 TNF-NFKB signaling
-D      N00151  TNF-NFKB signaling pathway  TNF-NFKB signaling pathway
-D      N00174  KSHV vFLIP to TNF-NFKB signaling pathway	1
-D      N00173  KSHV K15 to NFKB signaling pathway	1
-D      N00171  KSHV vFLIP to NFKB signaling pathway	2
-C    06224 CXCR signaling
+D      N00261  KSHV vIRF2 to IFN signaling pathway
+D      N00270  HCV Core to IFN signaling pathway
+C    06223 TNF signaling (cancer)
+D      N00446  TNF-JNK signaling pathway
+D      N00503  HTLV-1 Tax to TNF-JNK signaling pathway
+D      N00151  TNF-NFKB signaling pathway
+D      N01411  Metals to NFKB signaling pathway
+D      N00174  KSHV vFLIP to TNF-NFKB signaling pathway
+D      N00173  KSHV K15 to TNF-NFKB signaling pathway
+D      N01410  Metals to NFKB signaling pathway
+D      N00171  KSHV vFLIP to NFKB signaling pathway
+D      N00504  HTLV-1 Tax to NFKB signaling pathway
+D      N00505  CD40-NFKB signaling pathway
+D      N00506  HTLV-1 Tax to CD40-NFKB signaling pathway
+C    06224 CXCR signaling (cancer)
 D      N00152  CXCR-GNB/G-ERK signaling pathway
-D      N00157  KSHV vGPCR to GNB/G-ERK signaling pathway	1
-D      N00153  CXCR-GNB/G-PI3K-JNK signaling pathway
-D      N00178  KSHV vGPCR to GNB/G-PI3K-JNK signaling pathway	1
+D      N00157  KSHV vGPCR to GNB/G-ERK signaling pathway
+D      N00153  CCR/CXCR-GNB/G-PI3K-RAC signaling pathway
+D      N00178  KSHV vGPCR to GNB/G-PI3K-JNK signaling pathway
 D      N00154  CXCR-GNB/G-PI3K-AKT signaling pathway
-D      N00158  KSHV vGPCR to GNB/G-PI3K-AKT signaling pathway	1
-C    06225 HIF-1 signaling
-D      N00079  HIF-1 signaling pathway	1
+D      N00158  KSHV vGPCR to GNB/G-PI3K-AKT signaling pathway
+C    06225 HIF-1 signaling (cancer)
+D      N00079  HIF-1 signaling pathway
+D      N01412  Metals to HTF-1 signaling pathway
 D      N00080  Loss of VHL to HIF-1 signaling pathway
 D      N00081  Mutation-inactivated VHL to HIF-1 signaling pathway
-C    06226 KEAP1-NRF2 signaling
+C    06226 KEAP1-NRF2 signaling (cancer)
 D      N00243  KEAP1-NRF2 signaling pathway
-D      N00244  Mutation-inactivated KEAP1 to KEAP1-NRF2 signaling pathway	1
-D      N00245  Mutation-activated NRF2 to KEAP1-NRF2 signaling pathway	1
-C    06227 AR signaling
+D      N01413  Metals to KEAP1-NRF2 signalig pathway
+D      N00244  Mutation-inactivated KEAP1 to KEAP1-NRF2 signaling pathway
+D      N00245  Mutation-activated NRF2 to KEAP1-NRF2 signaling pathway
+C    06227 Nuclear receptor signaling (cancer)
 D      N00083  Androgen receptor signaling pathway
 D      N00084  Amplified AR to androgen receptor signaling pathway
 D      N00085  Mutation-activated AR to androgen receptor signaling pathway
-C    06228 Autophagy
-D      N00155  Autophagy-vesicle nucleation
-D      N00177  KSHV vBCL2 to autophagy-vesicle nucleation
-D      N00156  Autophagy-vesicle elongation	1
-D      N00176  KSHV vFLIP to autophagy-vesicle elongation
-C    06229 Endocytosis
-D      N00183  Endocytosis
-D      N00184  KSHV MIR1/2 to MHC1-endocytosis
+D      N00286  Nuclear-initiated estrogen signaling pathway
+D      N00287  ESR1-positive to nuclear-initiated estrogen signaling pathway
+D      N01364  E2 to nuclear-initiated estrogen signaling pathway
+D      N01362  Nuclear-initiated progesterone signaling pathway
+D      N01363  P4/MPA to nuclear-initiated progesterone signaling pathway
+D      N00317  AhR signaling pathway
+D      N01365  TCDD to Ahr signaling pathway
+D      N01366  BaP to Ahr signaling pathway
+D      N01367  PCB to Ahr signaling pathway
+D      N01368  HCB to Ahr signaling pathway
+C    06229 MHC presentation (cancer)
+D      N00363  Antigen processing and presentation by MHC class I molecules
+D      N00184  KSHV MIR1/2 to antigen processing and presentation by MHC class I molecules
 D      N00185  KSHV MIR2 to cell surface molecule-endocytosis
-C    06230 Cell cycle G1/S
-D      N00066  p21-Cell cycle G1/S
+D      N00492  HTLV-1 p12 to antigen processing and presentation by MHC class I molecules
+C    06230 Cell cycle (cancer)
+D      N00066  MDM2-p21-Cell cycle G1/S
 D      N00067  Deleted p14(ARF) to p21-cell cycle G1/S
 D      N00076  Mutation-inactivated p14(ARF) to p21-cell cycle G1/S
-D      N00068  Amplified MDM2 to p21-cell cycle G1/S	1
-D      N00167  KSHV vIRF1/3 to p21-cell cycle G1/S	1
-D      N00169  KSHV LANA to p21-cell cycle G1/S	1
-D      N00069  p16-Cell cycle G1/S	3
-D      N00070  Mutation-inactivated p16(INK4a) to p16-cell cycle G1/S	3
-D      N00071  Deleted p16(INK4a) to p16-cell cycle G1/S	3
-D      N00168  KSHV vCyclin to cell cycle G1/S	3
-D      N00072  Amplified CDK4 to cell cycle G1/S	4
-D      N00073  Mutation-activated CDK4 to cell cycle G1/S	4
-D      N00275  Amplified CCND1 to cell cycle G1/S	4
-D      N00170  KSHV LANA to cell cycle G1/S	4
-D      N00074  Loss of RB1 to cell cycle G1/S	5
-D      N00075  Mutation-inactivated RB1 to cell cycle G1/S	5
-D      N00090  p15-Cell cycle G1/S	1
-D      N00088  Amplified MYC to p15-cell cycle G1/S	1
-D      N00089  Amplified MYC to cell cycle G1/S	3
-D      N00091  p27-Cell cycle G1/S	2
+D      N00068  Amplified MDM2 to p21-cell cycle G1/S
+D      N00167  KSHV vIRF1/3 to p21-cell cycle G1/S
+D      N00169  KSHV LANA to p21-cell cycle G1/S
+D      N00069  p16-Cell cycle G1/S
+D      N00494  HTLV-1 Tax to p16-cell cycle G1/S
+D      N00070  Mutation-inactivated p16(INK4a) to p16-cell cycle G1/S
+D      N00071  Deleted p16(INK4a) to p16-cell cycle G1/S
+D      N00168  KSHV vCyclin to cell cycle G1/S
+D      N00072  Amplified CDK4 to cell cycle G1/S
+D      N00073  Mutation-activated CDK4 to cell cycle G1/S
+D      N00275  Amplified CCND1 to cell cycle G1/S
+D      N00170  KSHV LANA to cell cycle G1/S
+D      N00074  Loss of RB1 to cell cycle G1/S
+D      N00075  Mutation-inactivated RB1 to cell cycle G1/S
+D      N00090  p15-Cell cycle G1/S
+D      N00088  Amplified MYC to p15-cell cycle G1/S
+D      N00495  HTLV-1 Tax to p15-cell cycle G1/S
+D      N00089  Amplified MYC to cell cycle G1/S
+D      N00091  p27-Cell cycle G1/S
 D      N00092  Amplified MYC to p27-cell cycle G1/S
-D      N00093  Loss of CDKN1B to p27-cell cycle G1/S	3
-D      N00254  CDKN1B-reduced expression to p27-cell cycle G1/S	3
-D      N00255  Amplified CCNE to cell cycle G1/S	4
-C    06231 Apoptosis
-D      N00098  Intrinsic apoptotic pathway
-D      N00100  BCL2-overexpression to intrinsic apoptotic pathway	1
-D      N00099  Mutation-inactivated BAX to apoptotic pathway	2
-D      N00101  DCC-apoptotic pathway	3
-D      N00102  Loss of DCC to DCC-apoptotic pathway	3
+D      N00093  Loss of CDKN1B to p27-cell cycle G1/S
+D      N00254  CDKN1B-reduced expression to p27-cell cycle G1/S
+D      N00255  Amplified CCNE to cell cycle G1/S
+D      N01336  CHRNA7-E2F signaling pathway
+D      N01337  NNK/NNN to CHRNA7-E2F signaling pathway
+D      N00499  ATR-p21-Cell cycle G2/M
+D      N00500  HTLV-1 Tax to p21-cell cycle G2/M
+D      N00493  Spindle assembly checkpoint signaling
+D      N00222  HTLV-1 Tax to spindle assembly checkpoint signaling
+D      N00221  HTLV-1 Tax to spindle assembly checkpoint signaling
+C    06231 Apoptosis (cancer)
 D      N00145  Extrinsic apoptotic pathway
 D      N00146  Crosstalk between extrinsic and intrinsic apoptotic pathways
-D      N00166  KSHV vFLIP to crosstalk between extrinsic and intrinsic apoptotic pathways	2
-D      N00164  KSHV vBCL2 to crosstalk between extrinsic and intrinsic apoptotic pathways	4
-D      N00165  KSHV vIAP to crosstalk between extrinsic and intrinsic apoptotic pathways	7
-C    06232 Telomerase activity
+D      N00166  KSHV vFLIP to crosstalk between extrinsic and intrinsic apoptotic pathways
+D      N00164  KSHV vBCL2 to crosstalk between extrinsic and intrinsic apoptotic pathways
+D      N00165  KSHV vIAP to crosstalk between extrinsic and intrinsic apoptotic pathways
+D      N00098  Intrinsic apoptotic pathway
+D      N00100  BCL2-overexpression to intrinsic apoptotic pathway
+D      N00099  Mutation-inactivated BAX to apoptotic pathway
+D      N00101  DCC-apoptotic pathway
+D      N00102  Loss of DCC to DCC-apoptotic pathway
+C    06232 Telomerase activity (cancer)
 D      N00239  Telomerase activity
 D      N00240  TERT-overexpression to telomerase activity
-B  06202 Transcription
-C    06240 All cancer types
+C    06240 Transcription (cancer)
 D      N00115  Mutation-inactivated TP53 to transcription
-C    06241 Leukemia and lymphoma
 D      N00116  Mutation-inactivated RUNX1 to transcription
 D      N00111  AML1-ETO fusion to CEBPA-mediated transcription
 D      N00112  AML1-ETO fusion to PU.1-mediated transcription
@@ -241,7 +1499,6 @@ D      N00122  LMO2-rearrangement to transcriptional repression
 D      N00123  Amplified REL to transcription
 D      N00124  IGH-MAF fusion to transcriptional activation
 D      N00125  IGH-MMSET fusion to transcriptional activation
-C    06242 Carcinoma
 D      N00250  CDX2-overexpression to transcriptional activation
 D      N00251  CDX2-overexpression to transcriptional repression
 D      N00126  PAX8-PPARG fusion to PPARG-mediated transcription
@@ -249,7 +1506,6 @@ D      N00127  PRCC-TFE3 fusion to transcriptional activation
 D      N00128  TMPRSS2-ERG fusion to transcriptional activation
 D      N00129  TMPRSS2-ERG fusion to transcriptional repression
 D      N00130  TMPRSS2-ETV5 fusion to transcriptional activation
-C    06243 Sarcoma
 D      N00133  EWSR1-FLI1 fusion to transcriptional activation
 D      N00134  EWSR1-FLI1 fusion to transcriptional repression
 D      N00135  EWSR1-ERG fusion to transcriptional activation
@@ -261,70 +1517,1022 @@ D      N00140  FUS-DDIT3 fusion to NFKB-mediated transcription
 D      N00141  PAX3-FOXO1 fusion to transcriptional activation
 D      N00142  SYT-SSX fusion to transcriptional repression
 D      N00143  ASPL-TFE3 fusion to transcriptional activation
-C    06244 Other
 D      N00131  Amplified MYCN to transcriptional activation
 D      N00132  Amplified MYCN to transcriptional repression
-B  06203 Viral protein interaction
-C    06250 Human T-cell leukemia virus (HTLV-I)
-D      N00221  HTLV-I Tax to host-cell-protein activation
-D      N00222  HTLV-I Tax to host-cell-protein inhibition
-C    06251 Hepatitis B virus (HBV)
-D      N00267  HBV HBx to host-cell-protein activation
-D      N00268  HBV HBx to host-cell-protein inhibition
-C    06252 Hepatitis C virus (HCV)
-D      N00269  HCV Core to host-cell-protein activation
-D      N00270  HCV Core to host-cell-protein inhibition
-D      N00271  HCV NS3 to host-cell-protein inhibition
-D      N00272  HCV NS5A to host-cell-protein activation
-D      N00273  HCV NS5A to host-cell-protein inhibition
-D      N00274  HCV NS5A binding to host-cell-protein
-C    06253 Kaposi's sarcoma-associated herpesvirus (KSHV)
-D      N00196  KSHV vIRF1/2/3 to host-cell-protein inhibition
-D      N00197  KSHV K-bZIP to host-cell-protein inhibition
-D      N00198  KSHV KIE1/2 to host-cell protein inhibition
-D      N00199  KSHV vBCL2 to host-cell-protein inhibition
-D      N00200  KSHV vIAP to host-cell-protein inhibition
-D      N00201  KSHV vFLIP to host-cell-protein activation
-D      N00202  KSHV vFLIP to host-cell-protein inhibition
-D      N00203  KSHV vCyclin to host-cell-protein activation
-D      N00204  KSHV LANA to host-cell-protein activation
-D      N00205  KSHV LANA to host-cell-protein inhibition
-D      N00206  KSHV vGPCR to host-cell-protein activation
-D      N00207  KSHV K15 to host-cell-protein activation
-D      N00208  KSHV K1 to host-cell-protein activation
-D      N00209  KSHV vIL-6 to host-cell-protein activation
-D      N00210  KSHV MIR1/2 to host-cell-protein inhibition
-D      N00211  KSHV vCCL1/2/3 to host-cell-protein activation
-D      N00212  KSHV vCCL2 to host-cell-protein inhibition
-D      N00213  KSHV KCP to host-cell-protein inhibition
-D      N00214  KSHV Kaposin B to host-cell-protein inhibition
-C    06254 Epstein-Barr virus (EBV)
-D      N00223  EBV EBNA-1 to host-cell-protein inhibition
-D      N00224  EBV EBNA-LP binding to host-cell-protein
-D      N00225  EBV EBNA-2 binding to host-cell-protein
-D      N00226  EBV EBNA3A/3B to host-cell-protein inhibition
-D      N00263  EBV EBNA3C to host-cell-protein activation
-D      N00262  EBV EBNA3C to host-cell-protein inhibition
-D      N00264  EBV EBNA3C binding to host-cell-protein
-D      N00265  EBV LMP1 to host-cell-protein activation
-D      N00266  EBV LMP2 to host-cell-protein inhibition
-C    06255 Human papillomavirus (HPV)
-D      N00190  HPV E5 to host-cell-protein activation
-D      N00191  HPV E5 to host-cell-protein inhibition
-D      N00192  HPV E6 to host-cell-protein activation
-D      N00193  HPV E6 to host-cell-protein inhibition
-D      N00194  HPV E7 to host-cell-protein activation
-D      N00195  HPV E7 to host-cell-protein inhibition
-B  06204 Drug-target relationship
-C    06260 Kinase inhibitors
-D      N10001  First-generation TKI to BCR-ABL
-D      N10002  Second- and third-generation TKI to drug-resistant BCR-ABL
-D      N10003  First-generation TKI to EML4-ALK
-D      N10004  Second- and third-generation TKI to drug-resistant EML4-ALK
-D      N10005  First and second-generation TKI to EGFR
-D      N10006  Third-generation TKI to drug-resistant EGFR
-D      N10007  BRAF kinase inhibitor to mutated BRAF
+C    06250 DNA adduct formation (cancer)
+D      N01369  4-ABP to DNA adducts
+D      N01370  PhIP to DNA adducts
+D      N01371  PhIP to DNA adducts
+D      N01372  IQ to DNA adducts
+D      N01373  MeIQx to DNA adducts
+D      N01374  BaP to DNA adducts
+D      N01375  DMBA to DNA adducts
+D      N01376  Melphalan to DNA adducts/cross-links
+D      N01377  Thiotepa to DNA adducts/cross-links
+D      N01378  AFB1 to DNA adducts
+D      N01379  NNK to DNA adducts
+D      N01380  NNK to DNA adducts
+D      N01381  NNK to DNA adducts
+D      N01382  NNK to DNA adducts
+D      N01383  NDMA to DNA adducts
+D      N01384  EO to DNA adducts
+D      N01385  VC to DNA adducts
+D      N01386  DCE to DNA adducts
+D      N01387  SM to DNA adducts/cross-links
+C    06251 CYP-mediated ROS formation (cancer)
+D      N01396  4-Aminobiphenyl to CYP-mediated metabolism
+D      N01397  4-Aminobiphenyl to CYP-mediated metabolism
+D      N01398  Pentachlorophenol to CYP-mediated metabolism
+D      N01399  Benzene to CYP-mediated metabolism
+D      N01400  Benzene to CYP-mediated metabolism
+D      N01401  Benzo[a]pyrenre to CYP-mediated metabolism
+D      N01404  17beta-estradiol to CYP-mediated metabolism
+D      N01405  17beta-estradiol to CYP-mediated metabolism
+D      N01406  Ethanol to CYP-mediated metabolism
+C    06252 Mitochondrial ROS formation (cancer)
+D      N00988  Electron transfer in Complex II
+D      N01392  Arsenic to electron transfer in complex II
+D      N01393  Arsenic to electron transfer in complex II
+D      N00990  Electron transfer in Complex III
+D      N01395  Cadmium to electron transfer in complex III
+D      N00998  Electron transfer in Complex IV
+D      N01394  Arsenic to electron transfer in complex IV
+C    06253 Antioxidant system (cancer)
+D      N01388  SOD/Cat-mediated ROS neutralization
+D      N01389  Lead to SOD/Cat-mediated ROS neutralization
+D      N01390  p,p'-DDT to SOD/Cat-mediated ROS neutralization
+D      N01391  Lead to SOD/Cat-mediated ROS neutralization
+B  Neurodegenerative disease
+C    06460 Alzheimer disease
+D      N00984  mGluR5-Ca2+ -apoptotic pathway
+D      N01002  Mutation-caused aberrant Abeta to mGluR5-Ca2+ -apoptotic pathway
+D      N01008  Mutation-caused aberrant PSEN1 to mGluR5-Ca2+ -apoptotic pathway
+D      N01007  Mutation-caused aberrant PSEN to mGluR5-Ca2+ -apoptotic pathway
+D      N01000  mAChR-Ca2+ -apoptotic pathway
+D      N01001  Mutation-caused aberrant Abeta to mAchR-Ca2+ -apoptotic pathway
+D      N00967  VGCC-Ca2+ -apoptotic pathway
+D      N01004  Mutation-caused aberrant Abeta to VGCC-Ca2+ -apoptotic pathway
+D      N01006  Mutation-caused aberrant Abeta to VGCC-Ca2+ -apoptotic pathway
+D      N00970  Transport of calcium
+D      N01003  Mutation-caused aberrant Abeta to transport of calcium
+D      N01029  26S proteasome-mediated protein degradation
+D      N01060  Mutation-caused aberrant Abeta to 26S proteasome-mediated protein degradation
+D      N01009  PERK-ATF4 signaling pathway
+D      N01010  Mutation-caused aberrant PSEN1 to PERK-ATF4 signaling pathway
+D      N01011  IRE1a-XBP1 signaling pathway
+D      N01012  Mutation-caused aberrant PSEN1 to IRE1a-XBP1 signaling pathway
+D      N01013  IRE1a-JNK signaling pathway
+D      N01014  Mutation-caused aberrant Abeta to IRE1a-JNK signaling pathway
+D      N01015  ATF6-mediated transcription
+D      N01016  Mutation-caused aberrant PSEN1 to ATF6-mediated transcription
+D      N00146  Crosstalk between extrinsic and intrinsic apoptotic pathways
+D      N01005  Mutation-caused aberrant Abeta to crosstalk between extrinsic and intrinsic apoptotic pathways
+D      N00994  AGE-RAGE signaling pathway
+D      N00996  Mutation-caused aberrant Abeta to AGE-RAGE signaling pathway
+D      N00995  Electron transfer in Complex I
+D      N00997  Mutation-caused aberrant Abeta to electron transfer in Complex I
+D      N00988  Electron transfer in Complex II
+D      N01402  Manganese to electron transfer in Complex II
+D      N00998  Electron transfer in Complex IV
+D      N00999  Mutation-caused aberrant Abeta to electron transfer in Complex IV
+D      N00978  Anterograde axonal transport
+D      N01017  Mutation-caused aberrant PSEN1 to anterograde axonal transport
+D      N01018  Mutation-caused aberrant Abeta to anterograde axonal transport
+D      N01403  Zn to anterograde axonal transport
+D      N01414  Iron to anterograde axonal transport
+D      N01415  NEP-mediated Abeta degradation
+D      N01416  Mercury to NEP-mediated Abeta degradation
+C    06463 Parkinson disease
+D      N00953  mGluR1-TRPC3 signaling pathway
+D      N01032  Mutation-inactivated PRKN to mGluR1 signaling pathway
+D      N00967  VGCC-Ca2+ -apoptotic pathway
+D      N01031  Mutation-caused aberrant SNCA to VGCC-Ca2+ -apoptotic pathway
+D      N01019  Parkin-mediated ubiquitination
+D      N01020  Mutation-inactivated PRKN to Parkin-mediated ubiquitination
+D      N01021  Parkin-mediated ubiquitination
+D      N01022  Mutation-inactivated PRKN to Parkin-mediated ubiquitination
+D      N01023  Parkin-mediated ubiquitination
+D      N01024  Mutation-inactivated PRKN to Parkin-mediated ubiquitination
+D      N01025  Parkin-mediated ubiquitination
+D      N01026  Mutation-inactivated PRKN to Parkin-mediated ubiquitination
+D      N01029  26S proteasome-mediated protein degradation
+D      N01030  Mutation-caused aberrant SNCA to 26S proteasome-mediated protein degradation
+D      N01027  UCHL1-mediated hydrolysis
+D      N01028  Mutation-inactivated UCHL1 to UCHL1-mediated hydrolysis
+D      N01009  PERK-ATF4 signaling pathway
+D      N01035  Mutation-caused aberrant SNCA to PERK-ATF4 signaling pathway
+D      N01011  IRE1a-XBP1 signaling pathway
+D      N01034  Mutation-caused aberrant SNCA to IRE1a-XBP1 signaling pathway
+D      N01015  ATF6-mediated transcription
+D      N01033  Mutation-caused aberrant SNCA to ATF6-mediated transcription
+D      N01052  PINK1-Parkin-mediated MFN2 degradation
+D      N01053  Mutation-inactivated PINK1 to PINK1-Parkin-mediated MFN2 degradation
+D      N01054  Mutation-inactivated PRKN to PINK1-Parkin-mediated MFN2 degradation
+D      N00098  Intrinsic apoptotic pathway
+D      N01051  Mutation-inactivated DJ1 to intrinsic apoptotic pathway
+D      N01050  Mutation-inactivated PINK1 to intrinsic apoptotic pathway
+D      N01049  Mutation-inactivated PRKN to intrinsic apoptotic pathway
+D      N01048  Mutation-inactivated PINK1 to intrinsic apoptotic pathway
+D      N01047  Mutation-activated LRRK2 to intrinsic apoptotic pathway
+D      N01056  FAS-JNK signaling pathway
+D      N01057  Mutation-inactivated DJ1 to FAS-JNK signaling patwhay
+D      N01417  Paraquat to FAS-JNK signaling pathway
+D      N01530  Dopamine metabolism
+D      N01037  Mutation-caused aberrant SNCA to L-DOPA generation
+D      N01039  Mutation-inactivated PRKN to DOPAL generation
+D      N01040  Transport of dopamine to synaptic vesicle
+D      N01041  Mutation-caused aberrant SNCA to transport of dopamine
+D      N00995  Electron transfer in Complex I
+D      N01042  Mutation-caused aberrant SNCA to electron transfer in Complex I
+D      N01043  Mutation-inactivated PINK1 to electron transfer in Complex I
+D      N01044  MPP+ to electron transfer in Complex I
+D      N01045  Rotenone to electron transfer in Complex I
+D      N00988  Electron transfer in Complex II
+D      N01402  Manganese to electron transfer in Complex II
+D      N00990  Electron transfer in Complex III
+D      N01046  Maneb to electron transfer in Complex III
+D      N00976  Retrograde axonal transport
+D      N01055  Mutation-caused aberrant SNCA to anterograde axonal transport
+D      N01058  Mutation-inactivated DJ1 to to p53-mediated transcription
+D      N00243  KEAP1-NRF2 signaling pathway
+D      N01059  Mutation-inactivated DJ1 to KEAP1-NRF2 signaling pathway
+C    06464 Amyotrophic lateral sclerosis
+D      N00984  mGluR5-Ca2+ -apoptotic pathway
+D      N01151  Mutation-inactivated SIGMAR1 to Ca2+ -apoptotic pathway
+D      N01029  26S proteasome-mediated protein degradation
+D      N01144  Mutation-caused aberrant SOD1 to 26S proteasome-mediated protein degradation
+D      N01145  Mutation-inactivated VCP to 26S proteasome-mediated protein degradation
+D      N01146  Mutation-inactivated UBQLN2 to 26S proteasome-mediated protein degradation
+D      N01009  PERK-ATF4 signaling pathway
+D      N01149  Mutation-caused aberrant SOD1 to PERK-ATF4 signaling pathway
+D      N01011  IRE1a-XBP1 signaling pathway
+D      N01148  Mutation-caused aberrant SOD1 to IRE1a-XBP1 signaling pathway
+D      N01015  ATF6-mediated transcription
+D      N01150  Mutation-inactivated VAPB to ATF6-mediated transcription
+D      N01147  Mutation-caused aberrant SOD1 to ATF6-mediated transcription
+D      N01142  C9orf72-mediated autophagy initiation
+D      N01143  Mutation-inactivated C9orf72 to C9orf72-mediated autophagy initiation
+D      N01137  PINK-Parkin-mediated autophagosome formation
+D      N01138  Mutation-inactivated OPTN to PINK-Parkin-mediated autophagosome formation
+D      N01139  Mutation-inactivated p62 to PINK-Parkin-mediated autophagosome formation
+D      N01140  TBK1-mediated autophagosome formation
+D      N01141  Mutation-inactivated TBK1 to TBK1-mediated autophagosome formation
+D      N00098  Intrinsic apoptotic pathway
+D      N01135  Mutation-caused aberrant SOD1 to intrinsic apoptotic pathway
+D      N01163  NRG-ERBB4-PI3K signaling pathway
+D      N01164  Mutation-inactivated ERBB4 to NRG-ERBB4-PI3K signaling pathway
+D      N00995  Electron transfer in Complex I
+D      N01136  Mutation-caused aberrant TDP43 to electron transfer in Complex I
+D      N00976  Retrograde axonal transport
+D      N01160  Mutation-caused aberrant SOD1 to retrograde axonal transport
+D      N01158  Mutation-caused aberrant DCTN1 to retrograde axonal transport
+D      N01159  Mutation-caused aberrant TUBA4A to retrograde axonal transport
+D      N01161  Actin polymerization
+D      N01162  Mutation-caused aberrant PFN1 to actin polymerization
+D      N01154  TDP-43-regulated splicing
+D      N01155  Mutation-caused aberrant TDP43 to TDP-43-regulated splicing
+D      N01156  FUS-regulated splicing
+D      N01157  Mutation-caused aberrant FUS to FUS-regulated splicing
+D      N01152  Nuclear export of mRNA
+D      N01153  Mutation-caused aberrant GLE1 to nuclear export of mRNA
+C    06461 Huntington disease
+D      N00984  mGluR5-Ca2+ -apoptotic pathway
+D      N00985  Mutation-caused aberrant Htt to mGluR5-Ca2+ -apoptotic pathway
+D      N00967  VGCC-Ca2+ -apoptotic pathway
+D      N00986  Mutation-caused aberrant Htt to VGCC-Ca2+ -apoptotic pathway
+D      N00970  Transport of calcium
+D      N00987  Mutation-caused aberrant Htt to transport of calcium
+D      N01029  26S proteasome-mediated protein degradation
+D      N01061  Mutation-caused aberrant Htt to 26S proteasome-mediated protein degradation
+D      N00155  Autophagy-vesicle nucleation/elongation/maturation, mTORC1-PI3KC3-C1
+D      N00993  Mutation-caused aberrant Htt to autophagy-vesicle nucleation
+D      N00145  Extrinsic apoptotic pathway
+D      N00983  Mutation-caused aberrant Htt to extrinsic apoptotic pathway
+D      N00446  TNF-JNK signaling pathway
+D      N00992  Mutation-caused aberrant Htt to TNF-JNK signaling pathway
+D      N00988  Electron transfer in Complex II
+D      N00989  Mutation-caused aberrant Htt to electron transfer in Complex II
+D      N00990  Electron transfer in Complex III
+D      N00991  Mutation-caused aberrant Htt to electron transfer in Complex III
+D      N00976  Retrograde axonal transport
+D      N00977  Mutation-caused aberrant Htt to retrograde axonal transport
+D      N00978  Anterograde axonal transport
+D      N00979  Mutation-caused aberrant Htt to anterograde axonal transport
+D      N00980  Mutation-caused aberrant Htt to REST-mediated transcriptional repression
+D      N00981  Mutation-caused aberrant Htt to CREB-mediated transcription
+D      N00982  Mutation-caused aberrant Htt to p53-mediated transcription
+C    06462 Spinocerebellar ataxia
+D      N00953  mGluR1-TRPC3 signaling pathway
+D      N00960  Mutation-caused aberrant SPTBN2 to mGluR1-TRPC3 signaling pathway
+D      N00954  Mutation-activated GRM1 to mGluR1-TRPC3 signaling pathway
+D      N00958  Mutation-activated ITPR1 to mGluR1-TRPC3 signaling pathway
+D      N00959  ITPR1-reduced expression to mGluR1-TRPC3 signaling pathway
+D      N00955  Mutation-inactivated PRKCG to mGluR1-TRPC3 signaling pathway
+D      N00956  Mutation-activated PRKCG to mGluR1-TRPC3 signaling pathway
+D      N00961  Mutation-activated TRPC3 to mGluR1-TRPC3 signaling pathway
+D      N00984  mGluR5-Ca2+ -apoptotic pathway
+D      N00957  Mutation-caused abberant ATXN2/3 to mGluR5-Ca2+ -apoptotic pathway
+D      N00967  VGCC-Ca2+ -apoptotic pathway
+D      N00968  Mutation-activated CACNA1A to VGCC-Ca2+ -apoptotic pathway
+D      N00969  Mutation-inactivated CACNA1A to VGCC-Ca2- -apoptotic pathway
+D      N00970  Transport of calcium
+D      N00971  Mutation-caused aberrant PDYN to transport of calcium
+D      N00972  Transport of potassium
+D      N00973  Mutation-inactivated KCNC3 to transport of potassium
+D      N00974  Transport of potassium
+D      N00975  Mutation-inactivated KCND3 to transport of potassium
+D      N00155  Autophagy-vesicle nucleation/elongation/maturation, mTORC1-PI3KC3-C1
+D      N00962  Mutation-inactivated ATXN3 to autophagy-vesicle nucleation
+D      N00963  RELN-VLDLR-PI3K signaling pathway
+D      N00964  DAB1-overexpression to RELN-VLDLR-PI3K signaling pathway
+D      N00965  RORA-mediated transcription
+D      N00966  Mutation-caused aberrant ATXN1 to RORA-mediated transcription
+C    06465 Prion disease
+D      N00984  mGluR5-Ca2+ -apoptotic pathway
+D      N01199  Scrapie conformation PrPSc to mGluR5-Ca2+ -apoptotic pathway
+D      N00967  VGCC-Ca2+ -apoptotic pathway
+D      N01201  Scrapie conformation PrPSc to VGCC-Ca2+ -apoptotic pathway
+D      N00970  Transport of calcium
+D      N01200  Scrapie conformation PrPSc to transport of calcium
+D      N01029  26S proteasome-mediated protein degradation
+D      N01197  Scrapie conformation PrPSc to 26S proteasome-mediated protein degradation
+D      N01009  PERK-ATF4 signaling pathway
+D      N01198  Scrapie conformation PrPSc to PERK-ATF4 signaling pathway
+D      N01204  PRNP-PI3K-NOX2 signaling pathway
+D      N01205  Scrapie conformation PrPSc to PRNP-PI3K-NOX2 signaling pathway
+D      N00978  Anterograde axonal transport
+D      N01202  Oligomeric conformation PrPc to anterograde axonal transport
+D      N00086  Notch signaling pathway
+D      N01203  Scrapie conformation PrPSc to Notch singling pathway
+C    06466 Pathways of neurodegeneration
+D      N00953  mGluR1-TRPC3 signaling pathway
+D      N00960  Mutation-caused aberrant SPTBN2 to mGluR1-TRPC3 signaling pathway
+D      N00954  Mutation-activated GRM1 to mGluR1-TRPC3 signaling pathway
+D      N00958  Mutation-activated ITPR1 to mGluR1-TRPC3 signaling pathway
+D      N00959  ITPR1-reduced expression to mGluR1-TRPC3 signaling pathway
+D      N00955  Mutation-inactivated PRKCG to mGluR1-TRPC3 signaling pathway
+D      N00956  Mutation-activated PRKCG to mGluR1-TRPC3 signaling pathway
+D      N00961  Mutation-activated TRPC3 to mGluR1-TRPC3 signaling pathway
+D      N01032  Mutation-inactivated PRKN to mGluR1 signaling pathway
+D      N00984  mGluR5-Ca2+ -apoptotic pathway
+D      N01002  Mutation-caused aberrant Abeta to mGluR5-Ca2+ -apoptotic pathway
+D      N01151  Mutation-inactivated SIGMAR1 to Ca2+ -apoptotic pathway
+D      N01008  Mutation-caused aberrant PSEN1 to mGluR5-Ca2+ -apoptotic pathway
+D      N01007  Mutation-caused aberrant PSEN to mGluR5-Ca2+ -apoptotic pathway
+D      N01199  Scrapie conformation PrPSc to mGluR5-Ca2+ -apoptotic pathway
+D      N00985  Mutation-caused aberrant Htt to mGluR5-Ca2+ -apoptotic pathway
+D      N00957  Mutation-caused abberant ATXN2/3 to mGluR5-Ca2+ -apoptotic pathway
+D      N01000  mAChR-Ca2+ -apoptotic pathway
+D      N01001  Mutation-caused aberrant Abeta to mAchR-Ca2+ -apoptotic pathway
+D      N00967  VGCC-Ca2+ -apoptotic pathway
+D      N00986  Mutation-caused aberrant Htt to VGCC-Ca2+ -apoptotic pathway
+D      N01004  Mutation-caused aberrant Abeta to VGCC-Ca2+ -apoptotic pathway
+D      N01201  Scrapie conformation PrPSc to VGCC-Ca2+ -apoptotic pathway
+D      N01006  Mutation-caused aberrant Abeta to VGCC-Ca2+ -apoptotic pathway
+D      N01031  Mutation-caused aberrant SNCA to VGCC-Ca2+ -apoptotic pathway
+D      N00968  Mutation-activated CACNA1A to VGCC-Ca2+ -apoptotic pathway
+D      N00969  Mutation-inactivated CACNA1A to VGCC-Ca2- -apoptotic pathway
+D      N00970  Transport of calcium
+D      N00987  Mutation-caused aberrant Htt to transport of calcium
+D      N01200  Scrapie conformation PrPSc to transport of calcium
+D      N00971  Mutation-caused aberrant PDYN to transport of calcium
+D      N01003  Mutation-caused aberrant Abeta to transport of calcium
+D      N01019  Parkin-mediated ubiquitination
+D      N01020  Mutation-inactivated PRKN to Parkin-mediated ubiquitination
+D      N01021  Parkin-mediated ubiquitination
+D      N01022  Mutation-inactivated PRKN to Parkin-mediated ubiquitination
+D      N01023  Parkin-mediated ubiquitination
+D      N01024  Mutation-inactivated PRKN to Parkin-mediated ubiquitination
+D      N01025  Parkin-mediated ubiquitination
+D      N01026  Mutation-inactivated PRKN to Parkin-mediated ubiquitination
+D      N01029  26S proteasome-mediated protein degradation
+D      N01144  Mutation-caused aberrant SOD1 to 26S proteasome-mediated protein degradation
+D      N01145  Mutation-inactivated VCP to 26S proteasome-mediated protein degradation
+D      N01146  Mutation-inactivated UBQLN2 to 26S proteasome-mediated protein degradation
+D      N01060  Mutation-caused aberrant Abeta to 26S proteasome-mediated protein degradation
+D      N01030  Mutation-caused aberrant SNCA to 26S proteasome-mediated protein degradation
+D      N01061  Mutation-caused aberrant Htt to 26S proteasome-mediated protein degradation
+D      N01197  Scrapie conformation PrPSc to 26S proteasome-mediated protein degradation
+D      N01027  UCHL1-mediated hydrolysis
+D      N01028  Mutation-inactivated UCHL1 to UCHL1-mediated hydrolysis
+D      N01009  PERK-ATF4 signaling pathway
+D      N01010  Mutation-caused aberrant PSEN1 to PERK-ATF4 signaling pathway
+D      N01035  Mutation-caused aberrant SNCA to PERK-ATF4 signaling pathway
+D      N01149  Mutation-caused aberrant SOD1 to PERK-ATF4 signaling pathway
+D      N01198  Scrapie conformation PrPSc to PERK-ATF4 signaling pathway
+D      N01011  IRE1a-XBP1 signaling pathway
+D      N01012  Mutation-caused aberrant PSEN1 to IRE1a-XBP1 signaling pathway
+D      N01034  Mutation-caused aberrant SNCA to IRE1a-XBP1 signaling pathway
+D      N01148  Mutation-caused aberrant SOD1 to IRE1a-XBP1 signaling pathway
+D      N01013  IRE1a-JNK signaling pathway
+D      N01014  Mutation-caused aberrant Abeta to IRE1a-JNK signaling pathway
+D      N01015  ATF6-mediated transcription
+D      N01016  Mutation-caused aberrant PSEN1 to ATF6-mediated transcription
+D      N01150  Mutation-inactivated VAPB to ATF6-mediated transcription
+D      N01033  Mutation-caused aberrant SNCA to ATF6-mediated transcription
+D      N01147  Mutation-caused aberrant SOD1 to ATF6-mediated transcription
+D      N01142  C9orf72-mediated autophagy initiation
+D      N01143  Mutation-inactivated C9orf72 to C9orf72-mediated autophagy initiation
+D      N00155  Autophagy-vesicle nucleation/elongation/maturation, mTORC1-PI3KC3-C1
+D      N00962  Mutation-inactivated ATXN3 to autophagy-vesicle nucleation
+D      N00993  Mutation-caused aberrant Htt to autophagy-vesicle nucleation
+D      N01052  PINK1-Parkin-mediated MFN2 degradation
+D      N01053  Mutation-inactivated PINK1 to PINK1-Parkin-mediated MFN2 degradation
+D      N01054  Mutation-inactivated PRKN to PINK1-Parkin-mediated MFN2 degradation
+D      N01137  PINK-Parkin-mediated autophagosome formation
+D      N01138  Mutation-inactivated OPTN to PINK-Parkin-mediated autophagosome formation
+D      N01139  Mutation-inactivated p62 to PINK-Parkin-mediated autophagosome formation
+D      N01140  TBK1-mediated autophagosome formation
+D      N01141  Mutation-inactivated TBK1 to TBK1-mediated autophagosome formation
+D      N00146  Crosstalk between extrinsic and intrinsic apoptotic pathways
+D      N01005  Mutation-caused aberrant Abeta to crosstalk between extrinsic and intrinsic apoptotic pathways
+D      N00098  Intrinsic apoptotic pathway
+D      N01135  Mutation-caused aberrant SOD1 to intrinsic apoptotic pathway
+D      N01051  Mutation-inactivated DJ1 to intrinsic apoptotic pathway
+D      N01050  Mutation-inactivated PINK1 to intrinsic apoptotic pathway
+D      N01049  Mutation-inactivated PRKN to intrinsic apoptotic pathway
+D      N01048  Mutation-inactivated PINK1 to intrinsic apoptotic pathway
+D      N01047  Mutation-activated LRRK2 to intrinsic apoptotic pathway
+D      N00994  AGE-RAGE signaling pathway
+D      N00996  Mutation-caused aberrant Abeta to AGE-RAGE signaling pathway
+D      N00995  Electron transfer in Complex I
+D      N00997  Mutation-caused aberrant Abeta to electron transfer in Complex I
+D      N01136  Mutation-caused aberrant TDP43 to electron transfer in Complex I
+D      N01042  Mutation-caused aberrant SNCA to electron transfer in Complex I
+D      N01043  Mutation-inactivated PINK1 to electron transfer in Complex I
+D      N01044  MPP+ to electron transfer in Complex I
+D      N01045  Rotenone to electron transfer in Complex I
+D      N00988  Electron transfer in Complex II
+D      N00989  Mutation-caused aberrant Htt to electron transfer in Complex II
+D      N01402  Manganese to electron transfer in Complex II
+D      N00990  Electron transfer in Complex III
+D      N00991  Mutation-caused aberrant Htt to electron transfer in Complex III
+D      N01046  Maneb to electron transfer in Complex III
+D      N00998  Electron transfer in Complex IV
+D      N00999  Mutation-caused aberrant Abeta to electron transfer in Complex IV
+D      N00976  Retrograde axonal transport
+D      N00977  Mutation-caused aberrant Htt to retrograde axonal transport
+D      N01160  Mutation-caused aberrant SOD1 to retrograde axonal transport
+D      N01158  Mutation-caused aberrant DCTN1 to retrograde axonal transport
+D      N01159  Mutation-caused aberrant TUBA4A to retrograde axonal transport
+D      N00978  Anterograde axonal transport
+D      N01055  Mutation-caused aberrant SNCA to anterograde axonal transport
+D      N00979  Mutation-caused aberrant Htt to anterograde axonal transport
+D      N01017  Mutation-caused aberrant PSEN1 to anterograde axonal transport
+D      N01202  Oligomeric conformation PrPc to anterograde axonal transport
+D      N01018  Mutation-caused aberrant Abeta to anterograde axonal transport
+D      N01403  Zn to anterograde axonal transport
+D      N01414  Iron to anterograde axonal transport
+B  Endocrine and metabolic disease
+C    06360 Cushing syndrome
+D      N00324  CRHR-PKA-ACTH signaling pathway
+D      N00325  Mutation-inactivated RASD1 to CRHR-PKA-ACTH signaling pathway
+D      N00326  Mutation-activated GNAS to CRHR-PKA-ACTH signaling pathway
+D      N00327  Mutation-inactivated PRKAR1A to CRHR-PKA-ACTH signaling pathway
+D      N00297  ACTH-cortisol signaling pathway
+D      N00321  Mutation-activated GNAS to ACTH-cortisol signaling pathway
+D      N00323  Mutation-inactivated PDE11A/PDE8B to ACTH-cortisol signaling pathway
+D      N00320  Mutation-activated PRKACA to ACTH-cortisol signaling pathway
+D      N00322  Mutation-inactivated PRKAR1A to ACTH-cortisol signaling pathway
+D      N00318  EGFR-ERK-ACTH signaling pathway
+D      N00319  Mutation-activated USP8 to EGFR-ERK-ACTH signaling pathway
+D      N00317  AhR signaling pathway
+D      N00315  Mutation-inactivated AIP to AhR-mediated transcription
+D      N00290  Mutation-inactivated MEN1 to transcription
+D      N00316  Mutation-inactivated CDKN1B to p27-cell cycle G1/S
+B  Viral infection
+C    06160 Human T-cell leukemia virus 1 (HTLV-1)
+D      N00390  EGF-EGFR-PI3K-NFKB signaling pathway
+D      N00501  HTLV-1 Tax to EGFR-PI3K-NFKB signaling pathway
+D      N00220  PTEN-PIP3-AKT signaling pathway
+D      N00502  HTLV-1 Tax to PTEN-PIP3-AKT signaling pathway
+D      N00063  TGF-beta signaling pathway
+D      N00507  HTLV-1 Tax to TGF-beta signaling pathway
+D      N00053  Cytokine-Jak-STAT signaling pathway
+D      N00491  HTLV-1 p12 to Jak-STAT signaling pathway
+D      N00487  BCR-PLCG-Calcineurin signaling pathway
+D      N00490  HTLV-1 p12 to calcineurin signaling pathway
+D      N00446  TNF-JNK signaling pathway
+D      N00503  HTLV-1 Tax to TNF-JNK signaling pathway
+D      N00151  TNF-NFKB signaling pathway
+D      N00504  HTLV-1 Tax to NFKB signaling pathway
+D      N00505  CD40-NFKB signaling pathway
+D      N00506  HTLV-1 Tax to CD40-NFKB signaling pathway
+D      N00363  Antigen processing and presentation by MHC class I molecules
+D      N00492  HTLV-1 p12 to antigen processing and presentation by MHC class I molecules
+D      N00069  p16-Cell cycle G1/S
+D      N00494  HTLV-1 Tax to p16-cell cycle G1/S
+D      N00090  p15-Cell cycle G1/S
+D      N00495  HTLV-1 Tax to p15-cell cycle G1/S
+D      N00499  ATR-p21-Cell cycle G2/M
+D      N00500  HTLV-1 Tax to p21-cell cycle G2/M
+D      N00493  Spindle assembly checkpoint signaling
+D      N00222  HTLV-1 Tax to spindle assembly checkpoint signaling
+D      N00221  HTLV-1 Tax to spindle assembly checkpoint signaling
+D      N00489  HTLV-1 p30II to c-myc-mediated transcription
+D      N00497  HTLV-1 Tax to p21-cell cycle G1/S
+D      N00498  HTLV-1 Tax to p21-cell cycle G1/S
+D      N00508  HTLV-1 Tax to NFY-mediated transcription
+D      N00509  HTLV-1 Tax to SRF-mediated transcription
+D      N00510  HTLV-1 Tax to CREB-mediated transcription
+D      N00511  HTLV-1 Tax to E47-mediated transcription
+D      N00512  HTLV-1 Tax to c-myc-mediated transcription
+C    06161 Human immunodeficiency virus 1 (HIV-1)
+D      N00435  TLR1/2/4-NFKB signaling pathway
+D      N00436  HIV Tat to TLR2/4-NFKB signaling pathway
+D      N00437  HIV Vpu to TLR2/4-NFKB signaling pathway
+D      N00438  TLR2/4-MAPK signaling pathway
+D      N00439  HIV Nef to TLR2/4-MAPK signaling pathway
+D      N00395  cGAS-STING signaling pathway
+D      N00440  HIV Vpu/Vif/Vpr to cGAS-STING signaling pathway
+D      N00446  TNF-JNK signaling pathway
+D      N00447  HIV Vpr/Tat to TNF-JNK signaling pathway
+D      N00444  TNF-p38 signaling pathway
+D      N00445  HIV Tat/Nef to TNF-p38 signaling pathway
+D      N00151  TNF-NFKB signaling pathway
+D      N00441  HIV gp120 to TNF-NFKB signaling pathway
+D      N00442  HIV Nef to TNF-NFKB signaling pathway
+D      N00443  HIV Vpr/Nef/Tat to TNF-NFKB signaling pathway
+D      N00401  CXCR4-GNAQ-PLCB/G-calcineurin signaling pathway
+D      N00432  HIV gp120 to CXCR4-GNAQ-PLCB/G-calcineurin
+D      N00430  CXCR4-GNAI-PI3K-BAD signaling pathway
+D      N00431  HIV gp120 to CXCR4-GNAI-PI3K-BAD signaling pathway
+D      N00433  CXCR4-GNB/G-RAC signaling pathway
+D      N00434  HIV gp120 to CXCR4-GNB/G-RAC signaling pathway
+D      N00363  Antigen processing and presentation by MHC class I molecules
+D      N00461  HIV Nef to antigen processing and presentation by MHC class I molecules
+D      N00455  CDC25-Cell cycle G2/M
+D      N00456  HIV Vpr to CDC25-cell cycle G2M
+D      N00458  HIV Vpr to CDC25-cell cycle G2M
+D      N00457  HIV Vpr to cell cycle G2M
+D      N00459  WEE1-Cell cycle G2/M
+D      N00460  HIV Vpr to WEE1-cell cycle G2M
+D      N00146  Crosstalk between extrinsic and intrinsic apoptotic pathways
+D      N00448  HIV Tat/Nef to crosstalk between extrinsic and intrinsic apoptotic pathways
+D      N00449  HIV Tat/Nef to crosstalk between extrinsic and intrinsic apoptotic pathways
+D      N00098  Intrinsic apoptotic pathway
+D      N00452  HIV Nef to intrinsic apoptotic pathway
+D      N00451  HIV Tat to intrinsic apoptotic pathway
+D      N00453  HIV Vpr to intrinsic apoptotic pathway
+D      N00450  HIV Tat to intrinsic apoptotic pathway
+D      N00454  HIV Vpr to intrinsic apoptotic pathway
+C    06162 Hepatitis B virus (HBV)
+D      N00001  EGF-EGFR-RAS-ERK signaling pathway
+D      N00540  HBV HBx to RAS-ERK signaling pathway
+D      N00216  HGF-MET-RAS-ERK signaling pathway
+D      N00541  HBV HBx to RAS-ERK signaling pathway
+D      N00545  HBV HBx to ERK signaling pathway
+D      N00542  EGF-EGFR-RAS-JNK signaling pathway
+D      N00543  HBV HBx to JNK signaling pathway
+D      N00538  Ca2+-PYK2-RAS-ERK signaling pathway
+D      N00539  HBV HBx to Ca2+-PYK2-RAS-ERK signaling pathway
+D      N00033  EGF-EGFR-PI3K signaling pathway
+D      N00267  HBV HBx to PI3K signaling pathway
+D      N00063  TGF-beta signaling pathway
+D      N00531  HBV HBx to TGF-beta signaling pathway
+D      N00053  Cytokine-Jak-STAT signaling pathway
+D      N00548  HBV HBx to Jak-STAT signaling pathway
+D      N00435  TLR1/2/4-NFKB signaling pathway
+D      N00556  HBV HBe to TLR2/4-NFKB signaling pathway
+D      N00557  HBV HBe to TLR2/4-NFKB signaling pathway
+D      N00549  HBV HBeAg to TLR2/4-NFKB signaling pathway
+D      N00550  HBV HBeAg to TLR2/4-NFKB signaling pathway
+D      N00438  TLR2/4-MAPK signaling pathway
+D      N00551  HBV HBs to TLR2/4-MAPK signaling pathway
+D      N00553  TLR4-IRF3/7 signaling pathway
+D      N00554  HBV HBe to TLR4-IRF3/7 signaling pathway
+D      N00555  HBV HBe to TLR4-IRF3/7 signaling pathway
+D      N00149  TLR3-IRF3 signaling pathway
+D      N00552  HBV pol to TLR3-IRF3 signaling pathway
+D      N00469  RIG-I-IRF7/3 signaling pathway
+D      N00268  HBV HBx to RIG-I-like receptor signaling pathway
+D      N00150  Type I IFN signaling pathway
+D      N00558  HBV pol to IFN signaling pathway
+D      N00546  CXCL12-CXCR4-PKC-ERK signaling pathaway
+D      N00547  HBV LHBs to PKC-ERK signaling pathway
+D      N00536  MDM2-p21-Cell cycle G1/S
+D      N00537  HBV HBx to cell cycle G1/S
+D      N00146  Crosstalk between extrinsic and intrinsic apoptotic pathways
+D      N00534  HBV HBx to Crosstalk between extrinsic and intrinsic apoptotic pathways
+D      N00533  HBV HBx to Crosstalk between extrinsic and intrinsic apoptotic pathways
+D      N00532  HBV HBx to Egr-mediated transcription
+D      N00535  HBV HBx to p53-mediated transcription
+D      N00544  HBV HBx to CREB-mediated transcription
+C    06163 Hepatitis C virus (HCV)
+D      N00001  EGF-EGFR-RAS-ERK signaling pathway
+D      N00274  HCV NS5A to RAS-ERK signaling pathway
+D      N00216  HGF-MET-RAS-ERK signaling pathway
+D      N00518  HCV Core to ERK signaling pathway
+D      N00519  HCV Core to ERK signaling pathway
+D      N00033  EGF-EGFR-PI3K signaling pathway
+D      N00272  HCV NS5A to PI3K signaling pathway
+D      N00149  TLR3-IRF3 signaling pathway
+D      N00516  HCV NS3/4A to TLR3-IRF3 signaling pathway
+D      N00517  HCV NS3/4A to TLR3-IRF3 signaling pathway
+D      N00469  RIG-I-IRF7/3 signaling pathway
+D      N00271  HCV NS3/4A to RIG-I-like receptor signaling pathway
+D      N00515  Oligoadenylate synthetase (OAS)/RNase L pathway
+D      N00273  HCV NS5A to oligoadenylate synthetase (OAS)/RNase L pathway
+D      N00150  Type I IFN signaling pathway
+D      N00270  HCV Core to IFN signaling pathway
+D      N00151  TNF-NFKB signaling pathway
+D      N00525  HCV NS5A to TNF-NFKB signaling pathway
+D      N00269  HCV core to TNF-NFKB signaling pathway
+D      N00066  MDM2-p21-Cell cycle G1/S
+D      N00521  HCV Core to p21-cell cycle G1/S
+D      N00520  HCV NS5A to p21-cell cycle G1/S
+D      N00522  HCV NS3 to p21-cell cycle G1/S
+D      N00523  HCV Core to p21-cell cycle G1/S
+D      N00145  Extrinsic apoptotic pathway
+D      N00524  HCV NS5A to extrinsic apoptotic pathway
+D      N00528  HCV core to extrinsic apoptotic pathway
+D      N00146  Crosstalk between extrinsic and intrinsic apoptotic pathways
+D      N00527  HCV Core to crosstalk between extrinsic and intrinsic apoptotic pathways
+D      N00526  HCV NS3 to crosstalk between extrinsic and intrinsic apoptotic pathways
+D      N00529  HCV core to RXRA/PPARA-mediated transcription
+D      N00530  HCV core to RXRA/LXRA-mediated transcription
+C    06171 SARS coronavirus 2 (SARS-CoV-2)
+D      N00469  RIG-I-IRF7/3 signaling pathway
+D      N01310  SARS-CoV-2 nsp13 to RIG-I-IRF7/3 signaling pathway
+D      N01320  SARS-CoV-2 nsp3 to RIG-I-IRF7/3 signaling pathway
+D      N01319  SARS-CoV-2 nsp6 and ORF6 to RIG-I-IRF7/3 signaling pathway
+D      N01308  MDA5-IRF7/3 signaling pathway
+D      N01309  SARS-CoV-2 nsp3 to MDA5-IRF7/3 signaling pathway
+D      N01491  Lectin pathway of complement cascade, C4/C2 to C3 convertase formation
+D      N01312  SARS-CoV-2 S to lectin pathway of complement cascade
+D      N01487  Classical pathway of complement cascade, C4/C2 to C3 convertase formation
+D      N01314  SARS-CoV-2 S to classical pathway of complement cascade
+D      N01315  Lectin pathway of coagulation cascade, prothrombin to thrombin
+D      N01502  Lectin pathway of coagulation cascade, fibrinogen to fibrin
+D      N01316  SARS-CoV-2 S/N to lectin pathway of coagulation cascade
+D      N00150  Type I IFN signaling pathway
+D      N01321  SARS-CoV-2 nsp1/6/13, ORF3a/6/7b and M to IFN signaling pathway
+D      N01322  SARS-CoV-2 nsp6/13 and ORF7a/7b to IFN signaling pathway
+D      N01317  Translation initiation
+D      N01318  SARS-CoV-2 nsp1 to translation initiation
+D      N01306  AngII-AT1R-NOX2 signaling pathway
+D      N01307  SARS-CoV-2 S to AngII-AT1R-NOX2 signaling pathway
+C    06170 Influenza A virus (IAV)
+D      N00001  EGF-EGFR-RAS-ERK signaling pathway
+D      N00744  IAV HA to ERK signaling pathway
+D      N00033  EGF-EGFR-PI3K signaling pathway
+D      N00736  IAV NS1 to PI3K signaling pathway
+D      N00742  NLRP3 inflammasome signaling pathway
+D      N00743  IAV NS1 to NLRP3 inflammasome signaling pathway
+D      N00515  Oligoadenylate synthetase (OAS)/RNase L pathway
+D      N00724  IAV NS1 to oligoadenylate synthetase (OAS)/RNase L pathway
+D      N00469  RIG-I-IRF7/3 signaling pathway
+D      N00727  IAV NS1 to RIG-I-like receptor signaling pathway
+D      N00728  IAV NS1 to RIG-I-like receptor signaling pathway
+D      N00732  IAV PB1-F2/PB2 to RIG-I-like receptor signaling pathway
+D      N00734  IAV PB1-F2/PB2 to RIG-I-like receptor signaling pathway
+D      N00729  IAV NS1 to RIG-I-like receptor signaling pathway
+D      N00688  RIG-I-NFKB signaling pathway
+D      N00730  IAV NS1 to RIG-I-like receptor signaling pathway
+D      N00571  PKR-eIF2alpha signaling pathway
+D      N00726  IAV NP to PKR-eIF2alpha signaling pathway
+D      N00725  IAV NS1 to PKR-eIF2alpha signaling pathway
+D      N00150  Type I IFN signaling pathway
+D      N00738  IAV NS1 to IFN signaling pathway
+D      N00066  MDM2-p21-Cell cycle G1/S
+D      N00741  IAV M2 to cell cycle G1/S
+D      N00098  Intrinsic apoptotic pathway
+D      N00745  IAV PB1-F2 to intrinsic apoptotic pathway
+D      N00586  Nuclear export of mRNA
+D      N00746  IAV NS1 to nuclear export of mRNA
+C    06169 Measles virus (MV)
+D      N00683  CD80/CD86-CD28-PI3K signaling pathway
+D      N00684  MV F/H to CD28-PI3K signaling pathway
+D      N00690  TLR7/9-IRF7 signaling pathway
+D      N00691  MV V to TLR7/9-IRF7 signaling pathway
+D      N00435  TLR1/2/4-NFKB signaling pathway
+D      N00692  MV P to TLR2/4-NFKB signaling pathway
+D      N00469  RIG-I-IRF7/3 signaling pathway
+D      N00685  MV V to RIG-I-IRF7/3 signaling pathway
+D      N00686  MV N to RIG-I-IRF7/3 signaling pathway
+D      N00687  MV V/C to RIG-I-IRF7/3 signaling pathway
+D      N00688  RIG-I-NFKB signaling pathway
+D      N00689  MV V/P/C to RIG-I-NFKB signaling pathway
+D      N00571  PKR-eIF2alpha signaling pathway
+D      N00696  MV C to PKR-eIF2alpha signaling pathway
+D      N00150  Type I IFN signaling pathway
+D      N00693  MV V/P to IFN signaling pathway
+D      N00694  MV V/P/C to IFN signaling pathway
+D      N00695  MV V to p73-mediated transcription
+D      N00697  HV P to p53-mediated transcription
+C    06168 Herpes simplex virus 1 (HSV-1)
+D      N00582  IGF-IGF1R-PI3K signaling pathway
+D      N00583  HSV VP11/12 to PI3K signaling pathway
+D      N00584  HSV US3 to MTOR signaling pathway
+D      N00435  TLR1/2/4-NFKB signaling pathway
+D      N00561  HSV ICP0 to TLR2/4-NFKB signaling pathway
+D      N00562  HSV US3 to TLR2/4-NFKB signaling pathway
+D      N00563  TLR3-NFKB signaling pathway
+D      N00564  HSV US3 to TLR3-NFKB signaling pathway
+D      N00469  RIG-I-IRF7/3 signaling pathway
+D      N00565  HSV US11 to RIG-I-like receptor signaling pathway
+D      N00566  HSV UL36USP to RIG-I-like receptor signaling pathway
+D      N00567  HSV ICP34.5 to TBK1 signaling pathway
+D      N00568  HSV US3 to IRF3 signaling pathway
+D      N00395  cGAS-STING signaling pathway
+D      N00569  HSV UL41 to cGAS-STING signaling pathway
+D      N00570  HSV ICP0 to cGAS-STING signaling pathway
+D      N00515  Oligoadenylate synthetase (OAS)/RNase L pathway
+D      N00574  HSV US11 to oligoadenylate synthetase (OAS)/RNase L pathway
+D      N00571  PKR-eIF2alpha signaling pathway
+D      N00573  HSV US11 to PKR-eIF2alpha signaling pathway
+D      N00572  HSV ICP34.5 to PKR-eIF2alpha signaling pathway
+D      N01489  Classical/Lectin pathway of complement cascade, C5 convertase formation
+D      N00589  HSV gC to alternative pathway of complement cascade
+D      N00150  Type I IFN signaling pathway
+D      N00576  HSV UL41/UL13 to IFN signaling pathway
+D      N00577  HSV UL41 to IFN signaling pathway
+D      N00578  HSV UL41 to IFN signaling pathway
+D      N00575  HSV ICP27 to IFN signaling pathway
+D      N00559  LIGHT-HVEM-NFKB signaling pathway
+D      N00560  HSV gD to HVEM-NFKB signaling pathway
+D      N00363  Antigen processing and presentation by MHC class I molecules
+D      N00581  HSV ICP47 to antigen processing and presentation by MHC class I molecules
+D      N00590  Antigen processing and presentation by MHC class II molecules
+D      N00591  HSV gB to antigen processing and presentation by MHC class II molecules
+D      N00145  Extrinsic apoptotic pathway
+D      N00579  HSV ICP6 to extrinsic apoptotic pathway
+D      N00146  Crosstalk between extrinsic and intrinsic apoptotic pathways
+D      N00580  HSV ICP0 to crosstalk between extrinsic and intrinsic apoptotic pathways
+D      N00098  Intrinsic apoptotic pathway
+D      N00585  HSV US3 to intrinsic apoptotic pathway
+D      N00586  Nuclear export of mRNA
+D      N00587  HSV ICP27 to Nuclear export of mRNA
+D      N00592  HSV ICP0 to p53-mediated transcription
+D      N00588  HSV VP16 to Oct-1-mediated transcription
+C    06167 Human cytomegalovirus (HCMV)
+D      N00001  EGF-EGFR-RAS-ERK signaling pathway
+D      N00392  HCMV gB to EGFR-RAS-ERK signaling pathway
+D      N00386  HCMV gB to PDGFR-RAS-ERK signaling pathway
+D      N00039  PDGF-PDGFR-PI3K signaling pathway
+D      N00385  HCMV gB to PDGFR-PI3K signaling pathway
+D      N00387  HCMV IE1-72/IE2-86 to PI3K signaling pathway
+D      N00582  IGF-IGF1R-PI3K signaling pathway
+D      N00388  HCMV UL38 to MTOR signaling pathway
+D      N00390  EGF-EGFR-PI3K-NFKB signaling pathway
+D      N00391  HCMV gB to EGFR-PI3K-NFKB signaling pathway
+D      N00415  IL10 family to Jak-STAT signaling pathway
+D      N00416  HCMV vIL10 to IL10-JAK-STAT signaling pathway
+D      N00395  cGAS-STING signaling pathway
+D      N00396  HCMV UL82 to cGAS-STING signaling pathway
+D      N00151  TNF-NFKB signaling pathway
+D      N00397  HCMV UL26 to NFKB signaling pathway
+D      N00398  HCMV IE2-86 to TNF-NFKB signaling pathway
+D      N00389  HCMV IE1-72 to transcription
+D      N00401  CXCR4-GNAQ-PLCB/G-calcineurin signaling pathway
+D      N00402  HCMV US28 to GNAQ-PLCB/G-calcineurin signaling pathway
+D      N00407  HCMV UL33 to GNAQ-PLCB/G-calcineurin signaling pathway
+D      N00410  DRD1-GNAS-AC-PKA signaling pathway
+D      N00411  HCMV UL33 to GNAS-AC-PKA signaling pathway
+D      N00403  CX3CR1-GNAI-AC-PKA signaling pathway
+D      N00404  HCMV US28 to GNAI-AC-PKA signaling pathway
+D      N00412  HCMV UL33 to GNAI-AC-PKA signaling pathway
+D      N00405  CXCR4-GNA12/13-Rho signaling pathway
+D      N00406  HCMV US28 to GNA12/13-Rho signaling pathway
+D      N00408  LPAR-GNB/G-Rho signaling pathway
+D      N00409  HCMV UL33 to GNB/G-Rho signaling pathway
+D      N00399  CCR2-GNB/G-PI3K-NFKB signaling pathway
+D      N00400  HCMV US28 to GNB/G-PI3K-NFKB signaling pathway
+D      N00154  CXCR-GNB/G-PI3K-AKT signaling pathway
+D      N00427  HCMV vCXCL to CXCR-GNB/G-PI3K-AKT signaling pathway
+D      N00413  CXCR4-GNB/G-PLCB-PKC signaling pathway
+D      N00414  HCMV US27 to CXCR4-GNB/G-PLCB-PKC signaling pathway
+D      N00428  CCR5-GNB/G-PLCB/G-PKC signaling pathway
+D      N00429  HCMV UL22A to CCR5-GNB/G-PLCB/G-PKC signaling pathway
+D      N00363  Antigen processing and presentation by MHC class I molecules
+D      N00417  HCMV US6 to antigen processing and presentation by MHC class I molecules
+D      N00418  HCMV US2/11 to antigen processing and presentation by MHC class I molecules
+D      N00419  HCMV US3/10 to antigen processing and presentation by MHC class I molecules
+D      N00066  MDM2-p21-Cell cycle G1/S
+D      N00420  HCMV IE2-86 to p21-cell cycle G1/S
+D      N00421  HCMV IE2-86 to p21-cell cycle G1/S
+D      N00422  HCMV IE2-86 to cell cycle G1/S
+D      N00423  HCMV IE1-72 to cell cycle G1/S
+D      N00424  HCMV pp71 to cell cycle G1/S
+D      N00146  Crosstalk between extrinsic and intrinsic apoptotic pathways
+D      N00425  HCMV UL36 to crosstalk between extrinsic and intrinsic apoptotic pathways
+D      N00426  HCMV UL37x1 to crosstalk between extrinsic and intrinsic apoptotic pathways
+D      N00393  ITGA/B-RhoGAP-RhoA signaling pathway
+D      N00394  HCMV gH to ITGA/B-RhoA signaling pathway
+C    06164 Kaposi sarcoma-associated herpesvirus (KSHV)
+D      N00216  HGF-MET-RAS-ERK signaling pathway
+D      N00160  KSHV K1 to RAS-ERK signaling pathway
+D      N00188  IL1-IL1R-JNK signaling pathway
+D      N00189  KSHV K15 to JNK signaling pathway
+D      N00186  IL1-IL1R-p38 signaling pathway
+D      N00187  KSHV Kaposin B to p38 signaling pathway
+D      N00182  IGF-IGFR-PI3K-NFKB signaling pathway
+D      N00179  KSHV K1 to PI3K-NFKB signaling pathway
+D      N00030  EGF-EGFR-RAS-PI3K signaling pathway
+D      N00159  KSHV K1 to PI3K signaling pathway
+D      N00056  Wnt signaling pathway
+D      N00175  KSHV LANA to Wnt signaling pathway
+D      N00053  Cytokine-Jak-STAT signaling pathway
+D      N00181  KSHV vIL-6 to Jak-STAT signaling pathway
+D      N00147  EGF-EGFR-PLCG-calcineurin signaling pathway
+D      N00180  KSHV K1 to PLCG-calcineurin signaling pathway
+D      N00172  KSHV K15 to PLCG-calcineurin signaling pathway
+D      N00148  TLR3-IRF7 signaling pathway
+D      N00162  KSHV vIRF3 to TLR3-IRF7 signaling pathway
+D      N00163  KSHV KIE1/2 to TLR3-IRF7 signaling pathway
+D      N00149  TLR3-IRF3 signaling pathway
+D      N00161  KSHV vIRF1/2 to TLR3-IRF3 signaling pathway
+D      N01487  Classical pathway of complement cascade, C4/C2 to C3 convertase formation
+D      N00213  KSHV Kaposin to alternative pathway of complement cascade
+D      N00150  Type I IFN signaling pathway
+D      N00261  KSHV vIRF2 to IFN signaling pathway
+D      N00151  TNF-NFKB signaling pathway
+D      N00174  KSHV vFLIP to TNF-NFKB signaling pathway
+D      N00173  KSHV K15 to TNF-NFKB signaling pathway
+D      N00171  KSHV vFLIP to NFKB signaling pathway
+D      N00152  CXCR-GNB/G-ERK signaling pathway
+D      N00157  KSHV vGPCR to GNB/G-ERK signaling pathway
+D      N00153  CCR/CXCR-GNB/G-PI3K-RAC signaling pathway
+D      N00462  KSHV vCCL1/2/3 to CCR signaling pathway
+D      N00212  KSHV vCCL2 to CCR signaling pathway
+D      N00178  KSHV vGPCR to GNB/G-PI3K-JNK signaling pathway
+D      N00154  CXCR-GNB/G-PI3K-AKT signaling pathway
+D      N00158  KSHV vGPCR to GNB/G-PI3K-AKT signaling pathway
+D      N00363  Antigen processing and presentation by MHC class I molecules
+D      N00184  KSHV MIR1/2 to antigen processing and presentation by MHC class I molecules
+D      N00185  KSHV MIR2 to cell surface molecule-endocytosis
+D      N00155  Autophagy-vesicle nucleation/elongation/maturation, mTORC1-PI3KC3-C1
+D      N00177  KSHV vBCL2 to autophagy-vesicle nucleation
+D      N00156  Autophagy-vesicle nucleation/elongation/maturation, LC3-II formation
+D      N00176  KSHV vFLIP to autophagy-vesicle elongation
+D      N00066  MDM2-p21-Cell cycle G1/S
+D      N00167  KSHV vIRF1/3 to p21-cell cycle G1/S
+D      N00169  KSHV LANA to p21-cell cycle G1/S
+D      N00168  KSHV vCyclin to cell cycle G1/S
+D      N00170  KSHV LANA to cell cycle G1/S
+D      N00146  Crosstalk between extrinsic and intrinsic apoptotic pathways
+D      N00166  KSHV vFLIP to crosstalk between extrinsic and intrinsic apoptotic pathways
+D      N00164  KSHV vBCL2 to crosstalk between extrinsic and intrinsic apoptotic pathways
+D      N00165  KSHV vIAP to crosstalk between extrinsic and intrinsic apoptotic pathways
+C    06165 Epstein-Barr virus (EBV)
+D      N00033  EGF-EGFR-PI3K signaling pathway
+D      N00485  EBV LMP1 to PI3K signaling pathway
+D      N00266  EBV LMP2A to PI3K signaling pathway
+D      N00053  Cytokine-Jak-STAT signaling pathway
+D      N00486  EBV LMP1 to Jak-STAT signaling pathway
+D      N00487  BCR-PLCG-Calcineurin signaling pathway
+D      N00488  EBV LMP2A to BCR signaling pathway
+D      N00435  TLR1/2/4-NFKB signaling pathway
+D      N00466  EBV BPLF1 to TLR2/4-NFKB signaling pathway
+D      N00467  EBV BPLF1 to TLR2/4-NFKB signaling pathway
+D      N00468  EBV BPLF1 to TLR2/4-NFKB signaling pathway
+D      N00469  RIG-I-IRF7/3 signaling pathway
+D      N00470  EBV BGLF4 to RIG-I-like receptor signaling pathway
+D      N00150  Type I IFN signaling pathway
+D      N00471  EBV LMP2A/2B to IFN signaling pathway
+D      N00472  EBV LMP1 to IFN signaling pathway
+D      N00473  EBV BGLF4 to IFN signaling pathway
+D      N00151  TNF-NFKB signaling pathway
+D      N00265  EBV LMP1 to NFKB signaling pathway
+D      N00363  Antigen processing and presentation by MHC class I molecules
+D      N00479  EBV BNLF2a to antigen processing and presentation by MHC class I molecules
+D      N00480  EBV BILF1 to antigen processing and presentation by MHC class I molecules
+D      N00066  MDM2-p21-Cell cycle G1/S
+D      N00483  EBV EBNA3C to cell cycle G1/S
+D      N00484  EBV EBNA3C to cell cycle G1/S
+D      N00091  p27-Cell cycle G1/S
+D      N00264  EBV EBNA3C to p27-Cell cycle G1/S
+D      N00482  EBV EBNA3C to p27-Cell cycle G1/S
+D      N00146  Crosstalk between extrinsic and intrinsic apoptotic pathways
+D      N00477  EBV BHRF1 to crosstalk between extrinsic and intrinsic apoptotic pathways
+D      N00098  Intrinsic apoptotic pathway
+D      N00262  EBV EBNA3C to intrinsic apoptotic pathway
+D      N00474  EBV BHRF1 to intrinsic apoptotic pathway
+D      N00475  EBV BHRF1 to intrinsic apoptotic pathway
+D      N00478  EBV BARF1 to intrinsic apoptotic pathway
+D      N00476  EBV BHRF1 to intrinsic apoptotic pathway
+D      N00481  EBV BZLF1 to p53-mediated transcription
+D      N00223  EBV EBNA1 to p53-mediated transcription
+D      N00225  EBV EBNA2 to RBP-Jk-mediated transcription
+D      N00224  EBV EBNALP RBP-Jk-mediated transcription
+D      N00226  EBV EBNA3A/3B/3C to RBP-Jk-mediated transcription
+D      N00263  EBV EBNA3C to p53-mediated transcription
+C    06166 Human papillomavirus (HPV)
+D      N00001  EGF-EGFR-RAS-ERK signaling pathway
+D      N00367  HPV E5 to EGFR-RAS-ERK signaling pathway
+D      N00015  PDGF-PDGFR-RAS-ERK signaling pathway
+D      N00369  HPV E5 to PDGFR-RAS-ERK signaling pathway
+D      N00033  EGF-EGFR-PI3K signaling pathway
+D      N00366  HPV E5 to EGFR-PI3K signaling pathway
+D      N00039  PDGF-PDGFR-PI3K signaling pathway
+D      N00368  HPV E5 to PDGFR-PI3K signaling pathway
+D      N00582  IGF-IGF1R-PI3K signaling pathway
+D      N00357  HPV E6 to MTOR signaling pathway
+D      N00220  PTEN-PIP3-AKT signaling pathway
+D      N00353  HPV E6 to PTEN-PIP3-AKT signaling pathway
+D      N00354  HPV E6 to PTEN-PIP3-AKT signaling pathway
+D      N00355  PP2A-AKT signaling pathway
+D      N00356  HPV E7 to PP2A-AKT signaling patyway
+D      N00086  Notch signaling pathway
+D      N00380  HPV E6 to Notch signaling pathway
+D      N00381  HPV E6 to Notch signaling pathway
+D      N00382  HPV E6 to Notch signaling pathway
+D      N00149  TLR3-IRF3 signaling pathway
+D      N00346  HPV E6 to TLR-IRF3 signaling pathway
+D      N00150  Type I IFN signaling pathway
+D      N00377  HPV E6 to IFN signaling pathway
+D      N00378  HPV E6 to IFN signaling pathway
+D      N00379  HPV E7 to IFN signaling pathway
+D      N00374  TNF-IRF1 signaling pathway
+D      N00375  HPV E7 to TNF-IRF1 signaling pathway
+D      N00363  Antigen processing and presentation by MHC class I molecules
+D      N00364  HPV E5 to antigen processing and presentation by MHC class I molecules
+D      N00347  p300-p21-Cell cycle G1/S
+D      N00372  HPV E7 to p300-p21-Cell cycle G1/S
+D      N00349  HPV E6 to p300-p21-Cell cycle G1/S
+D      N00348  HPV E6 to p300-p21-Cell cycle G1/S
+D      N00358  HPV E6 to p21-cell cycle G1/S
+D      N00362  HPV E5 to p21-cell cycle G1/S
+D      N00091  p27-Cell cycle G1/S
+D      N00359  HPV E7 to p27-cell cycle G1/S
+D      N00360  HPV E7 to p27-cell cycle G1/S
+D      N00361  HPV E7 to cell cycle G1/S
+D      N00365  HPV E7 to cell cycle G1/S
+D      N00145  Extrinsic apoptotic pathway
+D      N00350  HPV E6 to extrinsic apoptotic pathway
+D      N00351  HPV E6 to extrinsic apoptotic pathway
+D      N00352  HPV E6 to extrinsic apoptotic pathway
+D      N00098  Intrinsic apoptotic pathway
+D      N00384  HPV E6 to intrinsic apoptotic pathway
+D      N00383  HPV E6 to intrinsic apoptotic pathway
+D      N00340  The Scribble/Dlg/Lgl polarity module
+D      N00341  HPV E6 to the Scribble/Dlg/Lgl polarity module
+D      N00342  MAGI-PTEN signaling pathway
+D      N00343  HPV E6 to MAGI-PTEN signaling pathway
+D      N00344  CRB3-Pals1-PATJ complex
+D      N00345  HPV E6 to CRB3-Pals1-PATJ complex
+D      N00370  Pyruvate generation
+D      N00371  HPV E7 to pyruvate generation
+D      N00373  HPV E6 to NFX1-mediated transcription
+D      N00376  HPV E7 to TBP1-mediated transcription
+B  Bacterial infection
+C    06180 Pathogenic Escherichia coli
+D      N00446  TNF-JNK signaling pathway
+D      N00930  Escherichia NleD to TNF-JNK signaling pathway
+D      N00444  TNF-p38 signaling pathway
+D      N00931  Escherichia NleD to TNF-p38 signaling pathway
+D      N00151  TNF-NFKB signaling pathway
+D      N00928  Escherichia NleB to TNF-NFKB signaling pathway
+D      N00927  Escherichia/Shigella NleE/OspZ to TNF-NFKB signaling pathway
+D      N00932  Escherichia NleH1 to TNF-NFKB signaling pathway
+D      N00929  Escherichia NleC to TNF-NFKB signaling pathway
+D      N00438  TLR2/4-MAPK signaling pathway
+D      N00926  Escherichia Tir to TLR2/4-MAPK signaling pathway
+D      N00742  NLRP3 inflammasome signaling pathway
+D      N00933  Escherichia NleA to NLRP3 inflammasome signaling pathway
+D      N00934  Non-canonical inflammasome signaling pathway
+D      N00935  Escherichia NleF to non-canonical inflammasome signaling pathway
+D      N01287  Tight junction-Actin signaling pathway
+D      N01288  Escherichia EspF to Tight junction-Actin signaling pathway
+D      N01097  LPA-GNA12/13-RhoA signaling pathway
+D      N01088  Escherichia EspH to LPA-GNA12/13-RhoA signaling pathway
+D      N01095  Escherichia Map to LPA-GNA12/13-RhoA signaling pathway
+D      N01089  Escherichia EspM to LPA-GNA12/13-Rho signaling pathway
+D      N01285  Microtubule-RHOA signaling pathway
+D      N01286  Escherichia EspG to Microtubule-RHOA signaling pathway
+D      N01068  ITGA/B-FAK-RAC signaling pathway
+D      N01086  Escherichia EspT to RAC signaling pathway
+D      N01087  Escherichia EspW to RAC signaling pathway
+D      N01090  IGG-FCGR-RAC signaling pathway
+D      N01091  Escherichia EspJ to IGG-FCGR-RAC signaling pathway
+D      N01070  ITGA/B-FAK-CDC42 signaling pathway
+D      N01096  Escherichia Map to CDC42 signaling pathway
+D      N01066  ARNO-ARF-ACTB_G signaling pathway
+D      N01084  Escherichia EspG to ARNO-ARF-ACTB/G signaling pathway
+D      N01085  Escherichia EspG to ARNO-ARF-ACTB/G signaling pathway
+D      N01078  EGF-EGFR-Actin signaling pathway
+D      N01092  Escherichia Eae/Tir to Actin signaling pathway
+D      N01093  Escherichia EspJ/Tir to Actin signaling pathway
+D      N01094  Escherichia Eae/Tir/TccP to Actin signaling pathway
+D      N01293  COPI vesicle formation
+D      N01294  Escherichia NleF to COPI vesicle formation
+D      N01289  COPII vesicle formation
+D      N01290  Escherichia NleA to COPII vesicle formation
+D      N01291  TRAPPI-RAB1 signaling pathway
+D      N01292  Escherichia EspG to RAB1 signaling pathway
+C    06181 Salmonella
+D      N01119  RAC/CDC42-PAK-ERK signaling pathway
+D      N01120  Salmonella SptP to RAC/CDC42-PAK-ERK signaling pathway
+D      N01134  Salmonella SopB to CDC42 signaling pathway
+D      N01121  Salmonella SpvC to ERK signaling pathway
+D      N00056  Wnt signaling pathway
+D      N01124  Salmonella AvrA to beta-catenin signaling pathway
+D      N00446  TNF-JNK signaling pathway
+D      N01125  Salmonella AvrA to TNF-JNK signaling pathway
+D      N00151  TNF-NFKB signaling pathway
+D      N01114  Salmonella SseK3 to TNF-NFKB signaling pathway
+D      N01113  Salmonella SseK1 to TNF-NFKB signaling pathway
+D      N01117  Salmonella GogB to TNF-NFKB signaling pathway
+D      N01116  Salmonella SseL to TNF-NFKB signaling pathway
+D      N01123  Salmonella AvrA to TNF-NFKB signaling pathway
+D      N01118  Salmonella SpvD to TNF-NFKB signaling pathway
+D      N01122  Salmonella PipA/GogA/GtgA to TNF-NFKB signaling pathway
+D      N00940  NOD-NFKB signaling pathway
+D      N01112  Salmonella SopE/E2 to NOD-NFKB signaling pathway
+D      N00742  NLRP3 inflammasome signaling pathway
+D      N01127  Salmonella SopE to Inflammasome signaling pathway
+D      N01126  Salmonella SipB to Inflammasome signaling pathway
+D      N01072  ITGA/B-RhoGEF-RhoA signaling pathway
+D      N01130  Salmonella SopB to RhoA signaling pathway
+D      N01131  Salmonella SopE/E2 to RhoA signaling pathway
+D      N01068  ITGA/B-FAK-RAC signaling pathway
+D      N01128  Salmonella SopE to RAC signaling pathway
+D      N00951  ITGA/B-RHOG-RAC signaling pathway
+D      N01133  Salmonella SopB to RhoG signaling pathway
+D      N01132  Salmonella SopE/E2 to RhoG signaling pathway
+D      N01066  ARNO-ARF-ACTB_G signaling pathway
+D      N01129  Salmonella SopB to ARNO-ARF-ACTB/G signaling pathway
+D      N01304  ANXA2-S100A10-regulated actin cytoskeleton
+D      N01305  Salmonella SopB to ANXA2-S100A10-regulated actin cytoskeleton
+D      N01302  Early endosomal fusion
+D      N01303  Salmonella SopB to Early endosomal fusion
+D      N01295  Rab7-regulated microtubule minus-end directed transport
+D      N01296  Salmonella SopD2 to Rab7-regulated microtubule minus-end directed transport
+D      N01297  Arl8-regulated microtubule plus-end directed transport
+D      N01298  Salmonella SifA to microtubule plus-end directed transport
+D      N01299  Salmonella PipB2 to microtubule plus-end directed transport
+D      N01300  Tethering of late endosomes and lysosomes
+D      N01301  Salmonella SifA to Tethering of late endosomes and lysosomes
+C    06182 Shigella
+D      N00151  TNF-NFKB signaling pathway
+D      N00944  Shigella OspI to TNF-NFKB signaling pathway
+D      N00945  Shigella IpaH1.4/2.5 to TNF-NFKB signaling pathway
+D      N00927  Escherichia/Shigella NleE/OspZ to TNF-NFKB signaling pathway
+D      N00942  Shigella OspG to TNF-NFKB signaling pathway
+D      N00943  Shigella IpaH4.5 to TNF-NFKB signaling pathway
+D      N00156  Autophagy-vesicle nucleation/elongation/maturation, LC3-II formation
+D      N01284  Shigella IcsP to Autophagy-vesicle elongation
+D      N00438  TLR2/4-MAPK signaling pathway
+D      N01283  Shigella OspF to TLR2/4-MAPK signaling pathway
+D      N00940  NOD-NFKB signaling pathway
+D      N00941  Shigella IpaH9.8 to NOD-NFKB signaling pathway
+D      N00742  NLRP3 inflammasome signaling pathway
+D      N00948  Shigella IpaH7.8 to NLRP3 Inflammasome signaling pathway
+D      N00867  NLRC4 inflammasome signaling pathway
+D      N00949  Shigella IpaB to NLRC4 Inflammasome signaling pathway
+D      N00395  cGAS-STING signaling pathway
+D      N00946  Shigella IpaJ to cGAS-STING signaling pathway
+D      N00947  Shigella Ipa4.5 to cGAS-STING signaling pathway
+D      N01072  ITGA/B-RhoGEF-RhoA signaling pathway
+D      N01074  Shigella IpaA to ITGA/B-RhoGEF-RhoA signaling pathway
+D      N01073  Shigella IpgB2 to ITGA/B-RhoGEF-RhoA signaling pathway
+D      N01075  Shigella IcsB to ITGA/B-RhoGEF-RhoA signaling pathway
+D      N01068  ITGA/B-FAK-RAC signaling pathway
+D      N01069  Shigella IpgB1 to ITGA/B-FAK-RAC signaling pathway
+D      N01077  Shigella IcsB to ITGA/B-FAK-RAC signaling pathway
+D      N00952  Shigella IpgB1 to ITGA/B-RHOG-RAC signaling pathway
+D      N01070  ITGA/B-FAK-CDC42 signaling pathway
+D      N01071  Shigella IpgB1 to ITGA/B-FAK-CDC42 signaling pathway
+D      N01076  Shigella IcsB to ITGA/B-FAK-CDC42 signaling pathway
+D      N01066  ARNO-ARF-ACTB_G signaling pathway
+D      N01067  Shigella IpgD to ARNO-ARF-ACTB_G signaling pathway
+D      N01078  EGF-EGFR-Actin signaling pathway
+D      N01079  Shigella IpaC to Actin signaling pathway
+D      N01080  ITGA/B-TALIN/VINCULIN signaling pathway
+D      N01081  Shigella IpaB/C/D to ITGA/B-TALIN/VINCULIN signaling pathway
+D      N01083  Shigella OspE to ITGA/B-TALIN/VINCULIN signaling pathway
+D      N01082  Shigella IpaA to ITGA/B-TALIN/VINCULIN signaling pathway
+C    06183 Yersinia
+D      N01106  TCR-PLCG-ITPR signaling pathway
+D      N01107  Yersinia YopH to TCR-NFAT signaling pathway
+D      N01108  Yersinia YopH to TCR-NFAT signaling pathway
+D      N00435  TLR1/2/4-NFKB signaling pathway
+D      N00859  Yersinia YopP/J to TLR2/4-NFKB signaling pathway
+D      N00438  TLR2/4-MAPK signaling pathway
+D      N00862  Yersinia YopP/J to TLR2/4-MAPK signaling pathway
+D      N00742  NLRP3 inflammasome signaling pathway
+D      N00864  Yersinia YopK to NLRP3 Inflammasome signaling pathway
+D      N00863  Yersinia YopM to NLRP3 Inflammasome signaling pathway
+D      N00867  NLRC4 inflammasome signaling pathway
+D      N00865  Yersinia YopK to NLRC4 Inflammasome signaling pathway
+D      N01570  Regulation of Pyrin inflammasome signaling pathway, PSTPIP1
+D      N00866  Yersinia YopM to Pyrin Inflammasome signaling pathway
+D      N01072  ITGA/B-RhoGEF-RhoA signaling pathway
+D      N01098  Yersinia YopT to ITGA/B-RhoGEF-RhoA signaling pathway
+D      N01099  Yersinia YopE to RhoA signaling pathway
+D      N01104  LPA-GNAQ/11-RhoA signaling pathway
+D      N01105  Yersinia YpkA to LPA-GNAQ-RhoA signaling pathway
+D      N01068  ITGA/B-FAK-RAC signaling pathway
+D      N01111  Yersinia YopH to ITGA/B-FAK-RAC signaling pathway
+D      N01109  Yersinia YopH to ITGA/B-FAK-RAC signaling pathway
+D      N01110  Yersinia YopH to ITGA/B-FAK-RAC signaling pathway
+D      N00951  ITGA/B-RHOG-RAC signaling pathway
+D      N01100  Yersinia YopE to ITGA/B-RHOG-RAC signaling pathway
+D      N01101  Yersinia YopT to ITGA/B-RHOG-RAC signaling pathway
+D      N01102  Yersinia YopE to ITGA/B-RHOG-RAC signaling pathway
+D      N01090  IGG-FCGR-RAC signaling pathway
+D      N01103  Yersinia YpkA to IGG-FCGR-RAC signaling pathway
 !
 #<hr>
-#<b>[ <a href="/kegg/network.html">NETWORK</a> | <a href="/kegg/brite.html">BRITE</a> | <a href="/kegg/kegg2.html">KEGG2</a> | <a href="/kegg/">KEGG</a> ]</b><br>
-#Last updated: November 27, 2017
+#[ <a href="/kegg/network.html">NETWORK</a> | <a href="/kegg/brite.html">BRITE</a> | <a href="/kegg/kegg2.html">KEGG2</a> | <a href="/kegg/">KEGG</a> ]<br>
+#Last updated: November 15, 2023

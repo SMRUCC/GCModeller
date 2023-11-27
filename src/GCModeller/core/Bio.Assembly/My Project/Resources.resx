@@ -233,9 +233,6 @@
   <data name="br08907" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\KEGG\br08907.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;gb2312</value>
   </data>
-  <data name="ko00000" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\KEGG\ko00000.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;gb2312</value>
-  </data>
   <data name="ko00001" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\KEGG\ko00001.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;gb2312</value>
   </data>
