@@ -1,19 +1,59 @@
 .\" man page create by R# package system.
 .TH REPOSITORY 1 2000-Jan "compound" "compound"
 .SH NAME
-compound \- 
+compound \- construct a new kegg compound data model
 .SH SYNOPSIS
 \fIcompound(\fBentry\fR as string, 
 \fBname\fR as string, 
 \fBformula\fR as string, 
 \fBexactMass\fR as double, 
-\fBreaction\fR as string, 
-\fBenzyme\fR as string, 
-\fBremarks\fR as string, 
-\fBKCF\fR as string, 
-\fBDBLinks\fR as <generic> dataframe, 
-\fBpathway\fR as <generic> dataframe, 
-\fBmodules\fR as <generic> dataframe);\fR
+\fBreaction\fR as string = \fB<NULL>\fR, 
+\fBenzyme\fR as string = \fB<NULL>\fR, 
+\fBremarks\fR as string = \fB<NULL>\fR, 
+\fBKCF\fR as string = \fB<NULL>\fR, 
+\fBDBLinks\fR as <generic> dataframe = \fB<NULL>\fR, 
+\fBpathway\fR as <generic> dataframe = \fB<NULL>\fR, 
+\fBmodules\fR as <generic> dataframe = \fB<NULL>\fR);\fR
+.SH DESCRIPTION
+.PP
+construct a new kegg compound data model
+.PP
+.SH OPTIONS
+.PP
+\fBentry\fB \fR\- the kegg compound id. 
+.PP
+.PP
+\fBname\fB \fR\- the compound common names. 
+.PP
+.PP
+\fBformula\fB \fR\- the chemical formula of the kegg compound. 
+.PP
+.PP
+\fBexactMass\fB \fR\- the evaluated exact mass value based on the formula string. 
+.PP
+.PP
+\fBreaction\fB \fR\- A set of the related kegg reaction data about current metabolite. 
+.PP
+.PP
+\fBenzyme\fB \fR\- A set of the related enzyme that associated with the reaction list. 
+.PP
+.PP
+\fBremarks\fB \fR\- comment text about this metabolite. 
+.PP
+.PP
+\fBKCF\fB \fR\- the molecular strucutre text. 
+.PP
+.PP
+\fBDBLinks\fB \fR\- A dataframe object that contains the external reference link to 
+ other database of current metabolite object, data fields: "db", "id", "link" should 
+ be exists in this dataframe object.. 
+.PP
+.PP
+\fBpathway\fB \fR\- -. 
+.PP
+.PP
+\fBmodules\fB \fR\- -. 
+.PP
 .SH SEE ALSO
 repository
 .SH FILES

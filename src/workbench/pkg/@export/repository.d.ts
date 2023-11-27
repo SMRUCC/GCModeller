@@ -9,8 +9,38 @@
 */
 declare namespace repository {
    /**
+    * construct a new kegg compound data model
+    * 
+    * 
+     * @param entry the kegg compound id
+     * @param name the compound common names
+     * @param formula the chemical formula of the kegg compound
+     * @param exactMass the evaluated exact mass value based on the formula string
+     * @param reaction A set of the related kegg reaction data about current metabolite
+     * 
+     * + default value Is ``null``.
+     * @param enzyme A set of the related enzyme that associated with the reaction list
+     * 
+     * + default value Is ``null``.
+     * @param remarks comment text about this metabolite
+     * 
+     * + default value Is ``null``.
+     * @param KCF the molecular strucutre text
+     * 
+     * + default value Is ``null``.
+     * @param DBLinks A dataframe object that contains the external reference link to 
+     *  other database of current metabolite object, data fields: "db", "id", "link" should 
+     *  be exists in this dataframe object.
+     * 
+     * + default value Is ``null``.
+     * @param pathway -
+     * 
+     * + default value Is ``null``.
+     * @param modules -
+     * 
+     * + default value Is ``null``.
    */
-   function compound(entry: string, name: string, formula: string, exactMass: number, reaction: string, enzyme: string, remarks: string, KCF: string, DBLinks: object, pathway: object, modules: object): object;
+   function compound(entry: string, name: string, formula: string, exactMass: number, reaction?: string, enzyme?: string, remarks?: string, KCF?: string, DBLinks?: object, pathway?: object, modules?: object): object;
    /**
     * get a vector of kegg compound id from the kegg reaction_class/pathway maps data repository
     * 

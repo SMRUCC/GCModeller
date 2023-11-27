@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>compound</title>
+    <title>construct a new kegg compound data model</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <style rel="stylesheet" type="text/css">
@@ -153,22 +153,74 @@
             </tr>
         </table>
 
-        <h2>compound</h2>
+        <h2>construct a new kegg compound data model</h2>
 
         <h3>Description</h3>
 
-        compound
+        
 
         <h3>Usage</h3>
 
         <div style="width: 100%; padding-left: 3%; color: black;">
-            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>compound</strong>(<i>entry</i>, <i>name</i>, <i>formula</i>, <i>exactMass</i>, <i>reaction</i>, <i>enzyme</i>, <i>remarks</i>, <i>KCF</i>, <i>DBLinks</i>, <i>pathway</i>, <i>modules</i>);</code></pre>
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>compound</strong>(<i>entry</i>, <i>name</i>, <i>formula</i>, <i>exactMass</i>,
+    <i>reaction</i> = <span style='color: blue !important;'>NULL</span>,
+    <i>enzyme</i> = <span style='color: blue !important;'>NULL</span>,
+    <i>remarks</i> = <span style='color: blue !important;'>NULL</span>,
+    <i>KCF</i> = <span style='color: blue !important;'>NULL</span>,
+    <i>DBLinks</i> = <span style='color: blue !important;'>NULL</span>,
+    <i>pathway</i> = <span style='color: blue !important;'>NULL</span>,
+    <i>modules</i> = <span style='color: blue !important;'>NULL</span>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
 
         <table>
             
+<dt>entry</dt>
+<dd><p><p>the kegg compound id</p></p></dd>
+
+
+<dt>name</dt>
+<dd><p><p>the compound common names</p></p></dd>
+
+
+<dt>formula</dt>
+<dd><p><p>the chemical formula of the kegg compound</p></p></dd>
+
+
+<dt>exactMass</dt>
+<dd><p><p>the evaluated exact mass value based on the formula string</p></p></dd>
+
+
+<dt>reaction</dt>
+<dd><p><p>A set of the related kegg reaction data about current metabolite</p></p></dd>
+
+
+<dt>enzyme</dt>
+<dd><p><p>A set of the related enzyme that associated with the reaction list</p></p></dd>
+
+
+<dt>remarks</dt>
+<dd><p><p>comment text about this metabolite</p></p></dd>
+
+
+<dt>KCF</dt>
+<dd><p><p>the molecular strucutre text</p></p></dd>
+
+
+<dt>DBLinks</dt>
+<dd><p><p>A dataframe object that contains the external reference link to <br />
+ other database of current metabolite object, data fields: "db", "id", "link" should <br />
+ be exists in this dataframe object.</p></p></dd>
+
+
+<dt>pathway</dt>
+<dd><p><p>-</p></p></dd>
+
+
+<dt>modules</dt>
+<dd><p><p>-</p></p></dd>
+
         </table>
 
 
