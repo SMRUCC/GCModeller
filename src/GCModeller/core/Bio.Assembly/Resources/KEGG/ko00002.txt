@@ -1,15 +1,17 @@
 +D	Module
+#<h2><a href="/kegg/brite.html"><img src="/Fig/bget/kegg3.gif" align="middle" border=0></a>&nbsp; KEGG Modules</h2>
 !
-APathway modules
-B  Carbohydrate metabolism
+A<b>Pathway modules</b>
+B
+B  <b>Carbohydrate metabolism</b>
 C    Central carbohydrate metabolism
 D      M00001  Glycolysis (Embden-Meyerhof pathway), glucose => pyruvate [PATH:map00010 map01200 map01100]
 D      M00002  Glycolysis, core module involving three-carbon compounds [PATH:map00010 map01200 map01230 map01100]
 D      M00003  Gluconeogenesis, oxaloacetate => fructose-6P [PATH:map00010 map00020 map01100]
-D      M00307  Pyruvate oxidation, pyruvate => acetyl-CoA [PATH:map00010 map00020 map00620 map00785 map01200 map01100]
+D      M00307  Pyruvate oxidation, pyruvate => acetyl-CoA [PATH:map00010 map00020 map00620 map00785 map01200 map01210 map01100]
 D      M00009  Citrate cycle (TCA cycle, Krebs cycle) [PATH:map00020 map01200 map01100]
 D      M00010  Citrate cycle, first carbon oxidation, oxaloacetate => 2-oxoglutarate [PATH:map00020 map01200 map01210 map01230 map01100]
-D      M00011  Citrate cycle, second carbon oxidation, 2-oxoglutarate => oxaloacetate [PATH:map00020 map01200 map01100]
+D      M00011  Citrate cycle, second carbon oxidation, 2-oxoglutarate => oxaloacetate [PATH:map00020 map01200 map01210 map01100]
 D      M00004  Pentose phosphate pathway (Pentose phosphate cycle) [PATH:map00030 map01200 map01100 map01120]
 D      M00006  Pentose phosphate pathway, oxidative phase, glucose 6P => ribulose 5P [PATH:map00030 map01200 map01100 map01120]
 D      M00007  Pentose phosphate pathway, non-oxidative phase, fructose 6P => ribose 5P [PATH:map00030 map01200 map01230 map01100 map01120]
@@ -48,11 +50,10 @@ D      M00968  Pentose bisphosphate pathway (nucleoside degradation), archaea, n
 D      M00130  Inositol phosphate metabolism, PI=> PIP2 => Ins(1,4,5)P3 => Ins(1,3,4,5)P4 [PATH:map00562 map01100]
 D      M00131  Inositol phosphate metabolism, Ins(1,3,4,5)P4 => Ins(1,3,4)P3 => myo-inositol [PATH:map00562 map01100]
 D      M00132  Inositol phosphate metabolism, Ins(1,3,4)P3 => phytate [PATH:map00562 map01100]
-B  Energy metabolism
+B
+B  <b>Energy metabolism</b>
 C    Carbon fixation
 D      M00165  Reductive pentose phosphate cycle (Calvin cycle) [PATH:map00710 map01200 map01100 map01120]
-D      M00166  Reductive pentose phosphate cycle, ribulose-5P => glyceraldehyde-3P [PATH:map00710 map01200 map01100 map01120]
-D      M00167  Reductive pentose phosphate cycle, glyceraldehyde-3P => ribulose-5P [PATH:map00710 map01200 map01100 map01120]
 D      M00168  CAM (Crassulacean acid metabolism), dark [PATH:map00620 map00710 map01200 map01100 map01120]
 D      M00169  CAM (Crassulacean acid metabolism), light [PATH:map00620 map00710 map01200 map01100 map01120]
 D      M00172  C4-dicarboxylic acid cycle, NADP - malic enzyme type [PATH:map00620 map00710 map01200 map01100 map01120]
@@ -86,7 +87,7 @@ D      M00530  Dissimilatory nitrate reduction, nitrate => ammonia [PATH:map0091
 D      M00529  Denitrification, nitrate => nitrogen [PATH:map00910 map01100 map01120]
 D      M00528  Nitrification, ammonia => nitrite [PATH:map00910 map01100 map01120]
 D      M00804  Complete nitrification, comammox, ammonia => nitrite => nitrate [PATH:map00910 map01100 map01120]
-D      M00973  Anammox, nitrite + ammonia => nitrogen [PATH:map00910]
+D      M00973  Anammox, nitrite + ammonia => nitrogen [PATH:map00910 map01100 map01120]
 C    Sulfur metabolism
 D      M00176  Assimilatory sulfate reduction, sulfate => H2S [PATH:map00920 map01100 map01120]
 D      M00596  Dissimilatory sulfate reduction, sulfate => H2S [PATH:map00920 map01100 map01120]
@@ -119,7 +120,8 @@ D      M00157  F-type ATPase, prokaryotes and chloroplasts [PATH:map00190 map001
 D      M00158  F-type ATPase, eukaryotes [PATH:map00190]
 D      M00159  V/A-type ATPase, prokaryotes [PATH:map00190]
 D      M00160  V-type ATPase, eukaryotes [PATH:map00190]
-B  Lipid metabolism
+B
+B  <b>Lipid metabolism</b>
 C    Fatty acid metabolism
 D      M00082  Fatty acid biosynthesis, initiation [PATH:map00061 map01212 map01100]
 D      M00083  Fatty acid biosynthesis, elongation [PATH:map00061 map01212 map01100]
@@ -156,7 +158,8 @@ D      M00067  Sulfoglycolipids biosynthesis, ceramide/1-alkyl-2-acylglycerol =>
 D      M00099  Sphingosine biosynthesis [PATH:map00600 map01100]
 D      M00100  Sphingosine degradation [PATH:map00600 map01100]
 D      M00113  Jasmonic acid biosynthesis [PATH:map00592 map01100 map01110]
-B  Nucleotide metabolism
+B
+B  <b>Nucleotide metabolism</b>
 C    Purine metabolism
 D      M00048  De novo purine biosynthesis, PRPP + glutamine => IMP [PATH:map00230 map01100]
 D      M00049  Adenine ribonucleotide biosynthesis, IMP => ADP,ATP [PATH:map00230 map01232 map01240 map01100]
@@ -171,7 +174,8 @@ D      M00052  Pyrimidine ribonucleotide biosynthesis, UMP => UDP/UTP,CDP/CTP [P
 D      M00938  Pyrimidine deoxyribonucleotide biosynthesis, UDP => dTTP [PATH:map00240 map01232 map01100]
 D      M00046  Pyrimidine degradation, uracil => beta-alanine, thymine => 3-aminoisobutanoate [PATH:map00240 map00410 map00770 map01100]
 D      M00939  Pyrimidine degradation, uracil => 3-hydroxypropanoate [PATH:map00240 map01100]
-B  Amino acid metabolism
+B
+B  <b>Amino acid metabolism</b>
 C    Serine and threonine metabolism
 D      M00020  Serine biosynthesis, glycerate-3P => serine [PATH:map00260 map00680 map01200 map01230 map01100]
 D      M00018  Threonine biosynthesis, aspartate => homoserine => threonine [PATH:map00260 map01230 map01100 map01110]
@@ -201,7 +205,7 @@ D      M00527  Lysine biosynthesis, DAP aminotransferase pathway, aspartate => l
 D      M00030  Lysine biosynthesis, AAA pathway, 2-oxoglutarate => 2-aminoadipate => lysine [PATH:map00300 map01230 map01100]
 D      M00433  Lysine biosynthesis, 2-oxoglutarate => 2-oxoadipate [PATH:map00300 map01210 map01230 map01100]
 D      M00031  Lysine biosynthesis, mediated by LysW, 2-aminoadipate => lysine [PATH:map00300 map01210 map01230 map01100]
-D      M00032  Lysine degradation, lysine => saccharopine => acetoacetyl-CoA [PATH:map00310 map01100]
+D      M00032  Lysine degradation, lysine => saccharopine => acetoacetyl-CoA [PATH:map00310 map01210 map01100]
 D      M00956  Lysine degradation, bacteria, L-lysine => succinate [PATH:map00310 map01100 map01120]
 D      M00957  Lysine degradation, bacteria, L-lysine => glutarate => succinate/acetyl-CoA [PATH:map00310 map01100 map01120]
 D      M00960  Lysine degradation, bacteria, L-lysine => D-lysine => succinate [PATH:map00310 map01100 map01120]
@@ -214,7 +218,7 @@ D      M00029  Urea cycle [PATH:map00220 map01230 map01100]
 D      M00015  Proline biosynthesis, glutamate => proline [PATH:map00330 map01230 map01100]
 D      M00970  Proline degradation, proline => glutamate [PATH:map00330 map01100]
 D      M00972  Proline metabolism [PATH:map00330 map01100]
-D      M00047  Creatine pathway [PATH:map00330 map01100]
+D      M00047  Creatine pathway [PATH:map00330 map00260 map01100]
 D      M00879  Arginine succinyltransferase pathway, arginine => glutamate [PATH:map00330 map01100]
 C    Polyamine biosynthesis
 D      M00133  Polyamine biosynthesis, arginine => agmatine => putrescine => spermidine [PATH:map00330 map01100]
@@ -245,7 +249,8 @@ D      M00118  Glutathione biosynthesis, glutamate => glutathione [PATH:map00480
 D      M00947  D-Arginine racemization, D-arginine => L-arginine [PATH:map00470 map01100]
 D      M00948  Hydroxyproline degradation, trans-4-hydroxy-L-proline => 2-oxoglutarate [PATH:map00470 map01100]
 D      M00949  Staphylopine biosynthesis, L-histidine => staphylopine [PATH:map00470 map01100]
-B  Glycan metabolism
+B
+B  <b>Glycan metabolism</b>
 C    Glycan biosynthesis
 D      M00055  N-glycan precursor biosynthesis [PATH:map00510 map01100]
 D      M00072  N-glycosylation by oligosaccharyltransferase [PATH:map00510 map00513 map01100]
@@ -275,7 +280,8 @@ D      M00063  CMP-KDO biosynthesis [PATH:map00540 map01250 map01100]
 D      M00064  ADP-L-glycero-D-manno-heptose biosynthesis [PATH:map00540 map01250 map01100]
 D      M00922  CMP-Neu5Ac biosynthesis [PATH:map00541 map01250 map01100]
 D      M00923  UDP-L-FucNAm biosynthesis [PATH:map00541 map01250 map01100]
-B  Metabolism of cofactors and vitamins
+B
+B  <b>Metabolism of cofactors and vitamins</b>
 C    Cofactor and vitamin metabolism
 D      M00127  Thiamine biosynthesis, prokaryotes, AIR (+ DXP/tyrosine) => TMP/TPP [PATH:map00730 map01240 map01100]
 D      M00895  Thiamine biosynthesis, prokaryotes, AIR (+ DXP/glycine) => TMP/TPP [PATH:map00730 map01240 map01100]
@@ -330,7 +336,8 @@ D      M00931  Menaquinone biosynthesis, modified futalosine pathway [PATH:map00
 D      M00932  Phylloquinone biosynthesis, chorismate (+ phytyl-PP) => phylloquinol [PATH:map00130 map01240 map01100 map01110]
 D      M00112  Tocopherol/tocotorienol biosynthesis, homogentisate + phytyl/geranylgeranyl-PP => tocopherol/tocotorienol [PATH:map00130 map01240 map01100 map01110]
 D      M00933  Plastoquinone biosynthesis, homogentisate + solanesyl-PP => plastoquinol [PATH:map00130 map01240 map01100 map01110]
-B  Biosynthesis of terpenoids and polyketides
+B
+B  <b>Biosynthesis of terpenoids and polyketides</b>
 C    Terpenoid backbone biosynthesis
 D      M00095  C5 isoprenoid biosynthesis, mevalonate pathway [PATH:map00900 map01100 map01110]
 D      M00849  C5 isoprenoid biosynthesis, mevalonate pathway, archaea [PATH:map00900 map01100 map01110]
@@ -386,7 +393,8 @@ D      M00800  dTDP-L-megosamine biosynthesis [PATH:map00523 map01250 map01100 m
 D      M00801  dTDP-L-olivose biosynthesis [PATH:map00523 map01250 map01100 map01110]
 D      M00802  dTDP-D-forosamine biosynthesis [PATH:map00523 map01250 map01100 map01110]
 D      M00803  dTDP-D-angolosamine biosynthesis [PATH:map00523 map01250 map01100 map01110]
-B  Biosynthesis of other secondary metabolites
+B
+B  <b>Biosynthesis of other secondary metabolites</b>
 C    Biosynthesis of phytochemical compounds
 D      M00039  Monolignol biosynthesis, phenylalanine/tyrosine => monolignol [PATH:map00940 map01100 map01110]
 D      M00137  Flavanone biosynthesis, phenylalanine => naringenin [PATH:map00940 map00941 map01100 map01110]
@@ -454,7 +462,8 @@ D      M00876  Staphyloferrin A biosynthesis, L-ornithine => staphyloferrin A [P
 D      M00875  Staphyloferrin B biosynthesis, L-serine => staphyloferrin B [PATH:map00997 map01100 map01110]
 D      M00918  Aerobactin biosynthesis, lysine => aerobactin [PATH:map00997 map01100 map01110]
 D      M00906  Ethynylserine biosynthesis, lysine => ethynylserine [PATH:map00997 map01100 map01110]
-B  Xenobiotics biodegradation
+B
+B  <b>Xenobiotics biodegradation</b>
 C    Aromatics degradation
 D      M00538  Toluene degradation, toluene => benzoate [PATH:map00623 map01220 map01100 map01120]
 D      M00537  Xylene degradation, xylene => methylbenzoate [PATH:map00622 map01220 map01100 map01120]
@@ -479,8 +488,10 @@ D      M00636  Phthalate degradation, phthalate => protocatechuate [PATH:map0062
 D      M00878  Phenylacetate degradation, phenylaxetate => acetyl-CoA/succinyl-CoA [PATH:map00360 map01100 map01120]
 D      M00545  Trans-cinnamate degradation, trans-cinnamate => acetyl-CoA [PATH:map00360 map01220 map01100 map01120]
 D      M00915  Caffeine degradation, caffeine => xanthine [PATH:map00232 map01100 map01120]
-ASignature modules
-B  Gene set
+#
+A<b>Signature modules</b>
+B
+B  <b>Gene set</b>
 C    Pathogenicity
 D      M00852  Vibrio cholerae pathogenicity signature, toxin coregulated pilus [PATH:map05110 map05111]
 D      M00850  Vibrio cholerae pathogenicity signature, cholera toxins [PATH:map05110]
@@ -526,7 +537,8 @@ C    Plant pathogenicity
 D      M00660  Xanthomonas spp. pathogenicity signature, T3SS and effectors
 C    Symbiosis
 D      M00664  Nodulation
-B  Module set
+B
+B  <b>Module set</b>
 C    Metabolic capacity
 D      M00611  Oxygenic photosynthesis in plants and cyanobacteria
 D      M00612  Anoxygenic photosynthesis in purple bacteria
@@ -537,6 +549,6 @@ D      M00618  Acetogen
 D      M00615  Nitrate assimilation
 D      M00616  Sulfate-sulfur assimilation
 !
-#
-#[ MODULE | BRITE | PATHWAY | KEGG2 | KEGG ]
-#Last updated: July 12, 2023
+#<hr>
+#[ <a href="/kegg/module.html">MODULE</a> | <a href="/kegg/brite.html">BRITE</a> | <a href="/kegg/pathway.html">PATHWAY</a> | <a href="/kegg/kegg2.html">KEGG2</a> | <a href="/kegg/">KEGG</a> ]<br>
+#Last updated: October 3, 2023

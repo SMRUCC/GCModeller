@@ -18,7 +18,7 @@
 + [read.KEGG_pathway](repository/read.KEGG_pathway.1) read the kegg pathway annotation result data.
 + [save.kegg_organism](repository/save.kegg_organism.1) save the kegg organism data as data table file.
 + [read.kegg_organism](repository/read.kegg_organism.1) 
-+ [compound](repository/compound.1) 
++ [compound](repository/compound.1) construct a new kegg compound data model
 + [pathway](repository/pathway.1) 
 + [reaction](repository/reaction.1) 
 + [reaction_class](repository/reaction_class.1) create a new data model of kegg reaction_class

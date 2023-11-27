@@ -683,18 +683,35 @@ Public Module repository
         Return file.LoadCsv(Of Prokaryote)
     End Function
 
+    ''' <summary>
+    ''' construct a new kegg compound data model
+    ''' </summary>
+    ''' <param name="entry">the kegg compound id</param>
+    ''' <param name="name">the compound common names</param>
+    ''' <param name="formula">the chemical formula of the kegg compound</param>
+    ''' <param name="exactMass">the evaluated exact mass value based on the formula string</param>
+    ''' <param name="reaction">A set of the related kegg reaction data about current metabolite</param>
+    ''' <param name="enzyme">A set of the related enzyme that associated with the reaction list</param>
+    ''' <param name="remarks">comment text about this metabolite</param>
+    ''' <param name="KCF">the molecular strucutre text</param>
+    ''' <param name="DBLinks">A dataframe object that contains the external reference link to 
+    ''' other database of current metabolite object, data fields: "db", "id", "link" should 
+    ''' be exists in this dataframe object.</param>
+    ''' <param name="pathway"></param>
+    ''' <param name="modules"></param>
+    ''' <returns></returns>
     <ExportAPI("compound")>
     Public Function createCompound(entry As String,
                                    name As String(),
                                    formula As String,
                                    exactMass As Double,
-                                   reaction As String(),
-                                   enzyme As String(),
-                                   remarks As String(),
-                                   KCF As String,
-                                   DBLinks As dataframe,
-                                   pathway As dataframe,
-                                   modules As dataframe) As Compound
+                                   Optional reaction As String() = Nothing,
+                                   Optional enzyme As String() = Nothing,
+                                   Optional remarks As String() = Nothing,
+                                   Optional KCF As String = Nothing,
+                                   Optional DBLinks As dataframe = Nothing,
+                                   Optional pathway As dataframe = Nothing,
+                                   Optional modules As dataframe = Nothing) As Compound
 
         Return New Compound With {
             .entry = entry,
