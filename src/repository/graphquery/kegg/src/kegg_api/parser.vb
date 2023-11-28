@@ -32,9 +32,6 @@ Public Module parser
     Public Function ParseHTML(id As String,
                               Optional fs As Object = "./.cache/",
                               Optional env As Environment = Nothing) As Object
-
-        Static cache As New Dictionary(Of UInteger, WebQuery)
-
         Dim web As WebQuery
 
         If fs Is Nothing Then
@@ -42,6 +39,8 @@ Public Module parser
         ElseIf TypeOf fs Is String Then
             web = New WebQuery(CLRVector.asCharacter(fs).First)
         ElseIf fs.GetType.ImplementInterface(Of IFileSystemEnvironment) Then
+            Static cache As New Dictionary(Of UInteger, WebQuery)
+
             web = cache.ComputeIfAbsent(
                 key:=CUInt(fs.GetHashCode),
                 lazyValue:=Function()
