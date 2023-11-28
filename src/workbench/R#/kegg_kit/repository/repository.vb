@@ -77,6 +77,7 @@ Imports SMRUCC.genomics
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Organism
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices.XML
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Data.KEGG.Metabolism
 Imports SMRUCC.genomics.Model.Network.KEGG.ReactionNetwork
