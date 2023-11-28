@@ -65,22 +65,7 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.ComponentModel.Annotation
 
-Namespace Assembly.KEGG.WebServices
-
-    Public Class MapData
-
-        ''' <summary>
-        ''' the pathway map data
-        ''' </summary>
-        ''' <returns></returns>
-        Public Property mapdata As Area()
-        ''' <summary>
-        ''' the module network data
-        ''' </summary>
-        ''' <returns></returns>
-        Public Property module_mapdata As Area()
-
-    End Class
+Namespace Assembly.KEGG.WebServices.XML
 
     ''' <summary>
     ''' The kegg reference map

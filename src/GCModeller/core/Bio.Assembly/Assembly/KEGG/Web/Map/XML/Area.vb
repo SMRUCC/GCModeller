@@ -64,7 +64,7 @@ Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 
-Namespace Assembly.KEGG.WebServices
+Namespace Assembly.KEGG.WebServices.XML
 
     <XmlType("area")> Public Class Area
 
