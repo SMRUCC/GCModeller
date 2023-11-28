@@ -12,5 +12,5 @@ index = lapply(index, i -> i[2], names = i -> i[1]);
 str(index);
 
 for(id in names(index)) {
-    
+    kegg_map(id, fs = getOption("http.cache_dir"));
 }
