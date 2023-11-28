@@ -42,6 +42,7 @@
 #End Region
 
 Imports System.IO
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.IO.MessagePack
 Imports Microsoft.VisualBasic.Data.IO.MessagePack.Serialization
 Imports Microsoft.VisualBasic.DataStorage.HDSPack
@@ -58,9 +59,11 @@ Namespace KEGG.Metabolism
 
         Protected Overrides Iterator Function GetObjectSchema() As IEnumerable(Of (obj As Type, schema As Dictionary(Of String, NilImplication)))
             Yield (GetType(Map), GetMapSchema)
+            Yield (GetType(MapData), GetMapdataSchema)
             Yield (GetType(Area), GetShapeSchema)
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Private Shared Function GetMapSchema() As Dictionary(Of String, NilImplication)
             Return New Dictionary(Of String, NilImplication) From {
                 {NameOf(Map.EntryId), NilImplication.MemberDefault},
@@ -72,11 +75,19 @@ Namespace KEGG.Metabolism
             }
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Private Shared Function GetMapdataSchema() As Dictionary(Of String, NilImplication)
+            Return New Dictionary(Of String, NilImplication) From {
+                {NameOf(MapData.mapdata), NilImplication.MemberDefault},
+                {NameOf(MapData.module_mapdata), NilImplication.MemberDefault}
+            }
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Private Shared Function GetShapeSchema() As Dictionary(Of String, NilImplication)
             Return New Dictionary(Of String, NilImplication) From {
                 {NameOf(Area.class), NilImplication.MemberDefault},
                 {NameOf(Area.coords), NilImplication.MemberDefault},
-                {NameOf(Area.data_coords), NilImplication.MemberDefault},
                 {NameOf(Area.data_id), NilImplication.MemberDefault},
                 {NameOf(Area.entry), NilImplication.MemberDefault},
                 {NameOf(Area.href), NilImplication.MemberDefault},
