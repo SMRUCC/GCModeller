@@ -180,8 +180,7 @@ Namespace Assembly.KEGG.WebServices
             Return New MapIndex With {
                 .EntryId = map.EntryId,
                 .KeyVector = New TermsVector With {
-                    .terms = map _
-                        .shapes _
+                    .terms = map.shapes.mapdata _
                         .Select(Function(a) a.IDVector) _
                         .IteratesALL _
                         .Distinct _

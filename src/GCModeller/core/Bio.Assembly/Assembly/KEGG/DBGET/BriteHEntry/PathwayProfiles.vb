@@ -90,7 +90,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                 .ToDictionary(Function(m) m.Key,
                               Function(m)
                                   Return m _
-                                     .Select(Function(map) map.shapes) _
+                                     .Select(Function(map) map.shapes.mapdata) _
                                      .IteratesALL _
                                      .Select(Function(a) a.IDVector) _
                                      .IteratesALL _
