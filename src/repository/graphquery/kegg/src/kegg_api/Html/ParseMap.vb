@@ -67,7 +67,7 @@ Namespace Html
 
     Module ParseHtmlExtensions
 
-        Const data$ = "<map .*name[=]""mapdata"".*>.+?</map>"
+        Const data$ = "<map .*name[=]"".+mapdata"".*>.+?</map>"
 
         '<html>
         '<!---
@@ -135,11 +135,11 @@ Namespace Html
         ''' <param name="url">The original source url of this map data</param>
         ''' <returns></returns>
         Public Function ParseHTML(html As String, Optional url$ = Nothing, Optional fs As IFileSystemEnvironment = Nothing) As Map
-            Dim map$ = r.Match(html, data, RegexICSng).Value
+            Dim map As String() = r.Matches(html, data, RegexICSng).ToArray
             Dim info As NamedValue(Of String) = GetEntryInfo(html)
-            Dim shapes As Area() = parseShapes(map)
-            Dim desc As String = r.Match(html, "<div id[=]""description"".+?</div>", RegexICSng) _
-                .Value _
+            Dim shapes As Area() = parseShapes(map(0))
+            Dim modules As Area() = parseShapes(map(1))
+            Dim desc As String = r.Match(html, "<div id[=]""description"".+?</div>", RegexICSng).Value _
                 .GetValue _
                 .Trim(" "c, ASCII.TAB, ASCII.CR, ASCII.LF)
             Dim cache_temp As String = App.ProductSharedTemp & "/kegg_maps/"
@@ -152,7 +152,7 @@ Namespace Html
 
             Return New Map With {
                 .PathwayImage = img,
-                .shapes = shapes,
+                .shapes = New MapData With {.mapdata = shapes, .module_mapdata = modules},
                 .EntryId = info.Name,
                 .name = info.Value,
                 .URL = url,
