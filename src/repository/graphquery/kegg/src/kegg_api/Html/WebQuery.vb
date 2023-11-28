@@ -94,6 +94,8 @@ Namespace Html
         Friend Shared Function getID(entry As entry) As String
             If entry.entry.name.IsPattern("\d+") Then
                 Return "map" & entry.EntryId
+            ElseIf entry.EntryId.IsPattern("map\d+") Then
+                Return entry.EntryId
             Else
                 Dim s As String = entry.entry.text
                 s = r.Match(s, "\[PATH:.+?\]", RegexICSng).Value
