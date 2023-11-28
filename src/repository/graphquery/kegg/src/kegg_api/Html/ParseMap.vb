@@ -67,7 +67,7 @@ Namespace Html
 
     Module ParseHtmlExtensions
 
-        Const data$ = "<map .*name[=]"".+mapdata"".*>.+?</map>"
+        Const data$ = "<map .*name[=]"".*mapdata"".*>.+?</map>"
 
         '<html>
         '<!---
@@ -128,6 +128,27 @@ Namespace Html
             Return img
         End Function
 
+        Const close_offset As Integer = 6
+
+        Private Iterator Function ExtractMapSet(html As String) As IEnumerable(Of String)
+            Dim start As Integer = InStr(html, "<map ")
+            Dim ends As Integer = InStr(html, "</map>") + close_offset
+
+            Yield html.Substring(start - 1, length:=ends - start)
+
+            For i As Integer = 0 To 100
+                start = InStr(ends, html, "<map ")
+
+                If start > 0 Then
+                    ends = InStr(start, html, "</map>") + close_offset
+
+                    Yield html.Substring(start - 1, length:=ends - start)
+                Else
+                    Exit For
+                End If
+            Next
+        End Function
+
         ''' <summary>
         ''' 
         ''' </summary>
@@ -135,7 +156,7 @@ Namespace Html
         ''' <param name="url">The original source url of this map data</param>
         ''' <returns></returns>
         Public Function ParseHTML(html As String, Optional url$ = Nothing, Optional fs As IFileSystemEnvironment = Nothing) As Map
-            Dim mapSet As String() = r.Matches(html, data, RegexICSng).ToArray
+            Dim mapSet As String() = ExtractMapSet(html).ToArray
             Dim info As NamedValue(Of String) = GetEntryInfo(html)
             Dim shapes As Area() = parseShapes(mapSet(0))
             Dim modules As Area() = parseShapes(mapSet(1))
