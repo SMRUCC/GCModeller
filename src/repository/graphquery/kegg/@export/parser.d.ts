@@ -8,6 +8,10 @@
 */
 declare namespace parser {
    /**
+     * @param env default value Is ``null``.
+   */
+   function fetch_kegg_maps(cache: any, env?: object): any;
+   /**
      * @param fs default value Is ``'./.cache/'``.
      * @param env default value Is ``null``.
    */
