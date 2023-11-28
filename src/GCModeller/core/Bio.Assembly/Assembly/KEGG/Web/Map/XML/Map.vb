@@ -121,11 +121,6 @@ Namespace Assembly.KEGG.WebServices
             Return shapes.GetJson
         End Function
 
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Shared Function ParseFromUrl(url As String) As Map
-            Return ParseHTML(html:=url.GET)
-        End Function
-
         Public Iterator Function GenericEnumerator() As IEnumerator(Of Area) Implements Enumeration(Of Area).GenericEnumerator
             For Each item As Area In shapes
                 Yield item
