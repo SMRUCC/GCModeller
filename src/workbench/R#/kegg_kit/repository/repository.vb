@@ -77,6 +77,7 @@ Imports SMRUCC.genomics
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Organism
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices.XML
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Data.KEGG.Metabolism
 Imports SMRUCC.genomics.Model.Network.KEGG.ReactionNetwork
@@ -113,7 +114,7 @@ Public Module repository
         mapTable.columns("Name") = table.Select(Function(t) t.name.TrimNewLine).ToArray
         mapTable.columns(NameOf(Map.URL)) = table.Select(Function(t) t.URL).ToArray
         mapTable.columns(NameOf(Map.description)) = table.Select(Function(t) t.description.TrimNewLine).ToArray
-        mapTable.columns(NameOf(Map.shapes)) = table.Select(Function(t) t.shapes.TryCount).ToArray
+        mapTable.columns(NameOf(Map.shapes)) = table.Select(Function(t) t.shapes.mapdata.TryCount).ToArray
 
         Return mapTable
     End Function
@@ -417,7 +418,7 @@ Public Module repository
             Return dataRepo _
                 .populates(Of Map)(env) _
                 .Select(Function(map)
-                            Return map.shapes _
+                            Return map.shapes.mapdata _
                                 .Select(Function(poly) poly.IDVector) _
                                 .IteratesALL
                         End Function) _
@@ -487,7 +488,7 @@ Public Module repository
             Return dataRepo _
                 .populates(Of Map)(env) _
                 .Select(Function(map)
-                            Return map.shapes _
+                            Return map.shapes.mapdata _
                                 .Select(Function(poly) poly.IDVector) _
                                 .IteratesALL
                         End Function) _
@@ -838,19 +839,18 @@ Public Module repository
 
     <ExportAPI("shapeAreas")>
     Public Function shapeAreas(data As dataframe) As Area()
-        Return data.forEachRow({"id", "shape", "coords", "data_coords", "class", "href", "title", "entry", "refid", "module"}) _
+        Return data.forEachRow({"id", "shape", "coords", "class", "href", "title", "entry", "refid", "module"}) _
             .Select(Function(i)
                         Return New Area With {
                             .data_id = any.ToString(i(Scan0)),
                             .shape = any.ToString(i(1)),
                             .coords = any.ToString(i(2)),
-                            .data_coords = any.ToString(i(3)),
-                            .[class] = any.ToString(i(4)),
-                            .href = any.ToString(i(5)),
-                            .title = any.ToString(i(6)),
-                            .entry = any.ToString(i(7)),
-                            .refid = any.ToString(i(8)),
-                            .moduleId = any.ToString(i(9))
+                            .[class] = any.ToString(i(3)),
+                            .href = any.ToString(i(4)),
+                            .title = any.ToString(i(5)),
+                            .entry = any.ToString(i(6)),
+                            .refid = any.ToString(i(7)),
+                            .moduleId = any.ToString(i(8))
                         }
                     End Function) _
             .ToArray
@@ -868,7 +868,7 @@ Public Module repository
             .EntryId = id,
             .name = name,
             .PathwayImage = img,
-            .shapes = area,
+            .shapes = New MapData With {.mapdata = area},
             .URL = url,
             .description = description
         }

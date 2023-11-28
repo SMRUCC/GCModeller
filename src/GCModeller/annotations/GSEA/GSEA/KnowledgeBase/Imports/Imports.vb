@@ -60,7 +60,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.Xml.Models
-Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices.XML
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 
 ''' <summary>
@@ -83,13 +83,14 @@ Public Module [Imports]
     <Extension>
     Public Function KEGGMapRelation(maps As IEnumerable(Of Map)) As Dictionary(Of String, String())
         Return maps.Select(Function(m)
-                               Return m.shapes.Select(Function(a) a.IDVector) _
-                                   .IteratesALL _
-                                   .Where(Function(id) id.IsPattern("K\d+")) _
-                                   .Distinct _
-                                   .Select(Function(id)
-                                               Return (mapID:=m.entryID, KO:=id)
-                                           End Function)
+                               Return m.shapes.mapdata _
+                                    .Select(Function(a) a.IDVector) _
+                                    .IteratesALL _
+                                    .Where(Function(id) id.IsPattern("K\d+")) _
+                                    .Distinct _
+                                    .Select(Function(id)
+                                                Return (mapID:=m.entryID, KO:=id)
+                                            End Function)
                            End Function) _
                    .IteratesALL _
                    .GroupBy(Function(ko) ko.KO) _

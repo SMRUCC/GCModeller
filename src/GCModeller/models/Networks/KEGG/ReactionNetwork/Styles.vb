@@ -56,7 +56,7 @@ Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices.XML
 
 Namespace ReactionNetwork
 
@@ -67,7 +67,7 @@ Namespace ReactionNetwork
             ' 生成了 compound => maps 的包含关系
             Dim compoundIndex As Dictionary(Of String, String()) = maps _
                 .Select(Function(pathway)
-                            Return pathway.shapes _
+                            Return pathway.shapes.mapdata _
                                 .Select(Function(a) a.IDVector) _
                                 .IteratesALL _
                                 .Where(Function(id) id.IsPattern("C\d+")) _

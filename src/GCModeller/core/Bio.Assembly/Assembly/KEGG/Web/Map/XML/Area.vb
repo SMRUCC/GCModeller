@@ -60,11 +60,10 @@ Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 
-Namespace Assembly.KEGG.WebServices
+Namespace Assembly.KEGG.WebServices.XML
 
     <XmlType("area")> Public Class Area
 
@@ -82,7 +81,6 @@ Namespace Assembly.KEGG.WebServices
         ''' </summary>
         ''' <returns></returns>
         <XmlAttribute> Public Property coords As String
-        <XmlAttribute> Public Property data_coords As String
         <XmlAttribute> Public Property [class] As String
         <XmlAttribute> Public Property href As String
         <XmlAttribute> Public Property entry As String
@@ -198,24 +196,18 @@ Namespace Assembly.KEGG.WebServices
             End Get
         End Property
 
-        Public Overrides Function ToString() As String
-            Return $"[{shape}] {IDVector.GetJson}"
+        Public Iterator Function GetPolyLine() As IEnumerable(Of PointF)
+            Dim t As Single() = coords.Split(","c) _
+                .Select(AddressOf Single.Parse) _
+                .ToArray
+
+            For Each ti As Single() In t.Split(2)
+                Yield New PointF(ti(0), ti(1))
+            Next
         End Function
 
-        Public Shared Function Parse(line$) As Area
-            Dim attrs As Dictionary(Of NamedValue(Of String)) = line _
-                .TagAttributes _
-                .ToDictionary
-            Dim getValue = Function(key$)
-                               Return attrs.TryGetValue(key).Value
-                           End Function
-
-            Return New Area With {
-                .coords = getValue(NameOf(coords)),
-                .href = getValue(NameOf(href)),
-                .shape = getValue(NameOf(shape)),
-                .title = getValue(NameOf(title))
-            }
+        Public Overrides Function ToString() As String
+            Return $"[{shape}] {IDVector.GetJson}"
         End Function
     End Class
 End Namespace

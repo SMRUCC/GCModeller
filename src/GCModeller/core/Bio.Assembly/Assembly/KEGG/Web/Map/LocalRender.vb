@@ -66,6 +66,7 @@ Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.Runtime
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices.XML
 
 Namespace Assembly.KEGG.WebServices
 
@@ -175,8 +176,7 @@ Namespace Assembly.KEGG.WebServices
         ''' <returns></returns>
         Public Function GetTitle(mapName$) As String
             Dim map As Map = mapTable(mapName)
-            Dim rect As Area = map _
-                .shapes _
+            Dim rect As Area = map.shapes.mapdata _
                 .Where(Function(ar)
                            Return ar.shape.TextEquals("rect") AndAlso ar.IDVector.IndexOf(mapName) > -1
                        End Function) _
@@ -214,8 +214,7 @@ Namespace Assembly.KEGG.WebServices
         ''' <returns></returns>
         Public Iterator Function IteratesMapNames(list$(), Optional threshold% = 1) As IEnumerable(Of NamedValue(Of String()))
             For Each map As String In Me.mapTable.Keys
-                Dim id$() = mapTable(map) _
-                    .shapes _
+                Dim id$() = mapTable(map).shapes.mapdata _
                     .Select(Function(ar) ar.IDVector) _
                     .IteratesALL _
                     .ToArray
@@ -352,7 +351,7 @@ Namespace Assembly.KEGG.WebServices
         End Sub
 
         Private Shared Function getAreas(map As Map, type$) As Dictionary(Of String, NamedValue(Of Area()))
-            Dim shapes = map.shapes _
+            Dim shapes = map.shapes.mapdata _
                 .Where(Function(x) x.Type = type) _
                 .Select(Function(x)
                             Dim titles = x.Names
