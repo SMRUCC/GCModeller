@@ -11,6 +11,8 @@ Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices.XML
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
+Imports SMRUCC.Rsharp.Runtime.Internal.Invokes
+Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
 
@@ -71,11 +73,12 @@ Public Module parser
         Dim q As WebQuery
         Dim br08901 As EntityObject()
         Dim println = env.WriteLineHandler
+        Dim REnv = env.globalEnvironment.Rscript
 
         ' load library module
         ' and then cast data object type
-        env.globalEnvironment.Rscript.Imports({"brite"}, baseDll:="kegg_kit.dll")
-        br08901 = env.globalEnvironment.Rscript.Evaluate("brite.as.table(__kegg__)", ("__kegg__", htext.br08901))
+        REnv.Imports({"brite"}, baseDll:="kegg_kit.dll")
+        br08901 = REnv.Evaluate("brite.as.table(__kegg__)", ("__kegg__", htext.br08901))
 
         '               class                   category subcategory    order    entry                                           name
         ' ----------------------------------------------------------------------------------------------------------------------------
@@ -96,6 +99,8 @@ Public Module parser
         '
         '  [ reached 'max' / getOption("max.print") -- omitted 549 rows ]
 
+        Call base.print(REnv.Evaluate("as.data.frame(__kegg__)", ("__kegg__", br08901)), New list(("max.print", 13)), env)
+
         If cache Is Nothing Then
             Return Internal.debug.stop("the required of the cache pool can not be nothing!", env)
         End If
@@ -115,7 +120,11 @@ Public Module parser
                 .entry = New NamedValue With {.name = row.ID, .text = row!name}
             }
             Dim map As Map = q.Query(Of Map)(refer, cacheType:=".html")
-            Dim path As String = $"/KEGG_maps/{refer.class}/{refer.category}/map{row.ID}.xml"
+            Dim folderName = New String() {
+                refer.class.NormalizePathString(alphabetOnly:=False),
+                refer.category.NormalizePathString(alphabetOnly:=False)
+            }.JoinBy("/")
+            Dim path As String = $"/KEGG_maps/{folderName}/map{row.ID}.xml"
 
             Call q.FileSystem.WriteText(map.GetXml, path)
             Call q.FileSystem.Flush()

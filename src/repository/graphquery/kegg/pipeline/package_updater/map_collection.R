@@ -11,8 +11,10 @@ index = lapply(index, i -> i[2], names = i -> i[1]);
 
 str(index);
 
-kegg_map("map00600", fs = getOption("http.cache_dir"));
+# kegg_map("map00600", fs = getOption("http.cache_dir"));
 
-for(id in names(index)) {
-    kegg_map(id, fs = getOption("http.cache_dir"));
-}
+# for(id in names(index)) {
+#     kegg_map(id, fs = getOption("http.cache_dir"));
+# }
+
+fetch_kegg_maps(getOption("http.cache_dir"));
