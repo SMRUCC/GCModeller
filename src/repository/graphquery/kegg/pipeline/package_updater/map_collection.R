@@ -10,3 +10,4 @@ index = lapply(index, si -> strsplit(si, "\t"));
 index = lapply(index, i -> i[2], names = i -> i[1]);
 
 str(index);
+
