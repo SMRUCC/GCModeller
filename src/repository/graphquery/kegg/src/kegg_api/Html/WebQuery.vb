@@ -54,15 +54,15 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.Net.Http
-Imports PathwayEntry = SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry.Pathway
+Imports entry = SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry.Pathway
 Imports r = System.Text.RegularExpressions.Regex
 
-Namespace Assembly.KEGG.WebServices
+Namespace Html
 
     ''' <summary>
     ''' web query module for the kegg pathway map
     ''' </summary>
-    Public Class MapQuery : Inherits WebQueryModule(Of PathwayEntry)
+    Public Class WebQuery : Inherits WebQueryModule(Of entry)
 
         Public ReadOnly Property FileSystem As IFileSystemEnvironment
             Get
@@ -91,7 +91,7 @@ Namespace Assembly.KEGG.WebServices
             Call MyBase.New(cacheFs, interval, offline)
         End Sub
 
-        Friend Shared Function getID(entry As PathwayEntry) As String
+        Friend Shared Function getID(entry As entry) As String
             If entry.entry.name.IsPattern("\d+") Then
                 Return "map" & entry.EntryId
             Else
@@ -103,7 +103,7 @@ Namespace Assembly.KEGG.WebServices
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Protected Overrides Function doParseUrl(context As PathwayEntry) As String
+        Protected Overrides Function doParseUrl(context As entry) As String
             Return $"https://www.kegg.jp/pathway/{getID(context)}"
         End Function
 
@@ -112,7 +112,7 @@ Namespace Assembly.KEGG.WebServices
             Return ParseHtmlExtensions.ParseHTML(html, fs:=cache)
         End Function
 
-        Protected Overrides Function doParseGuid(context As PathwayEntry) As String
+        Protected Overrides Function doParseGuid(context As entry) As String
             If TypeOf cache Is IFileSystemEnvironment Then
                 Dim md5 As String = context.EntryId.MD5
                 Dim prefix As String = "/.cache/" & md5.Substring(7, 2) & "/" & md5
