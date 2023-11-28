@@ -51,7 +51,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports SMRUCC.genomics.Analysis.PFSNet.DataStructure
-Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices.XML
 Imports SMRUCC.genomics.Model.Network.KEGG.ReactionNetwork
 
 Public Module ggiBuilder

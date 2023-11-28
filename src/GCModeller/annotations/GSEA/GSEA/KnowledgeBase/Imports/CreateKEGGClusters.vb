@@ -55,6 +55,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices.XML
 
 Public Module CreateKEGGClusters
 

@@ -52,7 +52,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.Xml.Models
-Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices.XML
 
 Public Module GenericBackground
 
