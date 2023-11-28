@@ -88,7 +88,7 @@ Public Module KEGGCompounds
         End If
 
         For Each map As T In maps
-            names = map.shapes _
+            names = map.shapes.mapdata _
                 .Select(Function(a) a.Names) _
                 .IteratesALL _
                 .GroupBy(Function(n) n.Name) _

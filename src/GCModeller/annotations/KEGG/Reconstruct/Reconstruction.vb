@@ -257,7 +257,7 @@ Public Module Reconstruction
         Dim objs As String()
         Dim idIndex As New List(Of String)
 
-        For Each entity As Area In map.shapes
+        For Each entity As Area In map.shapes.mapdata
             objs = entity.IDVector
 
             If objs.Any(Function(id) id.IsPattern("K\d+")) Then

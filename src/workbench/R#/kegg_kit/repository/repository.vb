@@ -113,7 +113,7 @@ Public Module repository
         mapTable.columns("Name") = table.Select(Function(t) t.name.TrimNewLine).ToArray
         mapTable.columns(NameOf(Map.URL)) = table.Select(Function(t) t.URL).ToArray
         mapTable.columns(NameOf(Map.description)) = table.Select(Function(t) t.description.TrimNewLine).ToArray
-        mapTable.columns(NameOf(Map.shapes)) = table.Select(Function(t) t.shapes.TryCount).ToArray
+        mapTable.columns(NameOf(Map.shapes)) = table.Select(Function(t) t.shapes.mapdata.TryCount).ToArray
 
         Return mapTable
     End Function
@@ -417,7 +417,7 @@ Public Module repository
             Return dataRepo _
                 .populates(Of Map)(env) _
                 .Select(Function(map)
-                            Return map.shapes _
+                            Return map.shapes.mapdata _
                                 .Select(Function(poly) poly.IDVector) _
                                 .IteratesALL
                         End Function) _
@@ -487,7 +487,7 @@ Public Module repository
             Return dataRepo _
                 .populates(Of Map)(env) _
                 .Select(Function(map)
-                            Return map.shapes _
+                            Return map.shapes.mapdata _
                                 .Select(Function(poly) poly.IDVector) _
                                 .IteratesALL
                         End Function) _
@@ -868,7 +868,7 @@ Public Module repository
             .EntryId = id,
             .name = name,
             .PathwayImage = img,
-            .shapes = area,
+            .shapes = New MapData With {.mapdata = area},
             .URL = url,
             .description = description
         }

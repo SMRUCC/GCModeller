@@ -125,7 +125,7 @@ Public Class ReportRender
     End Function
 
     Public Shared Function Render(map As Map, highlights As MapHighlights, Optional text_color As String = "white") As String
-        Dim mapjson As MapShape() = map.shapes _
+        Dim mapjson As MapShape() = map.shapes.mapdata _
             .Select(AddressOf CreateMap) _
             .ToArray
         Dim rendering As Image = LocalRender.Rendering(map, highlights, textColor:=text_color)

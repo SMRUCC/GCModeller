@@ -108,7 +108,7 @@ Module profiles
                 .GroupBy(Function(m) m.EntryId) _
                 .ToDictionary(Function(m) m.Key,
                               Function(m)
-                                  Return m.First.shapes _
+                                  Return m.First.shapes.mapdata _
                                      .Select(Function(a) a.IDVector) _
                                      .IteratesALL _
                                      .Distinct _

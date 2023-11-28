@@ -71,7 +71,7 @@ Public Module BiologicalObjectCluster
     Public Function CompoundsMap(map As Map) As NamedCollection(Of String)
         Return New NamedCollection(Of String) With {
             .name = map.EntryId,
-            .value = map.shapes _
+            .value = map.shapes.mapdata _
                 .Select(Function(a) a.IDVector) _
                 .IteratesALL _
                 .Where(Function(id) id.IsPattern("C\d+")) _
@@ -84,7 +84,7 @@ Public Module BiologicalObjectCluster
     Public Function ReactionMap(map As Map) As NamedCollection(Of String)
         Return New NamedCollection(Of String) With {
             .name = map.EntryId,
-            .value = map.shapes _
+            .value = map.shapes.mapdata _
                 .Select(Function(a) a.IDVector) _
                 .IteratesALL _
                 .Where(Function(id) id.IsPattern("R\d+")) _
