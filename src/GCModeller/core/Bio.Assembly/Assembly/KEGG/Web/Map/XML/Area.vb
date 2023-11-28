@@ -60,7 +60,6 @@ Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 
@@ -82,7 +81,6 @@ Namespace Assembly.KEGG.WebServices.XML
         ''' </summary>
         ''' <returns></returns>
         <XmlAttribute> Public Property coords As String
-        <XmlAttribute> Public Property data_coords As String
         <XmlAttribute> Public Property [class] As String
         <XmlAttribute> Public Property href As String
         <XmlAttribute> Public Property entry As String
@@ -200,22 +198,6 @@ Namespace Assembly.KEGG.WebServices.XML
 
         Public Overrides Function ToString() As String
             Return $"[{shape}] {IDVector.GetJson}"
-        End Function
-
-        Public Shared Function Parse(line$) As Area
-            Dim attrs As Dictionary(Of NamedValue(Of String)) = line _
-                .TagAttributes _
-                .ToDictionary
-            Dim getValue = Function(key$)
-                               Return attrs.TryGetValue(key).Value
-                           End Function
-
-            Return New Area With {
-                .coords = getValue(NameOf(coords)),
-                .href = getValue(NameOf(href)),
-                .shape = getValue(NameOf(shape)),
-                .title = getValue(NameOf(title))
-            }
         End Function
     End Class
 End Namespace

@@ -52,6 +52,7 @@
 
 Imports System.IO
 Imports Microsoft.VisualBasic.ApplicationServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Linq
@@ -87,11 +88,32 @@ Namespace Html
             }
         End Function
 
+        Private Function ParseAreaData(line$) As Area
+            Dim attrs As Dictionary(Of NamedValue(Of String)) = line _
+                .TagAttributes _
+                .ToDictionary
+            Dim getValue = Function(key$)
+                               Return attrs.TryGetValue(key).Value
+                           End Function
+
+            Return New Area With {
+                .coords = getValue(NameOf(Area.coords)),
+                .href = getValue(NameOf(Area.href)),
+                .shape = getValue(NameOf(Area.shape)),
+                .title = getValue(NameOf(Area.title)),
+                .entry = getValue("data-entry"),
+                .[class] = getValue(NameOf(Area.class)),
+                .data_id = getValue("id"),
+                .moduleId = getValue("data-module"),
+                .refid = getValue("data-refid")
+            }
+        End Function
+
         Private Function parseShapes(map As String) As Area()
             Dim areas = map.LineTokens.Select(Function(si) si.Trim(" "c, ASCII.TAB, ASCII.CR, ASCII.LF)).ToArray
             Dim shapes = areas _
                 .Where(Function(si) si.ToLower.StartsWith("<area")) _
-                .Select(AddressOf Area.Parse) _
+                .Select(AddressOf ParseAreaData) _
                 .ToArray
 
             Return shapes
@@ -159,7 +181,7 @@ Namespace Html
             Dim mapSet As String() = ExtractMapSet(html).ToArray
             Dim info As NamedValue(Of String) = GetEntryInfo(html)
             Dim shapes As Area() = parseShapes(mapSet(0))
-            Dim modules As Area() = parseShapes(mapSet(1))
+            Dim modules As Area() = Nothing
             Dim desc As String = r.Match(html, "<div id[=]""description"".+?</div>", RegexICSng).Value _
                 .GetValue _
                 .Trim(" "c, ASCII.TAB, ASCII.CR, ASCII.LF)
@@ -167,6 +189,9 @@ Namespace Html
 
             If fs Is Nothing Then
                 fs = dirFs.FromLocalFileSystem(cache_temp)
+            End If
+            If mapSet.Length > 1 Then
+                modules = parseShapes(mapSet(1))
             End If
 
             Dim img As String = HttpGetPathwayMapImage(info.Name, fs)
