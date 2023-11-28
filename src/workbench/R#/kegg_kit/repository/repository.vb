@@ -839,19 +839,18 @@ Public Module repository
 
     <ExportAPI("shapeAreas")>
     Public Function shapeAreas(data As dataframe) As Area()
-        Return data.forEachRow({"id", "shape", "coords", "data_coords", "class", "href", "title", "entry", "refid", "module"}) _
+        Return data.forEachRow({"id", "shape", "coords", "class", "href", "title", "entry", "refid", "module"}) _
             .Select(Function(i)
                         Return New Area With {
                             .data_id = any.ToString(i(Scan0)),
                             .shape = any.ToString(i(1)),
                             .coords = any.ToString(i(2)),
-                            .data_coords = any.ToString(i(3)),
-                            .[class] = any.ToString(i(4)),
-                            .href = any.ToString(i(5)),
-                            .title = any.ToString(i(6)),
-                            .entry = any.ToString(i(7)),
-                            .refid = any.ToString(i(8)),
-                            .moduleId = any.ToString(i(9))
+                            .[class] = any.ToString(i(3)),
+                            .href = any.ToString(i(4)),
+                            .title = any.ToString(i(5)),
+                            .entry = any.ToString(i(6)),
+                            .refid = any.ToString(i(7)),
+                            .moduleId = any.ToString(i(8))
                         }
                     End Function) _
             .ToArray
