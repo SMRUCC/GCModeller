@@ -1,6 +1,7 @@
 +E	Lipid
+#<h2><a href="/kegg/brite.html"><img src="/Fig/bget/kegg3.gif" align="middle" border=0></a>&nbsp; Lipids</h2>
 !
-AFA  Fatty acyls
+A<b>FA  Fatty acyls</b>
 B  FA01 Fatty Acids and Conjugates
 C    FA0101 Straight chain fatty acids
 D      C00058  Formic acid
@@ -990,7 +991,8 @@ C    C15989  (9S,10S)-10-Hydroxy-9-(phosphonooxy)octadecanoic acid
 C    C01255  N-(6-Aminohexanoyl)-6-aminohexanoate
 C    C03087  5-Acetamidopentanoate
 C    C12216  Mycobactin S
-AGL  Glycerolipids
+#
+A<b>GL  Glycerolipids</b>
 B  GL01 Monoradylglycerols
 C    GL0101 Monoacylglycerols
 D      C01885  1-acyl-sn-glycerol
@@ -1077,7 +1079,8 @@ C    GL0702 Betaine alkylacylglycerols
 B  GL00 Other Glycerolipids
 C    C18168  Diacylglycerylhomoserine
 C    C18169  Diacylglyceryl-N,N,N-trimethylhomoserine
-AGP  Glycerophospholipids
+#
+A<b>GP  Glycerophospholipids</b>
 B  GP01 Glycerophosphocholines
 C    GP0101 Diacylglycerophosphocholines
 D      C00157  1,2-Diacyl-sn-glycero-3-phosphocholine
@@ -1334,7 +1337,8 @@ C    GP2107 1Z-alkenylglycerophosphoethanolamine glycans
 C    GP2108 1-acyl,2-alkylglycerophosphoethanolamine glycans
 B  GP00 Other Glycerophospholipids
 C    C01192  Palmitoylglycerone phosphate
-ASP  Sphingolipids
+#
+A<b>SP  Sphingolipids</b>
 B  SP01 Sphingoid bases
 C    SP0101 Sphing-4-enines (Sphingosines)
 D      C00319  Sphing-4-enine
@@ -1552,7 +1556,8 @@ C    C13937  Cholinephosphorylmannosylneogalabiaosylceramide
 C    C13938  Cholinephosphorylneogalatriaosylceramide
 B  SP09 Arsenosphingolipids
 B  SP00 Other Sphingolipids
-AST  Sterol lipids
+#
+A<b>ST  Sterol lipids</b>
 B  ST01 Sterols
 C    ST0101 Cholesterol and derivatives
 D      C00187  Cholesterol
@@ -2143,7 +2148,8 @@ D      C16868  Tauroursodeoxycholic acid
 C    ST0505 Other Steroid conjugates
 D      C16841  Squalamine
 B  ST00 Other Sterol lipids
-APR  Prenol lipids
+#
+A<b>PR  Prenol lipids</b>
 B  PR01 Isoprenoids
 C    PR0101 C5 isoprenoids (hemiterpenes)
 D      C00129  Isopentenyl diphosphate
@@ -3289,7 +3295,8 @@ C    C05807  2-Polyprenylphenol
 C    C05808  5-Hydroxy-2-polyprenylphenol
 C    C05848  4-Hydroxy-3-polyprenylbenzoate
 C    C06081  Polyprenol
-ASL  Saccharolipids
+#
+A<b>SL  Saccharolipids</b>
 B  SL01 Acylaminosugars
 C    SL0101 Monoacylaminosugars
 D      C03000  N-Acyl-D-glucosamine
@@ -3364,7 +3371,8 @@ C    C22095  3,6,6'-Tris-(hydroxy)phthioceranyl-2-palmitoyl(stearoyl)-2'-sulfo-a
 B  SL04 Acyltrehalose glycans
 B  SL05 Other acyl sugars
 B  SL00 Other Saccharolipids
-APK  Polyketides
+#
+A<b>PK  Polyketides</b>
 B  PK01 Linear polyketides
 B  PK02 Halogenated acetogenins
 B  PK03 Annonaceae acetogenins
@@ -4601,7 +4609,7 @@ D      C10373  5-O-Methylembelin
 D      C10399  Rapanone
 B  PK00 Other Polyketides
 !
-#
-#[ BRITE | KEGG2 | KEGG ]
+#<hr>
+#[ <a href="/kegg/brite.html">BRITE</a> | <a href="/kegg/kegg2.html">KEGG2</a> | <a href="/kegg/">KEGG</a> ]<br>
 #Last updated: July 21, 2022
-#Classification based on LIPID MAPS [ pubmed ]
+#<br>Classification based on <a href="http://www.lipidmaps.org/">LIPID MAPS</a> [ <a href="http://www.ncbi.nlm.nih.gov/pubmed/15722563,19098281,33037133">pubmed</a> ]
