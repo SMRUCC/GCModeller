@@ -58,11 +58,12 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports dirFs = Microsoft.VisualBasic.FileIO.Directory
 Imports r = System.Text.RegularExpressions.Regex
 
-Namespace Assembly.KEGG.WebServices
+Namespace Html
 
     Module ParseHtmlExtensions
 
