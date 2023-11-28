@@ -196,6 +196,16 @@ Namespace Assembly.KEGG.WebServices.XML
             End Get
         End Property
 
+        Public Iterator Function GetPolyLine() As IEnumerable(Of PointF)
+            Dim t As Single() = coords.Split(","c) _
+                .Select(AddressOf Single.Parse) _
+                .ToArray
+
+            For Each ti As Single() In t.Split(2)
+                Yield New PointF(ti(0), ti(1))
+            Next
+        End Function
+
         Public Overrides Function ToString() As String
             Return $"[{shape}] {IDVector.GetJson}"
         End Function

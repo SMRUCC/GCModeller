@@ -95,10 +95,15 @@ Namespace Html
             Dim getValue = Function(key$)
                                Return attrs.TryGetValue(key).Value
                            End Function
+            Dim href As String = getValue(NameOf(Area.href))
+
+            If href = "javascript:void(0)" Then
+                href = ""
+            End If
 
             Return New Area With {
                 .coords = getValue(NameOf(Area.coords)),
-                .href = getValue(NameOf(Area.href)),
+                .href = href,
                 .shape = getValue(NameOf(Area.shape)),
                 .title = getValue(NameOf(Area.title)),
                 .entry = getValue("data-entry"),
