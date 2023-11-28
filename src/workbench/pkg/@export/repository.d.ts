@@ -88,10 +88,10 @@ declare namespace repository {
       */
       function compounds(repository: any, rawList?: boolean, ignoreGlycan?: boolean, env?: object): object|object;
       /**
-       * load list of kegg reference @``T:SMRUCC.genomics.Assembly.KEGG.WebServices.Map``.
+       * load list of kegg reference @``T:SMRUCC.genomics.Assembly.KEGG.WebServices.XML.Map``.
        * 
        * 
-        * @param repository a directory of repository data for kegg reference @``T:SMRUCC.genomics.Assembly.KEGG.WebServices.Map``.
+        * @param repository a directory of repository data for kegg reference @``T:SMRUCC.genomics.Assembly.KEGG.WebServices.XML.Map``.
         * @param rawMaps 
         * + default value Is ``true``.
         * @return a kegg reference map object vector, which can be indexed 
