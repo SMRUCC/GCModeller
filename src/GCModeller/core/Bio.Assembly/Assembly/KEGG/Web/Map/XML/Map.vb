@@ -67,6 +67,21 @@ Imports SMRUCC.genomics.ComponentModel.Annotation
 
 Namespace Assembly.KEGG.WebServices
 
+    Public Class MapData
+
+        ''' <summary>
+        ''' the pathway map data
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property mapdata As Area()
+        ''' <summary>
+        ''' the module network data
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property module_mapdata As Area()
+
+    End Class
+
     ''' <summary>
     ''' The kegg reference map
     ''' </summary>
@@ -83,14 +98,13 @@ Namespace Assembly.KEGG.WebServices
         ''' 节点的位置，在这里面包含有代谢物(小圆圈)以及基因(方块)的位置定义
         ''' </summary>
         ''' <returns></returns>
-        <XmlArray("shapes")>
-        Public Property shapes As Area()
+        Public Property shapes As MapData
 
         ''' <summary>
         ''' base64 image
         ''' </summary>
         ''' <returns></returns>
-        <XmlElement("KEGGmap")>
+        <XmlElement("image")>
         Public Property PathwayImage As String
 
         ''' <summary>
@@ -99,7 +113,7 @@ Namespace Assembly.KEGG.WebServices
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetMembers() As String()
-            Return shapes _
+            Return shapes.mapdata _
                 .Select(Function(a) a.IDVector) _
                 .IteratesALL _
                 .Distinct _
@@ -122,7 +136,7 @@ Namespace Assembly.KEGG.WebServices
         End Function
 
         Public Iterator Function GenericEnumerator() As IEnumerator(Of Area) Implements Enumeration(Of Area).GenericEnumerator
-            For Each item As Area In shapes
+            For Each item As Area In shapes.mapdata
                 Yield item
             Next
         End Function
@@ -132,7 +146,7 @@ Namespace Assembly.KEGG.WebServices
         End Function
 
         Public Overrides Iterator Function GetPathwayGenes() As IEnumerable(Of NamedValue(Of String))
-            For Each shape As Area In shapes
+            For Each shape As Area In shapes.mapdata
                 Dim list = shape.Names.ToArray
 
                 For Each id As NamedValue(Of String) In list
@@ -144,7 +158,7 @@ Namespace Assembly.KEGG.WebServices
         End Function
 
         Public Overrides Iterator Function GetCompoundSet() As IEnumerable(Of NamedValue(Of String))
-            For Each shape As Area In shapes
+            For Each shape As Area In shapes.mapdata
                 Dim list = shape.Names.ToArray
 
                 For Each id As NamedValue(Of String) In list
