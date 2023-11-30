@@ -226,7 +226,7 @@ declare namespace background {
     * 
     * 
      * @param kegg the kegg @``T:SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Pathway`` model collection of current organism or 
-     *  the KEGG @``T:SMRUCC.genomics.Assembly.KEGG.WebServices.Map`` data collection.
+     *  the KEGG @``T:SMRUCC.genomics.Assembly.KEGG.WebServices.XML.Map`` data collection.
      *  andalso could be a tuple list of the idset.
      * @param reactions A collection of the reference @``T:SMRUCC.genomics.Model.Network.KEGG.ReactionNetwork.ReactionTable`` model 
      *  data for build the metabolism network

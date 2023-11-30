@@ -57,7 +57,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Organism
-Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices.XML
 
 ''' <summary>
 ''' Create background model for KEGG pathway enrichment based on the kegg metabolites, 
@@ -88,7 +88,7 @@ Public Module KEGGCompounds
         End If
 
         For Each map As T In maps
-            names = map.shapes _
+            names = map.shapes.mapdata _
                 .Select(Function(a) a.Names) _
                 .IteratesALL _
                 .GroupBy(Function(n) n.Name) _

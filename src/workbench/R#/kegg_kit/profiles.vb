@@ -62,6 +62,7 @@ Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices.XML
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.Visualize.CatalogProfiling
 Imports SMRUCC.Rsharp.Runtime
@@ -70,7 +71,6 @@ Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports RDataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
-Imports REnv = SMRUCC.Rsharp.Runtime
 
 <Package("profiles")>
 Module profiles
@@ -108,7 +108,7 @@ Module profiles
                 .GroupBy(Function(m) m.EntryId) _
                 .ToDictionary(Function(m) m.Key,
                               Function(m)
-                                  Return m.First.shapes _
+                                  Return m.First.shapes.mapdata _
                                      .Select(Function(a) a.IDVector) _
                                      .IteratesALL _
                                      .Distinct _

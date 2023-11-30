@@ -77,6 +77,7 @@ Imports SMRUCC.genomics
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Organism
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices.XML
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Data.KEGG.Metabolism
 Imports SMRUCC.genomics.Model.Network.KEGG.ReactionNetwork
@@ -113,7 +114,7 @@ Public Module repository
         mapTable.columns("Name") = table.Select(Function(t) t.name.TrimNewLine).ToArray
         mapTable.columns(NameOf(Map.URL)) = table.Select(Function(t) t.URL).ToArray
         mapTable.columns(NameOf(Map.description)) = table.Select(Function(t) t.description.TrimNewLine).ToArray
-        mapTable.columns(NameOf(Map.shapes)) = table.Select(Function(t) t.shapes.TryCount).ToArray
+        mapTable.columns(NameOf(Map.shapes)) = table.Select(Function(t) t.shapes.mapdata.TryCount).ToArray
 
         Return mapTable
     End Function
@@ -417,7 +418,7 @@ Public Module repository
             Return dataRepo _
                 .populates(Of Map)(env) _
                 .Select(Function(map)
-                            Return map.shapes _
+                            Return map.shapes.mapdata _
                                 .Select(Function(poly) poly.IDVector) _
                                 .IteratesALL
                         End Function) _
@@ -487,7 +488,7 @@ Public Module repository
             Return dataRepo _
                 .populates(Of Map)(env) _
                 .Select(Function(map)
-                            Return map.shapes _
+                            Return map.shapes.mapdata _
                                 .Select(Function(poly) poly.IDVector) _
                                 .IteratesALL
                         End Function) _
@@ -683,18 +684,35 @@ Public Module repository
         Return file.LoadCsv(Of Prokaryote)
     End Function
 
+    ''' <summary>
+    ''' construct a new kegg compound data model
+    ''' </summary>
+    ''' <param name="entry">the kegg compound id</param>
+    ''' <param name="name">the compound common names</param>
+    ''' <param name="formula">the chemical formula of the kegg compound</param>
+    ''' <param name="exactMass">the evaluated exact mass value based on the formula string</param>
+    ''' <param name="reaction">A set of the related kegg reaction data about current metabolite</param>
+    ''' <param name="enzyme">A set of the related enzyme that associated with the reaction list</param>
+    ''' <param name="remarks">comment text about this metabolite</param>
+    ''' <param name="KCF">the molecular strucutre text</param>
+    ''' <param name="DBLinks">A dataframe object that contains the external reference link to 
+    ''' other database of current metabolite object, data fields: "db", "id", "link" should 
+    ''' be exists in this dataframe object.</param>
+    ''' <param name="pathway"></param>
+    ''' <param name="modules"></param>
+    ''' <returns></returns>
     <ExportAPI("compound")>
     Public Function createCompound(entry As String,
                                    name As String(),
                                    formula As String,
                                    exactMass As Double,
-                                   reaction As String(),
-                                   enzyme As String(),
-                                   remarks As String(),
-                                   KCF As String,
-                                   DBLinks As dataframe,
-                                   pathway As dataframe,
-                                   modules As dataframe) As Compound
+                                   Optional reaction As String() = Nothing,
+                                   Optional enzyme As String() = Nothing,
+                                   Optional remarks As String() = Nothing,
+                                   Optional KCF As String = Nothing,
+                                   Optional DBLinks As dataframe = Nothing,
+                                   Optional pathway As dataframe = Nothing,
+                                   Optional modules As dataframe = Nothing) As Compound
 
         Return New Compound With {
             .entry = entry,
@@ -821,19 +839,18 @@ Public Module repository
 
     <ExportAPI("shapeAreas")>
     Public Function shapeAreas(data As dataframe) As Area()
-        Return data.forEachRow({"id", "shape", "coords", "data_coords", "class", "href", "title", "entry", "refid", "module"}) _
+        Return data.forEachRow({"id", "shape", "coords", "class", "href", "title", "entry", "refid", "module"}) _
             .Select(Function(i)
                         Return New Area With {
                             .data_id = any.ToString(i(Scan0)),
                             .shape = any.ToString(i(1)),
                             .coords = any.ToString(i(2)),
-                            .data_coords = any.ToString(i(3)),
-                            .[class] = any.ToString(i(4)),
-                            .href = any.ToString(i(5)),
-                            .title = any.ToString(i(6)),
-                            .entry = any.ToString(i(7)),
-                            .refid = any.ToString(i(8)),
-                            .moduleId = any.ToString(i(9))
+                            .[class] = any.ToString(i(3)),
+                            .href = any.ToString(i(4)),
+                            .title = any.ToString(i(5)),
+                            .entry = any.ToString(i(6)),
+                            .refid = any.ToString(i(7)),
+                            .moduleId = any.ToString(i(8))
                         }
                     End Function) _
             .ToArray
@@ -851,7 +868,7 @@ Public Module repository
             .EntryId = id,
             .name = name,
             .PathwayImage = img,
-            .shapes = area,
+            .shapes = New MapData With {.mapdata = area},
             .URL = url,
             .description = description
         }

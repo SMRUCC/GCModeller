@@ -118,17 +118,8 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="br08901" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\br08901.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;gb2312</value>
-  </data>
   <data name="MiST2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\MiST2.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="ko00002_keg" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ko00002.keg.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;gb2312</value>
-  </data>
-  <data name="ko00001" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ko00001.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="transl_table_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\transl_table\transl_table-1.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
@@ -188,9 +179,6 @@
     <value>Test</value>
     <comment>???</comment>
   </data>
-  <data name="br08610" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\br08610.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
   <data name="br08201" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\KEGG\Reactions\br08201.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
@@ -199,9 +187,6 @@
   </data>
   <data name="br08203" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\KEGG\Reactions\br08203.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="ko00000" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ko00000.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;gb2312</value>
   </data>
   <data name="br08204" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\KEGG\Reactions\br08204.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
@@ -236,7 +221,28 @@
   <data name="br08021" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\KEGG\Compounds\br08021.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
+  <data name="br08610" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\KEGG\br08610.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;gb2312</value>
+  </data>
+  <data name="br08901" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\KEGG\br08901.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;gb2312</value>
+  </data>
+  <data name="br08902" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\KEGG\br08902.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;gb2312</value>
+  </data>
+  <data name="br08907" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\KEGG\br08907.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;gb2312</value>
+  </data>
+  <data name="ko00001" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\KEGG\ko00001.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;gb2312</value>
+  </data>
+  <data name="ko00002" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\KEGG\ko00002.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;gb2312</value>
+  </data>
+  <data name="ko00003" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\KEGG\ko00003.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;gb2312</value>
+  </data>
   <data name="ko01000" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ko01000.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+    <value>..\Resources\KEGG\ko01000.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;gb2312</value>
   </data>
 </root>

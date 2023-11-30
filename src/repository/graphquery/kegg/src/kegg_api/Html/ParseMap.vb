@@ -52,21 +52,23 @@
 
 Imports System.IO
 Imports Microsoft.VisualBasic.ApplicationServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices.XML
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports dirFs = Microsoft.VisualBasic.FileIO.Directory
 Imports r = System.Text.RegularExpressions.Regex
 
-Namespace Assembly.KEGG.WebServices
+Namespace Html
 
     Module ParseHtmlExtensions
 
-        Const data$ = "<map .*name[=]""mapdata"".*>.+?</map>"
+        Const data$ = "<map .*name[=]"".*mapdata"".*>.+?</map>"
 
         '<html>
         '<!---
@@ -86,11 +88,37 @@ Namespace Assembly.KEGG.WebServices
             }
         End Function
 
+        Private Function ParseAreaData(line$) As Area
+            Dim attrs As Dictionary(Of NamedValue(Of String)) = line _
+                .TagAttributes _
+                .ToDictionary
+            Dim getValue = Function(key$)
+                               Return attrs.TryGetValue(key).Value
+                           End Function
+            Dim href As String = getValue(NameOf(Area.href))
+
+            If href = "javascript:void(0)" Then
+                href = ""
+            End If
+
+            Return New Area With {
+                .coords = getValue(NameOf(Area.coords)),
+                .href = href,
+                .shape = getValue(NameOf(Area.shape)),
+                .title = getValue(NameOf(Area.title)),
+                .entry = getValue("data-entry"),
+                .[class] = getValue(NameOf(Area.class)),
+                .data_id = getValue("id"),
+                .moduleId = getValue("data-module"),
+                .refid = getValue("data-refid")
+            }
+        End Function
+
         Private Function parseShapes(map As String) As Area()
             Dim areas = map.LineTokens.Select(Function(si) si.Trim(" "c, ASCII.TAB, ASCII.CR, ASCII.LF)).ToArray
             Dim shapes = areas _
                 .Where(Function(si) si.ToLower.StartsWith("<area")) _
-                .Select(AddressOf Area.Parse) _
+                .Select(AddressOf ParseAreaData) _
                 .ToArray
 
             Return shapes
@@ -127,6 +155,27 @@ Namespace Assembly.KEGG.WebServices
             Return img
         End Function
 
+        Const close_offset As Integer = 6
+
+        Private Iterator Function ExtractMapSet(html As String) As IEnumerable(Of String)
+            Dim start As Integer = InStr(html, "<map ")
+            Dim ends As Integer = InStr(html, "</map>") + close_offset
+
+            Yield html.Substring(start - 1, length:=ends - start)
+
+            For i As Integer = 0 To 100
+                start = InStr(ends, html, "<map ")
+
+                If start > 0 Then
+                    ends = InStr(start, html, "</map>") + close_offset
+
+                    Yield html.Substring(start - 1, length:=ends - start)
+                Else
+                    Exit For
+                End If
+            Next
+        End Function
+
         ''' <summary>
         ''' 
         ''' </summary>
@@ -134,11 +183,11 @@ Namespace Assembly.KEGG.WebServices
         ''' <param name="url">The original source url of this map data</param>
         ''' <returns></returns>
         Public Function ParseHTML(html As String, Optional url$ = Nothing, Optional fs As IFileSystemEnvironment = Nothing) As Map
-            Dim map$ = r.Match(html, data, RegexICSng).Value
+            Dim mapSet As String() = ExtractMapSet(html).ToArray
             Dim info As NamedValue(Of String) = GetEntryInfo(html)
-            Dim shapes As Area() = parseShapes(map)
-            Dim desc As String = r.Match(html, "<div id[=]""description"".+?</div>", RegexICSng) _
-                .Value _
+            Dim shapes As Area() = parseShapes(mapSet(0))
+            Dim modules As Area() = Nothing
+            Dim desc As String = r.Match(html, "<div id[=]""description"".+?</div>", RegexICSng).Value _
                 .GetValue _
                 .Trim(" "c, ASCII.TAB, ASCII.CR, ASCII.LF)
             Dim cache_temp As String = App.ProductSharedTemp & "/kegg_maps/"
@@ -146,12 +195,15 @@ Namespace Assembly.KEGG.WebServices
             If fs Is Nothing Then
                 fs = dirFs.FromLocalFileSystem(cache_temp)
             End If
+            If mapSet.Length > 1 Then
+                modules = parseShapes(mapSet(1))
+            End If
 
             Dim img As String = HttpGetPathwayMapImage(info.Name, fs)
 
             Return New Map With {
                 .PathwayImage = img,
-                .shapes = shapes,
+                .shapes = New MapData With {.mapdata = shapes, .module_mapdata = modules},
                 .EntryId = info.Name,
                 .name = info.Value,
                 .URL = url,

@@ -64,6 +64,7 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices.XML
 
 Public Class ReportRender
 
@@ -125,7 +126,7 @@ Public Class ReportRender
     End Function
 
     Public Shared Function Render(map As Map, highlights As MapHighlights, Optional text_color As String = "white") As String
-        Dim mapjson As MapShape() = map.shapes _
+        Dim mapjson As MapShape() = map.shapes.mapdata _
             .Select(AddressOf CreateMap) _
             .ToArray
         Dim rendering As Image = LocalRender.Rendering(map, highlights, textColor:=text_color)
