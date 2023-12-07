@@ -17,7 +17,7 @@ str(id_list);
 for(id in id_list$kegg) {
     str(id);
 
-    let data = kegg_compound(id, cache = `${@dir}/.cache/`);
+    let data = kegg_compound(id, cache_dir = `${@dir}/.cache/`);
     kegg_compounds[[id]] = data;
 
     str(as.list(data));
