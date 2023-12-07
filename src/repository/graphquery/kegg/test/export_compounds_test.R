@@ -28,6 +28,9 @@ print(unique_compounds);
 print(basename(unique_compounds));
 
 
-let load_compounds = lapply(file_df$path |> take(10), path -> HDS::getText(file, path) |> loadXml(typeof = "kegg_compound"));
+let load_compounds = lapply(unique_compounds, path -> HDS::getText(file, path) |> loadXml(typeof = "kegg_compound"));
 
 # str(load_compounds);
+setwd(@dir);
+
+repository::write.msgpack(unlist(load_compounds), file = "./kegg.msgpack");
