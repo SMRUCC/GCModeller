@@ -127,6 +127,12 @@ Namespace ComponentModel.Algorithm
         Public ReadOnly Property size As Integer
 
         ''' <summary>
+        ''' the raw input sequence data, element order keeps the same with the input sequence.
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property raw As T()
+
+        ''' <summary>
         ''' get all keys which are evaluated from the input object
         ''' </summary>
         ''' <returns></returns>
@@ -159,6 +165,7 @@ Namespace ComponentModel.Algorithm
 
             Dim input = getOrderSeq(data, eval).ToArray
 
+            Me.raw = input.Select(Function(i) i.data).ToArray
             Me.tolerance = tolerance
             Me.eval = eval
             Me.size = input.Length
@@ -226,7 +233,9 @@ Namespace ComponentModel.Algorithm
         ''' query data with a given tolerance value
         ''' </summary>
         ''' <param name="x"></param>
-        ''' <returns></returns>
+        ''' <returns>
+        ''' this function returns an empty collection if no hits result
+        ''' </returns>
         Public Iterator Function Search(x As T, Optional tolerance As Double? = Nothing) As IEnumerable(Of T)
             Dim wrap As New Block(Of T) With {.min = eval(x)}
             Dim i As Integer = -1

@@ -84,7 +84,8 @@ Public Module BioAssemblyExtensions
         }
     End Function
 
-    <Extension> Public Function IsNullOrEmpty(compound As bGetObject.Compound) As Boolean
+    <Extension>
+    Public Function IsNullOrEmpty(compound As bGetObject.Compound) As Boolean
         If compound Is Nothing Then
             Return True
         End If

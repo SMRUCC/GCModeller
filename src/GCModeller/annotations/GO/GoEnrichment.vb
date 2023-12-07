@@ -64,6 +64,46 @@ Public Module GoEnrichment
     ''' <summary>
     ''' 
     ''' </summary>
+    ''' <param name="cluster"></param>
+    ''' <param name="goClusters"></param>
+    ''' <param name="index">
+    ''' A dictionary index of the <see cref="Background.GetClusterTable()"/>
+    ''' </param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function PullOntologyTerms(cluster As Cluster, goClusters As DAG.Graph, index As Dictionary(Of String, Cluster)) As Cluster
+        ' 除了当前的这个GO term之外
+        ' 还要找出当前的这个GO term之下的所有继承当前的这个Go term的子条目
+        Dim members = goClusters.GetClusterMembers(cluster.ID) _
+            .Where(Function(c)
+                       ' 因为有些Go term是在目标基因组中不存在的
+                       ' 所以会在这里判断一下是否包含有当前cluster中的目标go term成员
+                       Return index.ContainsKey(c.id)
+                   End Function) _
+            .Select(Function(c) index(c.id).members) _
+            .IteratesALL _
+            .JoinIterates(cluster.members) _
+            .GroupBy(Function(g) g.accessionID) _
+            .Select(Function(g)
+                        Return g.First
+                    End Function) _
+            .ToArray
+        ' 构建出一个完整的cluster集合
+        ' 然后再在这个完整的cluster集合的基础之上进行富集计算分析
+        Dim newCluster As New Cluster With {
+            .ID = cluster.ID,
+            .description = cluster.description,
+            .names = cluster.names,
+            .members = members,
+            .size = members.Length
+        }
+
+        Return newCluster
+    End Function
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
     ''' <param name="genome"></param>
     ''' <param name="list"></param>
     ''' <param name="outputAll">将会忽略掉所有没有交集的结果</param>
@@ -110,35 +150,11 @@ Public Module GoEnrichment
         End If
 
         With list.ToArray
-            Dim backgroundClusterTable = genome.clusters.ToDictionary(Function(c) c.ID)
+            Dim backgroundClusterTable As Dictionary(Of String, Cluster) = genome.GetClusterTable
 
             ' 一个cluster就是一个Go term
             For Each cluster As Cluster In genome.clusters
-                ' 除了当前的这个GO term之外
-                ' 还要找出当前的这个GO term之下的所有继承当前的这个Go term的子条目
-                Dim members = goClusters.GetClusterMembers(cluster.ID) _
-                    .Where(Function(c)
-                               ' 因为有些Go term是在目标基因组中不存在的
-                               ' 所以会在这里判断一下是否包含有当前cluster中的目标go term成员
-                               Return backgroundClusterTable.ContainsKey(c.id)
-                           End Function) _
-                    .Select(Function(c) backgroundClusterTable(c.id).members) _
-                    .IteratesALL _
-                    .JoinIterates(cluster.members) _
-                    .GroupBy(Function(g) g.accessionID) _
-                    .Select(Function(g)
-                                Return g.First
-                            End Function) _
-                    .ToArray
-                ' 构建出一个完整的cluster集合
-                ' 然后再在这个完整的cluster集合的基础之上进行富集计算分析
-                Dim newCluster As New Cluster With {
-                    .ID = cluster.ID,
-                    .description = cluster.description,
-                    .names = cluster.names,
-                    .members = members,
-                    .size = members.Length
-                }
+                Dim newCluster = cluster.PullOntologyTerms(goClusters, backgroundClusterTable)
                 Dim enriched$() = newCluster _
                     .Intersect(.ByRef, isLocustag) _
                     .ToArray

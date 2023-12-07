@@ -59,14 +59,8 @@ Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Scripting
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports SMRUCC.genomics.Data.Xfam.Pfam
-Imports SMRUCC.genomics.Data.Xfam.Pfam.PfamString
-Imports SMRUCC.genomics.Data.Xfam.Pfam.ProteinDomainArchitecture
-Imports SMRUCC.genomics.Data.Xfam.Pfam.ProteinDomainArchitecture.MPAlignment
 Imports SMRUCC.genomics.Interops.NCBI.Extensions
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.Pipeline.COG
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
@@ -81,9 +75,8 @@ Namespace Regprecise
         ''' <param name="data"></param>
         ''' <param name="cutoff">Cutoff value for property <see cref="RegpreciseMPBBH.Similarity"></see>, a recommended value is 0.85</param>
         ''' <returns></returns>
-        ''' <remarks></remarks>
+        ''' <remarks>cutoff is recommended using value 0.85</remarks>
         '''
-        <ExportAPI("Regprecise.MP_Cutoff", Info:="cutoff is recommended using value 0.85")>
         Public Function MPCutoff(data As IEnumerable(Of RegpreciseMPBBH), cutoff As Double) As RegpreciseMPBBH()
             Dim LQuery = (From item In data.AsParallel Where item.Similarity > cutoff Select item).ToArray
             Return LQuery

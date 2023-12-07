@@ -55,7 +55,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
-Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices.XML
 
 Namespace Assembly.KEGG.DBGET.BriteHEntry
 
@@ -90,7 +90,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                 .ToDictionary(Function(m) m.Key,
                               Function(m)
                                   Return m _
-                                     .Select(Function(map) map.shapes) _
+                                     .Select(Function(map) map.shapes.mapdata) _
                                      .IteratesALL _
                                      .Select(Function(a) a.IDVector) _
                                      .IteratesALL _

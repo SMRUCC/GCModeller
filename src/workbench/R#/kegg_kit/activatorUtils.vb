@@ -63,6 +63,10 @@ Module activatorUtils
 
     <Extension>
     Public Function GetPropertyValues(data As dataframe) As [Property]()
+        If data Is Nothing Then
+            Return {}
+        End If
+
         Return data.forEachRow({"id", "name", "link"}) _
             .Select(Function(r)
                         Return New [Property] With {
@@ -77,6 +81,10 @@ Module activatorUtils
 
     <Extension>
     Public Function GetNameValues(data As dataframe) As NamedValue()
+        If data Is Nothing Then
+            Return {}
+        End If
+
         Return data.forEachRow({"id", "name"}) _
             .Select(Function(r)
                         Return New NamedValue With {
@@ -89,6 +97,10 @@ Module activatorUtils
 
     <Extension>
     Public Function GetGeneName(data As dataframe) As GeneName()
+        If data Is Nothing Then
+            Return {}
+        End If
+
         Return data.forEachRow({"id", "name"}) _
             .Select(Function(r)
                         Return New GeneName With {
@@ -99,13 +111,22 @@ Module activatorUtils
             .ToArray
     End Function
 
+    ''' <summary>
+    ''' "db", "id", "link"
+    ''' </summary>
+    ''' <param name="data"></param>
+    ''' <returns></returns>
     <Extension>
     Public Function GetDbLinks(data As dataframe) As DBLink()
+        If data Is Nothing Then
+            Return {}
+        End If
+
         Return data.forEachRow({"db", "id", "link"}) _
             .Select(Function(r)
                         Return New DBLink With {
                             .DBName = any.ToString(r(0)),
-                            .Entry = any.ToString(r(1)),
+                            .entry = any.ToString(r(1)),
                             .link = any.ToString(r(2))
                         }
                     End Function) _
@@ -114,6 +135,10 @@ Module activatorUtils
 
     <Extension>
     Public Function GetReference(data As dataframe) As Reference()
+        If data Is Nothing Then
+            Return {}
+        End If
+
         Return data.forEachRow({"reference", "authors", "title", "journal"}) _
             .Select(Function(r)
                         Return New Reference With {

@@ -92,6 +92,10 @@ Public Class Cluster : Inherits ListOf(Of BackgroundGene)
 
     Dim index As Index(Of String)
 
+    ''' <summary>
+    ''' get the collection of all member theirs <see cref="BackgroundGene.accessionID"/>
+    ''' </summary>
+    ''' <returns></returns>
     Public ReadOnly Property memberIds As String()
         Get
             Return members _

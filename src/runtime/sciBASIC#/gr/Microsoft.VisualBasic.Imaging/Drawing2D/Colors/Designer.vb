@@ -289,6 +289,12 @@ Namespace Drawing2D.Colors
             "#988ED5", "#027093", "#73945A", "#8C564B", "#9467BD", "#D62829", "#2CA02C"
         }.AsColor()
 
+        Public ReadOnly Property Typhoon As Color() = {
+            "#FFFFFF", "#AAAAD4", "#5F59A0", "#3B277F", "#31277F",
+            "#355C83", "#539144", "#72AC3E", "#8CB73A", "#BACB2D",
+            "#FAEB3A", "#E4A726", "#CE5C18", "#C42917"
+        }.AsColor
+
         Const rgbPattern$ = "rgb\(\d+\s*(,\s*\d+\s*)+\)"
         Const rgbListPattern$ = rgbPattern & "(\s*,\s*" & rgbPattern & ")+"
 
@@ -409,6 +415,7 @@ Namespace Drawing2D.Colors
 
             Select Case Strings.LCase(term).Trim
                 Case "material" : Return MaterialPalette
+                Case "typhoon" : Return Typhoon
                 Case "console.colors", "console" : Return ConsoleColors
                 Case "tsf" : Return CustomDesigns.TSF
                 Case "halloween" : Return CustomDesigns.Halloween
@@ -565,6 +572,11 @@ Namespace Drawing2D.Colors
         ''' </summary>
         ''' <param name="colors"></param>
         ''' <param name="n">所期望的颜色的数量</param>
+        ''' <param name="interpolate">
+        ''' set the interpolate parameter to value TRUE if apply the function 
+        ''' for the scalar palette, otherwise keeps the default value FALSE
+        ''' for deal with the category color palette.
+        ''' </param>
         ''' <returns></returns>
         ''' <remarks>
         ''' if the <paramref name="n"/> value less than the 
@@ -573,7 +585,11 @@ Namespace Drawing2D.Colors
         ''' color.
         ''' </remarks>
         <Extension>
-        Public Function CubicSpline(colors As IEnumerable(Of Color), Optional n% = 256, Optional alpha% = 255) As Color()
+        Public Function CubicSpline(colors As IEnumerable(Of Color),
+                                    Optional n% = 256,
+                                    Optional alpha% = 255,
+                                    Optional interpolate As Boolean = False) As Color()
+
             Dim source As Color() = colors.ToArray
 
             If source.Length = 1 Then
@@ -586,7 +602,7 @@ Namespace Drawing2D.Colors
             ElseIf n <= 0 Then
                 ' return raw color list if n is negative or zero
                 Return source
-            ElseIf n <= source.Length Then
+            ElseIf n <= source.Length AndAlso Not interpolate Then
                 Return source.Take(n).ToArray
             End If
 

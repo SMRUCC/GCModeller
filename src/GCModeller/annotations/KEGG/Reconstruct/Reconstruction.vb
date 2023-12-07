@@ -59,7 +59,7 @@ Imports SMRUCC.genomics.Annotation.Ptf
 Imports SMRUCC.genomics.Assembly.KEGG
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
-Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices.XML
 Imports SMRUCC.genomics.Model.Network.KEGG.ReactionNetwork
 
 Public Module Reconstruction
@@ -257,7 +257,7 @@ Public Module Reconstruction
         Dim objs As String()
         Dim idIndex As New List(Of String)
 
-        For Each entity As Area In map.shapes
+        For Each entity As Area In map.shapes.mapdata
             objs = entity.IDVector
 
             If objs.Any(Function(id) id.IsPattern("K\d+")) Then

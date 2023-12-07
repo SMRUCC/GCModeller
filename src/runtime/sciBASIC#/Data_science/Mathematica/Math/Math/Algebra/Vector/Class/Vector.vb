@@ -395,6 +395,12 @@ Namespace LinearAlgebra
         Public Overloads Shared Operator +(v1 As Vector, v2 As Vector) As Vector
             Dim output As Double()
 
+            If v1 Is Nothing Then
+                Return New Vector(v2.ToArray)
+            ElseIf v2 Is Nothing Then
+                Return New Vector(v1.ToArray)
+            End If
+
             If v1.Length = 1 Then
                 output = SIMD.Add.f64_op_add_f64_scalar(v2.buffer, v1(Scan0))
             ElseIf v2.Length = 1 Then
@@ -974,12 +980,20 @@ Namespace LinearAlgebra
         End Function
 
         ''' <summary>
+        ''' dot
+        ''' 
         ''' + http://mathworld.wolfram.com/DotProduct.html
         ''' + http://www.mathsisfun.com/algebra/vectors-dot-product.html
         ''' </summary>
         ''' <param name="v2"></param>
         ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function DotProduct(v2 As Vector) As Double
+            Return DotProduct(buffer, v2.buffer)
+        End Function
+
+        Public Shared Function DotProduct(lhs As Double(), rhs As Double()) As Double
             'Dim sum#
 
             'For i As Integer = 0 To Me.Count - 1
@@ -987,7 +1001,14 @@ Namespace LinearAlgebra
             'Next
 
             'Return sum
-            Dim dot As Double() = SIMD.Multiply.f64_op_multiply_f64(buffer, v2.buffer)
+            Dim dot As Double() = SIMD.Multiply.f64_op_multiply_f64(lhs, rhs)
+            Dim sum As Double = dot.Sum
+
+            Return sum
+        End Function
+
+        Public Shared Function DotProduct(lhs As Single(), rhs As Single()) As Double
+            Dim dot As Single() = SIMD.Multiply.f32_op_multiply_f32(lhs, rhs)
             Dim sum As Double = dot.Sum
 
             Return sum

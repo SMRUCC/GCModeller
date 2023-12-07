@@ -69,7 +69,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
-Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices.XML
 Imports SMRUCC.genomics.ComponentModel.Annotation
 
 Namespace ReactionNetwork
@@ -369,24 +369,7 @@ Namespace ReactionNetwork
             End If
         End Function
 
-        ''' <summary>
-        ''' Pull out all of the pathway related reactions data
-        ''' </summary>
-        ''' <param name="pathway"></param>
-        ''' <param name="reactions">
-        ''' A repository for the kegg reaction data models
-        ''' </param>
-        ''' <returns></returns>
-        ''' <remarks>
-        ''' we are not going to add the non-enzymics reaction into each pathway map
-        ''' because this operation will caused all of the pathway map contains the 
-        ''' similar compound profile which is bring by all of the non-enzymics reactions.
-        ''' </remarks>
-        <Extension>
-        Public Iterator Function GetReactions(pathway As Pathway,
-                                              reactions As Dictionary(Of String, ReactionTable()),
-                                              Optional non_enzymatic As Boolean = False) As IEnumerable(Of ReactionTable)
-
+        Private Iterator Function GetEnzymatic(pathway As Pathway, reactions As Dictionary(Of String, ReactionTable())) As IEnumerable(Of ReactionTable)
             For Each ko As NamedValue In pathway.KOpathway.JoinIterates(pathway.modules)
                 If reactions.ContainsKey(ko.name) Then
                     For Each item As ReactionTable In reactions(ko.name)
@@ -425,10 +408,54 @@ Namespace ReactionNetwork
                     Next
                 End If
             Next
+        End Function
+
+        ''' <summary>
+        ''' Pull out all of the pathway related reactions data
+        ''' </summary>
+        ''' <param name="pathway"></param>
+        ''' <param name="reactions">
+        ''' A repository for the kegg reaction data models
+        ''' </param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' we are not going to add the non-enzymics reaction into each pathway map
+        ''' because this operation will caused all of the pathway map contains the 
+        ''' similar compound profile which is bring by all of the non-enzymics reactions.
+        ''' </remarks>
+        <Extension>
+        Public Iterator Function GetReactions(pathway As Pathway,
+                                              reactions As Dictionary(Of String, ReactionTable()),
+                                              Optional non_enzymatic As Boolean = False) As IEnumerable(Of ReactionTable)
+
+            For Each link As ReactionTable In GetEnzymatic(pathway, reactions)
+                Yield link
+            Next
 
             If non_enzymatic AndAlso Not pathway.compound Is Nothing Then
                 For Each rxn As ReactionTable In pathway.MatchesNonEnzymatics(reactions)
                     Yield rxn
+                Next
+            End If
+        End Function
+
+        <Extension>
+        Public Iterator Function GetReactionsIgnoreEnzymes(pathway As Pathway, reactions As Dictionary(Of String, ReactionTable())) As IEnumerable(Of ReactionTable)
+            Dim compounds As Index(Of String) = pathway.GetCompoundSet _
+                .Select(Function(c) c.Name) _
+                .Indexing
+
+            If compounds.Count > 0 Then
+                ' populate out all current pathway related
+                ' non-enzymatic reactions
+                For Each item As ReactionTable In reactions.Values _
+                    .IteratesALL _
+                    .GroupBy(Function(a) a.entry) _
+                    .Select(Function(a) a.First)
+
+                    If item.MatchAllCompoundsId(compounds) Then
+                        Yield item
+                    End If
                 Next
             End If
         End Function

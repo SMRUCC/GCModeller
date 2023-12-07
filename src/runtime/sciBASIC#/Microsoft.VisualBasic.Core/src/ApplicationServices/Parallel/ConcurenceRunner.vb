@@ -1,5 +1,4 @@
 ﻿Imports System.Runtime.CompilerServices
-Imports System.Threading
 
 Namespace Parallel
 
@@ -14,16 +13,37 @@ Namespace Parallel
         ''' </summary>
         Protected sequenceMode As Boolean = False
 
+        ''' <summary>
+        ''' <see cref="n_threads"/>
+        ''' </summary>
+        Protected ReadOnly cpu_count As Integer = n_threads
+
+        Dim opt As ParallelOptions
+        Dim is_verbose As Boolean = False
+
         Public Shared n_threads As Integer = 4
 
-        Sub New(nsize As Integer)
-            ThreadPool.SetMaxThreads(n_threads, 8)
-            ThreadPool.SetMinThreads(n_threads, 2)
-
+        ''' <summary>
+        ''' construct a new parallel task executator
+        ''' </summary>
+        ''' <param name="nsize"></param>
+        ''' <remarks>
+        ''' the thread count for run the parallel task is configed
+        ''' via the <see cref="n_threads"/> by default.
+        ''' </remarks>
+        Sub New(nsize As Integer, Optional verbose As Boolean = False)
             workLen = nsize
+            cpu_count = n_threads
+            opt = New ParallelOptions With {.MaxDegreeOfParallelism = n_threads}
+            is_verbose = verbose
         End Sub
 
-        Protected MustOverride Sub Solve(start As Integer, ends As Integer)
+        ''' <summary>
+        ''' solve a sub task
+        ''' </summary>
+        ''' <param name="start"></param>
+        ''' <param name="ends"></param>
+        Protected MustOverride Sub Solve(start As Integer, ends As Integer, cpu_id As Integer)
 
         ''' <summary>
         ''' Run in sequence
@@ -31,7 +51,8 @@ Namespace Parallel
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Solve() As VectorTask
-            Solve(0, workLen - 1)
+            sequenceMode = True
+            Solve(0, workLen - 1, 0)
             Return Me
         End Function
 
@@ -40,78 +61,62 @@ Namespace Parallel
         ''' </summary>
         ''' <returns></returns>
         Public Function Run() As VectorTask
-            Dim span_size As Integer = workLen / n_threads
-            '#If NET48 Then
-            '            span_size = 0
-            '#End If
+            Dim span_size As Integer = workLen / cpu_count
+
             If sequenceMode OrElse span_size < 1 Then
                 ' run in sequence
                 Call Solve()
             Else
-                Call ParallelFor(span_size)
+                System.Threading.Tasks.Parallel.For(
+                    fromInclusive:=0,
+                    toExclusive:=cpu_count + 3,
+                    parallelOptions:=opt,
+                    body:=Sub(i) ParallelFor(i, span_size)
+                )
             End If
 
             Return Me
         End Function
 
-        Private Sub ParallelFor(span_size As Integer)
-            Dim flags As New List(Of Boolean)
-            Dim err As Boolean = False
-            Dim exp As Exception = Nothing
+        ''' <summary>
+        ''' allocate the result output memory data
+        ''' </summary>
+        ''' <typeparam name="TOut"></typeparam>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' element count problem see the dev comments about the 
+        ''' parameter ``thread_id`` from function 
+        ''' <see cref="ParallelFor"/>
+        ''' </remarks>
+        Protected Function Allocate(Of TOut)() As TOut()
+            Return New TOut(cpu_count) {}
+        End Function
 
-            For cpu As Integer = 0 To n_threads
-                Dim start As Integer = cpu * span_size
-                Dim ends As Integer = start + span_size - 1
-                Dim thread_id As Integer = cpu
+        ''' <summary>
+        ''' implements the parallel for use the thread pool
+        ''' </summary>
+        ''' <param name="span_size"></param>
+        ''' <param name="thread_id">
+        ''' the thread id is start from based ZERO, but the upper index of 
+        ''' the thread id is equals to the <see cref="cpu_count"/>, so 
+        ''' group result vector should has value with ``<see cref="cpu_count"/> + 1`` elements.
+        ''' </param>
+        Private Sub ParallelFor(thread_id As Integer, span_size As Integer)
+            Dim start As Integer = thread_id * span_size
+            Dim ends As Integer = start + span_size - 1
 
-                If start >= workLen Then
-                    Exit For
-                End If
-                If ends >= workLen Then
-                    ends = workLen - 1
-                End If
-
-                Call flags.Add(False)
-                Call ThreadPool.QueueUserWorkItem(
-                    Sub()
-                        Try
-                            Call Solve(start, ends)
-                        Catch ex As Exception
-                            ' just ignores of this error, or the task
-                            ' flag check code will be a dead loop
-                            exp = New Exception($"Error while execute the ParallelFor task in range from {start} to {ends}. (thread offset {thread_id})", ex)
-                        End Try
-
-                        Try
-                            ' set flag for task complete
-                            SyncLock flags
-                                flags(thread_id) = True
-                            End SyncLock
-                        Catch ex As Exception
-                            ' try to avoid the possible dead loop
-                            err = True
-                        End Try
-                    End Sub)
-            Next
-
-            '#If NETCOREAPP Then
-            '                Do While ThreadPool.PendingWorkItemCount > 0
-            '                    Thread.Sleep(1)
-            '                Loop
-            '#Else
-            '                Throw New NotImplementedException
-            '#End If
-            Do While flags.Any(Function(b) b = False)
-                Call Thread.Sleep(1)
-
-                If err Then
-                    Exit Do
-                End If
-            Loop
-
-            If Not exp Is Nothing Then
-                Throw exp
+            If start >= workLen Then
+                Return
             End If
+            If ends >= workLen Then
+                ends = workLen - 1
+            End If
+
+            If is_verbose Then
+                Call VBDebugger.EchoLine($"[{Me.GetType.Name}$t_{thread_id}] {start}...{ends}@total={workLen}")
+            End If
+
+            Call Solve(start, ends, cpu_id:=thread_id)
         End Sub
 
         Public Shared Function CopyMemory(Of T)(v As T(), start As Integer, ends As Integer) As T()

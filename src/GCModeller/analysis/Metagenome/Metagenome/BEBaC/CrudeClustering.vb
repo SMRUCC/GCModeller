@@ -51,11 +51,6 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.DataMining.KMeans.CompleteLinkage
-Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Parallel.Linq
 
 Namespace BEBaC
 
@@ -71,17 +66,7 @@ Namespace BEBaC
         ''' <returns></returns>
         <Extension>
         Public Iterator Function InitializePartitions(s As IEnumerable(Of I3merVector), kmax As Integer) As IEnumerable(Of Cluster)
-            Dim cluster As New CompleteLinkageClustering(s, kmax)
-            Dim result = cluster.Clustering
 
-            For Each cl In From x As I3merVector
-                           In result
-                           Select x
-                           Group x By x.CompleteLinkageResultCluster Into Group
-                Yield New Cluster With {
-                    .members = New List(Of I3merVector)(cl.Group)
-                }
-            Next
         End Function
 
         ''' <summary>

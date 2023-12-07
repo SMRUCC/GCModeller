@@ -88,7 +88,7 @@ Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 Imports Rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 Imports REnv = SMRUCC.Rsharp.Runtime
-Imports stdNum = System.Math
+Imports std = System.Math
 Imports Vec = Microsoft.VisualBasic.Math.LinearAlgebra.Vector
 
 ''' <summary>
@@ -368,7 +368,11 @@ Module geneExpression
     ''' </summary>
     ''' <param name="mat"></param>
     ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <returns>A new expression matrix object that with gene row 
+    ''' features subset from the original input raw matrix object.</returns>
+    ''' <example>
+    ''' 
+    ''' </example>
     <ExportAPI("filterZeroGenes")>
     Public Function filterZeroGenes(mat As Matrix, Optional env As Environment = Nothing) As Object
         Return mat.TrimZeros
@@ -399,7 +403,7 @@ Module geneExpression
     ''' </summary>
     ''' <param name="file">
     ''' the file path or the file stream data of the target 
-    ''' expression matrix table file.
+    ''' expression matrix table file, or the expression data frame object
     ''' </param>
     ''' <param name="exclude_samples">
     ''' will removes some sample column data from the expression
@@ -453,7 +457,8 @@ Module geneExpression
     ''' </returns>
     <ExportAPI("load.expr0")>
     <RApiReturn(GetType(Matrix), GetType(HTSMatrixReader))>
-    Public Function readBinaryMatrix(file As Object,
+    Public Function readBinaryMatrix(<RRawVectorArgument>
+                                     file As Object,
                                      Optional lazy As Boolean = False,
                                      Optional env As Environment = Nothing) As Object
         Dim stream = SMRUCC.Rsharp.GetFileStream(file, FileAccess.Read, env)
@@ -472,6 +477,10 @@ Module geneExpression
     ''' </summary>
     ''' <param name="mat"></param>
     ''' <returns></returns>
+    ''' <example>
+    ''' let expr_mat = load.expr(file = "./rawdata.csv");
+    ''' let view = load.matrixView(mat = expr_mat);
+    ''' </example>
     <ExportAPI("load.matrixView")>
     Public Function loadMatrixView(mat As Matrix) As HTSMatrixViewer
         Return New HTSMatrixViewer(mat)
@@ -483,7 +492,17 @@ Module geneExpression
     ''' <param name="file">
     ''' could be a file path or the HTS matrix data object
     ''' </param>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' A tuple list object that contains the data information
+    ''' which is extract from the given file:
+    ''' 
+    ''' 1. sampleID: a character vector that contains the matrix sample information(column features name)
+    ''' 2. geneID: a character vector that contains the matrix gene features information(row features name)
+    ''' 3. tag: the matrix source tag label, could be the file basename if the given input file is a file path to the matrix.
+    ''' </returns>
+    ''' <example>
+    ''' str(matrix_info(file = "/path/to/expr_mat.csv"));
+    ''' </example>
     <ExportAPI("matrix_info")>
     <RApiReturn("sampleID", "geneID", "tag")>
     Public Function getMatrixInformation(file As Object) As Object
@@ -529,14 +548,21 @@ Module geneExpression
     ''' <summary>
     ''' write the gene expression data matrix file
     ''' </summary>
-    ''' <param name="expr"></param>
-    ''' <param name="file"></param>
-    ''' <param name="id"></param>
+    ''' <param name="expr">The gene expression matrix object</param>
+    ''' <param name="file">The file path to a csv matrix file that used 
+    ''' for export the given <paramref name="expr"/> matrix data.</param>
+    ''' <param name="id">The string content inside the first cell</param>
     ''' <param name="binary">
     ''' write matrix data in binary data format? default value 
     ''' is False means write matrix as csv matrix file.
     ''' </param>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' A logical vector for indicates that the expression 
+    ''' matrix save success or not.
+    ''' </returns>
+    ''' <example>
+    ''' geneExpression::write.expr_matrix(expr_mat, file = "/path/to/matrix.csv", id = "gene_id");
+    ''' </example>
     <ExportAPI("write.expr_matrix")>
     Public Function writeMatrix(expr As Matrix, file As String,
                                 Optional id As String = "geneID",
@@ -553,13 +579,16 @@ Module geneExpression
     ''' <summary>
     ''' Filter the geneID rows
     ''' </summary>
-    ''' <param name="HTS"></param>
-    ''' <param name="geneId"></param>
+    ''' <param name="HTS">A gene expression matrix object</param>
+    ''' <param name="geneId">A character vector for run the matrix feature row filter</param>
     ''' <param name="exclude">matrix a subset of the data matrix excepts the 
     ''' input <paramref name="geneId"/> features or just make a subset which 
     ''' just contains the input <paramref name="geneId"/> features.
     ''' </param>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' A new expression matrix object that consist with gene feature
+    ''' rows subset from the original matrix input.
+    ''' </returns>
     <ExportAPI("filter")>
     Public Function filter(HTS As Matrix, geneId As String(), Optional exclude As Boolean = False) As Matrix
         Dim filterIndex As Index(Of String) = geneId
@@ -661,7 +690,9 @@ Module geneExpression
     ''' cast the HTS matrix object to the general dataset
     ''' </summary>
     ''' <param name="matrix">a gene expression matrix</param>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' A scibasic generic dataset object collection.
+    ''' </returns>
     <ExportAPI("as.generic")>
     Public Function castGenericRows(matrix As Matrix) As DataSet()
         Dim sampleNames As String() = matrix.sampleID
@@ -693,7 +724,7 @@ Module geneExpression
     ''' patterns across the sample groups.
     ''' </summary>
     ''' <param name="matrix">a gene expression matrix</param>
-    ''' <param name="sampleinfo"></param>
+    ''' <param name="sampleinfo">The sample group data</param>
     ''' <returns></returns>
     <ExportAPI("average")>
     Public Function average(matrix As Matrix, sampleinfo As SampleInfo()) As Matrix
@@ -1236,7 +1267,7 @@ Module geneExpression
     ''' <param name="base"></param>
     ''' <returns></returns>
     <ExportAPI("log")>
-    Public Function log(expr As Matrix, Optional base As Double = stdNum.E) As Matrix
+    Public Function log(expr As Matrix, Optional base As Double = std.E) As Matrix
         Return expr.log(base)
     End Function
 

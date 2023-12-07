@@ -53,6 +53,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 
@@ -82,6 +83,7 @@ Public Class DataFrameRow : Implements INamedValue, IVector
     ''' <param name="i"></param>
     ''' <returns></returns>
     Default Public ReadOnly Property Value(i As Integer) As Double
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
             Return _experiments(i)
         End Get
@@ -93,6 +95,7 @@ Public Class DataFrameRow : Implements INamedValue, IVector
     ''' <param name="i"></param>
     ''' <returns></returns>
     Default Public ReadOnly Property Value(i As Integer()) As Double()
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
             Return i _
                 .Select(Function(idx) _experiments(idx)) _
@@ -104,7 +107,9 @@ Public Class DataFrameRow : Implements INamedValue, IVector
     ''' Gets the sample counts of current gene expression data.(获取基因表达数据样本数目)
     ''' </summary>
     ''' <value></value>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' the length of the <see cref="experiments"/> expression vector.
+    ''' </returns>
     ''' <remarks></remarks>
     Public ReadOnly Property samples As Integer
         Get
@@ -115,6 +120,19 @@ Public Class DataFrameRow : Implements INamedValue, IVector
             End If
         End Get
     End Property
+
+    Sub New()
+    End Sub
+
+    <DebuggerStepThrough>
+    Sub New(id As String)
+        Me.geneID = id
+    End Sub
+
+    Sub New(sample As NamedCollection(Of Double))
+        Me.geneID = sample.name
+        Me.experiments = sample.value
+    End Sub
 
     Public Function ToDataSet(labels As String()) As Dictionary(Of String, Double)
         Dim table As New Dictionary(Of String, Double)
@@ -141,20 +159,42 @@ Public Class DataFrameRow : Implements INamedValue, IVector
         Return experiments.AsVector
     End Function
 
-    ''' <summary>
-    ''' get sum of current expression vector
-    ''' </summary>
-    ''' <returns></returns>
-    Public Function Sum() As Double
-        Return experiments.Sum
-    End Function
-
     Public Overrides Function ToString() As String
         Return $"{geneID} -> {experiments.Select(Function(a) a.ToString("F3")).JoinBy(", ")}"
     End Function
 
+    ''' <summary>
+    ''' get sum of current expression vector
+    ''' </summary>
+    ''' <returns></returns>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Function Sum() As Double
+        Return experiments.Sum
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function Max() As Double
-        Return experiments.Max
+        If samples = 0 Then
+            Return 0
+        Else
+            Return experiments.Max
+        End If
+    End Function
+
+    ''' <summary>Computes the average of a sequence of Double values.
+    ''' </summary>
+    ''' <returns>The average of the sequence of values.</returns>
+    ''' <remarks>
+    ''' this function returns ZERO if the sample count is ZERO
+    ''' </remarks>
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Function Average() As Double
+        If samples = 0 Then
+            Return 0
+        Else
+            Return experiments.Average
+        End If
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>

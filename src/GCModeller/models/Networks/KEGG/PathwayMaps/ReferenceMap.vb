@@ -67,6 +67,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices.XML
 Imports SMRUCC.genomics.Model.Network.KEGG.ReactionNetwork
 
 Namespace PathwayMaps
@@ -74,7 +75,7 @@ Namespace PathwayMaps
     Public Module ReferenceMap
 
         Private Function getCompoundsInMap(map As Map) As IEnumerable(Of NamedValue(Of String))
-            Return map.shapes _
+            Return map.shapes.mapdata _
                 .Select(Function(a) a.Names) _
                 .IteratesALL _
                 .Where(Function(term)
@@ -503,7 +504,11 @@ Namespace PathwayMaps
 
         <Extension>
         Private Function getKOlist(maps As IEnumerable(Of Map)) As Index(Of String)
-            Return maps.Select(Function(map) map.shapes.Select(Function(a) a.IDVector)) _
+            Return maps _
+                .Select(Function(map)
+                            Return map.shapes.mapdata _
+                                .Select(Function(a) a.IDVector)
+                        End Function) _
                 .IteratesALL _
                 .IteratesALL _
                 .Where(Function(id) id.IsPattern("K\d+")) _

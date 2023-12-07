@@ -5,6 +5,7 @@ background.id_mapping \- do id mapping of the members in the background cluster
 .SH SYNOPSIS
 \fIbackground.id_mapping(\fBbackground\fR as <generic> Background, 
 \fBmapping\fR as list, 
+\fBsubset\fR as string = \fB<NULL>\fR, 
 [\fB<Environment>\fR]);\fR
 .SH DESCRIPTION
 .PP
@@ -17,6 +18,13 @@ do id mapping of the members in the background cluster
 .PP
 \fBmapping\fB \fR\- 
  do id translation via this id source list
+. 
+.PP
+.PP
+\fBsubset\fB \fR\- 
+ only the cluster which has the member gene id exists in this
+ collection then the cluster will be keeps from the result
+ background if this parameter is not null or empty.
 . 
 .PP
 .PP

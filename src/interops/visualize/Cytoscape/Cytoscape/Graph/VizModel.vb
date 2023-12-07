@@ -43,8 +43,8 @@
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
+Imports Microsoft.VisualBasic.Data.visualize.Network.Graph.EdgeBundling
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts
-Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts.EdgeBundling
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML.File
 
@@ -120,7 +120,7 @@ Namespace CytoscapeGraphView
                 }
 
                 Call nodeIndex.Add(xgmmlNode.label, node)
-                Call g.AddNode(node)
+                Call g.AddNode(node, assignId:=False)
             Next
 
             Dim index As New GraphIndex(graph)

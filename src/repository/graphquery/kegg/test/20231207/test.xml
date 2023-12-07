@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Compound xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:KEGG="http://www.kegg.jp/dbget-bin/www_bget?cpd:compound_id" entry="C05345">
+   <!--
+     model:     SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Compound
+     assembly:  SMRUCC.genomics.Core, Version=6.3.256.3655, Culture=neutral, PublicKeyToken=null
+     version:   6.3.256.3655
+     built:     9/13/2000 2:01:50 AM
+     md5:       42b97d4ffdac330a4db17190e9aa9159
+     timestamp: 9/10/2023 4:45:55 PM
+  -->
+   <commonNames>
+      <string>beta-D-Fructose 6-phosphate</string>
+      <string>beta-D-Fructofuranose 6-phosphate</string>
+   </commonNames>
+   <formula>C6H13O9P</formula>
+   <molWeight>260.1358</molWeight>
+   <exactMass>260.0297</exactMass>
+   <reactionId>
+      <string>R00867</string>
+      <string>R01819</string>
+      <string>R01827</string>
+      <string>R01830</string>
+      <string>R02073</string>
+      <string>R02703</string>
+      <string>R02731</string>
+      <string>R02732</string>
+   </reactionId>
+   <KEGG:pathway>
+      <KEGG:data name="map00010">Glycolysis / Gluconeogenesis</KEGG:data>
+      <KEGG:data name="map00030">Pentose phosphate pathway</KEGG:data>
+      <KEGG:data name="map00051">Fructose and mannose metabolism</KEGG:data>
+      <KEGG:data name="map00520">Amino sugar and nucleotide sugar metabolism</KEGG:data>
+      <KEGG:data name="map00541">O-Antigen nucleotide sugar biosynthesis</KEGG:data>
+      <KEGG:data name="map00997">Biosynthesis of various other secondary metabolites</KEGG:data>
+      <KEGG:data name="map00998">Biosynthesis of various antibiotics</KEGG:data>
+      <KEGG:data name="map01060">Biosynthesis of plant secondary metabolites</KEGG:data>
+      <KEGG:data name="map01061">Biosynthesis of phenylpropanoids</KEGG:data>
+      <KEGG:data name="map01062">Biosynthesis of terpenoids and steroids</KEGG:data>
+      <KEGG:data name="map01063">Biosynthesis of alkaloids derived from shikimate pathway</KEGG:data>
+      <KEGG:data name="map01064">Biosynthesis of alkaloids derived from ornithine, lysine and nicotinic acid</KEGG:data>
+      <KEGG:data name="map01065">Biosynthesis of alkaloids derived from histidine and purine</KEGG:data>
+      <KEGG:data name="map01066">Biosynthesis of alkaloids derived from terpenoid and polyketide</KEGG:data>
+      <KEGG:data name="map01070">Biosynthesis of plant hormones</KEGG:data>
+      <KEGG:data name="map01100">Metabolic pathways</KEGG:data>
+      <KEGG:data name="map01110">Biosynthesis of secondary metabolites</KEGG:data>
+      <KEGG:data name="map01120">Microbial metabolism in diverse environments</KEGG:data>
+      <KEGG:data name="map01200">Carbon metabolism</KEGG:data>
+      <KEGG:data name="map01230">Biosynthesis of amino acids</KEGG:data>
+      <KEGG:data name="map01240">Biosynthesis of cofactors</KEGG:data>
+      <KEGG:data name="map01250">Biosynthesis of nucleotide sugars</KEGG:data>
+   </KEGG:pathway>
+   <KEGG:module>
+      <KEGG:data name="M00001">Glycolysis (Embden-Meyerhof pathway), glucose =&gt; pyruvate</KEGG:data>
+      <KEGG:data name="M00003">Gluconeogenesis, oxaloacetate =&gt; fructose-6P</KEGG:data>
+      <KEGG:data name="M00004">Pentose phosphate pathway (Pentose phosphate cycle)</KEGG:data>
+      <KEGG:data name="M00007">Pentose phosphate pathway, non-oxidative phase, fructose 6P =&gt; ribose 5P</KEGG:data>
+      <KEGG:data name="M00114">Ascorbate biosynthesis, plants, fructose-6P =&gt; ascorbate</KEGG:data>
+      <KEGG:data name="M00345">Formaldehyde assimilation, ribulose monophosphate pathway</KEGG:data>
+      <KEGG:data name="M00580">Pentose phosphate pathway, archaea, fructose 6P =&gt; ribose 5P</KEGG:data>
+      <KEGG:data name="M00892">UDP-N-acetyl-D-glucosamine biosynthesis, eukaryotes, glucose =&gt; UDP-GlcNAc</KEGG:data>
+      <KEGG:data name="M00909">UDP-N-acetyl-D-glucosamine biosynthesis, prokaryotes, glucose =&gt; UDP-GlcNAc</KEGG:data>
+   </KEGG:module>
+   <remarks>
+      <string />
+   </remarks>
+   <enzyme>
+      <string>1.1.1.17</string>
+      <string>1.1.1.140</string>
+      <string>2.2.1.1</string>
+      <string>2.2.1.2</string>
+   </enzyme>
+   <KEGG:DBlinks>
+      <KEGG:DBLink DBName="PubChem" entry="7723" />
+      <KEGG:DBLink DBName="ChEBI" entry="16084" />
+      <KEGG:DBLink DBName="KNApSAcK" entry="C00019548" />
+      <KEGG:DBLink DBName="PDB-CCD" entry="F6P" />
+      <KEGG:DBLink DBName="3DMET" entry="B01846" />
+      <KEGG:DBLink DBName="NIKKAJI" entry="J879.002G" />
+   </KEGG:DBlinks>
+</Compound>

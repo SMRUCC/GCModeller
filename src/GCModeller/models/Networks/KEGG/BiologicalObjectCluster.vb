@@ -55,7 +55,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
-Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices.XML
 
 Public Module BiologicalObjectCluster
 
@@ -71,7 +71,7 @@ Public Module BiologicalObjectCluster
     Public Function CompoundsMap(map As Map) As NamedCollection(Of String)
         Return New NamedCollection(Of String) With {
             .name = map.EntryId,
-            .value = map.shapes _
+            .value = map.shapes.mapdata _
                 .Select(Function(a) a.IDVector) _
                 .IteratesALL _
                 .Where(Function(id) id.IsPattern("C\d+")) _
@@ -84,7 +84,7 @@ Public Module BiologicalObjectCluster
     Public Function ReactionMap(map As Map) As NamedCollection(Of String)
         Return New NamedCollection(Of String) With {
             .name = map.EntryId,
-            .value = map.shapes _
+            .value = map.shapes.mapdata _
                 .Select(Function(a) a.IDVector) _
                 .IteratesALL _
                 .Where(Function(id) id.IsPattern("R\d+")) _

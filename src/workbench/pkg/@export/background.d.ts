@@ -62,11 +62,16 @@ declare namespace background {
        * 
         * @param background -
         * @param mapping do id translation via this id source list
+        * @param subset only the cluster which has the member gene id exists in this
+        *  collection then the cluster will be keeps from the result
+        *  background if this parameter is not null or empty.
+        * 
+        * + default value Is ``null``.
         * @param env -
         * 
         * + default value Is ``null``.
       */
-      function id_mapping(background: object, mapping: object, env?: object): any;
+      function id_mapping(background: object, mapping: object, subset?: string, env?: object): any;
    }
    /**
    */
@@ -101,8 +106,17 @@ declare namespace background {
        * 
        * 
         * @param dag -
+        * @param flat Flat the ontology tree into cluster via the ``is_a`` relationship?
+        *  
+        *  default false, required of the ``enrichment.go`` function for run enrichment analysis
+        *  value true, will flat the ontology tree into cluster, then the enrichment analysis could be
+        *  applied via the ``enrichment`` function.
+        * 
+        * + default value Is ``false``.
+        * @param env 
+        * + default value Is ``null``.
       */
-      function background(dag: object): object;
+      function background(dag: object, flat?: boolean, env?: object): object;
    }
    module geneSet {
       /**
@@ -199,17 +213,21 @@ declare namespace background {
        * create kegg maps background for the metabolism data analysis
        * 
        * 
-        * @param kegg -
+        * @param kegg Should be a collection of the kegg map object
         * @param filter 
         * + default value Is ``null``.
+        * @param env 
+        * + default value Is ``null``.
       */
-      function background(kegg: object, filter?: string): object;
+      function background(kegg: any, filter?: string, env?: object): object;
    }
    /**
     * Create the gsea background model for metabolism analysis
     * 
     * 
-     * @param kegg the kegg @``T:SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Pathway`` model collection of current organism or the KEGG @``T:SMRUCC.genomics.Assembly.KEGG.WebServices.Map`` data collection.
+     * @param kegg the kegg @``T:SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Pathway`` model collection of current organism or 
+     *  the KEGG @``T:SMRUCC.genomics.Assembly.KEGG.WebServices.XML.Map`` data collection.
+     *  andalso could be a tuple list of the idset.
      * @param reactions A collection of the reference @``T:SMRUCC.genomics.Model.Network.KEGG.ReactionNetwork.ReactionTable`` model 
      *  data for build the metabolism network
      * @param org_name -

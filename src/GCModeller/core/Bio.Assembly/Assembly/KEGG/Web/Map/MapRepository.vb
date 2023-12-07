@@ -63,6 +63,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.Xml.Models
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices.XML
 
 Namespace Assembly.KEGG.WebServices
 
@@ -180,8 +181,7 @@ Namespace Assembly.KEGG.WebServices
             Return New MapIndex With {
                 .EntryId = map.EntryId,
                 .KeyVector = New TermsVector With {
-                    .terms = map _
-                        .shapes _
+                    .terms = map.shapes.mapdata _
                         .Select(Function(a) a.IDVector) _
                         .IteratesALL _
                         .Distinct _

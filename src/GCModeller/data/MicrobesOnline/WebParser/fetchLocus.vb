@@ -68,12 +68,11 @@ Public Module fetchLocus
     Const FetchLocus As String = "http://www.microbesonline.org/cgi-bin/fetchLocus.cgi?locus={0}&disp=4"
 
     ''' <summary>
-    ''' {prot, nt}
+    ''' {prot, nt}, Downloads nt and prot sequence from microbesonline database
     ''' </summary>
     ''' <param name="locusId"></param>
     ''' <returns></returns>
     ''' 
-    <ExportAPI("Fetch.Seq", Info:="Downloads nt and prot sequence from microbesonline database")>
     Public Function Downloads(locusId As String) _
         As <FunctionReturns("The return array has two elements, first element is the prot sequnece and the second element is the nt sequence.")> FastaSeq()
         Dim page As String = String.Format(FetchLocus, locusId).GET

@@ -51,6 +51,7 @@ declare namespace geneExpression {
        * 
        * 
         * @param matrix a gene expression matrix
+        * @return A scibasic generic dataset object collection.
       */
       function generic(matrix: object): object;
    }
@@ -64,7 +65,7 @@ declare namespace geneExpression {
     * 
     * 
      * @param matrix a gene expression matrix
-     * @param sampleinfo -
+     * @param sampleinfo The sample group data
    */
    function average(matrix: object, sampleinfo: object): object;
    /**
@@ -165,13 +166,15 @@ declare namespace geneExpression {
     * Filter the geneID rows
     * 
     * 
-     * @param HTS -
-     * @param geneId -
+     * @param HTS A gene expression matrix object
+     * @param geneId A character vector for run the matrix feature row filter
      * @param exclude matrix a subset of the data matrix excepts the 
      *  input **`geneId`** features or just make a subset which 
      *  just contains the input **`geneId`** features.
      * 
      * + default value Is ``false``.
+     * @return A new expression matrix object that consist with gene feature
+     *  rows subset from the original matrix input.
    */
    function filter(HTS: object, geneId: string, exclude?: boolean): object;
    /**
@@ -195,6 +198,8 @@ declare namespace geneExpression {
      * @param env -
      * 
      * + default value Is ``null``.
+     * @return A new expression matrix object that with gene row 
+     *  features subset from the original input raw matrix object.
    */
    function filterZeroGenes(mat: object, env?: object): any;
    /**
@@ -233,7 +238,7 @@ declare namespace geneExpression {
        * >  could be a csv table file or tsv table file.
        * 
         * @param file the file path or the file stream data of the target 
-        *  expression matrix table file.
+        *  expression matrix table file, or the expression data frame object
         * @param exclude_samples will removes some sample column data from the expression
         *  matrix which is specificed by this parameter value.
         * 
@@ -283,6 +288,12 @@ declare namespace geneExpression {
     * 
     * 
      * @param file could be a file path or the HTS matrix data object
+     * @return A tuple list object that contains the data information
+     *  which is extract from the given file:
+     *  
+     *  1. sampleID: a character vector that contains the matrix sample information(column features name)
+     *  2. geneID: a character vector that contains the matrix gene features information(row features name)
+     *  3. tag: the matrix source tag label, could be the file basename if the given input file is a file path to the matrix.
    */
    function matrix_info(file: any): object;
    /**
@@ -457,15 +468,18 @@ declare namespace geneExpression {
        * write the gene expression data matrix file
        * 
        * 
-        * @param expr -
-        * @param file -
-        * @param id -
+        * @param expr The gene expression matrix object
+        * @param file The file path to a csv matrix file that used 
+        *  for export the given **`expr`** matrix data.
+        * @param id The string content inside the first cell
         * 
         * + default value Is ``'geneID'``.
         * @param binary write matrix data in binary data format? default value 
         *  is False means write matrix as csv matrix file.
         * 
         * + default value Is ``false``.
+        * @return A logical vector for indicates that the expression 
+        *  matrix save success or not.
       */
       function expr_matrix(expr: object, file: string, id?: string, binary?: boolean): boolean;
    }

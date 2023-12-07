@@ -14,6 +14,15 @@ get matrix summary information
  could be a file path or the HTS matrix data object
 . 
 .PP
+.SH VALUE
+.PP
+A tuple list object that contains the data information
+ which is extract from the given file:
+ 
+ 1. sampleID: a character vector that contains the matrix sample information(column features name)
+ 2. geneID: a character vector that contains the matrix gene features information(row features name)
+ 3. tag: the matrix source tag label, could be the file basename if the given input file is a file path to the matrix.
+.PP
 .SH SEE ALSO
 geneExpression
 .SH FILES
