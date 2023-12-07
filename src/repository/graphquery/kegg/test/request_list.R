@@ -8,6 +8,8 @@ let id_list = "./list.json"
 |> JSON::json_decode()
 ;
 
+options(http.cache_dir = ?"--cache" || `${@dir}/.cache/`);
+
 str(id_list);
 
 for(id in id_list$kegg) {
