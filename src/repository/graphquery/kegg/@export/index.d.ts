@@ -9,21 +9,21 @@ declare namespace kegg_api {
       function onLoad(): object;
    }
    /**
-     * @param cache default value Is ``null``.
+     * @param cache_dir default value Is ``null``.
    */
-   function kegg_compound(id: any, cache?: any): object;
+   function kegg_compound(id: any, cache_dir?: any): object;
    /**
-     * @param cache default value Is ``null``.
+     * @param cache_dir default value Is ``null``.
    */
-   function kegg_module(id: any, cache?: any): object;
+   function kegg_module(id: any, cache_dir?: any): object;
    /**
      * @param cache default value Is ``null``.
    */
    function kegg_pathway(id: any, cache?: any): object;
    /**
-     * @param cache default value Is ``null``.
+     * @param cache_dir default value Is ``null``.
    */
-   function kegg_reaction(id: any, cache?: any): object;
+   function kegg_reaction(id: any, cache_dir?: any): object;
    /**
      * @param org default value Is ``["ko", "map", "hsa"]``.
      * @param cache default value Is ``null``.

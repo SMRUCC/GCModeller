@@ -9,21 +9,21 @@ const kegg_pathway = function(id, cache = NULL) {
    ;
 }
 
-const kegg_reaction = function(id, cache = NULL) {
+const kegg_reaction = function(id, cache_dir = NULL) {
     kegg_api::get(id, cache = cache_dir)
     |> parseForm(unsafe = TRUE)
     |> as.reaction()
     ;
 }
 
-const kegg_module = function(id, cache = NULL) {
+const kegg_module = function(id, cache_dir = NULL) {
     kegg_api::get(id, cache = cache_dir)
     |> parseForm()
     |> as.module()
     ;
 }
 
-const kegg_compound = function(id, cache = NULL) {
+const kegg_compound = function(id, cache_dir = NULL) {
     kegg_api::get(id, cache = cache_dir)
     |> parseForm()
     |> as.compound()
