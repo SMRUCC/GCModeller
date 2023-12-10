@@ -11,10 +11,13 @@ index = lapply(index, i -> i[2], names = i -> i[1]);
 
 str(index);
 
+const cache_dir = `${@dir}/map_cache.db`
+|> HDS::openStream(allowCreate = TRUE, meta_size = 32*1024*1024);
+
 # kegg_map("map00600", fs = getOption("http.cache_dir"));
 
 # for(id in names(index)) {
 #     kegg_map(id, fs = getOption("http.cache_dir"));
 # }
 
-fetch_kegg_maps(getOption("http.cache_dir"));
+fetch_kegg_maps(cache_dir);
