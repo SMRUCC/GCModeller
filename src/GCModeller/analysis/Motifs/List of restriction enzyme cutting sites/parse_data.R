@@ -3,7 +3,7 @@ imports "Html" from "webKit";
 setwd(@dir);
 
 for(file in list.files("./txt")) {
-    let html = readText(file);
+    let html = readText(file) |> gsub("\[\d+\]", "", regexp = TRUE);
     let data = Html::tables(html)
     |> which(d -> ncol(d) > 4)
     ;
