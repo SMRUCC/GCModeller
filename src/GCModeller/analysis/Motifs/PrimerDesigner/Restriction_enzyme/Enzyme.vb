@@ -164,12 +164,17 @@ Namespace Restriction_enzyme
     ''' </summary>
     Public Class Cut
 
-        <XmlAttribute> Public Property Left As String
-        <XmlAttribute> Public Property Right As String
         <XmlAttribute> Public Property Reversed As Boolean
 
+        <XmlText>
+        Public Property CutSite As String
+
         Public Overrides Function ToString() As String
-            Return $"5' ---{Left} {Right}--- 3'"
+            If Reversed Then
+                Return $"3' ---{CutSite}--- 5'"
+            Else
+                Return $"5' ---{CutSite}--- 3'"
+            End If
         End Function
     End Class
 End Namespace

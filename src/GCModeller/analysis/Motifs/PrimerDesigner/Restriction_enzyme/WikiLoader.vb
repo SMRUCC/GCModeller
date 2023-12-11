@@ -98,9 +98,8 @@ Namespace Restriction_enzyme
         End Function
 
         Private Iterator Function ParseCutSites(str As String) As IEnumerable(Of Cut)
-            Dim si As String() = str.Matches("\d'\s+[-]+.+[-]+\s+\d'").ToArray
+            Dim si As String() = str.Matches("\d'\s+[-]+.*?[-]+\s+\d'").ToArray
             Dim reversed As Boolean
-            Dim s2 As String()
 
             For Each s As String In si
                 If s.StartsWith("3'") Then
@@ -110,18 +109,17 @@ Namespace Restriction_enzyme
                 End If
 
                 s = s.StringReplace("5'", "").StringReplace("3'", "").Trim(" "c, "-"c)
-                s2 = s.Split
+                s = s.Replace(" ", "")
 
                 Yield New Cut With {
                     .Reversed = reversed,
-                    .Left = s2(0),
-                    .Right = s2(1)
+                    .CutSite = s
                 }
             Next
         End Function
 
         Private Function ParseRecognition(str As String) As Recognition
-            Dim si As String() = str.Matches("\d'.+").ToArray
+            Dim si As String() = str.Matches("\d'\s*\S+").ToArray
             Dim r As New Recognition With {
                 .Forwards = si(0),
                 .Reversed = si(1)

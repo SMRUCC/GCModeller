@@ -1,4 +1,3 @@
-Imports System
 Imports SMRUCC.genomics.Analysis.PrimerDesigner.Restriction_enzyme
 
 Module Program
