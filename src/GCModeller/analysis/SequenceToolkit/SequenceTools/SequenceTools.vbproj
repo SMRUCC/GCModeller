@@ -44,7 +44,6 @@
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\mime\application%rdf+xml\rdf_xml-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\mime\application%xml\xml-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\mime\text%html\html_netcore5.vbproj" />
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\www\Microsoft.VisualBasic.NETProtocol\network-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\core\Bio.Annotation\annotation.NET5.vbproj" />
     <ProjectReference Include="..\..\..\core\Bio.Assembly\biocore-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\data\Rhea\Rhea.vbproj" />
@@ -61,6 +60,7 @@
     <ProjectReference Include="..\SequencePatterns.Abstract\SequencePatterns.Abstract.NET5.vbproj" />
     <ProjectReference Include="..\SequencePatterns\SequencePatterns.NET5.vbproj" />
     <ProjectReference Include="..\SmithWaterman\SmithWaterman.NET5.vbproj" />
+    <ProjectReference Include="..\SNP\SNP.vbproj" />
   </ItemGroup>
 
 </Project>
