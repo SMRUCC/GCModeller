@@ -38,6 +38,7 @@ for(file in list.files("./txt")) {
     let filename = basename(file);
     filename = gsub(filename, "[#].+", "", regexp = TRUE);
     filename = trim(filename, "_ ");
+    filename = gsub(filename, "%E2%80%93", "-");
 
     write.csv(exports, file = `./sites/${filename}.csv`, row.names = FALSE);
 }
