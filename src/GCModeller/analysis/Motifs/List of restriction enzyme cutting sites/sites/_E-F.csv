@@ -8,4 +8,3 @@ FauI,,Flavobacterium aquatile,5' CCCGC 3' GGGCG,5' ---CCCGCNNNN NN--- 3' 3' ---G
 FauBII,,Flavobacterium aureus B,5' CGCG 3' GCGC,5' ---CG CG--- 3' 3' ---GC GC--- 5',"Bpu95I, BspFNI, Bsp123I, BspFNI, BstUI, BtkI, Csp68KVI, SelI, ThaI"
 FauNDI,,Flavobacterium aquatile ND,5' CATATG 3' GTATAC,5' ---CA TATG--- 3' 3' ---GTAT AC--- 5',
 FbaI,,Flavobacterium balustinum,5' TGATCA 3' ACTAGT,5' ---T GATCA--- 3' 3' ---ACTAG T--- 5',"AbaI, BclI, BsiQI,"
-"BspXII, BstT7I, Ksp22I,",ParI,,,,

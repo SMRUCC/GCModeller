@@ -17,7 +17,6 @@ Bst1107I,,Bacillus stearothermophilus RFL1107,5' GTATAC 3' CATATG,5' ---GTA TAC-
 BstACI,,Bacillus stearothermophilus AC,5' GRCGYC 3' CYGCRG,5' ---GR CGYC--- 3' 3' ---CYGC RG--- 5',"AcyI, AhaII, AosII, AstWI, AsuIII, BsaHI, HgiI, HgiDI, Hsp92I"
 BstAPI,,Bacillus stearothermophilus AP,5' GCAN4NTGC 3' CGTN4NACG,5' ---GCANNNN NTGC--- 3' 3' ---CGTN NNNNACG--- 5',ApaBI
 BstAUI,,Bacillus stearothermophilus AU,5' TGTACA 3' ACATGT,5' ---T GTACA--- 3' 3' ---ACATG T--- 5',"AauI,"
-"Ssp4800I, SspBI",,,,,
 Bsu6I,,Bacillus subtilis 6v1,5' CTCTTC 3' GAGAAG,5' ---CTCTTCN NNN--- 3' 3' ---GAGAAGNNNN --- 5',
 Bsu15I,,Bacillus subtilis 15,5' ATCGAT 3' TAGCTA,5' ---AT CGAT--- 3' 3' ---TAGC TA--- 5',"AagI, BanIII, BavCI, Bsa29I, BseCI, BspDI, BsuTUI, ClaI"
 Bsu23I,,Bacillus subtilis 23,5' TCCGGA 3' AGGCCT,5' ---T CCGGA--- 3' 3' ---AGGCC T--- 5',"AccIII, BbvAIII, BseAI, BsiMI, BspEI, BspMII, CauB3I, MroI"

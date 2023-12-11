@@ -39,5 +39,4 @@ CpfI,,Clostridium perfringens,5' GATC 3' CTAG,5' --- GATC--- 3' 3' ---CTAG --- 5
 CpoI,,Caseobacter polymorphus,5' CGGWCCG 3' GCCWGGC,5' ---CG GWCCG--- 3' 3' ---GCCWG GC--- 5',
 CscI,,Calothrix scopulorum,5' CCGCGG 3' GGCGCC,5' ---CCGC GG--- 3' 3' ---GG CGCC--- 5',"Cfr42I, SacII, HgaI"
 CsiAI,,Corynebacterium sp. A,5' ACCGGT 3' TGGCCA,5' ---A CCGGT--- 3' 3' ---TGGCC A--- 5',"AgeI, AsiAI,"
-"CspAI, PinAI",,,,,
 DdeI,,Desulfovibrio desulfuricans,5' CTNAG 3' GANTC,5' ---C TNAG--- 3' 3' ---GANT C--- 5',"BstDEI,"

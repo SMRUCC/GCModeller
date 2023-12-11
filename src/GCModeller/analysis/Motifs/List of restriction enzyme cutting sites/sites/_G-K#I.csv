@@ -9,7 +9,6 @@ GsuI,,Gluconobacter suboxydans H-15T,5' CTGGAG 3' GACCTC,5' ---CTGGAGN12NNNN ---
 HacI,,Halococcus acetoinfaciens,5' GATC 3' CTAG,5' --- GATC--- 3' 3' ---CTAG --- 5',"Bme12I, Bsp67I, BstENII, CcyI, FnuEI, MgoI, NphI, Sau3AI"
 HaeI,,Haemophilus aegyptius,5' WGGCCW 3' WCCGGW,5' ---WGG CCW--- 3' 3' ---WCC GGW--- 5',
 HaeII,,Haemophilus aegypticus,5' RGCGCY 3' YCGCGR,5' ---RGCGC Y--- 3' 3' ---Y CGCGR--- 5',"AccB2I,"
-"Bsp143II, BstH2I, LpnI",,,,,
 ItaI,,Ilyobcater tartaricus,5' GCNGC 3' CGNCG,5' ---GC NGC--- 3' 3' ---CGN CG--- 5',
 KasI,,Kluyvera ascorbata,5' GGCGCC 3' CCGCGG,5' ---G GCGCC--- 3' 3' ---CCGCG G--- 5',
 Kaz48kI,,Klebsiella azeanae,5' RGGNCCY 3' YCCNGGR,5' ---RGGNC CY--- 3' 3' ---YC CNGGR--- 5',
@@ -22,4 +21,3 @@ Kpn49kI,,Klebsiella pneumoniae 49k,5' GAATTC 3' CTTAAG,5' ---G AATTC--- 3' 3' --
 Kpn49kII,,Klebsiella pneumoniae 49k,5' CCSGG 3' GGSCC,5' --- CCSGG--- 3' 3' ---GGSCC --- 5',"AhaI, AsuC2I, BcnI, CauII, EcoHI, HgiS22I, Mgl14481I, NciI,"
 KspI,,Kluyvera sp.,5' CCGCGG 3' GGCGCC,5' ---CCGC GG--- 3' 3' ---GG CGCC--- 5',
 Ksp22I,,Kurthia sp. 22,5' TGATCA 3' ACTAGT,5' ---T GATCA--- 3' 3' ---ACTAG T--- 5',"AbaI, BclI, BsiQI,"
-"BspXII, BstT7I, FbaI,",ParI,,,,

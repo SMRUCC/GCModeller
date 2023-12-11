@@ -4,9 +4,7 @@ OkrAI,,Oceanospirillum kriegii,5' GGATCC 3' CCTAGG,5' ---G GATCC--- 3' 3' ---CCT
 OliI,,Oceanospirillum linum 4-5D,5' CACN4GTG 3' GTGN4CAC,5' ---CACNN NNGTG--- 3' 3' ---GTGNN NNCAC--- 5',AleI
 OxaNI,,Oerskovia xanthineolytica N,5' CCTNAGG 3' GGANTCC,5' ---CC TNAGG--- 3' 3' ---GGANT CC--- 5',"AocI, BliHKI, BspR7I, CvnI, Lmu60I, OxaNI, SauI, SshAI"
 PabI,2DVY,Pyrococcus abyssi,5' GTAC 3' CATG,5' ---GTA C--- 3' 3' ---C ATG--- 5',"AfaI, Csp6I, CviQI, HpyBI,"
-"HpyBI, PlaAII, RsaI,","RsaNI,",,,,
 RalF40I,,Ruminococcus albus F-40,5' GATC 3' CTAG,5' --- GATC--- 3' 3' ---CTAG --- 5',"BscFI, BspAI, BstENII, ChaI, HacI, MkrAI, Sau3AI, SsiAI"
 RcaI,,Rhodococcus capsulatum,5' TCATGA 3' AGTACT,5' ---T CATGA--- 3' 3' ---AGTAC T--- 5',
 RflFI,,Ruminococcus flavefaciens FD-1,5' GTCGAC 3' CAGCTG,5' ---G TCGAC--- 3' 3' ---CAGCT G--- 5',
 RflFII,,Ruminococcus flavefaciens FD-1,5' AGTACT 3' TCATGA,5' ---AGT ACT--- 3' 3' ---TCA TGA--- 5',"Acc113I, AssI,"
-"DpaI, Eco255I, ScaI, ZrmI",,,,,

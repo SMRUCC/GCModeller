@@ -4,7 +4,6 @@ LlaAI,,Lactococcus lactis cremoris W9,5' GATC 3' CTAG,5' --- GATC--- 3' 3' ---CT
 LlaBI,,Lactococcus lactis cremoris W56,5' CTRYAG 3' GAYRTC,5' ---C TRYAG--- 3' 3' ---GAYRT C--- 5',
 LlaCI,,Lactococcus lactis W15,5' AAGCTT 3' TTCGAA,5' ---A AGCTT--- 3' 3' ---TTCGA A--- 5',
 LlaG2I,,Lactococcus lactis cremoris,5' GCTAGC 3' CGATCG,5' ---G CTAGC--- 3' 3' ---CGATC G--- 5',"AceII, AsuNHI, BmtI,"
-"NheI, PstNHI",,,,,
 MabI,,Microbacterium arborescens SE,5' ACCWGGT 3' TGGWCCA,5' ---A CCWGGT--- 3' 3' ---TGGWCC A--- 5',
 MaeI,,Methanococcus aeolicus PL-15/H,5' CTAG 3' GATC,5' ---C TAG--- 3' 3' ---GAT C--- 5',
 MaeII,,Methanococcus aeolicus,5' ACGT 3' TGCA,5' ---A CGT--- 3' 3' ---TGC A--- 5',
@@ -59,9 +58,7 @@ MspCI,,Micrococcus sp.,5' CTTAAG 3' GAATTC,5' ---C TTAAG--- 3' 3' ---GAATT C--- 
 MspR9I,,Micrococcus sp. R9,5' CCNGG 3' GGNCC,5' ---CC NGG--- 3' 3' ---GGN CC--- 5',
 MspSWI,,Moraxella sp. SW,5' ATTTAAAT 3' TAAATTTA,5' ---ATTT AAAT--- 3' 3' ---TAAA TTTA--- 5',
 MspV281I,,Myxosarcinia sp. V/281,5' GWGCWC 3' CWCGWG,5' ---GWGCW C--- 3' 3' ---C WCGWG--- 5',"Alw21I, AspHI, Bbv12I, Bsh45I, BsiHKAI,"
-"Bsm6I,","HgiAI,","HpyF46II,",,,
 NaeI,"1EV7, 1iaw, Search PDB",Nocardia aerocolonigenes,5' GCCGGC 3' CGGCCG,5' ---GCC GGC--- 3' 3' ---CGG CCG--- 5',
 NarI,,Nocardia argentinensis,5' GGCGCC 3' CCGCGG,5' ---GG CGCC--- 3' 3' ---CCGC GG--- 5',
 NblI,,Nocardia blackwellii,5' CGATCG 3' GCTAGC,5' ---CGAT CG--- 3' 3' ---GC TAGC--- 5',"Afa16RI, Afa22MI, EagBI, MvrI, Ple19I, Psu161I, RshI, XorII"
 NciI,,Neisseria cinerea,5' CCSGG 3' GGSCC,5' ---CC SGG--- 3' 3' ---GGS CC--- 5',"AhaI, AseII, AsuC2I,"
-"CauII, EcoHI, HgiS22I, Mgl14481I",,,,,

@@ -15,7 +15,6 @@ Bsp120I,,Bacillus sp. RFL120,5' GGGCCC 3' CCCGGG,5' ---G GGCCC--- 3' 3' ---CCCGG
 Bsp123I,,Bacillus sp. 123,5' CGCG 3' GCGC,5' ---CG CG--- 3' 3' ---GC GC--- 5',"BceBI, Bsh1236I, BstFNI, BstUI, BtkI, Csp68KVI, FnuDII, MvnI, ThaI"
 Bsp143I,,Bacillus sp. RFL143,5' GATC 3' CTAG,5' --- GATC--- 3' 3' ---CTAG --- 5',"Bce243I, Bsp105I, BspFI, BstKTI, CpfI, HacI, NdeII, Sth368I, Sau3AI"
 Bsp143II,,Bacillus sp. RFL143,5' RGCGCY 3' YCGCGR,5' ---RGCGC Y--- 3' 3' ---Y CGCGR--- 5',"AccB2I,"
-"HaeII, LpnI",,,,,
 BsrI,,Bacillus stearothermophilus,5' ACTGG 3' TGACC,5' ---ACTGGN --- 3' 3' ---TGAC CN--- 5',
 BsrAI,,Bacillus stearothermophilus CPW7,5' GGWCC 3' CCWGG,5' ---G GWCC--- 3' 3' ---CCWG G--- 5',"BamNxI, BcuAI, Csp68KI, Eco47I, FssI, HgiCII, HgiJI, SinI"
 BsrBI,,Bacillus stearothermophilus CPW193,5' CCGCTC 3' GGCGAG,5' ---CCG CTC--- 3' 3' ---GGC GAG--- 5',"AccBSI, BstD102I, Bst31NI, MbiI"
@@ -23,4 +22,3 @@ BsrBRI,,Bacillus stearothermophilus BR,5' GATN4ATC 3' CTAN4TAG,5' ---GATNN NNATC
 BsrDI,,Bacillus stearothermophilus D70,5' GCAATG 3' CGTTAC,5' ---GCAATGNN --- 3' 3' ---CGTTAC NN--- 5',
 BsrFI,,Bacillus stearothermophilus CPW16,5' RCCGGY 3' YGGCCR,5' ---R CCGGY--- 3' 3' ---YGGCC R--- 5',
 BsrGI,,Bacillus stearothermophilus GR75,5' TGTACA 3' ACATGT,5' ---T GTACA--- 3' 3' ---ACATG T--- 5',"AauI,"
-"Ssp4800I, SspBI",,,,,

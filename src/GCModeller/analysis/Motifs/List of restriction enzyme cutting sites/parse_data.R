@@ -25,6 +25,9 @@ for(file in list.files("./txt")) {
             par[, name] = vs;
         }
 
+        i = par$recognition != "";
+        par = par[i, ];
+
         offset = nrow(exports) + 1;
         rownames(par) = offset:(offset + nrow(par) - 1);
         exports = rbind(exports, par);
