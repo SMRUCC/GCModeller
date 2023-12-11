@@ -3,7 +3,7 @@ imports "Html" from "webKit";
 setwd(@dir);
 
 for(file in list.files("./txt")) {
-    let html = readText(file) |> gsub("\[\d+\]", "", regexp = TRUE);
+    let html = readText(file);
     let data = Html::tables(html)
     |> which(d -> ncol(d) > 4)
     ;
@@ -18,6 +18,13 @@ for(file in list.files("./txt")) {
             cut = par$Cut, 
             isoschizomers = par$Isoschizomers
         );
+
+        for(name in colnames(par)) {
+            vs = par[, name];
+            vs = vs |> gsub("\[\d+\]", "", regexp = TRUE);
+            par[, name] = vs;
+        }
+
         offset = nrow(exports) + 1;
         rownames(par) = offset:(offset + nrow(par) - 1);
         exports = rbind(exports, par);

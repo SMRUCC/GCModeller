@@ -22,7 +22,7 @@ CfoI,,Clostridium formicoaceticum,5' GCGC 3' CGCG,5' ---GCG C--- 3' 3' ---C GCG-
 CfrI,,Citrobacter freundii RFL2,5' YGGCCR 3' RCCGGY,5' ---Y GGCCR--- 3' 3' ---RCCGG Y--- 5',
 Cfr6I,,Citrobacter freundii RFL6,5' CAGCTG 3' GTCGAC,5' ---CAG CTG--- 3' 3' ---GTC GAC--- 5',
 Cfr9I,,Citrobacter freundii,5' CCCGGG 3' GGGCCC,5' ---C CCGGG--- 3' 3' ---GGGCC C--- 5',"AhyI, EaeAI, EclRI, Pac25I, PspAI, TspMI, XcyI, XmaI, XmaCI"
-Cfr10I[7][8],1CFR,Citrobacter freundii RFL10,5' RCCGGY 3' YGGCCR,5' ---R CCGGY--- 3' 3' ---YGGCC R--- 5',
+Cfr10I,1CFR,Citrobacter freundii RFL10,5' RCCGGY 3' YGGCCR,5' ---R CCGGY--- 3' 3' ---YGGCC R--- 5',
 Cfr13I,,Citrobacter freundii RFL13,5' GGNCC 3' CCNGG,5' ---G GNCC--- 3' 3' ---CCNG G--- 5',"AsuI, Bal228I, BavBII, BsiZI, BspF4I, FmuI, Nsp7121I, PspPI"
 Cfr42I,,Citrobacter freundii RFL42,5' CCGCGG 3' GGCGCC,5' ---CCGC GG--- 3' 3' ---GG CGCC--- 5',"SacII, CscI, HgaI"
 CfrA4I,,Citrobacter freundii A4,5' CTGCAG 3' GACGTC,5' ---CTGCA G--- 3' 3' ---G ACGTC--- 5',"AjoI, BloHII, CflI, CstI, Ecl2zI, PaePI, PstI, SalPI, Srl5DI, Sst12I"

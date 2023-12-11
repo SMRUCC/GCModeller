@@ -14,7 +14,7 @@ ItaI,,Ilyobcater tartaricus,5' GCNGC 3' CGNCG,5' ---GC NGC--- 3' 3' ---CGN CG---
 KasI,,Kluyvera ascorbata,5' GGCGCC 3' CCGCGG,5' ---G GCGCC--- 3' 3' ---CCGCG G--- 5',
 Kaz48kI,,Klebsiella azeanae,5' RGGNCCY 3' YCCNGGR,5' ---RGGNC CY--- 3' 3' ---YC CNGGR--- 5',
 KoxII,,Klebsiella oxytoca,5' GRGCYC 3' CYCGRG,5' ---GRGCY C--- 3' 3' ---C YCGRG--- 5',
-KpnI[8],,Klebsiella pneumoniae OK8,5' GGTACC 3' CCATGG,5' ---GGTAC C--- 3' 3' ---C CATGG--- 5',"Acc65I, AhaB8I, Asp718I, SthI"
+KpnI,,Klebsiella pneumoniae OK8,5' GGTACC 3' CCATGG,5' ---GGTAC C--- 3' 3' ---C CATGG--- 5',"Acc65I, AhaB8I, Asp718I, SthI"
 Kpn2I,,Klebsiella pneumoniae RFL2,5' TCCGGA 3' AGGCCT,5' ---T CCGGA--- 3' 3' ---AGGCC T--- 5',"Aor13HI, BbvAIII, BseAI, BsiMI, BspEI, BspMII, CauB3I, MroI"
 Kpn378I,,Klebsiella pneumoniae 378,5' CCGCGG 3' GGCGCC,5' ---CCGC GG--- 3' 3' ---GG CGCC--- 5',
 Kpn2kI,,Klebsiella pneumoniae 2k,5' CCNGG 3' GGNCC,5' --- CCNGG--- 3' 3' ---GGNCC --- 5',
