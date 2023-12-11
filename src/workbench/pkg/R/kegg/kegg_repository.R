@@ -16,6 +16,10 @@ const kegg_compounds = function(rawList = FALSE) {
 #'    or a indexed map repository object if set the parameter value
 #'    to value ``FALSE``.
 #' 
+#' @param repo the kegg map repository location, default internal 
+#'    repository will be used if this parameter value is leaves 
+#'    default.
+#' 
 const kegg_maps = function(rawMaps = TRUE, repo = system.file("data/kegg/KEGG_maps.zip", package = "GCModeller")) {
     if (file.ext(repo) == "zip") {
         print(`repository file(${repo}) is a zip package.`);
@@ -24,6 +28,7 @@ const kegg_maps = function(rawMaps = TRUE, repo = system.file("data/kegg/KEGG_ma
             repository::load.maps(file, rawMaps = rawMaps);
         }
     } else {
+        # from a directory or a bundle pack of xml file
         repo |> repository::load.maps(rawMaps = rawMaps);
     }
 }

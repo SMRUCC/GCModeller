@@ -400,3 +400,4 @@ src/repository/graphquery/kegg/test/kegg_parts.msgpack
 
 src/repository/graphquery/kegg/pipeline/package_updater/map_cache.db
 
+src/workbench/pkg/.vs/pkg/v17/.wsuo

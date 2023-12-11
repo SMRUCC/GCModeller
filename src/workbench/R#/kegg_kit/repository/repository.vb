@@ -302,13 +302,21 @@ Public Module repository
         End If
     End Function
 
+    ''' <summary>
+    ''' load maps data from a file bundle pack or scan from a directory
+    ''' </summary>
+    ''' <param name="fileHandle"></param>
+    ''' <param name="rawMaps"></param>
+    ''' <returns></returns>
     Private Function parseMapsFromFile(fileHandle As String, rawMaps As Boolean) As Object
         If fileHandle.ExtensionSuffix("msgpack", "pack", "hds") Then
             Using file As Stream = fileHandle.Open(FileMode.Open, doClear:=False, [readOnly]:=True)
                 If rawMaps Then
                     Return KEGGMapPack.ReadKeggDb(file)
                 Else
-                    Return KEGGMapPack.ReadKeggDb(file).DoCall(AddressOf MapRepository.BuildRepository)
+                    Return KEGGMapPack _
+                        .ReadKeggDb(file) _
+                        .DoCall(AddressOf MapRepository.BuildRepository)
                 End If
             End Using
         ElseIf fileHandle.ExtensionSuffix("xml") Then
@@ -326,11 +334,20 @@ Public Module repository
     ''' load list of kegg reference <see cref="Map"/>.
     ''' </summary>
     ''' <param name="repository">
-    ''' a directory of repository data for kegg reference <see cref="Map"/>.
+    ''' repository data source could be:
+    ''' 
+    ''' 1. a directory of repository data for kegg reference <see cref="Map"/>.
+    ''' 2. a file stream for the map vector in messagepack or HDS pack format
     ''' </param>
     ''' <returns>
     ''' a kegg reference map object vector, which can be indexed 
     ''' via <see cref="Map.EntryId"/>.
+    ''' 
+    ''' the data type will be dertermined by the <paramref name="rawMaps"/> parameter:
+    ''' 
+    ''' 1. for raw maps TRUE: a vector of the <see cref="Map"/> object will be returns
+    ''' 2. for raw maps FALSE: a wrapper of the kegg map collection 
+    '''    <see cref="MapRepository"/> will be generates from this function
     ''' </returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <ExportAPI("load.maps")>
