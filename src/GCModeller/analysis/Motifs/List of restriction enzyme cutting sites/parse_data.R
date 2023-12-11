@@ -35,5 +35,9 @@ for(file in list.files("./txt")) {
 
     print(exports);
 
-    write.csv(exports, file = `./sites/${basename(file)}.csv`, row.names = FALSE);
+    let filename = basename(file);
+    filename = gsub(filename, "[#].+", "", regexp = TRUE);
+    filename = trim(filename, "_ ");
+
+    write.csv(exports, file = `./sites/${filename}.csv`, row.names = FALSE);
 }
