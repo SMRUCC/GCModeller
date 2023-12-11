@@ -206,7 +206,7 @@ Namespace Html
                 .shapes = New MapData With {.mapdata = shapes, .module_mapdata = modules},
                 .EntryId = info.Name,
                 .name = info.Value,
-                .URL = url,
+                .URL = If(url, $"https://www.kegg.jp/pathway/{ .EntryId}"),
                 .description = desc
             }
         End Function
