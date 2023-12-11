@@ -69,20 +69,21 @@ Namespace Restriction_enzyme
             Return LQuery
         End Function
 
-        ReadOnly __dataList As String() = New List(Of String) +
-            "https://en.wikipedia.org/wiki/List_of_restriction_enzyme_cutting_sites:_A" +
-            "https://en.wikipedia.org/wiki/List_of_restriction_enzyme_cutting_sites:_Ba%E2%80%93Bc#Whole_list_navigation" +
-            "https://en.wikipedia.org/wiki/List_of_restriction_enzyme_cutting_sites:_Bd%E2%80%93Bp#Whole_list_navigation" +
-            "https://en.wikipedia.org/wiki/List_of_restriction_enzyme_cutting_sites:_Bsa%E2%80%93Bso#Whole_list_navigation" +
-            "https://en.wikipedia.org/wiki/List_of_restriction_enzyme_cutting_sites:_Bsp%E2%80%93Bss#Whole_list_navigation" +
-            "https://en.wikipedia.org/wiki/List_of_restriction_enzyme_cutting_sites:_Bst%E2%80%93Bv#Whole_list_navigation" +
-            "https://en.wikipedia.org/wiki/List_of_restriction_enzyme_cutting_sites:_C%E2%80%93D#Whole_list_navigation" +
-            "https://en.wikipedia.org/wiki/List_of_restriction_enzyme_cutting_sites:_E%E2%80%93F#Whole_list_navigation" +
-            "https://en.wikipedia.org/wiki/List_of_restriction_enzyme_cutting_sites:_G%E2%80%93K#Whole_list_navigation" +
-            "https://en.wikipedia.org/wiki/List_of_restriction_enzyme_cutting_sites:_L%E2%80%93N#Whole_list_navigation" +
-            "https://en.wikipedia.org/wiki/List_of_restriction_enzyme_cutting_sites:_O%E2%80%93R#Whole_list_navigation" +
-            "https://en.wikipedia.org/wiki/List_of_restriction_enzyme_cutting_sites:_S#Whole_list_navigation" +
+        ReadOnly __dataList As String() = {
+            "https://en.wikipedia.org/wiki/List_of_restriction_enzyme_cutting_sites:_A",
+            "https://en.wikipedia.org/wiki/List_of_restriction_enzyme_cutting_sites:_Ba%E2%80%93Bc#Whole_list_navigation",
+            "https://en.wikipedia.org/wiki/List_of_restriction_enzyme_cutting_sites:_Bd%E2%80%93Bp#Whole_list_navigation",
+            "https://en.wikipedia.org/wiki/List_of_restriction_enzyme_cutting_sites:_Bsa%E2%80%93Bso#Whole_list_navigation",
+            "https://en.wikipedia.org/wiki/List_of_restriction_enzyme_cutting_sites:_Bsp%E2%80%93Bss#Whole_list_navigation",
+            "https://en.wikipedia.org/wiki/List_of_restriction_enzyme_cutting_sites:_Bst%E2%80%93Bv#Whole_list_navigation",
+            "https://en.wikipedia.org/wiki/List_of_restriction_enzyme_cutting_sites:_C%E2%80%93D#Whole_list_navigation",
+            "https://en.wikipedia.org/wiki/List_of_restriction_enzyme_cutting_sites:_E%E2%80%93F#Whole_list_navigation",
+            "https://en.wikipedia.org/wiki/List_of_restriction_enzyme_cutting_sites:_G%E2%80%93K#Whole_list_navigation",
+            "https://en.wikipedia.org/wiki/List_of_restriction_enzyme_cutting_sites:_L%E2%80%93N#Whole_list_navigation",
+            "https://en.wikipedia.org/wiki/List_of_restriction_enzyme_cutting_sites:_O%E2%80%93R#Whole_list_navigation",
+            "https://en.wikipedia.org/wiki/List_of_restriction_enzyme_cutting_sites:_S#Whole_list_navigation",
             "https://en.wikipedia.org/wiki/List_of_restriction_enzyme_cutting_sites:_T%E2%80%93Z#Whole_list_navigation"
+        }
 
         ''' <summary>
         ''' Download data from wiki
