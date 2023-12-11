@@ -89,5 +89,5 @@ if __name__ == "__main__":
            map_id = "KEGG",
            pathway_links = "pathway_links",
            image = "dotnet:gcmodeller_20230401",
-           kegg_maps = "/opt/biodeep/kegg/KEGG_maps.pack",
+           kegg_maps = "/opt/biodeep/kegg/KEGG_maps/",
            run_debug = False)
