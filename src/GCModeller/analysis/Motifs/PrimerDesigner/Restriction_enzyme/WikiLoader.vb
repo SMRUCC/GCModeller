@@ -42,121 +42,103 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic.ComponentModel.DataStructures
-Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Serialization.JSON
-Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
 
 Namespace Restriction_enzyme
 
     ''' <summary>
-    ''' Parser for wikipadia
+    ''' Parser for wikipadia page resource data
     ''' </summary>
     Public Module WikiLoader
 
         ''' <summary>
-        ''' Loads the enzyme data source from the offline wiki page directory
-        ''' </summary>
-        ''' <param name="DIR"></param>
-        ''' <returns></returns>
-        <Extension> Public Function LoadDIR(DIR As String) As Enzyme()
-            Dim files = FileIO.FileSystem.GetFiles(DIR, FileIO.SearchOption.SearchTopLevelOnly, "*.html", "*.htm")
-            Dim LQuery = (From page As String
-                          In files'.AsParallel
-                          Select page.HTMLParser).ToVector
-            Return LQuery
-        End Function
-
-        ReadOnly __dataList As String() = {
-            "https://en.wikipedia.org/wiki/List_of_restriction_enzyme_cutting_sites:_A",
-            "https://en.wikipedia.org/wiki/List_of_restriction_enzyme_cutting_sites:_Ba%E2%80%93Bc#Whole_list_navigation",
-            "https://en.wikipedia.org/wiki/List_of_restriction_enzyme_cutting_sites:_Bd%E2%80%93Bp#Whole_list_navigation",
-            "https://en.wikipedia.org/wiki/List_of_restriction_enzyme_cutting_sites:_Bsa%E2%80%93Bso#Whole_list_navigation",
-            "https://en.wikipedia.org/wiki/List_of_restriction_enzyme_cutting_sites:_Bsp%E2%80%93Bss#Whole_list_navigation",
-            "https://en.wikipedia.org/wiki/List_of_restriction_enzyme_cutting_sites:_Bst%E2%80%93Bv#Whole_list_navigation",
-            "https://en.wikipedia.org/wiki/List_of_restriction_enzyme_cutting_sites:_C%E2%80%93D#Whole_list_navigation",
-            "https://en.wikipedia.org/wiki/List_of_restriction_enzyme_cutting_sites:_E%E2%80%93F#Whole_list_navigation",
-            "https://en.wikipedia.org/wiki/List_of_restriction_enzyme_cutting_sites:_G%E2%80%93K#Whole_list_navigation",
-            "https://en.wikipedia.org/wiki/List_of_restriction_enzyme_cutting_sites:_L%E2%80%93N#Whole_list_navigation",
-            "https://en.wikipedia.org/wiki/List_of_restriction_enzyme_cutting_sites:_O%E2%80%93R#Whole_list_navigation",
-            "https://en.wikipedia.org/wiki/List_of_restriction_enzyme_cutting_sites:_S#Whole_list_navigation",
-            "https://en.wikipedia.org/wiki/List_of_restriction_enzyme_cutting_sites:_T%E2%80%93Z#Whole_list_navigation"
-        }
-
-        ''' <summary>
-        ''' Download data from wiki
+        ''' load all enzymne data from internal resource database
         ''' </summary>
         ''' <returns></returns>
-        Public Function FromWiki() As Enzyme()
-            Dim list As New List(Of Enzyme)
-
-            For Each url As String In WikiLoader.__dataList
-                list += url.HTMLParser
-            Next
-
-            Return list
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function PullAll() As IEnumerable(Of Enzyme)
+            Return PullInternal.IteratesALL
         End Function
 
-        Const TableStart As String = "<table.+?class=""sortable jquery-tablesorter"".+?</tbody>\s*<tfoot>\s*</tfoot>\s*</table>"
-        Const EnzymeSection As String = "<span class=""mw-headline"" id=""Restriction_enzymes"">Restriction enzymes</span>"
-
-        <Extension> Public Function HTMLParser(url As String) As Enzyme()
-            Dim html As String = url.GET
-            html = Strings.Split(html, EnzymeSection).Last
-            html = Regex.Match(html, TableStart, RegexOptions.Singleline Or RegexOptions.IgnoreCase).Value
-            Dim rows As String() = Regex.Matches(html, "<tr>.+?</tr>", RegexOptions.Singleline Or RegexOptions.IgnoreCase).ToArray
-            Dim enzymes As Enzyme() = rows.Skip(1).Select(Function(row) row.__enzymeParser).ToArray
-            Return enzymes
-        End Function
-
-        Const htmlTag As String = "<.+?>"
-
-        <Extension> Private Function __enzymeParser(row As String) As Enzyme
-            Dim cols As String() = Regex.Matches(row.Replace("&nbsp;", " "), "<td>.+?</td>", RegexOptions.Singleline Or RegexOptions.IgnoreCase) _
-                .ToArray(Function(s) s.TrimNewLine("").Trim)
-            Dim enzyme As New Enzyme
-            Dim p As New Pointer(Of String)
-
-            Try
-                enzyme.Enzyme = Regex.Replace(cols + p, htmlTag, "", RegexOptions.IgnoreCase Or RegexOptions.Singleline)
-                enzyme.Source = Regex.Replace(cols + p, htmlTag, "", RegexOptions.Singleline Or RegexOptions.IgnoreCase)
-                enzyme.Recognition = (cols + p).__recognitionParser
-                enzyme.Cut = (cols + p).__cutsParser
-                enzyme.Isoschizomers = (cols + p).__isoschizomersParser
-            Catch ex As Exception
-                ex = New Exception(enzyme.GetJson, ex)
-                ex = New Exception(row, ex)
-                Call App.LogException(ex)
-                Call ex.PrintException
-            End Try
-
-            Return enzyme
+        Private Iterator Function PullInternal() As IEnumerable(Of Enzyme())
+            Yield My.Resources.A.LoadResFile.ToArray
+            Yield My.Resources.Ba_Bc.LoadResFile.ToArray
+            Yield My.Resources.Bd_Bp.LoadResFile.ToArray
+            Yield My.Resources.Bsa_Bso.LoadResFile.ToArray
+            Yield My.Resources.Bsp_Bss.LoadResFile.ToArray
+            Yield My.Resources.Bst_Bv.LoadResFile.ToArray
+            Yield My.Resources.C_D.LoadResFile.ToArray
+            Yield My.Resources.E_F.LoadResFile.ToArray
+            Yield My.Resources.G_K.LoadResFile.ToArray
+            Yield My.Resources.L_N.LoadResFile.ToArray
+            Yield My.Resources.O_R.LoadResFile.ToArray
+            Yield My.Resources.S.LoadResFile.ToArray
+            Yield My.Resources.T_Z.LoadResFile.ToArray
         End Function
 
         <Extension>
-        Private Function __recognitionParser(s As String) As Recognition
-            Dim sides As String() = Regex.Matches(s, "<code>.+?</code>", RegexOptions.IgnoreCase Or RegexOptions.Singleline).ToArray(Function(ss) ss.GetValue)
-            Dim sh = (From ss As String In sides Let sd As String = Regex.Match(ss, "\d'").Value Select sd, seq = ss.Replace(sd, "").Trim).ToArray
-            Dim F As String = (From x In sh Where String.Equals(x.sd, "5'") Select x.seq).FirstOrDefault
-            Dim R As String = (From x In sh Where String.Equals(x.sd, "3'") Select x.seq).FirstOrDefault
-            Return New Recognition With {
-                .Forwards = F,
-                .Reversed = R
+        Private Iterator Function LoadResFile(file As String) As IEnumerable(Of Enzyme)
+            Dim table As EnzymeTable() = DataFrame.Parse(content:=file) _
+                .AsDataSource(Of EnzymeTable) _
+                .ToArray
+
+            For Each row As EnzymeTable In table
+                Yield New Enzyme With {
+                    .Enzyme = row.enzyme,
+                    .Isoschizomers = row.isoschizomers.StringSplit(",\s*"),
+                    .PDB = row.pdb,
+                    .Source = row.organism,
+                    .Recognition = ParseRecognition(row.recognition),
+                    .Cut = ParseCutSites(row.cut).ToArray
+                }
+            Next
+        End Function
+
+        Private Iterator Function ParseCutSites(str As String) As IEnumerable(Of Cut)
+            Dim si As String() = str.Matches("\d'\s+[-]+.+[-]+\s+\d'").ToArray
+            Dim reversed As Boolean
+            Dim s2 As String()
+
+            For Each s As String In si
+                If s.StartsWith("3'") Then
+                    reversed = True
+                Else
+                    reversed = False
+                End If
+
+                s = s.StringReplace("5'", "").StringReplace("3'", "").Trim(" "c, "-"c)
+                s2 = s.Split
+
+                Yield New Cut With {
+                    .Reversed = reversed,
+                    .Left = s2(0),
+                    .Right = s2(1)
+                }
+            Next
+        End Function
+
+        Private Function ParseRecognition(str As String) As Recognition
+            Dim si As String() = str.Matches("\d'.+").ToArray
+            Dim r As New Recognition With {
+                .Forwards = si(0),
+                .Reversed = si(1)
             }
-        End Function
 
-        <Extension> Public Function __cutsParser(s As String) As Cut()
-            Dim sides As String() = Regex.Matches(s, "<code>.+?</code>", RegexOptions.IgnoreCase Or RegexOptions.Singleline).ToArray(Function(ss) Regex.Replace(ss.GetValue, htmlTag, "@"))
-            Return sides.Select(Function(ss) Cut.Parser(ss)).ToArray
-        End Function
-
-        <Extension> Public Function __isoschizomersParser(s As String) As String()
-            s = Regex.Replace(s, htmlTag, "").Trim
-            Dim tokens As String() = s.Split(","c).Select(Function(ss) ss.Trim).ToArray
-            tokens = (From ss As String In tokens Where Not String.IsNullOrEmpty(ss) Select ss).ToArray
-            Return tokens
+            Return r
         End Function
     End Module
+
+    Friend Class EnzymeTable
+
+        Public Property enzyme As String
+        Public Property pdb As String
+        Public Property organism As String
+        Public Property recognition As String
+        Public Property cut As String
+        Public Property isoschizomers As String
+
+    End Class
 End Namespace
