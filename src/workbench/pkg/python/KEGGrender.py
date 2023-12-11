@@ -1,8 +1,10 @@
 #!/usr/bin/python3
 
-import json 
 import os
-import sys
+import r_lambda
+from r_lambda.docker import docker_image
+
+# pip3 install r_lambda
 
 from pathlib import Path
 import random
@@ -14,13 +16,21 @@ except:
     # do nothing
     print("enrich_df parameter should be a file path.")
 
+# const KEGG_MapRender = function(enrich, 
+#    map_id        = "KEGG",
+#    pathway_links = "pathway_links",
+#    outputdir     = "./",
+#    min_objects   = 0,
+#    kegg_maps     = NULL) {
+
 def render(enrich_df, 
-           outputdir = "./", 
-           map_id = "KEGG",
-           pathway_links = "pathway_links",
-           image = "dotnet:gcmodeller_20230401",
-           kegg_maps = "/opt/biodeep/kegg/KEGG_maps.pack",
-           run_debug = False):
+           outputdir     = "./", 
+           map_id        = "KEGG",
+           pathway_links = "pathway_links",           
+           min_objects   = 0,
+           kegg_maps     = None,
+           image         = "dotnet:gcmodeller_20230401",
+           run_debug     = False):
     """
     Do KEGG pathway map rendering locally
     ----
@@ -45,92 +55,32 @@ def render(enrich_df,
     else:
         enrich_df.to_csv(enrich_file)
 
+    v = []
+
+    if not kegg_maps:
+        v = ["enrich_file","outputdir"]
+    else:
+        v = ["enrich_file","kegg_maps","outputdir"]
+
     outputdir = os.path.abspath(outputdir)
     enrich_file = os.path.abspath(enrich_file)
     args = {
+        "enrich": enrich_file,
         "map_id": map_id,
         "pathway_links": pathway_links,
-        "outputdir": outputdir,
-        "enrich": enrich_file,
+        "outputdir": outputdir,       
+        "min_objects" min_objects, 
         "kegg_maps": kegg_maps
     }
 
-    # setup the r_lambda environment variables
-    setup_renvironment(args, outputdir)
-
-    RSCRIPT_HOST   = "/usr/local/bin/Rscript.dll"    
-    RSCRIPT_LAMBDA = "--lambda GCModeller::KEGG_MapRender --SetDllDirectory /usr/local/bin/"
-
-    # run docker pipeline shell command
-    exit_code = run_docker(
-        image_id = image, 
-        app = RSCRIPT_HOST, 
-        arguments = RSCRIPT_LAMBDA, 
-        argv = args, 
-        run_debug = run_debug
+    return r_lambda.call_lambda(
+        "GCModeller::KEGG_MapRender",
+        argv=args,
+        options={"cache.enable": True},
+        workdir=outputdir,
+        docker=docker_image(id=image, volumn=v, name=None, tty=False),
+        run_debug=run_debug
     )
-
-    return exit_code
-
-def setup_renvironment(argv, outputdir):
-
-    print("*************** setup the R-dotnet runtime environment variables *****************")
-    print("")
-    print("view of your input parameters:")
-    print(argv)
-
-    # Serializing json and setup Rscript envrionment variables 
-    # at current workspace
-    argv_str = json.dumps(argv, indent = 2)
-    pwd = os.path.abspath(outputdir)
-    r_env = os.path.join(pwd, ".r_env")
-
-    if not os.path.exists(r_env): 
-        os.makedirs(r_env)
-
-    jsonfile = open("{}/.r_env/run.json".format(pwd), 'w')
-    jsonfile.write(argv_str)
-    jsonfile.close()
-
-def docker_shell(image_id, app, arguments, argv):
-    docker = os.popen('which docker').read().strip()
-    workspace = argv["outputdir"]
-
-    run_pipeline = []
-    run_pipeline.append("docker run -it --rm -e WINEDEBUG=-all")
-    run_pipeline.append("-v /var/run/docker.sock:/run/docker.sock")
-    run_pipeline.append("-v \"{0}:/bin/docker\"".format(docker))
-    run_pipeline.append("-v \"{0}:{0}\"".format(argv["enrich"]))
-    run_pipeline.append("-v \"{0}:{0}\"".format(workspace))
-    run_pipeline.append("-v \"/tmp:/tmp\"")
-    run_pipeline.append("-w \"{0}\"".format(workspace))
-    run_pipeline.append("--privileged=true")
-    run_pipeline.append(image_id)
-    run_pipeline.append("dotnet")
-    run_pipeline.append(app)
-    
-    return ' '.join(run_pipeline + arguments)
-
-def run_docker(image_id, app, arguments, argv, run_debug = False):
-    shell = 0
-    shell_command = docker_shell(image_id, app, [arguments], argv)
-    
-    print("")
-    print("Run shell commandline:")
-    print(shell_command)
-    print("")
-
-    if not run_debug:
-        shell = os.system(shell_command)
-    else:
-        print("skip of run docker shell command!")
-
-    print("run docker pipeline job done!")
-    print("exit={0}".format(shell))
-    print("")
-
-    return shell
-
 
 if __name__ == "__main__":
 
