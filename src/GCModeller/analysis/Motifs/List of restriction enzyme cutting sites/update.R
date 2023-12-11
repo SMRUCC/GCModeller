@@ -26,6 +26,6 @@ for(link in url) {
     |> http::requests.get() 
     |> http::content()
     |> writeLines(
-        con = `./txt/${name}.txt`;
+        con = `./txt/${name}.html`;
     );
 }
