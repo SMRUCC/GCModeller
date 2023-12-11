@@ -12,13 +12,22 @@ load list of kegg reference @\fBT:SMRUCC.genomics.Assembly.KEGG.WebServices.XML.
 .SH OPTIONS
 .PP
 \fBrepository\fB \fR\- 
- a directory of repository data for kegg reference @\fBT:SMRUCC.genomics.Assembly.KEGG.WebServices.XML.Map\fR.
+ repository data source could be:
+ 
+ 1. a directory of repository data for kegg reference @\fBT:SMRUCC.genomics.Assembly.KEGG.WebServices.XML.Map\fR.
+ 2. a file stream for the map vector in messagepack or HDS pack format
 . 
 .PP
 .SH VALUE
 .PP
 a kegg reference map object vector, which can be indexed 
  via @\fBP:SMRUCC.genomics.ComponentModel.Annotation.PathwayBrief.EntryId\fR.
+ 
+ the data type will be dertermined by the **`rawMaps`** parameter:
+ 
+ 1. for raw maps TRUE: a vector of the @\fBT:SMRUCC.genomics.Assembly.KEGG.WebServices.XML.Map\fR object will be returns
+ 2. for raw maps FALSE: a wrapper of the kegg map collection 
+    @\fBT:SMRUCC.genomics.Assembly.KEGG.WebServices.MapRepository\fR will be generates from this function
 .PP
 .SH SEE ALSO
 repository
