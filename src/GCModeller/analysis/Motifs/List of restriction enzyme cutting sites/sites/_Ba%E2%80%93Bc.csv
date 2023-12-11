@@ -1,0 +1,30 @@
+enzyme,pdb,organism,recognition,cut,isoschizomers
+Bac36I,,Bacillus alcalophilus 36,5' GGNCC 3' CCNGG,5' ---G GNCC--- 3' 3' ---CCNG G--- 5',"AspS9I, AvcI, BavAII, Bce22I, Bsp1894I, Bsu54I, FmuI, NspIV"
+BaeI[7],,Bacillus sphaericus,5' ACN4GTAYC 3' TGN4CATYG,5' ---ACN4GTAYCN6NNNNNN --- 3' 3' ---TGN4CATYGN6N NNNNN--- 5',— None in May 2010 —
+BalI[8][9],,Brevibacterium albidum,5' TGGCCA 3' ACCGGT,5' ---TGG CCA--- 3' 3' ---ACC GGT--- 5',
+Bal228I,,Bacillus alcalophilus 228,5' GGNCC 3' CCNGG,5' ---G GNCC--- 3' 3' ---CCNG G--- 5',"AspS9I, AvcI, BavAII, BshKI, Bsp1894I, Bsu54I, FmuI, NspIV"
+BamHI[10][11][12][13][14][15][16][17][18][19][20][21][22][23][24][25][26][27][28][29][30],1BAM,Bacillus amyloliquefaciens H,5' GGATCC 3' CCTAGG,5' ---G GATCC--- 3' 3' ---CCTAG G--- 5',"AccEBI, AliI, ApaCI, AsiI, Bce751I, Bsp98I, Bsp4009I, BspAAIII, CelI, Nsp29132II, NspSAIV, SolI, SurI"
+BamNII,,Bacillus amyloliquefaciens N,5' GGWCC 3' CCWGG,5' ---G GWCC--- 3' 3' ---CCWG G--- 5',"BcuAI, BsrAI, CauI, EagMI, FdiI, HgiCII, HgiJI, SinI"
+BanI[31][32],,Bacillus aneurinolyticus,5' GGYRCC 3' CCRYGG,5' ---G GYRCC--- 3' 3' ---CCRYG G--- 5',"AccB1I, BbvBI, BspT107I, Eco64I, HgiCI, HgiHI, MspB4I, PfaAI"
+BanII[12][31],,Bacillus aneurinolyticus,5' GRGCYC 3' CYCGRG,5' ---GRGCY C--- 3' 3' ---C YCGRG--- 5',
+BanIII[31],,Bacillus aneurinolyticus,5' ATCGAT 3' TAGCTA,5' ---AT CGAT--- 3' 3' ---TAGC TA--- 5',"AagI, BavCI, Bsa29I, BseCI, BspDI, Bsu15I, BsuTUI, ClaI"
+BanAI,,Bacillus anthracis,5' GGCC 3' CCGG,5' ---GG CC--- 3' 3' ---CC GG--- 5',
+BasI,,Bacillus sp.,5' CCAN5TGG 3' GGTN5ACC,5' ---CCANNNN NTGG--- 3' 3' ---GGTN NNNNACC--- 5',"AccB7I, AcpII, Asp10HII, Esp1396I, PflBI, PflMI, Van91I"
+BauI,,Bacillus aquaemaris RFL1,5' CACGAG 3' GTGCTC,5' ---C ACGAG--- 3' 3' ---GTGCT C--- 5',
+BavI,,Bacillus alvei,5' CAGCTG 3' GTCGAC,5' ---CAG CTG--- 3' 3' ---GTC GAC--- 5',
+BavAI,,Bacillus alvei A,5' CAGCTG 3' GTCGAC,5' ---CAG CTG--- 3' 3' ---GTC GAC--- 5',
+BavAII,,Bacillus alvei A,5' GGNCC 3' CCNGG,5' ---G GNCC--- 3' 3' ---CCNG G--- 5',"AspS9I, AvcI, BavBII, BshKI, Bsp1894I, Bsu54I, FmuI, NspIV"
+BavBI,,Bacillus alvei B,5' CAGCTG 3' GTCGAC,5' ---CAG CTG--- 3' 3' ---GTC GAC--- 5',
+BavBII,,Bacillus alvei B,5' GGNCC 3' CCNGG,5' ---G GNCC--- 3' 3' ---CCNG G--- 5',"AspS9I, Bac36I, BavAII, BshKI, BspBII, Bsu54I, FmuI, Pde12I"
+BavCI,,Bacillus alvei C,5' ATCGAT 3' TAGCTA,5' ---AT CGAT--- 3' 3' ---TAGC TA--- 5',"AagI, BanIII, Bsa29I, BseCI, BspDI, Bsu15I, BsuTUI, ClaI"
+BbeI[33],,Bifidobacterium breve YIT4006,5' GGCGCC 3' CCGCGG,5' ---GGCGC C--- 3' 3' ---C CGCGG--- 5',
+BbiII,,Bifidobacterium bifidum YIT4007,5' GRCGYC 3' CYGCRG,5' ---GR CGYC--- 3' 3' ---CYGC RG--- 5',"AcyI, AhaII, BbiII, HgiHII, Hin1I, Hsp92I, Msp17I, PamII"
+Bbi24I,,Bifidobacterium bifidum S-24,5' ACGCGT 3' TGCGCA,5' ---A CGCGT--- 3' 3' ---TGCGC A--- 5',
+BbrI,,Bordetella bronchiseptica 4994,5' AAGCTT 3' TTCGAA,5' ---A AGCTT--- 3' 3' ---TTCGA A--- 5',
+Bbr7I,,Bacillus brevis 7,5' GAAGAC 3' CTTCTG,5' ---GAAGACN6N NNNNN--- 3' 3' ---CTTCTGN6NNNNNN --- 5',
+BbrPI[34][35],,Bacillus brevis,5' CACGTG 3' GTGCAC,5' ---CAC GTG--- 3' 3' ---GTG CAC--- 5',"AcvI, BcoAI, Eco72I, PmaCI, PmlI, PspCI"
+BbsI[36],,Bacillus laterosporus,5' GAAGAC 3' CTTCTG,5' ---GAAGACNN NNNN--- 3' 3' ---CTTCTGNNNNNN --- 5',
+BbuI[37],,Bacillus circulans,5' GCATGC 3' CGTACG,5' ---GCATG C--- 3' 3' ---C GTACG--- 5',
+BbvI[38][39],,Bacillus brevis,5' GCAGC 3' CGTCG,5' ---GCAGCN7N NNNN--- 3' 3' ---CGTCGN7NNNNN --- 5',"AlwXI, BseKI, BseXI, Bsp423I, Bst12I, Bst71I, BstV1I"
+BbvII[40],,Bacillus brevis 80,5' GAAGAC 3' CTTCTG,5' ---GAAGACNN NNNN--- 3' 3' ---CTTCTGNNNNNN --- 5',
+Bbv12I[41],,Bacillus brevis 12,5' GWGCWC 3' CWCGWG,5' ---GWGCW C--- 3' 3' ---C WCGWG--- 5',"Alw21I, AspHI, Bsh45I, BsiHKAI,"

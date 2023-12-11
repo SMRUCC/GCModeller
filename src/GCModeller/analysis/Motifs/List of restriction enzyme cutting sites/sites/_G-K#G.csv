@@ -1,0 +1,25 @@
+enzyme,pdb,organism,recognition,cut,isoschizomers
+GalI,,Gluconobacter albidus,5' CCGCGG 3' GGCGCC,5' ---CCGC GG--- 3' 3' ---GG CGCC--- 5',
+GceI,,Gluconobacter cerinus,5' CCGCGG 3' GGCGCC,5' ---CCGC GG--- 3' 3' ---GG CGCC--- 5',
+GceGLI,,Gluconobacter cerinus,5' CCGCGG 3' GGCGCC,5' ---CCGC GG--- 3' 3' ---GG CGCC--- 5',
+GdiI,,Gluconobacter dioxyacetonicus,5' AGGCCT 3' TCCGGA,5' ---AGG CCT--- 3' 3' ---TCC GGA--- 5',"AatI, AspMI, Eco147I, PceI, SarI, Sru30DI, SseBI, SteI, StuI"
+GdiII,,Gluconobacter dioxyacetonicus,5' CGGCCR 3' GCCGGY,5' ---C GGCCR--- 3' 3' ---GCCGG Y--- 5',
+GstI,,Geobacillus stearothermophilus,5' GGATCC 3' CCTAGG,5' ---G GATCC--- 3' 3' ---CCTAG G--- 5',
+GsuI,,Gluconobacter suboxydans H-15T,5' CTGGAG 3' GACCTC,5' ---CTGGAGN12NNNN --- 3' 3' ---GACCTCN12NN NN--- 5',
+HacI,,Halococcus acetoinfaciens,5' GATC 3' CTAG,5' --- GATC--- 3' 3' ---CTAG --- 5',"Bme12I, Bsp67I, BstENII, CcyI, FnuEI, MgoI, NphI, Sau3AI"
+HaeI,,Haemophilus aegyptius,5' WGGCCW 3' WCCGGW,5' ---WGG CCW--- 3' 3' ---WCC GGW--- 5',
+HaeII,,Haemophilus aegypticus,5' RGCGCY 3' YCGCGR,5' ---RGCGC Y--- 3' 3' ---Y CGCGR--- 5',"AccB2I,"
+"Bsp143II, BstH2I, LpnI",,,,,
+ItaI,,Ilyobcater tartaricus,5' GCNGC 3' CGNCG,5' ---GC NGC--- 3' 3' ---CGN CG--- 5',
+KasI,,Kluyvera ascorbata,5' GGCGCC 3' CCGCGG,5' ---G GCGCC--- 3' 3' ---CCGCG G--- 5',
+Kaz48kI,,Klebsiella azeanae,5' RGGNCCY 3' YCCNGGR,5' ---RGGNC CY--- 3' 3' ---YC CNGGR--- 5',
+KoxII,,Klebsiella oxytoca,5' GRGCYC 3' CYCGRG,5' ---GRGCY C--- 3' 3' ---C YCGRG--- 5',
+KpnI[8],,Klebsiella pneumoniae OK8,5' GGTACC 3' CCATGG,5' ---GGTAC C--- 3' 3' ---C CATGG--- 5',"Acc65I, AhaB8I, Asp718I, SthI"
+Kpn2I,,Klebsiella pneumoniae RFL2,5' TCCGGA 3' AGGCCT,5' ---T CCGGA--- 3' 3' ---AGGCC T--- 5',"Aor13HI, BbvAIII, BseAI, BsiMI, BspEI, BspMII, CauB3I, MroI"
+Kpn378I,,Klebsiella pneumoniae 378,5' CCGCGG 3' GGCGCC,5' ---CCGC GG--- 3' 3' ---GG CGCC--- 5',
+Kpn2kI,,Klebsiella pneumoniae 2k,5' CCNGG 3' GGNCC,5' --- CCNGG--- 3' 3' ---GGNCC --- 5',
+Kpn49kI,,Klebsiella pneumoniae 49k,5' GAATTC 3' CTTAAG,5' ---G AATTC--- 3' 3' ---CTTAA G--- 5',
+Kpn49kII,,Klebsiella pneumoniae 49k,5' CCSGG 3' GGSCC,5' --- CCSGG--- 3' 3' ---GGSCC --- 5',"AhaI, AsuC2I, BcnI, CauII, EcoHI, HgiS22I, Mgl14481I, NciI,"
+KspI,,Kluyvera sp.,5' CCGCGG 3' GGCGCC,5' ---CCGC GG--- 3' 3' ---GG CGCC--- 5',
+Ksp22I,,Kurthia sp. 22,5' TGATCA 3' ACTAGT,5' ---T GATCA--- 3' 3' ---ACTAG T--- 5',"AbaI, BclI, BsiQI,"
+"BspXII, BstT7I, FbaI,",ParI,,,,

@@ -1,0 +1,67 @@
+enzyme,pdb,organism,recognition,cut,isoschizomers
+LcaI,,Lactobacillus casei,5' ATCGAT 3' TAGCTA,5' ---AT CGAT--- 3' 3' ---TAGC TA--- 5',"BdiI, Bli41I, Bsa29I, BscI, Bsp106I, BspDI, Bst28I, LplI, PgaI, ZhoI"
+LlaAI,,Lactococcus lactis cremoris W9,5' GATC 3' CTAG,5' --- GATC--- 3' 3' ---CTAG --- 5',"Bme12I, Bsp67I, BstENII, ChaI, FnuEI, MgoI, NphI, RalF40I"
+LlaBI,,Lactococcus lactis cremoris W56,5' CTRYAG 3' GAYRTC,5' ---C TRYAG--- 3' 3' ---GAYRT C--- 5',
+LlaCI,,Lactococcus lactis W15,5' AAGCTT 3' TTCGAA,5' ---A AGCTT--- 3' 3' ---TTCGA A--- 5',
+LlaG2I,,Lactococcus lactis cremoris,5' GCTAGC 3' CGATCG,5' ---G CTAGC--- 3' 3' ---CGATC G--- 5',"AceII, AsuNHI, BmtI,"
+"NheI, PstNHI",,,,,
+MabI,,Microbacterium arborescens SE,5' ACCWGGT 3' TGGWCCA,5' ---A CCWGGT--- 3' 3' ---TGGWCC A--- 5',
+MaeI,,Methanococcus aeolicus PL-15/H,5' CTAG 3' GATC,5' ---C TAG--- 3' 3' ---GAT C--- 5',
+MaeII,,Methanococcus aeolicus,5' ACGT 3' TGCA,5' ---A CGT--- 3' 3' ---TGC A--- 5',
+MaeIII,,Methanococcus aeolicus,5' GTNAC 3' CANTG,5' --- GTNAC--- 3' 3' ---CANTG --- 5',
+MaeK81I,,Microcystis aeruginosa K-81,5' CGTACG 3' GCATGC,5' ---C GTACG--- 3' 3' ---GCATG C--- 5',
+MaeK81II,,Microcystis aeruginosa,5' GGNCC 3' CCNGG,5' ---G GNCC--- 3' 3' ---CCNG G--- 5',"AsuI, Bal228I, Bce22I, BsiZI, BspF4I, Cfr13I, Nsp7121I, Sau96I"
+MamI,,Microbacterium ammoniaphilum,5' GATN4ATC 3' CTAN4TAG,5' ---GATNN NNATC--- 3' 3' ---CTANN NNTAG--- 5',
+MavI,,Mycobacterium avium,5' CTCGAG 3' GAGCTC,5' ---C TCGAG--- 3' 3' ---GAGCT C--- 5',"BspAAI, BstVI, MlaAI, PaeR7I, SauLPII, SciI, SlaI, Sol10179I, XhoI"
+MbiI,,Moraxella bovis Fr1-022,5' CCGCTC 3' GGCGAG,5' ---CCG CTC--- 3' 3' ---GGC GAG--- 5',"AccBSI, BsrBI, BstD102I, Bst31NI"
+MboI,,Moraxella bovis,5' GATC 3' CTAG,5' --- GATC--- 3' 3' ---CTAG --- 5',"AspMDI, Bsp105I, BspFI, BstMBI, CviAI, Kzo9I, NdeII, Sth368I"
+MboII,,Moraxella bovis,5' GAAGA 3' CTTCT,5' ---GAAGAN6NN --- 3' 3' ---CTTCTN6N N--- 5',
+MchI,,Micromonospora chalcea,5' GGCGCC 3' CCGCGG,5' ---GG CGCC--- 3' 3' ---CCGC GG--- 5',
+MchAI,,Mycobacterium chelonae,5' GCGGCCGC 3' CGCCGGCG,5' ---GC GGCCGC--- 3' 3' ---CGCCGG CG--- 5',
+MchAII,,Mycobacterium chelonae,5' GGCC 3' CCGG,5' ---GG CC--- 3' 3' ---CC GG--- 5',
+McrI,,Micrococcus cryophilus,5' CGRYCG 3' GCYRGC,5' ---CGRY CG--- 3' 3' ---GC YRGC--- 5',
+MfeI,,Mycoplasma fermentans,5' CAATTG 3' GTTAAC,5' ---C AATTG--- 3' 3' ---GTTAA C--- 5',
+MflI,,Microbacterium flavum,5' RGATCY 3' YCTAGR,5' ---R GATCY--- 3' 3' ---YCTAG R--- 5',
+MfoAI,,Mycobacterium fortuitum TMC 1529,5' GGCC 3' CCGG,5' ---GG CC--- 3' 3' ---CC GG--- 5',
+Mgl14481I,,Merismopedia glauca 1448-1,5' CCSGG 3' GGSCC,5' ---CC SGG--- 3' 3' ---GGS CC--- 5',"AseII, AsuC2I, BcnI, BpuMI, CauII, Eco1831I, EcoHI, HgiS22I, NciI"
+MgoI,,Mycobacterium gordonae,5' GATC 3' CTAG,5' --- GATC--- 3' 3' ---CTAG --- 5',"AspMDI, BspAI, BstENII, ChaI, FnuEI, MkrAI, NphI, Sau3AI"
+MhaAI,,Mycobacterium habana 206,5' CTGCAG 3' GACGTC,5' ---CTGCA G--- 3' 3' ---G ACGTC--- 5',"AliAJI, Asp713I, Bsp63I, CstI, Ecl37kI, HalII, PaePI, PstI, YenI"
+MhlI,,Micrococcus halobius SD,5' GDGCHC 3' CHCGDG,5' ---GDGCH C--- 3' 3' ---C HCGDG--- 5',"AocII, BmyI, BsoCI, Bsp1286I, BspLS2I, MhlI, SduI"
+MkrAI,,Micrococcus kristinae,5' GATC 3' CTAG,5' --- GATC--- 3' 3' ---CTAG --- 5',"Bme12I, BspAI, BstENII, ChaI, FnuEI, MgoI, NphI, Sau3AI"
+MlaI,,Mastigocladus laminosus,5' TTCGAA 3' AAGCTT,5' ---TT CGAA--- 3' 3' ---AAGC TT--- 5',"Asp10HI, BimI, BsiCI, BstBI, Csp68KII, LspI, PlaII, Ssp1I"
+MlaAI,,Micromonospora lacustris,5' CTCGAG 3' GAGCTC,5' ---C TCGAG--- 3' 3' ---GAGCT C--- 5',"BspAAI, BstVI, PanI, SauLPII, Sbi68I, Sfr274I, SlaI, XhoI"
+MlsI,,Micrococcus luteus Ng 16-122,5' TGGCCA 3' ACCGGT,5' ---TGG CCA--- 3' 3' ---ACC GGT--- 5',
+MltI,,Micrococcus luteus,5' AGCT 3' TCGA,5' ---AG CT--- 3' 3' ---TC GA--- 5',"AluBI, AluI"
+MluI,,Micrococcus luteus,5' ACGCGT 3' TGCGCA,5' ---A CGCGT--- 3' 3' ---TGCGC A--- 5',
+Mlu23I,,Micrococcus luteus 23,5' GGATCC 3' CCTAGG,5' ---G GATCC--- 3' 3' ---CCTAG G--- 5',
+Mlu31I,,Micrococcus luteus 31,5' TGGCCA 3' ACCGGT,5' ---TGG CCA--- 3' 3' ---ACC GGT--- 5',
+MluB2I,,Micrococcus luteus B2,5' TCGCGA 3' AGCGCT,5' ---TCG CGA--- 3' 3' ---AGC GCT--- 5',
+MluNI,,Micrococcus luteus N,5' TGGCCA 3' ACCGGT,5' ---TGG CCA--- 3' 3' ---ACC GGT--- 5',
+MlyI,,Micrococcus lylae,5' GAGTC 3' CTCAG,5' ---GAGTCN4N --- 3' 3' ---CTCAGN4N --- 5',
+Mly113I,,Micrococcus lylae 113,5' GGCGCC 3' CCGCGG,5' ---GG CGCC--- 3' 3' ---CCGC GG--- 5',
+MmeI,,Methylophilus methylotrophus,5' TCCRAC 3' AGGYTG,5' ---TCCRACN17NNN --- 3' 3' ---AGGYTGN17N NN--- 5',
+MnlI,,Moraxella nonliquefaciens,5' CCTC 3' GGAG,5' ---CCTCN4NNN --- 3' 3' ---GGAGN4NN N--- 5',
+MnoI,,Moraxella nonliquefaciens,5' CCGG 3' GGCC,5' ---C CGG--- 3' 3' ---GGC C--- 5',
+Mph1103I,,Moraxella phenylpyruvica RFL1103,5' ATGCAT 3' TACGTA,5' ---ATGCA T--- 3' 3' ---T ACGTA--- 5',"BfrBI, Csp68KIII, EcoT22I, NsiI, PinBI, Ppu10I, SepI, SspD5II"
+MroI,,Micrococcus roseus,5' TCCGGA 3' AGGCCT,5' ---T CCGGA--- 3' 3' ---AGGCC T--- 5',"BbvAIII, BseAI, Bsp13I, BspEI, Bsu23I, CauB3I, PinBII, PtaI"
+MroNI,,Micrococcus roseus N,5' GCCGGC 3' CGGCCG,5' ---G CCGGC--- 3' 3' ---CGGCC G--- 5',
+MroXI,,Micrococcus roseus XM,5' GAAN4TTC 3' CTTN4AAG,5' ---GAANN NNTTC--- 3' 3' ---CTTNN NNAAG--- 5',"Asp700I, BbvAI, PdmI, XmnI"
+MscI,,Micrococcus sp.,5' TGGCCA 3' ACCGGT,5' ---TGG CCA--- 3' 3' ---ACC GGT--- 5',
+MseI,,Micrococcus sp.,5' TTAA 3' AATT,5' ---T TAA--- 3' 3' ---AAT T--- 5',
+MslI,,Moraxella osloensis,5' CAYN4RTG 3' GTRN4YAC,5' ---CAYNN NNRTG--- 3' 3' ---GTRNN NNYAC--- 5',
+MspI,"1SA3, 1YFI, Search PDBe",Moraxella sp.,5' CCGG 3' GGCC,5' ---C CGG--- 3' 3' ---GGC C--- 5',
+Msp17I,,Micrococcus sp. 17,5' GRCGYC 3' CYGCRG,5' ---GR CGYC--- 3' 3' ---CYGC RG--- 5',"AsuIII, BsaHI, BstACI, HgiGI, HgiHII, Hin1I, Msp17I, PamII"
+Msp20I,,Micrococcus sp.,5' TGGCCA 3' ACCGGT,5' ---TGG CCA--- 3' 3' ---ACC GGT--- 5',
+Msp67I,,Micrococcus sp. MS67,5' CCNGG 3' GGNCC,5' ---CC NGG--- 3' 3' ---GGN CC--- 5',
+MspA1I,,Moraxella sp. A1,5' CMGCKG 3' GKCGMC,5' ---CMG CKG--- 3' 3' ---GKC GMC--- 5',
+MspB4I,,Moraxella sp. B4,5' GGYRCC 3' CCRYGG,5' ---G GYRCC--- 3' 3' ---CCRYG G--- 5',"AccB1I, BanI, BshNI, BspT107I, Eco64I, HgiCI, HgiHI, PfaAI"
+MspCI,,Micrococcus sp.,5' CTTAAG 3' GAATTC,5' ---C TTAAG--- 3' 3' ---GAATT C--- 5',
+MspR9I,,Micrococcus sp. R9,5' CCNGG 3' GGNCC,5' ---CC NGG--- 3' 3' ---GGN CC--- 5',
+MspSWI,,Moraxella sp. SW,5' ATTTAAAT 3' TAAATTTA,5' ---ATTT AAAT--- 3' 3' ---TAAA TTTA--- 5',
+MspV281I,,Myxosarcinia sp. V/281,5' GWGCWC 3' CWCGWG,5' ---GWGCW C--- 3' 3' ---C WCGWG--- 5',"Alw21I, AspHI, Bbv12I, Bsh45I, BsiHKAI,"
+"Bsm6I,","HgiAI,","HpyF46II,",,,
+NaeI,"1EV7, 1iaw, Search PDB",Nocardia aerocolonigenes,5' GCCGGC 3' CGGCCG,5' ---GCC GGC--- 3' 3' ---CGG CCG--- 5',
+NarI,,Nocardia argentinensis,5' GGCGCC 3' CCGCGG,5' ---GG CGCC--- 3' 3' ---CCGC GG--- 5',
+NblI,,Nocardia blackwellii,5' CGATCG 3' GCTAGC,5' ---CGAT CG--- 3' 3' ---GC TAGC--- 5',"Afa16RI, Afa22MI, EagBI, MvrI, Ple19I, Psu161I, RshI, XorII"
+NciI,,Neisseria cinerea,5' CCSGG 3' GGSCC,5' ---CC SGG--- 3' 3' ---GGS CC--- 5',"AhaI, AseII, AsuC2I,"
+"CauII, EcoHI, HgiS22I, Mgl14481I",,,,,

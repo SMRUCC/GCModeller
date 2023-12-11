@@ -1,0 +1,43 @@
+enzyme,pdb,organism,recognition,cut,isoschizomers
+CacI,,Clostridium acetobutylicum N1-4081,5' GATC 3' CTAG,5' --- GATC--- 3' 3' ---CTAG --- 5',
+Cac8I,,Clostridium acetobutylicum ABKn8,5' GCNNGC 3' CGNNCG,5' ---GCN NGC--- 3' 3' ---CGN NCG--- 5',
+CaiI,,Comamonas acidovarans Iti19-021,5' CAGNNNCTG 3' GTCNNNGAC,5' ---CAGNNN CTG--- 3' 3' ---GTC NNNGAC--- 5',AlwNI
+CauI,,Chloroflexus aurantiacus,5' GGWCC 3' CCWGG,5' ---G GWCC--- 3' 3' ---CCWG G--- 5',"BamNxI, BcuAI, BsrAI, Eco47I, FspMSI, HgiCII, HgiJI, SmuEI"
+CauII,,Chloroflexus aurantiacus,5' CCSGG 3' GGSCC,5' ---CC SGG--- 3' 3' ---GGS CC--- 5',"AhaI, AseII, AsuC2I, BcnI, Eco1831I, EcoHI, Kpn49kII, NciI"
+CauB3I,,Chloroflexus aurantiacus B3,5' TCCGGA 3' AGGCCT,5' ---T CCGGA--- 3' 3' ---AGGCC T--- 5',"Aor13HI, BbvAIII, BseAI, BspEI, BspMII, Kpn2I, MroI, PtaI"
+CbiI,,Clostridium bifermentans B-4,5' TTCGAA 3' AAGCTT,5' ---TT CGAA--- 3' 3' ---AAGC TT--- 5',"Asp10HI, Bim19I, BsiCI, BspT104I, Csp45I, LspI, NspV, SspRFI"
+CboI,,Clostridium botulinum,5' CCGG 3' GGCC,5' ---C CGG--- 3' 3' ---GGC C--- 5',
+CbrI,,Citrobacter braakii 1146,5' CCWGG 3' GGWCC,5' ---CC WGG--- 3' 3' ---GGW CC--- 5',"AorI, BseBI, Bse24I, BstNI, BstOI, Bst2UI, BthDI, EcoRII, MvaI"
+CciNI,,Curtobacterium citreus,5' GCGGCCGC 3' CGCCGGCG,5' ---GC GGCCGC--- 3' 3' ---CGCCGG CG--- 5',
+CcoI,,Clostridium coccoides B-2,5' GCCGGC 3' CGGCCG,5' ---GCC GGC--- 3' 3' ---CGG CCG--- 5',
+CcrI,,Caulobacter crescentus CB-13,5' CTCGAG 3' GAGCTC,5' ---C TCGAG--- 3' 3' ---GAGCT C--- 5',
+CcuI,,Chroococcidiopsis cubana,5' GGNCC 3' CCNGG,5' ---G GNCC--- 3' 3' ---CCNG G--- 5',"AsuI, Bal228I, BavBII, BsiZI, BspF4I, Cfr13I, Nsp7121I, PspPI"
+CcyI,,Clostridium cylindrosporum,5' GATC 3' CTAG,5' --- GATC--- 3' 3' ---CTAG --- 5',"BfuCI, Bsp67I, Bst19II, CviAI, FnuCI, MboI, NmeCI, SauMI"
+CdiI,,Citrobacter freundii RFL2,5' CATCG 3' GTAGC,5' ---CATC G--- 3' 3' ---GTAG C--- 5',
+CelI,,Citrobacter freundii RFL6,5' GGATCC 3' CCTAGG,5' ---G GATCC--- 3' 3' ---CCTAG G--- 5',"AliI, ApaCI, AsiI, BamHI, CelI, NspSAIV, RspLKII, SolI, Uba4009I"
+CelII,,Coccochloris elabens 17a,5' GCTNAGC 3' CGANTCG,5' ---GC TNAGC--- 3' 3' ---CGANT CG--- 5',
+CeqI,,Corynebacterium equi,5' GATATC 3' CTATAG,5' ---GAT ATC--- 3' 3' ---CTA TAG--- 5',
+CflI,,Cellulomonas flavigena,5' CTGCAG 3' GACGTC,5' ---CTGCA G--- 3' 3' ---G ACGTC--- 5',"AjoI, BloHII, CflI, CstI, Ecl37kI, PaePI, PstI, SalPI, Srl5DI, Sst12I"
+CfoI,,Clostridium formicoaceticum,5' GCGC 3' CGCG,5' ---GCG C--- 3' 3' ---C GCG--- 5',"AspLEI, BspLAI, BstHHI, FnuDIII, HhaI, HinP1I, HsoI, HspAI, SciNI"
+CfrI,,Citrobacter freundii RFL2,5' YGGCCR 3' RCCGGY,5' ---Y GGCCR--- 3' 3' ---RCCGG Y--- 5',
+Cfr6I,,Citrobacter freundii RFL6,5' CAGCTG 3' GTCGAC,5' ---CAG CTG--- 3' 3' ---GTC GAC--- 5',
+Cfr9I,,Citrobacter freundii,5' CCCGGG 3' GGGCCC,5' ---C CCGGG--- 3' 3' ---GGGCC C--- 5',"AhyI, EaeAI, EclRI, Pac25I, PspAI, TspMI, XcyI, XmaI, XmaCI"
+Cfr10I[7][8],1CFR,Citrobacter freundii RFL10,5' RCCGGY 3' YGGCCR,5' ---R CCGGY--- 3' 3' ---YGGCC R--- 5',
+Cfr13I,,Citrobacter freundii RFL13,5' GGNCC 3' CCNGG,5' ---G GNCC--- 3' 3' ---CCNG G--- 5',"AsuI, Bal228I, BavBII, BsiZI, BspF4I, FmuI, Nsp7121I, PspPI"
+Cfr42I,,Citrobacter freundii RFL42,5' CCGCGG 3' GGCGCC,5' ---CCGC GG--- 3' 3' ---GG CGCC--- 5',"SacII, CscI, HgaI"
+CfrA4I,,Citrobacter freundii A4,5' CTGCAG 3' GACGTC,5' ---CTGCA G--- 3' 3' ---G ACGTC--- 5',"AjoI, BloHII, CflI, CstI, Ecl2zI, PaePI, PstI, SalPI, Srl5DI, Sst12I"
+CfrBI,,Citrobacter freundii 4111,5' CCWWGG 3' GGWWCC,5' ---C CWWGG--- 3' 3' ---GGWWC C--- 5',
+CfrJ4I,,Citrobacter freundii J4,5' CCCGGG 3' GGGCCC,5' ---CCC GGG--- 3' 3' ---GGG CCC--- 5',"AhyI, CfrJ4I, EaeAI, EclRI, Pac25I, SmaI, TspMI, XcyI, XmaI"
+CfuI,,Caulobacter fusiformis BC-25,5' GATC 3' CTAG,5' ---GA TC--- 3' 3' ---CT AG--- 5',
+CfuII,,Caulobacter fusiformis BC-25,5' CTGCAG 3' GACGTC,5' ---CTGCA G--- 3' 3' ---G ACGTC--- 5',"AjoI, AliAJI, CfuII, HalII, PaePI, Psp23I, PstI, SalPI, Srl5DI, YenI"
+ChaI,,Corynebacterium halofytica,5' GATC 3' CTAG,5' ---GATC --- 3' 3' --- CTAG--- 5',"BfuCI, Bsp2095I, BspKT6I BtkII, FnuCI, MboI, NmeCI, SsiAI"
+CjeI,,Campylobacter jejuni P37,5' CCAN6GT 3' GGTN6CA,5' ---CCAN6GTN8NNNNNNN --- 3' 3' ---GGTN6CAN8N NNNNNN--- 5',— None on May 2010 —
+CjePI,,Campylobacter jejuni P116,5' CCAN7TC 3' GGTN7AG,5' ---CCAN7TCN7NNNNNNN --- 3' 3' ---GGTN7AGN7N NNNNNN--- 5',— None on May 2010 —
+ClaI,,Caryophanon latum L,5' ATCGAT 3' TAGCTA,5' ---AT CGAT--- 3' 3' ---TAGC TA--- 5',"AagI, BanIII, BavCI, Bsa29I, BseCI, BspDI, Bsu15I, BsuTUI"
+CltI,,Caryophanon latum,5' GGCC 3' CCGG,5' ---GG CC--- 3' 3' ---CC GG--- 5',
+CpfI,,Clostridium perfringens,5' GATC 3' CTAG,5' --- GATC--- 3' 3' ---CTAG --- 5',"AspMDI, Bsp67I, Bst19II, CcyI, FnuCI, MboI, NphI, SauMI"
+CpoI,,Caseobacter polymorphus,5' CGGWCCG 3' GCCWGGC,5' ---CG GWCCG--- 3' 3' ---GCCWG GC--- 5',
+CscI,,Calothrix scopulorum,5' CCGCGG 3' GGCGCC,5' ---CCGC GG--- 3' 3' ---GG CGCC--- 5',"Cfr42I, SacII, HgaI"
+CsiAI,,Corynebacterium sp. A,5' ACCGGT 3' TGGCCA,5' ---A CCGGT--- 3' 3' ---TGGCC A--- 5',"AgeI, AsiAI,"
+"CspAI, PinAI",,,,,
+DdeI,,Desulfovibrio desulfuricans,5' CTNAG 3' GANTC,5' ---C TNAG--- 3' 3' ---GANT C--- 5',"BstDEI,"
