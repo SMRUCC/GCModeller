@@ -1,9 +1,13 @@
+require(kegg_api);
 
-options(http.cache_dir = `${dirname(@script)}/.cache/`);
+options(http.cache_dir = `${@dir}/.cache/`);
 
-kegg_map(
-    "https://www.kegg.jp/pathway/map00020"
-)
-|> xml
-|> writeLines(con = `${dirname(@script)}/pathwayMap.XML`)
-;
+for(id in ["map00020" "map00010"]) {
+    kegg_map(
+        id
+    )
+    |> xml
+    |> writeLines(con = `${@dir}/demo_maps/${id}.Xml`)
+    ;
+}
+

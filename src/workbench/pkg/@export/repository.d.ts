@@ -91,11 +91,20 @@ declare namespace repository {
        * load list of kegg reference @``T:SMRUCC.genomics.Assembly.KEGG.WebServices.XML.Map``.
        * 
        * 
-        * @param repository a directory of repository data for kegg reference @``T:SMRUCC.genomics.Assembly.KEGG.WebServices.XML.Map``.
+        * @param repository repository data source could be:
+        *  
+        *  1. a directory of repository data for kegg reference @``T:SMRUCC.genomics.Assembly.KEGG.WebServices.XML.Map``.
+        *  2. a file stream for the map vector in messagepack or HDS pack format
         * @param rawMaps 
         * + default value Is ``true``.
         * @return a kegg reference map object vector, which can be indexed 
         *  via @``P:SMRUCC.genomics.ComponentModel.Annotation.PathwayBrief.EntryId``.
+        *  
+        *  the data type will be dertermined by the **`rawMaps`** parameter:
+        *  
+        *  1. for raw maps TRUE: a vector of the @``T:SMRUCC.genomics.Assembly.KEGG.WebServices.XML.Map`` object will be returns
+        *  2. for raw maps FALSE: a wrapper of the kegg map collection 
+        *     @``T:SMRUCC.genomics.Assembly.KEGG.WebServices.MapRepository`` will be generates from this function
       */
       function maps(repository: any, rawMaps?: boolean): object|object;
       /**

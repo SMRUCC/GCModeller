@@ -195,6 +195,11 @@ Namespace Assembly.KEGG.WebServices
             }
         End Function
 
+        ''' <summary>
+        ''' scan directory or load from a xml pack file
+        ''' </summary>
+        ''' <param name="repository"></param>
+        ''' <returns></returns>
         Public Shared Function GetMapsAuto(repository As String) As IEnumerable(Of Map)
             If repository.DirectoryExists Then
                 Return repository.DoCall(AddressOf ScanMaps)

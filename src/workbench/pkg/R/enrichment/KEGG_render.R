@@ -3,6 +3,9 @@
 #' 
 #' @param enrich the csv file path of the kegg pathway map enrichment
 #'    result or the dataframe value it self
+#' @param kegg_maps the external kegg maps repository, could be a 
+#'    local directory path which contains a set of the kegg map xml
+#'    file; or a file to the bundle pack of the kegg map xml files.
 #' 
 const KEGG_MapRender = function(enrich, 
         map_id = "KEGG",
