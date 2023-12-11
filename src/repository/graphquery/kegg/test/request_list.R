@@ -22,7 +22,7 @@ for(id in id_list$kegg) {
 
     str(as.list(data));
 
-    sleep(2)
+    # sleep(2)
 }
 
 

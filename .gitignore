@@ -395,4 +395,9 @@ src/workbench/R\#/demo/kegg/multiple_omics/associate_mt_KEGGMaps/map04974.html
 src/repository/graphquery/kegg/tools/cache.db
 src/workbench/pkg/test/ath_metpa.json
 /src/repository/graphquery/kegg/test/kegg.msgpack
+
+src/repository/graphquery/kegg/test/kegg_parts.msgpack
+
 src/repository/graphquery/kegg/pipeline/package_updater/map_cache.db
+
+src/workbench/pkg/.vs/pkg/v17/.wsuo

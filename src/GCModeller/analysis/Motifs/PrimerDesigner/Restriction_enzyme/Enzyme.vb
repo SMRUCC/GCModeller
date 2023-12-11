@@ -1,64 +1,61 @@
 ﻿#Region "Microsoft.VisualBasic::df9de54e9b52cf69ed322574651729a7, analysis\Motifs\PrimerDesigner\Restriction_enzyme\Enzyme.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class Enzyme
-    ' 
-    '         Properties: Cut, Enzyme, Isoschizomers, PDB, Recognition
-    '                     Source
-    ' 
-    '         Function: ToString
-    ' 
-    '     Class Recognition
-    ' 
-    '         Properties: Forwards, Reversed
-    ' 
-    '         Function: ToString
-    ' 
-    '     Class Cut
-    ' 
-    '         Properties: Left, Right
-    ' 
-    '         Function: __tokenParser, Parser, ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class Enzyme
+' 
+'         Properties: Cut, Enzyme, Isoschizomers, PDB, Recognition
+'                     Source
+' 
+'         Function: ToString
+' 
+'     Class Recognition
+' 
+'         Properties: Forwards, Reversed
+' 
+'         Function: ToString
+' 
+'     Class Cut
+' 
+'         Properties: Left, Right
+' 
+'         Function: __tokenParser, Parser, ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
-Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.Scripting.Runtime
-Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Restriction_enzyme
 
@@ -120,25 +117,45 @@ Namespace Restriction_enzyme
         Public Property Isoschizomers As String()
 
         Public Overrides Function ToString() As String
-            Return Me.GetJson
+            Return Enzyme
         End Function
     End Class
 
     ''' <summary>
     ''' Recognition sequence
     '''
-    ''' The recognition sequence, sometimes also referred to as recognition site, of any DNA-binding protein motif that exhibits binding specificity, refers to the DNA sequence (or subset thereof), to which the domain is specific. Recognition sequences are palindromes .
-    ''' The transcription factor Sp1 For example, binds the sequences 5'-(G/T)GGGCGG(G/A)(G/A)(C/T)-3', where (G/T) indicates that the domain will bind a guanine or thymine at this position.
+    ''' The recognition sequence, sometimes also referred to as recognition site, 
+    ''' of any DNA-binding protein motif that exhibits binding specificity, refers 
+    ''' to the DNA sequence (or subset thereof), to which the domain is specific. 
+    ''' Recognition sequences are palindromes .
+    ''' 
+    ''' The transcription factor Sp1 For example, binds the sequences 
+    ''' 5'-(G/T)GGGCGG(G/A)(G/A)(C/T)-3', where (G/T) indicates that the domain 
+    ''' will bind a guanine or thymine at this position.
+    ''' 
     ''' The restriction endonuclease PstI recognizes, binds, And cleaves the sequence 5'-CTGCAG-3'.
-    ''' However, a recognition sequence refers to a different aspect from that of recognition site. A given recognition sequence can occur one Or more times, Or Not at all on a specific DNA fragment. A recognition site Is specified by the position of the site. For example, there are two PstI recognition site in the following DNA sequence fragment, start at base 9 And 31 respectively. A recognition sequence Is a specific sequence, usually very short (less than 10 bases). Depending on the degree of specificity of the protein, a DNA-binding protein can bind to more than one specific sequence. For PstI, which has a single sequence specificity, it Is 5'-CTGCAG-3'. It is always the same whether at the first recognition site or the second in the following example sequence. For Sp1, which has multiple (16) sequence specificity as shown above, the two recognition sites in the following example sequence fragment are at 18 and 32, and their respective recognition sequences are 5'-GGGGCGGAGC-3' and 5'-TGGGCGGAAC-3'.
+    ''' However, a recognition sequence refers to a different aspect from that of recognition 
+    ''' site. A given recognition sequence can occur one Or more times, Or Not at all on a 
+    ''' specific DNA fragment. A recognition site Is specified by the position of the site. 
+    ''' For example, there are two PstI recognition site in the following DNA sequence fragment, 
+    ''' start at base 9 And 31 respectively. A recognition sequence Is a specific sequence, 
+    ''' usually very short (less than 10 bases). Depending on the degree of specificity of 
+    ''' the protein, a DNA-binding protein can bind to more than one specific sequence. For PstI,
+    ''' which has a single sequence specificity, it Is 5'-CTGCAG-3'. It is always the same whether 
+    ''' at the first recognition site or the second in the following example sequence. For Sp1,
+    ''' which has multiple (16) sequence specificity as shown above, the two recognition sites 
+    ''' in the following example sequence fragment are at 18 and 32, and their respective recognition
+    ''' sequences are 5'-GGGGCGGAGC-3' and 5'-TGGGCGGAAC-3'.
+    ''' 
     ''' 5'-AACGTTAGCTGCAGTCGGGGCGGAGCTAGGCTGCAGGAATTGGGCGGAACCT-3'
     ''' </summary>
     Public Class Recognition
+
         <XmlAttribute> Public Property Forwards As String
         <XmlAttribute> Public Property Reversed As String
 
         Public Overrides Function ToString() As String
-            Return Me.GetJson
+            Return Forwards
         End Function
     End Class
 
@@ -146,36 +163,18 @@ Namespace Restriction_enzyme
     ''' 对所识别的位点<see cref="Recognition"/>的剪切的模式
     ''' </summary>
     Public Class Cut
-        <XmlAttribute> Public Property Left As String
-        <XmlAttribute> Public Property Right As String
+
+        <XmlAttribute> Public Property Reversed As Boolean
+
+        <XmlText>
+        Public Property CutSite As String
 
         Public Overrides Function ToString() As String
-            Return $"5' {Left}--- ---{Right} 3'"
-        End Function
-
-        Public Shared Function Parser(s As String) As Cut
-            Dim tokens As String() = s.Split("@"c)
-            Dim s1 = __tokenParser(tokens.First)
-            Dim s2 = __tokenParser(tokens.Last)
-
-            If s1.Key = 5 Then
-                Return New Cut With {
-                    .Left = s1.Value,
-                    .Right = s2.Value
-                }
+            If Reversed Then
+                Return $"3' ---{CutSite}--- 5'"
             Else
-                Return New Cut With {
-                    .Left = s2.Value,
-                    .Right = s1.Value
-                }
+                Return $"5' ---{CutSite}--- 3'"
             End If
-        End Function
-
-        Private Shared Function __tokenParser(s As String) As KeyValuePair(Of Integer, String)
-            Dim i As String = Regex.Match(s, "\d'").Value
-            s = s.Replace(i, "")
-            s = s.Replace("---", "").Trim
-            Return New KeyValuePair(Of Integer, String)(CastInteger(i), s)
         End Function
     End Class
 End Namespace
