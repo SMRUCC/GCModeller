@@ -59,7 +59,7 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 ''' <summary>
 ''' Wu, J. S., et al. (2004). "Primer design using genetic algorithm." Bioinformatics 20(11): 1710-1717.
 ''' 
-'''	MOTIVATION: Before performing a polymerase chain reaction experiment, a pair of primers to clip 
+''' MOTIVATION: Before performing a polymerase chain reaction experiment, a pair of primers to clip 
 ''' the target DNA subsequence is required. However, this is a tedious task as too many constraints 
 ''' need to be satisfied. Various kinds of approaches for designing a primer have been proposed in 
 ''' the last few decades, but most of them do not have restriction sites on the designed primers and 
