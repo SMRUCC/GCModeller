@@ -168,11 +168,25 @@ Namespace Restriction_enzyme
         <XmlAttribute> Public Property CutSite1 As String
         <XmlAttribute> Public Property CutSite2 As String
 
+        Public ReadOnly Property IsSingle As Boolean
+            Get
+                Return CutSite2.StringEmpty
+            End Get
+        End Property
+
         Public Overrides Function ToString() As String
-            If Reversed Then
-                Return $"3' ---{CutSite1} {CutSite2}--- 5'"
+            Dim cutSite As String
+
+            If IsSingle Then
+                cutSite = CutSite1
             Else
-                Return $"5' ---{CutSite1} {CutSite2}--- 3'"
+                cutSite = CutSite1 & " " & CutSite2
+            End If
+
+            If Reversed Then
+                Return $"3' ---{cutSite}--- 5'"
+            Else
+                Return $"5' ---{cutSite}--- 3'"
             End If
         End Function
     End Class
