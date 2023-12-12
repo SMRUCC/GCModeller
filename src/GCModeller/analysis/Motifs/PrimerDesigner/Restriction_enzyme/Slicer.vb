@@ -46,16 +46,16 @@ Namespace Restriction_enzyme
 
                         If cut.IsSingle Then
                             For Each segment As SimpleSegment In sites
-                                Dim sub_seq1 As String = str_nt.Substring(0, segment.Ends)
-                                Dim sub_seq2 As String = str_nt.Substring(segment.Ends)
+                                Dim sub_seq1 As String = str_nt.Substring(0, segment.Ends - 1)
+                                Dim sub_seq2 As String = str_nt.Substring(segment.Ends - 1)
 
                                 Call temp.Add(New FastaSeq(sub_seq1, tracer(enzyme.enzyme, seq, segment, cut, True)))
                                 Call temp.Add(New FastaSeq(sub_seq2, tracer(enzyme.enzyme, seq, segment, cut, False)))
                             Next
                         Else
                             For Each segment As SimpleSegment In sites
-                                Dim sub_seq1 As String = str_nt.Substring(0, segment.Ends - cut.CutSite2.Length)
-                                Dim sub_seq2 As String = str_nt.Substring(segment.Ends - cut.CutSite2.Length)
+                                Dim sub_seq1 As String = str_nt.Substring(0, segment.Ends - cut.CutSite2.Length - 1)
+                                Dim sub_seq2 As String = str_nt.Substring(segment.Ends - cut.CutSite2.Length - 1)
 
                                 Call temp.Add(New FastaSeq(sub_seq1, tracer(enzyme.enzyme, seq, segment, cut, True)))
                                 Call temp.Add(New FastaSeq(sub_seq2, tracer(enzyme.enzyme, seq, segment, cut, False)))
