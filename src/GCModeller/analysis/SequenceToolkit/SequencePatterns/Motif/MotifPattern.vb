@@ -63,19 +63,36 @@ Namespace Motif
     ''' </summary>
     Public Class MotifPattern : Implements INamedValue
 
+        ''' <summary>
+        ''' the unique reference id key of current motif pattern
+        ''' </summary>
+        ''' <returns></returns>
         Public Property Id As String Implements INamedValue.Key
         ''' <summary>
         ''' the regular expression for search the sequence site
         ''' </summary>
         ''' <returns></returns>
         Public Property Expression As String
+        ''' <summary>
+        ''' the motif name
+        ''' </summary>
+        ''' <returns></returns>
         Public Property Motif As String
+        ''' <summary>
+        ''' the width of current motif(site length)
+        ''' </summary>
+        ''' <returns></returns>
         Public Property Width As Integer
 
         Public Overrides Function ToString() As String
             Return Me.GetJson
         End Function
 
+        ''' <summary>
+        ''' scan the motif sites on a given sequence data
+        ''' </summary>
+        ''' <param name="scanner"></param>
+        ''' <returns></returns>
         Public Function Scan(scanner As Scanner) As SimpleSegment()
             Return scanner.Scan(Expression)
         End Function

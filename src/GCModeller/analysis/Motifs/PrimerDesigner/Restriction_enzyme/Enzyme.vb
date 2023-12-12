@@ -55,7 +55,9 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
+Imports SMRUCC.genomics.ComponentModel.Loci
 
 Namespace Restriction_enzyme
 
@@ -153,6 +155,13 @@ Namespace Restriction_enzyme
 
         <XmlAttribute> Public Property Forwards As String
         <XmlAttribute> Public Property Reversed As String
+
+        Default Public ReadOnly Property GetSite(strand As Strands) As String
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
+            Get
+                Return If(strand = Strands.Forward, Forwards, Reversed)
+            End Get
+        End Property
 
         Public Overrides Function ToString() As String
             Return Forwards

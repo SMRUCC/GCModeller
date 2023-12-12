@@ -7,6 +7,13 @@ Module Program
         Dim list = WikiLoader.PullAll.ToArray
         Dim plasmid As FastaSeq = GBFF.File.Load("D:\GCModeller\src\GCModeller\visualize\data\addgene-plasmid-100854-sequence-189713.gbk").Origin.ToFasta
 
+        For Each enzyme As Enzyme In list
+            Dim motif = enzyme.TranslateRegular()
+
+
+            Pause()
+        Next
+
         Pause()
     End Sub
 End Module
