@@ -30,7 +30,7 @@ Module Program
 
     Sub SlicerTest()
         Dim plasmid As FastaSeq = GBFF.File.Load(test_demo).Origin.ToFasta
-        Dim list = WikiLoader.PullAll.ToArray
+        Dim list = WikiLoader.PullAll.Shuffles.Take(5).ToArray
         Dim simulation As New Slicer(plasmid, list)
         Dim result = simulation.GetSegments.ToArray
 
