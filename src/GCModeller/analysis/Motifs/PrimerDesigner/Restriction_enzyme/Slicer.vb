@@ -15,7 +15,8 @@ Namespace Restriction_enzyme
         ReadOnly strand As Strands = Strands.Forward
 
         Sub New(nt As IAbstractFastaToken, enzymes As IEnumerable(Of Enzyme), Optional direction As Strands = Strands.Forward)
-            nt = New FastaSeq(nt)
+            Me.nt = New FastaSeq(nt)
+
             enzymeList = enzymes _
                 .Select(Function(a)
                             Return (a, a.TranslateRegular(strand), a.GetCutSite(strand))
