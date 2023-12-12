@@ -9,6 +9,7 @@ Module Program
     Const test_demo As String = "\GCModeller\src\GCModeller\visualize\data\addgene-plasmid-100854-sequence-189713.gbk"
 
     Sub Main(args As String())
+        Call searchTest()
         Call SlicerTest()
     End Sub
 

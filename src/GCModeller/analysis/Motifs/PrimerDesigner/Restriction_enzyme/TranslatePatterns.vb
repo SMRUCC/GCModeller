@@ -2,10 +2,13 @@
 Imports System.Text
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
 Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 Namespace Restriction_enzyme
 
     Public Module TranslatePatterns
+
+        ReadOnly debase As New DegenerateBasesExtensions
 
         ''' <summary>
         ''' translate the recongnition site string as regular expression motif pattern data.
@@ -31,21 +34,21 @@ Namespace Restriction_enzyme
             Dim tmp As New List(Of Char)
 
             For Each c As Char In site
-                If c <> "N"c AndAlso Not Char.IsDigit(c) Then
+                If debase.DegenerateBases.ContainsKey(c) Then
+                    If tmp.Any Then
+                        Call sb.Append(TranslateRegular(tmp))
+                    End If
+
+                    Call tmp.Add(c)
+                ElseIf Char.IsDigit(c) Then
+                    ' is number/digit
+                    Call tmp.Add(c)
+                Else
                     If tmp.Any Then
                         Call sb.Append(TranslateRegular(tmp))
                     End If
 
                     Call sb.Append(c)
-                ElseIf c = "N" Then
-                    If tmp.Any Then
-                        Call sb.Append(TranslateRegular(tmp))
-                    End If
-
-                    Call tmp.Add(c)
-                Else
-                    ' is number/digit
-                    Call tmp.Add(c)
                 End If
             Next
 
@@ -62,9 +65,9 @@ Namespace Restriction_enzyme
             If Char.IsDigit(tmp.First) Then
                 r = $"{{{tmp.CharString}}}"
             ElseIf tmp.Count = 1 Then
-                r = "."
+                r = "[" & debase.DegenerateBases(tmp(0)).JoinBy("") & "]"
             Else
-                r = $".{{{tmp.Skip(1).CharString}}}"
+                r = $"[{debase.DegenerateBases(tmp(0)).JoinBy("")}]{{{tmp.Skip(1).CharString}}}"
             End If
 
             Call tmp.Clear()
