@@ -30,9 +30,10 @@ Namespace Restriction_enzyme
             Dim nt_pool As New List(Of Scanner) From {
                 New Scanner(nt, reverse_search:=False)
             }
+            Dim temp As New List(Of FastaSeq)
 
             Do While True
-                Dim temp As New List(Of FastaSeq)
+                Call temp.Clear()
 
                 For Each enzyme As (enzyme As Enzyme, motif As MotifPattern, cut As Cut) In enzymeList
                     Dim cut As Cut = enzyme.cut
@@ -69,6 +70,7 @@ Namespace Restriction_enzyme
                     nt_pool = temp _
                         .Select(Function(a) New Scanner(a, reverse_search:=False)) _
                         .AsList
+                    pool.AddRange(temp)
                 End If
             Loop
 
