@@ -13,9 +13,17 @@ Namespace Restriction_enzyme
         ReadOnly nt As FastaSeq
         ReadOnly enzymeList As (enzyme As Enzyme, motif As MotifPattern, Cut As Cut)()
         ReadOnly strand As Strands = Strands.Forward
+        ReadOnly margin As Integer = 5
+        ReadOnly depth As Integer = 3
 
-        Sub New(nt As IAbstractFastaToken, enzymes As IEnumerable(Of Enzyme), Optional direction As Strands = Strands.Forward)
+        Sub New(nt As IAbstractFastaToken, enzymes As IEnumerable(Of Enzyme),
+                Optional direction As Strands = Strands.Forward,
+                Optional margin As Integer = 5,
+                Optional depth As Integer = 5)
+
             Me.nt = New FastaSeq(nt)
+            Me.depth = depth
+            Me.margin = margin
 
             enzymeList = enzymes _
                 .Select(Function(a)
@@ -32,7 +40,7 @@ Namespace Restriction_enzyme
             }
             Dim temp As New List(Of FastaSeq)
 
-            Do While True
+            For i As Integer = 1 To depth
                 Dim q = From enzyme
                         In enzymeList.AsParallel
                         Select DoSlice(enzyme.enzyme, enzyme.motif, enzyme.Cut, nt_pool).ToArray
@@ -44,33 +52,37 @@ Namespace Restriction_enzyme
                 Next
 
                 If temp.Count = 0 Then
-                    Exit Do
+                    Exit For
                 Else
                     nt_pool = temp _
                         .Select(Function(a) New Scanner(a, reverse_search:=False)) _
                         .AsList
                     pool.AddRange(temp)
                 End If
-            Loop
+            Next
 
             Return pool.ToArray
         End Function
 
-        Private Shared Iterator Function DoSlice(enzyme As Enzyme, motif As MotifPattern, cut As Cut, nt_pool As IEnumerable(Of Scanner)) As IEnumerable(Of FastaSeq)
+        Private Iterator Function DoSlice(enzyme As Enzyme, motif As MotifPattern, cut As Cut, nt_pool As IEnumerable(Of Scanner)) As IEnumerable(Of FastaSeq)
             For Each seq As Scanner In nt_pool
                 Dim sites As SimpleSegment() = motif.Scan(seq)
                 ' break current sequence by cut site
                 Dim str_nt As String = seq.GetBaseSequence
+                Dim len As Integer = str_nt.Length
+                Dim margin1 As Integer = len - margin
 
                 If cut.IsSingle Then
                     For Each segment As SimpleSegment In sites
                         Dim sub_seq1 As String = str_nt.Substring(0, segment.Ends - 1)
                         Dim sub_seq2 As String = str_nt.Substring(segment.Ends - 1)
 
-                        Yield New FastaSeq(sub_seq1, tracer(enzyme, seq, segment, cut, True))
+                        If segment.Ends < margin1 AndAlso segment.Start > margin Then
+                            Yield New FastaSeq(sub_seq1, tracer(enzyme, seq, segment, cut, True))
 
-                        If Not sub_seq2.StringEmpty Then
-                            Yield New FastaSeq(sub_seq2, tracer(enzyme, seq, segment, cut, False))
+                            If Not sub_seq2.StringEmpty Then
+                                Yield New FastaSeq(sub_seq2, tracer(enzyme, seq, segment, cut, False))
+                            End If
                         End If
                     Next
                 Else
@@ -78,8 +90,10 @@ Namespace Restriction_enzyme
                         Dim sub_seq1 As String = str_nt.Substring(0, segment.Ends - cut.CutSite2.Length - 1)
                         Dim sub_seq2 As String = str_nt.Substring(segment.Ends - cut.CutSite2.Length - 1)
 
-                        Yield New FastaSeq(sub_seq1, tracer(enzyme, seq, segment, cut, True))
-                        Yield New FastaSeq(sub_seq2, tracer(enzyme, seq, segment, cut, False))
+                        If segment.Ends < margin1 AndAlso segment.Start > margin Then
+                            Yield New FastaSeq(sub_seq1, tracer(enzyme, seq, segment, cut, True))
+                            Yield New FastaSeq(sub_seq2, tracer(enzyme, seq, segment, cut, False))
+                        End If
                     Next
                 End If
             Next
