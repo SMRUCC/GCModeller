@@ -50,7 +50,10 @@ Namespace Restriction_enzyme
                                 Dim sub_seq2 As String = str_nt.Substring(segment.Ends - 1)
 
                                 Call temp.Add(New FastaSeq(sub_seq1, tracer(enzyme.enzyme, seq, segment, cut, True)))
-                                Call temp.Add(New FastaSeq(sub_seq2, tracer(enzyme.enzyme, seq, segment, cut, False)))
+
+                                If Not sub_seq2.StringEmpty Then
+                                    Call temp.Add(New FastaSeq(sub_seq2, tracer(enzyme.enzyme, seq, segment, cut, False)))
+                                End If
                             Next
                         Else
                             For Each segment As SimpleSegment In sites
