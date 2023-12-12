@@ -67,7 +67,7 @@ AleI,,Aureobacterium liquefaciens,5' CACN4GTG 3' GTGN4CAC,5' ---CACNN NNGTG--- 3
 AlfI,,Acinetobacter lwoffii BH 32,5' GCAN6TGC 3' CGTN6ACG,5' ---GCAN6TGCN9NNN --- 3' 3' ---CGTN6ACGN9N NN--- 5',None as of May 2010
 AliI,,Acetobacter liquefaciens,5' GGATCC 3' CCTAGG,5' ---G GATCC--- 3' 3' ---CCTAG G--- 5',"AccEBI, BamHI, Bce751I, Bsp98I, BspAAIII, Nsp29132II, Pfl8I"
 AliAJI,,Acetobacter liquefaciens AJ 2881,5' CTGCAG 3' GACGTC,5' ---CTGCA G--- 3' 3' ---G ACGTC--- 5',"ApiI, Asp713I, BspMAI, CflI, CstI, MhaAI, PstI, SalPI, Sst12I, YenI"
-AloI,,Acinetobacter lwoffii Ks 4-8,5' GAACN6TCC 3' CTTGN6AGG,5' ---GAACN6TCCN6N NNNNN --- 3' 3' ---CTTGN6AGGN6N NNNNN--- 5',None as of May 2010
+AloI,,Acinetobacter lwoffii Ks 4-8,5' GAACN6TCC 3' CTTGN6AGG,5' ---GAACN6TCCN6NNNNNN --- 3' 3' ---CTTGN6AGGN6N NNNNN--- 5',None as of May 2010
 AluI,,Arthrobacter luteus,5' AGCT 3' TCGA,5' ---AG CT--- 3' 3' ---TC GA--- 5',"AluBI, MltI"
 AluBI,,Arthrobacter luteus B,5' AGCT 3' TCGA,5' ---AG CT--- 3' 3' ---TC GA--- 5',"AluI, MltI"
 AlwI,,Acinetobacter lwoffii,5' GGATC 3' CCTAG,5' ---GGATCN3N N--- 3' 3' ---CCTAGN3NN --- 5',"AclWI, BinI, BspPI, BsrWI, BstH9I, BthII, Bth617I, EacI"
