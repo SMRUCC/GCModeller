@@ -44,6 +44,7 @@ Namespace Restriction_enzyme
 
                     Call tmp.Add(c)
                 Else
+                    ' is number/digit
                     Call tmp.Add(c)
                 End If
             Next
