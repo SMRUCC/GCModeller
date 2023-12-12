@@ -68,13 +68,22 @@ Namespace Motif
     ''' </remarks>
     Public Class Scanner : Inherits IScanner
 
-        Sub New(nt As IPolymerSequenceModel)
+        ReadOnly reverse_search As Boolean = False
+
+        Sub New(nt As IPolymerSequenceModel, Optional reverse_search As Boolean = False)
             Call MyBase.New(nt)
+            Me.reverse_search = reverse_search
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function Scan(pattern As String) As SimpleSegment()
-            Return (Scan(nt, pattern, "+"c).AsList + Scan(nt, Complement(pattern), "-"c)).OrderBy(Function(x) x.Start).ToArray
+            Dim result = Scan(nt, pattern, "+"c).AsList
+
+            If reverse_search Then
+                result += Scan(nt, Complement(pattern), "-"c)
+            End If
+
+            Return result.OrderBy(Function(x) x.Start).ToArray
         End Function
 
         Public Overloads Shared Function Scan(nt As String, pattern As String, strand As Char) As SimpleSegment()
@@ -86,7 +95,7 @@ Namespace Motif
                                                        _
                 () <= From m As String
                       In ms
-                      Let pos As Integer() = FindLocation(nt, m)
+                      Let pos As Integer() = FindLocation(nt, m).ToArray
                       Let rc As String = New String(NucleicAcid.Complement(m).Reverse.ToArray)
                       Select LinqAPI.Exec(Of Integer, SimpleSegment)(pos) _
                                                                           _
@@ -95,7 +104,7 @@ Namespace Motif
                                      .Ends = ind + m.Length,
                                      .Start = ind,
                                      .SequenceData = m,
-                                     .strand = strand.ToString  ' .Complement = rc
+                                     .Strand = strand.ToString  ' .Complement = rc
                                  }
                              End Function
 

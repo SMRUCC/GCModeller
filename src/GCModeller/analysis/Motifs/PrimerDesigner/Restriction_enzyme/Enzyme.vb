@@ -119,7 +119,7 @@ Namespace Restriction_enzyme
         Public Property Isoschizomers As String()
 
         Public Overrides Function ToString() As String
-            Return Enzyme
+            Return Enzyme & ": " & Recognition.ToString
         End Function
     End Class
 
