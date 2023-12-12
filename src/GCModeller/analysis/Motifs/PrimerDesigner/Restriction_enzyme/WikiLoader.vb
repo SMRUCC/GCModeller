@@ -100,6 +100,7 @@ Namespace Restriction_enzyme
         Private Iterator Function ParseCutSites(str As String) As IEnumerable(Of Cut)
             Dim si As String() = str.Matches("\d'\s+[-]+.*?[-]+\s+\d'").ToArray
             Dim reversed As Boolean
+            Dim s2 As String()
 
             For Each s As String In si
                 If s.StartsWith("3'") Then
@@ -109,11 +110,12 @@ Namespace Restriction_enzyme
                 End If
 
                 s = s.StringReplace("5'", "").StringReplace("3'", "").Trim(" "c, "-"c)
-                s = s.Replace(" ", "")
+                s2 = s.Split
 
                 Yield New Cut With {
                     .Reversed = reversed,
-                    .CutSite = s
+                    .CutSite1 = s2(0),
+                    .CutSite2 = s2.ElementAtOrDefault(1)
                 }
             Next
         End Function
