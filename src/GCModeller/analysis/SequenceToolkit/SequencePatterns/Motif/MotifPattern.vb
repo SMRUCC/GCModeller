@@ -54,7 +54,6 @@
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 Namespace Motif
@@ -65,6 +64,10 @@ Namespace Motif
     Public Class MotifPattern : Implements INamedValue
 
         Public Property Id As String Implements INamedValue.Key
+        ''' <summary>
+        ''' the regular expression for search the sequence site
+        ''' </summary>
+        ''' <returns></returns>
         Public Property Expression As String
         Public Property Motif As String
         Public Property Width As Integer
