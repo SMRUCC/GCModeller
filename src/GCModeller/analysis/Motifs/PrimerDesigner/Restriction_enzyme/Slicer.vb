@@ -47,7 +47,16 @@ Namespace Restriction_enzyme
                                 Dim sub_seq1 As String = str_nt.Substring(0, segment.Ends)
                                 Dim sub_seq2 As String = str_nt.Substring(segment.Ends)
 
-                                Call temp.Add()
+                                Call temp.Add(New FastaSeq(sub_seq1, tracer(enzyme.enzyme, seq, segment, cut, True)))
+                                Call temp.Add(New FastaSeq(sub_seq2, tracer(enzyme.enzyme, seq, segment, cut, False)))
+                            Next
+                        Else
+                            For Each segment As SimpleSegment In sites
+                                Dim sub_seq1 As String = str_nt.Substring(0, segment.Ends - cut.CutSite2.Length)
+                                Dim sub_seq2 As String = str_nt.Substring(segment.Ends - cut.CutSite2.Length)
+
+                                Call temp.Add(New FastaSeq(sub_seq1, tracer(enzyme.enzyme, seq, segment, cut, True)))
+                                Call temp.Add(New FastaSeq(sub_seq2, tracer(enzyme.enzyme, seq, segment, cut, False)))
                             Next
                         End If
                     Next
@@ -65,8 +74,20 @@ Namespace Restriction_enzyme
             Return pool.ToArray
         End Function
 
-        Private Shared Function tracer() As String
+        Private Shared Function tracer(enzyme As Enzyme, seq As Scanner, site As SimpleSegment, cut As Cut, left As Boolean) As String
+            Dim cut_seq As String
 
+            If left Then
+                cut_seq = cut.CutSite1
+            Else
+                If cut.IsSingle Then
+                    cut_seq = cut.CutSite1
+                Else
+                    cut_seq = cut.CutSite2
+                End If
+            End If
+
+            Return $"{seq.name}..{enzyme.Enzyme}..{site.Start}..{cut_seq}"
         End Function
 
     End Class
