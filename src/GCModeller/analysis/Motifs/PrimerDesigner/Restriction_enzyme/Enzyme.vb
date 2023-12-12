@@ -168,6 +168,7 @@ Namespace Restriction_enzyme
         <XmlAttribute> Public Property CutSite1 As String
         <XmlAttribute> Public Property CutSite2 As String
 
+        <XmlIgnore>
         Public ReadOnly Property IsSingle As Boolean
             Get
                 Return CutSite2.StringEmpty
