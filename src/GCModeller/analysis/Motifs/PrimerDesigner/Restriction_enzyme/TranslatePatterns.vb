@@ -14,6 +14,18 @@ Namespace Restriction_enzyme
         <Extension>
         Public Function TranslateRegular(enzyme As Enzyme, Optional direction As Strands = Strands.Forward) As MotifPattern
             Dim site As String = enzyme.Recognition(direction)
+            Dim regular As String = TranslateRegular(site)
+            Dim motif As New MotifPattern With {
+                .Id = enzyme.Enzyme,
+                .Motif = enzyme.Enzyme,
+                .Width = site.Length,
+                .Expression = regular
+            }
+
+            Return motif
+        End Function
+
+        Private Function TranslateRegular(site As String) As String
 
         End Function
     End Module

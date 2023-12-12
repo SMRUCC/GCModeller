@@ -121,7 +121,11 @@ Namespace Restriction_enzyme
         End Function
 
         Private Function ParseRecognition(str As String) As Recognition
-            Dim si As String() = str.Matches("\d'\s*\S+").ToArray
+            Dim si As String() = str.Matches("\d'\s*\S+") _
+                .Select(Function(s2)
+                            Return s2.StringReplace("\d'", "").Trim
+                        End Function) _
+                .ToArray
             Dim r As New Recognition With {
                 .Forwards = si(0),
                 .Reversed = si(1)
