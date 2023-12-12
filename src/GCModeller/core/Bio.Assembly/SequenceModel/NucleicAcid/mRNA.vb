@@ -1,56 +1,58 @@
 ﻿#Region "Microsoft.VisualBasic::c437cfd45fdcc6dcd5874e3fff2dc139, GCModeller\core\Bio.Assembly\SequenceModel\NucleicAcid\mRNA.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 91
-    '    Code Lines: 62
-    ' Comment Lines: 9
-    '   Blank Lines: 20
-    '     File Size: 3.42 KB
+' Summaries:
 
 
-    '     Module mRNA
-    ' 
-    '         Function: Putative_mRNA
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 91
+'    Code Lines: 62
+' Comment Lines: 9
+'   Blank Lines: 20
+'     File Size: 3.42 KB
+
+
+'     Module mRNA
+' 
+'         Function: Putative_mRNA
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
-Imports stdNum = System.Math
+Imports std = System.Math
+
+#Const DEBUG = 0
 
 Namespace SequenceModel.NucleotideModels
 
@@ -121,11 +123,10 @@ Namespace SequenceModel.NucleotideModels
                         Dim Adjacent As String = Mid(Nt, 1, ATG)
                         Dim a As Double = NucleotideModels.GCContent(ORF)
                         Dim b As Double = NucleotideModels.GCContent(Adjacent)
-                        Dim d As Double = stdNum.Abs(a - b)
+                        Dim d As Double = std.Abs(a - b)
                         Dim accept As Boolean = d > 0.1
-#Const DEBUG = 0
 #If DEBUG Then
-                    Call Console.WriteLine($"[DEBUG {Now.ToString}] ORF({ATG},{TGA})     {NameOf(Nt)}({a}) -->  {NameOf(Adjacent)}({b})   =====> d_gc%={d};   accept? {accept }")
+                        Call Console.WriteLine($"[DEBUG {Now.ToString}] ORF({ATG},{TGA})     {NameOf(Nt)}({a}) -->  {NameOf(Adjacent)}({b})   =====> d_gc%={d};   accept? {accept }")
 #End If
                         If accept Then
                             Return True
