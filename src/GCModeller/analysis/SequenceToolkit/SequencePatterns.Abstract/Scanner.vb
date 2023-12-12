@@ -70,10 +70,22 @@ Namespace Motif
 
         ReadOnly reverse_search As Boolean = False
 
+        Public ReadOnly Property name As String
+
         Sub New(nt As IPolymerSequenceModel, Optional reverse_search As Boolean = False)
             Call MyBase.New(nt)
+
+            Me.name = nt.ToString
             Me.reverse_search = reverse_search
         End Sub
+
+        ''' <summary>
+        ''' get the input source sequence data
+        ''' </summary>
+        ''' <returns></returns>
+        Public Function GetBaseSequence() As String
+            Return nt
+        End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function Scan(pattern As String) As SimpleSegment()

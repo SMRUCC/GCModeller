@@ -118,6 +118,14 @@ Namespace Restriction_enzyme
         ''' <returns></returns>
         Public Property Isoschizomers As String()
 
+        Public Function GetCutSite(strand As Strands) As Cut
+            If strand = Strands.Forward Then
+                Return Cut.Where(Function(c) Not c.Reversed).FirstOrDefault
+            Else
+                Return Cut.Where(Function(c) c.Reversed).FirstOrDefault
+            End If
+        End Function
+
         Public Overrides Function ToString() As String
             Return Enzyme & ": " & Recognition.ToString
         End Function
@@ -169,6 +177,17 @@ Namespace Restriction_enzyme
     End Class
 
     ''' <summary>
+    ''' 
+    ''' ```
+    ''' <see cref="CutSite1"/> | <see cref="CutSite2"/>
+    ''' ```
+    ''' 
+    ''' or 
+    ''' 
+    ''' ```
+    ''' <see cref="CutSite1"/>
+    ''' ```
+    ''' 
     ''' 对所识别的位点<see cref="Recognition"/>的剪切的模式
     ''' </summary>
     Public Class Cut
