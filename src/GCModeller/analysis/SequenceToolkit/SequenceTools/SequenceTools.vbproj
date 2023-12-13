@@ -26,7 +26,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\interops\localblast\LocalBLAST\localblast.NET5.vbproj" />
     <ProjectReference Include="..\..\..\..\repository\Bio.Repository\repository.NET5.vbproj" />
-    <ProjectReference Include="..\..\..\..\runtime\Darwinism\Parallel\parallel-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\Darwinism\src\Parallel\parallel-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data\BinaryData\BinaryData\binarydata-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data\BinaryData\HDSPack\HDSPack.vbproj" />
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data\BinaryData\msgpack\msgpack-netcore5.vbproj" />
