@@ -12,7 +12,7 @@
       "commandName": "Executable",
       "executablePath": "\\GCModeller\\src\\R-sharp\\App\\net6.0\\Rscript.exe",
       "commandLineArgs": "--lambda GCModeller::KEGG_MapRender --attach D:\\GCModeller\\src\\workbench\\pkg",
-      "workingDirectory": "Z:\\项目以外内容\\测试项目\\test\\kegg\\test_map"
+      "workingDirectory": "D:\\tmp\\test_map"
     }
   }
 }
