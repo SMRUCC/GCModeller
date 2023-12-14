@@ -129,12 +129,16 @@ Namespace Assembly.KEGG.WebServices
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Exists(key As String) As Boolean Implements IRepositoryRead(Of String, MapIndex).Exists
-            Return table.ContainsKey(key.Match("\d+"))
+            Return table.ContainsKey(key) OrElse table.ContainsKey(key.Match("\d+"))
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetByKey(key As String) As MapIndex Implements IRepositoryRead(Of String, MapIndex).GetByKey
-            Return table(key.Match("\d+"))
+            If table.ContainsKey(key) Then
+                Return table(key)
+            Else
+                Return table(key.Match("\d+"))
+            End If
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -169,7 +173,7 @@ Namespace Assembly.KEGG.WebServices
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function ScanMaps(directory As String) As IEnumerable(Of Map)
-            Return (ls - l - r - "*.XML" <= directory).Select(AddressOf LoadXml(Of Map))
+            Return (ls - l - r - {"*.XML", "*.xml", "*.Xml"} <= directory).Select(AddressOf LoadXml(Of Map))
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -213,8 +217,8 @@ Namespace Assembly.KEGG.WebServices
         ''' </summary>
         ''' <returns></returns>
         Public Iterator Function GenericEnumerator() As IEnumerator(Of Map) Implements Enumeration(Of Map).GenericEnumerator
-            For Each index In Maps
-                Yield index
+            For Each index As MapIndex In Maps
+                Yield DirectCast(index, Map)
             Next
         End Function
 

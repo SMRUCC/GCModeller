@@ -7,6 +7,12 @@
       "commandName": "Executable",
       "executablePath": "\\GCModeller\\src\\R-sharp\\App\\net6.0\\R#.exe",
       "commandLineArgs": "\\GCModeller\\src\\repository\\graphquery\\kegg\\tools\\kegg_referencedb.R --attach \\GCModeller\\src\\workbench\\pkg "
+    },
+    "test_pipeline": {
+      "commandName": "Executable",
+      "executablePath": "\\GCModeller\\src\\R-sharp\\App\\net6.0\\Rscript.exe",
+      "commandLineArgs": "--lambda GCModeller::KEGG_MapRender --attach D:\\GCModeller\\src\\workbench\\pkg",
+      "workingDirectory": "D:\\tmp\\test_map"
     }
   }
 }

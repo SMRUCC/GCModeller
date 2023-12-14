@@ -55,7 +55,9 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
+Imports SMRUCC.genomics.ComponentModel.Loci
 
 Namespace Restriction_enzyme
 
@@ -116,8 +118,16 @@ Namespace Restriction_enzyme
         ''' <returns></returns>
         Public Property Isoschizomers As String()
 
+        Public Function GetCutSite(strand As Strands) As Cut
+            If strand = Strands.Forward Then
+                Return Cut.Where(Function(c) Not c.Reversed).FirstOrDefault
+            Else
+                Return Cut.Where(Function(c) c.Reversed).FirstOrDefault
+            End If
+        End Function
+
         Public Overrides Function ToString() As String
-            Return Enzyme
+            Return Enzyme & ": " & Recognition.ToString
         End Function
     End Class
 
@@ -154,26 +164,58 @@ Namespace Restriction_enzyme
         <XmlAttribute> Public Property Forwards As String
         <XmlAttribute> Public Property Reversed As String
 
+        Default Public ReadOnly Property GetSite(strand As Strands) As String
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
+            Get
+                Return If(strand = Strands.Forward, Forwards, Reversed)
+            End Get
+        End Property
+
         Public Overrides Function ToString() As String
             Return Forwards
         End Function
     End Class
 
     ''' <summary>
+    ''' 
+    ''' ```
+    ''' <see cref="CutSite1"/> | <see cref="CutSite2"/>
+    ''' ```
+    ''' 
+    ''' or 
+    ''' 
+    ''' ```
+    ''' <see cref="CutSite1"/>
+    ''' ```
+    ''' 
     ''' 对所识别的位点<see cref="Recognition"/>的剪切的模式
     ''' </summary>
     Public Class Cut
 
         <XmlAttribute> Public Property Reversed As Boolean
+        <XmlAttribute> Public Property CutSite1 As String
+        <XmlAttribute> Public Property CutSite2 As String
 
-        <XmlText>
-        Public Property CutSite As String
+        <XmlIgnore>
+        Public ReadOnly Property IsSingle As Boolean
+            Get
+                Return CutSite2.StringEmpty
+            End Get
+        End Property
 
         Public Overrides Function ToString() As String
-            If Reversed Then
-                Return $"3' ---{CutSite}--- 5'"
+            Dim cutSite As String
+
+            If IsSingle Then
+                cutSite = CutSite1
             Else
-                Return $"5' ---{CutSite}--- 3'"
+                cutSite = CutSite1 & " " & CutSite2
+            End If
+
+            If Reversed Then
+                Return $"3' ---{cutSite}--- 5'"
+            Else
+                Return $"5' ---{cutSite}--- 3'"
             End If
         End Function
     End Class
