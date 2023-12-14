@@ -173,7 +173,7 @@ Namespace Assembly.KEGG.WebServices
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function ScanMaps(directory As String) As IEnumerable(Of Map)
-            Return (ls - l - r - "*.XML" <= directory).Select(AddressOf LoadXml(Of Map))
+            Return (ls - l - r - {"*.XML", "*.xml", "*.Xml"} <= directory).Select(AddressOf LoadXml(Of Map))
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
