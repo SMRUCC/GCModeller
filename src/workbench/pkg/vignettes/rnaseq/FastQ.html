@@ -10,7 +10,7 @@
     <meta name="keywords" content="R#; FastQ; rnaseq" />
     <meta name="generator" content="https://github.com/rsharp-lang" />
     <meta name="theme-color" content="#333" />
-    <meta name="description" content="..." />
+    <meta name="description" content="FastQ toolkit..." />
     <meta class="foundation-data-attribute-namespace" />
     <meta class="foundation-mq-xxlarge" />
     <meta class="foundation-mq-xlarge" />
@@ -63,13 +63,20 @@ table caption {font-size:14px;font-weight:bolder;}
     <p style="     font-size: 1.125em;     line-height: .8em;     margin-left: 0.5%;     background-color: #fbfbfb;     padding: 24px; ">
       <code>
         <span style="color: blue;">require</span>(<span style="color: black; font-weight: bold;">GCModeller</span>);
-                               <br /><br /><span style="color: green;">{$desc_comments}</span><br /><span style="color: blue;">imports</span><span style="color: brown"> "FastQ"</span><span style="color: blue;"> from</span><span style="color: brown"> "rnaseq"</span>;
+                               <br /><br /><span style="color: green;">#' FastQ toolkit</span><br /><span style="color: blue;">imports</span><span style="color: brown"> "FastQ"</span><span style="color: blue;"> from</span><span style="color: brown"> "rnaseq"</span>;
                            </code>
     </p>
-    <p></p>
+    <p><p>FastQ toolkit</p></p>
     <blockquote>
       <p style="font-style: italic; font-size: 0.9em;">
-                           
+                           <p>FASTQ format Is a text-based format For storing both a biological sequence <br />
+ (usually nucleotide sequence) And its corresponding quality scores. Both <br />
+ the sequence letter And quality score are Each encoded With a Single ASCII <br />
+ character For brevity. It was originally developed at the Wellcome Trust <br />
+ Sanger Institute To bundle a FASTA formatted sequence And its quality data, <br />
+ but has recently become the de facto standard For storing the output Of <br />
+ high-throughput sequencing instruments such As the Illumina Genome <br />
+ Analyzer.</p>
                            </p>
     </blockquote>
     <div id="main-wrapper">
@@ -78,13 +85,16 @@ table caption {font-size:14px;font-weight:bolder;}
   <td id="assemble">
     <a href="./FastQ/assemble.html">assemble</a>
   </td>
-  <td></td>
+  <td><p>Do short reads assembling</p></td>
 </tr>
 <tr>
   <td id="quality_score">
     <a href="./FastQ/quality_score.html">quality_score</a>
   </td>
-  <td></td>
+  <td><p>In FASTQ files, quality scores are encoded into a compact form, <br />
+ which uses only 1 byte per quality value. In this encoding, the <br />
+ quality score is represented as the character with an ASCII <br />
+ code equal to its value + 33.</p></td>
 </tr></tbody>
       </table>
     </div>
