@@ -58,9 +58,10 @@ def render(enrich_df,
     v = []
 
     if not kegg_maps:
-        v = ["enrich_file","outputdir"]
-    else:
-        v = ["enrich_file","kegg_maps","outputdir"]
+        v = ["enrich","outputdir"]
+    else:        
+        v = ["enrich","kegg_maps","outputdir"]
+        kegg_maps = os.path.abspath(kegg_maps)
 
     outputdir = os.path.abspath(outputdir)
     enrich_file = os.path.abspath(enrich_file)
@@ -69,7 +70,7 @@ def render(enrich_df,
         "map_id": map_id,
         "pathway_links": pathway_links,
         "outputdir": outputdir,       
-        "min_objects" min_objects, 
+        "min_objects": min_objects, 
         "kegg_maps": kegg_maps
     }
 
@@ -84,10 +85,10 @@ def render(enrich_df,
 
 if __name__ == "__main__":
 
-    render("./associate_mt.xls", 
-           outputdir = "./test_map/", 
-           map_id = "KEGG",
-           pathway_links = "pathway_links",
-           image = "dotnet:gcmodeller_20230401",
-           kegg_maps = "/opt/biodeep/kegg/KEGG_maps/",
-           run_debug = False)
+    render("./kegg_enrich_result.txt", 
+            outputdir = "./test_map/", 
+            map_id = "pathway_id",
+            pathway_links = "links",
+            image = "biodeepmsms:v5_20231002-patch4",
+            kegg_maps = "./kegg_maps/",
+            run_debug = False)

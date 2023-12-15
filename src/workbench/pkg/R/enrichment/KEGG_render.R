@@ -15,7 +15,10 @@ const KEGG_MapRender = function(enrich,
         kegg_maps = NULL) {
 
     const KEGG_maps = GCModeller::kegg_maps(rawMaps = FALSE, repo = {
-        if (file.exists(kegg_maps)) {
+        print("inspect of the kegg_maps source:");
+        print(kegg_maps);
+
+        if (file.exists(kegg_maps) || dir.exists(kegg_maps)) {
             kegg_maps;
         } else {
             system.file("data/kegg/KEGG_maps.zip", package = "GCModeller");
@@ -41,6 +44,6 @@ const KEGG_MapRender = function(enrich,
                                 compoundcolors = "red",
                                 gene_highights = "blue",
                                 outputdir      = outputdir,
-                                min_objects    = min_objects
+                                min_objects    = as.integer(min_objects)
                             );
 }
