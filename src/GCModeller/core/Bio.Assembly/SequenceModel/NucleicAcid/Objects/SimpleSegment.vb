@@ -103,6 +103,7 @@ Namespace SequenceModel.NucleotideModels
         Public ReadOnly Property Length As Integer
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
+                ' ends - start + 1
                 Return Len(SequenceData)
             End Get
         End Property
