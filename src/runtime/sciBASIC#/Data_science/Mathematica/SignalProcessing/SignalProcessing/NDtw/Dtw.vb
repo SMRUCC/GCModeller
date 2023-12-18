@@ -58,7 +58,7 @@ Namespace NDtw
     ''' <remarks>
     ''' https://github.com/doblak/ndtw
     ''' </remarks>
-    Public Class Dtw : Implements IDtw
+    Public Class Dtw
 
         Private ReadOnly _isXLongerOrEqualThanY As Boolean
         Private ReadOnly _signalsLengthDifference As Integer
@@ -80,10 +80,10 @@ Namespace NDtw
         Private _predecessorStepX As Integer()()()
         Private _predecessorStepY As Integer()()()
 
-        Public ReadOnly Property XLength As Integer Implements IDtw.XLength
-        Public ReadOnly Property YLength As Integer Implements IDtw.YLength
+        Public ReadOnly Property XLength As Integer
+        Public ReadOnly Property YLength As Integer
 
-        Public ReadOnly Property SeriesVariables As SeriesVariable() Implements IDtw.SeriesVariables
+        Public ReadOnly Property SeriesVariables As SeriesVariable()
             Get
                 Return _seriesVariables
             End Get
@@ -243,10 +243,10 @@ Namespace NDtw
                 'weight for current variable distances that is applied BEFORE the value is further transformed by distance measure
                 Dim variableWeight = seriesVariable.Weight
 
-                For i = 0 To _XLength - 1
+                For i As Integer = 0 To _XLength - 1
                     Dim currentDistances = _distances(i)
                     Dim xVal = xSeriesForVariable(i)
-                    For j = 0 To _YLength - 1
+                    For j As Integer = 0 To _YLength - 1
                         If _distanceMeasure = DistanceMeasure.Manhattan Then
                             currentDistances(j) += std.Abs(xVal - ySeriesForVariable(j)) * variableWeight
                         ElseIf _distanceMeasure = DistanceMeasure.Maximum Then
@@ -321,7 +321,7 @@ Namespace NDtw
             Dim stepAsideMovesHorizontalY = New Integer(_slopeStepSizeAside + 1 - 1)() {}
             Dim stepAsideMovesVerticalX = New Integer(_slopeStepSizeAside + 1 - 1)() {}
             Dim stepAsideMovesVerticalY = New Integer(_slopeStepSizeAside + 1 - 1)() {}
-            For i = 1 To _slopeStepSizeAside
+            For i As Integer = 1 To _slopeStepSizeAside
                 Dim movesXHorizontal = New List(Of Integer)()
                 Dim movesYHorizontal = New List(Of Integer)()
                 Dim movesXVertical = New List(Of Integer)()
@@ -354,7 +354,7 @@ Namespace NDtw
 
             Dim stepMove1 = {1}
 
-            For i = _XLength - 1 To 0 Step -1
+            For i As Integer = _XLength - 1 To 0 Step -1
                 Dim currentRowDistances = _distances(i)
 
                 Dim currentRowPathCost = _pathCost(i)
@@ -363,7 +363,7 @@ Namespace NDtw
                 Dim currentRowPredecessorStepX = _predecessorStepX(i)
                 Dim currentRowPredecessorStepY = _predecessorStepY(i)
 
-                For j = _YLength - 1 To 0 Step -1
+                For j As Integer = _YLength - 1 To 0 Step -1
                     'Sakoe-Chiba constraint, but make it wider in one dimension when signal lengths are not equal
                     If _sakoeChibaConstraint AndAlso If(_isXLongerOrEqualThanY, j > i AndAlso j - i > _sakoeChibaMaxShift OrElse j < i AndAlso i - j > _sakoeChibaMaxShift + _signalsLengthDifference, j > i AndAlso j - i > _sakoeChibaMaxShift + _signalsLengthDifference OrElse j < i AndAlso i - j > _sakoeChibaMaxShift) Then
 
@@ -376,7 +376,7 @@ Namespace NDtw
                     Dim lowestCostStepX = stepMove1
                     Dim lowestCostStepY = stepMove1
 
-                    For alternativePathAside = 1 To _slopeStepSizeAside
+                    For alternativePathAside As Integer = 1 To _slopeStepSizeAside
                         Dim costHorizontalStepAside = 0.0
                         Dim costVerticalStepAside = 0.0
 
@@ -413,7 +413,9 @@ Namespace NDtw
 
                     'on the topright edge, when boundary constrained only assign current distance as path distance to the (m, n) element
                     'on the topright edge, when not boundary constrained, assign current distance as path distance to all edge elements
-                    If Double.IsInfinity(lowestCost) AndAlso (Not _boundaryConstraintEnd OrElse i - j = _XLength - _YLength) Then lowestCost = 0
+                    If Double.IsInfinity(lowestCost) AndAlso (Not _boundaryConstraintEnd OrElse i - j = _XLength - _YLength) Then
+                        lowestCost = 0
+                    End If
 
                     currentRowPathCost(j) = lowestCost + currentRowDistances(j)
                     currentRowPredecessorStepX(j) = lowestCostStepX
@@ -437,17 +439,22 @@ Namespace NDtw
             End If
         End Sub
 
-        Public Function GetCost() As Double Implements IDtw.GetCost
+        Public Function GetCost() As Double
             Calculate()
 
             If _boundaryConstraintStart Then
                 Return _pathCost(0)(0)
             End If
 
-            Return std.Min(_pathCost(CInt(0)).Min(), Enumerable.Select(Of Double(), Global.System.[Double])(_pathCost, CType(Function(y) CDbl(y(CInt(0))), Func(Of Double(), Double))).Min())
+            Dim min2 As Double = Aggregate y As Double()
+                                 In _pathCost
+                                 Let ymin = y(0)
+                                 Into Min(ymin)
+
+            Return std.Min(_pathCost(0).Min(), min2)
         End Function
 
-        Public Function GetPath() As Tuple(Of Integer, Integer)() Implements IDtw.GetPath
+        Public Function GetPath() As Tuple(Of Integer, Integer)()
             Dim path = New List(Of Tuple(Of Integer, Integer))()
             Dim indexX = 0
             Dim indexY = 0
@@ -486,12 +493,12 @@ Namespace NDtw
             Return path.ToArray()
         End Function
 
-        Public Function GetDistanceMatrix() As Double()() Implements IDtw.GetDistanceMatrix
+        Public Function GetDistanceMatrix() As Double()()
             Calculate()
             Return _distances
         End Function
 
-        Public Function GetCostMatrix() As Double()() Implements IDtw.GetCostMatrix
+        Public Function GetCostMatrix() As Double()()
             Calculate()
             Return _pathCost
         End Function
