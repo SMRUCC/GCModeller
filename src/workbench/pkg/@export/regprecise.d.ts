@@ -5,6 +5,7 @@
 // ref=TRNtoolkit.RegPrecise@TRNtoolkit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 
 /**
+ * 
 */
 declare namespace regprecise {
    /**
@@ -24,6 +25,10 @@ declare namespace regprecise {
       */
       function operon(file: string): object;
       /**
+       * load regprecise database from a given file.
+       * 
+       * 
+        * @param file -
       */
       function regprecise(file: string): object;
       /**

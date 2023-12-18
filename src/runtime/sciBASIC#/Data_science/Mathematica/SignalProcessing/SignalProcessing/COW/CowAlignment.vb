@@ -12,21 +12,15 @@ Namespace COW
     ''' </remarks>
     Public NotInheritable Class CowAlignment(Of S As {IPeak2D})
 
-        ''' <summary>
-        ''' 
-        ''' </summary>
-        ''' <param name="id"><see cref="IPeak2D.ID"/></param>
-        ''' <param name="dim1"><see cref="IPeak2D.Dimension1"/></param>
-        ''' <param name="dim2"><see cref="IPeak2D.Dimension2"/></param>
-        ''' <param name="intensity"><see cref="IPeak2D.Intensity"/></param>
-        ''' <returns></returns>
-        Public Delegate Function CreatePeak(id As String, dim1 As Double, dim2 As Double, intensity As Double) As S
+        ReadOnly peak2D As IDelegateCreatePeak2D(Of S)
 
-        ReadOnly peak2D As CreatePeak
-
-        Sub New(createPeak As CreatePeak)
+        Sub New(createPeak As IDelegateCreatePeak2D(Of S))
             peak2D = createPeak
         End Sub
+
+        Public Overrides Function ToString() As String
+            Return $"COW({GetType(S).Name})"
+        End Function
 
         Public Shared Function GaussianFunction(normalizedValue As Double, mean As Double, standardDeviation As Double, variable As Double) As Double
             Dim result = normalizedValue * std.Exp(-1 * std.Pow(variable - mean, 2) / (2 * std.Pow(standardDeviation, 2)))
@@ -38,37 +32,32 @@ Namespace COW
         ''' This program returns the chromatogram information as the list of ChromatogramPeak containing scan number, retention time, m/z, intensity.
         ''' As long as you use 'Constant' enum as the borderlimit, you do not have to mind maxSlack (second arg).
         ''' Now I'm making some border limits but please do not use others except for 'Constant' yet.
-        ''' The first argument, minSlack, should be 1 or 2 as long as ODS columns or GC are used.
-        ''' The second argument is please the same as the first argument.
-        ''' The third argument, segment size, should be set to the data point number of detected peaks (recommended).
-        ''' The sample chromatogram will be aligned to the reference chromatogram.
-        ''' The border limit please should be set to constant.
         ''' </summary>
-        ''' <param name="minSlack"></param>
-        ''' <param name="maxSlack"></param>
-        ''' <param name="segmentSize"></param>
-        ''' <param name="referenceChromatogram"></param>
+        ''' <param name="minSlack">The first argument, minSlack, should be 1 or 2 as long as ODS columns or GC are used.</param>
+        ''' <param name="maxSlack">The second argument is please the same as the first argument.</param>
+        ''' <param name="segmentSize">The third argument, segment size, should be set to the data point number of detected peaks (recommended).</param>
+        ''' <param name="referenceChromatogram">The sample chromatogram will be aligned to the reference chromatogram.</param>
         ''' <param name="sampleChromatogram"></param>
-        ''' <param name="borderLimit"></param>
+        ''' <param name="borderLimit">The border limit please should be set to constant.</param>
         ''' <returns></returns>
-        Public Function CorrelationOptimizedWarping(minSlack As Integer, maxSlack As Integer, segmentSize As Integer,
-                                                    referenceChromatogram As List(Of IPeak2D),
-                                                    sampleChromatogram As List(Of IPeak2D),
-                                                    borderLimit As BorderLimit) As List(Of IPeak2D)
+        Public Iterator Function CorrelationOptimizedWarping(referenceChromatogram As List(Of S), sampleChromatogram As List(Of S),
+                                                             Optional segmentSize As Integer = 3,
+                                                             Optional minSlack As Integer = 1,
+                                                             Optional maxSlack As Integer = 1,
+                                                             Optional borderLimit As BorderLimit = BorderLimit.Constant) As IEnumerable(Of S)
 
-            Dim alignedChromatogram = New List(Of IPeak2D)()
-            Dim referenceDatapointNumber = referenceChromatogram.Count, sampleDatapointNumber = sampleChromatogram.Count
+            Dim referenceDatapointNumber = referenceChromatogram.Count
+            Dim sampleDatapointNumber = sampleChromatogram.Count
 
             Dim segmentNumber As Integer = sampleDatapointNumber / segmentSize
             Dim delta As Integer = referenceDatapointNumber / sampleDatapointNumber * segmentSize - segmentSize
             Dim enabledLength = (segmentSize + delta) * segmentNumber
 
             Dim functionMatrixBean As FunctionMatrix = New FunctionMatrix(segmentNumber + 1, enabledLength + 1)
-            Dim functionElementBean As FunctionElement
 
-            'Slack parameter set
-#Region ""
-            Dim slack As List(Of Integer) = New List(Of Integer)()
+#Region "Slack parameter set"
+            Dim slack As New List(Of Integer)()
+
             For i = 0 To segmentNumber - 1
                 If borderLimit = BorderLimit.Constant Then
                     slack.Add(minSlack)
@@ -84,21 +73,12 @@ Namespace COW
             Next
 #End Region
 
-            'Initialize
-#Region ""
-            For i = 0 To segmentNumber
-                For j = 0 To enabledLength
-                    functionElementBean = New FunctionElement(Double.MinValue, 0)
-                    functionMatrixBean(i, j) = functionElementBean
-                Next
-            Next
-            functionMatrixBean(segmentNumber, enabledLength).Score = 0
-#End Region
+            Call functionMatrixBean.Initialize(segmentNumber, enabledLength)
 
-            'score matrix calculation
-#Region ""
+#Region "score matrix calculation"
             Dim intervalStart, intervalEnd As Integer
             Dim cumCoefficient As Double
+
             For i = segmentNumber - 1 To 0 Step -1
                 intervalStart = std.Max(i * (segmentSize + delta - slack(i)), enabledLength - (segmentNumber - i) * (segmentSize + delta + slack(i)))
                 intervalEnd = std.Min(i * (segmentSize + delta + slack(i)), enabledLength - (segmentNumber - i) * (segmentSize + delta - slack(i)))
@@ -108,7 +88,8 @@ Namespace COW
                 For x As Integer = intervalStart To intervalEnd
                     For u = delta - slack(i) To delta + slack(i)
                         If 0 <= x + segmentSize + u AndAlso x + segmentSize + u <= enabledLength Then
-                            cumCoefficient = functionMatrixBean(i + 1, x + segmentSize + u).Score + cowFunctionCalculation(i, x, u, segmentSize, referenceChromatogram, sampleChromatogram)
+                            cumCoefficient = functionMatrixBean(i + 1, x + segmentSize + u).Score +
+                                cowFunctionCalculation(i, x, u, segmentSize, referenceChromatogram, sampleChromatogram)
 
                             If cumCoefficient > functionMatrixBean(i, x).Score Then
                                 functionMatrixBean(i, x).Score = cumCoefficient
@@ -120,8 +101,7 @@ Namespace COW
             Next
 #End Region
 
-            'Backtrace
-#Region ""
+#Region "Backtrace"
             Dim endPosition, positionFlont, totalWarp, warp, counter As Integer, positionEnd = 0
             Dim warpedPosition, fraction, score As Double
 
@@ -131,7 +111,11 @@ Namespace COW
             score = 0
             totalWarp = 0
             counter = 0
-            For i = 0 To segmentNumber - 1
+            For i As Integer = 0 To segmentNumber - 1
+                If endPosition >= functionMatrixBean.dims.col Then
+                    Continue For
+                End If
+
                 warp = functionMatrixBean(i, endPosition).Warp
                 score = functionMatrixBean(i, endPosition).Score
 
@@ -163,8 +147,9 @@ Namespace COW
                         intensity:=(1 - fraction) * sampleChromatogram(positionFlont).Intensity + fraction * sampleChromatogram(positionEnd).Intensity,
                         dim2:=referenceChromatogram(counter).Dimension2
                     )
-                    alignedChromatogram.Add(peakInformation)
                     counter += 1
+
+                    Yield peakInformation
                 Next
 
                 endPosition += segmentSize + warp
@@ -180,19 +165,26 @@ Namespace COW
                         positionEnd = sampleDatapointNumber - 1
                     End If
 
+                    If counter >= referenceChromatogram.Count Then
+                        Continue For
+                    End If
+                    If positionEnd >= sampleChromatogram.Count Then
+                        Continue For
+                    End If
+
                     Dim peakInformation = peak2D(
                         id:=referenceChromatogram(counter).ID,
                         dim1:=sampleChromatogram(positionEnd).Dimension1,
                         intensity:=sampleChromatogram(positionEnd).Intensity,
                         dim2:=referenceChromatogram(counter).Dimension2
                     )
-                    alignedChromatogram.Add(peakInformation)
                     counter += 1
+
+                    Yield peakInformation
                 Next
             End If
 #End Region
-
-            Return alignedChromatogram
+            Call functionMatrixBean.Dispose()
         End Function
 
         ''' <summary>
@@ -263,12 +255,13 @@ Namespace COW
                                                        columnPosition As Integer,
                                                        u As Integer,
                                                        segmentSize As Integer,
-                                                       referenceChromatogram As List(Of IPeak2D),
-                                                       sampleChromatogram As List(Of IPeak2D)) As Double
+                                                       referenceChromatogram As List(Of S),
+                                                       sampleChromatogram As List(Of S)) As Double
 
             Dim positionFlont, positionEnd As Integer
             Dim warpedPosition, fraction, wT, wS As Double
-            Dim targetArray = New Double(segmentSize + u + 1 - 1) {}, alingedArray = New Double(segmentSize + u + 1 - 1) {}
+            Dim targetArray = New Double(segmentSize + u + 1 - 1) {}
+            Dim alingedArray = New Double(segmentSize + u + 1 - 1) {}
 
             For j = 0 To segmentSize + u
                 If columnPosition + j >= referenceChromatogram.Count Then Exit For
@@ -295,19 +288,24 @@ Namespace COW
         End Function
 
         Public Shared Function Coefficient(array1 As Double(), array2 As Double()) As Double
-            Dim sum1 As Double = 0, sum2 As Double = 0, mean1 As Double = 0, mean2 As Double = 0, covariance As Double = 0, sqrt1 As Double = 0, sqrt2 As Double = 0
+            Dim sum1 As Double = 0, sum2 As Double = 0
+            Dim covariance As Double = 0
+            Dim sqrt1 As Double = 0, sqrt2 As Double = 0
+
             For i = 0 To array1.Length - 1
                 sum1 += array1(i)
                 sum2 += array2(i)
             Next
-            mean1 = sum1 / array1.Length
-            mean2 = sum2 / array2.Length
+
+            Dim mean1 = sum1 / array1.Length
+            Dim mean2 = sum2 / array2.Length
 
             For i = 0 To array1.Length - 1
                 covariance += (array1(i) - mean1) * (array2(i) - mean2)
                 sqrt1 += std.Pow(array1(i) - mean1, 2)
                 sqrt2 += std.Pow(array2(i) - mean2, 2)
             Next
+
             If sqrt1 = 0 OrElse sqrt2 = 0 Then
                 Return 0
             Else
