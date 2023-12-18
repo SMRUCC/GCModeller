@@ -5,6 +5,7 @@
 // ref=biosystem.SBMLTools@biosystem, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 
 /**
+ * 
 */
 declare namespace SBML {
    module extract {
@@ -30,6 +31,10 @@ declare namespace SBML {
    function extract_reactions(sbml: any, json?: boolean, env?: object): any;
    module read {
       /**
+       * Read a sbml model file from a given file path
+       * 
+       * 
+        * @param file -
       */
       function sbml(file: string): any;
    }

@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>uniprot.ko2go</title>
+    <title>export ko to go mapping data from the uniprot database.</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <style rel="stylesheet" type="text/css">
@@ -140,6 +140,34 @@
         div.vignettes a:hover {
             background: rgb(85%, 85%, 85%);
         }
+
+        .character {
+            color: brown;
+        }
+
+        .comment {
+            color: green;
+            font-style: italic;
+        }
+
+        .number {
+            color: skyblue;
+        }
+
+        .keyword {
+            color: blue;
+            font-weight: bold;
+        }
+
+        .operator {
+            color: gray;
+            font-weight: bold;
+        }
+
+        .bracket {
+            color: rgb(197, 1, 197);
+            font-weight: bold;
+        }
     </style>
 </head>
 
@@ -153,11 +181,11 @@
             </tr>
         </table>
 
-        <h2>uniprot.ko2go</h2>
+        <h2>export ko to go mapping data from the uniprot database.</h2>
 
         <h3>Description</h3>
 
-        uniprot.ko2go
+        
 
         <h3>Usage</h3>
 
@@ -170,6 +198,17 @@
 
         <table>
             
+<dt>uniprot</dt>
+<dd><p><p>the data reader of the uniprot xml database file.</p></p></dd>
+
+
+<dt>threshold</dt>
+<dd><p><p>the supports coverage threshold value.</p></p></dd>
+
+
+<dt>env</dt>
+<dd><p><p>-</p></p></dd>
+
         </table>
 
 
@@ -192,5 +231,16 @@
         </div>
     </div>
 </body>
+
+<script type="text/javascript" src="../../_assets/R_syntax.js"></script>
+<script type="text/javascript">
+    let example_code = document.getElementById("example_r");
+    let highlights_str = highlights(example_code.innerText);
+
+    console.log(example_code.innerText);
+    console.log(highlights_str);
+
+    example_code.innerHTML = highlights_str;
+</script>
 
 </html>

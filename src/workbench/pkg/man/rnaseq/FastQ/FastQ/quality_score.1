@@ -1,10 +1,24 @@
 .\" man page create by R# package system.
 .TH FASTQ 1 2000-Jan "quality_score" "quality_score"
 .SH NAME
-quality_score \- 
+quality_score \- In FASTQ files, quality scores are encoded into a compact form,
 .SH SYNOPSIS
 \fIquality_score(\fBq\fR as any, 
 [\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+In FASTQ files, quality scores are encoded into a compact form, 
+ which uses only 1 byte per quality value. In this encoding, the 
+ quality score is represented as the character with an ASCII 
+ code equal to its value + 33.
+.PP
+.SH OPTIONS
+.PP
+\fBq\fB \fR\- -. 
+.PP
+.PP
+\fBenv\fB \fR\- -. 
+.PP
 .SH SEE ALSO
 FastQ
 .SH FILES
