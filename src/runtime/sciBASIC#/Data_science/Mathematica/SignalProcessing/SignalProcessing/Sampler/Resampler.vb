@@ -81,7 +81,11 @@ Public Class Resampler
 
     Default Public ReadOnly Property GetVector(x As IEnumerable(Of Double)) As Double()
         Get
-            Return x.Select(AddressOf GetIntensity).ToArray
+            If Me.x.Length = 0 Then
+                Return x.Select(Function(any) 0.0).ToArray
+            Else
+                Return x.Select(AddressOf GetIntensity).ToArray
+            End If
         End Get
     End Property
 
