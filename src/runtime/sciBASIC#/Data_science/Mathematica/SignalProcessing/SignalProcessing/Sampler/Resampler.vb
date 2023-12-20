@@ -128,6 +128,12 @@ Public Class Resampler
     Private Function getPosition(x As Double, ByRef dx As Double) As Integer
         For i As Integer = 0 To Me.x.Length - 1
             If Me.x(i) >= x Then
+                If i > 0 Then
+                    If std.Abs(Me.x(i) - x) > std.Abs(Me.x(i - 1) - x) Then
+                        i -= 1
+                    End If
+                End If
+
                 dx = Me.x(i) - x
                 Return i
             End If
