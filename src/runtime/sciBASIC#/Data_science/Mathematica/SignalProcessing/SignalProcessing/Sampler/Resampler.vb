@@ -63,6 +63,7 @@ Public Class Resampler
 
     Dim x As Double()
     Dim y As Double()
+    Dim max_dx As Double = Double.MaxValue
 
     ''' <summary>
     ''' populate the <see cref="GeneralSignal.Measures"/> of the raw signal
@@ -98,6 +99,11 @@ Public Class Resampler
             Dim y1 = Me.y(i)
             Dim y2 = Me.y(i + 1)
 
+            If x2 - x1 > max_dx Then
+                ' window too large, returns no signal data
+                Return 0
+            End If
+
             If x2 = x1 Then
                 Return (y1 + y2) / 2
             Else
@@ -119,15 +125,19 @@ Public Class Resampler
         Return Me.x.Length
     End Function
 
-    Public Shared Function CreateSampler(x As Double(), y As Double()) As Resampler
+    Public Shared Function CreateSampler(x As Double(), y As Double(), Optional max_dx As Double = Double.MaxValue) As Resampler
         If x.Length <> y.Length Then
             Throw New ArgumentException($"the size of x should equals to the size of y!")
         End If
 
-        Return New Resampler With {.x = x, .y = y}
+        Return New Resampler With {
+            .x = x,
+            .y = y,
+            .max_dx = max_dx
+        }
     End Function
 
-    Public Shared Function CreateSampler(raw As GeneralSignal) As Resampler
+    Public Shared Function CreateSampler(raw As GeneralSignal, Optional max_dx As Double = Double.MaxValue) As Resampler
         Dim x = raw.Measures _
             .SeqIterator _
             .OrderBy(Function(xi) xi.value) _
@@ -135,6 +145,7 @@ Public Class Resampler
         Dim y = raw.Strength
 
         Return New Resampler With {
+            .max_dx = max_dx,
             .x = x.Select(Function(xi) xi.value).ToArray,
             .y = x.Select(Function(xi) y(xi.i)).ToArray
         }
