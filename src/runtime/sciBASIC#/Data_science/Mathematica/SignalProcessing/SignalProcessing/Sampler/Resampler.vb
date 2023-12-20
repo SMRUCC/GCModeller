@@ -1,57 +1,58 @@
 ﻿#Region "Microsoft.VisualBasic::f5c4848179aa59575e050f23c3ce185b, sciBASIC#\Data_science\Mathematica\SignalProcessing\SignalProcessing\Resampler.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 78
-    '    Code Lines: 58
-    ' Comment Lines: 7
-    '   Blank Lines: 13
-    '     File Size: 2.27 KB
+' Summaries:
 
 
-    ' Class Resampler
-    ' 
-    '     Properties: enumerateMeasures
-    ' 
-    '     Function: (+2 Overloads) CreateSampler, GetIntensity, getPosition
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 78
+'    Code Lines: 58
+' Comment Lines: 7
+'   Blank Lines: 13
+'     File Size: 2.27 KB
+
+
+' Class Resampler
+' 
+'     Properties: enumerateMeasures
+' 
+'     Function: (+2 Overloads) CreateSampler, GetIntensity, getPosition
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports Microsoft.VisualBasic.Linq
+Imports std = System.Math
 
 ''' <summary>
 ''' data signal resampler for continuous signals
@@ -85,13 +86,22 @@ Public Class Resampler
     End Property
 
     Public Function GetIntensity(x As Double) As Double
-        Dim i As Integer = getPosition(x)
+        Dim dx As Double = Nothing
+        Dim i As Integer = getPosition(x, dx)
 
         If i >= Me.x.Length - 1 Then
-            Return Me.y(Me.y.Length - 1)
+            If dx > max_dx Then
+                Return 0
+            Else
+                Return Me.y(Me.y.Length - 1)
+            End If
         ElseIf i <= 0 Then
-            Return Me.y(0)
-        ElseIf Me.x(i) = x Then
+            If dx > max_dx Then
+                Return 0
+            Else
+                Return Me.y(0)
+            End If
+        ElseIf std.Abs(Me.x(i) - x) <= 0.000001 Then
             Return Me.y(i)
         Else
             Dim x1 = Me.x(i)
@@ -115,12 +125,15 @@ Public Class Resampler
         End If
     End Function
 
-    Private Function getPosition(x As Double) As Integer
+    Private Function getPosition(x As Double, ByRef dx As Double) As Integer
         For i As Integer = 0 To Me.x.Length - 1
             If Me.x(i) >= x Then
+                dx = Me.x(i) - x
                 Return i
             End If
         Next
+
+        dx = x - Me.x(Me.x.Length - 1)
 
         Return Me.x.Length
     End Function
