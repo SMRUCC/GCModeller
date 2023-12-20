@@ -89,19 +89,17 @@ Public Class Resampler
         Dim dx As Double = Nothing
         Dim i As Integer = getPosition(x, dx)
 
+        If dx > max_dx Then
+            Return 0
+        End If
+
         If i >= Me.x.Length - 1 Then
-            If dx > max_dx Then
-                Return 0
-            Else
-                Return Me.y(Me.y.Length - 1)
-            End If
+            Return Me.y(Me.y.Length - 1)
         ElseIf i <= 0 Then
-            If dx > max_dx Then
-                Return 0
-            Else
-                Return Me.y(0)
-            End If
+            Return Me.y(0)
         ElseIf std.Abs(Me.x(i) - x) <= 0.000001 Then
+            Return Me.y(i)
+        ElseIf x < Me.x(i) Then
             Return Me.y(i)
         Else
             Dim x1 = Me.x(i)
