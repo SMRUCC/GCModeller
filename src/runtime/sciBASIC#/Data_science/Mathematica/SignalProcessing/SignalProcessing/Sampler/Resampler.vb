@@ -134,7 +134,7 @@ Public Class Resampler
                     End If
                 End If
 
-                dx = Me.x(i) - x
+                dx = std.Abs(Me.x(i) - x)
                 Return i
             End If
         Next
