@@ -96,15 +96,19 @@ Namespace Math
         ''' </param>
         ''' <returns></returns>
         Public Function diff(x As Double()) As Double()
-            Dim diffs As New List(Of Double)
-            Dim base As Double = x(Scan0)
+            If x.TryCount <= 1 Then
+                Return New Double() {}
+            Else
+                Dim diffs As New List(Of Double)
+                Dim base As Double = x(Scan0)
 
-            For Each xi As Double In x.Skip(1)
-                diffs.Add(xi - base)
-                base = xi
-            Next
+                For Each xi As Double In x.Skip(1)
+                    diffs.Add(xi - base)
+                    base = xi
+                Next
 
-            Return diffs.ToArray
+                Return diffs.ToArray
+            End If
         End Function
 
         <Extension>
