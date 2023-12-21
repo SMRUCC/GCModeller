@@ -64,7 +64,6 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.BinaryTree
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.TagData
@@ -76,10 +75,6 @@ Imports Microsoft.VisualBasic.Parallel
 Imports std = System.Math
 
 Namespace Math
-
-    Public Interface INumericKey
-        Property key As Double
-    End Interface
 
     ''' <summary>
     ''' Simple number vector grouping
@@ -94,7 +89,10 @@ Namespace Math
         ''' <param name="x">
         ''' a numeric vector Or matrix containing the values To be differenced.
         ''' </param>
-        ''' <returns></returns>
+        ''' <returns>
+        ''' for input vector element size is zero or else only one element inside, 
+        ''' a empty diff vector will be generated from this function
+        ''' </returns>
         Public Function diff(x As Double()) As Double()
             If x.TryCount <= 1 Then
                 Return New Double() {}
