@@ -90,7 +90,7 @@ Imports any = Microsoft.VisualBasic.Scripting
 Imports REnv = SMRUCC.Rsharp.Runtime.Internal
 
 ''' <summary>
-''' 
+''' The kegg data model repository tool
 ''' </summary>
 <Package("repository", Category:=APICategories.SoftwareTools)>
 <RTypeExport("kegg_pathway", GetType(Pathway))>
@@ -119,7 +119,12 @@ Public Module repository
         Return mapTable
     End Function
 
+    ''' <summary>
+    ''' Get the class description category data for EC number
+    ''' </summary>
+    ''' <returns></returns>
     <ExportAPI("enzyme_description")>
+    <RApiReturn(TypeCodes.list)>
     Public Function getEnzymeClassDescription() As Object
         Return New list With {
             .slots = ECNumberReader.rootNames _
