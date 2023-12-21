@@ -5,6 +5,7 @@
 // ref=kegg_kit.repository@kegg_kit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 
 /**
+ * The kegg data model repository tool
  * 
 */
 declare namespace repository {
@@ -52,6 +53,9 @@ declare namespace repository {
    */
    function compoundsId(repo: any, env?: object): any;
    /**
+    * Get the class description category data for EC number
+    * 
+    * 
    */
    function enzyme_description(): any;
    module fetch {
