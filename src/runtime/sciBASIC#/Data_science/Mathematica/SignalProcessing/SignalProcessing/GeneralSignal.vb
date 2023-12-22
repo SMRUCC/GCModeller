@@ -151,7 +151,11 @@ Public Class GeneralSignal : Implements INamedValue
     End Sub
 
     Public Overrides Function ToString() As String
-        Return description
+        If description.StringEmpty Then
+            Return $"{reference}, {Measures.Length} data points"
+        Else
+            Return description
+        End If
     End Function
 
     Public Function GetText() As String
@@ -180,6 +184,12 @@ Public Class GeneralSignal : Implements INamedValue
                 .X = _Measures(i),
                 .Y = _Strength(i)
             }
+        Next
+    End Function
+
+    Public Iterator Function GetTimeSignals(Of T As ITimeSignal)(activator As Func(Of Double, Double, T)) As IEnumerable(Of T)
+        For i As Integer = 0 To _Measures.Length - 1
+            Yield activator(_Measures(i), _Strength(i))
         Next
     End Function
 
