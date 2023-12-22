@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Data.Regprecise.Regulator</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="../../_assets/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>Regulator {SMRUCC.genomics.Data.Regprecise}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>Regulator</h2>
+
+        <h3>Description</h3>
+
+        
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Data.Regprecise
+export class Regulator {
+   type: <a href="/vignettes/clr/SMRUCC/genomics/Data/Regprecise/Types.html">Types</a>;
+   family: string;
+   regulationMode: string;
+   regulator: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/NamedValue.html">NamedValue</a>;
+   effector: string;
+   pathway: string;
+   locus_tag: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/NamedValue.html">NamedValue</a>;
+   biological_process: string;
+   regulog: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/NamedValue.html">NamedValue</a>;
+   # 用来下载生成motif数据库的时候所需要使用的
+   infoURL: string;
+   regulatorySites: <a href="/vignettes/clr/SMRUCC/genomics/Data/Regtransbase/WebServices/MotifFasta.html">MotifFasta[]</a>;
+   # 被这个调控因子所调控的基因，按照操纵子进行分组，这个适用于推断Regulon的
+   operons: <a href="/vignettes/clr/SMRUCC/genomics/Data/Regprecise/Operon.html">Operon[]</a>;
+   Regulates: <a href="/vignettes/clr/SMRUCC/genomics/Data/Regprecise/RegulatedGene.html">RegulatedGene[]</a>;
+   # 该Regprecise调控因子的基因号
+   LocusId: string;
+}
+</code>
+        </pre>
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="../../_assets/R_syntax.js"></script>
+<script type="text/javascript" src="../../_assets/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

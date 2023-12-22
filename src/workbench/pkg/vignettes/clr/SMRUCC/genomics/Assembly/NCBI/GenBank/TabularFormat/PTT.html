@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTT</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="../../_assets/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>PTT {SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>PTT</h2>
+
+        <h3>Description</h3>
+
+        The brief information of a genome.(基因组的摘要信息)
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
+export class PTT {
+   # The gene brief information collection data in this genome.(这个基因组之中的所有的基因摘要数据)
+   GeneObjects: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/TabularFormat/ComponentModels/GeneBrief.html">GeneBrief[]</a>;
+   forwards: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/TabularFormat/ComponentModels/GeneBrief.html">GeneBrief[]</a>;
+   reversed: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/TabularFormat/ComponentModels/GeneBrief.html">GeneBrief[]</a>;
+   # 基因组的标题
+   Title: string;
+   # The genome original sequence length.(基因组序列的长度)
+   Size: integer;
+   # The number of gene product counts in this genome data: @``P:SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTT.GeneObjects``.Length .(当前的基因组数据之中的基因对象的数目)
+   NumOfProducts: integer;
+   # Gets a list of all of the gene object in this ptt document.(所有基因的基因号@``P:SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.GeneBrief.Synonym``列表)
+   GeneIDList: <a href="/vignettes/clr/System/Collections/Generic/IEnumerable`1.html">IEnumerable`1</a>;
+   GetsGeneDatas: <a href="/vignettes/clr/System/Collections/Generic/IEnumerable`1.html">IEnumerable`1</a>;
+}
+</code>
+        </pre>
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="../../_assets/R_syntax.js"></script>
+<script type="text/javascript" src="../../_assets/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.File</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="../../_assets/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>File {SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>File</h2>
+
+        <h3>Description</h3>
+
+        NCBI GenBank database file.(NCBI GenBank数据库文件)
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF
+export class File {
+   Comment: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/GBFF/Keywords/COMMENT.html">COMMENT</a>;
+   # This GenBank keyword section stores the sequence data for this database.
+   Origin: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/GBFF/Keywords/ORIGIN.html">ORIGIN</a>;
+   Features: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/GBFF/Keywords/FEATURES/FEATURES.html">FEATURES</a>;
+   # LocusID, GI or AccessionID
+   Accession: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/GBFF/Keywords/ACCESSION.html">ACCESSION</a>;
+   Reference: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/GBFF/Keywords/REFERENCE.html">REFERENCE</a>;
+   # The definition value for this organism's GenBank data.
+   Definition: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/GBFF/Keywords/DEFINITION.html">DEFINITION</a>;
+   Version: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/GBFF/Keywords/VERSION.html">VERSION</a>;
+   # 物种信息
+   Source: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/GBFF/Keywords/SOURCE.html">SOURCE</a>;
+   # The brief entry information of this genbank data.
+   Locus: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/GBFF/Keywords/LOCUS.html">LOCUS</a>;
+   Keywords: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/GBFF/Keywords/KEYWORDS.html">KEYWORDS</a>;
+   DbLinks: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/GBFF/Keywords/DBLINK.html">DBLINK</a>;
+   # Is plasmid source?
+   #  (这个Genbank对象是否为一个质粒的基因组数据)
+   isPlasmid: boolean;
+   # 物种数据
+   Taxon: string;
+   # 这个Genbank对象是否具有序列数据
+   HasSequenceData: boolean;
+   # This GenBank data is the WGS(Whole genome shotgun) type data.
+   IsWGS: boolean;
+   # Gets the original source brief entry information of this genome.(获取这个基因组的摘要信息)
+   SourceFeature: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/GBFF/Keywords/FEATURES/Feature.html">Feature</a>;
+}
+</code>
+        </pre>
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="../../_assets/R_syntax.js"></script>
+<script type="text/javascript" src="../../_assets/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>
