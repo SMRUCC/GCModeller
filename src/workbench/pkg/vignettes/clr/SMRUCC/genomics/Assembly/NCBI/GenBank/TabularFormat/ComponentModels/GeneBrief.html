@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.GeneBrief</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="../../_assets/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>GeneBrief {SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>GeneBrief</h2>
+
+        <h3>Description</h3>
+
+        The gene brief information data in a ncbi PTT document.(PTT文件之中的一行，即一个基因的对象摘要信息)
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
+export class GeneBrief {
+   # The location of this ORF gene on the genome sequence.(包含有PTT文件之中的Location, Strand和Length列)
+   Location: <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/NucleotideLocation.html">NucleotideLocation</a>;
+   PID: string;
+   # 基因名，在genbank文件里面是/gene=，基因号，这个应该是GI编号，而非平常比较熟悉的字符串编号
+   Gene: string;
+   Code: string;
+   COG: string;
+   # Protein product functional description in the genome.
+   #  (基因的蛋白质产物的功能的描述)
+   Product: string;
+   # The NT length of this ORF.
+   Length: integer;
+   # The gene's locus_tag data.
+   #  (我们所正常熟知的基因编号，@``T:SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTT``对象主要是使用这个属性值来生成字典对象的)
+   Synonym: string;
+   # *.ptt => TRUE;  *.rnt => FALSE
+   IsORF: boolean;
+   ATG: integer;
+   TGA: integer;
+   # 判断本对象是否是由@``M:SMRUCC.genomics.ContextModel.LocationDescriptions.BlankSegment``1(SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation)``方法所生成的空白片段
+   IsBlankSegment: boolean;
+}
+</code>
+        </pre>
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="../../_assets/R_syntax.js"></script>
+<script type="text/javascript" src="../../_assets/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

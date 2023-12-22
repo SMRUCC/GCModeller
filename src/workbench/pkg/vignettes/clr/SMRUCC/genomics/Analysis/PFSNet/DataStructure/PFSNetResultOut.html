@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.PFSNet.DataStructure.PFSNetResultOut</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="../../_assets/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>PFSNetResultOut {SMRUCC.genomics.Analysis.PFSNet.DataStructure}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>PFSNetResultOut</h2>
+
+        <h3>Description</h3>
+
+        The xml format pfsnet calculation result data.(PfsNET结果Xml文件)
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.PFSNet.DataStructure
+export class PFSNetResultOut {
+   # The data tag value for the current PfsNET evaluation.(本次计算结果的数据标签)
+   tag: string;
+   class1: string;
+   class2: string;
+   # The mutation phenotype 1 evaluation data for the significant sub network.(Class1)
+   phenotype1: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/PFSNet/DataStructure/PFSNetGraph.html">PFSNetGraph[]</a>;
+   # The another mutation phenotype evaluation data for the significant sub network.(Class2)
+   phenotype2: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/PFSNet/DataStructure/PFSNetGraph.html">PFSNetGraph[]</a>;
+}
+</code>
+        </pre>
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="../../_assets/R_syntax.js"></script>
+<script type="text/javascript" src="../../_assets/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

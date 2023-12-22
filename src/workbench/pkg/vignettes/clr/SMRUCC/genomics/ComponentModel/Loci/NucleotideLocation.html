@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="../../_assets/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>NucleotideLocation {SMRUCC.genomics.ComponentModel.Loci}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>NucleotideLocation</h2>
+
+        <h3>Description</h3>
+
+        Loci segment location information on an nucleotide sequence, this object added an @``P:SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation.Strand`` 
+ information on @``T:SMRUCC.genomics.ComponentModel.Loci.Location`` data.(会自动根据LEFT和RIGHT的值来修正属性值)
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.ComponentModel.Loci
+export class NucleotideLocation {
+   # 这个位点在哪一条DNA核酸链
+   #  
+   #  ```
+   #  Forward =  1; 
+   #  Reverse = -1; 
+   #  Unknown =  0
+   #  ```
+   Strand: <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/Strands.html">Strands</a>;
+   # 用户对这个位点的自定义标注信息
+   tagStr: string;
+   # @``T:SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation``: 实际的物理上面的位置，与核酸链的方向相关，
+   #  (假若需要使用原始的位置数据，则请使用@``P:SMRUCC.genomics.ComponentModel.Loci.Location.left``或者@``P:SMRUCC.genomics.ComponentModel.Loci.Location.right``属性，
+   #  这两个属性值是和具体的链的方向无关的)
+   Start: integer;
+   # @``T:SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation``: 实际的物理上面的位置，与核酸链的方向相关，
+   #  (假若需要使用原始的位置数据，则请使用@``P:SMRUCC.genomics.ComponentModel.Loci.Location.left``或者@``P:SMRUCC.genomics.ComponentModel.Loci.Location.right``属性，
+   #  这两个属性值是和具体的链的方向无关的)
+   Ends: integer;
+   # 当任意一个断点为0的时候就无效
+   IsValid: boolean;
+   left: integer;
+   right: integer;
+   Tag: <a href="/vignettes/clr/Microsoft/VisualBasic/My/JavaScript/JavaScriptObject.html">JavaScriptObject</a>;
+   IsNormalized: boolean;
+   Center: integer;
+   FragmentSize: integer;
+   Min: integer;
+   Max: integer;
+   Interval: integer;
+}
+</code>
+        </pre>
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="../../_assets/R_syntax.js"></script>
+<script type="text/javascript" src="../../_assets/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

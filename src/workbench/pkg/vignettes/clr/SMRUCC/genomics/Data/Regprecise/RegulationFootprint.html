@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Data.Regprecise.RegulationFootprint</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="../../_assets/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>RegulationFootprint {SMRUCC.genomics.Data.Regprecise}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>RegulationFootprint</h2>
+
+        <h3>Description</h3>
+
+        调控关系，这个对象相当于网络之中的边对象
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Data.Regprecise
+export class RegulationFootprint {
+   # 预测出来的基因组之中的调控因子的基因编号
+   regulator: string;
+   family: string;
+   # 预测出来的被调控的基因
+   regulated: string;
+   # motif位点的基因组坐标位置
+   motif: <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/NucleotideLocation.html">NucleotideLocation</a>;
+   # 这个位置上的序列片段数据
+   sequenceData: string;
+   # motif位点到被调控的基因之间的最短距离
+   distance: integer;
+   # 这个位点所属的复制子的编号，这个属性是为了将基因组的染色体DNA和质粒DNA区分开
+   replicon: string;
+   # 受调控的基因的功能
+   product: string;
+   regulog: string;
+   biological_process: string;
+   effector: string;
+   mode: string;
+   # 来自于RegPrecise数据库之中的调控因子注释来源
+   regprecise: string;
+   # 相似度
+   identities: double;
+   # 注释来源的基因组名称
+   species: string;
+   # motif位点的预测来源
+   site: string;
+}
+</code>
+        </pre>
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="../../_assets/R_syntax.js"></script>
+<script type="text/javascript" src="../../_assets/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

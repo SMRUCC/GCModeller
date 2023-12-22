@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Assembly.Uniprot.XML.entry</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="../../_assets/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>entry {SMRUCC.genomics.Assembly.Uniprot.XML}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>entry</h2>
+
+        <h3>Description</h3>
+
+        Describes a UniProtKB entry.
+ (因为@``P:SMRUCC.genomics.Assembly.Uniprot.XML.entry.accessions``可能会出现多个值，所以会需要使用
+ @``M:SMRUCC.genomics.Assembly.Uniprot.XML.entry.ShadowCopy``函数来解决实体多态的问题。
+ 经过shadow copy之后可以使用主键@``P:SMRUCC.genomics.Assembly.Uniprot.XML.entry.accession``来创建字典)
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Assembly.Uniprot.XML
+export class entry {
+   dataset: string;
+   created: string;
+   modified: string;
+   version: string;
+   # 蛋白质的唯一标识符，可以用作为字典的键名
+   accessions: string;
+   name: string;
+   protein: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/protein.html">protein</a>;
+   features: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/feature.html">feature[]</a>;
+   gene: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/gene.html">gene</a>;
+   proteinExistence: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/value.html">value</a>;
+   organism: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/organism.html">organism</a>;
+   # 当前的这个蛋白质的蛋白序列，在Uniprot数据库之中，蛋白记录只有蛋白序列
+   #  没有核酸序列，如果需要核酸序列，则会需要通过accession编号从nt库之中
+   #  提取出来
+   sequence: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/sequence.html">sequence</a>;
+   keywords: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/value.html">value[]</a>;
+   comments: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/comment.html">comment[]</a>;
+   # Dictionary table can be read from @``P:SMRUCC.genomics.Assembly.Uniprot.XML.entry.xrefs`` property
+   dbReferences: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/dbReference.html">dbReference[]</a>;
+   references: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/reference.html">reference[]</a>;
+   # indexed by @``P:SMRUCC.genomics.Assembly.Uniprot.XML.comment.type``
+   CommentList: list;
+   # @``P:SMRUCC.genomics.Assembly.Uniprot.XML.entry.dbReferences`` table
+   xrefs: list;
+}
+</code>
+        </pre>
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="../../_assets/R_syntax.js"></script>
+<script type="text/javascript" src="../../_assets/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

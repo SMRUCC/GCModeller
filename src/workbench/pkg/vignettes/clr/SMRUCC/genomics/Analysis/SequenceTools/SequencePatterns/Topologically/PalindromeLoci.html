@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.PalindromeLoci</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="../../_assets/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>PalindromeLoci {SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>PalindromeLoci</h2>
+
+        <h3>Description</h3>
+
+        Mirror 或者 Palindrome 位点的搜索结果的csv文件存储模型
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically
+export class PalindromeLoci {
+   # 特殊的位点序列
+   Loci: string;
+   # @``P:SMRUCC.genomics.ComponentModel.Loci.Location.left``
+   Start: integer;
+   # 回文序列，在生成Mirror镜像位点数据的时候是使用这个和@``P:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.PalindromeLoci.Loci``组合产生的
+   Palindrome: string;
+   # @``P:SMRUCC.genomics.ComponentModel.Loci.Location.right``
+   PalEnd: integer;
+   # 和@``P:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.PalindromeLoci.Loci``相对应的反向序列
+   MirrorSite: string;
+   Data: list;
+   Mirror: integer;
+   Length: integer;
+   # sequence data for loci value @``P:SMRUCC.genomics.SequenceModel.NucleotideModels.Contig.MappingLocation(System.Boolean)``.
+   #  (理论上这个序列属性的值应该是等于@``P:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.PalindromeLoci.Loci`` + @``P:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.PalindromeLoci.MirrorSite``)
+   SequenceData: string;
+}
+</code>
+        </pre>
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="../../_assets/R_syntax.js"></script>
+<script type="text/javascript" src="../../_assets/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Assembly.KEGG.WebServices.InternalWebFormParsers.WebForm</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="../../_assets/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>WebForm {SMRUCC.genomics.Assembly.KEGG.WebServices.InternalWebFormParsers}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>WebForm</h2>
+
+        <h3>Description</h3>
+
+        parser for the kegg form data text, example like request text 
+ content from the rest: ``https://rest.kegg.jp/get/hsa00592``
+ (KEGG 网页表格的数据解析方法，在Value之中可能会有重复的Key数据出现)
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Assembly.KEGG.WebServices.InternalWebFormParsers
+export class WebForm {
+   # Reference list of this biological object
+   References: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/KEGG/DBGET/bGetObject/Reference.html">Reference[]</a>;
+   Count: integer;
+   Keys: <a href="/vignettes/clr/System/Collections/Generic/IEnumerable`1.html">IEnumerable`1</a>;
+   Values: <a href="/vignettes/clr/System/Collections/Generic/IEnumerable`1.html">IEnumerable`1</a>;
+}
+</code>
+        </pre>
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="../../_assets/R_syntax.js"></script>
+<script type="text/javascript" src="../../_assets/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>
