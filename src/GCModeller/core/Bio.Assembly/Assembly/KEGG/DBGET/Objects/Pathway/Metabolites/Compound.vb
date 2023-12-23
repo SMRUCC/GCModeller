@@ -68,7 +68,7 @@ Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 Namespace Assembly.KEGG.DBGET.bGetObject
 
     ''' <summary>
-    ''' KEGG的代谢物模型
+    ''' A data model for the KEGG compound.
     ''' </summary>
     Public Class Compound : Inherits XmlDataModel
         Implements INamedValue
@@ -83,7 +83,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         Public Overridable Property entry As String Implements INamedValue.Key
 
         ''' <summary>
-        ''' Name
+        ''' the metabolite common names
         ''' </summary>
         ''' <returns></returns>
         Public Property commonNames As String()
@@ -128,6 +128,10 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' </summary>
         ''' <returns></returns>
         Public Property KCF As String
+        ''' <summary>
+        ''' A png image that encoded in base64 string format
+        ''' </summary>
+        ''' <returns></returns>
         Public Property Image As String
 
         <XmlNamespaceDeclarations()>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.FBA.Core.Matrix</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="../../_assets/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>Matrix {SMRUCC.genomics.Analysis.FBA.Core}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>Matrix</h2>
+
+        <h3>Description</h3>
+
+        未知变量xyz为代谢过程，而在约束的目标函数之中则可以通过对代谢过程的约束计算出系数
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.FBA.Core
+export class Matrix {
+   # 线性规划之中的行名称，约束值都是零
+   Compounds: string;
+   # 线性规划之中的列名称，即未知变量列表
+   Flux: list;
+   Gaps: string;
+   # 目标函数之中的计算目标，为Reaction @``P:SMRUCC.genomics.Analysis.FBA.Core.Matrix.Flux``编号之中的一部分
+   Targets: string;
+   # 矩阵的结构为：
+   #  
+   #  + 行应该为Compound
+   #  + 列应该为代谢过程
+   Matrix: <a href="/vignettes/clr/System/Double[].html">Double[][]</a>;
+   # 这个矩阵之中有多少列？即有多少个代谢物
+   NumOfCompounds: integer;
+}
+</code>
+        </pre>
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="../../_assets/R_syntax.js"></script>
+<script type="text/javascript" src="../../_assets/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

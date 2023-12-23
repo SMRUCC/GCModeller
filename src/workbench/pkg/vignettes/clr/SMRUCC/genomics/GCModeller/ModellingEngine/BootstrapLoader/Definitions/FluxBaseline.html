@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Definitions.FluxBaseline</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="../../_assets/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>FluxBaseline {SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Definitions}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>FluxBaseline</h2>
+
+        <h3>Description</h3>
+
+        The baseline value of the flux controls and dynamics
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Definitions
+export class FluxBaseline {
+   transcriptionBaseline: double;
+   transcriptionCapacity: double;
+   # 对于翻译过程，因为需要有核糖体来介导，所以就不设置最低下限了
+   translationCapacity: double;
+   proteinMatureBaseline: double;
+   proteinMatureCapacity: double;
+   productInhibitionFactor: double;
+   tRNAChargeBaseline: double;
+   tRNAChargeCapacity: double;
+   ribosomeAssemblyBaseline: double;
+   ribosomeDisassemblyBaseline: double;
+   ribosomeAssemblyCapacity: double;
+   ribosomeDisassemblyCapacity: double;
+}
+</code>
+        </pre>
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="../../_assets/R_syntax.js"></script>
+<script type="text/javascript" src="../../_assets/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Microsoft.VisualBasic.Data.csv.IO.File</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="../../_assets/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>File {Microsoft.VisualBasic.Data.csv.IO}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>File</h2>
+
+        <h3>Description</h3>
+
+        A comma character seperate table file that can be read and write in the EXCEL.
+ (一个能够被Excel程序所读取的表格文件)
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace Microsoft.VisualBasic.Data.csv.IO
+export class File {
+   # The first row in the table was using as the headers
+   Headers: <a href="/vignettes/clr/Microsoft/VisualBasic/Data/csv/IO/RowObject.html">RowObject</a>;
+   # Get all rows in current table object
+   Rows: <a href="/vignettes/clr/Microsoft/VisualBasic/Data/csv/IO/RowObject.html">RowObject[]</a>;
+   # Get the max width number of the rows in the table.(返回表中的元素最多的一列的列数目)
+   Width: integer;
+   # 将本文件之中的所有列取出来，假若有任意一个列的元素的数目不够的话，则会在相应的位置之上使用空白来替换
+   Columns: <a href="/vignettes/clr/System/Collections/Generic/IEnumerable`1.html">IEnumerable`1</a>;
+   EstimatedFileSize: double;
+   # Row Counts
+   RowNumbers: integer;
+   IsReadOnly: boolean;
+}
+</code>
+        </pre>
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="../../_assets/R_syntax.js"></script>
+<script type="text/javascript" src="../../_assets/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

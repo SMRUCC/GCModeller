@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.Metagenome.OTUTable</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="../../_assets/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>OTUTable {SMRUCC.genomics.Analysis.Metagenome}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>OTUTable</h2>
+
+        <h3>Description</h3>
+
+        这个对象记录了当前的宏基因组实验之中的每一个OTU在样品之中的含量的多少
+ 
+ 这个对象的数据结构与@``T:SMRUCC.genomics.Metagenomics.OTUData`1``类似, 二者可以做等价替换
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.Metagenome
+export class OTUTable {
+   # OTU编号所对应的物种分类信息
+   taxonomy: <a href="/vignettes/clr/SMRUCC/genomics/Metagenomics/Taxonomy.html">Taxonomy</a>;
+   ID: string;
+   Vector: double;
+   Properties: list;
+}
+</code>
+        </pre>
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="../../_assets/R_syntax.js"></script>
+<script type="text/javascript" src="../../_assets/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

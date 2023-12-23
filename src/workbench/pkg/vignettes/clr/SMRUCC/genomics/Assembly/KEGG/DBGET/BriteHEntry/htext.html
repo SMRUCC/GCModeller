@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry.htext</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="../../_assets/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>htext {SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>htext</h2>
+
+        <h3>Description</h3>
+
+        KEGG BRITE is a collection of manually created hierarchical text (htext) files capturing 
+ functional hierarchies of various biological objects, especially those represented as 
+ KEGG objects. In contrast to KEGG PATHWAY, which is limited to molecular interactions and 
+ reactions, KEGG BRITE incorporates many different types of relationships. 
+
+ Some BRITE hierarchy files are computationally expanded, adding a hierarchy level Or a 
+ tab-delimited column, by incorporating additional information. This Is accomplished by the 
+ Join Brite operation Of KEGG Mapper, which combines a BRITE hierarchy file (such As ATC 
+ drug classification) And a binary relation file (such As D number To target relationships 
+ extracted from KEGG DRUG). 
+
+ Some other BRITE hierarchy files contain tab-delimited attributes that are manually added. 
+ Recently introduced BRITE table files are essentailly the same As such multi-column BRITE 
+ hierarchy files. Because the table representation Is often easier To understand, certain 
+ hierarchy files For disease And drug information have been converted To table files.
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
+export class htext {
+   MaxDepth: string;
+   Descript: string;
+   Title: string;
+   Schema: <a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/DataSourceModel/NamedValue`1.html">NamedValue`1</a>;
+   # @``T:SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry.BriteHText``层次分类数据
+   Hierarchical: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/KEGG/DBGET/BriteHEntry/BriteHText.html">BriteHText</a>;
+}
+</code>
+        </pre>
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="../../_assets/R_syntax.js"></script>
+<script type="text/javascript" src="../../_assets/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

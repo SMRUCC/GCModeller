@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Module</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="../../_assets/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>Module {SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>Module</h2>
+
+        <h3>Description</h3>
+
+        KEGG MODULE is a collection of manually defined functional units, called KEGG modules and identified by the M numbers, 
+ used for annotation and biological interpretation of sequenced genomes. 
+ 
+ There are four types of KEGG modules:
+ 
+ + ``pathway modules``      – representing tight functional units In KEGG metabolic pathway maps, such As M00002 (Glycolysis, 
+ core Module involving three-carbon compounds)
+ + ``structural complexes`` – often forming molecular machineries, such As M00072 (Oligosaccharyltransferase)
+ + ``functional sets``      – For other types Of essential sets, such As M00360 (Aminoacyl-tRNA synthases, prokaryotes)
+ + ``signature modules``    – As markers Of phenotypes, such As M00363 (EHEC pathogenicity signature, Shiga toxin)
+ 
+ The entire list Of KEGG modules can be viewed from the BRITE hierarchy file:
+ KEGG modules
+ 
+ Logical Expression
+ 
+ The M number entry Is defined by a logical expression Of K numbers (And other M numbers), allowing automatic evaluation 
+ Of whether the gene Set Is complete, i.e., the Module Is present, In a given genome. A space Or a plus sign represents 
+ an And operation, And a comma sign represents an Or operation In this expression. A plus sign Is used For a molecular 
+ complex And a minus sign designates an Optional item In the complex. 
+ 
+ Each space-separated unit Is called a block, And the distinction Is made for:
+ complete modules
+ incomplete but almost complete modules With only 1 Or 2 blocks missing
+ all modules that contain any matching K numbers
+ in the KEGG MODULE database, as well as in the KEGG Mapper tool "Reconstruct Module".
+ Module Map
+ 
+ KEGG modules are associated With graphical diagrams called Module maps. For example, M00002 represents glycolysis core 
+ Module involving three-carbon compounds And its organism specific Module can be selected from the pop-up menu Or 
+ directly specified In the form Of hsa_M00002. While KEGG pathway maps are all manually drawn, KEGG Module maps are 
+ computationally generated from the text definition describe above. There Is also a difference Of how organism-specific 
+ versions are generated. Organism specific Module entries are created only For complete modules, While organism-specific 
+ pathway map entries are created When a few matching elements exist under a predefined taxonomic constraint.
+ Ortholog Table
+ 
+ The ortholog table Is a useful tool To check completeness And consistency Of genome annotations. It shows currently 
+ annotated genes In individual genomes For a given Set Of K numbers, together With coloring Of adjacent genes 
+ (operon-Like structures) On the chromosome. Each KEGG Module contains a link To the corresponding ortholog table, 
+ such As For M00165, together With Option To Select complete Or other modules.
+ Taxonomy Mapping
+ 
+ Each KEGG module also contains a link to KEGG taxonomy mapping, showing which organisms Or organism groups have the module 
+ under the taxonomic classification of KEGG organisms. The taxonomy link from the ortholog table (designated by T) allows 
+ mapping of both complete And incomplete modules. The result Is shown in the color coding shown below.
+  	complete
+  	incomplete, 1 block missing
+  	incomplete, 2 blocks missing
+ KEGG Modules And Reaction Modules
+ 
+ It Is interesting to note that KEGG modules sometimes correspond to reaction modules extracted from purely chemical 
+ properties as summarized in the following BRITE hierarchy file:
+ KEGG reaction modules
+ A New category of KEGG metabolic pathway maps, called overview maps, shows this correspondence as well as an overall 
+ architecture of the metabolic network. The following Is an example taken from the overview map for Degradation of 
+ aromatic compounds. 
+ 
+ A single M number Or a combination of M numbers can be used for characterizing phenotypic features encoded in the genome. 
+ For example, the BTX (benzene, toluene, And xylene) degradation capacity can be seen from the following diagram where 
+ M numbers are linked to the ortholog tables indicating which organisms have complete modules.
+ benzene	— M00548 →	catechol
+ toluene	— M00538 →	benzoate	— M00551 →	catechol	— M00569 →	meta-cleavage
+ — M00568 →	ortho-cleavage
+ xylene	— M00537 →	methyl-
+ benzoate	— M00551 →	methyl-
+ catechol	— M00569 →	meta-cleavage
+ — M00568 →	ortho-cleavage
+ This example can be rewritten In terms Of the reaction modules.
+ benzene	— RM006 →	catechol
+ toluene	— RM003 →	benzoate	— RM005 →	catechol	— RM009 →	meta-cleavage
+ — RM008 →	ortho-cleavage
+ xylene	— RM003 →	methyl-
+ benzoate	— RM005 →	methyl-
+ catechol	— RM009 →	meta-cleavage
+ — RM008 →	ortho-cleavage
+ See more details In:
+ Muto, A., Kotera, M., Tokimatsu, T., Nakagawa, Z., Goto, S., And Kanehisa, M.; Modular architecture of metabolic 
+ pathways revealed by conserved sequences of reactions. J. Chem. Inf. Model. 53, 613-622 (2013). [pubmed] [pdf] 
+ 
+ Kanehisa, M.; Chemical And genomic evolution of enzyme-catalyzed reaction networks. FEBS Lett. 587, 2731-2737 (2013). [pubmed] [pdf] 
+ 
+ Kanehisa, M., Goto, S., Sato, Y., Kawashima, M., Furumichi, M., And Tanabe, M.; Data, information, knowledge And 
+ principle back to metabolism in KEGG. Nucleic Acids Res. 42, D199–D205 (2014). [pubmed] [pdf]
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
+export class Module {
+   pathway: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/NamedValue.html">NamedValue[]</a>;
+   compound: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/NamedValue.html">NamedValue[]</a>;
+   reaction: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/NamedValue.html">NamedValue[]</a>;
+   pathwayGenes: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/NamedValue.html">NamedValue[]</a>;
+   briteID: string;
+   EntryId: string;
+   name: string;
+   description: string;
+   Stylesheet: <a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/XmlStyleProcessor.html">XmlStyleProcessor</a>;
+   TypeComment: <a href="/vignettes/clr/System/Xml/XmlComment.html">XmlComment</a>;
+}
+</code>
+        </pre>
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="../../_assets/R_syntax.js"></script>
+<script type="text/javascript" src="../../_assets/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

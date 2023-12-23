@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.ComponentModel.Annotation.GeneTable</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="../../_assets/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>GeneTable {SMRUCC.genomics.ComponentModel.Annotation}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>GeneTable</h2>
+
+        <h3>Description</h3>
+
+        The gene dump information from the NCBI genbank.
+ (从GBK文件之中所导出来的一个基因对象的简要信息，尝试使用这个对象以csv表格的格式存储一个基因的所有的注释信息)
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.ComponentModel.Annotation
+export class GeneTable {
+   # 假若在GBK文件之中没有Locus_tag属性，则导出函数@``M:SMRUCC.genomics.Assembly.NCBI.GenBank.gbExportService.DumpEXPORT(SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES.CDS)``会尝试使用@``P:SMRUCC.genomics.ComponentModel.Annotation.GeneTable.ProteinId``来替代
+   locus_id: string;
+   geneName: string;
+   commonName: string;
+   left: integer;
+   right: integer;
+   strand: string;
+   # The gene product function description
+   function: string;
+   UniprotSwissProt: string;
+   UniprotTrEMBL: string;
+   ProteinId: string;
+   GI: string;
+   # The Go term id list of current protein object
+   GO: string;
+   InterPro: string;
+   # The KEGG Ortholog feature
+   KO: string;
+   species: string;
+   GC_Content: double;
+   # 基因序列
+   CDS: string;
+   # 该蛋白质所位于的基因组的在NCBI之中的编号信息
+   SpeciesAccessionID: string;
+   Translation: string;
+   Transl_table: string;
+   # The COG feature
+   COG: string;
+   length: integer;
+   Location: <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/NucleotideLocation.html">NucleotideLocation</a>;
+   EC_Number: string;
+}
+</code>
+        </pre>
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="../../_assets/R_syntax.js"></script>
+<script type="text/javascript" src="../../_assets/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>
