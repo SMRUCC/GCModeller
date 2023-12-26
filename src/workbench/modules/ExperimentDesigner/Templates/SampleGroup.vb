@@ -77,6 +77,18 @@ Imports Microsoft.VisualBasic.Language
     ''' <returns></returns>
     Public Property sample_info As String Implements Value(Of String).IValueOf.Value
 
+    ''' <summary>
+    ''' 绘图可视化的时候的颜色
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property color As String
+
+    ''' <summary>
+    ''' legend的形状
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property shape As String
+
     Public Overrides Function ToString() As String
         Return $"[{sample_info}] {sample_name}"
     End Function
