@@ -1,4 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.Language.Java.Arrays
+Imports Microsoft.VisualBasic.Math.Scripting
 Imports Microsoft.VisualBasic.Math.Symbolic.GeneticProgramming.model
 Imports Microsoft.VisualBasic.Math.Symbolic.GeneticProgramming.model.factory
 Imports rndf = Microsoft.VisualBasic.Math.RandomExtensions
@@ -11,7 +12,7 @@ Namespace evolution
         Private factory As ExpressionFactory
         Private config As Configuration
         Private population As IList(Of Individual)
-        Private dataTuples As IList(Of Tuple)
+        Private dataTuples As IList(Of DataPoint)
 
         Public Overridable WriteOnly Property ExpressionFactory As ExpressionFactory
             Set(value As ExpressionFactory)
@@ -21,26 +22,24 @@ Namespace evolution
             End Set
         End Property
 
-        Public Overridable Function evolvePolyFor(dataTuples As IList(Of Tuple), configuration As GAConfiguration) As Result
+        Public Overridable Function evolvePolyFor(dataTuples As IEnumerable(Of DataPoint), configuration As GAConfiguration) As EvolutionResult
             SyncLock Me
-                Me.dataTuples = dataTuples
+                Me.dataTuples = New List(Of DataPoint)(dataTuples)
                 config = configuration
-
-
                 Return evolve(EvolutionType.GA)
             End SyncLock
         End Function
 
-        Public Overridable Function evolveTreeFor(dataTuples As IList(Of Tuple), configuration As GPConfiguration) As Result
+        Public Overridable Function evolveTreeFor(dataTuples As IEnumerable(Of DataPoint), configuration As GPConfiguration) As EvolutionResult
             SyncLock Me
-                Me.dataTuples = dataTuples
+                Me.dataTuples = New List(Of DataPoint)(dataTuples)
                 config = configuration
 
                 Return evolve(EvolutionType.GP)
             End SyncLock
         End Function
 
-        Private Function evolve(type As EvolutionType) As Result
+        Private Function evolve(type As EvolutionType) As EvolutionResult
 
             Dim start = CurrentUnixTimeMillis
 
@@ -85,7 +84,7 @@ Namespace evolution
             population.Clear()
 
             ' return the best found expression
-            Return New Result(best.Expression, best.Fitness, CurrentUnixTimeMillis - start, epoch, fitnessProgress, timeProgress)
+            Return New EvolutionResult(best.Expression, best.Fitness, CurrentUnixTimeMillis - start, epoch, fitnessProgress, timeProgress)
         End Function
 
         Private Sub initPopulation(type As EvolutionType, size As Integer)
@@ -135,7 +134,7 @@ Namespace evolution
         Private Function tournamentSelection() As IList(Of Individual)
             Dim size = config.selectionSize
             Dim tournament = config.tournamentSize
-            Dim selection As IList(Of Individual) = New List(Of Individual)(size)
+            Dim selection As New List(Of Individual)(size)
 
             ' set the first-one as the best to ensure it'll survive
             Dim winner = population(0)
@@ -154,14 +153,14 @@ Namespace evolution
             Return selection
         End Function
 
-        Private Function breadChildren(Of T1)(type As EvolutionType, parents As IList(Of T1)) As IList(Of Individual)
+        Private Function breadChildren(type As EvolutionType, parents As IList(Of Individual)) As IList(Of Individual)
             Select Case type
                 Case EvolutionType.GA
-                    Dim gaChildren As IList(Of GAPolynomial) = New List(Of GAPolynomial)(parents.Count)
+                    Dim gaChildren As IList(Of Individual) = New List(Of Individual)(parents.Count)
 
                     ' copy all parents
-                    For Each parent In CType(parents, IList(Of GAPolynomial))
-                        gaChildren.Add(New GAPolynomial(CType(parent.Root.duplicate(), ExpressionWrapper)))
+                    For Each parent In parents
+                        gaChildren.Add(New GAPolynomial(DirectCast(DirectCast(parent, GAPolynomial).Root.duplicate(), ExpressionWrapper)))
                     Next
 
                     ' crossover pairs of parents
@@ -170,13 +169,13 @@ Namespace evolution
                         GAPolynomialUtils.crossover(gaCrossover, gaChildren(i), gaChildren(i + 1))
                     Next
 
-                    Return CType(gaChildren, IList(Of Individual))
+                    Return gaChildren
                 Case EvolutionType.GP
-                    Dim gpChildren As IList(Of GPTree) = New List(Of GPTree)(parents.Count)
+                    Dim gpChildren As New List(Of Individual)(parents.Count)
 
                     ' copy all parents
-                    For Each parent In CType(parents, IList(Of GPTree))
-                        gpChildren.Add(New GPTree(CType(parent.Root.duplicate(), ExpressionWrapper)))
+                    For Each parent As Individual In parents
+                        gpChildren.Add(New GPTree(DirectCast(DirectCast(parent, GPTree).Root.duplicate(), ExpressionWrapper)))
                     Next
 
                     ' crossover pairs of parents
@@ -185,28 +184,28 @@ Namespace evolution
                         GPTreeUtils.crossover(gpCrossover, gpChildren(i), gpChildren(i + 1))
                     Next
 
-                    Return CType(gpChildren, IList(Of Individual))
+                    Return gpChildren
             End Select
             Return New List(Of Individual)()
         End Function
 
-        Private Sub mutate(Of T1)(type As EvolutionType, individuals As IList(Of T1))
+        Private Sub mutate(type As EvolutionType, individuals As IList(Of Individual))
             Dim p = config.mutationProbability
             Select Case type
                 Case EvolutionType.GA
                     Dim gaMutation = CType(config, GAConfiguration).mutationType
                     Dim from = CType(config, GAConfiguration).paramRangeFrom
                     Dim [to] = CType(config, GAConfiguration).paramRangeTo
-                    For Each individual In CType(individuals, IList(Of GAPolynomial))
+                    For Each individual In individuals
                         If rndf.NextDouble() < p Then
                             GAPolynomialUtils.mutation(gaMutation, individual, from, [to])
                         End If
                     Next
                 Case EvolutionType.GP
                     Dim gpMutation = CType(config, GPConfiguration).mutationType
-                    For Each individual In CType(individuals, IList(Of GPTree))
+                    For Each individual As Individual In individuals
                         If rndf.NextDouble() < p Then
-                            GPTreeUtils.mutation(gpMutation, individual, factory)
+                            GPTreeUtils.mutation(gpMutation, DirectCast(individual, GPTree), factory)
                         End If
                     Next
             End Select
@@ -216,25 +215,6 @@ Namespace evolution
             GA
             GP
         End Enum
-
-        Public Class Result
-            Public ReadOnly result As Expression
-            Public ReadOnly fitness As Double
-            Public ReadOnly time As Long
-            Public ReadOnly epochs As Integer
-            Public ReadOnly fitnessProgress As IList(Of Double)
-            Public ReadOnly timeProgress As IList(Of Long)
-
-            Public Sub New(result As Expression, fitness As Double, time As Long, epochs As Integer, fitnessProgress As IList(Of Double), timeProgress As IList(Of Long))
-                Me.result = result
-                Me.fitness = fitness
-                Me.time = time
-                Me.epochs = epochs
-                Me.fitnessProgress = fitnessProgress
-                Me.timeProgress = timeProgress
-            End Sub
-        End Class
-
     End Class
 
 End Namespace

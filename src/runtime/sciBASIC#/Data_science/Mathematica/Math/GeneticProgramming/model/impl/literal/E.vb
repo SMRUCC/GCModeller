@@ -2,21 +2,20 @@
 
 Namespace model.impl
 
-    Public Class PI
-        Inherits Number
+    Public Class E : Inherits Number
 
-        Public Shared ReadOnly Pi As PI = New PI()
+        Public Shared ReadOnly e As E = New E()
 
         Public Sub New()
-            MyBase.New(std.PI)
+            MyBase.New(std.E)
         End Sub
 
         Public Overrides Function duplicate() As Expression
-            Return Pi
+            Return e
         End Function
 
         Public Overrides Function toStringExpression() As String
-            Return "π"
+            Return "e"
         End Function
 
     End Class
