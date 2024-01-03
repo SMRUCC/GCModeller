@@ -59,6 +59,10 @@ Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 ''' <summary>
 ''' a member gene in a gsea cluster model
 ''' </summary>
+''' <remarks>
+''' the term data model <see cref="NamedValue"/> was used at here 
+''' for serialized as xml model file.
+''' </remarks>
 <XmlType("gene")>
 Public Class BackgroundGene : Inherits Synonym
 
@@ -69,6 +73,10 @@ Public Class BackgroundGene : Inherits Synonym
     <XmlAttribute>
     Public Property name As String
 
+    ''' <summary>
+    ''' alias id of current gene entity.
+    ''' </summary>
+    ''' <returns></returns>
     <XmlElement>
     Public Property term_id As NamedValue()
 
