@@ -59,8 +59,12 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 
 ''' <summary>
-''' 假设基因组是有许多个功能聚类的集合构成的
+''' a collection of the functional related gene consist of this background model.
+''' (假设基因组是有许多个功能聚类的集合构成的)
 ''' </summary>
+''' <remarks>
+''' the functional related geneset is modelling as the <see cref="clusters"/> at here.
+''' </remarks>
 <XmlRoot("background", [Namespace]:="http://gcmodeller.org/GSEA/background.xml")>
 Public Class Background : Inherits XmlDataModel
     Implements INamedValue
@@ -79,6 +83,10 @@ Public Class Background : Inherits XmlDataModel
     ''' <returns></returns>
     Public Property size As Integer
 
+    ''' <summary>
+    ''' a collection of the functional related genesets.
+    ''' </summary>
+    ''' <returns></returns>
     <XmlElement>
     Public Property clusters As Cluster()
 
