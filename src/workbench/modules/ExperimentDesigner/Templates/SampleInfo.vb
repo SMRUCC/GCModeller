@@ -74,18 +74,6 @@ Public Class SampleInfo : Inherits SampleGroup
     Public Property injectionOrder As Integer
     Public Property batch As Integer
 
-    ''' <summary>
-    ''' 绘图可视化的时候的颜色
-    ''' </summary>
-    ''' <returns></returns>
-    Public Property color As String
-
-    ''' <summary>
-    ''' legend的形状
-    ''' </summary>
-    ''' <returns></returns>
-    Public Property shape As String
-
     Sub New()
     End Sub
 

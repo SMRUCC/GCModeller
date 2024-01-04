@@ -53,8 +53,9 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.DataMining.ComponentModel
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Correlations
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace KMeans
 
@@ -66,9 +67,23 @@ Namespace KMeans
 
         Protected Friend ReadOnly m_innerList As New List(Of T)
 
+        ''' <summary>
+        ''' get member count in current cluster
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property size As Integer
+            Get
+                Return m_innerList.Count
+            End Get
+        End Property
+
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub New(points As List(Of T))
             m_innerList = New List(Of T)(points)
+        End Sub
+
+        Sub New(points As IEnumerable(Of T))
+            m_innerList = New List(Of T)(points.SafeQuery)
         End Sub
 
         Public Sub New()
@@ -96,7 +111,7 @@ Namespace KMeans
             For i1 As Integer = 0 To numPointsInC1 - 1
                 For i2 As Integer = 0 To numPointsInC2 - 1
                     dist = points1(i1).entityVector.EuclideanDistance(points2(i2).entityVector)
-                    maxDistance = stdNum.Max(dist, maxDistance)
+                    maxDistance = std.Max(dist, maxDistance)
                 Next
             Next
 

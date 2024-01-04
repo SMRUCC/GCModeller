@@ -1,6 +1,4 @@
 ﻿Imports System.IO
-Imports Microsoft.VisualBasic.Math.LinearAlgebra
-Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 Imports std = System.Math
 
 Namespace GMM
@@ -22,21 +20,19 @@ Namespace GMM
             Me.data = data
             Me.components = New Component(Me.data.components() - 1) {}
 
-            Dim mean = data.Mean
+            Dim mean = data.Mean / Me.data.components
             Dim stdev = data.Stdev
 
             ' random initialization of component parameters
-            For i = 0 To Me.data.components() - 1
-                Dim c As Component = New Component(div, mean + (randf.NextDouble - 0.5) * 4, stdev + (randf.NextDouble - 0.5) * 4)
-
-                components(i) = c
+            For i As Integer = 0 To Me.data.components() - 1
+                components(i) = New Component(div, i * mean, 1)
             Next
         End Sub
 
         Public Overridable Sub Expectation()
-            For i = 0 To data.size() - 1
+            For i As Integer = 0 To data.size() - 1
                 Dim probs As Double() = New Double(data.components() - 1) {}
-                For j = 0 To components.Length - 1
+                For j As Integer = 0 To components.Length - 1
                     Dim c = components(j)
                     Dim p = gaussian(data.get(i).val, c.Mean, c.Stdev) * c.Weight
 
@@ -48,12 +44,10 @@ Namespace GMM
                 Next
 
                 'alpha normalize and set probs
-                Dim sum = 0.0
-                For Each p In probs
-                    sum += p
-                Next
-                For j = 0 To probs.Length - 1
-                    Dim normProb = probs(j) / sum
+                Dim sum As Double = probs.Sum
+
+                For j As Integer = 0 To probs.Length - 1
+                    Dim normProb = If(sum = 0, 0.000001, probs(j) / sum)
                     data.get(i).setProb(j, normProb)
                 Next
             Next

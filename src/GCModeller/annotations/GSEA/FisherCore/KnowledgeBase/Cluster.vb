@@ -60,7 +60,8 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.Xml.Models
 
 ''' <summary>
-''' 主要是KEGG代谢途径，也可以是其他的具有生物学意义的聚类结果
+''' A collection of the functional related <see cref="BackgroundGene"/>.
+''' (主要是KEGG代谢途径，也可以是其他的具有生物学意义的聚类结果)
 ''' </summary>
 Public Class Cluster : Inherits ListOf(Of BackgroundGene)
     Implements INamedValue
