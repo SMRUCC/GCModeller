@@ -1,11 +1,12 @@
 ﻿Imports System.Reflection
+Imports Microsoft.VisualBasic.Emit.Delegates
 Imports std = System.Math
 
 Namespace model.impl
 
-    Public MustInherit Class AbstractBinaryExpression
-        Inherits AbstractExpression
+    Public MustInherit Class AbstractBinaryExpression : Inherits AbstractExpression
         Implements BinaryExpression
+
         Public MustOverride Overrides Function toStringExpression() As String Implements Expression.toStringExpression
         Public MustOverride Overrides Function eval(x As Double) As Double Implements Expression.eval
 
@@ -17,9 +18,7 @@ Namespace model.impl
         Public Sub New(leftChild As Expression, rightChild As Expression)
             leftChildField = leftChild
             rightChildField = rightChild
-
-            constructor = [GetType]().GetConstructor(BindingFlags.Public, New Type() {GetType(Expression), GetType(Expression)})
-
+            constructor = [GetType]().GetConstructorInfo(GetType(Expression), GetType(Expression))
         End Sub
 
         Public Overrides Function duplicate() As Expression

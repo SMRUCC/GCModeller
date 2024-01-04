@@ -2,23 +2,20 @@
 
 Namespace model.impl
 
-    Public Class E
-        Inherits Number
+    Public Class Tau : Inherits Number
 
-        Public Shared ReadOnly e As E = New E()
+        Public Shared ReadOnly Tau As New Tau
 
         Public Sub New()
-            MyBase.New(std.E)
+            MyBase.New(std.Tau)
         End Sub
 
         Public Overrides Function duplicate() As Expression
-            Return e
+            Return Tau
         End Function
 
         Public Overrides Function toStringExpression() As String
-            Return "e"
+            Return "Tau"
         End Function
-
     End Class
-
 End Namespace
