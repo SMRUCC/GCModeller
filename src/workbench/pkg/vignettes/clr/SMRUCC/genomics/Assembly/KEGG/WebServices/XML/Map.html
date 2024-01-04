@@ -22,14 +22,14 @@
 
         <h3>Description</h3>
 
-        The kegg reference map
+        <p>The kegg reference map</p><br /><p>this class extends from <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Annotation/PathwayBrief.html">PathwayBrief</a> class.</p>
 
         <h3>Declare</h3>        
 
         <pre>
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Assembly.KEGG.WebServices.XML
-export class Map {
+export class Map extends <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Annotation/PathwayBrief.html">PathwayBrief</a> {
    URL: string;
    # 节点的位置，在这里面包含有代谢物(小圆圈)以及基因(方块)的位置定义
    shapes: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/KEGG/WebServices/XML/MapData.html">MapData</a>;

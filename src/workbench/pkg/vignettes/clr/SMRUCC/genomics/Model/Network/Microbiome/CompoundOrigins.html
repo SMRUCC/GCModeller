@@ -22,16 +22,16 @@
 
         <h3>Description</h3>
 
-        Organism KEGG CompoundOrigins profiles dataset
- 
- ID property of the dataset is the ncbi taxonomy id or kegg organism id
+        <p>Organism KEGG CompoundOrigins profiles dataset</p>
+
+<p>ID property of the dataset is the ncbi taxonomy id or kegg organism id</p><br /><p>this class extends from <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/OTUTable.html">OTUTable</a> class.</p>
 
         <h3>Declare</h3>        
 
         <pre>
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Model.Network.Microbiome
-export class CompoundOrigins {
+export class CompoundOrigins extends <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/OTUTable.html">OTUTable</a> {
    taxonomy: <a href="/vignettes/clr/SMRUCC/genomics/Metagenomics/Taxonomy.html">Taxonomy</a>;
    ID: string;
    Vector: double;

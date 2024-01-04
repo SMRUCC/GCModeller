@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract.I_BlastQueryHit</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="../../_assets/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>I_BlastQueryHit {SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>I_BlastQueryHit</h2>
+
+        <h3>Description</h3>
+
+        <p><a href="/vignettes/clr/SMRUCC/genomics/Interops/NCBI/Extensions/LocalBLAST/Application/BBH/Abstract/I_BlastQueryHit.html">I_BlastQueryHit</a>.<a href="#">QueryName</a> and <a href="/vignettes/clr/SMRUCC/genomics/Interops/NCBI/Extensions/LocalBLAST/Application/BBH/Abstract/I_BlastQueryHit.html">I_BlastQueryHit</a>.<a href="#">HitName</a></p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
+export class I_BlastQueryHit {
+   # The query source.
+   QueryName: string;
+   # The subject hit.
+   HitName: string;
+   # 仅仅是依靠对HitName的判断来使用这个属性了解<a href="/vignettes/clr/SMRUCC/genomics/Interops/NCBI/Extensions/LocalBLAST/Application/BBH/Abstract/I_BlastQueryHit.html">I_BlastQueryHit</a>.<a href="#">QueryName</a>是否已经和<a href="/vignettes/clr/SMRUCC/genomics/Interops/NCBI/Extensions/LocalBLAST/Application/BBH/Abstract/I_BlastQueryHit.html">I_BlastQueryHit</a>.<a href="#">HitName</a>比对上了
+   isMatched: boolean;
+   isSelfHit: boolean;
+   # 会忽略掉基因号ID的先后顺序的，重新按照字符先后进行排序
+   BBH_ID: string;
+}
+</code>
+        </pre>
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="../../_assets/R_syntax.js"></script>
+<script type="text/javascript" src="../../_assets/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

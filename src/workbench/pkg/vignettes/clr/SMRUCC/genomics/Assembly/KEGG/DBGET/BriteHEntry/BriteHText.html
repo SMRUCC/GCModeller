@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry.BriteHText</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="../../_assets/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>BriteHText {SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>BriteHText</h2>
+
+        <h3>Description</h3>
+
+        <p>BRITE Functional Hierarchies</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
+export class BriteHText {
+   # 大分类的标签
+   classLabel: string;
+   level: integer;
+   # <code>ABCDEFG</code>, etc...
+   degree: string;
+   parent: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/KEGG/DBGET/BriteHEntry/BriteHText.html">BriteHText</a>;
+   # 假若这个层次还可以进行细分的话，则这个属性就是当前的小分类的子分类列表
+   categoryItems: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/KEGG/DBGET/BriteHEntry/BriteHText.html">BriteHText[]</a>;
+   CategoryLevel: string;
+   # KEGG db-get对象名词
+   entryID: string;
+   # Root class label
+   class: string;
+   description: string;
+}
+</code>
+        </pre>
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="../../_assets/R_syntax.js"></script>
+<script type="text/javascript" src="../../_assets/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

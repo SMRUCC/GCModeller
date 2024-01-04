@@ -22,8 +22,8 @@
 
         <h3>Description</h3>
 
-        The gene dump information from the NCBI genbank.
- (从GBK文件之中所导出来的一个基因对象的简要信息，尝试使用这个对象以csv表格的格式存储一个基因的所有的注释信息)
+        <p>The gene dump information from the NCBI genbank.<br />
+ (从GBK文件之中所导出来的一个基因对象的简要信息，尝试使用这个对象以csv表格的格式存储一个基因的所有的注释信息)</p>
 
         <h3>Declare</h3>        
 
@@ -31,7 +31,7 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.ComponentModel.Annotation
 export class GeneTable {
-   # 假若在GBK文件之中没有Locus_tag属性，则导出函数@``M:SMRUCC.genomics.Assembly.NCBI.GenBank.gbExportService.DumpEXPORT(SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES.CDS)``会尝试使用@``P:SMRUCC.genomics.ComponentModel.Annotation.GeneTable.ProteinId``来替代
+   # 假若在GBK文件之中没有Locus_tag属性，则导出函数@<code>M:SMRUCC.genomics.Assembly.NCBI.GenBank.gbExportService.DumpEXPORT(SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES.CDS)</code>会尝试使用<a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Annotation/GeneTable.html">GeneTable</a>.<a href="#">ProteinId</a>来替代
    locus_id: string;
    geneName: string;
    commonName: string;

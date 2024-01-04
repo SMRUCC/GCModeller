@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.ComponentModel.Loci.Location</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="../../_assets/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>Location {SMRUCC.genomics.ComponentModel.Loci}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>Location</h2>
+
+        <h3>Description</h3>
+
+        <p>A location property on a sequence data. Please notice that if the loci value its left value <br />
+ greater than right value then this object will swap the value automaticaly.<br />
+ (一个序列片段区域的位置，请注意，当Left的大小大于Right的时候，模块会自动纠正为Left小于Right的状态，<br />
+ 这个对象可以同时用来表示核酸序列或者蛋白质序列上面的位置)</p>
+
+<p>字符串中的字符在计算机程序语言中是从零开始的<br />
+ 但是生物分子序列中的残基的起始是从1开始的</p><br /><p>this class extends from <a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/Ranges/Model/IntRange.html">IntRange</a> class.</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.ComponentModel.Loci
+export class Location extends <a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/Ranges/Model/IntRange.html">IntRange</a> {
+   # <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/Location.html">Location</a>: Gets or set the left start value of the segment on the target sequence.(目标片段的左端起始区域，与链的方向无关)
+   left: integer;
+   # <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/Location.html">Location</a>: Gets or set the right ends value of the segment on the target sequence.(目标片段的右端结束区域，与链的方向无关)
+   right: integer;
+   Tag: <a href="/vignettes/clr/Microsoft/VisualBasic/My/JavaScript/JavaScriptObject.html">JavaScriptObject</a>;
+   # 当前的这个位置数据是否为左边小于右边的正常状态
+   IsNormalized: boolean;
+   Center: integer;
+   # The segment length of this location object.(目标序列片段区域的片段长度)
+   FragmentSize: integer;
+   Min: integer;
+   Max: integer;
+   Interval: integer;
+}
+</code>
+        </pre>
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="../../_assets/R_syntax.js"></script>
+<script type="text/javascript" src="../../_assets/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

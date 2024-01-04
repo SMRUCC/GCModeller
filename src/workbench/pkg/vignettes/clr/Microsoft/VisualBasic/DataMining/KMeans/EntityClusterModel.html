@@ -22,19 +22,19 @@
 
         <h3>Description</h3>
 
-        存储在Csv文件里面的数据模型，近似等价于csv DataSet对象，
- 只不过多带了一个用来描述cluster的@``P:Microsoft.VisualBasic.DataMining.KMeans.EntityClusterModel.Cluster``
- 属性标签
+        <p>存储在Csv文件里面的数据模型，近似等价于csv DataSet对象，<br />
+ 只不过多带了一个用来描述cluster的<a href="/vignettes/clr/Microsoft/VisualBasic/DataMining/KMeans/EntityClusterModel.html">EntityClusterModel</a>.<a href="#">Cluster</a><br />
+ 属性标签</p><br /><p>this class extends from <a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/DataSourceModel/DynamicPropertyBase`1.html">DynamicPropertyBase`1</a> class.</p>
 
         <h3>Declare</h3>        
 
         <pre>
             <code id="clr_ts">
 # namespace Microsoft.VisualBasic.DataMining.KMeans
-export class EntityClusterModel {
-   ID: string;
+export class EntityClusterModel extends <a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/DataSourceModel/DynamicPropertyBase`1.html">DynamicPropertyBase`1</a> {
    # 聚类结果的类编号
    Cluster: string;
+   ID: string;
    Properties: list;
 }
 </code>

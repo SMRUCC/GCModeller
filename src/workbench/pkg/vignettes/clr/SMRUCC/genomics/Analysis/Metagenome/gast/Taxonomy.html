@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.Metagenome.gast.Taxonomy</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="../../_assets/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>Taxonomy {SMRUCC.genomics.Analysis.Metagenome.gast}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>Taxonomy</h2>
+
+        <h3>Description</h3>
+
+        <p>Create taxonomic objects,<br />
+ Return classes Or full text Of a taxonoDim Object,<br />
+ Calculate consensus Of an array Of taxonomic objects.</p><br /><p>this class extends from <a href="/vignettes/clr/SMRUCC/genomics/Metagenomics/Taxonomy.html">Taxonomy</a> class.</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.Metagenome.gast
+export class Taxonomy extends <a href="/vignettes/clr/SMRUCC/genomics/Metagenomics/Taxonomy.html">Taxonomy</a> {
+   # Return the strain Of an Object
+   strain: string;
+   # Return the depth of an object - last rank with valid taxonomy
+   depth: <a href="/vignettes/clr/SMRUCC/genomics/Metagenomics/TaxonomyRanks.html">TaxonomyRanks</a>;
+   ncbi_taxid: string;
+   scientificName: string;
+   kingdom: string;
+   phylum: string;
+   class: string;
+   order: string;
+   family: string;
+   genus: string;
+   species: string;
+   lowestLevel: <a href="/vignettes/clr/SMRUCC/genomics/Metagenomics/TaxonomyRanks.html">TaxonomyRanks</a>;
+}
+</code>
+        </pre>
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="../../_assets/R_syntax.js"></script>
+<script type="text/javascript" src="../../_assets/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

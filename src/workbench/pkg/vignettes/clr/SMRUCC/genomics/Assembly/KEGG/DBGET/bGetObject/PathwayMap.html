@@ -22,30 +22,30 @@
 
         <h3>Description</h3>
 
-        @``M:SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry.Pathway.LoadFromResource``.
- (相对于@``T:SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Pathway``而言，这个对象是参考用的，并非某个特定的物种的)
+        <p><a href="/vignettes/clr/SMRUCC/genomics/Assembly/KEGG/DBGET/BriteHEntry/Pathway.html">Pathway</a>.<a href="/vignettes/clr/SMRUCC/genomics/Assembly/KEGG/DBGET/BriteHEntry/Pathway.html">LoadFromResource</a>.<br />
+ (相对于<a href="/vignettes/clr/SMRUCC/genomics/Assembly/KEGG/DBGET/bGetObject/Pathway.html">Pathway</a>而言，这个对象是参考用的，并非某个特定的物种的)</p><br /><p>this class extends from <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Annotation/PathwayBrief.html">PathwayBrief</a> class.</p>
 
         <h3>Declare</h3>        
 
         <pre>
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
-export class PathwayMap {
+export class PathwayMap extends <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Annotation/PathwayBrief.html">PathwayBrief</a> {
    KOpathway: string;
    disease: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/NamedValue.html">NamedValue[]</a>;
    modules: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/NamedValue.html">NamedValue[]</a>;
    brite: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/KEGG/DBGET/BriteHEntry/Pathway.html">Pathway</a>;
    # base64 image data.
    Map: string;
-   # http://www.genome.jp/dbget-bin/get_linkdb?-t+orthology+path:map01100
+   # <a href="http://www.genome.jp/dbget-bin/get_linkdb?-t+orthology+path:map01100">http://www.genome.jp/dbget-bin/get_linkdb?-t+orthology+path:map01100</a>
    KEGGOrthology: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/KEGG/DBGET/bGetObject/OrthologyTerms.html">OrthologyTerms</a>;
-   # http://www.genome.jp/dbget-bin/get_linkdb?-t+compound+path:map01100
+   # <a href="http://www.genome.jp/dbget-bin/get_linkdb?-t+compound+path:map01100">http://www.genome.jp/dbget-bin/get_linkdb?-t+compound+path:map01100</a>
    KEGGCompound: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/NamedValue.html">NamedValue[]</a>;
-   # http://www.genome.jp/dbget-bin/get_linkdb?-t+glycan+path:map01100
+   # <a href="http://www.genome.jp/dbget-bin/get_linkdb?-t+glycan+path:map01100">http://www.genome.jp/dbget-bin/get_linkdb?-t+glycan+path:map01100</a>
    KEGGGlycan: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/NamedValue.html">NamedValue[]</a>;
-   # http://www.genome.jp/dbget-bin/get_linkdb?-t+enzyme+path:map01100
+   # <a href="http://www.genome.jp/dbget-bin/get_linkdb?-t+enzyme+path:map01100">http://www.genome.jp/dbget-bin/get_linkdb?-t+enzyme+path:map01100</a>
    KEGGEnzyme: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/NamedValue.html">NamedValue[]</a>;
-   # http://www.genome.jp/dbget-bin/get_linkdb?-t+reaction+path:map01100
+   # <a href="http://www.genome.jp/dbget-bin/get_linkdb?-t+reaction+path:map01100">http://www.genome.jp/dbget-bin/get_linkdb?-t+reaction+path:map01100</a>
    KEGGReaction: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/NamedValue.html">NamedValue[]</a>;
    EntryId: string;
    name: string;
