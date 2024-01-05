@@ -22,15 +22,31 @@
 
         <h3>Description</h3>
 
-        Builds the following dictionnary from NCBI taxonomy ``nodes.dmp`` and 
- ``names.dmp`` files 
- 
- ```json
- { Taxid   : namedtuple('Node', ['name', 'rank', 'parent', 'children'] }
- ```
- 
- + https://www.biostars.org/p/13452/
- + https://pythonhosted.org/ete2/tutorial/tutorial_ncbitaxonomy.html
+        <p>Builds the following dictionnary from NCBI taxonomy <code>nodes.dmp</code> and <br />
+ <code>names.dmp</code> files </p>
+
+<p></p>
+
+<pre><code class="json">{ Taxid   : namedtuple('Node', ['name', 'rank', 'parent', 'children'] }
+</code></pre>
+
+<ul>
+<li><a href="https://www.biostars.org/p/13452/">https://www.biostars.org/p/13452/</a></li>
+<li><a href="https://pythonhosted.org/ete2/tutorial/tutorial_ncbitaxonomy.html">https://pythonhosted.org/ete2/tutorial/tutorial_ncbitaxonomy.html</a></li>
+</ul>
+
+<p><a href="https://github.com/frallain/NCBI_taxonomy_tree">https://github.com/frallain/NCBI_taxonomy_tree</a></p>
+
+<p>#### NCBI_taxonomy_tree</p>
+
+<p>The NCBI Taxonomy database Is a curated Set Of names And classifications For all Of the organisms that are <br />
+ represented In GenBank (<a href="http://www.ncbi.nlm.nih.gov/Taxonomy/taxonomyhome.html/">http://www.ncbi.nlm.nih.gov/Taxonomy/taxonomyhome.html/</a>). It can be accessed <br />
+ via <a href="http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi">http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi</a> Or it can be downloaded from <br />
+ <a href="ftp://ftp.ncbi.nih.gov/pub/taxonomy/">ftp://ftp.ncbi.nih.gov/pub/taxonomy/</a> in the form of 2 files : <code>nodes.dmp</code> for the structure of the tree <br />
+ And <code>names.dmp</code> for the names of the different nodes.</p>
+
+<p>Here I make available my In-memory mapping Of the NCBI taxonomy : a Python 2.7 Class that maps the <code>names.dmp</code> <br />
+ And <code>nodes.dmp</code> files In a Python dictionnary which can be used To retrieve lineages, descendants, etc ...</p>
 
         <h3>Declare</h3>        
 
@@ -38,7 +54,7 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Assembly.NCBI.Taxonomy
 export class NcbiTaxonomyTree {
-   # ``{taxid -> taxonomy_node}``
+   # <code>{taxid -&gt; taxonomy_node}</code>
    Taxonomy: list;
 }
 </code>

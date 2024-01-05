@@ -22,15 +22,15 @@
 
         <h3>Description</h3>
 
-        Tree node, (@``M:SMRUCC.genomics.Analysis.Metagenome.gast.Taxonomy.consensus(SMRUCC.genomics.Analysis.Metagenome.gast.Taxonomy[],System.Double)``对象存在bug，当最低百分比低于50%的时候，
- 会造成重复的同等级分类出现，使用这个树对象来避免这种情况的发生)
+        <p>Tree node, (@<code>M:SMRUCC.genomics.Analysis.Metagenome.gast.Taxonomy.consensus(SMRUCC.genomics.Analysis.Metagenome.gast.Taxonomy[],System.Double)</code>对象存在bug，当最低百分比低于50%的时候，<br />
+ 会造成重复的同等级分类出现，使用这个树对象来避免这种情况的发生)</p><br /><p>this class extends from <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/gast/Taxonomy.html">Taxonomy</a> class.</p>
 
         <h3>Declare</h3>        
 
         <pre>
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Analysis.Metagenome.gast
-export class TaxonomyTree {
+export class TaxonomyTree extends <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/gast/Taxonomy.html">Taxonomy</a> {
    childs: <a href="/vignettes/clr/Microsoft/VisualBasic/Language/List`1.html">List`1</a>;
    parent: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/gast/TaxonomyTree.html">TaxonomyTree</a>;
    lineage: string;

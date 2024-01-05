@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Model.Network.KEGG.ReactionNetwork.ReactionTable</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="../../_assets/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>ReactionTable {SMRUCC.genomics.Model.Network.KEGG.ReactionNetwork}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>ReactionTable</h2>
+
+        <h3>Description</h3>
+
+        <p>A simplify data model of KEGG reaction object.</p>
+
+<p>对一个代谢反应过程的描述</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Model.Network.KEGG.ReactionNetwork
+export class ReactionTable {
+   # 反应编号
+   entry: string;
+   name: string;
+   definition: string;
+   # 酶编号，可以通过这个编号和相对应的基因或者KO编号关联起来
+   EC: string;
+   # 和<a href="/vignettes/clr/SMRUCC/genomics/Model/Network/KEGG/ReactionNetwork/ReactionTable.html">ReactionTable</a>.<a href="#">EC</a>几乎是一个意思,只不过通过这个属性值可以更加的容易与相应的基因进行关联
+   KO: string;
+   # Each element in this array of name string is corresponding 
+   #  to the <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/KEGG/ReactionNetwork/ReactionTable.html">ReactionTable</a>.<a href="#">KO</a> property.
+   geneNames: string;
+   # 底物列表
+   substrates: string;
+   # 产物列表
+   products: string;
+}
+</code>
+        </pre>
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="../../_assets/R_syntax.js"></script>
+<script type="text/javascript" src="../../_assets/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

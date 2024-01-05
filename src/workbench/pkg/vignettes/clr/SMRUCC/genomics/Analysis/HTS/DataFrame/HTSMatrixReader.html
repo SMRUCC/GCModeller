@@ -22,23 +22,25 @@
 
         <h3>Description</h3>
 
-        the matrix shape dimension is features in rows and the sample observation in columns
+        <p>the matrix shape dimension is features in rows and the sample observation in columns</p><br /><p>this class extends from <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/MatrixViewer.html">MatrixViewer</a> class.</p>
 
         <h3>Declare</h3>        
 
         <pre>
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Analysis.HTS.DataFrame
-export class HTSMatrixReader {
+export class HTSMatrixReader extends <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/MatrixViewer.html">MatrixViewer</a> {
    # sample data id in columns
    SampleIDs: <a href="/vignettes/clr/System/Collections/Generic/IEnumerable`1.html">IEnumerable`1</a>;
    # gene feature ids in rows
    FeatureIDs: <a href="/vignettes/clr/System/Collections/Generic/IEnumerable`1.html">IEnumerable`1</a>;
    # the matrix shape dimension is features in rows and 
    #  the sample observation in columns:
-   #  
-   #  1. nsamples: the matrix column width
-   #  2. nfeature: the matrix row height
+   # 
+   # <ol>
+   # <li>nsamples: the matrix column width</li>
+   # <li>nfeature: the matrix row height</li>
+   # </ol>
    Size: <a href="/vignettes/clr/System/ValueTuple`2.html">ValueTuple`2</a>;
    tag: string;
 }

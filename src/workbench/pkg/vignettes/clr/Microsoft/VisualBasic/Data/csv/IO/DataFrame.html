@@ -22,15 +22,15 @@
 
         <h3>Description</h3>
 
-        The dynamics data frame object which its first line is not contains the but using for the title property.
- (第一行总是没有的，即本对象类型适用于第一行为列标题行的数据)
+        <p>The dynamics data frame object which its first line is not contains the but using for the title property.<br />
+ (第一行总是没有的，即本对象类型适用于第一行为列标题行的数据)</p><br /><p>this class extends from <a href="/vignettes/clr/Microsoft/VisualBasic/Data/csv/IO/File.html">File</a> class.</p>
 
         <h3>Declare</h3>        
 
         <pre>
             <code id="clr_ts">
 # namespace Microsoft.VisualBasic.Data.csv.IO
-export class DataFrame {
+export class DataFrame extends <a href="/vignettes/clr/Microsoft/VisualBasic/Data/csv/IO/File.html">File</a> {
    SchemaOridinal: list;
    # The column headers in the csv file first row.
    HeadTitles: string;

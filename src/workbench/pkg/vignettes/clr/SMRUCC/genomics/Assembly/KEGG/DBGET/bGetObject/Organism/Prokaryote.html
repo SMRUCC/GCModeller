@@ -22,14 +22,16 @@
 
         <h3>Description</h3>
 
-        原核生物
+        <p>原核生物</p>
+
+<p>原核生物相较于真核生物的数据，在KEGG的列表中多了一个pubmed编号数据</p><br /><p>this class extends from <a href="/vignettes/clr/SMRUCC/genomics/Assembly/KEGG/DBGET/bGetObject/Organism/Organism.html">Organism</a> class.</p>
 
         <h3>Declare</h3>        
 
         <pre>
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Organism
-export class Prokaryote {
+export class Prokaryote extends <a href="/vignettes/clr/SMRUCC/genomics/Assembly/KEGG/DBGET/bGetObject/Organism/Organism.html">Organism</a> {
    # 首次测序发表的年份
    Year: string;
    # 首次测序发表的论文的在NCBI的pubmed数据库中的文献编号

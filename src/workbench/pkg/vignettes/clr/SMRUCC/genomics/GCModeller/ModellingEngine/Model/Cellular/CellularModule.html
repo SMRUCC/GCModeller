@@ -22,24 +22,28 @@
 
         <h3>Description</h3>
 
-        A cellular system consist of three features:
- 
- + Genotype
- + Phenotype
- + Regulations
- 
- This object class is just a object model of the target cellular system, 
- and only contains the network structure information in it. The expression 
- profiles data is not includes in this object model.
- 
- (GCMarkup或者Tabular模型文件加载之后会被转换为这个对象，然后计算核心加载这个对象模型来进行计算分析)
+        <p>A cellular system consist of three features:</p>
+
+<ul>
+<li>Genotype</li>
+<li>Phenotype</li>
+<li><p>Regulations</p>
+
+<p>This object class is just a object model of the target cellular system, <br />
+and only contains the network structure information in it. The expression <br />
+profiles data is not includes in this object model.</p>
+
+<p>(GCMarkup或者Tabular模型文件加载之后会被转换为这个对象，然后计算核心加载这个对象模型来进行计算分析)</p></li>
+</ul>
+
+<p>注意，这个模型对象之中仅包含有生物学功能定义，如果需要获取得到序列信息，还需要借助于ID编号从其他的数据源之中进行查询</p><br /><p>this class extends from <a href="/vignettes/clr/System/ValueType.html">ValueType</a> class.</p>
 
         <h3>Declare</h3>        
 
         <pre>
             <code id="clr_ts">
 # namespace SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
-export class CellularModule {
+export class CellularModule extends <a href="/vignettes/clr/System/ValueType.html">ValueType</a> {
 }
 </code>
         </pre>

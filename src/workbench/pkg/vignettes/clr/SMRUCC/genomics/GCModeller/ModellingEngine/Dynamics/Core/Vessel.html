@@ -22,9 +22,9 @@
 
         <h3>Description</h3>
 
-        一个反应容器，也是一个微环境，这在这个反应容器之中包含有所有的反应过程
- 
- (这是一个通用的生物化学反应过程模拟器，是整个虚拟细胞计算引擎的核心部件)
+        <p>一个反应容器，也是一个微环境，这在这个反应容器之中包含有所有的反应过程</p>
+
+<p>(这是一个通用的生物化学反应过程模拟器，是整个虚拟细胞计算引擎的核心部件)</p>
 
         <h3>Declare</h3>        
 
@@ -33,11 +33,13 @@
 # namespace SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 export class Vessel {
    # 当前的这个微环境之中的所有的反应过程列表，在这个集合之中包括有：
-   #  
-   #  1. 代谢过程
-   #  2. 转录过程
-   #  3. 翻译过程
-   #  4. 跨膜转运过程
+   # 
+   # <ol>
+   # <li>代谢过程</li>
+   # <li>转录过程</li>
+   # <li>翻译过程</li>
+   # <li>跨膜转运过程</li>
+   # </ol>
    Channels: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Core/Channel.html">Channel[]</a>;
    # 当前的这个微环境之中的所有的物质列表，会包括代谢物，氨基酸，RNA等物质信息
    MassEnvironment: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Core/Factor.html">Factor[]</a>;

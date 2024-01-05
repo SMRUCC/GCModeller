@@ -22,7 +22,7 @@
 
         <h3>Description</h3>
 
-        A simple organism taxonomy model.(主要是用来保存csv以及Xml文件使用)
+        <p>A simple organism taxonomy model.(主要是用来保存csv以及Xml文件使用)</p>
 
         <h3>Declare</h3>        
 
@@ -32,9 +32,13 @@
 export class Taxonomy {
    ncbi_taxid: string;
    scientificName: string;
-   # 1. 界
+   # <ol>
+   # <li>界</li>
+   # </ol>
    kingdom: string;
-   # 2. 门
+   # <ol start="2">
+   # <li>门</li>
+   # </ol>
    phylum: string;
    # 3A. 纲
    class: string;

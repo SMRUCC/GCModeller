@@ -22,14 +22,14 @@
 
         <h3>Description</h3>
 
-        可以被保存至文件的脚本模型对象
+        <p>可以被保存至文件的脚本模型对象</p><br /><p>this class extends from <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/CompilerServices/ModelBaseType.html">ModelBaseType</a> class.</p>
 
         <h3>Declare</h3>        
 
         <pre>
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Analysis.SSystem.Script
-export class Model {
+export class Model extends <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/CompilerServices/ModelBaseType.html">ModelBaseType</a> {
    # The user define function.
    UserFunc: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SSystem/Kernel/ObjectModels/Function.html">Function[]</a>;
    # 假若在脚本里面，常数值是表达式，则求值的顺序会是从上到下
