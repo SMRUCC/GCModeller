@@ -54,12 +54,15 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.Metagenome
+Imports SMRUCC.Rsharp.Runtime.Interop
 
 <Package("OTU_table")>
+<RTypeExport("OTU_table", GetType(OTUTable))>
 Module OTUTableTools
 
     <ExportAPI("relative_abundance")>
-    Public Function relativeAbundance(x As OTUTable()) As OTUTable()
+    <RApiReturn(GetType(OTUTable))>
+    Public Function relativeAbundance(x As OTUTable()) As Object
         Dim sample_ids As String() = x _
             .Select(Function(otu) otu.Properties.Keys) _
             .IteratesALL _
@@ -79,8 +82,15 @@ Module OTUTableTools
         Return x
     End Function
 
+    ''' <summary>
+    ''' filter the otu data which has relative abundance greater than the given threshold
+    ''' </summary>
+    ''' <param name="x"></param>
+    ''' <param name="relative_abundance"></param>
+    ''' <returns></returns>
     <ExportAPI("filter")>
-    Public Function filter(x As OTUTable(), relative_abundance As Double) As OTUTable()
+    <RApiReturn(GetType(OTUTable))>
+    Public Function filter(x As OTUTable(), relative_abundance As Double) As Object
         Return x _
             .Where(Function(otu)
                        Return otu.Properties _

@@ -57,7 +57,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.Language
 
 ''' <summary>
-''' 样品的分组信息
+''' the analysis property of the sample data group.(样品的分组信息)
 ''' </summary>
 <Template(ExperimentDesigner)> Public Class SampleGroup
     Implements INamedValue

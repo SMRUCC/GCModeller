@@ -58,8 +58,11 @@
 Namespace Metagenomics
 
     ''' <summary>
-    ''' 枚举值减去100即可得到index值
+    ''' the organism taxonomy rank levels
     ''' </summary>
+    ''' <remarks>
+    ''' 枚举值减去100即可得到index值
+    ''' </remarks>
     Public Enum TaxonomyRanks As Integer
         NA
         ''' <summary>
