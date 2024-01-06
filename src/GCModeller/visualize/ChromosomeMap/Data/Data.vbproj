@@ -3,6 +3,7 @@
     <AssemblyName>SMRUCC.genomics.Visualize.ChromosomeMap.Data</AssemblyName>
     <RootNamespace>SMRUCC.genomics.Visualize.ChromosomeMap.Data</RootNamespace>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
