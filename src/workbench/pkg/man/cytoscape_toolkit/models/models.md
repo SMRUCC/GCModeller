@@ -2,7 +2,7 @@
 
 api for create network graph model for cytoscape
 
-+ [sif](models/sif.1) 
++ [sif](models/sif.1) create sif network
 + [cyjs](models/cyjs.1) 
 + [as.graph](models/as.graph.1) convert the cytoscape cyjs/xgmml file to network graph model.
 + [open.cys](models/open.cys.1) open a new cytoscape session file reader

@@ -22,7 +22,7 @@
 
         <h3>Description</h3>
 
-        
+        <p>the cytoscape simple interaction format table</p>
 
         <h3>Declare</h3>        
 
@@ -30,8 +30,11 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Visualize.Cytoscape.Tables
 export class SIF {
+   # the source node id
    source: string;
+   # the iteraction type
    interaction: string;
+   # the target node id
    target: string;
 }
 </code>

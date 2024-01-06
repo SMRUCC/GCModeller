@@ -52,6 +52,13 @@ declare namespace models {
       function cys(cys: string): object;
    }
    /**
+    * create sif network
+    * 
+    * 
+     * @param source a character vector of the source id
+     * @param interaction a character vector of the iteraction type labels
+     * @param target a character vector of the target id
+     * @return a simple network graph which consist with a set of the simple iteraction links.
    */
    function sif(source: any, interaction: any, target: any): object;
 }
