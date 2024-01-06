@@ -58,9 +58,11 @@ Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 
 ''' <summary>
-''' The gene expression data samples file.(基因的表达数据样本)
+''' The gene expression data samples file.
+''' (基因的表达数据样本)
 ''' </summary>
-''' <remarks></remarks>
+''' <remarks>the gene expression model implements the <see cref="IVector"/> model, 
+''' could be converts a vector.</remarks>
 Public Class DataFrameRow : Implements INamedValue, IVector
 
     ''' <summary>

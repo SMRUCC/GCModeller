@@ -52,6 +52,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors.Scaler.TrIQ
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -119,7 +120,7 @@ Module magnitude
     End Function
 
     ''' <summary>
-    ''' Apply TrIQ cutoff for each sample
+    ''' Apply <see cref="Drawing2D.Colors.Scaler.TrIQ"/> cutoff for each sample
     ''' </summary>
     ''' <param name="mat"></param>
     ''' <param name="q"></param>

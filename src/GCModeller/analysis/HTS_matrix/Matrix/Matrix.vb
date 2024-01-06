@@ -68,6 +68,9 @@ Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 ''' <summary>
 ''' a data matrix of samples in column and gene features in row
 ''' </summary>
+''' <remarks>
+''' a data model of a collection of then gene expression <see cref="DataFrameRow"/>.
+''' </remarks>
 Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow)
 
     ''' <summary>

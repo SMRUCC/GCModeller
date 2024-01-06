@@ -151,6 +151,7 @@ Module profiles
     End Function
 
     <ExportAPI("flux.map.profiles")>
+    <RApiReturn(GetType(CatalogProfiles))>
     Public Function FluxMapProfiles(flux As Object, maps As MapRepository, Optional env As Environment = Nothing) As Object
         If TypeOf flux Is RDataframe Then
             Dim activity As Double() = CLRVector.asNumeric(DirectCast(flux, RDataframe).getColumnVector("activity"))
