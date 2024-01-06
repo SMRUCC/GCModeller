@@ -50,6 +50,8 @@
 
 #End Region
 
+#If False 
+
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Visualize
@@ -102,3 +104,4 @@ Public Module chromosome_map
         Throw New NotImplementedException
     End Function
 End Module
+#end If 
