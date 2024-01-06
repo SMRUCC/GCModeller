@@ -2,7 +2,7 @@
 
 tools for metagenomics and microbiome
 
-+ [parse.otu_taxonomy](microbiome/parse.otu_taxonomy.1) 
++ [parse.otu_taxonomy](microbiome/parse.otu_taxonomy.1) parse the otu taxonomy data file
 + [save.PICRUSt_matrix](microbiome/save.PICRUSt_matrix.1) 
 + [read.PICRUSt_matrix](microbiome/read.PICRUSt_matrix.1) 
 + [predict_metagenomes](microbiome/predict_metagenomes.1) creates the final metagenome functional predictions. It 
