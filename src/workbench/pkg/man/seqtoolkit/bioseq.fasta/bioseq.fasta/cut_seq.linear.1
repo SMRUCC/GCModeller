@@ -1,12 +1,37 @@
 .\" man page create by R# package system.
 .TH BIOSEQ.FASTA 4 2000-Jan "cut_seq.linear" "cut_seq.linear"
 .SH NAME
-cut_seq.linear \- 
+cut_seq.linear \- cut part of the sequence
 .SH SYNOPSIS
 \fIcut_seq.linear(\fBseq\fR as any, 
 \fBloci\fR as any, 
 \fBdoNtAutoReverse\fR as boolean = FALSE, 
 [\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+cut part of the sequence
+.PP
+.SH OPTIONS
+.PP
+\fBseq\fB \fR\- -. 
+.PP
+.PP
+\fBloci\fB \fR\- 
+ the location region data for make cut of the sequence site, data model could be:
+ 
+ 1. for nucleotide sequence, @\fBT:SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation\fR should be used,
+ 2. for general sequence data, @\fBT:SMRUCC.genomics.ComponentModel.Loci.Location\fR should be used.
+. 
+.PP
+.PP
+\fBdoNtAutoReverse\fB \fR\- 
+ make auto reverse of the nucleotide sequence if the given location is on 
+ the @\fBF:SMRUCC.genomics.ComponentModel.Loci.Strands.Reverse\fR direction.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- -. 
+.PP
 .SH SEE ALSO
 bioseq.fasta
 .SH FILES

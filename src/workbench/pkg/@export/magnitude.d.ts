@@ -32,7 +32,7 @@ declare namespace magnitude {
    }
    module TrIQ {
       /**
-       * Apply TrIQ cutoff for each sample
+       * Apply @``T:Microsoft.VisualBasic.Imaging.Drawing2D.Colors.Scaler.TrIQ`` cutoff for each sample
        * 
        * 
         * @param mat -

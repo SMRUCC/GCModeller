@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>SMRUCC.genomics.Analysis.RNA_Seq.RTools.WGCNA.Network.WGCNAWeight</title>
+    <title>SMRUCC.genomics.Data.STRING.StringDB.Tsv.LinkAction</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="../../_assets/page.css">
@@ -13,23 +13,32 @@
 
         <table style="width: 100%;">
             <tr>
-                <td>WGCNAWeight {SMRUCC.genomics.Analysis.RNA_Seq.RTools.WGCNA.Network}</td>
+                <td>LinkAction {SMRUCC.genomics.Data.STRING.StringDB.Tsv}</td>
                 <td style="text-align: right;">.NET clr documentation</td>
             </tr>
         </table>
 
-        <h2>WGCNAWeight</h2>
+        <h2>LinkAction</h2>
 
         <h3>Description</h3>
 
-        <p>包含有结果数据的加载模块以及脚本的执行调用模块</p>
+        <p>interaction types for protein links.<br />
+ (从String-DB之中下载的蛋白质互作网络数据，例如：<code>9606.protein.actions.v10.txt</code>，<br />
+ 这个对象只是存在注释数据的互作关系，只是所有的互作关系之中研究比较明白的网络部分，<br />
+ 假若查看所有的网络数据在<code>9606.protein.links.v10.txt</code>文件之中)</p>
 
         <h3>Declare</h3>        
 
         <pre>
             <code id="clr_ts">
-# namespace SMRUCC.genomics.Analysis.RNA_Seq.RTools.WGCNA.Network
-export class WGCNAWeight {
+# namespace SMRUCC.genomics.Data.STRING.StringDB.Tsv
+export class LinkAction {
+   item_id_a: string;
+   item_id_b: string;
+   mode: string;
+   action: string;
+   a_is_acting: string;
+   score: string;
 }
 </code>
         </pre>

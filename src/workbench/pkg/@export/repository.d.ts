@@ -223,6 +223,10 @@ declare namespace repository {
       function KEGG_pathway(pathway: any, file: string, env?: object): any;
    }
    /**
+    * create shape area data for kegg graph rendering
+    * 
+    * 
+     * @param data -
    */
    function shapeAreas(data: object): object;
    module write {

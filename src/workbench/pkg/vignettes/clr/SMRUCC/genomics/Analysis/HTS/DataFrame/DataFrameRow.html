@@ -22,7 +22,11 @@
 
         <h3>Description</h3>
 
-        <p>The gene expression data samples file.(基因的表达数据样本)</p>
+        <p>The gene expression data samples file.<br />
+ (基因的表达数据样本)</p>
+
+<p>the gene expression model implements the <a href="/vignettes/clr/Microsoft/VisualBasic/Math/IVector.html">IVector</a> model, <br />
+ could be converts a vector.</p>
 
         <h3>Declare</h3>        
 
@@ -30,10 +34,10 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Analysis.HTS.DataFrame
 export class DataFrameRow {
-   # This gene's expression value in the different experiment condition.(同一个基因在不同实验之下的表达值)
-   experiments: double;
    # The unique reference id of current expression data vector
    geneID: string;
+   # This gene's expression value in the different experiment condition.(同一个基因在不同实验之下的表达值)
+   experiments: double;
    # Gets the sample counts of current gene expression data.(获取基因表达数据样本数目)
    samples: integer;
 }
