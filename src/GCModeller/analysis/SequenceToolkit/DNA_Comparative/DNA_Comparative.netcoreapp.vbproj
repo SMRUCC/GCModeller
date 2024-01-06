@@ -12,6 +12,8 @@
     <Title>COMPARATIVE DNA ANALYSIS ACROSS DIVERSE GENOMES</Title>
     <Description>COMPARATIVE DNA ANALYSIS ACROSS DIVERSE GENOMES</Description>
     <Copyright>Copyright © xie.guigang@gmail.com 2023</Copyright>
+    <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
  
