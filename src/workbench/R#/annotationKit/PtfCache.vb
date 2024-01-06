@@ -105,7 +105,14 @@ Imports REnv = SMRUCC.Rsharp.Runtime
         Return data
     End Function
 
+    ''' <summary>
+    ''' load the cross reference id set
+    ''' </summary>
+    ''' <param name="ptf"></param>
+    ''' <param name="database">the database name</param>
+    ''' <returns></returns>
     <ExportAPI("load_xref")>
+    <RApiReturn(TypeCodes.list)>
     Public Function loadXrefs(ptf As StreamPack, database As String) As Object
         Return New PtfReader(ptf).LoadCrossReference(key:=database)
     End Function
