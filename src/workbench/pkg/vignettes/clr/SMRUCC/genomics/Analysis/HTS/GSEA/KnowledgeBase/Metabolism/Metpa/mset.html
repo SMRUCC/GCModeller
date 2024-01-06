@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>SMRUCC.genomics.Visualize.Cytoscape.Session.virtualColumn</title>
+    <title>SMRUCC.genomics.Analysis.HTS.GSEA.KnowledgeBase.Metabolism.Metpa.mset</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -13,30 +13,27 @@
 
         <table style="width: 100%;">
             <tr>
-                <td>virtualColumn {SMRUCC.genomics.Visualize.Cytoscape.Session}</td>
+                <td>mset {SMRUCC.genomics.Analysis.HTS.GSEA.KnowledgeBase.Metabolism.Metpa}</td>
                 <td style="text-align: right;">.NET clr documentation</td>
             </tr>
         </table>
 
-        <h2>virtualColumn</h2>
+        <h2>mset</h2>
 
         <h3>Description</h3>
 
-        <p>the column data</p>
+        <p>a molecule collection</p>
 
         <h3>Declare</h3>        
 
         <pre>
             <code id="clr_ts">
-# namespace SMRUCC.genomics.Visualize.Cytoscape.Session
-export class virtualColumn {
-   name: string;
-   sourceColumn: string;
-   sourceTable: string;
-   sourceJoinKey: string;
-   targetTable: string;
-   targetJoinKey: string;
-   immutable: boolean;
+# namespace SMRUCC.genomics.Analysis.HTS.GSEA.KnowledgeBase.Metabolism.Metpa
+export class mset {
+   metaboliteNames: string;
+   kegg_id: string;
+   # the pathway id
+   clusterId: string;
 }
 </code>
         </pre>

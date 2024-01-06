@@ -34,11 +34,20 @@ declare namespace models {
       */
       function network_graph(cys: object, collection?: string, name?: string): object;
       /**
+       * get session information about current session file
+       * 
+       * > get session information from @``T:SMRUCC.genomics.Visualize.Cytoscape.Session.cyTables`` xml file
+       * 
+        * @param cys -
       */
       function sessionInfo(cys: object): object;
    }
    module list {
       /**
+       * list of the network id inside current cytoscape session file
+       * 
+       * 
+        * @param cys -
       */
       function networks(cys: object): object;
    }
