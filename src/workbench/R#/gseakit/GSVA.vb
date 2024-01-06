@@ -88,7 +88,7 @@ Module GSVA
     ''' </summary>
     ''' <param name="expr">A raw gene expression data matrix object</param>
     ''' <param name="geneSet">
-    ''' A gsea enrichment background model
+    ''' A gsea enrichment <see cref="Background"/> model
     ''' </param>
     ''' <param name="env"></param>
     ''' <returns></returns>
@@ -146,11 +146,12 @@ Module GSVA
     ''' </summary>
     ''' <param name="gsva">the gsva analysis result</param>
     ''' <param name="compares">
-    ''' the analysis comparision
+    ''' the <see cref="DataAnalysis"/> comparision collection
     ''' </param>
     ''' <returns></returns>
     <ExportAPI("diff")>
-    Public Function diff(gsva As HTSMatrix, compares As DataAnalysis) As GSVADiff()
+    <RApiReturn(GetType(GSVADiff))>
+    Public Function diff(gsva As HTSMatrix, compares As DataAnalysis) As Object
         If compares.size <> 2 Then
             Throw New InvalidProgramException
         End If

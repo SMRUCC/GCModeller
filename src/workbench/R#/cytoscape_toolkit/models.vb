@@ -150,11 +150,25 @@ Module models
         Return CysSessionFile.Open(cys)
     End Function
 
+    ''' <summary>
+    ''' get session information about current session file
+    ''' </summary>
+    ''' <param name="cys"></param>
+    ''' <returns></returns>
+    ''' <remarks>
+    ''' get session information from <see cref="cyTables"/> xml file
+    ''' </remarks>
     <ExportAPI("get.sessionInfo")>
-    Public Function getSessionInfo(cys As CysSessionFile) As virtualColumn()
+    <RApiReturn(GetType(virtualColumn))>
+    Public Function getSessionInfo(cys As CysSessionFile) As Object
         Return cys.GetSessionInfo
     End Function
 
+    ''' <summary>
+    ''' list of the network id inside current cytoscape session file
+    ''' </summary>
+    ''' <param name="cys"></param>
+    ''' <returns></returns>
     <ExportAPI("list.networks")>
     Public Function getNetworks(cys As CysSessionFile) As list
         Return New list With {
