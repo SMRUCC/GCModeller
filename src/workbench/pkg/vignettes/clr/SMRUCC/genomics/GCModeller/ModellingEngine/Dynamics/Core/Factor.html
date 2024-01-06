@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine.FluxEmulator</title>
+    <title>SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core.Factor</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -13,23 +13,28 @@
 
         <table style="width: 100%;">
             <tr>
-                <td>FluxEmulator {SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine}</td>
+                <td>Factor {SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core}</td>
                 <td style="text-align: right;">.NET clr documentation</td>
             </tr>
         </table>
 
-        <h2>FluxEmulator</h2>
+        <h2>Factor</h2>
 
         <h3>Description</h3>
 
-        <p>a container of <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Core/Vessel.html">Vessel</a> as simulation core.</p>
+        <p>一个变量因子，这个对象主要是用于存储值</p><br /><p>this class extends from <a href="/vignettes/clr/Microsoft/VisualBasic/Language/Value`1.html">Value`1</a> class.</p>
 
         <h3>Declare</h3>        
 
         <pre>
             <code id="clr_ts">
-# namespace SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine
-export class FluxEmulator {
+# namespace SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
+export class Factor extends <a href="/vignettes/clr/Microsoft/VisualBasic/Language/Value`1.html">Value`1</a> {
+   ID: string;
+   # 分子角色
+   role: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Core/MassRoles.html">MassRoles</a>;
+   HasValue: boolean;
+   Value: double;
 }
 </code>
         </pre>

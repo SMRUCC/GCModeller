@@ -1,10 +1,32 @@
 .\" man page create by R# package system.
 .TH FBA 1 2000-Jan "lppModel" "lppModel"
 .SH NAME
-lppModel \- 
+lppModel \- convert the flux matrix as the general Linear Programming model
 .SH SYNOPSIS
 \fIlppModel(\fBmodel\fR as <generic> Matrix, 
 \fBname\fR as string = "Flux Balance Analysis LppModel");\fR
+.SH DESCRIPTION
+.PP
+convert the flux matrix as the general Linear Programming model
+.PP
+.SH OPTIONS
+.PP
+\fBmodel\fB \fR\- -. 
+.PP
+.PP
+\fBname\fB \fR\- -. 
+.PP
+.SH VALUE
+.PP
+a general Linear Programming model
+.PP
+.SH DETAILS
+.PP
+the flux matrix encoded as the general lpp model via:
+ 
+ 1. mapping the flux as the @\fBP:Microsoft.VisualBasic.Math.LinearAlgebra.LinearProgramming.LPPModel.variables\fR
+ 2. mapping the compound and flux coefficient factor as the @\fBP:Microsoft.VisualBasic.Math.LinearAlgebra.LinearProgramming.LPPModel.constraintCoefficients\fR data.
+.PP
 .SH SEE ALSO
 FBA
 .SH FILES
