@@ -109,6 +109,9 @@ Public Class DataAnalysis
 
 End Class
 
+''' <summary>
+''' the group view of the <see cref="SampleInfo"/> data
+''' </summary>
 Public Class DataGroup : Implements INamedValue
 
     ''' <summary>
