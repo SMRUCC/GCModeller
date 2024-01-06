@@ -65,6 +65,9 @@ Namespace Core
     ''' 
     ''' (这是一个通用的生物化学反应过程模拟器，是整个虚拟细胞计算引擎的核心部件)
     ''' </summary>
+    ''' <remarks>
+    ''' a container of a set of the reaction <see cref="Channel"/> and mass <see cref="Factor"/>.
+    ''' </remarks>
     Public Class Vessel
 
         ''' <summary>

@@ -76,6 +76,7 @@ Imports XmlOffset = SMRUCC.genomics.GCModeller.ModellingEngine.IO.vcXML.XML.offs
 Module RawXmlKit
 
     <ExportAPI("open.vcellPack")>
+    <RApiReturn(GetType(StorageDriver), GetType(Raw.Reader))>
     Public Function binaryWriter(file$,
                                  Optional mode$ = "read",
                                  <RListObjectArgument>
@@ -108,6 +109,7 @@ Module RawXmlKit
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("open.vcellXml")>
+    <RApiReturn(GetType(VcellAdapterDriver), GetType(vcXML.Reader))>
     Public Function xmlWriter(file$,
                               Optional mode$ = "read",
                               <RListObjectArgument>
@@ -138,7 +140,8 @@ Module RawXmlKit
     ''' <returns></returns>
     ''' 
     <ExportAPI("frame.index")>
-    Public Function getOffsetIndex(raw As vcXML.Reader) As XmlOffset()
+    <RApiReturn(GetType(XmlOffset))>
+    Public Function getOffsetIndex(raw As vcXML.Reader) As Object
         Return raw.allFrames
     End Function
 
@@ -154,6 +157,7 @@ Module RawXmlKit
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("entity.names")>
+    <RApiReturn(TypeCodes.string)>
     Public Function getEntityNames(raw As vcXML.Reader,
                                    <RListObjectArgument>
                                    stream As Object,
