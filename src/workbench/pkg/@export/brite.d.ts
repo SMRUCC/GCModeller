@@ -33,9 +33,10 @@ declare namespace brite {
         * 
         * + default value Is ``null``.
       */
-      function parseJSON(file: string, env?: object): any;
+      function parseJSON(file: string, env?: object): object;
    }
    /**
+    * get class labels
     * 
     * 
      * @param htext -
@@ -51,7 +52,7 @@ declare namespace brite {
        * 
        * 
       */
-      function geneNames(): object;
+      function geneNames(): any;
    }
    /**
     * Do parse of the kegg brite text file.

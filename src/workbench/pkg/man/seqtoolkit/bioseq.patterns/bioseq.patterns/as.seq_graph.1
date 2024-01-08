@@ -7,6 +7,28 @@ as.seq_graph \-
 \fBmol_type\fR as <integer> SeqTypes = [DNA], 
 \fBparallel\fR as boolean = FALSE, 
 [\fB<Environment>\fR]);\fR
+.SH OPTIONS
+.PP
+\fBfasta\fB \fR\- -. 
+.PP
+.PP
+\fBmol_type\fB \fR\- -. 
+.PP
+.PP
+\fBparallel\fB \fR\- -. 
+.PP
+.PP
+\fBenv\fB \fR\- -. 
+.PP
+.SH VALUE
+.PP
+the sequence graph embedding vector data is generates from different method 
+ based on the **`mol_type`** data:
+ 
+ + @\fBF:SMRUCC.genomics.SequenceModel.SeqTypes.DNA\fR: @\fBM:SMRUCC.genomics.Model.MotifGraph.Builder.DNAGraph(SMRUCC.genomics.SequenceModel.FASTA.FastaSeq)\fR
+ + @\fBF:SMRUCC.genomics.SequenceModel.SeqTypes.Protein\fR: @\fBM:SMRUCC.genomics.Model.MotifGraph.Builder.PolypeptideGraph(SMRUCC.genomics.SequenceModel.FASTA.FastaSeq)\fR
+ + @\fBF:SMRUCC.genomics.SequenceModel.SeqTypes.RNA\fR: @\fBM:SMRUCC.genomics.Model.MotifGraph.Builder.RNAGraph(SMRUCC.genomics.SequenceModel.FASTA.FastaSeq)\fR
+.PP
 .SH SEE ALSO
 bioseq.patterns
 .SH FILES

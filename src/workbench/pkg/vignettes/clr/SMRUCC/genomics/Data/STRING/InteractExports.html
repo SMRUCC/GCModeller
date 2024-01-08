@@ -5,7 +5,7 @@
     <title>SMRUCC.genomics.Data.STRING.InteractExports</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-    <link rel="stylesheet" type="text/css" href="../../_assets/page.css">
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
 </head>
 
 <body>
@@ -22,7 +22,10 @@
 
         <h3>Description</h3>
 
-        
+        <p>对于<a href="/vignettes/clr/SMRUCC/genomics/Data/STRING/StringDB/Tsv/LinkAction.html">LinkAction</a>和<a href="/vignettes/clr/SMRUCC/genomics/Data/STRING/StringDB/Tsv/linksDetail.html">linksDetail</a>而言，都是从ftp服务器上面下载的结果数据<br />
+ 这个tsv文件则是搜索蛋白质网络结果之后的export下载数据的文件格式读取对象</p>
+
+<p>这个数据模型是使用STRING的蛋白编号作为节点编号的</p>
 
         <h3>Declare</h3>        
 
@@ -34,7 +37,9 @@ export class InteractExports {
    node2: string;
    node1_string_internal_id: string;
    node2_string_internal_id: string;
+   # 可以在uniprot注释数据之中的<a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/entry.html">entry</a>.<a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/dbReference.html">dbReferences</a>找得到<code>STRING</code>编号
    node1_external_id: string;
+   # 可以在uniprot注释数据之中的<a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/entry.html">entry</a>.<a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/dbReference.html">dbReferences</a>找得到<code>STRING</code>编号
    node2_external_id: string;
    neighborhood_on_chromosome: string;
    gene_fusion: string;
@@ -56,8 +61,8 @@ export class InteractExports {
     </div>
 </body>
 
-<script type="text/javascript" src="../../_assets/R_syntax.js"></script>
-<script type="text/javascript" src="../../_assets/highlights.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
 <script type="text/javascript">r_highlights("clr_ts");</script>
 
 </html>

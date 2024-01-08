@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core.Channel</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>Channel {SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>Channel</h2>
+
+        <h3>Description</h3>
+
+        <p>Biological flux object model, the reaction channel.</p>
+
+<p>(反应过程通道)</p>
+
+<p>make flux dynamics association between a set of metabolite mass <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Core/Variable.html">Variable</a>.<br />
+ the flux dynamics could be affects via the environment <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Core/Controls.html">Controls</a>. dynamics<br />
+ of the reaction flux was contraint via the <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Core/Channel.html">Channel</a>.<a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Core/Boundary.html">bounds</a> range.</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
+export class Channel {
+   forward: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Core/Controls.html">Controls</a>;
+   reverse: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Core/Controls.html">Controls</a>;
+   # 因为细胞微环境内的容量很小，没有办法使整个反应过程以很大的速率来进行
+   #  在这里设置反应的正反过程这两个方向上的上下限？
+   bounds: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Core/Boundary.html">Boundary</a>;
+   # 在衡量了<a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Core/Channel.html">Channel</a>.<a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Core/Controls.html">forward</a>和<a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Core/Channel.html">Channel</a>.<a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Core/Controls.html">reverse</a>的效应大小之后，当前的反应的方向
+   direct: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Core/Directions.html">Directions</a>;
+   isBroken: boolean;
+   ID: string;
+}
+</code>
+        </pre>
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

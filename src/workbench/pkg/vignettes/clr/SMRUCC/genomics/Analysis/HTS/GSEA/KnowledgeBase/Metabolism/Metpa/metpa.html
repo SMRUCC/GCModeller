@@ -5,7 +5,7 @@
     <title>SMRUCC.genomics.Analysis.HTS.GSEA.KnowledgeBase.Metabolism.Metpa.metpa</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-    <link rel="stylesheet" type="text/css" href="../../_assets/page.css">
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
 </head>
 
 <body>
@@ -24,6 +24,17 @@
 
         <p>metpa symbol</p>
 
+<p>the pathway enrichment model contains multiple data collection:</p>
+
+<ol>
+<li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/KnowledgeBase/Metabolism/Metpa/metpa.html">metpa</a>.<a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/KnowledgeBase/Metabolism/Metpa/msetList.html">msetList</a> is a set of the metabolite collection in each pathway cluster model</li>
+<li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/KnowledgeBase/Metabolism/Metpa/metpa.html">metpa</a>.<a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/KnowledgeBase/Metabolism/Metpa/rbcList.html">rbcList</a> the impact score via algorithm <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/KnowledgeBase/Metabolism/Metpa/Topologys.html">Topologys</a>.<a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/KnowledgeBase/Metabolism/Metpa/Topologys.html">rbc</a></li>
+<li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/KnowledgeBase/Metabolism/Metpa/metpa.html">metpa</a>.<a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/KnowledgeBase/Metabolism/Metpa/dgrList.html">dgrList</a> the impact score via algorithm <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/KnowledgeBase/Metabolism/Metpa/Topologys.html">Topologys</a>.<a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/KnowledgeBase/Metabolism/Metpa/Topologys.html">dgr</a></li>
+<li><p><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/KnowledgeBase/Metabolism/Metpa/metpa.html">metpa</a>.<a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/KnowledgeBase/Metabolism/Metpa/pathIds.html">pathIds</a> the pathway name collection</p>
+
+<p>these data is required for run topology impact enrichment analysis.</p></li>
+</ol>
+
         <h3>Declare</h3>        
 
         <pre>
@@ -32,10 +43,11 @@
 export class metpa {
    msetList: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/KnowledgeBase/Metabolism/Metpa/msetList.html">msetList</a>;
    rbcList: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/KnowledgeBase/Metabolism/Metpa/rbcList.html">rbcList</a>;
+   dgrList: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/KnowledgeBase/Metabolism/Metpa/dgrList.html">dgrList</a>;
    pathIds: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/KnowledgeBase/Metabolism/Metpa/pathIds.html">pathIds</a>;
+   # the count of the metabolite inside current model
    unique_count: integer;
    pathSmps: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/KnowledgeBase/Metabolism/Metpa/pathSmps.html">pathSmps</a>;
-   dgrList: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/KnowledgeBase/Metabolism/Metpa/dgrList.html">dgrList</a>;
    graphList: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/KnowledgeBase/Metabolism/Metpa/graphList.html">graphList</a>;
 }
 </code>
@@ -48,8 +60,8 @@ export class metpa {
     </div>
 </body>
 
-<script type="text/javascript" src="../../_assets/R_syntax.js"></script>
-<script type="text/javascript" src="../../_assets/highlights.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
 <script type="text/javascript">r_highlights("clr_ts");</script>
 
 </html>

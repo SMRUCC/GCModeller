@@ -68,6 +68,7 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 Imports Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 
 <Package("PFSNet", Category:=APICategories.ResearchTools)>
+<RTypeExport("psfnet", GetType(PFSNetResultOut))>
 Module PFSNetAnalysis
 
     Sub New()
@@ -111,7 +112,17 @@ Module PFSNetAnalysis
         Return GraphEdge.LoadData(file)
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="maps"></param>
+    ''' <param name="reactions"></param>
+    ''' <param name="env"></param>
+    ''' <returns>
+    ''' a collection of the network graph edge data
+    ''' </returns>
     <ExportAPI("build.pathway_network")>
+    <RApiReturn(GetType(GraphEdge))>
     Public Function buildPathwayNetwork(maps As Map(), <RRawVectorArgument> reactions As Object, Optional env As Environment = Nothing) As pipeline
         Dim reactionTable As ReactionTable()
 
@@ -132,6 +143,15 @@ Module PFSNetAnalysis
             .DoCall(AddressOf pipeline.CreateFromPopulator)
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="ggi">
+    ''' a collection of the interaction data, should be a collection of <see cref="GraphEdge"/> data.
+    ''' </param>
+    ''' <param name="file"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("save.pathway_network")>
     <RApiReturn(GetType(Boolean))>
     Public Function savePathwayNetwork(<RRawVectorArgument> ggi As Object, file As Object, Optional env As Environment = Nothing) As Object
@@ -187,6 +207,7 @@ Module PFSNetAnalysis
     ''' <param name="n"></param>
     ''' <returns></returns>
     <ExportAPI("pfsnet")>
+    <RApiReturn(GetType(PFSNetResultOut))>
     Public Function run_pfsnet(<RRawVectorArgument> expr1o As Object, <RRawVectorArgument> expr2o As Object, ggi As GraphEdge(),
                                Optional b# = 0.5,
                                Optional t1# = 0.95,
@@ -204,7 +225,7 @@ Module PFSNetAnalysis
     End Function
 
     ''' <summary>
-    ''' 
+    ''' read the analysis result file
     ''' </summary>
     ''' <param name="file"></param>
     ''' <param name="format">xml/json</param>

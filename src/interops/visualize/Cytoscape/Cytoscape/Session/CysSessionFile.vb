@@ -88,7 +88,7 @@ Namespace Session
         ''' <summary>
         ''' the original *.cys session file location.
         ''' </summary>
-        Public ReadOnly source As String
+        Public ReadOnly Property source As String
 
         ReadOnly tempDir As String
 

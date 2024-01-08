@@ -63,6 +63,9 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 
 Namespace Engine
 
+    ''' <summary>
+    ''' a container of <see cref="Vessel"/> as simulation core.
+    ''' </summary>
     Public Class FluxEmulator : Implements ITaskDriver
 
         ''' <summary>

@@ -34,10 +34,11 @@ Public Module FastQ
     ''' <summary>
     ''' Do short reads assembling
     ''' </summary>
-    ''' <param name="reads"></param>
+    ''' <param name="reads">should be a set of the sequence data, example as a collection of <see cref="FastaSeq"/> data.</param>
     ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <returns>the short reads assembling result</returns>
     <ExportAPI("assemble")>
+    <RApiReturn(GetType(AssembleResult))>
     Public Function SequenceAssembler(<RRawVectorArgument> reads As Object, Optional env As Environment = Nothing) As Object
         Dim readSeqs As FastaSeq() = GetFastaSeq(reads, env).ToArray
         Dim data As String() = readSeqs _
@@ -54,9 +55,9 @@ Public Module FastQ
     ''' quality score is represented as the character with an ASCII 
     ''' code equal to its value + 33.
     ''' </summary>
-    ''' <param name="q"></param>
+    ''' <param name="q">should be one or more <see cref="FQ.FastQ"/> sequence data</param>
     ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <returns>the quality score data of each <see cref="FQ.FastQ"/> sequence data.</returns>
     <ExportAPI("quality_score")>
     <RApiReturn(GetType(Double))>
     Public Function GetQualityScore(q As Object, Optional env As Environment = Nothing) As Object

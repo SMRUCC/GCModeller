@@ -163,6 +163,7 @@ Module DEGSample
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("group.colors")>
+    <RApiReturn(GetType(SampleInfo))>
     Public Function groupColors(sampleinfo As SampleInfo(),
                                 <RByRefValueAssign>
                                 Optional colorSet As Object = Nothing,

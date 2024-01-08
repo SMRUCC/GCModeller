@@ -65,7 +65,6 @@ Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports Matrix = SMRUCC.genomics.Analysis.FBA.Core.Matrix
-Imports REnv = SMRUCC.Rsharp.Runtime
 
 ''' <summary>
 ''' Flux Balance Analysis
@@ -118,7 +117,7 @@ Module FBA
     ''' <summary>
     ''' create FBA model matrix
     ''' </summary>
-    ''' <param name="model"></param>
+    ''' <param name="model">should be a GCModeller virtual cell <see cref="CellularModule"/> model object.</param>
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("matrix")>
@@ -126,6 +125,7 @@ Module FBA
     Public Function Matrix(<RRawVectorArgument> model As Object,
                            Optional terms As String() = Nothing,
                            Optional env As Environment = Nothing) As Object
+
         If TypeOf model Is CellularModule Then
             Return New LinearProgrammingEngine().CreateMatrix(DirectCast(model, CellularModule))
         ElseIf TypeOf model Is ReactionRepository Then
@@ -167,6 +167,7 @@ Module FBA
     End Function
 
     <ExportAPI("objective")>
+    <RApiReturn(GetType(Matrix))>
     Public Function SetObjective(matrix As Matrix, target As Object, Optional env As Environment = Nothing) As Matrix
         If TypeOf target Is list Then
             Dim upper As list = DirectCast(target, list)
@@ -190,7 +191,20 @@ Module FBA
         Return matrix
     End Function
 
+    ''' <summary>
+    ''' convert the flux matrix as the general Linear Programming model
+    ''' </summary>
+    ''' <param name="model"></param>
+    ''' <param name="name"></param>
+    ''' <returns>a general Linear Programming model</returns>
+    ''' <remarks>
+    ''' the flux matrix encoded as the general lpp model via:
+    ''' 
+    ''' 1. mapping the flux as the <see cref="LPPModel.variables"/>
+    ''' 2. mapping the compound and flux coefficient factor as the <see cref="LPPModel.constraintCoefficients"/> data.
+    ''' </remarks>
     <ExportAPI("lppModel")>
+    <RApiReturn(GetType(LPPModel))>
     Public Function GetLppModel(model As Matrix, Optional name As String = "Flux Balance Analysis LppModel") As LPPModel
         Return LinearProgrammingEngine.ToLppModel(model, name)
     End Function

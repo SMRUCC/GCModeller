@@ -5,7 +5,7 @@
     <title>SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.PartitioningData</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-    <link rel="stylesheet" type="text/css" href="../../_assets/page.css">
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
 </head>
 
 <body>
@@ -22,7 +22,7 @@
 
         <h3>Description</h3>
 
-        
+        <p>The genome partitional data.(基因组分区数据)</p>
 
         <h3>Declare</h3>        
 
@@ -30,14 +30,18 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative
 export class PartitioningData {
+   # 当前的功能分区的标签信息
    PartitioningTag: string;
+   # 分区的起始位置
    LociLeft: integer;
+   # 分区的结束位置
    LociRight: integer;
    ORFList: string;
    GenomeID: string;
    Length: integer;
    GC: double;
    Title: string;
+   # 当前的基因组分区之中的基因序列
    SequenceData: string;
    Headers: string;
 }
@@ -51,8 +55,8 @@ export class PartitioningData {
     </div>
 </body>
 
-<script type="text/javascript" src="../../_assets/R_syntax.js"></script>
-<script type="text/javascript" src="../../_assets/highlights.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
 <script type="text/javascript">r_highlights("clr_ts");</script>
 
 </html>

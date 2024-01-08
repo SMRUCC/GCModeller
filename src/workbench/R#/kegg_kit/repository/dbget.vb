@@ -53,6 +53,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Organism
 Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Interop
 
 ''' <summary>
 ''' toolkit for download kegg dataset
@@ -105,7 +106,8 @@ Public Module dbget
     'End Function
 
     <ExportAPI("show_organism")>
-    Public Function ShowOrganism(code As String, Optional env As Environment = Nothing) As OrganismInfo
+    <RApiReturn(GetType(OrganismInfo))>
+    Public Function ShowOrganism(code As String, Optional env As Environment = Nothing) As Object
         Dim dbgetCache As String = env.globalEnvironment.options.getOption("dbget.cache", [default]:="./")
         Dim organism As OrganismInfo = OrganismInfo.ShowOrganism(
             code:=code,

@@ -254,7 +254,23 @@ Module patterns
         Return file.LoadCsv(Of MotifMatch).ToArray
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="fasta"></param>
+    ''' <param name="mol_type"></param>
+    ''' <param name="parallel"></param>
+    ''' <param name="env"></param>
+    ''' <returns>
+    ''' the sequence graph embedding vector data is generates from different method 
+    ''' based on the <paramref name="mol_type"/> data:
+    ''' 
+    ''' + <see cref="SeqTypes.DNA"/>: <see cref="Builder.DNAGraph"/>
+    ''' + <see cref="SeqTypes.Protein"/>: <see cref="Builder.PolypeptideGraph"/>
+    ''' + <see cref="SeqTypes.RNA"/>: <see cref="Builder.RNAGraph"/>
+    ''' </returns>
     <ExportAPI("as.seq_graph")>
+    <RApiReturn(GetType(SequenceGraph))>
     Public Function seqGraph(<RRawVectorArgument>
                              fasta As Object,
                              Optional mol_type As SeqTypes = SeqTypes.DNA,
@@ -338,7 +354,14 @@ Module patterns
         Return Seeds.InitializeSeeds(base.ToArray, size)
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="motif"></param>
+    ''' <param name="env"></param>
+    ''' <returns>the regexp liked format string for do motif matches</returns>
     <ExportAPI("motifString")>
+    <RApiReturn(GetType(String))>
     Public Function MotifString(<RRawVectorArgument> motif As Object, Optional env As Environment = Nothing) As Object
         Return env.EvaluateFramework(Of SequenceMotif, String)(motif, Function(m) m.patternString())
     End Function

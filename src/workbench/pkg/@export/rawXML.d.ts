@@ -21,7 +21,7 @@ declare namespace rawXML {
         * 
         * + default value Is ``null``.
       */
-      function names(raw: object, stream: any, env?: object): any;
+      function names(raw: object, stream: any, env?: object): string;
    }
    module frame {
       /**
@@ -50,7 +50,7 @@ declare namespace rawXML {
         * @param args default value Is ``null``.
         * @param env default value Is ``null``.
       */
-      function vcellPack(file: string, mode?: string, args?: any, env?: object): any;
+      function vcellPack(file: string, mode?: string, args?: any, env?: object): object|object;
       /**
        * open gcXML raw data file for read/write
        * 
@@ -64,7 +64,7 @@ declare namespace rawXML {
         * 
         * + default value Is ``null``.
       */
-      function vcellXml(file: string, mode?: string, args?: any, env?: object): any;
+      function vcellXml(file: string, mode?: string, args?: any, env?: object): object|object;
    }
    module time {
       /**

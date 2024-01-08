@@ -5,9 +5,15 @@
 // ref=metagenomics_kit.OTUTableTools@metagenomics_kit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 
 /**
+ * 
 */
 declare namespace OTU_table {
    /**
+    * filter the otu data which has relative abundance greater than the given threshold
+    * 
+    * 
+     * @param x -
+     * @param relative_abundance -
    */
    function filter(x: object, relative_abundance: number): object;
    /**

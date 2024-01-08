@@ -65,13 +65,14 @@ Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Invokes
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
-Imports REnv = SMRUCC.Rsharp.Runtime
 
 ''' <summary>
 ''' S-system toolkit
 ''' </summary>
 <Package("S.system")>
+<RTypeExport("s_script", GetType(Model))>
 Module SSystemKit
 
     Sub New()
@@ -163,7 +164,7 @@ Module SSystemKit
         End If
 
         For Each symbolName As String In data.slots.Keys
-            value = REnv.asVector(Of Double)(data.getByName(symbolName)).GetValue(Scan0)
+            value = CLRVector.asNumeric(data.getByName(symbolName))(Scan0)
             kernel.SetMathSymbol(symbolName, value)
         Next
 
@@ -177,7 +178,7 @@ Module SSystemKit
         End If
 
         For Each symbol As String In bounds.getNames
-            kernel.SetBounds(symbol, New DoubleRange(DirectCast(REnv.asVector(Of Double)(bounds.getByName(symbol)), Double())))
+            kernel.SetBounds(symbol, New DoubleRange(CLRVector.asNumeric(bounds.getByName(symbol))))
         Next
 
         Return kernel
@@ -232,7 +233,10 @@ Module SSystemKit
     ''' <param name="resolution"></param>
     ''' <returns></returns>
     <ExportAPI("run")>
-    Public Function RunKernel(kernel As Kernel, Optional ticks As Integer = 100, Optional resolution As Double = 0.1) As Kernel
+    Public Function RunKernel(kernel As Kernel,
+                              Optional ticks As Integer = 100,
+                              Optional resolution As Double = 0.1) As Kernel
+
         kernel.finalTime = ticks
         kernel.precision = resolution
 
@@ -252,7 +256,8 @@ Module SSystemKit
     ''' <param name="symbols"></param>
     ''' <returns></returns>
     <ExportAPI("snapshot")>
-    Public Function GetSnapshotsDriver(Optional file As String = Nothing, Optional symbols As String() = Nothing) As DataSnapshot
+    <RApiReturn(GetType(DataSnapshot))>
+    Public Function GetSnapshotsDriver(Optional file As String = Nothing, Optional symbols As String() = Nothing) As Object
         If file.StringEmpty Then
             Return New MemoryCacheSnapshot
         Else

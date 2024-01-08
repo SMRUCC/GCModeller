@@ -407,6 +407,12 @@ Module visualPlot
         Return profile
     End Function
 
+    ''' <summary>
+    ''' delete a set of the category data from the input profiles
+    ''' </summary>
+    ''' <param name="profiles"></param>
+    ''' <param name="catalogs"></param>
+    ''' <returns></returns>
     <ExportAPI("erase")>
     Public Function delete(profiles As CatalogProfiles, catalogs As String()) As CatalogProfiles
         For Each catName As String In catalogs

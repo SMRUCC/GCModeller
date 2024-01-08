@@ -13,6 +13,8 @@
     <Description>Open source community providing Tools, standard formats and ontologies for manipulating molecular interaction data</Description>
     <PackageTags>psidev</PackageTags>
     <PackageReleaseNotes>psidev</PackageReleaseNotes>
+    <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

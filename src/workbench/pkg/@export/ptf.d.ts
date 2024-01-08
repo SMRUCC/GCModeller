@@ -56,6 +56,11 @@ declare namespace ptf {
       function xrefs(ptf: object): string;
    }
    /**
+    * load the cross reference id set
+    * 
+    * 
+     * @param ptf -
+     * @param database the database name
    */
    function load_xref(ptf: object, database: string): any;
    /**

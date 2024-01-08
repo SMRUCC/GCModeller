@@ -10,7 +10,14 @@
 declare namespace PFSNet {
    module build {
       /**
-        * @param env default value Is ``null``.
+       * 
+       * 
+        * @param maps -
+        * @param reactions -
+        * @param env -
+        * 
+        * + default value Is ``null``.
+        * @return a collection of the network graph edge data
       */
       function pathway_network(maps: object, reactions: any, env?: object): object;
    }
@@ -42,6 +49,7 @@ declare namespace PFSNet {
    function pfsnet(expr1o: any, expr2o: any, ggi: object, b?: number, t1?: number, t2?: number, n?: object): object;
    module read {
       /**
+       * read the analysis result file
        * 
        * 
         * @param file -
@@ -55,7 +63,13 @@ declare namespace PFSNet {
    }
    module save {
       /**
-        * @param env default value Is ``null``.
+       * 
+       * 
+        * @param ggi a collection of the interaction data, should be a collection of @``T:SMRUCC.genomics.Analysis.PFSNet.DataStructure.GraphEdge`` data.
+        * @param file -
+        * @param env -
+        * 
+        * + default value Is ``null``.
       */
       function pathway_network(ggi: any, file: any, env?: object): boolean;
    }

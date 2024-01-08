@@ -48,8 +48,10 @@ Imports SMRUCC.genomics.Model.Network.KEGG.GraphVisualizer.PathwayMaps
 Imports SMRUCC.genomics.Model.Network.KEGG.GraphVisualizer.PathwayMaps.RenderStyles
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML.File
+Imports SMRUCC.Rsharp.Runtime.Interop
 
 <Package("xgmml")>
+<RTypeExport("xgmml", GetType(XGMMLgraph))>
 Module xgmmlToolkit
 
     ''' <summary>

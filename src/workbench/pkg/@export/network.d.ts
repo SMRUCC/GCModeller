@@ -17,8 +17,17 @@ declare namespace network {
    */
    function assignKeggClass(g: object): object;
    /**
-     * @param compounds default value Is ``null``.
-     * @param enzymeBridged default value Is ``true``.
+    * create metabolism graph from a given set of compounds
+    * 
+    * 
+     * @param compoundsId -
+     * @param graph -
+     * @param compounds -
+     * 
+     * + default value Is ``null``.
+     * @param enzymeBridged -
+     * 
+     * + default value Is ``true``.
    */
    function fromCompounds(compoundsId: string, graph: object, compounds?: object, enzymeBridged?: boolean): object;
 }

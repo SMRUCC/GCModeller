@@ -128,17 +128,10 @@ Public Module Math
     ''' <returns></returns>
     <Extension>
     Public Iterator Function TRanking(expr As Matrix, sampleinfo As SampleInfo()) As IEnumerable(Of Ranking)
-        Dim groups = sampleinfo _
-            .GroupBy(Function(s) s.sample_info) _
-            .ToDictionary(Function(t) t.Key,
-                          Function(t)
-                              Dim group As New DataGroup With {
-                                  .sampleGroup = t.Key,
-                                  .sample_id = t _
-                                      .Select(Function(s) s.ID) _
-                                      .ToArray
-                              }
-
+        Dim groups = DataGroup _
+            .CreateDataGroups(sampleinfo) _
+            .ToDictionary(Function(g) g.sampleGroup,
+                          Function(group)
                               Return expr.IndexOf(group)
                           End Function)
         Dim max As Vector = expr.sampleID _

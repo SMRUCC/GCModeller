@@ -73,9 +73,16 @@ table caption {font-size:14px;font-weight:bolder;}
                            </p>
     </blockquote>
     <div id="main-wrapper">
-      <table class="table-three-line" style="display: none">
+      <table class="table-three-line" style="display: block">
         <caption>.NET clr type export</caption>
-        <tbody></tbody>
+        <tbody><tr>
+  <td id="OTU_table">
+    <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/OTUTable.html">OTU_table: OTUTable</a>
+  </td>
+  <td><p>这个对象记录了当前的宏基因组实验之中的每一个OTU在样品之中的含量的多少</p>
+
+<p>这个对象的数据结构与<a href="/vignettes/clr/SMRUCC/genomics/Metagenomics/OTUData`1.html">OTUData`1</a>类似, 二者可以做等价替换</p></td>
+</tr></tbody>
       </table>
       <br />
       <br />
@@ -91,7 +98,7 @@ table caption {font-size:14px;font-weight:bolder;}
   <td id="filter">
     <a href="./OTU_table/filter.html">filter</a>
   </td>
-  <td></td>
+  <td><p>filter the otu data which has relative abundance greater than the given threshold</p></td>
 </tr></tbody>
       </table>
     </div>
