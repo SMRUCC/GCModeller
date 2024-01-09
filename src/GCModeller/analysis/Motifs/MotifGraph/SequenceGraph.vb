@@ -20,6 +20,27 @@ Public Class SequenceGraph : Implements INamedValue
     ''' </summary>
     ''' <returns></returns>
     Public Property graph As Dictionary(Of Char, Dictionary(Of Char, Double))
+
+    ''' <summary>
+    ''' deflat of the <see cref="graph"/>.
+    ''' </summary>
+    ''' <returns></returns>
+    Public ReadOnly Property tuple As Dictionary(Of String, Double)
+        Get
+            Dim list As New Dictionary(Of String, Double)
+
+            For Each c As Char In graph.Keys
+                Dim t = graph(c)
+
+                For Each d As Char In t.Keys
+                    list($"{c}{d}") = t(d)
+                Next
+            Next
+
+            Return list
+        End Get
+    End Property
+
     Public Property triple As Dictionary(Of String, Double)
     Public Property tuple_distance As Dictionary(Of String, Double)
     ''' <summary>
