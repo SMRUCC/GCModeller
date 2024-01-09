@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Data.GeneOntology.OBO.Term</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="../../_assets/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>Term {SMRUCC.genomics.Data.GeneOntology.OBO}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>Term</h2>
+
+        <h3>Description</h3>
+
+        <h5>GO as a Graph</h5>
+
+<p>The Structure of GO can be described In terms Of a graph, where Each GO term Is a node, And the relationships between the terms are <br />
+ edges between the nodes. GO Is loosely hierarchical, With 'child' terms being more specialized than their 'parent' terms, but unlike <br />
+ a strict hierarchy, a term may have more than one parent term (note that the parent/child model does not hold true for all types of <br />
+ relation)</p>
+
+<p>(功能定义,term相当于一个节点，节点之间的继承关系是非严格的，即某一个子节点可能会有多个父节点)</p>
+
+<h4>Sample GO Term</h4>
+
+<p>The following Is a GO term taken from the OBO format file.</p>
+
+<p></p>
+
+<pre><code class="">id: GO : 0016049
+name: cell growth
+Namespace:  biological_process
+def: "The process in which a cell irreversibly increases in size over time by accretion and biosynthetic production of matter similar to that already present." [GOC:ai]
+subset: goslim_generic
+subset: goslim_plant
+subset: gosubset_prok
+synonym: "cell expansion" RELATED []
+synonym: "cellular growth" EXACT []
+synonym: "growth of cell" EXACT []
+is_a: GO:0009987 ! cellular process
+is_a: GO:0040007 ! growth
+relationship: part_of GO : 0008361 ! regulation of cell size
+</code></pre>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Data.GeneOntology.OBO
+export class Term extends <a href="/vignettes/clr/SMRUCC/genomics/Data/GeneOntology/OBO/base.html">base</a> {
+   # A textual description of what the term represents, plus reference(s) to the source of the information. 
+   #  All new terms added to the ontology must have a definition; there remains a very small set of terms 
+   #  from the original ontology that lack definitions, but the vast majority of terms are defined.
+   def: string;
+   # Alternative words or phrases closely related in meaning to the term name, with indication of the relationship between the name 
+   #  and synonym given by the synonym scope. The scopes for GO synonyms are:
+   #  + exact
+   #    an exact equivalent; interchangeable With the term name
+   #    e.g. ornithine cycle Is an exact synonym of urea cycle
+   #  + broad
+   #    the synonym Is broader than the term name
+   #    e.g. cell division Is a broad synonym of cytokinesis
+   #  + narrow
+   #    the synonym Is narrower Or more precise than the term name
+   #    e.g. pyrimidine-dimer repair by photolyase Is a narrow synonym of photoreactive repair
+   #  + related
+   #    the terms are related In some way Not covered above
+   #    e.g. cytochrome bc1 complex Is a related synonym of ubiquinol-cytochrome-c reductase activity virulence Is a related synonym of pathogenesis
+   # 
+   # Custom synonym types are also used In the ontology. For example, a number Of synonyms are designated As systematic synonyms; 
+   #  synonyms Of this type are exact synonyms Of the term name.
+   synonym: string;
+   # Database cross-references, or dbxrefs, refer to identical or very similar objects in other databases. For instance, 
+   #  the molecular function term retinal isomerase activity is cross-referenced with the Enzyme Commission 
+   #  entry EC:5.2.1.3; the biological process term sulfate assimilation has the cross-reference MetaCyc:PWY-781.
+   xref: string;
+   is_a: string;
+   # Indicates that the term belongs to a designated subset of terms, e.g. one of the GO slims.
+   subset: string;
+   # One or more links that capture how the term relates to other terms in the ontology. All terms 
+   #  (other than the root terms representing each namespace, above) have an is a sub-class relationship 
+   #  to another term; for example, GO:0015758 : glucose transport is a GO:0015749 : monosaccharide transport. 
+   #  The Gene Ontology employs a number of other relations, including part of (e.g. GO:0031966 : 
+   #  mitochondrial membrane part of GO:0005740 : mitochondrial envelope) and regulates (e.g. GO:0006916 : 
+   #  anti-apoptosis regulates GO:0012501 : programmed cell death). The relations documentation has more 
+   #  information on the relations used in the ontology.
+   relationship: string;
+   replaced_by: string;
+   is_obsolete: string;
+   comment: string;
+   equivalent_to: string;
+   alt_id: string;
+   intersection_of: string;
+   property_value: string;
+   consider: string;
+   disjoint_from: string;
+   created_by: string;
+   creation_date: string;
+   id: string;
+   name: string;
+   namespace: string;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>this class extends from <a href="/vignettes/clr/SMRUCC/genomics/Data/GeneOntology/OBO/base.html">base</a> class: <a href="/vignettes/clr/SMRUCC/genomics/Data/GeneOntology/OBO/base.html">base</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="../../_assets/R_syntax.js"></script>
+<script type="text/javascript" src="../../_assets/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

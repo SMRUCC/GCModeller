@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Data.GeneOntology.OBO.Typedef</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="../../_assets/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>Typedef {SMRUCC.genomics.Data.GeneOntology.OBO}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>Typedef</h2>
+
+        <h3>Description</h3>
+
+        
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Data.GeneOntology.OBO
+export class Typedef extends <a href="/vignettes/clr/SMRUCC/genomics/Data/GeneOntology/OBO/base.html">base</a> {
+   # !通常是有一定含义的字符串， 而不是数字
+   is_anonymous: string;
+   alt_id: string;
+   def: string;
+   comment: string;
+   subset: string;
+   synonym: string;
+   xref: string;
+   # !该关系仅对domain指定术语的亚类起作用
+   domain: string;
+   # !任何具有这个关系的术语都属于range指定术语的亚类
+   range: string;
+   is_anti_symmetric: string;
+   # !可否构建循环作用
+   is_cyclic: string;
+   # !是否自反
+   is_reflexive: string;
+   # !是否对称
+   is_symmetric: string;
+   # !传递关系？
+   is_transitive: string;
+   is_a: string;
+   # !和另一关系相反。适用于原关系的两个术语，可以反方向适用另一关系。
+   inverse_of: string;
+   # !将关系传递给下一个
+   transitive_over: string;
+   relationship: string;
+   is_obsolete: string;
+   replaced_by: string;
+   consider: string;
+   is_metadata_tag: string;
+   is_class_level: string;
+   holds_over_chain: string;
+   id: string;
+   name: string;
+   namespace: string;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>this class extends from <a href="/vignettes/clr/SMRUCC/genomics/Data/GeneOntology/OBO/base.html">base</a> class: <a href="/vignettes/clr/SMRUCC/genomics/Data/GeneOntology/OBO/base.html">base</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="../../_assets/R_syntax.js"></script>
+<script type="text/javascript" src="../../_assets/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

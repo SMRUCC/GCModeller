@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.PFSNet.DataStructure.PFSNetGraph</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="../../_assets/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>PFSNetGraph {SMRUCC.genomics.Analysis.PFSNet.DataStructure}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>PFSNetGraph</h2>
+
+        <h3>Description</h3>
+
+        <p>A metabolism pathway network or its calculated sub network.(一个代谢途径或者子网络，或者说是所属出的计算结果之中的一个子网络对象)</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.PFSNet.DataStructure
+export class PFSNetGraph {
+   # The nodes in the PfsNET sub network.(网络之中的基因节点)
+   nodes: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/PFSNet/DataStructure/PFSNetGraphNode.html">PFSNetGraphNode[]</a>;
+   # Gene to gene interaction, ggi.(基因与基因之间的连接，即ggi，基因对基因的互作)
+   edges: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/PFSNet/DataStructure/GraphEdge.html">GraphEdge[]</a>;
+   Id: string;
+   statistics: double;
+   pvalue: double;
+   masked: boolean;
+   # The gene counts in the current calculated PfsNET sub network.
+   #  (当前的这个PfsNET子网络之中所计算出来的基因节点的数目)
+   length: integer;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>nodes</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/PFSNet/DataStructure/PFSNetGraphNode.html">PFSNetGraphNode</a></li>
+<li>use by <i>property</i> member <code>edges</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/PFSNet/DataStructure/GraphEdge.html">GraphEdge</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="../../_assets/R_syntax.js"></script>
+<script type="text/javascript" src="../../_assets/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>
