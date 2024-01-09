@@ -22,6 +22,11 @@ Public Class SequenceGraph : Implements INamedValue
     Public Property graph As Dictionary(Of Char, Dictionary(Of Char, Double))
     Public Property triple As Dictionary(Of String, Double)
     Public Property tuple_distance As Dictionary(Of String, Double)
+    ''' <summary>
+    ''' the sequence length
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property len As Integer
 
     ''' <summary>
     ''' get vector by default charset in <see cref="composition"/>
