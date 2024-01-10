@@ -1424,4 +1424,21 @@ Module geneExpression
             Throw New NotImplementedException
         End If
     End Function
+
+    ''' <summary>
+    ''' add random gauss noise to the matrix
+    ''' </summary>
+    ''' <param name="x"></param>
+    ''' <param name="scale"></param>
+    ''' <returns></returns>
+    <ExportAPI("add_gauss")>
+    Public Function add_gauss(x As Matrix, Optional scale As Double = 0.1) As Matrix
+        Dim width As Integer = x.sampleID.Length
+
+        For i As Integer = 0 To x.size - 1
+            x.expression(i).experiments += (x.expression(i) * Vec.rand(-scale, scale, width))
+        Next
+
+        Return x
+    End Function
 End Module
