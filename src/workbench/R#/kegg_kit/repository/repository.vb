@@ -859,6 +859,11 @@ Public Module repository
         }
     End Function
 
+    ''' <summary>
+    ''' create shape area data for kegg graph rendering
+    ''' </summary>
+    ''' <param name="data"></param>
+    ''' <returns></returns>
     <ExportAPI("shapeAreas")>
     Public Function shapeAreas(data As dataframe) As Area()
         Return data.forEachRow({"id", "shape", "coords", "class", "href", "title", "entry", "refid", "module"}) _

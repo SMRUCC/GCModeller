@@ -64,6 +64,11 @@ Namespace Core
     ''' 
     ''' (反应过程通道)
     ''' </summary>
+    ''' <remarks>
+    ''' make flux dynamics association between a set of metabolite mass <see cref="Variable"/>.
+    ''' the flux dynamics could be affects via the environment <see cref="Controls"/>. dynamics
+    ''' of the reaction flux was contraint via the <see cref="bounds"/> range.
+    ''' </remarks>
     Public Class Channel : Implements INamedValue
 
         Friend ReadOnly left As Variable()

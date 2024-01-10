@@ -69,8 +69,10 @@ Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
 Imports SMRUCC.genomics.Metagenomics
 Imports SMRUCC.genomics.Model.Network.Microbiome
 Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Invokes
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
+Imports SMRUCC.Rsharp.Runtime.Interop
 
 ''' <summary>
 ''' tools for metagenomics and microbiome
@@ -106,11 +108,34 @@ Module microbiomeKit
         Return table
     End Function
 
+    ''' <summary>
+    ''' parse the otu taxonomy data file
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("parse.otu_taxonomy")>
-    Public Function parsegreenGenesTaxonomy(file As Stream) As otu_taxonomy()
-        Return otu_taxonomy.Load(file).ToArray
+    <RApiReturn(GetType(otu_taxonomy))>
+    Public Function parsegreenGenesTaxonomy(<RRawVectorArgument> file As Object, Optional env As Environment = Nothing) As Object
+        Dim buf = SMRUCC.Rsharp.GetFileStream(file, FileAccess.Read, env)
+
+        If buf Like GetType(Message) Then
+            Return buf.TryCast(Of Message)
+        End If
+
+        Return otu_taxonomy.Load(buf.TryCast(Of Stream)).ToArray
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="ggtax"></param>
+    ''' <param name="ko_13_5_precalculated"></param>
+    ''' <param name="save"></param>
+    ''' <returns></returns>
+    ''' <remarks>
+    ''' write the data matrix via <see cref="MetaBinaryWriter"/>
+    ''' </remarks>
     <ExportAPI("save.PICRUSt_matrix")>
     Public Function indexMatrix(ggtax As otu_taxonomy(), ko_13_5_precalculated As Stream, save As Stream) As Boolean
         Using file As MetaBinaryWriter = MetaBinaryWriter.CreateWriter(ggtax, save)
@@ -175,6 +200,9 @@ Module microbiomeKit
     ''' content value of the list is the relative abundance data.
     ''' </param>
     ''' <returns></returns>
+    ''' <remarks>
+    ''' compares on a specific <see cref="TaxonomyRanks"/>
+    ''' </remarks>
     <ExportAPI("diff.entropy")>
     Public Function similar(v1 As list, v2 As list, Optional rank As TaxonomyRanks = TaxonomyRanks.Genus, Optional env As Environment = Nothing) As Double
         Dim x1 As Dictionary(Of String, Double) = v1.asTaxonomyVector(rank, env)

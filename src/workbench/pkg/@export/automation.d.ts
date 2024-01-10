@@ -5,6 +5,7 @@
 // ref=cytoscape_toolkit.automation@cytoscape_toolkit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 
 /**
+ * accession the cytoscape function via http service
  * 
 */
 declare namespace automation {

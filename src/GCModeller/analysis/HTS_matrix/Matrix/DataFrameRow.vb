@@ -58,9 +58,11 @@ Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 
 ''' <summary>
-''' The gene expression data samples file.(基因的表达数据样本)
+''' The gene expression data samples file.
+''' (基因的表达数据样本)
 ''' </summary>
-''' <remarks></remarks>
+''' <remarks>the gene expression model implements the <see cref="IVector"/> model, 
+''' could be converts a vector.</remarks>
 Public Class DataFrameRow : Implements INamedValue, IVector
 
     ''' <summary>
@@ -132,6 +134,11 @@ Public Class DataFrameRow : Implements INamedValue, IVector
     Sub New(sample As NamedCollection(Of Double))
         Me.geneID = sample.name
         Me.experiments = sample.value
+    End Sub
+
+    Sub New(clone As DataFrameRow)
+        Me.geneID = clone.geneID
+        Me.experiments = clone.experiments.ToArray
     End Sub
 
     Public Function ToDataSet(labels As String()) As Dictionary(Of String, Double)

@@ -67,6 +67,9 @@ Imports SMRUCC.genomics.Metagenomics
 
 Namespace PICRUSt
 
+    ''' <summary>
+    ''' the PICRUSt binary matrix writer
+    ''' </summary>
     Public Class MetaBinaryWriter : Implements IDisposable
 
         Friend Const Magic As String = "PICRUSt"

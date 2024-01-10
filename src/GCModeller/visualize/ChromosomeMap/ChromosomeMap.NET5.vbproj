@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <RootNamespace>SMRUCC.genomics.Visualize.ChromosomeMap</RootNamespace>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <AssemblyName>SMRUCC.genomics.Visualize.ChromosomeMap</AssemblyName>
   </PropertyGroup>
 
@@ -16,8 +16,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Data\**" />
     <Compile Remove="test\**" />
+    <EmbeddedResource Remove="Data\**" />
     <EmbeddedResource Remove="test\**" />
+    <None Remove="Data\**" />
     <None Remove="test\**" />
   </ItemGroup>
 
@@ -26,6 +29,7 @@
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\Math.NET5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\imaging.NET5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\mime\text%html\html_netcore5.vbproj" />
     <ProjectReference Include="..\..\core\Bio.Assembly\biocore-netcore5.vbproj" />
   </ItemGroup>
 

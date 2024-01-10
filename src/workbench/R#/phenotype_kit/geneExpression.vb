@@ -193,7 +193,15 @@ Module geneExpression
     ''' <param name="mat">
     ''' a HTS data matrix of samples in column and gene features in row
     ''' </param>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' a tuple list that contains the dimension information of the 
+    ''' gene expression matrix data:
+    ''' 
+    ''' + feature_size: the number of the matrix rows, or count of genes in matrix
+    ''' + feature_names: a character vector of the gene ids for each rows
+    ''' + sample_size: the number of the samples, or number of the matrix columns
+    ''' + sample_names: the matrix column names, the sample id set
+    ''' </returns>
     <ExportAPI("dims")>
     <RApiReturn("feature_size", "feature_names", "sample_size", "sample_names")>
     Public Function dims(mat As Matrix) As list
@@ -211,7 +219,9 @@ Module geneExpression
     ''' convert the matrix into row gene list
     ''' </summary>
     ''' <param name="expr0"></param>
-    ''' <returns></returns>
+    ''' <returns>a tuple list of the expression numeric vector, each slot data 
+    ''' is the vector of expression value of a gene, slot key name is the 
+    ''' corresponding gene id.</returns>
     <ExportAPI("as.expr_list")>
     Public Function createVectorList(expr0 As Matrix) As list
         Return New list With {
@@ -359,6 +369,7 @@ Module geneExpression
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("filterZeroSamples")>
+    <RApiReturn(GetType(Matrix))>
     Public Function filterZeroSamples(mat As Matrix, Optional env As Environment = Nothing) As Object
         Return mat.T.TrimZeros.T
     End Function
@@ -374,6 +385,7 @@ Module geneExpression
     ''' 
     ''' </example>
     <ExportAPI("filterZeroGenes")>
+    <RApiReturn(GetType(Matrix))>
     Public Function filterZeroGenes(mat As Matrix, Optional env As Environment = Nothing) As Object
         Return mat.TrimZeros
     End Function
@@ -386,6 +398,7 @@ Module geneExpression
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("filterNaNMissing")>
+    <RApiReturn(GetType(Matrix))>
     Public Function filterNaN(x As Matrix, Optional missingDefault As Double = 0, Optional env As Environment = Nothing) As Object
         For Each gene As DataFrameRow In x.expression
             For i As Integer = 0 To gene.experiments.Length - 1

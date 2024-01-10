@@ -44,10 +44,25 @@
 
 Namespace Tables
 
+    ''' <summary>
+    ''' the cytoscape simple interaction format table
+    ''' </summary>
     Public Class SIF
 
+        ''' <summary>
+        ''' the source node id
+        ''' </summary>
+        ''' <returns></returns>
         Public Property source As String
+        ''' <summary>
+        ''' the iteraction type
+        ''' </summary>
+        ''' <returns></returns>
         Public Property interaction As String
+        ''' <summary>
+        ''' the target node id
+        ''' </summary>
+        ''' <returns></returns>
         Public Property target As String
 
         Public Overrides Function ToString() As String

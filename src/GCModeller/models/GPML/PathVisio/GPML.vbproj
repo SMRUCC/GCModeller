@@ -11,6 +11,7 @@
     <Description>GPML: Graphical Pathway Markup Language for PathVisio (.gpml)</Description>
     <PackageReleaseNotes>GPML: Graphical Pathway Markup Language for PathVisio (.gpml)</PackageReleaseNotes>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

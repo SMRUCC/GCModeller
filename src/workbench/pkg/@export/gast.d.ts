@@ -14,6 +14,9 @@ declare namespace gast {
        * assign OTU its taxonomy result
        * 
        * 
+        * @param blastn a collection of the alignment @``T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Query`` that parsed 
+        *  from the ncbi blastn alignment result text file.
+        * @param taxonomy a collection of the @``T:SMRUCC.genomics.Analysis.Metagenome.greengenes.otu_taxonomy`` data.
         * @param min_pct 
         * + default value Is ``0.97``.
         * @param gast_consensus 
@@ -29,6 +32,7 @@ declare namespace gast {
        * 
        * 
         * @param tax the file path of the greengenes taxonomy mapping file.
+        * @return a tuple list of the otu taxonomy information
       */
       function greengenes_tax(tax: string): object;
       /**

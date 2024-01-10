@@ -70,8 +70,16 @@ Module gastTools
     ''' <summary>
     ''' assign OTU its taxonomy result
     ''' </summary>
+    ''' <param name="blastn">
+    ''' a collection of the alignment <see cref="Query"/> that parsed 
+    ''' from the ncbi blastn alignment result text file.
+    ''' </param>
+    ''' <param name="taxonomy">
+    ''' a collection of the <see cref="otu_taxonomy"/> data.
+    ''' </param>
     ''' <returns></returns>
     <ExportAPI("OTU.taxonomy")>
+    <RApiReturn(GetType(gast.gastOUT))>
     Public Function OTUgreengenesTaxonomy(<RRawVectorArgument>
                                           blastn As Object,
                                           OTUs As list,
@@ -108,8 +116,9 @@ Module gastTools
     ''' <param name="tax">
     ''' the file path of the greengenes taxonomy mapping file.
     ''' </param>
-    ''' <returns></returns>
+    ''' <returns>a tuple list of the otu taxonomy information</returns>
     <ExportAPI("parse.greengenes_tax")>
+    <RApiReturn(GetType(otu_taxonomy))>
     Public Function ParseGreengenesTaxonomy(tax As String) As list
         Return otu_taxonomy _
             .Load(path:=tax) _

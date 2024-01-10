@@ -61,7 +61,8 @@ Public Module Builder
             .graph = g,
             .triple = triples,
             .tuple_distance = distance,
-            .id = id
+            .id = id,
+            .len = nsize
         }
     End Function
 End Module

@@ -23,8 +23,21 @@ declare namespace bioseq.fasta {
    }
    module cut_seq {
       /**
-        * @param doNtAutoReverse default value Is ``false``.
-        * @param env default value Is ``null``.
+       * cut part of the sequence
+       * 
+       * 
+        * @param seq -
+        * @param loci the location region data for make cut of the sequence site, data model could be:
+        *  
+        *  1. for nucleotide sequence, @``T:SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation`` should be used,
+        *  2. for general sequence data, @``T:SMRUCC.genomics.ComponentModel.Loci.Location`` should be used.
+        * @param doNtAutoReverse make auto reverse of the nucleotide sequence if the given location is on 
+        *  the @``F:SMRUCC.genomics.ComponentModel.Loci.Strands.Reverse`` direction.
+        * 
+        * + default value Is ``false``.
+        * @param env -
+        * 
+        * + default value Is ``null``.
       */
       function linear(seq: any, loci: any, doNtAutoReverse?: boolean, env?: object): any;
    }
@@ -62,9 +75,16 @@ declare namespace bioseq.fasta {
    }
    module open {
       /**
-        * @param env default value Is ``null``.
+       * open file and load a set of fasta sequence data in lazy mode
+       * 
+       * 
+        * @param file -
+        * @param env -
+        * 
+        * + default value Is ``null``.
+        * @return a lazy collection of the fasta sequence data
       */
-      function fasta(file: string, env?: object): any;
+      function fasta(file: string, env?: object): object;
    }
    module parse {
       /**

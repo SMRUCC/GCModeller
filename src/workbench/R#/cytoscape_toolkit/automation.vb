@@ -57,6 +57,9 @@ Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Interop
 
+''' <summary>
+''' accession the cytoscape function via http service
+''' </summary>
 <Package("automation")>
 Module automation
 
@@ -157,7 +160,12 @@ Module automation
 
     <ExportAPI("networkView")>
     <RApiReturn(GetType(Cyjs))>
-    Public Function networkView(networkId As Object, viewId As Object, Optional version$ = "v1", Optional port% = 1234, Optional host$ = "localhost", Optional env As Environment = Nothing) As Object
+    Public Function networkView(networkId As Object, viewId As Object,
+                                Optional version$ = "v1",
+                                Optional port% = 1234,
+                                Optional host$ = "localhost",
+                                Optional env As Environment = Nothing) As Object
+
         If networkId Is Nothing Then
             Return Internal.debug.stop("the network reference id can not be nothing!", env)
         ElseIf TypeOf networkId Is Long Then

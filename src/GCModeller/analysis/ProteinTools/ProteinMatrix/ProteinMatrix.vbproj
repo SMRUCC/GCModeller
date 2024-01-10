@@ -7,6 +7,7 @@
     <Description>Generates the protein matrix data for run the CNN learning.</Description>
     <Platforms>AnyCPU;x64</Platforms>
     <Configurations>Debug;Release;Rsharp_app_release</Configurations>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

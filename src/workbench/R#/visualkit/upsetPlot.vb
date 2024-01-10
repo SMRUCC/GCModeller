@@ -202,6 +202,13 @@ Module upsetPlot
         Return app.Plot(size)
     End Function
 
+    ''' <summary>
+    ''' construct upset data for make upset plot
+    ''' </summary>
+    ''' <param name="vennSet"></param>
+    ''' <param name="desc"></param>
+    ''' <param name="intersectionCut"></param>
+    ''' <returns></returns>
     <ExportAPI("as.upsetData")>
     Public Function CreateUpSetData(vennSet As IntersectionData,
                                     Optional desc As Boolean = True,

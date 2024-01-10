@@ -175,8 +175,15 @@ Module Fasta
         End If
     End Function
 
+    ''' <summary>
+    ''' open file and load a set of fasta sequence data in lazy mode
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <param name="env"></param>
+    ''' <returns>a lazy collection of the fasta sequence data</returns>
     <ExportAPI("open.fasta")>
-    Public Function openFasta(file As String, Optional env As Environment = Nothing)
+    <RApiReturn(GetType(FastaSeq))>
+    Public Function openFasta(file As String, Optional env As Environment = Nothing) As Object
         Return StreamIterator.SeqSource(file).DoCall(AddressOf pipeline.CreateFromPopulator)
     End Function
 
@@ -424,6 +431,22 @@ Module Fasta
             .ToArray
     End Function
 
+    ''' <summary>
+    ''' cut part of the sequence
+    ''' </summary>
+    ''' <param name="seq"></param>
+    ''' <param name="loci">
+    ''' the location region data for make cut of the sequence site, data model could be:
+    ''' 
+    ''' 1. for nucleotide sequence, <see cref="NucleotideLocation"/> should be used,
+    ''' 2. for general sequence data, <see cref="SMRUCC.genomics.ComponentModel.Loci.Location"/> should be used.
+    ''' </param>
+    ''' <param name="doNtAutoReverse">
+    ''' make auto reverse of the nucleotide sequence if the given location is on 
+    ''' the <see cref="Strands.Reverse"/> direction.
+    ''' </param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("cut_seq.linear")>
     Public Function CutSequenceLinear(<RRawVectorArgument> seq As Object,
                                       <RRawVectorArgument> loci As Object,

@@ -72,6 +72,10 @@ Public Class SampleInfo : Inherits SampleGroup
     ''' </summary>
     ''' <returns></returns>
     Public Property injectionOrder As Integer
+    ''' <summary>
+    ''' the experiment batch id
+    ''' </summary>
+    ''' <returns></returns>
     Public Property batch As Integer
 
     Sub New()

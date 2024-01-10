@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Microsoft.VisualBasic.MIME.application.rdf_xml.RDFEntity</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="../../_assets/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>RDFEntity {Microsoft.VisualBasic.MIME.application.rdf_xml}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>RDFEntity</h2>
+
+        <h3>Description</h3>
+
+        <p>在rdf之中被描述的对象实体</p>
+
+<p>ID,about</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace Microsoft.VisualBasic.MIME.application.rdf_xml
+export class RDFEntity extends <a href="/vignettes/clr/Microsoft/VisualBasic/MIME/application/rdf_xml/RDFProperty.html">RDFProperty</a> {
+   range: <a href="/vignettes/clr/Microsoft/VisualBasic/MIME/application/rdf_xml/RDFProperty.html">RDFProperty</a>;
+   comment: <a href="/vignettes/clr/Microsoft/VisualBasic/MIME/application/rdf_xml/RDFProperty.html">RDFProperty[]</a>;
+   # rdf:ID
+   RDFId: string;
+   # [资源] 是可拥有 URI 的任何事物
+   about: string;
+   # [属性]   是拥有名称的资源
+   #  [属性值] 是某个属性的值，(请注意一个属性值可以是另外一个<a href="/vignettes/clr/Microsoft/VisualBasic/MIME/application/rdf_xml/EntityProperty.html">EntityProperty</a>.<a href="#">resource</a>）
+   #  xml文档在rdf反序列化之后，原有的类型定义之中除了自有的属性被保留下来了之外，具备指向其他资源的属性都被保存在了这个属性字典之中
+   Properties: list;
+   dataType: string;
+   resource: string;
+   value: string;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>this class extends from <a href="/vignettes/clr/Microsoft/VisualBasic/MIME/application/rdf_xml/RDFProperty.html">RDFProperty</a> class: <a href="/vignettes/clr/Microsoft/VisualBasic/MIME/application/rdf_xml/RDFProperty.html">RDFProperty</a></li>
+<li>use by <i>property</i> member <code>range</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/MIME/application/rdf_xml/RDFProperty.html">RDFProperty</a></li>
+<li>use by <i>property</i> member <code>comment</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/MIME/application/rdf_xml/RDFProperty.html">RDFProperty</a></li>
+<li>use by <i>property</i> member <code>Properties</code>: list</li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="../../_assets/R_syntax.js"></script>
+<script type="text/javascript" src="../../_assets/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

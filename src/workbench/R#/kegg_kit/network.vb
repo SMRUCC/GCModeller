@@ -60,6 +60,14 @@ Imports SMRUCC.genomics.Model.Network.KEGG.ReactionNetwork
 <Package("network")>
 Module network
 
+    ''' <summary>
+    ''' create metabolism graph from a given set of compounds
+    ''' </summary>
+    ''' <param name="compoundsId"></param>
+    ''' <param name="graph"></param>
+    ''' <param name="compounds"></param>
+    ''' <param name="enzymeBridged"></param>
+    ''' <returns></returns>
     <ExportAPI("fromCompounds")>
     Public Function fromCompoundId(compoundsId As String(), graph As Reaction(),
                                    Optional compounds As CompoundRepository = Nothing,

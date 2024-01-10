@@ -14,8 +14,16 @@
 declare namespace upsetPlot {
    module as {
       /**
-        * @param desc default value Is ``true``.
-        * @param intersectionCut default value Is ``0``.
+       * construct upset data for make upset plot
+       * 
+       * 
+        * @param vennSet -
+        * @param desc -
+        * 
+        * + default value Is ``true``.
+        * @param intersectionCut -
+        * 
+        * + default value Is ``0``.
       */
       function upsetData(vennSet: object, desc?: boolean, intersectionCut?: object): object;
    }

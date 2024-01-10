@@ -71,7 +71,6 @@ Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.ListExtensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Oracle.Java.IO.Properties.Reflector
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.ComponentModel
@@ -314,8 +313,8 @@ Public Module ChromesomeMapAPI
                 .Product = gene.Product,
                 .LocusTag = gene.Synonym,
                 .CommonName = gene.Gene,
-                .Left = Math.Min(gene.Location.Left, gene.Location.Right),
-                .Right = Math.Max(gene.Location.Right, gene.Location.Left),
+                .Left = Math.Min(gene.Location.left, gene.Location.right),
+                .Right = Math.Max(gene.Location.right, gene.Location.left),
                 .Direction = gene.Location.Strand
             }
 
@@ -438,15 +437,15 @@ Public Module ChromesomeMapAPI
     Public Function FromPttObject(<Parameter("Bacterial.Genome", "Using the gene object model data that define in the database to construct the basically bacterial genome skeleton.")>
                                   genome As PTTDbLoader, conf As Config) As ChromesomeDrawingModel
         Dim defaultColor As Color = (conf.NoneCogColor Or brown).TranslateColor
-        Dim GeneObjects = (From gene As GeneBrief
+        Dim GeneObjects As SegmentObject() = (From gene As GeneBrief
                            In genome.Values.AsParallel
-                           Select New SegmentObject With {
+                                              Select New SegmentObject With {
                                .Color = New SolidBrush(defaultColor),
                                .Product = gene.Product,
                                .LocusTag = gene.Synonym,
                                .CommonName = gene.Gene,
-                               .Left = Math.Min(gene.Location.Left, gene.Location.Right),
-                               .Right = Math.Max(gene.Location.Right, gene.Location.Left),
+                               .Left = Math.Min(gene.Location.left, gene.Location.right),
+                               .Right = Math.Max(gene.Location.right, gene.Location.left),
                                .Direction = gene.Location.Strand
                                }).AsList
 

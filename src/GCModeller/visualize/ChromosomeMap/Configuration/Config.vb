@@ -67,7 +67,6 @@ Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Text
-Imports Oracle.Java.IO.Properties
 Imports SMRUCC.genomics.Visualize.ChromosomeMap.DrawingModels
 
 Namespace Configuration

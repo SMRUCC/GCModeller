@@ -5,11 +5,25 @@ Namespace Metabolism.Metpa
     ''' <summary>
     ''' metpa symbol
     ''' </summary>
+    ''' <remarks>
+    ''' the pathway enrichment model contains multiple data collection:
+    ''' 
+    ''' 1. <see cref="msetList"/> is a set of the metabolite collection in each pathway cluster model
+    ''' 2. <see cref="rbcList"/> the impact score via algorithm <see cref="Topologys.rbc"/>
+    ''' 3. <see cref="dgrList"/> the impact score via algorithm <see cref="Topologys.dgr"/>
+    ''' 4. <see cref="pathIds"/> the pathway name collection
+    ''' 
+    ''' these data is required for run topology impact enrichment analysis.
+    ''' </remarks>
     Public Class metpa
 
         <Field("mset.list")> Public Property msetList As msetList
         <Field("rbc.list")> Public Property rbcList As rbcList
         <Field("path.ids")> Public Property pathIds As pathIds
+        ''' <summary>
+        ''' the count of the metabolite inside current model
+        ''' </summary>
+        ''' <returns></returns>
         <Field("uniq.count")> Public Property unique_count As Integer
         <Field("path.smps")> Public Property pathSmps As pathSmps
         <Field("dgr.list")> Public Property dgrList As dgrList
@@ -70,8 +84,17 @@ Namespace Metabolism.Metpa
 
     End Class
 
+    ''' <summary>
+    ''' the network graph topology impact score algorithm
+    ''' </summary>
     Public Enum Topologys
+        ''' <summary>
+        ''' relative betweeness center score
+        ''' </summary>
         rbc
+        ''' <summary>
+        ''' relative degree score
+        ''' </summary>
         dgr
     End Enum
 

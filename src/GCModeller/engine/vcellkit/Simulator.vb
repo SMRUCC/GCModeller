@@ -78,6 +78,7 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
 Imports SMRUCC.Rsharp.Runtime.Internal.ConsolePrinter
+Imports SMRUCC.Rsharp.Runtime.Interop
 
 Public Enum ModuleSystemLevels
     Transcriptome
@@ -118,6 +119,11 @@ Public Module Simulator
                     End Function)
     End Function
 
+    ''' <summary>
+    ''' get the initial mass value
+    ''' </summary>
+    ''' <param name="vcell"></param>
+    ''' <returns></returns>
     <ExportAPI("mass0")>
     Public Function mass0(vcell As VirtualCell) As Definition
         Return New Definition With {
@@ -162,13 +168,14 @@ Public Module Simulator
     ''' <param name="dynamics"></param>
     ''' <returns></returns>
     <ExportAPI("engine.load")>
+    <RApiReturn(GetType(Engine))>
     Public Function CreateVCellEngine(vcell As CellularModule,
                                       Optional inits As Definition = Nothing,
                                       Optional iterations% = 100,
                                       Optional time_resolutions% = 10000,
                                       Optional deletions$() = Nothing,
                                       Optional dynamics As FluxBaseline = Nothing,
-                                      Optional showProgress As Boolean = True) As Engine
+                                      Optional showProgress As Boolean = True) As Object
 
         Static defaultDynamics As [Default](Of FluxBaseline) = New FluxBaseline
         ' do initialize of the virtual cell engine

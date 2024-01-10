@@ -35,7 +35,7 @@ declare namespace sampleInfo {
         * 
         * + default value Is ``null``.
       */
-      function colors(sampleinfo: object, colorSet?: any, env?: object): any;
+      function colors(sampleinfo: object, colorSet?: any, env?: object): object;
    }
    module guess {
       /**

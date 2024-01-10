@@ -55,6 +55,9 @@
 
 Namespace Core
 
+    ''' <summary>
+    ''' the reaction flux dynamics bounds range
+    ''' </summary>
     Public Class Boundary
 
         Public Property forward As Double

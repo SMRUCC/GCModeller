@@ -49,7 +49,7 @@ declare namespace profiles {
          /**
            * @param env default value Is ``null``.
          */
-         function profiles(flux: any, maps: object, env?: object): any;
+         function profiles(flux: any, maps: object, env?: object): object;
       }
    }
    /**

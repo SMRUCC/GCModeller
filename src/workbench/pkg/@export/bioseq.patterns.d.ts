@@ -11,11 +11,26 @@
 declare namespace bioseq.patterns {
    module as {
       /**
-        * @param mol_type default value Is ``null``.
-        * @param parallel default value Is ``false``.
-        * @param env default value Is ``null``.
+       * 
+       * 
+        * @param fasta -
+        * @param mol_type -
+        * 
+        * + default value Is ``null``.
+        * @param parallel -
+        * 
+        * + default value Is ``false``.
+        * @param env -
+        * 
+        * + default value Is ``null``.
+        * @return the sequence graph embedding vector data is generates from different method 
+        *  based on the **`mol_type`** data:
+        *  
+        *  + @``F:SMRUCC.genomics.SequenceModel.SeqTypes.DNA``: @``M:SMRUCC.genomics.Model.MotifGraph.Builder.DNAGraph(SMRUCC.genomics.SequenceModel.FASTA.FastaSeq)``
+        *  + @``F:SMRUCC.genomics.SequenceModel.SeqTypes.Protein``: @``M:SMRUCC.genomics.Model.MotifGraph.Builder.PolypeptideGraph(SMRUCC.genomics.SequenceModel.FASTA.FastaSeq)``
+        *  + @``F:SMRUCC.genomics.SequenceModel.SeqTypes.RNA``: @``M:SMRUCC.genomics.Model.MotifGraph.Builder.RNAGraph(SMRUCC.genomics.SequenceModel.FASTA.FastaSeq)``
       */
-      function seq_graph(fasta: any, mol_type?: object, parallel?: boolean, env?: object): any;
+      function seq_graph(fasta: any, mol_type?: object, parallel?: boolean, env?: object): object;
    }
    module create {
       /**
@@ -92,9 +107,15 @@ declare namespace bioseq.patterns {
       function find_sites(motif: object, target: any, cutoff?: number, minW?: number, identities?: number, parallel?: boolean, env?: object): object;
    }
    /**
-     * @param env default value Is ``null``.
+    * 
+    * 
+     * @param motif -
+     * @param env -
+     * 
+     * + default value Is ``null``.
+     * @return the regexp liked format string for do motif matches
    */
-   function motifString(motif: any, env?: object): any;
+   function motifString(motif: any, env?: object): string;
    module open {
       /**
         * @param env default value Is ``null``.

@@ -22,5 +22,5 @@ The kegg data model repository tool
 + [pathway](repository/pathway.1) 
 + [reaction](repository/reaction.1) 
 + [reaction_class](repository/reaction_class.1) create a new data model of kegg reaction_class
-+ [shapeAreas](repository/shapeAreas.1) 
++ [shapeAreas](repository/shapeAreas.1) create shape area data for kegg graph rendering
 + [keggMap](repository/keggMap.1) 

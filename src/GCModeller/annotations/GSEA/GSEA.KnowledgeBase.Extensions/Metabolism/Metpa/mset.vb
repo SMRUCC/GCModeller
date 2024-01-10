@@ -5,6 +5,9 @@ Imports SMRUCC.genomics.ComponentModel.Annotation
 
 Namespace Metabolism.Metpa
 
+    ''' <summary>
+    ''' a molecule collection
+    ''' </summary>
     Public Class mset
 
         Public Property metaboliteNames As String()
@@ -46,6 +49,9 @@ Namespace Metabolism.Metpa
     ''' <summary>
     ''' the molecule collection for each pathway cluster
     ''' </summary>
+    ''' <remarks>
+    ''' the molecule collection save in vector data model <see cref="mset"/>
+    ''' </remarks>
     Public Class msetList
 
         Public Property list As Dictionary(Of String, mset)

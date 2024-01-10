@@ -24,6 +24,17 @@
 
         <p>metpa symbol</p>
 
+<p>the pathway enrichment model contains multiple data collection:</p>
+
+<ol>
+<li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/KnowledgeBase/Metabolism/Metpa/metpa.html">metpa</a>.<a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/KnowledgeBase/Metabolism/Metpa/msetList.html">msetList</a> is a set of the metabolite collection in each pathway cluster model</li>
+<li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/KnowledgeBase/Metabolism/Metpa/metpa.html">metpa</a>.<a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/KnowledgeBase/Metabolism/Metpa/rbcList.html">rbcList</a> the impact score via algorithm <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/KnowledgeBase/Metabolism/Metpa/Topologys.html">Topologys</a>.<a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/KnowledgeBase/Metabolism/Metpa/Topologys.html">rbc</a></li>
+<li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/KnowledgeBase/Metabolism/Metpa/metpa.html">metpa</a>.<a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/KnowledgeBase/Metabolism/Metpa/dgrList.html">dgrList</a> the impact score via algorithm <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/KnowledgeBase/Metabolism/Metpa/Topologys.html">Topologys</a>.<a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/KnowledgeBase/Metabolism/Metpa/Topologys.html">dgr</a></li>
+<li><p><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/KnowledgeBase/Metabolism/Metpa/metpa.html">metpa</a>.<a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/KnowledgeBase/Metabolism/Metpa/pathIds.html">pathIds</a> the pathway name collection</p>
+
+<p>these data is required for run topology impact enrichment analysis.</p></li>
+</ol>
+
         <h3>Declare</h3>        
 
         <pre>
@@ -32,14 +43,27 @@
 export class metpa {
    msetList: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/KnowledgeBase/Metabolism/Metpa/msetList.html">msetList</a>;
    rbcList: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/KnowledgeBase/Metabolism/Metpa/rbcList.html">rbcList</a>;
+   dgrList: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/KnowledgeBase/Metabolism/Metpa/dgrList.html">dgrList</a>;
    pathIds: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/KnowledgeBase/Metabolism/Metpa/pathIds.html">pathIds</a>;
+   # the count of the metabolite inside current model
    unique_count: integer;
    pathSmps: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/KnowledgeBase/Metabolism/Metpa/pathSmps.html">pathSmps</a>;
-   dgrList: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/KnowledgeBase/Metabolism/Metpa/dgrList.html">dgrList</a>;
    graphList: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/KnowledgeBase/Metabolism/Metpa/graphList.html">graphList</a>;
 }
 </code>
         </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>msetList</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/KnowledgeBase/Metabolism/Metpa/msetList.html">msetList</a></li>
+<li>use by <i>property</i> member <code>rbcList</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/KnowledgeBase/Metabolism/Metpa/rbcList.html">rbcList</a></li>
+<li>use by <i>property</i> member <code>dgrList</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/KnowledgeBase/Metabolism/Metpa/dgrList.html">dgrList</a></li>
+<li>use by <i>property</i> member <code>pathIds</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/KnowledgeBase/Metabolism/Metpa/pathIds.html">pathIds</a></li>
+<li>use by <i>property</i> member <code>pathSmps</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/KnowledgeBase/Metabolism/Metpa/pathSmps.html">pathSmps</a></li>
+<li>use by <i>property</i> member <code>graphList</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/KnowledgeBase/Metabolism/Metpa/graphList.html">graphList</a></li>
+</ol>
+
 
         <hr />
         <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a

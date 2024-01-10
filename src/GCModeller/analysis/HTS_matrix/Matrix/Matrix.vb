@@ -62,13 +62,17 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language.Vectorization
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 
 ''' <summary>
 ''' a data matrix of samples in column and gene features in row
 ''' </summary>
-Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow)
+''' <remarks>
+''' a data model of a collection of then gene expression <see cref="DataFrameRow"/>.
+''' </remarks>
+Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow), INumericMatrix
 
     ''' <summary>
     ''' the tag data of current expression matrix
@@ -414,5 +418,15 @@ Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow)
 
     Public Iterator Function GetEnumerator() As IEnumerator Implements Enumeration(Of DataFrameRow).GetEnumerator
         Yield GenericEnumerator()
+    End Function
+
+    Public Function ArrayPack(Optional deepcopy As Boolean = False) As Double()() Implements INumericMatrix.ArrayPack
+        Dim m As Double()() = New Double(expression.Length - 1)() {}
+
+        For i As Integer = 0 To expression.Length - 1
+            m(i) = expression(i).experiments
+        Next
+
+        Return m
     End Function
 End Class

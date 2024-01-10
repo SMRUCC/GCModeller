@@ -44,6 +44,9 @@ declare namespace geneExpression {
        * 
        * 
         * @param expr0 -
+        * @return a tuple list of the expression numeric vector, each slot data 
+        *  is the vector of expression value of a gene, slot key name is the 
+        *  corresponding gene id.
       */
       function expr_list(expr0: object): object;
       /**
@@ -117,6 +120,13 @@ declare namespace geneExpression {
     * 
     * 
      * @param mat a HTS data matrix of samples in column and gene features in row
+     * @return a tuple list that contains the dimension information of the 
+     *  gene expression matrix data:
+     *  
+     *  + feature_size: the number of the matrix rows, or count of genes in matrix
+     *  + feature_names: a character vector of the gene ids for each rows
+     *  + sample_size: the number of the samples, or number of the matrix columns
+     *  + sample_names: the matrix column names, the sample id set
    */
    function dims(mat: object): object;
    /**
@@ -189,7 +199,7 @@ declare namespace geneExpression {
      * 
      * + default value Is ``null``.
    */
-   function filterNaNMissing(x: object, missingDefault?: number, env?: object): any;
+   function filterNaNMissing(x: object, missingDefault?: number, env?: object): object;
    /**
     * removes the rows which all gene expression result is ZERO
     * 
@@ -201,7 +211,7 @@ declare namespace geneExpression {
      * @return A new expression matrix object that with gene row 
      *  features subset from the original input raw matrix object.
    */
-   function filterZeroGenes(mat: object, env?: object): any;
+   function filterZeroGenes(mat: object, env?: object): object;
    /**
     * filter out all samples columns which its expression vector is ZERO!
     * 
@@ -211,7 +221,7 @@ declare namespace geneExpression {
      * 
      * + default value Is ``null``.
    */
-   function filterZeroSamples(mat: object, env?: object): any;
+   function filterZeroSamples(mat: object, env?: object): object;
    /**
     * get gene Id list
     * 

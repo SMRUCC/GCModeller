@@ -20,6 +20,7 @@ declare namespace microbiome {
       /**
        * evaluate the similarity of two taxonomy data vector
        * 
+       * > compares on a specific @``T:SMRUCC.genomics.Metagenomics.TaxonomyRanks``
        * 
         * @param v1 the names of the list should be the BIOM taxonomy string, 
         *  content value of the list is the relative abundance data.
@@ -34,8 +35,15 @@ declare namespace microbiome {
    }
    module parse {
       /**
+       * parse the otu taxonomy data file
+       * 
+       * 
+        * @param file -
+        * @param env -
+        * 
+        * + default value Is ``null``.
       */
-      function otu_taxonomy(file: object): object;
+      function otu_taxonomy(file: any, env?: object): object;
    }
    /**
     * creates the final metagenome functional predictions. It 
@@ -56,6 +64,12 @@ declare namespace microbiome {
    }
    module save {
       /**
+       * 
+       * > write the data matrix via @``T:SMRUCC.genomics.Analysis.Metagenome.MetaFunction.PICRUSt.MetaBinaryWriter``
+       * 
+        * @param ggtax -
+        * @param ko_13_5_precalculated -
+        * @param save -
       */
       function PICRUSt_matrix(ggtax: object, ko_13_5_precalculated: object, save: object): boolean;
    }

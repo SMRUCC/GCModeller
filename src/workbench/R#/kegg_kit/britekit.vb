@@ -61,6 +61,7 @@ Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
@@ -204,6 +205,7 @@ Module britekit
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("brite.parseJSON")>
+    <RApiReturn(GetType(htextJSON))>
     Public Function ParseBriteJson(file$, Optional env As Environment = Nothing) As Object
         Return htextJSON.parseJSON(file)
     End Function
@@ -213,9 +215,9 @@ Module britekit
     ''' </summary>
     ''' <returns></returns>
     <ExportAPI("KO.geneNames")>
-    Public Function KOgeneNames() As Dictionary(Of String, String)
+    Public Function KOgeneNames() As Object
         Dim brites = PathwayMapping.DefaultKOTable
-        Dim names As New Dictionary(Of String, String)
+        Dim names As New Dictionary(Of String, Object)
         Dim name As String
 
         For Each term In brites
@@ -229,11 +231,11 @@ Module britekit
             End If
         Next
 
-        Return names
+        Return New list(TypeCodes.string) With {.slots = names}
     End Function
 
     ''' <summary>
-    ''' 
+    ''' get class labels
     ''' </summary>
     ''' <param name="htext"></param>
     ''' <param name="geneId"></param>

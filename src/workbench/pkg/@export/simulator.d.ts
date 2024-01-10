@@ -46,6 +46,10 @@ declare namespace simulator {
       function load(vcell: object, inits?: object, iterations?: object, time_resolutions?: object, deletions?: string, dynamics?: object, showProgress?: boolean): object;
    }
    /**
+    * get the initial mass value
+    * 
+    * 
+     * @param vcell -
    */
    function mass0(vcell: object): object;
    module vcell {

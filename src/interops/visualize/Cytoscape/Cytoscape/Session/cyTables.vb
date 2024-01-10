@@ -69,6 +69,9 @@ Namespace Session
         End Function
     End Class
 
+    ''' <summary>
+    ''' the column data
+    ''' </summary>
     Public Class virtualColumn
 
         <XmlAttribute> Public Property name As String

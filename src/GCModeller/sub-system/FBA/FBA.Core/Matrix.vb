@@ -60,6 +60,9 @@ Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 ''' <summary>
 ''' 未知变量xyz为代谢过程，而在约束的目标函数之中则可以通过对代谢过程的约束计算出系数
 ''' </summary>
+''' <remarks>
+''' the flux data is constrain via a set of <see cref="DoubleRange"/>
+''' </remarks>
 Public Class Matrix
 
     ''' <summary>
@@ -84,8 +87,7 @@ Public Class Matrix
     ''' <summary>
     ''' 矩阵的结构为：
     ''' 
-    ''' + 行应该为Compound
-    ''' + 列应该为代谢过程
+    ''' 行应该为Compound, 列应该为代谢过程
     ''' </summary>
     ''' <returns></returns>
     Public Property Matrix As Double()()
