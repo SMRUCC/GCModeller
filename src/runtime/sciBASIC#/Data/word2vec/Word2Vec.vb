@@ -1,57 +1,57 @@
 ﻿#Region "Microsoft.VisualBasic::bd732f4f0eb94ba2de9bdb8786f86a91, sciBASIC#\Data\word2vec\Word2Vec.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 404
-    '    Code Lines: 273
-    ' Comment Lines: 55
-    '   Blank Lines: 76
-    '     File Size: 15.21 KB
+' Summaries:
 
 
-    '     Class Word2Vec
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: outputVector
-    ' 
-    '         Sub: buildVocabulary, cbowGram, computeExp, readTokens, saveModel
-    '              skipGram, training
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 404
+'    Code Lines: 273
+' Comment Lines: 55
+'   Blank Lines: 76
+'     File Size: 15.21 KB
+
+
+'     Class Word2Vec
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'         Function: outputVector
+' 
+'         Sub: buildVocabulary, cbowGram, computeExp, readTokens, saveModel
+'              skipGram, training
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -59,9 +59,11 @@ Imports System.IO
 Imports System.Text
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.Data.NLP.Model
 Imports Microsoft.VisualBasic.Data.NLP.Word2Vec.utils
+Imports Microsoft.VisualBasic.Data.Trinity.NLP
 Imports Microsoft.VisualBasic.Text
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace NlpVec
 
@@ -112,9 +114,13 @@ Namespace NlpVec
         Private numOfThread As Integer ' 线程个数
 
         ' 单词或短语计数器
-        Private wordCounter As New Counter(Of String)()
-        Private tempCorpus As String
-        Private tempCorpusWriter As StreamWriter
+        Private wordCounter As New TokenCounter(Of String)()
+        Private tempCorpus As New List(Of String())
+
+        ''' <summary>
+        ''' 语料中句子个数
+        ''' </summary>
+        Friend trainBlockSize As Integer = 500
 
         Friend Sub New(factory As Word2VecFactory)
             vectorSize = factory.vectorSize
@@ -138,7 +144,7 @@ Namespace NlpVec
         ''' </summary>
         Private Sub computeExp()
             For i As Integer = 0 To EXP_TABLE_SIZE - 1
-                expTable(i) = stdNum.Exp((i / EXP_TABLE_SIZE * 2 - 1) * MAX_EXP)
+                expTable(i) = std.Exp((i / EXP_TABLE_SIZE * 2 - 1) * MAX_EXP)
                 expTable(i) = expTable(i) / (expTable(i) + 1)
             Next
         End Sub
@@ -147,47 +153,19 @@ Namespace NlpVec
         ''' 读取一段文本，统计词频和相邻词语出现的频率，
         ''' 文本将输出到一个临时文件中，以方便之后的训练 </summary>
         ''' <param name="tokenizer"> 标记 </param>
-        Public Sub readTokens(tokenizer As Tokenizer)
+        Public Sub readTokens(tokenizer As Sentence)
             If tokenizer Is Nothing OrElse tokenizer.size() < 1 Then
                 Return
+            Else
+                currentWordCount += tokenizer.size()
             End If
 
-            currentWordCount += tokenizer.size()
             ' 读取文本中的词，并计数词频
-            While tokenizer.hasMoreTokens()
-                wordCounter.add(tokenizer.nextToken())
-            End While
-            ' 将文本输出到临时文件中，供后续训练之用
-            Try
+            For Each word As Word In tokenizer.words
+                Call wordCounter.add(word.str)
+            Next
 
-                If tempCorpus Is Nothing Then
-                    Dim tempDir As String = App.GetTempFile
-
-                    If Not tempDir.DirectoryExists Then
-                        Dim tempCreated As Boolean = tempDir.MakeDir
-
-                        If Not tempCreated Then
-                            Call ("unable to create temp file in " & tempDir.GetDirectoryFullPath).Warning
-                        End If
-                    End If
-
-                    tempCorpus = TempFileSystem.GetAppSysTempFile(".txt", App.PID, "tempCorpus")
-                    tempCorpusWriter = New StreamWriter(tempCorpus.Open, Encoding.UTF8)
-                End If
-
-                tempCorpusWriter.Write(tokenizer.ToString(" "))
-                tempCorpusWriter.WriteLine()
-            Catch e As Exception
-                Console.WriteLine(e.ToString())
-                Console.Write(e.StackTrace)
-
-                Try
-                    tempCorpusWriter.Close()
-                Catch e1 As Exception
-                    Console.WriteLine(e1.ToString())
-                    Console.Write(e1.StackTrace)
-                End Try
-            End Try
+            Call tempCorpus.Add(tokenizer.words.Select(Function(wi) wi.str).ToArray)
         End Sub
 
         Private Sub buildVocabulary()
@@ -203,28 +181,22 @@ Namespace NlpVec
                 neuronMap(wordText) = New WordNeuron(wordText, wordCounter.get(wordText), vectorSize)
             Next
 
-            Call ("read " & neuronMap.Count & " word totally.").__INFO_ECHO
-            '        System.out.println("共读取了 " + neuronMap.size() + " 个词。");
-
+            Call VBDebugger.EchoLine("read " & neuronMap.Count & " word totally.")
         End Sub
 
         Public Sub training()
-            If tempCorpus Is Nothing Then
-                Throw New NullReferenceException("训练语料为空，如果之前调用了training()，" & "请调用readLine(String sentence)重新输入语料")
-            End If
+            ' 若干文本组成的语料
+            Dim corpus As New LinkedList(Of String())()
+            Dim trainer As New Trainer(Me, corpus)
 
-            buildVocabulary()
-            HuffmanTree.make(neuronMap.Values)
+            Call buildVocabulary()
+            Call HuffmanTree.make(neuronMap.Values)
+
             ' 重新遍历语料
             totalWordCount = currentWordCount
             currentWordCount = 0
-            tempCorpusWriter.Close()
 
-            Dim corpus As LinkedList(Of String) = New LinkedList(Of String)() '若干文本组成的语料
-            Dim trainBlockSize = 500 '语料中句子个数
-            Dim trainer As New Trainer(Me, corpus)
-
-            For Each li As String In tempCorpus.LineIterators(Encodings.UTF8)
+            For Each li As String() In tempCorpus
                 'Dim corpusQueue As BlockingQueue(Of LinkedList(Of String)) = New ArrayBlockingQueue(Of LinkedList(Of String))(numOfThread)
                 'Dim futures As LinkedList(Of Future) = New LinkedList(Of Future)() '每个线程的返回结果，用于等待线程
 
@@ -250,7 +222,7 @@ Namespace NlpVec
             Call ("the task queue has been allocated completely, " & "please wait the thread pool (" & numOfThread & ") to process...").__INFO_ECHO
 
             ' 等待线程处理完语料
-            Call trainer.run()
+            Call Trainer.run()
         End Sub
 
         Friend Sub skipGram(index As Integer, sentence As IList(Of WordNeuron), b As Integer, alpha As Double)
@@ -461,7 +433,7 @@ Namespace NlpVec
                     vector(vi) = CSng(vectorNorm(vi))
                 Next
 
-                vectorLength = stdNum.Sqrt(vectorLength)
+                vectorLength = std.Sqrt(vectorLength)
 
                 For vi = 0 To vector.Length - 1
                     vector(vi) /= CSng(vectorLength)
