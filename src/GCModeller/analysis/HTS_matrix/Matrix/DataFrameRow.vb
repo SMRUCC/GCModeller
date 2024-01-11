@@ -136,6 +136,11 @@ Public Class DataFrameRow : Implements INamedValue, IVector
         Me.experiments = sample.value
     End Sub
 
+    Sub New(clone As DataFrameRow)
+        Me.geneID = clone.geneID
+        Me.experiments = clone.experiments.ToArray
+    End Sub
+
     Public Function ToDataSet(labels As String()) As Dictionary(Of String, Double)
         Dim table As New Dictionary(Of String, Double)
         Dim i As Integer = 0

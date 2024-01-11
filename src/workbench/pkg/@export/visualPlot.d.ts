@@ -129,6 +129,11 @@ declare namespace visualPlot {
       function barplot(sample: any, upName?: string, downName?: string, size?: any, padding?: any, title?: string, headN?: object, ppi?: object, env?: object): any;
    }
    /**
+    * delete a set of the category data from the input profiles
+    * 
+    * 
+     * @param profiles -
+     * @param catalogs -
    */
    function erase(profiles: object, catalogs: string): object;
    module go {

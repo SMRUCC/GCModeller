@@ -108,7 +108,8 @@ Namespace SequenceModel
         End Function
 
         <ExportAPI("MW.Polypeptide")>
-        <Extension> Public Function CalcMW_Polypeptide(seq As String) As Double
+        <Extension>
+        Public Function CalcMW_Polypeptide(seq As String) As Double
             Dim polypeptide = ConstructVector(seq)
             Dim mw As Double = Aggregate aa As AminoAcid
                                In polypeptide
@@ -123,7 +124,7 @@ Namespace SequenceModel
         ''' <returns></returns>
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        <ExportAPI("MW.NT")>
+        <Extension>
         Public Function CalcMW_Nucleotides(seq As ISequenceModel) As Double
             With seq.SequenceData
                 Return Aggregate ch As Char
