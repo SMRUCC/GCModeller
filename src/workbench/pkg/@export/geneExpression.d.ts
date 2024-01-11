@@ -10,6 +10,16 @@
 */
 declare namespace geneExpression {
    /**
+    * add random gauss noise to the matrix
+    * 
+    * 
+     * @param x -
+     * @param scale -
+     * 
+     * + default value Is ``0.1``.
+   */
+   function add_gauss(x: object, scale?: number): object;
+   /**
     * merge row or column where the tag is identical
     * 
     * 
