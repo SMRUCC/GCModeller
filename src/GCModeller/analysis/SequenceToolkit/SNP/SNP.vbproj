@@ -11,7 +11,7 @@
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='gcmodeller_desktop|x64'">
-    <OutputPath>../../../../.nuget</OutputPath>
+    <OutputPath>../../../../../.nuget</OutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Test\**" />

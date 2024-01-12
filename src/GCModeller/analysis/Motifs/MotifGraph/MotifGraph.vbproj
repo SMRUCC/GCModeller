@@ -8,9 +8,10 @@
     <Configurations>Debug;Release;LipidSearch;mzkit;NPSearch;Rsharp_app_release;mzkit_win32;gcmodeller_desktop</Configurations>
     <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='gcmodeller_desktop|x64'">
-    <OutputPath>../../../../.nuget</OutputPath>
+    <OutputPath>../../../../../.nuget</OutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="test\**" />

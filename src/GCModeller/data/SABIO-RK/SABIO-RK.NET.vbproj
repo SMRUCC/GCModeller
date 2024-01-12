@@ -13,6 +13,7 @@
     <Description>SABIO-RK kinetic-laws parameter database</Description>
     <Copyright>Copyright © SMRUCC/GCModeller 2023</Copyright>
     <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
 
   </PropertyGroup>
 
