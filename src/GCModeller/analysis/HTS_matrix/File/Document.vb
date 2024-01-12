@@ -104,6 +104,13 @@ Public Module Document
         }
     End Function
 
+    ''' <summary>
+    ''' save matrix as csv file
+    ''' </summary>
+    ''' <param name="mat"></param>
+    ''' <param name="file"></param>
+    ''' <param name="idcolName"></param>
+    ''' <returns></returns>
     <Extension>
     Public Function SaveMatrix(mat As Matrix, file As String, Optional idcolName As String = "geneID") As Boolean
         Using table As StreamWriter = file.OpenWriter(Encodings.UTF8WithoutBOM)
