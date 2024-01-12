@@ -6,7 +6,9 @@
     <AssemblyName>SMRUCC.genomics.Interops.NCBI.ParallelTask</AssemblyName>
     <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
-
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='gcmodeller_desktop|x64'">
+    <OutputPath>../../../../.nuget</OutputPath>
+  </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj" />
    
