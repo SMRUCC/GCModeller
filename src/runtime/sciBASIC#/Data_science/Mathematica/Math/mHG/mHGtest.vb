@@ -1,69 +1,69 @@
 ﻿#Region "Microsoft.VisualBasic::d247ddeb1767da2e3a8e7c12214ad5e5, sciBASIC#\Data_science\Mathematica\Math\mHG\Module1.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 470
-    '    Code Lines: 196
-    ' Comment Lines: 220
-    '   Blank Lines: 54
-    '     File Size: 23.25 KB
+' Summaries:
 
 
-    ' Module Module1
-    ' 
-    '     Function: HG_row_ncalc, mHGpvalcalc, mHGstatisticcalc, mHGtest, pi_rcalc
-    '               R_separation_linecalc
-    ' 
-    '     Sub: Main
-    '     Structure HG_row_n
-    ' 
-    '         Function: d_ratio, v_ratio
-    '         Delegate Function
-    ' 
-    ' 
-    '         Structure calc
-    ' 
-    '             Function: iter, recur
-    ' 
-    ' 
-    ' 
-    ' 
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 470
+'    Code Lines: 196
+' Comment Lines: 220
+'   Blank Lines: 54
+'     File Size: 23.25 KB
+
+
+' Module Module1
+' 
+'     Function: HG_row_ncalc, mHGpvalcalc, mHGstatisticcalc, mHGtest, pi_rcalc
+'               R_separation_linecalc
+' 
+'     Sub: Main
+'     Structure HG_row_n
+' 
+'         Function: d_ratio, v_ratio
+'         Delegate Function
+' 
+' 
+'         Structure calc
+' 
+'             Function: iter, recur
+' 
+' 
+' 
+' 
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -72,6 +72,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
 Imports VisualBasic = Microsoft.VisualBasic.Language.Runtime
 
 ' author: Kobi Perl
@@ -79,11 +80,7 @@ Imports VisualBasic = Microsoft.VisualBasic.Language.Runtime
 '   Eden, E. (2007). Discovering Motifs In Ranked Lists Of DNA Sequences. Haifa. 
 '   Retrieved from http://bioinfo.cs.technion.ac.il/people/zohar/thesis/eran.pdf
 
-Module Module1
-
-    Sub Main()
-
-    End Sub
+Public Module mHGtest
 
     ''' <summary>
     ''' We define ``EPSILON`` to account for small changes in the calculation of ``p-value``
@@ -190,8 +187,9 @@ Module Module1
             N = N + 1
             B = B + lambdas(N)
 
-            If (lambdas(N) = 1.0R) Then  ' Only Then HGT can decrease (see p. 19 In thesis)
-                HG_row = HG_row_ncalc(HG_row, m, N, B, N, B)
+            If (lambdas(N) = 1.0R) Then
+                ' Only Then HGT can decrease (see p. 19 In thesis)
+                HG_row = HG_row_ncalc_func(HG_row, m, N, B, N, B)
                 m = N
 
                 HGT = 1 - HG_row("1:b").Sum  ' P(X >= b) = 1 - P(X <b)
@@ -234,10 +232,10 @@ Module Module1
 
         ' p - the statistic.
         ' N\B - number Of all \ black balls.
-        Dim W = N - B
+        Dim W As Integer = N - B
         Dim R_separation_line = R_separation_linecalc(p, N, B, n_max)
         Dim pi_r = pi_rcalc(N, B, R_separation_line)
-        Dim p_corrected As Double = 1 - pi_r(W + 2, B + 2)
+        Dim p_corrected As Double = 1 - pi_r(W + 2, CInt(B) + 2)
 
         Return p_corrected
     End Function
@@ -293,7 +291,7 @@ Module Module1
                 should_inc_w = (HGT <= (p + EPSILON)) AndAlso (W < W)
                 Do While (should_inc_w) ' Increase w until we Get outside the R line (Or going outside the n_max zone)
                     W = W + 1
-                    HG_row("1:(b+1)") = HG_row("1:(b+1)") * v_ratio(B + W, Seq(0, B), N, B)
+                    HG_row("1:(b+1)") = HG_row("1:(b+1)") * v_ratio(B + W, seq(0, B), N, B)
                     HGT = 1 - HG_row("1:B").Sum  ' P(X >= b) = 1 - P(X <b)
                     should_inc_w = (HGT <= (p + EPSILON)) AndAlso (W < W) AndAlso (B <= (n_max - W))
                 Loop
@@ -312,7 +310,7 @@ Module Module1
         Return (R_separation_line)
     End Function
 
-    Public Function pi_rcalc(N%, B%, R_separation_line As Vector) As Matrix
+    Public Function pi_rcalc(N%, B%, R_separation_line As Vector) As NumericMatrix
         '# Consider an urn With N balls, B Of which are black And W white. pi_r stores 
         '# The probability Of drawing w white And b black balls In n draws (n = w + b)
         '# With the constraint Of P(w,b) = 0 If (w, b) Is On Or above separation line.
@@ -328,15 +326,14 @@ Module Module1
         '#   Retrieved from http://bioinfo.cs.technion.ac.il/people/zohar/thesis/eran.pdf
         '#   (pages 20)
         Dim W As Double = N - B
-        Dim pi_r As Matrix = Matrix.Create(nrow:=W + 2, ncol:=B + 2)
+        Dim pi_r As NumericMatrix = NumericMatrix.Create(nrow:=W + 2, ncol:=B + 2)
 
         ' NOTE: Different from the thesis (see page 20 last paragraph),
         ' should be 1 according To that paragraph, but this seems wrong.
-        pi_r.Row(1) = 0
-        pi_r.Column(1) = 0
+        pi_r(1, 1) = 0
 
         For bi As Integer = 0 To B
-            Dim wi = R_separation_line(bi + 1)
+            Dim wi As Integer = R_separation_line(bi + 1)
             Do While (wi < (W + 1))
                 If ((wi = 0) AndAlso (bi = 0)) Then
                     pi_r(2, 2) = 1 ' Note, this cell will be 0 If it's left to the R separation line (should not occure) 
@@ -371,140 +368,17 @@ Module Module1
     ''' When To use the recursion solution - it Is Not a theoretical result, but an empirical one.
     ''' </param>
     ''' <returns></returns>
-    Public Function HG_row_ncalc(HG_row_m As Vector, m%, ni%, b_n#, N%, B%, Optional RECURSION_OVERHEAD_MULTIPLIER% = 20) As Vector
-        Dim HG_row_ncalcfunc As HG_row_n.Calculator = Nothing
+    Private Function HG_row_ncalc_func(HG_row_m As Vector, m%, ni%, b_n#, N%, B%, Optional RECURSION_OVERHEAD_MULTIPLIER% = 20) As Vector
+        Dim HG_row_ncalcfunc As Calculator = Nothing
 
         If ((N - m) <= (RECURSION_OVERHEAD_MULTIPLIER * Log2(b_n))) Then
-            HG_row_ncalcfunc = AddressOf HG_row_n.calc.iter
+            HG_row_ncalcfunc = AddressOf HG_row_ncalc.iter
         Else
-            HG_row_ncalcfunc = AddressOf HG_row_n.calc.recur
+            HG_row_ncalcfunc = AddressOf HG_row_ncalc.recur
         End If
 
         Return HG_row_ncalcfunc(HG_row_m, m, ni, b_n, N, B)
     End Function
-
-    Public Structure HG_row_n
-
-        Public Delegate Function Calculator(HG_row_m As Vector, m%, ni%, b_n#, N%, B%) As Vector
-
-        Public Structure calc
-
-            ''' <summary>
-            ''' Calculate HG row n recursively.
-            ''' See Function documentation For "HG_row_n.calc", To gain insight On input And outputs. 
-            '''
-            ''' NOTE: This implementation Is my interpretation Of a very unclear statement In Eden's thesis that a row can be
-            ''' calculated In O(B) without considering previous rows. I did this In O(B * log(B)).
-            ''' </summary>
-            ''' <param name="HG_row_m"></param>
-            ''' <param name="m"></param>
-            ''' <param name="ni"></param>
-            ''' <param name="b_n"></param>
-            ''' <param name="N"></param>
-            ''' <param name="B"></param>
-            ''' <returns></returns>
-            Public Shared Function recur(HG_row_m As Vector, m%, ni%, b_n#, N%, B%) As Vector
-                Dim HG_row_ncalcrecurinner As Action(Of Integer, Integer, Integer) =
-                    Sub(b_n_start%, b_n_end%, m_start%)
-                        '# The code works directly On HG_row_m - updating it recursively, filling the right
-                        '# values from right To left. Filling this row In a directed manner allow us To update a cell
-                        '# In a recursive manner according To the one left To it, without being concerned that the cell
-                        '# To the left was already updated To a "too big" number Of tries.
-                        '#
-                        '# The code work On the subtree induced by the limits:
-                        '# Rows (m_start, n) And columns (b_n_start, b_n_end),
-                        '# updating the subtree In a recursive manner until row_n.
-                        '# 
-                        '# The code assumes that:
-                        '#   HG_row_m[b_n_start] has the correct hypergeometric probability value For number Of tries (row) 
-                        '#   m_start.
-
-                        ' # Stop condition
-                        If ((N - m_start) = 0) Then
-                            Return
-                        Else
-                            ' split the tree To two subtrees To be evaluated separately.
-                            ' R_tree Will be used To calculate the HG_row_n entries corresponding To (b_n_start:b_n_start + r_split),
-                            ' And L_tree will be used To calculate the rest.
-                            Dim r_split = Floor((b_n_end - b_n_start + 1) / 2)
-                            Dim l_split = (b_n_end - b_n_start + 1) - r_split
-
-                            'If m Is above the root Of the tree we are working On - Then some rows were already
-                            ' calculated And we can take this To our advantage.
-                            Dim rows_already_calc = Max(m - m_start, 0)
-
-                            ' Go diagonally (increasing both b_n_start And m) until we Get To the root Of the right tree.
-                            Dim i = rows_already_calc
-                            Do While (i < l_split) ' Needs To occur sequentially
-                                i = i + 1
-                                HG_row_m(b_n_start + i + 1) = HG_row_m(b_n_start + i) * d_ratio(m_start + i, b_n_start + i, N, B)
-                            Loop
-                            ' Calculate the right tree.
-                            HG_row_ncalcrecurinner(b_n_start + l_split, b_n_end, m_start + l_split)
-
-                            ' Go upwards (increasing only m) until we Get To the root Of the left tree.      
-                            i = rows_already_calc
-                            Do While (i < (N + 1 - l_split - m_start)) ' Needs To occur sequentially
-                                i = i + 1
-                                HG_row_m(b_n_start + 1) = HG_row_m(b_n_start + 1) * v_ratio(m_start + i, b_n_start, N, B)
-                            Loop
-                            ' Calculate the left tree.
-                            HG_row_ncalcrecurinner(b_n_start, b_n_start + l_split - 1, N + 1 - l_split)
-                        End If
-                    End Sub
-
-                '# HG_row_n Is calculated from a tree, For which the root Is located In
-                '# b_n rows beneath - we will mark this As m_start.
-                '#If rowThenThen m Is "beneath" this root, We "go up" And calculate it.
-                '#If weThenThen are "above" this root, we will ignore this For now, And use the fact that
-                '# we have some rows calculated above m_start, In the recursion.
-                '# NOTE: We can technically initialize HG_row_m[2:] To 0, but knowing that we will
-                '# only use the cell In index 1, we Do Not bother.
-                Dim i_start = N - b_n
-
-                Do While (m < i_start)
-                    m = m + 1
-                    HG_row_m(1) = HG_row_m(1) * v_ratio(m, 0, N, B)
-                Loop
-
-                ' NOTE: this code works On HG_row_m directly.
-                HG_row_ncalcrecurinner(0, b_n, i_start)
-
-                Return HG_row_m
-            End Function
-
-            ''' <summary>
-            ''' Calculate HG row n iteratively.
-            ''' See function documentation for "HG_row_n.calc", to gain insight on input And outputs. 
-            '''
-            ''' NOTE: The code works directly on HG_row_m, m - increasing m until it becomes n.
-            ''' </summary>
-            ''' <param name="HG_row_m"></param>
-            ''' <param name="m#"></param>
-            ''' <param name="ni#"></param>
-            ''' <param name="b_n#"></param>
-            ''' <param name="N#"></param>
-            ''' <param name="B#"></param>
-            ''' <returns></returns>
-            Public Shared Function iter(HG_row_m As Vector, m%, ni%, b_n#, N%, B%) As Vector
-                '# Go upwards (increasing only m) until we get to row n-1.    
-                Dim b_to_update As Vector = seq(0, b_n - 1)
-
-                Do While (m < (N - 1))
-                    m = m + 1
-                    HG_row_m(b_to_update + 1) = HG_row_m(b_to_update + 1) * v_ratio(m, b_to_update, N, B)
-                Loop
-
-                m = m + 1
-                ' Last row To go - first update b_n from the diagonal, 
-                ' Then the rest vertically
-                HG_row_m(b_n + 1) = HG_row_m(b_n) * d_ratio(m, b_n, N, B)
-                HG_row_m(b_to_update + 1) = HG_row_m(b_to_update + 1) * v_ratio(m, b_to_update, N, B)
-
-                Return HG_row_m
-            End Function
-        End Structure
-    End Structure
 
     ''' <summary>
     ''' The ratio between HG(n,b,B,N) And HG(n-1,b-1,B,N)
