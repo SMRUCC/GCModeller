@@ -67,10 +67,8 @@ Namespace Imaging
 
     End Interface
 
-    Public Interface IPoint3D
+    Public Interface IPoint3D : Inherits RasterPixel
 
-        Property X As Integer
-        Property Y As Integer
         Property Z As Integer
 
     End Interface

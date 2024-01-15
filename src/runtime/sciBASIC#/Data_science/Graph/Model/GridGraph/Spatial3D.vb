@@ -40,6 +40,14 @@ Namespace GridGraph
             Me.toPoint = toPoint
         End Sub
 
+        ''' <summary>
+        ''' implements the 3d spatial data lookup helper
+        ''' </summary>
+        ''' <param name="x"></param>
+        ''' <param name="y"></param>
+        ''' <param name="z"></param>
+        ''' <param name="hit"></param>
+        ''' <returns></returns>
         Public Function GetData(x As Integer, y As Integer, z As Integer, Optional ByRef hit As Boolean = False) As T
             Dim zl As Long = CLng(z)
 
