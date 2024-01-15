@@ -59,6 +59,10 @@ Namespace GridGraph
             End If
         End Function
 
+        Public Shared Function CreateSpatial3D(Of E As {T, IPoint3D})(data As IEnumerable(Of T)) As Spatial3D(Of E)
+            Return Spatial3D(Of E).CreateSpatial3D(data, Function(a) a.X, Function(a) a.Y, Function(a) a.Z)
+        End Function
+
         Public Shared Function CreateSpatial3D(data As IEnumerable(Of T),
                                                getX As Func(Of T, Integer),
                                                getY As Func(Of T, Integer),
