@@ -14,7 +14,7 @@ Namespace GridGraph
         ''' [z => 2d grid space]
         ''' </summary>
         ReadOnly matrix2D As Dictionary(Of Long, Grid(Of T))
-        ReadOnly toPoint As Func(Of T, Point3D)
+        ReadOnly toPoint As Func(Of T, SpatialIndex3D)
 
         ''' <summary>
         ''' counts of all non-empty cell.
@@ -35,7 +35,7 @@ Namespace GridGraph
             End Get
         End Property
 
-        Private Sub New(matrix2D As Dictionary(Of Long, Grid(Of T)), toPoint As Func(Of T, Point3D))
+        Private Sub New(matrix2D As Dictionary(Of Long, Grid(Of T)), toPoint As Func(Of T, SpatialIndex3D))
             Me.matrix2D = matrix2D
             Me.toPoint = toPoint
         End Sub
@@ -77,7 +77,7 @@ Namespace GridGraph
             Return New Spatial3D(Of T)(
                 matrix2D:=z_index,
                 toPoint:=Function(s)
-                             Return New Point3D With {
+                             Return New SpatialIndex3D With {
                                 .X = getX(s),
                                 .Y = getY(s),
                                 .Z = getZ(s)

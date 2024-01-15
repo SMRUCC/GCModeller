@@ -73,10 +73,17 @@ Namespace Imaging
 
     End Interface
 
-    Public Structure Point3D : Implements IPoint3D
+    ''' <summary>
+    ''' a index point in 3d spatial geometry space
+    ''' </summary>
+    Public Structure SpatialIndex3D : Implements IPoint3D
 
         Public Property X As Integer Implements IPoint3D.X
         Public Property Y As Integer Implements IPoint3D.Y
+        ''' <summary>
+        ''' the z axis index data
+        ''' </summary>
+        ''' <returns></returns>
         Public Property Z As Integer Implements IPoint3D.Z
 
     End Structure
