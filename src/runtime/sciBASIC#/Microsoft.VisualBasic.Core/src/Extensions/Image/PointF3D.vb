@@ -81,6 +81,9 @@ Namespace Imaging
 
     End Structure
 
+    ''' <summary>
+    ''' a float 2d point
+    ''' </summary>
     Public Interface Layout2D
 
         ''' <summary>
