@@ -31,9 +31,8 @@
     <DocumentationFile>SMRUCC.genomics.Analysis.SequenceTools.NeedlemanWunsch.xml</DocumentationFile>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|x64'">
-    <DocumentationFile>SMRUCC.genomics.Analysis.SequenceTools.NeedlemanWunsch.xml</DocumentationFile>
-    <DefineConstants>netcore5=1</DefineConstants>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='gcmodeller_desktop|x64'">
+    <OutputPath>../../../../../.nuget</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>

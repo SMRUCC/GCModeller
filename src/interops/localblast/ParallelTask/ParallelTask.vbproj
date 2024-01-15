@@ -5,11 +5,16 @@
     <TargetFramework>net6.0</TargetFramework>
     <AssemblyName>SMRUCC.genomics.Interops.NCBI.ParallelTask</AssemblyName>
     <Platforms>AnyCPU;x64</Platforms>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
-
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='gcmodeller_desktop|x64'">
+    <OutputPath>../../../../.nuget</OutputPath>
+  </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj" />
-    <ProjectReference Include="..\..\..\runtime\Darwinism\Parallel\parallel-netcore5.vbproj" />
+   
+    <ProjectReference Include="..\..\..\runtime\Darwinism\src\Parallel\parallel-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
     <ProjectReference Include="..\LocalBLAST\localblast.NET5.vbproj" />
   </ItemGroup>
