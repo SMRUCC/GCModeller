@@ -67,6 +67,22 @@ Namespace Imaging
 
     End Interface
 
+    Public Interface IPoint3D
+
+        Property X As Integer
+        Property Y As Integer
+        Property Z As Integer
+
+    End Interface
+
+    Public Structure Point3D : Implements IPoint3D
+
+        Public Property X As Integer Implements IPoint3D.X
+        Public Property Y As Integer Implements IPoint3D.Y
+        Public Property Z As Integer Implements IPoint3D.Z
+
+    End Structure
+
     Public Interface Layout2D
 
         ''' <summary>

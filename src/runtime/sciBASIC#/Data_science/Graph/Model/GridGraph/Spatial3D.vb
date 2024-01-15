@@ -1,0 +1,80 @@
+﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Linq
+
+Namespace GridGraph
+
+    ''' <summary>
+    ''' a generic grid graph for fast query of the 3D geometry data
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    Public Class Spatial3D(Of T)
+
+        ''' <summary>
+        ''' [z => 2d grid space]
+        ''' </summary>
+        ReadOnly matrix2D As Dictionary(Of Long, Grid(Of T))
+        ReadOnly toPoint As Func(Of T, Point3D)
+
+        ''' <summary>
+        ''' counts of all non-empty cell.
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property size As Integer
+            Get
+                Return Aggregate layer As Grid(Of T)
+                       In matrix2D.Values.AsParallel
+                       Into Sum(layer.size)
+            End Get
+        End Property
+
+        Default Public ReadOnly Property GetPoint(x As Integer, y As Integer, z As Integer) As T
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
+            Get
+                Return GetData(x, y, z)
+            End Get
+        End Property
+
+        Private Sub New(matrix2D As Dictionary(Of Long, Grid(Of T)), toPoint As Func(Of T, Point3D))
+            Me.matrix2D = matrix2D
+            Me.toPoint = toPoint
+        End Sub
+
+        Public Function GetData(x As Integer, y As Integer, z As Integer, Optional ByRef hit As Boolean = False) As T
+            Dim zl As Long = CLng(z)
+
+            If Not matrix2D.ContainsKey(zl) Then
+                hit = False
+                Return Nothing
+            Else
+                Return matrix2D(zl).GetData(x, y, hit)
+            End If
+        End Function
+
+        Public Shared Function CreateSpatial3D(data As IEnumerable(Of T),
+                                               getX As Func(Of T, Integer),
+                                               getY As Func(Of T, Integer),
+                                               getZ As Func(Of T, Integer)) As Spatial3D(Of T)
+            Dim gridData As IEnumerable(Of T)
+            Dim layers = data.SafeQuery _
+                .Select(Function(a) (a, getZ(a))) _
+                .GroupBy(Function(a) a.Item2)
+            Dim z_index As New Dictionary(Of Long, Grid(Of T))
+
+            For Each layer In layers
+                gridData = layer.Select(Function(s) s.a)
+                z_index.Add(layer.Key, Grid(Of T).Create(gridData, getX, getY))
+            Next
+
+            Return New Spatial3D(Of T)(
+                matrix2D:=z_index,
+                toPoint:=Function(s)
+                             Return New Point3D With {
+                                .X = getX(s),
+                                .Y = getY(s),
+                                .Z = getZ(s)
+                             }
+                         End Function)
+        End Function
+    End Class
+End Namespace
