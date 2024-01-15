@@ -73,6 +73,7 @@ Imports Microsoft.VisualBasic.Math.Distributions
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Prcomp
 Imports Microsoft.VisualBasic.Math.Quantile
+Imports Microsoft.VisualBasic.Math.Statistics.Hypothesis.ANOVA
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
@@ -811,6 +812,8 @@ Module geneExpression
     ''' <returns></returns>
     <ExportAPI("pca")>
     Public Function applyPCA(x As Matrix, Optional npc As Integer = 3) As Rdataframe
+        Dim data As StatisticsObject
+
         Dim mat As Double()() = x.expression _
             .Select(Function(gene) gene.experiments) _
             .ToArray
