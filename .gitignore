@@ -10,6 +10,8 @@ src/runtime/R-sharp/App
 
 src/biodeep/
 
+.nuget/
+
 *.pydevproject
 .project
 .metadata

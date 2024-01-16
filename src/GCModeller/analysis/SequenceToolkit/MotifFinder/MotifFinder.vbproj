@@ -6,6 +6,8 @@
     <Platforms>AnyCPU;x64</Platforms>
     <Configurations>Debug;Release;Rsharp_app_release;mzkit_win32;gcmodeller_desktop</Configurations>
     <AssemblyName>SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.MotifFinder</AssemblyName>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -16,8 +18,8 @@
     <DocumentationFile>SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.MotifFinder.xml</DocumentationFile>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|AnyCPU'">
-    <DocumentationFile>SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.MotifFinder.xml</DocumentationFile>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='gcmodeller_desktop|x64'">
+    <OutputPath>../../../../../.nuget</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

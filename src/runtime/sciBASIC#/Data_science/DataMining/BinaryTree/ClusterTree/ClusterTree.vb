@@ -76,49 +76,52 @@ Public Class ClusterTree : Inherits Tree(Of String)
     ''' </summary>
     ''' <param name="tree"></param>
     ''' <param name="target"></param>
-    ''' <param name="alignment"></param>
+    ''' <param name="alignment">evaluate score by compare two dataset which are related 
+    ''' to the input key name as reference id.</param>
     ''' <param name="threshold">
     ''' the cutoff value for set current element 
     ''' <paramref name="target"/> as the member of
     ''' current node <paramref name="tree"/>.
     ''' </param>
-    Public Overloads Shared Sub Add(tree As ClusterTree,
-                                    target As String,
-                                    alignment As ComparisonProvider,
-                                    threshold As Double,
-                                    Optional ds As Double = 0.05)
+    Public Overloads Shared Function Add(tree As ClusterTree,
+                                         target As String,
+                                         alignment As ComparisonProvider,
+                                         threshold As Double,
+                                         Optional ds As Double = 0.05) As String
 
         If tree.Data.StringEmpty Then
             tree.Data = target
             tree.Childs = New Dictionary(Of String, Tree(Of String))
             tree.Members = New List(Of String) From {target}
-        Else
-            Dim score As Double = alignment.GetSimilarity(tree.Data, target)
-            Dim key As String = "zero"
-
-            If score > 0.0 Then
-                For v As Double = ds To 1 Step ds
-                    If score < v Then
-                        key = $"<{v.ToString("F1")}"
-                        Exit For
-                    ElseIf v >= threshold Then
-                        key = ""
-                        Exit For
-                    End If
-                Next
-            End If
-
-            If key = "" Then
-                ' is cluster member
-                tree.Members.Add(target)
-            ElseIf tree.Childs.ContainsKey(key) Then
-                Call Add(tree(key), target, alignment, threshold)
-            Else
-                Call tree.Add(key)
-                Call Add(tree(key), target, alignment, threshold)
-            End If
+            Return target
         End If
-    End Sub
+
+        Dim score As Double = alignment.GetSimilarity(tree.Data, target)
+        Dim key As String = "zero"
+
+        If score > 0.0 Then
+            For v As Double = ds To 1 Step ds
+                If score < v Then
+                    key = $"<{v.ToString("F1")}"
+                    Exit For
+                ElseIf v >= threshold Then
+                    key = ""
+                    Exit For
+                End If
+            Next
+        End If
+
+        If key = "" Then
+            ' is cluster member
+            tree.Members.Add(target)
+            Return tree.Data
+        ElseIf tree.Childs.ContainsKey(key) Then
+            Return Add(tree(key), target, alignment, threshold)
+        Else
+            Call tree.Add(key)
+            Return Add(tree(key), target, alignment, threshold)
+        End If
+    End Function
 
     Public Shared Function GetClusters(root As ClusterTree) As IEnumerable(Of ClusterTree)
         Dim links As New List(Of ClusterTree)

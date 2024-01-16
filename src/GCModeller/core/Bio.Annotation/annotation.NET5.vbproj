@@ -22,8 +22,8 @@
     <DocumentationFile>SMRUCC.genomics.Annotation.xml</DocumentationFile>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='gcmodeller_desktop|AnyCPU'">
-    <DocumentationFile>SMRUCC.genomics.Annotation.xml</DocumentationFile>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='gcmodeller_desktop|x64'">
+    <OutputPath>../../../../.nuget</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='mzkit_win32|AnyCPU'">

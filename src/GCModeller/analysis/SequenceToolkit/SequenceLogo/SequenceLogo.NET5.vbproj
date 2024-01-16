@@ -19,8 +19,8 @@
     <DocumentationFile>SMRUCC.genomics.Analysis.SequenceTools.SequenceLogo.xml</DocumentationFile>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|AnyCPU'">
-    <DocumentationFile>SMRUCC.genomics.Analysis.SequenceTools.SequenceLogo.xml</DocumentationFile>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='gcmodeller_desktop|x64'">
+    <OutputPath>../../../../../.nuget</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

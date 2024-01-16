@@ -24,6 +24,7 @@ Namespace ApplicationServices.Terminal
 	''' a portion Of the ANSI standard.
 	''' </summary>
 	Public Module AnsiEscapeCodes
+
 		Private Const EscapeChar As Char = ChrW(&H1B)
 		Private Const Escape As String = ChrW(&H1B)
 		Private Const ResetForegroundColor As String = "39"
@@ -83,10 +84,15 @@ Namespace ApplicationServices.Terminal
 			End If
 		End Sub
 
-		Friend Function ToAnsiEscapeSequence(colorCode As String) As String
+		Public Function ToAnsiEscapeSequence(colorCode As String) As String
 			Return $"{Escape}[{colorCode}m"
 		End Function
 
+		''' <summary>
+		''' convert the console print style as the ANSI escape sequence string
+		''' </summary>
+		''' <param name="formatting"></param>
+		''' <returns></returns>
 		Public Function ToAnsiEscapeSequenceSlow(formatting As ConsoleFormat) As String
 			Dim sb = New StringBuilder()
 			AppendAnsiEscapeSequence(sb, formatting)

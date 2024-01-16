@@ -73,6 +73,7 @@ Imports Microsoft.VisualBasic.Math.Distributions
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Prcomp
 Imports Microsoft.VisualBasic.Math.Quantile
+Imports Microsoft.VisualBasic.Math.Statistics.Hypothesis.ANOVA
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
@@ -811,25 +812,17 @@ Module geneExpression
     ''' <returns></returns>
     <ExportAPI("pca")>
     Public Function applyPCA(x As Matrix, Optional npc As Integer = 3) As Rdataframe
-        Dim mat As Double()() = x.expression _
-            .Select(Function(gene) gene.experiments) _
-            .ToArray
-        Dim pca As New PCA(mat, center:=False)
-        Dim pcaSpace As Vec() = pca.Project(npc)
+        Dim data As StatisticsObject = x.expression.CommonDataSet(x.sampleID)
+        Dim pcaResult = PCA.PrincipalComponentAnalysis(data, maxPC:=npc)
+        Dim pcaSpace = pcaResult.GetPCAScore
         Dim embedded As New Rdataframe With {
             .columns = New Dictionary(Of String, Array),
             .rownames = x.rownames
         }
+        Dim colnames As String() = pcaSpace.featureNames
 
         For i As Integer = 0 To npc - 1
-#Disable Warning
-            Dim v As Double() = pcaSpace _
-                .Select(Function(r) r(i)) _
-                .ToArray
-            Dim name As String = $"PC{i + 1}"
-
-            Call embedded.add(name, v)
-#Enable Warning
+            Call embedded.add($"PC{i + 1}", CLRVector.asNumeric(pcaSpace(colnames(i)).vector))
         Next
 
         Return embedded

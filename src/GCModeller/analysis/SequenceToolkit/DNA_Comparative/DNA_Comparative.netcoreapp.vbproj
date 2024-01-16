@@ -15,7 +15,10 @@
     <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
-
+  
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='gcmodeller_desktop|x64'">
+    <OutputPath>../../../../../.nuget</OutputPath>
+  </PropertyGroup>
  
 
   <ItemGroup>
