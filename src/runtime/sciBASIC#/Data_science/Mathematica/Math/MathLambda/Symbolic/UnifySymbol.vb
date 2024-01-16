@@ -77,7 +77,40 @@ Namespace Symbolic
         End Function
 
         Public Overrides Function ToString() As String
-            Return $"({factor} * ({symbolName} ^ {power}))"
+            If power = Literal.One Then
+                If factor = Literal.One Then
+                    Return symbolName
+                End If
+                Return $"({factor} * {symbolName})"
+            ElseIf power = Literal.Zero Then
+                Return factor.ToString
+            ElseIf factor = Literal.One Then
+                Return $"({symbolName} ^ {power})"
+            Else
+                Return $"({factor} * ({symbolName} ^ {power}))"
+            End If
         End Function
+
+        ''' <summary>
+        ''' factor * [x ^ n]
+        ''' </summary>
+        ''' <param name="symbol"></param>
+        ''' <returns></returns>
+        Public Shared Narrowing Operator CType(symbol As UnifySymbol) As BinaryExpression
+            Dim left As Expression = symbol.factor
+            Dim right As Expression
+
+            If symbol.power = Literal.One Then
+                right = New SymbolExpression(symbol.symbolName)
+            ElseIf symbol.power = Literal.Zero Then
+                ' x ^ 0 = 1
+                right = Literal.One
+            Else
+                right = New BinaryExpression(New SymbolExpression(symbol.symbolName), symbol.power, op:="^")
+            End If
+
+            Return New BinaryExpression(left, right, op:="*")
+        End Operator
+
     End Class
 End Namespace
