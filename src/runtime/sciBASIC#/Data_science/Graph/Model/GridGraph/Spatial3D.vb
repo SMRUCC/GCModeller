@@ -59,6 +59,16 @@ Namespace GridGraph
             End If
         End Function
 
+        ''' <summary>
+        ''' get the grid index for each layer on z axis
+        ''' </summary>
+        ''' <returns></returns>
+        Public Iterator Function ZLayers() As IEnumerable(Of Grid(Of T))
+            For Each item In matrix2D
+                Yield item.Value
+            Next
+        End Function
+
         Public Shared Function CreateSpatial3D(Of E As {T, IPoint3D})(data As IEnumerable(Of T)) As Spatial3D(Of E)
             Return Spatial3D(Of E).CreateSpatial3D(data, Function(a) a.X, Function(a) a.Y, Function(a) a.Z)
         End Function
