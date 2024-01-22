@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Visualize.ChromosomeMap.Configuration.Config</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="../../_assets/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>Config {SMRUCC.genomics.Visualize.ChromosomeMap.Configuration}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>Config</h2>
+
+        <h3>Description</h3>
+
+        <p>配置数据的文本文件模型，保存或者读取配置数据，请使用本对象类型来执行</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Visualize.ChromosomeMap.Configuration
+export class Config {
+   # Due to the GDI+ limitations in the .NET Framework, the image size is limited by your computer memory size, if you want to
+   #  drawing a very large size image, please running this script on a 64bit platform operating system, or you will get a 
+   #  exception about the GDI+ error: parameter is not valid and then you should try a smaller resolution of the drawing output image.
+   #  Value format: <Width(Integer)>[,<Height(Integer)>]
+   # 
+   # Example:
+   #  Both specific the size property: 12000,8000
+   #  Which means the drawing script will generate a image file in resolution of width is value 12000 pixels and image height is 8000 pixels.
+   Resolution: string;
+   AspectRatio: string;
+   GeneObjectHeight: integer;
+   LineLength: double;
+   LineHeight: string;
+   Margin: integer;
+   FlagLength: integer;
+   FLAG_HEIGHT: string;
+   FunctionAlignment: string;
+   LocusTagFont: string;
+   FunctionAnnotationFont: string;
+   SecondaryRuleFont: string;
+   LegendFont: string;
+   DeletionMutation: string;
+   IntegrationMutant: string;
+   tRNAColor: string;
+   DefaultRNAColor: string;
+   ribosomalRNAColor: string;
+   NoneCogColor: string;
+   SavedFormat: string;
+   AddLegend: string;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        this clr type has no other .net clr type reference.
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="../../_assets/R_syntax.js"></script>
+<script type="text/javascript" src="../../_assets/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>
