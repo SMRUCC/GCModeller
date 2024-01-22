@@ -1,4 +1,6 @@
-﻿Imports System.Text
+﻿Imports System.IO
+Imports System.Runtime.CompilerServices
+Imports System.Text
 Imports Microsoft.VisualBasic.Text.Xml.Models
 
 Namespace IO.Properties
@@ -17,7 +19,6 @@ Namespace IO.Properties
     ''' <remarks></remarks>
     Public Class Properties : Implements IDisposable
         Implements IEnumerable(Of KeyValuePair(Of String, String))
-        Implements IO.AutoCloseable
 
 #Region "Field Detail"
         ''' <summary>
@@ -55,7 +56,7 @@ Namespace IO.Properties
         End Sub
 
         Public Shared Function Load(fileName As String) As Properties
-            Dim Reader = New Java.IO.FileReader(fileName)
+            Dim Reader = fileName.OpenReader
             Dim Properties As Properties = New Properties
             Call Properties.Load(Reader)
             Return Properties
@@ -116,8 +117,8 @@ Namespace IO.Properties
         ''' </summary>
         ''' <param name="reader">the input character stream.</param>
         ''' <remarks></remarks>
-        Public Sub load(reader As IO.Reader)
-            Dim strLines As String() = reader.readAllLines
+        Public Sub load(reader As StreamReader)
+            Dim strLines As String() = reader.ReadToEnd.LineTokens
             Dim propertyDatas As KeyValuePair(Of String, String)() = (From strLine As String In strLines.AsParallel
                                                                       Let strItem As String = strLine.Trim
                                                                       Where Not String.IsNullOrEmpty(strItem) AndAlso Not strItem.First = "#"c
@@ -136,8 +137,8 @@ Namespace IO.Properties
         ''' </summary>
         ''' <param name="inStream">the input stream.</param>
         ''' <remarks></remarks>
-        Public Sub load(inStream As Java.IO.InputStream)
-            Call Load(New IO.InputStreamReader(inStream))
+        Public Sub load(inStream As Stream)
+            Call Load(New StreamReader(inStream))
         End Sub
 
         ''' <summary>
@@ -147,7 +148,7 @@ Namespace IO.Properties
         ''' <param name="out">an output stream.</param>
         ''' <param name="comments">a description of the property list.</param>
         ''' <remarks></remarks>
-        Public Sub save(out As OutputStream, comments As String)
+        Public Sub save(out As Stream, comments As String)
             Dim sBuilder As StringBuilder = New StringBuilder(1024)
 
             If Not String.IsNullOrEmpty(comments) Then
@@ -161,7 +162,9 @@ Namespace IO.Properties
                 Call sBuilder.AppendLine(String.Format("{0}={1}", itemKey.ToString, _innerTable(itemKey).ToString))
             Next
 
-            Call out.WriteStream(sBuilder)
+            Dim s As New StreamWriter(out)
+            Call s.WriteLine(sBuilder)
+            Call s.Flush()
         End Sub
 
         ''' <summary>
@@ -179,7 +182,7 @@ Namespace IO.Properties
         ''' <param name="writer">an output character stream writer.</param>
         ''' <param name="comments">a description of the property list.</param>
         ''' <remarks></remarks>
-        Public Sub store(writer As Writer, comments As String)
+        Public Sub store(writer As TextWriter, comments As String)
             Dim sBuilder As StringBuilder = New StringBuilder(1024)
 
             If Not String.IsNullOrEmpty(comments) Then
@@ -193,7 +196,8 @@ Namespace IO.Properties
                 Call sBuilder.AppendLine(String.Format("{0}={1}", itemKey.ToString, _innerTable(itemKey).ToString))
             Next
 
-            Call writer.WriteStream(sBuilder)
+            Call writer.WriteLine(sBuilder.ToString)
+            Call writer.Flush()
         End Sub
 
         ''' <summary>
@@ -210,21 +214,23 @@ Namespace IO.Properties
         ''' <param name="out">an output stream.</param>
         ''' <param name="comments">a description of the property list.</param>
         ''' <remarks></remarks>
-        Public Sub store(out As OutputStream, comments As String)
-            Dim sBuilder As StringBuilder = New StringBuilder(1024)
+        Public Sub store(out As Stream, comments As String)
+            Dim sb As New StringBuilder(1024)
 
             If Not String.IsNullOrEmpty(comments) Then
                 Dim Tokens As String() = Strings.Split(comments, vbLf)
                 For Each strItem In Tokens
-                    Call sBuilder.AppendLine("# " & strItem)
+                    Call sb.AppendLine("# " & strItem)
                 Next
             End If
 
             For Each itemKey In _innerTable.Keys
-                Call sBuilder.AppendLine(String.Format("{0}={1}", itemKey.ToString, _innerTable(itemKey).ToString))
+                Call sb.AppendLine(String.Format("{0}={1}", itemKey.ToString, _innerTable(itemKey).ToString))
             Next
 
-            Call out.WriteStream(sBuilder)
+            Dim s As New StreamWriter(out)
+            Call s.WriteLine(sb.ToString)
+            Call s.Flush()
         End Sub
 
         ''' <summary>
@@ -238,7 +244,7 @@ Namespace IO.Properties
         ''' </summary>
         ''' <param name="in">the input stream from which to read the XML document.</param>
         ''' <remarks></remarks>
-        Public Sub loadFromXML([in] As Java.IO.InputStream)
+        Public Sub loadFromXML([in] As Stream)
 
         End Sub
 
@@ -249,7 +255,7 @@ Namespace IO.Properties
         ''' <param name="os">the output stream on which to emit the XML document.</param>
         ''' <param name="comment">a description of the property list, or null if no comment is desired.</param>
         ''' <remarks></remarks>
-        Public Sub storeToXML(os As OutputStream, comment As String)
+        Public Sub storeToXML(os As Stream, comment As String)
             Dim Xml = (From itemKey In _innerTable
                        Select New KeyValuePair With {
                            .Key = itemKey.ToString,
@@ -261,7 +267,9 @@ Namespace IO.Properties
                 Call xmlDocument.CreateComment(comment)
 
             Else
-                Call os.WriteStream(Xml)
+                Dim s As New StreamWriter(os)
+                Call s.WriteLine(Xml)
+                Call s.Flush()
             End If
         End Sub
 
@@ -279,7 +287,7 @@ Namespace IO.Properties
         ''' <param name="comment">a description of the property list, or null if no comment is desired.</param>
         ''' <param name="encoding"></param>
         ''' <remarks></remarks>
-        Public Sub storeToXML(os As OutputStream, comment As String, encoding As String)
+        Public Sub storeToXML(os As Stream, comment As String, encoding As String)
 
         End Sub
 
@@ -339,10 +347,10 @@ Namespace IO.Properties
         ''' </summary>
         ''' <param name="out">an output stream.</param>
         ''' <remarks></remarks>
-        Public Sub list(out As PrintStream)
-            For Each keyItem As String In _innerTable.Keys
-                Call out.append(String.Format("{0} = {1}", keyItem.ToString, _innerTable(keyItem).ToString))
-            Next
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Sub list(out As Stream)
+            Call list(New StreamWriter(out))
         End Sub
 
         ''' <summary>
@@ -350,8 +358,10 @@ Namespace IO.Properties
         ''' </summary>
         ''' <param name="out">an output stream.</param>
         ''' <remarks></remarks>
-        Public Sub list(out As PrintWriter)
-
+        Public Sub list(out As TextWriter)
+            For Each keyItem As String In _innerTable.Keys
+                Call out.WriteLine(String.Format("{0} = {1}", keyItem.ToString, _innerTable(keyItem).ToString))
+            Next
         End Sub
 #End Region
 
@@ -363,7 +373,7 @@ Namespace IO.Properties
             If Not Me.disposedValue Then
                 If disposing Then
                     ' TODO:  释放托管状态(托管对象)。
-                    Call Me.close()
+
                 End If
 
                 ' TODO:  释放非托管资源(非托管对象)并重写下面的 Finalize()。
@@ -399,13 +409,5 @@ Namespace IO.Properties
         Public Iterator Function GetEnumerator1() As IEnumerator Implements IEnumerable.GetEnumerator
             Yield GetEnumerator()
         End Function
-
-        ''' <summary>
-        ''' 保存数据并关闭该文件
-        ''' </summary>
-        ''' <remarks></remarks>
-        Public Sub close() Implements IO.AutoCloseable.close
-
-        End Sub
     End Class
 End Namespace
