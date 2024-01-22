@@ -182,26 +182,59 @@ Namespace KMeans
             Return Di
         End Function
 
+        ''' <summary>
+        ''' evaluate internal a cluster
+        ''' </summary>
+        ''' <param name="cluster"></param>
+        ''' <returns></returns>
         <Extension>
         Private Function CalcMaxInDist(cluster As ClusterEntity()) As Double
             Dim maxInDist As Double = Double.MinValue
 
-            For Each individual1 In cluster
-                For Each individual2 In cluster
-                    If Not individual1 Is individual2 Then
-                        Dim dist As Double = individual1.entityVector.EuclideanDistance(individual2.entityVector)
+            If cluster.Length > 20000 Then
+                maxInDist = cluster _
+                    .AsParallel _
+                    .Select(Function(individual1)
+                                Dim max_dist As Double = Double.MinValue
 
-                        ' evaluate the max distance internal a cluster
-                        If dist > maxInDist Then
-                            maxInDist = dist
+                                For Each individual2 In cluster
+                                    If Not individual1 Is individual2 Then
+                                        Dim dist As Double = individual1.entityVector.EuclideanDistance(individual2.entityVector)
+
+                                        ' evaluate the max distance internal a cluster
+                                        If dist > maxInDist Then
+                                            max_dist = dist
+                                        End If
+                                    End If
+                                Next
+
+                                Return max_dist
+                            End Function) _
+                    .Max
+            Else
+                For Each individual1 In cluster
+                    For Each individual2 In cluster
+                        If Not individual1 Is individual2 Then
+                            Dim dist As Double = individual1.entityVector.EuclideanDistance(individual2.entityVector)
+
+                            ' evaluate the max distance internal a cluster
+                            If dist > maxInDist Then
+                                maxInDist = dist
+                            End If
                         End If
-                    End If
+                    Next
                 Next
-            Next
+            End If
 
             Return maxInDist
         End Function
 
+        ''' <summary>
+        ''' evaluate between two clusters
+        ''' </summary>
+        ''' <param name="cluster"></param>
+        ''' <param name="clusters"></param>
+        ''' <returns></returns>
         <Extension>
         Private Function CalcMinOutDist(cluster As ClusterEntity(), clusters As ClusterEntity()()) As Double
             Dim minOutDist = Double.MaxValue
