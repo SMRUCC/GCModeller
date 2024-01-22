@@ -182,6 +182,8 @@ Namespace KMeans
             Return Di
         End Function
 
+        Const internalParallelNumber As Integer = 10000
+
         ''' <summary>
         ''' evaluate internal a cluster
         ''' </summary>
@@ -191,7 +193,7 @@ Namespace KMeans
         Private Function CalcMaxInDist(cluster As ClusterEntity()) As Double
             Dim maxInDist As Double = Double.MinValue
 
-            If cluster.Length > 20000 Then
+            If cluster.Length > internalParallelNumber Then
                 maxInDist = cluster _
                     .AsParallel _
                     .Select(Function(individual1)
@@ -202,7 +204,7 @@ Namespace KMeans
                                         Dim dist As Double = individual1.entityVector.EuclideanDistance(individual2.entityVector)
 
                                         ' evaluate the max distance internal a cluster
-                                        If dist > maxInDist Then
+                                        If dist > max_dist Then
                                             max_dist = dist
                                         End If
                                     End If
@@ -239,20 +241,44 @@ Namespace KMeans
         Private Function CalcMinOutDist(cluster As ClusterEntity(), clusters As ClusterEntity()()) As Double
             Dim minOutDist = Double.MaxValue
 
-            For Each individual1 In cluster
-                For Each cluster2 In clusters
-                    If Not cluster Is cluster2 Then
-                        For Each individual2 In cluster2
-                            Dim dist As Double = individual1.DistanceTo(individual2)
+            If cluster.Length > internalParallelNumber Then
+                minOutDist = cluster _
+                    .AsParallel _
+                    .Select(Function(individual1)
+                                Dim min_dist As Double = Double.MaxValue
 
-                            ' evaluate the min distance between the clusters
-                            If dist < minOutDist Then
-                                minOutDist = dist
-                            End If
-                        Next
-                    End If
+                                For Each cluster2 In clusters
+                                    If Not cluster Is cluster2 Then
+                                        For Each individual2 In cluster2
+                                            Dim dist As Double = individual1.DistanceTo(individual2)
+
+                                            ' evaluate the min distance between the clusters
+                                            If dist < min_dist Then
+                                                min_dist = dist
+                                            End If
+                                        Next
+                                    End If
+                                Next
+
+                                Return min_dist
+                            End Function) _
+                    .Min
+            Else
+                For Each individual1 In cluster
+                    For Each cluster2 In clusters
+                        If Not cluster Is cluster2 Then
+                            For Each individual2 In cluster2
+                                Dim dist As Double = individual1.DistanceTo(individual2)
+
+                                ' evaluate the min distance between the clusters
+                                If dist < minOutDist Then
+                                    minOutDist = dist
+                                End If
+                            Next
+                        End If
+                    Next
                 Next
-            Next
+            End If
 
             Return minOutDist
         End Function
