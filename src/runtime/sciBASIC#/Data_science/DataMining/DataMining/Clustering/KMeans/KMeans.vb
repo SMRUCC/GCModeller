@@ -70,6 +70,7 @@ Namespace KMeans
         ReadOnly debug As Boolean = False
         ReadOnly stop% = -1
         ReadOnly n_threads As Integer = 16
+        ReadOnly auto_parallel As Boolean = True
 
         ''' <param name="n_threads">
         ''' 默认是使用并行化的计算代码以通过牺牲内存空间的代价来获取高性能的计算，非并行化的代码比较适合低内存的设备上面运行
@@ -77,8 +78,10 @@ Namespace KMeans
         Sub New(Optional debug As Boolean = False,
                 Optional stop% = -1,
                 Optional n_threads As Integer = 16,
+                Optional auto_parallel As Boolean = True,
                 Optional traceback As Boolean = False)
 
+            Me.auto_parallel = auto_parallel
             Me.debug = debug
             Me.stop = [stop]
             Me.n_threads = n_threads
@@ -108,7 +111,6 @@ Namespace KMeans
             Dim data As T() = source.ToArray
             Dim clusterNumber As Integer = 0
             Dim rowCount As Integer = data.Length
-            Dim fieldCount As Integer = data(Scan0).Length
             Dim stableClustersCount As Integer = 0
             Dim iterationCount As Integer = 0
             Dim cluster As KMeansCluster(Of T) = Nothing
@@ -200,35 +202,6 @@ Namespace KMeans
             Return clusters
         End Function
 
-        Private Function CrossOver(stableClusters As ClusterCollection(Of T)) As ClusterCollection(Of T)
-            For null As Integer = 1 To 3
-                Dim i% = randf.NextInteger(stableClusters.NumOfCluster)
-                Dim j% = randf.NextInteger(stableClusters.NumOfCluster)
-
-                If i < 0 OrElse j < 0 Then
-                    Continue For
-                End If
-
-                If i <> j Then
-                    Dim x = stableClusters.m_innerList(i)
-                    Dim y = stableClusters.m_innerList(j)
-
-                    For r As Integer = 0 To 3
-                        i = randf.NextInteger(x.NumOfEntity)
-                        j = randf.NextInteger(y.NumOfEntity)
-
-                        If i < 0 OrElse j < 0 Then
-                            Continue For
-                        End If
-
-                        Call x.m_innerList(i).Swap(y.m_innerList(j))
-                    Next
-                End If
-            Next
-
-            Return stableClusters
-        End Function
-
         Const NoMember$ = "Cluster count cannot be ZERO!"
 
         ''' <summary>
@@ -239,7 +212,8 @@ Namespace KMeans
         ''' <returns>A collection of clusters of data</returns>
         ''' 
         Public Function ClusterDataSet(clusters As ClusterCollection(Of T), data As T()) As ClusterCollection(Of T)
-            Dim fieldCount As Integer = data(Scan0).Length
+            ' number of features
+            Dim dataWidth As Integer = data(Scan0).Length
             Dim newClusters As New ClusterCollection(Of T)
 
             ' create a new collection of clusters
@@ -251,15 +225,15 @@ Namespace KMeans
                 Throw New SystemException(NoMember)
             End If
 
-            If n_threads > 1 Then
+            If dataWidth >= 6 AndAlso n_threads > 1 Then
                 Dim min As SeqValue(Of Double)()
+                Dim index As Integer
 
                 ' Kmeans并行算法
                 For Each x As T In data
                     min = ParallelEuclideanDistance(clusters, x).ToArray
-
                     ' 升序排序就可以得到距离最小的cluster的distance，最后取出下标值
-                    Dim index As Integer = min _
+                    index = min _
                         .OrderBy(Function(distance) distance.value) _
                         .First.i
 
