@@ -87,8 +87,10 @@ Namespace KMeans
         ''' </summary>
         Public ReadOnly Property ClusterMean() As Double()
             Get
+                Dim size As Integer = m_innerList.Count
+
                 For count As Integer = 0 To _clusterMean.Length - 1
-                    _clusterMean(count) = (_ClusterSum(count) / m_innerList.Count)
+                    _clusterMean(count) = (_ClusterSum(count) / size)
                 Next
 
                 Return _clusterMean
