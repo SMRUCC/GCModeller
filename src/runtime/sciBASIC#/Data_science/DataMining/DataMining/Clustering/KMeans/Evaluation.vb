@@ -138,20 +138,14 @@ Namespace KMeans
         End Function
 
         Private Function AverageDistance(a As Cluster(Of ClusterEntity), b As Cluster(Of ClusterEntity)) As Double
-            Dim clusterAvgInDist As Double = 0
+            Dim factor As Double = a.size
+            Dim clusterAvgInDist As Double =
+                Aggregate individual1 As ClusterEntity
+                In a.m_innerList.AsParallel
+                Let sumInDist = b.m_innerList.Select(Function(individual2) individual1.DistanceTo(individual2)).Sum
+                Into Sum(sumInDist / factor)
 
-            For Each individual1 In a.m_innerList
-                Dim avgInDist As Double = 0
-
-                For Each individual2 In b.m_innerList
-                    avgInDist += individual1.DistanceTo(individual2)
-                Next
-
-                avgInDist /= a.size
-                clusterAvgInDist += avgInDist
-            Next
-
-            Return clusterAvgInDist / a.size
+            Return clusterAvgInDist / factor
         End Function
 
         ''' <summary>
@@ -214,37 +208,4 @@ Namespace KMeans
             Return Di
         End Function
     End Module
-
-    Public Class EvaluationScore
-
-        Public Property silhouette As Double
-        Public Property dunn As Double
-        Public Property clusters As Dictionary(Of String, String())
-
-        Public ReadOnly Property num_class As Integer
-            Get
-                Return clusters.Count
-            End Get
-        End Property
-
-        Public Shared Function Evaluate(data As IEnumerable(Of ClusterEntity)) As EvaluationScore
-            Dim class_groups = data _
-                .GroupBy(Function(c) c.cluster) _
-                .Select(Function(c) c.ToArray) _
-                .ToArray
-            Dim dunn = Evaluation.Dunn(class_groups)
-            Dim silhouette = Evaluation.Silhouette(class_groups.Select(Function(g) New Cluster(Of ClusterEntity)(g)))
-
-            Return New EvaluationScore With {
-                .clusters = class_groups _
-                    .ToDictionary(Function(c) c.First.cluster.ToString,
-                                  Function(c)
-                                      Return c.Keys.ToArray
-                                  End Function),
-                .dunn = dunn,
-                .silhouette = silhouette
-            }
-        End Function
-
-    End Class
 End Namespace
