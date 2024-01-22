@@ -225,7 +225,7 @@ Namespace KMeans
                 Throw New SystemException(NoMember)
             End If
 
-            If dataWidth >= 6 AndAlso n_threads > 1 Then
+            If CheckParallel(ncols:=dataWidth, clusters.NumOfCluster) Then
                 Dim min As SeqValue(Of Double)()
                 Dim index As Integer
 
@@ -247,6 +247,24 @@ Namespace KMeans
             End If
 
             Return newClusters
+        End Function
+
+        Private Function CheckParallel(ncols As Integer, k As Integer) As Boolean
+            If n_threads <= 1 Then
+                Return False
+            End If
+
+            If auto_parallel Then
+                If ncols <= 6 Then
+                    Return False
+                ElseIf k <= 30 Then
+                    Return False
+                Else
+                    Return True
+                End If
+            Else
+                Return True
+            End If
         End Function
 
         Private Function ParallelEuclideanDistance(clusters As ClusterCollection(Of T), x As T) As IEnumerable(Of SeqValue(Of Double))
