@@ -117,8 +117,7 @@ Namespace KMeans
             Dim [stop] = Me.stop
 
             If k >= rowCount Then
-                Dim msg$ = $"[cluster.count:={k}] >= [source.length:={rowCount}], this will caused a dead loop!"
-                Throw New Exception(msg)
+                Throw New Exception($"[cluster.count:={k}] >= [source.length:={rowCount}], this will caused a dead loop!")
             Else
                 If debug Then
                     Call "Init assigned random clusters...".__DEBUG_ECHO
@@ -143,7 +142,7 @@ Namespace KMeans
                 Call "Start kmeans clustering....".__DEBUG_ECHO
             End If
             If n_threads > 1 Then
-                Call $"Kmeans have {LQuerySchedule.CPU_NUMBER} CPU core for parallel computing.".__DEBUG_ECHO
+                Call $"Kmeans have {n_threads} CPU core for parallel computing.".__DEBUG_ECHO
             End If
 
             Dim lastStables%
