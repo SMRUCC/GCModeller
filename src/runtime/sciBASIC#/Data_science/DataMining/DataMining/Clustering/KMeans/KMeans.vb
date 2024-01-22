@@ -276,10 +276,14 @@ Namespace KMeans
         End Function
 
         Private Function ParallelEuclideanDistance(clusters As ClusterCollection(Of T), x As T) As IEnumerable(Of SeqValue(Of Double))
+            Dim width As Integer = x.Length
+
             Return From c As SeqValue(Of KMeansCluster(Of T))
-                   In clusters.SeqIterator.AsParallel.WithDegreeOfParallelism(n_threads)
+                   In clusters.SeqIterator _
+                       .AsParallel _
+                       .WithDegreeOfParallelism(n_threads)
                    Let cluster As KMeansCluster(Of T) = c.value
-                   Let clusterMean As Double() = means(cluster, x)
+                   Let clusterMean As Double() = means(cluster, width)
                    Let distance As Double = x.entityVector.EuclideanDistance(clusterMean) ' 计算出当前的cluster和当前的实体对象之间的距离
                    Select New SeqValue(Of Double) With {
                        .i = c.i,
@@ -288,10 +292,16 @@ Namespace KMeans
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Private Shared Function means(cluster As KMeansCluster(Of T), x As T) As Double()
-            Return If(cluster.NumOfEntity = 0, New Double(x.entityVector.Length - 1) {}, cluster.ClusterMean)
+        Private Shared Function means(cluster As KMeansCluster(Of T), width As Integer) As Double()
+            Return If(cluster.NumOfEntity = 0, New Double(width - 1) {}, cluster.ClusterMean)
         End Function
 
+        ''' <summary>
+        ''' find index for non parallel code
+        ''' </summary>
+        ''' <param name="clusters"></param>
+        ''' <param name="dataPoint"></param>
+        ''' <returns></returns>
         Private Shared Function minIndex(clusters As ClusterCollection(Of T), dataPoint As T) As Integer
             Dim position As Integer = 0
             Dim clusterMean As Double()
