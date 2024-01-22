@@ -182,7 +182,7 @@ Namespace KMeans
             Return Di
         End Function
 
-        Const internalParallelNumber As Integer = 10000
+        Const internalParallelNumber As Integer = 5000
 
         ''' <summary>
         ''' evaluate internal a cluster
