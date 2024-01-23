@@ -1,11 +1,10 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.DataMining.ComponentModel
-Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Serialization.JSON
 
-Namespace BisectingKMeans
+Namespace KMeans.Bisecting
 
 	''' <summary>
 	''' Created by touhid on 12/21/15.
@@ -14,7 +13,15 @@ Namespace BisectingKMeans
 	''' </summary>
 	Public Class Cluster : Implements IVector, IClusterPoint, IEnumerable(Of ClusterEntity)
 
+		''' <summary>
+		''' the data point vector of the centroid node in current cluster
+		''' </summary>
+		''' <returns></returns>
 		Public Property centroid As Double() Implements IVector.Data
+		''' <summary>
+		''' a collection of the data members inside current cluster
+		''' </summary>
+		''' <returns></returns>
 		Public Overridable Property DataPoints As List(Of ClusterEntity)
 
 		Public Overridable ReadOnly Property SSE As Double
@@ -32,6 +39,12 @@ Namespace BisectingKMeans
 		End Property
 
 		Public Property Cluster As Integer Implements IClusterPoint.Cluster
+
+		Public ReadOnly Property Size As Integer
+			Get
+				Return DataPoints.TryCount
+			End Get
+		End Property
 
 		Public Sub New(c As Double())
 			Me.centroid = c
