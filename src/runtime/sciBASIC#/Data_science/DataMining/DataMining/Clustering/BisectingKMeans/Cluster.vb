@@ -38,6 +38,10 @@ Namespace KMeans.Bisecting
 			End Get
 		End Property
 
+		''' <summary>
+		''' current cluster class label
+		''' </summary>
+		''' <returns></returns>
 		Public Property Cluster As Integer Implements IClusterPoint.Cluster
 
 		Public ReadOnly Property Size As Integer
@@ -59,6 +63,10 @@ Namespace KMeans.Bisecting
 		Public Sub New(centroid As Double(), dataPoints As List(Of ClusterEntity))
 			Me.centroid = centroid
 			Me.DataPoints = dataPoints
+		End Sub
+
+		Sub New(centroid As Double(), dataPoints As ClusterEntity())
+			Call Me.New(centroid, dataPoints.ToList)
 		End Sub
 
 		<MethodImpl(MethodImplOptions.AggressiveInlining)>
