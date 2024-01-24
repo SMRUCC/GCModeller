@@ -115,25 +115,6 @@ Namespace KMeans
             Return kMeansCost
         End Function
 
-        Public Function CalculateCenter() As T
-            ' If cluster is empty, the center will remain unchanged
-            If m_innerList.Count = 0 Then
-                Return Me.Center
-            End If
-
-            Dim dimension As Integer = m_innerList(Scan0).Length
-            Dim newCenterCoordinate As Double() = New Double(dimension - 1) {}
-            For i As Integer = 0 To dimension - 1
-                For pointIndex As Integer = 0 To m_innerList.Count - 1
-                    newCenterCoordinate(i) += m_innerList(pointIndex).entityVector(i)
-                Next pointIndex
-                newCenterCoordinate(i) /= m_innerList.Count
-            Next i
-            Dim center As T = Activator.CreateInstance(Of T)
-            center.entityVector = newCenterCoordinate
-            Return center
-        End Function
-
         ''' <summary>
         ''' Adds a single dimension array data to the cluster.
         ''' (请注意，每当使用这个方法新添加一个对象的时候，都会导致均值被重新计算)
@@ -143,12 +124,12 @@ Namespace KMeans
             Call m_innerList.Add(data)
 
             If m_innerList.Count = 1 Then
-                _ClusterSum = New Double(data.Length - 1) {}
+                _ClusterSum = data.entityVector.ToArray
+            Else
+                For offset As Integer = 0 To data.Length - 1
+                    _ClusterSum(offset) = _ClusterSum(offset) + data(offset)
+                Next
             End If
-
-            For count As Integer = 0 To data.Length - 1
-                _ClusterSum(count) = _ClusterSum(count) + data.entityVector(count)
-            Next
         End Sub
 
         ''' <summary>
