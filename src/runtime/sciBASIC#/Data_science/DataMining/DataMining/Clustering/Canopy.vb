@@ -59,7 +59,7 @@ Namespace Clustering
         Private Sub MeasureThreahold()
             If T1.IsNaNImaginary OrElse T2.IsNaNImaginary Then
                 ' T1 > T2
-                T2 = AverageDistance(points)
+                T2 = AverageDistance(points) * 3
                 T1 = T2 * 2
             End If
         End Sub
