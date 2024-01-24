@@ -1,4 +1,5 @@
-﻿Imports System.Runtime.CompilerServices
+﻿Imports System.ComponentModel.Design
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.SIMD
@@ -61,6 +62,10 @@ Namespace Clustering
                 ' T1 > T2
                 T2 = AverageDistance(points) * 3
                 T1 = T2 * 2
+
+                Call VBDebugger.EchoLine($"measure T2 threashold via the average distance: {T2}")
+            Else
+                Call VBDebugger.EchoLine($"T2 threshold from user specific input: {T2}")
             End If
         End Sub
 
@@ -130,6 +135,8 @@ Namespace Clustering
 
                     If poll.Length = 0 Then
                         Exit While
+                    Else
+                        Call VBDebugger.EchoLine($"removes {poll.Length} points, and get {canopies.Count} canopy candidates!")
                     End If
 
                     For Each i As Integer In poll
