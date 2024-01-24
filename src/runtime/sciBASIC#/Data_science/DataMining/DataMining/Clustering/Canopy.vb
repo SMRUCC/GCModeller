@@ -3,6 +3,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.SIMD
+Imports Microsoft.VisualBasic.Parallel
 Imports Canopy = Microsoft.VisualBasic.DataMining.KMeans.Bisecting.Cluster
 
 Namespace Clustering
@@ -76,29 +77,45 @@ Namespace Clustering
         ''' <returns></returns>
         Private Shared Function AverageDistance(points As List(Of ClusterEntity)) As Double
             Dim pointSize As Integer = points.Count
-            Dim parts As Double() = points _
-                .AsParallel _
-                .Select(Function(i)
-                            Dim sum_i As Double = 0
-
-                            For Each j As ClusterEntity In points
-                                If i Is j Then
-                                    Continue For
-                                End If
-
-                                sum_i += SquareDist(i, j)
-                            Next
-
-                            Return sum_i
-                        End Function) _
-                .ToArray
-            Dim sum As Double = parts.Sum
+            Dim parts As New AverageDistanceTask(points)
+            Dim sum As Double = DirectCast(parts.Run, AverageDistanceTask).sum_i.Sum
             Dim distanceNumber As Integer = pointSize * (pointSize + 1) / 2
             ' 平均距离的1/8
             Dim T2 As Double = sum / distanceNumber / 32
 
             Return T2
         End Function
+
+        Private Class AverageDistanceTask : Inherits VectorTask
+
+            Public ReadOnly points As List(Of ClusterEntity)
+            Public ReadOnly sum_i As Double()
+
+            Sub New(points As List(Of ClusterEntity))
+                Call MyBase.New(points.Count)
+
+                Me.points = points
+                Me.sum_i = Allocate(Of Double)(all:=False)
+            End Sub
+
+            Protected Overrides Sub Solve(start As Integer, ends As Integer, cpu_id As Integer)
+                Dim sum_i As Double = 0
+
+                For offset As Integer = start To ends
+                    Dim i = points(offset)
+
+                    For Each j As ClusterEntity In points
+                        If i Is j Then
+                            Continue For
+                        End If
+
+                        sum_i += SquareDist(i, j)
+                    Next
+                Next
+
+                Me.sum_i(cpu_id) = sum_i
+            End Sub
+        End Class
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Private Shared Function SquareDist(i As Double(), j As Double()) As Double
