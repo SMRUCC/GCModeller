@@ -76,10 +76,11 @@ Namespace Clustering
         ''' <param name="points"></param>
         ''' <returns></returns>
         Private Shared Function AverageDistance(points As List(Of ClusterEntity)) As Double
-            Dim pointSize As Integer = points.Count
+            Dim pointSize As Double = points.Count
             Dim parts As New AverageDistanceTask(points)
             Dim sum As Double = DirectCast(parts.Run, AverageDistanceTask).sum_i.Sum
-            Dim distanceNumber As Integer = pointSize * (pointSize + 1) / 2
+            ' 20240124 integer maybe overflow at here
+            Dim distanceNumber As Double = pointSize * (pointSize + 1) / 2
             ' 平均距离的1/8
             Dim T2 As Double = sum / distanceNumber / 32
 
