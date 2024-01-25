@@ -61,7 +61,7 @@ Namespace Clustering
         Private Sub MeasureThreahold()
             If T1.IsNaNImaginary OrElse T2.IsNaNImaginary Then
                 ' T1 > T2
-                T2 = AverageDistance(points) * 3
+                T2 = AverageDistance(points.ToArray()) * 3
                 T1 = T2 * 2
 
                 Call VBDebugger.EchoLine($"measure T2 threashold via the average distance: {T2}")
@@ -70,16 +70,35 @@ Namespace Clustering
             End If
         End Sub
 
+        Public Shared Function TotalDistance(i As ClusterEntity, points As ClusterEntity()) As Double
+            Dim sum_i As Double = 0
+
+            For Each j As ClusterEntity In points
+                If i Is j OrElse i.uid = j.uid Then
+                    Continue For
+                End If
+
+                sum_i += SquareDist(i, j)
+            Next
+
+            Return sum_i
+        End Function
+
         ''' <summary>
         ''' 得到平均距离
         ''' </summary>
         ''' <param name="points"></param>
         ''' <returns></returns>
-        Private Shared Function AverageDistance(points As List(Of ClusterEntity)) As Double
-            Dim pointSize As Double = points.Count
-            Dim parts As New AverageDistanceTask(points)
-            Dim sum As Double = DirectCast(parts.Run, AverageDistanceTask).sum_i.Sum
-            ' 20240124 integer maybe overflow at here
+        Private Shared Function AverageDistance(points As ClusterEntity()) As Double
+            Dim pointSize As Integer = points.Length
+            Dim task As AverageDistanceTask = New AverageDistanceTask(points).Run
+            Dim parts As Double() = task.sum_i
+
+            Return AverageDistance(pointSize, parts)
+        End Function
+
+        Public Shared Function AverageDistance(pointSize As Double, parts As Double()) As Double
+            Dim sum As Double = parts.Sum
             Dim distanceNumber As Double = pointSize * (pointSize + 1) / 2
             ' 平均距离的1/8
             Dim T2 As Double = sum / distanceNumber / 32
@@ -89,11 +108,11 @@ Namespace Clustering
 
         Private Class AverageDistanceTask : Inherits VectorTask
 
-            Public ReadOnly points As List(Of ClusterEntity)
+            Public ReadOnly points As ClusterEntity()
             Public ReadOnly sum_i As Double()
 
-            Sub New(points As List(Of ClusterEntity))
-                Call MyBase.New(points.Count)
+            Sub New(points As ClusterEntity())
+                Call MyBase.New(points.Length)
 
                 Me.points = points
                 Me.sum_i = Allocate(Of Double)(all:=False)
@@ -103,15 +122,7 @@ Namespace Clustering
                 Dim sum_i As Double = 0
 
                 For offset As Integer = start To ends
-                    Dim i = points(offset)
-
-                    For Each j As ClusterEntity In points
-                        If i Is j Then
-                            Continue For
-                        End If
-
-                        sum_i += SquareDist(i, j)
-                    Next
+                    sum_i += TotalDistance(points(offset), points)
                 Next
 
                 Me.sum_i(cpu_id) = sum_i
@@ -119,7 +130,7 @@ Namespace Clustering
         End Class
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Private Shared Function SquareDist(i As Double(), j As Double()) As Double
+        Public Shared Function SquareDist(i As Double(), j As Double()) As Double
             Return Exponent.f64_op_exponent_f64_scalar(
                 v1:=Subtract.f64_op_subtract_f64(i, j),
                 v2:=2
