@@ -12,7 +12,23 @@ Namespace ComponentModel.Serialization
         Private Sub New()
         End Sub
 
-        Public Sub SaveVector(vectors As IEnumerable(Of ClusterEntity), file As Stream)
+        Public Shared Function GetSerializer() As Func(Of ClusterEntity(), Stream)
+            Return Function(vec)
+                       Dim ms As New MemoryStream
+                       Call SaveVector(vec, ms)
+                       Call ms.Flush()
+                       Call ms.Seek(0, SeekOrigin.Begin)
+                       Return ms
+                   End Function
+        End Function
+
+        Public Shared Function GetBinaryParser() As Func(Of Stream, ClusterEntity())
+            Return Function(s)
+                       Return LoadVectors(s).ToArray
+                   End Function
+        End Function
+
+        Public Shared Sub SaveVector(vectors As IEnumerable(Of ClusterEntity), file As Stream)
             Dim bin As New BinaryWriter(file)
             Dim pullAll As ClusterEntity() = vectors.SafeQuery.ToArray
 
@@ -31,7 +47,7 @@ Namespace ComponentModel.Serialization
             Call bin.Flush()
         End Sub
 
-        Public Iterator Function LoadVectors(file As Stream) As IEnumerable(Of ClusterEntity)
+        Public Shared Iterator Function LoadVectors(file As Stream) As IEnumerable(Of ClusterEntity)
             Dim bin As New BinaryReader(file)
             Dim n As Integer = bin.ReadInt32
 
