@@ -1,5 +1,6 @@
 ﻿Imports System.Drawing
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.DataMining.KMeans
 
@@ -27,18 +28,26 @@ Namespace ComponentModel
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Shared Function MeasureCurve(ds As EntityClusterModel(), traceback As TraceBackIterator) As IEnumerable(Of PointF)
+        Public Shared Function MeasureCurve(ds As EntityClusterModel(), traceback As TraceBackIterator) As IEnumerable(Of EvaluationScore)
             Return MeasureCurve(New DataSetConvertor(ds).GetVectors(ds).ToArray, traceback)
         End Function
 
-        Public Shared Iterator Function MeasureCurve(data As ClusterEntity(), traceback As TraceBackIterator) As IEnumerable(Of PointF)
-            Dim score As Double
+        ''' <summary>
+        ''' this function set entity <see cref="ClusterEntity.cluster"/> for each iteration 
+        ''' traceback and evaluate the silhouette score for the traceback.
+        ''' </summary>
+        ''' <param name="data"></param>
+        ''' <param name="traceback"></param>
+        ''' <returns></returns>
+        Public Shared Iterator Function MeasureCurve(data As ClusterEntity(), traceback As TraceBackIterator) As IEnumerable(Of EvaluationScore)
+            Dim score As EvaluationScore
 
-            For i As Integer = 0 To traceback.size - 1
+            ' zero no clusters
+            For Each i As Integer In Tqdm.Wrap(Enumerable.Range(1, traceback.size - 1).ToArray, useColor:=True)
                 traceback.SetTraceback(data, itr:=i)
-                score = data.Silhouette
+                score = EvaluationScore.Evaluate(data)
 
-                Yield New PointF(i, score)
+                Yield score
             Next
         End Function
     End Class

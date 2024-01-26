@@ -57,6 +57,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.DataMining.ComponentModel
 Imports Microsoft.VisualBasic.Math.Correlations
+Imports Microsoft.VisualBasic.Math.SIMD
 Imports std = System.Math
 
 Namespace KMeans
@@ -73,8 +74,6 @@ Namespace KMeans
         ''' </summary>
         Public ReadOnly Property ClusterSum() As Double()
 
-        Dim _clusterMean As Double()
-
         Public ReadOnly Property NumOfEntity As Integer
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
@@ -87,11 +86,10 @@ Namespace KMeans
         ''' </summary>
         Public ReadOnly Property ClusterMean() As Double()
             Get
-                For count As Integer = 0 To _clusterMean.Length - 1
-                    _clusterMean(count) = (_ClusterSum(count) / m_innerList.Count)
-                Next
+                Dim size As Integer = m_innerList.Count
+                Dim mean As Double() = Divide.f64_op_divide_f64_scalar(_ClusterSum, size)
 
-                Return _clusterMean
+                Return mean
             End Get
         End Property
 
@@ -117,25 +115,6 @@ Namespace KMeans
             Return kMeansCost
         End Function
 
-        Public Function CalculateCenter() As T
-            ' If cluster is empty, the center will remain unchanged
-            If m_innerList.Count = 0 Then
-                Return Me.Center
-            End If
-
-            Dim dimension As Integer = m_innerList(Scan0).Length
-            Dim newCenterCoordinate As Double() = New Double(dimension - 1) {}
-            For i As Integer = 0 To dimension - 1
-                For pointIndex As Integer = 0 To m_innerList.Count - 1
-                    newCenterCoordinate(i) += m_innerList(pointIndex).entityVector(i)
-                Next pointIndex
-                newCenterCoordinate(i) /= m_innerList.Count
-            Next i
-            Dim center As T = Activator.CreateInstance(Of T)
-            center.entityVector = newCenterCoordinate
-            Return center
-        End Function
-
         ''' <summary>
         ''' Adds a single dimension array data to the cluster.
         ''' (请注意，每当使用这个方法新添加一个对象的时候，都会导致均值被重新计算)
@@ -145,13 +124,12 @@ Namespace KMeans
             Call m_innerList.Add(data)
 
             If m_innerList.Count = 1 Then
-                _ClusterSum = New Double(data.Length - 1) {}
-                _clusterMean = New Double(data.Length - 1) {}
+                _ClusterSum = data.entityVector.ToArray
+            Else
+                For offset As Integer = 0 To data.Length - 1
+                    _ClusterSum(offset) = _ClusterSum(offset) + data(offset)
+                Next
             End If
-
-            For count As Integer = 0 To data.Length - 1
-                _ClusterSum(count) = _ClusterSum(count) + data.entityVector(count)
-            Next
         End Sub
 
         ''' <summary>

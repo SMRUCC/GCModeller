@@ -98,6 +98,10 @@ Namespace KMeans
         Sub New()
         End Sub
 
+        Sub New(v As IVector)
+            entityVector = v.Data
+        End Sub
+
         ''' <summary>
         ''' Create a new entity point data
         ''' </summary>
@@ -166,6 +170,24 @@ Namespace KMeans
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Operator <>(a As ClusterEntity, b As ClusterEntity) As Boolean
             Return Not a = b
+        End Operator
+
+        ''' <summary>
+        ''' get the class label of current point
+        ''' </summary>
+        ''' <param name="c"></param>
+        ''' <returns></returns>
+        Public Shared Narrowing Operator CType(c As ClusterEntity) As Integer
+            Return c.cluster
+        End Operator
+
+        ''' <summary>
+        ''' get data vector <see cref="entityVector"/>.
+        ''' </summary>
+        ''' <param name="c"></param>
+        ''' <returns></returns>
+        Public Shared Narrowing Operator CType(c As ClusterEntity) As Double()
+            Return c.entityVector
         End Operator
     End Class
 End Namespace

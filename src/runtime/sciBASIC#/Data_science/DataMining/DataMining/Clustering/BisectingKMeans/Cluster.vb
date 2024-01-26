@@ -1,11 +1,10 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.DataMining.ComponentModel
-Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Serialization.JSON
 
-Namespace BisectingKMeans
+Namespace KMeans.Bisecting
 
 	''' <summary>
 	''' Created by touhid on 12/21/15.
@@ -14,7 +13,15 @@ Namespace BisectingKMeans
 	''' </summary>
 	Public Class Cluster : Implements IVector, IClusterPoint, IEnumerable(Of ClusterEntity)
 
+		''' <summary>
+		''' the data point vector of the centroid node in current cluster
+		''' </summary>
+		''' <returns></returns>
 		Public Property centroid As Double() Implements IVector.Data
+		''' <summary>
+		''' a collection of the data members inside current cluster
+		''' </summary>
+		''' <returns></returns>
 		Public Overridable Property DataPoints As List(Of ClusterEntity)
 
 		Public Overridable ReadOnly Property SSE As Double
@@ -31,7 +38,21 @@ Namespace BisectingKMeans
 			End Get
 		End Property
 
+		''' <summary>
+		''' current cluster class label
+		''' </summary>
+		''' <returns></returns>
 		Public Property Cluster As Integer Implements IClusterPoint.Cluster
+
+		Public ReadOnly Property Size As Integer
+			Get
+				Return DataPoints.TryCount
+			End Get
+		End Property
+
+		Sub New()
+			DataPoints = New List(Of ClusterEntity)
+		End Sub
 
 		Public Sub New(c As Double())
 			Me.centroid = c
@@ -46,6 +67,10 @@ Namespace BisectingKMeans
 		Public Sub New(centroid As Double(), dataPoints As List(Of ClusterEntity))
 			Me.centroid = centroid
 			Me.DataPoints = dataPoints
+		End Sub
+
+		Sub New(centroid As Double(), dataPoints As ClusterEntity())
+			Call Me.New(centroid, dataPoints.ToList)
 		End Sub
 
 		<MethodImpl(MethodImplOptions.AggressiveInlining)>
