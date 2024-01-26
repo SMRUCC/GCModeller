@@ -52,6 +52,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
+Imports Microsoft.VisualBasic.Data.csv.IO.Properties
 
 Namespace Configuration
 
@@ -64,7 +65,8 @@ Namespace Configuration
             Return Device
         End Function
 
-        <Extension> Public Function GetFlagHeight(config As Config) As Integer
+        <Extension>
+        Public Function GetFlagHeight(config As Config) As Integer
             If String.Equals(config.FLAG_HEIGHT, Regex.Match(config.LineHeight, "\d+").Value) Then '是一个数字
                 Return Val(config.FLAG_HEIGHT)
             Else '是一个表达式
@@ -74,7 +76,8 @@ Namespace Configuration
             End If
         End Function
 
-        <Extension> Public Function GetLineHeight(config As Config) As Integer
+        <Extension>
+        Public Function GetLineHeight(config As Config) As Integer
             If String.Equals(config.LineHeight, Regex.Match(config.LineHeight, "\d+").Value) Then '是一个数字
                 Return Val(config.LineHeight)
             Else '是一个表达式
@@ -91,7 +94,7 @@ Namespace Configuration
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Function Load(path$) As Config
-            ' Return Oracle.Java.IO.Properties.Properties.Load(path).FillObject(Of Config)()
+            Return Properties.Load(path).FillObject(Of Config)()
         End Function
     End Module
 End Namespace

@@ -56,7 +56,6 @@
 #End Region
 
 Imports System.Drawing
-Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Imaging
@@ -66,72 +65,10 @@ Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.Runtime
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices.XML
 
 Namespace Assembly.KEGG.WebServices
-
-    Public Class MapHighlights
-
-        Public Property compounds As NamedValue(Of String)() = {}
-        Public Property genes As NamedValue(Of String)() = {}
-        Public Property proteins As NamedValue(Of String)() = {}
-
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function PopulateAllHighlights() As IEnumerable(Of NamedValue(Of String))
-            Return compounds.JoinIterates(genes).JoinIterates(proteins)
-        End Function
-
-        Public Iterator Function GetGeneProteinTuples() As IEnumerable(Of NamedValue(Of (gene_color$, protein_color$)))
-            Dim geneSet = genes.GroupBy(Function(a) a.Name).ToDictionary(Function(a) a.Key, Function(a) a.First.Value)
-            Dim protSet = proteins.GroupBy(Function(a) a.Name).ToDictionary(Function(a) a.Key, Function(a) a.First.Value)
-            Dim unionIdSet As String() = geneSet.Keys.JoinIterates(protSet.Keys).Distinct.ToArray
-
-            For Each id As String In unionIdSet
-                If geneSet.ContainsKey(id) AndAlso protSet.ContainsKey(id) Then
-                    Yield New NamedValue(Of (gene_color As String, protein_color As String))(id, (geneSet(id), protSet(id)))
-                End If
-            Next
-        End Function
-
-        Public Shared Function CreateCompounds(list As IEnumerable(Of NamedValue(Of String))) As MapHighlights
-            Return New MapHighlights With {.compounds = list.ToArray}
-        End Function
-
-        Public Shared Function CreateGenes(list As IEnumerable(Of NamedValue(Of String))) As MapHighlights
-            Return New MapHighlights With {.genes = list.ToArray}
-        End Function
-
-        Public Shared Function CreateProteins(list As IEnumerable(Of NamedValue(Of String))) As MapHighlights
-            Return New MapHighlights With {.proteins = list.ToArray}
-        End Function
-
-        ''' <summary>
-        ''' check highlights automatically via kegg id prefix
-        ''' </summary>
-        ''' <param name="list"></param>
-        ''' <returns></returns>
-        ''' <remarks>
-        ''' can not determine the gene/proteins at here
-        ''' </remarks>
-        Public Shared Function CreateAuto(list As IEnumerable(Of NamedValue(Of String))) As MapHighlights
-            Dim compounds As New List(Of NamedValue(Of String))
-            Dim genes As New List(Of NamedValue(Of String))
-
-            For Each node As NamedValue(Of String) In list
-                If node.Name.IsPattern(KEGGCompoundIDPatterns) Then
-                    compounds.Add(node)
-                Else
-                    genes.Add(node)
-                End If
-            Next
-
-            Return New MapHighlights With {
-                .compounds = compounds.ToArray,
-                .genes = genes.ToArray
-            }
-        End Function
-
-    End Class
 
     ''' <summary>
     ''' KEGG pathway map local rendering engine
@@ -268,8 +205,22 @@ Namespace Assembly.KEGG.WebServices
                                          Optional textColor$ = "white",
                                          Optional scale$ = "1,1") As Image
 
-            Dim pen As Brush = textColor.GetBrush
+            Dim text_rgbcolor As Color = textColor.TranslateColor
+            Dim pen As Brush = New SolidBrush(text_rgbcolor)
             Dim scaleFactor As SizeF = scale.FloatSizeParser
+            Dim warn_genes = MapHighlights.CheckTextColorWarning(nodes.genes, text_rgbcolor).ToArray
+            Dim warn_prots = MapHighlights.CheckTextColorWarning(nodes.proteins, text_rgbcolor).ToArray
+            Dim warn_compound = MapHighlights.CheckTextColorWarning(nodes.compounds, text_rgbcolor).ToArray
+
+            If Not (warn_genes.IsNullOrEmpty AndAlso warn_compound.IsNullOrEmpty AndAlso warn_prots.IsNullOrEmpty) Then
+                Dim warns As New Dictionary(Of String, String())
+
+                If Not warn_prots.IsNullOrEmpty Then Call warns.Add("proteins", warn_prots)
+                If Not warn_genes.IsNullOrEmpty Then Call warns.Add("genes", warn_genes)
+                If Not warn_compound.IsNullOrEmpty Then Call warns.Add("metabolites", warn_compound)
+
+                Call $"there are some plot elements({warns.GetJson}) theirs highlight color is the same as the text color({textColor}), consider changes to other color values!".Warning
+            End If
 
             Static SimSum As [Default](Of Font) = New Font(FontFace.SimSun, 10, FontStyle.Regular)
 

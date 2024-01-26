@@ -74,6 +74,12 @@ declare namespace report.utils {
       */
       function colorAs(nodes: string, color: string): object;
    }
+   module parse {
+      /**
+        * @param default default value Is ``'red'``.
+      */
+      function highlight_tuples(x: string, default?: string): any;
+   }
    /**
     * 
     * 

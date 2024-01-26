@@ -1,60 +1,60 @@
 ﻿#Region "Microsoft.VisualBasic::10b13a1a5bdb2ba0193db6173a25549a, GCModeller\visualize\ChromosomeMap\ChromesomeMapAPI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 411
-    '    Code Lines: 329
-    ' Comment Lines: 37
-    '   Blank Lines: 45
-    '     File Size: 18.51 KB
+' Summaries:
 
 
-    ' Module ChromesomeMapAPI
-    ' 
-    '     Function: __getRandomColor, AddLociSites, AddMotifSites, AddMutationData, ApplyCogColorProfile
-    '               (+2 Overloads) CreateDevice, DescribTest, ExportColorInformation, FromGenbankDIR, FromGenes
-    '               FromPTT, FromPttObject, get_Converted, GetDefaultConfiguration, InvokeDrawing
-    '               LoadConfig, READ_PlasmidData, SaveImage, WriteGeneFasta
-    '     Class __setRNAColorInvoke
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: __setColor, __setColorBrush
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 411
+'    Code Lines: 329
+' Comment Lines: 37
+'   Blank Lines: 45
+'     File Size: 18.51 KB
+
+
+' Module ChromesomeMapAPI
+' 
+'     Function: __getRandomColor, AddLociSites, AddMotifSites, AddMutationData, ApplyCogColorProfile
+'               (+2 Overloads) CreateDevice, DescribTest, ExportColorInformation, FromGenbankDIR, FromGenes
+'               FromPTT, FromPttObject, get_Converted, GetDefaultConfiguration, InvokeDrawing
+'               LoadConfig, READ_PlasmidData, SaveImage, WriteGeneFasta
+'     Class __setRNAColorInvoke
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: __setColor, __setColorBrush
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -63,6 +63,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv.Extensions
+Imports Microsoft.VisualBasic.Data.csv.IO.Properties
 Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Driver
@@ -99,9 +100,9 @@ Public Module ChromesomeMapAPI
                       Select relateds = genome.GetRelatedGenes(loci), loci).ToArray
         Dim TSSs = (From obj In nSites.AsParallel
                     Select New TSSs With {
-                        .Left = obj.loci.Left,
+                        .Left = obj.loci.left,
                         .Comments = obj.relateds.Select(Function(x) x.ToString).JoinBy(vbCrLf),
-                        .Right = obj.loci.Right,
+                        .Right = obj.loci.right,
                         .Strand = obj.loci.Strand,
                         .SiteName = obj.GetHashCode,
                         .Synonym = obj.loci.GetHashCode}).ToArray
@@ -176,8 +177,8 @@ Public Module ChromesomeMapAPI
             Select New DrawingModels.Loci With {
                 .SiteName = site.Title,
                 .SequenceData = site.SequenceData,
-                .Right = site.Right,
-                .Left = site.Left,
+                .Right = site.right,
+                .Left = site.left,
                 .Color = Color.Black
             }
         model.Loci = Locis
@@ -296,8 +297,8 @@ Public Module ChromesomeMapAPI
                 .Product = gene.Product,
                 .LocusTag = gene.Synonym,
                 .CommonName = gene.Gene,
-                .Left = Math.Min(gene.Location.Left, gene.Location.Right),
-                .Right = Math.Max(gene.Location.Right, gene.Location.Left),
+                .Left = Math.Min(gene.Location.left, gene.Location.right),
+                .Right = Math.Max(gene.Location.right, gene.Location.left),
                 .Direction = gene.Location.Strand
             }
 #End Region
@@ -359,7 +360,7 @@ Public Module ChromesomeMapAPI
 #Region "Create gene models"
         Dim defaultColor As Color = (conf.NoneCogColor Or brown).TranslateColor
         Dim geneModels = LinqAPI.Exec(Of SegmentObject) <=
- _
+                                                          _
             From gene As GeneBrief
             In genes
             Let position As Location = gene.Location.Normalization
@@ -368,8 +369,8 @@ Public Module ChromesomeMapAPI
                 .Product = gene.Product,
                 .LocusTag = gene.Synonym,
                 .CommonName = gene.Gene,
-                .Left = position.Left,
-                .Right = position.Right,
+                .Left = position.left,
+                .Right = position.right,
                 .Direction = gene.Location.Strand
             }
             Order By gm.Left Ascending

@@ -24,6 +24,12 @@ declare namespace GCModeller {
       */
       function url_encode(enrich: any, data?: any, log2FC?: any, id?: any): object;
       /**
+        * @param data default value Is ``null``.
+        * @param log2FC default value Is ``log2(FC)``.
+        * @param id default value Is ``kegg``.
+      */
+      function url_encode_internal(enrich: any, data?: any, log2FC?: any, id?: any): object;
+      /**
       */
       function write_dgr(dgr: any): object;
       /**
@@ -54,6 +60,10 @@ declare namespace GCModeller {
       */
       function write_rbcList(rbcList: any): object;
    }
+   /**
+     * @param kegg_maps default value Is ``null``.
+   */
+   function __load_kegg_map(kegg_maps?: any): object;
    /**
    */
    function __parseIdvector(set: any): object;
@@ -119,12 +129,33 @@ declare namespace GCModeller {
    */
    function metpa_enrich(data: any, metpa: any, log2FC?: any, id?: any): object;
    /**
+     * @param log2FC default value Is ``log2(FC)``.
+     * @param id default value Is ``kegg``.
+   */
+   function metpa_enrich_dataframe(data: any, metpa: any, log2FC?: any, id?: any): object;
+   /**
+   */
+   function metpa_enrich_ids(data: any, metpa: any): object;
+   /**
    */
    function reference_genome(ncbi_taxid: any): object;
    taxonomy_query: any;
    /**
    */
    function taxonomy_search(name: any): object;
+   /**
+   */
+   function unify_mapid(x: any): object;
+   /**
+     * @param outputdir default value Is ``./``.
+     * @param id default value Is ``KEGG``.
+     * @param compound default value Is ``compound``.
+     * @param gene default value Is ``gene``.
+     * @param protein default value Is ``protein``.
+     * @param text.color default value Is ``white``.
+     * @param kegg_maps default value Is ``null``.
+   */
+   function union_render(union_data: any, outputdir?: any, id?: any, compound?: any, gene?: any, protein?: any, text.color?: any, kegg_maps?: any): object;
    module url {
       /**
       */

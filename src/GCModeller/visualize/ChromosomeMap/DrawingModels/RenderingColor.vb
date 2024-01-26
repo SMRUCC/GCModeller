@@ -139,7 +139,7 @@ Namespace DrawingModels
                 End If
             Next
 
-            Call chromesome.COGs.SetValue(ColorProfiles)
+            ColorProfiles = chromesome.COGs
 
             Return chromesome
         End Function

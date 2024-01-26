@@ -16,6 +16,68 @@ except:
     # do nothing
     print("enrich_df parameter should be a file path.")
 
+def dataframe_csv(enrich_df):
+    enrich_file = "df_{}".format(random.randint(1000000, 10000000))
+    enrich_file = "/tmp/{}.csv".format(enrich_file)
+
+    if type(enrich_df) == str:
+        enrich_file = enrich_df
+    else:
+        enrich_df.to_csv(enrich_file)
+
+    return enrich_file
+
+# const union_render = function(union_data, outputdir = "./",
+#     id         = "KEGG", 
+#     compound   = "compound", 
+#     gene       = "gene", 
+#     protein    = "protein", 
+#     text.color = "white",
+#     kegg_maps  = NULL) {
+
+def union_render(enrich_df, outputdir = "./",
+                 id         = "KEGG", 
+                 compound   = "Compounds_KO", 
+                 gene       = "Genes_KO", 
+                 protein    = "Proteins_KO", 
+                 text_color = "white",
+                 kegg_maps  = None,
+                 image      = "dotnet:gcmodeller_20240126",
+                 run_debug  = False):
+
+    enrich_file = dataframe_csv(enrich_df)
+    v = []
+
+    if not kegg_maps:
+        v = ["union_data","outputdir","tmp"]
+    else:        
+        v = ["union_data","kegg_maps","outputdir","tmp"]
+        kegg_maps = os.path.abspath(kegg_maps)
+
+    outputdir = os.path.abspath(outputdir)
+    enrich_file = os.path.abspath(enrich_file)
+    args = {
+        "union_data": enrich_file,
+        "outputdir": outputdir,       
+        "id": id, 
+        "compound": compound, 
+        "gene": gene, 
+        "protein": protein, 
+        "text.color": text_color,
+        "kegg_maps": kegg_maps,
+        "tmp": "/tmp/"
+    }
+
+    return r_lambda.call_lambda(
+        "GCModeller::union_render",
+        argv=args,
+        options={"cache.enable": True},
+        workdir=outputdir,
+        docker=docker_image(id=image, volumn=v, name=None, tty=False),
+        run_debug=run_debug
+    )
+
+
 # const KEGG_MapRender = function(enrich, 
 #    map_id        = "KEGG",
 #    pathway_links = "pathway_links",
@@ -47,20 +109,13 @@ def render(enrich_df,
     map_id: the data field name for get the kegg pathway map id, default is 'KEGG'
     """
 
-    enrich_file = "df_{}".format(random.randint(1000000, 10000000))
-    enrich_file = "/tmp/{}.csv".format(enrich_file)
-
-    if type(enrich_df) == str:
-        enrich_file = enrich_df
-    else:
-        enrich_df.to_csv(enrich_file)
-
+    enrich_file = dataframe_csv(enrich_df)
     v = []
 
     if not kegg_maps:
-        v = ["enrich","outputdir"]
+        v = ["enrich","outputdir","tmp"]
     else:        
-        v = ["enrich","kegg_maps","outputdir"]
+        v = ["enrich","kegg_maps","outputdir","tmp"]
         kegg_maps = os.path.abspath(kegg_maps)
 
     outputdir = os.path.abspath(outputdir)
@@ -71,7 +126,8 @@ def render(enrich_df,
         "pathway_links": pathway_links,
         "outputdir": outputdir,       
         "min_objects": min_objects, 
-        "kegg_maps": kegg_maps
+        "kegg_maps": kegg_maps,
+        "tmp": "/tmp/"
     }
 
     return r_lambda.call_lambda(
