@@ -333,6 +333,18 @@ Module report
         End If
     End Function
 
+    <ExportAPI("parse.highlight_tuples")>
+    Public Function parseHighlightTuples(x As String) As Object
+        Dim t = Strings.Trim(x).Split(";"c).Select(Function(si) si.Split(":"c)).ToArray
+        Dim highlights As New Dictionary(Of String, Object)
+
+        For Each tuple As String() In t
+            highlights(tuple(0)) = tuple(1)
+        Next
+
+        Return New list With {.slots = highlights}
+    End Function
+
     ''' <summary>
     ''' 
     ''' </summary>

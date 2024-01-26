@@ -15,11 +15,7 @@ const localRenderMap = function(KEGG_maps, pathwayList,
 
     # key name is the kegg pathway map id
     # key value is the kegg pathway map url
-    const pathwayId as string = `map${$"\d+"(names(pathwayList))
-        |> unlist()
-        |> as.integer()
-        |> str_pad(5, "left", "0")}`
-    ;
+    const pathwayId as string = unify_mapid(x = names(pathwayList));
     const urlLinks as string = unlist(pathwayList);
 
     print("script will render target objects on kegg map:");
@@ -71,3 +67,13 @@ const localRenderMap = function(KEGG_maps, pathwayList,
     }
 }
 
+#' unify the kegg map id as reference map id
+#' 
+#' @param x the kegg map id, maybe in organism species related pathway map id, example as ``hsaxxxxxx``.
+#' 
+const unify_mapid = function(x) {
+    `map${$"\d+"(x)
+    |> unlist()
+    |> as.integer()
+    |> str_pad(5, "left", "0")}`
+}
