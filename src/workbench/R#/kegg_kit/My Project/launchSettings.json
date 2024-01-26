@@ -11,7 +11,7 @@
     "test_pipeline": {
       "commandName": "Executable",
       "executablePath": "\\GCModeller\\src\\R-sharp\\App\\net6.0\\Rscript.exe",
-      "commandLineArgs": "--lambda GCModeller::KEGG_MapRender --attach D:\\GCModeller\\src\\workbench\\pkg",
+      "commandLineArgs": "--lambda GCModeller::union_render --attach E:\\GCModeller\\src\\workbench\\pkg",
       "workingDirectory": "D:\\tmp\\test_map"
     }
   }

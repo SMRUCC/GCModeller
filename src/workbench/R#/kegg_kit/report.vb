@@ -81,6 +81,15 @@ Module report
         Call REnv.Internal.generic.add("plot", GetType(Map), AddressOf plotKEGGMap)
     End Sub
 
+    ''' <summary>
+    ''' rendering as html document text
+    ''' </summary>
+    ''' <param name="map"></param>
+    ''' <param name="args"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    ''' 
+    <RGenericOverloads("html")>
     Private Function renderMapHtml(map As Map, args As list, env As Environment) As Object
         Dim compounds = getHighlightObjects(args.getBySynonyms("compounds", "compound", "metabolites", "metabolite"), env)
         Dim genes = getHighlightObjects(args.getBySynonyms("genes", "gene", "Genes", "Gene"), env)
@@ -100,6 +109,15 @@ Module report
         )
     End Function
 
+    ''' <summary>
+    ''' rendering a image
+    ''' </summary>
+    ''' <param name="map"></param>
+    ''' <param name="args"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    ''' 
+    <RGenericOverloads("plot")>
     Private Function plotKEGGMap(map As Map, args As list, env As Environment) As Object
         Dim compounds = getHighlightObjects(args.getBySynonyms("compounds", "compound", "metabolites", "metabolite"), env)
         Dim genes = getHighlightObjects(args.getBySynonyms("genes", "gene", "Genes", "Gene"), env)
@@ -208,6 +226,10 @@ Module report
     ''' <param name="highlights"></param>
     ''' <param name="env"></param>
     ''' <returns></returns>
+    ''' <remarks>
+    ''' the <paramref name="highlights"/> object should be a tuple list object of 
+    ''' mapping from ``[kegg_id => color]``.
+    ''' </remarks>
     Private Function getHighlightObjects(highlights As Object, env As Environment) As [Variant](Of Message, NamedValue(Of String)())
         If highlights Is Nothing Then
             ' no target for do highlights, just output a
@@ -309,6 +331,27 @@ Module report
                 .value = highlightObjs.TryCast(Of NamedValue(Of String)())
             }.KEGGURLEncode
         End If
+    End Function
+
+    <ExportAPI("parse.highlight_tuples")>
+    Public Function parseHighlightTuples(x As String, Optional default$ = "red") As Object
+        Dim strim As String = Strings.Trim(x)
+
+        If strim.StringEmpty Then
+            Return list.empty
+        End If
+
+        Dim highlights As New Dictionary(Of String, Object)
+        Dim t = strim _
+            .Split(";"c) _
+            .Select(Function(si) si.Split(":"c)) _
+            .ToArray
+
+        For Each tuple As String() In t
+            highlights(tuple(0)) = tuple.ElementAtOrDefault(1, default$)
+        Next
+
+        Return New list With {.slots = highlights}
     End Function
 
     ''' <summary>
