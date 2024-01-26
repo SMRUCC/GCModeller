@@ -65,6 +65,7 @@ Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.Runtime
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices.XML
 
 Namespace Assembly.KEGG.WebServices
@@ -204,8 +205,22 @@ Namespace Assembly.KEGG.WebServices
                                          Optional textColor$ = "white",
                                          Optional scale$ = "1,1") As Image
 
-            Dim pen As Brush = textColor.GetBrush
+            Dim text_rgbcolor As Color = textColor.TranslateColor
+            Dim pen As Brush = New SolidBrush(text_rgbcolor)
             Dim scaleFactor As SizeF = scale.FloatSizeParser
+            Dim warn_genes = MapHighlights.CheckTextColorWarning(nodes.genes, text_rgbcolor).ToArray
+            Dim warn_prots = MapHighlights.CheckTextColorWarning(nodes.proteins, text_rgbcolor).ToArray
+            Dim warn_compound = MapHighlights.CheckTextColorWarning(nodes.compounds, text_rgbcolor).ToArray
+
+            If Not (warn_genes.IsNullOrEmpty AndAlso warn_compound.IsNullOrEmpty AndAlso warn_prots.IsNullOrEmpty) Then
+                Dim warns As New Dictionary(Of String, String())
+
+                If Not warn_prots.IsNullOrEmpty Then Call warns.Add("proteins", warn_prots)
+                If Not warn_genes.IsNullOrEmpty Then Call warns.Add("genes", warn_genes)
+                If Not warn_compound.IsNullOrEmpty Then Call warns.Add("metabolites", warn_compound)
+
+                Call $"there are some plot elements({warns.GetJson}) theirs highlight color is the same as the text color({textColor}), consider changes to other color values!".Warning
+            End If
 
             Static SimSum As [Default](Of Font) = New Font(FontFace.SimSun, 10, FontStyle.Regular)
 

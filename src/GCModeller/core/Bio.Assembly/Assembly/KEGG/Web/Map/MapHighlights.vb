@@ -1,6 +1,8 @@
-﻿Imports System.Runtime.CompilerServices
+﻿Imports System.Drawing
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 
@@ -14,6 +16,23 @@ Namespace Assembly.KEGG.WebServices
         Public Property compounds As NamedValue(Of String)() = {}
         Public Property genes As NamedValue(Of String)() = {}
         Public Property proteins As NamedValue(Of String)() = {}
+
+        ''' <summary>
+        ''' warning about the elements which has the plot color that the same as the text color,
+        ''' 
+        ''' example as: text color is white, and the gene color is white, so that we will could not
+        ''' read the text label, due to the reason of the color of these two element are the same.
+        ''' </summary>
+        ''' <param name="highlights"></param>
+        ''' <param name="text_color"></param>
+        ''' <returns></returns>
+        Public Shared Iterator Function CheckTextColorWarning(highlights As IEnumerable(Of NamedValue(Of String)), text_color As Color) As IEnumerable(Of String)
+            For Each item As NamedValue(Of String) In highlights.SafeQuery
+                If item.Value.TranslateColor(throwEx:=False).Equals(text_color, tolerance:=6) Then
+                    Yield item.Name
+                End If
+            Next
+        End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function PopulateAllHighlights() As IEnumerable(Of NamedValue(Of String))
