@@ -335,8 +335,17 @@ Module report
 
     <ExportAPI("parse.highlight_tuples")>
     Public Function parseHighlightTuples(x As String) As Object
-        Dim t = Strings.Trim(x).Split(";"c).Select(Function(si) si.Split(":"c)).ToArray
+        Dim strim As String = Strings.Trim(x)
+
+        If strim.StringEmpty Then
+            Return list.empty
+        End If
+
         Dim highlights As New Dictionary(Of String, Object)
+        Dim t = strim _
+            .Split(";"c) _
+            .Select(Function(si) si.Split(":"c)) _
+            .ToArray
 
         For Each tuple As String() In t
             highlights(tuple(0)) = tuple(1)
