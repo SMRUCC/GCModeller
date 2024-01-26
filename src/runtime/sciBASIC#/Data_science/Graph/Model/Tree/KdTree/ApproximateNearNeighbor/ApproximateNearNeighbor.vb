@@ -92,6 +92,9 @@ Namespace KdTree.ApproximateNearNeighbor
         ''' </summary>
         ''' <param name="data"></param>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' the vector is indexed via the input matrix row index
+        ''' </remarks>
         <Extension>
         Public Iterator Function PopulateVectors(data As GeneralMatrix) As IEnumerable(Of TagVector)
             For Each d In data.RowVectors.SeqIterator

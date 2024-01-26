@@ -27,17 +27,24 @@ Namespace KNearNeighbors
         ''' </summary>
         ''' <param name="data"></param>
         ''' <param name="k"></param>
-        ''' <returns></returns>
-        Public Iterator Function FindNeighbors(data As GeneralMatrix, Optional k As Integer = 30) As IEnumerable(Of KNeighbors)
-            Dim matrix = data.PopulateVectors.ToArray
+        ''' <returns>
+        ''' the generates index value keeps the same order with input original <paramref name="data"/> matrix rows.
+        ''' </returns>
+        Public Function FindNeighbors(data As GeneralMatrix, Optional k As Integer = 30) As IEnumerable(Of KNeighbors)
+            Dim matrix As TagVector() = data.PopulateVectors.ToArray
             Dim knnQuery = matrix _
                 .AsParallel _
                 .Select(Function(v)
-                            Return FindNeighbors(v, matrix, k, score)
+                            Return (v.index, FindNeighbors(v, matrix, k, score))
                         End Function) _
+                .OrderBy(Function(r) r.index) _
                 .ToArray
 
-            For Each nn2 As (TagVector, w As Double)() In knnQuery
+            Return KNeighbors(knnQuery.Select(Function(r) r.Item2))
+        End Function
+
+        Public Shared Iterator Function KNeighbors(knn As IEnumerable(Of (TagVector, w As Double)())) As IEnumerable(Of KNeighbors)
+            For Each nn2 As (TagVector, w As Double)() In knn
                 Dim index As Integer() = nn2.Select(Function(xi) xi.Item1.index).ToArray
                 Dim weights As Double() = nn2.Select(Function(xi) xi.w).ToArray
 
