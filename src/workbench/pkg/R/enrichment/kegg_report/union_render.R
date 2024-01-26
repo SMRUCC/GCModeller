@@ -6,7 +6,7 @@ const union_render = function(union_data, outputdir = "./",
                               gene       = "gene", 
                               protein    = "protein", 
                               text.color = "white",
-                              kegg_maps = NULL) {
+                              kegg_maps  = NULL) {
 
     const KEGG_maps = __load_kegg_map(kegg_maps);
 
