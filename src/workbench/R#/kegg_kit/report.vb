@@ -226,6 +226,10 @@ Module report
     ''' <param name="highlights"></param>
     ''' <param name="env"></param>
     ''' <returns></returns>
+    ''' <remarks>
+    ''' the <paramref name="highlights"/> object should be a tuple list object of 
+    ''' mapping from ``[kegg_id => color]``.
+    ''' </remarks>
     Private Function getHighlightObjects(highlights As Object, env As Environment) As [Variant](Of Message, NamedValue(Of String)())
         If highlights Is Nothing Then
             ' no target for do highlights, just output a
