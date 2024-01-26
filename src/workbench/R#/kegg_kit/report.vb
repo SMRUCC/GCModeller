@@ -81,6 +81,15 @@ Module report
         Call REnv.Internal.generic.add("plot", GetType(Map), AddressOf plotKEGGMap)
     End Sub
 
+    ''' <summary>
+    ''' rendering as html document text
+    ''' </summary>
+    ''' <param name="map"></param>
+    ''' <param name="args"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    ''' 
+    <RGenericOverloads("html")>
     Private Function renderMapHtml(map As Map, args As list, env As Environment) As Object
         Dim compounds = getHighlightObjects(args.getBySynonyms("compounds", "compound", "metabolites", "metabolite"), env)
         Dim genes = getHighlightObjects(args.getBySynonyms("genes", "gene", "Genes", "Gene"), env)
@@ -100,6 +109,15 @@ Module report
         )
     End Function
 
+    ''' <summary>
+    ''' rendering a image
+    ''' </summary>
+    ''' <param name="map"></param>
+    ''' <param name="args"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    ''' 
+    <RGenericOverloads("plot")>
     Private Function plotKEGGMap(map As Map, args As list, env As Environment) As Object
         Dim compounds = getHighlightObjects(args.getBySynonyms("compounds", "compound", "metabolites", "metabolite"), env)
         Dim genes = getHighlightObjects(args.getBySynonyms("genes", "gene", "Genes", "Gene"), env)
