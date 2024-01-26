@@ -10,6 +10,9 @@ const union_render = function(union_data, outputdir = "./",
 
     const KEGG_maps = __load_kegg_map(kegg_maps);
 
+    print("view of the union data for run kegg report export:");
+    print(union_data, max.print = 6);
+
     for(map_data in as.list(union_data, byrow = TRUE)) {
         let compounds = parse.highlight_tuples(map_data[[compound]]);
         let genes     = parse.highlight_tuples(map_data[[gene]]);
