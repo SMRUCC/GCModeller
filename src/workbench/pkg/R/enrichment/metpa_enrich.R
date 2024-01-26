@@ -1,14 +1,6 @@
 #' The GCModeller GSEA toolkit
 imports "GSEA" from "gseakit";
 
-const _unique_idset = function(id) {
-    id = id[id != ""];
-    id = id[id != "NULL"];
-    id = id[id != "NA"];
-    
-    unique(id);
-}
-
 #' Do enrichment based on metpa background model
 #' 
 #' @param data a given set of the target for do enrichment analysis,
@@ -30,34 +22,41 @@ const _unique_idset = function(id) {
 #'
 const metpa_enrich = function(data, metpa, log2FC = "log2(FC)", id = "kegg") {
     if (is.data.frame(data)) {
-        # check field is exists in the given dataset or not
-        if (id in data) {
-            metpa |> GSEA::enrichment(
-                geneSet      = _unique_idset(data[, id]),
-                cut.size     = 3,
-                outputAll    = FALSE,
-                resize       = -1,
-                showProgress = FALSE
-            )
-            |> as.data.frame()
-            |> .url_encode(data, log2FC, id)
-            ;
-        } else {
-            stop(`the required id set field(${id}) is not exists in the given dataset!`);
-        }
+        metpa_enrich_dataframe(data, metpa, log2FC, id);
     } else {
         # is a character vector of the id set,
         # just do idset enrichment analysis
-        metpa 
-        |> GSEA::enrichment(
-            geneSet      = data,
+        metpa_enrich_ids(data, metpa);
+    }
+}
+
+const metpa_enrich_ids = function(data, metpa) {
+    metpa |> GSEA::enrichment(
+        geneSet      = data,
+        cut.size     = 3,
+        outputAll    = FALSE,
+        resize       = -1,
+        showProgress = FALSE
+    )
+    |> as.data.frame()
+    |> .url_encode()
+    ;
+}
+
+const metpa_enrich_dataframe = function(data, metpa, log2FC = "log2(FC)", id = "kegg") {
+    # check field is exists in the given dataset or not
+    if (id in data) {
+        metpa |> GSEA::enrichment(
+            geneSet      = _unique_idset(data[, id]),
             cut.size     = 3,
             outputAll    = FALSE,
             resize       = -1,
             showProgress = FALSE
         )
         |> as.data.frame()
-        |> .url_encode()
+        |> .url_encode(data, log2FC, id)
         ;
+    } else {
+        stop(`the required id set field(${id}) is not exists in the given dataset!`);
     }
 }

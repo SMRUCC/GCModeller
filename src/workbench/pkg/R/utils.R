@@ -22,3 +22,11 @@ const .readZipStream = function(zipfile, entryName = NULL) {
         data;
     }
 }
+
+const _unique_idset = function(id) {
+    id = id[id != ""];
+    id = id[id != "NULL"];
+    id = id[id != "NA"];
+    
+    unique(id);
+}
