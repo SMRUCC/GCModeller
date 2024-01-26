@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title><p>@param compoundcolors color value for kegg compound</p></title>
+    <title><p>visual plot of the multiple omics union data</p></title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="../../_assets/page.css">
@@ -13,12 +13,12 @@
 
         <table style="width: 100%;">
             <tr>
-                <td>.safe_kegg_url_parser {GCModeller}</td>
+                <td>union_render {GCModeller}</td>
                 <td style="text-align: right;">R Documentation</td>
             </tr>
         </table>
 
-        <h2><p>@param compoundcolors color value for kegg compound</p></h2>
+        <h2><p>visual plot of the multiple omics union data</p></h2>
 
         <h3>Description</h3>
 
@@ -27,16 +27,20 @@
         <h3>Usage</h3>
 
         <div style="width: 100%; padding-left: 3%; color: black;">
-            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>.safe_kegg_url_parser</strong>(<i>url</i>, <i>compoundcolors</i>, <i>gene.highights</i>);</code></pre>
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>union_render</strong>(<i>union.data</i>,
+    <i>outputdir</i> = ./,
+    <i>id</i> = KEGG,
+    <i>compound</i> = compound,
+    <i>gene</i> = gene,
+    <i>protein</i> = protein,
+    <i>text.color</i> = white,
+    <i>kegg.maps</i> = <span style='color: blue !important;'>NULL</span>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
 
         <table>
             
-<dt>gene.highights</dt>
-<dd><p><p>color value for highlights genes/proteins</p></p></dd>
-
         </table>
 
 

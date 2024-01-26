@@ -74,6 +74,11 @@ declare namespace report.utils {
       */
       function colorAs(nodes: string, color: string): object;
    }
+   module parse {
+      /**
+      */
+      function highlight_tuples(x: string): any;
+   }
    /**
     * 
     * 
