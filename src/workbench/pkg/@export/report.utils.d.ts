@@ -76,8 +76,9 @@ declare namespace report.utils {
    }
    module parse {
       /**
+        * @param default default value Is ``'red'``.
       */
-      function highlight_tuples(x: string): any;
+      function highlight_tuples(x: string, default?: string): any;
    }
    /**
     * 

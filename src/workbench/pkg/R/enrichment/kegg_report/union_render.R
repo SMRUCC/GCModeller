@@ -10,6 +10,11 @@ const union_render = function(union_data, outputdir = "./",
 
     const KEGG_maps = __load_kegg_map(kegg_maps);
 
+    if (is.character(union_data)) {
+        union_data = read.csv(union_data, row.names = NULL, 
+           check.names = FALSE);
+    }
+
     print("view of the union data for run kegg report export:");
     print(union_data, max.print = 6);
 
