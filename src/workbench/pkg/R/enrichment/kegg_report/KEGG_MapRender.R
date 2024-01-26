@@ -14,17 +14,10 @@ const KEGG_MapRender = function(enrich,
     min_objects = 0,
     kegg_maps = NULL) {
 
-    const KEGG_maps = GCModeller::kegg_maps(rawMaps = FALSE, repo = {
-        print("inspect of the kegg_maps source:");
-        print(kegg_maps);
+    const KEGG_maps = __load_kegg_map(kegg_maps);
 
-        if (file.exists(kegg_maps) || dir.exists(kegg_maps)) {
-            kegg_maps;
-        } else {
-            system.file("data/kegg/KEGG_maps.zip", package = "GCModeller");
-        }
-    });
-
+    # enrich is a file path to the table file
+    # or just already a dataframe object
     if (is.character(enrich)) {
         enrich = read.csv(
             file = enrich, 
