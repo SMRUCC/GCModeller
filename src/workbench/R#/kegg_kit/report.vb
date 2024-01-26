@@ -334,7 +334,7 @@ Module report
     End Function
 
     <ExportAPI("parse.highlight_tuples")>
-    Public Function parseHighlightTuples(x As String) As Object
+    Public Function parseHighlightTuples(x As String, Optional default$ = "red") As Object
         Dim strim As String = Strings.Trim(x)
 
         If strim.StringEmpty Then
@@ -348,7 +348,7 @@ Module report
             .ToArray
 
         For Each tuple As String() In t
-            highlights(tuple(0)) = tuple(1)
+            highlights(tuple(0)) = tuple.ElementAtOrDefault(1, default$)
         Next
 
         Return New list With {.slots = highlights}
