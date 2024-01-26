@@ -1,32 +1,36 @@
 
 const .url_encode = function(enrich, data = NULL, log2FC = "log2(FC)", id = "kegg") {
     if (!is.null(enrich)) {
-        let has_data  = !is.null(data);
-        let has_logfc = log2FC in data;
+        .url_encode_internal(enrich, data, log2FC, id);
+    } else {
+        enrich;
+    }
+}
 
-        if (length(has_logfc) == 0) {
-            has_logfc = FALSE;
-        }
+const .url_encode_internal = function(enrich, data = NULL, log2FC = "log2(FC)", id = "kegg") {
+    let has_data  = !is.null(data);
+    let has_logfc = log2FC in data;
 
-        if (has_data && has_logfc) {
-            # do colorful encode of the url
-            const encode_url = kegg_colors(
-                id = data[, id], 
-                log2FC = data[, log2FC]
-            );
-
-            enrich[, "links"] = encode_url(
-                map_id = rownames(enrich), 
-                idset = enrich$geneIDs
-            );
-        } else {
-            # just do normal map url encode
-            # http://www.kegg.jp/pathway/map01230+C00037+C00049+C00082+C00188
-            enrich[, "links"] = sprintf("http://www.kegg.jp/pathway/%s+%s", rownames(enrich), sapply(enrich$geneIDs, set -> paste(__parseIdvector(set), sep = "+")));
-        }
+    if (length(has_logfc) == 0) {
+        has_logfc = FALSE;
     }
 
-    enrich;
+    if (has_data && has_logfc) {
+        # do colorful encode of the url
+        const encode_url = kegg_colors(
+            id = data[, id], 
+            log2FC = data[, log2FC]
+        );
+
+        enrich[, "links"] = encode_url(
+            map_id = rownames(enrich), 
+            idset = enrich$geneIDs
+        );
+    } else {
+        # just do normal map url encode
+        # http://www.kegg.jp/pathway/map01230+C00037+C00049+C00082+C00188
+        enrich[, "links"] = sprintf("http://www.kegg.jp/pathway/%s+%s", rownames(enrich), sapply(enrich$geneIDs, set -> paste(__parseIdvector(set), sep = "+")));
+    }
 }
 
 const __parseIdvector = function(set) {
