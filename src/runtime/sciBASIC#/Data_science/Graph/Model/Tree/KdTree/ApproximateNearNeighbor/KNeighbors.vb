@@ -1,6 +1,6 @@
 ﻿Namespace KdTree.ApproximateNearNeighbor
 
-    Public Structure KdHits
+    Public Structure KNeighbors
 
         Dim size As Integer
         Dim indices As Integer()
