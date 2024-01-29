@@ -292,16 +292,13 @@ Namespace Math.Correlations
         ''' <summary>
         ''' Reduced Euclidean distance
         ''' </summary>
-        Public Function RDist(x As Span(Of Double), y As Span(Of Double)) As Double
-            Dim distSquared As Double = 0
-            Dim d As Double
-
-            For i As Integer = 0 To x.Length - 1
-                d = x(i) - y(i)
-                distSquared += d * d
-            Next
-
-            Return distSquared
+        ''' <remarks>
+        ''' SUM((x - y) ^ 2)
+        ''' </remarks>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function SquareDistance(x As Span(Of Double), y As Span(Of Double)) As Double
+            Return SIMD.Exponent.f64_op_exponent_f64_scalar(SIMD.Subtract.f64_op_subtract_f64(x.SpanView, y.SpanView), 2).Sum
         End Function
     End Module
 End Namespace
