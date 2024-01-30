@@ -253,9 +253,13 @@ Namespace ApplicationServices.Development.NetCoreApp
                     dllName = dllFileName.Description
                 End If
 
+                Dim dllfile As String
+
                 For Each libpath As String In New String() {App.HOME, libdir}
-                    If dllName.FileExists Then
-                        If Not LoadAssemblyOrCache(dllName, strict:=False) Is Nothing Then
+                    dllfile = $"{libpath}/{dllName}"
+
+                    If dllfile.FileExists Then
+                        If Not LoadAssemblyOrCache(dllfile, strict:=False) Is Nothing Then
                             ' load next dependency module
                             Continue For
                         End If
