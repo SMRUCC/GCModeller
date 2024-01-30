@@ -230,7 +230,11 @@ Namespace ApplicationServices.Development.NetCoreApp
                 .GetReferenceProject _
                 .Where(Function(pkg) pkg.Name <> moduleName) _
                 .ToArray
-            Dim dependencies = deps.LoadDependencies(package).ToDictionary(Function(d) d.Name)
+            Dim dependencies As Dictionary(Of String, NamedValue(Of runtime)) = deps _
+                .LoadDependencies(package) _
+                .ToDictionary(Function(d)
+                                  Return d.Name
+                              End Function)
 
             For Each project As NamedValue(Of String) In referenceList
                 Dim dllFileName As NamedValue(Of runtime) = GetDllFileAuto(dependencies, project)
