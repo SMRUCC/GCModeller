@@ -243,7 +243,7 @@ Namespace ApplicationServices.Development.NetCoreApp
                 Dim dllName As String
 
                 If dllFileName.Description.StringEmpty Then
-                    dllName = dllFileName.Name.Split("/"c).First & ".dll"
+                    dllName = Strings.Trim(project.Name).Split("/"c).First & ".dll"
 
                     ' not found in deps.json?
                     Call $"no dll runtime module was found: {project.Description}?".Warning
@@ -260,8 +260,9 @@ Namespace ApplicationServices.Development.NetCoreApp
 
                     If dllfile.FileExists Then
                         If Not LoadAssemblyOrCache(dllfile, strict:=False) Is Nothing Then
-                            ' load next dependency module
-                            Continue For
+                            ' exit current loop for load next
+                            ' project dependency module
+                            Exit For
                         End If
                     End If
                 Next
