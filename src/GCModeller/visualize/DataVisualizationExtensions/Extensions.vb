@@ -101,10 +101,10 @@ Public Module Extensions
         End If
 
         Dim rect As Rectangle
-        Dim location As Point
+        Dim location As PointF
         Dim g = dev
         Dim plot = Sub(category$, color As Brush)
-                       location = New Point(left + 110, top + d)
+                       location = New PointF(left + 110, top + d)
                        rect = New Rectangle With {
                            .Location = New Point(left, top),
                            .Size = New Size(100, legendHeight)

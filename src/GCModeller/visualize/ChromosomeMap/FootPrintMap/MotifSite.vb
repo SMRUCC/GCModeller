@@ -101,7 +101,7 @@ Namespace DrawingModels
             Dim infoLabel As String = __getLabel()
             Dim labelFont = New Font(FontFace.MicrosoftYaHei, 8)
             Dim size = g.MeasureString(infoLabel, LabelFont)
-            Dim loci As New Point With {
+            Dim loci As New PointF With {
                 .X = Location.X + (size.Width - WidthLength) / 2,
                 .Y = Location.Y - size.Height * 1.3
             }
