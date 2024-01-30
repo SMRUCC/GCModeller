@@ -115,7 +115,7 @@ Public Class Histogram : Inherits CurvesModel
         LinePen = New Pen(PlotBrush, 2)
 
         If ShowAverageLine Then  ' 绘制中间的平均线
-            Dim pos As New Point With {
+            Dim pos As New PointF With {
                 .X = location.X - YValueOffset,
                 .Y = Y_avg - "0".MeasureSize(g, tagFont).Height / 2
             }

@@ -94,21 +94,6 @@ Namespace SVG
         ''' </summary>
         Friend ReadOnly __svgData As SVGDataLayers
 
-        Public Sub New(size As Size, dpiX As Integer, dpiY As Integer)
-            Call MyBase.New(size, dpiX, dpiY)
-
-            Me.__svgData = New SVGDataLayers(size)
-        End Sub
-
-        Friend Sub New(svg As SVGDataLayers, dpiX As Integer, dpiY As Integer)
-            Call Me.New(svg.size, dpiX, dpiY)
-            Me.__svgData = svg
-        End Sub
-
-        Public Sub New(width%, height%, dpiX As Integer, dpiY As Integer)
-            Me.New(New Size(width, height), dpiX, dpiY)
-        End Sub
-
         Public Overrides ReadOnly Property Size As Size
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
@@ -116,6 +101,30 @@ Namespace SVG
             End Get
         End Property
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Sub New(size As SizeF, dpiX As Integer, dpiY As Integer)
+            Call Me.New(size.Width, size.Height, dpiX, dpiY)
+        End Sub
+
+        Public Sub New(size As Size, dpiX As Integer, dpiY As Integer)
+            Call MyBase.New(size, dpiX, dpiY)
+            __svgData = New SVGDataLayers(size)
+        End Sub
+
+        Friend Sub New(svg As SVGDataLayers, dpiX As Integer, dpiY As Integer)
+            Call Me.New(svg.size, dpiX, dpiY)
+            __svgData = svg
+        End Sub
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Sub New(width%, height%, dpiX As Integer, dpiY As Integer)
+            Call Me.New(New Size(width, height), dpiX, dpiY)
+        End Sub
+
+        ''' <summary>
+        ''' add comment to svg xml document
+        ''' </summary>
+        ''' <param name="data"></param>
         Public Overrides Sub AddMetafileComment(data() As Byte)
             Dim meta As String = data.ToBase64String
 
@@ -709,7 +718,7 @@ Namespace SVG
             Next
         End Sub
 
-        Public Overloads Sub DrawString(s As String, font As Font, brush As Brush, x!, y!, angle!)
+        Public Overloads Sub DrawString(s As String, font As Font, brush As Brush, ByRef x!, ByRef y!, angle!)
             ' 2019-04-18 似乎SVG的scale和gdi的scale有一些不一样
             ' 在这里存在一个位置偏移的bug
             ' 在这里尝试使用font size来修正
@@ -717,23 +726,31 @@ Namespace SVG
             Dim size As SizeF = gdi.MeasureString(s, font)
             Dim text As SvgText = __svgData.svg.AddText
 
+            x = x + FontFace.SVGPointSize(size.Width, Dpi) / 6
+            y = y + FontFace.SVGPointSize(size.Height, Dpi) / 1.5
+
             text.Text = s
-            text.X = x '- FontFace.SVGPointSize(size.Width, Dpi) / 8,
-            text.Y = y '+ FontFace.SVGPointSize(size.Height, Dpi) / 8,
+            text.X = x
+            text.Y = y
             text.Style = css.CSSValue
 
             If TypeOf brush Is SolidBrush Then
-                Dim color$ = "fill: " & DirectCast(brush, SolidBrush).Color.ToHtmlColor
-                text.style &= color
+                text.Style &= $"fill: {DirectCast(brush, SolidBrush).Color.ToHtmlColor};"
             End If
 
             If angle <> 0.0 Then
-                text.transform = $"rotate({angle} {x} {y})"
+                text.Style &= $"transform-origin: {x}px {y}px;"
+                text.Transform = $"rotate({angle})"
             End If
         End Sub
 
-        Public Overrides Sub DrawString(s As String, font As Font, brush As Brush, point As PointF)
-            Call DrawString(s, font, brush, point.X, point.Y, angle:=0)
+        Public Overrides Sub DrawString(s As String, font As Font, brush As Brush, ByRef point As PointF)
+            Dim x = point.X
+            Dim y = point.Y
+
+            Call DrawString(s, font, brush, x, y, angle:=0)
+
+            point = New PointF(x, y)
         End Sub
 
         Public Overrides Sub DrawString(s As String, font As Font, brush As Brush, layoutRectangle As RectangleF)

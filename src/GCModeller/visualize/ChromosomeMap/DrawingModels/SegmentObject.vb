@@ -150,7 +150,7 @@ Namespace DrawingModels
                 locusTagLocation += 0.5 * Math.Abs(Length - size.Width)
             End If
 
-            Dim locusTagPoint As New Point With {
+            Dim locusTagPoint As New PointF With {
                 .X = locusTagLocation,
                 .Y = location.Y - size.Height - LocusTagOffset
             }
@@ -170,7 +170,7 @@ Namespace DrawingModels
                 locusTagLocation += 0.5 * Math.Abs(Length - size.Width)
             End If
 
-            locusTagPoint = New Point With {
+            locusTagPoint = New PointF With {
                 .X = locusTagLocation,
                 .Y = locusTagPoint.Y + Height + 10 + size.Height + LocusTagOffset
             }
@@ -186,7 +186,7 @@ Namespace DrawingModels
             End If
 
             If showInfo Then
-                locusTagPoint = New Point With {
+                locusTagPoint = New PointF With {
                     .X = locusTagLocation,
                     .Y = location.Y + 5 + Height
                 }
