@@ -79,8 +79,14 @@ declare namespace geneExpression {
     * 
      * @param matrix a gene expression matrix
      * @param sampleinfo The sample group data
+     * 
+     * + default value Is ``null``.
+     * @return this function return value is determined based on the sampleinfo parameter:
+     *  
+     *  1. for sampleinfo not nothing, a matrix with sample group as the sample feature data will be returns
+     *  2. for missing sampleinfo data, a numeric vector of average value for each gene feature will be returns
    */
-   function average(matrix: object, sampleinfo: object): object;
+   function average(matrix: object, sampleinfo?: object): object|number;
    /**
     * get cluster membership matrix
     * 

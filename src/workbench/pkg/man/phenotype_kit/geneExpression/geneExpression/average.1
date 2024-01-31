@@ -4,7 +4,7 @@
 average \- calculate average value of the gene expression for
 .SH SYNOPSIS
 \fIaverage(\fBmatrix\fR as <generic> Matrix, 
-\fBsampleinfo\fR as <generic> SampleInfo[]);\fR
+\fBsampleinfo\fR as <generic> SampleInfo[] = \fB<NULL>\fR);\fR
 .SH DESCRIPTION
 .PP
 calculate average value of the gene expression for
@@ -20,6 +20,13 @@ calculate average value of the gene expression for
 .PP
 .PP
 \fBsampleinfo\fB \fR\- The sample group data. 
+.PP
+.SH VALUE
+.PP
+this function return value is determined based on the sampleinfo parameter:
+ 
+ 1. for sampleinfo not nothing, a matrix with sample group as the sample feature data will be returns
+ 2. for missing sampleinfo data, a numeric vector of average value for each gene feature will be returns
 .PP
 .SH SEE ALSO
 geneExpression

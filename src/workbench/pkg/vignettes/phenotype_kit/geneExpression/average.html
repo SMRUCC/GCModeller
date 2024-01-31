@@ -27,7 +27,8 @@
         <h3>Usage</h3>
 
         <div style="width: 100%; padding-left: 3%; color: black;">
-            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>average</strong>(<i>matrix</i>, <i>sampleinfo</i>);</code></pre>
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>average</strong>(<i>matrix</i>,
+    <i>sampleinfo</i> = <span style='color: blue !important;'>NULL</span>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
@@ -54,7 +55,12 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a></li></ul>
+        <p>this function return value is determined based on the sampleinfo parameter:</p>
+
+<ol>
+<li>for sampleinfo not nothing, a matrix with sample group as the sample feature data will be returns</li>
+<li>for missing sampleinfo data, a numeric vector of average value for each gene feature will be returns</li>
+</ol><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a></li><li>double</li></ul>
 
         <h3 style="display: none;">Examples</h3>
 
