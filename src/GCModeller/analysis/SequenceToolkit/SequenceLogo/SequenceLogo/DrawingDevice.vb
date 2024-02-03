@@ -276,7 +276,7 @@ For example, we identified a new domain, likely to have a role downstream of the
                         yHeight = (n * height) * (If(residue.Bits > maxBits, maxBits, residue.Bits) / maxBits)
 
                         Dim idx As String = CStr(residue.Position)
-                        Dim loci As New Point(X + size.Width / If(Math.Abs(residue.Position) < 10, 2, 5), Y)
+                        Dim loci As New PointF(X + size.Width / If(Math.Abs(residue.Position) < 10, 2, 5), Y)
 
                         size = g.MeasureString(idx, font)
                         g.DrawString(idx, font, Brushes.Black, loci)

@@ -738,10 +738,20 @@ Module geneExpression
     ''' </summary>
     ''' <param name="matrix">a gene expression matrix</param>
     ''' <param name="sampleinfo">The sample group data</param>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' this function return value is determined based on the sampleinfo parameter:
+    ''' 
+    ''' 1. for sampleinfo not nothing, a matrix with sample group as the sample feature data will be returns
+    ''' 2. for missing sampleinfo data, a numeric vector of average value for each gene feature will be returns
+    ''' </returns>
     <ExportAPI("average")>
-    Public Function average(matrix As Matrix, sampleinfo As SampleInfo()) As Matrix
-        Return Matrix.MatrixAverage(matrix, sampleinfo)
+    <RApiReturn(GetType(Matrix), GetType(Double))>
+    Public Function average(matrix As Matrix, Optional sampleinfo As SampleInfo() = Nothing) As Object
+        If sampleinfo.IsNullOrEmpty Then
+            Return matrix.expression.Select(Function(v) v.Average).ToArray
+        Else
+            Return Matrix.MatrixAverage(matrix, sampleinfo)
+        End If
     End Function
 
     ''' <summary>
