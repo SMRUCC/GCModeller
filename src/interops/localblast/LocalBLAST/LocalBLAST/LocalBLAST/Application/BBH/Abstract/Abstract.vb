@@ -42,10 +42,6 @@
 
 #End Region
 
-#If NET48 Then
-Imports System.Web.Script.Serialization
-#End If
-
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.Map(Of String, String)
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection

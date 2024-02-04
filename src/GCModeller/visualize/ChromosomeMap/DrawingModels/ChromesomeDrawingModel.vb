@@ -56,7 +56,6 @@
 Imports System.Drawing
 Imports System.Text
 Imports Microsoft.VisualBasic.Extensions
-Imports Oracle.Java.IO.Properties.Reflector
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 
 Namespace DrawingModels
