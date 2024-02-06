@@ -30,22 +30,22 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML.File
 export class NetworkMetadata extends <a href="/vignettes/clr/Microsoft/VisualBasic/MIME/application/rdf_xml/RDFEntity.html">RDFEntity</a> {
-   # 节点之间互作的类型
-   type: string;
-   description: string;
-   identifer: string;
+   about: string;
+   comment: <a href="/vignettes/clr/Microsoft/VisualBasic/MIME/application/rdf_xml/RDFProperty.html">RDFProperty[]</a>;
+   dataType: string;
    date: string;
+   description: string;
+   format: string;
+   identifer: string;
+   Properties: list;
+   range: <a href="/vignettes/clr/Microsoft/VisualBasic/MIME/application/rdf_xml/RDFProperty.html">RDFProperty</a>;
+   RDFId: string;
+   resource: string;
+   source: string;
    # 网络模型的名称
    title: string;
-   source: string;
-   format: string;
-   range: <a href="/vignettes/clr/Microsoft/VisualBasic/MIME/application/rdf_xml/RDFProperty.html">RDFProperty</a>;
-   comment: <a href="/vignettes/clr/Microsoft/VisualBasic/MIME/application/rdf_xml/RDFProperty.html">RDFProperty[]</a>;
-   RDFId: string;
-   about: string;
-   Properties: list;
-   dataType: string;
-   resource: string;
+   # 节点之间互作的类型
+   type: string;
    value: string;
 }
 </code>
@@ -55,9 +55,9 @@ export class NetworkMetadata extends <a href="/vignettes/clr/Microsoft/VisualBas
 
         <ol>
 <li>this class extends from <a href="/vignettes/clr/Microsoft/VisualBasic/MIME/application/rdf_xml/RDFEntity.html">RDFEntity</a> class: <a href="/vignettes/clr/Microsoft/VisualBasic/MIME/application/rdf_xml/RDFEntity.html">RDFEntity</a></li>
-<li>use by <i>property</i> member <code>range</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/MIME/application/rdf_xml/RDFProperty.html">RDFProperty</a></li>
 <li>use by <i>property</i> member <code>comment</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/MIME/application/rdf_xml/RDFProperty.html">RDFProperty</a></li>
 <li>use by <i>property</i> member <code>Properties</code>: list</li>
+<li>use by <i>property</i> member <code>range</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/MIME/application/rdf_xml/RDFProperty.html">RDFProperty</a></li>
 </ol>
 
 

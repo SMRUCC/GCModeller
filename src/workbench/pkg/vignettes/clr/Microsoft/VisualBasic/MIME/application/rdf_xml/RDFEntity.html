@@ -32,17 +32,17 @@
             <code id="clr_ts">
 # namespace Microsoft.VisualBasic.MIME.application.rdf_xml
 export class RDFEntity extends <a href="/vignettes/clr/Microsoft/VisualBasic/MIME/application/rdf_xml/RDFProperty.html">RDFProperty</a> {
-   range: <a href="/vignettes/clr/Microsoft/VisualBasic/MIME/application/rdf_xml/RDFProperty.html">RDFProperty</a>;
-   comment: <a href="/vignettes/clr/Microsoft/VisualBasic/MIME/application/rdf_xml/RDFProperty.html">RDFProperty[]</a>;
-   # rdf:ID
-   RDFId: string;
    # [资源] 是可拥有 URI 的任何事物
    about: string;
+   comment: <a href="/vignettes/clr/Microsoft/VisualBasic/MIME/application/rdf_xml/RDFProperty.html">RDFProperty[]</a>;
+   dataType: string;
    # [属性]   是拥有名称的资源
    #  [属性值] 是某个属性的值，(请注意一个属性值可以是另外一个<a href="/vignettes/clr/Microsoft/VisualBasic/MIME/application/rdf_xml/EntityProperty.html">EntityProperty</a>.<a href="#">resource</a>）
    #  xml文档在rdf反序列化之后，原有的类型定义之中除了自有的属性被保留下来了之外，具备指向其他资源的属性都被保存在了这个属性字典之中
    Properties: list;
-   dataType: string;
+   range: <a href="/vignettes/clr/Microsoft/VisualBasic/MIME/application/rdf_xml/RDFProperty.html">RDFProperty</a>;
+   # rdf:ID
+   RDFId: string;
    resource: string;
    value: string;
 }
@@ -53,9 +53,9 @@ export class RDFEntity extends <a href="/vignettes/clr/Microsoft/VisualBasic/MIM
 
         <ol>
 <li>this class extends from <a href="/vignettes/clr/Microsoft/VisualBasic/MIME/application/rdf_xml/RDFProperty.html">RDFProperty</a> class: <a href="/vignettes/clr/Microsoft/VisualBasic/MIME/application/rdf_xml/RDFProperty.html">RDFProperty</a></li>
-<li>use by <i>property</i> member <code>range</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/MIME/application/rdf_xml/RDFProperty.html">RDFProperty</a></li>
 <li>use by <i>property</i> member <code>comment</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/MIME/application/rdf_xml/RDFProperty.html">RDFProperty</a></li>
 <li>use by <i>property</i> member <code>Properties</code>: list</li>
+<li>use by <i>property</i> member <code>range</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/MIME/application/rdf_xml/RDFProperty.html">RDFProperty</a></li>
 </ol>
 
 

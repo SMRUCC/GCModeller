@@ -30,6 +30,22 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Visualize.ChromosomeMap.Configuration
 export class Config {
+   AddLegend: string;
+   AspectRatio: string;
+   DefaultRNAColor: string;
+   DeletionMutation: string;
+   FLAG_HEIGHT: string;
+   FlagLength: integer;
+   FunctionAlignment: string;
+   FunctionAnnotationFont: string;
+   GeneObjectHeight: integer;
+   IntegrationMutant: string;
+   LegendFont: string;
+   LineHeight: string;
+   LineLength: double;
+   LocusTagFont: string;
+   Margin: integer;
+   NoneCogColor: string;
    # Due to the GDI+ limitations in the .NET Framework, the image size is limited by your computer memory size, if you want to
    #  drawing a very large size image, please running this script on a 64bit platform operating system, or you will get a 
    #  exception about the GDI+ error: parameter is not valid and then you should try a smaller resolution of the drawing output image.
@@ -39,26 +55,10 @@ export class Config {
    #  Both specific the size property: 12000,8000
    #  Which means the drawing script will generate a image file in resolution of width is value 12000 pixels and image height is 8000 pixels.
    Resolution: string;
-   AspectRatio: string;
-   GeneObjectHeight: integer;
-   LineLength: double;
-   LineHeight: string;
-   Margin: integer;
-   FlagLength: integer;
-   FLAG_HEIGHT: string;
-   FunctionAlignment: string;
-   LocusTagFont: string;
-   FunctionAnnotationFont: string;
-   SecondaryRuleFont: string;
-   LegendFont: string;
-   DeletionMutation: string;
-   IntegrationMutant: string;
-   tRNAColor: string;
-   DefaultRNAColor: string;
    ribosomalRNAColor: string;
-   NoneCogColor: string;
    SavedFormat: string;
-   AddLegend: string;
+   SecondaryRuleFont: string;
+   tRNAColor: string;
 }
 </code>
         </pre>

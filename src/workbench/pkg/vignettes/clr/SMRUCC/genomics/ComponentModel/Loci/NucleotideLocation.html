@@ -31,6 +31,24 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.ComponentModel.Loci
 export class NucleotideLocation extends <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/Location.html">Location</a> {
+   Center: integer;
+   # <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/NucleotideLocation.html">NucleotideLocation</a>: 实际的物理上面的位置，与核酸链的方向相关，
+   #  (假若需要使用原始的位置数据，则请使用<a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/Location.html">Location</a>.<a href="#">left</a>或者<a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/Location.html">Location</a>.<a href="#">right</a>属性，
+   #  这两个属性值是和具体的链的方向无关的)
+   Ends: integer;
+   FragmentSize: integer;
+   Interval: integer;
+   IsNormalized: boolean;
+   # 当任意一个断点为0的时候就无效
+   IsValid: boolean;
+   left: integer;
+   Max: integer;
+   Min: integer;
+   right: integer;
+   # <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/NucleotideLocation.html">NucleotideLocation</a>: 实际的物理上面的位置，与核酸链的方向相关，
+   #  (假若需要使用原始的位置数据，则请使用<a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/Location.html">Location</a>.<a href="#">left</a>或者<a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/Location.html">Location</a>.<a href="#">right</a>属性，
+   #  这两个属性值是和具体的链的方向无关的)
+   Start: integer;
    # 这个位点在哪一条DNA核酸链
    # 
    # 
@@ -40,27 +58,9 @@ export class NucleotideLocation extends <a href="/vignettes/clr/SMRUCC/genomics/
    # Unknown =  0
    # </code></pre>
    Strand: <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/Strands.html">Strands</a>;
+   Tag: <a href="/vignettes/clr/Microsoft/VisualBasic/My/JavaScript/JavaScriptObject.html">JavaScriptObject</a>;
    # 用户对这个位点的自定义标注信息
    tagStr: string;
-   # <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/NucleotideLocation.html">NucleotideLocation</a>: 实际的物理上面的位置，与核酸链的方向相关，
-   #  (假若需要使用原始的位置数据，则请使用<a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/Location.html">Location</a>.<a href="#">left</a>或者<a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/Location.html">Location</a>.<a href="#">right</a>属性，
-   #  这两个属性值是和具体的链的方向无关的)
-   Start: integer;
-   # <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/NucleotideLocation.html">NucleotideLocation</a>: 实际的物理上面的位置，与核酸链的方向相关，
-   #  (假若需要使用原始的位置数据，则请使用<a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/Location.html">Location</a>.<a href="#">left</a>或者<a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/Location.html">Location</a>.<a href="#">right</a>属性，
-   #  这两个属性值是和具体的链的方向无关的)
-   Ends: integer;
-   # 当任意一个断点为0的时候就无效
-   IsValid: boolean;
-   left: integer;
-   right: integer;
-   Tag: <a href="/vignettes/clr/Microsoft/VisualBasic/My/JavaScript/JavaScriptObject.html">JavaScriptObject</a>;
-   IsNormalized: boolean;
-   Center: integer;
-   FragmentSize: integer;
-   Min: integer;
-   Max: integer;
-   Interval: integer;
 }
 </code>
         </pre>

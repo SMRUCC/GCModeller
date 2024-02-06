@@ -30,20 +30,20 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Assembly.KEGG.WebServices
 export class MapIndex extends <a href="/vignettes/clr/SMRUCC/genomics/Assembly/KEGG/WebServices/XML/Map.html">Map</a> {
-   KeyVector: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/TermsVector.html">TermsVector</a>;
+   briteID: string;
+   compoundIndex: <a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/Collection/Index`1.html">Index`1</a>;
+   description: string;
+   EntryId: string;
    # KO, compoundID, reactionID, etc.
    index: <a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/Collection/Index`1.html">Index`1</a>;
+   KeyVector: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/TermsVector.html">TermsVector</a>;
    KOIndex: <a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/Collection/Index`1.html">Index`1</a>;
-   compoundIndex: <a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/Collection/Index`1.html">Index`1</a>;
-   URL: string;
-   shapes: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/KEGG/WebServices/XML/MapData.html">MapData</a>;
-   PathwayImage: string;
-   EntryId: string;
    name: string;
-   description: string;
-   briteID: string;
+   PathwayImage: string;
+   shapes: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/KEGG/WebServices/XML/MapData.html">MapData</a>;
    Stylesheet: <a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/XmlStyleProcessor.html">XmlStyleProcessor</a>;
    TypeComment: <a href="/vignettes/clr/System/Xml/XmlComment.html">XmlComment</a>;
+   URL: string;
 }
 </code>
         </pre>
@@ -52,10 +52,10 @@ export class MapIndex extends <a href="/vignettes/clr/SMRUCC/genomics/Assembly/K
 
         <ol>
 <li>this class extends from <a href="/vignettes/clr/SMRUCC/genomics/Assembly/KEGG/WebServices/XML/Map.html">Map</a> class: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/KEGG/WebServices/XML/Map.html">Map</a></li>
-<li>use by <i>property</i> member <code>KeyVector</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/TermsVector.html">TermsVector</a></li>
-<li>use by <i>property</i> member <code>index</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/Collection/Index`1.html">Index`1</a></li>
-<li>use by <i>property</i> member <code>KOIndex</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/Collection/Index`1.html">Index`1</a></li>
 <li>use by <i>property</i> member <code>compoundIndex</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/Collection/Index`1.html">Index`1</a></li>
+<li>use by <i>property</i> member <code>index</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/Collection/Index`1.html">Index`1</a></li>
+<li>use by <i>property</i> member <code>KeyVector</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/TermsVector.html">TermsVector</a></li>
+<li>use by <i>property</i> member <code>KOIndex</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/Collection/Index`1.html">Index`1</a></li>
 <li>use by <i>property</i> member <code>shapes</code>: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/KEGG/WebServices/XML/MapData.html">MapData</a></li>
 <li>use by <i>property</i> member <code>Stylesheet</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/XmlStyleProcessor.html">XmlStyleProcessor</a></li>
 <li>use by <i>property</i> member <code>TypeComment</code>: <a href="/vignettes/clr/System/Xml/XmlComment.html">XmlComment</a></li>

@@ -30,19 +30,19 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels
 export class Experiment {
+   DisturbType: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SSystem/Kernel/ObjectModels/Types.html">Types</a>;
    # The name Id of the target.
    #  (目标的名称)
    Id: string;
-   # The start time of this disturb.
-   #  (这个干扰动作的开始时间)
-   Start: double;
    # The interval ticks between each kick.
    #  (每次干扰动作执行的时间间隔)
    Interval: double;
    # The counts of the kicks.
    #  (执行的次数)
    Kicks: integer;
-   DisturbType: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SSystem/Kernel/ObjectModels/Types.html">Types</a>;
+   # The start time of this disturb.
+   #  (这个干扰动作的开始时间)
+   Start: double;
    Value: double;
 }
 </code>

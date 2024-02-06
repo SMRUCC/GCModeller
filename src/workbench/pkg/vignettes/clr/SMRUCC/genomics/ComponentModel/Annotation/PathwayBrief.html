@@ -30,14 +30,14 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.ComponentModel.Annotation
 export class PathwayBrief extends <a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/XmlDataModel.html">XmlDataModel</a> {
+   # 和具体的物种的编号无关的在KEGG数据库之中的参考对象的编号
+   briteID: string;
+   # the function description text of the current pathway object
+   description: string;
    # the reference id of the current pathway object
    EntryId: string;
    # The map title display name
    name: string;
-   # the function description text of the current pathway object
-   description: string;
-   # 和具体的物种的编号无关的在KEGG数据库之中的参考对象的编号
-   briteID: string;
    Stylesheet: <a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/XmlStyleProcessor.html">XmlStyleProcessor</a>;
    TypeComment: <a href="/vignettes/clr/System/Xml/XmlComment.html">XmlComment</a>;
 }

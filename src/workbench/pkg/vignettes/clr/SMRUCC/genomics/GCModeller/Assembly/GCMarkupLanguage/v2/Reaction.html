@@ -30,13 +30,13 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
 export class Reaction {
-   ID: string;
-   name: string;
-   # 这个反应模型是否是需要酶促才会发生了生化反应过程？
-   is_enzymatic: boolean;
    # [forward, reverse]
    bounds: double;
    Equation: string;
+   ID: string;
+   # 这个反应模型是否是需要酶促才会发生了生化反应过程？
+   is_enzymatic: boolean;
+   name: string;
 }
 </code>
         </pre>

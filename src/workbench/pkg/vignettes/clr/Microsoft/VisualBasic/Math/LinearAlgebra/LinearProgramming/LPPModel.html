@@ -30,19 +30,19 @@
             <code id="clr_ts">
 # namespace Microsoft.VisualBasic.Math.LinearAlgebra.LinearProgramming
 export class LPPModel extends <a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/XmlDataModel.html">XmlDataModel</a> {
-   objectiveFunctionType: string;
-   variables: <a href="/vignettes/clr/Microsoft/VisualBasic/Math/LinearAlgebra/LinearProgramming/LppVariable.html">LppVariable[]</a>;
    # base64 string represented matrix
    constraintCoefficients: <a href="/vignettes/clr/Microsoft/VisualBasic/Math/LinearAlgebra/LinearProgramming/LppEquation.html">LppEquation[]</a>;
-   objectiveFunctionValue: double;
+   constraintRightHandSides: double;
+   constraintTypes: string;
    # the model name
    name: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/NamedValue.html">NamedValue</a>;
    objectiveFunctionCoefficients: double;
-   variableNames: string;
-   constraintRightHandSides: double;
-   constraintTypes: string;
+   objectiveFunctionType: string;
+   objectiveFunctionValue: double;
    Stylesheet: <a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/XmlStyleProcessor.html">XmlStyleProcessor</a>;
    TypeComment: <a href="/vignettes/clr/System/Xml/XmlComment.html">XmlComment</a>;
+   variableNames: string;
+   variables: <a href="/vignettes/clr/Microsoft/VisualBasic/Math/LinearAlgebra/LinearProgramming/LppVariable.html">LppVariable[]</a>;
 }
 </code>
         </pre>
@@ -51,11 +51,11 @@ export class LPPModel extends <a href="/vignettes/clr/Microsoft/VisualBasic/Comp
 
         <ol>
 <li>this class extends from <a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/XmlDataModel.html">XmlDataModel</a> class: <a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/XmlDataModel.html">XmlDataModel</a></li>
-<li>use by <i>property</i> member <code>variables</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Math/LinearAlgebra/LinearProgramming/LppVariable.html">LppVariable</a></li>
 <li>use by <i>property</i> member <code>constraintCoefficients</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Math/LinearAlgebra/LinearProgramming/LppEquation.html">LppEquation</a></li>
 <li>use by <i>property</i> member <code>name</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/NamedValue.html">NamedValue</a></li>
 <li>use by <i>property</i> member <code>Stylesheet</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/XmlStyleProcessor.html">XmlStyleProcessor</a></li>
 <li>use by <i>property</i> member <code>TypeComment</code>: <a href="/vignettes/clr/System/Xml/XmlComment.html">XmlComment</a></li>
+<li>use by <i>property</i> member <code>variables</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Math/LinearAlgebra/LinearProgramming/LppVariable.html">LppVariable</a></li>
 </ol>
 
 

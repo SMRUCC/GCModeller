@@ -30,19 +30,19 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
 export class SequenceMotif extends <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/SequencePatterns/Probability.html">Probability</a> {
-   seeds: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/MSA/MSAOutput.html">MSAOutput</a>;
    # the alignment score vector of current motif PWM with the source seeds
    alignments: double;
-   RSD: double;
-   # the length of the MSA alignment
-   width: integer;
    # score / motif with
    AverageScore: double;
+   pvalue: double;
+   region: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/SequencePatterns/Residue.html">Residue[]</a>;
+   RSD: double;
+   score: double;
+   seeds: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/MSA/MSAOutput.html">MSAOutput</a>;
    # get number of the conserved sites
    SignificantSites: integer;
-   region: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/SequencePatterns/Residue.html">Residue[]</a>;
-   pvalue: double;
-   score: double;
+   # the length of the MSA alignment
+   width: integer;
 }
 </code>
         </pre>
@@ -51,8 +51,8 @@ export class SequenceMotif extends <a href="/vignettes/clr/SMRUCC/genomics/Analy
 
         <ol>
 <li>this class extends from <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/SequencePatterns/Probability.html">Probability</a> class: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/SequencePatterns/Probability.html">Probability</a></li>
-<li>use by <i>property</i> member <code>seeds</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/MSA/MSAOutput.html">MSAOutput</a></li>
 <li>use by <i>property</i> member <code>region</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/SequencePatterns/Residue.html">Residue</a></li>
+<li>use by <i>property</i> member <code>seeds</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/MSA/MSAOutput.html">MSAOutput</a></li>
 </ol>
 
 

@@ -33,13 +33,13 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Analysis.HTS.GSEA
 export class Background extends <a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/XmlDataModel.html">XmlDataModel</a> {
+   build: <a href="/vignettes/clr/System/DateTime.html">DateTime</a>;
    # a collection of the functional related genesets.
    clusters: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/Cluster.html">Cluster[]</a>;
-   name: string;
+   comments: string;
    # A brief unique id code. Such as kegg organism code or ncbi taxonomy id.
    id: string;
-   comments: string;
-   build: <a href="/vignettes/clr/System/DateTime.html">DateTime</a>;
+   name: string;
    # The number of genes in this background genome.
    size: integer;
    Stylesheet: <a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/XmlStyleProcessor.html">XmlStyleProcessor</a>;
@@ -52,8 +52,8 @@ export class Background extends <a href="/vignettes/clr/Microsoft/VisualBasic/Co
 
         <ol>
 <li>this class extends from <a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/XmlDataModel.html">XmlDataModel</a> class: <a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/XmlDataModel.html">XmlDataModel</a></li>
-<li>use by <i>property</i> member <code>clusters</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/Cluster.html">Cluster</a></li>
 <li>use by <i>property</i> member <code>build</code>: <a href="/vignettes/clr/System/DateTime.html">DateTime</a></li>
+<li>use by <i>property</i> member <code>clusters</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/Cluster.html">Cluster</a></li>
 <li>use by <i>property</i> member <code>Stylesheet</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/XmlStyleProcessor.html">XmlStyleProcessor</a></li>
 <li>use by <i>property</i> member <code>TypeComment</code>: <a href="/vignettes/clr/System/Xml/XmlComment.html">XmlComment</a></li>
 </ol>

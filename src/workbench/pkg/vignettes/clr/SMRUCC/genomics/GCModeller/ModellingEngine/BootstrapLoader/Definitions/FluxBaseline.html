@@ -30,19 +30,19 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Definitions
 export class FluxBaseline {
+   productInhibitionFactor: double;
+   proteinMatureBaseline: double;
+   proteinMatureCapacity: double;
+   ribosomeAssemblyBaseline: double;
+   ribosomeAssemblyCapacity: double;
+   ribosomeDisassemblyBaseline: double;
+   ribosomeDisassemblyCapacity: double;
    transcriptionBaseline: double;
    transcriptionCapacity: double;
    # 对于翻译过程，因为需要有核糖体来介导，所以就不设置最低下限了
    translationCapacity: double;
-   proteinMatureBaseline: double;
-   proteinMatureCapacity: double;
-   productInhibitionFactor: double;
    tRNAChargeBaseline: double;
    tRNAChargeCapacity: double;
-   ribosomeAssemblyBaseline: double;
-   ribosomeDisassemblyBaseline: double;
-   ribosomeAssemblyCapacity: double;
-   ribosomeDisassemblyCapacity: double;
 }
 </code>
         </pre>
