@@ -30,20 +30,20 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative
 export class PartitioningData {
-   # 当前的功能分区的标签信息
-   PartitioningTag: string;
+   GC: double;
+   GenomeID: string;
+   Headers: string;
+   Length: integer;
    # 分区的起始位置
    LociLeft: integer;
    # 分区的结束位置
    LociRight: integer;
    ORFList: string;
-   GenomeID: string;
-   Length: integer;
-   GC: double;
-   Title: string;
+   # 当前的功能分区的标签信息
+   PartitioningTag: string;
    # 当前的基因组分区之中的基因序列
    SequenceData: string;
-   Headers: string;
+   Title: string;
 }
 </code>
         </pre>

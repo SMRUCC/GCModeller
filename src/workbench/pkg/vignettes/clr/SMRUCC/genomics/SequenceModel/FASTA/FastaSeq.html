@@ -38,15 +38,15 @@ export class FastaSeq extends <a href="/vignettes/clr/SMRUCC/genomics/SequenceMo
    #  specific loader and gets some well organized information about the sequence. The format of the header is 
    #  usually different between each biological database.(这个FASTA文件的属性头，标题的格式通常在不同的数据库之间是具有很大差异的)
    Headers: string;
+   IsProtSource: boolean;
+   # Get the sequence length of this Fasta object.(获取序列的长度)
+   Length: integer;
+   locus_tag: string;
    # The sequence data that contains in this FASTA file.
    #  (包含在这个FASTA文件之中的序列数据)
    SequenceData: string;
-   # Get the sequence length of this Fasta object.(获取序列的长度)
-   Length: integer;
    # The first character ">" is not included in the title string data.(标题之中是不包含有FASTA数据的第一个>字符的)
    Title: string;
-   locus_tag: string;
-   IsProtSource: boolean;
 }
 </code>
         </pre>

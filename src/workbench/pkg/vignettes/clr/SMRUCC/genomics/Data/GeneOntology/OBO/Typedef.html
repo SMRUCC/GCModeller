@@ -30,42 +30,42 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Data.GeneOntology.OBO
 export class Typedef extends <a href="/vignettes/clr/SMRUCC/genomics/Data/GeneOntology/OBO/base.html">base</a> {
-   # !通常是有一定含义的字符串， 而不是数字
-   is_anonymous: string;
    alt_id: string;
-   def: string;
    comment: string;
-   subset: string;
-   synonym: string;
-   xref: string;
+   consider: string;
+   def: string;
    # !该关系仅对domain指定术语的亚类起作用
    domain: string;
-   # !任何具有这个关系的术语都属于range指定术语的亚类
-   range: string;
+   holds_over_chain: string;
+   id: string;
+   # !和另一关系相反。适用于原关系的两个术语，可以反方向适用另一关系。
+   inverse_of: string;
+   is_a: string;
+   # !通常是有一定含义的字符串， 而不是数字
+   is_anonymous: string;
    is_anti_symmetric: string;
+   is_class_level: string;
    # !可否构建循环作用
    is_cyclic: string;
+   is_metadata_tag: string;
+   is_obsolete: string;
    # !是否自反
    is_reflexive: string;
    # !是否对称
    is_symmetric: string;
    # !传递关系？
    is_transitive: string;
-   is_a: string;
-   # !和另一关系相反。适用于原关系的两个术语，可以反方向适用另一关系。
-   inverse_of: string;
-   # !将关系传递给下一个
-   transitive_over: string;
-   relationship: string;
-   is_obsolete: string;
-   replaced_by: string;
-   consider: string;
-   is_metadata_tag: string;
-   is_class_level: string;
-   holds_over_chain: string;
-   id: string;
    name: string;
    namespace: string;
+   # !任何具有这个关系的术语都属于range指定术语的亚类
+   range: string;
+   relationship: string;
+   replaced_by: string;
+   subset: string;
+   synonym: string;
+   # !将关系传递给下一个
+   transitive_over: string;
+   xref: string;
 }
 </code>
         </pre>

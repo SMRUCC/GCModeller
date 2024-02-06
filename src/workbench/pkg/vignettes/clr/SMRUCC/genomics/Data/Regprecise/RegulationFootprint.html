@@ -30,33 +30,33 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Data.Regprecise
 export class RegulationFootprint {
-   # 预测出来的基因组之中的调控因子的基因编号
-   regulator: string;
-   family: string;
-   # 预测出来的被调控的基因
-   regulated: string;
-   # motif位点的基因组坐标位置
-   motif: <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/NucleotideLocation.html">NucleotideLocation</a>;
-   # 这个位置上的序列片段数据
-   sequenceData: string;
+   biological_process: string;
    # motif位点到被调控的基因之间的最短距离
    distance: integer;
-   # 这个位点所属的复制子的编号，这个属性是为了将基因组的染色体DNA和质粒DNA区分开
-   replicon: string;
-   # 受调控的基因的功能
-   product: string;
-   regulog: string;
-   biological_process: string;
    effector: string;
-   mode: string;
-   # 来自于RegPrecise数据库之中的调控因子注释来源
-   regprecise: string;
+   family: string;
    # 相似度
    identities: double;
-   # 注释来源的基因组名称
-   species: string;
+   mode: string;
+   # motif位点的基因组坐标位置
+   motif: <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/NucleotideLocation.html">NucleotideLocation</a>;
+   # 受调控的基因的功能
+   product: string;
+   # 来自于RegPrecise数据库之中的调控因子注释来源
+   regprecise: string;
+   # 预测出来的被调控的基因
+   regulated: string;
+   # 预测出来的基因组之中的调控因子的基因编号
+   regulator: string;
+   regulog: string;
+   # 这个位点所属的复制子的编号，这个属性是为了将基因组的染色体DNA和质粒DNA区分开
+   replicon: string;
+   # 这个位置上的序列片段数据
+   sequenceData: string;
    # motif位点的预测来源
    site: string;
+   # 注释来源的基因组名称
+   species: string;
 }
 </code>
         </pre>

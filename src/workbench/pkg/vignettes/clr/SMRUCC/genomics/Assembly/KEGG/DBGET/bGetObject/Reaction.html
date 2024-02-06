@@ -30,22 +30,22 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 export class Reaction extends <a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/XmlDataModel.html">XmlDataModel</a> {
-   # 代谢反应的KEGG编号，格式为<code>R\d+</code>，同时这个属性也是<a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/DataSourceModel/Repository/IKeyedEntity`1.html">IKeyedEntity`1</a>.<a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/DataSourceModel/Repository/TKeyType.html">Key</a>
-   ID: string;
+   # The reaction class
+   Class: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/NamedValue.html">NamedValue[]</a>;
+   Comments: string;
    CommonNames: string;
+   DBLink: <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/DBLinkBuilder/DBLink.html">DBLink[]</a>;
    Definition: string;
-   # 使用KEGG compound编号作为代谢物的反应过程的表达式
-   Equation: string;
    # 标号： <a href="/vignettes/clr/SMRUCC/genomics/Assembly/Expasy/Database/Enzyme.html">Enzyme</a>.<a href="#">Identification</a>
    Enzyme: string;
-   Comments: string;
-   Pathway: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/NamedValue.html">NamedValue[]</a>;
+   # 使用KEGG compound编号作为代谢物的反应过程的表达式
+   Equation: string;
+   # 代谢反应的KEGG编号，格式为<code>R\d+</code>，同时这个属性也是<a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/DataSourceModel/Repository/IKeyedEntity`1.html">IKeyedEntity`1</a>.<a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/DataSourceModel/Repository/TKeyType.html">Key</a>
+   ID: string;
    Module: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/NamedValue.html">NamedValue[]</a>;
    # KO list
    Orthology: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/KEGG/DBGET/bGetObject/OrthologyTerms.html">OrthologyTerms</a>;
-   # The reaction class
-   Class: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/NamedValue.html">NamedValue[]</a>;
-   DBLink: <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/DBLinkBuilder/DBLink.html">DBLink[]</a>;
+   Pathway: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/NamedValue.html">NamedValue[]</a>;
    # 从<a href="/vignettes/clr/SMRUCC/genomics/Assembly/KEGG/DBGET/bGetObject/Reaction.html">Reaction</a>.<a href="#">Equation</a>属性值字符串创建一个代谢过程的模型
    ReactionModel: <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/EquaionModel/DefaultTypes/Equation.html">Equation</a>;
    # 这个反应过程是否是可逆的代谢反应？
@@ -60,11 +60,11 @@ export class Reaction extends <a href="/vignettes/clr/Microsoft/VisualBasic/Comp
 
         <ol>
 <li>this class extends from <a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/XmlDataModel.html">XmlDataModel</a> class: <a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/XmlDataModel.html">XmlDataModel</a></li>
-<li>use by <i>property</i> member <code>Pathway</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/NamedValue.html">NamedValue</a></li>
-<li>use by <i>property</i> member <code>Module</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/NamedValue.html">NamedValue</a></li>
-<li>use by <i>property</i> member <code>Orthology</code>: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/KEGG/DBGET/bGetObject/OrthologyTerms.html">OrthologyTerms</a></li>
 <li>use by <i>property</i> member <code>Class</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/NamedValue.html">NamedValue</a></li>
 <li>use by <i>property</i> member <code>DBLink</code>: <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/DBLinkBuilder/DBLink.html">DBLink</a></li>
+<li>use by <i>property</i> member <code>Module</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/NamedValue.html">NamedValue</a></li>
+<li>use by <i>property</i> member <code>Orthology</code>: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/KEGG/DBGET/bGetObject/OrthologyTerms.html">OrthologyTerms</a></li>
+<li>use by <i>property</i> member <code>Pathway</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/NamedValue.html">NamedValue</a></li>
 <li>use by <i>property</i> member <code>ReactionModel</code>: <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/EquaionModel/DefaultTypes/Equation.html">Equation</a></li>
 <li>use by <i>property</i> member <code>Stylesheet</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/XmlStyleProcessor.html">XmlStyleProcessor</a></li>
 <li>use by <i>property</i> member <code>TypeComment</code>: <a href="/vignettes/clr/System/Xml/XmlComment.html">XmlComment</a></li>

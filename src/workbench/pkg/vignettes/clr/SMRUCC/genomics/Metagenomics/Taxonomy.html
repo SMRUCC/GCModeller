@@ -30,28 +30,28 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Metagenomics
 export class Taxonomy {
-   ncbi_taxid: string;
-   scientificName: string;
-   # <ol>
-   # <li>界</li>
-   # </ol>
-   kingdom: string;
-   # <ol start="2">
-   # <li>门</li>
-   # </ol>
-   phylum: string;
    # 3A. 纲
    class: string;
-   # 4B. 目
-   order: string;
    # 5C. 科
    family: string;
    # 6D. 属
    genus: string;
-   # 7E. 种
-   species: string;
+   # <ol>
+   # <li>界</li>
+   # </ol>
+   kingdom: string;
    # 获取当前的这个分类结果值的最小分类单元的等级
    lowestLevel: <a href="/vignettes/clr/SMRUCC/genomics/Metagenomics/TaxonomyRanks.html">TaxonomyRanks</a>;
+   ncbi_taxid: string;
+   # 4B. 目
+   order: string;
+   # <ol start="2">
+   # <li>门</li>
+   # </ol>
+   phylum: string;
+   scientificName: string;
+   # 7E. 种
+   species: string;
 }
 </code>
         </pre>

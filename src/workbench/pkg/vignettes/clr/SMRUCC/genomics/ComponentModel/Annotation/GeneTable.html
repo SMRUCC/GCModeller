@@ -31,37 +31,37 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.ComponentModel.Annotation
 export class GeneTable {
-   # 假若在GBK文件之中没有Locus_tag属性，则导出函数@<code>M:SMRUCC.genomics.Assembly.NCBI.GenBank.gbExportService.DumpEXPORT(SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES.CDS)</code>会尝试使用<a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Annotation/GeneTable.html">GeneTable</a>.<a href="#">ProteinId</a>来替代
-   locus_id: string;
-   geneName: string;
+   # 基因序列
+   CDS: string;
+   # The COG feature
+   COG: string;
    commonName: string;
-   left: integer;
-   right: integer;
-   strand: string;
+   EC_Number: string;
    # The gene product function description
    function: string;
-   UniprotSwissProt: string;
-   UniprotTrEMBL: string;
-   ProteinId: string;
+   GC_Content: double;
+   geneName: string;
    GI: string;
    # The Go term id list of current protein object
    GO: string;
    InterPro: string;
    # The KEGG Ortholog feature
    KO: string;
-   species: string;
-   GC_Content: double;
-   # 基因序列
-   CDS: string;
-   # 该蛋白质所位于的基因组的在NCBI之中的编号信息
-   SpeciesAccessionID: string;
-   Translation: string;
-   Transl_table: string;
-   # The COG feature
-   COG: string;
+   left: integer;
    length: integer;
    Location: <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/NucleotideLocation.html">NucleotideLocation</a>;
-   EC_Number: string;
+   # 假若在GBK文件之中没有Locus_tag属性，则导出函数@<code>M:SMRUCC.genomics.Assembly.NCBI.GenBank.gbExportService.DumpEXPORT(SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES.CDS)</code>会尝试使用<a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Annotation/GeneTable.html">GeneTable</a>.<a href="#">ProteinId</a>来替代
+   locus_id: string;
+   ProteinId: string;
+   right: integer;
+   species: string;
+   # 该蛋白质所位于的基因组的在NCBI之中的编号信息
+   SpeciesAccessionID: string;
+   strand: string;
+   Transl_table: string;
+   Translation: string;
+   UniprotSwissProt: string;
+   UniprotTrEMBL: string;
 }
 </code>
         </pre>

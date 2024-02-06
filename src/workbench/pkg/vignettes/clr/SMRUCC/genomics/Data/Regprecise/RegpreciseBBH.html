@@ -30,28 +30,28 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Data.Regprecise
 export class RegpreciseBBH extends <a href="/vignettes/clr/SMRUCC/genomics/Interops/NCBI/Extensions/LocalBLAST/Application/BBH/BiDirectionalBesthit.html">BiDirectionalBesthit</a> {
-   # 和Regprecise数据库之中的调控因子所比对上的目标菌株的基因组之中的蛋白质
-   QueryName: string;
+   BBH_ID: string;
+   description: string;
+   effectors: string;
+   family: string;
+   forward: double;
+   geneName: string;
    # Regprecise_regulator
    HitName: string;
-   geneName: string;
-   family: string;
-   regulationMode: string;
-   pathway: string;
-   effectors: string;
-   # a list of known TFBS id that regulated by this regulator in regprecise database
-   Tfbs: string;
-   description: string;
-   term: string;
-   length: string;
-   level: <a href="/vignettes/clr/SMRUCC/genomics/Interops/NCBI/Extensions/LocalBLAST/Application/BBH/Levels.html">Levels</a>;
    identities: double;
-   positive: double;
-   forward: double;
-   reverse: double;
    isMatched: boolean;
    isSelfHit: boolean;
-   BBH_ID: string;
+   length: string;
+   level: <a href="/vignettes/clr/SMRUCC/genomics/Interops/NCBI/Extensions/LocalBLAST/Application/BBH/Levels.html">Levels</a>;
+   pathway: string;
+   positive: double;
+   # 和Regprecise数据库之中的调控因子所比对上的目标菌株的基因组之中的蛋白质
+   QueryName: string;
+   regulationMode: string;
+   reverse: double;
+   term: string;
+   # a list of known TFBS id that regulated by this regulator in regprecise database
+   Tfbs: string;
 }
 </code>
         </pre>

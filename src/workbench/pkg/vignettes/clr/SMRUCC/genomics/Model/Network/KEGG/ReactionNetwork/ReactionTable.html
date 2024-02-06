@@ -32,21 +32,21 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Model.Network.KEGG.ReactionNetwork
 export class ReactionTable {
-   # 反应编号
-   entry: string;
-   name: string;
    definition: string;
    # 酶编号，可以通过这个编号和相对应的基因或者KO编号关联起来
    EC: string;
-   # 和<a href="/vignettes/clr/SMRUCC/genomics/Model/Network/KEGG/ReactionNetwork/ReactionTable.html">ReactionTable</a>.<a href="#">EC</a>几乎是一个意思,只不过通过这个属性值可以更加的容易与相应的基因进行关联
-   KO: string;
+   # 反应编号
+   entry: string;
    # Each element in this array of name string is corresponding 
    #  to the <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/KEGG/ReactionNetwork/ReactionTable.html">ReactionTable</a>.<a href="#">KO</a> property.
    geneNames: string;
-   # 底物列表
-   substrates: string;
+   # 和<a href="/vignettes/clr/SMRUCC/genomics/Model/Network/KEGG/ReactionNetwork/ReactionTable.html">ReactionTable</a>.<a href="#">EC</a>几乎是一个意思,只不过通过这个属性值可以更加的容易与相应的基因进行关联
+   KO: string;
+   name: string;
    # 产物列表
    products: string;
+   # 底物列表
+   substrates: string;
 }
 </code>
         </pre>

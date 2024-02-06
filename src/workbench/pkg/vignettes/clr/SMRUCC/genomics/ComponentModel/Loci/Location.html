@@ -36,19 +36,19 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.ComponentModel.Loci
 export class Location extends <a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/Ranges/Model/IntRange.html">IntRange</a> {
-   # <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/Location.html">Location</a>: Gets or set the left start value of the segment on the target sequence.(目标片段的左端起始区域，与链的方向无关)
-   left: integer;
-   # <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/Location.html">Location</a>: Gets or set the right ends value of the segment on the target sequence.(目标片段的右端结束区域，与链的方向无关)
-   right: integer;
-   Tag: <a href="/vignettes/clr/Microsoft/VisualBasic/My/JavaScript/JavaScriptObject.html">JavaScriptObject</a>;
-   # 当前的这个位置数据是否为左边小于右边的正常状态
-   IsNormalized: boolean;
    Center: integer;
    # The segment length of this location object.(目标序列片段区域的片段长度)
    FragmentSize: integer;
-   Min: integer;
-   Max: integer;
    Interval: integer;
+   # 当前的这个位置数据是否为左边小于右边的正常状态
+   IsNormalized: boolean;
+   # <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/Location.html">Location</a>: Gets or set the left start value of the segment on the target sequence.(目标片段的左端起始区域，与链的方向无关)
+   left: integer;
+   Max: integer;
+   Min: integer;
+   # <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/Location.html">Location</a>: Gets or set the right ends value of the segment on the target sequence.(目标片段的右端结束区域，与链的方向无关)
+   right: integer;
+   Tag: <a href="/vignettes/clr/Microsoft/VisualBasic/My/JavaScript/JavaScriptObject.html">JavaScriptObject</a>;
 }
 </code>
         </pre>

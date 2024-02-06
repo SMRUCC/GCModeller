@@ -58,10 +58,35 @@ relationship: part_of GO : 0008361 ! regulation of cell size
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Data.GeneOntology.OBO
 export class Term extends <a href="/vignettes/clr/SMRUCC/genomics/Data/GeneOntology/OBO/base.html">base</a> {
+   alt_id: string;
+   comment: string;
+   consider: string;
+   created_by: string;
+   creation_date: string;
    # A textual description of what the term represents, plus reference(s) to the source of the information. 
    #  All new terms added to the ontology must have a definition; there remains a very small set of terms 
    #  from the original ontology that lack definitions, but the vast majority of terms are defined.
    def: string;
+   disjoint_from: string;
+   equivalent_to: string;
+   id: string;
+   intersection_of: string;
+   is_a: string;
+   is_obsolete: string;
+   name: string;
+   namespace: string;
+   property_value: string;
+   # One or more links that capture how the term relates to other terms in the ontology. All terms 
+   #  (other than the root terms representing each namespace, above) have an is a sub-class relationship 
+   #  to another term; for example, GO:0015758 : glucose transport is a GO:0015749 : monosaccharide transport. 
+   #  The Gene Ontology employs a number of other relations, including part of (e.g. GO:0031966 : 
+   #  mitochondrial membrane part of GO:0005740 : mitochondrial envelope) and regulates (e.g. GO:0006916 : 
+   #  anti-apoptosis regulates GO:0012501 : programmed cell death). The relations documentation has more 
+   #  information on the relations used in the ontology.
+   relationship: string;
+   replaced_by: string;
+   # Indicates that the term belongs to a designated subset of terms, e.g. one of the GO slims.
+   subset: string;
    # Alternative words or phrases closely related in meaning to the term name, with indication of the relationship between the name 
    #  and synonym given by the synonym scope. The scopes for GO synonyms are:
    #  + exact
@@ -84,31 +109,6 @@ export class Term extends <a href="/vignettes/clr/SMRUCC/genomics/Data/GeneOntol
    #  the molecular function term retinal isomerase activity is cross-referenced with the Enzyme Commission 
    #  entry EC:5.2.1.3; the biological process term sulfate assimilation has the cross-reference MetaCyc:PWY-781.
    xref: string;
-   is_a: string;
-   # Indicates that the term belongs to a designated subset of terms, e.g. one of the GO slims.
-   subset: string;
-   # One or more links that capture how the term relates to other terms in the ontology. All terms 
-   #  (other than the root terms representing each namespace, above) have an is a sub-class relationship 
-   #  to another term; for example, GO:0015758 : glucose transport is a GO:0015749 : monosaccharide transport. 
-   #  The Gene Ontology employs a number of other relations, including part of (e.g. GO:0031966 : 
-   #  mitochondrial membrane part of GO:0005740 : mitochondrial envelope) and regulates (e.g. GO:0006916 : 
-   #  anti-apoptosis regulates GO:0012501 : programmed cell death). The relations documentation has more 
-   #  information on the relations used in the ontology.
-   relationship: string;
-   replaced_by: string;
-   is_obsolete: string;
-   comment: string;
-   equivalent_to: string;
-   alt_id: string;
-   intersection_of: string;
-   property_value: string;
-   consider: string;
-   disjoint_from: string;
-   created_by: string;
-   creation_date: string;
-   id: string;
-   name: string;
-   namespace: string;
 }
 </code>
         </pre>

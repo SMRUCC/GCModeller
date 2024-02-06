@@ -30,11 +30,11 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 export class Levels extends <a href="/vignettes/clr/System/Enum.html">Enum</a> {
-   # A和B之间没有同源性
-   NA: <a href="/vignettes/clr/SMRUCC/genomics/Interops/NCBI/Extensions/LocalBLAST/Application/BBH/Levels.html">Levels</a> = 0;
-
    # A vs B 以及 B vs A 都是得分最高的(BHR = 1)
    BBH: <a href="/vignettes/clr/SMRUCC/genomics/Interops/NCBI/Extensions/LocalBLAST/Application/BBH/Levels.html">Levels</a> = 1;
+
+   # A和B之间没有同源性
+   NA: <a href="/vignettes/clr/SMRUCC/genomics/Interops/NCBI/Extensions/LocalBLAST/Application/BBH/Levels.html">Levels</a> = 0;
 
    # A vs B 以及 B vs A 都不是得分最高的,但是BHR得分是最高的 (BHR >= threshold)
    PartialBBH: <a href="/vignettes/clr/SMRUCC/genomics/Interops/NCBI/Extensions/LocalBLAST/Application/BBH/Levels.html">Levels</a> = 2;
@@ -50,8 +50,8 @@ export class Levels extends <a href="/vignettes/clr/System/Enum.html">Enum</a> {
 
         <ol>
 <li>this class extends from <a href="/vignettes/clr/System/Enum.html">Enum</a> class: <a href="/vignettes/clr/System/Enum.html">Enum</a></li>
-<li>use by <i>field</i> member <code>NA</code>: <a href="/vignettes/clr/SMRUCC/genomics/Interops/NCBI/Extensions/LocalBLAST/Application/BBH/Levels.html">Levels</a></li>
 <li>use by <i>field</i> member <code>BBH</code>: <a href="/vignettes/clr/SMRUCC/genomics/Interops/NCBI/Extensions/LocalBLAST/Application/BBH/Levels.html">Levels</a></li>
+<li>use by <i>field</i> member <code>NA</code>: <a href="/vignettes/clr/SMRUCC/genomics/Interops/NCBI/Extensions/LocalBLAST/Application/BBH/Levels.html">Levels</a></li>
 <li>use by <i>field</i> member <code>PartialBBH</code>: <a href="/vignettes/clr/SMRUCC/genomics/Interops/NCBI/Extensions/LocalBLAST/Application/BBH/Levels.html">Levels</a></li>
 <li>use by <i>field</i> member <code>SBH</code>: <a href="/vignettes/clr/SMRUCC/genomics/Interops/NCBI/Extensions/LocalBLAST/Application/BBH/Levels.html">Levels</a></li>
 </ol>

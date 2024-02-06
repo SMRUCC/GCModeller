@@ -30,8 +30,6 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 export class Variable {
-   # 对反应容器之中的某一种物质的引用
-   mass: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Core/Factor.html">Factor</a>;
    # 在反应过程之中的变异系数，每完成一个单位的反应过程，当前的<a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Core/Variable.html">Variable</a>.<a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Core/Factor.html">mass</a>
    #  将会丢失或者增加这个系数相对应的数量的含量
    # 
@@ -40,6 +38,8 @@ export class Variable {
    # 当前的这种物质因子在目标反应通道之中是否为模板物质？对于模板物质而言，其容量是不会被消耗掉的
    #  例如，转录过程或者翻译过程，基因对象或者mRNA对象为模板物质，其不会像小分子反应一样作为底物被消耗掉
    isTemplate: boolean;
+   # 对反应容器之中的某一种物质的引用
+   mass: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Core/Factor.html">Factor</a>;
 }
 </code>
         </pre>

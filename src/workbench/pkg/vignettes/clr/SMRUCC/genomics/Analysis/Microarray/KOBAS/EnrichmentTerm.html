@@ -30,28 +30,28 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Analysis.Microarray.KOBAS
 export class EnrichmentTerm {
-   # <h1>Term</h1>
-   # 
-   # (这个属性一般为代谢途径的名称或者GO词条的名称)
-   Term: string;
+   # Background number
+   Backgrounds: integer;
+   # Corrected P-Value
+   CorrectedPvalue: double;
    Database: string;
    # <a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/DataSourceModel/Repository/IKeyedEntity`1.html">IKeyedEntity`1</a>.<a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/DataSourceModel/Repository/TKeyType.html">Key</a>
    # 
    # (KEGG代谢途径的id编号或者GO词条的id编号)
    ID: string;
-   # Input number
-   number: integer;
-   # Background number
-   Backgrounds: integer;
-   # P-Value
-   Pvalue: double;
-   # Corrected P-Value
-   CorrectedPvalue: double;
    # The group of this input gene id list
    Input: string;
-   ORF: string;
    # 用于一些可视化的超链接url
    link: string;
+   # Input number
+   number: integer;
+   ORF: string;
+   # P-Value
+   Pvalue: double;
+   # <h1>Term</h1>
+   # 
+   # (这个属性一般为代谢途径的名称或者GO词条的名称)
+   Term: string;
 }
 </code>
         </pre>
