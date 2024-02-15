@@ -30,17 +30,17 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Analysis.PFSNet.DataStructure
 export class PFSNetGraph {
-   # The nodes in the PfsNET sub network.(网络之中的基因节点)
-   nodes: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/PFSNet/DataStructure/PFSNetGraphNode.html">PFSNetGraphNode[]</a>;
    # Gene to gene interaction, ggi.(基因与基因之间的连接，即ggi，基因对基因的互作)
    edges: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/PFSNet/DataStructure/GraphEdge.html">GraphEdge[]</a>;
    Id: string;
-   statistics: double;
-   pvalue: double;
-   masked: boolean;
    # The gene counts in the current calculated PfsNET sub network.
    #  (当前的这个PfsNET子网络之中所计算出来的基因节点的数目)
    length: integer;
+   masked: boolean;
+   # The nodes in the PfsNET sub network.(网络之中的基因节点)
+   nodes: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/PFSNet/DataStructure/PFSNetGraphNode.html">PFSNetGraphNode[]</a>;
+   pvalue: double;
+   statistics: double;
 }
 </code>
         </pre>
@@ -48,8 +48,8 @@ export class PFSNetGraph {
         <h3>.NET clr type reference tree</h3>
 
         <ol>
-<li>use by <i>property</i> member <code>nodes</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/PFSNet/DataStructure/PFSNetGraphNode.html">PFSNetGraphNode</a></li>
 <li>use by <i>property</i> member <code>edges</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/PFSNet/DataStructure/GraphEdge.html">GraphEdge</a></li>
+<li>use by <i>property</i> member <code>nodes</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/PFSNet/DataStructure/PFSNetGraphNode.html">PFSNetGraphNode</a></li>
 </ol>
 
 

@@ -30,19 +30,19 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Analysis.SequenceTools
 export class HSP extends <a href="/vignettes/clr/Microsoft/VisualBasic/DataMining/DynamicProgramming/SmithWaterman/Match.html">Match</a> {
-   Query: string;
-   Subject: string;
-   QueryLength: integer;
-   SubjectLength: integer;
-   # length of the query fragment size
-   LengthQuery: integer;
-   # length of the hit fragment size
-   LengthHit: integer;
    fromA: integer;
    fromB: integer;
+   # length of the hit fragment size
+   LengthHit: integer;
+   # length of the query fragment size
+   LengthQuery: integer;
+   Query: string;
+   QueryLength: integer;
+   score: double;
+   Subject: string;
+   SubjectLength: integer;
    toA: integer;
    toB: integer;
-   score: double;
 }
 </code>
         </pre>

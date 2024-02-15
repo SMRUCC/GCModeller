@@ -30,23 +30,23 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Data.Regprecise
 export class Regulator {
-   type: <a href="/vignettes/clr/SMRUCC/genomics/Data/Regprecise/Types.html">Types</a>;
-   family: string;
-   regulationMode: string;
-   regulator: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/NamedValue.html">NamedValue</a>;
-   effector: string;
-   pathway: string;
-   locus_tag: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/NamedValue.html">NamedValue</a>;
    biological_process: string;
-   regulog: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/NamedValue.html">NamedValue</a>;
+   effector: string;
+   family: string;
    # 用来下载生成motif数据库的时候所需要使用的
    infoURL: string;
-   regulatorySites: <a href="/vignettes/clr/SMRUCC/genomics/Data/Regtransbase/WebServices/MotifFasta.html">MotifFasta[]</a>;
-   # 被这个调控因子所调控的基因，按照操纵子进行分组，这个适用于推断Regulon的
-   operons: <a href="/vignettes/clr/SMRUCC/genomics/Data/Regprecise/Operon.html">Operon[]</a>;
-   Regulates: <a href="/vignettes/clr/SMRUCC/genomics/Data/Regprecise/RegulatedGene.html">RegulatedGene[]</a>;
+   locus_tag: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/NamedValue.html">NamedValue</a>;
    # 该Regprecise调控因子的基因号
    LocusId: string;
+   # 被这个调控因子所调控的基因，按照操纵子进行分组，这个适用于推断Regulon的
+   operons: <a href="/vignettes/clr/SMRUCC/genomics/Data/Regprecise/Operon.html">Operon[]</a>;
+   pathway: string;
+   Regulates: <a href="/vignettes/clr/SMRUCC/genomics/Data/Regprecise/RegulatedGene.html">RegulatedGene[]</a>;
+   regulationMode: string;
+   regulator: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/NamedValue.html">NamedValue</a>;
+   regulatorySites: <a href="/vignettes/clr/SMRUCC/genomics/Data/Regtransbase/WebServices/MotifFasta.html">MotifFasta[]</a>;
+   regulog: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/NamedValue.html">NamedValue</a>;
+   type: <a href="/vignettes/clr/SMRUCC/genomics/Data/Regprecise/Types.html">Types</a>;
 }
 </code>
         </pre>
@@ -54,13 +54,13 @@ export class Regulator {
         <h3>.NET clr type reference tree</h3>
 
         <ol>
-<li>use by <i>property</i> member <code>type</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/Regprecise/Types.html">Types</a></li>
-<li>use by <i>property</i> member <code>regulator</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/NamedValue.html">NamedValue</a></li>
 <li>use by <i>property</i> member <code>locus_tag</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/NamedValue.html">NamedValue</a></li>
-<li>use by <i>property</i> member <code>regulog</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/NamedValue.html">NamedValue</a></li>
-<li>use by <i>property</i> member <code>regulatorySites</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/Regtransbase/WebServices/MotifFasta.html">MotifFasta</a></li>
 <li>use by <i>property</i> member <code>operons</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/Regprecise/Operon.html">Operon</a></li>
 <li>use by <i>property</i> member <code>Regulates</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/Regprecise/RegulatedGene.html">RegulatedGene</a></li>
+<li>use by <i>property</i> member <code>regulator</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/NamedValue.html">NamedValue</a></li>
+<li>use by <i>property</i> member <code>regulatorySites</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/Regtransbase/WebServices/MotifFasta.html">MotifFasta</a></li>
+<li>use by <i>property</i> member <code>regulog</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/NamedValue.html">NamedValue</a></li>
+<li>use by <i>property</i> member <code>type</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/Regprecise/Types.html">Types</a></li>
 </ol>
 
 

@@ -30,28 +30,28 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Analysis.SSystem.Script
 export class Model extends <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/CompilerServices/ModelBaseType.html">ModelBaseType</a> {
-   # The user define function.
-   UserFunc: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SSystem/Kernel/ObjectModels/Function.html">Function[]</a>;
+   Comment: string;
    # 假若在脚本里面，常数值是表达式，则求值的顺序会是从上到下
    Constant: <a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/DataSourceModel/NamedValue`1.html">NamedValue`1[]</a>;
-   # A collection of the system variables.
-   #  (系统中的运行变量的集合)
-   Vars: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SSystem/Kernel/ObjectModels/var.html">var[]</a>;
-   # The data channel in this system kernel.
-   #  (系统中的反应过程数据通道)
-   sEquations: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SSystem/Script/SEquation.html">SEquation[]</a>;
    # The disturbing factors in this system.
    #  (系统中的干扰因素的集合)
    Experiments: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SSystem/Kernel/ObjectModels/Experiment.html">Experiment[]</a>;
-   Title: string;
-   Comment: string;
    # The ticks count value of the time that exit this simulation.
    #  (整个内核运行的退出时间)
    FinalTime: integer;
-   Summary: string;
    properties: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/CompilerServices/Property.html">Property</a>;
+   # The data channel in this system kernel.
+   #  (系统中的反应过程数据通道)
+   sEquations: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SSystem/Script/SEquation.html">SEquation[]</a>;
    Stylesheet: <a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/XmlStyleProcessor.html">XmlStyleProcessor</a>;
+   Summary: string;
+   Title: string;
    TypeComment: <a href="/vignettes/clr/System/Xml/XmlComment.html">XmlComment</a>;
+   # The user define function.
+   UserFunc: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SSystem/Kernel/ObjectModels/Function.html">Function[]</a>;
+   # A collection of the system variables.
+   #  (系统中的运行变量的集合)
+   Vars: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SSystem/Kernel/ObjectModels/var.html">var[]</a>;
 }
 </code>
         </pre>
@@ -60,14 +60,14 @@ export class Model extends <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Co
 
         <ol>
 <li>this class extends from <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/CompilerServices/ModelBaseType.html">ModelBaseType</a> class: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/CompilerServices/ModelBaseType.html">ModelBaseType</a></li>
-<li>use by <i>property</i> member <code>UserFunc</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SSystem/Kernel/ObjectModels/Function.html">Function</a></li>
 <li>use by <i>property</i> member <code>Constant</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/DataSourceModel/NamedValue`1.html">NamedValue`1</a></li>
-<li>use by <i>property</i> member <code>Vars</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SSystem/Kernel/ObjectModels/var.html">var</a></li>
-<li>use by <i>property</i> member <code>sEquations</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SSystem/Script/SEquation.html">SEquation</a></li>
 <li>use by <i>property</i> member <code>Experiments</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SSystem/Kernel/ObjectModels/Experiment.html">Experiment</a></li>
 <li>use by <i>property</i> member <code>properties</code>: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/CompilerServices/Property.html">Property</a></li>
+<li>use by <i>property</i> member <code>sEquations</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SSystem/Script/SEquation.html">SEquation</a></li>
 <li>use by <i>property</i> member <code>Stylesheet</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/XmlStyleProcessor.html">XmlStyleProcessor</a></li>
 <li>use by <i>property</i> member <code>TypeComment</code>: <a href="/vignettes/clr/System/Xml/XmlComment.html">XmlComment</a></li>
+<li>use by <i>property</i> member <code>UserFunc</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SSystem/Kernel/ObjectModels/Function.html">Function</a></li>
+<li>use by <i>property</i> member <code>Vars</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SSystem/Kernel/ObjectModels/var.html">var</a></li>
 </ol>
 
 

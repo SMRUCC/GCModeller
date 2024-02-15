@@ -30,24 +30,24 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Data.Regprecise
 export class FootprintSite extends <a href="/vignettes/clr/SMRUCC/genomics/Data/Regprecise/MotifSiteMatch.html">MotifSiteMatch</a> {
-   # 当前的这个基因组位点相关的在一定长度范围内的下游基因
-   gene: string;
-   # 这个下游基因的位置
-   location: <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/NucleotideLocation.html">NucleotideLocation</a>;
-   # 这个位点所属的复制子的编号，这个属性是为了将基因组的染色体DNA和质粒DNA区分开
-   replicon: string;
    # 这个基因的转录起始位点到目标位点之间的最小距离
    distance: integer;
-   # 基因的功能描述
-   product: string;
-   # 这个motif位点区域上的序列信息
-   sequenceData: string;
+   # 当前的这个基因组位点相关的在一定长度范围内的下游基因
+   gene: string;
+   hits: integer;
    ID: string;
    left: integer;
+   # 这个下游基因的位置
+   location: <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/NucleotideLocation.html">NucleotideLocation</a>;
+   # 基因的功能描述
+   product: string;
+   # 这个位点所属的复制子的编号，这个属性是为了将基因组的染色体DNA和质粒DNA区分开
+   replicon: string;
    right: integer;
-   strand: string;
+   # 这个motif位点区域上的序列信息
+   sequenceData: string;
    src: string;
-   hits: integer;
+   strand: string;
 }
 </code>
         </pre>

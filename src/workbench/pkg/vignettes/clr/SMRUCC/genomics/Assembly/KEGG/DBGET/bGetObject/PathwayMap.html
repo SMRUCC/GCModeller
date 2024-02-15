@@ -31,26 +31,26 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 export class PathwayMap extends <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Annotation/PathwayBrief.html">PathwayBrief</a> {
-   KOpathway: string;
-   disease: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/NamedValue.html">NamedValue[]</a>;
-   modules: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/NamedValue.html">NamedValue[]</a>;
    brite: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/KEGG/DBGET/BriteHEntry/Pathway.html">Pathway</a>;
-   # base64 image data.
-   Map: string;
-   # <a href="http://www.genome.jp/dbget-bin/get_linkdb?-t+orthology+path:map01100">http://www.genome.jp/dbget-bin/get_linkdb?-t+orthology+path:map01100</a>
-   KEGGOrthology: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/KEGG/DBGET/bGetObject/OrthologyTerms.html">OrthologyTerms</a>;
+   briteID: string;
+   description: string;
+   disease: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/NamedValue.html">NamedValue[]</a>;
+   EntryId: string;
    # <a href="http://www.genome.jp/dbget-bin/get_linkdb?-t+compound+path:map01100">http://www.genome.jp/dbget-bin/get_linkdb?-t+compound+path:map01100</a>
    KEGGCompound: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/NamedValue.html">NamedValue[]</a>;
-   # <a href="http://www.genome.jp/dbget-bin/get_linkdb?-t+glycan+path:map01100">http://www.genome.jp/dbget-bin/get_linkdb?-t+glycan+path:map01100</a>
-   KEGGGlycan: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/NamedValue.html">NamedValue[]</a>;
    # <a href="http://www.genome.jp/dbget-bin/get_linkdb?-t+enzyme+path:map01100">http://www.genome.jp/dbget-bin/get_linkdb?-t+enzyme+path:map01100</a>
    KEGGEnzyme: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/NamedValue.html">NamedValue[]</a>;
+   # <a href="http://www.genome.jp/dbget-bin/get_linkdb?-t+glycan+path:map01100">http://www.genome.jp/dbget-bin/get_linkdb?-t+glycan+path:map01100</a>
+   KEGGGlycan: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/NamedValue.html">NamedValue[]</a>;
+   # <a href="http://www.genome.jp/dbget-bin/get_linkdb?-t+orthology+path:map01100">http://www.genome.jp/dbget-bin/get_linkdb?-t+orthology+path:map01100</a>
+   KEGGOrthology: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/KEGG/DBGET/bGetObject/OrthologyTerms.html">OrthologyTerms</a>;
    # <a href="http://www.genome.jp/dbget-bin/get_linkdb?-t+reaction+path:map01100">http://www.genome.jp/dbget-bin/get_linkdb?-t+reaction+path:map01100</a>
    KEGGReaction: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/NamedValue.html">NamedValue[]</a>;
-   EntryId: string;
+   KOpathway: string;
+   # base64 image data.
+   Map: string;
+   modules: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/NamedValue.html">NamedValue[]</a>;
    name: string;
-   description: string;
-   briteID: string;
    Stylesheet: <a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/XmlStyleProcessor.html">XmlStyleProcessor</a>;
    TypeComment: <a href="/vignettes/clr/System/Xml/XmlComment.html">XmlComment</a>;
 }
@@ -61,14 +61,14 @@ export class PathwayMap extends <a href="/vignettes/clr/SMRUCC/genomics/Componen
 
         <ol>
 <li>this class extends from <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Annotation/PathwayBrief.html">PathwayBrief</a> class: <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Annotation/PathwayBrief.html">PathwayBrief</a></li>
-<li>use by <i>property</i> member <code>disease</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/NamedValue.html">NamedValue</a></li>
-<li>use by <i>property</i> member <code>modules</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/NamedValue.html">NamedValue</a></li>
 <li>use by <i>property</i> member <code>brite</code>: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/KEGG/DBGET/BriteHEntry/Pathway.html">Pathway</a></li>
-<li>use by <i>property</i> member <code>KEGGOrthology</code>: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/KEGG/DBGET/bGetObject/OrthologyTerms.html">OrthologyTerms</a></li>
+<li>use by <i>property</i> member <code>disease</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/NamedValue.html">NamedValue</a></li>
 <li>use by <i>property</i> member <code>KEGGCompound</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/NamedValue.html">NamedValue</a></li>
-<li>use by <i>property</i> member <code>KEGGGlycan</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/NamedValue.html">NamedValue</a></li>
 <li>use by <i>property</i> member <code>KEGGEnzyme</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/NamedValue.html">NamedValue</a></li>
+<li>use by <i>property</i> member <code>KEGGGlycan</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/NamedValue.html">NamedValue</a></li>
+<li>use by <i>property</i> member <code>KEGGOrthology</code>: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/KEGG/DBGET/bGetObject/OrthologyTerms.html">OrthologyTerms</a></li>
 <li>use by <i>property</i> member <code>KEGGReaction</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/NamedValue.html">NamedValue</a></li>
+<li>use by <i>property</i> member <code>modules</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/NamedValue.html">NamedValue</a></li>
 <li>use by <i>property</i> member <code>Stylesheet</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/XmlStyleProcessor.html">XmlStyleProcessor</a></li>
 <li>use by <i>property</i> member <code>TypeComment</code>: <a href="/vignettes/clr/System/Xml/XmlComment.html">XmlComment</a></li>
 </ol>

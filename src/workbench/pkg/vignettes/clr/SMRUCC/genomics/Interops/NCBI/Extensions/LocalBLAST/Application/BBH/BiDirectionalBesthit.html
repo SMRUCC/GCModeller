@@ -30,22 +30,22 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 export class BiDirectionalBesthit extends <a href="/vignettes/clr/SMRUCC/genomics/Interops/NCBI/Extensions/LocalBLAST/Application/BBH/Abstract/I_BlastQueryHit.html">I_BlastQueryHit</a> {
+   BBH_ID: string;
    # Functional annotiation for protein <a href="/vignettes/clr/SMRUCC/genomics/Interops/NCBI/Extensions/LocalBLAST/Application/BBH/Abstract/I_BlastQueryHit.html">I_BlastQueryHit</a>.<a href="#">QueryName</a>
    description: string;
-   # Category term annotiation for protein <a href="/vignettes/clr/SMRUCC/genomics/Interops/NCBI/Extensions/LocalBLAST/Application/BBH/Abstract/I_BlastQueryHit.html">I_BlastQueryHit</a>.<a href="#">QueryName</a>, like COG/KO, etc
-   term: string;
+   forward: double;
+   HitName: string;
+   identities: double;
+   isMatched: boolean;
+   isSelfHit: boolean;
    # Protein length annotiation for protein <a href="/vignettes/clr/SMRUCC/genomics/Interops/NCBI/Extensions/LocalBLAST/Application/BBH/Abstract/I_BlastQueryHit.html">I_BlastQueryHit</a>.<a href="#">QueryName</a>.(本蛋白质实体对象的序列长度)
    length: string;
    level: <a href="/vignettes/clr/SMRUCC/genomics/Interops/NCBI/Extensions/LocalBLAST/Application/BBH/Levels.html">Levels</a>;
-   identities: double;
    positive: double;
-   forward: double;
-   reverse: double;
    QueryName: string;
-   HitName: string;
-   isMatched: boolean;
-   isSelfHit: boolean;
-   BBH_ID: string;
+   reverse: double;
+   # Category term annotiation for protein <a href="/vignettes/clr/SMRUCC/genomics/Interops/NCBI/Extensions/LocalBLAST/Application/BBH/Abstract/I_BlastQueryHit.html">I_BlastQueryHit</a>.<a href="#">QueryName</a>, like COG/KO, etc
+   term: string;
 }
 </code>
         </pre>

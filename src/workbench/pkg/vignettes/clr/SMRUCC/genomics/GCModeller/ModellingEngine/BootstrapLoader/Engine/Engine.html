@@ -31,12 +31,12 @@
 # namespace SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Engine
 export class Engine extends <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Engine/FluxEmulator.html">FluxEmulator</a> {
    dataStorageDriver: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Engine/IOmicsDataAdapter.html">IOmicsDataAdapter</a>;
+   debugView: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/BootstrapLoader/Engine/DebuggerView.html">DebuggerView</a>;
    # The argument of the cellular flux dynamics
    dynamics: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/BootstrapLoader/Definitions/FluxBaseline.html">FluxBaseline</a>;
-   model: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Model/Cellular/CellularModule.html">CellularModule</a>;
    # The compound map definition and the initial status
    initials: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/BootstrapLoader/Definitions/Definition.html">Definition</a>;
-   debugView: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/BootstrapLoader/Engine/DebuggerView.html">DebuggerView</a>;
+   model: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Model/Cellular/CellularModule.html">CellularModule</a>;
 }
 </code>
         </pre>
@@ -46,10 +46,10 @@ export class Engine extends <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/M
         <ol>
 <li>this class extends from <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Engine/FluxEmulator.html">FluxEmulator</a> class: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Engine/FluxEmulator.html">FluxEmulator</a></li>
 <li>use by <i>property</i> member <code>dataStorageDriver</code>: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Engine/IOmicsDataAdapter.html">IOmicsDataAdapter</a></li>
-<li>use by <i>property</i> member <code>dynamics</code>: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/BootstrapLoader/Definitions/FluxBaseline.html">FluxBaseline</a></li>
-<li>use by <i>property</i> member <code>model</code>: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Model/Cellular/CellularModule.html">CellularModule</a></li>
-<li>use by <i>property</i> member <code>initials</code>: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/BootstrapLoader/Definitions/Definition.html">Definition</a></li>
 <li>use by <i>property</i> member <code>debugView</code>: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/BootstrapLoader/Engine/DebuggerView.html">DebuggerView</a></li>
+<li>use by <i>property</i> member <code>dynamics</code>: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/BootstrapLoader/Definitions/FluxBaseline.html">FluxBaseline</a></li>
+<li>use by <i>property</i> member <code>initials</code>: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/BootstrapLoader/Definitions/Definition.html">Definition</a></li>
+<li>use by <i>property</i> member <code>model</code>: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Model/Cellular/CellularModule.html">CellularModule</a></li>
 </ol>
 
 

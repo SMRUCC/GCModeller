@@ -30,19 +30,19 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 export class PTT {
-   # The gene brief information collection data in this genome.(这个基因组之中的所有的基因摘要数据)
-   GeneObjects: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/TabularFormat/ComponentModels/GeneBrief.html">GeneBrief[]</a>;
    forwards: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/TabularFormat/ComponentModels/GeneBrief.html">GeneBrief[]</a>;
-   reversed: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/TabularFormat/ComponentModels/GeneBrief.html">GeneBrief[]</a>;
-   # 基因组的标题
-   Title: string;
-   # The genome original sequence length.(基因组序列的长度)
-   Size: integer;
-   # The number of gene product counts in this genome data: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/TabularFormat/PTT.html">PTT</a>.<a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/TabularFormat/ComponentModels/GeneBrief.html">GeneObjects</a>.Length .(当前的基因组数据之中的基因对象的数目)
-   NumOfProducts: integer;
    # Gets a list of all of the gene object in this ptt document.(所有基因的基因号<a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/TabularFormat/ComponentModels/GeneBrief.html">GeneBrief</a>.<a href="#">Synonym</a>列表)
    GeneIDList: <a href="/vignettes/clr/System/Collections/Generic/IEnumerable`1.html">IEnumerable`1</a>;
+   # The gene brief information collection data in this genome.(这个基因组之中的所有的基因摘要数据)
+   GeneObjects: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/TabularFormat/ComponentModels/GeneBrief.html">GeneBrief[]</a>;
    GetsGeneDatas: <a href="/vignettes/clr/System/Collections/Generic/IEnumerable`1.html">IEnumerable`1</a>;
+   # The number of gene product counts in this genome data: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/TabularFormat/PTT.html">PTT</a>.<a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/TabularFormat/ComponentModels/GeneBrief.html">GeneObjects</a>.Length .(当前的基因组数据之中的基因对象的数目)
+   NumOfProducts: integer;
+   reversed: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/TabularFormat/ComponentModels/GeneBrief.html">GeneBrief[]</a>;
+   # The genome original sequence length.(基因组序列的长度)
+   Size: integer;
+   # 基因组的标题
+   Title: string;
 }
 </code>
         </pre>
@@ -50,11 +50,11 @@ export class PTT {
         <h3>.NET clr type reference tree</h3>
 
         <ol>
-<li>use by <i>property</i> member <code>GeneObjects</code>: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/TabularFormat/ComponentModels/GeneBrief.html">GeneBrief</a></li>
 <li>use by <i>property</i> member <code>forwards</code>: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/TabularFormat/ComponentModels/GeneBrief.html">GeneBrief</a></li>
-<li>use by <i>property</i> member <code>reversed</code>: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/TabularFormat/ComponentModels/GeneBrief.html">GeneBrief</a></li>
 <li>use by <i>property</i> member <code>GeneIDList</code>: <a href="/vignettes/clr/System/Collections/Generic/IEnumerable`1.html">IEnumerable`1</a></li>
+<li>use by <i>property</i> member <code>GeneObjects</code>: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/TabularFormat/ComponentModels/GeneBrief.html">GeneBrief</a></li>
 <li>use by <i>property</i> member <code>GetsGeneDatas</code>: <a href="/vignettes/clr/System/Collections/Generic/IEnumerable`1.html">IEnumerable`1</a></li>
+<li>use by <i>property</i> member <code>reversed</code>: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/TabularFormat/ComponentModels/GeneBrief.html">GeneBrief</a></li>
 </ol>
 
 

@@ -34,10 +34,10 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Analysis.HTS.DataFrame
 export class DataFrameRow {
-   # The unique reference id of current expression data vector
-   geneID: string;
    # This gene's expression value in the different experiment condition.(同一个基因在不同实验之下的表达值)
    experiments: double;
+   # The unique reference id of current expression data vector
+   geneID: string;
    # Gets the sample counts of current gene expression data.(获取基因表达数据样本数目)
    samples: integer;
 }

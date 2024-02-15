@@ -36,15 +36,15 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 export class Channel {
-   forward: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Core/Controls.html">Controls</a>;
-   reverse: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Core/Controls.html">Controls</a>;
    # 因为细胞微环境内的容量很小，没有办法使整个反应过程以很大的速率来进行
    #  在这里设置反应的正反过程这两个方向上的上下限？
    bounds: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Core/Boundary.html">Boundary</a>;
    # 在衡量了<a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Core/Channel.html">Channel</a>.<a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Core/Controls.html">forward</a>和<a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Core/Channel.html">Channel</a>.<a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Core/Controls.html">reverse</a>的效应大小之后，当前的反应的方向
    direct: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Core/Directions.html">Directions</a>;
-   isBroken: boolean;
+   forward: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Core/Controls.html">Controls</a>;
    ID: string;
+   isBroken: boolean;
+   reverse: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Core/Controls.html">Controls</a>;
 }
 </code>
         </pre>
@@ -52,10 +52,10 @@ export class Channel {
         <h3>.NET clr type reference tree</h3>
 
         <ol>
-<li>use by <i>property</i> member <code>forward</code>: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Core/Controls.html">Controls</a></li>
-<li>use by <i>property</i> member <code>reverse</code>: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Core/Controls.html">Controls</a></li>
 <li>use by <i>property</i> member <code>bounds</code>: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Core/Boundary.html">Boundary</a></li>
 <li>use by <i>property</i> member <code>direct</code>: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Core/Directions.html">Directions</a></li>
+<li>use by <i>property</i> member <code>forward</code>: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Core/Controls.html">Controls</a></li>
+<li>use by <i>property</i> member <code>reverse</code>: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Core/Controls.html">Controls</a></li>
 </ol>
 
 

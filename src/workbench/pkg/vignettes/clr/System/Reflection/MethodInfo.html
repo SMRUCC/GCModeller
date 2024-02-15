@@ -30,41 +30,41 @@
             <code id="clr_ts">
 # namespace System.Reflection
 export class MethodInfo extends <a href="/vignettes/clr/System/Reflection/MethodBase.html">MethodBase</a> {
-   MemberType: <a href="/vignettes/clr/System/Reflection/MemberTypes.html">MemberTypes</a>;
-   ReturnParameter: <a href="/vignettes/clr/System/Reflection/ParameterInfo.html">ParameterInfo</a>;
-   ReturnType: <a href="/vignettes/clr/System/Type.html">Type</a>;
-   ReturnTypeCustomAttributes: <a href="/vignettes/clr/System/Reflection/ICustomAttributeProvider.html">ICustomAttributeProvider</a>;
    Attributes: <a href="/vignettes/clr/System/Reflection/MethodAttributes.html">MethodAttributes</a>;
-   MethodImplementationFlags: <a href="/vignettes/clr/System/Reflection/MethodImplAttributes.html">MethodImplAttributes</a>;
    CallingConvention: <a href="/vignettes/clr/System/Reflection/CallingConventions.html">CallingConventions</a>;
+   ContainsGenericParameters: boolean;
+   CustomAttributes: <a href="/vignettes/clr/System/Collections/Generic/IEnumerable`1.html">IEnumerable`1</a>;
+   DeclaringType: <a href="/vignettes/clr/System/Type.html">Type</a>;
    IsAbstract: boolean;
-   IsConstructor: boolean;
-   IsFinal: boolean;
-   IsHideBySig: boolean;
-   IsSpecialName: boolean;
-   IsStatic: boolean;
-   IsVirtual: boolean;
    IsAssembly: boolean;
+   IsCollectible: boolean;
+   IsConstructedGenericMethod: boolean;
+   IsConstructor: boolean;
    IsFamily: boolean;
    IsFamilyAndAssembly: boolean;
    IsFamilyOrAssembly: boolean;
-   IsPrivate: boolean;
-   IsPublic: boolean;
-   IsConstructedGenericMethod: boolean;
+   IsFinal: boolean;
    IsGenericMethod: boolean;
    IsGenericMethodDefinition: boolean;
-   ContainsGenericParameters: boolean;
-   MethodHandle: <a href="/vignettes/clr/System/RuntimeMethodHandle.html">RuntimeMethodHandle</a>;
+   IsHideBySig: boolean;
+   IsPrivate: boolean;
+   IsPublic: boolean;
    IsSecurityCritical: boolean;
    IsSecuritySafeCritical: boolean;
    IsSecurityTransparent: boolean;
-   Name: string;
-   DeclaringType: <a href="/vignettes/clr/System/Type.html">Type</a>;
-   ReflectedType: <a href="/vignettes/clr/System/Type.html">Type</a>;
-   Module: <a href="/vignettes/clr/System/Reflection/Module.html">Module</a>;
-   CustomAttributes: <a href="/vignettes/clr/System/Collections/Generic/IEnumerable`1.html">IEnumerable`1</a>;
-   IsCollectible: boolean;
+   IsSpecialName: boolean;
+   IsStatic: boolean;
+   IsVirtual: boolean;
+   MemberType: <a href="/vignettes/clr/System/Reflection/MemberTypes.html">MemberTypes</a>;
    MetadataToken: integer;
+   MethodHandle: <a href="/vignettes/clr/System/RuntimeMethodHandle.html">RuntimeMethodHandle</a>;
+   MethodImplementationFlags: <a href="/vignettes/clr/System/Reflection/MethodImplAttributes.html">MethodImplAttributes</a>;
+   Module: <a href="/vignettes/clr/System/Reflection/Module.html">Module</a>;
+   Name: string;
+   ReflectedType: <a href="/vignettes/clr/System/Type.html">Type</a>;
+   ReturnParameter: <a href="/vignettes/clr/System/Reflection/ParameterInfo.html">ParameterInfo</a>;
+   ReturnType: <a href="/vignettes/clr/System/Type.html">Type</a>;
+   ReturnTypeCustomAttributes: <a href="/vignettes/clr/System/Reflection/ICustomAttributeProvider.html">ICustomAttributeProvider</a>;
 }
 </code>
         </pre>
@@ -73,18 +73,18 @@ export class MethodInfo extends <a href="/vignettes/clr/System/Reflection/Method
 
         <ol>
 <li>this class extends from <a href="/vignettes/clr/System/Reflection/MethodBase.html">MethodBase</a> class: <a href="/vignettes/clr/System/Reflection/MethodBase.html">MethodBase</a></li>
+<li>use by <i>property</i> member <code>Attributes</code>: <a href="/vignettes/clr/System/Reflection/MethodAttributes.html">MethodAttributes</a></li>
+<li>use by <i>property</i> member <code>CallingConvention</code>: <a href="/vignettes/clr/System/Reflection/CallingConventions.html">CallingConventions</a></li>
+<li>use by <i>property</i> member <code>CustomAttributes</code>: <a href="/vignettes/clr/System/Collections/Generic/IEnumerable`1.html">IEnumerable`1</a></li>
+<li>use by <i>property</i> member <code>DeclaringType</code>: <a href="/vignettes/clr/System/Type.html">Type</a></li>
 <li>use by <i>property</i> member <code>MemberType</code>: <a href="/vignettes/clr/System/Reflection/MemberTypes.html">MemberTypes</a></li>
+<li>use by <i>property</i> member <code>MethodHandle</code>: <a href="/vignettes/clr/System/RuntimeMethodHandle.html">RuntimeMethodHandle</a></li>
+<li>use by <i>property</i> member <code>MethodImplementationFlags</code>: <a href="/vignettes/clr/System/Reflection/MethodImplAttributes.html">MethodImplAttributes</a></li>
+<li>use by <i>property</i> member <code>Module</code>: <a href="/vignettes/clr/System/Reflection/Module.html">Module</a></li>
+<li>use by <i>property</i> member <code>ReflectedType</code>: <a href="/vignettes/clr/System/Type.html">Type</a></li>
 <li>use by <i>property</i> member <code>ReturnParameter</code>: <a href="/vignettes/clr/System/Reflection/ParameterInfo.html">ParameterInfo</a></li>
 <li>use by <i>property</i> member <code>ReturnType</code>: <a href="/vignettes/clr/System/Type.html">Type</a></li>
 <li>use by <i>property</i> member <code>ReturnTypeCustomAttributes</code>: <a href="/vignettes/clr/System/Reflection/ICustomAttributeProvider.html">ICustomAttributeProvider</a></li>
-<li>use by <i>property</i> member <code>Attributes</code>: <a href="/vignettes/clr/System/Reflection/MethodAttributes.html">MethodAttributes</a></li>
-<li>use by <i>property</i> member <code>MethodImplementationFlags</code>: <a href="/vignettes/clr/System/Reflection/MethodImplAttributes.html">MethodImplAttributes</a></li>
-<li>use by <i>property</i> member <code>CallingConvention</code>: <a href="/vignettes/clr/System/Reflection/CallingConventions.html">CallingConventions</a></li>
-<li>use by <i>property</i> member <code>MethodHandle</code>: <a href="/vignettes/clr/System/RuntimeMethodHandle.html">RuntimeMethodHandle</a></li>
-<li>use by <i>property</i> member <code>DeclaringType</code>: <a href="/vignettes/clr/System/Type.html">Type</a></li>
-<li>use by <i>property</i> member <code>ReflectedType</code>: <a href="/vignettes/clr/System/Type.html">Type</a></li>
-<li>use by <i>property</i> member <code>Module</code>: <a href="/vignettes/clr/System/Reflection/Module.html">Module</a></li>
-<li>use by <i>property</i> member <code>CustomAttributes</code>: <a href="/vignettes/clr/System/Collections/Generic/IEnumerable`1.html">IEnumerable`1</a></li>
 </ol>
 
 

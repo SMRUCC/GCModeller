@@ -67,7 +67,7 @@ Public Module file
     ''' <summary>
     ''' parse the term is_a relationship
     ''' </summary>
-    ''' <param name="term"></param>
+    ''' <param name="x"></param>
     ''' <returns></returns>
     <ExportAPI("is_a")>
     Public Function is_a(<RRawVectorArgument> x As Object, Optional env As Environment = Nothing) As dataframe

@@ -22,22 +22,28 @@ Public Module PLSData
     End Function
 
     <Extension>
-    Public Function GetPLSScore(mvar As MultivariateAnalysisResult) As df
+    Public Function GetPLSScore(mvar As MultivariateAnalysisResult, opls As Boolean) As df
         Dim [class] As String() = mvar.StatisticsObject.YLabels.ToArray
         Dim Tscore As New List(Of Double())
         Dim fileSize = mvar.StatisticsObject.YIndexes.Count
         Dim yexp As Double() = mvar.StatisticsObject.YVariables
         Dim ypre As Double() = New Double([class].Length - 1) {}
 
-        For i As Integer = 0 To mvar.OptimizedFactor - 1
+        For i As Integer = 0 To If(opls, mvar.OptimizedOrthoFactor, mvar.OptimizedFactor) - 1
             Tscore.Add(New Double([class].Length - 1) {})
         Next
 
         ' scores
         For i As Integer = 0 To fileSize - 1
-            For j = 0 To mvar.TPreds.Count - 1
-                Tscore(j)(i) = mvar.TPreds(j)(i)
-            Next
+            If opls Then
+                For j = 0 To mvar.ToPreds.Count - 1
+                    Tscore(j)(i) = mvar.ToPreds(j)(i)
+                Next
+            Else
+                For j = 0 To mvar.TPreds.Count - 1
+                    Tscore(j)(i) = mvar.TPreds(j)(i)
+                Next
+            End If
 
             ypre(i) = mvar.PredictedYs(i)
         Next
@@ -56,21 +62,27 @@ Public Module PLSData
     End Function
 
     <Extension>
-    Public Function GetPLSLoading(mvar As MultivariateAnalysisResult) As df
+    Public Function GetPLSLoading(mvar As MultivariateAnalysisResult, opls As Boolean) As df
         Dim features As String() = mvar.StatisticsObject.XLabels.ToArray
         Dim Ploads As New List(Of Double())
         Dim metSize = mvar.StatisticsObject.XIndexes.Count
         Dim vips As Double() = mvar.Vips.ToArray
         Dim cors As Double() = mvar.Coefficients.ToArray
 
-        For i = 0 To mvar.OptimizedFactor - 1
+        For i = 0 To If(opls, mvar.OptimizedOrthoFactor, mvar.OptimizedFactor) - 1
             Call Ploads.Add(New Double(features.Length - 1) {})
         Next
 
         For i As Integer = 0 To metSize - 1
-            For j As Integer = 0 To mvar.PPreds.Count - 1
-                Ploads(j)(i) = mvar.PPreds(j)(i)
-            Next
+            If opls Then
+                For j As Integer = 0 To mvar.PoPreds.Count - 1
+                    Ploads(j)(i) = mvar.PoPreds(j)(i)
+                Next
+            Else
+                For j As Integer = 0 To mvar.PPreds.Count - 1
+                    Ploads(j)(i) = mvar.PPreds(j)(i)
+                Next
+            End If
         Next
 
         Dim df As New df With {.rownames = features}
