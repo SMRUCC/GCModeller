@@ -5,6 +5,9 @@
     {
       "AbsoluteMoniker": "D:0:0:{193EE8CB-3597-49DB-86B9-F03B9CB2CFE2}|kegg_kit\\kegg_kit.NET5.vbproj|e:\\gcmodeller\\src\\workbench\\r#\\kegg_kit\\repository\\repository.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{193EE8CB-3597-49DB-86B9-F03B9CB2CFE2}|kegg_kit\\kegg_kit.NET5.vbproj|solutionrelative:kegg_kit\\repository\\repository.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4EB20A5A-2521-4AE1-B6F6-91BD5200E7C9}|..\\..\\repository\\Bio.Repository\\repository.NET5.vbproj|e:\\gcmodeller\\src\\repository\\bio.repository\\kegg\\extensions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,8 +17,21 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Extensions.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\repository\\Bio.Repository\\KEGG\\Extensions.vb",
+              "RelativeDocumentMoniker": "..\\..\\repository\\Bio.Repository\\KEGG\\Extensions.vb",
+              "ToolTip": "E:\\GCModeller\\src\\repository\\Bio.Repository\\KEGG\\Extensions.vb",
+              "RelativeToolTip": "..\\..\\repository\\Bio.Repository\\KEGG\\Extensions.vb",
+              "ViewState": "AQIAACwAAAAAAAAAAAAMwEQAAAAUAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-02-20T01:10:38.427Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
@@ -24,7 +40,7 @@
               "RelativeDocumentMoniker": "kegg_kit\\repository\\repository.vb",
               "ToolTip": "E:\\GCModeller\\src\\workbench\\R#\\kegg_kit\\repository\\repository.vb",
               "RelativeToolTip": "kegg_kit\\repository\\repository.vb",
-              "ViewState": "AQIAAM8AAAAAAAAAAAAEwOUAAAAhAAAA",
+              "ViewState": "AQIAAFYAAAAAAAAAAAAAAHYAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-02-15T11:57:50.737Z",
               "EditorCaption": ""
