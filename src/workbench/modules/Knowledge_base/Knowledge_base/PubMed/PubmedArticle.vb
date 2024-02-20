@@ -79,9 +79,20 @@ Imports Microsoft.VisualBasic.Linq
 
 Namespace PubMed
 
+    ''' <summary>
+    ''' PubMed® comprises more than 36 million citations for biomedical literature from MEDLINE, 
+    ''' life science journals, and online books. Citations may include links to full text content 
+    ''' from PubMed Central and publisher web sites.
+    ''' </summary>
     Public Class PubmedArticle
+
+        ''' <summary>
+        ''' MEDLINE®/PubMed® Journal Article Citation Format
+        ''' </summary>
+        ''' <returns></returns>
         Public Property MedlineCitation As MedlineCitation
         Public Property PubmedData As PubmedData
+
     End Class
 
     Public Class KeywordList : Implements Enumeration(Of Keyword)
@@ -110,6 +121,39 @@ Namespace PubMed
         Public Property Keyword As String
     End Class
 
+    ''' <summary>
+    ''' MEDLINE®/PubMed® Journal Article Citation Format
+    ''' </summary>
+    ''' <remarks>
+    ''' The National Library of Medicine® (NLM®) uses the ANSI/NISO Z39.29-2005 (R2010) Bibliographic 
+    ''' References standard as the basis for the format of MEDLINE/PubMed citations to journal articles. 
+    ''' The National Information Standards Organization (NISO) is a non-profit association accredited 
+    ''' by the American National Standards Institute (ANSI) to identify, develop, maintain and publish 
+    ''' technical standards in the area of library and information science.
+    '''
+    ''' Guidance on the NLM interpretation of this national standard can be found in Citing Medicine: 
+    ''' the NLM Style Guide For Authors, Editors, And Publishers, available via the National Center For 
+    ''' Biotechnology Information (NCBI) Bookshelf.  
+    '''
+    ''' PubMed citations In the Summary (text) display format are compatible With ANSI/NISO Z39.29-2005 
+    ''' (R2010). This format Is useful For a list Of references Or a bibliography. Here Is a sample 
+    ''' citation In the Summary (text) display format:
+    '''
+    ''' ```
+    ''' Freedman SB, Adler M, Seshadri R, Powell EC. Oral ondansetron For gastroenteritis In a pediatric 
+    ''' emergency department. N Engl J Med. 2006 Apr 20;354(16):1698-705. PubMed PMID: 16625009.
+    ''' ```
+    '''
+    ''' The last element In the citation above identifies the unique identification number In PubMed (PMID).
+    '''
+    ''' The NLM citation format Is also the foundation For the reference style approved by the Recommendations
+    ''' For the Conduct, Reporting, Editing And Publication Of Scholarly Work In Medical Journals, a product 
+    ''' Of the International Committee Of Medical Journal Editors (ICMJE). Please refer To Section IV.A.3.g.ii, 
+    ''' References Style And Format, Of the PDF version Of the ICMJE Recommendations. The ICMJE Web site also 
+    ''' lists the journals that follow the ICMJE Recommendations. NLM hosts And maintains a Web page 
+    ''' featuring sample citations extracted from Or based On Citing Medicine For easy use by the ICMJE 
+    ''' audience.
+    ''' </remarks>
     Public Class MedlineCitation
         Public Property Status As String
         Public Property Owner As String

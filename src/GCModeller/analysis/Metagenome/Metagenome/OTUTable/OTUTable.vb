@@ -78,7 +78,7 @@ Imports SMRUCC.genomics.Metagenomics
 ''' <remarks>
 ''' 这个对象记录了当前的宏基因组实验之中的每一个OTU在样品之中的含量的多少
 ''' 
-''' 这个对象的数据结构与<see cref="OTUData"/>类似, 二者可以做等价替换
+''' 这个对象的数据结构与<see cref="OTUData(Of Double)"/>类似, 二者可以做等价替换
 ''' </remarks>
 Public Class OTUTable : Inherits DataSet
 
