@@ -62,7 +62,6 @@
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Text
 Imports MapNode = System.Collections.Generic.KeyValuePair(Of String, SMRUCC.genomics.Assembly.NCBI.Taxonomy.TaxonomyNode)
 
 Namespace Assembly.NCBI.Taxonomy
@@ -80,10 +79,10 @@ Namespace Assembly.NCBI.Taxonomy
     '''
     ''' </summary>
     ''' <remarks>
-    ''' https://github.com/frallain/NCBI_taxonomy_tree
-    ''' 
-    ''' #### NCBI_taxonomy_tree
+    ''' ### NCBI_taxonomy_tree
     '''
+    ''' > https://github.com/frallain/NCBI_taxonomy_tree
+    ''' 
     ''' The NCBI Taxonomy database Is a curated Set Of names And classifications For all Of the organisms that are 
     ''' represented In GenBank (http://www.ncbi.nlm.nih.gov/Taxonomy/taxonomyhome.html/). It can be accessed 
     ''' via http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi Or it can be downloaded from 
