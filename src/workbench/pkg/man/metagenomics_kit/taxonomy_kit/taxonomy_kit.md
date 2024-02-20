@@ -6,7 +6,7 @@ toolkit for process ncbi taxonomy tree data
 >  of the described species of life on the planet.
 
 + [biom.string](taxonomy_kit/biom.string.1) cast taxonomy object to biom style taxonomy string
-+ [biom_string.parse](taxonomy_kit/biom_string.parse.1) 
++ [biom_string.parse](taxonomy_kit/biom_string.parse.1) parse the taxonomy string in BIOM style
 + [unique_taxonomy](taxonomy_kit/unique_taxonomy.1) make taxonomy object unique
 + [Ncbi.taxonomy_tree](taxonomy_kit/Ncbi.taxonomy_tree.1) load ncbi taxonomy tree model from the given data files
 + [ranks](taxonomy_kit/ranks.1) cast the ncbi taxonomy tree model to taxonomy ranks data
@@ -17,6 +17,5 @@ toolkit for process ncbi taxonomy tree data
 + [consensus](taxonomy_kit/consensus.1) 
 + [read.mothurTree](taxonomy_kit/read.mothurTree.1) Parse the result output from mothur command ``summary.tax``.
 + [as.OTU_table](taxonomy_kit/as.OTU_table.1) convert the mothur rank tree as the OTU table
-+ [as.OTUtable](taxonomy_kit/as.OTUtable.1) convert the mothur rank tree as the OTU table
 + [read.OTUtable](taxonomy_kit/read.OTUtable.1) read 16s OTU table
 + [taxonomy_range](taxonomy_kit/taxonomy_range.1) 

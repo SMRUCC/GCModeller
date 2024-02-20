@@ -160,6 +160,12 @@ Module TaxonomyKit
     ''' </param>
     ''' <param name="env"></param>
     ''' <returns></returns>
+    ''' <example>
+    ''' # parse the string as taxonomy object
+    ''' let tax = biom_string.parse(["k__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Lachnospiraceae; g__Robinsoniella; s__peoriensis"]);
+    ''' # then convert back the taxonomy object as the string content
+    ''' print(biom.string(tax));
+    ''' </example>
     <ExportAPI("biom.string")>
     <RApiReturn(GetType(String))>
     Public Function TaxonomyBIOMString(<RRawVectorArgument>
@@ -180,6 +186,15 @@ Module TaxonomyKit
         End If
     End Function
 
+    ''' <summary>
+    ''' parse the taxonomy string in BIOM style
+    ''' </summary>
+    ''' <param name="taxonomy">a character vector of the taxonomy string in BIOM style</param>
+    ''' <param name="env"></param>
+    ''' <returns>a vector of <see cref="Taxonomy"/> object.</returns>
+    ''' <example>
+    ''' biom_string.parse(["k__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Lachnospiraceae; g__Robinsoniella; s__peoriensis"]);
+    ''' </example>
     <ExportAPI("biom_string.parse")>
     Public Function ParseBIOMString(<RRawVectorArgument> taxonomy As Object, Optional env As Environment = Nothing) As Object
         Dim strings As String() = CLRVector.asCharacter(taxonomy)

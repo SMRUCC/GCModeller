@@ -17,13 +17,7 @@ declare namespace taxonomy_kit {
        * convert the mothur rank tree as the OTU table
        * 
        * 
-        * @param tree -
-      */
-      function OTU_table(tree: object): object;
-      /**
-       * convert the mothur rank tree as the OTU table
-       * 
-       * 
+        * @param x -
         * @param id 
         * + default value Is ``'OTU_num'``.
         * @param taxonomy 
@@ -31,7 +25,7 @@ declare namespace taxonomy_kit {
         * @param env 
         * + default value Is ``null``.
       */
-      function OTUtable(table: object, id?: string, taxonomy?: string, env?: object): object;
+      function OTU_table(x: any, id?: string, taxonomy?: string, env?: object): object;
       module taxonomy {
          /**
           * build taxonomy tree based on a given collection of taxonomy object.
@@ -59,7 +53,14 @@ declare namespace taxonomy_kit {
    }
    module biom_string {
       /**
-        * @param env default value Is ``null``.
+       * parse the taxonomy string in BIOM style
+       * 
+       * 
+        * @param taxonomy a character vector of the taxonomy string in BIOM style
+        * @param env -
+        * 
+        * + default value Is ``null``.
+        * @return a vector of @``T:SMRUCC.genomics.Metagenomics.Taxonomy`` object.
       */
       function parse(taxonomy: any, env?: object): any;
    }
@@ -125,7 +126,13 @@ declare namespace taxonomy_kit {
    }
    module taxonomy {
       /**
-        * @param taxid default value Is ``null``.
+       * 
+       * 
+        * @param tree the ncbi taxonomy tree model
+        * @param range a collection of the ncbi taxonomy id or BIOM taxonomy string.
+        * @param taxid a lambda function will be returns if this ncbi taxonomy id set is missing.
+        * 
+        * + default value Is ``null``.
       */
       function filter(tree: object, range: string, taxid?: object): object|object;
    }
