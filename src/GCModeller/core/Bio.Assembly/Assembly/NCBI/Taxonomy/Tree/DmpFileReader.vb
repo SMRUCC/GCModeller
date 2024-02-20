@@ -40,11 +40,12 @@ Namespace Assembly.NCBI.Taxonomy
             Dim taxid2name As Dictionary(Of String, String) = ParseNames(names)
             Dim taxid As String
             Dim parent_taxid As String
+            Dim lineTokens$()
 
             Call $"{nodes} parsing ...".__DEBUG_ECHO
 
             For Each line As String In nodes.IterateAllLines
-                Dim lineTokens$() = line.Replace(ASCII.TAB, "").Split("|"c)
+                lineTokens = line.Replace(ASCII.TAB, "").Split("|"c)
 
                 ' nodes.dmp
                 ' ---------

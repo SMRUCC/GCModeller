@@ -68,6 +68,11 @@ Namespace Assembly.NCBI.Taxonomy
         ''' </summary>
         ''' <returns></returns>
         Public Property taxid As Integer
+
+        ''' <summary>
+        ''' the scientific name of current taxonomy node
+        ''' </summary>
+        ''' <returns></returns>
         Public Property name As String
 
         ''' <summary>

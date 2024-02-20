@@ -230,6 +230,23 @@ Module TaxonomyKit
         Return New NcbiTaxonomyTree(repo)
     End Function
 
+    <ExportAPI("ranks")>
+    Public Function ranks_list(ncbi_tree As NcbiTaxonomyTree) As Ranks
+        Return New Ranks(ncbi_tree)
+    End Function
+
+    ''' <summary>
+    ''' get all taxonomy tree nodes of the specific taxonomy ranks
+    ''' </summary>
+    ''' <param name="tree"></param>
+    ''' <param name="rank"></param>
+    ''' <returns></returns>
+    <ExportAPI("taxonomy_ranks")>
+    <RApiReturn(GetType(TaxonomyNode))>
+    Public Function get_byRanks(tree As Ranks, rank As TaxonomyRanks) As Object
+        Return tree.getByRank(rank.Description)
+    End Function
+
     <ExportAPI("taxonomy.filter")>
     <RApiReturn(GetType(Taxonomy), GetType(Predicate(Of Taxonomy)))>
     Public Function Filters(tree As NcbiTaxonomyTree, range As String(), Optional taxid As Integer() = Nothing) As Object
