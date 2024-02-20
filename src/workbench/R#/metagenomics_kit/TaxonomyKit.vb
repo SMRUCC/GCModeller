@@ -244,7 +244,14 @@ Module TaxonomyKit
     <ExportAPI("taxonomy_ranks")>
     <RApiReturn(GetType(TaxonomyNode))>
     Public Function get_byRanks(tree As Ranks, rank As TaxonomyRanks) As Object
-        Return tree.getByRank(rank.Description).Values.IteratesALL.ToArray
+        Return New list With {
+            .slots = tree _
+                .getByRank(rank.Description) _
+                .ToDictionary(Function(a) a.Key,
+                              Function(a)
+                                  Return CObj(a.Value.ToArray)
+                              End Function)
+        }
     End Function
 
     <ExportAPI("taxonomy.filter")>
