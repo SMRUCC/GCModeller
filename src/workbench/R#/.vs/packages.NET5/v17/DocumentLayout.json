@@ -3,11 +3,19 @@
   "WorkspaceRootPath": "E:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{193EE8CB-3597-49DB-86B9-F03B9CB2CFE2}|kegg_kit\\kegg_kit.NET5.vbproj|e:\\gcmodeller\\src\\workbench\\r#\\kegg_kit\\repository\\repository.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{193EE8CB-3597-49DB-86B9-F03B9CB2CFE2}|kegg_kit\\kegg_kit.NET5.vbproj|solutionrelative:kegg_kit\\repository\\repository.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{05457007-17F0-445E-B445-E7FB35A3574A}|metagenomics_kit\\metagenomics_kit.NET5.vbproj|e:\\gcmodeller\\src\\workbench\\r#\\metagenomics_kit\\microbiomekit.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{05457007-17F0-445E-B445-E7FB35A3574A}|metagenomics_kit\\metagenomics_kit.NET5.vbproj|solutionrelative:metagenomics_kit\\microbiomekit.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4EB20A5A-2521-4AE1-B6F6-91BD5200E7C9}|..\\..\\repository\\Bio.Repository\\repository.NET5.vbproj|e:\\gcmodeller\\src\\repository\\bio.repository\\kegg\\extensions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{E06F8BFA-816F-4D1F-AFA2-88FA15E1C3B9}|..\\..\\GCModeller\\analysis\\HTS_matrix\\HTS_matrix-netcore5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\analysis\\hts_matrix\\matrix\\dataframerow.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{05457007-17F0-445E-B445-E7FB35A3574A}|metagenomics_kit\\metagenomics_kit.NET5.vbproj|e:\\gcmodeller\\src\\workbench\\r#\\metagenomics_kit\\zzz.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{05457007-17F0-445E-B445-E7FB35A3574A}|metagenomics_kit\\metagenomics_kit.NET5.vbproj|solutionrelative:metagenomics_kit\\zzz.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{05457007-17F0-445E-B445-E7FB35A3574A}|metagenomics_kit\\metagenomics_kit.NET5.vbproj|e:\\gcmodeller\\src\\workbench\\r#\\metagenomics_kit\\hmp.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{05457007-17F0-445E-B445-E7FB35A3574A}|metagenomics_kit\\metagenomics_kit.NET5.vbproj|solutionrelative:metagenomics_kit\\hmp.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -17,32 +25,58 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "Extensions.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\repository\\Bio.Repository\\KEGG\\Extensions.vb",
-              "RelativeDocumentMoniker": "..\\..\\repository\\Bio.Repository\\KEGG\\Extensions.vb",
-              "ToolTip": "E:\\GCModeller\\src\\repository\\Bio.Repository\\KEGG\\Extensions.vb",
-              "RelativeToolTip": "..\\..\\repository\\Bio.Repository\\KEGG\\Extensions.vb",
-              "ViewState": "AQIAACwAAAAAAAAAAAAMwEQAAAAUAAAA",
+              "Title": "DataFrameRow.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\analysis\\HTS_matrix\\Matrix\\DataFrameRow.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\HTS_matrix\\Matrix\\DataFrameRow.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\analysis\\HTS_matrix\\Matrix\\DataFrameRow.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\HTS_matrix\\Matrix\\DataFrameRow.vb",
+              "ViewState": "AQIAAHsAAAAAAAAAAAAYwJAAAAA0AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-02-20T01:10:38.427Z",
+              "WhenOpened": "2024-02-20T01:52:21.152Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "zzz.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\R#\\metagenomics_kit\\zzz.vb",
+              "RelativeDocumentMoniker": "metagenomics_kit\\zzz.vb",
+              "ToolTip": "E:\\GCModeller\\src\\workbench\\R#\\metagenomics_kit\\zzz.vb",
+              "RelativeToolTip": "metagenomics_kit\\zzz.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAD0AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-02-20T01:42:56.196Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "repository.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\R#\\kegg_kit\\repository\\repository.vb",
-              "RelativeDocumentMoniker": "kegg_kit\\repository\\repository.vb",
-              "ToolTip": "E:\\GCModeller\\src\\workbench\\R#\\kegg_kit\\repository\\repository.vb",
-              "RelativeToolTip": "kegg_kit\\repository\\repository.vb",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAHgAAAAwAAAA",
+              "Title": "microbiomeKit.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\R#\\metagenomics_kit\\microbiomeKit.vb",
+              "RelativeDocumentMoniker": "metagenomics_kit\\microbiomeKit.vb",
+              "ToolTip": "E:\\GCModeller\\src\\workbench\\R#\\metagenomics_kit\\microbiomeKit.vb",
+              "RelativeToolTip": "metagenomics_kit\\microbiomeKit.vb",
+              "ViewState": "AQIAALwAAAAAAAAAAAAgwNYAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-02-15T11:57:50.737Z",
+              "WhenOpened": "2024-02-20T01:40:27.302Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "HMP.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\R#\\metagenomics_kit\\HMP.vb",
+              "RelativeDocumentMoniker": "metagenomics_kit\\HMP.vb",
+              "ToolTip": "E:\\GCModeller\\src\\workbench\\R#\\metagenomics_kit\\HMP.vb",
+              "RelativeToolTip": "metagenomics_kit\\HMP.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-02-20T01:40:26.379Z",
               "EditorCaption": ""
             }
           ]

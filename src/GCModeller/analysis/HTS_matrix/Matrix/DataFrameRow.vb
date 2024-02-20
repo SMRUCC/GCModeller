@@ -141,6 +141,11 @@ Public Class DataFrameRow : Implements INamedValue, IVector
         Me.experiments = clone.experiments.ToArray
     End Sub
 
+    ''' <summary>
+    ''' cast the numeric vector as the labeled list.
+    ''' </summary>
+    ''' <param name="labels"></param>
+    ''' <returns></returns>
     Public Function ToDataSet(labels As String()) As Dictionary(Of String, Double)
         Dim table As New Dictionary(Of String, Double)
         Dim i As Integer = 0
