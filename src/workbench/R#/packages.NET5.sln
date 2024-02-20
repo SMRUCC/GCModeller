@@ -225,7 +225,7 @@ Project("{778DAE3C-4631-46EA-AA77-85C1314464D9}") = "GSVA", "..\..\GCModeller\an
 EndProject
 Project("{778DAE3C-4631-46EA-AA77-85C1314464D9}") = "Dynamics.NET5", "..\..\GCModeller\engine\Dynamics\Dynamics.NET5.vbproj", "{9EEC1DD7-CC97-4F17-B860-BC3B50844997}"
 EndProject
-Project("{778DAE3C-4631-46EA-AA77-85C1314464D9}") = "vcellkit.NET5", "..\..\GCModeller\engine\vcellkit\vcellkit.NET5.vbproj", "{F7B0B8C9-0593-4021-BCB0-A81010280935}"
+Project("{778DAE3C-4631-46EA-AA77-85C1314464D9}") = "vcellkit", "..\..\GCModeller\engine\vcellkit\vcellkit.vbproj", "{F7B0B8C9-0593-4021-BCB0-A81010280935}"
 EndProject
 Project("{778DAE3C-4631-46EA-AA77-85C1314464D9}") = "vcXML.NET5", "..\..\GCModeller\engine\IO\Raw\vcXML.NET5.vbproj", "{DB74684C-D332-4FFA-9C19-AB7268CAF348}"
 EndProject
