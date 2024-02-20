@@ -147,8 +147,6 @@ Namespace Assembly.NCBI.Taxonomy
             End Get
         End Property
 
-        Const sciNdeli As String = "scientific name"
-
         ''' <summary>
         ''' Builds the following dictionnary from NCBI taxonomy ``nodes.dmp`` and 
         ''' ``names.dmp`` files 
@@ -184,103 +182,9 @@ Namespace Assembly.NCBI.Taxonomy
                 Throw New Exception("Missing file ""node.dmp"" or ""names.dmp"".")
             Else
                 Call "NcbiTaxonomyTree building ...".__DEBUG_ECHO
-                Call loadTree(names, nodes, Taxonomy)
+                Call DmpFileReader.loadTree(names, nodes, Taxonomy)
                 Call "NcbiTaxonomyTree built".__DEBUG_ECHO
             End If
-        End Sub
-
-        Private Shared Sub loadTree(names$, nodes$, taxonomy As Dictionary(Of String, TaxonomyNode))
-            Dim taxid2name As New Dictionary(Of String, String)
-            Dim taxid As String
-            Dim parent_taxid As String
-
-            Call $"{names.ToFileURL} parsing ...".__DEBUG_ECHO
-
-            For Each line As String In names.IterateAllLines
-                Dim lineToken$() = line.Replace(ASCII.TAB, "").Split("|"c)
-
-                ' 读取名称数据
-                ' 将taxid和scientific name之间进行一一对应
-                If lineToken(3).TextEquals(sciNdeli) Then
-                    taxid = lineToken(0)
-                    taxid2name(taxid) = lineToken(1)
-                End If
-            Next
-
-            Call "names.dmp parsed".__DEBUG_ECHO
-            Call $"{nodes} parsing ...".__DEBUG_ECHO
-
-            For Each line As String In nodes.IterateAllLines
-                Dim lineTokens$() = line.Replace(ASCII.TAB, "").Split("|"c)
-
-                ' nodes.dmp
-                ' ---------
-                ' 
-                ' this file represents taxonomy nodes. The description for each node includes 
-                ' the following fields
-                '
-                '     tax_id                   -- node id in GenBank taxonomy database
-                '     parent tax_id            -- parent node id in GenBank taxonomy database
-                '     rank                     -- rank Of this node (superkingdom, kingdom, ...) 
-                ' 	  embl code                -- locus-name prefix; Not unique
-                '     division id                        -- see division.dmp file
-                '     inherited div flag  (1 Or 0)		 -- 1 if node inherits division from parent
-                ' 	  genetic code id				     -- see gencode.dmp file
-                '     inherited GC  flag  (1 Or 0)		 -- 1 if node inherits genetic code from parent
-                ' 	  mitochondrial genetic code id		 -- see gencode.dmp file
-                '     inherited MGC flag  (1 Or 0)	  	 -- 1 if node inherits mitochondrial gencode from parent
-                ' 	  GenBank hidden flag (1 Or 0)       -- 1 if name Is suppressed in GenBank entry lineage
-                ' 	  hidden subtree root flag (1 Or 0)  -- 1 if this subtree has no sequence data yet
-                ' 	  comments                           -- Free-Text comments And citations
-
-                taxid = lineTokens(0)
-                parent_taxid = lineTokens(1)
-
-                ' : # 18204/1308852
-                If taxonomy.ContainsKey(taxid) Then
-                    With taxonomy(taxid)
-                        .rank = lineTokens(2)
-                        .parent = parent_taxid
-                    End With
-                Else
-                    ' : # 1290648/1308852
-                    taxonomy(taxid) = New TaxonomyNode With {
-                        .name = taxid2name(taxid),
-                        .rank = lineTokens(2),
-                        .parent = parent_taxid,
-                        .children = New List(Of String),
-                        .taxid = taxid
-                    }
-                    Call taxid2name.Remove(taxid)
-                End If
-
-                If taxonomy.ContainsKey(parent_taxid) Then
-                    taxonomy(parent_taxid).children.Add(taxid)
-                Else
-                    ' create a new parent node
-                    taxonomy(parent_taxid) = New TaxonomyNode With {
-                        .name = taxid2name(parent_taxid),
-                        .rank = Nothing,
-                        .parent = Nothing,
-                        .children = New List(Of String) From {
-                            taxid
-                        },
-                        .taxid = parent_taxid
-                    }
-                    Call taxid2name.Remove(parent_taxid)
-                End If
-            Next
-
-            Call "nodes.dmp parsed".__DEBUG_ECHO
-
-            ' To avoid infinite Loop
-            Dim root_children = taxonomy("1").children
-            Call root_children.Remove("1")
-
-            With taxonomy("1")
-                .parent = Nothing
-                .children = root_children
-            End With
         End Sub
 
         ''' <summary>
