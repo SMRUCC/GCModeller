@@ -80,9 +80,10 @@ Imports Taxonomy = SMRUCC.genomics.Metagenomics.Taxonomy
 ''' of the described species of life on the planet.
 ''' </remarks>
 <Package("taxonomy_kit", Category:=APICategories.UtilityTools, Publisher:="xie.guigang@gcmodeller.org")>
+<RTypeExport("taxonomy", GetType(Taxonomy))>
 Module TaxonomyKit
 
-    Sub New()
+    Sub Main()
         Internal.ConsolePrinter.AttachConsoleFormatter(Of Taxonomy)(AddressOf printTaxonomy)
 
         Internal.Object.Converts.addHandler(GetType(NcbiTaxonomyTree), AddressOf lineageTable)
