@@ -72,6 +72,26 @@ Public Class OTUTable : Inherits DataSet
     <Column("taxonomy", GetType(BIOMTaxonomyParser))>
     Public Property taxonomy As Taxonomy
 
+    Public Shared Iterator Function SumDuplicatedOTU(otus As IEnumerable(Of OTUTable)) As IEnumerable(Of OTUTable)
+        For Each otu As IGrouping(Of String, OTUTable) In otus.GroupBy(Function(o) o.taxonomy.ToString)
+            Dim allSampleName As String() = otu.PropertyNames
+            Dim taxonomy = otu.First.taxonomy
+            Dim v As Dictionary(Of String, Double) = allSampleName _
+                .ToDictionary(Function(name) name,
+                              Function(name)
+                                  Return Aggregate m As OTUTable
+                                         In otu
+                                         Into Sum(m(name))
+                              End Function)
+
+            Yield New OTUTable With {
+                .ID = otu.Select(Function(m) m.ID).JoinBy("+"),
+                .taxonomy = taxonomy,
+                .Properties = v
+            }
+        Next
+    End Function
+
     ''' <summary>
     ''' 这个函数会自动兼容csv或者tsv格式的
     ''' </summary>
