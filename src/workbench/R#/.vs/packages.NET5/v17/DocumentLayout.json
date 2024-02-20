@@ -1,86 +1,12 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "E:\\GCModeller\\src\\workbench\\R#\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{05457007-17F0-445E-B445-E7FB35A3574A}|metagenomics_kit\\metagenomics_kit.NET5.vbproj|e:\\gcmodeller\\src\\workbench\\r#\\metagenomics_kit\\taxonomykit.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{05457007-17F0-445E-B445-E7FB35A3574A}|metagenomics_kit\\metagenomics_kit.NET5.vbproj|solutionrelative:metagenomics_kit\\taxonomykit.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DBF7724B-AB1C-4632-A822-0BA07AB9116B}|..\\..\\GCModeller\\core\\Bio.Assembly\\biocore-netcore5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\core\\bio.assembly\\assembly\\ncbi\\taxonomy\\tree\\ranks.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DBF7724B-AB1C-4632-A822-0BA07AB9116B}|..\\..\\GCModeller\\core\\Bio.Assembly\\biocore-netcore5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\core\\bio.assembly\\metagenomics\\taxonomy.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{05457007-17F0-445E-B445-E7FB35A3574A}|metagenomics_kit\\metagenomics_kit.vbproj|e:\\gcmodeller\\src\\workbench\\r#\\metagenomics_kit\\zzz.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{05457007-17F0-445E-B445-E7FB35A3574A}|metagenomics_kit\\metagenomics_kit.vbproj|solutionrelative:metagenomics_kit\\zzz.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": [
-        {
-          "DockedWidth": 200,
-          "SelectedChildIndex": 3,
-          "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Ranks.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Assembly\\NCBI\\Taxonomy\\Tree\\Ranks.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\core\\Bio.Assembly\\Assembly\\NCBI\\Taxonomy\\Tree\\Ranks.vb",
-              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Assembly\\NCBI\\Taxonomy\\Tree\\Ranks.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\core\\Bio.Assembly\\Assembly\\NCBI\\Taxonomy\\Tree\\Ranks.vb",
-              "ViewState": "AQIAAFkAAAAAAAAAAAAtwH8AAAAIAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-02-20T02:45:51.946Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "zzz.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\R#\\metagenomics_kit\\zzz.vb",
-              "RelativeDocumentMoniker": "metagenomics_kit\\zzz.vb",
-              "ToolTip": "E:\\GCModeller\\src\\workbench\\R#\\metagenomics_kit\\zzz.vb",
-              "RelativeToolTip": "metagenomics_kit\\zzz.vb",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAADgAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-02-20T02:42:04.427Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Taxonomy.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Metagenomics\\Taxonomy.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\core\\Bio.Assembly\\Metagenomics\\Taxonomy.vb",
-              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Metagenomics\\Taxonomy.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\core\\Bio.Assembly\\Metagenomics\\Taxonomy.vb",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAHIAAAAiAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-02-20T02:40:54.082Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "TaxonomyKit.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\R#\\metagenomics_kit\\TaxonomyKit.vb",
-              "RelativeDocumentMoniker": "metagenomics_kit\\TaxonomyKit.vb",
-              "ToolTip": "E:\\GCModeller\\src\\workbench\\R#\\metagenomics_kit\\TaxonomyKit.vb",
-              "RelativeToolTip": "metagenomics_kit\\TaxonomyKit.vb",
-              "ViewState": "AQIAADUBAAAAAAAAAAD4v0wBAAAXAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-02-20T01:56:13.141Z",
-              "EditorCaption": ""
-            }
-          ]
-        }
-      ]
+      "DocumentGroups": []
     }
   ]
 }
