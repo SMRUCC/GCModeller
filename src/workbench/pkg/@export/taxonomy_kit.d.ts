@@ -97,6 +97,10 @@ declare namespace taxonomy_kit {
       function taxonomy_tree(repo: string): object;
    }
    /**
+    * cast the ncbi taxonomy tree model to taxonomy ranks data
+    * 
+    * 
+     * @param ncbi_tree -
    */
    function ranks(ncbi_tree: object): object;
    module read {

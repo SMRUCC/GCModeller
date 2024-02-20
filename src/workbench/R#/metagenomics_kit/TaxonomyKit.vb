@@ -226,11 +226,20 @@ Module TaxonomyKit
     ''' + https://www.biostars.org/p/13452/ 
     ''' + https://pythonhosted.org/ete2/tutorial/tutorial_ncbitaxonomy.html
     ''' </remarks>
+    ''' <example>const tree = Ncbi.taxonomy_tree("/dir/path/to/ncbi_taxdump_archive/");</example>
     <ExportAPI("Ncbi.taxonomy_tree")>
     Public Function LoadNcbiTaxonomyTree(repo As String) As NcbiTaxonomyTree
         Return New NcbiTaxonomyTree(repo)
     End Function
 
+    ''' <summary>
+    ''' cast the ncbi taxonomy tree model to taxonomy ranks data
+    ''' </summary>
+    ''' <param name="ncbi_tree"></param>
+    ''' <returns></returns>
+    ''' <example>
+    ''' ranks(Ncbi.taxonomy_tree("/folder/path/to/ncbi_taxonomy_dump/"));
+    ''' </example>
     <ExportAPI("ranks")>
     Public Function ranks_list(ncbi_tree As NcbiTaxonomyTree) As Ranks
         Return New Ranks(ncbi_tree)
@@ -242,6 +251,9 @@ Module TaxonomyKit
     ''' <param name="tree"></param>
     ''' <param name="rank"></param>
     ''' <returns></returns>
+    ''' <example>
+    ''' taxonomy_ranks(tree, rank = "class");
+    ''' </example>
     <ExportAPI("taxonomy_ranks")>
     <RApiReturn(GetType(TaxonomyNode))>
     Public Function get_byRanks(tree As Ranks, rank As TaxonomyRanks) As Object

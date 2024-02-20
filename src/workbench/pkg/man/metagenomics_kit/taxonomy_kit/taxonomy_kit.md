@@ -9,7 +9,7 @@ toolkit for process ncbi taxonomy tree data
 + [biom_string.parse](taxonomy_kit/biom_string.parse.1) 
 + [unique_taxonomy](taxonomy_kit/unique_taxonomy.1) make taxonomy object unique
 + [Ncbi.taxonomy_tree](taxonomy_kit/Ncbi.taxonomy_tree.1) load ncbi taxonomy tree model from the given data files
-+ [ranks](taxonomy_kit/ranks.1) 
++ [ranks](taxonomy_kit/ranks.1) cast the ncbi taxonomy tree model to taxonomy ranks data
 + [taxonomy_ranks](taxonomy_kit/taxonomy_ranks.1) get all taxonomy tree nodes of the specific taxonomy ranks
 + [taxonomy.filter](taxonomy_kit/taxonomy.filter.1) 
 + [lineage](taxonomy_kit/lineage.1) get taxonomy lineage model from the ncbi taxonomy tree by given taxonomy id
