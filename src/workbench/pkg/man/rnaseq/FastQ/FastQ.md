@@ -1,4 +1,4 @@
-# FastQ
+﻿# FastQ
 
 FastQ toolkit
 > FASTQ format Is a text-based format For storing both a biological sequence 
