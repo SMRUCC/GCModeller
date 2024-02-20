@@ -74,6 +74,11 @@ Imports Taxonomy = SMRUCC.genomics.Metagenomics.Taxonomy
 ''' <summary>
 ''' toolkit for process ncbi taxonomy tree data
 ''' </summary>
+''' <remarks>
+''' The Taxonomy Database is a curated classification and nomenclature for all of the 
+''' organisms in the public sequence databases. This currently represents about 10% 
+''' of the described species of life on the planet.
+''' </remarks>
 <Package("taxonomy_kit", Category:=APICategories.UtilityTools, Publisher:="xie.guigang@gcmodeller.org")>
 Module TaxonomyKit
 
