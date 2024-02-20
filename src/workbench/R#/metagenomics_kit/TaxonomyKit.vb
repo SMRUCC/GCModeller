@@ -223,8 +223,10 @@ Module TaxonomyKit
     ''' { Taxid namedtuple('Node', ['name', 'rank', 'parent', 'children']
     '''     } 
     ''' ``` 
+    ''' 
     ''' + https://www.biostars.org/p/13452/ 
     ''' + https://pythonhosted.org/ete2/tutorial/tutorial_ncbitaxonomy.html
+    ''' 
     ''' </remarks>
     ''' <example>const tree = Ncbi.taxonomy_tree("/dir/path/to/ncbi_taxdump_archive/");</example>
     <ExportAPI("Ncbi.taxonomy_tree")>
