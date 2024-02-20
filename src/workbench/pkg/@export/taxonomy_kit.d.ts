@@ -7,6 +7,9 @@
 /**
  * toolkit for process ncbi taxonomy tree data
  * 
+ * > The Taxonomy Database is a curated classification and nomenclature for all of the 
+ * >  organisms in the public sequence databases. This currently represents about 10% 
+ * >  of the described species of life on the planet.
 */
 declare namespace taxonomy_kit {
    module as {
@@ -93,6 +96,9 @@ declare namespace taxonomy_kit {
       */
       function taxonomy_tree(repo: string): object;
    }
+   /**
+   */
+   function ranks(ncbi_tree: object): object;
    module read {
       /**
        * Parse the result output from mothur command ``summary.tax``.
@@ -121,6 +127,14 @@ declare namespace taxonomy_kit {
    /**
    */
    function taxonomy_range(tax: object, rank: object): object;
+   /**
+    * get all taxonomy tree nodes of the specific taxonomy ranks
+    * 
+    * 
+     * @param tree -
+     * @param rank -
+   */
+   function taxonomy_ranks(tree: object, rank: object): object;
    /**
     * make taxonomy object unique
     * 
