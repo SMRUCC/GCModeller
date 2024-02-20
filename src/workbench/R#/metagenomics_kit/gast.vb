@@ -65,6 +65,7 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 ''' gast 16s data analysis tools, combine with the mothur workflow
 ''' </summary>
 <Package("gast")>
+<RTypeExport("gastOUT", GetType(gast.gastOUT))>
 Module gastTools
 
     ''' <summary>
