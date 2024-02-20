@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Assembly.NCBI.Taxonomy.TaxonomyNode</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>TaxonomyNode {SMRUCC.genomics.Assembly.NCBI.Taxonomy}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>TaxonomyNode</h2>
+
+        <h3>Description</h3>
+
+        <p>The tree node calculation model for <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/Taxonomy/NcbiTaxonomyTree.html">NcbiTaxonomyTree</a>, a labeled tree node for a specific ncbi taxid.</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Assembly.NCBI.Taxonomy
+export class TaxonomyNode {
+   children: <a href="/vignettes/clr/Microsoft/VisualBasic/Language/List`1.html">List`1</a>;
+   # the scientific name of current taxonomy node
+   name: string;
+   # get size of list <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/Taxonomy/TaxonomyNode.html">TaxonomyNode</a>.<a href="/vignettes/clr/Microsoft/VisualBasic/Language/List`1.html">children</a>
+   nchilds: integer;
+   # 当前的节点的父节点的编号: <code>@</code>P:SMRUCC.genomics.Assembly.NCBI.Taxonomy.TaxonomyNode.taxid````
+   parent: string;
+   # One of the value in array collection <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/Taxonomy/NcbiTaxonomyTree.html">NcbiTaxonomyTree</a>.<a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/Collection/Index`1.html">stdranks</a>.
+   #  (当前节点的分类等级)
+   rank: string;
+   # the NCBI taxonomy id
+   taxid: integer;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>children</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Language/List`1.html">List`1</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

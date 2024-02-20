@@ -8,15 +8,28 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
 
 ''' <summary>
+''' PubMed is a free resource supporting the search and retrieval of biomedical and life sciences 
+''' literature with the aim of improving health–both globally and personally.
 ''' 
+''' The PubMed database contains more than 36 million citations And abstracts Of biomedical 
+''' literature. It does Not include full text journal articles; however, links To the full text 
+''' are often present When available from other sources, such As the publisher's website or 
+''' PubMed Central (PMC).
+''' 
+''' Available to the public online since 1996, PubMed was developed And Is maintained by the
+''' National Center for Biotechnology Information (NCBI), at the U.S. National Library of 
+''' Medicine (NLM), located at the National Institutes of Health (NIH).
 ''' </summary>
 <Package("pubmed")>
+<RTypeExport("article", GetType(PubmedArticle))>
+<RTypeExport("cite", GetType(MedlineCitation))>
 Module pubmed
 
     Sub Main()
         Call Internal.Object.Converts.makeDataframe.addHandler(GetType(PubmedArticle()), AddressOf createArticleTable)
     End Sub
 
+    <RGenericOverloads("as.data.frame")>
     Public Function createArticleTable(list As PubmedArticle(), args As list, env As Environment) As dataframe
         Dim df As New dataframe With {.columns = New Dictionary(Of String, Array)}
         Dim articles = list.Select(Function(a) a.MedlineCitation).ToArray

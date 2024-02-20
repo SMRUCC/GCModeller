@@ -59,9 +59,12 @@ Imports SMRUCC.genomics.Metagenomics
 Namespace gast
 
     ''' <summary>
-    ''' Tree node, (<see cref="Taxonomy.consensus(Taxonomy(), Double)"/>对象存在bug，当最低百分比低于50%的时候，
-    ''' 会造成重复的同等级分类出现，使用这个树对象来避免这种情况的发生)
+    ''' a taxonomy tree node
     ''' </summary>
+    ''' <remarks>
+    ''' <see cref="Taxonomy.consensus(Taxonomy(), Double)"/>对象存在bug，当最低百分比低于50%的时候，
+    ''' 会造成重复的同等级分类出现，使用这个树对象来避免这种情况的发生
+    ''' </remarks>
     Public Class TaxonomyTree : Inherits Taxonomy
 
         Public Property childs As New List(Of TaxonomyTree)

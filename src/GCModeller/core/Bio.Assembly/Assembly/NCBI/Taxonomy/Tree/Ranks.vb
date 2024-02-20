@@ -83,6 +83,7 @@ Namespace Assembly.NCBI.Taxonomy
             For Each treeNode In tree.Taxonomy
                 Dim node As TaxonomyNode = treeNode.Value
 
+                ' fix of the id mis-matched
                 node.taxid = treeNode.Key
 
                 Select Case node.rank
@@ -104,7 +105,7 @@ Namespace Assembly.NCBI.Taxonomy
             Me.ncbiTaxonomy = tree
         End Sub
 
-        Private Shared Sub addNode(pool As Dictionary(Of String, List(Of TaxonomyNode)), node As TaxonomyNode)
+        Private Shared Sub addNode(ByRef pool As Dictionary(Of String, List(Of TaxonomyNode)), node As TaxonomyNode)
             If Not pool.ContainsKey(node.name) Then
                 Call pool.Add(node.name, New List(Of TaxonomyNode))
             End If
@@ -112,7 +113,7 @@ Namespace Assembly.NCBI.Taxonomy
             Call pool(node.name).Add(node)
         End Sub
 
-        Private Function getByRank(rank As String) As IDictionary(Of String, List(Of TaxonomyNode))
+        Public Function getByRank(rank As String) As IDictionary(Of String, List(Of TaxonomyNode))
             Select Case LCase(rank)
                 Case NcbiTaxonomyTree.class : Return [class]
                 Case NcbiTaxonomyTree.family : Return family

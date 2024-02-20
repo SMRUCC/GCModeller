@@ -58,7 +58,7 @@ Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
-Imports stdNum = System.Math
+Imports std = System.Math
 
 ''' <summary>
 ''' The uniprot background model handler
@@ -67,11 +67,15 @@ Imports stdNum = System.Math
 <Package("UniProt")>
 Module UniProt
 
+    ''' <summary>
+    ''' extract the sub-cellular location information as background model
+    ''' </summary>
+    ''' <param name="uniprot"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("subcellular_location")>
     <RApiReturn(GetType(Background))>
-    Public Function SubcellularLocation(<RRawVectorArgument> uniprot As Object,
-                                        Optional env As Environment = Nothing) As Object
-
+    Public Function SubcellularLocation(<RRawVectorArgument> uniprot As Object, Optional env As Environment = Nothing) As Object
         Dim base = pipeline.TryCreatePipeline(Of entry)(uniprot, env)
 
         If base.isError Then
@@ -90,9 +94,7 @@ Module UniProt
     ''' <returns></returns>
     <ExportAPI("uniprot_keywords")>
     <RApiReturn(GetType(Background))>
-    Public Function uniprotKeywords(<RRawVectorArgument> uniprot As Object,
-                                    Optional env As Environment = Nothing) As Object
-
+    Public Function uniprotKeywords(<RRawVectorArgument> uniprot As Object, Optional env As Environment = Nothing) As Object
         Dim base = pipeline.TryCreatePipeline(Of entry)(uniprot, env)
 
         If base.isError Then
@@ -133,7 +135,7 @@ Module UniProt
                 .Select(Function(a)
                             Return New NamedValue(Of Double) With {
                                 .Name = $"{a}: {enrich(a).name}",
-                                .Value = -stdNum.Log10(enrich(a).pvalue),
+                                .Value = -std.Log10(enrich(a).pvalue),
                                 .Description = enrich(a).name
                             }
                         End Function) _
@@ -148,7 +150,11 @@ Module UniProt
                     max = {max.Max}
                 End If
 
-                profile = profile.Select(Function(a) New NamedValue(Of Double)(a.Name, If(a.Value.IsNaNImaginary, max(0), a.Value))).ToArray
+                profile = profile _
+                    .Select(Function(a)
+                                Return New NamedValue(Of Double)(a.Name, If(a.Value.IsNaNImaginary, max(0), a.Value))
+                            End Function) _
+                    .ToArray
                 catalogs.Add(group.Key, New CatalogProfile(data:=profile))
             End If
         Next

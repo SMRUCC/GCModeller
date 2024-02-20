@@ -1,0 +1,253 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "E:\\GCModeller\\src\\workbench\\R#\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{C573B99D-5ADA-4BC9-9020-1A4F6ACD0A15}|gseakit\\gseakit.NET5.vbproj|e:\\gcmodeller\\src\\workbench\\r#\\gseakit\\gsea.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{C573B99D-5ADA-4BC9-9020-1A4F6ACD0A15}|gseakit\\gseakit.NET5.vbproj|solutionrelative:gseakit\\gsea.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C573B99D-5ADA-4BC9-9020-1A4F6ACD0A15}|gseakit\\gseakit.NET5.vbproj|e:\\gcmodeller\\src\\workbench\\r#\\gseakit\\gseabackground.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{C573B99D-5ADA-4BC9-9020-1A4F6ACD0A15}|gseakit\\gseakit.NET5.vbproj|solutionrelative:gseakit\\gseabackground.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C573B99D-5ADA-4BC9-9020-1A4F6ACD0A15}|gseakit\\gseakit.NET5.vbproj|e:\\gcmodeller\\src\\workbench\\r#\\gseakit\\kobas.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{C573B99D-5ADA-4BC9-9020-1A4F6ACD0A15}|gseakit\\gseakit.NET5.vbproj|solutionrelative:gseakit\\kobas.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C573B99D-5ADA-4BC9-9020-1A4F6ACD0A15}|gseakit\\gseakit.NET5.vbproj|e:\\gcmodeller\\src\\workbench\\r#\\gseakit\\gsva.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{C573B99D-5ADA-4BC9-9020-1A4F6ACD0A15}|gseakit\\gseakit.NET5.vbproj|solutionrelative:gseakit\\gsva.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BAE91F3A-E2C6-4B2F-BF7B-02EB14C901BB}|..\\..\\GCModeller\\annotations\\GSEA\\FisherCore\\Fisher.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\annotations\\gsea\\fishercore\\knowledgebase\\backgroundgene.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{43F0EABA-7F5C-4CBB-8CD4-BBB812B561CB}|..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\microsoft.visualbasic.core\\src\\text\\xml\\models\\valuetuples\\namedvalues.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C93DF930-0861-48FC-9DED-2717D0706F8D}|..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\datavisual-netcore5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\visualize\\datavisualizationextensions\\degplot\\gsvadiff.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C573B99D-5ADA-4BC9-9020-1A4F6ACD0A15}|gseakit\\gseakit.NET5.vbproj|e:\\gcmodeller\\src\\workbench\\r#\\gseakit\\profiles.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{C573B99D-5ADA-4BC9-9020-1A4F6ACD0A15}|gseakit\\gseakit.NET5.vbproj|solutionrelative:gseakit\\profiles.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C573B99D-5ADA-4BC9-9020-1A4F6ACD0A15}|gseakit\\gseakit.NET5.vbproj|e:\\gcmodeller\\src\\workbench\\r#\\gseakit\\uniprot.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{C573B99D-5ADA-4BC9-9020-1A4F6ACD0A15}|gseakit\\gseakit.NET5.vbproj|solutionrelative:gseakit\\uniprot.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C8F00094-EB35-4790-A998-0B0930F95BCC}|kb\\kb.vbproj|e:\\gcmodeller\\src\\workbench\\r#\\kb\\pubmed.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{C8F00094-EB35-4790-A998-0B0930F95BCC}|kb\\kb.vbproj|solutionrelative:kb\\pubmed.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{11A1E42F-A454-4BDA-A568-6E62D58AD707}|..\\modules\\Knowledge_base\\Knowledge_base\\kb.NET5.vbproj|e:\\gcmodeller\\src\\workbench\\modules\\knowledge_base\\knowledge_base\\pubmed\\pubmedarticle.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C8F00094-EB35-4790-A998-0B0930F95BCC}|kb\\kb.vbproj|e:\\gcmodeller\\src\\workbench\\r#\\kb\\zzz.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{C8F00094-EB35-4790-A998-0B0930F95BCC}|kb\\kb.vbproj|solutionrelative:kb\\zzz.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{05457007-17F0-445E-B445-E7FB35A3574A}|metagenomics_kit\\metagenomics_kit.vbproj|e:\\gcmodeller\\src\\workbench\\r#\\metagenomics_kit\\otutabletools.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{05457007-17F0-445E-B445-E7FB35A3574A}|metagenomics_kit\\metagenomics_kit.vbproj|solutionrelative:metagenomics_kit\\otutabletools.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0F7F5A31-9276-4A1B-A5FC-4568FC4F94A8}|..\\..\\GCModeller\\analysis\\Metagenome\\Metagenome\\Metagenome.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\analysis\\metagenome\\metagenome\\otutable\\otutable.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 248,
+          "SelectedChildIndex": 8,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "NamedValues.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Text\\Xml\\Models\\ValueTuples\\NamedValues.vb",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Text\\Xml\\Models\\ValueTuples\\NamedValues.vb",
+              "ToolTip": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Text\\Xml\\Models\\ValueTuples\\NamedValues.vb",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Text\\Xml\\Models\\ValueTuples\\NamedValues.vb",
+              "ViewState": "AQIAAEoAAAAAAAAAAAAAAIsAAAA/AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-02-20T05:39:57.408Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "BackgroundGene.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\FisherCore\\KnowledgeBase\\BackgroundGene.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\annotations\\GSEA\\FisherCore\\KnowledgeBase\\BackgroundGene.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\FisherCore\\KnowledgeBase\\BackgroundGene.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\annotations\\GSEA\\FisherCore\\KnowledgeBase\\BackgroundGene.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAFAAAAAmAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-02-20T05:39:31.272Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "GSVADiff.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\visualize\\DataVisualizationExtensions\\DEGPlot\\GSVADiff.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\DEGPlot\\GSVADiff.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\visualize\\DataVisualizationExtensions\\DEGPlot\\GSVADiff.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\DEGPlot\\GSVADiff.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAADQAAAAxAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-02-20T05:38:43.995Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "UniProt.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\R#\\gseakit\\UniProt.vb",
+              "RelativeDocumentMoniker": "gseakit\\UniProt.vb",
+              "ToolTip": "E:\\GCModeller\\src\\workbench\\R#\\gseakit\\UniProt.vb",
+              "RelativeToolTip": "gseakit\\UniProt.vb",
+              "ViewState": "AQIAAD0AAAAAAAAAAAAAAJUAAAAjAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-02-20T05:37:20.206Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Profiles.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\R#\\gseakit\\Profiles.vb",
+              "RelativeDocumentMoniker": "gseakit\\Profiles.vb",
+              "ToolTip": "E:\\GCModeller\\src\\workbench\\R#\\gseakit\\Profiles.vb",
+              "RelativeToolTip": "gseakit\\Profiles.vb",
+              "ViewState": "AQIAANYAAAAAAAAAAAAcwAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-02-20T05:37:10.488Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "KOBAS.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\R#\\gseakit\\KOBAS.vb",
+              "RelativeDocumentMoniker": "gseakit\\KOBAS.vb",
+              "ToolTip": "E:\\GCModeller\\src\\workbench\\R#\\gseakit\\KOBAS.vb",
+              "RelativeToolTip": "gseakit\\KOBAS.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-02-20T05:37:06.878Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "GSVA.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\R#\\gseakit\\GSVA.vb",
+              "RelativeDocumentMoniker": "gseakit\\GSVA.vb",
+              "ToolTip": "E:\\GCModeller\\src\\workbench\\R#\\gseakit\\GSVA.vb",
+              "RelativeToolTip": "gseakit\\GSVA.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAADcAAAAVAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-02-20T05:36:41.898Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "GSEABackground.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\R#\\gseakit\\GSEABackground.vb",
+              "RelativeDocumentMoniker": "gseakit\\GSEABackground.vb",
+              "ToolTip": "E:\\GCModeller\\src\\workbench\\R#\\gseakit\\GSEABackground.vb",
+              "RelativeToolTip": "gseakit\\GSEABackground.vb",
+              "ViewState": "AQIAAEEAAAAAAAAAAAAAAGAAAAAuAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-02-20T05:36:32.677Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "GSEA.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\R#\\gseakit\\GSEA.vb",
+              "RelativeDocumentMoniker": "gseakit\\GSEA.vb",
+              "ToolTip": "E:\\GCModeller\\src\\workbench\\R#\\gseakit\\GSEA.vb",
+              "RelativeToolTip": "gseakit\\GSEA.vb",
+              "ViewState": "AQIAAIEBAAAAAAAAAAAowIsBAAAZAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-02-20T05:36:28.828Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "PubmedArticle.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\Knowledge_base\\PubMed\\PubmedArticle.vb",
+              "RelativeDocumentMoniker": "..\\modules\\Knowledge_base\\Knowledge_base\\PubMed\\PubmedArticle.vb",
+              "ToolTip": "E:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\Knowledge_base\\PubMed\\PubmedArticle.vb",
+              "RelativeToolTip": "..\\modules\\Knowledge_base\\Knowledge_base\\PubMed\\PubmedArticle.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAFwAAAA6AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-02-20T05:31:54.76Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "zzz.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\R#\\kb\\zzz.vb",
+              "RelativeDocumentMoniker": "kb\\zzz.vb",
+              "ToolTip": "E:\\GCModeller\\src\\workbench\\R#\\kb\\zzz.vb",
+              "RelativeToolTip": "kb\\zzz.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-02-20T05:30:23.609Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "pubmed.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\R#\\kb\\pubmed.vb",
+              "RelativeDocumentMoniker": "kb\\pubmed.vb",
+              "ToolTip": "E:\\GCModeller\\src\\workbench\\R#\\kb\\pubmed.vb",
+              "RelativeToolTip": "kb\\pubmed.vb",
+              "ViewState": "AQIAAAkAAAAAAAAAAAAAABsAAAAOAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-02-20T05:30:21.008Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "OTUTable.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\analysis\\Metagenome\\Metagenome\\OTUTable\\OTUTable.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\Metagenome\\Metagenome\\OTUTable\\OTUTable.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\analysis\\Metagenome\\Metagenome\\OTUTable\\OTUTable.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\Metagenome\\Metagenome\\OTUTable\\OTUTable.vb",
+              "ViewState": "AQIAAFIAAAAAAAAAAIA+wFsAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-02-20T05:29:15.512Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "OTUTableTools.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\R#\\metagenomics_kit\\OTUTableTools.vb",
+              "RelativeDocumentMoniker": "metagenomics_kit\\OTUTableTools.vb",
+              "ToolTip": "E:\\GCModeller\\src\\workbench\\R#\\metagenomics_kit\\OTUTableTools.vb",
+              "RelativeToolTip": "metagenomics_kit\\OTUTableTools.vb",
+              "ViewState": "AQIAAEYAAAAAAAAAAAAAAFsAAABAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-02-20T05:28:41.35Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

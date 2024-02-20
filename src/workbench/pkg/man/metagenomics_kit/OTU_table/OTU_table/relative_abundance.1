@@ -1,9 +1,21 @@
 .\" man page create by R# package system.
 .TH OTU_TABLE 1 2000-Jan "relative_abundance" "relative_abundance"
 .SH NAME
-relative_abundance \- 
+relative_abundance \- Transform abundance data in an otu_table to relative abundance, sample-by-sample.
 .SH SYNOPSIS
 \fIrelative_abundance(\fBx\fR as <generic> OTUTable[]);\fR
+.SH DESCRIPTION
+.PP
+Transform abundance data in an otu_table to relative abundance, sample-by-sample. 
+ 
+ Transform abundance data into relative abundance, i.e. proportional data. This is 
+ an alternative method of normalization and may not be appropriate for all datasets,
+ particularly if your sequencing depth varies between samples.
+.PP
+.SH OPTIONS
+.PP
+\fBx\fB \fR\- -. 
+.PP
 .SH SEE ALSO
 OTU_table
 .SH FILES

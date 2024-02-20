@@ -96,12 +96,74 @@ Imports REnv = SMRUCC.Rsharp.Runtime.Internal
 <RTypeExport("kegg_pathway", GetType(Pathway))>
 <RTypeExport("kegg_reaction", GetType(Reaction))>
 <RTypeExport("kegg_compound", GetType(Compound))>
+<RTypeExport("kegg_map", GetType(Map))>
 Public Module repository
 
     Friend Sub Main()
         Call REnv.ConsolePrinter.AttachConsoleFormatter(Of ReactionTable())(AddressOf showTable)
         Call REnv.Object.Converts.makeDataframe.addHandler(GetType(Map()), AddressOf showMapTable)
+
+        ' data files
+        Call Internal.generic.add("writeBin", GetType(CompoundRepository), AddressOf writeKeggCompounds)
+        Call Internal.generic.add("writeBin", GetType(MapRepository), AddressOf writeKeggMaps)
+        Call Internal.generic.add("writeBin", GetType(ReactionRepository), AddressOf writeKeggReactions)
+
+        Call Internal.generic.add("writeBin", GetType(Compound()), AddressOf writeKeggCompoundSet)
+        Call Internal.generic.add("writeBin", GetType(Map()), AddressOf writeKeggMapSet)
+        Call Internal.generic.add("writeBin", GetType(Reaction()), AddressOf writeKeggReactionSet)
+
+        Call Internal.generic.add("readBin.kegg_compound", GetType(Stream), AddressOf readKeggCompounds)
+        Call Internal.generic.add("readBin.kegg_reaction", GetType(Stream), AddressOf readKeggReactions)
+        Call Internal.generic.add("readBin.kegg_pathway", GetType(Stream), AddressOf readKeggMaps)
     End Sub
+
+    Private Function readKeggCompounds(file As Stream, args As list, env As Environment) As Object
+        Return KEGGCompoundPack.ReadKeggDb(file)
+    End Function
+
+    Private Function readKeggMaps(file As Stream, args As list, env As Environment) As Object
+        Return KEGGMapPack.ReadKeggDb(file)
+    End Function
+
+    Private Function readKeggReactions(file As Stream, args As list, env As Environment) As Object
+        Return KEGGReactionPack.ReadKeggDb(file)
+    End Function
+
+    <RGenericOverloads("writeBin")>
+    Private Function writeKeggCompounds(compounds As CompoundRepository, args As list, env As Environment) As Object
+        Dim stream As Stream = args!con
+
+        Return compounds.Compounds _
+            .Select(Function(c) c.Entity) _
+            .DoCall(Function(ls)
+                        Return KEGGCompoundPack.WriteKeggDb(ls, stream)
+                    End Function)
+    End Function
+
+    <RGenericOverloads("writeBin")>
+    Private Function writeKeggMaps(maps As MapRepository, args As list, env As Environment) As Object
+        Return KEGGMapPack.WriteKeggDb(maps.AsEnumerable, args!con)
+    End Function
+
+    <RGenericOverloads("writeBin")>
+    Private Function writeKeggReactions(reactions As ReactionRepository, args As list, env As Environment) As Object
+        Return KEGGReactionPack.WriteKeggDb(reactions.metabolicNetwork, args!con)
+    End Function
+
+    <RGenericOverloads("writeBin")>
+    Private Function writeKeggCompoundSet(compounds As Compound(), args As list, env As Environment) As Object
+        Return KEGGCompoundPack.WriteKeggDb(compounds, args!con)
+    End Function
+
+    <RGenericOverloads("writeBin")>
+    Private Function writeKeggMapSet(maps As Map(), args As list, env As Environment) As Object
+        Return KEGGMapPack.WriteKeggDb(maps, args!con)
+    End Function
+
+    <RGenericOverloads("writeBin")>
+    Private Function writeKeggReactionSet(reactions As Reaction(), args As list, env As Environment) As Object
+        Return KEGGReactionPack.WriteKeggDb(reactions, args!con)
+    End Function
 
     Private Function showTable(table As ReactionTable()) As String
         Return table.Take(6).ToCsvDoc.AsMatrix.Print()
@@ -145,30 +207,22 @@ Public Module repository
     <ExportAPI("write.msgpack")>
     <RApiReturn(GetType(Boolean))>
     Public Function writeMessagePack(<RRawVectorArgument> data As Object, file As Object, Optional env As Environment = Nothing) As Object
+        Dim f = SMRUCC.Rsharp.GetFileStream(file, FileAccess.Write, env)
+        Dim reader As pipeline
         Dim stream As Stream
 
-        If file Is Nothing Then
-            Return Internal.debug.stop("the required file resource can not be nothing!", env)
-        ElseIf TypeOf file Is Stream Then
-            stream = file
-        ElseIf TypeOf file Is String Then
-            stream = DirectCast(file, String).Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False)
+        If f Like GetType(Message) Then
+            Return f.TryCast(Of Message)
         Else
-            Return Message.InCompatibleType(GetType(Stream), file.GetType, env)
+            stream = f.TryCast(Of Stream)
         End If
 
-        Dim reader As pipeline
-
         If TypeOf data Is CompoundRepository Then
-            Return DirectCast(data, CompoundRepository).Compounds _
-                .Select(Function(c) c.Entity) _
-                .DoCall(Function(ls)
-                            Return KEGGCompoundPack.WriteKeggDb(ls, stream)
-                        End Function)
+            Return writeKeggCompounds(data, New list(("con", stream)), env)
         ElseIf TypeOf data Is MapRepository Then
-            Return KEGGMapPack.WriteKeggDb(DirectCast(data, MapRepository).AsEnumerable, stream)
+            Return writeKeggMaps(data, New list(("con", stream)), env)
         ElseIf TypeOf data Is ReactionRepository Then
-            Return KEGGReactionPack.WriteKeggDb(DirectCast(data, ReactionRepository).metabolicNetwork, stream)
+            Return writeKeggReactions(data, New list(("con", stream)), env)
         End If
 
         reader = pipeline.TryCreatePipeline(Of Map)(data, env, suppress:=True)
@@ -393,7 +447,7 @@ Public Module repository
                 Return KEGGPathwayPack.ReadKeggDb(repository)
             ElseIf repository.ExtensionSuffix("db") Then
                 Dim file As Stream = repository.Open(FileMode.Open, doClear:=False, [readOnly]:=True)
-                Dim models As Pathway() = ReadKeggMaps(buffer:=file)
+                Dim models As Pathway() = Data.ReadKeggMaps(buffer:=file)
 
                 Return models
             Else

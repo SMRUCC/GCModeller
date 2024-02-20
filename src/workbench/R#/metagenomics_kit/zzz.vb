@@ -53,6 +53,11 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 
 <Assembly: RPackageModule>
 
-Public Class zzz
+Public NotInheritable Class zzz
 
+    Public Shared Sub onLoad()
+        Call microbiomeKit.Main()
+        Call TaxonomyKit.Main()
+        Call BIOMkit.Main()
+    End Sub
 End Class

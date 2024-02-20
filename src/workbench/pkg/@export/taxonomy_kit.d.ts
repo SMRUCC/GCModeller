@@ -7,6 +7,9 @@
 /**
  * toolkit for process ncbi taxonomy tree data
  * 
+ * > The Taxonomy Database is a curated classification and nomenclature for all of the 
+ * >  organisms in the public sequence databases. This currently represents about 10% 
+ * >  of the described species of life on the planet.
 */
 declare namespace taxonomy_kit {
    module as {
@@ -14,13 +17,7 @@ declare namespace taxonomy_kit {
        * convert the mothur rank tree as the OTU table
        * 
        * 
-        * @param tree -
-      */
-      function OTU_table(tree: object): object;
-      /**
-       * convert the mothur rank tree as the OTU table
-       * 
-       * 
+        * @param x -
         * @param id 
         * + default value Is ``'OTU_num'``.
         * @param taxonomy 
@@ -28,7 +25,7 @@ declare namespace taxonomy_kit {
         * @param env 
         * + default value Is ``null``.
       */
-      function OTUtable(table: object, id?: string, taxonomy?: string, env?: object): object;
+      function OTU_table(x: any, id?: string, taxonomy?: string, env?: object): object;
       module taxonomy {
          /**
           * build taxonomy tree based on a given collection of taxonomy object.
@@ -56,7 +53,14 @@ declare namespace taxonomy_kit {
    }
    module biom_string {
       /**
-        * @param env default value Is ``null``.
+       * parse the taxonomy string in BIOM style
+       * 
+       * 
+        * @param taxonomy a character vector of the taxonomy string in BIOM style
+        * @param env -
+        * 
+        * + default value Is ``null``.
+        * @return a vector of @``T:SMRUCC.genomics.Metagenomics.Taxonomy`` object.
       */
       function parse(taxonomy: any, env?: object): any;
    }
@@ -85,6 +89,7 @@ declare namespace taxonomy_kit {
        * >  { Taxid namedtuple('Node', ['name', 'rank', 'parent', 'children']
        * >      } 
        * >  ``` 
+       * >  
        * >  + https://www.biostars.org/p/13452/ 
        * >  + https://pythonhosted.org/ete2/tutorial/tutorial_ncbitaxonomy.html
        * 
@@ -93,6 +98,13 @@ declare namespace taxonomy_kit {
       */
       function taxonomy_tree(repo: string): object;
    }
+   /**
+    * cast the ncbi taxonomy tree model to taxonomy ranks data
+    * 
+    * 
+     * @param ncbi_tree -
+   */
+   function ranks(ncbi_tree: object): object;
    module read {
       /**
        * Parse the result output from mothur command ``summary.tax``.
@@ -114,13 +126,27 @@ declare namespace taxonomy_kit {
    }
    module taxonomy {
       /**
-        * @param taxid default value Is ``null``.
+       * 
+       * 
+        * @param tree the ncbi taxonomy tree model
+        * @param range a collection of the ncbi taxonomy id or BIOM taxonomy string.
+        * @param taxid a lambda function will be returns if this ncbi taxonomy id set is missing.
+        * 
+        * + default value Is ``null``.
       */
       function filter(tree: object, range: string, taxid?: object): object|object;
    }
    /**
    */
    function taxonomy_range(tax: object, rank: object): object;
+   /**
+    * get all taxonomy tree nodes of the specific taxonomy ranks
+    * 
+    * 
+     * @param tree -
+     * @param rank -
+   */
+   function taxonomy_ranks(tree: object, rank: object): object;
    /**
     * make taxonomy object unique
     * 

@@ -1,55 +1,55 @@
 ﻿#Region "Microsoft.VisualBasic::14b5be126579d9ea48e57e383da5ad3a, R#\metagenomics_kit\TaxonomyKit.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 397
-    '    Code Lines: 276
-    ' Comment Lines: 78
-    '   Blank Lines: 43
-    '     File Size: 16.85 KB
+' Summaries:
 
 
-    ' Module TaxonomyKit
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: (+2 Overloads) asOTUTable, buildTree, Consensus, filterLambda, Filters
-    '               getOTUDataframe, InRange, Lineage, lineageTable, loadMothurTree
-    '               LoadNcbiTaxonomyTree, ParseBIOMString, printTaxonomy, RangeFilter, readOTUTable
-    '               TaxonomyBIOMString, TaxonomyRange, uniqueTaxonomy
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 397
+'    Code Lines: 276
+' Comment Lines: 78
+'   Blank Lines: 43
+'     File Size: 16.85 KB
+
+
+' Module TaxonomyKit
+' 
+'     Constructor: (+1 Overloads) Sub New
+'     Function: (+2 Overloads) asOTUTable, buildTree, Consensus, filterLambda, Filters
+'               getOTUDataframe, InRange, Lineage, lineageTable, loadMothurTree
+'               LoadNcbiTaxonomyTree, ParseBIOMString, printTaxonomy, RangeFilter, readOTUTable
+'               TaxonomyBIOMString, TaxonomyRange, uniqueTaxonomy
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -65,6 +65,7 @@ Imports SMRUCC.genomics.Analysis.Metagenome.gast
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
 Imports SMRUCC.genomics.Metagenomics
 Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
@@ -74,10 +75,16 @@ Imports Taxonomy = SMRUCC.genomics.Metagenomics.Taxonomy
 ''' <summary>
 ''' toolkit for process ncbi taxonomy tree data
 ''' </summary>
+''' <remarks>
+''' The Taxonomy Database is a curated classification and nomenclature for all of the 
+''' organisms in the public sequence databases. This currently represents about 10% 
+''' of the described species of life on the planet.
+''' </remarks>
 <Package("taxonomy_kit", Category:=APICategories.UtilityTools, Publisher:="xie.guigang@gcmodeller.org")>
+<RTypeExport("taxonomy", GetType(Taxonomy))>
 Module TaxonomyKit
 
-    Sub New()
+    Sub Main()
         Internal.ConsolePrinter.AttachConsoleFormatter(Of Taxonomy)(AddressOf printTaxonomy)
 
         Internal.Object.Converts.addHandler(GetType(NcbiTaxonomyTree), AddressOf lineageTable)
@@ -153,6 +160,12 @@ Module TaxonomyKit
     ''' </param>
     ''' <param name="env"></param>
     ''' <returns></returns>
+    ''' <example>
+    ''' # parse the string as taxonomy object
+    ''' let tax = biom_string.parse(["k__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Lachnospiraceae; g__Robinsoniella; s__peoriensis"]);
+    ''' # then convert back the taxonomy object as the string content
+    ''' print(biom.string(tax));
+    ''' </example>
     <ExportAPI("biom.string")>
     <RApiReturn(GetType(String))>
     Public Function TaxonomyBIOMString(<RRawVectorArgument>
@@ -173,6 +186,15 @@ Module TaxonomyKit
         End If
     End Function
 
+    ''' <summary>
+    ''' parse the taxonomy string in BIOM style
+    ''' </summary>
+    ''' <param name="taxonomy">a character vector of the taxonomy string in BIOM style</param>
+    ''' <param name="env"></param>
+    ''' <returns>a vector of <see cref="Taxonomy"/> object.</returns>
+    ''' <example>
+    ''' biom_string.parse(["k__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Lachnospiraceae; g__Robinsoniella; s__peoriensis"]);
+    ''' </example>
     <ExportAPI("biom_string.parse")>
     Public Function ParseBIOMString(<RRawVectorArgument> taxonomy As Object, Optional env As Environment = Nothing) As Object
         Dim strings As String() = CLRVector.asCharacter(taxonomy)
@@ -217,14 +239,59 @@ Module TaxonomyKit
     ''' { Taxid namedtuple('Node', ['name', 'rank', 'parent', 'children']
     '''     } 
     ''' ``` 
+    ''' 
     ''' + https://www.biostars.org/p/13452/ 
     ''' + https://pythonhosted.org/ete2/tutorial/tutorial_ncbitaxonomy.html
+    ''' 
     ''' </remarks>
+    ''' <example>const tree = Ncbi.taxonomy_tree("/dir/path/to/ncbi_taxdump_archive/");</example>
     <ExportAPI("Ncbi.taxonomy_tree")>
     Public Function LoadNcbiTaxonomyTree(repo As String) As NcbiTaxonomyTree
         Return New NcbiTaxonomyTree(repo)
     End Function
 
+    ''' <summary>
+    ''' cast the ncbi taxonomy tree model to taxonomy ranks data
+    ''' </summary>
+    ''' <param name="ncbi_tree"></param>
+    ''' <returns></returns>
+    ''' <example>
+    ''' ranks(Ncbi.taxonomy_tree("/folder/path/to/ncbi_taxonomy_dump/"));
+    ''' </example>
+    <ExportAPI("ranks")>
+    Public Function ranks_list(ncbi_tree As NcbiTaxonomyTree) As Ranks
+        Return New Ranks(ncbi_tree)
+    End Function
+
+    ''' <summary>
+    ''' get all taxonomy tree nodes of the specific taxonomy ranks
+    ''' </summary>
+    ''' <param name="tree"></param>
+    ''' <param name="rank"></param>
+    ''' <returns></returns>
+    ''' <example>
+    ''' taxonomy_ranks(tree, rank = "class");
+    ''' </example>
+    <ExportAPI("taxonomy_ranks")>
+    <RApiReturn(GetType(TaxonomyNode))>
+    Public Function get_byRanks(tree As Ranks, rank As TaxonomyRanks) As Object
+        Return New list With {
+            .slots = tree _
+                .getByRank(rank.Description) _
+                .ToDictionary(Function(a) a.Key,
+                              Function(a)
+                                  Return CObj(a.Value.ToArray)
+                              End Function)
+        }
+    End Function
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="tree">the ncbi taxonomy tree model</param>
+    ''' <param name="range">a collection of the ncbi taxonomy id or BIOM taxonomy string.</param>
+    ''' <param name="taxid">a lambda function will be returns if this ncbi taxonomy id set is missing.</param>
+    ''' <returns></returns>
     <ExportAPI("taxonomy.filter")>
     <RApiReturn(GetType(Taxonomy), GetType(Predicate(Of Taxonomy)))>
     Public Function Filters(tree As NcbiTaxonomyTree, range As String(), Optional taxid As Integer() = Nothing) As Object
@@ -344,11 +411,26 @@ Module TaxonomyKit
     ''' <summary>
     ''' convert the mothur rank tree as the OTU table
     ''' </summary>
-    ''' <param name="tree"></param>
+    ''' <param name="x"></param>
     ''' <returns></returns>
     <ExportAPI("as.OTU_table")>
-    Public Function asOTUTable(tree As MothurRankTree) As OTUTable()
-        Return tree.GetOTUTable
+    <RApiReturn(GetType(OTUTable))>
+    Public Function asOTUTable(x As Object,
+                               Optional id As String = "OTU_num",
+                               Optional taxonomy As String = "taxonomy",
+                               Optional env As Environment = Nothing) As Object
+
+        If x Is Nothing Then
+            Return Nothing
+        End If
+
+        If TypeOf x Is MothurRankTree Then
+            Return DirectCast(x, MothurRankTree).GetOTUTable
+        ElseIf TypeOf x Is rdataframe Then
+            Return asOTUTable(DirectCast(x, rdataframe), id, taxonomy)
+        Else
+            Return Message.InCompatibleType(GetType(MothurRankTree), x.GetType, env)
+        End If
     End Function
 
     ''' <summary>
@@ -357,13 +439,10 @@ Module TaxonomyKit
     ''' <param name="table"></param>
     ''' <param name="id"></param>
     ''' <param name="taxonomy"></param>
-    ''' <param name="env"></param>
     ''' <returns></returns>
-    <ExportAPI("as.OTUtable")>
     Public Function asOTUTable(table As rdataframe,
                                Optional id As String = "OTU_num",
-                               Optional taxonomy As String = "taxonomy",
-                               Optional env As Environment = Nothing) As OTUTable()
+                               Optional taxonomy As String = "taxonomy") As OTUTable()
 
         Dim unique_id As String() = CLRVector.asCharacter(table.getColumnVector(id))
         Dim taxonomyStr As Taxonomy() = CLRVector.asCharacter(table.getColumnVector(taxonomy)) _
@@ -403,25 +482,7 @@ Module TaxonomyKit
         Dim otus As OTUTable() = file.LoadCsv(Of OTUTable)(mute:=True).ToArray
 
         If sumDuplicated Then
-            Return otus _
-                .GroupBy(Function(o) o.taxonomy.ToString) _
-                .Select(Function(otu)
-                            Dim allSampleName As String() = otu.PropertyNames
-                            Dim v As Dictionary(Of String, Double) = allSampleName _
-                                .ToDictionary(Function(name) name,
-                                                Function(name)
-                                                    Return Aggregate m As OTUTable
-                                                            In otu
-                                                            Into Sum(m(name))
-                                                End Function)
-
-                            Return New OTUTable With {
-                                .ID = otu.Select(Function(m) m.ID).JoinBy("+"),
-                                .taxonomy = otu.First.taxonomy,
-                                .Properties = v
-                            }
-                        End Function) _
-                .ToArray
+            Return OTUTable.SumDuplicatedOTU(otus).ToArray
         Else
             Return otus
         End If

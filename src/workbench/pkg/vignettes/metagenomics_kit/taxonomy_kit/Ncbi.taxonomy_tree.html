@@ -5,7 +5,7 @@
     <title>load ncbi taxonomy tree model from the given data files</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-    <link rel="stylesheet" type="text/css" href="../../_assets/page.css">
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
 </head>
 
 <body>
@@ -35,8 +35,8 @@
         <table>
             
 <dt>repo</dt>
-<dd><p><p>a directory folder path which contains the NCBI taxonomy <br />
- tree data files: <code>nodes.dmp</code> and <code>names.dmp</code>.</p></p></dd>
+<dd><p>a directory folder path which contains the NCBI taxonomy <br />
+ tree data files: <code>nodes.dmp</code> and <code>names.dmp</code>. [as string]</p></dd>
 
         </table>
 
@@ -52,9 +52,12 @@
  } 
 </code></pre>
 
-<p><br />
- + <a href="https://www.biostars.org/p/13452/">https://www.biostars.org/p/13452/</a> <br />
- + <a href="https://pythonhosted.org/ete2/tutorial/tutorial_ncbitaxonomy.html">https://pythonhosted.org/ete2/tutorial/tutorial_ncbitaxonomy.html</a></p>
+<p></p>
+
+<ul>
+<li><a href="https://www.biostars.org/p/13452/">https://www.biostars.org/p/13452/</a> </li>
+<li><a href="https://pythonhosted.org/ete2/tutorial/tutorial_ncbitaxonomy.html">https://pythonhosted.org/ete2/tutorial/tutorial_ncbitaxonomy.html</a></li>
+</ul>
 
         <h3 style="display: block">Authors</h3>
 
@@ -64,9 +67,9 @@
 
         this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/Taxonomy/NcbiTaxonomyTree.html">NcbiTaxonomyTree</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/Taxonomy/NcbiTaxonomyTree.html">NcbiTaxonomyTree</a></li></ul>
 
-        <h3 style="display: none;">Examples</h3>
+        <h3 style="display: block;">Examples</h3>
 
-        
+        <pre><code id="example_r"> const tree = Ncbi.taxonomy_tree("/dir/path/to/ncbi_taxdump_archive/");</code></pre>
 
         <hr />
         <div style="text-align: center;">[Package <em>taxonomy_kit</em> version 1.0.0.0 <a
@@ -75,8 +78,8 @@
     </div>
 </body>
 
-<script type="text/javascript" src="../../_assets/R_syntax.js"></script>
-<script type="text/javascript" src="../../_assets/highlights.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
 <script type="text/javascript">r_highlights("example_r");</script>
 
 </html>

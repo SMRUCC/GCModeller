@@ -94,6 +94,7 @@ Imports REnv = SMRUCC.Rsharp.Runtime.Internal.ConsolePrinter
 <Package("background", Category:=APICategories.ResearchTools)>
 <RTypeExport("metpa", GetType(metpa))>
 <RTypeExport("gsea_background", GetType(Background))>
+<RTypeExport("gene_symbol", GetType(BackgroundGene))>
 Public Module GSEABackground
 
     Sub Main()

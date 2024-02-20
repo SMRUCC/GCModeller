@@ -56,10 +56,37 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.Metagenome
 Imports SMRUCC.Rsharp.Runtime.Interop
 
+''' <summary>
+''' Tools for handling OTU table data
+''' </summary>
+''' <remarks>
+''' ### Operational taxonomic unit (OTU)
+''' 
+''' OTU's are used to categorize bacteria based on sequence similarity.
+''' 
+''' In 16S metagenomics approaches, OTUs are cluster of similar sequence variants of the 
+''' 16S rDNA marker gene sequence. Each of these cluster is intended to represent a 
+''' taxonomic unit of a bacteria species or genus depending on the sequence similarity 
+''' threshold. Typically, OTU cluster are defined by a 97% identity threshold of the 16S 
+''' gene sequences to distinguish bacteria at the genus level.
+'''
+''' Species separation requires a higher threshold Of 98% Or 99% sequence identity, Or 
+''' even better the use Of exact amplicon sequence variants (ASV) instead Of OTU sequence 
+''' clusters.
+''' </remarks>
 <Package("OTU_table")>
 <RTypeExport("OTU_table", GetType(OTUTable))>
 Module OTUTableTools
 
+    ''' <summary>
+    ''' Transform abundance data in an otu_table to relative abundance, sample-by-sample. 
+    ''' 
+    ''' Transform abundance data into relative abundance, i.e. proportional data. This is 
+    ''' an alternative method of normalization and may not be appropriate for all datasets,
+    ''' particularly if your sequencing depth varies between samples.
+    ''' </summary>
+    ''' <param name="x"></param>
+    ''' <returns></returns>
     <ExportAPI("relative_abundance")>
     <RApiReturn(GetType(OTUTable))>
     Public Function relativeAbundance(x As OTUTable()) As Object

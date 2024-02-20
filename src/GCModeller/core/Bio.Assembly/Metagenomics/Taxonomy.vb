@@ -67,9 +67,11 @@ Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
 Namespace Metagenomics
 
     ''' <summary>
-    ''' A simple organism taxonomy model.(主要是用来保存csv以及Xml文件使用)
+    ''' A simple organism taxonomy model.
     ''' </summary>
-    ''' 
+    ''' <remarks>
+    ''' 主要是用来保存csv以及Xml文件使用
+    ''' </remarks>
     <XmlType("taxonomy", [Namespace]:=SMRUCC.genomics.LICENSE.GCModeller)>
     Public Class Taxonomy
 
