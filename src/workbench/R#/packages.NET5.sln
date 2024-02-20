@@ -195,7 +195,7 @@ Project("{778DAE3C-4631-46EA-AA77-85C1314464D9}") = "Fisher.NET5", "..\..\GCMode
 EndProject
 Project("{778DAE3C-4631-46EA-AA77-85C1314464D9}") = "JSON-netcore5", "..\..\runtime\sciBASIC#\mime\application%json\JSON-netcore5.vbproj", "{82081DE5-5F9B-4942-A7B1-0E286FE6A209}"
 EndProject
-Project("{778DAE3C-4631-46EA-AA77-85C1314464D9}") = "metagenomics_kit.NET5", "metagenomics_kit\metagenomics_kit.NET5.vbproj", "{05457007-17F0-445E-B445-E7FB35A3574A}"
+Project("{778DAE3C-4631-46EA-AA77-85C1314464D9}") = "metagenomics_kit", "metagenomics_kit\metagenomics_kit.vbproj", "{05457007-17F0-445E-B445-E7FB35A3574A}"
 EndProject
 Project("{778DAE3C-4631-46EA-AA77-85C1314464D9}") = "BIOM.NET5", "..\..\GCModeller\models\BIOM\BIOM\BIOM.NET5.vbproj", "{92150242-1A11-4B34-BF1F-833BE7EA79CB}"
 EndProject

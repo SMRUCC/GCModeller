@@ -59,10 +59,14 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 Namespace Assembly.NCBI.Taxonomy
 
     ''' <summary>
-    ''' The tree node calculation model for <see cref="NcbiTaxonomyTree"/>
+    ''' The tree node calculation model for <see cref="NcbiTaxonomyTree"/>, a labeled tree node for a specific ncbi taxid.
     ''' </summary>
     Public Class TaxonomyNode
 
+        ''' <summary>
+        ''' the NCBI taxonomy id
+        ''' </summary>
+        ''' <returns></returns>
         Public Property taxid As Integer
         Public Property name As String
 
