@@ -240,16 +240,16 @@ C    03230  Viral genome structure
 C    03240  Viral replication
 C    03250  Viral life cycle - HIV-1
 C    03260  Virion - Human immunodeficiency virus
+C    03271  Virion - Rotavirus
 C    03262  Virion - Coronavirus
-C    03261  Virion - Influenza A virus
+C    03261  Virion - Influenza virus
 C    03263  Virion - Enterovirus
 C    03264  Virion - Flavivirus
-C    03265  Virion - Lyssavirus
+C    03265  Virion - Ebolavirus and Lyssavirus
 C    03266  Virion - Herpesvirus
 C    03268  Virion - Orthopoxvirus
 C    03267  Virion - Adenovirus
-C    03269  Virion - Bacteriophage T4
-C    03259  Virion - Bacteriophage T7
+C    03259  Virion - Bacteriophages T4 and T7
 C    03258  Virion - Bacteriophage lambda
 #
 A<b>Environmental Information Processing</b>
@@ -645,5 +645,5 @@ C    07114  Naphthalene family
 C    07117  Benzodiazepine family
 !
 #<hr>
-#Last updated: October 30, 2023
+#Last updated: January 15, 2024
 #<br><br><a href="/brite/jp08901">&raquo; Japanese version</a>

@@ -208,6 +208,11 @@ O                            Sciurini
 P                              Sciurus
 Q                                Sciurus carolinensis [TAX:30640]
 R                                  ncar  Sciurus carolinensis (gray squirrel)
+N                          Xerinae
+O                            Marmotini
+P                              Marmota
+Q                                Marmota marmota [TAX:9993]
+R                                  mmma  Marmota marmota marmota (Alpine marmot)
 K                    Lagomorpha
 L                      Leporidae
 M                        Oryctolagus
@@ -270,6 +275,8 @@ P                              Mustela putorius [TAX:9668]
 Q                                mpuf  Mustela putorius furo (domestic ferret)
 P                              Mustela nigripes [TAX:77151]
 Q                                mnp  Mustela nigripes (black-footed ferret)
+P                              Mustela lutreola [TAX:9666]
+Q                                mlk  Mustela lutreola (European mink)
 O                            Neogale
 P                              Neogale vison [TAX:452646]
 Q                                nvs  Neogale vison (American mink)
@@ -481,6 +488,10 @@ M                        Rhinolophinae
 N                          Rhinolophus
 O                            Rhinolophus ferrumequinum [TAX:59479]
 P                              rfq  Rhinolophus ferrumequinum (greater horseshoe bat)
+L                      Mormoopidae
+M                        Pteronotus
+N                          Pteronotus parnellii [TAX:59476]
+O                            ppam  Pteronotus parnellii mesoamericanus (Parnell's mustached bat)
 K                    Megachiroptera
 L                      Pteropodidae
 M                        Pteropodinae
@@ -967,6 +978,8 @@ N                          Dactyloidae
 O                            Anolis
 P                              Anolis carolinensis [TAX:28377]
 Q                                acs  Anolis carolinensis (green anole)
+P                              Anolis sagrei [TAX:38937]
+Q                                asao  Anolis sagrei ordinatus (Brown anole)
 N                          Acrodonta
 O                            Agamidae
 P                              Amphibolurinae
@@ -1105,9 +1118,10 @@ I                Siphonopidae
 J                  Microcaecilia
 K                    Microcaecilia unicolor [TAX:1415580]
 L                      muo  Microcaecilia unicolor
-I                Geotrypetes
-J                  Geotrypetes seraphini [TAX:260995]
-K                    gsh  Geotrypetes seraphini (Gaboon caecilian)
+I                Dermophiidae
+J                  Geotrypetes
+K                    Geotrypetes seraphini [TAX:260995]
+L                      gsh  Geotrypetes seraphini (Gaboon caecilian)
 G            Actinopterygii
 H              Neopterygii
 I                Teleostei
@@ -1153,6 +1167,9 @@ M                        Pogonichthyinae
 N                          Pimephales
 O                            Pimephales promelas [TAX:90988]
 P                              pprm  Pimephales promelas (fathead minnow)
+N                          Rhinichthys
+O                            Rhinichthys klamathensis [TAX:3034131]
+P                              rkg  Rhinichthys klamathensis goyatoka (western speckled dace)
 L                      Xenocyprididae
 M                        Xenocypridinae
 N                          Megalobrama
@@ -1170,6 +1187,8 @@ L                      Nemacheilidae
 M                        Triplophysa
 N                          Triplophysa rosa [TAX:992332]
 O                            tros  Triplophysa rosa
+N                          Triplophysa dalaica [TAX:1582913]
+O                            tdw  Triplophysa dalaica
 L                      Cobitidae
 M                        Cobitinae
 N                          Misgurnus
@@ -1194,15 +1213,18 @@ L                      Bagridae
 M                        Tachysurus
 N                          Tachysurus fulvidraco [TAX:1234273]
 O                            tfd  Tachysurus fulvidraco (yellow catfish)
+N                          Tachysurus vachellii [TAX:175792]
+O                            tvc  Tachysurus vachellii
 K                    Characiformes
 L                      Characoidei
 M                        Characidae
 N                          Astyanax
 O                            Astyanax mexicanus [TAX:7994]
 P                              amex  Astyanax mexicanus (Mexican tetra)
-M                        Colossoma
-N                          Colossoma macropomum [TAX:42526]
-O                            cmao  Colossoma macropomum (tambaqui)
+M                        Serrasalmidae
+N                          Colossoma
+O                            Colossoma macropomum [TAX:42526]
+P                              cmao  Colossoma macropomum (tambaqui)
 K                    Gymnotiformes
 L                      Gymnotoidei
 M                        Gymnotidae
@@ -1240,10 +1262,21 @@ O                            Nototheniidae
 P                              Notothenia
 Q                                Notothenia coriiceps [TAX:8208]
 R                                  ncc  Notothenia coriiceps (black rockcod)
+P                              Trematomus
+Q                                Trematomus bernacchii [TAX:40690]
+R                                  tben  Trematomus bernacchii (emerald rockcod)
 O                            Bovichtidae
 P                              Cottoperca
 Q                                Cottoperca gobio [TAX:56716]
 R                                  cgob  Cottoperca gobio
+O                            Channichthyidae
+P                              Pseudochaenichthys
+Q                                Pseudochaenichthys georgianus [TAX:52239]
+R                                  pgeo  Pseudochaenichthys georgianus (South Georgia icefish)
+O                            Bathydraconidae
+P                              Gymnodraco
+Q                                Gymnodraco acuticeps [TAX:8218]
+R                                  gacu  Gymnodraco acuticeps
 N                          Serranoidei
 O                            Serranidae
 P                              Epinephelinae
@@ -1441,6 +1474,15 @@ R                                  hcq  Hippocampus comes (tiger tail seahorse)
 P                              Syngnathus
 Q                                Syngnathus scovelli [TAX:161590]
 R                                  sscv  Syngnathus scovelli (Gulf pipefish)
+P                              Syngnathoides
+Q                                Syngnathoides biaculeatus [TAX:300417]
+R                                  sbia  Syngnathoides biaculeatus (alligator pipefish)
+P                              Phycodurus
+Q                                Phycodurus eques [TAX:693459]
+R                                  pee  Phycodurus eques (leafy seadragon)
+P                              Phyllopteryx
+Q                                Phyllopteryx taeniolatus [TAX:161469]
+R                                  ptao  Phyllopteryx taeniolatus (common seadragon)
 L                      Gobiaria
 M                        Gobiiformes
 N                          Gobioidei
@@ -1461,6 +1503,12 @@ O                            Osphronemidae
 P                              Betta
 Q                                Betta splendens [TAX:158456]
 R                                  bspl  Betta splendens (Siamese fighting fish)
+L                      Pelagiaria
+M                        Scombriformes
+N                          Scombridae
+O                            Scomber
+P                              Scomber japonicus [TAX:13676]
+Q                                sjo  Scomber japonicus (chub mackerel)
 J                  Protacanthopterygii
 K                    Salmoniformes
 L                      Salmonidae
@@ -1561,12 +1609,25 @@ K                    Hemiscylliidae
 L                      Chiloscyllium
 M                        Chiloscyllium plagiosum [TAX:36176]
 N                          cpla  Chiloscyllium plagiosum (whitespotted bambooshark)
+L                      Hemiscyllium
+M                        Hemiscyllium ocellatum [TAX:170820]
+N                          hoc  Hemiscyllium ocellatum (epaulette shark)
 H              Batoidea
 I                Rajiformes
 J                  Rajidae
 K                    Leucoraja
 L                      Leucoraja erinacea [TAX:7782]
 M                        leri  Leucoraja erinacea (little skate)
+F          Cyclostomata
+G            Hyperoartia
+H              Petromyzontiformes
+I                Petromyzontidae
+J                  Petromyzon
+K                    Petromyzon marinus [TAX:7757]
+L                      pmrn  Petromyzon marinus (sea lamprey)
+J                  Lethenteron
+K                    Lethenteron reissneri [TAX:7753]
+L                      lrj  Lethenteron reissneri (Far Eastern brook lamprey)
 D      Cephalochordata
 E        Leptocardii
 F          Amphioxiformes
@@ -1695,6 +1756,9 @@ O                            Bactrocera
 P                              Daculus
 Q                                Bactrocera oleae [TAX:104688]
 R                                  bod  Bactrocera oleae (olive fruit fly)
+P                              Bactrocera
+Q                                Bactrocera dorsalis [TAX:27457]
+R                                  bdr  Bactrocera dorsalis (oriental fruit fly)
 O                            Rhagoletis
 P                              Rhagoletis zephyria [TAX:28612]
 Q                                rze  Rhagoletis zephyria (snowberry fruit fly)
@@ -1724,6 +1788,11 @@ O                            Hypodermatinae
 P                              Hypoderma
 Q                                Hypoderma lineatum [TAX:7389]
 R                                  7389  Hypoderma lineatum
+M                        Hippoboscoidea
+N                          Glossinidae
+O                            Glossina
+P                              Glossina fuscipes [TAX:7396]
+Q                                gfs  Glossina fuscipes (tsetse fly)
 M                        Syrphoidea
 N                          Syrphidae
 O                            Syrphinae
@@ -1755,6 +1824,8 @@ P                              Anopheles stephensi [TAX:30069]
 Q                                aste  Anopheles stephensi (Asian malaria mosquito)
 P                              Anopheles funestus [TAX:62324]
 Q                                afun  Anopheles funestus (African malaria mosquito)
+P                              Anopheles moucheti [TAX:186751]
+Q                                amou  Anopheles moucheti
 P                              Anopheles albimanus [TAX:7167]
 Q                                aali  Anopheles albimanus
 N                          Culicinae
@@ -1816,6 +1887,9 @@ S                                    baff  Bombus affinis (rusty patched bumble 
 Q                                Melanobombus
 R                                  Bombus pyrosoma [TAX:396416]
 S                                    bpyo  Bombus pyrosoma
+Q                                Thoracobombus
+R                                  Bombus pascuorum [TAX:65598]
+S                                    bpas  Bombus pascuorum (common carder bee)
 P                              Frieseomelitta
 Q                                Frieseomelitta varia [TAX:561572]
 R                                  fvi  Frieseomelitta varia
@@ -2222,6 +2296,10 @@ O                            Adelges
 P                              Gilletteella
 Q                                Adelges cooleyi [TAX:133065]
 R                                  acoo  Adelges cooleyi (spruce gall adelgid)
+N                          Phylloxeridae
+O                            Daktulosphaira
+P                              Daktulosphaira vitifoliae [TAX:58002]
+Q                                dvt  Daktulosphaira vitifoliae (grape phylloxera)
 L                      Aleyrodoidea
 M                        Aleyrodidae
 N                          Aleyrodinae
@@ -2229,10 +2307,11 @@ O                            Bemisia
 P                              Bemisia tabaci [TAX:7038]
 Q                                btab  Bemisia tabaci (sweet potato whitefly)
 L                      Psylloidea
-M                        Liviidae
-N                          Diaphorina
-O                            Diaphorina citri [TAX:121845]
-P                              dci  Diaphorina citri (Asian citrus psyllid)
+M                        Psyllidae
+N                          Diaphorininae
+O                            Diaphorina
+P                              Diaphorina citri [TAX:121845]
+Q                                dci  Diaphorina citri (Asian citrus psyllid)
 K                    Heteroptera
 L                      Panheteroptera
 M                        Cimicomorpha
@@ -2266,6 +2345,10 @@ O                            Proconiini
 P                              Homalodisca
 Q                                Homalodisca vitripennis [TAX:197043]
 R                                  hvi  Homalodisca vitripennis (glassy-winged sharpshooter)
+N                          Deltocephalinae
+O                            Macrosteles
+P                              Macrosteles quadrilineatus [TAX:74068]
+Q                                mqu  Macrosteles quadrilineatus (aster leafhopper)
 J                  Psocodea
 K                    Phthiraptera
 L                      Anoplura
@@ -2422,6 +2505,11 @@ J                  Caligidae
 K                    Lepeophtheirus
 L                      Lepeophtheirus salmonis [TAX:72036]
 M                        lsm  Lepeophtheirus salmonis (salmon louse)
+I                Harpacticoida
+J                  Harpacticidae
+K                    Tigriopus
+L                      Tigriopus californicus [TAX:6832]
+M                        tcf  Tigriopus californicus (tidepool copepod)
 G            Cirripedia
 H              Thoracica
 I                Thoracicalcarea
@@ -2615,6 +2703,11 @@ I                Lottiidae
 J                  Lottia
 K                    Lottia gigantea [TAX:225164]
 L                      lgi  Lottia gigantea (owl limpet)
+H              Patelloidea
+I                Patellidae
+J                  Patella
+K                    Patella vulgata [TAX:6465]
+L                      pvul  Patella vulgata (common limpet)
 G            Caenogastropoda
 H              Architaenioglossa
 I                Ampullarioidea
@@ -2636,11 +2729,12 @@ M                        Lymnaea
 N                          Lymnaea stagnalis [TAX:6523]
 O                            6523  Lymnaea stagnalis
 G            Neomphalina
-H              Neomphaloidea
-I                Peltospiridae
-J                  Gigantopelta
-K                    Gigantopelta aegis [TAX:1735272]
-L                      gae  Gigantopelta aegis (peltospirid snail)
+H              Neomphalida
+I                Neomphaloidea
+J                  Peltospiridae
+K                    Gigantopelta
+L                      Gigantopelta aegis [TAX:1735272]
+M                        gae  Gigantopelta aegis (peltospirid snail)
 G            Vetigastropoda
 H              Lepetellida
 I                Haliotoidea
@@ -2693,6 +2787,9 @@ N                          Veneridae
 O                            Mercenaria
 P                              Mercenaria mercenaria [TAX:6596]
 Q                                mmer  Mercenaria mercenaria (northern quahog)
+O                            Ruditapes
+P                              Ruditapes philippinarum [TAX:129788]
+Q                                rphi  Ruditapes philippinarum (Manila clam)
 L                      Myida
 M                        Dreissenoidea
 N                          Dreissenidae
@@ -2957,6 +3054,9 @@ R                                  3635  Gossypium hirsutum
 Q                                Gossypium arboreum [TAX:29729]
 R                                  gab  Gossypium arboreum (tree cotton)
 R                                  29729  Gossypium arboreum
+P                              Hibiscus
+Q                                Hibiscus syriacus [TAX:106335]
+R                                  hsyr  Hibiscus syriacus (Rose-of-Sharon)
 O                            Helicteroideae
 P                              Durio
 Q                                Durio zibethinus [TAX:66656]
@@ -3015,6 +3115,8 @@ V                                          var  Vigna angularis (adzuki bean)
 V                                          3914  Vigna angularis
 U                                        Vigna unguiculata [TAX:3917]
 V                                          vun  Vigna unguiculata (cowpea)
+U                                        Vigna umbellata [TAX:87088]
+V                                          vum  Vigna umbellata (ricebean)
 T                                      Cajanus
 U                                        Cajanus cajan [TAX:3821]
 V                                          ccaj  Cajanus cajan (pigeon pea)
@@ -3047,12 +3149,14 @@ U                                        Pisum
 V                                          Pisum sativum [TAX:3888]
 W                                            psat  Pisum sativum (pea)
 W                                            3888  Pisum sativum
+U                                        Vicia
+V                                          Vicia villosa [TAX:3911]
+W                                            vvo  Vicia villosa (hairy vetch)
+V                                          Vicia sativa [TAX:3908]
+W                                            3908  Vicia sativa
 U                                        Lens
 V                                          Lens culinaris [TAX:3864]
 W                                            3864  Lens culinaris
-U                                        Vicia
-V                                          Vicia sativa [TAX:3908]
-W                                            3908  Vicia sativa
 T                                      Galegeae
 U                                        Astragalus
 V                                          Astragalus bisulcatus [TAX:20406]
@@ -3340,6 +3444,8 @@ S                                    sot  Solanum tuberosum (potato)
 S                                    4113  Solanum tuberosum
 R                                  Solanum stenotomum [TAX:172797]
 S                                    sstn  Solanum stenotomum
+R                                  Solanum dulcamara [TAX:45834]
+S                                    sdul  Solanum dulcamara (climbing nightshade)
 R                                  Solanum melongena [TAX:4111]
 S                                    4111  Solanum melongena
 P                              Capsiceae
@@ -3918,17 +4024,6 @@ J                  Thalictroideae
 K                    Thalictrum
 L                      Thalictrum flavum [TAX:150094]
 M                        150094  Thalictrum flavum
-H              Magnoliidae
-I                Laurales
-J                  Lauraceae
-K                    Cinnamomum
-L                      Cinnamomum tenuipile [TAX:192326]
-M                        192326  Cinnamomum tenuipile
-I                Magnoliales
-J                  Magnoliaceae
-K                    Magnolia
-L                      Magnolia grandiflora [TAX:3406]
-M                        3406  Magnolia grandiflora
 H              Liliopsida
 I                Poales
 J                  Poaceae
@@ -4106,6 +4201,19 @@ J                  Liliaceae
 K                    Tulipa
 L                      Tulipa gesneriana [TAX:13306]
 M                        13306  Tulipa gesneriana
+H              Magnoliidae
+I                Magnoliales
+J                  Magnoliaceae
+K                    Magnolia
+L                      Magnolia sinica [TAX:86752]
+M                        msin  Magnolia sinica
+L                      Magnolia grandiflora [TAX:3406]
+M                        3406  Magnolia grandiflora
+I                Laurales
+J                  Lauraceae
+K                    Cinnamomum
+L                      Cinnamomum tenuipile [TAX:192326]
+M                        192326  Cinnamomum tenuipile
 H              Nymphaeales
 I                Nymphaeaceae
 J                  Nymphaea
@@ -4869,7 +4977,7 @@ L                      cnb  Cryptococcus neoformans var. neoformans B-3501A
 L                      cng  Cryptococcus neoformans var. grubii H99
 L                      5207  Cryptococcus neoformans
 J                  Cryptococcus gattii species complex
-K                    Cryptococcus gattii VGI [TAX:37769]
+K                    Cryptococcus gattii [TAX:37769]
 L                      cgi  Cryptococcus gattii
 H              Tremellaceae
 I                Tremella
@@ -4923,6 +5031,9 @@ H              Stereaceae
 I                Stereum
 J                  Stereum hirsutum [TAX:40492]
 K                    shs  Stereum hirsutum
+I                Boreostereum
+J                  Boreostereum vibrans [TAX:1826779]
+K                    1826779  Boreostereum vibrans
 H              Bondarzewiaceae
 I                Heterobasidion
 J                  Heterobasidion annosum species complex
@@ -5403,6 +5514,7 @@ H              ecj  Escherichia coli K-12 W3110
 H              ecd  Escherichia coli K-12 DH10B
 H              ebw  Escherichia coli K-12 BW2952
 H              ecok  Escherichia coli K-12 MDS42
+H              ecoc  Escherichia coli K-12 C3026
 H              ece  Escherichia coli O157:H7 EDL933 (EHEC)
 H              ecs  Escherichia coli O157:H7 Sakai (EHEC)
 H              ecf  Escherichia coli O157:H7 EC4115 (EHEC)
@@ -5437,6 +5549,7 @@ H              eum  Escherichia coli O17:K52:H18 UMN026 (ExPEC)
 H              ect  Escherichia coli O7:K1 IAI39 (ExPEC)
 H              eoc  Escherichia coli O7:K1 CE10
 H              ebr  Escherichia coli B REL606
+H              ecob  Escherichia coli B C3029
 H              ebl  Escherichia coli BL21(DE3)
 H              ebe  Escherichia coli BL21(DE3)
 H              ebd  Escherichia coli BL21-Gold(DE3)pLysS AG
@@ -5608,6 +5721,8 @@ H              Enterobacter chengduensis [TAX:2494701]
 I                echg  Enterobacter chengduensis
 H              Enterobacter sichuanensis [TAX:2071710]
 I                esh  Enterobacter sichuanensis
+H              Enterobacter pasteurii [TAX:3029761]
+I                ept  Enterobacter pasteurii
 H              Enterobacter sp. 87F-2 [TAX:1445416]
 I                1445416  Enterobacter sp. 87F-2
 G            Enterobacter sp. 638 [TAX:399742]
@@ -5731,6 +5846,8 @@ H              Klebsiella sp. CTHL.F3a [TAX:2873296]
 I                klc  Klebsiella sp. CTHL.F3a
 H              Klebsiella sp. M5al [TAX:1934254]
 I                klm  Klebsiella sp. M5al
+H              Klebsiella electrica [TAX:1259973]
+I                ree  Klebsiella electrica
 H              Klebsiella sp. ARS06-441 [TAX:474576]
 I                474576  Klebsiella sp. ARS06-441
 H              Klebsiella sp. MB45 [TAX:871235]
@@ -5749,8 +5866,6 @@ H              Raoultella sp. X13 [TAX:2259647]
 I                rao  Raoultella sp. X13
 H              Raoultella terrigena [TAX:577]
 I                rtg  Raoultella terrigena
-H              Raoultella electrica [TAX:1259973]
-I                ree  Raoultella electrica
 F          Citrobacter
 G            Citrobacter rodentium [TAX:67825]
 H              cro  Citrobacter rodentium
@@ -5800,8 +5915,10 @@ G            Citrobacter sp. XT1-2-2 [TAX:2942480]
 H              cix  Citrobacter sp. XT1-2-2
 G            Citrobacter sp. TSA-1 [TAX:184912]
 H              cib  Citrobacter sp. TSA-1
+G            Citrobacter enshiensis [TAX:2971264]
+H              cens  Citrobacter enshiensis
 F          ant endosymbionts
-G            Candidatus Blochmannia
+G            Blochmannia
 H              Candidatus Blochmannia floridanus [TAX:203907]
 I                bfl  Candidatus Blochmannia floridanus
 H              Candidatus Blochmannia pennsylvanicus [TAX:101534]
@@ -5824,11 +5941,11 @@ H              Blochmannia endosymbiont of Camponotus modoc [TAX:2945587]
 I                bem  Blochmannia endosymbiont of Camponotus modoc
 H              Candidatus Blochmannia ocreatus [TAX:251538]
 I                bocr  Candidatus Blochmannia ocreatus
-G            Candidatus Westeberhardia
+G            Westeberhardia
 H              Candidatus Westeberhardia cardiocondylae [TAX:1594731]
 I                wca  Candidatus Westeberhardia cardiocondylae
 F          aphid secondary symbionts
-G            Candidatus Hamiltonella
+G            Hamiltonella
 H              Candidatus Hamiltonella defensa [TAX:138072]
 I                hde  Candidatus Hamiltonella defensa (Acyrthosiphon pisum)
 G            secondary endosymbiont of Ctenarytaina eucalypti [TAX:1199245]
@@ -5837,12 +5954,12 @@ G            secondary endosymbiont of Heteropsylla cubana [TAX:134287]
 H              sehc  Secondary endosymbiont of Heteropsylla cubana
 F          secondary endosymbiont of Trabutina mannipara [TAX:1835721]
 G            senm  Secondary endosymbiont of Trabutina mannipara
-F          Candidatus Riesia
+F          Riesia
 G            Candidatus Riesia pediculicola [TAX:401619]
 H              rip  Candidatus Riesia pediculicola
 G            Candidatus Riesia sp. GBBU [TAX:1719125]
 H              rig  Candidatus Riesia sp. GBBU
-F          Candidatus Moranella
+F          Moranella
 G            Candidatus Moranella endobia [TAX:1048758]
 H              men  Candidatus Moranella endobia PCIT
 H              meo  Candidatus Moranella endobia PCVAL
@@ -5892,7 +6009,7 @@ G            Kluyvera cryocrescens [TAX:580]
 H              kcy  Kluyvera cryocrescens
 G            Kluyvera georgiana [TAX:73098]
 H              73098  Kluyvera georgiana
-F          Candidatus Ishikawaella
+F          Ishikawaella
 G            Candidatus Ishikawaella capsulata [TAX:168169]
 H              icp  Candidatus Ishikawaella capsulata
 F          Leclercia
@@ -5971,12 +6088,12 @@ H              mety  Phytobacter sp. MRY16-398
 F          Jejubacter
 G            Jejubacter calystegiae [TAX:2579935]
 H              izh  Jejubacter calystegiae
-F          Candidatus Profftia
+F          Profftia
 G            Candidatus Profftia tarda [TAX:1177216]
 H              ptf  Candidatus Profftia tarda
 G            Candidatus Profftia lariciata [TAX:1987921]
 H              plar  Candidatus Profftia lariciata
-F          Candidatus Schneideria
+F          Schneideria
 G            Candidatus Schneideria nysicola [TAX:1081631]
 H              sny  Candidatus Schneideria nysicola
 F          Plesiomonas
@@ -6003,6 +6120,8 @@ F          Enterobacteriaceae bacterium ENNIH2 [TAX:1920109]
 G            ebc  Enterobacteriaceae bacterium ENNIH2
 F          Enterobacteriaceae bacterium S05 [TAX:2052938]
 G            ebu  Enterobacteriaceae bacterium S05
+F          Enterobacteriaceae bacterium bta3-1 [TAX:1265478]
+G            ebb  Enterobacteriaceae bacterium bta3-1
 F          Plautia stali symbiont [TAX:891974]
 G            psts  Plautia stali symbiont
 F          Enterobacteriaceae endosymbiont of Plateumaris pusilla [TAX:2675795]
@@ -6292,8 +6411,9 @@ H              etp  Erwinia tracheiphila
 G            Erwinia rhapontici [TAX:55212]
 H              erp  Erwinia rhapontici
 H              55212  Erwinia rhapontici
-G            Erwinia toletana [TAX:92490]
-H              eto  Erwinia toletana
+F          Winslowiella
+G            Winslowiella toletana [TAX:92490]
+H              eto  Winslowiella toletana
 F          Duffyella
 G            Duffyella gerundensis [TAX:1619313]
 H              ege  Duffyella gerundensis
@@ -6509,12 +6629,11 @@ E        Budviciaceae
 F          Limnobaculum
 G            Limnobaculum parvum [TAX:2172103]
 H              lpv  Limnobaculum parvum
+G            Limnobaculum zhutongyuii [TAX:2498113]
+H              prag  Limnobaculum zhutongyuii
 F          Pragia
 G            Pragia fontium [TAX:82985]
 H              pfq  Pragia fontium
-F          Jinshanibacter
-G            Jinshanibacter zhutongyuii [TAX:2498113]
-H              prag  Jinshanibacter zhutongyuii
 F          Leminorella
 G            Leminorella richardii [TAX:158841]
 H              lri  Leminorella richardii
@@ -7070,6 +7189,10 @@ G            Vibrio lentus [TAX:136468]
 H              vle  Vibrio lentus
 G            Vibrio syngnathi [TAX:3034029]
 H              vsy  Vibrio syngnathi
+G            Vibrio ruber [TAX:184755]
+H              vru  Vibrio ruber
+G            Vibrio metoecus [TAX:1481663]
+H              vmt  Vibrio metoecus
 G            Vibrio proteolyticus [TAX:671]
 H              671  Vibrio proteolyticus
 G            Vibrio sp. No.6 [TAX:159729]
@@ -7368,6 +7491,8 @@ G            Pseudomonas campi [TAX:2731681]
 H              pcam  Pseudomonas campi
 G            Pseudomonas sessilinigenes [TAX:658629]
 H              psep  Pseudomonas sessilinigenes
+G            Pseudomonas piscis [TAX:2614538]
+H              ppii  Pseudomonas piscis
 G            Pseudomonas vanderleydeniana [TAX:2745495]
 H              pvw  Pseudomonas vanderleydeniana
 G            Pseudomonas tritici [TAX:2745518]
@@ -7456,6 +7581,16 @@ G            Pseudomonas kielensis [TAX:2762577]
 H              pkj  Pseudomonas kielensis
 G            Pseudomonas hygromyciniae [TAX:2812000]
 H              phyg  Pseudomonas hygromyciniae
+G            Pseudomonas hormoni [TAX:3093767]
+H              phom  Pseudomonas hormoni
+G            Pseudomonas chengduensis [TAX:489632]
+H              pche  Pseudomonas chengduensis
+G            Pseudomonas cucumis [TAX:2954082]
+H              pcuc  Pseudomonas cucumis
+G            Pseudomonas triclosanedens [TAX:2961893]
+H              ptrl  Pseudomonas triclosanedens
+G            Pseudomonas palleroniana [TAX:191390]
+H              ppae  Pseudomonas palleroniana
 G            Pseudomonas anguilliseptica [TAX:53406]
 H              53406  Pseudomonas anguilliseptica
 G            Pseudomonas deceptionensis [TAX:882211]
@@ -7514,8 +7649,8 @@ G            Stutzerimonas kunmingensis [TAX:1211807]
 H              pkg  Stutzerimonas kunmingensis
 G            Stutzerimonas degradans [TAX:2968968]
 H              sdeg  Stutzerimonas degradans
-G            [Pseudomonas] zhaodongensis [TAX:1176257]
-H              pzd  Pseudomonas zhaodongensis
+G            Stutzerimonas zhaodongensis [TAX:1176257]
+H              pzd  Stutzerimonas zhaodongensis
 F          Azotobacter
 G            Azotobacter vinelandii [TAX:354]
 H              avn  Azotobacter vinelandii DJ
@@ -8173,6 +8308,9 @@ H              catt  Catenovulum sp. TS8
 F          Aliiglaciecola
 G            Aliiglaciecola sp. LCG003 [TAX:3053655]
 H              alii  Aliiglaciecola sp. LCG003
+F          Planctobacterium
+G            Planctobacterium marinum [TAX:1631968]
+H              pmaw  Planctobacterium marinum
 E        Psychromonadaceae
 F          Psychromonas
 G            Psychromonas ingrahamii [TAX:357794]
@@ -8263,6 +8401,8 @@ G            Microbulbifer variabilis [TAX:266805]
 H              mvb  Microbulbifer variabilis
 G            Microbulbifer pacificus [TAX:407164]
 H              mpaf  Microbulbifer pacificus
+G            Microbulbifer bruguierae [TAX:3029061]
+H              mbrg  Microbulbifer bruguierae
 E        Halieaceae
 F          Halioglobus
 G            Halioglobus japonicus [TAX:930805]
@@ -8383,6 +8523,8 @@ G            Methylomonas sp. LL1 [TAX:2785785]
 H              mell  Methylomonas sp. LL1
 G            Methylomonas rapida [TAX:2963939]
 H              mrp  Methylomonas rapida
+G            Methylomonas montana [TAX:3058963]
+H              mmot  Methylomonas montana
 G            Methylomonas aminofaciens [TAX:46896]
 H              46896  Methylomonas aminofaciens
 G            Methylomonas sp. 16a [TAX:318114]
@@ -8398,7 +8540,9 @@ H              mpsy  Methylovulum psychrotolerans
 F          Methylocaldum
 G            Methylocaldum marinum [TAX:1432792]
 H              mmai  Methylocaldum marinum
-F          Candidatus Methylospira
+G            Methylocaldum szegediense [TAX:73780]
+H              msze  Methylocaldum szegediense
+F          Methylospira
 G            Candidatus Methylospira mobilis [TAX:1808979]
 H              mmob  Candidatus Methylospira mobilis
 F          Methyloprofundus
@@ -8594,7 +8738,7 @@ H              tmb  Thioflavicoccus mobilis
 F          Marichromatium
 G            Marichromatium purpuratum [TAX:37487]
 H              mpur  Marichromatium purpuratum
-F          Candidatus Tenderia
+F          Tenderia
 G            Candidatus Tenderia electrophaga [TAX:1748243]
 H              tee  Candidatus Tenderia electrophaga
 F          Candidatus Nitrosoglobus
@@ -8625,6 +8769,13 @@ G            Thiocapsa bogorovii [TAX:521689]
 H              tbog  Thiocapsa bogorovii
 G            Thiocapsa roseopersicina [TAX:1058]
 H              1058  Thiocapsa roseopersicina
+F          Thiorhodovibrio
+G            Thiorhodovibrio litoralis [TAX:2952932]
+H              tlr  Thiorhodovibrio litoralis
+G            Thiorhodovibrio frisius [TAX:631362]
+H              tfri  Thiorhodovibrio frisius
+G            Thiorhodovibrio winogradskyi [TAX:77007]
+H              twg  Thiorhodovibrio winogradskyi
 E        Ectothiorhodospiraceae
 F          Alkalilimnicola
 G            Alkalilimnicola ehrlichii [TAX:351052]
@@ -8672,7 +8823,7 @@ E        Halothiobacillaceae
 F          Halothiobacillus
 G            Halothiobacillus neapolitanus [TAX:927]
 H              hna  Halothiobacillus neapolitanus
-G            Halothiobacillus sp. LS2 [TAX:1860122]
+G            Halothiobacillus diazotrophicus [TAX:1860122]
 H              haz  Halothiobacillus sp. LS2
 E        Wenzhouxiangellaceae
 F          Wenzhouxiangella
@@ -8680,10 +8831,6 @@ G            Wenzhouxiangella marina [TAX:1579979]
 H              wma  Wenzhouxiangella marina
 G            Wenzhouxiangella sp. AB-CW3 [TAX:2771012]
 H              wez  Wenzhouxiangella sp. AB-CW3
-E        Woeseiaceae
-F          Woeseia
-G            Woeseia oceani [TAX:1548547]
-H              woc  Woeseia oceani
 E        Granulosicoccaceae
 F          Granulosicoccus
 G            Granulosicoccus antarcticus [TAX:437505]
@@ -8696,9 +8843,14 @@ E        Sedimenticolaceae
 F          Thiolapillus
 G            Thiolapillus brandeum [TAX:1076588]
 H              tbn  Thiolapillus brandeum
-F          Candidatus Endoriftia
+F          Endoriftia
 G            Candidatus Endoriftia persephone [TAX:393765]
 H              eps  Candidatus Endoriftia persephone
+D      Woeseiales
+E        Woeseiaceae
+F          Woeseia
+G            Woeseia oceani [TAX:1548547]
+H              woc  Woeseia oceani
 D      Thiohalobacterales
 E        Thiohalobacteraceae
 F          Thiohalobacter
@@ -8720,6 +8872,8 @@ E        Halomonadaceae
 F          Chromohalobacter
 G            Chromohalobacter salexigens [TAX:158080]
 H              csa  Chromohalobacter salexigens
+G            Chromohalobacter canadensis [TAX:141389]
+H              ccag  Chromohalobacter canadensis
 F          Halomonas
 G            Halomonas elongata [TAX:2746]
 H              hel  Halomonas elongata
@@ -8785,8 +8939,14 @@ G            Halomonas sp. 'Soap Lake #7' [TAX:1962264]
 H              haso  Halomonas sp. 'Soap Lake #7'
 G            Halomonas alkalicola [TAX:1930622]
 H              halw  Halomonas alkalicola
+G            Halomonas sp. SH5A2 [TAX:2749040]
+H              hash  Halomonas sp. SH5A2
+G            Halomonas neptunia [TAX:115551]
+H              hnp  Halomonas neptunia
+G            Halomonas piscis [TAX:3031727]
+H              hpis  Halomonas piscis
 F          Zymobacter group
-G            Candidatus Portiera
+G            Portiera
 H              Candidatus Portiera aleyrodidarum [TAX:91844]
 I                ple  Candidatus Portiera aleyrodidarum BT-B-HRs
 I                ply  Candidatus Portiera aleyrodidarum BT-B-HRs
@@ -8808,7 +8968,7 @@ I                crv  Candidatus Carsonella ruddii PC
 I                cri  Candidatus Carsonella ruddii DC
 H              Candidatus Carsonella ruddii (Diaphorina cf. continua) [TAX:2661587]
 I                crr  Candidatus Carsonella ruddii (Diaphorina cf. continua)
-G            Candidatus Evansia
+G            Evansia
 H              Candidatus Evansia muelleri [TAX:1495769]
 I                eme  Candidatus Evansia muelleri
 G            Zymobacter
@@ -8824,6 +8984,8 @@ G            Cobetia amphilecti [TAX:1055104]
 H              camh  Cobetia amphilecti
 G            Cobetia sp. AM6 [TAX:2661553]
 H              cobe  Cobetia sp. AM6
+G            Cobetia sp. 4B [TAX:2758724]
+H              cobb  Cobetia sp. 4B
 F          Kushneria
 G            Kushneria konosiri [TAX:698828]
 H              kus  Kushneria konosiri
@@ -8843,6 +9005,8 @@ G            Alcanivorax borkumensis [TAX:59754]
 H              abo  Alcanivorax borkumensis
 G            Alcanivorax sp. NBRC 101098 [TAX:1113728]
 H              aln  Alcanivorax sp. NBRC 101098
+G            Alcanivorax sp. ALC70 [TAX:2259335]
+H              alca  Alcanivorax sp. ALC70
 F          Alloalcanivorax
 G            Alloalcanivorax dieselolei [TAX:285091]
 H              adi  Alloalcanivorax dieselolei
@@ -9028,6 +9192,8 @@ G            Kangiella sediminilitoris [TAX:1144748]
 H              ksd  Kangiella sediminilitoris
 G            Kangiella profundi [TAX:1561924]
 H              kpd  Kangiella profundi
+G            Kangiella aquimarina [TAX:261965]
+H              kam  Kangiella aquimarina
 D      Cardiobacteriales
 E        Cardiobacteriaceae
 F          Dichelobacter
@@ -9059,11 +9225,12 @@ H              fpp  Frischella perrara
 F          Zophobihabitans
 G            Zophobihabitans entericus [TAX:1635327]
 H              orb  Zophobihabitans entericus
-D      Nevskiales
+D      Steroidobacterales
 E        Steroidobacteraceae
 F          Steroidobacter
 G            Steroidobacter denitrificans [TAX:465721]
 H              sdf  Steroidobacter denitrificans
+D      Nevskiales
 E        Nevskiaceae
 F          Solimonas
 G            Solimonas sp. K1W22B-7 [TAX:2303331]
@@ -9113,27 +9280,28 @@ E        Candidatus Thioglobus sp. NP1 [TAX:2508687]
 F          thin  Candidatus Thioglobus sp. NP1
 E        Candidatus Thioglobus autotrophicus [TAX:1705394]
 F          tho  Candidatus Thioglobus autotrophicus
-D      Candidatus Nardonella
+D      Nardonella
 E        endosymbiont of Sipalinus gigas [TAX:1972134]
 F          eof  Endosymbiont of Sipalinus gigas
 E        Candidatus Nardonella dryophthoridicola [TAX:1971485]
 F          eor  Endosymbiont of Rhynchophorus ferrugineus
 E        endosymbiont of Pachyrhynchus infernalis [TAX:1971488]
 F          eop  Endosymbiont of Pachyrhynchus infernalis
-D      Candidatus Reidiella
+D      Reidiella
 E        Candidatus Reidiella endopervernicosa [TAX:2738883]
 F          rev  Candidatus Reidiella endopervernicosa
-D      Candidatus Azoamicus
-E        Candidatus Azoamicus ciliaticola [TAX:2652803]
-F          acil  Candidatus Azoamicus ciliaticola
+D      Candidatus Azoamicaceae
+E        Candidatus Azoamicus
+F          Candidatus Azoamicus ciliaticola [TAX:2652803]
+G            acil  Candidatus Azoamicus ciliaticola
 D      Celerinatantimonadaceae
 E        Celerinatantimonas
 F          Celerinatantimonas diazotrophica [TAX:412034]
 G            cdiz  Celerinatantimonas diazotrophica
-D      Candidatus Steffania
+D      Steffania
 E        Candidatus Steffania adelgidicola [TAX:1076626]
 F          sade  Candidatus Steffania adelgidicola
-D      Candidatus Baumannia
+D      Baumannia
 E        Candidatus Baumannia cicadellinicola [TAX:186490]
 F          bci  Baumannia cicadellinicola Hc (Homalodisca coagulata)
 F          bcib  Candidatus Baumannia cicadellinicola BGSS
@@ -9369,17 +9537,20 @@ H              aql  Aquaspirillum sp. LM1
 D      Burkholderiales
 E        Burkholderiaceae
 F          Ralstonia
-G            Ralstonia pseudosolanacearum [TAX:1310165]
-H              rso  Ralstonia pseudosolanacearum GMI1000
-H              rse  Ralstonia pseudosolanacearum FQY_4
-H              rpu  Ralstonia pseudosolanacearum RS 476
-H              rnc  Ralstonia pseudosolanacearum RS
-G            Ralstonia solanacearum [TAX:305]
-H              rsc  Ralstonia solanacearum CFBP2957
-H              rsl  Ralstonia solanacearum PSI07
-H              rsn  Ralstonia solanacearum Po82
-H              rsm  Ralstonia solanacearum CMR15
-H              rsy  Ralstonia solanacearum UY031
+G            Ralstonia solanacearum species complex
+H              Ralstonia pseudosolanacearum [TAX:1310165]
+I                rso  Ralstonia pseudosolanacearum GMI1000
+I                rse  Ralstonia pseudosolanacearum FQY_4
+I                rpu  Ralstonia pseudosolanacearum RS 476
+I                rnc  Ralstonia pseudosolanacearum RS
+H              Ralstonia solanacearum [TAX:305]
+I                rsc  Ralstonia solanacearum CFBP2957
+I                rsl  Ralstonia solanacearum PSI07
+I                rsn  Ralstonia solanacearum Po82
+I                rsm  Ralstonia solanacearum CMR15
+I                rsy  Ralstonia solanacearum UY031
+H              Ralstonia syzygii [TAX:28097]
+I                rsg  Ralstonia syzygii subsp. celebesensis
 G            Ralstonia pickettii [TAX:329]
 H              rpi  Ralstonia pickettii 12J
 H              rpf  Ralstonia pickettii 12D
@@ -9390,8 +9561,6 @@ H              rmn  Ralstonia mannitolilytica
 H              105219  Ralstonia mannitolilytica
 G            Ralstonia insidiosa [TAX:190721]
 H              rin  Ralstonia insidiosa
-G            Ralstonia syzygii [TAX:28097]
-H              rsg  Ralstonia syzygii subsp. celebesensis
 G            Ralstonia wenshanensis [TAX:2842456]
 H              rwe  Ralstonia wenshanensis
 G            Ralstonia sp. T6 [TAX:657395]
@@ -9540,6 +9709,8 @@ H              Burkholderia anthina [TAX:179879]
 I                bann  Burkholderia anthina
 H              Burkholderia arboris [TAX:488730]
 I                bari  Burkholderia arboris
+H              Burkholderia aenigmatica [TAX:2015348]
+I                baen  Burkholderia aenigmatica
 G            Burkholderia glumae [TAX:337]
 H              bgl  Burkholderia glumae BGR1
 H              bgu  Burkholderia glumae LMG 2196 = ATCC 33617
@@ -9632,6 +9803,8 @@ G            Paraburkholderia sabiae [TAX:273251]
 H              psaa  Paraburkholderia sabiae
 G            Paraburkholderia kirstenboschensis [TAX:1245436]
 H              pkf  Paraburkholderia kirstenboschensis
+G            Paraburkholderia bonniea [TAX:2152891]
+H              pbon  Paraburkholderia bonniea
 F          Mycetohabitans
 G            Mycetohabitans rhizoxinica [TAX:412963]
 H              brh  Mycetohabitans rhizoxinica
@@ -9708,10 +9881,14 @@ G            Caballeronia sp. SBC2 [TAX:2705547]
 H              caba  Caballeronia sp. SBC2
 G            Caballeronia insecticola [TAX:758793]
 H              buo  Caballeronia insecticola
+G            Caballeronia sp. NK8 [TAX:140098]
+H              cabk  Caballeronia sp. NK8
 F          Limnobacter
 G            Limnobacter sp. SAORIC-580 [TAX:2732163]
 H              limn  Limnobacter sp. SAORIC-580
-F          Candidatus Vallotia
+G            Limnobacter thiooxidans [TAX:131080]
+H              lto  Limnobacter thiooxidans
+F          Vallotia
 G            Candidatus Vallotia tarda [TAX:1177213]
 H              vtr  Candidatus Vallotia tarda
 G            Candidatus Vallotia lariciata [TAX:2018052]
@@ -9721,6 +9898,8 @@ H              vcv  Candidatus Vallotia cooleyia
 F          Trinickia
 G            Trinickia violacea [TAX:2571746]
 H              tvl  Trinickia violacea
+G            Trinickia caryophylli [TAX:28094]
+H              tcar  Trinickia caryophylli
 E        Alcaligenaceae
 F          Bordetella
 G            Bordetella pertussis [TAX:520]
@@ -9820,6 +9999,8 @@ H              pud  Pusillimonas sp. DMV24BSW_D
 F          Pollutimonas
 G            Pollutimonas thiosulfatoxidans [TAX:2028345]
 H              pus  Pollutimonas thiosulfatoxidans
+G            Pollutimonas sp. M17 [TAX:2962065]
+H              poll  Pollutimonas sp. M17
 F          Advenella
 G            Advenella kashmirensis [TAX:310575]
 H              aka  Advenella kashmirensis
@@ -9878,6 +10059,9 @@ H              kgy  Kerstersia gyiorum
 F          Paralcaligenes
 G            Paralcaligenes sp. KSB-10 [TAX:2901142]
 H              park  Paralcaligenes sp. KSB-10
+F          Neopusillimonas
+G            Neopusillimonas aromaticivorans [TAX:2979868]
+H              narm  Neopusillimonas aromaticivorans
 E        Comamonadaceae
 F          Rhodoferax
 G            Rhodoferax ferrireducens [TAX:192843]
@@ -9985,6 +10169,8 @@ G            Comamonas terrigena [TAX:32013]
 H              ctez  Comamonas terrigena
 G            Comamonas antarctica [TAX:2743470]
 H              aant  Comamonas antarctica
+G            Comamonas resistens [TAX:3046670]
+H              crj  Comamonas resistens
 G            Comamonas sp. JS765 [TAX:58226]
 H              58226  Comamonas sp. JS765
 G            Comamonas sp. NCIMB 9872 [TAX:213664]
@@ -9998,7 +10184,7 @@ G            Ramlibacter tataouinensis [TAX:94132]
 H              rta  Ramlibacter tataouinensis
 G            Ramlibacter terrae [TAX:2732511]
 H              rtea  Ramlibacter terrae
-F          Candidatus Symbiobacter
+F          Symbiobacter
 G            Candidatus Symbiobacter mobilis [TAX:1436290]
 H              cbx  Candidatus Symbiobacter mobilis
 F          Ottowia
@@ -10061,9 +10247,6 @@ G            Serpentinimonas raichei [TAX:1458425]
 H              cbaa  Serpentinimonas raichei
 G            Serpentinimonas maccroryi [TAX:1458426]
 H              cbab  Serpentinimonas maccroryi
-F          Kinneretia
-G            Kinneretia sp. DAIF2 [TAX:2714952]
-H              kia  Kinneretia sp. DAIF2
 E        Sphaerotilaceae
 F          Caldimonas
 G            Caldimonas thermodepolymerans [TAX:215580]
@@ -10087,7 +10270,12 @@ G            Roseateles depolymerans [TAX:76731]
 H              rdp  Roseateles depolymerans
 G            Roseateles amylovorans [TAX:2978473]
 H              roi  Roseateles amylovorans
-F          Mitsuaria
+G            Roseateles sp. DAIF2 [TAX:2714952]
+H              kia  Roseateles sp. DAIF2
+G            Paucibacter sp. KCTC 42545 [TAX:1768242]
+H              pkt  Paucibacter sp. KCTC 42545
+G            Paucibacter aquatile [TAX:2070761]
+H              paqa  Paucibacter aquatile
 G            Mitsuaria sp. 7 [TAX:1658665]
 H              miu  Mitsuaria sp. 7
 F          Sphaerotilus
@@ -10097,8 +10285,6 @@ F          Ideonella
 G            Ideonella dechloratans [TAX:36863]
 H              idc  Ideonella dechloratans
 H              36863  Ideonella dechloratans
-G            Ideonella sakaiensis [TAX:1547922]
-H              1547922  Ideonella sakaiensis
 F          Aquincola
 G            Aquincola tertiaricarbonis [TAX:391953]
 H              ater  Aquincola tertiaricarbonis
@@ -10106,6 +10292,11 @@ H              391953  Aquincola tertiaricarbonis
 F          Leptothrix
 G            Leptothrix cholodnii [TAX:34029]
 H              lch  Leptothrix cholodnii
+F          Piscinibacter
+G            Piscinibacter gummiphilus [TAX:946333]
+H              rgu  Piscinibacter gummiphilus
+G            Piscinibacter sakaiensis [TAX:1547922]
+H              1547922  Piscinibacter sakaiensis
 E        Oxalobacteraceae
 F          Herminiimonas
 G            Herminiimonas arsenicoxydans [TAX:204773]
@@ -10147,7 +10338,7 @@ G            Herbaspirillum huttiense [TAX:863372]
 H              hhf  Herbaspirillum huttiense
 G            Herbaspirillum frisingense [TAX:92645]
 H              hfr  Herbaspirillum frisingense
-F          Candidatus Zinderia
+F          Zinderia
 G            Candidatus Zinderia insecticola [TAX:884215]
 H              zin  Candidatus Zinderia insecticola
 F          Collimonas
@@ -10175,6 +10366,10 @@ H              Massilia forsythiae [TAX:2728020]
 I                mfy  Massilia forsythiae
 H              Massilia varians [TAX:457921]
 I                mvar  Massilia varians
+H              Massilia endophytica [TAX:2899220]
+I                meny  Massilia endophytica
+H              Massilia litorea [TAX:2769491]
+I                mlir  Massilia litorea
 G            Pseudoduganella
 H              Pseudoduganella armeniaca [TAX:2072590]
 I                masz  Pseudoduganella armeniaca
@@ -10191,6 +10386,8 @@ I                tct  Pseudoduganella chitinolytica
 G            Duganella
 H              Duganella dendranthematis [TAX:2728021]
 I                dug  Duganella dendranthematis
+H              Duganella zoogloeoides [TAX:75659]
+I                dzo  Duganella zoogloeoides
 G            Telluria
 H              Telluria mixta [TAX:34071]
 I                tmj  Telluria mixta
@@ -10218,6 +10415,9 @@ H              nok  Noviherbaspirillum sp. UKPF54
 F          Glaciimonas
 G            Glaciimonas sp. PAMC28666 [TAX:2807626]
 H              glc  Glaciimonas sp. PAMC28666
+F          Actimicrobium
+G            Actimicrobium sp. CCC2.4 [TAX:3048606]
+H              actb  Actimicrobium sp. CCC2.4
 E        Sutterellaceae
 F          Sutterella
 G            Sutterella megalosphaeroides [TAX:2494234]
@@ -10231,20 +10431,14 @@ F          Thiomonas intermedia [TAX:926]
 G            tin  Thiomonas intermedia
 F          Thiomonas arsenitoxydans [TAX:426114]
 G            thi  Thiomonas arsenitoxydans
-E        Paucibacter
-F          Paucibacter sp. KCTC 42545 [TAX:1768242]
-G            pkt  Paucibacter sp. KCTC 42545
-F          Paucibacter aquatile [TAX:2070761]
-G            paqa  Paucibacter aquatile
-E        Rhizobacter
-F          Rhizobacter gummiphilus [TAX:946333]
-G            rgu  Rhizobacter gummiphilus
 E        Aquabacterium
 F          Aquabacterium olei [TAX:1296669]
 G            aon  Aquabacterium olei
 E        Xylophilus
 F          Xylophilus rhododendri [TAX:2697032]
 G            xyk  Xylophilus rhododendri
+F          Xylophilus sp. GOD-11R [TAX:3089814]
+G            xyg  Xylophilus sp. GOD-11R
 E        Tepidimonas
 F          Tepidimonas taiwanensis [TAX:307486]
 G            ttw  Tepidimonas taiwanensis
@@ -10316,7 +10510,7 @@ G            Methylovorus glucosotrophus [TAX:266009]
 H              mei  Methylovorus glucosetrophus
 G            Methylovorus sp. MP688 [TAX:887061]
 H              mep  Methylovorus sp. MP688
-F          Candidatus Methylopumilus
+F          Methylopumilus
 G            Candidatus Methylopumilus turicensis [TAX:1581680]
 H              mbac  Candidatus Methylopumilus turicensis
 G            Candidatus Methylopumilus planktonicus [TAX:1581557]
@@ -10337,7 +10531,7 @@ H              gca  Gallionella capsiferriformans
 F          Ferriphaselus
 G            Ferriphaselus amnicola [TAX:1188319]
 H              fam  Ferriphaselus amnicola
-F          Candidatus Nitrotoga
+F          Nitrotoga
 G            Candidatus Nitrotoga sp. AM1P [TAX:2559597]
 H              nim  Candidatus Nitrotoga sp. AM1P
 G            Candidatus Nitrotoga arctica [TAX:453162]
@@ -10424,10 +10618,11 @@ H              azd  Azoarcus sp. DN11
 G            Azoarcus sp. DD4 [TAX:2027405]
 H              azr  Azoarcus sp. DD4
 F          Thauera
-G            Thauera sp. MZ1T [TAX:85643]
-H              tmz  Thauera sp. MZ1T
+G            Thauera aminoaromatica [TAX:164330]
+H              tmz  Thauera aminoaromatica
 G            Thauera humireducens [TAX:1134435]
-H              thu  Thauera humireducens
+H              thu  Thauera humireducens SgZ-1
+H              thau  Thauera humireducens Piv1
 G            Thauera chlorobenzoica [TAX:96773]
 H              tcl  Thauera chlorobenzoica
 G            Thauera sp. K11 [TAX:2005884]
@@ -10435,8 +10630,6 @@ H              thk  Thauera sp. K11
 G            Thauera aromatica [TAX:59405]
 H              tak  Thauera aromatica
 H              59405  Thauera aromatica
-G            Thauera sp. PIV-1 [TAX:204461]
-H              thau  Thauera sp. PIV-1
 G            Thauera butanivorans [TAX:86174]
 H              86174  Thauera butanivorans
 G            Thauera linaloolentis [TAX:76112]
@@ -10466,7 +10659,7 @@ H              fmy  Ferrovum myxofaciens
 D      Candidatus Accumulibacter
 E        Candidatus Accumulibacter regalis [TAX:522306]
 F          app  Candidatus Accumulibacter regalis
-D      Candidatus Tremblaya
+D      Tremblaya
 E        Candidatus Tremblaya princeps [TAX:189385]
 F          tpn  Candidatus Tremblaya princeps PCIT
 F          tpq  Candidatus Tremblaya princeps PCVAL
@@ -10487,13 +10680,13 @@ E        Candidatus Kinetoplastibacterium oncopeltii [TAX:994696]
 F          kon  Candidatus Kinetoplastibacterium oncopeltii
 E        Candidatus Kinetoplastibacterium sorsogonicusi [TAX:1576550]
 F          kso  Candidatus Kinetoplastibacterium sorsogonicusi
-D      Candidatus Profftella
+D      Profftella
 E        Candidatus Profftella armatura [TAX:669502]
 F          ssdc  Candidatus Profftella armatura
-D      Candidatus Nasuia
+D      Nasuia
 E        Candidatus Nasuia deltocephalinicola [TAX:1160784]
 F          ndl  Candidatus Nasuia deltocephalinicola
-D      Candidatus Vidania
+D      Vidania
 E        Candidatus Vidania fulgoroideae [TAX:881286]
 F          vfg  Candidatus Vidania fulgoroideae
 D      Candidatus Desulfobacillus
@@ -10585,13 +10778,13 @@ I                Rickettsia tillamookensis [TAX:2761623]
 J                  rtl  Rickettsia tillamookensis
 I                Candidatus Rickettsia kotlanii [TAX:356939]
 J                  rkt  Candidatus Rickettsia kotlanii
-H              Rickettsia endosymbiont of Bemisia tabaci [TAX:337479]
+H              Rickettsia sp. MEAM1 (Bemisia tabaci) [TAX:1182263]
 I                ric  Rickettsia sp. MEAM1 (Bemisia tabaci)
 G            Orientia
 H              Orientia tsutsugamushi [TAX:784]
 I                ots  Orientia tsutsugamushi Boryong
 I                ott  Orientia tsutsugamushi Ikeda
-F          Candidatus Phycorickettsia
+F          Phycorickettsia
 G            Candidatus Phycorickettsia trachydisci [TAX:2115978]
 H              ptc  Candidatus Phycorickettsia trachydisci
 F          Candidatus Megaera
@@ -10667,6 +10860,12 @@ H              Wolbachia endosymbiont of Drosophila pseudotakahashii [TAX:375919
 I                wev  Wolbachia endosymbiont of Drosophila pseudotakahashii
 H              Wolbachia endosymbiont of Frankliniella intonsa [TAX:2902422]
 I                wend  Wolbachia endosymbiont of Frankliniella intonsa
+H              Wolbachia endosymbiont of Drosophila aff. chauvacae BK-2020 [TAX:3080329]
+I                wedc  Wolbachia endosymbiont of Drosophila aff. chauvacae BK-2020
+H              Wolbachia endosymbiont of Zaprionus tsacasi [TAX:2603209]
+I                wezt  Wolbachia endosymbiont of Zaprionus tsacasi
+H              Wolbachia endosymbiont of Listronotus oregonensis [TAX:2969106]
+I                welo  Wolbachia endosymbiont of Listronotus oregonensis
 F          Anaplasma
 G            Anaplasma marginale [TAX:770]
 H              ama  Anaplasma marginale St. Maries
@@ -10712,33 +10911,35 @@ G            Neorickettsia helminthoeca [TAX:33994]
 H              nhm  Neorickettsia helminthoeca
 G            Neorickettsia findlayensis [TAX:2686014]
 H              nef  Neorickettsia findlayensis
-F          Candidatus Neoehrlichia
+F          Neoehrlichia
 G            Neoehrlichia mikurensis [TAX:89586]
 H              nmik  Neoehrlichia mikurensis
 E        Candidatus Midichloriaceae
-F          Candidatus Midichloria
+F          Midichloria
 G            Candidatus Midichloria mitochondrii [TAX:234827]
 H              mmn  Candidatus Midichloria mitochondrii
-F          Candidatus Fokinia
+F          Fokinia
 G            Candidatus Fokinia solitaria [TAX:1802984]
 H              fso  Candidatus Fokinia solitaria
 F          Candidatus Bandiella
 G            Candidatus Bandiella numerosa [TAX:2570586]
 H              bnu  Candidatus Bandiella numerosa
+G            Candidatus Bandiella woodruffii [TAX:1664265]
+H              bwf  Candidatus Bandiella woodruffii
 E        Rickettsiales bacterium Ac37b [TAX:1528098]
 F          rbt  Rickettsiales bacterium Ac37b
 E        Rickettsiales endosymbiont of Stachyamoeba lipophora [TAX:2486578]
 F          ren  Rickettsiales endosymbiont of Stachyamoeba lipophora
 D      Holosporales
 E        Candidatus Paracaedibacteraceae
-F          Candidatus Paracaedibacter
+F          Paracaedibacter
 G            Candidatus Paracaedibacter acanthamoebae [TAX:91604]
 H              paca  Candidatus Paracaedibacter acanthamoebae
 E        Caedimonadaceae
-F          Candidatus Paracaedimonas
+F          Paracaedimonas
 G            Candidatus Paracaedimonas acanthamoebae [TAX:244581]
 H              caq  Candidatus Paracaedimonas acanthamoebae
-F          Candidatus Nucleicultrix
+F          Nucleicultrix
 G            Candidatus Nucleicultrix amoebiphila [TAX:1509244]
 H              naf  Candidatus Nucleicultrix amoebiphila
 E        Holosporaceae
@@ -10804,6 +11005,8 @@ G            Aminobacter sp. MSH1 [TAX:374606]
 H              amih  Aminobacter sp. MSH1
 G            Aminobacter sp. SS-2016 [TAX:1870862]
 H              amis  Aminobacter sp. SS-2016
+G            Aminobacter niigataensis [TAX:83265]
+H              anj  Aminobacter niigataensis
 F          Phyllobacterium
 G            Phyllobacterium zundukense [TAX:1867719]
 H              pht  Phyllobacterium zundukense
@@ -10817,6 +11020,8 @@ G            Nitratireductor mangrovi [TAX:2599600]
 H              niy  Nitratireductor mangrovi
 G            Nitratireductor kimnyeongensis [TAX:430679]
 H              nki  Nitratireductor kimnyeongensis
+G            Nitratireductor rhodophyticola [TAX:2854036]
+H              nrh  Nitratireductor rhodophyticola
 F          Oricola
 G            Oricola thermophila [TAX:2742145]
 H              orm  Oricola thermophila
@@ -10888,10 +11093,9 @@ J                  atu  Agrobacterium fabrum
 J                  1176649  Agrobacterium fabrum
 I                Agrobacterium tumefaciens [TAX:358]
 J                  ata  Agrobacterium tumefaciens S33
+J                  agr  Agrobacterium tumefaciens H13-3
+J                  atf  Agrobacterium tumefaciens Ach5
 J                  358  Agrobacterium tumefaciens
-I                Agrobacterium fabacearum [TAX:1183401]
-J                  agr  Agrobacterium fabacearum H13-3
-J                  atf  Agrobacterium fabacearum Ach5
 H              Agrobacterium sp. RAC06 [TAX:1842536]
 I                agc  Agrobacterium sp. RAC06
 H              Agrobacterium sp. 33MFTa1.1 [TAX:1279031]
@@ -10993,6 +11197,8 @@ I                ara  Rhizobium rhizogenes K84
 I                aro  Rhizobium rhizogenes K599
 H              Rhizobium brockwellii [TAX:3019932]
 I                rbw  Rhizobium brockwellii
+H              Rhizobium indigoferae [TAX:158891]
+I                rif  Rhizobium indigoferae
 H              Rhizobium sp. AC100 [TAX:168685]
 I                168685  Rhizobium sp. AC100
 H              Rhizobium sp. MTP-10005 [TAX:267998]
@@ -11193,6 +11399,10 @@ G            Bradyrhizobium pachyrhizi [TAX:280333]
 H              bpah  Bradyrhizobium pachyrhizi
 G            Bradyrhizobium xenonodulans [TAX:2736875]
 H              bxn  Bradyrhizobium xenonodulans
+G            Bradyrhizobium roseus [TAX:3056648]
+H              bros  Bradyrhizobium roseus
+G            Bradyrhizobium sp. C-145 [TAX:574727]
+H              braz  Bradyrhizobium sp. C-145
 G            Bradyrhizobium sp. JS329 [TAX:722413]
 H              722413  Bradyrhizobium sp. JS329
 F          Rhodopseudomonas
@@ -11224,6 +11434,8 @@ H              vgo  Variibacter gotjawalensis
 F          Tardiphaga
 G            Tardiphaga robiniae [TAX:943830]
 H              trb  Tardiphaga robiniae
+G            Tardiphaga alba [TAX:340268]
+H              talz  Tardiphaga alba
 E        Boseaceae
 F          Bosea
 G            Bosea sp. PAMC 26642 [TAX:1792307]
@@ -11303,14 +11515,14 @@ F          Azorhizobium
 G            Azorhizobium caulinodans [TAX:7]
 H              azc  Azorhizobium caulinodans
 F          Starkeya
-G            Starkeya novella [TAX:921]
-H              sno  Starkeya novella
 G            Starkeya sp. ORNL1 [TAX:2709380]
 H              star  Starkeya sp. ORNL1
 F          Labrys
 G            Labrys sp. KNU-23 [TAX:2789216]
 H              lne  Labrys sp. KNU-23
 F          Ancylobacter
+G            Ancylobacter novellus [TAX:921]
+H              sno  Ancylobacter novellus
 G            Ancylobacter sp. TS-1 [TAX:1850374]
 H              anc  Ancylobacter sp. TS-1
 G            Ancylobacter pratisalsi [TAX:1745854]
@@ -11372,6 +11584,8 @@ G            Microvirga thermotolerans [TAX:2651334]
 H              mico  Microvirga thermotolerans
 G            Microvirga terrae [TAX:2740529]
 H              mtez  Microvirga terrae
+G            Microvirga lotononidis [TAX:864069]
+H              mld  Microvirga lotononidis
 E        Beijerinckiaceae
 F          Beijerinckia
 G            Beijerinckia indica [TAX:533]
@@ -11434,8 +11648,8 @@ E        Devosiaceae
 F          Pelagibacterium
 G            Pelagibacterium halotolerans [TAX:531813]
 H              phl  Pelagibacterium halotolerans
-G            Pelagibacterium sp. YIM 151497 [TAX:2984530]
-H              pem  Pelagibacterium sp. YIM 151497
+G            Pelagibacterium flavum [TAX:2984530]
+H              pem  Pelagibacterium flavum
 F          Devosia
 G            Devosia sp. H5989 [TAX:1643450]
 H              deq  Devosia sp. H5989
@@ -11516,17 +11730,20 @@ H              aub  Aurantimonas sp. HBX-1
 F          Jiella
 G            Jiella pelagia [TAX:2986949]
 H              jie  Jiella pelagia
+F          Jeongeuplla
+G            Jeongeuplla avenae [TAX:2998449]
+H              jav  Jeongeuplla avenae
 E        Breoghaniaceae
 F          Breoghania
 G            Breoghania sp. L-A4 [TAX:2304600]
 H              brn  Breoghania sp. L-A4
-E        Candidatus Hodgkinia
+E        Hodgkinia
 F          Candidatus Hodgkinia cicadicola [TAX:573658]
 G            hci  Candidatus Hodgkinia cicadicola Dsem
 G            hct  Candidatus Hodgkinia cicadicola TETULN
 G            hcc  Candidatus Hodgkinia cicadicola TETUND1
 G            hcd  Candidatus Hodgkinia cicadicola TETUND2
-E        Candidatus Tokpelaia
+E        Tokpelaia
 F          Candidatus Tokpelaia hoelldoblerii [TAX:1902579]
 G            thd  Candidatus Tokpelaia hoelldoblerii
 E        Pseudorhodoplanes
@@ -11643,6 +11860,8 @@ G            Brevundimonas fontaquae [TAX:2813778]
 H              bfq  Brevundimonas fontaquae
 G            Brevundimonas sp. 'scallop' [TAX:2562582]
 H              bres  Brevundimonas sp. 'scallop'
+G            Brevundimonas sp. AJA228-03 [TAX:2752515]
+H              brea  Brevundimonas sp. AJA228-03
 F          Asticcacaulis
 G            Asticcacaulis excentricus [TAX:78587]
 H              aex  Asticcacaulis excentricus
@@ -11797,9 +12016,6 @@ H              thaa  Thalassococcus sp. S3
 F          Oceanicola
 G            Oceanicola sp. D3 [TAX:2587163]
 H              ocd  Oceanicola sp. D3
-F          Maribius
-G            Maribius sp. THAF1 [TAX:2587842]
-H              maru  Maribius sp. THAF1
 F          Roseivivax
 G            Roseivivax sp. THAF197b [TAX:2588299]
 H              rot  Roseivivax sp. THAF197b
@@ -11831,6 +12047,11 @@ H              try  Tropicibacter oceani
 F          Palleronia
 G            Palleronia sp. LCG004 [TAX:3079304]
 H              plcg  Palleronia sp. LCG004
+G            Palleronia sp. THAF1 [TAX:2587842]
+H              maru  Palleronia sp. THAF1
+F          Roseicyclus
+G            Roseicyclus marinus [TAX:2161673]
+H              rmai  Roseicyclus marinus
 E        Paracoccaceae
 F          Cereibacter
 G            Cereibacter sphaeroides [TAX:1063]
@@ -11843,7 +12064,7 @@ H              cazt  Cereibacter azotoformans
 F          Rhodobacter
 G            Rhodobacter capsulatus [TAX:1061]
 H              rcp  Rhodobacter capsulatus
-G            Rhodobacter sp. LPB0142 [TAX:1850250]
+G            Rhodobacter xanthinilyticus [TAX:1850250]
 H              rhp  Rhodobacter sp. LPB0142
 F          Fuscovulum
 G            Fuscovulum blasticum [TAX:1075]
@@ -11907,6 +12128,8 @@ G            Paracoccus albus [TAX:3017784]
 H              pals  Paracoccus albus
 G            Paracoccus sediminicola [TAX:3017783]
 H              pdim  Paracoccus sediminicola
+G            Paracoccus ferrooxidans [TAX:327104]
+H              pfeo  Paracoccus ferrooxidans
 F          Planktomarina
 G            Planktomarina temperata [TAX:1284658]
 H              ptp  Planktomarina temperata
@@ -11984,15 +12207,14 @@ H              mon  Pontibrevibacter nitratireducens
 F          Profundibacter
 G            Profundibacter amoris [TAX:2171755]
 H              pamo  Profundibacter amoris
-F          Pseudopuniceibacterium
-G            Pseudopuniceibacterium antarcticum [TAX:2613965]
-H              pshq  Pseudopuniceibacterium antarcticum
 F          Pontivivens
 G            Pontivivens ytuae [TAX:2789856]
 H              poz  Pontivivens ytuae
 F          Pseudooceanicola
 G            Pseudooceanicola algae [TAX:1537215]
 H              palw  Pseudooceanicola algae
+G            Pseudooceanicola spongiae [TAX:2613965]
+H              pshq  Pseudooceanicola spongiae
 F          Pelagovum
 G            Pelagovum pacificum [TAX:2588711]
 H              ppaf  Pelagovum pacificum
@@ -12035,14 +12257,19 @@ H              amyl  Amylibacter sp. IMCC11727
 F          Algicella
 G            Algicella marina [TAX:2683284]
 H              amaq  Algicella marina
-F          Rhodophyticola
-G            Rhodophyticola sp. CSW1921 [TAX:2978973]
-H              rhoc  Rhodophyticola sp. CSW1921
+F          Fontisubflavum
+G            Fontisubflavum oceani [TAX:2978973]
+H              rhoc  Fontisubflavum oceani
 F          Roseinatronobacter
 G            Roseinatronobacter sp. S2 [TAX:3035471]
 H              pbae  Roseinatronobacter sp. S2
+F          Limimaricola
+G            Limimaricola variabilis [TAX:1492771]
+H              lvr  Limimaricola variabilis
 F          Rhodobacteraceae bacterium SC52 [TAX:2745590]
 G            faq  Rhodobacteraceae bacterium SC52
+E        Rhodobacterales bacterium HKCCA1288 [TAX:2899152]
+F          rbx  Rhodobacterales bacterium HKCCA1288
 D      Maricaulales
 E        Maricaulaceae
 F          Maricaulis
@@ -12224,6 +12451,10 @@ G            Sphingomonas nostoxanthinifaciens [TAX:2872652]
 H              snos  Sphingomonas nostoxanthinifaciens
 G            Sphingomonas donggukensis [TAX:2949093]
 H              sdon  Sphingomonas donggukensis
+G            Sphingomonas sanguinis [TAX:33051]
+H              ssag  Sphingomonas sanguinis
+G            Sphingomonas abietis [TAX:3012344]
+H              sabi  Sphingomonas abietis
 G            Sphingomonas sp. SKA58 [TAX:314266]
 H              314266  Sphingomonas sp. SKA58
 G            Sphingomonas sp. XLDN2-5 [TAX:411925]
@@ -12283,6 +12514,8 @@ G            Blastomonas sp. RAC04 [TAX:1842535]
 H              blas  Blastomonas sp. RAC04
 G            Blastomonas fulva [TAX:1550728]
 H              bfw  Blastomonas fulva
+G            Blastomonas marina [TAX:1867408]
+H              bmaa  Blastomonas marina
 F          Tardibacter
 G            Tardibacter chloracetimidivorans [TAX:1921510]
 H              sphj  Tardibacter chloracetimidivorans
@@ -12540,6 +12773,9 @@ H              rap  Rhodovastum atsumiense
 F          Acidocella
 G            Acidocella sp. MX-AZ03 [TAX:2697363]
 H              acim  Acidocella sp. MX-AZ03
+F          Kirkpatrickella
+G            Candidatus Kirkpatrickella diaphorinae [TAX:2984322]
+H              kdp  Candidatus Kirkpatrickella diaphorinae
 F          Oleomonas
 G            Oleomonas sagaranensis [TAX:89018]
 H              89018  Oleomonas sagaranensis
@@ -12603,8 +12839,6 @@ F          Pararhodospirillum
 G            Pararhodospirillum photometricum [TAX:1084]
 H              rpm  Pararhodospirillum photometricum
 F          Magnetospirillum
-G            Magnetospirillum magneticum [TAX:84159]
-H              mag  Magnetospirillum magneticum
 G            Magnetospirillum gryphiswaldense [TAX:55518]
 H              mgy  Magnetospirillum gryphiswaldense MSR-1 v2
 H              mgry  Magnetospirillum gryphiswaldense MSR-1
@@ -12612,30 +12846,32 @@ G            Magnetospirillum sp. XM-1 [TAX:1663591]
 H              magx  Magnetospirillum sp. XM-1
 G            Magnetospirillum sp. ME-1 [TAX:1639348]
 H              magn  Magnetospirillum sp. ME-1
-F          Candidatus Endolissoclinum
+F          Endolissoclinum
 G            Candidatus Endolissoclinum faulkneri [TAX:1263979]
 H              thal  Candidatus Endolissoclinum faulkneri L2
 H              efk  Candidatus Endolissoclinum faulkneri L5
-F          Haematospirillum
-G            Haematospirillum jordaniae [TAX:1549855]
-H              hjo  Haematospirillum jordaniae
 F          Ferrovibrio
 G            Ferrovibrio terrae [TAX:2594003]
 H              fer  Ferrovibrio terrae
-F          Hypericibacter
-G            Hypericibacter terrae [TAX:2602015]
-H              htq  Hypericibacter terrae
-G            Hypericibacter adhaerens [TAX:2602016]
-H              hadh  Hypericibacter adhaerens
 F          Defluviicoccus
 G            Defluviicoccus sp. [TAX:2682137]
 H              dex  Defluviicoccus sp. SSA4
 G            Defluviicoccus vanus [TAX:111831]
 H              dvn  Defluviicoccus vanus
-E        Geminicoccaceae
-F          Tistrella
-G            Tistrella mobilis [TAX:171437]
-H              tmo  Tistrella mobilis
+E        Magnetospirillaceae
+F          Paramagnetospirillum
+G            Paramagnetospirillum magneticum [TAX:84159]
+H              mag  Paramagnetospirillum magneticum
+E        Novispirillaceae
+F          Haematospirillum
+G            Haematospirillum jordaniae [TAX:1549855]
+H              hjo  Haematospirillum jordaniae
+E        Dongiaceae
+F          Hypericibacter
+G            Hypericibacter terrae [TAX:2602015]
+H              htq  Hypericibacter terrae
+G            Hypericibacter adhaerens [TAX:2602016]
+H              hadh  Hypericibacter adhaerens
 E        Thalassospiraceae
 F          Thalassospira
 G            Thalassospira xiamenensis [TAX:220697]
@@ -12651,6 +12887,7 @@ H              tlu  Thalassospira lucentensis
 F          Magnetospira
 G            Magnetospira sp. QH-2 [TAX:1288970]
 H              magq  Magnetospira sp. QH-2
+E        Magnetovibrionaceae
 F          Varunaivibrio
 G            Varunaivibrio sulfuroxidans [TAX:1773489]
 H              vsu  Varunaivibrio sulfuroxidans
@@ -12662,6 +12899,14 @@ E        Thalassobaculaceae
 F          Nisaea
 G            Nisaea acidiphila [TAX:1862145]
 H              naci  Nisaea acidiphila
+F          Thalassobaculum
+G            Thalassobaculum sp. OXR-137 [TAX:3100173]
+H              thar  Thalassobaculum sp. OXR-137
+D      Geminicoccales
+E        Geminicoccaceae
+F          Tistrella
+G            Tistrella mobilis [TAX:171437]
+H              tmo  Tistrella mobilis
 D      Parvularculales
 E        Parvularculaceae
 F          Parvularcula
@@ -12677,7 +12922,7 @@ G            Magnetococcus marinus [TAX:1124597]
 H              mgm  Magnetococcus marinus
 D      Candidatus Pelagibacterales
 E        Candidatus Pelagibacteraceae
-F          Candidatus Pelagibacter
+F          Pelagibacter
 G            Candidatus Pelagibacter ubique [TAX:198252]
 H              pub  Candidatus Pelagibacter ubique
 G            Candidatus Pelagibacter sp. IMCC9063 [TAX:1002672]
@@ -12696,10 +12941,11 @@ H              ecog  Paremcibacter congregatus
 F          Pseudemcibacter
 G            Pseudemcibacter aquimaris [TAX:2857064]
 H              paqi  Pseudemcibacter aquimaris
-D      SAR116 cluster
-E        Candidatus Puniceispirillum
-F          Candidatus Puniceispirillum marinum [TAX:767892]
-G            apb  Candidatus Puniceispirillum marinum
+D      Candidatus Puniceispirillales
+E        Candidatus Puniceispirillaceae
+F          Candidatus Puniceispirillum
+G            Candidatus Puniceispirillum marinum [TAX:767892]
+H              apb  Candidatus Puniceispirillum marinum
 D      Sneathiellales
 E        Sneathiellaceae
 F          Sneathiella
@@ -13227,11 +13473,6 @@ C    Desulfovibrionia
 D      Desulfovibrionales
 E        Desulfovibrionaceae
 F          Desulfovibrio
-G            Desulfovibrio vulgaris [TAX:881]
-H              dvu  Desulfovibrio vulgaris Hildenborough
-H              dvl  Desulfovibrio vulgaris DP4
-H              dvm  Desulfovibrio vulgaris Miyazaki F
-H              dvg  Desulfovibrio vulgaris RCH1
 G            Desulfovibrio desulfuricans [TAX:876]
 H              dds  Desulfovibrio desulfuricans ATCC 27774
 G            Desulfovibrio fairfieldensis [TAX:44742]
@@ -13291,6 +13532,8 @@ G            Pseudodesulfovibrio portus [TAX:231439]
 H              ppor  Pseudodesulfovibrio portus
 G            Pseudodesulfovibrio nedwellii [TAX:2973072]
 H              pnw  Pseudodesulfovibrio nedwellii
+G            Pseudodesulfovibrio thermohalotolerans [TAX:2880651]
+H              pthe  Pseudodesulfovibrio thermohalotolerans
 F          Lawsonia
 G            Lawsonia intracellularis [TAX:29546]
 H              lip  Lawsonia intracellularis PHE/MN1-00
@@ -13300,12 +13543,17 @@ G            Desulfolutivibrio sulfoxidireducens [TAX:2773299]
 H              dsx  Desulfolutivibrio sulfoxidireducens
 G            Desulfolutivibrio sulfodismutans [TAX:63561]
 H              dsd  Desulfolutivibrio sulfodismutans
-F          Paradesulfovibrio (ex Waite et al. 2020)
-G            Paradesulfovibrio bizertensis [TAX:376490]
-H              pbiz  Paradesulfovibrio bizertensis
-F          Cupidesulfovibrio
-G            Cupidesulfovibrio liaohensis [TAX:2604158]
-H              clih  Cupidesulfovibrio liaohensis
+F          Desulfobaculum
+G            Desulfobaculum bizertense [TAX:376490]
+H              pbiz  Desulfobaculum bizertense
+F          Nitratidesulfovibrio
+G            Nitratidesulfovibrio vulgaris [TAX:881]
+H              dvu  Nitratidesulfovibrio vulgaris Hildenborough
+H              dvl  Nitratidesulfovibrio vulgaris DP4
+H              dvm  Nitratidesulfovibrio vulgaris Miyazaki F
+H              dvg  Nitratidesulfovibrio vulgaris RCH1
+G            Nitratidesulfovibrio liaohensis [TAX:2604158]
+H              clih  Nitratidesulfovibrio liaohensis
 F          Bilophila
 G            Bilophila wadsworthia [TAX:35833]
 H              35833  Bilophila wadsworthia
@@ -13478,6 +13726,7 @@ I                mfb  Myxococcus fulvus
 G            Corallococcus
 H              Corallococcus coralloides [TAX:184914]
 I                ccx  Corallococcus coralloides
+I                184914  Corallococcus coralloides
 H              Corallococcus macrosporus [TAX:35]
 I                mfu  Corallococcus macrosporus HW-1
 I                mmas  Corallococcus macrosporus DSM 14697
@@ -13592,6 +13841,9 @@ E        Bacteriovoracaceae
 F          Bacteriovorax
 G            Bacteriovorax stolpii [TAX:960]
 H              bsto  Bacteriovorax stolpii
+F          Peredibacter
+G            Peredibacter starrii [TAX:28202]
+H              psti  Peredibacter starrii
 C    Oligoflexia
 D      Silvanigrellales
 E        Silvanigrellaceae
@@ -13770,8 +14022,6 @@ H              Bacillus safensis [TAX:561879]
 I                bsaf  Bacillus safensis
 H              Bacillus freudenreichii [TAX:1783501]
 I                bfd  Bacillus freudenreichii
-H              Bacillus dafuensis [TAX:1742359]
-I                bda  Bacillus dafuensis
 H              Bacillus shivajii [TAX:1983719]
 I                bshi  Bacillus shivajii
 H              Bacillus badius [TAX:1455]
@@ -13825,6 +14075,8 @@ H              Bacillus sp. B-0618 [TAX:69000]
 I                69000  Bacillus sp. B-0618
 H              Bacillus sp. GL1 [TAX:84635]
 I                84635  Bacillus sp. GL1
+H              Bacillus sp. MN-32 [TAX:198803]
+I                198803  Bacillus sp. MN-32
 H              Bacillus sp. OY1-2 [TAX:104667]
 I                104667  Bacillus sp. OY1-2
 H              Bacillus thermoproteolyticus [TAX:1427]
@@ -13895,6 +14147,8 @@ H              Cytobacillus spongiae [TAX:2901381]
 I                cspg  Cytobacillus spongiae
 H              Cytobacillus pseudoceanisediminis [TAX:3051614]
 I                cpss  Cytobacillus pseudoceanisediminis
+H              Cytobacillus dafuensis [TAX:1742359]
+I                bda  Cytobacillus dafuensis
 G            Oceanobacillus
 H              Oceanobacillus iheyensis [TAX:182710]
 I                oih  Oceanobacillus iheyensis
@@ -14007,6 +14261,12 @@ H              Lysinibacillus sp. CD3-6 [TAX:2892541]
 I                lyc  Lysinibacillus sp. CD3-6
 H              Lysinibacillus capsici [TAX:2115968]
 I                lcap  Lysinibacillus capsici
+H              Lysinibacillus sp. PLM2 [TAX:2929796]
+I                lyp  Lysinibacillus sp. PLM2
+H              Lysinibacillus irui [TAX:2998077]
+I                liu  Lysinibacillus irui
+H              Lysinibacillus louembei [TAX:1470088]
+I                llb  Lysinibacillus louembei
 G            Halobacillus
 H              Halobacillus halophilus [TAX:1570]
 I                hhd  Halobacillus halophilus
@@ -14096,6 +14356,8 @@ H              Psychrobacillus sp. AK 1817 [TAX:2303505]
 I                psyh  Psychrobacillus sp. AK 1817
 H              Psychrobacillus glaciei [TAX:2283160]
 I                psyo  Psychrobacillus glaciei
+H              Psychrobacillus sp. INOP01 [TAX:2829187]
+I                psyb  Psychrobacillus sp. INOP01
 G            Pradoshia
 H              Pradoshia sp. D12 [TAX:2651284]
 I                prd  Pradoshia sp. D12
@@ -14154,6 +14416,8 @@ H              Rossellomorea vietnamensis [TAX:218284]
 I                bvq  Rossellomorea vietnamensis
 H              Rossellomorea marisflavi [TAX:189381]
 I                rmf  Rossellomorea marisflavi
+H              Rossellomorea aquimaris [TAX:189382]
+I                raz  Rossellomorea aquimaris
 G            Heyndrickxia
 H              Heyndrickxia coagulans [TAX:1398]
 I                bck  Heyndrickxia coagulans 2-6
@@ -14385,6 +14649,8 @@ H              Staphylococcus casei [TAX:201828]
 I                scaq  Staphylococcus casei
 H              Staphylococcus devriesei [TAX:586733]
 I                sdev  Staphylococcus devriesei
+H              Staphylococcus roterodami [TAX:2699836]
+I                srot  Staphylococcus roterodami
 G            Mammaliicoccus
 H              Mammaliicoccus sciuri [TAX:1296]
 I                sscu  Mammaliicoccus sciuri
@@ -14399,14 +14665,8 @@ I                42858  Mammaliicoccus lentus
 H              Mammaliicoccus vitulinus [TAX:71237]
 I                mvt  Mammaliicoccus vitulinus
 G            Macrococcus
-H              Macrococcus caseolyticus [TAX:69966]
-I                mcl  Macrococcus caseolyticus
-H              Macrococcus canis [TAX:1855823]
-I                mcak  Macrococcus canis
 H              Macrococcus sp. IME1552 [TAX:1898474]
 I                macr  Macrococcus sp. IME1552
-H              Macrococcus bohemicus [TAX:1903056]
-I                mboe  Macrococcus bohemicus
 H              Macrococcus armenti [TAX:2875764]
 I                mary  Macrococcus armenti
 H              Macrococcus brunensis [TAX:198483]
@@ -14417,12 +14677,16 @@ H              Macrococcus equipercicus [TAX:69967]
 I                mequ  Macrococcus equipercicus
 H              Macrococcus bovicus [TAX:69968]
 I                mboc  Macrococcus bovicus
+G            Macrococcoides
+H              Macrococcoides caseolyticum [TAX:69966]
+I                mcl  Macrococcoides caseolyticum
+H              Macrococcoides canis [TAX:1855823]
+I                mcak  Macrococcoides canis
+H              Macrococcoides bohemicum [TAX:1903056]
+I                mboe  Macrococcoides bohemicum
 G            Salinicoccus
 H              Salinicoccus halodurans [TAX:407035]
 I                shv  Salinicoccus halodurans
-G            Abyssicoccus
-H              Abyssicoccus albus [TAX:1817405]
-I                sbac  Abyssicoccus albus
 G            Jeotgalicoccus
 H              Jeotgalicoccus sp. ATCC 8456 [TAX:946435]
 I                jea  Jeotgalicoccus sp. ATCC 8456
@@ -14431,6 +14695,10 @@ H              Nosocomiicoccus ampullae [TAX:489910]
 I                namp  Nosocomiicoccus ampullae
 H              Nosocomiicoccus massiliensis [TAX:1232430]
 I                nmy  Nosocomiicoccus massiliensis
+F          Abyssicoccaceae
+G            Abyssicoccus
+H              Abyssicoccus albus [TAX:1817405]
+I                sbac  Abyssicoccus albus
 F          Listeriaceae
 G            Listeria
 H              Listeria monocytogenes [TAX:1639]
@@ -14555,6 +14823,8 @@ H              Brevibacillus aydinogluensis [TAX:927786]
 I                bayd  Brevibacillus aydinogluensis
 H              Brevibacillus borstelensis [TAX:45462]
 I                bbor  Brevibacillus borstelensis
+H              Brevibacillus ruminantium [TAX:2950604]
+I                brum  Brevibacillus ruminantium
 G            Paenibacillus
 H              Paenibacillus sp. JDR-2 [TAX:324057]
 I                pjd  Paenibacillus sp. JDR-2
@@ -14688,6 +14958,16 @@ H              Paenibacillus woosongensis [TAX:307580]
 I                pwn  Paenibacillus woosongensis
 H              Paenibacillus spongiae [TAX:2909671]
 I                pspn  Paenibacillus spongiae
+H              Paenibacillus polygoni [TAX:3050112]
+I                ppog  Paenibacillus polygoni
+H              Paenibacillus aurantius [TAX:2918900]
+I                paun  Paenibacillus aurantius
+H              Paenibacillus hunanensis [TAX:539262]
+I                phk  Paenibacillus hunanensis
+H              Paenibacillus nuruki [TAX:1886670]
+I                pnk  Paenibacillus nuruki
+H              Paenibacillus pabuli [TAX:1472]
+I                ppab  Paenibacillus pabuli
 H              Paenibacillus sp. JJ-1b [TAX:649508]
 I                649508  Paenibacillus sp. JJ-1b
 H              Paenibacillus sp. KM21 [TAX:326139]
@@ -15129,6 +15409,10 @@ H              Streptococcus ruminicola [TAX:2686210]
 I                srum  Streptococcus ruminicola
 H              Streptococcus alactolyticus [TAX:29389]
 I                sacy  Streptococcus alactolyticus
+H              Streptococcus milleri [TAX:33040]
+I                smie  Streptococcus milleri
+H              Streptococcus rubneri [TAX:1234680]
+I                srun  Streptococcus rubneri
 G            Floricoccus
 H              Floricoccus penangensis [TAX:1859475]
 I                fpen  Floricoccus penangensis
@@ -15195,6 +15479,8 @@ H              Lactobacillus intestinalis [TAX:151781]
 I                liq  Lactobacillus intestinalis
 H              Lactobacillus mulieris [TAX:2508708]
 I                lmul  Lactobacillus mulieris
+H              Lactobacillus xylocopicola [TAX:2976676]
+I                lxo  Lactobacillus xylocopicola
 G            Lacticaseibacillus
 H              Lacticaseibacillus paracasei [TAX:1597]
 I                lca  Lacticaseibacillus paracasei ATCC 334
@@ -15244,6 +15530,7 @@ I                lrf  Limosilactobacillus reuteri subsp. reuteri JCM 1112
 I                lru  Limosilactobacillus reuteri SD2112
 I                lrt  Limosilactobacillus reuteri I5007
 I                lrr  Limosilactobacillus reuteri TD1
+I                1598  Limosilactobacillus reuteri
 H              Limosilactobacillus fermentum [TAX:1613]
 I                lfe  Limosilactobacillus fermentum IFO 3956
 I                lfr  Limosilactobacillus fermentum CECT 5716
@@ -15355,6 +15642,8 @@ H              Apilactobacillus bombintestini [TAX:2419772]
 I                abom  Apilactobacillus bombintestini
 H              Apilactobacillus apisilvae [TAX:2923364]
 I                aapi  Apilactobacillus apisilvae
+H              Apilactobacillus apinorum [TAX:1218495]
+I                aapn  Apilactobacillus apinorum
 G            Secundilactobacillus
 H              Secundilactobacillus paracollinoides [TAX:240427]
 I                lpd  Secundilactobacillus paracollinoides
@@ -15491,6 +15780,11 @@ I                fru  Fructobacillus americanaquae
 G            Nicoliella
 H              Nicoliella spurrieriana [TAX:2925830]
 I                lbe  Nicoliella spurrieriana
+G            Xylocopilactobacillus
+H              Xylocopilactobacillus apis [TAX:2932183]
+I                xak  Xylocopilactobacillus apis
+H              Xylocopilactobacillus apicola [TAX:2932184]
+I                xap  Xylocopilactobacillus apicola
 F          Enterococcaceae
 G            Enterococcus
 H              Enterococcus faecalis [TAX:1351]
@@ -15544,6 +15838,8 @@ H              Enterococcus innesii [TAX:2839759]
 I                eie  Enterococcus innesii
 H              Enterococcus dispar [TAX:44009]
 I                eds  Enterococcus dispar
+H              Enterococcus montenegrensis [TAX:3031993]
+I                ems  Enterococcus montenegrensis
 G            Melissococcus
 H              Melissococcus plutonius [TAX:33970]
 I                mps  Melissococcus plutonius ATCC 35311
@@ -15616,6 +15912,9 @@ I                gsg  Globicatella sanguinis
 G            Fundicoccus
 H              Fundicoccus culcitae [TAX:2969821]
 I                fct  Fundicoccus culcitae
+G            Facklamia
+H              Facklamia hominis [TAX:178214]
+I                fhm  Facklamia hominis
 F          Carnobacteriaceae
 G            Carnobacterium
 H              Carnobacterium sp. 17-4 [TAX:208596]
@@ -15781,11 +16080,6 @@ H              Clostridium intestinale [TAX:36845]
 I                cint  Clostridium intestinale
 H              Clostridium aminobutyricum [TAX:33953]
 I                33953  Clostridium aminobutyricum
-G            Alkaliphilus
-H              Alkaliphilus metalliredigens [TAX:208226]
-I                amt  Alkaliphilus metalliredigens
-H              Alkaliphilus oremlandii [TAX:461876]
-I                aoe  Alkaliphilus oremlandii
 G            Candidatus Arthromitus
 H              Candidatus Arthromitus sp. SFB-mouse [TAX:49118]
 I                asf  Candidatus Arthromitus sp. SFB-mouse-Japan
@@ -15794,9 +16088,6 @@ H              Candidatus Arthromitus sp. SFB-mouse-NL [TAX:1508644]
 I                aso  Candidatus Arthromitus sp. SFB-mouse-NL
 H              Candidatus Arthromitus sp. SFB-rat-Yit [TAX:1041504]
 I                asb  Candidatus Arthromitus sp. SFB-rat-Yit
-G            Geosporobacter
-H              Geosporobacter ferrireducens [TAX:1424294]
-I                gfe  Geosporobacter ferrireducens
 G            Hathewaya
 H              Hathewaya histolytica [TAX:1498]
 I                hhw  Hathewaya histolytica
@@ -15804,6 +16095,8 @@ I                1498  Hathewaya histolytica
 G            Caloramator
 H              Caloramator sp. E03 [TAX:2576307]
 I                cale  Caloramator sp. E03
+H              Caloramator sp. Dgby_cultured_2 [TAX:3029174]
+I                cald  Caloramator sp. Dgby_cultured_2
 G            Crassaminicella
 H              Crassaminicella thermophila [TAX:2599308]
 I                crs  Crassaminicella thermophila
@@ -15814,9 +16107,6 @@ I                cras  Crassaminicella indica
 G            Sarcina
 H              Sarcina sp. JB2 [TAX:2726954]
 I                sarj  Sarcina sp. JB2
-G            Paraclostridium
-H              Paraclostridium bifermentans [TAX:1490]
-I                pbif  Paraclostridium bifermentans
 G            Hungatella
 H              Hungatella hathewayi [TAX:154046]
 I                hhj  Hungatella hathewayi
@@ -15826,9 +16116,6 @@ I                ocw  Oceanirhabdus sp. W0125-5
 G            Proteiniclasticum
 H              Proteiniclasticum sp. QWL-01 [TAX:3036945]
 I                proq  Proteiniclasticum sp. QWL-01
-G            Caminicella
-H              Caminicella sporogenes [TAX:166485]
-I                cspo  Caminicella sporogenes
 F          Oscillospiraceae
 G            Mageeibacillus
 H              Mageeibacillus indolicus [TAX:884684]
@@ -15892,12 +16179,9 @@ G            Faecalibacterium
 H              Faecalibacterium prausnitzii [TAX:853]
 I                fpr  Faecalibacterium prausnitzii L2-6
 I                fpa  Faecalibacterium prausnitzii SL3/3
-I                fpra  Faecalibacterium prausnitzii A2-165
 H              Faecalibacterium duncaniae [TAX:411483]
-I                fdu  Faecalibacterium duncaniae
-G            Caproiciproducens
-H              Caproiciproducens sp. NJN-50 [TAX:2507162]
-I                capr  Caproiciproducens sp. NJN-50
+I                fpra  Faecalibacterium duncaniae A2165
+I                fdu  Faecalibacterium duncaniae JCM 31915
 G            Oscillibacter
 H              Oscillibacter valericigenes [TAX:351091]
 I                ova  Oscillibacter valericigenes
@@ -15909,6 +16193,8 @@ H              Caproicibacterium amylolyticum [TAX:2766537]
 I                caml  Caproicibacterium amylolyticum
 H              Caproicibacterium lactatifermentans [TAX:2666138]
 I                clf  Caproicibacterium lactatifermentans
+H              Caproicibacterium argilliputei [TAX:3030016]
+I                carl  Caproicibacterium argilliputei
 G            Solibaculum
 H              Solibaculum mannosilyticum [TAX:2780922]
 I                sman  Solibaculum mannosilyticum
@@ -15920,9 +16206,6 @@ H              Vescimonas fastidiosa [TAX:2714353]
 I                vfa  Vescimonas fastidiosa
 H              Vescimonas coprocola [TAX:2714355]
 I                vcop  Vescimonas coprocola
-G            Caproicibacter
-H              Caproicibacter fermentans [TAX:2576756]
-I                cfem  Caproicibacter fermentans
 G            Anaerotruncus
 H              Anaerotruncus colihominis [TAX:169435]
 I                acol  Anaerotruncus colihominis
@@ -15946,9 +16229,189 @@ H              Amygdalobacter indicium [TAX:3029272]
 I                aim  Amygdalobacter indicium
 H              Amygdalobacter nucleatus [TAX:3029274]
 I                anq  Amygdalobacter nucleatus
+F          Acutalibacteraceae
+G            Caproiciproducens
+H              Caproiciproducens sp. NJN-50 [TAX:2507162]
+I                capr  Caproiciproducens sp. NJN-50
+G            Caproicibacter
+H              Caproicibacter fermentans [TAX:2576756]
+I                cfem  Caproicibacter fermentans
+F          Butyricicoccaceae
 G            Agathobaculum
 H              Agathobaculum sp. NTUH-O15-33 [TAX:3079302]
 I                agat  Agathobaculum sp. NTUH-O15-33
+G            Intestinibacillus
+H              Intestinibacillus sp. NTUH-41-i26 [TAX:3079303]
+I                int  Intestinibacillus sp. NTUH-41-i26
+F          Symbiobacteriaceae
+G            Symbiobacterium
+H              Symbiobacterium thermophilum [TAX:2734]
+I                sth  Symbiobacterium thermophilum
+G            Caldinitratiruptor
+H              Caldinitratiruptor microaerophilus [TAX:671077]
+I                cmic  Caldinitratiruptor microaerophilus
+F          Syntrophomonadaceae
+G            Syntrophomonas
+H              Syntrophomonas wolfei [TAX:863]
+I                swo  Syntrophomonas wolfei
+G            Syntrophothermus
+H              Syntrophothermus lipocalidus [TAX:86170]
+I                slp  Syntrophothermus lipocalidus
+G            Syntrophocurvum
+H              Candidatus Syntrophocurvum alkaliphilum [TAX:2293317]
+I                salq  Candidatus Syntrophocurvum alkaliphilum
+F          Desulfitobacteriaceae
+G            Desulfitobacterium
+H              Desulfitobacterium hafniense [TAX:49338]
+I                dsy  Desulfitobacterium hafniense Y51
+I                dhd  Desulfitobacterium hafniense DCB-2
+H              Desulfitobacterium dehalogenans [TAX:36854]
+I                ddh  Desulfitobacterium dehalogenans
+H              Desulfitobacterium dichloroeliminans [TAX:233055]
+I                ddl  Desulfitobacterium dichloroeliminans
+H              Desulfitobacterium metallireducens [TAX:142877]
+I                dmt  Desulfitobacterium metallireducens
+G            Syntrophobotulus
+H              Syntrophobotulus glycolicus [TAX:51197]
+I                sgy  Syntrophobotulus glycolicus
+G            Desulfosporosinus
+H              Desulfosporosinus orientis [TAX:1563]
+I                dor  Desulfosporosinus orientis
+H              Desulfosporosinus acidiphilus [TAX:885581]
+I                dai  Desulfosporosinus acidiphilus
+H              Desulfosporosinus meridiei [TAX:79209]
+I                dmi  Desulfosporosinus meridiei
+G            Dehalobacter
+H              Dehalobacter sp. DCA [TAX:1147129]
+I                ded  Dehalobacter sp. DCA
+H              Dehalobacter sp. CF [TAX:1131462]
+I                dec  Dehalobacter sp. CF
+H              Dehalobacter restrictus [TAX:55583]
+I                drs  Dehalobacter restrictus
+F          Desulfotomaculaceae
+G            Desulfotomaculum
+H              Desulfotomaculum nigrificans [TAX:1565]
+I                dca  Desulfotomaculum nigrificans
+G            Pelotomaculum
+H              Pelotomaculum thermopropionicum [TAX:110500]
+I                pth  Pelotomaculum thermopropionicum
+F          Peptococcaceae
+G            Desulforamulus
+H              Desulforamulus reducens [TAX:59610]
+I                drm  Desulforamulus reducens
+H              Desulforamulus ruminis [TAX:1564]
+I                dru  Desulforamulus ruminis
+H              Desulforamulus ferrireducens [TAX:1833852]
+I                dfg  Desulforamulus ferrireducens
+G            Desulfofarcimen
+H              Desulfofarcimen acetoxidans [TAX:58138]
+I                dae  Desulfofarcimen acetoxidans
+G            Desulfofundulus
+H              Desulfofundulus kuznetsovii [TAX:58135]
+I                dku  Desulfofundulus kuznetsovii
+G            Desulforudis
+H              Candidatus Desulforudis audaxviator [TAX:471827]
+I                dau  Candidatus Desulforudis audaxviator
+G            Thermanaerosceptrum
+H              Thermanaerosceptrum fracticalcis [TAX:1712410]
+I                tfr  Thermoanaerosceptrum fracticalcis
+G            Candidatus Formimonas
+H              Candidatus Formimonas warabiya [TAX:1761012]
+I                fwa  Candidatus Formimonas warabiya
+G            Acididesulfobacillus
+H              Acididesulfobacillus acetoxydans [TAX:1561005]
+I                aacx  Acididesulfobacillus acetoxydans
+F          Thermincolaceae
+G            Thermincola
+H              Thermincola potens [TAX:863643]
+I                tjr  Thermincola potens
+F          Desulfallaceae
+G            Desulfoscipio
+H              Desulfoscipio gibsoniae [TAX:102134]
+I                dgi  Desulfoscipio gibsoniae
+F          Heliobacteriaceae
+G            Heliomicrobium
+H              Heliomicrobium modesticaldum [TAX:35701]
+I                hmo  Heliomicrobium modesticaldum
+G            Heliorestis
+H              Heliorestis convoluta [TAX:356322]
+I                hcv  Heliorestis convoluta
+F          Eubacteriaceae
+G            Eubacterium
+H              Eubacterium callanderi [TAX:53442]
+I                elm  Eubacterium callanderi
+H              Eubacterium maltosivorans [TAX:2041044]
+I                emt  Eubacterium maltosivorans
+H              Eubacterium limosum [TAX:1736]
+I                elim  Eubacterium limosum
+H              Eubacterium ventriosum [TAX:39496]
+I                evn  Eubacterium ventriosum
+H              Eubacterium barkeri [TAX:1528]
+I                1528  Eubacterium barkeri
+H              Eubacterium ramulus [TAX:39490]
+I                39490  Eubacterium ramulus
+G            Acetobacterium
+H              Acetobacterium woodii [TAX:33952]
+I                awo  Acetobacterium woodii
+H              Acetobacterium wieringae [TAX:52694]
+I                awi  Acetobacterium wieringae
+G            Alkalibacter
+H              Alkalibacter rhizosphaerae [TAX:2815577]
+I                alka  Alkalibacter rhizosphaerae
+F          Proteinivoraceae
+G            Alkalicella
+H              Alkalicella caledoniensis [TAX:2731377]
+I                acae  Alkalicella caledoniensis
+F          Aristaeellaceae
+G            Aristaeella
+H              Aristaeella lactis [TAX:3046383]
+I                alac  Aristaeella lactis
+H              Aristaeella hokkaidonensis [TAX:3046382]
+I                ahc  Aristaeella hokkaidonensis
+F          Clostridiales Family XVII. Incertae Sedis
+G            Thermaerobacter
+H              Thermaerobacter marianensis [TAX:73919]
+I                tmr  Thermaerobacter marianensis
+H              Thermaerobacter sp. FW80 [TAX:2546351]
+I                thef  Thermaerobacter sp. FW80
+H              Thermaerobacter sp. PB12/4term [TAX:2293838]
+I                thep  Thermaerobacter sp. PB12/4term
+H              Thermaerobacter composti [TAX:554949]
+I                tcp  Thermaerobacter composti
+G            Sulfobacillus
+H              Sulfobacillus acidophilus [TAX:53633]
+I                say  Sulfobacillus acidophilus TPY
+I                sap  Sulfobacillus acidophilus DSM 10332
+H              Sulfobacillus thermotolerans [TAX:338644]
+I                sthr  Sulfobacillus thermotolerans
+G            Candidatus Hydrogenisulfobacillus
+H              Candidatus Hydrogenisulfobacillus filiaventi [TAX:2707344]
+I                hfv  Candidatus Hydrogenisulfobacillus filiaventi
+F          Clostridiales Family XVI. Incertae Sedis
+G            Carboxydocella
+H              Carboxydocella thermautotrophica [TAX:178899]
+I                cthm  Carboxydocella thermautotrophica
+F          Intestinimonas
+G            Intestinimonas butyriciproducens [TAX:1297617]
+H              ibu  Intestinimonas butyriciproducens
+F          Fenollaria
+G            Fenollaria massiliensis [TAX:938288]
+H              fms  Fenollaria massiliensis
+F          Proteiniborus
+G            Proteiniborus sp. MB09-C3 [TAX:3050072]
+H              prom  Proteiniborus sp. MB09-C3
+F          Eubacteriales Family XIII. Incertae Sedis
+G            [Eubacterium] sulci [TAX:143393]
+H              euu  Eubacterium sulci
+F          [Bacteroides] pectinophilus [TAX:384638]
+G            bpen  Bacteroides pectinophilus
+F          butyrate-producing bacterium SM4/1 [TAX:245012]
+G            bprm  Butyrate-producing bacterium SM4/1
+F          butyrate-producing bacterium SS3/4 [TAX:245014]
+G            bprs  Butyrate-producing bacterium SS3/4
+F          Clostridiales bacterium FE2010 [TAX:2806336]
+G            cbaf  Clostridiales bacterium FE2010
+E        Lachnospirales
 F          Lachnospiraceae
 G            Butyrivibrio
 H              Butyrivibrio proteoclasticus [TAX:43305]
@@ -15996,10 +16459,14 @@ H              Blautia wexlerae [TAX:418240]
 I                bwx  Blautia wexlerae
 H              Blautia massiliensis (ex Durand et al. 2017) [TAX:1737424]
 I                bmas  Blautia massiliensis
-H              Blautia sp. NBRC 113351 [TAX:2877527]
-I                blar  Blautia sp. NBRC 113351
+H              Blautia parvula [TAX:2877527]
+I                blar  Blautia parvula
 H              Blautia luti [TAX:89014]
 I                blui  Blautia luti
+H              Blautia coccoides [TAX:1532]
+I                bcoc  Blautia coccoides
+H              Blautia hydrogenotrophica [TAX:53443]
+I                bhv  Blautia hydrogenotrophica
 G            Lachnoclostridium
 H              Lachnoclostridium phytofermentans [TAX:66219]
 I                cpy  Lachnoclostridium phytofermentans
@@ -16029,10 +16496,6 @@ I                acac  Anaerostipes caccae
 G            Herbinix
 H              Herbinix luporum [TAX:1679721]
 I                hsd  Herbinix luporum
-G            Anaerotignum
-H              Anaerotignum propionicum [TAX:28446]
-I                cpro  Anaerotignum propionicum
-I                28446  Anaerotignum propionicum
 G            Lachnoanaerobaculum
 H              Lachnoanaerobaculum umeaense [TAX:617123]
 I                lua  Lachnoanaerobaculum umeaense
@@ -16057,9 +16520,9 @@ I                eel  Eubacterium eligens
 G            Mediterraneibacter
 H              [Ruminococcus] torques [TAX:33039]
 I                rto  Ruminococcus torques
-H              [Ruminococcus] gnavus [TAX:33038]
-I                rgn  Ruminococcus gnavus
-I                33038  [Ruminococcus] gnavus
+H              Mediterraneibacter gnavus [TAX:33038]
+I                rgn  Mediterraneibacter gnavus
+I                33038  Mediterraneibacter gnavus
 H              [Ruminococcus] lactaris [TAX:46228]
 I                rlr  Ruminococcus lactaris
 G            Enterocloster
@@ -16112,183 +16575,19 @@ G            Lachnospiraceae bacterium oral taxon 500 [TAX:712991]
 H              lbw  Lachnospiraceae bacterium oral taxon 500
 G            Lachnospiraceae bacterium KM106-2 [TAX:2093742]
 H              lbx  Lachnospiraceae bacterium KM106-2
+F          Anaerotignaceae
+G            Anaerotignum
+H              Anaerotignum propionicum [TAX:28446]
+I                cpro  Anaerotignum propionicum
+I                28446  Anaerotignum propionicum
+H              Anaerotignum sp. MB30-C6 [TAX:3070814]
+I                anv  Anaerotignum sp. MB30-C6
 F          Cellulosilyticaceae
 G            Cellulosilyticum
 H              Cellulosilyticum lentocellum [TAX:29360]
 I                cle  Cellulosilyticum lentocellum
 H              Cellulosilyticum sp. WCF-2 [TAX:2497860]
 I                cew  Cellulosilyticum sp. WCF-2
-F          Peptostreptococcaceae
-G            Clostridioides
-H              Clostridioides difficile [TAX:1496]
-I                cdf  Clostridioides difficile 630
-I                pdc  Clostridioides difficile 630
-I                cdc  Clostridioides difficile CD196
-I                cdl  Clostridioides difficile R20291
-I                pdf  Clostridioides difficile 630Derm
-I                1496  Clostridioides difficile
-G            Peptoclostridium
-H              Peptoclostridium acidaminophilum [TAX:1731]
-I                eac  Peptoclostridium acidaminophilum
-I                1731  Peptoclostridium acidaminophilum
-G            Acetoanaerobium
-H              Acetoanaerobium sticklandii [TAX:1511]
-I                cst  Acetoanaerobium sticklandii
-G            Filifactor
-H              Filifactor alocis [TAX:143361]
-I                faa  Filifactor alocis
-G            Paeniclostridium
-H              Paeniclostridium sordellii [TAX:1505]
-I                psor  Paeniclostridium sordellii
-G            Romboutsia
-H              Romboutsia sp. CE17 [TAX:2724150]
-I                roc  Romboutsia sp. CE17
-G            Peptacetobacter
-H              Peptacetobacter hiranonis [TAX:89152]
-I                phx  Peptacetobacter hiranonis
-I                89152  Peptacetobacter hiranonis
-G            Terrisporobacter
-H              Terrisporobacter hibernicus [TAX:2813371]
-I                tem  Terrisporobacter hibernicus
-H              Terrisporobacter glycolicus [TAX:36841]
-I                tgc  Terrisporobacter glycolicus
-H              Terrisporobacter mayombei [TAX:1541]
-I                tmy  Terrisporobacter mayombei
-G            Tepidibacter
-H              Tepidibacter sp. 8C15b [TAX:2925782]
-I                teb  Tepidibacter sp. 8C15b
-H              Tepidibacter hydrothermalis [TAX:3036126]
-I                thyr  Tepidibacter hydrothermalis
-G            Intestinibacter
-H              Intestinibacter bartlettii [TAX:261299]
-I                ibr  Intestinibacter bartlettii
-G            Peptostreptococcus
-H              Peptostreptococcus sp. CBA3647 [TAX:3003601]
-I                peb  Peptostreptococcus sp. CBA3647
-G            Peptostreptococcaceae bacterium oral taxon 929 [TAX:2081703]
-H              pbq  Peptostreptococcaceae bacterium oral taxon 929
-F          Symbiobacteriaceae
-G            Symbiobacterium
-H              Symbiobacterium thermophilum [TAX:2734]
-I                sth  Symbiobacterium thermophilum
-G            Caldinitratiruptor
-H              Caldinitratiruptor microaerophilus [TAX:671077]
-I                cmic  Caldinitratiruptor microaerophilus
-F          Syntrophomonadaceae
-G            Syntrophomonas
-H              Syntrophomonas wolfei [TAX:863]
-I                swo  Syntrophomonas wolfei
-G            Syntrophothermus
-H              Syntrophothermus lipocalidus [TAX:86170]
-I                slp  Syntrophothermus lipocalidus
-G            Candidatus Syntrophocurvum
-H              Candidatus Syntrophocurvum alkaliphilum [TAX:2293317]
-I                salq  Candidatus Syntrophocurvum alkaliphilum
-F          Desulfitobacteriaceae
-G            Desulfitobacterium
-H              Desulfitobacterium hafniense [TAX:49338]
-I                dsy  Desulfitobacterium hafniense Y51
-I                dhd  Desulfitobacterium hafniense DCB-2
-H              Desulfitobacterium dehalogenans [TAX:36854]
-I                ddh  Desulfitobacterium dehalogenans
-H              Desulfitobacterium dichloroeliminans [TAX:233055]
-I                ddl  Desulfitobacterium dichloroeliminans
-H              Desulfitobacterium metallireducens [TAX:142877]
-I                dmt  Desulfitobacterium metallireducens
-G            Syntrophobotulus
-H              Syntrophobotulus glycolicus [TAX:51197]
-I                sgy  Syntrophobotulus glycolicus
-G            Desulfosporosinus
-H              Desulfosporosinus orientis [TAX:1563]
-I                dor  Desulfosporosinus orientis
-H              Desulfosporosinus acidiphilus [TAX:885581]
-I                dai  Desulfosporosinus acidiphilus
-H              Desulfosporosinus meridiei [TAX:79209]
-I                dmi  Desulfosporosinus meridiei
-G            Dehalobacter
-H              Dehalobacter sp. DCA [TAX:1147129]
-I                ded  Dehalobacter sp. DCA
-H              Dehalobacter sp. CF [TAX:1131462]
-I                dec  Dehalobacter sp. CF
-H              Dehalobacter restrictus [TAX:55583]
-I                drs  Dehalobacter restrictus
-F          Desulfotomaculaceae
-G            Desulfotomaculum
-H              Desulfotomaculum nigrificans [TAX:1565]
-I                dca  Desulfotomaculum nigrificans
-G            Pelotomaculum
-H              Pelotomaculum thermopropionicum [TAX:110500]
-I                pth  Pelotomaculum thermopropionicum
-F          Peptococcaceae
-G            Desulforamulus
-H              Desulforamulus reducens [TAX:59610]
-I                drm  Desulforamulus reducens
-H              Desulforamulus ruminis [TAX:1564]
-I                dru  Desulforamulus ruminis
-H              Desulforamulus ferrireducens [TAX:1833852]
-I                dfg  Desulforamulus ferrireducens
-G            Desulfofarcimen
-H              Desulfofarcimen acetoxidans [TAX:58138]
-I                dae  Desulfofarcimen acetoxidans
-G            Desulfofundulus
-H              Desulfofundulus kuznetsovii [TAX:58135]
-I                dku  Desulfofundulus kuznetsovii
-G            Candidatus Desulforudis
-H              Candidatus Desulforudis audaxviator [TAX:471827]
-I                dau  Candidatus Desulforudis audaxviator
-G            Thermanaerosceptrum
-H              Thermanaerosceptrum fracticalcis [TAX:1712410]
-I                tfr  Thermoanaerosceptrum fracticalcis
-G            Candidatus Formimonas
-H              Candidatus Formimonas warabiya [TAX:1761012]
-I                fwa  Candidatus Formimonas warabiya
-G            Acididesulfobacillus
-H              Acididesulfobacillus acetoxydans [TAX:1561005]
-I                aacx  Acididesulfobacillus acetoxydans
-F          Thermincolaceae
-G            Thermincola
-H              Thermincola potens [TAX:863643]
-I                tjr  Thermincola potens
-F          Desulfallaceae
-G            Desulfoscipio
-H              Desulfoscipio gibsoniae [TAX:102134]
-I                dgi  Desulfoscipio gibsoniae
-F          Heliobacteriaceae
-G            Heliomicrobium
-H              Heliomicrobium modesticaldum [TAX:35701]
-I                hmo  Heliomicrobium modesticaldum
-G            Heliorestis
-H              Heliorestis convoluta [TAX:356322]
-I                hcv  Heliorestis convoluta
-F          Eubacteriaceae
-G            Eubacterium
-H              Eubacterium callanderi [TAX:53442]
-I                elm  Eubacterium callanderi
-H              Eubacterium maltosivorans [TAX:2041044]
-I                emt  Eubacterium maltosivorans
-H              Eubacterium limosum [TAX:1736]
-I                elim  Eubacterium limosum
-H              Eubacterium ventriosum [TAX:39496]
-I                evn  Eubacterium ventriosum
-H              Eubacterium barkeri [TAX:1528]
-I                1528  Eubacterium barkeri
-H              Eubacterium ramulus [TAX:39490]
-I                39490  Eubacterium ramulus
-G            Acetobacterium
-H              Acetobacterium woodii [TAX:33952]
-I                awo  Acetobacterium woodii
-H              Acetobacterium wieringae [TAX:52694]
-I                awi  Acetobacterium wieringae
-G            Alkalibacter
-H              Alkalibacter rhizosphaerae [TAX:2815577]
-I                alka  Alkalibacter rhizosphaerae
-G            Intestinibacillus
-H              Intestinibacillus sp. NTUH-41-i26 [TAX:3079303]
-I                int  Intestinibacillus sp. NTUH-41-i26
-F          Christensenellaceae
-G            Christensenella
-H              Christensenella minuta [TAX:626937]
-I                cmiu  Christensenella minuta
 F          Vallitaleaceae
 G            Petrocella
 H              Petrocella atlantisensis [TAX:2173034]
@@ -16298,47 +16597,8 @@ H              Vallitalea guaymasensis [TAX:1185412]
 I                vgu  Vallitalea guaymasensis
 H              Vallitalea pronyensis [TAX:1348613]
 I                vpy  Vallitalea pronyensis
-F          Proteinivoraceae
-G            Alkalicella
-H              Alkalicella caledoniensis [TAX:2731377]
-I                acae  Alkalicella caledoniensis
-F          Aristaeellaceae
-G            Aristaeella
-H              Aristaeella lactis [TAX:3046383]
-I                alac  Aristaeella lactis
-H              Aristaeella hokkaidonensis [TAX:3046382]
-I                ahc  Aristaeella hokkaidonensis
-F          Clostridiales Family XVII. Incertae Sedis
-G            Thermaerobacter
-H              Thermaerobacter marianensis [TAX:73919]
-I                tmr  Thermaerobacter marianensis
-H              Thermaerobacter sp. FW80 [TAX:2546351]
-I                thef  Thermaerobacter sp. FW80
-H              Thermaerobacter sp. PB12/4term [TAX:2293838]
-I                thep  Thermaerobacter sp. PB12/4term
-G            Sulfobacillus
-H              Sulfobacillus acidophilus [TAX:53633]
-I                say  Sulfobacillus acidophilus TPY
-I                sap  Sulfobacillus acidophilus DSM 10332
-H              Sulfobacillus thermotolerans [TAX:338644]
-I                sthr  Sulfobacillus thermotolerans
-G            Candidatus Hydrogenisulfobacillus
-H              Candidatus Hydrogenisulfobacillus filiaventi [TAX:2707344]
-I                hfv  Candidatus Hydrogenisulfobacillus filiaventi
-F          Clostridiales Family XVI. Incertae Sedis
-G            Carboxydocella
-H              Carboxydocella thermautotrophica [TAX:178899]
-I                cthm  Carboxydocella thermautotrophica
-F          Intestinimonas
-G            Intestinimonas butyriciproducens [TAX:1297617]
-H              ibu  Intestinimonas butyriciproducens
-F          Fenollaria
-G            Fenollaria massiliensis [TAX:938288]
-H              fms  Fenollaria massiliensis
-F          Proteiniborus
-G            Proteiniborus sp. MB09-C3 [TAX:3050072]
-H              prom  Proteiniborus sp. MB09-C3
-F          Eubacteriales Family XIII. Incertae Sedis
+E        Peptostreptococcales
+F          Anaerovoracaceae
 G            Mogibacterium
 H              Mogibacterium diversum [TAX:114527]
 I                mdv  Mogibacterium diversum
@@ -16354,16 +16614,78 @@ I                abut  Aminipila butyrica
 G            Emergencia
 H              Emergencia timonensis [TAX:1776384]
 I                etm  Emergencia timonensis
-G            [Eubacterium] sulci [TAX:143393]
-H              euu  Eubacterium sulci
-F          [Bacteroides] pectinophilus [TAX:384638]
-G            bpen  Bacteroides pectinophilus
-F          butyrate-producing bacterium SM4/1 [TAX:245012]
-G            bprm  Butyrate-producing bacterium SM4/1
-F          butyrate-producing bacterium SS3/4 [TAX:245014]
-G            bprs  Butyrate-producing bacterium SS3/4
-F          Clostridiales bacterium FE2010 [TAX:2806336]
-G            cbaf  Clostridiales bacterium FE2010
+F          Natronincolaceae
+G            Alkaliphilus
+H              Alkaliphilus metalliredigens [TAX:208226]
+I                amt  Alkaliphilus metalliredigens
+H              Alkaliphilus oremlandii [TAX:461876]
+I                aoe  Alkaliphilus oremlandii
+F          Thermotaleaceae
+G            Geosporobacter
+H              Geosporobacter ferrireducens [TAX:1424294]
+I                gfe  Geosporobacter ferrireducens
+F          Caminicellaceae
+G            Caminicella
+H              Caminicella sporogenes [TAX:166485]
+I                cspo  Caminicella sporogenes
+F          Peptostreptococcaceae
+G            Paraclostridium
+H              Paraclostridium bifermentans [TAX:1490]
+I                pbif  Paraclostridium bifermentans
+H              Paraclostridium sordellii [TAX:1505]
+I                psor  Paraclostridium sordellii
+G            Clostridioides
+H              Clostridioides difficile [TAX:1496]
+I                cdf  Clostridioides difficile 630
+I                pdc  Clostridioides difficile 630
+I                cdc  Clostridioides difficile CD196
+I                cdl  Clostridioides difficile R20291
+I                pdf  Clostridioides difficile 630Derm
+I                1496  Clostridioides difficile
+G            Romboutsia
+H              Romboutsia sp. CE17 [TAX:2724150]
+I                roc  Romboutsia sp. CE17
+G            Peptacetobacter
+H              Peptacetobacter hiranonis [TAX:89152]
+I                phx  Peptacetobacter hiranonis
+I                89152  Peptacetobacter hiranonis
+G            Terrisporobacter
+H              Terrisporobacter hibernicus [TAX:2813371]
+I                tem  Terrisporobacter hibernicus
+H              Terrisporobacter glycolicus [TAX:36841]
+I                tgc  Terrisporobacter glycolicus
+H              Terrisporobacter mayombei [TAX:1541]
+I                tmy  Terrisporobacter mayombei
+G            Tepidibacter
+H              Tepidibacter aestuarii [TAX:2925782]
+I                teb  Tepidibacter aestuarii
+H              Tepidibacter hydrothermalis [TAX:3036126]
+I                thyr  Tepidibacter hydrothermalis
+G            Intestinibacter
+H              Intestinibacter bartlettii [TAX:261299]
+I                ibr  Intestinibacter bartlettii
+G            Peptostreptococcus
+H              Peptostreptococcus sp. CBA3647 [TAX:3003601]
+I                peb  Peptostreptococcus sp. CBA3647
+G            Peptostreptococcaceae bacterium oral taxon 929 [TAX:2081703]
+H              pbq  Peptostreptococcaceae bacterium oral taxon 929
+F          Peptoclostridiaceae
+G            Peptoclostridium
+H              Peptoclostridium acidaminophilum [TAX:1731]
+I                eac  Peptoclostridium acidaminophilum
+I                1731  Peptoclostridium acidaminophilum
+F          Filifactoraceae
+G            Acetoanaerobium
+H              Acetoanaerobium sticklandii [TAX:1511]
+I                cst  Acetoanaerobium sticklandii
+G            Filifactor
+H              Filifactor alocis [TAX:143361]
+I                faa  Filifactor alocis
+E        Christensenellales
+F          Christensenellaceae
+G            Christensenella
+H              Christensenella minuta [TAX:626937]
+I                cmiu  Christensenella minuta
 E        Thermoanaerobacterales
 F          Thermoanaerobacteraceae
 G            Caldanaerobacter
@@ -16410,12 +16732,6 @@ I                tsh  Thermoanaerobacterium saccharolyticum
 G            Aceticella
 H              Aceticella autotrophica [TAX:2755338]
 I                aaut  Aceticella autotrophica
-F          Thermodesulfobiaceae
-G            Thermodesulfobium
-H              Thermodesulfobium narugense [TAX:184064]
-I                tnr  Thermodesulfobium narugense
-H              Thermodesulfobium acidiphilum [TAX:1794699]
-I                taci  Thermodesulfobium acidiphilum
 F          Thermoanaerobacterales Family IV. Incertae Sedis
 G            Mahella
 H              Mahella australiensis [TAX:252966]
@@ -16446,6 +16762,8 @@ H              Caldicellulosiruptor naganoensis [TAX:29324]
 I                cnag  Caldicellulosiruptor naganoensis
 H              Caldicellulosiruptor morganii [TAX:1387555]
 I                cmor  Caldicellulosiruptor morganii
+H              Caldicellulosiruptor danielii [TAX:1387557]
+I                cdan  Caldicellulosiruptor danielii
 E        Moorellales
 F          Moorellaceae
 G            Moorella
@@ -16534,6 +16852,9 @@ I                pequ  Peptoniphilus equinus
 G            Miniphocaeibacter
 H              Miniphocaeibacter halophilus [TAX:2931922]
 I                mhap  Miniphocaeibacter halophilus
+G            Helcococcus
+H              Helcococcus ovis [TAX:72026]
+I                hov  Helcococcus ovis
 F          Gottschalkiaceae
 G            Gottschalkia
 H              Gottschalkia acidurici [TAX:1556]
@@ -16554,6 +16875,8 @@ F          Tissierellaceae
 G            Tissierella
 H              Tissierella sp. Yu-01 [TAX:3035694]
 I                tis  Tissierella sp. Yu-01
+H              Tissierella sp. MB52-C2 [TAX:3070999]
+I                tiz  Tissierella sp. MB52-C2
 E        Sedimentibacter
 F          Sedimentibacter sp. zth1 [TAX:2816908]
 G            sedz  Sedimentibacter sp. zth1
@@ -16679,6 +17002,9 @@ H              Allobaculum mucilyticum [TAX:2834459]
 I                amuo  Allobaculum mucilyticum
 H              Allobaculum sp. Allo2 [TAX:2853432]
 I                allo  Allobaculum sp. Allo2
+G            Solobacterium
+H              Solobacterium moorei [TAX:102148]
+I                smoe  Solobacterium moorei
 G            Erysipelotrichaceae bacterium I46 [TAX:1834207]
 H              erb  Erysipelotrichaceae bacterium I46
 G            [Eubacterium] hominis [TAX:2764325]
@@ -16714,7 +17040,7 @@ I                lpil  Limnochorda pilosa
 D      Dethiobacteria
 E        Dethiobacterales
 F          Dethiobacteraceae
-G            Candidatus Contubernalis
+G            Contubernalis
 H              Candidatus Contubernalis alkalaceticus [TAX:338645]
 I                calk  Candidatus Contubernalis alkalaceticus
 D      endosymbiont 'TC1' of Trimyema compressum [TAX:243899]
@@ -16794,12 +17120,14 @@ G            Mycoplasma seminis [TAX:512749]
 H              mses  Mycoplasma seminis
 G            Mycoplasma bradburyae [TAX:2963128]
 H              mbra  Mycoplasma bradburyae
-F          Candidatus Hepatoplasma
+G            Candidatus Mycoplasma mahonii [TAX:3004105]
+H              mmah  Candidatus Mycoplasma mahonii
+F          Hepatoplasma
 G            Candidatus Hepatoplasma crinochetorum [TAX:295596]
 H              hcr  Candidatus Hepatoplasma crinochetorum
 E        Acholeplasmatales
 F          Acholeplasmataceae
-G            Candidatus Phytoplasma
+G            Phytoplasma
 H              16SrI (Aster yellows group)
 I                Onion yellows phytoplasma [TAX:100379]
 J                  poy  Onion yellows phytoplasma OY-M
@@ -17171,6 +17499,8 @@ H              Collinsella aerofaciens [TAX:74426]
 I                caer  Collinsella aerofaciens
 H              Collinsella stercoris [TAX:147206]
 I                cstc  Collinsella stercoris
+H              Collinsella sp. zg1085 [TAX:2844380]
+I                coll  Collinsella sp. zg1085
 E        Eggerthellales
 F          Eggerthellaceae
 G            Cryptobacterium
@@ -17213,9 +17543,10 @@ G            Egibacter
 H              Egibacter rhizosphaerae [TAX:1670831]
 I                erz  Egibacter rhizosphaerae
 E        Euzebyales
-F          Euzebya
-G            Euzebya pacifica [TAX:1608957]
-H              euz  Euzebya pacifica
+F          Euzebyaceae
+G            Euzebya
+H              Euzebya pacifica [TAX:1608957]
+I                euz  Euzebya pacifica
 D      Actinomycetes
 E        Mycobacteriales
 F          Mycobacteriaceae
@@ -17257,12 +17588,14 @@ J                  mbx  Mycobacterium tuberculosis variant bovis BCG ATCC 35743
 J                  maf  Mycobacterium tuberculosis variant africanum
 J                  mmic  Mycobacterium tuberculosis variant microti
 J                  1773  Mycobacterium tuberculosis
-I                Mycobacterium canettii [TAX:78331]
+I                Mycobacterium canetti [TAX:78331]
 J                  mce  Mycobacterium canettii CIPT 140010059
 J                  mcq  Mycobacterium canettii CIPT 140060008
 J                  mcv  Mycobacterium canettii CIPT 140070008
 J                  mcx  Mycobacterium canettii CIPT 140070010
 J                  mcz  Mycobacterium canettii CIPT 140070017
+I                Mycobacterium orygis [TAX:1305738]
+J                  mory  Mycobacterium orygis
 H              Mycobacterium leprae [TAX:1769]
 I                mle  Mycobacterium leprae TN
 I                mlb  Mycobacterium leprae Br4923
@@ -17335,8 +17668,6 @@ I                Mycobacterium kubicae [TAX:120959]
 J                  mku  Mycobacterium kubicae
 I                Mycobacterium lentiflavum [TAX:141349]
 J                  mlw  Mycobacterium lentiflavum
-H              Mycobacterium grossiae [TAX:1552759]
-I                mgro  Mycobacterium grossiae
 H              Mycobacterium xenopi [TAX:1789]
 I                mxe  Mycobacterium xenopi
 H              Mycobacterium noviomagense [TAX:459858]
@@ -17379,6 +17710,8 @@ H              Mycobacterium kiyosense [TAX:2871094]
 I                mky  Mycobacterium kiyosense
 H              Mycobacterium adipatum [TAX:1682113]
 I                madi  Mycobacterium adipatum
+H              Candidatus Mycobacterium wuenschmannii [TAX:3027808]
+I                mwu  Candidatus Mycobacterium wuenschmannii
 H              Mycobacterium sp. DSM 3803 [TAX:212194]
 I                212194  Mycobacterium sp. DSM 3803
 H              Mycobacterium sp. JS330 [TAX:1004011]
@@ -17491,6 +17824,8 @@ H              Mycolicibacterium diernhoferi [TAX:1801]
 I                mdf  Mycolicibacterium diernhoferi
 H              Mycolicibacterium crocinum [TAX:388459]
 I                mcro  Mycolicibacterium crocinum
+H              Mycolicibacterium grossiae [TAX:1552759]
+I                mgro  Mycolicibacterium grossiae
 H              Mycolicibacterium austroafricanum [TAX:39687]
 I                39687  Mycolicibacterium austroafricanum
 G            Mycolicibacillus
@@ -17812,6 +18147,8 @@ H              Corynebacterium suedekumii [TAX:3049801]
 I                csue  Corynebacterium suedekumii
 H              Corynebacterium breve [TAX:3049799]
 I                cbre  Corynebacterium breve
+H              Corynebacterium pyruviciproducens [TAX:598660]
+I                cpyr  Corynebacterium pyruviciproducens
 H              [Brevibacterium] flavum [TAX:92706]
 I                bfv  Brevibacterium flavum
 H              Corynebacterium sp. [TAX:1720]
@@ -17932,6 +18269,9 @@ I                req  Prescottella equi
 I                43767  Prescottella equi
 H              Prescottella defluvii [TAX:1323361]
 I                pdef  Prescottella defluvii
+G            Williamsia
+H              Williamsia herbipolensis [TAX:1603258]
+I                whr  Williamsia herbipolensis
 F          Gordoniaceae
 G            Gordonia
 H              Gordonia bronchialis [TAX:2054]
@@ -17985,6 +18325,8 @@ H              Tsukamurella tyrosinosolvens [TAX:57704]
 I                tsm  Tsukamurella tyrosinosolvens
 H              Tsukamurella pulmonis [TAX:47312]
 I                tpul  Tsukamurella pulmonis
+H              Tsukamurella sp. PLM1 [TAX:2929795]
+I                tsd  Tsukamurella sp. PLM1
 F          Segniliparaceae
 G            Segniliparus
 H              Segniliparus rotundus [TAX:286802]
@@ -18035,6 +18377,8 @@ I                sanl  Streptomyces anulatus
 I                1892  Streptomyces anulatus
 H              Streptomyces graminofaciens [TAX:68212]
 I                sgrf  Streptomyces graminofaciens
+H              Streptomyces cyaneofuscatus [TAX:66883]
+I                scye  Streptomyces cyaneofuscatus
 H              Streptomyces scabiei [TAX:1930]
 I                scb  Streptomyces scabiei
 H              Streptomyces sp. SirexAA-E [TAX:862751]
@@ -18152,7 +18496,7 @@ H              Streptomyces autolyticus [TAX:75293]
 I                sauo  Streptomyces autolyticus
 H              Streptomyces alfalfae [TAX:1642299]
 I                ssia  Streptomyces alfalfae
-H              Streptomyces anthocyanicus group
+H              Streptomyces violaceoruber group
 I                Streptomyces violaceoruber [TAX:1935]
 J                  svu  Streptomyces violaceoruber
 J                  1935  Streptomyces violaceoruber
@@ -18382,6 +18726,20 @@ H              Streptomyces cynarae [TAX:2981134]
 I                scyn  Streptomyces cynarae
 H              Streptomyces olivoreticuli [TAX:68246]
 I                sov  Streptomyces olivoreticuli
+H              Streptomyces finlayi [TAX:67296]
+I                sfiy  Streptomyces finlayi
+H              Streptomyces halobius [TAX:2879846]
+I                shau  Streptomyces halobius
+H              Streptomyces koelreuteriae [TAX:2838015]
+I                skg  Streptomyces koelreuteriae
+H              Streptomyces coralus [TAX:66880]
+I                scoa  Streptomyces coralus
+H              Streptomyces laculatispora [TAX:887464]
+I                slai  Streptomyces laculatispora
+H              Streptomyces roseicoloratus [TAX:2508722]
+I                sroc  Streptomyces roseicoloratus
+H              Streptomyces flavofungini [TAX:68200]
+I                sfp  Streptomyces flavofungini
 H              Streptomyces achromogenes [TAX:67255]
 I                67255  Streptomyces achromogenes
 H              Streptomyces acrimycini [TAX:1884]
@@ -18446,6 +18804,8 @@ H              Streptomyces rugosporus [TAX:295838]
 I                295838  Streptomyces rugosporus
 H              Streptomyces sahachiroi [TAX:285525]
 I                285525  Streptomyces sahachiroi
+H              Streptomyces somaliensis [TAX:78355]
+I                78355  Streptomyces somaliensis
 H              Streptomyces sp. C5 [TAX:45212]
 I                45212  Streptomyces sp. C5
 H              Streptomyces sp. CL190 [TAX:93372]
@@ -18536,6 +18896,8 @@ I                strh  Streptacidiphilus sp. P02-A3a
 G            Actinacidiphila
 H              Actinacidiphila bryophytorum [TAX:1436133]
 I                abry  Actinacidiphila bryophytorum
+H              Actinacidiphila glaucinigra [TAX:235986]
+I                agla  Actinacidiphila glaucinigra
 E        Micrococcales
 F          Tropherymataceae
 G            Tropheryma
@@ -18560,8 +18922,9 @@ I                lse  Leifsonia shinshuensis
 G            Clavibacter
 H              Clavibacter michiganensis [TAX:28447]
 I                cmi  Clavibacter michiganensis subsp. michiganensis
-I                cms  Clavibacter michiganensis subsp. sepedonicus
 I                cmh  Clavibacter michiganensis subsp. insidiosus
+H              Clavibacter sepedonicus [TAX:31964]
+I                cms  Clavibacter sepedonicus
 H              Clavibacter nebraskensis [TAX:31963]
 I                cmc  Clavibacter nebraskensis
 H              Clavibacter capsici [TAX:1874630]
@@ -18639,6 +19002,12 @@ H              Microbacterium suwonense [TAX:683047]
 I                msuw  Microbacterium suwonense
 H              Microbacterium arborescens [TAX:33883]
 I                mark  Microbacterium arborescens
+H              Microbacterium rhizosphaerae [TAX:1678237]
+I                mrg  Microbacterium rhizosphaerae
+H              Microbacterium invictum [TAX:515415]
+I                minv  Microbacterium invictum
+H              Microbacterium esteraromaticum [TAX:57043]
+I                mest  Microbacterium esteraromaticum
 H              Microbacterium laevaniformans [TAX:36807]
 I                36807  Microbacterium laevaniformans
 H              Microbacterium sp. [TAX:51671]
@@ -18730,6 +19099,10 @@ H              Microcella alkaliphila [TAX:279828]
 I                malk  Microcella alkaliphila
 H              Chryseoglobus sp. 28M-23 [TAX:2772253]
 I                chre  Chryseoglobus sp. 28M-23
+H              Microcella humidisoli [TAX:2963406]
+I                mhum  Microcella humidisoli
+H              Microcella daejeonensis [TAX:2994971]
+I                mdb  Microcella daejeonensis
 G            Mycetocola
 H              Mycetocola zhujimingii [TAX:2079792]
 I                myl  Mycetocola zhujimingii
@@ -18784,6 +19157,8 @@ I                ltn  Leucobacter tenebrionis
 G            Agrococcus
 H              Agrococcus sp. SGAir0287 [TAX:2070347]
 I                agg  Agrococcus sp. SGAir0287
+H              Agrococcus sp. Marseille-Q4369 [TAX:2810513]
+I                agro  Agrococcus sp. Marseille-Q4369
 G            Marisediminicola
 H              Marisediminicola antarctica [TAX:674079]
 I                mant  Marisediminicola antarctica
@@ -18823,6 +19198,9 @@ I                naei  Naasia aerilata
 G            Lysinibacter
 H              Lysinibacter sp. HNR [TAX:3031408]
 I                lyh  Lysinibacter sp. HNR
+G            Antiquaquibacter
+H              Antiquaquibacter oligotrophicus [TAX:2880260]
+I                aog  Antiquaquibacter oligotrophicus
 F          Micrococcaceae
 G            Arthrobacter
 H              Arthrobacter sp. FB24 [TAX:290399]
@@ -18884,6 +19262,10 @@ H              Arthrobacter oryzae [TAX:409290]
 I                aod  Arthrobacter oryzae
 H              Arthrobacter koreensis [TAX:199136]
 I                ako  Arthrobacter koreensis
+H              Arthrobacter zhaoxinii [TAX:2964616]
+I                azx  Arthrobacter zhaoxinii
+H              Arthrobacter jinronghuae [TAX:2964609]
+I                ajr  Arthrobacter jinronghuae
 H              Arthrobacter globiformis [TAX:1665]
 I                1665  Arthrobacter globiformis
 H              Arthrobacter pascens [TAX:1677]
@@ -18923,6 +19305,7 @@ I                psey  Pseudarthrobacter psychrotolerans
 H              Pseudarthrobacter defluvii [TAX:410837]
 I                pdel  Pseudarthrobacter defluvii
 H              Pseudarthrobacter oxydans [TAX:1671]
+I                pok  Pseudarthrobacter oxydans
 I                1671  Pseudarthrobacter oxydans
 G            Glutamicibacter
 H              Glutamicibacter arilaitensis [TAX:256701]
@@ -19176,6 +19559,8 @@ I                phw  Phycicoccus sp. HDW14
 H              Phycicoccus endophyticus [TAX:1690220]
 I                pei  Phycicoccus endophyticus
 G            Terrabacter
+H              Terrabacter sp. C0L_2 [TAX:3108389]
+I                ted  Terrabacter sp. C0L_2
 H              Terrabacter ginsenosidimutans [TAX:490575]
 I                490575  Terrabacter ginsenosidimutans
 H              Terrabacter sp. DBF63 [TAX:150395]
@@ -19361,6 +19746,8 @@ H              Nocardioides faecalis [TAX:2803858]
 I                nfc  Nocardioides faecalis
 H              Nocardioides sp. JS1661 [TAX:1517491]
 I                1517491  Nocardioides sp. JS1661
+H              Nocardioides sp. SG-4G [TAX:670481]
+I                670481  Nocardioides sp. SG-4G
 H              Nocardioides sp. [TAX:35761]
 I                35761  Nocardioides sp.
 G            Pimelobacter
@@ -19378,6 +19765,10 @@ H              Aeromicrobium yanjiei [TAX:2662028]
 I                aef  Aeromicrobium yanjiei
 H              Aeromicrobium senzhongii [TAX:2663859]
 I                asez  Aeromicrobium senzhongii
+H              Aeromicrobium duanguangcaii [TAX:2968086]
+I                adb  Aeromicrobium duanguangcaii
+H              Aeromicrobium wangtongii [TAX:2969247]
+I                awn  Aeromicrobium wangtongii
 G            Micropruina
 H              Micropruina glycogenica [TAX:75385]
 I                mgg  Micropruina glycogenica
@@ -19392,6 +19783,8 @@ H              Kribbella flavida [TAX:182640]
 I                kfl  Kribbella flavida
 H              Kribbella qitaiheensis [TAX:1544730]
 I                kqi  Kribbella qitaiheensis
+H              Kribbella soli [TAX:1124743]
+I                ksl  Kribbella soli
 E        Streptosporangiales
 F          Nocardiopsaceae
 G            Thermobifida
@@ -19440,6 +19833,12 @@ I                amaz  Actinomadura madurae
 I                1993  Actinomadura madurae
 H              Actinomadura melliaura [TAX:360723]
 I                360723  Actinomadura melliaura
+G            Spirillospora
+H              Spirillospora sp. NBC_01491 [TAX:2976007]
+I                spiq  Spirillospora sp. NBC_01491
+G            Actinoallomurus
+H              Actinoallomurus sp. NBC_01490 [TAX:2903557]
+I                actq  Actinoallomurus sp. NBC_01490
 F          Streptosporangiaceae
 G            Streptosporangium
 H              Streptosporangium roseum [TAX:2001]
@@ -19458,6 +19857,9 @@ I                ngn  Nonomuraea gerenzanensis
 G            Thermobispora
 H              Thermobispora bispora [TAX:2006]
 I                tbi  Thermobispora bispora
+G            Microbispora
+H              Microbispora hainanensis [TAX:568844]
+I                mhai  Microbispora hainanensis
 E        Frankiales
 F          Frankiaceae
 G            Frankia
@@ -19553,6 +19955,8 @@ H              Amycolatopsis roodepoortensis [TAX:700274]
 I                aroo  Amycolatopsis roodepoortensis
 H              Amycolatopsis thermalba [TAX:944492]
 I                athm  Amycolatopsis thermalba
+H              Amycolatopsis rhabdoformis [TAX:1448059]
+I                arhd  Amycolatopsis rhabdoformis
 H              Amycolatopsis balhimycina [TAX:208443]
 I                208443  Amycolatopsis balhimycina
 H              Amycolatopsis lactamdurans [TAX:1913]
@@ -19633,6 +20037,9 @@ I                actu  Actinokineospora sp. UTMC 2448
 G            Crossiella
 H              Crossiella sp. CA-258035 [TAX:2981138]
 I                cros  Crossiella sp. CA-258035
+G            Actinomycetospora
+H              Actinomycetospora sp. NBC_00405 [TAX:2975952]
+I                acty  Actinomycetospora sp. NBC_00405
 G            Streptoalloteichus
 H              Streptoalloteichus sp. ATCC 53650 [TAX:756733]
 I                756733  Streptoalloteichus sp. ATCC 53650
@@ -19704,6 +20111,8 @@ H              Actinoplanes sp. L3-i22 [TAX:2836373]
 I                actl  Actinoplanes sp. L3-i22
 H              Actinoplanes sichuanensis [TAX:512349]
 I                asic  Actinoplanes sichuanensis
+H              Actinoplanes oblitus [TAX:3040509]
+I                aou  Actinoplanes oblitus
 G            Plantactinospora
 H              Plantactinospora sp. KBS50 [TAX:2024580]
 I                plk  Plantactinospora sp. KBS50
@@ -19973,6 +20382,11 @@ I                sij  Scardovia inopinata
 G            Parascardovia
 H              Parascardovia denticolens [TAX:78258]
 I                pdo  Parascardovia denticolens
+G            Bombiscardovia
+H              Bombiscardovia apis [TAX:2932182]
+I                bapk  Bombiscardovia apis
+H              Bombiscardovia nodaiensis [TAX:2932181]
+I                bnk  Bombiscardovia nodaiensis
 E        Actinopolysporales
 F          Actinopolysporaceae
 G            Actinopolyspora
@@ -19982,7 +20396,7 @@ H              Actinopolyspora halophila [TAX:1850]
 I                1850  Actinopolyspora halophila
 E        Candidatus Nanopelagicales
 F          Candidatus Nanopelagicaceae
-G            Candidatus Planktophila
+G            Planktophila
 H              Candidatus Planktophila lacus [TAX:1884913]
 I                plan  Candidatus Planktophila lacus
 H              Candidatus Planktophila dulcis [TAX:1884914]
@@ -19995,7 +20409,7 @@ H              Candidatus Planktophila versatilis [TAX:1884905]
 I                pvs  Candidatus Planktophila versatilis
 H              Candidatus Planktophila vernalis [TAX:1884907]
 I                pvn  Candidatus Planktophila vernalis
-G            Candidatus Nanopelagicus
+G            Nanopelagicus
 H              Candidatus Nanopelagicus limnes [TAX:1884634]
 I                abam  Candidatus Nanopelagicus limnes
 H              Candidatus Nanopelagicus hibericus [TAX:1884915]
@@ -20193,6 +20607,8 @@ F          Acaryochloridaceae
 G            Acaryochloris
 H              Acaryochloris marina [TAX:155978]
 I                amr  Acaryochloris marina
+H              Acaryochloris sp. 'Moss Beach' [TAX:2740837]
+I                acam  Acaryochloris sp. 'Moss Beach'
 F          Thermosynechococcaceae
 G            Thermosynechococcus
 H              Thermosynechococcus vestitus [TAX:146786]
@@ -20302,7 +20718,7 @@ I                Euhalothece
 J                  Euhalothece natronophila [TAX:577489]
 K                    enn  Euhalothece natronophila
 G            Aphanothecaceae
-H              Candidatus Atelocyanobacterium
+H              Atelocyanobacterium
 I                Candidatus Atelocyanobacterium thalassa [TAX:713887]
 J                  cyu  Candidatus Atelocyanobacterium thalassa
 H              Crocosphaera
@@ -20335,6 +20751,8 @@ I                Planktothrix agardhii [TAX:1160]
 J                  pagh  Planktothrix agardhii
 I                Planktothrix pseudagardhii [TAX:132604]
 J                  ppsu  Planktothrix pseudagardhii
+I                Planktothrix rubescens [TAX:59512]
+J                  prun  Planktothrix rubescens
 H              Oxynema
 I                Oxynema aestuarii [TAX:2874213]
 J                  oxy  Oxynema aestuarii
@@ -20356,6 +20774,8 @@ J                  587415  Oscillatoria sp. PCC 7926
 H              Moorena
 I                Moorena producens [TAX:1155739]
 J                  mpro  Moorena producens
+I                Moorena bouillonii [TAX:207920]
+J                  207920  Moorena bouillonii
 H              Phormidium
 I                Phormidium sp. PBR-2020 [TAX:2839084]
 J                  phor  Phormidium sp. PBR-2020
@@ -20441,6 +20861,8 @@ H              Calothrix sp. 336/3 [TAX:1337936]
 I                calh  Calothrix sp. 336/3
 H              Calothrix sp. NIES-2098 [TAX:1954171]
 I                caln  Calothrix sp. NIES-2098
+H              Calothrix sp. NIES-3974 [TAX:2005462]
+I                cals  Calothrix sp. NIES-3974
 F          Rivulariaceae
 G            Rivularia
 H              Rivularia sp. PCC 7116 [TAX:373994]
@@ -20597,6 +21019,8 @@ F          Ktedonosporobacteraceae
 G            Ktedonosporobacter
 H              Ktedonosporobacter rubrisoli [TAX:2509675]
 I                kbs  Ktedonosporobacter rubrisoli
+E        Ktedonobacteria bacterium brp13 [TAX:2717365]
+F          kbb  Ktedonobacteria bacterium brp13
 D      Tepidiformia
 E        Tepidiformales
 F          Tepidiformaceae
@@ -20755,8 +21179,17 @@ D      Vulcanimicrobiia
 E        Vulcanimicrobiales
 F          Vulcanimicrobiaceae
 G            Vulcanimicrobium
-H              Vulcanimicrobium alpinus [TAX:3016050]
-I                vab  Vulcanimicrobium alpinus
+H              Vulcanimicrobium alpinum [TAX:3016050]
+I                vab  Vulcanimicrobium alpinum
+B  Thermodesulfobiota
+C    Thermodesulfobiia
+D      Thermodesulfobiales
+E        Thermodesulfobiaceae
+F          Thermodesulfobium
+G            Thermodesulfobium narugense [TAX:184064]
+H              tnr  Thermodesulfobium narugense
+G            Thermodesulfobium acidiphilum [TAX:1794699]
+H              taci  Thermodesulfobium acidiphilum
 B  PVC group
 C    Chlamydiota
 D      Chlamydiia
@@ -20897,9 +21330,11 @@ I                Chlamydia serpentis [TAX:1967782]
 J                  csee  Chlamydia serpentis
 I                Chlamydia crocodili [TAX:2766982]
 J                  ccrd  Chlamydia crocodili
+I                Chlamydophila parapsittaci [TAX:344886]
+J                  cpaa  Chlamydophila parapsittaci
 E        Parachlamydiales
 F          Parachlamydiaceae
-G            Candidatus Protochlamydia
+G            Protochlamydia
 H              Candidatus Protochlamydia amoebophila [TAX:362787]
 I                pcu  Candidatus Protochlamydia amoebophila
 H              Candidatus Protochlamydia naegleriophila [TAX:389348]
@@ -20919,7 +21354,7 @@ G            Simkania
 H              Simkania negevensis [TAX:83561]
 I                sng  Simkania negevensis
 F          Rhabdochlamydiaceae
-G            Candidatus Rhabdochlamydia
+G            Rhabdochlamydia
 H              Candidatus Rhabdochlamydia oedothoracis [TAX:2720720]
 I                rhaw  Candidatus Rhabdochlamydia oedothoracis
 H              Candidatus Rhabdochlamydia porcellionis [TAX:225148]
@@ -20940,6 +21375,9 @@ I                vbh  Nibricoccus aquaticus HZ-65
 G            Horticoccus
 H              Horticoccus luteus [TAX:2862869]
 I                ole  Horticoccus luteus
+G            Synoicihabitans
+H              Synoicihabitans lomoniglobus [TAX:2909285]
+I                slom  Synoicihabitans lomoniglobus
 G            Opitutaceae bacterium TAV5 [TAX:794903]
 H              obt  Opitutaceae bacterium TAV5
 E        Puniceicoccales
@@ -20989,7 +21427,7 @@ G            Fontisphaera
 H              Fontisphaera persica [TAX:2974023]
 I                fpes  Fontisphaera persica
 D      Spartobacteria
-E        Candidatus Xiphinematobacter
+E        Xiphinematobacter
 F          Candidatus Xiphinematobacter sp. Idaho Grape [TAX:1704307]
 G            xii  Candidatus Xiphinematobacter sp. Idaho Grape
 D      Methylacidiphilae
@@ -21007,7 +21445,7 @@ I                mcao  Methylacidiphilum caldifontis
 D      Methylacidimicrobium
 E        Methylacidimicrobium sp. AP8 [TAX:2730359]
 F          meap  Methylacidimicrobium sp. AP8
-D      Candidatus Pinguicoccus
+D      Pinguicoccus
 E        Candidatus Pinguicoccus supinus [TAX:2529394]
 F          psup  Candidatus Pinguicoccus supinus
 D      Verrucomicrobia bacterium IMCC26134 [TAX:1637999]
@@ -21049,6 +21487,8 @@ I                aagg  Anatilimnocola aggregata
 G            Bremerella
 H              Bremerella volcania [TAX:2527984]
 I                bvo  Bremerella volcania
+H              Bremerella sp. P1 [TAX:3026424]
+I                brem  Bremerella sp. P1
 G            Rubripirellula
 H              Rubripirellula lacrimiformis [TAX:1930273]
 I                rlc  Rubripirellula lacrimiformis
@@ -21144,11 +21584,11 @@ I                agv  Aquisphaera giovannonii
 D      Candidatus Brocadiia
 E        Candidatus Brocadiales
 F          Candidatus Brocadiaceae
-G            Candidatus Kuenenia
+G            Kuenenia
 H              Candidatus Kuenenia stuttgartiensis [TAX:174633]
 I                kst  Candidatus Kuenenia stuttgartiensis
 I                174633  Candidatus Kuenenia stuttgartiensis
-G            Candidatus Brocadia
+G            Brocadia
 H              Candidatus Brocadia sp. [TAX:2172549]
 I                broc  Candidatus Brocadia sp. Ega_18-Q3-R5-49_MAXAC.112v2
 H              Candidatus Brocadia pituitae [TAX:2608983]
@@ -21217,7 +21657,7 @@ E        Victivallales
 F          Victivallales bacterium CCUG 44730 [TAX:2094242]
 G            vbc  Victivallales bacterium CCUG 44730
 C    Candidatus Omnitrophota
-D      Candidatus Velamenicoccus
+D      Velamenicoccus
 E        Candidatus Velamenicoccus archaeovorus [TAX:1930593]
 F          vai  Candidatus Velamenicoccus archaeovorus
 B  Spirochaetota
@@ -21278,6 +21718,8 @@ G            Borreliella carolinensis [TAX:478174]
 H              bcaz  Borreliella carolinensis
 G            Borreliella andersonii [TAX:42109]
 H              band  Borreliella andersonii
+G            Borreliella sinica [TAX:87162]
+H              bsin  Borreliella sinica
 F          Borrelia
 G            Borrelia turicatae [TAX:142]
 H              btu  Borrelia turicatae
@@ -21334,7 +21776,8 @@ H              tbe  Treponema brennaborense
 G            Treponema primitia [TAX:88058]
 H              tpi  Treponema primitia
 G            Treponema paraluiscuniculi [TAX:53435]
-H              tpl  Treponema paraluiscuniculi
+H              tpl  Treponema paraluiscuniculi Cuniculi A
+H              tpaa  Treponema paraluiscuniculi L2
 G            Treponema pedis [TAX:409322]
 H              tped  Treponema pedis
 G            Treponema putidum [TAX:221027]
@@ -21357,8 +21800,6 @@ G            Treponema peruense [TAX:2787628]
 H              tper  Treponema peruense
 G            Treponema socranskii [TAX:53419]
 H              tsk  Treponema socranskii subsp. buccale
-G            Treponema paraluisleporis [TAX:1285782]
-H              tpaa  Treponema paraluisleporis
 G            Treponema sp. OMZ 803 [TAX:120682]
 H              trp  Treponema sp. OMZ 803
 F          Brucepastera
@@ -21466,10 +21907,11 @@ H              taqu  Thermospira aquatica
 B  Acidobacteriota
 C    Terriglobia
 D      Terriglobales
-E        Acidobacteriaceae
-F          Candidatus Koribacter
-G            Candidatus Koribacter versatilis [TAX:658062]
+E        Candidatus Korobacteraceae
+F          Candidatus Korobacter
+G            Candidatus Korobacter versatilis [TAX:658062]
 H              aba  Candidatus Koribacter versatilis
+E        Acidobacteriaceae
 F          Acidobacterium
 G            Acidobacterium capsulatum [TAX:33075]
 H              aca  Acidobacterium capsulatum
@@ -21505,7 +21947,7 @@ G            Occallatibacter riparius [TAX:1002689]
 H              orp  Occallatibacter riparius
 D      Bryobacterales
 E        Solibacteraceae
-F          Candidatus Solibacter
+F          Solibacter
 G            Candidatus Solibacter usitatus [TAX:332163]
 H              sus  Candidatus Solibacter usitatus
 E        Bryobacteraceae
@@ -21542,6 +21984,8 @@ E        Holophagaceae
 F          Geothrix
 G            Geothrix oryzae [TAX:2927975]
 H              gex  Geothrix oryzae
+G            Geothrix sp. PMB-07 [TAX:3068640]
+H              gep  Geothrix sp. PMB-07
 F          Mesoterricola
 G            Mesoterricola silvestris [TAX:2927979]
 H              msil  Mesoterricola silvestris
@@ -21676,6 +22120,8 @@ E        Dethiosulfovibrionaceae
 F          Pyramidobacter
 G            Pyramidobacter piscolens [TAX:638849]
 H              ppio  Pyramidobacter piscolens
+G            Pyramidobacter sp. YE332 [TAX:3068894]
+H              pyy  Pyramidobacter sp. YE332
 E        Aminithiophilaceae
 F          Aminithiophilus
 G            Aminithiophilus ramosus [TAX:3029084]
@@ -21751,6 +22197,8 @@ H              Bacteroides faecium [TAX:2715212]
 I                bfc  Bacteroides faecium
 H              Bacteroides salyersiae [TAX:291644]
 I                bsal  Bacteroides salyersiae
+H              Bacteroides finegoldii [TAX:338188]
+I                bfin  Bacteroides finegoldii
 H              Bacteroides coprosuis [TAX:151276]
 I                151276  Bacteroides coprosuis
 G            Phocaeicola
@@ -21803,6 +22251,8 @@ I                proj  Proteiniphilum propionicum
 G            Dysgonomonas
 H              Dysgonomonas sp. HDW5A [TAX:2714926]
 I                dys  Dysgonomonas sp. HDW5A
+H              Dysgonomonas sp. HDW5B [TAX:2714927]
+I                dyh  Dysgonomonas sp. HDW5B
 F          Candidatus Azobacteroides
 G            Candidatus Azobacteroides pseudotrichonymphae [TAX:511435]
 H              aps  Candidatus Azobacteroides pseudotrichonymphae
@@ -21861,9 +22311,6 @@ H              Butyricimonas faecihominis [TAX:1472416]
 I                bfh  Butyricimonas faecihominis
 F          Prevotellaceae
 G            Prevotella
-H              Prevotella ruminicola [TAX:839]
-I                pru  Prevotella ruminicola
-I                839  Prevotella ruminicola
 H              Prevotella melaninogenica [TAX:28132]
 I                pmz  Prevotella melaninogenica
 H              Prevotella denticola [TAX:28129]
@@ -21894,6 +22341,10 @@ H              Prevotella communis [TAX:2913614]
 I                pcou  Prevotella communis
 H              Prevotella bivia [TAX:28125]
 I                pbiv  Prevotella bivia
+G            Xylanibacter
+H              Xylanibacter ruminicola [TAX:839]
+I                pru  Xylanibacter ruminicola
+I                839  Xylanibacter ruminicola
 G            Segatella
 H              Segatella copri [TAX:165179]
 I                pcoi  Segatella copri
@@ -21901,6 +22352,10 @@ H              Segatella oris [TAX:28135]
 I                poc  Segatella oris
 H              Segatella bryantii [TAX:77095]
 I                pby  Segatella bryantii
+H              Segatella hominis [TAX:2518605]
+I                shoi  Segatella hominis
+H              Segatella baroniae [TAX:305719]
+I                sbao  Segatella baroniae
 G            Hoylesella
 H              Hoylesella enoeca [TAX:76123]
 I                peo  Hoylesella enoeca
@@ -21991,6 +22446,8 @@ H              Chitinophaga pendula [TAX:2849666]
 I                chf  Chitinophaga pendula
 H              Chitinophaga horti [TAX:2920382]
 I                chor  Chitinophaga horti
+H              Chitinophaga sancti [TAX:1004]
+I                csac  Chitinophaga sancti
 G            Niastella
 H              Niastella koreensis [TAX:354356]
 I                nko  Niastella koreensis
@@ -21999,6 +22456,8 @@ H              Niabella soli [TAX:446683]
 I                nso  Niabella soli
 H              Niabella ginsenosidivorans [TAX:1176587]
 I                nia  Niabella ginsenosidivorans
+H              Niabella yanshanensis [TAX:577386]
+I                nyn  Niabella yanshanensis
 G            Flavisolibacter
 H              Flavisolibacter tropicus [TAX:1492898]
 I                fla  Flavisolibacter tropicus
@@ -22011,10 +22470,11 @@ H              Arachidicoccus soli [TAX:2341117]
 I                ark  Arachidicoccus soli
 H              Arachidicoccus ginsenosidivorans [TAX:496057]
 I                agi  Arachidicoccus ginsenosidivorans
-H              Arachidicoccus sp. B3-10 [TAX:2545455]
-I                arac  Arachidicoccus sp. B3-10
 H              Arachidicoccus terrestris [TAX:2875539]
 I                atee  Arachidicoccus terrestris
+G            Rhizosphaericola
+H              Rhizosphaericola mali [TAX:2545455]
+I                arac  Rhizosphaericola mali
 G            Filimonas
 H              Filimonas lacunae [TAX:477680]
 I                fln  Filimonas lacunae
@@ -22057,8 +22517,8 @@ G            Saprospira
 H              Saprospira grandis [TAX:1008]
 I                sgn  Saprospira grandis
 G            Aureispira
-H              Aureispira sp. EL160426 [TAX:2864201]
-I                aup  Aureispira sp. EL160426
+H              Aureispira anguillae [TAX:2864201]
+I                aup  Aureispira anguillae
 D      Sphingobacteriia
 E        Sphingobacteriales
 F          Sphingobacteriaceae
@@ -22120,6 +22580,8 @@ I                ssiy  Sphingobacterium siyangense
 H              Sphingobacterium faecium [TAX:34087]
 I                sfae  Sphingobacterium faecium
 I                34087  Sphingobacterium faecium
+H              Sphingobacterium bambusae [TAX:662858]
+I                sbam  Sphingobacterium bambusae
 G            Solitalea
 H              Solitalea canadensis [TAX:995]
 I                scn  Solitalea canadensis
@@ -22150,6 +22612,8 @@ H              Mucilaginibacter robiniae [TAX:2728022]
 I                mrob  Mucilaginibacter robiniae
 H              Mucilaginibacter jinjuensis [TAX:1176721]
 I                mjj  Mucilaginibacter jinjuensis
+H              Mucilaginibacter sabulilitoris [TAX:1173583]
+I                msab  Mucilaginibacter sabulilitoris
 G            Anseongella
 H              Anseongella ginsenosidimutans [TAX:496056]
 I                agd  Anseongella ginsenosidimutans
@@ -22181,6 +22645,8 @@ I                emai  Echinicola marina
 G            Algoriphagus
 H              Algoriphagus sanaruensis [TAX:1727163]
 I                alm  Algoriphagus sanaruensis
+H              Algoriphagus sp. NBT04N3 [TAX:2705473]
+I                algo  Algoriphagus sp. NBT04N3
 H              Algoriphagus sp. KK10202C [TAX:356796]
 I                356796  Algoriphagus sp. KK10202C
 G            Mongoliitalea
@@ -22368,7 +22834,7 @@ F          Amoebophilaceae
 G            Candidatus Amoebophilus
 H              Candidatus Amoebophilus asiaticus [TAX:281120]
 I                aas  Candidatus Amoebophilus asiaticus
-G            Candidatus Cardinium
+G            Cardinium
 H              Cardinium endosymbiont of Encarsia pergandiella [TAX:249402]
 I                che  Cardinium endosymbiont cEper1 of Encarsia pergandiella
 H              Cardinium endosymbiont of Sogatella furcifera [TAX:650378]
@@ -22392,8 +22858,10 @@ H              Fulvivirga ligni [TAX:2904246]
 I                flw  Fulvivirga ligni
 F          Reichenbachiellaceae
 G            Reichenbachiella
-H              Reichenbachiella sp. BKB1-1 [TAX:2979464]
-I                rek  Reichenbachiella sp. BKB1-1
+H              Reichenbachiella agarivorans [TAX:2979464]
+I                rek  Reichenbachiella agarivorans
+H              Reichenbachiella carrageenanivorans [TAX:2979869]
+I                rcg  Reichenbachiella carrageenanivorans
 F          Catalimonadaceae
 G            Porifericola
 H              Porifericola rhodea [TAX:930972]
@@ -22401,6 +22869,10 @@ I                prho  Porifericola rhodea
 G            Tunicatimonas
 H              Tunicatimonas pelagia [TAX:931531]
 I                tpel  Tunicatimonas pelagia
+F          Roseivirgaceae
+G            Roseivirga
+H              Roseivirga spongicola [TAX:333140]
+I                rsr  Roseivirga spongicola
 D      Flavobacteriia
 E        Flavobacteriales
 F          Flavobacteriaceae
@@ -22704,6 +23176,8 @@ H              Tenacibaculum pacificus [TAX:3018314]
 I                tpac  Tenacibaculum pacificus
 H              Tenacibaculum finnmarkense [TAX:2781243]
 I                tfi  Tenacibaculum finnmarkense
+H              Tenacibaculum tangerinum [TAX:3038772]
+I                ttg  Tenacibaculum tangerinum
 G            Lutibacter
 H              Lutibacter profundi [TAX:1622118]
 I                lut  Lutibacter profundi
@@ -22713,6 +23187,8 @@ I                lul  Urechidicola croceus
 G            Wenyingzhuangia
 H              Wenyingzhuangia fucanilytica [TAX:1790137]
 I                wfu  Wenyingzhuangia fucanilytica
+H              Wenyingzhuangia aestuarii [TAX:1647582]
+I                1647582  Wenyingzhuangia aestuarii
 G            Formosa
 H              Formosa sp. Hel1_33_131 [TAX:1336794]
 I                for  Formosa sp. Hel1_33_131
@@ -22760,6 +23236,8 @@ H              Aquimarina sp. AD1 [TAX:1714848]
 I                aqa  Aquimarina sp. AD1
 H              Aquimarina sp. AD10 [TAX:1714849]
 I                aqd  Aquimarina sp. AD10
+H              Aquimarina sp. ERC-38 [TAX:2949996]
+I                aqe  Aquimarina sp. ERC-38
 G            Euzebyella
 H              Euzebyella marina [TAX:1761453]
 I                emar  Euzebyella marina
@@ -22849,6 +23327,8 @@ G            Flavobacteriaceae bacterium 3519-10 [TAX:531844]
 H              fba  Flavobacteriaceae bacterium 3519-10
 G            Flavobacteriaceae bacterium UJ101 [TAX:1150389]
 H              fbu  Flavobacteriaceae bacterium UJ101
+G            Flavobacteriaceae bacterium [TAX:1871037]
+H              fbq  Flavobacteriaceae bacterium AU392
 F          Weeksellaceae
 G            Riemerella
 H              Riemerella anatipestifer [TAX:34085]
@@ -23004,6 +23484,8 @@ I                este  Empedobacter stercoris
 G            Bergeyella
 H              Bergeyella cardium [TAX:1585976]
 I                bcad  Bergeyella cardium
+H              Bergeyella porcorum [TAX:1735111]
+I                bpor  Bergeyella porcorum
 G            Apibacter
 H              Apibacter sp. B2966 [TAX:2656761]
 I                apib  Apibacter sp. B2966
@@ -23055,7 +23537,7 @@ I                flu  Candidatus Fluviicola riflensis
 G            Paracrocinitomix
 H              Paracrocinitomix mangrovi [TAX:2862509]
 I                crm  Paracrocinitomix mangrovi
-F          Schleiferiaceae
+F          Owenweeksiaceae
 G            Owenweeksia
 H              Owenweeksia hongkongensis [TAX:253245]
 I                oho  Owenweeksia hongkongensis
@@ -23118,6 +23600,10 @@ H              Prosthecochloris sp. HL-130-GSB [TAX:1974213]
 I                prs  Prosthecochloris sp. HL-130-GSB
 H              Prosthecochloris sp. GSB1 [TAX:281093]
 I                pros  Prosthecochloris sp. GSB1
+H              Prosthecochloris sp. SCSIO W1101 [TAX:2992242]
+I                prow  Prosthecochloris sp. SCSIO W1101
+H              Prosthecochloris sp. SCSIO W1103 [TAX:2992244]
+I                proi  Prosthecochloris sp. SCSIO W1103
 F          Chloroherpetonaceae
 G            Chloroherpeton
 H              Chloroherpeton thalassium [TAX:100716]
@@ -23159,7 +23645,7 @@ C    Candidatus Cloacimonadota
 D      Candidatus Cloacimonadia
 E        Candidatus Cloacimonadales
 F          Candidatus Cloacimonadaceae
-G            Candidatus Cloacimonas
+G            Cloacimonas
 H              Candidatus Cloacimonas acidaminovorans [TAX:456827]
 I                caci  Candidatus Cloacimonas acidaminovorans
 B  Aquificota
@@ -23271,6 +23757,8 @@ G            Marinitoga piezophila [TAX:149715]
 H              mpz  Marinitoga piezophila
 G            Marinitoga sp. 1137 [TAX:1545835]
 H              marn  Marinitoga sp. 1137
+G            Marinitoga aeolica [TAX:2809031]
+H              maeo  Marinitoga aeolica
 F          Defluviitoga
 G            Defluviitoga tunisiensis [TAX:1006576]
 H              dtn  Defluviitoga tunisiensis
@@ -23423,16 +23911,18 @@ C    Candidatus Saccharibacteria
 D      Candidatus Saccharimonadia
 E        Candidatus Saccharimonadales
 F          Candidatus Saccharimonadaceae
-G            Candidatus Saccharimonas
+G            Saccharimonas
 H              Candidatus Saccharimonas aalborgensis [TAX:1332188]
 I                saal  Candidatus Saccharimonas aalborgensis
 E        Candidatus Nanosynbacterales
 F          Candidatus Nanosynbacteraceae
-G            Candidatus Nanosynbacter
+G            Nanosynbacter
 H              Candidatus Nanosynbacter lyticus [TAX:2093824]
 I                sox  Candidatus Nanosynbacter lyticus
 H              Candidatus Nanosynbacter featherlites [TAX:2572088]
 I                nft  Candidatus Nanosynbacter featherlites
+H              Candidatus Nanosynbacter sp. HMT-352 [TAX:2899133]
+I                nanh  Candidatus Nanosynbacter sp. HMT-352
 D      Candidatus Minimicrobia
 E        Candidatus Minimicrobia vallesae [TAX:2841264]
 F          mvl  Candidatus Minimicrobia vallesae
@@ -23449,15 +23939,18 @@ C    Candidatus Peregrinibacteria
 D      Candidatus Peribacteria
 E        Candidatus Peribacterales
 F          Candidatus Peribacteraceae
-G            Candidatus Peribacter
+G            Peribacter
 H              Candidatus Peribacter riflensis [TAX:1735162]
 I                prf  Candidatus Peribacter riflensis
 C    Candidatus Bipolaricaulota
-D      Candidatus Bipolaricaulis
-E        Candidatus Bipolaricaulis anaerobius [TAX:2026885]
-F          bana  Candidatus Bipolaricaulis anaerobius
-E        Candidatus Bipolaricaulis sibiricus [TAX:2501609]
-F          bih  Candidatus Bipolaricaulis sibiricus
+D      Candidatus Bipolaricaulia
+E        Candidatus Bipolaricaulales
+F          Candidatus Bipolaricaulaceae
+G            Candidatus Bipolaricaulis
+H              Candidatus Bipolaricaulis anaerobius [TAX:2026885]
+I                bana  Candidatus Bipolaricaulis anaerobius
+H              Candidatus Bipolaricaulis sibiricus [TAX:2501609]
+I                bih  Candidatus Bipolaricaulis sibiricus
 C    Candidatus Absconditabacteria
 D      Candidatus Absconditabacterales
 E        Candidatus Absconditicoccaceae
@@ -23469,25 +23962,25 @@ E        srb  Candidate division SR1 bacterium RAAC1_SR1_1
 D      candidate division SR1 bacterium Aalborg_AAW-1 [TAX:1643353]
 E        srg  Candidate division SR1 bacterium Aalborg_AAW-1
 C    candidate division NC10
-D      Candidatus Methylomirabilis
+D      Methylomirabilis
 E        Candidatus Methylomirabilis oxyfera [TAX:671143]
 F          mox  Candidatus Methylomirabilis oxyfera
 C    Candidatus Chazhemtobacteraceae
-D      Candidatus Chazhemtobacterium
+D      Chazhemtobacterium
 E        Candidatus Chazhemtobacterium aquaticus [TAX:2715735]
 F          caqa  Candidatus Chazhemtobacterium aquaticus
 C    Candidatus Sumerlaeota
 D      Candidatus Sumerlaeia
 E        Candidatus Sumerlaeales
 F          Candidatus Sumerlaeaceae
-G            Candidatus Sumerlaea
+G            Sumerlaea
 H              Candidatus Sumerlaea chitinivorans [TAX:2250252]
 I                schv  Candidatus Sumerlaea chitinivorans
 C    Candidatus Dependentiae
 D      Candidatus Babeliae
 E        Candidatus Babeliales
 F          Candidatus Babeliaceae
-G            Candidatus Babela
+G            Babela
 H              Candidatus Babela massiliensis [TAX:673862]
 I                dpb  Candidatus Babela massiliensis
 F          Candidatus Chromulinivoraceae
@@ -23520,7 +24013,7 @@ E        pwo  Candidatus Wolfebacteria bacterium GW2011_GWB1_47_1
 C    Candidatus Campbellbacteria
 D      Candidatus Campbellbacteria bacterium GW2011_OD1_34_28 [TAX:1618633]
 E        cgw  Candidatus Campbellbacteria bacterium GW2011_OD1_34_28
-C    Candidatus Fervidibacteria
+C    Candidatus Fervidibacterota
 D      Candidatus Fervidibacter
 E        Candidatus Fervidibacter sacchari [TAX:1448929]
 F          fsh  Candidatus Fervidibacter sacchari
@@ -23609,6 +24102,8 @@ H              Methanosphaera stadtmanae [TAX:2317]
 I                mst  Methanosphaera stadtmanae
 H              Methanosphaera sp. BMS [TAX:1789762]
 I                metb  Methanosphaera sp. BMS
+H              Methanosphaera sp. ISO3-F5 [TAX:1452353]
+I                meis  Methanosphaera sp. ISO3-F5
 G            Methanobrevibacter
 H              Methanobrevibacter ruminantium [TAX:83816]
 I                mru  Methanobrevibacter ruminantium
@@ -23837,6 +24332,10 @@ H              Methanolobus psychrophilus [TAX:420950]
 I                mpy  Methanolobus psychrophilus
 H              Methanolobus zinderi [TAX:536044]
 I                mzi  Methanolobus zinderi
+H              Methanolobus mangrovi [TAX:3072977]
+I                mmav  Methanolobus mangrovi
+H              Methanolobus sediminis [TAX:3072978]
+I                mseb  Methanolobus sediminis
 H              Methanolobus vulcani [TAX:38026]
 I                38026  Methanolobus vulcani
 G            Methanomethylovorans
@@ -23888,12 +24387,16 @@ I                mpi  Methanolacinia petrolearia
 G            Methanoplanus
 H              Methanoplanus endosymbiosus [TAX:33865]
 I                mend  Methanoplanus endosymbiosus
+H              Methanoplanus sp. FWC-SCC4 [TAX:2609417]
+I                mefw  Methanoplanus sp. FWC-SCC4
 G            Methanofollis
 H              Methanofollis aquaemaris [TAX:126734]
 I                maqe  Methanofollis aquaemaris
 G            Methanogenium
 H              Methanogenium organophilum [TAX:2199]
 I                mou  Methanogenium organophilum
+H              Methanogenium sp. S4BF [TAX:1789226]
+I                mesb  Methanogenium sp. S4BF
 G            Methanomicrobium
 H              Methanomicrobium antiquum [TAX:487686]
 I                manq  Methanomicrobium antiquum
@@ -23960,14 +24463,14 @@ H              Halococcus dombrowskii [TAX:179637]
 I                hdo  Halococcus dombrowskii
 F          Haladaptataceae
 G            Halorussus
-H              Halorussus sp. XZYJT49 [TAX:2938695]
-I                halx  Halorussus sp. XZYJT49
-H              Halorussus sp. XZYJT40 [TAX:2937524]
-I                haxz  Halorussus sp. XZYJT40
-H              Halorussus sp. YCN54 [TAX:2953750]
-I                hayc  Halorussus sp. YCN54
-H              Halorussus sp. XZYJT10 [TAX:2953749]
-I                haxy  Halorussus sp. XZYJT10
+H              Halorussus limi [TAX:2938695]
+I                halx  Halorussus limi
+H              Halorussus gelatinilyticus [TAX:2937524]
+I                haxz  Halorussus gelatinilyticus
+H              Halorussus salilacus [TAX:2953750]
+I                hayc  Halorussus salilacus
+H              Halorussus vallis [TAX:2953749]
+I                haxy  Halorussus vallis
 F          Natronoarchaeaceae
 G            Salinarchaeum
 H              Salinarchaeum sp. Harcht-Bsk1 [TAX:1333523]
@@ -24082,6 +24585,7 @@ I                hlm  Halobellus limi
 G            Haloprofundus
 H              Haloprofundus sp. MHR1 [TAX:2572921]
 I                halm  Haloprofundus sp. MHR1
+F          Halorubraceae
 G            Halorubrum
 H              Halorubrum lacusprofundi [TAX:2247]
 I                hla  Halorubrum lacusprofundi
@@ -24238,18 +24742,18 @@ H              cdiv  Cuniculiplasma divulgatum
 E        Thermoplasmatales archaeon BRNA1 [TAX:1054217]
 F          tar  Thermoplasmatales archaeon BRNA1
 D      Methanomassiliicoccales
-E        Candidatus Methanomethylophilaceae
-F          Candidatus Methanomethylophilus
-G            Candidatus Methanomethylophilus alvus [TAX:1291540]
-H              max  Candidatus Methanomethylophilus alvus
+E        Methanomethylophilaceae
+F          Methanomethylophilus
+G            Methanomethylophilus alvi [TAX:1291540]
+H              max  Methanomethylophilus alvi
 E        Methanomassiliicoccaceae
 F          Methanomassiliicoccus
 G            Candidatus Methanomassiliicoccus intestinalis [TAX:1406512]
 H              mer  Candidatus Methanomassiliicoccus intestinalis Issoire-Mx1
-F          Candidatus Methanoplasma
+F          Methanoplasma
 G            Candidatus Methanoplasma termitum [TAX:1577791]
 H              mear  Candidatus Methanoplasma termitum
-F          Candidatus Methanogranum
+F          Methanogranum
 G            Candidatus Methanogranum sp. U3.2.1 [TAX:2848114]
 H              meuz  Candidatus Methanogranum sp. U3.2.1
 D      methanogenic archaeon ISO4-H5 [TAX:1495144]
@@ -24311,6 +24815,8 @@ I                pfm  Pyrolobus fumarii
 G            Pyrodictium
 H              Pyrodictium delaneyi [TAX:1273541]
 I                pdl  Pyrodictium delaneyi
+H              Pyrodictium abyssi [TAX:54256]
+I                pabi  Pyrodictium abyssi
 G            Pyrofollis
 H              Pyrofollis japonicus [TAX:3060460]
 I                pare  Pyrofollis japonicus
@@ -24497,7 +25003,7 @@ H              Nitrosopumilus sp. K4 [TAX:2795383]
 I                nip  Nitrosopumilus sp. K4
 H              Nitrosopumilus zosterae [TAX:718286]
 I                nzt  Nitrosopumilus zosterae
-G            Candidatus Nitrosomarinus
+G            Nitrosomarinus
 H              Candidatus Nitrosomarinus catalina [TAX:1898749]
 I                nct  Candidatus Nitrosomarinus catalina
 G            Nitrosarchaeum
@@ -24512,7 +25018,7 @@ H              Nitrososphaera viennensis [TAX:1034015]
 I                nvn  Nitrososphaera viennensis
 H              Candidatus Nitrososphaera evergladensis [TAX:1459637]
 I                nev  Candidatus Nitrososphaera evergladensis
-G            Candidatus Nitrosocosmicus
+G            Nitrosocosmicus
 H              Candidatus Nitrosocosmicus oleophilus [TAX:1353260]
 I                taa  Candidatus Nitrosocosmicus oleophilus
 H              Candidatus Nitrosocosmicus franklandus [TAX:1798806]
@@ -24535,14 +25041,14 @@ H              csu  Candidatus Caldarchaeum subterraneum
 D      Candidatus Nitrosopelagicus
 E        Candidatus Nitrosopelagicus brevis [TAX:1410606]
 F          nbv  Candidatus Nitrosopelagicus brevis
-D      Candidatus Nitrosotenuis
+D      Nitrosotenuis
 E        Candidatus Nitrosotenuis cloacae [TAX:1603555]
 F          tah  Candidatus Nitrosotenuis cloacae
 E        Candidatus Nitrosotenuis sp. DW1 [TAX:2259672]
 F          niu  Candidatus Nitrosotenuis sp. DW1
 E        Candidatus Nitrosotenuis chungbukensis [TAX:1353246]
 F          nck  Candidatus Nitrosotenuis chungbukensis
-D      Candidatus Nitrosotalea
+D      Nitrosotalea
 E        Candidatus Nitrosotalea devanaterra [TAX:1078905]
 F          ndv  Candidatus Nitrosotalea devanaterra
 D      Conexivisphaeria
@@ -24552,7 +25058,7 @@ G            Conexivisphaera
 H              Conexivisphaera calida [TAX:1874277]
 I                ccai  Conexivisphaera calida
 C    Candidatus Korarchaeota
-D      Candidatus Korarchaeum
+D      Korarchaeum
 E        Candidatus Korarchaeum cryptofilum [TAX:498846]
 F          kcr  Candidatus Korarchaeum cryptofilum
 C    Candidatus Bathyarchaeota
@@ -24569,7 +25075,7 @@ G            Nanoarchaeum
 H              Nanoarchaeum equitans [TAX:160232]
 I                neq  Nanoarchaeum equitans
 F          Nanopusillaceae
-G            Candidatus Nanopusillus
+G            Nanopusillus
 H              Candidatus Nanopusillus acidilobi [TAX:1577684]
 I                naa  Candidatus Nanopusillus acidilobi
 D      Nanobdellia
@@ -24605,6 +25111,8 @@ C    Candidatus Lokiarchaeota
 D      Candidatus Lokiarchaeum
 E        Candidatus Lokiarchaeum sp. GC14_75 [TAX:1538547]
 F          loki  Candidatus Lokiarchaeum sp. GC14_75
+E        Candidatus Lokiarchaeum sp. B-35 [TAX:2951803]
+F          lob  Candidatus Lokiarchaeum sp. B-35
 D      Candidatus Lokiarchaeia
 E        Candidatus Prometheoarchaeales
 F          Candidatus Prometheoarchaeaceae
@@ -24619,4 +25127,4 @@ D      arg  Archaeon GW2011_AR20
 !
 #<hr>
 #<b>[ <a href="/kegg/brite.html">BRITE</a> | <a href="/kegg/kegg2.html">KEGG2</a> | <a href="/kegg/">KEGG</a> ]</b><br>
-#Last updated: November 24, 2023
+#Last updated: Feburary 19, 2024
