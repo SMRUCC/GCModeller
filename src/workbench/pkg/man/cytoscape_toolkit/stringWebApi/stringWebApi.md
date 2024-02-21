@@ -1,4 +1,4 @@
-# stringWebApi
+﻿# stringWebApi
 
 STRING has an application programming interface (API) which enables you to get the data without using the 
  graphical user interface of the web page. The API is convenient if you need to programmatically access some 

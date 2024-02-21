@@ -3,10 +3,10 @@
     "metagenomics_kit.NET5": {
       "commandName": "Project"
     },
-    "Profile 1": {
+    "run_dll": {
       "commandName": "Executable",
-      "executablePath": "F:\\GCModeller\\src\\R-sharp\\App\\net6.0\\R#.exe",
-      "commandLineArgs": "\"F:\\biocad_registry\\imports\\imports_ncbi_taxonomytree.R\""
+      "executablePath": "E:\\GCModeller\\src\\R-sharp\\App\\net6.0\\R#.exe",
+      "commandLineArgs": "E:\\metagenomics\\test\\ncbi\\reader_test.R --attach E:\\GCModeller\\src\\workbench\\pkg"
     }
   }
 }

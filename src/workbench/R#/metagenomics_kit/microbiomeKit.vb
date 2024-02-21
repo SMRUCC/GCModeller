@@ -1,65 +1,68 @@
 ﻿#Region "Microsoft.VisualBasic::c1aaa082f186b99d8131c4d6f4e33956, R#\metagenomics_kit\microbiomeKit.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 242
-    '    Code Lines: 180
-    ' Comment Lines: 32
-    '   Blank Lines: 30
-    '     File Size: 10.56 KB
+' Summaries:
 
 
-    ' Module microbiomeKit
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: asTaxonomyVector, castTable, CompoundOrigin, createEmptyCompoundOriginProfile, indexMatrix
-    '               parsegreenGenesTaxonomy, predict_metagenomes, readPICRUStMatrix, similar
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 242
+'    Code Lines: 180
+' Comment Lines: 32
+'   Blank Lines: 30
+'     File Size: 10.56 KB
+
+
+' Module microbiomeKit
+' 
+'     Constructor: (+1 Overloads) Sub New
+'     Function: asTaxonomyVector, castTable, CompoundOrigin, createEmptyCompoundOriginProfile, indexMatrix
+'               parsegreenGenesTaxonomy, predict_metagenomes, readPICRUStMatrix, similar
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.Information
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics
+Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.Metagenome
 Imports SMRUCC.genomics.Analysis.Metagenome.gast
 Imports SMRUCC.genomics.Analysis.Metagenome.greengenes
@@ -73,16 +76,25 @@ Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Invokes
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports SMRUCC.Rsharp.Runtime.Vectorization
+Imports HTSMatrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 
 ''' <summary>
 ''' tools for metagenomics and microbiome
 ''' </summary>
 <Package("microbiome")>
+<RTypeExport("PICRUSt", GetType(MetaBinaryReader))>
 Module microbiomeKit
 
-    Sub New()
+    Sub Main()
         Call Internal.Object.Converts.makeDataframe.addHandler(GetType(OTUData(Of Double)()), AddressOf castTable)
+
+        Call Internal.generic.add("readBin.PICRUSt", GetType(Stream), AddressOf readPICRUSt)
     End Sub
+
+    Private Function readPICRUSt(file As Stream, args As list, env As Environment) As Object
+        Return New MetaBinaryReader(file)
+    End Function
 
     Private Function castTable(data As OTUData(Of Double)(), args As list, env As Environment) As dataframe
         Dim id As String() = data.Select(Function(otu) otu.OTU).ToArray
@@ -156,36 +168,70 @@ Module microbiomeKit
     ''' functional trait abundance to produce a table of functions 
     ''' (rows) by samples (columns).
     ''' </summary>
-    ''' <param name="table"></param>
+    ''' <param name="table">
+    ''' should be a merged OTU dataframe object, that should be in format like:
+    ''' 
+    ''' 1. the colnames should be the sample name, and the column field value is the relative abundance value of each otu in each sample
+    ''' 2. the rows in this dataframe should be the otu expression value across samples
+    ''' 
+    ''' the GCModeller internal <see cref="HTSMatrix"/> is also avaiable 
+    ''' for this parameter.
+    ''' </param>
     ''' <returns></returns>
     <ExportAPI("predict_metagenomes")>
-    Public Function predict_metagenomes(PICRUSt As MetaBinaryReader,
-                                        table As dataframe,
-                                        Optional env As Environment = Nothing) As OTUData(Of Double)()
-
-        Dim sampleNames As String() = table.colnames
-        Dim OTUtable As OTUData(Of Double)() = table.forEachRow _
-            .Select(Function(OTU, i)
-                        Dim samples As New Dictionary(Of String, Double)
-
-                        For idx As Integer = 0 To sampleNames.Length - 1
-                            samples.Add(sampleNames(idx), CDbl(OTU.Item(idx)))
-                        Next
-
-                        Return New OTUData(Of Double) With {
-                            .OTU = i + 1,
-                            .taxonomy = OTU.name,
-                            .data = samples
-                        }
-                    End Function) _
-            .ToArray
+    <RApiReturn(GetType(OTUData(Of Double)))>
+    Public Function predict_metagenomes(PICRUSt As MetaBinaryReader, table As Object, Optional env As Environment = Nothing) As Object
+        Dim OTUtable As OTUData(Of Double)()
         Dim println As Action(Of String, Boolean) = Sub(line, newLine) Call base.cat(line & If(newLine, "\n", ""),,, env)
+
+        If TypeOf table Is dataframe Then
+            OTUtable = DirectCast(table, dataframe).OTUtable.ToArray
+        ElseIf TypeOf table Is HTSMatrix Then
+            OTUtable = DirectCast(table, HTSMatrix).OTUtable.ToArray
+        Else
+            Return Message.InCompatibleType(GetType(HTSMatrix), table.GetType, env)
+        End If
+
         Dim result = OTUtable.PredictMetagenome(
             precalculated:=PICRUSt,
             println:=println
         )
 
         Return result
+    End Function
+
+    <Extension>
+    Private Iterator Function OTUtable(matrix As HTSMatrix) As IEnumerable(Of OTUData(Of Double))
+        Dim i As i32 = 1
+
+        For Each OTU As DataFrameRow In matrix.expression
+            Yield New OTUData(Of Double) With {
+                .OTU = ++i,
+                .data = OTU.ToDataSet(matrix.sampleID),
+                .taxonomy = OTU.geneID
+            }
+        Next
+    End Function
+
+    <Extension>
+    Private Iterator Function OTUtable(table As dataframe) As IEnumerable(Of OTUData(Of Double))
+        Dim i As i32 = 1
+        Dim sampleNames As String() = table.colnames
+
+        For Each OTU As NamedCollection(Of Object) In table.forEachRow
+            Dim v As Double() = CLRVector.asNumeric(OTU.value)
+            Dim samples As New Dictionary(Of String, Double)
+
+            For idx As Integer = 0 To sampleNames.Length - 1
+                Call samples.Add(sampleNames(idx), v(idx))
+            Next
+
+            Yield New OTUData(Of Double) With {
+                .OTU = ++i,
+                .taxonomy = OTU.name,
+                .data = samples
+            }
+        Next
     End Function
 
     ''' <summary>

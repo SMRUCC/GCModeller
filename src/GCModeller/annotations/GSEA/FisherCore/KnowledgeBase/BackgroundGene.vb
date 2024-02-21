@@ -57,7 +57,7 @@ Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 
 ''' <summary>
-''' a member gene in a gsea cluster model
+''' a member gene in a gsea cluster model, or a symbol reference to the target object.
 ''' </summary>
 ''' <remarks>
 ''' the term data model <see cref="NamedValue"/> was used at here 

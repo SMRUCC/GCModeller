@@ -72,7 +72,7 @@ Imports RDataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 <RTypeExport("biom.matrix", GetType(BIOMDataSet(Of Double)))>
 Public Module BIOMkit
 
-    Sub New()
+    Sub Main()
         Internal.Object.Converts.makeDataframe.addHandler(GetType(BIOMDataSet(Of Double)), AddressOf asDataFrame)
     End Sub
 
@@ -109,6 +109,12 @@ Public Module BIOMkit
         End If
     End Function
 
+    ''' <summary>
+    ''' get the taxonomy information from the BIOM matrix
+    ''' </summary>
+    ''' <param name="biom"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("biom.taxonomy")>
     <RApiReturn(GetType(Taxonomy))>
     Public Function getTaxonomy(biom As Object, Optional env As Environment = Nothing) As Object
@@ -124,6 +130,12 @@ Public Module BIOMkit
         End If
     End Function
 
+    ''' <summary>
+    ''' union merge multiple biom matrix
+    ''' </summary>
+    ''' <param name="tables"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("biom.union")>
     <RApiReturn(GetType(DataSet))>
     Public Function unionBIOM(tables As Object, Optional env As Environment = Nothing) As Object
@@ -145,8 +157,8 @@ Public Module BIOMkit
         End If
     End Function
 
-    Public Function asDataFrame(x As Object, args As list, env As Environment) As RDataframe
-        Dim biomTable As BIOMDataSet(Of Double) = DirectCast(x, BIOMDataSet(Of Double))
+    <RGenericOverloads("as.data.frame")>
+    Public Function asDataFrame(biomTable As BIOMDataSet(Of Double), args As list, env As Environment) As RDataframe
         Dim columns As New Dictionary(Of String, List(Of Double))
         Dim taxonomyNames As New List(Of String)
 

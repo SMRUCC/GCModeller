@@ -1,216 +1,71 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C0AF10F2-61CD-4CB7-A65F-86253ABF4C40}</ProjectGuid>
-    <OutputType>Library</OutputType>
     <RootNamespace>metagenomics_kit</RootNamespace>
+    <TargetFrameworks>net6.0-windows;net6.0</TargetFrameworks>
     <AssemblyName>metagenomics_kit</AssemblyName>
-    <FileAlignment>512</FileAlignment>
-    <MyType>Windows</MyType>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <Deterministic>true</Deterministic>
-    <TargetFrameworkProfile />
+    <Platforms>AnyCPU;x64</Platforms>
+    <Configurations>Debug;Release;Rsharp_app_release</Configurations>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageProjectUrl>https://gcmodeller.org</PackageProjectUrl>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <DefineDebug>true</DefineDebug>
-    <DefineTrace>true</DefineTrace>
-    <OutputPath>bin\Debug\</OutputPath>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DocumentationFile>metagenomics_kit.xml</DocumentationFile>
-    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <DefineDebug>false</DefineDebug>
-    <DefineTrace>true</DefineTrace>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DocumentationFile>metagenomics_kit.xml</DocumentationFile>
-    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
-  <PropertyGroup>
-    <OptionExplicit>On</OptionExplicit>
-  </PropertyGroup>
-  <PropertyGroup>
-    <OptionCompare>Binary</OptionCompare>
-  </PropertyGroup>
-  <PropertyGroup>
-    <OptionStrict>Off</OptionStrict>
-  </PropertyGroup>
-  <PropertyGroup>
-    <OptionInfer>On</OptionInfer>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28Release_X64%29|AnyCPU'">
-    <DefineTrace>true</DefineTrace>
-    <OutputPath>bin\GCModeller%28Release_X64%29\</OutputPath>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|AnyCPU'">
     <DocumentationFile>metagenomics_kit.xml</DocumentationFile>
-    <Optimize>true</Optimize>
-    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <DebugSymbols>true</DebugSymbols>
-    <DefineDebug>true</DefineDebug>
-    <DefineTrace>true</DefineTrace>
-    <OutputPath>bin\x64\Debug\</OutputPath>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <DocumentationFile>metagenomics_kit.xml</DocumentationFile>
-    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <DefineTrace>true</DefineTrace>
-    <OutputPath>bin\x64\Release\</OutputPath>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <DocumentationFile>metagenomics_kit.xml</DocumentationFile>
-    <Optimize>true</Optimize>
-    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28Release_X64%29|x64'">
-    <DefineTrace>true</DefineTrace>
-    <OutputPath>..\..\..\..\GCModeller\bin\Library\</OutputPath>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|x64'">
     <DocumentationFile>metagenomics_kit.xml</DocumentationFile>
-    <Optimize>false</Optimize>
-    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <RemoveIntegerChecks>true</RemoveIntegerChecks>
-    <DebugSymbols>true</DebugSymbols>
+    <DefineConstants>netcore5=1</DefineConstants>
+    <OutputPath>../../pkg/assembly/</OutputPath>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28UNIX-Release_X64%29|AnyCPU'">
-    <DefineTrace>true</DefineTrace>
-    <OutputPath>bin\GCModeller%28UNIX-Release_X64%29\</OutputPath>
-    <DocumentationFile>metagenomics_kit.xml</DocumentationFile>
-    <Optimize>true</Optimize>
-    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28UNIX-Release_X64%29|x64'">
-    <DefineTrace>true</DefineTrace>
-    <OutputPath>..\..\..\..\GCModeller\bin\Library\</OutputPath>
-    <DocumentationFile>metagenomics_kit.xml</DocumentationFile>
-    <Optimize>false</Optimize>
-    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <RemoveIntegerChecks>true</RemoveIntegerChecks>
-    <DebugSymbols>true</DebugSymbols>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Net.Http" />
+    <ProjectReference Include="..\..\..\GCModeller\analysis\Metagenome\MetaFunction\MetaFunction.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\analysis\Metagenome\Metagenome\Metagenome.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\annotations\GSEA\PFSNet\PFSNet\PFSNet.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\annotations\GSEA\PFSNet\PFSNet_visual\PFSNet_visual.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\annotations\Proteomics\Proteomics.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\models\BIOM\BIOM\BIOM.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\models\Networks\Microbiome\Microbiome.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\R-sharp\R#\Rsharp-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\repository\HMP_client\HMP_client.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\runtime\Darwinism\src\CloudKit\ossutil\ossutil.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame\dataframework-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\DataMining\UMAP\UMAP.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\Math.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\gr\network-visualization\Visualizer\networkVisualizer.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+    <ProjectReference Include="..\..\modules\ExperimentDesigner\designer-netcore5.vbproj" />
   </ItemGroup>
+
   <ItemGroup>
-    <Import Include="Microsoft.VisualBasic" />
-    <Import Include="System" />
-    <Import Include="System.Collections" />
-    <Import Include="System.Collections.Generic" />
-    <Import Include="System.Data" />
-    <Import Include="System.Diagnostics" />
-    <Import Include="System.Linq" />
-    <Import Include="System.Xml.Linq" />
-    <Import Include="System.Threading.Tasks" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="BIOMkit.vb" />
-    <Compile Include="metagenomicsKit.vb" />
-    <Compile Include="gast.vb" />
-    <Compile Include="HMP.vb" />
-    <Compile Include="taxonomyKit.vb" />
-    <Compile Include="My Project\AssemblyInfo.vb" />
-    <Compile Include="My Project\Application.Designer.vb">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Application.myapp</DependentUpon>
-    </Compile>
-    <Compile Include="My Project\Resources.Designer.vb">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="My Project\Settings.Designer.vb">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="My Project\Resources.resx">
-      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
-      <CustomToolNamespace>My.Resources</CustomToolNamespace>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="My Project\Application.myapp">
-      <Generator>MyApplicationCodeGenerator</Generator>
-      <LastGenOutput>Application.Designer.vb</LastGenOutput>
-    </None>
-    <None Include="My Project\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <CustomToolNamespace>My</CustomToolNamespace>
-      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    <None Include="..\..\..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\GCModeller\analysis\Metagenome\Metagenome\Metagenome.vbproj">
-      <Project>{AB10B480-33B1-476C-8237-23E15CE635BD}</Project>
-      <Name>Metagenome</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\GCModeller\core\Bio.Assembly\Bio.Assembly.vbproj">
-      <Project>{C699D311-9923-4C19-BF70-5048D0E2CF5D}</Project>
-      <Name>Bio.Assembly</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\GCModeller\models\BIOM\BIOM\BIOM.vbproj">
-      <Project>{EE17BE25-17E3-48F5-BEF2-A7D540AE09E1}</Project>
-      <Name>BIOM</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\GCModeller\models\Networks\Microbiome\Microbiome.vbproj">
-      <Project>{98B68C31-EA5A-4B07-A748-3A009FABFA39}</Project>
-      <Name>Microbiome</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\interops\localblast\LocalBLAST\NCBI.Extensions.localblast.vbproj">
-      <Project>{c6b843b8-f990-4faf-98de-a20efc8b69f7}</Project>
-      <Name>NCBI.Extensions.localblast</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\R-sharp\R#\R.vbproj">
-      <Project>{0c2eb77c-39f2-460d-a3f8-ce905f867637}</Project>
-      <Name>R</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\repository\HMP_client\HMP_client.vbproj">
-      <Project>{fc8eb830-58b8-4ab1-b8f7-6001b21cb0d5}</Project>
-      <Name>HMP_client</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\Darwinism\CloudKit\ossutil\ossutil.vbproj">
-      <Project>{adeafbbd-06c0-4e53-b985-1ae8978f54aa}</Project>
-      <Name>ossutil</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame\47_dotnet_ms-vb_data.framework.vbproj">
-      <Project>{7283C179-F852-4EAD-8D8F-B82EF2CBD7DB}</Project>
-      <Name>47_dotnet_ms-vb_data.framework</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\47-dotnet_Microsoft.VisualBasic.vbproj">
-      <Project>{FECCE1FD-E1D4-49E3-A668-60BB5E7AED99}</Project>
-      <Name>47-dotnet_Microsoft.VisualBasic</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+
+	<Import Project="..\..\..\R-sharp\Library\shares\R_graphic.interop\R_graphic.interop.projitems" Label="Shared" />
+
 </Project>

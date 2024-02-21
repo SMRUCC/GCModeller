@@ -65,7 +65,8 @@ Namespace Assembly.NCBI.Taxonomy
         ''' <param name="nodes"></param>
         ''' <returns></returns>
         ''' 
-        <Extension> Public Function BuildBIOM(nodes As IEnumerable(Of TaxonomyNode)) As String
+        <Extension>
+        Public Function BuildBIOM(nodes As IEnumerable(Of TaxonomyNode)) As String
             Dim data As Dictionary(Of String, String) = TaxonomyNode.RankTable(nodes)
             Dim list As New List(Of String)
 

@@ -69,13 +69,20 @@ table caption {font-size:14px;font-weight:bolder;}
     <p><p>toolkit for process ncbi taxonomy tree data</p></p>
     <blockquote>
       <p style="font-style: italic; font-size: 0.9em;">
-                           
+                           <p>The Taxonomy Database is a curated classification and nomenclature for all of the <br />
+ organisms in the public sequence databases. This currently represents about 10% <br />
+ of the described species of life on the planet.</p>
                            </p>
     </blockquote>
     <div id="main-wrapper">
-      <table class="table-three-line" style="display: none">
+      <table class="table-three-line" style="display: block">
         <caption>.NET clr type export</caption>
-        <tbody></tbody>
+        <tbody><tr>
+  <td id="taxonomy">
+    <a href="/vignettes/clr/SMRUCC/genomics/Metagenomics/Taxonomy.html">taxonomy: Taxonomy</a>
+  </td>
+  <td><p>A simple organism taxonomy model.</p></td>
+</tr></tbody>
       </table>
       <br />
       <br />
@@ -91,7 +98,7 @@ table caption {font-size:14px;font-weight:bolder;}
   <td id="biom_string.parse">
     <a href="./taxonomy_kit/biom_string.parse.html">biom_string.parse</a>
   </td>
-  <td></td>
+  <td><p>parse the taxonomy string in BIOM style</p></td>
 </tr>
 <tr>
   <td id="unique_taxonomy">
@@ -104,6 +111,18 @@ table caption {font-size:14px;font-weight:bolder;}
     <a href="./taxonomy_kit/Ncbi.taxonomy_tree.html">Ncbi.taxonomy_tree</a>
   </td>
   <td><p>load ncbi taxonomy tree model from the given data files</p></td>
+</tr>
+<tr>
+  <td id="ranks">
+    <a href="./taxonomy_kit/ranks.html">ranks</a>
+  </td>
+  <td><p>cast the ncbi taxonomy tree model to taxonomy ranks data</p></td>
+</tr>
+<tr>
+  <td id="taxonomy_ranks">
+    <a href="./taxonomy_kit/taxonomy_ranks.html">taxonomy_ranks</a>
+  </td>
+  <td><p>get all taxonomy tree nodes of the specific taxonomy ranks</p></td>
 </tr>
 <tr>
   <td id="taxonomy.filter">
@@ -138,12 +157,6 @@ table caption {font-size:14px;font-weight:bolder;}
 <tr>
   <td id="as.OTU_table">
     <a href="./taxonomy_kit/as.OTU_table.html">as.OTU_table</a>
-  </td>
-  <td><p>convert the mothur rank tree as the OTU table</p></td>
-</tr>
-<tr>
-  <td id="as.OTUtable">
-    <a href="./taxonomy_kit/as.OTUtable.html">as.OTUtable</a>
   </td>
   <td><p>convert the mothur rank tree as the OTU table</p></td>
 </tr>

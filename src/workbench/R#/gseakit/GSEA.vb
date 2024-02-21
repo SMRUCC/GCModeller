@@ -146,7 +146,7 @@ Module GSEA
     ''' and proteomics results often identify thousands of genes 
     ''' which are used for the analysis.
     ''' </summary>
-    ''' <param name="background">a background model or metpa model</param>
+    ''' <param name="background">a <see cref="Background"/> model or <see cref="metpa"/> background model.</param>
     ''' <param name="geneSet">a given geneset id list</param>
     ''' <param name="args">
     ''' the additional argument list that may be used, 
@@ -293,7 +293,7 @@ Module GSEA
     ''' <summary>
     ''' save the enrichment analysis result
     ''' </summary>
-    ''' <param name="enrichment"></param>
+    ''' <param name="enrichment">should be a set of the enrichment analysis result.</param>
     ''' <param name="file"></param>
     ''' <param name="format"></param>
     ''' <returns></returns>

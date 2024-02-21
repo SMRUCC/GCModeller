@@ -1,4 +1,4 @@
-# bioseq.fasta
+﻿# bioseq.fasta
 
 Fasta sequence toolkit
 

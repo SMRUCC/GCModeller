@@ -1,4 +1,4 @@
-# bioModels.stringdb.ppi
+﻿# bioModels.stringdb.ppi
 
 protein-protein interaction network model from string-db
 

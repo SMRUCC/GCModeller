@@ -4,7 +4,7 @@
 predict_metagenomes \- creates the final metagenome functional predictions. It
 .SH SYNOPSIS
 \fIpredict_metagenomes(\fBPICRUSt\fR as <generic> MetaBinaryReader, 
-\fBtable\fR as <generic> dataframe, 
+\fBtable\fR as any, 
 [\fB<Environment>\fR]);\fR
 .SH DESCRIPTION
 .PP
@@ -15,7 +15,15 @@ creates the final metagenome functional predictions. It
 .PP
 .SH OPTIONS
 .PP
-\fBtable\fB \fR\- -. 
+\fBtable\fB \fR\- 
+ should be a merged OTU dataframe object, that should be in format like:
+ 
+ 1. the colnames should be the sample name, and the column field value is the relative abundance value of each otu in each sample
+ 2. the rows in this dataframe should be the otu expression value across samples
+ 
+ the GCModeller internal @\fBT:SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix\fR is also avaiable 
+ for this parameter.
+. 
 .PP
 .SH SEE ALSO
 microbiome

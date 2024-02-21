@@ -10,7 +10,7 @@
     <meta name="keywords" content="R#; OTU_table; metagenomics_kit" />
     <meta name="generator" content="https://github.com/rsharp-lang" />
     <meta name="theme-color" content="#333" />
-    <meta name="description" content="..." />
+    <meta name="description" content="Tools for handling OTU table data..." />
     <meta class="foundation-data-attribute-namespace" />
     <meta class="foundation-mq-xxlarge" />
     <meta class="foundation-mq-xlarge" />
@@ -63,13 +63,25 @@ table caption {font-size:14px;font-weight:bolder;}
     <p style="     font-size: 1.125em;     line-height: .8em;     margin-left: 0.5%;     background-color: #fbfbfb;     padding: 24px; ">
       <code>
         <span style="color: blue;">require</span>(<span style="color: black; font-weight: bold;">GCModeller</span>);
-                               <br /><br /><span style="color: green;">{$desc_comments}</span><br /><span style="color: blue;">imports</span><span style="color: brown"> "OTU_table"</span><span style="color: blue;"> from</span><span style="color: brown"> "metagenomics_kit"</span>;
+                               <br /><br /><span style="color: green;">#' Tools for handling OTU table data</span><br /><span style="color: blue;">imports</span><span style="color: brown"> "OTU_table"</span><span style="color: blue;"> from</span><span style="color: brown"> "metagenomics_kit"</span>;
                            </code>
     </p>
-    <p></p>
+    <p><p>Tools for handling OTU table data</p></p>
     <blockquote>
       <p style="font-style: italic; font-size: 0.9em;">
-                           
+                           <h3>Operational taxonomic unit (OTU)</h3>
+
+<p>OTU's are used to categorize bacteria based on sequence similarity.</p>
+
+<p>In 16S metagenomics approaches, OTUs are cluster of similar sequence variants of the <br />
+ 16S rDNA marker gene sequence. Each of these cluster is intended to represent a <br />
+ taxonomic unit of a bacteria species or genus depending on the sequence similarity <br />
+ threshold. Typically, OTU cluster are defined by a 97% identity threshold of the 16S <br />
+ gene sequences to distinguish bacteria at the genus level.</p>
+
+<p>Species separation requires a higher threshold Of 98% Or 99% sequence identity, Or <br />
+ even better the use Of exact amplicon sequence variants (ASV) instead Of OTU sequence <br />
+ clusters.</p>
                            </p>
     </blockquote>
     <div id="main-wrapper">
@@ -79,9 +91,22 @@ table caption {font-size:14px;font-weight:bolder;}
   <td id="OTU_table">
     <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/OTUTable.html">OTU_table: OTUTable</a>
   </td>
-  <td><p>这个对象记录了当前的宏基因组实验之中的每一个OTU在样品之中的含量的多少</p>
+  <td><h3>OTU table (sequence count table)</h3>
 
-<p>这个对象的数据结构与<a href="/vignettes/clr/SMRUCC/genomics/Metagenomics/OTUData`1.html">OTUData`1</a>类似, 二者可以做等价替换</p></td>
+<p>A OTU table contains the number of sequences that are observed for each taxonomic <br />
+ unit (OTUs) in each samples. Columns usually represent samples and rows represent<br />
+ genera or species specific taxonomic units (OTUs). OTU tables are often saved as<br />
+ BIOM formatted files.</p>
+
+<p>### Limited taxonomic resolution</p>
+
+<p>OTU resolution depends On the 16S approach which has some limits In distinguishing at <br />
+ the species level, For example,</p>
+
+<p>Escherichia coli And Shigella spp. share almost identical 16S rRNA gene sequences.</p>
+
+<p>Alternative approaches are developed To achieve higher resolution up To strain level <br />
+ by considering larger Or complete sets Of genes.</p></td>
 </tr></tbody>
       </table>
       <br />
@@ -92,7 +117,11 @@ table caption {font-size:14px;font-weight:bolder;}
   <td id="relative_abundance">
     <a href="./OTU_table/relative_abundance.html">relative_abundance</a>
   </td>
-  <td></td>
+  <td><p>Transform abundance data in an otu_table to relative abundance, sample-by-sample. </p>
+
+<p>Transform abundance data into relative abundance, i.e. proportional data. This is <br />
+ an alternative method of normalization and may not be appropriate for all datasets,<br />
+ particularly if your sequencing depth varies between samples.</p></td>
 </tr>
 <tr>
   <td id="filter">

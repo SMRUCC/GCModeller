@@ -11,11 +11,23 @@
 declare namespace BIOM_kit {
    module biom {
       /**
-        * @param env default value Is ``null``.
+       * get the taxonomy information from the BIOM matrix
+       * 
+       * 
+        * @param biom -
+        * @param env -
+        * 
+        * + default value Is ``null``.
       */
       function taxonomy(biom: any, env?: object): object;
       /**
-        * @param env default value Is ``null``.
+       * union merge multiple biom matrix
+       * 
+       * 
+        * @param tables -
+        * @param env -
+        * 
+        * + default value Is ``null``.
       */
       function union(tables: any, env?: object): object;
    }

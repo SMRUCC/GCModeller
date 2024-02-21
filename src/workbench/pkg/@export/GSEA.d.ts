@@ -101,7 +101,7 @@ declare namespace GSEA {
        * save the enrichment analysis result
        * 
        * 
-        * @param enrichment -
+        * @param enrichment should be a set of the enrichment analysis result.
         * @param file -
         * @param format -
         * 

@@ -62,7 +62,6 @@ Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports HTSMatrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
-Imports REnv = SMRUCC.Rsharp.Runtime
 
 ''' <summary>
 ''' Gene Set Variation Analysis for microarray and RNA-seq data
