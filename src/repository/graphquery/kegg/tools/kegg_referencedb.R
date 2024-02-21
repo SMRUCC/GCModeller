@@ -37,7 +37,7 @@ for(map in as.list(df, byrow = TRUE)) {
         HDS::writeText(cache_fs, cfile, xml(cpd));
         HDS::flush(cache_fs);
 
-        sleep(1);
+        # sleep(1);
     }
 
     let modules = as.data.frame([pwy]::modules);
@@ -64,7 +64,7 @@ for(map in as.list(df, byrow = TRUE)) {
             HDS::flush(cache_fs);
 
             # str(rxn);
-            sleep(1);
+            # sleep(1);
             # stop();
         }
 
@@ -83,7 +83,7 @@ for(map in as.list(df, byrow = TRUE)) {
             HDS::writeText(cache_fs, cfile, xml(cpd));
             HDS::flush(cache_fs);
 
-            sleep(1);
+            # sleep(1);
         }
 
         # stop();
@@ -94,7 +94,7 @@ for(map in as.list(df, byrow = TRUE)) {
 
     # stop();
 
-    sleep(1);
+    # sleep(1);
 }
 
 HDS::flush(cache_fs);
