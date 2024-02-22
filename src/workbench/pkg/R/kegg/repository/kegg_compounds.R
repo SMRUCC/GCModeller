@@ -14,7 +14,7 @@ const kegg_compounds = function(rawList = FALSE) {
             __hds_compound_files(kegg_db = file);
         } else {
             # wrap a index object
-
+            repository::index(__hds_compound_files(kegg_db = file));
         }
     }
 }

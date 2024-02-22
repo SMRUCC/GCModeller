@@ -258,6 +258,17 @@ Public Module repository
         Return reader.getError
     End Function
 
+    <ExportAPI("index")>
+    Public Function index(<RRawVectorArgument> repo As Object, Optional env As Environment = Nothing) As Object
+        Dim pull As pipeline = pipeline.TryCreatePipeline(Of Compound)(repo, env)
+
+        If Not pull.isError Then
+            Return New CompoundRepository(pull.populates(Of Compound)(env))
+        End If
+
+        Return pull.getError
+    End Function
+
     ''' <summary>
     ''' load repository of kegg <see cref="Compound"/>.
     ''' </summary>
