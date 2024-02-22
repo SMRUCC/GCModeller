@@ -23,6 +23,15 @@ const .readZipStream = function(zipfile, entryName = NULL) {
     }
 }
 
+#' helper function for makes the given id set unique 
+#' 
+#' @param id a character vector of the object id, duplicated 
+#'    value may contains inside.
+#' 
+#' @details this function andalso will removes the id which is in 
+#'    empty literal value, example as: empty string, NA string, 
+#'    NULL string, etc.
+#' 
 const _unique_idset = function(id) {
     id = id[id != ""];
     id = id[id != "NULL"];
