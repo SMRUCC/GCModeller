@@ -6,23 +6,11 @@ const __query_map = function(map, cache_dir = "./") {
     HDS::writeText(cache_fs, `${dir}/map.xml`, xml(pwy));
     HDS::flush(cache_fs);
 
-    let compoundList = as.data.frame([pwy]::compound);
-
-    print(compoundList);
-
-    # compound inside pathway root
-    for(cid in as.list(compoundList, byrow = TRUE)) {
-        let cpd = kegg_api::kegg_compound(cid$name, cache = cache_dir);
-        let cfile = `${dir}/compounds/${cid$name} - ${cid$text}.xml`;
-
-        # str(cpd);
-        print(cfile);
-
-        HDS::writeText(cache_fs, cfile, xml(cpd));
-        HDS::flush(cache_fs);
-
-        # sleep(1);
-    }
+    # query the kegg compound data inside 
+    # current pathway model
+    __query_compounds(as.data.frame([pwy]::compound), 
+        fs_dir = dir, 
+        cache_dir = cache_dir);
 
     let modules = as.data.frame([pwy]::modules);
 
