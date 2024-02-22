@@ -43,6 +43,16 @@ const metpa_enrich_ids = function(data, metpa) {
     ;
 }
 
+#' do enrichment based on the metpa background model
+#' 
+#' @param data the kegg idset data, should be a dataframe object.
+#' @param id a character vector of the dataframe field name, for 
+#'    indicates that which column value should be used as the kegg 
+#'    idset for run the enrichment analysis.
+#' @param log2FC a character vector of the dataframe field name,
+#'    for get the log2 fold change value for rendering the colors
+#'    of the elements on the pathway map.
+#' 
 const metpa_enrich_dataframe = function(data, metpa, log2FC = "log2(FC)", id = "kegg") {
     # check field is exists in the given dataset or not
     if (id in data) {
