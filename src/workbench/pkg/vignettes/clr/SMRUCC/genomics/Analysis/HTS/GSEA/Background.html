@@ -33,15 +33,15 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Analysis.HTS.GSEA
 export class Background extends <a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/XmlDataModel.html">XmlDataModel</a> {
-   build: <a href="/vignettes/clr/System/DateTime.html">DateTime</a>;
-   # a collection of the functional related genesets.
-   clusters: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/Cluster.html">Cluster[]</a>;
-   comments: string;
+   name: string;
    # A brief unique id code. Such as kegg organism code or ncbi taxonomy id.
    id: string;
-   name: string;
+   comments: string;
+   build: <a href="/vignettes/clr/System/DateTime.html">DateTime</a>;
    # The number of genes in this background genome.
    size: integer;
+   # a collection of the functional related genesets.
+   clusters: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/Cluster.html">Cluster[]</a>;
    Stylesheet: <a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/XmlStyleProcessor.html">XmlStyleProcessor</a>;
    TypeComment: <a href="/vignettes/clr/System/Xml/XmlComment.html">XmlComment</a>;
 }

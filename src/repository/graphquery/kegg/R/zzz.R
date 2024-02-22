@@ -1,6 +1,8 @@
 require(JSON);
 require(GCModeller);
+require(HDS);
 
+imports "brite" from "kegg_kit";
 imports "kegg_api" from "kegg_kit";
 imports "parser" from "kegg_api";
 

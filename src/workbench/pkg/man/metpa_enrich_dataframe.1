@@ -1,4 +1,4 @@
-﻿.TH METPA_ENRICH_DATAFRAME 1 2024-Feb "" "metpa_enrich_dataframe"
+﻿.TH METPA_ENRICH_DATAFRAME 1 2024-Feb "" "do enrichment based on the metpa background model"
 .SH NAME
 metpa_enrich_dataframe \- metpa_enrich_dataframe(data, metpa,
     <i>log2FC</i> = log2(FC),
@@ -9,20 +9,20 @@ metpa_enrich_dataframe \- metpa_enrich_dataframe(data, metpa,
     <i>id</i> = kegg)\fR
 .SH OPTIONS
 .PP
-\fBdata\fB \fR\- . 
+\fBdata\fB \fR\- . the kegg idset data, should be a dataframe object.
 .PP
 .PP
 \fBmetpa\fB \fR\- . 
 .PP
 .PP
-\fBlog2FC\fB \fR\- log2(FC). 
+\fBlog2FC\fB \fR\- log2(FC). a character vector of the dataframe field name, for get the log2 fold change value for rendering the colors of the elements on the pathway map.
 .PP
 .PP
-\fBid\fB \fR\- kegg. 
+\fBid\fB \fR\- kegg. a character vector of the dataframe field name, for indicates that which column value should be used as the kegg idset for run the enrichment analysis.
 .PP
 .SH FILES
 .PP
-SMRUCC/R#.declare_function.metpa_enrich_dataframe at metpa_enrich.R:line 46
+SMRUCC/R#.declare_function.metpa_enrich_dataframe at metpa_enrich.R:line 56
 .PP
 .SH COPYRIGHT
 Copyright © xieguigang, GPL3 Licensed 2024

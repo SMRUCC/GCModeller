@@ -61,6 +61,12 @@ declare namespace GCModeller {
       function write_rbcList(rbcList: any): object;
    }
    /**
+   */
+   function __hds_compound_dir(kegg_db: any, dir: any): object;
+   /**
+   */
+   function __hds_compound_files(kegg_db: any): object;
+   /**
      * @param kegg_maps default value Is ``null``.
    */
    function __load_kegg_map(kegg_maps?: any): object;
