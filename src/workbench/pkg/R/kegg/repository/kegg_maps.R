@@ -1,12 +1,3 @@
-#' Load internal kegg compound repository
-#' 
-const kegg_compounds = function(rawList = FALSE) {
-    using file as .readZipStream(
-        zipfile = system.file("data/kegg/compounds.zip", package = "GCModeller")
-    ) {
-        repository::load.compounds(file, rawList = rawList);
-    }
-}
 
 #' Load internal kegg map repository
 #' 
@@ -32,14 +23,3 @@ const kegg_maps = function(rawMaps = TRUE, repo = system.file("data/kegg/KEGG_ma
         repo |> repository::load.maps(rawMaps = rawMaps);
     }
 }
-
-#' Load internal kegg reaction repository
-#' 
-const kegg_reactions = function(raw = TRUE) {
-    using file as .readZipStream(
-        zipfile = system.file("data/kegg/reactions.zip", package = "GCModeller")
-    ) {
-        repository::load.reactions(file, raw = raw);
-    }
-}
-
