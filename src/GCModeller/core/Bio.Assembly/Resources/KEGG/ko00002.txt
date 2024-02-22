@@ -181,6 +181,8 @@ D      M00020  Serine biosynthesis, glycerate-3P => serine [PATH:map00260 map006
 D      M00018  Threonine biosynthesis, aspartate => homoserine => threonine [PATH:map00260 map01230 map01100 map01110]
 D      M00621  Glycine cleavage system [PATH:map00260 map00630 map00785 map01200 map01100]
 D      M00555  Betaine biosynthesis, choline => betaine [PATH:map00260 map01100]
+D      M00974  Betaine metabolism, animals, betaine => glycine [PATH:map00260 map01100]
+D      M00975  Betaine degradation, bacteria, betaine => pyruvate [PATH:map00260 map01100]
 D      M00033  Ectoine biosynthesis, aspartate => ectoine [PATH:map00260 map01210 map01230 map01100 map01120]
 D      M00919  Ectoine degradation, ectoine => aspartate [PATH:map00260 map01100 map01120]
 C    Cysteine and methionine metabolism
@@ -551,4 +553,4 @@ D      M00616  Sulfate-sulfur assimilation
 !
 #<hr>
 #[ <a href="/kegg/module.html">MODULE</a> | <a href="/kegg/brite.html">BRITE</a> | <a href="/kegg/pathway.html">PATHWAY</a> | <a href="/kegg/kegg2.html">KEGG2</a> | <a href="/kegg/">KEGG</a> ]<br>
-#Last updated: October 3, 2023
+#Last updated: November 27, 2023

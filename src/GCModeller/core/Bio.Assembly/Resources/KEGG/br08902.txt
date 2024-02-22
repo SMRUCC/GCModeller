@@ -2,19 +2,20 @@
 #<h2><a href="/kegg/brite.html"><img src="/Fig/bget/kegg3.gif" align="middle" border=0></a>&nbsp; BRITE Hierarchy Files</h2>
 !
 A<b>Pathway and Brite</b>
-B  Pathway maps
+B  Pathway
 C    br08901  KEGG pathway maps
-B  Brite files
+B  Brite
 C    br08902  BRITE hierarchy files
 C    br08904  BRITE table files
 C    br08906  BRITE binary relation files
+B  Network
+C    br08907  KEGG network variation maps
 #
 A<b>Genes and Proteins</b>
-B  Orthologs, modules and networks
+B  Orthologs and modules
 C    ko00001  KEGG Orthology (KO)
 C    ko00002  KEGG modules
 C    ko00003  KEGG reaction modules
-C    br08907  KEGG networks
 B  Protein families: metabolism
 C    ko01000  Enzymes
 C    ko01001  Protein kinases
@@ -62,7 +63,7 @@ C    ko04054  Pattern recognition receptors
 C    ko03310  Nuclear receptors
 C    ko04040  Ion channels
 C    ko04031  GTP-binding proteins
-C    ko04052  Cytokines and growth factors
+C    ko04052  Cytokines and neuropeptides
 C    ko04515  Cell adhesion molecules
 C    ko04090  CD molecules
 C    ko01504  Antimicrobial resistance genes
@@ -137,5 +138,5 @@ B  Organism information
 C    br08605  Plant pathogens
 !
 #<hr>
-#Last updated: July 10, 2023
+#Last updated: February 2, 2024
 #<br><br><a href="/brite/jp08902">&raquo; Japanese version</a>
