@@ -5,21 +5,22 @@
 #'    file path. for save the kegg data models. 
 #'  
 const kegg_referencedb = function(db_file = "./kegg.db") {
-    let brite = brite::parse("br08901");
-let df = as.data.frame(brite);
+    # load internal kegg brite database and then
+    # convert as dataframe
+    const brite = brite::parse("br08901");
+    const brite_df = as.data.frame(brite);
+    const cache_dir = db_file
+    |> HDS::openStream(allowCreate = TRUE, meta_size = 32*1024*1024)
+    |> http::http.cache()
+    ;
 
-const cache_dir = `${@dir}/cache.db`
-|> HDS::openStream(allowCreate = TRUE, meta_size = 32*1024*1024)
-|> http::http.cache()
-;
-const cache_fs = [cache_dir]::fs;
+    print("views of the pathway list for do query:");
+    print(brite_df, max.print = 6);
 
-print(df, max.print = 6);
+    for(map in as.list(brite_df, byrow = TRUE)) {
+        __query_map(map, cache_dir);
+    }
 
-for(map in as.list(df, byrow = TRUE)) {
-
-}
-
-HDS::flush(cache_fs);
+    HDS::flush([cache_dir]::fs);
 }
 
