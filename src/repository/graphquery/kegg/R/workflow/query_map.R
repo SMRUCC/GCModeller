@@ -51,8 +51,10 @@ const __query_map = function(map, cache_dir = "./") {
             # sleep(1);
             # stop();
         }
-        
-        __query_compounds(as.data.frame([mod]::compound), cache_dir);
+
+        __query_compounds(as.data.frame([mod]::compound), 
+            fs_dir = mdir, 
+            cache_dir = cache_dir);
     }
 
     invisible(NULL);
@@ -65,22 +67,22 @@ const __query_map = function(map, cache_dir = "./") {
 #'    name and text should be includes in this dataframe object.
 #' @param cache_dir the cache filesystem object
 #' 
-const __query_compounds = function(compounds, cache_dir = "./") {
-        print(compounds, max.print = 6);
+const __query_compounds = function(compounds, fs_dir = "/", cache_dir = "./") {
+    const cache_fs = [cache_dir]::fs;
+    
+    print("view of the given kegg compound set:");
+    print(compounds, max.print = 6);
 
-        # compounds inside the pathway module
-        for(cid in as.list(compounds, byrow = TRUE)) {
-            let cpd = kegg_api::kegg_compound(cid$name, cache = cache_dir);
-            let cfile = `${mdir}/compounds/${cid$name} - ${cid$text}.xml`;
+    # compounds inside the pathway module
+    for(cid in as.list(compounds, byrow = TRUE)) {
+        let cpd = kegg_api::kegg_compound(cid$name, cache = cache_dir);
+        let fs_filepath = `${fs_dir}/compounds/${cid$name} - ${cid$text}.xml`;
 
-            # str(cpd);
-            print(cfile);
+        print(fs_filepath);
 
-            HDS::writeText(cache_fs, cfile, xml(cpd));
-            HDS::flush(cache_fs);
+        HDS::writeText(cache_fs, fs_filepath, xml(cpd));
+        HDS::flush(cache_fs);
+    }
 
-            # sleep(1);
-        }
-
-        # stop();
+    invisible(NULL);
 }
