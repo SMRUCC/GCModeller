@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.Microarray.KOBAS.EnrichmentTerm</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="../../_assets/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>EnrichmentTerm {SMRUCC.genomics.Analysis.Microarray.KOBAS}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>EnrichmentTerm</h2>
+
+        <h3>Description</h3>
+
+        <p>The KOBAS enrichment analysis output</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.Microarray.KOBAS
+export class EnrichmentTerm {
+   # Background number
+   Backgrounds: integer;
+   # Corrected P-Value
+   CorrectedPvalue: double;
+   Database: string;
+   # <a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/DataSourceModel/Repository/IKeyedEntity`1.html">IKeyedEntity`1</a>.<a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/DataSourceModel/Repository/TKeyType.html">Key</a>
+   # 
+   # (KEGG代谢途径的id编号或者GO词条的id编号)
+   ID: string;
+   # The group of this input gene id list
+   Input: string;
+   # 用于一些可视化的超链接url
+   link: string;
+   # Input number
+   number: integer;
+   ORF: string;
+   # P-Value
+   Pvalue: double;
+   # <h1>Term</h1>
+   # 
+   # (这个属性一般为代谢途径的名称或者GO词条的名称)
+   Term: string;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        this clr type has no other .net clr type reference.
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="../../_assets/R_syntax.js"></script>
+<script type="text/javascript" src="../../_assets/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>
