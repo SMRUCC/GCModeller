@@ -4,6 +4,7 @@ The kegg data model repository tool
 
 + [enzyme_description](repository/enzyme_description.1) Get the class description category data for EC number
 + [write.msgpack](repository/write.msgpack.1) a generic method for write kegg data stream as messagepack
++ [index](repository/index.1) 
 + [load.compounds](repository/load.compounds.1) load repository of kegg @``T:SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Compound``.
 + [load.reactions](repository/load.reactions.1) ### load kegg reaction data repository
 + [load.maps](repository/load.maps.1) load list of kegg reference @``T:SMRUCC.genomics.Assembly.KEGG.WebServices.XML.Map``.

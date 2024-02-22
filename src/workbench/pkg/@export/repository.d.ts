@@ -75,6 +75,10 @@ declare namespace repository {
       function kegg_organism(resource?: string, type?: object): object;
    }
    /**
+     * @param env default value Is ``null``.
+   */
+   function index(repo: any, env?: object): any;
+   /**
    */
    function keggMap(id: string, name: string, description: string, img: string, url: string, area: object): object;
    module load {
