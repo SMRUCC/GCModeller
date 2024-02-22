@@ -44,26 +44,16 @@ const __hds_compound_dir = function(kegg_db, dir) {
     files = files[basename(files$path) == "compounds", ];
 
     # get all compounds
-    files = lapply(files$path, function(dir) {
-        as.data.frame(HDS::files(kegg_db, dir = `${dir}/`, recursive = TRUE))$path;
-    }) |> unlist();
+    files = lapply(files$path, dir -> as.data.frame(HDS::files(kegg_db, dir = `${dir}/`, recursive = TRUE))$path);
+    files = unlist(files);
 
     files = data.frame(files, name = basename(files));
-    files = files 
+    files 
     |> groupBy("name") 
-    |> sapply(function(d) {
-        const list = (d$files);
-
-        if (length(list) == 1) {
-            list;
-        } else {
-            .Internal::first(list);
-        }
-    });
-
-    lapply(files, function(path) {
-        try({
+    |> sapply(d -> .Internal::first(d$files))
+    |> sapply(path -> try({
             loadXml(HDS::getText(kegg_db, fileName = path), typeof = "kegg_compound");
-        });
-    });
+        })
+    )
+    ;
 }
