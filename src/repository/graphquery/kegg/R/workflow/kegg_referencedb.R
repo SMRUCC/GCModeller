@@ -1,9 +1,3 @@
-require(GCModeller);
-require(kegg_api);
-require(HDS);
-
-imports "brite" from "kegg_kit";
-
 let brite = brite::parse("br08901");
 let df = as.data.frame(brite);
  
