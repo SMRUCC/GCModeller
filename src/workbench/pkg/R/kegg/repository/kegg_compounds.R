@@ -33,6 +33,7 @@ const __hds_compound_files = function(kegg_db) {
     |> append(__hds_compound_dir(kegg_db, "/Organismal Systems"))
     |> append(__hds_compound_dir(kegg_db, "/Human Diseases"))
     |> append(__hds_compound_dir(kegg_db, "/Drug Development"))
+    |> which(x -> !is.null(x))
     ;
 }
 
