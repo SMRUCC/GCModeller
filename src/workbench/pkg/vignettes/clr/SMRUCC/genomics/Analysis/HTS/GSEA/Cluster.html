@@ -5,7 +5,7 @@
     <title>SMRUCC.genomics.Analysis.HTS.GSEA.Cluster</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+    <link rel="stylesheet" type="text/css" href="../../_assets/page.css">
 </head>
 
 <body>
@@ -31,16 +31,16 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Analysis.HTS.GSEA
 export class Cluster extends <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/ListOf`1.html">ListOf`1</a> {
-   # A brief description on term function.
-   description: string;
    # The cluster id.(代谢途径的编号或者其他的标识符)
    ID: string;
-   # get the collection of all member theirs <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/DBLinkBuilder/Synonym.html">Synonym</a>.<a href="#">accessionID</a>
-   memberIds: string;
-   # 当前的这个聚类之中的基因列表
-   members: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/BackgroundGene.html">BackgroundGene[]</a>;
    # The common name of current term <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/Cluster.html">Cluster</a>.<a href="#">ID</a>
    names: string;
+   # A brief description on term function.
+   description: string;
+   # 当前的这个聚类之中的基因列表
+   members: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/BackgroundGene.html">BackgroundGene[]</a>;
+   # get the collection of all member theirs <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/DBLinkBuilder/Synonym.html">Synonym</a>.<a href="#">accessionID</a>
+   memberIds: string;
    size: integer;
 }
 </code>
@@ -61,8 +61,8 @@ export class Cluster extends <a href="/vignettes/clr/Microsoft/VisualBasic/Text/
     </div>
 </body>
 
-<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
-<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript" src="../../_assets/R_syntax.js"></script>
+<script type="text/javascript" src="../../_assets/highlights.js"></script>
 <script type="text/javascript">r_highlights("clr_ts");</script>
 
 </html>

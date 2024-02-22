@@ -1,4 +1,4 @@
-﻿# BioCyc
+# BioCyc
 
 
 
