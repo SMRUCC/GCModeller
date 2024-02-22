@@ -1,15 +1,19 @@
-﻿.TH _UNIQUE_IDSET 1 2024-Feb "" "_unique_idset"
+﻿.TH _UNIQUE_IDSET 1 2024-Feb "" "helper function for makes the given id set unique"
 .SH NAME
 _unique_idset \- _unique_idset(id)
 .SH SYNOPSIS
 \fI_unique_idset(id)\fR
 .SH OPTIONS
 .PP
-\fBid\fB \fR\- . 
+\fBid\fB \fR\- . a character vector of the object id, duplicated value may contains inside.
+.PP
+.SH DETAILS
+.PP
+this function andalso will removes the id which is in empty literal value, example as: empty string, NA string, NULL string, etc.
 .PP
 .SH FILES
 .PP
-SMRUCC/R#.declare_function._unique_idset at utils.R:line 26
+SMRUCC/R#.declare_function._unique_idset at utils.R:line 35
 .PP
 .SH COPYRIGHT
 Copyright © xieguigang, GPL3 Licensed 2024
